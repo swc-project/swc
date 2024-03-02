@@ -7,7 +7,7 @@ use std::{
 use anyhow::{bail, Context, Result};
 use swc_common::{FileName, SourceMap};
 use swc_ecma_ast::*;
-use swc_ecma_minifier::option::MinifyOptions;
+use swc_ecma_minifier::option::{CompressOptions, MangleOptions, MinifyOptions};
 use swc_ecma_transforms_base::fixer::fixer;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
@@ -18,6 +18,28 @@ pub fn get_minified(
     file: &Path,
     compress: bool,
     mangle: bool,
+) -> Result<ModuleRecord> {
+    get_minified_with_opts(
+        cm,
+        file,
+        if compress {
+            Some(Default::default())
+        } else {
+            None
+        },
+        if mangle {
+            Some(Default::default())
+        } else {
+            None
+        },
+    )
+}
+
+pub fn get_minified_with_opts(
+    cm: Arc<SourceMap>,
+    file: &Path,
+    compress: Option<CompressOptions>,
+    mangle: Option<MangleOptions>,
 ) -> Result<ModuleRecord> {
     let fm = cm.load_file(file)?;
 
@@ -30,16 +52,8 @@ pub fn get_minified(
             Some(&m.comments),
             None,
             &MinifyOptions {
-                compress: if compress {
-                    Some(Default::default())
-                } else {
-                    None
-                },
-                mangle: if mangle {
-                    Some(Default::default())
-                } else {
-                    None
-                },
+                compress,
+                mangle,
                 ..Default::default()
             },
             &swc_ecma_minifier::option::ExtraOptions {

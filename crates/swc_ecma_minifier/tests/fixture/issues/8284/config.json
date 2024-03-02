@@ -1,0 +1,6 @@
+{
+    "hoist_funs": true,
+    "defaults": true,
+    "toplevel": true,
+    "passes": 0
+}

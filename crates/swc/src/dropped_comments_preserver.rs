@@ -100,16 +100,14 @@ impl DroppedCommentsPreserver {
     fn shift_leading_comments(&self, comments: &SingleThreadedComments) -> CommentEntries {
         let mut existing_comments = self.collect_existing_comments(comments);
 
+        existing_comments.sort_by(|(bp_a, _), (bp_b, _)| bp_a.cmp(bp_b));
+
         for span in self.known_spans.iter() {
-            let (comments_to_move, next_byte_positions): (CommentEntries, CommentEntries) =
-                existing_comments
-                    .drain(..)
-                    .partition(|(bp, _)| *bp <= span.lo);
-
-            existing_comments.extend(next_byte_positions);
-
-            let collected_comments = comments_to_move.into_iter().flat_map(|(_, c)| c).collect();
-
+            let cut_point = existing_comments.partition_point(|(bp, _)| *bp <= span.lo);
+            let collected_comments = existing_comments
+                .drain(..cut_point)
+                .flat_map(|(_, c)| c)
+                .collect::<Vec<Comment>>();
             self.comments
                 .add_leading_comments(span.lo, collected_comments)
         }
@@ -125,11 +123,9 @@ impl DroppedCommentsPreserver {
         let last_trailing = self
             .known_spans
             .iter()
-            .copied()
-            .fold(
-                DUMMY_SP,
-                |acc, span| if span.hi > acc.hi { span } else { acc },
-            );
+            .max_by_key(|span| span.hi)
+            .cloned()
+            .unwrap_or(DUMMY_SP);
 
         self.comments.add_trailing_comments(
             last_trailing.hi,

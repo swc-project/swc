@@ -73,6 +73,11 @@ where
             }
         }
 
+        if node.class.is_abstract {
+            keyword!(self, "abstract");
+            space!(self);
+        }
+
         keyword!(self, "class");
         space!(self);
         emit!(self, node.ident);

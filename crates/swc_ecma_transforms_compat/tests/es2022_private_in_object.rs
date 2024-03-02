@@ -2,7 +2,7 @@ use std::path::PathBuf;
 
 use serde::Deserialize;
 use swc_common::{chain, Mark};
-use swc_ecma_transforms_base::pass::noop;
+use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::{
     es2015::classes,
     es2022::{class_properties, private_in_object},
@@ -33,7 +33,11 @@ fn fixture(input: PathBuf) {
     test_fixture(
         Default::default(),
         &|t| {
-            let mut pass: Box<dyn Fold> = Box::new(noop());
+            let unresolved_mark = Mark::new();
+            let top_level_mark = Mark::new();
+
+            let mut pass: Box<dyn Fold> =
+                Box::new(resolver(unresolved_mark, top_level_mark, false));
 
             let mut class_props = false;
 
@@ -60,9 +64,11 @@ fn fixture(input: PathBuf) {
                                         constant_super: loose,
                                         no_document_all: loose,
                                         private_as_properties: loose,
+                                        pure_getter: loose,
                                         static_blocks_mark: Mark::new(),
-                                    }
-                                )
+                                    },
+                                    unresolved_mark
+                                ),
                             ));
                         }
                     }
@@ -79,8 +85,10 @@ fn fixture(input: PathBuf) {
                                         constant_super: loose,
                                         no_document_all: loose,
                                         private_as_properties: loose,
+                                        pure_getter: loose,
                                         static_blocks_mark: Mark::new(),
-                                    }
+                                    },
+                                    unresolved_mark,
                                 )
                             ));
                         }

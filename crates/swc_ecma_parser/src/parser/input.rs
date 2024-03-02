@@ -1,5 +1,6 @@
 use std::{cell::RefCell, mem, mem::take, rc::Rc};
 
+use debug_unreachable::debug_unreachable;
 use lexer::TokenContexts;
 use swc_common::{BytePos, Span};
 
@@ -299,18 +300,6 @@ impl<I: Tokens> Buffer<I> {
         });
     }
 
-    #[inline(never)]
-    fn bump_inner(&mut self) {
-        let prev = self.cur.take();
-        self.prev_span = match prev {
-            Some(TokenAndSpan { span, .. }) => span,
-            _ => self.prev_span,
-        };
-
-        // If we have peeked a token, take it instead of calling lexer.next()
-        self.cur = self.next.take().or_else(|| self.iter.next());
-    }
-
     #[allow(dead_code)]
     pub fn cur_debug(&self) -> Option<&Token> {
         self.cur.as_ref().map(|it| &it.token)
@@ -327,18 +316,14 @@ impl<I: Tokens> Buffer<I> {
 
     /// Returns current token.
     pub fn bump(&mut self) -> Token {
-        #[cold]
-        #[inline(never)]
-        fn invalid_state() -> ! {
-            unreachable!(
-                "Current token is `None`. Parser should not call bump() without knowing current \
-                 token"
-            )
-        }
-
         let prev = match self.cur.take() {
             Some(t) => t,
-            None => invalid_state(),
+            None => unsafe {
+                debug_unreachable!(
+                    "Current token is `None`. Parser should not call bump() without knowing \
+                     current token"
+                )
+            },
         };
         self.prev_span = prev.span;
 
@@ -388,13 +373,27 @@ impl<I: Tokens> Buffer<I> {
     #[inline]
     pub fn cur(&mut self) -> Option<&Token> {
         if self.cur.is_none() {
-            self.bump_inner();
+            // If we have peeked a token, take it instead of calling lexer.next()
+            self.cur = self.next.take().or_else(|| self.iter.next());
         }
 
         match &self.cur {
             Some(v) => Some(&v.token),
             None => None,
         }
+    }
+
+    #[inline]
+    pub fn cut_lshift(&mut self) {
+        debug_assert!(
+            self.is(&tok!("<<")),
+            "parser should only call cut_lshift when encountering LShift token"
+        );
+        self.cur = Some(TokenAndSpan {
+            token: tok!('<'),
+            span: self.cur_span().with_lo(self.cur_span().lo + BytePos(1)),
+            had_line_break: false,
+        });
     }
 
     #[inline]

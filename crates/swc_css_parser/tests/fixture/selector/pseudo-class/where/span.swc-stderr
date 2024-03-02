@@ -5154,7 +5154,7 @@
  27 | h1:where(a, <> p) {}
     `----
 
-  x Ident { value: Atom('p' type=static), raw: "p" }
+  x Ident { value: "p", raw: "p" }
     ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:25:1]
  25 | /* Forgiving */
  26 | h1:where(<> p) {}
@@ -5410,7 +5410,7 @@
  28 | h1:where(<> p,a) {}
     `----
 
-  x Ident { value: Atom('p' type=static), raw: "p" }
+  x Ident { value: "p", raw: "p" }
     ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:26:1]
  26 | h1:where(<> p) {}
  27 | h1:where(a, <> p) {}
@@ -5602,7 +5602,7 @@
  29 | h1:where(a, <> p,a) {}
     `----
 
-  x Ident { value: Atom('p' type=static), raw: "p" }
+  x Ident { value: "p", raw: "p" }
     ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:27:1]
  27 | h1:where(a, <> p) {}
  28 | h1:where(<> p,a) {}
@@ -5877,7 +5877,7 @@
     :                ^
     `----
 
-  x Ident { value: Atom('p' type=static), raw: "p" }
+  x Ident { value: "p", raw: "p" }
     ,-[$DIR/tests/fixture/selector/pseudo-class/where/input.css:28:1]
  28 | h1:where(<> p,a) {}
  29 | h1:where(a, <> p,a) {}

@@ -47,10 +47,10 @@ it("should respect custom transform option", async () => {
                 return new Promise(function(resolve, reject) {
                     var gen = fn.apply(self, args);
                     function _next(value) {
-                        asyncGeneratorStep(gen, resolve, reject, _next, _throw, \\"next\\", value);
+                        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
                     }
                     function _throw(err) {
-                        asyncGeneratorStep(gen, resolve, reject, _next, _throw, \\"throw\\", err);
+                        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
                     }
                     _next(undefined);
                 });
@@ -68,9 +68,9 @@ it("should respect custom transform option", async () => {
             };
             return g = {
                 next: verb(0),
-                \\"throw\\": verb(1),
-                \\"return\\": verb(2)
-            }, typeof Symbol === \\"function\\" && (g[Symbol.iterator] = function() {
+                "throw": verb(1),
+                "return": verb(2)
+            }, typeof Symbol === "function" && (g[Symbol.iterator] = function() {
                 return this;
             }), g;
             function verb(n) {
@@ -82,9 +82,9 @@ it("should respect custom transform option", async () => {
                 };
             }
             function step(op) {
-                if (f) throw new TypeError(\\"Generator is already executing.\\");
+                if (f) throw new TypeError("Generator is already executing.");
                 while(_)try {
-                    if (f = 1, y && (t = op[0] & 2 ? y[\\"return\\"] : op[0] ? y[\\"throw\\"] || ((t = y[\\"return\\"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+                    if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
                     if (y = 0, t) op = [
                         op[0] & 2,
                         t.value

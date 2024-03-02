@@ -1,0 +1,16 @@
+{
+  "mappings": "AAAA,IAAMA,EAAI,CAAEC,IAAK,MAAI,EAErBC,QAAQC,GAAG,CAACH",
+  "names": [
+    "a",
+    "aób",
+    "console",
+    "log"
+  ],
+  "sources": [
+    "$DIR/tests/minify/issue-7475/issue-8372/2/input.js"
+  ],
+  "sourcesContent": [
+    "const a = { aób: 'ó' }\n\nconsole.log(a)"
+  ],
+  "version": 3
+}

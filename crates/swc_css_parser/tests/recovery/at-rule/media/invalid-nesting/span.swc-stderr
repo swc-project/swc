@@ -162,7 +162,7 @@
  3 | }
    `----
 
-  x Ident { value: Atom('max-inline-size' type=static), raw: "max-inline-size" }
+  x Ident { value: "max-inline-size", raw: "max-inline-size" }
    ,-[$DIR/tests/recovery/at-rule/media/invalid-nesting/input.css:1:1]
  1 | @media (min-width: 480px) {
  2 |     max-inline-size: 1024px;
@@ -210,7 +210,7 @@
  3 | }
    `----
 
-  x Dimension(DimensionToken { value: 1024.0, raw_value: "1024", unit: Atom('px' type=static), type_flag: Integer, raw_unit: "px" })
+  x Dimension(DimensionToken { value: 1024.0, raw_value: "1024", unit: "px", type_flag: Integer, raw_unit: "px" })
    ,-[$DIR/tests/recovery/at-rule/media/invalid-nesting/input.css:1:1]
  1 | @media (min-width: 480px) {
  2 |     max-inline-size: 1024px;

@@ -270,7 +270,8 @@
         "raw": "'./a'"
       },
       "typeOnly": true,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ExpressionStatement",
@@ -600,7 +601,8 @@
         "raw": "'./a'"
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ImportDeclaration",
@@ -642,7 +644,8 @@
         "raw": "'./b'"
       },
       "typeOnly": true,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "VariableDeclaration",

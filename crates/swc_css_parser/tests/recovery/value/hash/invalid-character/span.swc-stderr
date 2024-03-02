@@ -101,7 +101,7 @@
    :            ^^^^^^^^
    `----
 
-  x Hash { is_id: true, value: Atom('0hash' type=inline), raw: "\\30hash" }
+  x Hash { is_id: true, value: "0hash", raw: "\\30hash" }
    ,-[$DIR/tests/recovery/value/hash/invalid-character/input.css:1:1]
  1 | a { value: #\30hash }
    :            ^^^^^^^^

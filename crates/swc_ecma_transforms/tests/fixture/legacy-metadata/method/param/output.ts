@@ -9,7 +9,8 @@ _ts_decorate([
     _ts_metadata("design:paramtypes", [
         String,
         String
-    ])
+    ]),
+    _ts_metadata("design:returntype", void 0)
 ], Foo.prototype, "foo", null);
 _ts_decorate([
     _ts_param(0, dec1()),
@@ -18,5 +19,6 @@ _ts_decorate([
     _ts_metadata("design:paramtypes", [
         String,
         String
-    ])
+    ]),
+    _ts_metadata("design:returntype", void 0)
 ], Foo, "bar", null);

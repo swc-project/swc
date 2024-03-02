@@ -1,9 +1,11 @@
 #![deny(warnings)]
 #![allow(clippy::needless_update)]
 
-use std::path::PathBuf;
+use std::{path::PathBuf, rc::Rc};
 
-use swc_common::{errors::Handler, input::SourceFileInput, Span, Spanned};
+use swc_common::{
+    comments::SingleThreadedComments, errors::Handler, input::SourceFileInput, Span, Spanned,
+};
 use swc_css_ast::*;
 use swc_css_parser::{
     lexer::Lexer,
@@ -20,8 +22,10 @@ fn stylesheet_test(input: PathBuf, config: ParserConfig) {
     let ref_json_path = input.parent().unwrap().join("output.json");
 
     testing::run_test2(false, |cm, handler| {
+        let comments = SingleThreadedComments::default();
+
         let fm = cm.load_file(&input).unwrap();
-        let lexer = Lexer::new(SourceFileInput::from(&*fm), config);
+        let lexer = Lexer::new(SourceFileInput::from(&*fm), Some(&comments), config);
         let mut parser = Parser::new(lexer, config);
         let stylesheet = parser.parse_all();
         let errors = parser.take_errors();
@@ -41,6 +45,22 @@ fn stylesheet_test(input: PathBuf, config: ParserConfig) {
                     .expect("failed to serialize stylesheet");
 
                 actual_json.compare_to_file(&ref_json_path).unwrap();
+
+                let (leading, trailing) = comments.take_all();
+                let leading = Rc::try_unwrap(leading).unwrap().into_inner();
+                let trailing = Rc::try_unwrap(trailing).unwrap().into_inner();
+
+                serde_json::to_string_pretty(&leading)
+                    .map(NormalizedOutput::from)
+                    .expect("failed to serialize comments")
+                    .compare_to_file(input.parent().unwrap().join("leading-comments.json"))
+                    .unwrap();
+
+                serde_json::to_string_pretty(&trailing)
+                    .map(NormalizedOutput::from)
+                    .expect("failed to serialize comments")
+                    .compare_to_file(input.parent().unwrap().join("trailing-comments.json"))
+                    .unwrap();
 
                 Ok(())
             }
@@ -64,7 +84,7 @@ fn stylesheet_test_tokens(input: PathBuf, config: ParserConfig) {
         let fm = cm.load_file(&input).unwrap();
         let mut errors = vec![];
         let tokens = {
-            let mut lexer = Lexer::new(SourceFileInput::from(&*fm), Default::default());
+            let mut lexer = Lexer::new(SourceFileInput::from(&*fm), None, Default::default());
             let mut tokens = vec![];
 
             for token_and_span in lexer.by_ref() {
@@ -124,8 +144,10 @@ fn stylesheet_recovery_test(input: PathBuf, config: ParserConfig) {
             return Ok(());
         }
 
+        let comments = SingleThreadedComments::default();
+
         let fm = cm.load_file(&input).unwrap();
-        let lexer = Lexer::new(SourceFileInput::from(&*fm), config);
+        let lexer = Lexer::new(SourceFileInput::from(&*fm), Some(&comments), config);
         let mut parser = Parser::new(lexer, config);
         let stylesheet = parser.parse_all();
         let mut errors = parser.take_errors();
@@ -188,7 +210,7 @@ fn stylesheet_recovery_test_tokens(input: PathBuf, config: ParserConfig) {
         let fm = cm.load_file(&input).unwrap();
         let mut lexer_errors = vec![];
         let tokens = {
-            let mut lexer = Lexer::new(SourceFileInput::from(&*fm), Default::default());
+            let mut lexer = Lexer::new(SourceFileInput::from(&*fm), None, Default::default());
             let mut tokens = vec![];
 
             for token_and_span in lexer.by_ref() {
@@ -524,7 +546,7 @@ fn stylesheet_span_visualizer(input: PathBuf, config: Option<ParserConfig>) {
         };
 
         let fm = cm.load_file(&input).unwrap();
-        let lexer = Lexer::new(SourceFileInput::from(&*fm), config);
+        let lexer = Lexer::new(SourceFileInput::from(&*fm), None, config);
         let mut parser = Parser::new(lexer, config);
 
         let stylesheet = parser.parse_all();
@@ -604,6 +626,24 @@ fn span_visualizer_line_comment(input: PathBuf) {
 fn recovery(input: PathBuf) {
     stylesheet_recovery_test(input.clone(), Default::default());
     stylesheet_recovery_test_tokens(input, Default::default());
+}
+
+#[testing::fixture("tests/recovery-cssmodules/**/input.css")]
+fn recovery_2(input: PathBuf) {
+    stylesheet_recovery_test(
+        input.clone(),
+        ParserConfig {
+            css_modules: true,
+            ..Default::default()
+        },
+    );
+    stylesheet_recovery_test_tokens(
+        input,
+        ParserConfig {
+            css_modules: true,
+            ..Default::default()
+        },
+    );
 }
 
 #[testing::fixture("tests/fixture/**/input.css")]

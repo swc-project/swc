@@ -1,3 +1,4 @@
+var jQuery = window.jQuery || {};
 function internalRemoveData(elem, name, pvt) {
     if (jQuery.acceptData(elem)) {
         var i, l, thisCache, isNode = elem.nodeType, cache = isNode ? jQuery.cache : elem, id = isNode ? elem[jQuery.expando] : jQuery.expando;

@@ -19,7 +19,7 @@ macro_rules! is {
     ($p:expr, BindingIdent) => {{
         let ctx = $p.ctx();
         match cur!($p, false) {
-            Ok(&Word(ref w)) => !ctx.is_reserved_word(&w.cow()),
+            Ok(&Word(ref w)) => !ctx.is_reserved(w),
             _ => false,
         }
     }};
@@ -27,7 +27,7 @@ macro_rules! is {
     ($p:expr, IdentRef) => {{
         let ctx = $p.ctx();
         match cur!($p, false) {
-            Ok(&Word(ref w)) => !ctx.is_reserved_word(&w.cow()),
+            Ok(&Word(ref w)) => !ctx.is_reserved(w),
             _ => false,
         }
     }};
@@ -84,7 +84,7 @@ macro_rules! peeked_is {
     ($p:expr, BindingIdent) => {{
         let ctx = $p.ctx();
         match peek!($p) {
-            Ok(&Word(ref w)) => !ctx.is_reserved_word(&w.cow()),
+            Ok(&Word(ref w)) => !ctx.is_reserved(w),
             _ => false,
         }
     }};
@@ -92,7 +92,7 @@ macro_rules! peeked_is {
     ($p:expr, IdentRef) => {{
         let ctx = $p.ctx();
         match peek!($p) {
-            Ok(&Word(ref w)) => !ctx.is_reserved_word(&w.cow()),
+            Ok(&Word(ref w)) => !ctx.is_reserved(w),
             _ => false,
         }
     }};

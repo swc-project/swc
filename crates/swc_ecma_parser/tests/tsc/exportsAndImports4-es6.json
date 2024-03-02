@@ -136,7 +136,8 @@
         "raw": "\"./t1\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ExpressionStatement",
@@ -194,7 +195,8 @@
         "raw": "\"./t1\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ExpressionStatement",
@@ -281,7 +283,8 @@
         "raw": "\"./t1\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ExpressionStatement",
@@ -357,7 +360,8 @@
         "raw": "\"./t1\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ExpressionStatement",
@@ -480,7 +484,8 @@
         "raw": "\"./t1\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ExpressionStatement",
@@ -537,7 +542,8 @@
         "raw": "\"./t1\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "TsImportEqualsDeclaration",
@@ -651,7 +657,8 @@
         "raw": "\"./t1\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ExpressionStatement",
@@ -709,7 +716,8 @@
         "raw": "\"./t1\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ExpressionStatement",
@@ -796,7 +804,8 @@
         "raw": "\"./t1\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ExpressionStatement",
@@ -872,7 +881,8 @@
         "raw": "\"./t1\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ExpressionStatement",
@@ -995,7 +1005,8 @@
         "raw": "\"./t1\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ExpressionStatement",

@@ -10,33 +10,32 @@ impl Compressor {
                 if is_calc_function_name(name) && value.len() == 1 =>
             {
                 match &value[0] {
-                    ComponentValue::CalcSum(box CalcSum {
-                        expressions: calc_sum_expressions,
-                        ..
-                    }) if calc_sum_expressions.len() == 1 => match &calc_sum_expressions[0] {
-                        CalcProductOrOperator::Product(CalcProduct {
-                            expressions: calc_product_expressions,
-                            ..
-                        }) if calc_product_expressions.len() == 1 => {
-                            if let CalcValueOrOperator::Value(calc_value) =
-                                &calc_product_expressions[0]
-                            {
-                                match transform_calc_value_into_component_value(calc_value) {
-                                    Some(ComponentValue::Function(function)) => {
-                                        *n = SizeFeatureValue::Function(*function);
+                    ComponentValue::CalcSum(calc_sum) if calc_sum.expressions.len() == 1 => {
+                        match &calc_sum.expressions[0] {
+                            CalcProductOrOperator::Product(CalcProduct {
+                                expressions: calc_product_expressions,
+                                ..
+                            }) if calc_product_expressions.len() == 1 => {
+                                if let CalcValueOrOperator::Value(calc_value) =
+                                    &calc_product_expressions[0]
+                                {
+                                    match transform_calc_value_into_component_value(calc_value) {
+                                        Some(ComponentValue::Function(function)) => {
+                                            *n = SizeFeatureValue::Function(*function);
+                                        }
+                                        Some(ComponentValue::Dimension(dimension)) => {
+                                            *n = SizeFeatureValue::Dimension(*dimension);
+                                        }
+                                        Some(ComponentValue::Number(number)) => {
+                                            *n = SizeFeatureValue::Number(*number);
+                                        }
+                                        _ => {}
                                     }
-                                    Some(ComponentValue::Dimension(dimension)) => {
-                                        *n = SizeFeatureValue::Dimension(*dimension);
-                                    }
-                                    Some(ComponentValue::Number(number)) => {
-                                        *n = SizeFeatureValue::Number(*number);
-                                    }
-                                    _ => {}
                                 }
                             }
+                            _ => {}
                         }
-                        _ => {}
-                    },
+                    }
                     _ => {}
                 }
             }

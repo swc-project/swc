@@ -19,8 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('A namespace.
-             *' type=dynamic),
+            value: "A namespace.\n *",
         },
         tags: [
             TagItem {
@@ -43,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('const' type=static),
+                    value: "const",
                 },
                 tag: Const(
                     ConstTag {
@@ -83,7 +82,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -106,7 +105,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('nocollapse' type=dynamic),
+                    value: "nocollapse",
                 },
                 tag: Unknown(
                     UnknownTag {
@@ -129,7 +128,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('' type=static),
+                            value: "",
                         },
                     },
                 ),

@@ -140,7 +140,17 @@ fn run_spec(file: &Path, output_json: &Path) {
         || file_name.contains("tsc/tsxErrorRecovery3")
         || file_name.contains("tsc/tsxTypeArgumentsJsxPreserveOutput")
         || file_name.contains("tsc/unicodeEscapesInJsxtags")
-        || file_name.contains("tsc/propertyAccessNumericLiterals");
+        || file_name.contains("tsc/propertyAccessNumericLiterals")
+        || file_name.contains("tsc/parserAssignmentExpression1")
+        || file_name.contains("tsc/parserGreaterThanTokenAmbiguity11")
+        || file_name.contains("tsc/parserGreaterThanTokenAmbiguity15")
+        || file_name.contains("tsc/parserGreaterThanTokenAmbiguity16")
+        || file_name.contains("tsc/parserGreaterThanTokenAmbiguity20")
+        || file_name.contains("tsc/awaitUsingDeclarationsInFor")
+        || file_name.ends_with("tsc/usingDeclarationsInFor.ts")
+        || file_name.ends_with("tsc/decoratorOnClassMethod12.ts")
+        || file_name.ends_with("tsc/esDecorators-preservesThis.ts")
+        || file_name.ends_with("tsc/topLevelVarHoistingCommonJS.ts");
 
     if ignore {
         return;

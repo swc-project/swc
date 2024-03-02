@@ -1153,7 +1153,8 @@
                         "ctxt": 0
                       },
                       "value": "a",
-                      "optional": false
+                      "optional": false,
+                      "typeAnnotation": null
                     },
                     "value": null
                   }
@@ -1259,7 +1260,8 @@
                               "ctxt": 0
                             },
                             "value": "b",
-                            "optional": false
+                            "optional": false,
+                            "typeAnnotation": null
                           },
                           "value": null
                         }
@@ -1350,7 +1352,8 @@
                         "ctxt": 0
                       },
                       "value": "a",
-                      "optional": false
+                      "optional": false,
+                      "typeAnnotation": null
                     },
                     "value": {
                       "type": "NumericLiteral",
@@ -1472,7 +1475,8 @@
                                 "ctxt": 0
                               },
                               "value": "b",
-                              "optional": false
+                              "optional": false,
+                              "typeAnnotation": null
                             },
                             "value": {
                               "type": "NumericLiteral",
@@ -1614,7 +1618,8 @@
                             "ctxt": 0
                           },
                           "value": "value",
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         "value": null
                       },
@@ -1633,7 +1638,8 @@
                             "ctxt": 0
                           },
                           "value": "done",
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         "value": null
                       }

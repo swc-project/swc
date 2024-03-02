@@ -682,7 +682,7 @@
                                         "end": 83,
                                         "ctxt": 0
                                       },
-                                      "value": "foo",
+                                      "value": "FOO",
                                       "raw": "FOO"
                                     }
                                   }
@@ -3120,7 +3120,7 @@
                                         "end": 399,
                                         "ctxt": 0
                                       },
-                                      "value": "foo",
+                                      "value": "FOO",
                                       "raw": "FOO"
                                     }
                                   }

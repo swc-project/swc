@@ -19,7 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -42,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('module' type=static),
+                    value: "module",
                 },
                 tag: Module(
                     ModuleTag {
@@ -65,7 +65,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('' type=static),
+                            value: "",
                         },
                         ty: Text {
                             span: Span {
@@ -77,7 +77,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('jacket' type=inline),
+                            value: "jacket",
                         },
                     },
                 ),
@@ -104,9 +104,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Jacket constructor.
-                 *
-                 *' type=dynamic),
+            value: "Jacket constructor.\n     *\n     *",
         },
         tags: [
             TagItem {
@@ -129,7 +127,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('constructor' type=static),
+                    value: "constructor",
                 },
                 tag: Class(
                     ClassTag {
@@ -153,7 +151,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('* @alias module:jacket' type=dynamic),
+                                value: "* @alias module:jacket",
                             },
                         ),
                         name: None,

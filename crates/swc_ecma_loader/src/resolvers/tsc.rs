@@ -4,7 +4,7 @@ use anyhow::{bail, Context, Error};
 use swc_common::FileName;
 use tracing::{debug, info, trace, warn, Level};
 
-use crate::resolve::Resolve;
+use crate::resolve::{Resolution, Resolve};
 
 #[derive(Debug)]
 enum Pattern {
@@ -104,7 +104,7 @@ where
         &self,
         base: &FileName,
         module_specifier: &str,
-    ) -> Result<FileName, Error> {
+    ) -> Result<Resolution, Error> {
         let res = self.inner.resolve(base, module_specifier).with_context(|| {
             format!(
                 "failed to resolve `{module_specifier}` from `{base}` using inner \
@@ -117,7 +117,7 @@ where
             Ok(resolved) => {
                 info!(
                     "Resolved `{}` as `{}` from `{}`",
-                    module_specifier, resolved, base
+                    module_specifier, resolved.filename, base
                 );
 
                 let is_base_in_node_modules = if let FileName::Real(v) = base {
@@ -128,7 +128,7 @@ where
                 } else {
                     false
                 };
-                let is_target_in_node_modules = if let FileName::Real(v) = &resolved {
+                let is_target_in_node_modules = if let FileName::Real(v) = &resolved.filename {
                     v.components().any(|c| match c {
                         Component::Normal(v) => v == "node_modules",
                         _ => false,
@@ -139,7 +139,10 @@ where
 
                 // If node_modules is in path, we should return module specifier.
                 if !is_base_in_node_modules && is_target_in_node_modules {
-                    return Ok(FileName::Real(module_specifier.into()));
+                    return Ok(Resolution {
+                        filename: FileName::Real(module_specifier.into()),
+                        ..resolved
+                    });
                 }
 
                 Ok(resolved)
@@ -157,7 +160,7 @@ impl<R> Resolve for TsConfigResolver<R>
 where
     R: Resolve,
 {
-    fn resolve(&self, base: &FileName, module_specifier: &str) -> Result<FileName, Error> {
+    fn resolve(&self, base: &FileName, module_specifier: &str) -> Result<Resolution, Error> {
         let _tracing = if cfg!(debug_assertions) {
             Some(
                 tracing::span!(
@@ -219,7 +222,7 @@ where
 
                     let mut errors = vec![];
                     for target in to {
-                        let mut replaced = target.replace('*', extra);
+                        let replaced = target.replace('*', extra);
 
                         let _tracing = if cfg!(debug_assertions) {
                             Some(
@@ -250,17 +253,22 @@ where
                             Err(err) => err,
                         });
 
-                        if cfg!(target_os = "windows") {
-                            replaced = replaced.replace('/', "\\");
-                        }
-
-                        if to.len() == 1 {
+                        if to.len() == 1 && !prefix.is_empty() {
                             info!(
                                 "Using `{}` for `{}` because the length of the jsc.paths entry is \
                                  1",
                                 replaced, module_specifier
                             );
-                            return Ok(FileName::Real(replaced.into()));
+                            return Ok(Resolution {
+                                slug: Some(
+                                    replaced
+                                        .split([std::path::MAIN_SEPARATOR, '/'])
+                                        .last()
+                                        .unwrap()
+                                        .into(),
+                                ),
+                                filename: FileName::Real(replaced.into()),
+                            });
                         }
                     }
 
@@ -278,8 +286,15 @@ where
                     }
 
                     let tp = Path::new(&to[0]);
+                    let slug = to[0]
+                        .split([std::path::MAIN_SEPARATOR, '/'])
+                        .last()
+                        .map(|v| v.into());
                     if tp.is_absolute() {
-                        return Ok(FileName::Real(tp.into()));
+                        return Ok(Resolution {
+                            filename: FileName::Real(tp.into()),
+                            slug,
+                        });
                     }
 
                     if let Ok(res) = self.resolve(&self.base_url_filename, &format!("./{}", &to[0]))
@@ -287,12 +302,22 @@ where
                         return Ok(res);
                     }
 
-                    return Ok(FileName::Real(self.base_url.join(&to[0])));
+                    return Ok(Resolution {
+                        filename: FileName::Real(self.base_url.join(&to[0])),
+                        slug,
+                    });
                 }
             }
         }
 
-        if let Ok(v) = self.invoke_inner_resolver(&self.base_url_filename, module_specifier) {
+        let path = self.base_url.join(module_specifier);
+        #[cfg(windows)]
+        let path_string: String = path.to_string_lossy().replace("\\", "/");
+        #[cfg(not(windows))]
+        let path_string: String = path.to_string_lossy().to_string();
+
+        // https://www.typescriptlang.org/docs/handbook/modules/reference.html#baseurl
+        if let Ok(v) = self.invoke_inner_resolver(base, path_string.as_str()) {
             return Ok(v);
         }
 

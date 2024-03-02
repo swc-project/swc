@@ -3,7 +3,7 @@ enum MyEnum {
     y = "yyy"
 }
 class Xpto {
-    value: MyEnum;
+    value!: MyEnum;
 }
 _ts_decorate([
     Decorator(),

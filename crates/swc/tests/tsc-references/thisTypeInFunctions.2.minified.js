@@ -1,5 +1,4 @@
 //// [thisTypeInFunctions.ts]
-// body checking
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
@@ -82,42 +81,33 @@ reconstructed.explicitThis(10), reconstructed.explicitProperty(11), (0, reconstr
     return this.n + m;
 }, c.explicitProperty = explicitPropertyFunction, c.explicitProperty = function(m) {
     return this.n + m;
-}, c.explicitProperty = reconstructed.explicitProperty, // lambdas are assignable to anything
-c.explicitC = function(m) {
+}, c.explicitProperty = reconstructed.explicitProperty, c.explicitC = function(m) {
     return m;
 }, c.explicitThis = function(m) {
     return m;
 }, c.explicitProperty = function(m) {
     return m;
-}, // this inside lambdas refer to outer scope
-// the outer-scoped lambda at top-level is still just `any`
-c.explicitC = function(m) {
+}, c.explicitC = function(m) {
     return m + _this.n;
 }, c.explicitThis = function(m) {
     return m + _this.n;
 }, c.explicitProperty = function(m) {
     return m + _this.n;
-}, //NOTE: this=C here, I guess?
-c.explicitThis = explicitCFunction, c.explicitThis = function(m) {
+}, c.explicitThis = explicitCFunction, c.explicitThis = function(m) {
     return this.n + m;
-}, // this:any compatibility
-c.explicitC = function(m) {
+}, c.explicitC = function(m) {
     return this.n + m;
 }, c.explicitProperty = function(m) {
     return this.n + m;
 }, c.explicitThis = function(m) {
     return this.n + m;
-}, // this: contextual typing
-c.explicitThis = function(m) {
+}, c.explicitThis = function(m) {
     return this.n + m;
-}, // this: superclass compatibility
-c.explicitC = function(m) {
+}, c.explicitC = function(m) {
     return this.n + m;
-}, // this:void compatibility
-c.explicitVoid = function(n) {
+}, c.explicitVoid = function(n) {
     return n;
 };
-// class-based assignability
 var Base1 = function() {
     function Base1() {
         _class_call_check(this, Base1);
@@ -154,16 +144,8 @@ var Base1 = function() {
         return _class_call_check(this, Derived2), _super.apply(this, arguments);
     }
     return Derived2;
-}(Base2), /*#__PURE__*/ b1 = new Base1(), b2 = new Base2(), d1 = new Derived1(), d2 = new Derived2();
-d2.polymorphic = d1.polymorphic // ok, 'x' and 'y' in { x, y }
-, d1.polymorphic = d2.polymorphic // ok, 'x' and 'y' in { x, y }
-, // bivariance-allowed cases
-d1.polymorphic = b2.polymorphic // ok, 'y' in D: { x, y }
-, d2.polymorphic = d1.explicit // ok, 'y' in { x, y }
-, b1.polymorphic = d2.polymorphic // ok, 'x' and 'y' not in Base1: { x }
-, b1.explicit = d2.polymorphic // ok, 'x' and 'y' not in Base1: { x }
-, new ////// use this-type for construction with new ////
-function() {
+}(Base2), b1 = new Base1(), b2 = new Base2(), d1 = new Derived1(), d2 = new Derived2();
+d2.polymorphic = d1.polymorphic, d1.polymorphic = d2.polymorphic, d1.polymorphic = b2.polymorphic, d2.polymorphic = d1.explicit, b1.polymorphic = d2.polymorphic, b1.explicit = d2.polymorphic, new function() {
     this.a = 12;
 }(), new function() {
     this.x = "ok";

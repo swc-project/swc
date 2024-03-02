@@ -127,7 +127,7 @@
  3 |     filter: progid:DXImageTransform.Microsoft.Blur(pixelradius=2) progid:DXImageTransform.Microsoft.Wheel(duration=3);
    `----
 
-  x Ident { value: Atom('progid' type=inline), raw: "progid" }
+  x Ident { value: "progid", raw: "progid" }
    ,-[$DIR/tests/recovery/ie-progid/input.css:1:1]
  1 | a {
  2 |     filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#4f4f4f',endColorstr='#292929',GradientType=0);
@@ -159,7 +159,7 @@
  3 |     filter: progid:DXImageTransform.Microsoft.Blur(pixelradius=2) progid:DXImageTransform.Microsoft.Wheel(duration=3);
    `----
 
-  x Ident { value: Atom('DXImageTransform' type=dynamic), raw: "DXImageTransform" }
+  x Ident { value: "DXImageTransform", raw: "DXImageTransform" }
    ,-[$DIR/tests/recovery/ie-progid/input.css:1:1]
  1 | a {
  2 |     filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#4f4f4f',endColorstr='#292929',GradientType=0);
@@ -191,7 +191,7 @@
  3 |     filter: progid:DXImageTransform.Microsoft.Blur(pixelradius=2) progid:DXImageTransform.Microsoft.Wheel(duration=3);
    `----
 
-  x Ident { value: Atom('Microsoft' type=dynamic), raw: "Microsoft" }
+  x Ident { value: "Microsoft", raw: "Microsoft" }
    ,-[$DIR/tests/recovery/ie-progid/input.css:1:1]
  1 | a {
  2 |     filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#4f4f4f',endColorstr='#292929',GradientType=0);
@@ -247,7 +247,7 @@
  3 |     filter: progid:DXImageTransform.Microsoft.Blur(pixelradius=2) progid:DXImageTransform.Microsoft.Wheel(duration=3);
    `----
 
-  x Ident { value: Atom('startColorstr' type=dynamic), raw: "startColorstr" }
+  x Ident { value: "startColorstr", raw: "startColorstr" }
    ,-[$DIR/tests/recovery/ie-progid/input.css:1:1]
  1 | a {
  2 |     filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#4f4f4f',endColorstr='#292929',GradientType=0);
@@ -279,7 +279,7 @@
  3 |     filter: progid:DXImageTransform.Microsoft.Blur(pixelradius=2) progid:DXImageTransform.Microsoft.Wheel(duration=3);
    `----
 
-  x String { value: Atom('#4f4f4f' type=inline), raw: "'#4f4f4f'" }
+  x String { value: "#4f4f4f", raw: "'#4f4f4f'" }
    ,-[$DIR/tests/recovery/ie-progid/input.css:1:1]
  1 | a {
  2 |     filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#4f4f4f',endColorstr='#292929',GradientType=0);
@@ -311,7 +311,7 @@
  3 |     filter: progid:DXImageTransform.Microsoft.Blur(pixelradius=2) progid:DXImageTransform.Microsoft.Wheel(duration=3);
    `----
 
-  x Ident { value: Atom('endColorstr' type=dynamic), raw: "endColorstr" }
+  x Ident { value: "endColorstr", raw: "endColorstr" }
    ,-[$DIR/tests/recovery/ie-progid/input.css:1:1]
  1 | a {
  2 |     filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#4f4f4f',endColorstr='#292929',GradientType=0);
@@ -343,7 +343,7 @@
  3 |     filter: progid:DXImageTransform.Microsoft.Blur(pixelradius=2) progid:DXImageTransform.Microsoft.Wheel(duration=3);
    `----
 
-  x String { value: Atom('#292929' type=inline), raw: "'#292929'" }
+  x String { value: "#292929", raw: "'#292929'" }
    ,-[$DIR/tests/recovery/ie-progid/input.css:1:1]
  1 | a {
  2 |     filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#4f4f4f',endColorstr='#292929',GradientType=0);
@@ -375,7 +375,7 @@
  3 |     filter: progid:DXImageTransform.Microsoft.Blur(pixelradius=2) progid:DXImageTransform.Microsoft.Wheel(duration=3);
    `----
 
-  x Ident { value: Atom('GradientType' type=dynamic), raw: "GradientType" }
+  x Ident { value: "GradientType", raw: "GradientType" }
    ,-[$DIR/tests/recovery/ie-progid/input.css:1:1]
  1 | a {
  2 |     filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#4f4f4f',endColorstr='#292929',GradientType=0);
@@ -455,7 +455,7 @@
  4 | }
    `----
 
-  x Ident { value: Atom('progid' type=inline), raw: "progid" }
+  x Ident { value: "progid", raw: "progid" }
    ,-[$DIR/tests/recovery/ie-progid/input.css:2:1]
  2 |     filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#4f4f4f',endColorstr='#292929',GradientType=0);
  3 |     filter: progid:DXImageTransform.Microsoft.Blur(pixelradius=2) progid:DXImageTransform.Microsoft.Wheel(duration=3);
@@ -487,7 +487,7 @@
  4 | }
    `----
 
-  x Ident { value: Atom('DXImageTransform' type=dynamic), raw: "DXImageTransform" }
+  x Ident { value: "DXImageTransform", raw: "DXImageTransform" }
    ,-[$DIR/tests/recovery/ie-progid/input.css:2:1]
  2 |     filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#4f4f4f',endColorstr='#292929',GradientType=0);
  3 |     filter: progid:DXImageTransform.Microsoft.Blur(pixelradius=2) progid:DXImageTransform.Microsoft.Wheel(duration=3);
@@ -519,7 +519,7 @@
  4 | }
    `----
 
-  x Ident { value: Atom('Microsoft' type=dynamic), raw: "Microsoft" }
+  x Ident { value: "Microsoft", raw: "Microsoft" }
    ,-[$DIR/tests/recovery/ie-progid/input.css:2:1]
  2 |     filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#4f4f4f',endColorstr='#292929',GradientType=0);
  3 |     filter: progid:DXImageTransform.Microsoft.Blur(pixelradius=2) progid:DXImageTransform.Microsoft.Wheel(duration=3);
@@ -575,7 +575,7 @@
  4 | }
    `----
 
-  x Ident { value: Atom('pixelradius' type=dynamic), raw: "pixelradius" }
+  x Ident { value: "pixelradius", raw: "pixelradius" }
    ,-[$DIR/tests/recovery/ie-progid/input.css:2:1]
  2 |     filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#4f4f4f',endColorstr='#292929',GradientType=0);
  3 |     filter: progid:DXImageTransform.Microsoft.Blur(pixelradius=2) progid:DXImageTransform.Microsoft.Wheel(duration=3);
@@ -639,7 +639,7 @@
  4 | }
    `----
 
-  x Ident { value: Atom('progid' type=inline), raw: "progid" }
+  x Ident { value: "progid", raw: "progid" }
    ,-[$DIR/tests/recovery/ie-progid/input.css:2:1]
  2 |     filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#4f4f4f',endColorstr='#292929',GradientType=0);
  3 |     filter: progid:DXImageTransform.Microsoft.Blur(pixelradius=2) progid:DXImageTransform.Microsoft.Wheel(duration=3);
@@ -671,7 +671,7 @@
  4 | }
    `----
 
-  x Ident { value: Atom('DXImageTransform' type=dynamic), raw: "DXImageTransform" }
+  x Ident { value: "DXImageTransform", raw: "DXImageTransform" }
    ,-[$DIR/tests/recovery/ie-progid/input.css:2:1]
  2 |     filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#4f4f4f',endColorstr='#292929',GradientType=0);
  3 |     filter: progid:DXImageTransform.Microsoft.Blur(pixelradius=2) progid:DXImageTransform.Microsoft.Wheel(duration=3);
@@ -703,7 +703,7 @@
  4 | }
    `----
 
-  x Ident { value: Atom('Microsoft' type=dynamic), raw: "Microsoft" }
+  x Ident { value: "Microsoft", raw: "Microsoft" }
    ,-[$DIR/tests/recovery/ie-progid/input.css:2:1]
  2 |     filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#4f4f4f',endColorstr='#292929',GradientType=0);
  3 |     filter: progid:DXImageTransform.Microsoft.Blur(pixelradius=2) progid:DXImageTransform.Microsoft.Wheel(duration=3);
@@ -759,7 +759,7 @@
  4 | }
    `----
 
-  x Ident { value: Atom('duration' type=dynamic), raw: "duration" }
+  x Ident { value: "duration", raw: "duration" }
    ,-[$DIR/tests/recovery/ie-progid/input.css:2:1]
  2 |     filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#4f4f4f',endColorstr='#292929',GradientType=0);
  3 |     filter: progid:DXImageTransform.Microsoft.Blur(pixelradius=2) progid:DXImageTransform.Microsoft.Wheel(duration=3);

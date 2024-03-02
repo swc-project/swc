@@ -19,8 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('A view.
-             *' type=dynamic),
+            value: "A view.\n *",
         },
         tags: [
             TagItem {
@@ -43,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('name' type=static),
+                    value: "name",
                 },
                 tag: Name(
                     NameTag {
@@ -77,7 +76,7 @@
                                         ),
                                         ctxt: #0,
                                     },
-                                    value: Atom('View' type=inline),
+                                    value: "View",
                                 },
                             ],
                         },
@@ -106,8 +105,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('A controller.
-             *' type=dynamic),
+            value: "A controller.\n *",
         },
         tags: [
             TagItem {
@@ -130,7 +128,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('name' type=static),
+                    value: "name",
                 },
                 tag: Name(
                     NameTag {
@@ -164,7 +162,7 @@
                                         ),
                                         ctxt: #0,
                                     },
-                                    value: Atom('Controller' type=dynamic),
+                                    value: "Controller",
                                 },
                             ],
                         },
@@ -191,7 +189,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('class' type=static),
+                    value: "class",
                 },
                 tag: Class(
                     ClassTag {

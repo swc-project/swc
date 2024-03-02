@@ -17,7 +17,6 @@ applySpec({
         }
     }
 });
-// Repro from #12633
 var foo = function(object, partial) {
     return object;
 }, o = {

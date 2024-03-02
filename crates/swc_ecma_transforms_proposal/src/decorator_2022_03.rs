@@ -9,8 +9,9 @@ use swc_common::{util::take::Take, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, helper_expr};
 use swc_ecma_utils::{
-    constructor::inject_after_super, default_constructor, prepend_stmt, private_ident,
-    prop_name_to_expr_value, quote_ident, replace_ident, ExprFactory, IdentExt, IdentRenamer,
+    alias_ident_for, constructor::inject_after_super, default_constructor, prepend_stmt,
+    private_ident, prop_name_to_expr_value, quote_ident, replace_ident, ExprFactory, IdentExt,
+    IdentRenamer,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
@@ -53,6 +54,8 @@ struct ClassState {
 
     class_lhs: Vec<Option<Pat>>,
     class_decorators: Vec<Option<ExprOrSpread>>,
+
+    super_class: Option<Ident>,
 }
 
 impl Decorator202203 {
@@ -154,6 +157,10 @@ impl Decorator202203 {
             .as_arg(),
         );
 
+        if let Some(super_class) = self.state.super_class.as_ref() {
+            combined_args.push(super_class.clone().as_arg());
+        }
+
         let e_pat = if e_lhs.is_empty() {
             None
         } else {
@@ -185,12 +192,13 @@ impl Decorator202203 {
         let expr = Box::new(Expr::Assign(AssignExpr {
             span: DUMMY_SP,
             op: op!("="),
-            left: PatOrExpr::Pat(Box::new(Pat::Object(ObjectPat {
+            left: ObjectPat {
                 span: DUMMY_SP,
                 props: e_pat.into_iter().chain(c_pat).collect(),
                 optional: false,
                 type_ann: None,
-            }))),
+            }
+            .into(),
             right: Box::new(Expr::Call(CallExpr {
                 span: DUMMY_SP,
                 callee: helper!(apply_decs_2203_r),
@@ -249,7 +257,7 @@ impl Decorator202203 {
                 self.pre_class_inits.push(Box::new(Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
                     op: op!("="),
-                    left: PatOrExpr::Pat(ident.clone().into()),
+                    left: ident.clone().into(),
                     right: Box::new(prop_name_to_expr_value(name.take())),
                 })));
                 *name = PropName::Computed(ComputedPropName {
@@ -268,39 +276,49 @@ impl Decorator202203 {
     }
 
     fn ensure_constructor<'a>(&mut self, c: &'a mut Class) -> &'a mut Constructor {
-        for member in c.body.iter_mut() {
+        let mut insert_index = 0;
+        for (i, member) in c.body.iter_mut().enumerate() {
             if let ClassMember::Constructor(constructor) = member {
-                return unsafe {
-                    // Safety: We need polonius
-                    transmute::<&mut Constructor, &'a mut Constructor>(constructor)
-                };
-            }
-        }
-
-        c.body
-            .insert(0, default_constructor(c.super_class.is_some()).into());
-
-        for member in c.body.iter_mut() {
-            if let ClassMember::Constructor(constructor) = member {
-                return constructor;
-            }
-        }
-
-        unreachable!()
-    }
-
-    fn ensure_identity_constructor<'a>(&mut self, c: &'a mut Class) -> &'a mut Constructor {
-        for member in c.body.iter_mut() {
-            if let ClassMember::Constructor(constructor) = member {
-                return unsafe {
-                    // Safety: We need polonius
-                    transmute::<&mut Constructor, &'a mut Constructor>(constructor)
-                };
+                insert_index = i + 1;
+                // decorators occur before typescript's type strip, so skip ctor overloads
+                if constructor.body.is_some() {
+                    return unsafe {
+                        // Safety: We need polonius
+                        transmute::<&mut Constructor, &'a mut Constructor>(constructor)
+                    };
+                }
             }
         }
 
         c.body.insert(
-            0,
+            insert_index,
+            default_constructor(c.super_class.is_some()).into(),
+        );
+
+        if let Some(ClassMember::Constructor(c)) = c.body.get_mut(insert_index) {
+            c
+        } else {
+            unreachable!()
+        }
+    }
+
+    fn ensure_identity_constructor<'a>(&mut self, c: &'a mut Class) -> &'a mut Constructor {
+        let mut insert_index = 0;
+        for (i, member) in c.body.iter_mut().enumerate() {
+            if let ClassMember::Constructor(constructor) = member {
+                insert_index = i + 1;
+                // decorators occur before typescript's type strip, so skip ctor overloads
+                if constructor.body.is_some() {
+                    return unsafe {
+                        // Safety: We need polonius
+                        transmute::<&mut Constructor, &'a mut Constructor>(constructor)
+                    };
+                }
+            }
+        }
+
+        c.body.insert(
+            insert_index,
             ClassMember::Constructor(Constructor {
                 span: DUMMY_SP,
                 key: PropName::Ident(quote_ident!("constructor")),
@@ -314,13 +332,32 @@ impl Decorator202203 {
             }),
         );
 
-        for member in c.body.iter_mut() {
-            if let ClassMember::Constructor(constructor) = member {
-                return constructor;
-            }
+        if let Some(ClassMember::Constructor(c)) = c.body.get_mut(insert_index) {
+            c
+        } else {
+            unreachable!()
         }
+    }
 
-        unreachable!()
+    fn handle_super_class(&mut self, class: &mut Class) {
+        if let Some(super_class) = class.super_class.take() {
+            let id = alias_ident_for(&super_class, "_super");
+            self.extra_vars.push(VarDeclarator {
+                span: DUMMY_SP,
+                name: Pat::Ident(id.clone().into()),
+                init: None,
+                definite: false,
+            });
+
+            class.super_class = Some(Box::new(Expr::Assign(AssignExpr {
+                span: DUMMY_SP,
+                op: AssignOp::Assign,
+                left: id.clone().into(),
+                right: super_class,
+            })));
+
+            self.state.super_class = Some(id);
+        }
     }
 
     fn handle_class_expr(&mut self, class: &mut Class, ident: Option<&Ident>) -> Ident {
@@ -361,6 +398,7 @@ impl Decorator202203 {
 
         let decorators = self.preserve_side_effect_of_decorators(class.decorators.take());
         self.state.class_decorators.extend(decorators);
+        self.handle_super_class(class);
 
         {
             let call_stmt = CallExpr {
@@ -417,6 +455,7 @@ impl Decorator202203 {
             self.state.class_lhs.push(Some(init_class.clone().into()));
 
             self.state.class_decorators.extend(decorators);
+            self.handle_super_class(&mut c.class);
 
             let mut body = c.class.body.take();
 
@@ -691,7 +730,7 @@ impl Decorator202203 {
                 self.pre_class_inits.push(Box::new(Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
                     op: op!("="),
-                    left: PatOrExpr::Pat(ident.clone().into()),
+                    left: ident.clone().into(),
                     right: Box::new(prop_name_to_expr_value(name.take())),
                 })));
                 *name = PropName::Computed(ComputedPropName {
@@ -705,14 +744,14 @@ impl Decorator202203 {
     fn process_decorators_of_class_members(&mut self, members: &mut [ClassMember]) {
         for mut m in members {
             match &mut m {
-                ClassMember::Method(m) => {
+                ClassMember::Method(m) if m.function.body.is_some() => {
                     self.process_decorators(&mut m.function.decorators);
                     self.process_prop_name(&mut m.key);
                 }
-                ClassMember::PrivateMethod(m) => {
+                ClassMember::PrivateMethod(m) if m.function.body.is_some() => {
                     self.process_decorators(&mut m.function.decorators);
                 }
-                ClassMember::ClassProp(m) => {
+                ClassMember::ClassProp(m) if !m.declare => {
                     self.process_decorators(&mut m.decorators);
                     self.process_prop_name(&mut m.key);
                 }
@@ -1027,15 +1066,14 @@ impl VisitMut for Decorator202203 {
                                     expr: Box::new(Expr::Assign(AssignExpr {
                                         span: DUMMY_SP,
                                         op: op!("="),
-                                        left: swc_ecma_ast::PatOrExpr::Expr(Box::new(
-                                            Expr::Member(MemberExpr {
-                                                span: DUMMY_SP,
-                                                obj: ThisExpr { span: DUMMY_SP }.into(),
-                                                prop: MemberProp::PrivateName(
-                                                    private_field.key.clone(),
-                                                ),
-                                            }),
-                                        )),
+                                        left: MemberExpr {
+                                            span: DUMMY_SP,
+                                            obj: ThisExpr { span: DUMMY_SP }.into(),
+                                            prop: MemberProp::PrivateName(
+                                                private_field.key.clone(),
+                                            ),
+                                        }
+                                        .into(),
                                         right: param.clone().into(),
                                     })),
                                 })],
@@ -1303,6 +1341,11 @@ impl VisitMut for Decorator202203 {
     }
 
     fn visit_mut_class_method(&mut self, n: &mut ClassMethod) {
+        // method without body is TypeScript's method declaration.
+        if n.function.body.is_none() {
+            return;
+        }
+
         n.visit_mut_children_with(self);
 
         if n.function.decorators.is_empty() {
@@ -1353,6 +1396,10 @@ impl VisitMut for Decorator202203 {
     }
 
     fn visit_mut_class_prop(&mut self, p: &mut ClassProp) {
+        if p.declare {
+            return;
+        }
+
         p.visit_mut_children_with(self);
 
         if p.decorators.is_empty() {
@@ -1449,7 +1496,7 @@ impl VisitMut for Decorator202203 {
             ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
                 span: _,
                 decl: DefaultDecl::Class(c),
-            })) => {
+            })) if !c.class.decorators.is_empty() => {
                 self.handle_class_expr(&mut c.class, c.ident.as_ref());
                 s.visit_mut_children_with(self);
             }
@@ -1460,7 +1507,10 @@ impl VisitMut for Decorator202203 {
     }
 
     fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
-        let old_extra_lets = self.extra_lets.take();
+        let extra_vars = self.extra_vars.take();
+        let extra_lets = self.extra_lets.take();
+        let pre_class_inits = self.pre_class_inits.take();
+        let extra_exports = self.extra_exports.take();
 
         let mut new = Vec::with_capacity(n.len());
 
@@ -1520,7 +1570,10 @@ impl VisitMut for Decorator202203 {
             n.visit_mut_with(&mut IdentRenamer::new(&self.rename_map));
         }
 
-        self.extra_lets = old_extra_lets;
+        self.extra_vars = extra_vars;
+        self.extra_lets = extra_lets;
+        self.pre_class_inits = pre_class_inits;
+        self.extra_exports = extra_exports;
     }
 
     fn visit_mut_private_prop(&mut self, p: &mut PrivateProp) {
@@ -1552,11 +1605,11 @@ impl VisitMut for Decorator202203 {
         })));
 
         let initialize_init = {
-            let access_expr = Box::new(Expr::Member(MemberExpr {
+            let access_expr = MemberExpr {
                 span: DUMMY_SP,
                 obj: Box::new(Expr::This(ThisExpr { span: DUMMY_SP })),
                 prop: MemberProp::PrivateName(p.key.clone()),
-            }));
+            };
 
             let getter = Box::new(Function {
                 span: DUMMY_SP,
@@ -1564,7 +1617,7 @@ impl VisitMut for Decorator202203 {
                     span: DUMMY_SP,
                     stmts: vec![Stmt::Return(ReturnStmt {
                         span: DUMMY_SP,
-                        arg: Some(access_expr.clone()),
+                        arg: Some(access_expr.clone().into()),
                     })],
                 }),
                 is_async: false,
@@ -1584,7 +1637,7 @@ impl VisitMut for Decorator202203 {
                         expr: Box::new(Expr::Assign(AssignExpr {
                             span: DUMMY_SP,
                             op: op!("="),
-                            left: PatOrExpr::Expr(access_expr),
+                            left: access_expr.into(),
                             right: Box::new(Expr::Ident(settter_arg.clone())),
                         })),
                     })],

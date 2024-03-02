@@ -1,6 +1,6 @@
-(function() {
-    var x = function f1() {
-        return f1;
+(function () {
+    var x = function f() {
+        return f;
     };
     console.log(x() === eval("x"));
 })();

@@ -6,7 +6,7 @@ use crate::{
     expr::Expr,
     ident::Ident,
     pat::Pat,
-    UsingDecl,
+    Lit, Str, UsingDecl,
 };
 
 /// Use when only block statements are allowed.
@@ -99,10 +99,34 @@ pub enum Stmt {
     #[tag("TsTypeAliasDeclaration")]
     #[tag("TsEnumDeclaration")]
     #[tag("TsModuleDeclaration")]
+    #[tag("UsingDeclaration")]
     Decl(Decl),
 
     #[tag("ExpressionStatement")]
     Expr(ExprStmt),
+}
+
+impl Stmt {
+    pub fn is_use_strict(&self) -> bool {
+        match self {
+            Stmt::Expr(expr) => match *expr.expr {
+                Expr::Lit(Lit::Str(Str { ref raw, .. })) => {
+                    matches!(raw, Some(value) if value == "\"use strict\"" || value == "'use strict'")
+                }
+                _ => false,
+            },
+            _ => false,
+        }
+    }
+
+    /// Returns true if the statement does not prevent the directives below
+    /// `self` from being directives.
+    pub fn can_precede_directive(&self) -> bool {
+        match self {
+            Stmt::Expr(expr) => matches!(*expr.expr, Expr::Lit(Lit::Str(_))),
+            _ => false,
+        }
+    }
 }
 
 // Memory layout depedns on the version of rustc.

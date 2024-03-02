@@ -1,2 +1,2 @@
-import styles from "./src/foo.bar.baz";
+import styles from "./src/foo.bar.baz.js";
 console.log(styles);

@@ -1,6 +1,5 @@
 use std::ops::{Deref, DerefMut};
 
-use swc_atoms::js_word;
 use swc_common::{Span, Spanned, SyntaxContext, DUMMY_SP};
 use swc_css_ast::*;
 
@@ -112,9 +111,7 @@ where
                         list_of_component_values,
                     )))
                 }
-                None if *normalized_at_rule_name == js_word!("layer")
-                    && at_rule.block.is_none() =>
-                {
+                None if normalized_at_rule_name == "layer" && at_rule.block.is_none() => {
                     self.errors.push(Error::new(
                         at_rule.span,
                         ErrorKind::Expected("at least one name"),
@@ -291,7 +288,7 @@ where
     ) -> PResult<Declaration> {
         let locv = self.create_locv(declaration.value);
 
-        declaration.value = match self.parse_according_to_grammar(&locv, |parser| {
+        let value = self.parse_according_to_grammar(&locv, |parser| {
             let mut values = vec![];
 
             loop {
@@ -303,7 +300,8 @@ where
             }
 
             Ok(values)
-        }) {
+        });
+        declaration.value = match value {
             Ok(values) => values,
             Err(err) => {
                 if *err.kind() != ErrorKind::Ignore {
@@ -376,74 +374,22 @@ where
         &mut self,
         component_value: &ComponentValue,
     ) -> PResult<()> {
-        match component_value {
-            ComponentValue::PreservedToken(box TokenAndSpan {
-                span,
-                token: Token::BadString { .. },
-            }) => {
-                return Err(Error::new(
-                    *span,
-                    ErrorKind::Unexpected("bad string in declaration value"),
-                ));
-            }
-            ComponentValue::PreservedToken(box TokenAndSpan {
-                span,
-                token: Token::BadUrl { .. },
-            }) => {
-                return Err(Error::new(
-                    *span,
-                    ErrorKind::Unexpected("bad url in declaration value"),
-                ));
-            }
-            ComponentValue::PreservedToken(box TokenAndSpan {
-                span,
-                token: Token::RParen,
-            }) => {
-                return Err(Error::new(
-                    *span,
-                    ErrorKind::Unexpected("')' in declaration value"),
-                ));
-            }
-            ComponentValue::PreservedToken(box TokenAndSpan {
-                span,
-                token: Token::RBracket,
-            }) => {
-                return Err(Error::new(
-                    *span,
-                    ErrorKind::Unexpected("']' in declaration value"),
-                ));
-            }
-            ComponentValue::PreservedToken(box TokenAndSpan {
-                span,
-                token: Token::RBrace,
-            }) => {
-                return Err(Error::new(
-                    *span,
-                    ErrorKind::Unexpected("'}' in declaration value"),
-                ));
-            }
-            ComponentValue::PreservedToken(box TokenAndSpan {
-                span,
-                token: Token::Semi,
-            }) => {
-                return Err(Error::new(
-                    *span,
-                    ErrorKind::Unexpected("';' in declaration value"),
-                ));
-            }
-            ComponentValue::PreservedToken(box TokenAndSpan {
-                span,
-                token: Token::Delim { value: '!' },
-            }) => {
-                return Err(Error::new(
-                    *span,
-                    ErrorKind::Unexpected("'!' in declaration value"),
-                ));
-            }
-            _ => {}
-        }
+        let ComponentValue::PreservedToken(preserved_token) = component_value else {
+            return Ok(());
+        };
 
-        Ok(())
+        let kind = match preserved_token.token {
+            Token::BadString { .. } => ErrorKind::Unexpected("bad string in declaration value"),
+            Token::BadUrl { .. } => ErrorKind::Unexpected("bad url in declaration value"),
+            Token::RParen => ErrorKind::Unexpected("')' in declaration value"),
+            Token::RBracket => ErrorKind::Unexpected("']' in declaration value"),
+            Token::RBrace => ErrorKind::Unexpected("'}' in declaration value"),
+            Token::Semi => ErrorKind::Unexpected("';' in declaration value"),
+            Token::Delim { value: '!' } => ErrorKind::Unexpected("'!' in declaration value"),
+            _ => return Ok(()),
+        };
+
+        Err(Error::new(preserved_token.span, kind))
     }
 }
 

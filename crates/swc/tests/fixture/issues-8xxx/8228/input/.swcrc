@@ -1,0 +1,25 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "typescript",
+            "tsx": true,
+            "decorators": true
+        },
+        "target": "es2017",
+        "loose": false,
+        "transform": {
+            "react": {
+                "runtime": "automatic"
+            }
+        },
+        "externalHelpers": true,
+        "keepClassNames": false,
+        "minify": {
+            "compress": true
+        }
+    },
+    "module": {
+        "type": "es6"
+    },
+    "minify": false
+}

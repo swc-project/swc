@@ -1,0 +1,23 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "ecmascript",
+            "jsx": false
+        },
+        "loose": false,
+        "minify": {
+            "compress": false,
+            "mangle": false
+        }
+    },
+    "module": {
+        "type": "es6"
+    },
+    "minify": false,
+    "isModule": true,
+    "env": {
+        "targets": "ios_saf 14",
+        "coreJs": "3.21",
+        "mode": "usage"
+    }
+}

@@ -26,10 +26,6 @@ test!(
     r#"import { DEBUG } from '@ember/env-flags';
         if (DEBUG) {
             console.log('Foo!');
-        }"#,
-    r#"
-        if (true) {
-            console.log('Foo!');
         }"#
 );
 
@@ -43,11 +39,7 @@ test!(
         }
         
         import { DEBUG } from '@ember/env-flags';
-        "#,
-    r#"
-        if (true) {
-            console.log('Foo!');
-        }"#
+        "#
 );
 
 test!(
@@ -76,18 +68,6 @@ if (FEATURE_A) {
 } else if (FEATURE_B) {
   woot = () => 'toow';
 }
-",
-    "
-if (true) {
-    console.log('Foo!');
-}
-
-let woot;
-if (false) {
-  woot = () => 'woot';
-} else if (true) {
-  woot = () => 'toow';
-}
 "
 );
 
@@ -98,9 +78,6 @@ test!(
     r#"
 import * as foo from 'foo';
 console.log(foo.bar)
-"#,
-    r#"
-console.log(true);
 "#
 );
 
@@ -111,9 +88,6 @@ test!(
     r#"
 import * as foo from 'foo';
 console.log(foo["bar"])
-"#,
-    r#"
-console.log(true);
 "#
 );
 
@@ -127,12 +101,7 @@ test!(
     r#"
     import { testMap } from "testModule";
     testMap['var'];
-"#,
-    r#"
-    ({
-        'var': 'value'
-    })['var'];
-    "#
+"#
 );
 
 test!(
@@ -142,9 +111,6 @@ test!(
     r#"
 import { bar } from 'foo';
 console.log({ bar });
-"#,
-    r#"
-console.log({ bar: true });
 "#
 );
 
@@ -155,9 +121,6 @@ test!(
     r#"
 import something from 'my-mod';
 console.log(something);
-"#,
-    r#"
-console.log(true);
 "#
 );
 

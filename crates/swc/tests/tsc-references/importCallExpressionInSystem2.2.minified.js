@@ -12,7 +12,6 @@ System.register([], function(_export, _context) {
     };
 });
 //// [2.ts]
-// We use Promise<any> for now as there is no way to specify shape of module object
 System.register([], function(_export, _context) {
     return {
         setters: [],

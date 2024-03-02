@@ -48,11 +48,11 @@ export default function Home() {
             columnNumber: 17
         },
         __self: this
-    }), icon.map(function(_param) /*#__PURE__*/ {
+    }), icon.map(function(_param) {
         var href = _param.href, linkProps = _object_without_properties(_param, [
             "href"
         ]);
-        return React.createElement("link", _object_spread_props(_object_spread({
+        return /*#__PURE__*/ React.createElement("link", _object_spread_props(_object_spread({
             href: href
         }, linkProps), {
             rel: "icon",

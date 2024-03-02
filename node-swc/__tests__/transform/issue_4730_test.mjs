@@ -23,8 +23,8 @@ it("should work", async () => {
             target: "es2020",
             baseUrl: resolve("."),
             paths: {
-                "@print/a": [join(dir, "./packages/a/src/index.ts")],
-                "@print/b": [join(dir, "./packages/b/src/index.ts")],
+                "@print/a": [join(dir, "./packages/a/src/index.js")],
+                "@print/b": [join(dir, "./packages/b/src/index.js")],
             },
             externalHelpers: true,
         },
@@ -33,14 +33,14 @@ it("should work", async () => {
         },
     });
     expect(code).toMatchInlineSnapshot(`
-        "\\"use strict\\";
-        Object.defineProperty(exports, \\"__esModule\\", {
+        ""use strict";
+        Object.defineProperty(exports, "__esModule", {
             value: true
         });
-        const _interop_require_wildcard = require(\\"@swc/helpers/_/_interop_require_wildcard\\");
-        const _b = require(\\"../packages/b/src\\");
+        const _interop_require_wildcard = require("@swc/helpers/_/_interop_require_wildcard");
+        const _b = require("../packages/b/src/index.js");
         async function display() {
-            const displayA = await Promise.resolve().then(()=>/*#__PURE__*/ _interop_require_wildcard._(require(\\"../packages/a/src\\"))).then((c)=>c.displayA);
+            const displayA = await Promise.resolve().then(()=>/*#__PURE__*/ _interop_require_wildcard._(require("../packages/a/src/index.js"))).then((c)=>c.displayA);
             console.log(displayA());
             console.log((0, _b.displayB)());
         }

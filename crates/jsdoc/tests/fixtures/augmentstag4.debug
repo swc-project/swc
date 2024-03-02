@@ -19,7 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -42,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('constructor' type=static),
+                    value: "constructor",
                 },
                 tag: Class(
                     ClassTag {
@@ -66,7 +66,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('* @classdesc Base class' type=dynamic),
+                                value: "* @classdesc Base class",
                             },
                         ),
                         name: None,
@@ -95,7 +95,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('member' type=inline),
+            value: "member",
         },
         tags: [],
     },
@@ -119,7 +119,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('another member' type=dynamic),
+            value: "another member",
         },
         tags: [],
     },
@@ -143,8 +143,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('explicitly named member
-                 *' type=dynamic),
+            value: "explicitly named member\n     *",
         },
         tags: [
             TagItem {
@@ -167,7 +166,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('function' type=static),
+                    value: "function",
                 },
                 tag: Function(
                     FunctionTag {
@@ -191,7 +190,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('Base#test3' type=dynamic),
+                                value: "Base#test3",
                             },
                         ),
                     },
@@ -219,7 +218,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -242,7 +241,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('constructor' type=static),
+                    value: "constructor",
                 },
                 tag: Class(
                     ClassTag {
@@ -266,7 +265,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('* @extends Base' type=dynamic),
+                                value: "* @extends Base",
                             },
                         ),
                         name: Some(
@@ -280,7 +279,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('* @classdesc Extension of Base' type=dynamic),
+                                value: "* @classdesc Extension of Base",
                             },
                         ),
                     },

@@ -6002,7 +6002,7 @@
                           "end": 1373,
                           "ctxt": 0
                         },
-                        "value": "odd",
+                        "value": "ODD",
                         "raw": "ODD"
                       }
                     ]
@@ -6090,7 +6090,7 @@
                           "end": 1392,
                           "ctxt": 0
                         },
-                        "value": "odd",
+                        "value": "oDd",
                         "raw": "oDd"
                       }
                     ]
@@ -6266,7 +6266,7 @@
                           "end": 1432,
                           "ctxt": 0
                         },
-                        "value": "even",
+                        "value": "eVeN",
                         "raw": "eVeN"
                       }
                     ]
@@ -6354,7 +6354,7 @@
                           "end": 1452,
                           "ctxt": 0
                         },
-                        "value": "even",
+                        "value": "EVEN",
                         "raw": "EVEN"
                       }
                     ]

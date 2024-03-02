@@ -10,7 +10,7 @@ import { JwtAuthGuard } from '@server/auth/guards/JwtAuthGuard';
 import { User } from '@server/decorators/UserDecorator';
 import { User as UserType } from '@server/user/schemas/UserSchema';
 import { UpdateCommentDto } from '@server/comment/dto/UpdateCommentDto';
-export let CommentController = class CommentController {
+export class CommentController {
     constructor(commentService){
         this.commentService = commentService;
     }
@@ -20,7 +20,7 @@ export let CommentController = class CommentController {
     deleteComment(id, user) {
         return this.commentService.delete(id, user.id);
     }
-};
+}
 _ts_decorate([
     UseGuards(JwtAuthGuard),
     Put(COMMENT_UPDATE_ENDPOINT),
@@ -32,7 +32,8 @@ _ts_decorate([
         String,
         typeof UpdateCommentDto === "undefined" ? Object : UpdateCommentDto,
         typeof UserType === "undefined" ? Object : UserType
-    ])
+    ]),
+    _ts_metadata("design:returntype", void 0)
 ], CommentController.prototype, "updateComment", null);
 _ts_decorate([
     UseGuards(JwtAuthGuard),
@@ -43,7 +44,8 @@ _ts_decorate([
     _ts_metadata("design:paramtypes", [
         String,
         typeof UserType === "undefined" ? Object : UserType
-    ])
+    ]),
+    _ts_metadata("design:returntype", void 0)
 ], CommentController.prototype, "deleteComment", null);
 CommentController = _ts_decorate([
     Controller(COMMENT_CONTROLLER_ROUTE),

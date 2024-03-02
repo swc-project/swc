@@ -19,7 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -42,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('func' type=inline),
+                    value: "func",
                 },
                 tag: Function(
                     FunctionTag {
@@ -81,7 +81,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -104,7 +104,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('method' type=inline),
+                    value: "method",
                 },
                 tag: Function(
                     FunctionTag {

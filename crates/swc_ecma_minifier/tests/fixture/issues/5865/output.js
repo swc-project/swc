@@ -1,6 +1,3 @@
-v = ((a)=>(b)=>{
-        const n = a.map((t)=>{
+v = ((a)=>(b)=>a.map((t)=>{
             if (t) return ((e)=>e.foo)(t);
-        });
-        return n;
-    })(r);
+        }))(r);

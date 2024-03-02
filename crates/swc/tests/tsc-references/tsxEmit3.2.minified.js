@@ -5,9 +5,4 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
     _class_call_check(this, Foo1);
 }, (M1.S || (M1.S = {})).Bar = function Bar1() {
     _class_call_check(this, Bar1);
-}, M2 = M || (M = {}), // Emit M.Foo
-Foo, Foo, M2.S || (M2.S = {}), // Emit M.Foo
-Foo, Foo, // Emit S.Bar
-Bar, Bar, M || (M = {}), // Emit M.S.Bar
-S.Bar, S.Bar, M || (M = {}), // Emit M_1.Foo
-Foo, Foo;
+}, Foo, Foo, (M2 = M || (M = {})).S || (M2.S = {}), Foo, Foo, Bar, Bar, M || (M = {}), S.Bar, S.Bar, M || (M = {}), Foo, Foo;

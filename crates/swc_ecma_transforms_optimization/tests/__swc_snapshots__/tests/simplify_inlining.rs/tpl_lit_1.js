@@ -1,0 +1,2 @@
+var name;
+`Hello ${'Foo'}`;

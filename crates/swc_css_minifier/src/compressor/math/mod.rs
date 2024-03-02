@@ -1,10 +1,7 @@
-use swc_atoms::js_word;
 use swc_css_ast::*;
 
 pub fn is_calc_function_name(function_name: &FunctionName) -> bool {
-    *function_name == js_word!("calc")
-        || *function_name == js_word!("-webkit-calc")
-        || *function_name == js_word!("-moz-calc")
+    *function_name == "calc" || *function_name == "-webkit-calc" || *function_name == "-moz-calc"
 }
 
 pub fn transform_calc_value_into_component_value(calc_value: &CalcValue) -> Option<ComponentValue> {

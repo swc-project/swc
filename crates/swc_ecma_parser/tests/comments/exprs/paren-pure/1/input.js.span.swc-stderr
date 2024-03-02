@@ -1,0 +1,108 @@
+
+  x Module
+   ,-[$DIR/tests/comments/exprs/paren-pure/1/input.js:1:1]
+ 1 | /*#__PURE__*/ (console.log('simple'))
+   :               ^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x ModuleItem
+   ,-[$DIR/tests/comments/exprs/paren-pure/1/input.js:1:1]
+ 1 | /*#__PURE__*/ (console.log('simple'))
+   :               ^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Stmt
+   ,-[$DIR/tests/comments/exprs/paren-pure/1/input.js:1:1]
+ 1 | /*#__PURE__*/ (console.log('simple'))
+   :               ^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x ExprStmt
+   ,-[$DIR/tests/comments/exprs/paren-pure/1/input.js:1:1]
+ 1 | /*#__PURE__*/ (console.log('simple'))
+   :               ^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Expr
+   ,-[$DIR/tests/comments/exprs/paren-pure/1/input.js:1:1]
+ 1 | /*#__PURE__*/ (console.log('simple'))
+   :               ^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x ParenExpr
+   ,-[$DIR/tests/comments/exprs/paren-pure/1/input.js:1:1]
+ 1 | /*#__PURE__*/ (console.log('simple'))
+   :               ^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Expr
+   ,-[$DIR/tests/comments/exprs/paren-pure/1/input.js:1:1]
+ 1 | /*#__PURE__*/ (console.log('simple'))
+   :                ^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x CallExpr
+   ,-[$DIR/tests/comments/exprs/paren-pure/1/input.js:1:1]
+ 1 | /*#__PURE__*/ (console.log('simple'))
+   :                ^^^^^^^^^^^^^^^^^^^^^
+   `----
+
+  x Callee
+   ,-[$DIR/tests/comments/exprs/paren-pure/1/input.js:1:1]
+ 1 | /*#__PURE__*/ (console.log('simple'))
+   :                ^^^^^^^^^^^
+   `----
+
+  x Expr
+   ,-[$DIR/tests/comments/exprs/paren-pure/1/input.js:1:1]
+ 1 | /*#__PURE__*/ (console.log('simple'))
+   :                ^^^^^^^^^^^
+   `----
+
+  x MemberExpr
+   ,-[$DIR/tests/comments/exprs/paren-pure/1/input.js:1:1]
+ 1 | /*#__PURE__*/ (console.log('simple'))
+   :                ^^^^^^^^^^^
+   `----
+
+  x Expr
+   ,-[$DIR/tests/comments/exprs/paren-pure/1/input.js:1:1]
+ 1 | /*#__PURE__*/ (console.log('simple'))
+   :                ^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/comments/exprs/paren-pure/1/input.js:1:1]
+ 1 | /*#__PURE__*/ (console.log('simple'))
+   :                ^^^^^^^
+   `----
+
+  x Ident
+   ,-[$DIR/tests/comments/exprs/paren-pure/1/input.js:1:1]
+ 1 | /*#__PURE__*/ (console.log('simple'))
+   :                        ^^^
+   `----
+
+  x ExprOrSpread
+   ,-[$DIR/tests/comments/exprs/paren-pure/1/input.js:1:1]
+ 1 | /*#__PURE__*/ (console.log('simple'))
+   :                            ^^^^^^^^
+   `----
+
+  x Expr
+   ,-[$DIR/tests/comments/exprs/paren-pure/1/input.js:1:1]
+ 1 | /*#__PURE__*/ (console.log('simple'))
+   :                            ^^^^^^^^
+   `----
+
+  x Lit
+   ,-[$DIR/tests/comments/exprs/paren-pure/1/input.js:1:1]
+ 1 | /*#__PURE__*/ (console.log('simple'))
+   :                            ^^^^^^^^
+   `----
+
+  x Str
+   ,-[$DIR/tests/comments/exprs/paren-pure/1/input.js:1:1]
+ 1 | /*#__PURE__*/ (console.log('simple'))
+   :                            ^^^^^^^^
+   `----

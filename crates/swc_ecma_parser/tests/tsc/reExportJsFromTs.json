@@ -122,7 +122,8 @@
         "raw": "\"../lib/constants\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ExportNamedDeclaration",

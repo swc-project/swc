@@ -9,8 +9,8 @@ function f1() {
     eval(x, y, z, e);
 }
 function p1() {
-    var o = foo(), r = bar(), eval = baz();
-    return o + r + eval;
+    var a = foo(), o = bar(), eval = baz();
+    return a + o + eval;
 }
 function p2() {
     var a = foo(), b = bar(), eval = baz;

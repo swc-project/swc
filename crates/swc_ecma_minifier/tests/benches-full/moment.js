@@ -750,7 +750,7 @@
                 if (obsOffset) return obsOffsets[obsOffset];
                 if (militaryOffset) return 0;
                 var hm = parseInt(numOffset, 10), m = hm % 100;
-                return 60 * ((hm - m) / 100) + m;
+                return (hm - m) / 100 * 60 + m;
             }(match[8], match[9], match[10]), config._d = createUTCDate.apply(null, config._a), config._d.setUTCMinutes(config._d.getUTCMinutes() - config._tzm), getParsingFlags(config).rfc2822 = !0;
         } else config._isValid = !1;
     }
@@ -1390,8 +1390,8 @@
         return 0 > m.year() || m.year() > 9999 ? formatMoment(m, utc ? 'YYYYYY-MM-DD[T]HH:mm:ss.SSS[Z]' : 'YYYYYY-MM-DD[T]HH:mm:ss.SSSZ') : isFunction(Date.prototype.toISOString) ? utc ? this.toDate().toISOString() : new Date(this.valueOf() + 60000 * this.utcOffset()).toISOString().replace('Z', formatMoment(m, 'Z')) : formatMoment(m, utc ? 'YYYY-MM-DD[T]HH:mm:ss.SSS[Z]' : 'YYYY-MM-DD[T]HH:mm:ss.SSSZ');
     }, proto.inspect = function() {
         if (!this.isValid()) return 'moment.invalid(/* ' + this._i + ' */)';
-        var prefix, year, suffix, func = 'moment', zone = '';
-        return this.isLocal() || (func = 0 === this.utcOffset() ? 'moment.utc' : 'moment.parseZone', zone = 'Z'), prefix = '[' + func + '("]', year = 0 <= this.year() && 9999 >= this.year() ? 'YYYY' : 'YYYYYY', suffix = zone + '[")]', this.format(prefix + year + '-MM-DD[T]HH:mm:ss.SSS' + suffix);
+        var prefix, year, datetime, suffix, func = 'moment', zone = '';
+        return this.isLocal() || (func = 0 === this.utcOffset() ? 'moment.utc' : 'moment.parseZone', zone = 'Z'), prefix = '[' + func + '("]', year = 0 <= this.year() && 9999 >= this.year() ? 'YYYY' : 'YYYYYY', datetime = '-MM-DD[T]HH:mm:ss.SSS', suffix = zone + '[")]', this.format(prefix + year + datetime + suffix);
     }, 'undefined' != typeof Symbol && null != Symbol.for && (proto[Symbol.for('nodejs.util.inspect.custom')] = function() {
         return 'Moment<' + this.format() + '>';
     }), proto.toJSON = function() {
@@ -1506,7 +1506,7 @@
         var other, c = {};
         return copyConfig(c, this), (c = prepareConfig(c))._a ? (other = c._isUTC ? createUTC(c._a) : createLocal(c._a), this._isDSTShifted = this.isValid() && function(array1, array2, dontConvert) {
             var i, len = Math.min(array1.length, array2.length), lengthDiff = Math.abs(array1.length - array2.length), diffs = 0;
-            for(i = 0; i < len; i++)(dontConvert && array1[i] !== array2[i] || !dontConvert && toInt(array1[i]) !== toInt(array2[i])) && diffs++;
+            for(i = 0; i < len; i++)toInt(array1[i]) !== toInt(array2[i]) && diffs++;
             return diffs + lengthDiff;
         }(c._a, other.toArray()) > 0) : this._isDSTShifted = !1, this._isDSTShifted;
     });

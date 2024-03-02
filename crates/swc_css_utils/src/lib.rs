@@ -4,7 +4,7 @@ use std::{borrow::Cow, f64::consts::PI, str};
 
 use once_cell::sync::Lazy;
 use serde::{Deserialize, Serialize};
-use swc_atoms::{js_word, JsWord};
+use swc_atoms::{Atom, StaticString};
 use swc_common::collections::AHashMap;
 use swc_css_ast::*;
 use swc_css_visit::{VisitMut, VisitMutWith};
@@ -18,7 +18,7 @@ impl VisitMut for IdentReplacer<'_> {
     fn visit_mut_ident(&mut self, n: &mut Ident) {
         n.visit_mut_children_with(self);
 
-        if n.value.eq_str_ignore_ascii_case(self.from) {
+        if n.value.eq_ignore_ascii_case(self.from) {
             n.value = self.to.into();
             n.raw = None;
         }
@@ -42,11 +42,11 @@ impl VisitMut for FunctionNameReplacer<'_> {
         n.visit_mut_children_with(self);
 
         match &mut n.name {
-            FunctionName::Ident(name) if name.value.eq_str_ignore_ascii_case(self.from) => {
+            FunctionName::Ident(name) if name.value.eq_ignore_ascii_case(self.from) => {
                 name.value = self.to.into();
                 name.raw = None;
             }
-            FunctionName::DashedIdent(name) if name.value.eq_str_ignore_ascii_case(self.from) => {
+            FunctionName::DashedIdent(name) if name.value.eq_ignore_ascii_case(self.from) => {
                 name.value = self.to.into();
                 name.raw = None;
             }
@@ -152,12 +152,9 @@ pub struct NamedColor {
     pub rgb: Vec<u8>,
 }
 
-pub static NAMED_COLORS: Lazy<AHashMap<JsWord, NamedColor>> = Lazy::new(|| {
-    let named_colors: AHashMap<JsWord, NamedColor> =
-        serde_json::from_str(include_str!("./named-colors.json"))
-            .expect("failed to parse named-colors.json for html entities");
-
-    named_colors
+pub static NAMED_COLORS: Lazy<AHashMap<StaticString, NamedColor>> = Lazy::new(|| {
+    serde_json::from_str(include_str!("./named-colors.json"))
+        .expect("failed to parse named-colors.json for html entities")
 });
 
 #[inline]
@@ -394,12 +391,12 @@ pub fn hex_to_rgba(hex: &str) -> (u8, u8, u8, f64) {
     }
 }
 
-pub fn angle_to_deg(value: f64, from: &JsWord) -> f64 {
-    match *from {
-        js_word!("deg") => value,
-        js_word!("grad") => value * 180.0 / 200.0,
-        js_word!("turn") => value * 360.0,
-        js_word!("rad") => value * 180.0 / PI,
+pub fn angle_to_deg(value: f64, from: &Atom) -> f64 {
+    match &*from.to_ascii_lowercase() {
+        "deg" => value,
+        "grad" => value * 180.0 / 200.0,
+        "turn" => value * 360.0,
+        "rad" => value * 180.0 / PI,
         _ => {
             unreachable!("Unknown angle type: {:?}", from);
         }

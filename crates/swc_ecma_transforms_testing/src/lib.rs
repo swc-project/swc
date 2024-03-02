@@ -8,25 +8,26 @@ use std::{
     fs::{self, create_dir_all, read_to_string, OpenOptions},
     io::Write,
     mem::take,
-    path::Path,
+    panic,
+    path::{Path, PathBuf},
     process::Command,
     rc::Rc,
 };
 
 use ansi_term::Color;
 use anyhow::Error;
+use base64::prelude::{Engine, BASE64_STANDARD};
 use serde::de::DeserializeOwned;
-use sha1::{Digest, Sha1};
+use sha2::{Digest, Sha256};
 use swc_common::{
     chain,
     comments::SingleThreadedComments,
     errors::{Handler, HANDLER},
     source_map::SourceMapGenConfig,
     sync::Lrc,
-    util::take::Take,
     FileName, Mark, SourceMap, DUMMY_SP,
 };
-use swc_ecma_ast::{Pat, *};
+use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
 use swc_ecma_testing::{exec_node_js, JsExecOptions};
@@ -37,9 +38,13 @@ use swc_ecma_transforms_base::{
     pass::noop,
 };
 use swc_ecma_utils::{quote_ident, quote_str, ExprFactory};
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, FoldWith, VisitMut, VisitMutWith};
+use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, FoldWith, VisitMut};
 use tempfile::tempdir_in;
-use testing::{assert_eq, find_executable, NormalizedOutput};
+use testing::{
+    assert_eq, find_executable, NormalizedOutput, CARGO_TARGET_DIR, CARGO_WORKSPACE_ROOT,
+};
+
+pub mod babel_like;
 
 pub struct Tester<'a> {
     pub cm: Lrc<SourceMap>,
@@ -177,9 +182,7 @@ impl<'a> Tester<'a> {
             res?
         };
 
-        let module = Program::Module(module)
-            .fold_with(&mut tr)
-            .fold_with(&mut as_folder(Normalizer));
+        let module = Program::Module(module).fold_with(&mut tr);
 
         Ok(module.expect_module())
     }
@@ -345,28 +348,173 @@ pub fn test_transform<F, P>(
     });
 }
 
-/// Test transformation.
+/// NOT A PUBLIC API. DO NOT USE.
+#[doc(hidden)]
+#[track_caller]
+pub fn test_inline_input_output<F, P>(syntax: Syntax, tr: F, input: &str, output: &str)
+where
+    F: FnOnce(&mut Tester) -> P,
+    P: Fold,
+{
+    let _logger = testing::init();
+
+    let expected = output;
+
+    let expected_src = Tester::run(|tester| {
+        let expected_module = tester.apply_transform(noop(), "expected.js", syntax, expected)?;
+
+        let expected_src = tester.print(&expected_module, &Default::default());
+
+        println!(
+            "----- {} -----\n{}",
+            Color::Green.paint("Expected"),
+            expected_src
+        );
+
+        Ok(expected_src)
+    });
+
+    let actual_src = Tester::run_captured(|tester| {
+        println!("----- {} -----\n{}", Color::Green.paint("Input"), input);
+
+        let tr = tr(tester);
+
+        println!("----- {} -----", Color::Green.paint("Actual"));
+
+        let actual = tester.apply_transform(tr, "input.js", syntax, input)?;
+
+        match ::std::env::var("PRINT_HYGIENE") {
+            Ok(ref s) if s == "1" => {
+                let hygiene_src = tester.print(
+                    &actual.clone().fold_with(&mut HygieneVisualizer),
+                    &Default::default(),
+                );
+                println!(
+                    "----- {} -----\n{}",
+                    Color::Green.paint("Hygiene"),
+                    hygiene_src
+                );
+            }
+            _ => {}
+        }
+
+        let actual = actual
+            .fold_with(&mut crate::hygiene::hygiene())
+            .fold_with(&mut crate::fixer::fixer(Some(&tester.comments)));
+
+        let actual_src = tester.print(&actual, &Default::default());
+
+        Ok(actual_src)
+    })
+    .0
+    .unwrap();
+
+    assert_eq!(
+        expected_src, actual_src,
+        "Exepcted:\n{expected_src}\nActual:\n{actual_src}\n",
+    );
+}
+
+/// NOT A PUBLIC API. DO NOT USE.
+#[doc(hidden)]
+#[track_caller]
+pub fn test_inlined_transform<F, P>(test_name: &str, syntax: Syntax, tr: F, input: &str)
+where
+    F: FnOnce(&mut Tester) -> P,
+    P: Fold,
+{
+    let loc = panic::Location::caller();
+
+    let manifest_dir = PathBuf::from(env::var("CARGO_MANIFEST_DIR").expect("CARGO_MANIFEST_DIR"));
+
+    let test_file_path = CARGO_WORKSPACE_ROOT.join(loc.file());
+
+    let snapshot_dir = manifest_dir.join("tests").join("__swc_snapshots__").join(
+        test_file_path
+            .strip_prefix(&manifest_dir)
+            .expect("test_inlined_transform does not support paths outside of the crate root"),
+    );
+
+    test_fixture_inner(
+        syntax,
+        Box::new(move |tester| Box::new(tr(tester))),
+        input,
+        &snapshot_dir.join(format!("{test_name}.js")),
+        Default::default(),
+    )
+}
+
+/// NOT A PUBLIC API. DO NOT USE.
+#[doc(hidden)]
 #[macro_export]
-macro_rules! test {
-    (ignore, $syntax:expr, $tr:expr, $test_name:ident, $input:expr, $expected:expr) => {
+macro_rules! test_location {
+    () => {{
+        $crate::TestLocation {}
+    }};
+}
+
+#[macro_export]
+macro_rules! test_inline {
+    (ignore, $syntax:expr, $tr:expr, $test_name:ident, $input:expr, $output:expr) => {
         #[test]
         #[ignore]
         fn $test_name() {
-            $crate::test_transform($syntax, $tr, $input, $expected, false)
+            $crate::test_inline_input_output($syntax, $tr, $input, $output)
         }
     };
 
-    ($syntax:expr, $tr:expr, $test_name:ident, $input:expr, $expected:expr) => {
+    ($syntax:expr, $tr:expr, $test_name:ident, $input:expr, $output:expr) => {
         #[test]
         fn $test_name() {
-            $crate::test_transform($syntax, $tr, $input, $expected, false)
+            $crate::test_inline_input_output($syntax, $tr, $input, $output)
+        }
+    };
+}
+
+test_inline!(
+    ignore,
+    Syntax::default(),
+    |_| noop(),
+    test_inline_ignored,
+    "class Foo {}",
+    "class Foo {}"
+);
+
+test_inline!(
+    Syntax::default(),
+    |_| noop(),
+    test_inline_pass,
+    "class Foo {}",
+    "class Foo {}"
+);
+
+#[test]
+#[should_panic]
+fn test_inline_should_fail() {
+    test_inline_input_output(Default::default(), |_| noop(), "class Foo {}", "");
+}
+
+#[macro_export]
+macro_rules! test {
+    (ignore, $syntax:expr, $tr:expr, $test_name:ident, $input:expr) => {
+        #[test]
+        #[ignore]
+        fn $test_name() {
+            $crate::test_inlined_transform(stringify!($test_name), $syntax, $tr, $input)
         }
     };
 
-    ($syntax:expr, $tr:expr, $test_name:ident, $input:expr, $expected:expr, ok_if_code_eq) => {
+    ($syntax:expr, $tr:expr, $test_name:ident, $input:expr) => {
         #[test]
         fn $test_name() {
-            $crate::test_transform($syntax, $tr, $input, $expected, true)
+            $crate::test_inlined_transform(stringify!($test_name), $syntax, $tr, $input)
+        }
+    };
+
+    ($syntax:expr, $tr:expr, $test_name:ident, $input:expr, ok_if_code_eq) => {
+        #[test]
+        fn $test_name() {
+            $crate::test_inlined_transform(stringify!($test_name), $syntax, $tr, $input)
         }
     };
 }
@@ -421,7 +569,7 @@ where
 }
 
 /// Execute `jest` after transpiling `input` using `tr`.
-pub fn exec_tr<F, P>(test_name: &str, syntax: Syntax, tr: F, input: &str)
+pub fn exec_tr<F, P>(_test_name: &str, syntax: Syntax, tr: F, input: &str)
 where
     F: FnOnce(&mut Tester<'_>) -> P,
     P: Fold,
@@ -468,23 +616,20 @@ where
             src_without_helpers
         );
 
-        exec_with_node_test_runner(test_name, &src)
+        exec_with_node_test_runner(&src).map(|_| {})
     })
 }
 
 fn calc_hash(s: &str) -> String {
-    let mut hasher = Sha1::new();
+    let mut hasher = Sha256::new();
     hasher.update(s.as_bytes());
     let sum = hasher.finalize();
 
     hex::encode(sum)
 }
 
-fn exec_with_node_test_runner(test_name: &str, src: &str) -> Result<(), ()> {
-    let root = Path::new(env!("CARGO_MANIFEST_DIR"))
-        .join("target")
-        .join("testing")
-        .join(test_name);
+fn exec_with_node_test_runner(src: &str) -> Result<(), ()> {
+    let root = CARGO_TARGET_DIR.join("swc-es-exec-testing");
 
     create_dir_all(&root).expect("failed to create parent directory for temp directory");
 
@@ -503,10 +648,11 @@ fn exec_with_node_test_runner(test_name: &str, src: &str) -> Result<(), ()> {
     let tmp_dir = tempdir_in(&root).expect("failed to create a temp directory");
     create_dir_all(&tmp_dir).unwrap();
 
-    let path = tmp_dir.path().join(format!("{}.test.js", test_name));
+    let path = tmp_dir.path().join(format!("{}.test.js", hash));
 
     let mut tmp = OpenOptions::new()
         .create(true)
+        .truncate(true)
         .write(true)
         .open(&path)
         .expect("failed to create a temp file");
@@ -590,19 +736,6 @@ macro_rules! compare_stdout {
     };
 }
 
-struct Normalizer;
-impl VisitMut for Normalizer {
-    fn visit_mut_pat_or_expr(&mut self, node: &mut PatOrExpr) {
-        node.visit_mut_children_with(self);
-
-        if let PatOrExpr::Pat(pat) = node {
-            if let Pat::Expr(e) = &mut **pat {
-                *node = PatOrExpr::Expr(e.take());
-            }
-        }
-    }
-}
-
 /// Converts `foo#1` to `foo__1` so it can be verified by the test.
 pub struct HygieneTester;
 impl Fold for HygieneTester {
@@ -644,26 +777,40 @@ pub fn parse_options<T>(dir: &Path) -> T
 where
     T: DeserializeOwned,
 {
-    let mut s = String::from("{}");
+    type Map = serde_json::Map<String, serde_json::Value>;
 
-    fn check(dir: &Path) -> Option<String> {
+    let mut value = Map::default();
+
+    fn check(dir: &Path) -> Option<Map> {
         let file = dir.join("options.json");
         if let Ok(v) = read_to_string(&file) {
             eprintln!("Using options.json at {}", file.display());
             eprintln!("----- {} -----\n{}", Color::Green.paint("Options"), v);
 
-            return Some(v);
+            return Some(serde_json::from_str(&v).unwrap_or_else(|err| {
+                panic!("failed to deserialize options.json: {}\n{}", err, v)
+            }));
         }
 
-        dir.parent().and_then(check)
+        None
     }
 
-    if let Some(content) = check(dir) {
-        s = content;
+    let mut c = Some(dir);
+
+    while let Some(dir) = c {
+        if let Some(new) = check(dir) {
+            for (k, v) in new {
+                if !value.contains_key(&k) {
+                    value.insert(k, v);
+                }
+            }
+        }
+
+        c = dir.parent();
     }
 
-    serde_json::from_str(&s)
-        .unwrap_or_else(|err| panic!("failed to deserialize options.json: {}\n{}", err, s))
+    serde_json::from_value(serde_json::Value::Object(value.clone()))
+        .unwrap_or_else(|err| panic!("failed to deserialize options.json: {}\n{:?}", err, value))
 }
 
 /// Config for [test_fixture]. See [test_fixture] for documentation.
@@ -682,7 +829,6 @@ pub struct FixtureTestConfig {
     /// Defaults to false.
     pub allow_error: bool,
 }
-
 /// You can do `UPDATE=1 cargo test` to update fixtures.
 pub fn test_fixture<P>(
     syntax: Syntax,
@@ -693,6 +839,24 @@ pub fn test_fixture<P>(
 ) where
     P: Fold,
 {
+    let input = fs::read_to_string(input).unwrap();
+
+    test_fixture_inner(
+        syntax,
+        Box::new(|tester| Box::new(tr(tester))),
+        &input,
+        output,
+        config,
+    );
+}
+
+fn test_fixture_inner<'a>(
+    syntax: Syntax,
+    tr: Box<dyn 'a + FnOnce(&mut Tester) -> Box<dyn 'a + Fold>>,
+    input: &str,
+    output: &Path,
+    config: FixtureTestConfig,
+) {
     let _logger = testing::init();
 
     let expected = read_to_string(output);
@@ -718,15 +882,13 @@ pub fn test_fixture<P>(
     let mut sourcemap = None;
 
     let (actual_src, stderr) = Tester::run_captured(|tester| {
-        let input_str = read_to_string(input).unwrap();
-        println!("----- {} -----\n{}", Color::Green.paint("Input"), input_str);
+        println!("----- {} -----\n{}", Color::Green.paint("Input"), input);
 
         let tr = tr(tester);
 
         println!("----- {} -----", Color::Green.paint("Actual"));
 
-        let actual =
-            tester.apply_transform(tr, "input.js", syntax, &read_to_string(input).unwrap())?;
+        let actual = tester.apply_transform(tr, "input.js", syntax, input)?;
 
         match ::std::env::var("PRINT_HYGIENE") {
             Ok(ref s) if s == "1" => {
@@ -828,7 +990,7 @@ fn visualizer_url(code: &str, map: &sourcemap::SourceMap) -> String {
 
     let code_len = format!("{}\0", code.len());
     let map_len = format!("{}\0", map.len());
-    let hash = base64::encode(format!("{}{}{}{}", code_len, code, map_len, map));
+    let hash = BASE64_STANDARD.encode(format!("{}{}{}{}", code_len, code, map_len, map));
 
     format!("https://evanw.github.io/source-map-visualization/#{}", hash)
 }

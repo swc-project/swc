@@ -1,4 +1,4 @@
-import { nanoid } from "./nanoid";
+import { nanoid } from "nanoid";
 import { fnv1a } from "../fnv1a";
 export var VERCEL_AUTHENTICATED_PREFIX = "v_";
 /**

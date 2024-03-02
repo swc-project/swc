@@ -135,7 +135,7 @@
  4 |     color: red;
    `----
 
-  x Ident { value: Atom('div' type=static), raw: "div" }
+  x Ident { value: "div", raw: "div" }
    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:2:1]
  2 | 
  3 | div {
@@ -276,7 +276,7 @@
    : ^^^^
    `----
 
-  x Ident { value: Atom('test' type=inline), raw: "test" }
+  x Ident { value: "test", raw: "test" }
    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:6:1]
  6 | 
  7 | test
@@ -540,7 +540,7 @@
     : ^^^^
     `----
 
-  x Ident { value: Atom('test' type=inline), raw: "test" }
+  x Ident { value: "test", raw: "test" }
     ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:15:1]
  15 | 
  16 | test
@@ -603,7 +603,7 @@
  21 | }
     `----
 
-  x Ident { value: Atom('color' type=static), raw: "color" }
+  x Ident { value: "color", raw: "color" }
     ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:19:1]
  19 | 
  20 |     color: blue;
@@ -651,7 +651,7 @@
  21 | }
     `----
 
-  x Ident { value: Atom('blue' type=static), raw: "blue" }
+  x Ident { value: "blue", raw: "blue" }
     ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:19:1]
  19 | 
  20 |     color: blue;
@@ -879,7 +879,7 @@
     : ^^^^
     `----
 
-  x Ident { value: Atom('test' type=inline), raw: "test" }
+  x Ident { value: "test", raw: "test" }
     ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:26:1]
  26 | 
  27 | test
@@ -1146,7 +1146,7 @@
  36 |          color: red;
     `----
 
-  x Ident { value: Atom('class' type=static), raw: "class" }
+  x Ident { value: "class", raw: "class" }
     ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:34:1]
  34 | a {
  35 |     <!-- .class {

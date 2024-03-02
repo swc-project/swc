@@ -4,7 +4,7 @@
 #[macro_use]
 extern crate napi_derive;
 
-extern crate swc_node_base;
+extern crate swc_malloc;
 
 use std::{env, panic::set_hook};
 

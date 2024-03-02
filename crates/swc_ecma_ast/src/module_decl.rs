@@ -85,6 +85,28 @@ pub struct ImportDecl {
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
     pub with: Option<Box<ObjectLit>>,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub phase: ImportPhase,
+}
+
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Hash, Default, EqIgnoreSpan)]
+#[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
+#[cfg_attr(
+    any(feature = "rkyv-impl"),
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
+#[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
+#[cfg_attr(feature = "rkyv-impl", archive_attr(repr(u32)))]
+#[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
+pub enum ImportPhase {
+    #[default]
+    #[cfg_attr(feature = "serde-impl", serde(rename = "evaluation"))]
+    Evaluation,
+    #[cfg_attr(feature = "serde-impl", serde(rename = "source"))]
+    Source,
+    #[cfg_attr(feature = "serde-impl", serde(rename = "defer"))]
+    Defer,
 }
 
 impl Take for ImportDecl {
@@ -95,6 +117,7 @@ impl Take for ImportDecl {
             src: Take::dummy(),
             type_only: Default::default(),
             with: Take::dummy(),
+            phase: Default::default(),
         }
     }
 }

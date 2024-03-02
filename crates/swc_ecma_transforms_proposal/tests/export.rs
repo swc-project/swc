@@ -23,45 +23,33 @@ test!(
     syntax_default(),
     |_| tr(),
     default_es6,
-    r#"export foo from "bar";"#,
-    r#"
-export { default as foo } from "bar";
-"#
+    r#"export foo from "bar";"#
 );
 
 test!(
     syntax_default(),
     |_| tr(),
     default_compounded_es6,
-    r#"export v, { x, y as w } from "mod";"#,
-    r#"export { default as v, x, y as w } from "mod";"#
+    r#"export v, { x, y as w } from "mod";"#
 );
 
 test!(
     syntax_default(),
     |_| tr(),
     namespace_compound_es6,
-    r"export * as foo, { bar } from 'bar';",
-    "import * as _foo from 'bar';
-export { _foo as foo };
-export { bar } from 'bar';
-"
+    r"export * as foo, { bar } from 'bar';"
 );
 
 test!(
     syntax_namespace(),
     |_| tr(),
     namespace_default,
-    "export * as default from 'foo';",
-    "import * as _default from 'foo';
-export { _default as default };"
+    "export * as default from 'foo';"
 );
 
 test!(
     syntax_namespace(),
     |_| tr(),
     namespace_es6,
-    "export * as foo from 'bar';",
-    "import * as _foo from 'bar';
-export { _foo as foo };"
+    "export * as foo from 'bar';"
 );

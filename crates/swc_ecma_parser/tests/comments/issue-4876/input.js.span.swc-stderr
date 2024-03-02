@@ -1,0 +1,128 @@
+
+  x Module
+    ,-[$DIR/tests/comments/issue-4876/input.js:9:1]
+  9 | // a
+ 10 | console.log(1);
+    : ^^^^^^^^^^^^^^^
+ 11 | // b
+    `----
+
+  x ModuleItem
+    ,-[$DIR/tests/comments/issue-4876/input.js:9:1]
+  9 | // a
+ 10 | console.log(1);
+    : ^^^^^^^^^^^^^^^
+ 11 | // b
+    `----
+
+  x Stmt
+    ,-[$DIR/tests/comments/issue-4876/input.js:9:1]
+  9 | // a
+ 10 | console.log(1);
+    : ^^^^^^^^^^^^^^^
+ 11 | // b
+    `----
+
+  x ExprStmt
+    ,-[$DIR/tests/comments/issue-4876/input.js:9:1]
+  9 | // a
+ 10 | console.log(1);
+    : ^^^^^^^^^^^^^^^
+ 11 | // b
+    `----
+
+  x Expr
+    ,-[$DIR/tests/comments/issue-4876/input.js:9:1]
+  9 | // a
+ 10 | console.log(1);
+    : ^^^^^^^^^^^^^^
+ 11 | // b
+    `----
+
+  x CallExpr
+    ,-[$DIR/tests/comments/issue-4876/input.js:9:1]
+  9 | // a
+ 10 | console.log(1);
+    : ^^^^^^^^^^^^^^
+ 11 | // b
+    `----
+
+  x Callee
+    ,-[$DIR/tests/comments/issue-4876/input.js:9:1]
+  9 | // a
+ 10 | console.log(1);
+    : ^^^^^^^^^^^
+ 11 | // b
+    `----
+
+  x Expr
+    ,-[$DIR/tests/comments/issue-4876/input.js:9:1]
+  9 | // a
+ 10 | console.log(1);
+    : ^^^^^^^^^^^
+ 11 | // b
+    `----
+
+  x MemberExpr
+    ,-[$DIR/tests/comments/issue-4876/input.js:9:1]
+  9 | // a
+ 10 | console.log(1);
+    : ^^^^^^^^^^^
+ 11 | // b
+    `----
+
+  x Expr
+    ,-[$DIR/tests/comments/issue-4876/input.js:9:1]
+  9 | // a
+ 10 | console.log(1);
+    : ^^^^^^^
+ 11 | // b
+    `----
+
+  x Ident
+    ,-[$DIR/tests/comments/issue-4876/input.js:9:1]
+  9 | // a
+ 10 | console.log(1);
+    : ^^^^^^^
+ 11 | // b
+    `----
+
+  x Ident
+    ,-[$DIR/tests/comments/issue-4876/input.js:9:1]
+  9 | // a
+ 10 | console.log(1);
+    :         ^^^
+ 11 | // b
+    `----
+
+  x ExprOrSpread
+    ,-[$DIR/tests/comments/issue-4876/input.js:9:1]
+  9 | // a
+ 10 | console.log(1);
+    :             ^
+ 11 | // b
+    `----
+
+  x Expr
+    ,-[$DIR/tests/comments/issue-4876/input.js:9:1]
+  9 | // a
+ 10 | console.log(1);
+    :             ^
+ 11 | // b
+    `----
+
+  x Lit
+    ,-[$DIR/tests/comments/issue-4876/input.js:9:1]
+  9 | // a
+ 10 | console.log(1);
+    :             ^
+ 11 | // b
+    `----
+
+  x Number
+    ,-[$DIR/tests/comments/issue-4876/input.js:9:1]
+  9 | // a
+ 10 | console.log(1);
+    :             ^
+ 11 | // b
+    `----

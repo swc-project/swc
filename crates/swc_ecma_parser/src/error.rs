@@ -147,6 +147,7 @@ pub enum SyntaxError {
     InvalidPat,
     InvalidExpr,
     NotSimpleAssign,
+    InvalidAssignTarget,
     ExpectedIdent,
     ExpectedSemi,
     DuplicateLabel(JsWord),
@@ -199,6 +200,7 @@ pub enum SyntaxError {
     TrailingCommaInsideImport,
 
     ExportDefaultWithOutFrom,
+    ExportExpectFrom(JsWord),
 
     DotsWithoutIdentifier,
 
@@ -504,6 +506,10 @@ impl SyntaxError {
                 "export default statements required from '...';".into()
             }
 
+            SyntaxError::ExportExpectFrom(s) => {
+                format!("`{}` cannot be used without `from` clause", s).into()
+            }
+
             SyntaxError::DotsWithoutIdentifier => {
                 "`...` must be followed by an identifier in declaration contexts".into()
             }
@@ -743,6 +749,7 @@ impl SyntaxError {
                                                     .mts or .cts extension. Add a trailing comma, \
                                                     as in `<T,>() => ...`."
                 .into(),
+            SyntaxError::InvalidAssignTarget => "Invalid assignment target".into(),
         }
     }
 }

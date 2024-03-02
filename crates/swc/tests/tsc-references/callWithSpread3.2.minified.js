@@ -1,6 +1,5 @@
 //// [callWithSpread3.ts]
 import { _ as _to_consumable_array } from "@swc/helpers/_/_to_consumable_array";
-// error
 fs2.apply(void 0, [
     "a"
 ].concat(_to_consumable_array(s2))), fs2.apply(void 0, [
@@ -20,9 +19,6 @@ fs2.apply(void 0, [
     "d"
 ])), fs2.apply(void 0, _to_consumable_array(s2).concat([
     "a"
-])), fs2.apply(void 0, _to_consumable_array(s3)), fs2_.apply(void 0, _to_consumable_array(s_)), fs2_.apply(void 0, _to_consumable_array(s2n_)), fs2_.apply(void 0, _to_consumable_array(s_).concat(_to_consumable_array(s_))), fs2_.apply(void 0, _to_consumable_array(s_).concat(_to_consumable_array(s_), _to_consumable_array(s_))), // fs2n_(...s2, ...s_); //           FIXME: should be a type error
-fs2n_.apply(void 0, _to_consumable_array(s2_)), // ok
-fs2_.apply(void 0, _to_consumable_array(s2_)), fs2_.apply(void 0, _to_consumable_array(s2_).concat(_to_consumable_array(s_))), fs2_.apply(void 0, _to_consumable_array(s2_).concat(_to_consumable_array(s2_))), fs2_.apply(void 0, _to_consumable_array(s_).concat(_to_consumable_array(s2_))), fs2n_.apply(void 0, _to_consumable_array(s2n_)), fs2n_.apply(void 0, _to_consumable_array(s2)), // fs2n_(...s2, ...n_); // FIXME: should compile
-fs5.apply(void 0, _to_consumable_array(s2).concat([
+])), fs2.apply(void 0, _to_consumable_array(s3)), fs2_.apply(void 0, _to_consumable_array(s_)), fs2_.apply(void 0, _to_consumable_array(s2n_)), fs2_.apply(void 0, _to_consumable_array(s_).concat(_to_consumable_array(s_))), fs2_.apply(void 0, _to_consumable_array(s_).concat(_to_consumable_array(s_), _to_consumable_array(s_))), fs2n_.apply(void 0, _to_consumable_array(s2_)), fs2_.apply(void 0, _to_consumable_array(s2_)), fs2_.apply(void 0, _to_consumable_array(s2_).concat(_to_consumable_array(s_))), fs2_.apply(void 0, _to_consumable_array(s2_).concat(_to_consumable_array(s2_))), fs2_.apply(void 0, _to_consumable_array(s_).concat(_to_consumable_array(s2_))), fs2n_.apply(void 0, _to_consumable_array(s2n_)), fs2n_.apply(void 0, _to_consumable_array(s2)), fs5.apply(void 0, _to_consumable_array(s2).concat([
     "foo"
 ], _to_consumable_array(s2)));

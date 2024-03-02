@@ -1,7 +1,7 @@
-use pmutil::q;
 use proc_macro2::TokenStream;
+use quote::quote;
 use swc_macros_common::call_site;
-use syn::{FnArg, Ident, ImplItem, ImplItemFn, ItemImpl, Pat, Path, Stmt};
+use syn::{parse_quote, FnArg, Ident, ImplItem, ImplItemFn, ItemImpl, Pat, Path};
 
 use crate::common::Mode;
 
@@ -43,15 +43,15 @@ struct Expander {
 impl Expander {
     fn inject_default_methods(&self, mut items: Vec<ImplItem>) -> Vec<ImplItem> {
         let list = &[
-            ("stmt", q!({ swc_ecma_ast::Stmt })),
-            ("stmts", q!({ Vec<swc_ecma_ast::Stmt> })),
-            ("module_decl", q!({ swc_ecma_ast::ModuleDecl })),
-            ("module_item", q!({ swc_ecma_ast::ModuleItem })),
-            ("module_items", q!({ Vec<swc_ecma_ast::ModuleItem> })),
-            ("expr", q!({ swc_ecma_ast::Expr })),
-            ("exprs", q!({ Vec<Box<swc_ecma_ast::Expr>> })),
-            ("decl", q!({ swc_ecma_ast::Decl })),
-            ("pat", q!({ swc_ecma_ast::Pat })),
+            ("stmt", quote!(swc_ecma_ast::Stmt)),
+            ("stmts", quote!(Vec<swc_ecma_ast::Stmt>)),
+            ("module_decl", quote!(swc_ecma_ast::ModuleDecl)),
+            ("module_item", quote!(swc_ecma_ast::ModuleItem)),
+            ("module_items", quote!(Vec<swc_ecma_ast::ModuleItem>)),
+            ("expr", quote!(swc_ecma_ast::Expr)),
+            ("exprs", quote!(Vec<Box<swc_ecma_ast::Expr>>)),
+            ("decl", quote!(swc_ecma_ast::Decl)),
+            ("pat", quote!(swc_ecma_ast::Pat)),
         ];
 
         for (name, ty) in list {
@@ -65,31 +65,19 @@ impl Expander {
             let name = Ident::new(&format!("{}_{}", self.mode.prefix(), name), call_site());
 
             let method = match self.mode {
-                Mode::Fold => q!(
-                    Vars {
-                        method: &name,
-                        Type: ty,
-                    },
-                    {
-                        fn method(&mut self, node: Type) -> Type {
-                            node.fold_children_with(self)
-                        }
+                Mode::Fold => parse_quote!(
+                    fn #name(&mut self, node: #ty) -> #ty {
+                        node.fold_children_with(self)
                     }
                 ),
-                Mode::VisitMut => q!(
-                    Vars {
-                        method: &name,
-                        Type: ty,
-                    },
-                    {
-                        fn method(&mut self, node: &mut Type) {
-                            node.visit_mut_children_with(self)
-                        }
+                Mode::VisitMut => parse_quote!(
+                    fn #name(&mut self, node: &mut #ty) {
+                        node.visit_mut_children_with(self)
                     }
                 ),
             };
 
-            items.push(method.parse());
+            items.push(method);
         }
 
         items
@@ -120,31 +108,19 @@ impl Expander {
             ),
         };
 
+        let checker = &self.handler;
+
         let fast_path = match self.mode {
-            Mode::Fold => q!(
-                Vars {
-                    Checker: &self.handler,
-                    arg
-                },
-                {
-                    if !swc_ecma_transforms_base::perf::should_work::<Checker, _>(&arg) {
-                        return arg;
-                    }
+            Mode::Fold => parse_quote!(
+                if !swc_ecma_transforms_base::perf::should_work::<#checker, _>(&#arg) {
+                    return #arg;
                 }
-            )
-            .parse::<Stmt>(),
-            Mode::VisitMut => q!(
-                Vars {
-                    Checker: &self.handler,
-                    arg
-                },
-                {
-                    if !swc_ecma_transforms_base::perf::should_work::<Checker, _>(&*arg) {
-                        return;
-                    }
+            ),
+            Mode::VisitMut => parse_quote!(
+                if !swc_ecma_transforms_base::perf::should_work::<#checker, _>(&*#arg) {
+                    return;
                 }
-            )
-            .parse::<Stmt>(),
+            ),
         };
         let mut stmts = vec![fast_path];
         stmts.extend(m.block.stmts);

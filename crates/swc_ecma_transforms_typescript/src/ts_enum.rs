@@ -1,6 +1,6 @@
 use std::mem;
 
-use swc_atoms::{js_word, JsWord};
+use swc_atoms::JsWord;
 use swc_common::{collections::AHashMap, Mark, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{undefined, ExprFactory};
@@ -52,13 +52,13 @@ impl From<TsEnumRecordValue> for Expr {
             TsEnumRecordValue::String(string) => Expr::Lit(Lit::Str(string.into())),
             TsEnumRecordValue::Number(num) if f64::is_nan(num) => Expr::Ident(Ident {
                 span: DUMMY_SP,
-                sym: js_word!("NaN"),
+                sym: "NaN".into(),
                 optional: false,
             }),
             TsEnumRecordValue::Number(num) if f64::is_infinite(num) => {
                 let value = Expr::Ident(Ident {
                     span: DUMMY_SP,
-                    sym: js_word!("Infinity"),
+                    sym: "Infinity".into(),
                     optional: false,
                 });
 
@@ -107,16 +107,14 @@ impl<'a> EnumValueComputer<'a> {
         match *expr {
             Expr::Lit(Lit::Str(s)) => TsEnumRecordValue::String(s.value),
             Expr::Lit(Lit::Num(n)) => TsEnumRecordValue::Number(n.value),
-            Expr::Ident(Ident {
-                span,
-                sym: js_word!("NaN"),
-                ..
-            }) if span.ctxt.has_mark(self.top_level_mark) => TsEnumRecordValue::Number(f64::NAN),
-            Expr::Ident(Ident {
-                span,
-                sym: js_word!("Infinity"),
-                ..
-            }) if span.ctxt.has_mark(self.top_level_mark) => {
+            Expr::Ident(Ident { span, sym, .. })
+                if &*sym == "NaN" && span.ctxt.has_mark(self.top_level_mark) =>
+            {
+                TsEnumRecordValue::Number(f64::NAN)
+            }
+            Expr::Ident(Ident { span, sym, .. })
+                if &*sym == "Infinity" && span.ctxt.has_mark(self.top_level_mark) =>
+            {
                 TsEnumRecordValue::Number(f64::INFINITY)
             }
             Expr::Ident(ref ident) => self
@@ -304,7 +302,7 @@ impl<'a> VisitMut for EnumValueComputer<'a> {
                     member_name: ident.sym.clone(),
                 }) =>
             {
-                *expr = self.enum_id.clone().make_member(ident.clone());
+                *expr = self.enum_id.clone().make_member(ident.clone()).into();
             }
             Expr::Member(MemberExpr {
                 obj,

@@ -11,8 +11,8 @@ var C = /*#__PURE__*/ function() {
     _proto.foo = function foo() {
         return "";
     };
-    C.foo // ok
-     = function foo() {};
+    C.foo = function foo() {} // ok
+    ;
     _create_class(C, [
         {
             key: "X",

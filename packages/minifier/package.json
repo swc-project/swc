@@ -1,6 +1,6 @@
 {
     "name": "@swc/minifier",
-    "version": "1.3.92",
+    "version": "1.4.3-nightly-20240301.1",
     "description": "Super-fast alternative for terser",
     "homepage": "https://swc.rs",
     "main": "./index.js",
@@ -22,19 +22,19 @@
         "url": "https://github.com/swc-project/swc/issues"
     },
     "napi": {
-        "name": "minifier",
-        "triples": {
-            "defaults": true,
-            "additional": [
-                "x86_64-unknown-linux-musl",
-                "i686-pc-windows-msvc",
-                "aarch64-unknown-linux-gnu",
-                "armv7-unknown-linux-gnueabihf",
-                "aarch64-apple-darwin",
-                "aarch64-unknown-linux-musl",
-                "aarch64-pc-windows-msvc"
-            ]
-        }
+        "binaryName": "minifier",
+        "targets": [
+            "x86_64-apple-darwin",
+            "x86_64-pc-windows-msvc",
+            "x86_64-unknown-linux-gnu",
+            "x86_64-unknown-linux-musl",
+            "i686-pc-windows-msvc",
+            "armv7-unknown-linux-gnueabihf",
+            "aarch64-unknown-linux-gnu",
+            "aarch64-apple-darwin",
+            "aarch64-unknown-linux-musl",
+            "aarch64-pc-windows-msvc"
+        ]
     },
     "publishConfig": {
         "registry": "https://registry.npmjs.org/",
@@ -42,27 +42,26 @@
     },
     "types": "./index.d.ts",
     "scripts": {
-        "artifacts": "napi artifacts --dist scripts/npm",
+        "artifacts": "napi artifacts --npm-dir scripts/npm",
         "prepublishOnly": "tsc -d && napi prepublish -p scripts/npm --tagstyle npm",
         "pack": "wasm-pack",
         "build:ts": "tsc -d",
         "build:wasm": "npm-run-all \"pack -- build ../../bindings/binding_minifier_wasm --scope swc {1} -t {2}\" --",
-        "build": "tsc -d && napi build --platform --cargo-name binding_minifier_node --js ./src/binding.js --dts ./src/binding.d.ts --cargo-cwd ../../bindings -p binding_minifier_node --release",
-        "build:dev": "tsc -d && napi build --platform --cargo-name binding_minifier_node --js ./src/binding.js --dts ./src/binding.d.ts --cargo-cwd ../../bindings -p binding_minifier_node",
+        "build": "tsc -d && napi build --platform --js ./src/binding.js --dts ./src/binding.d.ts --manifest-path ../../bindings/Cargo.toml -p binding_minifier_node --output-dir . --release",
+        "build:dev": "tsc -d && napi build --platform --js ./src/binding.js --dts ./src/binding.d.ts --manifest-path ../../bindings/Cargo.toml -p binding_minifier_node --output-dir .",
         "test": "cross-env NODE_OPTIONS='--experimental-vm-modules' echo 'no test'",
-        "version": "napi version -p scripts/npm"
+        "version": "napi version --npm-dir scripts/npm"
     },
     "funding": {
         "type": "opencollective",
         "url": "https://opencollective.com/swc"
     },
-    "packageManager": "yarn@3.5.0",
     "dependencies": {
-        "@swc/counter": "workspace:^",
+        "@swc/counter": "^0.1.3",
         "@swc/types": "workspace:^"
     },
     "devDependencies": {
-        "@napi-rs/cli": "^2.16.3",
+        "@napi-rs/cli": "^3.0.0-alpha.22",
         "@types/node": "^20.7.1",
         "cross-env": "^7.0.3",
         "typescript": "^5.2.2"

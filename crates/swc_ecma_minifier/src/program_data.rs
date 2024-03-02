@@ -4,7 +4,7 @@ use indexmap::IndexSet;
 use rustc_hash::FxHashMap;
 use swc_atoms::JsWord;
 use swc_common::{
-    collections::{AHashMap, AHashSet, ARandomState},
+    collections::{AHashMap, ARandomState},
     SyntaxContext,
 };
 use swc_ecma_ast::*;
@@ -13,9 +13,10 @@ use swc_ecma_usage_analyzer::{
     analyzer::{
         analyze_with_storage,
         storage::{ScopeDataLike, Storage, VarDataLike},
-        CalleeKind, Ctx, ScopeKind, UsageAnalyzer,
+        Ctx, ScopeKind, UsageAnalyzer,
     },
     marks::Marks,
+    util::is_global_var_with_pure_property_access,
 };
 use swc_ecma_visit::VisitWith;
 
@@ -64,6 +65,7 @@ pub(crate) struct VarUsageInfo {
 
     pub(crate) declared_as_for_init: bool,
 
+    /// The number of assign and initialization to this identifier.
     pub(crate) assign_count: u32,
 
     /// The number of direct and indirect reference to this identifier.
@@ -76,7 +78,7 @@ pub(crate) struct VarUsageInfo {
     pub(crate) reassigned: bool,
 
     pub(crate) has_property_access: bool,
-    pub(crate) has_property_mutation: bool,
+    pub(crate) property_mutation_count: u32,
 
     pub(crate) exported: bool,
     /// True if used **above** the declaration or in init. (Not eval order).
@@ -139,7 +141,7 @@ impl Default for VarUsageInfo {
             usage_count: Default::default(),
             reassigned: Default::default(),
             has_property_access: Default::default(),
-            has_property_mutation: Default::default(),
+            property_mutation_count: Default::default(),
             exported: Default::default(),
             used_above_decl: Default::default(),
             is_fn_local: true,
@@ -171,7 +173,7 @@ impl VarUsageInfo {
 
     /// The variable itself or a property of it is modified.
     pub(crate) fn mutated(&self) -> bool {
-        self.assign_count > 0 || self.has_property_mutation
+        self.assign_count > 1 || self.property_mutation_count > 0
     }
 
     pub(crate) fn can_inline_fn_once(&self) -> bool {
@@ -221,11 +223,16 @@ impl Storage for ProgramData {
                     let var_assigned = var_info.assign_count > 0
                         || (var_info.var_initialized && !e.get().var_initialized);
 
+                    if var_info.assign_count > 0 {
+                        if e.get().initialized() {
+                            e.get_mut().reassigned = true
+                        }
+                    }
+
                     if var_info.var_initialized {
                         // If it is inited in some other child scope and also inited in current
                         // scope
                         if e.get().var_initialized || e.get().ref_count > 0 {
-                            e.get_mut().assign_count += 1;
                             e.get_mut().reassigned = true;
                         } else {
                             // If it is referred outside child scope, it will
@@ -237,7 +244,6 @@ impl Storage for ProgramData {
                         // current child scope
                         if !inited && e.get().var_initialized && var_info.ref_count > 0 {
                             e.get_mut().var_initialized = false;
-                            e.get_mut().assign_count += 1;
                             e.get_mut().reassigned = true
                         }
                     }
@@ -246,14 +252,8 @@ impl Storage for ProgramData {
 
                     e.get_mut().reassigned |= var_info.reassigned;
 
-                    if var_info.assign_count > 0 {
-                        if e.get().initialized() {
-                            e.get_mut().reassigned = true
-                        }
-                    }
-
                     e.get_mut().has_property_access |= var_info.has_property_access;
-                    e.get_mut().has_property_mutation |= var_info.has_property_mutation;
+                    e.get_mut().property_mutation_count |= var_info.property_mutation_count;
                     e.get_mut().exported |= var_info.exported;
 
                     e.get_mut().declared |= var_info.declared;
@@ -330,8 +330,76 @@ impl Storage for ProgramData {
         }
     }
 
-    fn report_usage(&mut self, ctx: Ctx, i: &Ident, is_assign: bool) {
-        self.report(i.to_id(), ctx, is_assign, &mut Default::default());
+    fn report_usage(&mut self, ctx: Ctx, i: Id) {
+        let inited = self.initialized_vars.contains(&i);
+
+        let e = self.vars.entry(i.clone()).or_insert_with(|| VarUsageInfo {
+            used_above_decl: true,
+            ..Default::default()
+        });
+
+        e.used_as_ref |= ctx.is_id_ref;
+        e.ref_count += 1;
+        e.usage_count += 1;
+        // If it is inited in some child scope, but referenced in current scope
+        if !inited && e.var_initialized {
+            e.reassigned = true;
+            e.var_initialized = false;
+        }
+
+        e.inline_prevented |= ctx.inline_prevented;
+        e.executed_multiple_time |= ctx.executed_multiple_time;
+        e.used_in_cond |= ctx.in_cond;
+    }
+
+    fn report_assign(&mut self, ctx: Ctx, i: Id, is_op: bool) {
+        let e = self.vars.entry(i.clone()).or_default();
+
+        let inited = self.initialized_vars.contains(&i);
+
+        if e.assign_count > 0 || e.initialized() {
+            e.reassigned = true
+        }
+
+        e.assign_count += 1;
+
+        if !is_op {
+            self.initialized_vars.insert(i.clone());
+            if e.ref_count == 1 && e.var_kind != Some(VarDeclKind::Const) && !inited {
+                e.var_initialized = true;
+            } else {
+                e.reassigned = true
+            }
+
+            if e.ref_count == 1 && e.used_above_decl {
+                e.used_above_decl = false;
+            }
+
+            e.usage_count = e.usage_count.saturating_sub(1);
+        }
+
+        let mut to_visit: IndexSet<Id, ARandomState> =
+            IndexSet::from_iter(e.infects_to.clone().into_iter().map(|i| i.0));
+
+        let mut idx = 0;
+
+        while idx < to_visit.len() {
+            let curr = &to_visit[idx];
+
+            if let Some(usage) = self.vars.get_mut(curr) {
+                usage.inline_prevented |= ctx.inline_prevented;
+                usage.executed_multiple_time |= ctx.executed_multiple_time;
+                usage.used_in_cond |= ctx.in_cond;
+
+                if is_op {
+                    usage.usage_count += 1;
+                }
+
+                to_visit.extend(usage.infects_to.clone().into_iter().map(|i| i.0))
+            }
+
+            idx += 1;
+        }
     }
 
     fn declare_decl(
@@ -349,13 +417,16 @@ impl Storage for ProgramData {
         v.is_top_level |= ctx.is_top_level;
 
         // assigned or declared before this declaration
-        if has_init && (v.declared || v.var_initialized || v.assign_count > 0) {
-            #[cfg(feature = "debug")]
-            {
-                tracing::trace!("declare_decl(`{}`): Already declared", i);
+        if has_init {
+            if v.declared || v.var_initialized || v.assign_count > 0 {
+                #[cfg(feature = "debug")]
+                {
+                    tracing::trace!("declare_decl(`{}`): Already declared", i);
+                }
+
+                v.reassigned = true;
             }
 
-            v.reassigned = true;
             v.assign_count += 1;
         }
 
@@ -390,9 +461,9 @@ impl Storage for ProgramData {
         self.initialized_vars.truncate(len)
     }
 
-    fn mark_property_mutation(&mut self, id: Id, ctx: Ctx) {
+    fn mark_property_mutation(&mut self, id: Id) {
         let e = self.vars.entry(id).or_default();
-        e.has_property_mutation = true;
+        e.property_mutation_count += 1;
 
         let mut to_mark_mutate = Vec::new();
         for (other, kind) in &e.infects_to {
@@ -402,16 +473,9 @@ impl Storage for ProgramData {
         }
 
         for other in to_mark_mutate {
-            let other = self.vars.entry(other).or_insert_with(|| {
-                let simple_assign = ctx.is_exact_reassignment && !ctx.is_op_assign;
+            let other = self.vars.entry(other).or_default();
 
-                VarUsageInfo {
-                    used_above_decl: !simple_assign,
-                    ..Default::default()
-                }
-            });
-
-            other.has_property_mutation = true;
+            other.property_mutation_count += 1;
         }
     }
 }
@@ -510,9 +574,17 @@ impl VarDataLike for VarUsageInfo {
 }
 
 impl ProgramData {
+    /// This should be used only for conditionals pass.
     pub(crate) fn contains_unresolved(&self, e: &Expr) -> bool {
         match e {
             Expr::Ident(i) => {
+                // We treat `window` and `global` as resolved
+                if is_global_var_with_pure_property_access(&i.sym)
+                    || matches!(&*i.sym, "arguments" | "window" | "global")
+                {
+                    return false;
+                }
+
                 if let Some(v) = self.vars.get(&i.to_id()) {
                     return !v.declared;
                 }
@@ -533,6 +605,42 @@ impl ProgramData {
 
                 false
             }
+            Expr::Bin(BinExpr { left, right, .. }) => {
+                self.contains_unresolved(left) || self.contains_unresolved(right)
+            }
+            Expr::Unary(UnaryExpr { arg, .. }) => self.contains_unresolved(arg),
+            Expr::Update(UpdateExpr { arg, .. }) => self.contains_unresolved(arg),
+            Expr::Seq(SeqExpr { exprs, .. }) => exprs.iter().any(|e| self.contains_unresolved(e)),
+            Expr::Assign(AssignExpr { left, right, .. }) => {
+                // TODO
+                (match left {
+                    AssignTarget::Simple(left) => {
+                        self.simple_assign_target_contains_unresolved(left)
+                    }
+                    AssignTarget::Pat(_) => false,
+                }) || self.contains_unresolved(right)
+            }
+            Expr::Cond(CondExpr {
+                test, cons, alt, ..
+            }) => {
+                self.contains_unresolved(test)
+                    || self.contains_unresolved(cons)
+                    || self.contains_unresolved(alt)
+            }
+            Expr::New(NewExpr { args, .. }) => args.iter().flatten().any(|arg| match arg.spread {
+                Some(..) => self.contains_unresolved(&arg.expr),
+                None => false,
+            }),
+            Expr::Yield(YieldExpr { arg, .. }) => {
+                matches!(arg, Some(arg) if self.contains_unresolved(arg))
+            }
+            Expr::Tpl(Tpl { exprs, .. }) => exprs.iter().any(|e| self.contains_unresolved(e)),
+            Expr::Paren(ParenExpr { expr, .. }) => self.contains_unresolved(expr),
+            Expr::Await(AwaitExpr { arg, .. }) => self.contains_unresolved(arg),
+            Expr::Array(ArrayLit { elems, .. }) => elems.iter().any(|elem| match elem {
+                Some(elem) => self.contains_unresolved(&elem.expr),
+                None => false,
+            }),
 
             Expr::Call(CallExpr {
                 callee: Callee::Expr(callee),
@@ -550,93 +658,74 @@ impl ProgramData {
                 false
             }
 
+            Expr::OptChain(o) => self.opt_chain_expr_contains_unresolved(o),
+
             _ => false,
         }
     }
-}
 
-impl ProgramData {
-    fn report(&mut self, i: Id, ctx: Ctx, is_modify: bool, dejavu: &mut AHashSet<Id>) {
-        // trace!("report({}{:?})", i.0, i.1);
-
-        let is_first = dejavu.is_empty();
-
-        if !dejavu.insert(i.clone()) {
-            return;
-        }
-
-        let inited = self.initialized_vars.contains(&i);
-
-        let e = self.vars.entry(i.clone()).or_insert_with(|| {
-            // trace!("insert({}{:?})", i.0, i.1);
-
-            let simple_assign = ctx.is_exact_reassignment && !ctx.is_op_assign;
-
-            VarUsageInfo {
-                used_above_decl: !simple_assign,
-                ..Default::default()
-            }
-        });
-
-        if is_first {
-            e.used_as_ref |= ctx.is_id_ref;
-        }
-
-        e.inline_prevented |= ctx.inline_prevented;
-
-        if is_first {
-            e.ref_count += 1;
-            // If it is inited in some child scope, but referenced in current scope
-            if !inited && e.var_initialized {
-                e.reassigned = true;
-                if !is_modify {
-                    e.var_initialized = false;
-                    e.assign_count += 1;
+    fn opt_chain_expr_contains_unresolved(&self, o: &OptChainExpr) -> bool {
+        match &*o.base {
+            OptChainBase::Member(me) => self.member_expr_contains_unresolved(me),
+            OptChainBase::Call(OptCall { callee, args, .. }) => {
+                if self.contains_unresolved(callee) {
+                    return true;
                 }
+
+                if args.iter().any(|arg| self.contains_unresolved(&arg.expr)) {
+                    return true;
+                }
+
+                false
+            }
+        }
+    }
+
+    fn member_expr_contains_unresolved(&self, n: &MemberExpr) -> bool {
+        if self.contains_unresolved(&n.obj) {
+            return true;
+        }
+
+        if let MemberProp::Computed(prop) = &n.prop {
+            if self.contains_unresolved(&prop.expr) {
+                return true;
             }
         }
 
-        let call_may_mutate = ctx.in_call_arg_of == Some(CalleeKind::Unknown);
+        false
+    }
 
-        e.executed_multiple_time |= ctx.executed_multiple_time;
-        e.used_in_cond |= ctx.in_cond;
-
-        if is_modify && ctx.is_exact_reassignment {
-            if is_first {
-                if e.assign_count > 0 || e.initialized() {
-                    e.reassigned = true
+    fn simple_assign_target_contains_unresolved(&self, n: &SimpleAssignTarget) -> bool {
+        match n {
+            SimpleAssignTarget::Ident(i) => {
+                if is_global_var_with_pure_property_access(&i.sym) {
+                    return false;
                 }
 
-                e.assign_count += 1;
+                if let Some(v) = self.vars.get(&i.to_id()) {
+                    return !v.declared;
+                }
 
-                if !ctx.is_op_assign {
-                    if e.ref_count == 1
-                        && ctx.in_assign_lhs
-                        && e.var_kind != Some(VarDeclKind::Const)
-                        && !inited
-                    {
-                        self.initialized_vars.insert(i.clone());
-                        e.assign_count -= 1;
-                        e.var_initialized = true;
-                    } else {
-                        e.reassigned = true
+                true
+            }
+            SimpleAssignTarget::Member(me) => self.member_expr_contains_unresolved(me),
+            SimpleAssignTarget::SuperProp(n) => {
+                if let SuperProp::Computed(prop) = &n.prop {
+                    if self.contains_unresolved(&prop.expr) {
+                        return true;
                     }
                 }
-            }
 
-            if ctx.is_op_assign {
-                e.usage_count += 1;
+                false
             }
-
-            for other in e.infects_to.clone() {
-                self.report(other.0, ctx, true, dejavu)
-            }
-        } else {
-            e.usage_count += 1;
-        }
-
-        if call_may_mutate && ctx.is_exact_arg {
-            self.mark_property_mutation(i, ctx)
+            SimpleAssignTarget::Paren(n) => self.contains_unresolved(&n.expr),
+            SimpleAssignTarget::OptChain(n) => self.opt_chain_expr_contains_unresolved(n),
+            SimpleAssignTarget::TsAs(..)
+            | SimpleAssignTarget::TsSatisfies(..)
+            | SimpleAssignTarget::TsNonNull(..)
+            | SimpleAssignTarget::TsTypeAssertion(..)
+            | SimpleAssignTarget::TsInstantiation(..) => false,
+            SimpleAssignTarget::Invalid(..) => true,
         }
     }
 }

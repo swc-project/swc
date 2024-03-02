@@ -1,8 +1,4 @@
 //// [destructuringParameterDeclaration3ES6.ts]
-// If the parameter is a rest parameter, the parameter type is any[]
-// A type annotation for a rest parameter must denote an array type.
-// RestParameter:
-//     ...   Identifier   TypeAnnotation(opt)
 var E, E1, array = [
     1,
     2,

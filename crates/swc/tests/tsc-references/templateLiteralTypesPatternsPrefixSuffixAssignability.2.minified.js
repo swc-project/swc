@@ -1,2 +1,1 @@
 //// [templateLiteralTypesPatternsPrefixSuffixAssignability.ts]
- // ok

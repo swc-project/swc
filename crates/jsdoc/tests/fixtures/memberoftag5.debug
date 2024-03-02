@@ -19,8 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Socket class.
-             *' type=dynamic),
+            value: "Socket class.\n *",
         },
         tags: [
             TagItem {
@@ -43,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('class' type=static),
+                    value: "class",
                 },
                 tag: Class(
                     ClassTag {
@@ -67,7 +66,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('* @memberof module:network' type=dynamic),
+                                value: "* @memberof module:network",
                             },
                         ),
                         name: None,
@@ -96,7 +95,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Open the socket.' type=dynamic),
+            value: "Open the socket.",
         },
         tags: [],
     },
@@ -120,7 +119,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Unique identifier for `Socket` class.' type=dynamic),
+            value: "Unique identifier for `Socket` class.",
         },
         tags: [],
     },

@@ -319,7 +319,8 @@
         "raw": "\"react\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ImportDeclaration",
@@ -361,7 +362,8 @@
         "raw": "\"redux\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     }
   ],
   "interpreter": null

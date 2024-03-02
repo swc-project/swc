@@ -19,7 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -42,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('package' type=static),
+                    value: "package",
                 },
                 tag: Package(
                     PackageTag {
@@ -66,7 +66,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('{Object.<string, number>}' type=dynamic),
+                                value: "{Object.<string, number>}",
                             },
                         ),
                     },

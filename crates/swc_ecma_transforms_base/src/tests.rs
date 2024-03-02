@@ -4,7 +4,7 @@ use swc_common::{
     sync::Lrc,
     FileName, SourceMap,
 };
-use swc_ecma_ast::{Pat, *};
+use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{error::Error, lexer::Lexer, Parser, StringInput, Syntax};
 use swc_ecma_utils::DropSpan;
@@ -112,8 +112,7 @@ impl<'a> Tester<'a> {
             .fold_with(&mut tr)
             .fold_with(&mut as_folder(DropSpan {
                 preserve_ctxt: true,
-            }))
-            .fold_with(&mut Normalizer);
+            }));
 
         Ok(module)
     }
@@ -152,27 +151,13 @@ impl Fold for HygieneVisualizer {
     }
 }
 
-struct Normalizer;
-impl Fold for Normalizer {
-    fn fold_pat_or_expr(&mut self, mut n: PatOrExpr) -> PatOrExpr {
-        if let PatOrExpr::Pat(pat) = n {
-            if let Pat::Expr(expr) = *pat {
-                return PatOrExpr::Expr(expr);
-            }
-            n = PatOrExpr::Pat(pat);
-        }
-
-        n
-    }
-}
-
 pub(crate) fn test_transform<F, P>(
     syntax: Syntax,
     tr: F,
     input: &str,
     expected: &str,
     ok_if_code_eq: bool,
-    hygiene_config: crate::hygiene::Config,
+    hygiene_config: impl FnOnce() -> crate::hygiene::Config,
 ) where
     F: FnOnce(&mut Tester) -> P,
     P: Fold,
@@ -201,7 +186,7 @@ pub(crate) fn test_transform<F, P>(
         }
 
         let actual = actual
-            .fold_with(&mut hygiene_with_config(hygiene_config))
+            .fold_with(&mut hygiene_with_config(hygiene_config()))
             .fold_with(&mut fixer(None))
             .fold_with(&mut as_folder(DropSpan {
                 preserve_ctxt: false,

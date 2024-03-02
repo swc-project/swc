@@ -7,9 +7,7 @@
   appearance: auto;
 }
 .class-2 {
-  -webkit-appearance: none;
   appearance: none;
-  -webkit-appearance: auto;
   appearance: auto;
 }
 .class-3 {
@@ -33,9 +31,7 @@
   -webkit-appearance: searchfield;
 }
 .class-7 {
-  -webkit-appearance: auto;
   appearance: auto;
-  -webkit-appearance: -webkit-button;
   appearance: -webkit-button;
 }
 .class-8 {

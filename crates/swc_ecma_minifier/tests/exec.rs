@@ -1,6 +1,6 @@
 #![deny(warnings)]
 
-extern crate swc_node_base;
+extern crate swc_malloc;
 
 use ansi_term::Color;
 use anyhow::Error;
@@ -2094,6 +2094,7 @@ console.log(a, b);"###;
 }
 
 #[test]
+#[ignore = "Function (anonymous)"]
 fn terser_hoist_props_contains_this_2() {
     let src = r###"var o = {
     u: function () {
@@ -10945,5 +10946,250 @@ fn issue_7274() {
         }
         console.log('PASS');
         "#,
+    );
+}
+
+#[test]
+fn issue_8119_1() {
+    run_exec_test(
+        r#"
+        const myArr = [];
+        // function with side effect
+        function foo(arr) {
+            arr.push('foo');
+            return 'foo';
+        }
+        let a;
+
+        if (Math.random() > 1.1) {
+            a = true;
+        }
+
+        // the function call below should always run
+        // regardless of whether `a` is `undefined`
+        let b = foo(myArr);
+
+        // const seems to keep this line here instead of
+        // moving it behind the logitcal nullish assignment
+        // const b = foo(myArr);
+
+        a ??= b;
+
+        console.log(a);
+        console.log(myArr);
+        "#,
+        r#"
+        {
+            "arguments": false,
+            "arrows": true,
+            "booleans": true,
+            "booleans_as_integers": false,
+            "collapse_vars": true,
+            "comparisons": true,
+            "computed_props": true,
+            "conditionals": true,
+            "dead_code": true,
+            "directives": true,
+            "drop_console": false,
+            "drop_debugger": true,
+            "evaluate": true,
+            "expression": false,
+            "hoist_funs": false,
+            "hoist_props": true,
+            "hoist_vars": false,
+            "if_return": true,
+            "join_vars": true,
+            "keep_classnames": false,
+            "keep_fargs": true,
+            "keep_fnames": false,
+            "keep_infinity": false,
+            "loops": true,
+            "negate_iife": true,
+            "properties": true,
+            "reduce_funcs": false,
+            "reduce_vars": false,
+            "side_effects": true,
+            "switches": true,
+            "typeofs": true,
+            "unsafe": false,
+            "unsafe_arrows": false,
+            "unsafe_comps": false,
+            "unsafe_Function": false,
+            "unsafe_math": false,
+            "unsafe_symbols": false,
+            "unsafe_methods": false,
+            "unsafe_proto": false,
+            "unsafe_regexp": false,
+            "unsafe_undefined": false,
+            "unused": true,
+            "const_to_let": true,
+            "pristine_globals": true,
+            "passes": 2
+        }
+        "#,
+        false,
+    );
+}
+
+#[test]
+fn issue_8119_2() {
+    run_exec_test(
+        r#"
+        const myArr = [];
+        // function with side effect
+        function foo(arr) {
+            arr.push('foo');
+            return 'foo';
+        }
+        let a;
+
+        if (Math.random() > -0.1) {
+            a = true;
+        }
+
+        // the function call below should always run
+        // regardless of whether `a` is `undefined`
+        let b = foo(myArr);
+
+        // const seems to keep this line here instead of
+        // moving it behind the logitcal nullish assignment
+        // const b = foo(myArr);
+
+        a ??= b;
+
+        console.log(a);
+        console.log(myArr);
+        "#,
+        r#"
+        {
+            "arguments": false,
+            "arrows": true,
+            "booleans": true,
+            "booleans_as_integers": false,
+            "collapse_vars": true,
+            "comparisons": true,
+            "computed_props": true,
+            "conditionals": true,
+            "dead_code": true,
+            "directives": true,
+            "drop_console": false,
+            "drop_debugger": true,
+            "evaluate": true,
+            "expression": false,
+            "hoist_funs": false,
+            "hoist_props": true,
+            "hoist_vars": false,
+            "if_return": true,
+            "join_vars": true,
+            "keep_classnames": false,
+            "keep_fargs": true,
+            "keep_fnames": false,
+            "keep_infinity": false,
+            "loops": true,
+            "negate_iife": true,
+            "properties": true,
+            "reduce_funcs": false,
+            "reduce_vars": false,
+            "side_effects": true,
+            "switches": true,
+            "typeofs": true,
+            "unsafe": false,
+            "unsafe_arrows": false,
+            "unsafe_comps": false,
+            "unsafe_Function": false,
+            "unsafe_math": false,
+            "unsafe_symbols": false,
+            "unsafe_methods": false,
+            "unsafe_proto": false,
+            "unsafe_regexp": false,
+            "unsafe_undefined": false,
+            "unused": true,
+            "const_to_let": true,
+            "pristine_globals": true,
+            "passes": 2
+        }
+        "#,
+        false,
+    );
+}
+
+#[test]
+fn issue_8246_1() {
+    run_exec_test(
+        r#"
+        function withLog(methods) {
+            const result = {};
+            for(const methodName in methods){
+                result[methodName] = ((methodName)=>function() {
+                        console.log(methodName + ' invoked');
+                        return methods[methodName].apply(this, arguments);
+                    })(methodName);
+            }
+            return result;
+        }
+        function main() {
+            const result = withLog({
+                test () {
+                    console.log('method test executed');
+                },
+                another () {
+                    console.log('method another executed');
+                }
+            });
+            result.test();
+        }
+        main();
+        "#,
+        r#"
+        {
+            "ecma": 2015,
+            "arguments": false,
+            "arrows": true,
+            "booleans": true,
+            "booleans_as_integers": false,
+            "collapse_vars": true,
+            "comparisons": true,
+            "computed_props": true,
+            "conditionals": true,
+            "dead_code": true,
+            "directives": true,
+            "drop_console": false,
+            "drop_debugger": true,
+            "evaluate": true,
+            "expression": false,
+            "hoist_funs": false,
+            "hoist_props": true,
+            "hoist_vars": false,
+            "if_return": true,
+            "join_vars": true,
+            "keep_classnames": false,
+            "keep_fargs": true,
+            "keep_fnames": false,
+            "keep_infinity": false,
+            "loops": true,
+            "negate_iife": true,
+            "properties": true,
+            "reduce_funcs": false,
+            "reduce_vars": false,
+            "side_effects": true,
+            "switches": true,
+            "typeofs": true,
+            "unsafe": false,
+            "unsafe_arrows": false,
+            "unsafe_comps": false,
+            "unsafe_Function": false,
+            "unsafe_math": false,
+            "unsafe_symbols": false,
+            "unsafe_methods": false,
+            "unsafe_proto": false,
+            "unsafe_regexp": false,
+            "unsafe_undefined": false,
+            "unused": true,
+            "const_to_let": true,
+            "pristine_globals": true,
+            "passes": 5
+        }
+        "#,
+        false,
     );
 }

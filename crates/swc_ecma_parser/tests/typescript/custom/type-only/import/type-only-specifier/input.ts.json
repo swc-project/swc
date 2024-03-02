@@ -46,7 +46,8 @@
         "raw": "'mod'"
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ImportDeclaration",
@@ -88,7 +89,8 @@
         "raw": "'mod'"
       },
       "typeOnly": true,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ImportDeclaration",
@@ -130,7 +132,8 @@
         "raw": "'mod'"
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ImportDeclaration",
@@ -172,7 +175,8 @@
         "raw": "'mod'"
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ImportDeclaration",
@@ -223,7 +227,8 @@
         "raw": "'mod'"
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ImportDeclaration",
@@ -274,7 +279,8 @@
         "raw": "'mod'"
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ImportDeclaration",
@@ -325,7 +331,8 @@
         "raw": "'mod'"
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ImportDeclaration",
@@ -376,7 +383,8 @@
         "raw": "'mod'"
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ImportDeclaration",
@@ -427,7 +435,8 @@
         "raw": "'mod'"
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ImportDeclaration",
@@ -478,7 +487,8 @@
         "raw": "'mod'"
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ImportDeclaration",
@@ -529,7 +539,8 @@
         "raw": "'mod'"
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ImportDeclaration",
@@ -580,7 +591,8 @@
         "raw": "'mod'"
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     }
   ],
   "interpreter": null

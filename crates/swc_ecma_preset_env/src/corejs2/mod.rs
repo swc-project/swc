@@ -151,10 +151,8 @@ impl Visit for UsageVisitor {
     fn visit_assign_expr(&mut self, e: &AssignExpr) {
         e.visit_children_with(self);
 
-        if let PatOrExpr::Pat(pat) = &e.left {
-            if let Pat::Object(ref o) = &**pat {
-                self.visit_object_pat_props(&e.right, &o.props)
-            }
+        if let AssignTarget::Pat(AssignTargetPat::Object(o)) = &e.left {
+            self.visit_object_pat_props(&e.right, &o.props)
         }
     }
 
@@ -326,21 +324,9 @@ impl Visit for UsageVisitor {
 
 fn is_symbol_iterator(e: &Expr) -> bool {
     match e {
-        Expr::Member(MemberExpr {
-            obj,
-            prop:
-                MemberProp::Ident(Ident {
-                    sym: js_word!("iterator"),
-                    ..
-                }),
-            ..
-        }) => matches!(
-            &**obj,
-            Expr::Ident(Ident {
-                sym: js_word!("Symbol"),
-                ..
-            })
-        ),
+        Expr::Member(MemberExpr { obj, prop, .. }) if prop.is_ident_with("iterator") => {
+            obj.is_ident_ref_to("Symbol")
+        }
         _ => false,
     }
 }

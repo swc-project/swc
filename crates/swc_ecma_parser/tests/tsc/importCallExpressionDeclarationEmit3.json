@@ -147,7 +147,8 @@
         "raw": "\"./0\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ExpressionStatement",
@@ -169,7 +170,8 @@
             "start": 206,
             "end": 212,
             "ctxt": 0
-          }
+          },
+          "phase": "evaluation"
         },
         "arguments": [
           {
@@ -291,7 +293,8 @@
                   "start": 260,
                   "end": 266,
                   "ctxt": 0
-                }
+                },
+                "phase": "evaluation"
               },
               "arguments": [
                 {
@@ -427,7 +430,8 @@
                   "start": 317,
                   "end": 323,
                   "ctxt": 0
-                }
+                },
+                "phase": "evaluation"
               },
               "arguments": [
                 {
@@ -543,7 +547,8 @@
                   "start": 362,
                   "end": 368,
                   "ctxt": 0
-                }
+                },
+                "phase": "evaluation"
               },
               "arguments": [
                 {

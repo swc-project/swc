@@ -19,7 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -42,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('param' type=static),
+                    value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
@@ -67,7 +67,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('{T}' type=inline),
+                                value: "{T}",
                             },
                         ),
                         desc: Text {
@@ -80,7 +80,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('t' type=inline),
+                            value: "t",
                         },
                     },
                 ),
@@ -105,7 +105,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('constructor' type=static),
+                    value: "constructor",
                 },
                 tag: Class(
                     ClassTag {
@@ -129,7 +129,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('* @template T' type=dynamic),
+                                value: "* @template T",
                             },
                         ),
                         name: None,

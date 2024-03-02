@@ -1,4 +1,4 @@
-var MS_PER_SECOND = 1000, MS_PER_MINUTE = 60 * 1000, MS_PER_HOUR = 60 * (60 * 1000), MS_PER_400_YEARS = 3506328 * (60 * (60 * 1000));
+var MS_PER_SECOND = 1000, MS_PER_MINUTE = 60 * 1000, MS_PER_HOUR = 60 * 1000 * 60, MS_PER_400_YEARS = 60 * 1000 * 60 * 3506328;
 function mod$1(dividend, divisor) {
     return (dividend % divisor + divisor) % divisor;
 }
@@ -89,4 +89,4 @@ function unix() {
 function toDate() {
     return new Date(this.valueOf());
 }
-console.log(3506328 * (60 * (60 * 1000)));
+console.log(60 * 1000 * 60 * 3506328);

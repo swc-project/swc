@@ -217,7 +217,8 @@
         "raw": "\"./a\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ImportDeclaration",
@@ -297,7 +298,8 @@
         "raw": "\"./a\""
       },
       "typeOnly": true,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ImportDeclaration",
@@ -348,7 +350,8 @@
         "raw": "\"./a\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ExportNamedDeclaration",
@@ -618,7 +621,8 @@
         "raw": "\"./b\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ExportDefaultExpression",
@@ -757,7 +761,8 @@
         "raw": "\"./main5\""
       },
       "typeOnly": true,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ExportDefaultExpression",

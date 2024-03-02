@@ -454,7 +454,8 @@
         "raw": "\"foobarbaz\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ExpressionStatement",
@@ -538,7 +539,8 @@
         "raw": "\"foosball\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ExpressionStatement",
@@ -620,7 +622,8 @@
         "raw": "\"./file!text\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ExpressionStatement",

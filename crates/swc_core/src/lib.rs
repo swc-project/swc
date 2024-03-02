@@ -1,5 +1,9 @@
 #![cfg_attr(docsrs, feature(doc_cfg))]
 
+#[cfg(feature = "swc_atoms")]
+#[cfg_attr(docsrs, doc(cfg(feature = "swc_atoms")))]
+pub use swc_atoms as atoms;
+
 // Quote
 #[cfg(feature = "ecma_quote")]
 #[cfg_attr(docsrs, doc(cfg(feature = "ecma_quote")))]
@@ -25,6 +29,12 @@ pub extern crate swc_ecma_quote_macros;
     )))
 )]
 pub mod plugin;
+
+#[cfg(feature = "preset_env")]
+#[cfg_attr(docsrs, doc(cfg(feature = "preset_env")))]
+pub mod preset_env {
+    pub use preset_env_base::*;
+}
 
 #[cfg(feature = "__ecma")]
 #[cfg_attr(docsrs, doc(cfg(feature = "__ecma")))]
@@ -123,6 +133,13 @@ pub mod ecma {
     #[cfg_attr(docsrs, doc(cfg(feature = "ecma_usage_analyzer")))]
     pub mod usage_analyzer {
         pub use swc_ecma_usage_analyzer::*;
+    }
+
+    // visit* interfaces
+    #[cfg(feature = "ecma_lints")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "ecma_lints")))]
+    pub mod lints {
+        pub use swc_ecma_lints::*;
     }
 
     // visit* interfaces
@@ -270,7 +287,7 @@ pub mod testing {
 
 #[cfg(feature = "allocator_node")]
 #[cfg_attr(docsrs, doc(cfg(feature = "allocator_node")))]
-extern crate swc_node_base;
+extern crate swc_malloc;
 
 pub static SWC_CORE_VERSION: &str = include_str!(concat!(env!("OUT_DIR"), "/core_pkg_version.txt"));
 

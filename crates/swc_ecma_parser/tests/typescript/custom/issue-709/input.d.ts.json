@@ -109,7 +109,8 @@
                                 "ctxt": 0
                               },
                               "value": "bubbles",
-                              "optional": false
+                              "optional": false,
+                              "typeAnnotation": null
                             },
                             "value": null
                           },
@@ -128,7 +129,8 @@
                                 "ctxt": 0
                               },
                               "value": "cancelable",
-                              "optional": false
+                              "optional": false,
+                              "typeAnnotation": null
                             },
                             "value": null
                           },
@@ -147,7 +149,8 @@
                                 "ctxt": 0
                               },
                               "value": "composed",
-                              "optional": false
+                              "optional": false,
+                              "typeAnnotation": null
                             },
                             "value": null
                           }

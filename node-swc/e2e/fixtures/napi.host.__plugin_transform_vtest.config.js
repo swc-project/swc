@@ -7,8 +7,7 @@ module.exports = {
                 "x86_64-unknown-linux-musl",
                 "x86_64-unknown-freebsd",
                 "i686-pc-windows-msvc",
-                "aarch64-unknown-linux-gnu",
-                "armv7-unknown-linux-gnueabihf",
+
                 "aarch64-apple-darwin",
                 "aarch64-linux-android",
                 "aarch64-unknown-linux-musl",

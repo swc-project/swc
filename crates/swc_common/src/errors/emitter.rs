@@ -383,7 +383,7 @@ impl EmitterWriter {
         // 4 | | }
         //   | |_^ test
         if line.annotations.len() == 1 {
-            if let Some(ann) = line.annotations.get(0) {
+            if let Some(ann) = line.annotations.first() {
                 if let AnnotationType::MultilineStart(depth) = ann.annotation_type {
                     if source_string
                         .chars()

@@ -2,7 +2,6 @@
   x Unexpected eof
    ,-[$DIR/tests/jsx/errors/unterminated-string/input.js:1:1]
  1 | <foo bar="
-   :            ^
    `----
 
   x Unterminated string constant

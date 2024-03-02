@@ -1,6 +1,4 @@
 //// [genericClassWithFunctionTypedMemberArguments.ts]
-// Generic functions used as arguments for function typed parameters are not used to make inferences from
-// Using function arguments, no errors expected
 var ImmediatelyFix, WithCandidates, c, c2, c1, c21;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 ImmediatelyFix || (ImmediatelyFix = {}), (c = new (function() {

@@ -272,7 +272,10 @@ impl std::fmt::Display for FileName {
             FileName::Anon => write!(fmt, "<anon>"),
             FileName::ProcMacroSourceCode => write!(fmt, "<proc-macro source code>"),
             FileName::Url(ref u) => write!(fmt, "{}", u),
-            FileName::Custom(ref s) | FileName::Internal(ref s) => write!(fmt, "<{}>", s),
+            FileName::Custom(ref s) => {
+                write!(fmt, "{}", s)
+            }
+            FileName::Internal(ref s) => write!(fmt, "<{}>", s),
         }
     }
 }
@@ -1139,10 +1142,16 @@ impl BytePos {
         self.0 >= Self::MIN_RESERVED.0 && self.0 != u32::MAX
     }
 
-    /// Returns true if this is synthesized and has no relevant input source
+    /// Returns `true`` if this is synthesized and has no relevant input source
     /// code.
     pub const fn is_dummy(self) -> bool {
         self.0 == 0
+    }
+
+    /// Returns `true`` if this is explicitly synthesized or has relevant input
+    /// source so can have a comment.
+    pub const fn can_have_comment(self) -> bool {
+        self.0 != 0
     }
 }
 

@@ -4,4 +4,4 @@ _object_spread({}, {
     a: "a",
     b: "b",
     extra: "extra"
-}); // spread should not give excess property errors
+});

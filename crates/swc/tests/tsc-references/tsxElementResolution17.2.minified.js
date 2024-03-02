@@ -7,8 +7,6 @@ define([
     "require"
 ], function(require) {});
 //// [consumer.tsx]
-///<reference path="file.tsx" />
-// Should keep s1 and elide s2
 define([
     "require",
     "exports",

@@ -13,9 +13,7 @@ export var Element = function() {
     }, _create_class(Element, [
         {
             key: "textContent",
-            get: /**
-   * @returns {String}
-   */ function() {
+            get: function() {
                 return "";
             },
             set: function(x) {}

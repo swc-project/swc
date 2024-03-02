@@ -57,11 +57,11 @@ pub enum Child {
 #[derive(Eq, Hash)]
 pub struct DocumentType {
     pub span: Span,
-    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
+
     pub name: Option<JsWord>,
-    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
+
     pub public_id: Option<JsWord>,
-    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
+
     pub system_id: Option<JsWord>,
     pub raw: Option<Atom>,
 }
@@ -106,7 +106,7 @@ pub enum Namespace {
 #[derive(Eq, Hash, EqIgnoreSpan)]
 pub struct Element {
     pub span: Span,
-    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
+
     pub tag_name: JsWord,
     pub namespace: Namespace,
     pub attributes: Vec<Attribute>,
@@ -121,12 +121,12 @@ pub struct Element {
 pub struct Attribute {
     pub span: Span,
     pub namespace: Option<Namespace>,
-    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
+
     pub prefix: Option<JsWord>,
-    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
+
     pub name: JsWord,
     pub raw_name: Option<Atom>,
-    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
+
     pub value: Option<JsWord>,
     pub raw_value: Option<Atom>,
 }
@@ -144,7 +144,7 @@ impl EqIgnoreSpan for Attribute {
 #[derive(Eq, Hash)]
 pub struct Text {
     pub span: Span,
-    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
+
     pub data: JsWord,
     pub raw: Option<Atom>,
 }
@@ -159,7 +159,7 @@ impl EqIgnoreSpan for Text {
 #[derive(Eq, Hash)]
 pub struct Comment {
     pub span: Span,
-    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
+
     pub data: JsWord,
     pub raw: Option<Atom>,
 }

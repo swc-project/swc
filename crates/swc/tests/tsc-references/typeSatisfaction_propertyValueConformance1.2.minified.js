@@ -2,7 +2,4 @@
 var x = {
     m: !0
 };
-// Should be OK
-checkTruths(x), // Should be OK
-checkM(x), // Should fail under --noPropertyAccessFromIndexSignature
-console.log(x.z), x.m;
+checkTruths(x), checkM(x), console.log(x.z), x.m;

@@ -42,6 +42,14 @@ pub trait WriteJs {
     fn add_srcmap(&mut self, pos: BytePos) -> Result;
 
     fn commit_pending_semi(&mut self) -> Result;
+
+    /// If true, the code generator will skip **modification** of invalid
+    /// unicode characters.
+    ///
+    /// Defaults to `false``
+    fn can_ignore_invalid_unicodes(&mut self) -> bool {
+        false
+    }
 }
 
 impl<W> WriteJs for Box<W>
@@ -136,6 +144,11 @@ where
     fn commit_pending_semi(&mut self) -> Result {
         (**self).commit_pending_semi()
     }
+
+    #[inline(always)]
+    fn can_ignore_invalid_unicodes(&mut self) -> bool {
+        (**self).can_ignore_invalid_unicodes()
+    }
 }
 
 impl<W> WriteJs for &'_ mut W
@@ -227,7 +240,13 @@ where
         (**self).add_srcmap(pos)
     }
 
+    #[inline(always)]
     fn commit_pending_semi(&mut self) -> Result {
         (**self).commit_pending_semi()
+    }
+
+    #[inline(always)]
+    fn can_ignore_invalid_unicodes(&mut self) -> bool {
+        (**self).can_ignore_invalid_unicodes()
     }
 }

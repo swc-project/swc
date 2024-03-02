@@ -1,5 +1,5 @@
-new (class {
-    constructor(message) {
+class Foo {
+    constructor(message){
         this.message = message;
     }
     go() {
@@ -7,10 +7,11 @@ new (class {
         console.log(this.message);
     }
     run() {
-        (function (callback) {
+        (function(callback) {
             callback();
-        })(() => {
+        })(()=>{
             this.go();
         });
     }
-})("FAIL").run();
+}
+new Foo("FAIL").run();

@@ -1,6 +1,6 @@
 use std::num::FpCategory;
 
-use swc_atoms::{atom, js_word};
+use swc_atoms::atom;
 use swc_common::{util::take::Take, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{undefined, ExprExt, Value::Known};
@@ -104,21 +104,13 @@ impl Optimizer<'_> {
         }
 
         match e {
-            Expr::Ident(Ident {
-                span,
-                sym: js_word!("undefined"),
-                ..
-            }) => {
+            Expr::Ident(Ident { span, sym, .. }) if &**sym == "undefined" => {
                 report_change!("evaluate: `undefined` -> `void 0`");
                 self.changed = true;
                 *e = *undefined(*span);
             }
 
-            Expr::Ident(Ident {
-                span,
-                sym: js_word!("Infinity"),
-                ..
-            }) => {
+            Expr::Ident(Ident { span, sym, .. }) if &**sym == "Infinity" => {
                 report_change!("evaluate: `Infinity` -> `1 / 0`");
                 self.changed = true;
                 *e = Expr::Bin(BinExpr {
@@ -172,10 +164,7 @@ impl Optimizer<'_> {
         }
 
         match &**callee {
-            Expr::Ident(Ident {
-                sym: js_word!("RegExp"),
-                ..
-            }) if self.options.unsafe_regexp => {
+            Expr::Ident(Ident { sym, .. }) if &**sym == "RegExp" && self.options.unsafe_regexp => {
                 if !args.is_empty() {
                     self.optimize_expr_in_str_ctx(&mut args[0].expr);
                 }
@@ -231,10 +220,7 @@ impl Optimizer<'_> {
                 prop: MemberProp::Ident(prop),
                 ..
             }) => match &**obj {
-                Expr::Ident(Ident {
-                    sym: js_word!("String"),
-                    ..
-                }) => {
+                Expr::Ident(Ident { sym, .. }) if &**sym == "String" => {
                     if &*prop.sym == "fromCharCode" {
                         if args.len() != 1 {
                             return;
@@ -266,10 +252,7 @@ impl Optimizer<'_> {
                     }
                 }
 
-                Expr::Ident(Ident {
-                    sym: js_word!("Object"),
-                    ..
-                }) => {
+                Expr::Ident(Ident { sym, .. }) if &**sym == "Object" => {
                     if &*prop.sym == "keys" {
                         if args.len() != 1 {
                             return;
@@ -401,8 +384,7 @@ impl Optimizer<'_> {
                             // If a variable named `NaN` is in scope, don't convert e into NaN.
                             let data = &self.data.vars;
                             if maybe_par!(
-                                data.iter()
-                                    .any(|(name, v)| v.declared && name.0 == js_word!("NaN")),
+                                data.iter().any(|(name, v)| v.declared && name.0 == "NaN"),
                                 *crate::LIGHT_TASK_PARALLELS
                             ) {
                                 return;
@@ -413,7 +395,7 @@ impl Optimizer<'_> {
 
                             // Sign does not matter for NaN
                             *e = Expr::Ident(Ident::new(
-                                js_word!("NaN"),
+                                "NaN".into(),
                                 bin.span.with_ctxt(
                                     SyntaxContext::empty().apply_mark(self.marks.unresolved_mark),
                                 ),
@@ -426,7 +408,7 @@ impl Optimizer<'_> {
                             // Sign does not matter for NaN
                             *e = if ln.is_sign_positive() == rn.is_sign_positive() {
                                 Expr::Ident(Ident::new(
-                                    js_word!("Infinity"),
+                                    "Infinity".into(),
                                     bin.span.with_ctxt(SyntaxContext::empty()),
                                 ))
                             } else {
@@ -434,7 +416,7 @@ impl Optimizer<'_> {
                                     span: bin.span,
                                     op: op!(unary, "-"),
                                     arg: Box::new(Expr::Ident(Ident::new(
-                                        js_word!("Infinity"),
+                                        "Infinity".into(),
                                         bin.span.with_ctxt(SyntaxContext::empty()),
                                     ))),
                                 })

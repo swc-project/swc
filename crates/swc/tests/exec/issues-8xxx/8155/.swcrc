@@ -1,0 +1,24 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "typescript",
+            "decorators": true,
+            "tsx": false
+        },
+        "transform": {
+            "legacyDecorator": true
+        },
+        "target": "es5",
+        // "loose": false,
+        "minify": {
+            "compress": false,
+            "mangle": false
+        },
+        "loose": false
+    },
+    "module": {
+        "type": "es6"
+    },
+    "minify": false,
+    "isModule": true
+}

@@ -197,10 +197,7 @@
                                     (null == j ? void 0 : null == (ref = j.tagName) ? void 0 : ref.toLowerCase()) === type && oldTags.push(j);
                                 }
                                 const newTags = components.map(reactElementToDOM).filter((newTag)=>{
-                                    for(let k = 0, len = oldTags.length; k < len; k++){
-                                        const oldTag = oldTags[k];
-                                        if (isEqualNode(oldTag, newTag)) return oldTags.splice(k, 1), !1;
-                                    }
+                                    for(let k = 0, len = oldTags.length; k < len; k++)if (isEqualNode(oldTags[k], newTag)) return oldTags.splice(k, 1), !1;
                                     return !0;
                                 });
                                 oldTags.forEach((t)=>{
@@ -436,8 +433,8 @@
             }
             function doRender(input) {
                 let resolvePromise, { App, Component, props, err } = input, styleSheets = "initial" in input ? void 0 : input.styleSheets;
-                Component = Component || lastAppProps.Component, props = props || lastAppProps.props;
-                const appProps = _extends({}, props, {
+                Component = Component || lastAppProps.Component;
+                const appProps = _extends({}, props = props || lastAppProps.props, {
                     Component,
                     err,
                     router
@@ -458,7 +455,7 @@
                 }
                 !function() {
                     if (!styleSheets) return;
-                    const currentStyleTags = looseToArray(document.querySelectorAll("style[data-n-href]")), currentHrefs = new Set(currentStyleTags.map((tag)=>tag.getAttribute("data-n-href"))), noscript = document.querySelector("noscript[data-n-css]"), nonce = null == noscript ? void 0 : noscript.getAttribute("data-n-css");
+                    const currentHrefs = new Set(looseToArray(document.querySelectorAll("style[data-n-href]")).map((tag)=>tag.getAttribute("data-n-href"))), noscript = document.querySelector("noscript[data-n-css]"), nonce = null == noscript ? void 0 : noscript.getAttribute("data-n-css");
                     styleSheets.forEach((param)=>{
                         let { href, text } = param;
                         if (!currentHrefs.has(href)) {
@@ -492,12 +489,9 @@
                 return !function(domEl, fn) {
                     _utils.ST && performance.mark("beforeRender");
                     const reactEl = fn(shouldHydrate ? markHydrateComplete : markRenderComplete);
-                    if (reactRoot) {
-                        const startTransition = _react.default.startTransition;
-                        startTransition(()=>{
-                            reactRoot.render(reactEl);
-                        });
-                    } else reactRoot = ReactDOM.hydrateRoot(domEl, reactEl), shouldHydrate = !1;
+                    reactRoot ? (0, _react.default.startTransition)(()=>{
+                        reactRoot.render(reactEl);
+                    }) : (reactRoot = ReactDOM.hydrateRoot(domEl, reactEl), shouldHydrate = !1);
                 }(appElement, (callback)=>_react.default.createElement(Root, {
                         callbacks: [
                             callback,
@@ -768,8 +762,8 @@
                         if (previouslyLoadedPath.current = asPath, document.title) setRouteAnnouncement(document.title);
                         else {
                             var ref;
-                            const pageHeader = document.querySelector("h1"), content = null != (ref = null == pageHeader ? void 0 : pageHeader.innerText) ? ref : null == pageHeader ? void 0 : pageHeader.textContent;
-                            setRouteAnnouncement(content || asPath);
+                            const pageHeader = document.querySelector("h1");
+                            setRouteAnnouncement((null != (ref = null == pageHeader ? void 0 : pageHeader.innerText) ? ref : null == pageHeader ? void 0 : pageHeader.textContent) || asPath);
                         }
                     }
                 }, [
@@ -903,14 +897,12 @@
                 });
             }
             function getClientBuildManifest() {
-                if (self.__BUILD_MANIFEST) return Promise.resolve(self.__BUILD_MANIFEST);
-                const onBuildManifest = new Promise((resolve)=>{
+                return self.__BUILD_MANIFEST ? Promise.resolve(self.__BUILD_MANIFEST) : resolvePromiseWithTimeout(new Promise((resolve)=>{
                     const cb = self.__BUILD_MANIFEST_CB;
                     self.__BUILD_MANIFEST_CB = ()=>{
                         resolve(self.__BUILD_MANIFEST), cb && cb();
                     };
-                });
-                return resolvePromiseWithTimeout(onBuildManifest, 3800, markAssetError(Error("Failed to load client build manifest")));
+                }), 3800, markAssetError(Error("Failed to load client build manifest")));
             }
             function getFilesForRoute(assetPrefix, route) {
                 return getClientBuildManifest().then((manifest)=>{
@@ -1000,16 +992,12 @@
                 get: ()=>_router.default.events
             }), urlPropertyFields.forEach((field)=>{
                 Object.defineProperty(singletonRouter, field, {
-                    get () {
-                        const router = getRouter();
-                        return router[field];
-                    }
+                    get: ()=>getRouter()[field]
                 });
             }), coreMethodFields.forEach((field)=>{
                 singletonRouter[field] = function() {
                     for(var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++)args[_key] = arguments[_key];
-                    const router = getRouter();
-                    return router[field](...args);
+                    return getRouter()[field](...args);
                 };
             }), [
                 "routeChangeStart",
@@ -1039,16 +1027,13 @@
             Object.defineProperty(exports, "__esModule", {
                 value: !0
             }), exports.handleClientScriptLoad = handleClientScriptLoad, exports.initScriptLoader = function(scriptLoaderItems) {
-                scriptLoaderItems.forEach(handleClientScriptLoad), function() {
-                    const scripts = [
-                        ...document.querySelectorAll('[data-nscript="beforeInteractive"]'),
-                        ...document.querySelectorAll('[data-nscript="beforePageRender"]')
-                    ];
-                    scripts.forEach((script)=>{
-                        const cacheKey = script.id || script.getAttribute("src");
-                        LoadCache.add(cacheKey);
-                    });
-                }();
+                scriptLoaderItems.forEach(handleClientScriptLoad), [
+                    ...document.querySelectorAll('[data-nscript="beforeInteractive"]'),
+                    ...document.querySelectorAll('[data-nscript="beforePageRender"]')
+                ].forEach((script)=>{
+                    const cacheKey = script.id || script.getAttribute("src");
+                    LoadCache.add(cacheKey);
+                });
             }, exports.default = void 0;
             var _extends = __webpack_require__(6495).Z, _interop_require_wildcard = __webpack_require__(1598).Z, _object_without_properties_loose = __webpack_require__(7273).Z, _react = _interop_require_wildcard(__webpack_require__(7294)), _headManagerContext = __webpack_require__(8404), _headManager = __webpack_require__(6007), _requestIdleCallback = __webpack_require__(9311);
             const ScriptCache = new Map(), LoadCache = new Set(), ignoreProps = [
@@ -1181,9 +1166,8 @@
             function _appGetInitialProps() {
                 return (_appGetInitialProps = _async_to_generator(function*(param) {
                     let { Component, ctx } = param;
-                    const pageProps = yield _utils.loadGetInitialProps(Component, ctx);
                     return {
-                        pageProps
+                        pageProps: yield _utils.loadGetInitialProps(Component, ctx)
                     };
                 })).apply(this, arguments);
             }
@@ -1209,9 +1193,8 @@
             };
             function _getInitialProps(param) {
                 let { res, err } = param;
-                const statusCode = res && res.statusCode ? res.statusCode : err ? err.statusCode : 404;
                 return {
-                    statusCode
+                    statusCode: res && res.statusCode ? res.statusCode : err ? err.statusCode : 404
                 };
             }
             const styles = {
@@ -1275,8 +1258,7 @@
             Object.defineProperty(exports, "__esModule", {
                 value: !0
             }), exports.AmpStateContext = void 0;
-            var _react = (0, __webpack_require__(2648).Z)(__webpack_require__(7294));
-            const AmpStateContext = _react.default.createContext({});
+            const AmpStateContext = (0, __webpack_require__(2648).Z)(__webpack_require__(7294)).default.createContext({});
             exports.AmpStateContext = AmpStateContext;
         },
         7363: function(__unused_webpack_module, exports) {
@@ -1302,8 +1284,7 @@
             Object.defineProperty(exports, "__esModule", {
                 value: !0
             }), exports.HeadManagerContext = void 0;
-            var _react = (0, __webpack_require__(2648).Z)(__webpack_require__(7294));
-            const HeadManagerContext = _react.default.createContext({});
+            const HeadManagerContext = (0, __webpack_require__(2648).Z)(__webpack_require__(7294)).default.createContext({});
             exports.HeadManagerContext = HeadManagerContext;
         },
         5443: function(module, exports, __webpack_require__) {
@@ -1515,8 +1496,7 @@
             Object.defineProperty(exports, "__esModule", {
                 value: !0
             }), exports.RouterContext = void 0;
-            var _react = (0, __webpack_require__(2648).Z)(__webpack_require__(7294));
-            const RouterContext = _react.default.createContext(null);
+            const RouterContext = (0, __webpack_require__(2648).Z)(__webpack_require__(7294)).default.createContext(null);
             exports.RouterContext = RouterContext;
         },
         6273: function(__unused_webpack_module, exports, __webpack_require__) {
@@ -1584,8 +1564,8 @@
             function resolveHref(router, href, resolveAs) {
                 let base;
                 let urlAsString = "string" == typeof href ? href : _formatUrl.formatWithValidation(href);
-                const urlProtoMatch = urlAsString.match(/^[a-zA-Z]{1,}:\/\//), urlAsStringNoProto = urlProtoMatch ? urlAsString.slice(urlProtoMatch[0].length) : urlAsString, urlParts = urlAsStringNoProto.split("?");
-                if ((urlParts[0] || "").match(/(\/\/|\\)/)) {
+                const urlProtoMatch = urlAsString.match(/^[a-zA-Z]{1,}:\/\//), urlAsStringNoProto = urlProtoMatch ? urlAsString.slice(urlProtoMatch[0].length) : urlAsString;
+                if ((urlAsStringNoProto.split("?")[0] || "").match(/(\/\/|\\)/)) {
                     console.error("Invalid href passed to next/router: ".concat(urlAsString, ", repeated forward-slashes (//) or backslashes \\ are not valid in the href"));
                     const normalizedUrl = _utils.normalizeRepeatedSlashes(urlAsStringNoProto);
                     urlAsString = (urlProtoMatch ? urlProtoMatch[0] : "") + normalizedUrl;
@@ -1844,8 +1824,7 @@
                                 if (routeMatch && pathname !== cleanedParsedPathname && Object.keys(routeMatch).forEach((key)=>{
                                     routeMatch && query[key] === routeMatch[key] && delete query[key];
                                 }), _isDynamic.isDynamicRoute(pathname)) {
-                                    const prefixedAs = !routeProps.shallow && routeInfo.resolvedAs ? routeInfo.resolvedAs : _addBasePath.addBasePath(_addLocale.addLocale(new URL(as, location.href).pathname, nextState.locale), !0);
-                                    let rewriteAs = prefixedAs;
+                                    let rewriteAs = !routeProps.shallow && routeInfo.resolvedAs ? routeInfo.resolvedAs : _addBasePath.addBasePath(_addLocale.addLocale(new URL(as, location.href).pathname, nextState.locale), !0);
                                     _hasBasePath.hasBasePath(rewriteAs) && (rewriteAs = _removeBasePath.removeBasePath(rewriteAs));
                                     const routeRegex1 = _routeRegex.getRouteRegex(pathname), curRouteMatch = _routeMatcher.getRouteMatcher(routeRegex1)(rewriteAs);
                                     curRouteMatch && Object.assign(query, curRouteMatch);
@@ -1860,13 +1839,9 @@
                             }
                             let { error, props, __N_SSG, __N_SSP } = routeInfo;
                             const component = routeInfo.Component;
-                            if (component && component.unstable_scriptLoader) {
-                                const scripts = [].concat(component.unstable_scriptLoader());
-                                scripts.forEach((script)=>{
-                                    _script.handleClientScriptLoad(script.props);
-                                });
-                            }
-                            if ((__N_SSG || __N_SSP) && props) {
+                            if (component && component.unstable_scriptLoader && [].concat(component.unstable_scriptLoader()).forEach((script)=>{
+                                _script.handleClientScriptLoad(script.props);
+                            }), (__N_SSG || __N_SSP) && props) {
                                 if (props.pageProps && props.pageProps.__N_REDIRECT) {
                                     options.locale = !1;
                                     const destination = props.pageProps.__N_REDIRECT;
@@ -1912,8 +1887,8 @@
                             }), upcomingScrollState = null != forcedScroll ? forcedScroll : shouldScroll ? {
                                 x: 0,
                                 y: 0
-                            } : null, canSkipUpdating = options._h && !upcomingScrollState && !readyStateChange && !localeChange && _compareStates.compareRouterStates(upcomingRouterState, _this.state);
-                            if (!canSkipUpdating) {
+                            } : null;
+                            if (!(options._h && !upcomingScrollState && !readyStateChange && !localeChange && _compareStates.compareRouterStates(upcomingRouterState, _this.state))) {
                                 if (yield _this.set(upcomingRouterState, routeInfo, upcomingScrollState).catch((e)=>{
                                     if (e.cancelled) error = error || e;
                                     else throw e;
@@ -2447,8 +2422,7 @@
                 value: !0
             }), exports.default = function(route) {
                 let ext = arguments.length > 1 && void 0 !== arguments[1] ? arguments[1] : "";
-                const path = "/" === route ? "/index" : /^\/index(\/|$)/.test(route) ? "/index".concat(route) : "".concat(route);
-                return path + ext;
+                return ("/" === route ? "/index" : /^\/index(\/|$)/.test(route) ? "/index".concat(route) : "".concat(route)) + ext;
             };
         },
         159: function(__unused_webpack_module, exports, __webpack_require__) {
@@ -2813,7 +2787,7 @@
                     })), null;
             };
             var _react = (0, __webpack_require__(1598).Z)(__webpack_require__(7294));
-            const isServer = !1, useClientOnlyLayoutEffect = isServer ? ()=>{} : _react.useLayoutEffect, useClientOnlyEffect = isServer ? ()=>{} : _react.useEffect;
+            const isServer = !1, useClientOnlyLayoutEffect = _react.useLayoutEffect, useClientOnlyEffect = isServer ? ()=>{} : _react.useEffect;
         },
         3794: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
@@ -2829,8 +2803,8 @@
                 const { href } = window.location, origin = getLocationOrigin();
                 return href.substring(origin.length);
             }, exports.getDisplayName = getDisplayName, exports.isResSent = isResSent, exports.normalizeRepeatedSlashes = function(url) {
-                const urlParts = url.split("?"), urlNoQuery = urlParts[0];
-                return urlNoQuery.replace(/\\/g, "/").replace(/\/\/+/g, "/") + (urlParts[1] ? "?".concat(urlParts.slice(1).join("?")) : "");
+                const urlParts = url.split("?");
+                return urlParts[0].replace(/\\/g, "/").replace(/\/\/+/g, "/") + (urlParts[1] ? "?".concat(urlParts.slice(1).join("?")) : "");
             }, exports.loadGetInitialProps = loadGetInitialProps, exports.ST = exports.SP = exports.warnOnce = exports.isAbsoluteUrl = void 0;
             var _async_to_generator = __webpack_require__(932).Z;
             const ABSOLUTE_URL_REGEX = /^[a-zA-Z][a-zA-Z\d+\-.]*?:/;
@@ -2855,10 +2829,7 @@
                     } : {};
                     const props = yield App.getInitialProps(ctx);
                     if (res && isResSent(res)) return props;
-                    if (!props) {
-                        const message1 = '"'.concat(getDisplayName(App), '.getInitialProps()" should resolve to an object. But found "').concat(props, '" instead.');
-                        throw Error(message1);
-                    }
+                    if (!props) throw Error('"'.concat(getDisplayName(App), '.getInitialProps()" should resolve to an object. But found "').concat(props, '" instead.'));
                     return props;
                 })).apply(this, arguments);
             }

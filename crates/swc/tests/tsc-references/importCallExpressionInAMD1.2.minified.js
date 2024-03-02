@@ -30,10 +30,10 @@ define([
         }
     }), new Promise((resolve, reject)=>require([
             "./0"
-        ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard._(m)), reject)), new Promise((resolve, reject)=>require([
+        ], (m)=>resolve(_interop_require_wildcard._(m)), reject)), new Promise((resolve, reject)=>require([
             "./0"
-        ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard._(m)), reject)).then((zero)=>zero.foo());
+        ], (m)=>resolve(_interop_require_wildcard._(m)), reject)).then((zero)=>zero.foo());
     var p2 = new Promise((resolve, reject)=>require([
             "./0"
-        ], (m)=>resolve(/*#__PURE__*/ _interop_require_wildcard._(m)), reject));
+        ], (m)=>resolve(_interop_require_wildcard._(m)), reject));
 });

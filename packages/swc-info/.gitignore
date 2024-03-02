@@ -1,8 +1,0 @@
-yarn.lock
-node_modules
-_/
-*.tgz
-lib/*.js
-tests/*.js
-*.d.ts
-*.map

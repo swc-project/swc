@@ -78,8 +78,8 @@ fn test_hash_eq_ignore_span_expr_ref() {
             let meaningful_ident_expr = Expr::Ident(Ident::new("foo".into(), meaningful_sp));
             let dummy_ident_expr = Expr::Ident(Ident::new("foo".into(), dummy_sp));
 
-            let meaningful_member_expr = member_expr!(meaningful_sp, foo.bar);
-            let dummy_member_expr = member_expr!(dummy_sp, foo.bar);
+            let meaningful_member_expr = member_expr!(meaningful_sp, foo.bar).into();
+            let dummy_member_expr = member_expr!(dummy_sp, foo.bar).into();
 
             let meaningful_null_expr = quote_expr!(meaningful_sp, null);
             let dummy_null_expr = quote_expr!(dummy_sp, null);
@@ -123,7 +123,7 @@ fn test_hash_eq_ignore_span_expr_ref() {
 
             // Should not equal ignoring span and syntax context
             let dummy_ident_expr = Expr::Ident(Ident::new("baz".into(), dummy_sp));
-            let dummy_member_expr = member_expr!(dummy_sp, baz.bar);
+            let dummy_member_expr = member_expr!(dummy_sp, baz.bar).into();
             let dummy_arrow_expr = Box::new(Expr::Arrow(ArrowExpr::dummy()));
             assert!(!set.contains(&expr_ref(&dummy_ident_expr)));
             assert!(!set.contains(&expr_ref(&dummy_member_expr)));

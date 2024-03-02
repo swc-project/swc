@@ -210,7 +210,7 @@ impl Compressor {
                 if supports_condition.conditions.len() == 1 =>
             {
                 if let Some(SupportsConditionType::SupportsInParens(supports_in_parens)) =
-                    supports_condition.conditions.get(0)
+                    supports_condition.conditions.first()
                 {
                     *n = supports_in_parens.clone();
                 }

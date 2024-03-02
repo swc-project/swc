@@ -99,11 +99,13 @@ extern "C" {
 
 impl Mark {
     /// Shortcut for `Mark::fresh(Mark::root())`
+    #[track_caller]
     #[allow(clippy::new_without_default)]
     pub fn new() -> Self {
         Mark::fresh(Mark::root())
     }
 
+    #[track_caller]
     pub fn fresh(parent: Mark) -> Self {
         // Note: msvc tries to link against proxied fn for normal build,
         // have to limit build target to wasm only to avoid it.
@@ -318,6 +320,7 @@ impl HygieneData {
     }
 }
 
+#[track_caller]
 #[allow(unused)]
 pub(crate) fn with_marks<T, F: FnOnce(&mut Vec<MarkData>) -> T>(f: F) -> T {
     GLOBALS.with(|globals| {
@@ -600,7 +603,8 @@ impl fmt::Debug for SyntaxContext {
 }
 
 impl Default for Mark {
+    #[track_caller]
     fn default() -> Self {
-        Mark::root()
+        Mark::new()
     }
 }

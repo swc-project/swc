@@ -24,7 +24,7 @@ new (function() {
         _class_call_check(this, C);
     }
     return C.prototype.f = function() {
-        var x; // should be string
+        var x;
         return x.foo() + x.foo() + x.notHere();
     }, C;
 }())().f(), i.foo.notHere(), i.foo.foo(), a().notHere(), a().foo();
@@ -32,8 +32,6 @@ var b = {
     foo: function(x) {
         return x.foo() + x.notHere();
     },
-    // BUG 794164
     bar: b.foo(1).notHere()
 };
 b.foo(new B());
- // error after constraints above made illegal, doesn't matter

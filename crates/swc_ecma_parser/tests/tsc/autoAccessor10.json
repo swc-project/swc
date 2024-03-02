@@ -56,7 +56,9 @@
           "typeAnnotation": null,
           "isStatic": false,
           "decorators": [],
-          "accessibility": null
+          "accessibility": null,
+          "isOverride": false,
+          "definite": false
         }
       ],
       "superClass": null,
@@ -159,7 +161,9 @@
           "typeAnnotation": null,
           "isStatic": false,
           "decorators": [],
-          "accessibility": null
+          "accessibility": null,
+          "isOverride": false,
+          "definite": false
         }
       ],
       "superClass": null,
@@ -297,7 +301,9 @@
                     "typeAnnotation": null,
                     "isStatic": false,
                     "decorators": [],
-                    "accessibility": null
+                    "accessibility": null,
+                    "isOverride": false,
+                    "definite": false
                   },
                   {
                     "type": "StaticBlock",
@@ -429,7 +435,9 @@
           "typeAnnotation": null,
           "isStatic": true,
           "decorators": [],
-          "accessibility": null
+          "accessibility": null,
+          "isOverride": false,
+          "definite": false
         }
       ],
       "superClass": null,
@@ -488,7 +496,9 @@
           "typeAnnotation": null,
           "isStatic": true,
           "decorators": [],
-          "accessibility": null
+          "accessibility": null,
+          "isOverride": false,
+          "definite": false
         }
       ],
       "superClass": null,

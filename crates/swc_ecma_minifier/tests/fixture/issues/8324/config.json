@@ -1,0 +1,5 @@
+{
+    "defaults": false,
+    "if_return": true,
+    "passes": 3
+}

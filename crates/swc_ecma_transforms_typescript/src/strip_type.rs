@@ -1,5 +1,4 @@
-use swc_atoms::js_word;
-use swc_common::{util::take::Take, Spanned};
+use swc_common::util::take::Take;
 use swc_ecma_ast::*;
 use swc_ecma_visit::{VisitMut, VisitMutWith};
 
@@ -24,157 +23,16 @@ impl VisitMut for StripType {
         Box<TsTypeParamInstantiation>
     );
 
-    fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
-        n.retain(should_retain_module_item);
-        n.visit_mut_children_with(self);
-    }
-
-    fn visit_mut_import_specifiers(&mut self, n: &mut Vec<ImportSpecifier>) {
-        n.retain(|s| !matches!(s, ImportSpecifier::Named(named) if named.is_type_only));
-    }
-
-    fn visit_mut_export_specifiers(&mut self, n: &mut Vec<ExportSpecifier>) {
-        n.retain(|s| match s {
-            ExportSpecifier::Named(ExportNamedSpecifier { is_type_only, .. }) => !is_type_only,
-            _ => true,
-        })
-    }
-
-    fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
-        n.retain(should_retain_stmt);
-        n.visit_mut_children_with(self);
-    }
-
-    // https://github.com/tc39/proposal-type-annotations#parameter-optionality
-    fn visit_mut_ident(&mut self, n: &mut Ident) {
-        n.optional = false;
-    }
-
     fn visit_mut_array_pat(&mut self, n: &mut ArrayPat) {
         n.visit_mut_children_with(self);
         n.optional = false;
     }
 
-    fn visit_mut_object_pat(&mut self, pat: &mut ObjectPat) {
-        pat.visit_mut_children_with(self);
-        pat.optional = false;
-    }
-
-    fn visit_mut_expr(&mut self, n: &mut Expr) {
-        // https://github.com/tc39/proposal-type-annotations#type-assertions
-        // https://github.com/tc39/proposal-type-annotations#non-nullable-assertions
-        while let Expr::TsAs(TsAsExpr { expr, .. })
-        | Expr::TsNonNull(TsNonNullExpr { expr, .. })
-        | Expr::TsTypeAssertion(TsTypeAssertion { expr, .. })
-        | Expr::TsConstAssertion(TsConstAssertion { expr, .. })
-        | Expr::TsInstantiation(TsInstantiation { expr, .. })
-        | Expr::TsSatisfies(TsSatisfiesExpr { expr, .. }) = n
-        {
-            *n = *expr.take();
-        }
-
-        let non_null_as_child = matches!(&n, Expr::Member(MemberExpr { obj, .. }) if obj.is_ts_non_null())
-            | matches!(&n, Expr::Call(CallExpr { callee: Callee::Expr(calee), .. }) if calee.is_ts_non_null());
-
-        n.visit_mut_children_with(self);
-        if non_null_as_child {
-            // https://github.com/swc-project/swc/issues/7659
-            //
-            // a?.b!.c -> a?.b.c
-            //
-            // MemberExpr(
-            //     TsNonNullExpr(
-            //         OptChainExpr(
-            //             MemberExpr(a?, b)
-            //         )
-            //     ),
-            //     c
-            // )
-            //
-            // ->
-            //
-            // OptChainBase::Member(
-            //     MemberExpr(
-            //         OptChainExpr(
-            //             MemberExpr(a?, b)
-            //         )
-            //     c,
-            //     )
-            // )
-            //
-            // a?.b!() -> a?.b()
-            //
-            // CallExpr(
-            //     TsNonNullExpr(
-            //         OptChainExpr(
-            //             MemberExpr(a?, b)
-            //         )
-            //     ),
-            //     args
-            // )
-            //
-            // ->
-            //
-            // OptChainBase::Call(
-            //     OptChainExpr(
-            //         MemberExpr(a?, b)
-            //     )
-            //     args
-            // )
-            let span = n.span();
-
-            match n {
-                Expr::Member(MemberExpr { obj, .. }) if obj.is_opt_chain() => {
-                    *n = OptChainExpr {
-                        span,
-                        optional: false,
-                        base: OptChainBase::Member(n.take().member().unwrap()).into(),
-                    }
-                    .into();
-                }
-                Expr::Call(CallExpr {
-                    callee: Callee::Expr(callee),
-                    args,
-                    ..
-                }) if callee.is_opt_chain() => {
-                    *n = OptChainExpr {
-                        span,
-                        optional: false,
-                        base: OptChainBase::Call(OptCall {
-                            span,
-                            callee: callee.take(),
-                            args: args.take(),
-                            type_args: None,
-                        })
-                        .into(),
-                    }
-                    .into();
-                }
-                _ => {}
-            }
-        }
-    }
-
-    // https://github.com/tc39/proposal-type-annotations#this-parameters
-    fn visit_mut_params(&mut self, n: &mut Vec<Param>) {
-        if n.first()
-            .filter(|param| {
-                matches!(
-                    param.pat,
-                    Pat::Ident(BindingIdent {
-                        id: Ident {
-                            sym: js_word!("this"),
-                            ..
-                        },
-                        ..
-                    })
-                )
-            })
-            .is_some()
-        {
-            n.drain(0..1);
-        }
-
+    fn visit_mut_auto_accessor(&mut self, n: &mut AutoAccessor) {
+        n.type_ann = None;
+        n.accessibility = None;
+        n.definite = false;
+        n.is_override = false;
         n.visit_mut_children_with(self);
     }
 
@@ -213,30 +71,124 @@ impl VisitMut for StripType {
         n.visit_mut_children_with(self);
     }
 
+    fn visit_mut_class_method(&mut self, n: &mut ClassMethod) {
+        n.accessibility = None;
+        n.is_override = false;
+        n.is_abstract = false;
+        n.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_class_prop(&mut self, prop: &mut ClassProp) {
+        prop.declare = false;
+        prop.readonly = false;
+        prop.is_override = false;
+        prop.is_optional = false;
+        prop.is_abstract = false;
+        prop.definite = false;
+        prop.accessibility = None;
+        prop.visit_mut_children_with(self);
+    }
+
     fn visit_mut_constructor(&mut self, n: &mut Constructor) {
         n.accessibility = None;
         n.visit_mut_children_with(self);
     }
 
-    fn visit_mut_class_method(&mut self, n: &mut ClassMethod) {
-        n.accessibility = None;
+    fn visit_mut_export_specifiers(&mut self, n: &mut Vec<ExportSpecifier>) {
+        n.retain(|s| match s {
+            ExportSpecifier::Named(ExportNamedSpecifier { is_type_only, .. }) => !is_type_only,
+            _ => true,
+        })
+    }
+
+    fn visit_mut_expr(&mut self, n: &mut Expr) {
+        // https://github.com/tc39/proposal-type-annotations#type-assertions
+        // https://github.com/tc39/proposal-type-annotations#non-nullable-assertions
+        while let Expr::TsAs(TsAsExpr { expr, .. })
+        | Expr::TsNonNull(TsNonNullExpr { expr, .. })
+        | Expr::TsTypeAssertion(TsTypeAssertion { expr, .. })
+        | Expr::TsConstAssertion(TsConstAssertion { expr, .. })
+        | Expr::TsInstantiation(TsInstantiation { expr, .. })
+        | Expr::TsSatisfies(TsSatisfiesExpr { expr, .. }) = n
+        {
+            *n = *expr.take();
+        }
+
         n.visit_mut_children_with(self);
     }
 
-    fn visit_mut_class_prop(&mut self, prop: &mut ClassProp) {
-        prop.readonly = false;
-        prop.is_override = false;
-        prop.is_optional = false;
-        prop.accessibility = None;
-        prop.visit_mut_children_with(self);
+    // https://github.com/tc39/proposal-type-annotations#parameter-optionality
+    fn visit_mut_ident(&mut self, n: &mut Ident) {
+        n.optional = false;
+    }
+
+    fn visit_mut_import_specifiers(&mut self, n: &mut Vec<ImportSpecifier>) {
+        n.retain(|s| !matches!(s, ImportSpecifier::Named(named) if named.is_type_only));
+    }
+
+    fn visit_mut_module_items(&mut self, n: &mut Vec<ModuleItem>) {
+        n.retain(should_retain_module_item);
+        n.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_object_pat(&mut self, pat: &mut ObjectPat) {
+        pat.visit_mut_children_with(self);
+        pat.optional = false;
+    }
+
+    // https://github.com/tc39/proposal-type-annotations#this-parameters
+    fn visit_mut_params(&mut self, n: &mut Vec<Param>) {
+        if n.first()
+            .filter(|param| {
+                matches!(
+                    &param.pat,
+                    Pat::Ident(BindingIdent {
+                        id: Ident { sym, .. },
+                        ..
+                    }) if &**sym == "this"
+                )
+            })
+            .is_some()
+        {
+            n.drain(0..1);
+        }
+
+        n.visit_mut_children_with(self);
     }
 
     fn visit_mut_private_prop(&mut self, prop: &mut PrivateProp) {
         prop.readonly = false;
         prop.is_override = false;
         prop.is_optional = false;
+        prop.definite = false;
         prop.accessibility = None;
         prop.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_setter_prop(&mut self, n: &mut SetterProp) {
+        n.this_param = None;
+
+        n.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_simple_assign_target(&mut self, n: &mut SimpleAssignTarget) {
+        // https://github.com/tc39/proposal-type-annotations#type-assertions
+        // https://github.com/tc39/proposal-type-annotations#non-nullable-assertions
+        while let SimpleAssignTarget::TsAs(TsAsExpr { expr, .. })
+        | SimpleAssignTarget::TsNonNull(TsNonNullExpr { expr, .. })
+        | SimpleAssignTarget::TsTypeAssertion(TsTypeAssertion { expr, .. })
+        | SimpleAssignTarget::TsInstantiation(TsInstantiation { expr, .. })
+        | SimpleAssignTarget::TsSatisfies(TsSatisfiesExpr { expr, .. }) = n
+        {
+            *n = expr.take().try_into().unwrap();
+        }
+
+        n.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
+        n.retain(should_retain_stmt);
+        n.visit_mut_children_with(self);
     }
 
     fn visit_mut_ts_import_equals_decl(&mut self, _: &mut TsImportEqualsDecl) {

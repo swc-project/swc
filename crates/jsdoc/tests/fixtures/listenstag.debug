@@ -19,7 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -42,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('module' type=static),
+                    value: "module",
                 },
                 tag: Module(
                     ModuleTag {
@@ -65,7 +65,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('' type=static),
+                            value: "",
                         },
                         ty: Text {
                             span: Span {
@@ -77,7 +77,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('myModule' type=dynamic),
+                            value: "myModule",
                         },
                     },
                 ),
@@ -104,8 +104,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('An event (has listeners).
-             *' type=dynamic),
+            value: "An event (has listeners).\n *",
         },
         tags: [
             TagItem {
@@ -128,7 +127,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('event' type=inline),
+                    value: "event",
                 },
                 tag: Unknown(
                     UnknownTag {
@@ -151,7 +150,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('MyEvent' type=inline),
+                            value: "MyEvent",
                         },
                     },
                 ),
@@ -176,7 +175,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('memberof' type=dynamic),
+                    value: "memberof",
                 },
                 tag: MemberOf(
                     MemberOfTag {
@@ -210,7 +209,7 @@
                                         ),
                                         ctxt: #0,
                                     },
-                                    value: Atom('module' type=static),
+                                    value: "module",
                                 },
                             ],
                         },
@@ -239,8 +238,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('A handler.
-             *' type=dynamic),
+            value: "A handler.\n *",
         },
         tags: [
             TagItem {
@@ -263,7 +261,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('listens' type=inline),
+                    value: "listens",
                 },
                 tag: Listens(
                     ListensTag {
@@ -286,7 +284,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('module:myModule.MyEvent' type=dynamic),
+                            value: "module:myModule.MyEvent",
                         },
                     },
                 ),
@@ -311,7 +309,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('listens' type=inline),
+                    value: "listens",
                 },
                 tag: Listens(
                     ListensTag {
@@ -334,7 +332,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('module:myModule~Events.event:Event2' type=dynamic),
+                            value: "module:myModule~Events.event:Event2",
                         },
                     },
                 ),
@@ -359,7 +357,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('listens' type=inline),
+                    value: "listens",
                 },
                 tag: Listens(
                     ListensTag {
@@ -382,7 +380,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('fakeEvent' type=dynamic),
+                            value: "fakeEvent",
                         },
                     },
                 ),
@@ -409,8 +407,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Another handler.
-             *' type=dynamic),
+            value: "Another handler.\n *",
         },
         tags: [
             TagItem {
@@ -433,7 +430,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('listens' type=inline),
+                    value: "listens",
                 },
                 tag: Listens(
                     ListensTag {
@@ -456,7 +453,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('module:myModule.MyEvent' type=dynamic),
+                            value: "module:myModule.MyEvent",
                         },
                     },
                 ),
@@ -483,8 +480,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('a namespace.
-             *' type=dynamic),
+            value: "a namespace.\n *",
         },
         tags: [
             TagItem {
@@ -507,7 +503,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('namespace' type=static),
+                    value: "namespace",
                 },
                 tag: Namespace(
                     NamespaceTag {

@@ -78,7 +78,8 @@
         "raw": "\"./defaultPath\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "FunctionDeclaration",
@@ -331,7 +332,8 @@
             "start": 367,
             "end": 373,
             "ctxt": 0
-          }
+          },
+          "phase": "evaluation"
         },
         "arguments": [
           {
@@ -426,7 +428,8 @@
             "start": 406,
             "end": 412,
             "ctxt": 0
-          }
+          },
+          "phase": "evaluation"
         },
         "arguments": [
           {
@@ -497,7 +500,8 @@
                 "start": 440,
                 "end": 446,
                 "ctxt": 0
-              }
+              },
+              "phase": "evaluation"
             },
             "arguments": [
               {
@@ -643,7 +647,8 @@
                 "start": 520,
                 "end": 526,
                 "ctxt": 0
-              }
+              },
+              "phase": "evaluation"
             },
             "arguments": [
               {
@@ -771,7 +776,8 @@
                 "start": 585,
                 "end": 591,
                 "ctxt": 0
-              }
+              },
+              "phase": "evaluation"
             },
             "arguments": [
               {
@@ -852,7 +858,8 @@
                   "start": 620,
                   "end": 626,
                   "ctxt": 0
-                }
+                },
+                "phase": "evaluation"
               },
               "arguments": [
                 {
@@ -1236,7 +1243,8 @@
                 "start": 826,
                 "end": 832,
                 "ctxt": 0
-              }
+              },
+              "phase": "evaluation"
             },
             "arguments": [
               {
@@ -1517,7 +1525,8 @@
                         "start": 1000,
                         "end": 1006,
                         "ctxt": 0
-                      }
+                      },
+                      "phase": "evaluation"
                     },
                     "arguments": [
                       {

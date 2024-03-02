@@ -337,7 +337,7 @@
    :         ^^^^^
    `----
 
-  x Ident { value: Atom('value' type=inline), raw: "value" }
+  x Ident { value: "value", raw: "value" }
    ,-[$DIR/tests/fixture/value/custom-property/input.css:1:1]
  1 | :root {
  2 |     ---:value;
@@ -384,7 +384,7 @@
  5 |     --important1: value!important;
    `----
 
-  x Ident { value: Atom('value' type=inline), raw: "value" }
+  x Ident { value: "value", raw: "value" }
    ,-[$DIR/tests/fixture/value/custom-property/input.css:3:1]
  3 | 
  4 |     --important:value!important;
@@ -448,7 +448,7 @@
  6 |     --important2: value !important;
    `----
 
-  x Ident { value: Atom('value' type=inline), raw: "value" }
+  x Ident { value: "value", raw: "value" }
    ,-[$DIR/tests/fixture/value/custom-property/input.css:4:1]
  4 |     --important:value!important;
  5 |     --important1: value!important;
@@ -512,7 +512,7 @@
  7 |     --important3:value !important;
    `----
 
-  x Ident { value: Atom('value' type=inline), raw: "value" }
+  x Ident { value: "value", raw: "value" }
    ,-[$DIR/tests/fixture/value/custom-property/input.css:5:1]
  5 |     --important1: value!important;
  6 |     --important2: value !important;
@@ -576,7 +576,7 @@
  8 |     --important4: calc(1)!important;
    `----
 
-  x Ident { value: Atom('value' type=inline), raw: "value" }
+  x Ident { value: "value", raw: "value" }
    ,-[$DIR/tests/fixture/value/custom-property/input.css:6:1]
  6 |     --important2: value !important;
  7 |     --important3:value !important;
@@ -905,7 +905,7 @@
  17 |     --number: 1;
     `----
 
-  x Ident { value: Atom('ident' type=inline), raw: "ident" }
+  x Ident { value: "ident", raw: "ident" }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:15:1]
  15 | 
  16 |     --no-whitespace:ident;
@@ -1001,7 +1001,7 @@
  19 |     --color: #06c;
     `----
 
-  x Dimension(DimensionToken { value: 100.0, raw_value: "100", unit: Atom('vw' type=static), type_flag: Integer, raw_unit: "vw" })
+  x Dimension(DimensionToken { value: 100.0, raw_value: "100", unit: "vw", type_flag: Integer, raw_unit: "vw" })
     ,-[$DIR/tests/fixture/value/custom-property/input.css:17:1]
  17 |     --number: 1;
  18 |     --unit: 100vw;
@@ -1044,7 +1044,7 @@
     :              ^^^^
     `----
 
-  x Hash { is_id: false, value: Atom('06c' type=inline), raw: "06c" }
+  x Hash { is_id: false, value: "06c", raw: "06c" }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:18:1]
  18 |     --unit: 100vw;
  19 |     --color: #06c;
@@ -1243,7 +1243,7 @@
     :                     ^^^^^^
     `----
 
-  x Ident { value: Atom('--unit' type=inline), raw: "--unit" }
+  x Ident { value: "--unit", raw: "--unit" }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:21:1]
  21 |     --function: calc(1 + 1);
  22 |     --variable: var(--unit);
@@ -1290,7 +1290,7 @@
  25 |     --string: "double quoted string";
     `----
 
-  x String { value: Atom('single quoted string' type=dynamic), raw: "'single quoted string'" }
+  x String { value: "single quoted string", raw: "'single quoted string'" }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:23:1]
  23 | 
  24 |     --string: 'single quoted string';
@@ -1333,7 +1333,7 @@
     :               ^^^^^^^^^^^^^^^^^^^^^^
     `----
 
-  x String { value: Atom('double quoted string' type=dynamic), raw: "\"double quoted string\"" }
+  x String { value: "double quoted string", raw: "\"double quoted string\"" }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:24:1]
  24 |     --string: 'single quoted string';
  25 |     --string: "double quoted string";
@@ -2285,7 +2285,7 @@
  39 |     --javascript: function(rule) { console.log(rule) };
     `----
 
-  x String { value: Atom('2' type=inline), raw: "\"2\"" }
+  x String { value: "2", raw: "\"2\"" }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:37:1]
  37 | 
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
@@ -2357,7 +2357,7 @@
  39 |     --javascript: function(rule) { console.log(rule) };
     `----
 
-  x String { value: Atom('three' type=inline), raw: "\"three\"" }
+  x String { value: "three", raw: "\"three\"" }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:37:1]
  37 | 
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
@@ -2429,7 +2429,7 @@
  39 |     --javascript: function(rule) { console.log(rule) };
     `----
 
-  x String { value: Atom('a' type=static), raw: "\"a\"" }
+  x String { value: "a", raw: "\"a\"" }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:37:1]
  37 | 
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
@@ -2597,7 +2597,7 @@
     :                            ^^^^
     `----
 
-  x Ident { value: Atom('rule' type=inline), raw: "rule" }
+  x Ident { value: "rule", raw: "rule" }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
  39 |     --javascript: function(rule) { console.log(rule) };
@@ -2660,7 +2660,7 @@
     :                                    ^^^^^^^
     `----
 
-  x Ident { value: Atom('console' type=inline), raw: "console" }
+  x Ident { value: "console", raw: "console" }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
  39 |     --javascript: function(rule) { console.log(rule) };
@@ -2709,7 +2709,7 @@
     :                                                ^^^^
     `----
 
-  x Ident { value: Atom('rule' type=inline), raw: "rule" }
+  x Ident { value: "rule", raw: "rule" }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:38:1]
  38 |     --JSON: [1, "2", {"three": {"a":1}}, [4]];
  39 |     --javascript: function(rule) { console.log(rule) };
@@ -3292,7 +3292,7 @@
  46 |     --semicolon-not-top-level: (;);
     `----
 
-  x Ident { value: Atom('important' type=static), raw: "important" }
+  x Ident { value: "important", raw: "important" }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:44:1]
  44 |     --complex-balanced:{[({()})()()[({})]]}[{()}]([]);
  45 |     --fake-important:{!important};
@@ -3532,7 +3532,7 @@
  50 |         height: 0;
     `----
 
-  x Ident { value: Atom('width' type=static), raw: "width" }
+  x Ident { value: "width", raw: "width" }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:48:1]
  48 |     --zero-size: {
  49 |         width: 0;
@@ -3628,7 +3628,7 @@
  51 |     };
     `----
 
-  x Ident { value: Atom('height' type=static), raw: "height" }
+  x Ident { value: "height", raw: "height" }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:49:1]
  49 |         width: 0;
  50 |         height: 0;
@@ -3806,7 +3806,7 @@
  54 |         height: 16px;
     `----
 
-  x Ident { value: Atom('width' type=static), raw: "width" }
+  x Ident { value: "width", raw: "width" }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:52:1]
  52 |     --small-icon: {
  53 |         width: 16px;
@@ -3854,7 +3854,7 @@
  54 |         height: 16px;
     `----
 
-  x Dimension(DimensionToken { value: 16.0, raw_value: "16", unit: Atom('px' type=static), type_flag: Integer, raw_unit: "px" })
+  x Dimension(DimensionToken { value: 16.0, raw_value: "16", unit: "px", type_flag: Integer, raw_unit: "px" })
     ,-[$DIR/tests/fixture/value/custom-property/input.css:52:1]
  52 |     --small-icon: {
  53 |         width: 16px;
@@ -3902,7 +3902,7 @@
  55 |     }
     `----
 
-  x Ident { value: Atom('height' type=static), raw: "height" }
+  x Ident { value: "height", raw: "height" }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:53:1]
  53 |         width: 16px;
  54 |         height: 16px;
@@ -3950,7 +3950,7 @@
  55 |     }
     `----
 
-  x Dimension(DimensionToken { value: 16.0, raw_value: "16", unit: Atom('px' type=static), type_flag: Integer, raw_unit: "px" })
+  x Dimension(DimensionToken { value: 16.0, raw_value: "16", unit: "px", type_flag: Integer, raw_unit: "px" })
     ,-[$DIR/tests/fixture/value/custom-property/input.css:53:1]
  53 |         width: 16px;
  54 |         height: 16px;
@@ -4462,7 +4462,7 @@
  67 | }
     `----
 
-  x Ident { value: Atom('value' type=inline), raw: "value" }
+  x Ident { value: "value", raw: "value" }
     ,-[$DIR/tests/fixture/value/custom-property/input.css:65:1]
  65 | :root {
  66 |     --var:  value;

@@ -1,6 +1,5 @@
 use std::ops::DerefMut;
 
-use swc_atoms::js_word;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
 use swc_ecma_utils::quote_ident;
@@ -28,16 +27,16 @@ impl VisitMut for DisplayName {
             return;
         }
 
-        if let Some(
-            Expr::Member(MemberExpr {
+        if let AssignTarget::Simple(
+            SimpleAssignTarget::Member(MemberExpr {
                 prop: MemberProp::Ident(prop),
                 ..
             })
-            | Expr::SuperProp(SuperPropExpr {
+            | SimpleAssignTarget::SuperProp(SuperPropExpr {
                 prop: SuperProp::Ident(prop),
                 ..
             }),
-        ) = expr.left.as_expr()
+        ) = &expr.left
         {
             return expr.right.visit_mut_with(&mut Folder {
                 name: Some(Box::new(Expr::Lit(Lit::Str(Str {
@@ -139,28 +138,13 @@ fn is_create_class_call(call: &CallExpr) -> bool {
     };
 
     match callee {
-        Expr::Member(MemberExpr {
-            obj,
-            prop:
-                MemberProp::Ident(Ident {
-                    sym: js_word!("createClass"),
-                    ..
-                }),
-            ..
-        }) => {
-            if let Expr::Ident(Ident {
-                sym: js_word!("React"),
-                ..
-            }) = &**obj
-            {
+        Expr::Member(MemberExpr { obj, prop, .. }) if prop.is_ident_with("createClass") => {
+            if obj.is_ident_ref_to("React") {
                 return true;
             }
         }
 
-        Expr::Ident(Ident {
-            sym: js_word!("createReactClass"),
-            ..
-        }) => return true,
+        Expr::Ident(Ident { sym, .. }) if &**sym == "createReactClass" => return true,
         _ => {}
     }
 
@@ -191,13 +175,13 @@ fn add_display_name(call: &mut CallExpr, name: Box<Expr>) {
 fn is_key_display_name(prop: &PropOrSpread) -> bool {
     match *prop {
         PropOrSpread::Prop(ref prop) => match **prop {
-            Prop::Shorthand(ref i) => i.sym == js_word!("displayName"),
+            Prop::Shorthand(ref i) => i.sym == "displayName",
             Prop::Method(MethodProp { ref key, .. })
             | Prop::Getter(GetterProp { ref key, .. })
             | Prop::Setter(SetterProp { ref key, .. })
             | Prop::KeyValue(KeyValueProp { ref key, .. }) => match *key {
-                PropName::Ident(ref i) => i.sym == js_word!("displayName"),
-                PropName::Str(ref s) => s.value == js_word!("displayName"),
+                PropName::Ident(ref i) => i.sym == "displayName",
+                PropName::Str(ref s) => s.value == "displayName",
                 PropName::Num(..) => false,
                 PropName::BigInt(..) => false,
                 PropName::Computed(..) => false,

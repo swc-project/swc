@@ -4,11 +4,11 @@ use std::{
 };
 
 use rustc_hash::{FxHashMap, FxHashSet};
-use swc_atoms::{js_word, JsWord};
-use swc_common::{util::take::Take, Span, DUMMY_SP};
+use swc_atoms::JsWord;
+use swc_common::{collections::AHashSet, util::take::Take, Mark, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::{Parallel, ParallelExt};
-use swc_ecma_utils::{ExprCtx, ExprExt};
+use swc_ecma_utils::{collect_decls, ExprCtx, ExprExt, Remapper};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 use tracing::debug;
 
@@ -221,8 +221,10 @@ pub(crate) fn is_valid_for_lhs(e: &Expr) -> bool {
 #[derive(Clone, Copy)]
 pub(crate) struct Finalizer<'a> {
     pub simple_functions: &'a FxHashMap<Id, Box<Expr>>,
+    pub lits: &'a FxHashMap<Id, Box<Expr>>,
     pub lits_for_cmp: &'a FxHashMap<Id, Box<Expr>>,
     pub lits_for_array_access: &'a FxHashMap<Id, Box<Expr>>,
+    pub hoisted_props: &'a FxHashMap<(Id, JsWord), Ident>,
 
     pub vars_to_remove: &'a FxHashSet<Id>,
 
@@ -242,7 +244,31 @@ impl Parallel for Finalizer<'_> {
 impl<'a> Finalizer<'a> {
     fn var(&mut self, i: &Id, mode: FinalizerMode) -> Option<Box<Expr>> {
         let mut e = match mode {
-            FinalizerMode::Callee => self.simple_functions.get(i).cloned()?,
+            FinalizerMode::Callee => {
+                let mut value = self.simple_functions.get(i).cloned()?;
+                let mut cache = FxHashMap::default();
+                let mut remap = FxHashMap::default();
+                let bindings: AHashSet<Id> = collect_decls(&*value);
+                let new_mark = Mark::new();
+
+                // at this point, var usage no longer matter
+                for id in bindings {
+                    let new_ctxt = cache
+                        .entry(id.1)
+                        .or_insert_with(|| id.1.apply_mark(new_mark));
+
+                    let new_ctxt = *new_ctxt;
+
+                    remap.insert(id, new_ctxt);
+                }
+
+                if !remap.is_empty() {
+                    let mut remapper = Remapper::new(&remap);
+                    value.visit_mut_with(&mut remapper);
+                }
+
+                value
+            }
             FinalizerMode::ComparisonWithLit => self.lits_for_cmp.get(i).cloned()?,
             FinalizerMode::MemberAccess => self.lits_for_array_access.get(i).cloned()?,
         };
@@ -250,13 +276,12 @@ impl<'a> Finalizer<'a> {
         e.visit_mut_children_with(self);
 
         match &*e {
-            Expr::Ident(Ident {
-                sym: js_word!("eval"),
-                ..
-            }) => Some(Box::new(Expr::Seq(SeqExpr {
-                span: DUMMY_SP,
-                exprs: vec![0.into(), e],
-            }))),
+            Expr::Ident(Ident { sym, .. }) if &**sym == "eval" => {
+                Some(Box::new(Expr::Seq(SeqExpr {
+                    span: DUMMY_SP,
+                    exprs: vec![0.into(), e],
+                })))
+            }
             _ => Some(e),
         }
     }
@@ -379,6 +404,27 @@ impl VisitMut for Finalizer<'_> {
         });
     }
 
+    fn visit_mut_expr(&mut self, n: &mut Expr) {
+        if let Expr::Ident(i) = n {
+            if let Some(expr) = self.lits.get(&i.to_id()) {
+                *n = *expr.clone();
+            }
+        } else {
+            n.visit_mut_children_with(self);
+        }
+
+        if let Expr::Member(e) = n {
+            if let Expr::Ident(obj) = &*e.obj {
+                if let MemberProp::Ident(prop) = &e.prop {
+                    if let Some(ident) = self.hoisted_props.get(&(obj.to_id(), prop.sym.clone())) {
+                        self.changed = true;
+                        *n = ident.clone().into();
+                    }
+                }
+            }
+        }
+    }
+
     fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
         self.maybe_par(*HEAVY_TASK_PARALLELS, n, |v, n| {
             n.visit_mut_with(v);
@@ -412,13 +458,12 @@ impl<'a> NormalMultiReplacer<'a> {
         e.visit_mut_children_with(self);
 
         match &*e {
-            Expr::Ident(Ident {
-                sym: js_word!("eval"),
-                ..
-            }) => Some(Box::new(Expr::Seq(SeqExpr {
-                span: DUMMY_SP,
-                exprs: vec![0.into(), e],
-            }))),
+            Expr::Ident(Ident { sym, .. }) if &**sym == "eval" => {
+                Some(Box::new(Expr::Seq(SeqExpr {
+                    span: DUMMY_SP,
+                    exprs: vec![0.into(), e],
+                })))
+            }
             _ => Some(e),
         }
     }
@@ -500,13 +545,12 @@ impl ExprReplacer {
         let e = self.to.take()?;
 
         match &*e {
-            Expr::Ident(Ident {
-                sym: js_word!("eval"),
-                ..
-            }) => Some(Box::new(Expr::Seq(SeqExpr {
-                span: DUMMY_SP,
-                exprs: vec![0.into(), e],
-            }))),
+            Expr::Ident(Ident { sym, .. }) if &**sym == "eval" => {
+                Some(Box::new(Expr::Seq(SeqExpr {
+                    span: DUMMY_SP,
+                    exprs: vec![0.into(), e],
+                })))
+            }
             _ => Some(e),
         }
     }

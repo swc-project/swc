@@ -20,80 +20,56 @@ C.Cls = function _class() {
 export var D = function D(a, b) {
     _class_call_check(this, D);
 };
-/**
- * @template T,U
- */ export var E = function() {
+export var E = function() {
     function E(a, b) {
         _class_call_check(this, E), this.initializedField = 12;
     }
     return _create_class(E, [
         {
             key: "f1",
-            get: /**
-     * @return {U}
-     */ function() {
-                return /** @type {*} */ null;
+            get: function() {
+                return null;
             },
-            set: /**
-     * @param {U} _p
-     */ function(_p) {}
+            set: function(_p) {}
         },
         {
             key: "f2",
-            get: /**
-     * @return {U}
-     */ function() {
-                return /** @type {*} */ null;
+            get: function() {
+                return null;
             }
         },
         {
             key: "f3",
-            set: /**
-     * @param {U} _p
-     */ function(_p) {}
+            set: function(_p) {}
         }
     ], [
         {
             key: "s1",
-            get: /**
-     * @return {string}
-     */ function() {
+            get: function() {
                 return "";
             },
-            set: /**
-     * @param {string} _p
-     */ function(_p) {}
+            set: function(_p) {}
         },
         {
             key: "s2",
-            get: /**
-     * @return {string}
-     */ function() {
+            get: function() {
                 return "";
             }
         },
         {
             key: "s3",
-            set: /**
-     * @param {string} _p
-     */ function(_p) {}
+            set: function(_p) {}
         }
     ]), E;
 }();
 E.staticInitializedField = 12;
-/**
- * @template T,U
- */ export var F = function() {
+export var F = function() {
     function F(a, b) {
         _class_call_check(this, F);
     }
-    return(/**
-     * @template A,B
-     * @param {A} a
-     * @param {B} b
-     */ F.create = function(a, b) {
+    return F.create = function(a, b) {
         return new F(a, b);
-    }, F);
+    }, F;
 }();
 var G = function G() {
     _class_call_check(this, G);
@@ -130,9 +106,7 @@ export var M = function(_superClass) {
     }
     return _inherits(M, null), _create_super(M), M;
 }(0);
-/**
- * @template T
- */ export var N = function(L) {
+export var N = function(L) {
     _inherits(N, L);
     var _super = _create_super(N);
     function N(param) {
@@ -141,10 +115,7 @@ export var M = function(_superClass) {
     }
     return N;
 }(L);
-/**
- * @template U
- * @extends {N<U>}
- */ export var O = function(N) {
+export var O = function(N) {
     _inherits(O, N);
     var _super = _create_super(O);
     function O(param) {
@@ -154,13 +125,13 @@ export var M = function(_superClass) {
     return O;
 }(N);
 export var VariableBase = function(x) {
-    _inherits(VariableBase, /** @type {*} */ null);
+    _inherits(VariableBase, x);
     var _super = _create_super(VariableBase);
     function VariableBase() {
         return _class_call_check(this, VariableBase), _super.apply(this, arguments);
     }
     return VariableBase;
-}(0);
+}(null);
 export var HasStatics = function() {
     function HasStatics() {
         _class_call_check(this, HasStatics);

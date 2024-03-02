@@ -1,6 +1,6 @@
 import { jsx as t } from "react/jsx-runtime";
 export default function() {
-    return /*#__PURE__*/ t(Input, {
+    return t(Input, {
         pattern: ".*\\S+.*"
     });
 }

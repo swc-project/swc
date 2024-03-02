@@ -143,7 +143,7 @@ bitflags! {
             | Self::SpaceBetweenSiblings.bits()
             | Self::SpaceBetweenBraces.bits();
         const MultiLineFunctionBodyStatements = Self::MultiLine.bits();
-        const ClassHeritageClauses = Self::SingleLine.bits() | Self::SpaceBetweenSiblings.bits();
+        const ClassHeritageClauses = Self::CommaDelimited.bits() | Self::SingleLine.bits() | Self::SpaceBetweenSiblings.bits();
         const ClassMembers = Self::Indented.bits() | Self::MultiLine.bits();
         const InterfaceMembers = Self::Indented.bits() | Self::MultiLine.bits();
         const EnumMembers = Self::CommaDelimited.bits() | Self::Indented.bits() | Self::MultiLine.bits();

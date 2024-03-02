@@ -1,6 +1,5 @@
 use std::mem::take;
 
-use swc_atoms::js_word;
 use swc_common::DUMMY_SP;
 use swc_css_ast::*;
 
@@ -331,7 +330,7 @@ impl Compressor {
                 if media_condition.conditions.len() == 1 =>
             {
                 if let Some(MediaConditionAllType::MediaInParens(media_in_parens)) =
-                    media_condition.conditions.get(0)
+                    media_condition.conditions.first()
                 {
                     *n = media_in_parens.clone();
                 }
@@ -346,33 +345,32 @@ impl Compressor {
                 if is_calc_function_name(name) && value.len() == 1 =>
             {
                 match &value[0] {
-                    ComponentValue::CalcSum(box CalcSum {
-                        expressions: calc_sum_expressions,
-                        ..
-                    }) if calc_sum_expressions.len() == 1 => match &calc_sum_expressions[0] {
-                        CalcProductOrOperator::Product(CalcProduct {
-                            expressions: calc_product_expressions,
-                            ..
-                        }) if calc_product_expressions.len() == 1 => {
-                            if let CalcValueOrOperator::Value(calc_value) =
-                                &calc_product_expressions[0]
-                            {
-                                match transform_calc_value_into_component_value(calc_value) {
-                                    Some(ComponentValue::Function(function)) => {
-                                        *n = MediaFeatureValue::Function(*function);
+                    ComponentValue::CalcSum(calc_sum) if calc_sum.expressions.len() == 1 => {
+                        match &calc_sum.expressions[0] {
+                            CalcProductOrOperator::Product(CalcProduct {
+                                expressions: calc_product_expressions,
+                                ..
+                            }) if calc_product_expressions.len() == 1 => {
+                                if let CalcValueOrOperator::Value(calc_value) =
+                                    &calc_product_expressions[0]
+                                {
+                                    match transform_calc_value_into_component_value(calc_value) {
+                                        Some(ComponentValue::Function(function)) => {
+                                            *n = MediaFeatureValue::Function(*function);
+                                        }
+                                        Some(ComponentValue::Dimension(dimension)) => {
+                                            *n = MediaFeatureValue::Dimension(*dimension);
+                                        }
+                                        Some(ComponentValue::Number(number)) => {
+                                            *n = MediaFeatureValue::Number(*number);
+                                        }
+                                        _ => {}
                                     }
-                                    Some(ComponentValue::Dimension(dimension)) => {
-                                        *n = MediaFeatureValue::Dimension(*dimension);
-                                    }
-                                    Some(ComponentValue::Number(number)) => {
-                                        *n = MediaFeatureValue::Number(*number);
-                                    }
-                                    _ => {}
                                 }
                             }
+                            _ => {}
                         }
-                        _ => {}
-                    },
+                    }
                     _ => {}
                 }
             }
@@ -393,14 +391,15 @@ impl Compressor {
             MediaFeature::Plain(MediaFeaturePlain {
                 span,
                 name: MediaFeatureName::Ident(name),
-                value: box MediaFeatureValue::Number(value),
+                value,
             }) => {
                 if matches!(
-                    name.value,
-                    js_word!("min-color")
-                        | js_word!("min-color-index")
-                        | js_word!("min-monochrome")
-                ) && value.value == 1.0
+                    &*name.value,
+                    "min-color" | "min-color-index" | "min-monochrome"
+                ) && value
+                    .as_number()
+                    .map(|value| value.value == 1.0)
+                    .unwrap_or_default()
                 {
                     *n = MediaFeature::Boolean(MediaFeatureBoolean {
                         span: *span,
@@ -414,10 +413,8 @@ impl Compressor {
             }
             MediaFeature::Range(range) => {
                 if let MediaFeatureValue::Ident(name) = &*range.left {
-                    if matches!(
-                        name.value,
-                        js_word!("color") | js_word!("color-index") | js_word!("monochrome")
-                    ) && matches!(&*range.right, MediaFeatureValue::Number(number) if number.value == 1.0)
+                    if matches!(&*name.value, "color" | "color-index" | "monochrome")
+                        && matches!(&*range.right, MediaFeatureValue::Number(number) if number.value == 1.0)
                         && range.comparison == MediaFeatureRangeComparison::Ge
                     {
                         *n = MediaFeature::Boolean(MediaFeatureBoolean {
@@ -432,10 +429,8 @@ impl Compressor {
                         });
                     }
                 } else if let MediaFeatureValue::Ident(name) = &*range.right {
-                    if matches!(
-                        name.value,
-                        js_word!("color") | js_word!("color-index") | js_word!("monochrome")
-                    ) && matches!(&*range.left, MediaFeatureValue::Number(number) if number.value == 1.0)
+                    if matches!(&*name.value, "color" | "color-index" | "monochrome")
+                        && matches!(&*range.left, MediaFeatureValue::Number(number) if number.value == 1.0)
                         && range.comparison == MediaFeatureRangeComparison::Le
                     {
                         *n = MediaFeature::Boolean(MediaFeatureBoolean {

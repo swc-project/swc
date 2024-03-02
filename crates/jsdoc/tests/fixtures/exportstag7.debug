@@ -19,7 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -42,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('exports' type=inline),
+                    value: "exports",
                 },
                 tag: Exports(
                     ExportsTag {
@@ -65,7 +65,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('' type=static),
+                            value: "",
                         },
                     },
                 ),
@@ -92,7 +92,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('A property of the module.' type=dynamic),
+            value: "A property of the module.",
         },
         tags: [],
     },
@@ -116,7 +116,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -139,7 +139,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('constructor' type=static),
+                    value: "constructor",
                 },
                 tag: Class(
                     ClassTag {
@@ -179,7 +179,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('A property of the class.' type=dynamic),
+            value: "A property of the class.",
         },
         tags: [],
     },
@@ -203,7 +203,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Iron the turtleneck.' type=dynamic),
+            value: "Iron the turtleneck.",
         },
         tags: [],
     },

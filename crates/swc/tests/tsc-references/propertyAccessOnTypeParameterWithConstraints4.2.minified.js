@@ -5,7 +5,7 @@ new (function() {
         _class_call_check(this, C);
     }
     return C.prototype.f = function() {
-        var x; // should be string
+        var x;
         return x.notHere() + x.notHere();
     }, C;
 }())().f(), i.foo.notHere(), i.foo.notHere(), a().notHere(), a().notHere();

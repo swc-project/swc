@@ -1,3 +1,3 @@
-var b = 1;
-var a = b += 1, b = NaN;
+var b;
+var a = b = 2, b = NaN;
 console.log(a, b);

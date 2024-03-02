@@ -2,7 +2,7 @@
   "type": "Module",
   "span": {
     "start": 18,
-    "end": 4703,
+    "end": 5491,
     "ctxt": 0
   },
   "body": [
@@ -8408,6 +8408,1258 @@
         "typeParams": null,
         "superTypeParams": null,
         "implements": []
+      }
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 4805,
+          "end": 4819,
+          "ctxt": 0
+        },
+        "value": "conversionTest",
+        "optional": false
+      },
+      "declare": false,
+      "params": [
+        {
+          "type": "Parameter",
+          "span": {
+            "start": 4820,
+            "end": 4907,
+            "ctxt": 0
+          },
+          "decorators": [],
+          "pat": {
+            "type": "Identifier",
+            "span": {
+              "start": 4820,
+              "end": 4907,
+              "ctxt": 0
+            },
+            "value": "groupName",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 4829,
+                "end": 4907,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsUnionType",
+                "span": {
+                  "start": 4831,
+                  "end": 4907,
+                  "ctxt": 0
+                },
+                "types": [
+                  {
+                    "type": "TsLiteralType",
+                    "span": {
+                      "start": 4833,
+                      "end": 4843,
+                      "ctxt": 0
+                    },
+                    "literal": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 4833,
+                        "end": 4843,
+                        "ctxt": 0
+                      },
+                      "value": "downcast",
+                      "raw": "\"downcast\""
+                    }
+                  },
+                  {
+                    "type": "TsLiteralType",
+                    "span": {
+                      "start": 4846,
+                      "end": 4860,
+                      "ctxt": 0
+                    },
+                    "literal": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 4846,
+                        "end": 4860,
+                        "ctxt": 0
+                      },
+                      "value": "dataDowncast",
+                      "raw": "\"dataDowncast\""
+                    }
+                  },
+                  {
+                    "type": "TsLiteralType",
+                    "span": {
+                      "start": 4863,
+                      "end": 4880,
+                      "ctxt": 0
+                    },
+                    "literal": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 4863,
+                        "end": 4880,
+                        "ctxt": 0
+                      },
+                      "value": "editingDowncast",
+                      "raw": "\"editingDowncast\""
+                    }
+                  },
+                  {
+                    "type": "TsIntersectionType",
+                    "span": {
+                      "start": 4883,
+                      "end": 4907,
+                      "ctxt": 0
+                    },
+                    "types": [
+                      {
+                        "type": "TsLiteralType",
+                        "span": {
+                          "start": 4883,
+                          "end": 4902,
+                          "ctxt": 0
+                        },
+                        "literal": {
+                          "type": "TemplateLiteral",
+                          "span": {
+                            "start": 4883,
+                            "end": 4902,
+                            "ctxt": 0
+                          },
+                          "types": [
+                            {
+                              "type": "TsKeywordType",
+                              "span": {
+                                "start": 4886,
+                                "end": 4892,
+                                "ctxt": 0
+                              },
+                              "kind": "string"
+                            }
+                          ],
+                          "quasis": [
+                            {
+                              "type": "TemplateElement",
+                              "span": {
+                                "start": 4884,
+                                "end": 4884,
+                                "ctxt": 0
+                              },
+                              "tail": false,
+                              "cooked": "",
+                              "raw": ""
+                            },
+                            {
+                              "type": "TemplateElement",
+                              "span": {
+                                "start": 4893,
+                                "end": 4901,
+                                "ctxt": 0
+                              },
+                              "tail": true,
+                              "cooked": "Downcast",
+                              "raw": "Downcast"
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "type": "TsTypeLiteral",
+                        "span": {
+                          "start": 4905,
+                          "end": 4907,
+                          "ctxt": 0
+                        },
+                        "members": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "decorators": [],
+      "span": {
+        "start": 4796,
+        "end": 4911,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 4909,
+          "end": 4911,
+          "ctxt": 0
+        },
+        "stmts": []
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 4912,
+        "end": 4943,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 4912,
+          "end": 4942,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "Identifier",
+          "span": {
+            "start": 4912,
+            "end": 4926,
+            "ctxt": 0
+          },
+          "value": "conversionTest",
+          "optional": false
+        },
+        "arguments": [
+          {
+            "spread": null,
+            "expression": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 4927,
+                "end": 4941,
+                "ctxt": 0
+              },
+              "value": "testDowncast",
+              "raw": "\"testDowncast\""
+            }
+          }
+        ],
+        "typeArguments": null
+      }
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 4953,
+          "end": 4968,
+          "ctxt": 0
+        },
+        "value": "conversionTest2",
+        "optional": false
+      },
+      "declare": false,
+      "params": [
+        {
+          "type": "Parameter",
+          "span": {
+            "start": 4969,
+            "end": 5056,
+            "ctxt": 0
+          },
+          "decorators": [],
+          "pat": {
+            "type": "Identifier",
+            "span": {
+              "start": 4969,
+              "end": 5056,
+              "ctxt": 0
+            },
+            "value": "groupName",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 4978,
+                "end": 5056,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsUnionType",
+                "span": {
+                  "start": 4980,
+                  "end": 5056,
+                  "ctxt": 0
+                },
+                "types": [
+                  {
+                    "type": "TsLiteralType",
+                    "span": {
+                      "start": 4982,
+                      "end": 4992,
+                      "ctxt": 0
+                    },
+                    "literal": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 4982,
+                        "end": 4992,
+                        "ctxt": 0
+                      },
+                      "value": "downcast",
+                      "raw": "\"downcast\""
+                    }
+                  },
+                  {
+                    "type": "TsLiteralType",
+                    "span": {
+                      "start": 4995,
+                      "end": 5009,
+                      "ctxt": 0
+                    },
+                    "literal": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 4995,
+                        "end": 5009,
+                        "ctxt": 0
+                      },
+                      "value": "dataDowncast",
+                      "raw": "\"dataDowncast\""
+                    }
+                  },
+                  {
+                    "type": "TsLiteralType",
+                    "span": {
+                      "start": 5012,
+                      "end": 5029,
+                      "ctxt": 0
+                    },
+                    "literal": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 5012,
+                        "end": 5029,
+                        "ctxt": 0
+                      },
+                      "value": "editingDowncast",
+                      "raw": "\"editingDowncast\""
+                    }
+                  },
+                  {
+                    "type": "TsIntersectionType",
+                    "span": {
+                      "start": 5032,
+                      "end": 5056,
+                      "ctxt": 0
+                    },
+                    "types": [
+                      {
+                        "type": "TsTypeLiteral",
+                        "span": {
+                          "start": 5032,
+                          "end": 5034,
+                          "ctxt": 0
+                        },
+                        "members": []
+                      },
+                      {
+                        "type": "TsLiteralType",
+                        "span": {
+                          "start": 5037,
+                          "end": 5056,
+                          "ctxt": 0
+                        },
+                        "literal": {
+                          "type": "TemplateLiteral",
+                          "span": {
+                            "start": 5037,
+                            "end": 5056,
+                            "ctxt": 0
+                          },
+                          "types": [
+                            {
+                              "type": "TsKeywordType",
+                              "span": {
+                                "start": 5040,
+                                "end": 5046,
+                                "ctxt": 0
+                              },
+                              "kind": "string"
+                            }
+                          ],
+                          "quasis": [
+                            {
+                              "type": "TemplateElement",
+                              "span": {
+                                "start": 5038,
+                                "end": 5038,
+                                "ctxt": 0
+                              },
+                              "tail": false,
+                              "cooked": "",
+                              "raw": ""
+                            },
+                            {
+                              "type": "TemplateElement",
+                              "span": {
+                                "start": 5047,
+                                "end": 5055,
+                                "ctxt": 0
+                              },
+                              "tail": true,
+                              "cooked": "Downcast",
+                              "raw": "Downcast"
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "decorators": [],
+      "span": {
+        "start": 4944,
+        "end": 5060,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 5058,
+          "end": 5060,
+          "ctxt": 0
+        },
+        "stmts": []
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 5061,
+        "end": 5093,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 5061,
+          "end": 5092,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "Identifier",
+          "span": {
+            "start": 5061,
+            "end": 5076,
+            "ctxt": 0
+          },
+          "value": "conversionTest2",
+          "optional": false
+        },
+        "arguments": [
+          {
+            "spread": null,
+            "expression": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 5077,
+                "end": 5091,
+                "ctxt": 0
+              },
+              "value": "testDowncast",
+              "raw": "\"testDowncast\""
+            }
+          }
+        ],
+        "typeArguments": null
+      }
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 5103,
+          "end": 5118,
+          "ctxt": 0
+        },
+        "value": "conversionTest3",
+        "optional": false
+      },
+      "declare": false,
+      "params": [
+        {
+          "type": "Parameter",
+          "span": {
+            "start": 5119,
+            "end": 5206,
+            "ctxt": 0
+          },
+          "decorators": [],
+          "pat": {
+            "type": "Identifier",
+            "span": {
+              "start": 5119,
+              "end": 5206,
+              "ctxt": 0
+            },
+            "value": "groupName",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 5128,
+                "end": 5206,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsUnionType",
+                "span": {
+                  "start": 5130,
+                  "end": 5206,
+                  "ctxt": 0
+                },
+                "types": [
+                  {
+                    "type": "TsLiteralType",
+                    "span": {
+                      "start": 5132,
+                      "end": 5142,
+                      "ctxt": 0
+                    },
+                    "literal": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 5132,
+                        "end": 5142,
+                        "ctxt": 0
+                      },
+                      "value": "downcast",
+                      "raw": "\"downcast\""
+                    }
+                  },
+                  {
+                    "type": "TsLiteralType",
+                    "span": {
+                      "start": 5145,
+                      "end": 5159,
+                      "ctxt": 0
+                    },
+                    "literal": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 5145,
+                        "end": 5159,
+                        "ctxt": 0
+                      },
+                      "value": "dataDowncast",
+                      "raw": "\"dataDowncast\""
+                    }
+                  },
+                  {
+                    "type": "TsLiteralType",
+                    "span": {
+                      "start": 5162,
+                      "end": 5179,
+                      "ctxt": 0
+                    },
+                    "literal": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 5162,
+                        "end": 5179,
+                        "ctxt": 0
+                      },
+                      "value": "editingDowncast",
+                      "raw": "\"editingDowncast\""
+                    }
+                  },
+                  {
+                    "type": "TsLiteralType",
+                    "span": {
+                      "start": 5182,
+                      "end": 5206,
+                      "ctxt": 0
+                    },
+                    "literal": {
+                      "type": "TemplateLiteral",
+                      "span": {
+                        "start": 5182,
+                        "end": 5206,
+                        "ctxt": 0
+                      },
+                      "types": [
+                        {
+                          "type": "TsIntersectionType",
+                          "span": {
+                            "start": 5185,
+                            "end": 5196,
+                            "ctxt": 0
+                          },
+                          "types": [
+                            {
+                              "type": "TsKeywordType",
+                              "span": {
+                                "start": 5185,
+                                "end": 5191,
+                                "ctxt": 0
+                              },
+                              "kind": "string"
+                            },
+                            {
+                              "type": "TsTypeLiteral",
+                              "span": {
+                                "start": 5194,
+                                "end": 5196,
+                                "ctxt": 0
+                              },
+                              "members": []
+                            }
+                          ]
+                        }
+                      ],
+                      "quasis": [
+                        {
+                          "type": "TemplateElement",
+                          "span": {
+                            "start": 5183,
+                            "end": 5183,
+                            "ctxt": 0
+                          },
+                          "tail": false,
+                          "cooked": "",
+                          "raw": ""
+                        },
+                        {
+                          "type": "TemplateElement",
+                          "span": {
+                            "start": 5197,
+                            "end": 5205,
+                            "ctxt": 0
+                          },
+                          "tail": true,
+                          "cooked": "Downcast",
+                          "raw": "Downcast"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "decorators": [],
+      "span": {
+        "start": 5094,
+        "end": 5210,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 5208,
+          "end": 5210,
+          "ctxt": 0
+        },
+        "stmts": []
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 5211,
+        "end": 5243,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 5211,
+          "end": 5242,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "Identifier",
+          "span": {
+            "start": 5211,
+            "end": 5226,
+            "ctxt": 0
+          },
+          "value": "conversionTest3",
+          "optional": false
+        },
+        "arguments": [
+          {
+            "spread": null,
+            "expression": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 5227,
+                "end": 5241,
+                "ctxt": 0
+              },
+              "value": "testDowncast",
+              "raw": "\"testDowncast\""
+            }
+          }
+        ],
+        "typeArguments": null
+      }
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 5253,
+          "end": 5268,
+          "ctxt": 0
+        },
+        "value": "conversionTest4",
+        "optional": false
+      },
+      "declare": false,
+      "params": [
+        {
+          "type": "Parameter",
+          "span": {
+            "start": 5269,
+            "end": 5356,
+            "ctxt": 0
+          },
+          "decorators": [],
+          "pat": {
+            "type": "Identifier",
+            "span": {
+              "start": 5269,
+              "end": 5356,
+              "ctxt": 0
+            },
+            "value": "groupName",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 5278,
+                "end": 5356,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsUnionType",
+                "span": {
+                  "start": 5280,
+                  "end": 5356,
+                  "ctxt": 0
+                },
+                "types": [
+                  {
+                    "type": "TsLiteralType",
+                    "span": {
+                      "start": 5282,
+                      "end": 5292,
+                      "ctxt": 0
+                    },
+                    "literal": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 5282,
+                        "end": 5292,
+                        "ctxt": 0
+                      },
+                      "value": "downcast",
+                      "raw": "\"downcast\""
+                    }
+                  },
+                  {
+                    "type": "TsLiteralType",
+                    "span": {
+                      "start": 5295,
+                      "end": 5309,
+                      "ctxt": 0
+                    },
+                    "literal": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 5295,
+                        "end": 5309,
+                        "ctxt": 0
+                      },
+                      "value": "dataDowncast",
+                      "raw": "\"dataDowncast\""
+                    }
+                  },
+                  {
+                    "type": "TsLiteralType",
+                    "span": {
+                      "start": 5312,
+                      "end": 5329,
+                      "ctxt": 0
+                    },
+                    "literal": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 5312,
+                        "end": 5329,
+                        "ctxt": 0
+                      },
+                      "value": "editingDowncast",
+                      "raw": "\"editingDowncast\""
+                    }
+                  },
+                  {
+                    "type": "TsLiteralType",
+                    "span": {
+                      "start": 5332,
+                      "end": 5356,
+                      "ctxt": 0
+                    },
+                    "literal": {
+                      "type": "TemplateLiteral",
+                      "span": {
+                        "start": 5332,
+                        "end": 5356,
+                        "ctxt": 0
+                      },
+                      "types": [
+                        {
+                          "type": "TsIntersectionType",
+                          "span": {
+                            "start": 5335,
+                            "end": 5346,
+                            "ctxt": 0
+                          },
+                          "types": [
+                            {
+                              "type": "TsTypeLiteral",
+                              "span": {
+                                "start": 5335,
+                                "end": 5337,
+                                "ctxt": 0
+                              },
+                              "members": []
+                            },
+                            {
+                              "type": "TsKeywordType",
+                              "span": {
+                                "start": 5340,
+                                "end": 5346,
+                                "ctxt": 0
+                              },
+                              "kind": "string"
+                            }
+                          ]
+                        }
+                      ],
+                      "quasis": [
+                        {
+                          "type": "TemplateElement",
+                          "span": {
+                            "start": 5333,
+                            "end": 5333,
+                            "ctxt": 0
+                          },
+                          "tail": false,
+                          "cooked": "",
+                          "raw": ""
+                        },
+                        {
+                          "type": "TemplateElement",
+                          "span": {
+                            "start": 5347,
+                            "end": 5355,
+                            "ctxt": 0
+                          },
+                          "tail": true,
+                          "cooked": "Downcast",
+                          "raw": "Downcast"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "decorators": [],
+      "span": {
+        "start": 5244,
+        "end": 5360,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 5358,
+          "end": 5360,
+          "ctxt": 0
+        },
+        "stmts": []
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 5361,
+        "end": 5393,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 5361,
+          "end": 5392,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "Identifier",
+          "span": {
+            "start": 5361,
+            "end": 5376,
+            "ctxt": 0
+          },
+          "value": "conversionTest4",
+          "optional": false
+        },
+        "arguments": [
+          {
+            "spread": null,
+            "expression": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 5377,
+                "end": 5391,
+                "ctxt": 0
+              },
+              "value": "testDowncast",
+              "raw": "\"testDowncast\""
+            }
+          }
+        ],
+        "typeArguments": null
+      }
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 5404,
+          "end": 5407,
+          "ctxt": 0
+        },
+        "value": "foo",
+        "optional": false
+      },
+      "declare": false,
+      "params": [
+        {
+          "type": "Parameter",
+          "span": {
+            "start": 5408,
+            "end": 5449,
+            "ctxt": 0
+          },
+          "decorators": [],
+          "pat": {
+            "type": "Identifier",
+            "span": {
+              "start": 5408,
+              "end": 5449,
+              "ctxt": 0
+            },
+            "value": "str",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 5411,
+                "end": 5449,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsLiteralType",
+                "span": {
+                  "start": 5413,
+                  "end": 5449,
+                  "ctxt": 0
+                },
+                "literal": {
+                  "type": "TemplateLiteral",
+                  "span": {
+                    "start": 5413,
+                    "end": 5449,
+                    "ctxt": 0
+                  },
+                  "types": [
+                    {
+                      "type": "TsIntersectionType",
+                      "span": {
+                        "start": 5416,
+                        "end": 5443,
+                        "ctxt": 0
+                      },
+                      "types": [
+                        {
+                          "type": "TsLiteralType",
+                          "span": {
+                            "start": 5416,
+                            "end": 5428,
+                            "ctxt": 0
+                          },
+                          "literal": {
+                            "type": "TemplateLiteral",
+                            "span": {
+                              "start": 5416,
+                              "end": 5428,
+                              "ctxt": 0
+                            },
+                            "types": [
+                              {
+                                "type": "TsKeywordType",
+                                "span": {
+                                  "start": 5420,
+                                  "end": 5426,
+                                  "ctxt": 0
+                                },
+                                "kind": "string"
+                              }
+                            ],
+                            "quasis": [
+                              {
+                                "type": "TemplateElement",
+                                "span": {
+                                  "start": 5417,
+                                  "end": 5418,
+                                  "ctxt": 0
+                                },
+                                "tail": false,
+                                "cooked": "a",
+                                "raw": "a"
+                              },
+                              {
+                                "type": "TemplateElement",
+                                "span": {
+                                  "start": 5427,
+                                  "end": 5427,
+                                  "ctxt": 0
+                                },
+                                "tail": true,
+                                "cooked": "",
+                                "raw": ""
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "type": "TsLiteralType",
+                          "span": {
+                            "start": 5431,
+                            "end": 5443,
+                            "ctxt": 0
+                          },
+                          "literal": {
+                            "type": "TemplateLiteral",
+                            "span": {
+                              "start": 5431,
+                              "end": 5443,
+                              "ctxt": 0
+                            },
+                            "types": [
+                              {
+                                "type": "TsKeywordType",
+                                "span": {
+                                  "start": 5434,
+                                  "end": 5440,
+                                  "ctxt": 0
+                                },
+                                "kind": "string"
+                              }
+                            ],
+                            "quasis": [
+                              {
+                                "type": "TemplateElement",
+                                "span": {
+                                  "start": 5432,
+                                  "end": 5432,
+                                  "ctxt": 0
+                                },
+                                "tail": false,
+                                "cooked": "",
+                                "raw": ""
+                              },
+                              {
+                                "type": "TemplateElement",
+                                "span": {
+                                  "start": 5441,
+                                  "end": 5442,
+                                  "ctxt": 0
+                                },
+                                "tail": true,
+                                "cooked": "a",
+                                "raw": "a"
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  ],
+                  "quasis": [
+                    {
+                      "type": "TemplateElement",
+                      "span": {
+                        "start": 5414,
+                        "end": 5414,
+                        "ctxt": 0
+                      },
+                      "tail": false,
+                      "cooked": "",
+                      "raw": ""
+                    },
+                    {
+                      "type": "TemplateElement",
+                      "span": {
+                        "start": 5444,
+                        "end": 5448,
+                        "ctxt": 0
+                      },
+                      "tail": true,
+                      "cooked": "Test",
+                      "raw": "Test"
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "decorators": [],
+      "span": {
+        "start": 5395,
+        "end": 5453,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 5451,
+          "end": 5453,
+          "ctxt": 0
+        },
+        "stmts": []
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 5454,
+        "end": 5469,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 5454,
+          "end": 5468,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "Identifier",
+          "span": {
+            "start": 5454,
+            "end": 5457,
+            "ctxt": 0
+          },
+          "value": "foo",
+          "optional": false
+        },
+        "arguments": [
+          {
+            "spread": null,
+            "expression": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 5458,
+                "end": 5467,
+                "ctxt": 0
+              },
+              "value": "abaTest",
+              "raw": "\"abaTest\""
+            }
+          }
+        ],
+        "typeArguments": null
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 5476,
+        "end": 5491,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 5476,
+          "end": 5490,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "Identifier",
+          "span": {
+            "start": 5476,
+            "end": 5479,
+            "ctxt": 0
+          },
+          "value": "foo",
+          "optional": false
+        },
+        "arguments": [
+          {
+            "spread": null,
+            "expression": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 5480,
+                "end": 5489,
+                "ctxt": 0
+              },
+              "value": "abcTest",
+              "raw": "\"abcTest\""
+            }
+          }
+        ],
+        "typeArguments": null
       }
     }
   ],

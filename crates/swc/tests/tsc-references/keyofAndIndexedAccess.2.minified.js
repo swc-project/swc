@@ -3,8 +3,7 @@ var Flag, Flag1;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
-one(function() {}) // inferred as {}, expected
-, on({
+one(function() {}), on({
     test: function() {}
 }), on({
     test: function(x) {}
@@ -26,7 +25,6 @@ one(function() {}) // inferred as {}, expected
     return AnotherSampleClass.prototype.brokenMethod = function() {
         this.props.foo.concat;
     }, AnotherSampleClass;
-}(// Repro from #13787
-function SampleClass(props) {
+}(function SampleClass(props) {
     _class_call_check(this, SampleClass), this.props = Object.freeze(props);
 }))({}), (Flag1 = Flag || (Flag = {})).FLAG_1 = "flag_1", Flag1.FLAG_2 = "flag_2";

@@ -19,8 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('My example module.
-                 *' type=dynamic),
+            value: "My example module.\n     *",
         },
         tags: [
             TagItem {
@@ -43,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('exports' type=inline),
+                    value: "exports",
                 },
                 tag: Exports(
                     ExportsTag {
@@ -66,7 +65,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('exampleModule' type=dynamic),
+                            value: "exampleModule",
                         },
                     },
                 ),
@@ -93,7 +92,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('My example method.' type=dynamic),
+            value: "My example method.",
         },
         tags: [],
     },

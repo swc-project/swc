@@ -14,10 +14,10 @@ var Derived = /*#__PURE__*/ function(Base1) {
         _class_call_check(this, Derived);
         return _super.apply(this, arguments);
     }
-    Derived.make // ok
-     = function make() {
+    Derived.make = function make() {
         new Base();
-    };
+    } // ok
+    ;
     return Derived;
 }(Base);
 var Unrelated = /*#__PURE__*/ function() {
@@ -25,9 +25,9 @@ var Unrelated = /*#__PURE__*/ function() {
     function Unrelated() {
         _class_call_check(this, Unrelated);
     }
-    Unrelated.fake // error
-     = function fake() {
+    Unrelated.fake = function fake() {
         new Base();
-    };
+    } // error
+    ;
     return Unrelated;
 }();

@@ -9,7 +9,6 @@ This document gives a high level overview of SWC internals. You may find it usef
 
 SWC uses proc macro extensively to reduce work. Please see links below to know what each macro do.
 
--   [enum_kind][]
 -   [string_enum][]
 -   [ast_node][]
 
@@ -24,7 +23,7 @@ These macro breaks macro hygiene.
 
 ### [`/crates/swc_atoms`](crates/swc_atoms)
 
-Handle string interning for the SWC project. The crate depends on [string_cache](https://github.com/servo/string-cache) from servo.
+Handle string interning for the SWC project. The crate depends on [hstr](https://github.com/dudykr/ddbase).
 
 ### [`/crates/swc_common`](crates/swc_common)
 
@@ -145,7 +144,6 @@ Parser tests ensure that the parsed results of `test262/pass` are identical with
 
 Codegen tests ensure that the generated code is equivalent to the golden fixture files located at [tests/references](crates/swc_ecma_codegen/tests).
 
-[enum_kind]: https://rustdoc.swc.rs/enum_kind/derive.Kind.html
 [string_enum]: https://rustdoc.swc.rs/string_enum/derive.StringEnum.html
 [ast_node]: https://rustdoc.swc.rs/ast_node/index.html
 [parser_macros]: https://rustdoc.swc.rs/swc_ecma_parser_macros/index.html

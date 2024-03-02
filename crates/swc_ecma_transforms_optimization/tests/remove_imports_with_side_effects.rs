@@ -17,7 +17,7 @@ fn tr() -> impl Fold {
 }
 
 macro_rules! to {
-    ($name:ident, $src:expr, $expected:expr) => {
+    ($name:ident, $src:expr) => {
         test!(
             Syntax::Es(EsConfig {
                 decorators: true,
@@ -25,21 +25,20 @@ macro_rules! to {
             }),
             |_| chain!(resolver(Mark::new(), Mark::new(), false), tr()),
             $name,
-            $src,
-            $expected
+            $src
         );
     };
 }
 
 macro_rules! optimized_out {
     ($name:ident, $src:expr) => {
-        to!($name, $src, "");
+        to!($name, $src);
     };
 }
 
 macro_rules! noop {
     ($name:ident, $src:expr) => {
-        to!($name, $src, $src);
+        to!($name, $src);
     };
 }
 
@@ -51,10 +50,6 @@ to!(
     if (a) {
         const b = 2;
     }
-    ",
-    "
-    const a = 1;
-    if (a) {}
     "
 );
 
@@ -71,6 +66,5 @@ noop!(
 
 to!(
     import_unused_export_named,
-    "import foo, { bar } from 'src'; export { foo }; ",
-    "import foo from 'src'; export { foo }; "
+    "import foo, { bar } from 'src'; export { foo }; "
 );

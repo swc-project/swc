@@ -19,9 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Set the list of users who are admins.
-             *
-             *' type=dynamic),
+            value: "Set the list of users who are admins.\n *\n *",
         },
         tags: [
             TagItem {
@@ -44,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('param' type=static),
+                    value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
@@ -69,7 +67,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('{User}' type=inline),
+                                value: "{User}",
                             },
                         ),
                         desc: Text {
@@ -82,7 +80,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('users - The users who will receive admin rights.' type=dynamic),
+                            value: "users - The users who will receive admin rights.",
                         },
                     },
                 ),
@@ -109,9 +107,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Set the list of users who can access a widget.
-             *
-             *' type=dynamic),
+            value: "Set the list of users who can access a widget.\n *\n *",
         },
         tags: [
             TagItem {
@@ -134,7 +130,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('param' type=static),
+                    value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
@@ -159,7 +155,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('{Widget}' type=dynamic),
+                                value: "{Widget}",
                             },
                         ),
                         desc: Text {
@@ -172,7 +168,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('widget - The widget.' type=dynamic),
+                            value: "widget - The widget.",
                         },
                     },
                 ),
@@ -197,7 +193,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('param' type=static),
+                    value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
@@ -222,7 +218,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('{User}' type=inline),
+                                value: "{User}",
                             },
                         ),
                         desc: Text {
@@ -235,7 +231,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('users - The users who will receive rights to access the widget.' type=dynamic),
+                            value: "users - The users who will receive rights to access the widget.",
                         },
                     },
                 ),
@@ -262,9 +258,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Set the list of users who are managers.
-             *
-             *' type=dynamic),
+            value: "Set the list of users who are managers.\n *\n *",
         },
         tags: [
             TagItem {
@@ -287,7 +281,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('param' type=static),
+                    value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
@@ -312,7 +306,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('{User}' type=inline),
+                                value: "{User}",
                             },
                         ),
                         desc: Text {
@@ -325,7 +319,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('users - The users who are managers.' type=dynamic),
+                            value: "users - The users who are managers.",
                         },
                     },
                 ),

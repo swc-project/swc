@@ -21,7 +21,5 @@ import { A } from "./c";
 export var A = 1;
 //// [/f.ts]
 export * from "./e";
- // Collision error
 //// [/g.ts]
 import { A } from "./f";
- // Follow-on from collision error

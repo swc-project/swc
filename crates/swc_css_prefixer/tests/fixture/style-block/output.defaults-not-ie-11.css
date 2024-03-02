@@ -1,33 +1,27 @@
 .class {
   &.foo {
-    -webkit-appearance: auto;
     appearance: auto;
   }
   @media all {
-    -webkit-appearance: auto;
     appearance: auto;
   }
 }
 @media (min-width: 50em) {
   .foo {
-    -webkit-appearance: auto;
     appearance: auto;
   }
   @supports (flex-wrap: wrap) {
     .foo {
-      -webkit-appearance: auto;
       appearance: auto;
     }
   }
 }
 @supports (flex-wrap: wrap) {
   .foo {
-    -webkit-appearance: auto;
     appearance: auto;
   }
   @media (min-width: 50em) {
     .foo {
-      -webkit-appearance: auto;
       appearance: auto;
     }
   }

@@ -4,3 +4,4 @@
 #![deny(warnings)]
 
 pub mod regex;
+pub use anyhow::Error;

@@ -2,7 +2,7 @@
 import { _ as _class_private_field_get } from "@swc/helpers/_/_class_private_field_get";
 import { _ as _class_private_field_init } from "@swc/helpers/_/_class_private_field_init";
 import { _ as _class_private_field_set } from "@swc/helpers/_/_class_private_field_set";
-var _foo, _Inner, _prop = /*#__PURE__*/ new WeakMap();
+var _foo, _Inner, _prop = new WeakMap();
 class TestWithStatics {
     constructor(){
         _class_private_field_init(this, _prop, {
@@ -11,17 +11,14 @@ class TestWithStatics {
         }), _class_private_field_set(this, _prop, 0);
     }
 }
-TestWithStatics.dd = _class_private_field_get(new TestWithStatics(), _prop) // OK
-, TestWithStatics["X_ z_ zz"] = (_foo = /*#__PURE__*/ new WeakMap(), (_Inner = class Inner {
+TestWithStatics.dd = _class_private_field_get(new TestWithStatics(), _prop), TestWithStatics["X_ z_ zz"] = (_foo = new WeakMap(), (_Inner = class Inner {
     m() {
-        _class_private_field_get(new TestWithStatics(), _prop // OK
-        );
+        _class_private_field_get(new TestWithStatics(), _prop);
     }
     static M() {
         return class {
             m() {
-                _class_private_field_get(new TestWithStatics(), _prop // OK
-                ), _class_private_field_get(new Inner(), _foo);
+                _class_private_field_get(new TestWithStatics(), _prop), _class_private_field_get(new Inner(), _foo);
             }
         };
     }
@@ -33,7 +30,6 @@ TestWithStatics.dd = _class_private_field_get(new TestWithStatics(), _prop) // O
     }
 }).C = class {
     m() {
-        _class_private_field_get(new TestWithStatics(), _prop // OK
-        ), _class_private_field_get(new _Inner(), _foo);
+        _class_private_field_get(new TestWithStatics(), _prop), _class_private_field_get(new _Inner(), _foo);
     }
 }, _Inner);

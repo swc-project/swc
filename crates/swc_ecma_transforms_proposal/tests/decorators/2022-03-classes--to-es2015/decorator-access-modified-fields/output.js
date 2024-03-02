@@ -23,7 +23,7 @@ var __ = {
         classDec
     ])
 };
-var __1 = {
+var __2 = {
     writable: true,
     value: _initClass()
 };

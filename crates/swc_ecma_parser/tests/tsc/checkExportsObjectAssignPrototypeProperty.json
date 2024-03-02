@@ -1230,7 +1230,8 @@
         "raw": "\"./\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "TsImportEqualsDeclaration",

@@ -28,23 +28,7 @@ var b, crate, RoyalGuard = function() {
     }
     return FollowerGuard.prototype.follow = function() {}, FollowerGuard;
 }(RoyalGuard), a = new FollowerGuard();
-a.isLeader() ? a.lead() : a.isFollower() && a.follow(), b.isLeader() ? b.lead() : b.isFollower() && b.follow();
-// if (((a.isLeader)())) {
-//     a.lead();
-// }
-// else if (((a).isFollower())) {
-//     a.follow();
-// }
-// if (((a["isLeader"])())) {
-//     a.lead();
-// }
-// else if (((a)["isFollower"]())) {
-//     a.follow();
-// }
-var holder2 = {
-    a: a
-};
-holder2.a.isLeader(), holder2.a;
+a.isLeader() ? a.lead() : a.isFollower() && a.follow(), b.isLeader() ? b.lead() : b.isFollower() && b.follow(), a.isLeader();
 var ArrowGuard = function ArrowGuard() {
     var _this = this;
     _class_call_check(this, ArrowGuard), this.isElite = function() {
@@ -67,8 +51,7 @@ var ArrowGuard = function ArrowGuard() {
     }
     return ArrowMedic.prototype.heal = function() {}, ArrowMedic;
 }(ArrowGuard), guard = new ArrowGuard();
-guard.isElite() ? guard.defend() : guard.isMedic() && guard.heal(), crate.isSundries() ? crate.contents.broken = !0 : crate.isSupplies() && (crate.contents.spoiled = !0), // Matching guards should be assignable
-a.isFollower = b.isFollower, a.isLeader = b.isLeader;
+guard.isElite() ? guard.defend() : guard.isMedic() && guard.heal(), crate.isSundries() ? crate.contents.broken = !0 : crate.isSupplies() && (crate.contents.spoiled = !0), a.isFollower = b.isFollower, a.isLeader = b.isLeader;
 var MimicGuard = function() {
     function MimicGuard() {
         _class_call_check(this, MimicGuard);

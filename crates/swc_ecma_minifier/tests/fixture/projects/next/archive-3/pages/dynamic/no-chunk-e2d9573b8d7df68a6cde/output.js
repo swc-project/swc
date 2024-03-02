@@ -315,10 +315,10 @@
                                 if ("undefined" == typeof Symbol || null == o[Symbol.iterator]) {
                                     if (Array.isArray(o) || (it = function(o, minLen) {
                                         if (o) {
-                                            if ("string" == typeof o) return _arrayLikeToArray(o, minLen);
+                                            if ("string" == typeof o) return _arrayLikeToArray(o, void 0);
                                             var n = Object.prototype.toString.call(o).slice(8, -1);
                                             if ("Object" === n && o.constructor && (n = o.constructor.name), "Map" === n || "Set" === n) return Array.from(o);
-                                            if ("Arguments" === n || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
+                                            if ("Arguments" === n || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, void 0);
                                         }
                                     }(o))) {
                                         it && (o = it);
@@ -444,11 +444,7 @@
                     }
                 }(), function() {
                     var result, Super = (0, _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_1__.Z)(Welcome);
-                    if (hasNativeReflectConstruct) {
-                        var NewTarget = (0, _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_1__.Z)(this).constructor;
-                        result = Reflect.construct(Super, arguments, NewTarget);
-                    } else result = Super.apply(this, arguments);
-                    return (0, _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__.Z)(this, result);
+                    return result = hasNativeReflectConstruct ? Reflect.construct(Super, arguments, (0, _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_getPrototypeOf__WEBPACK_IMPORTED_MODULE_1__.Z)(this).constructor) : Super.apply(this, arguments), (0, _Users_timneutkens_projects_next_js_node_modules_babel_runtime_helpers_esm_possibleConstructorReturn__WEBPACK_IMPORTED_MODULE_2__.Z)(this, result);
                 });
                 function Welcome() {
                     var _this;

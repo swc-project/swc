@@ -1,5 +1,5 @@
-use pmutil::q;
 use swc_ecma_ast::*;
+use syn::parse_quote;
 
 use super::ToCode;
 use crate::ctxt::Ctx;
@@ -12,13 +12,11 @@ impl ToCode for swc_ecma_ast::Ident {
             }
         }
 
-        q!(
-            Vars {
-                sym_value: self.sym.to_code(cx),
-            },
-            { swc_core::ecma::ast::Ident::new(sym_value, swc_core::common::DUMMY_SP,) }
-        )
-        .parse()
+        let sym_value = self.sym.to_code(cx);
+        parse_quote!(swc_core::ecma::ast::Ident::new(
+            #sym_value,
+            swc_core::common::DUMMY_SP,
+        ))
     }
 }
 

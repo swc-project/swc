@@ -1,4 +1,3 @@
-use swc_atoms::js_word;
 use swc_common::{BytePos, Span, Spanned};
 use swc_css_ast::*;
 
@@ -152,13 +151,13 @@ where
         let name = if is_dashed_ident {
             AtRuleName::DashedIdent(DashedIdent {
                 span: Span::new(span.lo + BytePos(1), span.hi, Default::default()),
-                value: at_keyword_name.0[2..].into(),
+                value: self.input.atom(&at_keyword_name.0[2..]),
                 raw: Some(at_keyword_name.1),
             })
         } else {
             AtRuleName::Ident(Ident {
                 span: Span::new(span.lo + BytePos(1), span.hi, Default::default()),
-                value: at_keyword_name.0.to_ascii_lowercase(),
+                value: at_keyword_name.0,
                 raw: Some(at_keyword_name.1),
             })
         };
@@ -174,12 +173,26 @@ where
             // <EOF-token>
             // This is a parse error. Return the at-rule.
             if is!(self, EOF) {
-                self.errors.push(Error::new(
-                    span!(self, span.lo),
-                    ErrorKind::EofButExpected("';' or '{'"),
-                ));
+                if prelude.is_empty() {
+                    self.errors.push(Error::new(
+                        span!(self, span.lo),
+                        ErrorKind::EofButExpected("';' or '{'"),
+                    ));
 
+                    at_rule.span = span!(self, span.lo);
+
+                    return Ok(at_rule);
+                }
+
+                at_rule.prelude = Some(Box::new(AtRulePrelude::ListOfComponentValues(
+                    self.create_locv(prelude),
+                )));
                 at_rule.span = span!(self, span.lo);
+
+                // Canonicalization against a grammar
+                if !is_dashed_ident && self.ctx.need_canonicalize {
+                    at_rule = self.canonicalize_at_rule_prelude(at_rule)?;
+                }
 
                 return Ok(at_rule);
             }
@@ -226,7 +239,6 @@ where
                 // value to the at-rule’s prelude.
                 _ => {
                     let component_value = self.parse_as::<ComponentValue>()?;
-
                     prelude.push(component_value);
                 }
             }
@@ -617,9 +629,7 @@ where
 
             DeclarationName::DashedIdent(ident)
         } else {
-            let mut ident: Ident = self.parse()?;
-
-            ident.value = ident.value.to_ascii_lowercase();
+            let ident: Ident = self.parse()?;
 
             DeclarationName::Ident(ident)
         };
@@ -658,11 +668,10 @@ where
 
             match &component_value {
                 // Optimization for step 6
-                ComponentValue::PreservedToken(box TokenAndSpan {
-                    span,
-                    token: Token::Delim { value: '!', .. },
-                    ..
-                }) if is!(self, " ") || is_case_insensitive_ident!(self, "important") => {
+                ComponentValue::PreservedToken(token_and_span)
+                    if matches!(token_and_span.token, Token::Delim { value: '!', .. })
+                        && (is!(self, " ") || is_case_insensitive_ident!(self, "important")) =>
+                {
                     if let Some(span) = &exclamation_point_span {
                         is_valid_to_canonicalize = false;
 
@@ -675,32 +684,32 @@ where
                         last_whitespaces = (last_whitespaces.2, 0, 0);
                     }
 
-                    exclamation_point_span = Some(*span);
+                    exclamation_point_span = Some(token_and_span.span);
                 }
-                ComponentValue::PreservedToken(box TokenAndSpan {
-                    token: Token::WhiteSpace { .. },
-                    ..
-                }) => match (&exclamation_point_span, &important_ident) {
-                    (Some(_), Some(_)) => {
-                        last_whitespaces.2 += 1;
+                ComponentValue::PreservedToken(token_and_span)
+                    if matches!(token_and_span.token, Token::WhiteSpace { .. }) =>
+                {
+                    match (&exclamation_point_span, &important_ident) {
+                        (Some(_), Some(_)) => {
+                            last_whitespaces.2 += 1;
+                        }
+                        (Some(_), None) => {
+                            last_whitespaces.1 += 1;
+                        }
+                        (None, None) => {
+                            last_whitespaces.0 += 1;
+                        }
+                        _ => {
+                            unreachable!();
+                        }
                     }
-                    (Some(_), None) => {
-                        last_whitespaces.1 += 1;
-                    }
-                    (None, None) => {
-                        last_whitespaces.0 += 1;
-                    }
-                    _ => {
-                        unreachable!();
-                    }
-                },
-                ComponentValue::PreservedToken(
-                    token_and_span @ box TokenAndSpan {
-                        token: Token::Ident { value, .. },
-                        ..
-                    },
-                ) if exclamation_point_span.is_some()
-                    && matches_eq_ignore_ascii_case!(value, js_word!("important")) =>
+                }
+                ComponentValue::PreservedToken(token_and_span)
+                    if exclamation_point_span.is_some()
+                        && matches!(
+                            &token_and_span.token,
+                            Token::Ident { value, .. } if matches_eq_ignore_ascii_case!(value, "important")
+                        ) =>
                 {
                     important_ident = Some(token_and_span.clone());
                 }
@@ -936,13 +945,13 @@ where
         let name = if is_dashed_ident {
             FunctionName::DashedIdent(DashedIdent {
                 span: Span::new(span.lo, span.hi - BytePos(1), Default::default()),
-                value: function_name.0[2..].into(),
+                value: self.input.atom(&function_name.0[2..]),
                 raw: Some(function_name.1),
             })
         } else {
             FunctionName::Ident(Ident {
                 span: Span::new(span.lo, span.hi - BytePos(1), Default::default()),
-                value: function_name.0.to_ascii_lowercase(),
+                value: function_name.0,
                 raw: Some(function_name.1),
             })
         };

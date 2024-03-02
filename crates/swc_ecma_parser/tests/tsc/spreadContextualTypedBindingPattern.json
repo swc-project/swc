@@ -277,7 +277,8 @@
                     "ctxt": 0
                   },
                   "value": "naam",
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "value": null
               },
@@ -296,7 +297,8 @@
                     "ctxt": 0
                   },
                   "value": "age",
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "value": null
               }

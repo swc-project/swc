@@ -24,7 +24,7 @@
  2 | }
    `----
 
-  x Ident { value: Atom('a' type=static), raw: "a" }
+  x Ident { value: "a", raw: "a" }
    ,-[$DIR/tests/recovery/selector/pseudo-element/invalid/input.css:1:1]
  1 | a::1 {
    : ^

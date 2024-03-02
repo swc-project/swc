@@ -6,7 +6,7 @@ new (function() {
         _class_call_check(this, C);
     }
     return C.prototype.f = function() {
-        var x; // should be string
+        var x;
         return x.toString() + x.toString();
     }, C;
 }())().f(), i.foo.toString(), i.foo.toString(), a().toString(), a().toString(), ({

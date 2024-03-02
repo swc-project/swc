@@ -1,5 +1,5 @@
-use pmutil::q;
 use swc_ecma_ast::*;
+use syn::parse_quote;
 
 macro_rules! impl_simple_enum {
     ($E:ident, [ $($v:ident),* ]) => {
@@ -7,11 +7,9 @@ macro_rules! impl_simple_enum {
             fn to_code(&self, _: &crate::ctxt::Ctx) -> syn::Expr {
                 match self {
                     $(
-                        $E::$v => q!(
-                            Vars {},
-                            { swc_core::ecma::ast::$E::$v }
-                        )
-                        .parse(),
+                        $E::$v => parse_quote!(
+                             swc_core::ecma::ast::$E::$v
+                        ),
                     )*
                 }
             }
@@ -77,3 +75,4 @@ impl_simple_enum!(
 impl_simple_enum!(Accessibility, [Public, Protected, Private]);
 impl_simple_enum!(MethodKind, [Method, Getter, Setter]);
 impl_simple_enum!(MetaPropKind, [NewTarget, ImportMeta]);
+impl_simple_enum!(ImportPhase, [Defer, Source, Evaluation]);

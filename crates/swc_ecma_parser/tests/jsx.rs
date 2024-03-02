@@ -132,16 +132,4 @@ impl Fold for Normalizer {
 
         node
     }
-
-    fn fold_pat_or_expr(&mut self, node: PatOrExpr) -> PatOrExpr {
-        let node = node.fold_children_with(self);
-
-        match node {
-            PatOrExpr::Pat(pat) => match *pat {
-                Pat::Expr(expr) => PatOrExpr::Expr(expr),
-                _ => PatOrExpr::Pat(pat),
-            },
-            _ => node,
-        }
-    }
 }

@@ -19,8 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Add a number.
-             *' type=dynamic),
+            value: "Add a number.\n *",
         },
         tags: [
             TagItem {
@@ -43,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('param' type=static),
+                    value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
@@ -68,7 +67,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('{number}' type=dynamic),
+                                value: "{number}",
                             },
                         ),
                         desc: Text {
@@ -81,7 +80,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('x - The number to add.' type=dynamic),
+                            value: "x - The number to add.",
                         },
                     },
                 ),
@@ -108,8 +107,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Subtract a number.
-             *' type=dynamic),
+            value: "Subtract a number.\n *",
         },
         tags: [
             TagItem {
@@ -132,7 +130,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('param' type=static),
+                    value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
@@ -157,7 +155,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('{number}' type=dynamic),
+                                value: "{number}",
                             },
                         ),
                         desc: Text {
@@ -170,7 +168,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('x - The number to subtract.' type=dynamic),
+                            value: "x - The number to subtract.",
                         },
                     },
                 ),
@@ -197,7 +195,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Adder class.' type=dynamic),
+            value: "Adder class.",
         },
         tags: [],
     },
@@ -221,7 +219,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Construct an Adder instance.' type=dynamic),
+            value: "Construct an Adder instance.",
         },
         tags: [],
     },
@@ -245,8 +243,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Add a number.
-                 *' type=dynamic),
+            value: "Add a number.\n     *",
         },
         tags: [
             TagItem {
@@ -269,7 +266,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('param' type=static),
+                    value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
@@ -294,7 +291,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('{number}' type=dynamic),
+                                value: "{number}",
                             },
                         ),
                         desc: Text {
@@ -307,7 +304,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('x - The number to add.' type=dynamic),
+                            value: "x - The number to add.",
                         },
                     },
                 ),

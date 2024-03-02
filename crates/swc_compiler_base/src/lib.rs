@@ -4,6 +4,8 @@ use std::{
 };
 
 use anyhow::{Context, Error};
+use base64::prelude::{Engine, BASE64_STANDARD};
+use once_cell::sync::Lazy;
 use serde::{
     de::{Unexpected, Visitor},
     Deserialize, Deserializer, Serialize, Serializer,
@@ -94,6 +96,40 @@ pub fn parse_js(
     res
 }
 
+pub struct PrintArgs<'a> {
+    pub source_root: Option<&'a str>,
+    pub source_file_name: Option<&'a str>,
+    pub output_path: Option<PathBuf>,
+    pub inline_sources_content: bool,
+    pub source_map: SourceMapsConfig,
+    pub source_map_names: &'a AHashMap<BytePos, JsWord>,
+    pub orig: Option<&'a sourcemap::SourceMap>,
+    pub comments: Option<&'a dyn Comments>,
+    pub emit_source_map_columns: bool,
+    pub preamble: &'a str,
+    pub codegen_config: swc_ecma_codegen::Config,
+}
+
+impl Default for PrintArgs<'_> {
+    fn default() -> Self {
+        static DUMMY_NAMES: Lazy<AHashMap<BytePos, JsWord>> = Lazy::new(Default::default);
+
+        PrintArgs {
+            source_root: None,
+            source_file_name: None,
+            output_path: None,
+            inline_sources_content: false,
+            source_map: Default::default(),
+            source_map_names: &DUMMY_NAMES,
+            orig: None,
+            comments: None,
+            emit_source_map_columns: false,
+            preamble: "",
+            codegen_config: Default::default(),
+        }
+    }
+}
+
 /// Converts ast node to source string and sourcemap.
 ///
 ///
@@ -107,16 +143,19 @@ pub fn parse_js(
 pub fn print<T>(
     cm: Lrc<SourceMap>,
     node: &T,
-    source_file_name: Option<&str>,
-    output_path: Option<PathBuf>,
-    inline_sources_content: bool,
-    source_map: SourceMapsConfig,
-    source_map_names: &AHashMap<BytePos, JsWord>,
-    orig: Option<&sourcemap::SourceMap>,
-    comments: Option<&dyn Comments>,
-    emit_source_map_columns: bool,
-    preamble: &str,
-    codegen_config: swc_ecma_codegen::Config,
+    PrintArgs {
+        source_root,
+        source_file_name,
+        output_path,
+        inline_sources_content,
+        source_map,
+        source_map_names,
+        orig,
+        comments,
+        emit_source_map_columns,
+        preamble,
+        codegen_config,
+    }: PrintArgs,
 ) -> Result<TransformOutput, Error>
 where
     T: Node + VisitWith<IdentCollector>,
@@ -168,24 +207,36 @@ where
         panic!("The module contains only dummy spans\n{}", src);
     }
 
+    let mut map = if source_map.enabled() {
+        Some(cm.build_source_map_with_config(
+            &src_map_buf,
+            orig,
+            SwcSourceMapConfig {
+                source_file_name,
+                output_path: output_path.as_deref(),
+                names: source_map_names,
+                inline_sources_content,
+                emit_columns: emit_source_map_columns,
+            },
+        ))
+    } else {
+        None
+    };
+
+    if let Some(map) = &mut map {
+        if source_root.is_some() {
+            map.set_source_root(source_root)
+        }
+    }
+
     let (code, map) = match source_map {
         SourceMapsConfig::Bool(v) => {
             if v {
                 let mut buf = vec![];
 
-                cm.build_source_map_with_config(
-                    &src_map_buf,
-                    orig,
-                    SwcSourceMapConfig {
-                        source_file_name,
-                        output_path: output_path.as_deref(),
-                        names: source_map_names,
-                        inline_sources_content,
-                        emit_columns: emit_source_map_columns,
-                    },
-                )
-                .to_writer(&mut buf)
-                .context("failed to write source map")?;
+                map.unwrap()
+                    .to_writer(&mut buf)
+                    .context("failed to write source map")?;
                 let map = String::from_utf8(buf).context("source map is not utf-8")?;
                 (src, Some(map))
             } else {
@@ -196,27 +247,13 @@ where
             let mut src = src;
             let mut buf = vec![];
 
-            cm.build_source_map_with_config(
-                &src_map_buf,
-                orig,
-                SwcSourceMapConfig {
-                    source_file_name,
-                    output_path: output_path.as_deref(),
-                    names: source_map_names,
-                    inline_sources_content,
-                    emit_columns: emit_source_map_columns,
-                },
-            )
-            .to_writer(&mut buf)
-            .context("failed to write source map file")?;
+            map.unwrap()
+                .to_writer(&mut buf)
+                .context("failed to write source map file")?;
             let map = String::from_utf8(buf).context("source map is not utf-8")?;
 
             src.push_str("\n//# sourceMappingURL=data:application/json;base64,");
-            base64::encode_config_buf(
-                map.as_bytes(),
-                base64::Config::new(base64::CharacterSet::Standard, true),
-                &mut src,
-            );
+            BASE64_STANDARD.encode_string(map.as_bytes(), &mut src);
             (src, None)
         }
     };

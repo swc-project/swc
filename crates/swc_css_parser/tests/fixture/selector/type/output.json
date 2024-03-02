@@ -941,7 +941,7 @@
                         "end": 100,
                         "ctxt": 0
                       },
-                      "value": "foreignobject",
+                      "value": "foreignObject",
                       "raw": "foreignObject"
                     }
                   }
@@ -1070,7 +1070,7 @@
                         "end": 117,
                         "ctxt": 0
                       },
-                      "value": "textpath",
+                      "value": "textPath",
                       "raw": "textPath"
                     }
                   }

@@ -1,6 +1,6 @@
 (function() {
     "use strict";
-    var bom, defaults, events, processItem, processors, sax, setImmediate, bind = function(fn, me) {
+    var bom, defaults, events, isEmpty, processItem, processors, sax, setImmediate, bind = function(fn, me) {
         return function() {
             return fn.apply(me, arguments);
         };
@@ -11,7 +11,9 @@
         }
         return ctor.prototype = parent.prototype, child.prototype = new ctor(), child.__super__ = parent.prototype, child;
     }, hasProp = {}.hasOwnProperty;
-    sax = require("sax"), events = require("events"), bom = require("./bom"), processors = require("./processors"), setImmediate = require("timers").setImmediate, defaults = require("./defaults").defaults, processItem = function(processors, item, key) {
+    sax = require("sax"), events = require("events"), bom = require("./bom"), processors = require("./processors"), setImmediate = require("timers").setImmediate, defaults = require("./defaults").defaults, isEmpty = function(thing) {
+        return "object" == typeof thing && null != thing && 0 === Object.keys(thing).length;
+    }, processItem = function(processors, item, key) {
         var i, len;
         for(i = 0, len = processors.length; i < len; i++)item = (0, processors[i])(item, key);
         return item;
@@ -55,8 +57,8 @@
                     local: node.local
                 }), stack.push(obj);
             }), this.saxParser.onclosetag = (_this3 = this, function() {
-                var cdata, emptyStr, key, node, nodeName, obj, objClone, old, s, xpath, thing;
-                if (nodeName = (obj = stack.pop())["#name"], _this3.options.explicitChildren && _this3.options.preserveChildrenOrder || delete obj["#name"], !0 === obj.cdata && (cdata = obj.cdata, delete obj.cdata), s = stack[stack.length - 1], obj[charkey].match(/^\s*$/) && !cdata ? (emptyStr = obj[charkey], delete obj[charkey]) : (_this3.options.trim && (obj[charkey] = obj[charkey].trim()), _this3.options.normalize && (obj[charkey] = obj[charkey].replace(/\s{2,}/g, " ").trim()), obj[charkey] = _this3.options.valueProcessors ? processItem(_this3.options.valueProcessors, obj[charkey], nodeName) : obj[charkey], 1 === Object.keys(obj).length && charkey in obj && !_this3.EXPLICIT_CHARKEY && (obj = obj[charkey])), "object" == typeof (thing = obj) && null != thing && 0 === Object.keys(thing).length && (obj = "" !== _this3.options.emptyTag ? _this3.options.emptyTag : emptyStr), null != _this3.options.validator && (xpath = "/" + (function() {
+                var cdata, emptyStr, key, node, nodeName, obj, objClone, old, s, xpath;
+                if (nodeName = (obj = stack.pop())["#name"], _this3.options.explicitChildren && _this3.options.preserveChildrenOrder || delete obj["#name"], !0 === obj.cdata && (cdata = obj.cdata, delete obj.cdata), s = stack[stack.length - 1], obj[charkey].match(/^\s*$/) && !cdata ? (emptyStr = obj[charkey], delete obj[charkey]) : (_this3.options.trim && (obj[charkey] = obj[charkey].trim()), _this3.options.normalize && (obj[charkey] = obj[charkey].replace(/\s{2,}/g, " ").trim()), obj[charkey] = _this3.options.valueProcessors ? processItem(_this3.options.valueProcessors, obj[charkey], nodeName) : obj[charkey], 1 === Object.keys(obj).length && charkey in obj && !_this3.EXPLICIT_CHARKEY && (obj = obj[charkey])), isEmpty(obj) && (obj = "" !== _this3.options.emptyTag ? _this3.options.emptyTag : emptyStr), null != _this3.options.validator && (xpath = "/" + (function() {
                     var i, len, results;
                     for(i = 0, results = [], len = stack.length; i < len; i++)node = stack[i], results.push(node["#name"]);
                     return results;

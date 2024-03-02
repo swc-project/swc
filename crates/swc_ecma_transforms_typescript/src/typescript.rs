@@ -1,6 +1,5 @@
 use std::mem;
 
-use swc_atoms::js_word;
 use swc_common::{
     collections::AHashSet, comments::Comments, sync::Lrc, util::take::Take, Mark, SourceMap, Span,
     Spanned,
@@ -47,6 +46,7 @@ impl VisitMut for TypeScript {
         n.visit_mut_with(&mut transform(
             self.top_level_mark,
             self.config.import_export_assign_config,
+            self.config.ts_enum_is_mutable,
             self.config.verbatim_module_syntax,
         ));
 
@@ -122,14 +122,12 @@ where
 /// Get an [Id] which will used by expression.
 ///
 /// For `React#1.createElement`, this returns `React#1`.
-fn id_for_jsx(e: &Expr) -> Id {
+fn id_for_jsx(e: &Expr) -> Option<Id> {
     match e {
-        Expr::Ident(i) => i.to_id(),
-        Expr::Member(MemberExpr { obj, .. }) => id_for_jsx(obj),
-        Expr::Lit(Lit::Null(..)) => (js_word!("null"), Default::default()),
-        _ => {
-            panic!("failed to determine top-level Id for jsx expression")
-        }
+        Expr::Ident(i) => Some(i.to_id()),
+        Expr::Member(MemberExpr { obj, .. }) => Some(id_for_jsx(obj)).flatten(),
+        Expr::Lit(Lit::Null(..)) => Some(("null".into(), Default::default())),
+        _ => None,
     }
 }
 
@@ -175,15 +173,20 @@ where
                 self.top_level_mark,
             );
 
-            let pragma_id = id_for_jsx(&pragma);
-            let pragma_frag_id = id_for_jsx(&pragma_frag);
+            let pragma_id = id_for_jsx(&pragma).unwrap();
+            let pragma_frag_id = id_for_jsx(&pragma_frag).unwrap();
 
             self.id_usage.insert(pragma_id);
             self.id_usage.insert(pragma_frag_id);
         }
 
         if !self.config.verbatim_module_syntax {
-            let span = n.span;
+            let span = if n.shebang.is_some() {
+                n.span
+                    .with_lo(n.body.first().map(|s| s.span_lo()).unwrap_or(n.span.lo))
+            } else {
+                n.span
+            };
 
             let JsxDirectives {
                 pragma,
@@ -194,13 +197,15 @@ where
             });
 
             if let Some(pragma) = pragma {
-                let pragma_id = id_for_jsx(&pragma);
-                self.id_usage.insert(pragma_id);
+                if let Some(pragma_id) = id_for_jsx(&pragma) {
+                    self.id_usage.insert(pragma_id);
+                }
             }
 
             if let Some(pragma_frag) = pragma_frag {
-                let pragma_frag_id = id_for_jsx(&pragma_frag);
-                self.id_usage.insert(pragma_frag_id);
+                if let Some(pragma_frag_id) = id_for_jsx(&pragma_frag) {
+                    self.id_usage.insert(pragma_frag_id);
+                }
             }
         }
     }

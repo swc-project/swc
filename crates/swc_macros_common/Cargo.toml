@@ -1,21 +1,27 @@
 [package]
-authors = ["강동윤 <kdy1997.dev@gmail.com>"]
-description = "Common utilities for swc macros."
+authors       = ["강동윤 <kdy1997.dev@gmail.com>"]
+description   = "Common utilities for swc macros."
 documentation = "https://rustdoc.swc.rs/swc_macros_common/"
-edition = "2021"
-license = "Apache-2.0"
-name = "swc_macros_common"
-repository = "https://github.com/swc-project/swc.git"
-version = "0.3.8"
+edition       = "2021"
+license       = "Apache-2.0"
+name          = "swc_macros_common"
+repository    = "https://github.com/swc-project/swc.git"
+version       = "0.3.9"
 
 [lib]
 bench = false
 
 [dependencies]
-pmutil = "0.6.1"
 proc-macro2 = "1"
-quote = "1"
+quote       = "1"
 
-[dependencies.syn]
-features = ["derive", "visit", "parsing", "full", "printing", "extra-traits"]
-version = "2"
+    [dependencies.syn]
+    features = [
+        "derive",
+        "visit",
+        "parsing",
+        "full",
+        "printing",
+        "extra-traits",
+    ]
+    version = "2"

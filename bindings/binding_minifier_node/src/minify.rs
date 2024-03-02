@@ -7,7 +7,8 @@ use napi::{
 };
 use serde::Deserialize;
 use swc_compiler_base::{
-    minify_file_comments, parse_js, IdentCollector, IsModule, SourceMapsConfig, TransformOutput,
+    minify_file_comments, parse_js, IdentCollector, IsModule, PrintArgs, SourceMapsConfig,
+    TransformOutput,
 };
 use swc_config::config_types::BoolOr;
 use swc_core::{
@@ -76,15 +77,10 @@ fn do_work(input: MinifyTarget, options: JsMinifyOptions) -> napi::Result<Transf
             .source_map
             .as_ref()
             .map(|obj| -> Result<_, Error> {
-                let orig = obj
-                    .content
-                    .as_ref()
-                    .map(|s| sourcemap::SourceMap::from_slice(s.as_bytes()));
-                let orig = match orig {
-                    Some(v) => Some(v?),
-                    None => None,
-                };
-                Ok((SourceMapsConfig::Bool(true), orig))
+                Ok((
+                    SourceMapsConfig::Bool(true),
+                    obj.content.as_ref().map(|s| s.to_sourcemap()).transpose()?,
+                ))
             })
             .unwrap_as_option(|v| {
                 Some(Ok(match v {
@@ -209,22 +205,25 @@ fn do_work(input: MinifyTarget, options: JsMinifyOptions) -> napi::Result<Transf
         swc_compiler_base::print(
             cm.clone(),
             &module,
-            Some(&fm.name.to_string()),
-            options.output_path.clone().map(From::from),
-            options.inline_sources_content,
-            source_map,
-            &source_map_names,
-            orig.as_ref(),
-            Some(&comments),
-            options.emit_source_map_columns,
-            &options.format.preamble,
-            swc_core::ecma::codegen::Config::default()
-                .with_target(target)
-                .with_minify(true)
-                .with_ascii_only(options.format.ascii_only)
-                .with_emit_assert_for_import_attributes(
-                    options.format.emit_assert_for_import_attributes,
-                ),
+            PrintArgs {
+                source_file_name: Some(&fm.name.to_string()),
+                output_path: options.output_path.clone().map(From::from),
+                inline_sources_content: options.inline_sources_content,
+                source_map,
+                source_map_names: &source_map_names,
+                orig: orig.as_ref(),
+                comments: Some(&comments),
+                emit_source_map_columns: options.emit_source_map_columns,
+                preamble: &options.format.preamble,
+                codegen_config: swc_core::ecma::codegen::Config::default()
+                    .with_target(target)
+                    .with_minify(true)
+                    .with_ascii_only(options.format.ascii_only)
+                    .with_emit_assert_for_import_attributes(
+                        options.format.emit_assert_for_import_attributes,
+                    ),
+                ..Default::default()
+            },
         )
     })
     .convert_err()

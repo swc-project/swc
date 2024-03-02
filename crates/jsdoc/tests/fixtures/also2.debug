@@ -19,7 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -42,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('class' type=static),
+                    value: "class",
                 },
                 tag: Class(
                     ClassTag {
@@ -82,8 +82,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Add a lane to the bowling alley.
-             *' type=dynamic),
+            value: "Add a lane to the bowling alley.\n *",
         },
         tags: [
             TagItem {
@@ -106,7 +105,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('also' type=inline),
+                    value: "also",
                 },
                 tag: Unknown(
                     UnknownTag {
@@ -129,7 +128,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('* Add the specified number of lanes to the bowling alley.' type=dynamic),
+                            value: "* Add the specified number of lanes to the bowling alley.",
                         },
                     },
                 ),
@@ -154,7 +153,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('param' type=static),
+                    value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
@@ -179,7 +178,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('{number}' type=dynamic),
+                                value: "{number}",
                             },
                         ),
                         desc: Text {
@@ -192,7 +191,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('[lanes=1] - The number of lanes to add.' type=dynamic),
+                            value: "[lanes=1] - The number of lanes to add.",
                         },
                     },
                 ),

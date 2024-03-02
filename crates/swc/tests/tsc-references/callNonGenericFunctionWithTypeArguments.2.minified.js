@@ -1,6 +1,4 @@
 //// [callNonGenericFunctionWithTypeArguments.ts]
-// it is always illegal to provide type arguments to a non-generic function
-// all invocations here are illegal
 var i, i2, a, a2;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 (void 0)(1), new (function() {

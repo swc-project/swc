@@ -1,0 +1,46 @@
+{
+  "53": [
+    {
+      "kind": "Block",
+      "span": {
+        "start": 39,
+        "end": 53,
+        "ctxt": 0
+      },
+      "text": "/* comment */"
+    }
+  ],
+  "82": [
+    {
+      "kind": "Block",
+      "span": {
+        "start": 68,
+        "end": 82,
+        "ctxt": 0
+      },
+      "text": "/* comment */"
+    }
+  ],
+  "108": [
+    {
+      "kind": "Block",
+      "span": {
+        "start": 94,
+        "end": 108,
+        "ctxt": 0
+      },
+      "text": "/* comment */"
+    }
+  ],
+  "19": [
+    {
+      "kind": "Block",
+      "span": {
+        "start": 1,
+        "end": 19,
+        "ctxt": 0
+      },
+      "text": "/*\n * comments\n */"
+    }
+  ]
+}

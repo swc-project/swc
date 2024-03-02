@@ -1,0 +1,24 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "typescript",
+            "tsx": false
+        },
+        "target": "es2022",
+        "transform": {
+            "react": {
+                "runtime": "automatic"
+            }
+        },
+        "loose": false,
+        "minify": {
+            "compress": false,
+            "mangle": false
+        }
+    },
+    "module": {
+        "type": "systemjs"
+    },
+    "minify": false,
+    "isModule": true
+}

@@ -2,7 +2,7 @@ use std::any::type_name;
 
 use anyhow::{anyhow, bail, Context, Error};
 use swc_common::{sync::Lrc, FileName, SourceMap};
-use swc_ecma_ast::EsVersion;
+use swc_ecma_ast::{AssignTarget, EsVersion};
 use swc_ecma_parser::{lexer::Lexer, PResult, Parser, StringInput};
 use syn::{GenericArgument, PathArguments, Type};
 
@@ -39,6 +39,12 @@ pub(crate) fn parse_input_type(input_str: &str, ty: &Type) -> Result<BoxWrapper,
                 "Expr" => return parse(input_str, &mut |p| p.parse_expr().map(|v| *v)),
                 "Pat" => return parse(input_str, &mut |p| p.parse_pat()),
                 "Stmt" => return parse(input_str, &mut |p| p.parse_stmt_list_item(true)),
+                "AssignTarget" => {
+                    return parse(input_str, &mut |p| {
+                        Ok(AssignTarget::try_from(p.parse_pat()?)
+                            .expect("failed to parse AssignTarget"))
+                    })
+                }
                 "ModuleItem" => return parse(input_str, &mut |p| p.parse_module_item()),
                 _ => {}
             }

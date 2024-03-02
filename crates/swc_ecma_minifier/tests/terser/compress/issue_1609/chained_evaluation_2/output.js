@@ -1,6 +1,4 @@
-(function () {
-    (function () {
-        var b = "long piece of string";
-        f(b).bar = b;
-    })();
+(function() {
+    var b;
+    f(b = "long piece of string").bar = b;
 })();

@@ -68,7 +68,7 @@
    :    ^^^^
    `----
 
-  x Ident { value: Atom('test' type=inline), raw: "test" }
+  x Ident { value: "test", raw: "test" }
    ,-[$DIR/tests/recovery/qualified-rule/basic/input.css:1:1]
  1 | // test
    :    ^^^^
@@ -98,7 +98,7 @@
  4 |     color: red;
    `----
 
-  x Ident { value: Atom('a' type=static), raw: "a" }
+  x Ident { value: "a", raw: "a" }
    ,-[$DIR/tests/recovery/qualified-rule/basic/input.css:2:1]
  2 | 
  3 | a {

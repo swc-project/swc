@@ -56,6 +56,11 @@ define([
         E[E["C"] = 2] = "C";
     })(E || (E = {}));
     var D;
+    (function(D) {
+        D[D["A"] = 0] = "A";
+        D[D["B"] = 1] = "B";
+        D[D["C"] = 2] = "C";
+    })(D || (D = {}));
     var M;
     (function(M) {})(M || (M = {}));
     var a = M.x;

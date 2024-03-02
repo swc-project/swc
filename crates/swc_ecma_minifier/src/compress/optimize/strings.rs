@@ -1,4 +1,3 @@
-use swc_atoms::js_word;
 use swc_common::{util::take::Take, Spanned, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprExt, Value::Known};
@@ -24,27 +23,19 @@ impl Optimizer<'_> {
                 return;
             }
 
-            match &**callee {
-                Expr::Ident(Ident {
-                    sym: js_word!("RegExp"),
-                    ..
-                }) if self.options.unsafe_regexp => {
-                    if args.len() != 1 {
-                        return;
-                    }
-
-                    self.optimize_expr_in_str_ctx(&mut args[0].expr);
-
-                    if let Expr::Lit(Lit::Str(..)) = &*args[0].expr {
-                        self.changed = true;
-                        report_change!(
-                            "strings: Unsafely reduced `RegExp` call in a string context"
-                        );
-
-                        *e = *args[0].expr.take();
-                    }
+            if callee.is_ident_ref_to("RegExp") && self.options.unsafe_regexp {
+                if args.len() != 1 {
+                    return;
                 }
-                _ => {}
+
+                self.optimize_expr_in_str_ctx(&mut args[0].expr);
+
+                if let Expr::Lit(Lit::Str(..)) = &*args[0].expr {
+                    self.changed = true;
+                    report_change!("strings: Unsafely reduced `RegExp` call in a string context");
+
+                    *e = *args[0].expr.take();
+                }
             }
         }
     }
@@ -129,7 +120,7 @@ impl Optimizer<'_> {
                 if let (Expr::Lit(Lit::Num(l)), Expr::Lit(Lit::Num(r))) = (&**left, &**right) {
                     if l.value == 0.0 && r.value == 0.0 {
                         *n = Expr::Ident(Ident::new(
-                            js_word!("NaN"),
+                            "NaN".into(),
                             span.with_ctxt(
                                 SyntaxContext::empty().apply_mark(self.marks.unresolved_mark),
                             ),

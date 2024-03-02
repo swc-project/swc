@@ -1,0 +1,154 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 109,
+    "end": 189,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 124,
+          "end": 125,
+          "ctxt": 0
+        },
+        "value": "f",
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 109,
+        "end": 189,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 128,
+          "end": 189,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "UsingDeclaration",
+            "span": {
+              "start": 134,
+              "end": 186,
+              "ctxt": 0
+            },
+            "isAwait": true,
+            "decls": [
+              {
+                "type": "VariableDeclarator",
+                "span": {
+                  "start": 146,
+                  "end": 186,
+                  "ctxt": 0
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 146,
+                    "end": 147,
+                    "ctxt": 0
+                  },
+                  "value": "_",
+                  "optional": false,
+                  "typeAnnotation": null
+                },
+                "init": {
+                  "type": "ObjectExpression",
+                  "span": {
+                    "start": 150,
+                    "end": 186,
+                    "ctxt": 0
+                  },
+                  "properties": [
+                    {
+                      "type": "MethodProperty",
+                      "key": {
+                        "type": "Computed",
+                        "span": {
+                          "start": 158,
+                          "end": 179,
+                          "ctxt": 0
+                        },
+                        "expression": {
+                          "type": "MemberExpression",
+                          "span": {
+                            "start": 159,
+                            "end": 178,
+                            "ctxt": 0
+                          },
+                          "object": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 159,
+                              "end": 165,
+                              "ctxt": 0
+                            },
+                            "value": "Symbol",
+                            "optional": false
+                          },
+                          "property": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 166,
+                              "end": 178,
+                              "ctxt": 0
+                            },
+                            "value": "asyncDispose",
+                            "optional": false
+                          }
+                        }
+                      },
+                      "params": [],
+                      "decorators": [],
+                      "span": {
+                        "start": 152,
+                        "end": 184,
+                        "ctxt": 0
+                      },
+                      "body": {
+                        "type": "BlockStatement",
+                        "span": {
+                          "start": 182,
+                          "end": 184,
+                          "ctxt": 0
+                        },
+                        "stmts": []
+                      },
+                      "generator": false,
+                      "async": true,
+                      "typeParameters": null,
+                      "returnType": null
+                    }
+                  ]
+                },
+                "definite": false
+              }
+            ]
+          },
+          {
+            "type": "EmptyStatement",
+            "span": {
+              "start": 186,
+              "end": 187,
+              "ctxt": 0
+            }
+          }
+        ]
+      },
+      "generator": false,
+      "async": true,
+      "typeParameters": null,
+      "returnType": null
+    }
+  ],
+  "interpreter": null
+}

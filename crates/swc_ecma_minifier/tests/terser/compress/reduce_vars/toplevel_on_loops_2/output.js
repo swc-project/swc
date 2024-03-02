@@ -1,3 +1,1 @@
-for(;;)(function() {
-    console.log("bar:");
-})();
+for(;;)console.log("bar:");

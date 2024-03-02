@@ -1,7 +1,6 @@
 use std::{collections::HashMap, sync::atomic::Ordering};
 
 use anyhow::Error;
-use swc_atoms::js_word;
 use swc_common::{collections::AHashMap, Span, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::{ModuleItem, *};
 use swc_ecma_utils::{quote_ident, undefined, ExprFactory};
@@ -283,7 +282,7 @@ where
                         _ => {
                             props.push(ObjectPatProp::Assign(AssignPatProp {
                                 span: s.span,
-                                key: s.local,
+                                key: s.local.into(),
                                 value: None,
                             }));
                         }
@@ -357,7 +356,7 @@ impl VisitMut for DefaultHandler {
         e.visit_mut_children_with(self);
 
         if let Expr::Ident(i) = e {
-            if i.sym == js_word!("default") {
+            if i.sym == "default" {
                 *e = Expr::Member(MemberExpr {
                     span: i.span,
                     obj: Box::new(Expr::Ident(Ident::new(

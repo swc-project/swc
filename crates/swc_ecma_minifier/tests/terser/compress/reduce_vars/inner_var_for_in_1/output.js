@@ -1,11 +1,7 @@
 function f() {
-    var a = 1,
-        b = 2;
-    for (b in (function () {
-        return x(1, b, c);
-    })()) {
-        var c = 3,
-            d = 4;
+    var a = 1, b = 2;
+    for(b in x(1, b, c)){
+        var c = 3, d = 4;
         x(1, b, c, d);
     }
     x(1, b, c, d);

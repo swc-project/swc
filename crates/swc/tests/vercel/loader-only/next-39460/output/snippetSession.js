@@ -513,8 +513,8 @@ export var SnippetSession = /*#__PURE__*/ function() {
         {
             key: "merge",
             value: function merge(template) {
-                var options = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : _defaultOptions;
                 var _this = this;
+                var options = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : _defaultOptions;
                 if (!this._editor.hasModel()) {
                     return;
                 }

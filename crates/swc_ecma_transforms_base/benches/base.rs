@@ -1,6 +1,6 @@
 #![allow(clippy::redundant_closure_call)]
 
-extern crate swc_node_base;
+extern crate swc_malloc;
 
 use criterion::{black_box, criterion_group, criterion_main, Bencher, Criterion};
 use swc_common::{chain, errors::HANDLER, FileName, Mark};

@@ -65,7 +65,7 @@
    :         ^^^^^^
    `----
 
-  x Ident { value: Atom('update' type=inline), raw: "update" }
+  x Ident { value: "update", raw: "update" }
    ,-[$DIR/tests/recovery/at-rule/media/condition/input.css:1:1]
  1 | @media (update: slow) unknown (hover: none) {}
    :         ^^^^^^
@@ -101,7 +101,7 @@
    :                 ^^^^
    `----
 
-  x Ident { value: Atom('slow' type=inline), raw: "slow" }
+  x Ident { value: "slow", raw: "slow" }
    ,-[$DIR/tests/recovery/at-rule/media/condition/input.css:1:1]
  1 | @media (update: slow) unknown (hover: none) {}
    :                 ^^^^
@@ -125,7 +125,7 @@
    :                       ^^^^^^^
    `----
 
-  x Ident { value: Atom('unknown' type=static), raw: "unknown" }
+  x Ident { value: "unknown", raw: "unknown" }
    ,-[$DIR/tests/recovery/at-rule/media/condition/input.css:1:1]
  1 | @media (update: slow) unknown (hover: none) {}
    :                       ^^^^^^^
@@ -167,7 +167,7 @@
    :                                ^^^^^
    `----
 
-  x Ident { value: Atom('hover' type=inline), raw: "hover" }
+  x Ident { value: "hover", raw: "hover" }
    ,-[$DIR/tests/recovery/at-rule/media/condition/input.css:1:1]
  1 | @media (update: slow) unknown (hover: none) {}
    :                                ^^^^^
@@ -203,7 +203,7 @@
    :                                       ^^^^
    `----
 
-  x Ident { value: Atom('none' type=static), raw: "none" }
+  x Ident { value: "none", raw: "none" }
    ,-[$DIR/tests/recovery/at-rule/media/condition/input.css:1:1]
  1 | @media (update: slow) unknown (hover: none) {}
    :                                       ^^^^

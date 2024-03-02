@@ -1,7 +1,7 @@
 use anyhow::Context;
 use regex::Regex;
 use serde::{Deserialize, Serialize};
-use swc_atoms::{js_word, JsWord};
+use swc_atoms::JsWord;
 use swc_common::{
     comments::{CommentKind, Comments},
     util::take::Take,
@@ -282,7 +282,11 @@ where
         match n {
             Expr::Call(CallExpr {
                 span,
-                callee: Callee::Import(Import { span: import_span }),
+                callee:
+                    Callee::Import(Import {
+                        span: import_span,
+                        phase: ImportPhase::Evaluation,
+                    }),
                 args,
                 ..
             }) if !self.config.ignore_dynamic => {
@@ -309,19 +313,13 @@ where
                     self.support_arrow,
                 );
             }
-            Expr::Member(MemberExpr {
-                span,
-                obj,
-                prop:
-                    MemberProp::Ident(Ident {
-                        sym: js_word!("url"),
-                        ..
-                    }),
-            }) if !self.config.preserve_import_meta
-                && obj
-                    .as_meta_prop()
-                    .map(|p| p.kind == MetaPropKind::ImportMeta)
-                    .unwrap_or_default() =>
+            Expr::Member(MemberExpr { span, obj, prop })
+                if prop.is_ident_with("url")
+                    && !self.config.preserve_import_meta
+                    && obj
+                        .as_meta_prop()
+                        .map(|p| p.kind == MetaPropKind::ImportMeta)
+                        .unwrap_or_default() =>
             {
                 obj.visit_mut_with(self);
 
@@ -417,7 +415,7 @@ where
                     stmts.push(stmt)
                 } else if need_interop {
                     let stmt = import_expr
-                        .make_assign_to(op!("="), mod_ident.as_pat_or_expr())
+                        .make_assign_to(op!("="), mod_ident.into())
                         .into_stmt();
                     stmts.push(stmt);
                 } else if need_re_export {

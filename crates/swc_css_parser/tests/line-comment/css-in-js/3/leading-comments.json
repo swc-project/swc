@@ -1,0 +1,13 @@
+{
+  "43": [
+    {
+      "kind": "Line",
+      "span": {
+        "start": 22,
+        "end": 43,
+        "ctxt": 0
+      },
+      "text": " Line comment\n"
+    }
+  ]
+}

@@ -19,7 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -42,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('exports' type=inline),
+                    value: "exports",
                 },
                 tag: Exports(
                     ExportsTag {
@@ -65,7 +65,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('mymodule' type=dynamic),
+                            value: "mymodule",
                         },
                     },
                 ),
@@ -90,7 +90,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('enum' type=static),
+                    value: "enum",
                 },
                 tag: Enum(
                     EnumTag {
@@ -113,7 +113,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('{string}' type=dynamic),
+                            value: "{string}",
                         },
                     },
                 ),

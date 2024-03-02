@@ -23,3 +23,21 @@ async function fn4() {
         });
     });
 }
+test("windows-process-tree", async ()=>{
+    return new Promise((resolve, reject)=>{
+        getProcessTree(123, (tree)=>{
+            if (tree) {
+                resolve();
+            } else {
+                reject(new Error("windows-process-tree"));
+            }
+        });
+    });
+});
+async function copyExtensions(fromExtensions) {
+    const extensions = await Promise.all(fromExtensions.filter((e)=>!e.isApplicationScoped).map(async (e)=>[
+            e,
+            await scanMetadata(e)
+        ]));
+}
+export { };

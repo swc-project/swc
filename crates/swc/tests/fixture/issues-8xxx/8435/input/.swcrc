@@ -1,0 +1,20 @@
+{
+  "jsc": {
+    "parser": {
+      "syntax": "typescript",
+      "dynamicImport": true,
+      "tsx": true,
+      "jsx": true
+    },
+    "minify": {
+      "compress": true,
+      "mangle": false
+    },
+    "loose": false
+  },
+  "env": {
+    "targets": "> 0.25%, not dead, Safari >=8",
+    "mode": "entry",
+    "coreJs": "3.27"
+  }
+}

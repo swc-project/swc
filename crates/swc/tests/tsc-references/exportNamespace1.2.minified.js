@@ -9,4 +9,4 @@ export { };
 export * from "./b";
 //// [d.ts]
 import { A } from "./c";
-new A(); // Error
+new A();

@@ -1,25 +1,15 @@
 //// [es2020IntlAPIs.ts]
-// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl#Locale_identification_and_negotiation
 const date = new Date("2012-05-24");
 function log(locale) {
     console.log(`${new Intl.DateTimeFormat(locale).format(date)} ${new Intl.NumberFormat(locale).format(26254.39)}`);
 }
-log("en-US"), // expected output: 5/24/2012 26,254.39
-log("de-DE");
-// expected output: 24.5.2012 26.254,39
-// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/RelativeTimeFormat
+log("en-US"), log("de-DE");
 const rtf1 = new Intl.RelativeTimeFormat('en', {
     style: 'narrow'
 });
-console.log(rtf1.format(3, 'quarter')), //expected output: "in 3 qtrs."
-console.log(rtf1.format(-1, 'day'));
-//expected output: "1 day ago"
-const rtf2 = new Intl.RelativeTimeFormat('es', {
+console.log(rtf1.format(3, 'quarter')), console.log(rtf1.format(-1, 'day')), console.log(new Intl.RelativeTimeFormat('es', {
     numeric: 'auto'
-});
-console.log(rtf2.format(2, 'day'));
-//expected output: "pasado mañana"
-// https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DisplayNames
+}).format(2, 'day'));
 const regionNamesInEnglish = new Intl.DisplayNames([
     'en'
 ], {
@@ -29,8 +19,7 @@ const regionNamesInEnglish = new Intl.DisplayNames([
 ], {
     type: 'region'
 });
-console.log(regionNamesInEnglish.of('US')), // expected output: "United States"
-console.log(regionNamesInTraditionalChinese.of('US')), console.log(Intl.DisplayNames.supportedLocalesOf([
+console.log(regionNamesInEnglish.of('US')), console.log(regionNamesInTraditionalChinese.of('US')), console.log(Intl.DisplayNames.supportedLocalesOf([
     'ban',
     'id-u-co-pinyin',
     'de-ID'
@@ -46,4 +35,3 @@ const localesArg = [
 console.log(new Intl.DisplayNames(localesArg, {
     type: 'language'
 }).resolvedOptions().locale), console.log(Intl.DisplayNames.supportedLocalesOf(localesArg)), console.log(Intl.DisplayNames.supportedLocalesOf()), console.log(Intl.DisplayNames.supportedLocalesOf(localesArg, {}));
- // ["es-ES", "en-US"]

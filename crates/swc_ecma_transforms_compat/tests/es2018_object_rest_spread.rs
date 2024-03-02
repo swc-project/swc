@@ -22,11 +22,7 @@ test!(
     syntax(),
     |_| tr(Default::default()),
     issue_233,
-    "const foo = () => ({ x, ...y }) => y",
-    "const foo = ()=>(_param)=>{
-        var { x } = _param, y = _object_without_properties(_param, [\"x\"]);
-        return y;
-    };"
+    "const foo = () => ({ x, ...y }) => y"
 );
 
 test!(
@@ -35,11 +31,6 @@ test!(
     issue_239,
     "class Foo {
   constructor ({ ...bar }) {}
-}",
-    "class Foo{
-    constructor(_param){
-      var bar = _extends({}, _object_destructuring_empty(_param));
-    }
 }"
 );
 
@@ -51,10 +42,7 @@ test!(
     issue_227,
     "export default function fn1(...args) {
   fn2(...args);
-}",
-    r#"export default function fn1(...args) {
-  fn2(...args);
-}"#
+}"
 );
 
 test!(
@@ -67,14 +55,6 @@ export const good = {
     (...bad2) => { };
   }
 };
-"#,
-    r#"
-export const good = {
-    a (bad1) {
-        (...bad2)=>{
-        };
-    }
-};
 "#
 );
 
@@ -84,12 +64,6 @@ test!(
     issue_181,
     r#"
 const fn = ({ a, ...otherProps }) => otherProps;
-"#,
-    r#"
-const fn = (_param)=>{
-  var { a  } = _param, otherProps = _object_without_properties(_param, ["a"]);
-  return otherProps;
-};
 "#
 );
 
@@ -100,12 +74,6 @@ test!(
     r#"
 function foo([{...bar}]) {
 }
-"#,
-    r#"
-function foo(_param) {
-  var bar = _extends({}, _object_destructuring_empty(_param[0]));
-}
-
 "#
 );
 
@@ -115,9 +83,6 @@ test!(
     rest_var_basic,
     r#"
 var { a , ...b } = _ref;
-"#,
-    r#"
-var { a } = _ref, b = _object_without_properties(_ref, ["a"]);
 "#
 );
 
@@ -166,14 +131,7 @@ test!(
     r#"({ a1 } = c1);
 ({ a2, ...b2 } = c2);
 
-console.log({ a3, ...b3 } = c3);"#,
-    r#"
-({ a1  } = c1);
-var _c2;
-_c2 = c2, b2 = _object_without_properties(_c2, ["a2"]), ({ a2  } = _c2), _c2;
-var _c3;
-console.log(( _c3 = c3, b3 = _object_without_properties(_c3, ["a3"]), { a3  } = _c3, _c3));
-"#
+console.log({ a3, ...b3 } = c3);"#
 );
 
 test!(
@@ -189,31 +147,7 @@ try {} catch({a2, b2, c2: { c3, ...c4 }}) {}
 // Unchanged
 try {} catch(a) {}
 try {} catch({ b }) {}
-"#,
-    r#"
-try {
-} catch (_param) {
-    var a34 = _extends({
-    }, _object_destructuring_empty(_param));
-}
-try {
-} catch (_param) {
-    var { a1  } = _param, b1 = _object_without_properties(_param, ["a1"]);
-}
-try {
-} catch (_param) {
-    var { a2 , b2  } = _param, c2 = _object_without_properties(_param, ["a2", "b2"]);
-}
-try {
-} catch (_param) {
-    var { a2 , b2 , c2: { c3  }  } = _param, c4 = _object_without_properties(_param.c2, ["c3"]);
-}
-try {
-} catch (a) {
-}
-try {
-} catch ({ b  }) {
-}"#
+"#
 );
 
 test!(
@@ -226,20 +160,6 @@ export var { b, ...c } = asdf2;
 // Skip
 export var { bb, cc } = ads;
 export var [ dd, ee ] = ads;
-"#,
-    r#"
-// ExportNamedDeclaration
-var {
-  b
-} = asdf2,
-    c = _object_without_properties(asdf2, ["b"]); // Skip
-
-export { b, c };
-export var {
-  bb,
-  cc
-} = ads;
-export var [dd, ee] = ads;
 "#
 );
 
@@ -264,54 +184,6 @@ async function a() {
 
 for (a in {}) {}
 for (a of []) {}
-async function a() {
-  for await (a of []) {}
-}
-"#,
-    r#"
-// ForXStatement
-for (var _ref of []) {
-  let {
-    a
-  } = _ref,
-      b = _object_without_properties(_ref, ["a"]);
-}
-
-for (var _ref1 of []) {
-  var _ref2;
-  _ref2 = _ref1, b = _object_without_properties(_ref2, [
-      "a"
-  ]), ({ a  } = _ref2), _ref2;
-}
-
-async function a() {
-  for await (var _ref of []) {
-      var _ref1;
-      _ref1 = _ref, b = _object_without_properties(_ref1, [
-          "a"
-      ]), ({ a  } = _ref1), _ref1;
-  }
-} // skip
-
-
-for ({
-  a
-} in {}) {}
-
-for ({
-  a
-} of []) {}
-
-async function a() {
-  for await ({
-    a
-  } of []) {}
-}
-
-for (a in {}) {}
-
-for (a of []) {}
-
 async function a() {
   for await (a of []) {}
 }
@@ -375,59 +247,7 @@ key = 2;
 expect(y).toBe("two");
 expect(x).toEqual({});
 expect(z).toBe("zee");
-"#,
-    r#"
-var key, x, y, z; // impure
-
-key = 1;
-
-var _$a = {
-  1: 1,
-  a: 1
-},
-    _ref = key++,
-    {
-  [_ref]: y
-} = _$a,
-    x = _object_without_properties(_$a, [_ref].map(_to_property_key));
-
-expect(x).toEqual({
-  a: 1
-});
-expect(key).toBe(2);
-expect(y).toBe(1); // takes care of the order
-
-key = 1;
-
-var _$ = {
-  2: 2,
-  3: 3
-},
-    _ref2 = ++key,
-    _ref3 = ++key,
-    {
-  [_ref2]: y,
-  [_ref3]: z
-} = _$,
-    rest = _object_without_properties(_$, [_ref2, _ref3].map(_to_property_key));
-
-expect(y).toBe(2);
-expect(z).toBe(3); // pure, computed property should remain as-is
-
-key = 2;
-var _$z = {
-  2: "two",
-  z: "zee"
-};
-({
-  [key]: y,
-  z
-} = _$z);
-x = _object_without_properties(_$z, [key, "z"].map(_to_property_key));
-_$z;
-expect(y).toBe("two");
-expect(x).toEqual({});
-expect(z).toBe("zee");"#
+"#
 );
 
 test!(
@@ -450,33 +270,7 @@ const test = {
 };
 
 const { foo: { bar: { baz: { a: { x, ...other } } } } } = test;
-"#,
-    r#"
-const test = {
-  foo: {
-    bar: {
-      baz: {
-        a: {
-          x: 1,
-          y: 2,
-          z: 3
-        }
-      }
-    }
-  }
-};
-const {
-  foo: {
-    bar: {
-      baz: {
-        a: {
-          x
-        }
-      }
-    }
-  }
-} = test,
-      other = _object_without_properties(test.foo.bar.baz.a, ["x"]);"#
+"#
 );
 
 test!(
@@ -490,20 +284,6 @@ const {
   }]: a,
   [({ ...d } = {})]: c,
 } = {};
-"#,
-    r#"
-var _tmp;
-const _ref = {
-}, _key = (_param)=>{
-    var rest = _extends({
-    }, _object_destructuring_empty(_param));
-    let b = _extends({
-    }, _object_destructuring_empty({
-    }));
-}, _key1 = (_tmp = {
-}, d = _extends({
-}, _object_destructuring_empty(_tmp)), _tmp), { [_key]: a , [_key1]: c  } = _ref;
-
 "#
 );
 
@@ -536,20 +316,6 @@ const {
   },
   c = ({ ...d } = {}),
 } = {};
-"#,
-    r#"
-var _tmp;
-const _ref = {
-}, { a =(_param)=>{
-    var rest = _extends({
-    }, _object_destructuring_empty(_param));
-    let b = _extends({
-    }, _object_destructuring_empty({
-    }));
-} , c =(_tmp = {
-}, d = _extends({
-}, _object_destructuring_empty(_tmp)), _tmp)  } = _ref;
-
 "#
 );
 
@@ -588,10 +354,6 @@ test!(
     rest_nested_order,
     r#"
 const { a: { ...bar }, b: { ...baz }, ...foo } = obj;
-"#,
-    r#"
-const bar = _extends({}, _object_destructuring_empty(obj.a)), baz = _extends({}, _object_destructuring_empty(obj.b)), foo =
-    _object_without_properties(obj, ["a", "b"]);
 "#
 );
 
@@ -610,24 +372,6 @@ const defunct = {
 }
 
 const { outer: { inner: { three, ...other } } } = defunct
-"#,
-    r#"
-const defunct = {
-  outer: {
-    inner: {
-      three: 'three',
-      four: 'four'
-    }
-  }
-};
-const {
-  outer: {
-    inner: {
-      three
-    }
-  }
-} = defunct,
-      other = _object_without_properties(defunct.outer.inner, ["three"]);
 "#
 );
 
@@ -638,7 +382,7 @@ test_exec!(
     rest_non_string_computed_exec,
     r#"
 const a = {
-  "3": "three",
+  "3": "three"
   "foo": "bar"
 }
 
@@ -652,10 +396,10 @@ expect(omit).toBe("three");
 
 const [k1, k2, k3, k4, k5] = [null, undefined, true, false, {toString() { return "warrior"; }}];
 const c = {
-  [k1]: "1",
-  [k2]: "2",
-  [k3]: "3",
-  [k4]: "4",
+  [k1]: "1"
+  [k2]: "2"
+  [k3]: "3"
+  [k4]: "4"
   [k5]: "5"
 };
 
@@ -680,7 +424,7 @@ const sx = Symbol();
 const sy = Symbol();
 
 const d = {
-  [sx]: "sx",
+  [sx]: "sx"
   [sy]: "sy"
 }
 
@@ -701,7 +445,7 @@ test!(
     rest_non_string_computed,
     r#"
 const a = {
-  "3": "three",
+  "3": "three"
   "foo": "bar"
 }
 
@@ -715,10 +459,10 @@ expect(omit).toBe("three");
 
 const [k1, k2, k3, k4, k5] = [null, undefined, true, false, {toString() { return "warrior"; }}];
 const c = {
-  [k1]: "1",
-  [k2]: "2",
-  [k3]: "3",
-  [k4]: "4",
+  [k1]: "1"
+  [k2]: "2"
+  [k3]: "3"
+  [k4]: "4"
   [k5]: "5"
 };
 
@@ -743,7 +487,7 @@ const sx = Symbol();
 const sy = Symbol();
 
 const d = {
-  [sx]: "sx",
+  [sx]: "sx"
   [sy]: "sy"
 }
 
@@ -752,59 +496,6 @@ const {
   [sy]: dy
 } = d;
 
-expect(dx).toBe("sx");
-expect(dy).toBe("sy");"#,
-    r#"
-const a = {
-  "3": "three",
-  "foo": "bar"
-};
-const {
-  [3]: omit
-} = a,
-      rest = _object_without_properties(a, ["3"]);
-expect(rest).toEqual({
-  "foo": "bar"
-});
-expect(omit).toBe("three");
-const [k1, k2, k3, k4, k5] = [null, undefined, true, false, {
-  toString() {
-    return "warrior";
-  }
-
-}];
-const c = {
-  [k1]: "1",
-  [k2]: "2",
-  [k3]: "3",
-  [k4]: "4",
-  [k5]: "5"
-};
-const {
-  [k1]: v1,
-  [k2]: v2,
-  [k3]: v3,
-  [k4]: v4,
-  [k5]: v5
-} = c,
-      vrest = _object_without_properties(c, [k1, k2, k3, k4, k5].map(_to_property_key));
-expect(v1).toBe("1");
-expect(v2).toBe("2");
-expect(v3).toBe("3");
-expect(v4).toBe("4");
-expect(v5).toBe("5");
-expect(vrest).toEqual({}); // shouldn't convert symbols to strings
-
-const sx = Symbol();
-const sy = Symbol();
-const d = {
-  [sx]: "sx",
-  [sy]: "sy"
-};
-const {
-  [sx]: dx,
-  [sy]: dy
-} = d;
 expect(dx).toBe("sx");
 expect(dy).toBe("sy");"#
 );
@@ -850,31 +541,6 @@ let {
 ({ [Symbol.for("foo")]: foo, ...rest } = {});
 
 if ({ [Symbol.for("foo")]: foo, ...rest } = {}) {}
-"#,
-    r#"
-var _ref3, _Symbol$for3;
-
-let _ref = {},
-    _Symbol$for = Symbol.for("foo"),
-    {
-  [_Symbol$for]: foo
-} = _ref,
-    rest = _object_without_properties(_ref, [_Symbol$for].map(_to_property_key));
-
-var _ref2 = {};
-
-var _Symbol$for2 = Symbol.for("foo");
-
-({
-  [_Symbol$for2]: foo
-} = _ref2);
-rest = _object_without_properties(_ref2, [_Symbol$for2].map(_to_property_key));
-_ref2;
-
-if (_ref3 = {}, _Symbol$for3 = Symbol.for("foo"), ({
-  [_Symbol$for3]: foo
-} = _ref3), rest = _object_without_properties(_ref3,
-    [_Symbol$for3].map(_to_property_key)), _ref3) {}
 "#
 );
 
@@ -894,42 +560,6 @@ var { [a]: b, ...c } = z;
 var {x1, ...y1} = z;
 let {x2, y2, ...z2} = z;
 const {w3, x3, y3, ...z4} = z;
-"#,
-    r#"
-var z = {};
-var x = _extends({}, _object_destructuring_empty(z));
-var a = _extends({
-}, _object_destructuring_empty({
-    a: 1
-}));
-var x = _extends({
-}, _object_destructuring_empty(a.b));
-var x = _extends({
-}, _object_destructuring_empty(a()));
-var {
-  x1
-} = z,
-    y1 = _object_without_properties(z, ["x1"]);
-x1++;
-var {
-  [a]: b
-} = z,
-    c = _object_without_properties(z, [a].map(_to_property_key));
-var {
-  x1
-} = z,
-    y1 = _object_without_properties(z, ["x1"]);
-let {
-  x2,
-  y2
-} = z,
-    z2 = _object_without_properties(z, ["x2", "y2"]);
-const {
-  w3,
-  x3,
-  y3
-} = z,
-      z4 = _object_without_properties(z, ["w3", "x3", "y3"]);
 "#
 );
 
@@ -943,17 +573,6 @@ let {
   y: { ...d },
   ...g
 } = complex;
-"#,
-    r#"
-let {
-  x: {
-    a: xa,
-    [d]: f
-  }
-} = complex,
-    asdf = _object_without_properties(complex.x, ["a", d].map(_to_property_key)),
-    d = _extends({}, _object_destructuring_empty(complex.y)),
-    g = _object_without_properties(complex, ["x", "y"]);
 "#
 );
 
@@ -963,9 +582,6 @@ test!(
     rest_variable_destructuring_3,
     r#"
 let { x4: { ...y4 } } = z;
-"#,
-    r#"
-let y4 = _extends({}, _object_destructuring_empty(z.x4));
 "#
 );
 
@@ -1014,12 +630,6 @@ let {
   a: [1, 2, 3, 4],
   d: "oyez"
 };
-"#,
-    r#"
-let _ref = {
-     a: [1, 2, 3, 4], d: "oyez"
-}, { a: [b, ...arrayRest] , c =function(...functionRest) {
-}  } = _ref, objectRest = _object_without_properties(_ref, ["a", "c"]);
 "#
 );
 
@@ -1031,15 +641,6 @@ test!(
 z = { x, ...y };
 
 z = { x, w: { ...y } };
-"#,
-    r#"
-z = _object_spread({
-  x
-}, y);
-z = {
-  x,
-  w: _object_spread({}, y)
-};
 "#
 );
 
@@ -1055,27 +656,6 @@ test!(
 ({ ...{ foo: 'bar' } });
 
 ({ ...{ get foo () { return 'foo' } } });
-"#,
-    r#"
-_object_spread_props(_object_spread(_object_spread_props(_object_spread({
-    x
-}, y), {
-    a
-}), b), {
-    c
-});
-
-_object_spread({}, Object.prototype);
-
-_object_spread({}, {
-  foo: 'bar'
-});
-
-_object_spread({}, {
-  get foo() {
-    return 'foo';
-  }
-});
 "#
 );
 
@@ -1132,8 +712,7 @@ test!(
     syntax(),
     |_| tr(Default::default()),
     spread_variable_declaration,
-    r#"var z = { ...x };"#,
-    r#"var z = _object_spread({}, x);"#
+    r#"var z = { ...x };"#
 );
 
 // object_spread_assignment
@@ -1146,16 +725,6 @@ z = { x, ...y };
 
 z = { x, w: { ...y } };
 
-"#,
-    r#"
-z = _object_spread({
-  x
-}, y);
-z = {
-  x,
-  w: _object_spread({}, y)
-};
-
 "#
 );
 
@@ -1163,13 +732,13 @@ z = {
 //test!(syntax(),|_| tr("{
 //  "presets": [
 //    [
-//      "env",
+//      "env"
 //      {
 //        "shippedProposals": true,
 //        "targets": {
 //          "node": 8
 //        },
-//        "useBuiltIns": "usage",
+//        "useBuiltIns": "usage"
 //        "corejs": 3
 //      }
 //    ]
@@ -1180,10 +749,10 @@ z = {
 //export default class {
 //  method ({ ...object }) {}
 //}
-//"#, r#"
+//"# r#"
 //"use strict";
 //
-//Object.defineProperty(exports, "__esModule", {
+//Object.defineProperty(exports, "__esModule" {
 //  value: true
 //});
 //exports.default = void 0;
@@ -1202,8 +771,8 @@ z = {
 //// object_rest_symbol
 //test!(syntax(),|_| tr("{
 //  "plugins": [
-//    "syntax-async-generators",
-//    "proposal-object-rest-spread",
+//    "syntax-async-generators"
+//    "proposal-object-rest-spread"
 //
 //  ]
 //}
@@ -1217,7 +786,7 @@ z = {
 //
 //if ({ [Symbol.for("foo")]: foo, ...rest } = {}) {}
 //
-//"#, r#"
+//"# r#"
 //var _ref3, _Symbol$for3;
 //
 //let _ref = {},
@@ -1279,8 +848,8 @@ expect(Object.getOwnPropertySymbols(noSym)).toEqual([]);
 //// object_rest_impure_computed
 //test!(syntax(),|_| tr("{
 //  "plugins": [
-//    "syntax-async-generators",
-//    "proposal-object-rest-spread",
+//    "syntax-async-generators"
+//    "proposal-object-rest-spread"
 //
 //  ]
 //}
@@ -1307,7 +876,7 @@ expect(Object.getOwnPropertySymbols(noSym)).toEqual([]);
 //expect(x).toEqual({});
 //expect(z).toBe("zee");
 //
-//"#, r#"
+//"# r#"
 //var key, x, y, z; // impure
 //
 //key = 1;
@@ -1349,7 +918,7 @@ expect(Object.getOwnPropertySymbols(noSym)).toEqual([]);
 //
 //key = 2;
 //var _$z = {
-//  2: "two",
+//  2: "two"
 //  z: "zee"
 //};
 //({
@@ -1368,8 +937,8 @@ expect(Object.getOwnPropertySymbols(noSym)).toEqual([]);
 //// object_rest_catch_clause
 //test!(syntax(),|_| tr("{
 //  "plugins": [
-//    "syntax-async-generators",
-//    "proposal-object-rest-spread",
+//    "syntax-async-generators"
+//    "proposal-object-rest-spread"
 //
 //  ]
 //}
@@ -1383,7 +952,7 @@ expect(Object.getOwnPropertySymbols(noSym)).toEqual([]);
 //try {} catch(a) {}
 //try {} catch({ b }) {}
 //
-//"#, r#"
+//"# r#"
 //try {} catch (_ref) {
 //  let a34 = _extends({}, _ref);
 //}
@@ -1400,7 +969,7 @@ expect(Object.getOwnPropertySymbols(noSym)).toEqual([]);
 //    a2,
 //    b2
 //  } = _ref3,
-//      c2 = _object_without_properties(_ref3, ["a2", "b2"]);
+//      c2 = _object_without_properties(_ref3, ["a2" "b2"]);
 //}
 //
 //try {} catch (_ref4) {
@@ -1426,8 +995,8 @@ expect(Object.getOwnPropertySymbols(noSym)).toEqual([]);
 //// object_rest_variable_destructuring
 //test!(syntax(),|_| tr("{
 //  "plugins": [
-//    "syntax-async-generators",
-//    "proposal-object-rest-spread",
+//    "syntax-async-generators"
+//    "proposal-object-rest-spread"
 //
 //  ]
 //}
@@ -1452,7 +1021,7 @@ expect(Object.getOwnPropertySymbols(noSym)).toEqual([]);
 //
 //let { x4: { ...y4 } } = z;
 //
-//"#, r#"
+//"# r#"
 //var z = {};
 //var x = _extends({}, z);
 //var a = _extends({}, {
@@ -1477,20 +1046,20 @@ expect(Object.getOwnPropertySymbols(noSym)).toEqual([]);
 //  x2,
 //  y2
 //} = z,
-//    z2 = _object_without_properties(z, ["x2", "y2"]);
+//    z2 = _object_without_properties(z, ["x2" "y2"]);
 //const {
 //  w3,
 //  x3,
 //  y3
 //} = z,
-//      z4 = _object_without_properties(z, ["w3", "x3", "y3"]);
+//      z4 = _object_without_properties(z, ["w3" "x3" "y3"]);
 //let {
 //  x: {
 //    a: xa,
 //    [d]: f
 //  }
 //} = complex,
-//    asdf = _object_without_properties(complex.x, ["a",
+//    asdf = _object_without_properties(complex.x, ["a"
 // d].map(_to_property_key)),    d = _extends({},
 // complex.y),    g = _object_without_properties(complex, ["x"]);
 //let {} = z,
@@ -1502,8 +1071,8 @@ expect(Object.getOwnPropertySymbols(noSym)).toEqual([]);
 
 //// regression_gh_8323
 //test!(syntax(),|_| tr("{
-//  "presets": [["env", { "targets": { "node": "8" } }]],
-//  "plugins": [["proposal-object-rest-spread", { "loose": true }]]
+//  "presets": [["env" { "targets": { "node": "8" } }]],
+//  "plugins": [["proposal-object-rest-spread" { "loose": true }]]
 //}
 //"), regression_gh_8323, r#"
 //const get = () => {
@@ -1515,7 +1084,7 @@ expect(Object.getOwnPropertySymbols(noSym)).toEqual([]);
 //  const v = b + 3;
 //};
 //
-//"#, r#"
+//"# r#"
 //const get = () => {
 //  fireTheMissiles();
 //  return 3;
@@ -1526,7 +1095,7 @@ expect(Object.getOwnPropertySymbols(noSym)).toEqual([]);
 //    a = get(),
 //    b
 //  } = _ref,
-//      z = _object_without_properties_loose(_ref, ["a", "b", "c"]);
+//      z = _object_without_properties_loose(_ref, ["a" "b" "c"]);
 //
 //  const v = b + 3;
 //};
@@ -1550,34 +1119,14 @@ var l = foo(),
     { m: { n, ...o }, ...p } = bar(),
     q = baz();
 
-"#,
-    r#"
-const {
-  x
-} = a,
-      y = _object_without_properties(a, ["x"]),
-      z = foo(y);
-const s = _extends({}, _object_destructuring_empty(r)),
-      t = foo(s); // ordering is preserved
-
-var l = foo(),
-    _bar = bar(),
-    {
-  m: {
-    n
-  }
-} = _bar,
-    o = _object_without_properties(_bar.m, ["n"]),
-    p = _object_without_properties(_bar, ["m"]),
-    q = baz();
 "#
 );
 
 // object_rest_parameters
 //test!(syntax(),|_| tr("{
 //  "plugins": [
-//    "syntax-async-generators",
-//    "proposal-object-rest-spread",
+//    "syntax-async-generators"
+//    "proposal-object-rest-spread"
 //
 //  ]
 //}
@@ -1597,7 +1146,7 @@ var l = foo(),
 //function b2(a, ...b) {}
 //function b3({ b }) {}
 //
-//"#, r#"
+//"# r#"
 //function a(_ref) {
 //  let a34 = _extends({}, _ref);
 //}
@@ -1614,7 +1163,7 @@ var l = foo(),
 //    a2,
 //    b2
 //  } = _ref3,
-//      c2 = _object_without_properties(_ref3, ["a2", "b2"]);
+//      c2 = _object_without_properties(_ref3, ["a2" "b2"]);
 //}
 //
 //function a4(_ref5, _ref4) {
@@ -1636,7 +1185,7 @@ var l = foo(),
 //    }
 //  } = _ref6,
 //      ba2 = _object_without_properties(_ref6.b2, ["ba1"]),
-//      c3 = _object_without_properties(_ref6, ["a3", "b2"]);
+//      c3 = _object_without_properties(_ref6, ["a3" "b2"]);
 //}
 //
 //function a6(_ref7) {
@@ -1685,8 +1234,8 @@ var l = foo(),
 //// object_rest_for_x_array_pattern
 //test!(syntax(),|_| tr("{
 //  "plugins": [
-//    "syntax-async-generators",
-//    "proposal-object-rest-spread",
+//    "syntax-async-generators"
+//    "proposal-object-rest-spread"
 //
 //  ]
 //}
@@ -1711,7 +1260,7 @@ var l = foo(),
 //  for await ([a, ...b] of []) {}
 //}
 //
-//"#, r#"
+//"# r#"
 //// ForXStatement
 //for (const _ref of []) {
 //  const [_ref2] = _ref;
@@ -1767,8 +1316,8 @@ var l = foo(),
 //// object_rest_nested_computed_key
 //test!(syntax(),|_| tr("{
 //  "plugins": [
-//    "syntax-async-generators",
-//    "proposal-object-rest-spread",
+//    "syntax-async-generators"
+//    "proposal-object-rest-spread"
 //
 //  ]
 //}
@@ -1779,7 +1328,7 @@ var l = foo(),
 //  }]: a,
 //  [({ ...d } = {})]: c,
 //} = {};
-//"#, r#"
+//"# r#"
 //var _ref2;
 //
 //const {
@@ -1811,24 +1360,6 @@ function fn0(obj0) {
   } = obj0;
 }
 
-"#,
-    r#"
-function fn0(obj0) {
-  const {
-    fn1 = (obj1 = {}) => {
-      const {
-        fn2 = (obj2 = {}) => {
-          const {
-            a
-          } = obj2,
-                rest = _object_without_properties(obj2, ["a"]);
-          console.log(rest);
-        }
-      } = obj1;
-    }
-  } = obj0;
-}
-
 "#
 );
 
@@ -1837,8 +1368,8 @@ function fn0(obj0) {
 //// object_rest_nested
 //test!(syntax(),|_| tr("{
 //  "plugins": [
-//    "syntax-async-generators",
-//    "proposal-object-rest-spread",
+//    "syntax-async-generators"
+//    "proposal-object-rest-spread"
 //
 //  ]
 //}
@@ -1854,7 +1385,7 @@ function fn0(obj0) {
 //
 //const { outer: { inner: { three, ...other } } } = defunct
 //
-//"#, r#"
+//"# r#"
 //const defunct = {
 //  outer: {
 //    inner: {
@@ -1878,8 +1409,8 @@ function fn0(obj0) {
 //// object_rest_with_array_rest
 //test!(syntax(),|_| tr("{
 //  "plugins": [
-//    "syntax-async-generators",
-//    "proposal-object-rest-spread",
+//    "syntax-async-generators"
+//    "proposal-object-rest-spread"
 //
 //  ]
 //}
@@ -1893,7 +1424,7 @@ function fn0(obj0) {
 //  d: "oyez"
 //};
 //
-//"#, r#"
+//"# r#"
 //let _a$d = {
 //  a: [1, 2, 3, 4],
 //  d: "oyez"
@@ -1902,22 +1433,22 @@ function fn0(obj0) {
 //  a: [b, ...arrayRest],
 //  c = function (...functionRest) {}
 //} = _a$d,
-//    objectRest = _object_without_properties(_a$d, ["a", "c"]);
+//    objectRest = _object_without_properties(_a$d, ["a" "c"]);
 //
 //"#);
 
 //// object_rest_nested_array_2
 //test!(syntax(),|_| tr("{
 //  "plugins": [
-//    "syntax-async-generators",
-//    "proposal-object-rest-spread",
+//    "syntax-async-generators"
+//    "proposal-object-rest-spread"
 //
 //  ]
 //}
 //"), object_rest_nested_array_2, r#"
 //const [a, [{b, ...c}], {d, ...e}, [{ f, ...g}, {h: [i, {j, ...k}] }]] = x;
 //
-//"#, r#"
+//"# r#"
 //const [a, [_ref], _ref2, [_ref3, {
 //  h: [i, _ref4]
 //}]] = x;
@@ -1987,19 +1518,19 @@ expect(order).toEqual(["right", "left"]);
 //// object_rest_duplicate_decl_bug
 //test!(syntax(),|_| tr("{
 //  "plugins": [
-//    "./plugin-clear-scope",
-//    "proposal-object-rest-spread",
+//    "./plugin-clear-scope"
+//    "proposal-object-rest-spread"
 //
 //  ]
 //}
 //"), object_rest_duplicate_decl_bug, r#"
-//it("es7.objectRestSpread", () => {
+//it("es7.objectRestSpread" () => {
 //  let original = { a: 1, b: 2 };
 //  let { ...copy } = original;
 //});
 //
-//"#, r#"
-//it("es7.objectRestSpread", () => {
+//"# r#"
+//it("es7.objectRestSpread" () => {
 //  let original = {
 //    a: 1,
 //    b: 2
@@ -2032,8 +1563,8 @@ expect(log).toEqual([1]);
 // object_rest_nested_default_value
 //test!(syntax(),|_| tr("{
 //  "plugins": [
-//    "syntax-async-generators",
-//    "proposal-object-rest-spread",
+//    "syntax-async-generators"
+//    "proposal-object-rest-spread"
 //
 //  ]
 //}
@@ -2044,7 +1575,7 @@ expect(log).toEqual([1]);
 //  },
 //  c = ({ ...d } = {}),
 //} = {};
-//"#, r#"
+//"# r#"
 //var _ref2;
 //
 //const {
@@ -2060,8 +1591,8 @@ expect(log).toEqual([1]);
 //// object_rest_export
 //test!(syntax(),|_| tr("{
 //  "plugins": [
-//    "syntax-async-generators",
-//    "proposal-object-rest-spread",
+//    "syntax-async-generators"
+//    "proposal-object-rest-spread"
 //
 //  ]
 //}
@@ -2072,7 +1603,7 @@ expect(log).toEqual([1]);
 //export var { bb, cc } = ads;
 //export var [ dd, ee ] = ads;
 //
-//"#, r#"
+//"# r#"
 //// ExportNamedDeclaration
 //var {
 //  b
@@ -2091,14 +1622,14 @@ expect(log).toEqual([1]);
 //// object_rest_non_string_computed
 //test!(syntax(),|_| tr("{
 //  "plugins": [
-//    "syntax-async-generators",
-//    "proposal-object-rest-spread",
+//    "syntax-async-generators"
+//    "proposal-object-rest-spread"
 //
 //  ]
 //}
 //"), object_rest_non_string_computed, r#"
 //const a = {
-//  "3": "three",
+//  "3": "three"
 //  "foo": "bar"
 //}
 //
@@ -2112,10 +1643,10 @@ expect(log).toEqual([1]);
 //
 //const [k1, k2, k3, k4, k5] = [null, undefined, true, false, {toString() {
 // return "warrior"; }}]; const c = {
-//  [k1]: "1",
-//  [k2]: "2",
-//  [k3]: "3",
-//  [k4]: "4",
+//  [k1]: "1"
+//  [k2]: "2"
+//  [k3]: "3"
+//  [k4]: "4"
 //  [k5]: "5"
 //};
 //
@@ -2140,7 +1671,7 @@ expect(log).toEqual([1]);
 //const sy = Symbol();
 //
 //const d = {
-//  [sx]: "sx",
+//  [sx]: "sx"
 //  [sy]: "sy"
 //}
 //
@@ -2152,9 +1683,9 @@ expect(log).toEqual([1]);
 //expect(dx).toBe("sx");
 //expect(dy).toBe("sy");
 //
-//"#, r#"
+//"# r#"
 //const a = {
-//  "3": "three",
+//  "3": "three"
 //  "foo": "bar"
 //};
 //const {
@@ -2172,10 +1703,10 @@ expect(log).toEqual([1]);
 //
 //}];
 //const c = {
-//  [k1]: "1",
-//  [k2]: "2",
-//  [k3]: "3",
-//  [k4]: "4",
+//  [k1]: "1"
+//  [k2]: "2"
+//  [k3]: "3"
+//  [k4]: "4"
 //  [k5]: "5"
 //};
 //const {
@@ -2196,7 +1727,7 @@ expect(log).toEqual([1]);
 //const sx = Symbol();
 //const sy = Symbol();
 //const d = {
-//  [sx]: "sx",
+//  [sx]: "sx"
 //  [sy]: "sy"
 //};
 //const {
@@ -2216,18 +1747,14 @@ test!(
     r#"
 var z = { ...x };
 
-"#,
-    r#"
-var z = _object_spread({}, x);
-
 "#
 );
 
 //// object_rest_nested_array
 //test!(syntax(),|_| tr("{
 //  "plugins": [
-//    "syntax-async-generators",
-//    "proposal-object-rest-spread",
+//    "syntax-async-generators"
+//    "proposal-object-rest-spread"
 //
 //  ]
 //}
@@ -2239,7 +1766,7 @@ var z = _object_spread({}, x);
 //[g, {h, ...i}] = x;
 //
 //
-//"#, r#"
+//"# r#"
 //const [a, _ref] = x;
 //const {
 //  b
@@ -2316,7 +1843,7 @@ test_exec!(
     r#"
 const a = {
   "3": "three",
-  "foo": "bar"
+  "foo": "bar",
 }
 
 const {
@@ -2333,7 +1860,7 @@ const c = {
   [k2]: "2",
   [k3]: "3",
   [k4]: "4",
-  [k5]: "5"
+  [k5]: "5",
 };
 
 const {
@@ -2358,7 +1885,7 @@ const sy = Symbol();
 
 const d = {
   [sx]: "sx",
-  [sy]: "sy"
+  [sy]: "sy",
 }
 
 const {
@@ -2409,8 +1936,8 @@ test_exec!(
 //// object_rest_nested_2
 //test!(syntax(),|_| tr("{
 //  "plugins": [
-//    "syntax-async-generators",
-//    "proposal-object-rest-spread",
+//    "syntax-async-generators"
+//    "proposal-object-rest-spread"
 //
 //  ]
 //}
@@ -2431,7 +1958,7 @@ test_exec!(
 //
 //const { foo: { bar: { baz: { a: { x, ...other } } } } } = test;
 //
-//"#, r#"
+//"# r#"
 //const test = {
 //  foo: {
 //    bar: {
@@ -2479,8 +2006,8 @@ Object.getOwnPropertyDescriptors = oldGOPDs;
 //// object_rest_for_x
 //test!(syntax(),|_| tr("{
 //  "plugins": [
-//    "syntax-async-generators",
-//    "proposal-object-rest-spread",
+//    "syntax-async-generators"
+//    "proposal-object-rest-spread"
 //
 //  ]
 //}
@@ -2505,7 +2032,7 @@ Object.getOwnPropertyDescriptors = oldGOPDs;
 //  for await (a of []) {}
 //}
 //
-//"#, r#"
+//"# r#"
 //// ForXStatement
 //for (var _ref of []) {
 //  var {
@@ -2562,8 +2089,8 @@ Object.getOwnPropertyDescriptors = oldGOPDs;
 //// object_rest_template_literal_property_allLiterals_false
 //test!(syntax(),|_| tr("{
 //  "plugins": [
-//    "syntax-async-generators",
-//    "proposal-object-rest-spread",
+//    "syntax-async-generators"
+//    "proposal-object-rest-spread"
 //
 //  ]
 //}
@@ -2579,7 +2106,7 @@ Object.getOwnPropertyDescriptors = oldGOPDs;
 //  ...rest
 //} = input;
 //
-//"#, r#"
+//"# r#"
 //const input = {};
 //
 //const _ref = prefix + 'state',
@@ -2591,23 +2118,23 @@ Object.getOwnPropertyDescriptors = oldGOPDs;
 //  [_ref]: state,
 //  [_ref2]: consents
 //} = input,
-//      rest = _object_without_properties(input, ["given_name",
-// "last_name", `country`, _ref, _ref2].map(_to_property_key));
+//      rest = _object_without_properties(input, ["given_name"
+// "last_name" `country`, _ref, _ref2].map(_to_property_key));
 //
 //"#);
 
 //// object_rest_for_x_completion_record
 //test!(syntax(),|_| tr("{
 //  "plugins": [
-//    "syntax-async-generators",
-//    "proposal-object-rest-spread",
+//    "syntax-async-generators"
+//    "proposal-object-rest-spread"
 //
 //  ]
 //}
 //"), object_rest_for_x_completion_record, r#"
 //for ({a, ...b} of []) {}
 //
-//"#, r#"
+//"# r#"
 //for (var _ref of []) {
 //  var _ref2 = _ref;
 //  ({
@@ -2634,14 +2161,6 @@ const { a } = foo(({ b, ...c }) => {
   console.log(b, c);
 });
 
-"#,
-    r#"
-const _foo = foo(), { s  } = _foo, t = _object_without_properties(_foo, ["s"]);
-const _bar = bar(), { s: { q1  }  } = _bar, q2 = _object_without_properties(_bar.s, ["q1"]), q3 = _object_without_properties(_bar, ["s"]);
-const _foo1 = foo((_param)=>{
-    var { b  } = _param, c = _object_without_properties(_param, ["b"]);
-    console.log(b, c);
-}), { a  } = _foo1;
 "#
 );
 
@@ -2653,14 +2172,7 @@ test!(
         pure_getters: true
     }),
     no_symbol_rest_assignment_expression,
-    r#"({ a, b, ...c } = obj);"#,
-    r#"
-var _obj;
-_obj = obj, c = _object_without_properties_loose(_obj, [
-    "a",
-    "b"
-]), ({ a , b  } = _obj), _obj;
-"#
+    r#"({ a, b, ...c } = obj);"#
 );
 
 test!(
@@ -2671,14 +2183,7 @@ test!(
         pure_getters: true
     }),
     no_symbol_computed,
-    r#"let { [a]: b, ...c } = obj;"#,
-    r#"
-
-let {
-  [a]: b
-} = obj,
-    c = _object_without_properties_loose(obj, [a].map(_to_property_key));
-"#
+    r#"let { [a]: b, ...c } = obj;"#
 );
 
 test_exec!(
@@ -2708,18 +2213,7 @@ test!(
         pure_getters: true
     }),
     no_symbol_rest_nested,
-    r#"let { a, nested: { b, c, ...d }, e } = obj;"#,
-    r#"
-let {
-  a,
-  nested: {
-    b,
-    c
-  },
-  e
-} = obj,
-    d = _object_without_properties_loose(obj.nested, ["b", "c"]);
-"#
+    r#"let { a, nested: { b, c, ...d }, e } = obj;"#
 );
 
 test!(
@@ -2730,14 +2224,7 @@ test!(
         pure_getters: true
     }),
     no_symbol_var_declaration,
-    r#"var { a, b, ...c } = obj;"#,
-    r#"
-var {
-  a,
-  b
-} = obj,
-    c = _object_without_properties_loose(obj, ["a", "b"]);
-"#
+    r#"var { a, b, ...c } = obj;"#
 );
 
 test!(
@@ -2756,18 +2243,6 @@ var z;
 z = { x, ...y };
 
 z = { x, w: { ...y } };
-"#,
-    r#"
-var x;
-var y;
-var z;
-z = _extends({
-  x
-}, y);
-z = {
-  x,
-  w: _extends({}, y)
-};
 "#
 );
 
@@ -2796,31 +2271,6 @@ var y;
 ({ ...{ foo: 'bar' }, ...{ bar: 'baz' } });
 
 ({ ...{ get foo () { return 'foo' } } });
-"#,
-    r#"
-
-var a;
-var b;
-var c;
-var d;
-var x;
-var y;
-_extends({ x }, y, { a }, b, { c });
-_extends({}, Object.prototype);
-_extends({}, {
-  foo: 'bar'
-});
-_extends({}, {
-  foo: 'bar'
-}, {
-  bar: 'baz'
-});
-_extends({}, {
-  get foo() {
-    return 'foo';
-  }
-
-});
 "#
 );
 
@@ -2941,20 +2391,7 @@ test!(
     }
     
     expect(counter).toEqual(1);
-"#,
-    r#"
-    var src = {};
-    var counter = 0;
-    for (var _ref of [{ x: 1, y: 2 }]) {
-        var _ref1;
-        _ref1 = _ref, src.y = _extends({}, _object_destructuring_empty(_ref1)), _ref1;
-        expect(src.y.x).toEqual(1);
-        expect(src.y.y).toEqual(2);
-
-        counter += 1;
-    }
-    expect(counter).toEqual(1);
-  "#
+"#
 );
 
 test_exec!(

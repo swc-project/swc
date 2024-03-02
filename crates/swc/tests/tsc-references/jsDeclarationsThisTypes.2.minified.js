@@ -6,9 +6,9 @@ export var A = function() {
     function A() {
         _class_call_check(this, A);
     }
-    return(/** @returns {this} */ A.prototype.method = function() {
+    return A.prototype.method = function() {
         return this;
-    }, A);
+    }, A;
 }();
 var Base = function(A) {
     _inherits(Base, A);
@@ -16,7 +16,6 @@ var Base = function(A) {
     function Base() {
         return _class_call_check(this, Base), _super.apply(this, arguments);
     }
-    return(// This method is required to reproduce #35932
-    Base.prototype.verify = function() {}, Base);
+    return Base.prototype.verify = function() {}, Base;
 }(A);
 export { Base as default };

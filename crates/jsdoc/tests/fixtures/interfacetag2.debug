@@ -19,9 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Virtual doclet for an interface.
-             *
-             *' type=dynamic),
+            value: "Virtual doclet for an interface.\n *\n *",
         },
         tags: [
             TagItem {
@@ -44,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('interface' type=static),
+                    value: "interface",
                 },
                 tag: Interface(
                     InterfaceTag {
@@ -68,7 +66,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('VirtualInterface' type=dynamic),
+                                value: "VirtualInterface",
                             },
                         ),
                     },

@@ -1,5 +1,4 @@
 //// [commonJSReexport.ts]
-// #41422, based on prettier's exports
 //// [first.js]
 module.exports = {
     hardline: {

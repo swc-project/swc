@@ -135,7 +135,7 @@
  3 |     --accent-color: #006;
    `----
 
-  x Hash { is_id: false, value: Atom('06c' type=inline), raw: "06c" }
+  x Hash { is_id: false, value: "06c", raw: "06c" }
    ,-[$DIR/tests/fixture/dashed-ident/input.css:1:1]
  1 | :root {
  2 |     --main-color: #06c;
@@ -183,7 +183,7 @@
  4 | }
    `----
 
-  x Hash { is_id: false, value: Atom('006' type=inline), raw: "006" }
+  x Hash { is_id: false, value: "006", raw: "006" }
    ,-[$DIR/tests/fixture/dashed-ident/input.css:2:1]
  2 |     --main-color: #06c;
  3 |     --accent-color: #006;
@@ -311,7 +311,7 @@
  8 | }
    `----
 
-  x Ident { value: Atom('blue' type=static), raw: "blue" }
+  x Ident { value: "blue", raw: "blue" }
    ,-[$DIR/tests/fixture/dashed-ident/input.css:6:1]
  6 | .foo {
  7 |     --fg-color: blue;
@@ -783,7 +783,7 @@
  19 | }
     `----
 
-  x String { value: Atom('test' type=inline), raw: "\"test\"" }
+  x String { value: "test", raw: "\"test\"" }
     ,-[$DIR/tests/fixture/dashed-ident/input.css:17:1]
  17 | .class {
  18 |     --vendor-property: --vendor-function("test");

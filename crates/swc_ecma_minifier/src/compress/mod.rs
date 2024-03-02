@@ -28,7 +28,7 @@ use crate::{
     compress::hoist_decls::decl_hoister,
     debug::{dump, AssertValid},
     mode::Mode,
-    option::CompressOptions,
+    option::{CompressOptions, MangleOptions},
     program_data::{analyze, ProgramData},
     util::{now, unit::CompileUnit},
 };
@@ -41,6 +41,7 @@ mod util;
 pub(crate) fn compressor<'a, M>(
     marks: Marks,
     options: &'a CompressOptions,
+    mangle_options: Option<&'a MangleOptions>,
     mode: &'a M,
 ) -> impl 'a + VisitMut
 where
@@ -49,6 +50,7 @@ where
     let compressor = Compressor {
         marks,
         options,
+        mangle_options,
         changed: false,
         pass: 1,
         dump_for_infinite_loop: Default::default(),
@@ -70,6 +72,7 @@ where
 struct Compressor<'a> {
     marks: Marks,
     options: &'a CompressOptions,
+    mangle_options: Option<&'a MangleOptions>,
     changed: bool,
     pass: usize,
 
@@ -269,6 +272,7 @@ impl Compressor<'_> {
             let mut visitor = optimizer(
                 self.marks,
                 self.options,
+                self.mangle_options,
                 &mut data,
                 self.mode,
                 !self.dump_for_infinite_loop.is_empty(),

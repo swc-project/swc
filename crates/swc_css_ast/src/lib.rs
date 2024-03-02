@@ -21,7 +21,7 @@ mod value;
 /// use swc_atoms::js_word;
 /// use swc_css_ast::*;
 ///
-/// assert!(matches_eq_ignore_ascii_case!(JsWord::from("A"), js_word!("a")));
+/// assert!(matches_eq_ignore_ascii_case!(JsWord::from("A"), "a"));
 /// assert!(matches_eq_ignore_ascii_case!("A", "a"));
 /// ```
 #[macro_export]
@@ -44,7 +44,7 @@ macro_rules! matches_eq_ignore_ascii_case {
 /// use swc_atoms::js_word;
 /// use swc_css_ast::*;
 ///
-/// assert!(matches_eq!(JsWord::from("a"), js_word!("a")));
+/// assert!(matches_eq!(JsWord::from("a"), "a"));
 /// assert!(matches_eq!("a", "a"));
 /// ```
 #[macro_export]

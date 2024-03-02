@@ -58,7 +58,8 @@
                       "ctxt": 0
                     },
                     "value": "cause",
-                    "optional": false
+                    "optional": false,
+                    "typeAnnotation": null
                   },
                   "value": null
                 }

@@ -10,4 +10,4 @@ export { _a as a };
 export { };
 //// [d.ts]
 import { a } from "./c";
-new a.A(); // Error
+new a.A();

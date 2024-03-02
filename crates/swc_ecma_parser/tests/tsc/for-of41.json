@@ -247,7 +247,8 @@
                             "ctxt": 0
                           },
                           "value": "p",
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         "value": null
                       }

@@ -21,8 +21,8 @@ var D = /*#__PURE__*/ function(C) {
         return _super.apply(this, arguments);
     }
     var _proto = D.prototype;
-    _proto.foo // ok to drop parameters
-     = function foo(x) {};
+    _proto.foo = function foo(x) {} // ok to drop parameters
+    ;
     return D;
 }(C);
 var E = /*#__PURE__*/ function(D) {
@@ -34,8 +34,8 @@ var E = /*#__PURE__*/ function(D) {
         return _super.apply(this, arguments);
     }
     var _proto = E.prototype;
-    _proto.foo // ok to add optional parameters
-     = function foo(x, y) {};
+    _proto.foo = function foo(x, y) {} // ok to add optional parameters
+    ;
     return E;
 }(D);
 var c;

@@ -41,7 +41,7 @@
    :  ^^^^
    `----
 
-  x Ident { value: Atom('href' type=static), raw: "href" }
+  x Ident { value: "href", raw: "href" }
    ,-[$DIR/tests/recovery/selector/attribute/invalid-modifier/input.css:1:1]
  1 | [href="test" "z"] {}
    :  ^^^^
@@ -65,7 +65,7 @@
    :       ^^^^^^
    `----
 
-  x String { value: Atom('test' type=inline), raw: "\"test\"" }
+  x String { value: "test", raw: "\"test\"" }
    ,-[$DIR/tests/recovery/selector/attribute/invalid-modifier/input.css:1:1]
  1 | [href="test" "z"] {}
    :       ^^^^^^
@@ -89,7 +89,7 @@
    :              ^^^
    `----
 
-  x String { value: Atom('z' type=inline), raw: "\"z\"" }
+  x String { value: "z", raw: "\"z\"" }
    ,-[$DIR/tests/recovery/selector/attribute/invalid-modifier/input.css:1:1]
  1 | [href="test" "z"] {}
    :              ^^^

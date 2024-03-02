@@ -540,6 +540,13 @@ export interface EnvConfig {
 
     loose?: boolean;
 
+    /**
+     * Transpiles the broken syntax to the closest non-broken modern syntax
+     *
+     * Defaults to false.
+     */
+    bugfixes?: boolean;
+
     /// Skipped es features.
     ///
     /// e.g.)
@@ -764,6 +771,11 @@ export interface TransformConfig {
      */
     decoratorMetadata?: boolean;
 
+    /**
+     * https://swc.rs/docs/configuration/compilation#jsctransformdecoratorversion
+     */
+    decoratorVersion?: "2021-12" | "2022-03";
+
     treatConstEnumAsEnum?: boolean;
 
     useDefineForClassFields?: boolean;
@@ -860,7 +872,7 @@ export interface GlobalPassOption {
      *
      * Defaults to `["NODE_ENV", "SWC_ENV"]`
      */
-    envs?: string[];
+    envs?: string[] | Record<string, string>;
 
     /**
      * Replaces typeof calls for passed variables with corresponding value

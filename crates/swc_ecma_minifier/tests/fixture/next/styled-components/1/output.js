@@ -3719,7 +3719,7 @@
                     return _app;
                 }
             });
-            var cache, t, styled_system_dist_index_esm_namespaceObject = {};
+            var fn, cache, t, styled_system_dist_index_esm_namespaceObject = {};
             __webpack_require__.r(styled_system_dist_index_esm_namespaceObject), __webpack_require__.d(styled_system_dist_index_esm_namespaceObject, {
                 alignContent: function() {
                     return alignContent;
@@ -4412,8 +4412,10 @@
                 strokeMiterlimit: 1,
                 strokeOpacity: 1,
                 strokeWidth: 1
-            }, reactPropsRegex = /^((children|dangerouslySetInnerHTML|key|ref|autoFocus|defaultValue|defaultChecked|innerHTML|suppressContentEditableWarning|suppressHydrationWarning|valueLink|abbr|accept|acceptCharset|accessKey|action|allow|allowUserMedia|allowPaymentRequest|allowFullScreen|allowTransparency|alt|async|autoComplete|autoPlay|capture|cellPadding|cellSpacing|challenge|charSet|checked|cite|classID|className|cols|colSpan|content|contentEditable|contextMenu|controls|controlsList|coords|crossOrigin|data|dateTime|decoding|default|defer|dir|disabled|disablePictureInPicture|download|draggable|encType|enterKeyHint|form|formAction|formEncType|formMethod|formNoValidate|formTarget|frameBorder|headers|height|hidden|high|href|hrefLang|htmlFor|httpEquiv|id|inputMode|integrity|is|keyParams|keyType|kind|label|lang|list|loading|loop|low|marginHeight|marginWidth|max|maxLength|media|mediaGroup|method|min|minLength|multiple|muted|name|nonce|noValidate|open|optimum|pattern|placeholder|playsInline|poster|preload|profile|radioGroup|readOnly|referrerPolicy|rel|required|reversed|role|rows|rowSpan|sandbox|scope|scoped|scrolling|seamless|selected|shape|size|sizes|slot|span|spellCheck|src|srcDoc|srcLang|srcSet|start|step|style|summary|tabIndex|target|title|translate|type|useMap|value|width|wmode|wrap|about|datatype|inlist|prefix|property|resource|typeof|vocab|autoCapitalize|autoCorrect|autoSave|color|incremental|fallback|inert|itemProp|itemScope|itemType|itemID|itemRef|on|option|results|security|unselectable|accentHeight|accumulate|additive|alignmentBaseline|allowReorder|alphabetic|amplitude|arabicForm|ascent|attributeName|attributeType|autoReverse|azimuth|baseFrequency|baselineShift|baseProfile|bbox|begin|bias|by|calcMode|capHeight|clip|clipPathUnits|clipPath|clipRule|colorInterpolation|colorInterpolationFilters|colorProfile|colorRendering|contentScriptType|contentStyleType|cursor|cx|cy|d|decelerate|descent|diffuseConstant|direction|display|divisor|dominantBaseline|dur|dx|dy|edgeMode|elevation|enableBackground|end|exponent|externalResourcesRequired|fill|fillOpacity|fillRule|filter|filterRes|filterUnits|floodColor|floodOpacity|focusable|fontFamily|fontSize|fontSizeAdjust|fontStretch|fontStyle|fontVariant|fontWeight|format|from|fr|fx|fy|g1|g2|glyphName|glyphOrientationHorizontal|glyphOrientationVertical|glyphRef|gradientTransform|gradientUnits|hanging|horizAdvX|horizOriginX|ideographic|imageRendering|in|in2|intercept|k|k1|k2|k3|k4|kernelMatrix|kernelUnitLength|kerning|keyPoints|keySplines|keyTimes|lengthAdjust|letterSpacing|lightingColor|limitingConeAngle|local|markerEnd|markerMid|markerStart|markerHeight|markerUnits|markerWidth|mask|maskContentUnits|maskUnits|mathematical|mode|numOctaves|offset|opacity|operator|order|orient|orientation|origin|overflow|overlinePosition|overlineThickness|panose1|paintOrder|pathLength|patternContentUnits|patternTransform|patternUnits|pointerEvents|points|pointsAtX|pointsAtY|pointsAtZ|preserveAlpha|preserveAspectRatio|primitiveUnits|r|radius|refX|refY|renderingIntent|repeatCount|repeatDur|requiredExtensions|requiredFeatures|restart|result|rotate|rx|ry|scale|seed|shapeRendering|slope|spacing|specularConstant|specularExponent|speed|spreadMethod|startOffset|stdDeviation|stemh|stemv|stitchTiles|stopColor|stopOpacity|strikethroughPosition|strikethroughThickness|string|stroke|strokeDasharray|strokeDashoffset|strokeLinecap|strokeLinejoin|strokeMiterlimit|strokeOpacity|strokeWidth|surfaceScale|systemLanguage|tableValues|targetX|targetY|textAnchor|textDecoration|textRendering|textLength|to|transform|u1|u2|underlinePosition|underlineThickness|unicode|unicodeBidi|unicodeRange|unitsPerEm|vAlphabetic|vHanging|vIdeographic|vMathematical|values|vectorEffect|version|vertAdvY|vertOriginX|vertOriginY|viewBox|viewTarget|visibility|widths|wordSpacing|writingMode|x|xHeight|x1|x2|xChannelSelector|xlinkActuate|xlinkArcrole|xlinkHref|xlinkRole|xlinkShow|xlinkTitle|xlinkType|xmlBase|xmlns|xmlnsXlink|xmlLang|xmlSpace|y|y1|y2|yChannelSelector|z|zoomAndPan|for|class|autofocus)|(([Dd][Aa][Tt][Aa]|[Aa][Rr][Ii][Aa]|x)-.*))$/, isPropValid = (cache = Object.create(null), function(arg) {
-                return void 0 === cache[arg] && (cache[arg] = reactPropsRegex.test(arg) || 111 === arg.charCodeAt(0) && 110 === arg.charCodeAt(1) && 91 > arg.charCodeAt(2)), cache[arg];
+            }, reactPropsRegex = /^((children|dangerouslySetInnerHTML|key|ref|autoFocus|defaultValue|defaultChecked|innerHTML|suppressContentEditableWarning|suppressHydrationWarning|valueLink|abbr|accept|acceptCharset|accessKey|action|allow|allowUserMedia|allowPaymentRequest|allowFullScreen|allowTransparency|alt|async|autoComplete|autoPlay|capture|cellPadding|cellSpacing|challenge|charSet|checked|cite|classID|className|cols|colSpan|content|contentEditable|contextMenu|controls|controlsList|coords|crossOrigin|data|dateTime|decoding|default|defer|dir|disabled|disablePictureInPicture|download|draggable|encType|enterKeyHint|form|formAction|formEncType|formMethod|formNoValidate|formTarget|frameBorder|headers|height|hidden|high|href|hrefLang|htmlFor|httpEquiv|id|inputMode|integrity|is|keyParams|keyType|kind|label|lang|list|loading|loop|low|marginHeight|marginWidth|max|maxLength|media|mediaGroup|method|min|minLength|multiple|muted|name|nonce|noValidate|open|optimum|pattern|placeholder|playsInline|poster|preload|profile|radioGroup|readOnly|referrerPolicy|rel|required|reversed|role|rows|rowSpan|sandbox|scope|scoped|scrolling|seamless|selected|shape|size|sizes|slot|span|spellCheck|src|srcDoc|srcLang|srcSet|start|step|style|summary|tabIndex|target|title|translate|type|useMap|value|width|wmode|wrap|about|datatype|inlist|prefix|property|resource|typeof|vocab|autoCapitalize|autoCorrect|autoSave|color|incremental|fallback|inert|itemProp|itemScope|itemType|itemID|itemRef|on|option|results|security|unselectable|accentHeight|accumulate|additive|alignmentBaseline|allowReorder|alphabetic|amplitude|arabicForm|ascent|attributeName|attributeType|autoReverse|azimuth|baseFrequency|baselineShift|baseProfile|bbox|begin|bias|by|calcMode|capHeight|clip|clipPathUnits|clipPath|clipRule|colorInterpolation|colorInterpolationFilters|colorProfile|colorRendering|contentScriptType|contentStyleType|cursor|cx|cy|d|decelerate|descent|diffuseConstant|direction|display|divisor|dominantBaseline|dur|dx|dy|edgeMode|elevation|enableBackground|end|exponent|externalResourcesRequired|fill|fillOpacity|fillRule|filter|filterRes|filterUnits|floodColor|floodOpacity|focusable|fontFamily|fontSize|fontSizeAdjust|fontStretch|fontStyle|fontVariant|fontWeight|format|from|fr|fx|fy|g1|g2|glyphName|glyphOrientationHorizontal|glyphOrientationVertical|glyphRef|gradientTransform|gradientUnits|hanging|horizAdvX|horizOriginX|ideographic|imageRendering|in|in2|intercept|k|k1|k2|k3|k4|kernelMatrix|kernelUnitLength|kerning|keyPoints|keySplines|keyTimes|lengthAdjust|letterSpacing|lightingColor|limitingConeAngle|local|markerEnd|markerMid|markerStart|markerHeight|markerUnits|markerWidth|mask|maskContentUnits|maskUnits|mathematical|mode|numOctaves|offset|opacity|operator|order|orient|orientation|origin|overflow|overlinePosition|overlineThickness|panose1|paintOrder|pathLength|patternContentUnits|patternTransform|patternUnits|pointerEvents|points|pointsAtX|pointsAtY|pointsAtZ|preserveAlpha|preserveAspectRatio|primitiveUnits|r|radius|refX|refY|renderingIntent|repeatCount|repeatDur|requiredExtensions|requiredFeatures|restart|result|rotate|rx|ry|scale|seed|shapeRendering|slope|spacing|specularConstant|specularExponent|speed|spreadMethod|startOffset|stdDeviation|stemh|stemv|stitchTiles|stopColor|stopOpacity|strikethroughPosition|strikethroughThickness|string|stroke|strokeDasharray|strokeDashoffset|strokeLinecap|strokeLinejoin|strokeMiterlimit|strokeOpacity|strokeWidth|surfaceScale|systemLanguage|tableValues|targetX|targetY|textAnchor|textDecoration|textRendering|textLength|to|transform|u1|u2|underlinePosition|underlineThickness|unicode|unicodeBidi|unicodeRange|unitsPerEm|vAlphabetic|vHanging|vIdeographic|vMathematical|values|vectorEffect|version|vertAdvY|vertOriginX|vertOriginY|viewBox|viewTarget|visibility|widths|wordSpacing|writingMode|x|xHeight|x1|x2|xChannelSelector|xlinkActuate|xlinkArcrole|xlinkHref|xlinkRole|xlinkShow|xlinkTitle|xlinkType|xmlBase|xmlns|xmlnsXlink|xmlLang|xmlSpace|y|y1|y2|yChannelSelector|z|zoomAndPan|for|class|autofocus)|(([Dd][Aa][Tt][Aa]|[Aa][Rr][Ii][Aa]|x)-.*))$/, isPropValid = (fn = function(prop) {
+                return reactPropsRegex.test(prop) || 111 === prop.charCodeAt(0) && 110 === prop.charCodeAt(1) && 91 > prop.charCodeAt(2);
+            }, cache = Object.create(null), function(arg) {
+                return void 0 === cache[arg] && (cache[arg] = fn(arg)), cache[arg];
             }), hoist_non_react_statics_cjs = __webpack_require__(8679), hoist_non_react_statics_cjs_default = __webpack_require__.n(hoist_non_react_statics_cjs), process = __webpack_require__(3454);
             function v() {
                 return (v = Object.assign || function(e) {
@@ -4580,8 +4582,8 @@
                 }, t.allocateGSInstance = function(e) {
                     return this.gs[e] = (this.gs[e] || 0) + 1;
                 }, t.getTag = function() {
-                    var e, t, n, r, o;
-                    return this.tag || (this.tag = (n = (t = this.options).isServer, r = t.useCSSOMInjection, o = t.target, e = n ? new U(o) : r ? new $(o) : new W(o), new T(e)));
+                    var t, n, r, o;
+                    return this.tag || (this.tag = (n = (t = this.options).isServer, r = t.useCSSOMInjection, o = t.target, new T(n ? new U(o) : r ? new $(o) : new W(o))));
                 }, t.hasNameForId = function(e, t) {
                     return this.names.has(e) && this.names.get(e).has(t);
                 }, t.registerName = function(e, t) {
@@ -5320,33 +5322,31 @@
                 justifySelf: !0,
                 alignSelf: !0,
                 order: !0
-            }), dist_index_esm_defaults = {
-                space: [
-                    0,
-                    4,
-                    8,
-                    16,
-                    32,
-                    64,
-                    128,
-                    256,
-                    512
-                ]
-            }, grid = system({
+            }), dist_index_esm_defaults_space = [
+                0,
+                4,
+                8,
+                16,
+                32,
+                64,
+                128,
+                256,
+                512
+            ], grid = system({
                 gridGap: {
                     property: "gridGap",
                     scale: "space",
-                    defaultScale: dist_index_esm_defaults.space
+                    defaultScale: dist_index_esm_defaults_space
                 },
                 gridColumnGap: {
                     property: "gridColumnGap",
                     scale: "space",
-                    defaultScale: dist_index_esm_defaults.space
+                    defaultScale: dist_index_esm_defaults_space
                 },
                 gridRowGap: {
                     property: "gridRowGap",
                     scale: "space",
-                    defaultScale: dist_index_esm_defaults.space
+                    defaultScale: dist_index_esm_defaults_space
                 },
                 gridColumn: !0,
                 gridRow: !0,
@@ -5482,19 +5482,17 @@
                 backgroundRepeat: !0
             };
             background_dist_index_esm_config.bgImage = background_dist_index_esm_config.backgroundImage, background_dist_index_esm_config.bgSize = background_dist_index_esm_config.backgroundSize, background_dist_index_esm_config.bgPosition = background_dist_index_esm_config.backgroundPosition, background_dist_index_esm_config.bgRepeat = background_dist_index_esm_config.backgroundRepeat;
-            var background = system(background_dist_index_esm_config), position_dist_index_esm_defaults = {
-                space: [
-                    0,
-                    4,
-                    8,
-                    16,
-                    32,
-                    64,
-                    128,
-                    256,
-                    512
-                ]
-            }, position = system({
+            var background = system(background_dist_index_esm_config), position_dist_index_esm_defaults_space = [
+                0,
+                4,
+                8,
+                16,
+                32,
+                64,
+                128,
+                256,
+                512
+            ], position = system({
                 position: !0,
                 zIndex: {
                     property: "zIndex",
@@ -5503,36 +5501,34 @@
                 top: {
                     property: "top",
                     scale: "space",
-                    defaultScale: position_dist_index_esm_defaults.space
+                    defaultScale: position_dist_index_esm_defaults_space
                 },
                 right: {
                     property: "right",
                     scale: "space",
-                    defaultScale: position_dist_index_esm_defaults.space
+                    defaultScale: position_dist_index_esm_defaults_space
                 },
                 bottom: {
                     property: "bottom",
                     scale: "space",
-                    defaultScale: position_dist_index_esm_defaults.space
+                    defaultScale: position_dist_index_esm_defaults_space
                 },
                 left: {
                     property: "left",
                     scale: "space",
-                    defaultScale: position_dist_index_esm_defaults.space
+                    defaultScale: position_dist_index_esm_defaults_space
                 }
-            }), space_dist_index_esm_defaults = {
-                space: [
-                    0,
-                    4,
-                    8,
-                    16,
-                    32,
-                    64,
-                    128,
-                    256,
-                    512
-                ]
-            }, index_esm_isNumber = function(n) {
+            }), space_dist_index_esm_defaults_space = [
+                0,
+                4,
+                8,
+                16,
+                32,
+                64,
+                128,
+                256,
+                512
+            ], index_esm_isNumber = function(n) {
                 return "number" == typeof n && !isNaN(n);
             }, getMargin = function(n, scale) {
                 if (!index_esm_isNumber(n)) return get(scale, n, n);
@@ -5544,31 +5540,31 @@
                     property: "margin",
                     scale: "space",
                     transform: getMargin,
-                    defaultScale: space_dist_index_esm_defaults.space
+                    defaultScale: space_dist_index_esm_defaults_space
                 },
                 marginTop: {
                     property: "marginTop",
                     scale: "space",
                     transform: getMargin,
-                    defaultScale: space_dist_index_esm_defaults.space
+                    defaultScale: space_dist_index_esm_defaults_space
                 },
                 marginRight: {
                     property: "marginRight",
                     scale: "space",
                     transform: getMargin,
-                    defaultScale: space_dist_index_esm_defaults.space
+                    defaultScale: space_dist_index_esm_defaults_space
                 },
                 marginBottom: {
                     property: "marginBottom",
                     scale: "space",
                     transform: getMargin,
-                    defaultScale: space_dist_index_esm_defaults.space
+                    defaultScale: space_dist_index_esm_defaults_space
                 },
                 marginLeft: {
                     property: "marginLeft",
                     scale: "space",
                     transform: getMargin,
-                    defaultScale: space_dist_index_esm_defaults.space
+                    defaultScale: space_dist_index_esm_defaults_space
                 },
                 marginX: {
                     properties: [
@@ -5577,7 +5573,7 @@
                     ],
                     scale: "space",
                     transform: getMargin,
-                    defaultScale: space_dist_index_esm_defaults.space
+                    defaultScale: space_dist_index_esm_defaults_space
                 },
                 marginY: {
                     properties: [
@@ -5586,33 +5582,33 @@
                     ],
                     scale: "space",
                     transform: getMargin,
-                    defaultScale: space_dist_index_esm_defaults.space
+                    defaultScale: space_dist_index_esm_defaults_space
                 }
             }, configs.margin.m = configs.margin.margin, configs.margin.mt = configs.margin.marginTop, configs.margin.mr = configs.margin.marginRight, configs.margin.mb = configs.margin.marginBottom, configs.margin.ml = configs.margin.marginLeft, configs.margin.mx = configs.margin.marginX, configs.margin.my = configs.margin.marginY, configs.padding = {
                 padding: {
                     property: "padding",
                     scale: "space",
-                    defaultScale: space_dist_index_esm_defaults.space
+                    defaultScale: space_dist_index_esm_defaults_space
                 },
                 paddingTop: {
                     property: "paddingTop",
                     scale: "space",
-                    defaultScale: space_dist_index_esm_defaults.space
+                    defaultScale: space_dist_index_esm_defaults_space
                 },
                 paddingRight: {
                     property: "paddingRight",
                     scale: "space",
-                    defaultScale: space_dist_index_esm_defaults.space
+                    defaultScale: space_dist_index_esm_defaults_space
                 },
                 paddingBottom: {
                     property: "paddingBottom",
                     scale: "space",
-                    defaultScale: space_dist_index_esm_defaults.space
+                    defaultScale: space_dist_index_esm_defaults_space
                 },
                 paddingLeft: {
                     property: "paddingLeft",
                     scale: "space",
-                    defaultScale: space_dist_index_esm_defaults.space
+                    defaultScale: space_dist_index_esm_defaults_space
                 },
                 paddingX: {
                     properties: [
@@ -5620,7 +5616,7 @@
                         "paddingRight"
                     ],
                     scale: "space",
-                    defaultScale: space_dist_index_esm_defaults.space
+                    defaultScale: space_dist_index_esm_defaults_space
                 },
                 paddingY: {
                     properties: [
@@ -5628,7 +5624,7 @@
                         "paddingBottom"
                     ],
                     scale: "space",
-                    defaultScale: space_dist_index_esm_defaults.space
+                    defaultScale: space_dist_index_esm_defaults_space
                 }
             }, configs.padding.p = configs.padding.padding, configs.padding.pt = configs.padding.paddingTop, configs.padding.pr = configs.padding.paddingRight, configs.padding.pb = configs.padding.paddingBottom, configs.padding.pl = configs.padding.paddingLeft, configs.padding.px = configs.padding.paddingX, configs.padding.py = configs.padding.paddingY;
             var margin = system(configs.margin), padding = system(configs.padding), space = compose(margin, padding), shadow = system({
@@ -5905,8 +5901,7 @@
                         var _window, _window$matchMedia;
                         const media = null === (_window = window) || void 0 === _window ? void 0 : null === (_window$matchMedia = _window.matchMedia) || void 0 === _window$matchMedia ? void 0 : _window$matchMedia.call(_window, "(prefers-color-scheme: dark)");
                         function handleChange(event) {
-                            const isNight = event.matches;
-                            setSystemColorMode(isNight ? "night" : "day");
+                            setSystemColorMode(event.matches ? "night" : "day");
                         }
                         if (media) {
                             if (void 0 !== media.addEventListener) return media.addEventListener("change", handleChange), function() {
@@ -6023,8 +6018,7 @@
                 ":not(:focus-visible)": {
                     outline: "solid 1px transparent"
                 }
-            }, getVariantStyles = (variant = "default", theme)=>{
-                const style = {
+            }, getVariantStyles = (variant = "default", theme)=>({
                     default: {
                         color: "btn.text",
                         backgroundColor: "btn.bg",
@@ -6202,9 +6196,7 @@
                             borderColor: "btn.outline.selectedBorder"
                         }
                     }
-                };
-                return style[variant];
-            }, getSizeStyles = (size = "medium", variant = "default", iconOnly)=>{
+                })[variant], getSizeStyles = (size = "medium", variant = "default", iconOnly)=>{
                 let paddingY, paddingX, fontSize;
                 switch(size){
                     case "small":
@@ -6249,8 +6241,7 @@
                             outline: "solid 1px transparent"
                         }
                     }
-                }), getButtonStyles = (theme)=>{
-                const styles = {
+                }), getButtonStyles = (theme)=>({
                     ...getBaseStyles(theme),
                     display: "grid",
                     gridTemplateAreas: '"leadingIcon text trailingIcon"',
@@ -6266,9 +6257,7 @@
                     '[data-component="trailingIcon"]': {
                         gridArea: "trailingIcon"
                     }
-                };
-                return styles;
-            };
+                });
             function ButtonBase_extends() {
                 return (ButtonBase_extends = Object.assign || function(target) {
                     for(var i = 1; i < arguments.length; i++){
@@ -6327,11 +6316,11 @@
                 return void 0 === (fallback = getKey(lib_esm_theme, key)) && (fallback = null), function(props) {
                     return get(props.theme, key, fallback);
                 };
-            }, COMMON = constants_compose(space, color, display), whiteSpace = constants_system({
+            }, COMMON = constants_compose(space, color, display), TYPOGRAPHY = constants_compose(typography, constants_system({
                 whiteSpace: {
                     property: "whiteSpace"
                 }
-            }), TYPOGRAPHY = constants_compose(typography, whiteSpace);
+            }));
             constants_compose(border, shadow);
             const CounterLabel = He.span.withConfig({
                 displayName: "CounterLabel",

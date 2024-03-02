@@ -1,7 +1,8 @@
 //// [checkJsdocSatisfiesTag7.ts]
 //// [/a.js]
-/** @typedef {"a" | "b" | "c" | "d"} Keys */ var p = /** @satisfies {Record<Keys, unknown>} */ {
+var p = {
     a: 0,
-    b: "hello"
+    b: "hello",
+    x: 8
 };
 p.a.toFixed(), p.b.substring(1), p.d;

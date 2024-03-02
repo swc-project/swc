@@ -32,4 +32,3 @@ define([
         onClick: function(e) {}
     }, obj0);
 });
- // incorrect type for specified hyphanated name

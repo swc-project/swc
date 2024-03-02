@@ -134,7 +134,7 @@ where
         I: Items,
         F: Send + Sync + Fn(&mut Self, usize, I::Elem),
     {
-        if nodes.len() >= threshold || option_env!("SWC_FORCE_CONCURRENT") == Some("1") {
+        if nodes.len() >= threshold {
             GLOBALS.with(|globals| {
                 use rayon::prelude::*;
 

@@ -8,6 +8,8 @@ env:
   CARGO_PROFILE_RELEASE_LTO: "fat"
   CI: "1"
   DISABLE_PLUGIN_E2E_TESTS: true
+  # https://github.com/actions/setup-node/issues/899#issuecomment-1819151595
+  SKIP_YARN_COREPACK_CHECK: 1
 
 permissions:
   contents: write
@@ -21,8 +23,8 @@ on:
         description: Package name to publish
         options:
           - minifier
-          - html
-          - xml
+          # - html
+          # - xml
 
 jobs:
   build-node:
@@ -33,14 +35,14 @@ jobs:
           - host: macos-latest
             target: x86_64-apple-darwin
             build: |
-              (cd packages/${{ github.event.inputs.package }} && corepack yarn build && strip -x *.node)
+              (cd packages/${{ github.event.inputs.package }} && yarn build)
           - host: windows-latest
             build: |
               (cd packages/${{ github.event.inputs.package }} && yarn build)
             target: x86_64-pc-windows-msvc
           - host: windows-latest
             build: |
-              (cd packages/${{ github.event.inputs.package }} && corepack yarn build --target i686-pc-windows-msvc)
+              (cd packages/${{ github.event.inputs.package }} && yarn build --target i686-pc-windows-msvc)
             target: i686-pc-windows-msvc
           - host: ubuntu-latest
             target: x86_64-unknown-linux-gnu
@@ -48,7 +50,7 @@ jobs:
             build: >-
               set -e &&
               unset CC_x86_64_unknown_linux_gnu && unset CC &&
-              (cd packages/${{ github.event.inputs.package }} && corepack yarn build --target x86_64-unknown-linux-gnu && strip ${{ github.event.inputs.package }}.linux-x64-gnu.node)
+              (cd packages/${{ github.event.inputs.package }} && yarn build --target x86_64-unknown-linux-gnu)
           - host: ubuntu-latest
             target: x86_64-unknown-linux-musl
             # musl build is slow, let's disable the LTO
@@ -56,8 +58,7 @@ jobs:
             build: >-
               set -e &&
               export CARGO_PROFILE_RELEASE_LTO=false &&
-              (cd packages/${{ github.event.inputs.package }} && RUSTFLAGS='-C target-feature=+sse2 -C target-feature=-crt-static' corepack yarn build &&
-              llvm-strip -x ${{ github.event.inputs.package }}.linux-x64-musl.node)
+              (cd packages/${{ github.event.inputs.package }} && RUSTFLAGS='-C target-feature=+sse2 -C target-feature=-crt-static' yarn build)
           - host: macos-latest
             target: aarch64-apple-darwin
             build: |
@@ -66,7 +67,7 @@ jobs:
               export CXX=$(xcrun -f clang++);
               SYSROOT=$(xcrun --sdk macosx --show-sdk-path);
               export CFLAGS="-isysroot $SYSROOT -isystem $SYSROOT";
-              (cd packages/${{ github.event.inputs.package }} && corepack yarn build --target=aarch64-apple-darwin && strip -x *.node)
+              (cd packages/${{ github.event.inputs.package }} && yarn build --target=aarch64-apple-darwin)
           - host: ubuntu-latest
             target: aarch64-unknown-linux-gnu
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-debian-aarch64
@@ -75,16 +76,14 @@ jobs:
               export JEMALLOC_SYS_WITH_LG_PAGE=16 &&
               rustup target add aarch64-unknown-linux-gnu &&
               export CC_aarch64_unknown_linux_gnu=/usr/aarch64-unknown-linux-gnu/bin/aarch64-unknown-linux-gnu-gcc &&
-              (cd packages/${{ github.event.inputs.package }} && corepack yarn build --target aarch64-unknown-linux-gnu &&
-              llvm-strip -x ${{ github.event.inputs.package }}.linux-arm64-gnu.node)
+              (cd packages/${{ github.event.inputs.package }} && yarn build --target aarch64-unknown-linux-gnu)
           - host: ubuntu-latest
             target: armv7-unknown-linux-gnueabihf
             setup: |
               sudo apt-get update
               sudo apt-get install gcc-arm-linux-gnueabihf g++-arm-linux-gnueabihf -y
-            # Use napi to build cli binary here to use zig as linker
             build: |
-              (cd packages/${{ github.event.inputs.package }} && corepack yarn build --target armv7-unknown-linux-gnueabihf && arm-linux-gnueabihf-strip ${{ github.event.inputs.package }}.linux-arm-gnueabihf.node)
+              (cd packages/${{ github.event.inputs.package }} && yarn build --target armv7-unknown-linux-gnueabihf --use-napi-cross)
           - host: ubuntu-latest
             target: aarch64-unknown-linux-musl
             downloadTarget: aarch64-unknown-linux-musl
@@ -93,64 +92,67 @@ jobs:
               export JEMALLOC_SYS_WITH_LG_PAGE=16 &&
               rustup toolchain install $(cat ./rust-toolchain) &&
               rustup target add aarch64-unknown-linux-musl &&
-              (cd packages/${{ github.event.inputs.package }} && env RUSTFLAGS='-C target-feature=-crt-static' corepack yarn build --target=aarch64-unknown-linux-musl && /aarch64-linux-musl-cross/bin/aarch64-linux-musl-strip ${{ github.event.inputs.package }}.linux-arm64-musl.node)
+              (cd packages/${{ github.event.inputs.package }} && env RUSTFLAGS='-C target-feature=-crt-static' yarn build --target=aarch64-unknown-linux-musl)
           - host: windows-latest
             target: aarch64-pc-windows-msvc
             # Disable `LTO` and increase `codegen-units` to avoid llvm `OOM` on GitHub Actions.
             build: |
               export CARGO_PROFILE_RELEASE_CODEGEN_UNITS=256
               export CARGO_PROFILE_RELEASE_LTO=false
-              (cd packages/${{ github.event.inputs.package }} && corepack yarn build --target aarch64-pc-windows-msvc)
+              (cd packages/${{ github.event.inputs.package }} && yarn build --target aarch64-pc-windows-msvc)
     name: "Build: ${{ github.event.inputs.package }} - ${{ matrix.settings.target }}"
     runs-on: ${{ matrix.settings.host }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
-      - name: Setup node x64
-        uses: actions/setup-node@v3
-        if: matrix.settings.target != 'i686-pc-windows-msvc'
-        with:
-          node-version: 18
-          architecture: x64
-
-      - name: Setup node x86
-        uses: actions/setup-node@v3
-        if: matrix.settings.target == 'i686-pc-windows-msvc'
-        with:
-          node-version: 18
-          architecture: x86
-
-      - name: Install
-        uses: actions-rs/toolchain@v1
-        if: ${{ !matrix.settings.docker }}
-        with:
-          profile: minimal
-          override: true
-          target: ${{ matrix.settings.target }}
-
-      - uses: goto-bus-stop/setup-zig@v2
-        if: ${{ matrix.settings.target == 'armv7-unknown-linux-gnueabihf' }}
-        with:
-          version: 0.10.1
-
-      - shell: bash
+      - name: Corepack
         run: corepack enable
-
-      - name: Install node dependencies
         shell: bash
         working-directory: "./packages/${{ github.event.inputs.package }}"
-        run: corepack yarn
+
+      - name: Setup node x64
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          architecture: x64
+
+      - name: Output toolchain
+        id: toolchain
+        shell: bash
+        run: echo "version=$(cat ./rust-toolchain)" >> "$GITHUB_OUTPUT"
+
+      - name: Install
+        uses: dtolnay/rust-toolchain@stable
+        if: ${{ !matrix.settings.docker }}
+        with:
+          targets: ${{ matrix.settings.target }}
+          toolchain: ${{ steps.toolchain.outputs.version }}
 
       - name: Setup toolchain
         run: ${{ matrix.settings.setup }}
         if: ${{ matrix.settings.setup }}
         shell: bash
 
+      # use x64 Node.js to install dependencies because of ia32 version will fail with `Error: Couldn't allocate enough memory`
+      - name: Setup install target x86
+        if: matrix.settings.target == 'i686-pc-windows-msvc'
+        run: yarn config set supportedArchitectures.cpu "ia32"
+        shell: bash
+
       - name: Install dependencies
         working-directory: "./packages"
         run: |
+          corepack enable
+          yarn
           # curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
           echo '/usr/local/cargo/bin' >> $GITHUB_PATH
+
+      - name: Setup node x86
+        uses: actions/setup-node@v4
+        if: matrix.settings.target == 'i686-pc-windows-msvc'
+        with:
+          node-version: 20
+          architecture: x86
       - name: Build in docker
         uses: addnab/docker-run-action@v3
         if: ${{ matrix.settings.docker }}
@@ -158,7 +160,8 @@ jobs:
           image: ${{ matrix.settings.docker }}
           options: -v ${{ env.HOME }}/.cargo/git:/root/.cargo/git -v ${{ env.HOME }}/.cargo/registry:/root/.cargo/registry -v ${{ github.workspace }}:/build -w /build
           run: >-
-            yarn global add wasm-pack &&
+            corepack enable &&
+            npm i -g wasm-pack &&
             ${{ matrix.settings.build }}
       - name: Build
         if: ${{ !matrix.settings.docker }}
@@ -187,20 +190,25 @@ jobs:
         settings:
           - host: windows-latest
             target: x86_64-pc-windows-msvc
+          - host: macos-latest
+            target: x86_64-apple-darwin
         node:
-          - "14"
-          - "16"
           - "18"
+          - "20"
     runs-on: ${{ matrix.settings.host }}
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+      - name: enable corepack
+        run: corepack enable
+        working-directory: "./packages/${{ github.event.inputs.package }}"
       - name: Setup node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
+          cache: "yarn"
       - name: Install dependencies
         working-directory: "./packages/${{ github.event.inputs.package }}"
-        run: corepack yarn
+        run: yarn
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
@@ -211,10 +219,10 @@ jobs:
         shell: bash
       - name: Build TypeScript
         working-directory: "./packages/${{ github.event.inputs.package }}"
-        run: corepack yarn build:ts
+        run: yarn build:ts
       - name: Test bindings
         working-directory: "./packages/${{ github.event.inputs.package }}"
-        run: corepack yarn test
+        run: yarn test
   test-linux-x64-gnu-binding:
     name: Test bindings on Linux-x64-gnu - node@${{ matrix.node }}
     needs:
@@ -223,20 +231,23 @@ jobs:
       fail-fast: false
       matrix:
         node:
-          - "14"
-          - "16"
           - "18"
+          - "20"
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+      - name: enable corepack
+        run: corepack enable
+        working-directory: "./packages/${{ github.event.inputs.package }}"
       - name: Setup node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
+          cache: "yarn"
 
       - name: Install dependencies
         working-directory: "./packages/${{ github.event.inputs.package }}"
-        run: corepack yarn
+        run: yarn
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
@@ -248,7 +259,7 @@ jobs:
         shell: bash
       - name: Build TypeScript
         working-directory: "./packages/${{ github.event.inputs.package }}"
-        run: corepack yarn build:ts
+        run: yarn build:ts
 
       - name: Test bindings
         run: docker run --rm -v $(pwd):/swc -w /swc/packages/${{ github.event.inputs.package }} node:${{ matrix.node }}-slim env DISABLE_PLUGIN_E2E_TESTS=true corepack yarn test
@@ -260,19 +271,24 @@ jobs:
       fail-fast: false
       matrix:
         node:
-          - "14"
-          - "16"
           - "18"
+          - "20"
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+      - name: enable corepack
+        run: corepack enable
+        working-directory: "./packages/${{ github.event.inputs.package }}"
       - name: Setup node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
+          cache: "yarn"
       - name: Install dependencies
         working-directory: "./packages/${{ github.event.inputs.package }}"
-        run: corepack yarn
+        run: |
+          yarn config set supportedArchitectures.libc "musl"
+          yarn
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
@@ -288,12 +304,15 @@ jobs:
       - name: Test bindings
         run: docker run --rm -v $(pwd):/swc -w /swc/packages/${{ github.event.inputs.package }} node:${{ matrix.node }}-alpine env DISABLE_PLUGIN_E2E_TESTS=true corepack yarn test
   test-linux-aarch64-musl-binding:
-    name: Test bindings on aarch64-unknown-linux-musl - node@${{ matrix.node }}
+    name: Test bindings on aarch64-unknown-linux-musl - node@lts
     needs:
       - build-node
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+      - name: enable corepack
+        run: corepack enable
+        working-directory: "./packages/${{ github.event.inputs.package }}"
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
@@ -305,7 +324,10 @@ jobs:
         shell: bash
       - name: Install dependencies
         working-directory: "./packages/${{ github.event.inputs.package }}"
-        run: corepack yarn
+        run: |
+          yarn config set supportedArchitectures.libc "musl"
+          yarn config set supportedArchitectures.arch "arm64"
+          yarn
       - name: Build TypeScript
         working-directory: "./packages/${{ github.event.inputs.package }}"
         run: corepack yarn build:ts
@@ -330,12 +352,14 @@ jobs:
       fail-fast: false
       matrix:
         node:
-          - "14"
-          - "16"
           - "18"
+          - "20"
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+      - name: enable corepack
+        run: corepack enable
+        working-directory: "./packages/${{ github.event.inputs.package }}"
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
@@ -347,7 +371,9 @@ jobs:
         shell: bash
       - name: Install dependencies
         working-directory: "./packages/${{ github.event.inputs.package }}"
-        run: corepack yarn
+        run: |
+          yarn config set supportedArchitectures.arch "arm"
+          yarn
       - name: Build TypeScript
         working-directory: "./packages/${{ github.event.inputs.package }}"
         run: corepack yarn build:ts
@@ -375,16 +401,20 @@ jobs:
       - test-macOS-windows-binding
       - test-linux-aarch64-musl-binding
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+
+      - name: enable corepack
+        run: corepack enable
+        working-directory: "./packages/${{ github.event.inputs.package }}"
 
       - name: Setup node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: 20
 
       - name: Install dependencies
         working-directory: "./packages/${{ github.event.inputs.package }}"
-        run: corepack yarn
+        run: yarn
 
       - name: Download all artifacts
         uses: actions/download-artifact@v3

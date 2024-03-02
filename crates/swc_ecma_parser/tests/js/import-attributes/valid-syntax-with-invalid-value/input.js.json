@@ -121,7 +121,8 @@
             }
           }
         ]
-      }
+      },
+      "phase": "evaluation"
     }
   ],
   "interpreter": null

@@ -23,6 +23,13 @@ fn syntax_default() -> Syntax {
     })
 }
 
+fn syntax_default_ts() -> Syntax {
+    Syntax::Typescript(TsConfig {
+        decorators: true,
+        ..Default::default()
+    })
+}
+
 #[testing::fixture("tests/decorators/**/exec.js")]
 fn exec(input: PathBuf) {
     exec_inner(input)
@@ -44,6 +51,7 @@ fn exec_inner(input: PathBuf) {
 
 #[testing::fixture("tests/decorators/**/input.js")]
 #[testing::fixture("tests/decorators/**/input.mjs")]
+#[testing::fixture("tests/decorators/**/input.ts")]
 fn fixture(input: PathBuf) {
     fixture_inner(input)
 }
@@ -57,7 +65,11 @@ fn fixture_inner(input: PathBuf) {
     ));
 
     test_fixture(
-        syntax_default(),
+        if input.to_string_lossy().ends_with(".ts") {
+            syntax_default_ts()
+        } else {
+            syntax_default()
+        },
         &|t| create_pass(t.comments.clone(), &input),
         &input,
         &output,
@@ -142,7 +154,8 @@ fn create_pass(comments: Rc<SingleThreadedComments>, input: &Path) -> Box<dyn Fo
                     ));
                     add!(swc_ecma_transforms_compat::es2022::class_properties(
                         Some(comments.clone()),
-                        Default::default()
+                        Default::default(),
+                        unresolved_mark
                     ));
                     continue;
                 }
@@ -150,7 +163,8 @@ fn create_pass(comments: Rc<SingleThreadedComments>, input: &Path) -> Box<dyn Fo
                 "proposal-private-methods" => {
                     add!(swc_ecma_transforms_compat::es2022::class_properties(
                         Some(comments.clone()),
-                        Default::default()
+                        Default::default(),
+                        unresolved_mark
                     ));
                     continue;
                 }

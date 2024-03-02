@@ -1,6 +1,6 @@
 {
   "name": "@swc/core-linux-arm-gnueabihf",
-  "version": "1.3.92",
+  "version": "1.4.2",
   "os": [
     "linux"
   ],
@@ -24,7 +24,7 @@
   ],
   "author": "강동윤 <kdy1997.dev@gmail.com>",
   "homepage": "https://swc.rs",
-  "license": "Apache-2.0 AND MIT",
+  "license": "Apache-2.0",
   "engines": {
     "node": ">=10"
   },

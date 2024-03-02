@@ -1,5 +1,4 @@
 //// [instantiatedModule.ts]
-// adding the var makes this an instantiated module
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 (M || (M = {})).Point = 1;
 var M2, Point, M3, Color, M, M21, m2, a2, M31, m3, a3, m = M;

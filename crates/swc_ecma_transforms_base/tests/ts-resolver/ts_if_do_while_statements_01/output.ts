@@ -1,4 +1,4 @@
-module M__2 {
+namespace M__2 {
     export class A__3 {
         name: string;
     }
@@ -6,7 +6,7 @@ module M__2 {
         return x__4.toString();
     }
 }
-module N__2 {
+namespace N__2 {
     export class A__5 {
         id: number;
     }

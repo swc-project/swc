@@ -26,10 +26,10 @@ it("should allow using tsx", async () => {
         },
     });
     expect(code).toMatchInlineSnapshot(`
-        "import { jsx as _jsx } from \\"react/jsx-runtime\\";
+        "import { jsx as _jsx } from "react/jsx-runtime";
         export default function foo() {
-            return /*#__PURE__*/ _jsx(\\"div\\", {
-                children: \\"Hello\\"
+            return /*#__PURE__*/ _jsx("div", {
+                children: "Hello"
             });
         }
         "
@@ -53,10 +53,10 @@ it("should respect .swcrc without parser option", async () => {
         },
     });
     expect(code).toMatchInlineSnapshot(`
-        "import { jsx as _jsx } from \\"react/jsx-runtime\\";
+        "import { jsx as _jsx } from "react/jsx-runtime";
         export default function foo() {
-            return /*#__PURE__*/ _jsx(\\"div\\", {
-                children: \\"Hello\\"
+            return /*#__PURE__*/ _jsx("div", {
+                children: "Hello"
             });
         }
         "

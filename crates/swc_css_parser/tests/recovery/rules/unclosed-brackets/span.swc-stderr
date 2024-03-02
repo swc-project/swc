@@ -39,7 +39,7 @@
    :  ^^^^^
    `----
 
-  x Ident { value: Atom('class' type=static), raw: "class" }
+  x Ident { value: "class", raw: "class" }
    ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:1:1]
  1 | .class[attr= {
    :  ^^^^^
@@ -79,7 +79,7 @@
    :        ^^^^
    `----
 
-  x Ident { value: Atom('attr' type=inline), raw: "attr" }
+  x Ident { value: "attr", raw: "attr" }
    ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:1:1]
  1 | .class[attr= {
    :        ^^^^
@@ -180,7 +180,7 @@
    :  ^^^^^
    `----
 
-  x Ident { value: Atom('class' type=static), raw: "class" }
+  x Ident { value: "class", raw: "class" }
    ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:4:1]
  4 | 
  5 | .class { color: red }
@@ -243,7 +243,7 @@
    :          ^^^^^
    `----
 
-  x Ident { value: Atom('color' type=static), raw: "color" }
+  x Ident { value: "color", raw: "color" }
    ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:4:1]
  4 | 
  5 | .class { color: red }
@@ -285,7 +285,7 @@
    :                 ^^^
    `----
 
-  x Ident { value: Atom('red' type=static), raw: "red" }
+  x Ident { value: "red", raw: "red" }
    ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:4:1]
  4 | 
  5 | .class { color: red }
@@ -343,7 +343,7 @@
    :  ^^^^^
    `----
 
-  x Ident { value: Atom('class' type=static), raw: "class" }
+  x Ident { value: "class", raw: "class" }
    ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:6:1]
  6 | 
  7 | .class { color: blue }
@@ -406,7 +406,7 @@
    :          ^^^^^
    `----
 
-  x Ident { value: Atom('color' type=static), raw: "color" }
+  x Ident { value: "color", raw: "color" }
    ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:6:1]
  6 | 
  7 | .class { color: blue }
@@ -448,7 +448,7 @@
    :                 ^^^^
    `----
 
-  x Ident { value: Atom('blue' type=static), raw: "blue" }
+  x Ident { value: "blue", raw: "blue" }
    ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:6:1]
  6 | 
  7 | .class { color: blue }

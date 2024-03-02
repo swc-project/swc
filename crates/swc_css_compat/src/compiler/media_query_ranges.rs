@@ -1,4 +1,3 @@
-use swc_atoms::js_word;
 use swc_common::DUMMY_SP;
 use swc_css_ast::{
     Dimension, Ident, MediaFeature, MediaFeatureName, MediaFeaturePlain, MediaFeatureRange,
@@ -15,12 +14,12 @@ impl Compiler {
         match n {
             MediaFeature::Range(MediaFeatureRange {
                 span,
-                left: box left,
+                left,
                 comparison,
-                right: box right,
+                right,
                 ..
             }) => {
-                if let MediaFeatureValue::Ident(name) = &left {
+                if let MediaFeatureValue::Ident(name) = &**left {
                     let name = match comparison {
                         MediaFeatureRangeComparison::Lt | MediaFeatureRangeComparison::Le => {
                             self.get_right_media_feature_name(name)
@@ -31,7 +30,7 @@ impl Compiler {
                         _ => self.get_left_media_feature_name(name),
                     }?;
 
-                    let original_value = right.clone();
+                    let original_value = (**right).clone();
                     let value = match comparison {
                         MediaFeatureRangeComparison::Lt => self.get_lt_value(original_value),
                         MediaFeatureRangeComparison::Gt => self.get_gt_value(original_value),
@@ -46,7 +45,7 @@ impl Compiler {
                         }),
                         None,
                     ));
-                } else if let MediaFeatureValue::Ident(name) = &right {
+                } else if let MediaFeatureValue::Ident(name) = &**right {
                     let name = match comparison {
                         MediaFeatureRangeComparison::Lt | MediaFeatureRangeComparison::Le => {
                             self.get_left_media_feature_name(name)
@@ -57,7 +56,7 @@ impl Compiler {
                         _ => self.get_right_media_feature_name(name),
                     }?;
 
-                    let original_value = left.clone();
+                    let original_value = (**left).clone();
                     let value = match comparison {
                         MediaFeatureRangeComparison::Lt => self.get_gt_value(original_value),
                         MediaFeatureRangeComparison::Gt => self.get_lt_value(original_value),
@@ -76,10 +75,10 @@ impl Compiler {
             }
             MediaFeature::RangeInterval(MediaFeatureRangeInterval {
                 span,
-                left: box left,
+                left,
                 left_comparison,
                 name: MediaFeatureName::Ident(name),
-                right: box right,
+                right,
                 right_comparison,
                 ..
             }) => {
@@ -91,9 +90,9 @@ impl Compiler {
                 }?;
 
                 let left_value = match left_comparison {
-                    MediaFeatureRangeComparison::Lt => self.get_gt_value(left.clone()),
-                    MediaFeatureRangeComparison::Gt => self.get_lt_value(left.clone()),
-                    _ => Some(left.clone()),
+                    MediaFeatureRangeComparison::Lt => self.get_gt_value((**left).clone()),
+                    MediaFeatureRangeComparison::Gt => self.get_lt_value((**left).clone()),
+                    _ => Some((**left).clone()),
                 }?;
 
                 let left = MediaFeature::Plain(MediaFeaturePlain {
@@ -110,9 +109,9 @@ impl Compiler {
                 }?;
 
                 let right_value = match right_comparison {
-                    MediaFeatureRangeComparison::Lt => self.get_lt_value(right.clone()),
-                    MediaFeatureRangeComparison::Gt => self.get_gt_value(right.clone()),
-                    _ => Some(right.clone()),
+                    MediaFeatureRangeComparison::Lt => self.get_lt_value((**right).clone()),
+                    MediaFeatureRangeComparison::Gt => self.get_gt_value((**right).clone()),
+                    _ => Some((**right).clone()),
                 }?;
 
                 let right = MediaFeature::Plain(MediaFeaturePlain {
@@ -130,45 +129,45 @@ impl Compiler {
     }
 
     fn get_left_media_feature_name(&self, name: &Ident) -> Option<MediaFeatureName> {
-        let value = match name.value {
-            js_word!("width") => js_word!("min-width"),
-            js_word!("height") => js_word!("min-height"),
-            js_word!("device-width") => js_word!("min-device-width"),
-            js_word!("device-height") => js_word!("min-device-height"),
-            js_word!("aspect-ratio") => js_word!("min-aspect-ratio"),
-            js_word!("device-aspect-ratio") => js_word!("min-device-aspect-ratio"),
-            js_word!("color") => js_word!("min-color"),
-            js_word!("color-index") => js_word!("min-color-index"),
-            js_word!("monochrome") => js_word!("min-monochrome"),
-            js_word!("resolution") => js_word!("min-resolution"),
+        let value = match &*name.value {
+            "width" => "min-width",
+            "height" => "min-height",
+            "device-width" => "min-device-width",
+            "device-height" => "min-device-height",
+            "aspect-ratio" => "min-aspect-ratio",
+            "device-aspect-ratio" => "min-device-aspect-ratio",
+            "color" => "min-color",
+            "color-index" => "min-color-index",
+            "monochrome" => "min-monochrome",
+            "resolution" => "min-resolution",
             _ => return None,
         };
 
         Some(MediaFeatureName::Ident(Ident {
             span: DUMMY_SP,
-            value,
+            value: value.into(),
             raw: None,
         }))
     }
 
     fn get_right_media_feature_name(&self, name: &Ident) -> Option<MediaFeatureName> {
-        let value = match name.value {
-            js_word!("width") => js_word!("max-width"),
-            js_word!("height") => js_word!("max-height"),
-            js_word!("device-width") => js_word!("max-device-width"),
-            js_word!("device-height") => js_word!("max-device-height"),
-            js_word!("aspect-ratio") => js_word!("max-aspect-ratio"),
-            js_word!("device-aspect-ratio") => js_word!("max-device-aspect-ratio"),
-            js_word!("color") => js_word!("max-color"),
-            js_word!("color-index") => js_word!("max-color-index"),
-            js_word!("monochrome") => js_word!("max-monochrome"),
-            js_word!("resolution") => js_word!("max-resolution"),
+        let value = match &*name.value {
+            "width" => "max-width",
+            "height" => "max-height",
+            "device-width" => "max-device-width",
+            "device-height" => "max-device-height",
+            "aspect-ratio" => "max-aspect-ratio",
+            "device-aspect-ratio" => "max-device-aspect-ratio",
+            "color" => "max-color",
+            "color-index" => "max-color-index",
+            "monochrome" => "max-monochrome",
+            "resolution" => "max-resolution",
             _ => return None,
         };
 
         Some(MediaFeatureName::Ident(Ident {
             span: DUMMY_SP,
-            value,
+            value: value.into(),
             raw: None,
         }))
     }

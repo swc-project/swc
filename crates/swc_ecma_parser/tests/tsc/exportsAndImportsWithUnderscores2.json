@@ -175,7 +175,8 @@
         "raw": "\"./m1\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "VariableDeclaration",
@@ -217,7 +218,8 @@
                     "ctxt": 0
                   },
                   "value": "__esmodule",
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "value": null
               },
@@ -236,7 +238,8 @@
                     "ctxt": 0
                   },
                   "value": "__proto__",
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "value": null
               }

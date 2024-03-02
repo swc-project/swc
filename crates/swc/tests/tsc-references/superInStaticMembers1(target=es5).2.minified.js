@@ -223,7 +223,7 @@ import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
-Reflect || (Reflect = {}); // collision (es2015-es2021 only)
+Reflect || (Reflect = {});
 var Reflect, C = function(B1) {
     _inherits(C, B1);
     var _super = _create_super(C);
@@ -239,7 +239,7 @@ import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
-Reflect || (Reflect = {}); // collision (es2015-es2021 only)
+Reflect || (Reflect = {});
 var Reflect, C = function(B1) {
     _inherits(C, B1);
     var _super = _create_super(C);

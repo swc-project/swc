@@ -1,7 +1,7 @@
 //! NOT A PUBLIC API
 
 use serde::{Deserialize, Serialize};
-use swc_config::config_types::BoolOrDataConfig;
+use swc_config::{config_types::BoolOrDataConfig, SourceMapContent};
 
 use crate::option::{
     terser::{TerserCompressorOptions, TerserEcmaVersion},
@@ -59,6 +59,8 @@ fn true_by_default() -> bool {
     true
 }
 
+/// `sourceMap` of `minify()`.`
+///
 /// `jsc.minify.sourceMap`
 #[derive(Debug, Clone, Default, Serialize, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
@@ -73,7 +75,7 @@ pub struct TerserSourceMapOption {
     pub root: Option<String>,
 
     #[serde(default)]
-    pub content: Option<String>,
+    pub content: Option<SourceMapContent>,
 }
 
 /// Parser options for `minify()`, which should have the same API as terser.
@@ -100,7 +102,7 @@ pub struct JsMinifyParseOptions {
 }
 
 /// `jsc.minify.format`.
-#[derive(Debug, Clone, Default, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub struct JsMinifyFormatOptions {
     /// Not implemented yet.
@@ -130,8 +132,7 @@ pub struct JsMinifyFormatOptions {
     #[serde(default, alias = "indent_start")]
     pub indent_start: bool,
 
-    /// Not implemented yet.
-    #[serde(default, alias = "inline_script")]
+    #[serde(default = "true_by_default", alias = "inline_script")]
     pub inline_script: bool,
 
     /// Not implemented yet.
@@ -188,6 +189,13 @@ pub struct JsMinifyFormatOptions {
 
     #[serde(default)]
     pub emit_assert_for_import_attributes: bool,
+}
+
+impl Default for JsMinifyFormatOptions {
+    fn default() -> Self {
+        // Well, this should be a macro IMHO, but it's not so let's just use hacky way.
+        serde_json::from_str("{}").unwrap()
+    }
 }
 
 fn default_comments() -> BoolOrDataConfig<JsMinifyCommentOption> {

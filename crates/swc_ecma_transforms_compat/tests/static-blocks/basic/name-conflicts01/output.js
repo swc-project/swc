@@ -1,4 +1,4 @@
 class Foo {
     static #_ = 42;
-    static #_1 = this.foo = this.#_;
+    static #_2 = this.foo = this.#_;
 }

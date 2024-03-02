@@ -18,6 +18,7 @@ fn imports(input: PathBuf) {
         let mut errors = vec![];
         let ss = swc_css_parser::parse_file(
             &fm,
+            None,
             ParserConfig {
                 css_modules: true,
                 ..Default::default()
@@ -31,13 +32,13 @@ fn imports(input: PathBuf) {
             return Ok(());
         }
 
-        let s = serde_json::to_string_pretty(&result).unwrap();
-        NormalizedOutput::from(s)
-            .compare_to_file(input.with_file_name(format!(
+        NormalizedOutput::compare_json_to_file(
+            &result,
+            &input.with_file_name(format!(
                 "{}.imports.json",
                 input.file_stem().unwrap().to_string_lossy()
-            )))
-            .unwrap();
+            )),
+        );
 
         Ok(())
     })
@@ -51,6 +52,7 @@ fn compile(input: PathBuf) {
         let mut errors = vec![];
         let mut ss = swc_css_parser::parse_file(
             &fm,
+            None,
             ParserConfig {
                 css_modules: true,
                 ..Default::default()
@@ -87,41 +89,39 @@ fn compile(input: PathBuf) {
             .unwrap();
 
         if !transform_result.renamed.is_empty() {
-            let transformed_classes = serde_json::to_string_pretty(
-                &transform_result
-                    .renamed
-                    .into_iter()
-                    .map(|(k, v)| {
-                        (
-                            k,
-                            v.into_iter()
-                                .map(|v| match v {
-                                    CssClassName::Global { name } => {
-                                        CssClassNameForTest::Global { name: name.value }
+            let transformed_classes = &transform_result
+                .renamed
+                .into_iter()
+                .map(|(k, v)| {
+                    (
+                        k,
+                        v.into_iter()
+                            .map(|v| match v {
+                                CssClassName::Global { name } => {
+                                    CssClassNameForTest::Global { name: name.value }
+                                }
+                                CssClassName::Local { name } => {
+                                    CssClassNameForTest::Local { name: name.value }
+                                }
+                                CssClassName::Import { name, from } => {
+                                    CssClassNameForTest::Import {
+                                        name: name.value,
+                                        from,
                                     }
-                                    CssClassName::Local { name } => {
-                                        CssClassNameForTest::Local { name: name.value }
-                                    }
-                                    CssClassName::Import { name, from } => {
-                                        CssClassNameForTest::Import {
-                                            name: name.value,
-                                            from,
-                                        }
-                                    }
-                                })
-                                .collect::<Vec<_>>(),
-                        )
-                    })
-                    .collect::<FxHashMap<_, _>>(),
-            )
-            .unwrap();
+                                }
+                            })
+                            .collect::<Vec<_>>(),
+                    )
+                })
+                .collect::<FxHashMap<_, _>>();
 
-            NormalizedOutput::from(transformed_classes)
-                .compare_to_file(input.with_file_name(format!(
+            NormalizedOutput::compare_json_to_file(
+                &transformed_classes,
+                &input.with_file_name(format!(
                     "{}.transform.json",
                     input.file_stem().unwrap().to_string_lossy()
-                )))
-                .unwrap();
+                )),
+            );
         }
         Ok(())
     })

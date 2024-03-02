@@ -19,7 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -42,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('module' type=static),
+                    value: "module",
                 },
                 tag: Module(
                     ModuleTag {
@@ -65,7 +65,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('Photo/manager' type=dynamic),
+                            value: "Photo/manager",
                         },
                         ty: Text {
                             span: Span {
@@ -77,7 +77,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('foo' type=inline),
+                            value: "foo",
                         },
                     },
                 ),
@@ -102,7 +102,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('desc' type=static),
+                    value: "desc",
                 },
                 tag: Description(
                     DescriptionTag {
@@ -125,7 +125,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('Manage a collection of photos.' type=dynamic),
+                            value: "Manage a collection of photos.",
                         },
                     },
                 ),
@@ -152,7 +152,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Construct a new Photo manager' type=dynamic),
+            value: "Construct a new Photo manager",
         },
         tags: [
             TagItem {
@@ -175,7 +175,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('constructor' type=static),
+                    value: "constructor",
                 },
                 tag: Class(
                     ClassTag {
@@ -199,7 +199,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('module:foo/Photo/manager' type=dynamic),
+                                value: "module:foo/Photo/manager",
                             },
                         ),
                         name: Some(
@@ -213,7 +213,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('@param {String} collectionId The identifier of the managed collection.' type=dynamic),
+                                value: "@param {String} collectionId The identifier of the managed collection.",
                             },
                         ),
                     },
@@ -241,7 +241,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -264,7 +264,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('function' type=static),
+                    value: "function",
                 },
                 tag: Function(
                     FunctionTag {
@@ -288,7 +288,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('module:foo/Photo/manager#getPhoto' type=dynamic),
+                                value: "module:foo/Photo/manager#getPhoto",
                             },
                         ),
                     },
@@ -314,7 +314,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('param' type=static),
+                    value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
@@ -339,7 +339,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('{String}' type=dynamic),
+                                value: "{String}",
                             },
                         ),
                         desc: Text {
@@ -352,7 +352,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('photoName' type=dynamic),
+                            value: "photoName",
                         },
                     },
                 ),

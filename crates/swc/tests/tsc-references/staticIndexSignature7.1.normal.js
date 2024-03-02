@@ -11,7 +11,7 @@ var Y = /*#__PURE__*/ function() {
     function Y() {
         _class_call_check(this, Y);
     }
-    Y.foo // should error, incompatible with index signature
-     = function foo() {};
+    Y.foo = function foo() {} // should error, incompatible with index signature
+    ;
     return Y;
 }();

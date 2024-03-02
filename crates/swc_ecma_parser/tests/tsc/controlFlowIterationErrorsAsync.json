@@ -4136,7 +4136,8 @@
                                 "ctxt": 0
                               },
                               "value": "entities",
-                              "optional": false
+                              "optional": false,
+                              "typeAnnotation": null
                             },
                             "value": null
                           }

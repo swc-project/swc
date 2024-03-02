@@ -2,9 +2,7 @@
 //// [fileJs.js]
 x || ((z)=>({
         z
-    } // Legal JS
-     // Legal JS
-    ));
+    }));
 //// [fileTs.ts]
 x || ((z)=>({
         z

@@ -1,0 +1,54 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 1,
+    "end": 30,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ImportDeclaration",
+      "span": {
+        "start": 1,
+        "end": 30,
+        "ctxt": 0
+      },
+      "specifiers": [
+        {
+          "type": "ImportSpecifier",
+          "span": {
+            "start": 17,
+            "end": 18,
+            "ctxt": 0
+          },
+          "local": {
+            "type": "Identifier",
+            "span": {
+              "start": 17,
+              "end": 18,
+              "ctxt": 0
+            },
+            "value": "x",
+            "optional": false
+          },
+          "imported": null,
+          "isTypeOnly": false
+        }
+      ],
+      "source": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 26,
+          "end": 29,
+          "ctxt": 0
+        },
+        "value": "x",
+        "raw": "\"x\""
+      },
+      "typeOnly": false,
+      "with": null,
+      "phase": "source"
+    }
+  ],
+  "interpreter": null
+}

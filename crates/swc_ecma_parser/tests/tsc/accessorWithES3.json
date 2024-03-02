@@ -334,6 +334,7 @@
                   "value": "b",
                   "optional": false
                 },
+                "thisParam": null,
                 "param": {
                   "type": "Identifier",
                   "span": {

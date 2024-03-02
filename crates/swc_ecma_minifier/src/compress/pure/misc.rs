@@ -109,7 +109,7 @@ impl Pure<'_> {
             } else {
                 match &*call.args[0].expr {
                     Expr::Lit(Lit::Str(s)) => s.value.clone(),
-                    Expr::Lit(Lit::Null(..)) => js_word!("null"),
+                    Expr::Lit(Lit::Null(..)) => "null".into(),
                     _ => return,
                 }
             }
@@ -352,7 +352,7 @@ impl Pure<'_> {
 
         Some(Expr::Lit(Lit::Regex(Regex {
             span: *span,
-            exp: pattern.into(),
+            exp: pattern,
             flags: {
                 let flag = flag.to_string();
                 let mut bytes = flag.into_bytes();
@@ -453,18 +453,15 @@ impl Pure<'_> {
                 .is_one_of_global_ref_to(&self.expr_ctx, &["Array", "Object", "RegExp"]) =>
             {
                 let new_expr = match &**callee {
-                    Expr::Ident(Ident {
-                        sym: js_word!("RegExp"),
-                        ..
-                    }) => self.optimize_regex(args, span),
-                    Expr::Ident(Ident {
-                        sym: js_word!("Array"),
-                        ..
-                    }) => self.optimize_array(args, span),
-                    Expr::Ident(Ident {
-                        sym: js_word!("Object"),
-                        ..
-                    }) => self.optimize_object(args, span),
+                    Expr::Ident(Ident { sym, .. }) if &**sym == "RegExp" => {
+                        self.optimize_regex(args, span)
+                    }
+                    Expr::Ident(Ident { sym, .. }) if &**sym == "Array" => {
+                        self.optimize_array(args, span)
+                    }
+                    Expr::Ident(Ident { sym, .. }) if &**sym == "Object" => {
+                        self.optimize_object(args, span)
+                    }
                     _ => unreachable!(),
                 };
 
@@ -488,10 +485,7 @@ impl Pure<'_> {
             ) =>
             {
                 let new_expr = match &**callee {
-                    Expr::Ident(Ident {
-                        sym: js_word!("Boolean"),
-                        ..
-                    }) => match &mut args[..] {
+                    Expr::Ident(Ident { sym, .. }) if &**sym == "Boolean" => match &mut args[..] {
                         [] => Some(Expr::Lit(Lit::Bool(Bool {
                             span: *span,
                             value: false,
@@ -499,19 +493,16 @@ impl Pure<'_> {
                         [ExprOrSpread { spread: None, expr }] => Some(Expr::Unary(UnaryExpr {
                             span: *span,
                             op: op!("!"),
-                            arg: Expr::Unary(UnaryExpr {
+                            arg: UnaryExpr {
                                 span: *span,
                                 op: op!("!"),
                                 arg: expr.take(),
-                            })
+                            }
                             .into(),
                         })),
                         _ => None,
                     },
-                    Expr::Ident(Ident {
-                        sym: js_word!("Number"),
-                        ..
-                    }) => match &mut args[..] {
+                    Expr::Ident(Ident { sym, .. }) if &**sym == "Number" => match &mut args[..] {
                         [] => Some(Expr::Lit(Lit::Num(Number {
                             span: *span,
                             value: 0.0,
@@ -527,10 +518,7 @@ impl Pure<'_> {
                         }
                         _ => None,
                     },
-                    Expr::Ident(Ident {
-                        sym: js_word!("String"),
-                        ..
-                    }) => match &mut args[..] {
+                    Expr::Ident(Ident { sym, .. }) if &**sym == "String" => match &mut args[..] {
                         [] => Some(Expr::Lit(Lit::Str(Str {
                             span: *span,
                             value: "".into(),
@@ -542,20 +530,17 @@ impl Pure<'_> {
                                 span: *span,
                                 left: expr.take(),
                                 op: op!(bin, "+"),
-                                right: Expr::Lit(Lit::Str(Str {
+                                right: Lit::Str(Str {
                                     span: *span,
                                     value: "".into(),
                                     raw: None,
-                                }))
+                                })
                                 .into(),
                             }))
                         }
                         _ => None,
                     },
-                    Expr::Ident(Ident {
-                        sym: js_word!("Symbol"),
-                        ..
-                    }) => {
+                    Expr::Ident(Ident { sym, .. }) if &**sym == "Symbol" => {
                         if let [ExprOrSpread { spread: None, .. }] = &mut args[..] {
                             if self.options.unsafe_symbols {
                                 args.clear();
@@ -943,20 +928,35 @@ impl Pure<'_> {
             _ => {}
         }
 
-        if let Expr::Call(CallExpr {
-            callee: Callee::Expr(callee),
-            args,
-            ..
-        }) = e
-        {
-            if callee.is_pure_callee(&self.expr_ctx) {
-                self.changed = true;
-                report_change!("Dropping pure call as callee is pure");
-                *e = self
-                    .make_ignored_expr(args.take().into_iter().map(|arg| arg.expr))
-                    .unwrap_or(Expr::Invalid(Invalid { span: DUMMY_SP }));
-                return;
+        match e {
+            Expr::Call(CallExpr {
+                callee: Callee::Expr(callee),
+                args,
+                ..
+            }) => {
+                if callee.is_pure_callee(&self.expr_ctx) {
+                    self.changed = true;
+                    report_change!("Dropping pure call as callee is pure");
+                    *e = self
+                        .make_ignored_expr(args.take().into_iter().map(|arg| arg.expr))
+                        .unwrap_or(Expr::Invalid(Invalid { span: DUMMY_SP }));
+                    return;
+                }
             }
+
+            Expr::TaggedTpl(TaggedTpl {
+                tag: callee, tpl, ..
+            }) => {
+                if callee.is_pure_callee(&self.expr_ctx) {
+                    self.changed = true;
+                    report_change!("Dropping pure tag tpl as callee is pure");
+                    *e = self
+                        .make_ignored_expr(tpl.exprs.take().into_iter())
+                        .unwrap_or(Expr::Invalid(Invalid { span: DUMMY_SP }));
+                    return;
+                }
+            }
+            _ => (),
         }
 
         if self.options.unused {
@@ -1057,11 +1057,7 @@ impl Pure<'_> {
                     prop: MemberProp::Ident(prop),
                     ..
                 }) => {
-                    if let Expr::Ident(Ident {
-                        sym: js_word!("arguments"),
-                        ..
-                    }) = &**obj
-                    {
+                    if obj.is_ident_ref_to("arguments") {
                         if &*prop.sym == "callee" {
                             return;
                         }

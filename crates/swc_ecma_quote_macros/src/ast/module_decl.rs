@@ -15,7 +15,7 @@ impl_enum!(
     ]
 );
 
-impl_struct!(ImportDecl, [span, specifiers, src, type_only, with]);
+impl_struct!(ImportDecl, [span, specifiers, src, type_only, with, phase]);
 impl_struct!(ExportDecl, [span, decl]);
 impl_struct!(ExportDefaultDecl, [span, decl]);
 impl_struct!(ExportDefaultExpr, [span, expr]);

@@ -56,6 +56,7 @@ where
     }
 
     /// See [scoped_tls::ScopedKey] for actual documentation.
+    #[track_caller]
     #[cfg_attr(not(debug_assertions), inline(always))]
     pub fn with<F, R>(&'static self, f: F) -> R
     where

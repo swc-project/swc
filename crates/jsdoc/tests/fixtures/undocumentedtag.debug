@@ -19,8 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Undocumented doclet.
-             *' type=dynamic),
+            value: "Undocumented doclet.\n *",
         },
         tags: [
             TagItem {
@@ -43,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('undocumented' type=dynamic),
+                    value: "undocumented",
                 },
                 tag: Unknown(
                     UnknownTag {
@@ -66,7 +65,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('' type=static),
+                            value: "",
                         },
                     },
                 ),

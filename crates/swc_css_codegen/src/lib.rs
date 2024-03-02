@@ -1,4 +1,3 @@
-#![feature(box_patterns)]
 #![deny(clippy::all)]
 #![allow(clippy::needless_update)]
 
@@ -6,7 +5,6 @@ pub use std::fmt::Result;
 use std::{borrow::Cow, str, str::from_utf8};
 
 use serde::{Deserialize, Serialize};
-use swc_atoms::*;
 use swc_common::{BytePos, Span, Spanned, DUMMY_SP};
 use swc_css_ast::*;
 use swc_css_codegen_macros::emitter;
@@ -181,7 +179,7 @@ where
                 emit!(self, n);
             }
             AtRulePrelude::FontFeatureValuesPrelude(n) => {
-                let need_space = !matches!(n.font_family.get(0), Some(FamilyName::Str(_)));
+                let need_space = !matches!(n.font_family.first(), Some(FamilyName::Str(_)));
 
                 if need_space {
                     space!(self);
@@ -223,13 +221,13 @@ where
             }
             AtRulePrelude::NamespacePrelude(n) => emit!(self, n),
             AtRulePrelude::MediaPrelude(n) => {
-                let need_space = match n.queries.get(0) {
+                let need_space = match n.queries.first() {
                     Some(media_query)
                         if media_query.modifier.is_none() && media_query.media_type.is_none() =>
                     {
                         match media_query.condition.as_deref() {
                             Some(MediaConditionType::All(media_condition)) => !matches!(
-                                media_condition.conditions.get(0),
+                                media_condition.conditions.first(),
                                 Some(MediaConditionAllType::MediaInParens(
                                     MediaInParens::MediaCondition(_)
                                 )) | Some(MediaConditionAllType::MediaInParens(
@@ -254,7 +252,7 @@ where
             }
             AtRulePrelude::SupportsPrelude(n) => {
                 let need_space = !matches!(
-                    n.conditions.get(0),
+                    n.conditions.first(),
                     Some(SupportsConditionType::SupportsInParens(
                         SupportsInParens::SupportsCondition(_)
                     )) | Some(SupportsConditionType::SupportsInParens(
@@ -273,7 +271,7 @@ where
                 emit!(self, n);
             }
             AtRulePrelude::PagePrelude(n) => {
-                match n.selectors.get(0) {
+                match n.selectors.first() {
                     Some(page_selector) if page_selector.page_type.is_none() => {
                         formatting_space!(self);
                     }
@@ -292,7 +290,7 @@ where
                 let need_space = match n.name {
                     Some(_) => true,
                     _ => !matches!(
-                        n.query.queries.get(0),
+                        n.query.queries.first(),
                         Some(ContainerQueryType::QueryInParens(
                             QueryInParens::ContainerQuery(_,)
                         )) | Some(ContainerQueryType::QueryInParens(
@@ -379,7 +377,7 @@ where
                     self,
                     AtRuleName::Ident(swc_css_ast::Ident {
                         span: n.span,
-                        value: js_word!("layer"),
+                        value: "layer".into(),
                         raw: None
                     })
                 )
@@ -1051,25 +1049,23 @@ where
                     | ComponentValue::Str(_)
                     | ComponentValue::Url(_)
                     | ComponentValue::Percentage(_)
-                    | ComponentValue::LengthPercentage(box LengthPercentage::Percentage(_))
-                    | ComponentValue::FrequencyPercentage(box FrequencyPercentage::Percentage(_))
-                    | ComponentValue::AnglePercentage(box AnglePercentage::Percentage(_))
-                    | ComponentValue::TimePercentage(box TimePercentage::Percentage(_)) => {
-                        match next {
-                            Some(ComponentValue::Delimiter(delimiter))
-                                if matches!(
-                                    **delimiter,
-                                    Delimiter {
-                                        value: DelimiterValue::Comma,
-                                        ..
-                                    }
-                                ) =>
-                            {
-                                false
-                            }
-                            _ => !self.config.minify,
+                    | ComponentValue::LengthPercentage(_)
+                    | ComponentValue::FrequencyPercentage(_)
+                    | ComponentValue::AnglePercentage(_)
+                    | ComponentValue::TimePercentage(_) => match next {
+                        Some(ComponentValue::Delimiter(delimiter))
+                            if matches!(
+                                **delimiter,
+                                Delimiter {
+                                    value: DelimiterValue::Comma,
+                                    ..
+                                }
+                            ) =>
+                        {
+                            false
                         }
-                    }
+                        _ => !self.config.minify,
+                    },
                     ComponentValue::Color(color)
                         if matches!(
                             **color,
@@ -1119,27 +1115,6 @@ where
                                 true
                             }
                         }
-                        Some(ComponentValue::LengthPercentage(box LengthPercentage::Length(
-                            Length { value, .. },
-                        )))
-                        | Some(ComponentValue::FrequencyPercentage(
-                            box FrequencyPercentage::Frequency(Frequency { value, .. }),
-                        ))
-                        | Some(ComponentValue::AnglePercentage(box AnglePercentage::Angle(
-                            Angle { value, .. },
-                        )))
-                        | Some(ComponentValue::TimePercentage(box TimePercentage::Time(Time {
-                            value,
-                            ..
-                        }))) => {
-                            if self.config.minify {
-                                let minified = minify_numeric(value.value);
-
-                                !minified.starts_with('.')
-                            } else {
-                                true
-                            }
-                        }
                         Some(ComponentValue::Dimension(dimension)) => {
                             if self.config.minify {
                                 let value = match &**dimension {
@@ -1154,6 +1129,29 @@ where
 
                                 let minified = minify_numeric(value);
 
+                                !minified.starts_with('.')
+                            } else {
+                                true
+                            }
+                        }
+                        Some(component_value) if self.config.minify => {
+                            if let Some(minified) = match component_value {
+                                ComponentValue::LengthPercentage(p) => {
+                                    p.as_length().map(|l| l.value.value)
+                                }
+                                ComponentValue::FrequencyPercentage(p) => {
+                                    p.as_frequency().map(|f| f.value.value)
+                                }
+                                ComponentValue::AnglePercentage(p) => {
+                                    p.as_angle().map(|a| a.value.value)
+                                }
+                                ComponentValue::TimePercentage(p) => {
+                                    p.as_time().map(|t| t.value.value)
+                                }
+                                _ => None,
+                            }
+                            .map(minify_numeric)
+                            {
                                 !minified.starts_with('.')
                             } else {
                                 true
@@ -1416,7 +1414,7 @@ where
         // `--foo: ;` and `--foo:;` is valid, but not all browsers support it, currently
         // we print " " (whitespace) always
         if is_custom_property {
-            match n.value.get(0) {
+            match n.value.first() {
                 None => {
                     space!(self);
                 }

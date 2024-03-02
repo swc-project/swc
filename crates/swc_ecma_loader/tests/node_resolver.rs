@@ -41,7 +41,7 @@ fn basic_import() {
 
         // Expect
         assert_eq!(
-            resolved,
+            resolved.filename,
             FileName::Real(PathBuf::from("node_modules/jquery/index.js"))
         );
     });
@@ -60,7 +60,7 @@ fn hoisting() {
 
         // Expect
         assert_eq!(
-            resolved,
+            resolved.filename,
             FileName::Real(PathBuf::from("../../node_modules/jquery/index.js"))
         );
     });
@@ -76,7 +76,7 @@ fn builtin_modules() {
         .expect("should resolve");
 
     // Expect
-    assert_eq!(resolved, FileName::Custom("node:path".to_string()));
+    assert_eq!(resolved.filename, FileName::Custom("node:path".to_string()));
 
     // When
     let resolved = node_resolver
@@ -84,7 +84,7 @@ fn builtin_modules() {
         .expect("should resolve");
 
     // Expect
-    assert_eq!(resolved, FileName::Custom("node:path".to_string()));
+    assert_eq!(resolved.filename, FileName::Custom("node:path".to_string()));
 }
 
 #[test]
@@ -100,7 +100,7 @@ fn browser_overwrite() {
 
         // Expect
         assert_eq!(
-            resolved,
+            resolved.filename,
             FileName::Real(PathBuf::from("node_modules/jquery/browser.js"))
         );
     });

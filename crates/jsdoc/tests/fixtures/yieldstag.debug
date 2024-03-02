@@ -19,9 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Generate the Fibonacci sequence of numbers.
-             *
-             *' type=dynamic),
+            value: "Generate the Fibonacci sequence of numbers.\n *\n *",
         },
         tags: [
             TagItem {
@@ -44,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('yields' type=inline),
+                    value: "yields",
                 },
                 tag: Yield(
                     YieldTag {
@@ -68,7 +66,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('{number}' type=dynamic),
+                                value: "{number}",
                             },
                         ),
                         description: Text {
@@ -81,7 +79,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('The next number in the Fibonacci sequence.' type=dynamic),
+                            value: "The next number in the Fibonacci sequence.",
                         },
                     },
                 ),
@@ -108,9 +106,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Generate the Fibonacci sequence of numbers.
-             *
-             *' type=dynamic),
+            value: "Generate the Fibonacci sequence of numbers.\n *\n *",
         },
         tags: [
             TagItem {
@@ -133,7 +129,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('yields' type=inline),
+                    value: "yields",
                 },
                 tag: Yield(
                     YieldTag {
@@ -157,7 +153,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('The' type=inline),
+                                value: "The",
                             },
                         ),
                         description: Text {
@@ -170,7 +166,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('next number in the Fibonacci sequence.' type=dynamic),
+                            value: "next number in the Fibonacci sequence.",
                         },
                     },
                 ),
@@ -197,9 +193,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Generate the Fibonacci sequence of numbers.
-             *
-             *' type=dynamic),
+            value: "Generate the Fibonacci sequence of numbers.\n *\n *",
         },
         tags: [
             TagItem {
@@ -222,7 +216,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('yields' type=inline),
+                    value: "yields",
                 },
                 tag: Yield(
                     YieldTag {
@@ -246,7 +240,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('{number}' type=dynamic),
+                                value: "{number}",
                             },
                         ),
                         description: Text {
@@ -259,7 +253,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('' type=static),
+                            value: "",
                         },
                     },
                 ),

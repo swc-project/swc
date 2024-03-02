@@ -13,16 +13,13 @@ import "@swc/helpers/_/_async_iterator";
 import "@swc/helpers/_/_await_async_generator";
 import "@swc/helpers/_/_wrap_async_generator";
 //// [file5.ts]
-// https://github.com/Microsoft/TypeScript/issues/21363
 import "@swc/helpers/_/_async_iterator";
 import "@swc/helpers/_/_async_to_generator";
 //// [file6.ts]
-// https://github.com/Microsoft/TypeScript/issues/21363
 import "@swc/helpers/_/_async_iterator";
 import "@swc/helpers/_/_await_async_generator";
 import "@swc/helpers/_/_wrap_async_generator";
 //// [file7.ts]
-// https://github.com/microsoft/TypeScript/issues/36166
 import "@swc/helpers/_/_async_iterator";
 import "@swc/helpers/_/_await_async_generator";
 import "@swc/helpers/_/_wrap_async_generator";

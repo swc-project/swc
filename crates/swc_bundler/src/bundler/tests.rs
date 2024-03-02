@@ -5,6 +5,7 @@ use anyhow::Error;
 use indexmap::IndexMap;
 use swc_common::{collections::ARandomState, sync::Lrc, FileName, SourceMap, Span, GLOBALS};
 use swc_ecma_ast::*;
+use swc_ecma_loader::resolve::Resolution;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput};
 use swc_ecma_utils::drop_span;
 use swc_ecma_visit::VisitMutWith;
@@ -52,7 +53,7 @@ impl Load for Loader {
 pub struct Resolver;
 
 impl Resolve for Resolver {
-    fn resolve(&self, _: &FileName, s: &str) -> Result<FileName, Error> {
+    fn resolve(&self, _: &FileName, s: &str) -> Result<Resolution, Error> {
         assert!(s.starts_with("./"));
 
         let path = PathBuf::from(s.to_string())
@@ -61,7 +62,10 @@ impl Resolve for Resolver {
             .unwrap()
             .into();
 
-        Ok(FileName::Real(path))
+        Ok(Resolution {
+            filename: FileName::Real(path),
+            slug: None,
+        })
     }
 }
 

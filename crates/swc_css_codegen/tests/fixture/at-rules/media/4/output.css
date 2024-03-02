@@ -111,9 +111,9 @@
 @media func(100px) {}
 @media screen and func(100px) {}
 @media (max-width: 650px), calc(150px + 150px) {}
-@media all {}
-@media (prefers-reduced-motion: no-preference) {
-  :root {
+@MEDIA ALL {}
+@MEDIA (PREFERS-reduced-motion: no-preference) {
+  :ROOT {
     scroll-behavior: smooth;
   }
 }

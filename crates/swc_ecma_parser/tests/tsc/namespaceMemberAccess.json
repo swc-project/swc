@@ -149,7 +149,8 @@
         "raw": "'./a'"
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ExpressionStatement",
@@ -227,7 +228,8 @@
                     "ctxt": 0
                   },
                   "value": "A",
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "value": null
               }

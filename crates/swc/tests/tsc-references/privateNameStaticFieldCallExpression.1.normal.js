@@ -2,9 +2,9 @@
 import { _ as _class_static_private_field_spec_get } from "@swc/helpers/_/_class_static_private_field_spec_get";
 class A {
     test() {
-        var _class_static_private_field_spec_get1;
+        var _this;
         _class_static_private_field_spec_get(A, A, _fieldFunc).call(A);
-        (_class_static_private_field_spec_get1 = _class_static_private_field_spec_get(A, A, _fieldFunc)) === null || _class_static_private_field_spec_get1 === void 0 ? void 0 : _class_static_private_field_spec_get1.call(A);
+        (_this = _class_static_private_field_spec_get(A, A, _fieldFunc)) === null || _this === void 0 ? void 0 : _this.call(A);
         const func = _class_static_private_field_spec_get(A, A, _fieldFunc);
         func();
         new (_class_static_private_field_spec_get(A, A, _fieldFunc))();

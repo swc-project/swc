@@ -196,7 +196,7 @@ where
     }
 
     fn set_last_start_tag_name(&mut self, tag_name: &JsWord) {
-        self.last_start_tag_name = Some(tag_name.into());
+        self.last_start_tag_name = Some(tag_name.clone());
     }
 
     fn set_adjusted_current_node_to_html_namespace(&mut self, value: bool) {

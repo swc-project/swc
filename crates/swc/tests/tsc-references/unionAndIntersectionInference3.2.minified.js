@@ -1,5 +1,4 @@
 //// [unionAndIntersectionInference3.ts]
-// Repro from #30720
 concatMaybe([
     1,
     2,

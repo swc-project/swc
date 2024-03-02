@@ -314,7 +314,8 @@
                     "ctxt": 0
                   },
                   "value": "funky",
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "value": null
               }

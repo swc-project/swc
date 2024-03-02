@@ -5,7 +5,7 @@ use std::{
     path::Path,
 };
 
-use vergen::{vergen, Config};
+use vergen::EmitBuilder;
 
 // Validate conflict between host / plugin features
 #[cfg(all(
@@ -42,5 +42,5 @@ fn main() {
 
     // Attempt to collect some build time env values but will skip if there are any
     // errors.
-    let _ = vergen(Config::default());
+    let _ = EmitBuilder::builder().all_cargo().emit();
 }

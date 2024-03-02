@@ -1,4 +1,3 @@
-use swc_atoms::js_word;
 use swc_common::Spanned;
 use typed_arena::Arena;
 
@@ -127,7 +126,9 @@ impl<'a, I: Tokens> Parser<I> {
                 self.emit_err(self.input.cur_span(), SyntaxError::TopLevelAwaitInScript);
             }
 
+            let mut eaten_await = None;
             if peeked_is!(self, "using") {
+                eaten_await = Some(self.input.cur_pos());
                 assert_and_bump!(self, "await");
 
                 let v = self.parse_using_decl(start, true)?;
@@ -136,7 +137,7 @@ impl<'a, I: Tokens> Parser<I> {
                 }
             }
 
-            let expr = self.parse_await_expr()?;
+            let expr = self.parse_await_expr(eaten_await)?;
             let expr = self
                 .include_in_expr(true)
                 .parse_bin_op_recursively(expr, 0)?;
@@ -335,6 +336,19 @@ impl<'a, I: Tokens> Parser<I> {
                 }
             }
 
+            tok!("type") => {
+                if is_typescript
+                    && peeked_is!(self, IdentName)
+                    && !self.input.has_linebreak_between_cur_and_peeked()
+                {
+                    let start = self.input.cur_pos();
+                    bump!(self);
+                    return Ok(Stmt::Decl(Decl::TsTypeAlias(
+                        self.parse_ts_type_alias_decl(start)?,
+                    )));
+                }
+            }
+
             tok!("enum") => {
                 if is_typescript
                     && peeked_is!(self, IdentName)
@@ -390,7 +404,7 @@ impl<'a, I: Tokens> Parser<I> {
             _ => self.verify_expr(expr)?,
         };
         if let Expr::Ident(ref ident) = *expr {
-            if *ident.sym == js_word!("interface") && self.input.had_line_break_before_cur() {
+            if &*ident.sym == "interface" && self.input.had_line_break_before_cur() {
                 self.emit_strict_mode_err(
                     ident.span,
                     SyntaxError::InvalidIdentInStrict(ident.sym.clone()),
@@ -412,8 +426,8 @@ impl<'a, I: Tokens> Parser<I> {
         }
 
         if let Expr::Ident(Ident { ref sym, span, .. }) = *expr {
-            match *sym {
-                js_word!("enum") | js_word!("interface") => {
+            match &**sym {
+                "enum" | "interface" => {
                     self.emit_strict_mode_err(span, SyntaxError::InvalidIdentInStrict(sym.clone()));
                 }
                 _ => {}
@@ -422,8 +436,8 @@ impl<'a, I: Tokens> Parser<I> {
 
         if self.syntax().typescript() {
             if let Expr::Ident(ref i) = *expr {
-                match i.sym {
-                    js_word!("public") | js_word!("static") | js_word!("abstract") => {
+                match &*i.sym {
+                    "public" | "static" | "abstract" => {
                         if eat!(self, "interface") {
                             self.emit_err(i.span, SyntaxError::TS2427);
                             return self
@@ -1274,10 +1288,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         let is_using_decl = self.input.syntax().explicit_resource_management()
             && match *init {
-                Expr::Ident(Ident {
-                    sym: js_word!("using"),
-                    ..
-                }) => {
+                _ if init.is_ident_ref_to("using") => {
                     is!(self, BindingIdent)
                         && !is!(self, "of")
                         && (peeked_is!(self, "of") || peeked_is!(self, "in"))
@@ -1383,15 +1394,7 @@ enum TempForHead {
 pub(super) trait IsDirective {
     fn as_ref(&self) -> Option<&Stmt>;
     fn is_use_strict(&self) -> bool {
-        match self.as_ref() {
-            Some(Stmt::Expr(expr)) => match *expr.expr {
-                Expr::Lit(Lit::Str(Str { ref raw, .. })) => {
-                    matches!(raw, Some(value) if value == "\"use strict\"" || value == "'use strict'")
-                }
-                _ => false,
-            },
-            _ => false,
-        }
+        self.as_ref().map_or(false, Stmt::is_use_strict)
     }
 }
 
@@ -2075,7 +2078,7 @@ export default function waitUntil(callback, options = {}) {
                             span,
                             props: vec![ObjectPatProp::Assign(AssignPatProp {
                                 span,
-                                key: Ident::new("num".into(), span),
+                                key: Ident::new("num".into(), span).into(),
                                 value: None
                             })]
                         }),
@@ -2383,6 +2386,46 @@ export default function waitUntil(callback, options = {}) {
         test_parser(src, Syntax::Typescript(Default::default()), |p| {
             p.parse_expr()
         });
+    }
+
+    #[test]
+    #[should_panic(expected = "Expected ident")]
+    fn class_static_blocks_with_await() {
+        let src = "class Foo{
+            static {
+                var await = 'bar';
+            }
+        }";
+        test_parser(src, Syntax::Es(Default::default()), |p| p.parse_expr());
+    }
+
+    #[test]
+    #[should_panic(expected = "Expected ident")]
+    fn class_static_blocks_with_await_in_nested_class() {
+        let src = "class Foo{
+            static {
+                function foo() {
+                    class Foo {
+                        static {
+                            var await = 'bar';
+                        }
+                    }
+                }
+            }
+        }";
+        test_parser(src, Syntax::Es(Default::default()), |p| p.parse_expr());
+    }
+
+    #[test]
+    fn class_static_blocks_with_await_in_fn() {
+        let src = "class Foo{
+            static {
+                function foo() {
+                    var await = 'bar';
+                }
+            }
+        }";
+        test_parser(src, Syntax::Es(Default::default()), |p| p.parse_expr());
     }
 
     #[test]

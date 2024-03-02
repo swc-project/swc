@@ -1,4 +1,6 @@
-use swc_atoms::{js_word, JsWord};
+use std::ops::Deref;
+
+use swc_atoms::JsWord;
 use swc_common::{
     collections::AHashMap,
     util::{move_map::MoveMap, take::Take},
@@ -71,9 +73,35 @@ impl ParamMetadata {
     }
 }
 
+type EnumMapType = AHashMap<JsWord, EnumKind>;
+
+pub(super) struct EnumMap<'a>(&'a EnumMapType);
+
+impl Deref for EnumMap<'_> {
+    type Target = EnumMapType;
+
+    fn deref(&self) -> &Self::Target {
+        self.0
+    }
+}
+
+impl EnumMap<'_> {
+    fn get_kind_as_str(&self, param: Option<&TsTypeAnn>) -> Option<&'static str> {
+        param
+            .and_then(|t| t.type_ann.as_ts_type_ref())
+            .and_then(|t| t.type_name.as_ident())
+            .and_then(|t| self.get(&t.sym))
+            .map(|kind| match kind {
+                EnumKind::Mixed => "Object",
+                EnumKind::Str => "String",
+                EnumKind::Num => "Number",
+            })
+    }
+}
+
 /// https://github.com/leonardfactory/babel-plugin-transform-typescript-metadata/blob/master/src/metadata/metadataVisitor.ts
 pub(super) struct Metadata<'a> {
-    pub(super) enums: &'a AHashMap<JsWord, EnumKind>,
+    pub(super) enums: EnumMap<'a>,
 
     pub(super) class_name: Option<&'a Ident>,
 }
@@ -161,52 +189,53 @@ impl VisitMut for Metadata<'_> {
             );
             m.function.decorators.push(dec);
         }
+        {
+            // Copy tsc behaviour
+            // https://github.com/microsoft/TypeScript/blob/5e8c261b6ab746213f19ee3501eb8c48a6215dd7/src/compiler/transformers/typeSerializer.ts#L242
+            let dec = self.create_metadata_design_decorator(
+                "design:returntype",
+                if m.function.is_async {
+                    quote_ident!("Promise").as_arg()
+                } else {
+                    let return_type = m.function.return_type.as_deref();
+
+                    if let Some(kind) = self.enums.get_kind_as_str(return_type) {
+                        quote_ident!(kind).as_arg()
+                    } else {
+                        serialize_type(self.class_name, return_type).as_arg()
+                    }
+                },
+            );
+            m.function.decorators.push(dec);
+        }
     }
 
     fn visit_mut_class_prop(&mut self, p: &mut ClassProp) {
-        if p.decorators.is_empty() {
+        if p.decorators.is_empty() || p.type_ann.is_none() {
             return;
         }
 
-        if p.type_ann.is_none() {
-            return;
-        }
-        if let Some(name) = p
-            .type_ann
-            .as_ref()
-            .map(|ty| &ty.type_ann)
-            .and_then(|type_ann| match &**type_ann {
-                TsType::TsTypeRef(r) => Some(r),
-                _ => None,
-            })
-            .and_then(|r| match &r.type_name {
-                TsEntityName::TsQualifiedName(_) => None,
-                TsEntityName::Ident(i) => Some(i),
-            })
-        {
-            if let Some(kind) = self.enums.get(&name.sym) {
-                let dec = self.create_metadata_design_decorator(
-                    "design:type",
-                    match kind {
-                        EnumKind::Mixed => quote_ident!("Object").as_arg(),
-                        EnumKind::Str => quote_ident!("String").as_arg(),
-                        EnumKind::Num => quote_ident!("Number").as_arg(),
-                    },
-                );
-                p.decorators.push(dec);
-                return;
+        let dec = self.create_metadata_design_decorator("design:type", {
+            let prop_type = p.type_ann.as_deref();
+
+            if let Some(kind) = self.enums.get_kind_as_str(prop_type) {
+                quote_ident!(kind).as_arg()
+            } else {
+                serialize_type(self.class_name, prop_type).as_arg()
             }
-        }
-
-        let dec = self.create_metadata_design_decorator(
-            "design:type",
-            serialize_type(self.class_name, p.type_ann.as_deref()).as_arg(),
-        );
+        });
         p.decorators.push(dec);
     }
 }
 
-impl Metadata<'_> {
+impl<'a> Metadata<'a> {
+    pub(super) fn new(enums: &'a EnumMapType, class_name: Option<&'a Ident>) -> Self {
+        Self {
+            enums: EnumMap(enums),
+            class_name,
+        }
+    }
+
     fn create_metadata_design_decorator(&self, design: &str, type_arg: ExprOrSpread) -> Decorator {
         Decorator {
             span: DUMMY_SP,
@@ -324,11 +353,7 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
             let item = serialize_type_node(class_name, ty);
 
             // One of the individual is global object, return immediately
-            if let Expr::Ident(Ident {
-                sym: js_word!("Object"),
-                ..
-            }) = item
-            {
+            if item.is_ident_ref_to("Object") {
                 return item;
             }
 

@@ -184,7 +184,8 @@
                     "ctxt": 0
                   },
                   "value": "foo",
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "value": null
               },
@@ -203,7 +204,8 @@
                     "ctxt": 0
                   },
                   "value": "bar",
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "value": null
               }
@@ -324,7 +326,8 @@
                     "ctxt": 0
                   },
                   "value": "foo",
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "value": null
               },
@@ -343,7 +346,8 @@
                     "ctxt": 0
                   },
                   "value": "bar",
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "value": null
               }

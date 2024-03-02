@@ -40,13 +40,13 @@ define([
         return require([
             "./0"
         ], function(m) {
-            return resolve(/*#__PURE__*/ _interop_require_wildcard._(m));
+            return resolve(_interop_require_wildcard._(m));
         }, reject);
     }), new Promise(function(resolve, reject) {
         return require([
             "./0"
         ], function(m) {
-            return resolve(/*#__PURE__*/ _interop_require_wildcard._(m));
+            return resolve(_interop_require_wildcard._(m));
         }, reject);
     }).then(function(zero) {
         return zero.foo();
@@ -55,7 +55,7 @@ define([
         return require([
             "./0"
         ], function(m) {
-            return resolve(/*#__PURE__*/ _interop_require_wildcard._(m));
+            return resolve(_interop_require_wildcard._(m));
         }, reject);
     }), D = function() {
         function D() {
@@ -66,7 +66,7 @@ define([
                 return require([
                     "./0"
                 ], function(m) {
-                    return resolve(/*#__PURE__*/ _interop_require_wildcard._(m));
+                    return resolve(_interop_require_wildcard._(m));
                 }, reject);
             });
         }, D;

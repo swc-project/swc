@@ -28,7 +28,7 @@
    : ^^^^
    `----
 
-  x Ident { value: Atom('test' type=inline), raw: "test" }
+  x Ident { value: "test", raw: "test" }
    ,-[$DIR/tests/recovery/rules/unclosed-curly/input.css:1:1]
  1 | test};
    : ^^^^
@@ -79,7 +79,7 @@
    : ^
    `----
 
-  x Ident { value: Atom('a' type=static), raw: "a" }
+  x Ident { value: "a", raw: "a" }
    ,-[$DIR/tests/recovery/rules/unclosed-curly/input.css:2:1]
  2 | 
  3 | a { color: red }

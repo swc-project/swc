@@ -7,8 +7,7 @@ use std::{
 };
 
 use anyhow::Error;
-use swc::{config::SourceMapsConfig, resolver::environment_resolver};
-use swc_atoms::js_word;
+use swc::{resolver::environment_resolver, PrintArgs};
 use swc_bundler::{BundleKind, Bundler, Config, ModuleRecord};
 use swc_common::{errors::HANDLER, FileName, Globals, Span, GLOBALS};
 use swc_ecma_ast::{
@@ -88,16 +87,12 @@ fn pass(input_dir: PathBuf) {
                     let code = compiler
                         .print(
                             &bundled.module.fold_with(&mut fixer(None)),
-                            None,
-                            None,
-                            false,
-                            SourceMapsConfig::Bool(false),
-                            &Default::default(),
-                            None,
-                            Some(&comments),
-                            false,
-                            Default::default(),
-                            swc_ecma_codegen::Config::default().with_target(EsVersion::Es2020),
+                            PrintArgs {
+                                comments: Some(&comments),
+                                codegen_config: swc_ecma_codegen::Config::default()
+                                    .with_target(EsVersion::Es2020),
+                                ..Default::default()
+                            },
                         )
                         .expect("failed to print?")
                         .code;
@@ -160,7 +155,7 @@ impl swc_bundler::Hook for Hook {
 
         Ok(vec![
             KeyValueProp {
-                key: PropName::Ident(Ident::new(js_word!("url"), span)),
+                key: PropName::Ident(Ident::new("url".into(), span)),
                 value: Box::new(Expr::Lit(Lit::Str(Str {
                     span,
                     raw: None,
@@ -168,7 +163,7 @@ impl swc_bundler::Hook for Hook {
                 }))),
             },
             KeyValueProp {
-                key: PropName::Ident(Ident::new(js_word!("main"), span)),
+                key: PropName::Ident(Ident::new("main".into(), span)),
                 value: Box::new(if module_record.is_entry {
                     Expr::Member(MemberExpr {
                         span,
@@ -176,7 +171,7 @@ impl swc_bundler::Hook for Hook {
                             span,
                             kind: MetaPropKind::ImportMeta,
                         })),
-                        prop: MemberProp::Ident(Ident::new(js_word!("main"), span)),
+                        prop: MemberProp::Ident(Ident::new("main".into(), span)),
                     })
                 } else {
                     Expr::Lit(Lit::Bool(Bool { span, value: false }))

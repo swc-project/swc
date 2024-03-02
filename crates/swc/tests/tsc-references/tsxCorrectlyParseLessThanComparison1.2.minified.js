@@ -9,6 +9,6 @@ export var ShortDetails = function(_React_Component) {
         return _class_call_check(this, ShortDetails), _super.apply(this, arguments);
     }
     return ShortDetails.prototype.render = function() {
-        if (this.props.id < 1) return /*#__PURE__*/ React.createElement("div", null);
+        if (this.props.id < 1) return React.createElement("div", null);
     }, ShortDetails;
 }(React.Component);

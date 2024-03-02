@@ -1,9 +1,4 @@
-/**
- * Copyright (c) 2013-present, Facebook, Inc.
- *
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- */ 'use strict';
+'use strict';
 function emptyFunction() {}
 function emptyFunctionWithReset() {}
 emptyFunctionWithReset.resetWarningCache = emptyFunction;
@@ -19,8 +14,6 @@ module.exports = function() {
         return shim;
     }
     ;
-    // Important!
-    // Keep this list in sync with production version in `./factoryWithTypeCheckers.js`.
     var ReactPropTypes = {
         array: shim,
         bigint: shim,

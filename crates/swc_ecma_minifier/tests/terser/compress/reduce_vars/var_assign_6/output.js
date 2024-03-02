@@ -1,4 +1,4 @@
-!(function () {
-    var a = (function () {})((a = 1));
+!function() {
+    var a = void (a = 1);
     console.log(a);
-})();
+}();

@@ -350,6 +350,12 @@ pub struct AutoAccessor {
     /// Typescript extension.
     #[cfg_attr(feature = "serde-impl", serde(default))]
     pub accessibility: Option<Accessibility>,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub is_override: bool,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub definite: bool,
 }
 
 impl Take for AutoAccessor {
@@ -362,6 +368,8 @@ impl Take for AutoAccessor {
             is_static: false,
             decorators: Take::dummy(),
             accessibility: None,
+            is_override: false,
+            definite: false,
         }
     }
 }

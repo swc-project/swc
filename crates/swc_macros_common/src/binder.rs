@@ -32,8 +32,7 @@
 //! -----
 //!
 //! Adopted from `synstructure`.
-use pmutil::{prelude::*, *};
-use proc_macro2::{Span, TokenStream};
+use proc_macro2::TokenStream;
 use quote::ToTokens;
 use syn::{
     punctuated::Pair,
@@ -121,15 +120,11 @@ impl<'a> VariantBinder<'a> {
     /// `EnumName::VariantName` for enum, and `StructName` for struct.
     pub fn qual_path(&self) -> Path {
         match self.enum_name {
-            Some(enum_name) => Quote::new(def_site::<Span>())
-                .quote_with(smart_quote!(
-                    Vars {
-                        EnumName: enum_name,
-                        VariantName: self.name,
-                    },
-                    { EnumName::VariantName }
-                ))
-                .parse(),
+            Some(enum_name) => {
+                let vn = &self.name;
+
+                parse_quote!(#enum_name::#vn)
+            }
             None => self.name.clone().into(),
         }
     }
@@ -176,7 +171,8 @@ impl<'a> VariantBinder<'a> {
                                 .clone()
                                 .expect("field of struct-like variants should have name");
 
-                            let binded_ident = ident.new_ident_with(|s| format!("{}{}", prefix, s));
+                            let binded_ident =
+                                Ident::new(&format!("{}{}", prefix, ident), ident.span());
                             bindings.push(BindedField {
                                 idx,
                                 binded_ident: binded_ident.clone(),
@@ -230,7 +226,8 @@ impl<'a> VariantBinder<'a> {
                     .map(|(idx, f)| {
                         f.map_item(|f| {
                             let binded_ident =
-                                def_site::<Span>().new_ident(format!("{}{}", prefix, idx));
+                                Ident::new(&format!("{}{}", prefix, idx), def_site());
+
                             bindings.push(BindedField {
                                 idx,
                                 binded_ident: binded_ident.clone(),

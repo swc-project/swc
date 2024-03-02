@@ -38,4 +38,3 @@ var Base = function() {
     }, Derived3;
 }(Derived1);
 Base.x, Derived1.x, Derived2.x, Derived3.x;
- // Error, neither within their declaring class nor classes derived from their declaring class

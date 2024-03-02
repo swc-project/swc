@@ -1,0 +1,22 @@
+{
+  "jsc": {
+    "parser": {
+      "syntax": "typescript",
+      "tsx": true
+    },
+    "target": "es2022",
+    "transform": {
+      "useDefineForClassFields": true,
+      "react": {
+        "importSource": "https://esm.sh/preact",
+        "runtime": "automatic"
+      }
+    },
+    "loose": false
+  },
+  "module": {
+    "type": "es6"
+  },
+  "minify": false,
+  "isModule": true
+}

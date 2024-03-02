@@ -26,7 +26,8 @@
             "start": 1,
             "end": 7,
             "ctxt": 0
-          }
+          },
+          "phase": "evaluation"
         },
         "arguments": [
           {

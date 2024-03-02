@@ -5,6 +5,7 @@ use swc_bundler::{BundleKind, Bundler, Config, Hook, Load, ModuleData, ModuleRec
 use swc_common::{sync::Lrc, FileName, FilePathMapping, Globals, SourceMap, Span};
 use swc_ecma_ast::KeyValueProp;
 use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
+use swc_ecma_loader::resolve::Resolution;
 use swc_ecma_parser::{parse_file_as_module, Syntax};
 
 fn main() {
@@ -87,7 +88,7 @@ impl Load for PathLoader {
 struct PathResolver;
 
 impl Resolve for PathResolver {
-    fn resolve(&self, base: &FileName, module_specifier: &str) -> Result<FileName, Error> {
+    fn resolve(&self, base: &FileName, module_specifier: &str) -> Result<Resolution, Error> {
         assert!(
             module_specifier.starts_with('.'),
             "We are not using node_modules within this example"
@@ -98,12 +99,15 @@ impl Resolve for PathResolver {
             _ => unreachable!(),
         };
 
-        Ok(FileName::Real(
-            base.parent()
-                .unwrap()
-                .join(module_specifier)
-                .with_extension("js"),
-        ))
+        Ok(Resolution {
+            filename: FileName::Real(
+                base.parent()
+                    .unwrap()
+                    .join(module_specifier)
+                    .with_extension("js"),
+            ),
+            slug: None,
+        })
     }
 }
 

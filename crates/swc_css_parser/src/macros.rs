@@ -148,6 +148,6 @@ macro_rules! tok {
     };
 
     ("to") => {
-        swc_css_ast::Token::Ident { value: js_word!("to"), .. }
+        swc_css_ast::Token::Ident { value: "to", .. }
     };
 }

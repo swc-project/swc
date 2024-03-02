@@ -1,6 +1,6 @@
 use is_macro::Is;
 use serde::{Deserialize, Serialize};
-use swc_atoms::{js_word, JsWord};
+use swc_atoms::JsWord;
 use swc_cached::regex::CachedRegex;
 use swc_common::{Span, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -230,7 +230,7 @@ pub(super) fn use_strict() -> Stmt {
 }
 
 /// Private `_exports` ident.
-pub(super) struct Exports(pub Ident);
+pub(super) struct Exports(#[allow(dead_code)] pub Ident);
 
 impl Default for Exports {
     fn default() -> Self {
@@ -282,7 +282,7 @@ pub(crate) fn esm_export() -> Function {
 
     let getter = KeyValueProp {
         key: quote_ident!("get").into(),
-        value: Box::new(all.clone().computed_member(Expr::from(name.clone()))),
+        value: all.clone().computed_member(Expr::from(name.clone())).into(),
     };
 
     let body = object_define_enumerable(
@@ -335,7 +335,7 @@ pub(crate) fn emit_export_stmts(exports: Ident, mut prop_list: Vec<ExportKV>) ->
                     exports.as_arg(),
                     quote_str!(export_item.export_name_span(), export_name).as_arg(),
                     prop_function((
-                        js_word!("get"),
+                        "get".into(),
                         ExportItem::new(DUMMY_SP, export_item.into_local_ident()),
                     ))
                     .into(),

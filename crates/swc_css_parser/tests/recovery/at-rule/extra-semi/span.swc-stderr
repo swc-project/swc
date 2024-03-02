@@ -108,7 +108,7 @@
  4 |     color: red;
    `----
 
-  x Ident { value: Atom('color' type=static), raw: "color" }
+  x Ident { value: "color", raw: "color" }
    ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:2:1]
  2 | 
  3 | .color {

@@ -10,8 +10,7 @@ export function readSegment(param) {
     var _param = _sliced_to_array(param, 2);
     _param[0], _param[1];
 }
-// documenting binding pattern behavior (currently does _not_ generate tuple names)
 export var val = null;
 r = q = r, y = x = y;
-export var argumentsOfGAsFirstArgument = f(getArgsForInjection(g)); // one tuple with captures arguments as first member
-export var argumentsOfG = f.apply(void 0, _to_consumable_array(getArgsForInjection(g))); // captured arguments list re-spread
+export var argumentsOfGAsFirstArgument = f(getArgsForInjection(g));
+export var argumentsOfG = f.apply(void 0, _to_consumable_array(getArgsForInjection(g)));

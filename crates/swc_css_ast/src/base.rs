@@ -119,11 +119,29 @@ impl PartialEq<str> for FunctionName {
     }
 }
 
+impl PartialEq<&'_ str> for FunctionName {
+    fn eq(&self, other: &&str) -> bool {
+        match self {
+            FunctionName::DashedIdent(v) => *v == **other,
+            FunctionName::Ident(v) => *v == **other,
+        }
+    }
+}
+
 impl PartialEq<JsWord> for FunctionName {
     fn eq(&self, other: &JsWord) -> bool {
         match self {
             FunctionName::DashedIdent(v) => v.value == *other,
             FunctionName::Ident(v) => v.value == *other,
+        }
+    }
+}
+
+impl FunctionName {
+    pub fn as_str(&self) -> &str {
+        match self {
+            FunctionName::DashedIdent(v) => &v.value,
+            FunctionName::Ident(v) => &v.value,
         }
     }
 }

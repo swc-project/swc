@@ -1,6 +1,4 @@
 //// [genericClassWithObjectTypeArgsAndConstraints.ts]
-// Generic call with constraints infering type parameter from object member properties
-// No errors expected
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var g, g2, c1, d1, g1, g21, c11, d11, Class, Interface, X = function X() {
     _class_call_check(this, X);

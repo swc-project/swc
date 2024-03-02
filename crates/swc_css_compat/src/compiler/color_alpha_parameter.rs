@@ -1,4 +1,3 @@
-use swc_atoms::js_word;
 use swc_css_ast::{AbsoluteColorBase, ComponentValue, FunctionName};
 
 use crate::compiler::Compiler;
@@ -16,11 +15,11 @@ impl Compiler {
                     }
                 };
 
-                if name.value == js_word!("rgb") {
-                    name.value = js_word!("rgba");
+                if name.value.eq_ignore_ascii_case("rgb") {
+                    name.value = "rgba".into();
                     name.raw = None;
-                } else if name.value == js_word!("hsl") {
-                    name.value = js_word!("hsla");
+                } else if name.value.eq_ignore_ascii_case("hsl") {
+                    name.value = "hsla".into();
                     name.raw = None;
                 }
             } else {
@@ -31,11 +30,11 @@ impl Compiler {
                     }
                 };
 
-                if name.value == js_word!("rgba") {
-                    name.value = js_word!("rgb");
+                if name.value.eq_ignore_ascii_case("rgba") {
+                    name.value = "rgb".into();
                     name.raw = None;
-                } else if name.value == js_word!("hsla") {
-                    name.value = js_word!("hsl");
+                } else if name.value.eq_ignore_ascii_case("hsla") {
+                    name.value = "hsl".into();
                     name.raw = None;
                 }
             }

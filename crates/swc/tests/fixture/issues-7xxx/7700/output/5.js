@@ -15,5 +15,5 @@ export function PositionRender({ isRtl, position }) {
             positions
         ]
     })[position];
-    return /*#__PURE__*/ React.createElement("h1", null, "PositionRender: ", display);
+    return React.createElement("h1", null, "PositionRender: ", display);
 }

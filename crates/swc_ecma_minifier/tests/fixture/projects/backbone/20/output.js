@@ -1,3 +1,4 @@
+var Model = window.Model || {};
 export const E = {
     set: function(models, options) {
         (options = _.defaults({}, options, setOptions)).parse && (models = this.parse(models, options));

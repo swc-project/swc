@@ -1,7 +1,6 @@
-use std::{cell::RefCell, cmp::PartialEq, rc::Rc, sync::Arc};
+use std::{cell::RefCell, rc::Rc, sync::Arc};
 
 use num_bigint::BigInt;
-use string_cache::Atom;
 
 use crate::{BytePos, Span, SyntaxContext};
 
@@ -135,20 +134,6 @@ eq!(usize, u8, u16, u32, u64, u128);
 eq!(isize, i8, i16, i32, i64, i128);
 eq!(f32, f64);
 eq!(char, str, String);
-
-impl<S: PartialEq> EqIgnoreSpan for Atom<S> {
-    #[inline]
-    fn eq_ignore_span(&self, other: &Self) -> bool {
-        self == other
-    }
-}
-
-impl<S: PartialEq> TypeEq for Atom<S> {
-    #[inline]
-    fn type_eq(&self, other: &Self) -> bool {
-        self == other
-    }
-}
 
 macro_rules! deref {
     ($T:ident) => {

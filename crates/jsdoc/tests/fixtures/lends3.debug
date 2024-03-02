@@ -19,7 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -42,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('class' type=static),
+                    value: "class",
                 },
                 tag: Class(
                     ClassTag {
@@ -82,7 +82,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -105,7 +105,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('lends' type=inline),
+                    value: "lends",
                 },
                 tag: Lends(
                     LendsTag {
@@ -139,7 +139,7 @@
                                         ),
                                         ctxt: #0,
                                     },
-                                    value: Atom('Person' type=inline),
+                                    value: "Person",
                                 },
                             ],
                         },
@@ -168,7 +168,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Set up initial values.' type=dynamic),
+            value: "Set up initial values.",
         },
         tags: [],
     },
@@ -192,7 +192,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('The name of the person.' type=dynamic),
+            value: "The name of the person.",
         },
         tags: [],
     },
@@ -216,7 +216,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Speak a message.' type=dynamic),
+            value: "Speak a message.",
         },
         tags: [],
     },

@@ -1,12 +1,11 @@
-use swc_atoms::js_word;
 use swc_css_ast::*;
 
 use super::Compressor;
 
 impl Compressor {
     pub(super) fn compress_time(&self, time: &mut Time) {
-        match time.unit.value {
-            js_word!("ms") if time.value.value == 0.0 || time.value.value >= 100.0 => {
+        match &*time.unit.value {
+            "ms" if time.value.value == 0.0 || time.value.value >= 100.0 => {
                 let new_value = time.value.value / 1000.0;
 
                 time.value = Number {
@@ -16,11 +15,11 @@ impl Compressor {
                 };
                 time.unit = Ident {
                     span: time.unit.span,
-                    value: js_word!("s"),
+                    value: "s".into(),
                     raw: None,
                 };
             }
-            js_word!("s") if time.value.value > 0.0 && time.value.value < 0.1 => {
+            "s" if time.value.value > 0.0 && time.value.value < 0.1 => {
                 let new_value = time.value.value * 1000.0;
 
                 time.value = Number {
@@ -30,7 +29,7 @@ impl Compressor {
                 };
                 time.unit = Ident {
                     span: time.unit.span,
-                    value: js_word!("ms"),
+                    value: "ms".into(),
                     raw: None,
                 };
             }

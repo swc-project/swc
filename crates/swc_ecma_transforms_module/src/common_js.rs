@@ -1,4 +1,3 @@
-use swc_atoms::js_word;
 use swc_common::{
     collections::AHashSet, comments::Comments, util::take::Take, FileName, Mark, Span, DUMMY_SP,
 };
@@ -201,7 +200,11 @@ where
         match n {
             Expr::Call(CallExpr {
                 span,
-                callee: Callee::Import(Import { span: import_span }),
+                callee:
+                    Callee::Import(Import {
+                        span: import_span,
+                        phase: ImportPhase::Evaluation,
+                    }),
                 args,
                 ..
             }) if !self.config.ignore_dynamic => {
@@ -232,19 +235,13 @@ where
                     is_lit_path,
                 );
             }
-            Expr::Member(MemberExpr {
-                span,
-                obj,
-                prop:
-                    MemberProp::Ident(Ident {
-                        sym: js_word!("url"),
-                        ..
-                    }),
-            }) if !self.config.preserve_import_meta
-                && obj
-                    .as_meta_prop()
-                    .map(|p| p.kind == MetaPropKind::ImportMeta)
-                    .unwrap_or_default() =>
+            Expr::Member(MemberExpr { span, obj, prop })
+                if prop.is_ident_with("url")
+                    && !self.config.preserve_import_meta
+                    && obj
+                        .as_meta_prop()
+                        .map(|p| p.kind == MetaPropKind::ImportMeta)
+                        .unwrap_or_default() =>
             {
                 obj.visit_mut_with(self);
 
@@ -433,7 +430,7 @@ where
                     let assign_expr = AssignExpr {
                         span,
                         op: op!("="),
-                        left: id.as_pat_or_expr(),
+                        left: self.exports().make_member(id).into(),
                         right: Box::new(require),
                     };
 
@@ -473,7 +470,7 @@ where
                     span: export_item.export_name_span(),
                     prop,
                 };
-                let expr = expr.make_assign_to(op!("="), export_binding.as_pat_or_expr());
+                let expr = expr.make_assign_to(op!("="), export_binding.into());
                 let expr = BinExpr {
                     span: DUMMY_SP,
                     op: op!("&&"),
@@ -646,7 +643,7 @@ pub fn lazy_require(expr: Expr, mod_ident: Ident, var_kind: VarDeclKind) -> FnDe
         .clone()
         .into_lazy_fn(Default::default())
         .into_fn_expr(None)
-        .make_assign_to(op!("="), mod_ident.clone().as_pat_or_expr())
+        .make_assign_to(op!("="), mod_ident.clone().into())
         .into_stmt();
     let return_stmt = data.into_return_stmt().into();
 

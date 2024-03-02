@@ -4953,8 +4953,8 @@
                         var pos = this.getNextFoldTo(row, column);
                         if (!pos || "inside" == pos.kind) return null;
                         var fold = pos.fold, folds = this.folds, foldData = this.foldData, i = folds.indexOf(fold), foldBefore = folds[i - 1];
-                        this.end.row = foldBefore.end.row, this.end.column = foldBefore.end.column, folds = folds.splice(i, folds.length - i);
-                        var newFoldLine = new FoldLine(foldData, folds);
+                        this.end.row = foldBefore.end.row, this.end.column = foldBefore.end.column;
+                        var newFoldLine = new FoldLine(foldData, folds = folds.splice(i, folds.length - i));
                         return foldData.splice(foldData.indexOf(this) + 1, 0, newFoldLine), newFoldLine;
                     }, this.merge = function(foldLineNext) {
                         for(var folds = foldLineNext.folds, i = 0; i < folds.length; i++)this.addFold(folds[i]);
@@ -5105,7 +5105,7 @@
                             fold.setFoldLine(foldLine);
                         });
                     }, this.clone = function() {
-                        var range = this.range.clone(), fold = new Fold(range, this.placeholder);
+                        var fold = new Fold(this.range.clone(), this.placeholder);
                         return this.subFolds.forEach(function(subFold) {
                             fold.subFolds.push(subFold.clone());
                         }), fold.collapseChildren = this.collapseChildren, fold;
@@ -11056,8 +11056,8 @@ margin: 0 10px;\
                                 var blobBuilder = new (window.BlobBuilder || window.WebKitBlobBuilder || window.MozBlobBuilder)();
                                 return blobBuilder.append(script), blobBuilder.getBlob("application/javascript");
                             }
-                        }(workerUrl), blobURL = (window.URL || window.webkitURL).createObjectURL(blob);
-                        return new Worker(blobURL);
+                        }(workerUrl);
+                        return new Worker((window.URL || window.webkitURL).createObjectURL(blob));
                     }
                     return new Worker(workerUrl);
                 }

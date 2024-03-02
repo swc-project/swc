@@ -643,6 +643,21 @@ impl Swcify for ImportDeclaration {
                     }
                     .into()
                 }),
+            phase: self
+                .phase
+                .map(|phase| Swcify::swcify(phase, ctx))
+                .unwrap_or_default(),
+        }
+    }
+}
+
+impl Swcify for swc_estree_ast::ImportPhase {
+    type Output = swc_ecma_ast::ImportPhase;
+
+    fn swcify(self, _: &Context) -> Self::Output {
+        match self {
+            Self::Source => Self::Output::Source,
+            Self::Defer => Self::Output::Defer,
         }
     }
 }

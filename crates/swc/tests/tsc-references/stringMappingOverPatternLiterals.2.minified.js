@@ -1,2 +1,1 @@
 //// [stringMappingOverPatternLiterals.ts]
-// non-template

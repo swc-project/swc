@@ -4,7 +4,7 @@ use active_formatting_element_stack::*;
 use doctypes::*;
 use node::*;
 use open_elements_stack::*;
-use swc_atoms::{js_word, Atom, JsWord};
+use swc_atoms::Atom;
 use swc_common::{Span, DUMMY_SP};
 use swc_html_ast::*;
 
@@ -28,6 +28,8 @@ pub type PResult<T> = Result<T, Error>;
 pub struct ParserConfig {
     pub scripting_enabled: bool,
     pub iframe_srcdoc: bool,
+    // #8459
+    pub allow_self_closing: bool,
 }
 
 enum Bookmark<RcNode> {
@@ -284,32 +286,26 @@ where
         );
 
         // 4.
-        match *get_tag_name!(context_node) {
-            js_word!("title") | js_word!("textarea")
-                if get_namespace!(context_node) == Namespace::HTML =>
-            {
+        match get_tag_name!(context_node) {
+            "title" | "textarea" if get_namespace!(context_node) == Namespace::HTML => {
                 self.input.set_input_state(State::Rcdata);
             }
-            js_word!("style")
-            | js_word!("xmp")
-            | js_word!("iframe")
-            | js_word!("noembed")
-            | js_word!("noframes")
+            "style" | "xmp" | "iframe" | "noembed" | "noframes"
                 if get_namespace!(context_node) == Namespace::HTML =>
             {
                 self.input.set_input_state(State::Rawtext);
             }
-            js_word!("script") if get_namespace!(context_node) == Namespace::HTML => {
+            "script" if get_namespace!(context_node) == Namespace::HTML => {
                 self.input.set_input_state(State::ScriptData);
             }
-            js_word!("noscript") if get_namespace!(context_node) == Namespace::HTML => {
+            "noscript" if get_namespace!(context_node) == Namespace::HTML => {
                 if self.config.scripting_enabled {
                     self.input.set_input_state(State::Rawtext);
                 } else {
                     self.input.set_input_state(State::Data)
                 }
             }
-            js_word!("plaintext") if get_namespace!(context_node) == Namespace::HTML => {
+            "plaintext" if get_namespace!(context_node) == Namespace::HTML => {
                 self.input.set_input_state(State::PlainText)
             }
             _ => self.input.set_input_state(State::Data),
@@ -325,7 +321,7 @@ where
         self.open_elements_stack.push(root.clone());
 
         // 8.
-        if is_html_element!(context_node, &js_word!("template")) {
+        if is_html_element!(context_node, "template") {
             self.template_insertion_mode_stack
                 .push(InsertionMode::InTemplate);
         }
@@ -338,7 +334,7 @@ where
         self.reset_insertion_mode();
 
         // 11.
-        if is_html_element!(context_node, &js_word!("form")) {
+        if is_html_element!(context_node, "form") {
             self.form_element_pointer = Some(context_node);
         } else if let Some(form_element) = form_element {
             self.form_element_pointer = Some(Node::new(
@@ -432,8 +428,8 @@ where
 
                 let attributes = attributes.take();
 
-                match tag_name {
-                    js_word!("html") | js_word!("body") if namespace == Namespace::HTML => {
+                match &*tag_name {
+                    "html" | "body" if namespace == Namespace::HTML => {
                         // Elements and text after `</html>` are moving into `<body>`
                         // Elements and text after `</body>` are moving into `<body>`
                         let span = if start_span.is_dummy() {
@@ -482,7 +478,7 @@ where
                             Span::new(start_span.lo(), end_span.hi(), Default::default())
                         };
                         let (children, content) =
-                            if namespace == Namespace::HTML && *tag_name == js_word!("template") {
+                            if namespace == Namespace::HTML && &tag_name == "template" {
                                 (
                                     vec![],
                                     Some(DocumentFragment {
@@ -628,11 +624,11 @@ where
         if self.open_elements_stack.items.is_empty()
             || is_element_in_html_namespace
             || (is_mathml_text_integration_point
-                && matches!(&token_and_info.token, Token::StartTag { tag_name, .. } if *tag_name != js_word!("mglyph") && *tag_name != js_word!("malignmark")))
+                && matches!(&token_and_info.token, Token::StartTag { tag_name, .. } if *tag_name != "mglyph" && *tag_name != "malignmark"))
             || (is_mathml_text_integration_point
                 && matches!(&token_and_info.token, Token::Character { .. }))
             || (is_mathml_annotation_xml
-                && matches!(&token_and_info.token, Token::StartTag { tag_name, .. } if *tag_name == js_word!("svg")))
+                && matches!(&token_and_info.token, Token::StartTag { tag_name, .. } if tag_name == "svg"))
             || (is_html_integration_point
                 && matches!(&token_and_info.token, Token::StartTag { .. }))
             || (is_html_integration_point
@@ -692,9 +688,10 @@ where
             // U+000C FORM FEED (FF), U+000D CARRIAGE RETURN (CR), or U+0020 SPACE
             //
             // Insert the token's character.
-            Token::Character { value, .. }
-                if matches!(value, '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20') =>
-            {
+            Token::Character {
+                value: '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20',
+                ..
+            } => {
                 self.insert_character(token_and_info)?;
             }
             // Any other character token
@@ -740,51 +737,50 @@ where
             // current insertion mode in HTML content.
             Token::StartTag { tag_name, .. }
                 if matches!(
-                    *tag_name,
-                    js_word!("b")
-                        | js_word!("big")
-                        | js_word!("blockquote")
-                        | js_word!("body")
-                        | js_word!("br")
-                        | js_word!("center")
-                        | js_word!("code")
-                        | js_word!("dd")
-                        | js_word!("div")
-                        | js_word!("dl")
-                        | js_word!("dt")
-                        | js_word!("em")
-                        | js_word!("embed")
-                        | js_word!("h1")
-                        | js_word!("h2")
-                        | js_word!("h3")
-                        | js_word!("h4")
-                        | js_word!("h5")
-                        | js_word!("h6")
-                        | js_word!("head")
-                        | js_word!("hr")
-                        | js_word!("i")
-                        | js_word!("img")
-                        | js_word!("li")
-                        | js_word!("listing")
-                        | js_word!("menu")
-                        | js_word!("meta")
-                        | js_word!("nobr")
-                        | js_word!("ol")
-                        | js_word!("p")
-                        | js_word!("pre")
-                        | js_word!("ruby")
-                        | js_word!("s")
-                        | js_word!("small")
-                        | js_word!("span")
-                        | js_word!("strong")
-                        | js_word!("strike")
-                        | js_word!("sub")
-                        | js_word!("sup")
-                        | js_word!("table")
-                        | js_word!("tt")
-                        | js_word!("u")
-                        | js_word!("ul")
-                        | js_word!("var")
+                    &**tag_name,
+                    "b" | "big"
+                        | "blockquote"
+                        | "body"
+                        | "br"
+                        | "center"
+                        | "code"
+                        | "dd"
+                        | "div"
+                        | "dl"
+                        | "dt"
+                        | "em"
+                        | "embed"
+                        | "h1"
+                        | "h2"
+                        | "h3"
+                        | "h4"
+                        | "h5"
+                        | "h6"
+                        | "head"
+                        | "hr"
+                        | "i"
+                        | "img"
+                        | "li"
+                        | "listing"
+                        | "menu"
+                        | "meta"
+                        | "nobr"
+                        | "ol"
+                        | "p"
+                        | "pre"
+                        | "ruby"
+                        | "s"
+                        | "small"
+                        | "span"
+                        | "strong"
+                        | "strike"
+                        | "sub"
+                        | "sup"
+                        | "table"
+                        | "tt"
+                        | "u"
+                        | "ul"
+                        | "var"
                 ) =>
             {
                 self.errors.push(Error::new(
@@ -798,13 +794,10 @@ where
                 tag_name,
                 attributes,
                 ..
-            } if *tag_name == js_word!("font")
-                && attributes.iter().any(|attribute| {
-                    matches!(
-                        attribute.name,
-                        js_word!("color") | js_word!("face") | js_word!("size")
-                    )
-                }) =>
+            } if tag_name == "font"
+                && attributes
+                    .iter()
+                    .any(|attribute| matches!(&*attribute.name, "color" | "face" | "size")) =>
             {
                 self.errors.push(Error::new(
                     token_and_info.span,
@@ -813,14 +806,12 @@ where
                 self.open_elements_stack.pop_until_in_foreign();
                 self.process_token(token_and_info, None)?;
             }
-            Token::EndTag { tag_name, .. }
-                if matches!(*tag_name, js_word!("br") | js_word!("p")) =>
-            {
+            Token::EndTag { tag_name, .. } if matches!(&**tag_name, "br" | "p") => {
                 let last = get_tag_name!(self.open_elements_stack.items.last().unwrap());
 
                 self.errors.push(Error::new(
                     token_and_info.span,
-                    ErrorKind::EndTagDidNotMatchCurrentOpenElement(tag_name.clone(), last.clone()),
+                    ErrorKind::EndTagDidNotMatchCurrentOpenElement(tag_name.clone(), last.into()),
                 ));
                 self.open_elements_stack.pop_until_in_foreign();
                 self.process_token(token_and_info, None)?;
@@ -904,7 +895,7 @@ where
                 attributes,
             } => {
                 let is_self_closing = *is_self_closing;
-                let is_script = *tag_name == js_word!("script");
+                let is_script = tag_name == "script";
                 let adjusted_current_node = self.get_adjusted_current_node();
                 let namespace = match adjusted_current_node {
                     Some(node) => {
@@ -921,50 +912,50 @@ where
                 };
 
                 if namespace == Namespace::SVG {
-                    let new_tag_name = match *tag_name {
-                        js_word!("altglyph") => Some(js_word!("altGlyph")),
-                        js_word!("altglyphdef") => Some(js_word!("altGlyphDef")),
-                        js_word!("altglyphitem") => Some(js_word!("altGlyphItem")),
-                        js_word!("animatecolor") => Some(js_word!("animateColor")),
-                        js_word!("animatemotion") => Some(js_word!("animateMotion")),
-                        js_word!("animatetransform") => Some(js_word!("animateTransform")),
-                        js_word!("clippath") => Some(js_word!("clipPath")),
-                        js_word!("feblend") => Some(js_word!("feBlend")),
-                        js_word!("fecolormatrix") => Some(js_word!("feColorMatrix")),
-                        js_word!("fecomponenttransfer") => Some(js_word!("feComponentTransfer")),
-                        js_word!("fecomposite") => Some(js_word!("feComposite")),
-                        js_word!("feconvolvematrix") => Some(js_word!("feConvolveMatrix")),
-                        js_word!("fediffuselighting") => Some(js_word!("feDiffuseLighting")),
-                        js_word!("fedisplacementmap") => Some(js_word!("feDisplacementMap")),
-                        js_word!("fedistantlight") => Some(js_word!("feDistantLight")),
-                        js_word!("fedropshadow") => Some(js_word!("feDropShadow")),
-                        js_word!("feflood") => Some(js_word!("feFlood")),
-                        js_word!("fefunca") => Some(js_word!("feFuncA")),
-                        js_word!("fefuncb") => Some(js_word!("feFuncB")),
-                        js_word!("fefuncg") => Some(js_word!("feFuncG")),
-                        js_word!("fefuncr") => Some(js_word!("feFuncR")),
-                        js_word!("fegaussianblur") => Some(js_word!("feGaussianBlur")),
-                        js_word!("feimage") => Some(js_word!("feImage")),
-                        js_word!("femerge") => Some(js_word!("feMerge")),
-                        js_word!("femergenode") => Some(js_word!("feMergeNode")),
-                        js_word!("femorphology") => Some(js_word!("feMorphology")),
-                        js_word!("feoffset") => Some(js_word!("feOffset")),
-                        js_word!("fepointlight") => Some(js_word!("fePointLight")),
-                        js_word!("fespecularlighting") => Some(js_word!("feSpecularLighting")),
-                        js_word!("fespotlight") => Some(js_word!("feSpotLight")),
-                        js_word!("fetile") => Some(js_word!("feTile")),
-                        js_word!("feturbulence") => Some(js_word!("feTurbulence")),
-                        js_word!("foreignobject") => Some(js_word!("foreignObject")),
-                        js_word!("glyphref") => Some(js_word!("glyphRef")),
-                        js_word!("lineargradient") => Some(js_word!("linearGradient")),
-                        js_word!("radialgradient") => Some(js_word!("radialGradient")),
-                        js_word!("textpath") => Some(js_word!("textPath")),
+                    let new_tag_name = match &**tag_name {
+                        "altglyph" => Some("altGlyph"),
+                        "altglyphdef" => Some("altGlyphDef"),
+                        "altglyphitem" => Some("altGlyphItem"),
+                        "animatecolor" => Some("animateColor"),
+                        "animatemotion" => Some("animateMotion"),
+                        "animatetransform" => Some("animateTransform"),
+                        "clippath" => Some("clipPath"),
+                        "feblend" => Some("feBlend"),
+                        "fecolormatrix" => Some("feColorMatrix"),
+                        "fecomponenttransfer" => Some("feComponentTransfer"),
+                        "fecomposite" => Some("feComposite"),
+                        "feconvolvematrix" => Some("feConvolveMatrix"),
+                        "fediffuselighting" => Some("feDiffuseLighting"),
+                        "fedisplacementmap" => Some("feDisplacementMap"),
+                        "fedistantlight" => Some("feDistantLight"),
+                        "fedropshadow" => Some("feDropShadow"),
+                        "feflood" => Some("feFlood"),
+                        "fefunca" => Some("feFuncA"),
+                        "fefuncb" => Some("feFuncB"),
+                        "fefuncg" => Some("feFuncG"),
+                        "fefuncr" => Some("feFuncR"),
+                        "fegaussianblur" => Some("feGaussianBlur"),
+                        "feimage" => Some("feImage"),
+                        "femerge" => Some("feMerge"),
+                        "femergenode" => Some("feMergeNode"),
+                        "femorphology" => Some("feMorphology"),
+                        "feoffset" => Some("feOffset"),
+                        "fepointlight" => Some("fePointLight"),
+                        "fespecularlighting" => Some("feSpecularLighting"),
+                        "fespotlight" => Some("feSpotLight"),
+                        "fetile" => Some("feTile"),
+                        "feturbulence" => Some("feTurbulence"),
+                        "foreignobject" => Some("foreignObject"),
+                        "glyphref" => Some("glyphRef"),
+                        "lineargradient" => Some("linearGradient"),
+                        "radialgradient" => Some("radialGradient"),
+                        "textpath" => Some("textPath"),
                         _ => None,
                     };
 
                     if let Some(new_tag_name) = new_tag_name {
                         token_and_info.token = Token::StartTag {
-                            tag_name: new_tag_name,
+                            tag_name: new_tag_name.into(),
                             raw_tag_name: raw_tag_name.clone(),
                             is_self_closing,
                             attributes: attributes.clone(),
@@ -1013,7 +1004,7 @@ where
             // Let the insertion point have the value of the old insertion point. (In other words,
             // restore the insertion point to its previous value. This value might be the
             // "undefined" value.)
-            Token::EndTag { tag_name, .. } if *tag_name == js_word!("script") => {
+            Token::EndTag { tag_name, .. } if tag_name == "script" => {
                 let popped = self.open_elements_stack.pop();
 
                 self.update_end_tag_span(popped.as_ref(), token_and_info.span);
@@ -1049,7 +1040,7 @@ where
                 if let Some(node) = &node {
                     let node_tag_name = get_tag_name!(node);
 
-                    if node_tag_name.to_ascii_lowercase() != *tag_name {
+                    if node_tag_name.to_ascii_lowercase() != **tag_name {
                         if stack_idx == 0 {
                             self.errors.push(Error::new(
                                 token_and_info.span,
@@ -1060,7 +1051,7 @@ where
                                 token_and_info.span,
                                 ErrorKind::EndTagDidNotMatchCurrentOpenElement(
                                     tag_name.clone(),
-                                    node_tag_name.clone(),
+                                    node_tag_name.into(),
                                 ),
                             ));
                         }
@@ -1078,7 +1069,7 @@ where
                         Data::Element {
                             tag_name: node_tag_name,
                             ..
-                        } if node_tag_name.to_ascii_lowercase() == *tag_name => {
+                        } if node_tag_name.to_ascii_lowercase() == **tag_name => {
                             let clone = inner_node.clone();
                             let popped = self.open_elements_stack.pop_until_node(&clone);
 
@@ -1121,6 +1112,27 @@ where
             _ => self.insertion_mode.clone(),
         };
 
+        /// Convenience: allow non-void HTML elements to self-close when
+        /// a relevant config flag is set. It is achieved by processing the
+        /// matching end tag right after the starting self-closing tag.
+        macro_rules! maybe_allow_self_closing {
+            ($is_self_closing: ident, $tag_name: ident) => {
+                if self.config.allow_self_closing && *$is_self_closing {
+                    let mut end_token_and_info = TokenAndInfo {
+                        span: token_and_info.span,
+                        acknowledged: false,
+                        token: Token::EndTag {
+                            tag_name: $tag_name.to_owned(),
+                            raw_tag_name: None,
+                            is_self_closing: false,
+                            attributes: vec![],
+                        },
+                    };
+                    self.process_token(&mut end_token_and_info, None)?;
+                }
+            };
+        }
+
         match insertion_mode {
             // The "initial" insertion mode
             InsertionMode::Initial => {
@@ -1135,9 +1147,10 @@ where
                     // SPACE
                     //
                     // Ignore the token.
-                    Token::Character { value, .. }
-                        if matches!(value, '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20') =>
-                    {
+                    Token::Character {
+                        value: '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20',
+                        ..
+                    } => {
                         return Ok(());
                     }
                     // A comment token
@@ -1338,7 +1351,8 @@ where
                         raw,
                         ..
                     } => {
-                        let is_html_name = matches!(name, Some(name) if name.eq_ignore_ascii_case(&js_word!("html")));
+                        let is_html_name =
+                            matches!(name, Some(name) if name.eq_ignore_ascii_case("html"));
                         let is_conforming_doctype = is_html_name
                             && public_id.is_none()
                             && (system_id.is_none()
@@ -1478,9 +1492,10 @@ where
                     // SPACE
                     //
                     // Ignore the token.
-                    Token::Character { value, .. }
-                        if matches!(value, '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20') =>
-                    {
+                    Token::Character {
+                        value: '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20',
+                        ..
+                    } => {
                         return Ok(());
                     }
                     // A start tag whose tag name is "html"
@@ -1495,7 +1510,7 @@ where
                         attributes,
                         is_self_closing,
                         ..
-                    } if *tag_name == js_word!("html") => {
+                    } if tag_name == "html" => {
                         let element = Node::new(
                             Data::Element {
                                 namespace: Namespace::HTML,
@@ -1532,10 +1547,7 @@ where
                     //
                     // Act as described in the "anything else" entry below.
                     Token::EndTag { tag_name, .. }
-                        if matches!(
-                            *tag_name,
-                            js_word!("head") | js_word!("body") | js_word!("html") | js_word!("br")
-                        ) =>
+                        if matches!(&**tag_name, "head" | "body" | "html" | "br") =>
                     {
                         anything_else(self, token_and_info)?;
                     }
@@ -1566,18 +1578,18 @@ where
             }
             // The "before head" insertion mode
             InsertionMode::BeforeHead => {
-                let anything_else =
-                    |parser: &mut Parser<I>, token_and_info: &mut TokenAndInfo| -> PResult<()> {
-                        let element = parser.insert_html_element(
-                            &mut parser.create_fake_token_and_info(js_word!("head"), None),
-                        )?;
+                let anything_else = |parser: &mut Parser<I>,
+                                     token_and_info: &mut TokenAndInfo|
+                 -> PResult<()> {
+                    let element = parser
+                        .insert_html_element(&parser.create_fake_token_and_info("head", None))?;
 
-                        parser.head_element_pointer = Some(element);
-                        parser.insertion_mode = InsertionMode::InHead;
-                        parser.process_token(token_and_info, None)?;
+                    parser.head_element_pointer = Some(element);
+                    parser.insertion_mode = InsertionMode::InHead;
+                    parser.process_token(token_and_info, None)?;
 
-                        Ok(())
-                    };
+                    Ok(())
+                };
 
                 // When the user agent is to apply the rules for the "before head" insertion
                 // mode, the user agent must handle the token as follows:
@@ -1587,9 +1599,10 @@ where
                     // SPACE
                     //
                     // Ignore the token.
-                    Token::Character { value, .. }
-                        if matches!(value, '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20') =>
-                    {
+                    Token::Character {
+                        value: '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20',
+                        ..
+                    } => {
                         return Ok(());
                     }
                     // A comment token
@@ -1608,7 +1621,7 @@ where
                     // A start tag whose tag name is "html"
                     //
                     // Process the token using the rules for the "in body" insertion mode.
-                    Token::StartTag { tag_name, .. } if *tag_name == js_word!("html") => {
+                    Token::StartTag { tag_name, .. } if tag_name == "html" => {
                         self.process_token_using_rules(token_and_info, InsertionMode::InBody)?;
                     }
                     // A start tag whose tag name is "head"
@@ -1618,7 +1631,7 @@ where
                     // Set the head element pointer to the newly created head element.
                     //
                     // Switch the insertion mode to "in head".
-                    Token::StartTag { tag_name, .. } if *tag_name == js_word!("head") => {
+                    Token::StartTag { tag_name, .. } if tag_name == "head" => {
                         let element = self.insert_html_element(token_and_info)?;
 
                         self.head_element_pointer = Some(element);
@@ -1628,10 +1641,7 @@ where
                     //
                     // Act as described in the "anything else" entry below.
                     Token::EndTag { tag_name, .. }
-                        if matches!(
-                            *tag_name,
-                            js_word!("head") | js_word!("body") | js_word!("html") | js_word!("br")
-                        ) =>
+                        if matches!(&**tag_name, "head" | "body" | "html" | "br") =>
                     {
                         anything_else(self, token_and_info)?;
                     }
@@ -1677,9 +1687,10 @@ where
                     // SPACE
                     //
                     // Insert the character.
-                    Token::Character { value, .. }
-                        if matches!(value, '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20') =>
-                    {
+                    Token::Character {
+                        value: '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20',
+                        ..
+                    } => {
                         self.insert_character(token_and_info)?;
                     }
                     // A comment token
@@ -1698,7 +1709,7 @@ where
                     // A start tag whose tag name is "html"
                     //
                     // Process the token using the rules for the "in body" insertion mode.
-                    Token::StartTag { tag_name, .. } if *tag_name == js_word!("html") => {
+                    Token::StartTag { tag_name, .. } if tag_name == "html" => {
                         self.process_token_using_rules(token_and_info, InsertionMode::InBody)?;
                     }
                     // A start tag whose tag name is one of: "base", "basefont", "bgsound", "link"
@@ -1711,14 +1722,7 @@ where
                         tag_name,
                         is_self_closing,
                         ..
-                    } if matches!(
-                        *tag_name,
-                        js_word!("base")
-                            | js_word!("basefont")
-                            | js_word!("bgsound")
-                            | js_word!("link")
-                    ) =>
-                    {
+                    } if matches!(&**tag_name, "base" | "basefont" | "bgsound" | "link") => {
                         let is_self_closing = *is_self_closing;
 
                         self.insert_html_element(token_and_info)?;
@@ -1751,7 +1755,7 @@ where
                         tag_name,
                         is_self_closing,
                         ..
-                    } if *tag_name == js_word!("meta") => {
+                    } if tag_name == "meta" => {
                         let is_self_closing = *is_self_closing;
 
                         self.insert_html_element(token_and_info)?;
@@ -1764,7 +1768,7 @@ where
                     // A start tag whose tag name is "title"
                     //
                     // Follow the generic RCDATA element parsing algorithm.
-                    Token::StartTag { tag_name, .. } if *tag_name == js_word!("title") => {
+                    Token::StartTag { tag_name, .. } if tag_name == "title" => {
                         self.parse_generic_text_element(token_and_info, false)?;
                     }
                     // A start tag whose tag name is "noscript", if the scripting flag is enabled
@@ -1772,12 +1776,12 @@ where
                     //
                     // Follow the generic raw text element parsing algorithm.
                     Token::StartTag { tag_name, .. }
-                        if *tag_name == js_word!("noscript") && self.config.scripting_enabled =>
+                        if tag_name == "noscript" && self.config.scripting_enabled =>
                     {
                         self.parse_generic_text_element(token_and_info, true)?;
                     }
                     Token::StartTag { tag_name, .. }
-                        if matches!(*tag_name, js_word!("noframes") | js_word!("style")) =>
+                        if matches!(&**tag_name, "noframes" | "style") =>
                     {
                         self.parse_generic_text_element(token_and_info, true)?;
                     }
@@ -1787,7 +1791,7 @@ where
                     //
                     // Switch the insertion mode to "in head noscript".
                     Token::StartTag { tag_name, .. }
-                        if *tag_name == js_word!("noscript") && !self.config.scripting_enabled =>
+                        if tag_name == "noscript" && !self.config.scripting_enabled =>
                     {
                         self.insert_html_element(token_and_info)?;
                         self.insertion_mode = InsertionMode::InHeadNoScript;
@@ -1830,7 +1834,11 @@ where
                     // 9. Let the original insertion mode be the current insertion mode.
                     //
                     // 10. Switch the insertion mode to "text".
-                    Token::StartTag { tag_name, .. } if *tag_name == js_word!("script") => {
+                    Token::StartTag {
+                        tag_name,
+                        is_self_closing,
+                        ..
+                    } if tag_name == "script" => {
                         let adjusted_insertion_location =
                             self.get_appropriate_place_for_inserting_node(None)?;
                         let node = self.create_element_for_token(
@@ -1847,6 +1855,7 @@ where
                         self.input.set_input_state(State::ScriptData);
                         self.original_insertion_mode = self.insertion_mode.clone();
                         self.insertion_mode = InsertionMode::Text;
+                        maybe_allow_self_closing!(is_self_closing, tag_name);
                     }
                     // An end tag whose tag name is "head"
                     //
@@ -1854,7 +1863,7 @@ where
                     // elements.
                     //
                     // Switch the insertion mode to "after head".
-                    Token::EndTag { tag_name, .. } if *tag_name == js_word!("head") => {
+                    Token::EndTag { tag_name, .. } if tag_name == "head" => {
                         let popped = self.open_elements_stack.pop();
 
                         self.update_end_tag_span(popped.as_ref(), token_and_info.span);
@@ -1864,10 +1873,7 @@ where
                     //
                     // Act as described in the "anything else" entry below.
                     Token::EndTag { tag_name, .. }
-                        if matches!(
-                            *tag_name,
-                            js_word!("body") | js_word!("html") | js_word!("br")
-                        ) =>
+                        if matches!(&**tag_name, "body" | "html" | "br") =>
                     {
                         anything_else(self, token_and_info)?;
                     }
@@ -1883,13 +1889,18 @@ where
                     //
                     // Push "in template" onto the stack of template insertion modes so that it is
                     // the new current template insertion mode.
-                    Token::StartTag { tag_name, .. } if *tag_name == js_word!("template") => {
+                    Token::StartTag {
+                        tag_name,
+                        is_self_closing,
+                        ..
+                    } if tag_name == "template" => {
                         self.insert_html_element(token_and_info)?;
                         self.active_formatting_elements.insert_marker();
                         self.frameset_ok = false;
                         self.insertion_mode = InsertionMode::InTemplate;
                         self.template_insertion_mode_stack
                             .push(InsertionMode::InTemplate);
+                        maybe_allow_self_closing!(is_self_closing, tag_name);
                     }
                     // An end tag whose tag name is "template"
                     //
@@ -1910,7 +1921,7 @@ where
                     // modes.
                     //
                     // Reset the insertion mode appropriately.
-                    Token::EndTag { tag_name, .. } if *tag_name == js_word!("template") => {
+                    Token::EndTag { tag_name, .. } if tag_name == "template" => {
                         if !self.open_elements_stack.contains_template_element() {
                             self.errors.push(Error::new(
                                 token_and_info.span,
@@ -1921,7 +1932,7 @@ where
                                 .generate_implied_end_tags_thoroughly();
 
                             match self.open_elements_stack.items.last() {
-                                Some(node) if !is_html_element!(node, &js_word!("template")) => {
+                                Some(node) if !is_html_element!(node, "template") => {
                                     self.errors.push(Error::new(
                                         token_and_info.span,
                                         ErrorKind::UnclosedElements(tag_name.clone()),
@@ -1932,7 +1943,7 @@ where
 
                             let popped = self
                                 .open_elements_stack
-                                .pop_until_tag_name_popped(&[&js_word!("template")]);
+                                .pop_until_tag_name_popped(&["template"]);
 
                             self.update_end_tag_span(popped.as_ref(), token_and_info.span);
                             self.active_formatting_elements.clear_to_last_marker();
@@ -1945,7 +1956,7 @@ where
                     // Any other end tag
                     //
                     // Parse error. Ignore the token.
-                    Token::StartTag { tag_name, .. } if *tag_name == js_word!("head") => {
+                    Token::StartTag { tag_name, .. } if tag_name == "head" => {
                         self.errors.push(Error::new(
                             token_and_info.span,
                             ErrorKind::SomethingSeenWhenSomethingOpen(tag_name.clone()),
@@ -2024,7 +2035,7 @@ where
                     // A start tag whose tag name is "html"
                     //
                     // Process the token using the rules for the "in body" insertion mode.
-                    Token::StartTag { tag_name, .. } if *tag_name == js_word!("html") => {
+                    Token::StartTag { tag_name, .. } if tag_name == "html" => {
                         self.process_token_using_rules(token_and_info, InsertionMode::InBody)?;
                     }
                     // An end tag whose tag name is "noscript"
@@ -2033,7 +2044,7 @@ where
                     // open elements; the new current node will be a head element.
                     //
                     // Switch the insertion mode to "in head".
-                    Token::EndTag { tag_name, .. } if *tag_name == js_word!("noscript") => {
+                    Token::EndTag { tag_name, .. } if tag_name == "noscript" => {
                         let popped = self.open_elements_stack.pop();
 
                         self.update_end_tag_span(popped.as_ref(), token_and_info.span);
@@ -2049,9 +2060,10 @@ where
                     // "noframes", "style"
                     //
                     // Process the token using the rules for the "in head" insertion mode.
-                    Token::Character { value, .. }
-                        if matches!(value, '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20') =>
-                    {
+                    Token::Character {
+                        value: '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20',
+                        ..
+                    } => {
                         self.process_token_using_rules(token_and_info, InsertionMode::InHead)?;
                     }
                     Token::Comment { .. } => {
@@ -2059,13 +2071,8 @@ where
                     }
                     Token::StartTag { tag_name, .. }
                         if matches!(
-                            *tag_name,
-                            js_word!("basefont")
-                                | js_word!("bgsound")
-                                | js_word!("link")
-                                | js_word!("meta")
-                                | js_word!("noframes")
-                                | js_word!("style")
+                            &**tag_name,
+                            "basefont" | "bgsound" | "link" | "meta" | "noframes" | "style"
                         ) =>
                     {
                         self.process_token_using_rules(token_and_info, InsertionMode::InHead)?;
@@ -2073,7 +2080,7 @@ where
                     // An end tag whose tag name is "br"
                     //
                     // Act as described in the "anything else" entry below.
-                    Token::EndTag { tag_name, .. } if *tag_name == js_word!("br") => {
+                    Token::EndTag { tag_name, .. } if tag_name == "br" => {
                         anything_else(self, token_and_info)?;
                     }
                     // A start tag whose tag name is one of: "head", "noscript"
@@ -2082,7 +2089,7 @@ where
                     //
                     // Parse error. Ignore the token.
                     Token::StartTag { tag_name, .. }
-                        if matches!(*tag_name, js_word!("head") | js_word!("noscript")) =>
+                        if matches!(&**tag_name, "head" | "noscript") =>
                     {
                         self.errors.push(Error::new(
                             token_and_info.span,
@@ -2115,15 +2122,15 @@ where
                 let anything_else = |parser: &mut Parser<I>,
                                      token_and_info: &mut TokenAndInfo|
                  -> PResult<()> {
-                    let span = if matches!(&token_and_info.token, Token::EndTag { tag_name, .. } if *tag_name == js_word!("body"))
+                    let span = if matches!(&token_and_info.token, Token::EndTag { tag_name, .. } if tag_name == "body")
                     {
                         Some(token_and_info.span)
                     } else {
                         None
                     };
-                    let mut body_token = parser.create_fake_token_and_info(js_word!("body"), span);
+                    let body_token = parser.create_fake_token_and_info("body", span);
 
-                    parser.insert_html_element(&mut body_token)?;
+                    parser.insert_html_element(&body_token)?;
                     parser.insertion_mode = InsertionMode::InBody;
                     parser.process_token(token_and_info, None)?;
 
@@ -2137,9 +2144,10 @@ where
                     // SPACE
                     //
                     // Insert the character.
-                    Token::Character { value, .. }
-                        if matches!(value, '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20') =>
-                    {
+                    Token::Character {
+                        value: '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20',
+                        ..
+                    } => {
                         self.insert_character(token_and_info)?;
                     }
                     // A comment token
@@ -2158,7 +2166,7 @@ where
                     // A start tag whose tag name is "html"
                     //
                     // Process the token using the rules for the "in body" insertion mode.
-                    Token::StartTag { tag_name, .. } if *tag_name == js_word!("html") => {
+                    Token::StartTag { tag_name, .. } if tag_name == "html" => {
                         self.process_token_using_rules(token_and_info, InsertionMode::InBody)?;
                     }
                     // A start tag whose tag name is "body"
@@ -2168,19 +2176,29 @@ where
                     // Set the frameset-ok flag to "not ok".
                     //
                     // Switch the insertion mode to "in body".
-                    Token::StartTag { tag_name, .. } if *tag_name == js_word!("body") => {
+                    Token::StartTag {
+                        tag_name,
+                        is_self_closing,
+                        ..
+                    } if tag_name == "body" => {
                         self.insert_html_element(token_and_info)?;
                         self.frameset_ok = false;
                         self.insertion_mode = InsertionMode::InBody;
+                        maybe_allow_self_closing!(is_self_closing, tag_name);
                     }
                     // A start tag whose tag name is "frameset"
                     //
                     // Insert an HTML element for the token.
                     //
                     // Switch the insertion mode to "in frameset".
-                    Token::StartTag { tag_name, .. } if *tag_name == js_word!("frameset") => {
+                    Token::StartTag {
+                        tag_name,
+                        is_self_closing,
+                        ..
+                    } if tag_name == "frameset" => {
                         self.insert_html_element(token_and_info)?;
                         self.insertion_mode = InsertionMode::InFrameset;
+                        maybe_allow_self_closing!(is_self_closing, tag_name);
                     }
                     // A start tag whose tag name is one of: "base", "basefont", "bgsound", "link",
                     // "meta", "noframes", "script", "style", "template", "title"
@@ -2196,17 +2214,17 @@ where
                     // elements. (It might not be the current node at this point.)
                     Token::StartTag { tag_name, .. }
                         if matches!(
-                            *tag_name,
-                            js_word!("base")
-                                | js_word!("basefont")
-                                | js_word!("bgsound")
-                                | js_word!("link")
-                                | js_word!("meta")
-                                | js_word!("noframes")
-                                | js_word!("script")
-                                | js_word!("style")
-                                | js_word!("template")
-                                | js_word!("title")
+                            &**tag_name,
+                            "base"
+                                | "basefont"
+                                | "bgsound"
+                                | "link"
+                                | "meta"
+                                | "noframes"
+                                | "script"
+                                | "style"
+                                | "template"
+                                | "title"
                         ) =>
                     {
                         self.errors.push(Error::new(
@@ -2227,17 +2245,14 @@ where
                     // An end tag whose tag name is "template"
                     //
                     // Process the token using the rules for the "in head" insertion mode.
-                    Token::EndTag { tag_name, .. } if *tag_name == js_word!("template") => {
+                    Token::EndTag { tag_name, .. } if tag_name == "template" => {
                         self.process_token_using_rules(token_and_info, InsertionMode::InHead)?;
                     }
                     // An end tag whose tag name is one of: "body", "html", "br"
                     //
                     // Act as described in the "anything else" entry below.
                     Token::EndTag { tag_name, .. }
-                        if matches!(
-                            *tag_name,
-                            js_word!("body") | js_word!("html") | js_word!("br")
-                        ) =>
+                        if matches!(&**tag_name, "body" | "html" | "br") =>
                     {
                         anything_else(self, token_and_info)?;
                     }
@@ -2246,7 +2261,7 @@ where
                     // Any other end tag
                     //
                     // Parse error. Ignore the token.
-                    Token::StartTag { tag_name, .. } if *tag_name == js_word!("head") => {
+                    Token::StartTag { tag_name, .. } if tag_name == "head" => {
                         self.errors.push(Error::new(
                             token_and_info.span,
                             ErrorKind::StrayStartTag(tag_name.clone()),
@@ -2288,9 +2303,10 @@ where
                     // Reconstruct the active formatting elements, if any.
                     //
                     // Insert the token's character.
-                    Token::Character { value, .. }
-                        if matches!(value, '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20') =>
-                    {
+                    Token::Character {
+                        value: '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20',
+                        ..
+                    } => {
                         self.reconstruct_active_formatting_elements()?;
                         self.insert_character(token_and_info)?;
                     }
@@ -2333,7 +2349,7 @@ where
                         tag_name,
                         attributes,
                         ..
-                    } if *tag_name == js_word!("html") => {
+                    } if tag_name == "html" => {
                         self.errors.push(Error::new(
                             token_and_info.span,
                             ErrorKind::StrayStartTag(tag_name.clone()),
@@ -2344,7 +2360,7 @@ where
                             return Ok(());
                         }
 
-                        if let Some(top) = self.open_elements_stack.items.get(0) {
+                        if let Some(top) = self.open_elements_stack.items.first() {
                             let mut node_attributes = match &top.data {
                                 Data::Element { attributes, .. } => attributes.borrow_mut(),
                                 _ => {
@@ -2385,22 +2401,22 @@ where
                     // Process the token using the rules for the "in head" insertion mode.
                     Token::StartTag { tag_name, .. }
                         if matches!(
-                            *tag_name,
-                            js_word!("base")
-                                | js_word!("basefont")
-                                | js_word!("bgsound")
-                                | js_word!("link")
-                                | js_word!("meta")
-                                | js_word!("noframes")
-                                | js_word!("script")
-                                | js_word!("style")
-                                | js_word!("template")
-                                | js_word!("title")
+                            &**tag_name,
+                            "base"
+                                | "basefont"
+                                | "bgsound"
+                                | "link"
+                                | "meta"
+                                | "noframes"
+                                | "script"
+                                | "style"
+                                | "template"
+                                | "title"
                         ) =>
                     {
                         self.process_token_using_rules(token_and_info, InsertionMode::InHead)?;
                     }
-                    Token::EndTag { tag_name, .. } if *tag_name == js_word!("template") => {
+                    Token::EndTag { tag_name, .. } if tag_name == "template" => {
                         self.process_token_using_rules(token_and_info, InsertionMode::InHead)?;
                     }
                     // A start tag whose tag name is "body"
@@ -2419,13 +2435,13 @@ where
                         tag_name,
                         attributes,
                         ..
-                    } if *tag_name == js_word!("body") => {
+                    } if tag_name == "body" => {
                         self.errors.push(Error::new(
                             token_and_info.span,
                             ErrorKind::SomethingSeenWhenSomethingOpen(tag_name.clone()),
                         ));
 
-                        let is_second_body = matches!(self.open_elements_stack.items.get(1), Some(node) if is_html_element!(node, &js_word!("body")));
+                        let is_second_body = matches!(self.open_elements_stack.items.get(1), Some(node) if is_html_element!(node, "body"));
 
                         if !is_second_body
                             || self.open_elements_stack.items.len() == 1
@@ -2492,7 +2508,7 @@ where
                     // Insert an HTML element for the token.
                     //
                     // Switch the insertion mode to "in frameset".
-                    Token::StartTag { tag_name, .. } if *tag_name == js_word!("frameset") => {
+                    Token::StartTag { tag_name, .. } if tag_name == "frameset" => {
                         self.errors.push(Error::new(
                             token_and_info.span,
                             ErrorKind::StrayStartTag(tag_name.clone()),
@@ -2501,7 +2517,7 @@ where
                         let len = self.open_elements_stack.items.len();
                         let body = self.open_elements_stack.items.get(1);
                         let is_second_body =
-                            matches!(body, Some(node) if is_html_element!(node, &js_word!("body")));
+                            matches!(body, Some(node) if is_html_element!(node, "body"));
 
                         if len == 1 || !is_second_body {
                             // Fragment case
@@ -2559,24 +2575,23 @@ where
                         for node in &self.open_elements_stack.items {
                             if !is_html_element!(
                                 node,
-                                &js_word!("dd")
-                                    | &js_word!("dt")
-                                    | &js_word!("li")
-                                    | &js_word!("optgroup")
-                                    | &js_word!("option")
-                                    | &js_word!("p")
-                                    | &js_word!("rb")
-                                    | &js_word!("rp")
-                                    | &js_word!("rt")
-                                    | &js_word!("rtc")
-                                    | &js_word!("tbody")
-                                    | &js_word!("td")
-                                    | &js_word!("tfoot")
-                                    | &js_word!("th")
-                                    | &js_word!("thead")
-                                    | &js_word!("tr")
-                                    | &js_word!("body")
-                                    | &js_word!("html")
+                                "dd" | "dt"
+                                    | "li"
+                                    | "optgroup"
+                                    | "option"
+                                    | "p"
+                                    | "rb"
+                                    | "rp"
+                                    | "rt"
+                                    | "rtc"
+                                    | "tbody"
+                                    | "td"
+                                    | "tfoot"
+                                    | "th"
+                                    | "thead"
+                                    | "tr"
+                                    | "body"
+                                    | "html"
                             ) {
                                 self.errors.push(Error::new(
                                     token_and_info.span,
@@ -2602,8 +2617,8 @@ where
                     // is a parse error.
                     //
                     // Switch the insertion mode to "after body".
-                    Token::EndTag { tag_name, .. } if *tag_name == js_word!("body") => {
-                        if !self.open_elements_stack.has_in_scope(&js_word!("body")) {
+                    Token::EndTag { tag_name, .. } if tag_name == "body" => {
+                        if !self.open_elements_stack.has_in_scope("body") {
                             self.errors.push(Error::new(
                                 token_and_info.span,
                                 ErrorKind::StrayEndTag(tag_name.clone()),
@@ -2620,28 +2635,27 @@ where
                         for node in &self.open_elements_stack.items {
                             if !is_html_element!(
                                 node,
-                                &js_word!("dd")
-                                    | &js_word!("dt")
-                                    | &js_word!("li")
-                                    | &js_word!("optgroup")
-                                    | &js_word!("option")
-                                    | &js_word!("p")
-                                    | &js_word!("rb")
-                                    | &js_word!("rp")
-                                    | &js_word!("rt")
-                                    | &js_word!("rtc")
-                                    | &js_word!("tbody")
-                                    | &js_word!("td")
-                                    | &js_word!("tfoot")
-                                    | &js_word!("th")
-                                    | &js_word!("thead")
-                                    | &js_word!("tr")
-                                    | &js_word!("body")
-                                    | &js_word!("html")
+                                "dd" | "dt"
+                                    | "li"
+                                    | "optgroup"
+                                    | "option"
+                                    | "p"
+                                    | "rb"
+                                    | "rp"
+                                    | "rt"
+                                    | "rtc"
+                                    | "tbody"
+                                    | "td"
+                                    | "tfoot"
+                                    | "th"
+                                    | "thead"
+                                    | "tr"
+                                    | "body"
+                                    | "html"
                             ) {
                                 self.errors.push(Error::new(
                                     token_and_info.span,
-                                    ErrorKind::EndTagWithUnclosedElements(js_word!("body")),
+                                    ErrorKind::EndTagWithUnclosedElements("body".into()),
                                 ));
 
                                 break;
@@ -2665,8 +2679,8 @@ where
                     // Switch the insertion mode to "after body".
                     //
                     // Reprocess the token.
-                    Token::EndTag { tag_name, .. } if *tag_name == js_word!("html") => {
-                        if !self.open_elements_stack.has_in_scope(&js_word!("body")) {
+                    Token::EndTag { tag_name, .. } if tag_name == "html" => {
+                        if !self.open_elements_stack.has_in_scope("body") {
                             self.errors.push(Error::new(
                                 token_and_info.span,
                                 ErrorKind::StrayEndTag(tag_name.clone()),
@@ -2675,7 +2689,7 @@ where
                             return Ok(());
                         } else {
                             self.update_end_tag_span(
-                                self.open_elements_stack.items.get(0),
+                                self.open_elements_stack.items.first(),
                                 token_and_info.span,
                             );
                         }
@@ -2683,28 +2697,27 @@ where
                         for node in &self.open_elements_stack.items {
                             if !is_html_element!(
                                 node,
-                                &js_word!("dd")
-                                    | &js_word!("dt")
-                                    | &js_word!("li")
-                                    | &js_word!("optgroup")
-                                    | &js_word!("option")
-                                    | &js_word!("p")
-                                    | &js_word!("rb")
-                                    | &js_word!("rp")
-                                    | &js_word!("rt")
-                                    | &js_word!("rtc")
-                                    | &js_word!("tbody")
-                                    | &js_word!("td")
-                                    | &js_word!("tfoot")
-                                    | &js_word!("th")
-                                    | &js_word!("thead")
-                                    | &js_word!("tr")
-                                    | &js_word!("body")
-                                    | &js_word!("html")
+                                "dd" | "dt"
+                                    | "li"
+                                    | "optgroup"
+                                    | "option"
+                                    | "p"
+                                    | "rb"
+                                    | "rp"
+                                    | "rt"
+                                    | "rtc"
+                                    | "tbody"
+                                    | "td"
+                                    | "tfoot"
+                                    | "th"
+                                    | "thead"
+                                    | "tr"
+                                    | "body"
+                                    | "html"
                             ) {
                                 self.errors.push(Error::new(
                                     token_and_info.span,
-                                    ErrorKind::EndTagWithUnclosedElements(js_word!("html")),
+                                    ErrorKind::EndTagWithUnclosedElements("html".into()),
                                 ));
 
                                 break;
@@ -2723,40 +2736,44 @@ where
                     // element.
                     //
                     // Insert an HTML element for the token.
-                    Token::StartTag { tag_name, .. }
-                        if matches!(
-                            *tag_name,
-                            js_word!("address")
-                                | js_word!("article")
-                                | js_word!("aside")
-                                | js_word!("blockquote")
-                                | js_word!("center")
-                                | js_word!("details")
-                                | js_word!("dialog")
-                                | js_word!("dir")
-                                | js_word!("div")
-                                | js_word!("dl")
-                                | js_word!("fieldset")
-                                | js_word!("figcaption")
-                                | js_word!("figure")
-                                | js_word!("footer")
-                                | js_word!("header")
-                                | js_word!("hgroup")
-                                | js_word!("main")
-                                | js_word!("menu")
-                                | js_word!("nav")
-                                | js_word!("ol")
-                                | js_word!("p")
-                                | js_word!("section")
-                                | js_word!("summary")
-                                | js_word!("ul")
-                        ) =>
+                    Token::StartTag {
+                        tag_name,
+                        is_self_closing,
+                        ..
+                    } if matches!(
+                        &**tag_name,
+                        "address"
+                            | "article"
+                            | "aside"
+                            | "blockquote"
+                            | "center"
+                            | "details"
+                            | "dialog"
+                            | "dir"
+                            | "div"
+                            | "dl"
+                            | "fieldset"
+                            | "figcaption"
+                            | "figure"
+                            | "footer"
+                            | "header"
+                            | "hgroup"
+                            | "main"
+                            | "menu"
+                            | "nav"
+                            | "ol"
+                            | "p"
+                            | "section"
+                            | "summary"
+                            | "ul"
+                    ) =>
                     {
-                        if self.open_elements_stack.has_in_button_scope(&js_word!("p")) {
+                        if self.open_elements_stack.has_in_button_scope("p") {
                             self.close_p_element(token_and_info, false);
                         }
 
                         self.insert_html_element(token_and_info)?;
+                        maybe_allow_self_closing!(is_self_closing, tag_name);
                     }
                     // A start tag whose tag name is one of: "h1", "h2", "h3", "h4", "h5", "h6"
                     //
@@ -2768,18 +2785,12 @@ where
                     // off the stack of open elements.
                     //
                     // Insert an HTML element for the token.
-                    Token::StartTag { tag_name, .. }
-                        if matches!(
-                            *tag_name,
-                            js_word!("h1")
-                                | js_word!("h2")
-                                | js_word!("h3")
-                                | js_word!("h4")
-                                | js_word!("h5")
-                                | js_word!("h6")
-                        ) =>
-                    {
-                        if self.open_elements_stack.has_in_button_scope(&js_word!("p")) {
+                    Token::StartTag {
+                        tag_name,
+                        is_self_closing,
+                        ..
+                    } if matches!(&**tag_name, "h1" | "h2" | "h3" | "h4" | "h5" | "h6") => {
+                        if self.open_elements_stack.has_in_button_scope("p") {
                             self.close_p_element(token_and_info, false);
                         }
 
@@ -2787,12 +2798,7 @@ where
                             Some(node)
                                 if is_html_element!(
                                     node,
-                                    &js_word!("h1")
-                                        | &js_word!("h2")
-                                        | &js_word!("h3")
-                                        | &js_word!("h4")
-                                        | &js_word!("h5")
-                                        | &js_word!("h6")
+                                    "h1" | "h2" | "h3" | "h4" | "h5" | "h6"
                                 ) =>
                             {
                                 self.errors.push(Error::new(
@@ -2806,6 +2812,7 @@ where
                         }
 
                         self.insert_html_element(token_and_info)?;
+                        maybe_allow_self_closing!(is_self_closing, tag_name);
                     }
                     // A start tag whose tag name is one of: "pre", "listing"
                     //
@@ -2820,9 +2827,9 @@ where
                     //
                     // Set the frameset-ok flag to "not ok".
                     Token::StartTag { tag_name, .. }
-                        if matches!(*tag_name, js_word!("pre") | js_word!("listing")) =>
+                        if matches!(&**tag_name, "pre" | "listing") =>
                     {
-                        if self.open_elements_stack.has_in_button_scope(&js_word!("p")) {
+                        if self.open_elements_stack.has_in_button_scope("p") {
                             self.close_p_element(token_and_info, false);
                         }
 
@@ -2850,7 +2857,11 @@ where
                     // Insert an HTML element for the token, and, if there is no template element on
                     // the stack of open elements, set the form element pointer to point to the
                     // element created.
-                    Token::StartTag { tag_name, .. } if *tag_name == js_word!("form") => {
+                    Token::StartTag {
+                        tag_name,
+                        is_self_closing,
+                        ..
+                    } if tag_name == "form" => {
                         if self.form_element_pointer.is_some()
                             && !self.open_elements_stack.contains_template_element()
                         {
@@ -2860,7 +2871,7 @@ where
                             return Ok(());
                         }
 
-                        if self.open_elements_stack.has_in_button_scope(&js_word!("p")) {
+                        if self.open_elements_stack.has_in_button_scope("p") {
                             self.close_p_element(token_and_info, false);
                         }
 
@@ -2869,6 +2880,8 @@ where
                         if !self.open_elements_stack.contains_template_element() {
                             self.form_element_pointer = Some(element);
                         }
+
+                        maybe_allow_self_closing!(is_self_closing, tag_name);
                     }
                     // A start tag whose tag name is "li"
                     //
@@ -2899,25 +2912,29 @@ where
                     // close a p element.
                     //
                     // Finally, insert an HTML element for the token.
-                    Token::StartTag { tag_name, .. } if *tag_name == js_word!("li") => {
+                    Token::StartTag {
+                        tag_name,
+                        is_self_closing,
+                        ..
+                    } if tag_name == "li" => {
                         self.frameset_ok = false;
 
                         // Initialise node to be the current node (the bottommost node of
                         // the stack).
                         // Step "Loop".
                         for node in self.open_elements_stack.items.iter().rev() {
-                            if is_html_element!(node, &js_word!("li")) {
+                            if is_html_element!(node, "li") {
                                 // Generate implied end tags, except for li elements.
                                 self.open_elements_stack
-                                    .generate_implied_end_tags_with_exclusion(&js_word!("li"));
+                                    .generate_implied_end_tags_with_exclusion("li");
 
                                 // If the current node is not an li element, then this is a
                                 // parse error.
                                 match self.open_elements_stack.items.last() {
-                                    Some(node) if !is_html_element!(node, &js_word!("li")) => {
+                                    Some(node) if !is_html_element!(node, "li") => {
                                         self.errors.push(Error::new(
                                             token_and_info.span,
-                                            ErrorKind::UnclosedElementsImplied(js_word!("li")),
+                                            ErrorKind::UnclosedElementsImplied("li".into()),
                                         ));
                                     }
                                     _ => {}
@@ -2925,8 +2942,7 @@ where
 
                                 // Pop elements from the stack of open elements until an li
                                 // element has been popped from the stack.
-                                self.open_elements_stack
-                                    .pop_until_tag_name_popped(&[&js_word!("li")]);
+                                self.open_elements_stack.pop_until_tag_name_popped(&["li"]);
 
                                 // Jump to the step labeled done below.
                                 break;
@@ -2937,10 +2953,7 @@ where
                             // Otherwise, set node to the previous entry in the stack
                             // of open elements and return to the step labeled loop.
                             if self.is_special_element(node)
-                                && !is_html_element!(
-                                    node,
-                                    &js_word!("address") | &js_word!("div") | &js_word!("p")
-                                )
+                                && !is_html_element!(node, "address" | "div" | "p")
                             {
                                 break;
                             }
@@ -2949,11 +2962,12 @@ where
                         // Step "Done".
                         // If the stack of open elements has a p element in button scope,
                         // then close a p element.
-                        if self.open_elements_stack.has_in_button_scope(&js_word!("p")) {
+                        if self.open_elements_stack.has_in_button_scope("p") {
                             self.close_p_element(token_and_info, false);
                         }
 
                         self.insert_html_element(token_and_info)?;
+                        maybe_allow_self_closing!(is_self_closing, tag_name);
                     }
                     // A start tag whose tag name is one of: "dd", "dt"
                     //
@@ -2995,27 +3009,29 @@ where
                     // close a p element.
                     //
                     // Finally, insert an HTML element for the token.
-                    Token::StartTag { tag_name, .. }
-                        if matches!(*tag_name, js_word!("dd") | js_word!("dt")) =>
-                    {
+                    Token::StartTag {
+                        tag_name,
+                        is_self_closing,
+                        ..
+                    } if matches!(&**tag_name, "dd" | "dt") => {
                         self.frameset_ok = false;
 
                         // Initialise node to be the current node (the bottommost node of
                         // the stack).
                         // Step "Loop".
                         for node in self.open_elements_stack.items.iter().rev() {
-                            if is_html_element!(node, &js_word!("dd")) {
+                            if is_html_element!(node, "dd") {
                                 // Generate implied end tags, except for dd elements.
                                 self.open_elements_stack
-                                    .generate_implied_end_tags_with_exclusion(&js_word!("dd"));
+                                    .generate_implied_end_tags_with_exclusion("dd");
 
                                 // If the current node is not an dd element, then this is a
                                 // parse error.
                                 match self.open_elements_stack.items.last() {
-                                    Some(node) if !is_html_element!(node, &js_word!("dd")) => {
+                                    Some(node) if !is_html_element!(node, "dd") => {
                                         self.errors.push(Error::new(
                                             token_and_info.span,
-                                            ErrorKind::UnclosedElementsImplied(js_word!("dd")),
+                                            ErrorKind::UnclosedElementsImplied("dd".into()),
                                         ));
                                     }
                                     _ => {}
@@ -3023,23 +3039,22 @@ where
 
                                 // Pop elements from the stack of open elements until an dd
                                 // element has been popped from the stack.
-                                self.open_elements_stack
-                                    .pop_until_tag_name_popped(&[&js_word!("dd")]);
+                                self.open_elements_stack.pop_until_tag_name_popped(&["dd"]);
 
                                 // Jump to the step labeled done below.
                                 break;
-                            } else if is_html_element!(node, &js_word!("dt")) {
+                            } else if is_html_element!(node, "dt") {
                                 // Generate implied end tags, except for li elements.
                                 self.open_elements_stack
-                                    .generate_implied_end_tags_with_exclusion(&js_word!("dt"));
+                                    .generate_implied_end_tags_with_exclusion("dt");
 
                                 // If the current node is not an dt element, then this is a
                                 // parse error.
                                 match self.open_elements_stack.items.last() {
-                                    Some(node) if !is_html_element!(node, &js_word!("dt")) => {
+                                    Some(node) if !is_html_element!(node, "dt") => {
                                         self.errors.push(Error::new(
                                             token_and_info.span,
-                                            ErrorKind::UnclosedElementsImplied(js_word!("dt")),
+                                            ErrorKind::UnclosedElementsImplied("dt".into()),
                                         ));
                                     }
                                     _ => {}
@@ -3047,8 +3062,7 @@ where
 
                                 // Pop elements from the stack of open elements until an dt
                                 // element has been popped from the stack.
-                                self.open_elements_stack
-                                    .pop_until_tag_name_popped(&[&js_word!("dt")]);
+                                self.open_elements_stack.pop_until_tag_name_popped(&["dt"]);
 
                                 // Jump to the step labeled done below.
                                 break;
@@ -3059,10 +3073,7 @@ where
                             // Otherwise, set node to the previous entry in the stack of
                             // open elements and return to the step labeled loop.
                             if self.is_special_element(node)
-                                && !is_html_element!(
-                                    node,
-                                    &js_word!("address") | &js_word!("div") | &js_word!("p")
-                                )
+                                && !is_html_element!(node, "address" | "div" | "p")
                             {
                                 break;
                             }
@@ -3071,11 +3082,12 @@ where
                         // Step "Done".
                         // If the stack of open elements has a p element in button scope,
                         // then close a p element.
-                        if self.open_elements_stack.has_in_button_scope(&js_word!("p")) {
+                        if self.open_elements_stack.has_in_button_scope("p") {
                             self.close_p_element(token_and_info, false);
                         }
 
                         self.insert_html_element(token_and_info)?;
+                        maybe_allow_self_closing!(is_self_closing, tag_name);
                     }
                     // A start tag whose tag name is "plaintext"
                     //
@@ -3085,8 +3097,8 @@ where
                     // Insert an HTML element for the token.
                     //
                     // Switch the tokenizer to the PLAINTEXT state.
-                    Token::StartTag { tag_name, .. } if *tag_name == js_word!("plaintext") => {
-                        if self.open_elements_stack.has_in_button_scope(&js_word!("p")) {
+                    Token::StartTag { tag_name, .. } if tag_name == "plaintext" => {
+                        if self.open_elements_stack.has_in_button_scope("p") {
                             self.close_p_element(token_and_info, false);
                         }
 
@@ -3110,15 +3122,15 @@ where
                     // 3. Insert an HTML element for the token.
                     //
                     // 4. Set the frameset-ok flag to "not ok".
-                    Token::StartTag { tag_name, .. } if *tag_name == js_word!("button") => {
-                        if self.open_elements_stack.has_in_scope(&js_word!("button")) {
+                    Token::StartTag { tag_name, .. } if tag_name == "button" => {
+                        if self.open_elements_stack.has_in_scope("button") {
                             self.errors.push(Error::new(
                                 token_and_info.span,
                                 ErrorKind::SomethingSeenWhenSomethingOpen(tag_name.clone()),
                             ));
                             self.open_elements_stack.generate_implied_end_tags();
                             self.open_elements_stack
-                                .pop_until_tag_name_popped(&[&js_word!("button")]);
+                                .pop_until_tag_name_popped(&["button"]);
                         }
 
                         self.reconstruct_active_formatting_elements()?;
@@ -3145,33 +3157,33 @@ where
                     // same tag name as the token has been popped from the stack.
                     Token::EndTag { tag_name, .. }
                         if matches!(
-                            *tag_name,
-                            js_word!("address")
-                                | js_word!("article")
-                                | js_word!("aside")
-                                | js_word!("blockquote")
-                                | js_word!("button")
-                                | js_word!("center")
-                                | js_word!("details")
-                                | js_word!("dialog")
-                                | js_word!("dir")
-                                | js_word!("div")
-                                | js_word!("dl")
-                                | js_word!("fieldset")
-                                | js_word!("figcaption")
-                                | js_word!("figure")
-                                | js_word!("footer")
-                                | js_word!("header")
-                                | js_word!("hgroup")
-                                | js_word!("listing")
-                                | js_word!("main")
-                                | js_word!("menu")
-                                | js_word!("nav")
-                                | js_word!("ol")
-                                | js_word!("pre")
-                                | js_word!("section")
-                                | js_word!("summary")
-                                | js_word!("ul")
+                            &**tag_name,
+                            "address"
+                                | "article"
+                                | "aside"
+                                | "blockquote"
+                                | "button"
+                                | "center"
+                                | "details"
+                                | "dialog"
+                                | "dir"
+                                | "div"
+                                | "dl"
+                                | "fieldset"
+                                | "figcaption"
+                                | "figure"
+                                | "footer"
+                                | "header"
+                                | "hgroup"
+                                | "listing"
+                                | "main"
+                                | "menu"
+                                | "nav"
+                                | "ol"
+                                | "pre"
+                                | "section"
+                                | "summary"
+                                | "ul"
                         ) =>
                     {
                         if !self.open_elements_stack.has_in_scope(tag_name) {
@@ -3231,7 +3243,7 @@ where
                     //
                     // 4. Pop elements from the stack of open elements until a form element has been
                     // popped from the stack.
-                    Token::EndTag { tag_name, .. } if *tag_name == js_word!("form") => {
+                    Token::EndTag { tag_name, .. } if tag_name == "form" => {
                         if !self.open_elements_stack.contains_template_element() {
                             let node = match self.form_element_pointer.take() {
                                 None => {
@@ -3277,7 +3289,7 @@ where
 
                             self.open_elements_stack.remove(&node);
                         } else {
-                            if !self.open_elements_stack.has_in_scope(&js_word!("form")) {
+                            if !self.open_elements_stack.has_in_scope("form") {
                                 self.errors.push(Error::new(
                                     token_and_info.span,
                                     ErrorKind::StrayEndTag(tag_name.clone()),
@@ -3289,7 +3301,7 @@ where
                             self.open_elements_stack.generate_implied_end_tags();
 
                             match self.open_elements_stack.items.last() {
-                                Some(node) if !is_html_element!(node, &js_word!("form")) => {
+                                Some(node) if !is_html_element!(node, "form") => {
                                     self.errors.push(Error::new(
                                         token_and_info.span,
                                         ErrorKind::UnclosedElements(tag_name.clone()),
@@ -3300,7 +3312,7 @@ where
 
                             let popped = self
                                 .open_elements_stack
-                                .pop_until_tag_name_popped(&[&js_word!("form")]);
+                                .pop_until_tag_name_popped(&["form"]);
 
                             self.update_end_tag_span(popped.as_ref(), token_and_info.span);
                         }
@@ -3312,17 +3324,16 @@ where
                     // no attributes.
                     //
                     // Close a p element.
-                    Token::EndTag { tag_name, .. } if *tag_name == js_word!("p") => {
-                        if !self.open_elements_stack.has_in_button_scope(&js_word!("p")) {
+                    Token::EndTag { tag_name, .. } if tag_name == "p" => {
+                        if !self.open_elements_stack.has_in_button_scope("p") {
                             self.errors.push(Error::new(
                                 token_and_info.span,
                                 ErrorKind::NoElementToCloseButEndTagSeen(tag_name.clone()),
                             ));
 
-                            self.insert_html_element(&mut self.create_fake_token_and_info(
-                                js_word!("p"),
-                                Some(token_and_info.span),
-                            ))?;
+                            self.insert_html_element(
+                                &self.create_fake_token_and_info("p", Some(token_and_info.span)),
+                            )?;
                         }
 
                         self.close_p_element(token_and_info, true);
@@ -3340,21 +3351,18 @@ where
                     //
                     // Pop elements from the stack of open elements until an li element has been
                     // popped from the stack.
-                    Token::EndTag { tag_name, .. } if *tag_name == js_word!("li") => {
-                        if !self
-                            .open_elements_stack
-                            .has_in_list_item_scope(&js_word!("li"))
-                        {
+                    Token::EndTag { tag_name, .. } if tag_name == "li" => {
+                        if !self.open_elements_stack.has_in_list_item_scope("li") {
                             self.errors.push(Error::new(
                                 token_and_info.span,
                                 ErrorKind::NoElementToCloseButEndTagSeen(tag_name.clone()),
                             ));
                         } else {
                             self.open_elements_stack
-                                .generate_implied_end_tags_with_exclusion(&js_word!("li"));
+                                .generate_implied_end_tags_with_exclusion("li");
 
                             match self.open_elements_stack.items.last() {
-                                Some(node) if !is_html_element!(node, &js_word!("li")) => {
+                                Some(node) if !is_html_element!(node, "li") => {
                                     self.errors.push(Error::new(
                                         token_and_info.span,
                                         ErrorKind::UnclosedElements(tag_name.clone()),
@@ -3363,9 +3371,8 @@ where
                                 _ => {}
                             }
 
-                            let popped = self
-                                .open_elements_stack
-                                .pop_until_tag_name_popped(&[&js_word!("li")]);
+                            let popped =
+                                self.open_elements_stack.pop_until_tag_name_popped(&["li"]);
 
                             self.update_end_tag_span(popped.as_ref(), token_and_info.span);
                         }
@@ -3386,9 +3393,7 @@ where
                     //
                     // Pop elements from the stack of open elements until an HTML element with the
                     // same tag name as the token has been popped from the stack.
-                    Token::EndTag { tag_name, .. }
-                        if matches!(*tag_name, js_word!("dd") | js_word!("dt")) =>
-                    {
+                    Token::EndTag { tag_name, .. } if matches!(&**tag_name, "dd" | "dt") => {
                         if !self.open_elements_stack.has_in_scope(tag_name) {
                             self.errors.push(Error::new(
                                 token_and_info.span,
@@ -3432,22 +3437,14 @@ where
                     // name is one of "h1", "h2", "h3", "h4", "h5", or "h6" has been popped from the
                     // stack.
                     Token::EndTag { tag_name, .. }
-                        if matches!(
-                            *tag_name,
-                            js_word!("h1")
-                                | js_word!("h2")
-                                | js_word!("h3")
-                                | js_word!("h4")
-                                | js_word!("h5")
-                                | js_word!("h6")
-                        ) =>
+                        if matches!(&**tag_name, "h1" | "h2" | "h3" | "h4" | "h5" | "h6") =>
                     {
-                        if !self.open_elements_stack.has_in_scope(&js_word!("h1"))
-                            && !self.open_elements_stack.has_in_scope(&js_word!("h2"))
-                            && !self.open_elements_stack.has_in_scope(&js_word!("h3"))
-                            && !self.open_elements_stack.has_in_scope(&js_word!("h4"))
-                            && !self.open_elements_stack.has_in_scope(&js_word!("h5"))
-                            && !self.open_elements_stack.has_in_scope(&js_word!("h6"))
+                        if !self.open_elements_stack.has_in_scope("h1")
+                            && !self.open_elements_stack.has_in_scope("h2")
+                            && !self.open_elements_stack.has_in_scope("h3")
+                            && !self.open_elements_stack.has_in_scope("h4")
+                            && !self.open_elements_stack.has_in_scope("h5")
+                            && !self.open_elements_stack.has_in_scope("h6")
                         {
                             self.errors.push(Error::new(
                                 token_and_info.span,
@@ -3467,14 +3464,8 @@ where
                                 }
                             }
 
-                            self.open_elements_stack.pop_until_tag_name_popped(&[
-                                &js_word!("h1"),
-                                &js_word!("h2"),
-                                &js_word!("h3"),
-                                &js_word!("h4"),
-                                &js_word!("h5"),
-                                &js_word!("h6"),
-                            ]);
+                            self.open_elements_stack
+                                .pop_until_tag_name_popped(&["h1", "h2", "h3", "h4", "h5", "h6"]);
                         }
                     }
                     // An end tag whose tag name is "sarcasm"
@@ -3500,7 +3491,11 @@ where
                     //
                     // Insert an HTML element for the token. Push onto the list of active formatting
                     // elements that element.
-                    Token::StartTag { tag_name, .. } if *tag_name == js_word!("a") => {
+                    Token::StartTag {
+                        tag_name,
+                        is_self_closing,
+                        ..
+                    } if tag_name == "a" => {
                         if !self.active_formatting_elements.items.is_empty() {
                             let mut node = None;
 
@@ -3510,7 +3505,7 @@ where
                                         break;
                                     }
                                     ActiveFormattingElement::Element(item, _) => {
-                                        if is_html_element!(item, &js_word!("a")) {
+                                        if is_html_element!(item, "a") {
                                             node = Some(item);
 
                                             break;
@@ -3542,6 +3537,8 @@ where
                                 element,
                                 token_and_info.clone(),
                             ));
+
+                        maybe_allow_self_closing!(is_self_closing, tag_name);
                     }
                     // A start tag whose tag name is one of: "b", "big", "code", "em", "font", "i",
                     // "s", "small", "strike", "strong", "tt", "u"
@@ -3550,22 +3547,24 @@ where
                     //
                     // Insert an HTML element for the token. Push onto the list of active formatting
                     // elements that element.
-                    Token::StartTag { tag_name, .. }
-                        if matches!(
-                            *tag_name,
-                            js_word!("b")
-                                | js_word!("big")
-                                | js_word!("code")
-                                | js_word!("em")
-                                | js_word!("font")
-                                | js_word!("i")
-                                | js_word!("s")
-                                | js_word!("small")
-                                | js_word!("strike")
-                                | js_word!("strong")
-                                | js_word!("tt")
-                                | js_word!("u")
-                        ) =>
+                    Token::StartTag {
+                        tag_name,
+                        is_self_closing,
+                        ..
+                    } if matches!(
+                        &**tag_name,
+                        "b" | "big"
+                            | "code"
+                            | "em"
+                            | "font"
+                            | "i"
+                            | "s"
+                            | "small"
+                            | "strike"
+                            | "strong"
+                            | "tt"
+                            | "u"
+                    ) =>
                     {
                         self.reconstruct_active_formatting_elements()?;
 
@@ -3576,6 +3575,8 @@ where
                                 element,
                                 token_and_info.clone(),
                             ));
+
+                        maybe_allow_self_closing!(is_self_closing, tag_name);
                     }
                     // A start tag whose tag name is "nobr"
                     //
@@ -3587,10 +3588,14 @@ where
                     //
                     // Insert an HTML element for the token. Push onto the list of active formatting
                     // elements that element.
-                    Token::StartTag { tag_name, .. } if *tag_name == js_word!("nobr") => {
+                    Token::StartTag {
+                        tag_name,
+                        is_self_closing,
+                        ..
+                    } if tag_name == "nobr" => {
                         self.reconstruct_active_formatting_elements()?;
 
-                        if self.open_elements_stack.has_in_scope(&js_word!("nobr")) {
+                        if self.open_elements_stack.has_in_scope("nobr") {
                             self.errors.push(Error::new(
                                 token_and_info.span,
                                 ErrorKind::SomethingSeenWhenSomethingOpen(tag_name.clone()),
@@ -3607,6 +3612,7 @@ where
                                 element,
                                 token_and_info.clone(),
                             ));
+                        maybe_allow_self_closing!(is_self_closing, tag_name);
                     }
                     // An end tag whose tag name is one of: "a", "b", "big", "code", "em", "font",
                     // "i", "nobr", "s", "small", "strike", "strong", "tt", "u"
@@ -3614,21 +3620,20 @@ where
                     // Run the adoption agency algorithm for the token.
                     Token::EndTag { tag_name, .. }
                         if matches!(
-                            *tag_name,
-                            js_word!("a")
-                                | js_word!("b")
-                                | js_word!("big")
-                                | js_word!("code")
-                                | js_word!("em")
-                                | js_word!("font")
-                                | js_word!("i")
-                                | js_word!("nobr")
-                                | js_word!("s")
-                                | js_word!("small")
-                                | js_word!("strike")
-                                | js_word!("strong")
-                                | js_word!("tt")
-                                | js_word!("u")
+                            &**tag_name,
+                            "a" | "b"
+                                | "big"
+                                | "code"
+                                | "em"
+                                | "font"
+                                | "i"
+                                | "nobr"
+                                | "s"
+                                | "small"
+                                | "strike"
+                                | "strong"
+                                | "tt"
+                                | "u"
                         ) =>
                     {
                         self.run_the_adoption_agency_algorithm(token_and_info, true)?;
@@ -3643,10 +3648,7 @@ where
                     //
                     // Set the frameset-ok flag to "not ok".
                     Token::StartTag { tag_name, .. }
-                        if matches!(
-                            *tag_name,
-                            js_word!("applet") | js_word!("marquee") | js_word!("object")
-                        ) =>
+                        if matches!(&**tag_name, "applet" | "marquee" | "object") =>
                     {
                         self.reconstruct_active_formatting_elements()?;
                         self.insert_html_element(token_and_info)?;
@@ -3671,10 +3673,7 @@ where
                     //
                     // Clear the list of active formatting elements up to the last marker.
                     Token::EndTag { tag_name, .. }
-                        if matches!(
-                            *tag_name,
-                            js_word!("applet") | js_word!("marquee") | js_word!("object")
-                        ) =>
+                        if matches!(&**tag_name, "applet" | "marquee" | "object") =>
                     {
                         if !self.open_elements_stack.has_in_scope(tag_name) {
                             self.errors.push(Error::new(
@@ -3712,10 +3711,14 @@ where
                     // Set the frameset-ok flag to "not ok".
                     //
                     // Switch the insertion mode to "in table".
-                    Token::StartTag { tag_name, .. } if *tag_name == js_word!("table") => {
+                    Token::StartTag {
+                        tag_name,
+                        is_self_closing,
+                        ..
+                    } if tag_name == "table" => {
                         if get_document_mode!(self.document.as_ref().unwrap())
                             != DocumentMode::Quirks
-                            && self.open_elements_stack.has_in_button_scope(&js_word!("p"))
+                            && self.open_elements_stack.has_in_button_scope("p")
                         {
                             self.close_p_element(token_and_info, false);
                         }
@@ -3723,6 +3726,7 @@ where
                         self.insert_html_element(token_and_info)?;
                         self.frameset_ok = false;
                         self.insertion_mode = InsertionMode::InTable;
+                        maybe_allow_self_closing!(is_self_closing, tag_name);
                     }
                     // An end tag whose tag name is "br"
                     //
@@ -3733,17 +3737,16 @@ where
                         tag_name,
                         is_self_closing,
                         ..
-                    } if *tag_name == js_word!("br") => {
+                    } if tag_name == "br" => {
                         let is_self_closing = *is_self_closing;
 
                         self.errors
                             .push(Error::new(token_and_info.span, ErrorKind::EndTagBr));
 
                         self.reconstruct_active_formatting_elements()?;
-                        self.insert_html_element(&mut self.create_fake_token_and_info(
-                            js_word!("br"),
-                            Some(token_and_info.span),
-                        ))?;
+                        self.insert_html_element(
+                            &self.create_fake_token_and_info("br", Some(token_and_info.span)),
+                        )?;
                         self.open_elements_stack.pop();
 
                         if is_self_closing {
@@ -3768,13 +3771,8 @@ where
                         is_self_closing,
                         ..
                     } if matches!(
-                        *tag_name,
-                        js_word!("area")
-                            | js_word!("br")
-                            | js_word!("embed")
-                            | js_word!("img")
-                            | js_word!("keygen")
-                            | js_word!("wbr")
+                        &**tag_name,
+                        "area" | "br" | "embed" | "img" | "keygen" | "wbr"
                     ) =>
                     {
                         let is_self_closing = *is_self_closing;
@@ -3806,11 +3804,10 @@ where
                         is_self_closing,
                         attributes,
                         ..
-                    } if *tag_name == js_word!("input") => {
+                    } if tag_name == "input" => {
                         let is_self_closing = *is_self_closing;
-                        let input_type = attributes
-                            .iter()
-                            .find(|attribute| attribute.name == js_word!("type"));
+                        let input_type =
+                            attributes.iter().find(|attribute| attribute.name == "type");
                         let is_hidden = match &input_type {
                             Some(input_type) => match &input_type.value {
                                 Some(value) if value.as_ref().eq_ignore_ascii_case("hidden") => {
@@ -3845,11 +3842,7 @@ where
                         tag_name,
                         is_self_closing,
                         ..
-                    } if matches!(
-                        *tag_name,
-                        js_word!("param") | js_word!("source") | js_word!("track")
-                    ) =>
-                    {
+                    } if matches!(&**tag_name, "param" | "source" | "track") => {
                         let is_self_closing = *is_self_closing;
 
                         self.insert_html_element(token_and_info)?;
@@ -3874,10 +3867,10 @@ where
                         tag_name,
                         is_self_closing,
                         ..
-                    } if *tag_name == js_word!("hr") => {
+                    } if tag_name == "hr" => {
                         let is_self_closing = *is_self_closing;
 
-                        if self.open_elements_stack.has_in_button_scope(&js_word!("p")) {
+                        if self.open_elements_stack.has_in_button_scope("p") {
                             self.close_p_element(token_and_info, false);
                         }
 
@@ -3894,7 +3887,7 @@ where
                     //
                     // Parse error. Change the token's tag name to "img" and reprocess it. (Don't
                     // ask.)
-                    Token::StartTag { tag_name, .. } if *tag_name == js_word!("image") => {
+                    Token::StartTag { tag_name, .. } if tag_name == "image" => {
                         self.errors.push(Error::new(
                             token_and_info.span,
                             ErrorKind::UnexpectedImageStartTag,
@@ -3905,7 +3898,7 @@ where
                                 token: Token::StartTag { tag_name, .. },
                                 ..
                             } => {
-                                *tag_name = js_word!("img");
+                                *tag_name = "img".into();
                             }
                             _ => {
                                 unreachable!();
@@ -3931,7 +3924,7 @@ where
                     // Set the frameset-ok flag to "not ok".
                     //
                     // Switch the insertion mode to "text".
-                    Token::StartTag { tag_name, .. } if *tag_name == js_word!("textarea") => {
+                    Token::StartTag { tag_name, .. } if tag_name == "textarea" => {
                         self.insert_html_element(token_and_info)?;
 
                         // To prevent parsing more tokens in lexer we set state before taking
@@ -3958,36 +3951,48 @@ where
                     // Set the frameset-ok flag to "not ok".
                     //
                     // Follow the generic raw text element parsing algorithm.
-                    Token::StartTag { tag_name, .. } if *tag_name == js_word!("xmp") => {
-                        if self.open_elements_stack.has_in_button_scope(&js_word!("p")) {
+                    Token::StartTag {
+                        tag_name,
+                        is_self_closing,
+                        ..
+                    } if tag_name == "xmp" => {
+                        if self.open_elements_stack.has_in_button_scope("p") {
                             self.close_p_element(token_and_info, false);
                         }
 
                         self.reconstruct_active_formatting_elements()?;
                         self.frameset_ok = false;
                         self.parse_generic_text_element(token_and_info, true)?;
+                        maybe_allow_self_closing!(is_self_closing, tag_name);
                     }
                     // A start tag whose tag name is "iframe"
                     //
                     // Set the frameset-ok flag to "not ok".
                     //
                     // Follow the generic raw text element parsing algorithm.
-                    Token::StartTag { tag_name, .. } if *tag_name == js_word!("iframe") => {
+                    Token::StartTag {
+                        tag_name,
+                        is_self_closing,
+                        ..
+                    } if tag_name == "iframe" => {
                         self.frameset_ok = false;
                         self.parse_generic_text_element(token_and_info, true)?;
+                        maybe_allow_self_closing!(is_self_closing, tag_name);
                     }
                     // A start tag whose tag name is "noembed"
                     //
                     // A start tag whose tag name is "noscript", if the scripting flag is enabled
                     //
                     // Follow the generic raw text element parsing algorithm.
-                    Token::StartTag { tag_name, .. } if *tag_name == js_word!("noembed") => {
-                        self.parse_generic_text_element(token_and_info, true)?;
-                    }
-                    Token::StartTag { tag_name, .. }
-                        if *tag_name == js_word!("noscript") && self.config.scripting_enabled =>
+                    Token::StartTag {
+                        tag_name,
+                        is_self_closing,
+                        ..
+                    } if tag_name == "noembed"
+                        || (tag_name == "noscript" && self.config.scripting_enabled) =>
                     {
                         self.parse_generic_text_element(token_and_info, true)?;
+                        maybe_allow_self_closing!(is_self_closing, tag_name);
                     }
                     // A start tag whose tag name is "select"
                     //
@@ -4000,7 +4005,11 @@ where
                     // If the insertion mode is one of "in table", "in caption", "in table body",
                     // "in row", or "in cell", then switch the insertion mode to "in select in
                     // table". Otherwise, switch the insertion mode to "in select".
-                    Token::StartTag { tag_name, .. } if *tag_name == js_word!("select") => {
+                    Token::StartTag {
+                        tag_name,
+                        is_self_closing,
+                        ..
+                    } if tag_name == "select" => {
                         self.reconstruct_active_formatting_elements()?;
                         self.insert_html_element(token_and_info)?;
                         self.frameset_ok = false;
@@ -4017,6 +4026,8 @@ where
                                 self.insertion_mode = InsertionMode::InSelect;
                             }
                         }
+
+                        maybe_allow_self_closing!(is_self_closing, tag_name);
                     }
                     // A start tag whose tag name is one of: "optgroup", "option"
                     //
@@ -4026,11 +4037,13 @@ where
                     // Reconstruct the active formatting elements, if any.
                     //
                     // Insert an HTML element for the token.
-                    Token::StartTag { tag_name, .. }
-                        if matches!(*tag_name, js_word!("optgroup") | js_word!("option")) =>
-                    {
+                    Token::StartTag {
+                        tag_name,
+                        is_self_closing,
+                        ..
+                    } if matches!(&**tag_name, "optgroup" | "option") => {
                         match self.open_elements_stack.items.last() {
-                            Some(node) if is_html_element!(node, &js_word!("option")) => {
+                            Some(node) if is_html_element!(node, "option") => {
                                 self.open_elements_stack.pop();
                             }
                             _ => {}
@@ -4038,6 +4051,7 @@ where
 
                         self.reconstruct_active_formatting_elements()?;
                         self.insert_html_element(token_and_info)?;
+                        maybe_allow_self_closing!(is_self_closing, tag_name);
                     }
                     // A start tag whose tag name is one of: "rb", "rtc"
                     //
@@ -4046,17 +4060,19 @@ where
                     // parse error.
                     //
                     // Insert an HTML element for the token.
-                    Token::StartTag { tag_name, .. }
-                        if matches!(*tag_name, js_word!("rb") | js_word!("rtc")) =>
-                    {
-                        let is_scope = self.open_elements_stack.has_in_scope(&js_word!("ruby"));
+                    Token::StartTag {
+                        tag_name,
+                        is_self_closing,
+                        ..
+                    } if matches!(&**tag_name, "rb" | "rtc") => {
+                        let is_scope = self.open_elements_stack.has_in_scope("ruby");
 
                         if is_scope {
                             self.open_elements_stack.generate_implied_end_tags();
                         }
 
                         match self.open_elements_stack.items.last() {
-                            Some(node) if !is_html_element!(node, &js_word!("ruby")) => {
+                            Some(node) if !is_html_element!(node, "ruby") => {
                                 if !is_scope {
                                     self.errors.push(Error::new(
                                         token_and_info.span,
@@ -4073,6 +4089,7 @@ where
                         }
 
                         self.insert_html_element(token_and_info)?;
+                        maybe_allow_self_closing!(is_self_closing, tag_name);
                     }
                     // A start tag whose tag name is one of: "rp", "rt"
                     //
@@ -4081,23 +4098,20 @@ where
                     // rtc element or a ruby element, this is a parse error.
                     //
                     // Insert an HTML element for the token.
-                    Token::StartTag { tag_name, .. }
-                        if matches!(*tag_name, js_word!("rp") | js_word!("rt")) =>
-                    {
-                        let in_scope = self.open_elements_stack.has_in_scope(&js_word!("ruby"));
+                    Token::StartTag {
+                        tag_name,
+                        is_self_closing,
+                        ..
+                    } if matches!(&**tag_name, "rp" | "rt") => {
+                        let in_scope = self.open_elements_stack.has_in_scope("ruby");
 
                         if in_scope {
                             self.open_elements_stack
-                                .generate_implied_end_tags_with_exclusion(&js_word!("rtc"));
+                                .generate_implied_end_tags_with_exclusion("rtc");
                         }
 
                         match self.open_elements_stack.items.last() {
-                            Some(node)
-                                if !is_html_element!(
-                                    node,
-                                    &js_word!("rtc") | &js_word!("ruby")
-                                ) =>
-                            {
+                            Some(node) if !is_html_element!(node, "rtc" | "ruby") => {
                                 if !in_scope {
                                     self.errors.push(Error::new(
                                         token_and_info.span,
@@ -4114,6 +4128,7 @@ where
                         }
 
                         self.insert_html_element(token_and_info)?;
+                        maybe_allow_self_closing!(is_self_closing, tag_name);
                     }
                     // A start tag whose tag name is "math"
                     //
@@ -4133,7 +4148,7 @@ where
                         tag_name,
                         is_self_closing,
                         ..
-                    } if *tag_name == js_word!("math") => {
+                    } if tag_name == "math" => {
                         let is_self_closing = *is_self_closing;
 
                         self.reconstruct_active_formatting_elements()?;
@@ -4167,7 +4182,7 @@ where
                         tag_name,
                         is_self_closing,
                         ..
-                    } if *tag_name == js_word!("svg") => {
+                    } if tag_name == "svg" => {
                         let is_self_closing = *is_self_closing;
 
                         self.reconstruct_active_formatting_elements()?;
@@ -4190,18 +4205,18 @@ where
                     // Parse error. Ignore the token.
                     Token::StartTag { tag_name, .. }
                         if matches!(
-                            *tag_name,
-                            js_word!("caption")
-                                | js_word!("col")
-                                | js_word!("colgroup")
-                                | js_word!("frame")
-                                | js_word!("head")
-                                | js_word!("tbody")
-                                | js_word!("td")
-                                | js_word!("tfoot")
-                                | js_word!("th")
-                                | js_word!("thead")
-                                | js_word!("tr")
+                            &**tag_name,
+                            "caption"
+                                | "col"
+                                | "colgroup"
+                                | "frame"
+                                | "head"
+                                | "tbody"
+                                | "td"
+                                | "tfoot"
+                                | "th"
+                                | "thead"
+                                | "tr"
                         ) =>
                     {
                         self.errors.push(Error::new(
@@ -4214,9 +4229,14 @@ where
                     // Reconstruct the active formatting elements, if any.
                     //
                     // Insert an HTML element for the token.
-                    Token::StartTag { .. } => {
+                    Token::StartTag {
+                        is_self_closing,
+                        tag_name,
+                        ..
+                    } => {
                         self.reconstruct_active_formatting_elements()?;
                         self.insert_html_element(token_and_info)?;
+                        maybe_allow_self_closing!(is_self_closing, tag_name);
                     }
                     // Any other end tag
                     Token::EndTag { .. } => {
@@ -4470,7 +4490,7 @@ where
                     //
                     // If there is once again a pending parsing-blocking script, then repeat these
                     // steps from step 1.
-                    Token::EndTag { tag_name, .. } if *tag_name == js_word!("script") => {
+                    Token::EndTag { tag_name, .. } if tag_name == "script" => {
                         // More things can be implemented to intercept script execution
                         let popped = self.open_elements_stack.pop();
 
@@ -4513,12 +4533,7 @@ where
                             Some(node)
                                 if is_html_element!(
                                     node,
-                                    &js_word!("table")
-                                        | &js_word!("tbody")
-                                        | &js_word!("tfoot")
-                                        | &js_word!("thead")
-                                        | &js_word!("tr")
-                                        | &js_word!("template")
+                                    "table" | "tbody" | "tfoot" | "thead" | "tr" | "template"
                                 ) =>
                             {
                                 true
@@ -4552,11 +4567,16 @@ where
                     //
                     // Insert an HTML element for the token, then switch the insertion mode to "in
                     // caption".
-                    Token::StartTag { tag_name, .. } if *tag_name == js_word!("caption") => {
+                    Token::StartTag {
+                        tag_name,
+                        is_self_closing,
+                        ..
+                    } if tag_name == "caption" => {
                         self.open_elements_stack.clear_back_to_table_context();
                         self.active_formatting_elements.insert_marker();
                         self.insert_html_element(token_and_info)?;
                         self.insertion_mode = InsertionMode::InCaption;
+                        maybe_allow_self_closing!(is_self_closing, tag_name);
                     }
                     // A start tag whose tag name is "colgroup"
                     //
@@ -4564,10 +4584,15 @@ where
                     //
                     // Insert an HTML element for the token, then switch the insertion mode to "in
                     // column group".
-                    Token::StartTag { tag_name, .. } if *tag_name == js_word!("colgroup") => {
+                    Token::StartTag {
+                        tag_name,
+                        is_self_closing,
+                        ..
+                    } if tag_name == "colgroup" => {
                         self.open_elements_stack.clear_back_to_table_context();
                         self.insert_html_element(token_and_info)?;
                         self.insertion_mode = InsertionMode::InColumnGroup;
+                        maybe_allow_self_closing!(is_self_closing, tag_name);
                     }
                     // A start tag whose tag name is "col"
                     //
@@ -4577,10 +4602,10 @@ where
                     // then switch the insertion mode to "in column group".
                     //
                     // Reprocess the current token.
-                    Token::StartTag { tag_name, .. } if *tag_name == js_word!("col") => {
+                    Token::StartTag { tag_name, .. } if tag_name == "col" => {
                         self.open_elements_stack.clear_back_to_table_context();
                         self.insert_html_element(
-                            &mut self.create_fake_token_and_info(js_word!("colgroup"), None),
+                            &self.create_fake_token_and_info("colgroup", None),
                         )?;
                         self.insertion_mode = InsertionMode::InColumnGroup;
                         self.process_token(token_and_info, None)?;
@@ -4591,15 +4616,15 @@ where
                     //
                     // Insert an HTML element for the token, then switch the insertion mode to "in
                     // table body".
-                    Token::StartTag { tag_name, .. }
-                        if matches!(
-                            *tag_name,
-                            js_word!("tbody") | js_word!("tfoot") | js_word!("thead")
-                        ) =>
-                    {
+                    Token::StartTag {
+                        tag_name,
+                        is_self_closing,
+                        ..
+                    } if matches!(&**tag_name, "tbody" | "tfoot" | "thead") => {
                         self.open_elements_stack.clear_back_to_table_context();
                         self.insert_html_element(token_and_info)?;
                         self.insertion_mode = InsertionMode::InTableBody;
+                        maybe_allow_self_closing!(is_self_closing, tag_name);
                     }
                     // A start tag whose tag name is one of: "td", "th", "tr"
                     //
@@ -4610,15 +4635,10 @@ where
                     //
                     // Reprocess the current token.
                     Token::StartTag { tag_name, .. }
-                        if matches!(
-                            *tag_name,
-                            js_word!("td") | js_word!("th") | js_word!("tr")
-                        ) =>
+                        if matches!(&**tag_name, "td" | "th" | "tr") =>
                     {
                         self.open_elements_stack.clear_back_to_table_context();
-                        self.insert_html_element(
-                            &mut self.create_fake_token_and_info(js_word!("tbody"), None),
-                        )?;
+                        self.insert_html_element(&self.create_fake_token_and_info("tbody", None))?;
                         self.insertion_mode = InsertionMode::InTableBody;
                         self.process_token(token_and_info, None)?;
                     }
@@ -4637,23 +4657,20 @@ where
                     // Reset the insertion mode appropriately.
                     //
                     // Reprocess the token.
-                    Token::StartTag { tag_name, .. } if *tag_name == js_word!("table") => {
+                    Token::StartTag { tag_name, .. } if tag_name == "table" => {
                         self.errors.push(Error::new(
                             token_and_info.span,
                             ErrorKind::TableSeenWhileTableOpen,
                         ));
 
-                        if !self
-                            .open_elements_stack
-                            .has_in_table_scope(&js_word!("table"))
-                        {
+                        if !self.open_elements_stack.has_in_table_scope("table") {
                             // Ignore
 
                             return Ok(());
                         }
 
                         self.open_elements_stack
-                            .pop_until_tag_name_popped(&[&js_word!("table")]);
+                            .pop_until_tag_name_popped(&["table"]);
                         self.reset_insertion_mode();
                         self.process_token(token_and_info, None)?;
                     }
@@ -4668,11 +4685,8 @@ where
                     // stack.
                     //
                     // Reset the insertion mode appropriately.
-                    Token::EndTag { tag_name, .. } if *tag_name == js_word!("table") => {
-                        if !self
-                            .open_elements_stack
-                            .has_in_table_scope(&js_word!("table"))
-                        {
+                    Token::EndTag { tag_name, .. } if tag_name == "table" => {
+                        if !self.open_elements_stack.has_in_table_scope("table") {
                             self.errors.push(Error::new(
                                 token_and_info.span,
                                 ErrorKind::StrayEndTag(tag_name.clone()),
@@ -4680,7 +4694,7 @@ where
                         } else {
                             let popped = self
                                 .open_elements_stack
-                                .pop_until_tag_name_popped(&[&js_word!("table")]);
+                                .pop_until_tag_name_popped(&["table"]);
 
                             self.update_end_tag_span(popped.as_ref(), token_and_info.span);
                             self.reset_insertion_mode();
@@ -4692,18 +4706,18 @@ where
                     // Parse error. Ignore the token.
                     Token::EndTag { tag_name, .. }
                         if matches!(
-                            *tag_name,
-                            js_word!("body")
-                                | js_word!("caption")
-                                | js_word!("col")
-                                | js_word!("colgroup")
-                                | js_word!("html")
-                                | js_word!("tbody")
-                                | js_word!("td")
-                                | js_word!("tfoot")
-                                | js_word!("th")
-                                | js_word!("thead")
-                                | js_word!("tr")
+                            &**tag_name,
+                            "body"
+                                | "caption"
+                                | "col"
+                                | "colgroup"
+                                | "html"
+                                | "tbody"
+                                | "td"
+                                | "tfoot"
+                                | "th"
+                                | "thead"
+                                | "tr"
                         ) =>
                     {
                         self.errors.push(Error::new(
@@ -4717,14 +4731,11 @@ where
                     //
                     // Process the token using the rules for the "in head" insertion mode.
                     Token::StartTag { tag_name, .. }
-                        if matches!(
-                            *tag_name,
-                            js_word!("style") | js_word!("script") | js_word!("template")
-                        ) =>
+                        if matches!(&**tag_name, "style" | "script" | "template") =>
                     {
                         self.process_token_using_rules(token_and_info, InsertionMode::InHead)?;
                     }
-                    Token::EndTag { tag_name, .. } if *tag_name == js_word!("template") => {
+                    Token::EndTag { tag_name, .. } if tag_name == "template" => {
                         self.process_token_using_rules(token_and_info, InsertionMode::InHead)?;
                     }
                     // A start tag whose tag name is "input"
@@ -4747,11 +4758,10 @@ where
                         attributes,
                         is_self_closing,
                         ..
-                    } if *tag_name == js_word!("input") => {
+                    } if tag_name == "input" => {
                         let is_self_closing = *is_self_closing;
-                        let input_type = attributes
-                            .iter()
-                            .find(|attribute| attribute.name == js_word!("type"));
+                        let input_type =
+                            attributes.iter().find(|attribute| attribute.name == "type");
                         let is_hidden = match &input_type {
                             Some(input_type) => match &input_type.value {
                                 Some(value) if value.as_ref().eq_ignore_ascii_case("hidden") => {
@@ -4793,7 +4803,7 @@ where
                     // point to the element created.
                     //
                     // Pop that form element off the stack of open elements.
-                    Token::StartTag { tag_name, .. } if *tag_name == js_word!("form") => {
+                    Token::StartTag { tag_name, .. } if tag_name == "form" => {
                         self.errors.push(Error::new(
                             token_and_info.span,
                             ErrorKind::StartTagInTable(tag_name.clone()),
@@ -4917,11 +4927,8 @@ where
                     // Clear the list of active formatting elements up to the last marker.
                     //
                     // Switch the insertion mode to "in table".
-                    Token::EndTag { tag_name, .. } if *tag_name == js_word!("caption") => {
-                        if !self
-                            .open_elements_stack
-                            .has_in_table_scope(&js_word!("caption"))
-                        {
+                    Token::EndTag { tag_name, .. } if tag_name == "caption" => {
+                        if !self.open_elements_stack.has_in_table_scope("caption") {
                             self.errors.push(Error::new(
                                 token_and_info.span,
                                 ErrorKind::StrayEndTag(tag_name.clone()),
@@ -4930,7 +4937,7 @@ where
                             self.open_elements_stack.generate_implied_end_tags();
 
                             match self.open_elements_stack.items.last() {
-                                Some(node) if !is_html_element!(node, &js_word!("caption")) => {
+                                Some(node) if !is_html_element!(node, "caption") => {
                                     self.errors.push(Error::new(
                                         token_and_info.span,
                                         ErrorKind::UnclosedElements(tag_name.clone()),
@@ -4941,7 +4948,7 @@ where
 
                             let popped = self
                                 .open_elements_stack
-                                .pop_until_tag_name_popped(&[&js_word!("caption")]);
+                                .pop_until_tag_name_popped(&["caption"]);
 
                             self.update_end_tag_span(popped.as_ref(), token_and_info.span);
                             self.active_formatting_elements.clear_to_last_marker();
@@ -4973,22 +4980,19 @@ where
                     // Reprocess the token.
                     Token::StartTag { tag_name, .. }
                         if matches!(
-                            *tag_name,
-                            js_word!("caption")
-                                | js_word!("col")
-                                | js_word!("colgroup")
-                                | js_word!("tbody")
-                                | js_word!("td")
-                                | js_word!("tfoot")
-                                | js_word!("th")
-                                | js_word!("thead")
-                                | js_word!("tr")
+                            &**tag_name,
+                            "caption"
+                                | "col"
+                                | "colgroup"
+                                | "tbody"
+                                | "td"
+                                | "tfoot"
+                                | "th"
+                                | "thead"
+                                | "tr"
                         ) =>
                     {
-                        if !self
-                            .open_elements_stack
-                            .has_in_table_scope(&js_word!("caption"))
-                        {
+                        if !self.open_elements_stack.has_in_table_scope("caption") {
                             self.errors.push(Error::new(
                                 token_and_info.span,
                                 ErrorKind::StrayStartTag(tag_name.clone()),
@@ -4997,7 +5001,7 @@ where
                             self.open_elements_stack.generate_implied_end_tags();
 
                             match self.open_elements_stack.items.last() {
-                                Some(node) if !is_html_element!(node, &js_word!("caption")) => {
+                                Some(node) if !is_html_element!(node, "caption") => {
                                     self.errors.push(Error::new(
                                         token_and_info.span,
                                         ErrorKind::UnclosedElementsOnStack,
@@ -5007,17 +5011,14 @@ where
                             }
 
                             self.open_elements_stack
-                                .pop_until_tag_name_popped(&[&js_word!("caption")]);
+                                .pop_until_tag_name_popped(&["caption"]);
                             self.active_formatting_elements.clear_to_last_marker();
                             self.insertion_mode = InsertionMode::InTable;
                             self.process_token(token_and_info, None)?;
                         }
                     }
-                    Token::EndTag { tag_name, .. } if *tag_name == js_word!("table") => {
-                        if !self
-                            .open_elements_stack
-                            .has_in_table_scope(&js_word!("caption"))
-                        {
+                    Token::EndTag { tag_name, .. } if tag_name == "table" => {
+                        if !self.open_elements_stack.has_in_table_scope("caption") {
                             self.errors.push(Error::new(
                                 token_and_info.span,
                                 ErrorKind::StrayEndTag(tag_name.clone()),
@@ -5026,7 +5027,7 @@ where
                             self.open_elements_stack.generate_implied_end_tags();
 
                             match self.open_elements_stack.items.last() {
-                                Some(node) if !is_html_element!(node, &js_word!("caption")) => {
+                                Some(node) if !is_html_element!(node, "caption") => {
                                     self.errors.push(Error::new(
                                         token_and_info.span,
                                         ErrorKind::UnclosedElementsOnStack,
@@ -5036,7 +5037,7 @@ where
                             }
 
                             self.open_elements_stack
-                                .pop_until_tag_name_popped(&[&js_word!("caption")]);
+                                .pop_until_tag_name_popped(&["caption"]);
                             self.active_formatting_elements.clear_to_last_marker();
                             self.insertion_mode = InsertionMode::InTable;
                             self.process_token(token_and_info, None)?;
@@ -5048,17 +5049,17 @@ where
                     // Parse error. Ignore the token.
                     Token::EndTag { tag_name, .. }
                         if matches!(
-                            *tag_name,
-                            js_word!("body")
-                                | js_word!("col")
-                                | js_word!("colgroup")
-                                | js_word!("html")
-                                | js_word!("tbody")
-                                | js_word!("td")
-                                | js_word!("tfoot")
-                                | js_word!("th")
-                                | js_word!("thead")
-                                | js_word!("tr")
+                            &**tag_name,
+                            "body"
+                                | "col"
+                                | "colgroup"
+                                | "html"
+                                | "tbody"
+                                | "td"
+                                | "tfoot"
+                                | "th"
+                                | "thead"
+                                | "tr"
                         ) =>
                     {
                         self.errors.push(Error::new(
@@ -5084,9 +5085,10 @@ where
                     // SPACE
                     //
                     // Insert the character.
-                    Token::Character { value, .. }
-                        if matches!(value, '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20') =>
-                    {
+                    Token::Character {
+                        value: '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20',
+                        ..
+                    } => {
                         self.insert_character(token_and_info)?;
                     }
                     // A comment token
@@ -5105,7 +5107,7 @@ where
                     // A start tag whose tag name is "html"
                     //
                     // Process the token using the rules for the "in body" insertion mode.
-                    Token::StartTag { tag_name, .. } if *tag_name == js_word!("html") => {
+                    Token::StartTag { tag_name, .. } if tag_name == "html" => {
                         self.process_token_using_rules(token_and_info, InsertionMode::InBody)?;
                     }
                     // A start tag whose tag name is "col"
@@ -5118,7 +5120,7 @@ where
                         tag_name,
                         is_self_closing,
                         ..
-                    } if *tag_name == js_word!("col") => {
+                    } if tag_name == "col" => {
                         let is_self_closing = *is_self_closing;
 
                         self.insert_html_element(token_and_info)?;
@@ -5135,9 +5137,9 @@ where
                     //
                     // Otherwise, pop the current node from the stack of open elements. Switch the
                     // insertion mode to "in table".
-                    Token::EndTag { tag_name, .. } if *tag_name == js_word!("colgroup") => {
+                    Token::EndTag { tag_name, .. } if tag_name == "colgroup" => {
                         match self.open_elements_stack.items.last() {
-                            Some(node) if !is_html_element!(node, &js_word!("colgroup")) => {
+                            Some(node) if !is_html_element!(node, "colgroup") => {
                                 self.errors.push(Error::new(
                                     token_and_info.span,
                                     ErrorKind::UnclosedElements(tag_name.clone()),
@@ -5154,7 +5156,7 @@ where
                     // An end tag whose tag name is "col"
                     //
                     // Parse error. Ignore the token.
-                    Token::EndTag { tag_name, .. } if *tag_name == js_word!("col") => {
+                    Token::EndTag { tag_name, .. } if tag_name == "col" => {
                         self.errors.push(Error::new(
                             token_and_info.span,
                             ErrorKind::StrayEndTag(tag_name.clone()),
@@ -5165,10 +5167,10 @@ where
                     // An end tag whose tag name is "template"
                     //
                     // Process the token using the rules for the "in head" insertion mode.
-                    Token::StartTag { tag_name, .. } if *tag_name == js_word!("template") => {
+                    Token::StartTag { tag_name, .. } if tag_name == "template" => {
                         self.process_token_using_rules(token_and_info, InsertionMode::InHead)?;
                     }
-                    Token::EndTag { tag_name, .. } if *tag_name == js_word!("template") => {
+                    Token::EndTag { tag_name, .. } if tag_name == "template" => {
                         self.process_token_using_rules(token_and_info, InsertionMode::InHead)?;
                     }
                     // An end-of-file token
@@ -5187,8 +5189,7 @@ where
                     //
                     // Reprocess the token.
                     _ => match self.open_elements_stack.items.last() {
-                        Some(node) if !is_html_element!(node, &js_word!("colgroup")) => match token
-                        {
+                        Some(node) if !is_html_element!(node, "colgroup") => match token {
                             Token::Character { .. } => {
                                 self.errors.push(Error::new(
                                     token_and_info.span,
@@ -5221,10 +5222,15 @@ where
                     //
                     // Insert an HTML element for the token, then switch the insertion mode to "in
                     // row".
-                    Token::StartTag { tag_name, .. } if *tag_name == js_word!("tr") => {
+                    Token::StartTag {
+                        tag_name,
+                        is_self_closing,
+                        ..
+                    } if tag_name == "tr" => {
                         self.open_elements_stack.clear_back_to_table_body_context();
                         self.insert_html_element(token_and_info)?;
                         self.insertion_mode = InsertionMode::InRow;
+                        maybe_allow_self_closing!(is_self_closing, tag_name);
                     }
                     // A start tag whose tag name is one of: "th", "td"
                     //
@@ -5236,17 +5242,13 @@ where
                     // switch the insertion mode to "in row".
                     //
                     // Reprocess the current token.
-                    Token::StartTag { tag_name, .. }
-                        if matches!(*tag_name, js_word!("th") | js_word!("td")) =>
-                    {
+                    Token::StartTag { tag_name, .. } if matches!(&**tag_name, "th" | "td") => {
                         self.errors.push(Error::new(
                             token_and_info.span,
                             ErrorKind::StartTagInTableBody(tag_name.clone()),
                         ));
                         self.open_elements_stack.clear_back_to_table_body_context();
-                        self.insert_html_element(
-                            &mut self.create_fake_token_and_info(js_word!("tr"), None),
-                        )?;
+                        self.insert_html_element(&self.create_fake_token_and_info("tr", None))?;
                         self.insertion_mode = InsertionMode::InRow;
                         self.process_token(token_and_info, None)?;
                     }
@@ -5263,10 +5265,7 @@ where
                     // Pop the current node from the stack of open elements. Switch the insertion
                     // mode to "in table".
                     Token::EndTag { tag_name, .. }
-                        if matches!(
-                            *tag_name,
-                            js_word!("tbody") | js_word!("tfoot") | js_word!("thead")
-                        ) =>
+                        if matches!(&**tag_name, "tbody" | "tfoot" | "thead") =>
                     {
                         if !self.open_elements_stack.has_in_table_scope(tag_name) {
                             self.errors.push(Error::new(
@@ -5301,24 +5300,13 @@ where
                     // Reprocess the token.
                     Token::StartTag { tag_name, .. }
                         if matches!(
-                            *tag_name,
-                            js_word!("caption")
-                                | js_word!("col")
-                                | js_word!("colgroup")
-                                | js_word!("tbody")
-                                | js_word!("tfoot")
-                                | js_word!("thead")
+                            &**tag_name,
+                            "caption" | "col" | "colgroup" | "tbody" | "tfoot" | "thead"
                         ) =>
                     {
-                        if !(self
-                            .open_elements_stack
-                            .has_in_table_scope(&js_word!("tbody"))
-                            || self
-                                .open_elements_stack
-                                .has_in_table_scope(&js_word!("thead"))
-                            || self
-                                .open_elements_stack
-                                .has_in_table_scope(&js_word!("tfoot")))
+                        if !(self.open_elements_stack.has_in_table_scope("tbody")
+                            || self.open_elements_stack.has_in_table_scope("thead")
+                            || self.open_elements_stack.has_in_table_scope("tfoot"))
                         {
                             self.errors.push(Error::new(
                                 token_and_info.span,
@@ -5331,16 +5319,10 @@ where
                             self.process_token(token_and_info, None)?;
                         }
                     }
-                    Token::EndTag { tag_name, .. } if *tag_name == js_word!("table") => {
-                        if !(self
-                            .open_elements_stack
-                            .has_in_table_scope(&js_word!("tbody"))
-                            || self
-                                .open_elements_stack
-                                .has_in_table_scope(&js_word!("thead"))
-                            || self
-                                .open_elements_stack
-                                .has_in_table_scope(&js_word!("tfoot")))
+                    Token::EndTag { tag_name, .. } if tag_name == "table" => {
+                        if !(self.open_elements_stack.has_in_table_scope("tbody")
+                            || self.open_elements_stack.has_in_table_scope("thead")
+                            || self.open_elements_stack.has_in_table_scope("tfoot"))
                         {
                             self.errors.push(Error::new(
                                 token_and_info.span,
@@ -5359,15 +5341,8 @@ where
                     // Parse error. Ignore the token.
                     Token::EndTag { tag_name, .. }
                         if matches!(
-                            *tag_name,
-                            js_word!("body")
-                                | js_word!("caption")
-                                | js_word!("col")
-                                | js_word!("colgroup")
-                                | js_word!("html")
-                                | js_word!("td")
-                                | js_word!("th")
-                                | js_word!("tr")
+                            &**tag_name,
+                            "body" | "caption" | "col" | "colgroup" | "html" | "td" | "th" | "tr"
                         ) =>
                     {
                         self.errors.push(Error::new(
@@ -5396,13 +5371,16 @@ where
                     // cell".
                     //
                     // Insert a marker at the end of the list of active formatting elements.
-                    Token::StartTag { tag_name, .. }
-                        if matches!(*tag_name, js_word!("th") | js_word!("td")) =>
-                    {
+                    Token::StartTag {
+                        tag_name,
+                        is_self_closing,
+                        ..
+                    } if matches!(&**tag_name, "th" | "td") => {
                         self.open_elements_stack.clear_back_to_table_row_context();
                         self.insert_html_element(token_and_info)?;
                         self.insertion_mode = InsertionMode::InCell;
                         self.active_formatting_elements.insert_marker();
+                        maybe_allow_self_closing!(is_self_closing, tag_name);
                     }
                     // An end tag whose tag name is "tr"
                     //
@@ -5415,8 +5393,8 @@ where
                     //
                     // Pop the current node (which will be a tr element) from the stack of open
                     // elements. Switch the insertion mode to "in table body".
-                    Token::EndTag { tag_name, .. } if *tag_name == js_word!("tr") => {
-                        if !self.open_elements_stack.has_in_table_scope(&js_word!("tr")) {
+                    Token::EndTag { tag_name, .. } if tag_name == "tr" => {
+                        if !self.open_elements_stack.has_in_table_scope("tr") {
                             self.errors.push(Error::new(
                                 token_and_info.span,
                                 ErrorKind::NoTableRowToClose,
@@ -5449,17 +5427,11 @@ where
                     // Reprocess the token.
                     Token::StartTag { tag_name, .. }
                         if matches!(
-                            *tag_name,
-                            js_word!("caption")
-                                | js_word!("col")
-                                | js_word!("colgroup")
-                                | js_word!("tbody")
-                                | js_word!("tfoot")
-                                | js_word!("thead")
-                                | js_word!("tr")
+                            &**tag_name,
+                            "caption" | "col" | "colgroup" | "tbody" | "tfoot" | "thead" | "tr"
                         ) =>
                     {
-                        if !self.open_elements_stack.has_in_table_scope(&js_word!("tr")) {
+                        if !self.open_elements_stack.has_in_table_scope("tr") {
                             self.errors.push(Error::new(
                                 token_and_info.span,
                                 ErrorKind::NoTableRowToClose,
@@ -5471,8 +5443,8 @@ where
                             self.process_token(token_and_info, None)?;
                         }
                     }
-                    Token::EndTag { tag_name, .. } if *tag_name == js_word!("table") => {
-                        if !self.open_elements_stack.has_in_table_scope(&js_word!("tr")) {
+                    Token::EndTag { tag_name, .. } if tag_name == "table" => {
+                        if !self.open_elements_stack.has_in_table_scope("tr") {
                             self.errors.push(Error::new(
                                 token_and_info.span,
                                 ErrorKind::NoTableRowToClose,
@@ -5502,17 +5474,14 @@ where
                     //
                     // Reprocess the token.
                     Token::EndTag { tag_name, .. }
-                        if matches!(
-                            *tag_name,
-                            js_word!("tbody") | js_word!("tfoot") | js_word!("thead")
-                        ) =>
+                        if matches!(&**tag_name, "tbody" | "tfoot" | "thead") =>
                     {
                         if !self.open_elements_stack.has_in_table_scope(tag_name) {
                             self.errors.push(Error::new(
                                 token_and_info.span,
                                 ErrorKind::StrayEndTag(tag_name.clone()),
                             ));
-                        } else if !self.open_elements_stack.has_in_table_scope(&js_word!("tr")) {
+                        } else if !self.open_elements_stack.has_in_table_scope("tr") {
                             // Ignore
 
                             return Ok(());
@@ -5529,14 +5498,8 @@ where
                     // Parse error. Ignore the token.
                     Token::EndTag { tag_name, .. }
                         if matches!(
-                            *tag_name,
-                            js_word!("body")
-                                | js_word!("caption")
-                                | js_word!("col")
-                                | js_word!("colgroup")
-                                | js_word!("html")
-                                | js_word!("td")
-                                | js_word!("th")
+                            &**tag_name,
+                            "body" | "caption" | "col" | "colgroup" | "html" | "td" | "th"
                         ) =>
                     {
                         self.errors.push(Error::new(
@@ -5576,9 +5539,7 @@ where
                     // Clear the list of active formatting elements up to the last marker.
                     //
                     // Switch the insertion mode to "in row".
-                    Token::EndTag { tag_name, .. }
-                        if matches!(*tag_name, js_word!("td") | js_word!("th")) =>
-                    {
+                    Token::EndTag { tag_name, .. } if matches!(&**tag_name, "td" | "th") => {
                         if !self.open_elements_stack.has_in_table_scope(tag_name) {
                             self.errors.push(Error::new(
                                 token_and_info.span,
@@ -5615,20 +5576,20 @@ where
                     // Otherwise, close the cell (see below) and reprocess the token.
                     Token::StartTag { tag_name, .. }
                         if matches!(
-                            *tag_name,
-                            js_word!("caption")
-                                | js_word!("col")
-                                | js_word!("colgroup")
-                                | js_word!("tbody")
-                                | js_word!("td")
-                                | js_word!("tfoot")
-                                | js_word!("th")
-                                | js_word!("thead")
-                                | js_word!("tr")
+                            &**tag_name,
+                            "caption"
+                                | "col"
+                                | "colgroup"
+                                | "tbody"
+                                | "td"
+                                | "tfoot"
+                                | "th"
+                                | "thead"
+                                | "tr"
                         ) =>
                     {
-                        if !self.open_elements_stack.has_in_table_scope(&js_word!("td"))
-                            && !self.open_elements_stack.has_in_table_scope(&js_word!("th"))
+                        if !self.open_elements_stack.has_in_table_scope("td")
+                            && !self.open_elements_stack.has_in_table_scope("th")
                         {
                             self.errors
                                 .push(Error::new(token_and_info.span, ErrorKind::NoCellToClose));
@@ -5643,12 +5604,8 @@ where
                     // Parse error. Ignore the token.
                     Token::EndTag { tag_name, .. }
                         if matches!(
-                            *tag_name,
-                            js_word!("body")
-                                | js_word!("caption")
-                                | js_word!("col")
-                                | js_word!("colgroup")
-                                | js_word!("html")
+                            &**tag_name,
+                            "body" | "caption" | "col" | "colgroup" | "html"
                         ) =>
                     {
                         self.errors.push(Error::new(
@@ -5664,14 +5621,7 @@ where
                     //
                     // Otherwise, close the cell (see below) and reprocess the token.
                     Token::EndTag { tag_name, .. }
-                        if matches!(
-                            *tag_name,
-                            js_word!("table")
-                                | js_word!("tbody")
-                                | js_word!("tfoot")
-                                | js_word!("thead")
-                                | js_word!("tr")
-                        ) =>
+                        if matches!(&**tag_name, "table" | "tbody" | "tfoot" | "thead" | "tr") =>
                     {
                         if !self.open_elements_stack.has_in_table_scope(tag_name) {
                             self.errors.push(Error::new(
@@ -5738,7 +5688,7 @@ where
                     // A start tag whose tag name is "html"
                     //
                     // Process the token using the rules for the "in body" insertion mode.
-                    Token::StartTag { tag_name, .. } if *tag_name == js_word!("html") => {
+                    Token::StartTag { tag_name, .. } if tag_name == "html" => {
                         self.process_token_using_rules(token_and_info, InsertionMode::InBody)?;
                     }
                     // A start tag whose tag name is "option"
@@ -5747,15 +5697,20 @@ where
                     // open elements.
                     //
                     // Insert an HTML element for the token.
-                    Token::StartTag { tag_name, .. } if *tag_name == js_word!("option") => {
+                    Token::StartTag {
+                        tag_name,
+                        is_self_closing,
+                        ..
+                    } if tag_name == "option" => {
                         match self.open_elements_stack.items.last() {
-                            Some(node) if is_html_element!(node, &js_word!("option")) => {
+                            Some(node) if is_html_element!(node, "option") => {
                                 self.open_elements_stack.pop();
                             }
                             _ => {}
                         }
 
                         self.insert_html_element(token_and_info)?;
+                        maybe_allow_self_closing!(is_self_closing, tag_name);
                     }
                     // A start tag whose tag name is "optgroup"
                     //
@@ -5766,22 +5721,27 @@ where
                     // open elements.
                     //
                     // Insert an HTML element for the token.
-                    Token::StartTag { tag_name, .. } if *tag_name == js_word!("optgroup") => {
+                    Token::StartTag {
+                        tag_name,
+                        is_self_closing,
+                        ..
+                    } if tag_name == "optgroup" => {
                         match self.open_elements_stack.items.last() {
-                            Some(node) if is_html_element!(node, &js_word!("option")) => {
+                            Some(node) if is_html_element!(node, "option") => {
                                 self.open_elements_stack.pop();
                             }
                             _ => {}
                         }
 
                         match self.open_elements_stack.items.last() {
-                            Some(node) if is_html_element!(node, &js_word!("optgroup")) => {
+                            Some(node) if is_html_element!(node, "optgroup") => {
                                 self.open_elements_stack.pop();
                             }
                             _ => {}
                         }
 
                         self.insert_html_element(token_and_info)?;
+                        maybe_allow_self_closing!(is_self_closing, tag_name);
                     }
                     // An end tag whose tag name is "optgroup"
                     //
@@ -5791,9 +5751,9 @@ where
                     //
                     // If the current node is an optgroup element, then pop that node from the stack
                     // of open elements. Otherwise, this is a parse error; ignore the token.
-                    Token::EndTag { tag_name, .. } if *tag_name == js_word!("optgroup") => {
+                    Token::EndTag { tag_name, .. } if tag_name == "optgroup" => {
                         match self.open_elements_stack.items.last() {
-                            Some(node) if is_html_element!(node, &js_word!("option")) => {
+                            Some(node) if is_html_element!(node, "option") => {
                                 match self
                                     .open_elements_stack
                                     .items
@@ -5803,7 +5763,7 @@ where
                                     // elements
                                     .get(self.open_elements_stack.items.len() - 2)
                                 {
-                                    Some(node) if is_html_element!(node, &js_word!("optgroup")) => {
+                                    Some(node) if is_html_element!(node, "optgroup") => {
                                         let popped = self.open_elements_stack.pop();
 
                                         self.update_end_tag_span(
@@ -5818,7 +5778,7 @@ where
                         }
 
                         match self.open_elements_stack.items.last() {
-                            Some(node) if is_html_element!(node, &js_word!("optgroup")) => {
+                            Some(node) if is_html_element!(node, "optgroup") => {
                                 let popped = self.open_elements_stack.pop();
 
                                 self.update_end_tag_span(popped.as_ref(), token_and_info.span);
@@ -5833,9 +5793,9 @@ where
                     //
                     // If the current node is an option element, then pop that node from the stack
                     // of open elements. Otherwise, this is a parse error; ignore the token.
-                    Token::EndTag { tag_name, .. } if *tag_name == js_word!("option") => {
+                    Token::EndTag { tag_name, .. } if tag_name == "option" => {
                         match self.open_elements_stack.items.last() {
-                            Some(node) if is_html_element!(node, &js_word!("option")) => {
+                            Some(node) if is_html_element!(node, "option") => {
                                 let popped = self.open_elements_stack.pop();
 
                                 self.update_end_tag_span(popped.as_ref(), token_and_info.span);
@@ -5857,11 +5817,8 @@ where
                     // popped from the stack.
                     //
                     // Reset the insertion mode appropriately.
-                    Token::EndTag { tag_name, .. } if *tag_name == js_word!("select") => {
-                        if !self
-                            .open_elements_stack
-                            .has_in_select_scope(&js_word!("select"))
-                        {
+                    Token::EndTag { tag_name, .. } if tag_name == "select" => {
+                        if !self.open_elements_stack.has_in_select_scope("select") {
                             self.errors.push(Error::new(
                                 token_and_info.span,
                                 ErrorKind::StrayEndTag(tag_name.clone()),
@@ -5869,7 +5826,7 @@ where
                         } else {
                             let popped = self
                                 .open_elements_stack
-                                .pop_until_tag_name_popped(&[&js_word!("select")]);
+                                .pop_until_tag_name_popped(&["select"]);
 
                             self.update_end_tag_span(popped.as_ref(), token_and_info.span);
                             self.reset_insertion_mode();
@@ -5888,23 +5845,20 @@ where
                     // popped from the stack.
                     //
                     // Reset the insertion mode appropriately.
-                    Token::StartTag { tag_name, .. } if *tag_name == js_word!("select") => {
+                    Token::StartTag { tag_name, .. } if tag_name == "select" => {
                         self.errors.push(Error::new(
                             token_and_info.span,
                             ErrorKind::StartSelectWhereEndSelectExpected,
                         ));
 
-                        if !self
-                            .open_elements_stack
-                            .has_in_select_scope(&js_word!("select"))
-                        {
+                        if !self.open_elements_stack.has_in_select_scope("select") {
                             // Ignore
 
                             return Ok(());
                         }
 
                         self.open_elements_stack
-                            .pop_until_tag_name_popped(&[&js_word!("select")]);
+                            .pop_until_tag_name_popped(&["select"]);
                         self.reset_insertion_mode();
                     }
                     // A start tag whose tag name is one of: "input", "keygen", "textarea"
@@ -5923,26 +5877,20 @@ where
                     //
                     // Reprocess the token.
                     Token::StartTag { tag_name, .. }
-                        if matches!(
-                            *tag_name,
-                            js_word!("input") | js_word!("keygen") | js_word!("textarea")
-                        ) =>
+                        if matches!(&**tag_name, "input" | "keygen" | "textarea") =>
                     {
                         self.errors.push(Error::new(
                             token_and_info.span,
                             ErrorKind::StartTagWithSelectOpen(tag_name.clone()),
                         ));
 
-                        if !self
-                            .open_elements_stack
-                            .has_in_select_scope(&js_word!("select"))
-                        {
+                        if !self.open_elements_stack.has_in_select_scope("select") {
                             // Ignore
                             return Ok(());
                         }
 
                         self.open_elements_stack
-                            .pop_until_tag_name_popped(&[&js_word!("select")]);
+                            .pop_until_tag_name_popped(&["select"]);
                         self.reset_insertion_mode();
                         self.process_token(token_and_info, None)?;
                     }
@@ -5952,11 +5900,11 @@ where
                     //
                     // Process the token using the rules for the "in head" insertion mode.
                     Token::StartTag { tag_name, .. }
-                        if matches!(*tag_name, js_word!("script") | js_word!("template")) =>
+                        if matches!(&**tag_name, "script" | "template") =>
                     {
                         self.process_token_using_rules(token_and_info, InsertionMode::InHead)?;
                     }
-                    Token::EndTag { tag_name, .. } if *tag_name == js_word!("template") => {
+                    Token::EndTag { tag_name, .. } if tag_name == "template" => {
                         self.process_token_using_rules(token_and_info, InsertionMode::InHead)?;
                     }
                     // An end-of-file token
@@ -6005,15 +5953,8 @@ where
                     // Reprocess the token.
                     Token::StartTag { tag_name, .. }
                         if matches!(
-                            *tag_name,
-                            js_word!("caption")
-                                | js_word!("table")
-                                | js_word!("tbody")
-                                | js_word!("tfoot")
-                                | js_word!("thead")
-                                | js_word!("tr")
-                                | js_word!("td")
-                                | js_word!("th")
+                            &**tag_name,
+                            "caption" | "table" | "tbody" | "tfoot" | "thead" | "tr" | "td" | "th"
                         ) =>
                     {
                         self.errors.push(Error::new(
@@ -6021,7 +5962,7 @@ where
                             ErrorKind::StartTagWithSelectOpen(tag_name.clone()),
                         ));
                         self.open_elements_stack
-                            .pop_until_tag_name_popped(&[&js_word!("select")]);
+                            .pop_until_tag_name_popped(&["select"]);
                         self.reset_insertion_mode();
                         self.process_token(token_and_info, None)?;
                     }
@@ -6044,15 +5985,8 @@ where
                     // Reprocess the token.
                     Token::EndTag { tag_name, .. }
                         if matches!(
-                            *tag_name,
-                            js_word!("caption")
-                                | js_word!("table")
-                                | js_word!("tbody")
-                                | js_word!("tfoot")
-                                | js_word!("thead")
-                                | js_word!("tr")
-                                | js_word!("td")
-                                | js_word!("th")
+                            &**tag_name,
+                            "caption" | "table" | "tbody" | "tfoot" | "thead" | "tr" | "td" | "th"
                         ) =>
                     {
                         self.errors.push(Error::new(
@@ -6066,7 +6000,7 @@ where
                         }
 
                         self.open_elements_stack
-                            .pop_until_tag_name_popped(&[&js_word!("select")]);
+                            .pop_until_tag_name_popped(&["select"]);
                         self.reset_insertion_mode();
                         self.process_token(token_and_info, None)?;
                     }
@@ -6099,22 +6033,22 @@ where
                     // Process the token using the rules for the "in head" insertion mode.
                     Token::StartTag { tag_name, .. }
                         if matches!(
-                            *tag_name,
-                            js_word!("base")
-                                | js_word!("basefont")
-                                | js_word!("bgsound")
-                                | js_word!("link")
-                                | js_word!("meta")
-                                | js_word!("noframes")
-                                | js_word!("script")
-                                | js_word!("style")
-                                | js_word!("template")
-                                | js_word!("title")
+                            &**tag_name,
+                            "base"
+                                | "basefont"
+                                | "bgsound"
+                                | "link"
+                                | "meta"
+                                | "noframes"
+                                | "script"
+                                | "style"
+                                | "template"
+                                | "title"
                         ) =>
                     {
                         self.process_token_using_rules(token_and_info, InsertionMode::InHead)?;
                     }
-                    Token::EndTag { tag_name, .. } if *tag_name == js_word!("template") => {
+                    Token::EndTag { tag_name, .. } if tag_name == "template" => {
                         self.process_token_using_rules(token_and_info, InsertionMode::InHead)?;
                     }
                     // A start tag whose tag name is one of: "caption", "colgroup", "tbody",
@@ -6129,12 +6063,8 @@ where
                     // Switch the insertion mode to "in table", and reprocess the token.
                     Token::StartTag { tag_name, .. }
                         if matches!(
-                            *tag_name,
-                            js_word!("caption")
-                                | js_word!("colgroup")
-                                | js_word!("tbody")
-                                | js_word!("tfoot")
-                                | js_word!("thead")
+                            &**tag_name,
+                            "caption" | "colgroup" | "tbody" | "tfoot" | "thead"
                         ) =>
                     {
                         self.template_insertion_mode_stack.pop();
@@ -6152,7 +6082,7 @@ where
                     // is the new current template insertion mode.
                     //
                     // Switch the insertion mode to "in column group", and reprocess the token.
-                    Token::StartTag { tag_name, .. } if *tag_name == js_word!("col") => {
+                    Token::StartTag { tag_name, .. } if tag_name == "col" => {
                         self.template_insertion_mode_stack.pop();
                         self.template_insertion_mode_stack
                             .push(InsertionMode::InColumnGroup);
@@ -6168,7 +6098,7 @@ where
                     // the new current template insertion mode.
                     //
                     // Switch the insertion mode to "in table body", and reprocess the token.
-                    Token::StartTag { tag_name, .. } if *tag_name == js_word!("tr") => {
+                    Token::StartTag { tag_name, .. } if tag_name == "tr" => {
                         self.template_insertion_mode_stack.pop();
                         self.template_insertion_mode_stack
                             .push(InsertionMode::InTableBody);
@@ -6184,9 +6114,7 @@ where
                     // new current template insertion mode.
                     //
                     // Switch the insertion mode to "in row", and reprocess the token.
-                    Token::StartTag { tag_name, .. }
-                        if matches!(*tag_name, js_word!("td") | js_word!("th")) =>
-                    {
+                    Token::StartTag { tag_name, .. } if matches!(&**tag_name, "td" | "th") => {
                         self.template_insertion_mode_stack.pop();
                         self.template_insertion_mode_stack
                             .push(InsertionMode::InRow);
@@ -6249,7 +6177,7 @@ where
                                 ErrorKind::EofWithUnclosedElements,
                             ));
                             self.open_elements_stack
-                                .pop_until_tag_name_popped(&[&js_word!("template")]);
+                                .pop_until_tag_name_popped(&["template"]);
                             self.active_formatting_elements.clear_to_last_marker();
                             self.template_insertion_mode_stack.pop();
                             self.reset_insertion_mode();
@@ -6268,9 +6196,10 @@ where
                     // SPACE
                     //
                     // Process the token using the rules for the "in body" insertion mode.
-                    Token::Character { value, .. }
-                        if matches!(value, '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20') =>
-                    {
+                    Token::Character {
+                        value: '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20',
+                        ..
+                    } => {
                         self.process_token_using_rules(token_and_info, InsertionMode::InBody)?;
                     }
                     // A comment token
@@ -6290,7 +6219,7 @@ where
                     // A start tag whose tag name is "html"
                     //
                     // Process the token using the rules for the "in body" insertion mode.
-                    Token::StartTag { tag_name, .. } if *tag_name == js_word!("html") => {
+                    Token::StartTag { tag_name, .. } if tag_name == "html" => {
                         self.process_token_using_rules(token_and_info, InsertionMode::InBody)?;
                     }
                     // An end tag whose tag name is "html"
@@ -6299,7 +6228,7 @@ where
                     // this is a parse error; ignore the token. (fragment case)
                     //
                     // Otherwise, switch the insertion mode to "after after body".
-                    Token::EndTag { tag_name, .. } if *tag_name == js_word!("html") => {
+                    Token::EndTag { tag_name, .. } if tag_name == "html" => {
                         if self.is_fragment_case {
                             self.errors.push(Error::new(
                                 token_and_info.span,
@@ -6307,7 +6236,7 @@ where
                             ));
                         } else {
                             self.update_end_tag_span(
-                                self.open_elements_stack.items.get(0),
+                                self.open_elements_stack.items.first(),
                                 token_and_info.span,
                             );
                             self.insertion_mode = InsertionMode::AfterAfterBody;
@@ -6369,9 +6298,10 @@ where
                     // SPACE
                     //
                     // Insert the character.
-                    Token::Character { value, .. }
-                        if matches!(value, '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20') =>
-                    {
+                    Token::Character {
+                        value: '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20',
+                        ..
+                    } => {
                         self.insert_character(token_and_info)?;
                     }
                     // A comment token
@@ -6390,14 +6320,19 @@ where
                     // A start tag whose tag name is "html"
                     //
                     // Process the token using the rules for the "in body" insertion mode.
-                    Token::StartTag { tag_name, .. } if *tag_name == js_word!("html") => {
+                    Token::StartTag { tag_name, .. } if tag_name == "html" => {
                         self.process_token_using_rules(token_and_info, InsertionMode::InBody)?;
                     }
                     // A start tag whose tag name is "frameset"
                     //
                     // Insert an HTML element for the token.
-                    Token::StartTag { tag_name, .. } if *tag_name == js_word!("frameset") => {
+                    Token::StartTag {
+                        tag_name,
+                        is_self_closing,
+                        ..
+                    } if tag_name == "frameset" => {
                         self.insert_html_element(token_and_info)?;
+                        maybe_allow_self_closing!(is_self_closing, tag_name);
                     }
                     // An end tag whose tag name is "frameset"
                     //
@@ -6409,10 +6344,10 @@ where
                     // If the parser was not created as part of the HTML fragment parsing algorithm
                     // (fragment case), and the current node is no longer a frameset element, then
                     // switch the insertion mode to "after frameset".
-                    Token::EndTag { tag_name, .. } if *tag_name == js_word!("frameset") => {
+                    Token::EndTag { tag_name, .. } if tag_name == "frameset" => {
                         let is_root_html_document = match self.open_elements_stack.items.last() {
                             Some(node)
-                                if is_html_element!(node, &js_word!("html"))
+                                if is_html_element!(node, "html")
                                     && self.open_elements_stack.items.len() == 1 =>
                             {
                                 true
@@ -6432,9 +6367,7 @@ where
 
                             if !self.is_fragment_case {
                                 match self.open_elements_stack.items.last() {
-                                    Some(node)
-                                        if !is_html_element!(node, &js_word!("frameset")) =>
-                                    {
+                                    Some(node) if !is_html_element!(node, "frameset") => {
                                         self.insertion_mode = InsertionMode::AfterFrameset;
                                     }
                                     _ => {}
@@ -6452,7 +6385,7 @@ where
                         tag_name,
                         is_self_closing,
                         ..
-                    } if *tag_name == js_word!("frame") => {
+                    } if tag_name == "frame" => {
                         let is_self_closing = *is_self_closing;
 
                         self.insert_html_element(token_and_info)?;
@@ -6465,7 +6398,7 @@ where
                     // A start tag whose tag name is "noframes"
                     //
                     // Process the token using the rules for the "in head" insertion mode.
-                    Token::StartTag { tag_name, .. } if *tag_name == js_word!("noframes") => {
+                    Token::StartTag { tag_name, .. } if tag_name == "noframes" => {
                         self.process_token_using_rules(token_and_info, InsertionMode::InHead)?;
                     }
                     // An end-of-file token
@@ -6483,7 +6416,7 @@ where
                         );
 
                         match self.open_elements_stack.items.last() {
-                            Some(node) if !is_html_element!(node, &js_word!("html")) => {
+                            Some(node) if !is_html_element!(node, "html") => {
                                 self.errors.push(Error::new(
                                     token_and_info.span,
                                     ErrorKind::EofWithUnclosedElements,
@@ -6535,9 +6468,10 @@ where
                     // SPACE
                     //
                     // Insert the character.
-                    Token::Character { value, .. }
-                        if matches!(value, '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20') =>
-                    {
+                    Token::Character {
+                        value: '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20',
+                        ..
+                    } => {
                         self.insert_character(token_and_info)?;
                     }
                     // A comment token
@@ -6556,13 +6490,13 @@ where
                     // A start tag whose tag name is "html"
                     //
                     // Process the token using the rules for the "in body" insertion mode.
-                    Token::StartTag { tag_name, .. } if *tag_name == js_word!("html") => {
+                    Token::StartTag { tag_name, .. } if tag_name == "html" => {
                         self.process_token_using_rules(token_and_info, InsertionMode::InBody)?;
                     }
                     // An end tag whose tag name is "html"
                     //
                     // Switch the insertion mode to "after after frameset".
-                    Token::EndTag { tag_name, .. } if *tag_name == js_word!("html") => {
+                    Token::EndTag { tag_name, .. } if tag_name == "html" => {
                         self.update_end_tag_span(
                             self.open_elements_stack.items.last(),
                             token_and_info.span,
@@ -6572,7 +6506,7 @@ where
                     // A start tag whose tag name is "noframes"
                     //
                     // Process the token using the rules for the "in head" insertion mode.
-                    Token::StartTag { tag_name, .. } if *tag_name == js_word!("noframes") => {
+                    Token::StartTag { tag_name, .. } if tag_name == "noframes" => {
                         self.process_token_using_rules(token_and_info, InsertionMode::InHead)?;
                     }
                     // An end-of-file token
@@ -6635,12 +6569,13 @@ where
                     Token::Doctype { .. } => {
                         self.process_token_using_rules(token_and_info, InsertionMode::InBody)?;
                     }
-                    Token::Character { value, .. }
-                        if matches!(value, '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20') =>
-                    {
+                    Token::Character {
+                        value: '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20',
+                        ..
+                    } => {
                         self.process_token_using_rules(token_and_info, InsertionMode::InBody)?;
                     }
-                    Token::StartTag { tag_name, .. } if *tag_name == js_word!("html") => {
+                    Token::StartTag { tag_name, .. } if tag_name == "html" => {
                         self.process_token_using_rules(token_and_info, InsertionMode::InBody)?;
                     }
                     // An end-of-file token
@@ -6708,12 +6643,13 @@ where
                     Token::Doctype { .. } => {
                         self.process_token_using_rules(token_and_info, InsertionMode::InBody)?;
                     }
-                    Token::Character { value, .. }
-                        if matches!(value, '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20') =>
-                    {
+                    Token::Character {
+                        value: '\x09' | '\x0A' | '\x0C' | '\x0D' | '\x20',
+                        ..
+                    } => {
                         self.process_token_using_rules(token_and_info, InsertionMode::InBody)?;
                     }
-                    Token::StartTag { tag_name, .. } if *tag_name == js_word!("html") => {
+                    Token::StartTag { tag_name, .. } if tag_name == "html" => {
                         self.process_token_using_rules(token_and_info, InsertionMode::InBody)?;
                     }
                     // An end-of-file token
@@ -6729,7 +6665,7 @@ where
                     // A start tag whose tag name is "noframes"
                     //
                     // Process the token using the rules for the "in head" insertion mode.
-                    Token::StartTag { tag_name, .. } if *tag_name == js_word!("noframes") => {
+                    Token::StartTag { tag_name, .. } if tag_name == "noframes" => {
                         self.process_token_using_rules(token_and_info, InsertionMode::InHead)?;
                     }
                     // Anything else
@@ -6831,7 +6767,7 @@ where
     // 4. Set node to the previous entry in the stack of open elements.
     //
     // 5. Return to the step labeled loop.
-    fn any_other_end_tag_for_in_body_insertion_mode(&mut self, token_and_info: &mut TokenAndInfo) {
+    fn any_other_end_tag_for_in_body_insertion_mode(&mut self, token_and_info: &TokenAndInfo) {
         let mut match_idx = None;
         let tag_name = match &token_and_info.token {
             Token::StartTag { tag_name, .. } | Token::EndTag { tag_name, .. } => tag_name,
@@ -6905,8 +6841,8 @@ where
     // token, then, if the token has an attribute named definitionurl, change its
     // name to definitionURL (note the case difference).
     fn adjust_math_ml_attribute(&self, attribute: &mut Attribute) {
-        if attribute.name == js_word!("definitionurl") {
-            attribute.name = js_word!("definitionURL");
+        if attribute.name == "definitionurl" {
+            attribute.name = "definitionURL".into();
         }
     }
 
@@ -6976,65 +6912,65 @@ where
     // ychannelselector	        yChannelSelector
     // zoomandpan	            zoomAndPan
     fn adjust_svg_attribute(&self, attribute: &mut Attribute) {
-        match attribute.name {
-            js_word!("attributename") => attribute.name = js_word!("attributeName"),
-            js_word!("attributetype") => attribute.name = js_word!("attributeType"),
-            js_word!("basefrequency") => attribute.name = js_word!("baseFrequency"),
-            js_word!("baseprofile") => attribute.name = js_word!("baseProfile"),
-            js_word!("calcmode") => attribute.name = js_word!("calcMode"),
-            js_word!("clippathunits") => attribute.name = js_word!("clipPathUnits"),
-            js_word!("diffuseconstant") => attribute.name = js_word!("diffuseConstant"),
-            js_word!("edgemode") => attribute.name = js_word!("edgeMode"),
-            js_word!("filterunits") => attribute.name = js_word!("filterUnits"),
-            js_word!("glyphref") => attribute.name = js_word!("glyphRef"),
-            js_word!("gradienttransform") => attribute.name = js_word!("gradientTransform"),
-            js_word!("gradientunits") => attribute.name = js_word!("gradientUnits"),
-            js_word!("kernelmatrix") => attribute.name = js_word!("kernelMatrix"),
-            js_word!("kernelunitlength") => attribute.name = js_word!("kernelUnitLength"),
-            js_word!("keypoints") => attribute.name = js_word!("keyPoints"),
-            js_word!("keysplines") => attribute.name = js_word!("keySplines"),
-            js_word!("keytimes") => attribute.name = js_word!("keyTimes"),
-            js_word!("lengthadjust") => attribute.name = js_word!("lengthAdjust"),
-            js_word!("limitingconeangle") => attribute.name = js_word!("limitingConeAngle"),
-            js_word!("markerheight") => attribute.name = js_word!("markerHeight"),
-            js_word!("markerunits") => attribute.name = js_word!("markerUnits"),
-            js_word!("markerwidth") => attribute.name = js_word!("markerWidth"),
-            js_word!("maskcontentunits") => attribute.name = js_word!("maskContentUnits"),
-            js_word!("maskunits") => attribute.name = js_word!("maskUnits"),
-            js_word!("numoctaves") => attribute.name = js_word!("numOctaves"),
-            js_word!("pathlength") => attribute.name = js_word!("pathLength"),
-            js_word!("patterncontentunits") => attribute.name = js_word!("patternContentUnits"),
-            js_word!("patterntransform") => attribute.name = js_word!("patternTransform"),
-            js_word!("patternunits") => attribute.name = js_word!("patternUnits"),
-            js_word!("pointsatx") => attribute.name = js_word!("pointsAtX"),
-            js_word!("pointsaty") => attribute.name = js_word!("pointsAtY"),
-            js_word!("pointsatz") => attribute.name = js_word!("pointsAtZ"),
-            js_word!("preservealpha") => attribute.name = js_word!("preserveAlpha"),
-            js_word!("preserveaspectratio") => attribute.name = js_word!("preserveAspectRatio"),
-            js_word!("primitiveunits") => attribute.name = js_word!("primitiveUnits"),
-            js_word!("refx") => attribute.name = js_word!("refX"),
-            js_word!("refy") => attribute.name = js_word!("refY"),
-            js_word!("repeatcount") => attribute.name = js_word!("repeatCount"),
-            js_word!("repeatdur") => attribute.name = js_word!("repeatDur"),
-            js_word!("requiredextensions") => attribute.name = js_word!("requiredExtensions"),
-            js_word!("requiredfeatures") => attribute.name = js_word!("requiredFeatures"),
-            js_word!("specularconstant") => attribute.name = js_word!("specularConstant"),
-            js_word!("specularexponent") => attribute.name = js_word!("specularExponent"),
-            js_word!("spreadmethod") => attribute.name = js_word!("spreadMethod"),
-            js_word!("startoffset") => attribute.name = js_word!("startOffset"),
-            js_word!("stddeviation") => attribute.name = js_word!("stdDeviation"),
-            js_word!("stitchtiles") => attribute.name = js_word!("stitchTiles"),
-            js_word!("surfacescale") => attribute.name = js_word!("surfaceScale"),
-            js_word!("systemlanguage") => attribute.name = js_word!("systemLanguage"),
-            js_word!("tablevalues") => attribute.name = js_word!("tableValues"),
-            js_word!("targetx") => attribute.name = js_word!("targetX"),
-            js_word!("targety") => attribute.name = js_word!("targetY"),
-            js_word!("textlength") => attribute.name = js_word!("textLength"),
-            js_word!("viewbox") => attribute.name = js_word!("viewBox"),
-            js_word!("viewtarget") => attribute.name = js_word!("viewTarget"),
-            js_word!("xchannelselector") => attribute.name = js_word!("xChannelSelector"),
-            js_word!("ychannelselector") => attribute.name = js_word!("yChannelSelector"),
-            js_word!("zoomandpan") => attribute.name = js_word!("zoomAndPan"),
+        match &*attribute.name {
+            "attributename" => attribute.name = "attributeName".into(),
+            "attributetype" => attribute.name = "attributeType".into(),
+            "basefrequency" => attribute.name = "baseFrequency".into(),
+            "baseprofile" => attribute.name = "baseProfile".into(),
+            "calcmode" => attribute.name = "calcMode".into(),
+            "clippathunits" => attribute.name = "clipPathUnits".into(),
+            "diffuseconstant" => attribute.name = "diffuseConstant".into(),
+            "edgemode" => attribute.name = "edgeMode".into(),
+            "filterunits" => attribute.name = "filterUnits".into(),
+            "glyphref" => attribute.name = "glyphRef".into(),
+            "gradienttransform" => attribute.name = "gradientTransform".into(),
+            "gradientunits" => attribute.name = "gradientUnits".into(),
+            "kernelmatrix" => attribute.name = "kernelMatrix".into(),
+            "kernelunitlength" => attribute.name = "kernelUnitLength".into(),
+            "keypoints" => attribute.name = "keyPoints".into(),
+            "keysplines" => attribute.name = "keySplines".into(),
+            "keytimes" => attribute.name = "keyTimes".into(),
+            "lengthadjust" => attribute.name = "lengthAdjust".into(),
+            "limitingconeangle" => attribute.name = "limitingConeAngle".into(),
+            "markerheight" => attribute.name = "markerHeight".into(),
+            "markerunits" => attribute.name = "markerUnits".into(),
+            "markerwidth" => attribute.name = "markerWidth".into(),
+            "maskcontentunits" => attribute.name = "maskContentUnits".into(),
+            "maskunits" => attribute.name = "maskUnits".into(),
+            "numoctaves" => attribute.name = "numOctaves".into(),
+            "pathlength" => attribute.name = "pathLength".into(),
+            "patterncontentunits" => attribute.name = "patternContentUnits".into(),
+            "patterntransform" => attribute.name = "patternTransform".into(),
+            "patternunits" => attribute.name = "patternUnits".into(),
+            "pointsatx" => attribute.name = "pointsAtX".into(),
+            "pointsaty" => attribute.name = "pointsAtY".into(),
+            "pointsatz" => attribute.name = "pointsAtZ".into(),
+            "preservealpha" => attribute.name = "preserveAlpha".into(),
+            "preserveaspectratio" => attribute.name = "preserveAspectRatio".into(),
+            "primitiveunits" => attribute.name = "primitiveUnits".into(),
+            "refx" => attribute.name = "refX".into(),
+            "refy" => attribute.name = "refY".into(),
+            "repeatcount" => attribute.name = "repeatCount".into(),
+            "repeatdur" => attribute.name = "repeatDur".into(),
+            "requiredextensions" => attribute.name = "requiredExtensions".into(),
+            "requiredfeatures" => attribute.name = "requiredFeatures".into(),
+            "specularconstant" => attribute.name = "specularConstant".into(),
+            "specularexponent" => attribute.name = "specularExponent".into(),
+            "spreadmethod" => attribute.name = "spreadMethod".into(),
+            "startoffset" => attribute.name = "startOffset".into(),
+            "stddeviation" => attribute.name = "stdDeviation".into(),
+            "stitchtiles" => attribute.name = "stitchTiles".into(),
+            "surfacescale" => attribute.name = "surfaceScale".into(),
+            "systemlanguage" => attribute.name = "systemLanguage".into(),
+            "tablevalues" => attribute.name = "tableValues".into(),
+            "targetx" => attribute.name = "targetX".into(),
+            "targety" => attribute.name = "targetY".into(),
+            "textlength" => attribute.name = "textLength".into(),
+            "viewbox" => attribute.name = "viewBox".into(),
+            "viewtarget" => attribute.name = "viewTarget".into(),
+            "xchannelselector" => attribute.name = "xChannelSelector".into(),
+            "ychannelselector" => attribute.name = "yChannelSelector".into(),
+            "zoomandpan" => attribute.name = "zoomAndPan".into(),
             _ => {}
         }
     }
@@ -7063,61 +6999,61 @@ where
     // xmlns	        (none)	xmlns	    XMLNS namespace
     // xmlns:xlink	    xmlns	xlink	    XMLNS namespace
     fn adjust_foreign_attribute(&self, attribute: &mut Attribute) {
-        match attribute.name {
-            js_word!("xlink:actuate") => {
+        match &*attribute.name {
+            "xlink:actuate" => {
                 attribute.namespace = Some(Namespace::XLINK);
-                attribute.prefix = Some(js_word!("xlink"));
-                attribute.name = js_word!("actuate");
+                attribute.prefix = Some("xlink".into());
+                attribute.name = "actuate".into();
             }
-            js_word!("xlink:arcrole") => {
+            "xlink:arcrole" => {
                 attribute.namespace = Some(Namespace::XLINK);
-                attribute.prefix = Some(js_word!("xlink"));
-                attribute.name = js_word!("arcrole");
+                attribute.prefix = Some("xlink".into());
+                attribute.name = "arcrole".into();
             }
-            js_word!("xlink:href") => {
+            "xlink:href" => {
                 attribute.namespace = Some(Namespace::XLINK);
-                attribute.prefix = Some(js_word!("xlink"));
-                attribute.name = js_word!("href");
+                attribute.prefix = Some("xlink".into());
+                attribute.name = "href".into();
             }
-            js_word!("xlink:role") => {
+            "xlink:role" => {
                 attribute.namespace = Some(Namespace::XLINK);
-                attribute.prefix = Some(js_word!("xlink"));
-                attribute.name = js_word!("role");
+                attribute.prefix = Some("xlink".into());
+                attribute.name = "role".into();
             }
-            js_word!("xlink:show") => {
+            "xlink:show" => {
                 attribute.namespace = Some(Namespace::XLINK);
-                attribute.prefix = Some(js_word!("xlink"));
-                attribute.name = js_word!("show");
+                attribute.prefix = Some("xlink".into());
+                attribute.name = "show".into();
             }
-            js_word!("xlink:title") => {
+            "xlink:title" => {
                 attribute.namespace = Some(Namespace::XLINK);
-                attribute.prefix = Some(js_word!("xlink"));
-                attribute.name = js_word!("title");
+                attribute.prefix = Some("xlink".into());
+                attribute.name = "title".into();
             }
-            js_word!("xlink:type") => {
+            "xlink:type" => {
                 attribute.namespace = Some(Namespace::XLINK);
-                attribute.prefix = Some(js_word!("xlink"));
-                attribute.name = js_word!("type");
+                attribute.prefix = Some("xlink".into());
+                attribute.name = "type".into();
             }
-            js_word!("xml:lang") => {
+            "xml:lang" => {
                 attribute.namespace = Some(Namespace::XML);
-                attribute.prefix = Some(js_word!("xml"));
-                attribute.name = js_word!("lang");
+                attribute.prefix = Some("xml".into());
+                attribute.name = "lang".into();
             }
-            js_word!("xml:space") => {
+            "xml:space" => {
                 attribute.namespace = Some(Namespace::XML);
-                attribute.prefix = Some(js_word!("xml"));
-                attribute.name = js_word!("space");
+                attribute.prefix = Some("xml".into());
+                attribute.name = "space".into();
             }
-            js_word!("xmlns") => {
+            "xmlns" => {
                 attribute.namespace = Some(Namespace::XMLNS);
                 attribute.prefix = None;
-                attribute.name = js_word!("xmlns");
+                attribute.name = "xmlns".into();
             }
-            js_word!("xmlns:xlink") => {
+            "xmlns:xlink" => {
                 attribute.namespace = Some(Namespace::XMLNS);
-                attribute.prefix = Some(js_word!("xmlns"));
-                attribute.name = js_word!("xlink");
+                attribute.prefix = Some("xmlns".into());
+                attribute.name = "xlink".into();
             }
             _ => {}
         }
@@ -7301,7 +7237,7 @@ where
     // algorithms for dealing with misnested content.
     fn run_the_adoption_agency_algorithm(
         &mut self,
-        token_and_info: &mut TokenAndInfo,
+        token_and_info: &TokenAndInfo,
         is_closing: bool,
     ) -> PResult<()> {
         // 1.
@@ -7696,14 +7632,14 @@ where
         }
 
         loop {
-            let mut token_and_info = match self.active_formatting_elements.items[entry_index] {
+            let token_and_info = match self.active_formatting_elements.items[entry_index] {
                 ActiveFormattingElement::Element(_, ref t) => t.clone(),
                 ActiveFormattingElement::Marker => {
                     panic!("Found marker during formatting element reconstruction")
                 }
             };
 
-            let new_element = self.insert_html_element(&mut token_and_info)?;
+            let new_element = self.insert_html_element(&token_and_info)?;
 
             self.active_formatting_elements.items[entry_index] =
                 ActiveFormattingElement::Element(new_element, token_and_info);
@@ -7731,7 +7667,7 @@ where
     fn create_fake_html_element(&self) -> RcNode {
         Node::new(
             Data::Element {
-                tag_name: js_word!("html"),
+                tag_name: "html".into(),
                 namespace: Namespace::HTML,
                 attributes: RefCell::new(vec![]),
                 is_self_closing: false,
@@ -7740,7 +7676,7 @@ where
         )
     }
 
-    fn create_fake_token_and_info(&self, tag_name: JsWord, span: Option<Span>) -> TokenAndInfo {
+    fn create_fake_token_and_info(&self, tag_name: &str, span: Option<Span>) -> TokenAndInfo {
         TokenAndInfo {
             span: match span {
                 Some(span) => span,
@@ -7748,7 +7684,7 @@ where
             },
             acknowledged: false,
             token: Token::StartTag {
-                tag_name,
+                tag_name: tag_name.into(),
                 raw_tag_name: None,
                 is_self_closing: false,
                 attributes: vec![],
@@ -7762,7 +7698,7 @@ where
     // invoked in response to a start tag token.
     fn parse_generic_text_element(
         &mut self,
-        token_and_info: &mut TokenAndInfo,
+        token_and_info: &TokenAndInfo,
         is_raw_text_element_algorithm: bool,
     ) -> PResult<()> {
         // Insert an HTML element for the token.
@@ -7786,17 +7722,17 @@ where
         Ok(())
     }
 
-    fn close_p_element(&mut self, token_and_info: &mut TokenAndInfo, is_close_p: bool) {
+    fn close_p_element(&mut self, token_and_info: &TokenAndInfo, is_close_p: bool) {
         // When the steps above say the user agent is to close a p element, it means
         // that the user agent must run the following steps:
 
         // 1. Generate implied end tags, except for p elements.
         self.open_elements_stack
-            .generate_implied_end_tags_with_exclusion(&js_word!("p"));
+            .generate_implied_end_tags_with_exclusion("p");
 
         // 2. If the current node is not a p element, then this is a parse error.
         match self.open_elements_stack.items.last() {
-            Some(node) if !is_html_element!(node, &js_word!("p")) => {
+            Some(node) if !is_html_element!(node, "p") => {
                 let tag_name = match &token_and_info.token {
                     Token::StartTag { tag_name, .. } | Token::EndTag { tag_name, .. } => {
                         tag_name.clone()
@@ -7816,9 +7752,7 @@ where
 
         // 3. Pop elements from the stack of open elements until a p element has been
         // popped from the stack.
-        let popped = self
-            .open_elements_stack
-            .pop_until_tag_name_popped(&[&js_word!("p")]);
+        let popped = self.open_elements_stack.pop_until_tag_name_popped(&["p"]);
 
         if is_close_p {
             self.update_end_tag_span(popped.as_ref(), token_and_info.span)
@@ -7832,7 +7766,7 @@ where
         // If the current node is not now a td element or a th element, then this is a
         // parse error.
         match self.open_elements_stack.items.last() {
-            Some(node) if !is_html_element!(node, &js_word!("td") | &js_word!("th")) => {
+            Some(node) if !is_html_element!(node, "td" | "th") => {
                 self.errors.push(Error::new(
                     *node.start_span.borrow(),
                     ErrorKind::UnclosedElementsCell,
@@ -7844,7 +7778,7 @@ where
         // Pop elements from the stack of open elements stack until a td
         // element or a th element has been popped from the stack.
         self.open_elements_stack
-            .pop_until_tag_name_popped(&[&js_word!("td"), &js_word!("th")]);
+            .pop_until_tag_name_popped(&["td", "th"]);
 
         // Clear the list of active formatting elements up to the last marker.
         self.active_formatting_elements.clear_to_last_marker();
@@ -7916,7 +7850,7 @@ where
             //   7. Jump back to the step labeled loop.
             //
             //   8. Done: Switch the insertion mode to "in select" and return.
-            if *tag_name == js_word!("select") {
+            if tag_name == "select" {
                 if !last {
                     let mut ancestor = Some(inner_node);
 
@@ -7932,9 +7866,9 @@ where
                         ancestor = iter.next();
 
                         if let Some(ancestor) = ancestor {
-                            if is_html_element!(ancestor, &js_word!("template")) {
+                            if is_html_element!(ancestor, "template") {
                                 break;
-                            } else if is_html_element!(ancestor, &js_word!("table")) {
+                            } else if is_html_element!(ancestor, "table") {
                                 self.insertion_mode = InsertionMode::InSelectInTable;
 
                                 return;
@@ -7950,7 +7884,7 @@ where
 
             // 5. If node is a td or th element and last is false, then switch the insertion
             // mode to "in cell" and return.
-            if (*tag_name == js_word!("td") || *tag_name == js_word!("th")) && !last {
+            if (tag_name == "td" || tag_name == "th") && !last {
                 self.insertion_mode = InsertionMode::InCell;
 
                 return;
@@ -7958,7 +7892,7 @@ where
 
             // 6. If node is a tr element, then switch the insertion mode to "in row" and
             // return.
-            if *tag_name == js_word!("tr") {
+            if tag_name == "tr" {
                 self.insertion_mode = InsertionMode::InRow;
 
                 return;
@@ -7966,10 +7900,7 @@ where
 
             // 7. If node is a tbody, thead, or tfoot element, then switch the insertion
             // mode to "in table body" and return.
-            if *tag_name == js_word!("tbody")
-                || *tag_name == js_word!("thead")
-                || *tag_name == js_word!("tfoot")
-            {
+            if tag_name == "tbody" || tag_name == "thead" || tag_name == "tfoot" {
                 self.insertion_mode = InsertionMode::InTableBody;
 
                 return;
@@ -7977,7 +7908,7 @@ where
 
             // 8. If node is a caption element, then switch the insertion mode to "in
             // caption" and return.
-            if *tag_name == js_word!("caption") {
+            if tag_name == "caption" {
                 self.insertion_mode = InsertionMode::InCaption;
 
                 return;
@@ -7985,7 +7916,7 @@ where
 
             // 9. If node is a colgroup element, then switch the insertion mode to "in
             // column group" and return.
-            if *tag_name == js_word!("colgroup") {
+            if tag_name == "colgroup" {
                 self.insertion_mode = InsertionMode::InColumnGroup;
 
                 return;
@@ -7993,7 +7924,7 @@ where
 
             // // 10. If node is a table element, then switch the insertion mode to "in
             // table" and return.
-            if *tag_name == js_word!("table") {
+            if tag_name == "table" {
                 self.insertion_mode = InsertionMode::InTable;
 
                 return;
@@ -8001,7 +7932,7 @@ where
 
             // 11. If node is a template element, then switch the insertion mode to the
             // current template insertion mode and return.
-            if *tag_name == js_word!("template") {
+            if tag_name == "template" {
                 if let Some(last) = self.template_insertion_mode_stack.last() {
                     self.insertion_mode = last.clone();
 
@@ -8011,7 +7942,7 @@ where
 
             // 12. If node is a head element and last is false, then switch the insertion
             // mode to "in head" and return.
-            if *tag_name == js_word!("head") && !last {
+            if tag_name == "head" && !last {
                 self.insertion_mode = InsertionMode::InHead;
 
                 return;
@@ -8019,7 +7950,7 @@ where
 
             // 13. If node is a body element, then switch the insertion mode to "in body"
             // and return.
-            if *tag_name == js_word!("body") {
+            if tag_name == "body" {
                 self.insertion_mode = InsertionMode::InBody;
 
                 return;
@@ -8027,7 +7958,7 @@ where
 
             // 14. If node is a frameset element, then switch the insertion mode to "in
             // frameset" and return. (fragment case)
-            if *tag_name == js_word!("frameset") {
+            if tag_name == "frameset" {
                 self.insertion_mode = InsertionMode::InFrameset;
 
                 return;
@@ -8040,7 +7971,7 @@ where
             //
             //   2. Otherwise, the head element pointer is not null, switch the insertion
             // mode to "after head" and return.
-            if *tag_name == js_word!("html") {
+            if tag_name == "html" {
                 if self.head_element_pointer.is_none() {
                     // Fragment case
                     self.insertion_mode = InsertionMode::BeforeHead;
@@ -8084,100 +8015,91 @@ where
     fn is_special_element(&self, node: &RcNode) -> bool {
         if is_html_element!(
             node,
-            &js_word!("address")
-                | &js_word!("applet")
-                | &js_word!("area")
-                | &js_word!("article")
-                | &js_word!("aside")
-                | &js_word!("base")
-                | &js_word!("basefont")
-                | &js_word!("bgsound")
-                | &js_word!("blockquote")
-                | &js_word!("body")
-                | &js_word!("br")
-                | &js_word!("button")
-                | &js_word!("caption")
-                | &js_word!("center")
-                | &js_word!("col")
-                | &js_word!("colgroup")
-                | &js_word!("dd")
-                | &js_word!("details")
-                | &js_word!("dir")
-                | &js_word!("div")
-                | &js_word!("dl")
-                | &js_word!("dt")
-                | &js_word!("embed")
-                | &js_word!("fieldset")
-                | &js_word!("figcaption")
-                | &js_word!("figure")
-                | &js_word!("footer")
-                | &js_word!("form")
-                | &js_word!("frame")
-                | &js_word!("frameset")
-                | &js_word!("h1")
-                | &js_word!("h2")
-                | &js_word!("h3")
-                | &js_word!("h4")
-                | &js_word!("h5")
-                | &js_word!("h6")
-                | &js_word!("head")
-                | &js_word!("header")
-                | &js_word!("hgroup")
-                | &js_word!("hr")
-                | &js_word!("html")
-                | &js_word!("iframe")
-                | &js_word!("img")
-                | &js_word!("input")
-                | &js_word!("keygen")
-                | &js_word!("li")
-                | &js_word!("link")
-                | &js_word!("listing")
-                | &js_word!("main")
-                | &js_word!("marquee")
-                | &js_word!("menu")
-                | &js_word!("meta")
-                | &js_word!("nav")
-                | &js_word!("noembed")
-                | &js_word!("noframes")
-                | &js_word!("noscript")
-                | &js_word!("object")
-                | &js_word!("ol")
-                | &js_word!("p")
-                | &js_word!("param")
-                | &js_word!("plaintext")
-                | &js_word!("pre")
-                | &js_word!("script")
-                | &js_word!("section")
-                | &js_word!("select")
-                | &js_word!("source")
-                | &js_word!("style")
-                | &js_word!("summary")
-                | &js_word!("table")
-                | &js_word!("tbody")
-                | &js_word!("td")
-                | &js_word!("template")
-                | &js_word!("textarea")
-                | &js_word!("tfoot")
-                | &js_word!("th")
-                | &js_word!("thead")
-                | &js_word!("title")
-                | &js_word!("tr")
-                | &js_word!("track")
-                | &js_word!("ul")
-                | &js_word!("wbr")
-                | &js_word!("xmp")
-        ) || is_mathml_element!(
-            node,
-            &js_word!("mi")
-                | &js_word!("mo")
-                | &js_word!("mn")
-                | &js_word!("ms")
-                | &js_word!("mtext")
-                | &js_word!("annotation-xml")
-        ) || is_svg_element!(
-            node,
-            &js_word!("title") | &js_word!("foreignObject") | &js_word!("desc")
-        ) {
+            "address"
+                | "applet"
+                | "area"
+                | "article"
+                | "aside"
+                | "base"
+                | "basefont"
+                | "bgsound"
+                | "blockquote"
+                | "body"
+                | "br"
+                | "button"
+                | "caption"
+                | "center"
+                | "col"
+                | "colgroup"
+                | "dd"
+                | "details"
+                | "dir"
+                | "div"
+                | "dl"
+                | "dt"
+                | "embed"
+                | "fieldset"
+                | "figcaption"
+                | "figure"
+                | "footer"
+                | "form"
+                | "frame"
+                | "frameset"
+                | "h1"
+                | "h2"
+                | "h3"
+                | "h4"
+                | "h5"
+                | "h6"
+                | "head"
+                | "header"
+                | "hgroup"
+                | "hr"
+                | "html"
+                | "iframe"
+                | "img"
+                | "input"
+                | "keygen"
+                | "li"
+                | "link"
+                | "listing"
+                | "main"
+                | "marquee"
+                | "menu"
+                | "meta"
+                | "nav"
+                | "noembed"
+                | "noframes"
+                | "noscript"
+                | "object"
+                | "ol"
+                | "p"
+                | "param"
+                | "plaintext"
+                | "pre"
+                | "script"
+                | "section"
+                | "select"
+                | "source"
+                | "style"
+                | "summary"
+                | "table"
+                | "tbody"
+                | "td"
+                | "template"
+                | "textarea"
+                | "tfoot"
+                | "th"
+                | "thead"
+                | "title"
+                | "tr"
+                | "track"
+                | "ul"
+                | "wbr"
+                | "xmp"
+        ) || is_mathml_element!(node, "mi" | "mo" | "mn" | "ms" | "mtext" | "annotation-xml")
+            || is_svg_element!(node, "title" | "foreignObject" | "desc")
+        {
             return true;
         }
 
@@ -8260,14 +8182,8 @@ where
 
         // 2.
         let mut adjusted_insertion_location = if self.foster_parenting_enabled
-            && is_html_element!(
-                target,
-                &js_word!("table")
-                    | &js_word!("tbody")
-                    | &js_word!("tfoot")
-                    | &js_word!("thead")
-                    | &js_word!("tr")
-            ) {
+            && is_html_element!(target, "table" | "tbody" | "tfoot" | "thead" | "tr")
+        {
             // 2.1
             let mut last_template = None;
             let mut last_template_index = 0;
@@ -8277,14 +8193,14 @@ where
             let mut last_table_index = 0;
 
             for (i, node) in self.open_elements_stack.items.iter().enumerate().rev() {
-                if is_html_element!(node, &js_word!("template")) && last_template.is_none() {
+                if is_html_element!(node, "template") && last_template.is_none() {
                     last_template = Some(node);
                     last_template_index = i;
 
                     if last_table.is_some() {
                         break;
                     }
-                } else if is_html_element!(node, &js_word!("table")) && last_table.is_none() {
+                } else if is_html_element!(node, "table") && last_table.is_none() {
                     last_table = Some(node);
                     last_table_index = i;
 
@@ -8363,7 +8279,7 @@ where
                         namespace,
                         tag_name,
                         ..
-                    } if *tag_name == js_word!("template") && *namespace == Namespace::HTML => {
+                    } if tag_name == "template" && *namespace == Namespace::HTML => {
                         adjusted_insertion_location
                     }
                     _ => adjusted_insertion_location,
@@ -8434,7 +8350,7 @@ where
 
         let comment = Node::new(Data::Comment { data, raw }, token_and_info.span);
 
-        if let Some(html) = &self.open_elements_stack.items.get(0) {
+        if let Some(html) = &self.open_elements_stack.items.first() {
             self.append_node(html, comment);
         }
 
@@ -8576,13 +8492,13 @@ where
         Ok(())
     }
 
-    fn insert_html_element(&mut self, token_and_info: &mut TokenAndInfo) -> PResult<RcNode> {
+    fn insert_html_element(&mut self, token_and_info: &TokenAndInfo) -> PResult<RcNode> {
         self.insert_foreign_element(token_and_info, Namespace::HTML, None)
     }
 
     fn insert_foreign_element(
         &mut self,
-        token_and_info: &mut TokenAndInfo,
+        token_and_info: &TokenAndInfo,
         namespace: Namespace,
         adjust_attributes: Option<AdjustAttributes>,
     ) -> PResult<RcNode> {
@@ -8727,14 +8643,7 @@ fn is_mathml_text_integration_point(node: Option<&RcNode>) -> bool {
                 tag_name,
                 ..
             } if *namespace == Namespace::MATHML
-                && matches!(
-                    *tag_name,
-                    js_word!("mi")
-                        | js_word!("mo")
-                        | js_word!("mn")
-                        | js_word!("ms")
-                        | js_word!("mtext")
-                ) =>
+                && matches!(&**tag_name, "mi" | "mo" | "mn" | "ms" | "mtext") =>
             {
                 return true;
             }
@@ -8754,7 +8663,7 @@ fn is_mathml_annotation_xml(node: Option<&RcNode>) -> bool {
                 namespace,
                 tag_name,
                 ..
-            } if *namespace == Namespace::MATHML && *tag_name == js_word!("annotation-xml") => {
+            } if *namespace == Namespace::MATHML && tag_name == "annotation-xml" => {
                 return true;
             }
             _ => {
@@ -8784,13 +8693,13 @@ fn is_html_integration_point(node: Option<&RcNode>) -> bool {
                 tag_name,
                 attributes,
                 ..
-            } if *namespace == Namespace::MATHML && *tag_name == js_word!("annotation-xml") => {
+            } if *namespace == Namespace::MATHML && tag_name == "annotation-xml" => {
                 for attribute in &*attributes.borrow() {
-                    if *attribute.name == js_word!("encoding")
+                    if &*attribute.name == "encoding"
                         && (attribute.value.is_some()
                             && matches!(
-                                attribute.value.as_ref().unwrap().to_ascii_lowercase(),
-                                js_word!("text/html") | js_word!("application/xhtml+xml")
+                                &*attribute.value.as_ref().unwrap().to_ascii_lowercase(),
+                                "text/html" | "application/xhtml+xml"
                             ))
                     {
                         return true;
@@ -8804,10 +8713,7 @@ fn is_html_integration_point(node: Option<&RcNode>) -> bool {
                 tag_name,
                 ..
             } if *namespace == Namespace::SVG
-                && matches!(
-                    *tag_name,
-                    js_word!("foreignObject") | js_word!("desc") | js_word!("title")
-                ) =>
+                && matches!(&**tag_name, "foreignObject" | "desc" | "title") =>
             {
                 return true;
             }

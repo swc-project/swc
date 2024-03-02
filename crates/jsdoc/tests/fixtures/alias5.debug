@@ -19,9 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Toaster singleton.
-             *
-             *' type=dynamic),
+            value: "Toaster singleton.\n *\n *",
         },
         tags: [
             TagItem {
@@ -44,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('class' type=static),
+                    value: "class",
                 },
                 tag: Class(
                     ClassTag {
@@ -84,9 +82,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Toast an item.
-                 *
-                 *' type=dynamic),
+            value: "Toast an item.\n     *\n     *",
         },
         tags: [
             TagItem {
@@ -109,7 +105,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('alias' type=inline),
+                    value: "alias",
                 },
                 tag: Alias(
                     AliasTag {
@@ -143,7 +139,7 @@
                                         ),
                                         ctxt: #0,
                                     },
-                                    value: Atom('Toaster' type=inline),
+                                    value: "Toaster",
                                 },
                             ],
                         },
@@ -172,9 +168,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Clean the toaster.
-                 *
-                 *' type=dynamic),
+            value: "Clean the toaster.\n     *\n     *",
         },
         tags: [
             TagItem {
@@ -197,7 +191,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('alias' type=inline),
+                    value: "alias",
                 },
                 tag: Alias(
                     AliasTag {
@@ -231,7 +225,7 @@
                                         ),
                                         ctxt: #0,
                                     },
-                                    value: Atom('clean' type=inline),
+                                    value: "clean",
                                 },
                             ],
                         },
@@ -258,7 +252,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('memberof' type=dynamic),
+                    value: "memberof",
                 },
                 tag: MemberOf(
                     MemberOfTag {
@@ -292,7 +286,7 @@
                                         ),
                                         ctxt: #0,
                                     },
-                                    value: Atom('Toaster' type=inline),
+                                    value: "Toaster",
                                 },
                             ],
                         },
@@ -319,7 +313,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('instance' type=dynamic),
+                    value: "instance",
                 },
                 tag: Instance(
                     InstanceTag {
@@ -357,9 +351,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Get the Toaster instance.
-                     *
-                     *' type=dynamic),
+            value: "Get the Toaster instance.\n         *\n         *",
         },
         tags: [
             TagItem {
@@ -382,7 +374,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('alias' type=inline),
+                    value: "alias",
                 },
                 tag: Alias(
                     AliasTag {
@@ -416,7 +408,7 @@
                                         ),
                                         ctxt: #0,
                                     },
-                                    value: Atom('Toaster' type=inline),
+                                    value: "Toaster",
                                 },
                             ],
                         },

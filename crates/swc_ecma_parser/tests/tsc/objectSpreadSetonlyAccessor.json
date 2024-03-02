@@ -196,6 +196,7 @@
                         "value": "bar",
                         "optional": false
                       },
+                      "thisParam": null,
                       "param": {
                         "type": "Identifier",
                         "span": {
@@ -391,6 +392,7 @@
                         "value": "foo",
                         "optional": false
                       },
+                      "thisParam": null,
                       "param": {
                         "type": "Identifier",
                         "span": {

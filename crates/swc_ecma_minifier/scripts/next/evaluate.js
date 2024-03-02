@@ -8,12 +8,11 @@ const rl = readline.createInterface({
     terminal: false,
 });
 
-function looseJsonParse(obj) {
-    return Function('"use strict";return (' + obj + ")")();
-}
+
 rl.on("line", async (data) => {
     try {
-        const { name, source } = looseJsonParse(`(${data})`);
+        data = data.replace('{ breakLength: Infinity, maxStringLength: Infinity }', '')
+        const { name, source } = JSON.parse(data);
         const targetPath = path.join(
             __dirname,
             "..",

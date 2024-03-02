@@ -9,8 +9,7 @@ import { _ as _set } from "@swc/helpers/_/_set";
 import { _ as _update } from "@swc/helpers/_/_update";
 class C extends B {
     constructor(...args){
-        super(...args), // these should be unaffected
-        _define_property(this, "x", 1), _define_property(this, "y", this.x), _define_property(this, "z", super.f());
+        super(...args), _define_property(this, "x", 1), _define_property(this, "y", this.x), _define_property(this, "z", super.f());
     }
 }
 _define_property(C, "x", void 0), _define_property(C, "y1", C.x), _define_property(C, "y2", C.x()), _define_property(C, "y3", null == C ? void 0 : C.x()), _define_property(C, "y4", C.x()), _define_property(C, "y5", null == C ? void 0 : C.x()), _define_property(C, "z1", _get(_get_prototype_of(C), "a", C)), _define_property(C, "z2", _get(_get_prototype_of(C), "a", C)), _define_property(C, "z3", _get(_get_prototype_of(C), "f", C).call(C)), _define_property(C, "z4", _get(_get_prototype_of(C), "f", C).call(C)), _define_property(C, "z5", _set(_get_prototype_of(C), "a", 0, C, !0)), _define_property(C, "z6", _update(_get_prototype_of(C), "a", C, !0)._ += 1), _define_property(C, "z7", void _set(_get_prototype_of(C), "a", 0, C, !0)), _define_property(C, "z8", [_update(_get_prototype_of(C), "a", C, !0)._] = [

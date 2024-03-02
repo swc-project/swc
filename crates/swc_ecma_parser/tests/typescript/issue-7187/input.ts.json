@@ -1,0 +1,169 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 35,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 1,
+        "end": 35,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 1,
+          "end": 34,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "Identifier",
+          "span": {
+            "start": 1,
+            "end": 11,
+            "ctxt": 0
+          },
+          "value": "assertType",
+          "optional": false
+        },
+        "arguments": [
+          {
+            "spread": null,
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 30,
+                "end": 33,
+                "ctxt": 0
+              },
+              "value": "foo",
+              "optional": false
+            }
+          }
+        ],
+        "typeArguments": {
+          "type": "TsTypeParameterInstantiation",
+          "span": {
+            "start": 11,
+            "end": 29,
+            "ctxt": 0
+          },
+          "params": [
+            {
+              "type": "TsFunctionType",
+              "span": {
+                "start": 12,
+                "end": 28,
+                "ctxt": 0
+              },
+              "params": [
+                {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 16,
+                    "end": 22,
+                    "ctxt": 0
+                  },
+                  "value": "key",
+                  "optional": false,
+                  "typeAnnotation": {
+                    "type": "TsTypeAnnotation",
+                    "span": {
+                      "start": 19,
+                      "end": 22,
+                      "ctxt": 0
+                    },
+                    "typeAnnotation": {
+                      "type": "TsTypeReference",
+                      "span": {
+                        "start": 21,
+                        "end": 22,
+                        "ctxt": 0
+                      },
+                      "typeName": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 21,
+                          "end": 22,
+                          "ctxt": 0
+                        },
+                        "value": "K",
+                        "optional": false
+                      },
+                      "typeParams": null
+                    }
+                  }
+                }
+              ],
+              "typeParams": {
+                "type": "TsTypeParameterDeclaration",
+                "span": {
+                  "start": 12,
+                  "end": 15,
+                  "ctxt": 0
+                },
+                "parameters": [
+                  {
+                    "type": "TsTypeParameter",
+                    "span": {
+                      "start": 13,
+                      "end": 14,
+                      "ctxt": 0
+                    },
+                    "name": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 13,
+                        "end": 14,
+                        "ctxt": 0
+                      },
+                      "value": "K",
+                      "optional": false
+                    },
+                    "in": false,
+                    "out": false,
+                    "const": false,
+                    "constraint": null,
+                    "default": null
+                  }
+                ]
+              },
+              "typeAnnotation": {
+                "type": "TsTypeAnnotation",
+                "span": {
+                  "start": 24,
+                  "end": 28,
+                  "ctxt": 0
+                },
+                "typeAnnotation": {
+                  "type": "TsTypeReference",
+                  "span": {
+                    "start": 27,
+                    "end": 28,
+                    "ctxt": 0
+                  },
+                  "typeName": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 27,
+                      "end": 28,
+                      "ctxt": 0
+                    },
+                    "value": "K",
+                    "optional": false
+                  },
+                  "typeParams": null
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

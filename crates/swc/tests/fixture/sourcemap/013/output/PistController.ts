@@ -13,7 +13,7 @@ import { User as UserType } from '@server/user/schemas/UserSchema';
 import { CreateCommentDto } from '@server/comment/dto/CreateCommentDto';
 import { CommentService } from '@server/comment/CommentService';
 import { Comment } from '@server/comment/schemas/CommentSchema';
-export let PostController = class PostController {
+export class PostController {
     constructor(postService, commentService){
         this.postService = postService;
         this.commentService = commentService;
@@ -36,11 +36,12 @@ export let PostController = class PostController {
     createPostComment(id, createCommentDto, user) {
         return this.commentService.create(createCommentDto, id, user.id);
     }
-};
+}
 _ts_decorate([
     Get(POST_GET_ALL_ENDPOINT),
     _ts_metadata("design:type", Function),
-    _ts_metadata("design:paramtypes", [])
+    _ts_metadata("design:paramtypes", []),
+    _ts_metadata("design:returntype", void 0)
 ], PostController.prototype, "getPosts", null);
 _ts_decorate([
     Get(POST_GET_ENDPOINT),
@@ -48,7 +49,8 @@ _ts_decorate([
     _ts_metadata("design:type", Function),
     _ts_metadata("design:paramtypes", [
         String
-    ])
+    ]),
+    _ts_metadata("design:returntype", void 0)
 ], PostController.prototype, "getPost", null);
 _ts_decorate([
     UseGuards(JwtAuthGuard),
@@ -59,7 +61,8 @@ _ts_decorate([
     _ts_metadata("design:paramtypes", [
         typeof CreatePostDto === "undefined" ? Object : CreatePostDto,
         typeof UserType === "undefined" ? Object : UserType
-    ])
+    ]),
+    _ts_metadata("design:returntype", void 0)
 ], PostController.prototype, "createPost", null);
 _ts_decorate([
     UseGuards(JwtAuthGuard),
@@ -72,7 +75,8 @@ _ts_decorate([
         String,
         typeof CreatePostDto === "undefined" ? Object : CreatePostDto,
         typeof UserType === "undefined" ? Object : UserType
-    ])
+    ]),
+    _ts_metadata("design:returntype", void 0)
 ], PostController.prototype, "updatePost", null);
 _ts_decorate([
     UseGuards(JwtAuthGuard),
@@ -83,7 +87,8 @@ _ts_decorate([
     _ts_metadata("design:paramtypes", [
         String,
         typeof UserType === "undefined" ? Object : UserType
-    ])
+    ]),
+    _ts_metadata("design:returntype", void 0)
 ], PostController.prototype, "deletePost", null);
 _ts_decorate([
     UseInterceptors(MongooseClassSerializerInterceptor(Comment)),
@@ -97,7 +102,8 @@ _ts_decorate([
         String,
         typeof CreateCommentDto === "undefined" ? Object : CreateCommentDto,
         typeof UserType === "undefined" ? Object : UserType
-    ])
+    ]),
+    _ts_metadata("design:returntype", void 0)
 ], PostController.prototype, "createPostComment", null);
 PostController = _ts_decorate([
     Controller(POST_CONTROLLER_ROUTE),

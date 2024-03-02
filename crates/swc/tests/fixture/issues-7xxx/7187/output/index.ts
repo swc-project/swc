@@ -1,0 +1,1 @@
+assertType(foo);

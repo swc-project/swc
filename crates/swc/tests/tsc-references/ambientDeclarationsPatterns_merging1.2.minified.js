@@ -3,4 +3,3 @@
 export { };
 //// [testB.ts]
 export { };
- // Error

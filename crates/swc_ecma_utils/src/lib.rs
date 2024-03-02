@@ -1,5 +1,6 @@
 #![deny(clippy::all)]
 #![allow(clippy::boxed_local)]
+#![allow(clippy::mutable_key_type)]
 #![allow(clippy::match_like_matches_macro)]
 #![allow(clippy::vec_box)]
 #![cfg_attr(not(feature = "concurrent"), allow(unused))]
@@ -19,7 +20,7 @@ use std::{
 };
 
 use rustc_hash::FxHashMap;
-use swc_atoms::{js_word, JsWord};
+use swc_atoms::JsWord;
 use swc_common::{
     collections::AHashSet, util::take::Take, Mark, Span, Spanned, SyntaxContext, DUMMY_SP,
 };
@@ -169,11 +170,7 @@ impl Visit for ArgumentsFinder {
     fn visit_expr(&mut self, e: &Expr) {
         e.visit_children_with(self);
 
-        if let Expr::Ident(Ident {
-            sym: js_word!("arguments"),
-            ..
-        }) = *e
-        {
+        if e.is_ident_ref_to("arguments") {
             self.found = true;
         }
     }
@@ -184,12 +181,10 @@ impl Visit for ArgumentsFinder {
     fn visit_prop(&mut self, n: &Prop) {
         n.visit_children_with(self);
 
-        if let Prop::Shorthand(Ident {
-            sym: js_word!("arguments"),
-            ..
-        }) = n
-        {
-            self.found = true;
+        if let Prop::Shorthand(i) = n {
+            if &*i.sym == "arguments" {
+                self.found = true;
+            }
         }
     }
 }
@@ -494,7 +489,7 @@ impl Visit for Hoister {
     fn visit_assign_pat_prop(&mut self, node: &AssignPatProp) {
         node.value.visit_with(self);
 
-        self.vars.push(node.key.clone());
+        self.vars.push(node.key.id.clone());
     }
 
     fn visit_fn_decl(&mut self, f: &FnDecl) {
@@ -570,11 +565,7 @@ pub trait ExprExt {
                 ..
             }) => arg.is_immutable_value(),
 
-            Expr::Ident(ref i) => {
-                i.sym == js_word!("undefined")
-                    || i.sym == js_word!("Infinity")
-                    || i.sym == js_word!("NaN")
-            }
+            Expr::Ident(ref i) => i.sym == "undefined" || i.sym == "Infinity" || i.sym == "NaN",
 
             Expr::Tpl(Tpl { ref exprs, .. }) => exprs.iter().all(|e| e.is_immutable_value()),
 
@@ -617,13 +608,7 @@ pub trait ExprExt {
     /// Checks if `self` is `NaN`.
     fn is_nan(&self) -> bool {
         // NaN is special
-        matches!(
-            self.as_expr(),
-            Expr::Ident(Ident {
-                sym: js_word!("NaN"),
-                ..
-            })
-        )
+        self.as_expr().is_ident_ref_to("NaN")
     }
 
     fn is_undefined(&self, ctx: &ExprCtx) -> bool {
@@ -652,7 +637,7 @@ pub trait ExprExt {
     fn is_one_of_global_ref_to(&self, ctx: &ExprCtx, ids: &[&str]) -> bool {
         match self.as_expr() {
             Expr::Ident(i) => {
-                i.span.ctxt == ctx.unresolved_ctxt && ids.iter().any(|id| &i.sym == *id)
+                i.span.ctxt == ctx.unresolved_ctxt && ids.iter().any(|id| i.sym == *id)
             }
             _ => false,
         }
@@ -904,9 +889,9 @@ pub trait ExprExt {
                 Lit::Str(Str { value, .. }) => return (Pure, num_from_str(value)),
                 _ => return (Pure, Unknown),
             },
-            Expr::Ident(Ident { sym, span, .. }) => match *sym {
-                js_word!("undefined") | js_word!("NaN") if span.ctxt == ctx.unresolved_ctxt => NAN,
-                js_word!("Infinity") if span.ctxt == ctx.unresolved_ctxt => INFINITY,
+            Expr::Ident(Ident { sym, span, .. }) => match &**sym {
+                "undefined" | "NaN" if span.ctxt == ctx.unresolved_ctxt => NAN,
+                "Infinity" if span.ctxt == ctx.unresolved_ctxt => INFINITY,
                 _ => return (Pure, Unknown),
             },
             Expr::Unary(UnaryExpr {
@@ -916,10 +901,10 @@ pub trait ExprExt {
             }) if matches!(
                 &**arg,
                 Expr::Ident(Ident {
-                    sym: js_word!("Infinity"),
+                    sym,
                     span,
                     ..
-                }) if span.ctxt == ctx.unresolved_ctxt
+                }) if &**sym == "Infinity" && span.ctxt == ctx.unresolved_ctxt
             ) =>
             {
                 -INFINITY
@@ -1008,10 +993,8 @@ pub trait ExprExt {
                 // converted. unimplemented!("TplLit.
                 // as_string()")
             }
-            Expr::Ident(Ident { ref sym, span, .. }) => match *sym {
-                js_word!("undefined") | js_word!("Infinity") | js_word!("NaN")
-                    if span.ctxt == ctx.unresolved_ctxt =>
-                {
+            Expr::Ident(Ident { ref sym, span, .. }) => match &**sym {
+                "undefined" | "Infinity" | "NaN" if span.ctxt == ctx.unresolved_ctxt => {
                     Known(Cow::Borrowed(&**sym))
                 }
                 _ => Unknown,
@@ -1042,12 +1025,13 @@ pub trait ExprExt {
                     let e = match *elem {
                         Some(ref elem) => {
                             let ExprOrSpread { ref expr, .. } = *elem;
-                            match **expr {
-                                Expr::Lit(Lit::Null(..))
-                                | Expr::Ident(Ident {
-                                    sym: js_word!("undefined"),
-                                    ..
-                                }) => Cow::Borrowed(""),
+                            match &**expr {
+                                Expr::Lit(Lit::Null(..)) => Cow::Borrowed(""),
+                                Expr::Ident(Ident { sym: undefined, .. })
+                                    if &**undefined == "undefined" =>
+                                {
+                                    Cow::Borrowed("")
+                                }
                                 _ => match expr.as_pure_string(ctx) {
                                     Known(v) => v,
                                     Unknown => return Value::Unknown,
@@ -1083,19 +1067,13 @@ pub trait ExprExt {
 
             Expr::Member(MemberExpr {
                 obj,
-                prop:
-                    MemberProp::Ident(Ident {
-                        sym: js_word!("length"),
-                        ..
-                    }),
+                prop: MemberProp::Ident(Ident { sym: length, .. }),
                 ..
-            }) => match &**obj {
-                Expr::Array(ArrayLit { .. })
-                | Expr::Lit(Lit::Str(..))
-                | Expr::Ident(Ident {
-                    sym: js_word!("arguments"),
-                    ..
-                }) => Known(Type::Num),
+            }) if &**length == "length" => match &**obj {
+                Expr::Array(ArrayLit { .. }) | Expr::Lit(Lit::Str(..)) => Known(Type::Num),
+                Expr::Ident(Ident { sym: arguments, .. }) if &**arguments == "arguments" => {
+                    Known(Type::Num)
+                }
                 _ => Unknown,
             },
 
@@ -1168,9 +1146,9 @@ pub trait ExprExt {
                 Unknown
             }
 
-            Expr::Ident(Ident { ref sym, .. }) => Known(match *sym {
-                js_word!("undefined") => UndefinedType,
-                js_word!("NaN") | js_word!("Infinity") => NumberType,
+            Expr::Ident(Ident { ref sym, .. }) => Known(match &**sym {
+                "undefined" => UndefinedType,
+                "NaN" | "Infinity" => NumberType,
                 _ => return Unknown,
             }),
 
@@ -1270,10 +1248,8 @@ pub trait ExprExt {
                     || match &**obj {
                         // Allow dummy span
                         Expr::Ident(Ident {
-                            span,
-                            sym: js_word!("Math"),
-                            ..
-                        }) => span.ctxt == SyntaxContext::empty(),
+                            span, sym: math, ..
+                        }) => &**math == "Math" && span.ctxt == SyntaxContext::empty(),
 
                         // Some methods of string are pure
                         Expr::Lit(Lit::Str(..)) => match &*prop.sym {
@@ -1325,7 +1301,7 @@ pub trait ExprExt {
                             | "Boolean"
                             | "Number"
                             | "String"
-                            | "Bigint"
+                            | "BigInt"
                             | "Error"
                             | "RegExp"
                             | "Function"
@@ -1386,24 +1362,16 @@ pub trait ExprExt {
                         let can_have_side_effect = |prop: &PropOrSpread| match prop {
                             PropOrSpread::Spread(_) => true,
                             PropOrSpread::Prop(prop) => match prop.as_ref() {
-                                Prop::Getter(_)
-                                | Prop::Setter(_)
-                                | Prop::Method(_)
-                                | Prop::Shorthand(Ident {
-                                    sym: js_word!("__proto__"),
-                                    ..
-                                })
+                                Prop::Getter(_) | Prop::Setter(_) | Prop::Method(_) => true,
+                                Prop::Shorthand(Ident { sym, .. })
                                 | Prop::KeyValue(KeyValueProp {
                                     key:
-                                        PropName::Ident(Ident {
-                                            sym: js_word!("__proto__"),
-                                            ..
-                                        })
-                                        | PropName::Str(Str {
-                                            value: js_word!("__proto__"),
-                                            ..
-                                        })
-                                        | PropName::Computed(_),
+                                        PropName::Ident(Ident { sym, .. })
+                                        | PropName::Str(Str { value: sym, .. }),
+                                    ..
+                                }) => &**sym == "__proto__",
+                                Prop::KeyValue(KeyValueProp {
+                                    key: PropName::Computed(_),
                                     ..
                                 }) => true,
                                 _ => false,
@@ -1557,7 +1525,11 @@ pub fn class_has_side_effect(expr_ctx: &ExprCtx, c: &Class) -> bool {
                     }
                 }
             }
-
+            ClassMember::StaticBlock(s) => {
+                if !s.body.stmts.is_empty() {
+                    return true;
+                }
+            }
             _ => {}
         }
     }
@@ -1952,6 +1924,11 @@ impl Visit for LiteralVisitor {
 pub fn is_simple_pure_expr(expr: &Expr, pure_getters: bool) -> bool {
     match expr {
         Expr::Ident(..) | Expr::This(..) | Expr::Lit(..) => true,
+        Expr::Unary(UnaryExpr {
+            op: op!("void") | op!("!"),
+            arg,
+            ..
+        }) => is_simple_pure_expr(arg, pure_getters),
         Expr::Member(m) if pure_getters => is_simple_pure_member_expr(m, pure_getters),
         _ => false,
     }
@@ -1968,78 +1945,136 @@ pub fn is_simple_pure_member_expr(m: &MemberExpr, pure_getters: bool) -> bool {
     }
 }
 
-/// Used to determine super_class_ident
-pub fn alias_ident_for(expr: &Expr, default: &str) -> Ident {
-    fn sym(expr: &Expr) -> Option<String> {
-        match expr {
-            Expr::Lit(Lit::Str(s)) => Some(s.value.to_string()),
-            Expr::This(_) => Some("this".to_string()),
+fn sym_for_expr(expr: &Expr) -> Option<String> {
+    match expr {
+        Expr::Lit(Lit::Str(s)) => Some(s.value.to_string()),
+        Expr::This(_) => Some("this".to_string()),
 
-            Expr::Ident(ident)
-            | Expr::Fn(FnExpr {
-                ident: Some(ident), ..
-            })
-            | Expr::Class(ClassExpr {
-                ident: Some(ident), ..
-            }) => Some(ident.sym.to_string()),
+        Expr::Ident(ident)
+        | Expr::Fn(FnExpr {
+            ident: Some(ident), ..
+        })
+        | Expr::Class(ClassExpr {
+            ident: Some(ident), ..
+        }) => Some(ident.sym.to_string()),
 
-            Expr::OptChain(OptChainExpr { base, .. }) => match &**base {
-                OptChainBase::Call(OptCall { callee: expr, .. }) => sym(expr),
-                OptChainBase::Member(MemberExpr {
-                    prop: MemberProp::Ident(ident),
-                    obj,
-                    ..
-                }) => Some(format!("{}_{}", sym(obj).unwrap_or_default(), ident.sym)),
-
-                OptChainBase::Member(MemberExpr {
-                    prop: MemberProp::Computed(ComputedPropName { expr, .. }),
-                    obj,
-                    ..
-                }) => Some(format!(
-                    "{}_{}",
-                    sym(obj).unwrap_or_default(),
-                    sym(expr).unwrap_or_default()
-                )),
-                _ => None,
-            },
-            Expr::Call(CallExpr {
-                callee: Callee::Expr(expr),
-                ..
-            }) => sym(expr),
-
-            Expr::SuperProp(SuperPropExpr {
-                prop: SuperProp::Ident(ident),
-                ..
-            }) => Some(format!("super_{}", ident.sym)),
-
-            Expr::SuperProp(SuperPropExpr {
-                prop: SuperProp::Computed(ComputedPropName { expr, .. }),
-                ..
-            }) => Some(format!("super_{}", sym(expr).unwrap_or_default())),
-
-            Expr::Member(MemberExpr {
+        Expr::OptChain(OptChainExpr { base, .. }) => match &**base {
+            OptChainBase::Call(OptCall { callee: expr, .. }) => sym_for_expr(expr),
+            OptChainBase::Member(MemberExpr {
                 prop: MemberProp::Ident(ident),
                 obj,
                 ..
-            }) => Some(format!("{}_{}", sym(obj).unwrap_or_default(), ident.sym)),
+            }) => Some(format!(
+                "{}_{}",
+                sym_for_expr(obj).unwrap_or_default(),
+                ident.sym
+            )),
 
-            Expr::Member(MemberExpr {
+            OptChainBase::Member(MemberExpr {
                 prop: MemberProp::Computed(ComputedPropName { expr, .. }),
                 obj,
                 ..
             }) => Some(format!(
                 "{}_{}",
-                sym(obj).unwrap_or_default(),
-                sym(expr).unwrap_or_default()
+                sym_for_expr(obj).unwrap_or_default(),
+                sym_for_expr(expr).unwrap_or_default()
             )),
-
             _ => None,
-        }
-    }
+        },
+        Expr::Call(CallExpr {
+            callee: Callee::Expr(expr),
+            ..
+        }) => sym_for_expr(expr),
 
+        Expr::SuperProp(SuperPropExpr {
+            prop: SuperProp::Ident(ident),
+            ..
+        }) => Some(format!("super_{}", ident.sym)),
+
+        Expr::SuperProp(SuperPropExpr {
+            prop: SuperProp::Computed(ComputedPropName { expr, .. }),
+            ..
+        }) => Some(format!("super_{}", sym_for_expr(expr).unwrap_or_default())),
+
+        Expr::Member(MemberExpr {
+            prop: MemberProp::Ident(ident),
+            obj,
+            ..
+        }) => Some(format!(
+            "{}_{}",
+            sym_for_expr(obj).unwrap_or_default(),
+            ident.sym
+        )),
+
+        Expr::Member(MemberExpr {
+            prop: MemberProp::Computed(ComputedPropName { expr, .. }),
+            obj,
+            ..
+        }) => Some(format!(
+            "{}_{}",
+            sym_for_expr(obj).unwrap_or_default(),
+            sym_for_expr(expr).unwrap_or_default()
+        )),
+
+        _ => None,
+    }
+}
+
+/// Used to determine super_class_ident
+pub fn alias_ident_for(expr: &Expr, default: &str) -> Ident {
     let span = expr.span().apply_mark(Mark::fresh(Mark::root()));
 
-    let mut sym = sym(expr).unwrap_or_else(|| default.to_string());
+    let mut sym = sym_for_expr(expr).unwrap_or_else(|| default.to_string());
+
+    if let Err(s) = Ident::verify_symbol(&sym) {
+        sym = s;
+    }
+
+    if !sym.starts_with('_') {
+        sym = format!("_{}", sym)
+    }
+    quote_ident!(span, sym)
+}
+
+/// Used to determine super_class_ident
+pub fn alias_ident_for_simple_assign_tatget(expr: &SimpleAssignTarget, default: &str) -> Ident {
+    let span = expr.span().apply_mark(Mark::fresh(Mark::root()));
+
+    let mut sym = match expr {
+        SimpleAssignTarget::Ident(i) => Some(i.sym.to_string()),
+
+        SimpleAssignTarget::SuperProp(SuperPropExpr {
+            prop: SuperProp::Ident(ident),
+            ..
+        }) => Some(format!("super_{}", ident.sym)),
+
+        SimpleAssignTarget::SuperProp(SuperPropExpr {
+            prop: SuperProp::Computed(ComputedPropName { expr, .. }),
+            ..
+        }) => Some(format!("super_{}", sym_for_expr(expr).unwrap_or_default())),
+
+        SimpleAssignTarget::Member(MemberExpr {
+            prop: MemberProp::Ident(ident),
+            obj,
+            ..
+        }) => Some(format!(
+            "{}_{}",
+            sym_for_expr(obj).unwrap_or_default(),
+            ident.sym
+        )),
+
+        SimpleAssignTarget::Member(MemberExpr {
+            prop: MemberProp::Computed(ComputedPropName { expr, .. }),
+            obj,
+            ..
+        }) => Some(format!(
+            "{}_{}",
+            sym_for_expr(obj).unwrap_or_default(),
+            sym_for_expr(expr).unwrap_or_default()
+        )),
+        _ => None,
+    }
+    .unwrap_or_else(|| default.to_string());
 
     if let Err(s) = Ident::verify_symbol(&sym) {
         sym = s;
@@ -2155,28 +2190,22 @@ pub fn is_rest_arguments(e: &ExprOrSpread) -> bool {
         return false;
     }
 
-    matches!(
-        *e.expr,
-        Expr::Ident(Ident {
-            sym: js_word!("arguments"),
-            ..
-        })
-    )
+    e.expr.is_ident_ref_to("arguments")
 }
 
 /// Creates `void 0`.
 #[inline]
 pub fn undefined(span: Span) -> Box<Expr> {
-    Expr::Unary(UnaryExpr {
+    UnaryExpr {
         span,
         op: op!("void"),
-        arg: Expr::Lit(Lit::Num(Number {
+        arg: Lit::Num(Number {
             span,
             value: 0.0,
             raw: None,
-        }))
+        })
         .into(),
-    })
+    }
     .into()
 }
 
@@ -2279,24 +2308,10 @@ pub trait IsDirective {
         }
     }
     fn directive_continue(&self) -> bool {
-        match self.as_ref() {
-            Some(Stmt::Expr(expr)) => match &*expr.expr {
-                Expr::Lit(Lit::Str(..)) => true,
-                _ => false,
-            },
-            _ => false,
-        }
+        self.as_ref().map_or(false, Stmt::can_precede_directive)
     }
     fn is_use_strict(&self) -> bool {
-        match self.as_ref() {
-            Some(Stmt::Expr(expr)) => match *expr.expr {
-                Expr::Lit(Lit::Str(Str { ref raw, .. })) => {
-                    matches!(raw, Some(value) if value == "\"use strict\"" || value == "'use strict'")
-                }
-                _ => false,
-            },
-            _ => false,
-        }
+        self.as_ref().map_or(false, Stmt::is_use_strict)
     }
 }
 
@@ -2485,7 +2500,7 @@ impl ExprCtx {
             Expr::New(e) => {
                 // Known constructors
                 if let Expr::Ident(Ident { ref sym, .. }) = *e.callee {
-                    if *sym == js_word!("Date") && e.args.is_empty() {
+                    if *sym == "Date" && e.args.is_empty() {
                         return;
                     }
                 }
@@ -3013,18 +3028,18 @@ impl VisitMut for IdentRenamer<'_> {
                 match p.value.take() {
                     Some(default) => {
                         *i = ObjectPatProp::KeyValue(KeyValuePatProp {
-                            key: PropName::Ident(orig),
+                            key: PropName::Ident(orig.id),
                             value: Box::new(Pat::Assign(AssignPat {
                                 span: DUMMY_SP,
-                                left: Box::new(Pat::Ident(p.key.clone().into())),
+                                left: p.key.clone().into(),
                                 right: default,
                             })),
                         });
                     }
                     None => {
                         *i = ObjectPatProp::KeyValue(KeyValuePatProp {
-                            key: PropName::Ident(orig),
-                            value: Box::new(Pat::Ident(p.key.clone().into())),
+                            key: PropName::Ident(orig.id),
+                            value: p.key.clone().into(),
                         });
                     }
                 }
@@ -3059,11 +3074,23 @@ impl VisitMut for IdentRenamer<'_> {
 }
 
 pub trait QueryRef {
-    fn query_ref(&self, ident: &Ident) -> Option<Expr>;
-    fn query_lhs(&self, ident: &Ident) -> Option<Expr>;
+    fn query_ref(&self, _ident: &Ident) -> Option<Box<Expr>> {
+        None
+    }
+    fn query_lhs(&self, _ident: &Ident) -> Option<Box<Expr>> {
+        None
+    }
+
+    /// ref used in JSX
+    fn query_jsx(&self, _ident: &Ident) -> Option<JSXElementName> {
+        None
+    }
+
     /// when `foo()` is replaced with `bar.baz()`,
     /// should `bar.baz` be indirect call?
-    fn should_fix_this(&self, ident: &Ident) -> bool;
+    fn should_fix_this(&self, _ident: &Ident) -> bool {
+        false
+    }
 }
 
 /// Replace `foo` with `bar` or `bar.baz`
@@ -3095,7 +3122,7 @@ where
                 if let Some(expr) = self.query.query_ref(shorthand) {
                     *n = KeyValueProp {
                         key: shorthand.take().into(),
-                        value: Box::new(expr),
+                        value: expr,
                     }
                     .into()
                 }
@@ -3104,11 +3131,20 @@ where
         }
     }
 
+    fn visit_mut_var_declarator(&mut self, n: &mut VarDeclarator) {
+        if !n.name.is_ident() {
+            n.name.visit_mut_with(self);
+        }
+
+        // skip var declarator name
+        n.init.visit_mut_with(self);
+    }
+
     fn visit_mut_pat(&mut self, n: &mut Pat) {
         match n {
             Pat::Ident(BindingIdent { id, .. }) => {
                 if let Some(expr) = self.query.query_lhs(id) {
-                    *n = Pat::Expr(Box::new(expr));
+                    *n = Pat::Expr(expr);
                 }
             }
             _ => n.visit_mut_children_with(self),
@@ -3119,7 +3155,19 @@ where
         match n {
             Expr::Ident(ref_ident) => {
                 if let Some(expr) = self.query.query_ref(ref_ident) {
-                    *n = expr;
+                    *n = *expr;
+                }
+            }
+
+            _ => n.visit_mut_children_with(self),
+        };
+    }
+
+    fn visit_mut_simple_assign_target(&mut self, n: &mut SimpleAssignTarget) {
+        match n {
+            SimpleAssignTarget::Ident(ref_ident) => {
+                if let Some(expr) = self.query.query_lhs(ref_ident) {
+                    *n = expr.try_into().unwrap();
                 }
             }
 
@@ -3156,6 +3204,30 @@ where
 
         if should_fix_this && n.tag.is_member() {
             *n = n.take().into_indirect()
+        }
+    }
+
+    fn visit_mut_jsx_element_name(&mut self, n: &mut JSXElementName) {
+        n.visit_mut_children_with(self);
+
+        if let JSXElementName::Ident(ident) = n {
+            if let Some(expr) = self.query.query_jsx(ident) {
+                *n = expr;
+            }
+        }
+    }
+
+    fn visit_mut_jsx_object(&mut self, n: &mut JSXObject) {
+        n.visit_mut_children_with(self);
+
+        if let JSXObject::Ident(ident) = n {
+            if let Some(expr) = self.query.query_jsx(ident) {
+                *n = match expr {
+                    JSXElementName::Ident(ident) => ident.into(),
+                    JSXElementName::JSXMemberExpr(expr) => Box::new(expr).into(),
+                    JSXElementName::JSXNamespacedName(..) => unimplemented!(),
+                }
+            }
         }
     }
 }

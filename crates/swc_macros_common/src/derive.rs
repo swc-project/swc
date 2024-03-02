@@ -1,6 +1,5 @@
 use std::iter;
 
-use pmutil::ToTokensExt;
 use proc_macro2::TokenStream;
 use quote::ToTokens;
 use syn::{punctuated::Pair, *};
@@ -48,9 +47,10 @@ impl<'a> Derive<'a> {
                 let mut t = TokenStream::new();
                 input.ident.to_tokens(&mut t);
                 ty_generics.to_tokens(&mut t);
-                Box::new(parse(t.dump().into()).unwrap_or_else(|err| {
-                    panic!("failed to parse type: {}\nType: {}", err, t.dump())
-                }))
+                Box::new(
+                    parse2(t.into_token_stream())
+                        .unwrap_or_else(|err| panic!("failed to parse type: {}", err)),
+                )
             };
 
             (generics, ty)
@@ -60,8 +60,8 @@ impl<'a> Derive<'a> {
             input,
             out: ItemImpl {
                 attrs: vec![],
-                impl_token: def_site(),
-                brace_token: def_site(),
+                impl_token: Token!(impl)(def_site()),
+                brace_token: Default::default(),
                 defaultness: None,
                 unsafety: None,
                 generics,
@@ -89,7 +89,7 @@ impl<'a> Derive<'a> {
     pub fn append_to(mut self, item: ItemImpl) -> ItemImpl {
         assert_eq!(self.out.trait_, None);
         if !self.out.generics.params.empty_or_trailing() {
-            self.out.generics.params.push_punct(def_site());
+            self.out.generics.params.push_punct(Token![,](def_site()));
         }
 
         self.out

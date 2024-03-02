@@ -110,6 +110,9 @@ macro_rules! tok {
     ('<') => {
         crate::token::Token::BinOp(crate::token::BinOpToken::Lt)
     };
+    ("<<") => {
+        crate::token::Token::BinOp(crate::token::BinOpToken::LShift)
+    };
     ('>') => {
         crate::token::Token::BinOp(crate::token::BinOpToken::Gt)
     };
@@ -150,12 +153,6 @@ macro_rules! tok {
         crate::token::Token::RBracket
     };
 
-    ("async") => {
-        crate::token::Token::Word(crate::token::Word::Ident(swc_atoms::js_word!("async")))
-    };
-    ("as") => {
-        crate::token::Token::Word(crate::token::Word::Ident(swc_atoms::js_word!("as")))
-    };
     ("await") => {
         crate::token::Token::Word(crate::token::Word::Keyword(crate::token::Keyword::Await))
     };
@@ -207,9 +204,6 @@ macro_rules! tok {
     ("for") => {
         crate::token::Token::Word(crate::token::Word::Keyword(crate::token::Keyword::For))
     };
-    ("from") => {
-        crate::token::Token::Word(crate::token::Word::Ident(swc_atoms::js_word!("from")))
-    };
     ("function") => {
         crate::token::Token::Word(crate::token::Word::Keyword(crate::token::Keyword::Function))
     };
@@ -236,23 +230,15 @@ macro_rules! tok {
     ("null") => {
         crate::token::Token::Word(crate::token::Word::Null)
     };
-    ("of") => {
-        crate::token::Token::Word(crate::token::Word::Ident(swc_atoms::js_word!("of")))
-    };
+
     ("return") => {
         crate::token::Token::Word(crate::token::Word::Keyword(crate::token::Keyword::Return))
     };
     ("super") => {
         crate::token::Token::Word(crate::token::Word::Keyword(crate::token::Keyword::Super))
     };
-    ("static") => {
-        crate::token::Token::Word(crate::token::Word::Ident(swc_atoms::js_word!("static")))
-    };
     ("switch") => {
         crate::token::Token::Word(crate::token::Word::Keyword(crate::token::Keyword::Switch))
-    };
-    ("target") => {
-        crate::token::Token::Word(crate::token::Word::Ident(swc_atoms::js_word!("target")))
     };
     ("this") => {
         crate::token::Token::Word(crate::token::Word::Keyword(crate::token::Keyword::This))
@@ -283,10 +269,6 @@ macro_rules! tok {
     };
     ("yield") => {
         crate::token::Token::Word(crate::token::Word::Keyword(crate::token::Keyword::Yield))
-    };
-
-    ("accessor") => {
-        crate::token::Token::Word(crate::token::Word::Ident(swc_atoms::js_word!("accessor")))
     };
 
     // ----------
@@ -430,6 +412,10 @@ macro_rules! tok {
     };
     ("using") => {
         crate::token::Token::Word(crate::token::Word::Ident(swc_atoms::js_word!("using")))
+    ($tt:tt) => {
+        crate::token::Token::Word(crate::token::Word::Ident(crate::token::IdentLike::Known(
+            known_ident!($tt),
+        )))
     };
 }
 

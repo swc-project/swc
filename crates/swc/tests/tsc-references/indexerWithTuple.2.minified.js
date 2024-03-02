@@ -16,4 +16,3 @@ var strNumTuple = [
     "foo"
 ];
 strNumTuple["0"], strNumTuple["1"], numTupleTuple[1], numTupleTuple[2], unionTuple1["0"], unionTuple1["1"], unionTuple2[0], unionTuple2[1], unionTuple2[2], unionTuple2[0], unionTuple2[1], unionTuple2["0"], unionTuple2["1"];
- // undefined

@@ -487,7 +487,8 @@
                               "ctxt": 0
                             },
                             "value": "y",
-                            "optional": false
+                            "optional": false,
+                            "typeAnnotation": null
                           },
                           "value": null
                         }

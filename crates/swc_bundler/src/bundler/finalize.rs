@@ -2,7 +2,6 @@ use std::path::{Path, PathBuf};
 
 use anyhow::Error;
 use relative_path::RelativePath;
-use swc_atoms::js_word;
 use swc_common::{collections::AHashMap, util::move_map::MoveMap, FileName, Mark, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{
@@ -208,7 +207,7 @@ where
                                         props.push(PropOrSpread::Prop(Box::new(Prop::KeyValue(
                                             KeyValueProp {
                                                 key: PropName::Ident(Ident::new(
-                                                    js_word!("default"),
+                                                    "default".into(),
                                                     DUMMY_SP,
                                                 )),
                                                 value: Box::new(Expr::Ident(s.exported)),
@@ -260,7 +259,7 @@ where
                                 props.push(PropOrSpread::Prop(Box::new(Prop::KeyValue(
                                     KeyValueProp {
                                         key: PropName::Ident(Ident::new(
-                                            js_word!("default"),
+                                            "default".into(),
                                             export.span,
                                         )),
                                         value: Box::new(Expr::Ident(ident.clone())),
@@ -281,7 +280,7 @@ where
                                 props.push(PropOrSpread::Prop(Box::new(Prop::KeyValue(
                                     KeyValueProp {
                                         key: PropName::Ident(Ident::new(
-                                            js_word!("default"),
+                                            "default".into(),
                                             export.span,
                                         )),
                                         value: Box::new(Expr::Ident(ident.clone())),
@@ -383,7 +382,7 @@ where
             .resolver
             .resolve(&FileName::Real(self.base.clone()), &import.src.value)
         {
-            Ok(v) => match v {
+            Ok(v) => match v.filename {
                 FileName::Real(v) => v,
                 _ => panic!("rename_bundles called with non-path module"),
             },

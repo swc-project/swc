@@ -4259,11 +4259,7 @@
                 }, Animation.stop = function(element, model) {
                     element.style.animation = '', element.removeAttribute('e-animate');
                     var animationId = element.getAttribute('e-animation-id');
-                    if (animationId) {
-                        var frameId = parseInt(animationId, 10);
-                        cancelAnimationFrame(frameId), element.removeAttribute('e-animation-id');
-                    }
-                    model && model.end && model.end.call(this, model);
+                    animationId && (cancelAnimationFrame(parseInt(animationId, 10)), element.removeAttribute('e-animation-id')), model && model.end && model.end.call(this, model);
                 }, Animation.delayAnimation = function(model) {
                     'Disable' === animationMode ? (model.begin && model.begin.call(this, model), model.end && model.end.call(this, model)) : model.delay ? setTimeout(function() {
                         Animation_1.applyAnimation(model);
@@ -5433,9 +5429,10 @@
                     var eleStyle = getComputedStyle(element), style = eleStyle.overflow + eleStyle.overflowX + eleStyle.overflowY;
                     return !!/(auto|scroll)/.test(style);
                 }, Touch.prototype.tapHoldEvent = function(evt) {
-                    this.tapCount = 0, this.touchAction = !0, EventHandler.remove(this.element, Browser.touchMoveEvent, this.moveEvent), EventHandler.remove(this.element, Browser.touchEndEvent, this.endEvent), this.trigger('tapHold', {
+                    var eTapArgs;
+                    this.tapCount = 0, this.touchAction = !0, EventHandler.remove(this.element, Browser.touchMoveEvent, this.moveEvent), EventHandler.remove(this.element, Browser.touchEndEvent, this.endEvent), eTapArgs = {
                         originalEvent: evt
-                    }), EventHandler.remove(this.element, Browser.touchCancelEvent, this.cancelEvent);
+                    }, this.trigger('tapHold', eTapArgs), EventHandler.remove(this.element, Browser.touchCancelEvent, this.cancelEvent);
                 }, Touch.prototype.calcPoints = function(evt) {
                     var point = this.updateChangeTouches(evt);
                     this.defaultArgs = {
@@ -6690,8 +6687,8 @@
                 }, NumericTextBox.prototype.correctRounding = function(value, step, result) {
                     var floatExp = RegExp('[,.](.*)'), floatValue = floatExp.test(value.toString()), floatStep = floatExp.test(step.toString());
                     if (floatValue || floatStep) {
-                        var max = Math.max(floatValue ? floatExp.exec(value.toString())[0].length : 0, floatStep ? floatExp.exec(step.toString())[0].length : 0);
-                        return value = this.roundValue(result, max);
+                        var valueCount = floatValue ? floatExp.exec(value.toString())[0].length : 0, stepCount = floatStep ? floatExp.exec(step.toString())[0].length : 0;
+                        return value = this.roundValue(result, Math.max(valueCount, stepCount));
                     }
                     return result;
                 }, NumericTextBox.prototype.roundValue = function(result, precision) {
@@ -16221,17 +16218,17 @@
                                     previousId: 0
                                 }, function animateMaterial(spinnerInfo) {
                                     (function(start, end, easing, duration, count, max, spinnerInfo) {
-                                        var id = ++spinnerInfo.globalInfo[spinnerInfo.uniqueID].previousId, startTime = new Date().getTime(), change = 149 - start, diameter = parseFloat(2 * spinnerInfo.globalInfo[spinnerInfo.uniqueID].radius + ''), strokeSize = 0.1 * diameter, rotate = -90 * (spinnerInfo.globalInfo[spinnerInfo.uniqueID].count || 0);
+                                        var id = ++spinnerInfo.globalInfo[spinnerInfo.uniqueID].previousId, startTime = new Date().getTime(), diameter = parseFloat(2 * spinnerInfo.globalInfo[spinnerInfo.uniqueID].radius + ''), strokeSize = 0.1 * diameter, rotate = -90 * (spinnerInfo.globalInfo[spinnerInfo.uniqueID].count || 0);
                                         (function mat_animation(spinnerInfo) {
-                                            var currentTime = Math.max(0, Math.min(new Date().getTime() - startTime, duration));
+                                            var currentTime = Math.max(0, Math.min(new Date().getTime() - startTime, 1333));
                                             (function(value, container) {
                                                 if (!(0, ej2_base.le)(container.querySelector('svg.e-spin-material')) && !(0, ej2_base.le)(container.querySelector('svg.e-spin-material').querySelector('path.e-path-circle'))) {
                                                     var path = container.querySelector('svg.e-spin-material').querySelector('path.e-path-circle');
                                                     path.setAttribute('stroke-dashoffset', getDashOffset(diameter, strokeSize, value, 75) + ''), path.setAttribute('transform', 'rotate(' + rotate + ' ' + diameter / 2 + ' ' + diameter / 2 + ')');
                                                 }
-                                            })(easing(currentTime, start, change, duration), spinnerInfo.container), id === spinnerInfo.globalInfo[spinnerInfo.uniqueID].previousId && currentTime < duration ? globalTimeOut[spinnerInfo.uniqueID].timeOut = setTimeout(mat_animation.bind(null, spinnerInfo), 1) : animateMaterial(spinnerInfo);
+                                            })(easing(currentTime, 1, 148, 1333), spinnerInfo.container), id === spinnerInfo.globalInfo[spinnerInfo.uniqueID].previousId && currentTime < 1333 ? globalTimeOut[spinnerInfo.uniqueID].timeOut = setTimeout(mat_animation.bind(null, spinnerInfo), 1) : animateMaterial(spinnerInfo);
                                         })(spinnerInfo);
-                                    })(1, 0, easeAnimation, 1333, spinnerInfo.globalInfo[spinnerInfo.uniqueID].count, 0, spinnerInfo), spinnerInfo.globalInfo[spinnerInfo.uniqueID].count = ++spinnerInfo.globalInfo[spinnerInfo.uniqueID].count % 4;
+                                    })(0, 0, easeAnimation, 0, spinnerInfo.globalInfo[spinnerInfo.uniqueID].count, 0, spinnerInfo), spinnerInfo.globalInfo[spinnerInfo.uniqueID].count = ++spinnerInfo.globalInfo[spinnerInfo.uniqueID].count % 4;
                                 }({
                                     uniqueID: id,
                                     container: inner,
@@ -21270,8 +21267,7 @@
                     var decimalPart = value.toString().split('.')[1];
                     return decimalPart && decimalPart.length ? decimalPart.length : 0;
                 }, Slider.prototype.makeRoundNumber = function(value, precision) {
-                    var decimals = precision || 0;
-                    return Number(value.toFixed(decimals));
+                    return Number(value.toFixed(precision || 0));
                 }, Slider.prototype.fractionalToInteger = function(value) {
                     value = 0 === this.numberOfDecimals(value) ? Number(value).toFixed(this.noOfDecimals) : value;
                     for(var tens = 1, i = 0; i < this.noOfDecimals; i++)tens *= 10;

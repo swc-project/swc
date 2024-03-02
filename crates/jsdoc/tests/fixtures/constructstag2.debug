@@ -19,7 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -42,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('constructs' type=dynamic),
+                    value: "constructs",
                 },
                 tag: Constructs(
                     ConstructsTag {
@@ -65,7 +65,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('Menu' type=inline),
+                            value: "Menu",
                         },
                     },
                 ),
@@ -90,7 +90,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('param' type=static),
+                    value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
@@ -115,7 +115,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('items' type=inline),
+                                value: "items",
                             },
                         ),
                         desc: Text {
@@ -128,7 +128,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('' type=static),
+                            value: "",
                         },
                     },
                 ),
@@ -155,7 +155,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -178,7 +178,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('memberof' type=dynamic),
+                    value: "memberof",
                 },
                 tag: MemberOf(
                     MemberOfTag {
@@ -212,7 +212,7 @@
                                         ),
                                         ctxt: #0,
                                     },
-                                    value: Atom('Menu' type=inline),
+                                    value: "Menu",
                                 },
                             ],
                         },

@@ -502,7 +502,7 @@
                         "end": 75,
                         "ctxt": 0
                       },
-                      "value": "input",
+                      "value": "iNpUt",
                       "raw": "iNpUt"
                     }
                   }
@@ -2373,7 +2373,7 @@
                         "end": 461,
                         "ctxt": 0
                       },
-                      "value": "hover",
+                      "value": "hOvEr",
                       "raw": "hOvEr"
                     },
                     "children": null

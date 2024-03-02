@@ -7,4 +7,3 @@ var _selectJohn1 = _sliced_to_array(selectJohn(), 2);
 _selectJohn1[0], _selectJohn1[1];
 var _john = _sliced_to_array(selectJohn(), 2);
 _john[0], _john[1], makeTuple(stringy()), _sliced_to_array(makeTuple(stringy()), 1)[0];
- // [string]

@@ -141,6 +141,8 @@ impl Comments for SwcComments {
     }
 
     fn add_pure_comment(&self, pos: BytePos) {
+        assert_ne!(pos, BytePos(0), "cannot add pure comment to zero position");
+
         let mut leading = self.leading.entry(pos).or_default();
         let pure_comment = Comment {
             kind: CommentKind::Block,

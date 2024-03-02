@@ -274,7 +274,7 @@
                   "value": "x",
                   "optional": false
                 },
-                "param": {
+                "thisParam": {
                   "type": "Identifier",
                   "span": {
                     "start": 204,
@@ -308,6 +308,33 @@
                         "optional": false
                       },
                       "typeParams": null
+                    }
+                  }
+                },
+                "param": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 215,
+                    "end": 224,
+                    "ctxt": 0
+                  },
+                  "value": "n",
+                  "optional": false,
+                  "typeAnnotation": {
+                    "type": "TsTypeAnnotation",
+                    "span": {
+                      "start": 216,
+                      "end": 224,
+                      "ctxt": 0
+                    },
+                    "typeAnnotation": {
+                      "type": "TsKeywordType",
+                      "span": {
+                        "start": 218,
+                        "end": 224,
+                        "ctxt": 0
+                      },
+                      "kind": "number"
                     }
                   }
                 },
@@ -536,6 +563,7 @@
                   "value": "x",
                   "optional": false
                 },
+                "thisParam": null,
                 "param": {
                   "type": "Identifier",
                   "span": {
@@ -756,7 +784,7 @@
                   "value": "x",
                   "optional": false
                 },
-                "param": {
+                "thisParam": {
                   "type": "Identifier",
                   "span": {
                     "start": 441,
@@ -790,6 +818,33 @@
                         "optional": false
                       },
                       "typeParams": null
+                    }
+                  }
+                },
+                "param": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 452,
+                    "end": 461,
+                    "ctxt": 0
+                  },
+                  "value": "n",
+                  "optional": false,
+                  "typeAnnotation": {
+                    "type": "TsTypeAnnotation",
+                    "span": {
+                      "start": 453,
+                      "end": 461,
+                      "ctxt": 0
+                    },
+                    "typeAnnotation": {
+                      "type": "TsKeywordType",
+                      "span": {
+                        "start": 455,
+                        "end": 461,
+                        "ctxt": 0
+                      },
+                      "kind": "number"
                     }
                   }
                 },
@@ -1002,7 +1057,7 @@
                   "value": "x",
                   "optional": false
                 },
-                "param": {
+                "thisParam": {
                   "type": "Identifier",
                   "span": {
                     "start": 580,
@@ -1010,6 +1065,17 @@
                     "ctxt": 0
                   },
                   "value": "this",
+                  "optional": false,
+                  "typeAnnotation": null
+                },
+                "param": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 586,
+                    "end": 587,
+                    "ctxt": 0
+                  },
+                  "value": "n",
                   "optional": false,
                   "typeAnnotation": null
                 },

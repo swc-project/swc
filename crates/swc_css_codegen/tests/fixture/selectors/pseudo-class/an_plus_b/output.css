@@ -79,7 +79,7 @@ p:nth-child(-n+1) {
 p:nth-child(even) {
   color: blue;
 }
-p:nth-child(even) {
+p:nth-child(EVEN) {
   color: blue;
 }
 p:nth-child(2n) {

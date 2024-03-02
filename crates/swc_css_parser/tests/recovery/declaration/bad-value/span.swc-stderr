@@ -695,7 +695,7 @@
  12 |     value: ! unknown;
     `----
 
-  x Ident { value: Atom('important' type=static), raw: "important" }
+  x Ident { value: "important", raw: "important" }
     ,-[$DIR/tests/recovery/declaration/bad-value/input.css:10:1]
  10 |     value: ! !important;
  11 |     value: ! !important unknown;
@@ -727,7 +727,7 @@
  12 |     value: ! unknown;
     `----
 
-  x Ident { value: Atom('unknown' type=static), raw: "unknown" }
+  x Ident { value: "unknown", raw: "unknown" }
     ,-[$DIR/tests/recovery/declaration/bad-value/input.css:10:1]
  10 |     value: ! !important;
  11 |     value: ! !important unknown;
@@ -807,7 +807,7 @@
  13 |     value: ! ! !;
     `----
 
-  x Ident { value: Atom('unknown' type=static), raw: "unknown" }
+  x Ident { value: "unknown", raw: "unknown" }
     ,-[$DIR/tests/recovery/declaration/bad-value/input.css:11:1]
  11 |     value: ! !important unknown;
  12 |     value: ! unknown;

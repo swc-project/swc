@@ -1,7 +1,9 @@
-extern crate swc_node_base;
+extern crate swc_malloc;
 
 use criterion::{black_box, criterion_group, criterion_main, Bencher, Criterion};
-use swc_common::{input::StringInput, FileName, Span, SyntaxContext, DUMMY_SP};
+use swc_common::{
+    comments::SingleThreadedComments, input::StringInput, FileName, Span, SyntaxContext, DUMMY_SP,
+};
 use swc_css_ast::Stylesheet;
 use swc_css_parser::{lexer::Lexer, parser::Parser};
 use swc_css_visit::{Fold, FoldWith, VisitMut, VisitMutWith};
@@ -13,9 +15,11 @@ where
     F: FnMut(Stylesheet) -> Stylesheet,
 {
     let _ = ::testing::run_test(false, |cm, _| {
+        let comments = SingleThreadedComments::default();
+
         let fm = cm.new_source_file(FileName::Anon, SOURCE.into());
 
-        let lexer = Lexer::new(StringInput::from(&*fm), Default::default());
+        let lexer = Lexer::new(StringInput::from(&*fm), Some(&comments), Default::default());
         let mut parser = Parser::new(lexer, Default::default());
         let stylesheet: Stylesheet = parser.parse_all().unwrap();
 

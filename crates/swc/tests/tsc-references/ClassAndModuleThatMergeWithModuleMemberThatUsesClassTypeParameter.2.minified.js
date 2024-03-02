@@ -1,5 +1,4 @@
 //// [ClassAndModuleThatMergeWithModuleMemberThatUsesClassTypeParameter.ts]
-// all expected to be errors
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var clodule1 = function clodule1() {
     _class_call_check(this, clodule1);

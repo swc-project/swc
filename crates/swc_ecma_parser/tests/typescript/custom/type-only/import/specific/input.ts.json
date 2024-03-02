@@ -46,7 +46,8 @@
         "raw": "'foo'"
       },
       "typeOnly": true,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ImportDeclaration",
@@ -67,7 +68,8 @@
         "raw": "'foo'"
       },
       "typeOnly": true,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     }
   ],
   "interpreter": null

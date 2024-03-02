@@ -119,7 +119,8 @@
                         "ctxt": 0
                       },
                       "value": "param",
-                      "optional": false
+                      "optional": false,
+                      "typeAnnotation": null
                     },
                     "value": {
                       "type": "CallExpression",
@@ -475,7 +476,8 @@
                         "ctxt": 0
                       },
                       "value": "param",
-                      "optional": false
+                      "optional": false,
+                      "typeAnnotation": null
                     },
                     "value": {
                       "type": "CallExpression",
@@ -789,7 +791,8 @@
                         "ctxt": 0
                       },
                       "value": "param",
-                      "optional": false
+                      "optional": false,
+                      "typeAnnotation": null
                     },
                     "value": {
                       "type": "CallExpression",
@@ -1099,7 +1102,8 @@
                         "ctxt": 0
                       },
                       "value": "param",
-                      "optional": false
+                      "optional": false,
+                      "typeAnnotation": null
                     },
                     "value": {
                       "type": "CallExpression",

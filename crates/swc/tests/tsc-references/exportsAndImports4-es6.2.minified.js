@@ -13,8 +13,8 @@ const _default = "hello";
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });
-const _interop_require_wildcard = require("@swc/helpers/_/_interop_require_wildcard"), _t1 = /*#__PURE__*/ _interop_require_wildcard._(require("./t1")), a = require("./t1");
-a.default, _t1.default, _t1.default, _t1.default, _t1.default, _t1.default, _t1.default, _t1.default;
+const _t1 = require("@swc/helpers/_/_interop_require_wildcard")._(require("./t1"));
+require("./t1").default, _t1.default, _t1.default, _t1.default, _t1.default, _t1.default, _t1.default, _t1.default;
 //// [t3.ts]
 Object.defineProperty(exports, "__esModule", {
     value: !0
@@ -49,5 +49,5 @@ Object.defineProperty(exports, "__esModule", {
         return _t1.default;
     }
 });
-const _interop_require_wildcard = require("@swc/helpers/_/_interop_require_wildcard"), _t1 = /*#__PURE__*/ _interop_require_wildcard._(require("./t1")), a = require("./t1");
+const _t1 = require("@swc/helpers/_/_interop_require_wildcard")._(require("./t1")), a = require("./t1");
 a.default, _t1.default, _t1.default, _t1.default, _t1.default, _t1.default, _t1.default, _t1.default;

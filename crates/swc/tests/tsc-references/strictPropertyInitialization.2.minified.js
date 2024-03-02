@@ -1,5 +1,4 @@
 //// [strictPropertyInitialization.ts]
-// Properties with non-undefined types require initialization
 var E, E1;
 import "@swc/helpers/_/_class_private_field_get";
 import "@swc/helpers/_/_class_private_field_init";

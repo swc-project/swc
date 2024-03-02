@@ -1,6 +1,5 @@
 //// [genericCallWithTupleType.ts]
 var i1, i2;
-// no error
 i1.tuple1 = [
     "foo",
     5
@@ -23,8 +22,7 @@ i1.tuple1 = [
 ], i2.tuple1 = [
     {},
     {}
-], // error
-i1.tuple1 = [
+], i1.tuple1 = [
     5,
     "foo"
 ], i1.tuple1 = [

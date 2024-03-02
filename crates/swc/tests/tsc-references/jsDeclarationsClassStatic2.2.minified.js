@@ -14,7 +14,7 @@ export var Foo = function(Base) {
     }
     return Foo;
 }(Base);
-Foo./*#__PURE__*/ foo = "foo";
+Foo.foo = "foo";
 //// [Bar.ts]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
@@ -27,4 +27,4 @@ import { Foo } from "./Foo.js";
         return _class_call_check(this, Bar), _super.apply(this, arguments);
     }
     return Bar;
-})(Foo)./*#__PURE__*/ foo = "foo";
+})(Foo).foo = "foo";

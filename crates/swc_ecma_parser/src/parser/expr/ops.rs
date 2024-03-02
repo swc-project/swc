@@ -330,7 +330,7 @@ impl<I: Tokens> Parser<I> {
         }
 
         if is!(self, "await") {
-            return self.parse_await_expr();
+            return self.parse_await_expr(None);
         }
 
         // UpdateExpression
@@ -361,10 +361,15 @@ impl<I: Tokens> Parser<I> {
         Ok(expr)
     }
 
-    pub(crate) fn parse_await_expr(&mut self) -> PResult<Box<Expr>> {
-        let start = cur_pos!(self);
+    pub(crate) fn parse_await_expr(
+        &mut self,
+        start_of_await_token: Option<BytePos>,
+    ) -> PResult<Box<Expr>> {
+        let start = start_of_await_token.unwrap_or_else(|| cur_pos!(self));
 
-        assert_and_bump!(self, "await");
+        if start_of_await_token.is_none() {
+            assert_and_bump!(self, "await");
+        }
 
         if is!(self, '*') {
             syntax_error!(self, SyntaxError::AwaitStar);
@@ -379,7 +384,7 @@ impl<I: Tokens> Parser<I> {
                 self.emit_err(span, SyntaxError::InvalidIdentInAsync);
             }
 
-            return Ok(Box::new(Expr::Ident(Ident::new(js_word!("await"), span))));
+            return Ok(Box::new(Expr::Ident(Ident::new("await".into(), span))));
         }
 
         if ctx.in_function && !ctx.in_async {

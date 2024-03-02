@@ -25,7 +25,8 @@
         "raw": "'module-not-existed'"
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     }
   ],
   "interpreter": null

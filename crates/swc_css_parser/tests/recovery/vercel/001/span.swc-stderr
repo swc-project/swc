@@ -971,7 +971,7 @@
  15 | }
     `----
 
-  x Ident { value: Atom('__styled-jsx-placeholder__7' type=dynamic), raw: "__styled-jsx-placeholder__7" }
+  x Ident { value: "__styled-jsx-placeholder__7", raw: "__styled-jsx-placeholder__7" }
     ,-[$DIR/tests/recovery/vercel/001/input.css:13:1]
  13 |     }
  14 |     __styled-jsx-placeholder__7

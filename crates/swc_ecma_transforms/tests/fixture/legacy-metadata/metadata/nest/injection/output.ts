@@ -1,7 +1,7 @@
 import { AppService } from "./app.service";
 import { Session, Res } from "@nestjs/common";
 import * as express from "express";
-export let AppController = class AppController {
+export class AppController {
     constructor(private appService: AppService){}
     appService: AppService;
     private appService2: AppService;
@@ -15,7 +15,7 @@ export let AppController = class AppController {
         session.user = user;
         return res.redirect(state.returnUrl ?? "/");
     }
-};
+}
 _ts_decorate([
     Inject(),
     _ts_metadata("design:type", typeof AppService === "undefined" ? Object : AppService)
@@ -27,7 +27,8 @@ _ts_decorate([
 _ts_decorate([
     Get(),
     _ts_metadata("design:type", Function),
-    _ts_metadata("design:paramtypes", [])
+    _ts_metadata("design:paramtypes", []),
+    _ts_metadata("design:returntype", String)
 ], AppController.prototype, "getHello", null);
 _ts_decorate([
     Get("/callback"),
@@ -37,7 +38,8 @@ _ts_decorate([
     _ts_metadata("design:paramtypes", [
         typeof express === "undefined" || typeof express.Response === "undefined" ? Object : express.Response,
         typeof express === "undefined" || typeof express.Express === "undefined" || typeof express.Express.Session === "undefined" ? Object : express.Express.Session
-    ])
+    ]),
+    _ts_metadata("design:returntype", Promise)
 ], AppController.prototype, "callback", null);
 AppController = _ts_decorate([
     Controller(),

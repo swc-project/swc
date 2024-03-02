@@ -1,0 +1,46 @@
+{
+  "493": [
+    {
+      "kind": "Block",
+      "span": {
+        "start": 371,
+        "end": 493,
+        "ctxt": 0
+      },
+      "text": "/*filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='img.png',sizingMethod='scale') alpha(opacity=80);*/"
+    }
+  ],
+  "1114": [
+    {
+      "kind": "Block",
+      "span": {
+        "start": 1099,
+        "end": 1113,
+        "ctxt": 0
+      },
+      "text": "/* CDO/CDC */"
+    }
+  ],
+  "527": [
+    {
+      "kind": "Block",
+      "span": {
+        "start": 493,
+        "end": 527,
+        "ctxt": 0
+      },
+      "text": "/*width: expression(1 + 2);*/"
+    }
+  ],
+  "17": [
+    {
+      "kind": "Block",
+      "span": {
+        "start": 1,
+        "end": 17,
+        "ctxt": 0
+      },
+      "text": "/*! something */"
+    }
+  ]
+}

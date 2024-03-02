@@ -21,28 +21,10 @@ a {
   justify-self: center;
   place-self: center;
 }
-a {
-  -webkit-align-content: space-between;
-  -ms-flex-line-pack: justify;
-  align-content: space-between;
-  -webkit-box-pack: center;
-  -webkit-justify-content: center;
-  -moz-box-pack: center;
-  -ms-flex-pack: center;
-  justify-content: center;
-  place-content: space-between center;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-  -moz-box-align: center;
-  -ms-flex-align: center;
-  align-items: center;
-  justify-items: normal;
-  place-items: center normal;
-  -webkit-align-self: auto;
-  -ms-flex-item-align: auto;
-  align-self: auto;
-  justify-self: center;
-  place-self: auto center;
+A {
+  PLACE-CONTENT: space-between center;
+  PLACE-ITEMS: center normal;
+  PLACE-SELF: auto center;
 }
 b {
   -webkit-align-content: space-between;

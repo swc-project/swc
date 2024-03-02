@@ -200,7 +200,8 @@
         "raw": "\"./m1\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "VariableDeclaration",
@@ -242,7 +243,8 @@
                     "ctxt": 0
                   },
                   "value": "___",
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "value": null
               },
@@ -261,7 +263,8 @@
                     "ctxt": 0
                   },
                   "value": "___hello",
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "value": null
               },
@@ -280,7 +283,8 @@
                     "ctxt": 0
                   },
                   "value": "_hi",
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "value": null
               }

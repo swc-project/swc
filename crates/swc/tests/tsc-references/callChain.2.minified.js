@@ -54,5 +54,4 @@ null == o1 || o1(), null == o1 || o1(1), null == o1 || o1.apply(void 0, [
     2,
     3,
     4
-]).c, null == o4 || o4(incr), null === (_o5 = o5()) || void 0 === _o5 || _o5(), null == // GH#36031
-o2 || o2.b().toString, null == o2 || o2.b().toString;
+]).c, null == o4 || o4(incr), null === (_o5 = o5()) || void 0 === _o5 || _o5(), null == o2 || o2.b().toString, null == o2 || o2.b().toString;

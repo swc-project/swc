@@ -1,5 +1,5 @@
 use indexmap::IndexMap;
-use swc_atoms::{js_word, JsWord};
+use swc_atoms::JsWord;
 use swc_common::{
     collections::{AHashMap, AHashSet},
     util::take::Take,
@@ -228,7 +228,7 @@ impl VisitMut for ModuleDeclStrip {
                     .clone();
 
                 self.export
-                    .insert(js_word!("default"), ExportItem::new(n.span, ident));
+                    .insert("default".into(), ExportItem::new(n.span, ident));
             }
             DefaultDecl::Fn(fn_expr) => {
                 let ident = fn_expr
@@ -237,7 +237,7 @@ impl VisitMut for ModuleDeclStrip {
                     .clone();
 
                 self.export
-                    .insert(js_word!("default"), ExportItem::new(n.span, ident));
+                    .insert("default".into(), ExportItem::new(n.span, ident));
             }
             DefaultDecl::TsInterfaceDecl(_) => {}
         }
@@ -256,7 +256,7 @@ impl VisitMut for ModuleDeclStrip {
         let ident = private_ident!(n.span, "_default");
 
         self.export
-            .insert(js_word!("default"), ExportItem::new(n.span, ident.clone()));
+            .insert("default".into(), ExportItem::new(n.span, ident.clone()));
 
         self.export_default = Some(Stmt::Decl(
             n.expr
@@ -400,21 +400,17 @@ impl From<ImportSpecifier> for LinkSpecifier {
                 Self::ImportStarAs(local.to_id())
             }
 
-            ImportSpecifier::Default(ImportDefaultSpecifier { local, .. })
-            | ImportSpecifier::Named(ImportNamedSpecifier {
+            ImportSpecifier::Default(ImportDefaultSpecifier { local, .. }) => {
+                Self::ImportDefault(local.to_id())
+            }
+            ImportSpecifier::Named(ImportNamedSpecifier {
                 is_type_only: false,
                 local,
                 imported:
-                    Some(ModuleExportName::Ident(Ident {
-                        sym: js_word!("default"),
-                        ..
-                    }))
-                    | Some(ModuleExportName::Str(Str {
-                        value: js_word!("default"),
-                        ..
-                    })),
+                    Some(ModuleExportName::Ident(Ident { sym: s, .. }))
+                    | Some(ModuleExportName::Str(Str { value: s, .. })),
                 ..
-            }) => Self::ImportDefault(local.to_id()),
+            }) if &*s == "default" => Self::ImportDefault(local.to_id()),
 
             ImportSpecifier::Named(ImportNamedSpecifier {
                 is_type_only: false,
@@ -474,8 +470,8 @@ impl From<ExportSpecifier> for LinkSpecifier {
                     }) => (sym, span.private()),
                 });
 
-                match orig {
-                    (js_word!("default"), default_span) => {
+                match (&*orig.0, orig.1) {
+                    ("default", default_span) => {
                         let (sym, span) = exported.unwrap_or(orig);
 
                         Self::ExportDefaultAs(default_span, sym, span)
@@ -549,20 +545,15 @@ impl From<&ImportSpecifier> for LinkFlag {
         match i {
             ImportSpecifier::Namespace(..) => Self::NAMESPACE,
 
-            ImportSpecifier::Default(ImportDefaultSpecifier { .. })
-            | ImportSpecifier::Named(ImportNamedSpecifier {
+            ImportSpecifier::Default(ImportDefaultSpecifier { .. }) => Self::DEFAULT,
+
+            ImportSpecifier::Named(ImportNamedSpecifier {
                 is_type_only: false,
                 imported:
-                    Some(ModuleExportName::Ident(Ident {
-                        sym: js_word!("default"),
-                        ..
-                    }))
-                    | Some(ModuleExportName::Str(Str {
-                        value: js_word!("default"),
-                        ..
-                    })),
+                    Some(ModuleExportName::Ident(Ident { sym: default, .. }))
+                    | Some(ModuleExportName::Str(Str { value: default, .. })),
                 ..
-            }) => Self::DEFAULT,
+            }) if &**default == "default" => Self::DEFAULT,
 
             ImportSpecifier::Named(ImportNamedSpecifier {
                 is_type_only: false,
@@ -580,20 +571,14 @@ impl From<&ExportSpecifier> for LinkFlag {
             ExportSpecifier::Namespace(..) => Self::NAMESPACE,
 
             // https://github.com/tc39/proposal-export-default-from
-            ExportSpecifier::Default(..)
-            | ExportSpecifier::Named(ExportNamedSpecifier {
+            ExportSpecifier::Default(..) => Self::DEFAULT,
+            ExportSpecifier::Named(ExportNamedSpecifier {
                 is_type_only: false,
                 orig:
-                    ModuleExportName::Ident(Ident {
-                        sym: js_word!("default"),
-                        ..
-                    })
-                    | ModuleExportName::Str(Str {
-                        value: js_word!("default"),
-                        ..
-                    }),
+                    ModuleExportName::Ident(Ident { sym: s, .. })
+                    | ModuleExportName::Str(Str { value: s, .. }),
                 ..
-            }) => Self::DEFAULT,
+            }) if &**s == "default" => Self::DEFAULT,
 
             ExportSpecifier::Named(ExportNamedSpecifier {
                 is_type_only: false,
@@ -670,7 +655,7 @@ impl LinkSpecifierReducer for AHashSet<LinkSpecifier> {
                     id,
                     (
                         mod_ident.clone(),
-                        (!default_nowrap).then(|| js_word!("default")),
+                        (!default_nowrap).then(|| "default".into()),
                     ),
                 );
             }

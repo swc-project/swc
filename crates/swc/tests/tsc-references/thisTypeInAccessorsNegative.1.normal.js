@@ -4,7 +4,7 @@ var mismatch = {
     get x () {
         return this.n;
     },
-    set x (_this){
+    set x (n){
         this.wrong = "method";
     }
 };

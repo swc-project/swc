@@ -413,7 +413,13 @@ impl<I: Tokens> Parser<I> {
 
         let start_pos = cur_pos!(self);
 
-        self.parse_jsx_element_at(start_pos)
+        let ctx = Context {
+            in_cond_expr: false,
+            will_expect_colon_for_cond: false,
+            ..self.ctx()
+        };
+
+        self.with_ctx(ctx).parse_jsx_element_at(start_pos)
     }
 
     pub(super) fn parse_jsx_text(&mut self) -> PResult<JSXText> {

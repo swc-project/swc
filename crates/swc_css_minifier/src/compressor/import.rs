@@ -24,7 +24,7 @@ impl Compressor {
 
             *import_href = ImportHref::Str(Str {
                 span: *span,
-                value: (&*new_value).into(),
+                value: new_value.clone(),
                 raw: None,
             });
         }

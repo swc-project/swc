@@ -1294,7 +1294,7 @@
         return a <= 0 && (r = g = b = NaN), new Rgb(r, g, b, a);
     }
     function rgbConvert(o) {
-        return (o instanceof Color || (o = color(o)), o) ? (o = o.rgb(), new Rgb(o.r, o.g, o.b, o.opacity)) : new Rgb;
+        return (o instanceof Color || (o = color(o)), o) ? new Rgb((o = o.rgb()).r, o.g, o.b, o.opacity) : new Rgb;
     }
     function rgb(r, g, b, opacity) {
         return 1 == arguments.length ? rgbConvert(r) : new Rgb(r, g, b, null == opacity ? 1 : opacity);
@@ -1381,7 +1381,7 @@
             return (1 === (a = isNaN(a) ? 1 : Math.max(0, Math.min(1, a))) ? "hsl(" : "hsla(") + (this.h || 0) + ", " + 100 * (this.s || 0) + "%, " + 100 * (this.l || 0) + "%" + (1 === a ? ")" : ", " + a + ")");
         }
     }));
-    const radians = Math.PI / 180, degrees = 180 / Math.PI, t0 = 4 / 29, t1 = 6 / 29, t2 = 3 * t1 * t1, t3 = t1 * t1 * t1;
+    const radians = Math.PI / 180, degrees = 180 / Math.PI, t0 = 4 / 29, t1 = 6 / 29, t2 = 6 / 29 * 3 * (6 / 29), t3 = 6 / 29 * (6 / 29) * (6 / 29);
     function labConvert(o) {
         if (o instanceof Lab) return new Lab(o.l, o.a, o.b, o.opacity);
         if (o instanceof Hcl) return hcl2lab(o);
@@ -1433,7 +1433,7 @@
         },
         rgb: function() {
             var y = (this.l + 16) / 116, x = isNaN(this.a) ? y : y + this.a / 500, z = isNaN(this.b) ? y : y - this.b / 200;
-            return x = 0.96422 * lab2xyz(x), y = 1 * lab2xyz(y), z = 0.82521 * lab2xyz(z), new Rgb(lrgb2rgb(3.1338561 * x - 1.6168667 * y - 0.4906146 * z), lrgb2rgb(-0.9787684 * x + 1.9161415 * y + 0.0334540 * z), lrgb2rgb(0.0719453 * x - 0.2289914 * y + 1.4052427 * z), this.opacity);
+            return new Rgb(lrgb2rgb(3.1338561 * (x = 0.96422 * lab2xyz(x)) - 1.6168667 * (y = 1 * lab2xyz(y)) - 0.4906146 * (z = 0.82521 * lab2xyz(z))), lrgb2rgb(-0.9787684 * x + 1.9161415 * y + 0.0334540 * z), lrgb2rgb(0.0719453 * x - 0.2289914 * y + 1.4052427 * z), this.opacity);
         }
     })), define1(Hcl, hcl, extend(Color, {
         brighter: function(k) {
@@ -1485,7 +1485,7 @@
         },
         rgb: function() {
             var h = isNaN(this.h) ? 0 : (this.h + 120) * radians, l = +this.l, a = isNaN(this.s) ? 0 : this.s * l * (1 - l), cosh = Math.cos(h), sinh = Math.sin(h);
-            return new Rgb(255 * (l + a * (-0.14861 * cosh + 1.78277 * sinh)), 255 * (l + a * (-0.29227 * cosh + -0.90649 * sinh)), 255 * (l + a * (1.97294 * cosh)), this.opacity);
+            return new Rgb(255 * (l + a * (-0.14861 * cosh + 1.78277 * sinh)), 255 * (l + a * (-0.29227 * cosh + -0.90649 * sinh)), 255 * (l + 1.97294 * cosh * a), this.opacity);
         }
     }));
     var constant$3 = (x)=>()=>x;
@@ -1672,7 +1672,7 @@
             else {
                 var d1 = Math.sqrt(d2), b0 = (w1 * w1 - w0 * w0 + rho4 * d2) / (2 * w0 * rho2 * d1), b1 = (w1 * w1 - w0 * w0 - rho4 * d2) / (2 * w1 * rho2 * d1), r0 = Math.log(Math.sqrt(b0 * b0 + 1) - b0);
                 S = (Math.log(Math.sqrt(b1 * b1 + 1) - b1) - r0) / rho, i = function(t) {
-                    var x, x1, s = t * S, coshr0 = cosh(r0), u = w0 / (rho2 * d1) * (coshr0 * (((x = Math.exp(2 * (x = rho * s + r0))) - 1) / (x + 1)) - ((x1 = Math.exp(x1 = r0)) - 1 / x1) / 2);
+                    var x, x1, s = t * S, coshr0 = cosh(r0), u = w0 / (rho2 * d1) * (((x = Math.exp(2 * (x = rho * s + r0))) - 1) / (x + 1) * coshr0 - ((x1 = Math.exp(x1 = r0)) - 1 / x1) / 2);
                     return [
                         ux0 + u * dx,
                         uy0 + u * dy,
@@ -1683,8 +1683,8 @@
             return i.duration = 1000 * S * rho / Math.SQRT2, i;
         }
         return zoom.rho = function(_) {
-            var _1 = Math.max(1e-3, +_), _2 = _1 * _1, _4 = _2 * _2;
-            return zoomRho(_1, _2, _4);
+            var _1 = Math.max(1e-3, +_), _2 = _1 * _1;
+            return zoomRho(_1, _2, _2 * _2);
         }, zoom;
     }(Math.SQRT2, 2, 4);
     function hsl$1(hue) {
@@ -2727,29 +2727,23 @@
                     const x0 = x;
                     if (directed) {
                         const subgroupIndex = range(~n + 1, n).filter((j)=>j < 0 ? matrix[~j * n + i] : matrix[i * n + j]);
-                        for (const j of (sortSubgroups && subgroupIndex.sort((a, b)=>sortSubgroups(a < 0 ? -matrix[~a * n + i] : matrix[i * n + a], b < 0 ? -matrix[~b * n + i] : matrix[i * n + b])), subgroupIndex))if (j < 0) {
-                            const chord = chords[~j * n + i] || (chords[~j * n + i] = {
-                                source: null,
-                                target: null
-                            });
-                            chord.target = {
-                                index: i,
-                                startAngle: x,
-                                endAngle: x += matrix[~j * n + i] * k,
-                                value: matrix[~j * n + i]
-                            };
-                        } else {
-                            const chord = chords[i * n + j] || (chords[i * n + j] = {
-                                source: null,
-                                target: null
-                            });
-                            chord.source = {
-                                index: i,
-                                startAngle: x,
-                                endAngle: x += matrix[i * n + j] * k,
-                                value: matrix[i * n + j]
-                            };
-                        }
+                        for (const j of (sortSubgroups && subgroupIndex.sort((a, b)=>sortSubgroups(a < 0 ? -matrix[~a * n + i] : matrix[i * n + a], b < 0 ? -matrix[~b * n + i] : matrix[i * n + b])), subgroupIndex))j < 0 ? (chords[~j * n + i] || (chords[~j * n + i] = {
+                            source: null,
+                            target: null
+                        })).target = {
+                            index: i,
+                            startAngle: x,
+                            endAngle: x += matrix[~j * n + i] * k,
+                            value: matrix[~j * n + i]
+                        } : (chords[i * n + j] || (chords[i * n + j] = {
+                            source: null,
+                            target: null
+                        })).source = {
+                            index: i,
+                            startAngle: x,
+                            endAngle: x += matrix[i * n + j] * k,
+                            value: matrix[i * n + j]
+                        };
                         groups[i] = {
                             index: i,
                             startAngle: x0,
@@ -3345,11 +3339,11 @@
                     a = EDGE_STACK[--i];
                     continue;
                 }
-                const b0 = b - b % 3, al = a0 + (a + 1) % 3, bl = b0 + (b + 2) % 3, p0 = triangles[ar], pr = triangles[a], pl = triangles[al], p1 = triangles[bl], illegal = function(ax, ay, bx, by, cx, cy, px, py) {
+                const b0 = b - b % 3, al = a0 + (a + 1) % 3, bl = b0 + (b + 2) % 3, p0 = triangles[ar], pr = triangles[a], pl = triangles[al], p1 = triangles[bl];
+                if (function(ax, ay, bx, by, cx, cy, px, py) {
                     const dx = ax - px, dy = ay - py, ex = bx - px, ey = by - py, fx = cx - px, fy = cy - py, bp = ex * ex + ey * ey, cp = fx * fx + fy * fy;
                     return dx * (ey * cp - bp * fy) - dy * (ex * cp - bp * fx) + (dx * dx + dy * dy) * (ex * fy - ey * fx) < 0;
-                }(coords[2 * p0], coords[2 * p0 + 1], coords[2 * pr], coords[2 * pr + 1], coords[2 * pl], coords[2 * pl + 1], coords[2 * p1], coords[2 * p1 + 1]);
-                if (illegal) {
+                }(coords[2 * p0], coords[2 * p0 + 1], coords[2 * pr], coords[2 * pr + 1], coords[2 * pl], coords[2 * pl + 1], coords[2 * p1], coords[2 * p1 + 1])) {
                     triangles[a] = p1, triangles[b] = p0;
                     const hbl = halfedges[bl];
                     if (-1 === hbl) {
@@ -3389,8 +3383,7 @@
         return Math.abs(l - r) >= 3.3306690738754716e-16 * Math.abs(l + r) ? l - r : 0;
     }
     function orient(rx, ry, qx, qy, px, py) {
-        const sign = orientIfSure(px, py, rx, ry, qx, qy) || orientIfSure(rx, ry, qx, qy, px, py) || orientIfSure(qx, qy, px, py, rx, ry);
-        return sign < 0;
+        return 0 > (orientIfSure(px, py, rx, ry, qx, qy) || orientIfSure(rx, ry, qx, qy, px, py) || orientIfSure(qx, qy, px, py, rx, ry));
     }
     function quicksort(ids, dists, left, right) {
         if (right - left <= 20) for(let i = left + 1; i <= right; i++){
@@ -3439,8 +3432,8 @@
             this._ += `L${this._x1 = +x},${this._y1 = +y}`;
         }
         arc(x, y, r) {
-            x = +x, y = +y, r = +r;
-            const x0 = x + r, y0 = y;
+            x = +x, y = +y;
+            const x0 = x + (r = +r), y0 = y;
             if (r < 0) throw Error("negative radius");
             null === this._x1 ? this._ += `M${x0},${y0}` : (Math.abs(this._x1 - x0) > 1e-6 || Math.abs(this._y1 - y0) > 1e-6) && (this._ += "L" + x0 + "," + y0), r && (this._ += `A${r},${r},0,1,1,${x - r},${y}A${r},${r},0,1,1,${this._x1 = x0},${this._y1 = y0}`);
         }
@@ -3515,8 +3508,8 @@
             }
             let h0, h1 = hull[hull.length - 1];
             for(let i = 0; i < hull.length; ++i){
-                h0 = h1, h1 = hull[i];
-                const t = 2 * Math.floor(inedges[h1] / 3), x = circumcenters[t], y = circumcenters[t + 1], v = 4 * h0, p = this._project(x, y, vectors[v + 2], vectors[v + 3]);
+                h0 = h1;
+                const t = 2 * Math.floor(inedges[h1 = hull[i]] / 3), x = circumcenters[t], y = circumcenters[t + 1], v = 4 * h0, p = this._project(x, y, vectors[v + 2], vectors[v + 3]);
                 p && this._renderSegment(x, y, p[0], p[1], context);
             }
             return buffer && buffer.value();
@@ -3755,8 +3748,8 @@
             if (d.hull && d.hull.length > 2 && function(d) {
                 const { triangles, coords } = d;
                 for(let i = 0; i < triangles.length; i += 3){
-                    const a = 2 * triangles[i], b = 2 * triangles[i + 1], c = 2 * triangles[i + 2], cross = (coords[c] - coords[a]) * (coords[b + 1] - coords[a + 1]) - (coords[b] - coords[a]) * (coords[c + 1] - coords[a + 1]);
-                    if (cross > 1e-10) return !1;
+                    const a = 2 * triangles[i], b = 2 * triangles[i + 1], c = 2 * triangles[i + 2];
+                    if ((coords[c] - coords[a]) * (coords[b + 1] - coords[a + 1]) - (coords[b] - coords[a]) * (coords[c + 1] - coords[a + 1]) > 1e-10) return !1;
                 }
                 return !0;
             }(d)) {
@@ -4901,16 +4894,16 @@
                 0
             ], n2 = cartesianCross(pa, pb), n2n2 = cartesianDot(n2, n2), n1n2 = n2[0], determinant = n2n2 - n1n2 * n1n2;
             if (!determinant) return !two && a;
-            var c1 = cr * n2n2 / determinant, c2 = -cr * n1n2 / determinant, n1xn2 = cartesianCross(n1, n2), A = cartesianScale(n1, c1);
-            cartesianAddInPlace(A, cartesianScale(n2, c2));
+            var n1xn2 = cartesianCross(n1, n2), A = cartesianScale(n1, cr * n2n2 / determinant);
+            cartesianAddInPlace(A, cartesianScale(n2, -cr * n1n2 / determinant));
             var w = cartesianDot(A, n1xn2), uu = cartesianDot(n1xn2, n1xn2), t2 = w * w - uu * (cartesianDot(A, A) - 1);
             if (!(t2 < 0)) {
                 var t = sqrt(t2), q = cartesianScale(n1xn2, (-w - t) / uu);
                 if (cartesianAddInPlace(q, A), q = spherical(q), !two) return q;
                 var z, lambda0 = a[0], lambda1 = b[0], phi0 = a[1], phi1 = b[1];
                 lambda1 < lambda0 && (z = lambda0, lambda0 = lambda1, lambda1 = z);
-                var delta = lambda1 - lambda0, polar = 1e-6 > abs$2(delta - pi$3), meridian = polar || delta < 1e-6;
-                if (!polar && phi1 < phi0 && (z = phi0, phi0 = phi1, phi1 = z), meridian ? polar ? phi0 + phi1 > 0 ^ q[1] < (1e-6 > abs$2(q[0] - lambda0) ? phi0 : phi1) : phi0 <= q[1] && q[1] <= phi1 : delta > pi$3 ^ (lambda0 <= q[0] && q[0] <= lambda1)) {
+                var delta = lambda1 - lambda0, polar = 1e-6 > abs$2(delta - pi$3);
+                if (!polar && phi1 < phi0 && (z = phi0, phi0 = phi1, phi1 = z), polar || delta < 1e-6 ? polar ? phi0 + phi1 > 0 ^ q[1] < (1e-6 > abs$2(q[0] - lambda0) ? phi0 : phi1) : phi0 <= q[1] && q[1] <= phi1 : delta > pi$3 ^ (lambda0 <= q[0] && q[0] <= lambda1)) {
                     var q1 = cartesianScale(n1xn2, (-w + t) / uu);
                     return cartesianAddInPlace(q1, A), [
                         q,
@@ -9141,9 +9134,7 @@
         return select(creator(name).call(document.documentElement));
     }, exports1.creator = creator, exports1.cross = function(...values) {
         var reduce;
-        const reduce1 = "function" == typeof values[values.length - 1] && (reduce = values.pop(), (values)=>reduce(...values));
-        values = values.map(arrayify);
-        const lengths = values.map(length), j = values.length - 1, index = Array(j + 1).fill(0), product = [];
+        const reduce1 = "function" == typeof values[values.length - 1] && (reduce = values.pop(), (values)=>reduce(...values)), lengths = (values = values.map(arrayify)).map(length), j = values.length - 1, index = Array(j + 1).fill(0), product = [];
         if (j < 0 || lengths.some(empty)) return product;
         for(;;){
             product.push(index.map((j, i)=>values[i][j]));

@@ -1,5 +1,6 @@
 function createCommonjsModule(fn) {
-    return fn();
+    var module = { exports: {} };
+    return fn(module, module.exports), module.exports;
 }
 const isFile = (config) => true;
 const pkgBrowserslist = {};

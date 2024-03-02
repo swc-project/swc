@@ -1,2 +1,1 @@
 //// [nonPrimitiveAsProperty.ts]
- // expect error

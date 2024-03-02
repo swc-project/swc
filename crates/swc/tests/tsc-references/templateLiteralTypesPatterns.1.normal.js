@@ -145,3 +145,15 @@ export var BB = /*#__PURE__*/ function() {
     };
     return BB;
 }();
+// repro from https://github.com/microsoft/TypeScript/issues/54177#issuecomment-1538436654
+function conversionTest(groupName) {}
+conversionTest("testDowncast");
+function conversionTest2(groupName) {}
+conversionTest2("testDowncast");
+function conversionTest3(groupName) {}
+conversionTest3("testDowncast");
+function conversionTest4(groupName) {}
+conversionTest4("testDowncast");
+function foo(str1) {}
+foo("abaTest"); // ok
+foo("abcTest"); // error

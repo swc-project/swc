@@ -155,7 +155,7 @@
  3 | }
    `----
 
-  x Ident { value: Atom('red' type=static), raw: "red" }
+  x Ident { value: "red", raw: "red" }
    ,-[$DIR/tests/recovery/delim-token/at-sign/input.css:1:1]
  1 | a {
  2 |     color: @ red;

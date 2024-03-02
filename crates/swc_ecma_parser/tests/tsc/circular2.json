@@ -46,7 +46,8 @@
         "raw": "'./b'"
       },
       "typeOnly": true,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ExportDeclaration",
@@ -135,7 +136,8 @@
         "raw": "'./a'"
       },
       "typeOnly": true,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ExportDeclaration",

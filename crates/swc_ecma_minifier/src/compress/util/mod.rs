@@ -1,6 +1,5 @@
 use std::f64;
 
-use swc_atoms::js_word;
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 #[cfg(feature = "debug")]
@@ -379,10 +378,7 @@ pub(crate) fn negate_cost(
 
 pub(crate) fn is_pure_undefined(expr_ctx: &ExprCtx, e: &Expr) -> bool {
     match e {
-        Expr::Ident(Ident {
-            sym: js_word!("undefined"),
-            ..
-        }) => true,
+        Expr::Ident(Ident { sym, .. }) if &**sym == "undefined" => true,
 
         Expr::Unary(UnaryExpr {
             op: UnaryOp::Void,
@@ -595,13 +591,9 @@ where
 pub(super) fn is_fine_for_if_cons(s: &Stmt) -> bool {
     match s {
         Stmt::Decl(Decl::Fn(FnDecl {
-            ident:
-                Ident {
-                    sym: js_word!("undefined"),
-                    ..
-                },
+            ident: Ident { sym, .. },
             ..
-        })) => false,
+        })) if &**sym == "undefined" => false,
 
         Stmt::Decl(Decl::Var(v))
             if matches!(
@@ -758,12 +750,10 @@ impl Visit for SuperFinder {
     fn visit_prop(&mut self, n: &Prop) {
         n.visit_children_with(self);
 
-        if let Prop::Shorthand(Ident {
-            sym: js_word!("arguments"),
-            ..
-        }) = n
-        {
-            self.found = true;
+        if let Prop::Shorthand(Ident { sym, .. }) = n {
+            if &**sym == "arguments" {
+                self.found = true;
+            }
         }
     }
 

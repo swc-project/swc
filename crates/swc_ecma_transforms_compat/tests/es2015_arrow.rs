@@ -3,7 +3,7 @@ use std::path::PathBuf;
 use swc_common::{chain, Mark};
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::es2015::arrow;
-use swc_ecma_transforms_testing::{compare_stdout, test, test_fixture};
+use swc_ecma_transforms_testing::{compare_stdout, test_fixture};
 use swc_ecma_visit::Fold;
 
 fn tr() -> impl Fold {

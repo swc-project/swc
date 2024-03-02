@@ -1,1 +1,1 @@
-console.log(typeof [], "number", "undefined");
+console.log("object", "number", "undefined");

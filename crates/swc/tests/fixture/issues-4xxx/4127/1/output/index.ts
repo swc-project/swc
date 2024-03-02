@@ -12,8 +12,8 @@ const _ts_decorate = require("@swc/helpers/_/_ts_decorate");
 function test(constructor) {
     console.log(constructor);
 }
-let _class = class _class {
-};
+class _class {
+}
 _class = _ts_decorate._([
     test
 ], _class);

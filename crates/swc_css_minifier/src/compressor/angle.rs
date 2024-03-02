@@ -1,4 +1,3 @@
-use swc_atoms::js_word;
 use swc_css_ast::*;
 use swc_css_utils::angle_to_deg;
 
@@ -9,25 +8,21 @@ impl Compressor {
         &mut self,
         component_value: &mut ComponentValue,
     ) {
-        if self.ctx.in_transform_function {
-            match &component_value {
-                ComponentValue::Dimension(box Dimension::Angle(Angle {
-                    value:
-                        Number {
-                            value: number_value,
-                            ..
-                        },
-                    span,
-                    ..
-                })) if *number_value == 0.0 => {
-                    *component_value = ComponentValue::Number(Box::new(Number {
-                        span: *span,
-                        value: 0.0,
-                        raw: None,
-                    }));
-                }
-                _ => {}
-            }
+        if !self.ctx.in_transform_function {
+            return;
+        }
+
+        if let Some(span) = component_value
+            .as_dimension()
+            .and_then(|dimension| dimension.as_angle())
+            .filter(|angle| angle.value.value == 0.0)
+            .map(|angle| angle.span)
+        {
+            *component_value = ComponentValue::Number(Box::new(Number {
+                span,
+                value: 0.0,
+                raw: None,
+            }));
         }
     }
 
@@ -52,7 +47,7 @@ impl Compressor {
 
         angle.unit = Ident {
             span: angle.unit.span,
-            value: js_word!("deg"),
+            value: "deg".into(),
             raw: None,
         };
     }

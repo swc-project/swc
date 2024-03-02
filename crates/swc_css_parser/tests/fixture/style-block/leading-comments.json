@@ -1,0 +1,35 @@
+{
+  "968": [
+    {
+      "kind": "Block",
+      "span": {
+        "start": 926,
+        "end": 967,
+        "ctxt": 0
+      },
+      "text": "/* Legacy stuff, but allowed by spec */"
+    }
+  ],
+  "1233": [
+    {
+      "kind": "Block",
+      "span": {
+        "start": 1225,
+        "end": 1233,
+        "ctxt": 0
+      },
+      "text": "/* ; */"
+    }
+  ],
+  "1295": [
+    {
+      "kind": "Block",
+      "span": {
+        "start": 1290,
+        "end": 1295,
+        "ctxt": 0
+      },
+      "text": "/**/"
+    }
+  ]
+}

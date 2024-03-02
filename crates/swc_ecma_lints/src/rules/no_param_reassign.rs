@@ -163,14 +163,29 @@ impl NoParamReassign {
         }
     }
 
-    fn check_pat_or_expr(&self, pat_or_expr: &PatOrExpr) {
+    fn check_pat_or_expr(&self, pat_or_expr: &AssignTarget) {
         match pat_or_expr {
-            PatOrExpr::Pat(pat) => {
-                self.check_pat(pat.as_ref());
-            }
-            PatOrExpr::Expr(expr) => {
-                self.check_expr(expr.as_ref());
-            }
+            AssignTarget::Pat(pat) => match pat {
+                AssignTargetPat::Array(array_pat) => {
+                    self.check_array_pat(array_pat);
+                }
+                AssignTargetPat::Object(object_pat) => {
+                    self.check_object_pat(object_pat);
+                }
+                AssignTargetPat::Invalid(..) => {}
+            },
+            AssignTarget::Simple(expr) => match expr {
+                SimpleAssignTarget::Ident(ident) => {
+                    if self.is_satisfying_function_param(ident) {
+                        self.emit_report(ident.span, &ident.sym);
+                    }
+                }
+                SimpleAssignTarget::Member(member_expr) => {
+                    self.check_obj_member(member_expr);
+                }
+
+                _ => {}
+            },
         }
     }
 
@@ -188,6 +203,28 @@ impl NoParamReassign {
         }
     }
 
+    fn check_array_pat(&self, ArrayPat { elems, .. }: &ArrayPat) {
+        elems.iter().for_each(|elem| {
+            if let Some(elem) = elem {
+                self.check_pat(elem);
+            }
+        });
+    }
+
+    fn check_object_pat(&self, ObjectPat { props, .. }: &ObjectPat) {
+        props.iter().for_each(|prop| match prop {
+            ObjectPatProp::Assign(AssignPatProp { key, .. }) => {
+                if self.is_satisfying_function_param(key) {
+                    self.emit_report(key.span, &key.sym);
+                }
+            }
+            ObjectPatProp::KeyValue(KeyValuePatProp { value, .. }) => {
+                self.check_pat(value.as_ref());
+            }
+            _ => {}
+        });
+    }
+
     fn check_pat(&self, pat: &Pat) {
         match pat {
             Pat::Ident(BindingIdent { id, .. }) => {
@@ -200,25 +237,11 @@ impl NoParamReassign {
                     self.check_obj_member(member_expr);
                 }
             }
-            Pat::Object(ObjectPat { props, .. }) => {
-                props.iter().for_each(|prop| match prop {
-                    ObjectPatProp::Assign(AssignPatProp { key, .. }) => {
-                        if self.is_satisfying_function_param(key) {
-                            self.emit_report(key.span, &key.sym);
-                        }
-                    }
-                    ObjectPatProp::KeyValue(KeyValuePatProp { value, .. }) => {
-                        self.check_pat(value.as_ref());
-                    }
-                    _ => {}
-                });
+            Pat::Object(p) => {
+                self.check_object_pat(p);
             }
-            Pat::Array(ArrayPat { elems, .. }) => {
-                elems.iter().for_each(|elem| {
-                    if let Some(elem) = elem {
-                        self.check_pat(elem);
-                    }
-                });
+            Pat::Array(p) => {
+                self.check_array_pat(p);
             }
             _ => {}
         }

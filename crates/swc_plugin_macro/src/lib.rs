@@ -143,14 +143,6 @@ fn handle_func(func: ItemFn, ast_type: Ident) -> TokenStream {
                 false,
                 Box::new(PluginDiagnosticsEmitter)
             );
-            let handler_set_result = swc_core::plugin::errors::HANDLER.inner.set(handler);
-
-            if handler_set_result.is_err() {
-                let err = swc_core::common::plugin::serialized::PluginError::Serialize(
-                        "Failed to set handler for plugin".to_string()
-                    );
-                return construct_error_ptr(err);
-            }
 
             // Construct metadata to the `Program` for the transform plugin.
             let plugin_comments_proxy = if should_enable_comments_proxy == 1 { Some(swc_core::plugin::proxies::PluginCommentsProxy) } else { None };
@@ -161,7 +153,9 @@ fn handle_func(func: ItemFn, ast_type: Ident) -> TokenStream {
             };
 
             // Take original plugin fn ident, then call it with interop'ed args
-            let transformed_program = swc_core::common::plugin::serialized::VersionedSerializable::new(#ident(program, metadata));
+            let transformed_program = swc_core::common::plugin::serialized::VersionedSerializable::new(swc_core::common::errors::HANDLER.set(&handler, || {
+                #ident(program, metadata)
+            }));
 
             // Serialize transformed result, return back to the host.
             let serialized_result = swc_core::common::plugin::serialized::PluginSerializedBytes::try_serialize(

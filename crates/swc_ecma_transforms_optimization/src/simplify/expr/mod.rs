@@ -1,6 +1,6 @@
 use std::{borrow::Cow, iter, iter::once};
 
-use swc_atoms::{js_word, JsWord};
+use swc_atoms::JsWord;
 use swc_common::{
     pass::{CompilerPass, Repeated},
     util::take::Take,
@@ -118,10 +118,7 @@ impl SimplifyExpr {
             IndexStr(JsWord),
         }
         let op = match prop {
-            MemberProp::Ident(Ident {
-                sym: js_word!("length"),
-                ..
-            }) => KnownOp::Len,
+            MemberProp::Ident(Ident { sym, .. }) if &**sym == "length" => KnownOp::Len,
             MemberProp::Ident(Ident { sym, .. }) => {
                 if !self.in_callee {
                     KnownOp::IndexStr(sym.clone())
@@ -369,7 +366,7 @@ impl SimplifyExpr {
                             }))
                         } else {
                             Expr::Ident(Ident::new(
-                                js_word!("NaN"),
+                                "NaN".into(),
                                 span.with_ctxt(self.expr_ctx.unresolved_ctxt),
                             ))
                         };
@@ -455,7 +452,7 @@ impl SimplifyExpr {
                                         }))
                                     } else {
                                         Expr::Ident(Ident::new(
-                                            js_word!("NaN"),
+                                            "NaN".into(),
                                             span.with_ctxt(self.expr_ctx.unresolved_ctxt),
                                         ))
                                     };
@@ -527,24 +524,15 @@ impl SimplifyExpr {
             }
             op!("instanceof") => {
                 fn is_non_obj(e: &Expr) -> bool {
-                    match *e {
+                    match e {
                         // Non-object types are never instances.
                         Expr::Lit(Lit::Str { .. })
                         | Expr::Lit(Lit::Num(..))
                         | Expr::Lit(Lit::Null(..))
-                        | Expr::Lit(Lit::Bool(..))
-                        | Expr::Ident(Ident {
-                            sym: js_word!("undefined"),
-                            ..
-                        })
-                        | Expr::Ident(Ident {
-                            sym: js_word!("Infinity"),
-                            ..
-                        })
-                        | Expr::Ident(Ident {
-                            sym: js_word!("NaN"),
-                            ..
-                        }) => true,
+                        | Expr::Lit(Lit::Bool(..)) => true,
+                        Expr::Ident(Ident { sym, .. }) if &**sym == "undefined" => true,
+                        Expr::Ident(Ident { sym, .. }) if &**sym == "Infinity" => true,
+                        Expr::Ident(Ident { sym, .. }) if &**sym == "NaN" => true,
 
                         Expr::Unary(UnaryExpr {
                             op: op!("!"),
@@ -681,7 +669,7 @@ impl SimplifyExpr {
                                 }))
                             } else {
                                 Expr::Ident(Ident::new(
-                                    js_word!("NaN"),
+                                    "NaN".into(),
                                     span.with_ctxt(self.expr_ctx.unresolved_ctxt),
                                 ))
                             };
@@ -736,11 +724,9 @@ impl SimplifyExpr {
             Expr::Lit(Lit::Null(..)) | Expr::Object { .. } | Expr::Array { .. } => "object",
             Expr::Unary(UnaryExpr {
                 op: op!("void"), ..
-            })
-            | Expr::Ident(Ident {
-                sym: js_word!("undefined"),
-                ..
-            }) => {
+            }) => "undefined",
+
+            Expr::Ident(Ident { sym, .. }) if &**sym == "undefined" => {
                 // We can assume `undefined` is `undefined`,
                 // because overriding `undefined` is always hard error in swc.
                 "undefined"
@@ -801,7 +787,7 @@ impl SimplifyExpr {
                         *expr = self.expr_ctx.preserve_effects(
                             *span,
                             Expr::Ident(Ident::new(
-                                js_word!("NaN"),
+                                "NaN".into(),
                                 span.with_ctxt(self.expr_ctx.unresolved_ctxt),
                             )),
                             iter::once(arg.take()),
@@ -821,15 +807,9 @@ impl SimplifyExpr {
                 }
             }
             op!(unary, "-") => match &**arg {
-                Expr::Ident(Ident {
-                    sym: js_word!("Infinity"),
-                    ..
-                }) => {}
+                Expr::Ident(Ident { sym, .. }) if &**sym == "Infinity" => {}
                 // "-NaN" is "NaN"
-                Expr::Ident(Ident {
-                    sym: js_word!("NaN"),
-                    ..
-                }) => {
+                Expr::Ident(Ident { sym, .. }) if &**sym == "NaN" => {
                     self.changed = true;
                     *expr = *(arg.take());
                 }
@@ -1240,15 +1220,13 @@ impl VisitMut for SimplifyExpr {
                             let mut expr = seq.exprs.take().into_iter().next().unwrap();
                             expr.visit_mut_with(self);
                             *e = expr;
-                        } else if let Some(
-                            Expr::Member(..)
-                            | Expr::Ident(Ident {
-                                sym: js_word!("eval"),
-                                ..
-                            }),
-                        ) = seq.exprs.last().map(|v| &**v)
+                        } else if seq
+                            .exprs
+                            .last()
+                            .map(|v| &**v)
+                            .map_or(false, Expr::directness_maters)
                         {
-                            match seq.exprs.get(0).map(|v| &**v) {
+                            match seq.exprs.first().map(|v| &**v) {
                                 Some(Expr::Lit(..) | Expr::Ident(..)) => {}
                                 _ => {
                                     tracing::debug!("Injecting `0` to preserve `this = undefined`");
@@ -1300,15 +1278,8 @@ impl VisitMut for SimplifyExpr {
 
         match expr {
             // Do nothing.
-            Expr::Lit(_) | Expr::This(..) => return,
-
-            // Remove parenthesis. This may break ast, but it will be fixed up later.
-            Expr::Paren(ParenExpr { expr: e, .. }) => {
-                self.changed = true;
-
-                *expr = *e.take();
-                return;
-            }
+            // Note: Paren should be handled in fixer
+            Expr::Lit(_) | Expr::This(..) | Expr::Paren(..) => return,
 
             Expr::Seq(seq) if seq.exprs.is_empty() => return,
 
@@ -1721,12 +1692,5 @@ fn nth_char(s: &str, mut idx: usize) -> Cow<str> {
 }
 
 fn need_zero_for_this(e: &Expr) -> bool {
-    matches!(
-        e,
-        Expr::Ident(Ident {
-            sym: js_word!("eval"),
-            ..
-        }) | Expr::Member(..)
-            | Expr::Seq(..)
-    )
+    e.directness_maters() || e.is_seq()
 }

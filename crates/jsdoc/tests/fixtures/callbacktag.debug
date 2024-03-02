@@ -19,7 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -42,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('param' type=static),
+                    value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
@@ -67,7 +67,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('{requestResponseCallback}' type=dynamic),
+                                value: "{requestResponseCallback}",
                             },
                         ),
                         desc: Text {
@@ -80,7 +80,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('cb' type=inline),
+                            value: "cb",
                         },
                     },
                 ),
@@ -107,7 +107,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -130,7 +130,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('param' type=static),
+                    value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
@@ -155,7 +155,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('{wrongTypeCallback}' type=dynamic),
+                                value: "{wrongTypeCallback}",
                             },
                         ),
                         desc: Text {
@@ -168,7 +168,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('cb' type=inline),
+                            value: "cb",
                         },
                     },
                 ),

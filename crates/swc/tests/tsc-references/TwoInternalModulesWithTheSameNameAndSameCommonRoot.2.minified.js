@@ -16,7 +16,6 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
     _class_call_check(this, Plane), this.tl = tl, this.br = br;
 };
 //// [part3.ts]
-// test the merging actually worked
 var o = A.Origin, o = A.Utils.mirror(o);
 new A.Utils.Plane(o, {
     x: 1,

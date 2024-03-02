@@ -1,8 +1,7 @@
-use swc_atoms::js_word;
 use swc_common::{Spanned, SyntaxContext};
 
 use super::*;
-use crate::{error::SyntaxError, lexer::TokenContext, parser::stmt::IsDirective, Tokens};
+use crate::{error::SyntaxError, lexer::TokenContext, Tokens};
 
 /// Parser for function expression and function declaration.
 impl<I: Tokens> Parser<I> {
@@ -407,7 +406,7 @@ impl<I: Tokens> Parser<I> {
             // Handle declare(){}
             if self.is_class_method() {
                 let key = Key::Public(PropName::Ident(Ident::new(
-                    js_word!("declare"),
+                    "declare".into(),
                     span!(self, start),
                 )));
                 let is_optional = self.input.syntax().typescript() && eat!(self, '?');
@@ -433,7 +432,7 @@ impl<I: Tokens> Parser<I> {
                 // Property named `declare`
 
                 let key = Key::Public(PropName::Ident(Ident::new(
-                    js_word!("declare"),
+                    "declare".into(),
                     span!(self, start),
                 )));
                 let is_optional = self.input.syntax().typescript() && eat!(self, '?');
@@ -481,7 +480,7 @@ impl<I: Tokens> Parser<I> {
             // Handle accessor(){}
             if self.is_class_method() {
                 let key = Key::Public(PropName::Ident(Ident::new(
-                    js_word!("accessor"),
+                    "accessor".into(),
                     accessor_token,
                 )));
                 let is_optional = self.input.syntax().typescript() && eat!(self, '?');
@@ -507,7 +506,7 @@ impl<I: Tokens> Parser<I> {
                 // Property named `accessor`
 
                 let key = Key::Public(PropName::Ident(Ident::new(
-                    js_word!("accessor"),
+                    "accessor".into(),
                     accessor_token,
                 )));
                 let is_optional = self.input.syntax().typescript() && eat!(self, '?');
@@ -531,10 +530,7 @@ impl<I: Tokens> Parser<I> {
         if let Some(static_token) = static_token {
             // Handle static(){}
             if self.is_class_method() {
-                let key = Key::Public(PropName::Ident(Ident::new(
-                    js_word!("static"),
-                    static_token,
-                )));
+                let key = Key::Public(PropName::Ident(Ident::new("static".into(), static_token)));
                 let is_optional = self.input.syntax().typescript() && eat!(self, '?');
                 return self.make_method(
                     |p| p.parse_unique_formal_params(),
@@ -552,7 +548,7 @@ impl<I: Tokens> Parser<I> {
                         kind: MethodKind::Method,
                     },
                 );
-            } else if self.is_class_property(/* asi */ true)
+            } else if self.is_class_property(/* asi */ false)
                 || (self.syntax().typescript() && is!(self, '?'))
             {
                 // Property named `static`
@@ -562,10 +558,8 @@ impl<I: Tokens> Parser<I> {
                 //   {}
                 let is_parsing_static_blocks = is!(self, '{');
                 if !is_parsing_static_blocks {
-                    let key = Key::Public(PropName::Ident(Ident::new(
-                        js_word!("static"),
-                        static_token,
-                    )));
+                    let key =
+                        Key::Public(PropName::Ident(Ident::new("static".into(), static_token)));
                     let is_optional = self.input.syntax().typescript() && eat!(self, '?');
                     return self.make_property(
                         start,
@@ -599,6 +593,7 @@ impl<I: Tokens> Parser<I> {
     fn parse_static_block(&mut self, start: BytePos) -> PResult<ClassMember> {
         let body = self
             .with_ctx(Context {
+                in_static_block: true,
                 in_class_field: true,
                 allow_using_decl: true,
                 ..self.ctx()
@@ -634,43 +629,41 @@ impl<I: Tokens> Parser<I> {
                     if is_abstract {
                         self.emit_err(
                             self.input.prev_span(),
-                            SyntaxError::TS1030(js_word!("abstract")),
+                            SyntaxError::TS1030("abstract".into()),
                         );
                     } else if is_override {
                         self.emit_err(
                             self.input.prev_span(),
-                            SyntaxError::TS1029(js_word!("abstract"), js_word!("override")),
+                            SyntaxError::TS1029("abstract".into(), "override".into()),
                         );
-                    } else {
-                        is_abstract = true;
                     }
+                    is_abstract = true;
                 }
                 "override" => {
                     if is_override {
                         self.emit_err(
                             self.input.prev_span(),
-                            SyntaxError::TS1030(js_word!("override")),
+                            SyntaxError::TS1030("override".into()),
                         );
                     } else if readonly.is_some() {
                         self.emit_err(
                             self.input.prev_span(),
-                            SyntaxError::TS1029(js_word!("override"), js_word!("readonly")),
+                            SyntaxError::TS1029("override".into(), "readonly".into()),
                         );
                     } else if declare {
                         self.emit_err(
                             self.input.prev_span(),
-                            SyntaxError::TS1243(js_word!("override"), js_word!("declare")),
+                            SyntaxError::TS1243("override".into(), "declare".into()),
                         );
                     } else if !self.ctx().has_super_class {
                         self.emit_err(self.input.prev_span(), SyntaxError::TS4112);
-                    } else {
-                        is_override = true;
                     }
+                    is_override = true;
                 }
                 "readonly" => {
                     let readonly_span = self.input.prev_span();
                     if readonly.is_some() {
-                        self.emit_err(readonly_span, SyntaxError::TS1030(js_word!("readonly")));
+                        self.emit_err(readonly_span, SyntaxError::TS1030("readonly".into()));
                     } else {
                         readonly = Some(readonly_span);
                     }
@@ -679,7 +672,7 @@ impl<I: Tokens> Parser<I> {
                     if is_override {
                         self.emit_err(
                             self.input.prev_span(),
-                            SyntaxError::TS1029(js_word!("static"), js_word!("override")),
+                            SyntaxError::TS1029("static".into(), "override".into()),
                         );
                     }
 
@@ -690,7 +683,7 @@ impl<I: Tokens> Parser<I> {
         }
 
         let accessor_token = accessor_token.or_else(|| {
-            if self.syntax().auto_accessors() {
+            if self.syntax().auto_accessors() && readonly.is_none() {
                 let start = cur_pos!(self);
                 if eat!(self, "accessor") {
                     Some(span!(self, start))
@@ -793,10 +786,7 @@ impl<I: Tokens> Parser<I> {
 
             if is_constructor {
                 if self.syntax().typescript() && is_override {
-                    self.emit_err(
-                        span!(self, start),
-                        SyntaxError::TS1089(js_word!("override")),
-                    );
+                    self.emit_err(span!(self, start), SyntaxError::TS1089("override".into()));
                 }
 
                 if self.syntax().typescript() && is!(self, '<') {
@@ -865,7 +855,7 @@ impl<I: Tokens> Parser<I> {
                 }
 
                 if let Some(static_token) = static_token {
-                    self.emit_err(static_token, SyntaxError::TS1089(js_word!("static")))
+                    self.emit_err(static_token, SyntaxError::TS1089("static".into()))
                 }
 
                 if let Some(span) = modifier_span {
@@ -909,7 +899,7 @@ impl<I: Tokens> Parser<I> {
         let getter_or_setter_ident = match key {
             // `get\n*` is an uninitialized property named 'get' followed by a generator.
             Key::Public(PropName::Ident(ref i))
-                if (i.sym == js_word!("get") || i.sym == js_word!("set"))
+                if (i.sym == "get" || i.sym == "set")
                     && !self.is_class_property(/* asi */ false)
                     && !is_next_line_generator =>
             {
@@ -935,7 +925,7 @@ impl<I: Tokens> Parser<I> {
         }
 
         if match key {
-            Key::Public(PropName::Ident(ref i)) => i.sym == js_word!("async"),
+            Key::Public(PropName::Ident(ref i)) => i.sym == "async",
             _ => false,
         } && !self.input.had_line_break_before_cur()
         {
@@ -945,7 +935,7 @@ impl<I: Tokens> Parser<I> {
                 is_override = true;
                 self.emit_err(
                     self.input.prev_span(),
-                    SyntaxError::TS1029(js_word!("override"), js_word!("async")),
+                    SyntaxError::TS1029("override".into(), "async".into()),
                 );
             }
 
@@ -992,8 +982,8 @@ impl<I: Tokens> Parser<I> {
                 self.emit_err(key_span, SyntaxError::ConstructorAccessor);
             }
 
-            return match i.sym {
-                js_word!("get") => self.make_method(
+            return match &*i.sym {
+                "get" => self.make_method(
                     |p| {
                         let params = p.parse_formal_params()?;
 
@@ -1017,7 +1007,7 @@ impl<I: Tokens> Parser<I> {
                         kind: MethodKind::Getter,
                     },
                 ),
-                js_word!("set") => self.make_method(
+                "set" => self.make_method(
                     |p| {
                         let params = p.parse_formal_params()?;
 
@@ -1075,13 +1065,13 @@ impl<I: Tokens> Parser<I> {
             if declare {
                 self.emit_err(
                     key.span(),
-                    SyntaxError::PrivateNameModifier(js_word!("declare")),
+                    SyntaxError::PrivateNameModifier("declare".into()),
                 )
             }
             if is_abstract {
                 self.emit_err(
                     key.span(),
-                    SyntaxError::PrivateNameModifier(js_word!("abstract")),
+                    SyntaxError::PrivateNameModifier("abstract".into()),
                 )
             }
         }
@@ -1115,6 +1105,8 @@ impl<I: Tokens> Parser<I> {
                     is_static,
                     decorators,
                     accessibility,
+                    is_override,
+                    definite,
                 }));
             }
 
@@ -1373,7 +1365,7 @@ impl<I: Tokens> Parser<I> {
     fn parse_class_prop_name(&mut self) -> PResult<Key> {
         if is!(self, '#') {
             let name = self.parse_private_name()?;
-            if name.id.sym == js_word!("constructor") {
+            if name.id.sym == "constructor" {
                 self.emit_err(name.span, SyntaxError::PrivateConstructor);
             }
             Ok(Key::Private(name))
@@ -1409,6 +1401,7 @@ impl<I: Tokens> Parser<I> {
                 true
             },
             in_function: true,
+            in_static_block: false,
             is_break_allowed: false,
             is_continue_allowed: false,
             ..self.ctx()
@@ -1511,19 +1504,9 @@ trait IsInvalidClassName {
 
 impl IsInvalidClassName for Ident {
     fn invalid_class_name(&self) -> Option<Span> {
-        match self.sym {
-            js_word!("string")
-            | js_word!("null")
-            | js_word!("number")
-            | js_word!("object")
-            | js_word!("any")
-            | js_word!("unknown")
-            | js_word!("boolean")
-            | js_word!("bigint")
-            | js_word!("symbol")
-            | js_word!("void")
-            | js_word!("never")
-            | js_word!("intrinsic") => Some(self.span),
+        match &*self.sym {
+            "string" | "null" | "number" | "object" | "any" | "unknown" | "boolean" | "bigint"
+            | "symbol" | "void" | "never" | "intrinsic" => Some(self.span),
             _ => None,
         }
     }
@@ -1646,10 +1629,17 @@ pub(super) trait FnBodyParser<Body> {
     fn parse_fn_body_inner(&mut self, is_simple_parameter_list: bool) -> PResult<Body>;
 }
 fn has_use_strict(block: &BlockStmt) -> Option<Span> {
-    match block.stmts.iter().find(|stmt| stmt.is_use_strict()) {
-        Some(Stmt::Expr(ExprStmt { span, expr: _ })) => Some(*span),
-        _ => None,
-    }
+    block
+        .stmts
+        .iter()
+        .take_while(|s| s.can_precede_directive())
+        .find_map(|s| {
+            if s.is_use_strict() {
+                Some(s.span())
+            } else {
+                None
+            }
+        })
 }
 impl<I: Tokens> FnBodyParser<Box<BlockStmtOrExpr>> for Parser<I> {
     fn parse_fn_body_inner(
@@ -1726,27 +1716,24 @@ impl IsSimpleParameterList for Vec<ParamOrTsParamProp> {
 
 fn is_constructor(key: &Key) -> bool {
     matches!(
-        *key,
+        &key,
         Key::Public(PropName::Ident(Ident {
-            sym: js_word!("constructor"),
+            sym: constructor,
             ..
         })) | Key::Public(PropName::Str(Str {
-            value: js_word!("constructor"),
+            value: constructor,
             ..
-        }))
+        })) if &**constructor == "constructor"
     )
 }
 
 pub(crate) fn is_not_this(p: &Param) -> bool {
     !matches!(
-        p.pat,
+        &p.pat,
         Pat::Ident(BindingIdent {
-            id: Ident {
-                sym: js_word!("this"),
-                ..
-            },
+            id: Ident { sym: this, .. },
             ..
-        })
+        })if &**this == "this"
     )
 }
 

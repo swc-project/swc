@@ -1,7 +1,6 @@
-use pmutil::q;
 use swc_common::Span;
 use swc_ecma_ast::*;
-use syn::ExprBlock;
+use syn::{parse_quote, ExprBlock};
 
 use crate::ctxt::Ctx;
 
@@ -19,13 +18,12 @@ macro_rules! impl_enum_body {
     ($E:ident, $s:expr, $cx:expr,[ $($v:ident),* ]) => {
         match $s {
             $(
-                $E::$v(inner) => pmutil::q!(
-                    Vars {
-                        val: crate::ast::ToCode::to_code(inner, $cx),
-                    },
-                    { swc_core::ecma::ast::$E::$v(val) }
-                )
-                .parse(),
+                $E::$v(inner) => {
+                    let val = crate::ast::ToCode::to_code(inner, $cx);
+                    syn::parse_quote!(
+                        swc_core::ecma::ast::$E::$v(#val)
+                    )
+                },
             )*
         }
     };
@@ -44,7 +42,7 @@ macro_rules! impl_enum {
     ($E:ident, [ $($v:ident),* ], true) => {
         impl crate::ast::ToCode for $E {
             fn to_code(&self, cx: &crate::ctxt::Ctx) -> syn::Expr {
-                if let Self::Ident(i) = self {
+                if let Some(i) = self.as_ident() {
                     if let Some(var_name) = i.sym.strip_prefix('$') {
                         if let Some(var) = cx.var(crate::ctxt::VarPos::$E, var_name) {
                             return var.get_expr();
@@ -101,13 +99,8 @@ where
     T: ?Sized + ToCode,
 {
     fn to_code(&self, cx: &Ctx) -> syn::Expr {
-        q!(
-            Vars {
-                inner: (**self).to_code(cx)
-            },
-            { Box::new(inner) }
-        )
-        .parse()
+        let inner = (**self).to_code(cx);
+        parse_quote!(Box::new(#inner))
     }
 }
 
@@ -118,14 +111,12 @@ where
 {
     fn to_code(&self, cx: &Ctx) -> syn::Expr {
         match self {
-            Some(inner) => q!(
-                Vars {
-                    inner: inner.to_code(cx)
-                },
-                { Some(inner) }
-            )
-            .parse(),
-            None => q!({ None }).parse(),
+            Some(inner) => {
+                let inner = inner.to_code(cx);
+
+                parse_quote!(Some(#inner))
+            }
+            None => parse_quote!(None),
         }
     }
 }
@@ -134,7 +125,7 @@ impl_struct!(Invalid, [span]);
 
 impl ToCode for Span {
     fn to_code(&self, _: &Ctx) -> syn::Expr {
-        q!({ swc_core::common::DUMMY_SP }).parse()
+        parse_quote!(swc_core::common::DUMMY_SP)
     }
 }
 
@@ -188,26 +179,19 @@ where
     T: ToCode,
 {
     fn to_code(&self, cx: &Ctx) -> syn::Expr {
-        let var_stmt = q!(Vars { len: self.len() }, {
-            let mut items = Vec::with_capacity(len);
-        })
-        .parse::<syn::Stmt>();
+        let len = self.len();
+        let var_stmt: syn::Stmt = parse_quote!(let mut items = Vec::with_capacity(#len););
         let mut stmts = vec![var_stmt];
 
         for item in self {
+            let item = item.to_code(cx);
             stmts.push(syn::Stmt::Expr(
-                q!(
-                    Vars {
-                        item: item.to_code(cx)
-                    },
-                    { items.push(item) }
-                )
-                .parse(),
+                parse_quote!(items.push(#item)),
                 Some(Default::default()),
             ));
         }
 
-        stmts.push(syn::Stmt::Expr(q!(Vars {}, { items }).parse(), None));
+        stmts.push(syn::Stmt::Expr(parse_quote!(items), None));
 
         syn::Expr::Block(ExprBlock {
             attrs: Default::default(),

@@ -2,9 +2,8 @@
 
 use serde::{Deserialize, Serialize};
 use swc_atoms::JsWord;
-use swc_cached::regex::CachedRegex;
 use swc_common::{collections::AHashMap, Mark};
-use swc_config::merge::Merge;
+use swc_config::{merge::Merge, CachedRegex};
 use swc_ecma_ast::{EsVersion, Expr};
 
 /// Implement default using serde.
@@ -353,7 +352,7 @@ impl CompressOptions {
             return true;
         }
 
-        self.top_level.map(|v| v.functions).unwrap_or(false)
+        self.top_level.map(|v| v.functions).unwrap_or(false) || self.module
     }
 }
 

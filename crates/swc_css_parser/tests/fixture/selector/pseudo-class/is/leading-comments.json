@@ -1,0 +1,33 @@
+{
+  "376": [
+    {
+      "kind": "Block",
+      "span": {
+        "start": 323,
+        "end": 353,
+        "ctxt": 0
+      },
+      "text": "/*:is(:valid, foo < bar) {}*/"
+    },
+    {
+      "kind": "Block",
+      "span": {
+        "start": 323,
+        "end": 375,
+        "ctxt": 0
+      },
+      "text": "/*:is(foo < bar) {}*/"
+    }
+  ],
+  "719": [
+    {
+      "kind": "Block",
+      "span": {
+        "start": 701,
+        "end": 718,
+        "ctxt": 0
+      },
+      "text": "/* Forgiving */"
+    }
+  ]
+}

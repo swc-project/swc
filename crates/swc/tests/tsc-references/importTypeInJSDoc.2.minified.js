@@ -9,8 +9,6 @@
 //!     : ^^^^^^^^^^^^^^^^^
 //!     `----
 //// [index.js]
-/**
- * @typedef {import("./externs")} Foo
- */ new Foo({
+new Foo({
     doer: Foo.Bar
 });

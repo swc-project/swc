@@ -19,7 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -42,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('class' type=static),
+                    value: "class",
                 },
                 tag: Class(
                     ClassTag {
@@ -66,7 +66,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('@alias trackr.CookieManager' type=dynamic),
+                                value: "@alias trackr.CookieManager",
                             },
                         ),
                         name: Some(
@@ -80,7 +80,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('@param {object} kv' type=dynamic),
+                                value: "@param {object} kv",
                             },
                         ),
                     },
@@ -108,7 +108,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('document me' type=dynamic),
+            value: "document me",
         },
         tags: [],
     },

@@ -1,0 +1,16 @@
+{
+    "jsc": {
+        "externalHelpers": true,
+        "parser": {
+            "tsx": true,
+            "syntax": "typescript"
+        },
+        "preserveAllComments": true,
+        "target": "es5",
+        "minify": {
+            "compress": {
+                "defaults": true
+            }
+        }
+    }
+}

@@ -19,8 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Parent interface.
-             *' type=dynamic),
+            value: "Parent interface.\n *",
         },
         tags: [
             TagItem {
@@ -43,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('interface' type=static),
+                    value: "interface",
                 },
                 tag: Interface(
                     InterfaceTag {
@@ -82,7 +81,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Open the connection.' type=dynamic),
+            value: "Open the connection.",
         },
         tags: [],
     },
@@ -106,7 +105,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Close the connection.' type=dynamic),
+            value: "Close the connection.",
         },
         tags: [],
     },
@@ -130,9 +129,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Read the specified number of bytes from the connection.
-             *
-             *' type=dynamic),
+            value: "Read the specified number of bytes from the connection.\n *\n *",
         },
         tags: [
             TagItem {
@@ -155,7 +152,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('function' type=static),
+                    value: "function",
                 },
                 tag: Function(
                     FunctionTag {
@@ -179,7 +176,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('Connection#read' type=dynamic),
+                                value: "Connection#read",
                             },
                         ),
                     },
@@ -205,7 +202,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('param' type=static),
+                    value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
@@ -230,7 +227,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('{number}' type=dynamic),
+                                value: "{number}",
                             },
                         ),
                         desc: Text {
@@ -243,7 +240,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('bytes - The number of bytes to read.' type=dynamic),
+                            value: "bytes - The number of bytes to read.",
                         },
                     },
                 ),
@@ -268,7 +265,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('return' type=static),
+                    value: "return",
                 },
                 tag: Return(
                     ReturnTag {
@@ -292,7 +289,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('{Buffer}' type=dynamic),
+                                value: "{Buffer}",
                             },
                         ),
                         description: Text {
@@ -305,7 +302,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('The bytes that were read.' type=dynamic),
+                            value: "The bytes that were read.",
                         },
                     },
                 ),
@@ -332,8 +329,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Child class.
-             *' type=dynamic),
+            value: "Child class.\n *",
         },
         tags: [
             TagItem {
@@ -356,7 +352,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('class' type=static),
+                    value: "class",
                 },
                 tag: Class(
                     ClassTag {
@@ -380,7 +376,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('* @implements Connection' type=dynamic),
+                                value: "* @implements Connection",
                             },
                         ),
                         name: None,
@@ -409,7 +405,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -432,7 +428,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('override' type=static),
+                    value: "override",
                 },
                 tag: Override(
                     OverrideTag {
@@ -470,8 +466,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Close the socket.
-             *' type=dynamic),
+            value: "Close the socket.\n *",
         },
         tags: [
             TagItem {
@@ -494,7 +489,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('param' type=static),
+                    value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
@@ -519,7 +514,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('{string}' type=dynamic),
+                                value: "{string}",
                             },
                         ),
                         desc: Text {
@@ -532,7 +527,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('message - A message explaining why the socket is being closed.' type=dynamic),
+                            value: "message - A message explaining why the socket is being closed.",
                         },
                     },
                 ),
@@ -557,7 +552,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('override' type=static),
+                    value: "override",
                 },
                 tag: Override(
                     OverrideTag {
@@ -595,7 +590,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -618,7 +613,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('override' type=static),
+                    value: "override",
                 },
                 tag: Override(
                     OverrideTag {

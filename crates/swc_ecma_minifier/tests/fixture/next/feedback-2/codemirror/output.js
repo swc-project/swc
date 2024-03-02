@@ -55,10 +55,10 @@
         for(var as = a.split(" "), i = 0; i < as.length; i++)as[i] && !classTest(as[i]).test(b) && (b += " " + as[i]);
         return b;
     }
-    range = document.createRange ? function(node, start, end, endNode) {
+    document.createRange ? range = function(node, start, end, endNode) {
         var r = document.createRange();
         return r.setEnd(endNode || node, end), r.setStart(node, start), r;
-    } : function(node, start, end) {
+    } : range = function(node, start, end) {
         var r = document.body.createTextRange();
         try {
             r.moveToElementText(node.parentNode);
@@ -1821,8 +1821,7 @@
     }, NativeScrollbars.prototype.setScrollTop = function(pos) {
         this.vert.scrollTop != pos && (this.vert.scrollTop = pos), this.disableVert && this.enableZeroWidthBar(this.vert, this.disableVert, "vert");
     }, NativeScrollbars.prototype.zeroWidthHack = function() {
-        var w = mac && !mac_geMountainLion ? "12px" : "18px";
-        this.horiz.style.height = this.vert.style.width = w, this.horiz.style.pointerEvents = this.vert.style.pointerEvents = "none", this.disableHoriz = new Delayed(), this.disableVert = new Delayed();
+        this.horiz.style.height = this.vert.style.width = mac && !mac_geMountainLion ? "12px" : "18px", this.horiz.style.pointerEvents = this.vert.style.pointerEvents = "none", this.disableHoriz = new Delayed(), this.disableVert = new Delayed();
     }, NativeScrollbars.prototype.enableZeroWidthBar = function(bar, delay, type) {
         bar.style.pointerEvents = "auto", delay.set(1000, function maybeDisable() {
             var box = bar.getBoundingClientRect();
@@ -2864,7 +2863,7 @@
             if (!(this.children.length <= 10)) {
                 var me = this;
                 do {
-                    var spilled = me.children.splice(me.children.length - 5, 5), sibling = new BranchChunk(spilled);
+                    var sibling = new BranchChunk(me.children.splice(me.children.length - 5, 5));
                     if (me.parent) {
                         me.size -= sibling.size, me.height -= sibling.height;
                         var myIndex = indexOf(me.parent.children, me);
@@ -4539,10 +4538,7 @@
                 }, wrappedLineExtent = getWrappedLineExtent("before" == start.sticky ? mv(start, -1) : start.ch);
                 if ("rtl" == cm.doc.direction || 1 == part.level) {
                     var moveInStorageOrder = 1 == part.level == dir < 0, ch = mv(start, moveInStorageOrder ? 1 : -1);
-                    if (null != ch && (moveInStorageOrder ? ch <= part.to && ch <= wrappedLineExtent.end : ch >= part.from && ch >= wrappedLineExtent.begin)) {
-                        var sticky = moveInStorageOrder ? "before" : "after";
-                        return new Pos(start.line, ch, sticky);
-                    }
+                    if (null != ch && (moveInStorageOrder ? ch <= part.to && ch <= wrappedLineExtent.end : ch >= part.from && ch >= wrappedLineExtent.begin)) return new Pos(start.line, ch, moveInStorageOrder ? "before" : "after");
                 }
                 var searchInVisualLine = function(partPos, dir, wrappedLineExtent) {
                     for(; partPos >= 0 && partPos < bidi.length; partPos += dir){

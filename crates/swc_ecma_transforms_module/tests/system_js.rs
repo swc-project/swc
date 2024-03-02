@@ -26,18 +26,7 @@ test!(
     syntax(),
     |tester| tr(tester, Default::default()),
     allow_continuous_assignment,
-    r#"var e = {}; e.a = e.b = e.c = e.d = e.e = e.f = e.g = e.h = e.i = e.j = e.k = e.l = e.m = e.n = e.o = e.p = e.q = e.r = e.s = e.t = e.u = e.v = e.w = e.x = e.y = e.z = e.A = e.B = e.C = e.D = e.E = e.F = e.G = e.H = e.I = e.J = e.K = e.L = e.M = e.N = e.O = e.P = e.Q = e.R = e.S = void 0;"#,
-    r#"System.register([], function (_export, _context) {
-        "use strict";
-        var e;
-        return {
-            setters: [],
-            execute: function () {
-                e = {};
-                e.a = e.b = e.c = e.d = e.e = e.f = e.g = e.h = e.i = e.j = e.k = e.l = e.m = e.n = e.o = e.p = e.q = e.r = e.s = e.t = e.u = e.v = e.w = e.x = e.y = e.z = e.A = e.B = e.C = e.D = e.E = e.F = e.G = e.H = e.I = e.J = e.K = e.L = e.M = e.N = e.O = e.P = e.Q = e.R = e.S = void 0;
-            }
-        };
-    });"#
+    r#"var e = {}; e.a = e.b = e.c = e.d = e.e = e.f = e.g = e.h = e.i = e.j = e.k = e.l = e.m = e.n = e.o = e.p = e.q = e.r = e.s = e.t = e.u = e.v = e.w = e.x = e.y = e.z = e.A = e.B = e.C = e.D = e.E = e.F = e.G = e.H = e.I = e.J = e.K = e.L = e.M = e.N = e.O = e.P = e.Q = e.R = e.S = void 0;"#
 );
 
 test!(
@@ -50,17 +39,7 @@ test!(
         }
     ),
     allow_top_level_this_true,
-    r#"export var v = this;"#,
-    r#"System.register([], function(_export, _context) {
-        "use strict";
-        var v;
-        return {
-            setters: [],
-            execute: function() {
-                _export("v", v = this);
-            }
-        };
-    });"#
+    r#"export var v = this;"#
 );
 
 test!(
@@ -77,18 +56,7 @@ test!(
     (function(a) {
         this.foo = a;
     })(this);
-    "#,
-    r#"System.register([], function(_export, _context) {
-        "use strict";
-        return {
-            setters: [],
-            execute: function() {
-                (function(a) {
-                    this.foo = a;
-                })(void 0);
-            }
-        };
-    });"#
+    "#
 );
 
 test!(
@@ -110,25 +78,7 @@ test!(
         test() {
           this.a = 2;
         }
-    }"#,
-    r#"System.register([], function(_export, _context) {
-        "use strict";
-        var A, a;
-        return {
-            setters: [],
-            execute: function() {
-                a = void 0;
-                A = class A {
-                    constructor(){
-                        this.a = 1;
-                    }
-                    test() {
-                        this.a = 2;
-                    }
-                };
-            }
-        };
-    });"#
+    }"#
 );
 
 test!(
@@ -145,21 +95,7 @@ test!(
     function a() {
         function d () {}
         var b = this; 
-    } "#,
-    r#"System.register([], function(_export, _context) {
-        "use strict";
-        var v;
-        function a() {
-            function d() {}
-            var b = this;
-        }
-        return {
-            setters: [],
-            execute: function() {
-                _export("v", v = void 0);
-            }
-        };
-    });"#
+    } "#
 );
 
 test!(
@@ -170,19 +106,6 @@ test!(
     import.meta.url;
     import.meta.fn();
     await import('./test2');
-    "#,
-    r#"
-    System.register([], function(_export, _context) {
-        "use strict";
-        return {
-            setters: [],
-            execute: async function() {
-                _context.meta.url;
-                _context.meta.fn();
-                await _context.import('./test2');
-            }
-        };
-    });
     "#
 );
 

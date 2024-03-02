@@ -1,0 +1,303 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 23,
+    "end": 299,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ImportDeclaration",
+      "span": {
+        "start": 23,
+        "end": 50,
+        "ctxt": 0
+      },
+      "specifiers": [
+        {
+          "type": "ImportSpecifier",
+          "span": {
+            "start": 32,
+            "end": 33,
+            "ctxt": 0
+          },
+          "local": {
+            "type": "Identifier",
+            "span": {
+              "start": 32,
+              "end": 33,
+              "ctxt": 0
+            },
+            "value": "c",
+            "optional": false
+          },
+          "imported": null,
+          "isTypeOnly": false
+        }
+      ],
+      "source": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 41,
+          "end": 50,
+          "ctxt": 0
+        },
+        "value": "./types",
+        "raw": "'./types'"
+      },
+      "typeOnly": false,
+      "with": null,
+      "phase": "evaluation"
+    },
+    {
+      "type": "ImportDeclaration",
+      "span": {
+        "start": 51,
+        "end": 83,
+        "ctxt": 0
+      },
+      "specifiers": [
+        {
+          "type": "ImportNamespaceSpecifier",
+          "span": {
+            "start": 58,
+            "end": 68,
+            "ctxt": 0
+          },
+          "local": {
+            "type": "Identifier",
+            "span": {
+              "start": 63,
+              "end": 68,
+              "ctxt": 0
+            },
+            "value": "types",
+            "optional": false
+          }
+        }
+      ],
+      "source": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 74,
+          "end": 83,
+          "ctxt": 0
+        },
+        "value": "./types",
+        "raw": "'./types'"
+      },
+      "typeOnly": false,
+      "with": null,
+      "phase": "evaluation"
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 84,
+        "end": 98,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 84,
+          "end": 98,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 84,
+            "end": 95,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 84,
+              "end": 91,
+              "ctxt": 0
+            },
+            "value": "console",
+            "optional": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 92,
+              "end": 95,
+              "ctxt": 0
+            },
+            "value": "log",
+            "optional": false
+          }
+        },
+        "arguments": [
+          {
+            "spread": null,
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 96,
+                "end": 97,
+                "ctxt": 0
+              },
+              "value": "c",
+              "optional": false
+            }
+          }
+        ],
+        "typeArguments": null
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 153,
+        "end": 173,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 153,
+          "end": 173,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 153,
+            "end": 164,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 153,
+              "end": 160,
+              "ctxt": 0
+            },
+            "value": "console",
+            "optional": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 161,
+              "end": 164,
+              "ctxt": 0
+            },
+            "value": "log",
+            "optional": false
+          }
+        },
+        "arguments": [
+          {
+            "spread": null,
+            "expression": {
+              "type": "MemberExpression",
+              "span": {
+                "start": 165,
+                "end": 172,
+                "ctxt": 0
+              },
+              "object": {
+                "type": "Identifier",
+                "span": {
+                  "start": 165,
+                  "end": 170,
+                  "ctxt": 0
+                },
+                "value": "types",
+                "optional": false
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 171,
+                  "end": 172,
+                  "ctxt": 0
+                },
+                "value": "c",
+                "optional": false
+              }
+            }
+          }
+        ],
+        "typeArguments": null
+      }
+    },
+    {
+      "type": "ExportAllDeclaration",
+      "span": {
+        "start": 225,
+        "end": 254,
+        "ctxt": 0
+      },
+      "source": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 244,
+          "end": 254,
+          "ctxt": 0
+        },
+        "value": "./values",
+        "raw": "'./values'"
+      },
+      "typeOnly": true,
+      "with": null
+    },
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 280,
+        "end": 299,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "VariableDeclaration",
+        "span": {
+          "start": 287,
+          "end": 299,
+          "ctxt": 0
+        },
+        "kind": "const",
+        "declare": false,
+        "declarations": [
+          {
+            "type": "VariableDeclarator",
+            "span": {
+              "start": 293,
+              "end": 299,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 293,
+                "end": 294,
+                "ctxt": 0
+              },
+              "value": "c",
+              "optional": false,
+              "typeAnnotation": null
+            },
+            "init": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 297,
+                "end": 299,
+                "ctxt": 0
+              },
+              "value": 10.0,
+              "raw": "10"
+            },
+            "definite": false
+          }
+        ]
+      }
+    }
+  ],
+  "interpreter": null
+}

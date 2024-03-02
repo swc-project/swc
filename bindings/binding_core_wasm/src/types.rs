@@ -905,7 +905,7 @@ export interface GlobalPassOption {
    *
    * Defaults to `["NODE_ENV", "SWC_ENV"]`
    */
-  envs?: string[];
+  envs?: string[] | Record<string, string>;
 }
 
 export type ModuleConfig = Es6Config | CommonJsConfig | UmdConfig | AmdConfig | NodeNextConfig | SystemjsConfig;

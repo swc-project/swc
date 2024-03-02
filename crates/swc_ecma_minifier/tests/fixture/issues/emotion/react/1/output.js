@@ -10,7 +10,7 @@
                     return Global;
                 }
             });
-            var cache, func, cursor, react = __webpack_require__(7294), StyleSheet = function() {
+            var fn, cache, func, cursor, react = __webpack_require__(7294), StyleSheet = function() {
                 function StyleSheet(options) {
                     var _this = this;
                     this._insertTag = function(tag) {
@@ -204,6 +204,7 @@
                     if (!element.return) switch(element.type){
                         case DECLARATION:
                             element.return = function prefix(value, length) {
+                                var search, search1;
                                 switch((((length << 2 ^ Utility_charat(value, 0)) << 2 ^ Utility_charat(value, 1)) << 2 ^ Utility_charat(value, 2)) << 2 ^ Utility_charat(value, 3)){
                                     case 5103:
                                         return WEBKIT + "print-" + value + value;
@@ -288,13 +289,13 @@
                                             case 102:
                                                 return replace(value, /(.+:)(.+)-([^]+)/, "$1" + WEBKIT + "$2-$3$1" + MOZ + (108 == Utility_charat(value, length + 3) ? "$3" : "$2-$3")) + value;
                                             case 115:
-                                                return ~value.indexOf("stretch") ? prefix(replace(value, "stretch", "fill-available"), length) + value : value;
+                                                return ~(search = "stretch", value.indexOf(search)) ? prefix(replace(value, "stretch", "fill-available"), length) + value : value;
                                         }
                                         break;
                                     case 4949:
                                         if (115 !== Utility_charat(value, length + 1)) break;
                                     case 6444:
-                                        switch(Utility_charat(value, Utility_strlen(value) - 3 - (~value.indexOf("!important") && 10))){
+                                        switch(Utility_charat(value, Utility_strlen(value) - 3 - (~(search1 = "!important", value.indexOf(search1)) && 10))){
                                             case 107:
                                                 return replace(value, ":", ":" + WEBKIT) + value;
                                             case 101:
@@ -320,23 +321,26 @@
                                 copy(replace(element.value, "@", "@" + WEBKIT), element, "")
                             ], callback);
                         case Enum_RULESET:
-                            if (element.length) return element.props.map(function(value) {
-                                var value1;
-                                switch(value1 = value, (value1 = /(::plac\w+|:read-\w+)/.exec(value1)) ? value1[0] : value1){
-                                    case ":read-only":
-                                    case ":read-write":
-                                        return serialize([
-                                            copy(replace(value, /:(read-\w+)/, ":" + MOZ + "$1"), element, "")
-                                        ], callback);
-                                    case "::placeholder":
-                                        return serialize([
-                                            copy(replace(value, /:(plac\w+)/, ":" + WEBKIT + "input-$1"), element, ""),
-                                            copy(replace(value, /:(plac\w+)/, ":" + MOZ + "$1"), element, ""),
-                                            copy(replace(value, /:(plac\w+)/, MS + "input-$1"), element, "")
-                                        ], callback);
-                                }
-                                return "";
-                            }).join("");
+                            if (element.length) {
+                                var array, callback1;
+                                return array = element.props, callback1 = function(value) {
+                                    var value1;
+                                    switch(value1 = value, (value1 = /(::plac\w+|:read-\w+)/.exec(value1)) ? value1[0] : value1){
+                                        case ":read-only":
+                                        case ":read-write":
+                                            return serialize([
+                                                copy(replace(value, /:(read-\w+)/, ":" + MOZ + "$1"), element, "")
+                                            ], callback);
+                                        case "::placeholder":
+                                            return serialize([
+                                                copy(replace(value, /:(plac\w+)/, ":" + WEBKIT + "input-$1"), element, ""),
+                                                copy(replace(value, /:(plac\w+)/, ":" + MOZ + "$1"), element, ""),
+                                                copy(replace(value, /:(plac\w+)/, MS + "input-$1"), element, "")
+                                            ], callback);
+                                    }
+                                    return "";
+                                }, array.map(callback1).join("");
+                            }
                     }
                 }
             ], hash_browser_esm = function(str) {
@@ -400,8 +404,10 @@
                 return 45 === property.charCodeAt(1);
             }, isProcessableValue = function(value) {
                 return null != value && "boolean" != typeof value;
-            }, processStyleName = (cache = Object.create(null), function(arg) {
-                return void 0 === cache[arg] && (cache[arg] = isCustomProperty(arg) ? arg : arg.replace(hyphenateRegex, "-$&").toLowerCase()), cache[arg];
+            }, processStyleName = (fn = function(styleName) {
+                return isCustomProperty(styleName) ? styleName : styleName.replace(hyphenateRegex, "-$&").toLowerCase();
+            }, cache = Object.create(null), function(arg) {
+                return void 0 === cache[arg] && (cache[arg] = fn(arg)), cache[arg];
             }), processStyleValue = function(key, value) {
                 switch(key){
                     case "animation":
@@ -485,7 +491,7 @@
             };
             Object.prototype.hasOwnProperty;
             var EmotionCacheContext = (0, react.createContext)("undefined" != typeof HTMLElement ? function(options) {
-                var collection, length, callback, container, currentSheet, key = options.key;
+                var collection, length, callback, container, _insert, currentSheet, key = options.key;
                 if ("css" === key) {
                     var ssrStyles = document.querySelectorAll("style[data-emotion]:not([data-s])");
                     Array.prototype.forEach.call(ssrStyles, function(node) {
@@ -612,7 +618,11 @@
                     ], value = alloc(value = styles), 0, [
                         0
                     ], value), characters = "", value1), serializer);
-                }, cache = {
+                };
+                _insert = function(selector, serialized, sheet, shouldCache) {
+                    currentSheet = sheet, stylis(selector ? selector + "{" + serialized.styles + "}" : serialized.styles), shouldCache && (cache.inserted[serialized.name] = !0);
+                };
+                var cache = {
                     key: key,
                     sheet: new StyleSheet({
                         key: key,
@@ -624,9 +634,7 @@
                     nonce: options.nonce,
                     inserted: inserted,
                     registered: {},
-                    insert: function(selector, serialized, sheet, shouldCache) {
-                        currentSheet = sheet, stylis(selector ? selector + "{" + serialized.styles + "}" : serialized.styles), shouldCache && (cache.inserted[serialized.name] = !0);
-                    }
+                    insert: _insert
                 };
                 return cache.sheet.hydrate(nodesToHydrate), cache;
             }({
@@ -844,7 +852,7 @@
                 }(arr = _react.useState(!1)) || function(arr, i) {
                     var _arr = [], _n = !0, _d = !1, _e = void 0;
                     try {
-                        for(var _s, _i = arr[Symbol.iterator](); !(_n = (_s = _i.next()).done) && (_arr.push(_s.value), !i || _arr.length !== i); _n = !0);
+                        for(var _s, _i = arr[Symbol.iterator](); !(_n = (_s = _i.next()).done) && (_arr.push(_s.value), 2 !== _arr.length); _n = !0);
                     } catch (err) {
                         _d = !0, _e = err;
                     } finally{
@@ -855,11 +863,13 @@
                         }
                     }
                     return _arr;
-                }(arr, 2) || function() {
+                }(arr, 0) || function() {
                     throw TypeError("Invalid attempt to destructure non-iterable instance");
                 }(), visible = ref[0], setVisible = ref[1], setRef = _react.useCallback(function(el) {
-                    var ref, id, observer, elements;
-                    unobserve.current && (unobserve.current(), unobserve.current = void 0), !isDisabled && !visible && el && el.tagName && (unobserve.current = (id = (ref = function(options) {
+                    var callback, ref, id, observer, elements;
+                    unobserve.current && (unobserve.current(), unobserve.current = void 0), !isDisabled && !visible && el && el.tagName && (unobserve.current = (callback = function(isVisible) {
+                        return isVisible && setVisible(isVisible);
+                    }, id = (ref = function(options) {
                         var id = options.rootMargin || "", instance = observers.get(id);
                         if (instance) return instance;
                         var elements = new Map(), observer = new IntersectionObserver(function(entries) {
@@ -875,9 +885,7 @@
                         }), instance;
                     }({
                         rootMargin: rootMargin
-                    })).id, observer = ref.observer, (elements = ref.elements).set(el, function(isVisible) {
-                        return isVisible && setVisible(isVisible);
-                    }), observer.observe(el), function() {
+                    })).id, observer = ref.observer, (elements = ref.elements).set(el, callback), observer.observe(el), function() {
                         elements.delete(el), observer.unobserve(el), 0 === elements.size && (observer.disconnect(), observers.delete(id));
                     }));
                 }, [

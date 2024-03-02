@@ -36,6 +36,9 @@ pub struct Config {
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
     pub emit_assert_for_import_attributes: bool,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub inline_script: bool,
 }
 
 impl Default for Config {
@@ -46,6 +49,7 @@ impl Default for Config {
             ascii_only: false,
             omit_last_semi: false,
             emit_assert_for_import_attributes: false,
+            inline_script: false,
         }
     }
 }
@@ -76,6 +80,11 @@ impl Config {
         emit_assert_for_import_attributes: bool,
     ) -> Self {
         self.emit_assert_for_import_attributes = emit_assert_for_import_attributes;
+        self
+    }
+
+    pub fn with_inline_script(mut self, inline_script: bool) -> Self {
+        self.inline_script = inline_script;
         self
     }
 }

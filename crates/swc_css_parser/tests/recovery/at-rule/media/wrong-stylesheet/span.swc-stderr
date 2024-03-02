@@ -116,7 +116,7 @@
  3 |     main {
    `----
 
-  x Ident { value: Atom('color' type=static), raw: "color" }
+  x Ident { value: "color", raw: "color" }
    ,-[$DIR/tests/recovery/at-rule/media/wrong-stylesheet/input.css:1:1]
  1 | @media print {
  2 |     color: teal;
@@ -164,7 +164,7 @@
  3 |     main {
    `----
 
-  x Ident { value: Atom('teal' type=static), raw: "teal" }
+  x Ident { value: "teal", raw: "teal" }
    ,-[$DIR/tests/recovery/at-rule/media/wrong-stylesheet/input.css:1:1]
  1 | @media print {
  2 |     color: teal;
@@ -212,7 +212,7 @@
  4 |         color: orange;
    `----
 
-  x Ident { value: Atom('main' type=static), raw: "main" }
+  x Ident { value: "main", raw: "main" }
    ,-[$DIR/tests/recovery/at-rule/media/wrong-stylesheet/input.css:2:1]
  2 |     color: teal;
  3 |     main {

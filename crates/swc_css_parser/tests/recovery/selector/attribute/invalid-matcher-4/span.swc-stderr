@@ -27,7 +27,7 @@
  2 |   color: purple;
    `----
 
-  x Ident { value: Atom('a' type=static), raw: "a" }
+  x Ident { value: "a", raw: "a" }
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-4/input.css:1:1]
  1 | a[title%="title"] {
    : ^
@@ -62,7 +62,7 @@
  2 |   color: purple;
    `----
 
-  x Ident { value: Atom('title' type=static), raw: "title" }
+  x Ident { value: "title", raw: "title" }
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-4/input.css:1:1]
  1 | a[title%="title"] {
    :   ^^^^^
@@ -104,7 +104,7 @@
  2 |   color: purple;
    `----
 
-  x String { value: Atom('title' type=static), raw: "\"title\"" }
+  x String { value: "title", raw: "\"title\"" }
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-4/input.css:1:1]
  1 | a[title%="title"] {
    :          ^^^^^^^

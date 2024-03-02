@@ -1,2 +1,1 @@
 //// [nonPrimitiveUnionIntersection.ts]
- // error

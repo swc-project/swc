@@ -1,13 +1,17 @@
-use std::fmt::Display;
+use std::{
+    fmt::Display,
+    ops::{Deref, DerefMut},
+};
 
+use phf::phf_set;
 use scoped_tls::scoped_thread_local;
-use swc_atoms::{js_word, JsWord};
+use swc_atoms::{js_word, Atom};
 use swc_common::{
     ast_node, util::take::Take, BytePos, EqIgnoreSpan, Span, Spanned, SyntaxContext, DUMMY_SP,
 };
 use unicode_id::UnicodeID;
 
-use crate::typescript::TsTypeAnn;
+use crate::{typescript::TsTypeAnn, Expr};
 
 /// Identifier used as a pattern.
 #[derive(Spanned, Clone, Debug, PartialEq, Eq, Hash, EqIgnoreSpan)]
@@ -37,7 +41,13 @@ pub struct BindingIdent {
     pub type_ann: Option<Box<TsTypeAnn>>,
 }
 
-impl std::ops::Deref for BindingIdent {
+impl From<BindingIdent> for Box<Expr> {
+    fn from(bi: BindingIdent) -> Self {
+        Box::new(Expr::Ident(bi.id))
+    }
+}
+
+impl Deref for BindingIdent {
     type Target = Ident;
 
     fn deref(&self) -> &Self::Target {
@@ -45,10 +55,25 @@ impl std::ops::Deref for BindingIdent {
     }
 }
 
+impl DerefMut for BindingIdent {
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        &mut self.id
+    }
+}
+
 impl BindingIdent {
     /// See [`Ident::to_id`] for documentation.
     pub fn to_id(&self) -> Id {
         self.id.to_id()
+    }
+}
+
+impl Take for BindingIdent {
+    fn dummy() -> Self {
+        BindingIdent {
+            id: Ident::dummy(),
+            type_ann: None,
+        }
     }
 }
 
@@ -63,7 +88,7 @@ bridge_from!(BindingIdent, Ident, Id);
 /// A complete identifier with span.
 ///
 /// Identifier of swc consists of two parts. The first one is symbol, which is
-/// stored using an interned string, [JsWord] . The second
+/// stored using an interned string, [Atom] . The second
 /// one is [SyntaxContext][swc_common::SyntaxContext], which can be
 /// used to distinguish identifier with same symbol.
 ///
@@ -96,7 +121,7 @@ bridge_from!(BindingIdent, Ident, Id);
 ///
 /// Thanks to the `tag` we attached, we can now distinguish them.
 ///
-/// ([JsWord], [SyntaxContext])
+/// ([Atom], [SyntaxContext])
 ///
 /// See [Id], which is a type alias for this.
 ///
@@ -115,12 +140,23 @@ bridge_from!(BindingIdent, Ident, Id);
 pub struct Ident {
     pub span: Span,
     #[cfg_attr(feature = "serde-impl", serde(rename = "value"))]
-    #[cfg_attr(any(feature = "rkyv-impl"), with(swc_atoms::EncodeJsWord))]
-    pub sym: JsWord,
+    pub sym: Atom,
 
     /// TypeScript only. Used in case of an optional parameter.
     #[cfg_attr(feature = "serde-impl", serde(default))]
     pub optional: bool,
+}
+
+impl From<BindingIdent> for Ident {
+    fn from(bi: BindingIdent) -> Self {
+        bi.id
+    }
+}
+
+impl From<&'_ str> for Ident {
+    fn from(bi: &str) -> Self {
+        Ident::new(bi.into(), DUMMY_SP)
+    }
 }
 
 scoped_thread_local!(static EQ_IGNORE_SPAN_IGNORE_CTXT: ());
@@ -151,6 +187,12 @@ impl From<Ident> for Id {
     }
 }
 
+#[repr(C, align(64))]
+struct Align64<T>(pub(crate) T);
+
+const T: bool = true;
+const F: bool = false;
+
 impl Ident {
     /// In `op`, [EqIgnoreSpan] of [Ident] will ignore the syntax context.
     pub fn within_ignored_ctxt<F, Ret>(op: F) -> Ret
@@ -167,7 +209,7 @@ impl Ident {
         self
     }
 
-    /// Creates `Id` using `JsWord` and `SyntaxContext` of `self`.
+    /// Creates `Id` using `Atom` and `SyntaxContext` of `self`.
     pub fn to_id(&self) -> Id {
         (self.sym.clone(), self.span.ctxt)
     }
@@ -175,26 +217,40 @@ impl Ident {
     /// Returns true if `c` is a valid character for an identifier start.
     #[inline]
     pub fn is_valid_start(c: char) -> bool {
-        c == '$' || c == '_' || c.is_ascii_alphabetic() || {
-            if c.is_ascii() {
-                false
-            } else {
-                UnicodeID::is_id_start(c)
-            }
+        // This contains `$` (36) and `_` (95)
+        const ASCII_START: Align64<[bool; 128]> = Align64([
+            F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+            F, F, F, F, F, F, F, T, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+            F, F, F, F, F, F, F, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T,
+            T, T, T, T, F, F, F, F, T, F, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T,
+            T, T, T, T, T, T, T, F, F, F, F, F,
+        ]);
+
+        if c.is_ascii() {
+            return ASCII_START.0[c as usize];
         }
+
+        UnicodeID::is_id_start(c)
     }
 
     /// Returns true if `c` is a valid character for an identifier part after
     /// start.
     #[inline]
     pub fn is_valid_continue(c: char) -> bool {
-        c == '$' || c == '_' || c == '\u{200c}' || c == '\u{200d}' || c.is_ascii_alphanumeric() || {
-            if c.is_ascii() {
-                false
-            } else {
-                UnicodeID::is_id_continue(c)
-            }
+        // This contains `$` (36)
+        const ASCII_CONTINUE: Align64<[bool; 128]> = Align64([
+            F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
+            F, F, F, F, F, F, F, T, F, F, F, F, F, F, F, F, F, F, F, T, T, T, T, T, T, T, T, T, T,
+            F, F, F, F, F, F, F, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T,
+            T, T, T, T, F, F, F, F, T, F, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T,
+            T, T, T, T, T, T, T, F, F, F, F, F,
+        ]);
+
+        if c.is_ascii() {
+            return ASCII_CONTINUE.0[c as usize];
         }
+
+        UnicodeID::is_id_continue(c) || c == '\u{200c}' || c == '\u{200d}'
     }
 
     /// Alternative for `toIdentifier` of babel.
@@ -259,7 +315,7 @@ impl Ident {
 }
 
 /// See [Ident] for documentation.
-pub type Id = (JsWord, SyntaxContext);
+pub type Id = (Atom, SyntaxContext);
 
 impl Take for Ident {
     fn dummy() -> Self {
@@ -309,7 +365,7 @@ impl AsRef<str> for Ident {
 }
 
 impl Ident {
-    pub const fn new(sym: JsWord, span: Span) -> Self {
+    pub const fn new(sym: Atom, span: Span) -> Self {
         Ident {
             span,
             sym,
@@ -318,66 +374,87 @@ impl Ident {
     }
 }
 
+static RESERVED: phf::Set<&str> = phf_set!(
+    "break",
+    "case",
+    "catch",
+    "class",
+    "const",
+    "continue",
+    "debugger",
+    "default",
+    "delete",
+    "do",
+    "else",
+    "enum",
+    "export",
+    "extends",
+    "false",
+    "finally",
+    "for",
+    "function",
+    "if",
+    "import",
+    "in",
+    "instanceof",
+    "new",
+    "null",
+    "package",
+    "return",
+    "super",
+    "switch",
+    "this",
+    "throw",
+    "true",
+    "try",
+    "typeof",
+    "var",
+    "void",
+    "while",
+    "with",
+);
+
+static RESSERVED_IN_STRICT_MODE: phf::Set<&str> = phf_set!(
+    "implements",
+    "interface",
+    "let",
+    "package",
+    "private",
+    "protected",
+    "public",
+    "static",
+    "yield",
+);
+
+static RESERVED_IN_ES3: phf::Set<&str> = phf_set!(
+    "abstract",
+    "boolean",
+    "byte",
+    "char",
+    "double",
+    "final",
+    "float",
+    "goto",
+    "int",
+    "long",
+    "native",
+    "short",
+    "synchronized",
+    "throws",
+    "transient",
+    "volatile",
+);
+
 pub trait IdentExt: AsRef<str> {
     fn is_reserved(&self) -> bool {
-        [
-            "break",
-            "case",
-            "catch",
-            "class",
-            "const",
-            "continue",
-            "debugger",
-            "default",
-            "delete",
-            "do",
-            "else",
-            "enum",
-            "export",
-            "extends",
-            "false",
-            "finally",
-            "for",
-            "function",
-            "if",
-            "import",
-            "in",
-            "instanceof",
-            "new",
-            "null",
-            "package",
-            "return",
-            "super",
-            "switch",
-            "this",
-            "throw",
-            "true",
-            "try",
-            "typeof",
-            "var",
-            "void",
-            "while",
-            "with",
-        ]
-        .contains(&self.as_ref())
+        RESERVED.contains(self.as_ref())
     }
 
     fn is_reserved_in_strict_mode(&self, is_module: bool) -> bool {
         if is_module && self.as_ref() == "await" {
             return true;
         }
-        [
-            "implements",
-            "interface",
-            "let",
-            "package",
-            "private",
-            "protected",
-            "public",
-            "static",
-            "yield",
-        ]
-        .contains(&self.as_ref())
+        RESSERVED_IN_STRICT_MODE.contains(self.as_ref())
     }
 
     fn is_reserved_in_strict_bind(&self) -> bool {
@@ -385,29 +462,11 @@ pub trait IdentExt: AsRef<str> {
     }
 
     fn is_reserved_in_es3(&self) -> bool {
-        [
-            "abstract",
-            "boolean",
-            "byte",
-            "char",
-            "double",
-            "final",
-            "float",
-            "goto",
-            "int",
-            "long",
-            "native",
-            "short",
-            "synchronized",
-            "throws",
-            "transient",
-            "volatile",
-        ]
-        .contains(&self.as_ref())
+        RESERVED_IN_ES3.contains(self.as_ref())
     }
 }
 
-impl IdentExt for JsWord {}
+impl IdentExt for Atom {}
 impl IdentExt for Ident {}
 impl IdentExt for &'_ str {}
 impl IdentExt for String {}

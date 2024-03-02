@@ -19,7 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('ES 2015 class assigned to a const' type=dynamic),
+            value: "ES 2015 class assigned to a const",
         },
         tags: [],
     },

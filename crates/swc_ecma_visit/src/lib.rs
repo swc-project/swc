@@ -9,7 +9,7 @@ pub extern crate swc_ecma_ast;
 use std::{borrow::Cow, fmt::Debug};
 
 use num_bigint::BigInt as BigIntValue;
-use swc_atoms::{Atom, JsWord};
+use swc_atoms::Atom;
 use swc_common::{pass::CompilerPass, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_visit::{define, AndThen, Repeat, Repeated};
@@ -350,6 +350,7 @@ macro_rules! noop_fold_type {
         noop_fold_type!(fold_ts_enum_decl, TsEnumDecl);
         noop_fold_type!(fold_ts_enum_member, TsEnumMember);
         noop_fold_type!(fold_ts_enum_member_id, TsEnumMemberId);
+        noop_fold_type!(fold_ts_expr_with_type_args, TsExprWithTypeArgs);
         noop_fold_type!(fold_ts_external_module_ref, TsExternalModuleRef);
         noop_fold_type!(fold_ts_fn_or_constructor_type, TsFnOrConstructorType);
         noop_fold_type!(fold_ts_fn_param, TsFnParam);
@@ -421,6 +422,7 @@ macro_rules! noop_visit_type {
         noop_visit_type!(visit_ts_construct_signature_decl, TsConstructSignatureDecl);
         noop_visit_type!(visit_ts_constructor_type, TsConstructorType);
         noop_visit_type!(visit_ts_entity_name, TsEntityName);
+        noop_visit_type!(visit_ts_expr_with_type_args, TsExprWithTypeArgs);
         noop_visit_type!(visit_ts_external_module_ref, TsExternalModuleRef);
         noop_visit_type!(visit_ts_fn_or_constructor_type, TsFnOrConstructorType);
         noop_visit_type!(visit_ts_fn_param, TsFnParam);
@@ -485,6 +487,7 @@ macro_rules! noop_visit_mut_type {
         );
         noop_visit_mut_type!(visit_mut_ts_constructor_type, TsConstructorType);
         noop_visit_mut_type!(visit_mut_ts_entity_name, TsEntityName);
+        noop_visit_mut_type!(visit_mut_ts_expr_with_type_args, TsExprWithTypeArgs);
         noop_visit_mut_type!(visit_mut_ts_external_module_ref, TsExternalModuleRef);
         noop_visit_mut_type!(visit_mut_ts_fn_or_constructor_type, TsFnOrConstructorType);
         noop_visit_mut_type!(visit_mut_ts_fn_param, TsFnParam);
@@ -757,7 +760,7 @@ define!({
     pub struct AssignExpr {
         pub span: Span,
         pub op: AssignOp,
-        pub left: PatOrExpr,
+        pub left: AssignTarget,
         pub right: Box<Expr>,
     }
     pub struct MemberExpr {
@@ -858,6 +861,7 @@ define!({
     }
     pub struct Import {
         pub span: Span,
+        pub phase: ImportPhase,
     }
     pub struct ExprOrSpread {
         pub spread: Option<Span>,
@@ -867,10 +871,32 @@ define!({
         BlockStmt(BlockStmt),
         Expr(Box<Expr>),
     }
-    pub enum PatOrExpr {
-        Expr(Box<Expr>),
-        Pat(Box<Pat>),
+
+    pub enum AssignTarget {
+        Simple(SimpleAssignTarget),
+        Pat(AssignTargetPat),
     }
+
+    pub enum AssignTargetPat {
+        Array(ArrayPat),
+        Object(ObjectPat),
+        Invalid(Invalid),
+    }
+
+    pub enum SimpleAssignTarget {
+        Ident(BindingIdent),
+        Member(MemberExpr),
+        SuperProp(SuperPropExpr),
+        OptChain(OptChainExpr),
+        Paren(ParenExpr),
+        TsAs(TsAsExpr),
+        TsSatisfies(TsSatisfiesExpr),
+        TsNonNull(TsNonNullExpr),
+        TsTypeAssertion(TsTypeAssertion),
+        TsInstantiation(TsInstantiation),
+        Invalid(Invalid),
+    }
+
     pub struct OptChainExpr {
         pub span: Span,
         pub optional: bool,
@@ -913,7 +939,7 @@ define!({
 
     pub struct Ident {
         pub span: Span,
-        pub sym: JsWord,
+        pub sym: Atom,
         pub optional: bool,
     }
 
@@ -1033,7 +1059,7 @@ define!({
     }
     pub struct Str {
         pub span: Span,
-        pub value: JsWord,
+        pub value: Atom,
         pub raw: Option<Atom>,
     }
     pub struct Bool {
@@ -1098,6 +1124,7 @@ define!({
         pub src: Box<Str>,
         pub type_only: bool,
         pub with: Option<Box<ObjectLit>>,
+        pub phase: ImportPhase,
     }
     pub struct ExportAll {
         pub span: Span,
@@ -1264,7 +1291,7 @@ define!({
     }
     pub struct AssignPatProp {
         pub span: Span,
-        pub key: Ident,
+        pub key: BindingIdent,
         pub value: Option<Box<Expr>>,
     }
     pub enum Prop {
@@ -1292,6 +1319,7 @@ define!({
     pub struct SetterProp {
         pub span: Span,
         pub key: PropName,
+        pub this_param: Option<Pat>,
         pub param: Box<Pat>,
         pub body: Option<BlockStmt>,
     }
@@ -1880,6 +1908,8 @@ define!({
         pub is_static: bool,
         pub decorators: Vec<Decorator>,
         pub accessibility: Option<Accessibility>,
+        pub is_override: bool,
+        pub definite: bool,
     }
 
     pub enum Key {
@@ -1922,6 +1952,10 @@ macro_rules! visit_mut_obj_and_computed {
             if let $crate::swc_ecma_ast::MemberProp::Computed(c) = &mut n.prop {
                 c.visit_mut_with(self);
             }
+        }
+
+        fn visit_mut_jsx_member_expr(&mut self, n: &mut $crate::swc_ecma_ast::JSXMemberExpr) {
+            n.obj.visit_mut_with(self);
         }
 
         fn visit_mut_super_prop_expr(&mut self, n: &mut $crate::swc_ecma_ast::SuperPropExpr) {

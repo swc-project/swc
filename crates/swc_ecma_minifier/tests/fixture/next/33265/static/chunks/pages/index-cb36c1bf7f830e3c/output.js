@@ -41,8 +41,7 @@
                 }
             });
             var a, b, global_window__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(8908), global_window__WEBPACK_IMPORTED_MODULE_0___default = __webpack_require__.n(global_window__WEBPACK_IMPORTED_MODULE_0__), toUint8 = function(bytes) {
-                var obj;
-                return bytes instanceof Uint8Array ? bytes : (Array.isArray(bytes) || (obj = bytes, ArrayBuffer.isView(obj)) || bytes instanceof ArrayBuffer || (bytes = "number" != typeof bytes || "number" == typeof bytes && bytes != bytes ? 0 : [
+                return bytes instanceof Uint8Array ? bytes : (Array.isArray(bytes) || ArrayBuffer.isView(bytes) || bytes instanceof ArrayBuffer || (bytes = "number" != typeof bytes || "number" == typeof bytes && bytes != bytes ? 0 : [
                     bytes
                 ]), new Uint8Array(bytes && bytes.buffer || bytes, bytes && bytes.byteOffset || 0, bytes && bytes.byteLength || 0));
             }, BigInt = global_window__WEBPACK_IMPORTED_MODULE_0___default().BigInt || Number, BYTE_TABLE = [
@@ -56,9 +55,9 @@
                 BigInt("0x100000000000000"),
                 BigInt("0x10000000000000000")
             ];
-            a = new Uint16Array([
+            0xff === (b = new Uint8Array((a = new Uint16Array([
                 0xffcc
-            ]), 0xff === (b = new Uint8Array(a.buffer, a.byteOffset, a.byteLength))[0] || b[0];
+            ])).buffer, a.byteOffset, a.byteLength))[0] || b[0];
             var bytesToNumber = function(bytes, _temp) {
                 var _ref = void 0 === _temp ? {} : _temp, _ref$signed = _ref.signed, _ref$le = _ref.le, le = void 0 !== _ref$le && _ref$le;
                 bytes = toUint8(bytes);
@@ -97,9 +96,9 @@
                 if ((buffers = buffers.filter(function(b) {
                     return b && (b.byteLength || b.length) && "string" != typeof b;
                 })).length <= 1) return toUint8(buffers[0]);
-                var totalLen = buffers.reduce(function(total, buf, i) {
+                var tempBuffer = new Uint8Array(buffers.reduce(function(total, buf, i) {
                     return total + (buf.byteLength || buf.length);
-                }, 0), tempBuffer = new Uint8Array(totalLen), offset = 0;
+                }, 0)), offset = 0;
                 return buffers.forEach(function(buf) {
                     buf = toUint8(buf), tempBuffer.set(buf, offset), offset += buf.byteLength;
                 }), tempBuffer;
@@ -2216,7 +2215,7 @@
         },
         8908: function(module, __unused_webpack_exports, __webpack_require__) {
             var win;
-            win = "undefined" != typeof window ? window : void 0 !== __webpack_require__.g ? __webpack_require__.g : "undefined" != typeof self ? self : {}, module.exports = win;
+            "undefined" != typeof window ? win = window : void 0 !== __webpack_require__.g ? win = __webpack_require__.g : "undefined" != typeof self ? win = self : win = {}, module.exports = win;
         },
         7376: function(module) {
             module.exports = function(fn) {
@@ -3464,10 +3463,10 @@
                 return "number" == typeof attributes.start ? attributes.start : priorPeriodAttributes && "number" == typeof priorPeriodAttributes.start && "number" == typeof priorPeriodAttributes.duration ? priorPeriodAttributes.start + priorPeriodAttributes.duration : priorPeriodAttributes || "static" !== mpdType ? null : 0;
             }, inheritAttributes = function(mpd, options) {
                 void 0 === options && (options = {});
-                var _options = options, _options$manifestUri = _options.manifestUri, manifestUri = void 0 === _options$manifestUri ? "" : _options$manifestUri, _options$NOW = _options.NOW, NOW = void 0 === _options$NOW ? Date.now() : _options$NOW, _options$clientOffset = _options.clientOffset, periodNodes = findChildren(mpd, "Period");
+                var _options = options, _options$manifestUri = _options.manifestUri, _options$NOW = _options.NOW, NOW = void 0 === _options$NOW ? Date.now() : _options$NOW, _options$clientOffset = _options.clientOffset, periodNodes = findChildren(mpd, "Period");
                 if (!periodNodes.length) throw Error(errors.INVALID_NUMBER_OF_PERIOD);
                 var locations = findChildren(mpd, "Location"), mpdAttributes = parseAttributes(mpd), mpdBaseUrls = buildBaseUrls([
-                    manifestUri
+                    void 0 === _options$manifestUri ? "" : _options$manifestUri
                 ], findChildren(mpd, "BaseURL"));
                 mpdAttributes.type = mpdAttributes.type || "static", mpdAttributes.sourceDuration = mpdAttributes.mediaPresentationDuration || 0, mpdAttributes.NOW = NOW, mpdAttributes.clientOffset = void 0 === _options$clientOffset ? 0 : _options$clientOffset, locations.length && (mpdAttributes.locations = locations.map(getContent));
                 var periods = [];
@@ -3620,7 +3619,7 @@
             };
         },
         1489: function(module) {
-            var secondsToVideoTs, secondsToAudioTs, videoTsToSeconds, audioTsToSeconds;
+            var secondsToVideoTs, secondsToAudioTs, videoTsToSeconds, audioTsToSeconds, audioTsToVideoTs, videoTsToAudioTs, metadataTsToSeconds;
             secondsToVideoTs = function(seconds) {
                 return 90000 * seconds;
             }, secondsToAudioTs = function(seconds, sampleRate) {
@@ -3629,21 +3628,21 @@
                 return timestamp / 90000;
             }, audioTsToSeconds = function(timestamp, sampleRate) {
                 return timestamp / sampleRate;
+            }, audioTsToVideoTs = function(timestamp, sampleRate) {
+                return secondsToVideoTs(audioTsToSeconds(timestamp, sampleRate));
+            }, videoTsToAudioTs = function(timestamp, sampleRate) {
+                return secondsToAudioTs(videoTsToSeconds(timestamp), sampleRate);
+            }, metadataTsToSeconds = function(timestamp, timelineStartPts, keepOriginalTimestamps) {
+                return videoTsToSeconds(keepOriginalTimestamps ? timestamp : timestamp - timelineStartPts);
             }, module.exports = {
                 ONE_SECOND_IN_TS: 90000,
                 secondsToVideoTs: secondsToVideoTs,
                 secondsToAudioTs: secondsToAudioTs,
                 videoTsToSeconds: videoTsToSeconds,
                 audioTsToSeconds: audioTsToSeconds,
-                audioTsToVideoTs: function(timestamp, sampleRate) {
-                    return secondsToVideoTs(audioTsToSeconds(timestamp, sampleRate));
-                },
-                videoTsToAudioTs: function(timestamp, sampleRate) {
-                    return secondsToAudioTs(videoTsToSeconds(timestamp), sampleRate);
-                },
-                metadataTsToSeconds: function(timestamp, timelineStartPts, keepOriginalTimestamps) {
-                    return videoTsToSeconds(keepOriginalTimestamps ? timestamp : timestamp - timelineStartPts);
-                }
+                audioTsToVideoTs: audioTsToVideoTs,
+                videoTsToAudioTs: videoTsToAudioTs,
+                metadataTsToSeconds: metadataTsToSeconds
             };
         },
         8581: function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
@@ -4534,7 +4533,7 @@
                     font: Math.round(5 * containerBox.height) / 100 + "px sans-serif"
                 };
                 !function() {
-                    for(var styleBox, cue, i = 0; i < cues.length; i++)cue = cues[i], styleBox = new CueStyleBox(window1, cue, styleOptions), paddedOverlay.appendChild(styleBox.div), function(window1, styleBox, containerBox, boxPositions) {
+                    for(var styleBox, cue, i = 0; i < cues.length; i++)styleBox = new CueStyleBox(window1, cue = cues[i], styleOptions), paddedOverlay.appendChild(styleBox.div), function(window1, styleBox, containerBox, boxPositions) {
                         var boxPosition = new BoxPosition(styleBox), cue = styleBox.cue, linePos = function(cue) {
                             if ("number" == typeof cue.line && (cue.snapToLines || cue.line >= 0 && cue.line <= 100)) return cue.line;
                             if (!cue.track || !cue.track.textTrackList || !cue.track.textTrackList.mediaElement) return -1;
@@ -4562,7 +4561,7 @@
                                     ], size = "width";
                             }
                             var size, step = boxPosition.lineHeight, position = step * Math.round(linePos), maxPosition = containerBox[size] + step, initialAxis = axis[0];
-                            Math.abs(position) > maxPosition && (position = (position < 0 ? -1 : 1) * (Math.ceil(maxPosition / step) * step)), linePos < 0 && (position += "" === cue.vertical ? containerBox.height : containerBox.width, axis = axis.reverse()), boxPosition.move(initialAxis, position);
+                            Math.abs(position) > maxPosition && (position = Math.ceil(maxPosition / step) * step * (position < 0 ? -1 : 1)), linePos < 0 && (position += "" === cue.vertical ? containerBox.height : containerBox.width, axis = axis.reverse()), boxPosition.move(initialAxis, position);
                         } else {
                             var calculatedPercentage = boxPosition.lineHeight / containerBox.height * 100;
                             switch(cue.lineAlign){
@@ -5694,7 +5693,7 @@
                 for(m = e & (1 << -nBits) - 1, e >>= -nBits, nBits += mLen; nBits > 0; m = 256 * m + buffer[offset + i], i += d, nBits -= 8);
                 if (0 === e) e = 1 - eBias;
                 else {
-                    if (e === eMax) return m ? NaN : (s ? -1 : 1) * (1 / 0);
+                    if (e === eMax) return m ? NaN : 1 / 0 * (s ? -1 : 1);
                     m += Math.pow(2, mLen), e -= eBias;
                 }
                 return (s ? -1 : 1) * m * Math.pow(2, e - mLen);

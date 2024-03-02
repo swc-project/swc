@@ -6,13 +6,21 @@ include     = ["Cargo.toml", "src/**/*.rs"]
 license     = "Apache-2.0"
 name        = "swc_cli_impl"
 repository  = "https://github.com/swc-project/swc.git"
-version     = "0.1.7"
+version     = "0.8.15"
+
+[[bin]]
+name = "swc"
+path = "src/main.rs"
+
+[lib]
+crate-type = ["rlib"]
+path       = "src/lib.rs"
 
 [features]
 default = []
 plugin = [
-    "swc_core/plugin_transform_host_native",
-    "swc_core/plugin_transform_host_native_filesystem_cache",
+  "swc_core/plugin_transform_host_native",
+  "swc_core/plugin_transform_host_native_filesystem_cache",
 ]
 
 [dependencies]
@@ -25,15 +33,19 @@ rayon              = "1"
 relative-path      = "1.6.1"
 serde              = { version = "1", features = ["derive"] }
 serde_json         = { version = "1", features = ["unbounded_depth"] }
-sourcemap          = "6.2.2"
+sourcemap          = "6.4.1"
 tracing            = "0.1.37"
 tracing-chrome     = "0.5.0"
 tracing-futures    = "0.2.5"
 tracing-subscriber = { version = "0.3.9", features = ["env-filter"] }
 walkdir            = "2"
 
-swc_core = { version = "0.83.41", features = [
-    "trace_macro",
-    "common_concurrent",
-    "base_concurrent",
+swc_core = { version = "0.90.15", features = [
+  "trace_macro",
+  "common_concurrent",
+  "base_concurrent",
 ], path = "../swc_core" }
+
+[dev-dependencies]
+assert_cmd = "2.0.12"
+assert_fs  = "1.0.13"

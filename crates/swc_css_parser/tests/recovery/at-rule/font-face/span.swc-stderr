@@ -82,7 +82,7 @@
  3 | }
    `----
 
-  x Ident { value: Atom('invalid' type=inline), raw: "invalid" }
+  x Ident { value: "invalid", raw: "invalid" }
    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:1:1]
  1 | @font-face {
  2 |     invalid
@@ -170,7 +170,7 @@
  7 | }
    `----
 
-  x Ident { value: Atom('invalid' type=inline), raw: "invalid" }
+  x Ident { value: "invalid", raw: "invalid" }
    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:5:1]
  5 | @font-face {
  6 |     invalid;
@@ -419,7 +419,7 @@
     :            ^^^
     `----
 
-  x Ident { value: Atom('foo' type=inline), raw: "foo" }
+  x Ident { value: "foo", raw: "foo" }
     ,-[$DIR/tests/recovery/at-rule/font-face/input.css:16:1]
  16 | 
  17 | @font-face foo {}
@@ -503,7 +503,7 @@
     :            ^^^
     `----
 
-  x Ident { value: Atom('foo' type=inline), raw: "foo" }
+  x Ident { value: "foo", raw: "foo" }
     ,-[$DIR/tests/recovery/at-rule/font-face/input.css:18:1]
  18 | 
  19 | @font-face foo;

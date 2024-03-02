@@ -1,0 +1,262 @@
+{
+  "4957": [
+    {
+      "kind": "Block",
+      "span": {
+        "start": 4937,
+        "end": 4957,
+        "ctxt": 0
+      },
+      "text": "/* Comment */"
+    }
+  ],
+  "4989": [
+    {
+      "kind": "Block",
+      "span": {
+        "start": 4972,
+        "end": 4989,
+        "ctxt": 0
+      },
+      "text": "/* Comment */"
+    }
+  ],
+  "5236": [
+    {
+      "kind": "Block",
+      "span": {
+        "start": 5222,
+        "end": 5236,
+        "ctxt": 0
+      },
+      "text": "/* Comment */"
+    }
+  ],
+  "4971": [
+    {
+      "kind": "Block",
+      "span": {
+        "start": 4957,
+        "end": 4971,
+        "ctxt": 0
+      },
+      "text": "/* Comment */"
+    }
+  ],
+  "5003": [
+    {
+      "kind": "Block",
+      "span": {
+        "start": 4989,
+        "end": 5003,
+        "ctxt": 0
+      },
+      "text": "/* Comment */"
+    }
+  ],
+  "5023": [
+    {
+      "kind": "Block",
+      "span": {
+        "start": 5004,
+        "end": 5023,
+        "ctxt": 0
+      },
+      "text": "/* Comment */"
+    }
+  ],
+  "5055": [
+    {
+      "kind": "Block",
+      "span": {
+        "start": 5041,
+        "end": 5055,
+        "ctxt": 0
+      },
+      "text": "/* Comment */"
+    }
+  ],
+  "5148": [
+    {
+      "kind": "Block",
+      "span": {
+        "start": 5134,
+        "end": 5148,
+        "ctxt": 0
+      },
+      "text": "/* Comment */"
+    }
+  ],
+  "5110": [
+    {
+      "kind": "Block",
+      "span": {
+        "start": 5092,
+        "end": 5110,
+        "ctxt": 0
+      },
+      "text": "/* Comment */"
+    }
+  ],
+  "5171": [
+    {
+      "kind": "Block",
+      "span": {
+        "start": 5157,
+        "end": 5171,
+        "ctxt": 0
+      },
+      "text": "/* Comment */"
+    }
+  ],
+  "5040": [
+    {
+      "kind": "Block",
+      "span": {
+        "start": 5024,
+        "end": 5040,
+        "ctxt": 0
+      },
+      "text": "/* Comment */"
+    }
+  ],
+  "5293": [
+    {
+      "kind": "Block",
+      "span": {
+        "start": 5279,
+        "end": 5293,
+        "ctxt": 0
+      },
+      "text": "/* Comment */"
+    }
+  ],
+  "6591": [
+    {
+      "kind": "Block",
+      "span": {
+        "start": 6544,
+        "end": 6556,
+        "ctxt": 0
+      },
+      "text": "/*.foo {*/"
+    },
+    {
+      "kind": "Block",
+      "span": {
+        "start": 6544,
+        "end": 6584,
+        "ctxt": 0
+      },
+      "text": "/*    @import 'path.css';*/"
+    },
+    {
+      "kind": "Block",
+      "span": {
+        "start": 6544,
+        "end": 6590,
+        "ctxt": 0
+      },
+      "text": "/*}*/"
+    }
+  ],
+  "5092": [
+    {
+      "kind": "Block",
+      "span": {
+        "start": 5078,
+        "end": 5092,
+        "ctxt": 0
+      },
+      "text": "/* Comment */"
+    }
+  ],
+  "4859": [
+    {
+      "kind": "Block",
+      "span": {
+        "start": 4845,
+        "end": 4859,
+        "ctxt": 0
+      },
+      "text": "/* Comment */"
+    }
+  ],
+  "5077": [
+    {
+      "kind": "Block",
+      "span": {
+        "start": 5055,
+        "end": 5077,
+        "ctxt": 0
+      },
+      "text": "/* Comment */"
+    }
+  ],
+  "4914": [
+    {
+      "kind": "Block",
+      "span": {
+        "start": 4900,
+        "end": 4914,
+        "ctxt": 0
+      },
+      "text": "/* Comment */"
+    }
+  ],
+  "4879": [
+    {
+      "kind": "Block",
+      "span": {
+        "start": 4860,
+        "end": 4879,
+        "ctxt": 0
+      },
+      "text": "/* Comment */"
+    }
+  ],
+  "5199": [
+    {
+      "kind": "Block",
+      "span": {
+        "start": 5185,
+        "end": 5199,
+        "ctxt": 0
+      },
+      "text": "/* Comment */"
+    }
+  ],
+  "4937": [
+    {
+      "kind": "Block",
+      "span": {
+        "start": 4915,
+        "end": 4937,
+        "ctxt": 0
+      },
+      "text": "/* Comment */"
+    }
+  ],
+  "5321": [
+    {
+      "kind": "Block",
+      "span": {
+        "start": 5307,
+        "end": 5321,
+        "ctxt": 0
+      },
+      "text": "/* Comment */"
+    }
+  ],
+  "4899": [
+    {
+      "kind": "Block",
+      "span": {
+        "start": 4879,
+        "end": 4899,
+        "ctxt": 0
+      },
+      "text": "/* Comment */"
+    }
+  ]
+}

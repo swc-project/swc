@@ -25,7 +25,6 @@ define([
     };
 });
 //// [file2.tsx]
-// Should not elide React import
 define([
     "require",
     "exports",
@@ -35,5 +34,5 @@ define([
 ], function(require, exports, _interop_require_wildcard, _react, _file1) {
     Object.defineProperty(exports, "__esModule", {
         value: !0
-    }), _react = /*#__PURE__*/ _interop_require_wildcard._(_react), _file1.MyClass;
+    }), _react = _interop_require_wildcard._(_react), _file1.MyClass;
 });

@@ -27,12 +27,13 @@
 //! `SWC_RUN` to `1`, the minifier will validate the code using node before each
 //! step.
 #![deny(clippy::all)]
-#![allow(clippy::blocks_in_if_conditions)]
+#![allow(clippy::blocks_in_conditions)]
 #![allow(clippy::collapsible_else_if)]
 #![allow(clippy::collapsible_if)]
 #![allow(clippy::ptr_arg)]
 #![allow(clippy::vec_box)]
 #![allow(clippy::overly_complex_bool_expr)]
+#![allow(clippy::mutable_key_type)]
 #![allow(clippy::only_used_in_recursion)]
 #![allow(unstable_name_collisions)]
 #![allow(clippy::match_like_matches_macro)]
@@ -177,25 +178,30 @@ pub fn optimize(
     if let Some(ref mut t) = timings {
         t.section("compress");
     }
-    if let Some(options) = &options.compress {
+    if let Some(c) = &options.compress {
         {
             let _timer = timer!("compress ast");
 
-            n.visit_mut_with(&mut compressor(marks, options, &Minification))
+            n.visit_mut_with(&mut compressor(
+                marks,
+                c,
+                options.mangle.as_ref(),
+                &Minification,
+            ))
         }
 
         // Again, we don't need to validate ast
 
         let _timer = timer!("postcompress");
 
-        n.visit_mut_with(&mut postcompress_optimizer(options));
+        n.visit_mut_with(&mut postcompress_optimizer(c));
 
         let mut pass = 0;
         loop {
             pass += 1;
 
             let mut v = pure_optimizer(
-                options,
+                c,
                 None,
                 marks,
                 PureOptimizerConfig {
@@ -206,7 +212,7 @@ pub fn optimize(
                 },
             );
             n.visit_mut_with(&mut v);
-            if !v.changed() || options.passes <= pass {
+            if !v.changed() || c.passes <= pass {
                 break;
             }
         }

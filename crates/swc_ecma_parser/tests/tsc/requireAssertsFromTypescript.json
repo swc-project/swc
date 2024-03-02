@@ -382,7 +382,8 @@
                     "ctxt": 0
                   },
                   "value": "art",
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "value": null
               }

@@ -1,0 +1,4 @@
+.test {
+  border-color: hsla(var(--ds-gray-200-value), 1);
+  --ds-gray-200: hsla(var(--ds-gray-200-value), 1);
+}

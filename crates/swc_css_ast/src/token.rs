@@ -69,7 +69,7 @@ pub enum NumberType {
 pub struct DimensionToken {
     pub value: f64,
     pub raw_value: Atom,
-    #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
+
     pub unit: JsWord,
 
     #[cfg_attr(feature = "serde-impl", serde(rename = "type"))]
@@ -95,30 +95,26 @@ pub struct DimensionToken {
 #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 pub enum Token {
     Ident {
-        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         value: JsWord,
         raw: Atom,
     },
     Function {
-        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         value: JsWord,
         raw: Atom,
     },
     /// `@`
     AtKeyword {
-        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         value: JsWord,
         raw: Atom,
     },
     /// `#`
     Hash {
         is_id: bool,
-        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
+
         value: JsWord,
         raw: Atom,
     },
     String {
-        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         value: JsWord,
         raw: Atom,
     },
@@ -127,7 +123,6 @@ pub enum Token {
     },
     /// `url(value)`
     Url {
-        #[cfg_attr(feature = "rkyv", with(swc_atoms::EncodeJsWord))]
         value: JsWord,
         /// Name and value
         raw: Box<UrlKeyValue>,
@@ -269,9 +264,7 @@ impl Hash for Token {
             | Token::LParen
             | Token::RParen
             | Token::LBrace
-            | Token::RBrace => {
-                self.hash(state);
-            }
+            | Token::RBrace => {}
         }
     }
 }

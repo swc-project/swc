@@ -1,0 +1,92 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 106,
+    "end": 197,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 106,
+        "end": 197,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "ClassDeclaration",
+        "identifier": {
+          "type": "Identifier",
+          "span": {
+            "start": 119,
+            "end": 130,
+            "ctxt": 0
+          },
+          "value": "Preferences",
+          "optional": false
+        },
+        "declare": false,
+        "span": {
+          "start": 113,
+          "end": 197,
+          "ctxt": 0
+        },
+        "decorators": [],
+        "body": [
+          {
+            "type": "EmptyStatement",
+            "span": {
+              "start": 164,
+              "end": 165,
+              "ctxt": 0
+            }
+          },
+          {
+            "type": "ClassProperty",
+            "span": {
+              "start": 187,
+              "end": 195,
+              "ctxt": 0
+            },
+            "key": {
+              "type": "Identifier",
+              "span": {
+                "start": 187,
+                "end": 188,
+                "ctxt": 0
+              },
+              "value": "a",
+              "optional": false
+            },
+            "value": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 191,
+                "end": 195,
+                "ctxt": 0
+              },
+              "value": "ok",
+              "raw": "'ok'"
+            },
+            "typeAnnotation": null,
+            "isStatic": false,
+            "decorators": [],
+            "accessibility": null,
+            "isAbstract": false,
+            "isOptional": false,
+            "isOverride": false,
+            "readonly": false,
+            "declare": false,
+            "definite": false
+          }
+        ],
+        "superClass": null,
+        "isAbstract": false,
+        "typeParams": null,
+        "superTypeParams": null,
+        "implements": []
+      }
+    }
+  ],
+  "interpreter": null
+}

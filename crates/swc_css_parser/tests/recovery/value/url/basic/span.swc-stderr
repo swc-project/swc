@@ -159,7 +159,7 @@
  3 |     background: url(var(--foo));
    `----
 
-  x String { value: Atom('http://www.example.com/pinkish.gif' type=dynamic), raw: "\"http://www.example.com/pinkish.gif\"" }
+  x String { value: "http://www.example.com/pinkish.gif", raw: "\"http://www.example.com/pinkish.gif\"" }
    ,-[$DIR/tests/recovery/value/url/basic/input.css:1:1]
  1 | div {
  2 |     --foo: "http://www.example.com/pinkish.gif";
@@ -943,7 +943,7 @@
  18 | }
     `----
 
-  x String { value: Atom('foo' type=inline), raw: "\"foo\"" }
+  x String { value: "foo", raw: "\"foo\"" }
     ,-[$DIR/tests/recovery/value/url/basic/input.css:16:1]
  16 | .style {
  17 |     background: url("foo", "bar");
@@ -991,7 +991,7 @@
  18 | }
     `----
 
-  x String { value: Atom('bar' type=inline), raw: "\"bar\"" }
+  x String { value: "bar", raw: "\"bar\"" }
     ,-[$DIR/tests/recovery/value/url/basic/input.css:16:1]
  16 | .style {
  17 |     background: url("foo", "bar");

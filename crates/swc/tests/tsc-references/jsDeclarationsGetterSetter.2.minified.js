@@ -5,9 +5,7 @@ export class A {
     }
 }
 export class B {
-    /**
-     * @param {number} _arg
-     */ set x(_arg) {}
+    set x(_arg) {}
 }
 export class C {
     get x() {
@@ -23,15 +21,46 @@ Object.defineProperty(D.prototype, "x", {
 export class E {
 }
 Object.defineProperty(E.prototype, "x", {
-    /**
-     * @param {number} _arg
-     */ set (_arg) {}
+    set (_arg) {}
 });
 export class F {
 }
 Object.defineProperty(F.prototype, "x", {
     get: ()=>12,
-    /**
-     * @param {number} _arg
-     */ set (_arg) {}
+    set (_arg) {}
+});
+export class G {
+}
+Object.defineProperty(G.prototype, "x", {
+    set (...args) {}
+});
+export class H {
+}
+Object.defineProperty(H.prototype, "x", {
+    set () {}
+});
+export class I {
+}
+Object.defineProperty(I.prototype, "x", {
+    set: (v)=>{}
+});
+export class J {
+}
+Object.defineProperty(J.prototype, "x", {
+    set: (v)=>{}
+});
+export class K {
+}
+Object.defineProperty(K.prototype, "x", {
+    set: Math.random() ? (v)=>{} : (v)=>{}
+});
+export class L {
+}
+Object.defineProperty(L.prototype, "x", {
+    set: Math.random() ? (v)=>{} : (v)=>{}
+});
+export class M {
+}
+Object.defineProperty(M.prototype, "x", {
+    set: Math.random() ? (v)=>{} : (v)=>{}
 });

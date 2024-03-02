@@ -1,0 +1,26 @@
+{
+    "jsc": {
+        "parser": {
+            "decorators": true,
+            "syntax": "typescript"
+        },
+        "transform": {
+            "decoratorVersion": "2022-03"
+        },
+        "externalHelpers": true,
+        "experimental": {
+            "plugins": [
+                [
+                    "@swc/plugin-styled-components",
+                    {
+                        "displayName": true,
+                        "ssr": true
+                    }
+                ]
+            ]
+        }
+    },
+    "env": {
+        "targets": "> 1%, not dead"
+    }
+}

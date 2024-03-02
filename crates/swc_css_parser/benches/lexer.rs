@@ -1,4 +1,4 @@
-extern crate swc_node_base;
+extern crate swc_malloc;
 
 use criterion::{black_box, criterion_group, criterion_main, Bencher, Criterion};
 use swc_common::{input::StringInput, FileName};
@@ -9,7 +9,7 @@ fn bench_stylesheet(b: &mut Bencher, src: &'static str) {
         let fm = cm.new_source_file(FileName::Anon, src.into());
 
         b.iter(|| {
-            let lexer = Lexer::new(StringInput::from(&*fm), Default::default());
+            let lexer = Lexer::new(StringInput::from(&*fm), None, Default::default());
 
             for t in lexer {
                 black_box(t);

@@ -19,7 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -42,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('class' type=static),
+                    value: "class",
                 },
                 tag: Class(
                     ClassTag {
@@ -82,7 +82,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -105,7 +105,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('type' type=static),
+                    value: "type",
                 },
                 tag: Type(
                     TypeTag {
@@ -128,7 +128,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('{(!Array.<number>|' type=dynamic),
+                            value: "{(!Array.<number>|",
                         },
                     },
                 ),
@@ -155,7 +155,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -178,7 +178,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('type' type=static),
+                    value: "type",
                 },
                 tag: Type(
                     TypeTag {
@@ -201,7 +201,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('(!Array.<number>|!Array.<!Array.<number>>|' type=dynamic),
+                            value: "(!Array.<number>|!Array.<!Array.<number>>|",
                         },
                     },
                 ),

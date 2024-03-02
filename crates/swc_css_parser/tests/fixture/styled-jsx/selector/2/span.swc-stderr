@@ -111,7 +111,7 @@
  2 |     color: green;
    `----
 
-  x Ident { value: Atom('span' type=static), raw: "span" }
+  x Ident { value: "span", raw: "span" }
    ,-[$DIR/tests/fixture/styled-jsx/selector/2/input.css:1:1]
  1 | p :global(span:not(.test)) {
    :           ^^^^
@@ -139,7 +139,7 @@
  2 |     color: green;
    `----
 
-  x Function { value: Atom('not' type=static), raw: "not" }
+  x Function { value: "not", raw: "not" }
    ,-[$DIR/tests/fixture/styled-jsx/selector/2/input.css:1:1]
  1 | p :global(span:not(.test)) {
    :                ^^^^
@@ -167,7 +167,7 @@
  2 |     color: green;
    `----
 
-  x Ident { value: Atom('test' type=inline), raw: "test" }
+  x Ident { value: "test", raw: "test" }
    ,-[$DIR/tests/fixture/styled-jsx/selector/2/input.css:1:1]
  1 | p :global(span:not(.test)) {
    :                     ^^^^

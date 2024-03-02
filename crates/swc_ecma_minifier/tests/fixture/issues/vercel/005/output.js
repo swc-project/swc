@@ -57,8 +57,7 @@ export default function(value, options) {
         }(value);
         throw Error("Value is not a string or number.");
     } catch (error) {
-        const message = "object" == typeof error && null !== error && "message" in error ? `${error.message}. value=${JSON.stringify(value)}` : "An unknown error has occured.";
-        throw Error(message);
+        throw Error("object" == typeof error && null !== error && "message" in error ? `${error.message}. value=${JSON.stringify(value)}` : "An unknown error has occured.");
     }
 }
 function plural(ms, msAbs, n, name) {

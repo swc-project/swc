@@ -19,7 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Class representing pizza toppings.' type=dynamic),
+            value: "Class representing pizza toppings.",
         },
         tags: [],
     },
@@ -43,8 +43,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Set whether sardines are included in the pizza toppings.
-                 *' type=dynamic),
+            value: "Set whether sardines are included in the pizza toppings.\n     *",
         },
         tags: [
             TagItem {
@@ -67,7 +66,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('param' type=static),
+                    value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
@@ -92,7 +91,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('{boolean}' type=dynamic),
+                                value: "{boolean}",
                             },
                         ),
                         desc: Text {
@@ -105,7 +104,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('[bool] `true` to include sardines, `false` to omit them.' type=dynamic),
+                            value: "[bool] `true` to include sardines, `false` to omit them.",
                         },
                     },
                 ),

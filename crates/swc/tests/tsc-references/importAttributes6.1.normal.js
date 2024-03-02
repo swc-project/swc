@@ -1,0 +1,2 @@
+//// [mod.mts]
+export { };

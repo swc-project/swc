@@ -1,4 +1,3 @@
-use swc_atoms::js_word;
 use swc_common::Spanned;
 use swc_ecma_ast::{
     op, ArrayLit, ArrowExpr, AssignExpr, AwaitExpr, BinExpr, BinaryOp, BindingIdent,
@@ -6,8 +5,8 @@ use swc_ecma_ast::{
     FnExpr, Function, Ident, Import, JSXAttr, JSXAttrOrSpread, JSXAttrValue, JSXEmptyExpr, JSXExpr,
     JSXExprContainer, JSXMemberExpr, JSXObject, KeyValueProp, Lit, MemberExpr, MemberProp,
     MetaPropExpr, MetaPropKind, MethodProp, NewExpr, ObjectLit, OptCall, OptChainBase,
-    OptChainExpr, ParenExpr, PatOrExpr, Prop, PropName, PropOrSpread, SeqExpr, SpreadElement,
-    SuperProp, SuperPropExpr, TaggedTpl, ThisExpr, TsAsExpr, TsNonNullExpr, TsTypeAssertion,
+    OptChainExpr, ParenExpr, Prop, PropName, PropOrSpread, SeqExpr, SpreadElement, SuperProp,
+    SuperPropExpr, TaggedTpl, ThisExpr, TsAsExpr, TsNonNullExpr, TsTypeAssertion,
     TsTypeParamInstantiation, UnaryExpr, UnaryOp, UpdateExpr, YieldExpr,
 };
 use swc_estree_ast::{
@@ -67,7 +66,7 @@ impl Swcify for Expression {
             Expression::Literal(Literal::BigInt(e)) => Expr::Lit(e.swcify(ctx).into()),
             Expression::OptionalMember(e) => e.swcify(ctx).into(),
             Expression::OptionalCall(e) => e.swcify(ctx).into(),
-            Expression::JSXElement(e) => Box::new(e.swcify(ctx)).into(),
+            Expression::JSXElement(e) => return e.swcify(ctx).into(),
             Expression::JSXFragment(e) => e.swcify(ctx).into(),
             Expression::Literal(Literal::Decimal(e)) => e.swcify(ctx).into(),
             Expression::TSAs(e) => e.swcify(ctx).into(),
@@ -104,7 +103,7 @@ impl Swcify for AssignmentExpression {
                     self.operator,
                 )
             }),
-            left: PatOrExpr::Pat(Box::new(self.left.swcify(ctx))),
+            left: self.left.swcify(ctx).try_into().unwrap(),
             right: self.right.swcify(ctx),
         }
     }
@@ -668,30 +667,12 @@ impl Swcify for MetaProperty {
     fn swcify(self, ctx: &Context) -> Self::Output {
         let meta = self.meta.swcify(ctx).id;
         let prop = self.property.swcify(ctx).id;
-        match (meta, prop) {
-            (
-                Ident {
-                    sym: js_word!("new"),
-                    ..
-                },
-                Ident {
-                    sym: js_word!("target"),
-                    ..
-                },
-            ) => MetaPropExpr {
+        match (&*meta.sym, &*prop.sym) {
+            ("new", "target") => MetaPropExpr {
                 kind: MetaPropKind::NewTarget,
                 span: ctx.span(&self.base),
             },
-            (
-                Ident {
-                    sym: js_word!("import"),
-                    ..
-                },
-                Ident {
-                    sym: js_word!("meta"),
-                    ..
-                },
-            ) => MetaPropExpr {
+            ("import", "meta") => MetaPropExpr {
                 kind: MetaPropKind::NewTarget,
                 span: ctx.span(&self.base),
             },
@@ -763,6 +744,8 @@ impl Swcify for BabelImport {
     fn swcify(self, ctx: &Context) -> Self::Output {
         Import {
             span: ctx.span(&self.base),
+            // TODO
+            phase: Default::default(),
         }
     }
 }

@@ -19,7 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -42,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('lends' type=inline),
+                    value: "lends",
                 },
                 tag: Lends(
                     LendsTag {
@@ -76,7 +76,7 @@
                                         ),
                                         ctxt: #0,
                                     },
-                                    value: Atom('Person' type=inline),
+                                    value: "Person",
                                 },
                             ],
                         },
@@ -105,7 +105,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Describe the constructor.' type=dynamic),
+            value: "Describe the constructor.",
         },
         tags: [
             TagItem {
@@ -128,7 +128,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('classdesc' type=dynamic),
+                    value: "classdesc",
                 },
                 tag: ClassDesc(
                     JSDocClassDescTag {
@@ -151,7 +151,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('A class that represents a person.' type=dynamic),
+                            value: "A class that represents a person.",
                         },
                     },
                 ),
@@ -176,7 +176,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('constructs' type=dynamic),
+                    value: "constructs",
                 },
                 tag: Constructs(
                     ConstructsTag {
@@ -199,7 +199,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('@param {string} name' type=dynamic),
+                            value: "@param {string} name",
                         },
                     },
                 ),
@@ -226,7 +226,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('The name of the person.' type=dynamic),
+            value: "The name of the person.",
         },
         tags: [],
     },
@@ -250,7 +250,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -273,7 +273,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('param' type=static),
+                    value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
@@ -298,7 +298,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('{string}' type=dynamic),
+                                value: "{string}",
                             },
                         ),
                         desc: Text {
@@ -311,7 +311,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('message' type=inline),
+                            value: "message",
                         },
                     },
                 ),
@@ -338,7 +338,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('The person's message.' type=dynamic),
+            value: "The person's message.",
         },
         tags: [],
     },

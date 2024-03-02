@@ -303,6 +303,28 @@ impl VisitMut for Pure<'_> {
         self.drop_arguments_of_symbol_call(e);
     }
 
+    fn visit_mut_class_member(&mut self, m: &mut ClassMember) {
+        m.visit_mut_children_with(self);
+
+        if let ClassMember::StaticBlock(sb) = m {
+            if sb.body.stmts.is_empty() {
+                *m = ClassMember::Empty(EmptyStmt { span: DUMMY_SP });
+            }
+        }
+    }
+
+    fn visit_mut_class_members(&mut self, m: &mut Vec<ClassMember>) {
+        m.visit_mut_children_with(self);
+
+        m.retain(|m| {
+            if let ClassMember::Empty(..) = m {
+                return false;
+            }
+
+            true
+        });
+    }
+
     fn visit_mut_cond_expr(&mut self, e: &mut CondExpr) {
         e.visit_mut_children_with(self);
 
@@ -312,10 +334,6 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
-        if let Expr::Paren(p) = e {
-            *e = *p.expr.take();
-        }
-
         {
             let ctx = Ctx {
                 in_first_expr: false,
@@ -560,6 +578,10 @@ impl VisitMut for Pure<'_> {
         }
     }
 
+    fn visit_mut_expr_or_spreads(&mut self, nodes: &mut Vec<ExprOrSpread>) {
+        self.visit_par(nodes);
+    }
+
     fn visit_mut_expr_stmt(&mut self, s: &mut ExprStmt) {
         s.visit_mut_children_with(self);
 
@@ -582,18 +604,6 @@ impl VisitMut for Pure<'_> {
     }
 
     fn visit_mut_exprs(&mut self, nodes: &mut Vec<Box<Expr>>) {
-        self.visit_par(nodes);
-    }
-
-    fn visit_mut_opt_vec_expr_or_spreads(&mut self, nodes: &mut Vec<Option<ExprOrSpread>>) {
-        self.visit_par(nodes);
-    }
-
-    fn visit_mut_expr_or_spreads(&mut self, nodes: &mut Vec<ExprOrSpread>) {
-        self.visit_par(nodes);
-    }
-
-    fn visit_mut_var_declarators(&mut self, nodes: &mut Vec<VarDeclarator>) {
         self.visit_par(nodes);
     }
 
@@ -727,18 +737,8 @@ impl VisitMut for Pure<'_> {
         }
     }
 
-    fn visit_mut_pat_or_expr(&mut self, n: &mut PatOrExpr) {
-        n.visit_mut_children_with(self);
-
-        match n {
-            PatOrExpr::Expr(e) => {
-                //
-                if let Expr::Ident(i) = &mut **e {
-                    *n = PatOrExpr::Pat(i.clone().into());
-                }
-            }
-            PatOrExpr::Pat(_) => {}
-        }
+    fn visit_mut_opt_vec_expr_or_spreads(&mut self, nodes: &mut Vec<Option<ExprOrSpread>>) {
+        self.visit_par(nodes);
     }
 
     fn visit_mut_prop(&mut self, p: &mut Prop) {
@@ -1037,6 +1037,10 @@ impl VisitMut for Pure<'_> {
         if v.kind == VarDeclKind::Var {
             self.remove_duplicate_vars(&mut v.decls);
         }
+    }
+
+    fn visit_mut_var_declarators(&mut self, nodes: &mut Vec<VarDeclarator>) {
+        self.visit_par(nodes);
     }
 
     fn visit_mut_while_stmt(&mut self, s: &mut WhileStmt) {

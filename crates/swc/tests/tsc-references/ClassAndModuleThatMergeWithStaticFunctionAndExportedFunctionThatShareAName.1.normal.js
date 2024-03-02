@@ -7,13 +7,13 @@ var Point = /*#__PURE__*/ function() {
         this.x = x;
         this.y = y;
     }
-    Point.Origin // unexpected error here bug 840246
-     = function Origin() {
+    Point.Origin = function Origin() {
         return {
             x: 0,
             y: 0
         };
-    };
+    } // unexpected error here bug 840246
+    ;
     return Point;
 }();
 (function(Point) {
@@ -31,13 +31,13 @@ var A;
             this.x = x;
             this.y = y;
         }
-        Point.Origin // unexpected error here bug 840246
-         = function Origin() {
+        Point.Origin = function Origin() {
             return {
                 x: 0,
                 y: 0
             };
-        };
+        } // unexpected error here bug 840246
+        ;
         return Point;
     }();
     A.Point = Point;

@@ -1,0 +1,10 @@
+
+  > Leading (lo)
+
+Advice: 
+  > #__PURE__
+   ,-[$DIR/tests/comments/exprs/paren-pure/2/input.js:1:1]
+ 1 | 
+ 2 | /*#__PURE__*/((() => import('./any'))())
+   :              ^
+   `----

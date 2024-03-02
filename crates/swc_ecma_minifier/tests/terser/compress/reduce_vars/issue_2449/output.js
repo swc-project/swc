@@ -1,10 +1,8 @@
-var a = "PASS";
-function g() {
-    return (function () {
-        return a;
-    })();
-}
-(function () {
+(function() {
     var a = "FAIL";
-    if (a == a) console.log(g());
+    if (a == a) console.log(function() {
+        return function() {
+            return "PASS";
+        }();
+    }());
 })();

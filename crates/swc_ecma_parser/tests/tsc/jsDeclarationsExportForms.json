@@ -182,7 +182,8 @@
         "raw": "\"./cls\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ExportNamedDeclaration",
@@ -255,7 +256,8 @@
         "raw": "\"./cls\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ExportDefaultExpression",
@@ -313,7 +315,8 @@
         "raw": "\"./cls\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ExportNamedDeclaration",
@@ -386,7 +389,8 @@
         "raw": "\"./cls\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ExportNamedDeclaration",
@@ -979,7 +983,8 @@
         "raw": "\"./cjs4\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ImportDeclaration",
@@ -1000,7 +1005,8 @@
         "raw": "\"./cjs3\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ImportDeclaration",
@@ -1021,7 +1027,8 @@
         "raw": "\"./cjs2\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ImportDeclaration",
@@ -1042,7 +1049,8 @@
         "raw": "\"./cjs\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ImportDeclaration",
@@ -1063,7 +1071,8 @@
         "raw": "\"./bol\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ImportDeclaration",
@@ -1084,7 +1093,8 @@
         "raw": "\"./ban\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ImportDeclaration",
@@ -1105,7 +1115,8 @@
         "raw": "\"./bat\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ImportDeclaration",
@@ -1126,7 +1137,8 @@
         "raw": "\"./baz\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ImportDeclaration",
@@ -1147,7 +1159,8 @@
         "raw": "\"./bar\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ImportDeclaration",
@@ -1168,7 +1181,8 @@
         "raw": "\"./bar2\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     }
   ],
   "interpreter": null

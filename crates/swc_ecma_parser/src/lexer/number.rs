@@ -64,7 +64,7 @@ impl<'a> Lexer<'a> {
 
                 return Ok(Either::Right((
                     Box::new(s.into_value()),
-                    self.atoms.borrow_mut().intern(&*raw),
+                    self.atoms.atom(&*raw),
                 )));
             }
 
@@ -84,9 +84,9 @@ impl<'a> Lexer<'a> {
                     // e.g. `000` is octal
                     if start.0 != self.last_pos().0 - 1 {
                         // `-1` is utf 8 length of `0`
-                        return self.make_legacy_octal(start, 0f64).map(|value| {
-                            Either::Left((value, self.atoms.borrow_mut().intern(&*raw)))
-                        });
+                        return self
+                            .make_legacy_octal(start, 0f64)
+                            .map(|value| Either::Left((value, self.atoms.atom(&*raw))));
                     }
                 } else {
                     // strict mode hates non-zero decimals starting with zero.
@@ -113,9 +113,9 @@ impl<'a> Lexer<'a> {
                                     panic!("failed to parse {} into float using BigInt", val_str)
                                 });
 
-                            return self.make_legacy_octal(start, val).map(|value| {
-                                Either::Left((value, self.atoms.borrow_mut().intern(&*raw)))
-                            });
+                            return self
+                                .make_legacy_octal(start, val)
+                                .map(|value| Either::Left((value, self.atoms.atom(&*raw))));
                         }
                     }
                 }
@@ -227,10 +227,7 @@ impl<'a> Lexer<'a> {
 
         self.ensure_not_ident()?;
 
-        Ok(Either::Left((
-            val,
-            self.atoms.borrow_mut().intern(&*raw_str),
-        )))
+        Ok(Either::Left((val, self.atoms.atom(&*raw_str))))
     }
 
     /// Returns `Left(value)` or `Right(BigInt)`
@@ -271,13 +268,13 @@ impl<'a> Lexer<'a> {
 
                 return Ok(Either::Right((
                     Box::new(s.into_value()),
-                    l.atoms.borrow_mut().intern(&**buf),
+                    l.atoms.atom(&**buf),
                 )));
             }
 
             l.ensure_not_ident()?;
 
-            Ok(Either::Left((val, l.atoms.borrow_mut().intern(&**buf))))
+            Ok(Either::Left((val, l.atoms.atom(&**buf))))
         })
     }
 

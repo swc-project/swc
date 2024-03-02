@@ -11,10 +11,10 @@ Object.defineProperty(exports, "ServiceError", {
 const _ts_decorate = require("@swc/helpers/_/_ts_decorate");
 const CD = ()=>{};
 const PD = ()=>{};
-let ServiceError = class ServiceError1 extends Error {
+class ServiceError extends Error {
     code = ServiceError.Code.badResponse;
     name = "ServiceError.BadResponse";
-};
+}
 _ts_decorate._([
     PD
 ], ServiceError.prototype, "code", void 0);
@@ -33,7 +33,6 @@ ServiceError = _ts_decorate._([
         Code[Code["badResponse"] = 422] = "badResponse";
     })(Code = ServiceError.Code || (ServiceError.Code = {}));
     class ServiceNotFound extends ServiceError {
-        // Service was probably not registered, or using the wrong channel
         code = 404;
         name = "ServiceError.ServiceNotFound";
     }

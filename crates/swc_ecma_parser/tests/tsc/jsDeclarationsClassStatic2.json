@@ -209,7 +209,8 @@
         "raw": "\"./Foo.js\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ClassDeclaration",

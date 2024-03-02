@@ -108,14 +108,9 @@ Toolbar.DEFAULTS = {}, Toolbar.DEFAULTS = {
     handlers: {
         clean () {
             const range = this.quill.getSelection();
-            if (null != range) {
-                if (0 === range.length) {
-                    const formats = this.quill.getFormat();
-                    Object.keys(formats).forEach((name)=>{
-                        null != this.quill.scroll.query(name, Scope.INLINE) && this.quill.format(name, !1, Quill.sources.USER);
-                    });
-                } else this.quill.removeFormat(range, Quill.sources.USER);
-            }
+            null != range && (0 === range.length ? Object.keys(this.quill.getFormat()).forEach((name)=>{
+                null != this.quill.scroll.query(name, Scope.INLINE) && this.quill.format(name, !1, Quill.sources.USER);
+            }) : this.quill.removeFormat(range, Quill.sources.USER));
         },
         direction (value) {
             const { align } = this.quill.getFormat();

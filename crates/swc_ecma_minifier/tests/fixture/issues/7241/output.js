@@ -1,4 +1,1 @@
-!function() {
-    const _Test = something();
-    console.log(_Test);
-}();
+console.log(something());

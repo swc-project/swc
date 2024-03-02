@@ -1722,26 +1722,6 @@
             handleError(e, vnode.context, "directive " + dir.name + " " + hook + " hook");
         }
     }
-    var baseModules = [
-        {
-            create: function(_, vnode) {
-                registerRef(vnode);
-            },
-            update: function(oldVnode, vnode) {
-                oldVnode.data.ref !== vnode.data.ref && (registerRef(oldVnode, !0), registerRef(vnode));
-            },
-            destroy: function(vnode) {
-                registerRef(vnode, !0);
-            }
-        },
-        {
-            create: updateDirectives,
-            update: updateDirectives,
-            destroy: function(vnode) {
-                updateDirectives(vnode, emptyNode);
-            }
-        }
-    ];
     function updateAttrs(oldVnode, vnode) {
         var key, cur, opts = vnode.componentOptions;
         if (!(isDef(opts) && !1 === opts.Ctor.options.inheritAttrs || isUndef(oldVnode.data.attrs) && isUndef(vnode.data.attrs))) {
@@ -2454,7 +2434,26 @@
                     !0 !== vnode.data.show ? leave(vnode, rm) : rm();
                 }
             } : {}
-        ].concat(baseModules)
+        ].concat([
+            {
+                create: function(_, vnode) {
+                    registerRef(vnode);
+                },
+                update: function(oldVnode, vnode) {
+                    oldVnode.data.ref !== vnode.data.ref && (registerRef(oldVnode, !0), registerRef(vnode));
+                },
+                destroy: function(vnode) {
+                    registerRef(vnode, !0);
+                }
+            },
+            {
+                create: updateDirectives,
+                update: updateDirectives,
+                destroy: function(vnode) {
+                    updateDirectives(vnode, emptyNode);
+                }
+            }
+        ])
     });
     isIE9 && document.addEventListener('selectionchange', function() {
         var el = document.activeElement;
@@ -3379,12 +3378,9 @@
                                         var args = match.attrs[i], value = args[3] || args[4] || args[5] || '', shouldDecodeNewlines = 'a' === tagName && 'href' === args[1] ? options.shouldDecodeNewlinesForHref : options.shouldDecodeNewlines;
                                         attrs[i] = {
                                             name: args[1],
-                                            value: function(value, shouldDecodeNewlines) {
-                                                var re = shouldDecodeNewlines ? encodedAttrWithNewLines : encodedAttr;
-                                                return value.replace(re, function(match) {
-                                                    return decodingMap[match];
-                                                });
-                                            }(value, shouldDecodeNewlines)
+                                            value: value.replace(shouldDecodeNewlines ? encodedAttrWithNewLines : encodedAttr, function(match) {
+                                                return decodingMap[match];
+                                            })
                                         }, options.outputSourceRange && (attrs[i].start = args.start + args[0].match(/^\s*/).length, attrs[i].end = args.end);
                                     }
                                     unary || (stack.push({

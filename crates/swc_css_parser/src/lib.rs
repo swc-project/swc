@@ -1,4 +1,3 @@
-#![feature(box_patterns)]
 #![cfg_attr(docsrs, feature(doc_cfg))]
 #![deny(unused_must_use)]
 #![deny(clippy::all)]
@@ -6,7 +5,7 @@
 #![allow(clippy::nonminimal_bool)]
 #![allow(clippy::wrong_self_convention)]
 
-use swc_common::{input::StringInput, SourceFile};
+use swc_common::{comments::Comments, input::StringInput, SourceFile};
 
 use crate::{
     error::Error,
@@ -42,30 +41,32 @@ where
 ///
 /// If there are syntax errors but if it was recoverable, it will be appended
 /// to `errors`.
-pub fn parse_file<'a, T>(
+pub fn parse_file<'a, 'b, T>(
     fm: &'a SourceFile,
+    comments: Option<&'b dyn Comments>,
     config: ParserConfig,
     errors: &mut Vec<Error>,
 ) -> PResult<T>
 where
-    Parser<Lexer<StringInput<'a>>>: Parse<T>,
+    Parser<Lexer<'b, StringInput<'a>>>: Parse<T>,
 {
-    parse_string_input(StringInput::from(fm), config, errors)
+    parse_string_input(StringInput::from(fm), comments, config, errors)
 }
 
 /// Parse a given [StringInput] as `T`.
 ///
 /// If there are syntax errors but if it was recoverable, it will be appended
 /// to `errors`.
-pub fn parse_string_input<'a, T>(
+pub fn parse_string_input<'a, 'b, T>(
     input: StringInput<'a>,
+    comments: Option<&'b dyn Comments>,
     config: ParserConfig,
     errors: &mut Vec<Error>,
 ) -> PResult<T>
 where
-    Parser<Lexer<StringInput<'a>>>: Parse<T>,
+    Parser<Lexer<'b, StringInput<'a>>>: Parse<T>,
 {
-    let lexer = Lexer::new(input, config);
+    let lexer = Lexer::new(input, comments, config);
     let mut parser = Parser::new(lexer, config);
 
     let res = parser.parse();

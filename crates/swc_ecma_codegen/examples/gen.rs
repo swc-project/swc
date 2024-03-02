@@ -1,5 +1,5 @@
 /// Use memory allocator
-extern crate swc_node_base;
+extern crate swc_malloc;
 
 use std::{env, fs, path::Path, time::Instant};
 

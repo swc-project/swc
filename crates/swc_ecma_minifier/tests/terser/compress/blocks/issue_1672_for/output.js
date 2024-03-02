@@ -3,7 +3,7 @@ switch(function() {
 }){
     case xxx:
         for(; console.log("FAIL");){
-            function xxx1() {}
+            function xxx() {}
         }
         break;
 }

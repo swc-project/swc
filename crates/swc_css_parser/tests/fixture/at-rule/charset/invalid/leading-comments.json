@@ -1,0 +1,35 @@
+{
+  "124": [
+    {
+      "kind": "Block",
+      "span": {
+        "start": 83,
+        "end": 123,
+        "ctxt": 0
+      },
+      "text": "/* Invalid, more than one space */"
+    }
+  ],
+  "65": [
+    {
+      "kind": "Block",
+      "span": {
+        "start": 24,
+        "end": 64,
+        "ctxt": 0
+      },
+      "text": "/* Invalid, wrong quoting style used */"
+    }
+  ],
+  "212": [
+    {
+      "kind": "Block",
+      "span": {
+        "start": 141,
+        "end": 211,
+        "ctxt": 0
+      },
+      "text": "/* Invalid, there is a character (a space) before the at-rule */"
+    }
+  ]
+}

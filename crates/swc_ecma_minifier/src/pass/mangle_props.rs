@@ -1,7 +1,7 @@
 use std::collections::HashSet;
 
 use once_cell::sync::Lazy;
-use swc_atoms::{js_word, JsWord};
+use swc_atoms::JsWord;
 use swc_common::collections::{AHashMap, AHashSet};
 use swc_ecma_ast::{
     CallExpr, Callee, Expr, Ident, KeyValueProp, Lit, MemberExpr, MemberProp, Program, Prop,
@@ -191,11 +191,7 @@ fn is_object_property_call(call: &CallExpr) -> bool {
                 prop: MemberProp::Ident(Ident { sym, .. }),
                 ..
             }) if *sym == *"defineProperty" => {
-                if let Expr::Ident(Ident {
-                    sym: js_word!("Object"),
-                    ..
-                }) = &**obj
-                {
+                if obj.is_ident_ref_to("Object") {
                     return true;
                 }
             }

@@ -5,12 +5,12 @@ const Base = classWithProperties({
     },
     y: 'string'
 }, class {
-}), mine = new class extends Base {
+});
+new class extends Base {
     get x() {
         return !1;
     }
     get y() {
         return 'hi';
     }
-}();
-mine.x;
+}().x;

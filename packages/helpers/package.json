@@ -1,7 +1,7 @@
 {
     "name": "@swc/helpers",
-    "packageManager": "yarn@3.5.0",
-    "version": "0.5.2",
+    "packageManager": "yarn@4.0.2",
+    "version": "0.5.6",
     "description": "External helpers for the swc project.",
     "module": "esm/index.js",
     "main": "cjs/index.cjs",

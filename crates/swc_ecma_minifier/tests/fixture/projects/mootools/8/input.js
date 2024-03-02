@@ -1,3 +1,5 @@
+var Browser = window.Browser || {}
+
 var setEngine = function (name, version) {
     Browser.Engine.name = name;
     Browser.Engine[name + version] = true;

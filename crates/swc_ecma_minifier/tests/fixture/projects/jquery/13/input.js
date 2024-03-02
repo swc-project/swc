@@ -1,3 +1,6 @@
+var jQuery = window.jQuery || {};
+
+
 function internalRemoveData(elem, name, pvt) {
     if (!jQuery.acceptData(elem)) {
         return;

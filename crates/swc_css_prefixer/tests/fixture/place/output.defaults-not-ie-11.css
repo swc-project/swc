@@ -3,10 +3,10 @@ a {
   place-items: center normal;
   place-self: center;
 }
-a {
-  place-content: space-between center;
-  place-items: center normal;
-  place-self: auto center;
+A {
+  PLACE-CONTENT: space-between center;
+  PLACE-ITEMS: center normal;
+  PLACE-SELF: auto center;
 }
 b {
   place-content: space-between;

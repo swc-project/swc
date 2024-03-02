@@ -266,15 +266,14 @@ function serializeQueryParameters(parameters) {
     }
     function handleNewSearch() {
         if (!stalledSearchTimer) {
-            var _setTimeout;
-            _setTimeout = setTimeout(function() {
+            stalledSearchTimer = setTimeout(function() {
                 var _store_getState = store.getState(), resultsFacetValues = _store_getState.resultsFacetValues, partialState = _object_without_properties(_store_getState, [
                     "resultsFacetValues"
                 ]);
                 store.setState(_object_spread_props(_object_spread({}, partialState), {
                     isSearchStalled: true
                 }));
-            }, stalledSearchDelay), stalledSearchTimer = _setTimeout, _setTimeout;
+            }, stalledSearchDelay);
         }
     }
     function hydrateSearchClient(client, results) {

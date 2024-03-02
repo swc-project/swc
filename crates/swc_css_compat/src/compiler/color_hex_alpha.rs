@@ -1,4 +1,3 @@
-use swc_atoms::js_word;
 use swc_common::DUMMY_SP;
 use swc_css_ast::{
     AbsoluteColorBase, AlphaValue, Color, ComponentValue, Delimiter, DelimiterValue, Function,
@@ -23,10 +22,14 @@ fn shorten_hex_color(value: &str) -> Option<&str> {
 
 impl Compiler {
     pub(crate) fn process_color_hex_alpha(&mut self, n: &mut ComponentValue) {
-        if let ComponentValue::Color(box Color::AbsoluteColorBase(AbsoluteColorBase::HexColor(
-            hex_color,
-        ))) = n
+        if let Some(hex_color) = n
+            .as_mut_color()
+            .and_then(|color| color.as_mut_absolute_color_base())
+            .and_then(|color| color.as_mut_hex_color())
         {
+            hex_color.value = hex_color.value.to_ascii_lowercase();
+            hex_color.raw = None;
+
             if hex_color.value.len() != 4 && hex_color.value.len() != 8 {
                 return;
             }
@@ -45,7 +48,7 @@ impl Compiler {
                     span: hex_color.span,
                     name: FunctionName::Ident(Ident {
                         span: DUMMY_SP,
-                        value: js_word!("rgba"),
+                        value: "rgba".into(),
                         raw: None,
                     }),
                     value: vec![

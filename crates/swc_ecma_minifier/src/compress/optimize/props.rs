@@ -1,45 +1,70 @@
-use swc_common::DUMMY_SP;
+use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{contains_this_expr, prop_name_eq, ExprExt};
+use swc_ecma_utils::{contains_this_expr, private_ident, prop_name_eq, ExprExt};
 
 use super::{unused::PropertyAccessOpts, Optimizer};
 use crate::util::deeply_contains_this_expr;
 
 /// Methods related to the option `hoist_props`.
 impl Optimizer<'_> {
-    /// Store values of properties so we can replace property accesses with the
-    /// values.
-    pub(super) fn store_var_for_prop_hoisting(&mut self, n: &mut VarDeclarator) {
+    pub(super) fn hoist_props_of_vars(&mut self, n: &mut Vec<VarDeclarator>) {
         if !self.options.hoist_props {
+            log_abort!("hoist_props: option is disabled");
             return;
         }
         if self.ctx.is_exported {
+            log_abort!("hoist_props: Exported variable is not hoisted");
+            return;
+        }
+        if self.ctx.in_top_level() && !self.options.top_level() {
+            log_abort!("hoist_props: Top-level variable is not hoisted");
             return;
         }
 
+        let mut new = Vec::with_capacity(n.len());
+        for mut n in n.take() {
+            let new_vars = self.hoist_props_of_var(&mut n);
+
+            if let Some(new_vars) = new_vars {
+                new.extend(new_vars);
+            } else {
+                new.push(n);
+            }
+        }
+
+        *n = new;
+    }
+
+    fn hoist_props_of_var(&mut self, n: &mut VarDeclarator) -> Option<Vec<VarDeclarator>> {
         if let Pat::Ident(name) = &mut n.name {
-            if self.options.top_retain.contains(&name.id.sym) {
-                return;
+            if name.id.span.ctxt == self.marks.top_level_ctxt
+                && self.options.top_retain.contains(&name.id.sym)
+            {
+                log_abort!("hoist_props: Variable `{}` is retained", name.id.sym);
+                return None;
             }
 
             // If a variable is initialized multiple time, we currently don't do anything
             // smart.
-            if !self
-                .data
-                .vars
-                .get(&name.to_id())
-                .map(|v| {
-                    !v.mutated()
-                        && !v.used_as_ref
-                        && !v.used_as_arg
-                        && !v.used_in_cond
-                        && (!v.is_fn_local || !self.mode.should_be_very_correct())
-                        && !v.is_infected()
-                })
-                .unwrap_or(false)
+            let usage = self.data.vars.get(&name.to_id())?;
+            if usage.mutated()
+                || usage.used_in_cond
+                || usage.used_above_decl
+                || usage.used_as_ref
+                || usage.used_as_arg
+                || usage.indexed_with_dynamic_key
+                || usage.used_recursively
             {
-                log_abort!("[x] bad usage");
-                return;
+                log_abort!("hoist_props: Variable `{}` is not a candidate", name.id);
+                return None;
+            }
+
+            if usage.accessed_props.is_empty() {
+                log_abort!(
+                    "hoist_props: Variable `{}` is not accessed with known keys",
+                    name.id
+                );
+                return None;
             }
 
             // We should abort if unknown property is used.
@@ -53,145 +78,115 @@ impl Optimizer<'_> {
             if let Some(Expr::Object(init)) = n.init.as_deref() {
                 for prop in &init.props {
                     let prop = match prop {
-                        PropOrSpread::Spread(_) => continue,
+                        PropOrSpread::Spread(_) => return None,
                         PropOrSpread::Prop(prop) => prop,
                     };
 
-                    if let Prop::KeyValue(p) = &**prop {
-                        match &*p.value {
-                            Expr::Lit(..) | Expr::Arrow(..) => {}
-                            Expr::Fn(f) => {
-                                if contains_this_expr(&f.function.body) {
-                                    continue;
-                                }
+                    match &**prop {
+                        Prop::KeyValue(p) => {
+                            if !is_expr_fine_for_hoist_props(&p.value) {
+                                return None;
                             }
-                            _ => continue,
-                        };
 
-                        match &p.key {
-                            PropName::Str(s) => {
-                                if let Some(v) = unknown_used_props.get_mut(&s.value) {
-                                    *v -= 1;
+                            match &p.key {
+                                PropName::Str(s) => {
+                                    if let Some(v) = unknown_used_props.get_mut(&s.value) {
+                                        *v = 0;
+                                    }
                                 }
-                            }
-                            PropName::Ident(i) => {
-                                if let Some(v) = unknown_used_props.get_mut(&i.sym) {
-                                    *v -= 1;
+                                PropName::Ident(i) => {
+                                    if let Some(v) = unknown_used_props.get_mut(&i.sym) {
+                                        *v = 0;
+                                    }
                                 }
+                                _ => return None,
                             }
-                            _ => {}
                         }
+                        Prop::Shorthand(p) => {
+                            if let Some(v) = unknown_used_props.get_mut(&p.sym) {
+                                *v = 0;
+                            }
+                        }
+                        _ => return None,
                     }
                 }
             } else {
                 if self.mode.should_be_very_correct() {
-                    return;
+                    return None;
                 }
             }
 
             if !unknown_used_props.iter().all(|(_, v)| *v == 0) {
                 log_abort!("[x] unknown used props: {:?}", unknown_used_props);
-                return;
+                return None;
             }
 
             if let Some(init) = n.init.as_deref() {
                 self.mode.store(name.to_id(), init);
             }
 
-            if let Some(Expr::Object(init)) = n.init.as_deref_mut() {
-                for prop in &mut init.props {
-                    let prop = match prop {
-                        PropOrSpread::Spread(_) => continue,
-                        PropOrSpread::Prop(prop) => prop,
-                    };
+            let mut new_vars = vec![];
 
-                    if let Prop::KeyValue(p) = &mut **prop {
-                        self.vars.inline_with_multi_replacer(&mut p.value);
+            let object = n.init.as_mut()?.as_mut_object()?;
 
-                        let value = match &*p.value {
-                            Expr::Lit(..) => p.value.clone(),
-                            Expr::Fn(..) | Expr::Arrow(..) => {
-                                if self.options.hoist_props {
-                                    p.value.clone()
-                                } else {
-                                    continue;
-                                }
-                            }
-                            _ => continue,
-                        };
+            self.changed = true;
+            report_change!(
+                "hoist_props: Hoisting properties of a variable `{}`",
+                name.id.sym
+            );
 
-                        match &p.key {
-                            PropName::Str(s) => {
-                                trace_op!(
-                                    "hoist_props: Storing a variable (`{}`) to inline properties",
-                                    name.id
-                                );
-                                self.simple_props
-                                    .insert((name.to_id(), s.value.clone()), value);
-                            }
-                            PropName::Ident(i) => {
-                                trace_op!(
-                                    "hoist_props: Storing a variable(`{}`) to inline properties",
-                                    name.id
-                                );
-                                self.simple_props
-                                    .insert((name.to_id(), i.sym.clone()), value);
-                            }
-                            _ => {}
-                        }
-                    }
-                }
+            for prop in &mut object.props {
+                let prop = match prop {
+                    PropOrSpread::Spread(_) => unreachable!(),
+                    PropOrSpread::Prop(prop) => prop,
+                };
+
+                let value = match &mut **prop {
+                    Prop::KeyValue(p) => p.value.take(),
+                    Prop::Shorthand(p) => p.clone().into(),
+                    _ => unreachable!(),
+                };
+
+                let (key, suffix) = match &**prop {
+                    Prop::KeyValue(p) => match &p.key {
+                        PropName::Ident(i) => (i.sym.clone(), i.sym.clone()),
+                        PropName::Str(s) => (
+                            s.value.clone(),
+                            s.value
+                                .clone()
+                                .replace(|c: char| !Ident::is_valid_continue(c), "$")
+                                .into(),
+                        ),
+                        _ => unreachable!(),
+                    },
+                    Prop::Shorthand(p) => (p.sym.clone(), p.sym.clone()),
+                    _ => unreachable!(),
+                };
+
+                let new_var_name = private_ident!(format!("{}_{}", name.id.sym, suffix));
+
+                let new_var = VarDeclarator {
+                    span: DUMMY_SP,
+                    name: new_var_name.clone().into(),
+                    init: Some(value),
+                    definite: false,
+                };
+
+                self.vars
+                    .hoisted_props
+                    .insert((name.to_id(), key), new_var_name);
+
+                new_vars.push(new_var);
             }
+            // Mark the variable as dropped.
+            n.name.take();
 
-            // If the variable is used multiple time, just ignore it.
-            if !self
-                .data
-                .vars
-                .get(&name.to_id())
-                .map(|v| {
-                    v.ref_count == 1
-                        && v.has_property_access
-                        && !v.mutated()
-                        && v.is_fn_local
-                        && !v.executed_multiple_time
-                        && !v.used_as_arg
-                        && !v.used_in_cond
-                })
-                .unwrap_or(false)
-            {
-                return;
-            }
-
-            let init = match n.init.take() {
-                Some(v) => v,
-                None => return,
-            };
-
-            if let Expr::This(..) = &*init {
-                n.init = Some(init);
-                return;
-            }
-
-            match self.vars_for_prop_hoisting.insert(name.to_id(), init) {
-                Some(prev) => {
-                    panic!(
-                        "two variable with same name and same span hygiene is invalid\nPrevious \
-                         value: {:?}",
-                        prev
-                    );
-                }
-                None => {
-                    trace_op!(
-                        "hoist_props: Stored {}{:?} to inline property access",
-                        name.id.sym,
-                        name.id.span.ctxt
-                    );
-                }
-            }
+            return Some(new_vars);
         }
+
+        None
     }
 
-    /// Replace property accesses to known values.
     pub(super) fn replace_props(&mut self, e: &mut Expr) {
         let member = match e {
             Expr::Member(m) => m,
@@ -202,29 +197,55 @@ impl Optimizer<'_> {
             _ => return,
         };
         if let Expr::Ident(obj) = &*member.obj {
-            if let MemberProp::Ident(prop) = &member.prop {
-                if let Some(mut value) = self
-                    .simple_props
-                    .get(&(obj.to_id(), prop.sym.clone()))
-                    .cloned()
-                {
-                    if let Expr::Fn(f) = &mut *value {
-                        f.function.span = DUMMY_SP;
-                    }
+            let sym = match &member.prop {
+                MemberProp::Ident(i) => &i.sym,
+                MemberProp::Computed(e) => match &*e.expr {
+                    Expr::Lit(Lit::Str(s)) => &s.value,
+                    _ => return,
+                },
+                _ => return,
+            };
 
-                    report_change!("hoist_props: Inlining `{}.{}`", obj.sym, prop.sym);
-                    self.changed = true;
-                    *e = *value;
-                    return;
-                }
-            }
-
-            if let Some(value) = self.vars_for_prop_hoisting.remove(&obj.to_id()) {
-                member.obj = value;
+            if let Some(value) = self
+                .vars
+                .hoisted_props
+                .get(&(obj.to_id(), sym.clone()))
+                .cloned()
+            {
+                report_change!("hoist_props: Inlining `{}.{}`", obj.sym, sym);
                 self.changed = true;
-                report_change!("hoist_props: Inlined a property");
+                *e = value.into();
             }
         }
+    }
+}
+
+fn is_expr_fine_for_hoist_props(value: &Expr) -> bool {
+    match value {
+        Expr::Ident(..) | Expr::Lit(..) | Expr::Arrow(..) | Expr::Class(..) => true,
+
+        Expr::Fn(f) => !contains_this_expr(&f.function.body),
+
+        Expr::Unary(u) => match u.op {
+            op!("void") | op!("typeof") | op!("!") => is_expr_fine_for_hoist_props(&u.arg),
+            _ => false,
+        },
+
+        Expr::Array(a) => a.elems.iter().all(|elem| match elem {
+            Some(elem) => elem.spread.is_none() && is_expr_fine_for_hoist_props(&elem.expr),
+            None => true,
+        }),
+
+        Expr::Object(o) => o.props.iter().all(|prop| match prop {
+            PropOrSpread::Spread(_) => false,
+            PropOrSpread::Prop(p) => match &**p {
+                Prop::Shorthand(..) => true,
+                Prop::KeyValue(p) => is_expr_fine_for_hoist_props(&p.value),
+                _ => false,
+            },
+        }),
+
+        _ => false,
     }
 }
 

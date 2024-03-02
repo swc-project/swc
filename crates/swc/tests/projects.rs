@@ -19,6 +19,7 @@ use swc_common::{
     sync::Lrc,
     BytePos, FileName, Globals, SourceMap, GLOBALS,
 };
+use swc_compiler_base::PrintArgs;
 use swc_ecma_ast::{EsVersion, *};
 use swc_ecma_minifier::option::MangleOptions;
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
@@ -740,19 +741,22 @@ fn should_visit() {
 
             Ok(c.print(
                 &program,
-                None,
-                config.output_path,
-                config.inline_sources_content,
-                config.source_maps,
-                &Default::default(),
-                None,
-                // TODO: figure out sourcemaps
-                Some(&comments),
-                config.emit_source_map_columns,
-                Default::default(),
-                swc_ecma_codegen::Config::default()
-                    .with_target(config.target)
-                    .with_minify(config.minify),
+                PrintArgs {
+                    source_root: None,
+                    source_file_name: None,
+                    output_path: config.output_path,
+                    inline_sources_content: config.inline_sources_content,
+                    source_map: config.source_maps,
+                    source_map_names: &Default::default(),
+                    orig: None,
+                    // TODO: figure out sourcemaps
+                    comments: Some(&comments),
+                    emit_source_map_columns: config.emit_source_map_columns,
+                    preamble: Default::default(),
+                    codegen_config: swc_ecma_codegen::Config::default()
+                        .with_target(config.target)
+                        .with_minify(config.minify),
+                },
             )
             .unwrap()
             .code)
@@ -1128,10 +1132,13 @@ fn minify(input_js: PathBuf) {
         let c = Compiler::new(cm);
         let fm = c.cm.load_file(&input_js).unwrap();
 
-        let mut config: JsMinifyOptions =
-            serde_json::from_str(&std::fs::read_to_string(&config_json_path).unwrap()).unwrap();
+        let config_str = std::fs::read_to_string(&config_json_path).unwrap();
+        let mut config: JsMinifyOptions = serde_json::from_str(&config_str).unwrap();
 
-        config.source_map = BoolOrDataConfig::from_bool(true);
+        if config.source_map.inner().is_none() {
+            config.source_map = BoolOrDataConfig::from_bool(true);
+        }
+
         let output = c.minify(fm, &handler, &config).unwrap();
 
         NormalizedOutput::from(output.code)

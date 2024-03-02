@@ -2,8 +2,8 @@
 
 export function _using(stack, value, isAwait) {
     if (value === null || value === void 0) return value;
-    if (typeof value !== "object") {
-        throw new TypeError("using declarations can only be used with objects, null, or undefined.");
+    if (Object(value) !== value) {
+        throw new TypeError("using declarations can only be used with objects, functions, null, or undefined.");
     }
     // core-js-pure uses Symbol.for for polyfilling well-known symbols
     if (isAwait) {

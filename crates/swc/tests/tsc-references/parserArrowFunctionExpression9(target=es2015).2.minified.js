@@ -1,7 +1,5 @@
 //// [parserArrowFunctionExpression9.ts]
 //// [fileJs.js]
-b && c // Legal JS
- // Legal JS
-;
+b && c;
 //// [fileTs.ts]
 b && c;

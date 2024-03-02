@@ -40,4 +40,3 @@ let o = {
     ...o
 };
 so.p, so.m(), so.g, sso.p, sso.m(), sso.g;
- // ok

@@ -1,0 +1,24 @@
+{
+  "jsc": {
+    "parser": {
+      "syntax": "ecmascript",
+      "jsx": false
+    },
+    "externalHelpers": true,
+    "minify": {
+      "compress": false,
+      "mangle": false
+    },
+    "keepClassNames": true,
+    "loose": true
+  },
+  "minify": false,
+  "isModule": true,
+  "module": {
+    "type": "umd"
+  },
+  "env": {
+    "targets": "",
+    "bugfixes": true
+  }
+}

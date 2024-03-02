@@ -19,9 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('My structural interface.
-             *
-             *' type=dynamic),
+            value: "My structural interface.\n *\n *",
         },
         tags: [
             TagItem {
@@ -44,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('record' type=inline),
+                    value: "record",
                 },
                 tag: Unknown(
                     UnknownTag {
@@ -67,7 +65,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('' type=static),
+                            value: "",
                         },
                     },
                 ),

@@ -6,7 +6,6 @@ import { _ as _create_super } from "@swc/helpers/_/_create_super";
 (M || (M = {})).fn = function(x) {
     return "";
 }, void 0 === x || _type_of(x), void 0 === M || _type_of(M), M.fn(1);
-// basic assignable check, rest covered in tests for 'assignment compatibility'
 var M, x, C = function C() {
     _class_call_check(this, C);
 }, D = function(C) {

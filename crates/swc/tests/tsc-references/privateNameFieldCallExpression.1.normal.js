@@ -5,10 +5,9 @@ import { _ as _class_private_field_set } from "@swc/helpers/_/_class_private_fie
 var _fieldFunc = /*#__PURE__*/ new WeakMap(), _fieldFunc2 = /*#__PURE__*/ new WeakMap();
 class A {
     test() {
-        var _class_private_field_get1;
-        var _this_getInstance;
+        var _this, _this1, _ref, _this_getInstance;
         _class_private_field_get(this, _fieldFunc).call(this);
-        (_class_private_field_get1 = _class_private_field_get(this, _fieldFunc)) === null || _class_private_field_get1 === void 0 ? void 0 : _class_private_field_get1.call(this);
+        (_this = _class_private_field_get(_ref = _this1 = this, _fieldFunc)) === null || _this === void 0 ? void 0 : _this.call(_this1);
         const func = _class_private_field_get(this, _fieldFunc);
         func();
         new (_class_private_field_get(this, _fieldFunc))();

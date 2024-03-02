@@ -774,9 +774,7 @@
             return 2 * Math.acos(Math.abs(MathUtils.clamp(this.dot(q), -1, 1)));
         }, _proto.rotateTowards = function(q, step) {
             var angle = this.angleTo(q);
-            if (0 === angle) return this;
-            var t = Math.min(1, step / angle);
-            return this.slerp(q, t), this;
+            return 0 === angle || this.slerp(q, Math.min(1, step / angle)), this;
         }, _proto.identity = function() {
             return this.set(0, 0, 0, 1);
         }, _proto.invert = function() {
@@ -3268,19 +3266,15 @@
         }
     }), WebGLCubeRenderTarget.prototype = Object.create(WebGLRenderTarget.prototype), WebGLCubeRenderTarget.prototype.constructor = WebGLCubeRenderTarget, WebGLCubeRenderTarget.prototype.isWebGLCubeRenderTarget = !0, WebGLCubeRenderTarget.prototype.fromEquirectangularTexture = function(renderer, texture) {
         this.texture.type = texture.type, this.texture.format = 1023, this.texture.encoding = texture.encoding, this.texture.generateMipmaps = texture.generateMipmaps, this.texture.minFilter = texture.minFilter, this.texture.magFilter = texture.magFilter;
-        var shader = {
-            uniforms: {
+        var geometry = new BoxBufferGeometry(5, 5, 5), material = new ShaderMaterial({
+            name: 'CubemapFromEquirect',
+            uniforms: cloneUniforms({
                 tEquirect: {
                     value: null
                 }
-            },
+            }),
             vertexShader: "\n\n\t\t\tvarying vec3 vWorldDirection;\n\n\t\t\tvec3 transformDirection( in vec3 dir, in mat4 matrix ) {\n\n\t\t\t\treturn normalize( ( matrix * vec4( dir, 0.0 ) ).xyz );\n\n\t\t\t}\n\n\t\t\tvoid main() {\n\n\t\t\t\tvWorldDirection = transformDirection( position, modelMatrix );\n\n\t\t\t\t#include <begin_vertex>\n\t\t\t\t#include <project_vertex>\n\n\t\t\t}\n\t\t",
-            fragmentShader: "\n\n\t\t\tuniform sampler2D tEquirect;\n\n\t\t\tvarying vec3 vWorldDirection;\n\n\t\t\t#include <common>\n\n\t\t\tvoid main() {\n\n\t\t\t\tvec3 direction = normalize( vWorldDirection );\n\n\t\t\t\tvec2 sampleUV = equirectUv( direction );\n\n\t\t\t\tgl_FragColor = texture2D( tEquirect, sampleUV );\n\n\t\t\t}\n\t\t"
-        }, geometry = new BoxBufferGeometry(5, 5, 5), material = new ShaderMaterial({
-            name: 'CubemapFromEquirect',
-            uniforms: cloneUniforms(shader.uniforms),
-            vertexShader: shader.vertexShader,
-            fragmentShader: shader.fragmentShader,
+            fragmentShader: "\n\n\t\t\tuniform sampler2D tEquirect;\n\n\t\t\tvarying vec3 vWorldDirection;\n\n\t\t\t#include <common>\n\n\t\t\tvoid main() {\n\n\t\t\t\tvec3 direction = normalize( vWorldDirection );\n\n\t\t\t\tvec2 sampleUV = equirectUv( direction );\n\n\t\t\t\tgl_FragColor = texture2D( tEquirect, sampleUV );\n\n\t\t\t}\n\t\t",
             side: 1,
             blending: 0
         });
@@ -4516,10 +4510,10 @@
             update: function(count, mode, instanceCount) {
                 switch(render.calls++, mode){
                     case 4:
-                        render.triangles += instanceCount * (count / 3);
+                        render.triangles += count / 3 * instanceCount;
                         break;
                     case 1:
-                        render.lines += instanceCount * (count / 2);
+                        render.lines += count / 2 * instanceCount;
                         break;
                     case 3:
                         render.lines += instanceCount * (count - 1);
@@ -6673,8 +6667,8 @@
                 cameraLPos.setFromMatrixPosition(cameraL.matrixWorld), cameraRPos.setFromMatrixPosition(cameraR.matrixWorld);
                 var ipd = cameraLPos.distanceTo(cameraRPos), projL = cameraL.projectionMatrix.elements, projR = cameraR.projectionMatrix.elements, near = projL[14] / (projL[10] - 1), far = projL[14] / (projL[10] + 1), topFov = (projL[9] + 1) / projL[5], bottomFov = (projL[9] - 1) / projL[5], leftFov = (projL[8] - 1) / projL[0], rightFov = (projR[8] + 1) / projR[0], zOffset = ipd / (-leftFov + rightFov), xOffset = -(zOffset * leftFov);
                 cameraL.matrixWorld.decompose(camera.position, camera.quaternion, camera.scale), camera.translateX(xOffset), camera.translateZ(zOffset), camera.matrixWorld.compose(camera.position, camera.quaternion, camera.scale), camera.matrixWorldInverse.copy(camera.matrixWorld).invert();
-                var near2 = near + zOffset, far2 = far + zOffset, left2 = near * leftFov - xOffset, right2 = near * rightFov + (ipd - xOffset), top2 = topFov * far / far2 * near2, bottom2 = bottomFov * far / far2 * near2;
-                camera.projectionMatrix.makePerspective(left2, right2, top2, bottom2, near2, far2);
+                var near2 = near + zOffset, far2 = far + zOffset;
+                camera.projectionMatrix.makePerspective(near * leftFov - xOffset, near * rightFov + (ipd - xOffset), topFov * far / far2 * near2, bottomFov * far / far2 * near2, near2, far2);
             }(cameraVR, cameraL, cameraR) : cameraVR.projectionMatrix.copy(cameraL.projectionMatrix), cameraVR;
         };
         var onAnimationFrameCallback = null, animation = new WebGLAnimation();
@@ -6969,9 +6963,7 @@
                     var bones = skeleton.bones;
                     if (capabilities.floatVertexTextures) {
                         if (null === skeleton.boneTexture) {
-                            var size = Math.sqrt(4 * bones.length);
-                            size = Math.max(size = MathUtils.ceilPowerOfTwo(size), 4);
-                            var boneMatrices = new Float32Array(size * size * 4);
+                            var size = Math.sqrt(4 * bones.length), boneMatrices = new Float32Array((size = Math.max(size = MathUtils.ceilPowerOfTwo(size), 4)) * size * 4);
                             boneMatrices.set(skeleton.boneMatrices);
                             var boneTexture = new DataTexture(boneMatrices, size, size, 1023, 1015);
                             skeleton.boneMatrices = boneMatrices, skeleton.boneTexture = boneTexture, skeleton.boneTextureSize = size;
@@ -7232,7 +7224,7 @@
         },
         clone: function(data) {
             void 0 === data.arrayBuffers && (data.arrayBuffers = {}), void 0 === this.array.buffer._uuid && (this.array.buffer._uuid = MathUtils.generateUUID()), void 0 === data.arrayBuffers[this.array.buffer._uuid] && (data.arrayBuffers[this.array.buffer._uuid] = this.array.slice(0).buffer);
-            var array = new this.array.constructor(data.arrayBuffers[this.array.buffer._uuid]), ib = new InterleavedBuffer(array, this.stride);
+            var ib = new InterleavedBuffer(new this.array.constructor(data.arrayBuffers[this.array.buffer._uuid]), this.stride);
             return ib.setUsage(this.usage), ib;
         },
         onUpload: function(callback) {
@@ -7339,7 +7331,7 @@
     function Sprite(material) {
         if (Object3D.call(this), this.type = 'Sprite', void 0 === _geometry) {
             _geometry = new BufferGeometry();
-            var float32Array = new Float32Array([
+            var interleavedBuffer = new InterleavedBuffer(new Float32Array([
                 -0.5,
                 -0.5,
                 0,
@@ -7360,7 +7352,7 @@
                 0,
                 0,
                 1
-            ]), interleavedBuffer = new InterleavedBuffer(float32Array, 5);
+            ]), 5);
             _geometry.setIndex([
                 0,
                 1,
@@ -8391,7 +8383,8 @@
     }(BufferGeometry), DodecahedronBufferGeometry = function(_PolyhedronBufferGeom) {
         function DodecahedronBufferGeometry(radius, detail) {
             void 0 === radius && (radius = 1), void 0 === detail && (detail = 0);
-            var _this, t = (1 + Math.sqrt(5)) / 2, r = 1 / t, vertices = [
+            var _this, t = (1 + Math.sqrt(5)) / 2, r = 1 / t;
+            return (_this = _PolyhedronBufferGeom.call(this, [
                 -1,
                 -1,
                 -1,
@@ -8452,8 +8445,7 @@
                 t,
                 0,
                 r
-            ];
-            return (_this = _PolyhedronBufferGeom.call(this, vertices, [
+            ], [
                 3,
                 11,
                 7,
@@ -8613,140 +8605,138 @@
             return _this.setAttribute('position', new Float32BufferAttribute(vertices, 3)), _this;
         }
         return _inheritsLoose(EdgesGeometry, _BufferGeometry), EdgesGeometry;
-    }(BufferGeometry), Earcut = {
-        triangulate: function(data, holeIndices, dim) {
-            dim = dim || 2;
-            var minX, minY, maxX, maxY, x, y, invSize, hasHoles = holeIndices && holeIndices.length, outerLen = hasHoles ? holeIndices[0] * dim : data.length, outerNode = linkedList(data, 0, outerLen, dim, !0), triangles = [];
-            if (!outerNode || outerNode.next === outerNode.prev) return triangles;
-            if (hasHoles && (outerNode = function(data, holeIndices, outerNode, dim) {
-                var i, len, start, end, list, queue = [];
-                for(i = 0, len = holeIndices.length; i < len; i++)start = holeIndices[i] * dim, end = i < len - 1 ? holeIndices[i + 1] * dim : data.length, (list = linkedList(data, start, end, dim, !1)) === list.next && (list.steiner = !0), queue.push(function(start) {
-                    var p = start, leftmost = start;
-                    do (p.x < leftmost.x || p.x === leftmost.x && p.y < leftmost.y) && (leftmost = p), p = p.next;
+    }(BufferGeometry), Earcut_triangulate = function(data, holeIndices, dim) {
+        dim = dim || 2;
+        var minX, minY, maxX, maxY, x, y, invSize, hasHoles = holeIndices && holeIndices.length, outerLen = hasHoles ? holeIndices[0] * dim : data.length, outerNode = linkedList(data, 0, outerLen, dim, !0), triangles = [];
+        if (!outerNode || outerNode.next === outerNode.prev) return triangles;
+        if (hasHoles && (outerNode = function(data, holeIndices, outerNode, dim) {
+            var i, len, start, end, list, queue = [];
+            for(i = 0, len = holeIndices.length; i < len; i++)start = holeIndices[i] * dim, end = i < len - 1 ? holeIndices[i + 1] * dim : data.length, (list = linkedList(data, start, end, dim, !1)) === list.next && (list.steiner = !0), queue.push(function(start) {
+                var p = start, leftmost = start;
+                do (p.x < leftmost.x || p.x === leftmost.x && p.y < leftmost.y) && (leftmost = p), p = p.next;
+                while (p !== start)
+                return leftmost;
+            }(list));
+            for(queue.sort(compareX), i = 0; i < queue.length; i++)(function(hole, outerNode) {
+                if (outerNode = function(hole, outerNode) {
+                    var m, p, m1, p1 = outerNode, hx = hole.x, hy = hole.y, qx = -1 / 0;
+                    do {
+                        if (hy <= p1.y && hy >= p1.next.y && p1.next.y !== p1.y) {
+                            var x = p1.x + (hy - p1.y) * (p1.next.x - p1.x) / (p1.next.y - p1.y);
+                            if (x <= hx && x > qx) {
+                                if (qx = x, x === hx) {
+                                    if (hy === p1.y) return p1;
+                                    if (hy === p1.next.y) return p1.next;
+                                }
+                                m1 = p1.x < p1.next.x ? p1 : p1.next;
+                            }
+                        }
+                        p1 = p1.next;
+                    }while (p1 !== outerNode)
+                    if (!m1) return null;
+                    if (hx === qx) return m1;
+                    var tan, stop = m1, mx = m1.x, my = m1.y, tanMin = 1 / 0;
+                    p1 = m1;
+                    do hx >= p1.x && p1.x >= mx && hx !== p1.x && pointInTriangle(hy < my ? hx : qx, hy, mx, my, hy < my ? qx : hx, hy, p1.x, p1.y) && (tan = Math.abs(hy - p1.y) / (hx - p1.x), locallyInside(p1, hole) && (tan < tanMin || tan === tanMin && (p1.x > m1.x || p1.x === m1.x && (m = m1, p = p1, 0 > area(m.prev, m, p.prev) && 0 > area(p.next, m, m.next)))) && (m1 = p1, tanMin = tan)), p1 = p1.next;
+                    while (p1 !== stop)
+                    return m1;
+                }(hole, outerNode)) {
+                    var b = splitPolygon(outerNode, hole);
+                    filterPoints(outerNode, outerNode.next), filterPoints(b, b.next);
+                }
+            })(queue[i], outerNode), outerNode = filterPoints(outerNode, outerNode.next);
+            return outerNode;
+        }(data, holeIndices, outerNode, dim)), data.length > 80 * dim) {
+            minX = maxX = data[0], minY = maxY = data[1];
+            for(var i = dim; i < outerLen; i += dim)x = data[i], y = data[i + 1], x < minX && (minX = x), y < minY && (minY = y), x > maxX && (maxX = x), y > maxY && (maxY = y);
+            invSize = 0 !== (invSize = Math.max(maxX - minX, maxY - minY)) ? 1 / invSize : 0;
+        }
+        return function earcutLinked(ear, triangles, dim, minX, minY, invSize, pass) {
+            if (ear) {
+                !pass && invSize && function(start, minX, minY, invSize) {
+                    var p = start;
+                    do null === p.z && (p.z = zOrder(p.x, p.y, minX, minY, invSize)), p.prevZ = p.prev, p.nextZ = p.next, p = p.next;
                     while (p !== start)
-                    return leftmost;
-                }(list));
-                for(queue.sort(compareX), i = 0; i < queue.length; i++)(function(hole, outerNode) {
-                    if (outerNode = function(hole, outerNode) {
-                        var m, p, m1, p1 = outerNode, hx = hole.x, hy = hole.y, qx = -1 / 0;
+                    p.prevZ.nextZ = null, p.prevZ = null, function(list) {
+                        var i, p, q, e, tail, numMerges, pSize, qSize, inSize = 1;
                         do {
-                            if (hy <= p1.y && hy >= p1.next.y && p1.next.y !== p1.y) {
-                                var x = p1.x + (hy - p1.y) * (p1.next.x - p1.x) / (p1.next.y - p1.y);
-                                if (x <= hx && x > qx) {
-                                    if (qx = x, x === hx) {
-                                        if (hy === p1.y) return p1;
-                                        if (hy === p1.next.y) return p1.next;
-                                    }
-                                    m1 = p1.x < p1.next.x ? p1 : p1.next;
-                                }
+                            for(p = list, list = null, tail = null, numMerges = 0; p;){
+                                for(numMerges++, q = p, pSize = 0, i = 0; i < inSize && (pSize++, q = q.nextZ); i++);
+                                for(qSize = inSize; pSize > 0 || qSize > 0 && q;)0 !== pSize && (0 === qSize || !q || p.z <= q.z) ? (e = p, p = p.nextZ, pSize--) : (e = q, q = q.nextZ, qSize--), tail ? tail.nextZ = e : list = e, e.prevZ = tail, tail = e;
+                                p = q;
                             }
-                            p1 = p1.next;
-                        }while (p1 !== outerNode)
-                        if (!m1) return null;
-                        if (hx === qx) return m1;
-                        var tan, stop = m1, mx = m1.x, my = m1.y, tanMin = 1 / 0;
-                        p1 = m1;
-                        do hx >= p1.x && p1.x >= mx && hx !== p1.x && pointInTriangle(hy < my ? hx : qx, hy, mx, my, hy < my ? qx : hx, hy, p1.x, p1.y) && (tan = Math.abs(hy - p1.y) / (hx - p1.x), locallyInside(p1, hole) && (tan < tanMin || tan === tanMin && (p1.x > m1.x || p1.x === m1.x && (m = m1, p = p1, 0 > area(m.prev, m, p.prev) && 0 > area(p.next, m, m.next)))) && (m1 = p1, tanMin = tan)), p1 = p1.next;
-                        while (p1 !== stop)
-                        return m1;
-                    }(hole, outerNode)) {
-                        var b = splitPolygon(outerNode, hole);
-                        filterPoints(outerNode, outerNode.next), filterPoints(b, b.next);
+                            tail.nextZ = null, inSize *= 2;
+                        }while (numMerges > 1)
+                    }(p);
+                }(ear, minX, minY, invSize);
+                for(var prev, next, stop = ear; ear.prev !== ear.next;){
+                    if (prev = ear.prev, next = ear.next, invSize ? function(ear, minX, minY, invSize) {
+                        var a = ear.prev, c = ear.next;
+                        if (area(a, ear, c) >= 0) return !1;
+                        for(var minTX = a.x < ear.x ? a.x < c.x ? a.x : c.x : ear.x < c.x ? ear.x : c.x, minTY = a.y < ear.y ? a.y < c.y ? a.y : c.y : ear.y < c.y ? ear.y : c.y, maxTX = a.x > ear.x ? a.x > c.x ? a.x : c.x : ear.x > c.x ? ear.x : c.x, maxTY = a.y > ear.y ? a.y > c.y ? a.y : c.y : ear.y > c.y ? ear.y : c.y, minZ = zOrder(minTX, minTY, minX, minY, invSize), maxZ = zOrder(maxTX, maxTY, minX, minY, invSize), p = ear.prevZ, n = ear.nextZ; p && p.z >= minZ && n && n.z <= maxZ;){
+                            if (p !== ear.prev && p !== ear.next && pointInTriangle(a.x, a.y, ear.x, ear.y, c.x, c.y, p.x, p.y) && area(p.prev, p, p.next) >= 0 || (p = p.prevZ, n !== ear.prev && n !== ear.next && pointInTriangle(a.x, a.y, ear.x, ear.y, c.x, c.y, n.x, n.y) && area(n.prev, n, n.next) >= 0)) return !1;
+                            n = n.nextZ;
+                        }
+                        for(; p && p.z >= minZ;){
+                            if (p !== ear.prev && p !== ear.next && pointInTriangle(a.x, a.y, ear.x, ear.y, c.x, c.y, p.x, p.y) && area(p.prev, p, p.next) >= 0) return !1;
+                            p = p.prevZ;
+                        }
+                        for(; n && n.z <= maxZ;){
+                            if (n !== ear.prev && n !== ear.next && pointInTriangle(a.x, a.y, ear.x, ear.y, c.x, c.y, n.x, n.y) && area(n.prev, n, n.next) >= 0) return !1;
+                            n = n.nextZ;
+                        }
+                        return !0;
+                    }(ear, minX, minY, invSize) : function(ear) {
+                        var a = ear.prev, c = ear.next;
+                        if (area(a, ear, c) >= 0) return !1;
+                        for(var p = ear.next.next; p !== ear.prev;){
+                            if (pointInTriangle(a.x, a.y, ear.x, ear.y, c.x, c.y, p.x, p.y) && area(p.prev, p, p.next) >= 0) return !1;
+                            p = p.next;
+                        }
+                        return !0;
+                    }(ear)) {
+                        triangles.push(prev.i / dim), triangles.push(ear.i / dim), triangles.push(next.i / dim), removeNode(ear), ear = next.next, stop = next.next;
+                        continue;
                     }
-                })(queue[i], outerNode), outerNode = filterPoints(outerNode, outerNode.next);
-                return outerNode;
-            }(data, holeIndices, outerNode, dim)), data.length > 80 * dim) {
-                minX = maxX = data[0], minY = maxY = data[1];
-                for(var i = dim; i < outerLen; i += dim)x = data[i], y = data[i + 1], x < minX && (minX = x), y < minY && (minY = y), x > maxX && (maxX = x), y > maxY && (maxY = y);
-                invSize = 0 !== (invSize = Math.max(maxX - minX, maxY - minY)) ? 1 / invSize : 0;
-            }
-            return function earcutLinked(ear, triangles, dim, minX, minY, invSize, pass) {
-                if (ear) {
-                    !pass && invSize && function(start, minX, minY, invSize) {
-                        var p = start;
-                        do null === p.z && (p.z = zOrder(p.x, p.y, minX, minY, invSize)), p.prevZ = p.prev, p.nextZ = p.next, p = p.next;
-                        while (p !== start)
-                        p.prevZ.nextZ = null, p.prevZ = null, function(list) {
-                            var i, p, q, e, tail, numMerges, pSize, qSize, inSize = 1;
+                    if ((ear = next) === stop) {
+                        pass ? 1 === pass ? earcutLinked(ear = function(start, triangles, dim) {
+                            var p = start;
                             do {
-                                for(p = list, list = null, tail = null, numMerges = 0; p;){
-                                    for(numMerges++, q = p, pSize = 0, i = 0; i < inSize && (pSize++, q = q.nextZ); i++);
-                                    for(qSize = inSize; pSize > 0 || qSize > 0 && q;)0 !== pSize && (0 === qSize || !q || p.z <= q.z) ? (e = p, p = p.nextZ, pSize--) : (e = q, q = q.nextZ, qSize--), tail ? tail.nextZ = e : list = e, e.prevZ = tail, tail = e;
-                                    p = q;
-                                }
-                                tail.nextZ = null, inSize *= 2;
-                            }while (numMerges > 1)
-                        }(p);
-                    }(ear, minX, minY, invSize);
-                    for(var prev, next, stop = ear; ear.prev !== ear.next;){
-                        if (prev = ear.prev, next = ear.next, invSize ? function(ear, minX, minY, invSize) {
-                            var a = ear.prev, c = ear.next;
-                            if (area(a, ear, c) >= 0) return !1;
-                            for(var minTX = a.x < ear.x ? a.x < c.x ? a.x : c.x : ear.x < c.x ? ear.x : c.x, minTY = a.y < ear.y ? a.y < c.y ? a.y : c.y : ear.y < c.y ? ear.y : c.y, maxTX = a.x > ear.x ? a.x > c.x ? a.x : c.x : ear.x > c.x ? ear.x : c.x, maxTY = a.y > ear.y ? a.y > c.y ? a.y : c.y : ear.y > c.y ? ear.y : c.y, minZ = zOrder(minTX, minTY, minX, minY, invSize), maxZ = zOrder(maxTX, maxTY, minX, minY, invSize), p = ear.prevZ, n = ear.nextZ; p && p.z >= minZ && n && n.z <= maxZ;){
-                                if (p !== ear.prev && p !== ear.next && pointInTriangle(a.x, a.y, ear.x, ear.y, c.x, c.y, p.x, p.y) && area(p.prev, p, p.next) >= 0 || (p = p.prevZ, n !== ear.prev && n !== ear.next && pointInTriangle(a.x, a.y, ear.x, ear.y, c.x, c.y, n.x, n.y) && area(n.prev, n, n.next) >= 0)) return !1;
-                                n = n.nextZ;
-                            }
-                            for(; p && p.z >= minZ;){
-                                if (p !== ear.prev && p !== ear.next && pointInTriangle(a.x, a.y, ear.x, ear.y, c.x, c.y, p.x, p.y) && area(p.prev, p, p.next) >= 0) return !1;
-                                p = p.prevZ;
-                            }
-                            for(; n && n.z <= maxZ;){
-                                if (n !== ear.prev && n !== ear.next && pointInTriangle(a.x, a.y, ear.x, ear.y, c.x, c.y, n.x, n.y) && area(n.prev, n, n.next) >= 0) return !1;
-                                n = n.nextZ;
-                            }
-                            return !0;
-                        }(ear, minX, minY, invSize) : function(ear) {
-                            var a = ear.prev, c = ear.next;
-                            if (area(a, ear, c) >= 0) return !1;
-                            for(var p = ear.next.next; p !== ear.prev;){
-                                if (pointInTriangle(a.x, a.y, ear.x, ear.y, c.x, c.y, p.x, p.y) && area(p.prev, p, p.next) >= 0) return !1;
-                                p = p.next;
-                            }
-                            return !0;
-                        }(ear)) {
-                            triangles.push(prev.i / dim), triangles.push(ear.i / dim), triangles.push(next.i / dim), removeNode(ear), ear = next.next, stop = next.next;
-                            continue;
-                        }
-                        if ((ear = next) === stop) {
-                            pass ? 1 === pass ? earcutLinked(ear = function(start, triangles, dim) {
-                                var p = start;
-                                do {
-                                    var a = p.prev, b = p.next.next;
-                                    !equals(a, b) && intersects(a, p, p.next, b) && locallyInside(a, b) && locallyInside(b, a) && (triangles.push(a.i / dim), triangles.push(p.i / dim), triangles.push(b.i / dim), removeNode(p), removeNode(p.next), p = start = b), p = p.next;
-                                }while (p !== start)
-                                return filterPoints(p);
-                            }(filterPoints(ear), triangles, dim), triangles, dim, minX, minY, invSize, 2) : 2 === pass && function(start, triangles, dim, minX, minY, invSize) {
-                                var a = start;
-                                do {
-                                    for(var a1, b, b1 = a.next.next; b1 !== a.prev;){
-                                        if (a.i !== b1.i && (a1 = a, b = b1, a1.next.i !== b.i && a1.prev.i !== b.i && !function(a, b) {
-                                            var p = a;
-                                            do {
-                                                if (p.i !== a.i && p.next.i !== a.i && p.i !== b.i && p.next.i !== b.i && intersects(p, p.next, a, b)) return !0;
-                                                p = p.next;
-                                            }while (p !== a)
-                                            return !1;
-                                        }(a1, b) && (locallyInside(a1, b) && locallyInside(b, a1) && function(a, b) {
-                                            var p = a, inside = !1, px = (a.x + b.x) / 2, py = (a.y + b.y) / 2;
-                                            do p.y > py != p.next.y > py && p.next.y !== p.y && px < (p.next.x - p.x) * (py - p.y) / (p.next.y - p.y) + p.x && (inside = !inside), p = p.next;
-                                            while (p !== a)
-                                            return inside;
-                                        }(a1, b) && (area(a1.prev, a1, b.prev) || area(a1, b.prev, b)) || equals(a1, b) && area(a1.prev, a1, a1.next) > 0 && area(b.prev, b, b.next) > 0))) {
-                                            var c = splitPolygon(a, b1);
-                                            a = filterPoints(a, a.next), c = filterPoints(c, c.next), earcutLinked(a, triangles, dim, minX, minY, invSize), earcutLinked(c, triangles, dim, minX, minY, invSize);
-                                            return;
-                                        }
-                                        b1 = b1.next;
+                                var a = p.prev, b = p.next.next;
+                                !equals(a, b) && intersects(a, p, p.next, b) && locallyInside(a, b) && locallyInside(b, a) && (triangles.push(a.i / dim), triangles.push(p.i / dim), triangles.push(b.i / dim), removeNode(p), removeNode(p.next), p = start = b), p = p.next;
+                            }while (p !== start)
+                            return filterPoints(p);
+                        }(filterPoints(ear), triangles, dim), triangles, dim, minX, minY, invSize, 2) : 2 === pass && function(start, triangles, dim, minX, minY, invSize) {
+                            var a = start;
+                            do {
+                                for(var a1, b, b1 = a.next.next; b1 !== a.prev;){
+                                    if (a.i !== b1.i && (a1 = a, b = b1, a1.next.i !== b.i && a1.prev.i !== b.i && !function(a, b) {
+                                        var p = a;
+                                        do {
+                                            if (p.i !== a.i && p.next.i !== a.i && p.i !== b.i && p.next.i !== b.i && intersects(p, p.next, a, b)) return !0;
+                                            p = p.next;
+                                        }while (p !== a)
+                                        return !1;
+                                    }(a1, b) && (locallyInside(a1, b) && locallyInside(b, a1) && function(a, b) {
+                                        var p = a, inside = !1, px = (a.x + b.x) / 2, py = (a.y + b.y) / 2;
+                                        do p.y > py != p.next.y > py && p.next.y !== p.y && px < (p.next.x - p.x) * (py - p.y) / (p.next.y - p.y) + p.x && (inside = !inside), p = p.next;
+                                        while (p !== a)
+                                        return inside;
+                                    }(a1, b) && (area(a1.prev, a1, b.prev) || area(a1, b.prev, b)) || equals(a1, b) && area(a1.prev, a1, a1.next) > 0 && area(b.prev, b, b.next) > 0))) {
+                                        var c = splitPolygon(a, b1);
+                                        a = filterPoints(a, a.next), c = filterPoints(c, c.next), earcutLinked(a, triangles, dim, minX, minY, invSize), earcutLinked(c, triangles, dim, minX, minY, invSize);
+                                        return;
                                     }
-                                    a = a.next;
-                                }while (a !== start)
-                            }(ear, triangles, dim, minX, minY, invSize) : earcutLinked(filterPoints(ear), triangles, dim, minX, minY, invSize, 1);
-                            break;
-                        }
+                                    b1 = b1.next;
+                                }
+                                a = a.next;
+                            }while (a !== start)
+                        }(ear, triangles, dim, minX, minY, invSize) : earcutLinked(filterPoints(ear), triangles, dim, minX, minY, invSize, 1);
+                        break;
                     }
                 }
-            }(outerNode, triangles, dim, minX, minY, invSize), triangles;
-        }
+            }
+        }(outerNode, triangles, dim, minX, minY, invSize), triangles;
     };
     function linkedList(data, start, end, dim, clockwise) {
         var i, last;
@@ -8824,7 +8814,7 @@
             var holeIndex = contour.length;
             holes.forEach(removeDupEndPts);
             for(var i = 0; i < holes.length; i++)holeIndices.push(holeIndex), holeIndex += holes[i].length, addContour(vertices, holes[i]);
-            for(var triangles = Earcut.triangulate(vertices, holeIndices), _i = 0; _i < triangles.length; _i += 3)faces.push(triangles.slice(_i, _i + 3));
+            for(var triangles = Earcut_triangulate(vertices, holeIndices), _i = 0; _i < triangles.length; _i += 3)faces.push(triangles.slice(_i, _i + 3));
             return faces;
         }
     };
@@ -9038,7 +9028,8 @@
     }(Geometry), IcosahedronBufferGeometry = function(_PolyhedronBufferGeom) {
         function IcosahedronBufferGeometry(radius, detail) {
             void 0 === radius && (radius = 1), void 0 === detail && (detail = 0);
-            var _this, t = (1 + Math.sqrt(5)) / 2, vertices = [
+            var _this, t = (1 + Math.sqrt(5)) / 2;
+            return (_this = _PolyhedronBufferGeom.call(this, [
                 -1,
                 t,
                 0,
@@ -9075,8 +9066,7 @@
                 -t,
                 0,
                 1
-            ];
-            return (_this = _PolyhedronBufferGeom.call(this, vertices, [
+            ], [
                 0,
                 11,
                 5,
@@ -10467,7 +10457,7 @@
             },
             calc: function(t) {
                 var t2 = t * t;
-                return c0 + c1 * t + c2 * t2 + c3 * (t2 * t);
+                return c0 + c1 * t + c2 * t2 + t2 * t * c3;
             }
         };
     }
@@ -10798,7 +10788,7 @@
     }
     function CatmullRom(t, p0, p1, p2, p3) {
         var v0 = (p2 - p0) * 0.5, v1 = (p3 - p1) * 0.5, t2 = t * t;
-        return (2 * p1 - 2 * p2 + v0 + v1) * (t * t2) + (-3 * p1 + 3 * p2 - 2 * v0 - v1) * t2 + v0 * t + p1;
+        return t * t2 * (2 * p1 - 2 * p2 + v0 + v1) + (-3 * p1 + 3 * p2 - 2 * v0 - v1) * t2 + v0 * t + p1;
     }
     function QuadraticBezier(t, p0, p1, p2) {
         var k;
@@ -11148,9 +11138,9 @@
             return this.curves.push(curve), this.currentPoint.set(aX, aY), this;
         },
         splineThru: function(pts) {
-            var npts = [
+            var curve = new SplineCurve([
                 this.currentPoint.clone()
-            ].concat(pts), curve = new SplineCurve(npts);
+            ].concat(pts));
             return this.curves.push(curve), this.currentPoint.copy(pts[pts.length - 1]), this;
         },
         arc: function(aX, aY, aRadius, aStartAngle, aEndAngle, aClockwise) {
@@ -11368,7 +11358,7 @@
             return this;
         }, _proto.getAt = function(normal, target) {
             var x = normal.x, y = normal.y, z = normal.z, coeff = this.coefficients;
-            return target.copy(coeff[0]).multiplyScalar(0.282095), target.addScaledVector(coeff[1], 0.488603 * y), target.addScaledVector(coeff[2], 0.488603 * z), target.addScaledVector(coeff[3], 0.488603 * x), target.addScaledVector(coeff[4], 1.092548 * (x * y)), target.addScaledVector(coeff[5], 1.092548 * (y * z)), target.addScaledVector(coeff[6], 0.315392 * (3.0 * z * z - 1.0)), target.addScaledVector(coeff[7], 1.092548 * (x * z)), target.addScaledVector(coeff[8], 0.546274 * (x * x - y * y)), target;
+            return target.copy(coeff[0]).multiplyScalar(0.282095), target.addScaledVector(coeff[1], 0.488603 * y), target.addScaledVector(coeff[2], 0.488603 * z), target.addScaledVector(coeff[3], 0.488603 * x), target.addScaledVector(coeff[4], x * y * 1.092548), target.addScaledVector(coeff[5], y * z * 1.092548), target.addScaledVector(coeff[6], 0.315392 * (3.0 * z * z - 1.0)), target.addScaledVector(coeff[7], x * z * 1.092548), target.addScaledVector(coeff[8], 0.546274 * (x * x - y * y)), target;
         }, _proto.getIrradianceAt = function(normal, target) {
             var x = normal.x, y = normal.y, z = normal.z, coeff = this.coefficients;
             return target.copy(coeff[0]).multiplyScalar(0.886227), target.addScaledVector(coeff[1], 1.023328 * y), target.addScaledVector(coeff[2], 1.023328 * z), target.addScaledVector(coeff[3], 1.023328 * x), target.addScaledVector(coeff[4], 0.858086 * x * y), target.addScaledVector(coeff[5], 0.858086 * y * z), target.addScaledVector(coeff[6], 0.743125 * z * z - 0.247708), target.addScaledVector(coeff[7], 0.858086 * x * z), target.addScaledVector(coeff[8], 0.429043 * (x * x - y * y)), target;
@@ -11548,9 +11538,9 @@
                 if (void 0 !== interleavedBufferMap[uuid]) return interleavedBufferMap[uuid];
                 var interleavedBuffer = json.interleavedBuffers[uuid], buffer = function(json, uuid) {
                     if (void 0 !== arrayBufferMap[uuid]) return arrayBufferMap[uuid];
-                    var arrayBuffer = json.arrayBuffers[uuid], ab = new Uint32Array(arrayBuffer).buffer;
+                    var ab = new Uint32Array(json.arrayBuffers[uuid]).buffer;
                     return arrayBufferMap[uuid] = ab, ab;
-                }(json, interleavedBuffer.buffer), array = getTypedArray(interleavedBuffer.type, buffer), ib = new InterleavedBuffer(array, interleavedBuffer.stride);
+                }(json, interleavedBuffer.buffer), ib = new InterleavedBuffer(getTypedArray(interleavedBuffer.type, buffer), interleavedBuffer.stride);
                 return ib.uuid = interleavedBuffer.uuid, interleavedBufferMap[uuid] = ib, ib;
             }
             var geometry = json.isInstancedBufferGeometry ? new InstancedBufferGeometry() : new BufferGeometry(), index = json.data.index;
@@ -11561,10 +11551,8 @@
             var attributes = json.data.attributes;
             for(var key in attributes){
                 var attribute = attributes[key], bufferAttribute = void 0;
-                if (attribute.isInterleavedBufferAttribute) {
-                    var interleavedBuffer = getInterleavedBuffer(json.data, attribute.data);
-                    bufferAttribute = new InterleavedBufferAttribute(interleavedBuffer, attribute.itemSize, attribute.offset, attribute.normalized);
-                } else {
+                if (attribute.isInterleavedBufferAttribute) bufferAttribute = new InterleavedBufferAttribute(getInterleavedBuffer(json.data, attribute.data), attribute.itemSize, attribute.offset, attribute.normalized);
+                else {
                     var _typedArray = getTypedArray(attribute.type, attribute.array);
                     bufferAttribute = new (attribute.isInstancedBufferAttribute ? InstancedBufferAttribute : BufferAttribute)(_typedArray, attribute.itemSize, attribute.normalized);
                 }
@@ -11574,14 +11562,7 @@
             if (morphAttributes) for(var _key in morphAttributes){
                 for(var attributeArray = morphAttributes[_key], array = [], i = 0, il = attributeArray.length; i < il; i++){
                     var _attribute = attributeArray[i], _bufferAttribute = void 0;
-                    if (_attribute.isInterleavedBufferAttribute) {
-                        var _interleavedBuffer = getInterleavedBuffer(json.data, _attribute.data);
-                        _bufferAttribute = new InterleavedBufferAttribute(_interleavedBuffer, _attribute.itemSize, _attribute.offset, _attribute.normalized);
-                    } else {
-                        var _typedArray2 = getTypedArray(_attribute.type, _attribute.array);
-                        _bufferAttribute = new BufferAttribute(_typedArray2, _attribute.itemSize, _attribute.normalized);
-                    }
-                    void 0 !== _attribute.name && (_bufferAttribute.name = _attribute.name), array.push(_bufferAttribute);
+                    _bufferAttribute = _attribute.isInterleavedBufferAttribute ? new InterleavedBufferAttribute(getInterleavedBuffer(json.data, _attribute.data), _attribute.itemSize, _attribute.offset, _attribute.normalized) : new BufferAttribute(getTypedArray(_attribute.type, _attribute.array), _attribute.itemSize, _attribute.normalized), void 0 !== _attribute.name && (_bufferAttribute.name = _attribute.name), array.push(_bufferAttribute);
                 }
                 geometry.morphAttributes[_key] = array;
             }
@@ -11792,8 +11773,7 @@
                 } : null;
             }
             if (void 0 !== json && json.length > 0) {
-                var manager = new LoadingManager(onLoad);
-                (loader = new ImageLoader(manager)).setCrossOrigin(this.crossOrigin);
+                (loader = new ImageLoader(new LoadingManager(onLoad))).setCrossOrigin(this.crossOrigin);
                 for(var i = 0, il = json.length; i < il; i++){
                     var image = json[i], url = image.url;
                     if (Array.isArray(url)) {
@@ -11869,10 +11849,10 @@
                     object = new LightProbe().fromJSON(data);
                     break;
                 case 'SkinnedMesh':
-                    geometry = getGeometry(data.geometry), material = getMaterial(data.material), object = new SkinnedMesh(geometry, material), void 0 !== data.bindMode && (object.bindMode = data.bindMode), void 0 !== data.bindMatrix && object.bindMatrix.fromArray(data.bindMatrix), void 0 !== data.skeleton && (object.skeleton = data.skeleton);
+                    object = new SkinnedMesh(geometry = getGeometry(data.geometry), material = getMaterial(data.material)), void 0 !== data.bindMode && (object.bindMode = data.bindMode), void 0 !== data.bindMatrix && object.bindMatrix.fromArray(data.bindMatrix), void 0 !== data.skeleton && (object.skeleton = data.skeleton);
                     break;
                 case 'Mesh':
-                    geometry = getGeometry(data.geometry), material = getMaterial(data.material), object = new Mesh(geometry, material);
+                    object = new Mesh(geometry = getGeometry(data.geometry), material = getMaterial(data.material));
                     break;
                 case 'InstancedMesh':
                     geometry = getGeometry(data.geometry), material = getMaterial(data.material);
@@ -12137,8 +12117,8 @@
     }
     function HemisphereLightProbe(skyColor, groundColor, intensity) {
         LightProbe.call(this, void 0, intensity);
-        var color1 = new Color().set(skyColor), color2 = new Color().set(groundColor), sky = new Vector3(color1.r, color1.g, color1.b), ground = new Vector3(color2.r, color2.g, color2.b), c0 = Math.sqrt(Math.PI), c1 = c0 * Math.sqrt(0.75);
-        this.sh.coefficients[0].copy(sky).add(ground).multiplyScalar(c0), this.sh.coefficients[1].copy(sky).sub(ground).multiplyScalar(c1);
+        var color1 = new Color().set(skyColor), color2 = new Color().set(groundColor), sky = new Vector3(color1.r, color1.g, color1.b), ground = new Vector3(color2.r, color2.g, color2.b), c0 = Math.sqrt(Math.PI);
+        this.sh.coefficients[0].copy(sky).add(ground).multiplyScalar(c0), this.sh.coefficients[1].copy(sky).sub(ground).multiplyScalar(c0 * Math.sqrt(0.75));
     }
     function AmbientLightProbe(color, intensity) {
         LightProbe.call(this, void 0, intensity);
@@ -13502,7 +13482,7 @@
                 fog: !1,
                 toneMapped: !1
             }), void 0 === _this.color && (_this.material.vertexColors = !0);
-            var position = geometry.getAttribute('position'), colors = new Float32Array(3 * position.count);
+            var colors = new Float32Array(3 * geometry.getAttribute('position').count);
             return geometry.setAttribute('color', new BufferAttribute(colors, 3)), _this.add(new Mesh(geometry, _this.material)), _this.update(), _this;
         }
         _inheritsLoose(HemisphereLightHelper, _Object3D);
@@ -13972,8 +13952,7 @@
         new Vector3(-PHI, INV_PHI, 0)
     ], PMREMGenerator = function() {
         function PMREMGenerator(renderer) {
-            var weights, poleAxis;
-            this._renderer = renderer, this._pingPongRenderTarget = null, this._blurMaterial = (weights = new Float32Array(20), poleAxis = new Vector3(0, 1, 0), new RawShaderMaterial({
+            this._renderer = renderer, this._pingPongRenderTarget = null, this._blurMaterial = new RawShaderMaterial({
                 name: 'SphericalGaussianBlur',
                 defines: {
                     n: 20
@@ -13986,7 +13965,7 @@
                         value: 1
                     },
                     weights: {
-                        value: weights
+                        value: new Float32Array(20)
                     },
                     latitudinal: {
                         value: !1
@@ -13998,7 +13977,7 @@
                         value: 0
                     },
                     poleAxis: {
-                        value: poleAxis
+                        value: new Vector3(0, 1, 0)
                     },
                     inputEncoding: {
                         value: ENCODINGS[3000]
@@ -14012,7 +13991,7 @@
                 blending: 0,
                 depthTest: !1,
                 depthWrite: !1
-            })), this._equirectShader = null, this._cubemapShader = null, this._compileMaterial(this._blurMaterial);
+            }), this._equirectShader = null, this._cubemapShader = null, this._compileMaterial(this._blurMaterial);
         }
         var _proto = PMREMGenerator.prototype;
         return _proto.fromScene = function(scene, sigma, near, far) {
@@ -14119,7 +14098,6 @@
         target.viewport.set(x, y, width, height), target.scissor.set(x, y, width, height);
     }
     function _getEquirectShader() {
-        var texelSize = new Vector2(1, 1);
         return new RawShaderMaterial({
             name: 'EquirectangularToCubeUV',
             uniforms: {
@@ -14127,7 +14105,7 @@
                     value: null
                 },
                 texelSize: {
-                    value: texelSize
+                    value: new Vector2(1, 1)
                 },
                 inputEncoding: {
                     value: ENCODINGS[3000]

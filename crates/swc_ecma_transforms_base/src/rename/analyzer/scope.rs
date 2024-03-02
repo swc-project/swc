@@ -8,7 +8,7 @@ use std::{
 #[cfg(feature = "concurrent-renamer")]
 use rayon::prelude::*;
 use rustc_hash::FxHashSet;
-use swc_atoms::{js_word, JsWord};
+use swc_atoms::JsWord;
 use swc_common::{collections::AHashMap, util::take::Take, Mark, SyntaxContext};
 use swc_ecma_ast::*;
 use tracing::debug;
@@ -84,7 +84,7 @@ pub(super) struct ScopeData {
 
 impl Scope {
     pub(super) fn add_decl(&mut self, id: &Id, has_eval: bool, top_level_mark: Mark) {
-        if id.0 == js_word!("arguments") {
+        if id.0 == "arguments" {
             return;
         }
 
@@ -102,7 +102,7 @@ impl Scope {
     }
 
     pub(super) fn add_usage(&mut self, id: Id) {
-        if id.0 == js_word!("arguments") {
+        if id.0 == "arguments" {
             return;
         }
 
@@ -167,7 +167,7 @@ impl Scope {
 
         for id in queue {
             let fid = fast_id(id.clone());
-            if to.get(&fid).is_some() || previous.get(&fid).is_some() || id.0 == js_word!("eval") {
+            if to.get(&fid).is_some() || previous.get(&fid).is_some() || id.0 == "eval" {
                 continue;
             }
 
@@ -305,7 +305,7 @@ impl Scope {
             if preserved.contains(&id)
                 || to.get(&fid).is_some()
                 || previous.get(&fid).is_some()
-                || id.0 == js_word!("eval")
+                || id.0 == "eval"
             {
                 continue;
             }

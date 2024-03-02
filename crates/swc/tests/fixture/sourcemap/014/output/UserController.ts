@@ -10,7 +10,7 @@ import { User } from '@server/decorators/UserDecorator';
 import { User as UserType } from '@server/user/schemas/UserSchema';
 import { MongooseClassSerializerInterceptor } from '@server/interceptors/MongooseClassSerializerInterceptor';
 import { UserService } from '@server/user/UserService';
-export let UserController = class UserController {
+export class UserController {
     constructor(userService){
         this.userService = userService;
     }
@@ -23,14 +23,15 @@ export let UserController = class UserController {
         }
         return this.userService.update(userId, updateUserDto);
     }
-};
+}
 _ts_decorate([
     Post(USER_CREATE_ENDPOINT),
     _ts_param(0, Body()),
     _ts_metadata("design:type", Function),
     _ts_metadata("design:paramtypes", [
         typeof CreateUserDto === "undefined" ? Object : CreateUserDto
-    ])
+    ]),
+    _ts_metadata("design:returntype", Promise)
 ], UserController.prototype, "signup", null);
 _ts_decorate([
     UseGuards(JwtAuthGuard),
@@ -43,7 +44,8 @@ _ts_decorate([
         String,
         typeof UpdateUserDto === "undefined" ? Object : UpdateUserDto,
         typeof UserType === "undefined" ? Object : UserType
-    ])
+    ]),
+    _ts_metadata("design:returntype", Promise)
 ], UserController.prototype, "update", null);
 UserController = _ts_decorate([
     Controller(USER_CONTROLLER_ROUTE),

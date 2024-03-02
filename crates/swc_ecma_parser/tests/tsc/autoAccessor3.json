@@ -63,7 +63,9 @@
           },
           "isStatic": false,
           "decorators": [],
-          "accessibility": null
+          "accessibility": null,
+          "isOverride": false,
+          "definite": false
         },
         {
           "type": "AutoAccessor",
@@ -95,7 +97,9 @@
           "typeAnnotation": null,
           "isStatic": false,
           "decorators": [],
-          "accessibility": null
+          "accessibility": null,
+          "isOverride": false,
+          "definite": false
         },
         {
           "type": "AutoAccessor",
@@ -134,7 +138,9 @@
           },
           "isStatic": true,
           "decorators": [],
-          "accessibility": null
+          "accessibility": null,
+          "isOverride": false,
+          "definite": false
         },
         {
           "type": "AutoAccessor",
@@ -166,7 +172,9 @@
           "typeAnnotation": null,
           "isStatic": true,
           "decorators": [],
-          "accessibility": null
+          "accessibility": null,
+          "isOverride": false,
+          "definite": false
         }
       ],
       "superClass": null,

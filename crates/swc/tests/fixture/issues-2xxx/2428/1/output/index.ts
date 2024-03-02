@@ -21,7 +21,8 @@ _ts_decorate._([
     _ts_metadata._("design:type", Function),
     _ts_metadata._("design:paramtypes", [
         Boolean
-    ])
+    ]),
+    _ts_metadata._("design:returntype", Promise)
 ], Foo.prototype, "fnName1", null);
 _ts_decorate._([
     _ts_param._(0, Arg("GraphQLArgName", {
@@ -30,5 +31,6 @@ _ts_decorate._([
     _ts_metadata._("design:type", Function),
     _ts_metadata._("design:paramtypes", [
         Boolean
-    ])
+    ]),
+    _ts_metadata._("design:returntype", Promise)
 ], Foo.prototype, "fnName2", null);

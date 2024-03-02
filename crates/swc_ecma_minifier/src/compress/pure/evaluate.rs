@@ -1,5 +1,4 @@
 use radix_fmt::Radix;
-use swc_atoms::js_word;
 use swc_common::{util::take::Take, Spanned, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{undefined, ExprExt, IsEmpty, Value};
@@ -227,12 +226,8 @@ impl Pure<'_> {
             _ => return,
         };
 
-        match &*member.obj {
-            Expr::Ident(Ident {
-                sym: js_word!("arguments"),
-                ..
-            }) => {}
-            _ => return,
+        if !member.obj.is_ident_ref_to("arguments") {
+            return;
         }
 
         match &mut member.prop {
@@ -264,11 +259,7 @@ impl Pure<'_> {
             }) = e
             {
                 if args.len() == 1 && args[0].spread.is_none() {
-                    if let Expr::Ident(Ident {
-                        sym: js_word!("Number"),
-                        ..
-                    }) = &**callee
-                    {
+                    if callee.is_ident_ref_to("Number") {
                         self.changed = true;
                         report_change!(
                             "evaluate: Reducing a call to `Number` into an unary operation"
@@ -339,7 +330,7 @@ impl Pure<'_> {
                 // 3. Assert: If fractionDigits is undefined, then f is 0.
                 .map_or(Some(0f64), |arg| eval_as_number(&self.expr_ctx, &arg.expr))
             {
-                let f = precision.trunc() as usize;
+                let f = precision.trunc() as u8;
 
                 // 4. If f is not finite, throw a RangeError exception.
                 // 5. If f < 0 or f > 100, throw a RangeError exception.
@@ -350,33 +341,8 @@ impl Pure<'_> {
                     return;
                 }
 
-                // 6. If x is not finite, return Number::toString(x, 10).
-
-                let x = {
-                    let x = num.value;
-                    // 7. Set x to ℝ(x).
-                    if x == -0. {
-                        0.
-                    } else {
-                        x
-                    }
-                };
-                // 8. Let s be the empty String.
-                // 9. If x < 0, then a. Set s to "-". b. Set x to -x.
-                // 10. If x ≥ 10**21, then a. Let m be ! ToString(𝔽(x)).
-                let value = if x >= 1e21 || x <= -1e21 {
-                    format!("{:e}", x).replace('e', "e+")
-                } else {
-                    // 11. Else,
-
-                    if x.fract() != 0. || f != 0 {
-                        // TODO: rust built-in format cannot handle ecma262 `1.25.toFixed(1)`
-
-                        return;
-                    } else {
-                        format!("{:.*}", f, x)
-                    }
-                };
+                let mut buffer = ryu_js::Buffer::new();
+                let value = buffer.format_to_fixed(num.value, f);
 
                 self.changed = true;
                 report_change!(
@@ -671,14 +637,12 @@ impl Pure<'_> {
                 _ => return,
             }
 
-            if let PatOrExpr::Pat(a_left) = a_left {
-                if let Pat::Ident(a_left) = &**a_left {
-                    if let Expr::Ident(b_id) = b {
-                        if b_id.to_id() == a_left.id.to_id() {
-                            report_change!("evaluate: Trivial: `{}`", a_left.id);
-                            *b = *a_right.clone();
-                            self.changed = true;
-                        }
+            if let AssignTarget::Simple(SimpleAssignTarget::Ident(a_left)) = a_left {
+                if let Expr::Ident(b_id) = b {
+                    if b_id.to_id() == a_left.id.to_id() {
+                        report_change!("evaluate: Trivial: `{}`", a_left.id);
+                        *b = *a_right.clone();
+                        self.changed = true;
                     }
                 }
             }
@@ -751,7 +715,7 @@ impl Pure<'_> {
                                 "evaluate: Evaluated `charCodeAt` of a string literal as `NaN`",
                             );
                             *e = Expr::Ident(Ident::new(
-                                js_word!("NaN"),
+                                "NaN".into(),
                                 e.span().with_ctxt(SyntaxContext::empty()),
                             ))
                         }

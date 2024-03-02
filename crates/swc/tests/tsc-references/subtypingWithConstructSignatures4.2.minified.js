@@ -1,5 +1,4 @@
 //// [subtypingWithConstructSignatures4.ts]
-// checking subtype relations for function types as it relates to contextual signature instantiation
 var r1arg, r2arg, r3arg, r4arg, r5arg, r6arg, r11arg, r15arg, r16arg, r17arg, r18arg;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";

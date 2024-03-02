@@ -19,7 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -42,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('constructor' type=static),
+                    value: "constructor",
                 },
                 tag: Class(
                     ClassTag {
@@ -66,7 +66,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('@memberof mathlib' type=dynamic),
+                                value: "@memberof mathlib",
                             },
                         ),
                         name: None,
@@ -95,7 +95,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -118,7 +118,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('member' type=inline),
+                    value: "member",
                 },
                 tag: Member(
                     MemberTag {
@@ -141,7 +141,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('' type=static),
+                            value: "",
                         },
                         name: Text {
                             span: Span {
@@ -153,7 +153,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('' type=static),
+                            value: "",
                         },
                     },
                 ),
@@ -180,7 +180,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -203,7 +203,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('namespace' type=static),
+                    value: "namespace",
                 },
                 tag: Namespace(
                     NamespaceTag {

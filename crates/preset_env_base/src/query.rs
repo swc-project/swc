@@ -121,6 +121,22 @@ pub fn targets_to_versions(v: Option<Targets>) -> Result<Versions, Error> {
                 }
             }
 
+            let mut result = Versions::default();
+            for (k, v) in map.iter() {
+                match v {
+                    QueryOrVersion::Query(q) => {
+                        let v = q.exec().context("failed to run query")?;
+
+                        for (k, v) in v {
+                            result.insert(k, v);
+                        }
+                    }
+                    QueryOrVersion::Version(v) => {
+                        result.insert(k, Some(*v));
+                    }
+                }
+            }
+
             unimplemented!("Targets: {:?}", map)
         }
         _ => unimplemented!("Option<Targets>: {:?}", v),

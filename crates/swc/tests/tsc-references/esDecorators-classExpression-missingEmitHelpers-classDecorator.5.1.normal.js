@@ -1,0 +1,16 @@
+//// [main.ts]
+//! 
+//!   x Expression expected
+//!    ,-[4:1]
+//!  4 | var C;
+//!  5 | 
+//!  6 | // uses __esDecorate, __runInitializers, __setFunctionName
+//!  7 | [C = @dec class {}] = [];
+//!    :      ^
+//!  8 | 
+//!    `----
+//// [tslib.d.ts]
+"use strict";
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});

@@ -403,7 +403,7 @@
                   "value": "x",
                   "optional": false
                 },
-                "param": {
+                "thisParam": {
                   "type": "Identifier",
                   "span": {
                     "start": 267,
@@ -439,6 +439,17 @@
                       "typeParams": null
                     }
                   }
+                },
+                "param": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 278,
+                    "end": 279,
+                    "ctxt": 0
+                  },
+                  "value": "n",
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "body": {
                   "type": "BlockStatement",

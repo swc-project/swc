@@ -180,7 +180,7 @@
  4 | }
    `----
 
-  x Ident { value: Atom('t' type=inline), raw: "t" }
+  x Ident { value: "t", raw: "t" }
    ,-[$DIR/tests/recovery/value/quotes/input.css:2:1]
  2 |     content: "tes
  3 |     t";

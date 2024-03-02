@@ -31,35 +31,3 @@
 //!  19 | declare abstract class DCI {}
 //!  20 | interface DCI {}
 //!     `----
-//! 
-//!   x the name `DCC1` is defined multiple times
-//!     ,-[22:1]
-//!  22 | interface DIC {}
-//!  23 | declare abstract class DIC {}
-//!  24 | 
-//!  25 | declare abstract class DCC1 {}
-//!     :                        ^^|^
-//!     :                          `-- previous definition of `DCC1` here
-//!  26 | declare class DCC1 {}
-//!     :               ^^|^
-//!     :                 `-- `DCC1` redefined here
-//!  27 | 
-//!  28 | declare class DCC2 {}
-//!  29 | declare abstract class DCC2 {}
-//!     `----
-//! 
-//!   x the name `DCC2` is defined multiple times
-//!     ,-[25:1]
-//!  25 | declare abstract class DCC1 {}
-//!  26 | declare class DCC1 {}
-//!  27 | 
-//!  28 | declare class DCC2 {}
-//!     :               ^^|^
-//!     :                 `-- previous definition of `DCC2` here
-//!  29 | declare abstract class DCC2 {}
-//!     :                        ^^|^
-//!     :                          `-- `DCC2` redefined here
-//!  30 | 
-//!  31 | new CM;
-//!  32 | new MC;
-//!     `----

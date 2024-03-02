@@ -1,10 +1,10 @@
-use swc_atoms::JsWord;
 use swc_common::{
     collections::AHashMap,
     util::{move_map::MoveMap, take::Take},
     Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
+use swc_ecma_utils::ident::IdentLike;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 use crate::{
@@ -12,14 +12,20 @@ use crate::{
     perf::{cpu_count, ParExplode, Parallel, ParallelExt},
 };
 
-pub(super) struct Operator<'a> {
-    pub rename: &'a AHashMap<Id, JsWord>,
+pub(super) struct Operator<'a, I>
+where
+    I: IdentLike,
+{
+    pub rename: &'a AHashMap<Id, I>,
     pub config: Config,
 
     pub extra: Vec<ModuleItem>,
 }
 
-impl Operator<'_> {
+impl<I> Operator<'_, I>
+where
+    I: IdentLike,
+{
     fn keep_class_name(&mut self, ident: &mut Ident, class: &mut Class) -> Option<ClassExpr> {
         if !self.config.keep_class_names {
             return None;
@@ -55,7 +61,10 @@ impl Operator<'_> {
     }
 }
 
-impl Parallel for Operator<'_> {
+impl<I> Parallel for Operator<'_, I>
+where
+    I: IdentLike,
+{
     fn create(&self) -> Self {
         Self {
             rename: self.rename,
@@ -73,7 +82,10 @@ impl Parallel for Operator<'_> {
     }
 }
 
-impl ParExplode for Operator<'_> {
+impl<I> ParExplode for Operator<'_, I>
+where
+    I: IdentLike,
+{
     fn after_one_stmt(&mut self, _: &mut Vec<Stmt>) {}
 
     fn after_one_module_item(&mut self, stmts: &mut Vec<ModuleItem>) {
@@ -81,7 +93,10 @@ impl ParExplode for Operator<'_> {
     }
 }
 
-impl<'a> VisitMut for Operator<'a> {
+impl<'a, I> VisitMut for Operator<'a, I>
+where
+    I: IdentLike,
+{
     noop_visit_mut_type!();
 
     /// Preserve key of properties.
@@ -487,14 +502,14 @@ impl<'a> VisitMut for Operator<'a> {
         n.visit_mut_children_with(self);
 
         if let ObjectPatProp::Assign(p) = n {
-            let mut renamed = p.key.clone();
+            let mut renamed = p.key.id.clone();
             if self.rename_ident(&mut renamed).is_ok() {
                 if renamed.sym == p.key.sym {
                     return;
                 }
 
                 *n = KeyValuePatProp {
-                    key: PropName::Ident(p.key.take()),
+                    key: PropName::Ident(p.key.id.take()),
                     value: match p.value.take() {
                         Some(default_expr) => Box::new(Pat::Assign(AssignPat {
                             span: p.span,
@@ -576,16 +591,25 @@ impl<'a> VisitMut for Operator<'a> {
     }
 }
 
-struct VarFolder<'a, 'b> {
-    orig: &'a mut Operator<'b>,
+struct VarFolder<'a, 'b, I>
+where
+    I: IdentLike,
+{
+    orig: &'a mut Operator<'b, I>,
     renamed: &'a mut Vec<ExportSpecifier>,
 }
 
-impl VisitMut for VarFolder<'_, '_> {
+impl<I> VisitMut for VarFolder<'_, '_, I>
+where
+    I: IdentLike,
+{
     noop_visit_mut_type!();
 
     #[inline]
     fn visit_mut_expr(&mut self, _: &mut Expr) {}
+
+    #[inline]
+    fn visit_mut_simple_assign_target(&mut self, _: &mut SimpleAssignTarget) {}
 
     fn visit_mut_ident(&mut self, i: &mut Ident) {
         let orig = i.clone();
@@ -601,16 +625,21 @@ impl VisitMut for VarFolder<'_, '_> {
     }
 }
 
-impl<'a> Operator<'a> {
+impl<'a, I> Operator<'a, I>
+where
+    I: IdentLike,
+{
     /// Returns `Ok(renamed_ident)` if ident should be renamed.
     fn rename_ident(&mut self, ident: &mut Ident) -> Result<(), ()> {
-        if let Some(sym) = self.rename.get(&ident.to_id()) {
-            if *sym == ident.sym {
+        if let Some(new_id) = self.rename.get(&ident.to_id()) {
+            let (new_sym, new_ctxt) = new_id.to_id();
+
+            if new_sym == ident.sym {
                 return Err(());
             }
 
-            ident.span = ident.span.with_ctxt(SyntaxContext::empty());
-            ident.sym = sym.clone();
+            ident.span = ident.span.with_ctxt(new_ctxt);
+            ident.sym = new_sym;
             return Ok(());
         }
 

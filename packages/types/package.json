@@ -1,6 +1,6 @@
 {
     "name": "@swc/types",
-    "packageManager": "yarn@3.5.0",
+    "packageManager": "yarn@4.0.2",
     "version": "0.1.5",
     "description": "Typings for the swc project.",
     "sideEffects": false,
@@ -29,5 +29,8 @@
     "homepage": "https://swc.rs",
     "devDependencies": {
         "typescript": "^5.2.2"
+    },
+    "dependencies": {
+        "@swc/counter": "^0.1.3"
     }
 }

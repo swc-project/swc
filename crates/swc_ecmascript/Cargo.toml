@@ -6,7 +6,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_ecmascript"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.234.34"
+version       = "0.239.14"
 
   [package.metadata.docs.rs]
   all-features = true
@@ -19,7 +19,6 @@ bench = false
 codegen    = ["swc_ecma_codegen"]
 concurrent = ["swc_ecma_minifier/concurrent"]
 default    = ["typescript-parser"]
-dep_graph  = ["swc_ecma_dep_graph"]
 minifier   = ["swc_ecma_minifier"]
 parser     = ["swc_ecma_parser"]
 preset_env = ["swc_ecma_preset_env"]
@@ -39,15 +38,14 @@ react        = ["swc_ecma_transforms/react"]
 typescript   = ["typescript-parser", "swc_ecma_transforms/typescript"]
 
 [dependencies]
-swc_ecma_ast        = { version = "0.109.2", path = "../swc_ecma_ast" }
-swc_ecma_codegen    = { version = "0.145.7", path = "../swc_ecma_codegen", optional = true }
-swc_ecma_dep_graph  = { version = "0.112.1", path = "../swc_ecma_dep_graph", optional = true }
-swc_ecma_minifier   = { version = "0.187.31", path = "../swc_ecma_minifier", optional = true }
-swc_ecma_parser     = { version = "0.140.1", path = "../swc_ecma_parser", optional = true, default-features = false }
-swc_ecma_preset_env = { version = "0.201.31", path = "../swc_ecma_preset_env", optional = true }
-swc_ecma_quote      = { version = "0.56.1", path = "../swc_ecma_quote", optional = true }
-swc_ecma_transforms = { version = "0.224.28", path = "../swc_ecma_transforms", optional = true }
-swc_ecma_utils      = { version = "0.123.3", path = "../swc_ecma_utils", optional = true }
-swc_ecma_visit      = { version = "0.95.2", path = "../swc_ecma_visit", optional = true }
+swc_ecma_ast        = { version = "0.112.4", path = "../swc_ecma_ast" }
+swc_ecma_codegen    = { version = "0.148.8", path = "../swc_ecma_codegen", optional = true }
+swc_ecma_minifier   = { version = "0.192.11", path = "../swc_ecma_minifier", optional = true }
+swc_ecma_parser     = { version = "0.143.6", path = "../swc_ecma_parser", optional = true, default-features = false }
+swc_ecma_preset_env = { version = "0.206.11", path = "../swc_ecma_preset_env", optional = true }
+swc_ecma_quote      = { version = "0.59.9", path = "../swc_ecma_quote", optional = true }
+swc_ecma_transforms = { version = "0.229.11", path = "../swc_ecma_transforms", optional = true }
+swc_ecma_utils      = { version = "0.127.8", path = "../swc_ecma_utils", optional = true }
+swc_ecma_visit      = { version = "0.98.5", path = "../swc_ecma_visit", optional = true }
 
 [dev-dependencies]

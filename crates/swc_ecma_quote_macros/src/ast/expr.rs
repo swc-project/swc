@@ -1,6 +1,23 @@
 use swc_ecma_ast::*;
 
-impl_enum!(PatOrExpr, [Pat, Expr]);
+impl_enum!(AssignTarget, [Simple, Pat], true);
+impl_enum!(
+    SimpleAssignTarget,
+    [
+        Ident,
+        Member,
+        SuperProp,
+        Paren,
+        OptChain,
+        TsAs,
+        TsNonNull,
+        TsSatisfies,
+        TsTypeAssertion,
+        TsInstantiation,
+        Invalid
+    ]
+);
+impl_enum!(AssignTargetPat, [Array, Object, Invalid]);
 impl_enum!(
     Expr,
     [
@@ -76,7 +93,7 @@ impl_struct!(CondExpr, [span, test, cons, alt]);
 impl_struct!(CallExpr, [span, callee, args, type_args]);
 impl_struct!(ExprOrSpread, [spread, expr]);
 impl_struct!(Super, [span]);
-impl_struct!(Import, [span]);
+impl_struct!(Import, [span, phase]);
 impl_struct!(NewExpr, [span, callee, args, type_args]);
 impl_struct!(SeqExpr, [span, exprs]);
 

@@ -1,0 +1,12 @@
+{
+    "compress": {
+        "negate_iife": false,
+        "sequences": 30
+    },
+    "mangle": {
+        "safari10": true
+    },
+    "output": {
+        "semicolons": false
+    }
+}

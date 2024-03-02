@@ -1,5 +1,4 @@
 //// [destructuringEvaluationOrder.ts]
-// https://github.com/microsoft/TypeScript/issues/39205
 import { _ as _extends } from "@swc/helpers/_/_extends";
 import { _ as _object_destructuring_empty } from "@swc/helpers/_/_object_destructuring_empty";
 import { _ as _object_without_properties } from "@swc/helpers/_/_object_without_properties";
@@ -10,8 +9,6 @@ let trace = [], order = (n)=>trace.push(n), [{ [order(1)]: x } = order(0)] = [],
 _object_without_properties(_ref, [
     _order
 ].map(_to_property_key));
-// https://github.com/microsoft/TypeScript/issues/39181
-// b = a must occur *after* 'a' has been assigned
 let _ref1 = [
     {
         x: 1

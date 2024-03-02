@@ -84,6 +84,47 @@ pub trait Comments {
 
         ret
     }
+
+    /// This method is used to check if a comment with the given flag exist.
+    ///
+    /// If `flag` is `PURE`, this method will look for `@__PURE__` and
+    /// `#__PURE__`.
+    fn has_flag(&self, lo: BytePos, flag: &str) -> bool {
+        let cmts = self.take_leading(lo);
+
+        let ret = if let Some(comments) = &cmts {
+            (|| {
+                for c in comments {
+                    if c.kind == CommentKind::Block {
+                        for line in c.text.lines() {
+                            // jsdoc
+                            let line = line.trim_start_matches(['*', ' ']);
+                            let line = line.trim();
+
+                            //
+                            if line.len() == (flag.len() + 5)
+                                && (line.starts_with("#__") || line.starts_with("@__"))
+                                && line.ends_with("__")
+                                && flag == &line[3..line.len() - 2]
+                            {
+                                return true;
+                            }
+                        }
+                    }
+                }
+
+                false
+            })()
+        } else {
+            false
+        };
+
+        if let Some(cmts) = cmts {
+            self.add_trailing_comments(lo, cmts);
+        }
+
+        ret
+    }
 }
 
 macro_rules! delegate {
@@ -138,6 +179,10 @@ macro_rules! delegate {
 
         fn add_pure_comment(&self, pos: BytePos) {
             (**self).add_pure_comment(pos)
+        }
+
+        fn has_flag(&self, lo: BytePos, flag: &str) -> bool {
+            (**self).has_flag(lo, flag)
         }
     };
 }
@@ -225,6 +270,11 @@ impl Comments for NoopComments {
 
     #[cfg_attr(not(debug_assertions), inline(always))]
     fn add_pure_comment(&self, _: BytePos) {}
+
+    #[inline]
+    fn has_flag(&self, _: BytePos, _: &str) -> bool {
+        false
+    }
 }
 
 /// This implementation behaves like [NoopComments] if it's [None].
@@ -317,6 +367,8 @@ where
     }
 
     fn add_pure_comment(&self, pos: BytePos) {
+        assert_ne!(pos, BytePos(0), "cannot add pure comment to zero position");
+
         if let Some(c) = self {
             c.add_pure_comment(pos)
         }
@@ -343,6 +395,15 @@ where
             c.with_trailing(pos, f)
         } else {
             f(&[])
+        }
+    }
+
+    #[inline]
+    fn has_flag(&self, lo: BytePos, flag: &str) -> bool {
+        if let Some(c) = self {
+            c.has_flag(lo, flag)
+        } else {
+            false
         }
     }
 }
@@ -439,6 +500,8 @@ impl Comments for SingleThreadedComments {
     }
 
     fn add_pure_comment(&self, pos: BytePos) {
+        assert_ne!(pos, BytePos(0), "cannot add pure comment to zero position");
+
         let mut leading_map = self.leading.borrow_mut();
         let leading = leading_map.entry(pos).or_default();
         let pure_comment = Comment {
@@ -480,6 +543,31 @@ impl Comments for SingleThreadedComments {
         } else {
             f(&[])
         }
+    }
+
+    fn has_flag(&self, lo: BytePos, flag: &str) -> bool {
+        self.with_leading(lo, |comments| {
+            for c in comments {
+                if c.kind == CommentKind::Block {
+                    for line in c.text.lines() {
+                        // jsdoc
+                        let line = line.trim_start_matches(['*', ' ']);
+                        let line = line.trim();
+
+                        //
+                        if line.len() == (flag.len() + 5)
+                            && (line.starts_with("#__") || line.starts_with("@__"))
+                            && line.ends_with("__")
+                            && flag == &line[3..line.len() - 2]
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+
+            false
+        })
     }
 }
 
@@ -541,7 +629,7 @@ impl SingleThreadedComments {
     }
 }
 
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(
     any(feature = "rkyv-impl"),
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
@@ -561,15 +649,15 @@ impl Spanned for Comment {
     }
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
 #[cfg_attr(
     any(feature = "rkyv-impl"),
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
 #[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
 pub enum CommentKind {
-    Line,
-    Block,
+    Line = 0,
+    Block = 1,
 }
 
 #[deprecated(

@@ -1,2 +1,2 @@
 var NaN__2;
-console.log(NaN.toString());
+console.log(NaN__2.toString());

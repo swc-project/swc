@@ -19,7 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -42,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('class' type=static),
+                    value: "class",
                 },
                 tag: Class(
                     ClassTag {
@@ -82,7 +82,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -105,7 +105,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('lends' type=inline),
+                    value: "lends",
                 },
                 tag: Lends(
                     LendsTag {
@@ -139,7 +139,7 @@
                                         ),
                                         ctxt: #0,
                                     },
-                                    value: Atom('Person' type=inline),
+                                    value: "Person",
                                 },
                             ],
                         },
@@ -168,7 +168,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Set up initial values.' type=dynamic),
+            value: "Set up initial values.",
         },
         tags: [],
     },
@@ -192,7 +192,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Speak a message.' type=dynamic),
+            value: "Speak a message.",
         },
         tags: [],
     },
@@ -216,8 +216,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('The name of the person.
-                     *' type=dynamic),
+            value: "The name of the person.\n         *",
         },
         tags: [
             TagItem {
@@ -240,7 +239,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('type' type=static),
+                    value: "type",
                 },
                 tag: Type(
                     TypeTag {
@@ -263,7 +262,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('{string}' type=dynamic),
+                            value: "{string}",
                         },
                     },
                 ),
@@ -290,7 +289,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -313,7 +312,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('type' type=static),
+                    value: "type",
                 },
                 tag: Type(
                     TypeTag {
@@ -336,7 +335,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('{string}' type=dynamic),
+                            value: "{string}",
                         },
                     },
                 ),
@@ -361,7 +360,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('param' type=static),
+                    value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
@@ -386,7 +385,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('val' type=inline),
+                                value: "val",
                             },
                         ),
                         desc: Text {
@@ -399,7 +398,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('' type=static),
+                            value: "",
                         },
                     },
                 ),
@@ -426,7 +425,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -449,7 +448,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('type' type=static),
+                    value: "type",
                 },
                 tag: Type(
                     TypeTag {
@@ -472,7 +471,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('{number}' type=dynamic),
+                            value: "{number}",
                         },
                     },
                 ),

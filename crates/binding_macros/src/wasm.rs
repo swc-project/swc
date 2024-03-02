@@ -9,6 +9,8 @@ use once_cell::sync::Lazy;
 #[doc(hidden)]
 pub use serde_wasm_bindgen;
 use serde_wasm_bindgen::Serializer;
+#[doc(hidden)]
+pub use swc::PrintArgs;
 use swc::{config::ErrorFormat, Compiler, HandlerOpts};
 #[doc(hidden)]
 pub use swc::{
@@ -149,6 +151,7 @@ macro_rules! build_parse_sync {
     pub fn parse_sync(s: $crate::wasm::js_sys::JsString, opts: $crate::wasm::JsValue) -> Result<$crate::wasm::JsValue, $crate::wasm::JsValue> {
       use serde::Serialize;
       use $crate::wasm::VisitMutWith;
+      use $crate::wasm::PrintArgs;
 
       let c = $crate::wasm::compiler();
 
@@ -226,6 +229,8 @@ macro_rules! build_print_sync {
   ($(#[$m:meta])*, $opt: expr) => {
     $(#[$m])*
     pub fn print_sync(s: $crate::wasm::JsValue, opts: $crate::wasm::JsValue) -> Result<$crate::wasm::JsValue, $crate::wasm::JsValue> {
+      use $crate::wasm::PrintArgs;
+
       let c = $crate::wasm::compiler();
 
       $crate::wasm::try_with_handler_globals(
@@ -245,20 +250,17 @@ macro_rules! build_print_sync {
                   let s = $crate::wasm::anyhow::Context::context(c
                     .print(
                         &program,
-                        None,
-                        None,
-                        true,
-                        opts.source_maps
-                            .clone()
-                            .unwrap_or($crate::wasm::SourceMapsConfig::Bool(false)),
-                        &Default::default(),
-                        None,
-                        None,
-                        opts.config.emit_source_map_columns.into_bool(),
-                        Default::default(),
-                        swc_core::ecma::codegen::Config::default()
-                            .with_target(opts.codegen_target().unwrap_or($crate::wasm::EsVersion::Es2020))
-                            .with_minify(opts.config.minify.into())
+                        PrintArgs {
+                          inline_sources_content: true,
+                          source_map: opts.source_maps
+                              .clone()
+                              .unwrap_or($crate::wasm::SourceMapsConfig::Bool(false)),
+                          emit_source_map_columns: opts.config.emit_source_map_columns.into_bool(),
+                          codegen_config: swc_core::ecma::codegen::Config::default()
+                              .with_target(opts.codegen_target().unwrap_or($crate::wasm::EsVersion::Es2020))
+                              .with_minify(opts.config.minify.into()),
+                          ..Default::default()
+                        },
                     ),"failed to print code")?;
 
                     serde_wasm_bindgen::to_value(&s)

@@ -74,7 +74,8 @@
                           "ctxt": 0
                         },
                         "value": "arguments",
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "value": null
                     }

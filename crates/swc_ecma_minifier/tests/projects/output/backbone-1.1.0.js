@@ -1,6 +1,6 @@
 (function() {
     var Backbone, root = this, previousBackbone = root.Backbone, slice = [].slice;
-    (Backbone = "undefined" != typeof exports ? exports : root.Backbone = {}).VERSION = "1.1.0";
+    "undefined" != typeof exports ? Backbone = exports : Backbone = root.Backbone = {}, Backbone.VERSION = "1.1.0";
     var _ = root._;
     _ || "undefined" == typeof require || (_ = require("underscore")), Backbone.$ = root.jQuery || root.Zepto || root.ender || root.$, Backbone.noConflict = function() {
         return root.Backbone = previousBackbone, this;

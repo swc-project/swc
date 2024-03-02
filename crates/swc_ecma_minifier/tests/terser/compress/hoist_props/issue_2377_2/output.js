@@ -1,11 +1,2 @@
-var obj = {
-    foo: 1,
-    bar: 2,
-    square: function(x) {
-        return x * x;
-    },
-    cube: function(x) {
-        return x * x * x;
-    }
-};
-console.log(obj.foo, obj.cube(3));
+var x;
+console.log(1, 3 * (x = 3) * x);

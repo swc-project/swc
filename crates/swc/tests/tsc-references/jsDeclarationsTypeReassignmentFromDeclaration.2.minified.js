@@ -9,4 +9,4 @@
 //!    : ^^^^^^^^^^^^^^^
 //!    `----
 //// [index.js]
-/** @type {typeof import("/some-mod")} */ module.exports = [];
+module.exports = [];

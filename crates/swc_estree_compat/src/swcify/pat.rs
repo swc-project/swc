@@ -113,7 +113,7 @@ impl Swcify for ObjectPatternProp {
                 if prop.shorthand {
                     return ObjectPatProp::Assign(AssignPatProp {
                         span: ctx.span(&prop.base),
-                        key: prop.key.swcify(ctx).expect_ident(),
+                        key: prop.key.swcify(ctx).expect_ident().into(),
                         value: None,
                     });
                 }
@@ -128,7 +128,7 @@ impl Swcify for ObjectPatternProp {
                     swc_estree_ast::ObjectPropVal::Expr(v) => {
                         ObjectPatProp::Assign(AssignPatProp {
                             span: ctx.span(&prop.base),
-                            key: prop.key.swcify(ctx).expect_ident(),
+                            key: prop.key.swcify(ctx).expect_ident().into(),
                             value: Some(v.swcify(ctx)),
                         })
                     }

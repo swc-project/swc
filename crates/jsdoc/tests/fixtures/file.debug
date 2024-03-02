@@ -19,7 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -42,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('overview' type=dynamic),
+                    value: "overview",
                 },
                 tag: File(
                     FileTag {
@@ -65,7 +65,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('This is a file doclet.' type=dynamic),
+                            value: "This is a file doclet.",
                         },
                     },
                 ),
@@ -90,7 +90,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('copyright' type=dynamic),
+                    value: "copyright",
                 },
                 tag: Copyright(
                     CopyrightTag {
@@ -113,7 +113,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('Michael Mathews 2011' type=dynamic),
+                            value: "Michael Mathews 2011",
                         },
                     },
                 ),

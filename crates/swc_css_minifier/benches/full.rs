@@ -1,4 +1,4 @@
-extern crate swc_node_base;
+extern crate swc_malloc;
 
 use std::{fs::read_to_string, path::Path};
 
@@ -39,7 +39,8 @@ fn run(src: &str) {
             let fm = cm.new_source_file(FileName::Anon, src.into());
 
             let mut errors = vec![];
-            let mut ss: Stylesheet = parse_file(&fm, Default::default(), &mut errors).unwrap();
+            let mut ss: Stylesheet =
+                parse_file(&fm, None, Default::default(), &mut errors).unwrap();
 
             minify(&mut ss, Default::default());
 

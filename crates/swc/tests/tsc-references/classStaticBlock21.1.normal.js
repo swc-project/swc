@@ -4,6 +4,3 @@ var C = function C() {
     "use strict";
     _class_call_check(this, C);
 };
-(function() {
-// something
-})();

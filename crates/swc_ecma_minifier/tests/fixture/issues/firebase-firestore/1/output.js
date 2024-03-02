@@ -198,11 +198,11 @@
                     let n = "";
                     for(; n.length < 20;){
                         const s = function(t) {
-                            const e = "undefined" != typeof self && (self.crypto || self.msCrypto), n = new Uint8Array(t);
+                            const e = "undefined" != typeof self && (self.crypto || self.msCrypto), n = new Uint8Array(40);
                             if (e && "function" == typeof e.getRandomValues) e.getRandomValues(n);
-                            else for(let e = 0; e < t; e++)n[e] = Math.floor(256 * Math.random());
+                            else for(let e = 0; e < 40; e++)n[e] = Math.floor(256 * Math.random());
                             return n;
-                        }(40);
+                        }(0);
                         for(let i = 0; i < s.length; ++i)n.length < 20 && s[i] < e && (n += t.charAt(s[i] % t.length));
                     }
                     return n;
@@ -226,8 +226,8 @@
                     return it.fromMillis(t.getTime());
                 }
                 static fromMillis(t) {
-                    const e = Math.floor(t / 1e3), n = Math.floor(1e6 * (t - 1e3 * e));
-                    return new it(e, n);
+                    const e = Math.floor(t / 1e3);
+                    return new it(e, Math.floor(1e6 * (t - 1e3 * e)));
                 }
                 toDate() {
                     return new Date(this.toMillis());
@@ -251,8 +251,7 @@
                     };
                 }
                 valueOf() {
-                    const t = this.seconds - -62135596800;
-                    return String(t).padStart(12, "0") + "." + String(this.nanoseconds).padStart(9, "0");
+                    return String(this.seconds - -62135596800).padStart(12, "0") + "." + String(this.nanoseconds).padStart(9, "0");
                 }
             }
             class rt {
@@ -425,16 +424,14 @@
                     this.binaryString = t;
                 }
                 static fromBase64String(t) {
-                    const e = atob(t);
-                    return new _t(e);
+                    return new _t(atob(t));
                 }
                 static fromUint8Array(t) {
-                    const e = function(t) {
+                    return new _t(function(t) {
                         let e = "";
                         for(let n = 0; n < t.length; ++n)e += String.fromCharCode(t[n]);
                         return e;
-                    }(t);
-                    return new _t(e);
+                    }(t));
                 }
                 toBase64() {
                     return btoa(this.binaryString);
@@ -466,9 +463,8 @@
                         let t = n[1];
                         e = Number(t = (t + "000000000").substr(0, 9));
                     }
-                    const s = new Date(t);
                     return {
-                        seconds: Math.floor(s.getTime() / 1e3),
+                        seconds: Math.floor(new Date(t).getTime() / 1e3),
                         nanos: e
                     };
                 }
@@ -1454,8 +1450,7 @@
                     return this.copy(null, null, !this.color, t, e);
                 }
                 checkMaxDepth() {
-                    const t = this.check();
-                    return Math.pow(2, t) <= this.size + 1;
+                    return Math.pow(2, this.check()) <= this.size + 1;
                 }
                 check() {
                     if (this.isRed() && this.left.isRed() || this.right.isRed()) throw L();
@@ -1869,9 +1864,9 @@
             }
             function Hn(t, e) {
                 var t1;
-                return t1 = t.databaseId, new ht([
+                return new ht([
                     "projects",
-                    t1.projectId,
+                    (t1 = t.databaseId).projectId,
                     "databases",
                     t1.database
                 ]).child("documents").child(e).canonicalString();
@@ -1894,8 +1889,8 @@
                 };
             }
             function fs(t) {
-                const e = !!t.before, n = t.values || [];
-                return new oe(n, e);
+                const e = !!t.before;
+                return new oe(t.values || [], e);
             }
             function _s(t) {
                 return {
@@ -2359,8 +2354,7 @@
                     const s = e.collectionGroup;
                     let i = En;
                     return this.Ht.getCollectionParents(t, s).next((r)=>js.forEach(r, (r)=>{
-                            var e1;
-                            const o = (e1 = r.child(s), new fe(e1, null, e.explicitOrderBy.slice(), e.filters.slice(), e.limit, e.limitType, e.startAt, e.endAt));
+                            const o = new fe(r.child(s), null, e.explicitOrderBy.slice(), e.filters.slice(), e.limit, e.limitType, e.startAt, e.endAt);
                             return this.Dn(t, o, n).next((t)=>{
                                 t.forEach((t, e)=>{
                                     i = i.insert(t, e);
@@ -2508,20 +2502,20 @@
                         query: function(t) {
                             var e;
                             const e1 = function(t) {
-                                var t1, t2, e, n, s, i, o, c;
-                                let e1, e2 = function(t) {
+                                var t1;
+                                let e, e1 = function(t) {
                                     const e = Wn(t);
                                     return 4 === e.length ? ht.emptyPath() : Xn(e);
                                 }(t.parent);
-                                const n1 = t.structuredQuery, s1 = n1.from ? n1.from.length : 0;
-                                let i1 = null;
-                                if (s1 > 0) {
-                                    1 === s1 || L();
-                                    const t = n1.from[0];
-                                    t.allDescendants ? i1 = t.collectionId : e2 = e2.child(t.collectionId);
+                                const n = t.structuredQuery, s = n.from ? n.from.length : 0;
+                                let i = null;
+                                if (s > 0) {
+                                    1 === s || L();
+                                    const t = n.from[0];
+                                    t.allDescendants ? i = t.collectionId : e1 = e1.child(t.collectionId);
                                 }
                                 let r = [];
-                                n1.where && (r = function hs(t) {
+                                n.where && (r = function hs(t) {
                                     return t ? void 0 !== t.unaryFilter ? [
                                         function(t) {
                                             switch(t.unaryFilter.op){
@@ -2577,9 +2571,9 @@
                                             }
                                         }(t.fieldFilter.op), t.fieldFilter.value)
                                     ] : void 0 !== t.compositeFilter ? t.compositeFilter.filters.map((t)=>hs(t)).reduce((t, e)=>t.concat(e)) : L() : [];
-                                }(n1.where));
-                                let o1 = [];
-                                n1.orderBy && (o1 = n1.orderBy.map((t)=>new ae(ms(t.field), function(t) {
+                                }(n.where));
+                                let o = [];
+                                n.orderBy && (o = n.orderBy.map((t)=>new ae(ms(t.field), function(t) {
                                         switch(t){
                                             case "ASCENDING":
                                                 return "asc";
@@ -2589,12 +2583,12 @@
                                                 return;
                                         }
                                     }(t.direction))));
-                                let c1 = null;
-                                n1.limit && (c1 = At(e1 = "object" == typeof (t1 = n1.limit) ? t1.value : t1) ? null : e1);
+                                let c = null;
+                                n.limit && (c = At(e = "object" == typeof (t1 = n.limit) ? t1.value : t1) ? null : e);
                                 let a = null;
-                                n1.startAt && (a = fs(n1.startAt));
+                                n.startAt && (a = fs(n.startAt));
                                 let u = null;
-                                return n1.endAt && (u = fs(n1.endAt)), t2 = e2, e = i1, n = o1, s = r, i = c1, o = a, c = u, new fe(t2, e, n, s, i, "F", o, c);
+                                return n.endAt && (u = fs(n.endAt)), new fe(e1, i, o, r, c, "F", a, u);
                             }({
                                 parent: t.parent,
                                 structuredQuery: t.structuredQuery
@@ -2896,8 +2890,7 @@
             }
             class Cr {
                 constructor(t, e){
-                    var t1;
-                    this.bs = {}, this.Le = new X(0), this.Be = !1, this.Be = !0, this.referenceDelegate = t(this), this.ze = new Dr(this), this.Ht = new pi(), this.He = (t1 = this.Ht, new Vr(t1, (t)=>this.referenceDelegate.Ps(t))), this.N = new ri(e), this.Je = new Rr(this.N);
+                    this.bs = {}, this.Le = new X(0), this.Be = !1, this.Be = !0, this.referenceDelegate = t(this), this.ze = new Dr(this), this.Ht = new pi(), this.He = new Vr(this.Ht, (t)=>this.referenceDelegate.Ps(t)), this.N = new ri(e), this.Je = new Rr(this.N);
                 }
                 start() {
                     return Promise.resolve();
@@ -3006,11 +2999,10 @@
                     this.activeTargetIds = this.activeTargetIds.delete(t);
                 }
                 Os() {
-                    const t = {
+                    return JSON.stringify({
                         activeTargetIds: this.activeTargetIds.toArray(),
                         updateTimeMs: Date.now()
-                    };
-                    return JSON.stringify(t);
+                    });
                 }
             }
             class Kr {
@@ -3363,11 +3355,8 @@
                         if ("targetChange" in e) {
                             var t1, e1;
                             e.targetChange;
-                            const s = "NO_CHANGE" === (t1 = e.targetChange.targetChangeType || "NO_CHANGE") ? 0 : "ADD" === t1 ? 1 : "REMOVE" === t1 ? 2 : "CURRENT" === t1 ? 3 : "RESET" === t1 ? 4 : L(), i = e.targetChange.targetIds || [], r = (e1 = e.targetChange.resumeToken, t.D ? (void 0 === e1 || "string" == typeof e1 || L(), _t.fromBase64String(e1 || "")) : (void 0 === e1 || e1 instanceof Uint8Array || L(), _t.fromUint8Array(e1 || new Uint8Array()))), o = e.targetChange.cause, c = o && function(t) {
-                                const e = void 0 === t.code ? K.UNKNOWN : dn(t.code);
-                                return new j(e, t.message || "");
-                            }(o);
-                            n = new xn(s, i, r, c || null);
+                            const s = "NO_CHANGE" === (t1 = e.targetChange.targetChangeType || "NO_CHANGE") ? 0 : "ADD" === t1 ? 1 : "REMOVE" === t1 ? 2 : "CURRENT" === t1 ? 3 : "RESET" === t1 ? 4 : L(), i = e.targetChange.targetIds || [], r = (e1 = e.targetChange.resumeToken, t.D ? (void 0 === e1 || "string" == typeof e1 || L(), _t.fromBase64String(e1 || "")) : (void 0 === e1 || e1 instanceof Uint8Array || L(), _t.fromUint8Array(e1 || new Uint8Array()))), o = e.targetChange.cause;
+                            n = new xn(s, i, r, o && new j(void 0 === o.code ? K.UNKNOWN : dn(o.code), o.message || "") || null);
                         } else if ("documentChange" in e) {
                             e.documentChange;
                             const s = e.documentChange;
@@ -3376,28 +3365,28 @@
                                 mapValue: {
                                     fields: s.document.fields
                                 }
-                            }), c = Kt.newFoundDocument(i, r, o), a = s.targetIds || [], u = s.removedTargetIds || [];
-                            n = new Cn(a, u, c.key, c);
+                            }), c = Kt.newFoundDocument(i, r, o);
+                            n = new Cn(s.targetIds || [], s.removedTargetIds || [], c.key, c);
                         } else if ("documentDelete" in e) {
                             e.documentDelete;
                             const s = e.documentDelete;
                             s.document;
-                            const i = zn(t, s.document), r = s.readTime ? jn(s.readTime) : rt.min(), o = Kt.newNoDocument(i, r), c = s.removedTargetIds || [];
-                            n = new Cn([], c, o.key, o);
+                            const i = zn(t, s.document), r = s.readTime ? jn(s.readTime) : rt.min(), o = Kt.newNoDocument(i, r);
+                            n = new Cn([], s.removedTargetIds || [], o.key, o);
                         } else if ("documentRemove" in e) {
                             e.documentRemove;
                             const s = e.documentRemove;
                             s.document;
-                            const i = zn(t, s.document), r = s.removedTargetIds || [];
-                            n = new Cn([], r, i, null);
+                            const i = zn(t, s.document);
+                            n = new Cn([], s.removedTargetIds || [], i, null);
                         } else {
                             if (!("filter" in e)) return L();
                             {
                                 e.filter;
                                 const t = e.filter;
                                 t.targetId;
-                                const s = t.count || 0, i = new un(s), r = t.targetId;
-                                n = new Nn(r, i);
+                                const i = new un(t.count || 0);
+                                n = new Nn(t.targetId, i);
                             }
                         }
                         return n;
@@ -3673,7 +3662,7 @@
                     this.asyncQueue = t, this.timerId = e, this.targetTimeMs = n, this.op = s, this.removalCallback = i, this.deferred = new Q(), this.then = this.deferred.promise.then.bind(this.deferred.promise), this.deferred.promise.catch((t)=>{});
                 }
                 static createAndSchedule(t, e, n, s, i) {
-                    const r = Date.now() + n, o = new xo(t, e, r, s, i);
+                    const o = new xo(t, e, Date.now() + n, s, i);
                     return o.start(n), o;
                 }
                 start(t) {
@@ -4162,11 +4151,10 @@
             }
             function yc(t) {
                 for(; t.Mo.size > 0 && t.Lo.size < t.maxConcurrentLimboResolutions;){
-                    var t1;
                     const e = t.Mo.values().next().value;
                     t.Mo.delete(e);
                     const n = new Pt(ht.fromString(e)), s = t.jo.next();
-                    t.Bo.set(s, new tc(n)), t.Lo = t.Lo.insert(n, s), co(t.remoteStore, new ii(Ee((t1 = n.path, new fe(t1))), s, 2, X.T));
+                    t.Bo.set(s, new tc(n)), t.Lo = t.Lo.insert(n, s), co(t.remoteStore, new ii(Ee(new fe(n.path)), s, 2, X.T));
                 }
             }
             async function pc(t, e, n) {
@@ -4196,12 +4184,13 @@
                 }(t.localStore, r));
             }
             async function Tc(t, e) {
+                var e1;
                 if (!t.currentUser.isEqual(e)) {
                     $("SyncEngine", "User change. New user:", e.toKey());
                     const t1 = await hr(t.localStore, e);
-                    t.currentUser = e, t.Ko.forEach((t)=>{
+                    t.currentUser = e, e1 = "'waitForPendingWrites' promise is rejected due to a user change.", t.Ko.forEach((t)=>{
                         t.forEach((t)=>{
-                            t.reject(new j(K.CANCELLED, "'waitForPendingWrites' promise is rejected due to a user change."));
+                            t.reject(new j(K.CANCELLED, e1));
                         });
                     }), t.Ko.clear(), t.sharedClientState.handleUserChange(e, t1.removedBatchIds, t1.addedBatchIds), await pc(t, t1.Wn);
                 }
@@ -4225,15 +4214,13 @@
                     this.synchronizeTabs = !1;
                 }
                 async initialize(t) {
-                    var t1;
-                    this.N = (t1 = t.databaseInfo.databaseId, new Bn(t1, !0)), this.sharedClientState = this.Ho(t), this.persistence = this.Jo(t), await this.persistence.start(), this.gcScheduler = this.Yo(t), this.localStore = this.Xo(t);
+                    this.N = new Bn(t.databaseInfo.databaseId, !0), this.sharedClientState = this.Ho(t), this.persistence = this.Jo(t), await this.persistence.start(), this.gcScheduler = this.Yo(t), this.localStore = this.Xo(t);
                 }
                 Yo(t) {
                     return null;
                 }
                 Xo(t) {
-                    var t1, e, n, s;
-                    return t1 = this.persistence, e = new cr(), n = t.initialUser, s = this.N, new ar(t1, e, n, s);
+                    return new ar(this.persistence, new cr(), t.initialUser, this.N);
                 }
                 Jo(t) {
                     return new Cr(xr.Ns, this.N);
@@ -4253,13 +4240,11 @@
                     return new Lo();
                 }
                 createDatastore(t) {
-                    var s, t1, t2;
-                    const e = (t1 = t.databaseInfo.databaseId, new Bn(t1, !0)), n = (s = t.databaseInfo, new zr(s));
-                    return t2 = t.credentials, new no(t2, n, e);
+                    const e = new Bn(t.databaseInfo.databaseId, !0), n = new zr(t.databaseInfo);
+                    return new no(t.credentials, n, e);
                 }
                 createRemoteStore(t) {
-                    var e, n, s, r;
-                    return e = this.localStore, n = this.datastore, s = t.asyncQueue, r = Qr.bt() ? new Qr() : new jr(), new io(e, n, s, (t)=>cc(this.syncEngine, t, 0), r);
+                    return new io(this.localStore, this.datastore, t.asyncQueue, (t)=>cc(this.syncEngine, t, 0), Qr.bt() ? new Qr() : new jr());
                 }
                 createSyncEngine(t, e) {
                     return function(t, e, n, s, i, r, o) {
@@ -4584,9 +4569,7 @@
                 Pc(t) {
                     const e = this._c.then(()=>(this.Ec = !0, t().catch((t)=>{
                             let e;
-                            this.Tc = t, this.Ec = !1;
-                            const e1 = (e = t.message || "", t.stack && (e = t.stack.includes(t.message) ? t.stack : t.message + "\n" + t.stack), e);
-                            throw O("INTERNAL UNHANDLED ERROR: ", e1), t;
+                            throw this.Tc = t, this.Ec = !1, O("INTERNAL UNHANDLED ERROR: ", (e = t.message || "", t.stack && (e = t.stack.includes(t.message) ? t.stack : t.message + "\n" + t.stack), e)), t;
                         }).then((t)=>(this.Ec = !1, t))));
                     return this._c = e, e;
                 }
@@ -4631,8 +4614,8 @@
                 }
             }
             function Ma(t) {
-                var e, t1, e1, n;
-                const n1 = t._freezeSettings(), s = (t1 = t._databaseId, e1 = (null === (e = t._app) || void 0 === e ? void 0 : e.options.appId) || "", n = t._persistenceKey, new ua(t1, e1, n, n1.host, n1.ssl, n1.experimentalForceLongPolling, n1.experimentalAutoDetectLongPolling, n1.useFetchStreams));
+                var e;
+                const n = t._freezeSettings(), s = new ua(t._databaseId, (null === (e = t._app) || void 0 === e ? void 0 : e.options.appId) || "", t._persistenceKey, n.host, n.ssl, n.experimentalForceLongPolling, n.experimentalAutoDetectLongPolling, n.useFetchStreams);
                 t._firestoreClient = new Kc(t._credentials, t._queue, s);
             }
             class Ja {
@@ -4740,11 +4723,11 @@
             }
             function Su(t, e) {
                 return "string" == typeof e ? function(t, e, n) {
-                    if (e.search(Au) >= 0) throw bu(`Invalid field path (${e}). Paths must not contain '~', '*', '/', '[', or ']'`, t, !1, void 0, n);
+                    if (e.search(Au) >= 0) throw bu(`Invalid field path (${e}). Paths must not contain '~', '*', '/', '[', or ']'`, t, !1, void 0, void 0);
                     try {
                         return new Ja(...e.split("."))._internalPath;
                     } catch (s) {
-                        throw bu(`Invalid field path (${e}). Paths must not be empty, begin with '.', end with '.', or contain '..'`, t, !1, void 0, n);
+                        throw bu(`Invalid field path (${e}). Paths must not be empty, begin with '.', end with '.', or contain '..'`, t, !1, void 0, void 0);
                     }
                 }(t, e) : e instanceof Ja ? e._internalPath : e._delegate._internalPath;
             }
@@ -4930,12 +4913,12 @@
                 }(t._query), (function(t, e, n = {}) {
                     const s = new Q();
                     return t.asyncQueue.enqueueAndForget(async ()=>(function(t, e, n, s, i) {
-                            const r = new Lc({
+                            const o = new Qo(n, new Lc({
                                 next: (n)=>{
                                     e.enqueueAndForget(()=>Uo(t, o)), n.fromCache && "server" === s.source ? i.reject(new j(K.UNAVAILABLE, 'Failed to get documents from server. (However, these documents may exist in the local cache. Run again without setting source to "server" to retrieve the cached documents.)')) : i.resolve(n);
                                 },
                                 error: (t)=>i.reject(t)
-                            }), o = new Qo(n, r, {
+                            }), {
                                 includeMetadataChanges: !0,
                                 fo: !0
                             });
@@ -4945,7 +4928,7 @@
             }
             !function(t, e = !0) {
                 C = _firebase_app__WEBPACK_IMPORTED_MODULE_0__.Jn, (0, _firebase_app__WEBPACK_IMPORTED_MODULE_0__.Xd)(new _firebase_component__WEBPACK_IMPORTED_MODULE_1__.wA("firestore", (t, { options: n })=>{
-                    const s = t.getProvider("app").getImmediate(), i = new ka(s, new H(t.getProvider("auth-internal")));
+                    const i = new ka(t.getProvider("app").getImmediate(), new H(t.getProvider("auth-internal")));
                     return n = Object.assign({
                         useFetchStreams: e
                     }, n), i._setSettings(n), i;

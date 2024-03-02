@@ -44,7 +44,8 @@
         "raw": "\"../../../../swc_ecma_transforms_base/tests/ts-resolver/1/input\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "TsTypeAliasDeclaration",

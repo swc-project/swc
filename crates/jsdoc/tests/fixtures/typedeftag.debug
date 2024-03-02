@@ -19,7 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -42,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('typedef' type=inline),
+                    value: "typedef",
                 },
                 tag: TypeDef(
                     TypeDefTag {
@@ -66,7 +66,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('{(string|number)}' type=dynamic),
+                                value: "{(string|number)}",
                             },
                         ),
                         name_path: NamePath {
@@ -90,7 +90,7 @@
                                         ),
                                         ctxt: #0,
                                     },
-                                    value: Atom('' type=static),
+                                    value: "",
                                 },
                             ],
                         },
@@ -119,7 +119,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -142,7 +142,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('typedef' type=inline),
+                    value: "typedef",
                 },
                 tag: TypeDef(
                     TypeDefTag {
@@ -166,7 +166,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('{string}' type=dynamic),
+                                value: "{string}",
                             },
                         ),
                         name_path: NamePath {
@@ -190,7 +190,7 @@
                                         ),
                                         ctxt: #0,
                                     },
-                                    value: Atom('' type=static),
+                                    value: "",
                                 },
                             ],
                         },
@@ -219,7 +219,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -242,7 +242,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('typedef' type=inline),
+                    value: "typedef",
                 },
                 tag: TypeDef(
                     TypeDefTag {
@@ -266,7 +266,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('{calc.NumberLike}' type=dynamic),
+                                value: "{calc.NumberLike}",
                             },
                         ),
                         name_path: NamePath {
@@ -290,7 +290,7 @@
                                         ),
                                         ctxt: #0,
                                     },
-                                    value: Atom('' type=static),
+                                    value: "",
                                 },
                             ],
                         },
@@ -319,7 +319,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -342,7 +342,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('param' type=static),
+                    value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
@@ -367,7 +367,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('{calc.NumberLike}' type=dynamic),
+                                value: "{calc.NumberLike}",
                             },
                         ),
                         desc: Text {
@@ -380,7 +380,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('' type=static),
+                            value: "",
                         },
                     },
                 ),

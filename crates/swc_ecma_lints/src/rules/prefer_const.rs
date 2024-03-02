@@ -235,8 +235,31 @@ impl Visit for PreferConst {
 
     fn visit_assign_expr(&mut self, assign_expr: &AssignExpr) {
         if let op!("=") = assign_expr.op {
-            if let PatOrExpr::Pat(pat) = &assign_expr.left {
-                self.consider_mutation(pat.as_ref(), false);
+            match &assign_expr.left {
+                AssignTarget::Simple(SimpleAssignTarget::Ident(l)) => {
+                    self.consider_mutation_for_ident(l, false);
+                }
+
+                AssignTarget::Pat(pat) => match pat {
+                    AssignTargetPat::Array(ArrayPat { elems, .. }) => {
+                        elems.iter().flatten().for_each(|elem| {
+                            self.consider_mutation(elem, true);
+                        })
+                    }
+                    AssignTargetPat::Object(ObjectPat { props, .. }) => {
+                        props.iter().for_each(|prop| match prop {
+                            ObjectPatProp::KeyValue(KeyValuePatProp { value, .. }) => {
+                                self.consider_mutation(value.as_ref(), true);
+                            }
+                            ObjectPatProp::Assign(AssignPatProp { key, .. }) => {
+                                self.consider_mutation_for_ident(key, true);
+                            }
+                            _ => {}
+                        });
+                    }
+                    AssignTargetPat::Invalid(_) => {}
+                },
+                _ => (),
             }
         }
 

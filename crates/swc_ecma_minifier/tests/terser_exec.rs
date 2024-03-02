@@ -1,4 +1,4 @@
-extern crate swc_node_base;
+extern crate swc_malloc;
 
 use std::{
     fmt::Debug,
@@ -32,7 +32,11 @@ use swc_ecma_parser::{
     lexer::{input::SourceFileInput, Lexer},
     EsConfig, Parser, Syntax,
 };
-use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene, resolver};
+use swc_ecma_transforms_base::{
+    fixer::{fixer, paren_remover},
+    hygiene::hygiene,
+    resolver,
+};
 use swc_ecma_visit::{FoldWith, VisitMutWith};
 use testing::assert_eq;
 
@@ -50,9 +54,12 @@ use testing::assert_eq;
         // should error
         "blocks/issue_1672_if_strict",
         "blocks/issue_1672_for_strict",
-        // need support for script mode
+        // annex B
         "blocks/issue_1672_if",
         "blocks/issue_1672_for",
+        // parser error
+        "arrow/async_identifiers",
+        "async/async_identifiers"
     )
 )]
 fn terser_exec(input: PathBuf) {
@@ -105,12 +112,12 @@ fn terser_exec(input: PathBuf) {
         eprintln!("Optimizing");
 
         let output = run(cm.clone(), &handler, &input, &config);
-        let output_module = match output {
+        let output_program = match output {
             Some(v) => v,
             None => return Err(()),
         };
 
-        let actual = print(cm, &[output_module], false, false);
+        let actual = print(cm, &[output_program], false, false);
         let actual_stdout = stdout_of(&actual, Duration::from_secs(5)).unwrap();
 
         if let Some(expected_src) = expected_src {
@@ -164,7 +171,7 @@ fn parse_compressor_config(cm: Lrc<SourceMap>, s: &str) -> Result<(bool, Compres
     Ok((c.module, c.into_config(cm)))
 }
 
-fn run(cm: Lrc<SourceMap>, handler: &Handler, input: &Path, config: &str) -> Option<Module> {
+fn run(cm: Lrc<SourceMap>, handler: &Handler, input: &Path, config: &str) -> Option<Program> {
     HANDLER.set(handler, || {
         let (_module, config) = parse_compressor_config(cm.clone(), config).ok()?;
         if config.ie8 {
@@ -193,11 +200,16 @@ fn run(cm: Lrc<SourceMap>, handler: &Handler, input: &Path, config: &str) -> Opt
 
         let mut parser = Parser::new_from(lexer);
         let program = parser
-            .parse_module()
+            .parse_program()
             .map_err(|err| {
                 err.into_diagnostic(handler).emit();
             })
-            .map(|module| module.fold_with(&mut resolver(unresolved_mark, top_level_mark, false)));
+            .map(|mut program| {
+                program.visit_mut_with(&mut paren_remover(Some(&comments)));
+                program.visit_mut_with(&mut resolver(unresolved_mark, top_level_mark, false));
+
+                program
+            });
 
         // Ignore parser errors.
         //
@@ -209,7 +221,7 @@ fn run(cm: Lrc<SourceMap>, handler: &Handler, input: &Path, config: &str) -> Opt
 
         let optimization_start = Instant::now();
         let mut output = optimize(
-            program.into(),
+            program,
             cm,
             Some(&comments),
             None,
@@ -222,8 +234,7 @@ fn run(cm: Lrc<SourceMap>, handler: &Handler, input: &Path, config: &str) -> Opt
                 unresolved_mark,
                 top_level_mark,
             },
-        )
-        .expect_module();
+        );
         let end = Instant::now();
         tracing::info!(
             "optimize({}) took {:?}",

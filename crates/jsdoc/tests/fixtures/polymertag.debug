@@ -19,8 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('A Polymer class.
-             *' type=dynamic),
+            value: "A Polymer class.\n *",
         },
         tags: [
             TagItem {
@@ -43,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('polymer' type=inline),
+                    value: "polymer",
                 },
                 tag: Unknown(
                     UnknownTag {
@@ -66,7 +65,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('' type=static),
+                            value: "",
                         },
                     },
                 ),

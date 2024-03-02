@@ -43,51 +43,50 @@ impl Visit for NoInvalidPositionAtImportRule {
     fn visit_stylesheet(&mut self, stylesheet: &Stylesheet) {
         stylesheet.rules.iter().fold(false, |seen, rule| {
             if seen
-                && matches!(
-                    rule,
-                    Rule::AtRule(box AtRule {
-                        prelude: Some(box AtRulePrelude::ImportPrelude(_)),
-                        ..
-                    })
-                )
+                && rule
+                    .as_at_rule()
+                    .and_then(|at_rule| at_rule.prelude.as_ref())
+                    .map(|prelude| prelude.is_import_prelude())
+                    .unwrap_or_default()
             {
                 self.ctx.report(rule, MESSAGE);
             }
 
             // TODO improve me https://www.w3.org/TR/css-cascade-5/#layer-empty - @import and @namespace rules must be consecutive
-            match rule {
-                Rule::AtRule(
-                    box AtRule {
-                        prelude: Some(box AtRulePrelude::CharsetPrelude(_)),
-                        ..
-                    }
-                    | box AtRule {
-                        prelude: Some(box AtRulePrelude::ImportPrelude(_)),
-                        ..
-                    },
-                ) => seen,
-                Rule::AtRule(box AtRule {
-                    prelude: Some(box AtRulePrelude::LayerPrelude(_)),
-                    block,
-                    ..
-                }) => match block {
-                    Some(block) if block.value.is_empty() => seen,
-                    None => seen,
-                    _ => true,
-                },
-                Rule::AtRule(box AtRule { name, .. }) => {
-                    let name = match name {
-                        AtRuleName::DashedIdent(dashed_ident) => &dashed_ident.value,
-                        AtRuleName::Ident(ident) => &ident.value,
-                    };
+            let Rule::AtRule(at_rule) = rule else {
+                return true;
+            };
 
-                    if self.ignored.iter().any(|item| item.is_match(name)) {
-                        seen
-                    } else {
-                        true
+            let AtRule {
+                name,
+                prelude,
+                block,
+                ..
+            } = &**at_rule;
+
+            if let Some(prelude) = prelude {
+                match &**prelude {
+                    AtRulePrelude::CharsetPrelude(_) | AtRulePrelude::ImportPrelude(_) => {
+                        return seen
                     }
+                    AtRulePrelude::LayerPrelude(_) => match block {
+                        Some(block) if block.value.is_empty() => return seen,
+                        None => return seen,
+                        _ => return true,
+                    },
+                    _ => {}
                 }
-                _ => true,
+            };
+
+            let name = match name {
+                AtRuleName::DashedIdent(dashed_ident) => &dashed_ident.value,
+                AtRuleName::Ident(ident) => &ident.value,
+            };
+
+            if self.ignored.iter().any(|item| item.is_match(name)) {
+                seen
+            } else {
+                true
             }
         });
 

@@ -1,5 +1,4 @@
 //// [nullIsSubtypeOfEverythingButUndefined.ts]
-// null is a subtype of any other types except undefined
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 function f() {}
 (E = E1 || (E1 = {}))[E.A = 0] = "A", (f || (f = {})).bar = 1;

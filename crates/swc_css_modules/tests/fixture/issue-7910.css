@@ -1,0 +1,10 @@
+.child-class1 {
+    color: red;
+}
+.root-class {
+    composes: child-class1;
+    composes: child-class2;
+}
+.child-class2 {
+    color: green;
+}

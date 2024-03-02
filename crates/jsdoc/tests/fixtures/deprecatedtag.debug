@@ -19,7 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -42,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('deprecated' type=dynamic),
+                    value: "deprecated",
                 },
                 tag: Deprecated(
                     DeprecatedTag {
@@ -65,7 +65,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('' type=static),
+                            value: "",
                         },
                     },
                 ),
@@ -92,7 +92,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -115,7 +115,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('deprecated' type=dynamic),
+                    value: "deprecated",
                 },
                 tag: Deprecated(
                     DeprecatedTag {
@@ -138,7 +138,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('since version 2.0' type=dynamic),
+                            value: "since version 2.0",
                         },
                     },
                 ),

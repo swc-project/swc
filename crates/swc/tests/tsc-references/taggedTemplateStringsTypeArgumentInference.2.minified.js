@@ -1,5 +1,4 @@
 //// [taggedTemplateStringsTypeArgumentInference.ts]
-// Generic tag with one parameter
 import { _ as _tagged_template_literal } from "@swc/helpers/_/_tagged_template_literal";
 function _templateObject() {
     var data = _tagged_template_literal([
@@ -281,5 +280,4 @@ function _templateObject27() {
         return data;
     }, data;
 }
-_templateObject(), _templateObject1(), _templateObject2(), _templateObject3(), _templateObject4(), _templateObject5(), _templateObject6(), _templateObject7(), _templateObject8(), _templateObject9(), _templateObject10(), _templateObject11(), _templateObject12(), _templateObject13(), _templateObject14(), _templateObject15(), _templateObject16(), _templateObject17(), _templateObject18(), _templateObject19(), _templateObject20(), (_templateObject21(), // Generic tag with multiple arguments of function types that each have parameters of different generic type
-function(strs, a, b, c) {})(_templateObject22(), null, null, null), _templateObject23(), _templateObject24(), _templateObject25(), _templateObject26(), _templateObject27();
+_templateObject(), _templateObject1(), _templateObject2(), _templateObject3(), _templateObject4(), _templateObject5(), _templateObject6(), _templateObject7(), _templateObject8(), _templateObject9(), _templateObject10(), _templateObject11(), _templateObject12(), _templateObject13(), _templateObject14(), _templateObject15(), _templateObject16(), _templateObject17(), _templateObject18(), _templateObject19(), _templateObject20(), (_templateObject21(), function(strs, a, b, c) {})(_templateObject22(), null, null, null), _templateObject23(), _templateObject24(), _templateObject25(), _templateObject26(), _templateObject27();

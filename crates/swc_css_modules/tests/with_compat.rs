@@ -34,6 +34,7 @@ fn test_full(input: PathBuf, suffix: Option<&str>) {
         let mut errors = vec![];
         let mut ss: Stylesheet = parse_file(
             &fm,
+            None,
             ParserConfig {
                 css_modules: true,
                 legacy_nesting: true,

@@ -123,13 +123,20 @@ impl Visit for Analyzer {
         });
     }
 
-    fn visit_assign_pat_prop(&mut self, p: &AssignPatProp) {
-        p.visit_children_with(self);
+    fn visit_assign_target(&mut self, n: &AssignTarget) {
+        let old = self.is_pat_decl;
 
+        self.is_pat_decl = false;
+        n.visit_children_with(self);
+
+        self.is_pat_decl = old;
+    }
+
+    fn visit_binding_ident(&mut self, i: &BindingIdent) {
         if self.is_pat_decl {
-            self.add_decl(p.key.to_id(), self.var_belong_to_fn_scope)
+            self.add_decl(i.to_id(), self.var_belong_to_fn_scope)
         } else {
-            self.add_usage(p.key.to_id())
+            self.add_usage(i.to_id())
         }
     }
 
@@ -305,15 +312,6 @@ impl Visit for Analyzer {
         }
     }
 
-    // ensure param and function body always in same scope
-    fn visit_function(&mut self, f: &Function) {
-        self.with_fn_scope(|v| {
-            f.decorators.visit_with(v);
-            f.params.visit_with(v);
-            v.visit_fn_body_within_same_scope(&f.body);
-        })
-    }
-
     fn visit_for_in_stmt(&mut self, n: &ForInStmt) {
         self.with_scope(ScopeKind::Block, |v| {
             n.left.visit_with(v);
@@ -346,6 +344,15 @@ impl Visit for Analyzer {
                 v.visit_for_body_within_same_scope(&n.body);
             })
         });
+    }
+
+    // ensure param and function body always in same scope
+    fn visit_function(&mut self, f: &Function) {
+        self.with_fn_scope(|v| {
+            f.decorators.visit_with(v);
+            f.params.visit_with(v);
+            v.visit_fn_body_within_same_scope(&f.body);
+        })
     }
 
     fn visit_import_default_specifier(&mut self, n: &ImportDefaultSpecifier) {
@@ -397,18 +404,6 @@ impl Visit for Analyzer {
 
         self.is_pat_decl = old;
         self.var_belong_to_fn_scope = old_need_hoisted
-    }
-
-    fn visit_pat(&mut self, e: &Pat) {
-        e.visit_children_with(self);
-
-        if let Pat::Ident(i) = e {
-            if self.is_pat_decl {
-                self.add_decl(i.to_id(), self.var_belong_to_fn_scope)
-            } else {
-                self.add_usage(i.to_id())
-            }
-        }
     }
 
     fn visit_prop(&mut self, p: &Prop) {

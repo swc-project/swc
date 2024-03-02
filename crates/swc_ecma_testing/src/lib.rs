@@ -1,7 +1,7 @@
 use std::{env, fs, path::PathBuf, process::Command};
 
 use anyhow::{bail, Context, Result};
-use sha1::{Digest, Sha1};
+use sha2::{Digest, Sha256};
 use testing::CARGO_TARGET_DIR;
 use tracing::debug;
 
@@ -89,7 +89,7 @@ pub fn exec_node_js(js_code: &str, opts: JsExecOptions) -> Result<String> {
 }
 
 fn calc_hash(s: &str) -> String {
-    let mut hasher = Sha1::default();
+    let mut hasher = Sha256::default();
     hasher.update(s.as_bytes());
     let sum = hasher.finalize();
 

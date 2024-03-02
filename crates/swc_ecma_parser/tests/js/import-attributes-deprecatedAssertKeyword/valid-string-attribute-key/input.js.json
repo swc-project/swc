@@ -57,7 +57,8 @@
             }
           }
         ]
-      }
+      },
+      "phase": "evaluation"
     }
   ],
   "interpreter": null

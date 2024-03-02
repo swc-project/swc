@@ -1,7 +1,12 @@
-use std::{cell::RefCell, char::REPLACEMENT_CHARACTER, rc::Rc};
+use std::{borrow::Cow, cell::RefCell, char::REPLACEMENT_CHARACTER, rc::Rc};
 
-use swc_atoms::{js_word, Atom, JsWord};
-use swc_common::{input::Input, BytePos, Span};
+use swc_atoms::{Atom, AtomStoreCell, JsWord};
+use swc_common::{
+    comments::{Comment, CommentKind, Comments},
+    input::Input,
+    util::take::Take,
+    BytePos, Span,
+};
 use swc_css_ast::{
     matches_eq_ignore_ascii_case, DimensionToken, NumberType, Token, TokenAndSpan, UrlKeyValue,
 };
@@ -13,11 +18,13 @@ use crate::{
 
 pub(crate) type LexResult<T> = Result<T, ErrorKind>;
 
-#[derive(Debug, Clone)]
-pub struct Lexer<I>
+#[derive(Clone)]
+pub struct Lexer<'a, I>
 where
     I: Input,
 {
+    comments: Option<&'a dyn Comments>,
+    pending_leading_comments: Vec<Comment>,
     input: I,
     cur: Option<char>,
     cur_pos: BytePos,
@@ -29,16 +36,18 @@ where
     raw_buf: Rc<RefCell<String>>,
     sub_buf: Rc<RefCell<String>>,
     errors: Rc<RefCell<Vec<Error>>>,
+    atoms: Rc<AtomStoreCell>,
 }
 
-impl<I> Lexer<I>
+impl<'a, I> Lexer<'a, I>
 where
     I: Input,
 {
-    pub fn new(input: I, config: ParserConfig) -> Self {
+    pub fn new(input: I, comments: Option<&'a dyn Comments>, config: ParserConfig) -> Self {
         let start_pos = input.last_pos();
 
         Lexer {
+            comments,
             input,
             cur: None,
             cur_pos: start_pos,
@@ -49,6 +58,8 @@ where
             raw_buf: Rc::new(RefCell::new(String::with_capacity(256))),
             sub_buf: Rc::new(RefCell::new(String::with_capacity(32))),
             errors: Default::default(),
+            pending_leading_comments: Default::default(),
+            atoms: Default::default(),
         }
     }
 
@@ -92,7 +103,7 @@ where
     }
 }
 
-impl<I: Input> Iterator for Lexer<I> {
+impl<I: Input> Iterator for Lexer<'_, I> {
     type Item = TokenAndSpan;
 
     fn next(&mut self) -> Option<Self::Item> {
@@ -122,7 +133,7 @@ pub struct LexerState {
     pos: BytePos,
 }
 
-impl<I> ParserInput for Lexer<I>
+impl<I> ParserInput for Lexer<'_, I>
 where
     I: Input,
 {
@@ -168,9 +179,13 @@ where
 
         Some(self.input.last_pos())
     }
+
+    fn atom(&self, s: Cow<str>) -> JsWord {
+        self.atoms.atom(s)
+    }
 }
 
-impl<I> Lexer<I>
+impl<I> Lexer<'_, I>
 where
     I: Input,
 {
@@ -232,6 +247,12 @@ where
         self.read_comments();
         self.start_pos = self.input.last_pos();
 
+        if let Some(comments) = self.comments {
+            if !self.pending_leading_comments.is_empty() {
+                comments.add_leading_comments(self.start_pos, self.pending_leading_comments.take());
+            }
+        }
+
         // Consume the next input code point.
         match self.consume() {
             // whitespace
@@ -255,7 +276,7 @@ where
                 }
 
                 return Ok(Token::WhiteSpace {
-                    value: (&**buf).into(),
+                    value: l.atoms.atom(&**buf),
                 });
             }),
             // U+0022 QUOTATION MARK (")
@@ -470,6 +491,8 @@ where
         // EOF code point. Return to the start of this step.
         // NOTE: We allow to parse line comments under the option.
         if self.next() == Some('/') && self.next_next() == Some('*') {
+            let cmt_start = self.input.last_pos();
+
             while self.next() == Some('/') && self.next_next() == Some('*') {
                 self.consume(); // '*'
                 self.consume(); // '/'
@@ -478,6 +501,20 @@ where
                     match self.consume() {
                         Some('*') if self.next() == Some('/') => {
                             self.consume(); // '/'
+
+                            if self.comments.is_some() {
+                                let last_pos = self.input.last_pos();
+                                let text = unsafe {
+                                    // Safety: last_pos is a valid position
+                                    self.input.slice(cmt_start, last_pos)
+                                };
+
+                                self.pending_leading_comments.push(Comment {
+                                    kind: CommentKind::Block,
+                                    span: (self.start_pos, last_pos).into(),
+                                    text: self.atoms.atom(text),
+                                });
+                            }
 
                             break;
                         }
@@ -506,9 +543,24 @@ where
                 self.consume(); // '/'
                 self.consume(); // '/'
 
+                let start_of_content = self.input.last_pos();
+
                 loop {
                     match self.consume() {
                         Some(c) if is_newline(c) => {
+                            if self.comments.is_some() {
+                                let last_pos = self.input.last_pos();
+                                let text = unsafe {
+                                    // Safety: last_pos is a valid position
+                                    self.input.slice(start_of_content, last_pos)
+                                };
+
+                                self.pending_leading_comments.push(Comment {
+                                    kind: CommentKind::Line,
+                                    span: (self.start_pos, last_pos).into(),
+                                    text: self.atoms.atom(text),
+                                });
+                            }
                             break;
                         }
                         None => return,
@@ -578,9 +630,7 @@ where
 
         // If string’s value is an ASCII case-insensitive match for "url", and the next
         // input code point is U+0028 LEFT PARENTHESIS ((), consume it.
-        if matches_eq_ignore_ascii_case!(ident_sequence.0, js_word!("url"))
-            && self.next() == Some('(')
-        {
+        if matches_eq_ignore_ascii_case!(ident_sequence.0, "url") && self.next() == Some('(') {
             self.consume();
 
             let start_whitespace = self.input.last_pos();
@@ -598,7 +648,7 @@ where
                     }
                 }
 
-                Ok((&**buf).into())
+                Ok(buf.to_string())
             })?;
 
             match self.next() {
@@ -681,8 +731,8 @@ where
                         l.emit_error(ErrorKind::UnterminatedString);
 
                         return Ok(Token::String {
-                            value: (&**buf).into(),
-                            raw: (&**raw).into(),
+                            value: l.atoms.atom(&**buf),
+                            raw: l.atoms.atom(&**raw),
                         });
                     }
 
@@ -694,7 +744,7 @@ where
                         l.reconsume();
 
                         return Ok(Token::BadString {
-                            raw: (&**raw).into(),
+                            raw: l.atoms.atom(&**raw),
                         });
                     }
 
@@ -735,8 +785,8 @@ where
             }
 
             Ok(Token::String {
-                value: (&**buf).into(),
-                raw: (&**raw).into(),
+                value: l.atoms.atom(&**buf),
+                raw: l.atoms.atom(&**raw),
             })
         })
     }
@@ -766,8 +816,8 @@ where
                     // Return the <url-token>.
                     Some(')') => {
                         return Ok(Token::Url {
-                            value: (&**out).into(),
-                            raw: Box::new(UrlKeyValue(name.1, (&**raw).into())),
+                            value: l.atoms.atom(&**out),
+                            raw: Box::new(UrlKeyValue(name.1, l.atoms.atom(&**raw))),
                         });
                     }
 
@@ -777,8 +827,8 @@ where
                         l.emit_error(ErrorKind::UnterminatedUrl);
 
                         return Ok(Token::Url {
-                            value: (&**out).into(),
-                            raw: Box::new(UrlKeyValue(name.1, (&**raw).into())),
+                            value: l.atoms.atom(&**out),
+                            raw: Box::new(UrlKeyValue(name.1, l.atoms.atom(&**raw))),
                         });
                     }
 
@@ -798,7 +848,7 @@ where
                                 }
                             }
 
-                            Ok((&**buf).into())
+                            Ok(buf.to_string())
                         })?;
 
                         // if the next input code point is U+0029 RIGHT PARENTHESIS ()) or EOF,
@@ -811,8 +861,8 @@ where
                                 raw.push_str(&whitespaces);
 
                                 return Ok(Token::Url {
-                                    value: (&**out).into(),
-                                    raw: Box::new(UrlKeyValue(name.1, (&**raw).into())),
+                                    value: l.atoms.atom(&**out),
+                                    raw: Box::new(UrlKeyValue(name.1, l.atoms.atom(&**raw))),
                                 });
                             }
                             None => {
@@ -821,8 +871,8 @@ where
                                 raw.push_str(&whitespaces);
 
                                 return Ok(Token::Url {
-                                    value: (&**out).into(),
-                                    raw: Box::new(UrlKeyValue(name.1, (&**raw).into())),
+                                    value: l.atoms.atom(&**out),
+                                    raw: Box::new(UrlKeyValue(name.1, l.atoms.atom(&**raw))),
                                 });
                             }
                             _ => {}
@@ -1147,7 +1197,7 @@ where
                 }
             }
 
-            Ok(((&**buf).into(), (&**raw).into()))
+            Ok((l.atoms.atom(&**buf), l.atoms.atom(&**raw)))
         })
     }
 
@@ -1253,7 +1303,7 @@ where
             }
 
             // Return value and type.
-            Ok(((&**out).into(), type_flag))
+            Ok((l.atoms.atom(&**out), type_flag))
         })?;
 
         // Convert repr to a number, and set the value to the returned value.

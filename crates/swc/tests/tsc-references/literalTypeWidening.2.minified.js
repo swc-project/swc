@@ -1,8 +1,6 @@
 //// [literalTypeWidening.ts]
-// Widening vs. non-widening literal types
 import "@swc/helpers/_/_object_spread";
 import "@swc/helpers/_/_object_without_properties";
-// Repro from #23649
 export function Set() {
     for(var _len = arguments.length, _$keys = Array(_len), _key = 0; _key < _len; _key++)_$keys[_key] = arguments[_key];
     var result = {};

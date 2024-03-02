@@ -22,7 +22,6 @@ import { A } from "./a";
 console.log(A, void 0);
 //// [/e.ts]
 export { };
- // noUnusedLocals error only
 //// [/f.ts]
 import { C } from "./a";
 C.One, console.log(C.Two, C.Two);
@@ -43,7 +42,6 @@ console.log({});
 export { };
 //// [/j.ts]
 export { };
- // noUnusedLocals error only
 //// [/k.ts]
 //! 
 //!   x Export assignment cannot be used when targeting ECMAScript modules. Consider using `export default` or another module format instead.
@@ -63,4 +61,3 @@ export { };
 //!  3 | 
 //!    `----
 //// [/j.ts]
-// Sad face https://github.com/microsoft/TypeScript/blob/6b04f5039429b9d412696fe2febe39ecc69ad365/src/testRunner/compilerRunner.ts#L207

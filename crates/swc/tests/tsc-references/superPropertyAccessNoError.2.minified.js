@@ -1,10 +1,4 @@
 //// [superPropertyAccessNoError.ts]
-//super.publicInstanceMemberFunction in constructor of derived class
-//super.publicInstanceMemberFunction in instance member function of derived class
-//super.publicInstanceMemberFunction in instance member accessor(get and set) of derived class
-//super.publicInstanceMemberFunction in lambda in member function
-//super.publicStaticMemberFunction in static member function of derived class
-//super.publicStaticMemberFunction in static member accessor(get and set) of derived class
 import { _ as _assert_this_initialized } from "@swc/helpers/_/_assert_this_initialized";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _create_class } from "@swc/helpers/_/_create_class";

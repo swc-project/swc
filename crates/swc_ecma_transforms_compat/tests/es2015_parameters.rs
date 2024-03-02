@@ -32,14 +32,7 @@ test!(
     syntax(),
     |_| tr(Default::default()),
     issue_254,
-    "export const someFunction = (update = false, action = {}) => {}",
-    "
-export var someFunction = function () {
-    var update = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : false, action = \
-     arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {
-    };
-};
-"
+    "export const someFunction = (update = false, action = {}) => {}"
 );
 
 test!(
@@ -48,15 +41,7 @@ test!(
     issue_227,
     "export default function fn1(...args) {
   fn2(...args);
-}",
-    "
-export default function fn1() {
-    for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++){
-        args[_key] = arguments[_key];
-    }
-    fn2(...args);
-}
-"
+}"
 );
 
 test!(
@@ -69,16 +54,7 @@ class Foo {
 		return {a};
 	}
 }
-"#,
-    r#"
-class Foo{
-     func(a) {
-        var b = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : Date.now();
-        return {
-            a
-        };
-    }
-}"#
+"#
 );
 
 test!(
@@ -88,13 +64,6 @@ test!(
     r#"const a = 'bar';
 function foo(...a) {
   return a;
-}"#,
-    r#"var a = 'bar';
-function foo() {
-    for(var _len = arguments.length, a = new Array(_len), _key = 0; _key < _len; _key++){
-        a[_key] = arguments[_key];
-    }
-    return a;
 }"#
 );
 
@@ -102,10 +71,7 @@ test!(
     syntax(),
     |_| tr(Default::default()),
     default_before_last,
-    r#"function foo({x,y} = "foo", b) {}"#,
-    r#"function foo() {
-      var _ref = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : "foo", x = _ref.x, y = _ref.y, b = arguments.length > 1 ? arguments[1] : void 0;
-}"#
+    r#"function foo({x,y} = "foo", b) {}"#
 );
 
 test_exec!(
@@ -152,19 +118,6 @@ function outer(a = () => eval("x")) {
   let x = "inside";
   return a();
 }
-outer();"#,
-    r#"var x = "outside";
-
-function outer() {
-  var a = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : function () {
-    return eval("x");
-  };
-  return function () {
-    var x = "inside";
-    return a();
-  }();
-}
-
 outer();"#
 );
 
@@ -195,14 +148,7 @@ test!(
     this.id = id
   }
 }
-Ref.nextID = 0"#,
-    r#"var Ref = function Ref() {
-        "use strict";
-        var id = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : ++Ref.nextID;
-        _class_call_check(this, Ref);
-        this.id = id;
-    };
-Ref.nextID = 0;"#
+Ref.nextID = 0"#
 );
 
 test_exec!(
@@ -239,20 +185,7 @@ class X {
   constructor(x = foo) {
     this.x = x
   }
-}"#,
-    r#"var Ref = function Ref() {
-      "use strict";
-      var ref = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : Ref;
-      _class_call_check(this, Ref);
-      this.ref = ref;
-  }
-var X = function X() {
-      "use strict";
-      var x = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : foo;
-      _class_call_check(this, X);
-        this.x = x;
-    };
-"#
+}"#
 );
 
 test_exec!(
@@ -278,17 +211,7 @@ test!(
 
 var a = function (e, f = 5) {
   return e + " bar " + f;
-};"#,
-    "var t = function() {
-    var e = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : \"foo\", f = \
-     arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : 5;
-    return e + \" bar \" + f;
-};
-var a = function(e) {
-    var f = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : 5;
-    return e + \" bar \" + f;
-};
-"
+};"#
 );
 
 test!(
@@ -300,14 +223,7 @@ test!(
   a2 = 4,
   {a3, a4},
   a5,
-  {a6, a7} = {}) {}"#,
-    "function fn(a1) {
-    var a2 = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : 4, _ref = \
-     arguments.length > 2 ? arguments[2] : void 0, a3 = _ref.a3, a4 = _ref.a4, a5 = \
-     arguments.length > 3 ? arguments[3] : void 0, _ref1 = arguments.length > 4 && arguments[4] \
-     !== void 0 ? arguments[4] : {}, a6 = _ref1.a6, a7 = _ref1.a7;
-}
-"
+  {a6, a7} = {}) {}"#
 );
 
 test!(
@@ -318,16 +234,7 @@ test!(
 function rest(b = a, ...a) {
   expect(b).toBe(1);
 }
-rest(undefined, 2)"#,
-    r#"var a = 1;
-function rest() {
-    var b = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : a;
-    for(var _len = arguments.length, a1 = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){
-        a1[_key - 1] = arguments[_key];
-    }
-    expect(b).toBe(1);
-}
-rest(undefined, 2);"#
+rest(undefined, 2)"#
 );
 
 test!(
@@ -337,15 +244,6 @@ test!(
     r#"const a = 1;
   function rest2(b = a, ...a) {
   expect(a[0]).toBe(2);
-}
-rest2(undefined, 2);"#,
-    r#"var a = 1;
-function rest2() {
-    var b = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : a;
-    for(var _len = arguments.length, a1 = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){
-        a1[_key - 1] = arguments[_key];
-    }
-    expect(a1[0]).toBe(2);
 }
 rest2(undefined, 2);"#
 );
@@ -358,16 +256,7 @@ test!(
     function rest3(b = a, ...a) {
   expect(a).toHaveLength(1);
 }
-rest3(undefined, 2)"#,
-    r#"var a = 1;
-function rest3() {
-    var b = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : a;
-    for(var _len = arguments.length, a1 = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){
-        a1[_key - 1] = arguments[_key];
-    }
-    expect(a1).toHaveLength(1);
-}
-rest3(undefined, 2);"#
+rest3(undefined, 2)"#
 );
 
 test_exec!(
@@ -399,14 +288,7 @@ test!(
   set field(num = 1) {
     this.num = num;
   }
-};"#,
-    "var obj = {
-    set field (num){
-        if (num === void 0) num = 1;
-        this.num = num;
-    }
-};
-"
+};"#
 );
 
 test!(
@@ -420,24 +302,7 @@ set obj({ a, b } = {}) {
 set arr([x, y] = []) {
   this.num = { x, y }
 }
-};"#,
-    "var obj = {
-      set obj (param){
-        var _ref = param === void 0 ? {} : param, a = _ref.a, b = _ref.b;
-        this.num = {
-            a,
-            b
-        };
-    },
-    set arr (param){
-        var _ref1 = _sliced_to_array(param === void 0 ? [] : param, 2), x = _ref1[0], y = _ref1[1];
-        this.num = {
-            x,
-            y
-        };
-      }
-};
-"
+};"#
 );
 
 test_exec!(
@@ -461,10 +326,6 @@ test!(
     default_single,
     r#"var t = function (f = "foo") {
   return f + " bar";
-};"#,
-    r#"var t = function() {
-    var f = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : "foo";
-    return f + " bar";
 };"#
 );
 
@@ -475,16 +336,7 @@ test!(
     r#"// #3861
 function t(x = "default", { a, b }, ...args) {
   console.log(x, a, b, args);
-}"#,
-    r#"// #3861
-function t() {
-    var x = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : "default", _ref = arguments.length > 1 ? arguments[1] : void 0, a = _ref.a, b = _ref.b;
-    for(var _len = arguments.length, args = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++){
-        args[_key - 2] = arguments[_key];
-    }
-    console.log(x, a, b, args);
-}
-"#
+}"#
 );
 
 test!(
@@ -494,15 +346,7 @@ test!(
     r#"const args = 'bar';
 function foo(...args) {
   return args;
-}"#,
-    r#"var args = 'bar';
-function foo() {
-    for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++){
-        args[_key] = arguments[_key];
-    }
-    return args;
-}
-"#
+}"#
 );
 
 test!(
@@ -512,13 +356,6 @@ test!(
     r#"function first(...values) {
   var index = 0;
   return values[index++];
-}"#,
-    r#"function first() {
-    for(var _len = arguments.length, values = new Array(_len), _key = 0; _key < _len; _key++){
-        values[_key] = arguments[_key];
-    }
-    var index = 0;
-    return values[index++];
 }"#
 );
 
@@ -533,19 +370,7 @@ test!(
     return nodes[0];
   }
   return ((new OneOfNode(nodes)): any)
-}"#,
-    r#"
-let oneOf = function () {
-  for (var _len = arguments.length, nodes = new Array(_len), _key = 0; _key < _len; _key++) {
-    nodes[_key] = arguments[_key];
-  }
-
-  if (nodes.length === 1) {
-    return nodes[0];
-  }
-
-  return new OneOfNode(nodes);
-};"#
+}"#
 );
 
 test!(
@@ -561,21 +386,6 @@ test!(
 
 function f(a, ...rest) {
   return rest[-1];
-}"#,
-    r#"function f(a) {
-    for(var _len = arguments.length, rest = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){
-        rest[_key - 1] = arguments[_key];
-    }
-    var b = rest[rest.length - 3];
-    var c = rest[rest.length - 2];
-    var d = rest[rest.length - 1];
-    return [a, b, c, d];
-}
-function f(a) {
-    for(var _len = arguments.length, rest = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){
-        rest[_key - 1] = arguments[_key];
-    }
-    return rest[-1];
 }"#
 );
 
@@ -602,14 +412,6 @@ test!(
     |_| tr(Default::default()),
     rest_args_deoptimiazation,
     r#"function x (...rest) {
-  arguments;
-}"#,
-    r#"
-function x() {
-  for (var _len = arguments.length, rest = new Array(_len), _key = 0; _key < _len; _key++) {
-    rest[_key] = arguments[_key];
-  }
-
   arguments;
 }"#
 );
@@ -655,66 +457,7 @@ var innerclassproperties = (...args) => (
     static args = args;
     args = args;
   }
-);"#,
-    r#"var concat = function () {
-  var x = arguments.length <= 0 ? undefined : arguments[0];
-  var y = arguments.length <= 1 ? undefined : arguments[1];
-};
-
-var somefun = function () {
-  var get2ndArg = function (a, b) {
-    var _b = arguments.length <= 2 ? undefined : arguments[2];
-
-    var somef = function (x, y, z) {
-      var _a = arguments.length <= 3 ? undefined : arguments[3];
-    };
-
-    var somefg = function (c, d, e, f) {
-      var _a = arguments.length <= 4 ? undefined : arguments[4];
-    };
-
-    var _d = arguments.length <= 3 ? undefined : arguments[3];
-  };
-
-  var get3rdArg = function () {
-    return arguments.length <= 2 ? undefined : arguments[2];
-  };
-};
-
-function demo1() {
-  for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-    args[_key] = arguments[_key];
-  }
-
-  return function (i) {
-    return args[i + 0];
-  };
-}
-
-var x = function () {
-  if (noNeedToWork) return 0;
-
-  for (var _len2 = arguments.length, rest = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-    rest[_key2] = arguments[_key2];
-  }
-
-  return rest;
-};
-
-var innerclassproperties = function () {
-  var _class, _temp;
-
-  for (var _len3 = arguments.length, args = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
-    args[_key3] = arguments[_key3];
-  }
-
-  return _temp = _class = function _class() {
-    "use strict";
-
-    _class_call_check(this, _class);
-    this.args = args;
-  }, _class.args = args, _temp;
-};"#
+);"#
 );
 
 test!(
@@ -730,37 +473,7 @@ test!(
 var x = async (...rest) => {
   if (noNeedToWork) return 0;
   return rest;
-};"#,
-    r#"var concat =
-/*#__PURE__*/
-function () {
-  var _ref = _async_to_generator(function* () {
-    var x = arguments.length <= 0 ? undefined : arguments[0];
-    var y = arguments.length <= 1 ? undefined : arguments[1];
-  });
-
-  return function concat() {
-    return _ref.apply(this, arguments);
-  };
-}();
-
-var x =
-/*#__PURE__*/
-function () {
-  var _ref2 = _async_to_generator(function* () {
-    if (noNeedToWork) return 0;
-
-    for (var _len = arguments.length, rest = new Array(_len), _key = 0; _key < _len; _key++) {
-      rest[_key] = arguments[_key];
-    }
-
-    return rest;
-  });
-
-  return function x() {
-    return _ref2.apply(this, arguments);
-  };
-}();"#
+};"#
 );
 
 test!(
@@ -779,14 +492,7 @@ test!(
     },
     rest_binding_deoptimisation,
     r#"const deepAssign = (...args) => args = [];
-"#,
-    r#"var deepAssign = function () {
-  for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-    args[_key] = arguments[_key];
-  }
-
-  return args = [];
-};"#
+"#
 );
 
 test!(
@@ -844,7 +550,7 @@ function a(...args) {
   return function() {
     function b() {}
 
-    console.log("Shouldn't args be from a's scope?", args);
+    console.log("Shouldn't args be from a's scope?" args);
   };
 }
 
@@ -868,122 +574,6 @@ function r(...rest){
   if (noNeedToWork) return 0;
   [rest[0]] = x;
   return rest;
-}"#,
-    r#"// single reference
-function r() {
-  if (noNeedToWork) return 0;
-
-  for (var _len = arguments.length, rest = new Array(_len), _key = 0; _key < _len; _key++) {
-    rest[_key] = arguments[_key];
-  }
-
-  return rest;
-} // multiple references
-
-
-function r() {
-  if (noNeedToWork) return 0;
-
-  for (var _len2 = arguments.length, rest = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-    rest[_key2] = arguments[_key2];
-  }
-
-  rest;
-  rest;
-} // multiple nested references
-
-
-function r() {
-  if (noNeedToWork) return 0;
-
-  for (var _len3 = arguments.length, rest = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
-    rest[_key3] = arguments[_key3];
-  }
-
-  if (true) {
-    return rest;
-  } else {
-    return rest;
-  }
-} // deeply nested
-
-
-function r() {
-  if (true) {
-    for (var _len4 = arguments.length, rest = new Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
-      rest[_key4] = arguments[_key4];
-    }
-
-    if (true) {
-      return rest;
-    } else {
-      return rest;
-    }
-  }
-} // nested reference with root reference
-
-
-function r() {
-  if (noNeedToWork) return 0;
-
-  for (var _len5 = arguments.length, rest = new Array(_len5), _key5 = 0; _key5 < _len5; _key5++) {
-    rest[_key5] = arguments[_key5];
-  }
-
-  if (lol) rest;
-  rest;
-} // nested functions
-
-
-function a() {
-  for (var _len6 = arguments.length, args = new Array(_len6), _key6 = 0; _key6 < _len6; _key6++) {
-    args[_key6] = arguments[_key6];
-  }
-
-  return function () {
-    function b() {}
-
-    console.log("Shouldn't args be from a's scope?", args);
-  };
-} // loop
-
-
-function runQueue(queue) {
-  for (var _len7 = arguments.length, args = new Array(_len7 > 1 ? _len7 - 1 : 0), _key7 = 1; _key7 < _len7; _key7++) {
-    args[_key7 - 1] = arguments[_key7];
-  }
-
-  for (var i = 0; i < queue.length; i++) {
-    queue[i].apply(queue, args);
-  }
-} // nested loop
-
-
-function runQueue(queue) {
-  if (foo) {
-    for (var _len8 = arguments.length, args = new Array(_len8 > 1 ? _len8 - 1 : 0), _key8 = 1; _key8 < _len8; _key8++) {
-      args[_key8 - 1] = arguments[_key8];
-    }
-
-    for (var i = 0; i < queue.length; i++) {
-      queue[i].apply(queue, args);
-    }
-  }
-}
-
-function r() {
-  if (noNeedToWork) return 0;
-
-  for (var _len9 = arguments.length, rest = new Array(_len9), _key9 = 0; _key9 < _len9; _key9++) {
-    rest[_key9] = arguments[_key9];
-  }
-
-  var _x = x;
-
-  var _x2 = _sliced_to_array(_x, 1);
-
-  rest[0] = _x2[0];
-  return rest;
 }"#
 );
 
@@ -1000,21 +590,6 @@ function t(f, ...items) {
   items;
   items[0];
   items[items.length - 1];
-}"#,
-    r#"var t = function(f) {
-    for(var _len = arguments.length, items = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){
-        items[_key - 1] = arguments[_key];
-    }
-    items[0];
-    items[items.length - 1];
-};
-function t(f) {
-    for(var _len = arguments.length, items = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){
-        items[_key - 1] = arguments[_key];
-    }
-    items;
-    items[0];
-    items[items.length - 1];
 }"#
 );
 
@@ -1061,32 +636,6 @@ function t(...items) {
   for (let i = 0; i < items.length; i++) {
     return items[i];
   }
-}"#,
-    r#"var t = function () {
-  var x = arguments.length <= 0 ? undefined : arguments[0];
-  var y = arguments.length <= 1 ? undefined : arguments[1];
-};
-
-function t() {
-  var x = arguments.length <= 0 ? undefined : arguments[0];
-  var y = arguments.length <= 1 ? undefined : arguments[1];
-}
-
-function t() {
-  var a = [];
-
-  for (var i = 0; i < arguments.length; i++) {
-    a.push(i);
-  }
-
-  return a;
-} // https://github.com/babel/babel/pull/2833#issuecomment-166039291
-
-
-function t() {
-  for (var i = 0; i < arguments.length; i++) {
-    return i < 0 || arguments.length <= i ? undefined : arguments[i];
-  }
 }"#
 );
 
@@ -1119,32 +668,6 @@ function t(...items) {
   for (let i = 0; i < items.length; i++) {
     return items[i];
   }
-}"#,
-    r#"var t = function () {
-  var x = arguments.length <= 0 ? undefined : arguments[0];
-  var y = arguments.length <= 1 ? undefined : arguments[1];
-};
-
-function t() {
-  var x = arguments.length <= 0 ? undefined : arguments[0];
-  var y = arguments.length <= 1 ? undefined : arguments[1];
-}
-
-function t() {
-  var a = [];
-
-  for (var i = 0; i < arguments.length; i++) {
-    a.push(i);
-  }
-
-  return a;
-} // https://github.com/babel/babel/pull/2833#issuecomment-166039291
-
-
-function t() {
-  for (var i = 0; i < arguments.length; i++) {
-    return i < 0 || arguments.length <= i ? undefined : arguments[i];
-  }
 }"#
 );
 
@@ -1165,32 +688,6 @@ function t(f, ...items) {
 }
 
 function u(f, g, ...items) {
-    var x = f;
-    var y = g;
-    x[12] = items[0];
-    y.prop = items[1];
-    var z = items[2] | 0 || 12;
-}"#,
-    r#"var t = function(f) {
-    for(var _len = arguments.length, items = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){
-        items[_key - 1] = arguments[_key];
-    }
-    var x = f;
-    x = items[0];
-    x = items[1];
-};
-function t(f) {
-    for(var _len = arguments.length, items = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++){
-        items[_key - 1] = arguments[_key];
-    }
-    var x = f;
-    x = items[0];
-    x = items[1];
-}
-function u(f, g) {
-    for(var _len = arguments.length, items = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++){
-        items[_key - 2] = arguments[_key];
-    }
     var x = f;
     var y = g;
     x[12] = items[0];
@@ -1226,40 +723,6 @@ function d(thing, ...args) {
     let args = thing;
     foo(thing);
   }
-}"#,
-    r#"function a() {
-  var foo = function () {
-    return bar.apply(void 0, arguments);
-  };
-
-  foo.apply(void 0, arguments);
-}
-
-function b() {
-  var foo = function () {
-    return bar.apply(void 0, arguments);
-  };
-
-  foo.apply(void 0, arguments);
-}
-
-function c() {
-  var foo = function () {
-    return bar.apply(void 0, arguments);
-  };
-
-  foo([]);
-}
-
-function d(thing) {
-  var foo = function () {
-    return bar.apply(void 0, arguments);
-  };
-
-  {
-    var args = thing;
-    foo(thing);
-  }
 }"#
 );
 
@@ -1276,25 +739,6 @@ test!(
     class Foo extends Bar { }
     return hello(...foo)
   }
-}"#,
-    r#"function broken(x) {
-    for(var _len = arguments.length, foo = new Array(_len > 1 ? _len - 1 : 0),
-        _key = 1; _key < _len; _key++){
-        foo[_key - 1] = arguments[_key];
-    }
-    if (true) {
-        let Foo = function(Bar1) {
-            "use strict";
-            _inherits(Foo, Bar1);
-            var _super = _create_super(Foo);
-            function Foo() {
-                _class_call_check(this, Foo);
-                return _super.apply(this, arguments);
-            }
-            return Foo;
-        }(Bar);
-        return hello.apply(void 0, _to_consumable_array(foo));
-    }
 }"#
 );
 
@@ -1302,13 +746,7 @@ test!(
     syntax(),
     |_| tr(Default::default()),
     rest_patterns,
-    r#"function foo(...[a]) {}"#,
-    r#"function foo() {
-    for(var _len = arguments.length, _tmp = new Array(_len), _key = 0; _key < _len; _key++){
-        _tmp[_key] = arguments[_key];
-    }
-    var _tmp1 = _sliced_to_array(_tmp, 1), a = _tmp1[0];
-}"#
+    r#"function foo(...[a]) {}"#
 );
 
 test_exec!(
@@ -1348,37 +786,6 @@ function foo(...b) {
 function foo(...args){
   args.pop()
   foo(...args);
-}"#,
-    r#"// optimisation
-function foo() {
-  foo.apply(void 0, arguments);
-} // deoptimisation
-
-
-function foo(a) {
-  for (var _len = arguments.length, b = new Array(_len > 1 ? _len - 1 : 0),
-   _key = 1; _key < _len; _key++) {
-    b[_key - 1] = arguments[_key];
-  }
-
-  foo.apply(void 0, b);
-}
-
-function foo() {
-  for (var _len2 = arguments.length, b = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-    b[_key2] = arguments[_key2];
-  }
-
-  foo.apply(void 0, [1].concat(b));
-}
-
-function foo() {
-  for (var _len3 = arguments.length, args = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
-    args[_key3] = arguments[_key3];
-  }
-
-  args.pop();
-  foo.apply(void 0, args);
 }"#
 );
 
@@ -1402,11 +809,11 @@ function foo() {
 //  }
 //}
 //
-//"#,
+//"#
 //    r#"
 //"use strict";
 //
-//Object.defineProperty(exports, "__esModule", {
+//Object.defineProperty(exports, "__esModule" {
 //  value: true
 //});
 //exports["default"] = void 0;
@@ -1483,13 +890,13 @@ function foo() {
 //    _this = _possible_constructor_return(this, (_get_prototype_of2 =
 // _get_prototype_of(App)).call.apply(_get_prototype_of2, [this].concat(args)));
 //
-//    _define_property(_assert_this_initialized(_this), "exportType", '');
+//    _define_property(_assert_this_initialized(_this), "exportType" '');
 //
 //    return _this;
 //  }
 //
 //  _create_class(App, [{
-//    key: "componentDidMount",
+//    key: "componentDidMount"
 //    value: function componentDidMount() {
 //      this.exportType = _args["default"].get('type', window.location.href);
 //    }
@@ -1519,11 +926,11 @@ function foo() {
 //    console.log(this)
 //  }
 //}
-//"#,
+//"#
 //    r#"
 //"use strict";
 //
-//Object.defineProperty(exports, "__esModule", {
+//Object.defineProperty(exports, "__esModule" {
 //  value: true
 //});
 //exports.Test = void 0;
@@ -1550,7 +957,7 @@ function foo() {
 //  }
 //
 //  _create_class(Test, [{
-//    key: "invite",
+//    key: "invite"
 //    value: function invite() {
 //      var options = arguments.length > 0 && arguments[0] !== undefined ?
 // arguments[0] : {};      var privacy = options.privacy || "Private";
@@ -1587,18 +994,6 @@ var concat = async (...arrs) => {
   var x = arrs[0];
   var y = arrs[1];
 };
-"#,
-    r#"
-var concat = function () {
-  var _ref = _async_to_generator(function* () {
-    var x = arguments.length <= 0 ? undefined : arguments[0];
-    var y = arguments.length <= 1 ? undefined : arguments[1];
-  });
-
-  return function concat() {
-    return _ref.apply(this, arguments);
-  };
-}();
 "#
 );
 
@@ -1624,24 +1019,6 @@ var x = async (...rest) => {
   return rest;
 };
 
-"#,
-    r#"
-var x = function () {
-  var _ref = _async_to_generator(function* () {
-    if (noNeedToWork) return 0;
-
-    for (var _len = arguments.length, rest = new Array(_len), _key = 0; _key < _len; _key++) {
-      rest[_key] = arguments[_key];
-    }
-
-    return rest;
-  });
-
-  return function x() {
-    return _ref.apply(this, arguments);
-  };
-}();
-
 "#
 );
 
@@ -1663,18 +1040,6 @@ function foo(...a) {
   return a;
 }
 
-
-"#,
-    r#"
-const a = 'bar';
-
-function foo() {
-  for (var _len = arguments.length, a = new Array(_len), _key = 0; _key < _len; _key++) {
-    a[_key] = arguments[_key];
-  }
-
-  return a;
-}
 
 "#
 );
@@ -1698,18 +1063,6 @@ function foo(...args) {
   return args;
 }
 
-"#,
-    r#"
-var args = 'bar';
-
-function foo() {
-  for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-    args[_key] = arguments[_key];
-  }
-
-  return args;
-}
-
 "#
 );
 
@@ -1727,12 +1080,7 @@ test!(
     issue_760,
     "const initialState = 'foo'
 export default function reducer(state = initialState, action = {}) {
-}",
-    "const initialState = 'foo';
-  export default function reducer() {
-      let state = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : initialState, \
-     action = arguments.length > 1 && arguments[1] !== void 0 ? arguments[1] : {};
-  }"
+}"
 );
 
 test!(
@@ -1750,14 +1098,6 @@ test!(
     const arrow = (...args) => {
       console.log(args);
     }
-    ",
-    "
-    const arrow = function() {
-        for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++){
-            args[_key] = arguments[_key];
-        }
-        console.log(args);
-    };
     "
 );
 
@@ -1776,14 +1116,6 @@ test!(
     const arrow = () => (...args) => {
       console.log(args);
     }
-    ",
-    "
-    const arrow = ()=>function() {
-        for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++){
-            args[_key] = arguments[_key];
-        }
-        console.log(args);
-    };
     "
 );
 
@@ -1802,18 +1134,6 @@ test!(
     const arrow = () => (...args) => {
       console.log(this, args);
     }
-    ",
-    "
-    const arrow = ()=>{
-        var _this = this;
-        return function() {
-            for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; \
-     _key++){
-                args[_key] = arguments[_key];
-            }
-            console.log(_this, args);
-        };
-    };
     "
 );
 
@@ -1832,17 +1152,6 @@ test!(
     const arrow = () => (this, (...args) => {
       console.log(this, args);
     })
-    ",
-    "
-    const arrow = ()=>{
-      var _this = this;
-      return this, function() {
-          for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++){
-              args[_key] = arguments[_key];
-          }
-          console.log(_this, args);
-      };
-    };
     "
 );
 
@@ -1861,24 +1170,6 @@ test!(
     const arrow = (...args) => (this, () => (...args) => {
       console.log(this, args);
     })
-    ",
-    "
-    var _this = this;
-    const arrow = function() {
-        for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++){
-            args[_key] = arguments[_key];
-        }
-        return _this, ()=>{
-            var _this1 = _this;
-            return function() {
-                for(var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; \
-     _key++){
-                    args[_key] = arguments[_key];
-                }
-                console.log(_this1, args);
-            };
-        };
-    };
     "
 );
 
@@ -1889,19 +1180,6 @@ test!(
     "
 const foo = (...rest) => console.log(this, rest)
 const bar = () => this
-  ",
-    "
-var _this = this;
-
-var foo = function () {
-  for (var _len = arguments.length, rest = new Array(_len), _key = 0; _key < _len; _key++) {
-    rest[_key] = arguments[_key];
-  }
-
-  return console.log(_this, rest);
-};
-
-var bar = () => this;
   "
 );
 
@@ -1922,29 +1200,6 @@ constructor(){
   }
 }
 }
-",
-    "
-class Foo extends function () {} {
-constructor() {
-  var _this;
-
-  var foo = function() {
-    for (var _len = arguments.length, rest = new Array(_len), _key = 0; _key < _len; _key++) {
-      rest[_key] = arguments[_key];
-    }
-
-    return [rest, _this];
-  };
-
-  if (true) {
-    console.log((super(), _this = this), foo());
-  } else {
-    super(), _this = this;
-    console.log(foo());
-  }
-}
-
-}
 "
 );
 
@@ -1964,34 +1219,6 @@ class A {
   a = 1 + ((...a) => a)
   b = (...b) => b + this
   static c = (c = 123) => c + this
-}
-  ",
-    "
-var _this = this;
-
-class A {
-  a = 1 + function () {
-    for (var _len = arguments.length, a = new Array(_len), _key = 0; _key < _len; _key++) {
-      a[_key] = arguments[_key];
-    }
-
-    return a;
-  };
-  b = (() => {
-    var _this = this;
-
-    return function () {
-      for (var _len = arguments.length, b = new Array(_len), _key = 0; _key < _len; _key++) {
-        b[_key] = arguments[_key];
-      }
-
-      return b + _this;
-    };
-  })();
-  static c = function () {
-    let c = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : 123;
-    return c + _this;
-  };
 }
   "
 );
@@ -2016,18 +1243,6 @@ export class TableView extends React.Component {
     };
   }
 }
-",
-    "
-export class TableView extends React.Component {
-  constructor(props){
-    var _this;
-    super(props), _this = this;
-    this.getSearchForm = function () {
-      let innerWidth = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : 0;
-      _this.getProps();
-    };
-  }
-}
 "
 );
 
@@ -2037,11 +1252,7 @@ test!(
         ignore_function_length: true
     }),
     fn_len_complex_assign,
-    "function test({a: b} = {}) {}",
-    "function test(param) {
-      var _ref = param === void 0 ? {} : param,
-          b = _ref.a;
-    }"
+    "function test({a: b} = {}) {}"
 );
 
 test!(
@@ -2050,13 +1261,7 @@ test!(
         ignore_function_length: true
     }),
     fn_len_default_array_destructuring,
-    "function t([,,a] = [1,2,3]) { return a }",
-    "function t(param) {
-      var _ref = _sliced_to_array(param === void 0 ? [1, 2, 3] : param, 3),
-          a = _ref[2];
-
-      return a;
-    }"
+    "function t([,,a] = [1,2,3]) { return a }"
 );
 
 test_exec!(
@@ -2144,21 +1349,7 @@ test!(
 
     var a = function (e, f = 5) {
       return e + " bar " + f;
-    };"#,
-    r#"var t = function (e, f) {
-      if (e === void 0) e = "foo";
-
-      if (f === void 0) f = 5;
-
-      return e + " bar " + f;
-    };
-
-    var a = function (e, f) {
-      if (f === void 0) f = 5;
-
-      return e + " bar " + f;
-    };
-"#
+    };"#
 );
 
 test_exec!(
@@ -2202,18 +1393,7 @@ test!(
       a5,
       {a6, a7} = {}) {
 
-    }"#,
-    r#"function fn(a1, a2, param, a5, param1) {
-      if (a2 === void 0) a2 = 4;
-
-      var a3 = param.a3,
-          a4 = param.a4;
-
-      var _ref = param1 === void 0 ? {} : param1,
-          a6 = _ref.a6,
-          a7 = _ref.a7;
-    }
-"#
+    }"#
 );
 
 test_exec!(
@@ -2248,11 +1428,6 @@ test!(
     r#"
     var t = function (f = "foo") {
       return f + " bar";
-    };"#,
-    r#"var t = function (f) {
-      if (f === void 0) f = "foo";
-
-      return f + " bar";
     };"#
 );
 
@@ -2264,17 +1439,6 @@ test!(
     fn_len_destructing_rest,
     r#"
     function t(x = "default", { a, b }, ...args) {
-      console.log(x, a, b, args);
-    }"#,
-    r#"function t(x, param) {
-      if (x === void 0) x = "default";
-
-      var a = param.a, b = param.b;
-
-      for (var _len = arguments.length, args = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
-        args[_key - 2] = arguments[_key];
-      }
-
       console.log(x, a, b, args);
     }"#
 );
@@ -2301,16 +1465,7 @@ test!(
     r#"
     let v0 = (Array, Int8Array, ...Int32Array) => (NaN + Infinity) * Int32Array.length;
     console.log(v0(1, 2, 'hello', true, 7));
-  "#,
-    r#"
-    var v0 = function(Array1, Int8Array) {
-      for(var _len = arguments.length, Int32Array = new Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++){
-          Int32Array[_key - 2] = arguments[_key];
-      }
-      return (NaN + Infinity) * Int32Array.length;
-    };
-    console.log(v0(1, 2, 'hello', true, 7));
-"#
+  "#
 );
 
 #[testing::fixture("tests/parameters/**/input.js")]

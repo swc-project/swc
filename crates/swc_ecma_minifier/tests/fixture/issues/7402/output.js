@@ -11,9 +11,8 @@ export const myFunc = function() {
         return mutate(temp), out[0] = 1 / temp[0], out[1] = 1 / temp[1], out[2] = 1 / temp[2], out;
     };
 }();
-const out = [
+myFunc([
     1,
     2,
     3
-];
-myFunc(out);
+]);

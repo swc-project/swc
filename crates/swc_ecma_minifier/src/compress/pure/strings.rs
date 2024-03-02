@@ -1,6 +1,6 @@
 use std::{borrow::Cow, mem::take};
 
-use swc_atoms::{js_word, Atom, JsWord};
+use swc_atoms::{Atom, JsWord};
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ExprExt, Type, Value};
@@ -189,6 +189,23 @@ impl Pure<'_> {
     pub(super) fn convert_tpl_to_str(&mut self, e: &mut Expr) {
         match e {
             Expr::Tpl(t) if t.quasis.len() == 1 && t.exprs.is_empty() => {
+                if let Some(value) = &t.quasis[0].cooked {
+                    if value.chars().all(|c| match c {
+                        '\u{0020}'..='\u{007e}' => true,
+                        '\n' | '\r' => self.config.force_str_for_tpl,
+                        _ => false,
+                    }) {
+                        report_change!("converting a template literal to a string literal");
+
+                        *e = Expr::Lit(Lit::Str(Str {
+                            span: t.span,
+                            raw: None,
+                            value: value.clone(),
+                        }));
+                        return;
+                    }
+                }
+
                 let c = &t.quasis[0].raw;
 
                 if c.chars().all(|c| match c {
@@ -205,9 +222,15 @@ impl Pure<'_> {
                     let value = c
                         .replace("\\`", "`")
                         .replace("\\$", "$")
+                        .replace("\\b", "\u{0008}")
+                        .replace("\\f", "\u{000C}")
                         .replace("\\n", "\n")
                         .replace("\\r", "\r")
+                        .replace("\\t", "\t")
+                        .replace("\\v", "\u{000B}")
                         .replace("\\\\", "\\");
+
+                    report_change!("converting a template literal to a string literal");
 
                     *e = Expr::Lit(Lit::Str(Str {
                         span: t.span,
@@ -245,6 +268,43 @@ impl Pure<'_> {
         for i in 0..(tpl.exprs.len() + tpl.quasis.len()) {
             if i % 2 == 0 {
                 let i = i / 2;
+                let q = tpl.quasis[i].clone();
+
+                if q.cooked.is_some() {
+                    if let Some(cur_cooked) = &mut cur_cooked {
+                        cur_cooked.push_str("");
+                    }
+                } else {
+                    // If cooked is None, it means that the template literal contains invalid escape
+                    // sequences.
+                    cur_cooked = None;
+                }
+            } else {
+                let i = i / 2;
+                let e = &tpl.exprs[i];
+
+                match &**e {
+                    Expr::Lit(Lit::Str(s)) => {
+                        if cur_cooked.is_none() && s.raw.is_none() {
+                            return;
+                        }
+
+                        if let Some(cur_cooked) = &mut cur_cooked {
+                            cur_cooked.push_str("");
+                        }
+                    }
+                    _ => {
+                        cur_cooked = Some(String::new());
+                    }
+                }
+            }
+        }
+
+        cur_cooked = Some(Default::default());
+
+        for i in 0..(tpl.exprs.len() + tpl.quasis.len()) {
+            if i % 2 == 0 {
+                let i = i / 2;
                 let q = tpl.quasis[i].take();
 
                 cur_raw.push_str(&q.raw);
@@ -263,9 +323,18 @@ impl Pure<'_> {
 
                 match *e {
                     Expr::Lit(Lit::Str(s)) => {
-                        cur_raw.push_str(&convert_str_value_to_tpl_raw(&s.value));
                         if let Some(cur_cooked) = &mut cur_cooked {
                             cur_cooked.push_str(&convert_str_value_to_tpl_cooked(&s.value));
+                        }
+
+                        if let Some(raw) = &s.raw {
+                            if raw.len() >= 2 {
+                                // Exclude quotes
+                                cur_raw
+                                    .push_str(&convert_str_raw_to_tpl_raw(&raw[1..raw.len() - 1]));
+                            }
+                        } else {
+                            cur_raw.push_str(&convert_str_value_to_tpl_raw(&s.value));
                         }
                     }
                     _ => {
@@ -302,6 +371,12 @@ impl Pure<'_> {
     pub(super) fn concat_tpl(&mut self, l: &mut Expr, r: &mut Expr) {
         match (&mut *l, &mut *r) {
             (Expr::Tpl(l), Expr::Lit(Lit::Str(rs))) => {
+                if let Some(raw) = &rs.raw {
+                    if raw.len() <= 2 {
+                        return;
+                    }
+                }
+
                 // Append
                 if let Some(l_last) = l.quasis.last_mut() {
                     self.changed = true;
@@ -317,15 +392,27 @@ impl Pure<'_> {
                                 .into();
                     }
 
-                    let new: Atom =
-                        format!("{}{}", l_last.raw, convert_str_value_to_tpl_raw(&rs.value)).into();
-                    l_last.raw = new;
+                    l_last.raw = format!(
+                        "{}{}",
+                        l_last.raw,
+                        rs.raw
+                            .clone()
+                            .map(|s| convert_str_raw_to_tpl_raw(&s[1..s.len() - 1]))
+                            .unwrap_or_else(|| convert_str_value_to_tpl_raw(&rs.value).into())
+                    )
+                    .into();
 
                     r.take();
                 }
             }
 
             (Expr::Lit(Lit::Str(ls)), Expr::Tpl(r)) => {
+                if let Some(raw) = &ls.raw {
+                    if raw.len() <= 2 {
+                        return;
+                    }
+                }
+
                 // Append
                 if let Some(r_first) = r.quasis.first_mut() {
                     self.changed = true;
@@ -341,9 +428,15 @@ impl Pure<'_> {
                                 .into()
                     }
 
-                    let new: Atom =
-                        format!("{}{}", convert_str_value_to_tpl_raw(&ls.value), r_first.raw)
-                            .into();
+                    let new: Atom = format!(
+                        "{}{}",
+                        ls.raw
+                            .clone()
+                            .map(|s| convert_str_raw_to_tpl_raw(&s[1..s.len() - 1]))
+                            .unwrap_or_else(|| convert_str_value_to_tpl_raw(&ls.value).into()),
+                        r_first.raw
+                    )
+                    .into();
                     r_first.raw = new;
 
                     l.take();
@@ -369,7 +462,7 @@ impl Pure<'_> {
 
                 debug_assert!(l.quasis.len() == l.exprs.len() + 1, "{:?} is invalid", l);
                 self.changed = true;
-                report_change!("strings: Merged to template literals");
+                report_change!("strings: Merged two template literals");
             }
             _ => {}
         }
@@ -441,33 +534,31 @@ impl Pure<'_> {
             let rt = right.get_type();
             if let Value::Known(Type::Str) = lt {
                 if let Value::Known(Type::Str) = rt {
-                    if let Expr::Lit(Lit::Str(Str {
-                        value: js_word!(""),
-                        ..
-                    })) = &**left
-                    {
-                        self.changed = true;
-                        report_change!(
-                            "string: Dropping empty string literal (in lhs) because it does not \
-                             changes type"
-                        );
+                    match &**left {
+                        Expr::Lit(Lit::Str(Str { value, .. })) if value.is_empty() => {
+                            self.changed = true;
+                            report_change!(
+                                "string: Dropping empty string literal (in lhs) because it does \
+                                 not changes type"
+                            );
 
-                        *e = *right.take();
-                        return;
+                            *e = *right.take();
+                            return;
+                        }
+                        _ => (),
                     }
 
-                    if let Expr::Lit(Lit::Str(Str {
-                        value: js_word!(""),
-                        ..
-                    })) = &**right
-                    {
-                        self.changed = true;
-                        report_change!(
-                            "string: Dropping empty string literal (in rhs) because it does not \
-                             changes type"
-                        );
+                    match &**right {
+                        Expr::Lit(Lit::Str(Str { value, .. })) if value.is_empty() => {
+                            self.changed = true;
+                            report_change!(
+                                "string: Dropping empty string literal (in rhs) because it does \
+                                 not changes type"
+                            );
 
-                        *e = *left.take();
+                            *e = *left.take();
+                        }
+                        _ => (),
                     }
                 }
             }
@@ -477,9 +568,9 @@ impl Pure<'_> {
 
 pub(super) fn convert_str_value_to_tpl_cooked(value: &JsWord) -> Cow<str> {
     value
-        .replace('\\', "\\\\")
-        .replace('`', "\\`")
-        .replace('$', "\\$")
+        .replace("\\\\", "\\")
+        .replace("\\`", "`")
+        .replace("\\$", "$")
         .into()
 }
 
@@ -491,4 +582,8 @@ pub(super) fn convert_str_value_to_tpl_raw(value: &JsWord) -> Cow<str> {
         .replace('\n', "\\n")
         .replace('\r', "\\r")
         .into()
+}
+
+pub(super) fn convert_str_raw_to_tpl_raw(value: &str) -> Atom {
+    value.replace('`', "\\`").replace('$', "\\$").into()
 }

@@ -136,7 +136,7 @@
  3 | }
    `----
 
-  x Ident { value: Atom('white' type=static), raw: "white" }
+  x Ident { value: "white", raw: "white" }
    ,-[$DIR/tests/recovery/declaration/important/input.css:1:1]
  1 | .a {
  2 |     color: white !!important;
@@ -312,7 +312,7 @@
  7 | }
    `----
 
-  x Ident { value: Atom('red' type=static), raw: "red" }
+  x Ident { value: "red", raw: "red" }
    ,-[$DIR/tests/recovery/declaration/important/input.css:5:1]
  5 | .class {
  6 |     color: red red red !important !important;
@@ -344,7 +344,7 @@
  7 | }
    `----
 
-  x Ident { value: Atom('red' type=static), raw: "red" }
+  x Ident { value: "red", raw: "red" }
    ,-[$DIR/tests/recovery/declaration/important/input.css:5:1]
  5 | .class {
  6 |     color: red red red !important !important;
@@ -376,7 +376,7 @@
  7 | }
    `----
 
-  x Ident { value: Atom('red' type=static), raw: "red" }
+  x Ident { value: "red", raw: "red" }
    ,-[$DIR/tests/recovery/declaration/important/input.css:5:1]
  5 | .class {
  6 |     color: red red red !important !important;
@@ -424,7 +424,7 @@
  7 | }
    `----
 
-  x Ident { value: Atom('important' type=static), raw: "important" }
+  x Ident { value: "important", raw: "important" }
    ,-[$DIR/tests/recovery/declaration/important/input.css:5:1]
  5 | .class {
  6 |     color: red red red !important !important;
@@ -568,7 +568,7 @@
  11 | }
     `----
 
-  x Ident { value: Atom('red' type=static), raw: "red" }
+  x Ident { value: "red", raw: "red" }
     ,-[$DIR/tests/recovery/declaration/important/input.css:9:1]
   9 | .class {
  10 |     color: red red red !important!important   ;
@@ -600,7 +600,7 @@
  11 | }
     `----
 
-  x Ident { value: Atom('red' type=static), raw: "red" }
+  x Ident { value: "red", raw: "red" }
     ,-[$DIR/tests/recovery/declaration/important/input.css:9:1]
   9 | .class {
  10 |     color: red red red !important!important   ;
@@ -632,7 +632,7 @@
  11 | }
     `----
 
-  x Ident { value: Atom('red' type=static), raw: "red" }
+  x Ident { value: "red", raw: "red" }
     ,-[$DIR/tests/recovery/declaration/important/input.css:9:1]
   9 | .class {
  10 |     color: red red red !important!important   ;
@@ -680,7 +680,7 @@
  11 | }
     `----
 
-  x Ident { value: Atom('important' type=static), raw: "important" }
+  x Ident { value: "important", raw: "important" }
     ,-[$DIR/tests/recovery/declaration/important/input.css:9:1]
   9 | .class {
  10 |     color: red red red !important!important   ;
@@ -824,7 +824,7 @@
  15 | }
     `----
 
-  x Ident { value: Atom('red' type=static), raw: "red" }
+  x Ident { value: "red", raw: "red" }
     ,-[$DIR/tests/recovery/declaration/important/input.css:13:1]
  13 | .class {
  14 |     color: red red red /* test*/ !important /*test*/ !important /*test*/ ;
@@ -856,7 +856,7 @@
  15 | }
     `----
 
-  x Ident { value: Atom('red' type=static), raw: "red" }
+  x Ident { value: "red", raw: "red" }
     ,-[$DIR/tests/recovery/declaration/important/input.css:13:1]
  13 | .class {
  14 |     color: red red red /* test*/ !important /*test*/ !important /*test*/ ;
@@ -888,7 +888,7 @@
  15 | }
     `----
 
-  x Ident { value: Atom('red' type=static), raw: "red" }
+  x Ident { value: "red", raw: "red" }
     ,-[$DIR/tests/recovery/declaration/important/input.css:13:1]
  13 | .class {
  14 |     color: red red red /* test*/ !important /*test*/ !important /*test*/ ;
@@ -952,7 +952,7 @@
  15 | }
     `----
 
-  x Ident { value: Atom('important' type=static), raw: "important" }
+  x Ident { value: "important", raw: "important" }
     ,-[$DIR/tests/recovery/declaration/important/input.css:13:1]
  13 | .class {
  14 |     color: red red red /* test*/ !important /*test*/ !important /*test*/ ;
@@ -1096,7 +1096,7 @@
  19 | }
     `----
 
-  x Ident { value: Atom('red' type=static), raw: "red" }
+  x Ident { value: "red", raw: "red" }
     ,-[$DIR/tests/recovery/declaration/important/input.css:17:1]
  17 | .class {
  18 |     color: red red red !important !important!important;
@@ -1128,7 +1128,7 @@
  19 | }
     `----
 
-  x Ident { value: Atom('red' type=static), raw: "red" }
+  x Ident { value: "red", raw: "red" }
     ,-[$DIR/tests/recovery/declaration/important/input.css:17:1]
  17 | .class {
  18 |     color: red red red !important !important!important;
@@ -1160,7 +1160,7 @@
  19 | }
     `----
 
-  x Ident { value: Atom('red' type=static), raw: "red" }
+  x Ident { value: "red", raw: "red" }
     ,-[$DIR/tests/recovery/declaration/important/input.css:17:1]
  17 | .class {
  18 |     color: red red red !important !important!important;
@@ -1208,7 +1208,7 @@
  19 | }
     `----
 
-  x Ident { value: Atom('important' type=static), raw: "important" }
+  x Ident { value: "important", raw: "important" }
     ,-[$DIR/tests/recovery/declaration/important/input.css:17:1]
  17 | .class {
  18 |     color: red red red !important !important!important;
@@ -1256,7 +1256,7 @@
  19 | }
     `----
 
-  x Ident { value: Atom('important' type=static), raw: "important" }
+  x Ident { value: "important", raw: "important" }
     ,-[$DIR/tests/recovery/declaration/important/input.css:17:1]
  17 | .class {
  18 |     color: red red red !important !important!important;
@@ -1400,7 +1400,7 @@
  23 | }
     `----
 
-  x Ident { value: Atom('red' type=static), raw: "red" }
+  x Ident { value: "red", raw: "red" }
     ,-[$DIR/tests/recovery/declaration/important/input.css:21:1]
  21 | .class {
  22 |     color: red red red /* test */ ! /*test */ important /* test */ ! /* test */ important /* test */;
@@ -1432,7 +1432,7 @@
  23 | }
     `----
 
-  x Ident { value: Atom('red' type=static), raw: "red" }
+  x Ident { value: "red", raw: "red" }
     ,-[$DIR/tests/recovery/declaration/important/input.css:21:1]
  21 | .class {
  22 |     color: red red red /* test */ ! /*test */ important /* test */ ! /* test */ important /* test */;
@@ -1464,7 +1464,7 @@
  23 | }
     `----
 
-  x Ident { value: Atom('red' type=static), raw: "red" }
+  x Ident { value: "red", raw: "red" }
     ,-[$DIR/tests/recovery/declaration/important/input.css:21:1]
  21 | .class {
  22 |     color: red red red /* test */ ! /*test */ important /* test */ ! /* test */ important /* test */;
@@ -1560,7 +1560,7 @@
  23 | }
     `----
 
-  x Ident { value: Atom('important' type=static), raw: "important" }
+  x Ident { value: "important", raw: "important" }
     ,-[$DIR/tests/recovery/declaration/important/input.css:21:1]
  21 | .class {
  22 |     color: red red red /* test */ ! /*test */ important /* test */ ! /* test */ important /* test */;

@@ -3236,7 +3236,7 @@
                     "end": 1066,
                     "ctxt": 0
                   },
-                  "value": "first",
+                  "value": "FIRST",
                   "raw": "FIRST"
                 }
               }
@@ -3311,7 +3311,7 @@
                     "end": 1081,
                     "ctxt": 0
                   },
-                  "value": "left",
+                  "value": "LEFT",
                   "raw": "LEFT"
                 }
               }

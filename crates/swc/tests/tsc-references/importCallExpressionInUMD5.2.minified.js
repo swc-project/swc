@@ -16,7 +16,6 @@ global = this, factory = function(exports1) {
     "exports"
 ], factory) : (global = "undefined" != typeof globalThis ? globalThis : global || self) && factory(global.0Ts = {});
 //// [1.ts]
-// https://github.com/microsoft/TypeScript/issues/36780
 var global, factory;
 global = this, factory = function(exports1, _async_to_generator, _interop_require_wildcard) {
     Object.defineProperty(exports1, "__esModule", {

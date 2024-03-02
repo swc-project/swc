@@ -19,7 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -42,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('lends' type=inline),
+                    value: "lends",
                 },
                 tag: Lends(
                     LendsTag {
@@ -76,7 +76,7 @@
                                         ),
                                         ctxt: #0,
                                     },
-                                    value: Atom('' type=static),
+                                    value: "",
                                 },
                             ],
                         },
@@ -105,7 +105,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('document me' type=dynamic),
+            value: "document me",
         },
         tags: [],
     },
@@ -129,7 +129,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -152,7 +152,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('namespace' type=static),
+                    value: "namespace",
                 },
                 tag: Namespace(
                     NamespaceTag {
@@ -192,7 +192,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('document me' type=dynamic),
+            value: "document me",
         },
         tags: [],
     },

@@ -1,6 +1,6 @@
-use std::{borrow::Cow, fmt::Debug, mem::take};
+use std::{borrow::Cow, cell::RefCell, fmt::Debug, mem::take, rc::Rc};
 
-use swc_atoms::Atom;
+use swc_atoms::{Atom, AtomStore};
 use swc_common::{BytePos, Span, Spanned, SyntaxContext};
 use swc_css_ast::{ComponentValue, FunctionName, ListOfComponentValues, Token, TokenAndSpan};
 
@@ -20,6 +20,8 @@ pub trait ParserInput: Clone + Iterator<Item = TokenAndSpan> {
 
     /// Returns `last_pos`
     fn skip_ws(&mut self) -> Option<BytePos>;
+
+    fn atom(&self, s: Cow<'_, str>) -> Atom;
 }
 
 #[derive(Debug, Clone)]
@@ -46,6 +48,10 @@ where
             input,
             last_pos,
         }
+    }
+
+    pub fn atom<'a>(&self, s: impl Into<Cow<'a, str>>) -> Atom {
+        self.input.atom(s.into())
     }
 
     pub fn last_pos(&mut self) -> BytePos {
@@ -206,11 +212,12 @@ pub struct Tokens {
     pub tokens: Vec<TokenAndSpan>,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Clone)]
 pub struct Input<'a> {
     input: InputType<'a>,
     idx: Vec<usize>,
     balance_stack: Option<Vec<BalanceToken>>,
+    atoms: Rc<RefCell<AtomStore>>,
 }
 
 #[derive(Debug, Clone)]
@@ -254,6 +261,7 @@ impl<'a> Input<'a> {
             input,
             idx,
             balance_stack,
+            atoms: Default::default(),
         }
     }
 
@@ -381,11 +389,14 @@ impl<'a> Input<'a> {
                             let name = match function.1 {
                                 FunctionName::Ident(name) => match name.raw {
                                     Some(raw) => (name.value, raw),
-                                    _ => (name.value.clone(), Atom::from(name.value)),
+                                    _ => (name.value.clone(), name.value),
                                 },
                                 FunctionName::DashedIdent(name) => match name.raw {
-                                    Some(raw) => (format!("--{}", name.value).into(), raw),
-                                    _ => (name.value.clone(), Atom::from(name.value)),
+                                    Some(raw) => (
+                                        self.atoms.borrow_mut().atom(format!("--{}", name.value)),
+                                        raw,
+                                    ),
+                                    _ => (name.value.clone(), name.value),
                                 },
                             };
 
@@ -478,6 +489,10 @@ impl<'a> ParserInput for Input<'a> {
         }
 
         last_pos
+    }
+
+    fn atom(&self, s: Cow<str>) -> Atom {
+        self.atoms.borrow_mut().atom(s)
     }
 }
 

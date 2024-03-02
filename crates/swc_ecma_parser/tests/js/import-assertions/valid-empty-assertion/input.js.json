@@ -72,7 +72,8 @@
           "ctxt": 0
         },
         "properties": []
-      }
+      },
+      "phase": "evaluation"
     },
     {
       "type": "ImportDeclaration",
@@ -120,7 +121,8 @@
           "ctxt": 0
         },
         "properties": []
-      }
+      },
+      "phase": "evaluation"
     },
     {
       "type": "ExportNamedDeclaration",

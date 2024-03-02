@@ -1,11 +1,7 @@
 //// [parserRealSource13.ts]
-// Copyright (c) Microsoft. All rights reserved. Licensed under the Apache License, Version 2.0. 
-// See LICENSE.txt in the project root for complete license information.
-///<reference path='typescript.ts' />
 var TypeScript, TypeScript1;
 !function(AstWalkerWithDetailCallback) {
     function AstWalkerCallback(pre, ast, callback) {
-        // See if the Callback needs to be handled using specific one or default one
         var nodeType = ast.nodeType, callbackString = NodeType._map[nodeType] + "Callback";
         return callback[callbackString] ? callback[callbackString](pre, ast) : !callback.DefaultCallback || callback.DefaultCallback(pre, ast);
     }

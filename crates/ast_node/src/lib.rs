@@ -3,7 +3,7 @@
 
 extern crate proc_macro;
 
-use pmutil::{smart_quote, Quote, ToTokensExt};
+use quote::quote;
 use swc_macros_common::prelude::*;
 use syn::{self, visit_mut::VisitMut, *};
 
@@ -19,7 +19,7 @@ pub fn derive_spanned(input: proc_macro::TokenStream) -> proc_macro::TokenStream
 
     let item = self::spanned::derive(input);
 
-    print("derive(Spanned)", item.dump())
+    print("derive(Spanned)", item.into_token_stream())
 }
 
 /// Derives `serde::Deserialize` which is aware of `tag` based deserialization.
@@ -29,7 +29,7 @@ pub fn derive_deserialize_enum(input: proc_macro::TokenStream) -> proc_macro::To
 
     let item = enum_deserialize::expand(input);
 
-    print("derive(DeserializeEnum)", item.dump())
+    print("derive(DeserializeEnum)", item.into_token_stream())
 }
 
 /// Derives `serde::Serialize` and `serde::Deserialize`.
@@ -40,7 +40,7 @@ pub fn derive_deserialize_enum(input: proc_macro::TokenStream) -> proc_macro::To
 /// deserializes as the type only if `type` field of json string is `A`.
 ///
 /// # Enum attributes
-////
+///
 /// ## Type-level attributes
 ///
 /// This macro does not accept arguments if used on enum.
@@ -80,18 +80,18 @@ pub fn ast_serde(
     let input: DeriveInput = parse(input).expect("failed to parse input as a DeriveInput");
 
     // we should use call_site
-    let mut item = Quote::new(Span::call_site());
-    item = match input.data {
+    let mut item = TokenStream::new();
+    match input.data {
         Data::Enum(..) => {
             if !args.is_empty() {
                 panic!("#[ast_serde] on enum does not accept any argument")
             }
 
-            item.quote_with(smart_quote!(Vars { input }, {
+            item.extend(quote!(
                 #[derive(::serde::Serialize, ::swc_common::DeserializeEnum)]
                 #[serde(untagged)]
-                input
-            }))
+                #input
+            ));
         }
         _ => {
             let args: Option<ast_node_macro::Args> = if args.is_empty() {
@@ -106,9 +106,7 @@ pub fn ast_serde(
                     ..
                 }) => {
                     if args.is_some() {
-                        Some(Quote::new_call_site().quote_with(smart_quote!(Vars {}, {
-                            #[serde(tag = "type")]
-                        })))
+                        Some(quote!(#[serde(tag = "type")]))
                     } else {
                         None
                     }
@@ -117,22 +115,21 @@ pub fn ast_serde(
             };
 
             let serde_rename = args.as_ref().map(|args| {
-                Quote::new_call_site().quote_with(smart_quote!(Vars { name: &args.ty },{
-                    #[serde(rename = name)]
-                }))
+                let name = &args.ty;
+                quote!(#[serde(rename = #name)])
             });
 
-            item.quote_with(smart_quote!(Vars { input, serde_tag, serde_rename }, {
+            item.extend(quote!(
                 #[derive(::serde::Serialize, ::serde::Deserialize)]
-                serde_tag
+                #serde_tag
                 #[serde(rename_all = "camelCase")]
-                serde_rename
-                input
-            }))
+                #serde_rename
+                #input
+            ));
         }
     };
 
-    print("ast_serde", item.into())
+    print("ast_serde", item)
 }
 
 struct AddAttr;
@@ -158,8 +155,8 @@ pub fn ast_node(
     AddAttr.visit_data_mut(&mut input.data);
 
     // we should use call_site
-    let mut item = Quote::new(Span::call_site());
-    item = match input.data {
+    let mut item = TokenStream::new();
+    match input.data {
         Data::Enum(..) => {
             struct EnumArgs {
                 clone: bool,
@@ -180,14 +177,12 @@ pub fn ast_node(
             };
 
             let clone = if args.clone {
-                Some(Quote::new_call_site().quote_with(smart_quote!(Vars {}, {
-                    #[derive(Clone)]
-                })))
+                Some(quote!(#[derive(Clone)]))
             } else {
                 None
             };
 
-            item.quote_with(smart_quote!(Vars { input, clone }, {
+            item.extend(quote!(
                 #[allow(clippy::derive_partial_eq_without_eq)]
                 #[cfg_attr(
                     feature = "serde-impl",
@@ -202,7 +197,7 @@ pub fn ast_node(
                     PartialEq,
                     ::swc_common::DeserializeEnum,
                 )]
-                clone
+                #clone
                 #[cfg_attr(
                     feature = "rkyv-impl",
                     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
@@ -220,8 +215,8 @@ pub fn ast_node(
                     feature = "serde-impl",
                     serde(untagged)
                 )]
-                input
-            }))
+                #input
+            ));
         }
         _ => {
             let args: Option<ast_node_macro::Args> = if args.is_empty() {
@@ -236,12 +231,10 @@ pub fn ast_node(
                     ..
                 }) => {
                     if args.is_some() {
-                        Some(Quote::new_call_site().quote_with(smart_quote!(Vars {}, {
-                            #[cfg_attr(
-                                feature = "serde-impl",
-                                serde(tag = "type")
-                            )]
-                        })))
+                        Some(quote!(#[cfg_attr(
+                            feature = "serde-impl",
+                            serde(tag = "type")
+                        )]))
                     } else {
                         None
                     }
@@ -250,59 +243,56 @@ pub fn ast_node(
             };
 
             let serde_rename = args.as_ref().map(|args| {
-                Quote::new_call_site().quote_with(smart_quote!(Vars { name: &args.ty }, {
-                    #[cfg_attr(
-                        feature = "serde-impl",
-                        serde(rename = name)
-                    )]
-                }))
+                let name = &args.ty;
+
+                quote!(#[cfg_attr(
+                    feature = "serde-impl",
+                    serde(rename = #name)
+                )])
             });
 
             let ast_node_impl = args
                 .as_ref()
                 .map(|args| ast_node_macro::expand_struct(args.clone(), input.clone()));
 
-            let mut quote =
-                item.quote_with(smart_quote!(Vars { input, serde_tag, serde_rename }, {
-                    #[allow(clippy::derive_partial_eq_without_eq)]
-                    #[derive(::swc_common::Spanned, Clone, Debug, PartialEq)]
-                    #[cfg_attr(
-                        feature = "serde-impl",
-                        derive(::serde::Serialize, ::serde::Deserialize)
-                    )]
-                    #[cfg_attr(
-                        feature = "rkyv-impl",
-                        derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-                    )]
-                    #[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
-                    #[cfg_attr(feature = "rkyv-impl", archive_attr(repr(C)))]
-                    #[cfg_attr(
-                        feature = "rkyv-impl",
-                        archive(
-                            bound(
-                                serialize = "__S: rkyv::ser::Serializer + rkyv::ser::ScratchSpace + rkyv::ser::SharedSerializeRegistry",
-                                deserialize = "__D: rkyv::de::SharedDeserializeRegistry"
-                            )
+            item.extend(quote!(
+                #[allow(clippy::derive_partial_eq_without_eq)]
+                #[derive(::swc_common::Spanned, Clone, Debug, PartialEq)]
+                #[cfg_attr(
+                    feature = "serde-impl",
+                    derive(::serde::Serialize, ::serde::Deserialize)
+                )]
+                #[cfg_attr(
+                    feature = "rkyv-impl",
+                    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+                )]
+                #[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
+                #[cfg_attr(feature = "rkyv-impl", archive_attr(repr(C)))]
+                #[cfg_attr(
+                    feature = "rkyv-impl",
+                    archive(
+                        bound(
+                            serialize = "__S: rkyv::ser::Serializer + rkyv::ser::ScratchSpace + rkyv::ser::SharedSerializeRegistry",
+                            deserialize = "__D: rkyv::de::SharedDeserializeRegistry"
                         )
-                    )]
-                    serde_tag
-                    #[cfg_attr(
-                        feature = "serde-impl",
-                        serde(rename_all = "camelCase")
-                    )]
-                    serde_rename
-                    input
-                }));
+                    )
+                )]
+                #serde_tag
+                #[cfg_attr(
+                    feature = "serde-impl",
+                    serde(rename_all = "camelCase")
+                )]
+                #serde_rename
+                #input
+            ));
 
             if let Some(items) = ast_node_impl {
-                for item in items {
-                    quote.push_tokens(&item);
+                for item_impl in items {
+                    item.extend(item_impl.into_token_stream());
                 }
             }
-
-            quote
         }
     };
 
-    print("ast_node", item.into())
+    print("ast_node", item)
 }

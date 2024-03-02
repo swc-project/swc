@@ -276,7 +276,7 @@
                     "end": 78,
                     "ctxt": 0
                   },
-                  "value": "px",
+                  "value": "PX",
                   "raw": "PX"
                 }
               }
@@ -325,7 +325,7 @@
                     "end": 96,
                     "ctxt": 0
                   },
-                  "value": "px",
+                  "value": "pX",
                   "raw": "pX"
                 }
               }

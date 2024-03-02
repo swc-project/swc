@@ -327,7 +327,8 @@
                 "start": 331,
                 "end": 337,
                 "ctxt": 0
-              }
+              },
+              "phase": "evaluation"
             },
             "arguments": [
               {
@@ -431,7 +432,8 @@
                             "start": 387,
                             "end": 393,
                             "ctxt": 0
-                          }
+                          },
+                          "phase": "evaluation"
                         },
                         "arguments": [
                           {
@@ -777,7 +779,8 @@
                                             "start": 561,
                                             "end": 567,
                                             "ctxt": 0
-                                          }
+                                          },
+                                          "phase": "evaluation"
                                         },
                                         "arguments": [
                                           {
@@ -979,7 +982,8 @@
                   "start": 676,
                   "end": 682,
                   "ctxt": 0
-                }
+                },
+                "phase": "evaluation"
               },
               "arguments": [
                 {
@@ -1083,7 +1087,8 @@
                               "start": 732,
                               "end": 738,
                               "ctxt": 0
-                            }
+                            },
+                            "phase": "evaluation"
                           },
                           "arguments": [
                             {
@@ -1429,7 +1434,8 @@
                                               "start": 905,
                                               "end": 911,
                                               "ctxt": 0
-                                            }
+                                            },
+                                            "phase": "evaluation"
                                           },
                                           "arguments": [
                                             {

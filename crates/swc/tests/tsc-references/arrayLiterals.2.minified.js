@@ -1,5 +1,4 @@
 //// [arrayLiterals.ts]
-// Empty array literal with no contextual type has type Undefined[]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
@@ -7,7 +6,6 @@ var C = function C() {
     _class_call_check(this, C);
 };
 new C(), new C();
-// Contextual type C with numeric index signature of type Base makes array literal of Derived have type Base[]
 var Base = function Base() {
     _class_call_check(this, Base);
 }, Derived1 = function(Base) {

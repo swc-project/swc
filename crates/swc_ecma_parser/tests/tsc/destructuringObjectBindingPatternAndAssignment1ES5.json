@@ -46,7 +46,8 @@
                     "ctxt": 0
                   },
                   "value": "a1",
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "value": null
               }
@@ -124,7 +125,8 @@
                     "ctxt": 0
                   },
                   "value": "a2",
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "value": null
               }
@@ -201,7 +203,8 @@
                     "ctxt": 0
                   },
                   "value": "b1",
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "value": null
               }
@@ -313,7 +316,8 @@
                             "ctxt": 0
                           },
                           "value": "b21",
-                          "optional": false
+                          "optional": false,
+                          "typeAnnotation": null
                         },
                         "value": null
                       }
@@ -550,7 +554,8 @@
                     "ctxt": 0
                   },
                   "value": "b4",
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "value": {
                   "type": "NumericLiteral",
@@ -680,7 +685,8 @@
                           "ctxt": 0
                         },
                         "value": "b52",
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "value": null
                     }

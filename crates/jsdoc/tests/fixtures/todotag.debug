@@ -19,8 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('A function.
-             *' type=dynamic),
+            value: "A function.\n *",
         },
         tags: [
             TagItem {
@@ -43,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('todo' type=inline),
+                    value: "todo",
                 },
                 tag: Todo(
                     TodoTag {
@@ -66,7 +65,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('something' type=dynamic),
+                            value: "something",
                         },
                     },
                 ),
@@ -91,7 +90,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('todo' type=inline),
+                    value: "todo",
                 },
                 tag: Todo(
                     TodoTag {
@@ -114,7 +113,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('something else' type=dynamic),
+                            value: "something else",
                         },
                     },
                 ),

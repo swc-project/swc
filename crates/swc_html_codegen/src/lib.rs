@@ -5,7 +5,7 @@
 pub use std::fmt::Result;
 use std::{borrow::Cow, iter::Peekable, str::Chars};
 
-use swc_atoms::{js_word, JsWord};
+use swc_atoms::JsWord;
 use swc_common::Spanned;
 use swc_html_ast::*;
 use swc_html_codegen_macros::emitter;
@@ -218,16 +218,16 @@ where
         let can_omit_start_tag = self.tag_omission
             && !has_attributes
             && n.namespace == Namespace::HTML
-            && match n.tag_name {
+            && match &*n.tag_name {
                 // Tag omission in text/html:
                 // An html element's start tag can be omitted if the first thing inside the html
                 // element is not a comment.
-                js_word!("html") if !matches!(n.children.get(0), Some(Child::Comment(..))) => true,
+                "html" if !matches!(n.children.first(), Some(Child::Comment(..))) => true,
                 // A head element's start tag can be omitted if the element is empty, or if the
                 // first thing inside the head element is an element.
-                js_word!("head")
+                "head"
                     if n.children.is_empty()
-                        || matches!(n.children.get(0), Some(Child::Element(..))) =>
+                        || matches!(n.children.first(), Some(Child::Element(..))) =>
                 {
                     true
                 }
@@ -235,9 +235,9 @@ where
                 // first thing inside the body element is not ASCII whitespace or a comment, except
                 // if the first thing inside the body element is a meta, link, script, style, or
                 // template element.
-                js_word!("body")
+                "body"
                     if n.children.is_empty()
-                        || (match n.children.get(0) {
+                        || (match n.children.first() {
                             Some(Child::Text(text))
                                 if text.data.len() > 0
                                     && text.data.chars().next().unwrap().is_ascii_whitespace() =>
@@ -251,16 +251,16 @@ where
                                 ..
                             })) if *namespace == Namespace::HTML
                                 && matches!(
-                                    *tag_name,
-                                    js_word!("meta")
-                                        | js_word!("link")
-                                        | js_word!("script")
-                                        | js_word!("style")
-                                        | js_word!("template")
-                                        | js_word!("bgsound")
-                                        | js_word!("basefont")
-                                        | js_word!("base")
-                                        | js_word!("title")
+                                    &**tag_name,
+                                    "meta"
+                                        | "link"
+                                        | "script"
+                                        | "style"
+                                        | "template"
+                                        | "bgsound"
+                                        | "basefont"
+                                        | "base"
+                                        | "title"
                                 ) =>
                             {
                                 false
@@ -274,14 +274,14 @@ where
                 // colgroup element is a col element, and if the element is not immediately preceded
                 // by another colgroup element whose end tag has been omitted. (It can't be omitted
                 // if the element is empty.)
-                js_word!("colgroup")
-                    if match n.children.get(0) {
+                "colgroup"
+                    if match n.children.first() {
                         Some(Child::Element(element))
                             if element.namespace == Namespace::HTML
-                                && element.tag_name == js_word!("col") =>
+                                && element.tag_name == "col" =>
                         {
                             !matches!(prev, Some(Child::Element(element)) if element.namespace == Namespace::HTML
-                                        && element.tag_name == js_word!("colgroup"))
+                                        && element.tag_name == "colgroup")
                         }
                         _ => false,
                     } =>
@@ -292,16 +292,15 @@ where
                 // element is a tr element, and if the element is not immediately preceded by a
                 // tbody, thead, or tfoot element whose end tag has been omitted. (It can't be
                 // omitted if the element is empty.)
-                js_word!("tbody")
-                    if match n.children.get(0) {
+                "tbody"
+                    if match n.children.first() {
                         Some(Child::Element(element))
-                            if element.namespace == Namespace::HTML
-                                && element.tag_name == js_word!("tr") =>
+                            if element.namespace == Namespace::HTML && element.tag_name == "tr" =>
                         {
                             !matches!(prev, Some(Child::Element(element)) if element.namespace == Namespace::HTML
                             && matches!(
-                                element.tag_name,
-                                js_word!("tbody") | js_word!("thead") | js_word!("tfoot")
+                                &*element.tag_name,
+                                "tbody" | "thead" | "tfoot"
                             ))
                         }
                         _ => false,
@@ -314,25 +313,25 @@ where
 
         let is_void_element = match n.namespace {
             Namespace::HTML => matches!(
-                n.tag_name,
-                js_word!("area")
-                    | js_word!("base")
-                    | js_word!("basefont")
-                    | js_word!("bgsound")
-                    | js_word!("br")
-                    | js_word!("col")
-                    | js_word!("embed")
-                    | js_word!("frame")
-                    | js_word!("hr")
-                    | js_word!("img")
-                    | js_word!("input")
-                    | js_word!("keygen")
-                    | js_word!("link")
-                    | js_word!("meta")
-                    | js_word!("param")
-                    | js_word!("source")
-                    | js_word!("track")
-                    | js_word!("wbr")
+                &*n.tag_name,
+                "area"
+                    | "base"
+                    | "basefont"
+                    | "bgsound"
+                    | "br"
+                    | "col"
+                    | "embed"
+                    | "frame"
+                    | "hr"
+                    | "img"
+                    | "input"
+                    | "keygen"
+                    | "link"
+                    | "meta"
+                    | "param"
+                    | "source"
+                    | "track"
+                    | "wbr"
             ),
             Namespace::SVG => n.children.is_empty(),
             Namespace::MATHML => n.children.is_empty(),
@@ -379,10 +378,7 @@ where
 
             write_raw!(self, ">");
 
-            if !self.config.minify
-                && n.namespace == Namespace::HTML
-                && n.tag_name == js_word!("html")
-            {
+            if !self.config.minify && n.namespace == Namespace::HTML && n.tag_name == "html" {
                 newline!(self);
             }
         }
@@ -392,7 +388,7 @@ where
         }
 
         if !self.is_plaintext {
-            self.is_plaintext = matches!(n.tag_name, js_word!("plaintext"));
+            self.is_plaintext = matches!(&*n.tag_name, "plaintext");
         }
 
         if let Some(content) = &n.content {
@@ -400,8 +396,8 @@ where
         } else if !n.children.is_empty() {
             let ctx = self.create_context_for_element(n);
 
-            let need_extra_newline = n.namespace == Namespace::HTML
-                && matches!(n.tag_name, js_word!("textarea") | js_word!("pre"));
+            let need_extra_newline =
+                n.namespace == Namespace::HTML && matches!(&*n.tag_name, "textarea" | "pre");
 
             if need_extra_newline {
                 if let Some(Child::Text(Text { data, .. })) = &n.children.first() {
@@ -425,7 +421,7 @@ where
         let can_omit_end_tag = self.is_plaintext
             || (self.tag_omission
                 && n.namespace == Namespace::HTML
-                && match n.tag_name {
+                && match &*n.tag_name {
                     // Tag omission in text/html:
 
                     // An html element's end tag can be omitted if the html element is not
@@ -433,12 +429,10 @@ where
                     //
                     // A body element's end tag can be omitted if the body element is not
                     // immediately followed by a comment.
-                    js_word!("html") | js_word!("body") => {
-                        !matches!(next, Some(Child::Comment(..)))
-                    }
+                    "html" | "body" => !matches!(next, Some(Child::Comment(..))),
                     // A head element's end tag can be omitted if the head element is not
                     // immediately followed by ASCII whitespace or a comment.
-                    js_word!("head") => match next {
+                    "head" => match next {
                         Some(Child::Text(text))
                             if text.data.chars().next().unwrap().is_ascii_whitespace() =>
                         {
@@ -454,44 +448,44 @@ where
                     // more content in the parent element and the parent element is an HTML element
                     // that is not an a, audio, del, ins, map, noscript, or video element, or an
                     // autonomous custom element.
-                    js_word!("p") => match next {
+                    "p" => match next {
                         Some(Child::Element(Element {
                             namespace,
                             tag_name,
                             ..
                         })) if *namespace == Namespace::HTML
                             && matches!(
-                                *tag_name,
-                                js_word!("address")
-                                    | js_word!("article")
-                                    | js_word!("aside")
-                                    | js_word!("blockquote")
-                                    | js_word!("details")
-                                    | js_word!("div")
-                                    | js_word!("dl")
-                                    | js_word!("fieldset")
-                                    | js_word!("figcaption")
-                                    | js_word!("figure")
-                                    | js_word!("footer")
-                                    | js_word!("form")
-                                    | js_word!("h1")
-                                    | js_word!("h2")
-                                    | js_word!("h3")
-                                    | js_word!("h4")
-                                    | js_word!("h5")
-                                    | js_word!("h6")
-                                    | js_word!("header")
-                                    | js_word!("hgroup")
-                                    | js_word!("hr")
-                                    | js_word!("main")
-                                    | js_word!("menu")
-                                    | js_word!("nav")
-                                    | js_word!("ol")
-                                    | js_word!("p")
-                                    | js_word!("pre")
-                                    | js_word!("section")
-                                    | js_word!("table")
-                                    | js_word!("ul")
+                                &**tag_name,
+                                "address"
+                                    | "article"
+                                    | "aside"
+                                    | "blockquote"
+                                    | "details"
+                                    | "div"
+                                    | "dl"
+                                    | "fieldset"
+                                    | "figcaption"
+                                    | "figure"
+                                    | "footer"
+                                    | "form"
+                                    | "h1"
+                                    | "h2"
+                                    | "h3"
+                                    | "h4"
+                                    | "h5"
+                                    | "h6"
+                                    | "header"
+                                    | "hgroup"
+                                    | "hr"
+                                    | "main"
+                                    | "menu"
+                                    | "nav"
+                                    | "ol"
+                                    | "p"
+                                    | "pre"
+                                    | "section"
+                                    | "table"
+                                    | "ul"
                             ) =>
                         {
                             true
@@ -503,21 +497,20 @@ where
                                 ..
                             }) if is_html_tag_name(*namespace, tag_name)
                                 && !matches!(
-                                    *tag_name,
-                                    js_word!("a")
-                                        | js_word!("audio")
-                                        | js_word!("acronym")
-                                        | js_word!("big")
-                                        | js_word!("del")
-                                        | js_word!("font")
-                                        | js_word!("ins")
-                                        | js_word!("tt")
-                                        | js_word!("strike")
-                                        | js_word!("map")
-                                        | js_word!("noscript")
-                                        | js_word!("video")
-                                        | js_word!("kbd")
-                                        | js_word!("rbc")
+                                    &**tag_name,
+                                    "a" | "audio"
+                                        | "acronym"
+                                        | "big"
+                                        | "del"
+                                        | "font"
+                                        | "ins"
+                                        | "tt"
+                                        | "strike"
+                                        | "map"
+                                        | "noscript"
+                                        | "video"
+                                        | "kbd"
+                                        | "rbc"
                                 ) =>
                             {
                                 true
@@ -532,44 +525,38 @@ where
                     // An li element's end tag can be omitted if the li element is immediately
                     // followed by another li element or if there is no more content in the parent
                     // element.
-                    js_word!("li")
-                        if match parent {
-                            Some(Element {
-                                namespace,
-                                tag_name,
-                                ..
-                            }) if *namespace == Namespace::HTML
-                                && matches!(
-                                    *tag_name,
-                                    js_word!("ul") | js_word!("ol") | js_word!("menu")
-                                ) =>
-                            {
-                                true
-                            }
-                            _ => false,
-                        } =>
+                    "li" if match parent {
+                        Some(Element {
+                            namespace,
+                            tag_name,
+                            ..
+                        }) if *namespace == Namespace::HTML
+                            && matches!(&**tag_name, "ul" | "ol" | "menu") =>
+                        {
+                            true
+                        }
+                        _ => false,
+                    } =>
                     {
                         match next {
                             Some(Child::Element(Element {
                                 namespace,
                                 tag_name,
                                 ..
-                            })) if *namespace == Namespace::HTML && *tag_name == js_word!("li") => {
-                                true
-                            }
+                            })) if *namespace == Namespace::HTML && *tag_name == "li" => true,
                             None => true,
                             _ => false,
                         }
                     }
                     // A dt element's end tag can be omitted if the dt element is immediately
                     // followed by another dt element or a dd element.
-                    js_word!("dt") => match next {
+                    "dt" => match next {
                         Some(Child::Element(Element {
                             namespace,
                             tag_name,
                             ..
                         })) if *namespace == Namespace::HTML
-                            && (*tag_name == js_word!("dt") || *tag_name == js_word!("dd")) =>
+                            && (*tag_name == "dt" || *tag_name == "dd") =>
                         {
                             true
                         }
@@ -578,13 +565,13 @@ where
                     // A dd element's end tag can be omitted if the dd element is immediately
                     // followed by another dd element or a dt element, or if there is no more
                     // content in the parent element.
-                    js_word!("dd") => match next {
+                    "dd" => match next {
                         Some(Child::Element(Element {
                             namespace,
                             tag_name,
                             ..
                         })) if *namespace == Namespace::HTML
-                            && (*tag_name == js_word!("dd") || *tag_name == js_word!("dt")) =>
+                            && (*tag_name == "dd" || *tag_name == "dt") =>
                         {
                             true
                         }
@@ -598,13 +585,13 @@ where
                     // An rp element's end tag can be omitted if the rp element is immediately
                     // followed by an rt or rp element, or if there is no more content in the parent
                     // element.
-                    js_word!("rt") | js_word!("rp") => match next {
+                    "rt" | "rp" => match next {
                         Some(Child::Element(Element {
                             namespace,
                             tag_name,
                             ..
                         })) if *namespace == Namespace::HTML
-                            && (*tag_name == js_word!("rt") || *tag_name == js_word!("rp")) =>
+                            && (*tag_name == "rt" || *tag_name == "rp") =>
                         {
                             true
                         }
@@ -614,16 +601,16 @@ where
                     // The end tag can be omitted if the element is immediately followed by an <rt>,
                     // <rtc>, or <rp> element or another <rb> element, or if there is no more
                     // content in the parent element.
-                    js_word!("rb") => match next {
+                    "rb" => match next {
                         Some(Child::Element(Element {
                             namespace,
                             tag_name,
                             ..
                         })) if *namespace == Namespace::HTML
-                            && (*tag_name == js_word!("rt")
-                                || *tag_name == js_word!("rtc")
-                                || *tag_name == js_word!("rp")
-                                || *tag_name == js_word!("rb")) =>
+                            && (*tag_name == "rt"
+                                || *tag_name == "rtc"
+                                || *tag_name == "rp"
+                                || *tag_name == "rb") =>
                         {
                             true
                         }
@@ -632,15 +619,13 @@ where
                     },
                     // 	The closing tag can be omitted if it is immediately followed by a <rb>, <rtc>
                     // or <rt> element opening tag or by its parent closing tag.
-                    js_word!("rtc") => match next {
+                    "rtc" => match next {
                         Some(Child::Element(Element {
                             namespace,
                             tag_name,
                             ..
                         })) if *namespace == Namespace::HTML
-                            && (*tag_name == js_word!("rb")
-                                || *tag_name == js_word!("rtc")
-                                || *tag_name == js_word!("rt")) =>
+                            && (*tag_name == "rb" || *tag_name == "rtc" || *tag_name == "rt") =>
                         {
                             true
                         }
@@ -650,16 +635,12 @@ where
                     // An optgroup element's end tag can be omitted if the optgroup element is
                     // immediately followed by another optgroup element, or if there is no more
                     // content in the parent element.
-                    js_word!("optgroup") => match next {
+                    "optgroup" => match next {
                         Some(Child::Element(Element {
                             namespace,
                             tag_name,
                             ..
-                        })) if *namespace == Namespace::HTML
-                            && *tag_name == js_word!("optgroup") =>
-                        {
-                            true
-                        }
+                        })) if *namespace == Namespace::HTML && *tag_name == "optgroup" => true,
                         None => true,
                         _ => false,
                     },
@@ -667,14 +648,13 @@ where
                     // immediately followed by another option element, or if it is immediately
                     // followed by an optgroup element, or if there is no more content in the parent
                     // element.
-                    js_word!("option") => match next {
+                    "option" => match next {
                         Some(Child::Element(Element {
                             namespace,
                             tag_name,
                             ..
                         })) if *namespace == Namespace::HTML
-                            && (*tag_name == js_word!("option")
-                                || *tag_name == js_word!("optgroup")) =>
+                            && (*tag_name == "option" || *tag_name == "optgroup") =>
                         {
                             true
                         }
@@ -686,7 +666,7 @@ where
                     //
                     // A colgroup element's end tag can be omitted if the colgroup element is not
                     // immediately followed by ASCII whitespace or a comment.
-                    js_word!("caption") | js_word!("colgroup") => match next {
+                    "caption" | "colgroup" => match next {
                         Some(Child::Text(text))
                             if text.data.chars().next().unwrap().is_ascii_whitespace() =>
                         {
@@ -698,14 +678,13 @@ where
                     // A tbody element's end tag can be omitted if the tbody element is immediately
                     // followed by a tbody or tfoot element, or if there is no more content in the
                     // parent element.
-                    js_word!("tbody") => match next {
+                    "tbody" => match next {
                         Some(Child::Element(Element {
                             namespace,
                             tag_name,
                             ..
                         })) if *namespace == Namespace::HTML
-                            && (*tag_name == js_word!("tbody")
-                                || *tag_name == js_word!("tfoot")) =>
+                            && (*tag_name == "tbody" || *tag_name == "tfoot") =>
                         {
                             true
                         }
@@ -714,14 +693,13 @@ where
                     },
                     // A thead element's end tag can be omitted if the thead element is immediately
                     // followed by a tbody or tfoot element.
-                    js_word!("thead") => match next {
+                    "thead" => match next {
                         Some(Child::Element(Element {
                             namespace,
                             tag_name,
                             ..
                         })) if *namespace == Namespace::HTML
-                            && (*tag_name == js_word!("tbody")
-                                || *tag_name == js_word!("tfoot")) =>
+                            && (*tag_name == "tbody" || *tag_name == "tfoot") =>
                         {
                             true
                         }
@@ -729,29 +707,29 @@ where
                     },
                     // A tfoot element's end tag can be omitted if there is no more content in the
                     // parent element.
-                    js_word!("tfoot") => next.is_none(),
+                    "tfoot" => next.is_none(),
                     // A tr element's end tag can be omitted if the tr element is immediately
                     // followed by another tr element, or if there is no more content in the parent
                     // element.
-                    js_word!("tr") => match next {
+                    "tr" => match next {
                         Some(Child::Element(Element {
                             namespace,
                             tag_name,
                             ..
-                        })) if *namespace == Namespace::HTML && *tag_name == js_word!("tr") => true,
+                        })) if *namespace == Namespace::HTML && *tag_name == "tr" => true,
                         None => true,
                         _ => false,
                     },
                     // A th element's end tag can be omitted if the th element is immediately
                     // followed by a td or th element, or if there is no more content in the parent
                     // element.
-                    js_word!("td") | js_word!("th") => match next {
+                    "td" | "th" => match next {
                         Some(Child::Element(Element {
                             namespace,
                             tag_name,
                             ..
                         })) if *namespace == Namespace::HTML
-                            && (*tag_name == js_word!("td") || *tag_name == js_word!("th")) =>
+                            && (*tag_name == "td" || *tag_name == "th") =>
                         {
                             true
                         }
@@ -852,15 +830,9 @@ where
     }
 
     fn create_context_for_element(&self, n: &Element) -> Ctx {
-        let need_escape_text = match n.tag_name {
-            js_word!("style")
-            | js_word!("script")
-            | js_word!("xmp")
-            | js_word!("iframe")
-            | js_word!("noembed")
-            | js_word!("noframes")
-            | js_word!("plaintext") => false,
-            js_word!("noscript") => !self.config.scripting_enabled,
+        let need_escape_text = match &*n.tag_name {
+            "style" | "script" | "xmp" | "iframe" | "noembed" | "noframes" | "plaintext" => false,
+            "noscript" => !self.config.scripting_enabled,
             _ if self.is_plaintext => false,
             _ => true,
         };
@@ -1194,142 +1166,142 @@ fn is_html_tag_name(namespace: Namespace, tag_name: &JsWord) -> bool {
     }
 
     matches!(
-        *tag_name,
-        js_word!("a") | js_word!("abbr")
-            | js_word!("acronym")
-            | js_word!("address")
-            | js_word!("applet")
-            | js_word!("area")
-            | js_word!("article")
-            | js_word!("aside")
-            | js_word!("audio")
-            | js_word!("b")
-            | js_word!("base")
-            | js_word!("basefont")
-            | js_word!("bdi")
-            | js_word!("bdo")
-            | js_word!("big")
-            | js_word!("blockquote")
-            | js_word!("body")
-            | js_word!("br")
-            | js_word!("button")
-            | js_word!("canvas")
-            | js_word!("caption")
-            | js_word!("center")
-            | js_word!("cite")
-            | js_word!("code")
-            | js_word!("col")
-            | js_word!("colgroup")
-            | js_word!("data")
-            | js_word!("datalist")
-            | js_word!("dd")
-            | js_word!("del")
-            | js_word!("details")
-            | js_word!("dfn")
-            | js_word!("dialog")
-            | js_word!("dir")
-            | js_word!("div")
-            | js_word!("dl")
-            | js_word!("dt")
-            | js_word!("em")
-            | js_word!("embed")
-            | js_word!("fieldset")
-            | js_word!("figcaption")
-            | js_word!("figure")
-            | js_word!("font")
-            | js_word!("footer")
-            | js_word!("form")
-            | js_word!("frame")
-            | js_word!("frameset")
-            | js_word!("h1")
-            | js_word!("h2")
-            | js_word!("h3")
-            | js_word!("h4")
-            | js_word!("h5")
-            | js_word!("h6")
-            | js_word!("head")
-            | js_word!("header")
-            | js_word!("hgroup")
-            | js_word!("hr")
-            | js_word!("html")
-            | js_word!("i")
-            | js_word!("iframe")
-            | js_word!("image")
-            | js_word!("img")
-            | js_word!("input")
-            | js_word!("ins")
-            | js_word!("isindex")
-            | js_word!("kbd")
-            | js_word!("keygen")
-            | js_word!("label")
-            | js_word!("legend")
-            | js_word!("li")
-            | js_word!("link")
-            | js_word!("listing")
-            | js_word!("main")
-            | js_word!("map")
-            | js_word!("mark")
-            | js_word!("marquee")
-            | js_word!("menu")
+        &**tag_name,
+        "a" | "abbr"
+            | "acronym"
+            | "address"
+            | "applet"
+            | "area"
+            | "article"
+            | "aside"
+            | "audio"
+            | "b"
+            | "base"
+            | "basefont"
+            | "bdi"
+            | "bdo"
+            | "big"
+            | "blockquote"
+            | "body"
+            | "br"
+            | "button"
+            | "canvas"
+            | "caption"
+            | "center"
+            | "cite"
+            | "code"
+            | "col"
+            | "colgroup"
+            | "data"
+            | "datalist"
+            | "dd"
+            | "del"
+            | "details"
+            | "dfn"
+            | "dialog"
+            | "dir"
+            | "div"
+            | "dl"
+            | "dt"
+            | "em"
+            | "embed"
+            | "fieldset"
+            | "figcaption"
+            | "figure"
+            | "font"
+            | "footer"
+            | "form"
+            | "frame"
+            | "frameset"
+            | "h1"
+            | "h2"
+            | "h3"
+            | "h4"
+            | "h5"
+            | "h6"
+            | "head"
+            | "header"
+            | "hgroup"
+            | "hr"
+            | "html"
+            | "i"
+            | "iframe"
+            | "image"
+            | "img"
+            | "input"
+            | "ins"
+            | "isindex"
+            | "kbd"
+            | "keygen"
+            | "label"
+            | "legend"
+            | "li"
+            | "link"
+            | "listing"
+            | "main"
+            | "map"
+            | "mark"
+            | "marquee"
+            | "menu"
             // Removed from spec, but we keep here to track it
-            // | js_word!("menuitem")
-            | js_word!("meta")
-            | js_word!("meter")
-            | js_word!("nav")
-            | js_word!("nobr")
-            | js_word!("noembed")
-            | js_word!("noframes")
-            | js_word!("noscript")
-            | js_word!("object")
-            | js_word!("ol")
-            | js_word!("optgroup")
-            | js_word!("option")
-            | js_word!("output")
-            | js_word!("p")
-            | js_word!("param")
-            | js_word!("picture")
-            | js_word!("plaintext")
-            | js_word!("pre")
-            | js_word!("progress")
-            | js_word!("q")
-            | js_word!("rb")
-            | js_word!("rbc")
-            | js_word!("rp")
-            | js_word!("rt")
-            | js_word!("rtc")
-            | js_word!("ruby")
-            | js_word!("s")
-            | js_word!("samp")
-            | js_word!("script")
-            | js_word!("section")
-            | js_word!("select")
-            | js_word!("small")
-            | js_word!("source")
-            | js_word!("span")
-            | js_word!("strike")
-            | js_word!("strong")
-            | js_word!("style")
-            | js_word!("sub")
-            | js_word!("summary")
-            | js_word!("sup")
-            | js_word!("table")
-            | js_word!("tbody")
-            | js_word!("td")
-            | js_word!("template")
-            | js_word!("textarea")
-            | js_word!("tfoot")
-            | js_word!("th")
-            | js_word!("thead")
-            | js_word!("time")
-            | js_word!("title")
-            | js_word!("tr")
-            | js_word!("track")
-            | js_word!("tt")
-            | js_word!("u")
-            | js_word!("ul")
-            | js_word!("var")
-            | js_word!("video")
-            | js_word!("wbr")
-            | js_word!("xmp")
+            // | "menuitem"
+            | "meta"
+            | "meter"
+            | "nav"
+            | "nobr"
+            | "noembed"
+            | "noframes"
+            | "noscript"
+            | "object"
+            | "ol"
+            | "optgroup"
+            | "option"
+            | "output"
+            | "p"
+            | "param"
+            | "picture"
+            | "plaintext"
+            | "pre"
+            | "progress"
+            | "q"
+            | "rb"
+            | "rbc"
+            | "rp"
+            | "rt"
+            | "rtc"
+            | "ruby"
+            | "s"
+            | "samp"
+            | "script"
+            | "section"
+            | "select"
+            | "small"
+            | "source"
+            | "span"
+            | "strike"
+            | "strong"
+            | "style"
+            | "sub"
+            | "summary"
+            | "sup"
+            | "table"
+            | "tbody"
+            | "td"
+            | "template"
+            | "textarea"
+            | "tfoot"
+            | "th"
+            | "thead"
+            | "time"
+            | "title"
+            | "tr"
+            | "track"
+            | "tt"
+            | "u"
+            | "ul"
+            | "var"
+            | "video"
+            | "wbr"
+            | "xmp"
     )
 }

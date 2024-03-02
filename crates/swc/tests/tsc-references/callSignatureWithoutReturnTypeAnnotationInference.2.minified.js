@@ -1,6 +1,4 @@
 //// [callSignatureWithoutReturnTypeAnnotationInference.ts]
-// Call signatures without a return type should infer one from the function body (if present)
-// Simple types
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _type_of } from "@swc/helpers/_/_type_of";
 function m1() {

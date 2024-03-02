@@ -47,7 +47,7 @@
    :                  ^^^^
    `----
 
-  x Ident { value: Atom('http' type=inline), raw: "http" }
+  x Ident { value: "http", raw: "http" }
    ,-[$DIR/tests/recovery/at-rule/document/input.css:1:1]
  1 | @document domain(http://www.example.com/) {}
    :                  ^^^^
@@ -95,7 +95,7 @@
    :                         ^^^
    `----
 
-  x Ident { value: Atom('www' type=inline), raw: "www" }
+  x Ident { value: "www", raw: "www" }
    ,-[$DIR/tests/recovery/at-rule/document/input.css:1:1]
  1 | @document domain(http://www.example.com/) {}
    :                         ^^^
@@ -119,7 +119,7 @@
    :                             ^^^^^^^
    `----
 
-  x Ident { value: Atom('example' type=inline), raw: "example" }
+  x Ident { value: "example", raw: "example" }
    ,-[$DIR/tests/recovery/at-rule/document/input.css:1:1]
  1 | @document domain(http://www.example.com/) {}
    :                             ^^^^^^^
@@ -143,7 +143,7 @@
    :                                     ^^^
    `----
 
-  x Ident { value: Atom('com' type=inline), raw: "com" }
+  x Ident { value: "com", raw: "com" }
    ,-[$DIR/tests/recovery/at-rule/document/input.css:1:1]
  1 | @document domain(http://www.example.com/) {}
    :                                     ^^^

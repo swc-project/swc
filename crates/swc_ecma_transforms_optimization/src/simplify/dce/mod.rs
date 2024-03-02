@@ -3,7 +3,7 @@ use std::{borrow::Cow, sync::Arc};
 use indexmap::IndexSet;
 use petgraph::{algo::tarjan_scc, Direction::Incoming};
 use rustc_hash::FxHashSet;
-use swc_atoms::{js_word, JsWord};
+use swc_atoms::JsWord;
 use swc_common::{
     collections::{AHashMap, AHashSet, ARandomState},
     pass::{CompilerPass, Repeated},
@@ -310,7 +310,7 @@ impl Analyzer<'_> {
 
     /// Mark `id` as used
     fn add(&mut self, id: Id, assign: bool) {
-        if id.0 == js_word!("arguments") {
+        if id.0 == "arguments" {
             self.scope.found_arguemnts = true;
         }
 
@@ -361,11 +361,7 @@ impl Visit for Analyzer<'_> {
         n.visit_children_with(self);
 
         if let Callee::Expr(e) = n {
-            if let Expr::Ident(Ident {
-                sym: js_word!("eval"),
-                ..
-            }) = &**e
-            {
+            if e.is_ident_ref_to("eval") {
                 self.scope.found_direct_eval = true;
             }
         }
@@ -820,8 +816,8 @@ impl VisitMut for TreeShaker {
 
         if let Expr::Assign(a) = n {
             if match &a.left {
-                PatOrExpr::Expr(l) => l.is_invalid(),
-                PatOrExpr::Pat(l) => l.is_invalid(),
+                AssignTarget::Simple(l) => l.is_invalid(),
+                AssignTarget::Pat(l) => l.is_invalid(),
             } {
                 *n = *a.right.take();
             }

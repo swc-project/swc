@@ -1,6 +1,4 @@
 //// [thisTypeInObjectLiterals2.ts]
-// In methods of an object literal with no contextual type, 'this' has the type
-// of the object literal.
 var p1 = {
     x: 10,
     y: 20,

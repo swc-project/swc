@@ -42,6 +42,14 @@ impl NoThrowLiteral {
         });
     }
 
+    fn could_simple_target_be_error(&self, expr: &SimpleAssignTarget) -> bool {
+        match expr {
+            SimpleAssignTarget::Ident(_) | SimpleAssignTarget::Member(_) => true,
+            SimpleAssignTarget::SuperProp(_) => false,
+            _ => false,
+        }
+    }
+
     #[allow(clippy::only_used_in_recursion)]
     fn could_be_error(&self, expr: &Expr) -> bool {
         match unwrap_seqs_and_parens(expr) {
@@ -59,8 +67,9 @@ impl NoThrowLiteral {
             }) => match op {
                 op!("=") | op!("&&=") => self.could_be_error(right.as_ref()),
                 op!("||=") | op!("??=") => {
-                    if let PatOrExpr::Expr(left) = left {
-                        self.could_be_error(left.as_ref()) || self.could_be_error(right.as_ref())
+                    if let AssignTarget::Simple(left) = left {
+                        self.could_simple_target_be_error(left)
+                            || self.could_be_error(right.as_ref())
                     } else {
                         false
                     }

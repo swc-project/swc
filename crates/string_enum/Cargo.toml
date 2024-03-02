@@ -1,26 +1,25 @@
 [package]
-authors = ["강동윤 <kdy1997.dev@gmail.com>"]
-description = "String based enum."
+authors       = ["강동윤 <kdy1997.dev@gmail.com>"]
+description   = "String based enum."
 documentation = "https://rustdoc.swc.rs/string_enum/"
-edition = "2021"
-license = "Apache-2.0"
-name = "string_enum"
-repository = "https://github.com/swc-project/swc.git"
-version = "0.4.1"
+edition       = "2021"
+license       = "Apache-2.0"
+name          = "string_enum"
+repository    = "https://github.com/swc-project/swc.git"
+version       = "0.4.2"
 
 [lib]
-bench = false
+bench      = false
 proc-macro = true
 
 [dependencies]
-pmutil = "0.6.1"
-proc-macro2 = "1"
-quote = "1"
-swc_macros_common = {version = "0.3.8", path = "../swc_macros_common"}
+proc-macro2       = "1"
+quote             = "1"
+swc_macros_common = { version = "0.3.9", path = "../swc_macros_common" }
 
-[dependencies.syn]
-features = ["full", "parsing", "printing", "extra-traits"]
-version = "2"
+    [dependencies.syn]
+    features = ["full", "parsing", "printing", "extra-traits"]
+    version  = "2"
 
 [dev-dependencies]
 serde = "1"

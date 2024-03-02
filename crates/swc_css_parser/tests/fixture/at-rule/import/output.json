@@ -272,7 +272,7 @@
           "end": 136,
           "ctxt": 0
         },
-        "value": "import",
+        "value": "IMPORT",
         "raw": "IMPORT"
       },
       "prelude": {
@@ -412,7 +412,7 @@
               "end": 194,
               "ctxt": 0
             },
-            "value": "url",
+            "value": "URL",
             "raw": "URL"
           },
           "value": {
@@ -1057,7 +1057,7 @@
               "end": 494,
               "ctxt": 0
             },
-            "value": "layer",
+            "value": "LAYER",
             "raw": "LAYER"
           },
           "value": [
@@ -1547,7 +1547,7 @@
                 "end": 709,
                 "ctxt": 0
               },
-              "value": "supports",
+              "value": "SUPPORTS",
               "raw": "SUPPORTS"
             },
             "value": [
@@ -2016,7 +2016,7 @@
           "end": 904,
           "ctxt": 0
         },
-        "value": "import",
+        "value": "IMPORT",
         "raw": "IMPORT"
       },
       "prelude": {
@@ -3160,7 +3160,7 @@
                     "end": 1318,
                     "ctxt": 0
                   },
-                  "value": "screen",
+                  "value": "SCREEN",
                   "raw": "SCREEN"
                 },
                 "keyword": {
@@ -3195,7 +3195,7 @@
                           "end": 1335,
                           "ctxt": 0
                         },
-                        "value": "orientation",
+                        "value": "ORIENTATION",
                         "raw": "ORIENTATION"
                       },
                       "value": {
@@ -3205,7 +3205,7 @@
                           "end": 1346,
                           "ctxt": 0
                         },
-                        "value": "landscape",
+                        "value": "LANDSCAPE",
                         "raw": "LANDSCAPE"
                       }
                     }
@@ -9192,7 +9192,7 @@
               "end": 4755,
               "ctxt": 0
             },
-            "value": "layer",
+            "value": "LAYER",
             "raw": "LAYER"
           },
           "value": [
@@ -9239,7 +9239,7 @@
                 "end": 4773,
                 "ctxt": 0
               },
-              "value": "supports",
+              "value": "SUPPORTS",
               "raw": "SUPPORTS"
             },
             "value": [
@@ -9257,7 +9257,7 @@
                     "end": 4781,
                     "ctxt": 0
                   },
-                  "value": "display",
+                  "value": "DISPLAY",
                   "raw": "DISPLAY"
                 },
                 "value": [
@@ -9299,7 +9299,7 @@
                     "end": 4795,
                     "ctxt": 0
                   },
-                  "value": "screen",
+                  "value": "SCREEN",
                   "raw": "SCREEN"
                 },
                 "keyword": {
@@ -9334,7 +9334,7 @@
                           "end": 4810,
                           "ctxt": 0
                         },
-                        "value": "min-width",
+                        "value": "MIN-WIDTH",
                         "raw": "MIN-WIDTH"
                       },
                       "value": {
@@ -9361,7 +9361,7 @@
                             "end": 4817,
                             "ctxt": 0
                           },
-                          "value": "px",
+                          "value": "PX",
                           "raw": "PX"
                         }
                       }

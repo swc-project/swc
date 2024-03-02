@@ -1,4 +1,4 @@
-extern crate swc_node_base;
+extern crate swc_malloc;
 
 use std::{
     io::{self, stderr},
@@ -6,10 +6,11 @@ use std::{
 };
 
 use criterion::{black_box, criterion_group, criterion_main, Bencher, Criterion};
-use swc::config::{Config, IsModule, JscConfig, Options, SourceMapsConfig};
+use swc::config::{Config, IsModule, JscConfig, Options};
 use swc_common::{
     errors::Handler, FileName, FilePathMapping, Mark, SourceFile, SourceMap, GLOBALS,
 };
+use swc_compiler_base::PrintArgs;
 use swc_ecma_ast::{EsVersion, Program};
 use swc_ecma_parser::Syntax;
 use swc_ecma_transforms::{fixer, hygiene, resolver, typescript};
@@ -112,16 +113,11 @@ fn bench_codegen(b: &mut Bencher, _target: EsVersion) {
             black_box(GLOBALS.set(&Default::default(), || {
                 c.print(
                     &module,
-                    None,
-                    None,
-                    false,
-                    SourceMapsConfig::Bool(false),
-                    &Default::default(),
-                    None,
-                    None,
-                    false,
-                    Default::default(),
-                    swc_ecma_codegen::Config::default().with_target(EsVersion::Es2020),
+                    PrintArgs {
+                        codegen_config: swc_ecma_codegen::Config::default()
+                            .with_target(EsVersion::Es2020),
+                        ..Default::default()
+                    },
                 )
                 .unwrap()
             }));

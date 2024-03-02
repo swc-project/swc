@@ -1,0 +1,1 @@
+//// [dependentDestructuredVariablesFromNestedPatterns.ts]

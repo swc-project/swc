@@ -19,7 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Give x another name.' type=dynamic),
+            value: "Give x another name.",
         },
         tags: [
             TagItem {
@@ -42,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('alias' type=inline),
+                    value: "alias",
                 },
                 tag: Alias(
                     AliasTag {
@@ -76,7 +76,7 @@
                                         ),
                                         ctxt: #0,
                                     },
-                                    value: Atom('myObject' type=dynamic),
+                                    value: "myObject",
                                 },
                             ],
                         },
@@ -103,7 +103,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('namespace' type=static),
+                    value: "namespace",
                 },
                 tag: Namespace(
                     NamespaceTag {
@@ -143,7 +143,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('document me' type=dynamic),
+            value: "document me",
         },
         tags: [],
     },

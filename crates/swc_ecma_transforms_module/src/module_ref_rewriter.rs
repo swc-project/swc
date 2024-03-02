@@ -37,10 +37,10 @@ pub(crate) struct ImportQuery {
 }
 
 impl QueryRef for ImportQuery {
-    fn query_ref(&self, ident: &Ident) -> Option<Expr> {
+    fn query_ref(&self, ident: &Ident) -> Option<Box<Expr>> {
         self.import_map
             .get(&ident.to_id())
-            .map(|(mod_ident, mod_prop)| -> Expr {
+            .map(|(mod_ident, mod_prop)| -> Box<Expr> {
                 let mut mod_ident = mod_ident.clone();
                 let span = ident.span.with_ctxt(mod_ident.span.ctxt);
                 mod_ident.span = span;
@@ -61,13 +61,18 @@ impl QueryRef for ImportQuery {
                     }
                     .into()
                 } else {
-                    mod_expr
+                    mod_expr.into()
                 }
             })
     }
 
-    fn query_lhs(&self, _: &Ident) -> Option<Expr> {
+    fn query_lhs(&self, _: &Ident) -> Option<Box<Expr>> {
         // import binding cannot be used as lhs
+        None
+    }
+
+    fn query_jsx(&self, _: &Ident) -> Option<JSXElementName> {
+        // We do not need to handle JSX since there is no jsx preserve option in swc
         None
     }
 

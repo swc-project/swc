@@ -43,7 +43,7 @@ macro_rules! quote_expr {
     }};
 
     ($span:expr, undefined) => {{
-        box Expr::Ident(Ident::new(js_word!("undefined"), $span))
+        box Expr::Ident(Ident::new("undefined", $span))
     }};
 }
 
@@ -83,11 +83,11 @@ macro_rules! member_expr {
         use $crate::swc_ecma_ast::*;
         let prop = MemberProp::Ident($crate::quote_ident!($span, stringify!($first)));
 
-        Box::new(Expr::Member(MemberExpr{
+        MemberExpr{
             span: $crate::swc_common::DUMMY_SP,
             obj: $obj,
             prop,
-        }))
+        }
     }};
 }
 
@@ -100,7 +100,7 @@ mod tests {
 
     #[test]
     fn quote_member_expr() {
-        let expr: Box<Expr> = drop_span(member_expr!(span, Function.prototype.bind));
+        let expr: Box<Expr> = drop_span(member_expr!(span, Function.prototype.bind)).into();
 
         assert_eq!(
             expr,

@@ -63,16 +63,21 @@ impl Mode for Eval {
         w.cache.insert(id, Box::new(value.clone()));
     }
 
-    fn force_str_for_tpl(&self) -> bool {
+    fn preserve_vars(&self) -> bool {
         true
     }
 
     fn should_be_very_correct(&self) -> bool {
         false
     }
+
+    fn force_str_for_tpl(&self) -> bool {
+        true
+    }
 }
 
 impl Evaluator {
+    #[tracing::instrument(name = "Evaluator::run", level = "debug", skip_all)]
     fn run(&mut self) {
         if !self.done {
             self.done = true;
@@ -83,10 +88,12 @@ impl Evaluator {
             self.module.visit_mut_with(&mut compressor(
                 marks,
                 &CompressOptions {
-                    hoist_props: true,
+                    // We should not drop unused variables.
+                    unused: false,
                     top_level: Some(TopLevelOptions { functions: true }),
                     ..Default::default()
                 },
+                None,
                 &data,
             ));
         }
@@ -146,15 +153,8 @@ impl Evaluator {
             }
 
             // "foo".length
-            Expr::Member(MemberExpr {
-                obj,
-                prop:
-                    MemberProp::Ident(Ident {
-                        sym: js_word!("length"),
-                        ..
-                    }),
-                ..
-            }) if obj.is_lit() => {}
+            Expr::Member(MemberExpr { obj, prop, .. })
+                if obj.is_lit() && prop.is_ident_with("length") => {}
 
             Expr::Unary(UnaryExpr {
                 op: op!("void"), ..

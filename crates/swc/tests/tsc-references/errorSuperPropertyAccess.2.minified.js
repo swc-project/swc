@@ -1,7 +1,4 @@
 //// [errorSuperPropertyAccess.ts]
-//super property access in constructor of class with no base type
-//super property access in instance member function of class with no base type
-//super property access in instance member accessor(get and set) of class with no base type
 import { _ as _assert_this_initialized } from "@swc/helpers/_/_assert_this_initialized";
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _create_class } from "@swc/helpers/_/_create_class";

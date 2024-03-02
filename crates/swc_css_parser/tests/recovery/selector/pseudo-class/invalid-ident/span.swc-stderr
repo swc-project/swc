@@ -55,7 +55,7 @@
  2 |     
    `----
 
-  x Ident { value: Atom('first-child' type=static), raw: "first-child" }
+  x Ident { value: "first-child", raw: "first-child" }
    ,-[$DIR/tests/recovery/selector/pseudo-class/invalid-ident/input.css:1:1]
  1 | : first-child {
    :   ^^^^^^^^^^^

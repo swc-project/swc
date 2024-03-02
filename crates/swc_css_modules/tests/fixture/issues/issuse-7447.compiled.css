@@ -1,6 +1,6 @@
 .a:hover {
   color: blue;
 }
-.__local__a.b {
+.__local__a.__local__b {
   color: red;
 }

@@ -6,16 +6,11 @@ import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 export var inModule = 1;
 inmodule.toFixed();
-var object = {};
-object.spaaaace // error on read
-, object.spaace = 12 // error on write
-, object.fresh = 12 // OK
-, other.puuuce // OK, from another file
-, new Date().getGMTDate() // OK, from another file
-, setIntegral(function() {
+var object = {
+    spaaace: 3
+};
+object.spaaaace, object.spaace = 12, object.fresh = 12, other.puuuce, new Date().getGMTDate(), setIntegral(function() {
     return console.log("ok");
-}, 500), AudioBuffin // etc
-, Jimmy, Jon;
+}, 500), AudioBuffin, Jimmy, Jon;
 //// [other.js]
-Jon // error, it's from the same file
-;
+Jon;

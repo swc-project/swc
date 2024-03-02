@@ -19,7 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -42,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('constructor' type=static),
+                    value: "constructor",
                 },
                 tag: Class(
                     ClassTag {
@@ -82,7 +82,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -105,7 +105,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('this' type=static),
+                    value: "this",
                 },
                 tag: This(
                     ThisTag {
@@ -139,7 +139,7 @@
                                         ),
                                         ctxt: #0,
                                     },
-                                    value: Atom('' type=static),
+                                    value: "",
                                 },
                             ],
                         },
@@ -168,7 +168,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('document me' type=dynamic),
+            value: "document me",
         },
         tags: [],
     },
@@ -192,7 +192,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -215,7 +215,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('this' type=static),
+                    value: "this",
                 },
                 tag: This(
                     ThisTag {
@@ -249,7 +249,7 @@
                                         ),
                                         ctxt: #0,
                                     },
-                                    value: Atom('' type=static),
+                                    value: "",
                                 },
                             ],
                         },

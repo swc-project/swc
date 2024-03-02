@@ -1,0 +1,1 @@
+type satisfies = 0;

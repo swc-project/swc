@@ -23,7 +23,10 @@ use swc_common::{
 };
 use tracing::{debug, trace, Level};
 
-use crate::{resolve::Resolve, TargetEnv, NODE_BUILTINS};
+use crate::{
+    resolve::{Resolution, Resolve},
+    TargetEnv, NODE_BUILTINS,
+};
 
 static PACKAGE: &str = "package.json";
 
@@ -409,10 +412,8 @@ impl NodeModulesResolver {
 
         Ok(None)
     }
-}
 
-impl Resolve for NodeModulesResolver {
-    fn resolve(&self, base: &FileName, target: &str) -> Result<FileName, Error> {
+    fn resolve_filename(&self, base: &FileName, target: &str) -> Result<FileName, Error> {
         debug!(
             "Resolving {} from {:#?} for {:#?}",
             target, base, self.target_env
@@ -525,5 +526,15 @@ impl Resolve for NodeModulesResolver {
         });
 
         file_name
+    }
+}
+
+impl Resolve for NodeModulesResolver {
+    fn resolve(&self, base: &FileName, module_specifier: &str) -> Result<Resolution, Error> {
+        self.resolve_filename(base, module_specifier)
+            .map(|filename| Resolution {
+                filename,
+                slug: None,
+            })
     }
 }

@@ -7,7 +7,6 @@ use std::{
 };
 
 use indexmap::map::{Entry, IndexMap};
-use swc_atoms::js_word;
 use swc_common::collections::{AHashMap, AHashSet, ARandomState};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::ext::ExprRefExt;
@@ -372,7 +371,7 @@ impl<'a> Scope<'a> {
             self.prevent_inline(id)
         }
 
-        if id.0 == js_word!("arguments") {
+        if id.0 == "arguments" {
             self.prevent_inline_of_params();
         }
 
@@ -443,7 +442,7 @@ impl<'a> Scope<'a> {
             self.prevent_inline(id)
         }
 
-        if id.0 == js_word!("arguments") {
+        if id.0 == "arguments" {
             self.prevent_inline_of_params();
         }
 

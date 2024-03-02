@@ -5,7 +5,7 @@ use swc_common::{
     Mark, Span, SyntaxContext,
 };
 use swc_ecma_ast::*;
-use swc_ecma_utils::{find_pat_ids, IsDirective};
+use swc_ecma_utils::find_pat_ids;
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, visit_mut_obj_and_computed, Fold, VisitMut, VisitMutWith,
 };
@@ -58,7 +58,7 @@ const LOG: bool = false && cfg!(debug_assertions);
 /// 2. Found a block, so visit block with a new syntax context.
 ///
 /// 3. Defined `a` with syntax context of the block statement.
-////
+///
 /// 4. Found usage of `a`, and determines that it's reference to `a` in the
 /// block. So the reference to `a` will have same syntax context as `a` in the
 /// block.
@@ -148,6 +148,7 @@ pub fn resolver(
         current: Scope::new(ScopeKind::Fn, top_level_mark, None),
         ident_type: IdentType::Ref,
         in_type: false,
+        is_module: false,
         in_ts_module: false,
         decl_kind: DeclKind::Lexical,
         strict_mode: false,
@@ -204,6 +205,7 @@ struct Resolver<'a> {
     current: Scope<'a>,
     ident_type: IdentType,
     in_type: bool,
+    is_module: bool,
     in_ts_module: bool,
     decl_kind: DeclKind,
     strict_mode: bool,
@@ -225,6 +227,7 @@ impl<'a> Resolver<'a> {
             current,
             ident_type: IdentType::Ref,
             in_type: false,
+            is_module: false,
             in_ts_module: false,
             config,
             decl_kind: DeclKind::Lexical,
@@ -245,6 +248,7 @@ impl<'a> Resolver<'a> {
             ident_type: IdentType::Ref,
             config: self.config,
             in_type: self.in_type,
+            is_module: self.is_module,
             in_ts_module: self.in_ts_module,
             decl_kind: self.decl_kind,
             strict_mode: self.strict_mode,
@@ -304,9 +308,10 @@ impl<'a> Resolver<'a> {
                 }
 
                 return match &**sym {
-                    // https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects#value_properties
-                    "undefined" | "NaN" | "Infinity" | "globalThis"
-                        if mark == self.config.top_level_mark =>
+                    // https://tc39.es/ecma262/multipage/global-object.html#sec-value-properties-of-the-global-object-infinity
+                    // non configurable global value
+                    "undefined" | "NaN" | "Infinity"
+                        if mark == self.config.top_level_mark && !self.is_module =>
                     {
                         Some(self.config.unresolved_mark)
                     }
@@ -345,35 +350,17 @@ impl<'a> Resolver<'a> {
 
         if self.in_type {
             self.current.declared_types.insert(ident.sym.clone());
-            let mark = self.current.mark;
-
-            ident.span = if mark == Mark::root() {
-                ident.span
-            } else {
-                let span = ident.span.apply_mark(mark);
-                if cfg!(debug_assertions) && LOG {
-                    debug!("\t-> {:?}", span.ctxt());
-                }
-                span
-            };
-            return;
+        } else {
+            self.current
+                .declared_symbols
+                .insert(ident.sym.clone(), kind);
         }
 
         let mark = self.current.mark;
 
-        self.current
-            .declared_symbols
-            .insert(ident.sym.clone(), kind);
-
-        ident.span = if mark == Mark::root() {
-            ident.span
-        } else {
-            let span = ident.span.apply_mark(mark);
-            if cfg!(debug_assertions) && LOG {
-                debug!("\t-> {:?}", span.ctxt());
-            }
-            span
-        };
+        if mark != Mark::root() {
+            ident.span = ident.span.apply_mark(mark);
+        }
     }
 
     fn mark_block(&mut self, span: &mut Span) {
@@ -509,8 +496,6 @@ impl<'a> VisitMut for Resolver<'a> {
     typed_ref!(visit_mut_ts_union_type, TsUnionType);
 
     typed_ref!(visit_mut_ts_infer_type, TsInferType);
-
-    typed_ref!(visit_mut_ts_import_type, TsImportType);
 
     typed_ref!(visit_mut_ts_tuple_type, TsTupleType);
 
@@ -1053,6 +1038,7 @@ impl<'a> VisitMut for Resolver<'a> {
 
     fn visit_mut_module(&mut self, module: &mut Module) {
         self.strict_mode = true;
+        self.is_module = true;
         module.visit_mut_children_with(self)
     }
 
@@ -1139,6 +1125,7 @@ impl<'a> VisitMut for Resolver<'a> {
         {
             self.with_child(ScopeKind::Fn, |child| {
                 child.ident_type = IdentType::Binding;
+                n.this_param.visit_mut_with(child);
                 n.param.visit_mut_with(child);
                 n.body.visit_mut_with(child);
             });
@@ -1304,14 +1291,27 @@ impl<'a> VisitMut for Resolver<'a> {
         n.module_ref.visit_mut_with(self);
     }
 
+    fn visit_mut_ts_import_type(&mut self, n: &mut TsImportType) {
+        if !self.config.handle_types {
+            return;
+        }
+
+        n.type_args.visit_mut_with(self);
+    }
+
     fn visit_mut_ts_interface_decl(&mut self, n: &mut TsInterfaceDecl) {
         // always resolve the identifier for type stripping purposes
         let old_in_type = self.in_type;
+        let old_ident_type = self.ident_type;
+
         self.in_type = true;
+        self.ident_type = IdentType::Ref;
+
         self.modify(&mut n.id, DeclKind::Type);
 
         if !self.config.handle_types {
             self.in_type = old_in_type;
+            self.ident_type = old_ident_type;
             return;
         }
 
@@ -1322,7 +1322,9 @@ impl<'a> VisitMut for Resolver<'a> {
             n.extends.visit_mut_with(child);
             n.body.visit_mut_with(child);
         });
+
         self.in_type = old_in_type;
+        self.ident_type = old_ident_type;
     }
 
     fn visit_mut_ts_mapped_type(&mut self, n: &mut TsMappedType) {
@@ -1479,6 +1481,13 @@ impl<'a> VisitMut for Resolver<'a> {
         params.visit_mut_children_with(self);
     }
 
+    fn visit_mut_using_decl(&mut self, decl: &mut UsingDecl) {
+        let old_kind = self.decl_kind;
+        self.decl_kind = DeclKind::Lexical;
+        decl.decls.visit_mut_with(self);
+        self.decl_kind = old_kind;
+    }
+
     fn visit_mut_var_decl(&mut self, decl: &mut VarDecl) {
         let old_kind = self.decl_kind;
         self.decl_kind = decl.kind.into();
@@ -1553,7 +1562,7 @@ impl VisitMut for Hoister<'_, '_> {
     fn visit_mut_assign_pat_prop(&mut self, node: &mut AssignPatProp) {
         node.visit_mut_children_with(self);
 
-        self.add_pat_id(&mut node.key);
+        self.add_pat_id(&mut node.key.id);
     }
 
     fn visit_mut_block_stmt(&mut self, n: &mut BlockStmt) {
@@ -1655,6 +1664,10 @@ impl VisitMut for Hoister<'_, '_> {
         if self.resolver.config.handle_types {
             match decl {
                 Decl::TsInterface(i) => {
+                    if self.in_block {
+                        return;
+                    }
+
                     let old_in_type = self.resolver.in_type;
                     self.resolver.in_type = true;
                     self.resolver.modify(&mut i.id, DeclKind::Type);
@@ -1805,7 +1818,7 @@ impl VisitMut for Hoister<'_, '_> {
     }
 
     #[inline]
-    fn visit_mut_pat_or_expr(&mut self, _: &mut PatOrExpr) {}
+    fn visit_mut_assign_target(&mut self, _: &mut AssignTarget) {}
 
     #[inline]
     fn visit_mut_setter_prop(&mut self, _: &mut SetterProp) {}
@@ -1827,6 +1840,9 @@ impl VisitMut for Hoister<'_, '_> {
 
     #[inline]
     fn visit_mut_ts_module_block(&mut self, _: &mut TsModuleBlock) {}
+
+    #[inline]
+    fn visit_mut_using_decl(&mut self, _: &mut UsingDecl) {}
 
     fn visit_mut_var_decl(&mut self, node: &mut VarDecl) {
         if self.in_block {

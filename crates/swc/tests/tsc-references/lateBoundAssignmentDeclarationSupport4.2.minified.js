@@ -1,5 +1,4 @@
 //// [lateBoundAssignmentDeclarationSupport4.js]
-// currently unsupported
 const _sym = Symbol(), _str = "my-fake-sym";
 function F() {}
 F.prototype[_sym] = "ok", F.prototype[_str] = "ok";

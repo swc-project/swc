@@ -19,7 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -42,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('lends' type=inline),
+                    value: "lends",
                 },
                 tag: Lends(
                     LendsTag {
@@ -76,7 +76,7 @@
                                         ),
                                         ctxt: #0,
                                     },
-                                    value: Atom('Person' type=inline),
+                                    value: "Person",
                                 },
                             ],
                         },
@@ -105,7 +105,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -128,7 +128,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('constructs' type=dynamic),
+                    value: "constructs",
                 },
                 tag: Constructs(
                     ConstructsTag {
@@ -151,7 +151,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('' type=static),
+                            value: "",
                         },
                     },
                 ),
@@ -178,9 +178,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Callback for `say`.
-                 *
-                 *' type=dynamic),
+            value: "Callback for `say`.\n     *\n     *",
         },
         tags: [
             TagItem {
@@ -203,7 +201,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('callback' type=dynamic),
+                    value: "callback",
                 },
                 tag: Callback(
                     CallbackTag {
@@ -237,7 +235,7 @@
                                         ),
                                         ctxt: #0,
                                     },
-                                    value: Atom('Person' type=inline),
+                                    value: "Person",
                                 },
                             ],
                         },
@@ -266,9 +264,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Speak a message asynchronously.
-                 *
-                 *' type=dynamic),
+            value: "Speak a message asynchronously.\n     *\n     *",
         },
         tags: [
             TagItem {
@@ -291,7 +287,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('param' type=static),
+                    value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
@@ -316,7 +312,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('{Person~sayCallback}' type=dynamic),
+                                value: "{Person~sayCallback}",
                             },
                         ),
                         desc: Text {
@@ -329,7 +325,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('cb' type=inline),
+                            value: "cb",
                         },
                     },
                 ),

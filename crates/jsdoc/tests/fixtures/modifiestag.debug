@@ -19,8 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('My mutator function.
-             *' type=dynamic),
+            value: "My mutator function.\n *",
         },
         tags: [
             TagItem {
@@ -43,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('modifies' type=dynamic),
+                    value: "modifies",
                 },
                 tag: Unknown(
                     UnknownTag {
@@ -66,7 +65,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('{(foo|bar)}' type=dynamic),
+                            value: "{(foo|bar)}",
                         },
                     },
                 ),

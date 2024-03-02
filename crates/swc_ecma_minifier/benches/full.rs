@@ -1,6 +1,6 @@
 //! Ported from https://github.com/privatenumber/minification-benchmarks
 
-extern crate swc_node_base;
+extern crate swc_malloc;
 
 use std::fs::read_to_string;
 

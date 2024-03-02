@@ -1,2 +1,1 @@
 //// [controlFlowConditionalExpression.ts]
- // string | number

@@ -25,6 +25,7 @@ fn parse_stylesheet(fm: &Lrc<SourceFile>) -> Stylesheet {
     let mut errors = vec![];
     let ss: Stylesheet = parse_file(
         fm,
+        None,
         ParserConfig {
             allow_wrong_line_comments: true,
             ..Default::default()
@@ -191,6 +192,27 @@ fn test_color_hwb(input: PathBuf) {
 
         ss.visit_mut_with(&mut Compiler::new(Config {
             process: Features::COLOR_HWB,
+        }));
+
+        let s = print_stylesheet(&ss);
+
+        NormalizedOutput::from(s).compare_to_file(&output).unwrap();
+
+        Ok(())
+    })
+    .unwrap();
+}
+
+#[testing::fixture("tests/all/**/*.css", exclude("expect.css"))]
+fn test_all(input: PathBuf) {
+    let output = input.with_extension("expect.css");
+
+    testing::run_test(false, |cm, _| {
+        let fm = cm.load_file(&input).unwrap();
+        let mut ss = parse_stylesheet(&fm);
+
+        ss.visit_mut_with(&mut Compiler::new(Config {
+            process: Features::all(),
         }));
 
         let s = print_stylesheet(&ss);

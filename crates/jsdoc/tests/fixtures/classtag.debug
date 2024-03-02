@@ -19,7 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Describe the Ticker class here.' type=dynamic),
+            value: "Describe the Ticker class here.",
         },
         tags: [
             TagItem {
@@ -42,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('class' type=static),
+                    value: "class",
                 },
                 tag: Class(
                     ClassTag {

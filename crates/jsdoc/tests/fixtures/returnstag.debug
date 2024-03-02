@@ -19,7 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -42,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('returns' type=inline),
+                    value: "returns",
                 },
                 tag: Return(
                     ReturnTag {
@@ -66,7 +66,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('{string|Array<string>}' type=dynamic),
+                                value: "{string|Array<string>}",
                             },
                         ),
                         description: Text {
@@ -79,7 +79,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('The names of the found item(s).' type=dynamic),
+                            value: "The names of the found item(s).",
                         },
                     },
                 ),
@@ -106,7 +106,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -129,7 +129,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('returns' type=inline),
+                    value: "returns",
                 },
                 tag: Return(
                     ReturnTag {
@@ -153,7 +153,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('{!string}' type=dynamic),
+                                value: "{!string}",
                             },
                         ),
                         description: Text {
@@ -166,7 +166,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('The name, if defined.' type=dynamic),
+                            value: "The name, if defined.",
                         },
                     },
                 ),
@@ -193,7 +193,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -216,7 +216,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('return' type=static),
+                    value: "return",
                 },
                 tag: Return(
                     ReturnTag {
@@ -240,7 +240,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('The' type=inline),
+                                value: "The",
                             },
                         ),
                         description: Text {
@@ -253,7 +253,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('binding id.' type=dynamic),
+                            value: "binding id.",
                         },
                     },
                 ),
@@ -280,7 +280,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -303,7 +303,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('return' type=static),
+                    value: "return",
                 },
                 tag: Return(
                     ReturnTag {
@@ -327,7 +327,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('An' type=inline),
+                                value: "An",
                             },
                         ),
                         description: Text {
@@ -340,7 +340,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('object to be passed to {@link find}.' type=dynamic),
+                            value: "object to be passed to {@link find}.",
                         },
                     },
                 ),

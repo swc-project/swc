@@ -1,6 +1,5 @@
 //// [assignmentCompatWithObjectMembers4.ts]
-// members N and M of types S and T have the same name, same accessibility, same optionality, and N is not assignable M
-var OnlyDerived, WithBase, Base, Derived, /*#__PURE__*/ Derived2, Base1, /*#__PURE__*/ Derived21;
+var OnlyDerived, WithBase, Base, Derived, Derived2, Base1, Derived21;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";

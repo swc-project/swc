@@ -1,9 +1,8 @@
 //! Import/export analyzer
 
-use swc_atoms::{js_word, JsWord};
+use swc_atoms::JsWord;
 use swc_css_ast::{
-    ComponentValue, Declaration, DeclarationName, Ident, ImportHref, ImportPrelude, Stylesheet,
-    UrlValue,
+    ComponentValue, Declaration, DeclarationName, ImportHref, ImportPrelude, Stylesheet, UrlValue,
 };
 use swc_css_visit::{Visit, VisitWith};
 
@@ -51,15 +50,13 @@ impl Visit for Analyzer {
             if &*name.value == "composes" {
                 // composes: name from 'foo.css'
                 if d.value.len() >= 3 {
-                    if let (
-                        ComponentValue::Ident(box Ident {
-                            value: js_word!("from"),
-                            ..
-                        }),
-                        ComponentValue::Str(s),
-                    ) = (&d.value[d.value.len() - 2], &d.value[d.value.len() - 1])
-                    {
-                        self.imports.push(s.value.clone());
+                    match (&d.value[d.value.len() - 2], &d.value[d.value.len() - 1]) {
+                        (ComponentValue::Ident(ident), ComponentValue::Str(s))
+                            if ident.value == "from" =>
+                        {
+                            self.imports.push(s.value.clone());
+                        }
+                        _ => (),
                     }
                 }
             }

@@ -1,2 +1,2 @@
-import { NekoRoute } from "./src/lib/structures/route/index.js";
+import { NekoRoute } from "./src/lib/structures/route";
 console.log(NekoRoute);

@@ -19,7 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Class representing a widget.' type=dynamic),
+            value: "Class representing a widget.",
         },
         tags: [],
     },
@@ -43,9 +43,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Add users who can access the widget.
-                 *
-                 *' type=dynamic),
+            value: "Add users who can access the widget.\n     *\n     *",
         },
         tags: [
             TagItem {
@@ -68,7 +66,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('param' type=static),
+                    value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
@@ -93,7 +91,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('{User}' type=inline),
+                                value: "{User}",
                             },
                         ),
                         desc: Text {
@@ -106,7 +104,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('users - The users who can access the widget.' type=dynamic),
+                            value: "users - The users who can access the widget.",
                         },
                     },
                 ),

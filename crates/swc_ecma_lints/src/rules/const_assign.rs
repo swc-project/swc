@@ -54,12 +54,6 @@ impl ConstAssign {
 impl Visit for ConstAssign {
     noop_visit_type!();
 
-    fn visit_assign_pat_prop(&mut self, p: &AssignPatProp) {
-        p.visit_children_with(self);
-
-        self.check(&p.key);
-    }
-
     fn visit_module(&mut self, program: &Module) {
         program.visit_children_with(&mut Collector {
             const_vars: &mut self.const_vars,
@@ -70,22 +64,8 @@ impl Visit for ConstAssign {
         program.visit_children_with(self);
     }
 
-    fn visit_pat(&mut self, p: &Pat) {
-        p.visit_children_with(self);
-
-        if let Pat::Ident(p) = p {
-            self.check(&p.id);
-        }
-    }
-
-    fn visit_assign_expr(&mut self, n: &AssignExpr) {
-        n.visit_children_with(self);
-
-        if let PatOrExpr::Expr(left) = &n.left {
-            if let Expr::Ident(ident) = &**left {
-                self.check(ident);
-            }
-        }
+    fn visit_binding_ident(&mut self, n: &BindingIdent) {
+        self.check(&n.id);
     }
 
     fn visit_update_expr(&mut self, n: &UpdateExpr) {

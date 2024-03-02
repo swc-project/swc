@@ -17,6 +17,7 @@ mod clone;
 ///
 ///  - `Expr`
 ///  - `Pat`
+///  - `AssignTarget`
 ///  - `Stmt`
 ///  - `ModuleItem`
 ///

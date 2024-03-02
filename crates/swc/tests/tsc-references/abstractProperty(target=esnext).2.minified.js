@@ -1,0 +1,1 @@
+//// [abstractProperty.ts]

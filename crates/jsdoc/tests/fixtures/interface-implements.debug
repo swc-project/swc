@@ -19,7 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -42,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('interface' type=static),
+                    value: "interface",
                 },
                 tag: Interface(
                     InterfaceTag {
@@ -81,7 +81,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -104,7 +104,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('type' type=static),
+                    value: "type",
                 },
                 tag: Type(
                     TypeTag {
@@ -127,7 +127,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('{string}' type=dynamic),
+                            value: "{string}",
                         },
                     },
                 ),
@@ -154,7 +154,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -177,7 +177,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('enum' type=static),
+                    value: "enum",
                 },
                 tag: Enum(
                     EnumTag {
@@ -200,7 +200,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('' type=static),
+                            value: "",
                         },
                     },
                 ),
@@ -227,7 +227,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('before each method' type=dynamic),
+            value: "before each method",
         },
         tags: [],
     },
@@ -251,7 +251,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('it method.' type=dynamic),
+            value: "it method.",
         },
         tags: [],
     },
@@ -275,7 +275,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -298,7 +298,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('constructor' type=static),
+                    value: "constructor",
                 },
                 tag: Class(
                     ClassTag {
@@ -322,7 +322,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('* @implements {ITester}' type=dynamic),
+                                value: "* @implements {ITester}",
                             },
                         ),
                         name: None,
@@ -351,7 +351,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -374,7 +374,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('type' type=static),
+                    value: "type",
                 },
                 tag: Type(
                     TypeTag {
@@ -397,7 +397,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('' type=static),
+                            value: "",
                         },
                     },
                 ),
@@ -424,7 +424,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -447,7 +447,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('enum' type=static),
+                    value: "enum",
                 },
                 tag: Enum(
                     EnumTag {
@@ -470,7 +470,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('' type=static),
+                            value: "",
                         },
                     },
                 ),
@@ -497,7 +497,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('keyboard up' type=dynamic),
+            value: "keyboard up",
         },
         tags: [],
     },
@@ -521,7 +521,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('my tester's beforeEach method.' type=dynamic),
+            value: "my tester's beforeEach method.",
         },
         tags: [],
     },
@@ -545,7 +545,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -568,7 +568,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('interface' type=static),
+                    value: "interface",
                 },
                 tag: Interface(
                     InterfaceTag {
@@ -607,7 +607,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Interface for doing some work.' type=dynamic),
+            value: "Interface for doing some work.",
         },
         tags: [],
     },
@@ -631,7 +631,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -654,7 +654,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('constructor' type=static),
+                    value: "constructor",
                 },
                 tag: Class(
                     ClassTag {
@@ -678,7 +678,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('* @implements {IWorker}' type=dynamic),
+                                value: "* @implements {IWorker}",
                             },
                         ),
                         name: None,
@@ -707,7 +707,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Do some work.' type=dynamic),
+            value: "Do some work.",
         },
         tags: [],
     },
@@ -731,7 +731,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -754,7 +754,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('constructor' type=static),
+                    value: "constructor",
                 },
                 tag: Class(
                     ClassTag {
@@ -778,7 +778,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('* @implements {IWorker}' type=dynamic),
+                                value: "* @implements {IWorker}",
                             },
                         ),
                         name: None,

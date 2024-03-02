@@ -31,7 +31,7 @@
    :  ^^^^^
    `----
 
-  x Ident { value: Atom('class' type=static), raw: "class" }
+  x Ident { value: "class", raw: "class" }
    ,-[$DIR/tests/recovery/selector/attribute/unclosed/input.css:1:1]
  1 | .class[attr= {
    :  ^^^^^
@@ -63,7 +63,7 @@
    :        ^^^^
    `----
 
-  x Ident { value: Atom('attr' type=inline), raw: "attr" }
+  x Ident { value: "attr", raw: "attr" }
    ,-[$DIR/tests/recovery/selector/attribute/unclosed/input.css:1:1]
  1 | .class[attr= {
    :        ^^^^

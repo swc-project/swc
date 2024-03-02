@@ -1,18 +1,19 @@
 use std::{
     borrow::Cow,
     env::current_dir,
+    fs::read_link,
     io,
     path::{Component, Path, PathBuf},
     sync::Arc,
 };
 
-use anyhow::{Context, Error};
+use anyhow::{anyhow, Context, Error};
 use path_clean::PathClean;
 use pathdiff::diff_paths;
 use swc_atoms::JsWord;
 use swc_common::{FileName, Mark, Span, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_loader::resolve::Resolve;
+use swc_ecma_loader::resolve::{Resolution, Resolve};
 use swc_ecma_utils::{quote_ident, ExprFactory};
 use tracing::{debug, info, warn, Level};
 
@@ -122,7 +123,7 @@ where
                 base_dir.is_absolute(),
                 "base_dir(`{}`) must be absolute. Please ensure that `jsc.baseUrl` is specified \
                  correctly. This cannot be deduced by SWC itself because SWC is a transpiler and \
-                 it does not try to resolve project details. In other works, SWC does not know \
+                 it does not try to resolve project details. In other words, SWC does not know \
                  which directory should be used as a base directory. It can be deduced if \
                  `.swcrc` is used, but if not, there are many candidates. e.g. the directory \
                  containing `package.json`, or the current working directory. Because of that, \
@@ -154,8 +155,14 @@ where
                 false
             };
 
-            let is_resolved_as_ts = if let Some(ext) = target_path.extension() {
-                ext == "ts" || ext == "tsx"
+            let is_resolved_as_non_js = if let Some(ext) = target_path.extension() {
+                ext != "js"
+            } else {
+                false
+            };
+
+            let is_resolved_as_js = if let Some(ext) = target_path.extension() {
+                ext == "js"
             } else {
                 false
             };
@@ -166,17 +173,31 @@ where
                 false
             };
 
-            if !is_resolved_as_index && !is_exact {
+            if orig_filename == "index" {
+                // Import: `./foo/index`
+                // Resolved: `./foo/index.js`
+
+                if self.config.resolve_fully {
+                    target_path.set_file_name("index.js");
+                } else {
+                    target_path.set_file_name("index");
+                }
+            } else if is_resolved_as_index && is_resolved_as_js && orig_filename != "index.js" {
+                // Import: `./foo`
+                // Resolved: `./foo/index.js`
+
+                target_path.pop();
+            } else if !is_resolved_as_js && !is_resolved_as_index && !is_exact {
                 target_path.set_file_name(orig_filename);
-            } else if is_resolved_as_ts && is_exact {
+            } else if is_resolved_as_non_js && is_exact {
                 if let Some(ext) = Path::new(orig_filename).extension() {
                     target_path.set_extension(ext);
                 } else {
                     target_path.set_extension("js");
                 }
-            } else if self.config.resolve_fully && is_resolved_as_ts {
+            } else if self.config.resolve_fully && is_resolved_as_non_js {
                 target_path.set_extension("js");
-            } else if is_resolved_as_ts && is_resolved_as_index {
+            } else if is_resolved_as_non_js && is_resolved_as_index {
                 if orig_filename == "index" {
                     target_path.set_extension("");
                 } else {
@@ -209,10 +230,10 @@ where
             None
         };
 
-        let orig_filename = module_specifier.split('/').last();
+        let orig_slug = module_specifier.split('/').last();
 
         let target = self.resolver.resolve(base, module_specifier);
-        let target = match target {
+        let mut target = match target {
             Ok(v) => v,
             Err(err) => {
                 warn!("import rewriter: failed to resolve: {}", err);
@@ -220,7 +241,22 @@ where
             }
         };
 
-        info!("Resolved to {}", target);
+        // Bazel uses symlink
+        //
+        // https://github.com/swc-project/swc/issues/8265
+        if let FileName::Real(resolved) = &target.filename {
+            if let Ok(orig) = read_link(resolved) {
+                target.filename = FileName::Real(orig);
+            }
+        }
+
+        let Resolution {
+            filename: target,
+            slug,
+        } = target;
+        let slug = slug.as_deref().or(orig_slug);
+
+        info!("Resolved as {target:?} with slug = {slug:?}");
 
         let mut target = match target {
             FileName::Real(v) => {
@@ -228,10 +264,10 @@ where
                 if v.starts_with(".") || v.starts_with("..") || v.is_absolute() {
                     v
                 } else {
-                    return Ok(self.to_specifier(v, orig_filename));
+                    return Ok(self.to_specifier(v, slug));
                 }
             }
-            FileName::Custom(s) => return Ok(self.to_specifier(s.into(), orig_filename)),
+            FileName::Custom(s) => return Ok(self.to_specifier(s.into(), slug)),
             _ => {
                 unreachable!(
                     "Node path provider does not support using `{:?}` as a target file name",
@@ -240,7 +276,10 @@ where
             }
         };
         let mut base = match base {
-            FileName::Real(v) => Cow::Borrowed(v),
+            FileName::Real(v) => Cow::Borrowed(
+                v.parent()
+                    .ok_or_else(|| anyhow!("failed to get parent of {:?}", v))?,
+            ),
             FileName::Anon => {
                 if cfg!(target_arch = "wasm32") {
                     panic!("Please specify `filename`")
@@ -267,17 +306,11 @@ where
             target.display()
         );
 
-        let rel_path = diff_paths(
-            &target,
-            match base.parent() {
-                Some(v) => v,
-                None => &base,
-            },
-        );
+        let rel_path = diff_paths(&target, &*base);
 
         let rel_path = match rel_path {
             Some(v) => v,
-            None => return Ok(self.to_specifier(target, orig_filename)),
+            None => return Ok(self.to_specifier(target, slug)),
         };
 
         debug!("Relative path: {}", rel_path.display());
@@ -307,7 +340,7 @@ where
             Cow::Owned(format!("./{}", s))
         };
 
-        Ok(self.to_specifier(s.into_owned().into(), orig_filename))
+        Ok(self.to_specifier(s.into_owned().into(), slug))
     }
 }
 

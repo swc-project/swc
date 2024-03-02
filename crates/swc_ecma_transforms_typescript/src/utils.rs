@@ -14,13 +14,6 @@ impl AsCollapsibleDecl for Decl {
             }
             Decl::TsEnum(ts_enum) => Some(ts_enum.id.to_id()),
             Decl::TsModule(ts_module) => ts_module.id.as_ident().map(Ident::to_id),
-            Decl::Var(var) => var.decls.iter().find_map(|decl| match &decl.name {
-                // Note: this is not correct.
-                // We should not count `var` as collapsible decl since TypeScript does not do so.
-                // But decorated class was compiled to `var` by previous pass.
-                Pat::Ident(ident) => Some(ident.to_id()),
-                _ => None,
-            }),
             _ => None,
         }
     }
@@ -104,13 +97,13 @@ impl AsEnumOrModule for ModuleItem {
 ///
 /// this.prop = value
 pub(crate) fn assign_value_to_this_prop(prop_name: PropName, value: Expr) -> Box<Expr> {
-    let target = Expr::Member(MemberExpr {
+    let target = MemberExpr {
         obj: ThisExpr { span: DUMMY_SP }.into(),
         span: DUMMY_SP,
         prop: prop_name.into(),
-    });
+    };
 
-    let expr = value.make_assign_to(op!("="), PatOrExpr::Pat(Pat::Expr(target.into()).into()));
+    let expr = value.make_assign_to(op!("="), target.into());
 
     Box::new(expr)
 }
@@ -120,13 +113,13 @@ pub(crate) fn assign_value_to_this_private_prop(
     private_name: PrivateName,
     value: Expr,
 ) -> Box<Expr> {
-    let target = Expr::Member(MemberExpr {
+    let target = MemberExpr {
         obj: ThisExpr { span: DUMMY_SP }.into(),
         span: DUMMY_SP,
         prop: MemberProp::PrivateName(private_name),
-    });
+    };
 
-    let expr = value.make_assign_to(op!("="), PatOrExpr::Pat(Pat::Expr(target.into()).into()));
+    let expr = value.make_assign_to(op!("="), target.into());
 
     Box::new(expr)
 }

@@ -1,5 +1,4 @@
 //// [assignmentCompatWithConstructSignatures6.ts]
-// checking assignment compatibility relations for function types. All valid.
 var x, b, b2, b3, b4, b5, b11, b16;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";

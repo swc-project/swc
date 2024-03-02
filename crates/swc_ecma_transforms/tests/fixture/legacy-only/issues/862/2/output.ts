@@ -1,6 +1,6 @@
-export let Product = class Product extends TimestampedEntity {
-    id: string;
-};
+export class Product extends TimestampedEntity {
+    public id!: string;
+}
 _ts_decorate([
     PrimaryGeneratedColumn("uuid")
 ], Product.prototype, "id", void 0);

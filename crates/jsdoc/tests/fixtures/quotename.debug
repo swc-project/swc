@@ -19,7 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -42,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('namespace' type=static),
+                    value: "namespace",
                 },
                 tag: Namespace(
                     NamespaceTag {
@@ -82,7 +82,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -105,7 +105,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('namespace' type=static),
+                    value: "namespace",
                 },
                 tag: Namespace(
                     NamespaceTag {
@@ -145,7 +145,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -168,7 +168,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('member' type=inline),
+                    value: "member",
                 },
                 tag: Member(
                     MemberTag {
@@ -191,7 +191,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('' type=static),
+                            value: "",
                         },
                         name: Text {
                             span: Span {
@@ -203,7 +203,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('type' type=static),
+                            value: "type",
                         },
                     },
                 ),

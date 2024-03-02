@@ -1,5 +1,4 @@
 //// [subtypesOfTypeParameterWithRecursiveConstraints.ts]
-// checking whether other types are subtypes of type parameters with constraints
 var M1, M2;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";

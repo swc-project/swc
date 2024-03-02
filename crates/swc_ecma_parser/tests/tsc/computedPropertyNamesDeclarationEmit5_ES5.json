@@ -270,6 +270,7 @@
                     }
                   }
                 },
+                "thisParam": null,
                 "param": {
                   "type": "Identifier",
                   "span": {

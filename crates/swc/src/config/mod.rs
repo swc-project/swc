@@ -220,6 +220,7 @@ impl Options {
         base: &FileName,
         parse: impl FnOnce(Syntax, EsVersion, IsModule) -> Result<Program, Error>,
         output_path: Option<&Path>,
+        source_root: Option<String>,
         source_file_name: Option<String>,
         handler: &Handler,
         config: Option<Config>,
@@ -271,8 +272,8 @@ impl Options {
             }
         });
 
-        let unresolved_mark = self.unresolved_mark.unwrap_or_else(Mark::new);
-        let top_level_mark = self.top_level_mark.unwrap_or_else(Mark::new);
+        let unresolved_mark = self.unresolved_mark.unwrap_or_default();
+        let top_level_mark = self.top_level_mark.unwrap_or_default();
 
         if target.is_some() && cfg.env.is_some() {
             bail!("`env` and `jsc.target` cannot be used together");
@@ -619,7 +620,7 @@ impl Options {
                                 &plugin_name,
                             )?;
 
-                            let path = if let FileName::Real(value) = resolved_path {
+                            let path = if let FileName::Real(value) = resolved_path.filename {
                                 value
                             } else {
                                 anyhow::bail!("Failed to resolve plugin path: {:?}", resolved_path);
@@ -769,6 +770,7 @@ impl Options {
             inline_sources_content: cfg.inline_sources_content.into_bool(),
             input_source_map: cfg.input_source_map.clone().unwrap_or_default(),
             output_path: output_path.map(|v| v.to_path_buf()),
+            source_root,
             source_file_name,
             comments: comments.cloned(),
             preserve_comments,
@@ -1076,6 +1078,7 @@ pub struct BuiltInput<P: swc_ecma_visit::Fold> {
     pub is_module: IsModule,
     pub output_path: Option<PathBuf>,
 
+    pub source_root: Option<String>,
     pub source_file_name: Option<String>,
 
     pub comments: Option<SingleThreadedComments>,
@@ -1107,6 +1110,7 @@ where
             input_source_map: self.input_source_map,
             is_module: self.is_module,
             output_path: self.output_path,
+            source_root: self.source_root,
             source_file_name: self.source_file_name,
             preserve_comments: self.preserve_comments,
             inline_sources_content: self.inline_sources_content,
@@ -1743,12 +1747,16 @@ fn build_resolver(
     }
 
     let r = {
-        let r = TsConfigResolver::new(
-            NodeModulesResolver::without_node_modules(Default::default(), Default::default(), true),
-            base_url.clone(),
-            paths.clone(),
+        let r = NodeModulesResolver::without_node_modules(
+            swc_ecma_loader::TargetEnv::Node,
+            Default::default(),
+            true,
         );
-        let r = CachingResolver::new(40, r);
+
+        let r = CachingResolver::new(1024, r);
+
+        let r = TsConfigResolver::new(r, base_url.clone(), paths.clone());
+        let r = CachingResolver::new(256, r);
 
         let r = NodeImportResolver::with_config(
             r,

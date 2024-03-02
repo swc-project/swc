@@ -96,7 +96,7 @@
  3 | }
    `----
 
-  x Ident { value: Atom('--' type=inline), raw: "--" }
+  x Ident { value: "--", raw: "--" }
    ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:1:1]
  1 | :root {
  2 |     --:value;
@@ -128,7 +128,7 @@
  3 | }
    `----
 
-  x Ident { value: Atom('value' type=inline), raw: "value" }
+  x Ident { value: "value", raw: "value" }
    ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:1:1]
  1 | :root {
  2 |     --:value;
@@ -272,7 +272,7 @@
  7 | }
    `----
 
-  x Ident { value: Atom('--' type=inline), raw: "--" }
+  x Ident { value: "--", raw: "--" }
    ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:5:1]
  5 | .a {
  6 |     counter-reset: -- --a -a;
@@ -304,7 +304,7 @@
  7 | }
    `----
 
-  x Ident { value: Atom('--a' type=inline), raw: "--a" }
+  x Ident { value: "--a", raw: "--a" }
    ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:5:1]
  5 | .a {
  6 |     counter-reset: -- --a -a;
@@ -336,7 +336,7 @@
  7 | }
    `----
 
-  x Ident { value: Atom('-a' type=inline), raw: "-a" }
+  x Ident { value: "-a", raw: "-a" }
    ,-[$DIR/tests/recovery/value/custom-properties/only-dashed/input.css:5:1]
  5 | .a {
  6 |     counter-reset: -- --a -a;

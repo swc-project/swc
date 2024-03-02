@@ -1,9 +1,9 @@
 //! 12.1 Identifiers
 use either::Either;
-use swc_atoms::js_word;
+use swc_atoms::atom;
 
 use super::*;
-use crate::token::Keyword;
+use crate::token::{IdentLike, Keyword};
 
 impl<I: Tokens> Parser<I> {
     pub(super) fn parse_maybe_private_name(&mut self) -> PResult<Either<PrivateName, Ident>> {
@@ -111,10 +111,10 @@ impl<I: Tokens> Parser<I> {
             // StringValue of IdentifierName is: "implements", "interface", "let",
             // "package", "private", "protected", "public", "static", or "yield".
             match w {
-                Word::Ident(ref name @ js_word!("enum")) => {
+                Word::Ident(ref name @ ident_like!("enum")) => {
                     p.emit_err(
                         p.input.prev_span(),
-                        SyntaxError::InvalidIdentInStrict(name.clone()),
+                        SyntaxError::InvalidIdentInStrict(name.clone().into()),
                     );
                 }
                 Word::Keyword(name @ Keyword::Yield) | Word::Keyword(name @ Keyword::Let) => {
@@ -124,16 +124,18 @@ impl<I: Tokens> Parser<I> {
                     );
                 }
 
-                Word::Ident(ref name @ js_word!("static"))
-                | Word::Ident(ref name @ js_word!("implements"))
-                | Word::Ident(ref name @ js_word!("interface"))
-                | Word::Ident(ref name @ js_word!("package"))
-                | Word::Ident(ref name @ js_word!("private"))
-                | Word::Ident(ref name @ js_word!("protected"))
-                | Word::Ident(ref name @ js_word!("public")) => {
+                Word::Ident(
+                    ref name @ ident_like!("static")
+                    | ref name @ ident_like!("implements")
+                    | ref name @ ident_like!("interface")
+                    | ref name @ ident_like!("package")
+                    | ref name @ ident_like!("private")
+                    | ref name @ ident_like!("protected")
+                    | ref name @ ident_like!("public"),
+                ) => {
                     p.emit_strict_mode_err(
                         p.input.prev_span(),
-                        SyntaxError::InvalidIdentInStrict(name.clone()),
+                        SyntaxError::InvalidIdentInStrict(name.clone().into()),
                     );
                 }
                 _ => {}
@@ -143,25 +145,29 @@ impl<I: Tokens> Parser<I> {
             // It is a Syntax Error if StringValue of IdentifierName is the same String
             // value as the StringValue of any ReservedWord except for yield or await.
             match w {
-                Word::Keyword(Keyword::Await) if p.ctx().in_declare => Ok(js_word!("await")),
+                Word::Keyword(Keyword::Await) if p.ctx().in_declare => Ok(atom!("await")),
+
+                Word::Keyword(Keyword::Await) if p.ctx().in_static_block => {
+                    syntax_error!(p, p.input.prev_span(), SyntaxError::ExpectedIdent)
+                }
 
                 // It is a Syntax Error if the goal symbol of the syntactic grammar is Module
                 // and the StringValue of IdentifierName is "await".
                 Word::Keyword(Keyword::Await) if p.ctx().module | p.ctx().in_async => {
                     syntax_error!(p, p.input.prev_span(), SyntaxError::InvalidIdentInAsync)
                 }
-                Word::Keyword(Keyword::This) if p.input.syntax().typescript() => {
-                    Ok(js_word!("this"))
-                }
-                Word::Keyword(Keyword::Let) => Ok(js_word!("let")),
+                Word::Keyword(Keyword::This) if p.input.syntax().typescript() => Ok(atom!("this")),
+                Word::Keyword(Keyword::Let) => Ok(atom!("let")),
                 Word::Ident(ident) => {
-                    if ident == js_word!("arguments") && p.ctx().in_class_field {
+                    if matches!(&ident, IdentLike::Other(arguments) if &**arguments == "arguments")
+                        && p.ctx().in_class_field
+                    {
                         p.emit_err(p.input.prev_span(), SyntaxError::ArgumentsInClassField)
                     }
-                    Ok(ident)
+                    Ok(ident.into())
                 }
-                Word::Keyword(Keyword::Yield) if incl_yield => Ok(js_word!("yield")),
-                Word::Keyword(Keyword::Await) if incl_await => Ok(js_word!("await")),
+                Word::Keyword(Keyword::Yield) if incl_yield => Ok(atom!("yield")),
+                Word::Keyword(Keyword::Await) if incl_await => Ok(atom!("await")),
                 Word::Keyword(..) | Word::Null | Word::True | Word::False => {
                     syntax_error!(p, p.input.prev_span(), SyntaxError::ExpectedIdent)
                 }

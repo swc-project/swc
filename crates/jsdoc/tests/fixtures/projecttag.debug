@@ -19,7 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('An automated documentation generator for JavaScript.' type=dynamic),
+            value: "An automated documentation generator for JavaScript.",
         },
         tags: [
             TagItem {
@@ -42,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('project' type=inline),
+                    value: "project",
                 },
                 tag: Unknown(
                     UnknownTag {
@@ -65,7 +65,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('JSDoc' type=inline),
+                            value: "JSDoc",
                         },
                     },
                 ),
@@ -90,7 +90,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('version' type=inline),
+                    value: "version",
                 },
                 tag: Version(
                     VersionTag {
@@ -113,7 +113,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('3.0.0' type=inline),
+                            value: "3.0.0",
                         },
                     },
                 ),
@@ -138,7 +138,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('copyright' type=dynamic),
+                    value: "copyright",
                 },
                 tag: Copyright(
                     CopyrightTag {
@@ -161,7 +161,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('2011 (c) Michael Mathews <micmath@gmail.com>' type=dynamic),
+                            value: "2011 (c) Michael Mathews <micmath@gmail.com>",
                         },
                     },
                 ),
@@ -186,7 +186,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('license' type=inline),
+                    value: "license",
                 },
                 tag: License(
                     LicenseTag {
@@ -209,7 +209,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('Apache Version 2 <http://www.apache.org/licenses/LICENSE-2.0>' type=dynamic),
+                            value: "Apache Version 2 <http://www.apache.org/licenses/LICENSE-2.0>",
                         },
                     },
                 ),

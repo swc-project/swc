@@ -2527,8 +2527,7 @@
                     switch(typeof exp){
                         case "string":
                             if (cache.hasOwnProperty(exp)) return cache[exp];
-                            var lexer = new Lexer($parseOptions);
-                            return parsedExpression = new Parser(lexer, $filter, $parseOptions).parse(exp, !1), "hasOwnProperty" !== exp && (cache[exp] = parsedExpression), parsedExpression;
+                            return parsedExpression = new Parser(new Lexer($parseOptions), $filter, $parseOptions).parse(exp, !1), "hasOwnProperty" !== exp && (cache[exp] = parsedExpression), parsedExpression;
                         case "function":
                             return exp;
                         default:

@@ -284,6 +284,7 @@ impl Optimizer<'_> {
             debug_assert_valid(&v);
 
             self.changed = true;
+            report_change!("conditionals: Merging cons and alt as only one argument differs");
             *s = Stmt::Expr(ExprStmt {
                 span: stmt.span,
                 expr: Box::new(v),
@@ -540,12 +541,14 @@ impl Optimizer<'_> {
                 None
             }
 
-            (Expr::Assign(cons), Expr::Assign(alt))
-                if cons.op == op!("=")
-                    && cons.op == alt.op
-                    && cons.left.eq_ignore_span(&alt.left)
-                    && is_simple_lhs(&cons.left) =>
-            {
+            (
+                Expr::Assign(cons @ AssignExpr { op: op!("="), .. }),
+                Expr::Assign(alt @ AssignExpr { op: op!("="), .. }),
+            ) if cons.left.eq_ignore_span(&alt.left) && cons.left.as_ident().is_some() => {
+                if !test.is_ident() && self.data.contains_unresolved(test) {
+                    return None;
+                }
+
                 report_change!("Merging assignments in cons and alt of if statement");
                 Some(Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
@@ -737,8 +740,7 @@ impl Optimizer<'_> {
         self.changed = true;
         report_change!("if_return: Injecting else because it's shorter");
 
-        let mut new = vec![];
-        new.reserve(pos_of_if + 1);
+        let mut new = Vec::with_capacity(pos_of_if + 1);
         new.extend(stmts.drain(..pos_of_if));
         let alt = stmts.drain(1..).collect::<Vec<_>>();
 
@@ -848,16 +850,5 @@ fn extract_expr_stmt(s: &mut Stmt) -> Option<&mut Expr> {
     match s {
         Stmt::Expr(e) => Some(&mut *e.expr),
         _ => None,
-    }
-}
-
-fn is_simple_lhs(l: &PatOrExpr) -> bool {
-    match l {
-        PatOrExpr::Expr(l) => matches!(&**l, Expr::Ident(..)),
-        PatOrExpr::Pat(l) => match &**l {
-            Pat::Ident(_) => true,
-            Pat::Expr(e) => matches!(&**e, Expr::Ident(..)),
-            _ => false,
-        },
     }
 }

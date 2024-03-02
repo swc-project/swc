@@ -12,11 +12,8 @@ var X = function() {
         return {};
     }, X;
 }();
-console.log(X.now()) // works as expected
-, console.log((function Y() {
+console.log(X.now()), console.log((function Y() {
     _class_call_check(this, Y);
-}).now()) // works as expected
-;
+}).now());
 export var x = Math.random() > 0.5 ? new X() : 1;
-_instanceof(x, X) && x.why() // should compile
-;
+_instanceof(x, X) && x.why();

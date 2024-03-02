@@ -51,7 +51,7 @@ tracing-chrome = "0.5.0"
 tracing-futures = "0.2.5"
 tracing-subscriber = { version = "0.3.9", features = ["env-filter"] }
 
-swc_core = { version = "0.83.38", features = [
+swc_core = { version = "0.90.14", features = [
   "allocator_node",
   "ecma_ast",
   "ecma_codegen",
@@ -64,4 +64,5 @@ swc_core = { version = "0.83.38", features = [
   "base_node",
   "base_concurrent",
 ] }
-swc_node_base = "0.5.8"
+swc_malloc = "0.5.10"
+tokio = { version = "1.36.0", features = ["rt", "rt-multi-thread"] }

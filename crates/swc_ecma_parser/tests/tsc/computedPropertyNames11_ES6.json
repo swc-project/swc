@@ -269,6 +269,7 @@
                     "optional": false
                   }
                 },
+                "thisParam": null,
                 "param": {
                   "type": "Identifier",
                   "span": {
@@ -408,6 +409,7 @@
                     }
                   }
                 },
+                "thisParam": null,
                 "param": {
                   "type": "Identifier",
                   "span": {
@@ -518,6 +520,7 @@
                     "raw": "\"\""
                   }
                 },
+                "thisParam": null,
                 "param": {
                   "type": "Identifier",
                   "span": {
@@ -619,6 +622,7 @@
                     "optional": false
                   }
                 },
+                "thisParam": null,
                 "param": {
                   "type": "Identifier",
                   "span": {
@@ -748,6 +752,7 @@
                     ]
                   }
                 },
+                "thisParam": null,
                 "param": {
                   "type": "Identifier",
                   "span": {

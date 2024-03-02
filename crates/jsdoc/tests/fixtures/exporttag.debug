@@ -19,9 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('My class.
-             *
-             *' type=dynamic),
+            value: "My class.\n *\n *",
         },
         tags: [
             TagItem {
@@ -44,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('constructor' type=static),
+                    value: "constructor",
                 },
                 tag: Class(
                     ClassTag {
@@ -68,7 +66,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('* @export' type=dynamic),
+                                value: "* @export",
                             },
                         ),
                         name: None,
@@ -97,9 +95,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('My public method.
-             *
-             *' type=dynamic),
+            value: "My public method.\n *\n *",
         },
         tags: [
             TagItem {
@@ -122,7 +118,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('export' type=static),
+                    value: "export",
                 },
                 tag: Unknown(
                     UnknownTag {
@@ -145,7 +141,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('' type=static),
+                            value: "",
                         },
                     },
                 ),

@@ -1,7 +1,6 @@
 use std::time::Instant;
 
 use rustc_hash::FxHashSet;
-use swc_atoms::js_word;
 use swc_common::{util::take::Take, Mark, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{ModuleItemLike, StmtLike, Value};
@@ -212,6 +211,7 @@ where
 
 #[derive(Default)]
 pub(crate) struct LeapFinder {
+    found_await: bool,
     found_yield: bool,
     found_continue_with_label: bool,
     target_label: Option<Id>,
@@ -219,6 +219,12 @@ pub(crate) struct LeapFinder {
 
 impl Visit for LeapFinder {
     noop_visit_type!();
+
+    fn visit_await_expr(&mut self, n: &AwaitExpr) {
+        n.visit_children_with(self);
+
+        self.found_await = true;
+    }
 
     fn visit_arrow_expr(&mut self, _: &ArrowExpr) {}
 
@@ -504,7 +510,7 @@ impl Visit for EvalFinder {
     visit_obj_and_computed!();
 
     fn visit_ident(&mut self, i: &Ident) {
-        if i.sym == js_word!("eval") {
+        if i.sym == "eval" {
             self.found = true;
         }
     }

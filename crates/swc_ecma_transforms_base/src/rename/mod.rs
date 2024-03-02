@@ -54,6 +54,14 @@ pub fn rename_with_config(map: &AHashMap<Id, JsWord>, config: Config) -> impl '_
     })
 }
 
+pub fn remap(map: &AHashMap<Id, Id>, config: Config) -> impl '_ + Fold + VisitMut {
+    as_folder(Operator {
+        rename: map,
+        config,
+        extra: Default::default(),
+    })
+}
+
 pub fn renamer<R>(config: Config, renamer: R) -> impl Fold + VisitMut
 where
     R: Renamer,

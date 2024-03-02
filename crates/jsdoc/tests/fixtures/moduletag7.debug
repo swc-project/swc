@@ -19,7 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -42,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('module' type=static),
+                    value: "module",
                 },
                 tag: Module(
                     ModuleTag {
@@ -65,7 +65,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('' type=static),
+                            value: "",
                         },
                         ty: Text {
                             span: Span {
@@ -77,7 +77,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('color' type=static),
+                            value: "color",
                         },
                     },
                 ),
@@ -104,7 +104,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Blend two colors together.' type=dynamic),
+            value: "Blend two colors together.",
         },
         tags: [],
     },

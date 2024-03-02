@@ -82,7 +82,8 @@
         "raw": "'./types'"
       },
       "typeOnly": true,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ExportNamedDeclaration",
@@ -155,7 +156,8 @@
         "raw": "'./types'"
       },
       "typeOnly": true,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ImportDeclaration",
@@ -195,7 +197,8 @@
         "raw": "'./ns'"
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ClassDeclaration",

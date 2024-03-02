@@ -2,7 +2,6 @@ use std::{collections::VecDeque, iter::from_fn, ops::Range};
 
 use indexmap::IndexSet;
 use petgraph::EdgeDirection::{Incoming as Dependants, Outgoing as Dependencies};
-use swc_atoms::js_word;
 use swc_common::{
     collections::{AHashMap, AHashSet, ARandomState},
     sync::Lrc,
@@ -338,15 +337,14 @@ struct FieldInitFinder {
 }
 
 impl FieldInitFinder {
-    fn check_lhs_of_assign(&mut self, lhs: &PatOrExpr) {
-        match lhs {
-            PatOrExpr::Expr(e) => {
-                self.check_lhs_expr_of_assign(e);
-            }
-            PatOrExpr::Pat(pat) => {
-                if let Pat::Expr(e) = &**pat {
-                    self.check_lhs_expr_of_assign(e);
+    fn check_lhs_of_assign(&mut self, lhs: &AssignTarget) {
+        if let AssignTarget::Simple(SimpleAssignTarget::Member(m)) = lhs {
+            match &*m.obj {
+                Expr::Ident(i) => {
+                    self.accessed.insert(i.into());
                 }
+                Expr::Member(..) => self.check_lhs_expr_of_assign(&m.obj),
+                _ => {}
             }
         }
     }
@@ -369,6 +367,7 @@ impl Visit for FieldInitFinder {
 
     fn visit_assign_expr(&mut self, e: &AssignExpr) {
         let old = self.in_rhs;
+        self.in_rhs = false;
         e.left.visit_with(self);
         self.check_lhs_of_assign(&e.left);
 
@@ -389,11 +388,7 @@ impl Visit for FieldInitFinder {
             Callee::Super(_) | Callee::Import(_) => {}
             Callee::Expr(callee) => {
                 if let Expr::Member(callee) = &**callee {
-                    if let Expr::Ident(Ident {
-                        sym: js_word!("Object"),
-                        ..
-                    }) = &*callee.obj
-                    {
+                    if callee.obj.is_ident_ref_to("Object") {
                         match &callee.prop {
                             MemberProp::Ident(Ident { sym: prop_sym, .. })
                                 if *prop_sym == *"assign" =>

@@ -65,7 +65,7 @@
    :         ^^^^^
    `----
 
-  x Dimension(DimensionToken { value: 400.0, raw_value: "400", unit: Atom('px' type=static), type_flag: Integer, raw_unit: "px" })
+  x Dimension(DimensionToken { value: 400.0, raw_value: "400", unit: "px", type_flag: Integer, raw_unit: "px" })
    ,-[$DIR/tests/recovery/at-rule/media/feature-range-2/input.css:1:1]
  1 | @media (400px > "width" > 700px) {}
    :         ^^^^^
@@ -113,7 +113,7 @@
    :                 ^^^^^^^
    `----
 
-  x String { value: Atom('width' type=static), raw: "\"width\"" }
+  x String { value: "width", raw: "\"width\"" }
    ,-[$DIR/tests/recovery/at-rule/media/feature-range-2/input.css:1:1]
  1 | @media (400px > "width" > 700px) {}
    :                 ^^^^^^^
@@ -161,7 +161,7 @@
    :                           ^^^^^
    `----
 
-  x Dimension(DimensionToken { value: 700.0, raw_value: "700", unit: Atom('px' type=static), type_flag: Integer, raw_unit: "px" })
+  x Dimension(DimensionToken { value: 700.0, raw_value: "700", unit: "px", type_flag: Integer, raw_unit: "px" })
    ,-[$DIR/tests/recovery/at-rule/media/feature-range-2/input.css:1:1]
  1 | @media (400px > "width" > 700px) {}
    :                           ^^^^^

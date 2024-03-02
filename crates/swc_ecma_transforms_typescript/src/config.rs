@@ -18,6 +18,14 @@ pub struct Config {
 
     #[serde(default)]
     pub import_export_assign_config: TsImportExportAssignConfig,
+
+    /// Disables an optimization that inlines TS enum member values
+    /// within the same module that assumes the enum member values
+    /// are never modified.
+    ///
+    /// Defaults to false.
+    #[serde(default)]
+    pub ts_enum_is_mutable: bool,
 }
 
 #[derive(Debug, Default, Serialize, Deserialize)]

@@ -45,7 +45,7 @@ pub fn make_assign_stmt(handle: Ident, expr: Box<Expr>) -> Expr {
     Expr::Assign(AssignExpr {
         span: expr.span(),
         op: op!("="),
-        left: PatOrExpr::Pat(handle.into()),
+        left: handle.into(),
         right: expr,
     })
 }
@@ -107,7 +107,7 @@ impl Visit for UsedInJsx {
                 ident.sym.as_ref(),
                 "createElement" | "jsx" | "jsxDEV" | "jsxs"
             ) {
-                if let Some(ExprOrSpread { expr, .. }) = n.args.get(0) {
+                if let Some(ExprOrSpread { expr, .. }) = n.args.first() {
                     if let Expr::Ident(ident) = expr.as_ref() {
                         self.0.insert(ident.to_id());
                     }

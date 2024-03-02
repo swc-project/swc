@@ -1,0 +1,6 @@
+{
+    "defaults": false,
+    "if_return": true,
+    "dead_code": true,
+    "passes": 3
+}

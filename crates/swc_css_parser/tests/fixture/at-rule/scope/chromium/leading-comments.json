@@ -1,0 +1,24 @@
+{
+  "73": [
+    {
+      "kind": "Block",
+      "span": {
+        "start": 1,
+        "end": 73,
+        "ctxt": 0
+      },
+      "text": "/* https: //chromium-review.googlesource.com/c/chromium/src/+/4629290 */"
+    }
+  ],
+  "401": [
+    {
+      "kind": "Block",
+      "span": {
+        "start": 253,
+        "end": 401,
+        "ctxt": 0
+      },
+      "text": "/* The theme layer wins over the base layer. Note that @layer statements\n     are allowed here, but aren't affected by the enclosing @scope. */"
+    }
+  ]
+}

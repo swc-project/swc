@@ -26,7 +26,7 @@
 })();
 (function(l, o) {
     return l + o;
-})(12); // o should be any
+})(12);
 // rest parameters
 (function() {
     for(var _len = arguments.length, numbers = new Array(_len), _key = 0; _key < _len; _key++){

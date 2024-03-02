@@ -1,4 +1,3 @@
-use swc_atoms::js_word;
 use swc_common::DUMMY_SP;
 use swc_css_ast::*;
 
@@ -42,7 +41,7 @@ impl Compressor {
             }) if *a == 2 && (*b == 1 || b % 2 == -1) => {
                 *an_plus_b = AnPlusB::Ident(Ident {
                     span: *span,
-                    value: js_word!("odd"),
+                    value: "odd".into(),
                     raw: None,
                 });
             }
@@ -62,7 +61,7 @@ impl Compressor {
                 });
             }
             // `even` => `2n`
-            AnPlusB::Ident(Ident { value, span, .. }) if *value == js_word!("even") => {
+            AnPlusB::Ident(Ident { value, span, .. }) if *value == "even" => {
                 *an_plus_b = AnPlusB::AnPlusBNotation(AnPlusBNotation {
                     span: *span,
                     a: Some(2),
@@ -109,11 +108,8 @@ impl Compressor {
         match &subclass_selector {
             SubclassSelector::PseudoElement(PseudoElementSelector { name, span, .. }) => {
                 if matches!(
-                    name.value,
-                    js_word!("before")
-                        | js_word!("after")
-                        | js_word!("first-letter")
-                        | js_word!("first-line")
+                    &*name.value,
+                    "before" | "after" | "first-letter" | "first-line"
                 ) {
                     *subclass_selector = SubclassSelector::PseudoClass(PseudoClassSelector {
                         span: *span,
@@ -127,89 +123,83 @@ impl Compressor {
                 children: Some(children),
                 span,
                 ..
-            }) if name.value == js_word!("nth-child") && children.len() == 1 => {
-                match children.get(0) {
-                    Some(PseudoClassSelectorChildren::AnPlusB(AnPlusB::AnPlusBNotation(
-                        AnPlusBNotation {
-                            a: None,
-                            b: Some(b),
-                            ..
+            }) if name.value == "nth-child" && children.len() == 1 => match children.first() {
+                Some(PseudoClassSelectorChildren::AnPlusB(AnPlusB::AnPlusBNotation(
+                    AnPlusBNotation {
+                        a: None,
+                        b: Some(b),
+                        ..
+                    },
+                ))) if *b == 1 => {
+                    *subclass_selector = SubclassSelector::PseudoClass(PseudoClassSelector {
+                        span: *span,
+                        name: Ident {
+                            span: DUMMY_SP,
+                            value: "first-child".into(),
+                            raw: None,
                         },
-                    ))) if *b == 1 => {
-                        *subclass_selector = SubclassSelector::PseudoClass(PseudoClassSelector {
-                            span: *span,
-                            name: Ident {
-                                span: DUMMY_SP,
-                                value: js_word!("first-child"),
-                                raw: None,
-                            },
-                            children: None,
-                        })
-                    }
-                    _ => {}
+                        children: None,
+                    })
                 }
-            }
+                _ => {}
+            },
             SubclassSelector::PseudoClass(PseudoClassSelector {
                 name,
                 children: Some(children),
                 span,
                 ..
-            }) if name.value == js_word!("nth-last-child") && children.len() == 1 => {
-                match children.get(0) {
-                    Some(PseudoClassSelectorChildren::AnPlusB(AnPlusB::AnPlusBNotation(
-                        AnPlusBNotation {
-                            a: None,
-                            b: Some(b),
-                            ..
+            }) if name.value == "nth-last-child" && children.len() == 1 => match children.first() {
+                Some(PseudoClassSelectorChildren::AnPlusB(AnPlusB::AnPlusBNotation(
+                    AnPlusBNotation {
+                        a: None,
+                        b: Some(b),
+                        ..
+                    },
+                ))) if *b == 1 => {
+                    *subclass_selector = SubclassSelector::PseudoClass(PseudoClassSelector {
+                        span: *span,
+                        name: Ident {
+                            span: DUMMY_SP,
+                            value: "last-child".into(),
+                            raw: None,
                         },
-                    ))) if *b == 1 => {
-                        *subclass_selector = SubclassSelector::PseudoClass(PseudoClassSelector {
-                            span: *span,
-                            name: Ident {
-                                span: DUMMY_SP,
-                                value: js_word!("last-child"),
-                                raw: None,
-                            },
-                            children: None,
-                        })
-                    }
-                    _ => {}
+                        children: None,
+                    })
                 }
-            }
+                _ => {}
+            },
             SubclassSelector::PseudoClass(PseudoClassSelector {
                 name,
                 children: Some(children),
                 span,
                 ..
-            }) if name.value == js_word!("nth-of-type") && children.len() == 1 => {
-                match children.get(0) {
-                    Some(PseudoClassSelectorChildren::AnPlusB(AnPlusB::AnPlusBNotation(
-                        AnPlusBNotation {
-                            a: None,
-                            b: Some(b),
-                            ..
+            }) if name.value == "nth-of-type" && children.len() == 1 => match children.first() {
+                Some(PseudoClassSelectorChildren::AnPlusB(AnPlusB::AnPlusBNotation(
+                    AnPlusBNotation {
+                        a: None,
+                        b: Some(b),
+                        ..
+                    },
+                ))) if *b == 1 => {
+                    *subclass_selector = SubclassSelector::PseudoClass(PseudoClassSelector {
+                        span: *span,
+                        name: Ident {
+                            span: DUMMY_SP,
+                            value: "first-of-type".into(),
+                            raw: None,
                         },
-                    ))) if *b == 1 => {
-                        *subclass_selector = SubclassSelector::PseudoClass(PseudoClassSelector {
-                            span: *span,
-                            name: Ident {
-                                span: DUMMY_SP,
-                                value: js_word!("first-of-type"),
-                                raw: None,
-                            },
-                            children: None,
-                        })
-                    }
-                    _ => {}
+                        children: None,
+                    })
                 }
-            }
+                _ => {}
+            },
             SubclassSelector::PseudoClass(PseudoClassSelector {
                 name,
                 children: Some(children),
                 span,
                 ..
-            }) if name.value == js_word!("nth-last-of-type") && children.len() == 1 => {
-                match children.get(0) {
+            }) if name.value == "nth-last-of-type" && children.len() == 1 => {
+                match children.first() {
                     Some(PseudoClassSelectorChildren::AnPlusB(AnPlusB::AnPlusBNotation(
                         AnPlusBNotation {
                             a: None,
@@ -221,7 +211,7 @@ impl Compressor {
                             span: *span,
                             name: Ident {
                                 span: DUMMY_SP,
-                                value: js_word!("last-of-type"),
+                                value: "last-of-type".into(),
                                 raw: None,
                             },
                             children: None,

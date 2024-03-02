@@ -5,7 +5,7 @@ use std::{cell::RefCell, char, iter::FusedIterator, rc::Rc};
 use either::Either::{Left, Right};
 use smallvec::{smallvec, SmallVec};
 use smartstring::SmartString;
-use swc_atoms::{Atom, AtomGenerator};
+use swc_atoms::{Atom, AtomStoreCell};
 use swc_common::{comments::Comments, input::StringInput, BytePos, Span};
 use swc_ecma_ast::{op, AssignOp, EsVersion};
 
@@ -23,6 +23,7 @@ use crate::{
     error::{Error, SyntaxError},
     lexer::state::ContentTagState,
     token::{BinOpToken, Token, Word, *},
+    token::{BinOpToken, IdentLike, Token, Word},
     Context, Syntax,
 };
 
@@ -132,9 +133,9 @@ pub struct Lexer<'a> {
     errors: Rc<RefCell<Vec<Error>>>,
     module_errors: Rc<RefCell<Vec<Error>>>,
 
-    atoms: Rc<RefCell<AtomGenerator>>,
-
     buf: Rc<RefCell<String>>,
+
+    atoms: Rc<AtomStoreCell>,
 }
 
 impl FusedIterator for Lexer<'_> {}
@@ -159,8 +160,8 @@ impl<'a> Lexer<'a> {
             target,
             errors: Default::default(),
             module_errors: Default::default(),
-            atoms: Default::default(),
             buf: Rc::new(RefCell::new(String::with_capacity(256))),
+            atoms: Default::default(),
         }
     }
 
@@ -806,91 +807,34 @@ impl<'a> Lexer<'a> {
         Ok(Some(token))
     }
 
-    /// See https://tc39.github.io/ecma262/#sec-names-and-keywords
-    fn read_ident_or_keyword(&mut self) -> LexResult<Token> {
+    /// This can be used if there's no keyword starting with the first
+    /// character.
+    fn read_ident_unknown(&mut self) -> LexResult<Token> {
         debug_assert!(self.cur().is_some());
+
+        let (word, _) = self
+            .read_word_as_str_with(|l, s, _, _| Word::Ident(IdentLike::Other(l.atoms.atom(s))))?;
+
+        Ok(Word(word))
+    }
+
+    /// This can be used if there's no keyword starting with the first
+    /// character.
+    fn read_word_with(
+        &mut self,
+        convert: impl FnOnce(&str) -> Option<Word>,
+    ) -> LexResult<Option<Token>> {
+        debug_assert!(self.cur().is_some());
+
         let start = self.cur_pos();
-
-        let (word, has_escape) = self.read_word_as_str_with(|s| {
-            use crate::token::Keyword::*;
-
-            if s.len() == 1 || s.len() > 10 {
-                {}
-            } else {
-                match s.as_bytes()[0] {
-                    b'a' if s == "await" => return Await.into(),
-                    b'b' if s == "break" => return Break.into(),
-                    b'c' => match s {
-                        "case" => return Case.into(),
-                        "const" => return Const.into(),
-                        "class" => return Class.into(),
-                        "catch" => return Catch.into(),
-                        "continue" => return Continue.into(),
-                        _ => {}
-                    },
-                    b'd' => match s {
-                        "do" => return Do.into(),
-                        "default" => return Default_.into(),
-                        "delete" => return Delete.into(),
-                        "debugger" => return Debugger.into(),
-                        _ => {}
-                    },
-                    b'e' => match s {
-                        "else" => return Else.into(),
-                        "export" => return Export.into(),
-                        "extends" => return Extends.into(),
-                        _ => {}
-                    },
-                    b'f' => match s {
-                        "for" => return For.into(),
-                        "false" => return Word::False,
-                        "finally" => return Finally.into(),
-                        "function" => return Function.into(),
-                        _ => {}
-                    },
-                    b'i' => match s {
-                        "if" => return If.into(),
-                        "import" => return Import.into(),
-                        "in" => return In.into(),
-                        "instanceof" => return InstanceOf.into(),
-                        _ => {}
-                    },
-                    b'l' if s == "let" => return Let.into(),
-                    b'n' => match s {
-                        "new" => return New.into(),
-                        "null" => return Word::Null,
-                        _ => {}
-                    },
-                    b'r' if s == "return" => return Return.into(),
-                    b's' => match s {
-                        "super" => return Super.into(),
-                        "switch" => return Switch.into(),
-                        _ => {}
-                    },
-                    b't' => match s {
-                        "this" => return This.into(),
-                        "true" => return Word::True,
-                        "try" => return Try.into(),
-                        "throw" => return Throw.into(),
-                        "typeof" => return TypeOf.into(),
-                        _ => {}
-                    },
-                    b'v' => match s {
-                        "var" => return Var.into(),
-                        "void" => return Void.into(),
-                        _ => {}
-                    },
-                    b'w' => match s {
-                        "while" => return While.into(),
-                        "with" => return With.into(),
-                        _ => {}
-                    },
-                    b'y' if s == "yield" => return Yield.into(),
-                    _ => {}
+        let (word, has_escape) = self.read_word_as_str_with(|l, s, _, can_be_known| {
+            if can_be_known {
+                if let Some(word) = convert(s) {
+                    return word;
                 }
             }
 
-            Word::Ident(s.into())
+            Word::Ident(IdentLike::Other(l.atoms.atom(s)))
         })?;
 
         // Note: ctx is store in lexer because of this error.
@@ -903,17 +847,20 @@ impl<'a> Lexer<'a> {
                 SyntaxError::EscapeInReservedWord { word: word.into() },
             )?
         } else {
-            Ok(Word(word))
+            Ok(Some(Token::Word(word)))
         }
     }
 
     /// This method is optimized for texts without escape sequences.
+    ///
+    /// `convert(text, has_escape, can_be_keyword)`
     fn read_word_as_str_with<F, Ret>(&mut self, convert: F) -> LexResult<(Ret, bool)>
     where
-        F: FnOnce(&str) -> Ret,
+        F: for<'any> FnOnce(&'any mut Lexer<'_>, &str, bool, bool) -> Ret,
     {
         debug_assert!(self.cur().is_some());
         let mut first = true;
+        let mut can_be_keyword = true;
 
         self.with_buf(|l, buf| {
             let mut has_escape = false;
@@ -921,7 +868,18 @@ impl<'a> Lexer<'a> {
             while let Some(c) = {
                 // Optimization
                 {
-                    let s = l.input.uncons_while(|c| c.is_ident_part());
+                    let s = l.input.uncons_while(|c| {
+                        if !c.is_ident_part() {
+                            return false;
+                        }
+
+                        // Performance optimization
+                        if c.is_ascii_uppercase() || c.is_ascii_digit() || !c.is_ascii() {
+                            can_be_keyword = false;
+                        }
+
+                        true
+                    });
                     if !s.is_empty() {
                         first = false;
                     }
@@ -949,7 +907,7 @@ impl<'a> Lexer<'a> {
 
                         let chars = l.read_unicode_escape(&mut Raw(None))?;
 
-                        if let Some(c) = chars.get(0) {
+                        if let Some(c) = chars.first() {
                             let valid = if first {
                                 c.is_ident_start()
                             } else {
@@ -971,7 +929,7 @@ impl<'a> Lexer<'a> {
                 }
                 first = false;
             }
-            let value = convert(buf);
+            let value = convert(l, buf, has_escape, can_be_keyword);
 
             Ok((value, has_escape))
         })
@@ -1113,8 +1071,8 @@ impl<'a> Lexer<'a> {
                         l.bump();
 
                         return Ok(Token::Str {
-                            value: (&**out).into(),
-                            raw: l.atoms.borrow_mut().intern(raw),
+                            value: l.atoms.atom(&*out),
+                            raw: l.atoms.atom(raw),
                         });
                     }
                     '\\' => {
@@ -1147,8 +1105,8 @@ impl<'a> Lexer<'a> {
             l.emit_error(start, SyntaxError::UnterminatedStrLit);
 
             Ok(Token::Str {
-                value: (&**out).into(),
-                raw: l.atoms.borrow_mut().intern(raw),
+                value: l.atoms.atom(&*out),
+                raw: l.atoms.atom(raw),
             })
         })
     }
@@ -1196,7 +1154,7 @@ impl<'a> Lexer<'a> {
                 buf.push(c);
             }
 
-            Ok(Atom::new(&**buf))
+            Ok(l.atoms.atom(&**buf))
         })?;
 
         // input is terminated without following `/`
@@ -1215,10 +1173,9 @@ impl<'a> Lexer<'a> {
         // here (don't ask).
         // let flags_start = self.cur_pos();
         let flags = {
-            let atoms = self.atoms.clone();
             match self.cur() {
                 Some(c) if c.is_ident_start() => self
-                    .read_word_as_str_with(|s| atoms.borrow_mut().intern(s))
+                    .read_word_as_str_with(|l, s, _, _| l.atoms.atom(s))
                     .map(Some),
                 _ => Ok(None),
             }
@@ -1240,7 +1197,7 @@ impl<'a> Lexer<'a> {
             self.input.bump();
         }
         let s = self.input.uncons_while(|c| !c.is_line_terminator());
-        Ok(Some(Atom::new(s)))
+        Ok(Some(self.atoms.atom(s)))
     }
 
     fn read_tmpl_token(&mut self, start_of_tpl: BytePos) -> LexResult<Token> {
@@ -1265,7 +1222,7 @@ impl<'a> Lexer<'a> {
                 // TODO: Handle error
                 return Ok(Token::Template {
                     cooked: cooked.map(Atom::from),
-                    raw: Atom::new(&*raw),
+                    raw: self.atoms.atom(&*raw),
                 });
             }
 

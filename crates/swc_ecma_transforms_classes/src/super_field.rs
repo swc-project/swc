@@ -1,6 +1,5 @@
 use std::iter;
 
-use swc_atoms::js_word;
 use swc_common::{util::take::Take, Mark, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
@@ -90,14 +89,7 @@ impl<'a> VisitMut for SuperFieldAccessFolder<'a> {
             Expr::Call(CallExpr {
                 callee: Callee::Expr(expr),
                 ..
-            }) if matches!(
-                &**expr,
-                Expr::Ident(Ident {
-                    sym: js_word!("_define_property"),
-                    ..
-                })
-            ) =>
-            {
+            }) if expr.is_ident_ref_to("_define_property") => {
                 let old = self.in_injected_define_property_call;
                 self.in_injected_define_property_call = true;
                 n.visit_mut_children_with(self);
@@ -115,7 +107,7 @@ impl<'a> VisitMut for SuperFieldAccessFolder<'a> {
                     ..
                 }) = &**arg
                 {
-                    *arg = Box::new(self.super_to_update_call(*super_token, prop.clone()));
+                    *arg = self.super_to_update_call(*super_token, prop.clone()).into();
                 }
             }
             Expr::Assign(AssignExpr {
@@ -250,44 +242,18 @@ impl<'a> SuperFieldAccessFolder<'a> {
     /// ```
     fn visit_mut_super_member_set(&mut self, n: &mut Expr) {
         if let Expr::Assign(AssignExpr {
-            left,
+            left:
+                AssignTarget::Simple(SimpleAssignTarget::SuperProp(SuperPropExpr {
+                    obj: Super { span: super_token },
+                    prop,
+                    ..
+                })),
             op: op @ op!("="),
             right,
             ..
         }) = n
         {
-            match left {
-                PatOrExpr::Expr(expr) => {
-                    if let Expr::SuperProp(SuperPropExpr {
-                        obj: Super { span: super_token },
-                        prop,
-                        ..
-                    }) = &mut **expr
-                    {
-                        *n = self.super_to_set_call(*super_token, prop.take(), *op, right.take());
-                    }
-                }
-                PatOrExpr::Pat(pat) => {
-                    if let Pat::Expr(expr) = &mut **pat {
-                        if let Expr::SuperProp(SuperPropExpr {
-                            obj:
-                                Super {
-                                    span: super_token, ..
-                                },
-                            prop,
-                            ..
-                        }) = &mut **expr
-                        {
-                            *n = self.super_to_set_call(
-                                *super_token,
-                                prop.take(),
-                                *op,
-                                right.take(),
-                            );
-                        }
-                    }
-                }
-            }
+            *n = self.super_to_set_call(*super_token, prop.take(), *op, right.take());
         }
     }
 
@@ -311,9 +277,9 @@ impl<'a> SuperFieldAccessFolder<'a> {
 
             let prop = prop.take();
             *n = if self.in_pat {
-                self.super_to_update_call(super_token, prop)
+                self.super_to_update_call(super_token, prop).into()
             } else {
-                self.super_to_get_call(super_token, prop)
+                *self.super_to_get_call(super_token, prop)
             };
         }
     }
@@ -322,39 +288,22 @@ impl<'a> SuperFieldAccessFolder<'a> {
         if let Expr::Assign(AssignExpr { left, op, .. }) = n {
             debug_assert_ne!(*op, op!("="));
 
-            match left {
-                PatOrExpr::Expr(expr) => {
-                    if let Expr::SuperProp(SuperPropExpr {
-                        obj: Super { span: super_token },
-                        prop,
-                        ..
-                    }) = *expr.take()
-                    {
-                        *expr = Box::new(self.super_to_update_call(super_token, prop));
-                    }
-                }
-                PatOrExpr::Pat(pat) => {
-                    if let Pat::Expr(expr) = &mut **pat {
-                        if let Expr::SuperProp(SuperPropExpr {
-                            obj:
-                                Super {
-                                    span: super_token, ..
-                                },
-                            prop,
-                            ..
-                        }) = *expr.take()
-                        {
-                            *expr = Box::new(self.super_to_update_call(super_token, prop));
-                        }
-                    }
+            if let AssignTarget::Simple(expr) = left {
+                if let SimpleAssignTarget::SuperProp(SuperPropExpr {
+                    obj: Super { span: super_token },
+                    prop,
+                    ..
+                }) = expr.take()
+                {
+                    *expr = self.super_to_update_call(super_token, prop).into();
                 }
             }
         }
     }
 
-    fn super_to_get_call(&mut self, super_token: Span, prop: SuperProp) -> Expr {
+    fn super_to_get_call(&mut self, super_token: Span, prop: SuperProp) -> Box<Expr> {
         if self.constant_super {
-            Expr::Member(MemberExpr {
+            MemberExpr {
                 span: super_token,
                 obj: Box::new({
                     let name = self.super_class.clone().unwrap_or_else(|| {
@@ -364,14 +313,15 @@ impl<'a> SuperFieldAccessFolder<'a> {
                     if self.is_static && self.super_class.is_some() {
                         Expr::Ident(name)
                     } else {
-                        name.make_member(quote_ident!("prototype"))
+                        name.make_member(quote_ident!("prototype")).into()
                     }
                 }),
                 prop: match prop {
                     SuperProp::Ident(i) => MemberProp::Ident(i),
                     SuperProp::Computed(c) => MemberProp::Computed(c),
                 },
-            })
+            }
+            .into()
         } else {
             let proto_arg = self.proto_arg();
 
@@ -379,12 +329,13 @@ impl<'a> SuperFieldAccessFolder<'a> {
 
             let this_arg = self.this_arg(super_token).as_arg();
 
-            Expr::Call(CallExpr {
+            CallExpr {
                 span: super_token,
                 callee: helper!(get),
                 args: vec![proto_arg.as_arg(), prop_arg, this_arg],
                 type_args: Default::default(),
-            })
+            }
+            .into()
         }
     }
 
@@ -403,18 +354,18 @@ impl<'a> SuperFieldAccessFolder<'a> {
         });
 
         if self.constant_super {
-            let left = Expr::Member(MemberExpr {
+            let left = MemberExpr {
                 span: super_token,
                 obj: this_expr,
                 prop: match prop {
                     SuperProp::Ident(i) => MemberProp::Ident(i),
                     SuperProp::Computed(c) => MemberProp::Computed(c),
                 },
-            });
+            };
 
             Expr::Assign(AssignExpr {
                 span: super_token,
-                left: PatOrExpr::Expr(left.into()),
+                left: left.into(),
                 op,
                 right: rhs,
             })
@@ -439,7 +390,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
         }
     }
 
-    fn super_to_update_call(&mut self, super_token: Span, prop: SuperProp) -> Expr {
+    fn super_to_update_call(&mut self, super_token: Span, prop: SuperProp) -> MemberExpr {
         let proto_arg = self.proto_arg();
 
         let prop_arg = prop_arg(prop).as_arg();
@@ -462,15 +413,16 @@ impl<'a> SuperFieldAccessFolder<'a> {
         expr.make_member(quote_ident!("_"))
     }
 
-    fn proto_arg(&mut self) -> Expr {
+    fn proto_arg(&mut self) -> Box<Expr> {
         let expr = if self.is_static {
             // Foo
-            Expr::Ident(self.class_name.clone())
+            Box::new(Expr::Ident(self.class_name.clone()))
         } else {
             // Foo.prototype
             self.class_name
                 .clone()
                 .make_member(quote_ident!("prototype"))
+                .into()
         };
 
         if self.constant_super {
@@ -482,7 +434,7 @@ impl<'a> SuperFieldAccessFolder<'a> {
         if let Some(mark) = self.constructor_this_mark {
             let this = quote_ident!(DUMMY_SP.apply_mark(mark), "_this");
 
-            proto_arg = Expr::Seq(SeqExpr {
+            proto_arg = SeqExpr {
                 span: DUMMY_SP,
                 exprs: vec![
                     Expr::Call(CallExpr {
@@ -492,9 +444,10 @@ impl<'a> SuperFieldAccessFolder<'a> {
                         type_args: Default::default(),
                     })
                     .into(),
-                    proto_arg.into(),
+                    proto_arg,
                 ],
-            })
+            }
+            .into()
         }
 
         proto_arg
@@ -508,13 +461,10 @@ impl<'a> SuperFieldAccessFolder<'a> {
     }
 }
 
-fn is_assign_to_super_prop(left: &PatOrExpr) -> bool {
+fn is_assign_to_super_prop(left: &AssignTarget) -> bool {
     match left {
-        PatOrExpr::Expr(expr) => expr.is_super_prop(),
-        PatOrExpr::Pat(pat) => match &**pat {
-            Pat::Expr(expr) => expr.is_super_prop(),
-            _ => false,
-        },
+        AssignTarget::Simple(expr) => expr.is_super_prop(),
+        _ => false,
     }
 }
 

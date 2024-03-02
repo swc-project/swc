@@ -23,7 +23,7 @@ impl_struct!(KeyValueProp, [key, value]);
 impl_struct!(AssignProp, [key, value]);
 
 impl_struct!(GetterProp, [span, key, type_ann, body]);
-impl_struct!(SetterProp, [span, key, param, body]);
+impl_struct!(SetterProp, [span, key, param, this_param, body]);
 
 impl_struct!(MethodProp, [key, function]);
 

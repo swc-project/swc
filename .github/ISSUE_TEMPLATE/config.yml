@@ -7,6 +7,6 @@ contact_links:
     url: https://discord.gg/w488Bxgy3y
     about: You can ask questions here if you prefer Discord.
 
-  - name: Google forms
-    url: https://forms.gle/WGghAcXRqbLrmE8x9
-    about: Please use this if you want to send a feedback anonymously,
+  - name: Documentation issues
+    url: https://github.com/swc-project/website/issues
+    about: Please use this if you have a problem with the documentation.

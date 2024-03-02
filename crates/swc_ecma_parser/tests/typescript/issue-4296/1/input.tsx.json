@@ -44,7 +44,8 @@
         "raw": "\"react\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "TsInterfaceDeclaration",
@@ -195,7 +196,8 @@
                         "ctxt": 0
                       },
                       "value": "callback",
-                      "optional": false
+                      "optional": false,
+                      "typeAnnotation": null
                     },
                     "value": null
                   }

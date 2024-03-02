@@ -19,7 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Describe the Subscription class here.' type=dynamic),
+            value: "Describe the Subscription class here.",
         },
         tags: [],
     },
@@ -43,9 +43,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Describe the constructor here.
-                 *
-                 *' type=dynamic),
+            value: "Describe the constructor here.\n     *\n     *",
         },
         tags: [
             TagItem {
@@ -68,7 +66,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('param' type=static),
+                    value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
@@ -93,7 +91,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('{string}' type=dynamic),
+                                value: "{string}",
                             },
                         ),
                         desc: Text {
@@ -106,7 +104,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('name - The name of the subscription.' type=dynamic),
+                            value: "name - The name of the subscription.",
                         },
                     },
                 ),
@@ -131,7 +129,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('example' type=inline),
+                    value: "example",
                 },
                 tag: Example(
                     ExampleTag {
@@ -154,8 +152,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('* var subscription = new Subscription();
-                                 ' type=dynamic),
+                            value: "* var subscription = new Subscription();\n     ",
                         },
                     },
                 ),
@@ -182,7 +179,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Force the subscription to expire.' type=dynamic),
+            value: "Force the subscription to expire.",
         },
         tags: [],
     },
@@ -206,7 +203,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Describe the Subscriber class here.' type=dynamic),
+            value: "Describe the Subscriber class here.",
         },
         tags: [],
     },
@@ -230,9 +227,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Describe the constructor here.
-                 *
-                 *' type=dynamic),
+            value: "Describe the constructor here.\n     *\n     *",
         },
         tags: [
             TagItem {
@@ -255,7 +250,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('param' type=static),
+                    value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
@@ -280,7 +275,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('{string}' type=dynamic),
+                                value: "{string}",
                             },
                         ),
                         desc: Text {
@@ -293,7 +288,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('name - The name of the subscriber.' type=dynamic),
+                            value: "name - The name of the subscriber.",
                         },
                     },
                 ),
@@ -320,7 +315,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Check whether the subscriber has a callback.' type=dynamic),
+            value: "Check whether the subscriber has a callback.",
         },
         tags: [],
     },
@@ -344,8 +339,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Subclass namespace.
-             *' type=dynamic),
+            value: "Subclass namespace.\n *",
         },
         tags: [
             TagItem {
@@ -368,7 +362,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('namespace' type=static),
+                    value: "namespace",
                 },
                 tag: Namespace(
                     NamespaceTag {
@@ -408,8 +402,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Expiring subscription subclass.
-             *' type=dynamic),
+            value: "Expiring subscription subclass.\n *",
         },
         tags: [
             TagItem {
@@ -432,7 +425,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('class' type=static),
+                    value: "class",
                 },
                 tag: Class(
                     ClassTag {
@@ -472,9 +465,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Describe the constructor here.
-                 *
-                 *' type=dynamic),
+            value: "Describe the constructor here.\n     *\n     *",
         },
         tags: [
             TagItem {
@@ -497,7 +488,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('param' type=static),
+                    value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
@@ -522,7 +513,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('{string}' type=dynamic),
+                                value: "{string}",
                             },
                         ),
                         desc: Text {
@@ -535,7 +526,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('name - The name of the subscription.' type=dynamic),
+                            value: "name - The name of the subscription.",
                         },
                     },
                 ),
@@ -562,7 +553,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -585,7 +576,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('memberof' type=dynamic),
+                    value: "memberof",
                 },
                 tag: MemberOf(
                     MemberOfTag {
@@ -619,7 +610,7 @@
                                         ),
                                         ctxt: #0,
                                     },
-                                    value: Atom('subclasses' type=dynamic),
+                                    value: "subclasses",
                                 },
                             ],
                         },
@@ -648,7 +639,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Instance method.' type=dynamic),
+            value: "Instance method.",
         },
         tags: [],
     },

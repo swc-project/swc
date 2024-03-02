@@ -7,8 +7,7 @@ version = 1
 do_not_merge = true
 
 [update]
-autoupdate_label = "S-approved"
-require_automerge_label = false
+require_automerge_label = true
 
 # I want to use auto-merge feature of github
 [approve]

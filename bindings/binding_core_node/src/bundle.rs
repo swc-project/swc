@@ -10,10 +10,11 @@ use napi::{
 };
 use serde::Deserialize;
 use swc_core::{
+    atoms::JsWord,
     base::{
         config::SourceMapsConfig,
         resolver::{environment_resolver, paths_resolver},
-        Compiler, TransformOutput,
+        Compiler, PrintArgs, TransformOutput,
     },
     bundler::{BundleKind, Bundler, Load, ModuleRecord, Resolve},
     common::{collections::AHashMap, Globals, Span, GLOBALS},
@@ -22,7 +23,6 @@ use swc_core::{
             Bool, Expr, Ident, KeyValueProp, Lit, MemberExpr, MemberProp, MetaPropExpr,
             MetaPropKind, PropName, Str,
         },
-        atoms::{js_word, JsWord},
         loader::{TargetEnv, NODE_BUILTINS},
     },
     node::{get_deserialized, MapErr},
@@ -126,19 +126,15 @@ impl Task for BundleTask {
 
                             let output = self.swc.print(
                                 &m,
-                                None,
-                                None,
-                                true,
-                                SourceMapsConfig::Bool(true),
-                                // TODO
-                                &Default::default(),
-                                None,
-                                None,
-                                true,
-                                Default::default(),
-                                swc_core::ecma::codegen::Config::default()
-                                    .with_target(codegen_target)
-                                    .with_minify(minify),
+                                PrintArgs {
+                                    inline_sources_content: true,
+                                    source_map: SourceMapsConfig::Bool(true),
+                                    emit_source_map_columns: true,
+                                    codegen_config: swc_core::ecma::codegen::Config::default()
+                                        .with_target(codegen_target)
+                                        .with_minify(minify),
+                                    ..Default::default()
+                                },
                             )?;
 
                             Ok((k, output))
@@ -279,7 +275,7 @@ impl swc_core::bundler::Hook for Hook {
 
         Ok(vec![
             KeyValueProp {
-                key: PropName::Ident(Ident::new(js_word!("url"), span)),
+                key: PropName::Ident(Ident::new("url".into(), span)),
                 value: Box::new(Expr::Lit(Lit::Str(Str {
                     span,
                     raw: None,
@@ -287,7 +283,7 @@ impl swc_core::bundler::Hook for Hook {
                 }))),
             },
             KeyValueProp {
-                key: PropName::Ident(Ident::new(js_word!("main"), span)),
+                key: PropName::Ident(Ident::new("main".into(), span)),
                 value: Box::new(if module_record.is_entry {
                     Expr::Member(MemberExpr {
                         span,
@@ -295,7 +291,7 @@ impl swc_core::bundler::Hook for Hook {
                             span,
                             kind: MetaPropKind::ImportMeta,
                         })),
-                        prop: MemberProp::Ident(Ident::new(js_word!("main"), span)),
+                        prop: MemberProp::Ident(Ident::new("main".into(), span)),
                     })
                 } else {
                     Expr::Lit(Lit::Bool(Bool { span, value: false }))

@@ -88,6 +88,7 @@ macro_rules! add_import_to {
                 src: Box::new(src),
                 with: Default::default(),
                 type_only: Default::default(),
+                phase: Default::default(),
             })))
         }
     }};
@@ -666,7 +667,7 @@ function _throw(e) {
 }
 ",
             false,
-            Default::default(),
+            Default::default,
         )
     }
 
@@ -685,7 +686,7 @@ function _throw(e) {
 let _throw1 = null;
 ",
             false,
-            Default::default(),
+            Default::default,
         )
     }
     #[test]
@@ -700,7 +701,7 @@ let x = 4;",
 
 let x = 4;",
             false,
-            Default::default(),
+            Default::default,
         );
     }
 }

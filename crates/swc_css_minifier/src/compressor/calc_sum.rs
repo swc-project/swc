@@ -1,4 +1,4 @@
-use swc_atoms::{js_word, JsWord};
+use swc_atoms::Atom;
 use swc_common::{collections::AHashMap, Span};
 use swc_css_ast::*;
 
@@ -315,7 +315,7 @@ fn simplify_calc_operator_node_sum(nodes: &[CalcNode]) -> CalcNode {
     // combine numbers, combine percentages, combine px values, etc.)
     let mut number: Option<usize> = None;
     let mut percentage: Option<usize> = None;
-    let mut dimensions: AHashMap<JsWord, usize> = AHashMap::default();
+    let mut dimensions: AHashMap<String, usize> = AHashMap::default();
     let mut idx = 0;
     while idx < nodes.len() {
         match &nodes[idx] {
@@ -333,7 +333,7 @@ fn simplify_calc_operator_node_sum(nodes: &[CalcNode]) -> CalcNode {
             }
             CalcNode::Dimension(d) => {
                 let unit = get_dimension_unit_lowercase(d);
-                match &dimensions.get(&unit) {
+                match &dimensions.get(&*unit) {
                     Some(prev_idx) => {
                         if try_to_sum_nodes(&mut nodes, **prev_idx, idx) {
                             nodes.remove(idx);
@@ -342,7 +342,7 @@ fn simplify_calc_operator_node_sum(nodes: &[CalcNode]) -> CalcNode {
                         }
                     }
                     None => {
-                        dimensions.insert(unit, idx);
+                        dimensions.insert(unit.to_string(), idx);
                         idx += 1;
                     }
                 }
@@ -441,7 +441,7 @@ fn try_to_switch_sign_of_nodes(nodes: &[CalcNode]) -> Option<CalcNode> {
 }
 
 fn try_to_reduce_node_with_dimensions(
-    dimensions: &mut AHashMap<JsWord, usize>,
+    dimensions: &mut AHashMap<String, usize>,
     nodes: &mut Vec<CalcNode>,
 ) {
     try_to_reduce_node_with_absolute_lengths(dimensions, nodes);
@@ -452,13 +452,10 @@ fn try_to_reduce_node_with_dimensions(
 
 // https://www.w3.org/TR/css-values-4/#absolute-lengths
 fn try_to_reduce_node_with_absolute_lengths(
-    dimensions: &mut AHashMap<JsWord, usize>,
+    dimensions: &mut AHashMap<String, usize>,
     nodes: &mut Vec<CalcNode>,
 ) {
-    if let (Some(idx_cm), Some(idx_mm)) = (
-        dimensions.get(&js_word!("cm")),
-        dimensions.get(&js_word!("mm")),
-    ) {
+    if let (Some(idx_cm), Some(idx_mm)) = (dimensions.get("cm"), dimensions.get("mm")) {
         let value_cm = get_value(&nodes[*idx_cm]);
         let value_mm = get_value(&nodes[*idx_mm]);
         if let Some(result) = try_to_sum_values(value_cm, value_mm, Some(10.0)) {
@@ -467,10 +464,7 @@ fn try_to_reduce_node_with_absolute_lengths(
         }
     }
 
-    if let (Some(idx_mm), Some(idx_q)) = (
-        dimensions.get(&js_word!("mm")),
-        dimensions.get(&js_word!("q")),
-    ) {
+    if let (Some(idx_mm), Some(idx_q)) = (dimensions.get("mm"), dimensions.get("q")) {
         let value_mm = get_value(&nodes[*idx_mm]);
         let value_q = get_value(&nodes[*idx_q]);
         if let Some(result) = try_to_sum_values(value_mm, value_q, Some(4.0)) {
@@ -479,10 +473,7 @@ fn try_to_reduce_node_with_absolute_lengths(
         }
     }
 
-    if let (Some(idx_cm), Some(idx_q)) = (
-        dimensions.get(&js_word!("cm")),
-        dimensions.get(&js_word!("q")),
-    ) {
+    if let (Some(idx_cm), Some(idx_q)) = (dimensions.get("cm"), dimensions.get("q")) {
         let value_cm = get_value(&nodes[*idx_cm]);
         let value_q = get_value(&nodes[*idx_q]);
         if let Some(result) = try_to_sum_values(value_cm, value_q, Some(40.0)) {
@@ -491,10 +482,7 @@ fn try_to_reduce_node_with_absolute_lengths(
         }
     }
 
-    if let (Some(idx_in), Some(idx_px)) = (
-        dimensions.get(&js_word!("in")),
-        dimensions.get(&js_word!("px")),
-    ) {
+    if let (Some(idx_in), Some(idx_px)) = (dimensions.get("in"), dimensions.get("px")) {
         let value_in = get_value(&nodes[*idx_in]);
         let value_px = get_value(&nodes[*idx_px]);
         if let Some(result) = try_to_sum_values(value_in, value_px, Some(96.0)) {
@@ -503,10 +491,7 @@ fn try_to_reduce_node_with_absolute_lengths(
         }
     }
 
-    if let (Some(idx_in), Some(idx_pc)) = (
-        dimensions.get(&js_word!("in")),
-        dimensions.get(&js_word!("pc")),
-    ) {
+    if let (Some(idx_in), Some(idx_pc)) = (dimensions.get("in"), dimensions.get("pc")) {
         let value_in = get_value(&nodes[*idx_in]);
         let value_pc = get_value(&nodes[*idx_pc]);
         if let Some(result) = try_to_sum_values(value_in, value_pc, Some(6.0)) {
@@ -515,10 +500,7 @@ fn try_to_reduce_node_with_absolute_lengths(
         }
     }
 
-    if let (Some(idx_pc), Some(idx_pt)) = (
-        dimensions.get(&js_word!("pc")),
-        dimensions.get(&js_word!("pt")),
-    ) {
+    if let (Some(idx_pc), Some(idx_pt)) = (dimensions.get("pc"), dimensions.get("pt")) {
         let value_pc = get_value(&nodes[*idx_pc]);
         let value_pt = get_value(&nodes[*idx_pt]);
         if let Some(result) = try_to_sum_values(value_pc, value_pt, Some(12.0)) {
@@ -527,10 +509,7 @@ fn try_to_reduce_node_with_absolute_lengths(
         }
     }
 
-    if let (Some(idx_pc), Some(idx_px)) = (
-        dimensions.get(&js_word!("pc")),
-        dimensions.get(&js_word!("px")),
-    ) {
+    if let (Some(idx_pc), Some(idx_px)) = (dimensions.get("pc"), dimensions.get("px")) {
         let value_pc = get_value(&nodes[*idx_pc]);
         let value_px = get_value(&nodes[*idx_px]);
         if let Some(result) = try_to_sum_values(value_pc, value_px, Some(16.0)) {
@@ -542,51 +521,42 @@ fn try_to_reduce_node_with_absolute_lengths(
 
 // https://www.w3.org/TR/css-values-4/#time
 fn try_to_reduce_node_with_durations(
-    dimensions: &mut AHashMap<JsWord, usize>,
+    dimensions: &mut AHashMap<String, usize>,
     nodes: &mut Vec<CalcNode>,
 ) {
-    if let (Some(idx_ms), Some(idx_s)) = (
-        dimensions.get(&js_word!("ms")),
-        dimensions.get(&js_word!("s")),
-    ) {
+    if let (Some(idx_ms), Some(idx_s)) = (dimensions.get("ms"), dimensions.get("s")) {
         let value_ms = get_value(&nodes[*idx_ms]);
         let value_s = get_value(&nodes[*idx_s]);
         if let Some(result) = try_to_sum_values(value_s, value_ms, Some(1000.0)) {
             set_value(&mut nodes[*idx_ms], result);
             nodes.remove(*idx_s);
-            dimensions.remove(&js_word!("s"));
+            dimensions.remove("s");
         }
     }
 }
 
 // https://www.w3.org/TR/css-values-4/#frequency
 fn try_to_reduce_node_with_frequencies(
-    dimensions: &mut AHashMap<JsWord, usize>,
+    dimensions: &mut AHashMap<String, usize>,
     nodes: &mut Vec<CalcNode>,
 ) {
-    if let (Some(idx_hz), Some(idx_khz)) = (
-        dimensions.get(&js_word!("hz")),
-        dimensions.get(&js_word!("khz")),
-    ) {
+    if let (Some(idx_hz), Some(idx_khz)) = (dimensions.get("hz"), dimensions.get("khz")) {
         let value_hz = get_value(&nodes[*idx_hz]);
         let value_khz = get_value(&nodes[*idx_khz]);
         if let Some(result) = try_to_sum_values(value_khz, value_hz, Some(1000.0)) {
             set_value(&mut nodes[*idx_hz], result);
             nodes.remove(*idx_khz);
-            dimensions.remove(&js_word!("khz"));
+            dimensions.remove("khz");
         }
     }
 }
 
 // https://www.w3.org/TR/css-values-4/#resolution
 fn try_to_reduce_node_with_resolutions(
-    dimensions: &mut AHashMap<JsWord, usize>,
+    dimensions: &mut AHashMap<String, usize>,
     nodes: &mut Vec<CalcNode>,
 ) {
-    match (
-        dimensions.get(&js_word!("dppx")),
-        dimensions.get(&js_word!("x")),
-    ) {
+    match (dimensions.get("dppx"), dimensions.get("x")) {
         // "x" is an alias for "dppx"
         (Some(idx_dppx), Some(idx_x)) => {
             let value_dppx = get_value(&nodes[*idx_dppx]);
@@ -594,43 +564,37 @@ fn try_to_reduce_node_with_resolutions(
             if let Some(result) = try_to_sum_values(value_x, value_dppx, None) {
                 set_value(&mut nodes[*idx_x], result);
                 nodes.remove(*idx_dppx);
-                dimensions.remove(&js_word!("dppx"));
+                dimensions.remove("dppx");
             }
         }
         (Some(idx_dppx), None) => {
             // rename "dppx" into "x"
             if let CalcNode::Dimension(Dimension::Resolution(r)) = &mut nodes[*idx_dppx] {
-                r.unit.value = js_word!("x");
-                dimensions.insert(js_word!("x"), *idx_dppx);
-                dimensions.remove(&js_word!("dppx"));
+                r.unit.value = "x".into();
+                dimensions.insert("x".into(), *idx_dppx);
+                dimensions.remove("dppx");
             }
         }
         _ => {}
     }
 
-    if let (Some(idx_x), Some(idx_dpi)) = (
-        dimensions.get(&js_word!("x")),
-        dimensions.get(&js_word!("dpi")),
-    ) {
+    if let (Some(idx_x), Some(idx_dpi)) = (dimensions.get("x"), dimensions.get("dpi")) {
         let value_x = get_value(&nodes[*idx_x]);
         let value_dpi = get_value(&nodes[*idx_dpi]);
         if let Some(result) = try_to_sum_values(value_x, value_dpi, Some(96.0)) {
             set_value(&mut nodes[*idx_dpi], result);
             nodes.remove(*idx_x);
-            dimensions.remove(&js_word!("x"));
+            dimensions.remove("x");
         }
     }
 
-    if let (Some(idx_dpcm), Some(idx_dpi)) = (
-        dimensions.get(&js_word!("dpcm")),
-        dimensions.get(&js_word!("dpi")),
-    ) {
+    if let (Some(idx_dpcm), Some(idx_dpi)) = (dimensions.get("dpcm"), dimensions.get("dpi")) {
         let value_dpcm = get_value(&nodes[*idx_dpcm]);
         let value_dpi = get_value(&nodes[*idx_dpi]);
         if let Some(result) = try_to_sum_values(value_dpcm, value_dpi, Some(2.54)) {
             set_value(&mut nodes[*idx_dpi], result);
             nodes.remove(*idx_dpcm);
-            dimensions.remove(&js_word!("dpcm"));
+            dimensions.remove("dpcm");
         }
     }
 }
@@ -1144,7 +1108,7 @@ fn sort_calculations_children(nodes: &[CalcNode]) -> Vec<CalcNode> {
     ret
 }
 
-fn get_dimension_unit_lowercase(d: &Dimension) -> JsWord {
+fn get_dimension_unit_lowercase(d: &Dimension) -> Atom {
     match d {
         Dimension::Length(l) => l.unit.value.to_ascii_lowercase(),
         Dimension::Angle(a) => a.unit.value.to_ascii_lowercase(),
@@ -1213,30 +1177,29 @@ impl Compressor {
         match &component_value {
             // Transform "calc(calc-sum)" into "simple value" when calc-sum is not a complex
             // expression
-            ComponentValue::Function(box Function { name, value, .. })
-                if is_calc_function_name(name) && value.len() == 1 =>
+            ComponentValue::Function(function)
+                if is_calc_function_name(&function.name) && function.value.len() == 1 =>
             {
-                match &value[0] {
-                    ComponentValue::CalcSum(box CalcSum {
-                        expressions: calc_sum_expressions,
-                        ..
-                    }) if calc_sum_expressions.len() == 1 => match &calc_sum_expressions[0] {
-                        CalcProductOrOperator::Product(CalcProduct {
-                            expressions: calc_product_expressions,
-                            ..
-                        }) if calc_product_expressions.len() == 1 => {
-                            if let CalcValueOrOperator::Value(calc_value) =
-                                &calc_product_expressions[0]
-                            {
-                                if let Some(cv) =
-                                    transform_calc_value_into_component_value(calc_value)
+                match &function.value[0] {
+                    ComponentValue::CalcSum(calc_sum) if calc_sum.expressions.len() == 1 => {
+                        match &calc_sum.expressions[0] {
+                            CalcProductOrOperator::Product(CalcProduct {
+                                expressions: calc_product_expressions,
+                                ..
+                            }) if calc_product_expressions.len() == 1 => {
+                                if let CalcValueOrOperator::Value(calc_value) =
+                                    &calc_product_expressions[0]
                                 {
-                                    *component_value = cv;
+                                    if let Some(cv) =
+                                        transform_calc_value_into_component_value(calc_value)
+                                    {
+                                        *component_value = cv;
+                                    }
                                 }
                             }
+                            _ => {}
                         }
-                        _ => {}
-                    },
+                    }
                     _ => {}
                 }
             }

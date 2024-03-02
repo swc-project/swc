@@ -6,10 +6,9 @@ use crate::{
     function::Function,
     ident::Ident,
     lit::{BigInt, Number, Str},
-    pat::Pat,
     stmt::BlockStmt,
     typescript::TsTypeAnn,
-    Id, MemberProp,
+    Id, MemberProp, Pat,
 };
 
 #[ast_node]
@@ -76,6 +75,7 @@ pub struct GetterProp {
 pub struct SetterProp {
     pub span: Span,
     pub key: PropName,
+    pub this_param: Option<Pat>,
     pub param: Box<Pat>,
     #[cfg_attr(feature = "serde-impl", serde(default))]
     pub body: Option<BlockStmt>,

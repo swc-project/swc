@@ -72,6 +72,7 @@ impl Error {
                 format!("{} is not valid name for keyframes", s).into()
             }
             ErrorKind::InvalidScopeAtRule => "Invalid @scope at-rule".into(),
+            ErrorKind::ValueAtRule => "@value at-rule is deprecated".into(),
         }
     }
 
@@ -119,4 +120,6 @@ pub enum ErrorKind {
     InvalidScopeAtRule,
 
     UnknownAtRuleNotTerminated,
+
+    ValueAtRule,
 }

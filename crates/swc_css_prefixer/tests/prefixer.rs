@@ -31,6 +31,7 @@ fn prefix(input: PathBuf, options: Options, suffix: Option<&str>) {
         let mut errors = vec![];
         let mut ss: Stylesheet = parse_file(
             &fm,
+            None,
             ParserConfig {
                 allow_wrong_line_comments: true,
                 ..Default::default()

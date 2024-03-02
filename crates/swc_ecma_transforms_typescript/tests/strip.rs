@@ -13,7 +13,7 @@ use swc_ecma_transforms_compat::{
 use swc_ecma_transforms_proposal::decorators;
 use swc_ecma_transforms_testing::{test, test_exec, test_fixture, Tester};
 use swc_ecma_transforms_typescript::{
-    typescript, ImportsNotUsedAsValues, TsImportExportAssignConfig,
+    tsx, typescript, ImportsNotUsedAsValues, TsImportExportAssignConfig, TsxConfig,
 };
 use swc_ecma_visit::Fold;
 
@@ -45,23 +45,55 @@ fn tr_config(
     )
 }
 
-fn properties(t: &Tester, loose: bool) -> impl Fold {
-    let mark = Mark::new();
+fn tsxr(t: &Tester) -> impl Fold {
+    let unresolved_mark = Mark::new();
+    let top_level_mark = Mark::new();
+
     chain!(
-        static_blocks(mark),
+        resolver(unresolved_mark, top_level_mark, false),
+        tsx(
+            t.cm.clone(),
+            typescript::Config {
+                no_empty_export: true,
+                import_not_used_as_values: ImportsNotUsedAsValues::Remove,
+                ..Default::default()
+            },
+            TsxConfig::default(),
+            t.comments.clone(),
+            top_level_mark,
+        ),
+        swc_ecma_transforms_react::jsx(
+            t.cm.clone(),
+            Some(t.comments.clone()),
+            swc_ecma_transforms_react::Options::default(),
+            top_level_mark,
+            unresolved_mark
+        ),
+    )
+}
+
+fn properties(t: &Tester, loose: bool) -> impl Fold {
+    let static_blocks_mark = Mark::new();
+    let unresolved_mark = Mark::new();
+    let top_level_mark = Mark::new();
+
+    chain!(
+        resolver(unresolved_mark, top_level_mark, false),
+        static_blocks(static_blocks_mark),
         class_properties(
             Some(t.comments.clone()),
             class_properties::Config {
-                static_blocks_mark: mark,
+                static_blocks_mark,
                 set_public_fields: loose,
                 ..Default::default()
             },
+            unresolved_mark
         )
     )
 }
 
 macro_rules! to {
-    ($name:ident, $from:expr, $to:expr) => {
+    ($name:ident, $from:expr) => {
         test!(
             Syntax::Typescript(TsConfig {
                 decorators: true,
@@ -69,21 +101,19 @@ macro_rules! to {
             }),
             |t| chain!(tr(), properties(t, true)),
             $name,
-            $from,
-            $to,
-            ok_if_code_eq
+            $from
         );
     };
 }
 
 macro_rules! test_with_config {
-    ($name:ident, $config:expr, SET, $from:expr, $to:expr) => {
-        test_with_config!($name, $config, false, $from, $to);
+    ($name:ident, $config:expr, SET, $from:expr) => {
+        test_with_config!($name, $config, false, $from);
     };
-    ($name:ident, $config:expr, $from:expr, $to:expr) => {
-        test_with_config!($name, $config, true, $from, $to);
+    ($name:ident, $config:expr, $from:expr) => {
+        test_with_config!($name, $config, true, $from);
     };
-    ($name:ident, $config:expr, $use_define:expr,$from:expr, $to:expr) => {
+    ($name:ident, $config:expr, $use_define:expr,$from:expr) => {
         test!(
             Syntax::Typescript(TsConfig {
                 decorators: true,
@@ -91,9 +121,7 @@ macro_rules! test_with_config {
             }),
             |_| tr_config(Some($config), None, $use_define),
             $name,
-            $from,
-            $to,
-            ok_if_code_eq
+            $from
         );
     };
 }
@@ -119,11 +147,8 @@ test!(
     fn_len_default_assignment_with_types,
     "export function transformFileSync(
       filename: string,
-      opts?: Object = {},
-    ): string {}",
-    "export function transformFileSync(filename, opts) {
-      if (opts === void 0) opts = {};
-    }"
+      opts: Object = {},
+    ): string {}"
 );
 
 // TODO: Test function / variable hoisting
@@ -135,9 +160,7 @@ test!(
     "
 import { PlainObject } from 'simplytyped';
 const dict: PlainObject = {};
-",
-    "
-const dict = {};"
+"
 );
 
 test!(
@@ -146,10 +169,6 @@ test!(
     issue_461,
     "for (let x in ['']) {
   (x => 0)(x);
-}",
-    "for(let x in ['']){
-    ((x)=>0
-    )(x);
 }"
 );
 
@@ -159,9 +178,7 @@ test!(
     issue_468_1,
     "tView.firstCreatePass ?
       getOrCreateTNode(tView, lView[T_HOST], index, TNodeType.Element, null, null) :
-      tView.data[adjustedIndex] as TElementNode",
-    "tView.firstCreatePass ? getOrCreateTNode(tView, lView[T_HOST], index, TNodeType.Element, \
-     null, null) : tView.data[adjustedIndex];"
+      tView.data[adjustedIndex] as TElementNode"
 );
 
 test!(
@@ -170,9 +187,7 @@ test!(
     issue_468_2,
     "tView.firstCreatePass ?
       getOrCreateTNode(tView, lView[T_HOST], index, TNodeType.Element, null, null) :
-      tView.data[adjustedIndex] as TElementNode",
-    "tView.firstCreatePass ? getOrCreateTNode(tView, lView[T_HOST], index, TNodeType.Element, \
-     null, null) : tView.data[adjustedIndex];"
+      tView.data[adjustedIndex] as TElementNode"
 );
 
 test!(
@@ -180,15 +195,13 @@ test!(
     |_| tr(),
     issue_468_3,
     "tView.firstCreatePass ?
-      getOrCreateTNode() : tView.data[adjustedIndex] as TElementNode",
-    "tView.firstCreatePass ? getOrCreateTNode() : tView.data[adjustedIndex];"
+      getOrCreateTNode() : tView.data[adjustedIndex] as TElementNode"
 );
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
     |_| tr(),
     issue_468_4,
-    "a ? b : c",
     "a ? b : c"
 );
 
@@ -196,37 +209,28 @@ test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
     |_| tr(),
     issue_468_5,
-    "a ? b : c as T",
-    "a ? b : c"
+    "a ? b : c as T"
 );
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
     |_| tr(),
     issue_468_6,
-    "a.b ? c() : d.e[f] as T",
-    "a.b ? c() : d.e[f];"
+    "a.b ? c() : d.e[f] as T"
 );
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
     |_| tr(),
     issue_468_7,
-    "tView.firstCreatePass ? getOrCreateTNode() : tView.data[adjustedIndex]",
-    "tView.firstCreatePass ? getOrCreateTNode() : tView.data[adjustedIndex];"
+    "tView.firstCreatePass ? getOrCreateTNode() : tView.data[adjustedIndex]"
 );
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
     |_| tr(),
     enum_simple,
-    "enum Foo{ a }",
-    "
-var Foo;
-(function (Foo) {
-    Foo[Foo[\"a\"] = 0] = \"a\";
-})(Foo || (Foo = {}));",
-    ok_if_code_eq
+    "enum Foo{ a }"
 );
 
 test!(
@@ -238,17 +242,7 @@ test!(
   opened = 'opened',
   mounted = 'mounted',
   unmounted = 'unmounted',
-}",
-    r#"
-var State;
-(function (State) {
-    State["closed"] = "closed";
-    State["opened"] = "opened";
-    State["mounted"] = "mounted";
-    State["unmounted"] = "unmounted";
-})(State || (State = {}));
-"#,
-    ok_if_code_eq
+}"
 );
 
 test!(
@@ -259,16 +253,7 @@ test!(
   closed = 'cl0',
   opened = 'op1',
   mounted = 'mo2',
-}",
-    r#"
-var StateNum;
-(function (StateNum) {
-    StateNum["closed"] = "cl0";
-    StateNum["opened"] = "op1";
-    StateNum["mounted"] = "mo2";
-})(StateNum || (StateNum = {}));
-"#,
-    ok_if_code_eq
+}"
 );
 
 test!(
@@ -280,16 +265,7 @@ test!(
   opened = 'opened',
   mounted = 'mounted',
   unmounted = 'unmounted',
-}",
-    r#"export var State;
-(function (State) {
-    State["closed"] = "closed";
-    State["opened"] = "opened";
-    State["mounted"] = "mounted";
-    State["unmounted"] = "unmounted";
-})(State || (State = {}));
-"#,
-    ok_if_code_eq
+}"
 );
 
 to!(
@@ -300,16 +276,7 @@ to!(
         b = a,
         c = b + 1,
         d = c
-    }",
-    "
-var x;
-var Foo;
-(function (Foo) {
-    Foo[Foo[\"a\"] = 0] = \"a\";
-    Foo[Foo[\"b\"] = 0] = \"b\";
-    Foo[Foo[\"c\"] = 1] = \"c\";
-    Foo[Foo[\"d\"] = 1] = \"d\";
-})(Foo || (Foo = {}));"
+    }"
 );
 
 test!(
@@ -317,30 +284,25 @@ test!(
     |_| tr(),
     issue_640,
     "import { Handler } from 'aws-lambda';
-export const handler: Handler = async (event, context) => {};",
-    "export const handler = async (event, context) => {};",
-    ok_if_code_eq
+export const handler: Handler = async (event, context) => {};"
 );
 
 test!(
     ::swc_ecma_parser::Syntax::Typescript(Default::default()),
     |_| tr(),
     issue_656,
-    "export const x = { text: 'hello' } as const;",
-    "export const x = { text: 'hello' };",
-    ok_if_code_eq
+    "export const x = { text: 'hello' } as const;"
 );
 
-to!(import_type, "import type foo from 'foo'", "");
+to!(import_type, "import type foo from 'foo'");
 
-to!(export_type, "export type { foo }", "");
+to!(export_type, "export type { foo }");
 
 to!(
     issue_685,
     "
     type MyType = string;
-    export default MyType;",
-    ""
+    export default MyType;"
 );
 
 to!(
@@ -348,9 +310,6 @@ to!(
     "
     class MyType {}
     type MyType = string;
-    export default MyType;",
-    "
-    class MyType {}
     export default MyType;"
 );
 
@@ -359,9 +318,6 @@ to!(
     "
     var MyType = function(){};
     type MyType = string;
-    export default MyType;",
-    "
-    var MyType = function(){};
     export default MyType;"
 );
 
@@ -371,8 +327,7 @@ to!(
     interface MyType {
         other: number;
     }
-    export default MyType;",
-    ""
+    export default MyType;"
 );
 
 to!(
@@ -380,13 +335,7 @@ to!(
     "enum FlexSize {
   md = 'md',
   lg = 'lg',
-}",
-    "var FlexSize;
-(function (FlexSize) {
-    FlexSize[\"md\"] = \"md\";
-    FlexSize[\"lg\"] = \"lg\";
-})(FlexSize || (FlexSize = {}));
-"
+}"
 );
 
 to!(
@@ -394,18 +343,12 @@ to!(
     "enum FlexSize {
   md,
   lg,
-}",
-    "var FlexSize;
-(function (FlexSize) {
-    FlexSize[FlexSize[\"md\"] = 0] = \"md\";
-    FlexSize[FlexSize[\"lg\"] = 1] = \"lg\";
-})(FlexSize || (FlexSize = {}));
-"
+}"
 );
 
-to!(module_01, "module 'foo'{ }", "");
+to!(module_01, "module 'foo'{ }");
 
-to!(declare_01, "declare var env: FOO", "");
+to!(declare_01, "declare var env: FOO");
 
 to!(
     issue_757,
@@ -416,14 +359,7 @@ enum Foo {
 }
 
 export default Foo;
-",
-    "var Foo;
-    (function(Foo) {
-        Foo[Foo[\"A\"] = 0] = \"A\";
-        Foo[Foo[\"B\"] = 1] = \"B\";
-    })(Foo || (Foo = {
-    }));
-    export default Foo;"
+"
 );
 
 to!(
@@ -431,9 +367,6 @@ to!(
     "import { IPerson } from '../types/types'
      export function createPerson(person: IPerson) {
         const a = {} as IPerson
-      }",
-    "export function createPerson(person) {
-        const a = {};
       }"
 );
 
@@ -442,9 +375,6 @@ to!(
     "import { IPerson } from '../types/types'
      function createPerson(person: IPerson) {
         const a = {} as IPerson
-      }",
-    "function createPerson(person) {
-        const a = {};
       }"
 );
 
@@ -457,9 +387,6 @@ to!(
 
      export function createPerson(person: IPerson) {
        const a = {} as IPerson
-     }",
-    "export function createPerson(person) {
-       const a = {}
      }"
 );
 
@@ -472,11 +399,6 @@ to!(
 
      export function createPerson(person: IPerson) {
        const a = {} as IPerson
-     }",
-    "export class Employee {
-     }
-     export function createPerson(person) {
-       const a = {}
      }"
 );
 
@@ -488,9 +410,6 @@ to!(
 
      export function createPerson(person: MyPerson) {
        const a = {} as MyPerson
-     }",
-    "export function createPerson(person) {
-       const a = {}
      }"
 );
 
@@ -499,12 +418,7 @@ to!(
     "import { A, B } from '../types/types'
 
      export class Child extends A implements B {
-     }",
-    "import { A } from '../types/types'
-
-    export class Child extends A {
-    }
-    "
+     }"
 );
 
 to!(
@@ -512,9 +426,6 @@ to!(
     "import { IPerson } from '../types/types'
      export function createPerson(person) {
         const a = {} as IPerson
-      }",
-    "export function createPerson(person) {
-        const a = {};
       }"
 );
 
@@ -523,9 +434,6 @@ to!(
     "import { IPerson } from '../types/types'
      export function createPerson(person) {
         const a = <IPerson>{};
-      }",
-    "export function createPerson(person) {
-        const a = {};
       }"
 );
 
@@ -533,11 +441,6 @@ to!(
     issue_900_1,
     "export class FeatureSet<Name extends string> {
     log(a: Name) {
-        console.log(a)
-    }
-}",
-    "export class FeatureSet {
-    log(a) {
         console.log(a)
     }
 }"
@@ -549,11 +452,6 @@ to!(
     log(a: Name) {
         console.log(a)
     }
-}",
-    "class FeatureSet {
-    log(a) {
-        console.log(a)
-    }
 }"
 );
 
@@ -563,13 +461,7 @@ to!(
     log(a: Name) {
         console.log(a)
     }
-}",
-    "class FeatureSet {
-    log(a) {
-        console.log(a)
-    }
-}
-export { FeatureSet as default };"
+}"
 );
 
 to!(
@@ -578,13 +470,7 @@ to!(
     Up = 1,
     Down = 2,
     Left = Up + Down,
-}",
-    "var Direction;
-(function (Direction) {
-    Direction[Direction[\"Up\"] = 1] = \"Up\";
-    Direction[Direction[\"Down\"] = 2] = \"Down\";
-    Direction[Direction[\"Left\"] = 3] = \"Left\";
-})(Direction || (Direction = {}));"
+}"
 );
 
 to!(
@@ -603,28 +489,6 @@ to!(
         this.#level = getLevelByName(levelName);
         this.#handlers = options.handlers || [];
     }
-}",
-    "
-    var _level = new WeakMap(), _handlers = new WeakMap(), _loggerName = new WeakMap();
-    export class Logger {
-    constructor(loggerName, levelName, options = {
-    }){
-        _class_private_field_init(this, _level, {
-            writable: true,
-            value: void 0
-        });
-        _class_private_field_init(this, _handlers, {
-            writable: true,
-            value: void 0
-        });
-        _class_private_field_init(this, _loggerName, {
-            writable: true,
-            value: void 0
-        });
-        _class_private_field_set(this, _loggerName, loggerName);
-        _class_private_field_set(this, _level, getLevelByName(levelName));
-        _class_private_field_set(this, _handlers, options.handlers || []);
-    }
 }"
 );
 
@@ -637,16 +501,6 @@ to!(
     close,
     end,
   }
-});"#,
-    r#"Deno.test("[ws] WebSocket should act as asyncIterator", async ()=>{
-    let Frames;
-    (function(Frames) {
-        Frames[Frames["ping"] = 0] = "ping";
-        Frames[Frames["hello"] = 1] = "hello";
-        Frames[Frames["close"] = 2] = "close";
-        Frames[Frames["end"] = 3] = "end";
-    })(Frames || (Frames = {
-    }));
 });"#
 );
 
@@ -654,11 +508,6 @@ to!(
     issue_915_3,
     r#"export class MultipartReader {
     readonly newLine = encoder.encode("\r\n");
-}"#,
-    r#"export class MultipartReader {
-      constructor(){
-          this.newLine = encoder.encode("\r\n");
-      }
 }"#
 );
 
@@ -668,12 +517,6 @@ to!(
     constructor(public readonly message: string) {
       super(message)
     }
-}"#,
-    r#"export class BadRequestError extends Error {
-    constructor(message) {
-      super(message)
-      this.message = message
-    }
 }"#
 );
 
@@ -681,8 +524,7 @@ to!(
     issue_921,
     "export abstract class Kernel {
   [key: string]: any
-}",
-    "export abstract class Kernel {}"
+}"
 );
 
 to!(
@@ -691,13 +533,6 @@ to!(
   constructor(public a, private b) {
     super();
   }
-}",
-    "class A extends Object {
-    constructor(a, b){
-        super();
-        this.a = a;
-        this.b = b;
-    }
 }"
 );
 
@@ -709,13 +544,7 @@ test!(
         b = this.a;
         constructor(readonly a){
         }
-    }",
-    "class A {
-    constructor(a) {
-        this.a = a;
-        this.b = this.a;
-    }
-}"
+    }"
 );
 
 test!(
@@ -726,12 +555,7 @@ test!(
         static b = 'foo';
         constructor(a){
         }
-    }",
-    "class A {
-        constructor(a) {
-        }
-    }
-    A.b = 'foo';"
+    }"
 );
 
 test!(
@@ -743,12 +567,6 @@ test!(
 
         constructor() {
           this.foo.subscribe()
-        }
-      }",
-    "class A {
-        constructor() {
-            this.foo = new Subject()
-            this.foo.subscribe()
         }
       }"
 );
@@ -768,18 +586,7 @@ test!(
                 super()
                 this.foo.subscribe()
             }
-          }",
-    "class A extends B {
-        constructor(a, c, d = 1) {
-            super();
-            this.a = a;
-            this.c = c;
-            this.d = d;
-            this.foo = 'foo';
-            this.b = this.a;
-            this.foo.subscribe();
-        }
-    }"
+          }"
 );
 
 test!(
@@ -788,11 +595,6 @@ test!(
     issue_958,
     "export class Test {
         constructor(readonly test?: string) {}
-    }",
-    "export class Test {
-        constructor(test){
-            this.test = test;
-        }
     }"
 );
 
@@ -828,29 +630,7 @@ test!(
           console.log(this.action) // undefined
         }
       }
-    ",
-    r#"
-    function DefineAction() {
-        return (target, property)=>{
-            console.log(target, property);
-        };
-    }
-    class Base {
-        constructor(){
-            this.action = new Subject();
-        }
-    }
-    class Child extends Base {
-        callApi() {
-            console.log(this.action);
-        }
-    }
-    _ts_decorate([
-        DefineAction()
-    ], Child.prototype, "action", void 0);
-    
-    "#,
-    ok_if_code_eq
+    "
 );
 
 test_exec!(
@@ -1958,1077 +1738,10 @@ export default (identifier: string, level = 0, b = "", m = false) => {
     }
 
     return;
-};"#,
-    r#"
-    import {
-        indent as indentFormatter,
-        newline as newlineFormatter,
-        breakpoint as breakpointFormatter,
-    } from "./format.ts";
-
-    const proseTypes = new Map();
-
-    // deno-lint-ignore ban-types
-    const prose = (l, i, nl, bp) => {
-        return i(l) + bp + "prose {" + nl +
-            i(l + 1) + "color: #374151;" + nl +
-            i(l + 1) + "max-width: 65ch;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + 'prose [class~="lead"] {' + nl +
-            i(l + 1) + "color: #4b5563;" + nl +
-            i(l + 1) + "font-size: 1.25em;" + nl +
-            i(l + 1) + "line-height: 1.6;" + nl +
-            i(l + 1) + "margin-top: 1.2em;" + nl +
-            i(l + 1) + "margin-bottom: 1.2em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose a {" + nl +
-            i(l + 1) + "color: #5850ec;" + nl +
-            i(l + 1) + "text-decoration: none;" + nl +
-            i(l + 1) + "font-weight: 600;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose strong {" + nl +
-            i(l + 1) + "color: #161e2e;" + nl +
-            i(l + 1) + "font-weight: 600;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose ol {" + nl +
-            i(l + 1) + "counter-reset: list-counter;" + nl +
-            i(l + 1) + "margin-top: 1.25em;" + nl +
-            i(l + 1) + "margin-bottom: 1.25em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose ol > li {" + nl +
-            i(l + 1) + "position: relative;" + nl +
-            i(l + 1) + "counter-increment: list-counter;" + nl +
-            i(l + 1) + "padding-left: 1.75em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose ol > li::before {" + nl +
-            i(l + 1) + 'content: counter(list-counter) ".";' + nl +
-            i(l + 1) + "position: absolute;" + nl +
-            i(l + 1) + "font-weight: 400;" + nl +
-            i(l + 1) + "color: #6b7280;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose ul > li {" + nl +
-            i(l + 1) + "position: relative;" + nl +
-            i(l + 1) + "padding-left: 1.75em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose ul > li::before {" + nl +
-            i(l + 1) + 'content: "";' + nl +
-            i(l + 1) + "position: absolute;" + nl +
-            i(l + 1) + "background-color: #d2d6dc;" + nl +
-            i(l + 1) + "border-radius: 50%;" + nl +
-            i(l + 1) + "width: 0.375em;" + nl +
-            i(l + 1) + "height: 0.375em;" + nl +
-            i(l + 1) + "top: calc(0.875em - 0.1875em);" + nl +
-            i(l + 1) + "left: 0.25em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose hr {" + nl +
-            i(l + 1) + "border-color: #e5e7eb;" + nl +
-            i(l + 1) + "border-top-width: 1px;" + nl +
-            i(l + 1) + "margin-top: 3em;" + nl +
-            i(l + 1) + "margin-bottom: 3em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose blockquote {" + nl +
-            i(l + 1) + "font-weight: 500;" + nl +
-            i(l + 1) + "font-style: italic;" + nl +
-            i(l + 1) + "color: #161e2e;" + nl +
-            i(l + 1) + "border-left-width: 0.25rem;" + nl +
-            i(l + 1) + "border-left-color: #e5e7eb;" + nl +
-            i(l + 1) + 'quotes: "\\201C""\\201D""\\2018""\\2019";' + nl +
-            i(l + 1) + "margin-top: 1.6em;" + nl +
-            i(l + 1) + "margin-bottom: 1.6em;" + nl +
-            i(l + 1) + "padding-left: 1em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose blockquote p:first-of-type::before {" + nl +
-            i(l + 1) + "content: open-quote;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose blockquote p:last-of-type::after {" + nl +
-            i(l + 1) + "content: close-quote;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose h1 {" + nl +
-            i(l + 1) + "color: #1a202c;" + nl +
-            i(l + 1) + "font-weight: 800;" + nl +
-            i(l + 1) + "font-size: 2.25em;" + nl +
-            i(l + 1) + "margin-top: 0;" + nl +
-            i(l + 1) + "margin-bottom: 0.8888889em;" + nl +
-            i(l + 1) + "line-height: 1.1111111;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose h2 {" + nl +
-            i(l + 1) + "color: #1a202c;" + nl +
-            i(l + 1) + "font-weight: 700;" + nl +
-            i(l + 1) + "font-size: 1.5em;" + nl +
-            i(l + 1) + "margin-top: 2em;" + nl +
-            i(l + 1) + "margin-bottom: 1em;" + nl +
-            i(l + 1) + "line-height: 1.3333333;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose h3 {" + nl +
-            i(l + 1) + "color: #1a202c;" + nl +
-            i(l + 1) + "font-weight: 600;" + nl +
-            i(l + 1) + "font-size: 1.25em;" + nl +
-            i(l + 1) + "margin-top: 1.6em;" + nl +
-            i(l + 1) + "margin-bottom: 0.6em;" + nl +
-            i(l + 1) + "line-height: 1.6;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose h4 {" + nl +
-            i(l + 1) + "color: #1a202c;" + nl +
-            i(l + 1) + "font-weight: 600;" + nl +
-            i(l + 1) + "margin-top: 1.5em;" + nl +
-            i(l + 1) + "margin-bottom: 0.5em;" + nl +
-            i(l + 1) + "line-height: 1.5;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose figure figcaption {" + nl +
-            i(l + 1) + "color: #6b7280;" + nl +
-            i(l + 1) + "font-size: 0.875em;" + nl +
-            i(l + 1) + "line-height: 1.4285714;" + nl +
-            i(l + 1) + "margin-top: 0.8571429em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose code {" + nl +
-            i(l + 1) + "color: #161e2e;" + nl +
-            i(l + 1) + "font-weight: 600;" + nl +
-            i(l + 1) + "font-size: 0.875em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose code::before {" + nl +
-            i(l + 1) + 'content: "`";' + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose code::after {" + nl +
-            i(l + 1) + 'content: "`";' + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose pre {" + nl +
-            i(l + 1) + "color: #e5e7eb;" + nl +
-            i(l + 1) + "background-color: #252f3f;" + nl +
-            i(l + 1) + "overflow-x: auto;" + nl +
-            i(l + 1) + "font-size: 0.875em;" + nl +
-            i(l + 1) + "line-height: 1.7142857;" + nl +
-            i(l + 1) + "margin-top: 1.7142857em;" + nl +
-            i(l + 1) + "margin-bottom: 1.7142857em;" + nl +
-            i(l + 1) + "border-radius: 0.375rem;" + nl +
-            i(l + 1) + "padding-top: 0.8571429em;" + nl +
-            i(l + 1) + "padding-right: 1.1428571em;" + nl +
-            i(l + 1) + "padding-bottom: 0.8571429em;" + nl +
-            i(l + 1) + "padding-left: 1.1428571em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose pre code {" + nl +
-            i(l + 1) + "background-color: transparent;" + nl +
-            i(l + 1) + "border-width: 0;" + nl +
-            i(l + 1) + "border-radius: 0;" + nl +
-            i(l + 1) + "padding: 0;" + nl +
-            i(l + 1) + "font-weight: 400;" + nl +
-            i(l + 1) + "color: inherit;" + nl +
-            i(l + 1) + "font-size: inherit;" + nl +
-            i(l + 1) + "font-family: inherit;" + nl +
-            i(l + 1) + "line-height: inherit;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose pre code::before {" + nl +
-            i(l + 1) + 'content: "";' + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose pre code::after {" + nl +
-            i(l + 1) + 'content: "";' + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose table {" + nl +
-            i(l + 1) + "width: 100%;" + nl +
-            i(l + 1) + "table-layout: auto;" + nl +
-            i(l + 1) + "text-align: left;" + nl +
-            i(l + 1) + "margin-top: 2em;" + nl +
-            i(l + 1) + "margin-bottom: 2em;" + nl +
-            i(l + 1) + "font-size: 0.875em;" + nl +
-            i(l + 1) + "line-height: 1.7142857;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose thead {" + nl +
-            i(l + 1) + "color: #161e2e;" + nl +
-            i(l + 1) + "font-weight: 600;" + nl +
-            i(l + 1) + "border-bottom-width: 1px;" + nl +
-            i(l + 1) + "border-bottom-color: #d2d6dc;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose thead th {" + nl +
-            i(l + 1) + "vertical-align: bottom;" + nl +
-            i(l + 1) + "padding-right: 0.5714286em;" + nl +
-            i(l + 1) + "padding-bottom: 0.5714286em;" + nl +
-            i(l + 1) + "padding-left: 0.5714286em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose tbody tr {" + nl +
-            i(l + 1) + "border-bottom-width: 1px;" + nl +
-            i(l + 1) + "border-bottom-color: #e5e7eb;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose tbody tr:last-child {" + nl +
-            i(l + 1) + "border-bottom-width: 0;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose tbody td {" + nl +
-            i(l + 1) + "vertical-align: top;" + nl +
-            i(l + 1) + "padding-top: 0.5714286em;" + nl +
-            i(l + 1) + "padding-right: 0.5714286em;" + nl +
-            i(l + 1) + "padding-bottom: 0.5714286em;" + nl +
-            i(l + 1) + "padding-left: 0.5714286em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose {" + nl +
-            i(l + 1) + "font-size: 1rem;" + nl +
-            i(l + 1) + "line-height: 1.75;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose p {" + nl +
-            i(l + 1) + "margin-top: 1.25em;" + nl +
-            i(l + 1) + "margin-bottom: 1.25em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose img {" + nl +
-            i(l + 1) + "margin-top: 2em;" + nl +
-            i(l + 1) + "margin-bottom: 2em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose video {" + nl +
-            i(l + 1) + "margin-top: 2em;" + nl +
-            i(l + 1) + "margin-bottom: 2em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose figure {" + nl +
-            i(l + 1) + "margin-top: 2em;" + nl +
-            i(l + 1) + "margin-bottom: 2em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose figure > * {" + nl +
-            i(l + 1) + "margin-top: 0;" + nl +
-            i(l + 1) + "margin-bottom: 0;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose h2 code {" + nl +
-            i(l + 1) + "font-size: 0.875em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose h3 code {" + nl +
-            i(l + 1) + "font-size: 0.9em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose ul {" + nl +
-            i(l + 1) + "margin-top: 1.25em;" + nl +
-            i(l + 1) + "margin-bottom: 1.25em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose li {" + nl +
-            i(l + 1) + "margin-top: 0.5em;" + nl +
-            i(l + 1) + "margin-bottom: 0.5em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose ol > li:before {" + nl +
-            i(l + 1) + "left: 0;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose > ul > li p {" + nl +
-            i(l + 1) + "margin-top: 0.75em;" + nl +
-            i(l + 1) + "margin-bottom: 0.75em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose > ul > li > :first-child {" + nl +
-            i(l + 1) + "margin-top: 1.25em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose > ul > li > :last-child {" + nl +
-            i(l + 1) + "margin-bottom: 1.25em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose > ol > li > :first-child {" + nl +
-            i(l + 1) + "margin-top: 1.25em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose > ol > li > :last-child {" + nl +
-            i(l + 1) + "margin-bottom: 1.25em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose ol ol," + nl +
-            i(l) + bp + "prose ol ul," + nl +
-            i(l) + bp + "prose ul ol," + nl +
-            i(l) + bp + "prose ul ul {" + nl +
-            i(l + 1) + "margin-top: 0.75em;" + nl +
-            i(l + 1) + "margin-bottom: 0.75em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose hr + * {" + nl +
-            i(l + 1) + "margin-top: 0;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose h2 + * {" + nl +
-            i(l + 1) + "margin-top: 0;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose h3 + * {" + nl +
-            i(l + 1) + "margin-top: 0;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose h4 + * {" + nl +
-            i(l + 1) + "margin-top: 0;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose thead th:first-child {" + nl +
-            i(l + 1) + "padding-left: 0;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose thead th:last-child {" + nl +
-            i(l + 1) + "padding-right: 0;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose tbody td:first-child {" + nl +
-            i(l + 1) + "padding-left: 0;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose tbody td:last-child {" + nl +
-            i(l + 1) + "padding-right: 0;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose > :first-child {" + nl +
-            i(l + 1) + "margin-top: 0;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose > :last-child {" + nl +
-            i(l + 1) + "margin-bottom: 0;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose h1," + nl +
-            i(l) + bp + "prose h2," + nl +
-            i(l) + bp + "prose h3," + nl +
-            i(l) + bp + "prose h4 {" + nl +
-            i(l + 1) + "color: #161e2e;" + nl +
-            i(l) + "}" + nl;
-    };
-
-    proseTypes.set("prose", prose);
-
-    // deno-lint-ignore ban-types
-    const proseSm = (l, i, nl, bp) => {
-        return i(l) + bp + "prose-sm {" + nl +
-            i(l + 1) + "font-size: 0.875rem;" + nl +
-            i(l + 1) + "line-height: 1.7142857;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-sm p {" + nl +
-            i(l + 1) + "margin-top: 1.1428571em;" + nl +
-            i(l + 1) + "margin-bottom: 1.1428571em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + 'prose-sm [class~="lead"] {' + nl +
-            i(l + 1) + "font-size: 1.2857143em;" + nl +
-            i(l + 1) + "line-height: 1.5555556;" + nl +
-            i(l + 1) + "margin-top: 0.8888889em;" + nl +
-            i(l + 1) + "margin-bottom: 0.8888889em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-sm blockquote {" + nl +
-            i(l + 1) + "margin-top: 1.3333333em;" + nl +
-            i(l + 1) + "margin-bottom: 1.3333333em;" + nl +
-            i(l + 1) + "padding-left: 1.1111111em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-sm h1 {" + nl +
-            i(l + 1) + "font-size: 2.1428571em;" + nl +
-            i(l + 1) + "margin-top: 0;" + nl +
-            i(l + 1) + "margin-bottom: 0.8em;" + nl +
-            i(l + 1) + "line-height: 1.2;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-sm h2 {" + nl +
-            i(l + 1) + "font-size: 1.4285714em;" + nl +
-            i(l + 1) + "margin-top: 1.6em;" + nl +
-            i(l + 1) + "margin-bottom: 0.8em;" + nl +
-            i(l + 1) + "line-height: 1.4;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-sm h3 {" + nl +
-            i(l + 1) + "font-size: 1.2857143em;" + nl +
-            i(l + 1) + "margin-top: 1.5555556em;" + nl +
-            i(l + 1) + "margin-bottom: 0.4444444em;" + nl +
-            i(l + 1) + "line-height: 1.5555556;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-sm h4 {" + nl +
-            i(l + 1) + "margin-top: 1.4285714em;" + nl +
-            i(l + 1) + "margin-bottom: 0.5714286em;" + nl +
-            i(l + 1) + "line-height: 1.4285714;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-sm img {" + nl +
-            i(l + 1) + "margin-top: 1.7142857em;" + nl +
-            i(l + 1) + "margin-bottom: 1.7142857em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-sm video {" + nl +
-            i(l + 1) + "margin-top: 1.7142857em;" + nl +
-            i(l + 1) + "margin-bottom: 1.7142857em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-sm figure {" + nl +
-            i(l + 1) + "margin-top: 1.7142857em;" + nl +
-            i(l + 1) + "margin-bottom: 1.7142857em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-sm figure > * {" + nl +
-            i(l + 1) + "margin-top: 0;" + nl +
-            i(l + 1) + "margin-bottom: 0;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-sm figure figcaption {" + nl +
-            i(l + 1) + "font-size: 0.8571429em;" + nl +
-            i(l + 1) + "line-height: 1.3333333;" + nl +
-            i(l + 1) + "margin-top: 0.6666667em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-sm code {" + nl +
-            i(l + 1) + "font-size: 0.8571429em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-sm h2 code {" + nl +
-            i(l + 1) + "font-size: 0.9em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-sm h3 code {" + nl +
-            i(l + 1) + "font-size: 0.8888889em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-sm pre {" + nl +
-            i(l + 1) + "font-size: 0.8571429em;" + nl +
-            i(l + 1) + "line-height: 1.6666667;" + nl +
-            i(l + 1) + "margin-top: 1.6666667em;" + nl +
-            i(l + 1) + "margin-bottom: 1.6666667em;" + nl +
-            i(l + 1) + "border-radius: 0.25rem;" + nl +
-            i(l + 1) + "padding-top: 0.6666667em;" + nl +
-            i(l + 1) + "padding-right: 1em;" + nl +
-            i(l + 1) + "padding-bottom: 0.6666667em;" + nl +
-            i(l + 1) + "padding-left: 1em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-sm ol {" + nl +
-            i(l + 1) + "margin-top: 1.1428571em;" + nl +
-            i(l + 1) + "margin-bottom: 1.1428571em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-sm ul {" + nl +
-            i(l + 1) + "margin-top: 1.1428571em;" + nl +
-            i(l + 1) + "margin-bottom: 1.1428571em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-sm li {" + nl +
-            i(l + 1) + "margin-top: 0.2857143em;" + nl +
-            i(l + 1) + "margin-bottom: 0.2857143em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-sm ol > li {" + nl +
-            i(l + 1) + "padding-left: 1.5714286em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-sm ol > li:before {" + nl +
-            i(l + 1) + "left: 0;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-sm ul > li {" + nl +
-            i(l + 1) + "padding-left: 1.5714286em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-sm ul > li::before {" + nl +
-            i(l + 1) + "height: 0.3571429em;" + nl +
-            i(l + 1) + "width: 0.3571429em;" + nl +
-            i(l + 1) + "top: calc(0.8571429em - 0.1785714em);" + nl +
-            i(l + 1) + "left: 0.2142857em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-sm > ul > li p {" + nl +
-            i(l + 1) + "margin-top: 0.5714286em;" + nl +
-            i(l + 1) + "margin-bottom: 0.5714286em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-sm > ul > li > :first-child {" + nl +
-            i(l + 1) + "margin-top: 1.1428571em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-sm > ul > li > :last-child {" + nl +
-            i(l + 1) + "margin-bottom: 1.1428571em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-sm > ol > li > :first-child {" + nl +
-            i(l + 1) + "margin-top: 1.1428571em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-sm > ol > li > :last-child {" + nl +
-            i(l + 1) + "margin-bottom: 1.1428571em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-sm ol ol," + nl +
-            i(l) + bp + "prose-sm ol ul," + nl +
-            i(l) + bp + "prose-sm ul ol," + nl +
-            i(l) + bp + "prose-sm ul ul {" + nl +
-            i(l + 1) + "margin-top: 0.5714286em;" + nl +
-            i(l + 1) + "margin-bottom: 0.5714286em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-sm hr {" + nl +
-            i(l + 1) + "margin-top: 2.8571429em;" + nl +
-            i(l + 1) + "margin-bottom: 2.8571429em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-sm hr + * {" + nl +
-            i(l + 1) + "margin-top: 0;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-sm h2 + * {" + nl +
-            i(l + 1) + "margin-top: 0;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-sm h3 + * {" + nl +
-            i(l + 1) + "margin-top: 0;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-sm h4 + * {" + nl +
-            i(l + 1) + "margin-top: 0;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-sm table {" + nl +
-            i(l + 1) + "font-size: 0.8571429em;" + nl +
-            i(l + 1) + "line-height: 1.5;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-sm thead th {" + nl +
-            i(l + 1) + "padding-right: 1em;" + nl +
-            i(l + 1) + "padding-bottom: 0.6666667em;" + nl +
-            i(l + 1) + "padding-left: 1em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-sm thead th:first-child {" + nl +
-            i(l + 1) + "padding-left: 0;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-sm thead th:last-child {" + nl +
-            i(l + 1) + "padding-right: 0;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-sm tbody td {" + nl +
-            i(l + 1) + "padding-top: 0.6666667em;" + nl +
-            i(l + 1) + "padding-right: 1em;" + nl +
-            i(l + 1) + "padding-bottom: 0.6666667em;" + nl +
-            i(l + 1) + "padding-left: 1em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-sm tbody td:first-child {" + nl +
-            i(l + 1) + "padding-left: 0;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-sm tbody td:last-child {" + nl +
-            i(l + 1) + "padding-right: 0;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-sm > :first-child {" + nl +
-            i(l + 1) + "margin-top: 0;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-sm > :last-child {" + nl +
-            i(l + 1) + "margin-bottom: 0;" + nl +
-            i(l) + "}" + nl;
-    };
-
-    proseTypes.set("prose-sm", proseSm);
-
-    // deno-lint-ignore ban-types
-    const proseLg = (l, i, nl, bp) => {
-        return i(l) + bp + "prose-lg {" + nl +
-            i(l + 1) + "font-size: 1.125rem;" + nl +
-            i(l + 1) + "line-height: 1.7777778;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-lg p {" + nl +
-            i(l + 1) + "margin-top: 1.3333333em;" + nl +
-            i(l + 1) + "margin-bottom: 1.3333333em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + 'prose-lg [class~="lead"] {' + nl +
-            i(l + 1) + "font-size: 1.2222222em;" + nl +
-            i(l + 1) + "line-height: 1.4545455;" + nl +
-            i(l + 1) + "margin-top: 1.0909091em;" + nl +
-            i(l + 1) + "margin-bottom: 1.0909091em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-lg blockquote {" + nl +
-            i(l + 1) + "margin-top: 1.6666667em;" + nl +
-            i(l + 1) + "margin-bottom: 1.6666667em;" + nl +
-            i(l + 1) + "padding-left: 1em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-lg h1 {" + nl +
-            i(l + 1) + "font-size: 2.6666667em;" + nl +
-            i(l + 1) + "margin-top: 0;" + nl +
-            i(l + 1) + "margin-bottom: 0.8333333em;" + nl +
-            i(l + 1) + "line-height: 1;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-lg h2 {" + nl +
-            i(l + 1) + "font-size: 1.6666667em;" + nl +
-            i(l + 1) + "margin-top: 1.8666667em;" + nl +
-            i(l + 1) + "margin-bottom: 1.0666667em;" + nl +
-            i(l + 1) + "line-height: 1.3333333;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-lg h3 {" + nl +
-            i(l + 1) + "font-size: 1.3333333em;" + nl +
-            i(l + 1) + "margin-top: 1.6666667em;" + nl +
-            i(l + 1) + "margin-bottom: 0.6666667em;" + nl +
-            i(l + 1) + "line-height: 1.5;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-lg h4 {" + nl +
-            i(l + 1) + "margin-top: 1.7777778em;" + nl +
-            i(l + 1) + "margin-bottom: 0.4444444em;" + nl +
-            i(l + 1) + "line-height: 1.5555556;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-lg img {" + nl +
-            i(l + 1) + "margin-top: 1.7777778em;" + nl +
-            i(l + 1) + "margin-bottom: 1.7777778em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-lg video {" + nl +
-            i(l + 1) + "margin-top: 1.7777778em;" + nl +
-            i(l + 1) + "margin-bottom: 1.7777778em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-lg figure {" + nl +
-            i(l + 1) + "margin-top: 1.7777778em;" + nl +
-            i(l + 1) + "margin-bottom: 1.7777778em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-lg figure > * {" + nl +
-            i(l + 1) + "margin-top: 0;" + nl +
-            i(l + 1) + "margin-bottom: 0;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-lg figure figcaption {" + nl +
-            i(l + 1) + "font-size: 0.8888889em;" + nl +
-            i(l + 1) + "line-height: 1.5;" + nl +
-            i(l + 1) + "margin-top: 1em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-lg code {" + nl +
-            i(l + 1) + "font-size: 0.8888889em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-lg h2 code {" + nl +
-            i(l + 1) + "font-size: 0.8666667em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-lg h3 code {" + nl +
-            i(l + 1) + "font-size: 0.875em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-lg pre {" + nl +
-            i(l + 1) + "font-size: 0.8888889em;" + nl +
-            i(l + 1) + "line-height: 1.75;" + nl +
-            i(l + 1) + "margin-top: 2em;" + nl +
-            i(l + 1) + "margin-bottom: 2em;" + nl +
-            i(l + 1) + "border-radius: 0.375rem;" + nl +
-            i(l + 1) + "padding-top: 1em;" + nl +
-            i(l + 1) + "padding-right: 1.5em;" + nl +
-            i(l + 1) + "padding-bottom: 1em;" + nl +
-            i(l + 1) + "padding-left: 1.5em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-lg ol {" + nl +
-            i(l + 1) + "margin-top: 1.3333333em;" + nl +
-            i(l + 1) + "margin-bottom: 1.3333333em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-lg ul {" + nl +
-            i(l + 1) + "margin-top: 1.3333333em;" + nl +
-            i(l + 1) + "margin-bottom: 1.3333333em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-lg li {" + nl +
-            i(l + 1) + "margin-top: 0.6666667em;" + nl +
-            i(l + 1) + "margin-bottom: 0.6666667em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-lg ol > li {" + nl +
-            i(l + 1) + "padding-left: 1.6666667em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-lg ol > li:before {" + nl +
-            i(l + 1) + "left: 0;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-lg ul > li {" + nl +
-            i(l + 1) + "padding-left: 1.6666667em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-lg ul > li::before {" + nl +
-            i(l + 1) + "width: 0.3333333em;" + nl +
-            i(l + 1) + "height: 0.3333333em;" + nl +
-            i(l + 1) + "top: calc(0.8888889em - 0.1666667em);" + nl +
-            i(l + 1) + "left: 0.2222222em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-lg > ul > li p {" + nl +
-            i(l + 1) + "margin-top: 0.8888889em;" + nl +
-            i(l + 1) + "margin-bottom: 0.8888889em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-lg > ul > li > :first-child {" + nl +
-            i(l + 1) + "margin-top: 1.3333333em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-lg > ul > li > :last-child {" + nl +
-            i(l + 1) + "margin-bottom: 1.3333333em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-lg > ol > li > :first-child {" + nl +
-            i(l + 1) + "margin-top: 1.3333333em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-lg > ol > li > :last-child {" + nl +
-            i(l + 1) + "margin-bottom: 1.3333333em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-lg ol ol," + nl +
-            i(l) + bp + "prose-lg ol ul," + nl +
-            i(l) + bp + "prose-lg ul ol," + nl +
-            i(l) + bp + "prose-lg ul ul {" + nl +
-            i(l + 1) + "margin-top: 0.8888889em;" + nl +
-            i(l + 1) + "margin-bottom: 0.8888889em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-lg hr {" + nl +
-            i(l + 1) + "margin-top: 3.1111111em;" + nl +
-            i(l + 1) + "margin-bottom: 3.1111111em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-lg hr + * {" + nl +
-            i(l + 1) + "margin-top: 0;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-lg h2 + * {" + nl +
-            i(l + 1) + "margin-top: 0;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-lg h3 + * {" + nl +
-            i(l + 1) + "margin-top: 0;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-lg h4 + * {" + nl +
-            i(l + 1) + "margin-top: 0;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-lg table {" + nl +
-            i(l + 1) + "font-size: 0.8888889em;" + nl +
-            i(l + 1) + "line-height: 1.5;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-lg thead th {" + nl +
-            i(l + 1) + "padding-right: 0.75em;" + nl +
-            i(l + 1) + "padding-bottom: 0.75em;" + nl +
-            i(l + 1) + "padding-left: 0.75em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-lg thead th:first-child {" + nl +
-            i(l + 1) + "padding-left: 0;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-lg thead th:last-child {" + nl +
-            i(l + 1) + "padding-right: 0;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-lg tbody td {" + nl +
-            i(l + 1) + "padding-top: 0.75em;" + nl +
-            i(l + 1) + "padding-right: 0.75em;" + nl +
-            i(l + 1) + "padding-bottom: 0.75em;" + nl +
-            i(l + 1) + "padding-left: 0.75em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-lg tbody td:first-child {" + nl +
-            i(l + 1) + "padding-left: 0;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-lg tbody td:last-child {" + nl +
-            i(l + 1) + "padding-right: 0;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-lg > :first-child {" + nl +
-            i(l + 1) + "margin-top: 0;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-lg > :last-child {" + nl +
-            i(l + 1) + "margin-bottom: 0;" + nl +
-            i(l) + "}" + nl;
-    };
-
-    proseTypes.set("prose-lg", proseLg);
-
-    // deno-lint-ignore ban-types
-    const proseXl = (l, i, nl, bp) => {
-        return i(l) + bp + "prose-xl {" + nl +
-            i(l + 1) + "font-size: 1.25rem;" + nl +
-            i(l + 1) + "line-height: 1.8;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-xl p {" + nl +
-            i(l + 1) + "margin-top: 1.2em;" + nl +
-            i(l + 1) + "margin-bottom: 1.2em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + 'prose-xl [class~="lead"] {' + nl +
-            i(l + 1) + "font-size: 1.2em;" + nl +
-            i(l + 1) + "line-height: 1.5;" + nl +
-            i(l + 1) + "margin-top: 1em;" + nl +
-            i(l + 1) + "margin-bottom: 1em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-xl blockquote {" + nl +
-            i(l + 1) + "margin-top: 1.6em;" + nl +
-            i(l + 1) + "margin-bottom: 1.6em;" + nl +
-            i(l + 1) + "padding-left: 1.0666667em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-xl h1 {" + nl +
-            i(l + 1) + "font-size: 2.8em;" + nl +
-            i(l + 1) + "margin-top: 0;" + nl +
-            i(l + 1) + "margin-bottom: 0.8571429em;" + nl +
-            i(l + 1) + "line-height: 1;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-xl h2 {" + nl +
-            i(l + 1) + "font-size: 1.8em;" + nl +
-            i(l + 1) + "margin-top: 1.5555556em;" + nl +
-            i(l + 1) + "margin-bottom: 0.8888889em;" + nl +
-            i(l + 1) + "line-height: 1.1111111;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-xl h3 {" + nl +
-            i(l + 1) + "font-size: 1.5em;" + nl +
-            i(l + 1) + "margin-top: 1.6em;" + nl +
-            i(l + 1) + "margin-bottom: 0.6666667em;" + nl +
-            i(l + 1) + "line-height: 1.3333333;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-xl h4 {" + nl +
-            i(l + 1) + "margin-top: 1.8em;" + nl +
-            i(l + 1) + "margin-bottom: 0.6em;" + nl +
-            i(l + 1) + "line-height: 1.6;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-xl img {" + nl +
-            i(l + 1) + "margin-top: 2em;" + nl +
-            i(l + 1) + "margin-bottom: 2em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-xl video {" + nl +
-            i(l + 1) + "margin-top: 2em;" + nl +
-            i(l + 1) + "margin-bottom: 2em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-xl figure {" + nl +
-            i(l + 1) + "margin-top: 2em;" + nl +
-            i(l + 1) + "margin-bottom: 2em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-xl figure > * {" + nl +
-            i(l + 1) + "margin-top: 0;" + nl +
-            i(l + 1) + "margin-bottom: 0;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-xl figure figcaption {" + nl +
-            i(l + 1) + "font-size: 0.9em;" + nl +
-            i(l + 1) + "line-height: 1.5555556;" + nl +
-            i(l + 1) + "margin-top: 1em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-xl code {" + nl +
-            i(l + 1) + "font-size: 0.9em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-xl h2 code {" + nl +
-            i(l + 1) + "font-size: 0.8611111em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-xl h3 code {" + nl +
-            i(l + 1) + "font-size: 0.9em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-xl pre {" + nl +
-            i(l + 1) + "font-size: 0.9em;" + nl +
-            i(l + 1) + "line-height: 1.7777778;" + nl +
-            i(l + 1) + "margin-top: 2em;" + nl +
-            i(l + 1) + "margin-bottom: 2em;" + nl +
-            i(l + 1) + "border-radius: 0.5rem;" + nl +
-            i(l + 1) + "padding-top: 1.1111111em;" + nl +
-            i(l + 1) + "padding-right: 1.3333333em;" + nl +
-            i(l + 1) + "padding-bottom: 1.1111111em;" + nl +
-            i(l + 1) + "padding-left: 1.3333333em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-xl ol {" + nl +
-            i(l + 1) + "margin-top: 1.2em;" + nl +
-            i(l + 1) + "margin-bottom: 1.2em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-xl ul {" + nl +
-            i(l + 1) + "margin-top: 1.2em;" + nl +
-            i(l + 1) + "margin-bottom: 1.2em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-xl li {" + nl +
-            i(l + 1) + "margin-top: 0.6em;" + nl +
-            i(l + 1) + "margin-bottom: 0.6em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-xl ol > li {" + nl +
-            i(l + 1) + "padding-left: 1.8em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-xl ol > li:before {" + nl +
-            i(l + 1) + "left: 0;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-xl ul > li {" + nl +
-            i(l + 1) + "padding-left: 1.8em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-xl ul > li::before {" + nl +
-            i(l + 1) + "width: 0.35em;" + nl +
-            i(l + 1) + "height: 0.35em;" + nl +
-            i(l + 1) + "top: calc(0.9em - 0.175em);" + nl +
-            i(l + 1) + "left: 0.25em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-xl > ul > li p {" + nl +
-            i(l + 1) + "margin-top: 0.8em;" + nl +
-            i(l + 1) + "margin-bottom: 0.8em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-xl > ul > li > :first-child {" + nl +
-            i(l + 1) + "margin-top: 1.2em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-xl > ul > li > :last-child {" + nl +
-            i(l + 1) + "margin-bottom: 1.2em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-xl > ol > li > :first-child {" + nl +
-            i(l + 1) + "margin-top: 1.2em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-xl > ol > li > :last-child {" + nl +
-            i(l + 1) + "margin-bottom: 1.2em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-xl ol ol," + nl +
-            i(l) + bp + "prose-xl ol ul," + nl +
-            i(l) + bp + "prose-xl ul ol," + nl +
-            i(l) + bp + "prose-xl ul ul {" + nl +
-            i(l + 1) + "margin-top: 0.8em;" + nl +
-            i(l + 1) + "margin-bottom: 0.8em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-xl hr {" + nl +
-            i(l + 1) + "margin-top: 2.8em;" + nl +
-            i(l + 1) + "margin-bottom: 2.8em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-xl hr + * {" + nl +
-            i(l + 1) + "margin-top: 0;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-xl h2 + * {" + nl +
-            i(l + 1) + "margin-top: 0;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-xl h3 + * {" + nl +
-            i(l + 1) + "margin-top: 0;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-xl h4 + * {" + nl +
-            i(l + 1) + "margin-top: 0;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-xl table {" + nl +
-            i(l + 1) + "font-size: 0.9em;" + nl +
-            i(l + 1) + "line-height: 1.5555556;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-xl thead th {" + nl +
-            i(l + 1) + "padding-right: 0.6666667em;" + nl +
-            i(l + 1) + "padding-bottom: 0.8888889em;" + nl +
-            i(l + 1) + "padding-left: 0.6666667em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-xl thead th:first-child {" + nl +
-            i(l + 1) + "padding-left: 0;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-xl thead th:last-child {" + nl +
-            i(l + 1) + "padding-right: 0;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-xl tbody td {" + nl +
-            i(l + 1) + "padding-top: 0.8888889em;" + nl +
-            i(l + 1) + "padding-right: 0.6666667em;" + nl +
-            i(l + 1) + "padding-bottom: 0.8888889em;" + nl +
-            i(l + 1) + "padding-left: 0.6666667em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-xl tbody td:first-child {" + nl +
-            i(l + 1) + "padding-left: 0;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-xl tbody td:last-child {" + nl +
-            i(l + 1) + "padding-right: 0;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-xl > :first-child {" + nl +
-            i(l + 1) + "margin-top: 0;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-xl > :last-child {" + nl +
-            i(l + 1) + "margin-bottom: 0;" + nl +
-            i(l) + "}" + nl;
-    };
-
-    proseTypes.set("prose-xl", proseXl);
-
-    // deno-lint-ignore ban-types
-    const prose2xl = (l, i, nl, bp) => {
-        return i(l) + bp + "prose-2xl {" + nl +
-            i(l + 1) + "font-size: 1.5rem;" + nl +
-            i(l + 1) + "line-height: 1.6666667;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-2xl p {" + nl +
-            i(l + 1) + "margin-top: 1.3333333em;" + nl +
-            i(l + 1) + "margin-bottom: 1.3333333em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + 'prose-2xl [class~="lead"] {' + nl +
-            i(l + 1) + "font-size: 1.25em;" + nl +
-            i(l + 1) + "line-height: 1.4666667;" + nl +
-            i(l + 1) + "margin-top: 1.0666667em;" + nl +
-            i(l + 1) + "margin-bottom: 1.0666667em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-2xl blockquote {" + nl +
-            i(l + 1) + "margin-top: 1.7777778em;" + nl +
-            i(l + 1) + "margin-bottom: 1.7777778em;" + nl +
-            i(l + 1) + "padding-left: 1.1111111em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-2xl h1 {" + nl +
-            i(l + 1) + "font-size: 2.6666667em;" + nl +
-            i(l + 1) + "margin-top: 0;" + nl +
-            i(l + 1) + "margin-bottom: 0.875em;" + nl +
-            i(l + 1) + "line-height: 1;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-2xl h2 {" + nl +
-            i(l + 1) + "font-size: 2em;" + nl +
-            i(l + 1) + "margin-top: 1.5em;" + nl +
-            i(l + 1) + "margin-bottom: 0.8333333em;" + nl +
-            i(l + 1) + "line-height: 1.0833333;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-2xl h3 {" + nl +
-            i(l + 1) + "font-size: 1.5em;" + nl +
-            i(l + 1) + "margin-top: 1.5555556em;" + nl +
-            i(l + 1) + "margin-bottom: 0.6666667em;" + nl +
-            i(l + 1) + "line-height: 1.2222222;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-2xl h4 {" + nl +
-            i(l + 1) + "margin-top: 1.6666667em;" + nl +
-            i(l + 1) + "margin-bottom: 0.6666667em;" + nl +
-            i(l + 1) + "line-height: 1.5;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-2xl img {" + nl +
-            i(l + 1) + "margin-top: 2em;" + nl +
-            i(l + 1) + "margin-bottom: 2em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-2xl video {" + nl +
-            i(l + 1) + "margin-top: 2em;" + nl +
-            i(l + 1) + "margin-bottom: 2em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-2xl figure {" + nl +
-            i(l + 1) + "margin-top: 2em;" + nl +
-            i(l + 1) + "margin-bottom: 2em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-2xl figure > * {" + nl +
-            i(l + 1) + "margin-top: 0;" + nl +
-            i(l + 1) + "margin-bottom: 0;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-2xl figure figcaption {" + nl +
-            i(l + 1) + "font-size: 0.8333333em;" + nl +
-            i(l + 1) + "line-height: 1.6;" + nl +
-            i(l + 1) + "margin-top: 1em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-2xl code {" + nl +
-            i(l + 1) + "font-size: 0.8333333em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-2xl h2 code {" + nl +
-            i(l + 1) + "font-size: 0.875em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-2xl h3 code {" + nl +
-            i(l + 1) + "font-size: 0.8888889em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-2xl pre {" + nl +
-            i(l + 1) + "font-size: 0.8333333em;" + nl +
-            i(l + 1) + "line-height: 1.8;" + nl +
-            i(l + 1) + "margin-top: 2em;" + nl +
-            i(l + 1) + "margin-bottom: 2em;" + nl +
-            i(l + 1) + "border-radius: 0.5rem;" + nl +
-            i(l + 1) + "padding-top: 1.2em;" + nl +
-            i(l + 1) + "padding-right: 1.6em;" + nl +
-            i(l + 1) + "padding-bottom: 1.2em;" + nl +
-            i(l + 1) + "padding-left: 1.6em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-2xl ol {" + nl +
-            i(l + 1) + "margin-top: 1.3333333em;" + nl +
-            i(l + 1) + "margin-bottom: 1.3333333em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-2xl ul {" + nl +
-            i(l + 1) + "margin-top: 1.3333333em;" + nl +
-            i(l + 1) + "margin-bottom: 1.3333333em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-2xl li {" + nl +
-            i(l + 1) + "margin-top: 0.5em;" + nl +
-            i(l + 1) + "margin-bottom: 0.5em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-2xl ol > li {" + nl +
-            i(l + 1) + "padding-left: 1.6666667em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-2xl ol > li:before {" + nl +
-            i(l + 1) + "left: 0;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-2xl ul > li {" + nl +
-            i(l + 1) + "padding-left: 1.6666667em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-2xl ul > li::before {" + nl +
-            i(l + 1) + "width: 0.3333333em;" + nl +
-            i(l + 1) + "height: 0.3333333em;" + nl +
-            i(l + 1) + "top: calc(0.8333333em - 0.1666667em);" + nl +
-            i(l + 1) + "left: 0.25em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-2xl > ul > li p {" + nl +
-            i(l + 1) + "margin-top: 0.8333333em;" + nl +
-            i(l + 1) + "margin-bottom: 0.8333333em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-2xl > ul > li > :first-child {" + nl +
-            i(l + 1) + "margin-top: 1.3333333em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-2xl > ul > li > :last-child {" + nl +
-            i(l + 1) + "margin-bottom: 1.3333333em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-2xl > ol > li > :first-child {" + nl +
-            i(l + 1) + "margin-top: 1.3333333em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-2xl > ol > li > :last-child {" + nl +
-            i(l + 1) + "margin-bottom: 1.3333333em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-2xl ol ol," + nl +
-            i(l) + bp + "prose-2xl ol ul," + nl +
-            i(l) + bp + "prose-2xl ul ol," + nl +
-            i(l) + bp + "prose-2xl ul ul {" + nl +
-            i(l + 1) + "margin-top: 0.6666667em;" + nl +
-            i(l + 1) + "margin-bottom: 0.6666667em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-2xl hr {" + nl +
-            i(l + 1) + "margin-top: 3em;" + nl +
-            i(l + 1) + "margin-bottom: 3em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-2xl hr + * {" + nl +
-            i(l + 1) + "margin-top: 0;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-2xl h2 + * {" + nl +
-            i(l + 1) + "margin-top: 0;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-2xl h3 + * {" + nl +
-            i(l + 1) + "margin-top: 0;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-2xl h4 + * {" + nl +
-            i(l + 1) + "margin-top: 0;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-2xl table {" + nl +
-            i(l + 1) + "font-size: 0.8333333em;" + nl +
-            i(l + 1) + "line-height: 1.4;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-2xl thead th {" + nl +
-            i(l + 1) + "padding-right: 0.6em;" + nl +
-            i(l + 1) + "padding-bottom: 0.8em;" + nl +
-            i(l + 1) + "padding-left: 0.6em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-2xl thead th:first-child {" + nl +
-            i(l + 1) + "padding-left: 0;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-2xl thead th:last-child {" + nl +
-            i(l + 1) + "padding-right: 0;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-2xl tbody td {" + nl +
-            i(l + 1) + "padding-top: 0.8em;" + nl +
-            i(l + 1) + "padding-right: 0.6em;" + nl +
-            i(l + 1) + "padding-bottom: 0.8em;" + nl +
-            i(l + 1) + "padding-left: 0.6em;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-2xl tbody td:first-child {" + nl +
-            i(l + 1) + "padding-left: 0;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-2xl tbody td:last-child {" + nl +
-            i(l + 1) + "padding-right: 0;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-2xl > :first-child {" + nl +
-            i(l + 1) + "margin-top: 0;" + nl +
-            i(l) + "}" + nl +
-            i(l) + bp + "prose-2xl > :last-child {" + nl +
-            i(l + 1) + "margin-bottom: 0;" + nl +
-            i(l) + "}" + nl;
-    };
-
-    proseTypes.set("prose-2xl", prose2xl);
-
-    export default ((identifier, level = 0, b = "", m = false) => {
-        const i = indentFormatter(m);
-        const nl = newlineFormatter(m)();
-        const bp = breakpointFormatter(b);
-
-        if (proseTypes.has(identifier)) {
-            return proseTypes.get(identifier)(level, i, nl, bp);
-        }
-
-        return;
-    });
-    "#,
-    ok_if_code_eq
+};"#
 );
 
-to!(bin_01, "a!!!! + b!!!!!! + c!!!!!", "a + b + c");
+to!(bin_01, "a!!!! + b!!!!!! + c!!!!!");
 
 test!(
     Syntax::Typescript(TsConfig {
@@ -3040,8 +1753,6 @@ test!(
     "
     import { a } from './foo';
     import { Type } from './types';
-    ",
-    "
     "
 );
 
@@ -3052,9 +1763,6 @@ test!(
     }),
     |_| tr(),
     deno_7413_2,
-    "
-    import './foo';
-    ",
     "
     import './foo';
     "
@@ -3080,11 +1788,42 @@ test!(
     "
     import { a } from './foo';
     import { Type } from './types';
-    ",
     "
-    import './foo';
-    import './types';
-    "
+);
+
+test!(
+    Syntax::Typescript(TsConfig {
+        tsx: true,
+        ..Default::default()
+    }),
+    |t| tsxr(t),
+    imports_not_used_as_values_jsx_prag,
+    r#"/** @jsx h */
+import html, { h } from "example";
+serve((_req) =>
+  html({
+    body: <div>Hello World!</div>,
+  })
+);
+"#
+);
+
+test!(
+    Syntax::Typescript(TsConfig {
+        tsx: true,
+        ..Default::default()
+    }),
+    |t| tsxr(t),
+    imports_not_used_as_values_shebang_jsx_prag,
+    r#"#!/usr/bin/env -S deno run -A
+/** @jsx h */
+import html, { h } from "example";
+serve((_req) =>
+  html({
+    body: <div>Hello World!</div>,
+  })
+);
+"#
 );
 
 test!(
@@ -3097,8 +1836,6 @@ test!(
     "
     import { Type } from './types';
     export type { Type };
-    ",
-    "
     "
 );
 
@@ -3126,20 +1863,6 @@ test!(
       }
     }
     (async() => {  await (new Service()).is('ABC'); })();
-    ",
-    "
-    class Service {
-      is(a) {
-        return _async_to_generator(function* () {
-          return a.toUpperCase() === a;
-        })();
-      }
-
-    }
-
-    _async_to_generator(function* () {
-      yield new Service().is('ABC');
-    })();
     "
 );
 
@@ -3165,10 +1888,6 @@ test!(
     issue_1149_1,
     "
     const tmp = tt?.map((t: any) => t).join((v: any) => v);
-    ",
-    "
-    var _tt
-const tmp = (_tt = tt) === null || _tt === void 0 ? void 0 : _tt.map((t)=>t).join((v)=>v);
     "
 );
 
@@ -3202,22 +1921,6 @@ test!(
       );
 
       console.log(submissions);
-    "#,
-    r#"
-    const normalizedQuestionSet = {
-    };
-    var _normalizedQuestionSet_submissionIds;
-    const submissions = ((_normalizedQuestionSet_submissionIds = normalizedQuestionSet.submissionIds) !== null && _normalizedQuestionSet_submissionIds !== void 0 ? _normalizedQuestionSet_submissionIds : []).map((id, index)=>{
-        const submission = normalizedQuestionSet.submissions?.[id];
-        var _submission_answers;
-        const submissionAnswers = ((_submission_answers = submission.answers) !== null && _submission_answers !== void 0 ? _submission_answers : []).map((answerId)=>normalizedQuestionSet.answers?.[answerId]
-        );
-        console.log(id, index);
-        return {
-            type: "super-submission"
-        };
-    });
-    console.log(submissions);
     "#
 );
 
@@ -3239,17 +1942,6 @@ class C {
     x: T;
     y = 0;
     constructor(T) {}
-}
-
-"#,
-    r#"
-class C {
-    x;
-    y = 0;
-  // Output should not use `_initialiseProps`
-  constructor(T) {
-  }
-
 }
 
 "#
@@ -3277,34 +1969,7 @@ class A {
   public bar() {
     return 1;
   }
-}",
-    "import { bind } from 'some';
-let A = _decorate([], function(_initialize) {
-    class A {
-        constructor(){
-            _initialize(this);
-        }
-    }
-    return {
-        F: A,
-        d: [{
-                kind: \"get\",
-                decorators: [bind],
-                key: \"foo\",
-                value: function foo() {
-                    return 1;
-                }
-            }, {
-                kind: \"method\",
-                decorators: [bind],
-                key: \"bar\",
-                value: function bar() {
-                    return 1;
-                }
-            }]
-    };
-});
-"
+}"
 );
 
 to!(
@@ -3314,11 +1979,6 @@ to!(
 
     export { any };
     export type { any as t };
-    ",
-    "
-    import { any } from './dep.ts';
-
-    export { any };
     "
 );
 
@@ -3357,19 +2017,6 @@ to!(
 
         };
     }
-    ",
-    "
-    export var util;
-    (function (util) {
-        function assertNever(_x) {
-            throw new Error();
-        }
-        util.assertNever = assertNever;
-        util.arrayToEnum = (items)=>{};
-        util.getValidEnumValues = (obj)=>{};
-        util.getValues = (obj)=>{};
-        util.objectValues = (obj)=>{};
-    })(util || (util = {}));
     "
 );
 
@@ -3380,13 +2027,6 @@ to!(
         const c = 3;
         export const [a, b] = [1, 2, 3];
     }
-    ",
-    "
-    export var util;
-    (function (util) {
-        const c = 3;
-        [util.a, util.b] = [1, 2, 3];
-    })(util || (util = {}));
     "
 );
 
@@ -3403,17 +2043,6 @@ to!(
 
         }
     }
-    ",
-    "
-    export var util;
-    (function (util) {
-        const c = 3;
-        function foo() {
-        }
-        util.foo = foo;
-        function bar() {
-        }
-    })(util || (util = {}));
     "
 );
 
@@ -3426,14 +2055,6 @@ to!(
     namespace Test.Other {
         export interface Test {}
     }
-    ",
-    "
-    var Test;
-    (function (Test) {
-        (function (Inner) {
-            Inner.c = 3;
-        })(Test.Inner || (Test.Inner = {}));
-    })(Test || (Test = {}));
     "
 );
 
@@ -3463,39 +2084,7 @@ to!(
             A = 2
         }
     }
-    ",
-    r#"
-    var MyNamespace;
-    (function (MyNamespace) {
-        let MyEnum;
-        (function (MyEnum) {
-            MyEnum[MyEnum["A"] = 1] = "A";
-        })(MyEnum = MyNamespace.MyEnum || (MyNamespace.MyEnum = {}));
-        let MyInnerNamespace;
-        (function (MyInnerNamespace) {
-            let MyEnum;
-            (function (MyEnum) {
-                MyEnum[MyEnum["A"] = 1] = "A";
-            })(MyEnum = MyInnerNamespace.MyEnum || (MyInnerNamespace.MyEnum = {}));
-        })(MyInnerNamespace = MyNamespace.MyInnerNamespace || (MyNamespace.MyInnerNamespace = {}));
-    })(MyNamespace || (MyNamespace = {}));
-    (function (MyNamespace) {
-        let MyEnum;
-        (function (MyEnum) {
-            MyEnum[MyEnum["B"] = 1] = "B";
-        })(MyEnum = MyNamespace.MyEnum || (MyNamespace.MyEnum = {}));
-        let MyInnerNamespace;
-        (function (MyInnerNamespace) {
-            MyInnerNamespace.Dec2 = 2;
-        })(MyInnerNamespace = MyNamespace.MyInnerNamespace || (MyNamespace.MyInnerNamespace = {}));
-    })(MyNamespace || (MyNamespace = {}));
-    (function (MyNamespace) {
-        let MyEnum;
-        (function (MyEnum) {
-            MyEnum[MyEnum["A"] = 2] = "A";
-        })(MyEnum || (MyEnum = {}));
-    })(MyNamespace || (MyNamespace = {}));
-    "#
+    "
 );
 
 to!(
@@ -3510,22 +2099,7 @@ to!(
         import b = A;
         console.log(b.Test);
     }
-    ",
-    r#"
-    var A;
-    (function (A) {
-        class Test {
-        }
-        A.Test = Test;
-    })(A || (A = {}));
-    var B;
-    (function (B) {
-        B.a = A;
-        console.log(B.a.Test);
-        const b = A;
-        console.log(b.Test);
-    })(B || (B = {}));
-    "#
+    "
 );
 
 to!(
@@ -3538,18 +2112,6 @@ to!(
         }
       }
 
-    console(Test.DummyValues.A);
-    ",
-    "
-    var Test;
-    (function(Test) {
-        let DummyValues;
-        (function(DummyValues) {
-            DummyValues[\"A\"] = \"A\";
-            DummyValues[\"B\"] = \"B\";
-        })(DummyValues = Test.DummyValues || (Test.DummyValues = {}));
-    })(Test || (Test = {
-    }));
     console(Test.DummyValues.A);
     "
 );
@@ -3569,13 +2131,6 @@ to!(
             param1: boolean;
         }
     }
-    ",
-    "
-    export class TestClass {
-        testMethod(args) {
-            return args.param1;
-        }
-    }
     "
 );
 
@@ -3587,8 +2142,6 @@ to!(
             param1: boolean;
         }
     }
-    ",
-    "
     "
 );
 
@@ -3600,8 +2153,6 @@ to!(
     }
 
     export {}
-    ",
-    "
     "
 );
 
@@ -3616,17 +2167,6 @@ test_with_config!(
         a = 1;
         constructor(public b = 2) {
           super();
-        }
-    }
-    ",
-    "
-    class A extends Object {
-        b;
-        a;
-        constructor(b = 2){
-            super();
-            this.b = b;
-            this.a = 1;
         }
     }
     "
@@ -3646,15 +2186,6 @@ test_with_config!(
           super();
         }
     }
-    ",
-    "
-    class A extends Object {
-        constructor(b = 2){
-            super();
-            this.b = b;
-            this.a = 1;
-        }
-    }
     "
 );
 
@@ -3665,19 +2196,6 @@ to!(
         [(console.log(1), 'a')] = 1;
         static [(console.log(2), 'b')] = 2;
     }
-    ",
-    "
-    let prop, prop1;
-    class A {
-        constructor() {
-            this[prop] = 1;
-        }
-    }
-    (()=>{
-        prop = (console.log(1), 'a');
-        prop1 = (console.log(2), 'b');
-    })();
-    A[prop1] = 2;
     "
 );
 
@@ -3689,21 +2207,6 @@ to!(
         static [(console.log(2), 'b')] = 2;
         [(console.log(3), 'c')]() {}
     }
-    ",
-    "
-    let prop, prop1;
-    let _tmp = (console.log(3), 'c');
-    class A {
-        [_tmp]() {}
-        constructor() {
-            this[prop] = 1;
-        }
-    }
-    (()=>{
-        prop = (console.log(1), 'a');
-        prop1 = (console.log(2), 'b');
-    })();
-    A[prop1] = 2;
     "
 );
 
@@ -3714,16 +2217,7 @@ to!(
     export namespace A {
         export class B extends A {}
     }
-",
-    "
-    export class A {
-    }
-    (function(A) {
-        class B extends A {
-        }
-        A.B = B;
-    })(A || (A = {}));
-    "
+"
 );
 
 to!(
@@ -3733,16 +2227,7 @@ to!(
         export class B extends A {}
     }
     export enum A {}
-",
-    "
-    export var A;
-    (function(A) {
-        class B extends A {
-        }
-        A.B = B;
-    })(A || (A = {}));
-    (function(A) {})(A || (A = {}));
-    "
+"
 );
 
 to!(
@@ -3750,14 +2235,7 @@ to!(
     "
     export class A {}
     export enum A {}
-",
-    "
-    export class A {
-    }
-    (function(A) {
-    })(A || (A = {
-    }));
-    "
+"
 );
 
 to!(
@@ -3766,12 +2244,6 @@ to!(
     const A = class {
         static a = 1;
     }
-    ",
-    "
-    var _class;
-    const A = (_class = class {},
-        _class.a = 1,
-        _class);
     "
 );
 
@@ -3781,8 +2253,7 @@ to!(
     declare namespace twttr {
         export const txt: typeof import('twitter-text')
     }
-    ",
-    ""
+    "
 );
 
 to!(
@@ -3792,8 +2263,7 @@ to!(
         get foo(): string;
         set foo(v: string | number);
     }
-    ",
-    ""
+    "
 );
 
 to!(
@@ -3803,18 +2273,13 @@ to!(
         get bar(): string;
         set bar(v: string | number);
     }
-    ",
-    ""
+    "
 );
 
 to!(
     import_shadow_named,
     "
     import { Test } from 'test';
-    const Test = 2;
-    console.log(Test);
-    ",
-    "
     const Test = 2;
     console.log(Test);
     "
@@ -3826,10 +2291,6 @@ to!(
     import Test from 'test';
     const Test = 2;
     console.log(Test);
-    ",
-    "
-    const Test = 2;
-    console.log(Test);
     "
 );
 
@@ -3837,10 +2298,6 @@ to!(
     import_shadow_namespace,
     "
     import * as Test from 'test';
-    const Test = 2;
-    console.log(Test);
-    ",
-    "
     const Test = 2;
     console.log(Test);
     "
@@ -3852,20 +2309,11 @@ to!(
     import { Test } from 'test';
     const [Test] = [];
     console.log(a);
-    ",
-    "
-    const [Test] = [];
-    console.log(a);
     "
 );
 
 to!(
     import_shadow_array_pat_default,
-    "
-    import { Test } from 'test';
-    const [a = Test] = [];
-    console.log(a);
-    ",
     "
     import { Test } from 'test';
     const [a = Test] = [];
@@ -3879,20 +2327,11 @@ to!(
     import { Test } from 'test';
     const {Test: a} = {};
     console.log(a);
-    ",
-    "
-    const {Test: a} = {};
-    console.log(a);
     "
 );
 
 to!(
     import_shadow_object_pat_default,
-    "
-    import { Test } from 'test';
-    const {a = Test} = {};
-    console.log(Test);
-    ",
     "
     import { Test } from 'test';
     const {a = Test} = {};
@@ -3905,16 +2344,11 @@ to!(
     "
     import { Test } from 'test';
     interface Test {}
-    ",
-    ""
+    "
 );
 
 to!(
     import_concrete,
-    "
-    import { Test } from 'test';
-    console.log(Test);
-    ",
     "
     import { Test } from 'test';
     console.log(Test);
@@ -3927,19 +2361,11 @@ to!(
     import { Test } from 'test';
     interface Test {}
     console.log(Test);
-    ",
-    "
-    import { Test } from 'test';
-    console.log(Test);
     "
 );
 
 to!(
     import_hoist,
-    "
-    console.log(Test);
-    import { Test } from 'test';
-    ",
     "
     console.log(Test);
     import { Test } from 'test';
@@ -3953,10 +2379,6 @@ to!(
     const Test = 2;
     console.log(Test);
     import { Test } from 'test';
-    ",
-    "
-    const Test = 2;
-    console.log(Test);
     "
 );
 
@@ -3965,18 +2387,13 @@ to!(
     "
     interface Test {}
     import { Test } from 'test';
-    ",
-    ""
+    "
 );
 
 to!(
     import_shadow_hoist_type_concrete,
     "
     interface Test {}
-    console.log(Test);
-    import { Test } from 'test';
-    ",
-    "
     console.log(Test);
     import { Test } from 'test';
     "
@@ -3986,10 +2403,6 @@ to!(
     issue_1448_1,
     "
     import F = require('yaml')
-    console.log(F)
-    ",
-    "
-    const F = require('yaml');
     console.log(F)
     "
 );
@@ -4003,9 +2416,6 @@ to!(
 
         constructor(config: QueryObjectConfig);
         constructor(text: string, ...args: unknown[]);
-    }",
-    "
-    export class Query {
     }"
 );
 
@@ -4033,41 +2443,13 @@ to!(
             return;
           }
         }
-    }",
-    "
-    var _store = new WeakMap(), _body = new WeakMap();
-    export class Context {
-        constructor(optionsOrContext){
-            _class_private_field_init(this, _store, {
-                writable: true,
-                value: void 0
-            });
-            _class_private_field_init(this, _body, {
-                writable: true,
-                value: void 0
-            });
-            this.response = {
-                headers: new Headers()
-            };
-            this.params = {
-            };
-            if (optionsOrContext instanceof Context) {
-                Object.assign(this, optionsOrContext);
-                this.customContext = this;
-                return;
-            }
-        }
-    }
-    "
+    }"
 );
 
 to!(
     issue_1593,
     "
     export = 'something';
-    ",
-    "
-    module.exports = 'something';
     "
 );
 
@@ -4077,10 +2459,6 @@ to!(
     import { foo } from './temp2.ts';
 
     const _: foo = null;
-    console.log({ foo: 1 });
-    ",
-    "
-    const _ = null;
     console.log({ foo: 1 });
     "
 );
@@ -4096,16 +2474,7 @@ to!(
     const { CB = C } = B;
 
     console.log(A, AB, CB);
-    "#,
-    r#"
-    import { A } from "./a";
-    import { B } from "./b";
-    import { C } from "./c";
-
-    const { A: AB } = B;
-    const { CB = C } = B;
-
-    console.log(A, AB, CB);"#
+    "#
 );
 
 to!(
@@ -4117,14 +2486,6 @@ to!(
     console.log(a);
     const b = { Foo: 1 };
     console.log(b.Foo)
-    ",
-    "
-    const a = null;
-    console.log(a);
-    const b = {
-        Foo: 1
-    };
-    console.log(b.Foo);
     "
 );
 
@@ -4141,17 +2502,6 @@ to!(
     function someClassDecorator(c) {
         return c;
     }
-    ",
-    "
-    var _TestClass;
-    var _class;
-    let TestClass = _class = someClassDecorator((_class = (_TestClass = class TestClass {
-    }, _TestClass.Something = 'hello', _TestClass.SomeProperties = {
-        firstProp: _TestClass.Something
-    }, _TestClass)) || _class) || _class;
-    function someClassDecorator(c) {
-        return c;
-    }
     "
 );
 
@@ -4161,9 +2511,6 @@ to!(
     import type { TestInfo } from './config'
 
     export { TestInfo }
-    ",
-    "
-
     "
 );
 
@@ -4175,8 +2522,6 @@ to!(
     type A = {
         get [foo](): number
     }
-    ",
-    "
     "
 );
 
@@ -4188,15 +2533,7 @@ const identifier = 'bar';
 class Foo {
   identifier = 5;
 }
-",
-    "
-    const identifier = 'bar';
-    class Foo {
-        constructor(){
-            this.identifier = 5;
-        }
-    }
-    "
+"
 );
 
 to!(
@@ -4207,12 +2544,6 @@ const identifier = 'bar';
 class Foo {
   static identifier = 5;
 }
-  ",
-    "
-const identifier = 'bar';
-class Foo {
-}
-Foo.identifier = 5;
   "
 );
 
@@ -4221,11 +2552,6 @@ to!(
     "
     import * as mongo from 'https://deno.land/x/mongo@v0.27.0/mod.ts';
     import MongoClient = mongo.MongoClient;
-    const mongoClient = new MongoClient();
-    ",
-    "
-    import * as mongo from 'https://deno.land/x/mongo@v0.27.0/mod.ts';
-    const MongoClient = mongo.MongoClient;
     const mongoClient = new MongoClient();
     "
 );
@@ -4236,10 +2562,6 @@ to!(
     import * as mongo from 'https://deno.land/x/mongo@v0.27.0/mod.ts';
     import MongoClient = mongo.MongoClient;
     const mongoClient: MongoClient = {};
-    ",
-    "
-    import * as mongo from 'https://deno.land/x/mongo@v0.27.0/mod.ts';
-    const mongoClient = {};
     "
 );
 
@@ -4262,19 +2584,6 @@ test_with_config!(
             super(123);
         }
     }
-    ",
-    "
-    export class Foo {
-        x;
-        constructor(x){
-            this.x = x;
-        }
-    }
-    export class Bar extends Foo {
-        constructor() {
-            super(123);
-        }
-    }
     "
 );
 
@@ -4282,11 +2591,6 @@ to!(
     issue_2613,
     "
     export = function (foo: string, bar: number): boolean {
-        return true
-    };
-    ",
-    "
-    module.exports = function (foo, bar) {
         return true
     };
     "
@@ -4297,12 +2601,7 @@ to!(
     "enum Color {
     Aqua = '#00ffff',
     Cyan = Aqua,
-}",
-    r##"var Color;
-(function (Color) {
-    Color["Aqua"] = "#00ffff";
-    Color["Cyan"] = "#00ffff";
-})(Color || (Color = {}));"##
+}"
 );
 
 to!(
@@ -4339,52 +2638,7 @@ namespace Namespace {
         }
     }
 }
-",
-    r#"
-export var Enum;
-(function (Enum) {
-    Enum[Enum["test"] = 1] = "test";
-})(Enum || (Enum = {}));
-var Namespace;
-(function(Namespace) {
-    let Enum;
-    (function(Enum) {
-        Enum[Enum["test"] = 1] = "test";
-    })(Enum = Namespace.Enum || (Namespace.Enum = {}));
-    (function(Enum) {
-        Enum[Enum["test2"] = 1] = "test2";
-    })(Enum = Namespace.Enum || (Namespace.Enum = {}));
-})(Namespace || (Namespace = {
-}));
-{
-    let Enum;
-    (function (Enum) {
-        Enum[Enum["test"] = 1] = "test";
-    })(Enum || (Enum = {}));
-    let Namespace;
-    (function(Namespace) {
-        let Enum;
-        (function(Enum) {
-            Enum[Enum["test"] = 1] = "test";
-        })(Enum = Namespace.Enum || (Namespace.Enum = {}));
-    })(Namespace || (Namespace = {
-    }));
-}
-{
-    let Enum;
-    (function (Enum) {
-        Enum[Enum["test"] = 1] = "test";
-    })(Enum || (Enum = {}));
-    let Namespace;
-    (function(Namespace) {
-        let Enum;
-        (function(Enum) {
-            Enum[Enum["test"] = 1] = "test";
-        })(Enum = Namespace.Enum || (Namespace.Enum = {}));
-    })(Namespace || (Namespace = {
-    }));
-}
-    "#
+"
 );
 
 #[testing::fixture("tests/fixture/**/input.ts")]
@@ -4415,23 +2669,7 @@ let b = class {
     [console.log(456)] = 123
     constructor(public a = 1) {}
 }
-    ",
     "
-let _console_log = console.log(123);
-class A {
-    constructor(a = 1){
-        this.a = a;
-        this[_console_log] = 456;
-    }
-}
-let _console_log1;
-let b = (_console_log1 = console.log(456), class {
-    constructor(a = 1){
-        this.a = a;
-        this[_console_log1] = 123;
-    }
-});
-"
 );
 
 test!(
@@ -4441,10 +2679,6 @@ test!(
     r#"
     export import foo = require("foo");
 
-    foo();
-    "#,
-    r#"
-    const foo = exports.foo = require("foo");
     foo();
     "#
 );
@@ -4464,13 +2698,6 @@ test!(
     import foo = require("foo");
 
     foo();
-    "#,
-    r#"
-    import { createRequire as _createRequire } from "module";
-    const __require = _createRequire(import.meta.url);
-    const foo = __require("foo");
-    
-    foo();
     "#
 );
 
@@ -4489,13 +2716,6 @@ test!(
     export import foo = require("foo");
 
     foo();
-    "#,
-    r#"
-    import { createRequire as _createRequire } from "module";
-    const __require = _createRequire(import.meta.url);
-    export const foo = __require("foo");
-
-    foo();
     "#
 );
 
@@ -4507,10 +2727,6 @@ test_with_config!(
         abstract height: number;
         abstract width: number;
     }
-    ",
-    "
-    class Shape {
-    }
     "
 );
 
@@ -4520,11 +2736,7 @@ test!(
     issue_6219,
     "enum A{
         a=a,
-    }",
-    r#"var A;
-    (function(A) {
-        A[A["a"] = a] = "a";
-    })(A || (A = {}))"#
+    }"
 );
 
 test!(
@@ -4540,15 +2752,72 @@ test!(
           this.#new();
         }
     }
-      ",
-    "
-    export class test {
-        #throw() {}
-        #new() {}
-        test() {
-          this.#throw();
-          this.#new();
-        }
-    }
       "
+);
+
+test!(
+    Syntax::Typescript(TsConfig::default()),
+    |_| tr_config(
+        Some(typescript::Config {
+            ts_enum_is_mutable: true,
+            ..Default::default()
+        }),
+        None,
+        true,
+    ),
+    ts_enum_is_mutable_true,
+    r#"
+    enum D {
+      A,
+      B = 2,
+    }
+
+    (D as any).A = 5;
+    console.log(D.A);
+    const enum E {
+      A,
+      B,
+    }
+    console.log(E.B);
+
+    const enum F {
+      A = 2,
+    }
+    enum G {
+      A = F.A
+    }
+    console.log(G.A);
+
+    enum H {
+      A = 2,
+    }
+    const enum I {
+      A = H.A
+    }
+    console.log(I.A);
+    "#
+);
+
+test!(
+    Syntax::Typescript(TsConfig::default()),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            resolver(unresolved_mark, top_level_mark, false),
+            tsx(
+                t.cm.clone(),
+                typescript::Config {
+                    verbatim_module_syntax: false,
+                    ..Default::default()
+                },
+                TsxConfig::default(),
+                t.comments.clone(),
+                top_level_mark,
+            )
+        )
+    },
+    ts_jsx_bad_pragma,
+    r#"/** @jsx bad-pragma */"#
 );

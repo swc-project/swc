@@ -47,7 +47,7 @@
    :        ^^^^^^
    `----
 
-  x Ident { value: Atom('screen' type=inline), raw: "screen" }
+  x Ident { value: "screen", raw: "screen" }
    ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
  1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
    :        ^^^^^^
@@ -71,7 +71,7 @@
    :               ^^^
    `----
 
-  x Ident { value: Atom('and' type=static), raw: "and" }
+  x Ident { value: "and", raw: "and" }
    ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
  1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
    :               ^^^
@@ -113,7 +113,7 @@
    :                    ^^^^^^^^^
    `----
 
-  x Ident { value: Atom('min-width' type=static), raw: "min-width" }
+  x Ident { value: "min-width", raw: "min-width" }
    ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
  1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
    :                    ^^^^^^^^^
@@ -149,7 +149,7 @@
    :                               ^^^^^
    `----
 
-  x Dimension(DimensionToken { value: 900.0, raw_value: "900", unit: Atom('px' type=static), type_flag: Integer, raw_unit: "px" })
+  x Dimension(DimensionToken { value: 900.0, raw_value: "900", unit: "px", type_flag: Integer, raw_unit: "px" })
    ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
  1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
    :                               ^^^^^
@@ -173,7 +173,7 @@
    :                                      ^^
    `----
 
-  x Ident { value: Atom('or' type=static), raw: "or" }
+  x Ident { value: "or", raw: "or" }
    ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
  1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
    :                                      ^^
@@ -215,7 +215,7 @@
    :                                          ^^^^^^^^^
    `----
 
-  x Ident { value: Atom('min-width' type=static), raw: "min-width" }
+  x Ident { value: "min-width", raw: "min-width" }
    ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
  1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
    :                                          ^^^^^^^^^
@@ -251,7 +251,7 @@
    :                                                     ^^^^^^
    `----
 
-  x Dimension(DimensionToken { value: 1200.0, raw_value: "1200", unit: Atom('px' type=static), type_flag: Integer, raw_unit: "px" })
+  x Dimension(DimensionToken { value: 1200.0, raw_value: "1200", unit: "px", type_flag: Integer, raw_unit: "px" })
    ,-[$DIR/tests/recovery/at-rule/media/condition-and-or/input.css:1:1]
  1 | @media screen and (min-width: 900px) or (min-width: 1200px) {}
    :                                                     ^^^^^^

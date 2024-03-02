@@ -7,7 +7,6 @@ export function getEntity(id, state) {
     let { ids, entities } = state;
     if (ids.includes(id)) return entities[id];
 }
-// Repro from #31439 and #31691
 export class c {
     constructor(){
         this.a = "b", this.a = "b";

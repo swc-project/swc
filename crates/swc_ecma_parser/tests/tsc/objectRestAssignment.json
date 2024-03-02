@@ -476,7 +476,8 @@
                           "ctxt": 0
                         },
                         "value": "ka",
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "value": null
                     },
@@ -1152,7 +1153,8 @@
                           "ctxt": 0
                         },
                         "value": "z",
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "value": null
                     },
@@ -1381,7 +1383,8 @@
                           "ctxt": 0
                         },
                         "value": "z",
-                        "optional": false
+                        "optional": false,
+                        "typeAnnotation": null
                       },
                       "value": null
                     },

@@ -169,7 +169,8 @@
                     "ctxt": 0
                   },
                   "value": "show",
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "value": {
                   "type": "ArrowFunctionExpression",
@@ -776,7 +777,8 @@
                     "ctxt": 0
                   },
                   "value": "nested",
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "value": {
                   "type": "ObjectExpression",
@@ -1071,7 +1073,8 @@
                     "ctxt": 0
                   },
                   "value": "prop",
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "value": {
                   "type": "ArrayExpression",
@@ -1316,7 +1319,8 @@
                     "ctxt": 0
                   },
                   "value": "prop",
-                  "optional": false
+                  "optional": false,
+                  "typeAnnotation": null
                 },
                 "value": {
                   "type": "StringLiteral",

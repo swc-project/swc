@@ -77,6 +77,7 @@ allow = [
   "0BSD",
   "LicenseRef-ring",                #ring
   "Unicode-DFS-2016",               #unicode-ident
+  "BSL-1.0",                        #xxhash-rust
 ]
 # List of explictly disallowed licenses
 # See https://spdx.org/licenses/ for list of possible licenses

@@ -1,5 +1,4 @@
 //// [lateBoundAssignmentDeclarationSupport3.js]
-// currently unsupported
 const _sym = Symbol();
 Object.defineProperty(module.exports, _sym, {
     value: "ok"

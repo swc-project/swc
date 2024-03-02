@@ -1,5 +1,6 @@
 use std::{fs::read_to_string, path::PathBuf};
 
+use base64::prelude::{Engine, BASE64_STANDARD};
 use rustc_hash::FxHashSet;
 use sourcemap::SourceMap;
 use swc_common::{comments::SingleThreadedComments, source_map::SourceMapGenConfig};
@@ -489,7 +490,7 @@ fn visualizer_url(code: &str, map: &SourceMap) -> String {
 
     let code_len = format!("{}\0", code.len());
     let map_len = format!("{}\0", map.len());
-    let hash = base64::encode(format!("{}{}{}{}", code_len, code, map_len, map));
+    let hash = BASE64_STANDARD.encode(format!("{}{}{}{}", code_len, code, map_len, map));
 
     format!("https://evanw.github.io/source-map-visualization/#{}", hash)
 }

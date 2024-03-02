@@ -54,7 +54,7 @@ var __ = {
         _dec3
     ])
 };
-var __1 = {
+var __2 = {
     writable: true,
     value: _initClass()
 };

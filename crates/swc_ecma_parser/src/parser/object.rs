@@ -1,7 +1,6 @@
 //! Parser for object literal.
 
-use swc_atoms::js_word;
-use swc_common::Spanned;
+use swc_common::{Spanned, DUMMY_SP};
 
 use super::*;
 use crate::parser::class_and_fn::is_not_this;
@@ -264,15 +263,15 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
         // set a(v){}
         // async a(){}
 
-        match ident.sym {
-            js_word!("get") | js_word!("set") | js_word!("async") => {
+        match &*ident.sym {
+            "get" | "set" | "async" => {
                 trace_cur!(self, parse_object_prop__after_accessor);
 
                 if has_modifiers {
                     self.emit_err(modifiers_span, SyntaxError::TS1042);
                 }
 
-                let is_generator = ident.sym == js_word!("async") && eat!(self, '*');
+                let is_generator = ident.sym == "async" && eat!(self, '*');
                 let key = self.parse_prop_name()?;
                 let key_span = key.span();
                 self.with_ctx(Context {
@@ -281,8 +280,8 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
                     ..self.ctx()
                 })
                 .parse_with(|parser| {
-                    match ident.sym {
-                        js_word!("get") => parser
+                    match &*ident.sym {
+                        "get" => parser
                             .parse_fn_args_body(
                                 // no decorator in an object literal
                                 vec![],
@@ -318,7 +317,7 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
                                     })))
                                 },
                             ),
-                        js_word!("set") => {
+                        "set" => {
                             parser
                                 .parse_fn_args_body(
                                     // no decorator in an object literal
@@ -352,21 +351,42 @@ impl<I: Tokens> ParseObject<Box<Expr>> for Parser<I> {
                                     false,
                                 )
                                 .map(|v| *v)
-                                .map(|Function { params, body, .. }| {
-                                    // debug_assert_eq!(params.len(), 1);
-                                    PropOrSpread::Prop(Box::new(Prop::Setter(SetterProp {
-                                        span: span!(parser, start),
-                                        key,
-                                        body,
-                                        param: Box::new(
-                                            params.into_iter().map(|p| p.pat).next().unwrap_or(
-                                                Pat::Invalid(Invalid { span: key_span }),
-                                            ),
-                                        ),
-                                    })))
-                                })
+                                .map(
+                                    |Function {
+                                         mut params, body, ..
+                                     }| {
+                                        let mut this = None;
+                                        if params.len() >= 2 {
+                                            this = Some(params.remove(0).pat);
+                                        }
+
+                                        let param = Box::new(
+                                            params
+                                                .into_iter()
+                                                .next()
+                                                .map(|v| v.pat)
+                                                .unwrap_or_else(|| {
+                                                    parser.emit_err(
+                                                        key_span,
+                                                        SyntaxError::SetterParam,
+                                                    );
+
+                                                    Pat::Invalid(Invalid { span: DUMMY_SP })
+                                                }),
+                                        );
+
+                                        // debug_assert_eq!(params.len(), 1);
+                                        PropOrSpread::Prop(Box::new(Prop::Setter(SetterProp {
+                                            span: span!(parser, start),
+                                            key,
+                                            body,
+                                            param,
+                                            this_param: this,
+                                        })))
+                                    },
+                                )
                         }
-                        js_word!("async") => parser
+                        "async" => parser
                             .parse_fn_args_body(
                                 // no decorator in an object literal
                                 vec![],
@@ -483,7 +503,7 @@ impl<I: Tokens> ParseObject<Pat> for Parser<I> {
 
         Ok(ObjectPatProp::Assign(AssignPatProp {
             span: span!(self, start),
-            key,
+            key: key.into(),
             value,
         }))
     }

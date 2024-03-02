@@ -39,7 +39,7 @@ fn expr(s: &'static str) -> Box<Expr> {
 fn regex_expr() -> Box<Expr> {
     Box::new(Expr::Assign(AssignExpr {
         span,
-        left: PatOrExpr::Pat(Box::new(Pat::Ident(Ident::new("re".into(), span).into()))),
+        left: Ident::new("re".into(), span).into(),
         op: AssignOp::Assign,
         right: Box::new(Expr::Lit(Lit::Regex(Regex {
             span,
@@ -83,7 +83,7 @@ fn arrow_assign() {
         expr("a = b => false"),
         Box::new(Expr::Assign(AssignExpr {
             span,
-            left: PatOrExpr::Pat(Box::new(Ident::new("a".into(), span).into())),
+            left: Ident::new("a".into(), span).into(),
             op: op!("="),
             right: expr("b => false"),
         }))
@@ -154,7 +154,7 @@ fn object_spread() {
         expr("foo = {a, ...bar, b}"),
         Box::new(Expr::Assign(AssignExpr {
             span,
-            left: PatOrExpr::Pat(Box::new(Pat::Ident(Ident::new("foo".into(), span).into()))),
+            left: Ident::new("foo".into(), span).into(),
             op: op!("="),
             right: Box::new(Expr::Object(ObjectLit {
                 span,
@@ -380,7 +380,10 @@ fn issue_328() {
             span,
             expr: Box::new(Expr::Call(CallExpr {
                 span,
-                callee: Callee::Import(Import { span }),
+                callee: Callee::Import(Import {
+                    span,
+                    phase: Default::default()
+                }),
                 args: vec![ExprOrSpread {
                     spread: None,
                     expr: Box::new(Expr::Lit(Lit::Str(Str {
@@ -465,7 +468,7 @@ fn super_expr_computed() {
         Box::new(Expr::Assign(AssignExpr {
             span,
             op: AssignOp::NullishAssign,
-            left: PatOrExpr::Expr(Box::new(Expr::SuperProp(SuperPropExpr {
+            left: SuperPropExpr {
                 span,
                 obj: Super { span },
                 prop: SuperProp::Computed(ComputedPropName {
@@ -476,7 +479,8 @@ fn super_expr_computed() {
                         optional: false
                     })),
                 })
-            }))),
+            }
+            .into(),
             right: Box::new(Expr::Lit(Lit::Num(Number {
                 span,
                 value: 123f64,

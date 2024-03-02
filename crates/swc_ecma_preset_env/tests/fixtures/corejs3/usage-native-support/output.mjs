@@ -17,7 +17,7 @@ function H(WeakMap) {
 var asdf = "copyWithin";
 i[asdf];
 j[`copyWithin`];
-var { [asdf]: _a  } = k;
+var { [asdf]: _a } = k;
 const foo = new Promise((resolve)=>{
     resolve(new Map());
 });

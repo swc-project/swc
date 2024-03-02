@@ -1,7 +1,4 @@
 //// [parserRealSource8.ts]
-// Copyright (c) Microsoft. All rights reserved. Licensed under the Apache License, Version 2.0. 
-// See LICENSE.txt in the project root for complete license information.
-///<reference path='typescript.ts' />
 var TypeScript;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 !function(TypeScript) {
@@ -36,7 +33,6 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
         var memberScope = null, aggScope = null;
         ast.name && ast.mod && (ast.name.sym = ast.mod.symbol);
         var mod = ast.mod;
-        // We're likely here because of error recovery
         mod && (memberScope = new SymbolTableScope(mod.members, mod.ambientMembers, mod.enclosedTypes, mod.ambientEnclosedTypes, mod.symbol), mod.memberScope = memberScope, context.modDeclChain.push(ast), context.typeFlow.checker.currentModDecl = ast, (aggScope = new SymbolAggregateScope(mod.symbol)).addParentScope(memberScope), aggScope.addParentScope(context.scopeChain.scope), pushAssignScope(aggScope, context, null, null, null), mod.containedScope = aggScope, mod.symbol && context.typeFlow.addLocalsFromScope(mod.containedScope, mod.symbol, ast.vars, mod.members.privateMembers, !0));
     }
     function preAssignClassScopes(ast, context) {
@@ -65,41 +61,22 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
         var container = null, localContainer = null;
         ast.type && (localContainer = ast.type.symbol);
         var isStatic = hasFlag(ast.fncFlags, FncFlags.Static), parentScope = isStatic && null != context.scopeChain.fnc ? context.scopeChain.fnc.type.memberScope : context.scopeChain.scope;
-        // if this is not a method, but enclosed by class, use constructor as
-        // the enclosing scope
-        // REVIEW: Some twisted logic here - this needs to be cleaned up once old classes are removed
-        //  - if it's a new class, always use the contained scope, since we initialize the constructor scope below
         if (context.scopeChain.thisType && (!ast.isConstructor || hasFlag(ast.fncFlags, FncFlags.ClassMethod))) {
             var instType = context.scopeChain.thisType;
-            // if the parent is the class constructor, use the constructor scope
-            parentScope = instType.typeFlags & TypeFlags.IsClass || hasFlag(ast.fncFlags, FncFlags.ClassMethod) ? context.scopeChain.previous.scope.container && context.scopeChain.previous.scope.container.declAST && context.scopeChain.previous.scope.container.declAST.nodeType == NodeType.FuncDecl && context.scopeChain.previous.scope.container.declAST.isConstructor ? instType.constructorScope : isStatic && context.scopeChain.classType ? context.scopeChain.classType.containedScope : instType.containedScope : !ast.isMethod() || isStatic ? instType.constructorScope : instType.containedScope, container = instType.symbol;
-        } else ast.isConstructor && context.scopeChain.thisType && // sets the container to the class type's symbol (which is shared by the instance type)
-        (container = context.scopeChain.thisType.symbol);
+            instType.typeFlags & TypeFlags.IsClass || hasFlag(ast.fncFlags, FncFlags.ClassMethod) ? context.scopeChain.previous.scope.container && context.scopeChain.previous.scope.container.declAST && context.scopeChain.previous.scope.container.declAST.nodeType == NodeType.FuncDecl && context.scopeChain.previous.scope.container.declAST.isConstructor ? parentScope = instType.constructorScope : parentScope = isStatic && context.scopeChain.classType ? context.scopeChain.classType.containedScope : instType.containedScope : parentScope = !ast.isMethod() || isStatic ? instType.constructorScope : instType.containedScope, container = instType.symbol;
+        } else ast.isConstructor && context.scopeChain.thisType && (container = context.scopeChain.thisType.symbol);
         if (null == ast.type || hasFlag(ast.type.symbol.flags, SymbolFlags.TypeSetDuringScopeAssignment)) {
             context.scopeChain.fnc && context.scopeChain.fnc.type && (container = context.scopeChain.fnc.type.symbol);
             var funcScope = null, outerFnc = context.scopeChain.fnc, nameText = ast.name ? ast.name.actualText : null, fgSym = null;
-            isStatic ? (null == outerFnc.type.members && container.getType().memberScope && (outerFnc.type.members = container.type.memberScope.valueMembers), funcScope = context.scopeChain.fnc.type.memberScope, outerFnc.innerStaticFuncs[outerFnc.innerStaticFuncs.length] = ast) : funcScope = !ast.isConstructor && container && container.declAST && container.declAST.nodeType == NodeType.FuncDecl && container.declAST.isConstructor && !ast.isMethod() ? context.scopeChain.thisType.constructorScope : context.scopeChain.scope, nameText && "__missing" != nameText && !ast.isAccessor() && (fgSym = funcScope.findLocal(nameText, !1, !1)), context.typeFlow.checker.createFunctionSignature(ast, container, funcScope, fgSym, null == fgSym), (!ast.accessorSymbol && ast.fncFlags & FncFlags.ClassMethod && container && (!fgSym || fgSym.declAST.nodeType != NodeType.FuncDecl) && ast.isAccessor() || fgSym && fgSym.isAccessor()) && (ast.accessorSymbol = context.typeFlow.checker.createAccessorSymbol(ast, fgSym, container.getType(), ast.isMethod() && isStatic, !0, funcScope, container)), ast.type.symbol.flags |= SymbolFlags.TypeSetDuringScopeAssignment;
+            isStatic ? (null == outerFnc.type.members && container.getType().memberScope && (outerFnc.type.members = container.type.memberScope.valueMembers), funcScope = context.scopeChain.fnc.type.memberScope, outerFnc.innerStaticFuncs[outerFnc.innerStaticFuncs.length] = ast) : !ast.isConstructor && container && container.declAST && container.declAST.nodeType == NodeType.FuncDecl && container.declAST.isConstructor && !ast.isMethod() ? funcScope = context.scopeChain.thisType.constructorScope : funcScope = context.scopeChain.scope, nameText && "__missing" != nameText && !ast.isAccessor() && (fgSym = funcScope.findLocal(nameText, !1, !1)), context.typeFlow.checker.createFunctionSignature(ast, container, funcScope, fgSym, null == fgSym), (!ast.accessorSymbol && ast.fncFlags & FncFlags.ClassMethod && container && (!fgSym || fgSym.declAST.nodeType != NodeType.FuncDecl) && ast.isAccessor() || fgSym && fgSym.isAccessor()) && (ast.accessorSymbol = context.typeFlow.checker.createAccessorSymbol(ast, fgSym, container.getType(), ast.isMethod() && isStatic, !0, funcScope, container)), ast.type.symbol.flags |= SymbolFlags.TypeSetDuringScopeAssignment;
         }
-        // Overloads have no scope, so bail here
-        if (ast.name && ast.type && (ast.name.sym = ast.type.symbol), // Keep track of the original scope type, because target typing might override
-        // the "type" member. We need the original "Scope type" for completion list, etc.
-        ast.scopeType = ast.type, !ast.isOverload) {
-            var funcTable = new StringHashTable(), funcMembers = new ScopedMembers(new DualStringHashTable(funcTable, new StringHashTable())), ambientFuncTable = new StringHashTable(), ambientFuncMembers = new ScopedMembers(new DualStringHashTable(ambientFuncTable, new StringHashTable())), funcStaticTable = new StringHashTable(), funcStaticMembers = new ScopedMembers(new DualStringHashTable(funcStaticTable, new StringHashTable())), ambientFuncStaticTable = new StringHashTable(), ambientFuncStaticMembers = new ScopedMembers(new DualStringHashTable(ambientFuncStaticTable, new StringHashTable()));
-            // REVIEW: Is it a problem that this is being set twice for properties and constructors?
+        if (ast.name && ast.type && (ast.name.sym = ast.type.symbol), ast.scopeType = ast.type, !ast.isOverload) {
+            var funcTable = new StringHashTable(), funcMembers = new ScopedMembers(new DualStringHashTable(funcTable, new StringHashTable())), ambientFuncMembers = new ScopedMembers(new DualStringHashTable(new StringHashTable(), new StringHashTable())), funcStaticTable = new StringHashTable(), funcStaticMembers = new ScopedMembers(new DualStringHashTable(funcStaticTable, new StringHashTable())), ambientFuncStaticMembers = new ScopedMembers(new DualStringHashTable(new StringHashTable(), new StringHashTable()));
             ast.unitIndex = context.typeFlow.checker.locationInfo.unitIndex;
             var locals = new SymbolScopeBuilder(funcMembers, ambientFuncMembers, null, null, parentScope, localContainer), statics = new SymbolScopeBuilder(funcStaticMembers, ambientFuncStaticMembers, null, null, parentScope, null);
-            if (ast.isConstructor && context.scopeChain.thisType && (context.scopeChain.thisType.constructorScope = locals), // basically, there are two problems
-            // - Above, for new classes, we were overwriting the constructor scope with the containing scope.  This caused constructor params to be
-            // in scope everywhere
-            // - Below, we're setting the contained scope table to the same table we were overwriting the constructor scope with, which we need to
-            // fish lambda params, etc, out (see funcTable below)
-            //
-            // A good first approach to solving this would be to change addLocalsFromScope to take a scope instead of a table, and add to the
-            // constructor scope as appropriate
-            ast.symbols = funcTable, !ast.isSpecialFn()) {
+            if (ast.isConstructor && context.scopeChain.thisType && (context.scopeChain.thisType.constructorScope = locals), ast.symbols = funcTable, !ast.isSpecialFn()) {
                 var group = ast.type, signature = ast.signature;
                 ast.isConstructor || (group.containedScope = locals, locals.container = group.symbol, group.memberScope = statics, statics.container = group.symbol), ast.enclosingFnc = context.scopeChain.fnc, group.enclosingType = isStatic ? context.scopeChain.classType : context.scopeChain.thisType;
-                // for mapping when type checking
                 var fgSym = ast.type.symbol;
                 if ((ast.fncFlags & FncFlags.Signature) == FncFlags.None && ast.vars && (context.typeFlow.addLocalsFromScope(locals, fgSym, ast.vars, funcTable, !1), context.typeFlow.addLocalsFromScope(statics, fgSym, ast.statics, funcStaticTable, !1)), signature.parameters) for(var len = signature.parameters.length, i = 0; i < len; i++){
                     var paramSym = signature.parameters[i];
@@ -115,7 +92,7 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
     }
     function preAssignCatchScopes(ast, context) {
         if (ast.param) {
-            var catchTable = new ScopedMembers(new DualStringHashTable(new StringHashTable(), new StringHashTable())), catchLocals = new SymbolScopeBuilder(catchTable, null, null, null, context.scopeChain.scope, context.scopeChain.scope.container); // REVIEW: Should we be allocating a public table instead of a private one?
+            var catchLocals = new SymbolScopeBuilder(new ScopedMembers(new DualStringHashTable(new StringHashTable(), new StringHashTable())), null, null, null, context.scopeChain.scope, context.scopeChain.scope.container);
             ast.containedScope = catchLocals, pushAssignScope(catchLocals, context, context.scopeChain.thisType, context.scopeChain.classType, context.scopeChain.fnc);
         }
     }

@@ -1,5 +1,4 @@
 //// [lateBoundAssignmentDeclarationSupport1.js]
-// currently unsupported
 const _sym = Symbol();
 exports[_sym] = "ok", exports["my-fake-sym"] = "ok", exports.S = _sym;
 //// [usage.js]

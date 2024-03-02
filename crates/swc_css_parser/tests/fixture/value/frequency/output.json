@@ -129,7 +129,7 @@
                     "end": 20,
                     "ctxt": 0
                   },
-                  "value": "hz",
+                  "value": "Hz",
                   "raw": "Hz"
                 }
               }
@@ -178,7 +178,7 @@
                     "end": 36,
                     "ctxt": 0
                   },
-                  "value": "khz",
+                  "value": "kHz",
                   "raw": "kHz"
                 }
               }

@@ -1,4 +1,3 @@
-use swc_atoms::js_word;
 use swc_common::DUMMY_SP;
 use swc_css_ast::*;
 
@@ -10,7 +9,7 @@ impl Compressor {
         match at_rule.prelude.as_deref() {
             Some(AtRulePrelude::KeyframesPrelude(KeyframesName::Str(string)))
                 if !is_css_wide_keyword(&string.value)
-                    && !string.value.eq_ignore_ascii_case(&js_word!("none")) =>
+                    && !string.value.eq_ignore_ascii_case("none") =>
             {
                 at_rule.prelude = Some(Box::new(AtRulePrelude::KeyframesPrelude(
                     if self.is_ident_shorter_than_str(&string.value) {
@@ -33,8 +32,12 @@ impl Compressor {
     }
 
     pub(super) fn compress_keyframe_selector(&mut self, keyframe_selector: &mut KeyframeSelector) {
+        if let KeyframeSelector::Ident(i) = keyframe_selector {
+            i.value = i.value.to_ascii_lowercase();
+        }
+
         match keyframe_selector {
-            KeyframeSelector::Ident(i) if i.value == js_word!("from") => {
+            KeyframeSelector::Ident(i) if i.value == "from" => {
                 *keyframe_selector = KeyframeSelector::Percentage(Percentage {
                     span: i.span,
                     value: Number {
@@ -47,7 +50,7 @@ impl Compressor {
             KeyframeSelector::Percentage(i) if i.value.value == 100.0 => {
                 *keyframe_selector = KeyframeSelector::Ident(Ident {
                     span: i.span,
-                    value: js_word!("to"),
+                    value: "to".into(),
                     raw: None,
                 })
             }

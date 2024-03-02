@@ -46,7 +46,8 @@
         "raw": "\"./prelude\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ExportDeclaration",
@@ -709,7 +710,8 @@
         "raw": "\"./Something\""
       },
       "typeOnly": false,
-      "with": null
+      "with": null,
+      "phase": "evaluation"
     },
     {
       "type": "ExportNamedDeclaration",

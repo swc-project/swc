@@ -1,11 +1,12 @@
 [workspace]
 members = [
-    "binding_core_node",
-    "binding_core_wasm",
-    "binding_minifier_node",
-    "binding_minifier_wasm",
-    "swc_cli",
+  "binding_core_node",
+  "binding_core_wasm",
+  "binding_minifier_node",
+  "binding_minifier_wasm",
+  "swc_cli",
 ]
+resolver = "2"
 
 [profile.release]
 # lto = true

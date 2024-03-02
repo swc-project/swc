@@ -728,7 +728,7 @@ impl SourceMap {
             return sp;
         }
 
-        match self.span_to_source(sp, |src, start_index, end_index| {
+        let v = self.span_to_source(sp, |src, start_index, end_index| {
             let snippet = &src[start_index..end_index];
             let snippet = snippet.split(c).next().unwrap_or("").trim_end();
             if !snippet.is_empty() && !snippet.contains('\n') {
@@ -736,7 +736,8 @@ impl SourceMap {
             } else {
                 sp
             }
-        }) {
+        });
+        match v {
             Ok(v) => v,
             Err(_) => sp,
         }
@@ -1269,11 +1270,13 @@ impl SourceMap {
                     if config.skip(&f.name) {
                         continue;
                     }
-                    src_id = builder.add_source(&config.file_name_to_source(&f.name));
+                    if orig.is_none() {
+                        src_id = builder.add_source(&config.file_name_to_source(&f.name));
 
-                    inline_sources_content = config.inline_sources_content(&f.name);
-                    if inline_sources_content && orig.is_none() {
-                        builder.set_source_contents(src_id, Some(&f.src));
+                        inline_sources_content = config.inline_sources_content(&f.name);
+                        if inline_sources_content && orig.is_none() {
+                            builder.set_source_contents(src_id, Some(&f.src));
+                        }
                     }
 
                     ch_state = ByteToCharPosState::default();
@@ -1331,8 +1334,9 @@ impl SourceMap {
                     if token.has_name() {
                         name = token.get_name();
                     }
-                    if let Some(src) = token.get_source() {
-                        src_id = builder.add_source(src);
+                    if token.get_source().is_some() {
+                        // When we have the original source map, we use the source ids from it
+                        src_id = token.get_raw_token().src_id;
                         if inline_sources_content && !builder.has_source_contents(src_id) {
                             if let Some(contents) = token.get_source_view() {
                                 builder.set_source_contents(src_id, Some(contents.source()));

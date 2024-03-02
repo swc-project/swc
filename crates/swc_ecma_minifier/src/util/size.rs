@@ -119,7 +119,7 @@ impl SizeWithCtxt for Expr {
             }
 
             Expr::Member(m) => m.obj.size(unresolved) + m.prop.size(unresolved),
-            Expr::SuperProp(s) => 5 + s.prop.size(unresolved),
+            Expr::SuperProp(s) => 6 + s.prop.size(unresolved),
             Expr::Update(e) => e.arg.size(unresolved) + e.op.size(),
 
             Expr::Assign(AssignExpr {
@@ -271,11 +271,50 @@ impl SizeWithCtxt for Pat {
     }
 }
 
-impl SizeWithCtxt for PatOrExpr {
+impl SizeWithCtxt for AssignTarget {
     fn size(&self, unresolved: SyntaxContext) -> usize {
         match self {
-            PatOrExpr::Expr(e) => e.size(unresolved),
-            PatOrExpr::Pat(p) => p.size(unresolved),
+            AssignTarget::Simple(e) => e.size(unresolved),
+            AssignTarget::Pat(p) => p.size(unresolved),
+        }
+    }
+}
+
+impl SizeWithCtxt for SimpleAssignTarget {
+    fn size(&self, unresolved: SyntaxContext) -> usize {
+        match self {
+            SimpleAssignTarget::Ident(e) => {
+                if e.span.ctxt == unresolved {
+                    e.sym.len()
+                } else {
+                    1
+                }
+            }
+            SimpleAssignTarget::Member(e) => e.obj.size(unresolved) + e.prop.size(unresolved),
+            SimpleAssignTarget::SuperProp(e) => 6 + e.prop.size(unresolved),
+            SimpleAssignTarget::Paren(e) => 2 + e.expr.size(unresolved),
+            SimpleAssignTarget::OptChain(e) => match &*e.base {
+                OptChainBase::Member(m) => 1 + m.obj.size(unresolved) + m.prop.size(unresolved),
+                OptChainBase::Call(c) => {
+                    1 + c.callee.size(unresolved) + c.args.size(unresolved) + 2
+                }
+            },
+            SimpleAssignTarget::TsAs(_)
+            | SimpleAssignTarget::TsSatisfies(_)
+            | SimpleAssignTarget::TsNonNull(_)
+            | SimpleAssignTarget::TsTypeAssertion(_)
+            | SimpleAssignTarget::TsInstantiation(_)
+            | SimpleAssignTarget::Invalid(_) => TODO,
+        }
+    }
+}
+
+impl SizeWithCtxt for AssignTargetPat {
+    fn size(&self, unresolved: SyntaxContext) -> usize {
+        match self {
+            AssignTargetPat::Array(a) => 2 + a.elems.size(unresolved),
+            AssignTargetPat::Object(o) => 2 + o.props.size(unresolved),
+            AssignTargetPat::Invalid(_) => unreachable!(),
         }
     }
 }

@@ -3,14 +3,14 @@
 }
 a {
   transition: transform 1s;
-  transform: rotatex(45deg);
+  transform: rotateX(45deg);
 }
 b {
-  transform: translatex(45deg);
+  transform: translateX(45deg);
   transform-origin: 0 0;
 }
 em {
-  transform: rotatez(45deg);
+  transform: rotateZ(45deg);
 }
 @keyframes anim {
   from {
@@ -21,5 +21,5 @@ em {
   transform-style: flat;
 }
 .class {
-  transform: perspective(500px) rotatey(3deg);
+  transform: perspective(500px) rotateY(3deg);
 }

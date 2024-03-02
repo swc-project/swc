@@ -1,5 +1,6 @@
 use std::{fmt::Write, mem};
 
+use base64::prelude::{Engine, BASE64_STANDARD};
 use sha1::{Digest, Sha1};
 use swc_common::{util::take::Take, SourceMap, SourceMapper, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -104,7 +105,7 @@ impl<'a> HookRegister<'a> {
         } else {
             let mut hasher = Sha1::new();
             hasher.update(sign);
-            base64::encode(hasher.finalize())
+            BASE64_STANDARD.encode(hasher.finalize())
         };
 
         args.push(

@@ -1,5 +1,4 @@
 //// [derivedClassWithoutExplicitConstructor3.ts]
-// automatic constructors with a class hieararchy of depth > 2
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
@@ -41,4 +40,3 @@ var D2 = function(D) {
     return D;
 }(Base));
 new D2(), new D2(new Date()), new D2(new Date(), new Date());
- // ok

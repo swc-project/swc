@@ -1,7 +1,6 @@
 //! Module to check if an identifier is native word.
 
 use phf::phf_set;
-use swc_atoms::{js_word, JsWord};
 
 macro_rules! native {
     (
@@ -9,6 +8,8 @@ macro_rules! native {
             $i:tt
         ),*
     ) => {
+
+        /// Is `sym` a native **class**?
         pub fn is_native(sym: &str) -> bool {
             static SET: phf::Set<&'static str> = phf_set! {
                 $(
@@ -17,16 +18,6 @@ macro_rules! native {
             };
 
             SET.contains(sym)
-        }
-
-        /// Faster
-        pub fn is_native_word(sym: &JsWord) -> bool {
-            match *sym{
-                $(
-                    js_word!($i) => true,
-                )*
-                _ => false
-            }
         }
     };
 }
@@ -53,7 +44,6 @@ native!(
     "JSON",
     "Map",
     "Math",
-    "NaN",
     "Number",
     "Object",
     "Promise",

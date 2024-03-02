@@ -34,4 +34,3 @@ function f2(a) {
     x: new Derived(),
     y: new Derived2()
 }), f2(i);
- // Base => Derived

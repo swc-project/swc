@@ -1,1 +1,6 @@
-/*#__PURE__*/ React.createElement("div", null, ...children);
+/*#__PURE__*/ import { jsxs as _jsxs } from "react/jsx-runtime";
+_jsxs("div", {
+    children: [
+        ...children
+    ]
+});

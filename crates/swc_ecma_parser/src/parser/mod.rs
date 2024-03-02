@@ -34,6 +34,7 @@ mod pat;
 mod stmt;
 #[cfg(test)]
 mod tests;
+#[cfg(feature = "typescript")]
 mod typescript;
 mod util;
 
@@ -66,10 +67,13 @@ impl<'a> Parser<Lexer<'a>> {
 
 impl<I: Tokens> Parser<I> {
     pub fn new_from(mut input: I) -> Self {
+        #[cfg(feature = "typescript")]
         let in_declare = matches!(
             input.syntax(),
             Syntax::Typescript(TsConfig { dts: true, .. })
         );
+        #[cfg(not(feature = "typescript"))]
+        let in_declare = false;
         let ctx = Context {
             in_declare,
             ..input.ctx()

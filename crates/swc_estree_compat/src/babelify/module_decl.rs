@@ -167,6 +167,19 @@ impl Babelify for ImportDecl {
             } else {
                 None
             },
+            phase: self.phase.babelify(ctx),
+        }
+    }
+}
+
+impl Babelify for swc_ecma_ast::ImportPhase {
+    type Output = Option<swc_estree_ast::ImportPhase>;
+
+    fn babelify(self, _: &Context) -> Self::Output {
+        match self {
+            Self::Evaluation => None,
+            Self::Source => Some(swc_estree_ast::ImportPhase::Source),
+            Self::Defer => Some(swc_estree_ast::ImportPhase::Defer),
         }
     }
 }

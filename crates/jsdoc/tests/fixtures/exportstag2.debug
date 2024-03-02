@@ -19,7 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('A module representing a coat.' type=dynamic),
+            value: "A module representing a coat.",
         },
         tags: [
             TagItem {
@@ -42,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('exports' type=inline),
+                    value: "exports",
                 },
                 tag: Exports(
                     ExportsTag {
@@ -65,7 +65,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('my/coat' type=inline),
+                            value: "my/coat",
                         },
                     },
                 ),
@@ -90,7 +90,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('requires' type=dynamic),
+                    value: "requires",
                 },
                 tag: Requires(
                     RequiresTag {
@@ -124,7 +124,7 @@
                                         ),
                                         ctxt: #0,
                                     },
-                                    value: Atom('my' type=inline),
+                                    value: "my",
                                 },
                             ],
                         },
@@ -153,7 +153,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('document me' type=dynamic),
+            value: "document me",
         },
         tags: [],
     },

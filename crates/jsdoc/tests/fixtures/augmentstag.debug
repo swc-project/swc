@@ -19,7 +19,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -42,7 +42,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('constructor' type=static),
+                    value: "constructor",
                 },
                 tag: Class(
                     ClassTag {
@@ -82,7 +82,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('First property' type=dynamic),
+            value: "First property",
         },
         tags: [],
     },
@@ -106,8 +106,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Second property
-             *' type=dynamic),
+            value: "Second property\n *",
         },
         tags: [
             TagItem {
@@ -130,7 +129,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('type' type=static),
+                    value: "type",
                 },
                 tag: Type(
                     TypeTag {
@@ -153,7 +152,7 @@
                                 ),
                                 ctxt: #0,
                             },
-                            value: Atom('{String}' type=dynamic),
+                            value: "{String}",
                         },
                     },
                 ),
@@ -180,7 +179,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('First parent method.' type=dynamic),
+            value: "First parent method.",
         },
         tags: [],
     },
@@ -204,7 +203,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Second parent method.' type=dynamic),
+            value: "Second parent method.",
         },
         tags: [],
     },
@@ -228,7 +227,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Third parent method.' type=dynamic),
+            value: "Third parent method.",
         },
         tags: [],
     },
@@ -252,7 +251,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -275,7 +274,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('constructor' type=static),
+                    value: "constructor",
                 },
                 tag: Class(
                     ClassTag {
@@ -299,7 +298,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('* @extends Foo' type=dynamic),
+                                value: "* @extends Foo",
                             },
                         ),
                         name: None,
@@ -328,7 +327,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Third prop *' type=dynamic),
+            value: "Third prop *",
         },
         tags: [],
     },
@@ -352,7 +351,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Second child method.' type=dynamic),
+            value: "Second child method.",
         },
         tags: [],
     },
@@ -376,7 +375,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('' type=static),
+            value: "",
         },
         tags: [
             TagItem {
@@ -399,7 +398,7 @@
                         ),
                         ctxt: #0,
                     },
-                    value: Atom('constructor' type=static),
+                    value: "constructor",
                 },
                 tag: Class(
                     ClassTag {
@@ -423,7 +422,7 @@
                                     ),
                                     ctxt: #0,
                                 },
-                                value: Atom('* @extends {Bar}' type=dynamic),
+                                value: "* @extends {Bar}",
                             },
                         ),
                         name: None,
@@ -452,7 +451,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Override prop1' type=dynamic),
+            value: "Override prop1",
         },
         tags: [],
     },
@@ -476,7 +475,7 @@
                 ),
                 ctxt: #0,
             },
-            value: Atom('Third grandchild method.' type=dynamic),
+            value: "Third grandchild method.",
         },
         tags: [],
     },

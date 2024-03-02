@@ -1,5 +1,5 @@
-use swc_atoms::{js_word, JsWord};
-use swc_common::{collections::AHashMap, comments::Comments};
+use swc_atoms::JsWord;
+use swc_common::{collections::AHashMap, comments::Comments, Span};
 use swc_ecma_ast::*;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
@@ -56,7 +56,7 @@ where
                         }
                         ImportSpecifier::Default(default) => {
                             self.imports
-                                .insert(default.local.to_id(), (src, js_word!("default")));
+                                .insert(default.local.to_id(), (src, "default".into()));
                         }
                         ImportSpecifier::Namespace(ns) => {
                             self.imports.insert(ns.local.to_id(), (src, "*".into()));
@@ -108,6 +108,10 @@ where
 
         if is_react_call {
             if let Some(comments) = &self.comments {
+                if call.span.lo.is_dummy() {
+                    call.span.lo = Span::dummy_with_cmt().lo;
+                }
+
                 comments.add_pure_comment(call.span.lo);
             }
         }

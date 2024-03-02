@@ -581,7 +581,12 @@ where
         if n.global {
             keyword!("global");
         } else {
-            keyword!("module");
+            match &n.id {
+                // prefer namespace keyword because TS might
+                // deprecate the module keyword in this context
+                TsModuleName::Ident(_) => keyword!("namespace"),
+                TsModuleName::Str(_) => keyword!("module"),
+            }
             space!();
             emit!(n.id);
         }
@@ -852,11 +857,7 @@ where
             emit!(n);
         }
 
-        if let Some(type_args) = &n.type_args {
-            punct!("<");
-            emit!(type_args);
-            punct!(">");
-        }
+        emit!(n.type_args);
     }
 
     #[emitter]
@@ -939,7 +940,13 @@ where
         keyword!("get");
         space!();
 
-        emit!(n.key);
+        if n.computed {
+            punct!("[");
+            emit!(n.key);
+            punct!("]");
+        } else {
+            emit!(n.key)
+        }
 
         punct!("(");
         punct!(")");
@@ -957,7 +964,13 @@ where
         keyword!("set");
         space!();
 
-        emit!(n.key);
+        if n.computed {
+            punct!("[");
+            emit!(n.key);
+            punct!("]");
+        } else {
+            emit!(n.key)
+        }
 
         punct!("(");
         emit!(n.param);
@@ -1073,6 +1086,7 @@ where
         keyword!("typeof");
         space!();
         emit!(n.expr_name);
+        emit!(n.type_args);
     }
 
     #[emitter]
