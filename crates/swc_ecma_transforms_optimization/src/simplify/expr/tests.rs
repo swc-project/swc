@@ -1322,6 +1322,7 @@ fn test_fold_arithmetic_with_strings() {
     fold("'11' % 2", "1");
     fold("'10' ** 2", "100");
     fold("'Infinity' * 2", "Infinity");
+    fold("'NaN' * 2", "NaN");
 
     // Right side of expression is a string
     fold("10 - '5'", "5");
@@ -1329,6 +1330,7 @@ fn test_fold_arithmetic_with_strings() {
     fold("11 % '2'", "1");
     fold("10 ** '2'", "100");
     fold("2 * 'Infinity'", "Infinity");
+    fold("2 * 'NaN'", "NaN");
 
     // Both sides are strings
     fold("'10' - '5'", "5");
@@ -1336,6 +1338,7 @@ fn test_fold_arithmetic_with_strings() {
     fold("'11' % '2'", "1");
     fold("'10' ** '2'", "100");
     fold("'Infinity' * '2'", "Infinity");
+    fold("'NaN' * '2'", "NaN");
 }
 
 #[test]
