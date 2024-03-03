@@ -67,18 +67,23 @@ impl NoPrototypeBuiltins {
 
     fn extract_path(&mut self, expr: &Expr) {
         match expr {
-            Expr::Member(mem) => {
-                match &mem.prop {
+            Expr::Member(member) => {
+                match &member.prop {
                     MemberProp::Ident(ident) => {
                         self.extend_chain(ident.span, ident.sym.clone());
                     }
-                    MemberProp::Computed(comp) => {
-                        self.extract_path(&comp.expr);
+                    MemberProp::Computed(computed_prop_name) => {
+                        match computed_prop_name.expr.as_ref() {
+                            Expr::Lit(_) | Expr::Tpl(_) | Expr::Paren(_) | Expr::Seq(_) => {
+                                self.extract_path(&computed_prop_name.expr);
+                            }
+                            _ => {}
+                        }
                     }
                     _ => {}
                 }
 
-                self.extract_path(mem.obj.as_ref());
+                self.extract_path(member.obj.as_ref());
             }
             Expr::OptChain(OptChainExpr { base, .. }) => {
                 if let Some(member_expr) = base.as_member() {
