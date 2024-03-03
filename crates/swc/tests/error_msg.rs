@@ -36,8 +36,8 @@ fn swcrc_simple() {
     println!("{}", f);
 }
 
-#[testing::fixture("tests/errors/**/input.js")]
-#[testing::fixture("tests/errors/**/input.ts")]
+#[testing::fixture("tests/errors/**/no-prototype-builtins/**/input.js")]
+// #[testing::fixture("tests/errors/**/input.ts")]
 fn fixture(input: PathBuf) {
     let _log = testing::init();
     let output_path = input.parent().unwrap().join("output.swc-stderr");

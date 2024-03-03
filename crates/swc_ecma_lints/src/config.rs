@@ -215,4 +215,8 @@ pub struct LintConfig {
     #[cfg(feature = "non_critical_lints")]
     #[serde(default, alias = "noCondAssign")]
     pub no_cond_assign: RuleConfig<()>,
+
+    #[cfg(feature = "non_critical_lints")]
+    #[serde(default, alias = "noPrototypeBuiltins")]
+    pub no_prototype_builtins: RuleConfig<()>,
 }
