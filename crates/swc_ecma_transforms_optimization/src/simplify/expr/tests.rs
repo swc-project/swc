@@ -1321,18 +1321,21 @@ fn test_fold_arithmetic_with_strings() {
     fold("'4' / 2", "2");
     fold("'11' % 2", "1");
     fold("'10' ** 2", "100");
+    fold("'Infinity' * 2", "Infinity");
 
     // Right side of expression is a string
     fold("10 - '5'", "5");
     fold("4 / '2'", "2");
     fold("11 % '2'", "1");
     fold("10 ** '2'", "100");
+    fold("2 * 'Infinity'", "Infinity");
 
     // Both sides are strings
     fold("'10' - '5'", "5");
     fold("'4' / '2'", "2");
     fold("'11' % '2'", "1");
     fold("'10' ** '2'", "100");
+    fold("'Infinity' * '2'", "Infinity");
 }
 
 #[test]
