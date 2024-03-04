@@ -5,18 +5,21 @@ extern crate proc_macro;
 use std::{collections::HashSet, mem::replace};
 
 use inflector::Inflector;
-use pmutil::SpanExt;
 use proc_macro2::{Ident, TokenStream};
 use quote::{quote, ToTokens};
 use swc_macros_common::{call_site, def_site, make_doc_attr};
 use syn::{
-    parse_macro_input, parse_quote, punctuated::Punctuated, spanned::Spanned, Arm, AttrStyle,
-    Attribute, Block, Expr, ExprBlock, ExprCall, ExprMatch, ExprMethodCall, ExprPath, ExprUnary,
-    Field, FieldMutability, FieldPat, Fields, FieldsUnnamed, FnArg, GenericArgument, GenericParam,
-    Generics, ImplItem, ImplItemFn, Index, Item, ItemEnum, ItemImpl, ItemMod, ItemStruct,
-    ItemTrait, ItemUse, Lifetime, LifetimeParam, Member, Pat, PatIdent, PatStruct, PatTupleStruct,
-    PatType, PatWild, Path, PathArguments, ReturnType, Signature, Stmt, Token, TraitItem,
-    TraitItemFn, Type, TypePath, TypeReference, UnOp, UseTree, Variant, Visibility,
+    parse_macro_input, parse_quote,
+    punctuated::Punctuated,
+    spanned::Spanned,
+    token::{Brace, Paren},
+    Arm, AttrStyle, Attribute, Block, Expr, ExprBlock, ExprCall, ExprMatch, ExprMethodCall,
+    ExprPath, ExprUnary, Field, FieldMutability, FieldPat, Fields, FieldsUnnamed, FnArg,
+    GenericArgument, GenericParam, Generics, ImplItem, ImplItemFn, Index, Item, ItemEnum, ItemImpl,
+    ItemMod, ItemStruct, ItemTrait, ItemUse, Lifetime, LifetimeParam, Member, Pat, PatIdent,
+    PatStruct, PatTupleStruct, PatType, PatWild, Path, PathArguments, ReturnType, Signature, Stmt,
+    Token, TraitItem, TraitItemFn, Type, TypePath, TypeReference, UnOp, UseTree, Variant,
+    Visibility,
 };
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -198,7 +201,7 @@ fn make_field_enum_variant_from_named_field(type_name: &Ident, f: &Field) -> Var
         });
 
         Fields::Unnamed(FieldsUnnamed {
-            paren_token: f.span().as_token(),
+            paren_token: Paren(f.span()),
             unnamed: v,
         })
     } else {
@@ -323,10 +326,10 @@ fn make_field_enum(item: &Item) -> Vec<Item> {
                 asyncness: Default::default(),
                 unsafety: Default::default(),
                 abi: Default::default(),
-                fn_token: name.span().as_token(),
+                fn_token: Token![fn](name.span()),
                 ident: Ident::new("set_index", name.span()),
                 generics: Default::default(),
-                paren_token: name.span().as_token(),
+                paren_token: Paren(name.span()),
                 inputs: {
                     let mut v = Punctuated::new();
                     v.push(FnArg::Receiver(parse_quote!(&mut self)));
@@ -369,7 +372,7 @@ fn make_field_enum(item: &Item) -> Vec<Item> {
                                     attrs: Default::default(),
                                     qself: None,
                                     path: parse_quote!(Self::#variant_name),
-                                    paren_token: name.span().as_token(),
+                                    paren_token: Paren(name.span()),
                                     elems: {
                                         let mut v = Punctuated::new();
 
@@ -385,7 +388,7 @@ fn make_field_enum(item: &Item) -> Vec<Item> {
                                     },
                                 }),
                                 guard: Default::default(),
-                                fat_arrow_token: name.span().as_token(),
+                                fat_arrow_token: Token![=>](name.span()),
                                 body: parse_quote!({
                                     debug_assert!(
                                         *idx == usize::MAX || index == usize::MAX,
@@ -393,7 +396,7 @@ fn make_field_enum(item: &Item) -> Vec<Item> {
                                     );
                                     *idx = index;
                                 }),
-                                comma: Some(name.span().as_token()),
+                                comma: Some(Token![,](name.span())),
                             });
                         }
                     }
@@ -403,9 +406,9 @@ fn make_field_enum(item: &Item) -> Vec<Item> {
 
                 let expr = Expr::Match(ExprMatch {
                     attrs: Default::default(),
-                    match_token: name.span().as_token(),
+                    match_token: Token![match](name.span()),
                     expr: parse_quote!(self),
-                    brace_token: name.span().as_token(),
+                    brace_token: Brace(name.span()),
                     arms,
                 });
 
@@ -467,7 +470,7 @@ fn make_ast_enum(stmts: &[Stmt], is_ref: bool) -> Item {
                     colon_token: None,
                     ident: None,
                     ty: Type::Reference(TypeReference {
-                        and_token: name.span().as_token(),
+                        and_token: Token![&](name.span()),
                         lifetime: Some(Lifetime {
                             apostrophe: def_site(),
                             ident: Ident::new("ast", name.span()),
@@ -659,9 +662,9 @@ fn make_impl_parent_kind(stmts: &[Stmt]) -> ItemImpl {
                             },
                         }),
                         guard: Default::default(),
-                        fat_arrow_token: name.span().as_token(),
+                        fat_arrow_token: Token![=>](name.span()),
                         body: parse_quote!(v.set_index(index)),
-                        comma: Some(name.span().as_token()),
+                        comma: Some(Token![,](name.span())),
                     })
                 }
 
@@ -755,7 +758,7 @@ fn make_impl_kind_for_node_ref(stmts: &[Stmt]) -> Option<ItemImpl> {
                             // Ignore node ref itself
                             v.push(Pat::Wild(PatWild {
                                 attrs: Default::default(),
-                                underscore_token: stmt.span().as_token(),
+                                underscore_token: Token![_](stmt.span()),
                             }));
 
                             v.push(Pat::Ident(PatIdent {
@@ -780,7 +783,7 @@ fn make_impl_kind_for_node_ref(stmts: &[Stmt]) -> Option<ItemImpl> {
                         attrs: Default::default(),
                         pat,
                         guard: Default::default(),
-                        fat_arrow_token: stmt.span().as_token(),
+                        fat_arrow_token: Token![=>](stmt.span()),
                         body: Box::new(Expr::Call(ExprCall {
                             attrs: Default::default(),
                             func: Box::new(path_expr),
@@ -799,7 +802,7 @@ fn make_impl_kind_for_node_ref(stmts: &[Stmt]) -> Option<ItemImpl> {
                                 v
                             },
                         })),
-                        comma: Some(stmt.span().as_token()),
+                        comma: Some(Token![,](stmt.span())),
                     });
                 }
 
@@ -886,7 +889,7 @@ fn make_impl_kind_for_node_ref(stmts: &[Stmt]) -> Option<ItemImpl> {
                             // Ignore node ref itself
                             v.push(Pat::Wild(PatWild {
                                 attrs: Default::default(),
-                                underscore_token: stmt.span().as_token(),
+                                underscore_token: Token![_](stmt.span()),
                             }));
 
                             v.push(Pat::Ident(PatIdent {
@@ -905,9 +908,9 @@ fn make_impl_kind_for_node_ref(stmts: &[Stmt]) -> Option<ItemImpl> {
                         attrs: Default::default(),
                         pat,
                         guard: Default::default(),
-                        fat_arrow_token: stmt.span().as_token(),
+                        fat_arrow_token: Token![=>](stmt.span()),
                         body: parse_quote!(__field_kind.set_index(index)),
-                        comma: Some(stmt.span().as_token()),
+                        comma: Some(Token![,](stmt.span())),
                     });
                 }
 

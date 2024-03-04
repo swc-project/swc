@@ -15,7 +15,6 @@ proc-macro = true
 
 [dependencies]
 Inflector   = "0.11.4"
-pmutil      = "0.6.1"
 proc-macro2 = "1"
 quote       = "1"
 syn         = { version = "2", features = ["parsing", "full"] }
