@@ -311,9 +311,6 @@ where
         }
 
         let path = self.base_url.join(module_specifier);
-        #[cfg(windows)]
-        let path_string: String = path.to_string_lossy().replace("\\", "/");
-        #[cfg(not(windows))]
         let path_string: String = path.to_string_lossy().to_string();
 
         // https://www.typescriptlang.org/docs/handbook/modules/reference.html#baseurl
