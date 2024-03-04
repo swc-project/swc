@@ -1,9 +1,9 @@
 var _init_a, _init_b, _computedKey, _init_computedKey, _initStatic;
 const dec = ()=>{};
-_computedKey = 'c';
 class Foo {
     static{
-        ({ e: [_init_a, _init_b, _init_computedKey, _initStatic]  } = _apply_decs_2203_r(this, [
+        _computedKey = 'c';
+        ({ e: [_init_a, _init_b, _init_computedKey, _initStatic] } = _apply_decs_2203_r(this, [
             [
                 dec,
                 6,

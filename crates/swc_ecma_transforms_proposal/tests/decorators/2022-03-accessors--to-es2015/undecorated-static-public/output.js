@@ -1,6 +1,5 @@
 var _computedKey;
 const dec = ()=>{};
-_computedKey = 'c';
 let _computedKey1 = _computedKey, _computedKey2 = _computedKey;
 class Foo {
     static get a() {

@@ -28,7 +28,12 @@ struct Decorator202203 {
 
     state: ClassState,
 
-    /// Prepended before the class
+    /// Prepended before the class static block.
+    ///
+    /// We can't add this before the class because a decorator may use the
+    /// class.
+    ///
+    /// https://github.com/swc-project/swc/issues/7973
     pre_class_inits: Vec<Box<Expr>>,
 
     rename_map: FxHashMap<Id, Id>,
@@ -401,6 +406,14 @@ impl Decorator202203 {
         self.handle_super_class(class);
 
         {
+            let mut stmts = vec![];
+
+            if !self.pre_class_inits.is_empty() {
+                stmts.push(Stmt::Expr(ExprStmt {
+                    span: DUMMY_SP,
+                    expr: Expr::from_exprs(self.pre_class_inits.take()),
+                }))
+            }
             let call_stmt = CallExpr {
                 span: DUMMY_SP,
                 callee: init_class.as_callee(),
@@ -409,11 +422,12 @@ impl Decorator202203 {
             }
             .into_stmt();
 
+            stmts.push(call_stmt);
             class.body.push(ClassMember::StaticBlock(StaticBlock {
                 span: DUMMY_SP,
                 body: BlockStmt {
                     span: DUMMY_SP,
-                    stmts: vec![call_stmt],
+                    stmts,
                 },
             }));
         }
@@ -681,19 +695,33 @@ impl Decorator202203 {
 
                 c.class.body.extend(body);
 
-                c.class.body.push(ClassMember::StaticBlock(StaticBlock {
-                    span: DUMMY_SP,
-                    body: BlockStmt {
-                        span: DUMMY_SP,
-                        stmts: vec![CallExpr {
+                {
+                    let mut stmts = vec![];
+
+                    if !self.pre_class_inits.is_empty() {
+                        stmts.push(Stmt::Expr(ExprStmt {
+                            span: DUMMY_SP,
+                            expr: Expr::from_exprs(self.pre_class_inits.take()),
+                        }))
+                    }
+
+                    stmts.push(
+                        CallExpr {
                             span: DUMMY_SP,
                             callee: init_class.as_callee(),
                             args: vec![],
                             type_args: Default::default(),
                         }
-                        .into_stmt()],
-                    },
-                }));
+                        .into_stmt(),
+                    );
+                    c.class.body.push(ClassMember::StaticBlock(StaticBlock {
+                        span: DUMMY_SP,
+                        body: BlockStmt {
+                            span: DUMMY_SP,
+                            stmts,
+                        },
+                    }));
+                }
 
                 self.state = old_state;
 
@@ -795,13 +823,24 @@ impl VisitMut for Decorator202203 {
         self.consume_inits();
 
         if !self.state.extra_stmts.is_empty() {
+            let mut stmts = vec![];
+
+            if !self.pre_class_inits.is_empty() {
+                stmts.push(Stmt::Expr(ExprStmt {
+                    span: DUMMY_SP,
+                    expr: Expr::from_exprs(self.pre_class_inits.take()),
+                }))
+            }
+
+            stmts.append(&mut self.state.extra_stmts);
+
             n.body.insert(
                 0,
                 ClassMember::StaticBlock(StaticBlock {
                     span: DUMMY_SP,
                     body: BlockStmt {
                         span: DUMMY_SP,
-                        stmts: self.state.extra_stmts.take(),
+                        stmts,
                     },
                 }),
             );
@@ -1527,15 +1566,15 @@ impl VisitMut for Decorator202203 {
                     .into(),
                 )
             }
-            if !self.pre_class_inits.is_empty() {
-                new.push(
-                    Stmt::Expr(ExprStmt {
-                        span: DUMMY_SP,
-                        expr: Expr::from_exprs(self.pre_class_inits.take()),
-                    })
-                    .into(),
-                )
-            }
+            // if !self.pre_class_inits.is_empty() {
+            //     new.push(
+            //         Stmt::Expr(ExprStmt {
+            //             span: DUMMY_SP,
+            //             expr: Expr::from_exprs(self.pre_class_inits.take()),
+            //         })
+            //         .into(),
+            //     )
+            // }
             new.push(n.take());
         }
 
@@ -1719,12 +1758,12 @@ impl VisitMut for Decorator202203 {
                     declare: false,
                 }))))
             }
-            if !self.pre_class_inits.is_empty() {
-                new.push(Stmt::Expr(ExprStmt {
-                    span: DUMMY_SP,
-                    expr: Expr::from_exprs(self.pre_class_inits.take()),
-                }))
-            }
+            // if !self.pre_class_inits.is_empty() {
+            //     new.push(Stmt::Expr(ExprStmt {
+            //         span: DUMMY_SP,
+            //         expr: Expr::from_exprs(self.pre_class_inits.take()),
+            //     }))
+            // }
             new.push(n.take());
         }
 

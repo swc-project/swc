@@ -1,9 +1,9 @@
 var _dec, _initClass, _dec1, _dec2, _initProto;
 let _Foo;
-_dec = decorate(), _dec1 = decorate(), _dec2 = decorate();
 class Foo {
     static{
-        ({ e: [_initProto] , c: [_Foo, _initClass]  } = _apply_decs_2203_r(this, [
+        _dec = decorate(), _dec1 = decorate(), _dec2 = decorate();
+        ({ e: [_initProto], c: [_Foo, _initClass] } = _apply_decs_2203_r(this, [
             [
                 _dec1,
                 3,
@@ -32,7 +32,7 @@ class Foo {
     }
 }
 function decorate() {
-    return function(target, { kind  }) {
+    return function(target, { kind }) {
         console.log(target, kind);
     };
 }

@@ -1,6 +1,5 @@
 var _init_a, _init_b, _computedKey, _init_computedKey, _initProto;
 const dec = ()=>{};
-_computedKey = 'c';
 var ____private_a = /*#__PURE__*/ new WeakMap(), ____private_b = /*#__PURE__*/ new WeakMap(), ____private_computedKey = /*#__PURE__*/ new WeakMap();
 let _computedKey1 = _computedKey, _computedKey2 = _computedKey;
 class Foo {
@@ -39,21 +38,24 @@ class Foo {
 }
 var __ = {
     writable: true,
-    value: { e: [_init_a, _init_b, _init_computedKey, _initProto] } = _apply_decs_2203_r(Foo, [
-        [
-            dec,
-            1,
-            "a"
-        ],
-        [
-            dec,
-            1,
-            "b"
-        ],
-        [
-            dec,
-            1,
-            _computedKey
-        ]
-    ], [])
+    value: (()=>{
+        _computedKey = 'c';
+        ({ e: [_init_a, _init_b, _init_computedKey, _initProto] } = _apply_decs_2203_r(Foo, [
+            [
+                dec,
+                1,
+                "a"
+            ],
+            [
+                dec,
+                1,
+                "b"
+            ],
+            [
+                dec,
+                1,
+                _computedKey
+            ]
+        ], []));
+    })()
 };

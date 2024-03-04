@@ -1,6 +1,5 @@
 var _computedKey, _computedKey1, _initStatic;
 const dec = ()=>{};
-_computedKey = 'b', _computedKey1 = 'b';
 let _computedKey2 = _computedKey, _computedKey3 = _computedKey1;
 class Foo {
     static get a() {
@@ -19,7 +18,8 @@ class Foo {
 var __ = {
     writable: true,
     value: (()=>{
-        ({ e: [_initStatic]  } = _apply_decs_2203_r(Foo, [
+        _computedKey = 'b', _computedKey1 = 'b';
+        ({ e: [_initStatic] } = _apply_decs_2203_r(Foo, [
             [
                 dec,
                 8,

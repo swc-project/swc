@@ -1,6 +1,5 @@
 var _computedKey, _computedKey1, _initProto;
 const dec = ()=>{};
-_computedKey = getKey(), _computedKey1 = getKey();
 let _computedKey2 = _computedKey, _computedKey3 = _computedKey1;
 class Foo {
     [_computedKey2]() {
@@ -15,16 +14,19 @@ class Foo {
 }
 var __ = {
     writable: true,
-    value: { e: [_initProto] } = _apply_decs_2203_r(Foo, [
-        [
-            dec,
-            2,
-            _computedKey
-        ],
-        [
-            dec,
-            2,
-            _computedKey1
-        ]
-    ], [])
+    value: (()=>{
+        _computedKey = getKey(), _computedKey1 = getKey();
+        ({ e: [_initProto] } = _apply_decs_2203_r(Foo, [
+            [
+                dec,
+                2,
+                _computedKey
+            ],
+            [
+                dec,
+                2,
+                _computedKey1
+            ]
+        ], []));
+    })()
 };
