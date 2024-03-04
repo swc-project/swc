@@ -1,3 +1,0 @@
-class Oops {
-    private #uhOh() { }
-}
