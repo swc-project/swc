@@ -896,8 +896,9 @@ impl SimplifyExpr {
         );
 
         if (lv.is_unknown() && rv.is_unknown())
-            || !left.get_type().casted_to_number_on_add()
-            || !right.get_type().casted_to_number_on_add()
+            || op == op!(bin, "+")
+                && (!left.get_type().casted_to_number_on_add()
+                    || !right.get_type().casted_to_number_on_add())
         {
             return Unknown;
         }
