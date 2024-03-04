@@ -1,0 +1,11 @@
+{
+    "$schema": "https://json.schemastore.org/swcrc",
+    "jsc": {
+        "baseUrl": "./",
+        "paths": {
+            "$utils": [
+                "./src/utils.ts"
+            ]
+        }
+    }
+}
