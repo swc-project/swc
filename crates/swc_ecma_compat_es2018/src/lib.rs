@@ -22,6 +22,7 @@ pub fn es2018(c: Config) -> impl Fold {
             sticky_regex: false,
             unicode_property_regex: true,
             unicode_regex: false,
+            unicode_sets_regex: false,
         }),
         object_rest_spread(c.object_rest_spread)
     )

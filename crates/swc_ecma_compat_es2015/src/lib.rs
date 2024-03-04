@@ -68,6 +68,7 @@ where
             sticky_regex: true,
             unicode_property_regex: false,
             unicode_regex: true,
+            unicode_sets_regex: false,
         }),
         block_scoped_functions(),
         template_literal(c.template_literal),

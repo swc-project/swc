@@ -99,6 +99,7 @@ where
         let enable_sticky_regex = should_enable!(StickyRegex, false);
         let enable_unicode_property_regex = should_enable!(UnicodePropertyRegex, false);
         let enable_unicode_regex = should_enable!(UnicodeRegex, false);
+        let enable_unicode_sets_regex = should_enable!(UnicodeSetsRegex, false);
 
         let enable = enable_dot_all_regex
             || enable_named_capturing_groups_regex
@@ -119,6 +120,7 @@ where
                     sticky_regex: enable_sticky_regex,
                     unicode_property_regex: enable_unicode_property_regex,
                     unicode_regex: enable_unicode_regex,
+                    unicode_sets_regex: enable_unicode_sets_regex,
                 }),
                 enable
             )
