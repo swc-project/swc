@@ -1097,20 +1097,27 @@ impl<I: Tokens> Parser<I> {
             }
 
             Ok(match key {
-                Key::Private(key) => PrivateProp {
-                    span: span!(p, start),
-                    key,
-                    value,
-                    is_static,
-                    decorators,
-                    accessibility,
-                    is_optional,
-                    is_override,
-                    readonly,
-                    type_ann,
-                    definite,
+                Key::Private(key) => {
+                    let span = span!(p, start);
+                    if accessibility.is_some() {
+                        p.emit_err(span.with_hi(key.span_hi()), SyntaxError::TS18010);
+                    }
+
+                    PrivateProp {
+                        span: span!(p, start),
+                        key,
+                        value,
+                        is_static,
+                        decorators,
+                        accessibility,
+                        is_optional,
+                        is_override,
+                        readonly,
+                        type_ann,
+                        definite,
+                    }
+                    .into()
                 }
-                .into(),
                 Key::Public(key) => {
                     let span = span!(p, start);
                     if is_abstract && value.is_some() {
@@ -1446,20 +1453,27 @@ impl<I: Tokens> Parser<I> {
         }
 
         match key {
-            Key::Private(key) => Ok(PrivateMethod {
-                span: span!(self, start),
+            Key::Private(key) => {
+                let span = span!(self, start);
+                if accessibility.is_some() {
+                    self.emit_err(span.with_hi(key.span_hi()), SyntaxError::TS18010);
+                }
 
-                accessibility,
-                is_abstract,
-                is_optional,
-                is_override,
+                Ok(PrivateMethod {
+                    span,
 
-                is_static,
-                key,
-                function,
-                kind,
+                    accessibility,
+                    is_abstract,
+                    is_optional,
+                    is_override,
+
+                    is_static,
+                    key,
+                    function,
+                    kind,
+                }
+                .into())
             }
-            .into()),
             Key::Public(key) => {
                 let span = span!(self, start);
                 if is_abstract && function.body.is_some() {
