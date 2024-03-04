@@ -311,10 +311,9 @@ where
         }
 
         let path = self.base_url.join(module_specifier);
-        let path_string: String = path.to_string_lossy().to_string();
 
         // https://www.typescriptlang.org/docs/handbook/modules/reference.html#baseurl
-        if let Ok(v) = self.invoke_inner_resolver(base, path_string.as_str()) {
+        if let Ok(v) = self.invoke_inner_resolver(base, &path.to_string_lossy()) {
             return Ok(v);
         }
 
