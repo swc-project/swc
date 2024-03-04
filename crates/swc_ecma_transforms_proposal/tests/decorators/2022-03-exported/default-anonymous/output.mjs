@@ -1,5 +1,6 @@
-var _initClass, _A;
-export default class A {
+var _initClass;
+let _A;
+class A {
     static{
         ({ c: [_A, _initClass] } = _apply_decs_2203_r(this, [], [
             dec
@@ -9,3 +10,4 @@ export default class A {
         _initClass();
     }
 }
+export { _A as default };
