@@ -22,14 +22,14 @@ sha2       = "0.10.8"
 sourcemap  = "6.4"
 tempfile   = "3.6.0"
 
-swc_common = { version = "0.33.18", path = "../swc_common", features = [
+swc_common = { version = "0.33.19", path = "../swc_common", features = [
   "sourcemap",
 ] }
-swc_ecma_ast = { version = "0.112.4", path = "../swc_ecma_ast" }
+swc_ecma_ast = { version = "0.112.5", path = "../swc_ecma_ast" }
 swc_ecma_codegen = { version = "0.148.9", path = "../swc_ecma_codegen" }
 swc_ecma_parser = { version = "0.143.7", path = "../swc_ecma_parser" }
-swc_ecma_testing = { version = "0.22.20", path = "../swc_ecma_testing" }
+swc_ecma_testing = { version = "0.22.21", path = "../swc_ecma_testing" }
 swc_ecma_transforms_base = { version = "0.137.12", path = "../swc_ecma_transforms_base" }
 swc_ecma_utils = { version = "0.127.9", path = "../swc_ecma_utils" }
-swc_ecma_visit = { version = "0.98.5", path = "../swc_ecma_visit" }
-testing = { version = "0.35.19", path = "../testing" }
+swc_ecma_visit = { version = "0.98.6", path = "../swc_ecma_visit" }
+testing = { version = "0.35.20", path = "../testing" }

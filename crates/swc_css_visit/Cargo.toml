@@ -6,7 +6,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_css_visit"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.139.19"
+version       = "0.139.20"
 
   [package.metadata.docs.rs]
   all-features = true
@@ -23,6 +23,6 @@ path    = []
 serde = { version = "1", optional = true }
 
 swc_atoms   = { version = "0.6.5", path = "../swc_atoms" }
-swc_common  = { version = "0.33.18", path = "../swc_common" }
-swc_css_ast = { version = "0.140.19", path = "../swc_css_ast" }
-swc_visit   = { version = "0.5.9", path = "../swc_visit" }
+swc_common  = { version = "0.33.19", path = "../swc_common" }
+swc_css_ast = { version = "0.140.20", path = "../swc_css_ast" }
+swc_visit   = { version = "0.5.10", path = "../swc_visit" }
