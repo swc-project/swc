@@ -581,7 +581,12 @@ where
         if n.global {
             keyword!("global");
         } else {
-            keyword!("module");
+            match &n.id {
+                // prefer namespace keyword because TS might
+                // deprecate the module keyword in this context
+                TsModuleName::Ident(_) => keyword!("namespace"),
+                TsModuleName::Str(_) => keyword!("module"),
+            }
             space!();
             emit!(n.id);
         }

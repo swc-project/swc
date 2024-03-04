@@ -28,13 +28,6 @@ impl Visit for UsageCollect {
         // skip
     }
 
-    fn visit_class(&mut self, n: &Class) {
-        // skip implements
-        n.decorators.visit_with(self);
-        n.body.visit_with(self);
-        n.super_class.visit_with(self);
-    }
-
     fn visit_fn_decl(&mut self, n: &FnDecl) {
         // skip function ident
         n.function.visit_with(self);

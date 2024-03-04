@@ -279,6 +279,7 @@ pub enum SyntaxError {
     TS2703,
     TS4112,
     TS8038,
+    TS18010,
     TSTypeAnnotationAfterAssign,
     TsNonNullAssertionNotAllowed(JsWord),
 
@@ -720,6 +721,9 @@ impl SyntaxError {
             SyntaxError::TS8038 => "Decorators may not appear after `export` or `export default` \
                                     if they also appear before `export`."
                 .into(),
+            SyntaxError::TS18010 => {
+                "An accessibility modifier cannot be used with a private identifier.".into()
+            }
             SyntaxError::TSTypeAnnotationAfterAssign => {
                 "Type annotations must come before default assignments".into()
             }
