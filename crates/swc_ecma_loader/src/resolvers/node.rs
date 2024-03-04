@@ -419,6 +419,21 @@ impl NodeModulesResolver {
             module_specifier, base, self.target_env
         );
 
+        {
+            // Handle absolute path
+
+            let path = Path::new(module_specifier);
+
+            if let Ok(file) = self
+                .resolve_as_file(path)
+                .or_else(|_| self.resolve_as_directory(path, false))
+            {
+                if let Ok(file) = self.wrap(file) {
+                    return Ok(file);
+                }
+            }
+        }
+
         let base = match base {
             FileName::Real(v) => v,
             _ => bail!("node-resolver supports only files"),
