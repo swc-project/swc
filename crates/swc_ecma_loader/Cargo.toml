@@ -38,7 +38,7 @@ tracing     = "0.1.37"
 
 swc_atoms  = { version = "0.6.5", path = "../swc_atoms" }
 swc_cached = { version = "0.3.19", optional = true, path = "../swc_cached" }
-swc_common = { version = "0.33.18", path = "../swc_common" }
+swc_common = { version = "0.33.19", path = "../swc_common" }
 
 [dev-dependencies]
 lazy_static = "1.4.0"
