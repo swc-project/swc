@@ -19,6 +19,10 @@ env:
   # https://github.com/actions/setup-node/issues/899#issuecomment-1819151595
   SKIP_YARN_COREPACK_CHECK: 1
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: "${{ github.event_name == 'pull_request' }}"
+
 jobs:
   cargo-fmt:
     name: Cargo fmt
