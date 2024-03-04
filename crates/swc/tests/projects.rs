@@ -1152,7 +1152,7 @@ fn issue_8674_1() {
     .unwrap();
     println!("{}", output);
 
-    assert_eq!(output.to_string(), "import { foo } from \"./src/foo\"");
+    assert_eq!(output.to_string(), "import { foo } from \"./src/foo\";\n");
 }
 
 #[testing::fixture("tests/minify/**/input.js")]
