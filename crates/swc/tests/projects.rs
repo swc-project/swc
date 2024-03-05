@@ -1,4 +1,5 @@
 use std::{
+    env::current_dir,
     fs::create_dir_all,
     path::{Path, PathBuf},
 };
@@ -1121,6 +1122,37 @@ fn issue_7513_2() {
         output.code,
         "export const cachedTextDecoder={ignoreBOM:!0,fatal:!0};"
     );
+}
+
+#[test]
+fn issue_8674_1() {
+    static INPUT: &str = "import { foo } from 'src/foo'";
+
+    let base_url = current_dir()
+        .unwrap()
+        .join("../../node-swc/tests/issue-8674")
+        .canonicalize()
+        .unwrap();
+
+    dbg!(&base_url);
+
+    let output = str_with_opt(
+        INPUT,
+        Options {
+            config: Config {
+                jsc: JscConfig {
+                    base_url,
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+            ..Default::default()
+        },
+    )
+    .unwrap();
+    println!("{}", output);
+
+    assert_eq!(output.to_string(), "import { foo } from \"./src/foo\";\n");
 }
 
 #[testing::fixture("tests/minify/**/input.js")]

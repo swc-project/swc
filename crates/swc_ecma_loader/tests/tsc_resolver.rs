@@ -193,8 +193,10 @@ struct TestResolver(AHashMap<String, String>);
 
 impl Resolve for TestResolver {
     fn resolve(&self, _: &FileName, src: &str) -> Result<Resolution, Error> {
+        let src = src.replace('\\', "/");
+
         self.0
-            .get(src)
+            .get(&src)
             .cloned()
             .map(FileName::Custom)
             .map(|v| Resolution {

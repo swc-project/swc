@@ -19,8 +19,8 @@ bench = false
 minifier = ["swc_html_minifier"]
 
 [dependencies]
-swc_html_ast = {version = "0.33.17", path = "../swc_html_ast"}
-swc_html_codegen = {version = "0.42.22", path = "../swc_html_codegen"}
+swc_html_ast = {version = "0.33.18", path = "../swc_html_ast"}
+swc_html_codegen = {version = "0.42.23", path = "../swc_html_codegen"}
 swc_html_minifier = {version = "0.134.12", path = "../swc_html_minifier", optional = true}
-swc_html_parser = {version = "0.39.22", path = "../swc_html_parser"}
-swc_html_visit = {version = "0.33.17", path = "../swc_html_visit"}
+swc_html_parser = {version = "0.39.23", path = "../swc_html_parser"}
+swc_html_visit = {version = "0.33.18", path = "../swc_html_visit"}

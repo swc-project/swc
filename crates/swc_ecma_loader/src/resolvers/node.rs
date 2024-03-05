@@ -413,11 +413,26 @@ impl NodeModulesResolver {
         Ok(None)
     }
 
-    fn resolve_filename(&self, base: &FileName, target: &str) -> Result<FileName, Error> {
+    fn resolve_filename(&self, base: &FileName, module_specifier: &str) -> Result<FileName, Error> {
         debug!(
             "Resolving {} from {:#?} for {:#?}",
-            target, base, self.target_env
+            module_specifier, base, self.target_env
         );
+
+        {
+            // Handle absolute path
+
+            let path = Path::new(module_specifier);
+
+            if let Ok(file) = self
+                .resolve_as_file(path)
+                .or_else(|_| self.resolve_as_directory(path, false))
+            {
+                if let Ok(file) = self.wrap(file) {
+                    return Ok(file);
+                }
+            }
+        }
 
         let base = match base {
             FileName::Real(v) => v,
@@ -437,10 +452,10 @@ impl NodeModulesResolver {
             if let Some(pkg_base) = find_package_root(base) {
                 if let Some(item) = BROWSER_CACHE.get(&pkg_base) {
                     let value = item.value();
-                    if value.module_ignores.contains(target) {
-                        return Ok(FileName::Custom(target.into()));
+                    if value.module_ignores.contains(module_specifier) {
+                        return Ok(FileName::Custom(module_specifier.into()));
                     }
-                    if let Some(rewrite) = value.module_rewrites.get(target) {
+                    if let Some(rewrite) = value.module_rewrites.get(module_specifier) {
                         return self.wrap(Some(rewrite.to_path_buf()));
                     }
                 }
@@ -449,21 +464,21 @@ impl NodeModulesResolver {
 
         // Handle builtin modules for nodejs
         if let TargetEnv::Node = self.target_env {
-            if target.starts_with("node:") {
-                return Ok(FileName::Custom(target.into()));
+            if module_specifier.starts_with("node:") {
+                return Ok(FileName::Custom(module_specifier.into()));
             }
 
-            if is_core_module(target) {
-                return Ok(FileName::Custom(format!("node:{}", target)));
+            if is_core_module(module_specifier) {
+                return Ok(FileName::Custom(format!("node:{}", module_specifier)));
             }
         }
 
         // Aliases allow browser shims to be renamed so we can
         // map `stream` to `stream-browserify` for example
-        let target = if let Some(alias) = self.alias.get(target) {
+        let target = if let Some(alias) = self.alias.get(module_specifier) {
             &alias[..]
         } else {
-            target
+            module_specifier
         };
 
         let target_path = Path::new(target);

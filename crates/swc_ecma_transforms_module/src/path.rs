@@ -280,13 +280,16 @@ where
                 v.parent()
                     .ok_or_else(|| anyhow!("failed to get parent of {:?}", v))?,
             ),
-            FileName::Anon => {
-                if cfg!(target_arch = "wasm32") {
-                    panic!("Please specify `filename`")
-                } else {
-                    Cow::Owned(current_dir().expect("failed to get current directory"))
+            FileName::Anon => match &self.config.base_dir {
+                Some(v) => Cow::Borrowed(&**v),
+                None => {
+                    if cfg!(target_arch = "wasm32") {
+                        panic!("Please specify `filename`")
+                    } else {
+                        Cow::Owned(current_dir().expect("failed to get current directory"))
+                    }
                 }
-            }
+            },
             _ => {
                 unreachable!(
                     "Node path provider does not support using `{:?}` as a base file name",
