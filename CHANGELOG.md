@@ -1,5 +1,5 @@
 # Changelog
-## [unreleased]
+## [1.4.3] - 2024-03-05
 
 ### Bug Fixes
 
@@ -1420,12 +1420,6 @@
 - **(es/compat)** Improve time complexity of `class_properties` ([#7786](https://github.com/swc-project/swc/issues/7786)) ([76c6258](https://github.com/swc-project/swc/commit/76c6258d1544ede09cb4f281c42e1fc80ad4145b))
 
 ## [1.3.75] - 2023-08-08
-
-### Bug Fixes
-
-
-
-- **(es/codegen)** Don't strip necessary escape characters ([#7687](https://github.com/swc-project/swc/issues/7687)) ([b45649b](https://github.com/swc-project/swc/commit/b45649b8d6484bd872f6443fc729f6b1998ff44d))
 
 ### Refactor
 
