@@ -40,7 +40,7 @@ tracing-futures    = "0.2.5"
 tracing-subscriber = { version = "0.3.9", features = ["env-filter"] }
 walkdir            = "2"
 
-swc_core = { version = "0.90.15", features = [
+swc_core = { version = "0.90.16", features = [
   "trace_macro",
   "common_concurrent",
   "base_concurrent",

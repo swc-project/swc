@@ -299,7 +299,16 @@ where
 
                     if let Ok(res) = self.resolve(&self.base_url_filename, &format!("./{}", &to[0]))
                     {
-                        return Ok(res);
+                        return Ok(Resolution {
+                            slug: match &res.filename {
+                                FileName::Real(p) => p
+                                    .file_stem()
+                                    .filter(|&s| s != "index")
+                                    .map(|v| v.to_string_lossy().into()),
+                                _ => None,
+                            },
+                            ..res
+                        });
                     }
 
                     return Ok(Resolution {
@@ -311,13 +320,9 @@ where
         }
 
         let path = self.base_url.join(module_specifier);
-        #[cfg(windows)]
-        let path_string: String = path.to_string_lossy().replace("\\", "/");
-        #[cfg(not(windows))]
-        let path_string: String = path.to_string_lossy().to_string();
 
         // https://www.typescriptlang.org/docs/handbook/modules/reference.html#baseurl
-        if let Ok(v) = self.invoke_inner_resolver(base, path_string.as_str()) {
+        if let Ok(v) = self.invoke_inner_resolver(base, &path.to_string_lossy()) {
             return Ok(v);
         }
 
