@@ -76,12 +76,10 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
             program,
             lint_config,
             unresolved_ctxt,
-            top_level_ctxt,
+            top_level_ctxt: _,
             es_version,
             source_map,
         } = lint_params;
-
-        println!("{:?}", top_level_ctxt);
 
         rules.extend(no_use_before_define::no_use_before_define(
             &lint_params.lint_config.no_use_before_define,
