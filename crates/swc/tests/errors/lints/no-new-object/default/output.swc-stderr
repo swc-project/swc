@@ -1,0 +1,29 @@
+
+  x The object literal notation {} is preferable
+   ,-[1:1]
+ 1 | var myObject = new Object();
+   :                ^^^^^^^^^^^^
+ 2 | 
+ 3 | new Object();
+   `----
+
+  x The object literal notation {} is preferable
+   ,-[1:1]
+ 1 | var myObject = new Object();
+ 2 | 
+ 3 | new Object();
+   : ^^^^^^^^^^^^
+ 4 | 
+ 5 | var foo = new Object("foo");
+   `----
+
+  x The object literal notation {} is preferable
+   ,-[2:1]
+ 2 | 
+ 3 | new Object();
+ 4 | 
+ 5 | var foo = new Object("foo");
+   :           ^^^^^^^^^^^^^^^^^
+ 6 | 
+ 7 | // Valid
+   `----

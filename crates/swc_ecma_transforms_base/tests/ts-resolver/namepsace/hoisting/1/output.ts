@@ -1,4 +1,4 @@
-declare module RangeParser__2 {
+declare namespace RangeParser__2 {
     interface Ranges__3 extends Array<Range__3> {
         type__0: string;
     }
