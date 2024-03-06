@@ -24,6 +24,7 @@ pub fn es2022<C: Comments>(cm: Option<C>, config: Config, unresolved_mark: Mark)
             sticky_regex: false,
             unicode_property_regex: true,
             unicode_regex: false,
+            unicode_sets_regex: false,
         }),
         static_blocks(config.class_properties.static_blocks_mark),
         class_properties(cm, config.class_properties, unresolved_mark),

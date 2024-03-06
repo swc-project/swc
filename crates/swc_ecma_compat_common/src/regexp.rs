@@ -23,6 +23,8 @@ pub struct Config {
     pub unicode_property_regex: bool,
     /// [RegExp.prototype.unicode](https://tc39.es/ecma262/multipage/text-processing.html#sec-get-regexp.prototype.unicode)
     pub unicode_regex: bool,
+    // [RegExp.prototype.unicodeSets](https://github.com/tc39/proposal-regexp-v-flag)
+    pub unicode_sets_regex: bool,
 }
 
 struct RegExp {
@@ -39,6 +41,7 @@ impl VisitMut for RegExp {
             if (self.config.dot_all_regex && regex.flags.contains('s'))
                 || (self.config.sticky_regex && regex.flags.contains('y'))
                 || (self.config.unicode_regex && regex.flags.contains('u'))
+                || (self.config.unicode_sets_regex && regex.flags.contains('v'))
                 || (self.config.has_indices && regex.flags.contains('d'))
                 || (self.config.named_capturing_groups_regex && regex.exp.contains("(?<"))
                 || (self.config.lookbehind_assertion && regex.exp.contains("(?<=")
