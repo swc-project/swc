@@ -8,8 +8,8 @@ use anyhow::Context;
 use rayon::prelude::*;
 use swc::{
     config::{
-        Config, FileMatcher, JsMinifyOptions, JscConfig, ModuleConfig, Options, SourceMapsConfig,
-        TransformConfig,
+        Config, FileMatcher, JsMinifyOptions, JscConfig, ModuleConfig, Options, Paths,
+        SourceMapsConfig, TransformConfig,
     },
     try_with_handler, BoolOrDataConfig, Compiler, TransformOutput,
 };
@@ -1142,6 +1142,44 @@ fn issue_8674_1() {
             config: Config {
                 jsc: JscConfig {
                     base_url,
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+            ..Default::default()
+        },
+    )
+    .unwrap();
+    println!("{}", output);
+
+    assert_eq!(output.to_string(), "import { foo } from \"./src/foo\";\n");
+}
+
+#[test]
+fn issue_8701_1() {
+    static INPUT: &str = "import { AppController } from '@app/app.controller';
+    import { AppService } from '@app/app.service';";
+
+    let base_url = current_dir()
+        .unwrap()
+        .join("tests/projects/issue-8701")
+        .canonicalize()
+        .unwrap();
+
+    dbg!(&base_url);
+
+    let output = str_with_opt(
+        INPUT,
+        Options {
+            filename: "src/app.controller.spec.ts".into(),
+            config: Config {
+                jsc: JscConfig {
+                    base_url,
+                    paths: {
+                        let mut paths = Paths::default();
+                        paths.insert("@app/*".into(), vec!["./src/*".into()]);
+                        paths
+                    },
                     ..Default::default()
                 },
                 ..Default::default()
