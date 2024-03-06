@@ -1,0 +1,11 @@
+{
+    "$schema": "http://json.schemastore.org/swcrc",
+    "jsc": {
+        "baseUrl": ".",
+        "paths": {
+            "@app/*": [
+                "./src/*"
+            ]
+        }
+    }
+}
