@@ -42,14 +42,8 @@ describe("jsc.paths", () => {
     });
 
     it("should work with process.cwd() and relative url", async () => {
-        const testDir = path.join("node-swc",
-            "tests",
-            "swc-path-bug-1",)
-        const f = path.join(
-            testDir,
-            "src",
-            "index.ts"
-        );
+        const testDir = path.join("node-swc", "tests", "swc-path-bug-1");
+        const f = path.join(testDir, "src", "index.ts");
         console.log(f);
         expect(
             (
@@ -58,7 +52,7 @@ describe("jsc.paths", () => {
                         parser: {
                             syntax: "typescript",
                         },
-                        baseUrl: testDir,
+                        baseUrl: path.resolve(testDir),
                         paths: {
                             "@utils/*": ["src/utils/*"],
                         },
@@ -70,7 +64,7 @@ describe("jsc.paths", () => {
             Object.defineProperty(exports, "__esModule", {
                 value: true
             });
-            const _helloworldutils = require("../../../../src/utils/hello-world.utils.js");
+            const _helloworldutils = require("./utils/hello-world.utils.js");
             console.log((0, _helloworldutils.helloWorld)());
             "
         `);
