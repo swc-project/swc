@@ -259,14 +259,7 @@ where
         info!("Resolved as {target:?} with slug = {slug:?}");
 
         let mut target = match target {
-            FileName::Real(v) => {
-                // @nestjs/common should be preserved as a whole
-                if v.starts_with(".") || v.starts_with("..") || !v.is_absolute() {
-                    v
-                } else {
-                    return Ok(self.to_specifier(v, slug));
-                }
-            }
+            FileName::Real(v) => v,
             FileName::Custom(s) => return Ok(self.to_specifier(s.into(), slug)),
             _ => {
                 unreachable!(
