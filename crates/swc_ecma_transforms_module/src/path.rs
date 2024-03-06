@@ -261,7 +261,7 @@ where
         let mut target = match target {
             FileName::Real(v) => {
                 // @nestjs/common should be preserved as a whole
-                if v.starts_with(".") || v.starts_with("..") || v.is_absolute() {
+                if v.starts_with(".") || v.starts_with("..") || !v.is_absolute() {
                     v
                 } else {
                     return Ok(self.to_specifier(v, slug));
