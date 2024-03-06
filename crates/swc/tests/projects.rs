@@ -65,7 +65,16 @@ fn file_with_opt(filename: &str, options: Options) -> Result<NormalizedOutput, S
 }
 
 fn str_with_opt(content: &str, options: Options) -> Result<NormalizedOutput, StdErr> {
-    compile_str(FileName::Anon, content, options).map(|v| v.code.into())
+    compile_str(
+        if options.filename.is_empty() {
+            FileName::Anon
+        } else {
+            FileName::Real(PathBuf::from(&options.filename))
+        },
+        content,
+        options,
+    )
+    .map(|v| v.code.into())
 }
 
 fn compile_str(
@@ -1158,7 +1167,9 @@ fn issue_8674_1() {
 #[test]
 fn issue_8701_1() {
     static INPUT: &str = "import { AppController } from '@app/app.controller';
-    import { AppService } from '@app/app.service';";
+    import { AppService } from '@app/app.service';
+    
+    console.log(AppController, AppService);";
 
     let base_url = current_dir()
         .unwrap()
@@ -1171,7 +1182,7 @@ fn issue_8701_1() {
     let output = str_with_opt(
         INPUT,
         Options {
-            filename: "src/app.controller.spec.ts".into(),
+            filename: "src/app.module.ts".into(),
             config: Config {
                 jsc: JscConfig {
                     base_url,
@@ -1190,7 +1201,11 @@ fn issue_8701_1() {
     .unwrap();
     println!("{}", output);
 
-    assert_eq!(output.to_string(), "import { foo } from \"./src/foo\";\n");
+    assert_eq!(
+        output.to_string(),
+        "import { AppController } from \"./app.controller\";\nimport { AppService } from \
+         \"./app.service\";\nconsole.log(AppController, AppService);\n"
+    );
 }
 
 #[testing::fixture("tests/minify/**/input.js")]
