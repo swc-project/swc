@@ -1,6 +1,12 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(es/module)** Fix relativeness check for `jsc.paths` ([#8702](https://github.com/swc-project/swc/issues/8702)) ([d37125f](https://github.com/swc-project/swc/commit/d37125fb8ea23eb7b7fae09835c92f548fa5f0ab))
+
 ### Features
 
 
