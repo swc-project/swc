@@ -6,6 +6,10 @@
             "@app/*": [
                 "./src/*"
             ]
+        },
+        "parser": {
+            "syntax": "typescript",
+            "decorators": true
         }
     }
 }
