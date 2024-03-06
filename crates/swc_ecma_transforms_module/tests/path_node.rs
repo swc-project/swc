@@ -127,13 +127,14 @@ fn fixture(input_dir: PathBuf) {
 
     let index_path = input_dir.join(config.input_file.as_deref().unwrap_or("index.ts"));
 
+    let base_dir = input_dir.join(config.base_url.clone().unwrap_or(input_dir.clone()));
+    dbg!(&base_dir);
     test_fixture(
         Syntax::default(),
         &|_| {
             let rules = config.paths.clone().into_iter().collect();
 
-            let resolver =
-                paths_resolver(&config.base_url.clone().unwrap_or(input_dir.clone()), rules);
+            let resolver = paths_resolver(&base_dir, rules);
 
             import_rewriter(FileName::Real(index_path.clone()), resolver)
         },
