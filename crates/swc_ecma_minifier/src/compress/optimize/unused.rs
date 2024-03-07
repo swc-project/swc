@@ -968,8 +968,18 @@ impl Visit for ThisPropertyVisitor {
         }
 
         if let Callee::Expr(e) = c {
-            if e.is_this() {
-                self.should_abort = true;
+            match &**e {
+                Expr::This(..) => {
+                    self.should_abort = true;
+                }
+
+                Expr::Member(e) => {
+                    if e.obj.is_this() {
+                        self.should_abort = true;
+                    }
+                }
+
+                _ => {}
             }
         }
     }
