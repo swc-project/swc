@@ -50,45 +50,40 @@ impl Task for TransformTask {
 
         let error_format = options.experimental.error_format.unwrap_or_default();
 
-        tokio::runtime::Runtime::new()
-            .unwrap()
-            .block_on(async move {
-                try_with(
-                    self.c.cm.clone(),
-                    !options.config.error.filename.into_bool(),
-                    error_format,
-                    |handler| {
-                        self.c.run(|| match &self.input {
-                            Input::Program(ref s) => {
-                                let program: Program =
-                                    deserialize_json(s).expect("failed to deserialize Program");
-                                // TODO: Source map
-                                self.c.process_js(handler, program, &options)
-                            }
+        try_with(
+            self.c.cm.clone(),
+            !options.config.error.filename.into_bool(),
+            error_format,
+            |handler| {
+                self.c.run(|| match &self.input {
+                    Input::Program(ref s) => {
+                        let program: Program =
+                            deserialize_json(s).expect("failed to deserialize Program");
+                        // TODO: Source map
+                        self.c.process_js(handler, program, &options)
+                    }
 
-                            Input::File(ref path) => {
-                                let fm =
-                                    self.c.cm.load_file(path).context("failed to load file")?;
-                                self.c.process_js_file(fm, handler, &options)
-                            }
+                    Input::File(ref path) => {
+                        let fm = self.c.cm.load_file(path).context("failed to load file")?;
+                        self.c.process_js_file(fm, handler, &options)
+                    }
 
-                            Input::Source { src } => {
-                                let fm = self.c.cm.new_source_file(
-                                    if options.filename.is_empty() {
-                                        FileName::Anon
-                                    } else {
-                                        FileName::Real(options.filename.clone().into())
-                                    },
-                                    src.to_string(),
-                                );
+                    Input::Source { src } => {
+                        let fm = self.c.cm.new_source_file(
+                            if options.filename.is_empty() {
+                                FileName::Anon
+                            } else {
+                                FileName::Real(options.filename.clone().into())
+                            },
+                            src.to_string(),
+                        );
 
-                                self.c.process_js_file(fm, handler, &options)
-                            }
-                        })
-                    },
-                )
-            })
-            .convert_err()
+                        self.c.process_js_file(fm, handler, &options)
+                    }
+                })
+            },
+        )
+        .convert_err()
     }
 
     fn resolve(&mut self, _env: Env, result: Self::Output) -> napi::Result<Self::JsValue> {
@@ -142,35 +137,31 @@ pub fn transform_sync(s: String, is_module: bool, opts: Buffer) -> napi::Result<
 
     let error_format = options.experimental.error_format.unwrap_or_default();
 
-    tokio::runtime::Runtime::new()
-        .unwrap()
-        .block_on(async move {
-            try_with(
-                c.cm.clone(),
-                !options.config.error.filename.into_bool(),
-                error_format,
-                |handler| {
-                    c.run(|| {
-                        if is_module {
-                            let program: Program = deserialize_json(s.as_str())
-                                .context("failed to deserialize Program")?;
-                            c.process_js(handler, program, &options)
+    try_with(
+        c.cm.clone(),
+        !options.config.error.filename.into_bool(),
+        error_format,
+        |handler| {
+            c.run(|| {
+                if is_module {
+                    let program: Program =
+                        deserialize_json(s.as_str()).context("failed to deserialize Program")?;
+                    c.process_js(handler, program, &options)
+                } else {
+                    let fm = c.cm.new_source_file(
+                        if options.filename.is_empty() {
+                            FileName::Anon
                         } else {
-                            let fm = c.cm.new_source_file(
-                                if options.filename.is_empty() {
-                                    FileName::Anon
-                                } else {
-                                    FileName::Real(options.filename.clone().into())
-                                },
-                                s,
-                            );
-                            c.process_js_file(fm, handler, &options)
-                        }
-                    })
-                },
-            )
-        })
-        .convert_err()
+                            FileName::Real(options.filename.clone().into())
+                        },
+                        s,
+                    );
+                    c.process_js_file(fm, handler, &options)
+                }
+            })
+        },
+    )
+    .convert_err()
 }
 
 #[napi]
@@ -212,26 +203,22 @@ pub fn transform_file_sync(
 
     let error_format = options.experimental.error_format.unwrap_or_default();
 
-    tokio::runtime::Runtime::new()
-        .unwrap()
-        .block_on(async move {
-            try_with(
-                c.cm.clone(),
-                !options.config.error.filename.into_bool(),
-                error_format,
-                |handler| {
-                    c.run(|| {
-                        if is_module {
-                            let program: Program = deserialize_json(s.as_str())
-                                .context("failed to deserialize Program")?;
-                            c.process_js(handler, program, &options)
-                        } else {
-                            let fm = c.cm.load_file(Path::new(&s)).expect("failed to load file");
-                            c.process_js_file(fm, handler, &options)
-                        }
-                    })
-                },
-            )
-        })
-        .convert_err()
+    try_with(
+        c.cm.clone(),
+        !options.config.error.filename.into_bool(),
+        error_format,
+        |handler| {
+            c.run(|| {
+                if is_module {
+                    let program: Program =
+                        deserialize_json(s.as_str()).context("failed to deserialize Program")?;
+                    c.process_js(handler, program, &options)
+                } else {
+                    let fm = c.cm.load_file(Path::new(&s)).expect("failed to load file");
+                    c.process_js_file(fm, handler, &options)
+                }
+            })
+        },
+    )
+    .convert_err()
 }
