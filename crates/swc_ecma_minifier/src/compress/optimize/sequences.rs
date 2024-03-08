@@ -7,8 +7,8 @@ use swc_ecma_usage_analyzer::{
     util::is_global_var_with_pure_property_access,
 };
 use swc_ecma_utils::{
-    contains_arguments, contains_this_expr, prepend_stmts, undefined, ExprExt, IdentUsageFinder,
-    StmtLike,
+    contains_arguments, contains_ident_ref, contains_this_expr, prepend_stmts, undefined, ExprExt,
+    IdentUsageFinder, StmtLike,
 };
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 #[cfg(feature = "debug")]
@@ -963,15 +963,19 @@ impl Optimizer<'_> {
                     }
 
                     match &a2[j - idx] {
-                        Mergable::Var(e2) => {
-                            if let Some(e2) = &e2.init {
+                        Mergable::Var(v2) => {
+                            if let Some(e2) = &v2.init {
+                                if !self.is_pat_skippable_for_seq(Some(a), &v2.name) {
+                                    break;
+                                }
+
                                 if !self.is_skippable_for_seq(Some(a), e2) {
                                     break;
                                 }
                             }
 
                             if let Some(id) = a1.last_mut().unwrap().id() {
-                                if IdentUsageFinder::find(&id, &**e2) {
+                                if IdentUsageFinder::find(&id, &**v2) {
                                     break;
                                 }
                             }
@@ -1019,7 +1023,12 @@ impl Optimizer<'_> {
 
     fn is_pat_skippable_for_seq(&mut self, a: Option<&Mergable>, p: &Pat) -> bool {
         match p {
-            Pat::Ident(_) => true,
+            Pat::Ident(p) => match a {
+                Some(Mergable::Var(a)) => !contains_ident_ref(&a.init, &p.to_id()),
+                Some(Mergable::Expr(a)) => !contains_ident_ref(&**a, &p.to_id()),
+
+                _ => true,
+            },
             Pat::Invalid(_) => false,
 
             Pat::Array(p) => {
