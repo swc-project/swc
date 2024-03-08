@@ -5187,7 +5187,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_runner"
-version = "0.106.10"
+version = "0.106.11"
 dependencies = [
  "anyhow",
  "criterion",

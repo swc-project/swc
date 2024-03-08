@@ -370,7 +370,7 @@ swc_plugin_proxy                 = { optional = true, version = "0.41.5", path =
 swc_trace_macro                  = { optional = true, version = "0.1.3", path = "../swc_trace_macro" }
 testing                          = { optional = true, version = "0.35.20", path = "../testing" }
 # TODO: eventually swc_plugin_runner needs to remove default features
-swc_plugin_runner = { optional = true, version = "0.106.10", path = "../swc_plugin_runner", default-features = false }
+swc_plugin_runner = { optional = true, version = "0.106.11", path = "../swc_plugin_runner", default-features = false }
 
 [build-dependencies]
 vergen = { version = "8.0.0", default-features = false, features = ["cargo"] }
