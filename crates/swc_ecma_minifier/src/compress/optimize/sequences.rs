@@ -2254,6 +2254,10 @@ impl Optimizer<'_> {
                                 return Ok(false);
                             }
 
+                            if usage.used_above_decl {
+                                return Ok(false);
+                            }
+
                             // Reassignment to const?
                             if let Some(VarDeclKind::Const) = usage.var_kind {
                                 return Ok(false);
@@ -2293,6 +2297,10 @@ impl Optimizer<'_> {
                 };
 
                 if let Some(usage) = self.data.vars.get(&left.to_id()) {
+                    if usage.used_above_decl {
+                        return Ok(false);
+                    }
+
                     let is_lit = match a.init.as_deref() {
                         Some(e) => is_trivial_lit(e),
                         _ => false,

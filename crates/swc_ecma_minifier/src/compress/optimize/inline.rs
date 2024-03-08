@@ -426,7 +426,10 @@ impl Optimizer<'_> {
                         }
 
                         if let Some(init_usage) = self.data.vars.get(&id.to_id()) {
-                            if init_usage.reassigned || !init_usage.declared {
+                            if init_usage.reassigned
+                                || !init_usage.declared
+                                || init_usage.used_above_decl
+                            {
                                 return;
                             }
 
