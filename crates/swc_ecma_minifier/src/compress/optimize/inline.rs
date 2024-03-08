@@ -215,6 +215,10 @@ impl Optimizer<'_> {
                                 }
                             }
 
+                            if u.used_above_decl {
+                                should_inline = false
+                            }
+
                             if u.declared_as_fn_expr {
                                 if self.options.inline != 3 {
                                     return;
