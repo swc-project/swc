@@ -223,7 +223,7 @@ dependencies = [
 
 [[package]]
 name = "binding_core_wasm"
-version = "1.4.6-nightly-20240307.1"
+version = "1.4.6-nightly-20240308.1"
 dependencies = [
  "anyhow",
  "getrandom",
@@ -236,9 +236,9 @@ dependencies = [
 
 [[package]]
 name = "binding_macros"
-version = "0.64.16"
+version = "0.64.17"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9a8d7e4f6e41b2fdd518562e4a68446ba5c69f6f75da31f84eea56711c34b90a"
+checksum = "3a6dce5324435c74a774df03256a70a84ef5a033da96e282ad01467f9b00994f"
 dependencies = [
  "anyhow",
  "console_error_panic_hook",
@@ -283,7 +283,7 @@ dependencies = [
 
 [[package]]
 name = "binding_minifier_wasm"
-version = "1.4.6-nightly-20240307.1"
+version = "1.4.6-nightly-20240308.1"
 dependencies = [
  "anyhow",
  "getrandom",
@@ -2926,9 +2926,9 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.273.16"
+version = "0.273.17"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "53f27354a56d32d3fb87aadd289b28f2fce58fae6a090c77fac65b9e90350d15"
+checksum = "c5697e6ea7a715dd5d6606f7e131b6b047277efb7ab720998deff7e8dd47fd0f"
 dependencies = [
  "anyhow",
  "base64",
@@ -2972,6 +2972,7 @@ dependencies = [
  "swc_plugin_runner",
  "swc_timer",
  "swc_visit",
+ "tokio",
  "tracing",
  "url",
 ]
@@ -2992,9 +2993,9 @@ dependencies = [
 
 [[package]]
 name = "swc_bundler"
-version = "0.225.12"
+version = "0.225.13"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "cc0ba0504c82111f14444ad2b452ab9d6d2d723748b059527dbd2c60e86a44a7"
+checksum = "0f5d8dcab6db0bdafb4928cd333464ec3dbc9ae57953910b7a3a05e3a5a3f82c"
 dependencies = [
  "anyhow",
  "crc",
@@ -3038,7 +3039,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli"
-version = "0.91.193"
+version = "0.91.194"
 dependencies = [
  "anyhow",
  "swc_cli_impl",
@@ -3046,9 +3047,9 @@ dependencies = [
 
 [[package]]
 name = "swc_cli_impl"
-version = "0.8.16"
+version = "0.8.17"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a23f7c5cc255ef12e09139d1570a2e9a073d8553ed76428cb415d30777f917c5"
+checksum = "c41eea4fc5f95f3c90b8d059696c6f0ae3829a3c753f66e73d628d00149b82c5"
 dependencies = [
  "anyhow",
  "atty",
@@ -3101,9 +3102,9 @@ dependencies = [
 
 [[package]]
 name = "swc_compiler_base"
-version = "0.7.13"
+version = "0.7.14"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7407e6689312053ec2a9f7cd25a0502d099e70ecef23819d32c7eb50235dcd76"
+checksum = "8ca1146aff9655a17a7958f2484a5ca4f81ba9c641410896c0e7bb80c84db2ab"
 dependencies = [
  "anyhow",
  "base64",
@@ -3153,9 +3154,9 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.90.17"
+version = "0.90.18"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "5e2beeec16e40b7a1cf04955916de48f5897c9a0714930d8d71a214348c28139"
+checksum = "9c498fc0c7bc3a81257e6474636ea8dbfeb372371bfc31b3d95918d336df3822"
 dependencies = [
  "binding_macros",
  "swc",
@@ -3481,9 +3482,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.192.13"
+version = "0.192.14"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "0a522264a325d65a9b94583edb294ecd15c255d81194376075ec5e54279709a2"
+checksum = "b108f08d487ce79cfb2599c0532fde6ed30738824da7f8d9f25fce527db75395"
 dependencies = [
  "arrayvec",
  "indexmap 2.1.0",
@@ -3904,9 +3905,9 @@ dependencies = [
 
 [[package]]
 name = "swc_node_bundler"
-version = "0.62.16"
+version = "0.62.17"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ddbe75bd1bb10e6c8152219556b30333f0314e2951944780e6177f871fea43b6"
+checksum = "a78418c3fae8224c426028f3662bec2b62b80fb376f85f5798cdc2e9cfecdd44"
 dependencies = [
  "anyhow",
  "dashmap",
@@ -3972,9 +3973,9 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_runner"
-version = "0.106.10"
+version = "0.106.11"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "6b14361ec99105e0fe4b3d39a7b0a153a2fda4bff4f56c7f7cdf1e4880c7a3b8"
+checksum = "c97d95a259f98f2dbc301ec29fe7204e3008f116a80a2275a8625835e1345966"
 dependencies = [
  "anyhow",
  "enumset",
