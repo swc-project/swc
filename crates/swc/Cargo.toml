@@ -32,6 +32,7 @@ plugin = [
   "swc_plugin_runner/ecma",
   "swc_plugin_runner/rkyv-impl",
   "swc_plugin_proxy/plugin-rt",
+  "tokio",
 ]
 plugin_transform_schema_v1 = [
   "swc_common/plugin_transform_schema_v1",
@@ -106,6 +107,10 @@ swc_plugin_proxy = { version = "0.41.5", path = "../swc_plugin_proxy", optional 
 swc_plugin_runner = { version = "0.106.10", path = "../swc_plugin_runner", optional = true, default-features = false }
 swc_timer = { version = "0.21.20", path = "../swc_timer" }
 swc_visit = { version = "0.5.10", path = "../swc_visit" }
+tokio = { version = "1.36.0", optional = true, features = [
+  "rt",
+  "rt-multi-thread",
+] }
 
 
   [dependencies.napi-derive]
