@@ -1025,7 +1025,6 @@ impl Optimizer<'_> {
         match p {
             Pat::Ident(p) => match a {
                 Some(Mergable::Var(a)) => !contains_ident_ref(&a.init, &p.to_id()),
-                Some(Mergable::Expr(a)) => !contains_ident_ref(&**a, &p.to_id()),
 
                 _ => true,
             },
