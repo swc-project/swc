@@ -199,6 +199,8 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
 
         rules.extend(no_prototype_builtins::no_prototype_builtins(
             &lint_config.no_prototype_builtins,
+        ));
+
         rules.extend(no_new_object::no_new_object(
             unresolved_ctxt,
             &lint_config.no_new_object,

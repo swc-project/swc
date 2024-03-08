@@ -2,7 +2,7 @@ use swc_atoms::Atom;
 use swc_common::{errors::HANDLER, Span};
 use swc_ecma_ast::*;
 use swc_ecma_utils::ExprExt;
-use swc_ecma_visit::{Visit, VisitWith};
+use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use crate::{
     config::{LintRuleReaction, RuleConfig},
@@ -133,12 +133,14 @@ impl NoPrototypeBuiltins {
 }
 
 impl Visit for NoPrototypeBuiltins {
-    fn visit_opt_chain_base(&mut self, opt_chai_base: &OptChainBase) {
-        if let OptChainBase::Call(opt_call) = opt_chai_base {
+    noop_visit_type!();
+
+    fn visit_opt_chain_base(&mut self, opt_chain_base: &OptChainBase) {
+        if let OptChainBase::Call(opt_call) = opt_chain_base {
             self.check(opt_call.callee.as_expr());
         }
 
-        opt_chai_base.visit_children_with(self);
+        opt_chain_base.visit_children_with(self);
     }
 
     fn visit_call_expr(&mut self, call_expr: &CallExpr) {
