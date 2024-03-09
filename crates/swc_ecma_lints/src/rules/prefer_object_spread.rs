@@ -94,7 +94,7 @@ impl PreferObjectSpread {
             Expr::Ident(_) => ArgType::Ident,
             Expr::Paren(paren) => Self::recognize_expr_arg(&paren.expr),
             Expr::Seq(seq) => {
-                let last = seq.exprs[seq.exprs.len() - 1].as_ref();
+                let last = seq.exprs.last().unwrap();
 
                 Self::recognize_expr_arg(last)
             }
