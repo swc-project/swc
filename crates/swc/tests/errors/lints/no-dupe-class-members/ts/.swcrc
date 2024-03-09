@@ -1,0 +1,11 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "typescript"
+        },
+        "target": "EsNext",
+        "lints": {
+            "noDupeClassMembers": ["error"]
+        }
+    }
+}

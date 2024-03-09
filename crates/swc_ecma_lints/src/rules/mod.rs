@@ -27,6 +27,7 @@ pub(crate) mod non_critical_lints {
     pub mod no_cond_assign;
     pub mod no_console;
     pub mod no_debugger;
+    pub mod no_dupe_class_members;
     pub mod no_empty_function;
     pub mod no_empty_pattern;
     pub mod no_loop_func;
@@ -199,6 +200,10 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
         rules.extend(no_new_object::no_new_object(
             unresolved_ctxt,
             &lint_config.no_new_object,
+        ));
+
+        rules.extend(no_dupe_class_members::no_dupe_class_members(
+            &lint_config.no_dupe_class_members,
         ));
     }
 

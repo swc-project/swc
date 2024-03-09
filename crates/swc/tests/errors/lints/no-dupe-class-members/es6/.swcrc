@@ -1,0 +1,8 @@
+{
+    "jsc": {
+        "target": "EsNext",
+        "lints": {
+            "noDupeClassMembers": ["error"]
+        }
+    }
+}

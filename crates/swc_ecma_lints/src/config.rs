@@ -219,4 +219,8 @@ pub struct LintConfig {
     #[cfg(feature = "non_critical_lints")]
     #[serde(default, alias = "noNewObject")]
     pub no_new_object: RuleConfig<()>,
+
+    #[cfg(feature = "non_critical_lints")]
+    #[serde(default, alias = "noDupeClassMembers")]
+    pub no_dupe_class_members: RuleConfig<()>,
 }
