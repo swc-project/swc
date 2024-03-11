@@ -956,6 +956,34 @@ impl Visit for ThisPropertyVisitor {
         }
     }
 
+    fn visit_callee(&mut self, c: &Callee) {
+        if self.should_abort {
+            return;
+        }
+
+        c.visit_children_with(self);
+
+        if self.should_abort {
+            return;
+        }
+
+        if let Callee::Expr(e) = c {
+            match &**e {
+                Expr::This(..) => {
+                    self.should_abort = true;
+                }
+
+                Expr::Member(e) => {
+                    if e.obj.is_this() {
+                        self.should_abort = true;
+                    }
+                }
+
+                _ => {}
+            }
+        }
+    }
+
     fn visit_member_expr(&mut self, e: &MemberExpr) {
         if self.should_abort {
             return;

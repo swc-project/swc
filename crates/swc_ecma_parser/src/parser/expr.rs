@@ -340,7 +340,8 @@ impl<I: Tokens> Parser<I> {
                                     AHashMap::<char, usize>::default(),
                                     |mut map, flag| {
                                         let key = match flag {
-                                            'g' | 'i' | 'm' | 's' | 'u' | 'y' | 'd' => flag,
+                                            // https://tc39.es/ecma262/#sec-isvalidregularexpressionliteral
+                                            'd' | 'g' | 'i' | 'm' | 's' | 'u' | 'v' | 'y' => flag,
                                             _ => '\u{0000}', // special marker for unknown flags
                                         };
                                         map.entry(key).and_modify(|count| *count += 1).or_insert(1);
