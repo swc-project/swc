@@ -1,6 +1,12 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(es/minifier)** Fix eval of `toString` of array with holes ([#8727](https://github.com/swc-project/swc/issues/8727)) ([f3fbd9d](https://github.com/swc-project/swc/commit/f3fbd9d54925b708139a37865508430cdcb98f9a))
+
 ### Features
 
 
@@ -1410,9 +1416,6 @@
 
 ### Bug Fixes
 
-
-
-- **(es)** Resolve `jsc.baseUrl` for `.swcrc` specified by `--config-file` ([#7801](https://github.com/swc-project/swc/issues/7801)) ([fe1ca26](https://github.com/swc-project/swc/commit/fe1ca26218493d2e7d4121433c365a37e13285e6))
 
 
 - **(es/compat)** Revert #7610  ([#7813](https://github.com/swc-project/swc/issues/7813)) ([42dec55](https://github.com/swc-project/swc/commit/42dec557ed2e8fd829aba7847b354003cfea1b18))
