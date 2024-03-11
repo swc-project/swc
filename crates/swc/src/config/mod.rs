@@ -138,7 +138,7 @@ pub struct Options {
     #[serde(skip_deserializing, default)]
     pub unresolved_mark: Option<Mark>,
 
-    #[cfg(not(target_arch = "wasm32"))]
+    #[cfg(not(all(target_arch = "wasm32", not(target_os = "wasi"))))]
     #[serde(default = "default_cwd")]
     pub cwd: PathBuf,
 
@@ -160,7 +160,7 @@ pub struct Options {
     #[serde(default = "default_swcrc")]
     pub swcrc: bool,
 
-    #[cfg(not(target_arch = "wasm32"))]
+    #[cfg(not(all(target_arch = "wasm32", not(target_os = "wasi"))))]
     #[serde(default)]
     pub swcrc_roots: Option<PathBuf>,
 
@@ -821,7 +821,7 @@ pub struct CallerOptions {
     pub name: String,
 }
 
-#[cfg(not(target_arch = "wasm32"))]
+#[cfg(not(all(target_arch = "wasm32", not(target_os = "wasi"))))]
 fn default_cwd() -> PathBuf {
     ::std::env::current_dir().unwrap()
 }

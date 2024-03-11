@@ -117,7 +117,7 @@ where
     }
 
     pub fn with_config(resolver: R, config: Config) -> Self {
-        #[cfg(not(target_arch = "wasm32"))]
+        #[cfg(not(all(target_arch = "wasm32", not(target_os = "wasi"))))]
         if let Some(base_dir) = &config.base_dir {
             assert!(
                 base_dir.is_absolute(),
