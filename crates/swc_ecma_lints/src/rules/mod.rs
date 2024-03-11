@@ -42,6 +42,7 @@ pub(crate) mod non_critical_lints {
     pub mod no_use_before_define;
     pub mod no_var;
     pub mod prefer_const;
+    pub mod prefer_object_spread;
     pub mod prefer_regex_literals;
     pub mod quotes;
     pub mod radix;
@@ -204,6 +205,12 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
         rules.extend(no_new_object::no_new_object(
             unresolved_ctxt,
             &lint_config.no_new_object,
+        ));
+
+        rules.extend(prefer_object_spread::prefer_object_spread(
+            &lint_config.prefer_object_spread,
+            unresolved_ctxt,
+            es_version,
         ));
     }
 
