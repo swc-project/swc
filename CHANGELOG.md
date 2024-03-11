@@ -7,6 +7,12 @@
 
 - **(es/lints)** Add `no-prototype-builtins` rule ([#8684](https://github.com/swc-project/swc/issues/8684)) ([a5dbb17](https://github.com/swc-project/swc/commit/a5dbb17612327c66366086f99b44c6731d125ffc))
 
+### Refactor
+
+
+
+- **(es)** Prepare `wasm32-wasi-preview1-threads` target support ([#8724](https://github.com/swc-project/swc/issues/8724)) ([e3acd14](https://github.com/swc-project/swc/commit/e3acd1476c2428e5329a359bb7323687c06108d2))
+
 ## [1.4.6] - 2024-03-08
 
 ### Bug Fixes
@@ -1410,9 +1416,6 @@
 
 
 - **(es/compat)** Revert #7610  ([#7813](https://github.com/swc-project/swc/issues/7813)) ([42dec55](https://github.com/swc-project/swc/commit/42dec557ed2e8fd829aba7847b354003cfea1b18))
-
-
-- **(es/parser)** Revert lexer fix for `<<` ([#7807](https://github.com/swc-project/swc/issues/7807)) ([e527c12](https://github.com/swc-project/swc/commit/e527c12a82740397ed4e909f242326f8e92624a8))
 
 ### Features
 
