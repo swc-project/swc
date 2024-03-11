@@ -132,7 +132,10 @@ impl Pure<'_> {
                 return;
             }
 
-            if self.options.unsafe_passes && &*method_name.sym == "toString" && arr.elems.len() == 1
+            if self.options.unsafe_passes
+                && &*method_name.sym == "toString"
+                && arr.elems.len() == 1
+                && arr.elems[0].is_some()
             {
                 report_change!("evaluate: Reducing array.toString() call");
                 self.changed = true;
