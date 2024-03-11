@@ -1,0 +1,10 @@
+{
+    "jsc": {
+        "target": "ES2018",
+        "lints": {
+            "preferObjectSpread": [
+                "error"
+            ]
+        }
+    }
+}

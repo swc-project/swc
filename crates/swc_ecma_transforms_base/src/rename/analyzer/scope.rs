@@ -244,7 +244,7 @@ impl Scope {
 
         #[cfg(feature = "concurrent-renamer")]
         if parallel {
-            #[cfg(not(target_arch = "wasm32"))]
+            #[cfg(not(all(target_arch = "wasm32", not(target_os = "wasi"))))]
             let iter = self.children.par_iter_mut();
             #[cfg(target_arch = "wasm32")]
             let iter = self.children.iter_mut();

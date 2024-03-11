@@ -35,12 +35,14 @@ pub(crate) mod non_critical_lints {
     pub mod no_new_symbol;
     pub mod no_obj_calls;
     pub mod no_param_reassign;
+    pub mod no_prototype_builtins;
     pub mod no_restricted_syntax;
     pub mod no_sparse_arrays;
     pub mod no_throw_literal;
     pub mod no_use_before_define;
     pub mod no_var;
     pub mod prefer_const;
+    pub mod prefer_object_spread;
     pub mod prefer_regex_literals;
     pub mod quotes;
     pub mod radix;
@@ -196,9 +198,19 @@ pub fn all(lint_params: LintParams) -> Vec<Box<dyn Rule>> {
 
         rules.extend(no_cond_assign::no_cond_assign(&lint_config.no_cond_assign));
 
+        rules.extend(no_prototype_builtins::no_prototype_builtins(
+            &lint_config.no_prototype_builtins,
+        ));
+
         rules.extend(no_new_object::no_new_object(
             unresolved_ctxt,
             &lint_config.no_new_object,
+        ));
+
+        rules.extend(prefer_object_spread::prefer_object_spread(
+            &lint_config.prefer_object_spread,
+            unresolved_ctxt,
+            es_version,
         ));
     }
 

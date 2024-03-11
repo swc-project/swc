@@ -93,7 +93,7 @@
         "@babel/preset-react": "^7.13.13",
         "@babel/preset-typescript": "^7.13.0",
         "@babel/types": "^7.14.0",
-        "@napi-rs/cli": "^3.0.0-alpha.22",
+        "@napi-rs/cli": "^3.0.0-alpha.43",
         "@swc/core": "=1.2.220",
         "@swc/helpers": "^0.5.0",
         "@swc/plugin-jest": "^1.5.117",
@@ -167,7 +167,7 @@
         "postinstall.js",
         "bindings/binding_core_wasm/pkg/binding_core_wasm.d.ts"
     ],
-    "packageManager": "yarn@4.0.2",
+    "packageManager": "yarn@4.1.1",
     "dependencies": {
         "@swc/counter": "^0.1.2",
         "@swc/types": "^0.1.5"

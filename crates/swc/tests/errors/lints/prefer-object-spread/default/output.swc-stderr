@@ -1,0 +1,95 @@
+
+  x "Use an object spread instead of `Object.assign` eg: `{ ...foo }`"
+   ,-[1:1]
+ 1 | Object.assign({}, foo);
+   : ^^^^^^^^^^^^^^^^^^^^^^
+ 2 | 
+ 3 | Object.assign({}, { foo: 'bar' });
+   `----
+
+  x "Use an object spread instead of `Object.assign` eg: `{ ...foo }`"
+   ,-[1:1]
+ 1 | Object.assign({}, foo);
+ 2 | 
+ 3 | Object.assign({}, { foo: 'bar' });
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 4 | 
+ 5 | Object.assign({}, baz, { foo: 'bar' });
+   `----
+
+  x "Use an object spread instead of `Object.assign` eg: `{ ...foo }`"
+   ,-[2:1]
+ 2 | 
+ 3 | Object.assign({}, { foo: 'bar' });
+ 4 | 
+ 5 | Object.assign({}, baz, { foo: 'bar' });
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 6 | 
+ 7 | Object.assign({}, { foo: 'bar', baz: 'foo' });
+   `----
+
+  x "Use an object spread instead of `Object.assign` eg: `{ ...foo }`"
+   ,-[4:1]
+ 4 | 
+ 5 | Object.assign({}, baz, { foo: 'bar' });
+ 6 | 
+ 7 | Object.assign({}, { foo: 'bar', baz: 'foo' });
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 8 | 
+ 9 | Object.assign({ foo: 'bar' }, Object.assign({ bar: 'foo' }, baz))
+   `----
+
+  x "Use an object spread instead of `Object.assign` eg: `{ ...foo }`"
+    ,-[6:1]
+  6 | 
+  7 | Object.assign({}, { foo: 'bar', baz: 'foo' });
+  8 | 
+  9 | Object.assign({ foo: 'bar' }, Object.assign({ bar: 'foo' }, baz))
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 10 | 
+ 11 | Object.assign({});
+    `----
+
+  x "Use an object spread instead of `Object.assign` eg: `{ ...foo }`"
+    ,-[6:1]
+  6 | 
+  7 | Object.assign({}, { foo: 'bar', baz: 'foo' });
+  8 | 
+  9 | Object.assign({ foo: 'bar' }, Object.assign({ bar: 'foo' }, baz))
+    :                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 10 | 
+ 11 | Object.assign({});
+    `----
+
+  x "Use an object literal instead of `Object.assign`. eg: `{ foo: bar }`"
+    ,-[8:1]
+  8 | 
+  9 | Object.assign({ foo: 'bar' }, Object.assign({ bar: 'foo' }, baz))
+ 10 | 
+ 11 | Object.assign({});
+    : ^^^^^^^^^^^^^^^^^
+ 12 | 
+ 13 | Object['assign']({});
+    `----
+
+  x "Use an object literal instead of `Object.assign`. eg: `{ foo: bar }`"
+    ,-[10:1]
+ 10 | 
+ 11 | Object.assign({});
+ 12 | 
+ 13 | Object['assign']({});
+    : ^^^^^^^^^^^^^^^^^^^^
+ 14 | 
+ 15 | Object[`assign`]({});
+    `----
+
+  x "Use an object literal instead of `Object.assign`. eg: `{ foo: bar }`"
+    ,-[12:1]
+ 12 | 
+ 13 | Object['assign']({});
+ 14 | 
+ 15 | Object[`assign`]({});
+    : ^^^^^^^^^^^^^^^^^^^^
+ 16 | 
+ 17 | // Valid
+    `----
