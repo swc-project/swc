@@ -55,12 +55,16 @@ impl RustPlugins {
             return Ok(n);
         }
 
-        self.apply_inner(n).with_context(|| {
-            format!(
-                "failed to invoke plugin on '{:?}'",
-                self.metadata_context.filename
-            )
-        })
+        tokio::runtime::Runtime::new()
+            .unwrap()
+            .block_on(async move {
+                self.apply_inner(n).with_context(|| {
+                    format!(
+                        "failed to invoke plugin on '{:?}'",
+                        self.metadata_context.filename
+                    )
+                })
+            })
     }
 
     #[tracing::instrument(level = "info", skip_all, name = "apply_plugins")]

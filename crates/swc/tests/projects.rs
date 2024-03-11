@@ -1,4 +1,5 @@
 use std::{
+    env::current_dir,
     fs::create_dir_all,
     path::{Path, PathBuf},
 };
@@ -7,8 +8,8 @@ use anyhow::Context;
 use rayon::prelude::*;
 use swc::{
     config::{
-        Config, FileMatcher, JsMinifyOptions, JscConfig, ModuleConfig, Options, SourceMapsConfig,
-        TransformConfig,
+        Config, FileMatcher, JsMinifyOptions, JscConfig, ModuleConfig, Options, Paths,
+        SourceMapsConfig, TransformConfig,
     },
     try_with_handler, BoolOrDataConfig, Compiler, TransformOutput,
 };
@@ -64,7 +65,16 @@ fn file_with_opt(filename: &str, options: Options) -> Result<NormalizedOutput, S
 }
 
 fn str_with_opt(content: &str, options: Options) -> Result<NormalizedOutput, StdErr> {
-    compile_str(FileName::Anon, content, options).map(|v| v.code.into())
+    compile_str(
+        if options.filename.is_empty() {
+            FileName::Anon
+        } else {
+            FileName::Real(PathBuf::from(&options.filename))
+        },
+        content,
+        options,
+    )
+    .map(|v| v.code.into())
 }
 
 fn compile_str(
@@ -1120,6 +1130,81 @@ fn issue_7513_2() {
     assert_eq!(
         output.code,
         "export const cachedTextDecoder={ignoreBOM:!0,fatal:!0};"
+    );
+}
+
+#[test]
+fn issue_8674_1() {
+    static INPUT: &str = "import { foo } from 'src/foo'";
+
+    let base_url = current_dir()
+        .unwrap()
+        .join("../../node-swc/tests/issue-8674")
+        .canonicalize()
+        .unwrap();
+
+    dbg!(&base_url);
+
+    let output = str_with_opt(
+        INPUT,
+        Options {
+            config: Config {
+                jsc: JscConfig {
+                    base_url,
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+            ..Default::default()
+        },
+    )
+    .unwrap();
+    println!("{}", output);
+
+    assert_eq!(output.to_string(), "import { foo } from \"./src/foo\";\n");
+}
+
+#[test]
+fn issue_8701_1() {
+    static INPUT: &str = "import { AppController } from '@app/app.controller';
+    import { AppService } from '@app/app.service';
+    
+    console.log(AppController, AppService);";
+
+    let base_url = current_dir()
+        .unwrap()
+        .join("tests/projects/issue-8701")
+        .canonicalize()
+        .unwrap();
+
+    dbg!(&base_url);
+
+    let output = str_with_opt(
+        INPUT,
+        Options {
+            filename: "src/app.module.ts".into(),
+            config: Config {
+                jsc: JscConfig {
+                    base_url,
+                    paths: {
+                        let mut paths = Paths::default();
+                        paths.insert("@app/*".into(), vec!["./src/*".into()]);
+                        paths
+                    },
+                    ..Default::default()
+                },
+                ..Default::default()
+            },
+            ..Default::default()
+        },
+    )
+    .unwrap();
+    println!("{}", output);
+
+    assert_eq!(
+        output.to_string(),
+        "import { AppController } from \"./app.controller\";\nimport { AppService } from \
+         \"./app.service\";\nconsole.log(AppController, AppService);\n"
     );
 }
 

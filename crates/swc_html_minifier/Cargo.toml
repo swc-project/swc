@@ -10,7 +10,7 @@ include = ["Cargo.toml", "src/**/*.rs", "data/**/*.json"]
 license = "Apache-2.0"
 name = "swc_html_minifier"
 repository = "https://github.com/swc-project/swc.git"
-version = "0.134.11"
+version = "0.134.14"
 
 [lib]
 bench = false
@@ -22,32 +22,32 @@ serde_json = "1.0.61"
 
 swc_atoms = { version = "0.6.5", path = "../swc_atoms" }
 swc_cached = { version = "0.3.19", path = "../swc_cached" }
-swc_common = { version = "0.33.18", path = "../swc_common" }
-swc_css_ast = { version = "0.140.19", path = "../swc_css_ast" }
-swc_css_codegen = { version = "0.151.29", path = "../swc_css_codegen" }
-swc_css_minifier = { version = "0.116.30", path = "../swc_css_minifier" }
-swc_css_parser = { version = "0.150.28", path = "../swc_css_parser" }
-swc_ecma_ast = { version = "0.112.4", path = "../swc_ecma_ast" }
-swc_ecma_codegen = { version = "0.148.8", path = "../swc_ecma_codegen", features = [
+swc_common = { version = "0.33.19", path = "../swc_common" }
+swc_css_ast = { version = "0.140.20", path = "../swc_css_ast" }
+swc_css_codegen = { version = "0.151.30", path = "../swc_css_codegen" }
+swc_css_minifier = { version = "0.116.31", path = "../swc_css_minifier" }
+swc_css_parser = { version = "0.150.29", path = "../swc_css_parser" }
+swc_ecma_ast = { version = "0.112.5", path = "../swc_ecma_ast" }
+swc_ecma_codegen = { version = "0.148.10", path = "../swc_ecma_codegen", features = [
   "serde-impl",
 ] }
-swc_ecma_minifier = { version = "0.192.11", path = "../swc_ecma_minifier", features = [
+swc_ecma_minifier = { version = "0.192.14", path = "../swc_ecma_minifier", features = [
   "extra-serde",
 ] }
-swc_ecma_parser = { version = "0.143.6", path = "../swc_ecma_parser" }
-swc_ecma_transforms_base = { version = "0.137.11", path = "../swc_ecma_transforms_base" }
-swc_ecma_visit = { version = "0.98.5", path = "../swc_ecma_visit" }
-swc_html_ast = { version = "0.33.17", path = "../swc_html_ast" }
-swc_html_codegen = { version = "0.42.22", path = "../swc_html_codegen" }
-swc_html_parser = { version = "0.39.22", path = "../swc_html_parser" }
-swc_html_utils = { version = "0.18.17", path = "../swc_html_utils" }
-swc_html_visit = { version = "0.33.17", path = "../swc_html_visit" }
+swc_ecma_parser = { version = "0.143.8", path = "../swc_ecma_parser" }
+swc_ecma_transforms_base = { version = "0.137.13", path = "../swc_ecma_transforms_base" }
+swc_ecma_visit = { version = "0.98.6", path = "../swc_ecma_visit" }
+swc_html_ast = { version = "0.33.18", path = "../swc_html_ast" }
+swc_html_codegen = { version = "0.42.23", path = "../swc_html_codegen" }
+swc_html_parser = { version = "0.39.23", path = "../swc_html_parser" }
+swc_html_utils = { version = "0.18.18", path = "../swc_html_utils" }
+swc_html_visit = { version = "0.33.18", path = "../swc_html_visit" }
 
 [dev-dependencies]
 criterion = "0.5"
 
 swc_malloc = { version = "0.5.10", path = "../swc_malloc" }
-testing    = { version = "0.35.19", path = "../testing" }
+testing    = { version = "0.35.20", path = "../testing" }
 
 [[bench]]
 harness = false

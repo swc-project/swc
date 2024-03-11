@@ -259,14 +259,7 @@ where
         info!("Resolved as {target:?} with slug = {slug:?}");
 
         let mut target = match target {
-            FileName::Real(v) => {
-                // @nestjs/common should be preserved as a whole
-                if v.starts_with(".") || v.starts_with("..") || v.is_absolute() {
-                    v
-                } else {
-                    return Ok(self.to_specifier(v, slug));
-                }
-            }
+            FileName::Real(v) => v,
             FileName::Custom(s) => return Ok(self.to_specifier(s.into(), slug)),
             _ => {
                 unreachable!(
@@ -280,13 +273,16 @@ where
                 v.parent()
                     .ok_or_else(|| anyhow!("failed to get parent of {:?}", v))?,
             ),
-            FileName::Anon => {
-                if cfg!(target_arch = "wasm32") {
-                    panic!("Please specify `filename`")
-                } else {
-                    Cow::Owned(current_dir().expect("failed to get current directory"))
+            FileName::Anon => match &self.config.base_dir {
+                Some(v) => Cow::Borrowed(&**v),
+                None => {
+                    if cfg!(target_arch = "wasm32") {
+                        panic!("Please specify `filename`")
+                    } else {
+                        Cow::Owned(current_dir().expect("failed to get current directory"))
+                    }
                 }
-            }
+            },
             _ => {
                 unreachable!(
                     "Node path provider does not support using `{:?}` as a base file name",
