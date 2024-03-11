@@ -10,6 +10,9 @@
 
 - **(es/minifier)** Do not evaluate `slice` calls with negative index ([#8726](https://github.com/swc-project/swc/issues/8726)) ([23f9635](https://github.com/swc-project/swc/commit/23f9635d2cb523d63e5d1611dcf55922bcc54a87))
 
+
+- **(es/minifier)** Handle cyclic references while dropping unused properties ([#8725](https://github.com/swc-project/swc/issues/8725)) ([102241b](https://github.com/swc-project/swc/commit/102241b812b8e815b59575178193bb71b4264bab))
+
 ### Features
 
 
