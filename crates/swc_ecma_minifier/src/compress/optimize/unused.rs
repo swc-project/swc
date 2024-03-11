@@ -793,7 +793,7 @@ impl Optimizer<'_> {
 
         let usage = self.data.vars.get(&name.to_id())?;
 
-        if usage.indexed_with_dynamic_key || usage.used_as_ref {
+        if usage.indexed_with_dynamic_key || usage.used_as_ref || usage.used_recursively {
             return None;
         }
 
