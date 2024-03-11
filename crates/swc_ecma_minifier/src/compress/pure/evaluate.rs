@@ -76,6 +76,10 @@ impl Pure<'_> {
                         if let Value::Known(start) =
                             call.args[0].expr.as_pure_number(&self.expr_ctx)
                         {
+                            if start.is_sign_negative() {
+                                return;
+                            }
+
                             let start = start.floor() as usize;
 
                             self.changed = true;
@@ -98,9 +102,17 @@ impl Pure<'_> {
                         let start = call.args[0].expr.as_pure_number(&self.expr_ctx);
                         let end = call.args[1].expr.as_pure_number(&self.expr_ctx);
                         if let Value::Known(start) = start {
+                            if start.is_sign_negative() {
+                                return;
+                            }
+
                             let start = start.floor() as usize;
 
                             if let Value::Known(end) = end {
+                                if end.is_sign_negative() {
+                                    return;
+                                }
+
                                 let end = end.floor() as usize;
                                 let end = end.min(arr.elems.len());
 
@@ -132,7 +144,10 @@ impl Pure<'_> {
                 return;
             }
 
-            if self.options.unsafe_passes && &*method_name.sym == "toString" && arr.elems.len() == 1
+            if self.options.unsafe_passes
+                && &*method_name.sym == "toString"
+                && arr.elems.len() == 1
+                && arr.elems[0].is_some()
             {
                 report_change!("evaluate: Reducing array.toString() call");
                 self.changed = true;
