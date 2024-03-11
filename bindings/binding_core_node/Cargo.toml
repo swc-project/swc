@@ -63,5 +63,5 @@ swc_core = { version = "0.90.18", features = [
   "ecma_visit",
   "base_node",
   "base_concurrent",
-] }
+]}
 swc_malloc = "0.5.10"

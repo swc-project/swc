@@ -1,0 +1,194 @@
+
+  x Do not access Object.prototype method 'hasOwnProperty' from target object
+   ,-[1:1]
+ 1 | foo.hasOwnProperty('bar');
+   :     ^^^^^^^^^^^^^^
+ 2 | 
+ 3 | foo.isPrototypeOf('bar');
+   `----
+
+  x Do not access Object.prototype method 'isPrototypeOf' from target object
+   ,-[1:1]
+ 1 | foo.hasOwnProperty('bar');
+ 2 | 
+ 3 | foo.isPrototypeOf('bar');
+   :     ^^^^^^^^^^^^^
+ 4 | 
+ 5 | foo.propertyIsEnumerable('bar');
+   `----
+
+  x Do not access Object.prototype method 'propertyIsEnumerable' from target object
+   ,-[2:1]
+ 2 | 
+ 3 | foo.isPrototypeOf('bar');
+ 4 | 
+ 5 | foo.propertyIsEnumerable('bar');
+   :     ^^^^^^^^^^^^^^^^^^^^
+ 6 | 
+ 7 | foo.bar.hasOwnProperty('bar');
+   `----
+
+  x Do not access Object.prototype method 'hasOwnProperty' from target object
+   ,-[4:1]
+ 4 | 
+ 5 | foo.propertyIsEnumerable('bar');
+ 6 | 
+ 7 | foo.bar.hasOwnProperty('bar');
+   :         ^^^^^^^^^^^^^^
+ 8 | 
+ 9 | foo.bar.baz.isPrototypeOf('bar');
+   `----
+
+  x Do not access Object.prototype method 'isPrototypeOf' from target object
+    ,-[6:1]
+  6 | 
+  7 | foo.bar.hasOwnProperty('bar');
+  8 | 
+  9 | foo.bar.baz.isPrototypeOf('bar');
+    :             ^^^^^^^^^^^^^
+ 10 | 
+ 11 | bar?.foo?.hasOwnProperty('bar');
+    `----
+
+  x Do not access Object.prototype method 'hasOwnProperty' from target object
+    ,-[8:1]
+  8 | 
+  9 | foo.bar.baz.isPrototypeOf('bar');
+ 10 | 
+ 11 | bar?.foo?.hasOwnProperty('bar');
+    :           ^^^^^^^^^^^^^^
+ 12 | 
+ 13 | foo?.bar.hasOwnProperty('baz');
+    `----
+
+  x Do not access Object.prototype method 'hasOwnProperty' from target object
+    ,-[10:1]
+ 10 | 
+ 11 | bar?.foo?.hasOwnProperty('bar');
+ 12 | 
+ 13 | foo?.bar.hasOwnProperty('baz');
+    :          ^^^^^^^^^^^^^^
+ 14 | 
+ 15 | foo.hasOwnProperty?.('bar');
+    `----
+
+  x Do not access Object.prototype method 'hasOwnProperty' from target object
+    ,-[12:1]
+ 12 | 
+ 13 | foo?.bar.hasOwnProperty('baz');
+ 14 | 
+ 15 | foo.hasOwnProperty?.('bar');
+    :     ^^^^^^^^^^^^^^
+ 16 | 
+ 17 | foo?.hasOwnProperty('bar').baz;
+    `----
+
+  x Do not access Object.prototype method 'hasOwnProperty' from target object
+    ,-[14:1]
+ 14 | 
+ 15 | foo.hasOwnProperty?.('bar');
+ 16 | 
+ 17 | foo?.hasOwnProperty('bar').baz;
+    :      ^^^^^^^^^^^^^^
+ 18 | 
+ 19 | foo.hasOwnProperty('bar')?.baz;
+    `----
+
+  x Do not access Object.prototype method 'hasOwnProperty' from target object
+    ,-[16:1]
+ 16 | 
+ 17 | foo?.hasOwnProperty('bar').baz;
+ 18 | 
+ 19 | foo.hasOwnProperty('bar')?.baz;
+    :     ^^^^^^^^^^^^^^
+ 20 | 
+ 21 | (a,b).hasOwnProperty('bar');
+    `----
+
+  x Do not access Object.prototype method 'hasOwnProperty' from target object
+    ,-[18:1]
+ 18 | 
+ 19 | foo.hasOwnProperty('bar')?.baz;
+ 20 | 
+ 21 | (a,b).hasOwnProperty('bar');
+    :       ^^^^^^^^^^^^^^
+ 22 | 
+ 23 | (foo?.hasOwnProperty)('bar');
+    `----
+
+  x Do not access Object.prototype method 'hasOwnProperty' from target object
+    ,-[20:1]
+ 20 | 
+ 21 | (a,b).hasOwnProperty('bar');
+ 22 | 
+ 23 | (foo?.hasOwnProperty)('bar');
+    :       ^^^^^^^^^^^^^^
+ 24 | 
+ 25 | (((foo?.hasOwnProperty)))('dlya-tex-kto-dumaet-cho-on-samiy-umniy');
+    `----
+
+  x Do not access Object.prototype method 'hasOwnProperty' from target object
+    ,-[22:1]
+ 22 | 
+ 23 | (foo?.hasOwnProperty)('bar');
+ 24 | 
+ 25 | (((foo?.hasOwnProperty)))('dlya-tex-kto-dumaet-cho-on-samiy-umniy');
+    :         ^^^^^^^^^^^^^^
+ 26 | 
+ 27 | (foo?.anotherProp, foo?.hasOwnProperty)('bar');
+    `----
+
+  x Do not access Object.prototype method 'hasOwnProperty' from target object
+    ,-[24:1]
+ 24 | 
+ 25 | (((foo?.hasOwnProperty)))('dlya-tex-kto-dumaet-cho-on-samiy-umniy');
+ 26 | 
+ 27 | (foo?.anotherProp, foo?.hasOwnProperty)('bar');
+    :                         ^^^^^^^^^^^^^^
+ 28 | 
+ 29 | (foo.hasOwnProperty('ok'), foo?.hasOwnProperty)('bar');
+    `----
+
+  x Do not access Object.prototype method 'hasOwnProperty' from target object
+    ,-[26:1]
+ 26 | 
+ 27 | (foo?.anotherProp, foo?.hasOwnProperty)('bar');
+ 28 | 
+ 29 | (foo.hasOwnProperty('ok'), foo?.hasOwnProperty)('bar');
+    :                                 ^^^^^^^^^^^^^^
+ 30 | 
+ 31 | foo['hasOwnProperty']('bar');
+    `----
+
+  x Do not access Object.prototype method 'hasOwnProperty' from target object
+    ,-[26:1]
+ 26 | 
+ 27 | (foo?.anotherProp, foo?.hasOwnProperty)('bar');
+ 28 | 
+ 29 | (foo.hasOwnProperty('ok'), foo?.hasOwnProperty)('bar');
+    :      ^^^^^^^^^^^^^^
+ 30 | 
+ 31 | foo['hasOwnProperty']('bar');
+    `----
+
+  x Do not access Object.prototype method 'hasOwnProperty' from target object
+    ,-[28:1]
+ 28 | 
+ 29 | (foo.hasOwnProperty('ok'), foo?.hasOwnProperty)('bar');
+ 30 | 
+ 31 | foo['hasOwnProperty']('bar');
+    :     ^^^^^^^^^^^^^^^^
+ 32 | 
+ 33 | foo[`isPrototypeOf`]('bar').baz;
+    `----
+
+  x Do not access Object.prototype method 'isPrototypeOf' from target object
+    ,-[30:1]
+ 30 | 
+ 31 | foo['hasOwnProperty']('bar');
+ 32 | 
+ 33 | foo[`isPrototypeOf`]('bar').baz;
+    :     ^^^^^^^^^^^^^^^
+ 34 | 
+ 35 | // valid
+    `----
