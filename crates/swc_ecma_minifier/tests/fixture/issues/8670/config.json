@@ -1,4 +1,5 @@
 {
     "defaults": true,
-    "pure_getters": true
+    "pure_getters": true,
+    "toplevel": true
 }
