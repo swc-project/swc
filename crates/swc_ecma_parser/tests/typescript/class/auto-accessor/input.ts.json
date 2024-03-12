@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 291,
+    "end": 345,
     "ctxt": 0
   },
   "body": [
@@ -11,17 +11,17 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 7,
-          "end": 9,
+          "start": 16,
+          "end": 17,
           "ctxt": 0
         },
-        "value": "C1",
+        "value": "B",
         "optional": false
       },
       "declare": false,
       "span": {
         "start": 1,
-        "end": 291,
+        "end": 54,
         "ctxt": 0
       },
       "decorators": [],
@@ -29,15 +29,84 @@
         {
           "type": "AutoAccessor",
           "span": {
-            "start": 26,
-            "end": 42,
+            "start": 24,
+            "end": 52,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 35,
-              "end": 36,
+              "start": 42,
+              "end": 43,
+              "ctxt": 0
+            },
+            "value": "i",
+            "optional": false
+          },
+          "value": null,
+          "typeAnnotation": {
+            "type": "TsTypeAnnotation",
+            "span": {
+              "start": 43,
+              "end": 51,
+              "ctxt": 0
+            },
+            "typeAnnotation": {
+              "type": "TsKeywordType",
+              "span": {
+                "start": 45,
+                "end": 51,
+                "ctxt": 0
+              },
+              "kind": "number"
+            }
+          },
+          "isStatic": false,
+          "decorators": [],
+          "accessibility": null,
+          "isAbstract": true,
+          "isOverride": false,
+          "definite": false
+        }
+      ],
+      "superClass": null,
+      "isAbstract": true,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    },
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 61,
+          "end": 63,
+          "ctxt": 0
+        },
+        "value": "C1",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 55,
+        "end": 345,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [
+        {
+          "type": "AutoAccessor",
+          "span": {
+            "start": 80,
+            "end": 96,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 89,
+              "end": 90,
               "ctxt": 0
             },
             "value": "a",
@@ -47,15 +116,15 @@
           "typeAnnotation": {
             "type": "TsTypeAnnotation",
             "span": {
-              "start": 36,
-              "end": 41,
+              "start": 90,
+              "end": 95,
               "ctxt": 0
             },
             "typeAnnotation": {
               "type": "TsKeywordType",
               "span": {
-                "start": 38,
-                "end": 41,
+                "start": 92,
+                "end": 95,
                 "ctxt": 0
               },
               "kind": "any"
@@ -64,21 +133,22 @@
           "isStatic": false,
           "decorators": [],
           "accessibility": null,
+          "isAbstract": false,
           "isOverride": false,
           "definite": false
         },
         {
           "type": "AutoAccessor",
           "span": {
-            "start": 47,
-            "end": 62,
+            "start": 101,
+            "end": 116,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 56,
-              "end": 57,
+              "start": 110,
+              "end": 111,
               "ctxt": 0
             },
             "value": "b",
@@ -87,8 +157,8 @@
           "value": {
             "type": "NumericLiteral",
             "span": {
-              "start": 60,
-              "end": 61,
+              "start": 114,
+              "end": 115,
               "ctxt": 0
             },
             "value": 1.0,
@@ -98,21 +168,22 @@
           "isStatic": false,
           "decorators": [],
           "accessibility": null,
+          "isAbstract": false,
           "isOverride": false,
           "definite": false
         },
         {
           "type": "AutoAccessor",
           "span": {
-            "start": 67,
-            "end": 90,
+            "start": 121,
+            "end": 144,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 83,
-              "end": 84,
+              "start": 137,
+              "end": 138,
               "ctxt": 0
             },
             "value": "c",
@@ -122,15 +193,15 @@
           "typeAnnotation": {
             "type": "TsTypeAnnotation",
             "span": {
-              "start": 84,
-              "end": 89,
+              "start": 138,
+              "end": 143,
               "ctxt": 0
             },
             "typeAnnotation": {
               "type": "TsKeywordType",
               "span": {
-                "start": 86,
-                "end": 89,
+                "start": 140,
+                "end": 143,
                 "ctxt": 0
               },
               "kind": "any"
@@ -139,21 +210,22 @@
           "isStatic": true,
           "decorators": [],
           "accessibility": null,
+          "isAbstract": false,
           "isOverride": false,
           "definite": false
         },
         {
           "type": "AutoAccessor",
           "span": {
-            "start": 95,
-            "end": 117,
+            "start": 149,
+            "end": 171,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 111,
-              "end": 112,
+              "start": 165,
+              "end": 166,
               "ctxt": 0
             },
             "value": "d",
@@ -162,8 +234,8 @@
           "value": {
             "type": "NumericLiteral",
             "span": {
-              "start": 115,
-              "end": 116,
+              "start": 169,
+              "end": 170,
               "ctxt": 0
             },
             "value": 2.0,
@@ -173,21 +245,22 @@
           "isStatic": true,
           "decorators": [],
           "accessibility": null,
+          "isAbstract": false,
           "isOverride": false,
           "definite": false
         },
         {
           "type": "AutoAccessor",
           "span": {
-            "start": 122,
-            "end": 151,
+            "start": 176,
+            "end": 205,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 145,
-              "end": 146,
+              "start": 199,
+              "end": 200,
               "ctxt": 0
             },
             "value": "e",
@@ -196,8 +269,8 @@
           "value": {
             "type": "NumericLiteral",
             "span": {
-              "start": 149,
-              "end": 150,
+              "start": 203,
+              "end": 204,
               "ctxt": 0
             },
             "value": 4.0,
@@ -207,21 +280,22 @@
           "isStatic": true,
           "decorators": [],
           "accessibility": "public",
+          "isAbstract": false,
           "isOverride": false,
           "definite": false
         },
         {
           "type": "AutoAccessor",
           "span": {
-            "start": 156,
-            "end": 192,
+            "start": 210,
+            "end": 246,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 182,
-              "end": 183,
+              "start": 236,
+              "end": 237,
               "ctxt": 0
             },
             "value": "f",
@@ -231,15 +305,15 @@
           "typeAnnotation": {
             "type": "TsTypeAnnotation",
             "span": {
-              "start": 183,
-              "end": 191,
+              "start": 237,
+              "end": 245,
               "ctxt": 0
             },
             "typeAnnotation": {
               "type": "TsKeywordType",
               "span": {
-                "start": 185,
-                "end": 191,
+                "start": 239,
+                "end": 245,
                 "ctxt": 0
               },
               "kind": "number"
@@ -248,21 +322,22 @@
           "isStatic": true,
           "decorators": [],
           "accessibility": "protected",
+          "isAbstract": false,
           "isOverride": false,
           "definite": false
         },
         {
           "type": "AutoAccessor",
           "span": {
-            "start": 197,
-            "end": 225,
+            "start": 251,
+            "end": 279,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 214,
-              "end": 215,
+              "start": 268,
+              "end": 269,
               "ctxt": 0
             },
             "value": "g",
@@ -272,15 +347,15 @@
           "typeAnnotation": {
             "type": "TsTypeAnnotation",
             "span": {
-              "start": 216,
-              "end": 224,
+              "start": 270,
+              "end": 278,
               "ctxt": 0
             },
             "typeAnnotation": {
               "type": "TsKeywordType",
               "span": {
-                "start": 218,
-                "end": 224,
+                "start": 272,
+                "end": 278,
                 "ctxt": 0
               },
               "kind": "string"
@@ -289,21 +364,22 @@
           "isStatic": false,
           "decorators": [],
           "accessibility": "private",
+          "isAbstract": false,
           "isOverride": false,
           "definite": true
         },
         {
           "type": "AutoAccessor",
           "span": {
-            "start": 230,
-            "end": 252,
+            "start": 284,
+            "end": 306,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 246,
-              "end": 247,
+              "start": 300,
+              "end": 301,
               "ctxt": 0
             },
             "value": "h",
@@ -312,8 +388,8 @@
           "value": {
             "type": "NumericLiteral",
             "span": {
-              "start": 250,
-              "end": 251,
+              "start": 304,
+              "end": 305,
               "ctxt": 0
             },
             "value": 1.0,
@@ -323,21 +399,22 @@
           "isStatic": false,
           "decorators": [],
           "accessibility": "public",
+          "isAbstract": false,
           "isOverride": false,
           "definite": false
         },
         {
           "type": "AutoAccessor",
           "span": {
-            "start": 257,
-            "end": 289,
+            "start": 311,
+            "end": 343,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 282,
-              "end": 283,
+              "start": 336,
+              "end": 337,
               "ctxt": 0
             },
             "value": "i",
@@ -346,8 +423,8 @@
           "value": {
             "type": "NumericLiteral",
             "span": {
-              "start": 286,
-              "end": 288,
+              "start": 340,
+              "end": 342,
               "ctxt": 0
             },
             "value": 10.0,
@@ -357,6 +434,7 @@
           "isStatic": false,
           "decorators": [],
           "accessibility": "public",
+          "isAbstract": false,
           "isOverride": true,
           "definite": false
         }
@@ -364,8 +442,8 @@
       "superClass": {
         "type": "Identifier",
         "span": {
-          "start": 18,
-          "end": 19,
+          "start": 72,
+          "end": 73,
           "ctxt": 0
         },
         "value": "B",

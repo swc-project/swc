@@ -1,3 +1,6 @@
+abstract class B {
+    abstract accessor i: number;
+}
 class C1 extends B {
     accessor a: any;
     accessor b = 1;
