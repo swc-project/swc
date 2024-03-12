@@ -358,8 +358,8 @@ swc_ecma_transforms_proposal     = { optional = true, version = "0.171.14", path
 swc_ecma_transforms_react        = { optional = true, version = "0.183.14", path = "../swc_ecma_transforms_react" }
 swc_ecma_transforms_testing      = { optional = true, version = "0.140.14", path = "../swc_ecma_transforms_testing" }
 swc_ecma_transforms_typescript   = { optional = true, version = "0.188.14", path = "../swc_ecma_transforms_typescript" }
-swc_ecma_usage_analyzer          = { optional = true, version = "0.23.10", path = "../swc_ecma_usage_analyzer" }
-swc_ecma_utils                   = { optional = true, version = "0.127.10", path = "../swc_ecma_utils" }
+swc_ecma_usage_analyzer          = { optional = true, version = "0.23.11", path = "../swc_ecma_usage_analyzer" }
+swc_ecma_utils                   = { optional = true, version = "0.127.11", path = "../swc_ecma_utils" }
 swc_ecma_visit                   = { optional = true, version = "0.98.6", path = "../swc_ecma_visit" }
 swc_malloc                       = { optional = true, version = "0.5.10", path = "../swc_malloc" }
 swc_node_bundler                 = { optional = true, version = "0.62.18", path = "../swc_node_bundler" }
