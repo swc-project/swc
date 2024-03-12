@@ -1,3 +1,4 @@
 {
-    "defaults": true
+    "defaults": true,
+    "pure_getters": true
 }
