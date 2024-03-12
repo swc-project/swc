@@ -1236,6 +1236,7 @@ fn inject_class_call_check(c: &mut Vec<Stmt>, name: Ident) {
 }
 
 /// Returns true if no `super` is used before `super()` call.
+#[tracing::instrument(level = "info", skip_all)]
 fn is_always_initialized(body: &[Stmt]) -> bool {
     struct SuperFinder {
         found: bool,
@@ -1257,7 +1258,13 @@ fn is_always_initialized(body: &[Stmt]) -> bool {
     }
 
     let pos = match body.iter().position(|s| match s {
-        Stmt::Expr(ExprStmt { expr, .. }) => starts_with_super_call(expr),
+        Stmt::Expr(ExprStmt { expr, .. }) => matches!(
+            &**expr,
+            Expr::Call(CallExpr {
+                callee: Callee::Super(..),
+                ..
+            })
+        ),
         _ => false,
     }) {
         Some(pos) => pos,
@@ -1269,17 +1276,6 @@ fn is_always_initialized(body: &[Stmt]) -> bool {
     v.visit_stmts(body);
 
     !v.found
-}
-
-fn starts_with_super_call(e: &Expr) -> bool {
-    match e {
-        Expr::Call(CallExpr {
-            callee: Callee::Super(..),
-            ..
-        }) => true,
-        Expr::Seq(e) => starts_with_super_call(&e.exprs[0]),
-        _ => false,
-    }
 }
 
 fn escape_keywords(mut e: Box<Expr>) -> Box<Expr> {
