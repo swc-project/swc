@@ -1921,47 +1921,6 @@ function withContext(ComposedComponent) {
 "#
 );
 
-// public_foobar
-//test!(syntax(),|t| tr("{
-//  "plugins": [ "proposal-class-properties"],
-//  "presets": ["env"]
-//}
-//"), public_foobar, r#"
-//class Child extends Parent {
-//    constructor() {
-//        super();
-//    }
-//
-//    scopedFunctionWithThis = () => {
-//        this.name = {};
-//    }
-//}
-//
-//"# r#"
-//var Child =
-// /*#__PURE__*/
-//function (_Parent) {
-//  "use strict";
-//
-//  _inherits(Child, _Parent);
-//
-//  function Child() {
-//    var _this;
-//
-//    _class_call_check(this, Child);
-//    _this = _possible_constructor_return(this,
-// _get_prototype_of(Child).call(this));
-//    _define_property(_assert_this_initialized(_this),
-// "scopedFunctionWithThis" function () {      _this.name = {};
-//    });
-//    return _this;
-//  }
-//
-//  return Child;
-//}(Parent);
-//
-//"#);
-
 // private_reevaluated
 test!(
     syntax(),
