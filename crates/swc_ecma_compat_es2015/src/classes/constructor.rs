@@ -460,7 +460,6 @@ pub(super) fn replace_this_in_constructor(mark: Mark, c: &mut Constructor) -> bo
         wrap_with_assertion: bool,
     }
 
-    #[swc_trace]
     impl VisitMut for Replacer {
         noop_visit_mut_type!();
 
