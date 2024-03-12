@@ -1258,13 +1258,7 @@ fn is_always_initialized(body: &[Stmt]) -> bool {
     }
 
     let pos = match body.iter().position(|s| match s {
-        Stmt::Expr(ExprStmt { expr, .. }) => matches!(
-            &**expr,
-            Expr::Call(CallExpr {
-                callee: Callee::Super(..),
-                ..
-            })
-        ),
+        Stmt::Expr(ExprStmt { expr, .. }) => starts_with_super_call(expr),
         _ => false,
     }) {
         Some(pos) => pos,
@@ -1276,6 +1270,17 @@ fn is_always_initialized(body: &[Stmt]) -> bool {
     v.visit_stmts(body);
 
     !v.found
+}
+
+fn starts_with_super_call(e: &Expr) -> bool {
+    match e {
+        Expr::Call(CallExpr {
+            callee: Callee::Super(..),
+            ..
+        }) => true,
+        Expr::Seq(e) => starts_with_super_call(&e.exprs[0]),
+        _ => false,
+    }
 }
 
 fn escape_keywords(mut e: Box<Expr>) -> Box<Expr> {
