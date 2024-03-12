@@ -78,7 +78,7 @@ swc_compiler_base = { version = "0.7.15", path = "../swc_compiler_base" }
 swc_config = { version = "0.1.11", path = "../swc_config" }
 swc_ecma_ast = { version = "0.112.5", path = "../swc_ecma_ast" }
 swc_ecma_codegen = { version = "0.148.10", path = "../swc_ecma_codegen" }
-swc_ecma_ext_transforms = { version = "0.113.10", path = "../swc_ecma_ext_transforms" }
+swc_ecma_ext_transforms = { version = "0.113.11", path = "../swc_ecma_ext_transforms" }
 swc_ecma_lints = { version = "0.92.16", path = "../swc_ecma_lints" }
 swc_ecma_loader = { version = "0.45.21", path = "../swc_ecma_loader", features = [
   "cache",
@@ -99,7 +99,7 @@ swc_ecma_transforms = { version = "0.229.14", path = "../swc_ecma_transforms", f
 swc_ecma_transforms_base = { version = "0.137.14", path = "../swc_ecma_transforms_base" }
 swc_ecma_transforms_compat = { version = "0.163.14", path = "../swc_ecma_transforms_compat" }
 swc_ecma_transforms_optimization = { version = "0.198.14", path = "../swc_ecma_transforms_optimization" }
-swc_ecma_utils = { version = "0.127.10", path = "../swc_ecma_utils" }
+swc_ecma_utils = { version = "0.127.11", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "0.98.6", path = "../swc_ecma_visit" }
 swc_error_reporters = { version = "0.17.18", path = "../swc_error_reporters" }
 swc_node_comments = { version = "0.20.18", path = "../swc_node_comments" }

@@ -13,6 +13,9 @@
 
 - **(es/minifier)** Handle cyclic references while dropping unused properties ([#8725](https://github.com/swc-project/swc/issues/8725)) ([102241b](https://github.com/swc-project/swc/commit/102241b812b8e815b59575178193bb71b4264bab))
 
+
+- **(es/minifier)** Fix evaluation of array literals with `void 0` ([#8733](https://github.com/swc-project/swc/issues/8733)) ([aa0154d](https://github.com/swc-project/swc/commit/aa0154d2d86b0bed7ffed3324c7a650ffe111c93))
+
 ### Features
 
 
@@ -1414,9 +1417,6 @@
 
 
 - **(common)** Make `ahash` optional ([#7816](https://github.com/swc-project/swc/issues/7816)) ([981d7b1](https://github.com/swc-project/swc/commit/981d7b152b2f488a67d42052152db22225f1d094))
-
-
-- **(es/parser)** Remove needless `unsafe` ([#7818](https://github.com/swc-project/swc/issues/7818)) ([8b809db](https://github.com/swc-project/swc/commit/8b809dbe23cab3db2159979cf1852a69c109f1e0))
 
 
 - Use `ahash` from `swc_common` in more places ([#7815](https://github.com/swc-project/swc/issues/7815)) ([b43e38d](https://github.com/swc-project/swc/commit/b43e38d3f92bc889e263b741dbe173a6f2206d88))

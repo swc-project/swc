@@ -28,7 +28,7 @@ swc_config = { version = "0.1.11", path = "../swc_config" }
 swc_ecma_ast = { version = "0.112.5", path = "../swc_ecma_ast", features = [
   "serde",
 ] }
-swc_ecma_utils = { version = "0.127.10", path = "../swc_ecma_utils" }
+swc_ecma_utils = { version = "0.127.11", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "0.98.6", path = "../swc_ecma_visit" }
 
 [dev-dependencies]
