@@ -20,23 +20,27 @@ define([
             return _default;
         },
         w: function() {
-            return w;
+            return _w;
         },
         x: function() {
-            return x;
+            return _x;
         },
         y: function() {
             return y;
         }
     });
-    const x = 1;
-    const w = 3;
+    var _x;
+    var _w;
     try {
         var _stack = [];
+        const x = 1;
+        _x = x;
         var z = _using._(_stack, {
             [Symbol.dispose] () {}
         });
         var y = 2;
+        const w = 3;
+        _w = w;
         var _default = 4;
         console.log(w, x, y, z);
     } catch (_) {
