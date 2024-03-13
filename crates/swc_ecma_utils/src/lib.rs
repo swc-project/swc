@@ -1027,6 +1027,16 @@ pub trait ExprExt {
                             let ExprOrSpread { ref expr, .. } = *elem;
                             match &**expr {
                                 Expr::Lit(Lit::Null(..)) => Cow::Borrowed(""),
+                                Expr::Unary(UnaryExpr {
+                                    op: op!("void"),
+                                    arg,
+                                    ..
+                                }) => {
+                                    if arg.may_have_side_effects(ctx) {
+                                        return Value::Unknown;
+                                    }
+                                    Cow::Borrowed("")
+                                }
                                 Expr::Ident(Ident { sym: undefined, .. })
                                     if &**undefined == "undefined" =>
                                 {
