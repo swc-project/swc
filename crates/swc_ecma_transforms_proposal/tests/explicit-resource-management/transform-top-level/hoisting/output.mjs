@@ -9,19 +9,25 @@ function h() {
     b;
     A;
 }
-export function g() {
-    c;
-}
+var _g;
 export { f };
-export let { b } = {};
-export class B {
-}
+var _b;
+var _B;
 try {
     var _stack = [];
+    function g() {
+        c;
+    }
+    _g = g;
     doSomething();
+    let { b } = {};
+    _b = b;
     var c = 2;
     class A {
     }
+    class B {
+    }
+    _B = B;
     var x = _using(_stack, null);
 } catch (_) {
     var _error = _;
@@ -29,3 +35,6 @@ try {
 } finally{
     _dispose(_stack, _error, _hasError);
 }
+export { _g as g };
+export { _b as b };
+export { _B as B };

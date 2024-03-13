@@ -4,15 +4,16 @@ Object.defineProperty(exports, "__esModule", {
 }), Object.defineProperty(exports, "C", {
     enumerable: !0,
     get: function() {
-        return C;
+        return _C;
     }
 });
 const _ts_decorate = require("@swc/helpers/_/_ts_decorate"), _dispose = require("@swc/helpers/_/_dispose"), _using = require("@swc/helpers/_/_using");
-class C {
-}
 try {
-    var _stack = [];
-    _using._(_stack, null), C = _ts_decorate._([
+    var _C, _stack = [];
+    _using._(_stack, null);
+    class C {
+    }
+    _C = C, C = _ts_decorate._([
         dec
     ], C);
 } catch (_) {

@@ -4,7 +4,7 @@ System.register([
     "@swc/helpers/_/_dispose",
     "@swc/helpers/_/_using"
 ], function(_export, _context) {
-    var _ts_decorate, _dispose, _using, C;
+    var _ts_decorate, _dispose, _using;
     return _export("C", void 0), {
         setters: [
             function(_ts_decorate1) {
@@ -18,13 +18,13 @@ System.register([
             }
         ],
         execute: function() {
-            _export("C", C = class {
-            });
             try {
                 var _stack = [];
-                _export("C", C = _ts_decorate([
+                class C {
+                }
+                _export("C", C), C = _ts_decorate([
                     dec
-                ], C)), _using(_stack, null);
+                ], C), _using(_stack, null);
             } catch (_) {
                 var _error = _, _hasError = !0;
             } finally{

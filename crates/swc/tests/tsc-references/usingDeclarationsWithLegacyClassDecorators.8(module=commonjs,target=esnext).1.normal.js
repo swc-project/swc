@@ -6,16 +6,18 @@ Object.defineProperty(exports, "__esModule", {
 Object.defineProperty(exports, "C", {
     enumerable: true,
     get: function() {
-        return C;
+        return _C;
     }
 });
 const _ts_decorate = require("@swc/helpers/_/_ts_decorate");
 const _dispose = require("@swc/helpers/_/_dispose");
 const _using = require("@swc/helpers/_/_using");
-class C {
-}
+var _C;
 try {
     var _stack = [];
+    class C {
+    }
+    _C = C;
     C = _ts_decorate._([
         dec
     ], C);
