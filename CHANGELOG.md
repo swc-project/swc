@@ -1,5 +1,5 @@
 # Changelog
-## [unreleased]
+## [1.4.7] - 2024-03-13
 
 ### Bug Fixes
 
@@ -1399,9 +1399,6 @@
 
 ### Bug Fixes
 
-
-
-- **(es/compat)** Remove wrong logic for object patterns in `object_rest` ([#7788](https://github.com/swc-project/swc/issues/7788)) ([3766a7c](https://github.com/swc-project/swc/commit/3766a7c776b63e159be3f11f5f931c5e5f968cdb))
 
 
 - **(es/minifier)** Preserve `cooked` while compressing template literals ([#7773](https://github.com/swc-project/swc/issues/7773)) ([05990a9](https://github.com/swc-project/swc/commit/05990a98fd3f06a3c03bd1e795800acf22f16035))
