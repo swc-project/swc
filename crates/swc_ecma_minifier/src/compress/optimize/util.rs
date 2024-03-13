@@ -405,24 +405,35 @@ impl VisitMut for Finalizer<'_> {
     }
 
     fn visit_mut_expr(&mut self, n: &mut Expr) {
-        if let Expr::Ident(i) = n {
-            if let Some(expr) = self.lits.get(&i.to_id()) {
-                *n = *expr.clone();
+        match n {
+            Expr::Ident(i) => {
+                if let Some(expr) = self.lits.get(&i.to_id()) {
+                    *n = *expr.clone();
+                    return;
+                }
             }
-        } else {
-            n.visit_mut_children_with(self);
-        }
+            Expr::Member(e) => {
+                if let Expr::Ident(obj) = &*e.obj {
+                    let sym = match &e.prop {
+                        MemberProp::Ident(i) => &i.sym,
+                        MemberProp::Computed(e) => match &*e.expr {
+                            Expr::Lit(Lit::Str(s)) => &s.value,
+                            _ => return,
+                        },
+                        _ => return,
+                    };
 
-        if let Expr::Member(e) = n {
-            if let Expr::Ident(obj) = &*e.obj {
-                if let MemberProp::Ident(prop) = &e.prop {
-                    if let Some(ident) = self.hoisted_props.get(&(obj.to_id(), prop.sym.clone())) {
+                    if let Some(ident) = self.hoisted_props.get(&(obj.to_id(), sym.clone())) {
                         self.changed = true;
                         *n = ident.clone().into();
+                        return;
                     }
                 }
             }
+            _ => {}
         }
+
+        n.visit_mut_children_with(self);
     }
 
     fn visit_mut_stmts(&mut self, n: &mut Vec<Stmt>) {
