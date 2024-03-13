@@ -385,7 +385,7 @@ fn test_remove_useless_ops2() {
     test("Math.random(f() + g())", "f(),g();");
     test("Math.random(f(),g(),h())", "f(),g(),h();");
 
-    // Calls to functions with unknown side-effects are are left.
+    // Calls to functions with unknown side-effects are left.
     test_same("f();");
     test_same("(function () { f(); })();");
 

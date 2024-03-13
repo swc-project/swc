@@ -50,7 +50,7 @@ impl Babelify for ClassDecl {
         let is_abstract = self.class.is_abstract;
         // NOTE: The body field needs a bit of special handling because babel
         // represents the body as a node, whereas swc represents it as a vector of
-        // statements. This means that swc does not have a span corresponding the the
+        // statements. This means that swc does not have a span corresponding the
         // class body base node for babel. To solve this, we generate a new span
         // starting from the end of the identifier to the end of the body.
         // For example,
