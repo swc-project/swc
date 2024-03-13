@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Miscellaneous Tasks
+
+
+
+- **(es)** Allow using older `tokio` ([#8740](https://github.com/swc-project/swc/issues/8740)) ([9c1eb01](https://github.com/swc-project/swc/commit/9c1eb017fcd90bd21b43f1a988c7fc67639343c1))
+
 ## [1.4.7] - 2024-03-13
 
 ### Bug Fixes
@@ -1399,9 +1407,6 @@
 
 ### Bug Fixes
 
-
-
-- **(es/minifier)** Preserve `cooked` while compressing template literals ([#7773](https://github.com/swc-project/swc/issues/7773)) ([05990a9](https://github.com/swc-project/swc/commit/05990a98fd3f06a3c03bd1e795800acf22f16035))
 
 
 - **(es/minifier)** Abort seq inliner if var is not fn_local or reassigned ([#7804](https://github.com/swc-project/swc/issues/7804)) ([f8ca366](https://github.com/swc-project/swc/commit/f8ca366cc179d2d83d35148c3600b8faa2e7f801))
