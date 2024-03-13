@@ -29,7 +29,7 @@ pub mod hygiene;
 /// able to use many of the functions on spans in `source_map` and you cannot
 /// assume that the length of the `span = hi - lo`; there may be space in the
 /// `BytePos` range between files.
-#[derive(Debug, Clone, Copy, Hash, PartialEq, Eq, Ord, PartialOrd, Serialize, Deserialize)]
+#[derive(Clone, Copy, Hash, PartialEq, Eq, Ord, PartialOrd, Serialize, Deserialize)]
 #[cfg_attr(
     any(feature = "rkyv-impl"),
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
@@ -47,6 +47,12 @@ pub struct Span {
     /// code was created by a macro expansion.
     #[cfg_attr(feature = "__rkyv", omit_bounds)]
     pub ctxt: SyntaxContext,
+}
+
+impl std::fmt::Debug for Span {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}..{}{:?}", self.lo.0, self.hi.0, self.ctxt)
+    }
 }
 
 impl From<(BytePos, BytePos)> for Span {
