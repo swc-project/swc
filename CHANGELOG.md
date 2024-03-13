@@ -22,6 +22,9 @@
 
 - **(es/minifier)** Make `Finalizer` handle `hoisted_props` correctly ([#8738](https://github.com/swc-project/swc/issues/8738)) ([95761b7](https://github.com/swc-project/swc/commit/95761b76bf09a4d2c09517b2bd7bf7b78ee2149f))
 
+
+- **(es/proposal)** Fix var placement for using transform ([#8732](https://github.com/swc-project/swc/issues/8732)) ([633cd89](https://github.com/swc-project/swc/commit/633cd89bacef5f0efef20f1dfa709cff1ecba36f))
+
 ### Features
 
 
@@ -1396,9 +1399,6 @@
 
 ### Bug Fixes
 
-
-
-- **(es/codegen)** Add quotes to property names when `ascii_only` is `true` ([#7820](https://github.com/swc-project/swc/issues/7820)) ([04921f3](https://github.com/swc-project/swc/commit/04921f301afbc2dc74bed4cb24e7656b60e54327))
 
 
 - **(es/compat)** Remove wrong logic for object patterns in `object_rest` ([#7788](https://github.com/swc-project/swc/issues/7788)) ([3766a7c](https://github.com/swc-project/swc/commit/3766a7c776b63e159be3f11f5f931c5e5f968cdb))

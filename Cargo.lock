@@ -4187,7 +4187,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_bugfixes"
-version = "0.4.14"
+version = "0.4.15"
 dependencies = [
  "swc_atoms",
  "swc_common",
@@ -4215,7 +4215,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2015"
-version = "0.4.14"
+version = "0.4.15"
 dependencies = [
  "arrayvec",
  "indexmap 2.1.0",
@@ -4498,7 +4498,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_preset_env"
-version = "0.206.14"
+version = "0.206.15"
 dependencies = [
  "anyhow",
  "criterion",
@@ -4563,7 +4563,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms"
-version = "0.229.14"
+version = "0.229.15"
 dependencies = [
  "pretty_assertions",
  "sourcemap",
@@ -4627,7 +4627,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.163.14"
+version = "0.163.15"
 dependencies = [
  "arrayvec",
  "indexmap 2.1.0",
@@ -4676,7 +4676,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_module"
-version = "0.180.14"
+version = "0.180.15"
 dependencies = [
  "Inflector",
  "anyhow",
@@ -4705,7 +4705,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "0.198.14"
+version = "0.198.15"
 dependencies = [
  "dashmap",
  "indexmap 2.1.0",
@@ -4735,7 +4735,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_proposal"
-version = "0.171.14"
+version = "0.171.15"
 dependencies = [
  "either",
  "rustc-hash",
@@ -4759,7 +4759,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_react"
-version = "0.183.14"
+version = "0.183.15"
 dependencies = [
  "base64",
  "dashmap",
@@ -4811,7 +4811,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_typescript"
-version = "0.188.14"
+version = "0.188.15"
 dependencies = [
  "criterion",
  "ryu-js",
