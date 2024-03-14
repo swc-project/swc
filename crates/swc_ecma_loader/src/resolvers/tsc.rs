@@ -322,15 +322,17 @@ where
             }
         }
 
-        let path = self.base_url.join(module_specifier);
+        if !module_specifier.starts_with('.') {
+            let path = self.base_url.join(module_specifier);
 
-        // https://www.typescriptlang.org/docs/handbook/modules/reference.html#baseurl
-        if let Ok(v) = self.invoke_inner_resolver(base, &path.to_string_lossy()) {
-            let _ = stderr().write(b"\nRelative from base=");
-            let _ = stderr().write(v.filename.to_string().as_bytes());
-            let _ = stderr().write(b"\n");
+            // https://www.typescriptlang.org/docs/handbook/modules/reference.html#baseurl
+            if let Ok(v) = self.invoke_inner_resolver(base, &path.to_string_lossy()) {
+                let _ = stderr().write(b"\nRelative from base=");
+                let _ = stderr().write(v.filename.to_string().as_bytes());
+                let _ = stderr().write(b"\n");
 
-            return Ok(v);
+                return Ok(v);
+            }
         }
 
         self.invoke_inner_resolver(base, module_specifier)
