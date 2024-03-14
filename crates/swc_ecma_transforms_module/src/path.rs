@@ -343,7 +343,13 @@ where
             Cow::Owned(format!("./{}", s))
         };
 
-        Ok(self.to_specifier(s.into_owned().into(), slug))
+        let result = self.to_specifier(s.into_owned().into(), slug);
+
+        let _ = stderr().write(b"result=");
+        let _ = stderr().write(result.as_bytes());
+        let _ = stderr().write(b"\n");
+
+        Ok(result)
     }
 }
 
