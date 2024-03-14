@@ -1,157 +1,53 @@
 [
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                1,
-            ),
-            hi: BytePos(
-                1,
-            ),
-            ctxt: #0,
-        },
+        span: 1..1#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    1,
-                ),
-                hi: BytePos(
-                    38,
-                ),
-                ctxt: #0,
-            },
+            span: 1..38#0,
             value: "Describe the Subscription class here.",
         },
         tags: [],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                75,
-            ),
-            hi: BytePos(
-                75,
-            ),
-            ctxt: #0,
-        },
+        span: 75..75#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    75,
-                ),
-                hi: BytePos(
-                    119,
-                ),
-                ctxt: #0,
-            },
+            span: 75..119#0,
             value: "Describe the constructor here.\n     *\n     *",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        75,
-                    ),
-                    hi: BytePos(
-                        80,
-                    ),
-                    ctxt: #0,
-                },
+                span: 75..80#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            75,
-                        ),
-                        hi: BytePos(
-                            80,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 75..80#0,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: Span {
-                            lo: BytePos(
-                                75,
-                            ),
-                            hi: BytePos(
-                                80,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 75..80#0,
                         name: None,
                         ty: Some(
                             Text {
-                                span: Span {
-                                    lo: BytePos(
-                                        75,
-                                    ),
-                                    hi: BytePos(
-                                        83,
-                                    ),
-                                    ctxt: #0,
-                                },
+                                span: 75..83#0,
                                 value: "{string}",
                             },
                         ),
                         desc: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    75,
-                                ),
-                                hi: BytePos(
-                                    111,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 75..111#0,
                             value: "name - The name of the subscription.",
                         },
                     },
                 ),
             },
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        75,
-                    ),
-                    hi: BytePos(
-                        82,
-                    ),
-                    ctxt: #0,
-                },
+                span: 75..82#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            75,
-                        ),
-                        hi: BytePos(
-                            82,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 75..82#0,
                     value: "example",
                 },
                 tag: Example(
                     ExampleTag {
-                        span: Span {
-                            lo: BytePos(
-                                75,
-                            ),
-                            hi: BytePos(
-                                82,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 75..82#0,
                         text: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    75,
-                                ),
-                                hi: BytePos(
-                                    121,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 75..121#0,
                             value: "* var subscription = new Subscription();\n     ",
                         },
                     },
@@ -160,134 +56,46 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                284,
-            ),
-            hi: BytePos(
-                284,
-            ),
-            ctxt: #0,
-        },
+        span: 284..284#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    284,
-                ),
-                hi: BytePos(
-                    317,
-                ),
-                ctxt: #0,
-            },
+            span: 284..317#0,
             value: "Force the subscription to expire.",
         },
         tags: [],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                344,
-            ),
-            hi: BytePos(
-                344,
-            ),
-            ctxt: #0,
-        },
+        span: 344..344#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    344,
-                ),
-                hi: BytePos(
-                    379,
-                ),
-                ctxt: #0,
-            },
+            span: 344..379#0,
             value: "Describe the Subscriber class here.",
         },
         tags: [],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                426,
-            ),
-            hi: BytePos(
-                426,
-            ),
-            ctxt: #0,
-        },
+        span: 426..426#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    426,
-                ),
-                hi: BytePos(
-                    470,
-                ),
-                ctxt: #0,
-            },
+            span: 426..470#0,
             value: "Describe the constructor here.\n     *\n     *",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        426,
-                    ),
-                    hi: BytePos(
-                        431,
-                    ),
-                    ctxt: #0,
-                },
+                span: 426..431#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            426,
-                        ),
-                        hi: BytePos(
-                            431,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 426..431#0,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: Span {
-                            lo: BytePos(
-                                426,
-                            ),
-                            hi: BytePos(
-                                431,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 426..431#0,
                         name: None,
                         ty: Some(
                             Text {
-                                span: Span {
-                                    lo: BytePos(
-                                        426,
-                                    ),
-                                    hi: BytePos(
-                                        434,
-                                    ),
-                                    ctxt: #0,
-                                },
+                                span: 426..434#0,
                                 value: "{string}",
                             },
                         ),
                         desc: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    426,
-                                ),
-                                hi: BytePos(
-                                    460,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 426..460#0,
                             value: "name - The name of the subscriber.",
                         },
                     },
@@ -296,85 +104,29 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                571,
-            ),
-            hi: BytePos(
-                571,
-            ),
-            ctxt: #0,
-        },
+        span: 571..571#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    571,
-                ),
-                hi: BytePos(
-                    615,
-                ),
-                ctxt: #0,
-            },
+            span: 571..615#0,
             value: "Check whether the subscriber has a callback.",
         },
         tags: [],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                0,
-            ),
-            hi: BytePos(
-                647,
-            ),
-            ctxt: #0,
-        },
+        span: 0..647#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    647,
-                ),
-                hi: BytePos(
-                    669,
-                ),
-                ctxt: #0,
-            },
+            span: 647..669#0,
             value: "Subclass namespace.\n *",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        647,
-                    ),
-                    hi: BytePos(
-                        656,
-                    ),
-                    ctxt: #0,
-                },
+                span: 647..656#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            647,
-                        ),
-                        hi: BytePos(
-                            656,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 647..656#0,
                     value: "namespace",
                 },
                 tag: Namespace(
                     NamespaceTag {
-                        span: Span {
-                            lo: BytePos(
-                                647,
-                            ),
-                            hi: BytePos(
-                                656,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 647..656#0,
                         ty: None,
                         name: None,
                     },
@@ -383,61 +135,21 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                714,
-            ),
-            hi: BytePos(
-                714,
-            ),
-            ctxt: #0,
-        },
+        span: 714..714#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    714,
-                ),
-                hi: BytePos(
-                    748,
-                ),
-                ctxt: #0,
-            },
+            span: 714..748#0,
             value: "Expiring subscription subclass.\n *",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        714,
-                    ),
-                    hi: BytePos(
-                        719,
-                    ),
-                    ctxt: #0,
-                },
+                span: 714..719#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            714,
-                        ),
-                        hi: BytePos(
-                            719,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 714..719#0,
                     value: "class",
                 },
                 tag: Class(
                     ClassTag {
-                        span: Span {
-                            lo: BytePos(
-                                714,
-                            ),
-                            hi: BytePos(
-                                719,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 714..719#0,
                         ty: None,
                         name: None,
                     },
@@ -446,86 +158,30 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                834,
-            ),
-            hi: BytePos(
-                834,
-            ),
-            ctxt: #0,
-        },
+        span: 834..834#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    834,
-                ),
-                hi: BytePos(
-                    878,
-                ),
-                ctxt: #0,
-            },
+            span: 834..878#0,
             value: "Describe the constructor here.\n     *\n     *",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        834,
-                    ),
-                    hi: BytePos(
-                        839,
-                    ),
-                    ctxt: #0,
-                },
+                span: 834..839#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            834,
-                        ),
-                        hi: BytePos(
-                            839,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 834..839#0,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: Span {
-                            lo: BytePos(
-                                834,
-                            ),
-                            hi: BytePos(
-                                839,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 834..839#0,
                         name: None,
                         ty: Some(
                             Text {
-                                span: Span {
-                                    lo: BytePos(
-                                        834,
-                                    ),
-                                    hi: BytePos(
-                                        842,
-                                    ),
-                                    ctxt: #0,
-                                },
+                                span: 834..842#0,
                                 value: "{string}",
                             },
                         ),
                         desc: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    834,
-                                ),
-                                hi: BytePos(
-                                    870,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 834..870#0,
                             value: "name - The name of the subscription.",
                         },
                     },
@@ -534,82 +190,26 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                979,
-            ),
-            hi: BytePos(
-                979,
-            ),
-            ctxt: #0,
-        },
+        span: 979..979#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    979,
-                ),
-                hi: BytePos(
-                    979,
-                ),
-                ctxt: #0,
-            },
+            span: 979..979#0,
             value: "",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        979,
-                    ),
-                    hi: BytePos(
-                        987,
-                    ),
-                    ctxt: #0,
-                },
+                span: 979..987#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            979,
-                        ),
-                        hi: BytePos(
-                            987,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 979..987#0,
                     value: "memberof",
                 },
                 tag: MemberOf(
                     MemberOfTag {
-                        span: Span {
-                            lo: BytePos(
-                                979,
-                            ),
-                            hi: BytePos(
-                                987,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 979..987#0,
                         parent_name_path: NamePath {
-                            span: Span {
-                                lo: BytePos(
-                                    979,
-                                ),
-                                hi: BytePos(
-                                    979,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 979..979#0,
                             components: [
                                 Text {
-                                    span: Span {
-                                        lo: BytePos(
-                                            979,
-                                        ),
-                                        hi: BytePos(
-                                            989,
-                                        ),
-                                        ctxt: #0,
-                                    },
+                                    span: 979..989#0,
                                     value: "subclasses",
                                 },
                             ],
@@ -620,25 +220,9 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                1039,
-            ),
-            hi: BytePos(
-                1039,
-            ),
-            ctxt: #0,
-        },
+        span: 1039..1039#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    1039,
-                ),
-                hi: BytePos(
-                    1055,
-                ),
-                ctxt: #0,
-            },
+            span: 1039..1055#0,
             value: "Instance method.",
         },
         tags: [],

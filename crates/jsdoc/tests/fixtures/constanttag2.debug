@@ -1,24 +1,8 @@
 [
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                1,
-            ),
-            hi: BytePos(
-                1,
-            ),
-            ctxt: #0,
-        },
+        span: 1..1#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    1,
-                ),
-                hi: BytePos(
-                    34,
-                ),
-                ctxt: #0,
-            },
+            span: 1..34#0,
             value: "ES 2015 class assigned to a const",
         },
         tags: [],

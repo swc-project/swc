@@ -1,81 +1,25 @@
 [
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                20,
-            ),
-            hi: BytePos(
-                29,
-            ),
-            ctxt: #0,
-        },
+        span: 20..29#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    20,
-                ),
-                hi: BytePos(
-                    20,
-                ),
-                ctxt: #0,
-            },
+            span: 20..20#0,
             value: "",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        20,
-                    ),
-                    hi: BytePos(
-                        25,
-                    ),
-                    ctxt: #0,
-                },
+                span: 20..25#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            20,
-                        ),
-                        hi: BytePos(
-                            25,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 20..25#0,
                     value: "alias",
                 },
                 tag: Alias(
                     AliasTag {
-                        span: Span {
-                            lo: BytePos(
-                                20,
-                            ),
-                            hi: BytePos(
-                                25,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 20..25#0,
                         name_path: NamePath {
-                            span: Span {
-                                lo: BytePos(
-                                    20,
-                                ),
-                                hi: BytePos(
-                                    29,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 20..29#0,
                             components: [
                                 Text {
-                                    span: Span {
-                                        lo: BytePos(
-                                            20,
-                                        ),
-                                        hi: BytePos(
-                                            22,
-                                        ),
-                                        ctxt: #0,
-                                    },
+                                    span: 20..22#0,
                                     value: "ns",
                                 },
                             ],
@@ -86,25 +30,9 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                68,
-            ),
-            hi: BytePos(
-                68,
-            ),
-            ctxt: #0,
-        },
+        span: 68..68#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    68,
-                ),
-                hi: BytePos(
-                    79,
-                ),
-                ctxt: #0,
-            },
+            span: 68..79#0,
             value: "document me",
         },
         tags: [],

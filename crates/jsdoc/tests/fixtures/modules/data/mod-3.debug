@@ -1,82 +1,26 @@
 [
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                1,
-            ),
-            hi: BytePos(
-                1,
-            ),
-            ctxt: #0,
-        },
+        span: 1..1#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    1,
-                ),
-                hi: BytePos(
-                    16,
-                ),
-                ctxt: #0,
-            },
+            span: 1..16#0,
             value: "My test module.",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        1,
-                    ),
-                    hi: BytePos(
-                        7,
-                    ),
-                    ctxt: #0,
-                },
+                span: 1..7#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            1,
-                        ),
-                        hi: BytePos(
-                            7,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 1..7#0,
                     value: "module",
                 },
                 tag: Module(
                     ModuleTag {
-                        span: Span {
-                            lo: BytePos(
-                                1,
-                            ),
-                            hi: BytePos(
-                                7,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 1..7#0,
                         name: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    1,
-                                ),
-                                hi: BytePos(
-                                    7,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 1..7#0,
                             value: "module",
                         },
                         ty: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    1,
-                                ),
-                                hi: BytePos(
-                                    3,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 1..3#0,
                             value: "my",
                         },
                     },
@@ -85,71 +29,23 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                76,
-            ),
-            hi: BytePos(
-                76,
-            ),
-            ctxt: #0,
-        },
+        span: 76..76#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    76,
-                ),
-                hi: BytePos(
-                    76,
-                ),
-                ctxt: #0,
-            },
+            span: 76..76#0,
             value: "",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        76,
-                    ),
-                    hi: BytePos(
-                        88,
-                    ),
-                    ctxt: #0,
-                },
+                span: 76..88#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            76,
-                        ),
-                        hi: BytePos(
-                            88,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 76..88#0,
                     value: "undocumented",
                 },
                 tag: Unknown(
                     UnknownTag {
-                        span: Span {
-                            lo: BytePos(
-                                76,
-                            ),
-                            hi: BytePos(
-                                88,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 76..88#0,
                         extras: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    76,
-                                ),
-                                hi: BytePos(
-                                    99,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 76..99#0,
                             value: "@alias module:my/module",
                         },
                     },
@@ -158,49 +54,17 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                167,
-            ),
-            hi: BytePos(
-                167,
-            ),
-            ctxt: #0,
-        },
+        span: 167..167#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    167,
-                ),
-                hi: BytePos(
-                    187,
-                ),
-                ctxt: #0,
-            },
+            span: 167..187#0,
             value: "Document a property.",
         },
         tags: [],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                231,
-            ),
-            hi: BytePos(
-                231,
-            ),
-            ctxt: #0,
-        },
+        span: 231..231#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    231,
-                ),
-                hi: BytePos(
-                    249,
-                ),
-                ctxt: #0,
-            },
+            span: 231..249#0,
             value: "Document a method.",
         },
         tags: [],

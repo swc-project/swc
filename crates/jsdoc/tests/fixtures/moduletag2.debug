@@ -1,82 +1,26 @@
 [
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                1,
-            ),
-            hi: BytePos(
-                7,
-            ),
-            ctxt: #0,
-        },
+        span: 1..7#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    1,
-                ),
-                hi: BytePos(
-                    1,
-                ),
-                ctxt: #0,
-            },
+            span: 1..1#0,
             value: "",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        1,
-                    ),
-                    hi: BytePos(
-                        7,
-                    ),
-                    ctxt: #0,
-                },
+                span: 1..7#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            1,
-                        ),
-                        hi: BytePos(
-                            7,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 1..7#0,
                     value: "module",
                 },
                 tag: Module(
                     ModuleTag {
-                        span: Span {
-                            lo: BytePos(
-                                1,
-                            ),
-                            hi: BytePos(
-                                7,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 1..7#0,
                         name: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    0,
-                                ),
-                                hi: BytePos(
-                                    0,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 0..0#0,
                             value: "",
                         },
                         ty: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    1,
-                                ),
-                                hi: BytePos(
-                                    6,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 1..6#0,
                             value: "color",
                         },
                     },
@@ -85,49 +29,17 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                52,
-            ),
-            hi: BytePos(
-                52,
-            ),
-            ctxt: #0,
-        },
+        span: 52..52#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    52,
-                ),
-                hi: BytePos(
-                    78,
-                ),
-                ctxt: #0,
-            },
+            span: 52..78#0,
             value: "Blend two colors together.",
         },
         tags: [],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                129,
-            ),
-            hi: BytePos(
-                129,
-            ),
-            ctxt: #0,
-        },
+        span: 129..129#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    129,
-                ),
-                hi: BytePos(
-                    163,
-                ),
-                ctxt: #0,
-            },
+            span: 129..163#0,
             value: "Darken a color by the given shade.",
         },
         tags: [],

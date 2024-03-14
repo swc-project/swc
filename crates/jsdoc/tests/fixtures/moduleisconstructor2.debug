@@ -1,82 +1,26 @@
 [
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                1,
-            ),
-            hi: BytePos(
-                1,
-            ),
-            ctxt: #0,
-        },
+        span: 1..1#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    1,
-                ),
-                hi: BytePos(
-                    29,
-                ),
-                ctxt: #0,
-            },
+            span: 1..29#0,
             value: "Describe the module here.\n *",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        1,
-                    ),
-                    hi: BytePos(
-                        7,
-                    ),
-                    ctxt: #0,
-                },
+                span: 1..7#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            1,
-                        ),
-                        hi: BytePos(
-                            7,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 1..7#0,
                     value: "module",
                 },
                 tag: Module(
                     ModuleTag {
-                        span: Span {
-                            lo: BytePos(
-                                1,
-                            ),
-                            hi: BytePos(
-                                7,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 1..7#0,
                         name: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    1,
-                                ),
-                                hi: BytePos(
-                                    7,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 1..7#0,
                             value: "config",
                         },
                         ty: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    1,
-                                ),
-                                hi: BytePos(
-                                    9,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 1..9#0,
                             value: "mymodule",
                         },
                     },
@@ -85,110 +29,38 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                66,
-            ),
-            hi: BytePos(
-                66,
-            ),
-            ctxt: #0,
-        },
+        span: 66..66#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    66,
-                ),
-                hi: BytePos(
-                    90,
-                ),
-                ctxt: #0,
-            },
+            span: 66..90#0,
             value: "Describe the class here.",
         },
         tags: [],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                132,
-            ),
-            hi: BytePos(
-                132,
-            ),
-            ctxt: #0,
-        },
+        span: 132..132#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    132,
-                ),
-                hi: BytePos(
-                    166,
-                ),
-                ctxt: #0,
-            },
+            span: 132..166#0,
             value: "Create a new configuration.\n     *",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        132,
-                    ),
-                    hi: BytePos(
-                        137,
-                    ),
-                    ctxt: #0,
-                },
+                span: 132..137#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            132,
-                        ),
-                        hi: BytePos(
-                            137,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 132..137#0,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: Span {
-                            lo: BytePos(
-                                132,
-                            ),
-                            hi: BytePos(
-                                137,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 132..137#0,
                         name: None,
                         ty: Some(
                             Text {
-                                span: Span {
-                                    lo: BytePos(
-                                        132,
-                                    ),
-                                    hi: BytePos(
-                                        140,
-                                    ),
-                                    ctxt: #0,
-                                },
+                                span: 132..140#0,
                                 value: "{string}",
                             },
                         ),
                         desc: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    132,
-                                ),
-                                hi: BytePos(
-                                    134,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 132..134#0,
                             value: "id",
                         },
                     },
@@ -197,109 +69,37 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                235,
-            ),
-            hi: BytePos(
-                235,
-            ),
-            ctxt: #0,
-        },
+        span: 235..235#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    235,
-                ),
-                hi: BytePos(
-                    247,
-                ),
-                ctxt: #0,
-            },
+            span: 235..247#0,
             value: "Document me.",
         },
         tags: [],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                288,
-            ),
-            hi: BytePos(
-                288,
-            ),
-            ctxt: #0,
-        },
+        span: 288..288#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    288,
-                ),
-                hi: BytePos(
-                    327,
-                ),
-                ctxt: #0,
-            },
+            span: 288..327#0,
             value: "Get the configuration ID.\n     *\n     *",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        288,
-                    ),
-                    hi: BytePos(
-                        294,
-                    ),
-                    ctxt: #0,
-                },
+                span: 288..294#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            288,
-                        ),
-                        hi: BytePos(
-                            294,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 288..294#0,
                     value: "return",
                 },
                 tag: Return(
                     ReturnTag {
-                        span: Span {
-                            lo: BytePos(
-                                288,
-                            ),
-                            hi: BytePos(
-                                294,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 288..294#0,
                         ty: Some(
                             Text {
-                                span: Span {
-                                    lo: BytePos(
-                                        288,
-                                    ),
-                                    hi: BytePos(
-                                        296,
-                                    ),
-                                    ctxt: #0,
-                                },
+                                span: 288..296#0,
                                 value: "{string}",
                             },
                         ),
                         description: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    288,
-                                ),
-                                hi: BytePos(
-                                    309,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 288..309#0,
                             value: "The configuration ID.",
                         },
                     },

@@ -1,82 +1,26 @@
 [
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                1,
-            ),
-            hi: BytePos(
-                1,
-            ),
-            ctxt: #0,
-        },
+        span: 1..1#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    1,
-                ),
-                hi: BytePos(
-                    1,
-                ),
-                ctxt: #0,
-            },
+            span: 1..1#0,
             value: "",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        1,
-                    ),
-                    hi: BytePos(
-                        7,
-                    ),
-                    ctxt: #0,
-                },
+                span: 1..7#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            1,
-                        ),
-                        hi: BytePos(
-                            7,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 1..7#0,
                     value: "module",
                 },
                 tag: Module(
                     ModuleTag {
-                        span: Span {
-                            lo: BytePos(
-                                1,
-                            ),
-                            hi: BytePos(
-                                7,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 1..7#0,
                         name: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    0,
-                                ),
-                                hi: BytePos(
-                                    0,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 0..0#0,
                             value: "",
                         },
                         ty: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    1,
-                                ),
-                                hi: BytePos(
-                                    4,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 1..4#0,
                             value: "uid",
                         },
                     },
@@ -85,61 +29,21 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                0,
-            ),
-            hi: BytePos(
-                21,
-            ),
-            ctxt: #0,
-        },
+        span: 0..21#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    21,
-                ),
-                hi: BytePos(
-                    21,
-                ),
-                ctxt: #0,
-            },
+            span: 21..21#0,
             value: "",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        21,
-                    ),
-                    hi: BytePos(
-                        30,
-                    ),
-                    ctxt: #0,
-                },
+                span: 21..30#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            21,
-                        ),
-                        hi: BytePos(
-                            30,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 21..30#0,
                     value: "protected",
                 },
                 tag: Protected(
                     ProtectedTag {
-                        span: Span {
-                            lo: BytePos(
-                                21,
-                            ),
-                            hi: BytePos(
-                                30,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 21..30#0,
                         ty: None,
                     },
                 ),
@@ -147,61 +51,21 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                0,
-            ),
-            hi: BytePos(
-                60,
-            ),
-            ctxt: #0,
-        },
+        span: 0..60#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    60,
-                ),
-                hi: BytePos(
-                    60,
-                ),
-                ctxt: #0,
-            },
+            span: 60..60#0,
             value: "",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        60,
-                    ),
-                    hi: BytePos(
-                        69,
-                    ),
-                    ctxt: #0,
-                },
+                span: 60..69#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            60,
-                        ),
-                        hi: BytePos(
-                            69,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 60..69#0,
                     value: "protected",
                 },
                 tag: Protected(
                     ProtectedTag {
-                        span: Span {
-                            lo: BytePos(
-                                60,
-                            ),
-                            hi: BytePos(
-                                69,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 60..69#0,
                         ty: None,
                     },
                 ),
@@ -209,73 +73,25 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                101,
-            ),
-            hi: BytePos(
-                101,
-            ),
-            ctxt: #0,
-        },
+        span: 101..101#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    101,
-                ),
-                hi: BytePos(
-                    113,
-                ),
-                ctxt: #0,
-            },
+            span: 101..113#0,
             value: "Root object.",
         },
         tags: [],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                138,
-            ),
-            hi: BytePos(
-                138,
-            ),
-            ctxt: #0,
-        },
+        span: 138..138#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    138,
-                ),
-                hi: BytePos(
-                    157,
-                ),
-                ctxt: #0,
-            },
+            span: 138..157#0,
             value: "Obtain a unique ID.",
         },
         tags: [],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                231,
-            ),
-            hi: BytePos(
-                231,
-            ),
-            ctxt: #0,
-        },
+        span: 231..231#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    231,
-                ),
-                hi: BytePos(
-                    268,
-                ),
-                ctxt: #0,
-            },
+            span: 231..268#0,
             value: "Associate an object with a unique ID.",
         },
         tags: [],

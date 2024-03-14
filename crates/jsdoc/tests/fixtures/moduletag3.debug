@@ -1,130 +1,42 @@
 [
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                1,
-            ),
-            hi: BytePos(
-                1,
-            ),
-            ctxt: #0,
-        },
+        span: 1..1#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    1,
-                ),
-                hi: BytePos(
-                    1,
-                ),
-                ctxt: #0,
-            },
+            span: 1..1#0,
             value: "",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        1,
-                    ),
-                    hi: BytePos(
-                        7,
-                    ),
-                    ctxt: #0,
-                },
+                span: 1..7#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            1,
-                        ),
-                        hi: BytePos(
-                            7,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 1..7#0,
                     value: "module",
                 },
                 tag: Module(
                     ModuleTag {
-                        span: Span {
-                            lo: BytePos(
-                                1,
-                            ),
-                            hi: BytePos(
-                                7,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 1..7#0,
                         name: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    1,
-                                ),
-                                hi: BytePos(
-                                    14,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 1..14#0,
                             value: "Photo/manager",
                         },
                         ty: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    1,
-                                ),
-                                hi: BytePos(
-                                    4,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 1..4#0,
                             value: "foo",
                         },
                     },
                 ),
             },
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        1,
-                    ),
-                    hi: BytePos(
-                        5,
-                    ),
-                    ctxt: #0,
-                },
+                span: 1..5#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            1,
-                        ),
-                        hi: BytePos(
-                            5,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 1..5#0,
                     value: "desc",
                 },
                 tag: Description(
                     DescriptionTag {
-                        span: Span {
-                            lo: BytePos(
-                                1,
-                            ),
-                            hi: BytePos(
-                                5,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 1..5#0,
                         text: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    1,
-                                ),
-                                hi: BytePos(
-                                    31,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 1..31#0,
                             value: "Manage a collection of photos.",
                         },
                     },
@@ -133,86 +45,30 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                72,
-            ),
-            hi: BytePos(
-                72,
-            ),
-            ctxt: #0,
-        },
+        span: 72..72#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    72,
-                ),
-                hi: BytePos(
-                    101,
-                ),
-                ctxt: #0,
-            },
+            span: 72..101#0,
             value: "Construct a new Photo manager",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        72,
-                    ),
-                    hi: BytePos(
-                        83,
-                    ),
-                    ctxt: #0,
-                },
+                span: 72..83#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            72,
-                        ),
-                        hi: BytePos(
-                            83,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 72..83#0,
                     value: "constructor",
                 },
                 tag: Class(
                     ClassTag {
-                        span: Span {
-                            lo: BytePos(
-                                72,
-                            ),
-                            hi: BytePos(
-                                83,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 72..83#0,
                         ty: Some(
                             Text {
-                                span: Span {
-                                    lo: BytePos(
-                                        72,
-                                    ),
-                                    hi: BytePos(
-                                        96,
-                                    ),
-                                    ctxt: #0,
-                                },
+                                span: 72..96#0,
                                 value: "module:foo/Photo/manager",
                             },
                         ),
                         name: Some(
                             Text {
-                                span: Span {
-                                    lo: BytePos(
-                                        72,
-                                    ),
-                                    hi: BytePos(
-                                        142,
-                                    ),
-                                    ctxt: #0,
-                                },
+                                span: 72..142#0,
                                 value: "@param {String} collectionId The identifier of the managed collection.",
                             },
                         ),
@@ -222,72 +78,24 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                265,
-            ),
-            hi: BytePos(
-                265,
-            ),
-            ctxt: #0,
-        },
+        span: 265..265#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    265,
-                ),
-                hi: BytePos(
-                    265,
-                ),
-                ctxt: #0,
-            },
+            span: 265..265#0,
             value: "",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        265,
-                    ),
-                    hi: BytePos(
-                        273,
-                    ),
-                    ctxt: #0,
-                },
+                span: 265..273#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            265,
-                        ),
-                        hi: BytePos(
-                            273,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 265..273#0,
                     value: "function",
                 },
                 tag: Function(
                     FunctionTag {
-                        span: Span {
-                            lo: BytePos(
-                                265,
-                            ),
-                            hi: BytePos(
-                                273,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 265..273#0,
                         name: Some(
                             Text {
-                                span: Span {
-                                    lo: BytePos(
-                                        265,
-                                    ),
-                                    hi: BytePos(
-                                        298,
-                                    ),
-                                    ctxt: #0,
-                                },
+                                span: 265..298#0,
                                 value: "module:foo/Photo/manager#getPhoto",
                             },
                         ),
@@ -295,63 +103,23 @@
                 ),
             },
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        265,
-                    ),
-                    hi: BytePos(
-                        270,
-                    ),
-                    ctxt: #0,
-                },
+                span: 265..270#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            265,
-                        ),
-                        hi: BytePos(
-                            270,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 265..270#0,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: Span {
-                            lo: BytePos(
-                                265,
-                            ),
-                            hi: BytePos(
-                                270,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 265..270#0,
                         name: None,
                         ty: Some(
                             Text {
-                                span: Span {
-                                    lo: BytePos(
-                                        265,
-                                    ),
-                                    hi: BytePos(
-                                        273,
-                                    ),
-                                    ctxt: #0,
-                                },
+                                span: 265..273#0,
                                 value: "{String}",
                             },
                         ),
                         desc: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    265,
-                                ),
-                                hi: BytePos(
-                                    274,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 265..274#0,
                             value: "photoName",
                         },
                     },

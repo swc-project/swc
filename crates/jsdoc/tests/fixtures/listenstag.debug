@@ -1,82 +1,26 @@
 [
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                1,
-            ),
-            hi: BytePos(
-                1,
-            ),
-            ctxt: #0,
-        },
+        span: 1..1#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    1,
-                ),
-                hi: BytePos(
-                    1,
-                ),
-                ctxt: #0,
-            },
+            span: 1..1#0,
             value: "",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        1,
-                    ),
-                    hi: BytePos(
-                        7,
-                    ),
-                    ctxt: #0,
-                },
+                span: 1..7#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            1,
-                        ),
-                        hi: BytePos(
-                            7,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 1..7#0,
                     value: "module",
                 },
                 tag: Module(
                     ModuleTag {
-                        span: Span {
-                            lo: BytePos(
-                                1,
-                            ),
-                            hi: BytePos(
-                                7,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 1..7#0,
                         name: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    0,
-                                ),
-                                hi: BytePos(
-                                    0,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 0..0#0,
                             value: "",
                         },
                         ty: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    1,
-                                ),
-                                hi: BytePos(
-                                    9,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 1..9#0,
                             value: "myModule",
                         },
                     },
@@ -85,130 +29,42 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                26,
-            ),
-            hi: BytePos(
-                66,
-            ),
-            ctxt: #0,
-        },
+        span: 26..66#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    26,
-                ),
-                hi: BytePos(
-                    54,
-                ),
-                ctxt: #0,
-            },
+            span: 26..54#0,
             value: "An event (has listeners).\n *",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        26,
-                    ),
-                    hi: BytePos(
-                        31,
-                    ),
-                    ctxt: #0,
-                },
+                span: 26..31#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            26,
-                        ),
-                        hi: BytePos(
-                            31,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 26..31#0,
                     value: "event",
                 },
                 tag: Unknown(
                     UnknownTag {
-                        span: Span {
-                            lo: BytePos(
-                                26,
-                            ),
-                            hi: BytePos(
-                                31,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 26..31#0,
                         extras: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    26,
-                                ),
-                                hi: BytePos(
-                                    33,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 26..33#0,
                             value: "MyEvent",
                         },
                     },
                 ),
             },
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        26,
-                    ),
-                    hi: BytePos(
-                        34,
-                    ),
-                    ctxt: #0,
-                },
+                span: 26..34#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            26,
-                        ),
-                        hi: BytePos(
-                            34,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 26..34#0,
                     value: "memberof",
                 },
                 tag: MemberOf(
                     MemberOfTag {
-                        span: Span {
-                            lo: BytePos(
-                                26,
-                            ),
-                            hi: BytePos(
-                                34,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 26..34#0,
                         parent_name_path: NamePath {
-                            span: Span {
-                                lo: BytePos(
-                                    26,
-                                ),
-                                hi: BytePos(
-                                    66,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 26..66#0,
                             components: [
                                 Text {
-                                    span: Span {
-                                        lo: BytePos(
-                                            26,
-                                        ),
-                                        hi: BytePos(
-                                            32,
-                                        ),
-                                        ctxt: #0,
-                                    },
+                                    span: 26..32#0,
                                     value: "module",
                                 },
                             ],
@@ -219,167 +75,55 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                138,
-            ),
-            hi: BytePos(
-                138,
-            ),
-            ctxt: #0,
-        },
+        span: 138..138#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    138,
-                ),
-                hi: BytePos(
-                    151,
-                ),
-                ctxt: #0,
-            },
+            span: 138..151#0,
             value: "A handler.\n *",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        138,
-                    ),
-                    hi: BytePos(
-                        145,
-                    ),
-                    ctxt: #0,
-                },
+                span: 138..145#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            138,
-                        ),
-                        hi: BytePos(
-                            145,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 138..145#0,
                     value: "listens",
                 },
                 tag: Listens(
                     ListensTag {
-                        span: Span {
-                            lo: BytePos(
-                                138,
-                            ),
-                            hi: BytePos(
-                                145,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 138..145#0,
                         event_name: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    138,
-                                ),
-                                hi: BytePos(
-                                    161,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 138..161#0,
                             value: "module:myModule.MyEvent",
                         },
                     },
                 ),
             },
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        138,
-                    ),
-                    hi: BytePos(
-                        145,
-                    ),
-                    ctxt: #0,
-                },
+                span: 138..145#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            138,
-                        ),
-                        hi: BytePos(
-                            145,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 138..145#0,
                     value: "listens",
                 },
                 tag: Listens(
                     ListensTag {
-                        span: Span {
-                            lo: BytePos(
-                                138,
-                            ),
-                            hi: BytePos(
-                                145,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 138..145#0,
                         event_name: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    138,
-                                ),
-                                hi: BytePos(
-                                    173,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 138..173#0,
                             value: "module:myModule~Events.event:Event2",
                         },
                     },
                 ),
             },
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        138,
-                    ),
-                    hi: BytePos(
-                        145,
-                    ),
-                    ctxt: #0,
-                },
+                span: 138..145#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            138,
-                        ),
-                        hi: BytePos(
-                            145,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 138..145#0,
                     value: "listens",
                 },
                 tag: Listens(
                     ListensTag {
-                        span: Span {
-                            lo: BytePos(
-                                138,
-                            ),
-                            hi: BytePos(
-                                145,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 138..145#0,
                         event_name: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    138,
-                                ),
-                                hi: BytePos(
-                                    147,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 138..147#0,
                             value: "fakeEvent",
                         },
                     },
@@ -388,71 +132,23 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                289,
-            ),
-            hi: BytePos(
-                289,
-            ),
-            ctxt: #0,
-        },
+        span: 289..289#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    289,
-                ),
-                hi: BytePos(
-                    308,
-                ),
-                ctxt: #0,
-            },
+            span: 289..308#0,
             value: "Another handler.\n *",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        289,
-                    ),
-                    hi: BytePos(
-                        296,
-                    ),
-                    ctxt: #0,
-                },
+                span: 289..296#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            289,
-                        ),
-                        hi: BytePos(
-                            296,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 289..296#0,
                     value: "listens",
                 },
                 tag: Listens(
                     ListensTag {
-                        span: Span {
-                            lo: BytePos(
-                                289,
-                            ),
-                            hi: BytePos(
-                                296,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 289..296#0,
                         event_name: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    289,
-                                ),
-                                hi: BytePos(
-                                    312,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 289..312#0,
                             value: "module:myModule.MyEvent",
                         },
                     },
@@ -461,61 +157,21 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                0,
-            ),
-            hi: BytePos(
-                381,
-            ),
-            ctxt: #0,
-        },
+        span: 0..381#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    381,
-                ),
-                hi: BytePos(
-                    396,
-                ),
-                ctxt: #0,
-            },
+            span: 381..396#0,
             value: "a namespace.\n *",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        381,
-                    ),
-                    hi: BytePos(
-                        390,
-                    ),
-                    ctxt: #0,
-                },
+                span: 381..390#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            381,
-                        ),
-                        hi: BytePos(
-                            390,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 381..390#0,
                     value: "namespace",
                 },
                 tag: Namespace(
                     NamespaceTag {
-                        span: Span {
-                            lo: BytePos(
-                                381,
-                            ),
-                            hi: BytePos(
-                                390,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 381..390#0,
                         ty: None,
                         name: None,
                     },

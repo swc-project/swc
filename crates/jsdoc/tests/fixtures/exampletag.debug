@@ -1,70 +1,22 @@
 [
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                1,
-            ),
-            hi: BytePos(
-                1,
-            ),
-            ctxt: #0,
-        },
+        span: 1..1#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    1,
-                ),
-                hi: BytePos(
-                    1,
-                ),
-                ctxt: #0,
-            },
+            span: 1..1#0,
             value: "",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        1,
-                    ),
-                    hi: BytePos(
-                        8,
-                    ),
-                    ctxt: #0,
-                },
+                span: 1..8#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            1,
-                        ),
-                        hi: BytePos(
-                            8,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 1..8#0,
                     value: "example",
                 },
                 tag: Example(
                     ExampleTag {
-                        span: Span {
-                            lo: BytePos(
-                                1,
-                            ),
-                            hi: BytePos(
-                                8,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 1..8#0,
                         text: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    1,
-                                ),
-                                hi: BytePos(
-                                    47,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 1..47#0,
                             value: "* console.log(\"foo\");\n * console.log(\"bar\");\n ",
                         },
                     },
@@ -73,119 +25,39 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                72,
-            ),
-            hi: BytePos(
-                72,
-            ),
-            ctxt: #0,
-        },
+        span: 72..72#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    72,
-                ),
-                hi: BytePos(
-                    72,
-                ),
-                ctxt: #0,
-            },
+            span: 72..72#0,
             value: "",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        72,
-                    ),
-                    hi: BytePos(
-                        79,
-                    ),
-                    ctxt: #0,
-                },
+                span: 72..79#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            72,
-                        ),
-                        hi: BytePos(
-                            79,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 72..79#0,
                     value: "example",
                 },
                 tag: Example(
                     ExampleTag {
-                        span: Span {
-                            lo: BytePos(
-                                72,
-                            ),
-                            hi: BytePos(
-                                79,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 72..79#0,
                         text: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    72,
-                                ),
-                                hi: BytePos(
-                                    120,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 72..120#0,
                             value: "* console.log(\"foo\");\n * console.log(\"bar\");\n * ",
                         },
                     },
                 ),
             },
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        72,
-                    ),
-                    hi: BytePos(
-                        79,
-                    ),
-                    ctxt: #0,
-                },
+                span: 72..79#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            72,
-                        ),
-                        hi: BytePos(
-                            79,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 72..79#0,
                     value: "example",
                 },
                 tag: Example(
                     ExampleTag {
-                        span: Span {
-                            lo: BytePos(
-                                72,
-                            ),
-                            hi: BytePos(
-                                79,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 72..79#0,
                         text: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    72,
-                                ),
-                                hi: BytePos(
-                                    114,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 72..114#0,
                             value: "* <caption>Example 2</caption>\n * 1 + 2;\n ",
                         },
                     },

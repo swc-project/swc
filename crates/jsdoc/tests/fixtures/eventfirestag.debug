@@ -1,60 +1,20 @@
 [
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                1,
-            ),
-            hi: BytePos(
-                1,
-            ),
-            ctxt: #0,
-        },
+        span: 1..1#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    1,
-                ),
-                hi: BytePos(
-                    1,
-                ),
-                ctxt: #0,
-            },
+            span: 1..1#0,
             value: "",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        1,
-                    ),
-                    hi: BytePos(
-                        6,
-                    ),
-                    ctxt: #0,
-                },
+                span: 1..6#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            1,
-                        ),
-                        hi: BytePos(
-                            6,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 1..6#0,
                     value: "class",
                 },
                 tag: Class(
                     ClassTag {
-                        span: Span {
-                            lo: BytePos(
-                                1,
-                            ),
-                            hi: BytePos(
-                                6,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 1..6#0,
                         ty: None,
                         name: None,
                     },
@@ -63,119 +23,39 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                48,
-            ),
-            hi: BytePos(
-                48,
-            ),
-            ctxt: #0,
-        },
+        span: 48..48#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    48,
-                ),
-                hi: BytePos(
-                    71,
-                ),
-                ctxt: #0,
-            },
+            span: 48..71#0,
             value: "Throw a snowball.\n *\n *",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        48,
-                    ),
-                    hi: BytePos(
-                        53,
-                    ),
-                    ctxt: #0,
-                },
+                span: 48..53#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            48,
-                        ),
-                        hi: BytePos(
-                            53,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 48..53#0,
                     value: "fires",
                 },
                 tag: Unknown(
                     UnknownTag {
-                        span: Span {
-                            lo: BytePos(
-                                48,
-                            ),
-                            hi: BytePos(
-                                53,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 48..53#0,
                         extras: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    48,
-                                ),
-                                hi: BytePos(
-                                    61,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 48..61#0,
                             value: "Hurl#snowball",
                         },
                     },
                 ),
             },
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        48,
-                    ),
-                    hi: BytePos(
-                        53,
-                    ),
-                    ctxt: #0,
-                },
+                span: 48..53#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            48,
-                        ),
-                        hi: BytePos(
-                            53,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 48..53#0,
                     value: "fires",
                 },
                 tag: Unknown(
                     UnknownTag {
-                        span: Span {
-                            lo: BytePos(
-                                48,
-                            ),
-                            hi: BytePos(
-                                53,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 48..53#0,
                         extras: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    48,
-                                ),
-                                hi: BytePos(
-                                    64,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 48..64#0,
                             value: "Hurl#event:brick",
                         },
                     },
@@ -184,71 +64,23 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                175,
-            ),
-            hi: BytePos(
-                175,
-            ),
-            ctxt: #0,
-        },
+        span: 175..175#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    175,
-                ),
-                hi: BytePos(
-                    175,
-                ),
-                ctxt: #0,
-            },
+            span: 175..175#0,
             value: "",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        175,
-                    ),
-                    hi: BytePos(
-                        180,
-                    ),
-                    ctxt: #0,
-                },
+                span: 175..180#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            175,
-                        ),
-                        hi: BytePos(
-                            180,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 175..180#0,
                     value: "event",
                 },
                 tag: Unknown(
                     UnknownTag {
-                        span: Span {
-                            lo: BytePos(
-                                175,
-                            ),
-                            hi: BytePos(
-                                180,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 175..180#0,
                         extras: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    175,
-                                ),
-                                hi: BytePos(
-                                    188,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 175..188#0,
                             value: "Hurl#snowball",
                         },
                     },
@@ -257,71 +89,23 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                250,
-            ),
-            hi: BytePos(
-                250,
-            ),
-            ctxt: #0,
-        },
+        span: 250..250#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    250,
-                ),
-                hi: BytePos(
-                    279,
-                ),
-                ctxt: #0,
-            },
+            span: 250..279#0,
             value: "Throw a football match.\n *\n *",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        250,
-                    ),
-                    hi: BytePos(
-                        255,
-                    ),
-                    ctxt: #0,
-                },
+                span: 250..255#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            250,
-                        ),
-                        hi: BytePos(
-                            255,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 250..255#0,
                     value: "emits",
                 },
                 tag: Unknown(
                     UnknownTag {
-                        span: Span {
-                            lo: BytePos(
-                                250,
-                            ),
-                            hi: BytePos(
-                                255,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 250..255#0,
                         extras: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    250,
-                                ),
-                                hi: BytePos(
-                                    268,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 250..268#0,
                             value: "Hurl#footballMatch",
                         },
                     },
@@ -330,71 +114,23 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                366,
-            ),
-            hi: BytePos(
-                366,
-            ),
-            ctxt: #0,
-        },
+        span: 366..366#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    366,
-                ),
-                hi: BytePos(
-                    366,
-                ),
-                ctxt: #0,
-            },
+            span: 366..366#0,
             value: "",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        366,
-                    ),
-                    hi: BytePos(
-                        371,
-                    ),
-                    ctxt: #0,
-                },
+                span: 366..371#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            366,
-                        ),
-                        hi: BytePos(
-                            371,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 366..371#0,
                     value: "event",
                 },
                 tag: Unknown(
                     UnknownTag {
-                        span: Span {
-                            lo: BytePos(
-                                366,
-                            ),
-                            hi: BytePos(
-                                371,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 366..371#0,
                         extras: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    366,
-                                ),
-                                hi: BytePos(
-                                    384,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 366..384#0,
                             value: "Hurl#footballMatch",
                         },
                     },

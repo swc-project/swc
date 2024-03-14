@@ -1,82 +1,26 @@
 [
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                1,
-            ),
-            hi: BytePos(
-                14,
-            ),
-            ctxt: #0,
-        },
+        span: 1..14#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    1,
-                ),
-                hi: BytePos(
-                    46,
-                ),
-                ctxt: #0,
-            },
+            span: 1..46#0,
             value: "A builder function for the Stick application;",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        1,
-                    ),
-                    hi: BytePos(
-                        4,
-                    ),
-                    ctxt: #0,
-                },
+                span: 1..4#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            1,
-                        ),
-                        hi: BytePos(
-                            4,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 1..4#0,
                     value: "var",
                 },
                 tag: Member(
                     MemberTag {
-                        span: Span {
-                            lo: BytePos(
-                                1,
-                            ),
-                            hi: BytePos(
-                                4,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 1..4#0,
                         ty: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    1,
-                                ),
-                                hi: BytePos(
-                                    1,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 1..1#0,
                             value: "",
                         },
                         name: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    1,
-                                ),
-                                hi: BytePos(
-                                    9,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 1..9#0,
                             value: "function",
                         },
                     },

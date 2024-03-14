@@ -1,70 +1,22 @@
 [
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                30,
-            ),
-            hi: BytePos(
-                39,
-            ),
-            ctxt: #0,
-        },
+        span: 30..39#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    30,
-                ),
-                hi: BytePos(
-                    30,
-                ),
-                ctxt: #0,
-            },
+            span: 30..30#0,
             value: "",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        30,
-                    ),
-                    hi: BytePos(
-                        34,
-                    ),
-                    ctxt: #0,
-                },
+                span: 30..34#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            30,
-                        ),
-                        hi: BytePos(
-                            34,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 30..34#0,
                     value: "type",
                 },
                 tag: Type(
                     TypeTag {
-                        span: Span {
-                            lo: BytePos(
-                                30,
-                            ),
-                            hi: BytePos(
-                                34,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 30..34#0,
                         name: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    0,
-                                ),
-                                hi: BytePos(
-                                    0,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 0..0#0,
                             value: "",
                         },
                     },
@@ -73,71 +25,23 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                62,
-            ),
-            hi: BytePos(
-                71,
-            ),
-            ctxt: #0,
-        },
+        span: 62..71#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    62,
-                ),
-                hi: BytePos(
-                    62,
-                ),
-                ctxt: #0,
-            },
+            span: 62..62#0,
             value: "",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        62,
-                    ),
-                    hi: BytePos(
-                        66,
-                    ),
-                    ctxt: #0,
-                },
+                span: 62..66#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            62,
-                        ),
-                        hi: BytePos(
-                            66,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 62..66#0,
                     value: "type",
                 },
                 tag: Type(
                     TypeTag {
-                        span: Span {
-                            lo: BytePos(
-                                62,
-                            ),
-                            hi: BytePos(
-                                66,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 62..66#0,
                         name: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    0,
-                                ),
-                                hi: BytePos(
-                                    0,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 0..0#0,
                             value: "",
                         },
                     },

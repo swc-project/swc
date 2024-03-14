@@ -1,82 +1,26 @@
 [
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                1,
-            ),
-            hi: BytePos(
-                1,
-            ),
-            ctxt: #0,
-        },
+        span: 1..1#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    1,
-                ),
-                hi: BytePos(
-                    1,
-                ),
-                ctxt: #0,
-            },
+            span: 1..1#0,
             value: "",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        1,
-                    ),
-                    hi: BytePos(
-                        7,
-                    ),
-                    ctxt: #0,
-                },
+                span: 1..7#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            1,
-                        ),
-                        hi: BytePos(
-                            7,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 1..7#0,
                     value: "module",
                 },
                 tag: Module(
                     ModuleTag {
-                        span: Span {
-                            lo: BytePos(
-                                1,
-                            ),
-                            hi: BytePos(
-                                7,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 1..7#0,
                         name: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    0,
-                                ),
-                                hi: BytePos(
-                                    0,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 0..0#0,
                             value: "",
                         },
                         ty: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    1,
-                                ),
-                                hi: BytePos(
-                                    5,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 1..5#0,
                             value: "mixy",
                         },
                     },
@@ -85,71 +29,23 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                36,
-            ),
-            hi: BytePos(
-                36,
-            ),
-            ctxt: #0,
-        },
+        span: 36..36#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    36,
-                ),
-                hi: BytePos(
-                    48,
-                ),
-                ctxt: #0,
-            },
+            span: 36..48#0,
             value: "Object A.\n *",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        36,
-                    ),
-                    hi: BytePos(
-                        41,
-                    ),
-                    ctxt: #0,
-                },
+                span: 36..41#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            36,
-                        ),
-                        hi: BytePos(
-                            41,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 36..41#0,
                     value: "mixin",
                 },
                 tag: Mixin(
                     MixinTag {
-                        span: Span {
-                            lo: BytePos(
-                                36,
-                            ),
-                            hi: BytePos(
-                                41,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 36..41#0,
                         name: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    0,
-                                ),
-                                hi: BytePos(
-                                    0,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 0..0#0,
                             value: "",
                         },
                     },
@@ -158,95 +54,31 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                91,
-            ),
-            hi: BytePos(
-                91,
-            ),
-            ctxt: #0,
-        },
+        span: 91..91#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    91,
-                ),
-                hi: BytePos(
-                    103,
-                ),
-                ctxt: #0,
-            },
+            span: 91..103#0,
             value: "Some method.",
         },
         tags: [],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                141,
-            ),
-            hi: BytePos(
-                141,
-            ),
-            ctxt: #0,
-        },
+        span: 141..141#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    141,
-                ),
-                hi: BytePos(
-                    169,
-                ),
-                ctxt: #0,
-            },
+            span: 141..169#0,
             value: "Object B. Mixes Object A.\n *",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        141,
-                    ),
-                    hi: BytePos(
-                        146,
-                    ),
-                    ctxt: #0,
-                },
+                span: 141..146#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            141,
-                        ),
-                        hi: BytePos(
-                            146,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 141..146#0,
                     value: "mixin",
                 },
                 tag: Mixin(
                     MixinTag {
-                        span: Span {
-                            lo: BytePos(
-                                141,
-                            ),
-                            hi: BytePos(
-                                146,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 141..146#0,
                         name: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    141,
-                                ),
-                                hi: BytePos(
-                                    169,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 141..169#0,
                             value: "* @mixes module:mixy.ObjectA",
                         },
                     },
@@ -255,71 +87,23 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                241,
-            ),
-            hi: BytePos(
-                241,
-            ),
-            ctxt: #0,
-        },
+        span: 241..241#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    241,
-                ),
-                hi: BytePos(
-                    293,
-                ),
-                ctxt: #0,
-            },
+            span: 241..293#0,
             value: "Object C. Mixes Object B and adds its own method.\n *",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        241,
-                    ),
-                    hi: BytePos(
-                        246,
-                    ),
-                    ctxt: #0,
-                },
+                span: 241..246#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            241,
-                        ),
-                        hi: BytePos(
-                            246,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 241..246#0,
                     value: "mixin",
                 },
                 tag: Mixin(
                     MixinTag {
-                        span: Span {
-                            lo: BytePos(
-                                241,
-                            ),
-                            hi: BytePos(
-                                246,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 241..246#0,
                         name: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    241,
-                                ),
-                                hi: BytePos(
-                                    269,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 241..269#0,
                             value: "* @mixes module:mixy.ObjectB",
                         },
                     },
@@ -328,72 +112,24 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                366,
-            ),
-            hi: BytePos(
-                366,
-            ),
-            ctxt: #0,
-        },
+        span: 366..366#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    366,
-                ),
-                hi: BytePos(
-                    451,
-                ),
-                ctxt: #0,
-            },
+            span: 366..451#0,
             value: "Super-sweet method that's named in the comment, making this a virtual comment.\n     *",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        366,
-                    ),
-                    hi: BytePos(
-                        374,
-                    ),
-                    ctxt: #0,
-                },
+                span: 366..374#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            366,
-                        ),
-                        hi: BytePos(
-                            374,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 366..374#0,
                     value: "function",
                 },
                 tag: Function(
                     FunctionTag {
-                        span: Span {
-                            lo: BytePos(
-                                366,
-                            ),
-                            hi: BytePos(
-                                374,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 366..374#0,
                         name: Some(
                             Text {
-                                span: Span {
-                                    lo: BytePos(
-                                        366,
-                                    ),
-                                    hi: BytePos(
-                                        396,
-                                    ),
-                                    ctxt: #0,
-                                },
+                                span: 366..396#0,
                                 value: "module:mixy.ObjectC.superSweet",
                             },
                         ),
@@ -403,120 +139,40 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                546,
-            ),
-            hi: BytePos(
-                546,
-            ),
-            ctxt: #0,
-        },
+        span: 546..546#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    546,
-                ),
-                hi: BytePos(
-                    585,
-                ),
-                ctxt: #0,
-            },
+            span: 546..585#0,
             value: "Class that mixes Object A, so it gets {",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        546,
-                    ),
-                    hi: BytePos(
-                        550,
-                    ),
-                    ctxt: #0,
-                },
+                span: 546..550#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            546,
-                        ),
-                        hi: BytePos(
-                            550,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 546..550#0,
                     value: "link",
                 },
                 tag: Unknown(
                     UnknownTag {
-                        span: Span {
-                            lo: BytePos(
-                                546,
-                            ),
-                            hi: BytePos(
-                                550,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 546..550#0,
                         extras: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    546,
-                                ),
-                                hi: BytePos(
-                                    573,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 546..573#0,
                             value: "module:mixy.ClassA#method}.",
                         },
                     },
                 ),
             },
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        546,
-                    ),
-                    hi: BytePos(
-                        551,
-                    ),
-                    ctxt: #0,
-                },
+                span: 546..551#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            546,
-                        ),
-                        hi: BytePos(
-                            551,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 546..551#0,
                     value: "class",
                 },
                 tag: Class(
                     ClassTag {
-                        span: Span {
-                            lo: BytePos(
-                                546,
-                            ),
-                            hi: BytePos(
-                                551,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 546..551#0,
                         ty: Some(
                             Text {
-                                span: Span {
-                                    lo: BytePos(
-                                        546,
-                                    ),
-                                    hi: BytePos(
-                                        574,
-                                    ),
-                                    ctxt: #0,
-                                },
+                                span: 546..574#0,
                                 value: "* @mixes module:mixy.ObjectA",
                             },
                         ),
@@ -527,95 +183,31 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                703,
-            ),
-            hi: BytePos(
-                703,
-            ),
-            ctxt: #0,
-        },
+        span: 703..703#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    703,
-                ),
-                hi: BytePos(
-                    714,
-                ),
-                ctxt: #0,
-            },
+            span: 703..714#0,
             value: "Do a thing.",
         },
         tags: [],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                777,
-            ),
-            hi: BytePos(
-                857,
-            ),
-            ctxt: #0,
-        },
+        span: 777..857#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    777,
-                ),
-                hi: BytePos(
-                    816,
-                ),
-                ctxt: #0,
-            },
+            span: 777..816#0,
             value: "Class that mixes Object C, so it gets {",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        777,
-                    ),
-                    hi: BytePos(
-                        781,
-                    ),
-                    ctxt: #0,
-                },
+                span: 777..781#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            777,
-                        ),
-                        hi: BytePos(
-                            781,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 777..781#0,
                     value: "link",
                 },
                 tag: Unknown(
                     UnknownTag {
-                        span: Span {
-                            lo: BytePos(
-                                777,
-                            ),
-                            hi: BytePos(
-                                781,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 777..781#0,
                         extras: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    777,
-                                ),
-                                hi: BytePos(
-                                    807,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 777..807#0,
                             value: "module:mixy.ClassB#method} and",
                         },
                     },
