@@ -5,7 +5,7 @@ System.register([
     "@swc/helpers/_/_using"
 ], function(_export, _context) {
     "use strict";
-    var _ts_decorate, _dispose, _using, C;
+    var _ts_decorate, _dispose, _using, _C;
     _export("C", void 0);
     return {
         setters: [
@@ -20,13 +20,14 @@ System.register([
             }
         ],
         execute: function() {
-            _export("C", C = class C {
-            });
             try {
                 var _stack = [];
-                _export("C", C = _ts_decorate([
+                class C {
+                }
+                _export("C", _C = C);
+                C = _ts_decorate([
                     dec
-                ], C));
+                ], C);
                 var after = _using(_stack, null);
             } catch (_) {
                 var _error = _;

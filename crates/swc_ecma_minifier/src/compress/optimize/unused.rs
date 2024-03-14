@@ -345,25 +345,22 @@ impl Optimizer<'_> {
             }
 
             Pat::Array(arr) => {
-                for (idx, elem) in arr.elems.iter_mut().enumerate() {
-                    match elem {
+                for (idx, arr_elem) in arr.elems.iter_mut().enumerate() {
+                    match arr_elem {
                         Some(p) => {
-                            if p.is_ident() {
-                                continue;
-                            }
-
                             let elem = init
                                 .as_mut()
                                 .and_then(|expr| self.access_numeric_property(expr, idx));
 
                             self.take_pat_if_unused(p, elem, is_var_decl);
+
+                            if p.is_invalid() {
+                                *arr_elem = None;
+                            }
                         }
                         None => {}
                     }
                 }
-
-                arr.elems
-                    .retain(|elem| !matches!(elem, Some(Pat::Invalid(..))))
             }
 
             Pat::Object(obj) => {

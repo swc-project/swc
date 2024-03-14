@@ -739,6 +739,7 @@ hoist/hoist_no_destructurings/input.js
 hoist/hoist_vars/input.js
 hoist_props/contains_this_1/input.js
 hoist_props/contains_this_2/input.js
+hoist_props/contains_this_3/input.js
 hoist_props/direct_access_1/input.js
 hoist_props/direct_access_2/input.js
 hoist_props/direct_access_3/input.js

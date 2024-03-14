@@ -9,7 +9,7 @@ include       = ["Cargo.toml", "build.rs", "src/**/*.rs", "src/**/*.js"]
 license       = "Apache-2.0"
 name          = "swc_bundler"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.225.14"
+version       = "0.225.15"
 
   [package.metadata.docs.rs]
   all-features = true
@@ -44,8 +44,8 @@ swc_ecma_codegen                 = { version = "0.148.10", path = "../swc_ecma_c
 swc_ecma_loader                  = { version = "0.45.21", path = "../swc_ecma_loader" }
 swc_ecma_parser                  = { version = "0.143.8", path = "../swc_ecma_parser" }
 swc_ecma_transforms_base         = { version = "0.137.14", path = "../swc_ecma_transforms_base" }
-swc_ecma_transforms_optimization = { version = "0.198.14", path = "../swc_ecma_transforms_optimization" }
-swc_ecma_utils                   = { version = "0.127.10", path = "../swc_ecma_utils" }
+swc_ecma_transforms_optimization = { version = "0.198.15", path = "../swc_ecma_transforms_optimization" }
+swc_ecma_utils                   = { version = "0.127.11", path = "../swc_ecma_utils" }
 swc_ecma_visit                   = { version = "0.98.6", path = "../swc_ecma_visit" }
 swc_fast_graph                   = { version = "0.21.19", path = "../swc_fast_graph/" }
 swc_graph_analyzer               = { version = "0.22.21", path = "../swc_graph_analyzer/" }
@@ -63,11 +63,11 @@ swc_ecma_loader = { version = "0.45.21", path = "../swc_ecma_loader", features =
   "node",
   "cache",
 ] }
-swc_ecma_minifier = { version = "0.192.15", path = "../swc_ecma_minifier", features = [
+swc_ecma_minifier = { version = "0.192.16", path = "../swc_ecma_minifier", features = [
   "concurrent",
 ] }
-swc_ecma_transforms_proposal = { version = "0.171.14", path = "../swc_ecma_transforms_proposal" }
-swc_ecma_transforms_react = { version = "0.183.14", path = "../swc_ecma_transforms_react" }
-swc_ecma_transforms_typescript = { version = "0.188.14", path = "../swc_ecma_transforms_typescript" }
+swc_ecma_transforms_proposal = { version = "0.171.15", path = "../swc_ecma_transforms_proposal" }
+swc_ecma_transforms_react = { version = "0.183.15", path = "../swc_ecma_transforms_react" }
+swc_ecma_transforms_typescript = { version = "0.188.15", path = "../swc_ecma_transforms_typescript" }
 swc_malloc = { version = "0.5.10", path = "../swc_malloc" }
 testing = { version = "0.35.20", path = "../testing" }

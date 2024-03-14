@@ -1,0 +1,22 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "typescript",
+            "decorators": true
+        },
+        "target": "es2015",
+        "loose": false,
+        "minify": {
+            "compress": false,
+            "mangle": false
+        },
+        "transform": {
+            "decoratorVersion": "2022-03"
+        }
+    },
+    "module": {
+        "type": "es6"
+    },
+    "minify": false,
+    "isModule": true
+}

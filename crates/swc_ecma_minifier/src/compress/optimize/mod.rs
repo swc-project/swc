@@ -269,6 +269,7 @@ impl Vars {
             || !self.lits.is_empty()
             || !self.lits_for_cmp.is_empty()
             || !self.lits_for_array_access.is_empty()
+            || !self.hoisted_props.is_empty()
             || !self.removed.is_empty()
         {
             let mut v = Finalizer {
