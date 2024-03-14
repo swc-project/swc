@@ -93,6 +93,7 @@ where
             Syntax::Es(EsConfig {
                 explicit_resource_management: true,
                 import_attributes: true,
+                decorators: true,
                 ..Default::default()
             }),
             EsVersion::Es2015,
