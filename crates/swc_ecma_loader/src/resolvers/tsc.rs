@@ -1,4 +1,7 @@
-use std::path::{Component, Path, PathBuf};
+use std::{
+    io::{stderr, Write},
+    path::{Component, Path, PathBuf},
+};
 
 use anyhow::{bail, Context, Error};
 use swc_common::FileName;
@@ -323,6 +326,10 @@ where
 
         // https://www.typescriptlang.org/docs/handbook/modules/reference.html#baseurl
         if let Ok(v) = self.invoke_inner_resolver(base, &path.to_string_lossy()) {
+            let _ = stderr().write(b"\nRelative from base=");
+            let _ = stderr().write(v.filename.to_string().as_bytes());
+            let _ = stderr().write(b"\n");
+
             return Ok(v);
         }
 
