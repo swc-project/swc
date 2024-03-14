@@ -270,7 +270,7 @@ where
         // 3. Per-unit renaming
         // 4. Top level renaming
         //
-        // This is because the the top level map may contain a mapping which conflicts
+        // This is because the top level map may contain a mapping which conflicts
         // with a map from one of the children.
         //
         // See https://github.com/swc-project/swc/pull/7615
