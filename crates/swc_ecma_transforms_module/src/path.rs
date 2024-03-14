@@ -2,7 +2,7 @@ use std::{
     borrow::Cow,
     env::current_dir,
     fs::read_link,
-    io,
+    io::{self, stderr, Write},
     path::{Component, Path, PathBuf},
     sync::Arc,
 };
@@ -301,6 +301,13 @@ where
             base.display(),
             target.display()
         );
+
+        let _ = stderr().write(b"Comparing values (after normalizing absoluteness)\n");
+        let _ = stderr().write(b"base=");
+        let _ = stderr().write(base.display().to_string().as_bytes());
+        let _ = stderr().write(b"\ntarget=").unwrap();
+        let _ = stderr().write(target.display().to_string().as_bytes());
+        let _ = stderr().write(b"\n");
 
         let rel_path = diff_paths(&target, &*base);
 
