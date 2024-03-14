@@ -303,7 +303,9 @@ where
         );
 
         let _ = stderr().write(b"Comparing values (after normalizing absoluteness)\n");
-        let _ = stderr().write(b"base=");
+        let _ = stderr().write(b"module_specifier=");
+        let _ = stderr().write(module_specifier.as_bytes());
+        let _ = stderr().write(b"\nbase=");
         let _ = stderr().write(base.display().to_string().as_bytes());
         let _ = stderr().write(b"\ntarget=").unwrap();
         let _ = stderr().write(target.display().to_string().as_bytes());
