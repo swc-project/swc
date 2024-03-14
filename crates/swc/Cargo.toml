@@ -80,7 +80,7 @@ swc_ecma_ast = { version = "0.112.5", path = "../swc_ecma_ast" }
 swc_ecma_codegen = { version = "0.148.11", path = "../swc_ecma_codegen" }
 swc_ecma_ext_transforms = { version = "0.113.12", path = "../swc_ecma_ext_transforms" }
 swc_ecma_lints = { version = "0.92.17", path = "../swc_ecma_lints" }
-swc_ecma_loader = { version = "0.45.21", path = "../swc_ecma_loader", features = [
+swc_ecma_loader = { version = "0.45.22", path = "../swc_ecma_loader", features = [
   "cache",
   "node",
   "tsc",

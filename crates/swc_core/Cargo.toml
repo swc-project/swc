@@ -345,7 +345,7 @@ swc_css_visit                    = { optional = true, version = "0.139.20", path
 swc_ecma_ast                     = { optional = true, version = "0.112.5", path = "../swc_ecma_ast" }
 swc_ecma_codegen                 = { optional = true, version = "0.148.11", path = "../swc_ecma_codegen" }
 swc_ecma_lints                   = { optional = true, version = "0.92.17", path = "../swc_ecma_lints" }
-swc_ecma_loader                  = { optional = true, version = "0.45.21", path = "../swc_ecma_loader" }
+swc_ecma_loader                  = { optional = true, version = "0.45.22", path = "../swc_ecma_loader" }
 swc_ecma_minifier                = { optional = true, version = "0.192.17", path = "../swc_ecma_minifier" }
 swc_ecma_parser                  = { optional = true, version = "0.143.9", path = "../swc_ecma_parser" }
 swc_ecma_preset_env              = { optional = true, version = "0.206.16", path = "../swc_ecma_preset_env" }
