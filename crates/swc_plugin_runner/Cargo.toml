@@ -80,7 +80,7 @@ swc_css_parser = { version = "0.150.29", path = "../swc_css_parser" }
 swc_ecma_ast = { version = "0.112.5", path = "../swc_ecma_ast", features = [
   "rkyv-impl",
 ] }
-swc_ecma_loader = { version = "0.45.21", path = "../swc_ecma_loader" }
+swc_ecma_loader = { version = "0.45.22", path = "../swc_ecma_loader" }
 swc_ecma_parser = { version = "0.143.9", path = "../swc_ecma_parser" }
 swc_ecma_visit = { version = "0.98.6", path = "../swc_ecma_visit" }
 swc_malloc = { version = "0.5.10", path = "../swc_malloc" }
