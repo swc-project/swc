@@ -2,7 +2,7 @@ use std::{
     borrow::Cow,
     env::current_dir,
     fs::read_link,
-    io,
+    io::{self},
     path::{Component, Path, PathBuf},
     sync::Arc,
 };
