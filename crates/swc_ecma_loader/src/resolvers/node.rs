@@ -5,7 +5,7 @@
 use std::{
     env::current_dir,
     fs::File,
-    io::{stderr, BufReader, Write},
+    io::BufReader,
     path::{Component, Path, PathBuf},
 };
 
@@ -547,25 +547,9 @@ impl NodeModulesResolver {
 impl Resolve for NodeModulesResolver {
     fn resolve(&self, base: &FileName, module_specifier: &str) -> Result<Resolution, Error> {
         self.resolve_filename(base, module_specifier)
-            .map(|filename| {
-                let _ = stderr().write(b"resolved\n");
-
-                let _ = stderr().write(b"base=");
-                let _ = stderr().write(base.to_string().as_bytes());
-                let _ = stderr().write(b"\n");
-
-                let _ = stderr().write(b"module_specifier=");
-                let _ = stderr().write(module_specifier.as_bytes());
-                let _ = stderr().write(b"\n");
-
-                let _ = stderr().write(b"filename=");
-                let _ = stderr().write(filename.to_string().as_bytes());
-                let _ = stderr().write(b"\n");
-
-                Resolution {
-                    filename,
-                    slug: None,
-                }
+            .map(|filename| Resolution {
+                filename,
+                slug: None,
             })
     }
 }

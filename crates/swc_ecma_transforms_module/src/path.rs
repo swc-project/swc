@@ -2,7 +2,7 @@ use std::{
     borrow::Cow,
     env::current_dir,
     fs::read_link,
-    io::{self, stderr, Write},
+    io::{self},
     path::{Component, Path, PathBuf},
     sync::Arc,
 };
@@ -302,15 +302,6 @@ where
             target.display()
         );
 
-        let _ = stderr().write(b"Comparing values (after normalizing absoluteness)\n");
-        let _ = stderr().write(b"module_specifier=");
-        let _ = stderr().write(module_specifier.as_bytes());
-        let _ = stderr().write(b"\nbase=");
-        let _ = stderr().write(base.display().to_string().as_bytes());
-        let _ = stderr().write(b"\ntarget=").unwrap();
-        let _ = stderr().write(target.display().to_string().as_bytes());
-        let _ = stderr().write(b"\n");
-
         let rel_path = diff_paths(&target, &*base);
 
         let rel_path = match rel_path {
@@ -345,13 +336,7 @@ where
             Cow::Owned(format!("./{}", s))
         };
 
-        let result = self.to_specifier(s.into_owned().into(), slug);
-
-        let _ = stderr().write(b"result=");
-        let _ = stderr().write(result.as_bytes());
-        let _ = stderr().write(b"\n");
-
-        Ok(result)
+        Ok(self.to_specifier(s.into_owned().into(), slug))
     }
 }
 
