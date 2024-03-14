@@ -11,21 +11,25 @@ Object.defineProperty(exports, "__esModule", {
         return _default;
     },
     w: function() {
-        return w;
+        return _w;
     },
     x: function() {
-        return x;
+        return _x;
     },
     y: function() {
         return y;
     }
 });
-const _dispose = require("@swc/helpers/_/_dispose"), _using = require("@swc/helpers/_/_using"), x = 1, w = 3;
+const _dispose = require("@swc/helpers/_/_dispose"), _using = require("@swc/helpers/_/_using");
 try {
-    var _stack = [], z = _using._(_stack, {
+    var _x, _w, _stack = [];
+    _x = 1;
+    var z = _using._(_stack, {
         [Symbol.dispose] () {}
-    }), y = 2, _default = 4;
-    console.log(w, x, y, z);
+    }), y = 2;
+    _w = 3;
+    var _default = 4;
+    console.log(3, 1, y, z);
 } catch (_) {
     var _error = _, _hasError = !0;
 } finally{

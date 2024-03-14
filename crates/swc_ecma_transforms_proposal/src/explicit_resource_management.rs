@@ -3,7 +3,7 @@ use std::iter::once;
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
-use swc_ecma_utils::{private_ident, ExprFactory, ModuleItemLike, StmtLike};
+use swc_ecma_utils::{find_pat_ids, private_ident, ExprFactory, ModuleItemLike, StmtLike};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 pub fn explicit_resource_management() -> impl Fold + VisitMut {
@@ -60,6 +60,7 @@ impl ExplicitResourceManagement {
         T: StmtLike + ModuleItemLike,
     {
         let mut new = vec![];
+        let mut extras = vec![];
         let mut try_body = vec![];
 
         let stack_var_decl = VarDeclarator {
@@ -173,6 +174,133 @@ impl ExplicitResourceManagement {
                         }))));
                     }
 
+                    Ok(ModuleDecl::ExportDecl(e)) => {
+                        match &e.decl {
+                            Decl::Class(ClassDecl { ident, .. })
+                            | Decl::Fn(FnDecl { ident, .. }) => {
+                                let ident = ident.clone();
+                                let var_name = private_ident!(format!("_{}", ident.sym));
+                                let var = VarDeclarator {
+                                    span: DUMMY_SP,
+                                    name: var_name.clone().into(),
+                                    init: None,
+                                    definite: Default::default(),
+                                };
+
+                                new.push(T::from_stmt(Stmt::Decl(Decl::Var(Box::new(VarDecl {
+                                    span: DUMMY_SP,
+                                    kind: VarDeclKind::Var,
+                                    declare: false,
+                                    decls: vec![var],
+                                })))));
+
+                                try_body.push(Stmt::Decl(e.decl));
+                                try_body.push(Stmt::Expr(ExprStmt {
+                                    span: DUMMY_SP,
+                                    expr: AssignExpr {
+                                        span: DUMMY_SP,
+                                        op: op!("="),
+                                        left: var_name.clone().into(),
+                                        right: ident.clone().into(),
+                                    }
+                                    .into(),
+                                }));
+
+                                let specifier = ExportSpecifier::Named(ExportNamedSpecifier {
+                                    span: DUMMY_SP,
+                                    orig: ModuleExportName::Ident(var_name),
+                                    exported: Some(ModuleExportName::Ident(ident.clone())),
+                                    is_type_only: false,
+                                });
+
+                                extras.push(
+                                    T::try_from_module_decl(ModuleDecl::ExportNamed(NamedExport {
+                                        span: DUMMY_SP,
+                                        specifiers: vec![specifier],
+                                        src: None,
+                                        type_only: false,
+                                        with: None,
+                                    }))
+                                    .unwrap(),
+                                );
+                            }
+                            Decl::Var(d) => {
+                                let orig_var_names: Vec<Ident> = find_pat_ids(&d.decls);
+
+                                let var_names = orig_var_names
+                                    .iter()
+                                    .map(|ident| private_ident!(format!("_{}", ident.sym)))
+                                    .collect::<Vec<_>>();
+
+                                let var_decls = var_names
+                                    .iter()
+                                    .cloned()
+                                    .map(|var_name| VarDeclarator {
+                                        span: DUMMY_SP,
+                                        name: var_name.into(),
+                                        init: None,
+                                        definite: Default::default(),
+                                    })
+                                    .collect();
+
+                                new.push(T::from_stmt(Stmt::Decl(Decl::Var(Box::new(VarDecl {
+                                    span: DUMMY_SP,
+                                    kind: VarDeclKind::Var,
+                                    declare: false,
+                                    decls: var_decls,
+                                })))));
+
+                                try_body.push(Stmt::Decl(e.decl));
+                                try_body.push(Stmt::Expr(ExprStmt {
+                                    span: DUMMY_SP,
+                                    expr: Expr::from_exprs(
+                                        orig_var_names
+                                            .iter()
+                                            .zip(var_names.iter())
+                                            .map(|(orig, var_name)| {
+                                                AssignExpr {
+                                                    span: DUMMY_SP,
+                                                    op: op!("="),
+                                                    left: var_name.clone().into(),
+                                                    right: orig.clone().into(),
+                                                }
+                                                .into()
+                                            })
+                                            .collect(),
+                                    ),
+                                }));
+                                let specifiers = orig_var_names
+                                    .iter()
+                                    .zip(var_names.iter())
+                                    .map(|(orig, var)| {
+                                        ExportSpecifier::Named(ExportNamedSpecifier {
+                                            span: DUMMY_SP,
+                                            orig: ModuleExportName::Ident(var.clone()),
+                                            exported: Some(ModuleExportName::Ident(orig.clone())),
+                                            is_type_only: false,
+                                        })
+                                    })
+                                    .collect();
+
+                                extras.push(
+                                    T::try_from_module_decl(ModuleDecl::ExportNamed(NamedExport {
+                                        span: DUMMY_SP,
+                                        specifiers,
+                                        src: None,
+                                        type_only: false,
+                                        with: None,
+                                    }))
+                                    .unwrap(),
+                                );
+                            }
+                            _ => {
+                                new.push(
+                                    T::try_from_module_decl(ModuleDecl::ExportDecl(e)).unwrap(),
+                                );
+                            }
+                        };
+                    }
+
                     Ok(stmt) => new.push(T::try_from_module_decl(stmt).unwrap()),
                     Err(stmt) => new.push(stmt),
                 },
@@ -248,6 +376,7 @@ impl ExplicitResourceManagement {
         };
 
         new.push(T::from_stmt(Stmt::Try(Box::new(try_stmt))));
+        new.extend(extras);
 
         *stmts = new;
     }

@@ -246,10 +246,10 @@ impl Decorator202203 {
                 }
             },
             _ => {
-                let ident = private_ident!("_computedKey");
+                let key_ident = private_ident!("_computedKey");
                 self.extra_vars.push(VarDeclarator {
                     span: DUMMY_SP,
-                    name: Pat::Ident(ident.clone().into()),
+                    name: Pat::Ident(key_ident.clone().into()),
                     init: None,
                     definite: false,
                 });
@@ -257,20 +257,20 @@ impl Decorator202203 {
                 self.pre_class_inits.push(Box::new(Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
                     op: op!("="),
-                    left: ident.clone().into(),
+                    left: key_ident.clone().into(),
                     right: Box::new(prop_name_to_expr_value(name.take())),
                 })));
                 *name = PropName::Computed(ComputedPropName {
                     span: DUMMY_SP,
-                    expr: ident.clone().into(),
+                    expr: key_ident.clone().into(),
                 });
 
                 let init = Ident::new(
                     format!("_{prefix}_computedKey").into(),
-                    ident.span.private(),
+                    key_ident.span.private(),
                 );
 
-                (Box::new(Expr::Ident(ident)), init)
+                (Box::new(Expr::Ident(key_ident)), init)
             }
         }
     }

@@ -263,11 +263,14 @@ impl<I: Tokens> Parser<I> {
         }
 
         if is!(self, "export") {
-            if !allow_export {
+            if !self.ctx().in_class && !self.ctx().in_function && !allow_export {
                 syntax_error!(self, self.input.cur_span(), SyntaxError::ExportNotAllowed);
             }
 
-            if !self.syntax().decorators_before_export() {
+            if !self.ctx().in_class
+                && !self.ctx().in_function
+                && !self.syntax().decorators_before_export()
+            {
                 syntax_error!(self, span!(self, start), SyntaxError::DecoratorOnExport);
             }
         } else if !is!(self, "class") {

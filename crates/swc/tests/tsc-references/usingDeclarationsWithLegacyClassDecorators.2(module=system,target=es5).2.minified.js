@@ -5,8 +5,8 @@ System.register([
     "@swc/helpers/_/_dispose",
     "@swc/helpers/_/_using"
 ], function(_export, _context) {
-    var _class_call_check, _ts_decorate, _dispose, _using, C;
-    return {
+    var _class_call_check, _ts_decorate, _dispose, _using;
+    return _export("C", void 0), {
         setters: [
             function(_class_call_check1) {
                 _class_call_check = _class_call_check1._;
@@ -22,14 +22,15 @@ System.register([
             }
         ],
         execute: function() {
-            _export("C", C = function C() {
-                _class_call_check(this, C);
-            });
             try {
                 var _stack = [];
-                _using(_stack, null), _export("C", C = _ts_decorate([
+                _using(_stack, null);
+                var C = function C() {
+                    _class_call_check(this, C);
+                };
+                _export("C", C), C = _ts_decorate([
                     dec
-                ], C));
+                ], C);
             } catch (_) {
                 var _error = _, _hasError = !0;
             } finally{
