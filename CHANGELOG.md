@@ -1,6 +1,12 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(es/parser)** Allow `export` after decorators when valid ([#8739](https://github.com/swc-project/swc/issues/8739)) ([663261b](https://github.com/swc-project/swc/commit/663261be97364911e7b57eab0560ee48e53d8f33))
+
 ### Miscellaneous Tasks
 
 
@@ -1407,9 +1413,6 @@
 
 ### Bug Fixes
 
-
-
-- **(es/minifier)** Abort seq inliner if var is not fn_local or reassigned ([#7804](https://github.com/swc-project/swc/issues/7804)) ([f8ca366](https://github.com/swc-project/swc/commit/f8ca366cc179d2d83d35148c3600b8faa2e7f801))
 
 
 - **(es/minifier)** Preserve more analysis data upon inlining ([#7823](https://github.com/swc-project/swc/issues/7823)) ([31de19e](https://github.com/swc-project/swc/commit/31de19ece22663623b1fc1fe48c90b7aa41e41e0))
