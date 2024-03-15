@@ -1583,4 +1583,5 @@ fn test_export_default_paren_expr() {
 #[test]
 fn test_issue8747() {
     fold("''[0]", "void 0");
+    fold("[][0]", "void 0");
 }
