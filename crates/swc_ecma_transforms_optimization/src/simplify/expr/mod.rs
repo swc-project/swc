@@ -213,6 +213,12 @@ impl SimplifyExpr {
                         _ => unreachable!(),
                     };
 
+                    if idx < 0 || idx as usize >= elems.len() {
+                        self.changed = true;
+                        *expr = *undefined(*span);
+                        return;
+                    }
+
                     if elems.len() > idx as _ && idx >= 0 {
                         let after_has_side_effect =
                             elems.iter().skip((idx + 1) as _).any(|elem| match elem {
