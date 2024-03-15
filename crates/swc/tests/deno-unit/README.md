@@ -26,7 +26,7 @@ unitTest({
 );
 ```
 
-`unitTest` is is a wrapper function that enhances `Deno.test()` API in several
+`unitTest` is a wrapper function that enhances `Deno.test()` API in several
 ways:
 
 -   ability to conditionally skip tests using `UnitTestOptions.skip`

@@ -419,7 +419,7 @@ impl NodeModulesResolver {
             module_specifier, base, self.target_env
         );
 
-        {
+        if !module_specifier.starts_with('.') {
             // Handle absolute path
 
             let path = Path::new(module_specifier);
