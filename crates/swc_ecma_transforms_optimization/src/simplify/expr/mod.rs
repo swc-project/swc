@@ -164,6 +164,14 @@ impl SimplifyExpr {
                         *expr = *Expr::undefined(*span)
                     } else if let Some(value) = nth_char(value, idx as _) {
                         self.changed = true;
+                KnownOp::Index(idx) => {
+                    self.changed = true;
+
+                    if idx < 0 || idx as usize >= value.len() {
+                        *expr = *undefined(*span)
+                    } else {
+                        let value = nth_char(value, idx as _);
+
                         *expr = Expr::Lit(Lit::Str(Str {
                             raw: None,
                             value: value.into(),

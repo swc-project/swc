@@ -1575,3 +1575,8 @@ fn test_export_default_paren_expr() {
     fold_same("import fn from './b'; export default (function fn1 () {});");
     fold("export default ((foo));", "export default foo;");
 }
+
+#[test]
+fn test_issue8747() {
+    fold("''[0]", "void 0");
+}
