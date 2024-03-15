@@ -158,10 +158,10 @@ impl SimplifyExpr {
                 }
 
                 // 'foo'[1]
-                KnownOp::Index(idx) if (idx as usize) < value.len() => {
+                KnownOp::Index(idx) => {
                     self.changed = true;
 
-                    if idx < 0 {
+                    if idx < 0 || idx as usize >= value.len() {
                         *expr = *undefined(*span)
                     } else {
                         let value = nth_char(value, idx as _);
