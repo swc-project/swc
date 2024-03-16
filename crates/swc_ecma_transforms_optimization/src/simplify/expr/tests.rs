@@ -1580,4 +1580,6 @@ fn test_export_default_paren_expr() {
 fn test_issue8747() {
     fold("''[0]", "void 0");
     fold("[][0]", "void 0");
+    fold("[][[]]", "void 0");
+    fold("[1][0.5]", "void 0");
 }

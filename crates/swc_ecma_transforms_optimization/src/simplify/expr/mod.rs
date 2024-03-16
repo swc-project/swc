@@ -107,12 +107,21 @@ impl SimplifyExpr {
             return;
         }
 
-        #[derive(Clone, PartialEq, Eq)]
+        #[derive(Clone, PartialEq)]
         enum KnownOp {
             /// [a, b].length
             Len,
 
-            Index(i64),
+            // [a, b][0]
+            //
+            // ({0.5: 'test'})[0.5]
+            //
+            /// Note: callers need to check `v.fract() == 0.0` in some cases.
+            /// ie non-integer indexes for arrays always result in `undefined` but
+            /// not for objects (because indexing an object returns the value of the
+            /// key, ie `0.5` will not return `undefined` if a key `0.5` exists
+            /// and its value is not `undefined`).
+            Index(f64),
 
             /// ({}).foo
             IndexStr(JsWord),
@@ -127,19 +136,16 @@ impl SimplifyExpr {
                 }
             }
             MemberProp::Computed(ComputedPropName { expr, .. }) => {
-                if !self.in_callee {
-                    if let Expr::Lit(Lit::Num(Number { value, .. })) = &**expr {
-                        if value.fract() == 0.0 {
-                            KnownOp::Index(*value as _)
-                        } else {
-                            return;
-                        }
-                    } else {
-                        return;
-                    }
-                } else {
+                if self.in_callee {
                     return;
                 }
+                
+                // JavaScript cast index expression to a number
+                let Known(index) = expr.as_pure_number(&self.expr_ctx) else {
+                    return;
+                };
+                
+                KnownOp::Index(index)
             }
             _ => return,
         };
@@ -166,8 +172,8 @@ impl SimplifyExpr {
                         self.changed = true;
                 KnownOp::Index(idx) => {
                     self.changed = true;
-
-                    if idx < 0 || idx as usize >= value.len() {
+                    
+                    if idx.fract() != 0.0 || idx < 0.0 || idx as usize >= value.len() {
                         *expr = *undefined(*span)
                     } else {
                         let value = nth_char(value, idx as _);
@@ -183,6 +189,8 @@ impl SimplifyExpr {
             },
 
             // [1, 2, 3].length
+            //
+            // [1, 2, 3][0]
             Expr::Array(ArrayLit { elems, span }) => {
                 // do nothing if spread exists
                 let has_spread = elems.iter().any(|elem| {
@@ -213,23 +221,25 @@ impl SimplifyExpr {
                         _ => unreachable!(),
                     };
 
-                    if idx < 0 || idx as usize >= elems.len() {
+                    // If the fraction part is non-zero, or if the index is out of bounds,
+                    // then the result is always undefined.
+                    if idx.fract() != 0.0 || idx < 0.0 || idx as usize >= elems.len() {
                         self.changed = true;
                         *expr = *undefined(*span);
                         return;
                     }
+                    // idx is treated as an integer from this point.
+                    //
+                    // We also know for certain the index is not out of bounds.
+                    let idx = idx as i64;
 
-                    if elems.len() > idx as _ && idx >= 0 {
-                        let after_has_side_effect =
-                            elems.iter().skip((idx + 1) as _).any(|elem| match elem {
-                                Some(elem) => elem.expr.may_have_side_effects(&self.expr_ctx),
-                                None => false,
-                            });
+                    let after_has_side_effect =
+                        elems.iter().skip((idx + 1) as _).any(|elem| match elem {
+                            Some(elem) => elem.expr.may_have_side_effects(&self.expr_ctx),
+                            None => false,
+                        });
 
-                        if after_has_side_effect {
-                            return;
-                        }
-                    } else {
+                    if after_has_side_effect {
                         return;
                     }
 
