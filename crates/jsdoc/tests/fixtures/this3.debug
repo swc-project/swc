@@ -1,24 +1,8 @@
 [
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                34,
-            ),
-            hi: BytePos(
-                34,
-            ),
-            ctxt: #0,
-        },
+        span: 34..34#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    34,
-                ),
-                hi: BytePos(
-                    45,
-                ),
-                ctxt: #0,
-            },
+            span: 34..45#0,
             value: "document me",
         },
         tags: [],

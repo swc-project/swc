@@ -1,85 +1,29 @@
 [
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                36,
-            ),
-            hi: BytePos(
-                36,
-            ),
-            ctxt: #0,
-        },
+        span: 36..36#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    36,
-                ),
-                hi: BytePos(
-                    36,
-                ),
-                ctxt: #0,
-            },
+            span: 36..36#0,
             value: "",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        36,
-                    ),
-                    hi: BytePos(
-                        41,
-                    ),
-                    ctxt: #0,
-                },
+                span: 36..41#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            36,
-                        ),
-                        hi: BytePos(
-                            41,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 36..41#0,
                     value: "class",
                 },
                 tag: Class(
                     ClassTag {
-                        span: Span {
-                            lo: BytePos(
-                                36,
-                            ),
-                            hi: BytePos(
-                                41,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 36..41#0,
                         ty: Some(
                             Text {
-                                span: Span {
-                                    lo: BytePos(
-                                        36,
-                                    ),
-                                    hi: BytePos(
-                                        63,
-                                    ),
-                                    ctxt: #0,
-                                },
+                                span: 36..63#0,
                                 value: "@alias trackr.CookieManager",
                             },
                         ),
                         name: Some(
                             Text {
-                                span: Span {
-                                    lo: BytePos(
-                                        36,
-                                    ),
-                                    hi: BytePos(
-                                        54,
-                                    ),
-                                    ctxt: #0,
-                                },
+                                span: 36..54#0,
                                 value: "@param {object} kv",
                             },
                         ),
@@ -89,25 +33,9 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                144,
-            ),
-            hi: BytePos(
-                144,
-            ),
-            ctxt: #0,
-        },
+        span: 144..144#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    144,
-                ),
-                hi: BytePos(
-                    155,
-                ),
-                ctxt: #0,
-            },
+            span: 144..155#0,
             value: "document me",
         },
         tags: [],

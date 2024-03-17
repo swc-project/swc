@@ -1,82 +1,26 @@
 [
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                1,
-            ),
-            hi: BytePos(
-                1,
-            ),
-            ctxt: #0,
-        },
+        span: 1..1#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    1,
-                ),
-                hi: BytePos(
-                    91,
-                ),
-                ctxt: #0,
-            },
+            span: 1..91#0,
             value: "(scope tags for global objects do not override globalness hence need a container class)\n *",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        1,
-                    ),
-                    hi: BytePos(
-                        7,
-                    ),
-                    ctxt: #0,
-                },
+                span: 1..7#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            1,
-                        ),
-                        hi: BytePos(
-                            7,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 1..7#0,
                     value: "module",
                 },
                 tag: Module(
                     ModuleTag {
-                        span: Span {
-                            lo: BytePos(
-                                1,
-                            ),
-                            hi: BytePos(
-                                7,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 1..7#0,
                         name: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    0,
-                                ),
-                                hi: BytePos(
-                                    0,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 0..0#0,
                             value: "",
                         },
                         ty: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    1,
-                                ),
-                                hi: BytePos(
-                                    10,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 1..10#0,
                             value: "scopetags",
                         },
                     },
@@ -85,183 +29,63 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                117,
-            ),
-            hi: BytePos(
-                117,
-            ),
-            ctxt: #0,
-        },
+        span: 117..117#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    117,
-                ),
-                hi: BytePos(
-                    117,
-                ),
-                ctxt: #0,
-            },
+            span: 117..117#0,
             value: "",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        117,
-                    ),
-                    hi: BytePos(
-                        122,
-                    ),
-                    ctxt: #0,
-                },
+                span: 117..122#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            117,
-                        ),
-                        hi: BytePos(
-                            122,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 117..122#0,
                     value: "inner",
                 },
                 tag: Inner(
                     InnerTag {
-                        span: Span {
-                            lo: BytePos(
-                                117,
-                            ),
-                            hi: BytePos(
-                                122,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 117..122#0,
                     },
                 ),
             },
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                145,
-            ),
-            hi: BytePos(
-                145,
-            ),
-            ctxt: #0,
-        },
+        span: 145..145#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    145,
-                ),
-                hi: BytePos(
-                    145,
-                ),
-                ctxt: #0,
-            },
+            span: 145..145#0,
             value: "",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        145,
-                    ),
-                    hi: BytePos(
-                        153,
-                    ),
-                    ctxt: #0,
-                },
+                span: 145..153#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            145,
-                        ),
-                        hi: BytePos(
-                            153,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 145..153#0,
                     value: "instance",
                 },
                 tag: Instance(
                     InstanceTag {
-                        span: Span {
-                            lo: BytePos(
-                                145,
-                            ),
-                            hi: BytePos(
-                                153,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 145..153#0,
                     },
                 ),
             },
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                179,
-            ),
-            hi: BytePos(
-                179,
-            ),
-            ctxt: #0,
-        },
+        span: 179..179#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    179,
-                ),
-                hi: BytePos(
-                    179,
-                ),
-                ctxt: #0,
-            },
+            span: 179..179#0,
             value: "",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        179,
-                    ),
-                    hi: BytePos(
-                        185,
-                    ),
-                    ctxt: #0,
-                },
+                span: 179..185#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            179,
-                        ),
-                        hi: BytePos(
-                            185,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 179..185#0,
                     value: "static",
                 },
                 tag: Static(
                     StaticTag {
-                        span: Span {
-                            lo: BytePos(
-                                179,
-                            ),
-                            hi: BytePos(
-                                185,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 179..185#0,
                     },
                 ),
             },

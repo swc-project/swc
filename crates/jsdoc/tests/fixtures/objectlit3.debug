@@ -1,96 +1,32 @@
 [
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                1,
-            ),
-            hi: BytePos(
-                1,
-            ),
-            ctxt: #0,
-        },
+        span: 1..1#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    1,
-                ),
-                hi: BytePos(
-                    38,
-                ),
-                ctxt: #0,
-            },
+            span: 1..38#0,
             value: "Tokens that can appear in the stream.",
         },
         tags: [],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                62,
-            ),
-            hi: BytePos(
-                62,
-            ),
-            ctxt: #0,
-        },
+        span: 62..62#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    62,
-                ),
-                hi: BytePos(
-                    79,
-                ),
-                ctxt: #0,
-            },
+            span: 62..79#0,
             value: "Open parenthesis.",
         },
         tags: [],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                97,
-            ),
-            hi: BytePos(
-                97,
-            ),
-            ctxt: #0,
-        },
+        span: 97..97#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    97,
-                ),
-                hi: BytePos(
-                    136,
-                ),
-                ctxt: #0,
-            },
+            span: 97..136#0,
             value: "Executed before the token is processed.",
         },
         tags: [],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                176,
-            ),
-            hi: BytePos(
-                176,
-            ),
-            ctxt: #0,
-        },
+        span: 176..176#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    176,
-                ),
-                hi: BytePos(
-                    214,
-                ),
-                ctxt: #0,
-            },
+            span: 176..214#0,
             value: "Executed after the token is processed.",
         },
         tags: [],

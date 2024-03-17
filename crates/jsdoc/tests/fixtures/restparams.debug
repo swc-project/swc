@@ -1,85 +1,29 @@
 [
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                16,
-            ),
-            hi: BytePos(
-                16,
-            ),
-            ctxt: #0,
-        },
+        span: 16..16#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    16,
-                ),
-                hi: BytePos(
-                    59,
-                ),
-                ctxt: #0,
-            },
+            span: 16..59#0,
             value: "Set the list of users who are admins.\n *\n *",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        16,
-                    ),
-                    hi: BytePos(
-                        21,
-                    ),
-                    ctxt: #0,
-                },
+                span: 16..21#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            16,
-                        ),
-                        hi: BytePos(
-                            21,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 16..21#0,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: Span {
-                            lo: BytePos(
-                                16,
-                            ),
-                            hi: BytePos(
-                                21,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 16..21#0,
                         name: None,
                         ty: Some(
                             Text {
-                                span: Span {
-                                    lo: BytePos(
-                                        16,
-                                    ),
-                                    hi: BytePos(
-                                        22,
-                                    ),
-                                    ctxt: #0,
-                                },
+                                span: 16..22#0,
                                 value: "{User}",
                             },
                         ),
                         desc: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    16,
-                                ),
-                                hi: BytePos(
-                                    64,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 16..64#0,
                             value: "users - The users who will receive admin rights.",
                         },
                     },
@@ -88,149 +32,53 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                167,
-            ),
-            hi: BytePos(
-                167,
-            ),
-            ctxt: #0,
-        },
+        span: 167..167#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    167,
-                ),
-                hi: BytePos(
-                    219,
-                ),
-                ctxt: #0,
-            },
+            span: 167..219#0,
             value: "Set the list of users who can access a widget.\n *\n *",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        167,
-                    ),
-                    hi: BytePos(
-                        172,
-                    ),
-                    ctxt: #0,
-                },
+                span: 167..172#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            167,
-                        ),
-                        hi: BytePos(
-                            172,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 167..172#0,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: Span {
-                            lo: BytePos(
-                                167,
-                            ),
-                            hi: BytePos(
-                                172,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 167..172#0,
                         name: None,
                         ty: Some(
                             Text {
-                                span: Span {
-                                    lo: BytePos(
-                                        167,
-                                    ),
-                                    hi: BytePos(
-                                        175,
-                                    ),
-                                    ctxt: #0,
-                                },
+                                span: 167..175#0,
                                 value: "{Widget}",
                             },
                         ),
                         desc: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    167,
-                                ),
-                                hi: BytePos(
-                                    187,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 167..187#0,
                             value: "widget - The widget.",
                         },
                     },
                 ),
             },
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        167,
-                    ),
-                    hi: BytePos(
-                        172,
-                    ),
-                    ctxt: #0,
-                },
+                span: 167..172#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            167,
-                        ),
-                        hi: BytePos(
-                            172,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 167..172#0,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: Span {
-                            lo: BytePos(
-                                167,
-                            ),
-                            hi: BytePos(
-                                172,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 167..172#0,
                         name: None,
                         ty: Some(
                             Text {
-                                span: Span {
-                                    lo: BytePos(
-                                        167,
-                                    ),
-                                    hi: BytePos(
-                                        173,
-                                    ),
-                                    ctxt: #0,
-                                },
+                                span: 167..173#0,
                                 value: "{User}",
                             },
                         ),
                         desc: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    167,
-                                ),
-                                hi: BytePos(
-                                    230,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 167..230#0,
                             value: "users - The users who will receive rights to access the widget.",
                         },
                     },
@@ -239,86 +87,30 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                396,
-            ),
-            hi: BytePos(
-                396,
-            ),
-            ctxt: #0,
-        },
+        span: 396..396#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    396,
-                ),
-                hi: BytePos(
-                    441,
-                ),
-                ctxt: #0,
-            },
+            span: 396..441#0,
             value: "Set the list of users who are managers.\n *\n *",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        396,
-                    ),
-                    hi: BytePos(
-                        401,
-                    ),
-                    ctxt: #0,
-                },
+                span: 396..401#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            396,
-                        ),
-                        hi: BytePos(
-                            401,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 396..401#0,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: Span {
-                            lo: BytePos(
-                                396,
-                            ),
-                            hi: BytePos(
-                                401,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 396..401#0,
                         name: None,
                         ty: Some(
                             Text {
-                                span: Span {
-                                    lo: BytePos(
-                                        396,
-                                    ),
-                                    hi: BytePos(
-                                        402,
-                                    ),
-                                    ctxt: #0,
-                                },
+                                span: 396..402#0,
                                 value: "{User}",
                             },
                         ),
                         desc: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    396,
-                                ),
-                                hi: BytePos(
-                                    431,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 396..431#0,
                             value: "users - The users who are managers.",
                         },
                     },

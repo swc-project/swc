@@ -1,48 +1,16 @@
 [
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                34,
-            ),
-            hi: BytePos(
-                34,
-            ),
-            ctxt: #0,
-        },
+        span: 34..34#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    34,
-                ),
-                hi: BytePos(
-                    45,
-                ),
-                ctxt: #0,
-            },
+            span: 34..45#0,
             value: "document me",
         },
         tags: [],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                85,
-            ),
-            hi: BytePos(
-                85,
-            ),
-            ctxt: #0,
-        },
+        span: 85..85#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    85,
-                ),
-                hi: BytePos(
-                    96,
-                ),
-                ctxt: #0,
-            },
+            span: 85..96#0,
             value: "document me",
         },
         tags: [],

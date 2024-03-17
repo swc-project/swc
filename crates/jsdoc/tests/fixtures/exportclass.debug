@@ -1,82 +1,26 @@
 [
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                1,
-            ),
-            hi: BytePos(
-                1,
-            ),
-            ctxt: #0,
-        },
+        span: 1..1#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    1,
-                ),
-                hi: BytePos(
-                    14,
-                ),
-                ctxt: #0,
-            },
+            span: 1..14#0,
             value: "Foo module\n *",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        1,
-                    ),
-                    hi: BytePos(
-                        7,
-                    ),
-                    ctxt: #0,
-                },
+                span: 1..7#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            1,
-                        ),
-                        hi: BytePos(
-                            7,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 1..7#0,
                     value: "module",
                 },
                 tag: Module(
                     ModuleTag {
-                        span: Span {
-                            lo: BytePos(
-                                1,
-                            ),
-                            hi: BytePos(
-                                7,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 1..7#0,
                         name: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    0,
-                                ),
-                                hi: BytePos(
-                                    0,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 0..0#0,
                             value: "",
                         },
                         ty: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    1,
-                                ),
-                                hi: BytePos(
-                                    4,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 1..4#0,
                             value: "foo",
                         },
                     },
@@ -85,25 +29,9 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                39,
-            ),
-            hi: BytePos(
-                39,
-            ),
-            ctxt: #0,
-        },
+        span: 39..39#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    39,
-                ),
-                hi: BytePos(
-                    56,
-                ),
-                ctxt: #0,
-            },
+            span: 39..56#0,
             value: "Class description",
         },
         tags: [],

@@ -1,85 +1,29 @@
 [
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                152,
-            ),
-            hi: BytePos(
-                152,
-            ),
-            ctxt: #0,
-        },
+        span: 152..152#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    152,
-                ),
-                hi: BytePos(
-                    168,
-                ),
-                ctxt: #0,
-            },
+            span: 152..168#0,
             value: "Add a number.\n *",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        152,
-                    ),
-                    hi: BytePos(
-                        157,
-                    ),
-                    ctxt: #0,
-                },
+                span: 152..157#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            152,
-                        ),
-                        hi: BytePos(
-                            157,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 152..157#0,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: Span {
-                            lo: BytePos(
-                                152,
-                            ),
-                            hi: BytePos(
-                                157,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 152..157#0,
                         name: None,
                         ty: Some(
                             Text {
-                                span: Span {
-                                    lo: BytePos(
-                                        152,
-                                    ),
-                                    hi: BytePos(
-                                        160,
-                                    ),
-                                    ctxt: #0,
-                                },
+                                span: 152..160#0,
                                 value: "{number}",
                             },
                         ),
                         desc: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    152,
-                                ),
-                                hi: BytePos(
-                                    174,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 152..174#0,
                             value: "x - The number to add.",
                         },
                     },
@@ -88,86 +32,30 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                356,
-            ),
-            hi: BytePos(
-                356,
-            ),
-            ctxt: #0,
-        },
+        span: 356..356#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    356,
-                ),
-                hi: BytePos(
-                    377,
-                ),
-                ctxt: #0,
-            },
+            span: 356..377#0,
             value: "Subtract a number.\n *",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        356,
-                    ),
-                    hi: BytePos(
-                        361,
-                    ),
-                    ctxt: #0,
-                },
+                span: 356..361#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            356,
-                        ),
-                        hi: BytePos(
-                            361,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 356..361#0,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: Span {
-                            lo: BytePos(
-                                356,
-                            ),
-                            hi: BytePos(
-                                361,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 356..361#0,
                         name: None,
                         ty: Some(
                             Text {
-                                span: Span {
-                                    lo: BytePos(
-                                        356,
-                                    ),
-                                    hi: BytePos(
-                                        364,
-                                    ),
-                                    ctxt: #0,
-                                },
+                                span: 356..364#0,
                                 value: "{number}",
                             },
                         ),
                         desc: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    356,
-                                ),
-                                hi: BytePos(
-                                    383,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 356..383#0,
                             value: "x - The number to subtract.",
                         },
                     },
@@ -176,134 +64,46 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                590,
-            ),
-            hi: BytePos(
-                590,
-            ),
-            ctxt: #0,
-        },
+        span: 590..590#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    590,
-                ),
-                hi: BytePos(
-                    602,
-                ),
-                ctxt: #0,
-            },
+            span: 590..602#0,
             value: "Adder class.",
         },
         tags: [],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                632,
-            ),
-            hi: BytePos(
-                632,
-            ),
-            ctxt: #0,
-        },
+        span: 632..632#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    632,
-                ),
-                hi: BytePos(
-                    660,
-                ),
-                ctxt: #0,
-            },
+            span: 632..660#0,
             value: "Construct an Adder instance.",
         },
         tags: [],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                706,
-            ),
-            hi: BytePos(
-                706,
-            ),
-            ctxt: #0,
-        },
+        span: 706..706#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    706,
-                ),
-                hi: BytePos(
-                    726,
-                ),
-                ctxt: #0,
-            },
+            span: 706..726#0,
             value: "Add a number.\n     *",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        706,
-                    ),
-                    hi: BytePos(
-                        711,
-                    ),
-                    ctxt: #0,
-                },
+                span: 706..711#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            706,
-                        ),
-                        hi: BytePos(
-                            711,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 706..711#0,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: Span {
-                            lo: BytePos(
-                                706,
-                            ),
-                            hi: BytePos(
-                                711,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 706..711#0,
                         name: None,
                         ty: Some(
                             Text {
-                                span: Span {
-                                    lo: BytePos(
-                                        706,
-                                    ),
-                                    hi: BytePos(
-                                        714,
-                                    ),
-                                    ctxt: #0,
-                                },
+                                span: 706..714#0,
                                 value: "{number}",
                             },
                         ),
                         desc: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    706,
-                                ),
-                                hi: BytePos(
-                                    728,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 706..728#0,
                             value: "x - The number to add.",
                         },
                     },

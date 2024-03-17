@@ -1,72 +1,24 @@
 [
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                1,
-            ),
-            hi: BytePos(
-                1,
-            ),
-            ctxt: #0,
-        },
+        span: 1..1#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    1,
-                ),
-                hi: BytePos(
-                    1,
-                ),
-                ctxt: #0,
-            },
+            span: 1..1#0,
             value: "",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        1,
-                    ),
-                    hi: BytePos(
-                        10,
-                    ),
-                    ctxt: #0,
-                },
+                span: 1..10#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            1,
-                        ),
-                        hi: BytePos(
-                            10,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 1..10#0,
                     value: "namespace",
                 },
                 tag: Namespace(
                     NamespaceTag {
-                        span: Span {
-                            lo: BytePos(
-                                1,
-                            ),
-                            hi: BytePos(
-                                10,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 1..10#0,
                         ty: None,
                         name: Some(
                             Text {
-                                span: Span {
-                                    lo: BytePos(
-                                        1,
-                                    ),
-                                    hi: BytePos(
-                                        22,
-                                    ),
-                                    ctxt: #0,
-                                },
+                                span: 1..22#0,
                                 value: "borrows trstr as trim",
                             },
                         ),
@@ -76,86 +28,30 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                81,
-            ),
-            hi: BytePos(
-                81,
-            ),
-            ctxt: #0,
-        },
+        span: 81..81#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    81,
-                ),
-                hi: BytePos(
-                    120,
-                ),
-                ctxt: #0,
-            },
+            span: 81..120#0,
             value: "Remove whitespace from around a string.",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        81,
-                    ),
-                    hi: BytePos(
-                        86,
-                    ),
-                    ctxt: #0,
-                },
+                span: 81..86#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            81,
-                        ),
-                        hi: BytePos(
-                            86,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 81..86#0,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: Span {
-                            lo: BytePos(
-                                81,
-                            ),
-                            hi: BytePos(
-                                86,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 81..86#0,
                         name: None,
                         ty: Some(
                             Text {
-                                span: Span {
-                                    lo: BytePos(
-                                        81,
-                                    ),
-                                    hi: BytePos(
-                                        89,
-                                    ),
-                                    ctxt: #0,
-                                },
+                                span: 81..89#0,
                                 value: "{string}",
                             },
                         ),
                         desc: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    81,
-                                ),
-                                hi: BytePos(
-                                    84,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 81..84#0,
                             value: "str",
                         },
                     },

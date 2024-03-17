@@ -1,70 +1,22 @@
 [
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                72,
-            ),
-            hi: BytePos(
-                76,
-            ),
-            ctxt: #0,
-        },
+        span: 72..76#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    72,
-                ),
-                hi: BytePos(
-                    72,
-                ),
-                ctxt: #0,
-            },
+            span: 72..72#0,
             value: "",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        72,
-                    ),
-                    hi: BytePos(
-                        79,
-                    ),
-                    ctxt: #0,
-                },
+                span: 72..79#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            72,
-                        ),
-                        hi: BytePos(
-                            79,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 72..79#0,
                     value: "exports",
                 },
                 tag: Exports(
                     ExportsTag {
-                        span: Span {
-                            lo: BytePos(
-                                72,
-                            ),
-                            hi: BytePos(
-                                79,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 72..79#0,
                         module_name: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    0,
-                                ),
-                                hi: BytePos(
-                                    0,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 0..0#0,
                             value: "",
                         },
                     },
@@ -73,82 +25,26 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                129,
-            ),
-            hi: BytePos(
-                143,
-            ),
-            ctxt: #0,
-        },
+        span: 129..143#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    129,
-                ),
-                hi: BytePos(
-                    129,
-                ),
-                ctxt: #0,
-            },
+            span: 129..129#0,
             value: "",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        129,
-                    ),
-                    hi: BytePos(
-                        134,
-                    ),
-                    ctxt: #0,
-                },
+                span: 129..134#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            129,
-                        ),
-                        hi: BytePos(
-                            134,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 129..134#0,
                     value: "lends",
                 },
                 tag: Lends(
                     LendsTag {
-                        span: Span {
-                            lo: BytePos(
-                                129,
-                            ),
-                            hi: BytePos(
-                                134,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 129..134#0,
                         name: NamePath {
-                            span: Span {
-                                lo: BytePos(
-                                    129,
-                                ),
-                                hi: BytePos(
-                                    143,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 129..143#0,
                             components: [
                                 Text {
-                                    span: Span {
-                                        lo: BytePos(
-                                            129,
-                                        ),
-                                        hi: BytePos(
-                                            135,
-                                        ),
-                                        ctxt: #0,
-                                    },
+                                    span: 129..135#0,
                                     value: "module",
                                 },
                             ],
@@ -159,25 +55,9 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                186,
-            ),
-            hi: BytePos(
-                186,
-            ),
-            ctxt: #0,
-        },
+        span: 186..186#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    186,
-                ),
-                hi: BytePos(
-                    223,
-                ),
-                ctxt: #0,
-            },
+            span: 186..223#0,
             value: "This should be in the Foo module doc.",
         },
         tags: [],

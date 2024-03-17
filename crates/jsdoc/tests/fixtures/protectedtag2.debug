@@ -1,71 +1,23 @@
 [
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                1,
-            ),
-            hi: BytePos(
-                1,
-            ),
-            ctxt: #0,
-        },
+        span: 1..1#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    1,
-                ),
-                hi: BytePos(
-                    1,
-                ),
-                ctxt: #0,
-            },
+            span: 1..1#0,
             value: "",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        1,
-                    ),
-                    hi: BytePos(
-                        10,
-                    ),
-                    ctxt: #0,
-                },
+                span: 1..10#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            1,
-                        ),
-                        hi: BytePos(
-                            10,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 1..10#0,
                     value: "protected",
                 },
                 tag: Protected(
                     ProtectedTag {
-                        span: Span {
-                            lo: BytePos(
-                                1,
-                            ),
-                            hi: BytePos(
-                                10,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 1..10#0,
                         ty: Some(
                             Text {
-                                span: Span {
-                                    lo: BytePos(
-                                        1,
-                                    ),
-                                    hi: BytePos(
-                                        9,
-                                    ),
-                                    ctxt: #0,
-                                },
+                                span: 1..9#0,
                                 value: "{number}",
                             },
                         ),
@@ -75,61 +27,21 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                49,
-            ),
-            hi: BytePos(
-                49,
-            ),
-            ctxt: #0,
-        },
+        span: 49..49#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    49,
-                ),
-                hi: BytePos(
-                    72,
-                ),
-                ctxt: #0,
-            },
+            span: 49..72#0,
             value: "Unique ID generator.\n *",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        49,
-                    ),
-                    hi: BytePos(
-                        60,
-                    ),
-                    ctxt: #0,
-                },
+                span: 49..60#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            49,
-                        ),
-                        hi: BytePos(
-                            60,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 49..60#0,
                     value: "constructor",
                 },
                 tag: Class(
                     ClassTag {
-                        span: Span {
-                            lo: BytePos(
-                                49,
-                            ),
-                            hi: BytePos(
-                                60,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 49..60#0,
                         ty: None,
                         name: None,
                     },
@@ -138,25 +50,9 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                125,
-            ),
-            hi: BytePos(
-                125,
-            ),
-            ctxt: #0,
-        },
+        span: 125..125#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    125,
-                ),
-                hi: BytePos(
-                    146,
-                ),
-                ctxt: #0,
-            },
+            span: 125..146#0,
             value: "Generate a unique ID.",
         },
         tags: [],

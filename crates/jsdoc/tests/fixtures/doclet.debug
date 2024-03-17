@@ -1,85 +1,29 @@
 [
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                1,
-            ),
-            hi: BytePos(
-                1,
-            ),
-            ctxt: #0,
-        },
+        span: 1..1#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    1,
-                ),
-                hi: BytePos(
-                    133,
-                ),
-                ctxt: #0,
-            },
+            span: 1..133#0,
             value: "Markdown asterisks in a doclet that does not use leading asterisks.\n    **Strong** is strong.\n\n    * List item 1.\n    * List item 2.",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        1,
-                    ),
-                    hi: BytePos(
-                        6,
-                    ),
-                    ctxt: #0,
-                },
+                span: 1..6#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            1,
-                        ),
-                        hi: BytePos(
-                            6,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 1..6#0,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: Span {
-                            lo: BytePos(
-                                1,
-                            ),
-                            hi: BytePos(
-                                6,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 1..6#0,
                         name: None,
                         ty: Some(
                             Text {
-                                span: Span {
-                                    lo: BytePos(
-                                        1,
-                                    ),
-                                    hi: BytePos(
-                                        9,
-                                    ),
-                                    ctxt: #0,
-                                },
+                                span: 1..9#0,
                                 value: "{string}",
                             },
                         ),
                         desc: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    1,
-                                ),
-                                hi: BytePos(
-                                    21,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 1..21#0,
                             value: "thingy - The thingy.",
                         },
                     },
@@ -88,86 +32,30 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                216,
-            ),
-            hi: BytePos(
-                216,
-            ),
-            ctxt: #0,
-        },
+        span: 216..216#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    216,
-                ),
-                hi: BytePos(
-                    342,
-                ),
-                ctxt: #0,
-            },
+            span: 216..342#0,
             value: "Markdown asterisks in a doclet that uses leading asterisks.\n * **Strong** is strong.\n *\n * * List item 1.\n * * List item 2.\n *",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        216,
-                    ),
-                    hi: BytePos(
-                        221,
-                    ),
-                    ctxt: #0,
-                },
+                span: 216..221#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            216,
-                        ),
-                        hi: BytePos(
-                            221,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 216..221#0,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: Span {
-                            lo: BytePos(
-                                216,
-                            ),
-                            hi: BytePos(
-                                221,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 216..221#0,
                         name: None,
                         ty: Some(
                             Text {
-                                span: Span {
-                                    lo: BytePos(
-                                        216,
-                                    ),
-                                    hi: BytePos(
-                                        224,
-                                    ),
-                                    ctxt: #0,
-                                },
+                                span: 216..224#0,
                                 value: "{string}",
                             },
                         ),
                         desc: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    216,
-                                ),
-                                hi: BytePos(
-                                    236,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 216..236#0,
                             value: "thingy - The thingy.",
                         },
                     },

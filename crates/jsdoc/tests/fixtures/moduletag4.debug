@@ -1,82 +1,26 @@
 [
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                1,
-            ),
-            hi: BytePos(
-                1,
-            ),
-            ctxt: #0,
-        },
+        span: 1..1#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    1,
-                ),
-                hi: BytePos(
-                    1,
-                ),
-                ctxt: #0,
-            },
+            span: 1..1#0,
             value: "",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        1,
-                    ),
-                    hi: BytePos(
-                        7,
-                    ),
-                    ctxt: #0,
-                },
+                span: 1..7#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            1,
-                        ),
-                        hi: BytePos(
-                            7,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 1..7#0,
                     value: "module",
                 },
                 tag: Module(
                     ModuleTag {
-                        span: Span {
-                            lo: BytePos(
-                                1,
-                            ),
-                            hi: BytePos(
-                                7,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 1..7#0,
                         name: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    0,
-                                ),
-                                hi: BytePos(
-                                    0,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 0..0#0,
                             value: "",
                         },
                         ty: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    1,
-                                ),
-                                hi: BytePos(
-                                    2,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 1..2#0,
                             value: "M",
                         },
                     },
@@ -85,155 +29,51 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                20,
-            ),
-            hi: BytePos(
-                20,
-            ),
-            ctxt: #0,
-        },
+        span: 20..20#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    20,
-                ),
-                hi: BytePos(
-                    62,
-                ),
-                ctxt: #0,
-            },
+            span: 20..62#0,
             value: "The differnet kind of mouse buttons.\n *\n *",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        20,
-                    ),
-                    hi: BytePos(
-                        27,
-                    ),
-                    ctxt: #0,
-                },
+                span: 20..27#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            20,
-                        ),
-                        hi: BytePos(
-                            27,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 20..27#0,
                     value: "summary",
                 },
                 tag: Summary(
                     SummaryTag {
-                        span: Span {
-                            lo: BytePos(
-                                20,
-                            ),
-                            hi: BytePos(
-                                27,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 20..27#0,
                         text: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    20,
-                                ),
-                                hi: BytePos(
-                                    29,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 20..29#0,
                             value: "Blah blah",
                         },
                     },
                 ),
             },
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        20,
-                    ),
-                    hi: BytePos(
-                        28,
-                    ),
-                    ctxt: #0,
-                },
+                span: 20..28#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            20,
-                        ),
-                        hi: BytePos(
-                            28,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 20..28#0,
                     value: "readonly",
                 },
                 tag: Readonly(
                     ReadonlyTag {
-                        span: Span {
-                            lo: BytePos(
-                                20,
-                            ),
-                            hi: BytePos(
-                                28,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 20..28#0,
                     },
                 ),
             },
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        20,
-                    ),
-                    hi: BytePos(
-                        24,
-                    ),
-                    ctxt: #0,
-                },
+                span: 20..24#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            20,
-                        ),
-                        hi: BytePos(
-                            24,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 20..24#0,
                     value: "enum",
                 },
                 tag: Enum(
                     EnumTag {
-                        span: Span {
-                            lo: BytePos(
-                                20,
-                            ),
-                            hi: BytePos(
-                                24,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 20..24#0,
                         ty: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    20,
-                                ),
-                                hi: BytePos(
-                                    29,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 20..29#0,
                             value: "{string} ",
                         },
                     },

@@ -1,71 +1,23 @@
 [
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                1,
-            ),
-            hi: BytePos(
-                1,
-            ),
-            ctxt: #0,
-        },
+        span: 1..1#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    1,
-                ),
-                hi: BytePos(
-                    1,
-                ),
-                ctxt: #0,
-            },
+            span: 1..1#0,
             value: "",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        1,
-                    ),
-                    hi: BytePos(
-                        12,
-                    ),
-                    ctxt: #0,
-                },
+                span: 1..12#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            1,
-                        ),
-                        hi: BytePos(
-                            12,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 1..12#0,
                     value: "constructor",
                 },
                 tag: Class(
                     ClassTag {
-                        span: Span {
-                            lo: BytePos(
-                                1,
-                            ),
-                            hi: BytePos(
-                                12,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 1..12#0,
                         ty: Some(
                             Text {
-                                span: Span {
-                                    lo: BytePos(
-                                        1,
-                                    ),
-                                    hi: BytePos(
-                                        44,
-                                    ),
-                                    ctxt: #0,
-                                },
+                                span: 1..44#0,
                                 value: "@author Michael Mathews <micmath@gmail.com>",
                             },
                         ),
@@ -76,119 +28,39 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                92,
-            ),
-            hi: BytePos(
-                122,
-            ),
-            ctxt: #0,
-        },
+        span: 92..122#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    92,
-                ),
-                hi: BytePos(
-                    92,
-                ),
-                ctxt: #0,
-            },
+            span: 92..92#0,
             value: "",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        92,
-                    ),
-                    hi: BytePos(
-                        98,
-                    ),
-                    ctxt: #0,
-                },
+                span: 92..98#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            92,
-                        ),
-                        hi: BytePos(
-                            98,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 92..98#0,
                     value: "author",
                 },
                 tag: Author(
                     AuthorTag {
-                        span: Span {
-                            lo: BytePos(
-                                92,
-                            ),
-                            hi: BytePos(
-                                98,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 92..98#0,
                         author: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    92,
-                                ),
-                                hi: BytePos(
-                                    121,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 92..121#0,
                             value: "John Doe <john.doe@gmail.com>",
                         },
                     },
                 ),
             },
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        92,
-                    ),
-                    hi: BytePos(
-                        98,
-                    ),
-                    ctxt: #0,
-                },
+                span: 92..98#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            92,
-                        ),
-                        hi: BytePos(
-                            98,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 92..98#0,
                     value: "author",
                 },
                 tag: Author(
                     AuthorTag {
-                        span: Span {
-                            lo: BytePos(
-                                92,
-                            ),
-                            hi: BytePos(
-                                98,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 92..98#0,
                         author: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    0,
-                                ),
-                                hi: BytePos(
-                                    0,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 0..0#0,
                             value: "",
                         },
                     },

@@ -1,82 +1,26 @@
 [
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                1,
-            ),
-            hi: BytePos(
-                1,
-            ),
-            ctxt: #0,
-        },
+        span: 1..1#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    1,
-                ),
-                hi: BytePos(
-                    1,
-                ),
-                ctxt: #0,
-            },
+            span: 1..1#0,
             value: "",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        1,
-                    ),
-                    hi: BytePos(
-                        7,
-                    ),
-                    ctxt: #0,
-                },
+                span: 1..7#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            1,
-                        ),
-                        hi: BytePos(
-                            7,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 1..7#0,
                     value: "module",
                 },
                 tag: Module(
                     ModuleTag {
-                        span: Span {
-                            lo: BytePos(
-                                1,
-                            ),
-                            hi: BytePos(
-                                7,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 1..7#0,
                         name: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    0,
-                                ),
-                                hi: BytePos(
-                                    0,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 0..0#0,
                             value: "",
                         },
                         ty: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    1,
-                                ),
-                                hi: BytePos(
-                                    4,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 1..4#0,
                             value: "foo",
                         },
                     },
@@ -85,82 +29,26 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                21,
-            ),
-            hi: BytePos(
-                30,
-            ),
-            ctxt: #0,
-        },
+        span: 21..30#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    21,
-                ),
-                hi: BytePos(
-                    37,
-                ),
-                ctxt: #0,
-            },
+            span: 21..37#0,
             value: "Bar class.\n *\n *",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        21,
-                    ),
-                    hi: BytePos(
-                        26,
-                    ),
-                    ctxt: #0,
-                },
+                span: 21..26#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            21,
-                        ),
-                        hi: BytePos(
-                            26,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 21..26#0,
                     value: "alias",
                 },
                 tag: Alias(
                     AliasTag {
-                        span: Span {
-                            lo: BytePos(
-                                21,
-                            ),
-                            hi: BytePos(
-                                26,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 21..26#0,
                         name_path: NamePath {
-                            span: Span {
-                                lo: BytePos(
-                                    21,
-                                ),
-                                hi: BytePos(
-                                    30,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 21..30#0,
                             components: [
                                 Text {
-                                    span: Span {
-                                        lo: BytePos(
-                                            21,
-                                        ),
-                                        hi: BytePos(
-                                            27,
-                                        ),
-                                        ctxt: #0,
-                                    },
+                                    span: 21..27#0,
                                     value: "module",
                                 },
                             ],
@@ -171,25 +59,9 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                87,
-            ),
-            hi: BytePos(
-                87,
-            ),
-            ctxt: #0,
-        },
+        span: 87..87#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    87,
-                ),
-                hi: BytePos(
-                    100,
-                ),
-                ctxt: #0,
-            },
+            span: 87..100#0,
             value: "Create a Bar.",
         },
         tags: [],

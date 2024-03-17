@@ -1,60 +1,20 @@
 [
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                1,
-            ),
-            hi: BytePos(
-                1,
-            ),
-            ctxt: #0,
-        },
+        span: 1..1#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    1,
-                ),
-                hi: BytePos(
-                    1,
-                ),
-                ctxt: #0,
-            },
+            span: 1..1#0,
             value: "",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        1,
-                    ),
-                    hi: BytePos(
-                        12,
-                    ),
-                    ctxt: #0,
-                },
+                span: 1..12#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            1,
-                        ),
-                        hi: BytePos(
-                            12,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 1..12#0,
                     value: "constructor",
                 },
                 tag: Class(
                     ClassTag {
-                        span: Span {
-                            lo: BytePos(
-                                1,
-                            ),
-                            hi: BytePos(
-                                12,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 1..12#0,
                         ty: None,
                         name: None,
                     },
@@ -63,95 +23,31 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                46,
-            ),
-            hi: BytePos(
-                46,
-            ),
-            ctxt: #0,
-        },
+        span: 46..46#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    46,
-                ),
-                hi: BytePos(
-                    60,
-                ),
-                ctxt: #0,
-            },
+            span: 46..60#0,
             value: "First property",
         },
         tags: [],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                94,
-            ),
-            hi: BytePos(
-                94,
-            ),
-            ctxt: #0,
-        },
+        span: 94..94#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    94,
-                ),
-                hi: BytePos(
-                    112,
-                ),
-                ctxt: #0,
-            },
+            span: 94..112#0,
             value: "Second property\n *",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        94,
-                    ),
-                    hi: BytePos(
-                        98,
-                    ),
-                    ctxt: #0,
-                },
+                span: 94..98#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            94,
-                        ),
-                        hi: BytePos(
-                            98,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 94..98#0,
                     value: "type",
                 },
                 tag: Type(
                     TypeTag {
-                        span: Span {
-                            lo: BytePos(
-                                94,
-                            ),
-                            hi: BytePos(
-                                98,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 94..98#0,
                         name: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    94,
-                                ),
-                                hi: BytePos(
-                                    102,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 94..102#0,
                             value: "{String}",
                         },
                     },
@@ -160,144 +56,48 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                178,
-            ),
-            hi: BytePos(
-                178,
-            ),
-            ctxt: #0,
-        },
+        span: 178..178#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    178,
-                ),
-                hi: BytePos(
-                    198,
-                ),
-                ctxt: #0,
-            },
+            span: 178..198#0,
             value: "First parent method.",
         },
         tags: [],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                250,
-            ),
-            hi: BytePos(
-                250,
-            ),
-            ctxt: #0,
-        },
+        span: 250..250#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    250,
-                ),
-                hi: BytePos(
-                    271,
-                ),
-                ctxt: #0,
-            },
+            span: 250..271#0,
             value: "Second parent method.",
         },
         tags: [],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                323,
-            ),
-            hi: BytePos(
-                323,
-            ),
-            ctxt: #0,
-        },
+        span: 323..323#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    323,
-                ),
-                hi: BytePos(
-                    343,
-                ),
-                ctxt: #0,
-            },
+            span: 323..343#0,
             value: "Third parent method.",
         },
         tags: [],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                395,
-            ),
-            hi: BytePos(
-                395,
-            ),
-            ctxt: #0,
-        },
+        span: 395..395#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    395,
-                ),
-                hi: BytePos(
-                    395,
-                ),
-                ctxt: #0,
-            },
+            span: 395..395#0,
             value: "",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        395,
-                    ),
-                    hi: BytePos(
-                        406,
-                    ),
-                    ctxt: #0,
-                },
+                span: 395..406#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            395,
-                        ),
-                        hi: BytePos(
-                            406,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 395..406#0,
                     value: "constructor",
                 },
                 tag: Class(
                     ClassTag {
-                        span: Span {
-                            lo: BytePos(
-                                395,
-                            ),
-                            hi: BytePos(
-                                406,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 395..406#0,
                         ty: Some(
                             Text {
-                                span: Span {
-                                    lo: BytePos(
-                                        395,
-                                    ),
-                                    hi: BytePos(
-                                        409,
-                                    ),
-                                    ctxt: #0,
-                                },
+                                span: 395..409#0,
                                 value: "* @extends Foo",
                             },
                         ),
@@ -308,120 +108,40 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                456,
-            ),
-            hi: BytePos(
-                456,
-            ),
-            ctxt: #0,
-        },
+        span: 456..456#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    456,
-                ),
-                hi: BytePos(
-                    468,
-                ),
-                ctxt: #0,
-            },
+            span: 456..468#0,
             value: "Third prop *",
         },
         tags: [],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                501,
-            ),
-            hi: BytePos(
-                501,
-            ),
-            ctxt: #0,
-        },
+        span: 501..501#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    501,
-                ),
-                hi: BytePos(
-                    521,
-                ),
-                ctxt: #0,
-            },
+            span: 501..521#0,
             value: "Second child method.",
         },
         tags: [],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                573,
-            ),
-            hi: BytePos(
-                573,
-            ),
-            ctxt: #0,
-        },
+        span: 573..573#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    573,
-                ),
-                hi: BytePos(
-                    573,
-                ),
-                ctxt: #0,
-            },
+            span: 573..573#0,
             value: "",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        573,
-                    ),
-                    hi: BytePos(
-                        584,
-                    ),
-                    ctxt: #0,
-                },
+                span: 573..584#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            573,
-                        ),
-                        hi: BytePos(
-                            584,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 573..584#0,
                     value: "constructor",
                 },
                 tag: Class(
                     ClassTag {
-                        span: Span {
-                            lo: BytePos(
-                                573,
-                            ),
-                            hi: BytePos(
-                                584,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 573..584#0,
                         ty: Some(
                             Text {
-                                span: Span {
-                                    lo: BytePos(
-                                        573,
-                                    ),
-                                    hi: BytePos(
-                                        589,
-                                    ),
-                                    ctxt: #0,
-                                },
+                                span: 573..589#0,
                                 value: "* @extends {Bar}",
                             },
                         ),
@@ -432,49 +152,17 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                636,
-            ),
-            hi: BytePos(
-                636,
-            ),
-            ctxt: #0,
-        },
+        span: 636..636#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    636,
-                ),
-                hi: BytePos(
-                    650,
-                ),
-                ctxt: #0,
-            },
+            span: 636..650#0,
             value: "Override prop1",
         },
         tags: [],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                685,
-            ),
-            hi: BytePos(
-                685,
-            ),
-            ctxt: #0,
-        },
+        span: 685..685#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    685,
-                ),
-                hi: BytePos(
-                    709,
-                ),
-                ctxt: #0,
-            },
+            span: 685..709#0,
             value: "Third grandchild method.",
         },
         tags: [],

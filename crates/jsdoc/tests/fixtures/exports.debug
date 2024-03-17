@@ -1,130 +1,42 @@
 [
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                1,
-            ),
-            hi: BytePos(
-                1,
-            ),
-            ctxt: #0,
-        },
+        span: 1..1#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    1,
-                ),
-                hi: BytePos(
-                    50,
-                ),
-                ctxt: #0,
-            },
+            span: 1..50#0,
             value: "An example of a server-side JavaScript module.\n *",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        1,
-                    ),
-                    hi: BytePos(
-                        7,
-                    ),
-                    ctxt: #0,
-                },
+                span: 1..7#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            1,
-                        ),
-                        hi: BytePos(
-                            7,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 1..7#0,
                     value: "module",
                 },
                 tag: Module(
                     ModuleTag {
-                        span: Span {
-                            lo: BytePos(
-                                1,
-                            ),
-                            hi: BytePos(
-                                7,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 1..7#0,
                         name: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    1,
-                                ),
-                                hi: BytePos(
-                                    6,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 1..6#0,
                             value: "world",
                         },
                         ty: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    1,
-                                ),
-                                hi: BytePos(
-                                    6,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 1..6#0,
                             value: "hello",
                         },
                     },
                 ),
             },
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        1,
-                    ),
-                    hi: BytePos(
-                        8,
-                    ),
-                    ctxt: #0,
-                },
+                span: 1..8#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            1,
-                        ),
-                        hi: BytePos(
-                            8,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 1..8#0,
                     value: "example",
                 },
                 tag: Example(
                     ExampleTag {
-                        span: Span {
-                            lo: BytePos(
-                                1,
-                            ),
-                            hi: BytePos(
-                                8,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 1..8#0,
                         text: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    1,
-                                ),
-                                hi: BytePos(
-                                    58,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 1..58#0,
                             value: "*    var g = require('hello/world').sayHello('Gracie');\n ",
                         },
                     },
@@ -133,148 +45,52 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                152,
-            ),
-            hi: BytePos(
-                152,
-            ),
-            ctxt: #0,
-        },
+        span: 152..152#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    152,
-                ),
-                hi: BytePos(
-                    175,
-                ),
-                ctxt: #0,
-            },
+            span: 152..175#0,
             value: "Generate a greeting.\n *",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        152,
-                    ),
-                    hi: BytePos(
-                        157,
-                    ),
-                    ctxt: #0,
-                },
+                span: 152..157#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            152,
-                        ),
-                        hi: BytePos(
-                            157,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 152..157#0,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: Span {
-                            lo: BytePos(
-                                152,
-                            ),
-                            hi: BytePos(
-                                157,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 152..157#0,
                         name: None,
                         ty: Some(
                             Text {
-                                span: Span {
-                                    lo: BytePos(
-                                        152,
-                                    ),
-                                    hi: BytePos(
-                                        160,
-                                    ),
-                                    ctxt: #0,
-                                },
+                                span: 152..160#0,
                                 value: "{string}",
                             },
                         ),
                         desc: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    152,
-                                ),
-                                hi: BytePos(
-                                    191,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 152..191#0,
                             value: "[subject=\"world\"] To whom we say hello.",
                         },
                     },
                 ),
             },
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        152,
-                    ),
-                    hi: BytePos(
-                        159,
-                    ),
-                    ctxt: #0,
-                },
+                span: 152..159#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            152,
-                        ),
-                        hi: BytePos(
-                            159,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 152..159#0,
                     value: "returns",
                 },
                 tag: Return(
                     ReturnTag {
-                        span: Span {
-                            lo: BytePos(
-                                152,
-                            ),
-                            hi: BytePos(
-                                159,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 152..159#0,
                         ty: Some(
                             Text {
-                                span: Span {
-                                    lo: BytePos(
-                                        152,
-                                    ),
-                                    hi: BytePos(
-                                        160,
-                                    ),
-                                    ctxt: #0,
-                                },
+                                span: 152..160#0,
                                 value: "{string}",
                             },
                         ),
                         description: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    152,
-                                ),
-                                hi: BytePos(
-                                    152,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 152..152#0,
                             value: "",
                         },
                     },
@@ -283,148 +99,52 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                351,
-            ),
-            hi: BytePos(
-                351,
-            ),
-            ctxt: #0,
-        },
+        span: 351..351#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    351,
-                ),
-                hi: BytePos(
-                    381,
-                ),
-                ctxt: #0,
-            },
+            span: 351..381#0,
             value: "Generate a morose farewell.\n *",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        351,
-                    ),
-                    hi: BytePos(
-                        356,
-                    ),
-                    ctxt: #0,
-                },
+                span: 351..356#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            351,
-                        ),
-                        hi: BytePos(
-                            356,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 351..356#0,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: Span {
-                            lo: BytePos(
-                                351,
-                            ),
-                            hi: BytePos(
-                                356,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 351..356#0,
                         name: None,
                         ty: Some(
                             Text {
-                                span: Span {
-                                    lo: BytePos(
-                                        351,
-                                    ),
-                                    hi: BytePos(
-                                        359,
-                                    ),
-                                    ctxt: #0,
-                                },
+                                span: 351..359#0,
                                 value: "{string}",
                             },
                         ),
                         desc: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    351,
-                                ),
-                                hi: BytePos(
-                                    392,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 351..392#0,
                             value: "[subject=\"world\"] To whom we say goodbye.",
                         },
                     },
                 ),
             },
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        351,
-                    ),
-                    hi: BytePos(
-                        358,
-                    ),
-                    ctxt: #0,
-                },
+                span: 351..358#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            351,
-                        ),
-                        hi: BytePos(
-                            358,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 351..358#0,
                     value: "returns",
                 },
                 tag: Return(
                     ReturnTag {
-                        span: Span {
-                            lo: BytePos(
-                                351,
-                            ),
-                            hi: BytePos(
-                                358,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 351..358#0,
                         ty: Some(
                             Text {
-                                span: Span {
-                                    lo: BytePos(
-                                        351,
-                                    ),
-                                    hi: BytePos(
-                                        359,
-                                    ),
-                                    ctxt: #0,
-                                },
+                                span: 351..359#0,
                                 value: "{string}",
                             },
                         ),
                         description: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    351,
-                                ),
-                                hi: BytePos(
-                                    351,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 351..351#0,
                             value: "",
                         },
                     },
