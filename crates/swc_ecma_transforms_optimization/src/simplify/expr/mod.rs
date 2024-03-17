@@ -139,13 +139,16 @@ impl SimplifyExpr {
                 if self.in_callee {
                     return;
                 }
-                
-                // JavaScript cast index expression to a number
-                let Known(index) = expr.as_pure_number(&self.expr_ctx) else {
+
+                if let Expr::Lit(Lit::Num(Number { value, .. })) = &**expr {
+                    // x[5]
+                    KnownOp::Index(*value)
+                } else if let Known(s) = expr.as_pure_string(&self.expr_ctx) {
+                    // x[''] or x[...] where ... is an expression like [], ie x[[]]
+                    KnownOp::IndexStr(JsWord::from(s))
+                } else {
                     return;
-                };
-                
-                KnownOp::Index(index)
+                }
             }
             _ => return,
         };
@@ -166,7 +169,7 @@ impl SimplifyExpr {
                 // 'foo'[1]
                 KnownOp::Index(idx) => {
                     self.changed = true;
-                    
+
                     if idx.fract() != 0.0 || idx < 0.0 || idx as usize >= value.len() {
                         *expr = *undefined(*span)
                     } else {
@@ -178,13 +181,20 @@ impl SimplifyExpr {
                             span: *span,
                         }))
                     };
+                },
+                
+                // 'foo'['']
+                KnownOp::IndexStr(_) => {
+                    self.changed = true;
+                    *expr = *undefined(*span);
                 }
-                _ => {}
             },
 
             // [1, 2, 3].length
             //
             // [1, 2, 3][0]
+            //
+            // [1, 2, 3]['']
             Expr::Array(ArrayLit { elems, span }) => {
                 // do nothing if spread exists
                 let has_spread = elems.iter().any(|elem| {
@@ -281,6 +291,10 @@ impl SimplifyExpr {
                     exprs.push(val);
 
                     *expr = Expr::Seq(SeqExpr { span: *span, exprs });
+                } else if matches!(op, KnownOp::IndexStr(..)) {
+                    self.changed = true;
+                    *expr = *undefined(*span);
+                    return;
                 }
             }
 
