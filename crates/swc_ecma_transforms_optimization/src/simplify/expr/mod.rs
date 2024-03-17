@@ -1,6 +1,6 @@
 use std::{borrow::Cow, iter, iter::once};
 
-use swc_atoms::JsWord;
+use swc_atoms::{Atom, JsWord};
 use swc_common::{
     pass::{CompilerPass, Repeated},
     util::take::Take,
@@ -15,6 +15,8 @@ use swc_ecma_transforms_base::{
 use swc_ecma_utils::{
     is_literal, prop_name_eq, to_int32, BoolType, ExprCtx, ExprExt, NullType, NumberType,
     ObjectType, StringType, SymbolType, UndefinedType, Value,
+    prop_name_eq, to_int32, undefined, BoolType, ExprCtx, ExprExt, NullType,
+    NumberType, ObjectType, StringType, SymbolType, UndefinedType, Value,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut, VisitMutWith};
 use Value::{Known, Unknown};
@@ -188,7 +190,7 @@ impl SimplifyExpr {
                         }))
                     };
                 },
-                
+
                 // 'foo'['']
                 KnownOp::IndexStr(_) => {
                     self.changed = true;
@@ -305,58 +307,63 @@ impl SimplifyExpr {
             }
 
             // { foo: true }['foo']
-            Expr::Object(ObjectLit { props, span }) => match op {
-                KnownOp::IndexStr(key) if is_literal(props) && key != *"yield" => {
-                    // do nothing if spread exists
-                    let has_spread = props
-                        .iter()
-                        .any(|prop| matches!(prop, PropOrSpread::Spread(..)));
+            //
+            // { 0.5: true }[0.5]
+            Expr::Object(ObjectLit { props, span }) => {
+                // get key
+                let key = match op {
+                    KnownOp::Index(i) => Atom::from(i.to_string()),
+                    KnownOp::IndexStr(key) if key != *"yield" => key, // TODO: needs is_literal(props) check?
+                    _ => return
+                };
 
-                    if has_spread {
-                        return;
-                    }
+                // do nothing if spread exists
+                let has_spread = props
+                    .iter()
+                    .any(|prop| matches!(prop, PropOrSpread::Spread(..)));
 
-                    let idx = props.iter().rev().position(|p| match p {
-                        PropOrSpread::Prop(p) => match &**p {
-                            Prop::Shorthand(i) => i.sym == key,
-                            Prop::KeyValue(k) => prop_name_eq(&k.key, &key),
-                            Prop::Assign(p) => p.key.sym == key,
-                            Prop::Getter(..) => false,
-                            Prop::Setter(..) => false,
-                            // TODO
-                            Prop::Method(..) => false,
-                        },
-                        _ => unreachable!(),
-                    });
-                    let idx = idx.map(|idx| props.len() - 1 - idx);
-                    //
-
-                    if let Some(i) = idx {
-                        let v = props.remove(i);
-                        self.changed = true;
-
-                        *expr = self.expr_ctx.preserve_effects(
-                            *span,
-                            match v {
-                                PropOrSpread::Prop(p) => match *p {
-                                    Prop::Shorthand(i) => Expr::Ident(i),
-                                    Prop::KeyValue(p) => *p.value,
-                                    Prop::Assign(p) => *p.value,
-                                    Prop::Getter(..) => unreachable!(),
-                                    Prop::Setter(..) => unreachable!(),
-                                    // TODO
-                                    Prop::Method(..) => unreachable!(),
-                                },
-                                _ => unreachable!(),
-                            },
-                            once(Box::new(Expr::Object(ObjectLit {
-                                props: props.take(),
-                                span: *span,
-                            }))),
-                        );
-                    }
+                if has_spread {
+                    return;
                 }
-                _ => {}
+
+                let idx = props.iter().rev().position(|p| match p {
+                    PropOrSpread::Prop(p) => match &**p {
+                        Prop::Shorthand(i) => i.sym == key,
+                        Prop::KeyValue(k) => prop_name_eq(&k.key, &key),
+                        Prop::Assign(p) => p.key.sym == key,
+                        Prop::Getter(..) => false,
+                        Prop::Setter(..) => false,
+                        // TODO
+                        Prop::Method(..) => false,
+                    },
+                    _ => unreachable!(),
+                });
+                let idx = idx.map(|idx| props.len() - 1 - idx);
+
+                if let Some(i) = idx {
+                    let v = props.remove(i);
+                    self.changed = true;
+
+                    *expr = self.expr_ctx.preserve_effects(
+                        *span,
+                        match v {
+                            PropOrSpread::Prop(p) => match *p {
+                                Prop::Shorthand(i) => Expr::Ident(i),
+                                Prop::KeyValue(p) => *p.value,
+                                Prop::Assign(p) => *p.value,
+                                Prop::Getter(..) => unreachable!(),
+                                Prop::Setter(..) => unreachable!(),
+                                // TODO
+                                Prop::Method(..) => unreachable!(),
+                            },
+                            _ => unreachable!(),
+                        },
+                        once(Box::new(Expr::Object(ObjectLit {
+                            props: props.take(),
+                            span: *span,
+                        }))),
+                    );
+                }
             },
 
             _ => {}
