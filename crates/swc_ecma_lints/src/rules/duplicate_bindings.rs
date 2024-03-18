@@ -264,6 +264,8 @@ impl Visit for DuplicateBindings {
             ),
             _ => {}
         }
+
+        e.visit_children_with(self);
     }
 
     fn visit_import_default_specifier(&mut self, s: &ImportDefaultSpecifier) {
