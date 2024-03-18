@@ -1585,13 +1585,13 @@ fn test_issue8747() {
     // Index with an expression.
     fold("''[[]]", "void 0");
     fold("'a'[[]]", "void 0");
-    
+
     // Indexing an array has the same logic as indexing a string.
     fold("[][0]", "void 0");
     fold("[1][0.5]", "void 0");
     fold("[][[]]", "void 0");
     fold("[1][[]]", "void 0");
-    
+
     // Indexing objects
     fold("({0.5: 'a'})[0.5]", "'a';");
     fold("({'0.5': 'a'})[0.5]", "'a';");
