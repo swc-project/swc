@@ -115,11 +115,11 @@ impl SimplifyExpr {
             // [a, b][0]
             //
             // ({0.5: 'test'})[0.5]
-            //
             /// Note: callers need to check `v.fract() == 0.0` in some cases.
-            /// ie non-integer indexes for arrays always result in `undefined` but
-            /// not for objects (because indexing an object returns the value of the
-            /// key, ie `0.5` will not return `undefined` if a key `0.5` exists
+            /// ie non-integer indexes for arrays always result in `undefined`
+            /// but not for objects (because indexing an object
+            /// returns the value of the key, ie `0.5` will not
+            /// return `undefined` if a key `0.5` exists
             /// and its value is not `undefined`).
             Index(f64),
 
@@ -181,7 +181,7 @@ impl SimplifyExpr {
                             span: *span,
                         }))
                     };
-                },
+                }
 
                 // 'foo'['']
                 KnownOp::IndexStr(_) => {
@@ -306,7 +306,7 @@ impl SimplifyExpr {
                 let key = match op {
                     KnownOp::Index(i) => Atom::from(i.to_string()),
                     KnownOp::IndexStr(key) if key != *"yield" && is_literal(props) => key,
-                    _ => return
+                    _ => return,
                 };
 
                 // do nothing if spread exists
@@ -356,7 +356,7 @@ impl SimplifyExpr {
                         }))),
                     );
                 }
-            },
+            }
 
             _ => {}
         }
