@@ -16,6 +16,7 @@ use swc_ecma_utils::{
     is_literal, prop_name_eq, to_int32, BoolType, ExprCtx, ExprExt, NullType, NumberType,
     ObjectType, StringType, SymbolType, UndefinedType, Value,
     prop_name_eq, to_int32, undefined, BoolType, ExprCtx, ExprExt, NullType,
+    is_literal, prop_name_eq, to_int32, undefined, BoolType, ExprCtx, ExprExt, NullType,
     NumberType, ObjectType, StringType, SymbolType, UndefinedType, Value,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut, VisitMutWith};
@@ -313,7 +314,7 @@ impl SimplifyExpr {
                 // get key
                 let key = match op {
                     KnownOp::Index(i) => Atom::from(i.to_string()),
-                    KnownOp::IndexStr(key) if key != *"yield" => key, // TODO: needs is_literal(props) check?
+                    KnownOp::IndexStr(key) if key != *"yield" && is_literal(props) => key,
                     _ => return
                 };
 

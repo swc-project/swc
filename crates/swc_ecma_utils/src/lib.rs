@@ -1885,13 +1885,9 @@ impl Visit for LiteralVisitor {
         match node {
             PropName::Str(ref s) => self.cost += 2 + s.value.len(),
             PropName::Ident(ref id) => self.cost += 2 + id.sym.len(),
-            PropName::Num(n) => {
-                if n.value.fract() < 1e-10 { // TODO: This breaks object simplifying. Why is this here?
-                    // TODO: Count digits
-                    self.cost += 5;
-                } else {
-                    self.is_lit = false
-                }
+            PropName::Num(..) => {
+                // TODO: Count digits
+                self.cost += 5;
             }
             PropName::BigInt(_) => self.is_lit = false,
             PropName::Computed(..) => self.is_lit = false,
