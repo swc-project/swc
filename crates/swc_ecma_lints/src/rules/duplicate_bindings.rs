@@ -239,6 +239,33 @@ impl Visit for DuplicateBindings {
         s.visit_children_with(self);
     }
 
+    fn visit_export_default_decl(&mut self, e: &ExportDefaultDecl) {
+        // export default function foo() {} should be treated as hoisted
+        match &e.decl {
+            DefaultDecl::Class(ClassExpr {
+                ident: Some(ident), ..
+            }) => self.add(
+                ident.sym.clone(),
+                BindingInfo {
+                    span: ident.span,
+                    unique: true,
+                    is_function: false,
+                },
+            ),
+            DefaultDecl::Fn(FnExpr {
+                ident: Some(ident), ..
+            }) => self.add(
+                ident.sym.clone(),
+                BindingInfo {
+                    span: ident.span,
+                    unique: self.lexical_function,
+                    is_function: true,
+                },
+            ),
+            _ => {}
+        }
+    }
+
     fn visit_import_default_specifier(&mut self, s: &ImportDefaultSpecifier) {
         s.visit_children_with(self);
 
