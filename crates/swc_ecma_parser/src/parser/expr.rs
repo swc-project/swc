@@ -1226,7 +1226,7 @@ impl<I: Tokens> Parser<I> {
                         )
                         .map(|expr| (Box::new(Expr::TaggedTpl(expr)), true))
                         .map(Some)
-                    } else if is!(p, '=') {
+                    } else if is_one_of!(p, '=', "as") {
                         Ok(Some((
                             Box::new(Expr::TsInstantiation(TsInstantiation {
                                 span: span!(p, start),
@@ -1235,19 +1235,6 @@ impl<I: Tokens> Parser<I> {
                                     _ => unreachable!(),
                                 },
                                 type_args,
-                            })),
-                            true,
-                        )))
-                    } else if eat!(p, "as") {
-                        let type_ann = p.in_type().parse_with(|p| p.parse_ts_type())?;
-                        Ok(Some((
-                            Box::new(Expr::TsAs(TsAsExpr {
-                                span: span!(p, start),
-                                expr: match mut_obj_opt {
-                                    Some(Callee::Expr(obj)) => obj.take(),
-                                    _ => unreachable!(),
-                                },
-                                type_ann,
                             })),
                             false,
                         )))
