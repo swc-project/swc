@@ -1238,6 +1238,19 @@ impl<I: Tokens> Parser<I> {
                             })),
                             true,
                         )))
+                    } else if is!(p, "as") {
+                        let type_ann = p.in_type().parse_with(|p| p.parse_ts_type())?;
+                        Ok(Some((
+                            Box::new(Expr::TsAs(TsAsExpr {
+                                span: span!(p, start),
+                                expr: match mut_obj_opt {
+                                    Some(Callee::Expr(obj)) => obj.take(),
+                                    _ => unreachable!(),
+                                },
+                                type_ann,
+                            })),
+                            true,
+                        )))
                     } else if no_call {
                         unexpected!(p, "`")
                     } else {
