@@ -7,7 +7,7 @@
 //!  3 | |-> }
 //!    : `---- previous exported here
 //!  4 |     
-//!  5 | ,-> export default class C {
+//!  5 | ,-> export default class C2 {
 //!  6 | |-> }
 //!    : `---- exported more than once
 //!    `----
