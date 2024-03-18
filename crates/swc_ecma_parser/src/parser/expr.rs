@@ -1238,7 +1238,7 @@ impl<I: Tokens> Parser<I> {
                             })),
                             true,
                         )))
-                    } else if is!(p, "as") {
+                    } else if eat!(p, "as") {
                         let type_ann = p.in_type().parse_with(|p| p.parse_ts_type())?;
                         Ok(Some((
                             Box::new(Expr::TsAs(TsAsExpr {
