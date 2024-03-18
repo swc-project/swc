@@ -1,5 +1,5 @@
 use std::{
-    fs::{self, create_dir_all},
+    fs::{self, create_dir_all, hard_link},
     path::Path,
     process::{Command, Stdio},
 };
@@ -78,6 +78,69 @@ fn issue_8495_1() -> Result<()> {
     cmd.assert().success();
 
     fs::read_to_string(pwd.join("dist/input.js"))?;
+    Ok(())
+}
+
+#[test]
+fn issue_8667_1() -> Result<()> {
+    let output_base = TempDir::new()?;
+    let bin_dir = output_base.path().join("bazel-out/arch/bin");
+    let sandbox = output_base.path().join("sandbox/123");
+
+    let pwd = Path::new("tests/fixture-manual/8265").canonicalize()?;
+
+    create_dir_all(bin_dir.join("src/modules/moduleA"))?;
+    create_dir_all(bin_dir.join("src/modules/moduleB"))?;
+    create_dir_all(sandbox.join("src/modules/moduleA"))?;
+    create_dir_all(sandbox.join("src/modules/moduleB"))?;
+
+    // hard links from BINDIR into src
+    hard_link(pwd.join(".swcrc"), bin_dir.join(".swcrc"))?;
+    hard_link(pwd.join("src/index.ts"), bin_dir.join("src/index.ts"))?;
+    hard_link(
+        pwd.join("src/modules/moduleA/index.ts"),
+        bin_dir.join("src/modules/moduleA/index.ts"),
+    )?;
+    hard_link(
+        pwd.join("src/modules/moduleB/index.ts"),
+        bin_dir.join("src/modules/moduleB/index.ts"),
+    )?;
+
+    // soft links from sandbox into bazel-bin
+    symlink(&bin_dir.join(".swcrc"), &sandbox.join(".swcrc"));
+    symlink(&bin_dir.join("src/index.ts"), &sandbox.join("src/index.ts"));
+    symlink(
+        &bin_dir.join("src/modules/moduleA/index.ts"),
+        &sandbox.join("src/modules/moduleA/index.ts"),
+    );
+    symlink(
+        &bin_dir.join("src/modules/moduleB/index.ts"),
+        &sandbox.join("src/modules/moduleB/index.ts"),
+    );
+
+    //
+    print_ls_alr(&sandbox);
+
+    let mut cmd = cli()?;
+    cmd.current_dir(&sandbox)
+        .arg("compile")
+        .arg("--source-maps")
+        .arg("false")
+        .arg("--config-file")
+        .arg(".swcrc")
+        .arg("--out-file")
+        .arg(bin_dir.join("src/index.js"))
+        .arg("src/index.ts");
+
+    cmd.assert().success();
+
+    let content = fs::read_to_string(bin_dir.join("src/index.js"))?;
+    assert!(
+        content.contains("require(\"./modules/moduleA\")"),
+        "{}",
+        content
+    );
+
     Ok(())
 }
 
