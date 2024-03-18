@@ -1249,7 +1249,7 @@ impl<I: Tokens> Parser<I> {
                                 },
                                 type_ann,
                             })),
-                            true,
+                            false,
                         )))
                     } else if no_call {
                         unexpected!(p, "`")
