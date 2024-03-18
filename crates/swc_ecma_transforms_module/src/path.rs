@@ -1,8 +1,8 @@
 use std::{
     borrow::Cow,
     env::current_dir,
-    fs::read_link,
-    io::{self},
+    fs::canonicalize,
+    io,
     path::{Component, Path, PathBuf},
     sync::Arc,
 };
@@ -245,7 +245,7 @@ where
         //
         // https://github.com/swc-project/swc/issues/8265
         if let FileName::Real(resolved) = &target.filename {
-            if let Ok(orig) = read_link(resolved) {
+            if let Ok(orig) = canonicalize(resolved) {
                 target.filename = FileName::Real(orig);
             }
         }
