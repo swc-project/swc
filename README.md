@@ -48,6 +48,14 @@ for rust users.
 
 MSRV of crates is currently nightly, but we will support stable rustc again in the future.
 
+To update all SWC crates you use, you can run `curl https://raw.githubusercontent.com/swc-project/swc/main/scripts/update-all-swc-crates.sh | bash -s`. This script will update all dependencies to the latest version and run `cargo build` to ensure that everything works.
+Note that you need
+
+-   `jq`
+-   `cargo upgrade`
+
+command to run the script.
+
 ---
 
 If you are using SWC from JavaScript, please refer to [docs on the website](https://swc.rs/docs/installation/).
