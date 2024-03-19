@@ -4,5 +4,5 @@
 export default class C {
 }
 
-export default class C2 {
+export default class C {
 }
