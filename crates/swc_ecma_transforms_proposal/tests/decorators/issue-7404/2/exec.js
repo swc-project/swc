@@ -4,7 +4,6 @@ function minusTwo({ set, get }) {
     return {
         set(v) {
             set.call(this, v - 2)
-            set.call(this, v - 2)
         },
         init(v) {
             return v - 2;
