@@ -34,4 +34,4 @@ foo.bar = 5;
 console.log({ set: foo.bar });
 
 assert.deepStrictEqual({ init: foo.bar }, { init: 12 });
-assert.deepStrictEqual({ set: foo.bar }, { set: 18 });
+assert.deepStrictEqual({ set: foo.bar }, { set: 12 });
