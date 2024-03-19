@@ -253,8 +253,10 @@ impl Visit for DuplicateBindings {
                 },
             ),
             DefaultDecl::Fn(FnExpr {
-                ident: Some(ident), ..
-            }) => self.add(
+                ident: Some(ident),
+                function: f,
+                ..
+            }) if f.body.is_some() => self.add(
                 ident.sym.clone(),
                 BindingInfo {
                     span: ident.span,
