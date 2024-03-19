@@ -1,3 +1,5 @@
+const assert = require("assert");
+
 function minusTwo({ set, get }) {
     return {
         set(v) {
@@ -30,3 +32,6 @@ console.log({ init: foo.bar });
 
 foo.bar = 5;
 console.log({ set: foo.bar });
+
+assert.deepStrictEqual({ init: foo.bar }, { init: 12 });
+assert.deepStrictEqual({ set: foo.bar }, { set: 18 });
