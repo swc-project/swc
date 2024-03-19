@@ -29,9 +29,9 @@ class Foo {
 
 const foo = new Foo();
 console.log({ init: foo.bar });
+assert.deepStrictEqual({ init: foo.bar }, { init: 12 });
 
 foo.bar = 5;
 console.log({ set: foo.bar });
 
-assert.deepStrictEqual({ init: foo.bar }, { init: 12 });
 assert.deepStrictEqual({ set: foo.bar }, { set: 12 });
