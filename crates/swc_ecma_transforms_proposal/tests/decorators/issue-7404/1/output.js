@@ -1,46 +1,44 @@
-var _init_bar, _initProto;
-function minusTwo({ set, get }) {
+function minusTwo({
+    set,
+    get
+}) {
     return {
-        set (v) {
-            set.call(this, v - 2);
+        set(v) {
             set.call(this, v - 2);
         },
-        init (v) {
+        init(v) {
             return v - 2;
         }
     };
 }
-function timesFour({ set, get }) {
+function timesFour({
+    set,
+    get
+}) {
     return {
-        set (v) {
+        set(v) {
             set.call(this, v * 4);
         },
-        init (v) {
+        init(v) {
             return v * 4;
         }
     };
 }
+var _A = /*#__PURE__*/new WeakMap();
 class Foo {
-    static{
-        ({ e: [_init_bar, _initProto] } = _apply_decs_2203_r(this, [
-            [
-                [
-                    timesFour,
-                    minusTwo
-                ],
-                1,
-                "bar"
-            ]
-        ], []));
+    constructor() {
+        _classPrivateFieldInitSpec(this, _A, _init_bar(this, 5));
+        _init_extra_bar(this);
     }
-    #___private_bar = (_initProto(this), _init_bar(this, 5));
     get bar() {
-        return this.#___private_bar;
+        return _classPrivateFieldGet(_A, this);
     }
-    set bar(_v) {
-        this.#___private_bar = _v;
+    set bar(v) {
+        _classPrivateFieldSet(_A, this, v);
     }
 }
+_Foo = Foo;
+[_init_bar, _init_extra_bar] = _applyDecs(_Foo, [], [[[minusTwo, timesFour], 1, "bar"]]).e;
 const foo = new Foo();
 console.log({
     init: foo.bar
