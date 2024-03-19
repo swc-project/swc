@@ -9,7 +9,7 @@ use serde::Deserialize;
 use swc_common::{chain, comments::SingleThreadedComments, Mark};
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 use swc_ecma_transforms_base::{assumptions::Assumptions, resolver};
-use swc_ecma_transforms_proposal::decorator_2022_03::decorator_2022_03;
+use swc_ecma_transforms_proposal::decorator_2022_03::{decorator_2022_03, decorator_2023_11};
 use swc_ecma_transforms_testing::{test_fixture, FixtureTestConfig};
 use swc_ecma_visit::Fold;
 
@@ -133,10 +133,7 @@ fn create_pass(comments: Rc<SingleThreadedComments>, input: &Path) -> Box<dyn Fo
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
 
-    let mut pass: Box<dyn Fold> = Box::new(chain!(
-        resolver(unresolved_mark, top_level_mark, false),
-        decorator_2022_03()
-    ));
+    let mut pass: Box<dyn Fold> = Box::new(resolver(unresolved_mark, top_level_mark, false));
 
     macro_rules! add {
         ($e:expr) => {{
@@ -178,7 +175,23 @@ fn create_pass(comments: Rc<SingleThreadedComments>, input: &Path) -> Box<dyn Fo
                 }
                 _ => {}
             },
-            BabelPluginEntry::WithConfig(name, config) => {}
+            BabelPluginEntry::WithConfig(name, config) => {
+                if let "proposal-decorators" = &**name {
+                    match config {
+                        BabelPluginOption::Decorator { version } => match &**version {
+                            "2022-03" => {
+                                add!(decorator_2022_03());
+                            }
+                            "2023-11" => {
+                                add!(decorator_2023_11());
+                            }
+
+                            _ => {}
+                        },
+                    }
+                    continue;
+                }
+            }
         }
 
         dbg!(&plugin);
