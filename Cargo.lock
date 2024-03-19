@@ -3897,7 +3897,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.90.23"
+version = "0.90.24"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -4387,7 +4387,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_lints"
-version = "0.92.18"
+version = "0.92.19"
 dependencies = [
  "auto_impl",
  "dashmap",
