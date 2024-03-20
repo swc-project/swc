@@ -4848,7 +4848,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "0.127.13"
+version = "0.127.14"
 dependencies = [
  "indexmap 2.1.0",
  "num_cpus",
