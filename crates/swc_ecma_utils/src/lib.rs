@@ -1058,7 +1058,6 @@ pub trait ExprExt {
                 }
                 Known(buf.into())
             }
-            Expr::Object(ObjectLit { .. }) => Known(Cow::Borrowed("[object Object]")),
             _ => Unknown,
         }
     }
