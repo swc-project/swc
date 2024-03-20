@@ -935,7 +935,7 @@ pub trait ExprExt {
                 }
             }
 
-            Expr::Tpl(..) | Expr::Object(ObjectLit { .. }) | Expr::Array(ArrayLit { .. }) => {
+            Expr::Tpl(..) => {
                 return (
                     Pure,
                     num_from_str(&match self.as_pure_string(ctx) {
