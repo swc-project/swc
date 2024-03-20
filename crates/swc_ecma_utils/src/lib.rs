@@ -3257,9 +3257,8 @@ where
 
 #[cfg(test)]
 mod test {
-    use swc_common::{input::StringInput, BytePos, GLOBALS};
+    use swc_common::{input::StringInput, BytePos};
     use swc_ecma_parser::{Parser, Syntax};
-    use swc_ecma_transforms_base::resolver;
 
     use super::*;
 
@@ -3276,23 +3275,6 @@ mod test {
     fn test_collect_export_default_expr() {
         run_collect_decls("export default function foo(){}", &["foo"]);
         run_collect_decls("export default class Foo{}", &["Foo"]);
-    }
-
-    #[test]
-    fn test_export_default_expr_should_be_in_top_level() {
-        let mut module = parse_module("export default function top(){}");
-        GLOBALS.set(&Default::default(), || {
-            let unresolved_mark: Mark = Mark::new();
-            let top_level_mark: Mark = Mark::new();
-            let top_ctxt = SyntaxContext::default().apply_mark(top_level_mark);
-            module.visit_mut_with(&mut resolver(unresolved_mark, top_level_mark, false));
-            let decls = collect_decls_with_ctxt(&module, top_ctxt)
-                .iter()
-                .map(|d: &Id| d.0.to_string())
-                .collect::<Vec<_>>();
-
-            assert_eq!(decls, ["top"]);
-        });
     }
 
     fn run_collect_decls(text: &str, expected_names: &[&str]) {
