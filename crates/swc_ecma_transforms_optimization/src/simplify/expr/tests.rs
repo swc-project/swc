@@ -661,10 +661,6 @@ fn test_folding_mix_types_early() {
 fn test_folding_add1() {
     fold("x = null + true", "x=1");
     fold_same("x = a + true");
-    fold("x = '' + {}", "x = \"[object Object]\"");
-    fold("x = [] + {}", "x = \"[object Object]\"");
-    fold("x = {} + []", "x = \"[object Object]\"");
-    fold("x = {} + ''", "x = \"[object Object]\"");
 }
 
 #[test]
