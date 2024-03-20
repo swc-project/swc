@@ -35,4 +35,5 @@ swc_ecma_visit = { version = "0.98.7", path = "../swc_ecma_visit" }
 
 [dev-dependencies]
 swc_ecma_parser = { version = "0.143.10", path = "../swc_ecma_parser" }
+swc_ecma_transforms_base = { version = "0.137.16", path = "../swc_ecma_transforms_base" }
 testing         = { version = "0.35.21", path = "../testing" }
