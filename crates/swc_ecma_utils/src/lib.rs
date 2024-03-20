@@ -2813,6 +2813,7 @@ where
             }
             _ => {}
         }
+        e.visit_children_with(self);
     }
 
     fn visit_fn_decl(&mut self, node: &FnDecl) {
