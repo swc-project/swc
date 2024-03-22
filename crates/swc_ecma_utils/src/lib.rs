@@ -2797,6 +2797,24 @@ where
         self.is_pat_decl = old;
     }
 
+    fn visit_export_default_decl(&mut self, e: &ExportDefaultDecl) {
+        match &e.decl {
+            DefaultDecl::Class(ClassExpr {
+                ident: Some(ident), ..
+            }) => {
+                self.add(ident);
+            }
+            DefaultDecl::Fn(FnExpr {
+                ident: Some(ident),
+                function: f,
+            }) if f.body.is_some() => {
+                self.add(ident);
+            }
+            _ => {}
+        }
+        e.visit_children_with(self);
+    }
+
     fn visit_fn_decl(&mut self, node: &FnDecl) {
         node.visit_children_with(self);
 
@@ -3251,6 +3269,12 @@ mod test {
             &["a", "b", "c", "d"],
         );
         run_collect_decls("const [ a, b = 1, [c], ...d ] = [];", &["a", "b", "c", "d"]);
+    }
+
+    #[test]
+    fn test_collect_export_default_expr() {
+        run_collect_decls("export default function foo(){}", &["foo"]);
+        run_collect_decls("export default class Foo{}", &["Foo"]);
     }
 
     fn run_collect_decls(text: &str, expected_names: &[&str]) {
