@@ -6,6 +6,7 @@
     "expect",
     "toBe"
   ],
+  "rangeMappings": ";;;;;;;;;;;;;;;;",
   "sources": [
     "../../input/index.js"
   ],

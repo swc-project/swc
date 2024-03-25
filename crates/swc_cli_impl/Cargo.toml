@@ -33,7 +33,7 @@ rayon              = "1"
 relative-path      = "1.6.1"
 serde              = { version = "1", features = ["derive"] }
 serde_json         = { version = "1", features = ["unbounded_depth"] }
-sourcemap          = "6.4.1"
+sourcemap          = "8.0.0"
 tracing            = "0.1.37"
 tracing-chrome     = "0.5.0"
 tracing-futures    = "0.2.5"

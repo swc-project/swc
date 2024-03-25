@@ -29,6 +29,7 @@
     "deleteComment",
     "delete"
   ],
+  "rangeMappings": ";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;",
   "sources": [
     "../../input/CommentControlller.ts"
   ],

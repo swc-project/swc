@@ -4,6 +4,7 @@
     "a",
     "b"
   ],
+  "rangeMappings": "",
   "sources": [
     "../../input/index.js"
   ],

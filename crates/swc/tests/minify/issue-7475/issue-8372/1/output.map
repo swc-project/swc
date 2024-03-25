@@ -6,6 +6,7 @@
     "aób",
     "a"
   ],
+  "rangeMappings": "",
   "sources": [
     "input-preprocess.js"
   ],
