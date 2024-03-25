@@ -3694,7 +3694,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.273.22"
+version = "0.273.23"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -3819,7 +3819,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli_impl"
-version = "0.8.22"
+version = "0.8.23"
 dependencies = [
  "anyhow",
  "assert_cmd",
@@ -3843,7 +3843,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.33.20"
+version = "0.33.21"
 dependencies = [
  "ahash 0.8.8",
  "anyhow",
@@ -3878,7 +3878,7 @@ dependencies = [
 
 [[package]]
 name = "swc_compiler_base"
-version = "0.7.18"
+version = "0.7.19"
 dependencies = [
  "anyhow",
  "base64",
@@ -3901,7 +3901,7 @@ dependencies = [
 
 [[package]]
 name = "swc_config"
-version = "0.1.11"
+version = "0.1.12"
 dependencies = [
  "anyhow",
  "indexmap 2.1.0",
@@ -4180,7 +4180,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "0.148.12"
+version = "0.148.13"
 dependencies = [
  "base64",
  "criterion",
@@ -4590,7 +4590,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms"
-version = "0.229.17"
+version = "0.229.18"
 dependencies = [
  "pretty_assertions",
  "sourcemap",
@@ -4814,7 +4814,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_testing"
-version = "0.140.16"
+version = "0.140.17"
 dependencies = [
  "ansi_term",
  "anyhow",
