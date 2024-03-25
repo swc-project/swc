@@ -4,6 +4,7 @@
     "console",
     "log"
   ],
+  "rangeMappings": ";;;;;;;;",
   "sources": [
     "../../input/index.js"
   ],

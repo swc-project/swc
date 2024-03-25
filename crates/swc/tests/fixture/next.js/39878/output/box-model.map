@@ -42,6 +42,7 @@
     "prop",
     "get"
   ],
+  "rangeMappings": ";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;",
   "sources": [
     "../../input/box-model.ts"
   ],
