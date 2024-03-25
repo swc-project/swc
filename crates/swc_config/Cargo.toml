@@ -11,7 +11,7 @@ version       = "0.1.11"
 [dependencies]
 anyhow     = "1"
 indexmap   = "2.0.0"
-serde      = { version = "1", features = ["derive"] }
+serde      = { version = "1", features = ["derive", "rc"] }
 serde_json = "1"
 sourcemap  = { version = "8.0", optional = true }
 
