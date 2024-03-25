@@ -1286,12 +1286,23 @@ impl<'a, I: Tokens> Parser<I> {
         let start = cur_pos!(self);
         let init = self.include_in_expr(false).parse_for_head_prefix()?;
 
+        let mut is_await_using_decl = false;
         let is_using_decl = self.input.syntax().explicit_resource_management()
             && match *init {
                 _ if init.is_ident_ref_to("using") => {
                     is!(self, BindingIdent)
                         && !is!(self, "of")
                         && (peeked_is!(self, "of") || peeked_is!(self, "in"))
+                }
+                _ if init
+                    .as_await_expr()
+                    .filter(|e| e.arg.is_ident_ref_to("using"))
+                    .is_some()
+                    && !is!(self, "of")
+                    && (peeked_is!(self, "of") || peeked_is!(self, "in")) =>
+                {
+                    is_await_using_decl = true;
+                    true
                 }
                 _ => false,
             };
@@ -1307,7 +1318,7 @@ impl<'a, I: Tokens> Parser<I> {
 
             let pat = Box::new(UsingDecl {
                 span: span!(self, start),
-                is_await: false,
+                is_await: is_await_using_decl,
                 decls: vec![decl],
             });
 
