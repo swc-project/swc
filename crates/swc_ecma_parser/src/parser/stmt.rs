@@ -1294,21 +1294,20 @@ impl<'a, I: Tokens> Parser<I> {
             let mut maybe_using_decl = init.is_ident_ref_to("using");
             let mut maybe_await_using_decl = false;
 
-            if (!maybe_using_decl) {
-                // await using foo
-                if init
+            // await using foo
+            if !maybe_using_decl
+                && init
                     .as_await_expr()
                     .filter(|e| e.arg.is_ident_ref_to("using"))
                     .is_some()
-                {
-                    maybe_using_decl = true;
-                    maybe_await_using_decl = true;
-                }
+            {
+                maybe_using_decl = true;
+                maybe_await_using_decl = true;
             }
 
-            if (maybe_using_decl
+            if maybe_using_decl
                 && !is!(self, "of")
-                && (peeked_is!(self, "of") || peeked_is!(self, "in")))
+                && (peeked_is!(self, "of") || peeked_is!(self, "in"))
             {
                 is_using_decl = maybe_using_decl;
                 is_await_using_decl = maybe_await_using_decl;
