@@ -1,10 +1,24 @@
 //// [awaitUsingDeclarationsInForAwaitOf.ts]
-//! 
-//!   x Expected ';', got 'd1'
-//!    ,-[1:1]
-//!  1 | async function main() {
-//!  2 |     for await (await using d1 of [{ async [Symbol.asyncDispose]() {} }, { [Symbol.dispose]() {} }, null, undefined]) {
-//!    :                            ^^
-//!  3 |     }
-//!  4 | }
-//!    `----
+import { _ as _dispose } from "@swc/helpers/_/_dispose";
+async function main() {
+    for await (const d1 of [
+        {
+            async [Symbol.asyncDispose] () {}
+        },
+        {
+            [Symbol.dispose] () {}
+        },
+        null,
+        undefined
+    ]){
+        try {
+            var _stack = [];
+            {}
+        } catch (_) {
+            var _error = _;
+            var _hasError = true;
+        } finally{
+            _dispose(_stack, _error, _hasError);
+        }
+    }
+}
