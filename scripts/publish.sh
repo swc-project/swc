@@ -13,7 +13,7 @@ yarn
 echo "Publishing $version with swc_core $swc_core_version"
 
 # Update swc_core
-(cd ./bindings && cargo upgrade -p swc_core --recursive false)
+(cd ./bindings && ../scripts/update-all-swc-crates.sh || true)
 
 
 # Update version
