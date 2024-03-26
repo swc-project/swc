@@ -191,6 +191,7 @@ impl Pure<'_> {
             Expr::Tpl(t) if t.quasis.len() == 1 && t.exprs.is_empty() => {
                 if let Some(value) = &t.quasis[0].cooked {
                     if value.chars().all(|c| match c {
+                        '\\' => false,
                         '\u{0020}'..='\u{007e}' => true,
                         '\n' | '\r' => self.config.force_str_for_tpl,
                         _ => false,
