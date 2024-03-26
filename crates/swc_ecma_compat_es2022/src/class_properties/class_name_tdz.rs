@@ -13,6 +13,45 @@ pub(super) struct ClassNameTdzFolder<'a> {
 impl<'a> VisitMut for ClassNameTdzFolder<'a> {
     noop_visit_mut_type!();
 
+    noop_visit_mut_type!(visit_mut_function, Function);
+
+    fn visit_mut_class_member(&mut self, n: &mut ClassMember) {
+        match n {
+            ClassMember::Method(ClassMethod {
+                key: PropName::Computed(computed),
+                ..
+            })
+            | ClassMember::ClassProp(ClassProp {
+                key: PropName::Computed(computed),
+                ..
+            }) => {
+                computed.visit_mut_with(self);
+            }
+            _ => {}
+        }
+    }
+
+    fn visit_mut_prop(&mut self, n: &mut Prop) {
+        match n {
+            Prop::KeyValue(..) => {
+                n.visit_mut_children_with(self);
+            }
+            Prop::Getter(GetterProp {
+                key: PropName::Computed(computed),
+                ..
+            })
+            | Prop::Setter(SetterProp {
+                key: PropName::Computed(computed),
+                ..
+            })
+            | Prop::Method(MethodProp {
+                key: PropName::Computed(computed),
+                ..
+            }) => computed.visit_mut_children_with(self),
+            _ => {}
+        }
+    }
+
     fn visit_mut_expr(&mut self, expr: &mut Expr) {
         match expr {
             Expr::Ident(i) => {
