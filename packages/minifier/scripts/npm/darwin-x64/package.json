@@ -1,6 +1,6 @@
 {
   "name": "@swc/minifier-darwin-x64",
-  "version": "1.4.9",
+  "version": "1.4.10",
   "os": [
     "darwin"
   ],
