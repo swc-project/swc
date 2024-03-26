@@ -277,7 +277,7 @@ dependencies = [
  "path-clean 0.1.0",
  "serde",
  "serde_json",
- "sourcemap 6.4.1",
+ "sourcemap 8.0.0",
  "swc_compiler_base",
  "swc_config",
  "swc_core",
