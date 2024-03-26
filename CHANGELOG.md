@@ -1,5 +1,5 @@
 # Changelog
-## [unreleased]
+## [1.4.9] - 2024-03-26
 
 ### Bug Fixes
 
@@ -1388,9 +1388,6 @@
 
 
 - **(es/preset-env)** Update data ([#7882](https://github.com/swc-project/swc/issues/7882)) ([a97d8b4](https://github.com/swc-project/swc/commit/a97d8b42b1f85c1f76ffadcabf6e9c85f0458d8d))
-
-
-- **(swc-info)** Add a CLI to help issue reporting ([#7871](https://github.com/swc-project/swc/issues/7871)) ([d6952ea](https://github.com/swc-project/swc/commit/d6952ea687beb5b9aff1eae26076fa98ac94818b))
 
 ### Miscellaneous Tasks
 
