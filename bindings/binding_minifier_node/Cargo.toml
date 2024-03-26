@@ -37,7 +37,7 @@ tracing-subscriber = { version = "0.3.9", features = ["env-filter"] }
 
 swc_compiler_base = { version = "0.7.19", features = ["node"] }
 swc_config = "0.1.12"
-swc_core = { version = "0.90.25", features = [
+swc_core = { version = "0.90.26", features = [
   "allocator_node",
   "common_concurrent",
   "common_sourcemap",
