@@ -141,6 +141,16 @@ impl Default for SourceMap {
     }
 }
 
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct SourceMapMapping {
+    /// The location of the first byte of the source code in the source file.
+    pub src: BytePos,
+    /// The locaiton of the first byte of the source code in the generated code.
+    pub dst: LineCol,
+
+    pub is_range: bool,
+}
+
 impl SourceMap {
     pub fn new(path_mapping: FilePathMapping) -> SourceMap {
         SourceMap {
@@ -1214,7 +1224,7 @@ impl SourceMap {
     #[cfg_attr(docsrs, doc(cfg(feature = "sourcemap")))]
     pub fn build_source_map_with_config(
         &self,
-        mappings: &[(BytePos, LineCol)],
+        mappings: &[SourceMapMapping],
         orig: Option<&sourcemap::SourceMap>,
         config: impl SourceMapGenConfig,
     ) -> sourcemap::SourceMap {
