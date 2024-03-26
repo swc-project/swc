@@ -15,6 +15,8 @@ impl<'a> VisitMut for ClassNameTdzFolder<'a> {
 
     noop_visit_mut_type!(visit_mut_function, Function);
 
+    noop_visit_mut_type!(visit_mut_arrow_expr, ArrowExpr);
+
     fn visit_mut_class_member(&mut self, n: &mut ClassMember) {
         match n {
             ClassMember::Method(ClassMethod {
