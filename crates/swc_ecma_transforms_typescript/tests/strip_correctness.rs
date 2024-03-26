@@ -48,6 +48,8 @@ fn identity(entry: PathBuf) {
         "constEnum4.ts",
         "decoratorOnClassMethod11.ts",
         "elementAccessChain.3.ts",
+        "awaitUsingDeclarationsInForAwaitOf.ts",
+        "awaitUsingDeclarationsInForOf.1.ts",
         "usingDeclarationsInForOf.1.ts",
         "usingDeclarationsInForAwaitOf.ts",
         "tsxReactEmitNesting.tsx",
