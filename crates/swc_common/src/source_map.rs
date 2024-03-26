@@ -1204,7 +1204,7 @@ impl SourceMap {
     ///
     #[cfg(feature = "sourcemap")]
     #[cfg_attr(docsrs, doc(cfg(feature = "sourcemap")))]
-    pub fn build_source_map(&self, mappings: &[(BytePos, LineCol)]) -> sourcemap::SourceMap {
+    pub fn build_source_map(&self, mappings: &[SourceMapMapping]) -> sourcemap::SourceMap {
         self.build_source_map_from(mappings, None)
     }
 
@@ -1213,7 +1213,7 @@ impl SourceMap {
     #[cfg_attr(docsrs, doc(cfg(feature = "sourcemap")))]
     pub fn build_source_map_from(
         &self,
-        mappings: &[(BytePos, LineCol)],
+        mappings: &[SourceMapMapping],
         orig: Option<&sourcemap::SourceMap>,
     ) -> sourcemap::SourceMap {
         self.build_source_map_with_config(mappings, orig, DefaultSourceMapGenConfig)
@@ -1252,31 +1252,27 @@ impl SourceMap {
         let mut ch_state = ByteToCharPosState::default();
         let mut line_state = ByteToCharPosState::default();
 
-        for (pos, lc) in mappings.iter() {
-            let pos = *pos;
-
-            if pos.is_reserved_for_comments() {
+        for SourceMapMapping { src, dst, is_range } in mappings.iter().copied() {
+            if src.is_reserved_for_comments() {
                 continue;
             }
-
-            let lc = *lc;
 
             // If pos is same as a DUMMY_SP (eg BytePos(0)) and if line and col are 0;
             // ignore the mapping.
-            if lc.line == 0 && lc.col == 0 && pos.is_dummy() {
+            if dst.line == 0 && dst.col == 0 && src.is_dummy() {
                 continue;
             }
 
-            if pos == BytePos(u32::MAX) {
-                builder.add_raw(lc.line, lc.col, 0, 0, Some(src_id), None, false);
+            if src == BytePos(u32::MAX) {
+                builder.add_raw(dst.line, dst.col, 0, 0, Some(src_id), None, is_range);
                 continue;
             }
 
             let f;
             let f = match cur_file {
-                Some(ref f) if f.start_pos <= pos && pos < f.end_pos => f,
+                Some(ref f) if f.start_pos <= src && src < f.end_pos => f,
                 _ => {
-                    f = self.lookup_source_file(pos);
+                    f = self.lookup_source_file(src);
                     if config.skip(&f.name) {
                         continue;
                     }
@@ -1302,27 +1298,27 @@ impl SourceMap {
 
             let emit_columns = config.emit_columns(&f.name);
 
-            if !emit_columns && lc.line == prev_dst_line {
+            if !emit_columns && dst.line == prev_dst_line {
                 continue;
             }
 
-            let mut line = match f.lookup_line(pos) {
+            let mut line = match f.lookup_line(src) {
                 Some(line) => line as u32,
                 None => continue,
             };
 
             let linebpos = f.lines[line as usize];
             debug_assert!(
-                pos >= linebpos,
+                src >= linebpos,
                 "{}: bpos = {:?}; linebpos = {:?};",
                 f.name,
-                pos,
+                src,
                 linebpos,
             );
 
             let linechpos =
                 linebpos.to_u32() - self.calc_utf16_offset(f, linebpos, &mut line_state);
-            let chpos = pos.to_u32() - self.calc_utf16_offset(f, pos, &mut ch_state);
+            let chpos = src.to_u32() - self.calc_utf16_offset(f, src, &mut ch_state);
 
             debug_assert!(
                 chpos >= linechpos,
@@ -1359,11 +1355,19 @@ impl SourceMap {
             }
 
             let name_idx = name
-                .or_else(|| config.name_for_bytepos(pos))
+                .or_else(|| config.name_for_bytepos(src))
                 .map(|name| builder.add_name(name));
 
-            builder.add_raw(lc.line, lc.col, line, col, Some(src_id), name_idx, false);
-            prev_dst_line = lc.line;
+            builder.add_raw(
+                dst.line,
+                dst.col,
+                line,
+                col,
+                Some(src_id),
+                name_idx,
+                is_range,
+            );
+            prev_dst_line = dst.line;
         }
 
         builder.into_sourcemap()
