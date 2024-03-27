@@ -289,7 +289,9 @@ where
                     let slug = to[0]
                         .split([std::path::MAIN_SEPARATOR, '/'])
                         .last()
+                        .filter(|&slug| slug != "index.ts" && slug != "index.tsx")
                         .map(|v| v.into());
+
                     if tp.is_absolute() {
                         return Ok(Resolution {
                             filename: FileName::Real(tp.into()),
@@ -300,16 +302,7 @@ where
                     if let Ok(res) = self
                         .invoke_inner_resolver(&self.base_url_filename, &format!("./{}", &to[0]))
                     {
-                        return Ok(Resolution {
-                            slug: match &res.filename {
-                                FileName::Real(p) => p
-                                    .file_stem()
-                                    .filter(|&s| s != "index")
-                                    .map(|v| v.to_string_lossy().into()),
-                                _ => None,
-                            },
-                            ..res
-                        });
+                        return Ok(Resolution { slug, ..res });
                     }
 
                     return Ok(Resolution {
