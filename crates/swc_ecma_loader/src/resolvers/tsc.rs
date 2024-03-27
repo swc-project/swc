@@ -297,7 +297,8 @@ where
                         });
                     }
 
-                    if let Ok(res) = self.resolve(&self.base_url_filename, &format!("./{}", &to[0]))
+                    if let Ok(res) = self
+                        .invoke_inner_resolver(&self.base_url_filename, &format!("./{}", &to[0]))
                     {
                         return Ok(Resolution {
                             slug: match &res.filename {
