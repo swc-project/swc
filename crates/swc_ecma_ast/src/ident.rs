@@ -9,7 +9,6 @@ use swc_atoms::{js_word, Atom};
 use swc_common::{
     ast_node, util::take::Take, BytePos, EqIgnoreSpan, Span, Spanned, SyntaxContext, DUMMY_SP,
 };
-use unicode_id::UnicodeID;
 
 use crate::{typescript::TsTypeAnn, Expr};
 
@@ -217,40 +216,14 @@ impl Ident {
     /// Returns true if `c` is a valid character for an identifier start.
     #[inline]
     pub fn is_valid_start(c: char) -> bool {
-        // This contains `$` (36) and `_` (95)
-        const ASCII_START: Align64<[bool; 128]> = Align64([
-            F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-            F, F, F, F, F, F, F, T, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-            F, F, F, F, F, F, F, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T,
-            T, T, T, T, F, F, F, F, T, F, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T,
-            T, T, T, T, T, T, T, F, F, F, F, F,
-        ]);
-
-        if c.is_ascii() {
-            return ASCII_START.0[c as usize];
-        }
-
-        UnicodeID::is_id_start(c)
+        unicode_id_start::is_id_start(c)
     }
 
     /// Returns true if `c` is a valid character for an identifier part after
     /// start.
     #[inline]
     pub fn is_valid_continue(c: char) -> bool {
-        // This contains `$` (36)
-        const ASCII_CONTINUE: Align64<[bool; 128]> = Align64([
-            F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F, F,
-            F, F, F, F, F, F, F, T, F, F, F, F, F, F, F, F, F, F, F, T, T, T, T, T, T, T, T, T, T,
-            F, F, F, F, F, F, F, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T,
-            T, T, T, T, F, F, F, F, T, F, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T, T,
-            T, T, T, T, T, T, T, F, F, F, F, F,
-        ]);
-
-        if c.is_ascii() {
-            return ASCII_CONTINUE.0[c as usize];
-        }
-
-        UnicodeID::is_id_continue(c) || c == '\u{200c}' || c == '\u{200d}'
+        unicode_id_start::is_id_continue(c)
     }
 
     /// Alternative for `toIdentifier` of babel.
