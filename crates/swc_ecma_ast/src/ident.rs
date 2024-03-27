@@ -186,12 +186,6 @@ impl From<Ident> for Id {
     }
 }
 
-#[repr(C, align(64))]
-struct Align64<T>(pub(crate) T);
-
-const T: bool = true;
-const F: bool = false;
-
 impl Ident {
     /// In `op`, [EqIgnoreSpan] of [Ident] will ignore the syntax context.
     pub fn within_ignored_ctxt<F, Ret>(op: F) -> Ret
