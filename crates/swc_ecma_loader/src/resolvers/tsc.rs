@@ -290,7 +290,8 @@ where
                         .split([std::path::MAIN_SEPARATOR, '/'])
                         .last()
                         .filter(|&slug| slug != "index.ts" && slug != "index.tsx")
-                        .map(|v| v.into());
+                        .map(|v| v.split_once('.').map(|v| v.0).unwrap_or(v))
+                        .map(From::from);
 
                     if tp.is_absolute() {
                         return Ok(Resolution {
