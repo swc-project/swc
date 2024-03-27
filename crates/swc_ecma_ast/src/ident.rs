@@ -210,14 +210,14 @@ impl Ident {
     /// Returns true if `c` is a valid character for an identifier start.
     #[inline]
     pub fn is_valid_start(c: char) -> bool {
-        unicode_id_start::is_id_start(c)
+        c == '$' || c == '_' || unicode_id_start::is_id_start(c)
     }
 
     /// Returns true if `c` is a valid character for an identifier part after
     /// start.
     #[inline]
     pub fn is_valid_continue(c: char) -> bool {
-        unicode_id_start::is_id_continue(c)
+        c == '$' || unicode_id_start::is_id_continue(c)
     }
 
     /// Alternative for `toIdentifier` of babel.
