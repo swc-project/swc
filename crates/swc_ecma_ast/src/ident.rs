@@ -9,7 +9,6 @@ use swc_atoms::{js_word, Atom};
 use swc_common::{
     ast_node, util::take::Take, BytePos, EqIgnoreSpan, Span, Spanned, SyntaxContext, DUMMY_SP,
 };
-use unicode_id::UnicodeID;
 
 use crate::{typescript::TsTypeAnn, Expr};
 
@@ -230,7 +229,7 @@ impl Ident {
             return ASCII_START.0[c as usize];
         }
 
-        UnicodeID::is_id_start(c)
+        unicode_id_start::is_id_start_unicode(c)
     }
 
     /// Returns true if `c` is a valid character for an identifier part after
@@ -250,7 +249,7 @@ impl Ident {
             return ASCII_CONTINUE.0[c as usize];
         }
 
-        UnicodeID::is_id_continue(c) || c == '\u{200c}' || c == '\u{200d}'
+        unicode_id_start::is_id_continue_unicode(c)
     }
 
     /// Alternative for `toIdentifier` of babel.
