@@ -1575,3 +1575,25 @@ fn test_export_default_paren_expr() {
     fold_same("import fn from './b'; export default (function fn1 () {});");
     fold("export default ((foo));", "export default foo;");
 }
+
+#[test]
+fn test_issue8747() {
+    // Indexing a string with an out-of-bounds index returns undefined.
+    fold("''[0]", "void 0");
+    // Indexing a string with a non-integer index returns undefined.
+    fold("'a'[0.5]", "void 0");
+    // Index with an expression.
+    fold("''[[]]", "void 0");
+    fold("'a'[[]]", "void 0");
+
+    // Indexing an array has the same logic as indexing a string.
+    fold("[][0]", "void 0");
+    fold("[1][0.5]", "void 0");
+    fold("[][[]]", "void 0");
+    fold("[1][[]]", "void 0");
+
+    // Indexing objects
+    fold("({0.5: 'a'})[0.5]", "'a';");
+    fold("({'0.5': 'a'})[0.5]", "'a';");
+    fold("({0.5: 'a'})['0.5']", "'a';");
+}

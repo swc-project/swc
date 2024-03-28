@@ -1,6 +1,6 @@
 use std::{borrow::Cow, iter, iter::once};
 
-use swc_atoms::JsWord;
+use swc_atoms::{Atom, JsWord};
 use swc_common::{
     pass::{CompilerPass, Repeated},
     util::take::Take,
@@ -107,12 +107,21 @@ impl SimplifyExpr {
             return;
         }
 
-        #[derive(Clone, PartialEq, Eq)]
+        #[derive(Clone, PartialEq)]
         enum KnownOp {
             /// [a, b].length
             Len,
 
-            Index(i64),
+            // [a, b][0]
+            //
+            // ({0.5: 'test'})[0.5]
+            /// Note: callers need to check `v.fract() == 0.0` in some cases.
+            /// ie non-integer indexes for arrays always result in `undefined`
+            /// but not for objects (because indexing an object
+            /// returns the value of the key, ie `0.5` will not
+            /// return `undefined` if a key `0.5` exists
+            /// and its value is not `undefined`).
+            Index(f64),
 
             /// ({}).foo
             IndexStr(JsWord),
@@ -127,16 +136,16 @@ impl SimplifyExpr {
                 }
             }
             MemberProp::Computed(ComputedPropName { expr, .. }) => {
-                if !self.in_callee {
-                    if let Expr::Lit(Lit::Num(Number { value, .. })) = &**expr {
-                        if value.fract() == 0.0 {
-                            KnownOp::Index(*value as _)
-                        } else {
-                            return;
-                        }
-                    } else {
-                        return;
-                    }
+                if self.in_callee {
+                    return;
+                }
+
+                if let Expr::Lit(Lit::Num(Number { value, .. })) = &**expr {
+                    // x[5]
+                    KnownOp::Index(*value)
+                } else if let Known(s) = expr.as_pure_string(&self.expr_ctx) {
+                    // x[''] or x[...] where ... is an expression like [], ie x[[]]
+                    KnownOp::IndexStr(JsWord::from(s))
                 } else {
                     return;
                 }
@@ -158,10 +167,10 @@ impl SimplifyExpr {
                 }
 
                 // 'foo'[1]
-                KnownOp::Index(idx) if (idx as usize) < value.len() => {
+                KnownOp::Index(idx) => {
                     self.changed = true;
 
-                    if idx < 0 {
+                    if idx.fract() != 0.0 || idx < 0.0 || idx as usize >= value.len() {
                         *expr = *undefined(*span)
                     } else {
                         let value = nth_char(value, idx as _);
@@ -173,10 +182,19 @@ impl SimplifyExpr {
                         }))
                     };
                 }
-                _ => {}
+
+                // 'foo'['']
+                KnownOp::IndexStr(_) => {
+                    self.changed = true;
+                    *expr = *undefined(*span);
+                }
             },
 
             // [1, 2, 3].length
+            //
+            // [1, 2, 3][0]
+            //
+            // [1, 2, 3]['']
             Expr::Array(ArrayLit { elems, span }) => {
                 // do nothing if spread exists
                 let has_spread = elems.iter().any(|elem| {
@@ -207,17 +225,25 @@ impl SimplifyExpr {
                         _ => unreachable!(),
                     };
 
-                    if elems.len() > idx as _ && idx >= 0 {
-                        let after_has_side_effect =
-                            elems.iter().skip((idx + 1) as _).any(|elem| match elem {
-                                Some(elem) => elem.expr.may_have_side_effects(&self.expr_ctx),
-                                None => false,
-                            });
+                    // If the fraction part is non-zero, or if the index is out of bounds,
+                    // then the result is always undefined.
+                    if idx.fract() != 0.0 || idx < 0.0 || idx as usize >= elems.len() {
+                        self.changed = true;
+                        *expr = *undefined(*span);
+                        return;
+                    }
+                    // idx is treated as an integer from this point.
+                    //
+                    // We also know for certain the index is not out of bounds.
+                    let idx = idx as i64;
 
-                        if after_has_side_effect {
-                            return;
-                        }
-                    } else {
+                    let after_has_side_effect =
+                        elems.iter().skip((idx + 1) as _).any(|elem| match elem {
+                            Some(elem) => elem.expr.may_have_side_effects(&self.expr_ctx),
+                            None => false,
+                        });
+
+                    if after_has_side_effect {
                         return;
                     }
 
@@ -265,63 +291,72 @@ impl SimplifyExpr {
                     exprs.push(val);
 
                     *expr = Expr::Seq(SeqExpr { span: *span, exprs });
+                } else if matches!(op, KnownOp::IndexStr(..)) {
+                    self.changed = true;
+                    *expr = *undefined(*span);
+                    return;
                 }
             }
 
             // { foo: true }['foo']
-            Expr::Object(ObjectLit { props, span }) => match op {
-                KnownOp::IndexStr(key) if is_literal(props) && key != *"yield" => {
-                    // do nothing if spread exists
-                    let has_spread = props
-                        .iter()
-                        .any(|prop| matches!(prop, PropOrSpread::Spread(..)));
+            //
+            // { 0.5: true }[0.5]
+            Expr::Object(ObjectLit { props, span }) => {
+                // get key
+                let key = match op {
+                    KnownOp::Index(i) => Atom::from(i.to_string()),
+                    KnownOp::IndexStr(key) if key != *"yield" && is_literal(props) => key,
+                    _ => return,
+                };
 
-                    if has_spread {
-                        return;
-                    }
+                // do nothing if spread exists
+                let has_spread = props
+                    .iter()
+                    .any(|prop| matches!(prop, PropOrSpread::Spread(..)));
 
-                    let idx = props.iter().rev().position(|p| match p {
-                        PropOrSpread::Prop(p) => match &**p {
-                            Prop::Shorthand(i) => i.sym == key,
-                            Prop::KeyValue(k) => prop_name_eq(&k.key, &key),
-                            Prop::Assign(p) => p.key.sym == key,
-                            Prop::Getter(..) => false,
-                            Prop::Setter(..) => false,
-                            // TODO
-                            Prop::Method(..) => false,
-                        },
-                        _ => unreachable!(),
-                    });
-                    let idx = idx.map(|idx| props.len() - 1 - idx);
-                    //
-
-                    if let Some(i) = idx {
-                        let v = props.remove(i);
-                        self.changed = true;
-
-                        *expr = self.expr_ctx.preserve_effects(
-                            *span,
-                            match v {
-                                PropOrSpread::Prop(p) => match *p {
-                                    Prop::Shorthand(i) => Expr::Ident(i),
-                                    Prop::KeyValue(p) => *p.value,
-                                    Prop::Assign(p) => *p.value,
-                                    Prop::Getter(..) => unreachable!(),
-                                    Prop::Setter(..) => unreachable!(),
-                                    // TODO
-                                    Prop::Method(..) => unreachable!(),
-                                },
-                                _ => unreachable!(),
-                            },
-                            once(Box::new(Expr::Object(ObjectLit {
-                                props: props.take(),
-                                span: *span,
-                            }))),
-                        );
-                    }
+                if has_spread {
+                    return;
                 }
-                _ => {}
-            },
+
+                let idx = props.iter().rev().position(|p| match p {
+                    PropOrSpread::Prop(p) => match &**p {
+                        Prop::Shorthand(i) => i.sym == key,
+                        Prop::KeyValue(k) => prop_name_eq(&k.key, &key),
+                        Prop::Assign(p) => p.key.sym == key,
+                        Prop::Getter(..) => false,
+                        Prop::Setter(..) => false,
+                        // TODO
+                        Prop::Method(..) => false,
+                    },
+                    _ => unreachable!(),
+                });
+                let idx = idx.map(|idx| props.len() - 1 - idx);
+
+                if let Some(i) = idx {
+                    let v = props.remove(i);
+                    self.changed = true;
+
+                    *expr = self.expr_ctx.preserve_effects(
+                        *span,
+                        match v {
+                            PropOrSpread::Prop(p) => match *p {
+                                Prop::Shorthand(i) => Expr::Ident(i),
+                                Prop::KeyValue(p) => *p.value,
+                                Prop::Assign(p) => *p.value,
+                                Prop::Getter(..) => unreachable!(),
+                                Prop::Setter(..) => unreachable!(),
+                                // TODO
+                                Prop::Method(..) => unreachable!(),
+                            },
+                            _ => unreachable!(),
+                        },
+                        once(Box::new(Expr::Object(ObjectLit {
+                            props: props.take(),
+                            span: *span,
+                        }))),
+                    );
+                }
+            }
 
             _ => {}
         }

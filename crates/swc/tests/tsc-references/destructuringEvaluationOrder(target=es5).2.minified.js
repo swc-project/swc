@@ -6,7 +6,7 @@ import { _ as _sliced_to_array } from "@swc/helpers/_/_sliced_to_array";
 import { _ as _to_property_key } from "@swc/helpers/_/_to_property_key";
 var trace = [], order = function(n) {
     return trace.push(n);
-}, tmp = [][0];
+}, tmp = void 0;
 (void 0 === tmp ? order(0) : tmp)[order(1)];
 var tmp1 = {};
 (void 0 === tmp1 ? order(0) : tmp1)[order(1)];
