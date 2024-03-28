@@ -3,6 +3,7 @@
   "names": [
     "test"
   ],
+  "rangeMappings": ";;;;",
   "sources": [
     "../../input/index.js"
   ],

@@ -3,6 +3,7 @@
   "names": [
     "a"
   ],
+  "rangeMappings": ";;;",
   "sources": [
     "../../input/index.js"
   ],

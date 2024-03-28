@@ -284,6 +284,15 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "9d297deb1925b89f2ccc13d7635fa0714f12c87adce1c75356b39ca9b7178567"
 
 [[package]]
+name = "base64-simd"
+version = "0.7.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "781dd20c3aff0bd194fe7d2a977dd92f21c173891f3a03b677359e5fa457e5d5"
+dependencies = [
+ "simd-abstraction",
+]
+
+[[package]]
 name = "better_scoped_tls"
 version = "0.1.1"
 dependencies = [
@@ -1056,7 +1065,7 @@ checksum = "7e962a19be5cfc3f3bf6dd8f61eb50107f356ad6270fbb3ed41476571db78be5"
 
 [[package]]
 name = "dbg-swc"
-version = "0.91.23"
+version = "0.91.24"
 dependencies = [
  "anyhow",
  "clap 3.2.25",
@@ -2517,6 +2526,12 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e2355d85b9a3786f481747ced0e0ff2ba35213a1f9bd406ed906554d7af805a1"
 
 [[package]]
+name = "outref"
+version = "0.1.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "7f222829ae9293e33a9f5e9f440c6760a3d450a64affe1846486b140db81c1f4"
+
+[[package]]
 name = "overload"
 version = "0.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3454,6 +3469,15 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "24188a676b6ae68c3b2cb3a01be17fbf7240ce009799bb56d5b1409051e78fde"
 
 [[package]]
+name = "simd-abstraction"
+version = "0.7.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "9cadb29c57caadc51ff8346233b5cec1d240b68ce55cf1afc764818791876987"
+dependencies = [
+ "outref",
+]
+
+[[package]]
 name = "simdutf8"
 version = "0.1.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3525,17 +3549,20 @@ dependencies = [
 
 [[package]]
 name = "sourcemap"
-version = "6.4.1"
+version = "8.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e4cbf65ca7dc576cf50e21f8d0712d96d4fcfd797389744b7b222a85cdf5bd90"
+checksum = "cf0b8c0d9d32f81aa0ab2b68ab634d9bbce287423606656fddb456ac8601aec3"
 dependencies = [
+ "base64-simd",
+ "bitvec",
  "data-encoding",
  "debugid",
  "if_chain",
+ "rustc-hash",
  "rustc_version 0.2.3",
  "serde",
  "serde_json",
- "unicode-id",
+ "unicode-id-start",
  "url",
 ]
 
@@ -3667,7 +3694,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.273.22"
+version = "0.273.23"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -3792,7 +3819,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli_impl"
-version = "0.8.22"
+version = "0.8.23"
 dependencies = [
  "anyhow",
  "assert_cmd",
@@ -3816,7 +3843,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.33.20"
+version = "0.33.21"
 dependencies = [
  "ahash 0.8.8",
  "anyhow",
@@ -3851,7 +3878,7 @@ dependencies = [
 
 [[package]]
 name = "swc_compiler_base"
-version = "0.7.18"
+version = "0.7.19"
 dependencies = [
  "anyhow",
  "base64",
@@ -3874,7 +3901,7 @@ dependencies = [
 
 [[package]]
 name = "swc_config"
-version = "0.1.11"
+version = "0.1.12"
 dependencies = [
  "anyhow",
  "indexmap 2.1.0",
@@ -3897,7 +3924,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.90.24"
+version = "0.90.26"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -4153,7 +4180,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "0.148.12"
+version = "0.148.13"
 dependencies = [
  "base64",
  "criterion",
@@ -4409,7 +4436,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_loader"
-version = "0.45.23"
+version = "0.45.24"
 dependencies = [
  "anyhow",
  "dashmap",
@@ -4430,7 +4457,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.192.18"
+version = "0.192.19"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -4471,7 +4498,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.143.10"
+version = "0.143.11"
 dependencies = [
  "criterion",
  "either",
@@ -4563,7 +4590,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms"
-version = "0.229.17"
+version = "0.229.18"
 dependencies = [
  "pretty_assertions",
  "sourcemap",
@@ -4787,7 +4814,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_testing"
-version = "0.140.16"
+version = "0.140.18"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -4848,7 +4875,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "0.127.14"
+version = "0.127.15"
 dependencies = [
  "indexmap 2.1.0",
  "num_cpus",
@@ -5866,6 +5893,12 @@ name = "unicode-id"
 version = "0.3.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b1b6def86329695390197b82c1e244a54a131ceb66c996f2088a3876e2ae083f"
+
+[[package]]
+name = "unicode-id-start"
+version = "1.1.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b8f73150333cb58412db36f2aca8f2875b013049705cc77b94ded70a1ab1f5da"
 
 [[package]]
 name = "unicode-ident"

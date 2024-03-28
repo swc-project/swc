@@ -9,6 +9,7 @@
     "expect",
     "toContain"
   ],
+  "rangeMappings": ";;;;;;;;;;;;;;;;",
   "sources": [
     "../../input/index.ts"
   ],

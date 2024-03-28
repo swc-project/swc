@@ -1258,7 +1258,7 @@ impl SourceMap {
             }
 
             if pos == BytePos(u32::MAX) {
-                builder.add_raw(lc.line, lc.col, 0, 0, Some(src_id), None);
+                builder.add_raw(lc.line, lc.col, 0, 0, Some(src_id), None, false);
                 continue;
             }
 
@@ -1352,7 +1352,7 @@ impl SourceMap {
                 .or_else(|| config.name_for_bytepos(pos))
                 .map(|name| builder.add_name(name));
 
-            builder.add_raw(lc.line, lc.col, line, col, Some(src_id), name_idx);
+            builder.add_raw(lc.line, lc.col, line, col, Some(src_id), name_idx, false);
             prev_dst_line = lc.line;
         }
 

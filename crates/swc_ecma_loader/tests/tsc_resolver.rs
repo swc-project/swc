@@ -41,7 +41,7 @@ fn exact() {
             resolved,
             Resolution {
                 filename: FileName::Custom("success".into()),
-                slug: None
+                slug: Some("jquery".into())
             }
         );
     }

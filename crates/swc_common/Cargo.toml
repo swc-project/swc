@@ -6,7 +6,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_common"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.33.20"
+version       = "0.33.21"
 
   [package.metadata.docs.rs]
   all-features = true
@@ -56,7 +56,7 @@ rkyv = { version = "=0.7.42", optional = true, features = [
 rustc-hash = "1.1.0"
 serde = { version = "1.0.119", features = ["derive"] }
 siphasher = "0.3.9"
-sourcemap = { version = "6", optional = true }
+sourcemap = { version = "8", optional = true }
 termcolor = { version = "1.0", optional = true }
 tracing = "0.1.37"
 unicode-width = "0.1.4"
