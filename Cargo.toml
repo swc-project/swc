@@ -1,6 +1,7 @@
 [workspace]
 members = [
   "xtask",
+  "crates/swc_ecma_magicast",
   "crates/swc_core",
   "crates/swc_cli_impl",
   "crates/dbg-swc",
