@@ -33,6 +33,7 @@ impl VisitMut for StripType {
         n.accessibility = None;
         n.definite = false;
         n.is_override = false;
+        n.is_abstract = false;
         n.visit_mut_children_with(self);
     }
 
@@ -63,7 +64,10 @@ impl VisitMut for StripType {
                 | ClassProp {
                     is_abstract: true, ..
                 },
-            ) => false,
+            )
+            | ClassMember::AutoAccessor(AutoAccessor {
+                is_abstract: true, ..
+            }) => false,
 
             _ => true,
         });

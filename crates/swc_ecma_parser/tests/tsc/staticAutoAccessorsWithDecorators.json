@@ -111,6 +111,7 @@
             }
           ],
           "accessibility": null,
+          "isAbstract": false,
           "isOverride": false,
           "definite": false
         },
@@ -199,6 +200,7 @@
             }
           ],
           "accessibility": null,
+          "isAbstract": false,
           "isOverride": false,
           "definite": false
         }

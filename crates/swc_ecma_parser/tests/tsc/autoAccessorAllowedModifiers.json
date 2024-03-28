@@ -64,6 +64,7 @@
           "isStatic": false,
           "decorators": [],
           "accessibility": null,
+          "isAbstract": false,
           "isOverride": false,
           "definite": false
         },
@@ -105,6 +106,7 @@
           "isStatic": false,
           "decorators": [],
           "accessibility": "public",
+          "isAbstract": false,
           "isOverride": false,
           "definite": false
         },
@@ -146,6 +148,7 @@
           "isStatic": false,
           "decorators": [],
           "accessibility": "private",
+          "isAbstract": false,
           "isOverride": false,
           "definite": false
         },
@@ -187,6 +190,7 @@
           "isStatic": false,
           "decorators": [],
           "accessibility": "protected",
+          "isAbstract": false,
           "isOverride": false,
           "definite": false
         },
@@ -228,6 +232,7 @@
           "isStatic": false,
           "decorators": [],
           "accessibility": null,
+          "isAbstract": true,
           "isOverride": false,
           "definite": false
         },
@@ -269,6 +274,7 @@
           "isStatic": true,
           "decorators": [],
           "accessibility": null,
+          "isAbstract": false,
           "isOverride": false,
           "definite": false
         },
@@ -310,6 +316,7 @@
           "isStatic": true,
           "decorators": [],
           "accessibility": "public",
+          "isAbstract": false,
           "isOverride": false,
           "definite": false
         },
@@ -351,6 +358,7 @@
           "isStatic": true,
           "decorators": [],
           "accessibility": "private",
+          "isAbstract": false,
           "isOverride": false,
           "definite": false
         },
@@ -392,6 +400,7 @@
           "isStatic": true,
           "decorators": [],
           "accessibility": "protected",
+          "isAbstract": false,
           "isOverride": false,
           "definite": false
         },
@@ -441,6 +450,7 @@
           "isStatic": false,
           "decorators": [],
           "accessibility": null,
+          "isAbstract": false,
           "isOverride": false,
           "definite": false
         },
@@ -482,6 +492,7 @@
           "isStatic": false,
           "decorators": [],
           "accessibility": null,
+          "isAbstract": false,
           "isOverride": false,
           "definite": false
         },
@@ -523,6 +534,7 @@
           "isStatic": false,
           "decorators": [],
           "accessibility": null,
+          "isAbstract": false,
           "isOverride": false,
           "definite": false
         },
@@ -572,6 +584,7 @@
           "isStatic": false,
           "decorators": [],
           "accessibility": null,
+          "isAbstract": false,
           "isOverride": false,
           "definite": false
         },
@@ -613,6 +626,7 @@
           "isStatic": false,
           "decorators": [],
           "accessibility": null,
+          "isAbstract": false,
           "isOverride": false,
           "definite": true
         }
@@ -681,6 +695,7 @@
           "isStatic": false,
           "decorators": [],
           "accessibility": null,
+          "isAbstract": false,
           "isOverride": true,
           "definite": false
         },
@@ -722,6 +737,7 @@
           "isStatic": true,
           "decorators": [],
           "accessibility": null,
+          "isAbstract": false,
           "isOverride": true,
           "definite": false
         }
@@ -799,6 +815,7 @@
           "isStatic": false,
           "decorators": [],
           "accessibility": null,
+          "isAbstract": false,
           "isOverride": false,
           "definite": false
         }
