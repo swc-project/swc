@@ -47,7 +47,7 @@ export function _apply_decs_2203_r(targetClass, memberDecs, classDecs, parentCla
                 kindStr = "field";
         }
 
-        var ctx = { kind: kindStr, name: isPrivate ? "#" + name : name, static: isStatic, private: isPrivate };
+        var ctx = { kind: kindStr, name: isPrivate ? "#" + name : name, static: isStatic, private: isPrivate, metadata: metadata };
 
         var decoratorFinishedRef = { v: false };
 
