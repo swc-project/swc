@@ -16,6 +16,7 @@ mod ast;
 mod builder;
 mod ctxt;
 mod input;
+mod query;
 mod ret_type;
 
 /// Don't invoke this macro directly, use the `quote!` macro from
@@ -57,4 +58,35 @@ pub fn internal_quote(input: proc_macro::TokenStream) -> proc_macro::TokenStream
     })
     .to_token_stream()
     .into()
+}
+
+///
+///
+/// # Matchers
+///
+///
+/// ```ignore
+/// 
+/// let q = query!("class Foo extends YourClass {}");
+///
+/// let module: Module = create_your_module();
+/// ```
+///
+/// ```ignore
+/// 
+/// let q = query!("console.log(...$1)");
+///
+/// let module: Module = create_your_module();
+/// ```
+///
+///
+/// ```ignore
+/// 
+/// let q = query!("if ($1) { $2; } else $3");
+///
+/// let module: Module = create_your_module();
+/// ```
+#[proc_macro]
+pub fn query(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
+    input
 }
