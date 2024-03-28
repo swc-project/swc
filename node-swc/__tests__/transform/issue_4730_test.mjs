@@ -27,6 +27,10 @@ it("should work", async () => {
                 "@print/b": [join(dir, "./packages/b/src/index.js")],
             },
             externalHelpers: true,
+            module: {
+                type: 'es6',
+                resolveFully: true,
+            }
         },
         module: {
             type: "commonjs",
