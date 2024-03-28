@@ -1,0 +1,19 @@
+{
+    "jsc": {
+        "transform": {
+            "useDefineForClassFields": true,
+            "decoratorVersion": "2022-03"
+        },
+        "parser": {
+            "syntax": "typescript",
+            "decorators": true
+        },
+        "target": "es2015",
+        "loose": false
+    },
+    "module": {
+        "type": "es6"
+    },
+    "isModule": true,
+    "minify": false
+}

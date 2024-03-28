@@ -1,4 +1,5 @@
 use std::{
+    default,
     iter::once,
     mem::{take, transmute},
 };
@@ -16,11 +17,27 @@ use swc_ecma_utils::{
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 pub fn decorator_2022_03() -> impl VisitMut + Fold {
-    as_folder(Decorator202203::default())
+    as_folder(SpecDecorator::default())
+}
+
+pub fn decorator_2023_11() -> impl VisitMut + Fold {
+    as_folder(SpecDecorator {
+        version: Version::V202311,
+        ..Default::default()
+    })
+}
+
+#[derive(Debug, Default)]
+enum Version {
+    #[default]
+    V202203,
+    V202311,
 }
 
 #[derive(Default)]
-struct Decorator202203 {
+struct SpecDecorator {
+    version: Version,
+
     /// Variables without initializer.
     extra_vars: Vec<VarDeclarator>,
 
@@ -58,7 +75,7 @@ struct ClassState {
     super_class: Option<Ident>,
 }
 
-impl Decorator202203 {
+impl SpecDecorator {
     fn preserve_side_effect_of_decorators(
         &mut self,
         decorators: Vec<Decorator>,
@@ -752,7 +769,7 @@ impl Decorator202203 {
     }
 }
 
-impl VisitMut for Decorator202203 {
+impl VisitMut for SpecDecorator {
     noop_visit_mut_type!();
 
     fn visit_mut_class(&mut self, n: &mut Class) {
