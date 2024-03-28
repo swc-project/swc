@@ -269,6 +269,24 @@ fn identity(entry: PathBuf) {
         .expect("to_str() failed")
         .to_string();
 
+    let is_module = file_name.contains("module");
+
+    run(entry, is_module, false)
+}
+
+#[testing::fixture("./tests/fixture/**/input.js")]
+fn fixture(entry: PathBuf) {
+    run(entry, true, true)
+}
+
+fn run(entry: PathBuf, is_module: bool, pass_if_parser_fails: bool) {
+    let file_name = entry
+        .file_name()
+        .unwrap()
+        .to_str()
+        .expect("to_str() failed")
+        .to_string();
+
     let input = read_to_string(&entry).unwrap();
 
     let ignore = IGNORED_PASS_TESTS.contains(&&*file_name);
@@ -276,8 +294,6 @@ fn identity(entry: PathBuf) {
     if ignore {
         return;
     }
-
-    let is_module = file_name.contains("module");
 
     let msg = format!(
         "\n\n========== Running codegen test {}\nSource:\n{}\n",
@@ -334,20 +350,20 @@ fn identity(entry: PathBuf) {
 
             // Parse source
             if is_module {
+                let result = parser.parse_module();
+                if pass_if_parser_fails && result.is_err() {
+                    return Ok(());
+                }
                 emitter
-                    .emit_module(
-                        &parser
-                            .parse_module()
-                            .map_err(|e| e.into_diagnostic(handler).emit())?,
-                    )
+                    .emit_module(&result.map_err(|e| e.into_diagnostic(handler).emit())?)
                     .unwrap();
             } else {
+                let result = parser.parse_script();
+                if pass_if_parser_fails && result.is_err() {
+                    return Ok(());
+                }
                 emitter
-                    .emit_script(
-                        &parser
-                            .parse_script()
-                            .map_err(|e| e.into_diagnostic(handler).emit())?,
-                    )
+                    .emit_script(&result.map_err(|e| e.into_diagnostic(handler).emit())?)
                     .unwrap();
             }
         }

@@ -1,0 +1,13 @@
+{
+  "mappings": "AAAA,IAAIA,IAAI;IAAC;AAAE",
+  "names": [
+    "a"
+  ],
+  "sources": [
+    "../../input/1.js"
+  ],
+  "sourcesContent": [
+    "var a = [[]];\n"
+  ],
+  "version": 3
+}
