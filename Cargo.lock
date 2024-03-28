@@ -4814,7 +4814,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_testing"
-version = "0.140.17"
+version = "0.140.18"
 dependencies = [
  "ansi_term",
  "anyhow",
