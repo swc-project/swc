@@ -540,9 +540,9 @@ impl SyntaxError {
             SyntaxError::UsingDeclNotAllowedForForInLoop => {
                 "Using declaration is not allowed in for-in loop".into()
             }
-            SyntaxError::UsingDeclNotEnabled => {
-                "Using declaration is not enabled. Set jsc.parser.usingDecl to true".into()
-            }
+            SyntaxError::UsingDeclNotEnabled => "Using declaration is not enabled. Set \
+                                                 jsc.parser.explicitResourceManagement to true"
+                .into(),
             SyntaxError::InvalidNameInUsingDecl => {
                 "Using declaration only allows identifiers".into()
             }
