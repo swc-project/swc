@@ -130,7 +130,11 @@ impl SimplifyExpr {
             IndexStr(JsWord),
         }
         let op = match prop {
-            MemberProp::Ident(Ident { sym, .. }) if &**sym == "length" && !matches!(**obj, Expr::Object(..)) => KnownOp::Len,
+            MemberProp::Ident(Ident { sym, .. })
+                if &**sym == "length" && !matches!(**obj, Expr::Object(..)) =>
+            {
+                KnownOp::Len
+            }
             MemberProp::Ident(Ident { sym, .. }) => {
                 if !self.in_callee {
                     KnownOp::IndexStr(sym.clone())
@@ -165,20 +169,22 @@ impl SimplifyExpr {
         };
 
         // Properties for objects.
-        // We use these to determine if a key for an object (array, string, or object) is valid.
-        // If it's not a valid key, we replace it with `undefined`, otherwise we leave it as-is.
+        // We use these to determine if a key for an object (array, string, or object)
+        // is valid. If it's not a valid key, we replace it with `undefined`,
+        // otherwise we leave it as-is.
 
         // Function properties.
         // Ref: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function
         let func_props = [
             // Constructor
             "constructor",
-
             // Properties
-            "arguments", "caller",
-
+            "arguments",
+            "caller",
             // Methods
-            "apply", "bind", "call",
+            "apply",
+            "bind",
+            "call",
             "toString",
         ];
 
@@ -187,21 +193,45 @@ impl SimplifyExpr {
         let array_props = [
             // Constructor
             "constructor",
-
             // Methods
-            "at", "concat", "copyWithin",
-            "entries", "every", "fill",
-            "filter", "find", "findIndex",
-            "findLast", "findLastIndex",
-            "flat", "flatMap", "forEach",
-            "includes", "indexOf", "join",
-            "keys", "lastIndexOf", "map",
-            "pop", "push", "reduce",
-            "reduceRight", "reverse", "shift",
-            "slice", "some", "sort",
-            "splice", "toLocaleString", "toReversed",
-            "toSorted", "toSpliced", "toString",
-            "unshift", "values", "with"
+            "at",
+            "concat",
+            "copyWithin",
+            "entries",
+            "every",
+            "fill",
+            "filter",
+            "find",
+            "findIndex",
+            "findLast",
+            "findLastIndex",
+            "flat",
+            "flatMap",
+            "forEach",
+            "includes",
+            "indexOf",
+            "join",
+            "keys",
+            "lastIndexOf",
+            "map",
+            "pop",
+            "push",
+            "reduce",
+            "reduceRight",
+            "reverse",
+            "shift",
+            "slice",
+            "some",
+            "sort",
+            "splice",
+            "toLocaleString",
+            "toReversed",
+            "toSorted",
+            "toSpliced",
+            "toString",
+            "unshift",
+            "values",
+            "with",
         ];
 
         // String properties (excluding `length`).
@@ -209,24 +239,55 @@ impl SimplifyExpr {
         let str_props = [
             // Constructor
             "constructor",
-
             // Methods
-            "anchor", "at", "big",
-            "blink", "bold", "charAt",
-            "charCodeAt", "codePointAt", "concat",
-            "endsWith", "fixed", "fontcolor",
-            "fontsize", "includes", "indexOf",
-            "isWellFormed", "italics", "lastIndexOf",
-            "link", "localeCompare", "match",
-            "matchAll", "normalize", "padEnd",
-            "padStart", "repeat", "replace",
-            "replaceAll", "search", "slice",
-            "small", "split", "startsWith",
-            "strike", "sub", "substr",
-            "substring", "sup", "toLocaleLowerCase",
-            "toLocaleUpperCase", "toLowerCase", "toString",
-            "toUpperCase", "toWellFormed", "trim",
-            "trimEnd", "trimStart", "valueOf"
+            "anchor",
+            "at",
+            "big",
+            "blink",
+            "bold",
+            "charAt",
+            "charCodeAt",
+            "codePointAt",
+            "concat",
+            "endsWith",
+            "fixed",
+            "fontcolor",
+            "fontsize",
+            "includes",
+            "indexOf",
+            "isWellFormed",
+            "italics",
+            "lastIndexOf",
+            "link",
+            "localeCompare",
+            "match",
+            "matchAll",
+            "normalize",
+            "padEnd",
+            "padStart",
+            "repeat",
+            "replace",
+            "replaceAll",
+            "search",
+            "slice",
+            "small",
+            "split",
+            "startsWith",
+            "strike",
+            "sub",
+            "substr",
+            "substring",
+            "sup",
+            "toLocaleLowerCase",
+            "toLocaleUpperCase",
+            "toLowerCase",
+            "toString",
+            "toUpperCase",
+            "toWellFormed",
+            "trim",
+            "trimEnd",
+            "trimStart",
+            "valueOf",
         ];
 
         // Object properties.
@@ -234,26 +295,26 @@ impl SimplifyExpr {
         let obj_props = [
             // Constructor
             "constructor",
-
             // Properties
             "__proto__",
-
             // Methods
-            "__defineGetter__", "__defineSetter__", "__lookupGetter__",
-            "__lookupSetter__", "hasOwnProperty", "isPrototypeOf",
-            "propertyIsEnumerable", "toLocaleString", "toString",
+            "__defineGetter__",
+            "__defineSetter__",
+            "__lookupGetter__",
+            "__lookupSetter__",
+            "hasOwnProperty",
+            "isPrototypeOf",
+            "propertyIsEnumerable",
+            "toLocaleString",
+            "toString",
             "valueOf",
         ];
 
         // Checks if the given property is an object property.
-        let is_obj_prop = |prop: &str| -> bool {
-            obj_props.contains(&prop)
-        };
+        let is_obj_prop = |prop: &str| -> bool { obj_props.contains(&prop) };
 
         // Checks if the given property is a function property.
-        let is_func_prop = |prop: &str| -> bool {
-            func_props.contains(&prop)
-        };
+        let is_func_prop = |prop: &str| -> bool { func_props.contains(&prop) };
 
         // Checks if the given property is an array property.
         let is_array_prop = |prop: &str| -> bool {
@@ -328,21 +389,21 @@ impl SimplifyExpr {
                         .map(|elem| elem.spread.is_some())
                         .unwrap_or(false)
                 });
-                
+
                 if has_spread {
                     return;
                 }
-                
+
                 // do nothing if replacement will have side effects
                 let may_have_side_effects = elems
                     .iter()
                     .filter_map(|e| e.as_ref())
                     .any(|e| e.expr.may_have_side_effects(&self.expr_ctx));
-                
+
                 if may_have_side_effects {
                     return;
                 }
-                
+
                 if op == KnownOp::Len {
                     self.changed = true;
 
@@ -426,7 +487,7 @@ impl SimplifyExpr {
                 } else if matches!(op, KnownOp::IndexStr(..)) {
                     let key = match op {
                         KnownOp::IndexStr(key) => key,
-                        _ => unreachable!()
+                        _ => unreachable!(),
                     };
 
                     if is_array_prop(key.as_str()) {
