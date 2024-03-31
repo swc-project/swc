@@ -1588,6 +1588,17 @@ fn test_issue8747() {
     // Index with a valid index.
     fold("'a'[0]", "\"a\";");
     fold("'a'['0']", "\"a\";");
+    // Index with a valid key.
+    fold_same("[].toString");
+    fold_same("''.toString");
+    fold_same("({}).toString");
+    // Index with length, resulting in replacement.
+    fold("[].length", "0");
+    fold("[]['length']", "0");
+    fold("''.length", "0");
+    fold("({}).length", "void 0");
+    fold("({})['length']", "void 0");
+    fold("({length: 'foo'}).length", "'foo'");
 
     // Indexing an array has the same logic as indexing a string.
     fold("[][0]", "void 0");
@@ -1599,4 +1610,6 @@ fn test_issue8747() {
     fold("({0.5: 'a'})[0.5]", "'a';");
     fold("({'0.5': 'a'})[0.5]", "'a';");
     fold("({0.5: 'a'})['0.5']", "'a';");
+    fold("({}).foo", "void 0");
+    fold_same("({foo: bar()}).foo");
 }
