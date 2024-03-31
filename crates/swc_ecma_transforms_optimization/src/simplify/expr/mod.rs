@@ -150,6 +150,9 @@ impl SimplifyExpr {
                     if let Ok(n) = s.parse::<f64>() {
                         // x['0'] is treated as x[0]
                         KnownOp::Index(n)
+                    } else if s == "length" && !matches!(**obj, Expr::Object(..)) {
+                        // Length of non-object type
+                        KnownOp::Len
                     } else {
                         // x[''] or x[...] where ... is an expression like [], ie x[[]]
                         KnownOp::IndexStr(JsWord::from(s))
