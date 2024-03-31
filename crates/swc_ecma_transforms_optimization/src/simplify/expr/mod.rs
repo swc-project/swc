@@ -147,8 +147,13 @@ impl SimplifyExpr {
                     // x[5]
                     KnownOp::Index(*value)
                 } else if let Known(s) = expr.as_pure_string(&self.expr_ctx) {
-                    // x[''] or x[...] where ... is an expression like [], ie x[[]]
-                    KnownOp::IndexStr(JsWord::from(s))
+                    if let Ok(n) = s.parse::<f64>() {
+                        // x['0'] is treated as x[0]
+                        KnownOp::Index(n)
+                    } else {
+                        // x[''] or x[...] where ... is an expression like [], ie x[[]]
+                        KnownOp::IndexStr(JsWord::from(s))
+                    }
                 } else {
                     return;
                 }

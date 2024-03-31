@@ -1585,6 +1585,9 @@ fn test_issue8747() {
     // Index with an expression.
     fold("''[[]]", "void 0");
     fold("'a'[[]]", "void 0");
+    // Index with a valid index.
+    fold("'a'[0]", "\"a\";");
+    fold("'a'['0']", "\"a\";");
 
     // Indexing an array has the same logic as indexing a string.
     fold("[][0]", "void 0");
