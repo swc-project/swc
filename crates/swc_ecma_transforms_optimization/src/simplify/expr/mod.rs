@@ -164,6 +164,109 @@ impl SimplifyExpr {
             _ => return,
         };
 
+        // Properties for objects.
+        // We use these to determine if a key for an object (array, string, or object) is valid.
+        // If it's not a valid key, we replace it with `undefined`, otherwise we leave it as-is.
+
+        // Function properties.
+        // Ref: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function
+        let func_props = [
+            // Constructor
+            "constructor",
+
+            // Properties
+            "arguments", "caller",
+
+            // Methods
+            "apply", "bind", "call",
+            "toString",
+        ];
+
+        // Array properties (excluding `length`).
+        // Ref: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array
+        let array_props = [
+            // Constructor
+            "constructor",
+
+            // Methods
+            "at", "concat", "copyWithin",
+            "entries", "every", "fill",
+            "filter", "find", "findIndex",
+            "findLast", "findLastIndex",
+            "flat", "flatMap", "forEach",
+            "includes", "indexOf", "join",
+            "keys", "lastIndexOf", "map",
+            "pop", "push", "reduce",
+            "reduceRight", "reverse", "shift",
+            "slice", "some", "sort",
+            "splice", "toLocaleString", "toReversed",
+            "toSorted", "toSpliced", "toString",
+            "unshift", "values", "with"
+        ];
+
+        // String properties (excluding `length`).
+        // Ref: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String
+        let str_props = [
+            // Constructor
+            "constructor",
+
+            // Methods
+            "anchor", "at", "big",
+            "blink", "bold", "charAt",
+            "charCodeAt", "codePointAt", "concat",
+            "endsWith", "fixed", "fontcolor",
+            "fontsize", "includes", "indexOf",
+            "isWellFormed", "italics", "lastIndexOf",
+            "link", "localeCompare", "match",
+            "matchAll", "normalize", "padEnd",
+            "padStart", "repeat", "replace",
+            "replaceAll", "search", "slice",
+            "small", "split", "startsWith",
+            "strike", "sub", "substr",
+            "substring", "sup", "toLocaleLowerCase",
+            "toLocaleUpperCase", "toLowerCase", "toString",
+            "toUpperCase", "toWellFormed", "trim",
+            "trimEnd", "trimStart", "valueOf"
+        ];
+
+        // Object properties.
+        // Ref: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object
+        let obj_props = [
+            // Constructor
+            "constructor",
+
+            // Properties
+            "__proto__",
+
+            // Methods
+            "__defineGetter__", "__defineSetter__", "__lookupGetter__",
+            "__lookupSetter__", "hasOwnProperty", "isPrototypeOf",
+            "propertyIsEnumerable", "toLocaleString", "toString",
+            "valueOf",
+        ];
+
+        // Checks if the given property is an object property.
+        let is_obj_prop = |prop: &str| -> bool {
+            obj_props.contains(&prop)
+        };
+
+        // Checks if the given property is a function property.
+        let is_func_prop = |prop: &str| -> bool {
+            func_props.contains(&prop)
+        };
+
+        // Checks if the given property is an array property.
+        let is_array_prop = |prop: &str| -> bool {
+            // Inherits: Function, Object
+            array_props.contains(&prop) || is_func_prop(prop) || is_obj_prop(prop)
+        };
+
+        // Checks if the given property is a string property.
+        let is_str_prop = |prop: &str| -> bool {
+            // Inherits: Function, Object
+            str_props.contains(&prop) || is_func_prop(prop) || is_obj_prop(prop)
+        };
+
         match &mut **obj {
             Expr::Lit(Lit::Str(Str { value, span, .. })) => match op {
                 // 'foo'.length
@@ -201,7 +304,13 @@ impl SimplifyExpr {
                 }
 
                 // 'foo'['']
-                KnownOp::IndexStr(_) => {
+                KnownOp::IndexStr(key) => {
+                    if is_str_prop(key.as_str()) {
+                        // Valid property
+                        return;
+                    }
+
+                    // Invalid property, resulting in undefined
                     self.changed = true;
                     *expr = *undefined(*span);
                 }
@@ -309,6 +418,17 @@ impl SimplifyExpr {
 
                     *expr = Expr::Seq(SeqExpr { span: *span, exprs });
                 } else if matches!(op, KnownOp::IndexStr(..)) {
+                    let key = match op {
+                        KnownOp::IndexStr(key) => key,
+                        _ => unreachable!()
+                    };
+
+                    if is_array_prop(key.as_str()) {
+                        // Valid property
+                        return;
+                    }
+
+                    // Invalid property, resulting to undefined
                     self.changed = true;
                     *expr = *undefined(*span);
                     return;
@@ -372,6 +492,15 @@ impl SimplifyExpr {
                             span: *span,
                         }))),
                     );
+                } else {
+                    if is_obj_prop(key.as_str()) {
+                        // Valid property
+                        return;
+                    }
+
+                    // Invalid property, resulting in undefined
+                    self.changed = true;
+                    *expr = *undefined(*span);
                 }
             }
 
