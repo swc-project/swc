@@ -130,7 +130,7 @@ impl SimplifyExpr {
             IndexStr(JsWord),
         }
         let op = match prop {
-            MemberProp::Ident(Ident { sym, .. }) if &**sym == "length" => KnownOp::Len,
+            MemberProp::Ident(Ident { sym, .. }) if &**sym == "length" && !matches!(**obj, Expr::Object(..)) => KnownOp::Len,
             MemberProp::Ident(Ident { sym, .. }) => {
                 if !self.in_callee {
                     KnownOp::IndexStr(sym.clone())
