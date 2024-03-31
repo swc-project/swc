@@ -328,16 +328,22 @@ impl SimplifyExpr {
                         .map(|elem| elem.spread.is_some())
                         .unwrap_or(false)
                 });
-
+                
                 if has_spread {
                     return;
                 }
-                if op == KnownOp::Len
-                    && !elems
-                        .iter()
-                        .filter_map(|e| e.as_ref())
-                        .any(|e| e.expr.may_have_side_effects(&self.expr_ctx))
-                {
+                
+                // do nothing if replacement will have side effects
+                let may_have_side_effects = elems
+                    .iter()
+                    .filter_map(|e| e.as_ref())
+                    .any(|e| e.expr.may_have_side_effects(&self.expr_ctx));
+                
+                if may_have_side_effects {
+                    return;
+                }
+                
+                if op == KnownOp::Len {
                     self.changed = true;
 
                     *expr = Expr::Lit(Lit::Num(Number {
