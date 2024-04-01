@@ -1,6 +1,6 @@
 use std::{env, sync::Arc};
 
-use anyhow::{anyhow, Error};
+use anyhow::{anyhow, Context, Error};
 use parking_lot::Mutex;
 #[cfg(feature = "__rkyv")]
 use swc_common::plugin::serialized::{PluginError, PluginSerializedBytes};
@@ -389,6 +389,13 @@ impl TransformExecutor {
     ) -> Result<PluginSerializedBytes, Error> {
         let mut transform_state = self.setup_plugin_env_exports()?;
         transform_state.is_transform_schema_compatible()?;
-        transform_state.run(program, self.unresolved_mark, should_enable_comments_proxy)
+        transform_state
+            .run(program, self.unresolved_mark, should_enable_comments_proxy)
+            .context(
+                "failed to run Wasm plugin transform. Please ensure the version of `swc_core` \
+                 used by the plugin is compatible with the host runtime. See https://swc.rs/docs/plugin/selecting-swc-core\
+                for compatibility information. If you are an author of the plugin, please update \
+                 `swc_core` to the compatible version.",
+            )
     }
 }
