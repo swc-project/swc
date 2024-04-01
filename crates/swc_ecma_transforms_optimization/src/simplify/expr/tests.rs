@@ -1598,6 +1598,7 @@ fn test_issue8747() {
 
     // Don't replace if side effects exist.
     fold_same("[f(), f()][0]");
+    fold("[x(), 'x', 5][2]", "x(), 5;");
     fold_same("({foo: f()}).foo");
 
     // Index with length, resulting in replacement.
