@@ -237,18 +237,18 @@ impl SimplifyExpr {
                     return;
                 }
 
-                // do nothing if replacement will have side effects
-                let may_have_side_effects = elems
-                    .iter()
-                    .filter_map(|e| e.as_ref())
-                    .any(|e| e.expr.may_have_side_effects(&self.expr_ctx));
-
-                if may_have_side_effects {
-                    return;
-                }
-
                 match op {
                     KnownOp::Len => {
+                        // do nothing if replacement will have side effects
+                        let may_have_side_effects = elems
+                            .iter()
+                            .filter_map(|e| e.as_ref())
+                            .any(|e| e.expr.may_have_side_effects(&self.expr_ctx));
+
+                        if may_have_side_effects {
+                            return;
+                        }
+                        
                         // Prototype changes do not affect .length
                         self.changed = true;
 
