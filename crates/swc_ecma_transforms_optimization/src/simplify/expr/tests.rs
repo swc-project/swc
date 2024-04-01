@@ -1594,7 +1594,7 @@ fn test_issue8747() {
 
     // Index with an expression.
     fold("'a'[0 + []]", "\"a\";");
-    //fold("[1][0 + []]", "1");
+    fold("[1][0 + []]", "1");
 
     // Don't replace if side effects exist.
     fold_same("[f()][0]");

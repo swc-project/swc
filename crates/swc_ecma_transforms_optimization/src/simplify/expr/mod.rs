@@ -265,16 +265,16 @@ impl SimplifyExpr {
                         if idx.fract() != 0.0 || idx < 0.0 || idx as usize >= elems.len() {
                             return;
                         }
-                        // idx is treated as an integer from this point.
-                        //
-                        // We also know for certain the index is not out of bounds.
-                        let idx = idx as i64;
 
+                        // Don't change if after has side effects.
                         let after_has_side_effect =
-                            elems.iter().skip((idx + 1) as _).any(|elem| match elem {
-                                Some(elem) => elem.expr.may_have_side_effects(&self.expr_ctx),
-                                None => false,
-                            });
+                            elems
+                                .iter()
+                                .skip((idx as usize + 1) as _)
+                                .any(|elem| match elem {
+                                    Some(elem) => elem.expr.may_have_side_effects(&self.expr_ctx),
+                                    None => false,
+                                });
 
                         if after_has_side_effect {
                             return;
@@ -282,47 +282,48 @@ impl SimplifyExpr {
 
                         self.changed = true;
 
-                        let (before, e, after) = if elems.len() > idx as _ && idx >= 0 {
-                            let before = elems.drain(..(idx as usize)).collect();
-                            let mut iter = elems.take().into_iter();
-                            let e = iter.next().flatten();
-                            let after = iter.collect();
+                        // elements before target element
+                        let before: Vec<Option<ExprOrSpread>> =
+                            elems.drain(..(idx as usize)).collect();
+                        let mut iter = elems.take().into_iter();
+                        // element at idx
+                        let e = iter.next().flatten();
+                        // elements after target element
+                        let after: Vec<Option<ExprOrSpread>> = iter.collect();
 
-                            (before, e, after)
-                        } else {
-                            let before = elems.take();
-
-                            (before, None, vec![])
-                        };
-
+                        // element value
                         let v = match e {
                             None => undefined(*span),
                             Some(e) => e.expr,
                         };
 
+                        // Replacement expressions.
                         let mut exprs = vec![];
+
+                        // Add before side effects.
                         for elem in before.into_iter().flatten() {
                             self.expr_ctx
                                 .extract_side_effects_to(&mut exprs, *elem.expr);
                         }
 
+                        // Element value.
                         let val = v;
 
+                        // Add after side effects.
                         for elem in after.into_iter().flatten() {
                             self.expr_ctx
                                 .extract_side_effects_to(&mut exprs, *elem.expr);
                         }
 
                         if exprs.is_empty() {
-                            *expr = Expr::Seq(SeqExpr {
-                                span: val.span(),
-                                exprs: vec![0.into(), val],
-                            });
+                            // No side effects exist, replace with value.
+                            *expr = *val;
                             return;
                         }
 
+                        // Side effects exist, add value to the end and replace
+                        // with a SeqExpr.
                         exprs.push(val);
-
                         *expr = Expr::Seq(SeqExpr { span: *span, exprs });
                     }
 
