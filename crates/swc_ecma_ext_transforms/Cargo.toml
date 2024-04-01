@@ -5,7 +5,8 @@ documentation = "https://rustdoc.swc.rs/swc_ecma_ext_transforms/"
 edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_ecma_ext_transforms"
-version       = "0.113.13"
+repository    = "https://github.com/swc-project/swc.git"
+version       = "0.113.14"
 
 [lib]
 bench = false

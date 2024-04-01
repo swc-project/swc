@@ -3924,7 +3924,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.90.26"
+version = "0.90.27"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -4175,7 +4175,7 @@ dependencies = [
  "string_enum",
  "swc_atoms",
  "swc_common",
- "unicode-id",
+ "unicode-id-start",
 ]
 
 [[package]]
@@ -4402,7 +4402,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ext_transforms"
-version = "0.113.13"
+version = "0.113.14"
 dependencies = [
  "phf",
  "swc_atoms",
@@ -4498,7 +4498,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.143.11"
+version = "0.143.12"
 dependencies = [
  "criterion",
  "either",
