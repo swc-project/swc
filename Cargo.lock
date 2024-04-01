@@ -1065,7 +1065,7 @@ checksum = "7e962a19be5cfc3f3bf6dd8f61eb50107f356ad6270fbb3ed41476571db78be5"
 
 [[package]]
 name = "dbg-swc"
-version = "0.91.24"
+version = "0.91.25"
 dependencies = [
  "anyhow",
  "clap 3.2.25",
@@ -3924,7 +3924,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.90.26"
+version = "0.90.27"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -4402,7 +4402,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ext_transforms"
-version = "0.113.13"
+version = "0.113.14"
 dependencies = [
  "phf",
  "swc_atoms",
@@ -4436,7 +4436,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_loader"
-version = "0.45.23"
+version = "0.45.24"
 dependencies = [
  "anyhow",
  "dashmap",
@@ -4814,7 +4814,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_testing"
-version = "0.140.17"
+version = "0.140.18"
 dependencies = [
  "ansi_term",
  "anyhow",

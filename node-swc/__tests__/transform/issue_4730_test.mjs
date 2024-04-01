@@ -30,6 +30,7 @@ it("should work", async () => {
         },
         module: {
             type: "commonjs",
+            resolveFully: true,
         },
     });
     expect(code).toMatchInlineSnapshot(`
