@@ -248,7 +248,7 @@ impl SimplifyExpr {
                         if may_have_side_effects {
                             return;
                         }
-                        
+
                         // Prototype changes do not affect .length
                         self.changed = true;
 
