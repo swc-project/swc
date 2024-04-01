@@ -16,6 +16,12 @@
 
 - **(es/transforms)** Add `repository` field to `swc_ecma_ext_transforms` ([#8793](https://github.com/swc-project/swc/issues/8793)) ([37f0a79](https://github.com/swc-project/swc/commit/37f0a7994bdf7d90c30a00f70c6dde97b4d89c8f))
 
+### Performance
+
+
+
+- **(es/parser)** Use faster unicode crate ([#8785](https://github.com/swc-project/swc/issues/8785)) ([6f780ca](https://github.com/swc-project/swc/commit/6f780ca749a611f54aa4deb628e532fd0a12228f))
+
 ## [1.4.9] - 2024-03-26
 
 ### Bug Fixes
@@ -1372,9 +1378,6 @@
 
 ### Bug Fixes
 
-
-
-- **(es/minifier)** Report `is_fn_local` even if var is hoisted ([#7876](https://github.com/swc-project/swc/issues/7876)) ([87a47bf](https://github.com/swc-project/swc/commit/87a47bfb2c602f2ce7eb33f78612197e290518b8))
 
 
 - **(es/module)** Don't create absolute paths for `jsc.paths` on Windows ([#7892](https://github.com/swc-project/swc/issues/7892)) ([5fbc251](https://github.com/swc-project/swc/commit/5fbc251db1cc1f7973ba780a6c4fc1cdce5ef40d))
