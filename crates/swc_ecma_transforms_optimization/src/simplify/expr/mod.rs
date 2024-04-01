@@ -117,9 +117,10 @@ impl SimplifyExpr {
 
             // [a, b][0]
             //
-            // ({0.5: 'test'})[0.5]
+            // {0.5: "bar"}[0.5]
+            //
             /// Note: callers need to check `v.fract() == 0.0` in some cases.
-            /// ie non-integer indexes for arrays always result in `undefined`
+            /// ie non-integer indexes for arrays result in `undefined`
             /// but not for objects (because indexing an object
             /// returns the value of the key, ie `0.5` will not
             /// return `undefined` if a key `0.5` exists
@@ -167,170 +168,18 @@ impl SimplifyExpr {
             }
             _ => return,
         };
-
-        // Properties for objects.
-        // We use these to determine if a key for an object (array, string, or object)
-        // is valid. If it's not a valid key, we replace it with `undefined`,
-        // otherwise we leave it as-is.
-
-        // Function properties.
-        // Ref: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function
-        let func_props = [
-            // Constructor
-            "constructor",
-            // Properties
-            "arguments",
-            "caller",
-            // Methods
-            "apply",
-            "bind",
-            "call",
-            "toString",
-        ];
-
-        // Array properties (excluding `length`).
-        // Ref: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array
-        let array_props = [
-            // Constructor
-            "constructor",
-            // Methods
-            "at",
-            "concat",
-            "copyWithin",
-            "entries",
-            "every",
-            "fill",
-            "filter",
-            "find",
-            "findIndex",
-            "findLast",
-            "findLastIndex",
-            "flat",
-            "flatMap",
-            "forEach",
-            "includes",
-            "indexOf",
-            "join",
-            "keys",
-            "lastIndexOf",
-            "map",
-            "pop",
-            "push",
-            "reduce",
-            "reduceRight",
-            "reverse",
-            "shift",
-            "slice",
-            "some",
-            "sort",
-            "splice",
-            "toLocaleString",
-            "toReversed",
-            "toSorted",
-            "toSpliced",
-            "toString",
-            "unshift",
-            "values",
-            "with",
-        ];
-
-        // String properties (excluding `length`).
-        // Ref: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String
-        let str_props = [
-            // Constructor
-            "constructor",
-            // Methods
-            "anchor",
-            "at",
-            "big",
-            "blink",
-            "bold",
-            "charAt",
-            "charCodeAt",
-            "codePointAt",
-            "concat",
-            "endsWith",
-            "fixed",
-            "fontcolor",
-            "fontsize",
-            "includes",
-            "indexOf",
-            "isWellFormed",
-            "italics",
-            "lastIndexOf",
-            "link",
-            "localeCompare",
-            "match",
-            "matchAll",
-            "normalize",
-            "padEnd",
-            "padStart",
-            "repeat",
-            "replace",
-            "replaceAll",
-            "search",
-            "slice",
-            "small",
-            "split",
-            "startsWith",
-            "strike",
-            "sub",
-            "substr",
-            "substring",
-            "sup",
-            "toLocaleLowerCase",
-            "toLocaleUpperCase",
-            "toLowerCase",
-            "toString",
-            "toUpperCase",
-            "toWellFormed",
-            "trim",
-            "trimEnd",
-            "trimStart",
-            "valueOf",
-        ];
-
-        // Object properties.
-        // Ref: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object
-        let obj_props = [
-            // Constructor
-            "constructor",
-            // Properties
-            "__proto__",
-            // Methods
-            "__defineGetter__",
-            "__defineSetter__",
-            "__lookupGetter__",
-            "__lookupSetter__",
-            "hasOwnProperty",
-            "isPrototypeOf",
-            "propertyIsEnumerable",
-            "toLocaleString",
-            "toString",
-            "valueOf",
-        ];
-
-        // Checks if the given property is an object property.
-        let is_obj_prop = |prop: &str| -> bool { obj_props.contains(&prop) };
-
-        // Checks if the given property is a function property.
-        let is_func_prop = |prop: &str| -> bool { func_props.contains(&prop) };
-
-        // Checks if the given property is an array property.
-        let is_array_prop = |prop: &str| -> bool {
-            // Inherits: Function, Object
-            array_props.contains(&prop) || is_func_prop(prop) || is_obj_prop(prop)
-        };
-
-        // Checks if the given property is a string property.
-        let is_str_prop = |prop: &str| -> bool {
-            // Inherits: Function, Object
-            str_props.contains(&prop) || is_func_prop(prop) || is_obj_prop(prop)
-        };
+        
+        // Note: pristine_globals refers to the compress config option pristine_globals.
+        // Any potential cases where globals are not pristine are handled in compress,
+        // e.g. x[-1] is not changed as the object's prototype may be modified.
+        // For example, Array.prototype[-1] = "foo" will result in [][-1] returning "foo".
 
         match &mut **obj {
             Expr::Lit(Lit::Str(Str { value, span, .. })) => match op {
                 // 'foo'.length
+                //
+                // Prototype changes do not affect .length, so we don't need to worry
+                // about pristine_globals here.
                 KnownOp::Len => {
                     self.changed = true;
 
@@ -352,36 +201,30 @@ impl SimplifyExpr {
                     self.changed = true;
 
                     if idx.fract() != 0.0 || idx < 0.0 || idx as usize >= value.len() {
-                        *expr = *undefined(*span)
-                    } else {
-                        let value = nth_char(value, idx as _);
-
-                        *expr = Expr::Lit(Lit::Str(Str {
-                            raw: None,
-                            value: value.into(),
-                            span: *span,
-                        }))
-                    };
-                }
-
-                // 'foo'['']
-                KnownOp::IndexStr(key) => {
-                    if is_str_prop(key.as_str()) {
-                        // Valid property
+                        // Prototype changes affect indexing if the index is out of bounds, so we
+                        // don't replace out-of-bound indexes.
                         return;
                     }
 
-                    // Invalid property, resulting in undefined
                     self.changed = true;
-                    *expr = *undefined(*span);
+                    
+                    let value = nth_char(value, idx as _);
+                    *expr = Expr::Lit(Lit::Str(Str {
+                        raw: None,
+                        value: value.into(),
+                        span: *span,
+                    }))
                 }
+
+                // 'foo'['']
+                //
+                // Handled in compress
+                KnownOp::IndexStr(..) => {}
             },
 
             // [1, 2, 3].length
             //
             // [1, 2, 3][0]
-            //
-            // [1, 2, 3]['']
             Expr::Array(ArrayLit { elems, span }) => {
                 // do nothing if spread exists
                 let has_spread = elems.iter().any(|elem| {
@@ -403,41 +246,84 @@ impl SimplifyExpr {
                 if may_have_side_effects {
                     return;
                 }
-
-                if op == KnownOp::Len {
-                    self.changed = true;
-
-                    *expr = Expr::Lit(Lit::Num(Number {
-                        value: elems.len() as _,
-                        span: *span,
-                        raw: None,
-                    }));
-                } else if matches!(op, KnownOp::Index(..)) {
-                    let idx = match op {
-                        KnownOp::Index(i) => i,
-                        _ => unreachable!(),
-                    };
-
-                    // If the fraction part is non-zero, or if the index is out of bounds,
-                    // then the result is always undefined.
-                    if idx.fract() != 0.0 || idx < 0.0 || idx as usize >= elems.len() {
+                
+                match op {
+                    KnownOp::Len => {
+                        // Prototype changes do not affect .length
                         self.changed = true;
-                        *expr = *undefined(*span);
-                        return;
+
+                        *expr = Expr::Lit(Lit::Num(Number {
+                            value: elems.len() as _,
+                            span: *span,
+                            raw: None,
+                        }));
                     }
-                    // idx is treated as an integer from this point.
-                    //
-                    // We also know for certain the index is not out of bounds.
-                    let idx = idx as i64;
+                    
+                    KnownOp::Index(idx) => {
+                        // If the fraction part is non-zero, or if the index is out of bounds,
+                        // then we handle this in compress as Array's prototype may be modified.
+                        if idx.fract() != 0.0 || idx < 0.0 || idx as usize >= elems.len() {
+                            return;
+                        }
+                        // idx is treated as an integer from this point.
+                        //
+                        // We also know for certain the index is not out of bounds.
+                        let idx = idx as i64;
 
-                    let after_has_side_effect =
-                        elems.iter().skip((idx + 1) as _).any(|elem| match elem {
-                            Some(elem) => elem.expr.may_have_side_effects(&self.expr_ctx),
-                            None => false,
-                        });
+                        let after_has_side_effect =
+                            elems.iter().skip((idx + 1) as _).any(|elem| match elem {
+                                Some(elem) => elem.expr.may_have_side_effects(&self.expr_ctx),
+                                None => false,
+                            });
 
-                    if after_has_side_effect {
-                        return;
+                        if after_has_side_effect {
+                            return;
+                        }
+
+                        self.changed = true;
+
+                        let (before, e, after) = if elems.len() > idx as _ && idx >= 0 {
+                            let before = elems.drain(..(idx as usize)).collect();
+                            let mut iter = elems.take().into_iter();
+                            let e = iter.next().flatten();
+                            let after = iter.collect();
+
+                            (before, e, after)
+                        } else {
+                            let before = elems.take();
+
+                            (before, None, vec![])
+                        };
+
+                        let v = match e {
+                            None => undefined(*span),
+                            Some(e) => e.expr,
+                        };
+
+                        let mut exprs = vec![];
+                        for elem in before.into_iter().flatten() {
+                            self.expr_ctx
+                                .extract_side_effects_to(&mut exprs, *elem.expr);
+                        }
+
+                        let val = v;
+
+                        for elem in after.into_iter().flatten() {
+                            self.expr_ctx
+                                .extract_side_effects_to(&mut exprs, *elem.expr);
+                        }
+
+                        if exprs.is_empty() {
+                            *expr = Expr::Seq(SeqExpr {
+                                span: val.span(),
+                                exprs: vec![0.into(), val],
+                            });
+                            return;
+                        }
+
+                        exprs.push(val);
+
+                        *expr = Expr::Seq(SeqExpr { span: *span, exprs });
                     }
 
                     self.changed = true;
@@ -499,6 +385,9 @@ impl SimplifyExpr {
                     self.changed = true;
                     *expr = *undefined(*span);
                     return;
+                    
+                    // Handled in compress
+                    KnownOp::IndexStr(..) => {}
                 }
             }
 
@@ -536,6 +425,7 @@ impl SimplifyExpr {
                 });
                 let idx = idx.map(|idx| props.len() - 1 - idx);
 
+                // Only replace if key exists; non-existent keys are handled in compress
                 if let Some(i) = idx {
                     let v = props.remove(i);
                     self.changed = true;
@@ -559,15 +449,6 @@ impl SimplifyExpr {
                             span: *span,
                         }))),
                     );
-                } else {
-                    if is_obj_prop(key.as_str()) {
-                        // Valid property
-                        return;
-                    }
-
-                    // Invalid property, resulting in undefined
-                    self.changed = true;
-                    *expr = *undefined(*span);
                 }
             }
 
