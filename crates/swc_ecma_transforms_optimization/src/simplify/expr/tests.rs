@@ -1581,33 +1581,34 @@ fn test_issue8747() {
     // Index with a valid index.
     fold("'a'[0]", "\"a\";");
     fold("'a'['0']", "\"a\";");
-    
+
     // Index with an invalid index.
-    // An invalid index is an out-of-bound index. These are not replaced as prototype
-    // changes could cause undefined behaviour. Refer to pristine_globals in compress.
+    // An invalid index is an out-of-bound index. These are not replaced as
+    // prototype changes could cause undefined behaviour. Refer to
+    // pristine_globals in compress.
     fold_same("'a'[0.5]");
     fold_same("'a'[-1]");
-    
+
     fold_same("[1][0.5]");
     fold_same("[1][-1]");
-    
+
     // Index with an expression.
     fold("'a'[0 + []]", "\"a\";");
     //fold("[1][0 + []]", "1");
-    
+
     // Don't replace if side effects exist.
     fold_same("[f()][0]");
     fold_same("({foo: f()}).foo");
-    
+
     // Index with length, resulting in replacement.
     // Prototype changes don't affect .length in String and Array,
     // but it is affected in Object.
     fold("[].length", "0");
     fold("[]['length']", "0");
-    
+
     fold("''.length", "0");
     fold("''['length']", "0");
-    
+
     fold_same("({}).length");
     fold_same("({})['length']");
     fold("({length: 'foo'}).length", "'foo'");

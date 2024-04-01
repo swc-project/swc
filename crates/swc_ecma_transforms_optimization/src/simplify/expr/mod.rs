@@ -118,7 +118,6 @@ impl SimplifyExpr {
             // [a, b][0]
             //
             // {0.5: "bar"}[0.5]
-            //
             /// Note: callers need to check `v.fract() == 0.0` in some cases.
             /// ie non-integer indexes for arrays result in `undefined`
             /// but not for objects (because indexing an object
@@ -168,11 +167,12 @@ impl SimplifyExpr {
             }
             _ => return,
         };
-        
+
         // Note: pristine_globals refers to the compress config option pristine_globals.
         // Any potential cases where globals are not pristine are handled in compress,
         // e.g. x[-1] is not changed as the object's prototype may be modified.
-        // For example, Array.prototype[-1] = "foo" will result in [][-1] returning "foo".
+        // For example, Array.prototype[-1] = "foo" will result in [][-1] returning
+        // "foo".
 
         match &mut **obj {
             Expr::Lit(Lit::Str(Str { value, span, .. })) => match op {
@@ -207,7 +207,7 @@ impl SimplifyExpr {
                     }
 
                     self.changed = true;
-                    
+
                     let value = nth_char(value, idx as _);
                     *expr = Expr::Lit(Lit::Str(Str {
                         raw: None,
@@ -246,7 +246,7 @@ impl SimplifyExpr {
                 if may_have_side_effects {
                     return;
                 }
-                
+
                 match op {
                     KnownOp::Len => {
                         // Prototype changes do not affect .length
@@ -258,7 +258,7 @@ impl SimplifyExpr {
                             raw: None,
                         }));
                     }
-                    
+
                     KnownOp::Index(idx) => {
                         // If the fraction part is non-zero, or if the index is out of bounds,
                         // then we handle this in compress as Array's prototype may be modified.
