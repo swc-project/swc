@@ -1,5 +1,5 @@
 {
   "defaults": true,
   "toplevel": true,
-  "unused": "true"
+  "unused": true
 }
