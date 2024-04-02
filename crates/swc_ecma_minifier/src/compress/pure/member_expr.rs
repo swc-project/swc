@@ -160,8 +160,8 @@ fn is_function_symbol(sym: &str) -> bool {
 }
 
 fn is_array_symbol(sym: &str) -> bool {
-    // Inherits: Function, Object
-    ARRAY_SYMBOLS.contains(sym) || is_function_symbol(sym)
+    // Inherits: Object
+    ARRAY_SYMBOLS.contains(sym) || is_object_symbol(sym)
 }
 
 fn is_string_symbol(sym: &str) -> bool {
