@@ -44,10 +44,10 @@ impl VisitMut for SafariIdDestructuringCollisionInFunctionExpression {
     }
 
     fn visit_mut_fn_expr(&mut self, n: &mut FnExpr) {
+        let old_in_body = self.in_body;
         if let Some(ident) = &n.ident {
             let old_span = self.destructured_id_span.take();
             let old_fn_expr_name = self.fn_expr_name.clone();
-            let old_in_body = self.in_body;
 
             self.fn_expr_name = ident.sym.clone();
             self.in_body = false;
@@ -71,10 +71,15 @@ impl VisitMut for SafariIdDestructuringCollisionInFunctionExpression {
                 n.function.visit_mut_children_with(&mut rename(&rename_map));
             }
 
-            self.in_body = old_in_body;
             self.fn_expr_name = old_fn_expr_name;
             self.destructured_id_span = old_span;
+        } else {
+            self.in_body = false;
+            n.function.params.visit_mut_children_with(self);
+            self.in_body = true;
+            n.function.body.visit_mut_children_with(self);
         }
+        self.in_body = old_in_body;
     }
 
     fn visit_mut_ident(&mut self, ident: &mut Ident) {
@@ -178,5 +183,47 @@ mod tests {
             return _type_of();
         }
         "
+    );
+
+    test!(
+        Syntax::default(),
+        |_| tr(),
+        in_nameless_fn,
+        "(function () {
+          (function a(a) {a});
+        });
+        "
+    );
+
+    test!(
+        Syntax::default(),
+        |_| tr(),
+        in_nameless_fn_multiple,
+        "// nameless iife
+        var x = function() {
+            // not transformed
+            var b = function a(a) {
+                return a;
+            };
+        }();
+        // nameless iife
+        var x = function x() {
+            var b = function a(_a) {
+                return _a;
+            };
+        }();
+        // nameless function
+        (function() {
+            // not transformed
+            var b = function a(a) {
+                return a;
+            };
+        });
+        // named function
+        (function x() {
+            var b = function a(_a) {
+                return _a;
+            };
+        });"
     );
 }
