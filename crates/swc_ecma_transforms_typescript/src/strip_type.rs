@@ -62,7 +62,8 @@ impl VisitMut for StripType {
                 ClassProp { declare: true, .. }
                 | ClassProp {
                     is_abstract: true, ..
-                },
+                }
+                | ClassProp { definite: true, .. },
             ) => false,
 
             _ => true,
