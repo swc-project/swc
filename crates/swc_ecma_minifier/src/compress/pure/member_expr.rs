@@ -165,8 +165,9 @@ fn is_array_symbol(sym: &str) -> bool {
 }
 
 fn is_string_symbol(sym: &str) -> bool {
-    // Inherits: Function, Object
-    STRING_SYMBOLS.contains(sym) || is_function_symbol(sym)
+    // Inherits: Object
+    // MDN says this implements Function, but it doesn't appear to
+    STRING_SYMBOLS.contains(sym) || is_object_symbol(sym)
 }
 
 impl Pure<'_> {
