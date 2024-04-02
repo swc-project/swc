@@ -32,6 +32,9 @@
 
 
 
+- **(atoms)** Update `hstr` ([#8799](https://github.com/swc-project/swc/issues/8799)) ([0745624](https://github.com/swc-project/swc/commit/0745624cb71e12b18b06d9ee106066d8b585c4c6))
+
+
 - **(es/parser)** Use faster unicode crate ([#8785](https://github.com/swc-project/swc/issues/8785)) ([6f780ca](https://github.com/swc-project/swc/commit/6f780ca749a611f54aa4deb628e532fd0a12228f))
 
 ## [1.4.9] - 2024-03-26
