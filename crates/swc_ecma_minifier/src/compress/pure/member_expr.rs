@@ -9,24 +9,6 @@ use swc_ecma_utils::{is_literal, prop_name_eq, undefined, ExprExt, Known};
 
 use super::Pure;
 
-/// Ref: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Function
-static FUNCTION_SYMBOLS: phf::Set<&str> = phf_set!(
-    // Constructor
-    "constructor",
-    // Properties
-    "arguments",
-    "caller",
-    "displayName",
-    "length",
-    "name",
-    "prototype",
-    // Methods
-    "apply",
-    "bind",
-    "call",
-    "toString"
-);
-
 /// Ref: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array
 static ARRAY_SYMBOLS: phf::Set<&str> = phf_set!(
     // Constructor
@@ -152,11 +134,6 @@ static OBJECT_SYMBOLS: phf::Set<&str> = phf_set!(
 
 fn is_object_symbol(sym: &str) -> bool {
     OBJECT_SYMBOLS.contains(sym)
-}
-
-fn is_function_symbol(sym: &str) -> bool {
-    // Inherits: Object
-    FUNCTION_SYMBOLS.contains(sym) || is_object_symbol(sym)
 }
 
 fn is_array_symbol(sym: &str) -> bool {
