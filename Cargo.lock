@@ -3753,7 +3753,7 @@ dependencies = [
 
 [[package]]
 name = "swc_atoms"
-version = "0.6.5"
+version = "0.6.6"
 dependencies = [
  "bytecheck",
  "hstr",
