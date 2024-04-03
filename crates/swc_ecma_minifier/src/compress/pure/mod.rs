@@ -392,9 +392,9 @@ impl VisitMut for Pure<'_> {
             }
         }
 
-        if let Some(member_expr) = e.as_member() {
+        if let Expr::Member(member_expr) = e {
             if let Some(replacement) =
-                self.optimize_member_expr(&member_expr.obj, &member_expr.prop)
+                self.optimize_member_expr(&mut member_expr.obj, &member_expr.prop)
             {
                 *e = replacement;
                 return;
