@@ -205,7 +205,7 @@ pub enum InputSourceMap {
 
 impl Default for InputSourceMap {
     fn default() -> Self {
-        InputSourceMap::Bool(false)
+        InputSourceMap::Bool(true)
     }
 }
 
