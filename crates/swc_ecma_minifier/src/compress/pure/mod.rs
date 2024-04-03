@@ -399,15 +399,6 @@ impl VisitMut for Pure<'_> {
             }
         }
 
-        if let Expr::Member(member_expr) = e {
-            if let Some(replacement) =
-                self.optimize_member_expr(&mut member_expr.obj, &member_expr.prop)
-            {
-                *e = replacement;
-                return;
-            }
-        }
-
         self.eval_nested_tpl(e);
 
         if e.is_seq() {
@@ -603,6 +594,14 @@ impl VisitMut for Pure<'_> {
 
         if e.is_seq() {
             debug_assert_valid(e);
+        }
+
+        if let Expr::Member(member_expr) = e {
+            if let Some(replacement) =
+                self.optimize_member_expr(&mut member_expr.obj, &member_expr.prop)
+            {
+                *e = replacement;
+            }
         }
     }
 
