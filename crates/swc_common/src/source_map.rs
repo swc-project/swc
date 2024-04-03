@@ -1225,7 +1225,7 @@ impl SourceMap {
         if let Some(orig) = orig {
             for src in orig.sources() {
                 let id = builder.add_source(src);
-                src_id = id + 1;
+                src_id = id;
 
                 builder.set_source_contents(id, orig.get_source_contents(id));
             }
