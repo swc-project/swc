@@ -302,8 +302,7 @@ impl Pure<'_> {
                     // This completely drains elems.
                     elems
                         .drain(..)
-                        .into_iter()
-                        .filter_map(|x| x)
+                        .flatten()
                         .for_each(|elem| {
                             self.expr_ctx
                                 .extract_side_effects_to(&mut side_effects, *elem.expr);
