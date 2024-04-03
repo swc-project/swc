@@ -164,7 +164,7 @@ impl Pure<'_> {
         obj: &mut Expr,
         prop: &MemberProp,
     ) -> Option<Expr> {
-        if !self.options.pristine_globals {
+        if !self.options.pristine_globals || self.in_left_side_assign {
             return None;
         }
 
