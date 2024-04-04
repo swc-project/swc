@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs", "src/**/*.json", "data/**/*.json"]
 license       = "Apache-2.0"
 name          = "swc_ecma_preset_env"
 repository    = "https://github.com/swc-project/swc"
-version       = "0.206.17"
+version       = "0.206.18"
 
 [lib]
 bench = false

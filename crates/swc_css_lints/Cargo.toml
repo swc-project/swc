@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = "Apache-2.0"
 name          = "swc_css_lints"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.60.31"
+version       = "0.60.32"
 
 [lib]
 bench = false
