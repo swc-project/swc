@@ -246,14 +246,13 @@ dependencies = [
 
 [[package]]
 name = "auto_impl"
-version = "1.1.0"
+version = "1.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "fee3da8ef1276b0bee5dd1c7258010d8fffd31801447323115a25560e1327b89"
+checksum = "3c87f3f15e7794432337fc718554eaa4dc8f04c9677a950ffe366f20a162ae42"
 dependencies = [
- "proc-macro-error",
  "proc-macro2",
  "quote",
- "syn 1.0.109",
+ "syn 2.0.55",
 ]
 
 [[package]]
@@ -335,9 +334,9 @@ checksum = "bef38d45163c2f1dde094a7dfd33ccf595c92905c8f8f4fdc18d06fb1037718a"
 
 [[package]]
 name = "bitflags"
-version = "2.4.2"
+version = "2.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ed570934406eb16438a4e976b1b4500774099c13b8cb96eec99f620f05090ddf"
+checksum = "cf4b9d6a944f767f8e5e0db018570623c85f3d925ac718db4e06d0187adb21c1"
 
 [[package]]
 name = "bitvec"
@@ -1541,7 +1540,7 @@ version = "0.9.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0bf760ebf69878d9fd8f110c89703d90ce35095324d1f1edcb595c63945ee757"
 dependencies = [
- "bitflags 2.4.2",
+ "bitflags 2.5.0",
  "ignore",
  "walkdir",
 ]
@@ -2246,7 +2245,7 @@ version = "2.14.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "2fc1cb00cde484640da9f01a124edbb013576a6ae9843b23857c940936b76d91"
 dependencies = [
- "bitflags 2.4.2",
+ "bitflags 2.5.0",
  "ctor",
  "napi-derive",
  "napi-sys",
@@ -2482,7 +2481,7 @@ version = "0.10.62"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "8cde4d2d9200ad5909f8dac647e29482e07c3a35de8a13fce7c9c7747ad9f671"
 dependencies = [
- "bitflags 2.4.2",
+ "bitflags 2.5.0",
  "cfg-if",
  "foreign-types",
  "libc",
@@ -3188,7 +3187,7 @@ version = "0.38.30"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "322394588aaf33c24007e8bb3238ee3e4c5c09c084ab32bc73890b99ff326bca"
 dependencies = [
- "bitflags 2.4.2",
+ "bitflags 2.5.0",
  "errno",
  "libc",
  "linux-raw-sys 0.4.13",
@@ -4018,7 +4017,7 @@ name = "swc_css_codegen"
 version = "0.151.31"
 dependencies = [
  "auto_impl",
- "bitflags 2.4.2",
+ "bitflags 2.5.0",
  "rustc-hash",
  "serde",
  "swc_atoms",
@@ -4045,7 +4044,7 @@ dependencies = [
 name = "swc_css_compat"
 version = "0.27.32"
 dependencies = [
- "bitflags 2.4.2",
+ "bitflags 2.5.0",
  "once_cell",
  "serde",
  "serde_json",
@@ -4175,7 +4174,7 @@ name = "swc_ecma_ast"
 version = "0.112.6"
 dependencies = [
  "arbitrary",
- "bitflags 2.4.2",
+ "bitflags 2.5.0",
  "bytecheck",
  "is-macro",
  "num-bigint",
@@ -4630,7 +4629,7 @@ name = "swc_ecma_transforms_base"
 version = "0.137.16"
 dependencies = [
  "better_scoped_tls",
- "bitflags 2.4.2",
+ "bitflags 2.5.0",
  "criterion",
  "indexmap 2.1.0",
  "once_cell",
@@ -4719,7 +4718,7 @@ version = "0.180.17"
 dependencies = [
  "Inflector",
  "anyhow",
- "bitflags 2.4.2",
+ "bitflags 2.5.0",
  "indexmap 2.1.0",
  "is-macro",
  "path-clean 0.1.0",
@@ -5039,7 +5038,7 @@ name = "swc_html_codegen"
 version = "0.42.24"
 dependencies = [
  "auto_impl",
- "bitflags 2.4.2",
+ "bitflags 2.5.0",
  "rustc-hash",
  "swc_atoms",
  "swc_common",
@@ -5321,7 +5320,7 @@ name = "swc_xml_codegen"
 version = "0.13.21"
 dependencies = [
  "auto_impl",
- "bitflags 2.4.2",
+ "bitflags 2.5.0",
  "rustc-hash",
  "swc_atoms",
  "swc_common",
