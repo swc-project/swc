@@ -1699,7 +1699,7 @@ impl VisitMut for Decorator202203 {
         let old_extra_lets = self.extra_lets.take();
         let old_extra_vars = self.extra_vars.take();
 
-        let mut new = Vec::with_capacity(n.len());
+        let mut new = Vec::with_capacity(n.len() * 3 + 1);
 
         for mut n in n.take() {
             n.visit_mut_with(self);
