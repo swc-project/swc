@@ -1,9 +1,4 @@
 function logTheNine() {
-    ((theThree, theNine)=>{
-        console.log(theNine);
-    })(...[
-        3,
-        9
-    ]);
+    console.log(9);
 }
 logTheNine();

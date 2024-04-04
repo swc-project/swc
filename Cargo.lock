@@ -4773,7 +4773,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_proposal"
-version = "0.171.18"
+version = "0.171.19"
 dependencies = [
  "either",
  "rustc-hash",
@@ -4886,7 +4886,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "0.127.16"
+version = "0.127.17"
 dependencies = [
  "indexmap 2.1.0",
  "num_cpus",

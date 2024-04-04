@@ -2253,17 +2253,22 @@ pub fn opt_chain_test(
 pub fn prepend_stmt<T: StmtLike>(stmts: &mut Vec<T>, stmt: T) {
     let idx = stmts
         .iter()
-        .position(|item| match item.as_stmt() {
-            Some(&Stmt::Expr(ExprStmt { ref expr, .. }))
-                if matches!(&**expr, Expr::Lit(Lit::Str(..))) =>
-            {
-                false
-            }
-            _ => true,
+        .position(|item| {
+            item.as_stmt()
+                .map(|s| !is_maybe_branch_directive(s))
+                .unwrap_or(true)
         })
         .unwrap_or(stmts.len());
 
     stmts.insert(idx, stmt);
+}
+
+/// If the stmt is maybe a directive like `"use strict";`
+pub fn is_maybe_branch_directive(stmt: &Stmt) -> bool {
+    match stmt {
+        Stmt::Expr(ExprStmt { ref expr, .. }) if matches!(&**expr, Expr::Lit(Lit::Str(..))) => true,
+        _ => false,
+    }
 }
 
 /// inject `stmts` after directives
