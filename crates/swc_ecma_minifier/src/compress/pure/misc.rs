@@ -7,7 +7,7 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::debug_assert_valid;
 use swc_ecma_usage_analyzer::util::is_global_var_with_pure_property_access;
 use swc_ecma_utils::{
-    ExprExt, ExprFactory, IdentUsageFinder, Type,
+    undefined, ExprExt, ExprFactory, IdentUsageFinder, Type,
     Value::{self, Known},
 };
 
@@ -59,9 +59,50 @@ fn can_compress_new_regexp(args: Option<&[ExprOrSpread]>) -> bool {
 impl Pure<'_> {
     /// `foo(...[1, 2])`` => `foo(1, 2)`
     pub(super) fn eval_spread_array(&mut self, args: &mut Vec<ExprOrSpread>) {
-        if args.iter().all(|arg| arg.spread.is_none()) {
+        if args
+            .iter()
+            .all(|arg| arg.spread.is_none() || !arg.expr.is_array())
+        {
             return;
         }
+
+        let mut new_args = vec![];
+        for arg in args.take() {
+            match arg {
+                ExprOrSpread {
+                    spread: Some(spread),
+                    expr,
+                } => match *expr {
+                    Expr::Array(ArrayLit { elems, .. }) => {
+                        for elem in elems {
+                            match elem {
+                                Some(ExprOrSpread { expr, spread }) => {
+                                    new_args.push(ExprOrSpread { spread, expr });
+                                }
+                                None => {
+                                    new_args.push(ExprOrSpread {
+                                        spread: None,
+                                        expr: undefined(DUMMY_SP),
+                                    });
+                                }
+                            }
+                        }
+                    }
+                    _ => {
+                        new_args.push(ExprOrSpread {
+                            spread: Some(spread),
+                            expr,
+                        });
+                    }
+                },
+                arg => new_args.push(arg),
+            }
+        }
+
+        self.changed = true;
+        report_change!("Compressing spread array");
+
+        *args = new_args;
     }
 
     pub(super) fn remove_invalid(&mut self, e: &mut Expr) {
