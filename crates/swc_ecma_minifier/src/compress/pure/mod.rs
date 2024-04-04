@@ -300,6 +300,8 @@ impl VisitMut for Pure<'_> {
 
         e.args.visit_mut_with(self);
 
+        self.eval_spread_array(&mut e.args);
+
         self.drop_arguments_of_symbol_call(e);
     }
 

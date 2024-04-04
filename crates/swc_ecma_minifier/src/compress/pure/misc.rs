@@ -57,6 +57,13 @@ fn can_compress_new_regexp(args: Option<&[ExprOrSpread]>) -> bool {
 }
 
 impl Pure<'_> {
+    /// `foo(...[1, 2])`` => `foo(1, 2)`
+    pub(super) fn eval_spread_array(&mut self, args: &mut Vec<ExprOrSpread>) {
+        if args.iter().all(|arg| arg.spread.is_none()) {
+            return;
+        }
+    }
+
     pub(super) fn remove_invalid(&mut self, e: &mut Expr) {
         match e {
             Expr::Seq(seq) => {
