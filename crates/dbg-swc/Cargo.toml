@@ -5,14 +5,14 @@ edition     = "2021"
 license     = "Apache-2.0"
 name        = "dbg-swc"
 repository  = "https://github.com/kdy1/dbg-swc.git"
-version     = "0.91.25"
+version     = "0.91.26"
 
 [[bin]]
 bench = false
 name  = "dbg-swc"
 
 [dependencies]
-anyhow             = "1.0.71"
+anyhow             = "1.0.81"
 clap               = { version = "3", features = ["derive"] }
 dialoguer          = "0.10.2"
 flate2             = "1.0"
@@ -21,8 +21,8 @@ serde              = "1"
 serde_json         = "1"
 sha1               = "0.10.5"
 tempfile           = "3.6.0"
-tracing            = "0.1.37"
-tracing-subscriber = { version = "0.3.17", features = ["fmt", "env-filter"] }
+tracing            = "0.1.40"
+tracing-subscriber = { version = "0.3.18", features = ["fmt", "env-filter"] }
 url                = "2"
 
 swc_atoms = { version = "0.6.5", path = "../swc_atoms" }

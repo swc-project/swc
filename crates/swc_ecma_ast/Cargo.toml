@@ -6,7 +6,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_ecma_ast"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.112.6"
+version       = "0.112.7"
 
   [package.metadata.docs.rs]
   all-features = true
@@ -30,10 +30,10 @@ serde-impl = ["serde"]
 
 [dependencies]
 arbitrary = { version = "1", optional = true, features = ["derive"] }
-bitflags  = "2.3.2"
+bitflags  = "2.5.0"
 # bytecheck version should be in sync with rkyv version. Do not bump individually.
 bytecheck = { version = "0.6.10", optional = true }
-is-macro = "0.3.0"
+is-macro = "0.3.5"
 num-bigint = { version = "0.4", features = ["serde"] }
 phf = { version = "0.11.2", features = ["macros"] }
 rkyv = { package = "rkyv", version = "=0.7.42", optional = true, features = [
@@ -41,7 +41,7 @@ rkyv = { package = "rkyv", version = "=0.7.42", optional = true, features = [
   "validation",
 ] }
 scoped-tls = "1.0.1"
-serde = { version = "1.0.133", features = ["derive"], optional = true }
+serde = { version = "1.0.197", features = ["derive"], optional = true }
 string_enum = { version = "0.4.2", path = "../string_enum" }
 swc_atoms = { version = "0.6.5", path = "../swc_atoms" }
 swc_common = { version = "0.33.20", path = "../swc_common" }

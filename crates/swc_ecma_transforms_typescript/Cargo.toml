@@ -7,13 +7,13 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = "Apache-2.0"
 name          = "swc_ecma_transforms_typescript"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.188.17"
+version       = "0.188.18"
 
 [lib]
 bench = false
 
 [dependencies]
-serde = { version = "1.0.118", features = ["derive"] }
+serde = { version = "1.0.197", features = ["derive"] }
 
 ryu-js                    = "1.0.0"
 swc_atoms                 = { version = "0.6.5", path = "../swc_atoms" }

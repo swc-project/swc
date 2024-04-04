@@ -7,32 +7,32 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = "Apache-2.0"
 name          = "swc_ecma_compat_es2015"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.4.17"
+version       = "0.4.18"
 
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-arrayvec = "0.7.4"
+arrayvec     = "0.7.4"
 indexmap     = "2.0.0"
-is-macro     = "0.3.0"
-serde        = "1.0.188"
-serde_derive = "1.0.188"
+is-macro     = "0.3.5"
+serde        = "1.0.197"
+serde_derive = "1.0.197"
 smallvec     = "1.8.0"
 swc_atoms    = { version = "0.6.5", path = "../swc_atoms" }
 
 
 swc_common                  = { version = "0.33.20", path = "../swc_common" }
-swc_config = { version = "0.1.11", path = "../swc_config" }
+swc_config                  = { version = "0.1.11", path = "../swc_config" }
 swc_ecma_ast                = { version = "0.112.6", path = "../swc_ecma_ast" }
-swc_ecma_compat_common = { version = "0.4.13", path = "../swc_ecma_compat_common" }
+swc_ecma_compat_common      = { version = "0.4.13", path = "../swc_ecma_compat_common" }
 swc_ecma_transforms_base    = { version = "0.137.16", path = "../swc_ecma_transforms_base" }
 swc_ecma_transforms_classes = { version = "0.126.16", path = "../swc_ecma_transforms_classes" }
 swc_ecma_transforms_macros  = { version = "0.5.4", path = "../swc_ecma_transforms_macros" }
 swc_ecma_utils              = { version = "0.127.13", path = "../swc_ecma_utils" }
 swc_ecma_visit              = { version = "0.98.7", path = "../swc_ecma_visit" }
 swc_trace_macro             = { version = "0.1.3", path = "../swc_trace_macro" }
-tracing                     = "0.1.37"
+tracing                     = "0.1.40"
 
 [dev-dependencies]
 swc_ecma_parser             = { version = "0.143.10", path = "../swc_ecma_parser" }

@@ -7,22 +7,22 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = "Apache-2.0"
 name          = "swc_ecma_transforms_module"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.180.17"
+version       = "0.180.18"
 
 [lib]
 bench = false
 
 [dependencies]
 Inflector  = "0.11.4"
-anyhow     = "1.0.71"
-bitflags   = "2.3.2"
+anyhow     = "1.0.81"
+bitflags   = "2.5.0"
 indexmap   = "2.0.0"
-is-macro   = "0.3.0"
+is-macro   = "0.3.5"
 path-clean = "0.1.0"
 pathdiff   = "0.2.0"
 regex      = "1"
-serde      = { version = "1.0.118", features = ["derive"] }
-tracing    = "0.1.37"
+serde      = { version = "1.0.197", features = ["derive"] }
+tracing    = "0.1.40"
 
 swc_atoms = { version = "0.6.5", path = "../swc_atoms" }
 swc_cached = { version = "0.3.19", path = "../swc_cached" }

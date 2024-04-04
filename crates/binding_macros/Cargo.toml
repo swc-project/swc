@@ -5,7 +5,7 @@ edition     = "2021"
 license     = "Apache-2.0"
 name        = "binding_macros"
 repository  = "https://github.com/swc-project/swc.git"
-version     = "0.64.22"
+version     = "0.64.23"
 
 [lib]
 bench = false
@@ -40,10 +40,10 @@ swc_ecma_transforms = { optional = true, version = "0.229.17", path = "../swc_ec
 swc_ecma_visit      = { optional = true, version = "0.98.7", path = "../swc_ecma_visit" }
 
 # Optional deps for the wasm binding macro
-anyhow = { optional = true, version = "1.0.71" }
+anyhow = { optional = true, version = "1.0.81" }
 console_error_panic_hook = { optional = true, version = "0.1.7" }
 js-sys = { optional = true, version = "0.3.59" }
-once_cell = { optional = true, version = "1.18.0" }
+once_cell = { optional = true, version = "1.19.0" }
 serde = { optional = true, version = "1", features = ["derive"] }
 serde-wasm-bindgen = { optional = true, version = "0.4.5" }
 wasm-bindgen = { optional = true, version = "0.2.91", features = [

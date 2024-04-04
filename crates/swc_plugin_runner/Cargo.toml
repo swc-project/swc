@@ -46,15 +46,15 @@ __rkyv    = []
 rkyv-impl = ["__rkyv", "swc_common/plugin-rt", "swc_plugin_proxy/plugin-rt"]
 
 [dependencies]
-anyhow       = "1.0.71"
+anyhow       = "1.0.81"
 enumset      = "1.1.2"
 futures      = { version = "0.3" }
-once_cell    = "1.18.0"
+once_cell    = "1.19.0"
 parking_lot  = "0.12.1"
-serde        = { version = "1.0.126", features = ["derive"] }
-serde_json   = "1.0.64"
+serde        = { version = "1.0.197", features = ["derive"] }
+serde_json   = "1.0.115"
 tokio        = { version = "1", default-features = false, optional = true }
-tracing      = "0.1.37"
+tracing      = "0.1.40"
 wasmer       = { version = "4.2.5", default-features = false }
 wasmer-wasix = { version = "0.18.0", default-features = false }
 
