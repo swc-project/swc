@@ -13,7 +13,7 @@ version       = "0.4.16"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-serde   = { version = "1.0.188", features = ["derive"] }
+serde   = { version = "1.0.197", features = ["derive"] }
 tracing = "0.1.37"
 
 swc_atoms                  = { version = "0.6.5", path = "../swc_atoms" }

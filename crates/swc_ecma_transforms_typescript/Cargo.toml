@@ -13,7 +13,7 @@ version       = "0.188.17"
 bench = false
 
 [dependencies]
-serde = { version = "1.0.118", features = ["derive"] }
+serde = { version = "1.0.197", features = ["derive"] }
 
 ryu-js                    = "1.0.0"
 swc_atoms                 = { version = "0.6.5", path = "../swc_atoms" }

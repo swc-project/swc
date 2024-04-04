@@ -54,7 +54,7 @@ rkyv = { version = "=0.7.42", optional = true, features = [
   "validation",
 ] }
 rustc-hash = "1.1.0"
-serde = { version = "1.0.119", features = ["derive"] }
+serde = { version = "1.0.197", features = ["derive"] }
 siphasher = "0.3.9"
 sourcemap = { version = "8", optional = true }
 termcolor = { version = "1.0", optional = true }

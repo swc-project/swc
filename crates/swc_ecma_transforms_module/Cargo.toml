@@ -21,7 +21,7 @@ is-macro   = "0.3.0"
 path-clean = "0.1.0"
 pathdiff   = "0.2.0"
 regex      = "1"
-serde      = { version = "1.0.118", features = ["derive"] }
+serde      = { version = "1.0.197", features = ["derive"] }
 tracing    = "0.1.37"
 
 swc_atoms = { version = "0.6.5", path = "../swc_atoms" }
