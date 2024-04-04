@@ -24,7 +24,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         let old_ctx = self.ctx();
 
-        let mut stmts = Vec::new();
+        let mut stmts = Vec::with_capacity(16);
         while {
             if self.input.cur().is_none() && end.is_some() {
                 let eof_text = self.input.dump_cur();
