@@ -34,10 +34,10 @@ relative-path      = "1.6.1"
 serde              = { version = "1", features = ["derive"] }
 serde_json         = { version = "1", features = ["unbounded_depth"] }
 sourcemap          = "8.0.0"
-tracing            = "0.1.37"
+tracing            = "0.1.40"
 tracing-chrome     = "0.5.0"
 tracing-futures    = "0.2.5"
-tracing-subscriber = { version = "0.3.9", features = ["env-filter"] }
+tracing-subscriber = { version = "0.3.18", features = ["env-filter"] }
 walkdir            = "2"
 
 swc_core = { version = "0.90.23", features = [

@@ -30,7 +30,7 @@ num-traits  = "0.2.15"
 serde       = { version = "1", features = ["derive"] }
 smallvec    = "1.8.0"
 smartstring = "1"
-tracing     = "0.1.37"
+tracing     = "0.1.40"
 typed-arena = "2.0.1"
 
 new_debug_unreachable = "1.0.4"

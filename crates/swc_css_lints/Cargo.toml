@@ -13,7 +13,7 @@ version       = "0.60.31"
 bench = false
 
 [dependencies]
-auto_impl   = "1.1.0"
+auto_impl   = "1.2.0"
 parking_lot = "0.12.1"
 rayon       = "1.7.0"
 serde       = { version = "1.0.197", features = ["derive"] }

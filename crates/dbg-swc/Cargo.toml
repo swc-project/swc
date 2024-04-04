@@ -21,8 +21,8 @@ serde              = "1"
 serde_json         = "1"
 sha1               = "0.10.5"
 tempfile           = "3.6.0"
-tracing            = "0.1.37"
-tracing-subscriber = { version = "0.3.17", features = ["fmt", "env-filter"] }
+tracing            = "0.1.40"
+tracing-subscriber = { version = "0.3.18", features = ["fmt", "env-filter"] }
 url                = "2"
 
 swc_atoms = { version = "0.6.5", path = "../swc_atoms" }

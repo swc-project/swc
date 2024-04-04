@@ -58,7 +58,7 @@ serde = { version = "1.0.197", features = ["derive"] }
 siphasher = "0.3.9"
 sourcemap = { version = "8", optional = true }
 termcolor = { version = "1.0", optional = true }
-tracing = "0.1.37"
+tracing = "0.1.40"
 unicode-width = "0.1.4"
 url = "2.4.0"
 

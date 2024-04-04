@@ -30,7 +30,7 @@ serde-impl = ["serde"]
 
 [dependencies]
 arbitrary = { version = "1", optional = true, features = ["derive"] }
-bitflags  = "2.3.2"
+bitflags  = "2.5.0"
 # bytecheck version should be in sync with rkyv version. Do not bump individually.
 bytecheck = { version = "0.6.10", optional = true }
 is-macro = "0.3.5"
