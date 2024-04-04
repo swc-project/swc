@@ -1699,7 +1699,8 @@ impl VisitMut for Decorator202203 {
         let old_extra_lets = self.extra_lets.take();
         let old_extra_vars = self.extra_vars.take();
 
-        let mut new = Vec::with_capacity(n.len() * 3 + 1);
+        let capacity = n.len() * 3 + 1;
+        let mut new = Vec::with_capacity(capacity);
 
         for mut n in n.take() {
             n.visit_mut_with(self);
@@ -1733,6 +1734,7 @@ impl VisitMut for Decorator202203 {
             );
         }
 
+        debug_assert!(new.len() <= capacity, "len: {} / {}", new.len(), capacity);
         *n = new;
 
         self.extra_vars = old_extra_vars;
