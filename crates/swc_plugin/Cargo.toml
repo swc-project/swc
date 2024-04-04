@@ -16,4 +16,4 @@ version       = "0.90.0"
 bench = false
 
 [dependencies]
-once_cell = "1.18.0"
+once_cell = "1.19.0"

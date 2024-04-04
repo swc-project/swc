@@ -13,7 +13,7 @@ version       = "0.7.19"
 node = ["napi", "napi-derive"]
 
 [dependencies]
-anyhow    = "1.0.75"
+anyhow    = "1.0.81"
 base64    = "0.21.0"
 once_cell = "1"
 pathdiff  = "0.2.0"

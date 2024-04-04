@@ -12,7 +12,7 @@ bench = false
 name  = "dbg-swc"
 
 [dependencies]
-anyhow             = "1.0.71"
+anyhow             = "1.0.81"
 clap               = { version = "3", features = ["derive"] }
 dialoguer          = "0.10.2"
 flate2             = "1.0"

@@ -19,7 +19,7 @@ bench = false
 [dependencies]
 memchr     = "2.6.1"
 num-bigint = { version = "0.4", features = ["serde"] }
-once_cell  = "1.18.0"
+once_cell  = "1.19.0"
 rustc-hash = "1.1.0"
 serde      = "1.0.197"
 sourcemap  = "8.0"

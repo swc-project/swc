@@ -38,7 +38,7 @@ backtrace         = { version = "0.3.61", optional = true }
 indexmap          = "2.0.0"
 num-bigint        = "0.4.3"
 num_cpus          = "1.13.1"
-once_cell         = "1.18.0"
+once_cell         = "1.19.0"
 parking_lot       = "0.12.1"
 pretty_assertions = { version = "1.3", optional = true }
 radix_fmt         = "=1.0.0"

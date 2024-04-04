@@ -14,10 +14,10 @@ bench = false
 
 [dependencies]
 Inflector  = "0.11.4"
-anyhow     = "1.0.71"
+anyhow     = "1.0.81"
 bitflags   = "2.3.2"
 indexmap   = "2.0.0"
-is-macro   = "0.3.0"
+is-macro   = "0.3.5"
 path-clean = "0.1.0"
 pathdiff   = "0.2.0"
 regex      = "1"

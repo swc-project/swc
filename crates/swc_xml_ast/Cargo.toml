@@ -18,7 +18,7 @@ bench = false
 serde-impl = ["serde"]
 
 [dependencies]
-is-macro = "0.3.0"
+is-macro = "0.3.5"
 serde    = { version = "1.0.197", features = ["derive"], optional = true }
 
 string_enum = { version = "0.4.2", path = "../string_enum/" }

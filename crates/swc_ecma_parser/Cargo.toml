@@ -24,7 +24,7 @@ typescript = []
 verify     = ["swc_ecma_visit"]
 
 [dependencies]
-either      = { version = "1.4" }
+either      = { version = "1.10" }
 num-bigint  = "0.4"
 num-traits  = "0.2.15"
 serde       = { version = "1", features = ["derive"] }
