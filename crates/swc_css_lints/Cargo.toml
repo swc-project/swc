@@ -7,16 +7,16 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = "Apache-2.0"
 name          = "swc_css_lints"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.60.31"
+version       = "0.60.32"
 
 [lib]
 bench = false
 
 [dependencies]
-auto_impl   = "1.1.0"
+auto_impl   = "1.2.0"
 parking_lot = "0.12.1"
 rayon       = "1.7.0"
-serde       = { version = "1.0.133", features = ["derive"] }
+serde       = { version = "1.0.197", features = ["derive"] }
 thiserror   = "1.0.30"
 
 swc_atoms     = { version = "0.6.5", path = "../swc_atoms" }
@@ -26,7 +26,7 @@ swc_css_ast   = { version = "0.140.21", path = "../swc_css_ast" }
 swc_css_visit = { version = "0.139.21", path = "../swc_css_visit" }
 
 [dev-dependencies]
-serde_json = "1.0.79"
+serde_json = "1.0.115"
 
 swc_css_parser = { version = "0.150.30", path = "../swc_css_parser" }
 testing        = { version = "0.35.21", path = "../testing" }

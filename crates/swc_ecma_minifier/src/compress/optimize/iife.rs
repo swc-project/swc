@@ -835,6 +835,10 @@ impl Optimizer<'_> {
             return None;
         }
 
+        if args.iter().any(|arg| arg.spread.is_some()) {
+            return None;
+        }
+
         if self.vars.inline_with_multi_replacer(body) {
             self.changed = true;
         }

@@ -1,18 +1,18 @@
 [package]
-authors = ["강동윤 <kdy1997.dev@gmail.com>"]
-description = "Timings for swc"
+authors       = ["강동윤 <kdy1997.dev@gmail.com>"]
+description   = "Timings for swc"
 documentation = "https://rustdoc.swc.rs/swc_timer/"
-edition = "2021"
-license = "Apache-2.0"
-name = "swc_timer"
-repository = "https://github.com/swc-project/swc.git"
-version = "0.21.21"
+edition       = "2021"
+license       = "Apache-2.0"
+name          = "swc_timer"
+repository    = "https://github.com/swc-project/swc.git"
+version       = "0.21.21"
 
 [lib]
 bench = false
 
 [dependencies]
-tracing = "0.1.37"
+tracing = "0.1.40"
 
 [dev-dependencies]
-testing = {version = "0.35.21", path = "../testing"}
+testing = { version = "0.35.21", path = "../testing" }

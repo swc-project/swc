@@ -324,7 +324,7 @@ __visit = ["__ecma", "swc_ecma_visit"]
 
 [dependencies]
 # 3rd party dependencies
-once_cell = { optional = true, version = "1.18.0" }
+once_cell = { optional = true, version = "1.19.0" }
 
 # swc_* dependencies
 binding_macros                   = { optional = true, version = "0.64.22", path = "../binding_macros" }
@@ -376,4 +376,4 @@ swc_plugin_runner = { optional = true, version = "0.106.13", path = "../swc_plug
 vergen = { version = "8.0.0", default-features = false, features = ["cargo"] }
 
 [dev-dependencies]
-anyhow = "1.0.71"
+anyhow = "1.0.81"
