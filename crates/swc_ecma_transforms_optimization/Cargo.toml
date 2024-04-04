@@ -22,14 +22,14 @@ concurrent = [
 debug = []
 
 [dependencies]
-dashmap    = "5.4.0"
+dashmap    = "5.5.3"
 indexmap   = "2.0.0"
-once_cell  = "1.18.0"
+once_cell  = "1.19.0"
 petgraph   = "0.6"
 rayon      = { version = "1.7.0", optional = true }
 rustc-hash = "1.1.0"
-serde_json = "1.0.61"
-tracing    = "0.1.37"
+serde_json = "1.0.115"
+tracing    = "0.1.40"
 
 swc_atoms                  = { version = "0.6.5", path = "../swc_atoms" }
 swc_common                 = { version = "0.33.20", path = "../swc_common" }

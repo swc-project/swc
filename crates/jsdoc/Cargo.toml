@@ -23,7 +23,7 @@ swc_common = { version = "0.33.20", path = "../swc_common" }
 
 [dev-dependencies]
 anyhow  = "1"
-dashmap = "5.4.0"
+dashmap = "5.5.3"
 
 swc_ecma_ast    = { version = "0.112.6", path = "../swc_ecma_ast" }
 swc_ecma_parser = { version = "0.143.10", path = "../swc_ecma_parser" }

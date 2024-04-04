@@ -17,9 +17,9 @@ default      = []
 multi-module = ["swc_ecma_loader"]
 
 [dependencies]
-either     = "1.6.1"
+either     = "1.10.0"
 rustc-hash = "1"
-serde      = { version = "1.0.118", features = ["derive"] }
+serde      = { version = "1.0.197", features = ["derive"] }
 smallvec   = "1.8.0"
 
 swc_atoms                   = { version = "0.6.5", path = "../swc_atoms" }
@@ -33,7 +33,7 @@ swc_ecma_utils              = { version = "0.127.13", path = "../swc_ecma_utils"
 swc_ecma_visit              = { version = "0.98.7", path = "../swc_ecma_visit" }
 
 [dev-dependencies]
-serde_json = "1.0.66"
+serde_json = "1.0.115"
 
 swc_ecma_parser             = { version = "0.143.10", path = "../swc_ecma_parser" }
 swc_ecma_transforms_compat  = { version = "0.163.17", path = "../swc_ecma_transforms_compat" }
