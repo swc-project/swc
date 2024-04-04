@@ -84,9 +84,9 @@ checksum = "70033777eb8b5124a81a1889416543dddef2de240019b674c81285a2635a7e1e"
 
 [[package]]
 name = "anyhow"
-version = "1.0.75"
+version = "1.0.81"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a4668cab20f66d8d020e1fbc0ebe47217433c1b6c8f2040faf858554e394ace6"
+checksum = "0952808a6c2afd1aa8947271f3a60f1a6763c7b912d210184c5149b5cf147247"
 
 [[package]]
 name = "arrayref"
@@ -232,7 +232,7 @@ dependencies = [
 
 [[package]]
 name = "binding_core_wasm"
-version = "1.4.12-nightly-20240401.1"
+version = "1.4.12-nightly-20240404.1"
 dependencies = [
  "anyhow",
  "getrandom",
@@ -292,7 +292,7 @@ dependencies = [
 
 [[package]]
 name = "binding_minifier_wasm"
-version = "1.4.12-nightly-20240401.1"
+version = "1.4.12-nightly-20240404.1"
 dependencies = [
  "anyhow",
  "getrandom",
@@ -2604,9 +2604,9 @@ checksum = "388a1df253eca08550bef6c72392cfe7c30914bf41df5269b68cbd6ff8f570a3"
 
 [[package]]
 name = "serde"
-version = "1.0.196"
+version = "1.0.197"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "870026e60fa08c69f064aa766c10f10b1d62db9ccd4d0abb206472bee0ce3b32"
+checksum = "3fb1c873e1b9b056a4dc4c0c198b24c3ffa059243875552b2bd0933b1aee4ce2"
 dependencies = [
  "serde_derive",
 ]
@@ -2634,9 +2634,9 @@ dependencies = [
 
 [[package]]
 name = "serde_derive"
-version = "1.0.196"
+version = "1.0.197"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "33c85360c95e7d137454dc81d9a4ed2b8efd8fbe19cee57357b32b9771fccb67"
+checksum = "7eb0b34b42edc17f6b7cac84a52a1c5f0e1bb2227e997ca9011ea3dd34e8610b"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -3066,7 +3066,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli"
-version = "0.91.209"
+version = "0.91.210"
 dependencies = [
  "anyhow",
  "swc_cli_impl",
@@ -3074,9 +3074,9 @@ dependencies = [
 
 [[package]]
 name = "swc_cli_impl"
-version = "0.8.23"
+version = "0.8.24"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "412a1c24bbf4ccb6b3e255933e6d1173d1a7dc20cac3d9c19aeee2fc31e0dff0"
+checksum = "36c43755da9950dda43d534ddfdc710c9f7f4a01228dc9599bb0fe6dffdd6865"
 dependencies = [
  "anyhow",
  "atty",
@@ -3129,9 +3129,9 @@ dependencies = [
 
 [[package]]
 name = "swc_compiler_base"
-version = "0.7.19"
+version = "0.7.20"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "66405c58d5241ae020b0522a08bdc284da52b13742a58e3023e09cc2e0fb9e8c"
+checksum = "8d7a0a78d52886c01786246fad54aa614cc145154d18607ddda72a180d1cb56c"
 dependencies = [
  "anyhow",
  "base64",
@@ -3181,9 +3181,9 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.90.26"
+version = "0.90.27"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1e18fa3e847ec83b97c27226233f683b62c03a10e24f44d139465fa876a5774a"
+checksum = "10e6117b0d6a33de0df45da99f17752d7846ffb871d0336cce11cab8f7b8eb6c"
 dependencies = [
  "binding_macros",
  "swc",
@@ -4372,11 +4372,10 @@ dependencies = [
 
 [[package]]
 name = "tracing"
-version = "0.1.37"
+version = "0.1.40"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8ce8c33a8d48bd45d624a6e523445fd21ec13d3653cd51f681abf67418f54eb8"
+checksum = "c3523ab5a71916ccf420eebdf5521fcef02141234bbc0b8a49f2fdc4544364ef"
 dependencies = [
- "cfg-if",
  "log",
  "pin-project-lite",
  "tracing-attributes",
@@ -4385,13 +4384,13 @@ dependencies = [
 
 [[package]]
 name = "tracing-attributes"
-version = "0.1.23"
+version = "0.1.27"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "4017f8f45139870ca7e672686113917c71c7a6e02d4924eda67186083c03081a"
+checksum = "34704c8d6ebcbc939824180af020566b01a7c01f80641264eba0999f6c2b6be7"
 dependencies = [
  "proc-macro2",
  "quote",
- "syn 1.0.109",
+ "syn 2.0.48",
 ]
 
 [[package]]
@@ -4407,9 +4406,9 @@ dependencies = [
 
 [[package]]
 name = "tracing-core"
-version = "0.1.30"
+version = "0.1.32"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "24eb03ba0eab1fd845050058ce5e616558e8f8d8fca633e6b163fe25c797213a"
+checksum = "c06d3da6113f116aaee68e4d601191614c9053067f9ab7f6edbcb161237daa54"
 dependencies = [
  "once_cell",
  "valuable",
@@ -4427,20 +4426,20 @@ dependencies = [
 
 [[package]]
 name = "tracing-log"
-version = "0.1.3"
+version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "78ddad33d2d10b1ed7eb9d1f518a5674713876e97e5bb9b7345a7984fbb4f922"
+checksum = "ee855f1f400bd0e5c02d150ae5de3840039a3f54b025156404e34c23c03f47c3"
 dependencies = [
- "lazy_static",
  "log",
+ "once_cell",
  "tracing-core",
 ]
 
 [[package]]
 name = "tracing-subscriber"
-version = "0.3.17"
+version = "0.3.18"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "30a651bc37f915e81f087d86e62a18eec5f79550c7faff886f7090b4ea757c77"
+checksum = "ad0f048c97dbd9faa9b7df56362b8ebcaa52adb06b498c050d2f4e32f90a7a8b"
 dependencies = [
  "matchers",
  "nu-ansi-term",
