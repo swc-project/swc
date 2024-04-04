@@ -17,6 +17,9 @@
 - **(es/helpers)** Fix metadata of decorators being `undefined` ([#8768](https://github.com/swc-project/swc/issues/8768)) ([263ce6e](https://github.com/swc-project/swc/commit/263ce6e22bd4dbba0323099f256fb062b8e644a2))
 
 
+- **(es/minifier)** Abort fn inliner if there's a spread arg ([#8809](https://github.com/swc-project/swc/issues/8809)) ([730ded2](https://github.com/swc-project/swc/commit/730ded2a26f63f0069dea0d3bc207bb31f344444))
+
+
 - **(es/module)** Fix `jsc.paths` with `resolveFully` ([#8784](https://github.com/swc-project/swc/issues/8784)) ([4961bb0](https://github.com/swc-project/swc/commit/4961bb055df9925da97279819d2fdf740b4b3d92))
 
 
