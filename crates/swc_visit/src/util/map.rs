@@ -1,4 +1,4 @@
-use std::{mem, ptr};
+use std::ptr;
 
 /// Copied from `syntax::ptr::P` of rustc.
 pub trait Map<T> {
