@@ -88,7 +88,6 @@ drop_unused/delete_assign_1/input.js
 drop_unused/delete_assign_2/input.js
 drop_unused/double_assign_1/input.js
 drop_unused/double_assign_2/input.js
-drop_unused/drop_toplevel_all_retain/input.js
 drop_unused/drop_toplevel_funcs/input.js
 drop_unused/drop_toplevel_funcs_retain/input.js
 drop_unused/drop_toplevel_keep_assign/input.js

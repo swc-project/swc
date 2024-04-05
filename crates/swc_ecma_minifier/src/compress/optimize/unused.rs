@@ -511,6 +511,14 @@ impl Optimizer<'_> {
                     return;
                 }
 
+                if !self.may_remove_ident(ident) {
+                    log_abort!(
+                        "unused: Preserving function `{}` because it's top-level",
+                        ident.sym
+                    );
+                    return;
+                }
+
                 // If it is not used, drop it.
                 if self
                     .data

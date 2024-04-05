@@ -1,4 +1,5 @@
 use std::{
+    collections::VecDeque,
     iter::once,
     mem::{take, transmute},
 };
@@ -9,9 +10,9 @@ use swc_common::{util::take::Take, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, helper_expr};
 use swc_ecma_utils::{
-    alias_ident_for, constructor::inject_after_super, default_constructor, prepend_stmt,
-    private_ident, prop_name_to_expr_value, quote_ident, replace_ident, ExprFactory, IdentExt,
-    IdentRenamer,
+    alias_ident_for, constructor::inject_after_super, default_constructor,
+    is_maybe_branch_directive, prepend_stmt, private_ident, prop_name_to_expr_value, quote_ident,
+    replace_ident, ExprFactory, IdentExt, IdentRenamer,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
@@ -1699,40 +1700,60 @@ impl VisitMut for Decorator202203 {
         let old_extra_lets = self.extra_lets.take();
         let old_extra_vars = self.extra_vars.take();
 
-        let mut new = Vec::with_capacity(n.len());
+        struct Insert {
+            index: usize,
+            item: Stmt,
+        }
 
-        for mut n in n.take() {
+        let mut inserts = VecDeque::new();
+
+        for (index, n) in n.iter_mut().enumerate() {
             n.visit_mut_with(self);
-            if !self.extra_lets.is_empty() {
-                new.push(Stmt::Decl(Decl::Var(Box::new(VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Let,
-                    decls: self.extra_lets.take(),
-                    declare: false,
-                }))))
-            }
             if !self.pre_class_inits.is_empty() {
-                new.push(Stmt::Expr(ExprStmt {
-                    span: DUMMY_SP,
-                    expr: Expr::from_exprs(self.pre_class_inits.take()),
-                }))
+                inserts.push_back(Insert {
+                    index,
+                    item: Stmt::Expr(ExprStmt {
+                        span: DUMMY_SP,
+                        expr: Expr::from_exprs(self.pre_class_inits.take()),
+                    }),
+                });
             }
-            new.push(n.take());
+            if !self.extra_lets.is_empty() {
+                inserts.push_back(Insert {
+                    index,
+                    item: Stmt::Decl(Decl::Var(Box::new(VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Let,
+                        decls: self.extra_lets.take(),
+                        declare: false,
+                    }))),
+                });
+            }
         }
 
-        if !self.extra_vars.is_empty() {
-            prepend_stmt(
-                &mut new,
-                VarDecl {
-                    span: DUMMY_SP,
-                    kind: VarDeclKind::Var,
-                    decls: self.extra_vars.take(),
-                    declare: false,
-                }
-                .into(),
-            );
-        }
+        let capacity = n.len() + inserts.len() + 1;
+        let mut new = Vec::with_capacity(capacity);
+        for (index, item) in n.take().into_iter().enumerate() {
+            if !self.extra_vars.is_empty() && !is_maybe_branch_directive(&item) {
+                new.push(
+                    VarDecl {
+                        span: DUMMY_SP,
+                        kind: VarDeclKind::Var,
+                        decls: self.extra_vars.take(),
+                        declare: false,
+                    }
+                    .into(),
+                );
+            }
 
+            while inserts.front().map(|v| v.index == index).unwrap_or(false) {
+                new.push(inserts.pop_front().unwrap().item);
+            }
+            new.push(item);
+        }
+        new.extend(inserts.into_iter().map(|v| v.item));
+
+        debug_assert!(new.len() <= capacity, "len: {} / {}", new.len(), capacity);
         *n = new;
 
         self.extra_vars = old_extra_vars;
