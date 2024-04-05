@@ -18,6 +18,9 @@ impl<T> Map<T> for Box<T> {
         F: FnOnce(T) -> T,
     {
         // Leak self in case of panic.
+        // FIXME(eddyb) Use some sort of "free guard" that
+        // only deallocates, without dropping the pointee,
+        // in case the call the `f` below ends in a panic.
         let p = Box::into_raw(self);
 
         unsafe {
