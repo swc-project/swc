@@ -1,4 +1,5 @@
 use swc_common::Spanned;
+use typed_arena::Arena;
 
 use super::{pat::PatType, *};
 use crate::error::SyntaxError;
@@ -24,7 +25,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         let old_ctx = self.ctx();
 
-        let mut stmts = Vec::new();
+        let stmts = Arena::new();
         while {
             if self.input.cur().is_none() && end.is_some() {
                 let eof_text = self.input.dump_cur();
@@ -58,7 +59,7 @@ impl<'a, I: Tokens> Parser<I> {
                 }
             }
 
-            stmts.push(stmt);
+            stmts.alloc(stmt);
         }
 
         if self.input.cur().is_some() && end.is_some() {
@@ -67,7 +68,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         self.set_ctx(old_ctx);
 
-        Ok(stmts)
+        Ok(stmts.into_vec())
     }
 
     /// Parse a statement but not a declaration.
