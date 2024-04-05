@@ -11,8 +11,8 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, helper_expr};
 use swc_ecma_utils::{
     alias_ident_for, constructor::inject_after_super, default_constructor,
-    is_maybe_branch_directive, prepend_stmt, private_ident, prop_name_to_expr_value, quote_ident,
-    replace_ident, ExprFactory, IdentExt, IdentRenamer,
+    is_maybe_branch_directive, private_ident, prop_name_to_expr_value, quote_ident, replace_ident,
+    ExprFactory, IdentExt, IdentRenamer,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
@@ -1507,12 +1507,13 @@ impl VisitMut for Decorator202203 {
         let pre_class_inits = self.pre_class_inits.take();
         let extra_exports = self.extra_exports.take();
 
-        let mut new = Vec::with_capacity(n.len());
+        let mut insert_builder = InsertPassBuilder::new();
 
-        for mut n in n.take() {
+        for (index, n) in n.iter_mut().enumerate() {
             n.visit_mut_with(self);
             if !self.extra_lets.is_empty() {
-                new.push(
+                insert_builder.push_back(
+                    index,
                     Stmt::Decl(Decl::Var(Box::new(VarDecl {
                         span: DUMMY_SP,
                         kind: VarDeclKind::Let,
@@ -1520,23 +1521,30 @@ impl VisitMut for Decorator202203 {
                         declare: false,
                     })))
                     .into(),
-                )
+                );
             }
             if !self.pre_class_inits.is_empty() {
-                new.push(
+                insert_builder.push_back(
+                    index,
                     Stmt::Expr(ExprStmt {
                         span: DUMMY_SP,
                         expr: Expr::from_exprs(self.pre_class_inits.take()),
                     })
                     .into(),
-                )
+                );
             }
-            new.push(n.take());
         }
 
         if !self.extra_vars.is_empty() {
-            prepend_stmt(
-                &mut new,
+            let insert_pos = n
+                .iter()
+                .position(|module_item| match module_item {
+                    ModuleItem::Stmt(stmt) => !is_maybe_branch_directive(stmt),
+                    ModuleItem::ModuleDecl(_) => true,
+                })
+                .unwrap_or(0);
+            insert_builder.push_front(
+                insert_pos,
                 VarDecl {
                     span: DUMMY_SP,
                     kind: VarDeclKind::Var,
@@ -1548,18 +1556,19 @@ impl VisitMut for Decorator202203 {
         }
 
         if !self.extra_exports.is_empty() {
-            new.push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
-                NamedExport {
+            insert_builder.push_back(
+                n.len() + 1,
+                ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(NamedExport {
                     span: DUMMY_SP,
                     specifiers: self.extra_exports.take(),
                     src: None,
                     type_only: false,
                     with: None,
-                },
-            )));
+                })),
+            );
         }
 
-        *n = new;
+        *n = insert_builder.build(n.take());
 
         if !self.rename_map.is_empty() {
             n.visit_mut_with(&mut IdentRenamer::new(&self.rename_map));
@@ -1700,66 +1709,108 @@ impl VisitMut for Decorator202203 {
         let old_extra_lets = self.extra_lets.take();
         let old_extra_vars = self.extra_vars.take();
 
-        struct Insert {
-            index: usize,
-            item: Stmt,
-        }
-
-        let mut inserts = VecDeque::new();
-
+        let mut insert_builder = InsertPassBuilder::new();
         for (index, n) in n.iter_mut().enumerate() {
             n.visit_mut_with(self);
-            if !self.pre_class_inits.is_empty() {
-                inserts.push_back(Insert {
-                    index,
-                    item: Stmt::Expr(ExprStmt {
-                        span: DUMMY_SP,
-                        expr: Expr::from_exprs(self.pre_class_inits.take()),
-                    }),
-                });
-            }
             if !self.extra_lets.is_empty() {
-                inserts.push_back(Insert {
+                insert_builder.push_back(
                     index,
-                    item: Stmt::Decl(Decl::Var(Box::new(VarDecl {
+                    Stmt::Decl(Decl::Var(Box::new(VarDecl {
                         span: DUMMY_SP,
                         kind: VarDeclKind::Let,
                         decls: self.extra_lets.take(),
                         declare: false,
                     }))),
-                });
-            }
-        }
-
-        let capacity = n.len() + inserts.len() + 1;
-        let mut new = Vec::with_capacity(capacity);
-        for (index, item) in n.take().into_iter().enumerate() {
-            if !self.extra_vars.is_empty() && !is_maybe_branch_directive(&item) {
-                new.push(
-                    VarDecl {
-                        span: DUMMY_SP,
-                        kind: VarDeclKind::Var,
-                        decls: self.extra_vars.take(),
-                        declare: false,
-                    }
-                    .into(),
                 );
             }
-
-            while inserts.front().map(|v| v.index == index).unwrap_or(false) {
-                new.push(inserts.pop_front().unwrap().item);
+            if !self.pre_class_inits.is_empty() {
+                insert_builder.push_back(
+                    index,
+                    Stmt::Expr(ExprStmt {
+                        span: DUMMY_SP,
+                        expr: Expr::from_exprs(self.pre_class_inits.take()),
+                    }),
+                );
             }
-            new.push(item);
         }
-        new.extend(inserts.into_iter().map(|v| v.item));
 
-        debug_assert!(new.len() <= capacity, "len: {} / {}", new.len(), capacity);
-        *n = new;
+        if !self.extra_vars.is_empty() {
+            let insert_pos = n
+                .iter()
+                .position(|stmt| !is_maybe_branch_directive(stmt))
+                .unwrap_or(0);
+            insert_builder.push_front(
+                insert_pos,
+                VarDecl {
+                    span: DUMMY_SP,
+                    kind: VarDeclKind::Var,
+                    decls: self.extra_vars.take(),
+                    declare: false,
+                }
+                .into(),
+            );
+        }
+
+        *n = insert_builder.build(n.take());
 
         self.extra_vars = old_extra_vars;
         self.extra_lets = old_extra_lets;
         self.pre_class_inits = old_pre_class_inits;
         self.state = old_state;
+    }
+}
+
+/// Inserts into a vector on `build()` setting the correct
+/// capacity. This is useful in scenarios where you're iterating
+/// a vector to insert and all the inserts are in the order of
+/// the iteration.
+struct InsertPassBuilder<T> {
+    inserts: VecDeque<(usize, T)>,
+}
+
+impl<T> InsertPassBuilder<T> {
+    pub fn new() -> Self {
+        Self {
+            inserts: Default::default(),
+        }
+    }
+
+    pub fn push_front(&mut self, index: usize, item: T) {
+        if cfg!(debug_assertions) {
+            if let Some(past) = self.inserts.front() {
+                debug_assert!(past.0 >= index, "{} {}", past.0, index);
+            }
+        }
+        self.inserts.push_front((index, item));
+    }
+
+    pub fn push_back(&mut self, index: usize, item: T) {
+        if cfg!(debug_assertions) {
+            if let Some(past) = self.inserts.back() {
+                debug_assert!(past.0 <= index, "{} {}", past.0, index);
+            }
+        }
+        self.inserts.push_back((index, item));
+    }
+
+    pub fn build(mut self, original: Vec<T>) -> Vec<T> {
+        let capacity = original.len() + self.inserts.len();
+        let mut new = Vec::with_capacity(capacity);
+        for (index, item) in original.into_iter().enumerate() {
+            while self
+                .inserts
+                .front()
+                .map(|(item_index, _)| *item_index == index)
+                .unwrap_or(false)
+            {
+                new.push(self.inserts.pop_front().unwrap().1);
+            }
+            new.push(item);
+        }
+        new.extend(self.inserts.into_iter().map(|v| v.1));
+
+        debug_assert!(new.len() == capacity, "len: {} / {}", new.len(), capacity);
+        new
     }
 }
 
