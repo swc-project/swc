@@ -1,6 +1,4 @@
 #[cfg(feature = "verify")]
-use swc_common::Spanned;
-#[cfg(feature = "verify")]
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use super::*;
@@ -16,7 +14,7 @@ impl<I: Tokens> Parser<I> {
             self.emit_err(span, error);
         }
 
-        return Ok(expr);
+        Ok(expr)
     }
 
     #[cfg(not(feature = "verify"))]
