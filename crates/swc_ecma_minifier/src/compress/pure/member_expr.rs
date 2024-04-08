@@ -389,11 +389,10 @@ impl Pure<'_> {
 
                 if is_result_undefined {
                     // Optimization is `undefined`.
-                    Some(self.expr_ctx.preserve_effects(
-                        *span,
-                        *undefined(*span),
-                        side_effects
-                    ))
+                    Some(
+                        self.expr_ctx
+                            .preserve_effects(*span, *undefined(*span), side_effects),
+                    )
                 } else if is_array_symbol {
                     // Optimization is the same array but with only side effects.
                     // e.g. [1, 2, f()].push becomes [f()].push
