@@ -1,4 +1,4 @@
-use swc_common::{chain, Mark};
+use swc_common::chain;
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_module::common_js::common_js;
 use swc_ecma_transforms_testing::{test, Tester};

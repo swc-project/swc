@@ -202,16 +202,11 @@ fn default_comments() -> BoolOrDataConfig<JsMinifyCommentOption> {
     BoolOrDataConfig::from_obj(JsMinifyCommentOption::PreserveSomeComments)
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, Default)]
 pub enum JsMinifyCommentOption {
     #[serde(rename = "some")]
+    #[default]
     PreserveSomeComments,
     #[serde(rename = "all")]
     PreserveAllComments,
-}
-
-impl Default for JsMinifyCommentOption {
-    fn default() -> Self {
-        JsMinifyCommentOption::PreserveSomeComments
-    }
 }

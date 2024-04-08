@@ -6,7 +6,7 @@ use std::{
 
 use swc_common::{FileName, Mark};
 use swc_ecma_ast::*;
-use swc_ecma_codegen::{self, Emitter};
+use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, Syntax, TsConfig};
 use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene, resolver};
 use swc_ecma_transforms_typescript::typescript;
