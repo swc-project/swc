@@ -1,8 +1,8 @@
 #[cfg(feature = "debug")]
-use std::fmt::{self, Debug, Display, Formatter, Write};
+use std::fmt::{self, Debug, Display, Formatter};
 #[cfg(feature = "debug")]
 use std::thread;
-use std::{borrow::Cow, time::Instant};
+use std::{borrow::Cow, fmt::Write, time::Instant};
 
 #[cfg(feature = "pretty_assertions")]
 use pretty_assertions::assert_eq;
