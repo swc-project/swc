@@ -1175,19 +1175,14 @@ pub struct JscOutputConfig {
     pub preamble: String,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, Default)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub enum OutputCharset {
+    #[default]
     #[serde(rename = "utf8")]
     Utf8,
     #[serde(rename = "ascii")]
     Ascii,
-}
-
-impl Default for OutputCharset {
-    fn default() -> Self {
-        OutputCharset::Utf8
-    }
 }
 
 /// `jsc.experimental` in `.swcrc`
