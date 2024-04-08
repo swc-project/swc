@@ -78,16 +78,11 @@ pub const NODE_BUILTINS: &[&str] = &[
 ];
 
 /// Target runtime environment.
-#[derive(Debug, Copy, Clone, Serialize, Deserialize, Eq, PartialEq, Hash)]
+#[derive(Debug, Copy, Clone, Serialize, Deserialize, Eq, PartialEq, Hash, Default)]
 pub enum TargetEnv {
     #[serde(rename = "browser")]
+    #[default]
     Browser,
     #[serde(rename = "node")]
     Node,
-}
-
-impl Default for TargetEnv {
-    fn default() -> Self {
-        TargetEnv::Browser
-    }
 }

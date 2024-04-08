@@ -2,10 +2,7 @@ use std::sync::Arc;
 
 use anyhow::Error;
 use swc_atoms::Atom;
-use swc_common::{
-    sync::{Send, Sync},
-    FileName,
-};
+use swc_common::FileName;
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord)]
 pub struct Resolution {
