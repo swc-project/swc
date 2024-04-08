@@ -5,7 +5,7 @@ use rustc_hash::FxHashSet;
 use sourcemap::SourceMap;
 use swc_common::{comments::SingleThreadedComments, source_map::SourceMapGenConfig};
 use swc_ecma_ast::EsVersion;
-use swc_ecma_codegen::{self, text_writer::WriteJs, Emitter};
+use swc_ecma_codegen::{text_writer::WriteJs, Emitter};
 use swc_ecma_parser::{lexer::Lexer, Parser, Syntax};
 use swc_ecma_testing::{exec_node_js, JsExecOptions};
 

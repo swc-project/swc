@@ -675,7 +675,7 @@ impl<'a> FlowHelper<'a> {
 
     fn has_outer_label(&self, label: &Option<Ident>) -> bool {
         match label {
-            Some(l) => self.inner_label.get(&l.sym).is_none(),
+            Some(l) => !self.inner_label.contains(&l.sym),
             None => false,
         }
     }
