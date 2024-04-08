@@ -23,7 +23,7 @@ use crate::syntax_pos::{MultiSpan, Span};
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
 #[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
-#[cfg_attr(feature = "rkyv-impl", archive_attr(repr(C)))]
+
 pub struct Message(pub String, pub Style);
 
 #[must_use]
@@ -37,7 +37,7 @@ pub struct Message(pub String, pub Style);
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
 #[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
-#[cfg_attr(feature = "rkyv-impl", archive_attr(repr(C)))]
+
 pub struct Diagnostic {
     pub level: Level,
     pub message: Vec<Message>,
@@ -57,7 +57,7 @@ pub struct Diagnostic {
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
 #[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
-#[cfg_attr(feature = "rkyv-impl", archive_attr(repr(u32)))]
+
 pub enum DiagnosticId {
     Error(String),
     Lint(String),
@@ -74,7 +74,7 @@ pub enum DiagnosticId {
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
 #[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
-#[cfg_attr(feature = "rkyv-impl", archive_attr(repr(C)))]
+
 pub struct SubDiagnostic {
     pub level: Level,
     pub message: Vec<Message>,

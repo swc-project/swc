@@ -635,7 +635,6 @@ impl SingleThreadedComments {
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
 #[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
-#[cfg_attr(feature = "rkyv-impl", archive_attr(repr(C)))]
 pub struct Comment {
     pub kind: CommentKind,
     pub span: Span,

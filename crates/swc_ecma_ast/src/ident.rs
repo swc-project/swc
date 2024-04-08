@@ -22,13 +22,12 @@ use crate::{typescript::TsTypeAnn, Expr};
 #[cfg_attr(
     any(feature = "rkyv-impl"),
     archive(bound(
-        serialize = "__S: rkyv::ser::Serializer + rkyv::ser::ScratchSpace + \
+        serialize = "__S: rkyv::ser::Writer + rkyv::ser::ScratchSpace + \
                      rkyv::ser::SharedSerializeRegistry",
         deserialize = "__D: rkyv::de::SharedDeserializeRegistry"
     ))
 )]
 #[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
-#[cfg_attr(feature = "rkyv-impl", archive_attr(repr(C)))]
 #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 pub struct BindingIdent {
     #[span]

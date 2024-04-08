@@ -940,7 +940,7 @@ pub struct MetaPropExpr {
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
 #[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
-#[cfg_attr(feature = "rkyv-impl", archive_attr(repr(u32)))]
+
 pub enum MetaPropKind {
     /// `new.target`
     NewTarget,
@@ -1129,13 +1129,12 @@ impl Take for Import {
 #[cfg_attr(
     any(feature = "rkyv-impl"),
     archive(bound(
-        serialize = "__S: rkyv::ser::Serializer + rkyv::ser::ScratchSpace + \
+        serialize = "__S: rkyv::ser::Writer + rkyv::ser::ScratchSpace + \
                      rkyv::ser::SharedSerializeRegistry",
         deserialize = "__D: rkyv::de::SharedDeserializeRegistry"
     ))
 )]
 #[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
-#[cfg_attr(feature = "rkyv-impl", archive_attr(repr(C)))]
 #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 pub struct ExprOrSpread {
     #[cfg_attr(feature = "serde-impl", serde(default))]

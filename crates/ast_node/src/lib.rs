@@ -203,11 +203,10 @@ pub fn ast_node(
                     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
                 )]
                 #[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
-                #[cfg_attr(feature = "rkyv-impl", archive_attr(repr(u32)))]
                 #[cfg_attr(
                     feature = "rkyv-impl",
                     archive(bound(
-                        serialize = "__S: rkyv::ser::Serializer + rkyv::ser::ScratchSpace + rkyv::ser::SharedSerializeRegistry",
+                        serialize = "__S: rkyv::ser::Writer + rkyv::ser::ScratchSpace + rkyv::ser::SharedSerializeRegistry",
                         deserialize = "__D: rkyv::de::SharedDeserializeRegistry"
                     ))
                 )]
@@ -267,12 +266,11 @@ pub fn ast_node(
                     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
                 )]
                 #[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
-                #[cfg_attr(feature = "rkyv-impl", archive_attr(repr(C)))]
                 #[cfg_attr(
                     feature = "rkyv-impl",
                     archive(
                         bound(
-                            serialize = "__S: rkyv::ser::Serializer + rkyv::ser::ScratchSpace + rkyv::ser::SharedSerializeRegistry",
+                            serialize = "__S: rkyv::ser::Writer + rkyv::ser::ScratchSpace + rkyv::ser::SharedSerializeRegistry",
                             deserialize = "__D: rkyv::de::SharedDeserializeRegistry"
                         )
                     )

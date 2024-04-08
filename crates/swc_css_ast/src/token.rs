@@ -32,7 +32,7 @@ impl Take for TokenAndSpan {
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
 #[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
-#[cfg_attr(feature = "rkyv-impl", archive_attr(repr(C)))]
+
 pub struct UrlKeyValue(pub Atom, pub Atom);
 
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Hash, Is, EqIgnoreSpan)]
@@ -45,7 +45,7 @@ pub struct UrlKeyValue(pub Atom, pub Atom);
 #[cfg_attr(
     feature = "rkyv",
     archive(bound(
-        serialize = "__S: rkyv::ser::Serializer + rkyv::ser::ScratchSpace + \
+        serialize = "__S: rkyv::ser::Writer + rkyv::ser::ScratchSpace + \
                      rkyv::ser::SharedSerializeRegistry",
         deserialize = "__D: rkyv::de::SharedDeserializeRegistry"
     ))
@@ -87,7 +87,7 @@ pub struct DimensionToken {
 #[cfg_attr(
     feature = "rkyv",
     archive(bound(
-        serialize = "__S: rkyv::ser::Serializer + rkyv::ser::ScratchSpace + \
+        serialize = "__S: rkyv::ser::Writer + rkyv::ser::ScratchSpace + \
                      rkyv::ser::SharedSerializeRegistry",
         deserialize = "__D: rkyv::de::SharedDeserializeRegistry"
     ))

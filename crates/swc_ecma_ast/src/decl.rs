@@ -133,7 +133,7 @@ impl Take for VarDecl {
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
 #[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
-#[cfg_attr(feature = "rkyv-impl", archive_attr(repr(u32)))]
+
 pub enum VarDeclKind {
     /// `var`
     Var,

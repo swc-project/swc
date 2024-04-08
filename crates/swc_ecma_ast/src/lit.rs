@@ -105,7 +105,7 @@ impl rkyv::with::ArchiveWith<Box<BigIntValue>> for EncodeBigInt {
 #[cfg(feature = "rkyv-impl")]
 impl<S> rkyv::with::SerializeWith<Box<BigIntValue>, S> for EncodeBigInt
 where
-    S: ?Sized + rkyv::ser::Serializer,
+    S: ?Sized + rkyv::ser::Writer,
 {
     fn serialize_with(
         field: &Box<BigIntValue>,
@@ -119,7 +119,7 @@ where
 #[cfg(feature = "rkyv-impl")]
 impl<D> rkyv::with::DeserializeWith<rkyv::Archived<String>, Box<BigIntValue>, D> for EncodeBigInt
 where
-    D: ?Sized + rkyv::Fallible,
+    D: ?Sized + rkyv::rancor::Fallible,
 {
     fn deserialize_with(
         field: &rkyv::Archived<String>,

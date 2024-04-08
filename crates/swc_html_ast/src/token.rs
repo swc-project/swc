@@ -28,7 +28,7 @@ pub struct AttributeToken {
 #[cfg_attr(
     feature = "rkyv",
     archive(bound(
-        serialize = "__S: rkyv::ser::Serializer + rkyv::ser::ScratchSpace + \
+        serialize = "__S: rkyv::ser::Writer + rkyv::ser::ScratchSpace + \
                      rkyv::ser::SharedSerializeRegistry",
         deserialize = "__D: rkyv::de::SharedDeserializeRegistry"
     ))
@@ -47,7 +47,7 @@ pub enum Raw {
 #[cfg_attr(
     feature = "rkyv",
     archive(bound(
-        serialize = "__S: rkyv::ser::Serializer + rkyv::ser::ScratchSpace + \
+        serialize = "__S: rkyv::ser::Writer + rkyv::ser::ScratchSpace + \
                      rkyv::ser::SharedSerializeRegistry",
         deserialize = "__D: rkyv::de::SharedDeserializeRegistry"
     ))

@@ -19,6 +19,8 @@ use std::{
 };
 
 use once_cell::sync::Lazy;
+#[cfg(feature = "rkyv-impl")]
+use rkyv::rancor::Fallible;
 use serde::Serializer;
 
 pub use self::{atom as js_word, Atom as JsWord};
@@ -194,7 +196,7 @@ impl rkyv::Archive for Atom {
 
 /// NOT A PUBLIC API
 #[cfg(feature = "rkyv-impl")]
-impl<S: rkyv::ser::Serializer + ?Sized> rkyv::Serialize<S> for Atom {
+impl<S: Fallible + rkyv::ser::Writer + ?Sized> rkyv::Serialize<S> for Atom {
     fn serialize(&self, serializer: &mut S) -> Result<Self::Resolver, S::Error> {
         String::serialize(&self.to_string(), serializer)
     }
@@ -204,9 +206,12 @@ impl<S: rkyv::ser::Serializer + ?Sized> rkyv::Serialize<S> for Atom {
 #[cfg(feature = "rkyv-impl")]
 impl<D> rkyv::Deserialize<Atom, D> for rkyv::string::ArchivedString
 where
-    D: ?Sized + rkyv::Fallible,
+    D: ?Sized + rkyv::rancor::Fallible,
 {
-    fn deserialize(&self, deserializer: &mut D) -> Result<Atom, <D as rkyv::Fallible>::Error> {
+    fn deserialize(
+        &self,
+        deserializer: &mut D,
+    ) -> Result<Atom, <D as rkyv::rancor::Fallible>::Error> {
         let s: String = self.deserialize(deserializer)?;
 
         Ok(Atom::new(s))

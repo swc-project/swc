@@ -454,7 +454,7 @@ pub struct MediaFeatureBoolean {
 #[cfg_attr(
     feature = "rkyv",
     archive(bound(
-        serialize = "__S: rkyv::ser::Serializer + rkyv::ser::ScratchSpace + \
+        serialize = "__S: rkyv::ser::Writer + rkyv::ser::ScratchSpace + \
                      rkyv::ser::SharedSerializeRegistry",
         deserialize = "__D: rkyv::de::SharedDeserializeRegistry"
     ))
@@ -784,7 +784,7 @@ pub struct SizeFeatureBoolean {
 #[cfg_attr(
     feature = "rkyv",
     archive(bound(
-        serialize = "__S: rkyv::ser::Serializer + rkyv::ser::ScratchSpace + \
+        serialize = "__S: rkyv::ser::Writer + rkyv::ser::ScratchSpace + \
                      rkyv::ser::SharedSerializeRegistry",
         deserialize = "__D: rkyv::de::SharedDeserializeRegistry"
     ))

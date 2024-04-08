@@ -61,16 +61,16 @@ impl PluginSerializedBytes {
     #[tracing::instrument(level = "info", skip_all)]
     pub fn try_serialize<W>(t: &VersionedSerializable<W>) -> Result<Self, Error>
     where
-        W: rkyv::Serialize<rkyv::ser::serializers::AllocSerializer<512>>,
+        W: rkyv::Serialize<rkyv::ser::Writers::AllocSerializer<512>>,
     {
         rkyv::to_bytes::<_, 512>(t)
             .map(|field| PluginSerializedBytes { field })
             .map_err(|err| match err {
-                rkyv::ser::serializers::CompositeSerializerError::SerializerError(e) => e.into(),
-                rkyv::ser::serializers::CompositeSerializerError::ScratchSpaceError(_e) => {
+                rkyv::ser::Writers::CompositeSerializerError::SerializerError(e) => e.into(),
+                rkyv::ser::Writers::CompositeSerializerError::ScratchSpaceError(_e) => {
                     Error::msg("AllocScratchError")
                 }
-                rkyv::ser::serializers::CompositeSerializerError::SharedError(_e) => {
+                rkyv::ser::Writers::CompositeSerializerError::SharedError(_e) => {
                     Error::msg("SharedSerializeMapError")
                 }
             })

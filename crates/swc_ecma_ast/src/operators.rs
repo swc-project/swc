@@ -8,7 +8,7 @@ use swc_common::EqIgnoreSpan;
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
 #[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
-#[cfg_attr(feature = "rkyv-impl", archive_attr(repr(u32)))]
+
 pub enum BinaryOp {
     /// `==`
     EqEq,
@@ -119,7 +119,7 @@ impl BinaryOp {
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
 #[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
-#[cfg_attr(feature = "rkyv-impl", archive_attr(repr(u32)))]
+
 pub enum AssignOp {
     /// `=`
     Assign,
@@ -194,7 +194,7 @@ impl AssignOp {
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
 #[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
-#[cfg_attr(feature = "rkyv-impl", archive_attr(repr(u32)))]
+
 pub enum UpdateOp {
     /// `++`
     PlusPlus,
@@ -209,7 +209,7 @@ pub enum UpdateOp {
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
 #[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
-#[cfg_attr(feature = "rkyv-impl", archive_attr(repr(u32)))]
+
 pub enum UnaryOp {
     /// `-`
     Minus,
