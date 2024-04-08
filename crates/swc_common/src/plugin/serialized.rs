@@ -35,7 +35,7 @@ pub enum PluginError {
 /// format struct contains: it is strict implementation detail which can
 /// change anytime.
 pub struct PluginSerializedBytes {
-    pub(crate) field: rkyv::AlignedVec,
+    pub(crate) field: rkyv::util::AlignedVec,
 }
 
 #[cfg(feature = "__plugin")]
@@ -46,7 +46,7 @@ impl PluginSerializedBytes {
      */
     #[tracing::instrument(level = "info", skip_all)]
     pub fn from_slice(bytes: &[u8]) -> PluginSerializedBytes {
-        let mut field = rkyv::AlignedVec::new();
+        let mut field = rkyv::util::AlignedVec::new();
         field.extend_from_slice(bytes);
         PluginSerializedBytes { field }
     }
@@ -60,7 +60,7 @@ impl PluginSerializedBytes {
     #[tracing::instrument(level = "info", skip_all)]
     pub fn try_serialize<W>(t: &VersionedSerializable<W>) -> Result<Self, Error>
     where
-        W: rkyv::Serialize<rkyv::ser::Writers::AllocSerializer<512>>,
+        W: rkyv::Serialize<rkyv::ser::AllocSerializer<512>>,
     {
         rkyv::to_bytes::<_, 512>(t)
             .map(|field| PluginSerializedBytes { field })

@@ -48,7 +48,7 @@ impl PluginCommentsProxy {
     #[cfg_attr(not(target_arch = "wasm32"), allow(unused))]
     fn allocate_comments_buffer_to_host<T>(&self, value: T)
     where
-        T: rkyv::Serialize<rkyv::ser::Writers::AllocSerializer<512>>,
+        T: rkyv::Serialize<rkyv::ser::AllocSerializer<512>>,
     {
         #[cfg(target_arch = "wasm32")]
         {
