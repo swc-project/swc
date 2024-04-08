@@ -396,13 +396,11 @@ impl Pure<'_> {
                     // Add undefined to end
                     side_effects.push(Box::new(*undefined(*span)));
 
-                    return Some(Expr::Seq(SeqExpr {
+                    Some(Expr::Seq(SeqExpr {
                         span: *span,
                         exprs: side_effects,
-                    }));
-                }
-
-                if is_array_symbol {
+                    }))
+                } else if is_array_symbol {
                     // Optimization is the same array but with only side effects.
                     // e.g. [1, 2, f()].push becomes [f()].push
 
@@ -422,14 +420,14 @@ impl Pure<'_> {
                         })
                         .collect();
 
-                    return Some(Expr::Member(MemberExpr {
+                    Some(Expr::Member(MemberExpr {
                         span: *span,
                         obj: Box::new(Expr::Array(ArrayLit { span: *span, elems })),
                         prop: MemberProp::Ident(Ident::new(key, *span)),
-                    }));
+                    }))
+                } else {
+                    None
                 }
-
-                return None;
             }
 
             Expr::Object(ObjectLit { props, span }) => {
