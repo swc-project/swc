@@ -1,3 +1,5 @@
+#![allow(dead_code)]
+
 use std::time::Instant;
 
 use rustc_hash::FxHashSet;
@@ -11,7 +13,6 @@ pub(crate) mod size;
 pub(crate) mod sort;
 pub(crate) mod unit;
 
-///
 pub(crate) fn make_number(span: Span, value: f64) -> Expr {
     trace_op!("Creating a numeric literal");
     Expr::Lit(Lit::Num(Number {
