@@ -357,9 +357,11 @@ impl VisitMut for Compressor<'_> {
     }
 }
 
+#[cfg(feature = "debug")]
 #[derive(PartialEq, Eq)]
 struct DebugUsingDisplay<'a>(pub &'a str);
 
+#[cfg(feature = "debug")]
 impl<'a> Debug for DebugUsingDisplay<'a> {
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         Display::fmt(self.0, f)
