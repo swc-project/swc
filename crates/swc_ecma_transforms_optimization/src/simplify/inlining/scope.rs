@@ -290,7 +290,7 @@ impl<'a> Scope<'a> {
 
     /// True if the returned scope is self
     fn scope_for(&self, id: &Id) -> (&Scope, bool) {
-        if self.constants.get(id).is_some() {
+        if self.constants.contains_key(id) {
             return (self, true);
         }
         if self.find_binding_from_current(id).is_some() {

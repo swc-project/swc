@@ -602,7 +602,7 @@ impl VisitMut for Marker {
 
 #[cfg(test)]
 mod tests {
-    use swc_ecma_visit::{as_folder, FoldWith};
+    use swc_ecma_visit::FoldWith;
     use testing::DebugUsingDisplay;
 
     use super::*;
