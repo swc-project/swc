@@ -4,7 +4,7 @@ use swc_ecma_ast::{
     ArrayLit, Expr, ExprOrSpread, Ident, Lit, MemberExpr, MemberProp, ObjectLit, Prop,
     PropOrSpread, SeqExpr, Str,
 };
-use swc_ecma_utils::{is_literal, prop_name_eq, undefined, ExprExt, Known};
+use swc_ecma_utils::{prop_name_eq, undefined, ExprExt, Known};
 
 use super::Pure;
 
@@ -143,6 +143,82 @@ fn is_array_symbol(sym: &str) -> bool {
 fn is_string_symbol(sym: &str) -> bool {
     // Inherits: Object
     STRING_SYMBOLS.contains(sym) || is_object_symbol(sym)
+}
+
+/// Checks if the given key exists in the given properties, taking the `__proto__` property
+/// and order of keys into account (the order of keys matters for nested `__proto__` properties).
+/// 
+/// Returns `None` if the key's existence is uncertain, or `Some` if it is certain.
+/// 
+/// A key's existence is uncertain if a `__proto__` property exists and the value
+/// is non-literal.
+fn does_key_exist(key: &str, props: &Vec<PropOrSpread>) -> Option<bool> {
+    for prop in props {
+        match prop {
+            PropOrSpread::Prop(prop) => match &**prop {
+                Prop::Shorthand(ident) => {
+                    if ident.sym == key {
+                        return Some(true);
+                    }
+                },
+
+                Prop::KeyValue(prop) => {
+                    if key != "__proto__" && prop_name_eq(&prop.key, "__proto__") {
+                        // If __proto__ is defined, we need to check the contents of it,
+                        // as well as any nested __proto__ objects
+                        if let Some(object) = prop.value.as_object() {
+                            // __proto__ is an ObjectLiteral, check if key exists in it
+                            let exists = does_key_exist(key, &object.props);
+                            if exists.is_none() {
+                                return None;
+                            } else if exists.is_some_and(|exists| exists) {
+                                return Some(true);
+                            }
+                        } else {
+                            // __proto__ is not a literal, it is impossible to know if the
+                            // key exists or not
+                            return None;
+                        }
+                    } else {
+                        // Normal key
+                        if prop_name_eq(&prop.key, key) {
+                            return Some(true);
+                        }
+                    }
+                },
+
+                // invalid
+                Prop::Assign(_) => {
+                    return None;
+                },
+
+                Prop::Getter(getter) => {
+                    if prop_name_eq(&getter.key, key) {
+                        return Some(true);
+                    }
+                },
+
+                Prop::Setter(setter) => {
+                    if prop_name_eq(&setter.key, key) {
+                        return Some(true);
+                    }
+                },
+
+                Prop::Method(method) => {
+                    if prop_name_eq(&method.key, key) {
+                        return Some(true);
+                    }
+                }
+            },
+
+            _ => {
+                return None;
+            }
+        }
+    }
+    
+    // No key was found and there's no uncertainty, meaning the key certainly doesn't exist
+    Some(false)
 }
 
 impl Pure<'_> {
@@ -357,47 +433,66 @@ impl Pure<'_> {
             }
 
             Expr::Object(ObjectLit { props, span }) => {
-                // get key
+                // Do nothing if there are invalid keys.
+                //
+                // Objects with one or more keys that are not literals or identifiers
+                // are impossible to optimize as we don't know for certain if a given
+                // key is actually invalid, e.g. `{[bar()]: 5}`, since we don't know
+                // what `bar()` returns.
+                let contains_invalid_key = props
+                    .iter()
+                    .any(|prop| !matches!(prop, PropOrSpread::Prop(prop) if matches!(&**prop, Prop::KeyValue(kv) if kv.key.is_ident() || kv.key.is_str() || kv.key.is_num())));
+
+                if contains_invalid_key {
+                    return None;
+                }
+
+                // Get key as Atom
                 let key = match op {
                     KnownOp::Index(i) => Atom::from(i.to_string()),
-                    KnownOp::IndexStr(key) if key != *"yield" && is_literal(props) => key,
+                    KnownOp::IndexStr(key) if key != *"yield" => key,
                     _ => {
                         return None;
                     }
                 };
-
-                // do nothing if spread exists
-                let has_spread = props
-                    .iter()
-                    .any(|prop| matches!(prop, PropOrSpread::Spread(..)));
-
-                if has_spread {
+                
+                // Check if key exists
+                let exists = does_key_exist(&key, props);
+                if exists.is_none() || exists.is_some_and(|exists| exists) {
+                    // Valid properties are handled in simplify
                     return None;
                 }
 
-                let idx = props.iter().rev().position(|p| match p {
-                    PropOrSpread::Prop(p) => match &**p {
-                        Prop::Shorthand(i) => i.sym == key,
-                        Prop::KeyValue(k) => prop_name_eq(&k.key, &key),
-                        Prop::Assign(p) => p.key.sym == key,
-                        Prop::Getter(..) => false,
-                        Prop::Setter(..) => false,
-                        // TODO
-                        Prop::Method(..) => false,
+                // Can be optimized fully or partially
+                Some(self.expr_ctx.preserve_effects(
+                    *span,
+                    
+                    if is_object_symbol(key.as_str()) {
+                        // Valid key, e.g. "hasOwnProperty". Replacement:
+                        // (foo(), bar(), {}.hasOwnProperty)
+                        Expr::Member(MemberExpr {
+                            span: *span,
+                            obj: Box::new(Expr::Object(ObjectLit {
+                                span: *span,
+                                props: vec![],
+                            })),
+                            prop: MemberProp::Ident(Ident::new(key, *span)),
+                        })
+                    } else {
+                        // Invalid key. Replace with side effects plus `undefined`.
+                        *undefined(*span)
                     },
-                    _ => unreachable!(),
-                });
 
-                // valid properties are handled in simplify::expr
-                if idx.map(|idx| props.len() - 1 - idx).is_some() {
-                    return None;
-                }
-
-                if is_object_symbol(key.as_str()) {
-                    None
-                } else {
-                    Some(*undefined(*span))
-                }
+                    props
+                        .drain(..)
+                        .map(|x| match x {
+                            PropOrSpread::Prop(prop) => match *prop {
+                                Prop::KeyValue(kv) => kv.value,
+                                _ => unreachable!()
+                            },
+                            _ => unreachable!()
+                        })
+                ))
             }
 
             _ => None,
