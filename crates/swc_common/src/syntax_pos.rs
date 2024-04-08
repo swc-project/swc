@@ -198,7 +198,7 @@ impl rkyv::with::ArchiveWith<PathBuf> for EncodePathBuf {
 #[cfg(feature = "rkyv-impl")]
 impl<S> rkyv::with::SerializeWith<PathBuf, S> for EncodePathBuf
 where
-    S: ?Sized + rkyv::ser::Writer,
+    S: ?Sized + rkyv::ser::Writer + rkyv::rancor::Fallible,
 {
     #[inline]
     fn serialize_with(field: &PathBuf, serializer: &mut S) -> Result<Self::Resolver, S::Error> {
@@ -247,7 +247,7 @@ impl rkyv::with::ArchiveWith<Url> for EncodeUrl {
 #[cfg(feature = "rkyv-impl")]
 impl<S> rkyv::with::SerializeWith<Url, S> for EncodeUrl
 where
-    S: ?Sized + rkyv::ser::Writer,
+    S: ?Sized + rkyv::ser::Writer + rkyv::rancor::Fallible,
 {
     #[inline]
     fn serialize_with(field: &Url, serializer: &mut S) -> Result<Self::Resolver, S::Error> {
@@ -879,7 +879,7 @@ impl rkyv::with::ArchiveWith<Lrc<String>> for EncodeArcString {
 #[cfg(feature = "rkyv-impl")]
 impl<S> rkyv::with::SerializeWith<Lrc<String>, S> for EncodeArcString
 where
-    S: ?Sized + rkyv::ser::Writer,
+    S: ?Sized + rkyv::ser::Writer + rkyv::rancor::Fallible,
 {
     fn serialize_with(field: &Lrc<String>, serializer: &mut S) -> Result<Self::Resolver, S::Error> {
         rkyv::string::ArchivedString::serialize_from_str(field, serializer)
