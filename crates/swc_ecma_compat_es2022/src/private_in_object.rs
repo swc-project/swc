@@ -216,7 +216,7 @@ impl VisitMut for PrivateInObject {
         let old_cls = take(&mut self.cls);
 
         self.cls.mark = Mark::fresh(Mark::root());
-        self.cls.ident = n.ident.clone();
+        self.cls.ident.clone_from(&n.ident);
         self.cls.vars = Mode::ClassExpr {
             vars: Default::default(),
             init_exprs: Default::default(),
