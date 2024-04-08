@@ -106,7 +106,8 @@ impl PluginSerializedBytes {
     {
         use anyhow::Context;
 
-        let archived = unsafe { rkyv::archived_root::<VersionedSerializable<W>>(&self.field[..]) };
+        let archived: rkyv::Archived<VersionedSerializable<W>> =
+            unsafe { rkyv::archived_root::<VersionedSerializable<W>>(&self.field[..]) };
 
         archived
             .deserialize(&mut rkyv::de::deserializers::SharedDeserializeMap::new())
