@@ -49,7 +49,7 @@ new_debug_unreachable = "1.0.4"
 num-bigint = "0.4"
 once_cell = "1.19.0"
 parking_lot = { version = "0.12.1", optional = true }
-rkyv = { version = "=0.7.42", optional = true, features = [
+rkyv = { version = "=0.7.44", optional = true, features = [
   "strict",
   "validation",
 ] }
