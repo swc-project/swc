@@ -325,8 +325,9 @@ impl CompileOptions {
                 value => SourceMapsConfig::Str(value.to_string()),
             });
 
-            options.source_file_name = self.source_file_name.to_owned();
-            options.source_root = self.source_root.to_owned();
+            self.source_file_name
+                .clone_into(&mut options.source_file_name);
+            self.source_root.clone_into(&mut options.source_root);
         }
 
         Ok(options)

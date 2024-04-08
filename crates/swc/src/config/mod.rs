@@ -783,8 +783,9 @@ impl Options {
     }
 }
 
-#[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Eq, Default)]
 pub enum RootMode {
+    #[default]
     #[serde(rename = "root")]
     Root,
     #[serde(rename = "upward")]
@@ -793,11 +794,6 @@ pub enum RootMode {
     UpwardOptional,
 }
 
-impl Default for RootMode {
-    fn default() -> Self {
-        RootMode::Root
-    }
-}
 const fn default_swcrc() -> bool {
     true
 }

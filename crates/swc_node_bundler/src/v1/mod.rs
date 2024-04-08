@@ -66,20 +66,15 @@ impl Config {
     }
 }
 
-#[derive(StringEnum)]
+#[derive(StringEnum, Default)]
 pub enum Mode {
     /// `production`
     Production,
     /// `debug`
     Debug,
     /// `none`
+    #[default]
     None,
-}
-
-impl Default for Mode {
-    fn default() -> Self {
-        Mode::None
-    }
 }
 
 #[derive(Debug, Clone, Deserialize)]
