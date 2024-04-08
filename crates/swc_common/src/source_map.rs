@@ -1763,49 +1763,4 @@ mod tests {
             cpos = cpos + CharPos(c.len_utf16());
         }
     }
-
-    /// Returns the span corresponding to the `n`th occurrence of
-    /// `substring` in `source_text`.
-    trait SourceMapExtension {
-        fn span_substr(
-            &self,
-            file: &Lrc<SourceFile>,
-            source_text: &str,
-            substring: &str,
-            n: usize,
-        ) -> Span;
-    }
-
-    impl SourceMapExtension for SourceMap {
-        fn span_substr(
-            &self,
-            file: &Lrc<SourceFile>,
-            source_text: &str,
-            substring: &str,
-            n: usize,
-        ) -> Span {
-            let mut i = 0;
-            let mut hi = 0;
-            loop {
-                let offset = source_text[hi..].find(substring).unwrap_or_else(|| {
-                    panic!(
-                        "source_text `{}` does not have {} occurrences of `{}`, only {}",
-                        source_text, n, substring, i
-                    );
-                });
-                let lo = hi + offset;
-                hi = lo + substring.len();
-                if i == n {
-                    let span = Span::new(
-                        BytePos(lo as u32 + file.start_pos.0),
-                        BytePos(hi as u32 + file.start_pos.0),
-                        NO_EXPANSION,
-                    );
-                    assert_eq!(&self.span_to_snippet(span).unwrap()[..], substring);
-                    return span;
-                }
-                i += 1;
-            }
-        }
-    }
 }
