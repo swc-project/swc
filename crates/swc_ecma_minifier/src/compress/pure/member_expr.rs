@@ -145,13 +145,15 @@ fn is_string_symbol(sym: &str) -> bool {
     STRING_SYMBOLS.contains(sym) || is_object_symbol(sym)
 }
 
-/// Checks if the given key exists in the given properties, taking the `__proto__` property
-/// and order of keys into account (the order of keys matters for nested `__proto__` properties).
-/// 
-/// Returns `None` if the key's existence is uncertain, or `Some` if it is certain.
-/// 
-/// A key's existence is uncertain if a `__proto__` property exists and the value
-/// is non-literal.
+/// Checks if the given key exists in the given properties, taking the
+/// `__proto__` property and order of keys into account (the order of keys
+/// matters for nested `__proto__` properties).
+///
+/// Returns `None` if the key's existence is uncertain, or `Some` if it is
+/// certain.
+///
+/// A key's existence is uncertain if a `__proto__` property exists and the
+/// value is non-literal.
 fn does_key_exist(key: &str, props: &Vec<PropOrSpread>) -> Option<bool> {
     for prop in props {
         match prop {
@@ -160,7 +162,7 @@ fn does_key_exist(key: &str, props: &Vec<PropOrSpread>) -> Option<bool> {
                     if ident.sym == key {
                         return Some(true);
                     }
-                },
+                }
 
                 Prop::KeyValue(prop) => {
                     if key != "__proto__" && prop_name_eq(&prop.key, "__proto__") {
@@ -185,24 +187,24 @@ fn does_key_exist(key: &str, props: &Vec<PropOrSpread>) -> Option<bool> {
                             return Some(true);
                         }
                     }
-                },
+                }
 
                 // invalid
                 Prop::Assign(_) => {
                     return None;
-                },
+                }
 
                 Prop::Getter(getter) => {
                     if prop_name_eq(&getter.key, key) {
                         return Some(true);
                     }
-                },
+                }
 
                 Prop::Setter(setter) => {
                     if prop_name_eq(&setter.key, key) {
                         return Some(true);
                     }
-                },
+                }
 
                 Prop::Method(method) => {
                     if prop_name_eq(&method.key, key) {
@@ -216,8 +218,9 @@ fn does_key_exist(key: &str, props: &Vec<PropOrSpread>) -> Option<bool> {
             }
         }
     }
-    
-    // No key was found and there's no uncertainty, meaning the key certainly doesn't exist
+
+    // No key was found and there's no uncertainty, meaning the key certainly
+    // doesn't exist
     Some(false)
 }
 
@@ -365,8 +368,10 @@ impl Pure<'_> {
                 // In this case, the optimized expression is:
                 // (x, y, undefined)
                 // where x and y are side effects.
-                // If no side effects exist, the result is simply `undefined` instead of a SeqExpr.
-                let is_result_undefined = is_idx_out_of_bounds || (key.is_some() && !is_array_symbol);
+                // If no side effects exist, the result is simply `undefined` instead of a
+                // SeqExpr.
+                let is_result_undefined =
+                    is_idx_out_of_bounds || (key.is_some() && !is_array_symbol);
 
                 // Elements with side effects.
                 // Will be empty if we don't need side effects.
@@ -376,13 +381,10 @@ impl Pure<'_> {
                 if need_side_effects {
                     // Move all side effects into side_effects.
                     // This completely drains elems.
-                    elems
-                        .drain(..)
-                        .flatten()
-                        .for_each(|elem| {
-                            self.expr_ctx
-                                .extract_side_effects_to(&mut side_effects, *elem.expr);
-                        });
+                    elems.drain(..).flatten().for_each(|elem| {
+                        self.expr_ctx
+                            .extract_side_effects_to(&mut side_effects, *elem.expr);
+                    });
                 }
 
                 if is_result_undefined {
@@ -453,7 +455,7 @@ impl Pure<'_> {
                         return None;
                     }
                 };
-                
+
                 // Check if key exists
                 let exists = does_key_exist(&key, props);
                 if exists.is_none() || exists.is_some_and(|exists| exists) {
@@ -464,7 +466,6 @@ impl Pure<'_> {
                 // Can be optimized fully or partially
                 Some(self.expr_ctx.preserve_effects(
                     *span,
-                    
                     if is_object_symbol(key.as_str()) {
                         // Valid key, e.g. "hasOwnProperty". Replacement:
                         // (foo(), bar(), {}.hasOwnProperty)
@@ -480,16 +481,13 @@ impl Pure<'_> {
                         // Invalid key. Replace with side effects plus `undefined`.
                         *undefined(*span)
                     },
-
-                    props
-                        .drain(..)
-                        .map(|x| match x {
-                            PropOrSpread::Prop(prop) => match *prop {
-                                Prop::KeyValue(kv) => kv.value,
-                                _ => unreachable!()
-                            },
-                            _ => unreachable!()
-                        })
+                    props.drain(..).map(|x| match x {
+                        PropOrSpread::Prop(prop) => match *prop {
+                            Prop::KeyValue(kv) => kv.value,
+                            _ => unreachable!(),
+                        },
+                        _ => unreachable!(),
+                    }),
                 ))
             }
 

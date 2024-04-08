@@ -68,7 +68,7 @@ pub(crate) fn pure_optimizer<'a>(
         ctx: Default::default(),
         changed: Default::default(),
         in_callee: false,
-        in_left_side_assign: false
+        in_left_side_assign: false,
     }
 }
 
@@ -83,7 +83,7 @@ struct Pure<'a> {
     ctx: Ctx,
     changed: bool,
     in_callee: bool,
-    in_left_side_assign: bool
+    in_left_side_assign: bool,
 }
 
 impl Repeated for Pure<'_> {
@@ -264,7 +264,7 @@ impl VisitMut for Pure<'_> {
         {
             let old_in_left_side_assign = self.in_left_side_assign;
             self.in_left_side_assign = true;
-            
+
             let ctx = Ctx {
                 is_lhs_of_assign: true,
                 ..self.ctx
