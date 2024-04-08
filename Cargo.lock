@@ -63,6 +63,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "allocator-api2"
+version = "0.2.16"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "0942ffc6dcaadf03badf6e6a2d0228460359d5e34b57ccdc720b7382dfbd5ec5"
+
+[[package]]
 name = "android-tzdata"
 version = "0.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -382,7 +388,7 @@ dependencies = [
  "anyhow",
  "chrono",
  "either",
- "indexmap 2.1.0",
+ "indexmap 2.2.6",
  "itertools 0.12.0",
  "nom",
  "once_cell",
@@ -417,8 +423,20 @@ version = "0.6.11"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "8b6372023ac861f6e6dc89c8344a8f398fb42aaba2b5dbc649ca0c0e9dbcb627"
 dependencies = [
- "bytecheck_derive",
- "ptr_meta",
+ "bytecheck_derive 0.6.11",
+ "ptr_meta 0.1.4",
+ "simdutf8",
+]
+
+[[package]]
+name = "bytecheck"
+version = "0.8.0-pre6"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "58167cc4244105c1b50a4d0a9f4672107138def79b73755b74d21c0b807e7755"
+dependencies = [
+ "bytecheck_derive 0.8.0-pre6",
+ "ptr_meta 0.3.0-pre1",
+ "rancor",
  "simdutf8",
 ]
 
@@ -431,6 +449,17 @@ dependencies = [
  "proc-macro2",
  "quote",
  "syn 1.0.109",
+]
+
+[[package]]
+name = "bytecheck_derive"
+version = "0.8.0-pre6"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "41412be9f547e2c7aa8e444c935958d711ec34189b42a24208635cab44c07cd1"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn 2.0.55",
 ]
 
 [[package]]
@@ -1557,7 +1586,7 @@ dependencies = [
  "futures-sink",
  "futures-util",
  "http",
- "indexmap 2.1.0",
+ "indexmap 2.2.6",
  "slab",
  "tokio",
  "tokio-util",
@@ -1602,6 +1631,10 @@ name = "hashbrown"
 version = "0.14.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "290f1a1d9242c78d09ce40a5e87e7554ee637af1351968159f4952f028f75604"
+dependencies = [
+ "ahash 0.8.8",
+ "allocator-api2",
+]
 
 [[package]]
 name = "heapless"
@@ -1717,7 +1750,7 @@ dependencies = [
  "httpdate",
  "itoa",
  "pin-project-lite",
- "socket2 0.4.10",
+ "socket2 0.5.5",
  "tokio",
  "tower-service",
  "tracing",
@@ -1817,9 +1850,9 @@ dependencies = [
 
 [[package]]
 name = "indexmap"
-version = "2.1.0"
+version = "2.2.6"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d530e1a18b1cb4c484e6e34556a0d948706958449fca0cab753d649f2bce3d1f"
+checksum = "168fb715dda47215e360912c096649d23d58bf392ac62f73919e831745e40f26"
 dependencies = [
  "equivalent",
  "hashbrown 0.14.3",
@@ -2615,7 +2648,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e1d3afd2628e69da2be385eb6f2fd57c8ac7977ceeff6dc166ff1657b0e386a9"
 dependencies = [
  "fixedbitset",
- "indexmap 2.1.0",
+ "indexmap 2.2.6",
 ]
 
 [[package]]
@@ -2874,7 +2907,16 @@ version = "0.1.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0738ccf7ea06b608c10564b31debd4f5bc5e197fc8bfe088f68ae5ce81e7a4f1"
 dependencies = [
- "ptr_meta_derive",
+ "ptr_meta_derive 0.1.4",
+]
+
+[[package]]
+name = "ptr_meta"
+version = "0.3.0-pre1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "305e6272a833a48eecd7f05cc3b00f7bc6dce9b8955bb31ffd0481fa5947118e"
+dependencies = [
+ "ptr_meta_derive 0.3.0-pre1",
 ]
 
 [[package]]
@@ -2886,6 +2928,17 @@ dependencies = [
  "proc-macro2",
  "quote",
  "syn 1.0.109",
+]
+
+[[package]]
+name = "ptr_meta_derive"
+version = "0.3.0-pre1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "bb26b4ec087a56688b4dddd8c7bbed38ad1867042ba6e1314162e5b370edaaac"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn 2.0.55",
 ]
 
 [[package]]
@@ -2919,6 +2972,15 @@ name = "radix_fmt"
 version = "1.0.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ce082a9940a7ace2ad4a8b7d0b1eac6aa378895f18be598230c5f2284ac05426"
+
+[[package]]
+name = "rancor"
+version = "0.1.0-pre8"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b7194da341620fb0871865b69e50d7522a8ff0ab9d0b6084067edfc1f11b1e11"
+dependencies = [
+ "ptr_meta 0.3.0-pre1",
+]
 
 [[package]]
 name = "rand"
@@ -3059,7 +3121,16 @@ version = "0.4.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "a2571463863a6bd50c32f94402933f03457a3fbaf697a707c5be741e459f08fd"
 dependencies = [
- "bytecheck",
+ "bytecheck 0.6.11",
+]
+
+[[package]]
+name = "rend"
+version = "0.5.0-pre6"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "7f02fc3227b019649985d2f89e254e345f027cc58af7bbf5faa4f3f7271bc4cc"
+dependencies = [
+ "bytecheck 0.8.0-pre6",
 ]
 
 [[package]]
@@ -3115,13 +3186,32 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0200c8230b013893c0b2d6213d6ec64ed2b9be2e0e016682b7224ff82cff5c58"
 dependencies = [
  "bitvec",
- "bytecheck",
+ "bytecheck 0.6.11",
  "hashbrown 0.12.3",
  "indexmap 1.9.3",
- "ptr_meta",
- "rend",
- "rkyv_derive",
+ "ptr_meta 0.1.4",
+ "rend 0.4.1",
+ "rkyv_derive 0.7.43",
  "seahash",
+ "tinyvec",
+ "uuid",
+]
+
+[[package]]
+name = "rkyv"
+version = "0.8.0-alpha.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "5d125265f4bf0016653476f0e6f33757f4d5ce34447473c2b317c1bb28766481"
+dependencies = [
+ "bitvec",
+ "bytecheck 0.8.0-pre6",
+ "bytes",
+ "hashbrown 0.14.3",
+ "indexmap 2.2.6",
+ "ptr_meta 0.3.0-pre1",
+ "rancor",
+ "rend 0.5.0-pre6",
+ "rkyv_derive 0.8.0-alpha.2",
  "tinyvec",
  "uuid",
 ]
@@ -3135,6 +3225,17 @@ dependencies = [
  "proc-macro2",
  "quote",
  "syn 1.0.109",
+]
+
+[[package]]
+name = "rkyv_derive"
+version = "0.8.0-alpha.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "670836f48c7644bc9f68e507064f0a83984e910a5a5515ac5f496ccf4e109e6b"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn 2.0.55",
 ]
 
 [[package]]
@@ -3414,7 +3515,7 @@ version = "0.9.30"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b1bf28c79a99f70ee1f1d83d10c875d2e70618417fda01ad1785e027579d9d38"
 dependencies = [
- "indexmap 2.1.0",
+ "indexmap 2.2.6",
  "itoa",
  "ryu",
  "serde",
@@ -3713,7 +3814,7 @@ dependencies = [
  "criterion",
  "dashmap",
  "either",
- "indexmap 2.1.0",
+ "indexmap 2.2.6",
  "jsonc-parser",
  "lru",
  "napi",
@@ -3765,10 +3866,10 @@ dependencies = [
 name = "swc_atoms"
 version = "0.6.6"
 dependencies = [
- "bytecheck",
+ "bytecheck 0.8.0-pre6",
  "hstr",
  "once_cell",
- "rkyv",
+ "rkyv 0.8.0-alpha.2",
  "rustc-hash",
  "serde",
 ]
@@ -3781,7 +3882,7 @@ dependencies = [
  "crc",
  "dashmap",
  "hex",
- "indexmap 2.1.0",
+ "indexmap 2.2.6",
  "is-macro",
  "ntest",
  "once_cell",
@@ -3862,7 +3963,7 @@ dependencies = [
  "ast_node",
  "atty",
  "better_scoped_tls",
- "bytecheck",
+ "bytecheck 0.8.0-pre6",
  "cfg-if",
  "criterion",
  "either",
@@ -3872,7 +3973,7 @@ dependencies = [
  "once_cell",
  "parking_lot",
  "rayon",
- "rkyv",
+ "rkyv 0.8.0-alpha.2",
  "rustc-hash",
  "serde",
  "serde_json",
@@ -3915,7 +4016,7 @@ name = "swc_config"
 version = "0.1.12"
 dependencies = [
  "anyhow",
- "indexmap 2.1.0",
+ "indexmap 2.2.6",
  "serde",
  "serde_json",
  "sourcemap",
@@ -4005,7 +4106,7 @@ name = "swc_css_ast"
 version = "0.140.22"
 dependencies = [
  "is-macro",
- "rkyv",
+ "rkyv 0.8.0-alpha.2",
  "serde",
  "string_enum",
  "swc_atoms",
@@ -4175,11 +4276,11 @@ version = "0.112.7"
 dependencies = [
  "arbitrary",
  "bitflags 2.5.0",
- "bytecheck",
+ "bytecheck 0.8.0-pre6",
  "is-macro",
  "num-bigint",
  "phf",
- "rkyv",
+ "rkyv 0.8.0-alpha.2",
  "scoped-tls",
  "serde",
  "serde_json",
@@ -4256,7 +4357,7 @@ name = "swc_ecma_compat_es2015"
 version = "0.4.18"
 dependencies = [
  "arrayvec",
- "indexmap 2.1.0",
+ "indexmap 2.2.6",
  "is-macro",
  "serde",
  "serde_derive",
@@ -4475,7 +4576,7 @@ dependencies = [
  "arrayvec",
  "backtrace",
  "criterion",
- "indexmap 2.1.0",
+ "indexmap 2.2.6",
  "num-bigint",
  "num_cpus",
  "once_cell",
@@ -4541,7 +4642,7 @@ dependencies = [
  "anyhow",
  "criterion",
  "dashmap",
- "indexmap 2.1.0",
+ "indexmap 2.2.6",
  "once_cell",
  "preset_env_base",
  "pretty_assertions",
@@ -4631,7 +4732,7 @@ dependencies = [
  "better_scoped_tls",
  "bitflags 2.5.0",
  "criterion",
- "indexmap 2.1.0",
+ "indexmap 2.2.6",
  "once_cell",
  "phf",
  "rayon",
@@ -4668,7 +4769,7 @@ name = "swc_ecma_transforms_compat"
 version = "0.163.18"
 dependencies = [
  "arrayvec",
- "indexmap 2.1.0",
+ "indexmap 2.2.6",
  "is-macro",
  "num-bigint",
  "rayon",
@@ -4719,7 +4820,7 @@ dependencies = [
  "Inflector",
  "anyhow",
  "bitflags 2.5.0",
- "indexmap 2.1.0",
+ "indexmap 2.2.6",
  "is-macro",
  "path-clean 0.1.0",
  "pathdiff",
@@ -4746,7 +4847,7 @@ name = "swc_ecma_transforms_optimization"
 version = "0.198.18"
 dependencies = [
  "dashmap",
- "indexmap 2.1.0",
+ "indexmap 2.2.6",
  "once_cell",
  "petgraph",
  "rayon",
@@ -4801,7 +4902,7 @@ version = "0.183.18"
 dependencies = [
  "base64",
  "dashmap",
- "indexmap 2.1.0",
+ "indexmap 2.2.6",
  "once_cell",
  "rayon",
  "serde",
@@ -4873,7 +4974,7 @@ dependencies = [
 name = "swc_ecma_usage_analyzer"
 version = "0.23.13"
 dependencies = [
- "indexmap 2.1.0",
+ "indexmap 2.2.6",
  "rustc-hash",
  "swc_atoms",
  "swc_common",
@@ -4888,7 +4989,7 @@ dependencies = [
 name = "swc_ecma_utils"
 version = "0.127.17"
 dependencies = [
- "indexmap 2.1.0",
+ "indexmap 2.2.6",
  "num_cpus",
  "once_cell",
  "rayon",
@@ -4992,7 +5093,7 @@ dependencies = [
 name = "swc_fast_graph"
 version = "0.21.20"
 dependencies = [
- "indexmap 2.1.0",
+ "indexmap 2.2.6",
  "petgraph",
  "rustc-hash",
  "swc_common",
@@ -5026,7 +5127,7 @@ name = "swc_html_ast"
 version = "0.33.20"
 dependencies = [
  "is-macro",
- "rkyv",
+ "rkyv 0.8.0-alpha.2",
  "serde",
  "string_enum",
  "swc_atoms",
@@ -5216,7 +5317,7 @@ name = "swc_plugin_proxy"
 version = "0.41.6"
 dependencies = [
  "better_scoped_tls",
- "rkyv",
+ "rkyv 0.8.0-alpha.2",
  "swc_common",
  "swc_ecma_ast",
  "swc_trace_macro",
@@ -5763,7 +5864,7 @@ version = "0.19.15"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "1b5bb770da30e5cbfde35a2d7b9b8a2c4b8ef89548a7a6aeab5c9a576e3e7421"
 dependencies = [
- "indexmap 2.1.0",
+ "indexmap 2.2.6",
  "serde",
  "serde_spanned",
  "toml_datetime",
@@ -5776,7 +5877,7 @@ version = "0.21.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d34d383cd00a163b4a5b85053df514d45bc330f6de7737edfe0a93311d1eaa03"
 dependencies = [
- "indexmap 2.1.0",
+ "indexmap 2.2.6",
  "serde",
  "serde_spanned",
  "toml_datetime",
@@ -6373,7 +6474,7 @@ dependencies = [
  "memmap2 0.5.10",
  "more-asserts",
  "region",
- "rkyv",
+ "rkyv 0.7.42",
  "self_cell",
  "shared-buffer",
  "smallvec",
@@ -6423,7 +6524,7 @@ checksum = "d21472954ee9443235ca32522b17fc8f0fe58e2174556266a0d9766db055cc52"
 dependencies = [
  "anyhow",
  "derive_builder",
- "indexmap 2.1.0",
+ "indexmap 2.2.6",
  "semver 1.0.21",
  "serde",
  "serde_cbor",
@@ -6439,12 +6540,12 @@ version = "4.2.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0caf1c87937b52aba8e9f920a278e1beda282f7439612c0b48f51a58e7a87bab"
 dependencies = [
- "bytecheck",
+ "bytecheck 0.6.11",
  "enum-iterator",
  "enumset",
  "indexmap 1.9.3",
  "more-asserts",
- "rkyv",
+ "rkyv 0.7.42",
  "serde",
  "target-lexicon",
  "thiserror",
