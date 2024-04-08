@@ -1,0 +1,10 @@
+{
+    "module": {
+        "type": "es6",
+        "resolveFully": true
+    },
+    "jsc": {
+        "baseUrl": "."
+    }
+}
+}
