@@ -389,19 +389,11 @@ impl Pure<'_> {
 
                 if is_result_undefined {
                     // Optimization is `undefined`.
-
-                    if side_effects.is_empty() {
-                        // No side effects, no need for SeqExpr
-                        return Some(*undefined(*span));
-                    }
-
-                    // Add undefined to end
-                    side_effects.push(undefined(*span));
-
-                    Some(Expr::Seq(SeqExpr {
-                        span: *span,
-                        exprs: side_effects,
-                    }))
+                    Some(self.expr_ctx.preserve_effects(
+                        *span,
+                        *undefined(*span),
+                        side_effects
+                    ))
                 } else if is_array_symbol {
                     // Optimization is the same array but with only side effects.
                     // e.g. [1, 2, f()].push becomes [f()].push
