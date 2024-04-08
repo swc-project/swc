@@ -17,12 +17,10 @@ rkyv-impl = ["__rkyv", "rkyv", "bytecheck"]
 
 [dependencies]
 # bytecheck version should be in sync with rkyv version. Do not bump individually.
-bytecheck = { version = "0.6.10", optional = true }
+bytecheck = { version = "0.8.0-pre6", optional = true }
 hstr = "0.2.8"
 once_cell = "1"
-rkyv = { package = "rkyv", version = "=0.7.42", optional = true, features = [
-  "strict",
-  "validation",
+rkyv = { package = "rkyv", version = "=0.8.0-alpha.2", optional = true, features = [
 ] }
 rustc-hash = "1.1.0"
 serde = "1"

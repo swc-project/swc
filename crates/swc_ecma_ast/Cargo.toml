@@ -32,13 +32,11 @@ serde-impl = ["serde"]
 arbitrary = { version = "1", optional = true, features = ["derive"] }
 bitflags  = "2.5.0"
 # bytecheck version should be in sync with rkyv version. Do not bump individually.
-bytecheck = { version = "0.6.10", optional = true }
+bytecheck = { version = "0.8.0-pre6", optional = true }
 is-macro = "0.3.5"
 num-bigint = { version = "0.4", features = ["serde"] }
 phf = { version = "0.11.2", features = ["macros"] }
-rkyv = { package = "rkyv", version = "=0.7.42", optional = true, features = [
-  "strict",
-  "validation",
+rkyv = { package = "rkyv", version = "=0.8.0-alpha.2", optional = true, features = [
 ] }
 scoped-tls = "1.0.1"
 serde = { version = "1.0.197", features = ["derive"], optional = true }

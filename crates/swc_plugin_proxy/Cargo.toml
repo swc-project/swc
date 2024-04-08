@@ -22,9 +22,7 @@ plugin-rt   = ["__plugin_rt", "swc_common/plugin-base", "rkyv-impl"]
 
 [dependencies]
 
-rkyv = { package = "rkyv", version = "=0.7.42", optional = true, features = [
-  "strict",
-  "validation",
+rkyv = { package = "rkyv", version = "=0.8.0-alpha.2", optional = true, features = [
 ] }
 tracing = "0.1.40"
 
