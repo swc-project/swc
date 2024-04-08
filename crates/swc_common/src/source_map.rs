@@ -1507,7 +1507,6 @@ pub struct ByteToCharPosState {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::sync::Lrc;
 
     fn init_source_map() -> SourceMap {
         let sm = SourceMap::new(FilePathMapping::empty());
