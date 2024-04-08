@@ -1,5 +1,5 @@
 #[cfg(feature = "verify")]
-use swc_common::{Span, Spanned};
+use swc_common::Spanned;
 #[cfg(feature = "verify")]
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
