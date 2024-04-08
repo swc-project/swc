@@ -396,7 +396,7 @@ impl Pure<'_> {
                     }
 
                     // Add undefined to end
-                    side_effects.push(Box::new(*undefined(*span)));
+                    side_effects.push(undefined(*span));
 
                     Some(Expr::Seq(SeqExpr {
                         span: *span,
