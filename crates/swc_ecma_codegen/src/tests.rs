@@ -1,9 +1,4 @@
-use std::{
-    fmt::Debug,
-    io::Write,
-    path::PathBuf,
-    sync::{Arc, RwLock},
-};
+use std::path::PathBuf;
 
 use swc_common::{comments::SingleThreadedComments, FileName, SourceMap};
 use swc_ecma_parser;
@@ -12,7 +7,7 @@ use testing::DebugUsingDisplay;
 
 use self::swc_ecma_parser::{EsConfig, Parser, StringInput, Syntax};
 use super::*;
-use crate::{config::Config, text_writer::omit_trailing_semi};
+use crate::text_writer::omit_trailing_semi;
 
 struct Builder {
     cfg: Config,
@@ -704,18 +699,6 @@ fn test_escape_with_source_str() {
         "'\\ud83d\\ud83d\\ud83d\\ud83d\\ud83d'",
         "'\\ud83d\\ud83d\\ud83d\\ud83d\\ud83d';",
     );
-}
-
-#[derive(Debug, Clone)]
-struct Buf(Arc<RwLock<Vec<u8>>>);
-impl Write for Buf {
-    fn write(&mut self, data: &[u8]) -> io::Result<usize> {
-        self.0.write().unwrap().write(data)
-    }
-
-    fn flush(&mut self) -> io::Result<()> {
-        self.0.write().unwrap().flush()
-    }
 }
 
 #[test]
