@@ -1,5 +1,4 @@
 use std::{
-    self,
     collections::HashMap,
     fs::read_dir,
     io,

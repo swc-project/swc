@@ -308,7 +308,10 @@ impl CompileOptions {
             });
 
         if let Some(file_path) = *file_path {
-            options.filename = file_path.to_str().unwrap_or_default().to_owned();
+            file_path
+                .to_str()
+                .unwrap_or_default()
+                .clone_into(&mut options.filename);
         }
 
         if let Some(env_name) = &self.env_name {
