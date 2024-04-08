@@ -19,16 +19,12 @@ pub type PResult<T> = Result<T, Error>;
 #[derive(Debug, Clone, Copy, Default, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub struct ParserConfig {}
 
+#[derive(Debug, Default)]
 pub enum Phase {
+    #[default]
     StartPhase,
     MainPhase,
     EndPhase,
-}
-
-impl Default for Phase {
-    fn default() -> Self {
-        Phase::StartPhase
-    }
 }
 
 pub struct Parser<I>

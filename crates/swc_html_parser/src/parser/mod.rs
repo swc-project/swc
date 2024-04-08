@@ -42,8 +42,9 @@ enum AdjustAttributes {
     Svg,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Debug, Clone, Default)]
 enum InsertionMode {
+    #[default]
     Initial,
     BeforeHtml,
     BeforeHead,
@@ -67,12 +68,6 @@ enum InsertionMode {
     AfterFrameset,
     AfterAfterBody,
     AfterAfterFrameset,
-}
-
-impl Default for InsertionMode {
-    fn default() -> Self {
-        InsertionMode::Initial
-    }
 }
 
 enum InsertionPosition {

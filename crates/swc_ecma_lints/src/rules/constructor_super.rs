@@ -25,17 +25,12 @@ pub fn constructor_super(config: &RuleConfig<()>) -> Option<Box<dyn Rule>> {
     }
 }
 
-#[derive(Debug, Clone, Copy)]
+#[derive(Debug, Clone, Copy, Default)]
 enum SuperClass {
     Valid,
     Invalid,
+    #[default]
     NotSetted,
-}
-
-impl Default for SuperClass {
-    fn default() -> Self {
-        SuperClass::NotSetted
-    }
 }
 
 #[derive(Debug, Default)]
