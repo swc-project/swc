@@ -5,7 +5,7 @@ extern crate proc_macro;
 
 use quote::quote;
 use swc_macros_common::prelude::*;
-use syn::{self, visit_mut::VisitMut, *};
+use syn::{visit_mut::VisitMut, *};
 
 mod ast_node_macro;
 mod enum_deserialize;

@@ -1191,7 +1191,6 @@ impl SourceMap {
         None
     }
 
-    ///
     #[cfg(feature = "sourcemap")]
     #[cfg_attr(docsrs, doc(cfg(feature = "sourcemap")))]
     pub fn build_source_map(&self, mappings: &[(BytePos, LineCol)]) -> sourcemap::SourceMap {
