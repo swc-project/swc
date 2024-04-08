@@ -60,7 +60,9 @@ impl PluginSerializedBytes {
     #[tracing::instrument(level = "info", skip_all)]
     pub fn try_serialize<W>(t: &VersionedSerializable<W>) -> Result<Self, Error>
     where
-        W: rkyv::Serialize<rkyv::ser::AllocSerializer<512>>,
+        W: rkyv::Serialize<
+            rkyv::rancor::Strategy<rkyv::ser::AllocSerializer<512>, rkyv::rancor::Infallible>,
+        >,
     {
         rkyv::to_bytes::<_, 512>(t)
             .map(|field| PluginSerializedBytes { field })
