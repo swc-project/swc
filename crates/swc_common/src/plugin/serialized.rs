@@ -11,7 +11,6 @@ use rkyv::Deserialize;
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
 #[cfg_attr(feature = "__plugin", archive(check_bytes))]
-#[cfg_attr(feature = "__plugin", archive_attr(repr(u32)))]
 /// Enum for possible errors while running transform via plugin.
 /// This error indicates internal operation failure either in plugin_runner
 /// or plugin_macro. Plugin's transform fn itself does not allow to return
@@ -128,7 +127,6 @@ impl PluginSerializedBytes {
 )]
 #[repr(transparent)]
 #[cfg_attr(feature = "__plugin", archive(check_bytes))]
-#[cfg_attr(feature = "__plugin", archive_attr(repr(transparent)))]
 #[derive(Debug)]
 pub struct VersionedSerializable<T>(
     // [NOTE]: https://github.com/rkyv/rkyv/issues/373#issuecomment-1546360897
