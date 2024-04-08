@@ -142,12 +142,6 @@ impl EsVersion {
     }
 }
 
-impl Default for EsVersion {
-    fn default() -> Self {
-        EsVersion::Es5
-    }
-}
-
 /// Warning: The particular implementation of serialization and deserialization
 /// of the ast nodes may change in the future, and so these types would be
 /// removed. It's safe to say they will be serializable in some form or another,
