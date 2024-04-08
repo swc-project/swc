@@ -508,7 +508,7 @@ impl<'a> Scope<'a> {
     }
 
     fn has_constant(&self, id: &Id) -> bool {
-        if self.constants.get(id).is_some() {
+        if self.constants.contains_key(id) {
             return true;
         }
 
