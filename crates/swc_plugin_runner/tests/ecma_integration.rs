@@ -164,7 +164,7 @@ fn internal() {
 
             visitor
                 .plugin_transform_found
-                .then(|| visitor.plugin_transform_found)
+                .then_some(visitor.plugin_transform_found)
                 .ok_or(())
         })
         .expect("Should able to run single plugin transform");

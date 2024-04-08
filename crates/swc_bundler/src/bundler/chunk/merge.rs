@@ -10,14 +10,11 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_pat_ids, prepend_stmt, private_ident, quote_ident, ExprFactory};
-use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{VisitMut, VisitMutWith};
 use EdgeDirection::Outgoing;
 
 use crate::{
-    bundler::{
-        keywords::KeywordRenamer,
-        load::{Imports, TransformedModule},
-    },
+    bundler::{keywords::KeywordRenamer, load::TransformedModule},
     dep_graph::ModuleGraph,
     id::{Id, ModuleId},
     inline::inline,
