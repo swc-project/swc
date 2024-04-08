@@ -64,17 +64,7 @@ impl PluginSerializedBytes {
             rkyv::rancor::Strategy<rkyv::ser::AllocSerializer<512>, rkyv::rancor::Infallible>,
         >,
     {
-        rkyv::to_bytes::<_, 512>(t)
-            .map(|field| PluginSerializedBytes { field })
-            .map_err(|err| match err {
-                rkyv::ser::Writers::CompositeSerializerError::SerializerError(e) => e.into(),
-                rkyv::ser::Writers::CompositeSerializerError::ScratchSpaceError(_e) => {
-                    Error::msg("AllocScratchError")
-                }
-                rkyv::ser::Writers::CompositeSerializerError::SharedError(_e) => {
-                    Error::msg("SharedSerializeMapError")
-                }
-            })
+        rkyv::to_bytes::<_, 512>(t).map(|field| PluginSerializedBytes { field })
     }
 
     /*
