@@ -1,5 +1,3 @@
-use swc_common::comments::CommentKind;
-
 use super::*;
 
 macro_rules! write_comments {

@@ -1,7 +1,6 @@
 use either::Either;
 
 use super::*;
-use crate::token::Token;
 
 impl<'a> Lexer<'a> {
     pub(super) fn read_jsx_token(&mut self) -> LexResult<Option<Token>> {

@@ -6,7 +6,7 @@ use swc_common::{
     util::take::Take,
     Mark, Span, Spanned, SyntaxContext, DUMMY_SP,
 };
-use swc_ecma_ast::{Ident, Lit, *};
+use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{
     ext::ExprRefExt,
     pass::RepeatedJsPass,
