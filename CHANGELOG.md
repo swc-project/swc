@@ -1,5 +1,5 @@
 # Changelog
-## [unreleased]
+## [1.4.13] - 2024-04-09
 
 ### Bug Fixes
 
@@ -1363,9 +1363,6 @@
 
 ### Bug Fixes
 
-
-
-- **(css/modules)** Support composes when using multiple subclass selectors ([#7949](https://github.com/swc-project/swc/issues/7949)) ([05ca19b](https://github.com/swc-project/swc/commit/05ca19b84489ae47f69d8228b3c0097164c7ec6e))
 
 
 - **(es/compat)** Handle single expression case in static block ([#7944](https://github.com/swc-project/swc/issues/7944)) ([a80aec4](https://github.com/swc-project/swc/commit/a80aec47efcff953d3408cf6910b66c2312f3006))
