@@ -574,7 +574,6 @@ export function createTypeChecker(host) {
     var amalgamatedDuplicates;
     var reverseMappedCache = /* @__PURE__ */new Map();
     var inInferTypeForHomomorphicMappedType = false;
-    var ambientModulesCache;
     var patternAmbientModules;
     var patternAmbientModuleAugmentations;
     var globalObjectType;
@@ -4355,7 +4354,6 @@ export function createTypeChecker(host) {
                     let removeNewLocals2 = function () {
                         forEach(newLocals, s => locals.delete(s));
                     };
-                    var removeNewLocals = removeNewLocals2;
                     if (existingFakeScope) {
                         cleanup = removeNewLocals2;
                     } else {
@@ -33884,19 +33882,17 @@ export function createTypeChecker(host) {
         }
         return false;
     }
-    function allowLetAndConstDeclarations(parent2) {
-    }
     function checkGrammarForDisallowedLetOrConstStatement(node) {
     }
     function checkGrammarMetaProperty(node) {
     }
     function hasParseDiagnostics(sourceFile) {
     }
-    function grammarErrorOnFirstToken(node, message, arg0, arg1, arg2) {
+    function grammarErrorOnFirstToken(node, message, arg0) {
     }
-    function grammarErrorAtPos(nodeForSourceFile, start, length2, message, arg0, arg1, arg2) {
+    function grammarErrorAtPos(nodeForSourceFile, start, length2, message, arg0) {
     }
-    function grammarErrorOnNodeSkippedOn(key, node, message, arg0, arg1, arg2) {
+    function grammarErrorOnNodeSkippedOn(key, node, message) {
     }
     function grammarErrorOnNode(node, message, arg0, arg1, arg2) {
     }
@@ -33906,21 +33902,15 @@ export function createTypeChecker(host) {
     }
     function checkGrammarProperty(node) {
     }
-    function checkGrammarTopLevelElementForRequiredDeclareModifier(node) {
-    }
-    function checkGrammarTopLevelElementsForRequiredDeclareModifier(file) {
-    }
     function checkGrammarSourceFile(node) {
     }
     function checkGrammarStatementInAmbientContext(node) {
     }
     function checkGrammarNumericLiteral(node) {
     }
-    function checkNumericLiteralValueSize(node) {
-    }
     function checkGrammarBigIntLiteral(node) {
     }
-    function grammarErrorAfterFirstToken(node, message, arg0, arg1, arg2) {
+    function grammarErrorAfterFirstToken(node, message) {
     }
     function getAmbientModules() {
     }
