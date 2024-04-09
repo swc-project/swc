@@ -34125,112 +34125,22 @@ export function createTypeChecker(host) {
         return false;
     }
     function checkGrammarNamedImportsOrExports(namedBindings) {
-        return !!forEach(namedBindings.elements, specifier => {
-            if (specifier.isTypeOnly) {
-                return grammarErrorOnFirstToken(specifier, specifier.kind === 273 ? Diagnostics.The_type_modifier_cannot_be_used_on_a_named_import_when_import_type_is_used_on_its_import_statement : Diagnostics.The_type_modifier_cannot_be_used_on_a_named_export_when_export_type_is_used_on_its_export_statement);
-            }
-        });
+
     }
     function checkGrammarImportCallExpression(node) {
-        if (compilerOptions.verbatimModuleSyntax && moduleKind === 1) {
-            return grammarErrorOnNode(node, Diagnostics.ESM_syntax_is_not_allowed_in_a_CommonJS_module_when_verbatimModuleSyntax_is_enabled);
-        }
-        if (moduleKind === 5) {
-            return grammarErrorOnNode(node, Diagnostics.Dynamic_imports_are_only_supported_when_the_module_flag_is_set_to_es2020_es2022_esnext_commonjs_amd_system_umd_node16_or_nodenext);
-        }
-        if (node.typeArguments) {
-            return grammarErrorOnNode(node, Diagnostics.This_use_of_import_is_invalid_import_calls_can_be_written_but_they_must_have_parentheses_and_cannot_have_type_arguments);
-        }
-        const nodeArguments = node.arguments;
-        if (moduleKind !== 99 && moduleKind !== 199 && moduleKind !== 100) {
-            checkGrammarForDisallowedTrailingComma(nodeArguments);
-            if (nodeArguments.length > 1) {
-                const assertionArgument = nodeArguments[1];
-                return grammarErrorOnNode(assertionArgument, Diagnostics.Dynamic_imports_only_support_a_second_argument_when_the_module_option_is_set_to_esnext_node16_or_nodenext);
-            }
-        }
-        if (nodeArguments.length === 0 || nodeArguments.length > 2) {
-            return grammarErrorOnNode(node, Diagnostics.Dynamic_imports_can_only_accept_a_module_specifier_and_an_optional_assertion_as_arguments);
-        }
-        const spreadElement = find(nodeArguments, isSpreadElement);
-        if (spreadElement) {
-            return grammarErrorOnNode(spreadElement, Diagnostics.Argument_of_dynamic_import_cannot_be_spread_element);
-        }
-        return false;
+
     }
     function findMatchingTypeReferenceOrTypeAliasReference(source, unionTarget) {
-        const sourceObjectFlags = getObjectFlags(source);
-        if (sourceObjectFlags & (4 | 16) && unionTarget.flags & 1048576) {
-            return find(unionTarget.types, target => {
-                if (target.flags & 524288) {
-                    const overlapObjFlags = sourceObjectFlags & getObjectFlags(target);
-                    if (overlapObjFlags & 4) {
-                        return source.target === target.target;
-                    }
-                    if (overlapObjFlags & 16) {
-                        return !!source.aliasSymbol && source.aliasSymbol === target.aliasSymbol;
-                    }
-                }
-                return false;
-            });
-        }
+
     }
     function findBestTypeForObjectLiteral(source, unionTarget) {
-        if (getObjectFlags(source) & 128 && someType(unionTarget, isArrayLikeType)) {
-            return find(unionTarget.types, t => !isArrayLikeType(t));
-        }
     }
     function findBestTypeForInvokable(source, unionTarget) {
-        let signatureKind = 0;
-        const hasSignatures = getSignaturesOfType(source, signatureKind).length > 0 || (signatureKind = 1, getSignaturesOfType(source, signatureKind).length > 0);
-        if (hasSignatures) {
-            return find(unionTarget.types, t => getSignaturesOfType(t, signatureKind).length > 0);
-        }
     }
     function findMostOverlappyType(source, unionTarget) {
-        let bestMatch;
-        if (!(source.flags & (134348796 | 406847488))) {
-            let matchingCount = 0;
-            for (const target of unionTarget.types) {
-                if (!(target.flags & (134348796 | 406847488))) {
-                    const overlap = getIntersectionType([getIndexType(source), getIndexType(target)]);
-                    if (overlap.flags & 4194304) {
-                        return target;
-                    } else if (isUnitType(overlap) || overlap.flags & 1048576) {
-                        const len = overlap.flags & 1048576 ? countWhere(overlap.types, isUnitType) : 1;
-                        if (len >= matchingCount) {
-                            bestMatch = target;
-                            matchingCount = len;
-                        }
-                    }
-                }
-            }
-        }
-        return bestMatch;
     }
     function filterPrimitivesIfContainsNonPrimitive(type) {
-        if (maybeTypeOfKind(type, 67108864)) {
-            const result = filterType(type, t => !(t.flags & 134348796));
-            if (!(result.flags & 131072)) {
-                return result;
-            }
-        }
-        return type;
     }
     function findMatchingDiscriminantType(source, target, isRelatedTo, skipPartial) {
-        if (target.flags & 1048576 && source.flags & (2097152 | 524288)) {
-            const match = getMatchingUnionConstituentForType(target, source);
-            if (match) {
-                return match;
-            }
-            const sourceProperties = getPropertiesOfType(source);
-            if (sourceProperties) {
-                const sourcePropertiesFiltered = findDiscriminantProperties(sourceProperties, target);
-                if (sourcePropertiesFiltered) {
-                    return discriminateTypeByDiscriminableItems(target, map(sourcePropertiesFiltered, p => [() => getTypeOfSymbol(p), p.escapedName]), isRelatedTo, void 0, skipPartial);
-                }
-            }
-        }
-        return void 0;
     }
 }
