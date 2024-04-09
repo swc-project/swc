@@ -1,0 +1,39 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 17,
+    "end": 30,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 17,
+        "end": 30,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "NewExpression",
+        "span": {
+          "start": 17,
+          "end": 29,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "Identifier",
+          "span": {
+            "start": 21,
+            "end": 27,
+            "ctxt": 0
+          },
+          "value": "Symbol",
+          "optional": false
+        },
+        "arguments": [],
+        "typeArguments": null
+      }
+    }
+  ],
+  "interpreter": null
+}

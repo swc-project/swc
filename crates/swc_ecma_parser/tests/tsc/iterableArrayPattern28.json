@@ -1,0 +1,357 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 35,
+    "end": 174,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 44,
+          "end": 63,
+          "ctxt": 0
+        },
+        "value": "takeFirstTwoEntries",
+        "optional": false
+      },
+      "declare": false,
+      "params": [
+        {
+          "type": "Parameter",
+          "span": {
+            "start": 64,
+            "end": 107,
+            "ctxt": 0
+          },
+          "decorators": [],
+          "pat": {
+            "type": "RestElement",
+            "span": {
+              "start": 64,
+              "end": 107,
+              "ctxt": 0
+            },
+            "rest": {
+              "start": 64,
+              "end": 67,
+              "ctxt": 0
+            },
+            "argument": {
+              "type": "ArrayPattern",
+              "span": {
+                "start": 67,
+                "end": 87,
+                "ctxt": 0
+              },
+              "elements": [
+                {
+                  "type": "ArrayPattern",
+                  "span": {
+                    "start": 68,
+                    "end": 76,
+                    "ctxt": 0
+                  },
+                  "elements": [
+                    {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 69,
+                        "end": 71,
+                        "ctxt": 0
+                      },
+                      "value": "k1",
+                      "optional": false,
+                      "typeAnnotation": null
+                    },
+                    {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 73,
+                        "end": 75,
+                        "ctxt": 0
+                      },
+                      "value": "v1",
+                      "optional": false,
+                      "typeAnnotation": null
+                    }
+                  ],
+                  "optional": false,
+                  "typeAnnotation": null
+                },
+                {
+                  "type": "ArrayPattern",
+                  "span": {
+                    "start": 78,
+                    "end": 86,
+                    "ctxt": 0
+                  },
+                  "elements": [
+                    {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 79,
+                        "end": 81,
+                        "ctxt": 0
+                      },
+                      "value": "k2",
+                      "optional": false,
+                      "typeAnnotation": null
+                    },
+                    {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 83,
+                        "end": 85,
+                        "ctxt": 0
+                      },
+                      "value": "v2",
+                      "optional": false,
+                      "typeAnnotation": null
+                    }
+                  ],
+                  "optional": false,
+                  "typeAnnotation": null
+                }
+              ],
+              "optional": false,
+              "typeAnnotation": null
+            },
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 87,
+                "end": 107,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsArrayType",
+                "span": {
+                  "start": 89,
+                  "end": 107,
+                  "ctxt": 0
+                },
+                "elemType": {
+                  "type": "TsTupleType",
+                  "span": {
+                    "start": 89,
+                    "end": 105,
+                    "ctxt": 0
+                  },
+                  "elemTypes": [
+                    {
+                      "type": "TsTupleElement",
+                      "span": {
+                        "start": 90,
+                        "end": 96,
+                        "ctxt": 0
+                      },
+                      "label": null,
+                      "ty": {
+                        "type": "TsKeywordType",
+                        "span": {
+                          "start": 90,
+                          "end": 96,
+                          "ctxt": 0
+                        },
+                        "kind": "string"
+                      }
+                    },
+                    {
+                      "type": "TsTupleElement",
+                      "span": {
+                        "start": 98,
+                        "end": 104,
+                        "ctxt": 0
+                      },
+                      "label": null,
+                      "ty": {
+                        "type": "TsKeywordType",
+                        "span": {
+                          "start": 98,
+                          "end": 104,
+                          "ctxt": 0
+                        },
+                        "kind": "number"
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      ],
+      "decorators": [],
+      "span": {
+        "start": 35,
+        "end": 112,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 109,
+          "end": 112,
+          "ctxt": 0
+        },
+        "stmts": []
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 114,
+        "end": 174,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 114,
+          "end": 173,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "Identifier",
+          "span": {
+            "start": 114,
+            "end": 133,
+            "ctxt": 0
+          },
+          "value": "takeFirstTwoEntries",
+          "optional": false
+        },
+        "arguments": [
+          {
+            "spread": {
+              "start": 134,
+              "end": 137,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "NewExpression",
+              "span": {
+                "start": 137,
+                "end": 172,
+                "ctxt": 0
+              },
+              "callee": {
+                "type": "Identifier",
+                "span": {
+                  "start": 141,
+                  "end": 144,
+                  "ctxt": 0
+                },
+                "value": "Map",
+                "optional": false
+              },
+              "arguments": [
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "ArrayExpression",
+                    "span": {
+                      "start": 145,
+                      "end": 171,
+                      "ctxt": 0
+                    },
+                    "elements": [
+                      {
+                        "spread": null,
+                        "expression": {
+                          "type": "ArrayExpression",
+                          "span": {
+                            "start": 146,
+                            "end": 153,
+                            "ctxt": 0
+                          },
+                          "elements": [
+                            {
+                              "spread": null,
+                              "expression": {
+                                "type": "StringLiteral",
+                                "span": {
+                                  "start": 147,
+                                  "end": 149,
+                                  "ctxt": 0
+                                },
+                                "value": "",
+                                "raw": "\"\""
+                              }
+                            },
+                            {
+                              "spread": null,
+                              "expression": {
+                                "type": "NumericLiteral",
+                                "span": {
+                                  "start": 151,
+                                  "end": 152,
+                                  "ctxt": 0
+                                },
+                                "value": 0.0,
+                                "raw": "0"
+                              }
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "spread": null,
+                        "expression": {
+                          "type": "ArrayExpression",
+                          "span": {
+                            "start": 155,
+                            "end": 170,
+                            "ctxt": 0
+                          },
+                          "elements": [
+                            {
+                              "spread": null,
+                              "expression": {
+                                "type": "StringLiteral",
+                                "span": {
+                                  "start": 156,
+                                  "end": 163,
+                                  "ctxt": 0
+                                },
+                                "value": "hello",
+                                "raw": "\"hello\""
+                              }
+                            },
+                            {
+                              "spread": null,
+                              "expression": {
+                                "type": "BooleanLiteral",
+                                "span": {
+                                  "start": 165,
+                                  "end": 169,
+                                  "ctxt": 0
+                                },
+                                "value": true
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    ]
+                  }
+                }
+              ],
+              "typeArguments": null
+            }
+          }
+        ],
+        "typeArguments": null
+      }
+    }
+  ],
+  "interpreter": null
+}

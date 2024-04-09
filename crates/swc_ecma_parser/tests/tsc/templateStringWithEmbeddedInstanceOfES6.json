@@ -1,0 +1,106 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 18,
+    "end": 65,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 18,
+        "end": 65,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 22,
+            "end": 64,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 22,
+              "end": 23,
+              "ctxt": 0
+            },
+            "value": "x",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "TemplateLiteral",
+            "span": {
+              "start": 26,
+              "end": 64,
+              "ctxt": 0
+            },
+            "expressions": [
+              {
+                "type": "BinaryExpression",
+                "span": {
+                  "start": 33,
+                  "end": 58,
+                  "ctxt": 0
+                },
+                "operator": "instanceof",
+                "left": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 33,
+                    "end": 40,
+                    "ctxt": 0
+                  },
+                  "value": "hello",
+                  "raw": "\"hello\""
+                },
+                "right": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 52,
+                    "end": 58,
+                    "ctxt": 0
+                  },
+                  "value": "String",
+                  "optional": false
+                }
+              }
+            ],
+            "quasis": [
+              {
+                "type": "TemplateElement",
+                "span": {
+                  "start": 27,
+                  "end": 30,
+                  "ctxt": 0
+                },
+                "tail": false,
+                "cooked": "abc",
+                "raw": "abc"
+              },
+              {
+                "type": "TemplateElement",
+                "span": {
+                  "start": 60,
+                  "end": 63,
+                  "ctxt": 0
+                },
+                "tail": true,
+                "cooked": "def",
+                "raw": "def"
+              }
+            ]
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

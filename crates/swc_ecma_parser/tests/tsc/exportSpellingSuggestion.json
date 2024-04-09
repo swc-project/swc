@@ -1,0 +1,231 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 20,
+    "end": 171,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 20,
+        "end": 116,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "FunctionDeclaration",
+        "identifier": {
+          "type": "Identifier",
+          "span": {
+            "start": 36,
+            "end": 47,
+            "ctxt": 0
+          },
+          "value": "assertNever",
+          "optional": false
+        },
+        "declare": false,
+        "params": [
+          {
+            "type": "Parameter",
+            "span": {
+              "start": 48,
+              "end": 56,
+              "ctxt": 0
+            },
+            "decorators": [],
+            "pat": {
+              "type": "Identifier",
+              "span": {
+                "start": 48,
+                "end": 56,
+                "ctxt": 0
+              },
+              "value": "x",
+              "optional": false,
+              "typeAnnotation": {
+                "type": "TsTypeAnnotation",
+                "span": {
+                  "start": 49,
+                  "end": 56,
+                  "ctxt": 0
+                },
+                "typeAnnotation": {
+                  "type": "TsKeywordType",
+                  "span": {
+                    "start": 51,
+                    "end": 56,
+                    "ctxt": 0
+                  },
+                  "kind": "never"
+                }
+              }
+            }
+          },
+          {
+            "type": "Parameter",
+            "span": {
+              "start": 58,
+              "end": 69,
+              "ctxt": 0
+            },
+            "decorators": [],
+            "pat": {
+              "type": "Identifier",
+              "span": {
+                "start": 58,
+                "end": 69,
+                "ctxt": 0
+              },
+              "value": "msg",
+              "optional": false,
+              "typeAnnotation": {
+                "type": "TsTypeAnnotation",
+                "span": {
+                  "start": 61,
+                  "end": 69,
+                  "ctxt": 0
+                },
+                "typeAnnotation": {
+                  "type": "TsKeywordType",
+                  "span": {
+                    "start": 63,
+                    "end": 69,
+                    "ctxt": 0
+                  },
+                  "kind": "string"
+                }
+              }
+            }
+          }
+        ],
+        "decorators": [],
+        "span": {
+          "start": 27,
+          "end": 116,
+          "ctxt": 0
+        },
+        "body": {
+          "type": "BlockStatement",
+          "span": {
+            "start": 71,
+            "end": 116,
+            "ctxt": 0
+          },
+          "stmts": [
+            {
+              "type": "ThrowStatement",
+              "span": {
+                "start": 77,
+                "end": 114,
+                "ctxt": 0
+              },
+              "argument": {
+                "type": "NewExpression",
+                "span": {
+                  "start": 83,
+                  "end": 113,
+                  "ctxt": 0
+                },
+                "callee": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 87,
+                    "end": 92,
+                    "ctxt": 0
+                  },
+                  "value": "Error",
+                  "optional": false
+                },
+                "arguments": [
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "BinaryExpression",
+                      "span": {
+                        "start": 93,
+                        "end": 112,
+                        "ctxt": 0
+                      },
+                      "operator": "+",
+                      "left": {
+                        "type": "StringLiteral",
+                        "span": {
+                          "start": 93,
+                          "end": 106,
+                          "ctxt": 0
+                        },
+                        "value": "Unexpected ",
+                        "raw": "\"Unexpected \""
+                      },
+                      "right": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 109,
+                          "end": 112,
+                          "ctxt": 0
+                        },
+                        "value": "msg",
+                        "optional": false
+                      }
+                    }
+                  }
+                ],
+                "typeArguments": null
+              }
+            }
+          ]
+        },
+        "generator": false,
+        "async": false,
+        "typeParameters": null,
+        "returnType": null
+      }
+    },
+    {
+      "type": "ImportDeclaration",
+      "span": {
+        "start": 137,
+        "end": 171,
+        "ctxt": 0
+      },
+      "specifiers": [
+        {
+          "type": "ImportSpecifier",
+          "span": {
+            "start": 146,
+            "end": 157,
+            "ctxt": 0
+          },
+          "local": {
+            "type": "Identifier",
+            "span": {
+              "start": 146,
+              "end": 157,
+              "ctxt": 0
+            },
+            "value": "assertNevar",
+            "optional": false
+          },
+          "imported": null,
+          "isTypeOnly": false
+        }
+      ],
+      "source": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 165,
+          "end": 170,
+          "ctxt": 0
+        },
+        "value": "./a",
+        "raw": "\"./a\""
+      },
+      "typeOnly": false,
+      "with": null,
+      "phase": "evaluation"
+    }
+  ],
+  "interpreter": null
+}

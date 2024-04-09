@@ -1,0 +1,97 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 5,
+    "end": 75,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 5,
+        "end": 75,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "TsEnumDeclaration",
+        "span": {
+          "start": 12,
+          "end": 75,
+          "ctxt": 0
+        },
+        "declare": false,
+        "isConst": false,
+        "id": {
+          "type": "Identifier",
+          "span": {
+            "start": 17,
+            "end": 30,
+            "ctxt": 0
+          },
+          "value": "CodeGenTarget",
+          "optional": false
+        },
+        "members": [
+          {
+            "type": "TsEnumMember",
+            "span": {
+              "start": 42,
+              "end": 49,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 42,
+                "end": 45,
+                "ctxt": 0
+              },
+              "value": "ES3",
+              "optional": false
+            },
+            "init": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 48,
+                "end": 49,
+                "ctxt": 0
+              },
+              "value": 0.0,
+              "raw": "0"
+            }
+          },
+          {
+            "type": "TsEnumMember",
+            "span": {
+              "start": 60,
+              "end": 67,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 60,
+                "end": 63,
+                "ctxt": 0
+              },
+              "value": "ES5",
+              "optional": false
+            },
+            "init": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 66,
+                "end": 67,
+                "ctxt": 0
+              },
+              "value": 1.0,
+              "raw": "1"
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "interpreter": null
+}

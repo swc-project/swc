@@ -1,0 +1,115 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 52,
+    "end": 120,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 58,
+          "end": 61,
+          "ctxt": 0
+        },
+        "value": "any",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 52,
+        "end": 65,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    },
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 73,
+          "end": 79,
+          "ctxt": 0
+        },
+        "value": "number",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 67,
+        "end": 83,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    },
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 91,
+          "end": 98,
+          "ctxt": 0
+        },
+        "value": "boolean",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 85,
+        "end": 102,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    },
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 110,
+          "end": 116,
+          "ctxt": 0
+        },
+        "value": "string",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 104,
+        "end": 120,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    }
+  ],
+  "interpreter": null
+}

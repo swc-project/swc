@@ -1,0 +1,157 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 26,
+    "end": 87,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "TsTypeAliasDeclaration",
+      "span": {
+        "start": 26,
+        "end": 87,
+        "ctxt": 0
+      },
+      "declare": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 31,
+          "end": 35,
+          "ctxt": 0
+        },
+        "value": "Test",
+        "optional": false
+      },
+      "typeParams": {
+        "type": "TsTypeParameterDeclaration",
+        "span": {
+          "start": 35,
+          "end": 38,
+          "ctxt": 0
+        },
+        "parameters": [
+          {
+            "type": "TsTypeParameter",
+            "span": {
+              "start": 36,
+              "end": 37,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 36,
+                "end": 37,
+                "ctxt": 0
+              },
+              "value": "T",
+              "optional": false
+            },
+            "in": false,
+            "out": false,
+            "const": false,
+            "constraint": null,
+            "default": null
+          }
+        ]
+      },
+      "typeAnnotation": {
+        "type": "TsConditionalType",
+        "span": {
+          "start": 41,
+          "end": 86,
+          "ctxt": 0
+        },
+        "checkType": {
+          "type": "TsTypeReference",
+          "span": {
+            "start": 41,
+            "end": 42,
+            "ctxt": 0
+          },
+          "typeName": {
+            "type": "Identifier",
+            "span": {
+              "start": 41,
+              "end": 42,
+              "ctxt": 0
+            },
+            "value": "T",
+            "optional": false
+          },
+          "typeParams": null
+        },
+        "extendsType": {
+          "type": "TsInferType",
+          "span": {
+            "start": 51,
+            "end": 68,
+            "ctxt": 0
+          },
+          "typeParam": {
+            "type": "TsTypeParameter",
+            "span": {
+              "start": 57,
+              "end": 58,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 57,
+                "end": 58,
+                "ctxt": 0
+              },
+              "value": "A",
+              "optional": false
+            },
+            "in": false,
+            "out": false,
+            "const": false,
+            "constraint": {
+              "type": "TsTypeReference",
+              "span": {
+                "start": 67,
+                "end": 68,
+                "ctxt": 0
+              },
+              "typeName": {
+                "type": "Identifier",
+                "span": {
+                  "start": 67,
+                  "end": 68,
+                  "ctxt": 0
+                },
+                "value": "B",
+                "optional": false
+              },
+              "typeParams": null
+            },
+            "default": null
+          }
+        },
+        "trueType": {
+          "type": "TsKeywordType",
+          "span": {
+            "start": 71,
+            "end": 77,
+            "ctxt": 0
+          },
+          "kind": "number"
+        },
+        "falseType": {
+          "type": "TsKeywordType",
+          "span": {
+            "start": 80,
+            "end": 86,
+            "ctxt": 0
+          },
+          "kind": "string"
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

@@ -1,0 +1,419 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 130,
+    "end": 801,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 130,
+        "end": 199,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 134,
+            "end": 198,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 134,
+              "end": 173,
+              "ctxt": 0
+            },
+            "value": "stringContainingUnescapedLineSeparator1",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "StringLiteral",
+            "span": {
+              "start": 176,
+              "end": 198,
+              "ctxt": 0
+            },
+            "value": " STRING_CONTENT ",
+            "raw": "\" STRING_CONTENT \""
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 201,
+        "end": 275,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 205,
+            "end": 274,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 205,
+              "end": 249,
+              "ctxt": 0
+            },
+            "value": "stringContainingUnescapedParagraphSeparator1",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "StringLiteral",
+            "span": {
+              "start": 252,
+              "end": 274,
+              "ctxt": 0
+            },
+            "value": " STRING_CONTENT ",
+            "raw": "\" STRING_CONTENT \""
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 281,
+        "end": 350,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 285,
+            "end": 349,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 285,
+              "end": 324,
+              "ctxt": 0
+            },
+            "value": "stringContainingUnescapedLineSeparator2",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "StringLiteral",
+            "span": {
+              "start": 327,
+              "end": 349,
+              "ctxt": 0
+            },
+            "value": " STRING_CONTENT ",
+            "raw": "' STRING_CONTENT '"
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 352,
+        "end": 426,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 356,
+            "end": 425,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 356,
+              "end": 400,
+              "ctxt": 0
+            },
+            "value": "stringContainingUnescapedParagraphSeparator2",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "StringLiteral",
+            "span": {
+              "start": 403,
+              "end": 425,
+              "ctxt": 0
+            },
+            "value": " STRING_CONTENT ",
+            "raw": "' STRING_CONTENT '"
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 432,
+        "end": 501,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 436,
+            "end": 500,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 436,
+              "end": 475,
+              "ctxt": 0
+            },
+            "value": "stringContainingUnescapedLineSeparator3",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "TemplateLiteral",
+            "span": {
+              "start": 478,
+              "end": 500,
+              "ctxt": 0
+            },
+            "expressions": [],
+            "quasis": [
+              {
+                "type": "TemplateElement",
+                "span": {
+                  "start": 479,
+                  "end": 499,
+                  "ctxt": 0
+                },
+                "tail": true,
+                "cooked": " STRING_CONTENT ",
+                "raw": " STRING_CONTENT "
+              }
+            ]
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 503,
+        "end": 577,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 507,
+            "end": 576,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 507,
+              "end": 551,
+              "ctxt": 0
+            },
+            "value": "stringContainingUnescapedParagraphSeparator3",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "TemplateLiteral",
+            "span": {
+              "start": 554,
+              "end": 576,
+              "ctxt": 0
+            },
+            "expressions": [],
+            "quasis": [
+              {
+                "type": "TemplateElement",
+                "span": {
+                  "start": 555,
+                  "end": 575,
+                  "ctxt": 0
+                },
+                "tail": true,
+                "cooked": " STRING_CONTENT ",
+                "raw": " STRING_CONTENT "
+              }
+            ]
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 634,
+        "end": 801,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 638,
+            "end": 800,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 638,
+              "end": 641,
+              "ctxt": 0
+            },
+            "value": "arr",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "ArrayExpression",
+            "span": {
+              "start": 644,
+              "end": 800,
+              "ctxt": 0
+            },
+            "elements": [
+              {
+                "spread": null,
+                "expression": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 651,
+                    "end": 679,
+                    "ctxt": 0
+                  },
+                  "value": "  STRING_CONTENT  ",
+                  "raw": "\"  STRING_CONTENT  \""
+                }
+              },
+              {
+                "spread": null,
+                "expression": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 686,
+                    "end": 720,
+                    "ctxt": 0
+                  },
+                  "value": "   STRING_CONTENT   ",
+                  "raw": "\"   STRING_CONTENT   \""
+                }
+              },
+              {
+                "spread": null,
+                "expression": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 727,
+                    "end": 746,
+                    "ctxt": 0
+                  },
+                  "value": "STRING_CONTENT ",
+                  "raw": "\"STRING_CONTENT \""
+                }
+              },
+              {
+                "spread": null,
+                "expression": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 753,
+                    "end": 772,
+                    "ctxt": 0
+                  },
+                  "value": " STRING_CONTENT",
+                  "raw": "\" STRING_CONTENT\""
+                }
+              },
+              {
+                "spread": null,
+                "expression": {
+                  "type": "TemplateLiteral",
+                  "span": {
+                    "start": 779,
+                    "end": 785,
+                    "ctxt": 0
+                  },
+                  "expressions": [],
+                  "quasis": [
+                    {
+                      "type": "TemplateElement",
+                      "span": {
+                        "start": 780,
+                        "end": 784,
+                        "ctxt": 0
+                      },
+                      "tail": true,
+                      "cooked": "",
+                      "raw": "\\ "
+                    }
+                  ]
+                }
+              },
+              {
+                "spread": null,
+                "expression": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 792,
+                    "end": 797,
+                    "ctxt": 0
+                  },
+                  "value": " ",
+                  "raw": "' '"
+                }
+              }
+            ]
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

@@ -1,0 +1,95 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 18,
+    "end": 41,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 18,
+        "end": 41,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 22,
+            "end": 40,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 22,
+              "end": 23,
+              "ctxt": 0
+            },
+            "value": "x",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "ParenthesisExpression",
+            "span": {
+              "start": 26,
+              "end": 40,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "TemplateLiteral",
+              "span": {
+                "start": 27,
+                "end": 39,
+                "ctxt": 0
+              },
+              "expressions": [
+                {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 33,
+                    "end": 34,
+                    "ctxt": 0
+                  },
+                  "value": 0.0,
+                  "raw": "0"
+                }
+              ],
+              "quasis": [
+                {
+                  "type": "TemplateElement",
+                  "span": {
+                    "start": 28,
+                    "end": 31,
+                    "ctxt": 0
+                  },
+                  "tail": false,
+                  "cooked": "abc",
+                  "raw": "abc"
+                },
+                {
+                  "type": "TemplateElement",
+                  "span": {
+                    "start": 35,
+                    "end": 38,
+                    "ctxt": 0
+                  },
+                  "tail": true,
+                  "cooked": "abc",
+                  "raw": "abc"
+                }
+              ]
+            }
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

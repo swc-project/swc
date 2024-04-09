@@ -1,0 +1,78 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 49,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "TsModuleDeclaration",
+      "span": {
+        "start": 1,
+        "end": 49,
+        "ctxt": 0
+      },
+      "declare": false,
+      "global": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 8,
+          "end": 9,
+          "ctxt": 0
+        },
+        "value": "M",
+        "optional": false
+      },
+      "body": {
+        "type": "TsModuleBlock",
+        "span": {
+          "start": 10,
+          "end": 49,
+          "ctxt": 0
+        },
+        "body": [
+          {
+            "type": "ExportDeclaration",
+            "span": {
+              "start": 17,
+              "end": 46,
+              "ctxt": 0
+            },
+            "declaration": {
+              "type": "TsModuleDeclaration",
+              "span": {
+                "start": 24,
+                "end": 46,
+                "ctxt": 0
+              },
+              "declare": true,
+              "global": false,
+              "id": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 39,
+                  "end": 42,
+                  "ctxt": 0
+                },
+                "value": "M",
+                "raw": "\"M\""
+              },
+              "body": {
+                "type": "TsModuleBlock",
+                "span": {
+                  "start": 43,
+                  "end": 46,
+                  "ctxt": 0
+                },
+                "body": []
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "interpreter": null
+}

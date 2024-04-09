@@ -1,0 +1,84 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 18,
+    "end": 77,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 18,
+        "end": 77,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "TemplateLiteral",
+        "span": {
+          "start": 18,
+          "end": 77,
+          "ctxt": 0
+        },
+        "expressions": [
+          {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 32,
+              "end": 34,
+              "ctxt": 0
+            },
+            "value": 10.0,
+            "raw": "10"
+          },
+          {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 57,
+              "end": 59,
+              "ctxt": 0
+            },
+            "value": 20.0,
+            "raw": "20"
+          }
+        ],
+        "quasis": [
+          {
+            "type": "TemplateElement",
+            "span": {
+              "start": 19,
+              "end": 29,
+              "ctxt": 0
+            },
+            "tail": false,
+            "cooked": " /**head  ",
+            "raw": " /**head  "
+          },
+          {
+            "type": "TemplateElement",
+            "span": {
+              "start": 36,
+              "end": 54,
+              "ctxt": 0
+            },
+            "tail": false,
+            "cooked": " // still middle  ",
+            "raw": " // still middle  "
+          },
+          {
+            "type": "TemplateElement",
+            "span": {
+              "start": 61,
+              "end": 76,
+              "ctxt": 0
+            },
+            "tail": true,
+            "cooked": " /* still tail ",
+            "raw": " /* still tail "
+          }
+        ]
+      }
+    }
+  ],
+  "interpreter": null
+}

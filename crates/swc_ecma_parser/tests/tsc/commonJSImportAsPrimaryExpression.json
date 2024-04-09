@@ -1,0 +1,223 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 47,
+    "end": 210,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 47,
+        "end": 98,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "ClassDeclaration",
+        "identifier": {
+          "type": "Identifier",
+          "span": {
+            "start": 60,
+            "end": 62,
+            "ctxt": 0
+          },
+          "value": "C1",
+          "optional": false
+        },
+        "declare": false,
+        "span": {
+          "start": 54,
+          "end": 98,
+          "ctxt": 0
+        },
+        "decorators": [],
+        "body": [
+          {
+            "type": "ClassProperty",
+            "span": {
+              "start": 67,
+              "end": 75,
+              "ctxt": 0
+            },
+            "key": {
+              "type": "Identifier",
+              "span": {
+                "start": 67,
+                "end": 69,
+                "ctxt": 0
+              },
+              "value": "m1",
+              "optional": false
+            },
+            "value": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 72,
+                "end": 74,
+                "ctxt": 0
+              },
+              "value": 42.0,
+              "raw": "42"
+            },
+            "typeAnnotation": null,
+            "isStatic": false,
+            "decorators": [],
+            "accessibility": null,
+            "isAbstract": false,
+            "isOptional": false,
+            "isOverride": false,
+            "readonly": false,
+            "declare": false,
+            "definite": false
+          },
+          {
+            "type": "ClassProperty",
+            "span": {
+              "start": 78,
+              "end": 95,
+              "ctxt": 0
+            },
+            "key": {
+              "type": "Identifier",
+              "span": {
+                "start": 85,
+                "end": 87,
+                "ctxt": 0
+              },
+              "value": "s1",
+              "optional": false
+            },
+            "value": {
+              "type": "BooleanLiteral",
+              "span": {
+                "start": 90,
+                "end": 94,
+                "ctxt": 0
+              },
+              "value": true
+            },
+            "typeAnnotation": null,
+            "isStatic": true,
+            "decorators": [],
+            "accessibility": null,
+            "isAbstract": false,
+            "isOptional": false,
+            "isOverride": false,
+            "readonly": false,
+            "declare": false,
+            "definite": false
+          }
+        ],
+        "superClass": null,
+        "isAbstract": false,
+        "typeParams": null,
+        "superTypeParams": null,
+        "implements": []
+      }
+    },
+    {
+      "type": "TsImportEqualsDeclaration",
+      "span": {
+        "start": 126,
+        "end": 158,
+        "ctxt": 0
+      },
+      "isExport": false,
+      "isTypeOnly": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 133,
+          "end": 136,
+          "ctxt": 0
+        },
+        "value": "foo",
+        "optional": false
+      },
+      "moduleRef": {
+        "type": "TsExternalModuleReference",
+        "span": {
+          "start": 139,
+          "end": 157,
+          "ctxt": 0
+        },
+        "expression": {
+          "type": "StringLiteral",
+          "span": {
+            "start": 147,
+            "end": 156,
+            "ctxt": 0
+          },
+          "value": "./foo_0",
+          "raw": "\"./foo_0\""
+        }
+      }
+    },
+    {
+      "type": "IfStatement",
+      "span": {
+        "start": 160,
+        "end": 210,
+        "ctxt": 0
+      },
+      "test": {
+        "type": "MemberExpression",
+        "span": {
+          "start": 163,
+          "end": 172,
+          "ctxt": 0
+        },
+        "object": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 163,
+            "end": 169,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 163,
+              "end": 166,
+              "ctxt": 0
+            },
+            "value": "foo",
+            "optional": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 167,
+              "end": 169,
+              "ctxt": 0
+            },
+            "value": "C1",
+            "optional": false
+          }
+        },
+        "property": {
+          "type": "Identifier",
+          "span": {
+            "start": 170,
+            "end": 172,
+            "ctxt": 0
+          },
+          "value": "s1",
+          "optional": false
+        }
+      },
+      "consequent": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 173,
+          "end": 210,
+          "ctxt": 0
+        },
+        "stmts": []
+      },
+      "alternate": null
+    }
+  ],
+  "interpreter": null
+}

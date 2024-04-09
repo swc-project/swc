@@ -1,0 +1,2160 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 217,
+    "end": 2236,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "TsModuleDeclaration",
+      "span": {
+        "start": 217,
+        "end": 2236,
+        "ctxt": 0
+      },
+      "declare": false,
+      "global": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 224,
+          "end": 234,
+          "ctxt": 0
+        },
+        "value": "TypeScript",
+        "optional": false
+      },
+      "body": {
+        "type": "TsModuleBlock",
+        "span": {
+          "start": 235,
+          "end": 2236,
+          "ctxt": 0
+        },
+        "body": [
+          {
+            "type": "ExportDeclaration",
+            "span": {
+              "start": 351,
+              "end": 2233,
+              "ctxt": 0
+            },
+            "declaration": {
+              "type": "TsEnumDeclaration",
+              "span": {
+                "start": 358,
+                "end": 2233,
+                "ctxt": 0
+              },
+              "declare": false,
+              "isConst": false,
+              "id": {
+                "type": "Identifier",
+                "span": {
+                  "start": 363,
+                  "end": 371,
+                  "ctxt": 0
+                },
+                "value": "NodeType",
+                "optional": false
+              },
+              "members": [
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 383,
+                    "end": 387,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 383,
+                      "end": 387,
+                      "ctxt": 0
+                    },
+                    "value": "None",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 398,
+                    "end": 403,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 398,
+                      "end": 403,
+                      "ctxt": 0
+                    },
+                    "value": "Empty",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 414,
+                    "end": 423,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 414,
+                      "end": 423,
+                      "ctxt": 0
+                    },
+                    "value": "EmptyExpr",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 434,
+                    "end": 438,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 434,
+                      "end": 438,
+                      "ctxt": 0
+                    },
+                    "value": "True",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 449,
+                    "end": 454,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 449,
+                      "end": 454,
+                      "ctxt": 0
+                    },
+                    "value": "False",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 465,
+                    "end": 469,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 465,
+                      "end": 469,
+                      "ctxt": 0
+                    },
+                    "value": "This",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 480,
+                    "end": 485,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 480,
+                      "end": 485,
+                      "ctxt": 0
+                    },
+                    "value": "Super",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 496,
+                    "end": 503,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 496,
+                      "end": 503,
+                      "ctxt": 0
+                    },
+                    "value": "QString",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 514,
+                    "end": 519,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 514,
+                      "end": 519,
+                      "ctxt": 0
+                    },
+                    "value": "Regex",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 530,
+                    "end": 534,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 530,
+                      "end": 534,
+                      "ctxt": 0
+                    },
+                    "value": "Null",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 545,
+                    "end": 553,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 545,
+                      "end": 553,
+                      "ctxt": 0
+                    },
+                    "value": "ArrayLit",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 564,
+                    "end": 573,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 564,
+                      "end": 573,
+                      "ctxt": 0
+                    },
+                    "value": "ObjectLit",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 584,
+                    "end": 588,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 584,
+                      "end": 588,
+                      "ctxt": 0
+                    },
+                    "value": "Void",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 599,
+                    "end": 604,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 599,
+                      "end": 604,
+                      "ctxt": 0
+                    },
+                    "value": "Comma",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 615,
+                    "end": 618,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 615,
+                      "end": 618,
+                      "ctxt": 0
+                    },
+                    "value": "Pos",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 629,
+                    "end": 632,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 629,
+                      "end": 632,
+                      "ctxt": 0
+                    },
+                    "value": "Neg",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 643,
+                    "end": 649,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 643,
+                      "end": 649,
+                      "ctxt": 0
+                    },
+                    "value": "Delete",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 660,
+                    "end": 665,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 660,
+                      "end": 665,
+                      "ctxt": 0
+                    },
+                    "value": "Await",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 676,
+                    "end": 678,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 676,
+                      "end": 678,
+                      "ctxt": 0
+                    },
+                    "value": "In",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 689,
+                    "end": 692,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 689,
+                      "end": 692,
+                      "ctxt": 0
+                    },
+                    "value": "Dot",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 703,
+                    "end": 707,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 703,
+                      "end": 707,
+                      "ctxt": 0
+                    },
+                    "value": "From",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 718,
+                    "end": 720,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 718,
+                      "end": 720,
+                      "ctxt": 0
+                    },
+                    "value": "Is",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 731,
+                    "end": 737,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 731,
+                      "end": 737,
+                      "ctxt": 0
+                    },
+                    "value": "InstOf",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 748,
+                    "end": 754,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 748,
+                      "end": 754,
+                      "ctxt": 0
+                    },
+                    "value": "Typeof",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 765,
+                    "end": 774,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 765,
+                      "end": 774,
+                      "ctxt": 0
+                    },
+                    "value": "NumberLit",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 785,
+                    "end": 789,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 785,
+                      "end": 789,
+                      "ctxt": 0
+                    },
+                    "value": "Name",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 800,
+                    "end": 807,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 800,
+                      "end": 807,
+                      "ctxt": 0
+                    },
+                    "value": "TypeRef",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 818,
+                    "end": 823,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 818,
+                      "end": 823,
+                      "ctxt": 0
+                    },
+                    "value": "Index",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 834,
+                    "end": 838,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 834,
+                      "end": 838,
+                      "ctxt": 0
+                    },
+                    "value": "Call",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 849,
+                    "end": 852,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 849,
+                      "end": 852,
+                      "ctxt": 0
+                    },
+                    "value": "New",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 863,
+                    "end": 866,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 863,
+                      "end": 866,
+                      "ctxt": 0
+                    },
+                    "value": "Asg",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 877,
+                    "end": 883,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 877,
+                      "end": 883,
+                      "ctxt": 0
+                    },
+                    "value": "AsgAdd",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 894,
+                    "end": 900,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 894,
+                      "end": 900,
+                      "ctxt": 0
+                    },
+                    "value": "AsgSub",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 911,
+                    "end": 917,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 911,
+                      "end": 917,
+                      "ctxt": 0
+                    },
+                    "value": "AsgDiv",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 928,
+                    "end": 934,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 928,
+                      "end": 934,
+                      "ctxt": 0
+                    },
+                    "value": "AsgMul",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 945,
+                    "end": 951,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 945,
+                      "end": 951,
+                      "ctxt": 0
+                    },
+                    "value": "AsgMod",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 962,
+                    "end": 968,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 962,
+                      "end": 968,
+                      "ctxt": 0
+                    },
+                    "value": "AsgAnd",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 979,
+                    "end": 985,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 979,
+                      "end": 985,
+                      "ctxt": 0
+                    },
+                    "value": "AsgXor",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 996,
+                    "end": 1001,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 996,
+                      "end": 1001,
+                      "ctxt": 0
+                    },
+                    "value": "AsgOr",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 1012,
+                    "end": 1018,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1012,
+                      "end": 1018,
+                      "ctxt": 0
+                    },
+                    "value": "AsgLsh",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 1029,
+                    "end": 1035,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1029,
+                      "end": 1035,
+                      "ctxt": 0
+                    },
+                    "value": "AsgRsh",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 1046,
+                    "end": 1052,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1046,
+                      "end": 1052,
+                      "ctxt": 0
+                    },
+                    "value": "AsgRs2",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 1063,
+                    "end": 1084,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1063,
+                      "end": 1084,
+                      "ctxt": 0
+                    },
+                    "value": "ConditionalExpression",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 1095,
+                    "end": 1100,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1095,
+                      "end": 1100,
+                      "ctxt": 0
+                    },
+                    "value": "LogOr",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 1111,
+                    "end": 1117,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1111,
+                      "end": 1117,
+                      "ctxt": 0
+                    },
+                    "value": "LogAnd",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 1128,
+                    "end": 1130,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1128,
+                      "end": 1130,
+                      "ctxt": 0
+                    },
+                    "value": "Or",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 1141,
+                    "end": 1144,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1141,
+                      "end": 1144,
+                      "ctxt": 0
+                    },
+                    "value": "Xor",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 1155,
+                    "end": 1158,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1155,
+                      "end": 1158,
+                      "ctxt": 0
+                    },
+                    "value": "And",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 1169,
+                    "end": 1171,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1169,
+                      "end": 1171,
+                      "ctxt": 0
+                    },
+                    "value": "Eq",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 1182,
+                    "end": 1184,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1182,
+                      "end": 1184,
+                      "ctxt": 0
+                    },
+                    "value": "Ne",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 1195,
+                    "end": 1198,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1195,
+                      "end": 1198,
+                      "ctxt": 0
+                    },
+                    "value": "Eqv",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 1209,
+                    "end": 1213,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1209,
+                      "end": 1213,
+                      "ctxt": 0
+                    },
+                    "value": "NEqv",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 1224,
+                    "end": 1226,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1224,
+                      "end": 1226,
+                      "ctxt": 0
+                    },
+                    "value": "Lt",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 1237,
+                    "end": 1239,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1237,
+                      "end": 1239,
+                      "ctxt": 0
+                    },
+                    "value": "Le",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 1250,
+                    "end": 1252,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1250,
+                      "end": 1252,
+                      "ctxt": 0
+                    },
+                    "value": "Gt",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 1263,
+                    "end": 1265,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1263,
+                      "end": 1265,
+                      "ctxt": 0
+                    },
+                    "value": "Ge",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 1276,
+                    "end": 1279,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1276,
+                      "end": 1279,
+                      "ctxt": 0
+                    },
+                    "value": "Add",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 1290,
+                    "end": 1293,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1290,
+                      "end": 1293,
+                      "ctxt": 0
+                    },
+                    "value": "Sub",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 1304,
+                    "end": 1307,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1304,
+                      "end": 1307,
+                      "ctxt": 0
+                    },
+                    "value": "Mul",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 1318,
+                    "end": 1321,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1318,
+                      "end": 1321,
+                      "ctxt": 0
+                    },
+                    "value": "Div",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 1332,
+                    "end": 1335,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1332,
+                      "end": 1335,
+                      "ctxt": 0
+                    },
+                    "value": "Mod",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 1346,
+                    "end": 1349,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1346,
+                      "end": 1349,
+                      "ctxt": 0
+                    },
+                    "value": "Lsh",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 1360,
+                    "end": 1363,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1360,
+                      "end": 1363,
+                      "ctxt": 0
+                    },
+                    "value": "Rsh",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 1374,
+                    "end": 1377,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1374,
+                      "end": 1377,
+                      "ctxt": 0
+                    },
+                    "value": "Rs2",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 1388,
+                    "end": 1391,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1388,
+                      "end": 1391,
+                      "ctxt": 0
+                    },
+                    "value": "Not",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 1402,
+                    "end": 1408,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1402,
+                      "end": 1408,
+                      "ctxt": 0
+                    },
+                    "value": "LogNot",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 1419,
+                    "end": 1425,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1419,
+                      "end": 1425,
+                      "ctxt": 0
+                    },
+                    "value": "IncPre",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 1436,
+                    "end": 1442,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1436,
+                      "end": 1442,
+                      "ctxt": 0
+                    },
+                    "value": "DecPre",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 1453,
+                    "end": 1460,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1453,
+                      "end": 1460,
+                      "ctxt": 0
+                    },
+                    "value": "IncPost",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 1471,
+                    "end": 1478,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1471,
+                      "end": 1478,
+                      "ctxt": 0
+                    },
+                    "value": "DecPost",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 1489,
+                    "end": 1502,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1489,
+                      "end": 1502,
+                      "ctxt": 0
+                    },
+                    "value": "TypeAssertion",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 1513,
+                    "end": 1521,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1513,
+                      "end": 1521,
+                      "ctxt": 0
+                    },
+                    "value": "FuncDecl",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 1532,
+                    "end": 1538,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1532,
+                      "end": 1538,
+                      "ctxt": 0
+                    },
+                    "value": "Member",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 1549,
+                    "end": 1556,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1549,
+                      "end": 1556,
+                      "ctxt": 0
+                    },
+                    "value": "VarDecl",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 1567,
+                    "end": 1574,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1567,
+                      "end": 1574,
+                      "ctxt": 0
+                    },
+                    "value": "ArgDecl",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 1585,
+                    "end": 1591,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1585,
+                      "end": 1591,
+                      "ctxt": 0
+                    },
+                    "value": "Return",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 1602,
+                    "end": 1607,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1602,
+                      "end": 1607,
+                      "ctxt": 0
+                    },
+                    "value": "Break",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 1618,
+                    "end": 1626,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1618,
+                      "end": 1626,
+                      "ctxt": 0
+                    },
+                    "value": "Continue",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 1637,
+                    "end": 1642,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1637,
+                      "end": 1642,
+                      "ctxt": 0
+                    },
+                    "value": "Throw",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 1653,
+                    "end": 1656,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1653,
+                      "end": 1656,
+                      "ctxt": 0
+                    },
+                    "value": "For",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 1667,
+                    "end": 1672,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1667,
+                      "end": 1672,
+                      "ctxt": 0
+                    },
+                    "value": "ForIn",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 1683,
+                    "end": 1685,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1683,
+                      "end": 1685,
+                      "ctxt": 0
+                    },
+                    "value": "If",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 1696,
+                    "end": 1701,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1696,
+                      "end": 1701,
+                      "ctxt": 0
+                    },
+                    "value": "While",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 1712,
+                    "end": 1719,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1712,
+                      "end": 1719,
+                      "ctxt": 0
+                    },
+                    "value": "DoWhile",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 1730,
+                    "end": 1735,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1730,
+                      "end": 1735,
+                      "ctxt": 0
+                    },
+                    "value": "Block",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 1746,
+                    "end": 1750,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1746,
+                      "end": 1750,
+                      "ctxt": 0
+                    },
+                    "value": "Case",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 1761,
+                    "end": 1767,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1761,
+                      "end": 1767,
+                      "ctxt": 0
+                    },
+                    "value": "Switch",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 1778,
+                    "end": 1781,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1778,
+                      "end": 1781,
+                      "ctxt": 0
+                    },
+                    "value": "Try",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 1792,
+                    "end": 1800,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1792,
+                      "end": 1800,
+                      "ctxt": 0
+                    },
+                    "value": "TryCatch",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 1811,
+                    "end": 1821,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1811,
+                      "end": 1821,
+                      "ctxt": 0
+                    },
+                    "value": "TryFinally",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 1832,
+                    "end": 1839,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1832,
+                      "end": 1839,
+                      "ctxt": 0
+                    },
+                    "value": "Finally",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 1850,
+                    "end": 1855,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1850,
+                      "end": 1855,
+                      "ctxt": 0
+                    },
+                    "value": "Catch",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 1866,
+                    "end": 1870,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1866,
+                      "end": 1870,
+                      "ctxt": 0
+                    },
+                    "value": "List",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 1881,
+                    "end": 1887,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1881,
+                      "end": 1887,
+                      "ctxt": 0
+                    },
+                    "value": "Script",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 1898,
+                    "end": 1914,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1898,
+                      "end": 1914,
+                      "ctxt": 0
+                    },
+                    "value": "ClassDeclaration",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 1925,
+                    "end": 1945,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1925,
+                      "end": 1945,
+                      "ctxt": 0
+                    },
+                    "value": "InterfaceDeclaration",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 1956,
+                    "end": 1973,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1956,
+                      "end": 1973,
+                      "ctxt": 0
+                    },
+                    "value": "ModuleDeclaration",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 1984,
+                    "end": 2001,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1984,
+                      "end": 2001,
+                      "ctxt": 0
+                    },
+                    "value": "ImportDeclaration",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 2012,
+                    "end": 2016,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 2012,
+                      "end": 2016,
+                      "ctxt": 0
+                    },
+                    "value": "With",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 2027,
+                    "end": 2032,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 2027,
+                      "end": 2032,
+                      "ctxt": 0
+                    },
+                    "value": "Label",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 2043,
+                    "end": 2059,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 2043,
+                      "end": 2059,
+                      "ctxt": 0
+                    },
+                    "value": "LabeledStatement",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 2070,
+                    "end": 2077,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 2070,
+                      "end": 2077,
+                      "ctxt": 0
+                    },
+                    "value": "EBStart",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 2088,
+                    "end": 2094,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 2088,
+                      "end": 2094,
+                      "ctxt": 0
+                    },
+                    "value": "GotoEB",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 2105,
+                    "end": 2112,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 2105,
+                      "end": 2112,
+                      "ctxt": 0
+                    },
+                    "value": "EndCode",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 2123,
+                    "end": 2128,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 2123,
+                      "end": 2128,
+                      "ctxt": 0
+                    },
+                    "value": "Error",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 2139,
+                    "end": 2146,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 2139,
+                      "end": 2146,
+                      "ctxt": 0
+                    },
+                    "value": "Comment",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 2157,
+                    "end": 2165,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 2157,
+                      "end": 2165,
+                      "ctxt": 0
+                    },
+                    "value": "Debugger",
+                    "optional": false
+                  },
+                  "init": null
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 2176,
+                    "end": 2198,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 2176,
+                      "end": 2187,
+                      "ctxt": 0
+                    },
+                    "value": "GeneralNode",
+                    "optional": false
+                  },
+                  "init": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 2190,
+                      "end": 2198,
+                      "ctxt": 0
+                    },
+                    "value": "FuncDecl",
+                    "optional": false
+                  }
+                },
+                {
+                  "type": "TsEnumMember",
+                  "span": {
+                    "start": 2209,
+                    "end": 2225,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 2209,
+                      "end": 2216,
+                      "ctxt": 0
+                    },
+                    "value": "LastAsg",
+                    "optional": false
+                  },
+                  "init": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 2219,
+                      "end": 2225,
+                      "ctxt": 0
+                    },
+                    "value": "AsgRs2",
+                    "optional": false
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "interpreter": null
+}

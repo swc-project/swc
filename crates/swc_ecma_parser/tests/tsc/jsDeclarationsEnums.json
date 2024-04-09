@@ -1,0 +1,1261 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 290,
+    "end": 929,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 290,
+        "end": 306,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "TsEnumDeclaration",
+        "span": {
+          "start": 297,
+          "end": 306,
+          "ctxt": 0
+        },
+        "declare": false,
+        "isConst": false,
+        "id": {
+          "type": "Identifier",
+          "span": {
+            "start": 302,
+            "end": 303,
+            "ctxt": 0
+          },
+          "value": "A",
+          "optional": false
+        },
+        "members": []
+      }
+    },
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 310,
+        "end": 340,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "TsEnumDeclaration",
+        "span": {
+          "start": 317,
+          "end": 340,
+          "ctxt": 0
+        },
+        "declare": false,
+        "isConst": false,
+        "id": {
+          "type": "Identifier",
+          "span": {
+            "start": 322,
+            "end": 323,
+            "ctxt": 0
+          },
+          "value": "B",
+          "optional": false
+        },
+        "members": [
+          {
+            "type": "TsEnumMember",
+            "span": {
+              "start": 331,
+              "end": 337,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 331,
+                "end": 337,
+                "ctxt": 0
+              },
+              "value": "Member",
+              "optional": false
+            },
+            "init": null
+          }
+        ]
+      }
+    },
+    {
+      "type": "TsEnumDeclaration",
+      "span": {
+        "start": 344,
+        "end": 353,
+        "ctxt": 0
+      },
+      "declare": false,
+      "isConst": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 349,
+          "end": 350,
+          "ctxt": 0
+        },
+        "value": "C",
+        "optional": false
+      },
+      "members": []
+    },
+    {
+      "type": "ExportNamedDeclaration",
+      "span": {
+        "start": 357,
+        "end": 370,
+        "ctxt": 0
+      },
+      "specifiers": [
+        {
+          "type": "ExportSpecifier",
+          "span": {
+            "start": 366,
+            "end": 367,
+            "ctxt": 0
+          },
+          "orig": {
+            "type": "Identifier",
+            "span": {
+              "start": 366,
+              "end": 367,
+              "ctxt": 0
+            },
+            "value": "C",
+            "optional": false
+          },
+          "exported": null,
+          "isTypeOnly": false
+        }
+      ],
+      "source": null,
+      "typeOnly": false,
+      "with": null
+    },
+    {
+      "type": "TsEnumDeclaration",
+      "span": {
+        "start": 374,
+        "end": 384,
+        "ctxt": 0
+      },
+      "declare": false,
+      "isConst": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 379,
+          "end": 381,
+          "ctxt": 0
+        },
+        "value": "DD",
+        "optional": false
+      },
+      "members": []
+    },
+    {
+      "type": "ExportNamedDeclaration",
+      "span": {
+        "start": 388,
+        "end": 407,
+        "ctxt": 0
+      },
+      "specifiers": [
+        {
+          "type": "ExportSpecifier",
+          "span": {
+            "start": 397,
+            "end": 404,
+            "ctxt": 0
+          },
+          "orig": {
+            "type": "Identifier",
+            "span": {
+              "start": 397,
+              "end": 399,
+              "ctxt": 0
+            },
+            "value": "DD",
+            "optional": false
+          },
+          "exported": {
+            "type": "Identifier",
+            "span": {
+              "start": 403,
+              "end": 404,
+              "ctxt": 0
+            },
+            "value": "D",
+            "optional": false
+          },
+          "isTypeOnly": false
+        }
+      ],
+      "source": null,
+      "typeOnly": false,
+      "with": null
+    },
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 411,
+        "end": 427,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "TsEnumDeclaration",
+        "span": {
+          "start": 418,
+          "end": 427,
+          "ctxt": 0
+        },
+        "declare": false,
+        "isConst": false,
+        "id": {
+          "type": "Identifier",
+          "span": {
+            "start": 423,
+            "end": 424,
+            "ctxt": 0
+          },
+          "value": "E",
+          "optional": false
+        },
+        "members": []
+      }
+    },
+    {
+      "type": "ExportNamedDeclaration",
+      "span": {
+        "start": 429,
+        "end": 448,
+        "ctxt": 0
+      },
+      "specifiers": [
+        {
+          "type": "ExportSpecifier",
+          "span": {
+            "start": 438,
+            "end": 445,
+            "ctxt": 0
+          },
+          "orig": {
+            "type": "Identifier",
+            "span": {
+              "start": 438,
+              "end": 439,
+              "ctxt": 0
+            },
+            "value": "E",
+            "optional": false
+          },
+          "exported": {
+            "type": "Identifier",
+            "span": {
+              "start": 443,
+              "end": 445,
+              "ctxt": 0
+            },
+            "value": "EE",
+            "optional": false
+          },
+          "isTypeOnly": false
+        }
+      ],
+      "source": null,
+      "typeOnly": false,
+      "with": null
+    },
+    {
+      "type": "ExportNamedDeclaration",
+      "span": {
+        "start": 452,
+        "end": 471,
+        "ctxt": 0
+      },
+      "specifiers": [
+        {
+          "type": "ExportSpecifier",
+          "span": {
+            "start": 461,
+            "end": 468,
+            "ctxt": 0
+          },
+          "orig": {
+            "type": "Identifier",
+            "span": {
+              "start": 461,
+              "end": 462,
+              "ctxt": 0
+            },
+            "value": "F",
+            "optional": false
+          },
+          "exported": {
+            "type": "Identifier",
+            "span": {
+              "start": 466,
+              "end": 468,
+              "ctxt": 0
+            },
+            "value": "FF",
+            "optional": false
+          },
+          "isTypeOnly": false
+        }
+      ],
+      "source": null,
+      "typeOnly": false,
+      "with": null
+    },
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 473,
+        "end": 489,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "TsEnumDeclaration",
+        "span": {
+          "start": 480,
+          "end": 489,
+          "ctxt": 0
+        },
+        "declare": false,
+        "isConst": false,
+        "id": {
+          "type": "Identifier",
+          "span": {
+            "start": 485,
+            "end": 486,
+            "ctxt": 0
+          },
+          "value": "F",
+          "optional": false
+        },
+        "members": []
+      }
+    },
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 493,
+        "end": 538,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "TsEnumDeclaration",
+        "span": {
+          "start": 500,
+          "end": 538,
+          "ctxt": 0
+        },
+        "declare": false,
+        "isConst": false,
+        "id": {
+          "type": "Identifier",
+          "span": {
+            "start": 505,
+            "end": 506,
+            "ctxt": 0
+          },
+          "value": "G",
+          "optional": false
+        },
+        "members": [
+          {
+            "type": "TsEnumMember",
+            "span": {
+              "start": 514,
+              "end": 519,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 514,
+                "end": 515,
+                "ctxt": 0
+              },
+              "value": "A",
+              "optional": false
+            },
+            "init": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 518,
+                "end": 519,
+                "ctxt": 0
+              },
+              "value": 1.0,
+              "raw": "1"
+            }
+          },
+          {
+            "type": "TsEnumMember",
+            "span": {
+              "start": 526,
+              "end": 527,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 526,
+                "end": 527,
+                "ctxt": 0
+              },
+              "value": "B",
+              "optional": false
+            },
+            "init": null
+          },
+          {
+            "type": "TsEnumMember",
+            "span": {
+              "start": 534,
+              "end": 535,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 534,
+                "end": 535,
+                "ctxt": 0
+              },
+              "value": "C",
+              "optional": false
+            },
+            "init": null
+          }
+        ]
+      }
+    },
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 542,
+        "end": 587,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "TsEnumDeclaration",
+        "span": {
+          "start": 549,
+          "end": 587,
+          "ctxt": 0
+        },
+        "declare": false,
+        "isConst": false,
+        "id": {
+          "type": "Identifier",
+          "span": {
+            "start": 554,
+            "end": 555,
+            "ctxt": 0
+          },
+          "value": "H",
+          "optional": false
+        },
+        "members": [
+          {
+            "type": "TsEnumMember",
+            "span": {
+              "start": 563,
+              "end": 570,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 563,
+                "end": 564,
+                "ctxt": 0
+              },
+              "value": "A",
+              "optional": false
+            },
+            "init": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 567,
+                "end": 570,
+                "ctxt": 0
+              },
+              "value": "a",
+              "raw": "\"a\""
+            }
+          },
+          {
+            "type": "TsEnumMember",
+            "span": {
+              "start": 577,
+              "end": 584,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 577,
+                "end": 578,
+                "ctxt": 0
+              },
+              "value": "B",
+              "optional": false
+            },
+            "init": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 581,
+                "end": 584,
+                "ctxt": 0
+              },
+              "value": "b",
+              "raw": "\"b\""
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 591,
+        "end": 642,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "TsEnumDeclaration",
+        "span": {
+          "start": 598,
+          "end": 642,
+          "ctxt": 0
+        },
+        "declare": false,
+        "isConst": false,
+        "id": {
+          "type": "Identifier",
+          "span": {
+            "start": 603,
+            "end": 604,
+            "ctxt": 0
+          },
+          "value": "I",
+          "optional": false
+        },
+        "members": [
+          {
+            "type": "TsEnumMember",
+            "span": {
+              "start": 612,
+              "end": 619,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 612,
+                "end": 613,
+                "ctxt": 0
+              },
+              "value": "A",
+              "optional": false
+            },
+            "init": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 616,
+                "end": 619,
+                "ctxt": 0
+              },
+              "value": "a",
+              "raw": "\"a\""
+            }
+          },
+          {
+            "type": "TsEnumMember",
+            "span": {
+              "start": 626,
+              "end": 631,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 626,
+                "end": 627,
+                "ctxt": 0
+              },
+              "value": "B",
+              "optional": false
+            },
+            "init": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 630,
+                "end": 631,
+                "ctxt": 0
+              },
+              "value": 0.0,
+              "raw": "0"
+            }
+          },
+          {
+            "type": "TsEnumMember",
+            "span": {
+              "start": 638,
+              "end": 639,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 638,
+                "end": 639,
+                "ctxt": 0
+              },
+              "value": "C",
+              "optional": false
+            },
+            "init": null
+          }
+        ]
+      }
+    },
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 646,
+        "end": 697,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "TsEnumDeclaration",
+        "span": {
+          "start": 653,
+          "end": 697,
+          "ctxt": 0
+        },
+        "declare": false,
+        "isConst": true,
+        "id": {
+          "type": "Identifier",
+          "span": {
+            "start": 664,
+            "end": 665,
+            "ctxt": 0
+          },
+          "value": "J",
+          "optional": false
+        },
+        "members": [
+          {
+            "type": "TsEnumMember",
+            "span": {
+              "start": 673,
+              "end": 678,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 673,
+                "end": 674,
+                "ctxt": 0
+              },
+              "value": "A",
+              "optional": false
+            },
+            "init": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 677,
+                "end": 678,
+                "ctxt": 0
+              },
+              "value": 1.0,
+              "raw": "1"
+            }
+          },
+          {
+            "type": "TsEnumMember",
+            "span": {
+              "start": 685,
+              "end": 686,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 685,
+                "end": 686,
+                "ctxt": 0
+              },
+              "value": "B",
+              "optional": false
+            },
+            "init": null
+          },
+          {
+            "type": "TsEnumMember",
+            "span": {
+              "start": 693,
+              "end": 694,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 693,
+                "end": 694,
+                "ctxt": 0
+              },
+              "value": "C",
+              "optional": false
+            },
+            "init": null
+          }
+        ]
+      }
+    },
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 701,
+        "end": 810,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "TsEnumDeclaration",
+        "span": {
+          "start": 708,
+          "end": 810,
+          "ctxt": 0
+        },
+        "declare": false,
+        "isConst": false,
+        "id": {
+          "type": "Identifier",
+          "span": {
+            "start": 713,
+            "end": 714,
+            "ctxt": 0
+          },
+          "value": "K",
+          "optional": false
+        },
+        "members": [
+          {
+            "type": "TsEnumMember",
+            "span": {
+              "start": 722,
+              "end": 732,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 722,
+                "end": 726,
+                "ctxt": 0
+              },
+              "value": "None",
+              "optional": false
+            },
+            "init": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 731,
+                "end": 732,
+                "ctxt": 0
+              },
+              "value": 0.0,
+              "raw": "0"
+            }
+          },
+          {
+            "type": "TsEnumMember",
+            "span": {
+              "start": 739,
+              "end": 749,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 739,
+                "end": 740,
+                "ctxt": 0
+              },
+              "value": "A",
+              "optional": false
+            },
+            "init": {
+              "type": "BinaryExpression",
+              "span": {
+                "start": 743,
+                "end": 749,
+                "ctxt": 0
+              },
+              "operator": "<<",
+              "left": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 743,
+                  "end": 744,
+                  "ctxt": 0
+                },
+                "value": 1.0,
+                "raw": "1"
+              },
+              "right": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 748,
+                  "end": 749,
+                  "ctxt": 0
+                },
+                "value": 0.0,
+                "raw": "0"
+              }
+            }
+          },
+          {
+            "type": "TsEnumMember",
+            "span": {
+              "start": 756,
+              "end": 766,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 756,
+                "end": 757,
+                "ctxt": 0
+              },
+              "value": "B",
+              "optional": false
+            },
+            "init": {
+              "type": "BinaryExpression",
+              "span": {
+                "start": 760,
+                "end": 766,
+                "ctxt": 0
+              },
+              "operator": "<<",
+              "left": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 760,
+                  "end": 761,
+                  "ctxt": 0
+                },
+                "value": 1.0,
+                "raw": "1"
+              },
+              "right": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 765,
+                  "end": 766,
+                  "ctxt": 0
+                },
+                "value": 1.0,
+                "raw": "1"
+              }
+            }
+          },
+          {
+            "type": "TsEnumMember",
+            "span": {
+              "start": 773,
+              "end": 783,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 773,
+                "end": 774,
+                "ctxt": 0
+              },
+              "value": "C",
+              "optional": false
+            },
+            "init": {
+              "type": "BinaryExpression",
+              "span": {
+                "start": 777,
+                "end": 783,
+                "ctxt": 0
+              },
+              "operator": "<<",
+              "left": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 777,
+                  "end": 778,
+                  "ctxt": 0
+                },
+                "value": 1.0,
+                "raw": "1"
+              },
+              "right": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 782,
+                  "end": 783,
+                  "ctxt": 0
+                },
+                "value": 2.0,
+                "raw": "2"
+              }
+            }
+          },
+          {
+            "type": "TsEnumMember",
+            "span": {
+              "start": 790,
+              "end": 806,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 790,
+                "end": 794,
+                "ctxt": 0
+              },
+              "value": "Mask",
+              "optional": false
+            },
+            "init": {
+              "type": "BinaryExpression",
+              "span": {
+                "start": 797,
+                "end": 806,
+                "ctxt": 0
+              },
+              "operator": "|",
+              "left": {
+                "type": "BinaryExpression",
+                "span": {
+                  "start": 797,
+                  "end": 802,
+                  "ctxt": 0
+                },
+                "operator": "|",
+                "left": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 797,
+                    "end": 798,
+                    "ctxt": 0
+                  },
+                  "value": "A",
+                  "optional": false
+                },
+                "right": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 801,
+                    "end": 802,
+                    "ctxt": 0
+                  },
+                  "value": "B",
+                  "optional": false
+                }
+              },
+              "right": {
+                "type": "Identifier",
+                "span": {
+                  "start": 805,
+                  "end": 806,
+                  "ctxt": 0
+                },
+                "value": "C",
+                "optional": false
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 814,
+        "end": 929,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "TsEnumDeclaration",
+        "span": {
+          "start": 821,
+          "end": 929,
+          "ctxt": 0
+        },
+        "declare": false,
+        "isConst": true,
+        "id": {
+          "type": "Identifier",
+          "span": {
+            "start": 832,
+            "end": 833,
+            "ctxt": 0
+          },
+          "value": "L",
+          "optional": false
+        },
+        "members": [
+          {
+            "type": "TsEnumMember",
+            "span": {
+              "start": 841,
+              "end": 851,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 841,
+                "end": 845,
+                "ctxt": 0
+              },
+              "value": "None",
+              "optional": false
+            },
+            "init": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 850,
+                "end": 851,
+                "ctxt": 0
+              },
+              "value": 0.0,
+              "raw": "0"
+            }
+          },
+          {
+            "type": "TsEnumMember",
+            "span": {
+              "start": 858,
+              "end": 868,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 858,
+                "end": 859,
+                "ctxt": 0
+              },
+              "value": "A",
+              "optional": false
+            },
+            "init": {
+              "type": "BinaryExpression",
+              "span": {
+                "start": 862,
+                "end": 868,
+                "ctxt": 0
+              },
+              "operator": "<<",
+              "left": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 862,
+                  "end": 863,
+                  "ctxt": 0
+                },
+                "value": 1.0,
+                "raw": "1"
+              },
+              "right": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 867,
+                  "end": 868,
+                  "ctxt": 0
+                },
+                "value": 0.0,
+                "raw": "0"
+              }
+            }
+          },
+          {
+            "type": "TsEnumMember",
+            "span": {
+              "start": 875,
+              "end": 885,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 875,
+                "end": 876,
+                "ctxt": 0
+              },
+              "value": "B",
+              "optional": false
+            },
+            "init": {
+              "type": "BinaryExpression",
+              "span": {
+                "start": 879,
+                "end": 885,
+                "ctxt": 0
+              },
+              "operator": "<<",
+              "left": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 879,
+                  "end": 880,
+                  "ctxt": 0
+                },
+                "value": 1.0,
+                "raw": "1"
+              },
+              "right": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 884,
+                  "end": 885,
+                  "ctxt": 0
+                },
+                "value": 1.0,
+                "raw": "1"
+              }
+            }
+          },
+          {
+            "type": "TsEnumMember",
+            "span": {
+              "start": 892,
+              "end": 902,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 892,
+                "end": 893,
+                "ctxt": 0
+              },
+              "value": "C",
+              "optional": false
+            },
+            "init": {
+              "type": "BinaryExpression",
+              "span": {
+                "start": 896,
+                "end": 902,
+                "ctxt": 0
+              },
+              "operator": "<<",
+              "left": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 896,
+                  "end": 897,
+                  "ctxt": 0
+                },
+                "value": 1.0,
+                "raw": "1"
+              },
+              "right": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 901,
+                  "end": 902,
+                  "ctxt": 0
+                },
+                "value": 2.0,
+                "raw": "2"
+              }
+            }
+          },
+          {
+            "type": "TsEnumMember",
+            "span": {
+              "start": 909,
+              "end": 925,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 909,
+                "end": 913,
+                "ctxt": 0
+              },
+              "value": "Mask",
+              "optional": false
+            },
+            "init": {
+              "type": "BinaryExpression",
+              "span": {
+                "start": 916,
+                "end": 925,
+                "ctxt": 0
+              },
+              "operator": "|",
+              "left": {
+                "type": "BinaryExpression",
+                "span": {
+                  "start": 916,
+                  "end": 921,
+                  "ctxt": 0
+                },
+                "operator": "|",
+                "left": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 916,
+                    "end": 917,
+                    "ctxt": 0
+                  },
+                  "value": "A",
+                  "optional": false
+                },
+                "right": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 920,
+                    "end": 921,
+                    "ctxt": 0
+                  },
+                  "value": "B",
+                  "optional": false
+                }
+              },
+              "right": {
+                "type": "Identifier",
+                "span": {
+                  "start": 924,
+                  "end": 925,
+                  "ctxt": 0
+                },
+                "value": "C",
+                "optional": false
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "interpreter": null
+}

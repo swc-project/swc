@@ -1,0 +1,176 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 18,
+    "end": 92,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 18,
+        "end": 92,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 22,
+            "end": 91,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 22,
+              "end": 23,
+              "ctxt": 0
+            },
+            "value": "x",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "TemplateLiteral",
+            "span": {
+              "start": 26,
+              "end": 91,
+              "ctxt": 0
+            },
+            "expressions": [
+              {
+                "type": "TemplateLiteral",
+                "span": {
+                  "start": 33,
+                  "end": 53,
+                  "ctxt": 0
+                },
+                "expressions": [
+                  {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 41,
+                      "end": 46,
+                      "ctxt": 0
+                    },
+                    "value": " | ",
+                    "raw": "\" | \""
+                  }
+                ],
+                "quasis": [
+                  {
+                    "type": "TemplateElement",
+                    "span": {
+                      "start": 34,
+                      "end": 38,
+                      "ctxt": 0
+                    },
+                    "tail": false,
+                    "cooked": "456 ",
+                    "raw": "456 "
+                  },
+                  {
+                    "type": "TemplateElement",
+                    "span": {
+                      "start": 48,
+                      "end": 52,
+                      "ctxt": 0
+                    },
+                    "tail": true,
+                    "cooked": " 654",
+                    "raw": " 654"
+                  }
+                ]
+              },
+              {
+                "type": "TemplateLiteral",
+                "span": {
+                  "start": 65,
+                  "end": 85,
+                  "ctxt": 0
+                },
+                "expressions": [
+                  {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 73,
+                      "end": 78,
+                      "ctxt": 0
+                    },
+                    "value": " | ",
+                    "raw": "\" | \""
+                  }
+                ],
+                "quasis": [
+                  {
+                    "type": "TemplateElement",
+                    "span": {
+                      "start": 66,
+                      "end": 70,
+                      "ctxt": 0
+                    },
+                    "tail": false,
+                    "cooked": "456 ",
+                    "raw": "456 "
+                  },
+                  {
+                    "type": "TemplateElement",
+                    "span": {
+                      "start": 80,
+                      "end": 84,
+                      "ctxt": 0
+                    },
+                    "tail": true,
+                    "cooked": " 654",
+                    "raw": " 654"
+                  }
+                ]
+              }
+            ],
+            "quasis": [
+              {
+                "type": "TemplateElement",
+                "span": {
+                  "start": 27,
+                  "end": 30,
+                  "ctxt": 0
+                },
+                "tail": false,
+                "cooked": "123",
+                "raw": "123"
+              },
+              {
+                "type": "TemplateElement",
+                "span": {
+                  "start": 55,
+                  "end": 62,
+                  "ctxt": 0
+                },
+                "tail": false,
+                "cooked": "321 123",
+                "raw": "321 123"
+              },
+              {
+                "type": "TemplateElement",
+                "span": {
+                  "start": 87,
+                  "end": 90,
+                  "ctxt": 0
+                },
+                "tail": true,
+                "cooked": "321",
+                "raw": "321"
+              }
+            ]
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

@@ -1,0 +1,346 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 18,
+    "end": 161,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 18,
+        "end": 161,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 22,
+            "end": 160,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 22,
+              "end": 23,
+              "ctxt": 0
+            },
+            "value": "x",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "BinaryExpression",
+            "span": {
+              "start": 26,
+              "end": 160,
+              "ctxt": 0
+            },
+            "operator": "||",
+            "left": {
+              "type": "BinaryExpression",
+              "span": {
+                "start": 26,
+                "end": 48,
+                "ctxt": 0
+              },
+              "operator": "===",
+              "left": {
+                "type": "TemplateLiteral",
+                "span": {
+                  "start": 26,
+                  "end": 38,
+                  "ctxt": 0
+                },
+                "expressions": [
+                  {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 32,
+                      "end": 33,
+                      "ctxt": 0
+                    },
+                    "value": 0.0,
+                    "raw": "0"
+                  }
+                ],
+                "quasis": [
+                  {
+                    "type": "TemplateElement",
+                    "span": {
+                      "start": 27,
+                      "end": 30,
+                      "ctxt": 0
+                    },
+                    "tail": false,
+                    "cooked": "abc",
+                    "raw": "abc"
+                  },
+                  {
+                    "type": "TemplateElement",
+                    "span": {
+                      "start": 34,
+                      "end": 37,
+                      "ctxt": 0
+                    },
+                    "tail": true,
+                    "cooked": "abc",
+                    "raw": "abc"
+                  }
+                ]
+              },
+              "right": {
+                "type": "TemplateLiteral",
+                "span": {
+                  "start": 43,
+                  "end": 48,
+                  "ctxt": 0
+                },
+                "expressions": [],
+                "quasis": [
+                  {
+                    "type": "TemplateElement",
+                    "span": {
+                      "start": 44,
+                      "end": 47,
+                      "ctxt": 0
+                    },
+                    "tail": true,
+                    "cooked": "abc",
+                    "raw": "abc"
+                  }
+                ]
+              }
+            },
+            "right": {
+              "type": "BinaryExpression",
+              "span": {
+                "start": 61,
+                "end": 160,
+                "ctxt": 0
+              },
+              "operator": "&&",
+              "left": {
+                "type": "BinaryExpression",
+                "span": {
+                  "start": 61,
+                  "end": 121,
+                  "ctxt": 0
+                },
+                "operator": "&&",
+                "left": {
+                  "type": "BinaryExpression",
+                  "span": {
+                    "start": 61,
+                    "end": 83,
+                    "ctxt": 0
+                  },
+                  "operator": "!==",
+                  "left": {
+                    "type": "TemplateLiteral",
+                    "span": {
+                      "start": 61,
+                      "end": 66,
+                      "ctxt": 0
+                    },
+                    "expressions": [],
+                    "quasis": [
+                      {
+                        "type": "TemplateElement",
+                        "span": {
+                          "start": 62,
+                          "end": 65,
+                          "ctxt": 0
+                        },
+                        "tail": true,
+                        "cooked": "abc",
+                        "raw": "abc"
+                      }
+                    ]
+                  },
+                  "right": {
+                    "type": "TemplateLiteral",
+                    "span": {
+                      "start": 71,
+                      "end": 83,
+                      "ctxt": 0
+                    },
+                    "expressions": [
+                      {
+                        "type": "NumericLiteral",
+                        "span": {
+                          "start": 77,
+                          "end": 78,
+                          "ctxt": 0
+                        },
+                        "value": 0.0,
+                        "raw": "0"
+                      }
+                    ],
+                    "quasis": [
+                      {
+                        "type": "TemplateElement",
+                        "span": {
+                          "start": 72,
+                          "end": 75,
+                          "ctxt": 0
+                        },
+                        "tail": false,
+                        "cooked": "abc",
+                        "raw": "abc"
+                      },
+                      {
+                        "type": "TemplateElement",
+                        "span": {
+                          "start": 79,
+                          "end": 82,
+                          "ctxt": 0
+                        },
+                        "tail": true,
+                        "cooked": "abc",
+                        "raw": "abc"
+                      }
+                    ]
+                  }
+                },
+                "right": {
+                  "type": "BinaryExpression",
+                  "span": {
+                    "start": 96,
+                    "end": 121,
+                    "ctxt": 0
+                  },
+                  "operator": "==",
+                  "left": {
+                    "type": "TemplateLiteral",
+                    "span": {
+                      "start": 96,
+                      "end": 108,
+                      "ctxt": 0
+                    },
+                    "expressions": [
+                      {
+                        "type": "NumericLiteral",
+                        "span": {
+                          "start": 102,
+                          "end": 103,
+                          "ctxt": 0
+                        },
+                        "value": 0.0,
+                        "raw": "0"
+                      }
+                    ],
+                    "quasis": [
+                      {
+                        "type": "TemplateElement",
+                        "span": {
+                          "start": 97,
+                          "end": 100,
+                          "ctxt": 0
+                        },
+                        "tail": false,
+                        "cooked": "abc",
+                        "raw": "abc"
+                      },
+                      {
+                        "type": "TemplateElement",
+                        "span": {
+                          "start": 104,
+                          "end": 107,
+                          "ctxt": 0
+                        },
+                        "tail": true,
+                        "cooked": "abc",
+                        "raw": "abc"
+                      }
+                    ]
+                  },
+                  "right": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 112,
+                      "end": 121,
+                      "ctxt": 0
+                    },
+                    "value": "abc0abc",
+                    "raw": "\"abc0abc\""
+                  }
+                }
+              },
+              "right": {
+                "type": "BinaryExpression",
+                "span": {
+                  "start": 134,
+                  "end": 160,
+                  "ctxt": 0
+                },
+                "operator": "!==",
+                "left": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 134,
+                    "end": 143,
+                    "ctxt": 0
+                  },
+                  "value": "abc0abc",
+                  "raw": "\"abc0abc\""
+                },
+                "right": {
+                  "type": "TemplateLiteral",
+                  "span": {
+                    "start": 148,
+                    "end": 160,
+                    "ctxt": 0
+                  },
+                  "expressions": [
+                    {
+                      "type": "NumericLiteral",
+                      "span": {
+                        "start": 154,
+                        "end": 155,
+                        "ctxt": 0
+                      },
+                      "value": 0.0,
+                      "raw": "0"
+                    }
+                  ],
+                  "quasis": [
+                    {
+                      "type": "TemplateElement",
+                      "span": {
+                        "start": 149,
+                        "end": 152,
+                        "ctxt": 0
+                      },
+                      "tail": false,
+                      "cooked": "abc",
+                      "raw": "abc"
+                    },
+                    {
+                      "type": "TemplateElement",
+                      "span": {
+                        "start": 156,
+                        "end": 159,
+                        "ctxt": 0
+                      },
+                      "tail": true,
+                      "cooked": "abc",
+                      "raw": "abc"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

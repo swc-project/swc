@@ -1,0 +1,84 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 122,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 1,
+        "end": 122,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "TemplateLiteral",
+        "span": {
+          "start": 1,
+          "end": 121,
+          "ctxt": 0
+        },
+        "expressions": [
+          {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 33,
+              "end": 35,
+              "ctxt": 0
+            },
+            "value": 10.0,
+            "raw": "10"
+          },
+          {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 88,
+              "end": 90,
+              "ctxt": 0
+            },
+            "value": 20.0,
+            "raw": "20"
+          }
+        ],
+        "quasis": [
+          {
+            "type": "TemplateElement",
+            "span": {
+              "start": 2,
+              "end": 6,
+              "ctxt": 0
+            },
+            "tail": false,
+            "cooked": "head",
+            "raw": "head"
+          },
+          {
+            "type": "TemplateElement",
+            "span": {
+              "start": 38,
+              "end": 46,
+              "ctxt": 0
+            },
+            "tail": false,
+            "cooked": "\nmiddle",
+            "raw": "\r\nmiddle"
+          },
+          {
+            "type": "TemplateElement",
+            "span": {
+              "start": 114,
+              "end": 120,
+              "ctxt": 0
+            },
+            "tail": true,
+            "cooked": "\ntail",
+            "raw": "\r\ntail"
+          }
+        ]
+      }
+    }
+  ],
+  "interpreter": null
+}

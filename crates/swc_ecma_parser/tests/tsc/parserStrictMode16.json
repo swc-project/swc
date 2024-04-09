@@ -1,0 +1,133 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 66,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 1,
+        "end": 14,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 1,
+          "end": 13,
+          "ctxt": 0
+        },
+        "value": "use strict",
+        "raw": "\"use strict\""
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 16,
+        "end": 28,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "UnaryExpression",
+        "span": {
+          "start": 16,
+          "end": 27,
+          "ctxt": 0
+        },
+        "operator": "delete",
+        "argument": {
+          "type": "ThisExpression",
+          "span": {
+            "start": 23,
+            "end": 27,
+            "ctxt": 0
+          }
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 30,
+        "end": 39,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "UnaryExpression",
+        "span": {
+          "start": 30,
+          "end": 38,
+          "ctxt": 0
+        },
+        "operator": "delete",
+        "argument": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 37,
+            "end": 38,
+            "ctxt": 0
+          },
+          "value": 1.0,
+          "raw": "1"
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 41,
+        "end": 53,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "UnaryExpression",
+        "span": {
+          "start": 41,
+          "end": 52,
+          "ctxt": 0
+        },
+        "operator": "delete",
+        "argument": {
+          "type": "NullLiteral",
+          "span": {
+            "start": 48,
+            "end": 52,
+            "ctxt": 0
+          }
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 55,
+        "end": 66,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "UnaryExpression",
+        "span": {
+          "start": 55,
+          "end": 65,
+          "ctxt": 0
+        },
+        "operator": "delete",
+        "argument": {
+          "type": "StringLiteral",
+          "span": {
+            "start": 62,
+            "end": 65,
+            "ctxt": 0
+          },
+          "value": "a",
+          "raw": "\"a\""
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

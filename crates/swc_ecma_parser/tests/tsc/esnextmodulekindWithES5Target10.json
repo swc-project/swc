@@ -1,0 +1,96 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 40,
+    "end": 111,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "TsImportEqualsDeclaration",
+      "span": {
+        "start": 40,
+        "end": 66,
+        "ctxt": 0
+      },
+      "isExport": false,
+      "isTypeOnly": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 47,
+          "end": 48,
+          "ctxt": 0
+        },
+        "value": "i",
+        "optional": false
+      },
+      "moduleRef": {
+        "type": "TsExternalModuleReference",
+        "span": {
+          "start": 51,
+          "end": 65,
+          "ctxt": 0
+        },
+        "expression": {
+          "type": "StringLiteral",
+          "span": {
+            "start": 59,
+            "end": 64,
+            "ctxt": 0
+          },
+          "value": "mod",
+          "raw": "\"mod\""
+        }
+      }
+    },
+    {
+      "type": "TsModuleDeclaration",
+      "span": {
+        "start": 82,
+        "end": 98,
+        "ctxt": 0
+      },
+      "declare": false,
+      "global": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 92,
+          "end": 93,
+          "ctxt": 0
+        },
+        "value": "N",
+        "optional": false
+      },
+      "body": {
+        "type": "TsModuleBlock",
+        "span": {
+          "start": 94,
+          "end": 98,
+          "ctxt": 0
+        },
+        "body": []
+      }
+    },
+    {
+      "type": "TsExportAssignment",
+      "span": {
+        "start": 100,
+        "end": 111,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "Identifier",
+        "span": {
+          "start": 109,
+          "end": 110,
+          "ctxt": 0
+        },
+        "value": "N",
+        "optional": false
+      }
+    }
+  ],
+  "interpreter": null
+}

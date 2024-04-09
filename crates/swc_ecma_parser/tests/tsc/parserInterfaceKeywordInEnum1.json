@@ -1,0 +1,70 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 47,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 1,
+        "end": 14,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 1,
+          "end": 13,
+          "ctxt": 0
+        },
+        "value": "use strict",
+        "raw": "\"use strict\""
+      }
+    },
+    {
+      "type": "TsEnumDeclaration",
+      "span": {
+        "start": 18,
+        "end": 47,
+        "ctxt": 0
+      },
+      "declare": false,
+      "isConst": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 23,
+          "end": 26,
+          "ctxt": 0
+        },
+        "value": "Bar",
+        "optional": false
+      },
+      "members": [
+        {
+          "type": "TsEnumMember",
+          "span": {
+            "start": 34,
+            "end": 43,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 34,
+              "end": 43,
+              "ctxt": 0
+            },
+            "value": "interface",
+            "optional": false
+          },
+          "init": null
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

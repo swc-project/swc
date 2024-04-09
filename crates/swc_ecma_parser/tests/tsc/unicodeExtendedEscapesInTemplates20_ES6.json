@@ -1,0 +1,99 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 20,
+    "end": 127,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 20,
+        "end": 127,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 24,
+            "end": 126,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 24,
+              "end": 25,
+              "ctxt": 0
+            },
+            "value": "x",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "TemplateLiteral",
+            "span": {
+              "start": 28,
+              "end": 126,
+              "ctxt": 0
+            },
+            "expressions": [
+              {
+                "type": "TemplateLiteral",
+                "span": {
+                  "start": 61,
+                  "end": 94,
+                  "ctxt": 0
+                },
+                "expressions": [],
+                "quasis": [
+                  {
+                    "type": "TemplateElement",
+                    "span": {
+                      "start": 62,
+                      "end": 93,
+                      "ctxt": 0
+                    },
+                    "tail": true,
+                    "cooked": "    ",
+                    "raw": "\\u{20}\\u{020}\\u{0020}\\u{000020}"
+                  }
+                ]
+              }
+            ],
+            "quasis": [
+              {
+                "type": "TemplateElement",
+                "span": {
+                  "start": 29,
+                  "end": 59,
+                  "ctxt": 0
+                },
+                "tail": false,
+                "cooked": "Hello",
+                "raw": "\\u{48}\\u{65}\\u{6c}\\u{6c}\\u{6f}"
+              },
+              {
+                "type": "TemplateElement",
+                "span": {
+                  "start": 95,
+                  "end": 125,
+                  "ctxt": 0
+                },
+                "tail": true,
+                "cooked": "world",
+                "raw": "\\u{77}\\u{6f}\\u{72}\\u{6c}\\u{64}"
+              }
+            ]
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

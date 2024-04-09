@@ -1,0 +1,49 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 141,
+    "end": 171,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "TsImportEqualsDeclaration",
+      "span": {
+        "start": 141,
+        "end": 171,
+        "ctxt": 0
+      },
+      "isExport": false,
+      "isTypeOnly": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 148,
+          "end": 151,
+          "ctxt": 0
+        },
+        "value": "foo",
+        "optional": false
+      },
+      "moduleRef": {
+        "type": "TsExternalModuleReference",
+        "span": {
+          "start": 154,
+          "end": 170,
+          "ctxt": 0
+        },
+        "expression": {
+          "type": "StringLiteral",
+          "span": {
+            "start": 162,
+            "end": 169,
+            "ctxt": 0
+          },
+          "value": "./foo",
+          "raw": "\"./foo\""
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

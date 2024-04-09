@@ -1,0 +1,83 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 58,
+    "end": 114,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "TsModuleDeclaration",
+      "span": {
+        "start": 58,
+        "end": 114,
+        "ctxt": 0
+      },
+      "declare": true,
+      "global": true,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 66,
+          "end": 72,
+          "ctxt": 0
+        },
+        "value": "global",
+        "optional": false
+      },
+      "body": {
+        "type": "TsModuleBlock",
+        "span": {
+          "start": 73,
+          "end": 114,
+          "ctxt": 0
+        },
+        "body": [
+          {
+            "type": "ExportNamedDeclaration",
+            "span": {
+              "start": 80,
+              "end": 111,
+              "ctxt": 0
+            },
+            "specifiers": [
+              {
+                "type": "ExportSpecifier",
+                "span": {
+                  "start": 89,
+                  "end": 109,
+                  "ctxt": 0
+                },
+                "orig": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 89,
+                    "end": 99,
+                    "ctxt": 0
+                  },
+                  "value": "globalThis",
+                  "optional": false
+                },
+                "exported": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 103,
+                    "end": 109,
+                    "ctxt": 0
+                  },
+                  "value": "global",
+                  "optional": false
+                },
+                "isTypeOnly": false
+              }
+            ],
+            "source": null,
+            "typeOnly": false,
+            "with": null
+          }
+        ]
+      }
+    }
+  ],
+  "interpreter": null
+}

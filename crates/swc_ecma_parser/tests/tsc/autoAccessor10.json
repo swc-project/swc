@@ -1,0 +1,512 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 23,
+    "end": 449,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 29,
+          "end": 31,
+          "ctxt": 0
+        },
+        "value": "C1",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 23,
+        "end": 58,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [
+        {
+          "type": "AutoAccessor",
+          "span": {
+            "start": 39,
+            "end": 55,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 48,
+              "end": 50,
+              "ctxt": 0
+            },
+            "value": "a0",
+            "optional": false
+          },
+          "value": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 53,
+              "end": 54,
+              "ctxt": 0
+            },
+            "value": 1.0,
+            "raw": "1"
+          },
+          "typeAnnotation": null,
+          "isStatic": false,
+          "decorators": [],
+          "accessibility": null,
+          "isOverride": false,
+          "definite": false
+        }
+      ],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    },
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 68,
+          "end": 70,
+          "ctxt": 0
+        },
+        "value": "C2",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 62,
+        "end": 128,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [
+        {
+          "type": "PrivateProperty",
+          "span": {
+            "start": 78,
+            "end": 103,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "PrivateName",
+            "span": {
+              "start": 78,
+              "end": 98,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 79,
+                "end": 98,
+                "ctxt": 0
+              },
+              "value": "a1_accessor_storage",
+              "optional": false
+            }
+          },
+          "value": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 101,
+              "end": 102,
+              "ctxt": 0
+            },
+            "value": 1.0,
+            "raw": "1"
+          },
+          "typeAnnotation": null,
+          "isStatic": false,
+          "decorators": [],
+          "accessibility": null,
+          "isOptional": false,
+          "isOverride": false,
+          "readonly": false,
+          "definite": false
+        },
+        {
+          "type": "AutoAccessor",
+          "span": {
+            "start": 109,
+            "end": 125,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 118,
+              "end": 120,
+              "ctxt": 0
+            },
+            "value": "a1",
+            "optional": false
+          },
+          "value": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 123,
+              "end": 124,
+              "ctxt": 0
+            },
+            "value": 2.0,
+            "raw": "2"
+          },
+          "typeAnnotation": null,
+          "isStatic": false,
+          "decorators": [],
+          "accessibility": null,
+          "isOverride": false,
+          "definite": false
+        }
+      ],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    },
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 138,
+          "end": 140,
+          "ctxt": 0
+        },
+        "value": "C3",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 132,
+        "end": 353,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [
+        {
+          "type": "PrivateProperty",
+          "span": {
+            "start": 148,
+            "end": 180,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "PrivateName",
+            "span": {
+              "start": 155,
+              "end": 175,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 156,
+                "end": 175,
+                "ctxt": 0
+              },
+              "value": "a2_accessor_storage",
+              "optional": false
+            }
+          },
+          "value": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 178,
+              "end": 179,
+              "ctxt": 0
+            },
+            "value": 1.0,
+            "raw": "1"
+          },
+          "typeAnnotation": null,
+          "isStatic": true,
+          "decorators": [],
+          "accessibility": null,
+          "isOptional": false,
+          "isOverride": false,
+          "readonly": false,
+          "definite": false
+        },
+        {
+          "type": "StaticBlock",
+          "span": {
+            "start": 186,
+            "end": 350,
+            "ctxt": 0
+          },
+          "body": {
+            "type": "BlockStatement",
+            "span": {
+              "start": 193,
+              "end": 350,
+              "ctxt": 0
+            },
+            "stmts": [
+              {
+                "type": "ClassDeclaration",
+                "identifier": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 210,
+                    "end": 218,
+                    "ctxt": 0
+                  },
+                  "value": "C3_Inner",
+                  "optional": false
+                },
+                "declare": false,
+                "span": {
+                  "start": 204,
+                  "end": 343,
+                  "ctxt": 0
+                },
+                "decorators": [],
+                "body": [
+                  {
+                    "type": "AutoAccessor",
+                    "span": {
+                      "start": 234,
+                      "end": 250,
+                      "ctxt": 0
+                    },
+                    "key": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 243,
+                        "end": 245,
+                        "ctxt": 0
+                      },
+                      "value": "a2",
+                      "optional": false
+                    },
+                    "value": {
+                      "type": "NumericLiteral",
+                      "span": {
+                        "start": 248,
+                        "end": 249,
+                        "ctxt": 0
+                      },
+                      "value": 2.0,
+                      "raw": "2"
+                    },
+                    "typeAnnotation": null,
+                    "isStatic": false,
+                    "decorators": [],
+                    "accessibility": null,
+                    "isOverride": false,
+                    "definite": false
+                  },
+                  {
+                    "type": "StaticBlock",
+                    "span": {
+                      "start": 264,
+                      "end": 332,
+                      "ctxt": 0
+                    },
+                    "body": {
+                      "type": "BlockStatement",
+                      "span": {
+                        "start": 271,
+                        "end": 332,
+                        "ctxt": 0
+                      },
+                      "stmts": [
+                        {
+                          "type": "ExpressionStatement",
+                          "span": {
+                            "start": 290,
+                            "end": 317,
+                            "ctxt": 0
+                          },
+                          "expression": {
+                            "type": "BinaryExpression",
+                            "span": {
+                              "start": 290,
+                              "end": 316,
+                              "ctxt": 0
+                            },
+                            "operator": "in",
+                            "left": {
+                              "type": "PrivateName",
+                              "span": {
+                                "start": 290,
+                                "end": 310,
+                                "ctxt": 0
+                              },
+                              "id": {
+                                "type": "Identifier",
+                                "span": {
+                                  "start": 291,
+                                  "end": 310,
+                                  "ctxt": 0
+                                },
+                                "value": "a2_accessor_storage",
+                                "optional": false
+                              }
+                            },
+                            "right": {
+                              "type": "Identifier",
+                              "span": {
+                                "start": 314,
+                                "end": 316,
+                                "ctxt": 0
+                              },
+                              "value": "C3",
+                              "optional": false
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "superClass": null,
+                "isAbstract": false,
+                "typeParams": null,
+                "superTypeParams": null,
+                "implements": []
+              }
+            ]
+          }
+        }
+      ],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    },
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 363,
+          "end": 367,
+          "ctxt": 0
+        },
+        "value": "C4_1",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 357,
+        "end": 401,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [
+        {
+          "type": "AutoAccessor",
+          "span": {
+            "start": 375,
+            "end": 398,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 391,
+              "end": 393,
+              "ctxt": 0
+            },
+            "value": "a3",
+            "optional": false
+          },
+          "value": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 396,
+              "end": 397,
+              "ctxt": 0
+            },
+            "value": 1.0,
+            "raw": "1"
+          },
+          "typeAnnotation": null,
+          "isStatic": true,
+          "decorators": [],
+          "accessibility": null,
+          "isOverride": false,
+          "definite": false
+        }
+      ],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    },
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 411,
+          "end": 415,
+          "ctxt": 0
+        },
+        "value": "C4_2",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 405,
+        "end": 449,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [
+        {
+          "type": "AutoAccessor",
+          "span": {
+            "start": 423,
+            "end": 446,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 439,
+              "end": 441,
+              "ctxt": 0
+            },
+            "value": "a3",
+            "optional": false
+          },
+          "value": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 444,
+              "end": 445,
+              "ctxt": 0
+            },
+            "value": 1.0,
+            "raw": "1"
+          },
+          "typeAnnotation": null,
+          "isStatic": true,
+          "decorators": [],
+          "accessibility": null,
+          "isOverride": false,
+          "definite": false
+        }
+      ],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    }
+  ],
+  "interpreter": null
+}

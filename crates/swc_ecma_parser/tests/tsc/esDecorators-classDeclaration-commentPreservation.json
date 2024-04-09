@@ -1,0 +1,1346 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 149,
+    "end": 1367,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 149,
+        "end": 170,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": true,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 161,
+            "end": 169,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 161,
+              "end": 164,
+              "ctxt": 0
+            },
+            "value": "dec",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 164,
+                "end": 169,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 166,
+                  "end": 169,
+                  "ctxt": 0
+                },
+                "kind": "any"
+              }
+            }
+          },
+          "init": null,
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 213,
+          "end": 214,
+          "ctxt": 0
+        },
+        "value": "C",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 181,
+        "end": 1045,
+        "ctxt": 0
+      },
+      "decorators": [
+        {
+          "type": "Decorator",
+          "span": {
+            "start": 181,
+            "end": 185,
+            "ctxt": 0
+          },
+          "expression": {
+            "type": "Identifier",
+            "span": {
+              "start": 182,
+              "end": 185,
+              "ctxt": 0
+            },
+            "value": "dec",
+            "optional": false
+          }
+        },
+        {
+          "type": "Decorator",
+          "span": {
+            "start": 194,
+            "end": 198,
+            "ctxt": 0
+          },
+          "expression": {
+            "type": "Identifier",
+            "span": {
+              "start": 195,
+              "end": 198,
+              "ctxt": 0
+            },
+            "value": "dec",
+            "optional": false
+          }
+        }
+      ],
+      "body": [
+        {
+          "type": "ClassMethod",
+          "span": {
+            "start": 233,
+            "end": 286,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 275,
+              "end": 281,
+              "ctxt": 0
+            },
+            "value": "method",
+            "optional": false
+          },
+          "function": {
+            "params": [],
+            "decorators": [
+              {
+                "type": "Decorator",
+                "span": {
+                  "start": 233,
+                  "end": 237,
+                  "ctxt": 0
+                },
+                "expression": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 234,
+                    "end": 237,
+                    "ctxt": 0
+                  },
+                  "value": "dec",
+                  "optional": false
+                }
+              },
+              {
+                "type": "Decorator",
+                "span": {
+                  "start": 254,
+                  "end": 258,
+                  "ctxt": 0
+                },
+                "expression": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 255,
+                    "end": 258,
+                    "ctxt": 0
+                  },
+                  "value": "dec",
+                  "optional": false
+                }
+              }
+            ],
+            "span": {
+              "start": 233,
+              "end": 286,
+              "ctxt": 0
+            },
+            "body": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 284,
+                "end": 286,
+                "ctxt": 0
+              },
+              "stmts": []
+            },
+            "generator": false,
+            "async": false,
+            "typeParameters": null,
+            "returnType": null
+          },
+          "kind": "method",
+          "isStatic": false,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false
+        },
+        {
+          "type": "ClassMethod",
+          "span": {
+            "start": 305,
+            "end": 368,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 351,
+              "end": 352,
+              "ctxt": 0
+            },
+            "value": "x",
+            "optional": false
+          },
+          "function": {
+            "params": [],
+            "decorators": [
+              {
+                "type": "Decorator",
+                "span": {
+                  "start": 305,
+                  "end": 309,
+                  "ctxt": 0
+                },
+                "expression": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 306,
+                    "end": 309,
+                    "ctxt": 0
+                  },
+                  "value": "dec",
+                  "optional": false
+                }
+              },
+              {
+                "type": "Decorator",
+                "span": {
+                  "start": 326,
+                  "end": 330,
+                  "ctxt": 0
+                },
+                "expression": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 327,
+                    "end": 330,
+                    "ctxt": 0
+                  },
+                  "value": "dec",
+                  "optional": false
+                }
+              }
+            ],
+            "span": {
+              "start": 305,
+              "end": 368,
+              "ctxt": 0
+            },
+            "body": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 355,
+                "end": 368,
+                "ctxt": 0
+              },
+              "stmts": [
+                {
+                  "type": "ReturnStatement",
+                  "span": {
+                    "start": 357,
+                    "end": 366,
+                    "ctxt": 0
+                  },
+                  "argument": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 364,
+                      "end": 365,
+                      "ctxt": 0
+                    },
+                    "value": 1.0,
+                    "raw": "1"
+                  }
+                }
+              ]
+            },
+            "generator": false,
+            "async": false,
+            "typeParameters": null,
+            "returnType": null
+          },
+          "kind": "getter",
+          "isStatic": false,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false
+        },
+        {
+          "type": "ClassMethod",
+          "span": {
+            "start": 388,
+            "end": 456,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 436,
+              "end": 437,
+              "ctxt": 0
+            },
+            "value": "x",
+            "optional": false
+          },
+          "function": {
+            "params": [
+              {
+                "type": "Parameter",
+                "span": {
+                  "start": 438,
+                  "end": 451,
+                  "ctxt": 0
+                },
+                "decorators": [],
+                "pat": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 438,
+                    "end": 451,
+                    "ctxt": 0
+                  },
+                  "value": "value",
+                  "optional": false,
+                  "typeAnnotation": {
+                    "type": "TsTypeAnnotation",
+                    "span": {
+                      "start": 443,
+                      "end": 451,
+                      "ctxt": 0
+                    },
+                    "typeAnnotation": {
+                      "type": "TsKeywordType",
+                      "span": {
+                        "start": 445,
+                        "end": 451,
+                        "ctxt": 0
+                      },
+                      "kind": "number"
+                    }
+                  }
+                }
+              }
+            ],
+            "decorators": [
+              {
+                "type": "Decorator",
+                "span": {
+                  "start": 388,
+                  "end": 392,
+                  "ctxt": 0
+                },
+                "expression": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 389,
+                    "end": 392,
+                    "ctxt": 0
+                  },
+                  "value": "dec",
+                  "optional": false
+                }
+              },
+              {
+                "type": "Decorator",
+                "span": {
+                  "start": 410,
+                  "end": 414,
+                  "ctxt": 0
+                },
+                "expression": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 411,
+                    "end": 414,
+                    "ctxt": 0
+                  },
+                  "value": "dec",
+                  "optional": false
+                }
+              }
+            ],
+            "span": {
+              "start": 388,
+              "end": 456,
+              "ctxt": 0
+            },
+            "body": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 453,
+                "end": 456,
+                "ctxt": 0
+              },
+              "stmts": []
+            },
+            "generator": false,
+            "async": false,
+            "typeParameters": null,
+            "returnType": null
+          },
+          "kind": "setter",
+          "isStatic": false,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false
+        },
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 476,
+            "end": 526,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 520,
+              "end": 521,
+              "ctxt": 0
+            },
+            "value": "y",
+            "optional": false
+          },
+          "value": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 524,
+              "end": 525,
+              "ctxt": 0
+            },
+            "value": 1.0,
+            "raw": "1"
+          },
+          "typeAnnotation": null,
+          "isStatic": false,
+          "decorators": [
+            {
+              "type": "Decorator",
+              "span": {
+                "start": 476,
+                "end": 480,
+                "ctxt": 0
+              },
+              "expression": {
+                "type": "Identifier",
+                "span": {
+                  "start": 477,
+                  "end": 480,
+                  "ctxt": 0
+                },
+                "value": "dec",
+                "optional": false
+              }
+            },
+            {
+              "type": "Decorator",
+              "span": {
+                "start": 498,
+                "end": 502,
+                "ctxt": 0
+              },
+              "expression": {
+                "type": "Identifier",
+                "span": {
+                  "start": 499,
+                  "end": 502,
+                  "ctxt": 0
+                },
+                "value": "dec",
+                "optional": false
+              }
+            }
+          ],
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false,
+          "readonly": false,
+          "declare": false,
+          "definite": false
+        },
+        {
+          "type": "AutoAccessor",
+          "span": {
+            "start": 546,
+            "end": 605,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 599,
+              "end": 600,
+              "ctxt": 0
+            },
+            "value": "z",
+            "optional": false
+          },
+          "value": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 603,
+              "end": 604,
+              "ctxt": 0
+            },
+            "value": 1.0,
+            "raw": "1"
+          },
+          "typeAnnotation": null,
+          "isStatic": false,
+          "decorators": [
+            {
+              "type": "Decorator",
+              "span": {
+                "start": 546,
+                "end": 550,
+                "ctxt": 0
+              },
+              "expression": {
+                "type": "Identifier",
+                "span": {
+                  "start": 547,
+                  "end": 550,
+                  "ctxt": 0
+                },
+                "value": "dec",
+                "optional": false
+              }
+            },
+            {
+              "type": "Decorator",
+              "span": {
+                "start": 568,
+                "end": 572,
+                "ctxt": 0
+              },
+              "expression": {
+                "type": "Identifier",
+                "span": {
+                  "start": 569,
+                  "end": 572,
+                  "ctxt": 0
+                },
+                "value": "dec",
+                "optional": false
+              }
+            }
+          ],
+          "accessibility": null,
+          "isOverride": false,
+          "definite": false
+        },
+        {
+          "type": "PrivateMethod",
+          "span": {
+            "start": 625,
+            "end": 688,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "PrivateName",
+            "span": {
+              "start": 676,
+              "end": 683,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 677,
+                "end": 683,
+                "ctxt": 0
+              },
+              "value": "method",
+              "optional": false
+            }
+          },
+          "function": {
+            "params": [],
+            "decorators": [
+              {
+                "type": "Decorator",
+                "span": {
+                  "start": 625,
+                  "end": 629,
+                  "ctxt": 0
+                },
+                "expression": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 626,
+                    "end": 629,
+                    "ctxt": 0
+                  },
+                  "value": "dec",
+                  "optional": false
+                }
+              },
+              {
+                "type": "Decorator",
+                "span": {
+                  "start": 647,
+                  "end": 651,
+                  "ctxt": 0
+                },
+                "expression": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 648,
+                    "end": 651,
+                    "ctxt": 0
+                  },
+                  "value": "dec",
+                  "optional": false
+                }
+              }
+            ],
+            "span": {
+              "start": 625,
+              "end": 688,
+              "ctxt": 0
+            },
+            "body": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 686,
+                "end": 688,
+                "ctxt": 0
+              },
+              "stmts": []
+            },
+            "generator": false,
+            "async": false,
+            "typeParameters": null,
+            "returnType": null
+          },
+          "kind": "method",
+          "isStatic": true,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false
+        },
+        {
+          "type": "PrivateMethod",
+          "span": {
+            "start": 708,
+            "end": 781,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "PrivateName",
+            "span": {
+              "start": 763,
+              "end": 765,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 764,
+                "end": 765,
+                "ctxt": 0
+              },
+              "value": "x",
+              "optional": false
+            }
+          },
+          "function": {
+            "params": [],
+            "decorators": [
+              {
+                "type": "Decorator",
+                "span": {
+                  "start": 708,
+                  "end": 712,
+                  "ctxt": 0
+                },
+                "expression": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 709,
+                    "end": 712,
+                    "ctxt": 0
+                  },
+                  "value": "dec",
+                  "optional": false
+                }
+              },
+              {
+                "type": "Decorator",
+                "span": {
+                  "start": 730,
+                  "end": 734,
+                  "ctxt": 0
+                },
+                "expression": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 731,
+                    "end": 734,
+                    "ctxt": 0
+                  },
+                  "value": "dec",
+                  "optional": false
+                }
+              }
+            ],
+            "span": {
+              "start": 708,
+              "end": 781,
+              "ctxt": 0
+            },
+            "body": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 768,
+                "end": 781,
+                "ctxt": 0
+              },
+              "stmts": [
+                {
+                  "type": "ReturnStatement",
+                  "span": {
+                    "start": 770,
+                    "end": 779,
+                    "ctxt": 0
+                  },
+                  "argument": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 777,
+                      "end": 778,
+                      "ctxt": 0
+                    },
+                    "value": 1.0,
+                    "raw": "1"
+                  }
+                }
+              ]
+            },
+            "generator": false,
+            "async": false,
+            "typeParameters": null,
+            "returnType": null
+          },
+          "kind": "getter",
+          "isStatic": true,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false
+        },
+        {
+          "type": "PrivateMethod",
+          "span": {
+            "start": 801,
+            "end": 877,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "PrivateName",
+            "span": {
+              "start": 856,
+              "end": 858,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 857,
+                "end": 858,
+                "ctxt": 0
+              },
+              "value": "x",
+              "optional": false
+            }
+          },
+          "function": {
+            "params": [
+              {
+                "type": "Parameter",
+                "span": {
+                  "start": 859,
+                  "end": 872,
+                  "ctxt": 0
+                },
+                "decorators": [],
+                "pat": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 859,
+                    "end": 872,
+                    "ctxt": 0
+                  },
+                  "value": "value",
+                  "optional": false,
+                  "typeAnnotation": {
+                    "type": "TsTypeAnnotation",
+                    "span": {
+                      "start": 864,
+                      "end": 872,
+                      "ctxt": 0
+                    },
+                    "typeAnnotation": {
+                      "type": "TsKeywordType",
+                      "span": {
+                        "start": 866,
+                        "end": 872,
+                        "ctxt": 0
+                      },
+                      "kind": "number"
+                    }
+                  }
+                }
+              }
+            ],
+            "decorators": [
+              {
+                "type": "Decorator",
+                "span": {
+                  "start": 801,
+                  "end": 805,
+                  "ctxt": 0
+                },
+                "expression": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 802,
+                    "end": 805,
+                    "ctxt": 0
+                  },
+                  "value": "dec",
+                  "optional": false
+                }
+              },
+              {
+                "type": "Decorator",
+                "span": {
+                  "start": 823,
+                  "end": 827,
+                  "ctxt": 0
+                },
+                "expression": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 824,
+                    "end": 827,
+                    "ctxt": 0
+                  },
+                  "value": "dec",
+                  "optional": false
+                }
+              }
+            ],
+            "span": {
+              "start": 801,
+              "end": 877,
+              "ctxt": 0
+            },
+            "body": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 874,
+                "end": 877,
+                "ctxt": 0
+              },
+              "stmts": []
+            },
+            "generator": false,
+            "async": false,
+            "typeParameters": null,
+            "returnType": null
+          },
+          "kind": "setter",
+          "isStatic": true,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false
+        },
+        {
+          "type": "PrivateProperty",
+          "span": {
+            "start": 897,
+            "end": 955,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "PrivateName",
+            "span": {
+              "start": 948,
+              "end": 950,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 949,
+                "end": 950,
+                "ctxt": 0
+              },
+              "value": "y",
+              "optional": false
+            }
+          },
+          "value": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 953,
+              "end": 954,
+              "ctxt": 0
+            },
+            "value": 1.0,
+            "raw": "1"
+          },
+          "typeAnnotation": null,
+          "isStatic": true,
+          "decorators": [
+            {
+              "type": "Decorator",
+              "span": {
+                "start": 897,
+                "end": 901,
+                "ctxt": 0
+              },
+              "expression": {
+                "type": "Identifier",
+                "span": {
+                  "start": 898,
+                  "end": 901,
+                  "ctxt": 0
+                },
+                "value": "dec",
+                "optional": false
+              }
+            },
+            {
+              "type": "Decorator",
+              "span": {
+                "start": 919,
+                "end": 923,
+                "ctxt": 0
+              },
+              "expression": {
+                "type": "Identifier",
+                "span": {
+                  "start": 920,
+                  "end": 923,
+                  "ctxt": 0
+                },
+                "value": "dec",
+                "optional": false
+              }
+            }
+          ],
+          "accessibility": null,
+          "isOptional": false,
+          "isOverride": false,
+          "readonly": false,
+          "definite": false
+        },
+        {
+          "type": "AutoAccessor",
+          "span": {
+            "start": 975,
+            "end": 1042,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "PrivateName",
+            "span": {
+              "start": 1035,
+              "end": 1037,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 1036,
+                "end": 1037,
+                "ctxt": 0
+              },
+              "value": "z",
+              "optional": false
+            }
+          },
+          "value": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 1040,
+              "end": 1041,
+              "ctxt": 0
+            },
+            "value": 1.0,
+            "raw": "1"
+          },
+          "typeAnnotation": null,
+          "isStatic": true,
+          "decorators": [
+            {
+              "type": "Decorator",
+              "span": {
+                "start": 975,
+                "end": 979,
+                "ctxt": 0
+              },
+              "expression": {
+                "type": "Identifier",
+                "span": {
+                  "start": 976,
+                  "end": 979,
+                  "ctxt": 0
+                },
+                "value": "dec",
+                "optional": false
+              }
+            },
+            {
+              "type": "Decorator",
+              "span": {
+                "start": 997,
+                "end": 1001,
+                "ctxt": 0
+              },
+              "expression": {
+                "type": "Identifier",
+                "span": {
+                  "start": 998,
+                  "end": 1001,
+                  "ctxt": 0
+                },
+                "value": "dec",
+                "optional": false
+              }
+            }
+          ],
+          "accessibility": null,
+          "isOverride": false,
+          "definite": false
+        }
+      ],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    },
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 1111,
+        "end": 1130,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "ClassDeclaration",
+        "identifier": {
+          "type": "Identifier",
+          "span": {
+            "start": 1124,
+            "end": 1125,
+            "ctxt": 0
+          },
+          "value": "D",
+          "optional": false
+        },
+        "declare": false,
+        "span": {
+          "start": 1118,
+          "end": 1130,
+          "ctxt": 0
+        },
+        "decorators": [
+          {
+            "type": "Decorator",
+            "span": {
+              "start": 1083,
+              "end": 1087,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 1084,
+                "end": 1087,
+                "ctxt": 0
+              },
+              "value": "dec",
+              "optional": false
+            }
+          },
+          {
+            "type": "Decorator",
+            "span": {
+              "start": 1097,
+              "end": 1101,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 1098,
+                "end": 1101,
+                "ctxt": 0
+              },
+              "value": "dec",
+              "optional": false
+            }
+          }
+        ],
+        "body": [],
+        "superClass": null,
+        "isAbstract": false,
+        "typeParams": null,
+        "superTypeParams": null,
+        "implements": []
+      }
+    },
+    {
+      "type": "ExportDefaultDeclaration",
+      "span": {
+        "start": 1170,
+        "end": 1197,
+        "ctxt": 0
+      },
+      "decl": {
+        "type": "ClassExpression",
+        "identifier": {
+          "type": "Identifier",
+          "span": {
+            "start": 1191,
+            "end": 1192,
+            "ctxt": 0
+          },
+          "value": "E",
+          "optional": false
+        },
+        "span": {
+          "start": 1185,
+          "end": 1197,
+          "ctxt": 0
+        },
+        "decorators": [
+          {
+            "type": "Decorator",
+            "span": {
+              "start": 1142,
+              "end": 1146,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 1143,
+                "end": 1146,
+                "ctxt": 0
+              },
+              "value": "dec",
+              "optional": false
+            }
+          },
+          {
+            "type": "Decorator",
+            "span": {
+              "start": 1156,
+              "end": 1160,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 1157,
+                "end": 1160,
+                "ctxt": 0
+              },
+              "value": "dec",
+              "optional": false
+            }
+          }
+        ],
+        "body": [],
+        "superClass": null,
+        "isAbstract": false,
+        "typeParams": null,
+        "superTypeParams": null,
+        "implements": []
+      }
+    },
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 1235,
+        "end": 1291,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "ClassDeclaration",
+        "identifier": {
+          "type": "Identifier",
+          "span": {
+            "start": 1285,
+            "end": 1286,
+            "ctxt": 0
+          },
+          "value": "F",
+          "optional": false
+        },
+        "declare": false,
+        "span": {
+          "start": 1279,
+          "end": 1291,
+          "ctxt": 0
+        },
+        "decorators": [
+          {
+            "type": "Decorator",
+            "span": {
+              "start": 1251,
+              "end": 1255,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 1252,
+                "end": 1255,
+                "ctxt": 0
+              },
+              "value": "dec",
+              "optional": false
+            }
+          },
+          {
+            "type": "Decorator",
+            "span": {
+              "start": 1265,
+              "end": 1269,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 1266,
+                "end": 1269,
+                "ctxt": 0
+              },
+              "value": "dec",
+              "optional": false
+            }
+          }
+        ],
+        "body": [],
+        "superClass": null,
+        "isAbstract": false,
+        "typeParams": null,
+        "superTypeParams": null,
+        "implements": []
+      }
+    },
+    {
+      "type": "ExportDefaultDeclaration",
+      "span": {
+        "start": 1303,
+        "end": 1367,
+        "ctxt": 0
+      },
+      "decl": {
+        "type": "ClassExpression",
+        "identifier": {
+          "type": "Identifier",
+          "span": {
+            "start": 1361,
+            "end": 1362,
+            "ctxt": 0
+          },
+          "value": "G",
+          "optional": false
+        },
+        "span": {
+          "start": 1355,
+          "end": 1367,
+          "ctxt": 0
+        },
+        "decorators": [
+          {
+            "type": "Decorator",
+            "span": {
+              "start": 1327,
+              "end": 1331,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 1328,
+                "end": 1331,
+                "ctxt": 0
+              },
+              "value": "dec",
+              "optional": false
+            }
+          },
+          {
+            "type": "Decorator",
+            "span": {
+              "start": 1341,
+              "end": 1345,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 1342,
+                "end": 1345,
+                "ctxt": 0
+              },
+              "value": "dec",
+              "optional": false
+            }
+          }
+        ],
+        "body": [],
+        "superClass": null,
+        "isAbstract": false,
+        "typeParams": null,
+        "superTypeParams": null,
+        "implements": []
+      }
+    }
+  ],
+  "interpreter": null
+}

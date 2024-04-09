@@ -1,0 +1,1458 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 65,
+    "end": 967,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 65,
+        "end": 392,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "TsEnumDeclaration",
+        "span": {
+          "start": 72,
+          "end": 392,
+          "ctxt": 0
+        },
+        "declare": false,
+        "isConst": false,
+        "id": {
+          "type": "Identifier",
+          "span": {
+            "start": 77,
+            "end": 84,
+            "ctxt": 0
+          },
+          "value": "AppType",
+          "optional": false
+        },
+        "members": [
+          {
+            "type": "TsEnumMember",
+            "span": {
+              "start": 92,
+              "end": 121,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 92,
+                "end": 104,
+                "ctxt": 0
+              },
+              "value": "HeaderDetail",
+              "optional": false
+            },
+            "init": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 107,
+                "end": 121,
+                "ctxt": 0
+              },
+              "value": "HeaderDetail",
+              "raw": "'HeaderDetail'"
+            }
+          },
+          {
+            "type": "TsEnumMember",
+            "span": {
+              "start": 128,
+              "end": 167,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 128,
+                "end": 145,
+                "ctxt": 0
+              },
+              "value": "HeaderMultiDetail",
+              "optional": false
+            },
+            "init": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 148,
+                "end": 167,
+                "ctxt": 0
+              },
+              "value": "HeaderMultiDetail",
+              "raw": "'HeaderMultiDetail'"
+            }
+          },
+          {
+            "type": "TsEnumMember",
+            "span": {
+              "start": 174,
+              "end": 203,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 174,
+                "end": 186,
+                "ctxt": 0
+              },
+              "value": "AdvancedList",
+              "optional": false
+            },
+            "init": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 189,
+                "end": 203,
+                "ctxt": 0
+              },
+              "value": "AdvancedList",
+              "raw": "'AdvancedList'"
+            }
+          },
+          {
+            "type": "TsEnumMember",
+            "span": {
+              "start": 210,
+              "end": 231,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 210,
+                "end": 218,
+                "ctxt": 0
+              },
+              "value": "Standard",
+              "optional": false
+            },
+            "init": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 221,
+                "end": 231,
+                "ctxt": 0
+              },
+              "value": "Standard",
+              "raw": "'Standard'"
+            }
+          },
+          {
+            "type": "TsEnumMember",
+            "span": {
+              "start": 238,
+              "end": 267,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 238,
+                "end": 250,
+                "ctxt": 0
+              },
+              "value": "Relationship",
+              "optional": false
+            },
+            "init": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 253,
+                "end": 267,
+                "ctxt": 0
+              },
+              "value": "Relationship",
+              "raw": "'Relationship'"
+            }
+          },
+          {
+            "type": "TsEnumMember",
+            "span": {
+              "start": 274,
+              "end": 291,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 274,
+                "end": 280,
+                "ctxt": 0
+              },
+              "value": "Report",
+              "optional": false
+            },
+            "init": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 283,
+                "end": 291,
+                "ctxt": 0
+              },
+              "value": "Report",
+              "raw": "'Report'"
+            }
+          },
+          {
+            "type": "TsEnumMember",
+            "span": {
+              "start": 298,
+              "end": 321,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 298,
+                "end": 307,
+                "ctxt": 0
+              },
+              "value": "Composite",
+              "optional": false
+            },
+            "init": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 310,
+                "end": 321,
+                "ctxt": 0
+              },
+              "value": "Composite",
+              "raw": "'Composite'"
+            }
+          },
+          {
+            "type": "TsEnumMember",
+            "span": {
+              "start": 328,
+              "end": 349,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 328,
+                "end": 336,
+                "ctxt": 0
+              },
+              "value": "ListOnly",
+              "optional": false
+            },
+            "init": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 339,
+                "end": 349,
+                "ctxt": 0
+              },
+              "value": "ListOnly",
+              "raw": "'ListOnly'"
+            }
+          },
+          {
+            "type": "TsEnumMember",
+            "span": {
+              "start": 356,
+              "end": 389,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 356,
+                "end": 370,
+                "ctxt": 0
+              },
+              "value": "ModuleSettings",
+              "optional": false
+            },
+            "init": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 373,
+                "end": 389,
+                "ctxt": 0
+              },
+              "value": "ModuleSettings",
+              "raw": "'ModuleSettings'"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 396,
+        "end": 494,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "TsEnumDeclaration",
+        "span": {
+          "start": 403,
+          "end": 494,
+          "ctxt": 0
+        },
+        "declare": false,
+        "isConst": false,
+        "id": {
+          "type": "Identifier",
+          "span": {
+            "start": 408,
+            "end": 416,
+            "ctxt": 0
+          },
+          "value": "AppStyle",
+          "optional": false
+        },
+        "members": [
+          {
+            "type": "TsEnumMember",
+            "span": {
+              "start": 424,
+              "end": 428,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 424,
+                "end": 428,
+                "ctxt": 0
+              },
+              "value": "Tree",
+              "optional": false
+            },
+            "init": null
+          },
+          {
+            "type": "TsEnumMember",
+            "span": {
+              "start": 435,
+              "end": 445,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 435,
+                "end": 445,
+                "ctxt": 0
+              },
+              "value": "TreeEntity",
+              "optional": false
+            },
+            "init": null
+          },
+          {
+            "type": "TsEnumMember",
+            "span": {
+              "start": 452,
+              "end": 460,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 452,
+                "end": 460,
+                "ctxt": 0
+              },
+              "value": "Standard",
+              "optional": false
+            },
+            "init": null
+          },
+          {
+            "type": "TsEnumMember",
+            "span": {
+              "start": 467,
+              "end": 474,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 467,
+                "end": 474,
+                "ctxt": 0
+              },
+              "value": "MiniApp",
+              "optional": false
+            },
+            "init": null
+          },
+          {
+            "type": "TsEnumMember",
+            "span": {
+              "start": 481,
+              "end": 491,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 481,
+                "end": 491,
+                "ctxt": 0
+              },
+              "value": "PivotTable",
+              "optional": false
+            },
+            "init": null
+          }
+        ]
+      }
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 498,
+        "end": 791,
+        "ctxt": 0
+      },
+      "kind": "const",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 504,
+            "end": 790,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 504,
+              "end": 526,
+              "ctxt": 0
+            },
+            "value": "appTypeStylesWithError",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 526,
+                "end": 557,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsTypeReference",
+                "span": {
+                  "start": 528,
+                  "end": 557,
+                  "ctxt": 0
+                },
+                "typeName": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 528,
+                    "end": 531,
+                    "ctxt": 0
+                  },
+                  "value": "Map",
+                  "optional": false
+                },
+                "typeParams": {
+                  "type": "TsTypeParameterInstantiation",
+                  "span": {
+                    "start": 531,
+                    "end": 557,
+                    "ctxt": 0
+                  },
+                  "params": [
+                    {
+                      "type": "TsTypeReference",
+                      "span": {
+                        "start": 532,
+                        "end": 539,
+                        "ctxt": 0
+                      },
+                      "typeName": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 532,
+                          "end": 539,
+                          "ctxt": 0
+                        },
+                        "value": "AppType",
+                        "optional": false
+                      },
+                      "typeParams": null
+                    },
+                    {
+                      "type": "TsTypeReference",
+                      "span": {
+                        "start": 541,
+                        "end": 556,
+                        "ctxt": 0
+                      },
+                      "typeName": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 541,
+                          "end": 546,
+                          "ctxt": 0
+                        },
+                        "value": "Array",
+                        "optional": false
+                      },
+                      "typeParams": {
+                        "type": "TsTypeParameterInstantiation",
+                        "span": {
+                          "start": 546,
+                          "end": 556,
+                          "ctxt": 0
+                        },
+                        "params": [
+                          {
+                            "type": "TsTypeReference",
+                            "span": {
+                              "start": 547,
+                              "end": 555,
+                              "ctxt": 0
+                            },
+                            "typeName": {
+                              "type": "Identifier",
+                              "span": {
+                                "start": 547,
+                                "end": 555,
+                                "ctxt": 0
+                              },
+                              "value": "AppStyle",
+                              "optional": false
+                            },
+                            "typeParams": null
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "init": {
+            "type": "NewExpression",
+            "span": {
+              "start": 560,
+              "end": 790,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "Identifier",
+              "span": {
+                "start": 564,
+                "end": 567,
+                "ctxt": 0
+              },
+              "value": "Map",
+              "optional": false
+            },
+            "arguments": [
+              {
+                "spread": null,
+                "expression": {
+                  "type": "ArrayExpression",
+                  "span": {
+                    "start": 568,
+                    "end": 789,
+                    "ctxt": 0
+                  },
+                  "elements": [
+                    {
+                      "spread": null,
+                      "expression": {
+                        "type": "ArrayExpression",
+                        "span": {
+                          "start": 575,
+                          "end": 632,
+                          "ctxt": 0
+                        },
+                        "elements": [
+                          {
+                            "spread": null,
+                            "expression": {
+                              "type": "MemberExpression",
+                              "span": {
+                                "start": 576,
+                                "end": 592,
+                                "ctxt": 0
+                              },
+                              "object": {
+                                "type": "Identifier",
+                                "span": {
+                                  "start": 576,
+                                  "end": 583,
+                                  "ctxt": 0
+                                },
+                                "value": "AppType",
+                                "optional": false
+                              },
+                              "property": {
+                                "type": "Identifier",
+                                "span": {
+                                  "start": 584,
+                                  "end": 592,
+                                  "ctxt": 0
+                                },
+                                "value": "Standard",
+                                "optional": false
+                              }
+                            }
+                          },
+                          {
+                            "spread": null,
+                            "expression": {
+                              "type": "ArrayExpression",
+                              "span": {
+                                "start": 594,
+                                "end": 631,
+                                "ctxt": 0
+                              },
+                              "elements": [
+                                {
+                                  "spread": null,
+                                  "expression": {
+                                    "type": "MemberExpression",
+                                    "span": {
+                                      "start": 595,
+                                      "end": 612,
+                                      "ctxt": 0
+                                    },
+                                    "object": {
+                                      "type": "Identifier",
+                                      "span": {
+                                        "start": 595,
+                                        "end": 603,
+                                        "ctxt": 0
+                                      },
+                                      "value": "AppStyle",
+                                      "optional": false
+                                    },
+                                    "property": {
+                                      "type": "Identifier",
+                                      "span": {
+                                        "start": 604,
+                                        "end": 612,
+                                        "ctxt": 0
+                                      },
+                                      "value": "Standard",
+                                      "optional": false
+                                    }
+                                  }
+                                },
+                                {
+                                  "spread": null,
+                                  "expression": {
+                                    "type": "MemberExpression",
+                                    "span": {
+                                      "start": 614,
+                                      "end": 630,
+                                      "ctxt": 0
+                                    },
+                                    "object": {
+                                      "type": "Identifier",
+                                      "span": {
+                                        "start": 614,
+                                        "end": 622,
+                                        "ctxt": 0
+                                      },
+                                      "value": "AppStyle",
+                                      "optional": false
+                                    },
+                                    "property": {
+                                      "type": "Identifier",
+                                      "span": {
+                                        "start": 623,
+                                        "end": 630,
+                                        "ctxt": 0
+                                      },
+                                      "value": "MiniApp",
+                                      "optional": false
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "spread": null,
+                      "expression": {
+                        "type": "ArrayExpression",
+                        "span": {
+                          "start": 639,
+                          "end": 718,
+                          "ctxt": 0
+                        },
+                        "elements": [
+                          {
+                            "spread": null,
+                            "expression": {
+                              "type": "MemberExpression",
+                              "span": {
+                                "start": 640,
+                                "end": 660,
+                                "ctxt": 0
+                              },
+                              "object": {
+                                "type": "Identifier",
+                                "span": {
+                                  "start": 640,
+                                  "end": 647,
+                                  "ctxt": 0
+                                },
+                                "value": "AppType",
+                                "optional": false
+                              },
+                              "property": {
+                                "type": "Identifier",
+                                "span": {
+                                  "start": 648,
+                                  "end": 660,
+                                  "ctxt": 0
+                                },
+                                "value": "Relationship",
+                                "optional": false
+                              }
+                            }
+                          },
+                          {
+                            "spread": null,
+                            "expression": {
+                              "type": "ArrayExpression",
+                              "span": {
+                                "start": 662,
+                                "end": 717,
+                                "ctxt": 0
+                              },
+                              "elements": [
+                                {
+                                  "spread": null,
+                                  "expression": {
+                                    "type": "MemberExpression",
+                                    "span": {
+                                      "start": 663,
+                                      "end": 680,
+                                      "ctxt": 0
+                                    },
+                                    "object": {
+                                      "type": "Identifier",
+                                      "span": {
+                                        "start": 663,
+                                        "end": 671,
+                                        "ctxt": 0
+                                      },
+                                      "value": "AppStyle",
+                                      "optional": false
+                                    },
+                                    "property": {
+                                      "type": "Identifier",
+                                      "span": {
+                                        "start": 672,
+                                        "end": 680,
+                                        "ctxt": 0
+                                      },
+                                      "value": "Standard",
+                                      "optional": false
+                                    }
+                                  }
+                                },
+                                {
+                                  "spread": null,
+                                  "expression": {
+                                    "type": "MemberExpression",
+                                    "span": {
+                                      "start": 682,
+                                      "end": 695,
+                                      "ctxt": 0
+                                    },
+                                    "object": {
+                                      "type": "Identifier",
+                                      "span": {
+                                        "start": 682,
+                                        "end": 690,
+                                        "ctxt": 0
+                                      },
+                                      "value": "AppStyle",
+                                      "optional": false
+                                    },
+                                    "property": {
+                                      "type": "Identifier",
+                                      "span": {
+                                        "start": 691,
+                                        "end": 695,
+                                        "ctxt": 0
+                                      },
+                                      "value": "Tree",
+                                      "optional": false
+                                    }
+                                  }
+                                },
+                                {
+                                  "spread": null,
+                                  "expression": {
+                                    "type": "MemberExpression",
+                                    "span": {
+                                      "start": 697,
+                                      "end": 716,
+                                      "ctxt": 0
+                                    },
+                                    "object": {
+                                      "type": "Identifier",
+                                      "span": {
+                                        "start": 697,
+                                        "end": 705,
+                                        "ctxt": 0
+                                      },
+                                      "value": "AppStyle",
+                                      "optional": false
+                                    },
+                                    "property": {
+                                      "type": "Identifier",
+                                      "span": {
+                                        "start": 706,
+                                        "end": 716,
+                                        "ctxt": 0
+                                      },
+                                      "value": "TreeEntity",
+                                      "optional": false
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "spread": null,
+                      "expression": {
+                        "type": "ArrayExpression",
+                        "span": {
+                          "start": 725,
+                          "end": 786,
+                          "ctxt": 0
+                        },
+                        "elements": [
+                          {
+                            "spread": null,
+                            "expression": {
+                              "type": "MemberExpression",
+                              "span": {
+                                "start": 726,
+                                "end": 746,
+                                "ctxt": 0
+                              },
+                              "object": {
+                                "type": "Identifier",
+                                "span": {
+                                  "start": 726,
+                                  "end": 733,
+                                  "ctxt": 0
+                                },
+                                "value": "AppType",
+                                "optional": false
+                              },
+                              "property": {
+                                "type": "Identifier",
+                                "span": {
+                                  "start": 734,
+                                  "end": 746,
+                                  "ctxt": 0
+                                },
+                                "value": "AdvancedList",
+                                "optional": false
+                              }
+                            }
+                          },
+                          {
+                            "spread": null,
+                            "expression": {
+                              "type": "ArrayExpression",
+                              "span": {
+                                "start": 748,
+                                "end": 785,
+                                "ctxt": 0
+                              },
+                              "elements": [
+                                {
+                                  "spread": null,
+                                  "expression": {
+                                    "type": "MemberExpression",
+                                    "span": {
+                                      "start": 749,
+                                      "end": 766,
+                                      "ctxt": 0
+                                    },
+                                    "object": {
+                                      "type": "Identifier",
+                                      "span": {
+                                        "start": 749,
+                                        "end": 757,
+                                        "ctxt": 0
+                                      },
+                                      "value": "AppStyle",
+                                      "optional": false
+                                    },
+                                    "property": {
+                                      "type": "Identifier",
+                                      "span": {
+                                        "start": 758,
+                                        "end": 766,
+                                        "ctxt": 0
+                                      },
+                                      "value": "Standard",
+                                      "optional": false
+                                    }
+                                  }
+                                },
+                                {
+                                  "spread": null,
+                                  "expression": {
+                                    "type": "MemberExpression",
+                                    "span": {
+                                      "start": 768,
+                                      "end": 784,
+                                      "ctxt": 0
+                                    },
+                                    "object": {
+                                      "type": "Identifier",
+                                      "span": {
+                                        "start": 768,
+                                        "end": 776,
+                                        "ctxt": 0
+                                      },
+                                      "value": "AppStyle",
+                                      "optional": false
+                                    },
+                                    "property": {
+                                      "type": "Identifier",
+                                      "span": {
+                                        "start": 777,
+                                        "end": 784,
+                                        "ctxt": 0
+                                      },
+                                      "value": "MiniApp",
+                                      "optional": false
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            "typeArguments": null
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 836,
+          "end": 839,
+          "ctxt": 0
+        },
+        "value": "foo",
+        "optional": false
+      },
+      "declare": true,
+      "params": [
+        {
+          "type": "Parameter",
+          "span": {
+            "start": 843,
+            "end": 855,
+            "ctxt": 0
+          },
+          "decorators": [],
+          "pat": {
+            "type": "RestElement",
+            "span": {
+              "start": 843,
+              "end": 855,
+              "ctxt": 0
+            },
+            "rest": {
+              "start": 843,
+              "end": 846,
+              "ctxt": 0
+            },
+            "argument": {
+              "type": "Identifier",
+              "span": {
+                "start": 846,
+                "end": 850,
+                "ctxt": 0
+              },
+              "value": "args",
+              "optional": false,
+              "typeAnnotation": null
+            },
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 850,
+                "end": 855,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsArrayType",
+                "span": {
+                  "start": 852,
+                  "end": 855,
+                  "ctxt": 0
+                },
+                "elemType": {
+                  "type": "TsTypeReference",
+                  "span": {
+                    "start": 852,
+                    "end": 853,
+                    "ctxt": 0
+                  },
+                  "typeName": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 852,
+                      "end": 853,
+                      "ctxt": 0
+                    },
+                    "value": "T",
+                    "optional": false
+                  },
+                  "typeParams": null
+                }
+              }
+            }
+          }
+        }
+      ],
+      "decorators": [],
+      "span": {
+        "start": 819,
+        "end": 862,
+        "ctxt": 0
+      },
+      "body": null,
+      "generator": false,
+      "async": false,
+      "typeParameters": {
+        "type": "TsTypeParameterDeclaration",
+        "span": {
+          "start": 839,
+          "end": 842,
+          "ctxt": 0
+        },
+        "parameters": [
+          {
+            "type": "TsTypeParameter",
+            "span": {
+              "start": 840,
+              "end": 841,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 840,
+                "end": 841,
+                "ctxt": 0
+              },
+              "value": "T",
+              "optional": false
+            },
+            "in": false,
+            "out": false,
+            "const": false,
+            "constraint": null,
+            "default": null
+          }
+        ]
+      },
+      "returnType": {
+        "type": "TsTypeAnnotation",
+        "span": {
+          "start": 856,
+          "end": 861,
+          "ctxt": 0
+        },
+        "typeAnnotation": {
+          "type": "TsArrayType",
+          "span": {
+            "start": 858,
+            "end": 861,
+            "ctxt": 0
+          },
+          "elemType": {
+            "type": "TsTypeReference",
+            "span": {
+              "start": 858,
+              "end": 859,
+              "ctxt": 0
+            },
+            "typeName": {
+              "type": "Identifier",
+              "span": {
+                "start": 858,
+                "end": 859,
+                "ctxt": 0
+              },
+              "value": "T",
+              "optional": false
+            },
+            "typeParams": null
+          }
+        }
+      }
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 864,
+        "end": 922,
+        "ctxt": 0
+      },
+      "kind": "let",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 868,
+            "end": 921,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 868,
+              "end": 870,
+              "ctxt": 0
+            },
+            "value": "b1",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 870,
+                "end": 888,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsArrayType",
+                "span": {
+                  "start": 872,
+                  "end": 888,
+                  "ctxt": 0
+                },
+                "elemType": {
+                  "type": "TsTypeLiteral",
+                  "span": {
+                    "start": 872,
+                    "end": 886,
+                    "ctxt": 0
+                  },
+                  "members": [
+                    {
+                      "type": "TsPropertySignature",
+                      "span": {
+                        "start": 874,
+                        "end": 884,
+                        "ctxt": 0
+                      },
+                      "readonly": false,
+                      "key": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 874,
+                          "end": 875,
+                          "ctxt": 0
+                        },
+                        "value": "x",
+                        "optional": false
+                      },
+                      "computed": false,
+                      "optional": false,
+                      "init": null,
+                      "params": [],
+                      "typeAnnotation": {
+                        "type": "TsTypeAnnotation",
+                        "span": {
+                          "start": 875,
+                          "end": 884,
+                          "ctxt": 0
+                        },
+                        "typeAnnotation": {
+                          "type": "TsKeywordType",
+                          "span": {
+                            "start": 877,
+                            "end": 884,
+                            "ctxt": 0
+                          },
+                          "kind": "boolean"
+                        }
+                      },
+                      "typeParams": null
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "init": {
+            "type": "CallExpression",
+            "span": {
+              "start": 891,
+              "end": 921,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "Identifier",
+              "span": {
+                "start": 891,
+                "end": 894,
+                "ctxt": 0
+              },
+              "value": "foo",
+              "optional": false
+            },
+            "arguments": [
+              {
+                "spread": null,
+                "expression": {
+                  "type": "ObjectExpression",
+                  "span": {
+                    "start": 895,
+                    "end": 906,
+                    "ctxt": 0
+                  },
+                  "properties": [
+                    {
+                      "type": "KeyValueProperty",
+                      "key": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 897,
+                          "end": 898,
+                          "ctxt": 0
+                        },
+                        "value": "x",
+                        "optional": false
+                      },
+                      "value": {
+                        "type": "BooleanLiteral",
+                        "span": {
+                          "start": 900,
+                          "end": 904,
+                          "ctxt": 0
+                        },
+                        "value": true
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "spread": null,
+                "expression": {
+                  "type": "ObjectExpression",
+                  "span": {
+                    "start": 908,
+                    "end": 920,
+                    "ctxt": 0
+                  },
+                  "properties": [
+                    {
+                      "type": "KeyValueProperty",
+                      "key": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 910,
+                          "end": 911,
+                          "ctxt": 0
+                        },
+                        "value": "x",
+                        "optional": false
+                      },
+                      "value": {
+                        "type": "BooleanLiteral",
+                        "span": {
+                          "start": 913,
+                          "end": 918,
+                          "ctxt": 0
+                        },
+                        "value": false
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            "typeArguments": null
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 924,
+        "end": 967,
+        "ctxt": 0
+      },
+      "kind": "let",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 928,
+            "end": 966,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 928,
+              "end": 930,
+              "ctxt": 0
+            },
+            "value": "b2",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 930,
+                "end": 943,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsArrayType",
+                "span": {
+                  "start": 932,
+                  "end": 943,
+                  "ctxt": 0
+                },
+                "elemType": {
+                  "type": "TsArrayType",
+                  "span": {
+                    "start": 932,
+                    "end": 941,
+                    "ctxt": 0
+                  },
+                  "elemType": {
+                    "type": "TsKeywordType",
+                    "span": {
+                      "start": 932,
+                      "end": 939,
+                      "ctxt": 0
+                    },
+                    "kind": "boolean"
+                  }
+                }
+              }
+            }
+          },
+          "init": {
+            "type": "CallExpression",
+            "span": {
+              "start": 946,
+              "end": 966,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "Identifier",
+              "span": {
+                "start": 946,
+                "end": 949,
+                "ctxt": 0
+              },
+              "value": "foo",
+              "optional": false
+            },
+            "arguments": [
+              {
+                "spread": null,
+                "expression": {
+                  "type": "ArrayExpression",
+                  "span": {
+                    "start": 950,
+                    "end": 956,
+                    "ctxt": 0
+                  },
+                  "elements": [
+                    {
+                      "spread": null,
+                      "expression": {
+                        "type": "BooleanLiteral",
+                        "span": {
+                          "start": 951,
+                          "end": 955,
+                          "ctxt": 0
+                        },
+                        "value": true
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "spread": null,
+                "expression": {
+                  "type": "ArrayExpression",
+                  "span": {
+                    "start": 958,
+                    "end": 965,
+                    "ctxt": 0
+                  },
+                  "elements": [
+                    {
+                      "spread": null,
+                      "expression": {
+                        "type": "BooleanLiteral",
+                        "span": {
+                          "start": 959,
+                          "end": 964,
+                          "ctxt": 0
+                        },
+                        "value": false
+                      }
+                    }
+                  ]
+                }
+              }
+            ],
+            "typeArguments": null
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

@@ -1,0 +1,27 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 55,
+    "end": 74,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExportDefaultExpression",
+      "span": {
+        "start": 55,
+        "end": 74,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "NullLiteral",
+        "span": {
+          "start": 70,
+          "end": 74,
+          "ctxt": 0
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

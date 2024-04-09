@@ -1,0 +1,212 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 244,
+    "end": 345,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 244,
+        "end": 266,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 248,
+            "end": 265,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 248,
+              "end": 249,
+              "ctxt": 0
+            },
+            "value": "y",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "ObjectExpression",
+            "span": {
+              "start": 252,
+              "end": 265,
+              "ctxt": 0
+            },
+            "properties": [
+              {
+                "type": "KeyValueProperty",
+                "key": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 254,
+                    "end": 257,
+                    "ctxt": 0
+                  },
+                  "value": "bye",
+                  "optional": false
+                },
+                "value": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 259,
+                    "end": 263,
+                    "ctxt": 0
+                  },
+                  "value": "no",
+                  "raw": "\"no\""
+                }
+              }
+            ]
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 268,
+        "end": 269,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "Identifier",
+        "span": {
+          "start": 268,
+          "end": 269,
+          "ctxt": 0
+        },
+        "value": "y",
+        "optional": false
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 271,
+        "end": 328,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "AssignmentExpression",
+        "span": {
+          "start": 271,
+          "end": 328,
+          "ctxt": 0
+        },
+        "operator": "=",
+        "left": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 271,
+            "end": 281,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 271,
+              "end": 272,
+              "ctxt": 0
+            },
+            "value": "y",
+            "optional": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 273,
+              "end": 281,
+              "ctxt": 0
+            },
+            "value": "ignoreMe",
+            "optional": false
+          }
+        },
+        "right": {
+          "type": "StringLiteral",
+          "span": {
+            "start": 284,
+            "end": 328,
+            "ctxt": 0
+          },
+          "value": "ok but just because of the index signature",
+          "raw": "\"ok but just because of the index signature\""
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 330,
+        "end": 345,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "AssignmentExpression",
+        "span": {
+          "start": 330,
+          "end": 345,
+          "ctxt": 0
+        },
+        "operator": "=",
+        "left": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 330,
+            "end": 337,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 330,
+              "end": 331,
+              "ctxt": 0
+            },
+            "value": "y",
+            "optional": false
+          },
+          "property": {
+            "type": "Computed",
+            "span": {
+              "start": 331,
+              "end": 337,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 332,
+                "end": 336,
+                "ctxt": 0
+              },
+              "value": "hi",
+              "raw": "'hi'"
+            }
+          }
+        },
+        "right": {
+          "type": "StringLiteral",
+          "span": {
+            "start": 340,
+            "end": 345,
+            "ctxt": 0
+          },
+          "value": "yes",
+          "raw": "\"yes\""
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

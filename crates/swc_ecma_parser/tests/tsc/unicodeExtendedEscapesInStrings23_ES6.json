@@ -1,0 +1,53 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 20,
+    "end": 49,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 20,
+        "end": 49,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 24,
+            "end": 48,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 24,
+              "end": 25,
+              "ctxt": 0
+            },
+            "value": "x",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "StringLiteral",
+            "span": {
+              "start": 28,
+              "end": 48,
+              "ctxt": 0
+            },
+            "value": "g",
+            "raw": "\"\\u{00000000000067}\""
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

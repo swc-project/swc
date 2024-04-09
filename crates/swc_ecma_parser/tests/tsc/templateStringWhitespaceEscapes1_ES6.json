@@ -1,0 +1,41 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 19,
+    "end": 32,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 19,
+        "end": 32,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "TemplateLiteral",
+        "span": {
+          "start": 19,
+          "end": 31,
+          "ctxt": 0
+        },
+        "expressions": [],
+        "quasis": [
+          {
+            "type": "TemplateElement",
+            "span": {
+              "start": 20,
+              "end": 30,
+              "ctxt": 0
+            },
+            "tail": true,
+            "cooked": "\t\n\u000b\f\r",
+            "raw": "\\t\\n\\v\\f\\r"
+          }
+        ]
+      }
+    }
+  ],
+  "interpreter": null
+}

@@ -1,0 +1,105 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 114,
+    "end": 178,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExportNamedDeclaration",
+      "span": {
+        "start": 114,
+        "end": 124,
+        "ctxt": 0
+      },
+      "specifiers": [],
+      "source": null,
+      "typeOnly": false,
+      "with": null
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 143,
+          "end": 144,
+          "ctxt": 0
+        },
+        "value": "f",
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 128,
+        "end": 178,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 147,
+          "end": 178,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "UsingDeclaration",
+            "span": {
+              "start": 154,
+              "end": 174,
+              "ctxt": 0
+            },
+            "isAwait": true,
+            "decls": [
+              {
+                "type": "VariableDeclarator",
+                "span": {
+                  "start": 166,
+                  "end": 174,
+                  "ctxt": 0
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 166,
+                    "end": 167,
+                    "ctxt": 0
+                  },
+                  "value": "a",
+                  "optional": false,
+                  "typeAnnotation": null
+                },
+                "init": {
+                  "type": "NullLiteral",
+                  "span": {
+                    "start": 170,
+                    "end": 174,
+                    "ctxt": 0
+                  }
+                },
+                "definite": false
+              }
+            ]
+          },
+          {
+            "type": "EmptyStatement",
+            "span": {
+              "start": 174,
+              "end": 175,
+              "ctxt": 0
+            }
+          }
+        ]
+      },
+      "generator": false,
+      "async": true,
+      "typeParameters": null,
+      "returnType": null
+    }
+  ],
+  "interpreter": null
+}

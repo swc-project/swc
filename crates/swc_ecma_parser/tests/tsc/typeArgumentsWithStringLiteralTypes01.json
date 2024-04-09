@@ -1,0 +1,5679 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 26,
+    "end": 3664,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 43,
+          "end": 51,
+          "ctxt": 0
+        },
+        "value": "randBool",
+        "optional": false
+      },
+      "declare": true,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 26,
+        "end": 63,
+        "ctxt": 0
+      },
+      "body": null,
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": {
+        "type": "TsTypeAnnotation",
+        "span": {
+          "start": 53,
+          "end": 62,
+          "ctxt": 0
+        },
+        "typeAnnotation": {
+          "type": "TsKeywordType",
+          "span": {
+            "start": 55,
+            "end": 62,
+            "ctxt": 0
+          },
+          "kind": "boolean"
+        }
+      }
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 82,
+          "end": 98,
+          "ctxt": 0
+        },
+        "value": "takeReturnString",
+        "optional": false
+      },
+      "declare": true,
+      "params": [
+        {
+          "type": "Parameter",
+          "span": {
+            "start": 99,
+            "end": 110,
+            "ctxt": 0
+          },
+          "decorators": [],
+          "pat": {
+            "type": "Identifier",
+            "span": {
+              "start": 99,
+              "end": 110,
+              "ctxt": 0
+            },
+            "value": "str",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 102,
+                "end": 110,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 104,
+                  "end": 110,
+                  "ctxt": 0
+                },
+                "kind": "string"
+              }
+            }
+          }
+        }
+      ],
+      "decorators": [],
+      "span": {
+        "start": 65,
+        "end": 120,
+        "ctxt": 0
+      },
+      "body": null,
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": {
+        "type": "TsTypeAnnotation",
+        "span": {
+          "start": 111,
+          "end": 119,
+          "ctxt": 0
+        },
+        "typeAnnotation": {
+          "type": "TsKeywordType",
+          "span": {
+            "start": 113,
+            "end": 119,
+            "ctxt": 0
+          },
+          "kind": "string"
+        }
+      }
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 139,
+          "end": 154,
+          "ctxt": 0
+        },
+        "value": "takeReturnHello",
+        "optional": false
+      },
+      "declare": true,
+      "params": [
+        {
+          "type": "Parameter",
+          "span": {
+            "start": 155,
+            "end": 167,
+            "ctxt": 0
+          },
+          "decorators": [],
+          "pat": {
+            "type": "Identifier",
+            "span": {
+              "start": 155,
+              "end": 167,
+              "ctxt": 0
+            },
+            "value": "str",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 158,
+                "end": 167,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsLiteralType",
+                "span": {
+                  "start": 160,
+                  "end": 167,
+                  "ctxt": 0
+                },
+                "literal": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 160,
+                    "end": 167,
+                    "ctxt": 0
+                  },
+                  "value": "Hello",
+                  "raw": "\"Hello\""
+                }
+              }
+            }
+          }
+        }
+      ],
+      "decorators": [],
+      "span": {
+        "start": 122,
+        "end": 178,
+        "ctxt": 0
+      },
+      "body": null,
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": {
+        "type": "TsTypeAnnotation",
+        "span": {
+          "start": 168,
+          "end": 177,
+          "ctxt": 0
+        },
+        "typeAnnotation": {
+          "type": "TsLiteralType",
+          "span": {
+            "start": 170,
+            "end": 177,
+            "ctxt": 0
+          },
+          "literal": {
+            "type": "StringLiteral",
+            "span": {
+              "start": 170,
+              "end": 177,
+              "ctxt": 0
+            },
+            "value": "Hello",
+            "raw": "\"Hello\""
+          }
+        }
+      }
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 197,
+          "end": 217,
+          "ctxt": 0
+        },
+        "value": "takeReturnHelloWorld",
+        "optional": false
+      },
+      "declare": true,
+      "params": [
+        {
+          "type": "Parameter",
+          "span": {
+            "start": 218,
+            "end": 240,
+            "ctxt": 0
+          },
+          "decorators": [],
+          "pat": {
+            "type": "Identifier",
+            "span": {
+              "start": 218,
+              "end": 240,
+              "ctxt": 0
+            },
+            "value": "str",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 221,
+                "end": 240,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsUnionType",
+                "span": {
+                  "start": 223,
+                  "end": 240,
+                  "ctxt": 0
+                },
+                "types": [
+                  {
+                    "type": "TsLiteralType",
+                    "span": {
+                      "start": 223,
+                      "end": 230,
+                      "ctxt": 0
+                    },
+                    "literal": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 223,
+                        "end": 230,
+                        "ctxt": 0
+                      },
+                      "value": "Hello",
+                      "raw": "\"Hello\""
+                    }
+                  },
+                  {
+                    "type": "TsLiteralType",
+                    "span": {
+                      "start": 233,
+                      "end": 240,
+                      "ctxt": 0
+                    },
+                    "literal": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 233,
+                        "end": 240,
+                        "ctxt": 0
+                      },
+                      "value": "World",
+                      "raw": "\"World\""
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ],
+      "decorators": [],
+      "span": {
+        "start": 180,
+        "end": 261,
+        "ctxt": 0
+      },
+      "body": null,
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": {
+        "type": "TsTypeAnnotation",
+        "span": {
+          "start": 241,
+          "end": 260,
+          "ctxt": 0
+        },
+        "typeAnnotation": {
+          "type": "TsUnionType",
+          "span": {
+            "start": 243,
+            "end": 260,
+            "ctxt": 0
+          },
+          "types": [
+            {
+              "type": "TsLiteralType",
+              "span": {
+                "start": 243,
+                "end": 250,
+                "ctxt": 0
+              },
+              "literal": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 243,
+                  "end": 250,
+                  "ctxt": 0
+                },
+                "value": "Hello",
+                "raw": "\"Hello\""
+              }
+            },
+            {
+              "type": "TsLiteralType",
+              "span": {
+                "start": 253,
+                "end": 260,
+                "ctxt": 0
+              },
+              "literal": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 253,
+                  "end": 260,
+                  "ctxt": 0
+                },
+                "value": "World",
+                "raw": "\"World\""
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 274,
+          "end": 278,
+          "ctxt": 0
+        },
+        "value": "fun1",
+        "optional": false
+      },
+      "declare": false,
+      "params": [
+        {
+          "type": "Parameter",
+          "span": {
+            "start": 282,
+            "end": 286,
+            "ctxt": 0
+          },
+          "decorators": [],
+          "pat": {
+            "type": "Identifier",
+            "span": {
+              "start": 282,
+              "end": 286,
+              "ctxt": 0
+            },
+            "value": "x",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 283,
+                "end": 286,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsTypeReference",
+                "span": {
+                  "start": 285,
+                  "end": 286,
+                  "ctxt": 0
+                },
+                "typeName": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 285,
+                    "end": 286,
+                    "ctxt": 0
+                  },
+                  "value": "T",
+                  "optional": false
+                },
+                "typeParams": null
+              }
+            }
+          }
+        },
+        {
+          "type": "Parameter",
+          "span": {
+            "start": 288,
+            "end": 292,
+            "ctxt": 0
+          },
+          "decorators": [],
+          "pat": {
+            "type": "Identifier",
+            "span": {
+              "start": 288,
+              "end": 292,
+              "ctxt": 0
+            },
+            "value": "y",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 289,
+                "end": 292,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsTypeReference",
+                "span": {
+                  "start": 291,
+                  "end": 292,
+                  "ctxt": 0
+                },
+                "typeName": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 291,
+                    "end": 292,
+                    "ctxt": 0
+                  },
+                  "value": "T",
+                  "optional": false
+                },
+                "typeParams": null
+              }
+            }
+          }
+        }
+      ],
+      "decorators": [],
+      "span": {
+        "start": 265,
+        "end": 330,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 294,
+          "end": 330,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ReturnStatement",
+            "span": {
+              "start": 301,
+              "end": 327,
+              "ctxt": 0
+            },
+            "argument": {
+              "type": "ConditionalExpression",
+              "span": {
+                "start": 308,
+                "end": 326,
+                "ctxt": 0
+              },
+              "test": {
+                "type": "CallExpression",
+                "span": {
+                  "start": 308,
+                  "end": 318,
+                  "ctxt": 0
+                },
+                "callee": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 308,
+                    "end": 316,
+                    "ctxt": 0
+                  },
+                  "value": "randBool",
+                  "optional": false
+                },
+                "arguments": [],
+                "typeArguments": null
+              },
+              "consequent": {
+                "type": "Identifier",
+                "span": {
+                  "start": 321,
+                  "end": 322,
+                  "ctxt": 0
+                },
+                "value": "x",
+                "optional": false
+              },
+              "alternate": {
+                "type": "Identifier",
+                "span": {
+                  "start": 325,
+                  "end": 326,
+                  "ctxt": 0
+                },
+                "value": "y",
+                "optional": false
+              }
+            }
+          }
+        ]
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": {
+        "type": "TsTypeParameterDeclaration",
+        "span": {
+          "start": 278,
+          "end": 281,
+          "ctxt": 0
+        },
+        "parameters": [
+          {
+            "type": "TsTypeParameter",
+            "span": {
+              "start": 279,
+              "end": 280,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 279,
+                "end": 280,
+                "ctxt": 0
+              },
+              "value": "T",
+              "optional": false
+            },
+            "in": false,
+            "out": false,
+            "const": false,
+            "constraint": null,
+            "default": null
+          }
+        ]
+      },
+      "returnType": null
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 343,
+          "end": 347,
+          "ctxt": 0
+        },
+        "value": "fun2",
+        "optional": false
+      },
+      "declare": false,
+      "params": [
+        {
+          "type": "Parameter",
+          "span": {
+            "start": 354,
+            "end": 358,
+            "ctxt": 0
+          },
+          "decorators": [],
+          "pat": {
+            "type": "Identifier",
+            "span": {
+              "start": 354,
+              "end": 358,
+              "ctxt": 0
+            },
+            "value": "x",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 355,
+                "end": 358,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsTypeReference",
+                "span": {
+                  "start": 357,
+                  "end": 358,
+                  "ctxt": 0
+                },
+                "typeName": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 357,
+                    "end": 358,
+                    "ctxt": 0
+                  },
+                  "value": "T",
+                  "optional": false
+                },
+                "typeParams": null
+              }
+            }
+          }
+        },
+        {
+          "type": "Parameter",
+          "span": {
+            "start": 360,
+            "end": 364,
+            "ctxt": 0
+          },
+          "decorators": [],
+          "pat": {
+            "type": "Identifier",
+            "span": {
+              "start": 360,
+              "end": 364,
+              "ctxt": 0
+            },
+            "value": "y",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 361,
+                "end": 364,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsTypeReference",
+                "span": {
+                  "start": 363,
+                  "end": 364,
+                  "ctxt": 0
+                },
+                "typeName": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 363,
+                    "end": 364,
+                    "ctxt": 0
+                  },
+                  "value": "U",
+                  "optional": false
+                },
+                "typeParams": null
+              }
+            }
+          }
+        }
+      ],
+      "decorators": [],
+      "span": {
+        "start": 334,
+        "end": 402,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 366,
+          "end": 402,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ReturnStatement",
+            "span": {
+              "start": 373,
+              "end": 399,
+              "ctxt": 0
+            },
+            "argument": {
+              "type": "ConditionalExpression",
+              "span": {
+                "start": 380,
+                "end": 398,
+                "ctxt": 0
+              },
+              "test": {
+                "type": "CallExpression",
+                "span": {
+                  "start": 380,
+                  "end": 390,
+                  "ctxt": 0
+                },
+                "callee": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 380,
+                    "end": 388,
+                    "ctxt": 0
+                  },
+                  "value": "randBool",
+                  "optional": false
+                },
+                "arguments": [],
+                "typeArguments": null
+              },
+              "consequent": {
+                "type": "Identifier",
+                "span": {
+                  "start": 393,
+                  "end": 394,
+                  "ctxt": 0
+                },
+                "value": "x",
+                "optional": false
+              },
+              "alternate": {
+                "type": "Identifier",
+                "span": {
+                  "start": 397,
+                  "end": 398,
+                  "ctxt": 0
+                },
+                "value": "y",
+                "optional": false
+              }
+            }
+          }
+        ]
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": {
+        "type": "TsTypeParameterDeclaration",
+        "span": {
+          "start": 347,
+          "end": 353,
+          "ctxt": 0
+        },
+        "parameters": [
+          {
+            "type": "TsTypeParameter",
+            "span": {
+              "start": 348,
+              "end": 349,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 348,
+                "end": 349,
+                "ctxt": 0
+              },
+              "value": "T",
+              "optional": false
+            },
+            "in": false,
+            "out": false,
+            "const": false,
+            "constraint": null,
+            "default": null
+          },
+          {
+            "type": "TsTypeParameter",
+            "span": {
+              "start": 351,
+              "end": 352,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 351,
+                "end": 352,
+                "ctxt": 0
+              },
+              "value": "U",
+              "optional": false
+            },
+            "in": false,
+            "out": false,
+            "const": false,
+            "constraint": null,
+            "default": null
+          }
+        ]
+      },
+      "returnType": null
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 415,
+          "end": 419,
+          "ctxt": 0
+        },
+        "value": "fun3",
+        "optional": false
+      },
+      "declare": false,
+      "params": [
+        {
+          "type": "Parameter",
+          "span": {
+            "start": 423,
+            "end": 435,
+            "ctxt": 0
+          },
+          "decorators": [],
+          "pat": {
+            "type": "RestElement",
+            "span": {
+              "start": 423,
+              "end": 435,
+              "ctxt": 0
+            },
+            "rest": {
+              "start": 423,
+              "end": 426,
+              "ctxt": 0
+            },
+            "argument": {
+              "type": "Identifier",
+              "span": {
+                "start": 426,
+                "end": 430,
+                "ctxt": 0
+              },
+              "value": "args",
+              "optional": false,
+              "typeAnnotation": null
+            },
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 430,
+                "end": 435,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsArrayType",
+                "span": {
+                  "start": 432,
+                  "end": 435,
+                  "ctxt": 0
+                },
+                "elemType": {
+                  "type": "TsTypeReference",
+                  "span": {
+                    "start": 432,
+                    "end": 433,
+                    "ctxt": 0
+                  },
+                  "typeName": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 432,
+                      "end": 433,
+                      "ctxt": 0
+                    },
+                    "value": "T",
+                    "optional": false
+                  },
+                  "typeParams": null
+                }
+              }
+            }
+          }
+        }
+      ],
+      "decorators": [],
+      "span": {
+        "start": 406,
+        "end": 475,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 440,
+          "end": 475,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ReturnStatement",
+            "span": {
+              "start": 447,
+              "end": 472,
+              "ctxt": 0
+            },
+            "argument": {
+              "type": "MemberExpression",
+              "span": {
+                "start": 454,
+                "end": 471,
+                "ctxt": 0
+              },
+              "object": {
+                "type": "Identifier",
+                "span": {
+                  "start": 454,
+                  "end": 458,
+                  "ctxt": 0
+                },
+                "value": "args",
+                "optional": false
+              },
+              "property": {
+                "type": "Computed",
+                "span": {
+                  "start": 458,
+                  "end": 471,
+                  "ctxt": 0
+                },
+                "expression": {
+                  "type": "UnaryExpression",
+                  "span": {
+                    "start": 459,
+                    "end": 470,
+                    "ctxt": 0
+                  },
+                  "operator": "+",
+                  "argument": {
+                    "type": "CallExpression",
+                    "span": {
+                      "start": 460,
+                      "end": 470,
+                      "ctxt": 0
+                    },
+                    "callee": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 460,
+                        "end": 468,
+                        "ctxt": 0
+                      },
+                      "value": "randBool",
+                      "optional": false
+                    },
+                    "arguments": [],
+                    "typeArguments": null
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": {
+        "type": "TsTypeParameterDeclaration",
+        "span": {
+          "start": 419,
+          "end": 422,
+          "ctxt": 0
+        },
+        "parameters": [
+          {
+            "type": "TsTypeParameter",
+            "span": {
+              "start": 420,
+              "end": 421,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 420,
+                "end": 421,
+                "ctxt": 0
+              },
+              "value": "T",
+              "optional": false
+            },
+            "in": false,
+            "out": false,
+            "const": false,
+            "constraint": null,
+            "default": null
+          }
+        ]
+      },
+      "returnType": {
+        "type": "TsTypeAnnotation",
+        "span": {
+          "start": 436,
+          "end": 439,
+          "ctxt": 0
+        },
+        "typeAnnotation": {
+          "type": "TsTypeReference",
+          "span": {
+            "start": 438,
+            "end": 439,
+            "ctxt": 0
+          },
+          "typeName": {
+            "type": "Identifier",
+            "span": {
+              "start": 438,
+              "end": 439,
+              "ctxt": 0
+            },
+            "value": "T",
+            "optional": false
+          },
+          "typeParams": null
+        }
+      }
+    },
+    {
+      "type": "TsModuleDeclaration",
+      "span": {
+        "start": 479,
+        "end": 1542,
+        "ctxt": 0
+      },
+      "declare": false,
+      "global": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 489,
+          "end": 491,
+          "ctxt": 0
+        },
+        "value": "n1",
+        "optional": false
+      },
+      "body": {
+        "type": "TsModuleBlock",
+        "span": {
+          "start": 492,
+          "end": 1542,
+          "ctxt": 0
+        },
+        "body": [
+          {
+            "type": "ExportDeclaration",
+            "span": {
+              "start": 694,
+              "end": 732,
+              "ctxt": 0
+            },
+            "declaration": {
+              "type": "VariableDeclaration",
+              "span": {
+                "start": 701,
+                "end": 732,
+                "ctxt": 0
+              },
+              "kind": "let",
+              "declare": false,
+              "declarations": [
+                {
+                  "type": "VariableDeclarator",
+                  "span": {
+                    "start": 705,
+                    "end": 731,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 705,
+                      "end": 706,
+                      "ctxt": 0
+                    },
+                    "value": "a",
+                    "optional": false,
+                    "typeAnnotation": null
+                  },
+                  "init": {
+                    "type": "CallExpression",
+                    "span": {
+                      "start": 709,
+                      "end": 731,
+                      "ctxt": 0
+                    },
+                    "callee": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 709,
+                        "end": 713,
+                        "ctxt": 0
+                      },
+                      "value": "fun1",
+                      "optional": false
+                    },
+                    "arguments": [
+                      {
+                        "spread": null,
+                        "expression": {
+                          "type": "StringLiteral",
+                          "span": {
+                            "start": 714,
+                            "end": 721,
+                            "ctxt": 0
+                          },
+                          "value": "Hello",
+                          "raw": "\"Hello\""
+                        }
+                      },
+                      {
+                        "spread": null,
+                        "expression": {
+                          "type": "StringLiteral",
+                          "span": {
+                            "start": 723,
+                            "end": 730,
+                            "ctxt": 0
+                          },
+                          "value": "World",
+                          "raw": "\"World\""
+                        }
+                      }
+                    ],
+                    "typeArguments": null
+                  },
+                  "definite": false
+                }
+              ]
+            }
+          },
+          {
+            "type": "ExportDeclaration",
+            "span": {
+              "start": 738,
+              "end": 776,
+              "ctxt": 0
+            },
+            "declaration": {
+              "type": "VariableDeclaration",
+              "span": {
+                "start": 745,
+                "end": 776,
+                "ctxt": 0
+              },
+              "kind": "let",
+              "declare": false,
+              "declarations": [
+                {
+                  "type": "VariableDeclarator",
+                  "span": {
+                    "start": 749,
+                    "end": 775,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 749,
+                      "end": 750,
+                      "ctxt": 0
+                    },
+                    "value": "b",
+                    "optional": false,
+                    "typeAnnotation": null
+                  },
+                  "init": {
+                    "type": "CallExpression",
+                    "span": {
+                      "start": 753,
+                      "end": 775,
+                      "ctxt": 0
+                    },
+                    "callee": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 753,
+                        "end": 757,
+                        "ctxt": 0
+                      },
+                      "value": "fun1",
+                      "optional": false
+                    },
+                    "arguments": [
+                      {
+                        "spread": null,
+                        "expression": {
+                          "type": "StringLiteral",
+                          "span": {
+                            "start": 758,
+                            "end": 765,
+                            "ctxt": 0
+                          },
+                          "value": "Hello",
+                          "raw": "\"Hello\""
+                        }
+                      },
+                      {
+                        "spread": null,
+                        "expression": {
+                          "type": "StringLiteral",
+                          "span": {
+                            "start": 767,
+                            "end": 774,
+                            "ctxt": 0
+                          },
+                          "value": "Hello",
+                          "raw": "\"Hello\""
+                        }
+                      }
+                    ],
+                    "typeArguments": null
+                  },
+                  "definite": false
+                }
+              ]
+            }
+          },
+          {
+            "type": "ExportDeclaration",
+            "span": {
+              "start": 782,
+              "end": 820,
+              "ctxt": 0
+            },
+            "declaration": {
+              "type": "VariableDeclaration",
+              "span": {
+                "start": 789,
+                "end": 820,
+                "ctxt": 0
+              },
+              "kind": "let",
+              "declare": false,
+              "declarations": [
+                {
+                  "type": "VariableDeclarator",
+                  "span": {
+                    "start": 793,
+                    "end": 819,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 793,
+                      "end": 794,
+                      "ctxt": 0
+                    },
+                    "value": "c",
+                    "optional": false,
+                    "typeAnnotation": null
+                  },
+                  "init": {
+                    "type": "CallExpression",
+                    "span": {
+                      "start": 797,
+                      "end": 819,
+                      "ctxt": 0
+                    },
+                    "callee": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 797,
+                        "end": 801,
+                        "ctxt": 0
+                      },
+                      "value": "fun2",
+                      "optional": false
+                    },
+                    "arguments": [
+                      {
+                        "spread": null,
+                        "expression": {
+                          "type": "StringLiteral",
+                          "span": {
+                            "start": 802,
+                            "end": 809,
+                            "ctxt": 0
+                          },
+                          "value": "Hello",
+                          "raw": "\"Hello\""
+                        }
+                      },
+                      {
+                        "spread": null,
+                        "expression": {
+                          "type": "StringLiteral",
+                          "span": {
+                            "start": 811,
+                            "end": 818,
+                            "ctxt": 0
+                          },
+                          "value": "World",
+                          "raw": "\"World\""
+                        }
+                      }
+                    ],
+                    "typeArguments": null
+                  },
+                  "definite": false
+                }
+              ]
+            }
+          },
+          {
+            "type": "ExportDeclaration",
+            "span": {
+              "start": 826,
+              "end": 864,
+              "ctxt": 0
+            },
+            "declaration": {
+              "type": "VariableDeclaration",
+              "span": {
+                "start": 833,
+                "end": 864,
+                "ctxt": 0
+              },
+              "kind": "let",
+              "declare": false,
+              "declarations": [
+                {
+                  "type": "VariableDeclarator",
+                  "span": {
+                    "start": 837,
+                    "end": 863,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 837,
+                      "end": 838,
+                      "ctxt": 0
+                    },
+                    "value": "d",
+                    "optional": false,
+                    "typeAnnotation": null
+                  },
+                  "init": {
+                    "type": "CallExpression",
+                    "span": {
+                      "start": 841,
+                      "end": 863,
+                      "ctxt": 0
+                    },
+                    "callee": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 841,
+                        "end": 845,
+                        "ctxt": 0
+                      },
+                      "value": "fun2",
+                      "optional": false
+                    },
+                    "arguments": [
+                      {
+                        "spread": null,
+                        "expression": {
+                          "type": "StringLiteral",
+                          "span": {
+                            "start": 846,
+                            "end": 853,
+                            "ctxt": 0
+                          },
+                          "value": "Hello",
+                          "raw": "\"Hello\""
+                        }
+                      },
+                      {
+                        "spread": null,
+                        "expression": {
+                          "type": "StringLiteral",
+                          "span": {
+                            "start": 855,
+                            "end": 862,
+                            "ctxt": 0
+                          },
+                          "value": "Hello",
+                          "raw": "\"Hello\""
+                        }
+                      }
+                    ],
+                    "typeArguments": null
+                  },
+                  "definite": false
+                }
+              ]
+            }
+          },
+          {
+            "type": "ExportDeclaration",
+            "span": {
+              "start": 870,
+              "end": 924,
+              "ctxt": 0
+            },
+            "declaration": {
+              "type": "VariableDeclaration",
+              "span": {
+                "start": 877,
+                "end": 924,
+                "ctxt": 0
+              },
+              "kind": "let",
+              "declare": false,
+              "declarations": [
+                {
+                  "type": "VariableDeclarator",
+                  "span": {
+                    "start": 881,
+                    "end": 923,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 881,
+                      "end": 882,
+                      "ctxt": 0
+                    },
+                    "value": "e",
+                    "optional": false,
+                    "typeAnnotation": null
+                  },
+                  "init": {
+                    "type": "CallExpression",
+                    "span": {
+                      "start": 885,
+                      "end": 923,
+                      "ctxt": 0
+                    },
+                    "callee": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 885,
+                        "end": 889,
+                        "ctxt": 0
+                      },
+                      "value": "fun3",
+                      "optional": false
+                    },
+                    "arguments": [
+                      {
+                        "spread": null,
+                        "expression": {
+                          "type": "StringLiteral",
+                          "span": {
+                            "start": 890,
+                            "end": 897,
+                            "ctxt": 0
+                          },
+                          "value": "Hello",
+                          "raw": "\"Hello\""
+                        }
+                      },
+                      {
+                        "spread": null,
+                        "expression": {
+                          "type": "StringLiteral",
+                          "span": {
+                            "start": 899,
+                            "end": 906,
+                            "ctxt": 0
+                          },
+                          "value": "Hello",
+                          "raw": "\"Hello\""
+                        }
+                      },
+                      {
+                        "spread": null,
+                        "expression": {
+                          "type": "StringLiteral",
+                          "span": {
+                            "start": 908,
+                            "end": 915,
+                            "ctxt": 0
+                          },
+                          "value": "World",
+                          "raw": "\"World\""
+                        }
+                      },
+                      {
+                        "spread": null,
+                        "expression": {
+                          "type": "StringLiteral",
+                          "span": {
+                            "start": 917,
+                            "end": 922,
+                            "ctxt": 0
+                          },
+                          "value": "Foo",
+                          "raw": "\"Foo\""
+                        }
+                      }
+                    ],
+                    "typeArguments": null
+                  },
+                  "definite": false
+                }
+              ]
+            }
+          },
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 956,
+              "end": 980,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "AssignmentExpression",
+              "span": {
+                "start": 956,
+                "end": 979,
+                "ctxt": 0
+              },
+              "operator": "=",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 956,
+                  "end": 957,
+                  "ctxt": 0
+                },
+                "value": "a",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "right": {
+                "type": "CallExpression",
+                "span": {
+                  "start": 960,
+                  "end": 979,
+                  "ctxt": 0
+                },
+                "callee": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 960,
+                    "end": 976,
+                    "ctxt": 0
+                  },
+                  "value": "takeReturnString",
+                  "optional": false
+                },
+                "arguments": [
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 977,
+                        "end": 978,
+                        "ctxt": 0
+                      },
+                      "value": "a",
+                      "optional": false
+                    }
+                  }
+                ],
+                "typeArguments": null
+              }
+            }
+          },
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 986,
+              "end": 1010,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "AssignmentExpression",
+              "span": {
+                "start": 986,
+                "end": 1009,
+                "ctxt": 0
+              },
+              "operator": "=",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 986,
+                  "end": 987,
+                  "ctxt": 0
+                },
+                "value": "b",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "right": {
+                "type": "CallExpression",
+                "span": {
+                  "start": 990,
+                  "end": 1009,
+                  "ctxt": 0
+                },
+                "callee": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 990,
+                    "end": 1006,
+                    "ctxt": 0
+                  },
+                  "value": "takeReturnString",
+                  "optional": false
+                },
+                "arguments": [
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 1007,
+                        "end": 1008,
+                        "ctxt": 0
+                      },
+                      "value": "b",
+                      "optional": false
+                    }
+                  }
+                ],
+                "typeArguments": null
+              }
+            }
+          },
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 1016,
+              "end": 1040,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "AssignmentExpression",
+              "span": {
+                "start": 1016,
+                "end": 1039,
+                "ctxt": 0
+              },
+              "operator": "=",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1016,
+                  "end": 1017,
+                  "ctxt": 0
+                },
+                "value": "c",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "right": {
+                "type": "CallExpression",
+                "span": {
+                  "start": 1020,
+                  "end": 1039,
+                  "ctxt": 0
+                },
+                "callee": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1020,
+                    "end": 1036,
+                    "ctxt": 0
+                  },
+                  "value": "takeReturnString",
+                  "optional": false
+                },
+                "arguments": [
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 1037,
+                        "end": 1038,
+                        "ctxt": 0
+                      },
+                      "value": "c",
+                      "optional": false
+                    }
+                  }
+                ],
+                "typeArguments": null
+              }
+            }
+          },
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 1046,
+              "end": 1070,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "AssignmentExpression",
+              "span": {
+                "start": 1046,
+                "end": 1069,
+                "ctxt": 0
+              },
+              "operator": "=",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1046,
+                  "end": 1047,
+                  "ctxt": 0
+                },
+                "value": "d",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "right": {
+                "type": "CallExpression",
+                "span": {
+                  "start": 1050,
+                  "end": 1069,
+                  "ctxt": 0
+                },
+                "callee": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1050,
+                    "end": 1066,
+                    "ctxt": 0
+                  },
+                  "value": "takeReturnString",
+                  "optional": false
+                },
+                "arguments": [
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 1067,
+                        "end": 1068,
+                        "ctxt": 0
+                      },
+                      "value": "d",
+                      "optional": false
+                    }
+                  }
+                ],
+                "typeArguments": null
+              }
+            }
+          },
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 1076,
+              "end": 1100,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "AssignmentExpression",
+              "span": {
+                "start": 1076,
+                "end": 1099,
+                "ctxt": 0
+              },
+              "operator": "=",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1076,
+                  "end": 1077,
+                  "ctxt": 0
+                },
+                "value": "e",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "right": {
+                "type": "CallExpression",
+                "span": {
+                  "start": 1080,
+                  "end": 1099,
+                  "ctxt": 0
+                },
+                "callee": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1080,
+                    "end": 1096,
+                    "ctxt": 0
+                  },
+                  "value": "takeReturnString",
+                  "optional": false
+                },
+                "arguments": [
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 1097,
+                        "end": 1098,
+                        "ctxt": 0
+                      },
+                      "value": "e",
+                      "optional": false
+                    }
+                  }
+                ],
+                "typeArguments": null
+              }
+            }
+          },
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 1170,
+              "end": 1193,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "AssignmentExpression",
+              "span": {
+                "start": 1170,
+                "end": 1192,
+                "ctxt": 0
+              },
+              "operator": "=",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1170,
+                  "end": 1171,
+                  "ctxt": 0
+                },
+                "value": "a",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "right": {
+                "type": "CallExpression",
+                "span": {
+                  "start": 1174,
+                  "end": 1192,
+                  "ctxt": 0
+                },
+                "callee": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1174,
+                    "end": 1189,
+                    "ctxt": 0
+                  },
+                  "value": "takeReturnHello",
+                  "optional": false
+                },
+                "arguments": [
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 1190,
+                        "end": 1191,
+                        "ctxt": 0
+                      },
+                      "value": "a",
+                      "optional": false
+                    }
+                  }
+                ],
+                "typeArguments": null
+              }
+            }
+          },
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 1199,
+              "end": 1222,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "AssignmentExpression",
+              "span": {
+                "start": 1199,
+                "end": 1221,
+                "ctxt": 0
+              },
+              "operator": "=",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1199,
+                  "end": 1200,
+                  "ctxt": 0
+                },
+                "value": "b",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "right": {
+                "type": "CallExpression",
+                "span": {
+                  "start": 1203,
+                  "end": 1221,
+                  "ctxt": 0
+                },
+                "callee": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1203,
+                    "end": 1218,
+                    "ctxt": 0
+                  },
+                  "value": "takeReturnHello",
+                  "optional": false
+                },
+                "arguments": [
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 1219,
+                        "end": 1220,
+                        "ctxt": 0
+                      },
+                      "value": "b",
+                      "optional": false
+                    }
+                  }
+                ],
+                "typeArguments": null
+              }
+            }
+          },
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 1228,
+              "end": 1251,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "AssignmentExpression",
+              "span": {
+                "start": 1228,
+                "end": 1250,
+                "ctxt": 0
+              },
+              "operator": "=",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1228,
+                  "end": 1229,
+                  "ctxt": 0
+                },
+                "value": "c",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "right": {
+                "type": "CallExpression",
+                "span": {
+                  "start": 1232,
+                  "end": 1250,
+                  "ctxt": 0
+                },
+                "callee": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1232,
+                    "end": 1247,
+                    "ctxt": 0
+                  },
+                  "value": "takeReturnHello",
+                  "optional": false
+                },
+                "arguments": [
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 1248,
+                        "end": 1249,
+                        "ctxt": 0
+                      },
+                      "value": "c",
+                      "optional": false
+                    }
+                  }
+                ],
+                "typeArguments": null
+              }
+            }
+          },
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 1257,
+              "end": 1280,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "AssignmentExpression",
+              "span": {
+                "start": 1257,
+                "end": 1279,
+                "ctxt": 0
+              },
+              "operator": "=",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1257,
+                  "end": 1258,
+                  "ctxt": 0
+                },
+                "value": "d",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "right": {
+                "type": "CallExpression",
+                "span": {
+                  "start": 1261,
+                  "end": 1279,
+                  "ctxt": 0
+                },
+                "callee": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1261,
+                    "end": 1276,
+                    "ctxt": 0
+                  },
+                  "value": "takeReturnHello",
+                  "optional": false
+                },
+                "arguments": [
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 1277,
+                        "end": 1278,
+                        "ctxt": 0
+                      },
+                      "value": "d",
+                      "optional": false
+                    }
+                  }
+                ],
+                "typeArguments": null
+              }
+            }
+          },
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 1286,
+              "end": 1309,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "AssignmentExpression",
+              "span": {
+                "start": 1286,
+                "end": 1308,
+                "ctxt": 0
+              },
+              "operator": "=",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1286,
+                  "end": 1287,
+                  "ctxt": 0
+                },
+                "value": "e",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "right": {
+                "type": "CallExpression",
+                "span": {
+                  "start": 1290,
+                  "end": 1308,
+                  "ctxt": 0
+                },
+                "callee": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1290,
+                    "end": 1305,
+                    "ctxt": 0
+                  },
+                  "value": "takeReturnHello",
+                  "optional": false
+                },
+                "arguments": [
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 1306,
+                        "end": 1307,
+                        "ctxt": 0
+                      },
+                      "value": "e",
+                      "optional": false
+                    }
+                  }
+                ],
+                "typeArguments": null
+              }
+            }
+          },
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 1375,
+              "end": 1403,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "AssignmentExpression",
+              "span": {
+                "start": 1375,
+                "end": 1402,
+                "ctxt": 0
+              },
+              "operator": "=",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1375,
+                  "end": 1376,
+                  "ctxt": 0
+                },
+                "value": "a",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "right": {
+                "type": "CallExpression",
+                "span": {
+                  "start": 1379,
+                  "end": 1402,
+                  "ctxt": 0
+                },
+                "callee": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1379,
+                    "end": 1399,
+                    "ctxt": 0
+                  },
+                  "value": "takeReturnHelloWorld",
+                  "optional": false
+                },
+                "arguments": [
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 1400,
+                        "end": 1401,
+                        "ctxt": 0
+                      },
+                      "value": "a",
+                      "optional": false
+                    }
+                  }
+                ],
+                "typeArguments": null
+              }
+            }
+          },
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 1409,
+              "end": 1437,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "AssignmentExpression",
+              "span": {
+                "start": 1409,
+                "end": 1436,
+                "ctxt": 0
+              },
+              "operator": "=",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1409,
+                  "end": 1410,
+                  "ctxt": 0
+                },
+                "value": "b",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "right": {
+                "type": "CallExpression",
+                "span": {
+                  "start": 1413,
+                  "end": 1436,
+                  "ctxt": 0
+                },
+                "callee": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1413,
+                    "end": 1433,
+                    "ctxt": 0
+                  },
+                  "value": "takeReturnHelloWorld",
+                  "optional": false
+                },
+                "arguments": [
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 1434,
+                        "end": 1435,
+                        "ctxt": 0
+                      },
+                      "value": "b",
+                      "optional": false
+                    }
+                  }
+                ],
+                "typeArguments": null
+              }
+            }
+          },
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 1443,
+              "end": 1471,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "AssignmentExpression",
+              "span": {
+                "start": 1443,
+                "end": 1470,
+                "ctxt": 0
+              },
+              "operator": "=",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1443,
+                  "end": 1444,
+                  "ctxt": 0
+                },
+                "value": "c",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "right": {
+                "type": "CallExpression",
+                "span": {
+                  "start": 1447,
+                  "end": 1470,
+                  "ctxt": 0
+                },
+                "callee": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1447,
+                    "end": 1467,
+                    "ctxt": 0
+                  },
+                  "value": "takeReturnHelloWorld",
+                  "optional": false
+                },
+                "arguments": [
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 1468,
+                        "end": 1469,
+                        "ctxt": 0
+                      },
+                      "value": "c",
+                      "optional": false
+                    }
+                  }
+                ],
+                "typeArguments": null
+              }
+            }
+          },
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 1477,
+              "end": 1505,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "AssignmentExpression",
+              "span": {
+                "start": 1477,
+                "end": 1504,
+                "ctxt": 0
+              },
+              "operator": "=",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1477,
+                  "end": 1478,
+                  "ctxt": 0
+                },
+                "value": "d",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "right": {
+                "type": "CallExpression",
+                "span": {
+                  "start": 1481,
+                  "end": 1504,
+                  "ctxt": 0
+                },
+                "callee": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1481,
+                    "end": 1501,
+                    "ctxt": 0
+                  },
+                  "value": "takeReturnHelloWorld",
+                  "optional": false
+                },
+                "arguments": [
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 1502,
+                        "end": 1503,
+                        "ctxt": 0
+                      },
+                      "value": "d",
+                      "optional": false
+                    }
+                  }
+                ],
+                "typeArguments": null
+              }
+            }
+          },
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 1511,
+              "end": 1539,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "AssignmentExpression",
+              "span": {
+                "start": 1511,
+                "end": 1538,
+                "ctxt": 0
+              },
+              "operator": "=",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1511,
+                  "end": 1512,
+                  "ctxt": 0
+                },
+                "value": "e",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "right": {
+                "type": "CallExpression",
+                "span": {
+                  "start": 1515,
+                  "end": 1538,
+                  "ctxt": 0
+                },
+                "callee": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 1515,
+                    "end": 1535,
+                    "ctxt": 0
+                  },
+                  "value": "takeReturnHelloWorld",
+                  "optional": false
+                },
+                "arguments": [
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 1536,
+                        "end": 1537,
+                        "ctxt": 0
+                      },
+                      "value": "e",
+                      "optional": false
+                    }
+                  }
+                ],
+                "typeArguments": null
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "TsModuleDeclaration",
+      "span": {
+        "start": 1546,
+        "end": 2584,
+        "ctxt": 0
+      },
+      "declare": false,
+      "global": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 1556,
+          "end": 1558,
+          "ctxt": 0
+        },
+        "value": "n2",
+        "optional": false
+      },
+      "body": {
+        "type": "TsModuleBlock",
+        "span": {
+          "start": 1559,
+          "end": 2584,
+          "ctxt": 0
+        },
+        "body": [
+          {
+            "type": "ExportDeclaration",
+            "span": {
+              "start": 1677,
+              "end": 1724,
+              "ctxt": 0
+            },
+            "declaration": {
+              "type": "VariableDeclaration",
+              "span": {
+                "start": 1684,
+                "end": 1724,
+                "ctxt": 0
+              },
+              "kind": "let",
+              "declare": false,
+              "declarations": [
+                {
+                  "type": "VariableDeclarator",
+                  "span": {
+                    "start": 1688,
+                    "end": 1723,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1688,
+                      "end": 1689,
+                      "ctxt": 0
+                    },
+                    "value": "a",
+                    "optional": false,
+                    "typeAnnotation": null
+                  },
+                  "init": {
+                    "type": "CallExpression",
+                    "span": {
+                      "start": 1692,
+                      "end": 1723,
+                      "ctxt": 0
+                    },
+                    "callee": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 1692,
+                        "end": 1696,
+                        "ctxt": 0
+                      },
+                      "value": "fun1",
+                      "optional": false
+                    },
+                    "arguments": [
+                      {
+                        "spread": null,
+                        "expression": {
+                          "type": "StringLiteral",
+                          "span": {
+                            "start": 1706,
+                            "end": 1713,
+                            "ctxt": 0
+                          },
+                          "value": "Hello",
+                          "raw": "\"Hello\""
+                        }
+                      },
+                      {
+                        "spread": null,
+                        "expression": {
+                          "type": "StringLiteral",
+                          "span": {
+                            "start": 1715,
+                            "end": 1722,
+                            "ctxt": 0
+                          },
+                          "value": "Hello",
+                          "raw": "\"Hello\""
+                        }
+                      }
+                    ],
+                    "typeArguments": {
+                      "type": "TsTypeParameterInstantiation",
+                      "span": {
+                        "start": 1696,
+                        "end": 1705,
+                        "ctxt": 0
+                      },
+                      "params": [
+                        {
+                          "type": "TsLiteralType",
+                          "span": {
+                            "start": 1697,
+                            "end": 1704,
+                            "ctxt": 0
+                          },
+                          "literal": {
+                            "type": "StringLiteral",
+                            "span": {
+                              "start": 1697,
+                              "end": 1704,
+                              "ctxt": 0
+                            },
+                            "value": "Hello",
+                            "raw": "\"Hello\""
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "definite": false
+                }
+              ]
+            }
+          },
+          {
+            "type": "ExportDeclaration",
+            "span": {
+              "start": 1730,
+              "end": 1777,
+              "ctxt": 0
+            },
+            "declaration": {
+              "type": "VariableDeclaration",
+              "span": {
+                "start": 1737,
+                "end": 1777,
+                "ctxt": 0
+              },
+              "kind": "let",
+              "declare": false,
+              "declarations": [
+                {
+                  "type": "VariableDeclarator",
+                  "span": {
+                    "start": 1741,
+                    "end": 1776,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1741,
+                      "end": 1742,
+                      "ctxt": 0
+                    },
+                    "value": "b",
+                    "optional": false,
+                    "typeAnnotation": null
+                  },
+                  "init": {
+                    "type": "CallExpression",
+                    "span": {
+                      "start": 1745,
+                      "end": 1776,
+                      "ctxt": 0
+                    },
+                    "callee": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 1745,
+                        "end": 1749,
+                        "ctxt": 0
+                      },
+                      "value": "fun1",
+                      "optional": false
+                    },
+                    "arguments": [
+                      {
+                        "spread": null,
+                        "expression": {
+                          "type": "StringLiteral",
+                          "span": {
+                            "start": 1759,
+                            "end": 1766,
+                            "ctxt": 0
+                          },
+                          "value": "Hello",
+                          "raw": "\"Hello\""
+                        }
+                      },
+                      {
+                        "spread": null,
+                        "expression": {
+                          "type": "StringLiteral",
+                          "span": {
+                            "start": 1768,
+                            "end": 1775,
+                            "ctxt": 0
+                          },
+                          "value": "World",
+                          "raw": "\"World\""
+                        }
+                      }
+                    ],
+                    "typeArguments": {
+                      "type": "TsTypeParameterInstantiation",
+                      "span": {
+                        "start": 1749,
+                        "end": 1758,
+                        "ctxt": 0
+                      },
+                      "params": [
+                        {
+                          "type": "TsLiteralType",
+                          "span": {
+                            "start": 1750,
+                            "end": 1757,
+                            "ctxt": 0
+                          },
+                          "literal": {
+                            "type": "StringLiteral",
+                            "span": {
+                              "start": 1750,
+                              "end": 1757,
+                              "ctxt": 0
+                            },
+                            "value": "Hello",
+                            "raw": "\"Hello\""
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "definite": false
+                }
+              ]
+            }
+          },
+          {
+            "type": "ExportDeclaration",
+            "span": {
+              "start": 1783,
+              "end": 1839,
+              "ctxt": 0
+            },
+            "declaration": {
+              "type": "VariableDeclaration",
+              "span": {
+                "start": 1790,
+                "end": 1839,
+                "ctxt": 0
+              },
+              "kind": "let",
+              "declare": false,
+              "declarations": [
+                {
+                  "type": "VariableDeclarator",
+                  "span": {
+                    "start": 1794,
+                    "end": 1838,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1794,
+                      "end": 1795,
+                      "ctxt": 0
+                    },
+                    "value": "c",
+                    "optional": false,
+                    "typeAnnotation": null
+                  },
+                  "init": {
+                    "type": "CallExpression",
+                    "span": {
+                      "start": 1798,
+                      "end": 1838,
+                      "ctxt": 0
+                    },
+                    "callee": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 1798,
+                        "end": 1802,
+                        "ctxt": 0
+                      },
+                      "value": "fun2",
+                      "optional": false
+                    },
+                    "arguments": [
+                      {
+                        "spread": null,
+                        "expression": {
+                          "type": "StringLiteral",
+                          "span": {
+                            "start": 1821,
+                            "end": 1828,
+                            "ctxt": 0
+                          },
+                          "value": "Hello",
+                          "raw": "\"Hello\""
+                        }
+                      },
+                      {
+                        "spread": null,
+                        "expression": {
+                          "type": "StringLiteral",
+                          "span": {
+                            "start": 1830,
+                            "end": 1837,
+                            "ctxt": 0
+                          },
+                          "value": "Hello",
+                          "raw": "\"Hello\""
+                        }
+                      }
+                    ],
+                    "typeArguments": {
+                      "type": "TsTypeParameterInstantiation",
+                      "span": {
+                        "start": 1802,
+                        "end": 1820,
+                        "ctxt": 0
+                      },
+                      "params": [
+                        {
+                          "type": "TsLiteralType",
+                          "span": {
+                            "start": 1803,
+                            "end": 1810,
+                            "ctxt": 0
+                          },
+                          "literal": {
+                            "type": "StringLiteral",
+                            "span": {
+                              "start": 1803,
+                              "end": 1810,
+                              "ctxt": 0
+                            },
+                            "value": "Hello",
+                            "raw": "\"Hello\""
+                          }
+                        },
+                        {
+                          "type": "TsLiteralType",
+                          "span": {
+                            "start": 1812,
+                            "end": 1819,
+                            "ctxt": 0
+                          },
+                          "literal": {
+                            "type": "StringLiteral",
+                            "span": {
+                              "start": 1812,
+                              "end": 1819,
+                              "ctxt": 0
+                            },
+                            "value": "Hello",
+                            "raw": "\"Hello\""
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "definite": false
+                }
+              ]
+            }
+          },
+          {
+            "type": "ExportDeclaration",
+            "span": {
+              "start": 1845,
+              "end": 1901,
+              "ctxt": 0
+            },
+            "declaration": {
+              "type": "VariableDeclaration",
+              "span": {
+                "start": 1852,
+                "end": 1901,
+                "ctxt": 0
+              },
+              "kind": "let",
+              "declare": false,
+              "declarations": [
+                {
+                  "type": "VariableDeclarator",
+                  "span": {
+                    "start": 1856,
+                    "end": 1900,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1856,
+                      "end": 1857,
+                      "ctxt": 0
+                    },
+                    "value": "d",
+                    "optional": false,
+                    "typeAnnotation": null
+                  },
+                  "init": {
+                    "type": "CallExpression",
+                    "span": {
+                      "start": 1860,
+                      "end": 1900,
+                      "ctxt": 0
+                    },
+                    "callee": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 1860,
+                        "end": 1864,
+                        "ctxt": 0
+                      },
+                      "value": "fun2",
+                      "optional": false
+                    },
+                    "arguments": [
+                      {
+                        "spread": null,
+                        "expression": {
+                          "type": "StringLiteral",
+                          "span": {
+                            "start": 1883,
+                            "end": 1890,
+                            "ctxt": 0
+                          },
+                          "value": "Hello",
+                          "raw": "\"Hello\""
+                        }
+                      },
+                      {
+                        "spread": null,
+                        "expression": {
+                          "type": "StringLiteral",
+                          "span": {
+                            "start": 1892,
+                            "end": 1899,
+                            "ctxt": 0
+                          },
+                          "value": "World",
+                          "raw": "\"World\""
+                        }
+                      }
+                    ],
+                    "typeArguments": {
+                      "type": "TsTypeParameterInstantiation",
+                      "span": {
+                        "start": 1864,
+                        "end": 1882,
+                        "ctxt": 0
+                      },
+                      "params": [
+                        {
+                          "type": "TsLiteralType",
+                          "span": {
+                            "start": 1865,
+                            "end": 1872,
+                            "ctxt": 0
+                          },
+                          "literal": {
+                            "type": "StringLiteral",
+                            "span": {
+                              "start": 1865,
+                              "end": 1872,
+                              "ctxt": 0
+                            },
+                            "value": "Hello",
+                            "raw": "\"Hello\""
+                          }
+                        },
+                        {
+                          "type": "TsLiteralType",
+                          "span": {
+                            "start": 1874,
+                            "end": 1881,
+                            "ctxt": 0
+                          },
+                          "literal": {
+                            "type": "StringLiteral",
+                            "span": {
+                              "start": 1874,
+                              "end": 1881,
+                              "ctxt": 0
+                            },
+                            "value": "Hello",
+                            "raw": "\"Hello\""
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "definite": false
+                }
+              ]
+            }
+          },
+          {
+            "type": "ExportDeclaration",
+            "span": {
+              "start": 1907,
+              "end": 1954,
+              "ctxt": 0
+            },
+            "declaration": {
+              "type": "VariableDeclaration",
+              "span": {
+                "start": 1914,
+                "end": 1954,
+                "ctxt": 0
+              },
+              "kind": "let",
+              "declare": false,
+              "declarations": [
+                {
+                  "type": "VariableDeclarator",
+                  "span": {
+                    "start": 1918,
+                    "end": 1953,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 1918,
+                      "end": 1919,
+                      "ctxt": 0
+                    },
+                    "value": "e",
+                    "optional": false,
+                    "typeAnnotation": null
+                  },
+                  "init": {
+                    "type": "CallExpression",
+                    "span": {
+                      "start": 1922,
+                      "end": 1953,
+                      "ctxt": 0
+                    },
+                    "callee": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 1922,
+                        "end": 1926,
+                        "ctxt": 0
+                      },
+                      "value": "fun3",
+                      "optional": false
+                    },
+                    "arguments": [
+                      {
+                        "spread": null,
+                        "expression": {
+                          "type": "StringLiteral",
+                          "span": {
+                            "start": 1936,
+                            "end": 1943,
+                            "ctxt": 0
+                          },
+                          "value": "Hello",
+                          "raw": "\"Hello\""
+                        }
+                      },
+                      {
+                        "spread": null,
+                        "expression": {
+                          "type": "StringLiteral",
+                          "span": {
+                            "start": 1945,
+                            "end": 1952,
+                            "ctxt": 0
+                          },
+                          "value": "World",
+                          "raw": "\"World\""
+                        }
+                      }
+                    ],
+                    "typeArguments": {
+                      "type": "TsTypeParameterInstantiation",
+                      "span": {
+                        "start": 1926,
+                        "end": 1935,
+                        "ctxt": 0
+                      },
+                      "params": [
+                        {
+                          "type": "TsLiteralType",
+                          "span": {
+                            "start": 1927,
+                            "end": 1934,
+                            "ctxt": 0
+                          },
+                          "literal": {
+                            "type": "StringLiteral",
+                            "span": {
+                              "start": 1927,
+                              "end": 1934,
+                              "ctxt": 0
+                            },
+                            "value": "Hello",
+                            "raw": "\"Hello\""
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "definite": false
+                }
+              ]
+            }
+          },
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 2028,
+              "end": 2052,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "AssignmentExpression",
+              "span": {
+                "start": 2028,
+                "end": 2051,
+                "ctxt": 0
+              },
+              "operator": "=",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 2028,
+                  "end": 2029,
+                  "ctxt": 0
+                },
+                "value": "a",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "right": {
+                "type": "CallExpression",
+                "span": {
+                  "start": 2032,
+                  "end": 2051,
+                  "ctxt": 0
+                },
+                "callee": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 2032,
+                    "end": 2048,
+                    "ctxt": 0
+                  },
+                  "value": "takeReturnString",
+                  "optional": false
+                },
+                "arguments": [
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 2049,
+                        "end": 2050,
+                        "ctxt": 0
+                      },
+                      "value": "a",
+                      "optional": false
+                    }
+                  }
+                ],
+                "typeArguments": null
+              }
+            }
+          },
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 2058,
+              "end": 2082,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "AssignmentExpression",
+              "span": {
+                "start": 2058,
+                "end": 2081,
+                "ctxt": 0
+              },
+              "operator": "=",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 2058,
+                  "end": 2059,
+                  "ctxt": 0
+                },
+                "value": "b",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "right": {
+                "type": "CallExpression",
+                "span": {
+                  "start": 2062,
+                  "end": 2081,
+                  "ctxt": 0
+                },
+                "callee": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 2062,
+                    "end": 2078,
+                    "ctxt": 0
+                  },
+                  "value": "takeReturnString",
+                  "optional": false
+                },
+                "arguments": [
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 2079,
+                        "end": 2080,
+                        "ctxt": 0
+                      },
+                      "value": "b",
+                      "optional": false
+                    }
+                  }
+                ],
+                "typeArguments": null
+              }
+            }
+          },
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 2088,
+              "end": 2112,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "AssignmentExpression",
+              "span": {
+                "start": 2088,
+                "end": 2111,
+                "ctxt": 0
+              },
+              "operator": "=",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 2088,
+                  "end": 2089,
+                  "ctxt": 0
+                },
+                "value": "c",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "right": {
+                "type": "CallExpression",
+                "span": {
+                  "start": 2092,
+                  "end": 2111,
+                  "ctxt": 0
+                },
+                "callee": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 2092,
+                    "end": 2108,
+                    "ctxt": 0
+                  },
+                  "value": "takeReturnString",
+                  "optional": false
+                },
+                "arguments": [
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 2109,
+                        "end": 2110,
+                        "ctxt": 0
+                      },
+                      "value": "c",
+                      "optional": false
+                    }
+                  }
+                ],
+                "typeArguments": null
+              }
+            }
+          },
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 2118,
+              "end": 2142,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "AssignmentExpression",
+              "span": {
+                "start": 2118,
+                "end": 2141,
+                "ctxt": 0
+              },
+              "operator": "=",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 2118,
+                  "end": 2119,
+                  "ctxt": 0
+                },
+                "value": "d",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "right": {
+                "type": "CallExpression",
+                "span": {
+                  "start": 2122,
+                  "end": 2141,
+                  "ctxt": 0
+                },
+                "callee": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 2122,
+                    "end": 2138,
+                    "ctxt": 0
+                  },
+                  "value": "takeReturnString",
+                  "optional": false
+                },
+                "arguments": [
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 2139,
+                        "end": 2140,
+                        "ctxt": 0
+                      },
+                      "value": "d",
+                      "optional": false
+                    }
+                  }
+                ],
+                "typeArguments": null
+              }
+            }
+          },
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 2148,
+              "end": 2172,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "AssignmentExpression",
+              "span": {
+                "start": 2148,
+                "end": 2171,
+                "ctxt": 0
+              },
+              "operator": "=",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 2148,
+                  "end": 2149,
+                  "ctxt": 0
+                },
+                "value": "e",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "right": {
+                "type": "CallExpression",
+                "span": {
+                  "start": 2152,
+                  "end": 2171,
+                  "ctxt": 0
+                },
+                "callee": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 2152,
+                    "end": 2168,
+                    "ctxt": 0
+                  },
+                  "value": "takeReturnString",
+                  "optional": false
+                },
+                "arguments": [
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 2169,
+                        "end": 2170,
+                        "ctxt": 0
+                      },
+                      "value": "e",
+                      "optional": false
+                    }
+                  }
+                ],
+                "typeArguments": null
+              }
+            }
+          },
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 2204,
+              "end": 2227,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "AssignmentExpression",
+              "span": {
+                "start": 2204,
+                "end": 2226,
+                "ctxt": 0
+              },
+              "operator": "=",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 2204,
+                  "end": 2205,
+                  "ctxt": 0
+                },
+                "value": "a",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "right": {
+                "type": "CallExpression",
+                "span": {
+                  "start": 2208,
+                  "end": 2226,
+                  "ctxt": 0
+                },
+                "callee": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 2208,
+                    "end": 2223,
+                    "ctxt": 0
+                  },
+                  "value": "takeReturnHello",
+                  "optional": false
+                },
+                "arguments": [
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 2224,
+                        "end": 2225,
+                        "ctxt": 0
+                      },
+                      "value": "a",
+                      "optional": false
+                    }
+                  }
+                ],
+                "typeArguments": null
+              }
+            }
+          },
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 2233,
+              "end": 2256,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "AssignmentExpression",
+              "span": {
+                "start": 2233,
+                "end": 2255,
+                "ctxt": 0
+              },
+              "operator": "=",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 2233,
+                  "end": 2234,
+                  "ctxt": 0
+                },
+                "value": "b",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "right": {
+                "type": "CallExpression",
+                "span": {
+                  "start": 2237,
+                  "end": 2255,
+                  "ctxt": 0
+                },
+                "callee": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 2237,
+                    "end": 2252,
+                    "ctxt": 0
+                  },
+                  "value": "takeReturnHello",
+                  "optional": false
+                },
+                "arguments": [
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 2253,
+                        "end": 2254,
+                        "ctxt": 0
+                      },
+                      "value": "b",
+                      "optional": false
+                    }
+                  }
+                ],
+                "typeArguments": null
+              }
+            }
+          },
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 2262,
+              "end": 2285,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "AssignmentExpression",
+              "span": {
+                "start": 2262,
+                "end": 2284,
+                "ctxt": 0
+              },
+              "operator": "=",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 2262,
+                  "end": 2263,
+                  "ctxt": 0
+                },
+                "value": "c",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "right": {
+                "type": "CallExpression",
+                "span": {
+                  "start": 2266,
+                  "end": 2284,
+                  "ctxt": 0
+                },
+                "callee": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 2266,
+                    "end": 2281,
+                    "ctxt": 0
+                  },
+                  "value": "takeReturnHello",
+                  "optional": false
+                },
+                "arguments": [
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 2282,
+                        "end": 2283,
+                        "ctxt": 0
+                      },
+                      "value": "c",
+                      "optional": false
+                    }
+                  }
+                ],
+                "typeArguments": null
+              }
+            }
+          },
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 2291,
+              "end": 2314,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "AssignmentExpression",
+              "span": {
+                "start": 2291,
+                "end": 2313,
+                "ctxt": 0
+              },
+              "operator": "=",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 2291,
+                  "end": 2292,
+                  "ctxt": 0
+                },
+                "value": "d",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "right": {
+                "type": "CallExpression",
+                "span": {
+                  "start": 2295,
+                  "end": 2313,
+                  "ctxt": 0
+                },
+                "callee": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 2295,
+                    "end": 2310,
+                    "ctxt": 0
+                  },
+                  "value": "takeReturnHello",
+                  "optional": false
+                },
+                "arguments": [
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 2311,
+                        "end": 2312,
+                        "ctxt": 0
+                      },
+                      "value": "d",
+                      "optional": false
+                    }
+                  }
+                ],
+                "typeArguments": null
+              }
+            }
+          },
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 2320,
+              "end": 2343,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "AssignmentExpression",
+              "span": {
+                "start": 2320,
+                "end": 2342,
+                "ctxt": 0
+              },
+              "operator": "=",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 2320,
+                  "end": 2321,
+                  "ctxt": 0
+                },
+                "value": "e",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "right": {
+                "type": "CallExpression",
+                "span": {
+                  "start": 2324,
+                  "end": 2342,
+                  "ctxt": 0
+                },
+                "callee": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 2324,
+                    "end": 2339,
+                    "ctxt": 0
+                  },
+                  "value": "takeReturnHello",
+                  "optional": false
+                },
+                "arguments": [
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 2340,
+                        "end": 2341,
+                        "ctxt": 0
+                      },
+                      "value": "e",
+                      "optional": false
+                    }
+                  }
+                ],
+                "typeArguments": null
+              }
+            }
+          },
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 2417,
+              "end": 2445,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "AssignmentExpression",
+              "span": {
+                "start": 2417,
+                "end": 2444,
+                "ctxt": 0
+              },
+              "operator": "=",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 2417,
+                  "end": 2418,
+                  "ctxt": 0
+                },
+                "value": "a",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "right": {
+                "type": "CallExpression",
+                "span": {
+                  "start": 2421,
+                  "end": 2444,
+                  "ctxt": 0
+                },
+                "callee": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 2421,
+                    "end": 2441,
+                    "ctxt": 0
+                  },
+                  "value": "takeReturnHelloWorld",
+                  "optional": false
+                },
+                "arguments": [
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 2442,
+                        "end": 2443,
+                        "ctxt": 0
+                      },
+                      "value": "a",
+                      "optional": false
+                    }
+                  }
+                ],
+                "typeArguments": null
+              }
+            }
+          },
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 2451,
+              "end": 2479,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "AssignmentExpression",
+              "span": {
+                "start": 2451,
+                "end": 2478,
+                "ctxt": 0
+              },
+              "operator": "=",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 2451,
+                  "end": 2452,
+                  "ctxt": 0
+                },
+                "value": "b",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "right": {
+                "type": "CallExpression",
+                "span": {
+                  "start": 2455,
+                  "end": 2478,
+                  "ctxt": 0
+                },
+                "callee": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 2455,
+                    "end": 2475,
+                    "ctxt": 0
+                  },
+                  "value": "takeReturnHelloWorld",
+                  "optional": false
+                },
+                "arguments": [
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 2476,
+                        "end": 2477,
+                        "ctxt": 0
+                      },
+                      "value": "b",
+                      "optional": false
+                    }
+                  }
+                ],
+                "typeArguments": null
+              }
+            }
+          },
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 2485,
+              "end": 2513,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "AssignmentExpression",
+              "span": {
+                "start": 2485,
+                "end": 2512,
+                "ctxt": 0
+              },
+              "operator": "=",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 2485,
+                  "end": 2486,
+                  "ctxt": 0
+                },
+                "value": "c",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "right": {
+                "type": "CallExpression",
+                "span": {
+                  "start": 2489,
+                  "end": 2512,
+                  "ctxt": 0
+                },
+                "callee": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 2489,
+                    "end": 2509,
+                    "ctxt": 0
+                  },
+                  "value": "takeReturnHelloWorld",
+                  "optional": false
+                },
+                "arguments": [
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 2510,
+                        "end": 2511,
+                        "ctxt": 0
+                      },
+                      "value": "c",
+                      "optional": false
+                    }
+                  }
+                ],
+                "typeArguments": null
+              }
+            }
+          },
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 2519,
+              "end": 2547,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "AssignmentExpression",
+              "span": {
+                "start": 2519,
+                "end": 2546,
+                "ctxt": 0
+              },
+              "operator": "=",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 2519,
+                  "end": 2520,
+                  "ctxt": 0
+                },
+                "value": "d",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "right": {
+                "type": "CallExpression",
+                "span": {
+                  "start": 2523,
+                  "end": 2546,
+                  "ctxt": 0
+                },
+                "callee": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 2523,
+                    "end": 2543,
+                    "ctxt": 0
+                  },
+                  "value": "takeReturnHelloWorld",
+                  "optional": false
+                },
+                "arguments": [
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 2544,
+                        "end": 2545,
+                        "ctxt": 0
+                      },
+                      "value": "d",
+                      "optional": false
+                    }
+                  }
+                ],
+                "typeArguments": null
+              }
+            }
+          },
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 2553,
+              "end": 2581,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "AssignmentExpression",
+              "span": {
+                "start": 2553,
+                "end": 2580,
+                "ctxt": 0
+              },
+              "operator": "=",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 2553,
+                  "end": 2554,
+                  "ctxt": 0
+                },
+                "value": "e",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "right": {
+                "type": "CallExpression",
+                "span": {
+                  "start": 2557,
+                  "end": 2580,
+                  "ctxt": 0
+                },
+                "callee": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 2557,
+                    "end": 2577,
+                    "ctxt": 0
+                  },
+                  "value": "takeReturnHelloWorld",
+                  "optional": false
+                },
+                "arguments": [
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 2578,
+                        "end": 2579,
+                        "ctxt": 0
+                      },
+                      "value": "e",
+                      "optional": false
+                    }
+                  }
+                ],
+                "typeArguments": null
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "type": "TsModuleDeclaration",
+      "span": {
+        "start": 2590,
+        "end": 3664,
+        "ctxt": 0
+      },
+      "declare": false,
+      "global": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 2600,
+          "end": 2602,
+          "ctxt": 0
+        },
+        "value": "n3",
+        "optional": false
+      },
+      "body": {
+        "type": "TsModuleBlock",
+        "span": {
+          "start": 2603,
+          "end": 3664,
+          "ctxt": 0
+        },
+        "body": [
+          {
+            "type": "ExportDeclaration",
+            "span": {
+              "start": 2731,
+              "end": 2787,
+              "ctxt": 0
+            },
+            "declaration": {
+              "type": "VariableDeclaration",
+              "span": {
+                "start": 2738,
+                "end": 2787,
+                "ctxt": 0
+              },
+              "kind": "let",
+              "declare": false,
+              "declarations": [
+                {
+                  "type": "VariableDeclarator",
+                  "span": {
+                    "start": 2742,
+                    "end": 2786,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 2742,
+                      "end": 2743,
+                      "ctxt": 0
+                    },
+                    "value": "a",
+                    "optional": false,
+                    "typeAnnotation": null
+                  },
+                  "init": {
+                    "type": "CallExpression",
+                    "span": {
+                      "start": 2746,
+                      "end": 2786,
+                      "ctxt": 0
+                    },
+                    "callee": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 2746,
+                        "end": 2750,
+                        "ctxt": 0
+                      },
+                      "value": "fun2",
+                      "optional": false
+                    },
+                    "arguments": [
+                      {
+                        "spread": null,
+                        "expression": {
+                          "type": "StringLiteral",
+                          "span": {
+                            "start": 2769,
+                            "end": 2776,
+                            "ctxt": 0
+                          },
+                          "value": "Hello",
+                          "raw": "\"Hello\""
+                        }
+                      },
+                      {
+                        "spread": null,
+                        "expression": {
+                          "type": "StringLiteral",
+                          "span": {
+                            "start": 2778,
+                            "end": 2785,
+                            "ctxt": 0
+                          },
+                          "value": "World",
+                          "raw": "\"World\""
+                        }
+                      }
+                    ],
+                    "typeArguments": {
+                      "type": "TsTypeParameterInstantiation",
+                      "span": {
+                        "start": 2750,
+                        "end": 2768,
+                        "ctxt": 0
+                      },
+                      "params": [
+                        {
+                          "type": "TsLiteralType",
+                          "span": {
+                            "start": 2751,
+                            "end": 2758,
+                            "ctxt": 0
+                          },
+                          "literal": {
+                            "type": "StringLiteral",
+                            "span": {
+                              "start": 2751,
+                              "end": 2758,
+                              "ctxt": 0
+                            },
+                            "value": "Hello",
+                            "raw": "\"Hello\""
+                          }
+                        },
+                        {
+                          "type": "TsLiteralType",
+                          "span": {
+                            "start": 2760,
+                            "end": 2767,
+                            "ctxt": 0
+                          },
+                          "literal": {
+                            "type": "StringLiteral",
+                            "span": {
+                              "start": 2760,
+                              "end": 2767,
+                              "ctxt": 0
+                            },
+                            "value": "World",
+                            "raw": "\"World\""
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "definite": false
+                }
+              ]
+            }
+          },
+          {
+            "type": "ExportDeclaration",
+            "span": {
+              "start": 2793,
+              "end": 2849,
+              "ctxt": 0
+            },
+            "declaration": {
+              "type": "VariableDeclaration",
+              "span": {
+                "start": 2800,
+                "end": 2849,
+                "ctxt": 0
+              },
+              "kind": "let",
+              "declare": false,
+              "declarations": [
+                {
+                  "type": "VariableDeclarator",
+                  "span": {
+                    "start": 2804,
+                    "end": 2848,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 2804,
+                      "end": 2805,
+                      "ctxt": 0
+                    },
+                    "value": "b",
+                    "optional": false,
+                    "typeAnnotation": null
+                  },
+                  "init": {
+                    "type": "CallExpression",
+                    "span": {
+                      "start": 2808,
+                      "end": 2848,
+                      "ctxt": 0
+                    },
+                    "callee": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 2808,
+                        "end": 2812,
+                        "ctxt": 0
+                      },
+                      "value": "fun2",
+                      "optional": false
+                    },
+                    "arguments": [
+                      {
+                        "spread": null,
+                        "expression": {
+                          "type": "StringLiteral",
+                          "span": {
+                            "start": 2831,
+                            "end": 2838,
+                            "ctxt": 0
+                          },
+                          "value": "World",
+                          "raw": "\"World\""
+                        }
+                      },
+                      {
+                        "spread": null,
+                        "expression": {
+                          "type": "StringLiteral",
+                          "span": {
+                            "start": 2840,
+                            "end": 2847,
+                            "ctxt": 0
+                          },
+                          "value": "Hello",
+                          "raw": "\"Hello\""
+                        }
+                      }
+                    ],
+                    "typeArguments": {
+                      "type": "TsTypeParameterInstantiation",
+                      "span": {
+                        "start": 2812,
+                        "end": 2830,
+                        "ctxt": 0
+                      },
+                      "params": [
+                        {
+                          "type": "TsLiteralType",
+                          "span": {
+                            "start": 2813,
+                            "end": 2820,
+                            "ctxt": 0
+                          },
+                          "literal": {
+                            "type": "StringLiteral",
+                            "span": {
+                              "start": 2813,
+                              "end": 2820,
+                              "ctxt": 0
+                            },
+                            "value": "Hello",
+                            "raw": "\"Hello\""
+                          }
+                        },
+                        {
+                          "type": "TsLiteralType",
+                          "span": {
+                            "start": 2822,
+                            "end": 2829,
+                            "ctxt": 0
+                          },
+                          "literal": {
+                            "type": "StringLiteral",
+                            "span": {
+                              "start": 2822,
+                              "end": 2829,
+                              "ctxt": 0
+                            },
+                            "value": "World",
+                            "raw": "\"World\""
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "definite": false
+                }
+              ]
+            }
+          },
+          {
+            "type": "ExportDeclaration",
+            "span": {
+              "start": 2855,
+              "end": 2911,
+              "ctxt": 0
+            },
+            "declaration": {
+              "type": "VariableDeclaration",
+              "span": {
+                "start": 2862,
+                "end": 2911,
+                "ctxt": 0
+              },
+              "kind": "let",
+              "declare": false,
+              "declarations": [
+                {
+                  "type": "VariableDeclarator",
+                  "span": {
+                    "start": 2866,
+                    "end": 2910,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 2866,
+                      "end": 2867,
+                      "ctxt": 0
+                    },
+                    "value": "c",
+                    "optional": false,
+                    "typeAnnotation": null
+                  },
+                  "init": {
+                    "type": "CallExpression",
+                    "span": {
+                      "start": 2870,
+                      "end": 2910,
+                      "ctxt": 0
+                    },
+                    "callee": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 2870,
+                        "end": 2874,
+                        "ctxt": 0
+                      },
+                      "value": "fun2",
+                      "optional": false
+                    },
+                    "arguments": [
+                      {
+                        "spread": null,
+                        "expression": {
+                          "type": "StringLiteral",
+                          "span": {
+                            "start": 2893,
+                            "end": 2900,
+                            "ctxt": 0
+                          },
+                          "value": "Hello",
+                          "raw": "\"Hello\""
+                        }
+                      },
+                      {
+                        "spread": null,
+                        "expression": {
+                          "type": "StringLiteral",
+                          "span": {
+                            "start": 2902,
+                            "end": 2909,
+                            "ctxt": 0
+                          },
+                          "value": "Hello",
+                          "raw": "\"Hello\""
+                        }
+                      }
+                    ],
+                    "typeArguments": {
+                      "type": "TsTypeParameterInstantiation",
+                      "span": {
+                        "start": 2874,
+                        "end": 2892,
+                        "ctxt": 0
+                      },
+                      "params": [
+                        {
+                          "type": "TsLiteralType",
+                          "span": {
+                            "start": 2875,
+                            "end": 2882,
+                            "ctxt": 0
+                          },
+                          "literal": {
+                            "type": "StringLiteral",
+                            "span": {
+                              "start": 2875,
+                              "end": 2882,
+                              "ctxt": 0
+                            },
+                            "value": "World",
+                            "raw": "\"World\""
+                          }
+                        },
+                        {
+                          "type": "TsLiteralType",
+                          "span": {
+                            "start": 2884,
+                            "end": 2891,
+                            "ctxt": 0
+                          },
+                          "literal": {
+                            "type": "StringLiteral",
+                            "span": {
+                              "start": 2884,
+                              "end": 2891,
+                              "ctxt": 0
+                            },
+                            "value": "Hello",
+                            "raw": "\"Hello\""
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "definite": false
+                }
+              ]
+            }
+          },
+          {
+            "type": "ExportDeclaration",
+            "span": {
+              "start": 2917,
+              "end": 2973,
+              "ctxt": 0
+            },
+            "declaration": {
+              "type": "VariableDeclaration",
+              "span": {
+                "start": 2924,
+                "end": 2973,
+                "ctxt": 0
+              },
+              "kind": "let",
+              "declare": false,
+              "declarations": [
+                {
+                  "type": "VariableDeclarator",
+                  "span": {
+                    "start": 2928,
+                    "end": 2972,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 2928,
+                      "end": 2929,
+                      "ctxt": 0
+                    },
+                    "value": "d",
+                    "optional": false,
+                    "typeAnnotation": null
+                  },
+                  "init": {
+                    "type": "CallExpression",
+                    "span": {
+                      "start": 2932,
+                      "end": 2972,
+                      "ctxt": 0
+                    },
+                    "callee": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 2932,
+                        "end": 2936,
+                        "ctxt": 0
+                      },
+                      "value": "fun2",
+                      "optional": false
+                    },
+                    "arguments": [
+                      {
+                        "spread": null,
+                        "expression": {
+                          "type": "StringLiteral",
+                          "span": {
+                            "start": 2955,
+                            "end": 2962,
+                            "ctxt": 0
+                          },
+                          "value": "World",
+                          "raw": "\"World\""
+                        }
+                      },
+                      {
+                        "spread": null,
+                        "expression": {
+                          "type": "StringLiteral",
+                          "span": {
+                            "start": 2964,
+                            "end": 2971,
+                            "ctxt": 0
+                          },
+                          "value": "World",
+                          "raw": "\"World\""
+                        }
+                      }
+                    ],
+                    "typeArguments": {
+                      "type": "TsTypeParameterInstantiation",
+                      "span": {
+                        "start": 2936,
+                        "end": 2954,
+                        "ctxt": 0
+                      },
+                      "params": [
+                        {
+                          "type": "TsLiteralType",
+                          "span": {
+                            "start": 2937,
+                            "end": 2944,
+                            "ctxt": 0
+                          },
+                          "literal": {
+                            "type": "StringLiteral",
+                            "span": {
+                              "start": 2937,
+                              "end": 2944,
+                              "ctxt": 0
+                            },
+                            "value": "World",
+                            "raw": "\"World\""
+                          }
+                        },
+                        {
+                          "type": "TsLiteralType",
+                          "span": {
+                            "start": 2946,
+                            "end": 2953,
+                            "ctxt": 0
+                          },
+                          "literal": {
+                            "type": "StringLiteral",
+                            "span": {
+                              "start": 2946,
+                              "end": 2953,
+                              "ctxt": 0
+                            },
+                            "value": "Hello",
+                            "raw": "\"Hello\""
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  "definite": false
+                }
+              ]
+            }
+          },
+          {
+            "type": "ExportDeclaration",
+            "span": {
+              "start": 2979,
+              "end": 3036,
+              "ctxt": 0
+            },
+            "declaration": {
+              "type": "VariableDeclaration",
+              "span": {
+                "start": 2986,
+                "end": 3036,
+                "ctxt": 0
+              },
+              "kind": "let",
+              "declare": false,
+              "declarations": [
+                {
+                  "type": "VariableDeclarator",
+                  "span": {
+                    "start": 2990,
+                    "end": 3035,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 2990,
+                      "end": 2991,
+                      "ctxt": 0
+                    },
+                    "value": "e",
+                    "optional": false,
+                    "typeAnnotation": null
+                  },
+                  "init": {
+                    "type": "CallExpression",
+                    "span": {
+                      "start": 2994,
+                      "end": 3035,
+                      "ctxt": 0
+                    },
+                    "callee": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 2994,
+                        "end": 2998,
+                        "ctxt": 0
+                      },
+                      "value": "fun3",
+                      "optional": false
+                    },
+                    "arguments": [
+                      {
+                        "spread": null,
+                        "expression": {
+                          "type": "StringLiteral",
+                          "span": {
+                            "start": 3018,
+                            "end": 3025,
+                            "ctxt": 0
+                          },
+                          "value": "Hello",
+                          "raw": "\"Hello\""
+                        }
+                      },
+                      {
+                        "spread": null,
+                        "expression": {
+                          "type": "StringLiteral",
+                          "span": {
+                            "start": 3027,
+                            "end": 3034,
+                            "ctxt": 0
+                          },
+                          "value": "World",
+                          "raw": "\"World\""
+                        }
+                      }
+                    ],
+                    "typeArguments": {
+                      "type": "TsTypeParameterInstantiation",
+                      "span": {
+                        "start": 2998,
+                        "end": 3017,
+                        "ctxt": 0
+                      },
+                      "params": [
+                        {
+                          "type": "TsUnionType",
+                          "span": {
+                            "start": 2999,
+                            "end": 3016,
+                            "ctxt": 0
+                          },
+                          "types": [
+                            {
+                              "type": "TsLiteralType",
+                              "span": {
+                                "start": 2999,
+                                "end": 3006,
+                                "ctxt": 0
+                              },
+                              "literal": {
+                                "type": "StringLiteral",
+                                "span": {
+                                  "start": 2999,
+                                  "end": 3006,
+                                  "ctxt": 0
+                                },
+                                "value": "Hello",
+                                "raw": "\"Hello\""
+                              }
+                            },
+                            {
+                              "type": "TsLiteralType",
+                              "span": {
+                                "start": 3009,
+                                "end": 3016,
+                                "ctxt": 0
+                              },
+                              "literal": {
+                                "type": "StringLiteral",
+                                "span": {
+                                  "start": 3009,
+                                  "end": 3016,
+                                  "ctxt": 0
+                                },
+                                "value": "World",
+                                "raw": "\"World\""
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  },
+                  "definite": false
+                }
+              ]
+            }
+          },
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 3110,
+              "end": 3134,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "AssignmentExpression",
+              "span": {
+                "start": 3110,
+                "end": 3133,
+                "ctxt": 0
+              },
+              "operator": "=",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 3110,
+                  "end": 3111,
+                  "ctxt": 0
+                },
+                "value": "a",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "right": {
+                "type": "CallExpression",
+                "span": {
+                  "start": 3114,
+                  "end": 3133,
+                  "ctxt": 0
+                },
+                "callee": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 3114,
+                    "end": 3130,
+                    "ctxt": 0
+                  },
+                  "value": "takeReturnString",
+                  "optional": false
+                },
+                "arguments": [
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 3131,
+                        "end": 3132,
+                        "ctxt": 0
+                      },
+                      "value": "a",
+                      "optional": false
+                    }
+                  }
+                ],
+                "typeArguments": null
+              }
+            }
+          },
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 3140,
+              "end": 3164,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "AssignmentExpression",
+              "span": {
+                "start": 3140,
+                "end": 3163,
+                "ctxt": 0
+              },
+              "operator": "=",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 3140,
+                  "end": 3141,
+                  "ctxt": 0
+                },
+                "value": "b",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "right": {
+                "type": "CallExpression",
+                "span": {
+                  "start": 3144,
+                  "end": 3163,
+                  "ctxt": 0
+                },
+                "callee": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 3144,
+                    "end": 3160,
+                    "ctxt": 0
+                  },
+                  "value": "takeReturnString",
+                  "optional": false
+                },
+                "arguments": [
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 3161,
+                        "end": 3162,
+                        "ctxt": 0
+                      },
+                      "value": "b",
+                      "optional": false
+                    }
+                  }
+                ],
+                "typeArguments": null
+              }
+            }
+          },
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 3170,
+              "end": 3194,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "AssignmentExpression",
+              "span": {
+                "start": 3170,
+                "end": 3193,
+                "ctxt": 0
+              },
+              "operator": "=",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 3170,
+                  "end": 3171,
+                  "ctxt": 0
+                },
+                "value": "c",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "right": {
+                "type": "CallExpression",
+                "span": {
+                  "start": 3174,
+                  "end": 3193,
+                  "ctxt": 0
+                },
+                "callee": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 3174,
+                    "end": 3190,
+                    "ctxt": 0
+                  },
+                  "value": "takeReturnString",
+                  "optional": false
+                },
+                "arguments": [
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 3191,
+                        "end": 3192,
+                        "ctxt": 0
+                      },
+                      "value": "c",
+                      "optional": false
+                    }
+                  }
+                ],
+                "typeArguments": null
+              }
+            }
+          },
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 3200,
+              "end": 3224,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "AssignmentExpression",
+              "span": {
+                "start": 3200,
+                "end": 3223,
+                "ctxt": 0
+              },
+              "operator": "=",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 3200,
+                  "end": 3201,
+                  "ctxt": 0
+                },
+                "value": "d",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "right": {
+                "type": "CallExpression",
+                "span": {
+                  "start": 3204,
+                  "end": 3223,
+                  "ctxt": 0
+                },
+                "callee": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 3204,
+                    "end": 3220,
+                    "ctxt": 0
+                  },
+                  "value": "takeReturnString",
+                  "optional": false
+                },
+                "arguments": [
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 3221,
+                        "end": 3222,
+                        "ctxt": 0
+                      },
+                      "value": "d",
+                      "optional": false
+                    }
+                  }
+                ],
+                "typeArguments": null
+              }
+            }
+          },
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 3230,
+              "end": 3254,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "AssignmentExpression",
+              "span": {
+                "start": 3230,
+                "end": 3253,
+                "ctxt": 0
+              },
+              "operator": "=",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 3230,
+                  "end": 3231,
+                  "ctxt": 0
+                },
+                "value": "e",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "right": {
+                "type": "CallExpression",
+                "span": {
+                  "start": 3234,
+                  "end": 3253,
+                  "ctxt": 0
+                },
+                "callee": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 3234,
+                    "end": 3250,
+                    "ctxt": 0
+                  },
+                  "value": "takeReturnString",
+                  "optional": false
+                },
+                "arguments": [
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 3251,
+                        "end": 3252,
+                        "ctxt": 0
+                      },
+                      "value": "e",
+                      "optional": false
+                    }
+                  }
+                ],
+                "typeArguments": null
+              }
+            }
+          },
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 3320,
+              "end": 3343,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "AssignmentExpression",
+              "span": {
+                "start": 3320,
+                "end": 3342,
+                "ctxt": 0
+              },
+              "operator": "=",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 3320,
+                  "end": 3321,
+                  "ctxt": 0
+                },
+                "value": "a",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "right": {
+                "type": "CallExpression",
+                "span": {
+                  "start": 3324,
+                  "end": 3342,
+                  "ctxt": 0
+                },
+                "callee": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 3324,
+                    "end": 3339,
+                    "ctxt": 0
+                  },
+                  "value": "takeReturnHello",
+                  "optional": false
+                },
+                "arguments": [
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 3340,
+                        "end": 3341,
+                        "ctxt": 0
+                      },
+                      "value": "a",
+                      "optional": false
+                    }
+                  }
+                ],
+                "typeArguments": null
+              }
+            }
+          },
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 3349,
+              "end": 3372,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "AssignmentExpression",
+              "span": {
+                "start": 3349,
+                "end": 3371,
+                "ctxt": 0
+              },
+              "operator": "=",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 3349,
+                  "end": 3350,
+                  "ctxt": 0
+                },
+                "value": "b",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "right": {
+                "type": "CallExpression",
+                "span": {
+                  "start": 3353,
+                  "end": 3371,
+                  "ctxt": 0
+                },
+                "callee": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 3353,
+                    "end": 3368,
+                    "ctxt": 0
+                  },
+                  "value": "takeReturnHello",
+                  "optional": false
+                },
+                "arguments": [
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 3369,
+                        "end": 3370,
+                        "ctxt": 0
+                      },
+                      "value": "b",
+                      "optional": false
+                    }
+                  }
+                ],
+                "typeArguments": null
+              }
+            }
+          },
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 3378,
+              "end": 3401,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "AssignmentExpression",
+              "span": {
+                "start": 3378,
+                "end": 3400,
+                "ctxt": 0
+              },
+              "operator": "=",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 3378,
+                  "end": 3379,
+                  "ctxt": 0
+                },
+                "value": "c",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "right": {
+                "type": "CallExpression",
+                "span": {
+                  "start": 3382,
+                  "end": 3400,
+                  "ctxt": 0
+                },
+                "callee": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 3382,
+                    "end": 3397,
+                    "ctxt": 0
+                  },
+                  "value": "takeReturnHello",
+                  "optional": false
+                },
+                "arguments": [
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 3398,
+                        "end": 3399,
+                        "ctxt": 0
+                      },
+                      "value": "c",
+                      "optional": false
+                    }
+                  }
+                ],
+                "typeArguments": null
+              }
+            }
+          },
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 3407,
+              "end": 3430,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "AssignmentExpression",
+              "span": {
+                "start": 3407,
+                "end": 3429,
+                "ctxt": 0
+              },
+              "operator": "=",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 3407,
+                  "end": 3408,
+                  "ctxt": 0
+                },
+                "value": "d",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "right": {
+                "type": "CallExpression",
+                "span": {
+                  "start": 3411,
+                  "end": 3429,
+                  "ctxt": 0
+                },
+                "callee": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 3411,
+                    "end": 3426,
+                    "ctxt": 0
+                  },
+                  "value": "takeReturnHello",
+                  "optional": false
+                },
+                "arguments": [
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 3427,
+                        "end": 3428,
+                        "ctxt": 0
+                      },
+                      "value": "d",
+                      "optional": false
+                    }
+                  }
+                ],
+                "typeArguments": null
+              }
+            }
+          },
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 3436,
+              "end": 3459,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "AssignmentExpression",
+              "span": {
+                "start": 3436,
+                "end": 3458,
+                "ctxt": 0
+              },
+              "operator": "=",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 3436,
+                  "end": 3437,
+                  "ctxt": 0
+                },
+                "value": "e",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "right": {
+                "type": "CallExpression",
+                "span": {
+                  "start": 3440,
+                  "end": 3458,
+                  "ctxt": 0
+                },
+                "callee": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 3440,
+                    "end": 3455,
+                    "ctxt": 0
+                  },
+                  "value": "takeReturnHello",
+                  "optional": false
+                },
+                "arguments": [
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 3456,
+                        "end": 3457,
+                        "ctxt": 0
+                      },
+                      "value": "e",
+                      "optional": false
+                    }
+                  }
+                ],
+                "typeArguments": null
+              }
+            }
+          },
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 3497,
+              "end": 3525,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "AssignmentExpression",
+              "span": {
+                "start": 3497,
+                "end": 3524,
+                "ctxt": 0
+              },
+              "operator": "=",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 3497,
+                  "end": 3498,
+                  "ctxt": 0
+                },
+                "value": "a",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "right": {
+                "type": "CallExpression",
+                "span": {
+                  "start": 3501,
+                  "end": 3524,
+                  "ctxt": 0
+                },
+                "callee": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 3501,
+                    "end": 3521,
+                    "ctxt": 0
+                  },
+                  "value": "takeReturnHelloWorld",
+                  "optional": false
+                },
+                "arguments": [
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 3522,
+                        "end": 3523,
+                        "ctxt": 0
+                      },
+                      "value": "a",
+                      "optional": false
+                    }
+                  }
+                ],
+                "typeArguments": null
+              }
+            }
+          },
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 3531,
+              "end": 3559,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "AssignmentExpression",
+              "span": {
+                "start": 3531,
+                "end": 3558,
+                "ctxt": 0
+              },
+              "operator": "=",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 3531,
+                  "end": 3532,
+                  "ctxt": 0
+                },
+                "value": "b",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "right": {
+                "type": "CallExpression",
+                "span": {
+                  "start": 3535,
+                  "end": 3558,
+                  "ctxt": 0
+                },
+                "callee": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 3535,
+                    "end": 3555,
+                    "ctxt": 0
+                  },
+                  "value": "takeReturnHelloWorld",
+                  "optional": false
+                },
+                "arguments": [
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 3556,
+                        "end": 3557,
+                        "ctxt": 0
+                      },
+                      "value": "b",
+                      "optional": false
+                    }
+                  }
+                ],
+                "typeArguments": null
+              }
+            }
+          },
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 3565,
+              "end": 3593,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "AssignmentExpression",
+              "span": {
+                "start": 3565,
+                "end": 3592,
+                "ctxt": 0
+              },
+              "operator": "=",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 3565,
+                  "end": 3566,
+                  "ctxt": 0
+                },
+                "value": "c",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "right": {
+                "type": "CallExpression",
+                "span": {
+                  "start": 3569,
+                  "end": 3592,
+                  "ctxt": 0
+                },
+                "callee": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 3569,
+                    "end": 3589,
+                    "ctxt": 0
+                  },
+                  "value": "takeReturnHelloWorld",
+                  "optional": false
+                },
+                "arguments": [
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 3590,
+                        "end": 3591,
+                        "ctxt": 0
+                      },
+                      "value": "c",
+                      "optional": false
+                    }
+                  }
+                ],
+                "typeArguments": null
+              }
+            }
+          },
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 3599,
+              "end": 3627,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "AssignmentExpression",
+              "span": {
+                "start": 3599,
+                "end": 3626,
+                "ctxt": 0
+              },
+              "operator": "=",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 3599,
+                  "end": 3600,
+                  "ctxt": 0
+                },
+                "value": "d",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "right": {
+                "type": "CallExpression",
+                "span": {
+                  "start": 3603,
+                  "end": 3626,
+                  "ctxt": 0
+                },
+                "callee": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 3603,
+                    "end": 3623,
+                    "ctxt": 0
+                  },
+                  "value": "takeReturnHelloWorld",
+                  "optional": false
+                },
+                "arguments": [
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 3624,
+                        "end": 3625,
+                        "ctxt": 0
+                      },
+                      "value": "d",
+                      "optional": false
+                    }
+                  }
+                ],
+                "typeArguments": null
+              }
+            }
+          },
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 3633,
+              "end": 3661,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "AssignmentExpression",
+              "span": {
+                "start": 3633,
+                "end": 3660,
+                "ctxt": 0
+              },
+              "operator": "=",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 3633,
+                  "end": 3634,
+                  "ctxt": 0
+                },
+                "value": "e",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "right": {
+                "type": "CallExpression",
+                "span": {
+                  "start": 3637,
+                  "end": 3660,
+                  "ctxt": 0
+                },
+                "callee": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 3637,
+                    "end": 3657,
+                    "ctxt": 0
+                  },
+                  "value": "takeReturnHelloWorld",
+                  "optional": false
+                },
+                "arguments": [
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 3658,
+                        "end": 3659,
+                        "ctxt": 0
+                      },
+                      "value": "e",
+                      "optional": false
+                    }
+                  }
+                ],
+                "typeArguments": null
+              }
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "interpreter": null
+}

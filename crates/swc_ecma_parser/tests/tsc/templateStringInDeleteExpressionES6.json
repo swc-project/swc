@@ -1,0 +1,72 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 18,
+    "end": 38,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 18,
+        "end": 38,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "UnaryExpression",
+        "span": {
+          "start": 18,
+          "end": 37,
+          "ctxt": 0
+        },
+        "operator": "delete",
+        "argument": {
+          "type": "TemplateLiteral",
+          "span": {
+            "start": 25,
+            "end": 37,
+            "ctxt": 0
+          },
+          "expressions": [
+            {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 31,
+                "end": 32,
+                "ctxt": 0
+              },
+              "value": 0.0,
+              "raw": "0"
+            }
+          ],
+          "quasis": [
+            {
+              "type": "TemplateElement",
+              "span": {
+                "start": 26,
+                "end": 29,
+                "ctxt": 0
+              },
+              "tail": false,
+              "cooked": "abc",
+              "raw": "abc"
+            },
+            {
+              "type": "TemplateElement",
+              "span": {
+                "start": 33,
+                "end": 36,
+                "ctxt": 0
+              },
+              "tail": true,
+              "cooked": "abc",
+              "raw": "abc"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

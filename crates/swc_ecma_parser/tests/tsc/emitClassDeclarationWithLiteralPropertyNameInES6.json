@@ -1,0 +1,526 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 18,
+    "end": 301,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 24,
+          "end": 25,
+          "ctxt": 0
+        },
+        "value": "B",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 18,
+        "end": 301,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 33,
+            "end": 46,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "StringLiteral",
+            "span": {
+              "start": 33,
+              "end": 40,
+              "ctxt": 0
+            },
+            "value": "hello",
+            "raw": "\"hello\""
+          },
+          "value": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 43,
+              "end": 45,
+              "ctxt": 0
+            },
+            "value": 10.0,
+            "raw": "10"
+          },
+          "typeAnnotation": null,
+          "isStatic": false,
+          "decorators": [],
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false,
+          "readonly": false,
+          "declare": false,
+          "definite": false
+        },
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 52,
+            "end": 68,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 52,
+              "end": 57,
+              "ctxt": 0
+            },
+            "value": 6.0,
+            "raw": "0b110"
+          },
+          "value": {
+            "type": "StringLiteral",
+            "span": {
+              "start": 60,
+              "end": 67,
+              "ctxt": 0
+            },
+            "value": "world",
+            "raw": "\"world\""
+          },
+          "typeAnnotation": null,
+          "isStatic": false,
+          "decorators": [],
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false,
+          "readonly": false,
+          "declare": false,
+          "definite": false
+        },
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 74,
+            "end": 92,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 74,
+              "end": 81,
+              "ctxt": 0
+            },
+            "value": 10076.0,
+            "raw": "0o23534"
+          },
+          "value": {
+            "type": "StringLiteral",
+            "span": {
+              "start": 84,
+              "end": 91,
+              "ctxt": 0
+            },
+            "value": "WORLD",
+            "raw": "\"WORLD\""
+          },
+          "typeAnnotation": null,
+          "isStatic": false,
+          "decorators": [],
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false,
+          "readonly": false,
+          "declare": false,
+          "definite": false
+        },
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 98,
+            "end": 112,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 98,
+              "end": 100,
+              "ctxt": 0
+            },
+            "value": 20.0,
+            "raw": "20"
+          },
+          "value": {
+            "type": "StringLiteral",
+            "span": {
+              "start": 103,
+              "end": 111,
+              "ctxt": 0
+            },
+            "value": "twenty",
+            "raw": "\"twenty\""
+          },
+          "typeAnnotation": null,
+          "isStatic": false,
+          "decorators": [],
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false,
+          "readonly": false,
+          "declare": false,
+          "definite": false
+        },
+        {
+          "type": "ClassMethod",
+          "span": {
+            "start": 118,
+            "end": 129,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "StringLiteral",
+            "span": {
+              "start": 118,
+              "end": 123,
+              "ctxt": 0
+            },
+            "value": "foo",
+            "raw": "\"foo\""
+          },
+          "function": {
+            "params": [],
+            "decorators": [],
+            "span": {
+              "start": 118,
+              "end": 129,
+              "ctxt": 0
+            },
+            "body": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 126,
+                "end": 129,
+                "ctxt": 0
+              },
+              "stmts": []
+            },
+            "generator": false,
+            "async": false,
+            "typeParameters": null,
+            "returnType": null
+          },
+          "kind": "method",
+          "isStatic": false,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false
+        },
+        {
+          "type": "ClassMethod",
+          "span": {
+            "start": 135,
+            "end": 146,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 135,
+              "end": 141,
+              "ctxt": 0
+            },
+            "value": 14.0,
+            "raw": "0b1110"
+          },
+          "function": {
+            "params": [],
+            "decorators": [],
+            "span": {
+              "start": 135,
+              "end": 146,
+              "ctxt": 0
+            },
+            "body": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 144,
+                "end": 146,
+                "ctxt": 0
+              },
+              "stmts": []
+            },
+            "generator": false,
+            "async": false,
+            "typeParameters": null,
+            "returnType": null
+          },
+          "kind": "method",
+          "isStatic": false,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false
+        },
+        {
+          "type": "ClassMethod",
+          "span": {
+            "start": 152,
+            "end": 160,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 152,
+              "end": 154,
+              "ctxt": 0
+            },
+            "value": 11.0,
+            "raw": "11"
+          },
+          "function": {
+            "params": [],
+            "decorators": [],
+            "span": {
+              "start": 152,
+              "end": 160,
+              "ctxt": 0
+            },
+            "body": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 157,
+                "end": 160,
+                "ctxt": 0
+              },
+              "stmts": []
+            },
+            "generator": false,
+            "async": false,
+            "typeParameters": null,
+            "returnType": null
+          },
+          "kind": "method",
+          "isStatic": false,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false
+        },
+        {
+          "type": "ClassMethod",
+          "span": {
+            "start": 166,
+            "end": 181,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 166,
+              "end": 175,
+              "ctxt": 0
+            },
+            "value": "interface",
+            "optional": false
+          },
+          "function": {
+            "params": [],
+            "decorators": [],
+            "span": {
+              "start": 166,
+              "end": 181,
+              "ctxt": 0
+            },
+            "body": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 178,
+                "end": 181,
+                "ctxt": 0
+              },
+              "stmts": []
+            },
+            "generator": false,
+            "async": false,
+            "typeParameters": null,
+            "returnType": null
+          },
+          "kind": "method",
+          "isStatic": false,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false
+        },
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 187,
+            "end": 207,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "StringLiteral",
+            "span": {
+              "start": 194,
+              "end": 198,
+              "ctxt": 0
+            },
+            "value": "hi",
+            "raw": "\"hi\""
+          },
+          "value": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 201,
+              "end": 206,
+              "ctxt": 0
+            },
+            "value": 10000.0,
+            "raw": "10000"
+          },
+          "typeAnnotation": null,
+          "isStatic": true,
+          "decorators": [],
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false,
+          "readonly": false,
+          "declare": false,
+          "definite": false
+        },
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 213,
+            "end": 238,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 220,
+              "end": 222,
+              "ctxt": 0
+            },
+            "value": 22.0,
+            "raw": "22"
+          },
+          "value": {
+            "type": "StringLiteral",
+            "span": {
+              "start": 225,
+              "end": 237,
+              "ctxt": 0
+            },
+            "value": "twenty-two",
+            "raw": "\"twenty-two\""
+          },
+          "typeAnnotation": null,
+          "isStatic": true,
+          "decorators": [],
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false,
+          "readonly": false,
+          "declare": false,
+          "definite": false
+        },
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 244,
+            "end": 268,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 251,
+              "end": 256,
+              "ctxt": 0
+            },
+            "value": 5.0,
+            "raw": "0b101"
+          },
+          "value": {
+            "type": "StringLiteral",
+            "span": {
+              "start": 259,
+              "end": 267,
+              "ctxt": 0
+            },
+            "value": "binary",
+            "raw": "\"binary\""
+          },
+          "typeAnnotation": null,
+          "isStatic": true,
+          "decorators": [],
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false,
+          "readonly": false,
+          "declare": false,
+          "definite": false
+        },
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 274,
+            "end": 298,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 281,
+              "end": 287,
+              "ctxt": 0
+            },
+            "value": 1693.0,
+            "raw": "0o3235"
+          },
+          "value": {
+            "type": "StringLiteral",
+            "span": {
+              "start": 290,
+              "end": 297,
+              "ctxt": 0
+            },
+            "value": "octal",
+            "raw": "\"octal\""
+          },
+          "typeAnnotation": null,
+          "isStatic": true,
+          "decorators": [],
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false,
+          "readonly": false,
+          "declare": false,
+          "definite": false
+        }
+      ],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    }
+  ],
+  "interpreter": null
+}

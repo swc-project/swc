@@ -1,0 +1,89 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 3,
+    "end": 33,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 3,
+        "end": 19,
+        "ctxt": 0
+      },
+      "kind": "let",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 7,
+            "end": 18,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 7,
+              "end": 13,
+              "ctxt": 0
+            },
+            "value": "module",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 16,
+              "end": 18,
+              "ctxt": 0
+            },
+            "value": 10.0,
+            "raw": "10"
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 21,
+        "end": 33,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 21,
+          "end": 33,
+          "ctxt": 0
+        },
+        "operator": "in",
+        "left": {
+          "type": "Identifier",
+          "span": {
+            "start": 21,
+            "end": 27,
+            "ctxt": 0
+          },
+          "value": "module",
+          "optional": false
+        },
+        "right": {
+          "type": "ObjectExpression",
+          "span": {
+            "start": 31,
+            "end": 33,
+            "ctxt": 0
+          },
+          "properties": []
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

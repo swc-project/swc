@@ -1,0 +1,244 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 9,
+    "end": 183,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 9,
+        "end": 183,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "ClassDeclaration",
+        "identifier": {
+          "type": "Identifier",
+          "span": {
+            "start": 22,
+            "end": 35,
+            "ctxt": 0
+          },
+          "value": "LoggerAdapter",
+          "optional": false
+        },
+        "declare": false,
+        "span": {
+          "start": 16,
+          "end": 183,
+          "ctxt": 0
+        },
+        "decorators": [],
+        "body": [
+          {
+            "type": "Constructor",
+            "span": {
+              "start": 66,
+              "end": 176,
+              "ctxt": 0
+            },
+            "key": {
+              "type": "Identifier",
+              "span": {
+                "start": 66,
+                "end": 77,
+                "ctxt": 0
+              },
+              "value": "constructor",
+              "optional": false
+            },
+            "params": [
+              {
+                "type": "TsParameterProperty",
+                "span": {
+                  "start": 79,
+                  "end": 101,
+                  "ctxt": 0
+                },
+                "decorators": [],
+                "accessibility": "public",
+                "override": false,
+                "readonly": false,
+                "param": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 86,
+                    "end": 101,
+                    "ctxt": 0
+                  },
+                  "value": "logger",
+                  "optional": false,
+                  "typeAnnotation": {
+                    "type": "TsTypeAnnotation",
+                    "span": {
+                      "start": 92,
+                      "end": 101,
+                      "ctxt": 0
+                    },
+                    "typeAnnotation": {
+                      "type": "TsTypeReference",
+                      "span": {
+                        "start": 94,
+                        "end": 101,
+                        "ctxt": 0
+                      },
+                      "typeName": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 94,
+                          "end": 101,
+                          "ctxt": 0
+                        },
+                        "value": "ILogger",
+                        "optional": false
+                      },
+                      "typeParams": null
+                    }
+                  }
+                }
+              }
+            ],
+            "body": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 103,
+                "end": 176,
+                "ctxt": 0
+              },
+              "stmts": [
+                {
+                  "type": "ExpressionStatement",
+                  "span": {
+                    "start": 119,
+                    "end": 165,
+                    "ctxt": 0
+                  },
+                  "expression": {
+                    "type": "AssignmentExpression",
+                    "span": {
+                      "start": 119,
+                      "end": 164,
+                      "ctxt": 0
+                    },
+                    "operator": "=",
+                    "left": {
+                      "type": "MemberExpression",
+                      "span": {
+                        "start": 119,
+                        "end": 136,
+                        "ctxt": 0
+                      },
+                      "object": {
+                        "type": "ThisExpression",
+                        "span": {
+                          "start": 119,
+                          "end": 123,
+                          "ctxt": 0
+                        }
+                      },
+                      "property": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 124,
+                          "end": 136,
+                          "ctxt": 0
+                        },
+                        "value": "_information",
+                        "optional": false
+                      }
+                    },
+                    "right": {
+                      "type": "CallExpression",
+                      "span": {
+                        "start": 139,
+                        "end": 164,
+                        "ctxt": 0
+                      },
+                      "callee": {
+                        "type": "MemberExpression",
+                        "span": {
+                          "start": 139,
+                          "end": 162,
+                          "ctxt": 0
+                        },
+                        "object": {
+                          "type": "MemberExpression",
+                          "span": {
+                            "start": 139,
+                            "end": 150,
+                            "ctxt": 0
+                          },
+                          "object": {
+                            "type": "ThisExpression",
+                            "span": {
+                              "start": 139,
+                              "end": 143,
+                              "ctxt": 0
+                            }
+                          },
+                          "property": {
+                            "type": "Identifier",
+                            "span": {
+                              "start": 144,
+                              "end": 150,
+                              "ctxt": 0
+                            },
+                            "value": "logger",
+                            "optional": false
+                          }
+                        },
+                        "property": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 151,
+                            "end": 162,
+                            "ctxt": 0
+                          },
+                          "value": "information",
+                          "optional": false
+                        }
+                      },
+                      "arguments": [],
+                      "typeArguments": null
+                    }
+                  }
+                }
+              ]
+            },
+            "accessibility": null,
+            "isOptional": false
+          }
+        ],
+        "superClass": null,
+        "isAbstract": false,
+        "typeParams": null,
+        "superTypeParams": null,
+        "implements": [
+          {
+            "type": "TsExpressionWithTypeArguments",
+            "span": {
+              "start": 47,
+              "end": 54,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 47,
+                "end": 54,
+                "ctxt": 0
+              },
+              "value": "ILogger",
+              "optional": false
+            },
+            "typeArguments": null
+          }
+        ]
+      }
+    }
+  ],
+  "interpreter": null
+}

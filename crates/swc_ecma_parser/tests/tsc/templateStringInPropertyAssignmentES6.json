@@ -1,0 +1,131 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 18,
+    "end": 66,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 18,
+        "end": 66,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 22,
+            "end": 66,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 22,
+              "end": 23,
+              "ctxt": 0
+            },
+            "value": "x",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "ObjectExpression",
+            "span": {
+              "start": 26,
+              "end": 66,
+              "ctxt": 0
+            },
+            "properties": [
+              {
+                "type": "KeyValueProperty",
+                "key": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 33,
+                    "end": 34,
+                    "ctxt": 0
+                  },
+                  "value": "a",
+                  "optional": false
+                },
+                "value": {
+                  "type": "TemplateLiteral",
+                  "span": {
+                    "start": 36,
+                    "end": 63,
+                    "ctxt": 0
+                  },
+                  "expressions": [
+                    {
+                      "type": "NumericLiteral",
+                      "span": {
+                        "start": 43,
+                        "end": 46,
+                        "ctxt": 0
+                      },
+                      "value": 123.0,
+                      "raw": "123"
+                    },
+                    {
+                      "type": "NumericLiteral",
+                      "span": {
+                        "start": 54,
+                        "end": 57,
+                        "ctxt": 0
+                      },
+                      "value": 456.0,
+                      "raw": "456"
+                    }
+                  ],
+                  "quasis": [
+                    {
+                      "type": "TemplateElement",
+                      "span": {
+                        "start": 37,
+                        "end": 40,
+                        "ctxt": 0
+                      },
+                      "tail": false,
+                      "cooked": "abc",
+                      "raw": "abc"
+                    },
+                    {
+                      "type": "TemplateElement",
+                      "span": {
+                        "start": 48,
+                        "end": 51,
+                        "ctxt": 0
+                      },
+                      "tail": false,
+                      "cooked": "def",
+                      "raw": "def"
+                    },
+                    {
+                      "type": "TemplateElement",
+                      "span": {
+                        "start": 59,
+                        "end": 62,
+                        "ctxt": 0
+                      },
+                      "tail": true,
+                      "cooked": "ghi",
+                      "raw": "ghi"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

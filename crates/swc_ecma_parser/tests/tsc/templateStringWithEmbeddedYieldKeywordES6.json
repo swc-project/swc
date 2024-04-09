@@ -1,0 +1,131 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 18,
+    "end": 137,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 28,
+          "end": 31,
+          "ctxt": 0
+        },
+        "value": "gen",
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 18,
+        "end": 137,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 34,
+          "end": 137,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "VariableDeclaration",
+            "span": {
+              "start": 104,
+              "end": 134,
+              "ctxt": 0
+            },
+            "kind": "var",
+            "declare": false,
+            "declarations": [
+              {
+                "type": "VariableDeclarator",
+                "span": {
+                  "start": 108,
+                  "end": 133,
+                  "ctxt": 0
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 108,
+                    "end": 109,
+                    "ctxt": 0
+                  },
+                  "value": "x",
+                  "optional": false,
+                  "typeAnnotation": null
+                },
+                "init": {
+                  "type": "TemplateLiteral",
+                  "span": {
+                    "start": 112,
+                    "end": 133,
+                    "ctxt": 0
+                  },
+                  "expressions": [
+                    {
+                      "type": "YieldExpression",
+                      "span": {
+                        "start": 119,
+                        "end": 127,
+                        "ctxt": 0
+                      },
+                      "argument": {
+                        "type": "NumericLiteral",
+                        "span": {
+                          "start": 125,
+                          "end": 127,
+                          "ctxt": 0
+                        },
+                        "value": 10.0,
+                        "raw": "10"
+                      },
+                      "delegate": false
+                    }
+                  ],
+                  "quasis": [
+                    {
+                      "type": "TemplateElement",
+                      "span": {
+                        "start": 113,
+                        "end": 116,
+                        "ctxt": 0
+                      },
+                      "tail": false,
+                      "cooked": "abc",
+                      "raw": "abc"
+                    },
+                    {
+                      "type": "TemplateElement",
+                      "span": {
+                        "start": 129,
+                        "end": 132,
+                        "ctxt": 0
+                      },
+                      "tail": true,
+                      "cooked": "def",
+                      "raw": "def"
+                    }
+                  ]
+                },
+                "definite": false
+              }
+            ]
+          }
+        ]
+      },
+      "generator": true,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    }
+  ],
+  "interpreter": null
+}

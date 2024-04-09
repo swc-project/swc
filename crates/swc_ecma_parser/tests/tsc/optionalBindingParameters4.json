@@ -1,0 +1,123 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 133,
+    "end": 185,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 142,
+          "end": 145,
+          "ctxt": 0
+        },
+        "value": "foo",
+        "optional": false
+      },
+      "declare": false,
+      "params": [
+        {
+          "type": "Parameter",
+          "span": {
+            "start": 146,
+            "end": 160,
+            "ctxt": 0
+          },
+          "decorators": [],
+          "pat": {
+            "type": "AssignmentPattern",
+            "span": {
+              "start": 146,
+              "end": 160,
+              "ctxt": 0
+            },
+            "left": {
+              "type": "ObjectPattern",
+              "span": {
+                "start": 146,
+                "end": 155,
+                "ctxt": 0
+              },
+              "properties": [
+                {
+                  "type": "AssignmentPatternProperty",
+                  "span": {
+                    "start": 148,
+                    "end": 153,
+                    "ctxt": 0
+                  },
+                  "key": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 148,
+                      "end": 153,
+                      "ctxt": 0
+                    },
+                    "value": "cause",
+                    "optional": false,
+                    "typeAnnotation": null
+                  },
+                  "value": null
+                }
+              ],
+              "optional": false,
+              "typeAnnotation": null
+            },
+            "right": {
+              "type": "ObjectExpression",
+              "span": {
+                "start": 158,
+                "end": 160,
+                "ctxt": 0
+              },
+              "properties": []
+            }
+          }
+        }
+      ],
+      "decorators": [],
+      "span": {
+        "start": 133,
+        "end": 185,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 162,
+          "end": 185,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ReturnStatement",
+            "span": {
+              "start": 169,
+              "end": 182,
+              "ctxt": 0
+            },
+            "argument": {
+              "type": "Identifier",
+              "span": {
+                "start": 176,
+                "end": 181,
+                "ctxt": 0
+              },
+              "value": "cause",
+              "optional": false
+            }
+          }
+        ]
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    }
+  ],
+  "interpreter": null
+}

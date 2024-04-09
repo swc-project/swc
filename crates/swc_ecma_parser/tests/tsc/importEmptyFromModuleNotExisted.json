@@ -1,0 +1,33 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 1,
+    "end": 36,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ImportDeclaration",
+      "span": {
+        "start": 1,
+        "end": 36,
+        "ctxt": 0
+      },
+      "specifiers": [],
+      "source": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 16,
+          "end": 36,
+          "ctxt": 0
+        },
+        "value": "module-not-existed",
+        "raw": "'module-not-existed'"
+      },
+      "typeOnly": false,
+      "with": null,
+      "phase": "evaluation"
+    }
+  ],
+  "interpreter": null
+}

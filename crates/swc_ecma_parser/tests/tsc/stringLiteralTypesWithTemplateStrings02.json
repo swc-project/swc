@@ -1,0 +1,191 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 26,
+    "end": 98,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 26,
+        "end": 55,
+        "ctxt": 0
+      },
+      "kind": "let",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 30,
+            "end": 54,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 30,
+              "end": 33,
+              "ctxt": 0
+            },
+            "value": "abc",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 33,
+                "end": 44,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsLiteralType",
+                "span": {
+                  "start": 35,
+                  "end": 44,
+                  "ctxt": 0
+                },
+                "literal": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 35,
+                    "end": 44,
+                    "ctxt": 0
+                  },
+                  "value": "AB\r\nC",
+                  "raw": "\"AB\\r\\nC\""
+                }
+              }
+            }
+          },
+          "init": {
+            "type": "TemplateLiteral",
+            "span": {
+              "start": 47,
+              "end": 54,
+              "ctxt": 0
+            },
+            "expressions": [],
+            "quasis": [
+              {
+                "type": "TemplateElement",
+                "span": {
+                  "start": 48,
+                  "end": 53,
+                  "ctxt": 0
+                },
+                "tail": true,
+                "cooked": "AB\nC",
+                "raw": "AB\r\nC"
+              }
+            ]
+          },
+          "definite": false
+        }
+      ]
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 57,
+        "end": 98,
+        "ctxt": 0
+      },
+      "kind": "let",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 61,
+            "end": 97,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 61,
+              "end": 73,
+              "ctxt": 0
+            },
+            "value": "de_NEWLINE_f",
+            "optional": false,
+            "typeAnnotation": {
+              "type": "TsTypeAnnotation",
+              "span": {
+                "start": 73,
+                "end": 82,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsLiteralType",
+                "span": {
+                  "start": 75,
+                  "end": 82,
+                  "ctxt": 0
+                },
+                "literal": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 75,
+                    "end": 82,
+                    "ctxt": 0
+                  },
+                  "value": "DE\nF",
+                  "raw": "\"DE\\nF\""
+                }
+              }
+            }
+          },
+          "init": {
+            "type": "TemplateLiteral",
+            "span": {
+              "start": 85,
+              "end": 97,
+              "ctxt": 0
+            },
+            "expressions": [
+              {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 90,
+                  "end": 94,
+                  "ctxt": 0
+                },
+                "value": "\n",
+                "raw": "\"\\n\""
+              }
+            ],
+            "quasis": [
+              {
+                "type": "TemplateElement",
+                "span": {
+                  "start": 86,
+                  "end": 88,
+                  "ctxt": 0
+                },
+                "tail": false,
+                "cooked": "DE",
+                "raw": "DE"
+              },
+              {
+                "type": "TemplateElement",
+                "span": {
+                  "start": 95,
+                  "end": 96,
+                  "ctxt": 0
+                },
+                "tail": true,
+                "cooked": "F",
+                "raw": "F"
+              }
+            ]
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

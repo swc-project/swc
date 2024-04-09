@@ -1,0 +1,152 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 17,
+    "end": 118,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 27,
+          "end": 28,
+          "ctxt": 0
+        },
+        "value": "g",
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 17,
+        "end": 118,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 31,
+          "end": 118,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "VariableDeclaration",
+            "span": {
+              "start": 38,
+              "end": 115,
+              "ctxt": 0
+            },
+            "kind": "let",
+            "declare": false,
+            "declarations": [
+              {
+                "type": "VariableDeclarator",
+                "span": {
+                  "start": 42,
+                  "end": 115,
+                  "ctxt": 0
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 42,
+                    "end": 43,
+                    "ctxt": 0
+                  },
+                  "value": "x",
+                  "optional": false,
+                  "typeAnnotation": null
+                },
+                "init": {
+                  "type": "ObjectExpression",
+                  "span": {
+                    "start": 46,
+                    "end": 115,
+                    "ctxt": 0
+                  },
+                  "properties": [
+                    {
+                      "type": "GetterProperty",
+                      "span": {
+                        "start": 57,
+                        "end": 108,
+                        "ctxt": 0
+                      },
+                      "key": {
+                        "type": "Computed",
+                        "span": {
+                          "start": 61,
+                          "end": 70,
+                          "ctxt": 0
+                        },
+                        "expression": {
+                          "type": "YieldExpression",
+                          "span": {
+                            "start": 62,
+                            "end": 69,
+                            "ctxt": 0
+                          },
+                          "argument": {
+                            "type": "NumericLiteral",
+                            "span": {
+                              "start": 68,
+                              "end": 69,
+                              "ctxt": 0
+                            },
+                            "value": 0.0,
+                            "raw": "0"
+                          },
+                          "delegate": false
+                        }
+                      },
+                      "typeAnnotation": null,
+                      "body": {
+                        "type": "BlockStatement",
+                        "span": {
+                          "start": 73,
+                          "end": 108,
+                          "ctxt": 0
+                        },
+                        "stmts": [
+                          {
+                            "type": "ReturnStatement",
+                            "span": {
+                              "start": 88,
+                              "end": 97,
+                              "ctxt": 0
+                            },
+                            "argument": {
+                              "type": "NumericLiteral",
+                              "span": {
+                                "start": 95,
+                                "end": 96,
+                                "ctxt": 0
+                              },
+                              "value": 0.0,
+                              "raw": "0"
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                },
+                "definite": false
+              }
+            ]
+          }
+        ]
+      },
+      "generator": true,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    }
+  ],
+  "interpreter": null
+}
