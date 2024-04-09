@@ -480,6 +480,11 @@ impl Optimizer<'_> {
                     return;
                 }
 
+                if self.ctx.in_param && !f.params.is_empty() {
+                    log_abort!("iife: We don't invoke IIFE with params in function params");
+                    return;
+                }
+
                 if !self.may_add_ident() {
                     match &*f.body {
                         BlockStmtOrExpr::BlockStmt(body) => {
@@ -592,6 +597,11 @@ impl Optimizer<'_> {
 
                 if f.function.is_generator {
                     log_abort!("iife: [x] Cannot inline generator");
+                    return;
+                }
+
+                if self.ctx.in_param && !f.function.params.is_empty() {
+                    log_abort!("iife: We don't invoke IIFE with params in function params");
                     return;
                 }
 

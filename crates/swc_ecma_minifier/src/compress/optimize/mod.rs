@@ -172,6 +172,8 @@ struct Ctx {
 
     in_with_stmt: bool,
 
+    in_param: bool,
+
     /// Current scope.
     scope: SyntaxContext,
 }
@@ -1459,9 +1461,16 @@ impl VisitMut for Optimizer<'_> {
 
         let prepend = self.prepend_stmts.take();
 
-        let ctx = self.ctx;
+        {
+            let ctx = Ctx {
+                in_param: true,
+                ..self.ctx
+            };
 
-        n.visit_mut_children_with(&mut *self.with_ctx(ctx));
+            n.params.visit_mut_with(&mut *self.with_ctx(ctx));
+        }
+
+        n.body.visit_mut_with(self);
 
         if !self.prepend_stmts.is_empty() {
             let mut stmts = self.prepend_stmts.take().take_stmts();
@@ -1561,6 +1570,7 @@ impl VisitMut for Optimizer<'_> {
             top_level: false,
             in_block: true,
             scope: n.span.ctxt,
+            in_param: false,
             ..self.ctx
         };
         n.visit_mut_children_with(&mut *self.with_ctx(ctx));
@@ -2360,6 +2370,7 @@ impl VisitMut for Optimizer<'_> {
     fn visit_mut_param(&mut self, n: &mut Param) {
         let ctx = Ctx {
             var_kind: None,
+            in_param: true,
             ..self.ctx
         };
         let mut o = self.with_ctx(ctx);
