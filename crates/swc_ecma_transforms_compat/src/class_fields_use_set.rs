@@ -111,9 +111,7 @@ impl VisitMut for ClassFieldsUseSet {
         n.body.visit_mut_with(&mut fields_handler);
 
         let FieldsHandler {
-            constructor_inits,
-            constructor_found,
-            ..
+            constructor_inits, ..
         } = fields_handler;
 
         if constructor_inits.is_empty() {
@@ -123,7 +121,6 @@ impl VisitMut for ClassFieldsUseSet {
         let mut constructor_handler = ConstructorHandler {
             has_super: n.super_class.is_some(),
             constructor_inits,
-            constructor_found,
         };
         n.body.visit_mut_with(&mut constructor_handler);
     }
@@ -174,7 +171,6 @@ impl ClassFieldsUseSet {
 #[derive(Debug, Default)]
 struct FieldsHandler {
     constructor_inits: Vec<Box<Expr>>,
-    constructor_found: bool,
 }
 
 impl VisitMut for FieldsHandler {
@@ -189,7 +185,6 @@ impl VisitMut for FieldsHandler {
 
     fn visit_mut_class_member(&mut self, n: &mut ClassMember) {
         match n {
-            ClassMember::Constructor(..) => self.constructor_found = true,
             ClassMember::ClassProp(ClassProp {
                 ref span,
                 ref is_static,
@@ -262,7 +257,6 @@ impl VisitMut for FieldsHandler {
 struct ConstructorHandler {
     has_super: bool,
     constructor_inits: Vec<Box<Expr>>,
-    constructor_found: bool,
 }
 
 impl VisitMut for ConstructorHandler {
@@ -272,17 +266,13 @@ impl VisitMut for ConstructorHandler {
         // skip inner classes
     }
 
-    fn visit_mut_class_members(&mut self, n: &mut std::vec::Vec<ClassMember>) {
-        if !self.constructor_found {
-            let constructor = default_constructor(self.has_super);
-            n.push(constructor.into());
-        }
-        n.visit_mut_children_with(self);
-    }
-
-    fn visit_mut_class_member(&mut self, n: &mut ClassMember) {
-        if let ClassMember::Constructor(c) = n {
+    fn visit_mut_class_members(&mut self, n: &mut Vec<ClassMember>) {
+        if let Some(c) = n.iter_mut().find_map(|m| m.as_mut_constructor()) {
             inject_after_super(c, self.constructor_inits.take());
+        } else {
+            let mut c = default_constructor(self.has_super);
+            inject_after_super(&mut c, self.constructor_inits.take());
+            n.push(c.into());
         }
     }
 }
