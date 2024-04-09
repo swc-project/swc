@@ -173,7 +173,8 @@ where
                 false
             };
 
-            if orig_filename == "index" {
+            if self.config.resolve_fully && is_resolved_as_js {
+            } else if orig_filename == "index" {
                 // Import: `./foo/index`
                 // Resolved: `./foo/index.js`
 
