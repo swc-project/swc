@@ -5,6 +5,9 @@
 
 
 
+- **(es/decorators)** Fix capacity overflow with decorators ([#8818](https://github.com/swc-project/swc/issues/8818)) ([9ed93c1](https://github.com/swc-project/swc/commit/9ed93c17cdb645274392ebdb9ad87f8fbeeed971))
+
+
 - **(es/minifier)** Respect `top_retain` for top-level functions ([#8814](https://github.com/swc-project/swc/issues/8814)) ([811308c](https://github.com/swc-project/swc/commit/811308c3526003608e61c559f43408f6065ff9ee))
 
 
