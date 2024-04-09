@@ -104,10 +104,11 @@ impl VisitMut for ClassFieldsUseSet {
     }
 
     fn visit_mut_class(&mut self, n: &mut Class) {
+        // visit inner classes first
         n.visit_mut_children_with(self);
 
         let mut fields_handler = FieldsHandler::default();
-        n.visit_mut_with(&mut fields_handler);
+        n.body.visit_mut_with(&mut fields_handler);
 
         let FieldsHandler {
             constructor_inits,
@@ -124,7 +125,7 @@ impl VisitMut for ClassFieldsUseSet {
             constructor_inits,
             constructor_found,
         };
-        n.visit_mut_with(&mut constructor_handler);
+        n.body.visit_mut_with(&mut constructor_handler);
     }
 }
 
@@ -179,8 +180,11 @@ struct FieldsHandler {
 impl VisitMut for FieldsHandler {
     noop_visit_mut_type!();
 
-    fn visit_mut_class(&mut self, n: &mut Class) {
-        n.body.visit_mut_with(self);
+    fn visit_mut_class(&mut self, _: &mut Class) {
+        // skip inner classes
+        // In fact, FieldsHandler does not visit children recursively.
+        // We call FieldsHandler with the class.body as the only entry point.
+        // The FieldsHandler actually operates in a iterative way.
     }
 
     fn visit_mut_class_member(&mut self, n: &mut ClassMember) {
@@ -264,18 +268,22 @@ struct ConstructorHandler {
 impl VisitMut for ConstructorHandler {
     noop_visit_mut_type!();
 
-    fn visit_mut_class(&mut self, n: &mut Class) {
-        if !self.constructor_found {
-            let mut constructor = default_constructor(self.has_super);
-            constructor.visit_mut_with(self);
-            n.body.push(constructor.into());
-        } else {
-            n.body.visit_mut_children_with(self);
-        }
+    fn visit_mut_class(&mut self, _: &mut Class) {
+        // skip inner classes
     }
 
-    fn visit_mut_constructor(&mut self, n: &mut Constructor) {
-        inject_after_super(n, self.constructor_inits.take());
+    fn visit_mut_class_members(&mut self, n: &mut std::vec::Vec<ClassMember>) {
+        if !self.constructor_found {
+            let constructor = default_constructor(self.has_super);
+            n.push(constructor.into());
+        }
+        n.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_class_member(&mut self, n: &mut ClassMember) {
+        if let ClassMember::Constructor(c) = n {
+            inject_after_super(c, self.constructor_inits.take());
+        }
     }
 }
 
