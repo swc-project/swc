@@ -129,6 +129,9 @@ static OBJECT_SYMBOLS: phf::Set<&str> = phf_set!(
     "toLocaleString",
     "toString",
     "valueOf",
+    // removed, but kept in as these are often checked and polyfilled
+    "watch",
+    "unwatch"
 );
 
 fn is_object_symbol(sym: &str) -> bool {
