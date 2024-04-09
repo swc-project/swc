@@ -513,6 +513,7 @@ expose!(parse_file_as_program, Program, |p| { p.parse_program() });
     target_arch = "wasm32",
     target_arch = "arm",
     not(feature = "stacker"),
+    // miri does not work with stacker
     miri
 ))]
 fn maybe_grow<R, F: FnOnce() -> R>(_red_zone: usize, _stack_size: usize, callback: F) -> R {
