@@ -322,7 +322,6 @@ export function createTypeChecker(host) {
     var assignableRelation = /* @__PURE__ */new Map();
     var comparableRelation = /* @__PURE__ */new Map();
     var identityRelation = /* @__PURE__ */new Map();
-    var enumRelation = /* @__PURE__ */new Map();
     var builtinGlobals = createSymbolTable();
     builtinGlobals.set(undefinedSymbol.escapedName, undefinedSymbol);
     var suggestedExtensions = [[".mts", ".mjs"], [".ts", ".js"], [".cts", ".cjs"], [".mjs", ".mjs"], [".js", ".js"], [".cjs", ".cjs"], [".tsx", compilerOptions.jsx === 1 ? ".jsx" : ".js"], [".jsx", ".jsx"], [".json", ".json"]];
@@ -2983,33 +2982,6 @@ export function createTypeChecker(host) {
             }
             return true;
         }
-    }
-    function isEntityNameVisible(entityName, enclosingDeclaration) {
-        let meaning;
-        if (entityName.parent.kind === 183 || entityName.parent.kind === 230 && !isPartOfTypeNode(entityName.parent) || entityName.parent.kind === 164) {
-            meaning = 111551 | 1048576;
-        } else if (entityName.kind === 163 || entityName.kind === 208 || entityName.parent.kind === 268) {
-            meaning = 1920;
-        } else {
-            meaning = 788968;
-        }
-        const firstIdentifier = getFirstIdentifier(entityName);
-        const symbol = resolveName(enclosingDeclaration, firstIdentifier.escapedText, meaning, void 0, void 0, false);
-        if (symbol && symbol.flags & 262144 && meaning & 788968) {
-            return {
-                accessibility: 0
-            };
-        }
-        if (!symbol && isThisIdentifier(firstIdentifier) && isSymbolAccessible(getSymbolOfDeclaration(getThisContainer(firstIdentifier, false, false)), firstIdentifier, meaning, false).accessibility === 0) {
-            return {
-                accessibility: 0
-            };
-        }
-        return symbol && hasVisibleDeclarations(symbol, true) || {
-            accessibility: 1,
-            errorSymbolName: getTextOfNode(firstIdentifier),
-            errorNode: firstIdentifier
-        };
     }
     function symbolToString(symbol, enclosingDeclaration, meaning, flags = 4, writer) {
         let nodeFlags = 70221824;
@@ -13064,132 +13036,13 @@ export function createTypeChecker(host) {
     function isEmptyAnonymousObjectType(type) {
         return !!(getObjectFlags(type) & 16 && (type.members && isEmptyResolvedType(type) || type.symbol && type.symbol.flags & 2048 && getMembersOfSymbol(type.symbol).size === 0));
     }
-    function isUnknownLikeUnionType(type) {
-        if (strictNullChecks && type.flags & 1048576) {
-            if (!(type.objectFlags & 33554432)) {
-                const types = type.types;
-                type.objectFlags |= 33554432 | (types.length >= 3 && types[0].flags & 32768 && types[1].flags & 65536 && some(types, isEmptyAnonymousObjectType) ? 67108864 : 0);
-            }
-            return !!(type.objectFlags & 67108864);
-        }
-        return false;
-    }
     function containsUndefinedType(type) {
         return !!((type.flags & 1048576 ? type.types[0] : type).flags & 32768);
     }
     function isStringIndexSignatureOnlyType(type) {
         return type.flags & 524288 && !isGenericMappedType(type) && getPropertiesOfType(type).length === 0 && getIndexInfosOfType(type).length === 1 && !!getIndexInfoOfType(type, stringType) || type.flags & 3145728 && every(type.types, isStringIndexSignatureOnlyType) || false;
     }
-    function isEnumTypeRelatedTo(source, target, errorReporter) {
-        const sourceSymbol = source.flags & 8 ? getParentOfSymbol(source) : source;
-        const targetSymbol = target.flags & 8 ? getParentOfSymbol(target) : target;
-        if (sourceSymbol === targetSymbol) {
-            return true;
-        }
-        if (sourceSymbol.escapedName !== targetSymbol.escapedName || !(sourceSymbol.flags & 256) || !(targetSymbol.flags & 256)) {
-            return false;
-        }
-        const id = getSymbolId(sourceSymbol) + "," + getSymbolId(targetSymbol);
-        const entry = enumRelation.get(id);
-        if (entry !== void 0 && !(!(entry & 4) && entry & 2 && errorReporter)) {
-            return !!(entry & 1);
-        }
-        const targetEnumType = getTypeOfSymbol(targetSymbol);
-        for (const property of getPropertiesOfType(getTypeOfSymbol(sourceSymbol))) {
-            if (property.flags & 8) {
-                const targetProperty = getPropertyOfType(targetEnumType, property.escapedName);
-                if (!targetProperty || !(targetProperty.flags & 8)) {
-                    if (errorReporter) {
-                        errorReporter(Diagnostics.Property_0_is_missing_in_type_1, symbolName(property), typeToString(getDeclaredTypeOfSymbol(targetSymbol), void 0, 64));
-                        enumRelation.set(id, 2 | 4);
-                    } else {
-                        enumRelation.set(id, 2);
-                    }
-                    return false;
-                }
-            }
-        }
-        enumRelation.set(id, 1);
-        return true;
-    }
-    function isSimpleTypeRelatedTo(source, target, relation, errorReporter) {
-        const s = source.flags;
-        const t = target.flags;
-        if (t & 1 || s & 131072 || source === wildcardType) return true;
-        if (t & 2 && !(relation === strictSubtypeRelation && s & 1)) return true;
-        if (t & 131072) return false;
-        if (s & 402653316 && t & 4) return true;
-        if (s & 128 && s & 1024 && t & 128 && !(t & 1024) && source.value === target.value) return true;
-        if (s & 296 && t & 8) return true;
-        if (s & 256 && s & 1024 && t & 256 && !(t & 1024) && source.value === target.value) return true;
-        if (s & 2112 && t & 64) return true;
-        if (s & 528 && t & 16) return true;
-        if (s & 12288 && t & 4096) return true;
-        if (s & 32 && t & 32 && source.symbol.escapedName === target.symbol.escapedName && isEnumTypeRelatedTo(source.symbol, target.symbol, errorReporter)) return true;
-        if (s & 1024 && t & 1024) {
-            if (s & 1048576 && t & 1048576 && isEnumTypeRelatedTo(source.symbol, target.symbol, errorReporter)) return true;
-            if (s & 2944 && t & 2944 && source.value === target.value && isEnumTypeRelatedTo(source.symbol, target.symbol, errorReporter)) return true;
-        }
-        if (s & 32768 && (!strictNullChecks && !(t & 3145728) || t & (32768 | 16384))) return true;
-        if (s & 65536 && (!strictNullChecks && !(t & 3145728) || t & 65536)) return true;
-        if (s & 524288 && t & 67108864 && !(relation === strictSubtypeRelation && isEmptyAnonymousObjectType(source) && !(getObjectFlags(source) & 8192))) return true;
-        if (relation === assignableRelation || relation === comparableRelation) {
-            if (s & 1) return true;
-            if (s & 8 && (t & 32 || t & 256 && t & 1024)) return true;
-            if (s & 256 && !(s & 1024) && (t & 32 || t & 256 && t & 1024 && source.value === target.value)) return true;
-            if (isUnknownLikeUnionType(target)) return true;
-        }
-        return false;
-    }
-    function isTypeRelatedTo(source, target, relation) {
-        if (isFreshLiteralType(source)) {
-            source = source.regularType;
-        }
-        if (isFreshLiteralType(target)) {
-            target = target.regularType;
-        }
-        if (source === target) {
-            return true;
-        }
-        if (relation !== identityRelation) {
-            if (relation === comparableRelation && !(target.flags & 131072) && isSimpleTypeRelatedTo(target, source, relation) || isSimpleTypeRelatedTo(source, target, relation)) {
-                return true;
-            }
-        } else if (!((source.flags | target.flags) & (3145728 | 8388608 | 16777216 | 33554432))) {
-            if (source.flags !== target.flags) return false;
-            if (source.flags & 67358815) return true;
-        }
-        if (source.flags & 524288 && target.flags & 524288) {
-            const related = relation.get(getRelationKey(source, target, 0, relation, false));
-            if (related !== void 0) {
-                return !!(related & 1);
-            }
-        }
-        if (source.flags & 469499904 || target.flags & 469499904) {
-            return checkTypeRelatedTo(source, target, relation, void 0);
-        }
-        return false;
-    }
-    function getNormalizedType(type, writing) {
-        while (true) {
-            const t = isFreshLiteralType(type) ? type.regularType : getObjectFlags(type) & 4 ? type.node ? createTypeReference(type.target, getTypeArguments(type)) : getSingleBaseForNonAugmentingSubtype(type) || type : type.flags & 3145728 ? getNormalizedUnionOrIntersectionType(type, writing) : type.flags & 33554432 ? writing ? type.baseType : getSubstitutionIntersection(type) : type.flags & 25165824 ? getSimplifiedType(type, writing) : type;
-            if (t === type) return t;
-            type = t;
-        }
-    }
-    function getNormalizedUnionOrIntersectionType(type, writing) {
-        const reduced = getReducedType(type);
-        if (reduced !== type) {
-            return reduced;
-        }
-        if (type.flags & 2097152 && some(type.types, isEmptyAnonymousObjectType)) {
-            const normalizedTypes = sameMap(type.types, t => getNormalizedType(t, writing));
-            if (normalizedTypes !== type.types) {
-                return getIntersectionType(normalizedTypes);
-            }
-        }
-        return type;
-    }
+    function isTypeRelatedTo(source, target, relation) { }
     function checkTypeRelatedTo(source, target, relation, errorNode, headMessage, containingMessageChain, errorOutputContainer) { }
     function typeCouldHaveTopLevelSingletonTypes(type) {
         if (type.flags & 16) {
@@ -13316,52 +13169,11 @@ export function createTypeChecker(host) {
         var _a2;
         return reduceLeft((_a2 = tp.symbol) == null ? void 0 : _a2.declarations, (modifiers, d) => modifiers | getEffectiveModifierFlags(d), 0) & (32768 | 65536 | 2048);
     }
-    function isUnconstrainedTypeParameter(type) {
-        return type.flags & 262144 && !getConstraintOfTypeParameter(type);
-    }
     function isNonDeferredTypeReference(type) {
         return !!(getObjectFlags(type) & 4) && !type.node;
     }
     function isTypeReferenceWithGenericArguments(type) {
         return isNonDeferredTypeReference(type) && some(getTypeArguments(type), t => !!(t.flags & 262144) || isTypeReferenceWithGenericArguments(t));
-    }
-    function getGenericTypeReferenceRelationKey(source, target, postFix, ignoreConstraints) {
-        const typeParameters = [];
-        let constraintMarker = "";
-        const sourceId = getTypeReferenceId(source, 0);
-        const targetId = getTypeReferenceId(target, 0);
-        return `${constraintMarker}${sourceId},${targetId}${postFix}`;
-        function getTypeReferenceId(type, depth = 0) {
-            let result = "" + type.target.id;
-            for (const t of getTypeArguments(type)) {
-                if (t.flags & 262144) {
-                    if (ignoreConstraints || isUnconstrainedTypeParameter(t)) {
-                        let index = typeParameters.indexOf(t);
-                        if (index < 0) {
-                            index = typeParameters.length;
-                            typeParameters.push(t);
-                        }
-                        result += "=" + index;
-                        continue;
-                    }
-                    constraintMarker = "*";
-                } else if (depth < 4 && isTypeReferenceWithGenericArguments(t)) {
-                    result += "<" + getTypeReferenceId(t, depth + 1) + ">";
-                    continue;
-                }
-                result += "-" + t.id;
-            }
-            return result;
-        }
-    }
-    function getRelationKey(source, target, intersectionState, relation, ignoreConstraints) {
-        if (relation === identityRelation && source.id > target.id) {
-            const temp = source;
-            source = target;
-            target = temp;
-        }
-        const postFix = intersectionState ? ":" + intersectionState : "";
-        return isTypeReferenceWithGenericArguments(source) && isTypeReferenceWithGenericArguments(target) ? getGenericTypeReferenceRelationKey(source, target, postFix, ignoreConstraints) : `${source.id},${target.id}${postFix}`;
     }
     function forEachProperty2(prop, callback) {
         if (getCheckFlags(prop) & 6) {
@@ -13576,35 +13388,6 @@ export function createTypeChecker(host) {
     }
     function isArrayLikeType(type) {
         return isArrayType(type) || !(type.flags & 98304) && isTypeAssignableTo(type, anyReadonlyArrayType);
-    }
-    function getSingleBaseForNonAugmentingSubtype(type) {
-        if (!(getObjectFlags(type) & 4) || !(getObjectFlags(type.target) & 3)) {
-            return void 0;
-        }
-        if (getObjectFlags(type) & 33554432) {
-            return getObjectFlags(type) & 67108864 ? type.cachedEquivalentBaseType : void 0;
-        }
-        type.objectFlags |= 33554432;
-        const target = type.target;
-        if (getObjectFlags(target) & 1) {
-            const baseTypeNode = getBaseTypeNodeOfClass(target);
-            if (baseTypeNode && baseTypeNode.expression.kind !== 79 && baseTypeNode.expression.kind !== 208) {
-                return void 0;
-            }
-        }
-        const bases = getBaseTypes(target);
-        if (bases.length !== 1) {
-            return void 0;
-        }
-        if (getMembersOfSymbol(type.symbol).size) {
-            return void 0;
-        }
-        let instantiatedBase = !length(target.typeParameters) ? bases[0] : instantiateType(bases[0], createTypeMapper(target.typeParameters, getTypeArguments(type).slice(0, target.typeParameters.length)));
-        if (length(getTypeArguments(type)) > length(target.typeParameters)) {
-            instantiatedBase = getTypeWithThisArgument(instantiatedBase, last(getTypeArguments(type)));
-        }
-        type.objectFlags |= 67108864;
-        return type.cachedEquivalentBaseType = instantiatedBase;
     }
     function isEmptyLiteralType(type) {
         return strictNullChecks ? type === implicitNeverType : type === undefinedWideningType;
@@ -17106,10 +16889,6 @@ export function createTypeChecker(host) {
         if (isCaptured) {
             getNodeLinks(symbol.valueDeclaration).flags |= 16384;
         }
-    }
-    function isBindingCapturedByNode(node, decl) {
-        const links = getNodeLinks(node);
-        return !!links && contains(links.capturedBlockScopeBindings, getSymbolOfDeclaration(decl));
     }
     function isAssignedInBodyOfForStatement(node, container) {
         let current = node;
@@ -28879,17 +28658,6 @@ export function createTypeChecker(host) {
         currentNode = saveCurrentNode;
         (_b = tracing) == null ? void 0 : _b.pop();
     }
-    function checkSourceFile(node) {
-        var _a2, _b;
-        (_a2 = tracing) == null ? void 0 : _a2.push(tracing.Phase.Check, "checkSourceFile", {
-            path: node.path
-        }, true);
-        mark("beforeCheck");
-        checkSourceFileWorker(node);
-        mark("afterCheck");
-        measure("Check", "beforeCheck", "afterCheck");
-        (_b = tracing) == null ? void 0 : _b.pop();
-    }
     function unusedIsError(kind, isAmbient) {
         if (isAmbient) {
             return false;
@@ -28960,38 +28728,6 @@ export function createTypeChecker(host) {
             }
             links.flags |= 1;
         }
-    }
-    function ensurePendingDiagnosticWorkComplete() {
-        for (const cb of deferredDiagnosticsCallbacks) {
-            cb();
-        }
-        deferredDiagnosticsCallbacks = [];
-    }
-    function checkSourceFileWithEagerDiagnostics(sourceFile) {
-        ensurePendingDiagnosticWorkComplete();
-        const oldAddLazyDiagnostics = addLazyDiagnostic;
-        addLazyDiagnostic = cb => cb();
-        checkSourceFile(sourceFile);
-        addLazyDiagnostic = oldAddLazyDiagnostics;
-    }
-    function getDiagnosticsWorker(sourceFile) {
-        if (sourceFile) {
-            ensurePendingDiagnosticWorkComplete();
-            const previousGlobalDiagnostics = diagnostics.getGlobalDiagnostics();
-            const previousGlobalDiagnosticsSize = previousGlobalDiagnostics.length;
-            checkSourceFileWithEagerDiagnostics(sourceFile);
-            const semanticDiagnostics = diagnostics.getDiagnostics(sourceFile.fileName);
-            const currentGlobalDiagnostics = diagnostics.getGlobalDiagnostics();
-            if (currentGlobalDiagnostics !== previousGlobalDiagnostics) {
-                const deferredGlobalDiagnostics = relativeComplement(previousGlobalDiagnostics, currentGlobalDiagnostics, compareDiagnostics);
-                return concatenate(deferredGlobalDiagnostics, semanticDiagnostics);
-            } else if (previousGlobalDiagnosticsSize === 0 && currentGlobalDiagnostics.length > 0) {
-                return concatenate(currentGlobalDiagnostics, semanticDiagnostics);
-            }
-            return semanticDiagnostics;
-        }
-        forEach(host.getSourceFiles(), checkSourceFileWithEagerDiagnostics);
-        return diagnostics.getDiagnostics();
     }
     function isTypeDeclarationName(name) {
         return name.kind === 79 && isTypeDeclaration(name.parent) && getNameOfDeclaration(name.parent) === name;
@@ -29449,122 +29185,8 @@ export function createTypeChecker(host) {
         }
         return target;
     }
-    function isArgumentsLocalBinding(nodeIn) {
-        if (isGeneratedIdentifier(nodeIn)) return false;
-        const node = getParseTreeNode(nodeIn, isIdentifier);
-        if (!node) return false;
-        const parent2 = node.parent;
-        if (!parent2) return false;
-        const isPropertyName2 = (isPropertyAccessExpression(parent2) || isPropertyAssignment(parent2)) && parent2.name === node;
-        return !isPropertyName2 && getReferencedValueSymbol(node) === argumentsSymbol;
-    }
-    function moduleExportsSomeValue(moduleReferenceExpression) {
-        let moduleSymbol = resolveExternalModuleName(moduleReferenceExpression.parent, moduleReferenceExpression);
-        if (!moduleSymbol || isShorthandAmbientModuleSymbol(moduleSymbol)) {
-            return true;
-        }
-        const hasExportAssignment = hasExportAssignmentSymbol(moduleSymbol);
-        moduleSymbol = resolveExternalModuleSymbol(moduleSymbol);
-        const symbolLinks2 = getSymbolLinks(moduleSymbol);
-        if (symbolLinks2.exportsSomeValue === void 0) {
-            symbolLinks2.exportsSomeValue = hasExportAssignment ? !!(moduleSymbol.flags & 111551) : forEachEntry(getExportsOfModule(moduleSymbol), isValue);
-        }
-        return symbolLinks2.exportsSomeValue;
-        function isValue(s) {
-            s = resolveSymbol(s);
-            return s && !!(getAllSymbolFlags(s) & 111551);
-        }
-    }
-    function isNameOfModuleOrEnumDeclaration(node) {
-        return isModuleOrEnumDeclaration(node.parent) && node === node.parent.name;
-    }
-    function getReferencedExportContainer(nodeIn, prefixLocals) {
-        var _a2;
-        const node = getParseTreeNode(nodeIn, isIdentifier);
-        if (node) {
-            let symbol = getReferencedValueSymbol(node, isNameOfModuleOrEnumDeclaration(node));
-            if (symbol) {
-                if (symbol.flags & 1048576) {
-                    const exportSymbol = getMergedSymbol(symbol.exportSymbol);
-                    if (!prefixLocals && exportSymbol.flags & 944 && !(exportSymbol.flags & 3)) {
-                        return void 0;
-                    }
-                    symbol = exportSymbol;
-                }
-                const parentSymbol = getParentOfSymbol(symbol);
-                if (parentSymbol) {
-                    if (parentSymbol.flags & 512 && ((_a2 = parentSymbol.valueDeclaration) == null ? void 0 : _a2.kind) === 308) {
-                        const symbolFile = parentSymbol.valueDeclaration;
-                        const referenceFile = getSourceFileOfNode(node);
-                        const symbolIsUmdExport = symbolFile !== referenceFile;
-                        return symbolIsUmdExport ? void 0 : symbolFile;
-                    }
-                    return findAncestor(node.parent, n => isModuleOrEnumDeclaration(n) && getSymbolOfDeclaration(n) === parentSymbol);
-                }
-            }
-        }
-    }
-    function getReferencedImportDeclaration(nodeIn) {
-        const specifier = getIdentifierGeneratedImportReference(nodeIn);
-        if (specifier) {
-            return specifier;
-        }
-        const node = getParseTreeNode(nodeIn, isIdentifier);
-        if (node) {
-            const symbol = getReferencedValueOrAliasSymbol(node);
-            if (isNonLocalAlias(symbol, 111551) && !getTypeOnlyAliasDeclaration(symbol, 111551)) {
-                return getDeclarationOfAliasSymbol(symbol);
-            }
-        }
-        return void 0;
-    }
     function isSymbolOfDestructuredElementOfCatchBinding(symbol) {
         return symbol.valueDeclaration && isBindingElement(symbol.valueDeclaration) && walkUpBindingElementsAndPatterns(symbol.valueDeclaration).parent.kind === 295;
-    }
-    function isSymbolOfDeclarationWithCollidingName(symbol) {
-        if (symbol.flags & 418 && symbol.valueDeclaration && !isSourceFile(symbol.valueDeclaration)) {
-            const links = getSymbolLinks(symbol);
-            if (links.isDeclarationWithCollidingName === void 0) {
-                const container = getEnclosingBlockScopeContainer(symbol.valueDeclaration);
-                if (isStatementWithLocals(container) || isSymbolOfDestructuredElementOfCatchBinding(symbol)) {
-                    const nodeLinks2 = getNodeLinks(symbol.valueDeclaration);
-                    if (resolveName(container.parent, symbol.escapedName, 111551, void 0, void 0, false)) {
-                        links.isDeclarationWithCollidingName = true;
-                    } else if (nodeLinks2.flags & 16384) {
-                        const isDeclaredInLoop = nodeLinks2.flags & 32768;
-                        const inLoopInitializer = isIterationStatement(container, false);
-                        const inLoopBodyBlock = container.kind === 238 && isIterationStatement(container.parent, false);
-                        links.isDeclarationWithCollidingName = !isBlockScopedContainerTopLevel(container) && (!isDeclaredInLoop || !inLoopInitializer && !inLoopBodyBlock);
-                    } else {
-                        links.isDeclarationWithCollidingName = false;
-                    }
-                }
-            }
-            return links.isDeclarationWithCollidingName;
-        }
-        return false;
-    }
-    function getReferencedDeclarationWithCollidingName(nodeIn) {
-        if (!isGeneratedIdentifier(nodeIn)) {
-            const node = getParseTreeNode(nodeIn, isIdentifier);
-            if (node) {
-                const symbol = getReferencedValueSymbol(node);
-                if (symbol && isSymbolOfDeclarationWithCollidingName(symbol)) {
-                    return symbol.valueDeclaration;
-                }
-            }
-        }
-        return void 0;
-    }
-    function isDeclarationWithCollidingName(nodeIn) {
-        const node = getParseTreeNode(nodeIn, isDeclaration);
-        if (node) {
-            const symbol = getSymbolOfDeclaration(node);
-            if (symbol) {
-                return isSymbolOfDeclarationWithCollidingName(symbol);
-            }
-        }
-        return false;
     }
     function isValueAliasDeclaration(node) {
         Debug.assert(!compilerOptions.verbatimModuleSyntax);
@@ -29584,14 +29206,6 @@ export function createTypeChecker(host) {
                 return node.expression && node.expression.kind === 79 ? isAliasResolvedToValue(getSymbolOfDeclaration(node)) : true;
         }
         return false;
-    }
-    function isTopLevelValueImportEqualsWithEntityName(nodeIn) {
-        const node = getParseTreeNode(nodeIn, isImportEqualsDeclaration);
-        if (node === void 0 || node.parent.kind !== 308 || !isInternalModuleImportEqualsDeclaration(node)) {
-            return false;
-        }
-        const isValue = isAliasResolvedToValue(getSymbolOfDeclaration(node));
-        return isValue && node.moduleReference && !nodeIsMissing(node.moduleReference);
     }
     function isAliasResolvedToValue(symbol) {
         var _a2;
@@ -29625,39 +29239,8 @@ export function createTypeChecker(host) {
         }
         return false;
     }
-    function isImplementationOfOverload(node) {
-        if (nodeIsPresent(node.body)) {
-            if (isGetAccessor(node) || isSetAccessor(node)) return false;
-            const symbol = getSymbolOfDeclaration(node);
-            const signaturesOfSymbol = getSignaturesOfSymbol(symbol);
-            return signaturesOfSymbol.length > 1 || signaturesOfSymbol.length === 1 && signaturesOfSymbol[0].declaration !== node;
-        }
-        return false;
-    }
     function isRequiredInitializedParameter(parameter) {
         return !!strictNullChecks && !isOptionalParameter(parameter) && !isJSDocParameterTag(parameter) && !!parameter.initializer && !hasSyntacticModifier(parameter, 16476);
-    }
-    function isOptionalUninitializedParameterProperty(parameter) {
-        return strictNullChecks && isOptionalParameter(parameter) && !parameter.initializer && hasSyntacticModifier(parameter, 16476);
-    }
-    function isExpandoFunctionDeclaration(node) {
-        const declaration = getParseTreeNode(node, isFunctionDeclaration);
-        if (!declaration) {
-            return false;
-        }
-        const symbol = getSymbolOfDeclaration(declaration);
-        if (!symbol || !(symbol.flags & 16)) {
-            return false;
-        }
-        return !!forEachEntry(getExportsOfSymbol(symbol), p => p.flags & 111551 && p.valueDeclaration && isPropertyAccessExpression(p.valueDeclaration));
-    }
-    function getPropertiesOfContainerFunction(node) {
-        const declaration = getParseTreeNode(node, isFunctionDeclaration);
-        if (!declaration) {
-            return emptyArray;
-        }
-        const symbol = getSymbolOfDeclaration(declaration);
-        return symbol && getPropertiesOfType(getTypeOfSymbol(symbol)) || emptyArray;
     }
     function getNodeCheckFlags(node) {
         var _a2;
@@ -29668,15 +29251,6 @@ export function createTypeChecker(host) {
     function getEnumMemberValue(node) {
         computeEnumMemberValues(node.parent);
         return getNodeLinks(node).enumMemberValue;
-    }
-    function canHaveConstantValue(node) {
-        switch (node.kind) {
-            case 302:
-            case 208:
-            case 209:
-                return true;
-        }
-        return false;
     }
     function getConstantValue2(node) {
         if (node.kind === 302) {
@@ -29694,97 +29268,6 @@ export function createTypeChecker(host) {
     function isFunctionType(type) {
         return !!(type.flags & 524288) && getSignaturesOfType(type, 0).length > 0;
     }
-    function getTypeReferenceSerializationKind(typeNameIn, location) {
-        var _a2;
-        const typeName = getParseTreeNode(typeNameIn, isEntityName);
-        if (!typeName) return 0;
-        if (location) {
-            location = getParseTreeNode(location);
-            if (!location) return 0;
-        }
-        let isTypeOnly = false;
-        if (isQualifiedName(typeName)) {
-            const rootValueSymbol = resolveEntityName(getFirstIdentifier(typeName), 111551, true, true, location);
-            isTypeOnly = !!((_a2 = rootValueSymbol == null ? void 0 : rootValueSymbol.declarations) == null ? void 0 : _a2.every(isTypeOnlyImportOrExportDeclaration));
-        }
-        const valueSymbol = resolveEntityName(typeName, 111551, true, true, location);
-        const resolvedSymbol = valueSymbol && valueSymbol.flags & 2097152 ? resolveAlias(valueSymbol) : valueSymbol;
-        isTypeOnly || (isTypeOnly = !!(valueSymbol && getTypeOnlyAliasDeclaration(valueSymbol, 111551)));
-        const typeSymbol = resolveEntityName(typeName, 788968, true, false, location);
-        if (resolvedSymbol && resolvedSymbol === typeSymbol) {
-            const globalPromiseSymbol = getGlobalPromiseConstructorSymbol(false);
-            if (globalPromiseSymbol && resolvedSymbol === globalPromiseSymbol) {
-                return 9;
-            }
-            const constructorType = getTypeOfSymbol(resolvedSymbol);
-            if (constructorType && isConstructorType(constructorType)) {
-                return isTypeOnly ? 10 : 1;
-            }
-        }
-        if (!typeSymbol) {
-            return isTypeOnly ? 11 : 0;
-        }
-        const type = getDeclaredTypeOfSymbol(typeSymbol);
-        if (isErrorType(type)) {
-            return isTypeOnly ? 11 : 0;
-        } else if (type.flags & 3) {
-            return 11;
-        } else if (isTypeAssignableToKind(type, 16384 | 98304 | 131072)) {
-            return 2;
-        } else if (isTypeAssignableToKind(type, 528)) {
-            return 6;
-        } else if (isTypeAssignableToKind(type, 296)) {
-            return 3;
-        } else if (isTypeAssignableToKind(type, 2112)) {
-            return 4;
-        } else if (isTypeAssignableToKind(type, 402653316)) {
-            return 5;
-        } else if (isTupleType(type)) {
-            return 7;
-        } else if (isTypeAssignableToKind(type, 12288)) {
-            return 8;
-        } else if (isFunctionType(type)) {
-            return 10;
-        } else if (isArrayType(type)) {
-            return 7;
-        } else {
-            return 11;
-        }
-    }
-    function createTypeOfDeclaration(declarationIn, enclosingDeclaration, flags, tracker, addUndefined) {
-        const declaration = getParseTreeNode(declarationIn, isVariableLikeOrAccessor);
-        if (!declaration) {
-            return factory.createToken(131);
-        }
-        const symbol = getSymbolOfDeclaration(declaration);
-        let type = symbol && !(symbol.flags & (2048 | 131072)) ? getWidenedLiteralType(getTypeOfSymbol(symbol)) : errorType;
-        if (type.flags & 8192 && type.symbol === symbol) {
-            flags |= 1048576;
-        }
-        if (addUndefined) {
-            type = getOptionalType(type);
-        }
-        return nodeBuilder.typeToTypeNode(type, enclosingDeclaration, flags | 1024, tracker);
-    }
-    function createReturnTypeOfSignatureDeclaration(signatureDeclarationIn, enclosingDeclaration, flags, tracker) {
-        const signatureDeclaration = getParseTreeNode(signatureDeclarationIn, isFunctionLike);
-        if (!signatureDeclaration) {
-            return factory.createToken(131);
-        }
-        const signature = getSignatureFromDeclaration(signatureDeclaration);
-        return nodeBuilder.typeToTypeNode(getReturnTypeOfSignature(signature), enclosingDeclaration, flags | 1024, tracker);
-    }
-    function createTypeOfExpression(exprIn, enclosingDeclaration, flags, tracker) {
-        const expr = getParseTreeNode(exprIn, isExpression);
-        if (!expr) {
-            return factory.createToken(131);
-        }
-        const type = getWidenedType(getRegularTypeOfExpression(expr));
-        return nodeBuilder.typeToTypeNode(type, enclosingDeclaration, flags | 1024, tracker);
-    }
-    function hasGlobalName(name) {
-        return globals.has(escapeLeadingUnderscores(name));
-    }
     function getReferencedValueSymbol(reference, startInDeclarationContainer) {
         const resolvedSymbol = getNodeLinks(reference).resolvedSymbol;
         if (resolvedSymbol) {
@@ -29798,41 +29281,6 @@ export function createTypeChecker(host) {
             }
         }
         return resolveName(location, reference.escapedText, 111551 | 1048576 | 2097152, void 0, void 0, true);
-    }
-    function getReferencedValueOrAliasSymbol(reference) {
-        const resolvedSymbol = getNodeLinks(reference).resolvedSymbol;
-        if (resolvedSymbol && resolvedSymbol !== unknownSymbol) {
-            return resolvedSymbol;
-        }
-        return resolveName(reference, reference.escapedText, 111551 | 1048576 | 2097152, void 0, void 0, true, void 0, void 0);
-    }
-    function getReferencedValueDeclaration(referenceIn) {
-        if (!isGeneratedIdentifier(referenceIn)) {
-            const reference = getParseTreeNode(referenceIn, isIdentifier);
-            if (reference) {
-                const symbol = getReferencedValueSymbol(reference);
-                if (symbol) {
-                    return getExportSymbolOfValueSymbolIfExported(symbol).valueDeclaration;
-                }
-            }
-        }
-        return void 0;
-    }
-    function isLiteralConstDeclaration(node) {
-        if (isDeclarationReadonly(node) || isVariableDeclaration(node) && isVarConst(node)) {
-            return isFreshLiteralType(getTypeOfSymbol(getSymbolOfDeclaration(node)));
-        }
-        return false;
-    }
-    function literalTypeToNode(type, enclosing, tracker) {
-        const enumResult = type.flags & 1056 ? nodeBuilder.symbolToExpression(type.symbol, 111551, enclosing, void 0, tracker) : type === trueType ? factory.createTrue() : type === falseType && factory.createFalse();
-        if (enumResult) return enumResult;
-        const literalValue = type.value;
-        return typeof literalValue === "object" ? factory.createBigIntLiteral(literalValue) : typeof literalValue === "number" ? factory.createNumericLiteral(literalValue) : factory.createStringLiteral(literalValue);
-    }
-    function createLiteralConstValue(node, tracker) {
-        const type = getTypeOfSymbol(getSymbolOfDeclaration(node));
-        return literalTypeToNode(type, node, tracker);
     }
     function getJsxFactoryEntity(location) {
         return location ? (getJsxNamespace(location), getSourceFileOfNode(location).localJsxFactory || _jsxFactoryEntity) : _jsxFactoryEntity;
@@ -29854,208 +29302,6 @@ export function createTypeChecker(host) {
         }
         if (compilerOptions.jsxFragmentFactory) {
             return parseIsolatedEntityName(compilerOptions.jsxFragmentFactory, languageVersion);
-        }
-    }
-    function createResolver() {
-        const resolvedTypeReferenceDirectives = host.getResolvedTypeReferenceDirectives();
-        let fileToDirective;
-        if (resolvedTypeReferenceDirectives) {
-            fileToDirective = /* @__PURE__ */new Map();
-            resolvedTypeReferenceDirectives.forEach(({
-                resolvedTypeReferenceDirective
-            }, key, mode) => {
-                if (!(resolvedTypeReferenceDirective == null ? void 0 : resolvedTypeReferenceDirective.resolvedFileName)) {
-                    return;
-                }
-                const file = host.getSourceFile(resolvedTypeReferenceDirective.resolvedFileName);
-                if (file) {
-                    addReferencedFilesToTypeDirective(file, key, mode);
-                }
-            });
-        }
-        return {
-            getReferencedExportContainer,
-            getReferencedImportDeclaration,
-            getReferencedDeclarationWithCollidingName,
-            isDeclarationWithCollidingName,
-            isValueAliasDeclaration: nodeIn => {
-                const node = getParseTreeNode(nodeIn);
-                return node ? isValueAliasDeclaration(node) : true;
-            },
-            hasGlobalName,
-            isReferencedAliasDeclaration: (nodeIn, checkChildren) => {
-                const node = getParseTreeNode(nodeIn);
-                return node ? isReferencedAliasDeclaration(node, checkChildren) : true;
-            },
-            getNodeCheckFlags: nodeIn => {
-                const node = getParseTreeNode(nodeIn);
-                return node ? getNodeCheckFlags(node) : 0;
-            },
-            isTopLevelValueImportEqualsWithEntityName,
-            isDeclarationVisible,
-            isImplementationOfOverload,
-            isRequiredInitializedParameter,
-            isOptionalUninitializedParameterProperty,
-            isExpandoFunctionDeclaration,
-            getPropertiesOfContainerFunction,
-            createTypeOfDeclaration,
-            createReturnTypeOfSignatureDeclaration,
-            createTypeOfExpression,
-            createLiteralConstValue,
-            isSymbolAccessible,
-            isEntityNameVisible,
-            getConstantValue: nodeIn => {
-                const node = getParseTreeNode(nodeIn, canHaveConstantValue);
-                return node ? getConstantValue2(node) : void 0;
-            },
-            collectLinkedAliases,
-            getReferencedValueDeclaration,
-            getTypeReferenceSerializationKind,
-            isOptionalParameter,
-            moduleExportsSomeValue,
-            isArgumentsLocalBinding,
-            getExternalModuleFileFromDeclaration: nodeIn => {
-                const node = getParseTreeNode(nodeIn, hasPossibleExternalModuleReference);
-                return node && getExternalModuleFileFromDeclaration(node);
-            },
-            getTypeReferenceDirectivesForEntityName,
-            getTypeReferenceDirectivesForSymbol,
-            isLiteralConstDeclaration,
-            isLateBound: nodeIn => {
-                const node = getParseTreeNode(nodeIn, isDeclaration);
-                const symbol = node && getSymbolOfDeclaration(node);
-                return !!(symbol && getCheckFlags(symbol) & 4096);
-            },
-            getJsxFactoryEntity,
-            getJsxFragmentFactoryEntity,
-            getAllAccessorDeclarations(accessor) {
-                accessor = getParseTreeNode(accessor, isGetOrSetAccessorDeclaration);
-                const otherKind = accessor.kind === 175 ? 174 : 175;
-                const otherAccessor = getDeclarationOfKind(getSymbolOfDeclaration(accessor), otherKind);
-                const firstAccessor = otherAccessor && otherAccessor.pos < accessor.pos ? otherAccessor : accessor;
-                const secondAccessor = otherAccessor && otherAccessor.pos < accessor.pos ? accessor : otherAccessor;
-                const setAccessor = accessor.kind === 175 ? accessor : otherAccessor;
-                const getAccessor = accessor.kind === 174 ? accessor : otherAccessor;
-                return {
-                    firstAccessor,
-                    secondAccessor,
-                    setAccessor,
-                    getAccessor
-                };
-            },
-            getSymbolOfExternalModuleSpecifier: moduleName => resolveExternalModuleNameWorker(moduleName, moduleName, void 0),
-            isBindingCapturedByNode: (node, decl) => {
-                const parseNode = getParseTreeNode(node);
-                const parseDecl = getParseTreeNode(decl);
-                return !!parseNode && !!parseDecl && (isVariableDeclaration(parseDecl) || isBindingElement(parseDecl)) && isBindingCapturedByNode(parseNode, parseDecl);
-            },
-            getDeclarationStatementsForSourceFile: (node, flags, tracker, bundled) => {
-                const n = getParseTreeNode(node);
-                Debug.assert(n && n.kind === 308, "Non-sourcefile node passed into getDeclarationsForSourceFile");
-                const sym = getSymbolOfDeclaration(node);
-                if (!sym) {
-                    return !node.locals ? [] : nodeBuilder.symbolTableToDeclarationStatements(node.locals, node, flags, tracker, bundled);
-                }
-                return !sym.exports ? [] : nodeBuilder.symbolTableToDeclarationStatements(sym.exports, node, flags, tracker, bundled);
-            },
-            isImportRequiredByAugmentation
-        };
-        function isImportRequiredByAugmentation(node) {
-            const file = getSourceFileOfNode(node);
-            if (!file.symbol) return false;
-            const importTarget = getExternalModuleFileFromDeclaration(node);
-            if (!importTarget) return false;
-            if (importTarget === file) return false;
-            const exports = getExportsOfModule(file.symbol);
-            for (const s of arrayFrom(exports.values())) {
-                if (s.mergeId) {
-                    const merged = getMergedSymbol(s);
-                    if (merged.declarations) {
-                        for (const d of merged.declarations) {
-                            const declFile = getSourceFileOfNode(d);
-                            if (declFile === importTarget) {
-                                return true;
-                            }
-                        }
-                    }
-                }
-            }
-            return false;
-        }
-        function isInHeritageClause(node) {
-            return node.parent && node.parent.kind === 230 && node.parent.parent && node.parent.parent.kind === 294;
-        }
-        function getTypeReferenceDirectivesForEntityName(node) {
-            if (!fileToDirective) {
-                return void 0;
-            }
-            let meaning;
-            if (node.parent.kind === 164) {
-                meaning = 111551 | 1048576;
-            } else {
-                meaning = 788968 | 1920;
-                if (node.kind === 79 && isInTypeQuery(node) || node.kind === 208 && !isInHeritageClause(node)) {
-                    meaning = 111551 | 1048576;
-                }
-            }
-            const symbol = resolveEntityName(node, meaning, true);
-            return symbol && symbol !== unknownSymbol ? getTypeReferenceDirectivesForSymbol(symbol, meaning) : void 0;
-        }
-        function getTypeReferenceDirectivesForSymbol(symbol, meaning) {
-            if (!fileToDirective || !isSymbolFromTypeDeclarationFile(symbol)) {
-                return void 0;
-            }
-            let typeReferenceDirectives;
-            for (const decl of symbol.declarations) {
-                if (decl.symbol && decl.symbol.flags & meaning) {
-                    const file = getSourceFileOfNode(decl);
-                    const typeReferenceDirective = fileToDirective.get(file.path);
-                    if (typeReferenceDirective) {
-                        (typeReferenceDirectives || (typeReferenceDirectives = [])).push(typeReferenceDirective);
-                    } else {
-                        return void 0;
-                    }
-                }
-            }
-            return typeReferenceDirectives;
-        }
-        function isSymbolFromTypeDeclarationFile(symbol) {
-            if (!symbol.declarations) {
-                return false;
-            }
-            let current = symbol;
-            while (true) {
-                const parent2 = getParentOfSymbol(current);
-                if (parent2) {
-                    current = parent2;
-                } else {
-                    break;
-                }
-            }
-            if (current.valueDeclaration && current.valueDeclaration.kind === 308 && current.flags & 512) {
-                return false;
-            }
-            for (const decl of symbol.declarations) {
-                const file = getSourceFileOfNode(decl);
-                if (fileToDirective.has(file.path)) {
-                    return true;
-                }
-            }
-            return false;
-        }
-        function addReferencedFilesToTypeDirective(file, key, mode) {
-            if (fileToDirective.has(file.path)) return;
-            fileToDirective.set(file.path, [key, mode]);
-            for (const {
-                fileName,
-                resolutionMode
-            } of file.referencedFiles) {
-                const resolvedFile = resolveTripleslashReference(fileName, file.fileName);
-                const referencedFile = host.getSourceFile(resolvedFile);
-                if (referencedFile) {
-                    addReferencedFilesToTypeDirective(referencedFile, key, resolutionMode || file.impliedNodeFormat);
-                }
-            }
         }
     }
     function getExternalModuleFileFromDeclaration(declaration) {
