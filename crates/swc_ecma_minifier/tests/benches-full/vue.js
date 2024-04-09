@@ -185,7 +185,7 @@
     UA && UA.indexOf('android');
     var isIOS = UA && /iphone|ipad|ipod|ios/.test(UA) || 'ios' === weexPlatform;
     UA && /chrome\/\d+/.test(UA), UA && /phantomjs/.test(UA);
-    var isFF = UA && UA.match(/firefox\/(\d+)/), nativeWatch = void 0, supportsPassive = !1;
+    var isFF = UA && UA.match(/firefox\/(\d+)/), nativeWatch = {}.watch, supportsPassive = !1;
     if (inBrowser) try {
         var opts = {};
         Object.defineProperty(opts, 'passive', {
