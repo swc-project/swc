@@ -306,8 +306,6 @@ export function createTypeChecker(host) {
     var sharedFlowTypes = [];
     var flowNodeReachable = [];
     var flowNodePostSuper = [];
-    var potentialThisCollisions = [];
-    var potentialNewTargetCollisions = [];
     var potentialWeakMapSetCollisions = [];
     var potentialReflectCollisions = [];
     var potentialUnusedRenamedBindingElementsInTypes = [];
@@ -451,30 +449,11 @@ export function createTypeChecker(host) {
         }
         return diagnostic;
     }
-    function addDeprecatedSuggestionWorker(declarations, diagnostic) {
-        const deprecatedTag = Array.isArray(declarations) ? forEach(declarations, getJSDocDeprecatedTag) : getJSDocDeprecatedTag(declarations);
-        if (deprecatedTag) {
-            addRelatedInfo(diagnostic, createDiagnosticForNode(deprecatedTag, Diagnostics.The_declaration_was_marked_as_deprecated_here));
-        }
-        suggestionDiagnostics.add(diagnostic);
-        return diagnostic;
-    }
     function isDeprecatedSymbol(symbol) {
-        if (length(symbol.declarations) > 1) {
-            const parentSymbol = getParentOfSymbol(symbol);
-            if (parentSymbol && parentSymbol.flags & 64) {
-                return some(symbol.declarations, d => !!(getCombinedNodeFlags(d) & 268435456));
-            }
-        }
-        return !!(getDeclarationNodeFlagsFromSymbol(symbol) & 268435456);
     }
     function addDeprecatedSuggestion(location, declarations, deprecatedEntity) {
-        const diagnostic = createDiagnosticForNode(location, Diagnostics._0_is_deprecated, deprecatedEntity);
-        return addDeprecatedSuggestionWorker(declarations, diagnostic);
     }
     function addDeprecatedSuggestionWithSignature(location, declaration, deprecatedEntity, signatureString) {
-        const diagnostic = deprecatedEntity ? createDiagnosticForNode(location, Diagnostics.The_signature_0_of_1_is_deprecated, signatureString, deprecatedEntity) : createDiagnosticForNode(location, Diagnostics._0_is_deprecated, signatureString);
-        return addDeprecatedSuggestionWorker(declaration, diagnostic);
     }
     function createSymbol(flags, name, checkFlags) {
         symbolCount++;
@@ -494,24 +473,7 @@ export function createTypeChecker(host) {
         return symbol;
     }
     function getExcludedSymbolFlags(flags) {
-        let result = 0;
-        if (flags & 2) result |= 111551;
-        if (flags & 1) result |= 111550;
-        if (flags & 4) result |= 0;
-        if (flags & 8) result |= 900095;
-        if (flags & 16) result |= 110991;
-        if (flags & 32) result |= 899503;
-        if (flags & 64) result |= 788872;
-        if (flags & 256) result |= 899327;
-        if (flags & 128) result |= 899967;
-        if (flags & 512) result |= 110735;
-        if (flags & 8192) result |= 103359;
-        if (flags & 32768) result |= 46015;
-        if (flags & 65536) result |= 78783;
-        if (flags & 262144) result |= 526824;
-        if (flags & 524288) result |= 788968;
-        if (flags & 2097152) result |= 2097152;
-        return result;
+
     }
     function recordMergedSymbol(target, source) {
         if (!source.mergeId) {
@@ -1471,32 +1433,6 @@ export function createTypeChecker(host) {
     function isAliasableOrJsExpression(e) {
         return isAliasableExpression(e) || isFunctionExpression(e) && isJSConstructor(e);
     }
-    function getTargetOfImportEqualsDeclaration(node, dontResolveAlias) {
-        const commonJSPropertyAccess = getCommonJSPropertyAccess(node);
-        if (commonJSPropertyAccess) {
-            const name = getLeftmostAccessExpression(commonJSPropertyAccess.expression).arguments[0];
-            return isIdentifier(commonJSPropertyAccess.name) ? resolveSymbol(getPropertyOfType(resolveExternalModuleTypeByLiteral(name), commonJSPropertyAccess.name.escapedText)) : void 0;
-        }
-        if (isVariableDeclaration(node) || node.moduleReference.kind === 280) {
-            const immediate = resolveExternalModuleName(node, getExternalModuleRequireArgument(node) || getExternalModuleImportEqualsDeclarationExpression(node));
-            const resolved2 = resolveExternalModuleSymbol(immediate);
-            markSymbolOfAliasDeclarationIfTypeOnly(node, immediate, resolved2, false);
-            return resolved2;
-        }
-        const resolved = getSymbolOfPartOfRightHandSideOfImportEquals(node.moduleReference, dontResolveAlias);
-        checkAndReportErrorForResolvingImportAliasToTypeOnlySymbol(node, resolved);
-        return resolved;
-    }
-    function checkAndReportErrorForResolvingImportAliasToTypeOnlySymbol(node, resolved) {
-        if (markSymbolOfAliasDeclarationIfTypeOnly(node, void 0, resolved, false) && !node.isTypeOnly) {
-            const typeOnlyDeclaration = getTypeOnlyAliasDeclaration(getSymbolOfDeclaration(node));
-            const isExport = typeOnlyDeclaration.kind === 278 || typeOnlyDeclaration.kind === 275;
-            const message = isExport ? Diagnostics.An_import_alias_cannot_reference_a_declaration_that_was_exported_using_export_type : Diagnostics.An_import_alias_cannot_reference_a_declaration_that_was_imported_using_import_type;
-            const relatedMessage = isExport ? Diagnostics._0_was_exported_here : Diagnostics._0_was_imported_here;
-            const name = typeOnlyDeclaration.kind === 275 ? "*" : unescapeLeadingUnderscores(typeOnlyDeclaration.name.escapedText);
-            addRelatedInfo(error(node.moduleReference, message), createDiagnosticForNode(typeOnlyDeclaration, relatedMessage, name));
-        }
-    }
     function resolveExportByName(moduleSymbol, name, sourceNode, dontResolveAlias) {
         const exportValue = moduleSymbol.exports.get("export=");
         const exportSymbol = exportValue ? getPropertyOfType(getTypeOfSymbol(exportValue), name, true) : moduleSymbol.exports.get(name);
@@ -1542,12 +1478,6 @@ export function createTypeChecker(host) {
             return hasExportAssignmentSymbol(moduleSymbol);
         }
         return typeof file.externalModuleIndicator !== "object" && !resolveExportByName(moduleSymbol, escapeLeadingUnderscores("__esModule"), void 0, dontResolveAlias);
-    }
-    function getTargetOfImportClause(node, dontResolveAlias) {
-        const moduleSymbol = resolveExternalModuleName(node, node.parent.moduleSpecifier);
-        if (moduleSymbol) {
-            return getTargetofModuleDefault(moduleSymbol, node, dontResolveAlias);
-        }
     }
     function getTargetofModuleDefault(moduleSymbol, node, dontResolveAlias) {
         var _a2;
@@ -1619,20 +1549,6 @@ export function createTypeChecker(host) {
                 }
             }
         }
-    }
-    function getTargetOfNamespaceImport(node, dontResolveAlias) {
-        const moduleSpecifier = node.parent.parent.moduleSpecifier;
-        const immediate = resolveExternalModuleName(node, moduleSpecifier);
-        const resolved = resolveESModuleSymbol(immediate, moduleSpecifier, dontResolveAlias, false);
-        markSymbolOfAliasDeclarationIfTypeOnly(node, immediate, resolved, false);
-        return resolved;
-    }
-    function getTargetOfNamespaceExport(node, dontResolveAlias) {
-        const moduleSpecifier = node.parent.moduleSpecifier;
-        const immediate = moduleSpecifier && resolveExternalModuleName(node, moduleSpecifier);
-        const resolved = moduleSpecifier && resolveESModuleSymbol(immediate, moduleSpecifier, dontResolveAlias, false);
-        markSymbolOfAliasDeclarationIfTypeOnly(node, immediate, resolved, false);
-        return resolved;
     }
     function combineValueAndTypeSymbols(valueSymbol, typeSymbol) {
         if (valueSymbol === unknownSymbol && typeSymbol === unknownSymbol) {
@@ -1757,36 +1673,6 @@ export function createTypeChecker(host) {
             }
         }
     }
-    function getTargetOfImportSpecifier(node, dontResolveAlias) {
-        if (isImportSpecifier(node) && idText(node.propertyName || node.name) === "default") {
-            const specifier = getModuleSpecifierForImportOrExport(node);
-            const moduleSymbol = specifier && resolveExternalModuleName(node, specifier);
-            if (moduleSymbol) {
-                return getTargetofModuleDefault(moduleSymbol, node, dontResolveAlias);
-            }
-        }
-        const root = isBindingElement(node) ? getRootDeclaration(node) : node.parent.parent.parent;
-        const commonJSPropertyAccess = getCommonJSPropertyAccess(root);
-        const resolved = getExternalModuleMember(root, commonJSPropertyAccess || node, dontResolveAlias);
-        const name = node.propertyName || node.name;
-        if (commonJSPropertyAccess && resolved && isIdentifier(name)) {
-            return resolveSymbol(getPropertyOfType(getTypeOfSymbol(resolved), name.escapedText), dontResolveAlias);
-        }
-        markSymbolOfAliasDeclarationIfTypeOnly(node, void 0, resolved, false);
-        return resolved;
-    }
-    function getCommonJSPropertyAccess(node) {
-        if (isVariableDeclaration(node) && node.initializer && isPropertyAccessExpression(node.initializer)) {
-            return node.initializer;
-        }
-    }
-    function getTargetOfNamespaceExportDeclaration(node, dontResolveAlias) {
-        if (canHaveSymbol(node.parent)) {
-            const resolved = resolveExternalModuleSymbol(node.parent.symbol, dontResolveAlias);
-            markSymbolOfAliasDeclarationIfTypeOnly(node, void 0, resolved, false);
-            return resolved;
-        }
-    }
     function getTargetOfExportSpecifier(node, meaning, dontResolveAlias) {
         if (idText(node.propertyName || node.name) === "default") {
             const specifier = getModuleSpecifierForImportOrExport(node);
@@ -1799,63 +1685,7 @@ export function createTypeChecker(host) {
         markSymbolOfAliasDeclarationIfTypeOnly(node, void 0, resolved, false);
         return resolved;
     }
-    function getTargetOfExportAssignment(node, dontResolveAlias) {
-        const expression = isExportAssignment(node) ? node.expression : node.right;
-        const resolved = getTargetOfAliasLikeExpression(expression, dontResolveAlias);
-        markSymbolOfAliasDeclarationIfTypeOnly(node, void 0, resolved, false);
-        return resolved;
-    }
-    function getTargetOfAliasLikeExpression(expression, dontResolveAlias) {
-        if (isClassExpression(expression)) {
-            return checkExpressionCached(expression).symbol;
-        }
-        if (!isEntityName(expression) && !isEntityNameExpression(expression)) {
-            return void 0;
-        }
-        const aliasLike = resolveEntityName(expression, 111551 | 788968 | 1920, true, dontResolveAlias);
-        if (aliasLike) {
-            return aliasLike;
-        }
-        checkExpressionCached(expression);
-        return getNodeLinks(expression).resolvedSymbol;
-    }
-    function getTargetOfAccessExpression(node, dontRecursivelyResolve) {
-        if (!(isBinaryExpression(node.parent) && node.parent.left === node && node.parent.operatorToken.kind === 63)) {
-            return void 0;
-        }
-        return getTargetOfAliasLikeExpression(node.parent.right, dontRecursivelyResolve);
-    }
     function getTargetOfAliasDeclaration(node, dontRecursivelyResolve = false) {
-        switch (node.kind) {
-            case 268:
-            case 257:
-                return getTargetOfImportEqualsDeclaration(node, dontRecursivelyResolve);
-            case 270:
-                return getTargetOfImportClause(node, dontRecursivelyResolve);
-            case 271:
-                return getTargetOfNamespaceImport(node, dontRecursivelyResolve);
-            case 277:
-                return getTargetOfNamespaceExport(node, dontRecursivelyResolve);
-            case 273:
-            case 205:
-                return getTargetOfImportSpecifier(node, dontRecursivelyResolve);
-            case 278:
-                return getTargetOfExportSpecifier(node, 111551 | 788968 | 1920, dontRecursivelyResolve);
-            case 274:
-            case 223:
-                return getTargetOfExportAssignment(node, dontRecursivelyResolve);
-            case 267:
-                return getTargetOfNamespaceExportDeclaration(node, dontRecursivelyResolve);
-            case 300:
-                return resolveEntityName(node.name, 111551 | 788968 | 1920, true, dontRecursivelyResolve);
-            case 299:
-                return getTargetOfAliasLikeExpression(node.initializer, dontRecursivelyResolve);
-            case 209:
-            case 208:
-                return getTargetOfAccessExpression(node, dontRecursivelyResolve);
-            default:
-                return Debug.fail();
-        }
     }
     function isNonLocalAlias(symbol, excludes = 111551 | 788968 | 1920) {
         if (!symbol) return false;
@@ -25336,52 +25166,6 @@ export function createTypeChecker(host) {
             potentiallyUnusedIdentifiers.push(node);
         }
     }
-    function checkUnusedIdentifiers(potentiallyUnusedIdentifiers, addDiagnostic) {
-        for (const node of potentiallyUnusedIdentifiers) {
-            switch (node.kind) {
-                case 260:
-                case 228:
-                    checkUnusedClassMembers(node, addDiagnostic);
-                    checkUnusedTypeParameters(node, addDiagnostic);
-                    break;
-                case 308:
-                case 264:
-                case 238:
-                case 266:
-                case 245:
-                case 246:
-                case 247:
-                    checkUnusedLocalsAndParameters(node, addDiagnostic);
-                    break;
-                case 173:
-                case 215:
-                case 259:
-                case 216:
-                case 171:
-                case 174:
-                case 175:
-                    if (node.body) {
-                        checkUnusedLocalsAndParameters(node, addDiagnostic);
-                    }
-                    checkUnusedTypeParameters(node, addDiagnostic);
-                    break;
-                case 170:
-                case 176:
-                case 177:
-                case 181:
-                case 182:
-                case 262:
-                case 261:
-                    checkUnusedTypeParameters(node, addDiagnostic);
-                    break;
-                case 192:
-                    checkUnusedInferTypeParameter(node, addDiagnostic);
-                    break;
-                default:
-                    Debug.assertNever(node, "Node should not have been registered for unused identifiers check");
-            }
-        }
-    }
     function errorUnusedLocal(declaration, name, addDiagnostic) {
         const node = getNameOfDeclaration(declaration) || declaration;
         const message = isTypeDeclaration(declaration) ? Diagnostics._0_is_declared_but_never_used : Diagnostics._0_is_declared_but_its_value_is_never_read;
@@ -25389,70 +25173,6 @@ export function createTypeChecker(host) {
     }
     function isIdentifierThatStartsWithUnderscore(node) {
         return isIdentifier(node) && idText(node).charCodeAt(0) === 95;
-    }
-    function checkUnusedClassMembers(node, addDiagnostic) {
-        for (const member of node.members) {
-            switch (member.kind) {
-                case 171:
-                case 169:
-                case 174:
-                case 175:
-                    if (member.kind === 175 && member.symbol.flags & 32768) {
-                        break;
-                    }
-                    const symbol = getSymbolOfDeclaration(member);
-                    if (!symbol.isReferenced && (hasEffectiveModifier(member, 8) || isNamedDeclaration(member) && isPrivateIdentifier(member.name)) && !(member.flags & 16777216)) {
-                        addDiagnostic(member, 0, createDiagnosticForNode(member.name, Diagnostics._0_is_declared_but_its_value_is_never_read, symbolToString(symbol)));
-                    }
-                    break;
-                case 173:
-                    for (const parameter of member.parameters) {
-                        if (!parameter.symbol.isReferenced && hasSyntacticModifier(parameter, 8)) {
-                            addDiagnostic(parameter, 0, createDiagnosticForNode(parameter.name, Diagnostics.Property_0_is_declared_but_its_value_is_never_read, symbolName(parameter.symbol)));
-                        }
-                    }
-                    break;
-                case 178:
-                case 237:
-                case 172:
-                    break;
-                default:
-                    Debug.fail("Unexpected class member");
-            }
-        }
-    }
-    function checkUnusedInferTypeParameter(node, addDiagnostic) {
-        const {
-            typeParameter
-        } = node;
-        if (isTypeParameterUnused(typeParameter)) {
-            addDiagnostic(node, 1, createDiagnosticForNode(node, Diagnostics._0_is_declared_but_its_value_is_never_read, idText(typeParameter.name)));
-        }
-    }
-    function checkUnusedTypeParameters(node, addDiagnostic) {
-        const declarations = getSymbolOfDeclaration(node).declarations;
-        if (!declarations || last(declarations) !== node) return;
-        const typeParameters = getEffectiveTypeParameterDeclarations(node);
-        const seenParentsWithEveryUnused = /* @__PURE__ */new Set();
-        for (const typeParameter of typeParameters) {
-            if (!isTypeParameterUnused(typeParameter)) continue;
-            const name = idText(typeParameter.name);
-            const {
-                parent: parent2
-            } = typeParameter;
-            if (parent2.kind !== 192 && parent2.typeParameters.every(isTypeParameterUnused)) {
-                if (tryAddToSet(seenParentsWithEveryUnused, parent2)) {
-                    const sourceFile = getSourceFileOfNode(parent2);
-                    const range = isJSDocTemplateTag(parent2) ? rangeOfNode(parent2) : rangeOfTypeParameters(sourceFile, parent2.typeParameters);
-                    const only = parent2.typeParameters.length === 1;
-                    const message = only ? Diagnostics._0_is_declared_but_its_value_is_never_read : Diagnostics.All_type_parameters_are_unused;
-                    const arg0 = only ? name : void 0;
-                    addDiagnostic(typeParameter, 1, createFileDiagnostic(sourceFile, range.pos, range.end - range.pos, message, arg0));
-                }
-            } else {
-                addDiagnostic(typeParameter, 1, createDiagnosticForNode(typeParameter, Diagnostics._0_is_declared_but_its_value_is_never_read, name));
-            }
-        }
     }
     function isTypeParameterUnused(typeParameter) {
         return !(getMergedSymbol(typeParameter.symbol).isReferenced & 262144) && !isIdentifierThatStartsWithUnderscore(typeParameter.name);
@@ -25477,93 +25197,6 @@ export function createTypeChecker(host) {
             return isIdentifierThatStartsWithUnderscore(declaration.name);
         }
         return isAmbientModule(declaration) || (isVariableDeclaration(declaration) && isForInOrOfStatement(declaration.parent.parent) || isImportedDeclaration(declaration)) && isIdentifierThatStartsWithUnderscore(declaration.name);
-    }
-    function checkUnusedLocalsAndParameters(nodeWithLocals, addDiagnostic) {
-        const unusedImports = /* @__PURE__ */new Map();
-        const unusedDestructures = /* @__PURE__ */new Map();
-        const unusedVariables = /* @__PURE__ */new Map();
-        nodeWithLocals.locals.forEach(local => {
-            if (local.flags & 262144 ? !(local.flags & 3 && !(local.isReferenced & 3)) : local.isReferenced || local.exportSymbol) {
-                return;
-            }
-            if (local.declarations) {
-                for (const declaration of local.declarations) {
-                    if (isValidUnusedLocalDeclaration(declaration)) {
-                        continue;
-                    }
-                    if (isImportedDeclaration(declaration)) {
-                        addToGroup(unusedImports, importClauseFromImported(declaration), declaration, getNodeId);
-                    } else if (isBindingElement(declaration) && isObjectBindingPattern(declaration.parent)) {
-                        const lastElement = last(declaration.parent.elements);
-                        if (declaration === lastElement || !last(declaration.parent.elements).dotDotDotToken) {
-                            addToGroup(unusedDestructures, declaration.parent, declaration, getNodeId);
-                        }
-                    } else if (isVariableDeclaration(declaration)) {
-                        addToGroup(unusedVariables, declaration.parent, declaration, getNodeId);
-                    } else {
-                        const parameter = local.valueDeclaration && tryGetRootParameterDeclaration(local.valueDeclaration);
-                        const name = local.valueDeclaration && getNameOfDeclaration(local.valueDeclaration);
-                        if (parameter && name) {
-                            if (!isParameterPropertyDeclaration(parameter, parameter.parent) && !parameterIsThisKeyword(parameter) && !isIdentifierThatStartsWithUnderscore(name)) {
-                                if (isBindingElement(declaration) && isArrayBindingPattern(declaration.parent)) {
-                                    addToGroup(unusedDestructures, declaration.parent, declaration, getNodeId);
-                                } else {
-                                    addDiagnostic(parameter, 1, createDiagnosticForNode(name, Diagnostics._0_is_declared_but_its_value_is_never_read, symbolName(local)));
-                                }
-                            }
-                        } else {
-                            errorUnusedLocal(declaration, symbolName(local), addDiagnostic);
-                        }
-                    }
-                }
-            }
-        });
-        unusedImports.forEach(([importClause, unuseds]) => {
-            const importDecl = importClause.parent;
-            const nDeclarations = (importClause.name ? 1 : 0) + (importClause.namedBindings ? importClause.namedBindings.kind === 271 ? 1 : importClause.namedBindings.elements.length : 0);
-            if (nDeclarations === unuseds.length) {
-                addDiagnostic(importDecl, 0, unuseds.length === 1 ? createDiagnosticForNode(importDecl, Diagnostics._0_is_declared_but_its_value_is_never_read, idText(first(unuseds).name)) : createDiagnosticForNode(importDecl, Diagnostics.All_imports_in_import_declaration_are_unused));
-            } else {
-                for (const unused of unuseds) errorUnusedLocal(unused, idText(unused.name), addDiagnostic);
-            }
-        });
-        unusedDestructures.forEach(([bindingPattern, bindingElements]) => {
-            const kind = tryGetRootParameterDeclaration(bindingPattern.parent) ? 1 : 0;
-            if (bindingPattern.elements.length === bindingElements.length) {
-                if (bindingElements.length === 1 && bindingPattern.parent.kind === 257 && bindingPattern.parent.parent.kind === 258) {
-                    addToGroup(unusedVariables, bindingPattern.parent.parent, bindingPattern.parent, getNodeId);
-                } else {
-                    addDiagnostic(bindingPattern, kind, bindingElements.length === 1 ? createDiagnosticForNode(bindingPattern, Diagnostics._0_is_declared_but_its_value_is_never_read, bindingNameText(first(bindingElements).name)) : createDiagnosticForNode(bindingPattern, Diagnostics.All_destructured_elements_are_unused));
-                }
-            } else {
-                for (const e of bindingElements) {
-                    addDiagnostic(e, kind, createDiagnosticForNode(e, Diagnostics._0_is_declared_but_its_value_is_never_read, bindingNameText(e.name)));
-                }
-            }
-        });
-        unusedVariables.forEach(([declarationList, declarations]) => {
-            if (declarationList.declarations.length === declarations.length) {
-                addDiagnostic(declarationList, 0, declarations.length === 1 ? createDiagnosticForNode(first(declarations).name, Diagnostics._0_is_declared_but_its_value_is_never_read, bindingNameText(first(declarations).name)) : createDiagnosticForNode(declarationList.parent.kind === 240 ? declarationList.parent : declarationList, Diagnostics.All_variables_are_unused));
-            } else {
-                for (const decl of declarations) {
-                    addDiagnostic(decl, 0, createDiagnosticForNode(decl, Diagnostics._0_is_declared_but_its_value_is_never_read, bindingNameText(decl.name)));
-                }
-            }
-        });
-    }
-    function checkPotentialUncheckedRenamedBindingElementsInTypes() {
-        var _a2;
-        for (const node of potentialUnusedRenamedBindingElementsInTypes) {
-            if (!((_a2 = getSymbolOfDeclaration(node)) == null ? void 0 : _a2.isReferenced)) {
-                const wrappingDeclaration = walkUpBindingElementsAndPatterns(node);
-                Debug.assert(isParameterDeclaration(wrappingDeclaration), "Only parameter declaration should be checked here");
-                const diagnostic = createDiagnosticForNode(node.name, Diagnostics._0_is_an_unused_renaming_of_1_Did_you_intend_to_use_it_as_a_type_annotation, declarationNameToString(node.name), declarationNameToString(node.propertyName));
-                if (!wrappingDeclaration.type) {
-                    addRelatedInfo(diagnostic, createFileDiagnostic(getSourceFileOfNode(wrappingDeclaration), wrappingDeclaration.end, 1, Diagnostics.We_can_only_write_a_type_for_0_by_adding_a_type_for_the_entire_parameter_here, declarationNameToString(node.propertyName)));
-                }
-                diagnostics.add(diagnostic);
-            }
-        }
     }
     function bindingNameText(name) {
         switch (name.kind) {
@@ -25628,34 +25261,6 @@ export function createTypeChecker(host) {
         }
         return true;
     }
-    function checkIfThisIsCapturedInEnclosingScope(node) {
-        findAncestor(node, current => {
-            if (getNodeCheckFlags(current) & 4) {
-                const isDeclaration2 = node.kind !== 79;
-                if (isDeclaration2) {
-                    error(getNameOfDeclaration(node), Diagnostics.Duplicate_identifier_this_Compiler_uses_variable_declaration_this_to_capture_this_reference);
-                } else {
-                    error(node, Diagnostics.Expression_resolves_to_variable_declaration_this_that_compiler_uses_to_capture_this_reference);
-                }
-                return true;
-            }
-            return false;
-        });
-    }
-    function checkIfNewTargetIsCapturedInEnclosingScope(node) {
-        findAncestor(node, current => {
-            if (getNodeCheckFlags(current) & 8) {
-                const isDeclaration2 = node.kind !== 79;
-                if (isDeclaration2) {
-                    error(getNameOfDeclaration(node), Diagnostics.Duplicate_identifier_newTarget_Compiler_uses_variable_declaration_newTarget_to_capture_new_target_meta_property_reference);
-                } else {
-                    error(node, Diagnostics.Expression_resolves_to_variable_declaration_newTarget_that_compiler_uses_to_capture_new_target_meta_property_reference);
-                }
-                return true;
-            }
-            return false;
-        });
-    }
     function checkCollisionWithRequireExportsInGeneratedCode(node, name) {
         if (moduleKind >= 5 && !(moduleKind >= 100 && getSourceFileOfNode(node).impliedNodeFormat === 1)) {
             return;
@@ -25688,40 +25293,9 @@ export function createTypeChecker(host) {
             potentialWeakMapSetCollisions.push(node);
         }
     }
-    function checkWeakMapSetCollision(node) {
-        const enclosingBlockScope = getEnclosingBlockScopeContainer(node);
-        if (getNodeCheckFlags(enclosingBlockScope) & 4194304) {
-            Debug.assert(isNamedDeclaration(node) && isIdentifier(node.name) && typeof node.name.escapedText === "string", "The target of a WeakMap/WeakSet collision check should be an identifier");
-            errorSkippedOn("noEmit", node, Diagnostics.Compiler_reserves_name_0_when_emitting_private_identifier_downlevel, node.name.escapedText);
-        }
-    }
     function recordPotentialCollisionWithReflectInGeneratedCode(node, name) {
         if (name && languageVersion >= 2 && languageVersion <= 8 && needCollisionCheckForIdentifier(node, name, "Reflect")) {
             potentialReflectCollisions.push(node);
-        }
-    }
-    function checkReflectCollision(node) {
-        let hasCollision = false;
-        if (isClassExpression(node)) {
-            for (const member of node.members) {
-                if (getNodeCheckFlags(member) & 8388608) {
-                    hasCollision = true;
-                    break;
-                }
-            }
-        } else if (isFunctionExpression(node)) {
-            if (getNodeCheckFlags(node) & 8388608) {
-                hasCollision = true;
-            }
-        } else {
-            const container = getEnclosingBlockScopeContainer(node);
-            if (container && getNodeCheckFlags(container) & 8388608) {
-                hasCollision = true;
-            }
-        }
-        if (hasCollision) {
-            Debug.assert(isNamedDeclaration(node) && isIdentifier(node.name), "The target of a Reflect collision check should be an identifier");
-            errorSkippedOn("noEmit", node, Diagnostics.Duplicate_identifier_0_Compiler_reserves_name_1_when_emitting_super_references_in_static_initializers, declarationNameToString(node.name), "Reflect");
         }
     }
     function checkCollisionsForDeclarationName(node, name) {
@@ -28173,19 +27747,6 @@ export function createTypeChecker(host) {
             return !!getSymbolLinks(getSymbolOfDeclaration(declaration)).constEnumReferenced;
         });
     }
-    function canConvertImportDeclarationToTypeOnly(statement) {
-        return isImportDeclaration(statement) && statement.importClause && !statement.importClause.isTypeOnly && importClauseContainsReferencedImport(statement.importClause) && !isReferencedAliasDeclaration(statement.importClause, true) && !importClauseContainsConstEnumUsedAsValue(statement.importClause);
-    }
-    function canConvertImportEqualsDeclarationToTypeOnly(statement) {
-        return isImportEqualsDeclaration(statement) && isExternalModuleReference(statement.moduleReference) && !statement.isTypeOnly && getSymbolOfDeclaration(statement).isReferenced && !isReferencedAliasDeclaration(statement, false) && !getSymbolLinks(getSymbolOfDeclaration(statement)).constEnumReferenced;
-    }
-    function checkImportsForTypeOnlyConversion(sourceFile) {
-        for (const statement of sourceFile.statements) {
-            if (canConvertImportDeclarationToTypeOnly(statement) || canConvertImportEqualsDeclarationToTypeOnly(statement)) {
-                error(statement, Diagnostics.This_import_is_never_used_as_a_value_and_must_use_import_type_because_importsNotUsedAsValues_is_set_to_error);
-            }
-        }
-    }
     function checkExportSpecifier(node) {
         checkAliasSymbol(node);
         if (getEmitDeclarations(compilerOptions)) {
@@ -28604,129 +28165,6 @@ export function createTypeChecker(host) {
             links.deferredNodes.add(node);
         } else {
             Debug.assert(!links.deferredNodes, "A type-checked file should have no deferred nodes.");
-        }
-    }
-    function checkDeferredNodes(context) {
-        const links = getNodeLinks(context);
-        if (links.deferredNodes) {
-            links.deferredNodes.forEach(checkDeferredNode);
-        }
-        links.deferredNodes = void 0;
-    }
-    function checkDeferredNode(node) {
-        var _a2, _b;
-        (_a2 = tracing) == null ? void 0 : _a2.push(tracing.Phase.Check, "checkDeferredNode", {
-            kind: node.kind,
-            pos: node.pos,
-            end: node.end,
-            path: node.tracingPath
-        });
-        const saveCurrentNode = currentNode;
-        currentNode = node;
-        instantiationCount = 0;
-        switch (node.kind) {
-            case 210:
-            case 211:
-            case 212:
-            case 167:
-            case 283:
-                resolveUntypedCall(node);
-                break;
-            case 215:
-            case 216:
-            case 171:
-            case 170:
-                checkFunctionExpressionOrObjectLiteralMethodDeferred(node);
-                break;
-            case 174:
-            case 175:
-                checkAccessorDeclaration(node);
-                break;
-            case 228:
-                checkClassExpressionDeferred(node);
-                break;
-            case 165:
-                checkTypeParameterDeferred(node);
-                break;
-            case 282:
-                checkJsxSelfClosingElementDeferred(node);
-                break;
-            case 281:
-                checkJsxElementDeferred(node);
-                break;
-        }
-        currentNode = saveCurrentNode;
-        (_b = tracing) == null ? void 0 : _b.pop();
-    }
-    function unusedIsError(kind, isAmbient) {
-        if (isAmbient) {
-            return false;
-        }
-        switch (kind) {
-            case 0:
-                return !!compilerOptions.noUnusedLocals;
-            case 1:
-                return !!compilerOptions.noUnusedParameters;
-            default:
-                return Debug.assertNever(kind);
-        }
-    }
-    function getPotentiallyUnusedIdentifiers(sourceFile) {
-        return allPotentiallyUnusedIdentifiers.get(sourceFile.path) || emptyArray;
-    }
-    function checkSourceFileWorker(node) {
-        const links = getNodeLinks(node);
-        if (!(links.flags & 1)) {
-            if (skipTypeChecking(node, compilerOptions, host)) {
-                return;
-            }
-            checkGrammarSourceFile(node);
-            clear(potentialThisCollisions);
-            clear(potentialNewTargetCollisions);
-            clear(potentialWeakMapSetCollisions);
-            clear(potentialReflectCollisions);
-            clear(potentialUnusedRenamedBindingElementsInTypes);
-            forEach(node.statements, checkSourceElement);
-            checkSourceElement(node.endOfFileToken);
-            checkDeferredNodes(node);
-            if (isExternalOrCommonJsModule(node)) {
-                registerForUnusedIdentifiersCheck(node);
-            }
-            addLazyDiagnostic(() => {
-                if (!node.isDeclarationFile && (compilerOptions.noUnusedLocals || compilerOptions.noUnusedParameters)) {
-                    checkUnusedIdentifiers(getPotentiallyUnusedIdentifiers(node), (containingNode, kind, diag2) => {
-                        if (!containsParseError(containingNode) && unusedIsError(kind, !!(containingNode.flags & 16777216))) {
-                            diagnostics.add(diag2);
-                        }
-                    });
-                }
-                if (!node.isDeclarationFile) {
-                    checkPotentialUncheckedRenamedBindingElementsInTypes();
-                }
-            });
-            if (compilerOptions.importsNotUsedAsValues === 2 && !node.isDeclarationFile && isExternalModule(node)) {
-                checkImportsForTypeOnlyConversion(node);
-            }
-            if (isExternalOrCommonJsModule(node)) {
-                checkExternalModuleExports(node);
-            }
-            if (potentialThisCollisions.length) {
-                forEach(potentialThisCollisions, checkIfThisIsCapturedInEnclosingScope);
-                clear(potentialThisCollisions);
-            }
-            if (potentialNewTargetCollisions.length) {
-                forEach(potentialNewTargetCollisions, checkIfNewTargetIsCapturedInEnclosingScope);
-                clear(potentialNewTargetCollisions);
-            }
-            if (potentialWeakMapSetCollisions.length) {
-                forEach(potentialWeakMapSetCollisions, checkWeakMapSetCollision);
-                clear(potentialWeakMapSetCollisions);
-            }
-            if (potentialReflectCollisions.length) {
-                forEach(potentialReflectCollisions, checkReflectCollision);
-                clear(potentialReflectCollisions);
-            }
-            links.flags |= 1;
         }
     }
     function isTypeDeclarationName(name) {
@@ -29184,9 +28622,6 @@ export function createTypeChecker(host) {
             target = next;
         }
         return target;
-    }
-    function isSymbolOfDestructuredElementOfCatchBinding(symbol) {
-        return symbol.valueDeclaration && isBindingElement(symbol.valueDeclaration) && walkUpBindingElementsAndPatterns(symbol.valueDeclaration).parent.kind === 295;
     }
     function isValueAliasDeclaration(node) {
         Debug.assert(!compilerOptions.verbatimModuleSyntax);
@@ -30613,8 +30048,6 @@ export function createTypeChecker(host) {
     function checkGrammarConstructorTypeAnnotation(node) {
     }
     function checkGrammarProperty(node) {
-    }
-    function checkGrammarSourceFile(node) {
     }
     function checkGrammarStatementInAmbientContext(node) {
     }
