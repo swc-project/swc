@@ -65,9 +65,6 @@ export function createTypeChecker(host) {
     var isolatedModulesLikeFlagName = compilerOptions.verbatimModuleSyntax ? "verbatimModuleSyntax" : "isolatedModules";
     var apparentArgumentCount;
     const checker = {
-        getNodeCount: () => reduceLeft(host.getSourceFiles(), (n, s) => n + s.nodeCount, 0),
-        getIdentifierCount: () => reduceLeft(host.getSourceFiles(), (n, s) => n + s.identifierCount, 0),
-        getSymbolCount: () => reduceLeft(host.getSourceFiles(), (n, s) => n + s.symbolCount, symbolCount),
         getTypeCount: () => typeCount,
         getInstantiationCount: () => totalInstantiationCount,
         getRelationCacheSizes: () => ({
