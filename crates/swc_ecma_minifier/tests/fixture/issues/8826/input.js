@@ -490,12 +490,6 @@ export function createTypeChecker(host) {
     var uniqueLiteralType = createIntrinsicType(131072, "never");
     var uniqueLiteralMapper = makeFunctionTypeMapper(t => t.flags & 262144 ? uniqueLiteralType : t, () => "(unique literal mapper)");
     var outofbandVarianceMarkerHandler;
-    var reportUnreliableMapper = makeFunctionTypeMapper(t => {
-        if (outofbandVarianceMarkerHandler && (t === markerSuperType || t === markerSubType || t === markerOtherType)) {
-            outofbandVarianceMarkerHandler(true);
-        }
-        return t;
-    }, () => "(unmeasurable reporter)");
     var reportUnmeasurableMapper = makeFunctionTypeMapper(t => {
         if (outofbandVarianceMarkerHandler && (t === markerSuperType || t === markerSubType || t === markerOtherType)) {
             outofbandVarianceMarkerHandler(false);
@@ -8623,18 +8617,6 @@ export function createTypeChecker(host) {
         const declaration = type.declaration;
         return (declaration.readonlyToken ? declaration.readonlyToken.kind === 40 ? 2 : 1 : 0) | (declaration.questionToken ? declaration.questionToken.kind === 40 ? 8 : 4 : 0);
     }
-    function getMappedTypeOptionality(type) {
-        const modifiers = getMappedTypeModifiers(type);
-        return modifiers & 8 ? -1 : modifiers & 4 ? 1 : 0;
-    }
-    function getCombinedMappedTypeOptionality(type) {
-        const optionality = getMappedTypeOptionality(type);
-        const modifiersType = getModifiersTypeFromMappedType(type);
-        return optionality || (isGenericMappedType(modifiersType) ? getMappedTypeOptionality(modifiersType) : 0);
-    }
-    function isPartialMappedType(type) {
-        return !!(getObjectFlags(type) & 32 && getMappedTypeModifiers(type) & 4);
-    }
     function isGenericMappedType(type) {
         if (getObjectFlags(type) & 32) {
             const constraint = getConstraintTypeFromMappedType(type);
@@ -8810,37 +8792,6 @@ export function createTypeChecker(host) {
     }
     function getConstraintOfConditionalType(type) {
         return hasNonCircularBaseConstraint(type) ? getConstraintFromConditionalType(type) : void 0;
-    }
-    function getEffectiveConstraintOfIntersection(types, targetIsUnion) {
-        let constraints;
-        let hasDisjointDomainType = false;
-        for (const t of types) {
-            if (t.flags & 465829888) {
-                let constraint = getConstraintOfType(t);
-                while (constraint && constraint.flags & (262144 | 4194304 | 16777216)) {
-                    constraint = getConstraintOfType(constraint);
-                }
-                if (constraint) {
-                    constraints = append(constraints, constraint);
-                    if (targetIsUnion) {
-                        constraints = append(constraints, t);
-                    }
-                }
-            } else if (t.flags & 469892092 || isEmptyAnonymousObjectType(t)) {
-                hasDisjointDomainType = true;
-            }
-        }
-        if (constraints && (targetIsUnion || hasDisjointDomainType)) {
-            if (hasDisjointDomainType) {
-                for (const t of types) {
-                    if (t.flags & 469892092 || isEmptyAnonymousObjectType(t)) {
-                        constraints = append(constraints, t);
-                    }
-                }
-            }
-            return getNormalizedType(getIntersectionType(constraints), false);
-        }
-        return void 0;
     }
     function getBaseConstraintOfType(type) {
         if (type.flags & (58982400 | 3145728 | 134217728 | 268435456)) {
@@ -10712,10 +10663,6 @@ export function createTypeChecker(host) {
     function getKnownKeysOfTupleType(type) {
         return getUnionType(append(arrayOf(type.target.fixedLength, i => getStringLiteralType("" + i)), getIndexType(type.target.readonly ? globalReadonlyArrayType : globalArrayType)));
     }
-    function getStartElementCount(type, flags) {
-        const index = findIndex(type.elementFlags, f => !(f & flags));
-        return index >= 0 ? index : type.elementFlags.length;
-    }
     function getEndElementCount(type, flags) {
         return type.elementFlags.length - findLastIndex(type.elementFlags, f => !(f & flags)) - 1;
     }
@@ -11974,9 +11921,6 @@ export function createTypeChecker(host) {
             });
         }
         return result;
-    }
-    function isDistributionDependent(root) {
-        return root.isDistributive && (isTypeParameterPossiblyReferenced(root.checkType, root.node.trueType) || isTypeParameterPossiblyReferenced(root.checkType, root.node.falseType));
     }
     function getTypeFromConditionalTypeNode(node) {
         const links = getNodeLinks(node);
@@ -13682,9 +13626,6 @@ export function createTypeChecker(host) {
         }
         return false;
     }
-    function isIgnoredJsxProperty(source, sourceProp) {
-        return getObjectFlags(source) & 2048 && isHyphenatedJsxName(sourceProp.escapedName);
-    }
     function getNormalizedType(type, writing) {
         while (true) {
             const t = isFreshLiteralType(type) ? type.regularType : getObjectFlags(type) & 4 ? type.node ? createTypeReference(type.target, getTypeArguments(type)) : getSingleBaseForNonAugmentingSubtype(type) || type : type.flags & 3145728 ? getNormalizedUnionOrIntersectionType(type, writing) : type.flags & 33554432 ? writing ? type.baseType : getSubstitutionIntersection(type) : type.flags & 25165824 ? getSimplifiedType(type, writing) : type;
@@ -13720,10 +13661,6 @@ export function createTypeChecker(host) {
             }
         }
         return isUnitType(type) || !!(type.flags & 134217728) || !!(type.flags & 268435456);
-    }
-    function getExactOptionalUnassignableProperties(source, target) {
-        if (isTupleType(source) && isTupleType(target)) return emptyArray;
-        return getPropertiesOfType(target).filter(targetProp => isExactOptionalPropertyMismatch(getTypeOfPropertyOfType(source, targetProp.escapedName), getTypeOfSymbol(targetProp)));
     }
     function isExactOptionalPropertyMismatch(source, target) {
         return !!source && !!target && maybeTypeOfKind(source, 32768) && !!containsMissingType(target);
@@ -13772,14 +13709,6 @@ export function createTypeChecker(host) {
         }
         if (type.flags & 2097152) {
             return every(type.types, isWeakType);
-        }
-        return false;
-    }
-    function hasCommonProperties(source, target, isComparingJsxAttributes) {
-        for (const prop of getPropertiesOfType(source)) {
-            if (isKnownProperty(target, prop.escapedName, isComparingJsxAttributes)) {
-                return true;
-            }
         }
         return false;
     }
@@ -13842,20 +13771,9 @@ export function createTypeChecker(host) {
         markerTypes.add(getTypeId(result));
         return result;
     }
-    function isMarkerType(type) {
-        return markerTypes.has(getTypeId(type));
-    }
     function getTypeParameterModifiers(tp) {
         var _a2;
         return reduceLeft((_a2 = tp.symbol) == null ? void 0 : _a2.declarations, (modifiers, d) => modifiers | getEffectiveModifierFlags(d), 0) & (32768 | 65536 | 2048);
-    }
-    function hasCovariantVoidArgument(typeArguments, variances) {
-        for (let i = 0; i < variances.length; i++) {
-            if ((variances[i] & 7) === 1 && typeArguments[i].flags & 16384) {
-                return true;
-            }
-        }
-        return false;
     }
     function isUnconstrainedTypeParameter(type) {
         return type.flags & 262144 && !getConstraintOfTypeParameter(type);
@@ -13924,15 +13842,6 @@ export function createTypeChecker(host) {
         const classType = getDeclaringClass(property);
         const baseClassType = classType && getBaseTypes(classType)[0];
         return baseClassType && getTypeOfPropertyOfType(baseClassType, property.escapedName);
-    }
-    function isPropertyInClassDerivedFrom(prop, baseClass) {
-        return forEachProperty2(prop, sp => {
-            const sourceClass = getDeclaringClass(sp);
-            return sourceClass ? hasBaseType(sourceClass, baseClass) : false;
-        });
-    }
-    function isValidOverrideOf(sourceProp, targetProp) {
-        return !forEachProperty2(targetProp, tp => getDeclarationModifierFlagsFromSymbol(tp) & 16 ? !isPropertyInClassDerivedFrom(sourceProp, getDeclaringClass(tp)) : false);
     }
     function isClassDerivedFromDeclaringClasses(checkClass, prop, writing) {
         return forEachProperty2(prop, p => getDeclarationModifierFlagsFromSymbol(p, writing) & 16 ? !hasBaseType(checkClass, getDeclaringClass(p)) : false) ? void 0 : checkClass;
@@ -14247,9 +14156,6 @@ export function createTypeChecker(host) {
     }
     function isGenericTupleType(type) {
         return isTupleType(type) && !!(type.target.combinedFlags & 8);
-    }
-    function isSingleElementGenericTupleType(type) {
-        return isGenericTupleType(type) && type.target.elementFlags.length === 1;
     }
     function getRestTypeOfTupleType(type) {
         return getElementTypeOfSliceOfTupleType(type, type.target.fixedLength);
@@ -14841,15 +14747,6 @@ export function createTypeChecker(host) {
     }
     function isFromInferenceBlockedSource(type) {
         return !!(type.symbol && some(type.symbol.declarations, hasSkipDirectInferenceFlag));
-    }
-    function templateLiteralTypesDefinitelyUnrelated(source, target) {
-        const sourceStart = source.texts[0];
-        const targetStart = target.texts[0];
-        const sourceEnd = source.texts[source.texts.length - 1];
-        const targetEnd = target.texts[target.texts.length - 1];
-        const startLen = Math.min(sourceStart.length, targetStart.length);
-        const endLen = Math.min(sourceEnd.length, targetEnd.length);
-        return sourceStart.slice(0, startLen) !== targetStart.slice(0, startLen) || sourceEnd.slice(sourceEnd.length - endLen) !== targetEnd.slice(targetEnd.length - endLen);
     }
     function isValidNumberString(s, roundTripOnly) {
         if (s === "") return false;
@@ -15772,19 +15669,6 @@ export function createTypeChecker(host) {
         }
         return false;
     }
-    function findDiscriminantProperties(sourceProperties, target) {
-        let result;
-        for (const sourceProperty of sourceProperties) {
-            if (isDiscriminantProperty(target, sourceProperty.escapedName)) {
-                if (result) {
-                    result.push(sourceProperty);
-                    continue;
-                }
-                result = [sourceProperty];
-            }
-        }
-        return result;
-    }
     function mapTypesByKeyProperty(types, name) {
         const map2 = /* @__PURE__ */new Map();
         let count = 0;
@@ -15829,11 +15713,6 @@ export function createTypeChecker(host) {
         var _a2;
         const result = (_a2 = unionType.constituentMap) == null ? void 0 : _a2.get(getTypeId(getRegularTypeOfLiteralType(keyType)));
         return result !== unknownType ? result : void 0;
-    }
-    function getMatchingUnionConstituentForType(unionType, type) {
-        const keyPropertyName = getKeyPropertyName(unionType);
-        const propType = keyPropertyName && getTypeOfPropertyOfType(type, keyPropertyName);
-        return propType && getConstituentTypeForKeyType(unionType, propType);
     }
     function getMatchingUnionConstituentForObjectLiteral(unionType, node) {
         const keyPropertyName = getKeyPropertyName(unionType);
@@ -16188,9 +16067,6 @@ export function createTypeChecker(host) {
     }
     function removeType(type, targetType) {
         return filterType(type, t => t !== targetType);
-    }
-    function countTypes(type) {
-        return type.flags & 1048576 ? type.types.length : 1;
     }
     function mapType(type, mapper, noReductions) {
         if (type.flags & 131072) {
@@ -20285,10 +20161,6 @@ export function createTypeChecker(host) {
             suggestion += "." + suggestedMethod;
         }
         return suggestion;
-    }
-    function getSuggestedTypeForNonexistentStringLiteralType(source, target) {
-        const candidates = target.types.filter(type => !!(type.flags & 128));
-        return getSpellingSuggestion(source.value, candidates, type => type.value);
     }
     function getSpellingSuggestionForName(name, symbols, meaning) {
         return getSpellingSuggestion(name, symbols, getCandidateName);
@@ -32214,8 +32086,6 @@ export function createTypeChecker(host) {
     function findBestTypeForInvokable(source, unionTarget) {
     }
     function findMostOverlappyType(source, unionTarget) {
-    }
-    function filterPrimitivesIfContainsNonPrimitive(type) {
     }
     function findMatchingDiscriminantType(source, target, isRelatedTo, skipPartial) {
     }
