@@ -1,0 +1,12 @@
+{
+    "jsc": {
+        "target": "es2018",
+        "parser": {
+            "syntax": "ecmascript"
+        },
+        "transform": {
+            "useDefineForClassFields": false
+        }
+    },
+    "isModule": true
+}
