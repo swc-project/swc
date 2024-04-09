@@ -1,5 +1,5 @@
 
-function createTypeChecker(host) {
+export function createTypeChecker(host) {
     var getPackagesMap = memoize(() => {
         var map2 = /* @__PURE__ */new Map();
         host.getSourceFiles().forEach(sf => {
