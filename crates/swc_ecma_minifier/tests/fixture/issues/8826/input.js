@@ -33885,244 +33885,46 @@ export function createTypeChecker(host) {
         return false;
     }
     function allowLetAndConstDeclarations(parent2) {
-        switch (parent2.kind) {
-            case 242:
-            case 243:
-            case 244:
-            case 251:
-            case 245:
-            case 246:
-            case 247:
-                return false;
-            case 253:
-                return allowLetAndConstDeclarations(parent2.parent);
-        }
-        return true;
     }
     function checkGrammarForDisallowedLetOrConstStatement(node) {
-        if (!allowLetAndConstDeclarations(node.parent)) {
-            if (isLet(node.declarationList)) {
-                return grammarErrorOnNode(node, Diagnostics.let_declarations_can_only_be_declared_inside_a_block);
-            } else if (isVarConst(node.declarationList)) {
-                return grammarErrorOnNode(node, Diagnostics.const_declarations_can_only_be_declared_inside_a_block);
-            }
-        }
     }
     function checkGrammarMetaProperty(node) {
-        const escapedText = node.name.escapedText;
-        switch (node.keywordToken) {
-            case 103:
-                if (escapedText !== "target") {
-                    return grammarErrorOnNode(node.name, Diagnostics._0_is_not_a_valid_meta_property_for_keyword_1_Did_you_mean_2, node.name.escapedText, tokenToString(node.keywordToken), "target");
-                }
-                break;
-            case 100:
-                if (escapedText !== "meta") {
-                    return grammarErrorOnNode(node.name, Diagnostics._0_is_not_a_valid_meta_property_for_keyword_1_Did_you_mean_2, node.name.escapedText, tokenToString(node.keywordToken), "meta");
-                }
-                break;
-        }
     }
     function hasParseDiagnostics(sourceFile) {
-        return sourceFile.parseDiagnostics.length > 0;
     }
     function grammarErrorOnFirstToken(node, message, arg0, arg1, arg2) {
-        const sourceFile = getSourceFileOfNode(node);
-        if (!hasParseDiagnostics(sourceFile)) {
-            const span = getSpanOfTokenAtPosition(sourceFile, node.pos);
-            diagnostics.add(createFileDiagnostic(sourceFile, span.start, span.length, message, arg0, arg1, arg2));
-            return true;
-        }
-        return false;
     }
     function grammarErrorAtPos(nodeForSourceFile, start, length2, message, arg0, arg1, arg2) {
-        const sourceFile = getSourceFileOfNode(nodeForSourceFile);
-        if (!hasParseDiagnostics(sourceFile)) {
-            diagnostics.add(createFileDiagnostic(sourceFile, start, length2, message, arg0, arg1, arg2));
-            return true;
-        }
-        return false;
     }
     function grammarErrorOnNodeSkippedOn(key, node, message, arg0, arg1, arg2) {
-        const sourceFile = getSourceFileOfNode(node);
-        if (!hasParseDiagnostics(sourceFile)) {
-            errorSkippedOn(key, node, message, arg0, arg1, arg2);
-            return true;
-        }
-        return false;
     }
     function grammarErrorOnNode(node, message, arg0, arg1, arg2) {
-        const sourceFile = getSourceFileOfNode(node);
-        if (!hasParseDiagnostics(sourceFile)) {
-            diagnostics.add(createDiagnosticForNode(node, message, arg0, arg1, arg2));
-            return true;
-        }
-        return false;
     }
     function checkGrammarConstructorTypeParameters(node) {
-        const jsdocTypeParameters = isInJSFile(node) ? getJSDocTypeParameterDeclarations(node) : void 0;
-        const range = node.typeParameters || jsdocTypeParameters && firstOrUndefined(jsdocTypeParameters);
-        if (range) {
-            const pos = range.pos === range.end ? range.pos : skipTrivia(getSourceFileOfNode(node).text, range.pos);
-            return grammarErrorAtPos(node, pos, range.end - pos, Diagnostics.Type_parameters_cannot_appear_on_a_constructor_declaration);
-        }
     }
     function checkGrammarConstructorTypeAnnotation(node) {
-        const type = node.type || getEffectiveReturnTypeNode(node);
-        if (type) {
-            return grammarErrorOnNode(type, Diagnostics.Type_annotation_cannot_appear_on_a_constructor_declaration);
-        }
     }
     function checkGrammarProperty(node) {
-        if (isComputedPropertyName(node.name) && isBinaryExpression(node.name.expression) && node.name.expression.operatorToken.kind === 101) {
-            return grammarErrorOnNode(node.parent.members[0], Diagnostics.A_mapped_type_may_not_declare_properties_or_methods);
-        }
-        if (isClassLike(node.parent)) {
-            if (isStringLiteral(node.name) && node.name.text === "constructor") {
-                return grammarErrorOnNode(node.name, Diagnostics.Classes_may_not_have_a_field_named_constructor);
-            }
-            if (checkGrammarForInvalidDynamicName(node.name, Diagnostics.A_computed_property_name_in_a_class_property_declaration_must_have_a_simple_literal_type_or_a_unique_symbol_type)) {
-                return true;
-            }
-            if (languageVersion < 2 && isPrivateIdentifier(node.name)) {
-                return grammarErrorOnNode(node.name, Diagnostics.Private_identifiers_are_only_available_when_targeting_ECMAScript_2015_and_higher);
-            }
-            if (languageVersion < 2 && isAutoAccessorPropertyDeclaration(node)) {
-                return grammarErrorOnNode(node.name, Diagnostics.Properties_with_the_accessor_modifier_are_only_available_when_targeting_ECMAScript_2015_and_higher);
-            }
-            if (isAutoAccessorPropertyDeclaration(node) && checkGrammarForInvalidQuestionMark(node.questionToken, Diagnostics.An_accessor_property_cannot_be_declared_optional)) {
-                return true;
-            }
-        } else if (node.parent.kind === 261) {
-            if (checkGrammarForInvalidDynamicName(node.name, Diagnostics.A_computed_property_name_in_an_interface_must_refer_to_an_expression_whose_type_is_a_literal_type_or_a_unique_symbol_type)) {
-                return true;
-            }
-            Debug.assertNode(node, isPropertySignature);
-            if (node.initializer) {
-                return grammarErrorOnNode(node.initializer, Diagnostics.An_interface_property_cannot_have_an_initializer);
-            }
-        } else if (isTypeLiteralNode(node.parent)) {
-            if (checkGrammarForInvalidDynamicName(node.name, Diagnostics.A_computed_property_name_in_a_type_literal_must_refer_to_an_expression_whose_type_is_a_literal_type_or_a_unique_symbol_type)) {
-                return true;
-            }
-            Debug.assertNode(node, isPropertySignature);
-            if (node.initializer) {
-                return grammarErrorOnNode(node.initializer, Diagnostics.A_type_literal_property_cannot_have_an_initializer);
-            }
-        }
-        if (node.flags & 16777216) {
-            checkAmbientInitializer(node);
-        }
-        if (isPropertyDeclaration(node) && node.exclamationToken && (!isClassLike(node.parent) || !node.type || node.initializer || node.flags & 16777216 || isStatic(node) || hasAbstractModifier(node))) {
-            const message = node.initializer ? Diagnostics.Declarations_with_initializers_cannot_also_have_definite_assignment_assertions : !node.type ? Diagnostics.Declarations_with_definite_assignment_assertions_must_also_have_type_annotations : Diagnostics.A_definite_assignment_assertion_is_not_permitted_in_this_context;
-            return grammarErrorOnNode(node.exclamationToken, message);
-        }
     }
     function checkGrammarTopLevelElementForRequiredDeclareModifier(node) {
-        if (node.kind === 261 || node.kind === 262 || node.kind === 269 || node.kind === 268 || node.kind === 275 || node.kind === 274 || node.kind === 267 || hasSyntacticModifier(node, 2 | 1 | 1024)) {
-            return false;
-        }
-        return grammarErrorOnFirstToken(node, Diagnostics.Top_level_declarations_in_d_ts_files_must_start_with_either_a_declare_or_export_modifier);
     }
     function checkGrammarTopLevelElementsForRequiredDeclareModifier(file) {
-        for (const decl of file.statements) {
-            if (isDeclaration(decl) || decl.kind === 240) {
-                if (checkGrammarTopLevelElementForRequiredDeclareModifier(decl)) {
-                    return true;
-                }
-            }
-        }
-        return false;
     }
     function checkGrammarSourceFile(node) {
-        return !!(node.flags & 16777216) && checkGrammarTopLevelElementsForRequiredDeclareModifier(node);
     }
     function checkGrammarStatementInAmbientContext(node) {
-        if (node.flags & 16777216) {
-            const links = getNodeLinks(node);
-            if (!links.hasReportedStatementInAmbientContext && (isFunctionLike(node.parent) || isAccessor(node.parent))) {
-                return getNodeLinks(node).hasReportedStatementInAmbientContext = grammarErrorOnFirstToken(node, Diagnostics.An_implementation_cannot_be_declared_in_ambient_contexts);
-            }
-            if (node.parent.kind === 238 || node.parent.kind === 265 || node.parent.kind === 308) {
-                const links2 = getNodeLinks(node.parent);
-                if (!links2.hasReportedStatementInAmbientContext) {
-                    return links2.hasReportedStatementInAmbientContext = grammarErrorOnFirstToken(node, Diagnostics.Statements_are_not_allowed_in_ambient_contexts);
-                }
-            } else { }
-        }
-        return false;
     }
     function checkGrammarNumericLiteral(node) {
-        if (node.numericLiteralFlags & 32) {
-            let diagnosticMessage;
-            if (languageVersion >= 1) {
-                diagnosticMessage = Diagnostics.Octal_literals_are_not_available_when_targeting_ECMAScript_5_and_higher_Use_the_syntax_0;
-            } else if (isChildOfNodeWithKind(node, 198)) {
-                diagnosticMessage = Diagnostics.Octal_literal_types_must_use_ES2015_syntax_Use_the_syntax_0;
-            } else if (isChildOfNodeWithKind(node, 302)) {
-                diagnosticMessage = Diagnostics.Octal_literals_are_not_allowed_in_enums_members_initializer_Use_the_syntax_0;
-            }
-            if (diagnosticMessage) {
-                const withMinus = isPrefixUnaryExpression(node.parent) && node.parent.operator === 40;
-                const literal = (withMinus ? "-" : "") + "0o" + node.text;
-                return grammarErrorOnNode(withMinus ? node.parent : node, diagnosticMessage, literal);
-            }
-        }
-        checkNumericLiteralValueSize(node);
-        return false;
     }
     function checkNumericLiteralValueSize(node) {
-        const isFractional = getTextOfNode(node).indexOf(".") !== -1;
-        const isScientific = node.numericLiteralFlags & 16;
-        if (isFractional || isScientific) {
-            return;
-        }
-        const value = +node.text;
-        if (value <= 2 ** 53 - 1) {
-            return;
-        }
-        addErrorOrSuggestion(false, createDiagnosticForNode(node, Diagnostics.Numeric_literals_with_absolute_values_equal_to_2_53_or_greater_are_too_large_to_be_represented_accurately_as_integers));
     }
     function checkGrammarBigIntLiteral(node) {
-        const literalType = isLiteralTypeNode(node.parent) || isPrefixUnaryExpression(node.parent) && isLiteralTypeNode(node.parent.parent);
-        if (!literalType) {
-            if (languageVersion < 7) {
-                if (grammarErrorOnNode(node, Diagnostics.BigInt_literals_are_not_available_when_targeting_lower_than_ES2020)) {
-                    return true;
-                }
-            }
-        }
-        return false;
     }
     function grammarErrorAfterFirstToken(node, message, arg0, arg1, arg2) {
-        const sourceFile = getSourceFileOfNode(node);
-        if (!hasParseDiagnostics(sourceFile)) {
-            const span = getSpanOfTokenAtPosition(sourceFile, node.pos);
-            diagnostics.add(createFileDiagnostic(sourceFile, textSpanEnd(span), 0, message, arg0, arg1, arg2));
-            return true;
-        }
-        return false;
     }
     function getAmbientModules() {
-        if (!ambientModulesCache) {
-            ambientModulesCache = [];
-            globals.forEach((global2, sym) => {
-                if (ambientModuleSymbolRegex.test(sym)) {
-                    ambientModulesCache.push(global2);
-                }
-            });
-        }
-        return ambientModulesCache;
     }
     function checkGrammarImportClause(node) {
-        var _a2;
-        if (node.isTypeOnly && node.name && node.namedBindings) {
-            return grammarErrorOnNode(node, Diagnostics.A_type_only_import_can_specify_a_default_import_or_named_bindings_but_not_both);
-        }
-        if (node.isTypeOnly && ((_a2 = node.namedBindings) == null ? void 0 : _a2.kind) === 272) {
-            return checkGrammarNamedImportsOrExports(node.namedBindings);
-        }
-        return false;
     }
     function checkGrammarNamedImportsOrExports(namedBindings) {
 
