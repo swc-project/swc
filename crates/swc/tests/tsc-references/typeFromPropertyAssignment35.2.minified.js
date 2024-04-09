@@ -5,4 +5,4 @@ Emu.D = function _class() {
     _class_call_check(this, _class), this._model = 1;
 };
 //// [second.js]
-({}).D._wrapperInstance;
+(void 0)._wrapperInstance;
