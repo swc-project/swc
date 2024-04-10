@@ -5278,7 +5278,7 @@ dependencies = [
 
 [[package]]
 name = "swc_visit"
-version = "0.5.12"
+version = "0.5.13"
 dependencies = [
  "either",
  "swc_visit_macros",
