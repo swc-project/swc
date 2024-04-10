@@ -1,8 +1,4 @@
-use std::{
-    collections::VecDeque,
-    iter::once,
-    mem::take,
-};
+use std::{collections::VecDeque, iter::once, mem::take};
 
 use rustc_hash::FxHashMap;
 use swc_atoms::JsWord;
