@@ -7,12 +7,11 @@ use std::{borrow::Cow, fmt::Write};
 use either::Either;
 use num_bigint::BigInt as BigIntValue;
 use num_traits::{Num as NumTrait, ToPrimitive};
-use smartstring::{LazyCompact, SmartString};
+use smartstring::LazyCompact;
 use swc_common::SyntaxContext;
 use tracing::trace;
 
 use super::*;
-use crate::error::SyntaxError;
 
 struct LazyBigInt<const RADIX: u8> {
     value: String,
