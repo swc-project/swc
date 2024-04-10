@@ -974,15 +974,15 @@ fn test_fold_comparison4() {
 
 #[test]
 fn test_fold_get_elem1() {
-    fold("x = [,10][0]", "x = (0, void 0)");
-    fold("x = [10, 20][0]", "x = (0, 10)");
-    fold("x = [10, 20][1]", "x = (0, 20)");
+    fold("x = [,10][0]", "x = void 0;");
+    fold("x = [10, 20][0]", "x = 10;");
+    fold("x = [10, 20][1]", "x = 20;");
 
     // fold("x = [10, 20][-1]", "x = void 0;");
     // fold("x = [10, 20][2]", "x = void 0;");
 
     fold("x = [foo(), 0][1]", "x = (foo(), 0);");
-    fold("x = [0, foo()][1]", "x = (0, foo())");
+    fold("x = [0, foo()][1]", "x = foo();");
     // fold("x = [0, foo()][0]", "x = (foo(), 0)");
     fold_same("for([1][0] in {});");
 }
