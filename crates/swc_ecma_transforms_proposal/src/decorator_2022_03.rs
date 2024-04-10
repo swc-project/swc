@@ -1,7 +1,7 @@
 use std::{
     collections::VecDeque,
     iter::once,
-    mem::{take, transmute},
+    mem::take,
 };
 
 use rustc_hash::FxHashMap;
