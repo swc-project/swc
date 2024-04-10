@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Refactor
+
+
+
+- **(visit)** Simplify `Vec::move_map` ([#8838](https://github.com/swc-project/swc/issues/8838)) ([b1973d4](https://github.com/swc-project/swc/commit/b1973d490afc8e4bc597192caab7a3aa8eb2701d))
+
 ## [1.4.13] - 2024-04-09
 
 ### Bug Fixes
@@ -1360,12 +1368,6 @@
 - **(bindings/node)** Link msvc runtime statically ([#7965](https://github.com/swc-project/swc/issues/7965)) ([0759779](https://github.com/swc-project/swc/commit/07597795cc39cce527f505bc5db304ad93082494))
 
 ## [1.3.85] - 2023-09-15
-
-### Bug Fixes
-
-
-
-- **(es/compat)** Handle single expression case in static block ([#7944](https://github.com/swc-project/swc/issues/7944)) ([a80aec4](https://github.com/swc-project/swc/commit/a80aec47efcff953d3408cf6910b66c2312f3006))
 
 ### Features
 
