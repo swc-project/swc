@@ -601,6 +601,7 @@ impl VisitMut for Pure<'_> {
                 self.optimize_member_expr(&mut member_expr.obj, &member_expr.prop)
             {
                 *e = replacement;
+                self.changed = true;
             }
         }
     }
