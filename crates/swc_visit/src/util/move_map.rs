@@ -26,26 +26,21 @@ impl<T> MoveMap<T> for Vec<T> {
     where
         F: FnMut(T) -> T,
     {
-        let mut read_i = 0;
-        let mut write_i = 0;
         unsafe {
             let old_len = self.len();
             self.set_len(0); // make sure we just leak elements in case of panic
 
-            while read_i < old_len {
-                // move the read_i'th item out of the vector and map it
-                // to an iterator
-                let e = ptr::read(self.as_ptr().add(read_i));
-                let e = f(e);
-                read_i += 1;
+            for index in 0..old_len {
+                let item_ptr = self.as_mut_ptr().add(index);
+                // move the item out of the vector and map it
+                let item = ptr::read(item_ptr);
+                let item = f(item);
 
-                assert!(write_i < read_i);
-                ptr::write(self.as_mut_ptr().add(write_i), e);
-                write_i += 1;
+                ptr::write(item_ptr, item);
             }
 
-            // write_i tracks the number of actually written new items.
-            self.set_len(write_i);
+            // restore the original length
+            self.set_len(old_len);
         }
 
         self
