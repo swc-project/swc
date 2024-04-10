@@ -2,7 +2,7 @@ use phf::phf_set;
 use swc_atoms::{Atom, JsWord};
 use swc_ecma_ast::{
     ArrayLit, Expr, ExprOrSpread, Ident, Lit, MemberExpr, MemberProp, ObjectLit, Prop,
-    PropOrSpread, SeqExpr, Str,
+    PropOrSpread, Str,
 };
 use swc_ecma_utils::{prop_name_eq, undefined, ExprExt, Known};
 
