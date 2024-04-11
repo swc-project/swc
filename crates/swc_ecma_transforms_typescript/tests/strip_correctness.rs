@@ -64,7 +64,7 @@ fn identity(entry: PathBuf) {
         "esDecorators-classExpression-classSuper.2.ts",
         "contextualTypes.ts",
         "decoratorOnClassMethod12.ts",
-        "decoratorExpression.2",
+        "decoratorExpression.2.ts",
         "preservesThis.ts",
     ];
 
