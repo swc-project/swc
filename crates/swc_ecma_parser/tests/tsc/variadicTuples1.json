@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 70,
-    "end": 13612,
+    "end": 13637,
     "ctxt": 0
   },
   "body": [
@@ -30406,6 +30406,62 @@
             }
           ]
         }
+      }
+    },
+    {
+      "type": "TsTypeAliasDeclaration",
+      "span": {
+        "start": 13614,
+        "end": 13637,
+        "ctxt": 0
+      },
+      "declare": false,
+      "id": {
+        "type": "Identifier",
+        "span": {
+          "start": 13619,
+          "end": 13625,
+          "ctxt": 0
+        },
+        "value": "AnyArr",
+        "optional": false
+      },
+      "typeParams": null,
+      "typeAnnotation": {
+        "type": "TsTupleType",
+        "span": {
+          "start": 13628,
+          "end": 13636,
+          "ctxt": 0
+        },
+        "elemTypes": [
+          {
+            "type": "TsTupleElement",
+            "span": {
+              "start": 13629,
+              "end": 13635,
+              "ctxt": 0
+            },
+            "label": null,
+            "ty": {
+              "type": "TsRestType",
+              "span": {
+                "start": 13629,
+                "end": 13635,
+                "ctxt": 0
+              },
+              "typeAnnotation": {
+                "type": "TsKeywordType",
+                "span": {
+                  "start": 13632,
+                  "end": 13635,
+                  "ctxt": 0
+                },
+                "kind": "any"
+              }
+            }
+          }
+        ]
       }
     }
   ],

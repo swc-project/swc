@@ -1,16 +1,16 @@
 {
   "type": "Script",
   "span": {
-    "start": 63,
-    "end": 93,
+    "start": 67,
+    "end": 97,
     "ctxt": 0
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 63,
-        "end": 93,
+        "start": 67,
+        "end": 97,
         "ctxt": 0
       },
       "kind": "var",
@@ -19,15 +19,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 67,
-            "end": 92,
+            "start": 71,
+            "end": 96,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 67,
-              "end": 68,
+              "start": 71,
+              "end": 72,
               "ctxt": 0
             },
             "value": "v",
@@ -37,15 +37,15 @@
           "init": {
             "type": "TsSatisfiesExpression",
             "span": {
-              "start": 71,
-              "end": 92,
+              "start": 75,
+              "end": 96,
               "ctxt": 0
             },
             "expression": {
               "type": "Identifier",
               "span": {
-                "start": 71,
-                "end": 80,
+                "start": 75,
+                "end": 84,
                 "ctxt": 0
               },
               "value": "undefined",
@@ -54,15 +54,15 @@
             "typeAnnotation": {
               "type": "TsLiteralType",
               "span": {
-                "start": 91,
-                "end": 92,
+                "start": 95,
+                "end": 96,
                 "ctxt": 0
               },
               "literal": {
                 "type": "NumericLiteral",
                 "span": {
-                  "start": 91,
-                  "end": 92,
+                  "start": 95,
+                  "end": 96,
                   "ctxt": 0
                 },
                 "value": 1.0,
