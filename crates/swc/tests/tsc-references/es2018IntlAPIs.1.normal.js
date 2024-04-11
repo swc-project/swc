@@ -10,3 +10,5 @@ const options = {
     localeMatcher: 'lookup'
 };
 console.log(Intl.PluralRules.supportedLocalesOf(locales, options).join(', '));
+const [part] = new Intl.NumberFormat().formatToParts();
+console.log(part.type, part.value);
