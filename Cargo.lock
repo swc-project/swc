@@ -4191,7 +4191,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "0.148.14"
+version = "0.148.15"
 dependencies = [
  "base64",
  "criterion",
@@ -4509,7 +4509,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.143.12"
+version = "0.143.13"
 dependencies = [
  "criterion",
  "either",
@@ -4665,7 +4665,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_compat"
-version = "0.163.18"
+version = "0.163.19"
 dependencies = [
  "arrayvec",
  "indexmap 2.1.0",
@@ -4743,7 +4743,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "0.198.18"
+version = "0.198.19"
 dependencies = [
  "dashmap",
  "indexmap 2.1.0",
@@ -5278,7 +5278,7 @@ dependencies = [
 
 [[package]]
 name = "swc_visit"
-version = "0.5.12"
+version = "0.5.13"
 dependencies = [
  "either",
  "swc_visit_macros",

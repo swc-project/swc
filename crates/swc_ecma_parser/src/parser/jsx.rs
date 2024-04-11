@@ -1,5 +1,5 @@
 use either::Either;
-use swc_common::{Span, Spanned, SyntaxContext};
+use swc_common::{Spanned, SyntaxContext};
 
 use super::*;
 
@@ -436,27 +436,6 @@ impl<I: Tokens> Parser<I> {
             }),
             _ => unreachable!(),
         }
-    }
-}
-
-trait IsFragment {
-    fn is_fragment(&self) -> bool;
-}
-
-impl IsFragment for Either<JSXOpeningFragment, JSXOpeningElement> {
-    fn is_fragment(&self) -> bool {
-        matches!(*self, Either::Left(..))
-    }
-}
-
-impl IsFragment for Either<JSXClosingFragment, JSXClosingElement> {
-    fn is_fragment(&self) -> bool {
-        matches!(*self, Either::Left(..))
-    }
-}
-impl<T: IsFragment> IsFragment for Option<T> {
-    fn is_fragment(&self) -> bool {
-        self.as_ref().map(|s| s.is_fragment()).unwrap_or(false)
     }
 }
 
