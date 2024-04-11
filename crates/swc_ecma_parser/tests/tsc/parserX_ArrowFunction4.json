@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 29,
+    "end": 27,
     "ctxt": 0
   },
   "body": [
@@ -10,7 +10,7 @@
       "type": "VariableDeclaration",
       "span": {
         "start": 1,
-        "end": 29,
+        "end": 27,
         "ctxt": 0
       },
       "kind": "var",
@@ -20,7 +20,7 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 5,
-            "end": 28,
+            "end": 26,
             "ctxt": 0
           },
           "id": {
@@ -38,7 +38,7 @@
             "type": "ArrowFunctionExpression",
             "span": {
               "start": 9,
-              "end": 28,
+              "end": 26,
               "ctxt": 0
             },
             "params": [
@@ -69,7 +69,7 @@
               "type": "BlockStatement",
               "span": {
                 "start": 19,
-                "end": 28,
+                "end": 26,
                 "ctxt": 0
               },
               "stmts": []

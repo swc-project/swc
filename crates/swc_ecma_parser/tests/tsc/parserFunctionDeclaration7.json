@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 34,
+    "end": 32,
     "ctxt": 0
   },
   "body": [
@@ -10,7 +10,7 @@
       "type": "TsModuleDeclaration",
       "span": {
         "start": 1,
-        "end": 34,
+        "end": 32,
         "ctxt": 0
       },
       "declare": false,
@@ -29,7 +29,7 @@
         "type": "TsModuleBlock",
         "span": {
           "start": 10,
-          "end": 34,
+          "end": 32,
           "ctxt": 0
         },
         "body": [
@@ -38,8 +38,8 @@
             "identifier": {
               "type": "Identifier",
               "span": {
-                "start": 25,
-                "end": 28,
+                "start": 24,
+                "end": 27,
                 "ctxt": 0
               },
               "value": "foo",
@@ -49,8 +49,8 @@
             "params": [],
             "decorators": [],
             "span": {
-              "start": 16,
-              "end": 31,
+              "start": 15,
+              "end": 30,
               "ctxt": 0
             },
             "body": null,

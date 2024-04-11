@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 198,
+    "end": 189,
     "ctxt": 0
   },
   "body": [
@@ -10,7 +10,7 @@
       "type": "TsModuleDeclaration",
       "span": {
         "start": 1,
-        "end": 85,
+        "end": 82,
         "ctxt": 0
       },
       "declare": false,
@@ -29,22 +29,22 @@
         "type": "TsModuleBlock",
         "span": {
           "start": 10,
-          "end": 85,
+          "end": 82,
           "ctxt": 0
         },
         "body": [
           {
             "type": "ExportDeclaration",
             "span": {
-              "start": 17,
-              "end": 48,
+              "start": 16,
+              "end": 47,
               "ctxt": 0
             },
             "declaration": {
               "type": "TsEnumDeclaration",
               "span": {
-                "start": 24,
-                "end": 48,
+                "start": 23,
+                "end": 47,
                 "ctxt": 0
               },
               "declare": false,
@@ -52,8 +52,8 @@
               "id": {
                 "type": "Identifier",
                 "span": {
-                  "start": 29,
-                  "end": 34,
+                  "start": 28,
+                  "end": 33,
                   "ctxt": 0
                 },
                 "value": "Color",
@@ -63,15 +63,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 37,
-                    "end": 40,
+                    "start": 36,
+                    "end": 39,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 37,
-                      "end": 40,
+                      "start": 36,
+                      "end": 39,
                       "ctxt": 0
                     },
                     "value": "Red",
@@ -82,15 +82,15 @@
                 {
                   "type": "TsEnumMember",
                   "span": {
-                    "start": 42,
-                    "end": 46,
+                    "start": 41,
+                    "end": 45,
                     "ctxt": 0
                   },
                   "id": {
                     "type": "Identifier",
                     "span": {
-                      "start": 42,
-                      "end": 46,
+                      "start": 41,
+                      "end": 45,
                       "ctxt": 0
                     },
                     "value": "Blue",
@@ -104,8 +104,8 @@
           {
             "type": "TsEnumDeclaration",
             "span": {
-              "start": 54,
-              "end": 82,
+              "start": 52,
+              "end": 80,
               "ctxt": 0
             },
             "declare": false,
@@ -113,8 +113,8 @@
             "id": {
               "type": "Identifier",
               "span": {
-                "start": 59,
-                "end": 62,
+                "start": 57,
+                "end": 60,
                 "ctxt": 0
               },
               "value": "Day",
@@ -124,15 +124,15 @@
               {
                 "type": "TsEnumMember",
                 "span": {
-                  "start": 65,
-                  "end": 71,
+                  "start": 63,
+                  "end": 69,
                   "ctxt": 0
                 },
                 "id": {
                   "type": "Identifier",
                   "span": {
-                    "start": 65,
-                    "end": 71,
+                    "start": 63,
+                    "end": 69,
                     "ctxt": 0
                   },
                   "value": "Monday",
@@ -143,15 +143,15 @@
               {
                 "type": "TsEnumMember",
                 "span": {
-                  "start": 73,
-                  "end": 80,
+                  "start": 71,
+                  "end": 78,
                   "ctxt": 0
                 },
                 "id": {
                   "type": "Identifier",
                   "span": {
-                    "start": 73,
-                    "end": 80,
+                    "start": 71,
+                    "end": 78,
                     "ctxt": 0
                   },
                   "value": "Tuesday",
@@ -167,8 +167,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 121,
-        "end": 150,
+        "start": 115,
+        "end": 144,
         "ctxt": 0
       },
       "kind": "var",
@@ -177,15 +177,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 125,
-            "end": 149,
+            "start": 119,
+            "end": 143,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 125,
-              "end": 126,
+              "start": 119,
+              "end": 120,
               "ctxt": 0
             },
             "value": "a",
@@ -193,15 +193,15 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 126,
-                "end": 135,
+                "start": 120,
+                "end": 129,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsTypeReference",
                 "span": {
-                  "start": 128,
-                  "end": 135,
+                  "start": 122,
+                  "end": 129,
                   "ctxt": 0
                 },
                 "typeName": {
@@ -209,8 +209,8 @@
                   "left": {
                     "type": "Identifier",
                     "span": {
-                      "start": 128,
-                      "end": 129,
+                      "start": 122,
+                      "end": 123,
                       "ctxt": 0
                     },
                     "value": "A",
@@ -219,8 +219,8 @@
                   "right": {
                     "type": "Identifier",
                     "span": {
-                      "start": 130,
-                      "end": 135,
+                      "start": 124,
+                      "end": 129,
                       "ctxt": 0
                     },
                     "value": "Color",
@@ -234,22 +234,22 @@
           "init": {
             "type": "MemberExpression",
             "span": {
-              "start": 138,
-              "end": 149,
+              "start": 132,
+              "end": 143,
               "ctxt": 0
             },
             "object": {
               "type": "MemberExpression",
               "span": {
-                "start": 138,
-                "end": 145,
+                "start": 132,
+                "end": 139,
                 "ctxt": 0
               },
               "object": {
                 "type": "Identifier",
                 "span": {
-                  "start": 138,
-                  "end": 139,
+                  "start": 132,
+                  "end": 133,
                   "ctxt": 0
                 },
                 "value": "A",
@@ -258,8 +258,8 @@
               "property": {
                 "type": "Identifier",
                 "span": {
-                  "start": 140,
-                  "end": 145,
+                  "start": 134,
+                  "end": 139,
                   "ctxt": 0
                 },
                 "value": "Color",
@@ -269,8 +269,8 @@
             "property": {
               "type": "Identifier",
               "span": {
-                "start": 146,
-                "end": 149,
+                "start": 140,
+                "end": 143,
                 "ctxt": 0
               },
               "value": "Red",
@@ -284,8 +284,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 177,
-        "end": 198,
+        "start": 168,
+        "end": 189,
         "ctxt": 0
       },
       "kind": "var",
@@ -294,15 +294,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 181,
-            "end": 197,
+            "start": 172,
+            "end": 188,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 181,
-              "end": 182,
+              "start": 172,
+              "end": 173,
               "ctxt": 0
             },
             "value": "b",
@@ -312,22 +312,22 @@
           "init": {
             "type": "MemberExpression",
             "span": {
-              "start": 185,
-              "end": 197,
+              "start": 176,
+              "end": 188,
               "ctxt": 0
             },
             "object": {
               "type": "MemberExpression",
               "span": {
-                "start": 185,
-                "end": 190,
+                "start": 176,
+                "end": 181,
                 "ctxt": 0
               },
               "object": {
                 "type": "Identifier",
                 "span": {
-                  "start": 185,
-                  "end": 186,
+                  "start": 176,
+                  "end": 177,
                   "ctxt": 0
                 },
                 "value": "A",
@@ -336,8 +336,8 @@
               "property": {
                 "type": "Identifier",
                 "span": {
-                  "start": 187,
-                  "end": 190,
+                  "start": 178,
+                  "end": 181,
                   "ctxt": 0
                 },
                 "value": "Day",
@@ -347,8 +347,8 @@
             "property": {
               "type": "Identifier",
               "span": {
-                "start": 191,
-                "end": 197,
+                "start": 182,
+                "end": 188,
                 "ctxt": 0
               },
               "value": "Monday",

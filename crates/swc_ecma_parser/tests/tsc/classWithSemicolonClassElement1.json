@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 20,
+    "end": 18,
     "ctxt": 0
   },
   "body": [
@@ -21,7 +21,7 @@
       "declare": false,
       "span": {
         "start": 1,
-        "end": 20,
+        "end": 18,
         "ctxt": 0
       },
       "decorators": [],
@@ -29,8 +29,8 @@
         {
           "type": "EmptyStatement",
           "span": {
-            "start": 16,
-            "end": 17,
+            "start": 15,
+            "end": 16,
             "ctxt": 0
           }
         }

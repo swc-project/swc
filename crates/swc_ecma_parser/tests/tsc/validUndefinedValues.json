@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 41,
+    "end": 40,
     "ctxt": 0
   },
   "body": [
@@ -68,23 +68,23 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 27,
-        "end": 41,
+        "start": 26,
+        "end": 40,
         "ctxt": 0
       },
       "expression": {
         "type": "AssignmentExpression",
         "span": {
-          "start": 27,
-          "end": 40,
+          "start": 26,
+          "end": 39,
           "ctxt": 0
         },
         "operator": "=",
         "left": {
           "type": "Identifier",
           "span": {
-            "start": 27,
-            "end": 28,
+            "start": 26,
+            "end": 27,
             "ctxt": 0
           },
           "value": "x",
@@ -94,8 +94,8 @@
         "right": {
           "type": "Identifier",
           "span": {
-            "start": 31,
-            "end": 40,
+            "start": 30,
+            "end": 39,
             "ctxt": 0
           },
           "value": "undefined",

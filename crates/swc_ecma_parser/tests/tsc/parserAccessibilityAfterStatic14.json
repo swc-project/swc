@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 41,
+    "end": 38,
     "ctxt": 0
   },
   "body": [
@@ -21,7 +21,7 @@
       "declare": false,
       "span": {
         "start": 1,
-        "end": 41,
+        "end": 38,
         "ctxt": 0
       },
       "decorators": [],
@@ -29,15 +29,15 @@
         {
           "type": "ClassMethod",
           "span": {
-            "start": 17,
-            "end": 38,
+            "start": 15,
+            "end": 36,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 24,
-              "end": 30,
+              "start": 22,
+              "end": 28,
               "ctxt": 0
             },
             "value": "public",
@@ -47,15 +47,15 @@
             "params": [],
             "decorators": [],
             "span": {
-              "start": 17,
-              "end": 38,
+              "start": 15,
+              "end": 36,
               "ctxt": 0
             },
             "body": {
               "type": "BlockStatement",
               "span": {
-                "start": 36,
-                "end": 38,
+                "start": 34,
+                "end": 36,
                 "ctxt": 0
               },
               "stmts": []
@@ -65,23 +65,23 @@
             "typeParameters": {
               "type": "TsTypeParameterDeclaration",
               "span": {
-                "start": 30,
-                "end": 33,
+                "start": 28,
+                "end": 31,
                 "ctxt": 0
               },
               "parameters": [
                 {
                   "type": "TsTypeParameter",
                   "span": {
-                    "start": 31,
-                    "end": 32,
+                    "start": 29,
+                    "end": 30,
                     "ctxt": 0
                   },
                   "name": {
                     "type": "Identifier",
                     "span": {
-                      "start": 31,
-                      "end": 32,
+                      "start": 29,
+                      "end": 30,
                       "ctxt": 0
                     },
                     "value": "T",

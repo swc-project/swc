@@ -1,24 +1,24 @@
 {
   "type": "Script",
   "span": {
-    "start": 89,
-    "end": 114,
+    "start": 84,
+    "end": 107,
     "ctxt": 0
   },
   "body": [
     {
       "type": "BlockStatement",
       "span": {
-        "start": 89,
-        "end": 114,
+        "start": 84,
+        "end": 107,
         "ctxt": 0
       },
       "stmts": [
         {
           "type": "UsingDeclaration",
           "span": {
-            "start": 96,
-            "end": 110,
+            "start": 90,
+            "end": 104,
             "ctxt": 0
           },
           "isAwait": false,
@@ -26,15 +26,15 @@
             {
               "type": "VariableDeclarator",
               "span": {
-                "start": 102,
-                "end": 110,
+                "start": 96,
+                "end": 104,
                 "ctxt": 0
               },
               "id": {
                 "type": "Identifier",
                 "span": {
-                  "start": 102,
-                  "end": 103,
+                  "start": 96,
+                  "end": 97,
                   "ctxt": 0
                 },
                 "value": "a",
@@ -44,8 +44,8 @@
               "init": {
                 "type": "NullLiteral",
                 "span": {
-                  "start": 106,
-                  "end": 110,
+                  "start": 100,
+                  "end": 104,
                   "ctxt": 0
                 }
               },
@@ -56,8 +56,8 @@
         {
           "type": "EmptyStatement",
           "span": {
-            "start": 110,
-            "end": 111,
+            "start": 104,
+            "end": 105,
             "ctxt": 0
           }
         }

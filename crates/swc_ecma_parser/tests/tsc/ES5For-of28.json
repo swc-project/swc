@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 56,
+    "end": 53,
     "ctxt": 0
   },
   "body": [
@@ -10,7 +10,7 @@
       "type": "ForOfStatement",
       "span": {
         "start": 1,
-        "end": 56,
+        "end": 53,
         "ctxt": 0
       },
       "await": false,
@@ -146,22 +146,22 @@
         "type": "BlockStatement",
         "span": {
           "start": 36,
-          "end": 56,
+          "end": 53,
           "ctxt": 0
         },
         "stmts": [
           {
             "type": "ExpressionStatement",
             "span": {
-              "start": 43,
-              "end": 45,
+              "start": 42,
+              "end": 44,
               "ctxt": 0
             },
             "expression": {
               "type": "Identifier",
               "span": {
-                "start": 43,
-                "end": 44,
+                "start": 42,
+                "end": 43,
                 "ctxt": 0
               },
               "value": "a",
@@ -171,15 +171,15 @@
           {
             "type": "ExpressionStatement",
             "span": {
-              "start": 51,
-              "end": 53,
+              "start": 49,
+              "end": 51,
               "ctxt": 0
             },
             "expression": {
               "type": "Identifier",
               "span": {
-                "start": 51,
-                "end": 52,
+                "start": 49,
+                "end": 50,
                 "ctxt": 0
               },
               "value": "b",

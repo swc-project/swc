@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 17,
-    "end": 67,
+    "start": 16,
+    "end": 64,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 23,
-          "end": 24,
+          "start": 22,
+          "end": 23,
           "ctxt": 0
         },
         "value": "C",
@@ -20,8 +20,8 @@
       },
       "declare": false,
       "span": {
-        "start": 17,
-        "end": 67,
+        "start": 16,
+        "end": 64,
         "ctxt": 0
       },
       "decorators": [],
@@ -29,29 +29,29 @@
         {
           "type": "ClassMethod",
           "span": {
-            "start": 32,
-            "end": 64,
+            "start": 30,
+            "end": 62,
             "ctxt": 0
           },
           "key": {
             "type": "Computed",
             "span": {
-              "start": 32,
-              "end": 52,
+              "start": 30,
+              "end": 50,
               "ctxt": 0
             },
             "expression": {
               "type": "MemberExpression",
               "span": {
-                "start": 33,
-                "end": 51,
+                "start": 31,
+                "end": 49,
                 "ctxt": 0
               },
               "object": {
                 "type": "Identifier",
                 "span": {
-                  "start": 33,
-                  "end": 39,
+                  "start": 31,
+                  "end": 37,
                   "ctxt": 0
                 },
                 "value": "Symbol",
@@ -60,8 +60,8 @@
               "property": {
                 "type": "Identifier",
                 "span": {
-                  "start": 40,
-                  "end": 51,
+                  "start": 38,
+                  "end": 49,
                   "ctxt": 0
                 },
                 "value": "toStringTag",
@@ -73,15 +73,15 @@
             "params": [],
             "decorators": [],
             "span": {
-              "start": 32,
-              "end": 64,
+              "start": 30,
+              "end": 62,
               "ctxt": 0
             },
             "body": {
               "type": "BlockStatement",
               "span": {
-                "start": 61,
-                "end": 64,
+                "start": 59,
+                "end": 62,
                 "ctxt": 0
               },
               "stmts": []
@@ -92,15 +92,15 @@
             "returnType": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 54,
-                "end": 60,
+                "start": 52,
+                "end": 58,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
-                  "start": 56,
-                  "end": 60,
+                  "start": 54,
+                  "end": 58,
                   "ctxt": 0
                 },
                 "kind": "void"

@@ -1,23 +1,23 @@
 {
   "type": "Script",
   "span": {
-    "start": 17,
-    "end": 106,
+    "start": 16,
+    "end": 99,
     "ctxt": 0
   },
   "body": [
     {
       "type": "TsInterfaceDeclaration",
       "span": {
-        "start": 17,
-        "end": 67,
+        "start": 16,
+        "end": 64,
         "ctxt": 0
       },
       "id": {
         "type": "Identifier",
         "span": {
-          "start": 27,
-          "end": 44,
+          "start": 26,
+          "end": 43,
           "ctxt": 0
         },
         "value": "SymbolConstructor",
@@ -29,24 +29,24 @@
       "body": {
         "type": "TsInterfaceBody",
         "span": {
-          "start": 45,
-          "end": 67,
+          "start": 44,
+          "end": 64,
           "ctxt": 0
         },
         "body": [
           {
             "type": "TsPropertySignature",
             "span": {
-              "start": 52,
-              "end": 64,
+              "start": 50,
+              "end": 62,
               "ctxt": 0
             },
             "readonly": false,
             "key": {
               "type": "Identifier",
               "span": {
-                "start": 52,
-                "end": 55,
+                "start": 50,
+                "end": 53,
                 "ctxt": 0
               },
               "value": "foo",
@@ -59,15 +59,15 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 55,
-                "end": 63,
+                "start": 53,
+                "end": 61,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsKeywordType",
                 "span": {
-                  "start": 57,
-                  "end": 63,
+                  "start": 55,
+                  "end": 61,
                   "ctxt": 0
                 },
                 "kind": "string"
@@ -81,8 +81,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 71,
-        "end": 106,
+        "start": 66,
+        "end": 99,
         "ctxt": 0
       },
       "kind": "var",
@@ -91,15 +91,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 75,
-            "end": 106,
+            "start": 70,
+            "end": 99,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 75,
-              "end": 78,
+              "start": 70,
+              "end": 73,
               "ctxt": 0
             },
             "value": "obj",
@@ -109,8 +109,8 @@
           "init": {
             "type": "ObjectExpression",
             "span": {
-              "start": 81,
-              "end": 106,
+              "start": 76,
+              "end": 99,
               "ctxt": 0
             },
             "properties": [
@@ -119,22 +119,22 @@
                 "key": {
                   "type": "Computed",
                   "span": {
-                    "start": 88,
-                    "end": 100,
+                    "start": 82,
+                    "end": 94,
                     "ctxt": 0
                   },
                   "expression": {
                     "type": "MemberExpression",
                     "span": {
-                      "start": 89,
-                      "end": 99,
+                      "start": 83,
+                      "end": 93,
                       "ctxt": 0
                     },
                     "object": {
                       "type": "Identifier",
                       "span": {
-                        "start": 89,
-                        "end": 95,
+                        "start": 83,
+                        "end": 89,
                         "ctxt": 0
                       },
                       "value": "Symbol",
@@ -143,8 +143,8 @@
                     "property": {
                       "type": "Identifier",
                       "span": {
-                        "start": 96,
-                        "end": 99,
+                        "start": 90,
+                        "end": 93,
                         "ctxt": 0
                       },
                       "value": "foo",
@@ -155,8 +155,8 @@
                 "value": {
                   "type": "NumericLiteral",
                   "span": {
-                    "start": 102,
-                    "end": 103,
+                    "start": 96,
+                    "end": 97,
                     "ctxt": 0
                   },
                   "value": 0.0,

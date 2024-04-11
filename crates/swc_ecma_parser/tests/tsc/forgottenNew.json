@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 87,
+    "end": 83,
     "ctxt": 0
   },
   "body": [
@@ -10,7 +10,7 @@
       "type": "TsModuleDeclaration",
       "span": {
         "start": 1,
-        "end": 51,
+        "end": 49,
         "ctxt": 0
       },
       "declare": false,
@@ -29,15 +29,15 @@
         "type": "TsModuleBlock",
         "span": {
           "start": 14,
-          "end": 51,
+          "end": 49,
           "ctxt": 0
         },
         "body": [
           {
             "type": "ExportDeclaration",
             "span": {
-              "start": 21,
-              "end": 48,
+              "start": 20,
+              "end": 47,
               "ctxt": 0
             },
             "declaration": {
@@ -45,8 +45,8 @@
               "identifier": {
                 "type": "Identifier",
                 "span": {
-                  "start": 34,
-                  "end": 44,
+                  "start": 33,
+                  "end": 43,
                   "ctxt": 0
                 },
                 "value": "NullLogger",
@@ -54,8 +54,8 @@
               },
               "declare": false,
               "span": {
-                "start": 28,
-                "end": 48,
+                "start": 27,
+                "end": 47,
                 "ctxt": 0
               },
               "decorators": [],
@@ -73,8 +73,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 55,
-        "end": 87,
+        "start": 51,
+        "end": 83,
         "ctxt": 0
       },
       "kind": "var",
@@ -83,15 +83,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 59,
-            "end": 86,
+            "start": 55,
+            "end": 82,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 59,
-              "end": 65,
+              "start": 55,
+              "end": 61,
               "ctxt": 0
             },
             "value": "logger",
@@ -101,22 +101,22 @@
           "init": {
             "type": "CallExpression",
             "span": {
-              "start": 68,
-              "end": 86,
+              "start": 64,
+              "end": 82,
               "ctxt": 0
             },
             "callee": {
               "type": "MemberExpression",
               "span": {
-                "start": 68,
-                "end": 84,
+                "start": 64,
+                "end": 80,
                 "ctxt": 0
               },
               "object": {
                 "type": "Identifier",
                 "span": {
-                  "start": 68,
-                  "end": 73,
+                  "start": 64,
+                  "end": 69,
                   "ctxt": 0
                 },
                 "value": "Tools",
@@ -125,8 +125,8 @@
               "property": {
                 "type": "Identifier",
                 "span": {
-                  "start": 74,
-                  "end": 84,
+                  "start": 70,
+                  "end": 80,
                   "ctxt": 0
                 },
                 "value": "NullLogger",

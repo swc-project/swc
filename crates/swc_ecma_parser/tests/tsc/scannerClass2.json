@@ -1,16 +1,16 @@
 {
   "type": "Module",
   "span": {
-    "start": 9,
-    "end": 183,
+    "start": 7,
+    "end": 177,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExportDeclaration",
       "span": {
-        "start": 9,
-        "end": 183,
+        "start": 7,
+        "end": 177,
         "ctxt": 0
       },
       "declaration": {
@@ -18,8 +18,8 @@
         "identifier": {
           "type": "Identifier",
           "span": {
-            "start": 22,
-            "end": 35,
+            "start": 20,
+            "end": 33,
             "ctxt": 0
           },
           "value": "LoggerAdapter",
@@ -27,8 +27,8 @@
         },
         "declare": false,
         "span": {
-          "start": 16,
-          "end": 183,
+          "start": 14,
+          "end": 177,
           "ctxt": 0
         },
         "decorators": [],
@@ -36,15 +36,15 @@
           {
             "type": "Constructor",
             "span": {
-              "start": 66,
-              "end": 176,
+              "start": 63,
+              "end": 171,
               "ctxt": 0
             },
             "key": {
               "type": "Identifier",
               "span": {
-                "start": 66,
-                "end": 77,
+                "start": 63,
+                "end": 74,
                 "ctxt": 0
               },
               "value": "constructor",
@@ -54,8 +54,8 @@
               {
                 "type": "TsParameterProperty",
                 "span": {
-                  "start": 79,
-                  "end": 101,
+                  "start": 76,
+                  "end": 98,
                   "ctxt": 0
                 },
                 "decorators": [],
@@ -65,8 +65,8 @@
                 "param": {
                   "type": "Identifier",
                   "span": {
-                    "start": 86,
-                    "end": 101,
+                    "start": 83,
+                    "end": 98,
                     "ctxt": 0
                   },
                   "value": "logger",
@@ -74,22 +74,22 @@
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
-                      "start": 92,
-                      "end": 101,
+                      "start": 89,
+                      "end": 98,
                       "ctxt": 0
                     },
                     "typeAnnotation": {
                       "type": "TsTypeReference",
                       "span": {
-                        "start": 94,
-                        "end": 101,
+                        "start": 91,
+                        "end": 98,
                         "ctxt": 0
                       },
                       "typeName": {
                         "type": "Identifier",
                         "span": {
-                          "start": 94,
-                          "end": 101,
+                          "start": 91,
+                          "end": 98,
                           "ctxt": 0
                         },
                         "value": "ILogger",
@@ -104,46 +104,46 @@
             "body": {
               "type": "BlockStatement",
               "span": {
-                "start": 103,
-                "end": 176,
+                "start": 100,
+                "end": 171,
                 "ctxt": 0
               },
               "stmts": [
                 {
                   "type": "ExpressionStatement",
                   "span": {
-                    "start": 119,
-                    "end": 165,
+                    "start": 115,
+                    "end": 161,
                     "ctxt": 0
                   },
                   "expression": {
                     "type": "AssignmentExpression",
                     "span": {
-                      "start": 119,
-                      "end": 164,
+                      "start": 115,
+                      "end": 160,
                       "ctxt": 0
                     },
                     "operator": "=",
                     "left": {
                       "type": "MemberExpression",
                       "span": {
-                        "start": 119,
-                        "end": 136,
+                        "start": 115,
+                        "end": 132,
                         "ctxt": 0
                       },
                       "object": {
                         "type": "ThisExpression",
                         "span": {
-                          "start": 119,
-                          "end": 123,
+                          "start": 115,
+                          "end": 119,
                           "ctxt": 0
                         }
                       },
                       "property": {
                         "type": "Identifier",
                         "span": {
-                          "start": 124,
-                          "end": 136,
+                          "start": 120,
+                          "end": 132,
                           "ctxt": 0
                         },
                         "value": "_information",
@@ -153,37 +153,37 @@
                     "right": {
                       "type": "CallExpression",
                       "span": {
-                        "start": 139,
-                        "end": 164,
+                        "start": 135,
+                        "end": 160,
                         "ctxt": 0
                       },
                       "callee": {
                         "type": "MemberExpression",
                         "span": {
-                          "start": 139,
-                          "end": 162,
+                          "start": 135,
+                          "end": 158,
                           "ctxt": 0
                         },
                         "object": {
                           "type": "MemberExpression",
                           "span": {
-                            "start": 139,
-                            "end": 150,
+                            "start": 135,
+                            "end": 146,
                             "ctxt": 0
                           },
                           "object": {
                             "type": "ThisExpression",
                             "span": {
-                              "start": 139,
-                              "end": 143,
+                              "start": 135,
+                              "end": 139,
                               "ctxt": 0
                             }
                           },
                           "property": {
                             "type": "Identifier",
                             "span": {
-                              "start": 144,
-                              "end": 150,
+                              "start": 140,
+                              "end": 146,
                               "ctxt": 0
                             },
                             "value": "logger",
@@ -193,8 +193,8 @@
                         "property": {
                           "type": "Identifier",
                           "span": {
-                            "start": 151,
-                            "end": 162,
+                            "start": 147,
+                            "end": 158,
                             "ctxt": 0
                           },
                           "value": "information",
@@ -220,15 +220,15 @@
           {
             "type": "TsExpressionWithTypeArguments",
             "span": {
-              "start": 47,
-              "end": 54,
+              "start": 45,
+              "end": 52,
               "ctxt": 0
             },
             "expression": {
               "type": "Identifier",
               "span": {
-                "start": 47,
-                "end": 54,
+                "start": 45,
+                "end": 52,
                 "ctxt": 0
               },
               "value": "ILogger",

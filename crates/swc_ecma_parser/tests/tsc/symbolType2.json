@@ -1,38 +1,38 @@
 {
   "type": "Script",
   "span": {
-    "start": 17,
-    "end": 76,
+    "start": 16,
+    "end": 74,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 17,
-        "end": 49,
+        "start": 16,
+        "end": 48,
         "ctxt": 0
       },
       "expression": {
         "type": "BinaryExpression",
         "span": {
-          "start": 17,
-          "end": 48,
+          "start": 16,
+          "end": 47,
           "ctxt": 0
         },
         "operator": "in",
         "left": {
           "type": "MemberExpression",
           "span": {
-            "start": 17,
-            "end": 42,
+            "start": 16,
+            "end": 41,
             "ctxt": 0
           },
           "object": {
             "type": "Identifier",
             "span": {
-              "start": 17,
-              "end": 23,
+              "start": 16,
+              "end": 22,
               "ctxt": 0
             },
             "value": "Symbol",
@@ -41,8 +41,8 @@
           "property": {
             "type": "Identifier",
             "span": {
-              "start": 24,
-              "end": 42,
+              "start": 23,
+              "end": 41,
               "ctxt": 0
             },
             "value": "isConcatSpreadable",
@@ -52,8 +52,8 @@
         "right": {
           "type": "ObjectExpression",
           "span": {
-            "start": 46,
-            "end": 48,
+            "start": 45,
+            "end": 47,
             "ctxt": 0
           },
           "properties": []
@@ -63,23 +63,23 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 51,
-        "end": 76,
+        "start": 49,
+        "end": 74,
         "ctxt": 0
       },
       "expression": {
         "type": "BinaryExpression",
         "span": {
-          "start": 51,
-          "end": 75,
+          "start": 49,
+          "end": 73,
           "ctxt": 0
         },
         "operator": "in",
         "left": {
           "type": "StringLiteral",
           "span": {
-            "start": 51,
-            "end": 53,
+            "start": 49,
+            "end": 51,
             "ctxt": 0
           },
           "value": "",
@@ -88,15 +88,15 @@
         "right": {
           "type": "MemberExpression",
           "span": {
-            "start": 57,
-            "end": 75,
+            "start": 55,
+            "end": 73,
             "ctxt": 0
           },
           "object": {
             "type": "Identifier",
             "span": {
-              "start": 57,
-              "end": 63,
+              "start": 55,
+              "end": 61,
               "ctxt": 0
             },
             "value": "Symbol",
@@ -105,8 +105,8 @@
           "property": {
             "type": "Identifier",
             "span": {
-              "start": 64,
-              "end": 75,
+              "start": 62,
+              "end": 73,
               "ctxt": 0
             },
             "value": "toPrimitive",

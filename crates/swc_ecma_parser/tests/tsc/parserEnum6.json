@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 29,
+    "end": 27,
     "ctxt": 0
   },
   "body": [
@@ -10,7 +10,7 @@
       "type": "TsEnumDeclaration",
       "span": {
         "start": 1,
-        "end": 29,
+        "end": 27,
         "ctxt": 0
       },
       "declare": false,
@@ -29,15 +29,15 @@
         {
           "type": "TsEnumMember",
           "span": {
-            "start": 13,
-            "end": 16,
+            "start": 12,
+            "end": 15,
             "ctxt": 0
           },
           "id": {
             "type": "StringLiteral",
             "span": {
-              "start": 13,
-              "end": 16,
+              "start": 12,
+              "end": 15,
               "ctxt": 0
             },
             "value": "A",
@@ -48,15 +48,15 @@
         {
           "type": "TsEnumMember",
           "span": {
-            "start": 18,
-            "end": 21,
+            "start": 17,
+            "end": 20,
             "ctxt": 0
           },
           "id": {
             "type": "StringLiteral",
             "span": {
-              "start": 18,
-              "end": 21,
+              "start": 17,
+              "end": 20,
               "ctxt": 0
             },
             "value": "B",
@@ -67,15 +67,15 @@
         {
           "type": "TsEnumMember",
           "span": {
-            "start": 23,
-            "end": 26,
+            "start": 22,
+            "end": 25,
             "ctxt": 0
           },
           "id": {
             "type": "StringLiteral",
             "span": {
-              "start": 23,
-              "end": 26,
+              "start": 22,
+              "end": 25,
               "ctxt": 0
             },
             "value": "C",

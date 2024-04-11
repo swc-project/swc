@@ -1,23 +1,23 @@
 {
   "type": "Module",
   "span": {
-    "start": 152,
-    "end": 307,
+    "start": 146,
+    "end": 296,
     "ctxt": 0
   },
   "body": [
     {
       "type": "ExportDeclaration",
       "span": {
-        "start": 152,
-        "end": 191,
+        "start": 146,
+        "end": 185,
         "ctxt": 0
       },
       "declaration": {
         "type": "VariableDeclaration",
         "span": {
-          "start": 159,
-          "end": 191,
+          "start": 153,
+          "end": 185,
           "ctxt": 0
         },
         "kind": "const",
@@ -26,15 +26,15 @@
           {
             "type": "VariableDeclarator",
             "span": {
-              "start": 173,
-              "end": 190,
+              "start": 167,
+              "end": 184,
               "ctxt": 0
             },
             "id": {
               "type": "Identifier",
               "span": {
-                "start": 173,
-                "end": 177,
+                "start": 167,
+                "end": 171,
                 "ctxt": 0
               },
               "value": "elem",
@@ -42,22 +42,22 @@
               "typeAnnotation": {
                 "type": "TsTypeAnnotation",
                 "span": {
-                  "start": 177,
-                  "end": 190,
+                  "start": 171,
+                  "end": 184,
                   "ctxt": 0
                 },
                 "typeAnnotation": {
                   "type": "TsTypeReference",
                   "span": {
-                    "start": 179,
-                    "end": 190,
+                    "start": 173,
+                    "end": 184,
                     "ctxt": 0
                   },
                   "typeName": {
                     "type": "Identifier",
                     "span": {
-                      "start": 179,
-                      "end": 190,
+                      "start": 173,
+                      "end": 184,
                       "ctxt": 0
                     },
                     "value": "HTMLElement",
@@ -76,8 +76,8 @@
     {
       "type": "ExportNamedDeclaration",
       "span": {
-        "start": 264,
-        "end": 273,
+        "start": 254,
+        "end": 263,
         "ctxt": 0
       },
       "specifiers": [],
@@ -88,8 +88,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 275,
-        "end": 307,
+        "start": 264,
+        "end": 296,
         "ctxt": 0
       },
       "kind": "const",
@@ -98,15 +98,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 289,
-            "end": 306,
+            "start": 278,
+            "end": 295,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 289,
-              "end": 293,
+              "start": 278,
+              "end": 282,
               "ctxt": 0
             },
             "value": "elem",
@@ -114,22 +114,22 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 293,
-                "end": 306,
+                "start": 282,
+                "end": 295,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsTypeReference",
                 "span": {
-                  "start": 295,
-                  "end": 306,
+                  "start": 284,
+                  "end": 295,
                   "ctxt": 0
                 },
                 "typeName": {
                   "type": "Identifier",
                   "span": {
-                    "start": 295,
-                    "end": 306,
+                    "start": 284,
+                    "end": 295,
                     "ctxt": 0
                   },
                   "value": "HTMLElement",

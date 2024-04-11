@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 44,
+    "end": 43,
     "ctxt": 0
   },
   "body": [
@@ -10,7 +10,7 @@
       "type": "VariableDeclaration",
       "span": {
         "start": 1,
-        "end": 44,
+        "end": 43,
         "ctxt": 0
       },
       "kind": "var",
@@ -20,7 +20,7 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 5,
-            "end": 43,
+            "end": 42,
             "ctxt": 0
           },
           "id": {
@@ -38,14 +38,14 @@
             "type": "MemberExpression",
             "span": {
               "start": 9,
-              "end": 43,
+              "end": 42,
               "ctxt": 0
             },
             "object": {
               "type": "CallExpression",
               "span": {
                 "start": 9,
-                "end": 39,
+                "end": 38,
                 "ctxt": 0
               },
               "callee": {
@@ -78,15 +78,15 @@
                   "expression": {
                     "type": "TsTypeAssertion",
                     "span": {
-                      "start": 27,
-                      "end": 38,
+                      "start": 26,
+                      "end": 37,
                       "ctxt": 0
                     },
                     "expression": {
                       "type": "Identifier",
                       "span": {
-                        "start": 32,
-                        "end": 38,
+                        "start": 31,
+                        "end": 37,
                         "ctxt": 0
                       },
                       "value": "window",
@@ -95,8 +95,8 @@
                     "typeAnnotation": {
                       "type": "TsKeywordType",
                       "span": {
-                        "start": 28,
-                        "end": 31,
+                        "start": 27,
+                        "end": 30,
                         "ctxt": 0
                       },
                       "kind": "any"
@@ -109,8 +109,8 @@
             "property": {
               "type": "Identifier",
               "span": {
-                "start": 40,
-                "end": 43,
+                "start": 39,
+                "end": 42,
                 "ctxt": 0
               },
               "value": "foo",

@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 45,
+    "end": 43,
     "ctxt": 0
   },
   "body": [
@@ -35,22 +35,22 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 22,
-        "end": 45,
+        "start": 20,
+        "end": 43,
         "ctxt": 0
       },
       "expression": {
         "type": "TaggedTemplateExpression",
         "span": {
-          "start": 22,
-          "end": 44,
+          "start": 20,
+          "end": 42,
           "ctxt": 0
         },
         "tag": {
           "type": "Identifier",
           "span": {
-            "start": 22,
-            "end": 29,
+            "start": 20,
+            "end": 27,
             "ctxt": 0
           },
           "value": "CtorTag",
@@ -60,8 +60,8 @@
         "template": {
           "type": "TemplateLiteral",
           "span": {
-            "start": 30,
-            "end": 44,
+            "start": 28,
+            "end": 42,
             "ctxt": 0
           },
           "expressions": [],
@@ -69,8 +69,8 @@
             {
               "type": "TemplateElement",
               "span": {
-                "start": 31,
-                "end": 43,
+                "start": 29,
+                "end": 41,
                 "ctxt": 0
               },
               "tail": true,

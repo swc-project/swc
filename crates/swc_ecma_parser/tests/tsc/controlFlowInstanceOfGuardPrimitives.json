@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 446,
+    "end": 434,
     "ctxt": 0
   },
   "body": [
@@ -98,37 +98,37 @@
       "decorators": [],
       "span": {
         "start": 1,
-        "end": 370,
+        "end": 362,
         "ctxt": 0
       },
       "body": {
         "type": "BlockStatement",
         "span": {
           "start": 53,
-          "end": 370,
+          "end": 362,
           "ctxt": 0
         },
         "stmts": [
           {
             "type": "IfStatement",
             "span": {
-              "start": 60,
-              "end": 367,
+              "start": 59,
+              "end": 360,
               "ctxt": 0
             },
             "test": {
               "type": "BinaryExpression",
               "span": {
-                "start": 64,
-                "end": 87,
+                "start": 63,
+                "end": 86,
                 "ctxt": 0
               },
               "operator": "instanceof",
               "left": {
                 "type": "Identifier",
                 "span": {
-                  "start": 64,
-                  "end": 69,
+                  "start": 63,
+                  "end": 68,
                   "ctxt": 0
                 },
                 "value": "thing",
@@ -137,8 +137,8 @@
               "right": {
                 "type": "Identifier",
                 "span": {
-                  "start": 81,
-                  "end": 87,
+                  "start": 80,
+                  "end": 86,
                   "ctxt": 0
                 },
                 "value": "Object",
@@ -148,37 +148,37 @@
             "consequent": {
               "type": "BlockStatement",
               "span": {
-                "start": 89,
-                "end": 166,
+                "start": 88,
+                "end": 163,
                 "ctxt": 0
               },
               "stmts": [
                 {
                   "type": "ExpressionStatement",
                   "span": {
-                    "start": 100,
-                    "end": 159,
+                    "start": 98,
+                    "end": 157,
                     "ctxt": 0
                   },
                   "expression": {
                     "type": "CallExpression",
                     "span": {
-                      "start": 100,
-                      "end": 158,
+                      "start": 98,
+                      "end": 156,
                       "ctxt": 0
                     },
                     "callee": {
                       "type": "MemberExpression",
                       "span": {
-                        "start": 100,
-                        "end": 111,
+                        "start": 98,
+                        "end": 109,
                         "ctxt": 0
                       },
                       "object": {
                         "type": "Identifier",
                         "span": {
-                          "start": 100,
-                          "end": 107,
+                          "start": 98,
+                          "end": 105,
                           "ctxt": 0
                         },
                         "value": "console",
@@ -187,8 +187,8 @@
                       "property": {
                         "type": "Identifier",
                         "span": {
-                          "start": 108,
-                          "end": 111,
+                          "start": 106,
+                          "end": 109,
                           "ctxt": 0
                         },
                         "value": "log",
@@ -201,16 +201,16 @@
                         "expression": {
                           "type": "BinaryExpression",
                           "span": {
-                            "start": 112,
-                            "end": 157,
+                            "start": 110,
+                            "end": 155,
                             "ctxt": 0
                           },
                           "operator": "+",
                           "left": {
                             "type": "StringLiteral",
                             "span": {
-                              "start": 112,
-                              "end": 135,
+                              "start": 110,
+                              "end": 133,
                               "ctxt": 0
                             },
                             "value": "Aha!! It's a Date in ",
@@ -219,22 +219,22 @@
                           "right": {
                             "type": "CallExpression",
                             "span": {
-                              "start": 138,
-                              "end": 157,
+                              "start": 136,
+                              "end": 155,
                               "ctxt": 0
                             },
                             "callee": {
                               "type": "MemberExpression",
                               "span": {
-                                "start": 138,
-                                "end": 155,
+                                "start": 136,
+                                "end": 153,
                                 "ctxt": 0
                               },
                               "object": {
                                 "type": "Identifier",
                                 "span": {
-                                  "start": 138,
-                                  "end": 143,
+                                  "start": 136,
+                                  "end": 141,
                                   "ctxt": 0
                                 },
                                 "value": "thing",
@@ -243,8 +243,8 @@
                               "property": {
                                 "type": "Identifier",
                                 "span": {
-                                  "start": 144,
-                                  "end": 155,
+                                  "start": 142,
+                                  "end": 153,
                                   "ctxt": 0
                                 },
                                 "value": "getFullYear",
@@ -265,31 +265,31 @@
             "alternate": {
               "type": "IfStatement",
               "span": {
-                "start": 172,
-                "end": 367,
+                "start": 169,
+                "end": 360,
                 "ctxt": 0
               },
               "test": {
                 "type": "BinaryExpression",
                 "span": {
-                  "start": 176,
-                  "end": 201,
+                  "start": 173,
+                  "end": 198,
                   "ctxt": 0
                 },
                 "operator": "===",
                 "left": {
                   "type": "UnaryExpression",
                   "span": {
-                    "start": 176,
-                    "end": 188,
+                    "start": 173,
+                    "end": 185,
                     "ctxt": 0
                   },
                   "operator": "typeof",
                   "argument": {
                     "type": "Identifier",
                     "span": {
-                      "start": 183,
-                      "end": 188,
+                      "start": 180,
+                      "end": 185,
                       "ctxt": 0
                     },
                     "value": "thing",
@@ -299,8 +299,8 @@
                 "right": {
                   "type": "StringLiteral",
                   "span": {
-                    "start": 193,
-                    "end": 201,
+                    "start": 190,
+                    "end": 198,
                     "ctxt": 0
                   },
                   "value": "string",
@@ -310,37 +310,37 @@
               "consequent": {
                 "type": "BlockStatement",
                 "span": {
-                  "start": 203,
-                  "end": 282,
+                  "start": 200,
+                  "end": 277,
                   "ctxt": 0
                 },
                 "stmts": [
                   {
                     "type": "ExpressionStatement",
                     "span": {
-                      "start": 214,
-                      "end": 275,
+                      "start": 210,
+                      "end": 271,
                       "ctxt": 0
                     },
                     "expression": {
                       "type": "CallExpression",
                       "span": {
-                        "start": 214,
-                        "end": 274,
+                        "start": 210,
+                        "end": 270,
                         "ctxt": 0
                       },
                       "callee": {
                         "type": "MemberExpression",
                         "span": {
-                          "start": 214,
-                          "end": 225,
+                          "start": 210,
+                          "end": 221,
                           "ctxt": 0
                         },
                         "object": {
                           "type": "Identifier",
                           "span": {
-                            "start": 214,
-                            "end": 221,
+                            "start": 210,
+                            "end": 217,
                             "ctxt": 0
                           },
                           "value": "console",
@@ -349,8 +349,8 @@
                         "property": {
                           "type": "Identifier",
                           "span": {
-                            "start": 222,
-                            "end": 225,
+                            "start": 218,
+                            "end": 221,
                             "ctxt": 0
                           },
                           "value": "log",
@@ -363,16 +363,16 @@
                           "expression": {
                             "type": "BinaryExpression",
                             "span": {
-                              "start": 226,
-                              "end": 273,
+                              "start": 222,
+                              "end": 269,
                               "ctxt": 0
                             },
                             "operator": "+",
                             "left": {
                               "type": "StringLiteral",
                               "span": {
-                                "start": 226,
-                                "end": 258,
+                                "start": 222,
+                                "end": 254,
                                 "ctxt": 0
                               },
                               "value": "Aha!! It's a string of length ",
@@ -381,15 +381,15 @@
                             "right": {
                               "type": "MemberExpression",
                               "span": {
-                                "start": 261,
-                                "end": 273,
+                                "start": 257,
+                                "end": 269,
                                 "ctxt": 0
                               },
                               "object": {
                                 "type": "Identifier",
                                 "span": {
-                                  "start": 261,
-                                  "end": 266,
+                                  "start": 257,
+                                  "end": 262,
                                   "ctxt": 0
                                 },
                                 "value": "thing",
@@ -398,8 +398,8 @@
                               "property": {
                                 "type": "Identifier",
                                 "span": {
-                                  "start": 267,
-                                  "end": 273,
+                                  "start": 263,
+                                  "end": 269,
                                   "ctxt": 0
                                 },
                                 "value": "length",
@@ -417,37 +417,37 @@
               "alternate": {
                 "type": "BlockStatement",
                 "span": {
-                  "start": 288,
-                  "end": 367,
+                  "start": 283,
+                  "end": 360,
                   "ctxt": 0
                 },
                 "stmts": [
                   {
                     "type": "ExpressionStatement",
                     "span": {
-                      "start": 299,
-                      "end": 360,
+                      "start": 293,
+                      "end": 354,
                       "ctxt": 0
                     },
                     "expression": {
                       "type": "CallExpression",
                       "span": {
-                        "start": 299,
-                        "end": 359,
+                        "start": 293,
+                        "end": 353,
                         "ctxt": 0
                       },
                       "callee": {
                         "type": "MemberExpression",
                         "span": {
-                          "start": 299,
-                          "end": 310,
+                          "start": 293,
+                          "end": 304,
                           "ctxt": 0
                         },
                         "object": {
                           "type": "Identifier",
                           "span": {
-                            "start": 299,
-                            "end": 306,
+                            "start": 293,
+                            "end": 300,
                             "ctxt": 0
                           },
                           "value": "console",
@@ -456,8 +456,8 @@
                         "property": {
                           "type": "Identifier",
                           "span": {
-                            "start": 307,
-                            "end": 310,
+                            "start": 301,
+                            "end": 304,
                             "ctxt": 0
                           },
                           "value": "log",
@@ -470,16 +470,16 @@
                           "expression": {
                             "type": "BinaryExpression",
                             "span": {
-                              "start": 311,
-                              "end": 358,
+                              "start": 305,
+                              "end": 352,
                               "ctxt": 0
                             },
                             "operator": "+",
                             "left": {
                               "type": "StringLiteral",
                               "span": {
-                                "start": 311,
-                                "end": 335,
+                                "start": 305,
+                                "end": 329,
                                 "ctxt": 0
                               },
                               "value": "Aha!! It's the number ",
@@ -488,22 +488,22 @@
                             "right": {
                               "type": "CallExpression",
                               "span": {
-                                "start": 338,
-                                "end": 358,
+                                "start": 332,
+                                "end": 352,
                                 "ctxt": 0
                               },
                               "callee": {
                                 "type": "MemberExpression",
                                 "span": {
-                                  "start": 338,
-                                  "end": 355,
+                                  "start": 332,
+                                  "end": 349,
                                   "ctxt": 0
                                 },
                                 "object": {
                                   "type": "Identifier",
                                   "span": {
-                                    "start": 338,
-                                    "end": 343,
+                                    "start": 332,
+                                    "end": 337,
                                     "ctxt": 0
                                   },
                                   "value": "thing",
@@ -512,8 +512,8 @@
                                 "property": {
                                   "type": "Identifier",
                                   "span": {
-                                    "start": 344,
-                                    "end": 355,
+                                    "start": 338,
+                                    "end": 349,
                                     "ctxt": 0
                                   },
                                   "value": "toPrecision",
@@ -526,8 +526,8 @@
                                   "expression": {
                                     "type": "NumericLiteral",
                                     "span": {
-                                      "start": 356,
-                                      "end": 357,
+                                      "start": 350,
+                                      "end": 351,
                                       "ctxt": 0
                                     },
                                     "value": 3.0,
@@ -557,22 +557,22 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 374,
-        "end": 398,
+        "start": 364,
+        "end": 388,
         "ctxt": 0
       },
       "expression": {
         "type": "CallExpression",
         "span": {
-          "start": 374,
-          "end": 397,
+          "start": 364,
+          "end": 387,
           "ctxt": 0
         },
         "callee": {
           "type": "Identifier",
           "span": {
-            "start": 374,
-            "end": 385,
+            "start": 364,
+            "end": 375,
             "ctxt": 0
           },
           "value": "distinguish",
@@ -584,15 +584,15 @@
             "expression": {
               "type": "NewExpression",
               "span": {
-                "start": 386,
-                "end": 396,
+                "start": 376,
+                "end": 386,
                 "ctxt": 0
               },
               "callee": {
                 "type": "Identifier",
                 "span": {
-                  "start": 390,
-                  "end": 394,
+                  "start": 380,
+                  "end": 384,
                   "ctxt": 0
                 },
                 "value": "Date",
@@ -609,22 +609,22 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 400,
-        "end": 420,
+        "start": 389,
+        "end": 409,
         "ctxt": 0
       },
       "expression": {
         "type": "CallExpression",
         "span": {
-          "start": 400,
-          "end": 419,
+          "start": 389,
+          "end": 408,
           "ctxt": 0
         },
         "callee": {
           "type": "Identifier",
           "span": {
-            "start": 400,
-            "end": 411,
+            "start": 389,
+            "end": 400,
             "ctxt": 0
           },
           "value": "distinguish",
@@ -636,8 +636,8 @@
             "expression": {
               "type": "StringLiteral",
               "span": {
-                "start": 412,
-                "end": 418,
+                "start": 401,
+                "end": 407,
                 "ctxt": 0
               },
               "value": "beef",
@@ -651,22 +651,22 @@
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 422,
-        "end": 446,
+        "start": 410,
+        "end": 434,
         "ctxt": 0
       },
       "expression": {
         "type": "CallExpression",
         "span": {
-          "start": 422,
-          "end": 445,
+          "start": 410,
+          "end": 433,
           "ctxt": 0
         },
         "callee": {
           "type": "Identifier",
           "span": {
-            "start": 422,
-            "end": 433,
+            "start": 410,
+            "end": 421,
             "ctxt": 0
           },
           "value": "distinguish",
@@ -678,8 +678,8 @@
             "expression": {
               "type": "NumericLiteral",
               "span": {
-                "start": 434,
-                "end": 444,
+                "start": 422,
+                "end": 432,
                 "ctxt": 0
               },
               "value": 3.14159265,

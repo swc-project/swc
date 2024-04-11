@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 31,
+    "end": 29,
     "ctxt": 0
   },
   "body": [
@@ -10,7 +10,7 @@
       "type": "TsInterfaceDeclaration",
       "span": {
         "start": 1,
-        "end": 31,
+        "end": 29,
         "ctxt": 0
       },
       "id": {
@@ -30,23 +30,23 @@
         "type": "TsInterfaceBody",
         "span": {
           "start": 13,
-          "end": 31,
+          "end": 29,
           "ctxt": 0
         },
         "body": [
           {
             "type": "TsMethodSignature",
             "span": {
-              "start": 18,
-              "end": 28,
+              "start": 17,
+              "end": 27,
               "ctxt": 0
             },
             "readonly": false,
             "key": {
               "type": "StringLiteral",
               "span": {
-                "start": 18,
-                "end": 21,
+                "start": 17,
+                "end": 20,
                 "ctxt": 0
               },
               "value": "H",
@@ -59,23 +59,23 @@
             "typeParams": {
               "type": "TsTypeParameterDeclaration",
               "span": {
-                "start": 22,
-                "end": 25,
+                "start": 21,
+                "end": 24,
                 "ctxt": 0
               },
               "parameters": [
                 {
                   "type": "TsTypeParameter",
                   "span": {
-                    "start": 23,
-                    "end": 24,
+                    "start": 22,
+                    "end": 23,
                     "ctxt": 0
                   },
                   "name": {
                     "type": "Identifier",
                     "span": {
-                      "start": 23,
-                      "end": 24,
+                      "start": 22,
+                      "end": 23,
                       "ctxt": 0
                     },
                     "value": "T",

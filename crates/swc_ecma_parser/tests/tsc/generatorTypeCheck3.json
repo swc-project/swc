@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 17,
-    "end": 61,
+    "start": 16,
+    "end": 60,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 27,
-          "end": 29,
+          "start": 26,
+          "end": 28,
           "ctxt": 0
         },
         "value": "g1",
@@ -22,15 +22,15 @@
       "params": [],
       "decorators": [],
       "span": {
-        "start": 17,
-        "end": 61,
+        "start": 16,
+        "end": 60,
         "ctxt": 0
       },
       "body": {
         "type": "BlockStatement",
         "span": {
-          "start": 58,
-          "end": 61,
+          "start": 57,
+          "end": 60,
           "ctxt": 0
         },
         "stmts": []
@@ -41,22 +41,22 @@
       "returnType": {
         "type": "TsTypeAnnotation",
         "span": {
-          "start": 31,
-          "end": 57,
+          "start": 30,
+          "end": 56,
           "ctxt": 0
         },
         "typeAnnotation": {
           "type": "TsTypeReference",
           "span": {
-            "start": 33,
-            "end": 57,
+            "start": 32,
+            "end": 56,
             "ctxt": 0
           },
           "typeName": {
             "type": "Identifier",
             "span": {
-              "start": 33,
-              "end": 49,
+              "start": 32,
+              "end": 48,
               "ctxt": 0
             },
             "value": "IterableIterator",
@@ -65,16 +65,16 @@
           "typeParams": {
             "type": "TsTypeParameterInstantiation",
             "span": {
-              "start": 49,
-              "end": 57,
+              "start": 48,
+              "end": 56,
               "ctxt": 0
             },
             "params": [
               {
                 "type": "TsKeywordType",
                 "span": {
-                  "start": 50,
-                  "end": 56,
+                  "start": 49,
+                  "end": 55,
                   "ctxt": 0
                 },
                 "kind": "string"

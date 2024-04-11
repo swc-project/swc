@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 1,
-    "end": 85,
+    "end": 82,
     "ctxt": 0
   },
   "body": [
@@ -21,7 +21,7 @@
       "declare": true,
       "span": {
         "start": 1,
-        "end": 85,
+        "end": 82,
         "ctxt": 0
       },
       "decorators": [],
@@ -29,15 +29,15 @@
         {
           "type": "Constructor",
           "span": {
-            "start": 20,
-            "end": 52,
+            "start": 19,
+            "end": 51,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 20,
-              "end": 31,
+              "start": 19,
+              "end": 30,
               "ctxt": 0
             },
             "value": "constructor",
@@ -47,8 +47,8 @@
             {
               "type": "TsParameterProperty",
               "span": {
-                "start": 32,
-                "end": 50,
+                "start": 31,
+                "end": 49,
                 "ctxt": 0
               },
               "decorators": [],
@@ -58,8 +58,8 @@
               "param": {
                 "type": "Identifier",
                 "span": {
-                  "start": 41,
-                  "end": 50,
+                  "start": 40,
+                  "end": 49,
                   "ctxt": 0
                 },
                 "value": "x",
@@ -67,15 +67,15 @@
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
-                    "start": 42,
-                    "end": 50,
+                    "start": 41,
+                    "end": 49,
                     "ctxt": 0
                   },
                   "typeAnnotation": {
                     "type": "TsKeywordType",
                     "span": {
-                      "start": 44,
-                      "end": 50,
+                      "start": 43,
+                      "end": 49,
                       "ctxt": 0
                     },
                     "kind": "number"
@@ -91,15 +91,15 @@
         {
           "type": "ClassMethod",
           "span": {
-            "start": 55,
-            "end": 82,
+            "start": 53,
+            "end": 80,
             "ctxt": 0
           },
           "key": {
             "type": "Identifier",
             "span": {
-              "start": 55,
-              "end": 61,
+              "start": 53,
+              "end": 59,
               "ctxt": 0
             },
             "value": "method",
@@ -110,16 +110,16 @@
               {
                 "type": "Parameter",
                 "span": {
-                  "start": 62,
-                  "end": 80,
+                  "start": 60,
+                  "end": 78,
                   "ctxt": 0
                 },
                 "decorators": [],
                 "pat": {
                   "type": "Identifier",
                   "span": {
-                    "start": 71,
-                    "end": 80,
+                    "start": 69,
+                    "end": 78,
                     "ctxt": 0
                   },
                   "value": "x",
@@ -127,15 +127,15 @@
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
-                      "start": 72,
-                      "end": 80,
+                      "start": 70,
+                      "end": 78,
                       "ctxt": 0
                     },
                     "typeAnnotation": {
                       "type": "TsKeywordType",
                       "span": {
-                        "start": 74,
-                        "end": 80,
+                        "start": 72,
+                        "end": 78,
                         "ctxt": 0
                       },
                       "kind": "number"
@@ -146,8 +146,8 @@
             ],
             "decorators": [],
             "span": {
-              "start": 55,
-              "end": 82,
+              "start": 53,
+              "end": 80,
               "ctxt": 0
             },
             "body": null,

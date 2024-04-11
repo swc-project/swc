@@ -1,16 +1,16 @@
 {
   "type": "Script",
   "span": {
-    "start": 26,
-    "end": 98,
+    "start": 24,
+    "end": 94,
     "ctxt": 0
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 26,
-        "end": 55,
+        "start": 24,
+        "end": 52,
         "ctxt": 0
       },
       "kind": "let",
@@ -19,15 +19,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 30,
-            "end": 54,
+            "start": 28,
+            "end": 51,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 30,
-              "end": 33,
+              "start": 28,
+              "end": 31,
               "ctxt": 0
             },
             "value": "abc",
@@ -35,22 +35,22 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 33,
-                "end": 44,
+                "start": 31,
+                "end": 42,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsLiteralType",
                 "span": {
-                  "start": 35,
-                  "end": 44,
+                  "start": 33,
+                  "end": 42,
                   "ctxt": 0
                 },
                 "literal": {
                   "type": "StringLiteral",
                   "span": {
-                    "start": 35,
-                    "end": 44,
+                    "start": 33,
+                    "end": 42,
                     "ctxt": 0
                   },
                   "value": "AB\r\nC",
@@ -62,8 +62,8 @@
           "init": {
             "type": "TemplateLiteral",
             "span": {
-              "start": 47,
-              "end": 54,
+              "start": 45,
+              "end": 51,
               "ctxt": 0
             },
             "expressions": [],
@@ -71,13 +71,13 @@
               {
                 "type": "TemplateElement",
                 "span": {
-                  "start": 48,
-                  "end": 53,
+                  "start": 46,
+                  "end": 50,
                   "ctxt": 0
                 },
                 "tail": true,
                 "cooked": "AB\nC",
-                "raw": "AB\r\nC"
+                "raw": "AB\nC"
               }
             ]
           },
@@ -88,8 +88,8 @@
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 57,
-        "end": 98,
+        "start": 53,
+        "end": 94,
         "ctxt": 0
       },
       "kind": "let",
@@ -98,15 +98,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 61,
-            "end": 97,
+            "start": 57,
+            "end": 93,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 61,
-              "end": 73,
+              "start": 57,
+              "end": 69,
               "ctxt": 0
             },
             "value": "de_NEWLINE_f",
@@ -114,22 +114,22 @@
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
-                "start": 73,
-                "end": 82,
+                "start": 69,
+                "end": 78,
                 "ctxt": 0
               },
               "typeAnnotation": {
                 "type": "TsLiteralType",
                 "span": {
-                  "start": 75,
-                  "end": 82,
+                  "start": 71,
+                  "end": 78,
                   "ctxt": 0
                 },
                 "literal": {
                   "type": "StringLiteral",
                   "span": {
-                    "start": 75,
-                    "end": 82,
+                    "start": 71,
+                    "end": 78,
                     "ctxt": 0
                   },
                   "value": "DE\nF",
@@ -141,16 +141,16 @@
           "init": {
             "type": "TemplateLiteral",
             "span": {
-              "start": 85,
-              "end": 97,
+              "start": 81,
+              "end": 93,
               "ctxt": 0
             },
             "expressions": [
               {
                 "type": "StringLiteral",
                 "span": {
-                  "start": 90,
-                  "end": 94,
+                  "start": 86,
+                  "end": 90,
                   "ctxt": 0
                 },
                 "value": "\n",
@@ -161,8 +161,8 @@
               {
                 "type": "TemplateElement",
                 "span": {
-                  "start": 86,
-                  "end": 88,
+                  "start": 82,
+                  "end": 84,
                   "ctxt": 0
                 },
                 "tail": false,
@@ -172,8 +172,8 @@
               {
                 "type": "TemplateElement",
                 "span": {
-                  "start": 95,
-                  "end": 96,
+                  "start": 91,
+                  "end": 92,
                   "ctxt": 0
                 },
                 "tail": true,
