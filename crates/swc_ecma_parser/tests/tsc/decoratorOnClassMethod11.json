@@ -2,7 +2,7 @@
   "type": "Script",
   "span": {
     "start": 50,
-    "end": 185,
+    "end": 187,
     "ctxt": 0
   },
   "body": [
@@ -10,7 +10,7 @@
       "type": "TsModuleDeclaration",
       "span": {
         "start": 50,
-        "end": 185,
+        "end": 187,
         "ctxt": 0
       },
       "declare": false,
@@ -29,7 +29,7 @@
         "type": "TsModuleBlock",
         "span": {
           "start": 59,
-          "end": 185,
+          "end": 187,
           "ctxt": 0
         },
         "body": [
@@ -48,7 +48,7 @@
             "declare": false,
             "span": {
               "start": 65,
-              "end": 183,
+              "end": 185,
               "ctxt": 0
             },
             "decorators": [],
@@ -202,14 +202,14 @@
                 "type": "ClassMethod",
                 "span": {
                   "start": 141,
-                  "end": 177,
+                  "end": 179,
                   "ctxt": 0
                 },
                 "key": {
                   "type": "Identifier",
                   "span": {
-                    "start": 165,
-                    "end": 171,
+                    "start": 167,
+                    "end": 173,
                     "ctxt": 0
                   },
                   "value": "method",
@@ -222,31 +222,29 @@
                       "type": "Decorator",
                       "span": {
                         "start": 141,
-                        "end": 156,
+                        "end": 158,
                         "ctxt": 0
                       },
                       "expression": {
                         "type": "MemberExpression",
                         "span": {
-                          "start": 142,
-                          "end": 156,
+                          "start": 143,
+                          "end": 157,
                           "ctxt": 0
                         },
                         "object": {
-                          "type": "Identifier",
+                          "type": "ThisExpression",
                           "span": {
-                            "start": 142,
-                            "end": 146,
+                            "start": 143,
+                            "end": 147,
                             "ctxt": 0
-                          },
-                          "value": "this",
-                          "optional": false
+                          }
                         },
                         "property": {
                           "type": "Identifier",
                           "span": {
-                            "start": 147,
-                            "end": 156,
+                            "start": 148,
+                            "end": 157,
                             "ctxt": 0
                           },
                           "value": "decorator",
@@ -257,14 +255,14 @@
                   ],
                   "span": {
                     "start": 141,
-                    "end": 177,
+                    "end": 179,
                     "ctxt": 0
                   },
                   "body": {
                     "type": "BlockStatement",
                     "span": {
-                      "start": 174,
-                      "end": 177,
+                      "start": 176,
+                      "end": 179,
                       "ctxt": 0
                     },
                     "stmts": []

@@ -13,9 +13,9 @@ Object.defineProperty(exports, "default", {
 });
 var R;
 var _default = R = {
-    ___: 30,
-    ___hello: 21,
-    _hi: 40
+    "___": 30,
+    "___hello": 21,
+    "_hi": 40
 };
 //// [m2.ts]
 "use strict";

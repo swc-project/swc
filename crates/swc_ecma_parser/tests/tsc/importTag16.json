@@ -1,0 +1,170 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 109,
+    "end": 291,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExportDefaultDeclaration",
+      "span": {
+        "start": 109,
+        "end": 140,
+        "ctxt": 0
+      },
+      "decl": {
+        "type": "TsInterfaceDeclaration",
+        "span": {
+          "start": 124,
+          "end": 140,
+          "ctxt": 0
+        },
+        "id": {
+          "type": "Identifier",
+          "span": {
+            "start": 134,
+            "end": 137,
+            "ctxt": 0
+          },
+          "value": "Foo",
+          "optional": false
+        },
+        "declare": false,
+        "typeParams": null,
+        "extends": [],
+        "body": {
+          "type": "TsInterfaceBody",
+          "span": {
+            "start": 138,
+            "end": 140,
+            "ctxt": 0
+          },
+          "body": []
+        }
+      }
+    },
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 141,
+        "end": 162,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "TsInterfaceDeclaration",
+        "span": {
+          "start": 148,
+          "end": 162,
+          "ctxt": 0
+        },
+        "id": {
+          "type": "Identifier",
+          "span": {
+            "start": 158,
+            "end": 159,
+            "ctxt": 0
+          },
+          "value": "I",
+          "optional": false
+        },
+        "declare": false,
+        "typeParams": null,
+        "extends": [],
+        "body": {
+          "type": "TsInterfaceBody",
+          "span": {
+            "start": 160,
+            "end": 162,
+            "ctxt": 0
+          },
+          "body": []
+        }
+      }
+    },
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 263,
+        "end": 291,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "FunctionDeclaration",
+        "identifier": {
+          "type": "Identifier",
+          "span": {
+            "start": 279,
+            "end": 282,
+            "ctxt": 0
+          },
+          "value": "foo",
+          "optional": false
+        },
+        "declare": false,
+        "params": [
+          {
+            "type": "Parameter",
+            "span": {
+              "start": 283,
+              "end": 284,
+              "ctxt": 0
+            },
+            "decorators": [],
+            "pat": {
+              "type": "Identifier",
+              "span": {
+                "start": 283,
+                "end": 284,
+                "ctxt": 0
+              },
+              "value": "a",
+              "optional": false,
+              "typeAnnotation": null
+            }
+          },
+          {
+            "type": "Parameter",
+            "span": {
+              "start": 286,
+              "end": 287,
+              "ctxt": 0
+            },
+            "decorators": [],
+            "pat": {
+              "type": "Identifier",
+              "span": {
+                "start": 286,
+                "end": 287,
+                "ctxt": 0
+              },
+              "value": "b",
+              "optional": false,
+              "typeAnnotation": null
+            }
+          }
+        ],
+        "decorators": [],
+        "span": {
+          "start": 270,
+          "end": 291,
+          "ctxt": 0
+        },
+        "body": {
+          "type": "BlockStatement",
+          "span": {
+            "start": 289,
+            "end": 291,
+            "ctxt": 0
+          },
+          "stmts": []
+        },
+        "generator": false,
+        "async": false,
+        "typeParameters": null,
+        "returnType": null
+      }
+    }
+  ],
+  "interpreter": null
+}

@@ -1,0 +1,431 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 35,
+    "end": 312,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 35,
+        "end": 89,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "NewExpression",
+        "span": {
+          "start": 35,
+          "end": 88,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 39,
+            "end": 56,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 39,
+              "end": 43,
+              "ctxt": 0
+            },
+            "value": "Intl",
+            "optional": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 44,
+              "end": 56,
+              "ctxt": 0
+            },
+            "value": "NumberFormat",
+            "optional": false
+          }
+        },
+        "arguments": [
+          {
+            "spread": null,
+            "expression": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 57,
+                "end": 64,
+                "ctxt": 0
+              },
+              "value": "en-GB",
+              "raw": "'en-GB'"
+            }
+          },
+          {
+            "spread": null,
+            "expression": {
+              "type": "ObjectExpression",
+              "span": {
+                "start": 66,
+                "end": 87,
+                "ctxt": 0
+              },
+              "properties": [
+                {
+                  "type": "KeyValueProperty",
+                  "key": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 68,
+                      "end": 79,
+                      "ctxt": 0
+                    },
+                    "value": "useGrouping",
+                    "optional": false
+                  },
+                  "value": {
+                    "type": "BooleanLiteral",
+                    "span": {
+                      "start": 81,
+                      "end": 85,
+                      "ctxt": 0
+                    },
+                    "value": true
+                  }
+                }
+              ]
+            }
+          }
+        ],
+        "typeArguments": null
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 90,
+        "end": 146,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "NewExpression",
+        "span": {
+          "start": 90,
+          "end": 145,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 94,
+            "end": 111,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 94,
+              "end": 98,
+              "ctxt": 0
+            },
+            "value": "Intl",
+            "optional": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 99,
+              "end": 111,
+              "ctxt": 0
+            },
+            "value": "NumberFormat",
+            "optional": false
+          }
+        },
+        "arguments": [
+          {
+            "spread": null,
+            "expression": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 112,
+                "end": 119,
+                "ctxt": 0
+              },
+              "value": "en-GB",
+              "raw": "'en-GB'"
+            }
+          },
+          {
+            "spread": null,
+            "expression": {
+              "type": "ObjectExpression",
+              "span": {
+                "start": 121,
+                "end": 144,
+                "ctxt": 0
+              },
+              "properties": [
+                {
+                  "type": "KeyValueProperty",
+                  "key": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 123,
+                      "end": 134,
+                      "ctxt": 0
+                    },
+                    "value": "useGrouping",
+                    "optional": false
+                  },
+                  "value": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 136,
+                      "end": 142,
+                      "ctxt": 0
+                    },
+                    "value": "true",
+                    "raw": "'true'"
+                  }
+                }
+              ]
+            }
+          }
+        ],
+        "typeArguments": null
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 163,
+        "end": 221,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "NewExpression",
+        "span": {
+          "start": 163,
+          "end": 220,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 167,
+            "end": 184,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "Identifier",
+            "span": {
+              "start": 167,
+              "end": 171,
+              "ctxt": 0
+            },
+            "value": "Intl",
+            "optional": false
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 172,
+              "end": 184,
+              "ctxt": 0
+            },
+            "value": "NumberFormat",
+            "optional": false
+          }
+        },
+        "arguments": [
+          {
+            "spread": null,
+            "expression": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 185,
+                "end": 192,
+                "ctxt": 0
+              },
+              "value": "en-GB",
+              "raw": "'en-GB'"
+            }
+          },
+          {
+            "spread": null,
+            "expression": {
+              "type": "ObjectExpression",
+              "span": {
+                "start": 194,
+                "end": 219,
+                "ctxt": 0
+              },
+              "properties": [
+                {
+                  "type": "KeyValueProperty",
+                  "key": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 196,
+                      "end": 207,
+                      "ctxt": 0
+                    },
+                    "value": "useGrouping",
+                    "optional": false
+                  },
+                  "value": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 209,
+                      "end": 217,
+                      "ctxt": 0
+                    },
+                    "value": "always",
+                    "raw": "'always'"
+                  }
+                }
+              ]
+            }
+          }
+        ],
+        "typeArguments": null
+      }
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 239,
+        "end": 312,
+        "ctxt": 0
+      },
+      "kind": "const",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 245,
+            "end": 311,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "ObjectPattern",
+            "span": {
+              "start": 245,
+              "end": 260,
+              "ctxt": 0
+            },
+            "properties": [
+              {
+                "type": "AssignmentPatternProperty",
+                "span": {
+                  "start": 247,
+                  "end": 258,
+                  "ctxt": 0
+                },
+                "key": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 247,
+                    "end": 258,
+                    "ctxt": 0
+                  },
+                  "value": "useGrouping",
+                  "optional": false,
+                  "typeAnnotation": null
+                },
+                "value": null
+              }
+            ],
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "CallExpression",
+            "span": {
+              "start": 263,
+              "end": 311,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "MemberExpression",
+              "span": {
+                "start": 263,
+                "end": 309,
+                "ctxt": 0
+              },
+              "object": {
+                "type": "NewExpression",
+                "span": {
+                  "start": 263,
+                  "end": 293,
+                  "ctxt": 0
+                },
+                "callee": {
+                  "type": "MemberExpression",
+                  "span": {
+                    "start": 267,
+                    "end": 284,
+                    "ctxt": 0
+                  },
+                  "object": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 267,
+                      "end": 271,
+                      "ctxt": 0
+                    },
+                    "value": "Intl",
+                    "optional": false
+                  },
+                  "property": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 272,
+                      "end": 284,
+                      "ctxt": 0
+                    },
+                    "value": "NumberFormat",
+                    "optional": false
+                  }
+                },
+                "arguments": [
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 285,
+                        "end": 292,
+                        "ctxt": 0
+                      },
+                      "value": "en-GB",
+                      "raw": "'en-GB'"
+                    }
+                  }
+                ],
+                "typeArguments": null
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 294,
+                  "end": 309,
+                  "ctxt": 0
+                },
+                "value": "resolvedOptions",
+                "optional": false
+              }
+            },
+            "arguments": [],
+            "typeArguments": null
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

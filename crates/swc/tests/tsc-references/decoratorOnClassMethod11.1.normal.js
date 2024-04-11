@@ -14,6 +14,6 @@ var M;
         return C;
     }();
     _ts_decorate([
-        _this.decorator
+        this.decorator
     ], C.prototype, "method", null);
 })(M || (M = {}));

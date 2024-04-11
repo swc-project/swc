@@ -63,6 +63,9 @@ fn identity(entry: PathBuf) {
         "esDecorators-classDeclaration-classSuper.2.ts",
         "esDecorators-classExpression-classSuper.2.ts",
         "contextualTypes.ts",
+        "decoratorOnClassMethod12.ts",
+        "decoratorExpression.2.ts",
+        "preservesThis.ts",
     ];
 
     // TODO: Unignore const enum test
