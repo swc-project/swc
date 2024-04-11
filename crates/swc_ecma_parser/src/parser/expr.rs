@@ -1,5 +1,5 @@
 use either::Either;
-use swc_common::{ast_node, collections::AHashMap, util::take::Take, Spanned};
+use swc_common::{ast_node, util::take::Take, Spanned};
 
 use super::{pat::PatType, util::ExprExt, *};
 use crate::{lexer::TokenContext, parser::class_and_fn::IsSimpleParameterList};

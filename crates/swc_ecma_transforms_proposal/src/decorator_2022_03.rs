@@ -1,8 +1,4 @@
-use std::{
-    collections::VecDeque,
-    iter::once,
-    mem::{take, transmute},
-};
+use std::{collections::VecDeque, iter::once, mem::take};
 
 use rustc_hash::FxHashMap;
 use swc_atoms::JsWord;
@@ -278,15 +274,17 @@ impl Decorator202203 {
 
     fn ensure_constructor<'a>(&mut self, c: &'a mut Class) -> &'a mut Constructor {
         let mut insert_index = 0;
-        for (i, member) in c.body.iter_mut().enumerate() {
+        for (i, member) in c.body.iter().enumerate() {
             if let ClassMember::Constructor(constructor) = member {
-                insert_index = i + 1;
                 // decorators occur before typescript's type strip, so skip ctor overloads
                 if constructor.body.is_some() {
-                    return unsafe {
-                        // Safety: We need polonius
-                        transmute::<&mut Constructor, &'a mut Constructor>(constructor)
-                    };
+                    if let Some(ClassMember::Constructor(c)) = c.body.get_mut(i) {
+                        return c;
+                    } else {
+                        unreachable!()
+                    }
+                } else {
+                    insert_index = i + 1;
                 }
             }
         }
@@ -305,15 +303,17 @@ impl Decorator202203 {
 
     fn ensure_identity_constructor<'a>(&mut self, c: &'a mut Class) -> &'a mut Constructor {
         let mut insert_index = 0;
-        for (i, member) in c.body.iter_mut().enumerate() {
+        for (i, member) in c.body.iter().enumerate() {
             if let ClassMember::Constructor(constructor) = member {
-                insert_index = i + 1;
                 // decorators occur before typescript's type strip, so skip ctor overloads
                 if constructor.body.is_some() {
-                    return unsafe {
-                        // Safety: We need polonius
-                        transmute::<&mut Constructor, &'a mut Constructor>(constructor)
-                    };
+                    if let Some(ClassMember::Constructor(c)) = c.body.get_mut(i) {
+                        return c;
+                    } else {
+                        unreachable!()
+                    }
+                } else {
+                    insert_index = i + 1;
                 }
             }
         }

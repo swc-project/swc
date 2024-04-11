@@ -104,27 +104,14 @@ impl VisitMut for ClassFieldsUseSet {
     }
 
     fn visit_mut_class(&mut self, n: &mut Class) {
+        // visit inner classes first
         n.visit_mut_children_with(self);
 
-        let mut fields_handler = FieldsHandler::default();
-        n.visit_mut_with(&mut fields_handler);
-
-        let FieldsHandler {
-            constructor_inits,
-            constructor_found,
-            ..
-        } = fields_handler;
-
-        if constructor_inits.is_empty() {
-            return;
-        }
-
-        let mut constructor_handler = ConstructorHandler {
+        let mut fields_handler = FieldsHandler {
             has_super: n.super_class.is_some(),
-            constructor_inits,
-            constructor_found,
         };
-        n.visit_mut_with(&mut constructor_handler);
+
+        n.body.visit_mut_with(&mut fields_handler);
     }
 }
 
@@ -170,112 +157,104 @@ impl ClassFieldsUseSet {
     }
 }
 
-#[derive(Debug, Default)]
+#[derive(Debug)]
 struct FieldsHandler {
-    constructor_inits: Vec<Box<Expr>>,
-    constructor_found: bool,
+    has_super: bool,
 }
 
 impl VisitMut for FieldsHandler {
     noop_visit_mut_type!();
 
-    fn visit_mut_class(&mut self, n: &mut Class) {
-        n.body.visit_mut_with(self);
+    fn visit_mut_class(&mut self, _: &mut Class) {
+        // skip inner classes
+        // In fact, FieldsHandler does not visit children recursively.
+        // We call FieldsHandler with the class.body as the only entry point.
+        // The FieldsHandler actually operates in a iterative way.
     }
 
-    fn visit_mut_class_member(&mut self, n: &mut ClassMember) {
-        match n {
-            ClassMember::Constructor(..) => self.constructor_found = true,
-            ClassMember::ClassProp(ClassProp {
-                ref span,
-                ref is_static,
-                key,
-                value,
-                ..
-            }) => {
-                if let Some(value) = value.take() {
-                    let init_expr: Expr = AssignExpr {
-                        span: *span,
-                        op: op!("="),
-                        left: MemberExpr {
-                            span: DUMMY_SP,
-                            obj: ThisExpr::dummy().into(),
-                            prop: prop_name_to_member_prop(key.take()),
-                        }
-                        .into(),
-                        right: value,
-                    }
-                    .into();
+    fn visit_mut_class_members(&mut self, n: &mut Vec<ClassMember>) {
+        let mut constructor_inits = vec![];
 
-                    if *is_static {
-                        *n = StaticBlock {
-                            span: DUMMY_SP,
-                            body: BlockStmt {
+        for member in n.iter_mut() {
+            match member {
+                ClassMember::ClassProp(ClassProp {
+                    ref span,
+                    ref is_static,
+                    key,
+                    value,
+                    ..
+                }) => {
+                    if let Some(value) = value.take() {
+                        let init_expr: Expr = AssignExpr {
+                            span: *span,
+                            op: op!("="),
+                            left: MemberExpr {
                                 span: DUMMY_SP,
-                                stmts: vec![init_expr.into_stmt()],
-                            },
+                                obj: ThisExpr::dummy().into(),
+                                prop: prop_name_to_member_prop(key.take()),
+                            }
+                            .into(),
+                            right: value,
                         }
                         .into();
 
-                        return;
-                    } else {
-                        self.constructor_inits.push(init_expr.into());
-                    }
-                }
+                        if *is_static {
+                            *member = StaticBlock {
+                                span: DUMMY_SP,
+                                body: BlockStmt {
+                                    span: DUMMY_SP,
+                                    stmts: vec![init_expr.into_stmt()],
+                                },
+                            }
+                            .into();
 
-                n.take();
-            }
-            ClassMember::PrivateProp(PrivateProp {
-                ref span,
-                is_static: false,
-                key,
-                value,
-                ..
-            }) => {
-                if let Some(value) = value.take() {
-                    let init_expr: Expr = AssignExpr {
-                        span: *span,
-                        op: op!("="),
-                        left: MemberExpr {
-                            span: DUMMY_SP,
-                            obj: ThisExpr::dummy().into(),
-                            prop: MemberProp::PrivateName(key.clone()),
+                            continue;
+                        } else {
+                            constructor_inits.push(init_expr.into());
                         }
-                        .into(),
-                        right: value,
                     }
-                    .into();
 
-                    self.constructor_inits.push(init_expr.into());
+                    member.take();
                 }
+                ClassMember::PrivateProp(PrivateProp {
+                    ref span,
+                    is_static: false,
+                    key,
+                    value,
+                    ..
+                }) => {
+                    if let Some(value) = value.take() {
+                        let init_expr: Expr = AssignExpr {
+                            span: *span,
+                            op: op!("="),
+                            left: MemberExpr {
+                                span: DUMMY_SP,
+                                obj: ThisExpr::dummy().into(),
+                                prop: MemberProp::PrivateName(key.clone()),
+                            }
+                            .into(),
+                            right: value,
+                        }
+                        .into();
+
+                        constructor_inits.push(init_expr.into());
+                    }
+                }
+                _ => {}
             }
-            _ => {}
         }
-    }
-}
 
-#[derive(Debug, Default)]
-struct ConstructorHandler {
-    has_super: bool,
-    constructor_inits: Vec<Box<Expr>>,
-    constructor_found: bool,
-}
+        if constructor_inits.is_empty() {
+            return;
+        }
 
-impl VisitMut for ConstructorHandler {
-    noop_visit_mut_type!();
-
-    fn visit_mut_class(&mut self, n: &mut Class) {
-        if !self.constructor_found {
-            let mut constructor = default_constructor(self.has_super);
-            constructor.visit_mut_with(self);
-            n.body.push(constructor.into());
+        if let Some(c) = n.iter_mut().find_map(|m| m.as_mut_constructor()) {
+            inject_after_super(c, constructor_inits.take());
         } else {
-            n.body.visit_mut_children_with(self);
+            let mut c = default_constructor(self.has_super);
+            inject_after_super(&mut c, constructor_inits.take());
+            n.push(c.into());
         }
-    }
-
-    fn visit_mut_constructor(&mut self, n: &mut Constructor) {
-        inject_after_super(n, self.constructor_inits.take());
     }
 }
 
