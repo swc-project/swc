@@ -729,9 +729,6 @@ impl VisitMut for Remover {
                                         &Expr::Lit(Lit::Bool(Bool { value: d, .. })),
                                     ) => test == d,
                                     (&Expr::Lit(Lit::Null(..)), &Expr::Lit(Lit::Null(..))) => true,
-                                    (Expr::Ident(test), Expr::Ident(d)) => {
-                                        test.sym == d.sym && test.span.ctxt() == d.span.ctxt()
-                                    }
 
                                     _ => {
                                         if !test.is_nan()
@@ -967,8 +964,25 @@ impl VisitMut for Remover {
                             .iter()
                             .all(|case| case.test.is_none() || case.cons.is_empty());
 
+                        if is_all_case_empty {
+                            // remove all cases which are after default
+                            if let Some(default_id) =
+                                s.cases.iter().position(|case| case.test.is_none())
+                            {
+                                s.cases.truncate(default_id + 1);
+                            }
+                        }
+
+                        let is_all_case_side_effect_free = s.cases.iter().all(|case| {
+                            case.test
+                                .as_ref()
+                                .map(|e| e.is_ident() || !e.may_have_side_effects(&self.expr_ctx))
+                                .unwrap_or(true)
+                        });
+
                         if is_default_last
                             && is_all_case_empty
+                            && is_all_case_side_effect_free
                             && !has_conditional_stopper(&s.cases.last().unwrap().cons)
                         {
                             let mut exprs = vec![];
