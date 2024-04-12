@@ -764,15 +764,10 @@ impl VisitMut for Remover {
                                 ignore_result(*s.discriminant, true, &self.expr_ctx).map(Box::new),
                             );
 
-                            let selected_case = s.cases[i].take();
+                            let mut stmts = s.cases[i].cons.take();
+                            let mut cases = s.cases.drain((i + 1)..);
 
-                            let mut stmts: Vec<Stmt> = vec![];
-                            stmts.extend(selected_case.test.map(|e| e.into_stmt()));
-                            stmts.extend(selected_case.cons);
-
-                            let mut cases = s.cases.drain(i..);
-
-                            for case in cases.by_ref().skip(1) {
+                            for case in cases.by_ref() {
                                 let should_stop = has_unconditional_stopper(&case.cons);
                                 stmts.extend(case.cons);
                                 //
