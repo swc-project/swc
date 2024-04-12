@@ -51,6 +51,7 @@ export { _export_star } from "./_export_star.js";
 export { _extends } from "./_extends.js";
 export { _get } from "./_get.js";
 export { _get_prototype_of } from "./_get_prototype_of.js";
+export { _identity } from "./_identity.js";
 export { _inherits } from "./_inherits.js";
 export { _inherits_loose } from "./_inherits_loose.js";
 export { _initializer_define_property } from "./_initializer_define_property.js";
