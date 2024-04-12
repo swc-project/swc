@@ -2746,6 +2746,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "pmutil"
+version = "0.6.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "52a40bc70c2c58040d2d8b167ba9a5ff59fc9dab7ad44771cfde3dcfde7a09c6"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn 2.0.48",
+]
+
+[[package]]
 name = "powerfmt"
 version = "0.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -5289,6 +5300,7 @@ name = "swc_visit_macros"
 version = "0.5.11"
 dependencies = [
  "Inflector",
+ "pmutil",
  "proc-macro2",
  "quote",
  "swc_macros_common",
