@@ -1,4 +1,13 @@
-console.log("PASS 1"), (()=>{
+(()=>{
+    const x = 'asdf';
+    let y = "PASS 1";
+    switch(x){
+        case x:
+        default:
+        case y = "FAIL":
+    }
+    console.log(y);
+})(), (()=>{
     const x = 'asdf';
     let y = "PASS 2";
     switch(x){

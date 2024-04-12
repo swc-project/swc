@@ -964,15 +964,6 @@ impl VisitMut for Remover {
                             .iter()
                             .all(|case| case.test.is_none() || case.cons.is_empty());
 
-                        if is_all_case_empty {
-                            // remove all cases which are after default
-                            if let Some(default_id) =
-                                s.cases.iter().position(|case| case.test.is_none())
-                            {
-                                s.cases.truncate(default_id + 1);
-                            }
-                        }
-
                         let is_all_case_side_effect_free = s.cases.iter().all(|case| {
                             case.test
                                 .as_ref()
