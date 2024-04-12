@@ -7,6 +7,12 @@
 
 - **(es/compat)** Handle class fields correctly ([#8835](https://github.com/swc-project/swc/issues/8835)) ([5cc585b](https://github.com/swc-project/swc/commit/5cc585b8f3359d960420e31a91f53c761c90f3f5))
 
+### Documentation
+
+
+
+- **(swc_core)** Resolve build issue with `--all-features` flag ([#8848](https://github.com/swc-project/swc/issues/8848)) ([c0d901e](https://github.com/swc-project/swc/commit/c0d901eac6539940ce1956ec5031f624c4c049f0))
+
 ### Refactor
 
 
@@ -1351,12 +1357,6 @@
 - **(es/minifier)** Do not inline into a template literal with sequential inliner ([#7971](https://github.com/swc-project/swc/issues/7971)) ([b3d3a7b](https://github.com/swc-project/swc/commit/b3d3a7bc7339776e57ca402e77cf3fb22c774784))
 
 ## [1.3.86] - 2023-09-18
-
-### Bug Fixes
-
-
-
-- **(es/minifier)** Handle `ModuleDecl` when transform const modules ([#7959](https://github.com/swc-project/swc/issues/7959)) ([06ca1fe](https://github.com/swc-project/swc/commit/06ca1fe0a03954883750c3c39d0163fc29596ad1))
 
 ### Miscellaneous Tasks
 
