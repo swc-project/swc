@@ -2520,11 +2520,6 @@ impl ExprCtx {
                 to.push(Box::new(Expr::New(e)))
             }
             Expr::Member(_) | Expr::SuperProp(_) => to.push(Box::new(expr)),
-            Expr::OptChain(OptChainExpr { ref base, .. })
-                if matches!(&**base, OptChainBase::Member(_)) =>
-            {
-                to.push(Box::new(expr))
-            }
 
             // We are at here because we could not determine value of test.
             //TODO: Drop values if it does not have side effects.
@@ -2664,9 +2659,7 @@ impl ExprCtx {
             | Expr::TsSatisfies(TsSatisfiesExpr { expr, .. }) => {
                 self.extract_side_effects_to(to, *expr)
             }
-            Expr::OptChain(OptChainExpr { base: child, .. }) => {
-                self.extract_side_effects_to(to, (*child).into())
-            }
+            Expr::OptChain(..) => to.push(Box::new(expr)),
 
             Expr::Invalid(..) => unreachable!(),
         }
