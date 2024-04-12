@@ -23,5 +23,8 @@ pub mod serialized;
 pub const PLUGIN_TRANSFORM_AST_SCHEMA_VERSION: u32 = 1;
 
 // Reserved for the testing purpose.
-#[cfg(feature = "plugin_transform_schema_vtest")]
+#[cfg(all(
+    feature = "plugin_transform_schema_vtest",
+    not(feature = "plugin_transform_schema_v1")
+))]
 pub const PLUGIN_TRANSFORM_AST_SCHEMA_VERSION: u32 = u32::MAX - 1;
