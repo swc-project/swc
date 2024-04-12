@@ -1,6 +1,6 @@
 "use strict";
 function n() {
-    o();
+    g();
     n = 10;
     throw new Error("foo");
     if (n) {
