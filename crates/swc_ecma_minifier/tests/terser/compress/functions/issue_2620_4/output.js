@@ -1,4 +1,10 @@
 var c = "FAIL";
-var a, NaN;
-a = 0, c = "PASS";
+(function(a, NaN) {
+    (function() {
+        switch(a){
+            case a:
+            case void (c = "PASS"):
+        }
+    })();
+})(0 / 0);
 console.log(c);
