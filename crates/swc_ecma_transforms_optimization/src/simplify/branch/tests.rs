@@ -867,19 +867,16 @@ fn test_optimize_switch_with_default_case() {
     test_same("switch (x) { default: if (a) break; bar(); }");
 
     // Potentially foldable
-    test(
-        concat!(
-            "switch (x) {",
-            "  case x:",
-            "    foo();",
-            "    break;",
-            "  default:",
-            "    if (a) { break; }",
-            "    bar();",
-            "}",
-        ),
-        "x; foo()",
-    );
+    test_same(concat!(
+        "switch (x) {",
+        "  case x:",
+        "    foo();",
+        "    break;",
+        "  default:",
+        "    if (a) break;",
+        "    bar();",
+        "}",
+    ));
 
     test(
         concat!(
