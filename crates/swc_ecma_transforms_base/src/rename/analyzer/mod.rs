@@ -60,7 +60,6 @@ impl Analyzer {
                     ..Default::default()
                 },
                 hoisted_vars: Default::default(),
-                ..Default::default()
             };
 
             op(&mut v);
