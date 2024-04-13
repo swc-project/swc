@@ -17,6 +17,9 @@
 - **(es/plugin)** Create `tokio` runtime only if necessary ([#8845](https://github.com/swc-project/swc/issues/8845)) ([62c4f5e](https://github.com/swc-project/swc/commit/62c4f5efb84daa5f9e7f88bbbfddd7823bb1355d))
 
 
+- **(es/resolver)** Correctly check strict mode ([#8851](https://github.com/swc-project/swc/issues/8851)) ([f6ba92b](https://github.com/swc-project/swc/commit/f6ba92b033c3594c69672a33df124ecf6429f450))
+
+
 - **(es/utils)** Preserve optional chain effect ([#8850](https://github.com/swc-project/swc/issues/8850)) ([a7a32c4](https://github.com/swc-project/swc/commit/a7a32c4b6c2089dfbe9be2f70a0c4712e9feeef4))
 
 ### Documentation
