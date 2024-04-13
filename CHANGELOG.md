@@ -11,6 +11,9 @@
 - **(es/helpers)** Add missing helpers ([#8843](https://github.com/swc-project/swc/issues/8843)) ([67bfcf4](https://github.com/swc-project/swc/commit/67bfcf41f59699ebb5286211fcc2cf5546f94376))
 
 
+- **(es/minifier)** Handle switch cases ([#8854](https://github.com/swc-project/swc/issues/8854)) ([7a89e5d](https://github.com/swc-project/swc/commit/7a89e5da3be25d00e5cc18b46c847f0e8de54022))
+
+
 - **(es/plugin)** Create `tokio` runtime only if necessary ([#8845](https://github.com/swc-project/swc/issues/8845)) ([62c4f5e](https://github.com/swc-project/swc/commit/62c4f5efb84daa5f9e7f88bbbfddd7823bb1355d))
 
 
