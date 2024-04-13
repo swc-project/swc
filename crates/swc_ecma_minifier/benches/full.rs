@@ -83,7 +83,6 @@ fn run(src: &str) {
                         keep_fn_names: false,
                         keep_private_props: false,
                         ie8: false,
-                        safari10: false,
                         ..Default::default()
                     }),
                     wrap: false,

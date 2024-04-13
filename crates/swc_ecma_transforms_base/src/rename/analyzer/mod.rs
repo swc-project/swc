@@ -9,7 +9,9 @@ pub(super) mod scope;
 
 #[derive(Debug, Default)]
 pub(super) struct Analyzer {
+    #[deprecated = "This field is no longer required to work around bugs in Safari 10."]
     pub safari_10: bool,
+
     /// If `eval` exists for the current scope, we only rename synthesized
     /// identifiers.
     pub has_eval: bool,
@@ -50,7 +52,7 @@ impl Analyzer {
     {
         {
             let mut v = Analyzer {
-                safari_10: self.safari_10,
+                safari_10: false,
                 has_eval: self.has_eval,
                 top_level_mark: self.top_level_mark,
 
@@ -153,43 +155,20 @@ impl Visit for Analyzer {
     }
 
     fn visit_catch_clause(&mut self, n: &CatchClause) {
-        if self.safari_10 {
-            let old_is_pat_decl = self.is_pat_decl;
-            let old_in_catch_params = self.in_catch_params;
+        self.with_scope(ScopeKind::Block, |v| {
+            let old = v.is_pat_decl;
+            let old_in_catch_params = v.in_catch_params;
 
-            self.is_pat_decl = true;
-            self.in_catch_params = true;
-            n.param.visit_with(self);
+            v.is_pat_decl = false;
+            n.body.visit_children_with(v);
 
-            self.in_catch_params = old_in_catch_params;
-            self.is_pat_decl = old_is_pat_decl;
+            v.is_pat_decl = true;
+            v.in_catch_params = true;
+            n.param.visit_with(v);
 
-            self.with_scope(ScopeKind::Block, |v| {
-                let old = v.is_pat_decl;
-                let old_in_catch_params = v.in_catch_params;
-
-                v.is_pat_decl = false;
-                n.body.visit_children_with(v);
-
-                v.is_pat_decl = old;
-                v.in_catch_params = old_in_catch_params;
-            })
-        } else {
-            self.with_scope(ScopeKind::Block, |v| {
-                let old = v.is_pat_decl;
-                let old_in_catch_params = v.in_catch_params;
-
-                v.is_pat_decl = false;
-                n.body.visit_children_with(v);
-
-                v.is_pat_decl = true;
-                v.in_catch_params = true;
-                n.param.visit_with(v);
-
-                v.is_pat_decl = old;
-                v.in_catch_params = old_in_catch_params;
-            })
-        }
+            v.is_pat_decl = old;
+            v.in_catch_params = old_in_catch_params;
+        })
     }
 
     fn visit_class_decl(&mut self, c: &ClassDecl) {

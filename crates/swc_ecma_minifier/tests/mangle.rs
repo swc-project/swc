@@ -245,25 +245,6 @@ function n() {
 }
 
 #[test]
-fn safari10_issue_8837() {
-    let src = "try {} catch (e) {
-    let n = 1;
-}";
-    let expected = "try {} catch (c) {
-    let t = 1;
-}";
-
-    assert_mangled(
-        src,
-        expected,
-        MangleOptions {
-            safari10: true,
-            ..Default::default()
-        },
-    )
-}
-
-#[test]
 fn reserved_class_names() {
     let src = "class Class1 {
     hello1 = 1;
