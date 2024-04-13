@@ -558,11 +558,14 @@ impl<'a> VisitMut for Resolver<'a> {
                     child.mark_block(&mut s.span);
 
                     let old_strict_mode = child.strict_mode;
-                    child.strict_mode = s
-                        .stmts
-                        .first()
-                        .map(|stmt| stmt.is_use_strict())
-                        .unwrap_or(false);
+
+                    if !child.strict_mode {
+                        child.strict_mode = s
+                            .stmts
+                            .first()
+                            .map(|stmt| stmt.is_use_strict())
+                            .unwrap_or(false);
+                    }
                     // Prevent creating new scope.
                     s.stmts.visit_mut_with(child);
                     child.strict_mode = old_strict_mode;
@@ -901,11 +904,13 @@ impl<'a> VisitMut for Resolver<'a> {
             Some(body) => {
                 self.mark_block(&mut body.span);
                 let old_strict_mode = self.strict_mode;
-                self.strict_mode = body
-                    .stmts
-                    .first()
-                    .map(|stmt| stmt.is_use_strict())
-                    .unwrap_or(false);
+                if !self.strict_mode {
+                    self.strict_mode = body
+                        .stmts
+                        .first()
+                        .map(|stmt| stmt.is_use_strict())
+                        .unwrap_or(false);
+                }
                 // Prevent creating new scope.
                 body.visit_mut_children_with(self);
                 self.strict_mode = old_strict_mode;
