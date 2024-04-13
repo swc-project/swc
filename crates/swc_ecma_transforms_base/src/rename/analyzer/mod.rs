@@ -52,7 +52,6 @@ impl Analyzer {
     {
         {
             let mut v = Analyzer {
-                safari_10: false,
                 has_eval: self.has_eval,
                 top_level_mark: self.top_level_mark,
 
@@ -64,6 +63,7 @@ impl Analyzer {
                     ..Default::default()
                 },
                 hoisted_vars: Default::default(),
+                ..Default::default()
             };
 
             op(&mut v);
