@@ -9,9 +9,6 @@ pub(super) mod scope;
 
 #[derive(Debug, Default)]
 pub(super) struct Analyzer {
-    #[deprecated = "This field is no longer required to work around bugs in Safari 10."]
-    pub safari_10: bool,
-
     /// If `eval` exists for the current scope, we only rename synthesized
     /// identifiers.
     pub has_eval: bool,
