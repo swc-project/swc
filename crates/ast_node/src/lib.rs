@@ -205,7 +205,7 @@ pub fn ast_node(
                 #[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
                 #[cfg_attr(
                     any(feature = "rkyv-impl"),
-                    archive(serialize_bounds(__S: rkyv::ser::Writer))
+                    archive(serialize_bounds(__S: rkyv::ser::Writer + rkyv::ser::Allocator))
                 )]
                 #[cfg_attr(
                     feature = "serde-impl",
@@ -265,7 +265,7 @@ pub fn ast_node(
                 #[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
                 #[cfg_attr(
                     any(feature = "rkyv-impl"),
-                    archive(serialize_bounds(__S: rkyv::ser::Writer))
+                    archive(serialize_bounds(__S: rkyv::ser::Writer + rkyv::ser::Allocator))
                 )]
                 #serde_tag
                 #[cfg_attr(
