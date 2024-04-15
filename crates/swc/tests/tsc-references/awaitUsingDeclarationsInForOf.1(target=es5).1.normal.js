@@ -2,13 +2,13 @@
 import { _ as _async_to_generator } from "@swc/helpers/_/_async_to_generator";
 import { _ as _define_property } from "@swc/helpers/_/_define_property";
 import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
-import { _ as _dispose } from "@swc/helpers/_/_dispose";
+import { _ as _using_ctx } from "@swc/helpers/_/_using_ctx";
 function main() {
     return _main.apply(this, arguments);
 }
 function _main() {
     _main = _async_to_generator(function() {
-        var _i, _iter, d1, _stack, _error, _hasError;
+        var _i, _iter, d1, _usingCtx;
         return _ts_generator(this, function(_state) {
             for(_i = 0, _iter = [
                 _define_property({}, Symbol.asyncDispose, function() {
@@ -26,13 +26,12 @@ function _main() {
             ]; _i < _iter.length; _i++){
                 d1 = _iter[_i];
                 try {
-                    _stack = [];
+                    _usingCtx = _using_ctx();
                     {}
                 } catch (_) {
-                    _error = _;
-                    _hasError = true;
+                    _usingCtx.e = _;
                 } finally{
-                    _dispose(_stack, _error, _hasError);
+                    _usingCtx.d();
                 }
             }
             return [

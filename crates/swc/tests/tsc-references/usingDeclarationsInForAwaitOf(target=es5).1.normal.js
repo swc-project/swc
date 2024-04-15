@@ -3,13 +3,13 @@ import { _ as _async_iterator } from "@swc/helpers/_/_async_iterator";
 import { _ as _async_to_generator } from "@swc/helpers/_/_async_to_generator";
 import { _ as _define_property } from "@swc/helpers/_/_define_property";
 import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
-import { _ as _dispose } from "@swc/helpers/_/_dispose";
+import { _ as _using_ctx } from "@swc/helpers/_/_using_ctx";
 function main() {
     return _main.apply(this, arguments);
 }
 function _main() {
     _main = _async_to_generator(function() {
-        var _iteratorAbruptCompletion, _didIteratorError, _iteratorError, _iterator, _step, _value, d1, _stack, _error, _hasError, err;
+        var _iteratorAbruptCompletion, _didIteratorError, _iteratorError, _iterator, _step, _value, d1, _usingCtx, err;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
                 case 0:
@@ -41,13 +41,12 @@ function _main() {
                     _value = _step.value;
                     d1 = _value;
                     try {
-                        _stack = [];
+                        _usingCtx = _using_ctx();
                         {}
                     } catch (_) {
-                        _error = _;
-                        _hasError = true;
+                        _usingCtx.e = _;
                     } finally{
-                        _dispose(_stack, _error, _hasError);
+                        _usingCtx.d();
                     }
                     _state.label = 4;
                 case 4:

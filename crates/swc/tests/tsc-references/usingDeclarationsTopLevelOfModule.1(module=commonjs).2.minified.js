@@ -20,18 +20,18 @@ Object.defineProperty(exports, "__esModule", {
         return y;
     }
 });
-const _dispose = require("@swc/helpers/_/_dispose"), _using = require("@swc/helpers/_/_using");
+const _using_ctx = require("@swc/helpers/_/_using_ctx");
 try {
-    var _x, _w, _stack = [];
+    var _x, _w, _usingCtx = _using_ctx._();
     _x = 1;
-    var z = _using._(_stack, {
+    var z = _usingCtx.u({
         [Symbol.dispose] () {}
-    }), y = 2;
+    });
     _w = 3;
     var _default = 4;
-    console.log(3, 1, y, z);
+    console.log(3, 1, 2, z);
 } catch (_) {
-    var _error = _, _hasError = !0;
+    _usingCtx.e = _;
 } finally{
-    _dispose._(_stack, _error, _hasError);
+    _usingCtx.d();
 }

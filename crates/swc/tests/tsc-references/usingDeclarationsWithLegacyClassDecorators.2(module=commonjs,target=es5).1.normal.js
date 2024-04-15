@@ -11,12 +11,11 @@ Object.defineProperty(exports, "C", {
 });
 var _class_call_check = require("@swc/helpers/_/_class_call_check");
 var _ts_decorate = require("@swc/helpers/_/_ts_decorate");
-var _dispose = require("@swc/helpers/_/_dispose");
-var _using = require("@swc/helpers/_/_using");
+var _using_ctx = require("@swc/helpers/_/_using_ctx");
 var _C;
 try {
-    var _stack = [];
-    var before = _using._(_stack, null);
+    var _usingCtx = _using_ctx._();
+    var before = _usingCtx.u(null);
     var C = function C() {
         "use strict";
         _class_call_check._(this, C);
@@ -26,8 +25,7 @@ try {
         dec
     ], C);
 } catch (_) {
-    var _error = _;
-    var _hasError = true;
+    _usingCtx.e = _;
 } finally{
-    _dispose._(_stack, _error, _hasError);
+    _usingCtx.d();
 }

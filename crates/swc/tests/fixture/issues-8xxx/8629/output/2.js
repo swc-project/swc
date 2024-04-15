@@ -1,16 +1,14 @@
-import { _ as _dispose } from "@swc/helpers/_/_dispose";
-import { _ as _using } from "@swc/helpers/_/_using";
+import { _ as _using_ctx } from "@swc/helpers/_/_using_ctx";
 var _Disposable;
 try {
-    var _stack = [];
+    var _usingCtx = _using_ctx();
     var Disposable = 1334;
     _Disposable = Disposable;
-    var _disposable = _using(_stack, new Disposable());
+    var _disposable = _usingCtx.u(new Disposable());
     console.log('ok');
 } catch (_) {
-    var _error = _;
-    var _hasError = true;
+    _usingCtx.e = _;
 } finally{
-    _dispose(_stack, _error, _hasError);
+    _usingCtx.d();
 }
 export { _Disposable as Disposable };

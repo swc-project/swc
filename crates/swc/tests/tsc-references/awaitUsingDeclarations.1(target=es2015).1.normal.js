@@ -2,26 +2,24 @@
 import { _ as _async_to_generator } from "@swc/helpers/_/_async_to_generator";
 import { _ as _await_async_generator } from "@swc/helpers/_/_await_async_generator";
 import { _ as _wrap_async_generator } from "@swc/helpers/_/_wrap_async_generator";
-import { _ as _dispose } from "@swc/helpers/_/_dispose";
-import { _ as _using } from "@swc/helpers/_/_using";
+import { _ as _using_ctx } from "@swc/helpers/_/_using_ctx";
 function af() {
     return _af.apply(this, arguments);
 }
 function _af() {
     _af = _async_to_generator(function*() {
         try {
-            var _stack = [];
-            var d3 = _using(_stack, {
+            var _usingCtx = _using_ctx();
+            const d3 = _usingCtx.a({
                 [Symbol.asyncDispose] () {
                     return _async_to_generator(function*() {})();
                 }
-            }, true);
+            });
             yield null;
         } catch (_) {
-            var _error = _;
-            var _hasError = true;
+            _usingCtx.e = _;
         } finally{
-            yield _dispose(_stack, _error, _hasError);
+            yield _usingCtx.d();
         }
     });
     return _af.apply(this, arguments);
@@ -32,44 +30,42 @@ function ag() {
 function _ag() {
     _ag = _wrap_async_generator(function*() {
         try {
-            var _stack = [];
-            var d5 = _using(_stack, {
+            var _usingCtx = _using_ctx();
+            const d5 = _usingCtx.a({
                 [Symbol.asyncDispose] () {
                     return _async_to_generator(function*() {})();
                 }
-            }, true);
+            });
             yield;
             yield _await_async_generator(null);
         } catch (_) {
-            var _error = _;
-            var _hasError = true;
+            _usingCtx.e = _;
         } finally{
-            yield _await_async_generator(_dispose(_stack, _error, _hasError));
+            yield _await_async_generator(_usingCtx.d());
         }
     });
     return _ag.apply(this, arguments);
 }
 try {
-    var _stack = [];
-    var d1 = _using(_stack, {
+    var _usingCtx = _using_ctx();
+    var d1 = _usingCtx.a({
         [Symbol.asyncDispose] () {
             return _async_to_generator(function*() {})();
         }
-    }, true);
-    var a = function() {
+    });
+    const a = function() {
         var _ref = _async_to_generator(function*() {
             try {
-                var _stack = [];
-                var d6 = _using(_stack, {
+                var _usingCtx = _using_ctx();
+                const d6 = _usingCtx.a({
                     [Symbol.asyncDispose] () {
                         return _async_to_generator(function*() {})();
                     }
-                }, true);
+                });
             } catch (_) {
-                var _error = _;
-                var _hasError = true;
+                _usingCtx.e = _;
             } finally{
-                yield _dispose(_stack, _error, _hasError);
+                yield _usingCtx.d();
             }
         });
         return function a() {
@@ -80,276 +76,258 @@ try {
         am() {
             return _async_to_generator(function*() {
                 try {
-                    var _stack = [];
-                    var d13 = _using(_stack, {
+                    var _usingCtx = _using_ctx();
+                    const d13 = _usingCtx.a({
                         [Symbol.asyncDispose] () {
                             return _async_to_generator(function*() {})();
                         }
-                    }, true);
+                    });
                     yield null;
                 } catch (_) {
-                    var _error = _;
-                    var _hasError = true;
+                    _usingCtx.e = _;
                 } finally{
-                    yield _dispose(_stack, _error, _hasError);
+                    yield _usingCtx.d();
                 }
             })();
         }
         ag() {
             return _wrap_async_generator(function*() {
                 try {
-                    var _stack = [];
-                    var d15 = _using(_stack, {
+                    var _usingCtx = _using_ctx();
+                    const d15 = _usingCtx.a({
                         [Symbol.asyncDispose] () {
                             return _async_to_generator(function*() {})();
                         }
-                    }, true);
+                    });
                     yield;
                     yield _await_async_generator(null);
                 } catch (_) {
-                    var _error = _;
-                    var _hasError = true;
+                    _usingCtx.e = _;
                 } finally{
-                    yield _await_async_generator(_dispose(_stack, _error, _hasError));
+                    yield _await_async_generator(_usingCtx.d());
                 }
             })();
         }
         constructor(){
             this.a = /*#__PURE__*/ _async_to_generator(function*() {
                 try {
-                    var _stack = [];
-                    var d7 = _using(_stack, {
+                    var _usingCtx = _using_ctx();
+                    const d7 = _usingCtx.a({
                         [Symbol.asyncDispose] () {
                             return _async_to_generator(function*() {})();
                         }
-                    }, true);
+                    });
                 } catch (_) {
-                    var _error = _;
-                    var _hasError = true;
+                    _usingCtx.e = _;
                 } finally{
-                    yield _dispose(_stack, _error, _hasError);
+                    yield _usingCtx.d();
                 }
             });
         }
     }
     {
         try {
-            var _stack1 = [];
-            var d19 = _using(_stack1, {
+            var _usingCtx1 = _using_ctx();
+            const d19 = _usingCtx1.a({
                 [Symbol.asyncDispose] () {
                     return _async_to_generator(function*() {})();
                 }
-            }, true);
+            });
         } catch (_) {
-            var _error = _;
-            var _hasError = true;
+            _usingCtx1.e = _;
         } finally{
-            await _dispose(_stack1, _error, _hasError);
+            await _usingCtx1.d();
         }
     }
     switch(Math.random()){
         case 0:
             try {
-                var _stack2 = [];
-                var d20 = _using(_stack2, {
+                var _usingCtx2 = _using_ctx();
+                const d20 = _usingCtx2.a({
                     [Symbol.asyncDispose] () {
                         return _async_to_generator(function*() {})();
                     }
-                }, true);
+                });
                 break;
             } catch (_) {
-                var _error1 = _;
-                var _hasError1 = true;
+                _usingCtx2.e = _;
             } finally{
-                await _dispose(_stack2, _error1, _hasError1);
+                await _usingCtx2.d();
             }
         case 1:
             try {
-                var _stack3 = [];
-                var d21 = _using(_stack3, {
+                var _usingCtx3 = _using_ctx();
+                const d21 = _usingCtx3.a({
                     [Symbol.asyncDispose] () {
                         return _async_to_generator(function*() {})();
                     }
-                }, true);
+                });
                 break;
             } catch (_) {
-                var _error2 = _;
-                var _hasError2 = true;
+                _usingCtx3.e = _;
             } finally{
-                await _dispose(_stack3, _error2, _hasError2);
+                await _usingCtx3.d();
             }
     }
     if (true) switch(0){
         case 0:
             try {
-                var _stack4 = [];
-                var d22 = _using(_stack4, {
+                var _usingCtx4 = _using_ctx();
+                const d22 = _usingCtx4.a({
                     [Symbol.asyncDispose] () {
                         return _async_to_generator(function*() {})();
                     }
-                }, true);
+                });
                 break;
             } catch (_) {
-                var _error3 = _;
-                var _hasError3 = true;
+                _usingCtx4.e = _;
             } finally{
-                await _dispose(_stack4, _error3, _hasError3);
+                await _usingCtx4.d();
             }
     }
     try {
         try {
-            var _stack5 = [];
-            var d23 = _using(_stack5, {
+            var _usingCtx5 = _using_ctx();
+            const d23 = _usingCtx5.a({
                 [Symbol.asyncDispose] () {
                     return _async_to_generator(function*() {})();
                 }
-            }, true);
+            });
         } catch (_) {
-            var _error4 = _;
-            var _hasError4 = true;
+            _usingCtx5.e = _;
         } finally{
-            await _dispose(_stack5, _error4, _hasError4);
+            await _usingCtx5.d();
         }
     } catch (e) {
         try {
-            var _stack6 = [];
-            var d24 = _using(_stack6, {
+            var _usingCtx6 = _using_ctx();
+            const d24 = _usingCtx6.a({
                 [Symbol.asyncDispose] () {
                     return _async_to_generator(function*() {})();
                 }
-            }, true);
+            });
         } catch (_) {
-            var _error5 = _;
-            var _hasError5 = true;
+            _usingCtx6.e = _;
         } finally{
-            await _dispose(_stack6, _error5, _hasError5);
+            await _usingCtx6.d();
         }
     } finally{
         try {
-            var _stack7 = [];
-            var d25 = _using(_stack7, {
+            var _usingCtx7 = _using_ctx();
+            const d25 = _usingCtx7.a({
                 [Symbol.asyncDispose] () {
                     return _async_to_generator(function*() {})();
                 }
-            }, true);
+            });
         } catch (_) {
-            var _error6 = _;
-            var _hasError6 = true;
+            _usingCtx7.e = _;
         } finally{
-            await _dispose(_stack7, _error6, _hasError6);
+            await _usingCtx7.d();
         }
     }
     if (true) {
         try {
-            var _stack8 = [];
-            var d26 = _using(_stack8, {
+            var _usingCtx8 = _using_ctx();
+            const d26 = _usingCtx8.a({
                 [Symbol.asyncDispose] () {
                     return _async_to_generator(function*() {})();
                 }
-            }, true);
+            });
         } catch (_) {
-            var _error7 = _;
-            var _hasError7 = true;
+            _usingCtx8.e = _;
         } finally{
-            await _dispose(_stack8, _error7, _hasError7);
+            await _usingCtx8.d();
         }
     } else {
         try {
-            var _stack9 = [];
-            var d27 = _using(_stack9, {
+            var _usingCtx9 = _using_ctx();
+            const d27 = _usingCtx9.a({
                 [Symbol.asyncDispose] () {
                     return _async_to_generator(function*() {})();
                 }
-            }, true);
+            });
         } catch (_) {
-            var _error8 = _;
-            var _hasError8 = true;
+            _usingCtx9.e = _;
         } finally{
-            await _dispose(_stack9, _error8, _hasError8);
+            await _usingCtx9.d();
         }
     }
     while(true){
         try {
-            var _stack10 = [];
-            var d28 = _using(_stack10, {
+            var _usingCtx10 = _using_ctx();
+            const d28 = _usingCtx10.a({
                 [Symbol.asyncDispose] () {
                     return _async_to_generator(function*() {})();
                 }
-            }, true);
+            });
             break;
         } catch (_) {
-            var _error9 = _;
-            var _hasError9 = true;
+            _usingCtx10.e = _;
         } finally{
-            await _dispose(_stack10, _error9, _hasError9);
+            await _usingCtx10.d();
         }
     }
     do {
         try {
-            var _stack11 = [];
-            var d29 = _using(_stack11, {
+            var _usingCtx11 = _using_ctx();
+            const d29 = _usingCtx11.a({
                 [Symbol.asyncDispose] () {
                     return _async_to_generator(function*() {})();
                 }
-            }, true);
+            });
             break;
         } catch (_) {
-            var _error10 = _;
-            var _hasError10 = true;
+            _usingCtx11.e = _;
         } finally{
-            await _dispose(_stack11, _error10, _hasError10);
+            await _usingCtx11.d();
         }
     }while (true)
     for(;;){
         try {
-            var _stack12 = [];
-            var d30 = _using(_stack12, {
+            var _usingCtx12 = _using_ctx();
+            const d30 = _usingCtx12.a({
                 [Symbol.asyncDispose] () {
                     return _async_to_generator(function*() {})();
                 }
-            }, true);
+            });
             break;
         } catch (_) {
-            var _error11 = _;
-            var _hasError11 = true;
+            _usingCtx12.e = _;
         } finally{
-            await _dispose(_stack12, _error11, _hasError11);
+            await _usingCtx12.d();
         }
     }
     for(const x in {}){
         try {
-            var _stack13 = [];
-            var d31 = _using(_stack13, {
+            var _usingCtx13 = _using_ctx();
+            const d31 = _usingCtx13.a({
                 [Symbol.asyncDispose] () {
                     return _async_to_generator(function*() {})();
                 }
-            }, true);
+            });
         } catch (_) {
-            var _error12 = _;
-            var _hasError12 = true;
+            _usingCtx13.e = _;
         } finally{
-            await _dispose(_stack13, _error12, _hasError12);
+            await _usingCtx13.d();
         }
     }
     for (const x of []){
         try {
-            var _stack14 = [];
-            var d32 = _using(_stack14, {
+            var _usingCtx14 = _using_ctx();
+            const d32 = _usingCtx14.a({
                 [Symbol.asyncDispose] () {
                     return _async_to_generator(function*() {})();
                 }
-            }, true);
+            });
         } catch (_) {
-            var _error13 = _;
-            var _hasError13 = true;
+            _usingCtx14.e = _;
         } finally{
-            await _dispose(_stack14, _error13, _hasError13);
+            await _usingCtx14.d();
         }
     }
 } catch (_) {
-    var _error14 = _;
-    var _hasError14 = true;
+    _usingCtx.e = _;
 } finally{
-    await _dispose(_stack, _error14, _hasError14);
+    await _usingCtx.d();
 }
 export { };

@@ -1,22 +1,20 @@
 //// [usingDeclarationsTopLevelOfModule.2.ts]
 define([
     "require",
-    "@swc/helpers/_/_dispose",
-    "@swc/helpers/_/_using"
-], function(require, _dispose, _using) {
+    "@swc/helpers/_/_using_ctx"
+], function(require, _using_ctx) {
     "use strict";
     try {
-        var _stack = [];
-        var z = _using._(_stack, {
+        var _usingCtx = _using_ctx._();
+        var z = _usingCtx.u({
             [Symbol.dispose] () {}
         });
-        var y = 2;
+        const y = 2;
         console.log(y, z);
     } catch (_) {
-        var _error = _;
-        var _hasError = true;
+        _usingCtx.e = _;
     } finally{
-        _dispose._(_stack, _error, _hasError);
+        _usingCtx.d();
     }
     return 4;
 });

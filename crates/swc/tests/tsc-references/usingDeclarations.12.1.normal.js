@@ -1,23 +1,21 @@
 //// [usingDeclarations.12.ts]
-import { _ as _dispose } from "@swc/helpers/_/_dispose";
-import { _ as _using } from "@swc/helpers/_/_using";
+import { _ as _using_ctx } from "@swc/helpers/_/_using_ctx";
 class C1 {
     constructor(){}
 }
 class C2 extends C1 {
     constructor(){
         try {
-            var _stack = [];
+            var _usingCtx = _using_ctx();
             super();
             this.y = 1;
-            var d17 = _using(_stack, {
+            const d17 = _usingCtx.u({
                 [Symbol.dispose] () {}
             });
         } catch (_) {
-            var _error = _;
-            var _hasError = true;
+            _usingCtx.e = _;
         } finally{
-            _dispose(_stack, _error, _hasError);
+            _usingCtx.d();
         }
     }
 }

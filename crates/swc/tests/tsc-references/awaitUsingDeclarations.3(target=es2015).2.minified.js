@@ -1,16 +1,15 @@
 //// [awaitUsingDeclarations.3.ts]
 import { _ as _async_to_generator } from "@swc/helpers/_/_async_to_generator";
-import { _ as _dispose } from "@swc/helpers/_/_dispose";
-import { _ as _using } from "@swc/helpers/_/_using";
+import { _ as _using_ctx } from "@swc/helpers/_/_using_ctx";
 try {
-    var _stack = [];
-    _using(_stack, {
+    var _usingCtx = _using_ctx();
+    _usingCtx.a({
         [Symbol.asyncDispose]: ()=>_async_to_generator(function*() {})()
-    }, !0), _using(_stack, null, !0), _using(_stack, void 0, !0), _using(_stack, {
+    }), _usingCtx.a(null), _usingCtx.a(void 0), _usingCtx.a({
         [Symbol.dispose] () {}
-    }, !0);
+    });
 } catch (_) {
-    var _error = _, _hasError = !0;
+    _usingCtx.e = _;
 } finally{
-    await _dispose(_stack, _error, _hasError);
+    await _usingCtx.d();
 }
