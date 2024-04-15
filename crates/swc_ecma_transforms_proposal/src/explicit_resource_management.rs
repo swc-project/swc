@@ -1,5 +1,3 @@
-use std::iter::once;
-
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
