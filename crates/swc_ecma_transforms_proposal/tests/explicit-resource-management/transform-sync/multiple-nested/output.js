@@ -1,35 +1,32 @@
 {
     try {
-        var _stack = [];
-        var x = _using(_stack, obj);
+        var _usingCtx = _using_ctx();
+        const x = _usingCtx.u(obj);
         {
             try {
-                var _stack1 = [];
-                var y = _using(_stack1, call(()=>{
+                var _usingCtx1 = _using_ctx();
+                const y = _usingCtx1.u(call(()=>{
                     try {
-                        var _stack = [];
-                        var z = _using(_stack, obj);
+                        var _usingCtx = _using_ctx();
+                        const z = _usingCtx.u(obj);
                         return z;
                     } catch (_) {
-                        var _error = _;
-                        var _hasError = true;
+                        _usingCtx.e = _;
                     } finally{
-                        _dispose(_stack, _error, _hasError);
+                        _usingCtx.d();
                     }
                 }));
                 stmt;
             } catch (_) {
-                var _error = _;
-                var _hasError = true;
+                _usingCtx1.e = _;
             } finally{
-                _dispose(_stack1, _error, _hasError);
+                _usingCtx1.d();
             }
         }
         stmt;
     } catch (_) {
-        var _error1 = _;
-        var _hasError1 = true;
+        _usingCtx.e = _;
     } finally{
-        _dispose(_stack, _error1, _hasError1);
+        _usingCtx.d();
     }
 }
