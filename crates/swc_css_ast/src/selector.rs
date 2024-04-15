@@ -123,16 +123,8 @@ pub struct Combinator {
     feature = "rkyv",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
-#[cfg_attr(
-    feature = "rkyv",
-    archive(bound(
-        serialize = "__S: rkyv::ser::Writer + rkyv::ser::ScratchSpace + \
-                     rkyv::ser::SharedSerializeRegistry",
-        deserialize = "__D: rkyv::de::SharedDeserializeRegistry"
-    ))
-)]
 #[cfg_attr(feature = "rkyv", archive(check_bytes))]
-#[cfg_attr(feature = "rkyv", archive_attr(repr(u32)))]
+
 pub enum CombinatorValue {
     /// ` `
     Descendant,
@@ -267,15 +259,6 @@ pub struct AttributeSelector {
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
 #[cfg_attr(feature = "rkyv", archive(check_bytes))]
-#[cfg_attr(feature = "rkyv", archive_attr(repr(u32)))]
-#[cfg_attr(
-    feature = "rkyv",
-    archive(bound(
-        serialize = "__S: rkyv::ser::Writer + rkyv::ser::ScratchSpace + \
-                     rkyv::ser::SharedSerializeRegistry",
-        deserialize = "__D: rkyv::de::SharedDeserializeRegistry"
-    ))
-)]
 pub enum AttributeSelectorMatcherValue {
     /// `=`
     Equals,
