@@ -1,5 +1,4 @@
-import { deepStrictEqual } from 'node:assert'
-import process from 'node:process'
+const { deepStrictEqual } = require('node:assert')
 
 let i = 0
 let err
