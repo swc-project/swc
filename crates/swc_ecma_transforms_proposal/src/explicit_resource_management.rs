@@ -3,7 +3,9 @@ use std::iter::once;
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, helper_expr};
-use swc_ecma_utils::{find_pat_ids, private_ident, ExprFactory, ModuleItemLike, StmtLike};
+use swc_ecma_utils::{
+    find_pat_ids, private_ident, quote_ident, ExprFactory, ModuleItemLike, StmtLike,
+};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 pub fn explicit_resource_management() -> impl Fold + VisitMut {
@@ -430,9 +432,12 @@ impl VisitMut for ExplicitResourceManagement {
                     .map(|d| {
                         let init = CallExpr {
                             span: decl.span,
-                            callee: helper!(using),
-                            args: once(state.stack.clone().as_arg())
-                                .chain(once(d.init.unwrap().as_arg()))
+                            callee: state
+                                .using_ctx
+                                .clone()
+                                .make_member(quote_ident!("a"))
+                                .as_callee(),
+                            args: once(d.init.unwrap().as_arg())
                                 .chain(if decl.is_await {
                                     Some(true.as_arg())
                                 } else {
