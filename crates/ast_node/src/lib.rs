@@ -275,12 +275,40 @@ pub fn ast_node(
     print("ast_node", item)
 }
 
+/// All-in-one macro for `rykv`.`
+///
+/// # Type
+///
+/// ```ignore
+/// #[cfg_attr(
+///     feature = "rkyv-impl",
+///     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+/// )]
+/// #[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
+/// #[cfg_attr(
+///     any(feature = "rkyv-impl"),
+///     archive(serialize_bounds(__S: rkyv::ser::Writer + rkyv::ser::Allocator))
+/// )]
+/// ```
+///
+/// is added to the type.
+///
+/// # Fields
+///
+/// ```ignore
+/// #[cfg_attr(feature = "rkyv-impl", omit_bounds)]
+/// ```
+///
+/// is added to all fields.
 #[proc_macro_attribute]
 pub fn swc_rkyv(
     _: proc_macro::TokenStream,
     input: proc_macro::TokenStream,
 ) -> proc_macro::TokenStream {
-    let input = TokenStream::from(input);
+    let mut input: DeriveInput = parse(input).expect("failed to parse input as a DeriveInput");
+
+    AddAttr.visit_data_mut(&mut input.data);
+
     let rkyv_attrs = build_rkyv_attrs();
 
     quote!(

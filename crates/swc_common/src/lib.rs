@@ -36,7 +36,7 @@
 
 use std::fmt::Debug;
 
-pub use ast_node::{ast_node, ast_serde, DeserializeEnum, Spanned};
+pub use ast_node::{ast_node, ast_serde, swc_rkyv, DeserializeEnum, Spanned};
 pub use from_variant::FromVariant;
 pub use swc_eq_ignore_macros::{EqIgnoreSpan, TypeEq};
 pub use swc_visit::chain;
