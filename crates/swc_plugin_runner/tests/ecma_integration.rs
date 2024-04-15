@@ -105,6 +105,8 @@ fn internal() {
     tokio::runtime::Runtime::new().unwrap().block_on(async {
         // run single plugin
         testing::run_test(false, |cm, _handler| {
+            eprint!("First run start");
+
             let fm = cm.new_source_file(FileName::Anon, "console.log(foo)".into());
 
             let program = parse_file_as_program(
@@ -157,6 +159,7 @@ fn internal() {
                 .deserialize()
                 .expect("Should able to deserialize")
                 .into_inner();
+            eprintln!("First run retured");
             let mut visitor = TestVisitor {
                 plugin_transform_found: false,
             };
@@ -171,6 +174,7 @@ fn internal() {
 
         // run single plugin with handler
         testing::run_test2(false, |cm, handler| {
+            eprintln!("Second run start");
             let fm = cm.new_source_file(FileName::Anon, "console.log(foo)".into());
 
             let program = parse_file_as_program(
@@ -214,6 +218,8 @@ fn internal() {
                     .transform(&program, Some(false))
                     .expect("Plugin should apply transform")
             });
+
+            eprintln!("Second run retured");
 
             Ok(())
         })
