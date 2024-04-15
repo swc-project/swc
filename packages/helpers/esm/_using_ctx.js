@@ -1,9 +1,8 @@
 export function _using_ctx() {
-    var _disposeSuppressedError =
-        typeof SuppressedError === "function"
-            ? // eslint-disable-next-line no-undef
-            SuppressedError
-            : (function (error, suppressed) {
+    var _disposeSuppressedError = typeof SuppressedError === "function"
+            // eslint-disable-next-line no-undef
+            ? SuppressedError
+            : (function(error, suppressed) {
                 var err = new Error();
                 err.name = "SuppressedError";
                 err.suppressed = suppressed;
@@ -15,14 +14,11 @@ export function _using_ctx() {
     function using(isAwait, value) {
         if (value != null) {
             if (Object(value) !== value) {
-                throw new TypeError(
-                    "using declarations can only be used with objects, functions, null, or undefined.",
-                );
+                throw new TypeError("using declarations can only be used with objects, functions, null, or undefined.");
             }
             // core-js-pure uses Symbol.for for polyfilling well-known symbols
             if (isAwait) {
-                var dispose =
-                    value[Symbol.asyncDispose || Symbol.for("Symbol.asyncDispose")];
+                var dispose = value[Symbol.asyncDispose || Symbol.for("Symbol.asyncDispose")];
             }
             if (dispose == null) {
                 dispose = value[Symbol.dispose || Symbol.for("Symbol.dispose")];
@@ -45,15 +41,14 @@ export function _using_ctx() {
         // await using
         a: using.bind(null, true),
         // dispose
-        d: function () {
+        d: function() {
             var error = this.e;
 
             function next() {
                 // eslint-disable-next-line @typescript-eslint/no-use-before-define
                 while ((resource = stack.pop())) {
                     try {
-                        var resource,
-                            disposalResult = resource.d && resource.d.call(resource.v);
+                        var resource, disposalResult = resource.d && resource.d.call(resource.v);
                         if (resource.a) {
                             return Promise.resolve(disposalResult).then(next, err);
                         }
@@ -71,8 +66,9 @@ export function _using_ctx() {
             }
 
             return next();
-        },
+        }
     };
 }
 
-export { _usingCtx as _ }
+export { _usingCtx as _ };
+export { _using_ctx as _ };
