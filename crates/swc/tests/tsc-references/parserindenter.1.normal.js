@@ -380,7 +380,7 @@ var Formatting;
             }
             return null;
         };
-        _proto.GetIndentationDelta = function GetIndentationDelta(tokenStartPosition, childTokenStartPosition /*?*/ ) {
+        _proto.GetIndentationDelta = function GetIndentationDelta(tokenStartPosition, childTokenStartPosition/*?*/ ) {
             Debug.Assert(childTokenStartPosition !== undefined, "Error: caller must pass 'null' for undefined position");
             var indentationDeltaSize = this.offsetIndentationDeltas.GetValue(tokenStartPosition);
             if (indentationDeltaSize === null) {

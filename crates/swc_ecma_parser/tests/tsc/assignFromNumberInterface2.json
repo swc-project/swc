@@ -130,7 +130,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 81,
-                  "end": 95,
+                  "end": 86,
                   "ctxt": 0
                 },
                 "value": "radix",
@@ -198,7 +198,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 118,
-                  "end": 141,
+                  "end": 132,
                   "ctxt": 0
                 },
                 "value": "fractionDigits",
@@ -266,7 +266,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 170,
-                  "end": 193,
+                  "end": 184,
                   "ctxt": 0
                 },
                 "value": "fractionDigits",
@@ -334,7 +334,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 220,
-                  "end": 238,
+                  "end": 229,
                   "ctxt": 0
                 },
                 "value": "precision",

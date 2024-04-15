@@ -32,7 +32,7 @@
             "type": "Identifier",
             "span": {
               "start": 50,
-              "end": 89,
+              "end": 53,
               "ctxt": 0
             },
             "value": "obj",
@@ -229,7 +229,7 @@
             "type": "Identifier",
             "span": {
               "start": 91,
-              "end": 98,
+              "end": 93,
               "ctxt": 0
             },
             "value": "k0",
@@ -274,7 +274,7 @@
             "type": "Identifier",
             "span": {
               "start": 100,
-              "end": 113,
+              "end": 102,
               "ctxt": 0
             },
             "value": "k1",
@@ -347,7 +347,7 @@
             "type": "Identifier",
             "span": {
               "start": 115,
-              "end": 134,
+              "end": 117,
               "ctxt": 0
             },
             "value": "k2",
@@ -1041,7 +1041,7 @@
             "type": "Identifier",
             "span": {
               "start": 415,
-              "end": 442,
+              "end": 416,
               "ctxt": 0
             },
             "value": "a",
@@ -1160,7 +1160,7 @@
             "type": "Identifier",
             "span": {
               "start": 444,
-              "end": 472,
+              "end": 445,
               "ctxt": 0
             },
             "value": "b",
@@ -1253,7 +1253,7 @@
             "type": "Identifier",
             "span": {
               "start": 474,
-              "end": 478,
+              "end": 475,
               "ctxt": 0
             },
             "value": "c",
@@ -1299,7 +1299,7 @@
             "type": "Identifier",
             "span": {
               "start": 480,
-              "end": 490,
+              "end": 481,
               "ctxt": 0
             },
             "value": "k",
@@ -2095,7 +2095,7 @@
             "type": "Identifier",
             "span": {
               "start": 1104,
-              "end": 1127,
+              "end": 1105,
               "ctxt": 0
             },
             "value": "a",
@@ -2183,7 +2183,7 @@
             "type": "Identifier",
             "span": {
               "start": 1129,
-              "end": 1157,
+              "end": 1130,
               "ctxt": 0
             },
             "value": "b",
@@ -2276,7 +2276,7 @@
             "type": "Identifier",
             "span": {
               "start": 1159,
-              "end": 1163,
+              "end": 1160,
               "ctxt": 0
             },
             "value": "k",
@@ -2581,7 +2581,7 @@
             "type": "Identifier",
             "span": {
               "start": 1311,
-              "end": 1334,
+              "end": 1312,
               "ctxt": 0
             },
             "value": "a",
@@ -2669,7 +2669,7 @@
             "type": "Identifier",
             "span": {
               "start": 1336,
-              "end": 1364,
+              "end": 1337,
               "ctxt": 0
             },
             "value": "b",
@@ -2747,7 +2747,7 @@
             "type": "Identifier",
             "span": {
               "start": 1366,
-              "end": 1370,
+              "end": 1367,
               "ctxt": 0
             },
             "value": "k",
@@ -2945,7 +2945,7 @@
             "type": "Identifier",
             "span": {
               "start": 1493,
-              "end": 1524,
+              "end": 1494,
               "ctxt": 0
             },
             "value": "a",
@@ -3066,7 +3066,7 @@
             "type": "Identifier",
             "span": {
               "start": 1526,
-              "end": 1535,
+              "end": 1527,
               "ctxt": 0
             },
             "value": "b",
@@ -3366,7 +3366,7 @@
             "type": "Identifier",
             "span": {
               "start": 1647,
-              "end": 1653,
+              "end": 1650,
               "ctxt": 0
             },
             "value": "obj",
@@ -3412,7 +3412,7 @@
             "type": "Identifier",
             "span": {
               "start": 1655,
-              "end": 1665,
+              "end": 1657,
               "ctxt": 0
             },
             "value": "k1",
@@ -3448,7 +3448,7 @@
             "type": "Identifier",
             "span": {
               "start": 1667,
-              "end": 1681,
+              "end": 1669,
               "ctxt": 0
             },
             "value": "k2",
@@ -3503,7 +3503,7 @@
             "type": "Identifier",
             "span": {
               "start": 1683,
-              "end": 1694,
+              "end": 1685,
               "ctxt": 0
             },
             "value": "k3",
@@ -3558,7 +3558,7 @@
             "type": "Identifier",
             "span": {
               "start": 1696,
-              "end": 1701,
+              "end": 1698,
               "ctxt": 0
             },
             "value": "k4",
@@ -4058,7 +4058,7 @@
             "type": "Identifier",
             "span": {
               "start": 1888,
-              "end": 1897,
+              "end": 1891,
               "ctxt": 0
             },
             "value": "obj",
@@ -4104,7 +4104,7 @@
             "type": "Identifier",
             "span": {
               "start": 1899,
-              "end": 1913,
+              "end": 1901,
               "ctxt": 0
             },
             "value": "k1",
@@ -4159,7 +4159,7 @@
             "type": "Identifier",
             "span": {
               "start": 1915,
-              "end": 1920,
+              "end": 1917,
               "ctxt": 0
             },
             "value": "k2",
@@ -4481,7 +4481,7 @@
             "type": "Identifier",
             "span": {
               "start": 2036,
-              "end": 2042,
+              "end": 2039,
               "ctxt": 0
             },
             "value": "obj",
@@ -4527,7 +4527,7 @@
             "type": "Identifier",
             "span": {
               "start": 2044,
-              "end": 2058,
+              "end": 2046,
               "ctxt": 0
             },
             "value": "k1",
@@ -4582,7 +4582,7 @@
             "type": "Identifier",
             "span": {
               "start": 2060,
-              "end": 2071,
+              "end": 2062,
               "ctxt": 0
             },
             "value": "k2",
@@ -4637,7 +4637,7 @@
             "type": "Identifier",
             "span": {
               "start": 2073,
-              "end": 2078,
+              "end": 2075,
               "ctxt": 0
             },
             "value": "k3",
@@ -5671,7 +5671,7 @@
               "type": "Identifier",
               "span": {
                 "start": 2492,
-                "end": 2513,
+                "end": 2497,
                 "ctxt": 0
               },
               "value": "state",
@@ -6067,7 +6067,7 @@
               "type": "Identifier",
               "span": {
                 "start": 2646,
-                "end": 2657,
+                "end": 2648,
                 "ctxt": 0
               },
               "value": "id",
@@ -6141,7 +6141,7 @@
               "type": "Identifier",
               "span": {
                 "start": 2659,
-                "end": 2680,
+                "end": 2664,
                 "ctxt": 0
               },
               "value": "state",
@@ -7813,7 +7813,7 @@
             "type": "Identifier",
             "span": {
               "start": 3383,
-              "end": 3391,
+              "end": 3388,
               "ctxt": 0
             },
             "value": "param",
@@ -7859,7 +7859,7 @@
             "type": "Identifier",
             "span": {
               "start": 3393,
-              "end": 3437,
+              "end": 3395,
               "ctxt": 0
             },
             "value": "cb",
@@ -7883,7 +7883,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 3398,
-                      "end": 3428,
+                      "end": 3405,
                       "ctxt": 0
                     },
                     "value": "element",
@@ -8317,7 +8317,7 @@
             "type": "Identifier",
             "span": {
               "start": 3509,
-              "end": 3517,
+              "end": 3514,
               "ctxt": 0
             },
             "value": "param",
@@ -8363,7 +8363,7 @@
             "type": "Identifier",
             "span": {
               "start": 3519,
-              "end": 3551,
+              "end": 3521,
               "ctxt": 0
             },
             "value": "cb",
@@ -8387,7 +8387,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 3524,
-                      "end": 3542,
+                      "end": 3531,
                       "ctxt": 0
                     },
                     "value": "element",
@@ -8645,7 +8645,7 @@
             "type": "Identifier",
             "span": {
               "start": 3644,
-              "end": 3652,
+              "end": 3649,
               "ctxt": 0
             },
             "value": "param",
@@ -8691,7 +8691,7 @@
             "type": "Identifier",
             "span": {
               "start": 3654,
-              "end": 3686,
+              "end": 3656,
               "ctxt": 0
             },
             "value": "cb",
@@ -8715,7 +8715,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 3659,
-                      "end": 3677,
+                      "end": 3666,
                       "ctxt": 0
                     },
                     "value": "element",

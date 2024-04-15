@@ -161,7 +161,7 @@
             "type": "Identifier",
             "span": {
               "start": 81,
-              "end": 90,
+              "end": 84,
               "ctxt": 0
             },
             "value": "obj",

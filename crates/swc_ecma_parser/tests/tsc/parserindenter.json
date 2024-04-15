@@ -248,7 +248,7 @@
                         "type": "Identifier",
                         "span": {
                           "start": 954,
-                          "end": 980,
+                          "end": 960,
                           "ctxt": 0
                         },
                         "value": "logger",
@@ -310,7 +310,7 @@
                         "type": "Identifier",
                         "span": {
                           "start": 1001,
-                          "end": 1016,
+                          "end": 1005,
                           "ctxt": 0
                         },
                         "value": "tree",
@@ -359,7 +359,7 @@
                         "type": "Identifier",
                         "span": {
                           "start": 1037,
-                          "end": 1060,
+                          "end": 1045,
                           "ctxt": 0
                         },
                         "value": "snapshot",
@@ -408,7 +408,7 @@
                         "type": "Identifier",
                         "span": {
                           "start": 1081,
-                          "end": 1112,
+                          "end": 1104,
                           "ctxt": 0
                         },
                         "value": "languageHostIndentation",
@@ -447,7 +447,7 @@
                         "type": "Identifier",
                         "span": {
                           "start": 1133,
-                          "end": 1170,
+                          "end": 1146,
                           "ctxt": 0
                         },
                         "value": "editorOptions",
@@ -509,7 +509,7 @@
                         "type": "Identifier",
                         "span": {
                           "start": 1191,
-                          "end": 1212,
+                          "end": 1201,
                           "ctxt": 0
                         },
                         "value": "firstToken",
@@ -558,7 +558,7 @@
                         "type": "Identifier",
                         "span": {
                           "start": 1233,
-                          "end": 1253,
+                          "end": 1244,
                           "ctxt": 0
                         },
                         "value": "smartIndent",
@@ -1116,7 +1116,7 @@
                           "type": "Identifier",
                           "span": {
                             "start": 1797,
-                            "end": 1813,
+                            "end": 1802,
                             "ctxt": 0
                           },
                           "value": "token",
@@ -1162,7 +1162,7 @@
                           "type": "Identifier",
                           "span": {
                             "start": 1815,
-                            "end": 1835,
+                            "end": 1824,
                             "ctxt": 0
                           },
                           "value": "nextToken",
@@ -1208,7 +1208,7 @@
                           "type": "Identifier",
                           "span": {
                             "start": 1837,
-                            "end": 1852,
+                            "end": 1841,
                             "ctxt": 0
                           },
                           "value": "node",
@@ -1254,7 +1254,7 @@
                           "type": "Identifier",
                           "span": {
                             "start": 1854,
-                            "end": 1877,
+                            "end": 1868,
                             "ctxt": 0
                           },
                           "value": "sameLineIndent",
@@ -2744,7 +2744,7 @@
                           "type": "Identifier",
                           "span": {
                             "start": 2830,
-                            "end": 2846,
+                            "end": 2835,
                             "ctxt": 0
                           },
                           "value": "token",
@@ -2790,7 +2790,7 @@
                           "type": "Identifier",
                           "span": {
                             "start": 2848,
-                            "end": 2868,
+                            "end": 2857,
                             "ctxt": 0
                           },
                           "value": "nextToken",
@@ -2836,7 +2836,7 @@
                           "type": "Identifier",
                           "span": {
                             "start": 2870,
-                            "end": 2885,
+                            "end": 2874,
                             "ctxt": 0
                           },
                           "value": "node",
@@ -2882,7 +2882,7 @@
                           "type": "Identifier",
                           "span": {
                             "start": 2887,
-                            "end": 2910,
+                            "end": 2901,
                             "ctxt": 0
                           },
                           "value": "sameLineIndent",
@@ -5260,7 +5260,7 @@
                           "type": "Identifier",
                           "span": {
                             "start": 7064,
-                            "end": 7080,
+                            "end": 7069,
                             "ctxt": 0
                           },
                           "value": "token",
@@ -6758,7 +6758,7 @@
                           "type": "Identifier",
                           "span": {
                             "start": 8594,
-                            "end": 8612,
+                            "end": 8604,
                             "ctxt": 0
                           },
                           "value": "indentText",
@@ -6794,7 +6794,7 @@
                           "type": "Identifier",
                           "span": {
                             "start": 8614,
-                            "end": 8651,
+                            "end": 8627,
                             "ctxt": 0
                           },
                           "value": "editorOptions",
@@ -6984,7 +6984,7 @@
                           "type": "Identifier",
                           "span": {
                             "start": 8814,
-                            "end": 8826,
+                            "end": 8818,
                             "ctxt": 0
                           },
                           "value": "text",
@@ -7020,7 +7020,7 @@
                           "type": "Identifier",
                           "span": {
                             "start": 8828,
-                            "end": 8865,
+                            "end": 8841,
                             "ctxt": 0
                           },
                           "value": "editorOptions",
@@ -7079,7 +7079,7 @@
                           "type": "Identifier",
                           "span": {
                             "start": 8867,
-                            "end": 8897,
+                            "end": 8888,
                             "ctxt": 0
                           },
                           "value": "includeNonIndentChars",
@@ -7784,7 +7784,7 @@
                           "type": "Identifier",
                           "span": {
                             "start": 9532,
-                            "end": 9548,
+                            "end": 9537,
                             "ctxt": 0
                           },
                           "value": "token",
@@ -7830,7 +7830,7 @@
                           "type": "Identifier",
                           "span": {
                             "start": 9550,
-                            "end": 9565,
+                            "end": 9554,
                             "ctxt": 0
                           },
                           "value": "node",
@@ -9268,7 +9268,7 @@
                           "type": "Identifier",
                           "span": {
                             "start": 11428,
-                            "end": 11443,
+                            "end": 11432,
                             "ctxt": 0
                           },
                           "value": "node",
@@ -10141,7 +10141,7 @@
                           "type": "Identifier",
                           "span": {
                             "start": 12388,
-                            "end": 12404,
+                            "end": 12393,
                             "ctxt": 0
                           },
                           "value": "token",
@@ -10187,7 +10187,7 @@
                           "type": "Identifier",
                           "span": {
                             "start": 12406,
-                            "end": 12421,
+                            "end": 12410,
                             "ctxt": 0
                           },
                           "value": "node",
@@ -10986,7 +10986,7 @@
                           "type": "Identifier",
                           "span": {
                             "start": 13680,
-                            "end": 13696,
+                            "end": 13685,
                             "ctxt": 0
                           },
                           "value": "token",
@@ -11032,7 +11032,7 @@
                           "type": "Identifier",
                           "span": {
                             "start": 13698,
-                            "end": 13713,
+                            "end": 13702,
                             "ctxt": 0
                           },
                           "value": "node",
@@ -12030,7 +12030,7 @@
                           "type": "Identifier",
                           "span": {
                             "start": 14590,
-                            "end": 14606,
+                            "end": 14595,
                             "ctxt": 0
                           },
                           "value": "token",
@@ -12076,7 +12076,7 @@
                           "type": "Identifier",
                           "span": {
                             "start": 14608,
-                            "end": 14623,
+                            "end": 14612,
                             "ctxt": 0
                           },
                           "value": "node",
@@ -13211,7 +13211,7 @@
                           "type": "Identifier",
                           "span": {
                             "start": 16290,
-                            "end": 16321,
+                            "end": 16313,
                             "ctxt": 0
                           },
                           "value": "languageHostIndentation",
@@ -13247,7 +13247,7 @@
                           "type": "Identifier",
                           "span": {
                             "start": 16323,
-                            "end": 16338,
+                            "end": 16327,
                             "ctxt": 0
                           },
                           "value": "tree",
@@ -13629,7 +13629,7 @@
                           "type": "Identifier",
                           "span": {
                             "start": 18939,
-                            "end": 18966,
+                            "end": 18949,
                             "ctxt": 0
                           },
                           "value": "indentInfo",
@@ -13675,7 +13675,7 @@
                           "type": "Identifier",
                           "span": {
                             "start": 18968,
-                            "end": 18994,
+                            "end": 18986,
                             "ctxt": 0
                           },
                           "value": "tokenStartPosition",
@@ -13711,7 +13711,7 @@
                           "type": "Identifier",
                           "span": {
                             "start": 18996,
-                            "end": 19019,
+                            "end": 19010,
                             "ctxt": 0
                           },
                           "value": "sameLineIndent",
@@ -15110,7 +15110,7 @@
                           "type": "Identifier",
                           "span": {
                             "start": 20453,
-                            "end": 20480,
+                            "end": 20472,
                             "ctxt": 0
                           },
                           "value": "existingIndentation",
@@ -15146,7 +15146,7 @@
                           "type": "Identifier",
                           "span": {
                             "start": 20482,
-                            "end": 20495,
+                            "end": 20487,
                             "ctxt": 0
                           },
                           "value": "level",
@@ -16209,7 +16209,7 @@
                           "type": "Identifier",
                           "span": {
                             "start": 21559,
-                            "end": 21573,
+                            "end": 21565,
                             "ctxt": 0
                           },
                           "value": "prefix",
@@ -16245,7 +16245,7 @@
                           "type": "Identifier",
                           "span": {
                             "start": 21575,
-                            "end": 21598,
+                            "end": 21590,
                             "ctxt": 0
                           },
                           "value": "totalIndentSize",
@@ -16281,7 +16281,7 @@
                           "type": "Identifier",
                           "span": {
                             "start": 21600,
-                            "end": 21615,
+                            "end": 21607,
                             "ctxt": 0
                           },
                           "value": "tabSize",
@@ -16317,7 +16317,7 @@
                           "type": "Identifier",
                           "span": {
                             "start": 21617,
-                            "end": 21645,
+                            "end": 21636,
                             "ctxt": 0
                           },
                           "value": "convertTabsToSpaces",
@@ -17007,7 +17007,7 @@
                           "type": "Identifier",
                           "span": {
                             "start": 22301,
-                            "end": 22317,
+                            "end": 22306,
                             "ctxt": 0
                           },
                           "value": "token",
@@ -17053,7 +17053,7 @@
                           "type": "Identifier",
                           "span": {
                             "start": 22319,
-                            "end": 22334,
+                            "end": 22323,
                             "ctxt": 0
                           },
                           "value": "node",
@@ -17982,7 +17982,7 @@
                           "type": "Identifier",
                           "span": {
                             "start": 23171,
-                            "end": 23197,
+                            "end": 23189,
                             "ctxt": 0
                           },
                           "value": "tokenStartPosition",
@@ -18018,7 +18018,7 @@
                           "type": "Identifier",
                           "span": {
                             "start": 23199,
-                            "end": 23212,
+                            "end": 23204,
                             "ctxt": 0
                           },
                           "value": "delta",
@@ -18553,7 +18553,7 @@
                           "type": "Identifier",
                           "span": {
                             "start": 23756,
-                            "end": 23777,
+                            "end": 23769,
                             "ctxt": 0
                           },
                           "value": "currentIndent",
@@ -18589,7 +18589,7 @@
                           "type": "Identifier",
                           "span": {
                             "start": 23779,
-                            "end": 23792,
+                            "end": 23784,
                             "ctxt": 0
                           },
                           "value": "delta",
@@ -19317,7 +19317,7 @@
                           "type": "Identifier",
                           "span": {
                             "start": 24448,
-                            "end": 24474,
+                            "end": 24466,
                             "ctxt": 0
                           },
                           "value": "tokenStartPosition",
@@ -19353,7 +19353,7 @@
                           "type": "Identifier",
                           "span": {
                             "start": 24476,
-                            "end": 24507,
+                            "end": 24499,
                             "ctxt": 0
                           },
                           "value": "childTokenStartPosition",
@@ -21088,7 +21088,7 @@
                           "type": "Identifier",
                           "span": {
                             "start": 27446,
-                            "end": 27461,
+                            "end": 27450,
                             "ctxt": 0
                           },
                           "value": "tree",
@@ -25181,7 +25181,7 @@
                           "type": "Identifier",
                           "span": {
                             "start": 32372,
-                            "end": 32386,
+                            "end": 32378,
                             "ctxt": 0
                           },
                           "value": "offset",
@@ -26083,7 +26083,7 @@
                           "type": "Identifier",
                           "span": {
                             "start": 33236,
-                            "end": 33256,
+                            "end": 33242,
                             "ctxt": 0
                           },
                           "value": "indent",
@@ -26129,7 +26129,7 @@
                           "type": "Identifier",
                           "span": {
                             "start": 33258,
-                            "end": 33281,
+                            "end": 33272,
                             "ctxt": 0
                           },
                           "value": "sameLineIndent",
@@ -26851,7 +26851,7 @@
                           "type": "Identifier",
                           "span": {
                             "start": 34080,
-                            "end": 34096,
+                            "end": 34088,
                             "ctxt": 0
                           },
                           "value": "position",
@@ -26887,7 +26887,7 @@
                           "type": "Identifier",
                           "span": {
                             "start": 34098,
-                            "end": 34112,
+                            "end": 34104,
                             "ctxt": 0
                           },
                           "value": "indent",
@@ -27107,7 +27107,7 @@
                           "type": "Identifier",
                           "span": {
                             "start": 34267,
-                            "end": 34283,
+                            "end": 34272,
                             "ctxt": 0
                           },
                           "value": "token",
@@ -27153,7 +27153,7 @@
                           "type": "Identifier",
                           "span": {
                             "start": 34285,
-                            "end": 34300,
+                            "end": 34289,
                             "ctxt": 0
                           },
                           "value": "node",
@@ -28130,7 +28130,7 @@
                           "type": "Identifier",
                           "span": {
                             "start": 35223,
-                            "end": 35239,
+                            "end": 35228,
                             "ctxt": 0
                           },
                           "value": "token",

@@ -4270,7 +4270,7 @@
                   "type": "Identifier",
                   "span": {
                     "start": 4454,
-                    "end": 4460,
+                    "end": 4455,
                     "ctxt": 0
                   },
                   "value": "x",
@@ -4425,7 +4425,7 @@
                   "type": "Identifier",
                   "span": {
                     "start": 4510,
-                    "end": 4519,
+                    "end": 4511,
                     "ctxt": 0
                   },
                   "value": "x",
@@ -4524,7 +4524,7 @@
                   "type": "Identifier",
                   "span": {
                     "start": 4552,
-                    "end": 4558,
+                    "end": 4553,
                     "ctxt": 0
                   },
                   "value": "x",
@@ -4679,7 +4679,7 @@
                   "type": "Identifier",
                   "span": {
                     "start": 4622,
-                    "end": 4631,
+                    "end": 4623,
                     "ctxt": 0
                   },
                   "value": "x",

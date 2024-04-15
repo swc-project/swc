@@ -686,7 +686,7 @@
             "type": "Identifier",
             "span": {
               "start": 386,
-              "end": 404,
+              "end": 389,
               "ctxt": 0
             },
             "value": "arg",

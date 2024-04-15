@@ -66,7 +66,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 261,
-                      "end": 272,
+                      "end": 264,
                       "ctxt": 0
                     },
                     "value": "val",
@@ -102,7 +102,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 274,
-                      "end": 286,
+                      "end": 278,
                       "ctxt": 0
                     },
                     "value": "flag",
@@ -7699,7 +7699,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 6747,
-                      "end": 6765,
+                      "end": 6755,
                       "ctxt": 0
                     },
                     "value": "fncFlags",
@@ -7806,7 +7806,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 6812,
-                      "end": 6830,
+                      "end": 6820,
                       "ctxt": 0
                     },
                     "value": "varFlags",
@@ -7913,7 +7913,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 6877,
-                      "end": 6898,
+                      "end": 6885,
                       "ctxt": 0
                     },
                     "value": "symFlags",
@@ -8020,7 +8020,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 6944,
-                      "end": 6968,
+                      "end": 6955,
                       "ctxt": 0
                     },
                     "value": "moduleFlags",
@@ -8127,7 +8127,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 7014,
-                      "end": 7048,
+                      "end": 7043,
                       "ctxt": 0
                     },
                     "value": "fncOrVarOrSymbolOrModuleFlags",
@@ -9492,7 +9492,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 8320,
-                      "end": 8333,
+                      "end": 8325,
                       "ctxt": 0
                     },
                     "value": "flags",

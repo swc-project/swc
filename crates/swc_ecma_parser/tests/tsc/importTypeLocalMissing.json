@@ -565,7 +565,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 374,
-                  "end": 386,
+                  "end": 379,
                   "ctxt": 0
                 },
                 "value": "input",
@@ -1304,7 +1304,7 @@
                   "type": "Identifier",
                   "span": {
                     "start": 674,
-                    "end": 685,
+                    "end": 679,
                     "ctxt": 0
                   },
                   "value": "input",

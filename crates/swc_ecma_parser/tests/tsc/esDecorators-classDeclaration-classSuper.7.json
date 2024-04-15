@@ -334,7 +334,7 @@
             "type": "Identifier",
             "span": {
               "start": 228,
-              "end": 239,
+              "end": 234,
               "ctxt": 0
             },
             "value": "method",
@@ -370,7 +370,7 @@
             "type": "Identifier",
             "span": {
               "start": 241,
-              "end": 254,
+              "end": 249,
               "ctxt": 0
             },
             "value": "_context",
@@ -432,7 +432,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 281,
-                      "end": 290,
+                      "end": 285,
                       "ctxt": 0
                     },
                     "value": "this",

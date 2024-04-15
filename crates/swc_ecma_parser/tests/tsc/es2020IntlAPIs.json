@@ -140,7 +140,7 @@
             "type": "Identifier",
             "span": {
               "start": 223,
-              "end": 237,
+              "end": 229,
               "ctxt": 0
             },
             "value": "locale",

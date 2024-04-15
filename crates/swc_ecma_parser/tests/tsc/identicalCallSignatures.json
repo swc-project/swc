@@ -85,7 +85,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 173,
-                  "end": 179,
+                  "end": 174,
                   "ctxt": 0
                 },
                 "value": "x",
@@ -140,7 +140,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 198,
-                  "end": 202,
+                  "end": 199,
                   "ctxt": 0
                 },
                 "value": "x",
@@ -247,7 +247,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 216,
-                  "end": 220,
+                  "end": 217,
                   "ctxt": 0
                 },
                 "value": "x",
@@ -417,7 +417,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 261,
-                  "end": 265,
+                  "end": 262,
                   "ctxt": 0
                 },
                 "value": "x",
@@ -492,7 +492,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 276,
-                  "end": 280,
+                  "end": 277,
                   "ctxt": 0
                 },
                 "value": "x",
@@ -650,7 +650,7 @@
                         "type": "Identifier",
                         "span": {
                           "start": 329,
-                          "end": 335,
+                          "end": 330,
                           "ctxt": 0
                         },
                         "value": "x",
@@ -705,7 +705,7 @@
                         "type": "Identifier",
                         "span": {
                           "start": 354,
-                          "end": 358,
+                          "end": 355,
                           "ctxt": 0
                         },
                         "value": "x",
@@ -812,7 +812,7 @@
                         "type": "Identifier",
                         "span": {
                           "start": 372,
-                          "end": 376,
+                          "end": 373,
                           "ctxt": 0
                         },
                         "value": "x",

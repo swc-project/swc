@@ -719,7 +719,7 @@
             "type": "Identifier",
             "span": {
               "start": 205,
-              "end": 209,
+              "end": 206,
               "ctxt": 0
             },
             "value": "a",

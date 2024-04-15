@@ -183,7 +183,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 294,
-                      "end": 306,
+                      "end": 298,
                       "ctxt": 0
                     },
                     "value": "path",
@@ -219,7 +219,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 308,
-                      "end": 325,
+                      "end": 316,
                       "ctxt": 0
                     },
                     "value": "encoding",

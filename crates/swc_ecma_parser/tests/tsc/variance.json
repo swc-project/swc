@@ -650,7 +650,7 @@
                   "type": "Identifier",
                   "span": {
                     "start": 398,
-                    "end": 445,
+                    "end": 403,
                     "ctxt": 0
                   },
                   "value": "_name",

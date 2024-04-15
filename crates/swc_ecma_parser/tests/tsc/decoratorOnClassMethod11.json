@@ -84,7 +84,7 @@
                         "type": "Identifier",
                         "span": {
                           "start": 93,
-                          "end": 107,
+                          "end": 99,
                           "ctxt": 0
                         },
                         "value": "target",
@@ -130,7 +130,7 @@
                         "type": "Identifier",
                         "span": {
                           "start": 109,
-                          "end": 120,
+                          "end": 112,
                           "ctxt": 0
                         },
                         "value": "key",

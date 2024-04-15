@@ -214,11 +214,6 @@ impl<I: Tokens> Parser<I> {
                     ref mut span,
                     ..
                 })
-                | Pat::Ident(BindingIdent {
-                    ref mut type_ann,
-                    id: Ident { ref mut span, .. },
-                    ..
-                })
                 | Pat::Object(ObjectPat {
                     ref mut type_ann,
                     ref mut span,
@@ -235,6 +230,14 @@ impl<I: Tokens> Parser<I> {
                     }
                     *type_ann = new_type_ann;
                 }
+
+                Pat::Ident(BindingIdent {
+                    ref mut type_ann, ..
+                }) => {
+                    let new_type_ann = self.try_parse_ts_type_ann()?;
+                    *type_ann = new_type_ann;
+                }
+
                 Pat::Assign(AssignPat { ref mut span, .. }) => {
                     if (self.try_parse_ts_type_ann()?).is_some() {
                         *span = Span::new(pat_start, self.input.prev_span().hi, Default::default());

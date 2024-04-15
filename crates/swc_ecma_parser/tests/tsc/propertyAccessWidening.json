@@ -32,7 +32,7 @@
             "type": "Identifier",
             "span": {
               "start": 53,
-              "end": 69,
+              "end": 64,
               "ctxt": 0
             },
             "value": "headerNames",
@@ -323,7 +323,7 @@
             "type": "Identifier",
             "span": {
               "start": 191,
-              "end": 207,
+              "end": 202,
               "ctxt": 0
             },
             "value": "headerNames",
@@ -622,7 +622,7 @@
             "type": "Identifier",
             "span": {
               "start": 411,
-              "end": 445,
+              "end": 418,
               "ctxt": 0
             },
             "value": "options",

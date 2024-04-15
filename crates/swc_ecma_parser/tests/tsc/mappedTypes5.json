@@ -32,7 +32,7 @@
             "type": "Identifier",
             "span": {
               "start": 33,
-              "end": 46,
+              "end": 34,
               "ctxt": 0
             },
             "value": "p",
@@ -106,7 +106,7 @@
             "type": "Identifier",
             "span": {
               "start": 48,
-              "end": 62,
+              "end": 49,
               "ctxt": 0
             },
             "value": "r",
@@ -180,7 +180,7 @@
             "type": "Identifier",
             "span": {
               "start": 64,
-              "end": 88,
+              "end": 66,
               "ctxt": 0
             },
             "value": "pr",
@@ -282,7 +282,7 @@
             "type": "Identifier",
             "span": {
               "start": 90,
-              "end": 114,
+              "end": 92,
               "ctxt": 0
             },
             "value": "rp",

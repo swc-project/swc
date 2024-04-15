@@ -464,7 +464,7 @@
             "type": "Identifier",
             "span": {
               "start": 226,
-              "end": 240,
+              "end": 232,
               "ctxt": 0
             },
             "value": "entity",
@@ -510,7 +510,7 @@
             "type": "Identifier",
             "span": {
               "start": 242,
-              "end": 251,
+              "end": 246,
               "ctxt": 0
             },
             "value": "kind",
@@ -635,7 +635,7 @@
             "type": "Identifier",
             "span": {
               "start": 284,
-              "end": 298,
+              "end": 290,
               "ctxt": 0
             },
             "value": "entity",
@@ -681,7 +681,7 @@
             "type": "Identifier",
             "span": {
               "start": 300,
-              "end": 309,
+              "end": 304,
               "ctxt": 0
             },
             "value": "kind",
@@ -806,7 +806,7 @@
             "type": "Identifier",
             "span": {
               "start": 342,
-              "end": 356,
+              "end": 348,
               "ctxt": 0
             },
             "value": "entity",
@@ -852,7 +852,7 @@
             "type": "Identifier",
             "span": {
               "start": 358,
-              "end": 368,
+              "end": 362,
               "ctxt": 0
             },
             "value": "kind",
@@ -978,7 +978,7 @@
             "type": "Identifier",
             "span": {
               "start": 406,
-              "end": 420,
+              "end": 412,
               "ctxt": 0
             },
             "value": "entity",
@@ -1024,7 +1024,7 @@
             "type": "Identifier",
             "span": {
               "start": 422,
-              "end": 432,
+              "end": 426,
               "ctxt": 0
             },
             "value": "kind",

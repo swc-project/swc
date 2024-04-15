@@ -98,7 +98,7 @@
             "type": "Identifier",
             "span": {
               "start": 63,
-              "end": 73,
+              "end": 67,
               "ctxt": 0
             },
             "value": "kind",
@@ -144,7 +144,7 @@
             "type": "Identifier",
             "span": {
               "start": 75,
-              "end": 82,
+              "end": 77,
               "ctxt": 0
             },
             "value": "is",
@@ -268,7 +268,7 @@
             "type": "Identifier",
             "span": {
               "start": 114,
-              "end": 124,
+              "end": 118,
               "ctxt": 0
             },
             "value": "kind",
@@ -314,7 +314,7 @@
             "type": "Identifier",
             "span": {
               "start": 126,
-              "end": 133,
+              "end": 128,
               "ctxt": 0
             },
             "value": "is",
@@ -438,7 +438,7 @@
             "type": "Identifier",
             "span": {
               "start": 165,
-              "end": 175,
+              "end": 169,
               "ctxt": 0
             },
             "value": "kind",
@@ -484,7 +484,7 @@
             "type": "Identifier",
             "span": {
               "start": 177,
-              "end": 185,
+              "end": 179,
               "ctxt": 0
             },
             "value": "is",

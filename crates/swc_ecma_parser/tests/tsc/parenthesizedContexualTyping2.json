@@ -37,7 +37,7 @@
             "type": "Identifier",
             "span": {
               "start": 376,
-              "end": 393,
+              "end": 377,
               "ctxt": 0
             },
             "value": "x",
@@ -61,7 +61,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 383,
-                      "end": 387,
+                      "end": 384,
                       "ctxt": 0
                     },
                     "value": "p",
@@ -215,7 +215,7 @@
             "type": "Identifier",
             "span": {
               "start": 425,
-              "end": 436,
+              "end": 426,
               "ctxt": 0
             },
             "value": "f",
@@ -261,7 +261,7 @@
             "type": "Identifier",
             "span": {
               "start": 438,
-              "end": 442,
+              "end": 439,
               "ctxt": 0
             },
             "value": "x",
@@ -392,7 +392,7 @@
             "type": "Identifier",
             "span": {
               "start": 464,
-              "end": 475,
+              "end": 465,
               "ctxt": 0
             },
             "value": "f",
@@ -438,7 +438,7 @@
             "type": "Identifier",
             "span": {
               "start": 477,
-              "end": 488,
+              "end": 478,
               "ctxt": 0
             },
             "value": "g",
@@ -484,7 +484,7 @@
             "type": "Identifier",
             "span": {
               "start": 490,
-              "end": 494,
+              "end": 491,
               "ctxt": 0
             },
             "value": "x",
@@ -4713,7 +4713,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 1920,
-                      "end": 1929,
+                      "end": 1921,
                       "ctxt": 0
                     },
                     "value": "p",
@@ -4800,7 +4800,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 1946,
-                      "end": 1955,
+                      "end": 1947,
                       "ctxt": 0
                     },
                     "value": "p",

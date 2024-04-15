@@ -1323,7 +1323,7 @@
             "type": "Identifier",
             "span": {
               "start": 875,
-              "end": 896,
+              "end": 886,
               "ctxt": 0
             },
             "value": "directories",

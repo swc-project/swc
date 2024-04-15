@@ -380,7 +380,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 158,
-                  "end": 184,
+                  "end": 162,
                   "ctxt": 0
                 },
                 "value": "Map_",

@@ -59,7 +59,7 @@
                   "type": "Identifier",
                   "span": {
                     "start": 50,
-                    "end": 73,
+                    "end": 52,
                     "ctxt": 0
                   },
                   "value": "cb",
@@ -83,7 +83,7 @@
                           "type": "Identifier",
                           "span": {
                             "start": 55,
-                            "end": 64,
+                            "end": 56,
                             "ctxt": 0
                           },
                           "value": "x",
@@ -194,7 +194,7 @@
                   "type": "Identifier",
                   "span": {
                     "start": 113,
-                    "end": 120,
+                    "end": 115,
                     "ctxt": 0
                   },
                   "value": "cb",
@@ -529,7 +529,7 @@
                   "type": "Identifier",
                   "span": {
                     "start": 291,
-                    "end": 325,
+                    "end": 293,
                     "ctxt": 0
                   },
                   "value": "cb",
@@ -553,7 +553,7 @@
                           "type": "Identifier",
                           "span": {
                             "start": 296,
-                            "end": 305,
+                            "end": 297,
                             "ctxt": 0
                           },
                           "value": "x",
@@ -580,7 +580,7 @@
                           "type": "Identifier",
                           "span": {
                             "start": 307,
-                            "end": 316,
+                            "end": 308,
                             "ctxt": 0
                           },
                           "value": "y",
@@ -691,7 +691,7 @@
                   "type": "Identifier",
                   "span": {
                     "start": 365,
-                    "end": 372,
+                    "end": 367,
                     "ctxt": 0
                   },
                   "value": "cb",

@@ -145,7 +145,7 @@
             "type": "Identifier",
             "span": {
               "start": 457,
-              "end": 467,
+              "end": 461,
               "ctxt": 0
             },
             "value": "item",
@@ -234,7 +234,7 @@
             "type": "Identifier",
             "span": {
               "start": 499,
-              "end": 508,
+              "end": 503,
               "ctxt": 0
             },
             "value": "item",
@@ -910,7 +910,7 @@
             "type": "Identifier",
             "span": {
               "start": 785,
-              "end": 801,
+              "end": 790,
               "ctxt": 0
             },
             "value": "param",

@@ -113,7 +113,7 @@
             "type": "Identifier",
             "span": {
               "start": 77,
-              "end": 107,
+              "end": 91,
               "ctxt": 0
             },
             "value": "staticToString",
@@ -313,7 +313,7 @@
             "type": "Identifier",
             "span": {
               "start": 242,
-              "end": 272,
+              "end": 256,
               "ctxt": 0
             },
             "value": "staticToNumber",
@@ -513,7 +513,7 @@
             "type": "Identifier",
             "span": {
               "start": 400,
-              "end": 422,
+              "end": 406,
               "ctxt": 0
             },
             "value": "normal",

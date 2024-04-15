@@ -104,7 +104,7 @@
             "type": "Identifier",
             "span": {
               "start": 56,
-              "end": 84,
+              "end": 63,
               "ctxt": 0
             },
             "value": "message",

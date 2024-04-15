@@ -510,7 +510,7 @@
             "type": "Identifier",
             "span": {
               "start": 387,
-              "end": 408,
+              "end": 392,
               "ctxt": 0
             },
             "value": "input",

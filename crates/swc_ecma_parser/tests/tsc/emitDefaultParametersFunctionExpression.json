@@ -817,7 +817,7 @@
                       "type": "Identifier",
                       "span": {
                         "start": 321,
-                        "end": 332,
+                        "end": 324,
                         "ctxt": 0
                       },
                       "value": "num",
