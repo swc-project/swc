@@ -4,6 +4,7 @@ use std::{
     sync::Arc,
 };
 
+use ast_node::swc_rkyv;
 use rustc_hash::FxHashMap;
 use swc_atoms::{atom, Atom};
 
@@ -630,11 +631,7 @@ impl SingleThreadedComments {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, serde::Serialize, serde::Deserialize)]
-#[cfg_attr(
-    any(feature = "rkyv-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
+#[swc_rkyv]
 pub struct Comment {
     pub kind: CommentKind,
     pub span: Span,
