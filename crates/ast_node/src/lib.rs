@@ -182,6 +182,8 @@ pub fn ast_node(
                 None
             };
 
+            let rkyv_attrs = build_rkyv_attrs();
+
             item.extend(quote!(
                 #[allow(clippy::derive_partial_eq_without_eq)]
                 #[cfg_attr(
@@ -198,15 +200,7 @@ pub fn ast_node(
                     ::swc_common::DeserializeEnum,
                 )]
                 #clone
-                #[cfg_attr(
-                    feature = "rkyv-impl",
-                    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-                )]
-                #[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
-                #[cfg_attr(
-                    any(feature = "rkyv-impl"),
-                    archive(serialize_bounds(__S: rkyv::ser::Writer + rkyv::ser::Allocator))
-                )]
+                #rkyv_attrs
                 #[cfg_attr(
                     feature = "serde-impl",
                     serde(untagged)
@@ -251,6 +245,8 @@ pub fn ast_node(
                 .as_ref()
                 .map(|args| ast_node_macro::expand_struct(args.clone(), input.clone()));
 
+            let rkyv_attrs = build_rkyv_attrs();
+
             item.extend(quote!(
                 #[allow(clippy::derive_partial_eq_without_eq)]
                 #[derive(::swc_common::Spanned, Clone, Debug, PartialEq)]
@@ -258,15 +254,7 @@ pub fn ast_node(
                     feature = "serde-impl",
                     derive(::serde::Serialize, ::serde::Deserialize)
                 )]
-                #[cfg_attr(
-                    feature = "rkyv-impl",
-                    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-                )]
-                #[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
-                #[cfg_attr(
-                    any(feature = "rkyv-impl"),
-                    archive(serialize_bounds(__S: rkyv::ser::Writer + rkyv::ser::Allocator))
-                )]
+                #rkyv_attrs
                 #serde_tag
                 #[cfg_attr(
                     feature = "serde-impl",
@@ -285,4 +273,18 @@ pub fn ast_node(
     };
 
     print("ast_node", item)
+}
+
+fn build_rkyv_attrs() -> TokenStream {
+    quote!(
+        #[cfg_attr(
+            feature = "rkyv-impl",
+            derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+        )]
+        #[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
+        #[cfg_attr(
+            any(feature = "rkyv-impl"),
+            archive(serialize_bounds(__S: rkyv::ser::Writer + rkyv::ser::Allocator))
+        )]
+    )
 }
