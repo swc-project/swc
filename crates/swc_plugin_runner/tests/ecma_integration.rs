@@ -227,6 +227,8 @@ fn internal() {
 
         // Run multiple plugins.
         testing::run_test(false, |cm, _handler| {
+            eprintln!("Multiple plugins start");
+
             let fm = cm.new_source_file(FileName::Anon, "console.log(foo)".into());
 
             let program = parse_file_as_program(
@@ -269,6 +271,8 @@ fn internal() {
                 .transform(&serialized_program, Some(false))
                 .expect("Plugin should apply transform");
 
+            eprintln!("Multiple plugins - first plugin done");
+
             // TODO: we'll need to apply 2 different plugins
             let mut plugin_transform_executor = swc_plugin_runner::create_plugin_transform_executor(
                 &cm,
@@ -286,6 +290,8 @@ fn internal() {
             serialized_program = plugin_transform_executor
                 .transform(&serialized_program, Some(false))
                 .expect("Plugin should apply transform");
+
+            eprintln!("Multiple plugins - second plugin done");
 
             let program: Program = serialized_program
                 .deserialize()
