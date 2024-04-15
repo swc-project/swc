@@ -271,6 +271,11 @@ fn internal() {
                 .transform(&serialized_program, Some(false))
                 .expect("Plugin should apply transform");
 
+            let _program: Program = serialized_program
+                .deserialize()
+                .expect("Should able to deserialize")
+                .into_inner();
+
             eprintln!("Multiple plugins - first plugin done");
 
             // TODO: we'll need to apply 2 different plugins
@@ -286,6 +291,8 @@ fn internal() {
                 Some(json!({ "pluginConfig": "testValue" })),
                 None,
             );
+
+            eprintln!("Multiple plugins - second plugin start");
 
             serialized_program = plugin_transform_executor
                 .transform(&serialized_program, Some(false))
