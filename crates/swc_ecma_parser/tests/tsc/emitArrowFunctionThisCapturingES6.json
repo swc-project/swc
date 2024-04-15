@@ -276,7 +276,7 @@
             "type": "Identifier",
             "span": {
               "start": 115,
-              "end": 134,
+              "end": 119,
               "ctxt": 0
             },
             "value": "func",

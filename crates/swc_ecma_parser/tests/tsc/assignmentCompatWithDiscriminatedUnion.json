@@ -5705,7 +5705,7 @@
                   "type": "Identifier",
                   "span": {
                     "start": 3029,
-                    "end": 3047,
+                    "end": 3032,
                     "ctxt": 0
                   },
                   "value": "val",
@@ -5815,7 +5815,7 @@
                   "type": "Identifier",
                   "span": {
                     "start": 3081,
-                    "end": 3124,
+                    "end": 3093,
                     "ctxt": 0
                   },
                   "value": "currentColor",
@@ -7061,7 +7061,7 @@
                   "type": "Identifier",
                   "span": {
                     "start": 4046,
-                    "end": 4066,
+                    "end": 4055,
                     "ctxt": 0
                   },
                   "value": "thingType",
@@ -7390,7 +7390,7 @@
                   "type": "Identifier",
                   "span": {
                     "start": 4313,
-                    "end": 4327,
+                    "end": 4319,
                     "ctxt": 0
                   },
                   "value": "action",
@@ -7889,7 +7889,7 @@
                   "type": "Identifier",
                   "span": {
                     "start": 4650,
-                    "end": 4658,
+                    "end": 4654,
                     "ctxt": 0
                   },
                   "value": "obj1",

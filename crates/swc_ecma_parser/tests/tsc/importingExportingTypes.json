@@ -104,7 +104,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 195,
-                      "end": 207,
+                      "end": 199,
                       "ctxt": 0
                     },
                     "value": "path",
@@ -140,7 +140,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 209,
-                      "end": 218,
+                      "end": 213,
                       "ctxt": 0
                     },
                     "value": "data",
@@ -176,7 +176,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 220,
-                      "end": 245,
+                      "end": 227,
                       "ctxt": 0
                     },
                     "value": "options",
@@ -222,7 +222,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 247,
-                      "end": 277,
+                      "end": 255,
                       "ctxt": 0
                     },
                     "value": "callback",
@@ -246,7 +246,7 @@
                             "type": "Identifier",
                             "span": {
                               "start": 258,
-                              "end": 268,
+                              "end": 261,
                               "ctxt": 0
                             },
                             "value": "err",

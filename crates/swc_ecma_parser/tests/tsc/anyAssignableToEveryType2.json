@@ -1954,7 +1954,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 913,
-                      "end": 917,
+                      "end": 914,
                       "ctxt": 0
                     },
                     "value": "x",

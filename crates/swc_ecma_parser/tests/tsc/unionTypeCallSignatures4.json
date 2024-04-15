@@ -37,7 +37,7 @@
             "type": "Identifier",
             "span": {
               "start": 12,
-              "end": 21,
+              "end": 13,
               "ctxt": 0
             },
             "value": "a",
@@ -64,7 +64,7 @@
             "type": "Identifier",
             "span": {
               "start": 23,
-              "end": 33,
+              "end": 24,
               "ctxt": 0
             },
             "value": "b",
@@ -139,7 +139,7 @@
             "type": "Identifier",
             "span": {
               "start": 55,
-              "end": 64,
+              "end": 56,
               "ctxt": 0
             },
             "value": "a",
@@ -166,7 +166,7 @@
             "type": "Identifier",
             "span": {
               "start": 66,
-              "end": 76,
+              "end": 67,
               "ctxt": 0
             },
             "value": "b",
@@ -193,7 +193,7 @@
             "type": "Identifier",
             "span": {
               "start": 78,
-              "end": 88,
+              "end": 79,
               "ctxt": 0
             },
             "value": "c",
@@ -268,7 +268,7 @@
             "type": "Identifier",
             "span": {
               "start": 110,
-              "end": 119,
+              "end": 111,
               "ctxt": 0
             },
             "value": "a",
@@ -392,7 +392,7 @@
             "type": "Identifier",
             "span": {
               "start": 160,
-              "end": 169,
+              "end": 161,
               "ctxt": 0
             },
             "value": "a",
@@ -419,7 +419,7 @@
             "type": "Identifier",
             "span": {
               "start": 171,
-              "end": 181,
+              "end": 172,
               "ctxt": 0
             },
             "value": "b",
@@ -543,7 +543,7 @@
             "type": "Identifier",
             "span": {
               "start": 222,
-              "end": 231,
+              "end": 223,
               "ctxt": 0
             },
             "value": "a",
@@ -570,7 +570,7 @@
             "type": "Identifier",
             "span": {
               "start": 233,
-              "end": 242,
+              "end": 234,
               "ctxt": 0
             },
             "value": "b",

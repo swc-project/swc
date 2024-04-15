@@ -581,7 +581,7 @@
                   "type": "Identifier",
                   "span": {
                     "start": 670,
-                    "end": 692,
+                    "end": 675,
                     "ctxt": 0
                   },
                   "value": "param",
@@ -1400,7 +1400,7 @@
                   "type": "Identifier",
                   "span": {
                     "start": 1483,
-                    "end": 1505,
+                    "end": 1488,
                     "ctxt": 0
                   },
                   "value": "param",
@@ -2219,7 +2219,7 @@
                   "type": "Identifier",
                   "span": {
                     "start": 2290,
-                    "end": 2312,
+                    "end": 2295,
                     "ctxt": 0
                   },
                   "value": "param",
@@ -3038,7 +3038,7 @@
                   "type": "Identifier",
                   "span": {
                     "start": 3131,
-                    "end": 3153,
+                    "end": 3136,
                     "ctxt": 0
                   },
                   "value": "param",

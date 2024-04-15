@@ -497,7 +497,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 235,
-                      "end": 288,
+                      "end": 238,
                       "ctxt": 0
                     },
                     "value": "com",
@@ -859,7 +859,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 322,
-                  "end": 375,
+                  "end": 325,
                   "ctxt": 0
                 },
                 "value": "com",
@@ -1326,7 +1326,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 440,
-                  "end": 448,
+                  "end": 445,
                   "ctxt": 0
                 },
                 "value": "value",
@@ -1467,7 +1467,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 489,
-                  "end": 514,
+                  "end": 494,
                   "ctxt": 0
                 },
                 "value": "value",
@@ -1625,7 +1625,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 546,
-                      "end": 566,
+                      "end": 547,
                       "ctxt": 0
                     },
                     "value": "x",
@@ -1885,7 +1885,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 603,
-                      "end": 623,
+                      "end": 604,
                       "ctxt": 0
                     },
                     "value": "x",
@@ -2260,7 +2260,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 686,
-                  "end": 694,
+                  "end": 691,
                   "ctxt": 0
                 },
                 "value": "value",
@@ -2400,7 +2400,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 732,
-                  "end": 757,
+                  "end": 737,
                   "ctxt": 0
                 },
                 "value": "value",
@@ -2558,7 +2558,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 789,
-                      "end": 809,
+                      "end": 790,
                       "ctxt": 0
                     },
                     "value": "x",
@@ -2818,7 +2818,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 846,
-                      "end": 866,
+                      "end": 847,
                       "ctxt": 0
                     },
                     "value": "x",
@@ -3135,7 +3135,7 @@
             "type": "Identifier",
             "span": {
               "start": 950,
-              "end": 977,
+              "end": 953,
               "ctxt": 0
             },
             "value": "obj",
@@ -3321,7 +3321,7 @@
             "type": "Identifier",
             "span": {
               "start": 1008,
-              "end": 1025,
+              "end": 1011,
               "ctxt": 0
             },
             "value": "obj",
@@ -4076,7 +4076,7 @@
               "type": "Identifier",
               "span": {
                 "start": 1339,
-                "end": 1347,
+                "end": 1344,
                 "ctxt": 0
               },
               "value": "props",
@@ -4240,7 +4240,7 @@
               "type": "Identifier",
               "span": {
                 "start": 1402,
-                "end": 1410,
+                "end": 1407,
                 "ctxt": 0
               },
               "value": "props",
@@ -4565,7 +4565,7 @@
             "type": "Identifier",
             "span": {
               "start": 1648,
-              "end": 1679,
+              "end": 1657,
               "ctxt": 0
             },
             "value": "component",
@@ -5329,7 +5329,7 @@
             "type": "Identifier",
             "span": {
               "start": 2023,
-              "end": 2037,
+              "end": 2026,
               "ctxt": 0
             },
             "value": "obj",

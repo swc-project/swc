@@ -103,7 +103,7 @@
             "type": "Identifier",
             "span": {
               "start": 159,
-              "end": 180,
+              "end": 168,
               "ctxt": 0
             },
             "value": "baseClass",

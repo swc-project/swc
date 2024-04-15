@@ -174,7 +174,7 @@
             "type": "Identifier",
             "span": {
               "start": 102,
-              "end": 110,
+              "end": 105,
               "ctxt": 0
             },
             "value": "obj",
@@ -290,7 +290,7 @@
             "type": "Identifier",
             "span": {
               "start": 166,
-              "end": 190,
+              "end": 168,
               "ctxt": 0
             },
             "value": "cb",
@@ -314,7 +314,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 171,
-                      "end": 183,
+                      "end": 175,
                       "ctxt": 0
                     },
                     "value": "name",
@@ -399,7 +399,7 @@
             "type": "Identifier",
             "span": {
               "start": 218,
-              "end": 251,
+              "end": 222,
               "ctxt": 0
             },
             "value": "this",

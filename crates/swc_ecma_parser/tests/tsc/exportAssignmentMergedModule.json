@@ -206,7 +206,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 151,
-                      "end": 160,
+                      "end": 152,
                       "ctxt": 0
                     },
                     "value": "a",

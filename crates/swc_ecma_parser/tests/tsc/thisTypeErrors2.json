@@ -56,7 +56,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 30,
-                  "end": 37,
+                  "end": 31,
                   "ctxt": 0
                 },
                 "value": "a",
@@ -255,7 +255,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 124,
-                  "end": 143,
+                  "end": 128,
                   "ctxt": 0
                 },
                 "value": "host",

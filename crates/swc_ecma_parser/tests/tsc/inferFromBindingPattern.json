@@ -892,7 +892,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 438,
-                      "end": 444,
+                      "end": 441,
                       "ctxt": 0
                     },
                     "value": "obj",
@@ -1241,7 +1241,7 @@
             "type": "Identifier",
             "span": {
               "start": 587,
-              "end": 617,
+              "end": 592,
               "ctxt": 0
             },
             "value": "props",
@@ -1740,7 +1740,7 @@
             "type": "Identifier",
             "span": {
               "start": 838,
-              "end": 845,
+              "end": 841,
               "ctxt": 0
             },
             "value": "arg",
@@ -1890,7 +1890,7 @@
             "type": "Identifier",
             "span": {
               "start": 891,
-              "end": 898,
+              "end": 894,
               "ctxt": 0
             },
             "value": "arg",

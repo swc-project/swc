@@ -550,7 +550,7 @@
             "type": "Identifier",
             "span": {
               "start": 283,
-              "end": 297,
+              "end": 292,
               "ctxt": 0
             },
             "value": "sourceObj",
@@ -666,7 +666,7 @@
             "type": "Identifier",
             "span": {
               "start": 357,
-              "end": 371,
+              "end": 366,
               "ctxt": 0
             },
             "value": "sourceObj",

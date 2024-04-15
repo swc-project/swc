@@ -39,7 +39,7 @@
               "type": "Identifier",
               "span": {
                 "start": 50,
-                "end": 100,
+                "end": 68,
                 "ctxt": 0
               },
               "value": "tsConfigSourceFile",
@@ -104,7 +104,7 @@
               "type": "Identifier",
               "span": {
                 "start": 102,
-                "end": 117,
+                "end": 109,
                 "ctxt": 0
               },
               "value": "propKey",
@@ -140,7 +140,7 @@
               "type": "Identifier",
               "span": {
                 "start": 119,
-                "end": 139,
+                "end": 131,
                 "ctxt": 0
               },
               "value": "elementValue",

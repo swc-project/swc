@@ -226,7 +226,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 212,
-                  "end": 227,
+                  "end": 219,
                   "ctxt": 0
                 },
                 "value": "message",

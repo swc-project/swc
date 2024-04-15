@@ -59,7 +59,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 40,
-                  "end": 49,
+                  "end": 41,
                   "ctxt": 0
                 },
                 "value": "x",
@@ -86,7 +86,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 51,
-                  "end": 60,
+                  "end": 52,
                   "ctxt": 0
                 },
                 "value": "y",
@@ -191,7 +191,7 @@
             "type": "Identifier",
             "span": {
               "start": 95,
-              "end": 104,
+              "end": 96,
               "ctxt": 0
             },
             "value": "x",
@@ -227,7 +227,7 @@
             "type": "Identifier",
             "span": {
               "start": 106,
-              "end": 115,
+              "end": 107,
               "ctxt": 0
             },
             "value": "y",
@@ -1948,7 +1948,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 554,
-                  "end": 563,
+                  "end": 555,
                   "ctxt": 0
                 },
                 "value": "x",
@@ -1984,7 +1984,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 565,
-                  "end": 574,
+                  "end": 566,
                   "ctxt": 0
                 },
                 "value": "y",
@@ -2270,7 +2270,7 @@
                   "type": "Identifier",
                   "span": {
                     "start": 662,
-                    "end": 671,
+                    "end": 663,
                     "ctxt": 0
                   },
                   "value": "x",
@@ -2306,7 +2306,7 @@
                   "type": "Identifier",
                   "span": {
                     "start": 673,
-                    "end": 682,
+                    "end": 674,
                     "ctxt": 0
                   },
                   "value": "y",

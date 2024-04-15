@@ -268,7 +268,7 @@
                         "type": "Identifier",
                         "span": {
                           "start": 479,
-                          "end": 499,
+                          "end": 486,
                           "ctxt": 0
                         },
                         "value": "outfile",
@@ -317,7 +317,7 @@
                         "type": "Identifier",
                         "span": {
                           "start": 508,
-                          "end": 522,
+                          "end": 514,
                           "ctxt": 0
                         },
                         "value": "parser",
@@ -1692,7 +1692,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 1499,
-                      "end": 1507,
+                      "end": 1502,
                       "ctxt": 0
                     },
                     "value": "ast",
@@ -1738,7 +1738,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 1509,
-                      "end": 1520,
+                      "end": 1515,
                       "ctxt": 0
                     },
                     "value": "parent",
@@ -1784,7 +1784,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 1522,
-                      "end": 1540,
+                      "end": 1528,
                       "ctxt": 0
                     },
                     "value": "walker",
@@ -2111,7 +2111,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 1717,
-                      "end": 1725,
+                      "end": 1720,
                       "ctxt": 0
                     },
                     "value": "ast",
@@ -2157,7 +2157,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 1727,
-                      "end": 1738,
+                      "end": 1733,
                       "ctxt": 0
                     },
                     "value": "parent",
@@ -2203,7 +2203,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 1740,
-                      "end": 1758,
+                      "end": 1746,
                       "ctxt": 0
                     },
                     "value": "walker",

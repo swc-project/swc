@@ -124,7 +124,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 227,
-                  "end": 231,
+                  "end": 228,
                   "ctxt": 0
                 },
                 "value": "x",
@@ -221,7 +221,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 250,
-                  "end": 254,
+                  "end": 251,
                   "ctxt": 0
                 },
                 "value": "x",
@@ -349,7 +349,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 300,
-                  "end": 304,
+                  "end": 301,
                   "ctxt": 0
                 },
                 "value": "x",
@@ -446,7 +446,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 323,
-                  "end": 327,
+                  "end": 324,
                   "ctxt": 0
                 },
                 "value": "x",
@@ -606,7 +606,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 373,
-                  "end": 377,
+                  "end": 374,
                   "ctxt": 0
                 },
                 "value": "x",
@@ -671,7 +671,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 393,
-                  "end": 397,
+                  "end": 394,
                   "ctxt": 0
                 },
                 "value": "x",
@@ -940,7 +940,7 @@
                         "type": "Identifier",
                         "span": {
                           "start": 496,
-                          "end": 500,
+                          "end": 497,
                           "ctxt": 0
                         },
                         "value": "x",
@@ -1037,7 +1037,7 @@
                         "type": "Identifier",
                         "span": {
                           "start": 519,
-                          "end": 523,
+                          "end": 520,
                           "ctxt": 0
                         },
                         "value": "x",

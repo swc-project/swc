@@ -39,7 +39,7 @@
               "type": "Identifier",
               "span": {
                 "start": 130,
-                "end": 140,
+                "end": 135,
                 "ctxt": 0
               },
               "value": "value",
@@ -75,7 +75,7 @@
               "type": "Identifier",
               "span": {
                 "start": 142,
-                "end": 166,
+                "end": 149,
                 "ctxt": 0
               },
               "value": "message",
@@ -195,7 +195,7 @@
             "type": "Identifier",
             "span": {
               "start": 228,
-              "end": 238,
+              "end": 233,
               "ctxt": 0
             },
             "value": "value",
@@ -231,7 +231,7 @@
             "type": "Identifier",
             "span": {
               "start": 240,
-              "end": 264,
+              "end": 247,
               "ctxt": 0
             },
             "value": "message",

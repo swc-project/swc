@@ -1334,7 +1334,7 @@
             "type": "Identifier",
             "span": {
               "start": 1428,
-              "end": 1447,
+              "end": 1439,
               "ctxt": 0
             },
             "value": "numberEaten",
@@ -1579,7 +1579,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 1637,
-                  "end": 1650,
+                  "end": 1644,
                   "ctxt": 0
                 },
                 "value": "drunkOO",
@@ -1696,7 +1696,7 @@
                   "type": "Identifier",
                   "span": {
                     "start": 1779,
-                    "end": 1803,
+                    "end": 1785,
                     "ctxt": 0
                   },
                   "value": "others",

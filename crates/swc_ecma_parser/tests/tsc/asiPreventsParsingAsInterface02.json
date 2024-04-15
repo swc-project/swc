@@ -32,7 +32,7 @@
             "type": "Identifier",
             "span": {
               "start": 13,
-              "end": 30,
+              "end": 22,
               "ctxt": 0
             },
             "value": "interface",
@@ -68,7 +68,7 @@
             "type": "Identifier",
             "span": {
               "start": 32,
-              "end": 41,
+              "end": 33,
               "ctxt": 0
             },
             "value": "I",

@@ -154,7 +154,7 @@
             "type": "Identifier",
             "span": {
               "start": 209,
-              "end": 230,
+              "end": 216,
               "ctxt": 0
             },
             "value": "promise",

@@ -93,7 +93,7 @@
             "type": "Identifier",
             "span": {
               "start": 58,
-              "end": 75,
+              "end": 65,
               "ctxt": 0
             },
             "value": "Factory",
@@ -203,7 +203,7 @@
             "type": "Identifier",
             "span": {
               "start": 114,
-              "end": 131,
+              "end": 121,
               "ctxt": 0
             },
             "value": "Factory",
