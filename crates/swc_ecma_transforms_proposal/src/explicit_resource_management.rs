@@ -2,7 +2,7 @@ use std::iter::once;
 
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::helper;
+use swc_ecma_transforms_base::{helper, helper_expr};
 use swc_ecma_utils::{find_pat_ids, private_ident, ExprFactory, ModuleItemLike, StmtLike};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
@@ -57,13 +57,15 @@ impl ExplicitResourceManagement {
         let mut extras = vec![];
         let mut try_body = vec![];
 
-        let stack_var_decl = VarDeclarator {
+        let using_ctx_var = VarDeclarator {
             span: DUMMY_SP,
-            name: state.stack.clone().into(),
+            name: state.using_ctx.clone().into(),
             init: Some(
-                ArrayLit {
+                CallExpr {
+                    callee: helper!(using_ctx),
                     span: DUMMY_SP,
-                    elems: vec![],
+                    args: Default::default(),
+                    type_args: Default::default(),
                 }
                 .into(),
             ),
@@ -74,7 +76,7 @@ impl ExplicitResourceManagement {
             span: DUMMY_SP,
             kind: VarDeclKind::Var,
             declare: false,
-            decls: vec![stack_var_decl],
+            decls: vec![using_ctx_var],
         }))));
 
         for stmt in stmts.take() {
