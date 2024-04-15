@@ -92,7 +92,7 @@ impl PluginSerializedBytes {
     #[tracing::instrument(level = "info", skip_all)]
     pub fn deserialize<W>(&self) -> Result<VersionedSerializable<W>, Error>
     where
-        W: rkyv::Archive + rkyv::Portable,
+        W: rkyv::Archive,
         W::Archived: rkyv::Deserialize<W, rkyv::rancor::Strategy<rkyv::de::Unify, rkyv::rancor::Failure>>
             + bytecheck::CheckBytes<
                 rkyv::rancor::Strategy<
