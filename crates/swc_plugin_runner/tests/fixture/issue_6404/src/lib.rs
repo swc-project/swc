@@ -11,7 +11,7 @@ pub fn process_transform(program: Program, metadata: TransformPluginProgramMetad
         // println!("i {} j {}", i, j);
         let res = metadata.source_map.span_to_snippet(Span::new(
             BytePos(j),
-            BytePos(j + 1000000),
+            BytePos(j + 10000000),
             SyntaxContext::empty(),
         ));
         // let _ = dbg!(res);
