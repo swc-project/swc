@@ -1,8 +1,6 @@
-use std::{any::type_name, convert::Infallible};
+use std::any::type_name;
 
 use anyhow::Error;
-#[cfg(feature = "__rkyv")]
-use rkyv::Deserialize;
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 #[non_exhaustive]
@@ -94,25 +92,26 @@ impl PluginSerializedBytes {
     #[tracing::instrument(level = "info", skip_all)]
     pub fn deserialize<W>(&self) -> Result<VersionedSerializable<W>, Error>
     where
-        W: rkyv::Archive
-            + rkyv::Portable
+        W: rkyv::Archive + rkyv::Portable,
+        W::Archived: rkyv::Deserialize<W, rkyv::rancor::Strategy<rkyv::de::Unify, rkyv::rancor::Failure>>
             + bytecheck::CheckBytes<
                 rkyv::rancor::Strategy<
                     rkyv::validation::validators::DefaultValidator,
                     rkyv::rancor::Failure,
                 >,
             >,
-        W::Archived:
-            rkyv::Deserialize<W, rkyv::rancor::Strategy<rkyv::de::Unify, rkyv::rancor::Failure>>,
     {
         use anyhow::Context;
 
-        let archived = unsafe {
-            rkyv::access::<VersionedSerializable<W>, rkyv::rancor::Failure>(&self.field[..])?
-        };
+        let archived = rkyv::access::<
+            rkyv::Archived<VersionedSerializable<W>>,
+            rkyv::rancor::Failure,
+        >(&self.field[..])?;
 
-        let result =
-            archived.deserialize(rkyv::rancor::Strategy::wrap(&mut rkyv::de::Unify::new()));
+        let result = rkyv::Deserialize::<VersionedSerializable<W>, _>::deserialize(
+            archived,
+            rkyv::rancor::Strategy::wrap(&mut rkyv::de::Unify::new()),
+        );
 
         result.with_context(|| format!("failed to deserialize `{}`", type_name::<W>()))
     }
@@ -127,14 +126,9 @@ impl PluginSerializedBytes {
 /// serialize.
 #[cfg_attr(
     feature = "__plugin",
-    derive(
-        rkyv::Archive,
-        rkyv::Serialize,
-        rkyv::Deserialize,
-        rkyv::Portable,
-        bytecheck::CheckBytes
-    )
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize, rkyv::Portable)
 )]
+#[cfg_attr(feature = "__plugin", archive(check_bytes))]
 #[repr(transparent)]
 #[derive(Debug)]
 pub struct VersionedSerializable<T>(
