@@ -1,0 +1,6 @@
+{
+    "compress": {
+        "defaults": true,
+        "inline": 2
+    }
+}
