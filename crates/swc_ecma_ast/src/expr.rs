@@ -2,7 +2,9 @@
 use is_macro::Is;
 use string_enum::StringEnum;
 use swc_atoms::Atom;
-use swc_common::{ast_node, util::take::Take, BytePos, EqIgnoreSpan, Span, Spanned, DUMMY_SP};
+use swc_common::{
+    ast_node, swc_rkyv, util::take::Take, BytePos, EqIgnoreSpan, Span, Spanned, DUMMY_SP,
+};
 
 use crate::{
     class::Class,
@@ -1122,19 +1124,13 @@ impl Take for Import {
 
 #[derive(Clone, Debug, PartialEq, Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
-#[cfg_attr(
-    any(feature = "rkyv-impl"),
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
-)]
-#[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
+#[swc_rkyv]
 #[cfg_attr(feature = "serde-impl", derive(serde::Serialize, serde::Deserialize))]
 pub struct ExprOrSpread {
     #[cfg_attr(feature = "serde-impl", serde(default))]
-    #[cfg_attr(feature = "__rkyv", omit_bounds)]
     pub spread: Option<Span>,
 
     #[cfg_attr(feature = "serde-impl", serde(rename = "expression"))]
-    #[cfg_attr(feature = "__rkyv", omit_bounds)]
     pub expr: Box<Expr>,
 }
 
