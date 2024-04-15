@@ -51,6 +51,8 @@ where
     let (serialized_allocated_bytes_raw_ptr, serialized_allocated_bytes_raw_ptr_size) =
         serialized_allocated_bytes_ptr.as_ptr();
 
+    std::mem::forget(allocated_bytes_ptr); // We should not drop AllocatedBytesPtr(0, 0)
+
     let ret = f(serialized_allocated_bytes_raw_ptr as _);
 
     // Host fn call completes: by contract in host proxy, if return value is 0
