@@ -1,4 +1,4 @@
-use std::any::type_name;
+use std::{any::type_name, convert::Infallible};
 
 use anyhow::Error;
 #[cfg(feature = "__rkyv")]
@@ -94,15 +94,14 @@ impl PluginSerializedBytes {
     pub fn deserialize<W>(&self) -> Result<VersionedSerializable<W>, Error>
     where
         W: rkyv::Archive,
-        W::Archived: rkyv::Deserialize<W, rkyv::de::deserializers::SharedDeserializeMap>,
+        W::Archived: rkyv::Deserialize<W, rkyv::rancor::Strategy<rkyv::de::Unify, Infallible>>,
     {
         use anyhow::Context;
 
-        let archived: rkyv::Archived<VersionedSerializable<W>> =
-            unsafe { rkyv::archived_root::<VersionedSerializable<W>>(&self.field[..]) };
+        let archived = unsafe { rkyv::access::<VersionedSerializable<W>>(&self.field[..])? };
 
         archived
-            .deserialize(&mut rkyv::de::deserializers::SharedDeserializeMap::new())
+            .deserialize(&mut rkyv::de::Unify::new())
             .with_context(|| format!("failed to deserialize `{}`", type_name::<W>()))
     }
 }
