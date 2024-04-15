@@ -4626,7 +4626,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.137.18"
+version = "0.137.19"
 dependencies = [
  "better_scoped_tls",
  "bitflags 2.5.0",
@@ -4773,7 +4773,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_proposal"
-version = "0.171.21"
+version = "0.171.22"
 dependencies = [
  "either",
  "rustc-hash",
