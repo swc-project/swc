@@ -20,7 +20,7 @@ pub struct Tuple(#[span] HasSpan, usize, usize);
 )]
 #[cfg_attr(
     any(feature = "rkyv-impl"),
-    archive(bound(serialize = "__S: rkyv::ser::Writer + rkyv::ser::ScratchSpace"))
+    archive(serialize_bounds(__S: rkyv::ser::Writer))
 )]
 #[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
 

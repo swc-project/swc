@@ -204,11 +204,8 @@ pub fn ast_node(
                 )]
                 #[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
                 #[cfg_attr(
-                    feature = "rkyv-impl",
-                    archive(bound(
-                        serialize = "__S: rkyv::ser::Writer + rkyv::ser::ScratchSpace + rkyv::ser::SharedSerializeRegistry",
-                        deserialize = "__D: rkyv::de::SharedDeserializeRegistry"
-                    ))
+                    any(feature = "rkyv-impl"),
+                    archive(serialize_bounds(__S: rkyv::ser::Writer))
                 )]
                 #[cfg_attr(
                     feature = "serde-impl",
@@ -267,13 +264,8 @@ pub fn ast_node(
                 )]
                 #[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
                 #[cfg_attr(
-                    feature = "rkyv-impl",
-                    archive(
-                        bound(
-                            serialize = "__S: rkyv::ser::Writer + rkyv::ser::ScratchSpace + rkyv::ser::SharedSerializeRegistry",
-                            deserialize = "__D: rkyv::de::SharedDeserializeRegistry"
-                        )
-                    )
+                    any(feature = "rkyv-impl"),
+                    archive(serialize_bounds(__S: rkyv::ser::Writer))
                 )]
                 #serde_tag
                 #[cfg_attr(
