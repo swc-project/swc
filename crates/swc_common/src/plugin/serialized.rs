@@ -111,9 +111,10 @@ impl PluginSerializedBytes {
             rkyv::access::<VersionedSerializable<W>, rkyv::rancor::Failure>(&self.field[..])?
         };
 
-        archived
-            .deserialize(&mut rkyv::de::Unify::new())
-            .with_context(|| format!("failed to deserialize `{}`", type_name::<W>()))
+        let result =
+            archived.deserialize(rkyv::rancor::Strategy::wrap(&mut rkyv::de::Unify::new()));
+
+        result.with_context(|| format!("failed to deserialize `{}`", type_name::<W>()))
     }
 }
 
