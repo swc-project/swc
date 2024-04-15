@@ -1,12 +1,11 @@
 export { C as default };
 try {
-    var _stack = [];
-    var x = _using(_stack, null);
+    var _usingCtx = _using_ctx();
+    var x = _usingCtx.u(null);
     var C = class C {
     };
 } catch (_) {
-    var _error = _;
-    var _hasError = true;
+    _usingCtx.e = _;
 } finally{
-    _dispose(_stack, _error, _hasError);
+    _usingCtx.d();
 }

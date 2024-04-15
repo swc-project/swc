@@ -1,13 +1,12 @@
 for (const x of y){
     try {
-        var _stack = [];
+        var _usingCtx = _using_ctx();
         {
             doSomethingWith(x);
         }
     } catch (_) {
-        var _error = _;
-        var _hasError = true;
+        _usingCtx.e = _;
     } finally{
-        _dispose(_stack, _error, _hasError);
+        _usingCtx.d();
     }
 }
