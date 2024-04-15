@@ -1,5 +1,5 @@
 # Changelog
-## [unreleased]
+## [1.4.14] - 2024-04-15
 
 ### Bug Fixes
 
@@ -1361,9 +1361,6 @@
 
 ### Bug Fixes
 
-
-
-- **(bindings/type)** Update types of `jsc.experimental` ([#7972](https://github.com/swc-project/swc/issues/7972)) ([e40fccb](https://github.com/swc-project/swc/commit/e40fccb9ce2a8fc925de818c8da4b6503aab7ae3))
 
 
 - **(es/compat)** Handle nullish in fn expr scope ([#7980](https://github.com/swc-project/swc/issues/7980)) ([5050f58](https://github.com/swc-project/swc/commit/5050f5820a43b8de7a87511070405e189eaafb5f))
