@@ -275,6 +275,21 @@ pub fn ast_node(
     print("ast_node", item)
 }
 
+#[proc_macro_attribute]
+pub fn swc_rkyv(
+    _: proc_macro::TokenStream,
+    input: proc_macro::TokenStream,
+) -> proc_macro::TokenStream {
+    let input = TokenStream::from(input);
+    let rkyv_attrs = build_rkyv_attrs();
+
+    quote!(
+        #rkyv_attrs
+        #input
+    )
+    .into()
+}
+
 fn build_rkyv_attrs() -> TokenStream {
     quote!(
         #[cfg_attr(
