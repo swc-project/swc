@@ -2,7 +2,7 @@ use std::iter::once;
 
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_transforms_base::{helper, helper_expr};
+use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{
     find_pat_ids, private_ident, quote_ident, ExprFactory, ModuleItemLike, StmtLike,
 };
@@ -21,6 +21,7 @@ struct ExplicitResourceManagement {
 
 struct State {
     using_ctx: Ident,
+    catch_var: Ident,
 
     has_await: bool,
 }
@@ -29,6 +30,7 @@ impl Default for State {
     fn default() -> Self {
         Self {
             using_ctx: private_ident!("_usingCtx"),
+            catch_var: private_ident!("_"),
             has_await: false,
         }
     }
@@ -86,8 +88,8 @@ impl ExplicitResourceManagement {
                 Ok(stmt @ Stmt::Decl(Decl::Fn(..))) => {
                     new.push(T::from_stmt(stmt));
                 }
-                Ok(Stmt::Decl(Decl::Var(mut var))) => {
-                    var.kind = VarDeclKind::Var;
+                Ok(Stmt::Decl(Decl::Var(var))) => {
+                    // var.kind = VarDeclKind::Var;
                     try_body.push(Stmt::Decl(Decl::Var(var)));
                 }
                 Ok(stmt) => try_body.push(stmt),
@@ -308,39 +310,28 @@ impl ExplicitResourceManagement {
         // Drop `;`
         try_body.retain(|stmt| !matches!(stmt, Stmt::Empty(..)));
 
-        // var error = $catch_var
-        let error_catch_var = Stmt::Decl(Decl::Var(Box::new(VarDecl {
+        // usingCtx.e = $catch_var
+        let assign_error = AssignExpr {
             span: DUMMY_SP,
-            kind: VarDeclKind::Var,
-            declare: false,
-            decls: vec![VarDeclarator {
-                span: DUMMY_SP,
-                name: state.error_var.clone().into(),
-                init: Some(state.catch_var.clone().into()),
-                definite: false,
-            }],
-        })));
+            op: op!("="),
+            left: state
+                .using_ctx
+                .clone()
+                .make_member(quote_ident!("e"))
+                .into(),
+            right: state.catch_var.clone().into(),
+        }
+        .into_stmt();
 
-        // var has_error = true
-        let has_error_true = Stmt::Decl(Decl::Var(Box::new(VarDecl {
-            span: DUMMY_SP,
-            kind: VarDeclKind::Var,
-            declare: false,
-            decls: vec![VarDeclarator {
-                span: DUMMY_SP,
-                name: state.has_error.clone().into(),
-                init: Some(true.into()),
-                definite: false,
-            }],
-        })));
+        // _usingCtx.d()
         let dispose_expr = CallExpr {
             span: DUMMY_SP,
-            callee: helper!(dispose),
-            args: vec![
-                state.stack.as_arg(),
-                state.error_var.as_arg(),
-                state.has_error.as_arg(),
-            ],
+            callee: state
+                .using_ctx
+                .clone()
+                .make_member(quote_ident!("d"))
+                .as_callee(),
+            args: vec![],
             type_args: Default::default(),
         };
         let dispose_stmt = if state.has_await {
@@ -364,7 +355,7 @@ impl ExplicitResourceManagement {
                 param: Some(state.catch_var.into()),
                 body: BlockStmt {
                     span: DUMMY_SP,
-                    stmts: vec![error_catch_var, has_error_true],
+                    stmts: vec![assign_error],
                 },
             }),
             finalizer: Some(BlockStmt {
@@ -437,13 +428,7 @@ impl VisitMut for ExplicitResourceManagement {
                                 .clone()
                                 .make_member(quote_ident!("a"))
                                 .as_callee(),
-                            args: once(d.init.unwrap().as_arg())
-                                .chain(if decl.is_await {
-                                    Some(true.as_arg())
-                                } else {
-                                    None
-                                })
-                                .collect(),
+                            args: vec![d.init.unwrap().as_arg()],
                             type_args: Default::default(),
                         };
 
