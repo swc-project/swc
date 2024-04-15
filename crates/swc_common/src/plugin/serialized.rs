@@ -64,7 +64,8 @@ impl PluginSerializedBytes {
             rkyv::rancor::Strategy<rkyv::ser::AllocSerializer<512>, rkyv::rancor::Infallible>,
         >,
     {
-        Ok(rkyv::to_bytes::<_, 512>(t).map(|field| PluginSerializedBytes { field })?)
+        Ok(rkyv::to_bytes::<_, 512, rkyv::rancor::Infallible>(t)
+            .map(|field| PluginSerializedBytes { field })?)
     }
 
     /*
@@ -93,12 +94,14 @@ impl PluginSerializedBytes {
     #[tracing::instrument(level = "info", skip_all)]
     pub fn deserialize<W>(&self) -> Result<VersionedSerializable<W>, Error>
     where
-        W: rkyv::Archive,
+        W: rkyv::Archive + rkyv::Portable,
         W::Archived: rkyv::Deserialize<W, rkyv::rancor::Strategy<rkyv::de::Unify, Infallible>>,
     {
         use anyhow::Context;
 
-        let archived = unsafe { rkyv::access::<VersionedSerializable<W>>(&self.field[..])? };
+        let archived = unsafe {
+            rkyv::access::<VersionedSerializable<W>, rkyv::rancor::Failure>(&self.field[..])?
+        };
 
         archived
             .deserialize(&mut rkyv::de::Unify::new())
@@ -115,10 +118,15 @@ impl PluginSerializedBytes {
 /// serialize.
 #[cfg_attr(
     feature = "__plugin",
-    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+    derive(
+        rkyv::Archive,
+        rkyv::Serialize,
+        rkyv::Deserialize,
+        rkyv::Portable,
+        bytecheck::CheckBytes
+    )
 )]
 #[repr(transparent)]
-#[cfg_attr(feature = "__plugin", archive(check_bytes))]
 #[derive(Debug)]
 pub struct VersionedSerializable<T>(
     // [NOTE]: https://github.com/rkyv/rkyv/issues/373#issuecomment-1546360897
