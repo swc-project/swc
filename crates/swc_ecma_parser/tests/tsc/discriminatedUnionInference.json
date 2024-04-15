@@ -1037,7 +1037,7 @@
             "type": "Identifier",
             "span": {
               "start": 370,
-              "end": 383,
+              "end": 374,
               "ctxt": 0
             },
             "value": "item",

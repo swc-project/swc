@@ -32,7 +32,7 @@
             "type": "Identifier",
             "span": {
               "start": 103,
-              "end": 115,
+              "end": 107,
               "ctxt": 0
             },
             "value": "name",

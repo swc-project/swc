@@ -892,7 +892,7 @@
             "type": "Identifier",
             "span": {
               "start": 543,
-              "end": 552,
+              "end": 546,
               "ctxt": 0
             },
             "value": "err",
@@ -967,7 +967,7 @@
             "type": "Identifier",
             "span": {
               "start": 576,
-              "end": 589,
+              "end": 580,
               "ctxt": 0
             },
             "value": "this",
@@ -1004,7 +1004,7 @@
             "type": "Identifier",
             "span": {
               "start": 591,
-              "end": 601,
+              "end": 595,
               "ctxt": 0
             },
             "value": "done",
@@ -1089,7 +1089,7 @@
             "type": "Identifier",
             "span": {
               "start": 630,
-              "end": 643,
+              "end": 634,
               "ctxt": 0
             },
             "value": "this",
@@ -1211,7 +1211,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 695,
-                  "end": 703,
+                  "end": 697,
                   "ctxt": 0
                 },
                 "value": "fn",
@@ -1276,7 +1276,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 715,
-                  "end": 728,
+                  "end": 717,
                   "ctxt": 0
                 },
                 "value": "fn",
@@ -1341,7 +1341,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 740,
-                  "end": 753,
+                  "end": 745,
                   "ctxt": 0
                 },
                 "value": "title",
@@ -1368,7 +1368,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 755,
-                  "end": 764,
+                  "end": 757,
                   "ctxt": 0
                 },
                 "value": "fn",
@@ -1433,7 +1433,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 776,
-                  "end": 789,
+                  "end": 781,
                   "ctxt": 0
                 },
                 "value": "title",
@@ -1460,7 +1460,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 791,
-                  "end": 805,
+                  "end": 793,
                   "ctxt": 0
                 },
                 "value": "fn",
@@ -1862,7 +1862,7 @@
               "type": "Identifier",
               "span": {
                 "start": 1030,
-                "end": 1045,
+                "end": 1037,
                 "ctxt": 0
               },
               "value": "rootPid",
@@ -1898,7 +1898,7 @@
               "type": "Identifier",
               "span": {
                 "start": 1049,
-                "end": 1090,
+                "end": 1057,
                 "ctxt": 0
               },
               "value": "callback",
@@ -1922,7 +1922,7 @@
                       "type": "Identifier",
                       "span": {
                         "start": 1060,
-                        "end": 1081,
+                        "end": 1064,
                         "ctxt": 0
                       },
                       "value": "tree",
@@ -2595,7 +2595,7 @@
             "type": "Identifier",
             "span": {
               "start": 1520,
-              "end": 1542,
+              "end": 1525,
               "ctxt": 0
             },
             "value": "local",
@@ -2741,7 +2741,7 @@
             "type": "Identifier",
             "span": {
               "start": 1611,
-              "end": 1644,
+              "end": 1625,
               "ctxt": 0
             },
             "value": "fromExtensions",

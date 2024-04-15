@@ -165,7 +165,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 166,
-                  "end": 176,
+                  "end": 168,
                   "ctxt": 0
                 },
                 "value": "id",

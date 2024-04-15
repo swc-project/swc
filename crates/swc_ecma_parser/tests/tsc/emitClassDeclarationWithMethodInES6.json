@@ -210,7 +210,7 @@
                   "type": "Identifier",
                   "span": {
                     "start": 108,
-                    "end": 117,
+                    "end": 109,
                     "ctxt": 0
                   },
                   "value": "a",
@@ -301,7 +301,7 @@
                   "type": "Identifier",
                   "span": {
                     "start": 145,
-                    "end": 154,
+                    "end": 146,
                     "ctxt": 0
                   },
                   "value": "a",
@@ -516,7 +516,7 @@
                   "type": "Identifier",
                   "span": {
                     "start": 239,
-                    "end": 245,
+                    "end": 240,
                     "ctxt": 0
                   },
                   "value": "a",
@@ -552,7 +552,7 @@
                   "type": "Identifier",
                   "span": {
                     "start": 247,
-                    "end": 256,
+                    "end": 248,
                     "ctxt": 0
                   },
                   "value": "x",
@@ -732,7 +732,7 @@
                   "type": "Identifier",
                   "span": {
                     "start": 362,
-                    "end": 371,
+                    "end": 363,
                     "ctxt": 0
                   },
                   "value": "a",
@@ -823,7 +823,7 @@
                   "type": "Identifier",
                   "span": {
                     "start": 406,
-                    "end": 415,
+                    "end": 407,
                     "ctxt": 0
                   },
                   "value": "a",
@@ -1066,7 +1066,7 @@
                   "type": "Identifier",
                   "span": {
                     "start": 532,
-                    "end": 541,
+                    "end": 533,
                     "ctxt": 0
                   },
                   "value": "a",
@@ -1149,7 +1149,7 @@
                   "type": "Identifier",
                   "span": {
                     "start": 562,
-                    "end": 571,
+                    "end": 563,
                     "ctxt": 0
                   },
                   "value": "a",

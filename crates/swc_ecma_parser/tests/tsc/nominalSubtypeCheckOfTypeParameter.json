@@ -369,7 +369,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 132,
-                  "end": 148,
+                  "end": 135,
                   "ctxt": 0
                 },
                 "value": "seq",
@@ -743,7 +743,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 533,
-                  "end": 549,
+                  "end": 536,
                   "ctxt": 0
                 },
                 "value": "seq",

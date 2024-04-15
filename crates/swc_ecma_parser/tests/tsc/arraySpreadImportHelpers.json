@@ -225,7 +225,7 @@
                   "type": "Identifier",
                   "span": {
                     "start": 350,
-                    "end": 359,
+                    "end": 352,
                     "ctxt": 0
                   },
                   "value": "to",
@@ -269,7 +269,7 @@
                   "type": "Identifier",
                   "span": {
                     "start": 361,
-                    "end": 372,
+                    "end": 365,
                     "ctxt": 0
                   },
                   "value": "from",

@@ -209,7 +209,7 @@
             "type": "Identifier",
             "span": {
               "start": 130,
-              "end": 147,
+              "end": 137,
               "ctxt": 0
             },
             "value": "context",
@@ -637,7 +637,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 315,
-                      "end": 328,
+                      "end": 318,
                       "ctxt": 0
                     },
                     "value": "ctx",
@@ -847,7 +847,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 410,
-                      "end": 423,
+                      "end": 413,
                       "ctxt": 0
                     },
                     "value": "arg",
@@ -884,7 +884,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 425,
-                      "end": 445,
+                      "end": 429,
                       "ctxt": 0
                     },
                     "value": "meta",
@@ -997,7 +997,7 @@
             "type": "Identifier",
             "span": {
               "start": 496,
-              "end": 544,
+              "end": 506,
               "ctxt": 0
             },
             "value": "assignment",
@@ -1404,7 +1404,7 @@
             "type": "Identifier",
             "span": {
               "start": 699,
-              "end": 723,
+              "end": 705,
               "ctxt": 0
             },
             "value": "config",

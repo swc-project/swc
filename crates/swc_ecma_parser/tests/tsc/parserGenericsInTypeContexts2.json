@@ -1353,7 +1353,7 @@
             "type": "Identifier",
             "span": {
               "start": 226,
-              "end": 245,
+              "end": 227,
               "ctxt": 0
             },
             "value": "a",

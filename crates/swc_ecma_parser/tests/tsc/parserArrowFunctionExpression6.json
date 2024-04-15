@@ -32,7 +32,7 @@
             "type": "Identifier",
             "span": {
               "start": 14,
-              "end": 23,
+              "end": 15,
               "ctxt": 0
             },
             "value": "q",
@@ -68,7 +68,7 @@
             "type": "Identifier",
             "span": {
               "start": 25,
-              "end": 34,
+              "end": 26,
               "ctxt": 0
             },
             "value": "b",

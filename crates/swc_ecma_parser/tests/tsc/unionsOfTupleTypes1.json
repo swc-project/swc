@@ -1424,7 +1424,7 @@
             "type": "Identifier",
             "span": {
               "start": 784,
-              "end": 790,
+              "end": 786,
               "ctxt": 0
             },
             "value": "t1",
@@ -1470,7 +1470,7 @@
             "type": "Identifier",
             "span": {
               "start": 792,
-              "end": 798,
+              "end": 794,
               "ctxt": 0
             },
             "value": "t2",
@@ -1516,7 +1516,7 @@
             "type": "Identifier",
             "span": {
               "start": 800,
-              "end": 806,
+              "end": 802,
               "ctxt": 0
             },
             "value": "t3",
@@ -1562,7 +1562,7 @@
             "type": "Identifier",
             "span": {
               "start": 808,
-              "end": 814,
+              "end": 810,
               "ctxt": 0
             },
             "value": "t4",
@@ -1608,7 +1608,7 @@
             "type": "Identifier",
             "span": {
               "start": 816,
-              "end": 825,
+              "end": 817,
               "ctxt": 0
             },
             "value": "x",

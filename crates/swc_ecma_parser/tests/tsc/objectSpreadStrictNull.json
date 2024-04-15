@@ -32,7 +32,7 @@
             "type": "Identifier",
             "span": {
               "start": 45,
-              "end": 77,
+              "end": 60,
               "ctxt": 0
             },
             "value": "definiteBoolean",
@@ -110,7 +110,7 @@
             "type": "Identifier",
             "span": {
               "start": 83,
-              "end": 113,
+              "end": 97,
               "ctxt": 0
             },
             "value": "definiteString",
@@ -188,7 +188,7 @@
             "type": "Identifier",
             "span": {
               "start": 119,
-              "end": 150,
+              "end": 133,
               "ctxt": 0
             },
             "value": "optionalString",
@@ -266,7 +266,7 @@
             "type": "Identifier",
             "span": {
               "start": 156,
-              "end": 187,
+              "end": 170,
               "ctxt": 0
             },
             "value": "optionalNumber",
@@ -344,7 +344,7 @@
             "type": "Identifier",
             "span": {
               "start": 193,
-              "end": 236,
+              "end": 208,
               "ctxt": 0
             },
             "value": "undefinedString",
@@ -441,7 +441,7 @@
             "type": "Identifier",
             "span": {
               "start": 242,
-              "end": 285,
+              "end": 257,
               "ctxt": 0
             },
             "value": "undefinedNumber",
@@ -2376,7 +2376,7 @@
             "type": "Identifier",
             "span": {
               "start": 1573,
-              "end": 1587,
+              "end": 1579,
               "ctxt": 0
             },
             "value": "fields",
@@ -2422,7 +2422,7 @@
             "type": "Identifier",
             "span": {
               "start": 1589,
-              "end": 1619,
+              "end": 1602,
               "ctxt": 0
             },
             "value": "partialFields",
@@ -2496,7 +2496,7 @@
             "type": "Identifier",
             "span": {
               "start": 1621,
-              "end": 1661,
+              "end": 1640,
               "ctxt": 0
             },
             "value": "nearlyPartialFields",

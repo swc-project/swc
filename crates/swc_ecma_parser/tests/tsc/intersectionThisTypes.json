@@ -388,7 +388,7 @@
             "type": "Identifier",
             "span": {
               "start": 186,
-              "end": 195,
+              "end": 187,
               "ctxt": 0
             },
             "value": "t",
@@ -750,7 +750,7 @@
             "type": "Identifier",
             "span": {
               "start": 312,
-              "end": 321,
+              "end": 313,
               "ctxt": 0
             },
             "value": "t",
@@ -1047,7 +1047,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 410,
-                  "end": 418,
+                  "end": 415,
                   "ctxt": 0
                 },
                 "value": "props",
@@ -1281,7 +1281,7 @@
             "type": "Identifier",
             "span": {
               "start": 506,
-              "end": 518,
+              "end": 511,
               "ctxt": 0
             },
             "value": "label",

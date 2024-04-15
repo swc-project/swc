@@ -560,7 +560,7 @@
                   "type": "Identifier",
                   "span": {
                     "start": 383,
-                    "end": 392,
+                    "end": 384,
                     "ctxt": 0
                   },
                   "value": "v",
@@ -1035,7 +1035,7 @@
                   "type": "Identifier",
                   "span": {
                     "start": 584,
-                    "end": 593,
+                    "end": 585,
                     "ctxt": 0
                   },
                   "value": "v",

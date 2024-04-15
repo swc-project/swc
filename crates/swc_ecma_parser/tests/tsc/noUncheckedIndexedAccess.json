@@ -3726,7 +3726,7 @@
             "type": "Identifier",
             "span": {
               "start": 2013,
-              "end": 2019,
+              "end": 2016,
               "ctxt": 0
             },
             "value": "arg",
@@ -3965,7 +3965,7 @@
             "type": "Identifier",
             "span": {
               "start": 2132,
-              "end": 2138,
+              "end": 2135,
               "ctxt": 0
             },
             "value": "arg",
@@ -4212,7 +4212,7 @@
             "type": "Identifier",
             "span": {
               "start": 2231,
-              "end": 2237,
+              "end": 2234,
               "ctxt": 0
             },
             "value": "arg",

@@ -57,7 +57,7 @@
                   "type": "Identifier",
                   "span": {
                     "start": 83,
-                    "end": 95,
+                    "end": 87,
                     "ctxt": 0
                   },
                   "value": "name",
@@ -93,7 +93,7 @@
                   "type": "Identifier",
                   "span": {
                     "start": 105,
-                    "end": 117,
+                    "end": 109,
                     "ctxt": 0
                   },
                   "value": "path",

@@ -228,7 +228,7 @@
                           "type": "Identifier",
                           "span": {
                             "start": 148,
-                            "end": 152,
+                            "end": 149,
                             "ctxt": 0
                           },
                           "value": "x",
@@ -555,7 +555,7 @@
                           "type": "Identifier",
                           "span": {
                             "start": 330,
-                            "end": 334,
+                            "end": 331,
                             "ctxt": 0
                           },
                           "value": "x",

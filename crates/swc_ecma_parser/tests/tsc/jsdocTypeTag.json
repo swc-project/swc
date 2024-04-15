@@ -1858,7 +1858,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 1178,
-                      "end": 1187,
+                      "end": 1179,
                       "ctxt": 0
                     },
                     "value": "s",
@@ -1953,7 +1953,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 1215,
-                      "end": 1224,
+                      "end": 1216,
                       "ctxt": 0
                     },
                     "value": "s",

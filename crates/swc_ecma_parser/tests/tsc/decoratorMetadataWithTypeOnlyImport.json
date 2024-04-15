@@ -204,7 +204,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 306,
-                  "end": 322,
+                  "end": 313,
                   "ctxt": 0
                 },
                 "value": "Service",
@@ -282,7 +282,7 @@
                   "type": "Identifier",
                   "span": {
                     "start": 359,
-                    "end": 366,
+                    "end": 360,
                     "ctxt": 0
                   },
                   "value": "x",

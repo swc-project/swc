@@ -570,7 +570,7 @@
             "type": "Identifier",
             "span": {
               "start": 424,
-              "end": 436,
+              "end": 428,
               "ctxt": 0
             },
             "value": "path",

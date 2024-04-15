@@ -56,7 +56,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 35,
-                  "end": 49,
+                  "end": 43,
                   "ctxt": 0
                 },
                 "value": "override",
@@ -128,7 +128,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 74,
-                  "end": 83,
+                  "end": 75,
                   "ctxt": 0
                 },
                 "value": "v",
@@ -190,7 +190,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 115,
-                  "end": 124,
+                  "end": 116,
                   "ctxt": 0
                 },
                 "value": "v",
@@ -252,7 +252,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 158,
-                  "end": 168,
+                  "end": 159,
                   "ctxt": 0
                 },
                 "value": "v",
@@ -311,7 +311,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 184,
-                  "end": 192,
+                  "end": 187,
                   "ctxt": 0
                 },
                 "value": "arg",

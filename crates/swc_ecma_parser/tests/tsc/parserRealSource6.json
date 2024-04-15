@@ -155,7 +155,7 @@
                         "type": "Identifier",
                         "span": {
                           "start": 340,
-                          "end": 362,
+                          "end": 350,
                           "ctxt": 0
                         },
                         "value": "scopeChain",
@@ -204,7 +204,7 @@
                         "type": "Identifier",
                         "span": {
                           "start": 371,
-                          "end": 391,
+                          "end": 378,
                           "ctxt": 0
                         },
                         "value": "checker",
@@ -546,7 +546,7 @@
                         "type": "Identifier",
                         "span": {
                           "start": 627,
-                          "end": 641,
+                          "end": 631,
                           "ctxt": 0
                         },
                         "value": "flow",
@@ -595,7 +595,7 @@
                         "type": "Identifier",
                         "span": {
                           "start": 650,
-                          "end": 661,
+                          "end": 653,
                           "ctxt": 0
                         },
                         "value": "pos",
@@ -634,7 +634,7 @@
                         "type": "Identifier",
                         "span": {
                           "start": 670,
-                          "end": 689,
+                          "end": 679,
                           "ctxt": 0
                         },
                         "value": "matchFlag",
@@ -1323,7 +1323,7 @@
                         "type": "Identifier",
                         "span": {
                           "start": 1281,
-                          "end": 1296,
+                          "end": 1287,
                           "ctxt": 0
                         },
                         "value": "logger",
@@ -1372,7 +1372,7 @@
                         "type": "Identifier",
                         "span": {
                           "start": 1325,
-                          "end": 1339,
+                          "end": 1331,
                           "ctxt": 0
                         },
                         "value": "script",
@@ -1421,7 +1421,7 @@
                         "type": "Identifier",
                         "span": {
                           "start": 1368,
-                          "end": 1385,
+                          "end": 1372,
                           "ctxt": 0
                         },
                         "value": "text",
@@ -1470,7 +1470,7 @@
                         "type": "Identifier",
                         "span": {
                           "start": 1414,
-                          "end": 1425,
+                          "end": 1417,
                           "ctxt": 0
                         },
                         "value": "pos",
@@ -1509,7 +1509,7 @@
                         "type": "Identifier",
                         "span": {
                           "start": 1454,
-                          "end": 1481,
+                          "end": 1472,
                           "ctxt": 0
                         },
                         "value": "isMemberCompletion",
@@ -2883,7 +2883,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 2629,
-                      "end": 2637,
+                      "end": 2632,
                       "ctxt": 0
                     },
                     "value": "ast",
@@ -2929,7 +2929,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 2639,
-                      "end": 2650,
+                      "end": 2645,
                       "ctxt": 0
                     },
                     "value": "parent",
@@ -2975,7 +2975,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 2652,
-                      "end": 2670,
+                      "end": 2658,
                       "ctxt": 0
                     },
                     "value": "walker",
@@ -3862,7 +3862,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 3178,
-                      "end": 3195,
+                      "end": 3187,
                       "ctxt": 0
                     },
                     "value": "container",
@@ -3908,7 +3908,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 3205,
-                      "end": 3232,
+                      "end": 3217,
                       "ctxt": 0
                     },
                     "value": "valueMembers",
@@ -3954,7 +3954,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 3242,
-                      "end": 3276,
+                      "end": 3261,
                       "ctxt": 0
                     },
                     "value": "ambientValueMembers",
@@ -4000,7 +4000,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 3286,
-                      "end": 3314,
+                      "end": 3299,
                       "ctxt": 0
                     },
                     "value": "enclosedTypes",
@@ -4046,7 +4046,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 3324,
-                      "end": 3359,
+                      "end": 3344,
                       "ctxt": 0
                     },
                     "value": "ambientEnclosedTypes",
@@ -4092,7 +4092,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 3369,
-                      "end": 3399,
+                      "end": 3376,
                       "ctxt": 0
                     },
                     "value": "context",
@@ -4138,7 +4138,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 3409,
-                      "end": 3423,
+                      "end": 3417,
                       "ctxt": 0
                     },
                     "value": "thisType",
@@ -4184,7 +4184,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 3433,
-                      "end": 3448,
+                      "end": 3442,
                       "ctxt": 0
                     },
                     "value": "classType",
@@ -4230,7 +4230,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 3458,
-                      "end": 3487,
+                      "end": 3468,
                       "ctxt": 0
                     },
                     "value": "moduleDecl",
@@ -4805,7 +4805,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 3911,
-                      "end": 3941,
+                      "end": 3918,
                       "ctxt": 0
                     },
                     "value": "context",
@@ -4986,7 +4986,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 4052,
-                      "end": 4060,
+                      "end": 4055,
                       "ctxt": 0
                     },
                     "value": "ast",
@@ -5032,7 +5032,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 4062,
-                      "end": 4073,
+                      "end": 4068,
                       "ctxt": 0
                     },
                     "value": "parent",
@@ -5078,7 +5078,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 4075,
-                      "end": 4093,
+                      "end": 4081,
                       "ctxt": 0
                     },
                     "value": "walker",
@@ -8770,7 +8770,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 8331,
-                      "end": 8346,
+                      "end": 8337,
                       "ctxt": 0
                     },
                     "value": "logger",
@@ -8816,7 +8816,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 8348,
-                      "end": 8362,
+                      "end": 8354,
                       "ctxt": 0
                     },
                     "value": "script",
@@ -8862,7 +8862,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 8364,
-                      "end": 8381,
+                      "end": 8368,
                       "ctxt": 0
                     },
                     "value": "text",
@@ -8908,7 +8908,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 8383,
-                      "end": 8394,
+                      "end": 8386,
                       "ctxt": 0
                     },
                     "value": "pos",
@@ -8944,7 +8944,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 8396,
-                      "end": 8423,
+                      "end": 8414,
                       "ctxt": 0
                     },
                     "value": "isMemberCompletion",

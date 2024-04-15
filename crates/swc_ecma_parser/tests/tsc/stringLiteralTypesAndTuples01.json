@@ -493,7 +493,7 @@
             "type": "Identifier",
             "span": {
               "start": 268,
-              "end": 285,
+              "end": 272,
               "ctxt": 0
             },
             "value": "dino",

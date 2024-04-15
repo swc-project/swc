@@ -59,7 +59,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 44,
-                  "end": 66,
+                  "end": 47,
                   "ctxt": 0
                 },
                 "value": "map",
@@ -83,7 +83,7 @@
                         "type": "Identifier",
                         "span": {
                           "start": 50,
-                          "end": 59,
+                          "end": 55,
                           "ctxt": 0
                         },
                         "value": "value",

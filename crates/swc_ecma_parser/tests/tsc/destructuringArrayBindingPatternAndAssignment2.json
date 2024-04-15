@@ -1271,7 +1271,7 @@
             "type": "Identifier",
             "span": {
               "start": 1277,
-              "end": 1288,
+              "end": 1280,
               "ctxt": 0
             },
             "value": "idx",

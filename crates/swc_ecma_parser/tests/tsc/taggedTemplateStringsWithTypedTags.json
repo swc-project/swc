@@ -46,7 +46,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 20,
-                  "end": 53,
+                  "end": 31,
                   "ctxt": 0
                 },
                 "value": "stringParts",
@@ -336,7 +336,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 131,
-                  "end": 140,
+                  "end": 132,
                   "ctxt": 0
                 },
                 "value": "x",

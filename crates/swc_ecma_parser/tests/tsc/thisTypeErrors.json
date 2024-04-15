@@ -226,7 +226,7 @@
             "type": "Identifier",
             "span": {
               "start": 65,
-              "end": 72,
+              "end": 66,
               "ctxt": 0
             },
             "value": "x",
@@ -755,7 +755,7 @@
                         "type": "Identifier",
                         "span": {
                           "start": 241,
-                          "end": 248,
+                          "end": 242,
                           "ctxt": 0
                         },
                         "value": "x",
@@ -1213,7 +1213,7 @@
                       "type": "Identifier",
                       "span": {
                         "start": 380,
-                        "end": 387,
+                        "end": 381,
                         "ctxt": 0
                       },
                       "value": "x",
@@ -1423,7 +1423,7 @@
                   "type": "Identifier",
                   "span": {
                     "start": 479,
-                    "end": 486,
+                    "end": 480,
                     "ctxt": 0
                   },
                   "value": "x",
@@ -1719,7 +1719,7 @@
                       "type": "Identifier",
                       "span": {
                         "start": 630,
-                        "end": 637,
+                        "end": 631,
                         "ctxt": 0
                       },
                       "value": "x",
@@ -1869,7 +1869,7 @@
                         "type": "Identifier",
                         "span": {
                           "start": 722,
-                          "end": 729,
+                          "end": 723,
                           "ctxt": 0
                         },
                         "value": "x",
@@ -2008,7 +2008,7 @@
                                   "type": "Identifier",
                                   "span": {
                                     "start": 812,
-                                    "end": 819,
+                                    "end": 813,
                                     "ctxt": 0
                                   },
                                   "value": "x",

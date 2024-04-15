@@ -65,7 +65,7 @@
                   "type": "Identifier",
                   "span": {
                     "start": 16,
-                    "end": 22,
+                    "end": 19,
                     "ctxt": 0
                   },
                   "value": "key",

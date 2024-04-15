@@ -59,7 +59,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 68,
-                  "end": 77,
+                  "end": 69,
                   "ctxt": 0
                 },
                 "value": "x",
@@ -245,7 +245,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 172,
-                  "end": 181,
+                  "end": 173,
                   "ctxt": 0
                 },
                 "value": "x",
@@ -431,7 +431,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 274,
-                  "end": 283,
+                  "end": 275,
                   "ctxt": 0
                 },
                 "value": "x",
@@ -706,7 +706,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 431,
-                  "end": 440,
+                  "end": 432,
                   "ctxt": 0
                 },
                 "value": "x",
@@ -1120,7 +1120,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 648,
-                  "end": 657,
+                  "end": 649,
                   "ctxt": 0
                 },
                 "value": "x",
@@ -1534,7 +1534,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 886,
-                  "end": 895,
+                  "end": 887,
                   "ctxt": 0
                 },
                 "value": "x",

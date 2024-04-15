@@ -3133,7 +3133,7 @@
                           "type": "Identifier",
                           "span": {
                             "start": 694,
-                            "end": 708,
+                            "end": 695,
                             "ctxt": 0
                           },
                           "value": "f",
@@ -3157,7 +3157,7 @@
                                   "type": "Identifier",
                                   "span": {
                                     "start": 698,
-                                    "end": 702,
+                                    "end": 699,
                                     "ctxt": 0
                                   },
                                   "value": "a",
@@ -3320,7 +3320,7 @@
             "type": "Identifier",
             "span": {
               "start": 739,
-              "end": 748,
+              "end": 740,
               "ctxt": 0
             },
             "value": "x",
