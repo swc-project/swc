@@ -6,8 +6,8 @@ new class {
             throw {
                 m: "PASS"
             };
-        } catch ({ m: B  }) {
-            console.log(B);
+        } catch ({ m: A }) {
+            console.log(A);
         }
     }
 }().f();
