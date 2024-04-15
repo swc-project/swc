@@ -18,10 +18,7 @@ struct ExplicitResourceManagement {
 }
 
 struct State {
-    stack: Ident,
-    has_error: Ident,
-    error_var: Ident,
-    catch_var: Ident,
+    using_ctx: Ident,
 
     has_await: bool,
 }
@@ -29,10 +26,7 @@ struct State {
 impl Default for State {
     fn default() -> Self {
         Self {
-            stack: private_ident!("_stack"),
-            has_error: private_ident!("_hasError"),
-            error_var: private_ident!("_error"),
-            catch_var: private_ident!("_"),
+            using_ctx: private_ident!("_usingCtx"),
             has_await: false,
         }
     }
