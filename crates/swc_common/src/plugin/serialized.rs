@@ -64,7 +64,7 @@ impl PluginSerializedBytes {
             rkyv::rancor::Strategy<rkyv::ser::AllocSerializer<512>, rkyv::rancor::Infallible>,
         >,
     {
-        rkyv::to_bytes::<_, 512>(t).map(|field| PluginSerializedBytes { field })
+        Ok(rkyv::to_bytes::<_, 512>(t).map(|field| PluginSerializedBytes { field })?)
     }
 
     /*
