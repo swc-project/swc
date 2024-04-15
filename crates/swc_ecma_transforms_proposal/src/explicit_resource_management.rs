@@ -424,7 +424,11 @@ impl VisitMut for ExplicitResourceManagement {
                             callee: state
                                 .using_ctx
                                 .clone()
-                                .make_member(quote_ident!("a"))
+                                .make_member(if decl.is_await {
+                                    quote_ident!("a")
+                                } else {
+                                    quote_ident!("u")
+                                })
                                 .as_callee(),
                             args: vec![d.init.unwrap().as_arg()],
                             type_args: Default::default(),
