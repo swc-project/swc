@@ -97,6 +97,7 @@ export { _type_of } from "./_type_of.js";
 export { _unsupported_iterable_to_array } from "./_unsupported_iterable_to_array.js";
 export { _update } from "./_update.js";
 export { _using } from "./_using.js";
+export { _using_ctx } from "./_using_ctx.js";
 export { _wrap_async_generator } from "./_wrap_async_generator.js";
 export { _wrap_native_super } from "./_wrap_native_super.js";
 export { _write_only_error } from "./_write_only_error.js";
