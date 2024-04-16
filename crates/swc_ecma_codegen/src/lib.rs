@@ -3985,9 +3985,10 @@ fn get_ascii_only_ident(sym: &str, may_need_quote: bool, target: EsVersion) -> C
             '\u{7f}'..='\u{ff}' => {
                 if may_need_quote {
                     need_quote = true;
+                    let _ = write!(buf, "\\x{:x}", c as u8);
+                } else {
+                    let _ = write!(buf, "\\u00{:x}", c as u8);
                 }
-
-                let _ = write!(buf, "\\u00{:x}", c as u8);
             }
             '\u{2028}' => {
                 buf.push_str("\\u2028");
