@@ -276,6 +276,7 @@ dependencies = [
  "napi-derive",
  "node_macro_deps",
  "path-clean 0.1.0",
+ "proc-macro2",
  "serde",
  "serde_json",
  "sourcemap",
@@ -297,6 +298,7 @@ version = "1.4.15-nightly-20240416.3"
 dependencies = [
  "anyhow",
  "getrandom",
+ "proc-macro2",
  "serde",
  "serde-wasm-bindgen",
  "swc_core",
@@ -3079,6 +3081,7 @@ name = "swc_cli"
 version = "0.91.219"
 dependencies = [
  "anyhow",
+ "proc-macro2",
  "swc_cli_impl",
 ]
 

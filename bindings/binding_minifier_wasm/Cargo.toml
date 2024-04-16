@@ -33,6 +33,7 @@ plugin = []
 [dependencies]
 anyhow = "1.0.66"
 getrandom = { version = "0.2.10", features = ["js"] }
+proc-macro2 = "=1.0.79"
 serde = { version = "1", features = ["derive"] }
 serde-wasm-bindgen = "0.4.5"
 swc_core = { version = "0.90.33", features = [
