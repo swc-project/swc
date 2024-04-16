@@ -797,7 +797,7 @@ impl Optimizer<'_> {
                                 report_change!("inline: Inlined array access");
                                 self.changed = true;
 
-                                me.obj = new.clone();
+                                me.obj.clone_from(new);
                                 // TODO(kdy1): Optimize performance by skipping visiting of children
                                 // nodes.
                                 e.visit_mut_with(&mut expr_simplifier(

@@ -1,14 +1,12 @@
 //// [awaitUsingDeclarations.9.ts]
-import { _ as _dispose } from "@swc/helpers/_/_dispose";
-import { _ as _using } from "@swc/helpers/_/_using";
+import { _ as _using_ctx } from "@swc/helpers/_/_using_ctx";
 {
     try {
-        var _stack = [];
-        var a = _using(_stack, null, true);
+        var _usingCtx = _using_ctx();
+        const a = _usingCtx.a(null);
     } catch (_) {
-        var _error = _;
-        var _hasError = true;
+        _usingCtx.e = _;
     } finally{
-        await _dispose(_stack, _error, _hasError);
+        await _usingCtx.d();
     }
 }export { };

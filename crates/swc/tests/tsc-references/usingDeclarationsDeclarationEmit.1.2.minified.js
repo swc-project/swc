@@ -1,15 +1,14 @@
 //// [usingDeclarationsDeclarationEmit.1.ts]
-import { _ as _dispose } from "@swc/helpers/_/_dispose";
-import { _ as _using } from "@swc/helpers/_/_using";
+import { _ as _using_ctx } from "@swc/helpers/_/_using_ctx";
 try {
-    var _stack = [], r1 = _using(_stack, {
+    var _usingCtx = _using_ctx(), r1 = _usingCtx.u({
         [Symbol.dispose] () {}
-    }), r2 = _using(_stack, {
+    }), r2 = _usingCtx.a({
         async [Symbol.asyncDispose] () {}
-    }, !0);
+    });
 } catch (_) {
-    var _error = _, _hasError = !0;
+    _usingCtx.e = _;
 } finally{
-    await _dispose(_stack, _error, _hasError);
+    await _usingCtx.d();
 }
 export { r1, r2 };

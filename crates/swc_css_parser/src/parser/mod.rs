@@ -53,18 +53,13 @@ pub struct ParserConfig {
     pub legacy_ie: bool,
 }
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Default, Clone, Copy, PartialEq, Eq)]
 pub enum BlockContentsGrammar {
     StyleBlock,
     DeclarationList,
     RuleList,
+    #[default]
     Stylesheet,
-}
-
-impl Default for BlockContentsGrammar {
-    fn default() -> Self {
-        BlockContentsGrammar::Stylesheet
-    }
 }
 
 #[derive(Debug, Clone, Copy)]

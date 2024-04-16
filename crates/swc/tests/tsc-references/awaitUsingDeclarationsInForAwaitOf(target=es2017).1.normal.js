@@ -1,5 +1,5 @@
 //// [awaitUsingDeclarationsInForAwaitOf.ts]
-import { _ as _dispose } from "@swc/helpers/_/_dispose";
+import { _ as _using_ctx } from "@swc/helpers/_/_using_ctx";
 async function main() {
     for await (const d1 of [
         {
@@ -12,13 +12,12 @@ async function main() {
         undefined
     ]){
         try {
-            var _stack = [];
+            var _usingCtx = _using_ctx();
             {}
         } catch (_) {
-            var _error = _;
-            var _hasError = true;
+            _usingCtx.e = _;
         } finally{
-            _dispose(_stack, _error, _hasError);
+            _usingCtx.d();
         }
     }
 }

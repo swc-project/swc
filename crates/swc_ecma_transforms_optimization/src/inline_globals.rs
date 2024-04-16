@@ -202,7 +202,6 @@ impl VisitMut for InlineGlobals {
 mod tests {
     use swc_ecma_transforms_testing::{test, Tester};
     use swc_ecma_utils::DropSpan;
-    use swc_ecma_visit::as_folder;
 
     use super::*;
 

@@ -162,7 +162,7 @@ impl VisitMut for ConstModules {
                     return;
                 }
 
-                if self.scope.namespace.get(&id.to_id()).is_some() {
+                if self.scope.namespace.contains(&id.to_id()) {
                     panic!(
                         "The const_module namespace `{}` cannot be used without member accessor",
                         sym
@@ -218,7 +218,7 @@ impl VisitMut for ConstModules {
                     return;
                 }
 
-                if self.scope.namespace.get(&id.to_id()).is_some() {
+                if self.scope.namespace.contains(&id.to_id()) {
                     panic!(
                         "The const_module namespace `{}` cannot be used without member accessor",
                         id.sym

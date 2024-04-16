@@ -2272,10 +2272,7 @@ pub fn is_maybe_branch_directive(stmt: &Stmt) -> bool {
 }
 
 /// inject `stmts` after directives
-pub fn prepend_stmts<T: StmtLike>(
-    to: &mut Vec<T>,
-    stmts: impl Iterator + ExactSizeIterator<Item = T>,
-) {
+pub fn prepend_stmts<T: StmtLike>(to: &mut Vec<T>, stmts: impl ExactSizeIterator<Item = T>) {
     let idx = to
         .iter()
         .position(|item| {

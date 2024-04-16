@@ -38,27 +38,27 @@ pub mod util;
 pub type Result = io::Result<()>;
 
 pub trait Node: Spanned {
-    fn emit_with<W, S: SourceMapper>(&self, e: &mut Emitter<'_, W, S>) -> Result
+    fn emit_with<W, S>(&self, e: &mut Emitter<'_, W, S>) -> Result
     where
         W: WriteJs,
-        S: SourceMapperExt;
+        S: SourceMapper + SourceMapperExt;
 }
 impl<N: Node> Node for Box<N> {
     #[inline]
-    fn emit_with<W, S: SourceMapper>(&self, e: &mut Emitter<'_, W, S>) -> Result
+    fn emit_with<W, S>(&self, e: &mut Emitter<'_, W, S>) -> Result
     where
         W: WriteJs,
-        S: SourceMapperExt,
+        S: SourceMapper + SourceMapperExt,
     {
         (**self).emit_with(e)
     }
 }
 impl<'a, N: Node> Node for &'a N {
     #[inline]
-    fn emit_with<W, S: SourceMapper>(&self, e: &mut Emitter<'_, W, S>) -> Result
+    fn emit_with<W, S>(&self, e: &mut Emitter<'_, W, S>) -> Result
     where
         W: WriteJs,
-        S: SourceMapperExt,
+        S: SourceMapper + SourceMapperExt,
     {
         (**self).emit_with(e)
     }
@@ -3675,10 +3675,10 @@ impl<N> Node for Option<N>
 where
     N: Node,
 {
-    fn emit_with<W, S: SourceMapper>(&self, e: &mut Emitter<'_, W, S>) -> Result
+    fn emit_with<W, S>(&self, e: &mut Emitter<'_, W, S>) -> Result
     where
         W: WriteJs,
-        S: SourceMapperExt,
+        S: SourceMapper + SourceMapperExt,
     {
         match *self {
             Some(ref n) => n.emit_with(e),

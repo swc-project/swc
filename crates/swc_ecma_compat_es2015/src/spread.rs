@@ -222,7 +222,7 @@ impl Spread {
     fn concat_args(
         &self,
         span: Span,
-        args: impl ExactSizeIterator + Iterator<Item = Option<ExprOrSpread>>,
+        args: impl ExactSizeIterator<Item = Option<ExprOrSpread>>,
         need_array: bool,
     ) -> Expr {
         //
@@ -447,11 +447,11 @@ impl Spread {
 
 #[tracing::instrument(level = "info", skip_all)]
 fn expand_literal_args(
-    args: impl ExactSizeIterator + Iterator<Item = Option<ExprOrSpread>>,
+    args: impl ExactSizeIterator<Item = Option<ExprOrSpread>>,
 ) -> Vec<Option<ExprOrSpread>> {
     fn expand(
         buf: &mut Vec<Option<ExprOrSpread>>,
-        args: impl ExactSizeIterator + Iterator<Item = Option<ExprOrSpread>>,
+        args: impl ExactSizeIterator<Item = Option<ExprOrSpread>>,
     ) {
         for mut arg in args {
             if let Some(ExprOrSpread {

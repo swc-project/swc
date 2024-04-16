@@ -1,6 +1,6 @@
 //! Test that `#[span]` and `#[fold]` can be used at same time.
-use serde::{self, Deserialize, Serialize};
-use swc_common::{self, ast_node, Span, Spanned};
+use serde::{Deserialize, Serialize};
+use swc_common::{ast_node, Span, Spanned};
 
 #[ast_node("Class")]
 // See https://github.com/rust-lang/rust/issues/44925

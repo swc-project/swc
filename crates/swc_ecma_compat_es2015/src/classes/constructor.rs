@@ -1,6 +1,5 @@
 use std::iter;
 
-use swc_atoms::JsWord;
 use swc_common::{util::take::Take, Mark, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
@@ -510,43 +509,4 @@ pub(super) fn replace_this_in_constructor(mark: Mark, c: &mut Constructor) -> bo
     c.visit_mut_children_with(&mut v);
 
     v.found
-}
-
-/// # In
-///
-/// ```js
-/// 
-/// class Example {
-///   constructor() {
-///     var Example;
-///   }
-/// }
-/// ```
-///
-/// # Out
-///
-/// ```js
-/// var Example = function Example() {
-///     _class_call_check(this, Example);
-///     var Example1;
-/// };
-/// ```
-pub(super) struct VarRenamer<'a> {
-    pub mark: Mark,
-    pub class_name: &'a JsWord,
-}
-
-impl<'a> VisitMut for VarRenamer<'a> {
-    noop_visit_mut_type!();
-
-    fn visit_mut_pat(&mut self, pat: &mut Pat) {
-        match pat {
-            Pat::Ident(ident) => {
-                if *self.class_name == ident.id.sym {
-                    ident.id.span = ident.id.span.apply_mark(self.mark);
-                }
-            }
-            _ => pat.visit_mut_children_with(self),
-        }
-    }
 }

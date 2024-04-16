@@ -16,10 +16,7 @@ use std::{
 };
 
 #[cfg(feature = "tty-emitter")]
-use atty;
-#[cfg(feature = "tty-emitter")]
 use termcolor::{Buffer, BufferWriter, Color, ColorChoice, ColorSpec, StandardStream, WriteColor};
-use unicode_width;
 
 use self::Destination::*;
 use super::{
@@ -1112,7 +1109,7 @@ impl EmitterWriter {
                     let mut to_add = HashMap::<_, _>::default();
 
                     for (depth, style) in depths {
-                        if multilines.get(&depth).is_some() {
+                        if multilines.contains_key(&depth) {
                             multilines.remove(&depth);
                         } else {
                             to_add.insert(depth, style);

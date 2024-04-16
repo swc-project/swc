@@ -1,34 +1,30 @@
 //// [usingDeclarationsWithLegacyClassDecorators.8.ts]
 System.register([
     "@swc/helpers/_/_ts_decorate",
-    "@swc/helpers/_/_dispose",
-    "@swc/helpers/_/_using"
+    "@swc/helpers/_/_using_ctx"
 ], function(_export, _context) {
-    var _ts_decorate, _dispose, _using;
+    var _ts_decorate, _using_ctx;
     return _export("C", void 0), {
         setters: [
             function(_ts_decorate1) {
                 _ts_decorate = _ts_decorate1._;
             },
-            function(_dispose1) {
-                _dispose = _dispose1._;
-            },
-            function(_using1) {
-                _using = _using1._;
+            function(_using_ctx1) {
+                _using_ctx = _using_ctx1._;
             }
         ],
         execute: function() {
             try {
-                var _stack = [];
+                var _usingCtx = _using_ctx();
                 class C {
                 }
                 _export("C", C), C = _ts_decorate([
                     dec
-                ], C), _using(_stack, null);
+                ], C), _usingCtx.u(null);
             } catch (_) {
-                var _error = _, _hasError = !0;
+                _usingCtx.e = _;
             } finally{
-                _dispose(_stack, _error, _hasError);
+                _usingCtx.d();
             }
         }
     };

@@ -9,22 +9,20 @@ Object.defineProperty(exports, "y", {
         return y;
     }
 });
-const _dispose = require("@swc/helpers/_/_dispose");
-const _using = require("@swc/helpers/_/_using");
+const _using_ctx = require("@swc/helpers/_/_using_ctx");
 function f() {
     console.log(y, z);
 }
 try {
-    var _stack = [];
-    var z = _using._(_stack, {
+    var _usingCtx = _using_ctx._();
+    var z = _usingCtx.u({
         [Symbol.dispose] () {}
     });
     if (false) {
         var y = 1;
     }
 } catch (_) {
-    var _error = _;
-    var _hasError = true;
+    _usingCtx.e = _;
 } finally{
-    _dispose._(_stack, _error, _hasError);
+    _usingCtx.d();
 }

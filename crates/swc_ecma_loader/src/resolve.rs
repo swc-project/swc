@@ -2,6 +2,7 @@ use std::sync::Arc;
 
 use anyhow::Error;
 use swc_atoms::Atom;
+#[allow(unused_imports)]
 use swc_common::{
     sync::{Send, Sync},
     FileName,

@@ -132,7 +132,7 @@ use swc_common::{
 pub use swc_compiler_base::{PrintArgs, TransformOutput};
 pub use swc_config::config_types::{BoolConfig, BoolOr, BoolOrDataConfig};
 use swc_ecma_ast::{EsVersion, Program};
-use swc_ecma_codegen::{self, Node};
+use swc_ecma_codegen::Node;
 use swc_ecma_loader::resolvers::{
     lru::CachingResolver, node::NodeModulesResolver, tsc::TsConfigResolver,
 };

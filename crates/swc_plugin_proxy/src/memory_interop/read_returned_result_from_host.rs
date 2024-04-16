@@ -51,6 +51,8 @@ where
     let (serialized_allocated_bytes_raw_ptr, serialized_allocated_bytes_raw_ptr_size) =
         serialized_allocated_bytes_ptr.as_ptr();
 
+    std::mem::forget(allocated_bytes_ptr); // We should not drop AllocatedBytesPtr(0, 0)
+
     let ret = f(serialized_allocated_bytes_raw_ptr as _);
 
     // Host fn call completes: by contract in host proxy, if return value is 0
@@ -95,7 +97,7 @@ where
     let allocated_returned_value_ptr = read_returned_result_from_host_inner(f);
 
     // Using AllocatedBytesPtr's value, reconstruct actual return value
-    allocated_returned_value_ptr.map(|allocated_returned_value_ptr| unsafe {
+    allocated_returned_value_ptr.map(|allocated_returned_value_ptr| {
         PluginSerializedBytes::from_raw_ptr(
             allocated_returned_value_ptr.0 as _,
             allocated_returned_value_ptr

@@ -1,3 +1,5 @@
+#![allow(unused_imports)]
+
 use std::borrow::Cow;
 
 use rustc_hash::FxHashSet;

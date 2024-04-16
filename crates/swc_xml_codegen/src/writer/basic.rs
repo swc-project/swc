@@ -5,28 +5,18 @@ use swc_common::{BytePos, LineCol, Span};
 
 use super::XmlWriter;
 
-#[derive(Clone, Copy, PartialEq, Eq, Debug)]
+#[derive(Clone, Copy, PartialEq, Eq, Debug, Default)]
 pub enum IndentType {
     Tab,
+    #[default]
     Space,
 }
 
-impl Default for IndentType {
-    fn default() -> Self {
-        IndentType::Space
-    }
-}
-
-#[derive(Clone, Copy, PartialEq, Eq, Debug)]
+#[derive(Clone, Copy, PartialEq, Eq, Debug, Default)]
 pub enum LineFeed {
+    #[default]
     LF,
     CRLF,
-}
-
-impl Default for LineFeed {
-    fn default() -> Self {
-        LineFeed::LF
-    }
 }
 
 pub struct BasicXmlWriterConfig {

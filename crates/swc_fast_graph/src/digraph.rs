@@ -7,7 +7,7 @@ use std::{
     cmp::Ordering,
     fmt,
     hash::{self, BuildHasherDefault, Hash},
-    iter::{Cloned, DoubleEndedIterator, FromIterator},
+    iter::Cloned,
     marker::PhantomData,
     ops::Deref,
     slice::Iter,

@@ -1,155 +1,154 @@
 //// [awaitUsingDeclarations.1.ts]
-import { _ as _dispose } from "@swc/helpers/_/_dispose";
-import { _ as _using } from "@swc/helpers/_/_using";
+import { _ as _using_ctx } from "@swc/helpers/_/_using_ctx";
 try {
-    var _stack = [];
-    _using(_stack, {
+    var _usingCtx = _using_ctx();
+    _usingCtx.a({
         async [Symbol.asyncDispose] () {}
-    }, !0);
+    });
     try {
-        var _stack1 = [];
-        _using(_stack1, {
+        var _usingCtx1 = _using_ctx();
+        _usingCtx1.a({
             async [Symbol.asyncDispose] () {}
-        }, !0);
+        });
     } catch (_) {
-        var _error = _, _hasError = !0;
+        _usingCtx1.e = _;
     } finally{
-        await _dispose(_stack1, _error, _hasError);
+        await _usingCtx1.d();
     }
     switch(Math.random()){
         case 0:
             try {
-                var _stack2 = [];
-                _using(_stack2, {
+                var _usingCtx2 = _using_ctx();
+                _usingCtx2.a({
                     async [Symbol.asyncDispose] () {}
-                }, !0);
+                });
                 break;
             } catch (_) {
-                var _error1 = _, _hasError1 = !0;
+                _usingCtx2.e = _;
             } finally{
-                await _dispose(_stack2, _error1, _hasError1);
+                await _usingCtx2.d();
             }
         case 1:
             try {
-                var _stack3 = [];
-                _using(_stack3, {
+                var _usingCtx3 = _using_ctx();
+                _usingCtx3.a({
                     async [Symbol.asyncDispose] () {}
-                }, !0);
+                });
             } catch (_) {
-                var _error2 = _, _hasError2 = !0;
+                _usingCtx3.e = _;
             } finally{
-                await _dispose(_stack3, _error2, _hasError2);
+                await _usingCtx3.d();
             }
     }
     try {
-        var _stack4 = [];
-        _using(_stack4, {
+        var _usingCtx4 = _using_ctx();
+        _usingCtx4.a({
             async [Symbol.asyncDispose] () {}
-        }, !0);
+        });
     } catch (_) {
-        var _error3 = _, _hasError3 = !0;
+        _usingCtx4.e = _;
     } finally{
-        await _dispose(_stack4, _error3, _hasError3);
+        await _usingCtx4.d();
     }
     try {
         try {
-            var _stack5 = [];
-            _using(_stack5, {
+            var _usingCtx5 = _using_ctx();
+            _usingCtx5.a({
                 async [Symbol.asyncDispose] () {}
-            }, !0);
+            });
         } catch (_) {
-            var _error4 = _, _hasError4 = !0;
+            _usingCtx5.e = _;
         } finally{
-            await _dispose(_stack5, _error4, _hasError4);
+            await _usingCtx5.d();
         }
     } catch (e) {
         try {
-            var _stack6 = [];
-            _using(_stack6, {
+            var _usingCtx6 = _using_ctx();
+            _usingCtx6.a({
                 async [Symbol.asyncDispose] () {}
-            }, !0);
+            });
         } catch (_) {
-            var _error5 = _, _hasError5 = !0;
+            _usingCtx6.e = _;
         } finally{
-            await _dispose(_stack6, _error5, _hasError5);
+            await _usingCtx6.d();
         }
     } finally{
         try {
-            var _stack7 = [];
-            _using(_stack7, {
+            var _usingCtx7 = _using_ctx();
+            _usingCtx7.a({
                 async [Symbol.asyncDispose] () {}
-            }, !0);
+            });
         } catch (_) {
-            var _error6 = _, _hasError6 = !0;
+            _usingCtx7.e = _;
         } finally{
-            await _dispose(_stack7, _error6, _hasError6);
+            await _usingCtx7.d();
         }
     }
     try {
-        var _stack8 = [];
-        _using(_stack8, {
+        var _usingCtx8 = _using_ctx();
+        _usingCtx8.a({
             async [Symbol.asyncDispose] () {}
-        }, !0);
+        });
     } catch (_) {
-        var _error7 = _, _hasError7 = !0;
+        _usingCtx8.e = _;
     } finally{
-        await _dispose(_stack8, _error7, _hasError7);
+        await _usingCtx8.d();
     }
     for(;;)try {
-        var _stack10 = [];
-        _using(_stack10, {
+        var _usingCtx10 = _using_ctx();
+        _usingCtx10.a({
             async [Symbol.asyncDispose] () {}
-        }, !0);
+        });
         break;
     } catch (_) {
-        var _error9 = _, _hasError9 = !0;
+        _usingCtx10.e = _;
     } finally{
-        await _dispose(_stack10, _error9, _hasError9);
+        await _usingCtx10.d();
     }
     for(;;)try {
-        var _stack11 = [];
-        _using(_stack11, {
+        var _usingCtx11 = _using_ctx();
+        _usingCtx11.a({
             async [Symbol.asyncDispose] () {}
-        }, !0);
+        });
         break;
     } catch (_) {
-        var _error10 = _, _hasError10 = !0;
+        _usingCtx11.e = _;
     } finally{
-        await _dispose(_stack11, _error10, _hasError10);
+        await _usingCtx11.d();
     }
     for(;;)try {
-        var _stack12 = [];
-        _using(_stack12, {
+        var _usingCtx12 = _using_ctx();
+        _usingCtx12.a({
             async [Symbol.asyncDispose] () {}
-        }, !0);
+        });
         break;
     } catch (_) {
-        var _error11 = _, _hasError11 = !0;
+        _usingCtx12.e = _;
     } finally{
-        await _dispose(_stack12, _error11, _hasError11);
+        await _usingCtx12.d();
     }
     for(let x in {})try {
-        var _stack13 = [];
-        _using(_stack13, {
+        var _usingCtx13 = _using_ctx();
+        _usingCtx13.a({
             async [Symbol.asyncDispose] () {}
-        }, !0);
+        });
     } catch (_) {
-        var _error12 = _, _hasError12 = !0;
+        _usingCtx13.e = _;
     } finally{
-        await _dispose(_stack13, _error12, _hasError12);
+        await _usingCtx13.d();
     }
     for (let x of [])try {
-        var _stack14 = [];
-        _using(_stack14, {
+        var _usingCtx14 = _using_ctx();
+        _usingCtx14.a({
             async [Symbol.asyncDispose] () {}
-        }, !0);
+        });
     } catch (_) {
-        var _error13 = _, _hasError13 = !0;
+        _usingCtx14.e = _;
     } finally{
-        await _dispose(_stack14, _error13, _hasError13);
+        await _usingCtx14.d();
     }
 } catch (_) {
-    var _error14 = _, _hasError14 = !0;
+    _usingCtx.e = _;
 } finally{
-    await _dispose(_stack, _error14, _hasError14);
+    await _usingCtx.d();
 }

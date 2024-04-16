@@ -10,14 +10,11 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_pat_ids, prepend_stmt, private_ident, quote_ident, ExprFactory};
-use swc_ecma_visit::{noop_fold_type, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
+use swc_ecma_visit::{VisitMut, VisitMutWith};
 use EdgeDirection::Outgoing;
 
 use crate::{
-    bundler::{
-        keywords::KeywordRenamer,
-        load::{Imports, TransformedModule},
-    },
+    bundler::{keywords::KeywordRenamer, load::TransformedModule},
     dep_graph::ModuleGraph,
     id::{Id, ModuleId},
     inline::inline,
@@ -1292,84 +1289,6 @@ where
         });
 
         module.append_all(vars)
-    }
-}
-
-pub(super) struct ImportDropper<'a> {
-    pub imports: &'a Imports,
-}
-
-impl VisitMut for ImportDropper<'_> {
-    noop_visit_mut_type!();
-
-    fn visit_mut_module_item(&mut self, i: &mut ModuleItem) {
-        match i {
-            ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl { src, .. }))
-                if self
-                    .imports
-                    .specifiers
-                    .iter()
-                    .any(|(s, _)| s.src.value == *src.value) =>
-            {
-                *i = ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP }))
-            }
-            _ => {}
-        }
-    }
-}
-
-/// `export var a = 1` => `var a = 1`
-pub(super) struct Unexporter;
-
-impl Fold for Unexporter {
-    noop_fold_type!();
-
-    fn fold_module_item(&mut self, item: ModuleItem) -> ModuleItem {
-        match item {
-            ModuleItem::ModuleDecl(decl) => match decl {
-                ModuleDecl::ExportDecl(decl) => ModuleItem::Stmt(Stmt::Decl(decl.decl)),
-
-                ModuleDecl::ExportDefaultDecl(export) => match export.decl {
-                    DefaultDecl::Class(ClassExpr { ident: None, .. })
-                    | DefaultDecl::Fn(FnExpr { ident: None, .. }) => {
-                        ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP }))
-                    }
-                    DefaultDecl::TsInterfaceDecl(decl) => {
-                        ModuleItem::Stmt(Stmt::Decl(Decl::TsInterface(decl)))
-                    }
-
-                    DefaultDecl::Class(ClassExpr {
-                        ident: Some(ident),
-                        class,
-                    }) => ModuleItem::Stmt(Stmt::Decl(Decl::Class(ClassDecl {
-                        declare: false,
-                        ident,
-                        class,
-                    }))),
-
-                    DefaultDecl::Fn(FnExpr {
-                        ident: Some(ident),
-                        function,
-                    }) => ModuleItem::Stmt(Stmt::Decl(Decl::Fn(FnDecl {
-                        declare: false,
-                        function,
-                        ident,
-                    }))),
-                },
-
-                // Empty statement
-                ModuleDecl::ExportAll(..)
-                | ModuleDecl::ExportDefaultExpr(..)
-                | ModuleDecl::ExportNamed(..) => {
-                    ModuleItem::Stmt(Stmt::Empty(EmptyStmt { span: DUMMY_SP }))
-                }
-                ModuleDecl::Import(..) => ModuleItem::ModuleDecl(decl),
-
-                _ => unimplemented!("Unexported: {:?}", decl),
-            },
-
-            _ => item,
-        }
     }
 }
 

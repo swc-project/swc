@@ -1,7 +1,7 @@
-use swc_common::{comments::SingleThreadedComments, BytePos};
+use swc_common::comments::SingleThreadedComments;
 
 use super::*;
-use crate::{test_parser, EsConfig, TsConfig};
+use crate::EsConfig;
 
 fn program(src: &'static str) -> Program {
     test_parser(src, Default::default(), |p| p.parse_program())

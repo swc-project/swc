@@ -2,9 +2,8 @@
 define([
     "require",
     "exports",
-    "@swc/helpers/_/_dispose",
-    "@swc/helpers/_/_using"
-], function(require, exports, _dispose, _using) {
+    "@swc/helpers/_/_using_ctx"
+], function(require, exports, _using_ctx) {
     Object.defineProperty(exports, "__esModule", {
         value: !0
     }), Object.defineProperty(exports, "y", {
@@ -14,13 +13,13 @@ define([
         }
     });
     try {
-        var y, _stack = [];
-        _using._(_stack, {
+        var y, _usingCtx = _using_ctx._();
+        _usingCtx.u({
             [Symbol.dispose] () {}
         });
     } catch (_) {
-        var _error = _, _hasError = !0;
+        _usingCtx.e = _;
     } finally{
-        _dispose._(_stack, _error, _hasError);
+        _usingCtx.d();
     }
 });

@@ -393,8 +393,7 @@ impl TransformExecutor {
             .run(program, self.unresolved_mark, should_enable_comments_proxy)
             .context(
                 "failed to run Wasm plugin transform. Please ensure the version of `swc_core` \
-                 used by the plugin is compatible with the host runtime. See https://swc.rs/docs/plugin/selecting-swc-core\
-                for compatibility information. If you are an author of the plugin, please update \
+                 used by the plugin is compatible with the host runtime. See https://swc.rs/docs/plugin/selecting-swc-core for compatibility information. If you are an author of the plugin, please update \
                  `swc_core` to the compatible version.",
             )
     }

@@ -1,5 +1,4 @@
-import { _ as _dispose } from "@swc/helpers/_/_dispose";
-import { _ as _using } from "@swc/helpers/_/_using";
+import { _ as _using_ctx } from "@swc/helpers/_/_using_ctx";
 const logClean = function() {
     return {
         [Symbol.dispose] () {
@@ -12,21 +11,20 @@ const logClean = function() {
 };
 async function foo() {
     try {
-        var _stack = [];
-        var a = _using(_stack, logClean());
-        var b = _using(_stack, logClean(), true);
+        var _usingCtx = _using_ctx();
+        const a = _usingCtx.u(logClean());
+        const b = _usingCtx.a(logClean());
         for (const a of [
             logClean(),
             logClean()
         ]){
             try {
-                var _stack1 = [];
+                var _usingCtx1 = _using_ctx();
                 {}
             } catch (_) {
-                var _error = _;
-                var _hasError = true;
+                _usingCtx1.e = _;
             } finally{
-                _dispose(_stack1, _error, _hasError);
+                _usingCtx1.d();
             }
         }
         for (const a of [
@@ -34,20 +32,18 @@ async function foo() {
             logClean()
         ]){
             try {
-                var _stack2 = [];
+                var _usingCtx2 = _using_ctx();
                 {}
             } catch (_) {
-                var _error1 = _;
-                var _hasError1 = true;
+                _usingCtx2.e = _;
             } finally{
-                _dispose(_stack2, _error1, _hasError1);
+                _usingCtx2.d();
             }
         }
     } catch (_) {
-        var _error2 = _;
-        var _hasError2 = true;
+        _usingCtx.e = _;
     } finally{
-        await _dispose(_stack, _error2, _hasError2);
+        await _usingCtx.d();
     }
 }
 foo();

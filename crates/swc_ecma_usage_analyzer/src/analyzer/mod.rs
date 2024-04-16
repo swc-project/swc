@@ -5,7 +5,7 @@ use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 use swc_timer::timer;
 
 pub use self::ctx::Ctx;
-use self::storage::{Storage, *};
+use self::storage::*;
 use crate::{
     alias::{collect_infects_from, AliasConfig},
     marks::Marks,

@@ -308,7 +308,10 @@ impl CompileOptions {
             });
 
         if let Some(file_path) = *file_path {
-            options.filename = file_path.to_str().unwrap_or_default().to_owned();
+            file_path
+                .to_str()
+                .unwrap_or_default()
+                .clone_into(&mut options.filename);
         }
 
         if let Some(env_name) = &self.env_name {
@@ -322,8 +325,9 @@ impl CompileOptions {
                 value => SourceMapsConfig::Str(value.to_string()),
             });
 
-            options.source_file_name = self.source_file_name.to_owned();
-            options.source_root = self.source_root.to_owned();
+            self.source_file_name
+                .clone_into(&mut options.source_file_name);
+            self.source_root.clone_into(&mut options.source_root);
         }
 
         Ok(options)

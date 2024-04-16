@@ -1,3 +1,5 @@
+#![allow(dead_code)]
+
 use std::fmt::Debug;
 
 use swc_common::Mark;

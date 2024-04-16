@@ -1,15 +1,10 @@
 use swc_ecma_ast::VarDeclKind;
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Default)]
 pub enum ScopeKind {
     Block,
+    #[default]
     Fn,
-}
-
-impl Default for ScopeKind {
-    fn default() -> Self {
-        ScopeKind::Fn
-    }
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
