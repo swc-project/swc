@@ -1,3 +1,7 @@
+#![cfg(all(
+    feature = "swc_ecma_transforms_proposal",
+    feature = "swc_ecma_transforms_typescript",
+))]
 use std::path::PathBuf;
 
 use swc_common::{chain, Mark};
