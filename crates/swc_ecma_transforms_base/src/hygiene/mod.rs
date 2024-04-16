@@ -14,6 +14,7 @@ pub struct Config {
     pub keep_class_names: bool,
 
     /// If true, the bug of safari 10 is avoided.
+    #[deprecated = "This field is no longer required to work around bugs in Safari 10."]
     pub safari_10: bool,
 
     /// The marks derived from this marks will treated as `specified by user`

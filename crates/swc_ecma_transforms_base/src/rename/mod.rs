@@ -132,7 +132,6 @@ where
     {
         let mut scope = {
             let mut v = Analyzer {
-                safari_10: self.config.safari_10,
                 has_eval,
                 top_level_mark: self.config.top_level_mark,
 
