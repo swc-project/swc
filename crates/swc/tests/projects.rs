@@ -27,6 +27,7 @@ use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 use swc_ecma_transforms::{
     helpers::{self, Helpers},
     pass::noop,
+    resolver,
 };
 use swc_ecma_visit::{Fold, FoldWith};
 use testing::{NormalizedOutput, StdErr, Tester};
@@ -1240,6 +1241,31 @@ fn minify(input_js: PathBuf) {
             .unwrap();
 
         Ok(())
+    })
+    .unwrap()
+}
+
+#[test]
+fn deno_stack_overflow() {
+    testing::run_test(false, |cm, handler| {
+        let mut passes = chain!(
+            resolver(unresolved_mark, top_level_mark, true),
+            proposal::decorator_2022_03::decorator_2022_03(),
+            proposal::explicit_resource_management::explicit_resource_management(),
+            helpers::inject_helpers(top_level_mark),
+            typescript::typescript(
+                typescript::Config {
+                    verbatim_module_syntax: false,
+                    import_not_used_as_values: typescript::ImportsNotUsedAsValues::Remove,
+                    no_empty_export: true,
+                    import_export_assign_config: typescript::TsImportExportAssignConfig::Preserve,
+                    ts_enum_is_mutable: true,
+                },
+                top_level_mark
+            ),
+            fixer(Some(comments)),
+            hygiene(),
+        );
     })
     .unwrap()
 }
