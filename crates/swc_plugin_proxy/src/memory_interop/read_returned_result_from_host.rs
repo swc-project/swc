@@ -97,7 +97,7 @@ where
     let allocated_returned_value_ptr = read_returned_result_from_host_inner(f);
 
     // Using AllocatedBytesPtr's value, reconstruct actual return value
-    allocated_returned_value_ptr.map(|allocated_returned_value_ptr| unsafe {
+    allocated_returned_value_ptr.map(|allocated_returned_value_ptr| {
         PluginSerializedBytes::from_raw_ptr(
             allocated_returned_value_ptr.0 as _,
             allocated_returned_value_ptr
