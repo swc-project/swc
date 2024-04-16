@@ -374,7 +374,7 @@ impl VisitMut for ExplicitResourceManagement {
     noop_visit_mut_type!();
 
     fn visit_mut_expr(&mut self, n: &mut Expr) {
-        maybe_grow(4 * 1024, 64 * 1024, || n.visit_mut_children_with(self));
+        maybe_grow(4 * 1024, 16 * 1024, || n.visit_mut_children_with(self));
     }
 
     fn visit_mut_for_of_stmt(&mut self, n: &mut ForOfStmt) {
@@ -404,7 +404,7 @@ impl VisitMut for ExplicitResourceManagement {
     }
 
     fn visit_mut_stmt(&mut self, s: &mut Stmt) {
-        maybe_grow(4 * 1024, 64 * 1024, || s.visit_mut_children_with(self));
+        maybe_grow(4 * 1024, 16 * 1024, || s.visit_mut_children_with(self));
 
         if let Stmt::Decl(Decl::Using(decl)) = s {
             let state = self.state.get_or_insert_with(Default::default);

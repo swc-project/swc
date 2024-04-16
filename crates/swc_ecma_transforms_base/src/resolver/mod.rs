@@ -816,7 +816,7 @@ impl<'a> VisitMut for Resolver<'a> {
 
         let old = self.ident_type;
         self.ident_type = IdentType::Ref;
-        maybe_grow(4 * 1024, 64 * 1024, || expr.visit_mut_children_with(self));
+        maybe_grow(4 * 1024, 16 * 1024, || expr.visit_mut_children_with(self));
         self.ident_type = old;
     }
 

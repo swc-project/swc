@@ -1451,7 +1451,7 @@ impl VisitMut for Decorator202203 {
             }
         }
 
-        maybe_grow(4 * 1024, 64 * 1024, || e.visit_mut_children_with(self));
+        maybe_grow(4 * 1024, 16 * 1024, || e.visit_mut_children_with(self));
     }
 
     fn visit_mut_module_item(&mut self, s: &mut ModuleItem) {
