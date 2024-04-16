@@ -4,7 +4,7 @@ use swc_common::{
     Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_utils::ident::IdentLike;
+use swc_ecma_utils::{ident::IdentLike, stack_size::maybe_grow_default};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 use crate::{
@@ -175,6 +175,22 @@ where
                 s.exported = Some(exported);
             }
         }
+    }
+
+    fn visit_mut_expr(&mut self, n: &mut Expr) {
+        maybe_grow_default(|| n.visit_mut_children_with(self))
+    }
+
+    fn visit_mut_expr_or_spreads(&mut self, n: &mut Vec<ExprOrSpread>) {
+        self.maybe_par(cpu_count() * 8, n, |v, n| {
+            n.visit_mut_with(v);
+        })
+    }
+
+    fn visit_mut_exprs(&mut self, n: &mut Vec<Box<Expr>>) {
+        self.maybe_par(cpu_count() * 8, n, |v, n| {
+            n.visit_mut_with(v);
+        })
     }
 
     fn visit_mut_ident(&mut self, ident: &mut Ident) {
@@ -429,6 +445,81 @@ where
         *nodes = buf;
     }
 
+    fn visit_mut_named_export(&mut self, e: &mut NamedExport) {
+        if e.src.is_some() {
+            return;
+        }
+
+        e.visit_mut_children_with(self);
+    }
+
+    fn visit_mut_object_pat_prop(&mut self, n: &mut ObjectPatProp) {
+        n.visit_mut_children_with(self);
+
+        if let ObjectPatProp::Assign(p) = n {
+            let mut renamed = p.key.id.clone();
+            if self.rename_ident(&mut renamed).is_ok() {
+                if renamed.sym == p.key.sym {
+                    return;
+                }
+
+                *n = KeyValuePatProp {
+                    key: PropName::Ident(p.key.id.take()),
+                    value: match p.value.take() {
+                        Some(default_expr) => Box::new(Pat::Assign(AssignPat {
+                            span: p.span,
+                            left: renamed.into(),
+                            right: default_expr,
+                        })),
+                        None => renamed.into(),
+                    },
+                }
+                .into();
+            }
+        }
+    }
+
+    fn visit_mut_opt_vec_expr_or_spreads(&mut self, n: &mut Vec<Option<ExprOrSpread>>) {
+        self.maybe_par(cpu_count() * 8, n, |v, n| {
+            n.visit_mut_with(v);
+        })
+    }
+
+    fn visit_mut_prop(&mut self, prop: &mut Prop) {
+        match prop {
+            Prop::Shorthand(i) => {
+                let mut renamed = i.clone();
+                if self.rename_ident(&mut renamed).is_ok() {
+                    if renamed.sym == i.sym {
+                        return;
+                    }
+
+                    *prop = Prop::KeyValue(KeyValueProp {
+                        key: PropName::Ident(Ident {
+                            // clear mark
+                            span: i.span.with_ctxt(SyntaxContext::empty()),
+                            ..i.clone()
+                        }),
+                        value: Box::new(Expr::Ident(renamed)),
+                    })
+                }
+            }
+            _ => prop.visit_mut_children_with(self),
+        }
+    }
+
+    fn visit_mut_prop_name(&mut self, n: &mut PropName) {
+        if let PropName::Computed(c) = n {
+            c.visit_mut_with(self)
+        }
+    }
+
+    fn visit_mut_prop_or_spreads(&mut self, n: &mut Vec<PropOrSpread>) {
+        self.maybe_par(cpu_count() * 8, n, |v, n| {
+            n.visit_mut_with(v);
+        })
+    }
+
     fn visit_mut_stmts(&mut self, nodes: &mut Vec<Stmt>) {
         use std::mem::take;
 
@@ -490,98 +581,11 @@ where
         *nodes = buf;
     }
 
-    fn visit_mut_named_export(&mut self, e: &mut NamedExport) {
-        if e.src.is_some() {
-            return;
-        }
-
-        e.visit_mut_children_with(self);
-    }
-
-    fn visit_mut_object_pat_prop(&mut self, n: &mut ObjectPatProp) {
-        n.visit_mut_children_with(self);
-
-        if let ObjectPatProp::Assign(p) = n {
-            let mut renamed = p.key.id.clone();
-            if self.rename_ident(&mut renamed).is_ok() {
-                if renamed.sym == p.key.sym {
-                    return;
-                }
-
-                *n = KeyValuePatProp {
-                    key: PropName::Ident(p.key.id.take()),
-                    value: match p.value.take() {
-                        Some(default_expr) => Box::new(Pat::Assign(AssignPat {
-                            span: p.span,
-                            left: renamed.into(),
-                            right: default_expr,
-                        })),
-                        None => renamed.into(),
-                    },
-                }
-                .into();
-            }
-        }
-    }
-
-    fn visit_mut_prop(&mut self, prop: &mut Prop) {
-        match prop {
-            Prop::Shorthand(i) => {
-                let mut renamed = i.clone();
-                if self.rename_ident(&mut renamed).is_ok() {
-                    if renamed.sym == i.sym {
-                        return;
-                    }
-
-                    *prop = Prop::KeyValue(KeyValueProp {
-                        key: PropName::Ident(Ident {
-                            // clear mark
-                            span: i.span.with_ctxt(SyntaxContext::empty()),
-                            ..i.clone()
-                        }),
-                        value: Box::new(Expr::Ident(renamed)),
-                    })
-                }
-            }
-            _ => prop.visit_mut_children_with(self),
-        }
-    }
-
-    fn visit_mut_prop_name(&mut self, n: &mut PropName) {
-        if let PropName::Computed(c) = n {
-            c.visit_mut_with(self)
-        }
-    }
-
     fn visit_mut_super_prop_expr(&mut self, expr: &mut SuperPropExpr) {
         expr.span.visit_mut_with(self);
         if let SuperProp::Computed(c) = &mut expr.prop {
             c.visit_mut_with(self);
         }
-    }
-
-    fn visit_mut_prop_or_spreads(&mut self, n: &mut Vec<PropOrSpread>) {
-        self.maybe_par(cpu_count() * 8, n, |v, n| {
-            n.visit_mut_with(v);
-        })
-    }
-
-    fn visit_mut_expr_or_spreads(&mut self, n: &mut Vec<ExprOrSpread>) {
-        self.maybe_par(cpu_count() * 8, n, |v, n| {
-            n.visit_mut_with(v);
-        })
-    }
-
-    fn visit_mut_opt_vec_expr_or_spreads(&mut self, n: &mut Vec<Option<ExprOrSpread>>) {
-        self.maybe_par(cpu_count() * 8, n, |v, n| {
-            n.visit_mut_with(v);
-        })
-    }
-
-    fn visit_mut_exprs(&mut self, n: &mut Vec<Box<Expr>>) {
-        self.maybe_par(cpu_count() * 8, n, |v, n| {
-            n.visit_mut_with(v);
-        })
     }
 
     fn visit_mut_var_declarators(&mut self, n: &mut Vec<VarDeclarator>) {

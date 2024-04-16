@@ -2,7 +2,8 @@ use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{
-    find_pat_ids, private_ident, quote_ident, ExprFactory, ModuleItemLike, StmtLike,
+    find_pat_ids, private_ident, quote_ident, stack_size::maybe_grow_default, ExprFactory,
+    ModuleItemLike, StmtLike,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
@@ -372,6 +373,10 @@ impl ExplicitResourceManagement {
 impl VisitMut for ExplicitResourceManagement {
     noop_visit_mut_type!();
 
+    fn visit_mut_expr(&mut self, n: &mut Expr) {
+        maybe_grow_default(|| n.visit_mut_children_with(self));
+    }
+
     fn visit_mut_for_of_stmt(&mut self, n: &mut ForOfStmt) {
         n.visit_mut_children_with(self);
 
@@ -399,7 +404,7 @@ impl VisitMut for ExplicitResourceManagement {
     }
 
     fn visit_mut_stmt(&mut self, s: &mut Stmt) {
-        s.visit_mut_children_with(self);
+        maybe_grow_default(|| s.visit_mut_children_with(self));
 
         if let Stmt::Decl(Decl::Using(decl)) = s {
             let state = self.state.get_or_insert_with(Default::default);

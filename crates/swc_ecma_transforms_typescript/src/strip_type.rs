@@ -1,5 +1,6 @@
 use swc_common::util::take::Take;
 use swc_ecma_ast::*;
+use swc_ecma_utils::stack_size::maybe_grow_default;
 use swc_ecma_visit::{VisitMut, VisitMutWith};
 
 use crate::{type_to_none, unreachable_visit_mut_type};
@@ -122,7 +123,7 @@ impl VisitMut for StripType {
             *n = *expr.take();
         }
 
-        n.visit_mut_children_with(self);
+        maybe_grow_default(|| n.visit_mut_children_with(self));
     }
 
     // https://github.com/tc39/proposal-type-annotations#parameter-optionality

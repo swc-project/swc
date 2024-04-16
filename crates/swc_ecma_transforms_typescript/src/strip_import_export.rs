@@ -2,6 +2,7 @@ use std::mem;
 
 use swc_common::collections::AHashSet;
 use swc_ecma_ast::*;
+use swc_ecma_utils::stack_size::maybe_grow_default;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith};
 
 use crate::{strip_type::IsConcrete, ImportsNotUsedAsValues};
@@ -22,6 +23,10 @@ impl Visit for UsageCollect {
 
     fn visit_ident(&mut self, n: &Ident) {
         self.id_usage.insert(n.to_id());
+    }
+
+    fn visit_expr(&mut self, n: &Expr) {
+        maybe_grow_default(|| n.visit_children_with(self))
     }
 
     fn visit_binding_ident(&mut self, _: &BindingIdent) {

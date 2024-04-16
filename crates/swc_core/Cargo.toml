@@ -186,6 +186,9 @@ common_plugin_transform = [
 css_plugin_transform  = ["common_plugin_transform", "__css_plugin_transform"]
 ecma_plugin_transform = ["common_plugin_transform", "__ecma_plugin_transform"]
 
+# Use `stacker` to avoid stack overflow.
+stacker = ["swc_ecma_parser/stacker", "swc_ecma_utils/stacker"]
+
 # Host features to enable plugin `runner` runtime.
 # native feature is for the host environment does not have, or cannot access
 # to the wasm runtime (i.e cli, or @swc/core node bindings).

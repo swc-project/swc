@@ -3,7 +3,7 @@ use std::hash::Hash;
 use rustc_hash::FxHashSet;
 use swc_common::{Mark, SyntaxContext};
 use swc_ecma_ast::*;
-use swc_ecma_utils::ident::IdentLike;
+use swc_ecma_utils::{ident::IdentLike, stack_size::maybe_grow_default};
 use swc_ecma_visit::{noop_visit_type, visit_obj_and_computed, Visit, VisitWith};
 
 pub(super) struct IdCollector {
@@ -20,6 +20,10 @@ impl Visit for IdCollector {
     fn visit_export_named_specifier(&mut self, _: &ExportNamedSpecifier) {}
 
     fn visit_export_namespace_specifier(&mut self, _: &ExportNamespaceSpecifier) {}
+
+    fn visit_expr(&mut self, n: &Expr) {
+        maybe_grow_default(|| n.visit_children_with(self));
+    }
 
     fn visit_ident(&mut self, id: &Ident) {
         if id.span.ctxt != SyntaxContext::empty() {
@@ -131,7 +135,7 @@ where
     fn visit_expr(&mut self, node: &Expr) {
         let old = self.is_pat_decl;
         self.is_pat_decl = false;
-        node.visit_children_with(self);
+        maybe_grow_default(|| node.visit_children_with(self));
         self.is_pat_decl = old;
     }
 
