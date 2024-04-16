@@ -210,7 +210,7 @@
             "type": "Identifier",
             "span": {
               "start": 126,
-              "end": 190,
+              "end": 133,
               "ctxt": 0
             },
             "value": "options",

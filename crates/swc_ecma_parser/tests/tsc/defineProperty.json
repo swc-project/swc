@@ -376,7 +376,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 201,
-                  "end": 210,
+                  "end": 202,
                   "ctxt": 0
                 },
                 "value": "y",
@@ -695,7 +695,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 364,
-                  "end": 374,
+                  "end": 366,
                   "ctxt": 0
                 },
                 "value": "ka",

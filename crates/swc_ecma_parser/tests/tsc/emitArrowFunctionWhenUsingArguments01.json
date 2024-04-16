@@ -469,7 +469,7 @@
             "type": "Identifier",
             "span": {
               "start": 238,
-              "end": 259,
+              "end": 247,
               "ctxt": 0
             },
             "value": "inputFunc",

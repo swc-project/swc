@@ -58,7 +58,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 27,
-                  "end": 43,
+                  "end": 35,
                   "ctxt": 0
                 },
                 "value": "distance",

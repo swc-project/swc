@@ -14,7 +14,7 @@ export { f };
 var _b;
 var _B;
 try {
-    var _stack = [];
+    var _usingCtx = _using_ctx();
     function g() {
         c;
     }
@@ -22,18 +22,17 @@ try {
     doSomething();
     let { b } = {};
     _b = b;
-    var c = 2;
+    let c = 2;
     class A {
     }
     class B {
     }
     _B = B;
-    var x = _using(_stack, null);
+    var x = _usingCtx.u(null);
 } catch (_) {
-    var _error = _;
-    var _hasError = true;
+    _usingCtx.e = _;
 } finally{
-    _dispose(_stack, _error, _hasError);
+    _usingCtx.d();
 }
 export { _g as g };
 export { _b as b };

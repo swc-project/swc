@@ -2801,7 +2801,7 @@
             "type": "Identifier",
             "span": {
               "start": 1211,
-              "end": 1235,
+              "end": 1215,
               "ctxt": 0
             },
             "value": "this",
@@ -2889,7 +2889,7 @@
             "type": "Identifier",
             "span": {
               "start": 1237,
-              "end": 1251,
+              "end": 1243,
               "ctxt": 0
             },
             "value": "header",
@@ -2935,7 +2935,7 @@
             "type": "Identifier",
             "span": {
               "start": 1253,
-              "end": 1270,
+              "end": 1262,
               "ctxt": 0
             },
             "value": "authToken",
@@ -3150,7 +3150,7 @@
             "type": "Identifier",
             "span": {
               "start": 1456,
-              "end": 1466,
+              "end": 1457,
               "ctxt": 0
             },
             "value": "b",
@@ -3645,7 +3645,7 @@
             "type": "Identifier",
             "span": {
               "start": 1665,
-              "end": 1675,
+              "end": 1667,
               "ctxt": 0
             },
             "value": "nt",
@@ -4140,7 +4140,7 @@
             "type": "Identifier",
             "span": {
               "start": 1875,
-              "end": 1885,
+              "end": 1877,
               "ctxt": 0
             },
             "value": "st",
@@ -5701,7 +5701,7 @@
             "type": "Identifier",
             "span": {
               "start": 2616,
-              "end": 2648,
+              "end": 2631,
               "ctxt": 0
             },
             "value": "definiteBoolean",
@@ -5779,7 +5779,7 @@
             "type": "Identifier",
             "span": {
               "start": 2654,
-              "end": 2684,
+              "end": 2668,
               "ctxt": 0
             },
             "value": "definiteString",
@@ -5857,7 +5857,7 @@
             "type": "Identifier",
             "span": {
               "start": 2690,
-              "end": 2721,
+              "end": 2704,
               "ctxt": 0
             },
             "value": "optionalString",
@@ -5935,7 +5935,7 @@
             "type": "Identifier",
             "span": {
               "start": 2727,
-              "end": 2758,
+              "end": 2741,
               "ctxt": 0
             },
             "value": "optionalNumber",
@@ -7372,7 +7372,7 @@
             "type": "Identifier",
             "span": {
               "start": 3584,
-              "end": 3588,
+              "end": 3585,
               "ctxt": 0
             },
             "value": "t",
@@ -7418,7 +7418,7 @@
             "type": "Identifier",
             "span": {
               "start": 3590,
-              "end": 3594,
+              "end": 3591,
               "ctxt": 0
             },
             "value": "u",
@@ -8887,7 +8887,7 @@
             "type": "Identifier",
             "span": {
               "start": 4079,
-              "end": 4083,
+              "end": 4080,
               "ctxt": 0
             },
             "value": "t",
@@ -8933,7 +8933,7 @@
             "type": "Identifier",
             "span": {
               "start": 4085,
-              "end": 4089,
+              "end": 4086,
               "ctxt": 0
             },
             "value": "u",
@@ -8979,7 +8979,7 @@
             "type": "Identifier",
             "span": {
               "start": 4091,
-              "end": 4099,
+              "end": 4092,
               "ctxt": 0
             },
             "value": "v",
@@ -9054,7 +9054,7 @@
             "type": "Identifier",
             "span": {
               "start": 4101,
-              "end": 4121,
+              "end": 4102,
               "ctxt": 0
             },
             "value": "w",
@@ -9161,7 +9161,7 @@
             "type": "Identifier",
             "span": {
               "start": 4123,
-              "end": 4141,
+              "end": 4126,
               "ctxt": 0
             },
             "value": "obj",

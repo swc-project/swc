@@ -327,7 +327,7 @@
             "type": "Identifier",
             "span": {
               "start": 299,
-              "end": 329,
+              "end": 308,
               "ctxt": 0
             },
             "value": "eventPath",
@@ -663,7 +663,7 @@
             "type": "Identifier",
             "span": {
               "start": 427,
-              "end": 439,
+              "end": 432,
               "ctxt": 0
             },
             "value": "scope",
@@ -709,7 +709,7 @@
             "type": "Identifier",
             "span": {
               "start": 441,
-              "end": 453,
+              "end": 446,
               "ctxt": 0
             },
             "value": "event",

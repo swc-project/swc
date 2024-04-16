@@ -32,7 +32,7 @@
             "type": "Identifier",
             "span": {
               "start": 68,
-              "end": 100,
+              "end": 71,
               "ctxt": 0
             },
             "value": "obj",
@@ -434,7 +434,7 @@
             "type": "Identifier",
             "span": {
               "start": 237,
-              "end": 278,
+              "end": 240,
               "ctxt": 0
             },
             "value": "obj",
@@ -836,7 +836,7 @@
             "type": "Identifier",
             "span": {
               "start": 415,
-              "end": 457,
+              "end": 418,
               "ctxt": 0
             },
             "value": "obj",
@@ -1238,7 +1238,7 @@
             "type": "Identifier",
             "span": {
               "start": 621,
-              "end": 653,
+              "end": 624,
               "ctxt": 0
             },
             "value": "arr",

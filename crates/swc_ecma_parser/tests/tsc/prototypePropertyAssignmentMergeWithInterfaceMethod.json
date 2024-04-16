@@ -93,7 +93,7 @@
                         "type": "Identifier",
                         "span": {
                           "start": 209,
-                          "end": 229,
+                          "end": 214,
                           "ctxt": 0
                         },
                         "value": "query",
@@ -250,7 +250,7 @@
                         "type": "Identifier",
                         "span": {
                           "start": 265,
-                          "end": 291,
+                          "end": 270,
                           "ctxt": 0
                         },
                         "value": "scope",
@@ -465,7 +465,7 @@
                         "type": "Identifier",
                         "span": {
                           "start": 345,
-                          "end": 374,
+                          "end": 352,
                           "ctxt": 0
                         },
                         "value": "queries",

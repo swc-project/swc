@@ -1492,7 +1492,7 @@
                   "type": "Identifier",
                   "span": {
                     "start": 951,
-                    "end": 985,
+                    "end": 956,
                     "ctxt": 0
                   },
                   "value": "event",
@@ -1668,7 +1668,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 1041,
-                      "end": 1069,
+                      "end": 1049,
                       "ctxt": 0
                     },
                     "value": "eventQrl",

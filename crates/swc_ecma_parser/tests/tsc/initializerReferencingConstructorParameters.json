@@ -699,7 +699,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 544,
-                  "end": 548,
+                  "end": 545,
                   "ctxt": 0
                 },
                 "value": "x",

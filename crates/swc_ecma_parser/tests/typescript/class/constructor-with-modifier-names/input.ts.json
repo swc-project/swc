@@ -127,7 +127,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 59,
-                  "end": 67,
+                  "end": 62,
                   "ctxt": 0
                 },
                 "value": "set",
@@ -163,7 +163,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 69,
-                  "end": 86,
+                  "end": 77,
                   "ctxt": 0
                 },
                 "value": "readonly",

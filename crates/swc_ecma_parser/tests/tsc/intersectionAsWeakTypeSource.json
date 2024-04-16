@@ -743,7 +743,7 @@
             "type": "Identifier",
             "span": {
               "start": 358,
-              "end": 367,
+              "end": 364,
               "ctxt": 0
             },
             "value": "styles",

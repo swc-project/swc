@@ -196,7 +196,7 @@
             "type": "Identifier",
             "span": {
               "start": 249,
-              "end": 287,
+              "end": 255,
               "ctxt": 0
             },
             "value": "config",

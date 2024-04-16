@@ -625,7 +625,7 @@
             "type": "Identifier",
             "span": {
               "start": 386,
-              "end": 399,
+              "end": 396,
               "ctxt": 0
             },
             "value": "properties",
@@ -671,7 +671,7 @@
             "type": "Identifier",
             "span": {
               "start": 401,
-              "end": 418,
+              "end": 406,
               "ctxt": 0
             },
             "value": "klass",

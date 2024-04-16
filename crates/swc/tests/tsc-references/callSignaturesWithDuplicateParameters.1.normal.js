@@ -74,9 +74,9 @@
 //!   7 | var f4 = <T>(x: T, x: T) => { }
 //!   8 | 
 //!   9 | function foo2(x: string, x: number) { }
-//!     :               ^^^^|^^^^  ^^^^|^^^^
-//!     :                   |          `-- used as parameter more than once
-//!     :                   `-- previous definition here
+//!     :               |          |
+//!     :               |          `-- used as parameter more than once
+//!     :               `-- previous definition here
 //!  10 | var f5 = function foo(x: string, x: number) { }
 //!  11 | var f6 = function (x: string, x: number) { }
 //!  12 | var f7 = (x: string, x: number) => { }
@@ -88,9 +88,9 @@
 //!   8 | 
 //!   9 | function foo2(x: string, x: number) { }
 //!  10 | var f5 = function foo(x: string, x: number) { }
-//!     :                       ^^^^|^^^^  ^^^^|^^^^
-//!     :                           |          `-- used as parameter more than once
-//!     :                           `-- previous definition here
+//!     :                       |          |
+//!     :                       |          `-- used as parameter more than once
+//!     :                       `-- previous definition here
 //!  11 | var f6 = function (x: string, x: number) { }
 //!  12 | var f7 = (x: string, x: number) => { }
 //!  13 | var f8 = <T>(x: T, y: T) => { }
@@ -102,9 +102,9 @@
 //!   9 | function foo2(x: string, x: number) { }
 //!  10 | var f5 = function foo(x: string, x: number) { }
 //!  11 | var f6 = function (x: string, x: number) { }
-//!     :                    ^^^^|^^^^  ^^^^|^^^^
-//!     :                        |          `-- used as parameter more than once
-//!     :                        `-- previous definition here
+//!     :                    |          |
+//!     :                    |          `-- used as parameter more than once
+//!     :                    `-- previous definition here
 //!  12 | var f7 = (x: string, x: number) => { }
 //!  13 | var f8 = <T>(x: T, y: T) => { }
 //!     `----
@@ -143,9 +143,9 @@
 //!  15 | class C {
 //!  16 |     foo(x, x) { }
 //!  17 |     foo2(x: number, x: string) { }
-//!     :          ^^^^|^^^^  ^^^^|^^^^
-//!     :              |          `-- used as parameter more than once
-//!     :              `-- previous definition here
+//!     :          |          |
+//!     :          |          `-- used as parameter more than once
+//!     :          `-- previous definition here
 //!  18 |     foo3<T>(x: T, x: T) { }
 //!  19 | }
 //!     `----
@@ -156,9 +156,9 @@
 //!  16 |     foo(x, x) { }
 //!  17 |     foo2(x: number, x: string) { }
 //!  18 |     foo3<T>(x: T, x: T) { }
-//!     :             ^^|^  ^^|^
-//!     :               |     `-- used as parameter more than once
-//!     :               `-- previous definition here
+//!     :             |     |
+//!     :             |     `-- used as parameter more than once
+//!     :             `-- previous definition here
 //!  19 | }
 //!  20 | 
 //!  21 | interface I {
@@ -184,9 +184,9 @@
 //!  34 | var b = {
 //!  35 |     foo(x, x) { },
 //!  36 |     a: function foo(x: number, x: string) { },
-//!     :                     ^^^^|^^^^  ^^^^|^^^^
-//!     :                         |          `-- used as parameter more than once
-//!     :                         `-- previous definition here
+//!     :                     |          |
+//!     :                     |          `-- used as parameter more than once
+//!     :                     `-- previous definition here
 //!  37 |     b: <T>(x: T, x: T) => { }
 //!  38 | }
 //!     `----

@@ -467,7 +467,7 @@
             "type": "Identifier",
             "span": {
               "start": 182,
-              "end": 201,
+              "end": 186,
               "ctxt": 0
             },
             "value": "func",

@@ -892,7 +892,7 @@
             "type": "Identifier",
             "span": {
               "start": 248,
-              "end": 252,
+              "end": 249,
               "ctxt": 0
             },
             "value": "a",

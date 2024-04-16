@@ -75,7 +75,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 23,
-                      "end": 30,
+                      "end": 24,
                       "ctxt": 0
                     },
                     "value": "p",

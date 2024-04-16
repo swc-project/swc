@@ -110,7 +110,7 @@
             "type": "Identifier",
             "span": {
               "start": 45,
-              "end": 54,
+              "end": 51,
               "ctxt": 0
             },
             "value": "object",

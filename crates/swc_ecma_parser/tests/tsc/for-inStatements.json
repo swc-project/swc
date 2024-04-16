@@ -1570,7 +1570,7 @@
               "type": "Identifier",
               "span": {
                 "start": 537,
-                "end": 546,
+                "end": 538,
                 "ctxt": 0
               },
               "value": "x",
@@ -1606,7 +1606,7 @@
               "type": "Identifier",
               "span": {
                 "start": 548,
-                "end": 557,
+                "end": 549,
                 "ctxt": 0
               },
               "value": "y",

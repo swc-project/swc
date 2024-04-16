@@ -119,7 +119,7 @@
               "type": "Identifier",
               "span": {
                 "start": 185,
-                "end": 202,
+                "end": 194,
                 "ctxt": 0
               },
               "value": "stratName",
@@ -155,7 +155,7 @@
               "type": "Identifier",
               "span": {
                 "start": 204,
-                "end": 250,
+                "end": 207,
                 "ctxt": 0
               },
               "value": "gen",
@@ -179,7 +179,7 @@
                       "type": "Identifier",
                       "span": {
                         "start": 210,
-                        "end": 214,
+                        "end": 211,
                         "ctxt": 0
                       },
                       "value": "a",
@@ -632,7 +632,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 254,
-                  "end": 258,
+                  "end": 255,
                   "ctxt": 0
                 },
                 "value": "a",
@@ -824,7 +824,7 @@
                   "type": "Identifier",
                   "span": {
                     "start": 539,
-                    "end": 543,
+                    "end": 540,
                     "ctxt": 0
                   },
                   "value": "a",
@@ -1176,7 +1176,7 @@
                           "type": "Identifier",
                           "span": {
                             "start": 721,
-                            "end": 733,
+                            "end": 726,
                             "ctxt": 0
                           },
                           "value": "state",
@@ -1424,7 +1424,7 @@
                           "type": "Identifier",
                           "span": {
                             "start": 845,
-                            "end": 857,
+                            "end": 850,
                             "ctxt": 0
                           },
                           "value": "state",
@@ -1626,7 +1626,7 @@
                           "type": "Identifier",
                           "span": {
                             "start": 938,
-                            "end": 950,
+                            "end": 943,
                             "ctxt": 0
                           },
                           "value": "state",
@@ -1847,7 +1847,7 @@
                           "type": "Identifier",
                           "span": {
                             "start": 1045,
-                            "end": 1057,
+                            "end": 1050,
                             "ctxt": 0
                           },
                           "value": "state",

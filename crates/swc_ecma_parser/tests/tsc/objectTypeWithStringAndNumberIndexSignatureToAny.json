@@ -560,7 +560,7 @@
             "type": "Identifier",
             "span": {
               "start": 808,
-              "end": 829,
+              "end": 814,
               "ctxt": 0
             },
             "value": "sToAny",
@@ -624,7 +624,7 @@
             "type": "Identifier",
             "span": {
               "start": 831,
-              "end": 852,
+              "end": 837,
               "ctxt": 0
             },
             "value": "nToAny",
@@ -688,7 +688,7 @@
             "type": "Identifier",
             "span": {
               "start": 854,
-              "end": 887,
+              "end": 863,
               "ctxt": 0
             },
             "value": "bothToAny",
@@ -752,7 +752,7 @@
             "type": "Identifier",
             "span": {
               "start": 889,
-              "end": 901,
+              "end": 896,
               "ctxt": 0
             },
             "value": "someObj",
@@ -1290,7 +1290,7 @@
             "type": "Identifier",
             "span": {
               "start": 1199,
-              "end": 1220,
+              "end": 1205,
               "ctxt": 0
             },
             "value": "sToAny",
@@ -1354,7 +1354,7 @@
             "type": "Identifier",
             "span": {
               "start": 1222,
-              "end": 1243,
+              "end": 1228,
               "ctxt": 0
             },
             "value": "nToAny",
@@ -1418,7 +1418,7 @@
             "type": "Identifier",
             "span": {
               "start": 1245,
-              "end": 1285,
+              "end": 1254,
               "ctxt": 0
             },
             "value": "bothToAny",
@@ -1529,7 +1529,7 @@
             "type": "Identifier",
             "span": {
               "start": 1287,
-              "end": 1299,
+              "end": 1294,
               "ctxt": 0
             },
             "value": "someObj",
@@ -2211,7 +2211,7 @@
             "type": "Identifier",
             "span": {
               "start": 1717,
-              "end": 1738,
+              "end": 1723,
               "ctxt": 0
             },
             "value": "sToAny",
@@ -2275,7 +2275,7 @@
             "type": "Identifier",
             "span": {
               "start": 1740,
-              "end": 1765,
+              "end": 1749,
               "ctxt": 0
             },
             "value": "nToNumber",
@@ -2321,7 +2321,7 @@
             "type": "Identifier",
             "span": {
               "start": 1767,
-              "end": 1810,
+              "end": 1783,
               "ctxt": 0
             },
             "value": "strToAnyNumToNum",
@@ -2367,7 +2367,7 @@
             "type": "Identifier",
             "span": {
               "start": 1812,
-              "end": 1824,
+              "end": 1819,
               "ctxt": 0
             },
             "value": "someObj",

@@ -134,7 +134,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 151,
-                      "end": 161,
+                      "end": 152,
                       "ctxt": 0
                     },
                     "value": "x",
@@ -221,7 +221,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 183,
-                      "end": 192,
+                      "end": 184,
                       "ctxt": 0
                     },
                     "value": "x",
@@ -308,7 +308,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 214,
-                      "end": 223,
+                      "end": 215,
                       "ctxt": 0
                     },
                     "value": "x",
@@ -335,7 +335,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 225,
-                      "end": 235,
+                      "end": 226,
                       "ctxt": 0
                     },
                     "value": "y",
@@ -422,7 +422,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 257,
-                      "end": 267,
+                      "end": 258,
                       "ctxt": 0
                     },
                     "value": "x",
@@ -449,7 +449,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 269,
-                      "end": 279,
+                      "end": 270,
                       "ctxt": 0
                     },
                     "value": "y",
@@ -536,7 +536,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 301,
-                      "end": 310,
+                      "end": 302,
                       "ctxt": 0
                     },
                     "value": "x",
@@ -563,7 +563,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 312,
-                      "end": 321,
+                      "end": 313,
                       "ctxt": 0
                     },
                     "value": "y",
@@ -1328,7 +1328,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 689,
-                      "end": 699,
+                      "end": 690,
                       "ctxt": 0
                     },
                     "value": "x",
@@ -1968,7 +1968,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 1088,
-                      "end": 1097,
+                      "end": 1089,
                       "ctxt": 0
                     },
                     "value": "x",
@@ -2714,7 +2714,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 1492,
-                      "end": 1501,
+                      "end": 1493,
                       "ctxt": 0
                     },
                     "value": "x",
@@ -2741,7 +2741,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 1503,
-                      "end": 1513,
+                      "end": 1504,
                       "ctxt": 0
                     },
                     "value": "y",
@@ -3514,7 +3514,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 1932,
-                      "end": 1942,
+                      "end": 1933,
                       "ctxt": 0
                     },
                     "value": "x",
@@ -3541,7 +3541,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 1944,
-                      "end": 1954,
+                      "end": 1945,
                       "ctxt": 0
                     },
                     "value": "y",

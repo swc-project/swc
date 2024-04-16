@@ -113,7 +113,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 113,
-                  "end": 124,
+                  "end": 116,
                   "ctxt": 0
                 },
                 "value": "foo",
@@ -152,7 +152,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 133,
-                  "end": 144,
+                  "end": 136,
                   "ctxt": 0
                 },
                 "value": "bar",
@@ -303,7 +303,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 228,
-                  "end": 239,
+                  "end": 231,
                   "ctxt": 0
                 },
                 "value": "foo",
@@ -342,7 +342,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 248,
-                  "end": 259,
+                  "end": 251,
                   "ctxt": 0
                 },
                 "value": "baz",

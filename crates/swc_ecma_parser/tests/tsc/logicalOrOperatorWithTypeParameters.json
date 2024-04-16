@@ -32,7 +32,7 @@
             "type": "Identifier",
             "span": {
               "start": 20,
-              "end": 24,
+              "end": 21,
               "ctxt": 0
             },
             "value": "t",
@@ -78,7 +78,7 @@
             "type": "Identifier",
             "span": {
               "start": 26,
-              "end": 30,
+              "end": 27,
               "ctxt": 0
             },
             "value": "u",
@@ -501,7 +501,7 @@
             "type": "Identifier",
             "span": {
               "start": 178,
-              "end": 182,
+              "end": 179,
               "ctxt": 0
             },
             "value": "t",
@@ -547,7 +547,7 @@
             "type": "Identifier",
             "span": {
               "start": 184,
-              "end": 188,
+              "end": 185,
               "ctxt": 0
             },
             "value": "u",
@@ -593,7 +593,7 @@
             "type": "Identifier",
             "span": {
               "start": 190,
-              "end": 194,
+              "end": 191,
               "ctxt": 0
             },
             "value": "v",
@@ -1100,7 +1100,7 @@
             "type": "Identifier",
             "span": {
               "start": 450,
-              "end": 454,
+              "end": 451,
               "ctxt": 0
             },
             "value": "t",
@@ -1146,7 +1146,7 @@
             "type": "Identifier",
             "span": {
               "start": 456,
-              "end": 460,
+              "end": 457,
               "ctxt": 0
             },
             "value": "u",

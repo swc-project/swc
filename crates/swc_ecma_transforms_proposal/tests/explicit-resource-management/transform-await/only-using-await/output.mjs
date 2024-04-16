@@ -1,14 +1,13 @@
 {
     try {
-        var _stack = [];
-        var x = _using(_stack, obj, true);
+        var _usingCtx = _using_ctx();
+        const x = _usingCtx.a(obj);
         stmt;
-        var y = _using(_stack, obj, true), z = _using(_stack, obj, true);
+        const y = _usingCtx.a(obj), z = _usingCtx.a(obj);
         doSomethingWith(x, y);
     } catch (_) {
-        var _error = _;
-        var _hasError = true;
+        _usingCtx.e = _;
     } finally{
-        await _dispose(_stack, _error, _hasError);
+        await _usingCtx.d();
     }
 }

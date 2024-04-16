@@ -1,7 +1,7 @@
 {
     "name": "@swc/helpers",
     "packageManager": "yarn@4.0.2",
-    "version": "0.5.9",
+    "version": "0.5.10",
     "description": "External helpers for the swc project.",
     "module": "esm/index.js",
     "main": "cjs/index.cjs",
@@ -434,6 +434,10 @@
         "./_/_using": {
             "import": "./esm/_using.js",
             "default": "./cjs/_using.cjs"
+        },
+        "./_/_using_ctx": {
+            "import": "./esm/_using_ctx.js",
+            "default": "./cjs/_using_ctx.cjs"
         },
         "./_/_wrap_async_generator": {
             "import": "./esm/_wrap_async_generator.js",

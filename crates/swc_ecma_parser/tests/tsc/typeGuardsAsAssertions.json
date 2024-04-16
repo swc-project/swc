@@ -525,7 +525,7 @@
               "type": "Identifier",
               "span": {
                 "start": 278,
-                "end": 296,
+                "end": 283,
                 "ctxt": 0
               },
               "value": "value",
@@ -786,7 +786,7 @@
             "type": "Identifier",
             "span": {
               "start": 370,
-              "end": 377,
+              "end": 374,
               "ctxt": 0
             },
             "value": "some",
@@ -935,7 +935,7 @@
               "type": "Identifier",
               "span": {
                 "start": 427,
-                "end": 444,
+                "end": 435,
                 "ctxt": 0
               },
               "value": "makeSome",
@@ -3010,7 +3010,7 @@
             "type": "Identifier",
             "span": {
               "start": 2038,
-              "end": 2056,
+              "end": 2039,
               "ctxt": 0
             },
             "value": "x",

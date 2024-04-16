@@ -39,7 +39,7 @@
               "type": "Identifier",
               "span": {
                 "start": 15,
-                "end": 31,
+                "end": 23,
                 "ctxt": 0
               },
               "value": "greeting",
@@ -86,7 +86,7 @@
             "type": "Identifier",
             "span": {
               "start": 43,
-              "end": 57,
+              "end": 49,
               "ctxt": 0
             },
             "value": "target",

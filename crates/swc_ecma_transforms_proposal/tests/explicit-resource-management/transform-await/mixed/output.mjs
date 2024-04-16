@@ -1,13 +1,12 @@
 {
     try {
-        var _stack = [];
-        var a = _using(_stack, 1);
-        var b = _using(_stack, 2, true);
-        var c = _using(_stack, 3);
+        var _usingCtx = _using_ctx();
+        const a = _usingCtx.u(1);
+        const b = _usingCtx.a(2);
+        const c = _usingCtx.u(3);
     } catch (_) {
-        var _error = _;
-        var _hasError = true;
+        _usingCtx.e = _;
     } finally{
-        await _dispose(_stack, _error, _hasError);
+        await _usingCtx.d();
     }
 }
