@@ -16,7 +16,7 @@ fn stack_overflow(input: PathBuf) {
 }
 
 fn run_test(input: PathBuf) {
-    let output = input.with_extension("output.js");
+    let output = input.with_file_name("output.js");
 
     test_fixture(
         Syntax::Typescript(Default::default()),
