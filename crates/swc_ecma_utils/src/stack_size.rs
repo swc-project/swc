@@ -1,3 +1,4 @@
+/// Calls `callback` with a larger stack size.
 #[inline(always)]
 #[cfg(any(
     target_arch = "wasm32",
@@ -10,6 +11,7 @@ pub fn maybe_grow<R, F: FnOnce() -> R>(_red_zone: usize, _stack_size: usize, cal
     callback()
 }
 
+/// Calls `callback` with a larger stack size.
 #[inline(always)]
 #[cfg(all(
     not(any(target_arch = "wasm32", target_arch = "arm", miri)),
@@ -19,6 +21,8 @@ pub fn maybe_grow<R, F: FnOnce() -> R>(red_zone: usize, stack_size: usize, callb
     stacker::maybe_grow(red_zone, stack_size, callback)
 }
 
+/// Calls `callback` with a larger stack size.
+///
 /// `maybe_grow` with default values.
 pub fn maybe_grow_default<R, F: FnOnce() -> R>(callback: F) -> R {
     maybe_grow(4 * 1024, 16 * 1024, callback)

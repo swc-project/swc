@@ -4,6 +4,8 @@ use indexmap::IndexMap;
 use rustc_hash::FxHasher;
 use swc_common::{comments::Comments, util::take::Take, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_ast::{AssignTarget, *};
+use swc_ecma_utils::stack_size::maybe_grow_default;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 /// Fixes ast nodes before printing so semantics are preserved.
@@ -445,7 +447,7 @@ impl VisitMut for Fixer<'_> {
         }
         self.unwrap_expr(e);
 
-        e.visit_mut_children_with(self);
+        maybe_grow_default(|| e.visit_mut_children_with(self));
 
         self.ctx = ctx;
         self.wrap_with_paren_if_required(e)
