@@ -27,7 +27,6 @@ use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 use swc_ecma_transforms::{
     helpers::{self, Helpers},
     pass::noop,
-    resolver,
 };
 use swc_ecma_visit::{Fold, FoldWith};
 use testing::{NormalizedOutput, StdErr, Tester};
