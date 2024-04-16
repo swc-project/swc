@@ -8,7 +8,7 @@ use swc_ecma_transforms_base::{helper, helper_expr};
 use swc_ecma_utils::{
     alias_ident_for, constructor::inject_after_super, default_constructor,
     is_maybe_branch_directive, private_ident, prop_name_to_expr_value, quote_ident, replace_ident,
-    ExprFactory, IdentExt, IdentRenamer,
+    stack_size::maybe_grow, ExprFactory, IdentExt, IdentRenamer,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
@@ -1451,7 +1451,7 @@ impl VisitMut for Decorator202203 {
             }
         }
 
-        e.visit_mut_children_with(self);
+        maybe_grow(4 * 1024, 64 * 1024, || e.visit_mut_children_with(self));
     }
 
     fn visit_mut_module_item(&mut self, s: &mut ModuleItem) {
