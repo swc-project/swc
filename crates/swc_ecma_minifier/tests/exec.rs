@@ -11198,7 +11198,7 @@ fn issue_8246_1() {
 fn issue_8864_1() {
     run_default_exec_test(
         "
-        export class Renderer {
+        class Renderer {
             renderStaticFrame(string1, string2) {
             const line1Text = `${string1} and ${string2}`.toUpperCase();
             const line2Text = 'line 2 text'.toUpperCase();
