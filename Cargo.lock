@@ -4894,6 +4894,7 @@ dependencies = [
  "once_cell",
  "rayon",
  "rustc-hash",
+ "stacker",
  "swc_atoms",
  "swc_common",
  "swc_ecma_ast",
