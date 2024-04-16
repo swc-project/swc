@@ -1,5 +1,6 @@
 use swc_common::Mark;
 use swc_ecma_ast::*;
+use swc_ecma_utils::stack_size::maybe_grow_default;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use self::scope::{Scope, ScopeKind};
@@ -236,7 +237,7 @@ impl Visit for Analyzer {
         let old_is_pat_decl = self.is_pat_decl;
 
         self.is_pat_decl = false;
-        e.visit_children_with(self);
+        maybe_grow_default(|| e.visit_children_with(self));
 
         if let Expr::Ident(i) = e {
             self.add_usage(i.to_id())
