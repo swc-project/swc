@@ -135,7 +135,7 @@ where
     fn visit_expr(&mut self, node: &Expr) {
         let old = self.is_pat_decl;
         self.is_pat_decl = false;
-        node.visit_children_with(self);
+        maybe_grow_default(|| node.visit_children_with(self));
         self.is_pat_decl = old;
     }
 
