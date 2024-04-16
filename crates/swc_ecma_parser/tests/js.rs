@@ -116,3 +116,14 @@ where
         res
     })
 }
+
+#[testing::fixture("tests/stack-overflow/**/*.js")]
+fn stack_overflow(file: PathBuf) {
+    with_parser(false, &file, false, |p, _| {
+        let _program = p.parse_program()?;
+
+        Ok(())
+    })
+    .map_err(|_| ())
+    .unwrap();
+}
