@@ -21,5 +21,5 @@ pub fn maybe_grow<R, F: FnOnce() -> R>(red_zone: usize, stack_size: usize, callb
 
 /// `maybe_grow` with default values.
 pub fn maybe_grow_default<R, F: FnOnce() -> R>(callback: F) -> R {
-    maybe_grow(2 * 1024, 8 * 1024, callback)
+    maybe_grow(4 * 1024, 16 * 1024, callback)
 }

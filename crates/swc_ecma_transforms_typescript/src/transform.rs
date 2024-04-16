@@ -8,7 +8,8 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
     alias_ident_for, constructor::inject_after_super, find_pat_ids, is_literal, member_expr,
-    private_ident, quote_ident, quote_str, ExprFactory, QueryRef, RefRewriter,
+    private_ident, quote_ident, quote_str, stack_size::maybe_grow_default, ExprFactory, QueryRef,
+    RefRewriter,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
@@ -218,7 +219,7 @@ impl VisitMut for Transform {
 
     fn visit_mut_expr(&mut self, n: &mut Expr) {
         if !n.is_class() {
-            n.visit_mut_children_with(self);
+            maybe_grow_default(|| n.visit_mut_children_with(self));
             return;
         }
 
