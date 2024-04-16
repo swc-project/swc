@@ -683,9 +683,14 @@ jobs:
           cargo test -p swc_ecma_minifier --features concurrent
 
       - name: Run cargo test (all features)
-        if: matrix.settings.crate == 'swc_ecma_parser' || matrix.settings.crate == 'swc_ecma_loader' || matrix.settings.crate == 'swc_ecma_transforms'
+        if: matrix.settings.crate == 'swc_ecma_parser' || matrix.settings.crate == 'swc_ecma_loader'
         run: |
           cargo test -p ${{ matrix.settings.crate }} --all-features
+
+      - name: Run cargo test (transforms with stacker)
+        if: matrix.settings.crate == 'swc_ecma_transforms'
+        run: |
+          cargo test -p ${{ matrix.settings.crate }} --all-features --features swc_ecma_utils/stacker
 
       - name: Run cargo test (concurrent)
         if: runner.os == 'Linux' && matrix.settings.crate != 'swc_ecma_minifier'
