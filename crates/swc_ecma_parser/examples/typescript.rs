@@ -1,5 +1,4 @@
 use swc_common::{
-    self,
     errors::{ColorConfig, Handler},
     sync::Lrc,
     FileName, SourceMap,

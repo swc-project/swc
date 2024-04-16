@@ -5,28 +5,18 @@ use swc_common::{BytePos, LineCol, Span};
 
 use super::CssWriter;
 
-#[derive(Clone, Copy, PartialEq, Eq, Debug)]
+#[derive(Clone, Default, Copy, PartialEq, Eq, Debug)]
 pub enum IndentType {
     Tab,
+    #[default]
     Space,
 }
 
-impl Default for IndentType {
-    fn default() -> Self {
-        IndentType::Space
-    }
-}
-
-#[derive(Clone, Copy, PartialEq, Eq, Debug)]
+#[derive(Clone, Default, Copy, PartialEq, Eq, Debug)]
 pub enum LineFeed {
+    #[default]
     LF,
     CRLF,
-}
-
-impl Default for LineFeed {
-    fn default() -> Self {
-        LineFeed::LF
-    }
 }
 
 pub struct BasicCssWriterConfig {

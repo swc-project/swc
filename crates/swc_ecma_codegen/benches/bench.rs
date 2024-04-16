@@ -2,7 +2,7 @@ extern crate swc_malloc;
 
 use criterion::{black_box, criterion_group, criterion_main, Bencher, Criterion};
 use swc_common::FileName;
-use swc_ecma_codegen::{self, Emitter};
+use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{Parser, StringInput, Syntax};
 
 const COLORS_JS: &str = r#"

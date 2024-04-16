@@ -259,9 +259,7 @@ pub enum Token {
     },
     /// ':'
     Colon,
-    ///
     BinOp(BinOpToken),
-    ///
     AssignOp(AssignOp),
 
     /// '${'

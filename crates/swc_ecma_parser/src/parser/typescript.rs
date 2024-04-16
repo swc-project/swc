@@ -2828,7 +2828,7 @@ mod tests {
     use swc_ecma_ast::*;
     use swc_ecma_visit::assert_eq_ignore_span;
 
-    use crate::{lexer::Lexer, test_parser, token::*, Capturing, EsVersion, Parser, Syntax};
+    use crate::{lexer::Lexer, test_parser, token::*, Capturing, Parser, Syntax};
 
     #[test]
     fn issue_708_1() {

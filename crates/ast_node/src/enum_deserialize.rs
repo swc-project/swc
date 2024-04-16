@@ -1,6 +1,5 @@
 use swc_macros_common::prelude::*;
 use syn::{
-    self,
     parse::{Parse, ParseStream},
     *,
 };

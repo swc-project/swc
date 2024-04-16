@@ -117,7 +117,7 @@ impl Compiler {
                                     &mut children
                                 {
                                     if c.type_selector.is_some() {
-                                        compound.type_selector = c.type_selector.clone();
+                                        compound.type_selector.clone_from(&c.type_selector);
                                     }
 
                                     let mut subclass = c.subclass_selectors.clone();

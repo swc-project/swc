@@ -2,7 +2,7 @@
 
 [package]
 edition = "2021"
-name = "swc_internal_plugin"
+name    = "swc_internal_plugin"
 publish = false
 version = "0.1.0"
 
@@ -10,8 +10,9 @@ version = "0.1.0"
 crate-type = ["cdylib"]
 
 [dependencies]
+proc-macro2 = "=1.0.79"
 serde = "1"
-swc_core = {path = "../../../../swc_core", features = [
+swc_core = { path = "../../../../swc_core", features = [
   "ecma_plugin_transform",
   "ecma_quote",
-]}
+] }

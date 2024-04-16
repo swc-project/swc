@@ -15,9 +15,6 @@ mod computed_key;
 mod merge;
 mod plan;
 
-#[derive(Debug)]
-struct InternalEntry {}
-
 #[derive(Debug, Default)]
 struct State {}
 

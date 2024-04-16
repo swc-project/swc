@@ -6,7 +6,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_common"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.33.23"
+version       = "0.33.24"
 
   [package.metadata.docs.rs]
   all-features = true
@@ -49,7 +49,7 @@ new_debug_unreachable = "1.0.4"
 num-bigint = "0.4"
 once_cell = "1.19.0"
 parking_lot = { version = "0.12.1", optional = true }
-rkyv = { version = "=0.7.42", optional = true, features = [
+rkyv = { version = "=0.7.44", optional = true, features = [
   "strict",
   "validation",
 ] }

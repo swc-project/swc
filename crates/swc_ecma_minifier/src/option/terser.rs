@@ -25,20 +25,15 @@ impl Default for TerserEcmaVersion {
     }
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, Default)]
 #[serde(deny_unknown_fields)]
 #[serde(untagged)]
 pub enum TerserPureGetterOption {
     Bool(bool),
     #[serde(rename = "strict")]
+    #[default]
     Strict,
     Str(String),
-}
-
-impl Default for TerserPureGetterOption {
-    fn default() -> Self {
-        TerserPureGetterOption::Strict
-    }
 }
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]

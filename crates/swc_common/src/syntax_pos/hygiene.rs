@@ -315,7 +315,7 @@ impl HygieneData {
             return f(&mut globals.hygiene_data.lock());
 
             #[cfg(not(feature = "parking_lot"))]
-            return f(&mut *globals.hygiene_data.lock().unwrap());
+            return f(&mut globals.hygiene_data.lock().unwrap());
         })
     }
 }
@@ -328,7 +328,7 @@ pub(crate) fn with_marks<T, F: FnOnce(&mut Vec<MarkData>) -> T>(f: F) -> T {
         return f(&mut globals.marks.lock());
 
         #[cfg(not(feature = "parking_lot"))]
-        return f(&mut *globals.marks.lock().unwrap());
+        return f(&mut globals.marks.lock().unwrap());
     })
 }
 

@@ -1,7 +1,7 @@
 use std::{path::Path, sync::Arc};
 
 use anyhow::Context;
-use swc::{self, try_with_handler};
+use swc::try_with_handler;
 use swc_common::{SourceMap, GLOBALS};
 
 fn main() {

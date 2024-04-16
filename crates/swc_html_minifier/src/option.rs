@@ -19,7 +19,7 @@ pub enum MinifierType {
     Html,
 }
 
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, Default)]
 #[serde(deny_unknown_fields)]
 #[serde(rename_all = "kebab-case")]
 pub enum CollapseWhitespaces {
@@ -41,16 +41,11 @@ pub enum CollapseWhitespaces {
     /// Remove all whitespace in the `head` element, trim whitespaces for the
     /// `body` element, remove spaces between `metadata` elements (i.e.
     /// `script`/`style`/etc, for elements that have `display: none`)
+    #[default]
     OnlyMetadata,
 }
 
-impl Default for CollapseWhitespaces {
-    fn default() -> Self {
-        CollapseWhitespaces::OnlyMetadata
-    }
-}
-
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, Default)]
 #[serde(deny_unknown_fields)]
 #[serde(rename_all = "kebab-case")]
 pub enum RemoveRedundantAttributes {
@@ -61,13 +56,8 @@ pub enum RemoveRedundantAttributes {
     /// Remove deprecated and svg redundant (they used for styling) and `xmlns`
     /// attributes (for example the `type` attribute for the `style` tag and
     /// `xmlns` for svg)
+    #[default]
     Smart,
-}
-
-impl Default for RemoveRedundantAttributes {
-    fn default() -> Self {
-        RemoveRedundantAttributes::Smart
-    }
 }
 
 #[derive(Debug, Serialize, Deserialize, Clone)]

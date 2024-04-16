@@ -6,7 +6,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_ecma_ast"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.112.7"
+version       = "0.112.8"
 
   [package.metadata.docs.rs]
   all-features = true
@@ -36,7 +36,7 @@ bytecheck = { version = "0.6.10", optional = true }
 is-macro = "0.3.5"
 num-bigint = { version = "0.4", features = ["serde"] }
 phf = { version = "0.11.2", features = ["macros"] }
-rkyv = { package = "rkyv", version = "=0.7.42", optional = true, features = [
+rkyv = { package = "rkyv", version = "=0.7.44", optional = true, features = [
   "strict",
   "validation",
 ] }

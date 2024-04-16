@@ -1,7 +1,7 @@
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::JsWord;
 use swc_common::{chain, Mark};
-use swc_ecma_ast::{Module, *};
+use swc_ecma_ast::*;
 use swc_ecma_transforms_base::rename::{renamer, Renamer};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 

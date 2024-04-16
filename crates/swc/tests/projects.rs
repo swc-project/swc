@@ -21,7 +21,7 @@ use swc_common::{
     BytePos, FileName, Globals, SourceMap, GLOBALS,
 };
 use swc_compiler_base::PrintArgs;
-use swc_ecma_ast::{EsVersion, *};
+use swc_ecma_ast::*;
 use swc_ecma_minifier::option::MangleOptions;
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
 use swc_ecma_transforms::{

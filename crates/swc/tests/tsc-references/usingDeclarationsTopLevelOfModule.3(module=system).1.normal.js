@@ -1,36 +1,31 @@
 //// [usingDeclarationsTopLevelOfModule.3.ts]
 System.register([
-    "@swc/helpers/_/_dispose",
-    "@swc/helpers/_/_using"
+    "@swc/helpers/_/_using_ctx"
 ], function(_export, _context) {
     "use strict";
-    var _dispose, _using;
+    var _using_ctx;
     function f() {
         console.log(y, z);
     }
     return {
         setters: [
-            function(_dispose1) {
-                _dispose = _dispose1._;
-            },
-            function(_using1) {
-                _using = _using1._;
+            function(_using_ctx1) {
+                _using_ctx = _using_ctx1._;
             }
         ],
         execute: function() {
             try {
-                var _stack = [];
-                var z = _using(_stack, {
+                var _usingCtx = _using_ctx();
+                var z = _usingCtx.u({
                     [Symbol.dispose] () {}
                 });
                 if (false) {
                     var y = 1;
                 }
             } catch (_) {
-                var _error = _;
-                var _hasError = true;
+                _usingCtx.e = _;
             } finally{
-                _dispose(_stack, _error, _hasError);
+                _usingCtx.d();
             }
         }
     };

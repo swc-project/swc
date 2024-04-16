@@ -7,16 +7,16 @@ Object.defineProperty(exports, "__esModule", {
         return _C;
     }
 });
-const _ts_decorate = require("@swc/helpers/_/_ts_decorate"), _dispose = require("@swc/helpers/_/_dispose"), _using = require("@swc/helpers/_/_using");
+const _ts_decorate = require("@swc/helpers/_/_ts_decorate"), _using_ctx = require("@swc/helpers/_/_using_ctx");
 try {
-    var _C, _stack = [];
+    var _C, _usingCtx = _using_ctx._();
     class C {
     }
     _C = C, C = _ts_decorate._([
         dec
-    ], C), _using._(_stack, null);
+    ], C), _usingCtx.u(null);
 } catch (_) {
-    var _error = _, _hasError = !0;
+    _usingCtx.e = _;
 } finally{
-    _dispose._(_stack, _error, _hasError);
+    _usingCtx.d();
 }

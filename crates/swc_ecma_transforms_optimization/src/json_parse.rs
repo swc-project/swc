@@ -142,10 +142,6 @@ mod tests {
 
     use super::*;
 
-    struct Normalizer;
-
-    impl Fold for Normalizer {}
-
     test!(
         ::swc_ecma_parser::Syntax::default(),
         |_| json_parse(0),

@@ -105,12 +105,13 @@ impl Take for Invalid {
 
 /// Note: This type implements `Serailize` and `Deserialize` if `serde` is
 /// enabled, instead of requiring `serde-impl` feature.
-#[derive(Debug, Clone, Copy, PartialOrd, Ord, PartialEq, Eq, Hash)]
+#[derive(Debug, Default, Clone, Copy, PartialOrd, Ord, PartialEq, Eq, Hash)]
 #[cfg_attr(feature = "serde", derive(Serialize, Deserialize))]
 pub enum EsVersion {
     #[cfg_attr(feature = "serde", serde(rename = "es3", alias = "ES3"))]
     Es3,
     #[cfg_attr(feature = "serde", serde(rename = "es5", alias = "ES5"))]
+    #[default]
     Es5,
     #[cfg_attr(
         feature = "serde",
@@ -138,12 +139,6 @@ pub enum EsVersion {
 impl EsVersion {
     pub const fn latest() -> Self {
         EsVersion::EsNext
-    }
-}
-
-impl Default for EsVersion {
-    fn default() -> Self {
-        EsVersion::Es5
     }
 }
 

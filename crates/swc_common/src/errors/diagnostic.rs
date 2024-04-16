@@ -455,7 +455,7 @@ impl Diagnostic {
     /// message".
     pub fn copy_details_not_message(&mut self, from: &Diagnostic) {
         self.span = from.span.clone();
-        self.code = from.code.clone();
+        self.code.clone_from(&from.code);
         self.children.extend(from.children.iter().cloned())
     }
 

@@ -2,7 +2,6 @@ use swc_common::DUMMY_SP as span;
 use swc_ecma_visit::assert_eq_ignore_span;
 
 use super::*;
-use crate::parser::test_parser;
 
 fn jsx(src: &'static str) -> Box<Expr> {
     test_parser(

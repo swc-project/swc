@@ -4,7 +4,7 @@ extern crate proc_macro;
 
 use quote::quote_spanned;
 use swc_macros_common::prelude::*;
-use syn::{self, parse::Parse, *};
+use syn::{parse::Parse, *};
 
 /// Creates `.as_str()` and then implements `Debug` and `Display` using it.
 ///

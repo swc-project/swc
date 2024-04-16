@@ -7,14 +7,14 @@ Object.defineProperty(exports, "__esModule", {
         return y;
     }
 });
-const _dispose = require("@swc/helpers/_/_dispose"), _using = require("@swc/helpers/_/_using");
+const _using_ctx = require("@swc/helpers/_/_using_ctx");
 try {
-    var y, _stack = [];
-    _using._(_stack, {
+    var y, _usingCtx = _using_ctx._();
+    _usingCtx.u({
         [Symbol.dispose] () {}
     });
 } catch (_) {
-    var _error = _, _hasError = !0;
+    _usingCtx.e = _;
 } finally{
-    _dispose._(_stack, _error, _hasError);
+    _usingCtx.d();
 }

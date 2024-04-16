@@ -5,7 +5,7 @@ edition     = "2021"
 license     = "Apache-2.0"
 name        = "swc_plugin_proxy"
 repository  = "https://github.com/swc-project/swc.git"
-version     = "0.41.6"
+version     = "0.41.7"
 
 [lib]
 bench = false
@@ -22,7 +22,7 @@ plugin-rt   = ["__plugin_rt", "swc_common/plugin-base", "rkyv-impl"]
 
 [dependencies]
 
-rkyv = { package = "rkyv", version = "=0.7.42", optional = true, features = [
+rkyv = { package = "rkyv", version = "=0.7.44", optional = true, features = [
   "strict",
   "validation",
 ] }

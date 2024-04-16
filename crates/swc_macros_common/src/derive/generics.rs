@@ -1,7 +1,7 @@
 use std::collections::BTreeSet;
 
 use quote::quote;
-use syn::visit::{self, Visit};
+use syn::visit::Visit;
 
 use super::*;
 

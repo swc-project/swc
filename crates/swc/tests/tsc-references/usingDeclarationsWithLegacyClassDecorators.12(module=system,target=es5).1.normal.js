@@ -2,11 +2,10 @@
 System.register([
     "@swc/helpers/_/_class_call_check",
     "@swc/helpers/_/_ts_decorate",
-    "@swc/helpers/_/_dispose",
-    "@swc/helpers/_/_using"
+    "@swc/helpers/_/_using_ctx"
 ], function(_export, _context) {
     "use strict";
-    var _class_call_check, _ts_decorate, _dispose, _using;
+    var _class_call_check, _ts_decorate, _using_ctx;
     return {
         setters: [
             function(_class_call_check1) {
@@ -15,16 +14,13 @@ System.register([
             function(_ts_decorate1) {
                 _ts_decorate = _ts_decorate1._;
             },
-            function(_dispose1) {
-                _dispose = _dispose1._;
-            },
-            function(_using1) {
-                _using = _using1._;
+            function(_using_ctx1) {
+                _using_ctx = _using_ctx1._;
             }
         ],
         execute: function() {
             try {
-                var _stack = [];
+                var _usingCtx = _using_ctx();
                 var C = function C() {
                     "use strict";
                     _class_call_check(this, C);
@@ -32,12 +28,11 @@ System.register([
                 _export("D", C = _ts_decorate([
                     dec
                 ], C));
-                var after = _using(_stack, null);
+                var after = _usingCtx.u(null);
             } catch (_) {
-                var _error = _;
-                var _hasError = true;
+                _usingCtx.e = _;
             } finally{
-                _dispose(_stack, _error, _hasError);
+                _usingCtx.d();
             }
         }
     };

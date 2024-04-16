@@ -5,7 +5,6 @@
 use std::{env, path::Path};
 
 use swc_common::{
-    self,
     comments::SingleThreadedComments,
     errors::{ColorConfig, Handler},
     sync::Lrc,
