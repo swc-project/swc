@@ -11,13 +11,7 @@ pub extern crate swc_ecma_ast;
 #[doc(hidden)]
 pub extern crate swc_common;
 
-use std::{
-    borrow::Cow,
-    f64::{INFINITY, NAN},
-    hash::Hash,
-    num::FpCategory,
-    ops::Add,
-};
+use std::{borrow::Cow, hash::Hash, num::FpCategory, ops::Add};
 
 use rustc_hash::FxHashMap;
 use swc_atoms::JsWord;
@@ -891,8 +885,8 @@ pub trait ExprExt {
                 _ => return (Pure, Unknown),
             },
             Expr::Ident(Ident { sym, span, .. }) => match &**sym {
-                "undefined" | "NaN" if span.ctxt == ctx.unresolved_ctxt => NAN,
-                "Infinity" if span.ctxt == ctx.unresolved_ctxt => INFINITY,
+                "undefined" | "NaN" if span.ctxt == ctx.unresolved_ctxt => f64::NAN,
+                "Infinity" if span.ctxt == ctx.unresolved_ctxt => f64::INFINITY,
                 _ => return (Pure, Unknown),
             },
             Expr::Unary(UnaryExpr {
@@ -1611,7 +1605,7 @@ pub fn num_from_str(s: &str) -> Value<f64> {
         _ => {}
     }
 
-    Known(s.parse().ok().unwrap_or(NAN))
+    Known(s.parse().ok().unwrap_or(f64::NAN))
 }
 
 impl ExprExt for Box<Expr> {

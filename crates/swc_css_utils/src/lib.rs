@@ -339,7 +339,7 @@ pub fn to_rgb255(abc: [f64; 3]) -> [f64; 3] {
 }
 
 pub fn clamp_unit_f64(val: f64) -> u8 {
-    (val * 255.).round().max(0.).min(255.) as u8
+    (val * 255.).round().clamp(0., 255.) as u8
 }
 
 pub fn round_alpha(alpha: f64) -> f64 {
