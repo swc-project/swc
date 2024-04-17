@@ -317,7 +317,7 @@ pub fn hsl_to_rgb(hsl: [f64; 3]) -> [f64; 3] {
             let k = (n + h / 30.0) % 12.0;
             let a = s * f64::min(l, 1.0 - l);
 
-            l - a * f64::max(-1.0, f64::min(f64::min(k - 3.0, 9.0 - k), 1.0))
+            l - a * f64::min(k - 3.0, 9.0 - k).clamp(-1.0, 1.0)
         };
 
         r = f(0.0);
