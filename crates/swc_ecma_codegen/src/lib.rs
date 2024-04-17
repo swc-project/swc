@@ -3,6 +3,7 @@
 #![deny(unused)]
 #![allow(clippy::match_like_matches_macro)]
 #![allow(clippy::nonminimal_bool)]
+#![allow(non_local_definitions)]
 
 use std::{borrow::Cow, fmt::Write, io};
 
