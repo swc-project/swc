@@ -908,7 +908,7 @@ pub trait ExprExt {
                 }) if &**sym == "Infinity" && span.ctxt == ctx.unresolved_ctxt
             ) =>
             {
-                -INFINITY
+                -f64::INFINITY
             }
             Expr::Unary(UnaryExpr {
                 op: op!("!"),
@@ -930,9 +930,9 @@ pub trait ExprExt {
                 ..
             }) => {
                 if arg.may_have_side_effects(ctx) {
-                    return (MayBeImpure, Known(NAN));
+                    return (MayBeImpure, Known(f64::NAN));
                 } else {
-                    NAN
+                    f64::NAN
                 }
             }
 
@@ -1578,19 +1578,19 @@ pub fn num_from_str(s: &str) -> Value<f64> {
             b"0x" | b"0X" => {
                 return match u64::from_str_radix(&s[2..], 16) {
                     Ok(n) => Known(n as f64),
-                    Err(_) => Known(NAN),
+                    Err(_) => Known(f64::NAN),
                 }
             }
             b"0o" | b"0O" => {
                 return match u64::from_str_radix(&s[2..], 8) {
                     Ok(n) => Known(n as f64),
-                    Err(_) => Known(NAN),
+                    Err(_) => Known(f64::NAN),
                 };
             }
             b"0b" | b"0B" => {
                 return match u64::from_str_radix(&s[2..], 2) {
                     Ok(n) => Known(n as f64),
-                    Err(_) => Known(NAN),
+                    Err(_) => Known(f64::NAN),
                 };
             }
             _ => {}
