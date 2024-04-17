@@ -1,5 +1,6 @@
 #![deny(clippy::all)]
 #![allow(clippy::needless_update)]
+#![allow(non_local_definitions)]
 
 pub use std::fmt::Result;
 use std::{iter::Peekable, str::Chars};
