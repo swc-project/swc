@@ -19,5 +19,4 @@ plugin  = ["swc_cli_impl/plugin"]
 
 [dependencies]
 anyhow       = "1.0.66"
-proc-macro2  = "=1.0.79"
 swc_cli_impl = "0.8.25"

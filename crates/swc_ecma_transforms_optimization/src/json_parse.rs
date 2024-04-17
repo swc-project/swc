@@ -1,5 +1,3 @@
-use std::usize;
-
 use serde_json::Value;
 use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;

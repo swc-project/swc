@@ -1,6 +1,7 @@
 #![deny(clippy::all)]
 #![allow(clippy::needless_update)]
 #![allow(clippy::match_like_matches_macro)]
+#![allow(non_local_definitions)]
 
 pub use std::fmt::Result;
 use std::{borrow::Cow, iter::Peekable, str::Chars};

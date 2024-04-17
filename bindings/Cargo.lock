@@ -219,7 +219,6 @@ dependencies = [
  "napi-derive",
  "node_macro_deps",
  "path-clean 0.1.0",
- "proc-macro2",
  "serde",
  "serde_json",
  "swc_core",
@@ -236,7 +235,6 @@ version = "1.4.15-nightly-20240416.4"
 dependencies = [
  "anyhow",
  "getrandom",
- "proc-macro2",
  "serde",
  "serde-wasm-bindgen",
  "swc_core",
@@ -276,7 +274,6 @@ dependencies = [
  "napi-derive",
  "node_macro_deps",
  "path-clean 0.1.0",
- "proc-macro2",
  "serde",
  "serde_json",
  "sourcemap",
@@ -298,7 +295,6 @@ version = "1.4.15-nightly-20240416.4"
 dependencies = [
  "anyhow",
  "getrandom",
- "proc-macro2",
  "serde",
  "serde-wasm-bindgen",
  "swc_core",
@@ -1832,7 +1828,6 @@ checksum = "e4a24736216ec316047a1fc4252e27dabb04218aa4a3f37c6e7ddbf1f9782b54"
 name = "node_macro_deps"
 version = "0.1.0"
 dependencies = [
- "proc-macro2",
  "quote",
 ]
 
@@ -2223,9 +2218,9 @@ dependencies = [
 
 [[package]]
 name = "proc-macro2"
-version = "1.0.79"
+version = "1.0.81"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e835ff2298f5721608eb1a980ecaee1aef2c132bf95ecc026a11b7bf3c01c02e"
+checksum = "3d1597b0c024618f09a9c3b8655b7e430397a36d23fdafec26d6965e9eec3eba"
 dependencies = [
  "unicode-ident",
 ]
@@ -3081,7 +3076,6 @@ name = "swc_cli"
 version = "0.91.220"
 dependencies = [
  "anyhow",
- "proc-macro2",
  "swc_cli_impl",
 ]
 

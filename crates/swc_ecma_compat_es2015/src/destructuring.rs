@@ -228,7 +228,7 @@ impl AssignFolder {
                     },
                     Some(init),
                     Some(if has_rest_pat(&elems) {
-                        std::usize::MAX
+                        usize::MAX
                     } else {
                         elems.len()
                     }),
@@ -721,7 +721,7 @@ impl VisitMut for AssignFolder {
                         &mut self.vars,
                         None,
                         Some(if has_rest_pat(elems) {
-                            std::usize::MAX
+                            usize::MAX
                         } else {
                             elems.len()
                         }),

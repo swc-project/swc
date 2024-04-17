@@ -10,7 +10,6 @@ version = "0.1.0"
 crate-type = ["cdylib"]
 
 [dependencies]
-proc-macro2 = "=1.0.79"
 serde = "1"
 swc_core = { path = "../../../../swc_core", features = [
   "css_ast",
