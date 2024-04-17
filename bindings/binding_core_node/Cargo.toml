@@ -44,7 +44,6 @@ napi-derive = { version = "2", default-features = false, features = [
 ] }
 node_macro_deps = { path = "../node_macro_deps" }
 path-clean = "0.1"
-proc-macro2 = "=1.0.79"
 serde = { version = "1", features = ["derive"] }
 serde_json = { version = "1", features = ["unbounded_depth"] }
 tracing = { version = "0.1.37", features = ["release_max_level_info"] }
