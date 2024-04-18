@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(es/helpers)** Fix resolving of `usingCtx` helper ([#8874](https://github.com/swc-project/swc/issues/8874)) ([6e9d1a4](https://github.com/swc-project/swc/commit/6e9d1a4ebfa705d58b576f5de32d4a17393d4e81))
+
 ## [1.4.15] - 2024-04-17
 
 ### Bug Fixes
