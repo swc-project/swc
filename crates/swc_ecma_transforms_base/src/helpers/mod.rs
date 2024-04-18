@@ -585,7 +585,7 @@ impl VisitMut for Marker {
 
     fn visit_mut_var_declarator(&mut self, v: &mut VarDeclarator) {
         if let Pat::Ident(i) = &mut v.name {
-            if &*i.id.sym == "id" {
+            if &*i.id.sym == "id" || &*i.id.sym == "resource" {
                 i.id.span.ctxt = self.base;
                 self.decls.insert(i.id.sym.clone(), self.base);
                 return;
@@ -690,6 +690,7 @@ let _throw1 = null;
             Default::default,
         )
     }
+
     #[test]
     fn use_strict_abort() {
         crate::tests::test_transform(
@@ -704,5 +705,24 @@ let x = 4;",
             false,
             Default::default,
         );
+    }
+
+    #[test]
+    fn issue_8871() {
+        crate::tests::test_transform(
+            Default::default(),
+            |_| {
+                enable_helper!(using_ctx);
+                as_folder(inject_helpers(Mark::new()))
+            },
+            "let _throw = null",
+            "function _throw(e) {
+    throw e;
+}
+let _throw1 = null;
+",
+            false,
+            Default::default,
+        )
     }
 }
