@@ -231,7 +231,7 @@ dependencies = [
 
 [[package]]
 name = "binding_core_wasm"
-version = "1.4.15"
+version = "1.4.16"
 dependencies = [
  "anyhow",
  "getrandom",
@@ -291,7 +291,7 @@ dependencies = [
 
 [[package]]
 name = "binding_minifier_wasm"
-version = "1.4.15"
+version = "1.4.16"
 dependencies = [
  "anyhow",
  "getrandom",
@@ -3074,7 +3074,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli"
-version = "0.91.222"
+version = "0.91.223"
 dependencies = [
  "anyhow",
  "swc_cli_impl",
@@ -3189,9 +3189,9 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.90.34"
+version = "0.90.35"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3212d2884b1b6f68fd08d5224cf20d22972fc55ccda1c13020281f93041aed0e"
+checksum = "2b9e641c348c1e8b0e01430b4706b777ecb0873323b423a8e8e5515093583e43"
 dependencies = [
  "binding_macros",
  "swc",
@@ -3618,9 +3618,9 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.137.20"
+version = "0.137.21"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3b59fad924fb4fbd7a67e3992751a3f8d205f1f548ce73b9e5abdf5bd83af370"
+checksum = "660badfe2eed8b6213ec9dcd71aa0786f8fb46ffa012e0313bcba1fe4a9a5c73"
 dependencies = [
  "better_scoped_tls",
  "bitflags 2.5.0",
