@@ -3936,7 +3936,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.90.35"
+version = "0.90.36"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -5037,7 +5037,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_codegen"
-version = "0.42.26"
+version = "0.42.27"
 dependencies = [
  "auto_impl",
  "bitflags 2.5.0",
