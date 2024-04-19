@@ -189,6 +189,41 @@ fn base_url_precedence() {
     }
 }
 
+#[test]
+fn pattern_length_precedence() {
+    let mut map = HashMap::default();
+    map.insert(
+        "./packages/helpers/src/hello".to_string(),
+        "good".to_string(),
+    );
+
+    let r = TsConfigResolver::new(
+        TestResolver(map),
+        ".".into(),
+        vec![
+            ("@app/*".into(), vec!["./packages/*/src".into()]),
+            (
+                "@app/helpers/*".into(),
+                vec!["./packages/helpers/src/*".into()],
+            ),
+        ],
+    );
+
+    {
+        let resolved = r
+            .resolve(&FileName::Anon, "@app/helpers/hello")
+            .expect("should resolve @app/helpers/hello");
+
+        assert_eq!(
+            resolved,
+            Resolution {
+                filename: FileName::Custom("good".into()),
+                slug: None
+            }
+        );
+    }
+}
+
 struct TestResolver(AHashMap<String, String>);
 
 impl Resolve for TestResolver {
