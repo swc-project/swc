@@ -3,7 +3,6 @@ use std::{
     env,
     path::{Path, PathBuf},
     sync::Arc,
-    usize,
 };
 
 use anyhow::{bail, Context, Error};

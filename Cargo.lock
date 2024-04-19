@@ -2852,9 +2852,9 @@ dependencies = [
 
 [[package]]
 name = "proc-macro2"
-version = "1.0.79"
+version = "1.0.81"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e835ff2298f5721608eb1a980ecaee1aef2c132bf95ecc026a11b7bf3c01c02e"
+checksum = "3d1597b0c024618f09a9c3b8655b7e430397a36d23fdafec26d6965e9eec3eba"
 dependencies = [
  "unicode-ident",
 ]
@@ -3706,7 +3706,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.273.26"
+version = "0.273.27"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -3855,7 +3855,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.33.24"
+version = "0.33.25"
 dependencies = [
  "ahash 0.8.8",
  "anyhow",
@@ -3936,7 +3936,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.90.33"
+version = "0.90.36"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -4015,7 +4015,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_codegen"
-version = "0.151.33"
+version = "0.151.34"
 dependencies = [
  "auto_impl",
  "bitflags 2.5.0",
@@ -4192,7 +4192,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "0.148.16"
+version = "0.148.17"
 dependencies = [
  "base64",
  "criterion",
@@ -4254,7 +4254,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2015"
-version = "0.4.19"
+version = "0.4.20"
 dependencies = [
  "arrayvec",
  "indexmap 2.1.0",
@@ -4510,7 +4510,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.143.15"
+version = "0.143.16"
 dependencies = [
  "criterion",
  "either",
@@ -4627,7 +4627,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.137.20"
+version = "0.137.21"
 dependencies = [
  "better_scoped_tls",
  "bitflags 2.5.0",
@@ -4744,7 +4744,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "0.198.21"
+version = "0.198.22"
 dependencies = [
  "dashmap",
  "indexmap 2.1.0",
@@ -4887,7 +4887,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "0.127.19"
+version = "0.127.20"
 dependencies = [
  "indexmap 2.1.0",
  "num_cpus",
@@ -5037,7 +5037,7 @@ dependencies = [
 
 [[package]]
 name = "swc_html_codegen"
-version = "0.42.25"
+version = "0.42.27"
 dependencies = [
  "auto_impl",
  "bitflags 2.5.0",
@@ -5320,7 +5320,7 @@ dependencies = [
 
 [[package]]
 name = "swc_xml_codegen"
-version = "0.13.22"
+version = "0.13.23"
 dependencies = [
  "auto_impl",
  "bitflags 2.5.0",

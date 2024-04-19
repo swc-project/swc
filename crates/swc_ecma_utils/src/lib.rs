@@ -11,13 +11,7 @@ pub extern crate swc_ecma_ast;
 #[doc(hidden)]
 pub extern crate swc_common;
 
-use std::{
-    borrow::Cow,
-    f64::{INFINITY, NAN},
-    hash::Hash,
-    num::FpCategory,
-    ops::Add,
-};
+use std::{borrow::Cow, hash::Hash, num::FpCategory, ops::Add};
 
 use rustc_hash::FxHashMap;
 use swc_atoms::JsWord;
@@ -891,8 +885,8 @@ pub trait ExprExt {
                 _ => return (Pure, Unknown),
             },
             Expr::Ident(Ident { sym, span, .. }) => match &**sym {
-                "undefined" | "NaN" if span.ctxt == ctx.unresolved_ctxt => NAN,
-                "Infinity" if span.ctxt == ctx.unresolved_ctxt => INFINITY,
+                "undefined" | "NaN" if span.ctxt == ctx.unresolved_ctxt => f64::NAN,
+                "Infinity" if span.ctxt == ctx.unresolved_ctxt => f64::INFINITY,
                 _ => return (Pure, Unknown),
             },
             Expr::Unary(UnaryExpr {
@@ -908,7 +902,7 @@ pub trait ExprExt {
                 }) if &**sym == "Infinity" && span.ctxt == ctx.unresolved_ctxt
             ) =>
             {
-                -INFINITY
+                -f64::INFINITY
             }
             Expr::Unary(UnaryExpr {
                 op: op!("!"),
@@ -930,9 +924,9 @@ pub trait ExprExt {
                 ..
             }) => {
                 if arg.may_have_side_effects(ctx) {
-                    return (MayBeImpure, Known(NAN));
+                    return (MayBeImpure, Known(f64::NAN));
                 } else {
-                    NAN
+                    f64::NAN
                 }
             }
 
@@ -1578,19 +1572,19 @@ pub fn num_from_str(s: &str) -> Value<f64> {
             b"0x" | b"0X" => {
                 return match u64::from_str_radix(&s[2..], 16) {
                     Ok(n) => Known(n as f64),
-                    Err(_) => Known(NAN),
+                    Err(_) => Known(f64::NAN),
                 }
             }
             b"0o" | b"0O" => {
                 return match u64::from_str_radix(&s[2..], 8) {
                     Ok(n) => Known(n as f64),
-                    Err(_) => Known(NAN),
+                    Err(_) => Known(f64::NAN),
                 };
             }
             b"0b" | b"0B" => {
                 return match u64::from_str_radix(&s[2..], 2) {
                     Ok(n) => Known(n as f64),
-                    Err(_) => Known(NAN),
+                    Err(_) => Known(f64::NAN),
                 };
             }
             _ => {}
@@ -1611,7 +1605,7 @@ pub fn num_from_str(s: &str) -> Value<f64> {
         _ => {}
     }
 
-    Known(s.parse().ok().unwrap_or(NAN))
+    Known(s.parse().ok().unwrap_or(f64::NAN))
 }
 
 impl ExprExt for Box<Expr> {
