@@ -4448,7 +4448,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_loader"
-version = "0.45.26"
+version = "0.45.27"
 dependencies = [
  "anyhow",
  "dashmap",

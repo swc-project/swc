@@ -5,6 +5,9 @@
 
 
 
+- **(es/resolver)** Prioritze `jsc.paths` by length in tsc resolver ([#8875](https://github.com/swc-project/swc/issues/8875)) ([e22c368](https://github.com/swc-project/swc/commit/e22c3681a6705f2184f0af7032ed30103ab9bfcc))
+
+
 - **(html/codegen)** Expand elements before which body isn’t elided ([#8877](https://github.com/swc-project/swc/issues/8877)) ([5419a94](https://github.com/swc-project/swc/commit/5419a9477fa54297ed5e02b3769374e07e0921f3))
 
 ## [1.4.16] - 2024-04-18
@@ -1341,12 +1344,6 @@
 
 
 - **(counter)** Document the purpose of the package ([#8032](https://github.com/swc-project/swc/issues/8032)) ([b6b5a4d](https://github.com/swc-project/swc/commit/b6b5a4d3a6f1c6c74d47c855081a8fee17066829))
-
-### Features
-
-
-
-- **(bindings)** Create a minifier-only package ([#7993](https://github.com/swc-project/swc/issues/7993)) ([64d8f4b](https://github.com/swc-project/swc/commit/64d8f4b59f81c71bffbb906595bafa356f326924))
 
 ### Refactor
 
