@@ -1,6 +1,7 @@
 //// [file1.ts]
 import { _ as _async_iterator } from "@swc/helpers/_/_async_iterator";
 import { _ as _async_to_generator } from "@swc/helpers/_/_async_to_generator";
+import { _ as _await_async_generator } from "@swc/helpers/_/_await_async_generator";
 function f1() {
     return _f1.apply(this, arguments);
 }
@@ -20,7 +21,7 @@ function _f1() {
             } finally{
                 try {
                     if (_iteratorAbruptCompletion && _iterator.return != null) {
-                        yield _iterator.return();
+                        yield _await_async_generator(_iterator.return());
                     }
                 } finally{
                     if (_didIteratorError) {
@@ -35,6 +36,7 @@ function _f1() {
 //// [file2.ts]
 import { _ as _async_iterator } from "@swc/helpers/_/_async_iterator";
 import { _ as _async_to_generator } from "@swc/helpers/_/_async_to_generator";
+import { _ as _await_async_generator } from "@swc/helpers/_/_await_async_generator";
 function f2() {
     return _f2.apply(this, arguments);
 }
@@ -54,7 +56,7 @@ function _f2() {
             } finally{
                 try {
                     if (_iteratorAbruptCompletion && _iterator.return != null) {
-                        yield _iterator.return();
+                        yield _await_async_generator(_iterator.return());
                     }
                 } finally{
                     if (_didIteratorError) {
@@ -89,7 +91,7 @@ function _f3() {
             } finally{
                 try {
                     if (_iteratorAbruptCompletion && _iterator.return != null) {
-                        yield _iterator.return();
+                        yield _await_async_generator(_iterator.return());
                     }
                 } finally{
                     if (_didIteratorError) {
@@ -124,7 +126,7 @@ function _f4() {
             } finally{
                 try {
                     if (_iteratorAbruptCompletion && _iterator.return != null) {
-                        yield _iterator.return();
+                        yield _await_async_generator(_iterator.return());
                     }
                 } finally{
                     if (_didIteratorError) {
@@ -140,6 +142,7 @@ function _f4() {
 // https://github.com/Microsoft/TypeScript/issues/21363
 import { _ as _async_iterator } from "@swc/helpers/_/_async_iterator";
 import { _ as _async_to_generator } from "@swc/helpers/_/_async_to_generator";
+import { _ as _await_async_generator } from "@swc/helpers/_/_await_async_generator";
 function f5() {
     return _f5.apply(this, arguments);
 }
@@ -160,7 +163,7 @@ function _f5() {
             } finally{
                 try {
                     if (_iteratorAbruptCompletion && _iterator.return != null) {
-                        yield _iterator.return();
+                        yield _await_async_generator(_iterator.return());
                     }
                 } finally{
                     if (_didIteratorError) {
@@ -197,7 +200,7 @@ function _f6() {
             } finally{
                 try {
                     if (_iteratorAbruptCompletion && _iterator.return != null) {
-                        yield _iterator.return();
+                        yield _await_async_generator(_iterator.return());
                     }
                 } finally{
                     if (_didIteratorError) {
@@ -234,7 +237,7 @@ function _f7() {
                 } finally{
                     try {
                         if (_iteratorAbruptCompletion && _iterator.return != null) {
-                            yield _iterator.return();
+                            yield _await_async_generator(_iterator.return());
                         }
                     } finally{
                         if (_didIteratorError) {

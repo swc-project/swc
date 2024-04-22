@@ -1,5 +1,6 @@
 import { _ as _async_iterator } from "@swc/helpers/_/_async_iterator";
 import { _ as _async_to_generator } from "@swc/helpers/_/_async_to_generator";
+import { _ as _await_async_generator } from "@swc/helpers/_/_await_async_generator";
 import { _ as _wrap_async_generator } from "@swc/helpers/_/_wrap_async_generator";
 import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
 function lol() {
@@ -96,7 +97,7 @@ function _main() {
                     ];
                     return [
                         4,
-                        _iterator["return"]()
+                        _await_async_generator(_iterator["return"]())
                     ];
                 case 8:
                     _state.sent();

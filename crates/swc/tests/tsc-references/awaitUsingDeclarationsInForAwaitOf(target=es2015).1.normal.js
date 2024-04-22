@@ -1,6 +1,7 @@
 //// [awaitUsingDeclarationsInForAwaitOf.ts]
 import { _ as _async_iterator } from "@swc/helpers/_/_async_iterator";
 import { _ as _async_to_generator } from "@swc/helpers/_/_async_to_generator";
+import { _ as _await_async_generator } from "@swc/helpers/_/_await_async_generator";
 import { _ as _using_ctx } from "@swc/helpers/_/_using_ctx";
 function main() {
     return _main.apply(this, arguments);
@@ -39,7 +40,7 @@ function _main() {
             } finally{
                 try {
                     if (_iteratorAbruptCompletion && _iterator.return != null) {
-                        yield _iterator.return();
+                        yield _await_async_generator(_iterator.return());
                     }
                 } finally{
                     if (_didIteratorError) {
