@@ -245,7 +245,7 @@ impl Pure<'_> {
         obj: &mut Expr,
         prop: &MemberProp,
     ) -> Option<Expr> {
-        if !self.options.pristine_globals || self.in_left_side_assign {
+        if !self.options.pristine_globals || self.ctx.is_lhs_of_assign {
             return None;
         }
 
@@ -269,7 +269,7 @@ impl Pure<'_> {
 
         let op = match prop {
             MemberProp::Ident(Ident { sym, .. }) => {
-                if self.in_callee {
+                if self.ctx.is_callee {
                     return None;
                 }
 

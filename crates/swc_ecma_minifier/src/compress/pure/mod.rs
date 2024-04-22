@@ -67,8 +67,6 @@ pub(crate) fn pure_optimizer<'a>(
         data,
         ctx: Default::default(),
         changed: Default::default(),
-        in_callee: false,
-        in_left_side_assign: false,
     }
 }
 
@@ -82,8 +80,6 @@ struct Pure<'a> {
     data: Option<&'a ProgramData>,
     ctx: Ctx,
     changed: bool,
-    in_callee: bool,
-    in_left_side_assign: bool,
 }
 
 impl Repeated for Pure<'_> {
@@ -262,16 +258,11 @@ impl VisitMut for Pure<'_> {
 
     fn visit_mut_assign_expr(&mut self, e: &mut AssignExpr) {
         {
-            let old_in_left_side_assign = self.in_left_side_assign;
-            self.in_left_side_assign = true;
-
             let ctx = Ctx {
                 is_lhs_of_assign: true,
                 ..self.ctx
             };
             e.left.visit_mut_children_with(&mut *self.with_ctx(ctx));
-
-            self.in_left_side_assign = old_in_left_side_assign;
         }
 
         e.right.visit_mut_with(self);
@@ -297,13 +288,6 @@ impl VisitMut for Pure<'_> {
         }
 
         self.optimize_arrow_body(body);
-    }
-
-    fn visit_mut_callee(&mut self, callee: &mut Callee) {
-        let old_in_callee = self.in_callee;
-        self.in_callee = true;
-        callee.visit_mut_children_with(self);
-        self.in_callee = old_in_callee;
     }
 
     fn visit_mut_call_expr(&mut self, e: &mut CallExpr) {
