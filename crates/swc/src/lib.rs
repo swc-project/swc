@@ -369,11 +369,12 @@ impl Compiler {
             let read_sourcemap = || -> Option<sourcemap::SourceMap> {
                 let s = "sourceMappingURL=";
 
-                let text = comments
-                    .iter()
-                    .rev()
-                    .find_map(|c| c.text.strip_prefix(s))
-                    .map(|t| t.trim());
+                let text = comments.iter().rev().find_map(|c| {
+                    let idx = c.text.rfind(s)?;
+                    let (_, url) = c.text.split_at(idx + s.len());
+
+                    Some(url.trim())
+                });
 
                 match read_inline_sourcemap(text) {
                     Ok(r) => r,
