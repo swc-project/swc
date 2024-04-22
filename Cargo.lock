@@ -3706,7 +3706,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.273.27"
+version = "0.273.28"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -3936,7 +3936,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.90.36"
+version = "0.90.37"
 dependencies = [
  "anyhow",
  "binding_macros",
