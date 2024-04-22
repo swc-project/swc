@@ -347,4 +347,22 @@ export class Foo {
 }
 "#
     );
+
+    test!(
+        ::swc_ecma_parser::Syntax::default(),
+        |t| es2015(
+            Mark::fresh(Mark::root()),
+            Some(t.comments.clone()),
+            Config {
+                ..Default::default()
+            }
+        ),
+        issue_8871,
+        r#"
+        const x = "</" + "script>";
+        const y = "<\/script>";
+        const z = "\/\/   \\";
+        export { x, y, z };
+        "#
+    );
 }
