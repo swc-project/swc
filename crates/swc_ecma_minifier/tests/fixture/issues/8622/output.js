@@ -1,7 +1,7 @@
-export function foo(e) {
-    let reserved, reserved = 1;
-    return e && (reserved = 2), [
-        reserved,
-        (reserved = 1, e && (reserved = 2), reserved)
+export function foo(o) {
+    let t, e = 1;
+    return o && (e = 2), [
+        e,
+        (t = 1, o && (t = 2), t)
     ];
 }
