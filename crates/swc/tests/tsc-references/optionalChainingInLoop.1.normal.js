@@ -6,7 +6,7 @@ try {
     var _loop = function() {
         var comp = _step.value;
         comp.sp.y = comp.sp.r.find(function(k) {
-            return k.c == (comp.xp ? "1" : "0");
+            return k.c == (comp.xp ? '1' : '0');
         });
         var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
         try {

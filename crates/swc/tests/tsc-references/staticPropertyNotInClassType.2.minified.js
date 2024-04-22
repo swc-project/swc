@@ -17,7 +17,7 @@ NonGeneric || (NonGeneric = {}), ((C = function() {
             set: function(v) {}
         }
     ]), C;
-}()) || (C = {})).bar = "", (c = new C(1, 2)).fn(), c.foo, c.bar, c.x, Generic || (Generic = {}), ((C1 = function() {
+}()) || (C = {})).bar = '', (c = new C(1, 2)).fn(), c.foo, c.bar, c.x, Generic || (Generic = {}), ((C1 = function() {
     function C(a, b) {
         _class_call_check(this, C), this.a = a, this.b = b;
     }
@@ -32,4 +32,4 @@ NonGeneric || (NonGeneric = {}), ((C = function() {
             set: function(v) {}
         }
     ]), C;
-}()) || (C1 = {})).bar = "", (c1 = new C1(1, "")).fn(), c1.foo, c1.bar, c1.x;
+}()) || (C1 = {})).bar = '', (c1 = new C1(1, '')).fn(), c1.foo, c1.bar, c1.x;

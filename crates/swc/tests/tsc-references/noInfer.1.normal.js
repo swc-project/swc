@@ -2,24 +2,24 @@
 // NoInfer<T> is erased for primitives
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _create_class } from "@swc/helpers/_/_create_class";
-foo1("foo", "foo") // ok
+foo1('foo', 'foo') // ok
 ;
-foo1("foo", "bar") // error
+foo1('foo', 'bar') // error
 ;
-foo2("foo", [
-    "bar"
+foo2('foo', [
+    'bar'
 ]) // error
 ;
-foo3("foo", [
-    "bar"
+foo3('foo', [
+    'bar'
 ]) // error
 ;
-foo4("foo", {
-    x: "bar"
+foo4('foo', {
+    x: 'bar'
 }) // error
 ;
-foo5("foo", {
-    x: "bar"
+foo5('foo', {
+    x: 'bar'
 }) // error
 ;
 doSomething(new Animal(), function() {

@@ -1,4 +1,4 @@
 //// [thisTypeInTypePredicate.ts]
 filter(function(x) {
-    return "number" == typeof x;
+    return 'number' == typeof x;
 });

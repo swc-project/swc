@@ -6,5 +6,5 @@ export { SymbolFlags };
 SyntaxKind.ImportClause, SymbolFlags.Type;
 export { };
 //// [/c.ts]
-import { SymbolFlags } from "./a";
+import { SymbolFlags } from './a';
 SymbolFlags.Type;

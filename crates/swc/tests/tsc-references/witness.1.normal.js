@@ -45,19 +45,19 @@ var as2;
 // Conditional
 var cnd1 = cnd1 ? 0 : 1;
 var cnd1;
-var cnd2 = cnd1 ? cnd1 ? "" : "" : "";
+var cnd2 = cnd1 ? cnd1 ? '' : "" : '';
 var cnd2;
 // ||
-var or1 = or1 || "";
+var or1 = or1 || '';
 var or1;
-var or2 = "" || or2;
+var or2 = '' || or2;
 var or2;
 var or3 = or3 || or3;
 var or3;
 // &&
-var and1 = and1 && "";
+var and1 = and1 && '';
 var and1;
-var and2 = "" && and2;
+var and2 = '' && and2;
 var and2;
 var and3 = and3 && and3;
 var and3;

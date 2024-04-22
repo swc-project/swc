@@ -253,28 +253,28 @@ var d2 = fn2(_templateObject3(), 0, undefined); // any
 d1.foo(); // error
 d2(); // no error (typed as any)
 // Generic and non-generic overload where generic overload is the only candidate
-fn2(_templateObject4(), 0, ""); // OK
+fn2(_templateObject4(), 0, ''); // OK
 // Generic and non-generic overload where non-generic overload is the only candidate
-fn2(_templateObject5(), "", 0); // OK
+fn2(_templateObject5(), '', 0); // OK
 function fn3() {
     return null;
 }
 var s = fn3(_templateObject6(), 3);
-var s = fn3(_templateObject7(), "", 3, "");
+var s = fn3(_templateObject7(), '', 3, '');
 var n = fn3(_templateObject8(), 5, 5, 5);
 var n;
 // Generic overloads with differing arity tagging with arguments matching each overload type parameter count
 var s = fn3(_templateObject9(), 4);
-var s = fn3(_templateObject10(), "", "", "");
-var n = fn3(_templateObject11(), "", "", 3);
+var s = fn3(_templateObject10(), '', '', '');
+var n = fn3(_templateObject11(), '', '', 3);
 // Generic overloads with differing arity tagging with argument count that doesn't match any overload
 fn3(_templateObject12()); // Error
 function fn4() {}
 // Generic overloads with constraints tagged with types that satisfy the constraints
-fn4(_templateObject13(), "", 3);
-fn4(_templateObject14(), 3, "");
+fn4(_templateObject13(), '', 3);
+fn4(_templateObject14(), 3, '');
 fn4(_templateObject15(), 3, undefined);
-fn4(_templateObject16(), "", null);
+fn4(_templateObject16(), '', null);
 // Generic overloads with constraints called with type arguments that do not satisfy the constraints
 fn4(_templateObject17(), null, null); // Error
 // Generic overloads with constraints called without type arguments but with types that do not satisfy the constraints

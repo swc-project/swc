@@ -12,7 +12,7 @@ var clodule = /*#__PURE__*/ function() {
 }();
 (function(clodule) {
     function fn(x, y) {
-        return clodule.sfn("a");
+        return clodule.sfn('a');
     }
     // error: duplicate identifier expected
     clodule.fn = fn;

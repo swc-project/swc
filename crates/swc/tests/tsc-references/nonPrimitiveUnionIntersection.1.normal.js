@@ -5,8 +5,8 @@ var c = 123; // error
 a = b; // error
 b = a; // ok
 var foo = {
-    bar: "bar"
+    bar: 'bar'
 }; // ok
 var bar = {
-    bar: "bar"
+    bar: 'bar'
 }; // error

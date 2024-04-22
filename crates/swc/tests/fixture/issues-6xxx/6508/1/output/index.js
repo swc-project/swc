@@ -1,2 +1,2 @@
-"use client";
+'use client';
 foo(function() {});

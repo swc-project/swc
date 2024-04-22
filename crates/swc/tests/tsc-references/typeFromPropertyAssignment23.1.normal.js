@@ -36,7 +36,7 @@ var D = /*#__PURE__*/ function(B) {
     return D;
 }(B);
 D.prototype.foo = function() {
-    _this.n = "not checked, so no error";
+    _this.n = 'not checked, so no error';
 };
 // post-class prototype assignments are trying to show that these properties are abstract
 var Module = function Module() {
@@ -55,7 +55,7 @@ var NormalModule = /*#__PURE__*/ function(Module) {
     }
     var _proto = NormalModule.prototype;
     _proto.identifier = function identifier() {
-        return "normal";
+        return 'normal';
     };
     _proto.size = function size() {
         return 0;

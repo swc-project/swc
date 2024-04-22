@@ -1,2 +1,2 @@
 //// [unicodeExtendedEscapesInStrings16_ES5.ts]
-var x = "ꯍ㑖碐";
+var x = "\u{ABCD}\u{EF12}\u{3456}\u{7890}";

@@ -6,12 +6,12 @@ foo1(function(x) {
     return null;
 }), foo2(function(x) {
     return [
-        ""
+        ''
     ];
 }), foo3(function(x) {
     return null;
 }), foo4(function(x, y) {
-    return "";
+    return '';
 }), foo5(function(x) {
     return null;
 }), foo6(function(x) {

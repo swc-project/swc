@@ -2,10 +2,10 @@
 // Repro from #8513
 var cond;
 export var none = {
-    none: ""
+    none: ''
 };
 export function isSome(value) {
-    return "some" in value;
+    return 'some' in value;
 }
 function someFrom(some) {
     return {

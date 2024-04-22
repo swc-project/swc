@@ -8,7 +8,7 @@ export { A as default };
 //// [/b.ts]
 new A();
 var a = {
-    a: ""
+    a: ''
 };
 var b = {
     A: A

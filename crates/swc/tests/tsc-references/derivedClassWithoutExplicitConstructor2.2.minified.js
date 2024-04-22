@@ -7,7 +7,7 @@ var Derived = function(Base) {
     var _super = _create_super(Derived);
     function Derived() {
         var _this;
-        return _class_call_check(this, Derived), _this = _super.apply(this, arguments), _this.x = 1, _this.y = "hello", _this;
+        return _class_call_check(this, Derived), _this = _super.apply(this, arguments), _this.x = 1, _this.y = 'hello', _this;
     }
     return Derived;
 }(function Base(x) {

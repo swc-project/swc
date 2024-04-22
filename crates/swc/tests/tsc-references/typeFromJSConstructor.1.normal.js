@@ -6,21 +6,21 @@ function Installer() {
     this.unknown = null;
     // twice: string | undefined
     this.twice = undefined;
-    this.twice = "hi";
+    this.twice = 'hi';
     // twices: any[] | null
     this.twices = [];
     this.twices = null;
 }
 Installer.prototype.first = function() {
-    this.arg = "hi" // error
+    this.arg = 'hi' // error
     ;
-    this.unknown = "hi" // ok
+    this.unknown = 'hi' // ok
     ;
     this.newProperty = 1 // ok: number | boolean
     ;
     this.twice = undefined // ok
     ;
-    this.twice = "hi" // ok
+    this.twice = 'hi' // ok
     ;
 };
 Installer.prototype.second = function() {
@@ -37,6 +37,6 @@ Installer.prototype.second = function() {
     this.twices.push(1) // error: Object is possibly null
     ;
     if (this.twices != null) {
-        this.twices.push("hi");
+        this.twices.push('hi');
     }
 };

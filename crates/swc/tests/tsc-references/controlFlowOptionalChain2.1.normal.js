@@ -1,6 +1,6 @@
 //// [controlFlowOptionalChain2.ts]
 function funcTwo(arg) {
-    if ((arg === null || arg === void 0 ? void 0 : arg.type) === "B") {
+    if ((arg === null || arg === void 0 ? void 0 : arg.type) === 'B') {
         arg; // `B`
         return;
     }
@@ -8,7 +8,7 @@ function funcTwo(arg) {
     arg === null || arg === void 0 ? void 0 : arg.name;
 }
 function funcThree(arg) {
-    if ((arg === null || arg === void 0 ? void 0 : arg.type) === "B") {
+    if ((arg === null || arg === void 0 ? void 0 : arg.type) === 'B') {
         arg; // `B`
         return;
     }

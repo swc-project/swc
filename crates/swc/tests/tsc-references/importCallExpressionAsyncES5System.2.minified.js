@@ -12,7 +12,7 @@ System.register([
                     case 0:
                         return [
                             4,
-                            _context.import("./test")
+                            _context.import('./test')
                         ];
                     case 1:
                         return _state.sent(), [
@@ -49,7 +49,7 @@ System.register([
                                 case 0:
                                     return [
                                         4,
-                                        _context.import("./test")
+                                        _context.import('./test')
                                     ];
                                 case 1:
                                     return _state.sent(), [
@@ -66,7 +66,7 @@ System.register([
                             case 0:
                                 return [
                                     4,
-                                    _context.import("./test")
+                                    _context.import('./test')
                                 ];
                             case 1:
                                 return _state.sent(), [
@@ -83,7 +83,7 @@ System.register([
                                 case 0:
                                     return [
                                         4,
-                                        _context.import("./test")
+                                        _context.import('./test')
                                     ];
                                 case 1:
                                     return _state.sent(), [
@@ -99,7 +99,7 @@ System.register([
                         case 0:
                             return [
                                 4,
-                                _context.import("./test")
+                                _context.import('./test')
                             ];
                         case 1:
                             return _state.sent(), [

@@ -73,4 +73,4 @@ g20(42, "hello", !0), g20(42, "hello"), g20(42), g21("hello", !0), g21("hello"),
     return "" + x;
 }, function(x) {
     return x + 1;
-}), events.emit("move", 10, "left"), events.emit("jump", 20, "up"), events.emit("stop", "Bye!"), events.emit("done"), ff1 = ff2, ff1 = ff3, ff1 = ff4;
+}), events.emit('move', 10, 'left'), events.emit('jump', 20, 'up'), events.emit('stop', 'Bye!'), events.emit('done'), ff1 = ff2, ff1 = ff3, ff1 = ff4;

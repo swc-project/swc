@@ -44,47 +44,47 @@ f1.apply(void 0, [
     6
 ]), f2.apply(void 0, [
     1,
-    "foo"
+    'foo'
 ]), f2.apply(void 0, [
     !0,
     1,
-    "foo"
+    'foo'
 ]), f2.apply(void 0, [
     1,
-    "foo"
+    'foo'
 ]), f2.apply(void 0, [
     !0,
     1,
-    "foo"
+    'foo'
 ]), f3.apply(void 0, [
     1,
-    "foo"
-]), f3.apply(void 0, [
-    !0,
-    1,
-    "foo"
-]), f3.apply(void 0, [
-    1,
-    "foo"
+    'foo'
 ]), f3.apply(void 0, [
     !0,
     1,
-    "foo"
+    'foo'
+]), f3.apply(void 0, [
+    1,
+    'foo'
+]), f3.apply(void 0, [
+    !0,
+    1,
+    'foo'
 ]), f4.apply(void 0, [
     1,
-    "foo"
+    'foo'
 ]), f4.apply(void 0, [
     !0,
     1,
-    "foo"
+    'foo'
 ]), f4.apply(void 0, [
     1,
-    "foo"
+    'foo'
 ]), f4.apply(void 0, [
     !0,
     1,
-    "foo"
+    'foo'
 ]), (_action = action).run.apply(_action, [
     100,
-    "foo"
+    'foo'
 ]);

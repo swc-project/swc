@@ -14,7 +14,7 @@ export var Element = function() {
         {
             key: "textContent",
             get: function() {
-                return "";
+                return '';
             },
             set: function(x) {}
         }

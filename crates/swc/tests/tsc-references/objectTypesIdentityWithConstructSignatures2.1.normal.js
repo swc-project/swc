@@ -14,7 +14,7 @@ var C = function C(x) {
 var a;
 var b = {
     new: function _new(x) {
-        return "";
+        return '';
     }
 }; // not a construct signature, function called new
 function foo1b(x) {}

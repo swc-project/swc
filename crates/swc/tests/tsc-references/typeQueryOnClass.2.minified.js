@@ -9,7 +9,7 @@ var C = function() {
         };
     }
     return C.prototype.baz = function(x) {
-        return "";
+        return '';
     }, C.foo = function(x) {}, C.bar = function(x) {}, _create_class(C, [
         {
             key: "ic",

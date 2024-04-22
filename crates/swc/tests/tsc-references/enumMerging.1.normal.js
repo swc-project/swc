@@ -39,14 +39,14 @@ var M2;
 (function(M2) {
     var EComp2;
     (function(EComp2) {
-        EComp2[EComp2["A"] = "foo".length] = "A";
-        EComp2[EComp2["B"] = "foo".length] = "B";
-        EComp2[EComp2["C"] = "foo".length] = "C";
+        EComp2[EComp2["A"] = 'foo'.length] = "A";
+        EComp2[EComp2["B"] = 'foo'.length] = "B";
+        EComp2[EComp2["C"] = 'foo'.length] = "C";
     })(EComp2 = M2.EComp2 || (M2.EComp2 = {}));
     (function(EComp2) {
-        EComp2[EComp2["D"] = "foo".length] = "D";
-        EComp2[EComp2["E"] = "foo".length] = "E";
-        EComp2[EComp2["F"] = "foo".length] = "F";
+        EComp2[EComp2["D"] = 'foo'.length] = "D";
+        EComp2[EComp2["E"] = 'foo'.length] = "E";
+        EComp2[EComp2["F"] = 'foo'.length] = "F";
     })(EComp2 = M2.EComp2 || (M2.EComp2 = {}));
     var x = [
         EComp2.A,

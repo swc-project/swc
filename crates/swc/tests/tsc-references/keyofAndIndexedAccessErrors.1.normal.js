@@ -64,8 +64,8 @@ function f4(k) {
     k = 42; // error
     k = "hello"; // error
 }
-var a1 = "a"; // Error
-var b1 = "b";
+var a1 = 'a'; // Error
+var b1 = 'b';
 function test1(t, k) {
     t[k] = 42; // Error
     t[k] = "hello"; // Error

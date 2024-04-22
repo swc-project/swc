@@ -11,7 +11,7 @@ export var UsersService = /*#__PURE__*/ function() {
         {
             key: "create",
             value: function create(createUserDto) {
-                return "This action adds a new user";
+                return 'This action adds a new user';
             }
         },
         {

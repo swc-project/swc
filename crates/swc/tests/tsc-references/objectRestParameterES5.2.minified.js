@@ -18,7 +18,7 @@ suddenly(function(_param) {
             z: 1,
             ka: 1
         },
-        y: "noo"
+        y: 'noo'
     }, nested = (_param.x.z, _object_without_properties(_param.x, [
         "z"
     ]));
@@ -26,9 +26,9 @@ suddenly(function(_param) {
         "x"
     ]).y + nested.ka;
 }), foobar(), foobar({
-    baz: "hello"
+    baz: 'hello'
 }), foobar({
     bar: {
-        greeting: "hello"
+        greeting: 'hello'
     }
 });

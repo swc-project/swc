@@ -1,7 +1,7 @@
 //// [ModuleWithExportedAndNonExportedVariables.ts]
 var A;
 (function(A) {
-    A.x = "hello world";
+    A.x = 'hello world';
     var y = 12;
 })(A || (A = {}));
 var x;

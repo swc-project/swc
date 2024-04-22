@@ -5,4 +5,4 @@ var C = function C(x) {
     _class_call_check(this, C);
 };
 var c = new C(1);
-var c = new C(new C("")); // error
+var c = new C(new C('')); // error

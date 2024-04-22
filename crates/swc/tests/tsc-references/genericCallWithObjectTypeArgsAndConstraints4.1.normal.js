@@ -19,7 +19,7 @@ var d;
 var r = foo(c, d);
 var r2 = foo(d, c); // error because C does not extend D
 var r3 = foo(c, {
-    x: "",
+    x: '',
     foo: c
 });
 var r4 = foo(null, null);

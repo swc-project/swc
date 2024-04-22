@@ -39,7 +39,7 @@ var C = /*#__PURE__*/ function() {
 var a;
 var b = {
     foo: function foo(x) {
-        return "";
+        return '';
     }
 };
 function foo1(x) {}

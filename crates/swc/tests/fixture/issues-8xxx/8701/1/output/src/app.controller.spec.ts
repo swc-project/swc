@@ -3,7 +3,7 @@ import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
 import { Test } from "@nestjs/testing";
 import { AppController } from "./app.controller";
 import { AppService } from "./app.service";
-describe("AppController", function() {
+describe('AppController', function() {
     var app;
     beforeAll(/*#__PURE__*/ _async_to_generator(function() {
         return _ts_generator(this, function(_state) {
@@ -28,10 +28,10 @@ describe("AppController", function() {
             }
         });
     }));
-    describe("getHello", function() {
+    describe('getHello', function() {
         it('should return "Hello World!"', function() {
             var appController = app.get(AppController);
-            expect(appController.getHello()).toBe("Hello World!");
+            expect(appController.getHello()).toBe('Hello World!');
         });
     });
 });

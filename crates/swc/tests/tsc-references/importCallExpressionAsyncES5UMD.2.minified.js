@@ -11,7 +11,7 @@ global = this, factory = function(exports1, _async_to_generator, _class_call_che
                     case 0:
                         return [
                             4,
-                            import("./test")
+                            import('./test')
                         ];
                     case 1:
                         return _state.sent(), [
@@ -56,7 +56,7 @@ global = this, factory = function(exports1, _async_to_generator, _class_call_che
                         case 0:
                             return [
                                 4,
-                                import("./test")
+                                import('./test')
                             ];
                         case 1:
                             return _state.sent(), [
@@ -73,7 +73,7 @@ global = this, factory = function(exports1, _async_to_generator, _class_call_che
                     case 0:
                         return [
                             4,
-                            import("./test")
+                            import('./test')
                         ];
                     case 1:
                         return _state.sent(), [
@@ -90,7 +90,7 @@ global = this, factory = function(exports1, _async_to_generator, _class_call_che
                         case 0:
                             return [
                                 4,
-                                import("./test")
+                                import('./test')
                             ];
                         case 1:
                             return _state.sent(), [
@@ -106,7 +106,7 @@ global = this, factory = function(exports1, _async_to_generator, _class_call_che
                 case 0:
                     return [
                         4,
-                        import("./test")
+                        import('./test')
                     ];
                 case 1:
                     return _state.sent(), [

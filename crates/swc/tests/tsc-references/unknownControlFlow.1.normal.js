@@ -189,7 +189,7 @@ function f41(a) {
 }
 // Repro from #48468
 function deepEquals(a, b) {
-    if (typeof a !== "object" || typeof b !== "object" || !a || !b) {
+    if (typeof a !== 'object' || typeof b !== 'object' || !a || !b) {
         return false;
     }
     if (Array.isArray(a) || Array.isArray(b)) {
@@ -222,10 +222,10 @@ function ff3(t, k) {
 function ff4(t, k) {
     t[k];
 }
-ff1(null, "foo"); // Error
-ff2(null, "foo"); // Error
-ff3(null, "foo");
-ff4(null, "foo"); // Error
+ff1(null, 'foo'); // Error
+ff2(null, 'foo'); // Error
+ff3(null, 'foo');
+ff4(null, 'foo'); // Error
 // Generics and intersections with {}
 function fx0(value) {
     if (value === 42) {
@@ -284,8 +284,8 @@ function fx10(x, y) {
 }
 // Repros from #50706
 function SendBlob(encoding) {
-    if (encoding !== undefined && encoding !== "utf8") {
-        throw new Error("encoding");
+    if (encoding !== undefined && encoding !== 'utf8') {
+        throw new Error('encoding');
     }
     encoding;
 }
@@ -294,7 +294,7 @@ function doSomething1(value) {
         return value;
     }
     if (value === 42) {
-        throw Error("Meaning of life value");
+        throw Error('Meaning of life value');
     }
     return value;
 }
@@ -310,12 +310,12 @@ function x(x, y) {
     var r2 = y;
 }
 function assertNever(v) {
-    throw new Error("never");
+    throw new Error('never');
 }
 function fx20(value) {
-    if (value === "left") {
+    if (value === 'left') {
         var foo = value;
-    } else if (value === "right") {
+    } else if (value === 'right') {
         var bar = value;
     } else {
         assertNever(value);

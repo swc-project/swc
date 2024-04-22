@@ -56,10 +56,10 @@ var Generic;
         ]);
         return C;
     }();
-    var c = new C(1, "");
+    var c = new C(1, '');
     var r = c.fn();
     var r2 = r.x;
     var r3 = r.y;
-    r.y = "";
+    r.y = '';
     var r6 = c.y(); // error
 })(Generic || (Generic = {}));

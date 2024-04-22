@@ -30,9 +30,9 @@ var t6 = /** @satisfies {[number, number]} */ [
     2
 ];
 var t7 = /** @satisfies {T4} */ {
-    a: "test"
+    a: 'test'
 };
 var t8 = /** @satisfies {T4} */ {
-    a: "test",
-    b: "test"
+    a: 'test',
+    b: 'test'
 };

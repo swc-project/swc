@@ -3,15 +3,15 @@ ab.kind; // Error
 var a = x;
 // Repro from #31663
 var x1 = {
-    a: "foo",
+    a: 'foo',
     b: 42
 };
 var x2 = {
-    a: "foo",
+    a: 'foo',
     b: true
 };
-x1[k] = "bar"; // Error
-x2[k] = "bar"; // Error
+x1[k] = 'bar'; // Error
+x2[k] = 'bar'; // Error
 var Tag1;
 var Tag2;
 s1 = s2;

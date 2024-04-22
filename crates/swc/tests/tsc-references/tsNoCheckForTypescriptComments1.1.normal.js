@@ -5,6 +5,6 @@ export var a = 1 + {}; // This is an error, ofc, `Operator '+' cannot be applied
 export var Bet = function Bet() {
     "use strict";
     _class_call_check(this, Bet);
-    this.q = "lol" // And so will this implements error
+    this.q = 'lol' // And so will this implements error
     ;
 };

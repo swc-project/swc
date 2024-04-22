@@ -4,22 +4,22 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var f1 = function f1() {
-    return "";
+    return '';
     return 3;
 };
 var f2 = function x() {
-    return "";
+    return '';
     return 3;
 };
 var f3 = function() {
-    return "";
+    return '';
     return 3;
 };
 // FunctionExpression with no return type annotation with return branch of number[] and other of string[]
 var f4 = function f4() {
     if (true) {
         return [
-            ""
+            ''
         ];
     } else {
         return [

@@ -2,7 +2,7 @@ import { _ as _async_to_generator } from "@swc/helpers/_/_async_to_generator";
 import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
 import { Test } from "@nestjs/testing";
 import { UsersService } from "./users.service";
-describe("UsersService", function() {
+describe('UsersService', function() {
     var service;
     beforeEach(/*#__PURE__*/ _async_to_generator(function() {
         var module;
@@ -26,7 +26,7 @@ describe("UsersService", function() {
             }
         });
     }));
-    it("should be defined", function() {
+    it('should be defined', function() {
         expect(service).toBeDefined();
     });
 });

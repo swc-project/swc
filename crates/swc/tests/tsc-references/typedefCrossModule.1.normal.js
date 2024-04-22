@@ -17,7 +17,7 @@ function C() {
 };
 //// [use.js]
 /** @type {import('./mod1').Both} */ var both1 = {
-    type: "a",
+    type: 'a',
     x: 1
 };
 /** @type {import('./mod2').Both} */ var both2 = both1;

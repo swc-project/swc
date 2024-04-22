@@ -23,7 +23,7 @@ var Foo = function Foo() {
     Quack: 2
 };
 //// [use.js]
-var mod = require("./mod1.js");
+var mod = require('./mod1.js');
 /** @type {import("./mod1.js").Baz} */ var b;
 /** @type {mod.Baz} */ var bb;
 var bbb = new mod.Baz();

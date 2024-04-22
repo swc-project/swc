@@ -4,9 +4,9 @@ import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _type_of } from "@swc/helpers/_/_type_of";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 switch((M || (M = {})).fn = function(x) {
-    return "";
+    return '';
 }, x){
-    case "":
+    case '':
     case 12:
     case !0:
     case null:
@@ -20,7 +20,7 @@ switch((M || (M = {})).fn = function(x) {
         id: 12
     }:
     case [
-        "a"
+        'a'
     ]:
     case void 0 === x ? "undefined" : _type_of(x):
     case void 0 === M ? "undefined" : _type_of(M):
@@ -41,7 +41,7 @@ switch(new C()){
     case new D():
     case {
         id: 12,
-        name: ""
+        name: ''
     }:
     case new C():
 }

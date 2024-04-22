@@ -3,7 +3,7 @@ import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
 import { Test } from "@nestjs/testing";
 import { UsersController } from "./users.controller";
 import { UsersService } from "./users.service";
-describe("UsersController", function() {
+describe('UsersController', function() {
     var controller;
     beforeEach(/*#__PURE__*/ _async_to_generator(function() {
         var module;
@@ -30,7 +30,7 @@ describe("UsersController", function() {
             }
         });
     }));
-    it("should be defined", function() {
+    it('should be defined', function() {
         expect(controller).toBeDefined();
     });
 });

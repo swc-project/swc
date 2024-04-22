@@ -42,7 +42,7 @@ for(;;);
 for(var c = void 0; c;);
 do ;
 while (c);
-for(var e = "a string"; e;);
+for(var e = 'a string'; e;);
 do ;
 while (e);
 for(var g = /[a-z]/; g;);
@@ -62,7 +62,7 @@ do ;
 while (j);
 for(var k = {
     x: 1,
-    y: "a"
+    y: 'a'
 }; k;);
 do ;
 while (k);

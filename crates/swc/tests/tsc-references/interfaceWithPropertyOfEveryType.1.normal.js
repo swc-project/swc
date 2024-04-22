@@ -15,7 +15,7 @@ var E;
 })(E || (E = {}));
 var a = {
     a: 1,
-    b: "",
+    b: '',
     c: true,
     d: {},
     e: null,

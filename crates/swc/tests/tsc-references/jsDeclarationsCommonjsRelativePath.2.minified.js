@@ -9,7 +9,7 @@ module.exports = {
     }
 };
 //// [reexport.js]
-var Thing = require("./thing").Thing;
+var Thing = require('./thing').Thing;
 module.exports = {
     Thing: Thing
 };

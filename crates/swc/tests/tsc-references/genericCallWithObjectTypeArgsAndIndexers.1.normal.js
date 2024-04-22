@@ -9,5 +9,5 @@ function other(arg) {
     var b;
     var r2 = foo(b);
     var d = r2[1];
-    var e = r2["1"];
+    var e = r2['1'];
 }

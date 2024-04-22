@@ -2,14 +2,14 @@
 var undefined;
 import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
 (function(undefined) {
-    if ("undefined" != typeof module && module.exports) return function(factory) {
+    if ('undefined' != typeof module && module.exports) return function(factory) {
         module.exports = factory();
     };
-    if ("function" == typeof define && define.amd) return define;
-    if ("undefined" != typeof window) return function(factory) {
+    if ('function' == typeof define && define.amd) return define;
+    if ('undefined' != typeof window) return function(factory) {
         window.MobileDetect = factory();
     };
-    throw Error("unknown environment");
+    throw Error('unknown environment');
 })()(function() {
     var impl = {};
     impl.mobileDetectRules = {
@@ -166,18 +166,18 @@ import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
             iOS: "\\biPhone.*Mobile|\\biPod|\\biPad",
             MeeGoOS: "MeeGo",
             MaemoOS: "Maemo",
-            JavaOS: "J2ME/|\\bMIDP\\b|\\bCLDC\\b",
+            JavaOS: "J2ME\/|\\bMIDP\\b|\\bCLDC\\b",
             webOS: "webOS|hpwOS",
             badaOS: "\\bBada\\b",
             BREWOS: "BREW"
         },
         uas: {
             Vivaldi: "Vivaldi",
-            Chrome: "\\bCrMo\\b|CriOS|Android.*Chrome/[.0-9]* (Mobile)?",
+            Chrome: "\\bCrMo\\b|CriOS|Android.*Chrome\/[.0-9]* (Mobile)?",
             Dolfin: "\\bDolfin\\b",
-            Opera: "Opera.*Mini|Opera.*Mobi|Android.*Opera|Mobile.*OPR/[0-9.]+|Coast/[0-9.]+",
+            Opera: "Opera.*Mini|Opera.*Mobi|Android.*Opera|Mobile.*OPR\/[0-9.]+|Coast\/[0-9.]+",
             Skyfire: "Skyfire",
-            Edge: "Mobile Safari/[.0-9]* Edge",
+            Edge: "Mobile Safari\/[.0-9]* Edge",
             IE: "IEMobile|MSIEMobile",
             Firefox: "fennec|firefox.*maemo|(Mobile|Tablet).*Firefox|Firefox.*Mobile",
             Bolt: "bolt",
@@ -197,90 +197,90 @@ import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
             PaleMoon: "Android.*PaleMoon|Mobile.*PaleMoon"
         },
         props: {
-            Mobile: "Mobile/[VER]",
-            Build: "Build/[VER]",
-            Version: "Version/[VER]",
-            VendorID: "VendorID/[VER]",
+            Mobile: "Mobile\/[VER]",
+            Build: "Build\/[VER]",
+            Version: "Version\/[VER]",
+            VendorID: "VendorID\/[VER]",
             iPad: "iPad.*CPU[a-z ]+[VER]",
             iPhone: "iPhone.*CPU[a-z ]+[VER]",
             iPod: "iPod.*CPU[a-z ]+[VER]",
-            Kindle: "Kindle/[VER]",
+            Kindle: "Kindle\/[VER]",
             Chrome: [
-                "Chrome/[VER]",
-                "CriOS/[VER]",
-                "CrMo/[VER]"
+                "Chrome\/[VER]",
+                "CriOS\/[VER]",
+                "CrMo\/[VER]"
             ],
             Coast: [
-                "Coast/[VER]"
+                "Coast\/[VER]"
             ],
-            Dolfin: "Dolfin/[VER]",
-            Firefox: "Firefox/[VER]",
-            Fennec: "Fennec/[VER]",
-            Edge: "Edge/[VER]",
+            Dolfin: "Dolfin\/[VER]",
+            Firefox: "Firefox\/[VER]",
+            Fennec: "Fennec\/[VER]",
+            Edge: "Edge\/[VER]",
             IE: [
-                "IEMobile/[VER];",
+                "IEMobile\/[VER];",
                 "IEMobile [VER]",
                 "MSIE [VER];",
-                "Trident/[0-9.]+;.*rv:[VER]"
+                "Trident\/[0-9.]+;.*rv:[VER]"
             ],
-            NetFront: "NetFront/[VER]",
-            NokiaBrowser: "NokiaBrowser/[VER]",
+            NetFront: "NetFront\/[VER]",
+            NokiaBrowser: "NokiaBrowser\/[VER]",
             Opera: [
-                " OPR/[VER]",
-                "Opera Mini/[VER]",
-                "Version/[VER]"
+                " OPR\/[VER]",
+                "Opera Mini\/[VER]",
+                "Version\/[VER]"
             ],
-            "Opera Mini": "Opera Mini/[VER]",
-            "Opera Mobi": "Version/[VER]",
+            "Opera Mini": "Opera Mini\/[VER]",
+            "Opera Mobi": "Version\/[VER]",
             "UC Browser": "UC Browser[VER]",
-            MQQBrowser: "MQQBrowser/[VER]",
-            MicroMessenger: "MicroMessenger/[VER]",
-            baiduboxapp: "baiduboxapp/[VER]",
-            baidubrowser: "baidubrowser/[VER]",
-            Iron: "Iron/[VER]",
+            MQQBrowser: "MQQBrowser\/[VER]",
+            MicroMessenger: "MicroMessenger\/[VER]",
+            baiduboxapp: "baiduboxapp\/[VER]",
+            baidubrowser: "baidubrowser\/[VER]",
+            Iron: "Iron\/[VER]",
             Safari: [
-                "Version/[VER]",
-                "Safari/[VER]"
+                "Version\/[VER]",
+                "Safari\/[VER]"
             ],
-            Skyfire: "Skyfire/[VER]",
-            Tizen: "Tizen/[VER]",
-            Webkit: "webkit[ /][VER]",
-            PaleMoon: "PaleMoon/[VER]",
-            Gecko: "Gecko/[VER]",
-            Trident: "Trident/[VER]",
-            Presto: "Presto/[VER]",
-            Goanna: "Goanna/[VER]",
+            Skyfire: "Skyfire\/[VER]",
+            Tizen: "Tizen\/[VER]",
+            Webkit: "webkit[ \/][VER]",
+            PaleMoon: "PaleMoon\/[VER]",
+            Gecko: "Gecko\/[VER]",
+            Trident: "Trident\/[VER]",
+            Presto: "Presto\/[VER]",
+            Goanna: "Goanna\/[VER]",
             iOS: " \\bi?OS\\b [VER][ ;]{1}",
             Android: "Android [VER]",
             BlackBerry: [
-                "BlackBerry[\\w]+/[VER]",
-                "BlackBerry.*Version/[VER]",
-                "Version/[VER]"
+                "BlackBerry[\\w]+\/[VER]",
+                "BlackBerry.*Version\/[VER]",
+                "Version\/[VER]"
             ],
             BREW: "BREW [VER]",
-            Java: "Java/[VER]",
+            Java: "Java\/[VER]",
             "Windows Phone OS": [
                 "Windows Phone OS [VER]",
                 "Windows Phone [VER]"
             ],
             "Windows Phone": "Windows Phone [VER]",
-            "Windows CE": "Windows CE/[VER]",
+            "Windows CE": "Windows CE\/[VER]",
             "Windows NT": "Windows NT [VER]",
             Symbian: [
-                "SymbianOS/[VER]",
-                "Symbian/[VER]"
+                "SymbianOS\/[VER]",
+                "Symbian\/[VER]"
             ],
             webOS: [
-                "webOS/[VER]",
-                "hpwOS/[VER];"
+                "webOS\/[VER]",
+                "hpwOS\/[VER];"
             ]
         },
         utils: {
             Bot: "Googlebot|facebookexternalhit|AdsBot-Google|Google Keyword Suggestion|Facebot|YandexBot|bingbot|ia_archiver|AhrefsBot|Ezooms|GSLFbot|WBSearchBot|Twitterbot|TweetmemeBot|Twikle|PaperLiBot|Wotbox|UnwindFetchor|Exabot|MJ12bot|YandexImages|TurnitinBot|Pingdom",
-            MobileBot: "Googlebot-Mobile|AdsBot-Google-Mobile|YahooSeeker/M1A1-R2D2",
+            MobileBot: "Googlebot-Mobile|AdsBot-Google-Mobile|YahooSeeker\/M1A1-R2D2",
             DesktopMode: "WPDesktop",
             TV: "SonyDTV|HbbTV",
-            WebKit: "(webkit)[ /]([\\w.]+)",
+            WebKit: "(webkit)[ \/]([\\w.]+)",
             Console: "\\b(Nintendo|Nintendo WiiU|Nintendo 3DS|PLAYSTATION|Xbox)\\b",
             Watch: "SM-V700"
         }
@@ -300,21 +300,21 @@ import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
         return !1;
     }
     function convertPropsToRegExp(object) {
-        for(var key in object)hasOwnProp.call(object, key) && (object[key] = RegExp(object[key], "i"));
+        for(var key in object)hasOwnProp.call(object, key) && (object[key] = RegExp(object[key], 'i'));
     }
     function MobileDetect(userAgent, maxPhoneWidth) {
-        this.ua = userAgent || "", this._cache = {}, this.maxPhoneWidth = maxPhoneWidth || 600;
+        this.ua = userAgent || '', this._cache = {}, this.maxPhoneWidth = maxPhoneWidth || 600;
     }
-    return impl.FALLBACK_PHONE = "UnknownPhone", impl.FALLBACK_TABLET = "UnknownTablet", impl.FALLBACK_MOBILE = "UnknownMobile", isArray = "isArray" in Array ? Array.isArray : function(value) {
-        return "[object Array]" === Object.prototype.toString.call(value);
-    }, isArray = "isArray" in Array ? function(value) {
-        return "[object Array]" === Object.prototype.toString.call(value);
+    return impl.FALLBACK_PHONE = 'UnknownPhone', impl.FALLBACK_TABLET = 'UnknownTablet', impl.FALLBACK_MOBILE = 'UnknownMobile', isArray = 'isArray' in Array ? Array.isArray : function(value) {
+        return '[object Array]' === Object.prototype.toString.call(value);
+    }, isArray = 'isArray' in Array ? function(value) {
+        return '[object Array]' === Object.prototype.toString.call(value);
     } : Array.isArray, !function() {
         var key, values, value, i, len, verPos, mobileDetectRules = impl.mobileDetectRules;
         for(key in mobileDetectRules.props)if (hasOwnProp.call(mobileDetectRules.props, key)) {
             for(values = mobileDetectRules.props[key], isArray(values) || (values = [
                 values
-            ]), len = values.length, i = 0; i < len; ++i)(verPos = (value = values[i]).indexOf("[VER]")) >= 0 && (value = value.substring(0, verPos) + "([\\w._\\+]+)" + value.substring(verPos + 5)), values[i] = RegExp(value, "i");
+            ]), len = values.length, i = 0; i < len; ++i)(verPos = (value = values[i]).indexOf('[VER]')) >= 0 && (value = value.substring(0, verPos) + '([\\w._\\+]+)' + value.substring(verPos + 5)), values[i] = RegExp(value, 'i');
             mobileDetectRules.props[key] = values;
         }
         convertPropsToRegExp(mobileDetectRules.oss), convertPropsToRegExp(mobileDetectRules.phones), convertPropsToRegExp(mobileDetectRules.tablets), convertPropsToRegExp(mobileDetectRules.uas), convertPropsToRegExp(mobileDetectRules.utils), mobileDetectRules.oss0 = {
@@ -339,7 +339,7 @@ import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
         return version ? impl.prepareVersionNo(version) : NaN;
     }, impl.prepareVersionNo = function(version) {
         var numbers;
-        return 1 === (numbers = version.split(/[a-z._ \/\-]/i)).length && (version = numbers[0]), numbers.length > 1 && (version = numbers[0] + ".", numbers.shift(), version += numbers.join("")), Number(version);
+        return 1 === (numbers = version.split(/[a-z._ \/\-]/i)).length && (version = numbers[0]), numbers.length > 1 && (version = numbers[0] + '.', numbers.shift(), version += numbers.join('')), Number(version);
     }, impl.isMobileFallback = function(userAgent) {
         return impl.detectMobileBrowsers.fullPattern.test(userAgent) || impl.detectMobileBrowsers.shortPattern.test(userAgent.substr(0, 4));
     }, impl.isTabletFallback = function(userAgent) {
@@ -359,7 +359,7 @@ import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
         }
     }, impl.mobileGrade = function(t) {
         var $isMobile = null !== t.mobile();
-        return t.os("iOS") && t.version("iPad") >= 4.3 || t.os("iOS") && t.version("iPhone") >= 3.1 || t.os("iOS") && t.version("iPod") >= 3.1 || t.version("Android") > 2.1 && t.is("Webkit") || t.version("Windows Phone OS") >= 7.0 || t.is("BlackBerry") && t.version("BlackBerry") >= 6.0 || t.match("Playbook.*Tablet") || t.version("webOS") >= 1.4 && t.match("Palm|Pre|Pixi") || t.match("hp.*TouchPad") || t.is("Firefox") && t.version("Firefox") >= 12 || t.is("Chrome") && t.is("AndroidOS") && t.version("Android") >= 4.0 || t.is("Skyfire") && t.version("Skyfire") >= 4.1 && t.is("AndroidOS") && t.version("Android") >= 2.3 || t.is("Opera") && t.version("Opera Mobi") > 11 && t.is("AndroidOS") || t.is("MeeGoOS") || t.is("Tizen") || t.is("Dolfin") && t.version("Bada") >= 2.0 || (t.is("UC Browser") || t.is("Dolfin")) && t.version("Android") >= 2.3 || t.match("Kindle Fire") || t.is("Kindle") && t.version("Kindle") >= 3.0 || t.is("AndroidOS") && t.is("NookTablet") || t.version("Chrome") >= 11 && !$isMobile || t.version("Safari") >= 5.0 && !$isMobile || t.version("Firefox") >= 4.0 && !$isMobile || t.version("MSIE") >= 7.0 && !$isMobile || t.version("Opera") >= 10 && !$isMobile ? "A" : t.os("iOS") && 4.3 > t.version("iPad") || t.os("iOS") && 3.1 > t.version("iPhone") || t.os("iOS") && 3.1 > t.version("iPod") || t.is("Blackberry") && t.version("BlackBerry") >= 5 && 6 > t.version("BlackBerry") || t.version("Opera Mini") >= 5.0 && 6.5 >= t.version("Opera Mini") && (t.version("Android") >= 2.3 || t.is("iOS")) || t.match("NokiaN8|NokiaC7|N97.*Series60|Symbian/3") || t.version("Opera Mobi") >= 11 && t.is("SymbianOS") ? "B" : (5.0 > t.version("BlackBerry") || t.match("MSIEMobile|Windows CE.*Mobile") || t.version("Windows Mobile"), "C");
+        return t.os('iOS') && t.version('iPad') >= 4.3 || t.os('iOS') && t.version('iPhone') >= 3.1 || t.os('iOS') && t.version('iPod') >= 3.1 || t.version('Android') > 2.1 && t.is('Webkit') || t.version('Windows Phone OS') >= 7.0 || t.is('BlackBerry') && t.version('BlackBerry') >= 6.0 || t.match('Playbook.*Tablet') || t.version('webOS') >= 1.4 && t.match('Palm|Pre|Pixi') || t.match('hp.*TouchPad') || t.is('Firefox') && t.version('Firefox') >= 12 || t.is('Chrome') && t.is('AndroidOS') && t.version('Android') >= 4.0 || t.is('Skyfire') && t.version('Skyfire') >= 4.1 && t.is('AndroidOS') && t.version('Android') >= 2.3 || t.is('Opera') && t.version('Opera Mobi') > 11 && t.is('AndroidOS') || t.is('MeeGoOS') || t.is('Tizen') || t.is('Dolfin') && t.version('Bada') >= 2.0 || (t.is('UC Browser') || t.is('Dolfin')) && t.version('Android') >= 2.3 || t.match('Kindle Fire') || t.is('Kindle') && t.version('Kindle') >= 3.0 || t.is('AndroidOS') && t.is('NookTablet') || t.version('Chrome') >= 11 && !$isMobile || t.version('Safari') >= 5.0 && !$isMobile || t.version('Firefox') >= 4.0 && !$isMobile || t.version('MSIE') >= 7.0 && !$isMobile || t.version('Opera') >= 10 && !$isMobile ? 'A' : t.os('iOS') && 4.3 > t.version('iPad') || t.os('iOS') && 3.1 > t.version('iPhone') || t.os('iOS') && 3.1 > t.version('iPod') || t.is('Blackberry') && t.version('BlackBerry') >= 5 && 6 > t.version('BlackBerry') || t.version('Opera Mini') >= 5.0 && 6.5 >= t.version('Opera Mini') && (t.version('Android') >= 2.3 || t.is('iOS')) || t.match('NokiaN8|NokiaC7|N97.*Series60|Symbian/3') || t.version('Opera Mobi') >= 11 && t.is('SymbianOS') ? 'B' : (5.0 > t.version('BlackBerry') || t.match('MSIEMobile|Windows CE.*Mobile') || t.version('Windows Mobile'), 'C');
     }, impl.detectOS = function(ua) {
         return impl.findMatch(impl.mobileDetectRules.oss0, ua) || impl.findMatch(impl.mobileDetectRules.oss, ua);
     }, impl.getDeviceSmallerSide = function() {
@@ -394,7 +394,7 @@ import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
             return containsIC(this.userAgents(), key) || equalIC(key, this.os()) || equalIC(key, this.phone()) || equalIC(key, this.tablet()) || containsIC(impl.findMatches(impl.mobileDetectRules.utils, this.ua), key);
         },
         match: function(pattern) {
-            return _instanceof(pattern, RegExp) || (pattern = RegExp(pattern, "i")), pattern.test(this.ua);
+            return _instanceof(pattern, RegExp) || (pattern = RegExp(pattern, 'i')), pattern.test(this.ua);
         },
         isPhoneSized: function(maxPhoneWidth) {
             return MobileDetect.isPhoneSized(maxPhoneWidth || this.maxPhoneWidth);
@@ -402,7 +402,7 @@ import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
         mobileGrade: function() {
             return undefined === this._cache.grade && (this._cache.grade = impl.mobileGrade(this)), this._cache.grade;
         }
-    }, "undefined" != typeof window && window.screen ? MobileDetect.isPhoneSized = function(maxPhoneWidth) {
+    }, 'undefined' != typeof window && window.screen ? MobileDetect.isPhoneSized = function(maxPhoneWidth) {
         return maxPhoneWidth < 0 ? undefined : impl.getDeviceSmallerSide() <= maxPhoneWidth;
-    } : MobileDetect.isPhoneSized = function() {}, MobileDetect._impl = impl, MobileDetect.version = "1.3.3 2016-07-31", MobileDetect;
+    } : MobileDetect.isPhoneSized = function() {}, MobileDetect._impl = impl, MobileDetect.version = '1.3.3 2016-07-31', MobileDetect;
 });

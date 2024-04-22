@@ -8,12 +8,12 @@ function foo(x, y, z) {
     return z;
 }
 //function foo<T, U extends T, V extends U>(x: T, y: U, z: V): V { return z; }
-foo(1, 2, "");
+foo(1, 2, '');
 foo({
     x: 1
 }, {
     x: 1,
-    y: ""
+    y: ''
 }, {
     x: 2,
     y: 2,
@@ -22,7 +22,7 @@ foo({
 foo(a, b, a);
 foo(a, {
     foo: 1,
-    bar: "",
+    bar: '',
     hm: true
 }, b);
 foo(function(x, y) {}, function(x, y) {}, function() {});

@@ -5,7 +5,7 @@ function f1(a, x) {
 function f2(a, x) {
     var s = a[x]; // boolean
 }
-var container1 = createContainer("hi");
+var container1 = createContainer('hi');
 var container2 = createContainer(2);
 f([
     container1,

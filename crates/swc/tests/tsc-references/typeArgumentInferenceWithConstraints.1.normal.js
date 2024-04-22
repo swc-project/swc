@@ -6,9 +6,9 @@ noParams();
 noParams();
 // Generic call with parameters but none use type parameter type
 function noGenericParams(n) {}
-noGenericParams(""); // Valid
-noGenericParams("");
-noGenericParams(""); // Error
+noGenericParams(''); // Valid
+noGenericParams('');
+noGenericParams(''); // Error
 // Generic call with multiple type parameters and only one used in parameter type annotation
 function someGenerics1(n, m) {}
 someGenerics1(3, 4); // Valid
@@ -39,7 +39,7 @@ someGenerics2b(function(n, t) {
 // Generic call with argument of function type whose parameter is not of type parameter type but body/return type uses type parameter
 function someGenerics3(producer) {}
 someGenerics3(function() {
-    return "";
+    return '';
 }); // Error
 someGenerics3(function() {
     return undefined;
@@ -52,11 +52,11 @@ function someGenerics4(n, f) {}
 someGenerics4(4, function() {
     return null;
 }); // Valid
-someGenerics4("", function() {
+someGenerics4('', function() {
     return 3;
 });
-someGenerics4("", function(x) {
-    return "";
+someGenerics4('', function(x) {
+    return '';
 }); // Error
 someGenerics4(null, null);
 // 2 parameter generic call with argument 2 of type parameter type and argument 1 of function type whose parameter is of type parameter type
@@ -64,11 +64,11 @@ function someGenerics5(n, f) {}
 someGenerics5(4, function() {
     return null;
 }); // Valid
-someGenerics5("", function() {
+someGenerics5('', function() {
     return 3;
 });
-someGenerics5("", function(x) {
-    return "";
+someGenerics5('', function(x) {
+    return '';
 }); // Error
 someGenerics5(null, null); // Error
 // Generic call with multiple arguments of function types that each have parameters of the same generic type
@@ -134,12 +134,12 @@ x(null, null, null); // Error
 function someGenerics9(a, b, c) {
     return null;
 }
-var a9a = someGenerics9("", 0, []);
+var a9a = someGenerics9('', 0, []);
 var a9a;
 var a9b = someGenerics9({
     a: 0
 }, {
-    b: ""
+    b: ''
 }, null);
 var a9b;
 var a9e = someGenerics9(undefined, {
@@ -147,7 +147,7 @@ var a9e = someGenerics9(undefined, {
     z: window
 }, {
     x: 6,
-    y: ""
+    y: ''
 });
 var a9e;
 var a9f = someGenerics9(undefined, {
@@ -155,7 +155,7 @@ var a9f = someGenerics9(undefined, {
     z: window
 }, {
     x: 6,
-    y: ""
+    y: ''
 });
 var a9f;
 // Generic call with multiple parameters of generic type passed arguments with a single best common type

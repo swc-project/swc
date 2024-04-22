@@ -7,7 +7,7 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 };
 var X = function() {
     function X() {
-        _class_call_check(this, X), this.m = this.m.bind(this), this.mistake = "frankly, complete nonsense";
+        _class_call_check(this, X), this.m = this.m.bind(this), this.mistake = 'frankly, complete nonsense';
     }
     var _proto = X.prototype;
     return _proto.m = function() {}, _proto.mistake = function() {}, X;
@@ -15,7 +15,7 @@ var X = function() {
 X.prototype.mistake = !1, x.m(), x.mistake;
 var Y = function() {
     function Y() {
-        _class_call_check(this, Y), this.m = this.m.bind(this), this.mistake = "even more nonsense";
+        _class_call_check(this, Y), this.m = this.m.bind(this), this.mistake = 'even more nonsense';
     }
     var _proto = Y.prototype;
     return _proto.mistake = function() {}, _proto.m = function() {}, Y;

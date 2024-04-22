@@ -8,5 +8,5 @@ function f2(intrinsic) {
     return intrinsic;
 }
 function f3() {
-    var s1 = "ok";
+    var s1 = 'ok';
 }

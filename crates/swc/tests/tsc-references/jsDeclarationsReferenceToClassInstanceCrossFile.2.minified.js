@@ -7,7 +7,7 @@ module.exports = {
 };
 //// [index.js]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-var Rectangle = require("./rectangle").Rectangle, Render = function() {
+var Rectangle = require('./rectangle').Rectangle, Render = function() {
     function Render() {
         _class_call_check(this, Render), this.objects = [];
     }

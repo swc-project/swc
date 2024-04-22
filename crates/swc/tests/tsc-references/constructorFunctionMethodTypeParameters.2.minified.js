@@ -7,5 +7,5 @@ Cls.prototype.topLevelComment = function(t, v) {
 }, Cls.prototype.nestedComment = function(t, u) {
     return t;
 };
-var c = new Cls("a");
-c.topLevelComment("a", "b"), c.nestedComment("a", "b");
+var c = new Cls('a');
+c.topLevelComment('a', 'b'), c.nestedComment('a', 'b');

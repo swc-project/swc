@@ -91,7 +91,7 @@ var Conestoga = /*#__PURE__*/ function(Wagon1) {
         _class_call_check(this, Conestoga);
         var _this;
         // error: wrong type
-        _this = _super.call(this, "nope");
+        _this = _super.call(this, 'nope');
         _this.drunkOO = drunkOO;
         return _this;
     }

@@ -1,7 +1,7 @@
 //// [index1.js]
 module.exports = {
     x: function(a) {
-        return "";
+        return '';
     },
     b: function() {
         return 0;

@@ -26,6 +26,6 @@ var r11 = 0 + undefined;
 var r12 = 0 + undefined;
 // undefined + string
 var r13 = undefined + d;
-var r14 = undefined + "";
+var r14 = undefined + '';
 var r15 = d + undefined;
-var r16 = "" + undefined;
+var r16 = '' + undefined;

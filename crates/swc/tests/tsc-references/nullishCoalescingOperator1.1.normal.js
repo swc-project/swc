@@ -1,8 +1,8 @@
 //// [nullishCoalescingOperator1.ts]
-var aa1 = a1 !== null && a1 !== void 0 ? a1 : "whatever";
-var aa2 = a2 !== null && a2 !== void 0 ? a2 : "whatever";
-var aa3 = a3 !== null && a3 !== void 0 ? a3 : "whatever";
-var aa4 = a4 !== null && a4 !== void 0 ? a4 : "whatever";
+var aa1 = a1 !== null && a1 !== void 0 ? a1 : 'whatever';
+var aa2 = a2 !== null && a2 !== void 0 ? a2 : 'whatever';
+var aa3 = a3 !== null && a3 !== void 0 ? a3 : 'whatever';
+var aa4 = a4 !== null && a4 !== void 0 ? a4 : 'whatever';
 var bb1 = b1 !== null && b1 !== void 0 ? b1 : 1;
 var bb2 = b2 !== null && b2 !== void 0 ? b2 : 1;
 var bb3 = b3 !== null && b3 !== void 0 ? b3 : 1;

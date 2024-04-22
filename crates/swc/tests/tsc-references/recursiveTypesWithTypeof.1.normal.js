@@ -32,7 +32,7 @@ var j2 = new j2(j2);
 // Indexers
 var k;
 var k = k[0];
-var k = k[""];
+var k = k[''];
 // Hybrid - contains type literals as well as type arguments
 // These two are recursive
 var hy1;

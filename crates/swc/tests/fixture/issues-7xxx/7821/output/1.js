@@ -7,7 +7,7 @@ var Blocks = {
     },
     Layout1: function() {
         return [
-            "Block1"
+            'Block1'
         ].map(function(e) {
             return Blocks[e];
         });

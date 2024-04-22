@@ -5,7 +5,7 @@
 });
 // Error, string is not assignable to number
 /*#__PURE__*/ React.createElement("div", {
-    width: "foo"
+    width: 'foo'
 });
 // Error, number is not assignable to string
 var attribs = {
@@ -15,5 +15,5 @@ var attribs = {
 // No errors here
 /*#__PURE__*/ React.createElement("span", {
     foo: "bar",
-    bar: "foo"
+    bar: 'foo'
 });

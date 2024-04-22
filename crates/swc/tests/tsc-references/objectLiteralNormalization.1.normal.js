@@ -76,14 +76,14 @@ var c4 = !true ? {} : {
 // Normalization applies to nested properties
 var d1 = [
     {
-        kind: "a",
+        kind: 'a',
         pos: {
             x: 0,
             y: 0
         }
     },
     {
-        kind: "b",
+        kind: 'b',
         pos: !true ? {
             a: "x"
         } : {

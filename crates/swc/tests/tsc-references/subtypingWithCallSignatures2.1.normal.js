@@ -58,12 +58,12 @@ var r1b = [
 ]; // generic signature, subtype in both directions
 var r2arg1 = function(x) {
     return [
-        ""
+        ''
     ];
 };
 var r2arg2 = function(x) {
     return [
-        ""
+        ''
     ];
 };
 var r2 = foo2(r2arg1);
@@ -92,7 +92,7 @@ var r4arg1 = function(x, y) {
     return x;
 };
 var r4arg2 = function(x, y) {
-    return "";
+    return '';
 };
 var r4 = foo4(r4arg1); // any
 var r4a = [
@@ -107,7 +107,7 @@ var r5arg1 = function(x) {
     return null;
 };
 var r5arg2 = function(x) {
-    return "";
+    return '';
 };
 var r5 = foo5(r5arg1); // any
 var r5a = [

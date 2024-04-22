@@ -23,7 +23,7 @@ var ra3 = _instanceof(a3, x);
 var ra4 = _instanceof(a4, x);
 var ra5 = _instanceof(0, x);
 var ra6 = _instanceof(true, x);
-var ra7 = _instanceof("", x);
+var ra7 = _instanceof('', x);
 var ra8 = _instanceof(null, x);
 var ra9 = _instanceof(undefined, x);
 // invalid right operand
@@ -41,9 +41,9 @@ var rb3 = _instanceof(x, b3);
 var rb4 = _instanceof(x, b4);
 var rb5 = _instanceof(x, 0);
 var rb6 = _instanceof(x, true);
-var rb7 = _instanceof(x, "");
+var rb7 = _instanceof(x, '');
 var rb8 = _instanceof(x, o1);
 var rb9 = _instanceof(x, o2);
 var rb10 = _instanceof(x, o3);
 // both operands are invalid
-var rc1 = _instanceof("", {});
+var rc1 = _instanceof('', {});

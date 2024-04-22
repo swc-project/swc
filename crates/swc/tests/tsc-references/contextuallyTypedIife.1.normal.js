@@ -43,7 +43,7 @@
     return mixed.every(function(n) {
         return !!n;
     });
-})(5, "oops", "oh no");
+})(5, 'oops', 'oh no');
 (function() {
     for(var _len = arguments.length, noNumbers = new Array(_len), _key = 0; _key < _len; _key++){
         noNumbers[_key] = arguments[_key];

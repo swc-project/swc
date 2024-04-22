@@ -21,7 +21,7 @@ module.exports = {
     SomeClass: SomeClass
 };
 //// [main.js]
-var _require = require("./lib"), SomeClass = _require.SomeClass, Another = _require.SomeClass;
+var _require = require('./lib'), SomeClass = _require.SomeClass, Another = _require.SomeClass;
 module.exports = {
     SomeClass: SomeClass,
     Another: Another

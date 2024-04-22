@@ -9,7 +9,7 @@ var A = /*#__PURE__*/ function() {
     }
     var _proto = A.prototype;
     _proto.foo = function foo() {
-        return "";
+        return '';
     };
     return A;
 }();
@@ -23,7 +23,7 @@ var B = /*#__PURE__*/ function(A) {
     }
     var _proto = B.prototype;
     _proto.bar = function bar() {
-        return "";
+        return '';
     };
     return B;
 }(A);
@@ -35,7 +35,7 @@ var C = /*#__PURE__*/ function() {
     var _proto = C.prototype;
     _proto.f = function f() {
         var x;
-        var a = x["foo"](); // should be string
+        var a = x['foo'](); // should be string
         return a + x.foo() + x.notHere();
     };
     return C;
@@ -43,14 +43,14 @@ var C = /*#__PURE__*/ function() {
 var r = new C().f();
 var i;
 var r2 = i.foo.notHere();
-var r2b = i.foo["foo"]();
+var r2b = i.foo['foo']();
 var a;
 // BUG 794164
 var r3 = a().notHere();
-var r3b = a()["foo"]();
+var r3b = a()['foo']();
 var b = {
     foo: function(x) {
-        var a = x["foo"](); // should be string
+        var a = x['foo'](); // should be string
         return a + x.notHere();
     },
     // BUG 794164

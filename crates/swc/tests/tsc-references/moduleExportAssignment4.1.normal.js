@@ -3,4 +3,4 @@ exports.default = {
     m: 1,
     a: 1
 };
-module.exports = exports["default"];
+module.exports = exports['default'];

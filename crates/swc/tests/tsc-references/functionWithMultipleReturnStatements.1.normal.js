@@ -5,7 +5,7 @@ function f1() {
     if (true) {
         return 1;
     } else {
-        return "";
+        return '';
     }
 }
 function f2() {
@@ -14,26 +14,26 @@ function f2() {
     } else if (false) {
         return 2;
     } else {
-        return "";
+        return '';
     }
 }
 function f3() {
     try {
         return 1;
     } catch (e) {
-        return "";
+        return '';
     }
 }
 function f4() {
     try {
         return 1;
     } catch (e) {} finally{
-        return "";
+        return '';
     }
 }
 function f5() {
     return 1;
-    return "";
+    return '';
 }
 function f6(x, y) {
     if (true) {

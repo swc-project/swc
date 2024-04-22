@@ -87,7 +87,7 @@ test({
         return 0;
     },
     b: function(a) {
-        return "a";
+        return 'a';
     },
     c: function(b) {
         var _$x = b;

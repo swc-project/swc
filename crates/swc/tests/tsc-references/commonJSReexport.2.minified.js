@@ -7,7 +7,7 @@ module.exports = {
 };
 //// [second.js]
 module.exports = {
-    nested: require("./first")
+    nested: require('./first')
 };
 //// [main.js]
-require("./second").nested.hardline;
+require('./second').nested.hardline;

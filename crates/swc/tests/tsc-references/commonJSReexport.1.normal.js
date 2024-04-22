@@ -9,8 +9,8 @@ module.exports = {
 };
 //// [second.js]
 module.exports = {
-    nested: require("./first")
+    nested: require('./first')
 };
 //// [main.js]
-var hardline = require("./second").nested.hardline;
+var hardline = require('./second').nested.hardline;
 hardline;

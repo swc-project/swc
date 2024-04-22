@@ -33,9 +33,9 @@ var r14 = g + x;
 // other cases
 var r15 = x + E;
 var r16 = x + 0;
-var r17 = x + "";
+var r17 = x + '';
 var r18 = x + 0;
 var r19 = x + {
-    a: ""
+    a: ''
 };
 var r20 = x + [];

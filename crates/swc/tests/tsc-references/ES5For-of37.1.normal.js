@@ -17,11 +17,11 @@ for(var _i = 0, _iter = [
         ]; _i1 < _iter1.length; _i1++){
             var j = _iter1[_i1];
             if (i === 2) {
-                throw new Error("ERR");
+                throw new Error('ERR');
             }
         }
         console.log(i);
     } catch (err) {
-        console.log("E %s %s", i, err);
+        console.log('E %s %s', i, err);
     }
 }

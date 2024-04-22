@@ -10,4 +10,4 @@ exports.Bar = function _class() {
     Quack: 2
 };
 //// [use.js]
-new (require("./mod1.js")).Baz();
+new (require('./mod1.js')).Baz();

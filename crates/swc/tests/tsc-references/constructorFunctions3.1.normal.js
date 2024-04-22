@@ -1,14 +1,14 @@
 //// [a.js]
 function Instance() {
-    this.i = "simple";
+    this.i = 'simple';
 }
 var i = new Instance();
 Instance;
 i;
 function StaticToo() {
-    this.i = "more complex";
+    this.i = 'more complex';
 }
-StaticToo.property = "yep";
+StaticToo.property = 'yep';
 var s = new StaticToo();
 s;
 StaticToo;

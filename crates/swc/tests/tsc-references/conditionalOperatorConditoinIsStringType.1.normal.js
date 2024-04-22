@@ -22,8 +22,8 @@ condString ? exprString1 : exprBoolean1; // union
 //Cond is a string type literal
 "" ? exprAny1 : exprAny2;
 "string" ? exprBoolean1 : exprBoolean2;
-"c" ? exprNumber1 : exprNumber2;
-"string" ? exprString1 : exprString2;
+'c' ? exprNumber1 : exprNumber2;
+'string' ? exprString1 : exprString2;
 "  " ? exprIsObject1 : exprIsObject2;
 "hello " ? exprString1 : exprBoolean1; // union
 //Cond is a string type expression
@@ -50,8 +50,8 @@ var resultIsObject1 = condString ? exprIsObject1 : exprIsObject2;
 var resultIsStringOrBoolean1 = condString ? exprString1 : exprBoolean1; // union
 var resultIsAny2 = "" ? exprAny1 : exprAny2;
 var resultIsBoolean2 = "string" ? exprBoolean1 : exprBoolean2;
-var resultIsNumber2 = "c" ? exprNumber1 : exprNumber2;
-var resultIsString2 = "string" ? exprString1 : exprString2;
+var resultIsNumber2 = 'c' ? exprNumber1 : exprNumber2;
+var resultIsString2 = 'string' ? exprString1 : exprString2;
 var resultIsObject2 = "  " ? exprIsObject1 : exprIsObject2;
 var resultIsStringOrBoolean2 = "hello" ? exprString1 : exprBoolean1; // union
 var resultIsAny3 = (typeof condString === "undefined" ? "undefined" : _type_of(condString)) ? exprAny1 : exprAny2;

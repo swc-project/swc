@@ -2,7 +2,7 @@
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var x;
 x = 1;
-x = "";
+x = '';
 x = true;
 var E;
 (function(E) {

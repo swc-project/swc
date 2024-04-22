@@ -18,11 +18,11 @@ var M;
 (function(M) {
     var E1;
     (function(E1) {
-        E1[E1["B"] = "foo".length] = "B";
+        E1[E1["B"] = 'foo'.length] = "B";
     })(E1 = M.E1 || (M.E1 = {}));
     var E2;
     (function(E2) {
-        E2[E2["B"] = "foo".length] = "B";
+        E2[E2["B"] = 'foo'.length] = "B";
     })(E2 = M.E2 || (M.E2 = {}));
     var E3;
     (function(E3) {
@@ -40,7 +40,7 @@ var M;
     })(E2 = M.E2 || (M.E2 = {}));
     var E3;
     (function(E3) {
-        E3[E3["B"] = "foo".length] = "B";
+        E3[E3["B"] = 'foo'.length] = "B";
     })(E3 = M.E3 || (M.E3 = {}));
 })(M || (M = {}));
 var M1;

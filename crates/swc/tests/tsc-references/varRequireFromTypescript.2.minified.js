@@ -4,4 +4,4 @@ export var Crunch = function Crunch() {
     _class_call_check(this, Crunch);
 };
 //// [use.js]
-new (require("./ex")).Crunch(1).n;
+new (require('./ex')).Crunch(1).n;

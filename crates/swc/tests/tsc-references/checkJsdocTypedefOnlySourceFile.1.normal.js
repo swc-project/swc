@@ -5,4 +5,4 @@ var exports = {};
 /**
  * @typedef {string}
  */ exports.SomeName;
-/** @type {exports.SomeName} */ var myString = "str";
+/** @type {exports.SomeName} */ var myString = 'str';

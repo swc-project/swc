@@ -10,7 +10,7 @@
 });
 // Does not happen for a string literal that happens to be inside an attribute (and escapes then work)
 /*#__PURE__*/ React.createElement("div", {
-    attr: '&#0123;&hellip;&#x7D;"'
+    attr: "&#0123;&hellip;&#x7D;\""
 });
 // Preserves single quotes
 /*#__PURE__*/ React.createElement("div", {

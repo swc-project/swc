@@ -3,7 +3,7 @@ import { _ as _object_spread } from "@swc/helpers/_/_object_spread";
 import { _ as _object_spread_props } from "@swc/helpers/_/_object_spread_props";
 // OK
 var obj1 = {
-    x: "foo"
+    x: 'foo'
 };
 /*#__PURE__*/ React.createElement("test1", obj1);
 // Error, x is not string
@@ -34,14 +34,14 @@ var obj5 = {
 }, obj5));
 // Ok
 var obj6 = {
-    x: "ok",
+    x: 'ok',
     y: 32,
     extra: 100
 };
 /*#__PURE__*/ React.createElement("test1", obj6);
 // OK (spread override)
 var obj7 = {
-    x: "foo"
+    x: 'foo'
 };
 /*#__PURE__*/ React.createElement("test1", _object_spread({
     x: 32

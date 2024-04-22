@@ -42,5 +42,5 @@ var c;
 var d;
 var e;
 c = e;
-var r = c.foo("", "");
-var r2 = e.foo("", 1);
+var r = c.foo('', '');
+var r2 = e.foo('', 1);

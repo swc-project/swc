@@ -155,9 +155,9 @@ function f60(source, target) {
     }
 }
 function f70(func) {
-    func("a", "a");
-    func("a", "b");
-    func("a", "c");
+    func('a', 'a');
+    func('a', 'b');
+    func('a', 'c');
 }
 function f71(func) {
     var x = func({
@@ -176,19 +176,19 @@ function f72(func) {
         b: "hello"
     }, {
         c: true
-    }, "a"); // number
+    }, 'a'); // number
     var b = func({
         a: 1,
         b: "hello"
     }, {
         c: true
-    }, "b"); // string
+    }, 'b'); // string
     var c = func({
         a: 1,
         b: "hello"
     }, {
         c: true
-    }, "c"); // boolean
+    }, 'c'); // boolean
 }
 function f73(func) {
     var a = func({
@@ -196,19 +196,19 @@ function f73(func) {
         b: "hello"
     }, {
         c: true
-    }, "a"); // number
+    }, 'a'); // number
     var b = func({
         a: 1,
         b: "hello"
     }, {
         c: true
-    }, "b"); // string
+    }, 'b'); // string
     var c = func({
         a: 1,
         b: "hello"
     }, {
         c: true
-    }, "c"); // boolean
+    }, 'c'); // boolean
 }
 function f74(func) {
     var a = func({
@@ -217,25 +217,25 @@ function f74(func) {
     }, {
         a: 2,
         b: true
-    }, "a"); // number
+    }, 'a'); // number
     var b = func({
         a: 1,
         b: "hello"
     }, {
         a: 2,
         b: true
-    }, "b"); // string | boolean
+    }, 'b'); // string | boolean
 }
 function f80(obj) {
     var a1 = obj.a; // { x: any }
-    var a2 = obj["a"]; // { x: any }
-    var a3 = obj["a"]; // T["a"]
+    var a2 = obj['a']; // { x: any }
+    var a3 = obj['a']; // T["a"]
     var x1 = obj.a.x; // any
-    var x2 = obj["a"]["x"]; // any
-    var x3 = obj["a"]["x"]; // T["a"]["x"]
+    var x2 = obj['a']['x']; // any
+    var x3 = obj['a']['x']; // T["a"]["x"]
 }
 function f81(obj) {
-    return obj["a"]["x"];
+    return obj['a']['x'];
 }
 function f82() {
     var x1 = f81({
@@ -250,7 +250,7 @@ function f82() {
     }); // number
 }
 function f83(obj, key) {
-    return obj[key]["x"];
+    return obj[key]['x'];
 }
 function f84() {
     var x1 = f83({
@@ -383,13 +383,13 @@ function path(obj) {
     return result;
 }
 function f1(thing) {
-    var x1 = path(thing, "a"); // { x: number, y: string }
-    var x2 = path(thing, "a", "y"); // string
-    var x3 = path(thing, "b"); // boolean
+    var x1 = path(thing, 'a'); // { x: number, y: string }
+    var x2 = path(thing, 'a', 'y'); // string
+    var x3 = path(thing, 'b'); // boolean
     var x4 = path.apply(void 0, [
         thing,
-        "a",
-        "x"
+        'a',
+        'x'
     ]); // any
 }
 // Repro from comment in #12114
@@ -425,7 +425,7 @@ function addToMyThingy(key) {
     MyThingy[key].push("a");
 }
 function onChangeGenericFunction(handler) {
-    handler.onChange("preset");
+    handler.onChange('preset');
 }
 // Repro from #13285
 function updateIds(obj, idFields, idMapping) {
