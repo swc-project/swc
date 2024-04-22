@@ -1,0 +1,3 @@
+var a = "//# sourceMappingURL=[file].map";
+
+//# sourceMappingURL=data:application/json;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbIi4uLy4uL2lucHV0LzEuanMiXSwic291cmNlc0NvbnRlbnQiOlsidmFyIGEgPSBcIi8vIyBzb3VyY2VNYXBwaW5nVVJMPVtmaWxlXS5tYXBcIlxuIl0sIm5hbWVzIjpbImEiXSwicmFuZ2VNYXBwaW5ncyI6IiIsIm1hcHBpbmdzIjoiQUFBQSxJQUFJQSxJQUFJIn0=
