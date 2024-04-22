@@ -120,7 +120,10 @@ use std::{
 
 use anyhow::{bail, Context, Error};
 use base64::prelude::{Engine, BASE64_STANDARD};
-use common::{comments::SingleThreadedComments, errors::HANDLER};
+use common::{
+    comments::{Comment, SingleThreadedComments},
+    errors::HANDLER,
+};
 use jsonc_parser::{parse_to_serde_value, ParseOptions};
 use once_cell::sync::Lazy;
 use serde_json::error::Category;
@@ -242,6 +245,7 @@ impl Compiler {
         &self,
         fm: &SourceFile,
         input_src_map: &InputSourceMap,
+        comments: &[Comment],
         is_default: bool,
     ) -> Result<Option<sourcemap::SourceMap>, Error> {
         self.run(|| -> Result<_, Error> {
@@ -365,6 +369,7 @@ impl Compiler {
             let read_sourcemap = || -> Option<sourcemap::SourceMap> {
                 let s = "sourceMappingURL=";
                 let idx = fm.src.rfind(s);
+                dbg!(idx);
 
                 let data_url = idx.map(|idx| {
                     let data_idx = idx + s.len();
