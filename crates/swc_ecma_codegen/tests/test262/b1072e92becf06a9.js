@@ -1,3 +1,3 @@
 (function() {
-    a(typeof b === "function");
+    a(typeof b === 'function');
 }());

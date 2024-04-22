@@ -1,1 +1,1 @@
-typeof /test/ + " RegExp";
+typeof /test/ + ' RegExp';

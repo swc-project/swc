@@ -1,16 +1,16 @@
 try {
     // do not optimize it
     (function() {
-        a("b");
+        a('b');
     }());
 } catch (c) {
     // do not optimize it
     (function() {
-        a("b");
+        a('b');
     }());
 } finally{
     // do not optimize it
     (function() {
-        a("b");
+        a('b');
     }());
 }

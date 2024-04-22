@@ -12,8 +12,8 @@ if (b) {
 } else {
     a = 7 - 8;
 }
-a = b ? "f" : "g" + "h";
-a = b ? "f" : b ? "f" : "g" + "h";
+a = b ? 'f' : 'g' + 'h';
+a = b ? 'f' : b ? 'f' : 'g' + 'h';
 // Compress conditions that have side effects
 if (i()) {
     a = 9 + 10;
@@ -21,13 +21,13 @@ if (i()) {
     a = 11;
 }
 if (c) {
-    a = "j";
+    a = 'j';
 } else if (i()) {
-    a = "k" + "l";
+    a = 'k' + 'l';
 } else {
-    a = "j";
+    a = 'j';
 }
-a = i() ? "m" : "f" + "n";
+a = i() ? 'm' : 'f' + 'n';
 // don't compress these
 a = b ? d : e;
-a = b ? "f" : "g";
+a = b ? 'f' : 'g';

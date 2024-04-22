@@ -1,5 +1,5 @@
 (class {
     set a(b) {
-        "use strict";
+        'use strict';
     }
 });

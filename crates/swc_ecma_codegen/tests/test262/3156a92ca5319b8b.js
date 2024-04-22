@@ -1,2 +1,2 @@
-throw "a";
+throw 'a';
 b();
