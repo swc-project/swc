@@ -234,8 +234,7 @@ where
                 }
                 // A body element's start tag can be omitted if the element is empty, or if the
                 // first thing inside the body element is not ASCII whitespace or a comment, except
-                // if the first thing inside the body element is a meta, link, script, style, or
-                // template element.
+                // if the first thing inside the body element would be parsed differently outside.
                 "body"
                     if n.children.is_empty()
                         || (match n.children.first() {
@@ -253,14 +252,17 @@ where
                             })) if *namespace == Namespace::HTML
                                 && matches!(
                                     &**tag_name,
-                                    "meta"
+                                    "base"
+                                        | "basefont"
+                                        | "bgsound"
+                                        | "frameset"
                                         | "link"
+                                        | "meta"
+                                        | "noframes"
+                                        | "noscript"
                                         | "script"
                                         | "style"
                                         | "template"
-                                        | "bgsound"
-                                        | "basefont"
-                                        | "base"
                                         | "title"
                                 ) =>
                             {

@@ -585,7 +585,7 @@ impl VisitMut for Marker {
 
     fn visit_mut_var_declarator(&mut self, v: &mut VarDeclarator) {
         if let Pat::Ident(i) = &mut v.name {
-            if &*i.id.sym == "id" {
+            if &*i.id.sym == "id" || &*i.id.sym == "resource" {
                 i.id.span.ctxt = self.base;
                 self.decls.insert(i.id.sym.clone(), self.base);
                 return;
@@ -690,6 +690,7 @@ let _throw1 = null;
             Default::default,
         )
     }
+
     #[test]
     fn use_strict_abort() {
         crate::tests::test_transform(
@@ -704,5 +705,85 @@ let x = 4;",
             false,
             Default::default,
         );
+    }
+
+    #[test]
+    fn issue_8871() {
+        crate::tests::test_transform(
+            Default::default(),
+            |_| {
+                enable_helper!(using_ctx);
+                as_folder(inject_helpers(Mark::new()))
+            },
+            "let _throw = null",
+            r#"
+            function _using_ctx() {
+                var _disposeSuppressedError = typeof SuppressedError === "function" ? SuppressedError : function(error, suppressed) {
+                    var err = new Error();
+                    err.name = "SuppressedError";
+                    err.suppressed = suppressed;
+                    err.error = error;
+                    return err;
+                }, empty = {}, stack = [];
+                function using(isAwait, value) {
+                    if (value != null) {
+                        if (Object(value) !== value) {
+                            throw new TypeError("using declarations can only be used with objects, functions, null, or undefined.");
+                        }
+                        if (isAwait) {
+                            var dispose = value[Symbol.asyncDispose || Symbol.for("Symbol.asyncDispose")];
+                        }
+                        if (dispose == null) {
+                            dispose = value[Symbol.dispose || Symbol.for("Symbol.dispose")];
+                        }
+                        if (typeof dispose !== "function") {
+                            throw new TypeError(`Property [Symbol.dispose] is not a function.`);
+                        }
+                        stack.push({
+                            v: value,
+                            d: dispose,
+                            a: isAwait
+                        });
+                    } else if (isAwait) {
+                        stack.push({
+                            d: value,
+                            a: isAwait
+                        });
+                    }
+                    return value;
+                }
+                return {
+                    e: empty,
+                    u: using.bind(null, false),
+                    a: using.bind(null, true),
+                    d: function() {
+                        var error = this.e;
+                        function next() {
+                            while(resource = stack.pop()){
+                                try {
+                                    var resource, disposalResult = resource.d && resource.d.call(resource.v);
+                                    if (resource.a) {
+                                        return Promise.resolve(disposalResult).then(next, err);
+                                    }
+                                } catch (e) {
+                                    return err(e);
+                                }
+                            }
+                            if (error !== empty) throw error;
+                        }
+                        function err(e) {
+                            error = error !== empty ? new _disposeSuppressedError(error, e) : e;
+                            return next();
+                        }
+                        return next();
+                    }
+                };
+            }
+                    
+let _throw = null;
+"#,
+            false,
+            Default::default,
+        )
     }
 }
