@@ -790,7 +790,19 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
             alt: None,
         });
 
+        let iterator_return = Box::new(Expr::Call(CallExpr {
+            span: DUMMY_SP,
+            callee: iterator
+                .clone()
+                .make_member(quote_ident!("return"))
+                .as_callee(),
+            args: vec![],
+            type_args: Default::default(),
+        }));
+
         // yield _iterator.return();
+        // or
+        // yield _awaitAsyncGenerator(_iterator.return());
         let yield_stmt = Stmt::Expr(ExprStmt {
             span: DUMMY_SP,
             expr: Box::new(Expr::Yield(YieldExpr {
@@ -799,10 +811,7 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
                 arg: Some(Box::new(Expr::Call(CallExpr {
                     span: DUMMY_SP,
                     callee: helper!(await_async_generator),
-                    args: vec![iterator
-                        .clone()
-                        .make_member(quote_ident!("return"))
-                        .as_arg()],
+                    args: vec![iterator_return.as_arg()],
                     type_args: Default::default(),
                 }))),
             })),
