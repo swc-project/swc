@@ -633,7 +633,7 @@ where
 
         let target = self.cfg.target;
 
-        if target > EsVersion::Es5 && !self.cfg.minify {
+        if !self.cfg.minify {
             if let Some(raw) = &node.raw {
                 if !self.cfg.ascii_only || raw.is_ascii() {
                     self.wr.write_str_lit(DUMMY_SP, raw)?;
