@@ -368,23 +368,18 @@ impl Compiler {
 
             let read_sourcemap = || -> Option<sourcemap::SourceMap> {
                 let s = "sourceMappingURL=";
-                let idx = fm.src.rfind(s);
-                dbg!(idx);
 
-                let data_url = idx.map(|idx| {
-                    let data_idx = idx + s.len();
-                    if let Some(end) = fm.src[data_idx..].find('\n').map(|i| i + data_idx + 1) {
-                        &fm.src[data_idx..end]
-                    } else {
-                        &fm.src[data_idx..]
-                    }
-                });
+                let text = comments
+                    .iter()
+                    .rev()
+                    .find_map(|c| c.text.strip_prefix(s))
+                    .map(|t| t.trim());
 
-                match read_inline_sourcemap(data_url) {
+                match read_inline_sourcemap(text) {
                     Ok(r) => r,
                     Err(err) => {
                         // Load original source map if possible
-                        match read_file_sourcemap(data_url) {
+                        match read_file_sourcemap(text) {
                             Ok(v) => v,
                             Err(_) => {
                                 tracing::error!("failed to read input source map: {:?}", err);
@@ -702,7 +697,16 @@ impl Compiler {
             let config = config.with_pass(|pass| chain!(pass, after_pass));
 
             let orig = if config.source_maps.enabled() {
-                self.get_orig_src_map(&fm, &config.input_source_map, false)?
+                self.get_orig_src_map(
+                    &fm,
+                    &config.input_source_map,
+                    config
+                        .comments
+                        .get_trailing(config.program.span_hi())
+                        .as_deref()
+                        .unwrap_or_default(),
+                    false,
+                )?
             } else {
                 None
             };
