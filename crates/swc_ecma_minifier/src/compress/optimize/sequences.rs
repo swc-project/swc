@@ -2355,6 +2355,14 @@ impl Optimizer<'_> {
             if a_right.is_this() || a_right.is_ident_ref_to("arguments") {
                 return Ok(false);
             }
+            if let Expr::Ident(a_right) = &**a_right {
+                if let Expr::Ident(b) = b {
+                    if a_right.to_id() == b.to_id() {
+                        return Ok(false);
+                    }
+                }
+            }
+
             if contains_arguments(&**a_right) {
                 return Ok(false);
             }
