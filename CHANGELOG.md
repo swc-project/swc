@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(es/minifier)** Abort seq inline on recursive usage ([#8887](https://github.com/swc-project/swc/issues/8887)) ([cd4548f](https://github.com/swc-project/swc/commit/cd4548fd8c32f67d0e8373f7a2c3cb625f43e6c4))
+
 ## [1.4.17] - 2024-04-23
 
 ### Bug Fixes
