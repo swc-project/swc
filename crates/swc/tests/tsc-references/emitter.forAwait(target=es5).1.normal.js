@@ -266,7 +266,7 @@ function _f3() {
                     ];
                     return [
                         4,
-                        _iterator.return()
+                        _await_async_generator(_iterator.return())
                     ];
                 case 8:
                     _state.sent();
@@ -366,7 +366,7 @@ function _f4() {
                     ];
                     return [
                         4,
-                        _iterator.return()
+                        _await_async_generator(_iterator.return())
                     ];
                 case 8:
                     _state.sent();
@@ -569,7 +569,7 @@ function _f6() {
                     ];
                     return [
                         4,
-                        _iterator.return()
+                        _await_async_generator(_iterator.return())
                     ];
                 case 8:
                     _state.sent();
@@ -670,7 +670,7 @@ function _f7() {
                     ];
                     return [
                         4,
-                        _iterator.return()
+                        _await_async_generator(_iterator.return())
                     ];
                 case 8:
                     _state.sent();
