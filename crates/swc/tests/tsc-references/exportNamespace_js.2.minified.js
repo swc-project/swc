@@ -7,4 +7,4 @@ export var A = function A() {
 //// [b.js]
 export { };
 //// [c.js]
-import { A } from "./b";
+import { A } from './b';

@@ -5,6 +5,6 @@ win.hi;
 this.hi;
 globalThis.hi;
 // element access is always ok without noImplicitAny
-win["hi"];
-this["hi"];
-globalThis["hi"];
+win['hi'];
+this['hi'];
+globalThis['hi'];

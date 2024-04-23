@@ -15,29 +15,29 @@ var NoBase = /*#__PURE__*/ function() {
     function NoBase() {
         _class_call_check(this, NoBase);
         this.m = _get(_get_prototype_of(NoBase.prototype), "prototype", this);
-        this.n = _get(_get_prototype_of(NoBase.prototype), "hasOwnProperty", this).call(this, "");
+        this.n = _get(_get_prototype_of(NoBase.prototype), "hasOwnProperty", this).call(this, '');
         var a = _get(_get_prototype_of(NoBase.prototype), "prototype", this);
-        var b = _get(_get_prototype_of(NoBase.prototype), "hasOwnProperty", this).call(this, "");
+        var b = _get(_get_prototype_of(NoBase.prototype), "hasOwnProperty", this).call(this, '');
     }
     var _proto = NoBase.prototype;
     _proto.fn = function fn() {
         var a = _get(_get_prototype_of(NoBase.prototype), "prototype", this);
-        var b = _get(_get_prototype_of(NoBase.prototype), "hasOwnProperty", this).call(this, "");
+        var b = _get(_get_prototype_of(NoBase.prototype), "hasOwnProperty", this).call(this, '');
     };
     //super static property access in static member function of class with no base type
     //super static property access in static member accessor(get and set) of class with no base type
     NoBase.static1 = function static1() {
-        _get(_get_prototype_of(NoBase), "hasOwnProperty", this).call(this, "");
+        _get(_get_prototype_of(NoBase), "hasOwnProperty", this).call(this, '');
     };
     _create_class(NoBase, null, [
         {
             key: "static2",
             get: function get() {
-                _get(_get_prototype_of(NoBase), "hasOwnProperty", this).call(this, "");
-                return "";
+                _get(_get_prototype_of(NoBase), "hasOwnProperty", this).call(this, '');
+                return '';
             },
             set: function set(n) {
-                _get(_get_prototype_of(NoBase), "hasOwnProperty", this).call(this, "");
+                _get(_get_prototype_of(NoBase), "hasOwnProperty", this).call(this, '');
             }
         }
     ]);
@@ -156,7 +156,7 @@ var SomeDerived3 = /*#__PURE__*/ function(SomeBase) {
                 _set(_get_prototype_of(SomeDerived3), "publicStaticMember", 3, this, true);
                 _set(_get_prototype_of(SomeDerived3), "privateStaticMember", 3, this, true);
                 _get(_get_prototype_of(SomeDerived3), "privateStaticFunc", this).call(this);
-                return "";
+                return '';
             },
             set: function set(n) {
                 _set(_get_prototype_of(SomeDerived3), "publicStaticMember", 3, this, true);

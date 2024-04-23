@@ -1,0 +1,25 @@
+{
+    "jsc": {
+        "parser": {
+            "syntax": "ecmascript",
+            "jsx": false
+        },
+        "loose": true,
+        "minify": {
+            "compress": false,
+            "mangle": false
+        },
+        "transform": {
+            "react": {
+                "runtime": "classic",
+                "development": false
+            }
+        },
+        "target": "es5"
+    },
+    "module": {
+        "type": "es6"
+    },
+    "minify": false,
+    "isModule": true
+}

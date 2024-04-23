@@ -19,5 +19,5 @@ var Obj4;
     x: 10
 }); // OK
 /*#__PURE__*/ React.createElement(Obj4, {
-    x: "10"
+    x: '10'
 }); // Error

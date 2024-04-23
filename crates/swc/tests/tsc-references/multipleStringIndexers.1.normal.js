@@ -7,7 +7,7 @@ var C = function C() {
 };
 var a;
 var b = {
-    y: ""
+    y: ''
 };
 var C2 = function C2() {
     "use strict";

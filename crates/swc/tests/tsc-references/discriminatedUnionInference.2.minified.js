@@ -1,9 +1,9 @@
 //// [discriminatedUnionInference.ts]
 foo({
-    kind: "a",
+    kind: 'a',
     data: 42
 }), foo({
-    kind: "b",
+    kind: 'b',
     data: [
         1,
         2

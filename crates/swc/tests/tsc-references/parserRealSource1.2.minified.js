@@ -84,10 +84,10 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
                 result += "\\r";
                 break;
             case 0x22:
-                result += '\\"';
+                result += "\\\"";
                 break;
             case 0x27:
-                result += "\\'";
+                result += "\\\'";
                 break;
             case 0x5c:
                 result += "\\";

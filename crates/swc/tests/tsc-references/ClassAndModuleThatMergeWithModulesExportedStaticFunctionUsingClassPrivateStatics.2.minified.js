@@ -9,5 +9,5 @@ var clodule, clodule1 = function() {
     }, clodule;
 }();
 (clodule = clodule1 || (clodule1 = {})).fn = function(x, y) {
-    return clodule.sfn("a");
+    return clodule.sfn('a');
 };

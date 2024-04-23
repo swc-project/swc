@@ -7,4 +7,4 @@
 (a)=>{
     return b;
 };
-(a)=>"e"; // Dropping the parens
+(a)=>'e'; // Dropping the parens

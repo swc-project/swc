@@ -17,5 +17,5 @@ var kind;
 var flags;
 export { };
 //// [/c.ts]
-import { SymbolFlags } from "./a";
+import { SymbolFlags } from './a';
 var flags = SymbolFlags.Type;

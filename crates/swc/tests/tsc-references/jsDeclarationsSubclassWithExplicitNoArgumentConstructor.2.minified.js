@@ -9,7 +9,7 @@ export var Sub = function(Super) {
     _inherits(Sub, Super);
     var _super = _create_super(Sub);
     function Sub() {
-        return _class_call_check(this, Sub), _super.call(this, "first", "second");
+        return _class_call_check(this, Sub), _super.call(this, 'first', 'second');
     }
     return Sub;
 }(Super);

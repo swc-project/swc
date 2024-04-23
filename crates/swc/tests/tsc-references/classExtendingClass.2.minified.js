@@ -29,4 +29,4 @@ var D2 = function(C2) {
     }
     return C2.prototype.thing = function(x) {}, C2.other = function(x) {}, C2;
 }());
-d2.foo, d2.bar, d2.thing(""), D2.other(1);
+d2.foo, d2.bar, d2.thing(''), D2.other(1);

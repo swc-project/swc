@@ -1,6 +1,6 @@
 //// [typeofImportTypeOnlyExport.ts]
 //// [button.ts]
-import { classMap } from "./lit.js";
+import { classMap } from './lit.js';
 export var c = classMap();
 //// [lit.ts]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";

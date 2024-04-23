@@ -11,7 +11,7 @@ var X = /*#__PURE__*/ function() {
     function X() {
         _class_call_check(this, X);
         this.m = this.m.bind(this);
-        this.mistake = "frankly, complete nonsense";
+        this.mistake = 'frankly, complete nonsense';
     }
     var _proto = X.prototype;
     _proto.m = function m() {};
@@ -27,7 +27,7 @@ var Y = /*#__PURE__*/ function() {
     function Y() {
         _class_call_check(this, Y);
         this.m = this.m.bind(this);
-        this.mistake = "even more nonsense";
+        this.mistake = 'even more nonsense';
     }
     var _proto = Y.prototype;
     _proto.mistake = function mistake() {};

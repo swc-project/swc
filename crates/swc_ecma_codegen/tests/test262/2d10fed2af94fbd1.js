@@ -1,3 +1,3 @@
 (a)=>{
-    "use strict";
+    'use strict';
 };

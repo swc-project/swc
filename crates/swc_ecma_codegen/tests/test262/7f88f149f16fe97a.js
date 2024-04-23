@@ -1,4 +1,4 @@
 var a = {
-    "arguments": 1,
-    "eval": 2
+    'arguments': 1,
+    'eval': 2
 };

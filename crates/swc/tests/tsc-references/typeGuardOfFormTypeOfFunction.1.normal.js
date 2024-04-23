@@ -57,7 +57,7 @@ function f100(obj, keys) {
         for(var _iterator = keys[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true){
             var k = _step.value;
             var item = obj[k];
-            if (typeof item == "function") item.call(obj);
+            if (typeof item == 'function') item.call(obj);
         }
     } catch (err) {
         _didIteratorError = true;
@@ -77,7 +77,7 @@ function f100(obj, keys) {
 // Repro from #49316
 function configureStore(reducer) {
     var rootReducer;
-    if (typeof reducer === "function") {
+    if (typeof reducer === 'function') {
         rootReducer = reducer;
     }
 }

@@ -10,8 +10,8 @@ function fn1(x2) {
 var x3;
 var ref = x3.a;
 x3.a = Math.pow(ref, value);
-var ref1 = x3["a"];
-x3["a"] = Math.pow(ref1, value);
+var ref1 = x3['a'];
+x3['a'] = Math.pow(ref1, value);
 // parentheses, the contained expression is reference
 x1 = Math.pow(x1, value);
 function fn2(x4) {
@@ -19,5 +19,5 @@ function fn2(x4) {
 }
 var ref2 = x3.a;
 x3.a = Math.pow(ref2, value);
-var ref3 = x3["a"];
-x3["a"] = Math.pow(ref3, value);
+var ref3 = x3['a'];
+x3['a'] = Math.pow(ref3, value);

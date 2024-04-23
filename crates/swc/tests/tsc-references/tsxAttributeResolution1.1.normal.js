@@ -11,11 +11,11 @@
     reqd: "true"
 }); // OK
 /*#__PURE__*/ React.createElement("test2", {
-    reqd: "true"
+    reqd: 'true'
 }); // OK
 // Errors
 /*#__PURE__*/ React.createElement("test1", {
-    x: "0"
+    x: '0'
 }); // Error, '0' is not number
 /*#__PURE__*/ React.createElement("test1", {
     y: 0

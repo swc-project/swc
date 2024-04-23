@@ -12,7 +12,7 @@ export var Sub = /*#__PURE__*/ function(Super) {
     var _super = _create_super(Sub);
     function Sub() {
         _class_call_check(this, Sub);
-        return _super.call(this, "first", "second");
+        return _super.call(this, 'first', 'second');
     }
     return Sub;
 }(Super);

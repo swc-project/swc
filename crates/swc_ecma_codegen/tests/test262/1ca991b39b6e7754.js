@@ -1,1 +1,1 @@
-void "test string";
+void 'test string';

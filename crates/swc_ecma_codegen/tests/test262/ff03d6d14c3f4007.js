@@ -1,5 +1,5 @@
 (function() {
     var a = {
-        "NaN": 1
+        'NaN': 1
     };
 }());

@@ -17,7 +17,7 @@ function _templateObject1() {
     };
     return n;
 }
-import styled from "styled-components";
+import styled from 'styled-components';
 var C1 = styled.div(_templateObject());
 var C2 = styled.div(_templateObject1());
-var debug = eval("");
+var debug = eval('');

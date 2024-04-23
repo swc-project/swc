@@ -6,7 +6,7 @@ export var A = function A() {
 //// [b.ts]
 export { };
 //// [c.ts]
-export * from "./b";
+export * from './b';
 //// [d.ts]
-import { A } from "./c";
+import { A } from './c';
 new A();

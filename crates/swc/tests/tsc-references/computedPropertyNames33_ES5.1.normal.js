@@ -2,7 +2,7 @@
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _define_property } from "@swc/helpers/_/_define_property";
 function foo() {
-    return "";
+    return '';
 }
 var C = /*#__PURE__*/ function() {
     "use strict";

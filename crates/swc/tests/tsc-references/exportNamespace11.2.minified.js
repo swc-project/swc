@@ -1,5 +1,5 @@
 //// [main.ts]
-import * as intermediate from "./intermediate";
+import * as intermediate from './intermediate';
 new intermediate.Ghost();
 //// [intermediate.ts]
 export { };

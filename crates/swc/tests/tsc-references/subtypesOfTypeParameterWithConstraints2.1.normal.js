@@ -62,8 +62,8 @@ function f5(x) {
     var r1 = true ? x : 1; // ok
 }
 function f6(x) {
-    var r2 = true ? "" : x; // ok
-    var r2 = true ? x : ""; // ok
+    var r2 = true ? '' : x; // ok
+    var r2 = true ? x : ''; // ok
 }
 function f7(x) {
     var r3 = true ? true : x; // ok

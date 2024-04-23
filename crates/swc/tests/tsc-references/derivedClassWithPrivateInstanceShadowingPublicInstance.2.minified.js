@@ -8,7 +8,7 @@ var Base = function() {
         _class_call_check(this, Base);
     }
     return Base.prototype.fn = function() {
-        return "";
+        return '';
     }, _create_class(Base, [
         {
             key: "a",
@@ -25,7 +25,7 @@ var Base = function() {
         return _class_call_check(this, Derived), _super.apply(this, arguments);
     }
     return Derived.prototype.fn = function() {
-        return "";
+        return '';
     }, _create_class(Derived, [
         {
             key: "a",

@@ -69,21 +69,21 @@ function f31(foo) {
     }
 }
 function f(problem) {
-    if (problem.type === "b") {
+    if (problem.type === 'b') {
         problem.name;
     } else {
         problem.other;
     }
 }
 function foo1(x) {
-    if (x.type === "number") {
+    if (x.type === 'number') {
         x.value; // number
     } else {
         x.value; // number
     }
 }
 function foo2(x) {
-    if (x.type === "number") {
+    if (x.type === 'number') {
         x.value; // number
     } else {
         x.value; // string

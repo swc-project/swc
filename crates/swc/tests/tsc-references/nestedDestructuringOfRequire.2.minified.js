@@ -4,4 +4,4 @@ module.exports.chalk = {
     grey: {}
 };
 //// [main.js]
-require("./mod1").chalk.grey, chalk;
+require('./mod1').chalk.grey, chalk;

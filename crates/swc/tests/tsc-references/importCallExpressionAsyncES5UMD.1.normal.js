@@ -48,7 +48,7 @@
                     case 0:
                         return [
                             4,
-                            import("./test") // ONE
+                            import('./test') // ONE
                         ];
                     case 1:
                         req = _state.sent();
@@ -74,7 +74,7 @@
                         case 0:
                             return [
                                 4,
-                                import("./test") // TWO
+                                import('./test') // TWO
                             ];
                         case 1:
                             req = _state.sent();
@@ -95,7 +95,7 @@
                     case 0:
                         return [
                             4,
-                            import("./test") // THREE
+                            import('./test') // THREE
                         ];
                     case 1:
                         req = _state.sent();
@@ -117,7 +117,7 @@
                         case 0:
                             return [
                                 4,
-                                import("./test") // FOUR
+                                import('./test') // FOUR
                             ];
                         case 1:
                             req = _state.sent();
@@ -137,7 +137,7 @@
                     case 0:
                         return [
                             4,
-                            import("./test") // FIVE
+                            import('./test') // FIVE
                         ];
                     case 1:
                         req = _state.sent();

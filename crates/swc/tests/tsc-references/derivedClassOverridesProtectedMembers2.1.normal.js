@@ -89,5 +89,5 @@ var Derived2 = /*#__PURE__*/ function(Base2) {
     return Derived2;
 }(Base2);
 var d2;
-var r7 = d2[""];
+var r7 = d2[''];
 var r8 = d2[1];

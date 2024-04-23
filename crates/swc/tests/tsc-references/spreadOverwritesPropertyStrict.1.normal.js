@@ -61,13 +61,13 @@ function k(t) {
 }
 function l(anyrequired) {
     return _object_spread({
-        a: "zzz"
+        a: 'zzz'
     }, anyrequired) // error
     ;
 }
 function m(anyoptional) {
     return _object_spread({
-        a: "zzz"
+        a: 'zzz'
     }, anyoptional) // ok
     ;
 }

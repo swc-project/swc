@@ -1,5 +1,5 @@
 //// [assignFromStringInterface2.ts]
-var x = "";
+var x = '';
 var a;
 var b;
 a = x;

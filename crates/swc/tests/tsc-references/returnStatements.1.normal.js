@@ -7,7 +7,7 @@ function fn1() {
     return 1;
 }
 function fn2() {
-    return "";
+    return '';
 }
 function fn3() {
     return undefined;

@@ -1,1 +1,1 @@
-var foo = "\xa0";
+var foo = "\u{a0}";

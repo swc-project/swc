@@ -331,7 +331,7 @@ someGenerics2b(_templateObject5(), function(n, x) {
 // Generic tag with argument of function type whose parameter is not of type parameter type but body/return type uses type parameter
 function someGenerics3(strs, producer) {}
 someGenerics3(_templateObject6(), function() {
-    return "";
+    return '';
 });
 someGenerics3(_templateObject7(), function() {
     return undefined;
@@ -344,7 +344,7 @@ function someGenerics4(strs, n, f) {}
 someGenerics4(_templateObject9(), 4, function() {
     return null;
 });
-someGenerics4(_templateObject10(), "", function() {
+someGenerics4(_templateObject10(), '', function() {
     return 3;
 });
 someGenerics4(_templateObject11(), null, null);
@@ -353,7 +353,7 @@ function someGenerics5(strs, n, f) {}
 someGenerics5(_templateObject12(), 4, function() {
     return null;
 });
-someGenerics5(_templateObject13(), "", function() {
+someGenerics5(_templateObject13(), '', function() {
     return 3;
 });
 someGenerics5(_templateObject14(), null, null);
@@ -413,14 +413,14 @@ x(_templateObject22(), null, null, null);
 function someGenerics9(strs, a, b, c) {
     return null;
 }
-var a9a = someGenerics9(_templateObject23(), "", 0, []);
+var a9a = someGenerics9(_templateObject23(), '', 0, []);
 var a9a;
 var a9e = someGenerics9(_templateObject24(), undefined, {
     x: 6,
     z: new Date()
 }, {
     x: 6,
-    y: ""
+    y: ''
 });
 var a9e;
 // Generic tag with multiple parameters of generic type passed arguments with a single best common type

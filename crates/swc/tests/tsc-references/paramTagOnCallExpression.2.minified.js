@@ -1,3 +1,3 @@
 //// [decls.d.ts]
 //// [a.js]
-exports.inherits = factory("inherits");
+exports.inherits = factory('inherits');

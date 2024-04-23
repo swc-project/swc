@@ -24,7 +24,7 @@ var M;
     M.F2 = F2;
 })(M || (M = {}));
 var aNumber = 9.9;
-var aString = "this is a string";
+var aString = 'this is a string';
 var aDate = new Date(12);
 var anObject = new Object();
 var anAny = null;

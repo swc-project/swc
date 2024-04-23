@@ -17,7 +17,7 @@ t = function() {
     return 1;
 };
 t = function t(x) {
-    return "";
+    return '';
 };
 a = function(x) {
     return 1;
@@ -26,7 +26,7 @@ a = function() {
     return 1;
 };
 a = function a(x) {
-    return "";
+    return '';
 };
 var s2;
 var a3;
@@ -37,7 +37,7 @@ t = function(x) {
     return 1;
 };
 t = function t(x) {
-    return "";
+    return '';
 };
 a = s2;
 a = a3;
@@ -45,5 +45,5 @@ a = function(x) {
     return 1;
 };
 a = function a(x) {
-    return "";
+    return '';
 };

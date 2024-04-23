@@ -4,7 +4,7 @@ import { _ as _ts_decorate } from "@swc/helpers/_/_ts_decorate";
 import { _ as _ts_metadata } from "@swc/helpers/_/_ts_metadata";
 var A = function A() {
     _class_call_check(this, A), this.j = [], this.k = [
-        "foo",
+        'foo',
         42
     ];
 };

@@ -10,5 +10,5 @@ var _x_a1;
 var b3 = (_x_a1 = x.a) !== null && _x_a1 !== void 0 ? _x_a1 : 2;
 var _x_a2;
 var b4 = (_x_a2 = x.a) !== null && _x_a2 !== void 0 ? _x_a2 : 2;
-var _ref = {}, _ref_bar = _ref.bar, bar = _ref_bar === void 0 ? "yo" : _ref_bar;
+var _ref = {}, _ref_bar = _ref.bar, bar = _ref_bar === void 0 ? 'yo' : _ref_bar;
 bar; // "yo" | "ha"

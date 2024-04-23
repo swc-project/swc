@@ -1,1 +1,1 @@
-var a = "very cute";
+var a = 'very cute';

@@ -29,7 +29,7 @@
     /** @type {number} */ var num = s;
     /** @type {(n: number) => number} */ var fun = f;
     /** @type {Target} */ var v = Target.START;
-    v = "something else" // allowed, like Typescript's classic enums and unlike its string enums
+    v = 'something else' // allowed, like Typescript's classic enums and unlike its string enums
     ;
 }
 /** @param {string} s */ export function ff(s) {

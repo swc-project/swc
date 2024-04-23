@@ -8,11 +8,11 @@ globalThis.y // should error, no property 'y'
 ;
 globalThis.z // should error, no property 'z'
 ;
-globalThis["x"] // ok
+globalThis['x'] // ok
 ;
-globalThis["y"] // should error, no property 'y'
+globalThis['y'] // should error, no property 'y'
 ;
-globalThis["z"] // should error, no property 'z'
+globalThis['z'] // should error, no property 'z'
 ;
 globalThis.Float64Array // ok
 ;

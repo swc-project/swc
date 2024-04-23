@@ -18,13 +18,13 @@ var r2 = foo([]); // any[]
 var r3 = foo([]); // number[]
 var r4 = foo([
     1,
-    ""
+    ''
 ]); // {}[]
 var r5 = foo([
     1,
-    ""
+    ''
 ]); // any[]
 var r6 = foo([
     1,
-    ""
+    ''
 ]); // Object[]

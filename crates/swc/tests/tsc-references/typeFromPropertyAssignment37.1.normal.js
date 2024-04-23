@@ -4,7 +4,7 @@ if (!!false) {
     util.existy = function() {};
 }
 //// [use.js]
-var util = require("./mod");
+var util = require('./mod');
 function n() {
     util.existy // no error
     ;

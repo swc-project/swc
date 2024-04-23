@@ -17,7 +17,7 @@ System.register([
                     case 0:
                         return [
                             4,
-                            _context.import("./test") // ONE
+                            _context.import('./test') // ONE
                         ];
                     case 1:
                         req = _state.sent();
@@ -57,7 +57,7 @@ System.register([
                                 case 0:
                                     return [
                                         4,
-                                        _context.import("./test") // TWO
+                                        _context.import('./test') // TWO
                                     ];
                                 case 1:
                                     req = _state.sent();
@@ -78,7 +78,7 @@ System.register([
                             case 0:
                                 return [
                                     4,
-                                    _context.import("./test") // THREE
+                                    _context.import('./test') // THREE
                                 ];
                             case 1:
                                 req = _state.sent();
@@ -100,7 +100,7 @@ System.register([
                                 case 0:
                                     return [
                                         4,
-                                        _context.import("./test") // FOUR
+                                        _context.import('./test') // FOUR
                                     ];
                                 case 1:
                                     req = _state.sent();
@@ -120,7 +120,7 @@ System.register([
                             case 0:
                                 return [
                                     4,
-                                    _context.import("./test") // FIVE
+                                    _context.import('./test') // FIVE
                                 ];
                             case 1:
                                 req = _state.sent();

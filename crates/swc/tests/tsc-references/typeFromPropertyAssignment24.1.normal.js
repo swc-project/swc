@@ -15,7 +15,7 @@ Outer.Inner = /*#__PURE__*/ function() {
     }
     var _proto = _class.prototype;
     _proto.name = function name() {
-        return "hi";
+        return 'hi';
     };
     return _class;
 }();

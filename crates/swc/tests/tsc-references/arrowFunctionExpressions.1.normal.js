@@ -108,7 +108,7 @@ function someFn() {
 // Arrow function used in function
 function someOtherFn() {
     var arr = function(n) {
-        return "" + n;
+        return '' + n;
     };
     arr(4).charAt(0);
 }
@@ -129,7 +129,7 @@ var f = function(n) {
     };
     return fn(4);
 };
-var g = f("")();
+var g = f('')();
 var g;
 // Arrow function used in nested function in arrow function in nested function
 function someOuterFn() {
@@ -143,7 +143,7 @@ function someOuterFn() {
     };
     return arr;
 }
-var h = someOuterFn()("")()();
+var h = someOuterFn()('')()();
 h.toExponential();
 // Arrow function used in try/catch/finally in function
 function tryCatchFn() {
@@ -158,7 +158,7 @@ function tryCatchFn() {
         };
     } finally{
         var m = function() {
-            return _this + "";
+            return _this + '';
         };
     }
 }

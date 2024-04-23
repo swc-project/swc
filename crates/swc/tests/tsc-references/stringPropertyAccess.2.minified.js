@@ -1,2 +1,2 @@
 //// [stringPropertyAccess.ts]
-"".hasOwnProperty("charAt"), "".hasOwnProperty("toFixed");
+''.hasOwnProperty('charAt'), ''.hasOwnProperty('toFixed');

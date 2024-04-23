@@ -21,6 +21,6 @@ Cls.prototype.nestedComment = /**
      */ function(t, u) {
     return t;
 };
-var c = new Cls("a");
-var s = c.topLevelComment("a", "b");
-var t = c.nestedComment("a", "b");
+var c = new Cls('a');
+var s = c.topLevelComment('a', 'b');
+var t = c.nestedComment('a', 'b');

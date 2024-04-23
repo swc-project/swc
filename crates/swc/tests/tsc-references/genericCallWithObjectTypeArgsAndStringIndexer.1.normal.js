@@ -12,12 +12,12 @@ function other(arg) {
 function other2(arg) {
     var b;
     var r2 = foo(b);
-    var d = r2["hm"]; // ok
+    var d = r2['hm']; // ok
 }
 function other3(arg) {
     var b;
     var r2 = foo(b);
-    var d = r2["hm"]; // ok
+    var d = r2['hm']; // ok
 // BUG 821629
 //var u: U = r2['hm']; // ok
 } //function other3<T extends U, U extends Date>(arg: T) {

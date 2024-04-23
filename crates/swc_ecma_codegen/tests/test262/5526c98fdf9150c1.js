@@ -1,6 +1,6 @@
 (function() {
     try {
-        throw "a";
+        throw 'a';
     } catch (b) {} finally{
         return 1;
     }

@@ -17,7 +17,7 @@ var Derived = /*#__PURE__*/ function(Base) {
         _class_call_check(this, Derived);
         var _this;
         _this = _super.call(this, 2);
-        _this.b = "";
+        _this.b = '';
         _this.b = y;
         return _this;
     }
@@ -32,14 +32,14 @@ var Derived2 = /*#__PURE__*/ function(Derived) {
         var _this;
         _this = _super.apply(this, arguments);
         _this.x = 1;
-        _this.y = "hello";
+        _this.y = 'hello';
         return _this;
     }
     return Derived2;
 }(Derived);
 var r = new Derived(); // error
 var r2 = new Derived2(1); // error
-var r3 = new Derived("", "");
+var r3 = new Derived('', '');
 var Base2 = function Base2(x) {
     "use strict";
     _class_call_check(this, Base2);

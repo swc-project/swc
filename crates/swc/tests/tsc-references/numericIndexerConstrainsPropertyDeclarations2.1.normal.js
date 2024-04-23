@@ -10,7 +10,7 @@ var A = /*#__PURE__*/ function() {
     }
     var _proto = A.prototype;
     _proto.foo = function foo() {
-        return "";
+        return '';
     };
     return A;
 }();
@@ -24,7 +24,7 @@ var B = /*#__PURE__*/ function(A) {
     }
     var _proto = B.prototype;
     _proto.bar = function bar() {
-        return "";
+        return '';
     };
     return B;
 }(A);
@@ -39,5 +39,5 @@ var b = {
     2.0: new B(),
     "2.5": new B(),
     3.0: 1,
-    "4.0": ""
+    "4.0": ''
 };

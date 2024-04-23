@@ -10,7 +10,7 @@ export var r4b;
 export var i;
 export var r5;
 export var r5;
-(M1 = M || (M = {})).foo = "", M1.C = function C() {
+(M1 = M || (M = {})).foo = '', M1.C = function C() {
     _class_call_check(this, C);
 };
 export var r6;

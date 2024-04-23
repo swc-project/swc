@@ -19,7 +19,7 @@ var Group = /*#__PURE__*/ function() {
     "use strict";
     function Group() {
         _class_call_check(this, Group);
-        this.d = "no";
+        this.d = 'no';
     }
     var _proto = Group.prototype;
     /**

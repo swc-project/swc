@@ -57,12 +57,12 @@ function f5() {
     var v4 = c4;
 }
 function f6(cond) {
-    var x1 = widening("a");
+    var x1 = widening('a');
     var x2 = widening(10);
-    var x3 = widening(cond ? "a" : 10);
-    var y1 = nonWidening("a");
+    var x3 = widening(cond ? 'a' : 10);
+    var y1 = nonWidening('a');
     var y2 = nonWidening(10);
-    var y3 = nonWidening(cond ? "a" : 10);
+    var y3 = nonWidening(cond ? 'a' : 10);
 }
 var FAILURE = "FAILURE";
 function doWork() {
@@ -99,7 +99,7 @@ export function Set() {
 export function keys(obj) {
     return Object.keys(obj);
 }
-var langCodeSet = Set("fr", "en", "es", "it", "nl");
+var langCodeSet = Set('fr', 'en', 'es', 'it', 'nl');
 export var langCodes = keys(langCodeSet);
 var arr = langCodes.map(function(code) {
     return {
@@ -112,7 +112,7 @@ function test(obj) {
         "a"
     ]);
     return _object_spread({
-        a: "hello"
+        a: 'hello'
     }, rest);
 }
 var E;

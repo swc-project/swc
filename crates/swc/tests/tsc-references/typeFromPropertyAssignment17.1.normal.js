@@ -15,7 +15,7 @@ M.prototype.m = function() {};
 function M() {}
 //// [use.js]
 /// <reference path='./types.d.ts'/>
-var mini = require("./minimatch");
+var mini = require('./minimatch');
 mini.M.defaults();
 var m = new mini.M();
 m.m();

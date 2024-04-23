@@ -1,6 +1,6 @@
 //// [invalidStringAssignments.ts]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-var x = "";
+var x = '';
 var a = x;
 var b = x;
 var c = x;

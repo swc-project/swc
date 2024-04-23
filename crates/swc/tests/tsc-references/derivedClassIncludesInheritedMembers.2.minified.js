@@ -18,7 +18,7 @@ var d2, Derived = function(Base) {
         {
             key: "c",
             get: function() {
-                return "";
+                return '';
             },
             set: function(v) {}
         }
@@ -26,10 +26,10 @@ var d2, Derived = function(Base) {
         {
             key: "t",
             get: function() {
-                return "";
+                return '';
             },
             set: function(v) {}
         }
     ]), Base;
 }()), d = new Derived(1);
-d.a, d.b(), d.c, d.c = "", Derived.r, Derived.s(), Derived.t, Derived.t = "", d2[""], d2[1];
+d.a, d.b(), d.c, d.c = '', Derived.r, Derived.s(), Derived.t, Derived.t = '', d2[''], d2[1];

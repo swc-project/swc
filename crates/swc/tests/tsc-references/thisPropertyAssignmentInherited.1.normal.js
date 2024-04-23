@@ -19,7 +19,7 @@ export var Element = /*#__PURE__*/ function() {
             get: /**
    * @returns {String}
    */ function get() {
-                return "";
+                return '';
             },
             set: function set(x) {}
         }

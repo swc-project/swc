@@ -21,4 +21,4 @@ var C = /*#__PURE__*/ function() {
     return C;
 }();
 var c;
-var r = c.x(""); // string
+var r = c.x(''); // string

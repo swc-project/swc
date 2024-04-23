@@ -8,7 +8,7 @@ var c;
 var o = c;
 c = 1;
 c = {
-    foo: ""
+    foo: ''
 };
 c = function() {};
 var D = function D() {
@@ -20,6 +20,6 @@ var d;
 var o = d;
 d = 1;
 d = {
-    foo: ""
+    foo: ''
 };
 d = function() {};

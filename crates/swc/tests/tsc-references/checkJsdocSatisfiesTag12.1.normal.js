@@ -32,13 +32,13 @@
 /**
  * @satisfies {T2}
  */ var t5 = {
-    a: "test"
+    a: 'test'
 };
 /**
  * @satisfies {T2}
  */ var t6 = {
-    a: "test",
-    b: "test"
+    a: 'test',
+    b: 'test'
 };
 /**
  * @satisfies {T3}

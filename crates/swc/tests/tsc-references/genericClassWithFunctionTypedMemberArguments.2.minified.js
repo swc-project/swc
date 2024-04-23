@@ -9,11 +9,11 @@ ImmediatelyFix || (ImmediatelyFix = {}), (c = new (function() {
         return x(null);
     }, C;
 }())()).foo(function(x) {
-    return "";
+    return '';
 }), c.foo(function(x) {
-    return "";
+    return '';
 }), c.foo(function(x) {
-    return "";
+    return '';
 }), (c2 = new (function() {
     function C2() {
         _class_call_check(this, C2);
@@ -26,13 +26,13 @@ ImmediatelyFix || (ImmediatelyFix = {}), (c = new (function() {
 }), c2.foo(function(x) {
     return 1;
 }), WithCandidates || (WithCandidates = {}), c1.foo2(1, function(a) {
-    return "";
+    return '';
 }), c1.foo2(1, function(a) {
-    return "";
-}), c1.foo2("", function(a) {
+    return '';
+}), c1.foo2('', function(a) {
     return 1;
 }), c21.foo3(1, function(a) {
-    return "";
-}, ""), c21.foo3(1, function(a) {
-    return "";
-}, "");
+    return '';
+}, ''), c21.foo3(1, function(a) {
+    return '';
+}, '');

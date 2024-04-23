@@ -11,7 +11,7 @@ new (function() {
     }, C;
 }())({
     length: 2
-}).foo("")({
+}).foo('')({
     length: 3,
     charAt: function(x) {}
 });

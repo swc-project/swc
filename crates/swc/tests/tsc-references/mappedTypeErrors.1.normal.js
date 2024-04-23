@@ -134,13 +134,13 @@ c.setState({
     c: true
 }); // Error
 var x1 = {
-    a: "no"
+    a: 'no'
 }; // Error
 var x2 = {
-    a: "no"
+    a: 'no'
 }; // Error
 var x3 = {
-    a: "no"
+    a: 'no'
 }; // Error
 var o = {
     x: 5,

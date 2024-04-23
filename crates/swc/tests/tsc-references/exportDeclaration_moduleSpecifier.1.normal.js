@@ -7,5 +7,5 @@ export var A = function A() {
 //// [/b.ts]
 export { };
 //// [/c.ts]
-import { A } from "./b";
+import { A } from './b';
 new A();

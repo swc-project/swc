@@ -18,12 +18,12 @@ export { };
 console.log(void 0, void 0);
 export { };
 //// [/d.ts]
-import { A } from "./a";
+import { A } from './a';
 console.log(A, void 0);
 //// [/e.ts]
 export { };
 //// [/f.ts]
-import { C } from "./a";
+import { C } from './a';
 C.One, console.log(C.Two, C.Two);
 //// [/g.ts]
 console.log(void 0, void 0);

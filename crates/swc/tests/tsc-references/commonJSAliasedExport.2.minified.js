@@ -5,4 +5,4 @@ module.exports = function(ast) {
     return !1;
 };
 //// [bug43713.js]
-(0, require("./commonJSAliasedExport").funky)(1);
+(0, require('./commonJSAliasedExport').funky)(1);

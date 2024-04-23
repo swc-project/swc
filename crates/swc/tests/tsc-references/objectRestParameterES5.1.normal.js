@@ -19,7 +19,7 @@ suddenly(function() {
             z: 1,
             ka: 1
         },
-        y: "noo"
+        y: 'noo'
     };
     var _param_x = _param.x, _param_x_z = _param_x.z, z = _param_x_z === void 0 ? 12 : _param_x_z, nested = _object_without_properties(_param.x, [
         "z"
@@ -61,10 +61,10 @@ function foobar() {
 }
 foobar();
 foobar({
-    baz: "hello"
+    baz: 'hello'
 });
 foobar({
     bar: {
-        greeting: "hello"
+        greeting: 'hello'
     }
 });

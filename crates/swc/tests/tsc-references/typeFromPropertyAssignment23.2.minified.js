@@ -23,7 +23,7 @@ var _this = this, B = function() {
     }
     return D;
 }(B).prototype.foo = function() {
-    _this.n = "not checked, so no error";
+    _this.n = 'not checked, so no error';
 };
 var Module = function Module() {
     _class_call_check(this, Module);

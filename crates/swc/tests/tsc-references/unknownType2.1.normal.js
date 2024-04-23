@@ -1,6 +1,6 @@
 //// [unknownType2.ts]
 var validate = function(x) {
-    return x === "yes" || x === "no" ? x : "idk";
+    return x === 'yes' || x === 'no' ? x : 'idk';
 }; // No error
 var u = undefined;
 if (u === 5) {
@@ -139,27 +139,27 @@ function switchTestObjects(x, y, z) {
 }
 function switchResponse(x) {
     switch(x){
-        case "yes":
-        case "no":
-        case "idk":
+        case 'yes':
+        case 'no':
+        case 'idk':
             return x;
         default:
-            throw new Error("unknown response");
+            throw new Error('unknown response');
     }
 }
 function switchResponseWrong(x) {
     switch(x){
-        case "yes":
-        case "no":
-        case "maybe":
+        case 'yes':
+        case 'no':
+        case 'maybe':
             return x; // error
         default:
-            throw new Error("Can you repeat the question?");
+            throw new Error('Can you repeat the question?');
     }
 }
 // Repro from #33483
 function f2(x) {
-    if (x !== undefined && typeof x !== "string") {
+    if (x !== undefined && typeof x !== 'string') {
         throw new Error();
     }
     return x;

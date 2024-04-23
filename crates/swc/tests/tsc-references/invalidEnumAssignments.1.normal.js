@@ -15,7 +15,7 @@ e = 0;
 e2 = 0;
 e = null;
 e = {};
-e = "";
+e = '';
 function f(a) {
     e = a;
 }

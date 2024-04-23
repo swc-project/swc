@@ -15,5 +15,5 @@
             return a;
         }
     });
-    let a = "";
+    let a = '';
 });

@@ -1,5 +1,5 @@
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
-import { ClassName } from "./some-file";
+import { ClassName } from './some-file';
 export default {
     field: /*#__PURE__*/ function(ClassName) {
         "use strict";

@@ -9,12 +9,12 @@ function foo(a, b) {
 var r1b = foo(function(x) {
     return 1;
 }, function(x) {
-    return "";
+    return '';
 }); // {} => {}
 var r2 = foo(function(x) {
     return null;
 }, function(x) {
-    return "";
+    return '';
 }); // Object => Object
 var r3 = foo(function(x) {
     return 1;

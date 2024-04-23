@@ -6,4 +6,4 @@
 };
 y;
 y.ignoreMe = "ok but just because of the index signature";
-y["hi"] = "yes";
+y['hi'] = "yes";

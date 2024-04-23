@@ -7,7 +7,7 @@ export var Foo;
     Foo[Foo["c"] = 3] = "c";
 })(Foo || (Foo = {}));
 //// [bar.ts]
-import { Foo } from "./foo.js";
+import { Foo } from './foo.js';
 export var Bar;
 (function(Bar) {
     Bar[Bar["a"] = Foo.a] = "a";

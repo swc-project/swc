@@ -1,4 +1,4 @@
 (function() {
     var a;
-    b(typeof a === "c");
+    b(typeof a === 'c');
 }());

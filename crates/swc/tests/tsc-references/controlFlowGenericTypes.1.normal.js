@@ -45,7 +45,7 @@ function g4(x) {
     }
 }
 export function bounceAndTakeIfA(value) {
-    if (value === "A") {
+    if (value === 'A') {
         takeA(value);
         return value;
     } else {
@@ -54,19 +54,19 @@ export function bounceAndTakeIfA(value) {
 }
 var fn = function(value) {
     value.foo; // Error
-    if ("foo" in value) {
+    if ('foo' in value) {
         value.foo;
     }
-    if (value.tag === "B") {
+    if (value.tag === 'B') {
         value.foo;
     }
 };
 var fn2 = function(value) {
     value.foo; // Error
-    if ("foo" in value) {
+    if ('foo' in value) {
         value.foo;
     }
-    if (value.tag === "B") {
+    if (value.tag === 'B') {
         value.foo;
     }
 };

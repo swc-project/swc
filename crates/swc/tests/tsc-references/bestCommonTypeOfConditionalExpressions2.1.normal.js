@@ -31,7 +31,7 @@ var Derived2 = /*#__PURE__*/ function(Base) {
 var base;
 var derived;
 var derived2;
-var r2 = true ? 1 : "";
+var r2 = true ? 1 : '';
 var r9 = true ? derived : derived2;
 function foo(t, u) {
     return true ? t : u;

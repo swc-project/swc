@@ -14,5 +14,5 @@ _object_spread_props(_object_spread({}, {
 }), _object_spread({
     x: 32
 }, {
-    x: "foo"
+    x: 'foo'
 });

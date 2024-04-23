@@ -7,18 +7,18 @@ import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
 import { _ as _sliced_to_array } from "@swc/helpers/_/_sliced_to_array";
 import { _ as _to_consumable_array } from "@swc/helpers/_/_to_consumable_array";
 import { _ as _type_of } from "@swc/helpers/_/_type_of";
-import { groupBy } from "../../../base/common/arrays.js";
-import { dispose } from "../../../base/common/lifecycle.js";
-import { getLeadingWhitespace } from "../../../base/common/strings.js";
-import "./snippetSession.css";
-import { EditOperation } from "../../common/core/editOperation.js";
-import { Range } from "../../common/core/range.js";
-import { Selection } from "../../common/core/selection.js";
-import { ModelDecorationOptions } from "../../common/model/textModel.js";
-import { ILabelService } from "../../../platform/label/common/label.js";
-import { IWorkspaceContextService } from "../../../platform/workspace/common/workspace.js";
-import { Choice, Placeholder, SnippetParser, Text } from "./snippetParser.js";
-import { ClipboardBasedVariableResolver, CommentBasedVariableResolver, CompositeSnippetVariableResolver, ModelBasedVariableResolver, RandomBasedVariableResolver, SelectionBasedVariableResolver, TimeBasedVariableResolver, WorkspaceBasedVariableResolver } from "./snippetVariables.js";
+import { groupBy } from '../../../base/common/arrays.js';
+import { dispose } from '../../../base/common/lifecycle.js';
+import { getLeadingWhitespace } from '../../../base/common/strings.js';
+import './snippetSession.css';
+import { EditOperation } from '../../common/core/editOperation.js';
+import { Range } from '../../common/core/range.js';
+import { Selection } from '../../common/core/selection.js';
+import { ModelDecorationOptions } from '../../common/model/textModel.js';
+import { ILabelService } from '../../../platform/label/common/label.js';
+import { IWorkspaceContextService } from '../../../platform/workspace/common/workspace.js';
+import { Choice, Placeholder, SnippetParser, Text } from './snippetParser.js';
+import { ClipboardBasedVariableResolver, CommentBasedVariableResolver, CompositeSnippetVariableResolver, ModelBasedVariableResolver, RandomBasedVariableResolver, SelectionBasedVariableResolver, TimeBasedVariableResolver, WorkspaceBasedVariableResolver } from './snippetVariables.js';
 export var OneSnippet = /*#__PURE__*/ function() {
     "use strict";
     function OneSnippet(_editor, _snippet, _offset, _snippetLineLeadingWhitespace) {
@@ -124,7 +124,7 @@ export var OneSnippet = /*#__PURE__*/ function() {
                         }
                     }
                     if (operations.length > 0) {
-                        this._editor.executeEdits("snippet.placeholderTransform", operations);
+                        this._editor.executeEdits('snippet.placeholderTransform', operations);
                     }
                 }
                 var couldSkipThisPlaceholder = false;
@@ -434,24 +434,24 @@ export var OneSnippet = /*#__PURE__*/ function() {
 }();
 OneSnippet._decor = {
     active: ModelDecorationOptions.register({
-        description: "snippet-placeholder-1",
+        description: 'snippet-placeholder-1',
         stickiness: 0 /* AlwaysGrowsWhenTypingAtEdges */ ,
-        className: "snippet-placeholder"
+        className: 'snippet-placeholder'
     }),
     inactive: ModelDecorationOptions.register({
-        description: "snippet-placeholder-2",
+        description: 'snippet-placeholder-2',
         stickiness: 1 /* NeverGrowsWhenTypingAtEdges */ ,
-        className: "snippet-placeholder"
+        className: 'snippet-placeholder'
     }),
     activeFinal: ModelDecorationOptions.register({
-        description: "snippet-placeholder-3",
+        description: 'snippet-placeholder-3',
         stickiness: 1 /* NeverGrowsWhenTypingAtEdges */ ,
-        className: "finish-snippet-placeholder"
+        className: 'finish-snippet-placeholder'
     }),
     inactiveFinal: ModelDecorationOptions.register({
-        description: "snippet-placeholder-4",
+        description: 'snippet-placeholder-4',
         stickiness: 1 /* NeverGrowsWhenTypingAtEdges */ ,
-        className: "finish-snippet-placeholder"
+        className: 'finish-snippet-placeholder'
     })
 };
 var _defaultOptions = {
@@ -482,7 +482,7 @@ export var SnippetSession = /*#__PURE__*/ function() {
         {
             key: "_logInfo",
             value: function _logInfo() {
-                return 'template="'.concat(this._template, '", merged_templates="').concat(this._templateMerges.join(" -> "), '"');
+                return 'template="'.concat(this._template, '", merged_templates="').concat(this._templateMerges.join(' -> '), '"');
             }
         },
         {
@@ -495,7 +495,7 @@ export var SnippetSession = /*#__PURE__*/ function() {
                 // make insert edit and start with first selections
                 var _SnippetSession_createEditsAndSnippets = SnippetSession.createEditsAndSnippets(this._editor, this._template, this._options.overwriteBefore, this._options.overwriteAfter, false, this._options.adjustWhitespace, this._options.clipboardText, this._options.overtypingCapturer), edits = _SnippetSession_createEditsAndSnippets.edits, snippets = _SnippetSession_createEditsAndSnippets.snippets;
                 this._snippets = snippets;
-                this._editor.executeEdits("snippet", edits, function(undoEdits) {
+                this._editor.executeEdits('snippet', edits, function(undoEdits) {
                     if (_this._snippets[0].hasPlaceholder) {
                         return _this._move(true);
                     } else {
@@ -524,7 +524,7 @@ export var SnippetSession = /*#__PURE__*/ function() {
                     template
                 ]);
                 var _SnippetSession_createEditsAndSnippets = SnippetSession.createEditsAndSnippets(this._editor, template, options.overwriteBefore, options.overwriteAfter, true, options.adjustWhitespace, options.clipboardText, options.overtypingCapturer), edits = _SnippetSession_createEditsAndSnippets.edits, snippets = _SnippetSession_createEditsAndSnippets.snippets;
-                this._editor.executeEdits("snippet", edits, function(undoEdits) {
+                this._editor.executeEdits('snippet', edits, function(undoEdits) {
                     var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
                     try {
                         for(var _iterator = _this._snippets[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true){
@@ -901,7 +901,7 @@ export var SnippetSession = /*#__PURE__*/ function() {
                         var snippetLineLeadingWhitespace = SnippetSession.adjustWhitespace(model, start, snippet, adjustWhitespace || idx > 0 && firstLineFirstNonWhitespace !== model.getLineFirstNonWhitespaceColumn(selection.positionLineNumber), true);
                         snippet.resolveVariables(new CompositeSnippetVariableResolver([
                             modelBasedVariableResolver,
-                            new ClipboardBasedVariableResolver(readClipboardText, idx, indexedSelections.length, editor.getOption(70 /* multiCursorPaste */ ) === "spread"),
+                            new ClipboardBasedVariableResolver(readClipboardText, idx, indexedSelections.length, editor.getOption(70 /* multiCursorPaste */ ) === 'spread'),
                             new SelectionBasedVariableResolver(model, selection, idx, overtypingCapturer),
                             new CommentBasedVariableResolver(model, selection),
                             new TimeBasedVariableResolver,

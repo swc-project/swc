@@ -5,7 +5,7 @@ var A;
     // these 2 statements force an underscore before the 'A' 
     // in the generated function call.
     var A1 = 12;
-    var _A = "";
+    var _A = '';
 })(A || (A = {}));
 var B;
 (function(B) {
@@ -47,5 +47,5 @@ var D;
 // no collision, since interface doesn't
 // generate code.
 (function(D) {
-    D.E = "hello";
+    D.E = 'hello';
 })(D || (D = {}));

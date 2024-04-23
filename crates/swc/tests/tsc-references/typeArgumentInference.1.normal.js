@@ -6,9 +6,9 @@ noParams();
 noParams();
 // Generic call with parameters but none use type parameter type
 function noGenericParams(n) {}
-noGenericParams("");
-noGenericParams("");
-noGenericParams("");
+noGenericParams('');
+noGenericParams('');
+noGenericParams('');
 // Generic call with multiple type parameters and only one used in parameter type annotation
 function someGenerics1(n, m) {}
 someGenerics1(3, 4);
@@ -37,7 +37,7 @@ someGenerics2b(function(n, t) {
 // Generic call with argument of function type whose parameter is not of type parameter type but body/return type uses type parameter
 function someGenerics3(producer) {}
 someGenerics3(function() {
-    return "";
+    return '';
 });
 someGenerics3(function() {
     return undefined;
@@ -50,7 +50,7 @@ function someGenerics4(n, f) {}
 someGenerics4(4, function() {
     return null;
 });
-someGenerics4("", function() {
+someGenerics4('', function() {
     return 3;
 });
 someGenerics4(null, null);
@@ -59,7 +59,7 @@ function someGenerics5(n, f) {}
 someGenerics5(4, function() {
     return null;
 });
-someGenerics5("", function() {
+someGenerics5('', function() {
     return 3;
 });
 someGenerics5(null, null);
@@ -119,12 +119,12 @@ x(null, null, null);
 function someGenerics9(a, b, c) {
     return null;
 }
-var a9a = someGenerics9("", 0, []);
+var a9a = someGenerics9('', 0, []);
 var a9a;
 var a9b = someGenerics9({
     a: 0
 }, {
-    b: ""
+    b: ''
 }, null);
 var a9b;
 var a9e = someGenerics9(undefined, {
@@ -132,7 +132,7 @@ var a9e = someGenerics9(undefined, {
     z: new Date()
 }, {
     x: 6,
-    y: ""
+    y: ''
 });
 var a9e;
 var a9f = someGenerics9(undefined, {
@@ -140,7 +140,7 @@ var a9f = someGenerics9(undefined, {
     z: new Date()
 }, {
     x: 6,
-    y: ""
+    y: ''
 });
 var a9f;
 // Generic call with multiple parameters of generic type passed arguments with a single best common type

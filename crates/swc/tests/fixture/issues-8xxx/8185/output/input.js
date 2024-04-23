@@ -1,4 +1,4 @@
 (function hello() {
-    console.log("outer stack", new Error().stack);
+    console.log('outer stack', new Error().stack);
 })();
 eval("");

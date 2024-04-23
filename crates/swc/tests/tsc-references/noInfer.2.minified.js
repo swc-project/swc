@@ -1,14 +1,14 @@
 //// [noInfer.ts]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _create_class } from "@swc/helpers/_/_create_class";
-foo1("foo", "foo"), foo1("foo", "bar"), foo2("foo", [
-    "bar"
-]), foo3("foo", [
-    "bar"
-]), foo4("foo", {
-    x: "bar"
-}), foo5("foo", {
-    x: "bar"
+foo1('foo', 'foo'), foo1('foo', 'bar'), foo2('foo', [
+    'bar'
+]), foo3('foo', [
+    'bar'
+]), foo4('foo', {
+    x: 'bar'
+}), foo5('foo', {
+    x: 'bar'
 }), doSomething(new Animal(), function() {
     return new Animal();
 }), doSomething(new Animal(), function() {

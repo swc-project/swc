@@ -153,10 +153,10 @@ var c30 = f30(42, function(x) {
 }, function(x) {
     return x + 1;
 }); // [(x: number) => string, (x: number) => number]
-events.emit("move", 10, "left");
-events.emit("jump", 20, "up");
-events.emit("stop", "Bye!");
-events.emit("done");
+events.emit('move', 10, 'left');
+events.emit('jump', 20, 'up');
+events.emit('stop', 'Bye!');
+events.emit('done');
 ff1 = ff2;
 ff1 = ff3;
 ff1 = ff4; // Error

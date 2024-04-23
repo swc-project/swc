@@ -1,6 +1,6 @@
 //// [main.ts]
-import { c } from "./types";
-import * as types from "./types";
+import { c } from './types';
+import * as types from './types';
 console.log(c), console.log(types.c);
 //// [types.ts]
 export { };

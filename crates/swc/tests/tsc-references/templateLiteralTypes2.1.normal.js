@@ -48,9 +48,9 @@ function ft12(s) {
 }
 function ft13(s, cond) {
     var x1 = widening("foo".concat(s));
-    var x2 = widening(cond ? "a" : "foo".concat(s));
+    var x2 = widening(cond ? 'a' : "foo".concat(s));
     var y1 = nonWidening("foo".concat(s));
-    var y2 = nonWidening(cond ? "a" : "foo".concat(s));
+    var y2 = nonWidening(cond ? 'a' : "foo".concat(s));
 }
 function ft14(t) {
     var x1 = t;
