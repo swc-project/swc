@@ -17,7 +17,7 @@ function _main() {
             } finally{
                 try {
                     if (_iteratorAbruptCompletion && _iterator.return != null) {
-                        yield _await_async_generator(_iterator.return());
+                        yield _iterator.return();
                     }
                 } finally{
                     if (_didIteratorError) {
