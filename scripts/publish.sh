@@ -4,11 +4,11 @@ set -eu
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
-version="$1"
-swc_core_version="$(cargo tree -i -p swc_core --depth 0 | awk '{print $2}')"
-
 git pull || true
 yarn
+
+version="$1"
+swc_core_version="$(cargo tree -i -p swc_core --depth 0 | awk '{print $2}')"
 
 echo "Publishing $version with swc_core $swc_core_version"
 
