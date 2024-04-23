@@ -2356,7 +2356,7 @@ impl Optimizer<'_> {
                 return Ok(false);
             }
             // var x = x;
-            // x;
+            // return x;
             if let Expr::Ident(a_right) = &**a_right {
                 if let Expr::Ident(b) = b {
                     if a_right.to_id() == b.to_id() {
