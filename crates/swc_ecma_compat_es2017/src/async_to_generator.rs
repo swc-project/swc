@@ -808,12 +808,16 @@ fn handle_await_for(stmt: &mut Stmt, is_async_generator: bool) {
             expr: Box::new(Expr::Yield(YieldExpr {
                 span: DUMMY_SP,
                 delegate: false,
-                arg: Some(Box::new(Expr::Call(CallExpr {
-                    span: DUMMY_SP,
-                    callee: helper!(await_async_generator),
-                    args: vec![iterator_return.as_arg()],
-                    type_args: Default::default(),
-                }))),
+                arg: Some(if is_async_generator {
+                    Box::new(Expr::Call(CallExpr {
+                        span: DUMMY_SP,
+                        callee: helper!(await_async_generator),
+                        args: vec![iterator_return.as_arg()],
+                        type_args: Default::default(),
+                    }))
+                } else {
+                    iterator_return
+                }),
             })),
         });
 
