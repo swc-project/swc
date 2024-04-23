@@ -54,12 +54,12 @@ var r1b = [
 ];
 var r2arg = function(x) {
     return [
-        ""
+        ''
     ];
 };
 var r2arg2 = function(x) {
     return [
-        ""
+        ''
     ];
 };
 var r2 = foo2(r2arg);
@@ -85,10 +85,10 @@ var r3b = [
     r3arg
 ];
 var r4arg = function(x, y) {
-    return "";
+    return '';
 };
 var r4arg2 = function(x, y) {
-    return "";
+    return '';
 };
 var r4 = foo4(r4arg);
 var r4a = [

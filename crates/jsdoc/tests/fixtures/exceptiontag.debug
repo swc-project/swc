@@ -1,70 +1,22 @@
 [
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                1,
-            ),
-            hi: BytePos(
-                1,
-            ),
-            ctxt: #0,
-        },
+        span: 1..1#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    1,
-                ),
-                hi: BytePos(
-                    1,
-                ),
-                ctxt: #0,
-            },
+            span: 1..1#0,
             value: "",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        1,
-                    ),
-                    hi: BytePos(
-                        7,
-                    ),
-                    ctxt: #0,
-                },
+                span: 1..7#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            1,
-                        ),
-                        hi: BytePos(
-                            7,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 1..7#0,
                     value: "throws",
                 },
                 tag: Throw(
                     ThrowTag {
-                        span: Span {
-                            lo: BytePos(
-                                1,
-                            ),
-                            hi: BytePos(
-                                7,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 1..7#0,
                         text: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    1,
-                                ),
-                                hi: BytePos(
-                                    27,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 1..27#0,
                             value: "{InvalidArgumentException}",
                         },
                     },
@@ -73,71 +25,23 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                69,
-            ),
-            hi: BytePos(
-                69,
-            ),
-            ctxt: #0,
-        },
+        span: 69..69#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    69,
-                ),
-                hi: BytePos(
-                    69,
-                ),
-                ctxt: #0,
-            },
+            span: 69..69#0,
             value: "",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        69,
-                    ),
-                    hi: BytePos(
-                        78,
-                    ),
-                    ctxt: #0,
-                },
+                span: 69..78#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            69,
-                        ),
-                        hi: BytePos(
-                            78,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 69..78#0,
                     value: "exception",
                 },
                 tag: Unknown(
                     UnknownTag {
-                        span: Span {
-                            lo: BytePos(
-                                69,
-                            ),
-                            hi: BytePos(
-                                78,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 69..78#0,
                         extras: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    69,
-                                ),
-                                hi: BytePos(
-                                    109,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 69..109#0,
                             value: "Will throw an error if argument is null.",
                         },
                     },
@@ -146,71 +50,23 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                154,
-            ),
-            hi: BytePos(
-                154,
-            ),
-            ctxt: #0,
-        },
+        span: 154..154#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    154,
-                ),
-                hi: BytePos(
-                    154,
-                ),
-                ctxt: #0,
-            },
+            span: 154..154#0,
             value: "",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        154,
-                    ),
-                    hi: BytePos(
-                        163,
-                    ),
-                    ctxt: #0,
-                },
+                span: 154..163#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            154,
-                        ),
-                        hi: BytePos(
-                            163,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 154..163#0,
                     value: "exception",
                 },
                 tag: Unknown(
                     UnknownTag {
-                        span: Span {
-                            lo: BytePos(
-                                154,
-                            ),
-                            hi: BytePos(
-                                163,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 154..163#0,
                         extras: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    154,
-                                ),
-                                hi: BytePos(
-                                    197,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 154..197#0,
                             value: "{DivideByZero} Argument x must be non-zero.",
                         },
                     },
@@ -219,71 +75,23 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                242,
-            ),
-            hi: BytePos(
-                242,
-            ),
-            ctxt: #0,
-        },
+        span: 242..242#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    242,
-                ),
-                hi: BytePos(
-                    278,
-                ),
-                ctxt: #0,
-            },
+            span: 242..278#0,
             value: "A description of the function.\n *\n *",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        242,
-                    ),
-                    hi: BytePos(
-                        251,
-                    ),
-                    ctxt: #0,
-                },
+                span: 242..251#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            242,
-                        ),
-                        hi: BytePos(
-                            251,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 242..251#0,
                     value: "exception",
                 },
                 tag: Unknown(
                     UnknownTag {
-                        span: Span {
-                            lo: BytePos(
-                                242,
-                            ),
-                            hi: BytePos(
-                                251,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 242..251#0,
                         extras: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    242,
-                                ),
-                                hi: BytePos(
-                                    282,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 242..282#0,
                             value: "{Object} A description of the exception.",
                         },
                     },

@@ -485,7 +485,7 @@ impl<C: Comments> ClassProperties<C> {
                         }
 
                         ClassMember::PrivateProp(prop) => {
-                            if private_map.get(&prop.key.id.sym).is_some() {
+                            if private_map.contains_key(&prop.key.id.sym) {
                                 let error = format!("duplicate private name #{}.", prop.key.id.sym);
                                 HANDLER.with(|handler| {
                                     handler.struct_span_err(prop.key.id.span, &error).emit()

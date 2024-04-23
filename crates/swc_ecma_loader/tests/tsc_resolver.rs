@@ -41,7 +41,7 @@ fn exact() {
             resolved,
             Resolution {
                 filename: FileName::Custom("success".into()),
-                slug: None
+                slug: Some("jquery".into())
             }
         );
     }
@@ -183,6 +183,41 @@ fn base_url_precedence() {
             resolved,
             Resolution {
                 filename: FileName::Custom("react in node module".into()),
+                slug: None
+            }
+        );
+    }
+}
+
+#[test]
+fn pattern_length_precedence() {
+    let mut map = HashMap::default();
+    map.insert(
+        "./packages/helpers/src/hello".to_string(),
+        "good".to_string(),
+    );
+
+    let r = TsConfigResolver::new(
+        TestResolver(map),
+        ".".into(),
+        vec![
+            ("@app/*".into(), vec!["./packages/*/src".into()]),
+            (
+                "@app/helpers/*".into(),
+                vec!["./packages/helpers/src/*".into()],
+            ),
+        ],
+    );
+
+    {
+        let resolved = r
+            .resolve(&FileName::Anon, "@app/helpers/hello")
+            .expect("should resolve @app/helpers/hello");
+
+        assert_eq!(
+            resolved,
+            Resolution {
+                filename: FileName::Custom("good".into()),
                 slug: None
             }
         );

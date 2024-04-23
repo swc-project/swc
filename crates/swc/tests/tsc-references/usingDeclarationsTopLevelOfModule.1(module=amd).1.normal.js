@@ -2,9 +2,8 @@
 define([
     "require",
     "exports",
-    "@swc/helpers/_/_dispose",
-    "@swc/helpers/_/_using"
-], function(require, exports, _dispose, _using) {
+    "@swc/helpers/_/_using_ctx"
+], function(require, exports, _using_ctx) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
@@ -32,21 +31,20 @@ define([
     var _x;
     var _w;
     try {
-        var _stack = [];
+        var _usingCtx = _using_ctx._();
         const x = 1;
         _x = x;
-        var z = _using._(_stack, {
+        var z = _usingCtx.u({
             [Symbol.dispose] () {}
         });
-        var y = 2;
+        const y = 2;
         const w = 3;
         _w = w;
         var _default = 4;
         console.log(w, x, y, z);
     } catch (_) {
-        var _error = _;
-        var _hasError = true;
+        _usingCtx.e = _;
     } finally{
-        _dispose._(_stack, _error, _hasError);
+        _usingCtx.d();
     }
 });

@@ -1,14 +1,13 @@
 class A {
     static{
         try {
-            var _stack = [];
-            var x = _using(_stack, y);
+            var _usingCtx = _using_ctx();
+            const x = _usingCtx.u(y);
             doSomethingWith(x);
         } catch (_) {
-            var _error = _;
-            var _hasError = true;
+            _usingCtx.e = _;
         } finally{
-            _dispose(_stack, _error, _hasError);
+            _usingCtx.d();
         }
     }
 }

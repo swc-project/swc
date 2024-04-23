@@ -19,7 +19,7 @@ t = function(x) {
     return 1;
 };
 t = function t(x) {
-    return "";
+    return '';
 };
 a = s2;
 a = a3;
@@ -27,5 +27,5 @@ a = function(x) {
     return 1;
 };
 a = function a(x) {
-    return "";
+    return '';
 };

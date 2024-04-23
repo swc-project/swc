@@ -1610,7 +1610,7 @@
             "type": "Identifier",
             "span": {
               "start": 1458,
-              "end": 1481,
+              "end": 1466,
               "ctxt": 0
             },
             "value": "arrayish",
@@ -1674,7 +1674,7 @@
             "type": "Identifier",
             "span": {
               "start": 1483,
-              "end": 1508,
+              "end": 1492,
               "ctxt": 0
             },
             "value": "objectish",
@@ -1738,7 +1738,7 @@
             "type": "Identifier",
             "span": {
               "start": 1510,
-              "end": 1549,
+              "end": 1526,
               "ctxt": 0
             },
             "value": "indirectArrayish",
@@ -2009,7 +2009,7 @@
             "type": "Identifier",
             "span": {
               "start": 1703,
-              "end": 1709,
+              "end": 1706,
               "ctxt": 0
             },
             "value": "arr",
@@ -2332,7 +2332,7 @@
             "type": "Identifier",
             "span": {
               "start": 1861,
-              "end": 1867,
+              "end": 1864,
               "ctxt": 0
             },
             "value": "arr",

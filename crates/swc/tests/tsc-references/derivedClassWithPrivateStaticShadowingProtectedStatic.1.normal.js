@@ -9,7 +9,7 @@ var Base = /*#__PURE__*/ function() {
         _class_call_check(this, Base);
     }
     Base.fn = function fn() {
-        return "";
+        return '';
     };
     _create_class(Base, null, [
         {
@@ -32,7 +32,7 @@ var Derived = /*#__PURE__*/ function(Base) {
         return _super.apply(this, arguments);
     }
     Derived.fn = function fn() {
-        return "";
+        return '';
     };
     _create_class(Derived, null, [
         {

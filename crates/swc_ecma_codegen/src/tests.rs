@@ -1,9 +1,4 @@
-use std::{
-    fmt::Debug,
-    io::Write,
-    path::PathBuf,
-    sync::{Arc, RwLock},
-};
+use std::path::PathBuf;
 
 use swc_common::{comments::SingleThreadedComments, FileName, SourceMap};
 use swc_ecma_parser;
@@ -12,7 +7,7 @@ use testing::DebugUsingDisplay;
 
 use self::swc_ecma_parser::{EsConfig, Parser, StringInput, Syntax};
 use super::*;
-use crate::{config::Config, text_writer::omit_trailing_semi};
+use crate::text_writer::omit_trailing_semi;
 
 struct Builder {
     cfg: Config,
@@ -706,18 +701,6 @@ fn test_escape_with_source_str() {
     );
 }
 
-#[derive(Debug, Clone)]
-struct Buf(Arc<RwLock<Vec<u8>>>);
-impl Write for Buf {
-    fn write(&mut self, data: &[u8]) -> io::Result<usize> {
-        self.0.write().unwrap().write(data)
-    }
-
-    fn flush(&mut self) -> io::Result<()> {
-        self.0.write().unwrap().flush()
-    }
-}
-
 #[test]
 fn issue_2213() {
     assert_min("a - -b * c", "a- -b*c")
@@ -729,8 +712,10 @@ fn issue_3617() {
     let from = r"// a string of all valid unicode whitespaces
     module.exports = '\u0009\u000A\u000B\u000C\u000D\u0020\u00A0\u1680\u2000\u2001\u2002' +
       '\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028\u2029\uFEFF' + '\u{a0}';";
-    let expected = r#"// a string of all valid unicode whitespaces
-module.exports = "	\n\v\f\r \xa0\u1680\u2000\u2001\u2002" + "\u2003\u2004\u2005\u2006\u2007\u2008\u2009\u200A\u202F\u205F\u3000\u2028\u2029\uFEFF" + "\xa0";"#;
+    let expected = "// a string of all valid unicode whitespaces\nmodule.exports = \
+                    '\\u0009\\u000A\\u000B\\u000C\\u000D\\u0020\\u00A0\\u1680\\u2000\\u2001\\\
+                    u2002' + '\\u2003\\u2004\\u2005\\u2006\\u2007\\u2008\\u2009\\u200A\\u202F\\\
+                    u205F\\u3000\\u2028\\u2029\\uFEFF' + '\\u{a0}';\n";
 
     let out = parse_then_emit(
         from,

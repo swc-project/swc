@@ -5,9 +5,9 @@ function foo() {
     };
 }
 for(var _i = 0, _iter = [
-    "a",
-    "b",
-    "c"
+    'a',
+    'b',
+    'c'
 ]; _i < _iter.length; _i++){
     foo().x = _iter[_i];
     var p = foo().x;

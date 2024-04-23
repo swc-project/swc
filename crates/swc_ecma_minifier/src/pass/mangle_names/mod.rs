@@ -1,7 +1,7 @@
 use rustc_hash::{FxHashMap, FxHashSet};
 use swc_atoms::JsWord;
 use swc_common::{chain, Mark};
-use swc_ecma_ast::{Module, *};
+use swc_ecma_ast::*;
 use swc_ecma_transforms_base::rename::{renamer, Renamer};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
@@ -27,9 +27,9 @@ pub(crate) fn name_mangler(
         renamer(
             swc_ecma_transforms_base::hygiene::Config {
                 keep_class_names: options.keep_class_names,
-                safari_10: options.safari10,
                 top_level_mark,
                 ignore_eval: options.eval,
+                ..Default::default()
             },
             ManglingRenamer { chars, preserved }
         )

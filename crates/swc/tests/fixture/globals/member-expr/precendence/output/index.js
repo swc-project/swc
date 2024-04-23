@@ -2,4 +2,4 @@ console.log(true);
 if (true) {
     console.log("Pass");
 }
-console.log("foo");
+console.log('foo');

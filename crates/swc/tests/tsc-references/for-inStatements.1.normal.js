@@ -25,7 +25,7 @@ var c, d, e;
 for(var x in c || d){}
 for(var x in e ? c : d){}
 for(var x in 42 ? c : d){}
-for(var x in "" ? c : d){}
+for(var x in '' ? c : d){}
 for(var x in 42 ? d[x] : c[x]){}
 for(var x in c[d]){}
 for(var x in function(x) {

@@ -1,7 +1,7 @@
 //// [usingDeclarationsInForAwaitOf.ts]
 import { _ as _async_iterator } from "@swc/helpers/_/_async_iterator";
 import { _ as _async_to_generator } from "@swc/helpers/_/_async_to_generator";
-import { _ as _dispose } from "@swc/helpers/_/_dispose";
+import { _ as _using_ctx } from "@swc/helpers/_/_using_ctx";
 function main() {
     return _main.apply(this, arguments);
 }
@@ -20,13 +20,12 @@ function _main() {
                     let _value = _step.value;
                     const d1 = _value;
                     try {
-                        var _stack = [];
+                        var _usingCtx = _using_ctx();
                         {}
                     } catch (_) {
-                        var _error = _;
-                        var _hasError = true;
+                        _usingCtx.e = _;
                     } finally{
-                        _dispose(_stack, _error, _hasError);
+                        _usingCtx.d();
                     }
                 }
             } catch (err) {

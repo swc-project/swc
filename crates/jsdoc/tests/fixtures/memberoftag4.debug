@@ -1,71 +1,23 @@
 [
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                1,
-            ),
-            hi: BytePos(
-                1,
-            ),
-            ctxt: #0,
-        },
+        span: 1..1#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    1,
-                ),
-                hi: BytePos(
-                    22,
-                ),
-                ctxt: #0,
-            },
+            span: 1..22#0,
             value: "Namespace doStuff.\n *",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        1,
-                    ),
-                    hi: BytePos(
-                        10,
-                    ),
-                    ctxt: #0,
-                },
+                span: 1..10#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            1,
-                        ),
-                        hi: BytePos(
-                            10,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 1..10#0,
                     value: "namespace",
                 },
                 tag: Namespace(
                     NamespaceTag {
-                        span: Span {
-                            lo: BytePos(
-                                1,
-                            ),
-                            hi: BytePos(
-                                10,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 1..10#0,
                         ty: Some(
                             Text {
-                                span: Span {
-                                    lo: BytePos(
-                                        1,
-                                    ),
-                                    hi: BytePos(
-                                        8,
-                                    ),
-                                    ctxt: #0,
-                                },
+                                span: 1..8#0,
                                 value: "doStuff",
                             },
                         ),
@@ -76,82 +28,26 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                54,
-            ),
-            hi: BytePos(
-                54,
-            ),
-            ctxt: #0,
-        },
+        span: 54..54#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    54,
-                ),
-                hi: BytePos(
-                    102,
-                ),
-                ctxt: #0,
-            },
+            span: 54..102#0,
             value: "Function with the same name as its namespace.\n *",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        54,
-                    ),
-                    hi: BytePos(
-                        62,
-                    ),
-                    ctxt: #0,
-                },
+                span: 54..62#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            54,
-                        ),
-                        hi: BytePos(
-                            62,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 54..62#0,
                     value: "memberof",
                 },
                 tag: MemberOf(
                     MemberOfTag {
-                        span: Span {
-                            lo: BytePos(
-                                54,
-                            ),
-                            hi: BytePos(
-                                62,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 54..62#0,
                         parent_name_path: NamePath {
-                            span: Span {
-                                lo: BytePos(
-                                    54,
-                                ),
-                                hi: BytePos(
-                                    55,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 54..55#0,
                             components: [
                                 Text {
-                                    span: Span {
-                                        lo: BytePos(
-                                            54,
-                                        ),
-                                        hi: BytePos(
-                                            61,
-                                        ),
-                                        ctxt: #0,
-                                    },
+                                    span: 54..61#0,
                                     value: "doStuff",
                                 },
                             ],
@@ -162,82 +58,26 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                155,
-            ),
-            hi: BytePos(
-                155,
-            ),
-            ctxt: #0,
-        },
+        span: 155..155#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    155,
-                ),
-                hi: BytePos(
-                    208,
-                ),
-                ctxt: #0,
-            },
+            span: 155..208#0,
             value: "Function with a different name than the namespace.\n *",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        155,
-                    ),
-                    hi: BytePos(
-                        163,
-                    ),
-                    ctxt: #0,
-                },
+                span: 155..163#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            155,
-                        ),
-                        hi: BytePos(
-                            163,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 155..163#0,
                     value: "memberof",
                 },
                 tag: MemberOf(
                     MemberOfTag {
-                        span: Span {
-                            lo: BytePos(
-                                155,
-                            ),
-                            hi: BytePos(
-                                163,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 155..163#0,
                         parent_name_path: NamePath {
-                            span: Span {
-                                lo: BytePos(
-                                    155,
-                                ),
-                                hi: BytePos(
-                                    156,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 155..156#0,
                             components: [
                                 Text {
-                                    span: Span {
-                                        lo: BytePos(
-                                            155,
-                                        ),
-                                        hi: BytePos(
-                                            162,
-                                        ),
-                                        ctxt: #0,
-                                    },
+                                    span: 155..162#0,
                                     value: "doStuff",
                                 },
                             ],

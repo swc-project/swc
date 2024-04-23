@@ -602,7 +602,7 @@
             "type": "Identifier",
             "span": {
               "start": 340,
-              "end": 357,
+              "end": 349,
               "ctxt": 0
             },
             "value": "intrinsic",

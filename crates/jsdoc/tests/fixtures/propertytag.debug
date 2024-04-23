@@ -1,72 +1,24 @@
 [
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                1,
-            ),
-            hi: BytePos(
-                1,
-            ),
-            ctxt: #0,
-        },
+        span: 1..1#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    1,
-                ),
-                hi: BytePos(
-                    1,
-                ),
-                ctxt: #0,
-            },
+            span: 1..1#0,
             value: "",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        1,
-                    ),
-                    hi: BytePos(
-                        10,
-                    ),
-                    ctxt: #0,
-                },
+                span: 1..10#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            1,
-                        ),
-                        hi: BytePos(
-                            10,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 1..10#0,
                     value: "namespace",
                 },
                 tag: Namespace(
                     NamespaceTag {
-                        span: Span {
-                            lo: BytePos(
-                                1,
-                            ),
-                            hi: BytePos(
-                                10,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 1..10#0,
                         ty: None,
                         name: Some(
                             Text {
-                                span: Span {
-                                    lo: BytePos(
-                                        1,
-                                    ),
-                                    hi: BytePos(
-                                        45,
-                                    ),
-                                    ctxt: #0,
-                                },
+                                span: 1..45#0,
                                 value: "@property {String} id=abc123 The identifier.",
                             },
                         ),
@@ -74,261 +26,93 @@
                 ),
             },
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        1,
-                    ),
-                    hi: BytePos(
-                        9,
-                    ),
-                    ctxt: #0,
-                },
+                span: 1..9#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            1,
-                        ),
-                        hi: BytePos(
-                            9,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 1..9#0,
                     value: "property",
                 },
                 tag: Property(
                     PropertyTag {
-                        span: Span {
-                            lo: BytePos(
-                                1,
-                            ),
-                            hi: BytePos(
-                                9,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 1..9#0,
                         name_path: NamePath {
-                            span: Span {
-                                lo: BytePos(
-                                    1,
-                                ),
-                                hi: BytePos(
-                                    163,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 1..163#0,
                             components: [
                                 Text {
-                                    span: Span {
-                                        lo: BytePos(
-                                            1,
-                                        ),
-                                        hi: BytePos(
-                                            1,
-                                        ),
-                                        ctxt: #0,
-                                    },
+                                    span: 1..1#0,
                                     value: "",
                                 },
                             ],
                         },
                         ty: Some(
                             Text {
-                                span: Span {
-                                    lo: BytePos(
-                                        1,
-                                    ),
-                                    hi: BytePos(
-                                        9,
-                                    ),
-                                    ctxt: #0,
-                                },
+                                span: 1..9#0,
                                 value: "{Object}",
                             },
                         ),
                         desc: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    1,
-                                ),
-                                hi: BytePos(
-                                    29,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 1..29#0,
                             value: "defaults The default values.",
                         },
                     },
                 ),
             },
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        1,
-                    ),
-                    hi: BytePos(
-                        9,
-                    ),
-                    ctxt: #0,
-                },
+                span: 1..9#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            1,
-                        ),
-                        hi: BytePos(
-                            9,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 1..9#0,
                     value: "property",
                 },
                 tag: Property(
                     PropertyTag {
-                        span: Span {
-                            lo: BytePos(
-                                1,
-                            ),
-                            hi: BytePos(
-                                9,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 1..9#0,
                         name_path: NamePath {
-                            span: Span {
-                                lo: BytePos(
-                                    1,
-                                ),
-                                hi: BytePos(
-                                    112,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 1..112#0,
                             components: [
                                 Text {
-                                    span: Span {
-                                        lo: BytePos(
-                                            1,
-                                        ),
-                                        hi: BytePos(
-                                            1,
-                                        ),
-                                        ctxt: #0,
-                                    },
+                                    span: 1..1#0,
                                     value: "",
                                 },
                             ],
                         },
                         ty: Some(
                             Text {
-                                span: Span {
-                                    lo: BytePos(
-                                        1,
-                                    ),
-                                    hi: BytePos(
-                                        9,
-                                    ),
-                                    ctxt: #0,
-                                },
+                                span: 1..9#0,
                                 value: "{Number}",
                             },
                         ),
                         desc: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    1,
-                                ),
-                                hi: BytePos(
-                                    45,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 1..45#0,
                             value: "defaults.a=1 The a property of the defaults.",
                         },
                     },
                 ),
             },
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        1,
-                    ),
-                    hi: BytePos(
-                        9,
-                    ),
-                    ctxt: #0,
-                },
+                span: 1..9#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            1,
-                        ),
-                        hi: BytePos(
-                            9,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 1..9#0,
                     value: "property",
                 },
                 tag: Property(
                     PropertyTag {
-                        span: Span {
-                            lo: BytePos(
-                                1,
-                            ),
-                            hi: BytePos(
-                                9,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 1..9#0,
                         name_path: NamePath {
-                            span: Span {
-                                lo: BytePos(
-                                    1,
-                                ),
-                                hi: BytePos(
-                                    45,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 1..45#0,
                             components: [
                                 Text {
-                                    span: Span {
-                                        lo: BytePos(
-                                            1,
-                                        ),
-                                        hi: BytePos(
-                                            1,
-                                        ),
-                                        ctxt: #0,
-                                    },
+                                    span: 1..1#0,
                                     value: "",
                                 },
                             ],
                         },
                         ty: Some(
                             Text {
-                                span: Span {
-                                    lo: BytePos(
-                                        1,
-                                    ),
-                                    hi: BytePos(
-                                        9,
-                                    ),
-                                    ctxt: #0,
-                                },
+                                span: 1..9#0,
                                 value: "{String}",
                             },
                         ),
                         desc: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    1,
-                                ),
-                                hi: BytePos(
-                                    43,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 1..43#0,
                             value: "defaults.b The b property of the defaults.",
                         },
                     },

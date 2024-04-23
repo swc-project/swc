@@ -32,4 +32,4 @@ NonGeneric || (NonGeneric = {}), (r = (c = new (function() {
             set: function(v) {}
         }
     ]), C;
-}())(1, "")).fn()).x, r1.y, r1.y = "", c1.y();
+}())(1, '')).fn()).x, r1.y, r1.y = '', c1.y();

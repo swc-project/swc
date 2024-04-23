@@ -1,60 +1,20 @@
 [
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                1,
-            ),
-            hi: BytePos(
-                1,
-            ),
-            ctxt: #0,
-        },
+        span: 1..1#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    1,
-                ),
-                hi: BytePos(
-                    21,
-                ),
-                ctxt: #0,
-            },
+            span: 1..21#0,
             value: "Parent interface.\n *",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        1,
-                    ),
-                    hi: BytePos(
-                        10,
-                    ),
-                    ctxt: #0,
-                },
+                span: 1..10#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            1,
-                        ),
-                        hi: BytePos(
-                            10,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 1..10#0,
                     value: "interface",
                 },
                 tag: Interface(
                     InterfaceTag {
-                        span: Span {
-                            lo: BytePos(
-                                1,
-                            ),
-                            hi: BytePos(
-                                10,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 1..10#0,
                         name: None,
                     },
                 ),
@@ -62,96 +22,32 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                70,
-            ),
-            hi: BytePos(
-                70,
-            ),
-            ctxt: #0,
-        },
+        span: 70..70#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    70,
-                ),
-                hi: BytePos(
-                    90,
-                ),
-                ctxt: #0,
-            },
+            span: 70..90#0,
             value: "Open the connection.",
         },
         tags: [],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                146,
-            ),
-            hi: BytePos(
-                146,
-            ),
-            ctxt: #0,
-        },
+        span: 146..146#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    146,
-                ),
-                hi: BytePos(
-                    165,
-                ),
-                ctxt: #0,
-            },
+            span: 146..165#0,
             value: "Child interface.\n *",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        146,
-                    ),
-                    hi: BytePos(
-                        155,
-                    ),
-                    ctxt: #0,
-                },
+                span: 146..155#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            146,
-                        ),
-                        hi: BytePos(
-                            155,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 146..155#0,
                     value: "interface",
                 },
                 tag: Interface(
                     InterfaceTag {
-                        span: Span {
-                            lo: BytePos(
-                                146,
-                            ),
-                            hi: BytePos(
-                                155,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 146..155#0,
                         name: Some(
                             Text {
-                                span: Span {
-                                    lo: BytePos(
-                                        146,
-                                    ),
-                                    hi: BytePos(
-                                        169,
-                                    ),
-                                    ctxt: #0,
-                                },
+                                span: 146..169#0,
                                 value: "* @extends {Connection}",
                             },
                         ),
@@ -161,72 +57,24 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                235,
-            ),
-            hi: BytePos(
-                235,
-            ),
-            ctxt: #0,
-        },
+        span: 235..235#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    235,
-                ),
-                hi: BytePos(
-                    272,
-                ),
-                ctxt: #0,
-            },
+            span: 235..272#0,
             value: "Implementation of child interface.\n *",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        235,
-                    ),
-                    hi: BytePos(
-                        240,
-                    ),
-                    ctxt: #0,
-                },
+                span: 235..240#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            235,
-                        ),
-                        hi: BytePos(
-                            240,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 235..240#0,
                     value: "class",
                 },
                 tag: Class(
                     ClassTag {
-                        span: Span {
-                            lo: BytePos(
-                                235,
-                            ),
-                            hi: BytePos(
-                                240,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 235..240#0,
                         ty: Some(
                             Text {
-                                span: Span {
-                                    lo: BytePos(
-                                        235,
-                                    ),
-                                    hi: BytePos(
-                                        257,
-                                    ),
-                                    ctxt: #0,
-                                },
+                                span: 235..257#0,
                                 value: "* @implements {Socket}",
                             },
                         ),
@@ -237,61 +85,21 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                346,
-            ),
-            hi: BytePos(
-                346,
-            ),
-            ctxt: #0,
-        },
+        span: 346..346#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    346,
-                ),
-                hi: BytePos(
-                    346,
-                ),
-                ctxt: #0,
-            },
+            span: 346..346#0,
             value: "",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        346,
-                    ),
-                    hi: BytePos(
-                        356,
-                    ),
-                    ctxt: #0,
-                },
+                span: 346..356#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            346,
-                        ),
-                        hi: BytePos(
-                            356,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 346..356#0,
                     value: "inheritdoc",
                 },
                 tag: InheritDoc(
                     InheritDocTag {
-                        span: Span {
-                            lo: BytePos(
-                                346,
-                            ),
-                            hi: BytePos(
-                                356,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 346..356#0,
                     },
                 ),
             },

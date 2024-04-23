@@ -13,16 +13,16 @@ foo({
     x: 1
 }, {
     x: 1,
-    y: ""
+    y: ''
 }, {
     x: 2,
-    y: "",
+    y: '',
     z: true
 });
 foo(a, b, c);
 foo(a, b, {
     foo: 1,
-    bar: "",
+    bar: '',
     hm: true
 });
 foo(function(x, y) {}, function(x) {}, function() {});
@@ -34,6 +34,6 @@ foo(a, a, a);
 foo(a, b, c);
 foo(b, b, {
     foo: 1,
-    bar: "",
-    hm: ""
+    bar: '',
+    hm: ''
 });

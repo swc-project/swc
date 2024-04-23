@@ -13,4 +13,4 @@ var c, d, C = function() {
     var _proto = D.prototype;
     return _proto.foo = function(x, y) {}, _proto.bar = function(x, y) {}, D.foo = function(x, y) {}, D.bar = function(x, y) {}, D;
 }();
-c.foo(1), d.foo(2), C.foo(1), D.bar("");
+c.foo(1), d.foo(2), C.foo(1), D.bar('');

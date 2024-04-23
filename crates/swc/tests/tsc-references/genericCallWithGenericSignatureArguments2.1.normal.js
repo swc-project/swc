@@ -10,7 +10,7 @@ var onlyT;
     var r1 = foo(function(x) {
         return 1;
     }, function(x) {
-        return "";
+        return '';
     });
     function other2(x) {
         var r7 = foo(function(a) {
@@ -65,7 +65,7 @@ var TU;
     var r1 = foo(function(x) {
         return 1;
     }, function(x) {
-        return "";
+        return '';
     });
     function other2(x) {
         var r7 = foo(function(a) {

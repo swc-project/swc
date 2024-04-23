@@ -39,7 +39,7 @@
               "type": "Identifier",
               "span": {
                 "start": 30,
-                "end": 46,
+                "end": 34,
                 "ctxt": 0
               },
               "value": "node",
@@ -85,7 +85,7 @@
               "type": "Identifier",
               "span": {
                 "start": 48,
-                "end": 64,
+                "end": 57,
                 "ctxt": 0
               },
               "value": "className",

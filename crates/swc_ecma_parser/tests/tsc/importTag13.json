@@ -1,0 +1,91 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 79,
+    "end": 118,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 79,
+        "end": 118,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "TsInterfaceDeclaration",
+        "span": {
+          "start": 86,
+          "end": 118,
+          "ctxt": 0
+        },
+        "id": {
+          "type": "Identifier",
+          "span": {
+            "start": 96,
+            "end": 99,
+            "ctxt": 0
+          },
+          "value": "Foo",
+          "optional": false
+        },
+        "declare": false,
+        "typeParams": null,
+        "extends": [],
+        "body": {
+          "type": "TsInterfaceBody",
+          "span": {
+            "start": 100,
+            "end": 118,
+            "ctxt": 0
+          },
+          "body": [
+            {
+              "type": "TsPropertySignature",
+              "span": {
+                "start": 106,
+                "end": 116,
+                "ctxt": 0
+              },
+              "readonly": false,
+              "key": {
+                "type": "Identifier",
+                "span": {
+                  "start": 106,
+                  "end": 107,
+                  "ctxt": 0
+                },
+                "value": "a",
+                "optional": false
+              },
+              "computed": false,
+              "optional": false,
+              "init": null,
+              "params": [],
+              "typeAnnotation": {
+                "type": "TsTypeAnnotation",
+                "span": {
+                  "start": 107,
+                  "end": 115,
+                  "ctxt": 0
+                },
+                "typeAnnotation": {
+                  "type": "TsKeywordType",
+                  "span": {
+                    "start": 109,
+                    "end": 115,
+                    "ctxt": 0
+                  },
+                  "kind": "number"
+                }
+              },
+              "typeParams": null
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

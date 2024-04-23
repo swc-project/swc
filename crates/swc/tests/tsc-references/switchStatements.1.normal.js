@@ -6,13 +6,13 @@ import { _ as _create_super } from "@swc/helpers/_/_create_super";
 var M;
 (function(M) {
     function fn(x) {
-        return "";
+        return '';
     }
     M.fn = fn;
 })(M || (M = {}));
 var x;
 switch(x){
-    case "":
+    case '':
     case 12:
     case true:
     case null:
@@ -26,16 +26,16 @@ switch(x){
         id: 12
     }:
     case [
-        "a"
+        'a'
     ]:
     case typeof x === "undefined" ? "undefined" : _type_of(x):
     case typeof M === "undefined" ? "undefined" : _type_of(M):
     case M.fn(1):
     case function(x) {
-        return "";
+        return '';
     }:
     case function(x) {
-        return "";
+        return '';
     }(2):
     default:
 }
@@ -58,11 +58,11 @@ switch(new C()){
     case new D():
     case {
         id: 12,
-        name: ""
+        name: ''
     }:
     case new C():
 }
-switch(""){
+switch(''){
 }
 switch(12){
 }
@@ -87,14 +87,14 @@ switch({
 }){
 }
 switch([
-    "a"
+    'a'
 ]){
 }
 switch(function(x) {
-    return "";
+    return '';
 }){
 }
 switch(function(x) {
-    return "";
+    return '';
 }(1)){
 }

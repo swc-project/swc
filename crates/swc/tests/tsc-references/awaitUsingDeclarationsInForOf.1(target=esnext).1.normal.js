@@ -1,11 +1,23 @@
 //// [awaitUsingDeclarationsInForOf.1.ts]
-//! 
-//!   x Expected ';', got 'd1'
-//!    ,-[1:1]
-//!  1 | 
-//!  2 | async function main() {
-//!  3 |     for (await using d1 of [{ async [Symbol.asyncDispose]() {} }, { [Symbol.dispose]() {} }, null, undefined]) {
-//!    :                      ^^
-//!  4 |     }
-//!  5 | }
-//!    `----
+import { _ as _using_ctx } from "@swc/helpers/_/_using_ctx";
+async function main() {
+    for (const d1 of [
+        {
+            async [Symbol.asyncDispose] () {}
+        },
+        {
+            [Symbol.dispose] () {}
+        },
+        null,
+        undefined
+    ]){
+        try {
+            var _usingCtx = _using_ctx();
+            {}
+        } catch (_) {
+            _usingCtx.e = _;
+        } finally{
+            _usingCtx.d();
+        }
+    }
+}

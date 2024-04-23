@@ -5,14 +5,14 @@ import { _ as _object_spread } from "@swc/helpers/_/_object_spread";
 import { _ as _object_spread_props } from "@swc/helpers/_/_object_spread_props";
 var o = {
     a: 1,
-    b: "no"
+    b: 'no'
 };
 var o2 = {
-    b: "yes",
+    b: 'yes',
     c: true
 };
 var swap = {
-    a: "yes",
+    a: 'yes',
     b: -1
 };
 var addAfter = _object_spread_props(_object_spread({}, o), {
@@ -22,25 +22,25 @@ var addBefore = _object_spread({
     c: false
 }, o);
 var override = _object_spread_props(_object_spread({}, o), {
-    b: "override"
+    b: 'override'
 });
 var nested = _object_spread_props(_object_spread({}, _object_spread({
     a: 3
 }, {
     b: false,
-    c: "overriden"
+    c: 'overriden'
 })), {
-    c: "whatever"
+    c: 'whatever'
 });
 var combined = _object_spread({}, o, o2);
 var combinedAfter = _object_spread_props(_object_spread({}, o, o2), {
-    b: "ok"
+    b: 'ok'
 });
 var combinedNestedChangeType = _object_spread_props(_object_spread({}, _object_spread({
     a: 1
 }, {
     b: false,
-    c: "overriden"
+    c: 'overriden'
 })), {
     c: -1
 });
@@ -94,7 +94,7 @@ function conditionalSpreadNumber(nt) {
 }
 function conditionalSpreadString(st) {
     var o = {
-        x: "hi",
+        x: 'hi',
         y: 17
     };
     o = _object_spread({}, o, st && {
@@ -130,7 +130,7 @@ var cplus = _object_spread_props(_object_spread({}, c), {
 cplus.plus();
 // new field's type conflicting with existing field is OK
 var changeTypeAfter = _object_spread_props(_object_spread({}, o), {
-    a: "wrong type?"
+    a: 'wrong type?'
 });
 var changeTypeBoth = _object_spread({}, o, swap);
 // optional
@@ -139,12 +139,12 @@ function container(definiteBoolean, definiteString, optionalString, optionalNumb
     var optionalUnionDuplicates = _object_spread({}, definiteBoolean, definiteString, optionalString, optionalNumber);
     var allOptional = _object_spread({}, optionalString, optionalNumber);
     // computed property
-    var computedFirst = _object_spread_props(_object_spread(_define_property({}, "before everything", 12), o), {
-        b: "yes"
+    var computedFirst = _object_spread_props(_object_spread(_define_property({}, 'before everything', 12), o), {
+        b: 'yes'
     });
     var computedAfter = _object_spread_props(_object_spread({}, o), _define_property({
-        b: "yeah"
-    }, "at the end", 14));
+        b: 'yeah'
+    }, 'at the end', 14));
 }
 // shortcut syntax
 var a = 12;
@@ -156,33 +156,33 @@ var spreadNonPrimitive = _object_spread({}, {});
 // generic spreads
 function f(t, u) {
     return _object_spread_props(_object_spread({}, t, u), {
-        id: "id"
+        id: 'id'
     });
 }
 var exclusive = f({
     a: 1,
-    b: "yes"
+    b: 'yes'
 }, {
-    c: "no",
+    c: 'no',
     d: false
 });
 var overlap = f({
     a: 1
 }, {
     a: 2,
-    b: "extra"
+    b: 'extra'
 });
 var overlapConflict = f({
     a: 1
 }, {
-    a: "mismatch"
+    a: 'mismatch'
 });
 var overwriteId = f({
     a: 1,
     id: true
 }, {
     c: 1,
-    d: "no"
+    d: 'no'
 });
 function genericSpread(t, u, v, w, obj) {
     var x01 = _object_spread({}, t);
@@ -191,28 +191,28 @@ function genericSpread(t, u, v, w, obj) {
     var x04 = _object_spread({}, u, t);
     var x05 = _object_spread({
         a: 5,
-        b: "hi"
+        b: 'hi'
     }, t);
     var x06 = _object_spread_props(_object_spread({}, t), {
         a: 5,
-        b: "hi"
+        b: 'hi'
     });
     var x07 = _object_spread(_object_spread_props(_object_spread({
         a: 5,
-        b: "hi"
+        b: 'hi'
     }, t), {
         c: true
     }), obj);
     var x09 = _object_spread(_object_spread_props(_object_spread({
         a: 5
     }, t), {
-        b: "hi",
+        b: 'hi',
         c: true
     }), obj);
     var x10 = _object_spread(_object_spread_props(_object_spread({
         a: 5
     }, t), {
-        b: "hi"
+        b: 'hi'
     }), u, obj);
     var x11 = _object_spread({}, v);
     var x12 = _object_spread({}, v, obj);

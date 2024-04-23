@@ -9,12 +9,12 @@ function f() {
     a = 1;
     a = true;
     a = {};
-    a = "ok";
+    a = 'ok';
     // b should be number | undefined, not any
     b = 1;
     b = undefined;
-    b = "error";
+    b = 'error';
     // l should be any[]
     l.push(1);
-    l.push("ok");
+    l.push('ok');
 }

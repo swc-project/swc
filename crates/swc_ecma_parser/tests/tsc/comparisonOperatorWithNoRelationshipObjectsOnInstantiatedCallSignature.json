@@ -297,7 +297,7 @@
                         "type": "Identifier",
                         "span": {
                           "start": 144,
-                          "end": 148,
+                          "end": 145,
                           "ctxt": 0
                         },
                         "value": "x",
@@ -557,7 +557,7 @@
                         "type": "Identifier",
                         "span": {
                           "start": 199,
-                          "end": 203,
+                          "end": 200,
                           "ctxt": 0
                         },
                         "value": "x",
@@ -727,7 +727,7 @@
                         "type": "Identifier",
                         "span": {
                           "start": 224,
-                          "end": 233,
+                          "end": 225,
                           "ctxt": 0
                         },
                         "value": "x",
@@ -845,7 +845,7 @@
                         "type": "Identifier",
                         "span": {
                           "start": 263,
-                          "end": 268,
+                          "end": 264,
                           "ctxt": 0
                         },
                         "value": "x",
@@ -1015,7 +1015,7 @@
                         "type": "Identifier",
                         "span": {
                           "start": 289,
-                          "end": 299,
+                          "end": 290,
                           "ctxt": 0
                         },
                         "value": "x",
@@ -1465,7 +1465,7 @@
                         "type": "Identifier",
                         "span": {
                           "start": 403,
-                          "end": 407,
+                          "end": 404,
                           "ctxt": 0
                         },
                         "value": "x",
@@ -1502,7 +1502,7 @@
                         "type": "Identifier",
                         "span": {
                           "start": 409,
-                          "end": 413,
+                          "end": 410,
                           "ctxt": 0
                         },
                         "value": "y",
@@ -1672,7 +1672,7 @@
                         "type": "Identifier",
                         "span": {
                           "start": 434,
-                          "end": 443,
+                          "end": 435,
                           "ctxt": 0
                         },
                         "value": "x",
@@ -1699,7 +1699,7 @@
                         "type": "Identifier",
                         "span": {
                           "start": 445,
-                          "end": 454,
+                          "end": 446,
                           "ctxt": 0
                         },
                         "value": "y",
@@ -1817,7 +1817,7 @@
                         "type": "Identifier",
                         "span": {
                           "start": 497,
-                          "end": 501,
+                          "end": 498,
                           "ctxt": 0
                         },
                         "value": "x",
@@ -1854,7 +1854,7 @@
                         "type": "Identifier",
                         "span": {
                           "start": 503,
-                          "end": 507,
+                          "end": 504,
                           "ctxt": 0
                         },
                         "value": "y",
@@ -2065,7 +2065,7 @@
                         "type": "Identifier",
                         "span": {
                           "start": 528,
-                          "end": 535,
+                          "end": 529,
                           "ctxt": 0
                         },
                         "value": "x",
@@ -2102,7 +2102,7 @@
                         "type": "Identifier",
                         "span": {
                           "start": 537,
-                          "end": 541,
+                          "end": 538,
                           "ctxt": 0
                         },
                         "value": "y",

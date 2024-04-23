@@ -26,6 +26,6 @@ var r11 = 0 + null;
 var r12 = 0 + null;
 // null + string
 var r13 = null + d;
-var r14 = null + "";
+var r14 = null + '';
 var r15 = d + null;
-var r16 = "" + null;
+var r16 = '' + null;

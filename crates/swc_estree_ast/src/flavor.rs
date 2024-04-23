@@ -1,16 +1,13 @@
 better_scoped_tls::scoped_tls!(static FLAVOR: Flavor);
 
 #[repr(u8)]
-#[derive(Debug, Clone, Copy, Eq, PartialEq, Hash)]
+#[derive(Debug, Clone, Copy, Eq, PartialEq, Hash, Default)]
 pub enum Flavor {
+    #[default]
     Babel,
-    Acorn { extra_comments: bool },
-}
-
-impl Default for Flavor {
-    fn default() -> Self {
-        Flavor::Babel
-    }
+    Acorn {
+        extra_comments: bool,
+    },
 }
 
 impl Flavor {

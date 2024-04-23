@@ -2,16 +2,16 @@
 Object.defineProperty(exports, "__esModule", {
     value: !0
 });
-var _class_call_check = require("@swc/helpers/_/_class_call_check"), _ts_decorate = require("@swc/helpers/_/_ts_decorate"), _dispose = require("@swc/helpers/_/_dispose"), _using = require("@swc/helpers/_/_using");
+var _class_call_check = require("@swc/helpers/_/_class_call_check"), _ts_decorate = require("@swc/helpers/_/_ts_decorate"), _using_ctx = require("@swc/helpers/_/_using_ctx");
 try {
-    var _stack = [], C = function C() {
+    var _usingCtx = _using_ctx._(), C = function C() {
         _class_call_check._(this, C);
     };
     C = _ts_decorate._([
         dec
-    ], C), _using._(_stack, null);
+    ], C), _usingCtx.u(null);
 } catch (_) {
-    var _error = _, _hasError = !0;
+    _usingCtx.e = _;
 } finally{
-    _dispose._(_stack, _error, _hasError);
+    _usingCtx.d();
 }

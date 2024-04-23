@@ -6,10 +6,10 @@
  * @property {string} icons.image64
  */ var ex;
 /** @type {App} */ var app = {
-    name: "name",
+    name: 'name',
     icons: {
-        image32: "x.png",
-        image64: "y.png"
+        image32: 'x.png',
+        image64: 'y.png'
     }
 };
 /** @typedef {Object} Opp
@@ -24,7 +24,7 @@
  * @property {Object} not
  * @property {string} nested
  */ /** @type {Upp} */ var sala = {
-    name: "uppsala",
+    name: 'uppsala',
     not: 0,
     nested: "ok"
 };

@@ -1,9 +1,9 @@
 if (a) {
     try {
-        b("try");
+        b('try');
     } catch (c) {}
     // do not optimize it
     (function() {
-        b("d");
+        b('d');
     }());
 }

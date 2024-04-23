@@ -7,7 +7,7 @@ it("should handle minify", () => {
     expect(
         swc
             .transformSync(src, {
-                minify: true
+                minify: true,
             })
             .code.trim()
     ).toBe(`import foo,{bar}from"foo";`);
@@ -16,7 +16,7 @@ it("should handle minify", () => {
 it("should handle sourceMaps = false", () => {
     const src = '/* Comment */import foo, {bar} from "foo"';
     const out = swc.transformSync(src, {
-        sourceMaps: false
+        sourceMaps: false,
     });
 
     expect(out.map).toBeFalsy();
@@ -28,22 +28,24 @@ it("should handle exportNamespaceFrom", () => {
         jsc: {
             parser: {
                 syntax: "ecmascript",
-                exportNamespaceFrom: true
-            }
-        }
+                exportNamespaceFrom: true,
+            },
+        },
     });
 
-    expect(out.code).toContain("import * as _Foo from \"bar\";");
-    expect(out.code).toContain("export { _Foo as Foo }");
+    expect(out.code).toMatchInlineSnapshot(`
+        "import * as _Foo from 'bar';
+        export { _Foo as Foo };
+        "
+    `);
 });
-
 
 it("should handle jsc.target = es5", () => {
     const out = swc.transformSync(`foo.default`, {
         swcrc: false,
         jsc: {
-            target: "es5"
-        }
+            target: "es5",
+        },
     });
     expect(out.code.trim()).toBe(`foo.default;`);
 });
@@ -53,8 +55,8 @@ it("(sync) should handle module input", () => {
     const out = swc.transformSync(m, {
         swcrc: false,
         jsc: {
-            target: 'es2016',
-        }
+            target: "es2016",
+        },
     });
 
     expect(out.code.replace(/\n/g, "")).toBe("class Foo {}");
@@ -64,8 +66,8 @@ it("(async) should handle module input", async () => {
     const m = await swc.parse("class Foo {}");
     const out = await swc.transform(m, {
         jsc: {
-            target: "es2016"
-        }
+            target: "es2016",
+        },
     });
 
     expect(out.code.replace(/\n/g, "")).toBe("class Foo {}");
@@ -73,7 +75,7 @@ it("(async) should handle module input", async () => {
 
 it("(sync) should handle plugin", () => {
     const out = swc.transformSync("class Foo {}", {
-        plugin: m => ({ ...m, body: [] })
+        plugin: (m) => ({ ...m, body: [] }),
     });
 
     expect(out.code).toBe("");
@@ -81,7 +83,7 @@ it("(sync) should handle plugin", () => {
 
 it("(async) should handle plugin", async () => {
     const out = await swc.transform("class Foo {}", {
-        plugin: m => ({ ...m, body: [] })
+        plugin: (m) => ({ ...m, body: [] }),
     });
 
     expect(out.code).toBe("");
@@ -93,12 +95,14 @@ it("(async) should handle dynamic import", async () => {
             target: "es3",
             parser: {
                 syntax: "ecmascript",
-                dynamicImport: true
-            }
-        }
+                dynamicImport: true,
+            },
+        },
     });
 
-    expect(out.code.replace(/;/g, "").trim()).toBe(`import("foo")`);
+    expect(out.code.replace(/;/g, "").trim()).toMatchInlineSnapshot(
+        `"import('foo')"`
+    );
 });
 
 it("should handle nullish coalescing", async () => {
@@ -106,13 +110,15 @@ it("should handle nullish coalescing", async () => {
         jsc: {
             parser: {
                 syntax: "ecmascript",
-                nullishCoalescing: true
-            }
-        }
+                nullishCoalescing: true,
+            },
+        },
     });
 
-    expect(out.code).toBe(`a !== null && a !== void 0 ? a : "foo";
-`);
+    expect(out.code).toMatchInlineSnapshot(`
+        "a !== null && a !== void 0 ? a : 'foo';
+        "
+    `);
 });
 
 it("should handle for of statement in an async function", async () => {
@@ -123,32 +129,24 @@ it("should handle for of statement in an async function", async () => {
   }`
     );
 
-    expect(out.code).toBeTruthy()
+    expect(out.code).toBeTruthy();
 });
 
-
 it("should respect isModule = false", async () => {
-    const out = swc.transformSync(
-        `const five = 005`,
-        {
-            isModule: false,
-        }
-    );
+    const out = swc.transformSync(`const five = 005`, {
+        isModule: false,
+    });
 
-    expect(out.code.trim()).toEqual(`var five = 005;`)
+    expect(out.code.trim()).toEqual(`var five = 005;`);
 });
 
 it("should respect isModule = true", async () => {
-    const f = () => swc.transformSync(
-        `const five = 005`,
-        {
+    const f = () =>
+        swc.transformSync(`const five = 005`, {
             isModule: true,
-        }
-    );
-    expect(f).toThrowError(/Syntax Error/)
+        });
+    expect(f).toThrowError(/Syntax Error/);
 });
-
-
 
 it("should respect `inlineSourcesContent`", async () => {
     const src = '/* Comment */import foo, {bar} from "foo"';
@@ -159,21 +157,20 @@ it("should respect `inlineSourcesContent`", async () => {
 
     const j = JSON.parse(map);
 
-    expect(j).toHaveProperty('sourcesContent')
+    expect(j).toHaveProperty("sourcesContent");
 });
 
 it("should respect `error.filename = false`", async () => {
-    const src = 'export default <h1>';
+    const src = "export default <h1>";
     try {
         await swc.transform(src, {
             error: {
-                filename: false
-            }
-        })
+                filename: false,
+            },
+        });
     } catch (e) {
-        expect(e).not.toContain("-->")
+        expect(e).not.toContain("-->");
     }
-
 });
 
 it("should support overring `jsc.externalHelpers` using js api", async () => {
@@ -184,8 +181,8 @@ it("should support overring `jsc.externalHelpers` using js api", async () => {
     const { code } = await swc.transformFile(filename, {
         jsc: {
             externalHelpers: false,
-        }
-    })
+        },
+    });
 
-    expect(code).toContain('function _class_call_check')
+    expect(code).toContain("function _class_call_check");
 });

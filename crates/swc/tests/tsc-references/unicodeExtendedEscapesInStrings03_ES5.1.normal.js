@@ -1,2 +1,2 @@
 //// [unicodeExtendedEscapesInStrings03_ES5.ts]
-var x = "\0";
+var x = "\u{0000}";

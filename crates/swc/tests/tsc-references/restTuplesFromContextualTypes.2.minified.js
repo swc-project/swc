@@ -88,6 +88,6 @@ import { _ as _to_consumable_array } from "@swc/helpers/_/_to_consumable_array";
     return "" + x;
 }), (function(a, b) {}).apply(this, _to_consumable_array(tuple)), function() {
     for(var _len = arguments.length, rest = Array(_len), _key = 0; _key < _len; _key++)rest[_key] = arguments[_key];
-}(1, ""), take(function() {
+}(1, ''), take(function() {
     for(var _len = arguments.length, rest = Array(_len), _key = 0; _key < _len; _key++)rest[_key] = arguments[_key];
 });

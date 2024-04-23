@@ -4,27 +4,27 @@ function foo(arg) {
 }
 var arg = {
     cb: function(x) {
-        return "";
+        return '';
     }
 };
 foo(arg), foo({
     cb: function(x, y) {
-        return "";
+        return '';
     }
 }), foo({
     cb: function(x, y) {
-        return "";
+        return '';
     }
 }), foo(arg), foo({
     cb: function(x) {
-        return "";
+        return '';
     }
 }), foo({
     cb: function(x) {
-        return "";
+        return '';
     }
 }), foo({
     cb: function() {
-        return "";
+        return '';
     }
 });

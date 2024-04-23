@@ -7,7 +7,7 @@ var A = function() {
         _class_call_check(this, A);
     }
     return A.prototype.foo = function() {
-        return "";
+        return '';
     }, A;
 }(), B = function(A) {
     _inherits(B, A);
@@ -16,7 +16,7 @@ var A = function() {
         return _class_call_check(this, B), _super.apply(this, arguments);
     }
     return B.prototype.bar = function() {
-        return "";
+        return '';
     }, B;
 }(A);
 new A(), new B(), new B();

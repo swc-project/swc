@@ -1,5 +1,4 @@
 //! Parser for unary operations and binary operations.
-use swc_common::Spanned;
 use tracing::trace;
 
 use super::*;

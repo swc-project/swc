@@ -10,7 +10,7 @@ use swc_ecma_visit::{
 };
 use testing::{fixture, run_test2, NormalizedOutput};
 
-pub fn print(cm: Lrc<SourceMap>, module: &Module) -> String {
+pub fn print(cm: Lrc<SourceMap>, program: &Program) -> String {
     let mut buf = vec![];
     {
         let mut emitter = Emitter {
@@ -23,7 +23,7 @@ pub fn print(cm: Lrc<SourceMap>, module: &Module) -> String {
         };
 
         // println!("Emitting: {:?}", module);
-        emitter.emit_module(module).unwrap();
+        emitter.emit_program(program).unwrap();
     }
 
     let s = String::from_utf8_lossy(&buf);
@@ -47,15 +47,15 @@ where
         let lexer = Lexer::new(syntax, EsVersion::latest(), StringInput::from(&*fm), None);
         let mut parser = Parser::new_from(lexer);
 
-        let module = parser
-            .parse_module()
+        let program = parser
+            .parse_program()
             .map_err(|err| err.into_diagnostic(&handler).emit())?;
 
         let mut folder = op();
 
-        let module = module.fold_with(&mut folder);
+        let program = program.fold_with(&mut folder);
 
-        let actual = print(cm, &module);
+        let actual = print(cm, &program);
         let actual = NormalizedOutput::from(actual);
 
         actual.compare_to_file(&output).unwrap();

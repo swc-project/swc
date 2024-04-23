@@ -8,5 +8,5 @@ module.exports = minimatch, minimatch.M = M, minimatch.filter = function() {
     return def;
 }, M.prototype.m = function() {};
 //// [use.js]
-var mini = require("./minimatch");
+var mini = require('./minimatch');
 mini.M.defaults(), new mini.M().m(), mini.filter();

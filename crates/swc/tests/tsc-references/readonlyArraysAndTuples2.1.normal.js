@@ -7,7 +7,7 @@ var A = function A() {
     _class_call_check(this, A);
     this.j = [];
     this.k = [
-        "foo",
+        'foo',
         42
     ];
 };

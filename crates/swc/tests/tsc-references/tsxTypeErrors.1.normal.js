@@ -36,6 +36,6 @@ var b1 = /*#__PURE__*/ React.createElement(MyClass, {
 var b2 = /*#__PURE__*/ React.createElement(MyClass, {
     pt: {
         x: 4,
-        y: "oops"
+        y: 'oops'
     }
 });

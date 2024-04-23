@@ -7,6 +7,7 @@
     "stack",
     "split"
   ],
+  "rangeMappings": ";;;;;;;;;;;;;;;",
   "sources": [
     "../../input/util.ts"
   ],

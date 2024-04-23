@@ -2,28 +2,28 @@
 import { _ as _to_consumable_array } from "@swc/helpers/_/_to_consumable_array";
 // error
 fs2.apply(void 0, [
-    "a"
+    'a'
 ].concat(_to_consumable_array(s2))); // error on ...s2
 fs2.apply(void 0, [
-    "a",
-    "b",
-    "c"
+    'a',
+    'b',
+    'c'
 ].concat(_to_consumable_array(s2))); // error on 'c' and ...s2
 fs2.apply(void 0, [
-    "a",
-    "b"
+    'a',
+    'b'
 ].concat(_to_consumable_array(s2), [
-    "c"
+    'c'
 ])); // error on ...s2 and 'c'
 fs2.apply(void 0, [
-    "a",
-    "b",
-    "c"
+    'a',
+    'b',
+    'c'
 ].concat(_to_consumable_array(s2), [
-    "d"
+    'd'
 ])); // error on 'c', ...s2 and 'd'
 fs2.apply(void 0, _to_consumable_array(s2).concat([
-    "a"
+    'a'
 ])); // error on 'a'
 fs2.apply(void 0, _to_consumable_array(s3)); // error on ...s3
 fs2_.apply(void 0, _to_consumable_array(s_)); // error on ...s_

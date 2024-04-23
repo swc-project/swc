@@ -2915,6 +2915,7 @@ impl Generator {
             self.clauses = Some(Default::default());
         }
 
+        #[allow(clippy::manual_unwrap_or_default)]
         let stmts = if let Some(mut stmts) = self.stmts.take() {
             if self.with_block_stack.is_some() {
                 // The previous label was nested inside one or more `with`

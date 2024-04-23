@@ -1,10 +1,23 @@
 //// [awaitUsingDeclarationsInForAwaitOf.ts]
-//! 
-//!   x Expected ';', got 'd1'
-//!    ,-[1:1]
-//!  1 | async function main() {
-//!  2 |     for await (await using d1 of [{ async [Symbol.asyncDispose]() {} }, { [Symbol.dispose]() {} }, null, undefined]) {
-//!    :                            ^^
-//!  3 |     }
-//!  4 | }
-//!    `----
+import { _ as _using_ctx } from "@swc/helpers/_/_using_ctx";
+async function main() {
+    for await (const d1 of [
+        {
+            async [Symbol.asyncDispose] () {}
+        },
+        {
+            [Symbol.dispose] () {}
+        },
+        null,
+        undefined
+    ]){
+        try {
+            var _usingCtx = _using_ctx();
+            {}
+        } catch (_) {
+            _usingCtx.e = _;
+        } finally{
+            _usingCtx.d();
+        }
+    }
+}

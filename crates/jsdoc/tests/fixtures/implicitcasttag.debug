@@ -1,118 +1,38 @@
 [
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                20,
-            ),
-            hi: BytePos(
-                20,
-            ),
-            ctxt: #0,
-        },
+        span: 20..20#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    20,
-                ),
-                hi: BytePos(
-                    20,
-                ),
-                ctxt: #0,
-            },
+            span: 20..20#0,
             value: "",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        20,
-                    ),
-                    hi: BytePos(
-                        24,
-                    ),
-                    ctxt: #0,
-                },
+                span: 20..24#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            20,
-                        ),
-                        hi: BytePos(
-                            24,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 20..24#0,
                     value: "type",
                 },
                 tag: Type(
                     TypeTag {
-                        span: Span {
-                            lo: BytePos(
-                                20,
-                            ),
-                            hi: BytePos(
-                                24,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 20..24#0,
                         name: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    20,
-                                ),
-                                hi: BytePos(
-                                    28,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 20..28#0,
                             value: "{string}",
                         },
                     },
                 ),
             },
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        20,
-                    ),
-                    hi: BytePos(
-                        32,
-                    ),
-                    ctxt: #0,
-                },
+                span: 20..32#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            20,
-                        ),
-                        hi: BytePos(
-                            32,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 20..32#0,
                     value: "implicitCast",
                 },
                 tag: Unknown(
                     UnknownTag {
-                        span: Span {
-                            lo: BytePos(
-                                20,
-                            ),
-                            hi: BytePos(
-                                32,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 20..32#0,
                         extras: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    0,
-                                ),
-                                hi: BytePos(
-                                    0,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 0..0#0,
                             value: "",
                         },
                     },

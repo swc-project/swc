@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 129,
-    "end": 378,
+    "start": 133,
+    "end": 382,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 138,
-          "end": 139,
+          "start": 142,
+          "end": 143,
           "ctxt": 0
         },
         "value": "f",
@@ -22,30 +22,30 @@
       "params": [],
       "decorators": [],
       "span": {
-        "start": 129,
-        "end": 159,
+        "start": 133,
+        "end": 163,
         "ctxt": 0
       },
       "body": {
         "type": "BlockStatement",
         "span": {
-          "start": 142,
-          "end": 159,
+          "start": 146,
+          "end": 163,
           "ctxt": 0
         },
         "stmts": [
           {
             "type": "ReturnStatement",
             "span": {
-              "start": 148,
-              "end": 157,
+              "start": 152,
+              "end": 161,
               "ctxt": 0
             },
             "argument": {
               "type": "NumericLiteral",
               "span": {
-                "start": 155,
-                "end": 156,
+                "start": 159,
+                "end": 160,
                 "ctxt": 0
               },
               "value": 5.0,
@@ -64,8 +64,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 238,
-          "end": 240,
+          "start": 242,
+          "end": 244,
           "ctxt": 0
         },
         "value": "f1",
@@ -75,30 +75,30 @@
       "params": [],
       "decorators": [],
       "span": {
-        "start": 229,
-        "end": 260,
+        "start": 233,
+        "end": 264,
         "ctxt": 0
       },
       "body": {
         "type": "BlockStatement",
         "span": {
-          "start": 243,
-          "end": 260,
+          "start": 247,
+          "end": 264,
           "ctxt": 0
         },
         "stmts": [
           {
             "type": "ReturnStatement",
             "span": {
-              "start": 249,
-              "end": 258,
+              "start": 253,
+              "end": 262,
               "ctxt": 0
             },
             "argument": {
               "type": "NumericLiteral",
               "span": {
-                "start": 256,
-                "end": 257,
+                "start": 260,
+                "end": 261,
                 "ctxt": 0
               },
               "value": 5.0,
@@ -117,8 +117,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 345,
-          "end": 347,
+          "start": 349,
+          "end": 351,
           "ctxt": 0
         },
         "value": "f2",
@@ -128,38 +128,38 @@
       "params": [],
       "decorators": [],
       "span": {
-        "start": 336,
-        "end": 378,
+        "start": 340,
+        "end": 382,
         "ctxt": 0
       },
       "body": {
         "type": "BlockStatement",
         "span": {
-          "start": 350,
-          "end": 378,
+          "start": 354,
+          "end": 382,
           "ctxt": 0
         },
         "stmts": [
           {
             "type": "ReturnStatement",
             "span": {
-              "start": 356,
-              "end": 376,
+              "start": 360,
+              "end": 380,
               "ctxt": 0
             },
             "argument": {
               "type": "BinaryExpression",
               "span": {
-                "start": 363,
-                "end": 375,
+                "start": 367,
+                "end": 379,
                 "ctxt": 0
               },
               "operator": "||",
               "left": {
                 "type": "NumericLiteral",
                 "span": {
-                  "start": 363,
-                  "end": 364,
+                  "start": 367,
+                  "end": 368,
                   "ctxt": 0
                 },
                 "value": 5.0,
@@ -168,8 +168,8 @@
               "right": {
                 "type": "StringLiteral",
                 "span": {
-                  "start": 368,
-                  "end": 375,
+                  "start": 372,
+                  "end": 379,
                   "ctxt": 0
                 },
                 "value": "hello",

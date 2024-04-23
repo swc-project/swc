@@ -1,4 +1,7 @@
-use std::path::{Component, Path, PathBuf};
+use std::{
+    cmp::Ordering,
+    path::{Component, Path, PathBuf},
+};
 
 use anyhow::{bail, Context, Error};
 use swc_common::FileName;
@@ -58,7 +61,7 @@ where
             );
         }
 
-        let paths = paths
+        let mut paths: Vec<(Pattern, Vec<String>)> = paths
             .into_iter()
             .map(|(from, to)| {
                 assert!(
@@ -91,6 +94,15 @@ where
                 (pat, to)
             })
             .collect();
+
+        paths.sort_by(|(a, _), (b, _)| match (a, b) {
+            (Pattern::Wildcard { .. }, Pattern::Exact(_)) => Ordering::Greater,
+            (Pattern::Exact(_), Pattern::Wildcard { .. }) => Ordering::Less,
+            (Pattern::Exact(_), Pattern::Exact(_)) => Ordering::Equal,
+            (Pattern::Wildcard { prefix: prefix_a }, Pattern::Wildcard { prefix: prefix_b }) => {
+                prefix_a.len().cmp(&prefix_b.len()).reverse()
+            }
+        });
 
         Self {
             inner,
@@ -289,7 +301,10 @@ where
                     let slug = to[0]
                         .split([std::path::MAIN_SEPARATOR, '/'])
                         .last()
-                        .map(|v| v.into());
+                        .filter(|&slug| slug != "index.ts" && slug != "index.tsx")
+                        .map(|v| v.split_once('.').map(|v| v.0).unwrap_or(v))
+                        .map(From::from);
+
                     if tp.is_absolute() {
                         return Ok(Resolution {
                             filename: FileName::Real(tp.into()),
@@ -297,18 +312,10 @@ where
                         });
                     }
 
-                    if let Ok(res) = self.resolve(&self.base_url_filename, &format!("./{}", &to[0]))
+                    if let Ok(res) = self
+                        .invoke_inner_resolver(&self.base_url_filename, &format!("./{}", &to[0]))
                     {
-                        return Ok(Resolution {
-                            slug: match &res.filename {
-                                FileName::Real(p) => p
-                                    .file_stem()
-                                    .filter(|&s| s != "index")
-                                    .map(|v| v.to_string_lossy().into()),
-                                _ => None,
-                            },
-                            ..res
-                        });
+                        return Ok(Resolution { slug, ..res });
                     }
 
                     return Ok(Resolution {

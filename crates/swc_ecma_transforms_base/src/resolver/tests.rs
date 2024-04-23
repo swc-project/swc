@@ -1,7 +1,6 @@
 use swc_ecma_parser::Syntax;
-use swc_ecma_visit::Fold;
 
-use super::{InnerConfig, *};
+use super::*;
 use crate::hygiene::Config;
 
 // struct TsHygiene {

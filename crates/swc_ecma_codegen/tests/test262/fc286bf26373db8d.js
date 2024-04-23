@@ -1,5 +1,5 @@
 switch(a){
-    case "b":
+    case 'b':
         c();
     default:
 }

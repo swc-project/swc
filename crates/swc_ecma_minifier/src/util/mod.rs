@@ -1,9 +1,11 @@
+#![allow(dead_code)]
+
 use std::time::Instant;
 
 use rustc_hash::FxHashSet;
 use swc_common::{util::take::Take, Mark, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{ModuleItemLike, StmtLike, Value};
+use swc_ecma_utils::{stack_size::maybe_grow_default, ModuleItemLike, StmtLike, Value};
 use swc_ecma_visit::{noop_visit_type, visit_obj_and_computed, Visit, VisitWith};
 
 pub(crate) mod base54;
@@ -11,7 +13,6 @@ pub(crate) mod size;
 pub(crate) mod sort;
 pub(crate) mod unit;
 
-///
 pub(crate) fn make_number(span: Span, value: f64) -> Expr {
     trace_op!("Creating a numeric literal");
     Expr::Lit(Lit::Num(Number {
@@ -508,6 +509,10 @@ impl Visit for EvalFinder {
     noop_visit_type!();
 
     visit_obj_and_computed!();
+
+    fn visit_expr(&mut self, n: &Expr) {
+        maybe_grow_default(|| n.visit_children_with(self));
+    }
 
     fn visit_ident(&mut self, i: &Ident) {
         if i.sym == "eval" {

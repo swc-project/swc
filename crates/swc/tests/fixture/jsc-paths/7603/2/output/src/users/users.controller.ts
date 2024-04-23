@@ -53,18 +53,18 @@ _ts_decorate([
     Get()
 ], UsersController.prototype, "findAll", null);
 _ts_decorate([
-    Get(":id"),
-    _ts_param(0, Param("id"))
+    Get(':id'),
+    _ts_param(0, Param('id'))
 ], UsersController.prototype, "findOne", null);
 _ts_decorate([
-    Patch(":id"),
-    _ts_param(0, Param("id")),
+    Patch(':id'),
+    _ts_param(0, Param('id')),
     _ts_param(1, Body())
 ], UsersController.prototype, "update", null);
 _ts_decorate([
-    Delete(":id"),
-    _ts_param(0, Param("id"))
+    Delete(':id'),
+    _ts_param(0, Param('id'))
 ], UsersController.prototype, "remove", null);
 UsersController = _ts_decorate([
-    Controller("users")
+    Controller('users')
 ], UsersController);

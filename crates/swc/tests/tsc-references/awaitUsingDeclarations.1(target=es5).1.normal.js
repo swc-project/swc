@@ -5,14 +5,13 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _define_property } from "@swc/helpers/_/_define_property";
 import { _ as _wrap_async_generator } from "@swc/helpers/_/_wrap_async_generator";
 import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
-import { _ as _dispose } from "@swc/helpers/_/_dispose";
-import { _ as _using } from "@swc/helpers/_/_using";
+import { _ as _using_ctx } from "@swc/helpers/_/_using_ctx";
 function af() {
     return _af.apply(this, arguments);
 }
 function _af() {
     _af = _async_to_generator(function() {
-        var _stack, d3, _, _error, _hasError;
+        var _usingCtx, d3, _;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
                 case 0:
@@ -22,8 +21,8 @@ function _af() {
                         3,
                         5
                     ]);
-                    _stack = [];
-                    d3 = _using(_stack, _define_property({}, Symbol.asyncDispose, function() {
+                    _usingCtx = _using_ctx();
+                    d3 = _usingCtx.a(_define_property({}, Symbol.asyncDispose, function() {
                         return _async_to_generator(function() {
                             return _ts_generator(this, function(_state) {
                                 return [
@@ -31,7 +30,7 @@ function _af() {
                                 ];
                             });
                         })();
-                    }), true);
+                    }));
                     return [
                         4,
                         null
@@ -44,8 +43,7 @@ function _af() {
                     ];
                 case 2:
                     _ = _state.sent();
-                    _error = _;
-                    _hasError = true;
+                    _usingCtx.e = _;
                     return [
                         3,
                         5
@@ -53,7 +51,7 @@ function _af() {
                 case 3:
                     return [
                         4,
-                        _dispose(_stack, _error, _hasError)
+                        _usingCtx.d()
                     ];
                 case 4:
                     _state.sent();
@@ -74,7 +72,7 @@ function ag() {
 }
 function _ag() {
     _ag = _wrap_async_generator(function() {
-        var _stack, d5, _, _error, _hasError;
+        var _usingCtx, d5, _;
         return _ts_generator(this, function(_state) {
             switch(_state.label){
                 case 0:
@@ -84,8 +82,8 @@ function _ag() {
                         4,
                         6
                     ]);
-                    _stack = [];
-                    d5 = _using(_stack, _define_property({}, Symbol.asyncDispose, function() {
+                    _usingCtx = _using_ctx();
+                    d5 = _usingCtx.a(_define_property({}, Symbol.asyncDispose, function() {
                         return _async_to_generator(function() {
                             return _ts_generator(this, function(_state) {
                                 return [
@@ -93,7 +91,7 @@ function _ag() {
                                 ];
                             });
                         })();
-                    }), true);
+                    }));
                     return [
                         4
                     ];
@@ -111,8 +109,7 @@ function _ag() {
                     ];
                 case 3:
                     _ = _state.sent();
-                    _error = _;
-                    _hasError = true;
+                    _usingCtx.e = _;
                     return [
                         3,
                         6
@@ -120,7 +117,7 @@ function _ag() {
                 case 4:
                     return [
                         4,
-                        _await_async_generator(_dispose(_stack, _error, _hasError))
+                        _await_async_generator(_usingCtx.d())
                     ];
                 case 5:
                     _state.sent();
@@ -137,8 +134,8 @@ function _ag() {
     return _ag.apply(this, arguments);
 }
 try {
-    var _stack = [];
-    var d1 = _using(_stack, _define_property({}, Symbol.asyncDispose, function() {
+    var _usingCtx = _using_ctx();
+    var d1 = _usingCtx.a(_define_property({}, Symbol.asyncDispose, function() {
         return _async_to_generator(function() {
             return _ts_generator(this, function(_state) {
                 return [
@@ -146,10 +143,10 @@ try {
                 ];
             });
         })();
-    }), true);
+    }));
     var a = function() {
         var _ref = _async_to_generator(function() {
-            var _stack, d6, _, _error, _hasError;
+            var _usingCtx, d6, _;
             return _ts_generator(this, function(_state) {
                 switch(_state.label){
                     case 0:
@@ -159,8 +156,8 @@ try {
                             2,
                             4
                         ]);
-                        _stack = [];
-                        d6 = _using(_stack, _define_property({}, Symbol.asyncDispose, function() {
+                        _usingCtx = _using_ctx();
+                        d6 = _usingCtx.a(_define_property({}, Symbol.asyncDispose, function() {
                             return _async_to_generator(function() {
                                 return _ts_generator(this, function(_state) {
                                     return [
@@ -168,15 +165,14 @@ try {
                                     ];
                                 });
                             })();
-                        }), true);
+                        }));
                         return [
                             3,
                             4
                         ];
                     case 1:
                         _ = _state.sent();
-                        _error = _;
-                        _hasError = true;
+                        _usingCtx.e = _;
                         return [
                             3,
                             4
@@ -184,7 +180,7 @@ try {
                     case 2:
                         return [
                             4,
-                            _dispose(_stack, _error, _hasError)
+                            _usingCtx.d()
                         ];
                     case 3:
                         _state.sent();
@@ -207,7 +203,7 @@ try {
         function C1() {
             _class_call_check(this, C1);
             this.a = /*#__PURE__*/ _async_to_generator(function() {
-                var _stack, d7, _, _error, _hasError;
+                var _usingCtx, d7, _;
                 return _ts_generator(this, function(_state) {
                     switch(_state.label){
                         case 0:
@@ -217,8 +213,8 @@ try {
                                 2,
                                 4
                             ]);
-                            _stack = [];
-                            d7 = _using(_stack, _define_property({}, Symbol.asyncDispose, function() {
+                            _usingCtx = _using_ctx();
+                            d7 = _usingCtx.a(_define_property({}, Symbol.asyncDispose, function() {
                                 return _async_to_generator(function() {
                                     return _ts_generator(this, function(_state) {
                                         return [
@@ -226,15 +222,14 @@ try {
                                         ];
                                     });
                                 })();
-                            }), true);
+                            }));
                             return [
                                 3,
                                 4
                             ];
                         case 1:
                             _ = _state.sent();
-                            _error = _;
-                            _hasError = true;
+                            _usingCtx.e = _;
                             return [
                                 3,
                                 4
@@ -242,7 +237,7 @@ try {
                         case 2:
                             return [
                                 4,
-                                _dispose(_stack, _error, _hasError)
+                                _usingCtx.d()
                             ];
                         case 3:
                             _state.sent();
@@ -260,7 +255,7 @@ try {
         var _proto = C1.prototype;
         _proto.am = function am() {
             return _async_to_generator(function() {
-                var _stack, d13, _, _error, _hasError;
+                var _usingCtx, d13, _;
                 return _ts_generator(this, function(_state) {
                     switch(_state.label){
                         case 0:
@@ -270,8 +265,8 @@ try {
                                 3,
                                 5
                             ]);
-                            _stack = [];
-                            d13 = _using(_stack, _define_property({}, Symbol.asyncDispose, function() {
+                            _usingCtx = _using_ctx();
+                            d13 = _usingCtx.a(_define_property({}, Symbol.asyncDispose, function() {
                                 return _async_to_generator(function() {
                                     return _ts_generator(this, function(_state) {
                                         return [
@@ -279,7 +274,7 @@ try {
                                         ];
                                     });
                                 })();
-                            }), true);
+                            }));
                             return [
                                 4,
                                 null
@@ -292,8 +287,7 @@ try {
                             ];
                         case 2:
                             _ = _state.sent();
-                            _error = _;
-                            _hasError = true;
+                            _usingCtx.e = _;
                             return [
                                 3,
                                 5
@@ -301,7 +295,7 @@ try {
                         case 3:
                             return [
                                 4,
-                                _dispose(_stack, _error, _hasError)
+                                _usingCtx.d()
                             ];
                         case 4:
                             _state.sent();
@@ -318,7 +312,7 @@ try {
         };
         _proto.ag = function ag() {
             return _wrap_async_generator(function() {
-                var _stack, d15, _, _error, _hasError;
+                var _usingCtx, d15, _;
                 return _ts_generator(this, function(_state) {
                     switch(_state.label){
                         case 0:
@@ -328,8 +322,8 @@ try {
                                 4,
                                 6
                             ]);
-                            _stack = [];
-                            d15 = _using(_stack, _define_property({}, Symbol.asyncDispose, function() {
+                            _usingCtx = _using_ctx();
+                            d15 = _usingCtx.a(_define_property({}, Symbol.asyncDispose, function() {
                                 return _async_to_generator(function() {
                                     return _ts_generator(this, function(_state) {
                                         return [
@@ -337,7 +331,7 @@ try {
                                         ];
                                     });
                                 })();
-                            }), true);
+                            }));
                             return [
                                 4
                             ];
@@ -355,8 +349,7 @@ try {
                             ];
                         case 3:
                             _ = _state.sent();
-                            _error = _;
-                            _hasError = true;
+                            _usingCtx.e = _;
                             return [
                                 3,
                                 6
@@ -364,7 +357,7 @@ try {
                         case 4:
                             return [
                                 4,
-                                _await_async_generator(_dispose(_stack, _error, _hasError))
+                                _await_async_generator(_usingCtx.d())
                             ];
                         case 5:
                             _state.sent();
@@ -383,8 +376,8 @@ try {
     }();
     {
         try {
-            var _stack1 = [];
-            var d19 = _using(_stack1, _define_property({}, Symbol.asyncDispose, function() {
+            var _usingCtx1 = _using_ctx();
+            var d19 = _usingCtx1.a(_define_property({}, Symbol.asyncDispose, function() {
                 return _async_to_generator(function() {
                     return _ts_generator(this, function(_state) {
                         return [
@@ -392,19 +385,18 @@ try {
                         ];
                     });
                 })();
-            }), true);
+            }));
         } catch (_) {
-            var _error = _;
-            var _hasError = true;
+            _usingCtx1.e = _;
         } finally{
-            await _dispose(_stack1, _error, _hasError);
+            await _usingCtx1.d();
         }
     }
     switch(Math.random()){
         case 0:
             try {
-                var _stack2 = [];
-                var d20 = _using(_stack2, _define_property({}, Symbol.asyncDispose, function() {
+                var _usingCtx2 = _using_ctx();
+                var d20 = _usingCtx2.a(_define_property({}, Symbol.asyncDispose, function() {
                     return _async_to_generator(function() {
                         return _ts_generator(this, function(_state) {
                             return [
@@ -412,18 +404,17 @@ try {
                             ];
                         });
                     })();
-                }), true);
+                }));
                 break;
             } catch (_) {
-                var _error1 = _;
-                var _hasError1 = true;
+                _usingCtx2.e = _;
             } finally{
-                await _dispose(_stack2, _error1, _hasError1);
+                await _usingCtx2.d();
             }
         case 1:
             try {
-                var _stack3 = [];
-                var d21 = _using(_stack3, _define_property({}, Symbol.asyncDispose, function() {
+                var _usingCtx3 = _using_ctx();
+                var d21 = _usingCtx3.a(_define_property({}, Symbol.asyncDispose, function() {
                     return _async_to_generator(function() {
                         return _ts_generator(this, function(_state) {
                             return [
@@ -431,20 +422,19 @@ try {
                             ];
                         });
                     })();
-                }), true);
+                }));
                 break;
             } catch (_) {
-                var _error2 = _;
-                var _hasError2 = true;
+                _usingCtx3.e = _;
             } finally{
-                await _dispose(_stack3, _error2, _hasError2);
+                await _usingCtx3.d();
             }
     }
     if (true) switch(0){
         case 0:
             try {
-                var _stack4 = [];
-                var d22 = _using(_stack4, _define_property({}, Symbol.asyncDispose, function() {
+                var _usingCtx4 = _using_ctx();
+                var d22 = _usingCtx4.a(_define_property({}, Symbol.asyncDispose, function() {
                     return _async_to_generator(function() {
                         return _ts_generator(this, function(_state) {
                             return [
@@ -452,19 +442,18 @@ try {
                             ];
                         });
                     })();
-                }), true);
+                }));
                 break;
             } catch (_) {
-                var _error3 = _;
-                var _hasError3 = true;
+                _usingCtx4.e = _;
             } finally{
-                await _dispose(_stack4, _error3, _hasError3);
+                await _usingCtx4.d();
             }
     }
     try {
         try {
-            var _stack5 = [];
-            var d23 = _using(_stack5, _define_property({}, Symbol.asyncDispose, function() {
+            var _usingCtx5 = _using_ctx();
+            var d23 = _usingCtx5.a(_define_property({}, Symbol.asyncDispose, function() {
                 return _async_to_generator(function() {
                     return _ts_generator(this, function(_state) {
                         return [
@@ -472,17 +461,16 @@ try {
                         ];
                     });
                 })();
-            }), true);
+            }));
         } catch (_) {
-            var _error4 = _;
-            var _hasError4 = true;
+            _usingCtx5.e = _;
         } finally{
-            await _dispose(_stack5, _error4, _hasError4);
+            await _usingCtx5.d();
         }
     } catch (e) {
         try {
-            var _stack6 = [];
-            var d24 = _using(_stack6, _define_property({}, Symbol.asyncDispose, function() {
+            var _usingCtx6 = _using_ctx();
+            var d24 = _usingCtx6.a(_define_property({}, Symbol.asyncDispose, function() {
                 return _async_to_generator(function() {
                     return _ts_generator(this, function(_state) {
                         return [
@@ -490,17 +478,16 @@ try {
                         ];
                     });
                 })();
-            }), true);
+            }));
         } catch (_) {
-            var _error5 = _;
-            var _hasError5 = true;
+            _usingCtx6.e = _;
         } finally{
-            await _dispose(_stack6, _error5, _hasError5);
+            await _usingCtx6.d();
         }
     } finally{
         try {
-            var _stack7 = [];
-            var d25 = _using(_stack7, _define_property({}, Symbol.asyncDispose, function() {
+            var _usingCtx7 = _using_ctx();
+            var d25 = _usingCtx7.a(_define_property({}, Symbol.asyncDispose, function() {
                 return _async_to_generator(function() {
                     return _ts_generator(this, function(_state) {
                         return [
@@ -508,18 +495,17 @@ try {
                         ];
                     });
                 })();
-            }), true);
+            }));
         } catch (_) {
-            var _error6 = _;
-            var _hasError6 = true;
+            _usingCtx7.e = _;
         } finally{
-            await _dispose(_stack7, _error6, _hasError6);
+            await _usingCtx7.d();
         }
     }
     if (true) {
         try {
-            var _stack8 = [];
-            var d26 = _using(_stack8, _define_property({}, Symbol.asyncDispose, function() {
+            var _usingCtx8 = _using_ctx();
+            var d26 = _usingCtx8.a(_define_property({}, Symbol.asyncDispose, function() {
                 return _async_to_generator(function() {
                     return _ts_generator(this, function(_state) {
                         return [
@@ -527,17 +513,16 @@ try {
                         ];
                     });
                 })();
-            }), true);
+            }));
         } catch (_) {
-            var _error7 = _;
-            var _hasError7 = true;
+            _usingCtx8.e = _;
         } finally{
-            await _dispose(_stack8, _error7, _hasError7);
+            await _usingCtx8.d();
         }
     } else {
         try {
-            var _stack9 = [];
-            var d27 = _using(_stack9, _define_property({}, Symbol.asyncDispose, function() {
+            var _usingCtx9 = _using_ctx();
+            var d27 = _usingCtx9.a(_define_property({}, Symbol.asyncDispose, function() {
                 return _async_to_generator(function() {
                     return _ts_generator(this, function(_state) {
                         return [
@@ -545,18 +530,17 @@ try {
                         ];
                     });
                 })();
-            }), true);
+            }));
         } catch (_) {
-            var _error8 = _;
-            var _hasError8 = true;
+            _usingCtx9.e = _;
         } finally{
-            await _dispose(_stack9, _error8, _hasError8);
+            await _usingCtx9.d();
         }
     }
     while(true){
         try {
-            var _stack10 = [];
-            var d28 = _using(_stack10, _define_property({}, Symbol.asyncDispose, function() {
+            var _usingCtx10 = _using_ctx();
+            var d28 = _usingCtx10.a(_define_property({}, Symbol.asyncDispose, function() {
                 return _async_to_generator(function() {
                     return _ts_generator(this, function(_state) {
                         return [
@@ -564,19 +548,18 @@ try {
                         ];
                     });
                 })();
-            }), true);
+            }));
             break;
         } catch (_) {
-            var _error9 = _;
-            var _hasError9 = true;
+            _usingCtx10.e = _;
         } finally{
-            await _dispose(_stack10, _error9, _hasError9);
+            await _usingCtx10.d();
         }
     }
     do {
         try {
-            var _stack11 = [];
-            var d29 = _using(_stack11, _define_property({}, Symbol.asyncDispose, function() {
+            var _usingCtx11 = _using_ctx();
+            var d29 = _usingCtx11.a(_define_property({}, Symbol.asyncDispose, function() {
                 return _async_to_generator(function() {
                     return _ts_generator(this, function(_state) {
                         return [
@@ -584,19 +567,18 @@ try {
                         ];
                     });
                 })();
-            }), true);
+            }));
             break;
         } catch (_) {
-            var _error10 = _;
-            var _hasError10 = true;
+            _usingCtx11.e = _;
         } finally{
-            await _dispose(_stack11, _error10, _hasError10);
+            await _usingCtx11.d();
         }
     }while (true);
     for(;;){
         try {
-            var _stack12 = [];
-            var d30 = _using(_stack12, _define_property({}, Symbol.asyncDispose, function() {
+            var _usingCtx12 = _using_ctx();
+            var d30 = _usingCtx12.a(_define_property({}, Symbol.asyncDispose, function() {
                 return _async_to_generator(function() {
                     return _ts_generator(this, function(_state) {
                         return [
@@ -604,19 +586,18 @@ try {
                         ];
                     });
                 })();
-            }), true);
+            }));
             break;
         } catch (_) {
-            var _error11 = _;
-            var _hasError11 = true;
+            _usingCtx12.e = _;
         } finally{
-            await _dispose(_stack12, _error11, _hasError11);
+            await _usingCtx12.d();
         }
     }
     for(var x in {}){
         try {
-            var _stack13 = [];
-            var d31 = _using(_stack13, _define_property({}, Symbol.asyncDispose, function() {
+            var _usingCtx13 = _using_ctx();
+            var d31 = _usingCtx13.a(_define_property({}, Symbol.asyncDispose, function() {
                 return _async_to_generator(function() {
                     return _ts_generator(this, function(_state) {
                         return [
@@ -624,19 +605,18 @@ try {
                         ];
                     });
                 })();
-            }), true);
+            }));
         } catch (_) {
-            var _error12 = _;
-            var _hasError12 = true;
+            _usingCtx13.e = _;
         } finally{
-            await _dispose(_stack13, _error12, _hasError12);
+            await _usingCtx13.d();
         }
     }
     for(var _i = 0, _iter = []; _i < _iter.length; _i++){
         var x1 = _iter[_i];
         try {
-            var _stack14 = [];
-            var d32 = _using(_stack14, _define_property({}, Symbol.asyncDispose, function() {
+            var _usingCtx14 = _using_ctx();
+            var d32 = _usingCtx14.a(_define_property({}, Symbol.asyncDispose, function() {
                 return _async_to_generator(function() {
                     return _ts_generator(this, function(_state) {
                         return [
@@ -644,18 +624,16 @@ try {
                         ];
                     });
                 })();
-            }), true);
+            }));
         } catch (_) {
-            var _error13 = _;
-            var _hasError13 = true;
+            _usingCtx14.e = _;
         } finally{
-            await _dispose(_stack14, _error13, _hasError13);
+            await _usingCtx14.d();
         }
     }
 } catch (_) {
-    var _error14 = _;
-    var _hasError14 = true;
+    _usingCtx.e = _;
 } finally{
-    await _dispose(_stack, _error14, _hasError14);
+    await _usingCtx.d();
 }
 export { };

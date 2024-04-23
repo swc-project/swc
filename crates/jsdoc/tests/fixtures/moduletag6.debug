@@ -1,82 +1,26 @@
 [
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                1,
-            ),
-            hi: BytePos(
-                1,
-            ),
-            ctxt: #0,
-        },
+        span: 1..1#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    1,
-                ),
-                hi: BytePos(
-                    1,
-                ),
-                ctxt: #0,
-            },
+            span: 1..1#0,
             value: "",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        1,
-                    ),
-                    hi: BytePos(
-                        7,
-                    ),
-                    ctxt: #0,
-                },
+                span: 1..7#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            1,
-                        ),
-                        hi: BytePos(
-                            7,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 1..7#0,
                     value: "module",
                 },
                 tag: Module(
                     ModuleTag {
-                        span: Span {
-                            lo: BytePos(
-                                1,
-                            ),
-                            hi: BytePos(
-                                7,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 1..7#0,
                         name: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    0,
-                                ),
-                                hi: BytePos(
-                                    0,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 0..0#0,
                             value: "",
                         },
                         ty: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    1,
-                                ),
-                                hi: BytePos(
-                                    8,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 1..8#0,
                             value: "appname",
                         },
                     },
@@ -85,71 +29,23 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                25,
-            ),
-            hi: BytePos(
-                25,
-            ),
-            ctxt: #0,
-        },
+        span: 25..25#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    25,
-                ),
-                hi: BytePos(
-                    56,
-                ),
-                ctxt: #0,
-            },
+            span: 25..56#0,
             value: "The name of the application.\n *",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        25,
-                    ),
-                    hi: BytePos(
-                        29,
-                    ),
-                    ctxt: #0,
-                },
+                span: 25..29#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            25,
-                        ),
-                        hi: BytePos(
-                            29,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 25..29#0,
                     value: "type",
                 },
                 tag: Type(
                     TypeTag {
-                        span: Span {
-                            lo: BytePos(
-                                25,
-                            ),
-                            hi: BytePos(
-                                29,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 25..29#0,
                         name: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    25,
-                                ),
-                                hi: BytePos(
-                                    33,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 25..33#0,
                             value: "{string}",
                         },
                     },

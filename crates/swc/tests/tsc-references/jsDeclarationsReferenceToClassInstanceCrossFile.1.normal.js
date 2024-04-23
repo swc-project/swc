@@ -10,7 +10,7 @@ module.exports = {
 };
 //// [index.js]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-var Rectangle = require("./rectangle").Rectangle;
+var Rectangle = require('./rectangle').Rectangle;
 var Render = /*#__PURE__*/ function() {
     "use strict";
     function Render() {

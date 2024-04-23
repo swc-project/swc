@@ -3,6 +3,7 @@
 #![deny(unused)]
 #![allow(clippy::match_like_matches_macro)]
 #![allow(clippy::nonminimal_bool)]
+#![allow(non_local_definitions)]
 
 use std::{borrow::Cow, fmt::Write, io};
 
@@ -38,27 +39,27 @@ pub mod util;
 pub type Result = io::Result<()>;
 
 pub trait Node: Spanned {
-    fn emit_with<W, S: SourceMapper>(&self, e: &mut Emitter<'_, W, S>) -> Result
+    fn emit_with<W, S>(&self, e: &mut Emitter<'_, W, S>) -> Result
     where
         W: WriteJs,
-        S: SourceMapperExt;
+        S: SourceMapper + SourceMapperExt;
 }
 impl<N: Node> Node for Box<N> {
     #[inline]
-    fn emit_with<W, S: SourceMapper>(&self, e: &mut Emitter<'_, W, S>) -> Result
+    fn emit_with<W, S>(&self, e: &mut Emitter<'_, W, S>) -> Result
     where
         W: WriteJs,
-        S: SourceMapperExt,
+        S: SourceMapper + SourceMapperExt,
     {
         (**self).emit_with(e)
     }
 }
 impl<'a, N: Node> Node for &'a N {
     #[inline]
-    fn emit_with<W, S: SourceMapper>(&self, e: &mut Emitter<'_, W, S>) -> Result
+    fn emit_with<W, S>(&self, e: &mut Emitter<'_, W, S>) -> Result
     where
         W: WriteJs,
-        S: SourceMapperExt,
+        S: SourceMapper + SourceMapperExt,
     {
         (**self).emit_with(e)
     }
@@ -632,7 +633,7 @@ where
 
         let target = self.cfg.target;
 
-        if target > EsVersion::Es5 && !self.cfg.minify {
+        if !self.cfg.minify {
             if let Some(raw) = &node.raw {
                 if !self.cfg.ascii_only || raw.is_ascii() {
                     self.wr.write_str_lit(DUMMY_SP, raw)?;
@@ -3680,10 +3681,10 @@ impl<N> Node for Option<N>
 where
     N: Node,
 {
-    fn emit_with<W, S: SourceMapper>(&self, e: &mut Emitter<'_, W, S>) -> Result
+    fn emit_with<W, S>(&self, e: &mut Emitter<'_, W, S>) -> Result
     where
         W: WriteJs,
-        S: SourceMapperExt,
+        S: SourceMapper + SourceMapperExt,
     {
         match *self {
             Some(ref n) => n.emit_with(e),
@@ -3876,7 +3877,12 @@ fn get_ascii_only_ident(sym: &str, may_need_quote: bool, target: EsVersion) -> C
     while let Some(c) = iter.next() {
         match c {
             '\x00' => {
-                buf.push_str("\\x00");
+                if may_need_quote {
+                    need_quote = true;
+                    let _ = write!(buf, "\\x00");
+                } else {
+                    let _ = write!(buf, "\\u0000");
+                }
             }
             '\u{0008}' => buf.push_str("\\b"),
             '\u{000c}' => buf.push_str("\\f"),
@@ -3964,10 +3970,20 @@ fn get_ascii_only_ident(sym: &str, may_need_quote: bool, target: EsVersion) -> C
                 buf.push('"');
             }
             '\x01'..='\x0f' if !first => {
-                let _ = write!(buf, "\\x0{:x}", c as u8);
+                if may_need_quote {
+                    need_quote = true;
+                    let _ = write!(buf, "\\x{:x}", c as u8);
+                } else {
+                    let _ = write!(buf, "\\u00{:x}", c as u8);
+                }
             }
             '\x10'..='\x1f' if !first => {
-                let _ = write!(buf, "\\x{:x}", c as u8);
+                if may_need_quote {
+                    need_quote = true;
+                    let _ = write!(buf, "\\x{:x}", c as u8);
+                } else {
+                    let _ = write!(buf, "\\u00{:x}", c as u8);
+                }
             }
             '\x20'..='\x7e' => {
                 buf.push(c);
@@ -3975,9 +3991,10 @@ fn get_ascii_only_ident(sym: &str, may_need_quote: bool, target: EsVersion) -> C
             '\u{7f}'..='\u{ff}' => {
                 if may_need_quote {
                     need_quote = true;
+                    let _ = write!(buf, "\\x{:x}", c as u8);
+                } else {
+                    let _ = write!(buf, "\\u00{:x}", c as u8);
                 }
-
-                let _ = write!(buf, "\\x{:x}", c as u8);
             }
             '\u{2028}' => {
                 buf.push_str("\\u2028");

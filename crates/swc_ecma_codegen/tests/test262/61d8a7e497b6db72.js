@@ -1,7 +1,7 @@
 (function() {
     function a() {
         (function() {
-            b("c");
+            b('c');
         }());
     }
     a();

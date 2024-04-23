@@ -6,5 +6,5 @@ module.exports.n = {}, module.exports.n.K = function() {
     _class_call_check(this, _class), this.p = 1;
 };
 //// [use.js]
-import * as s from "./mod";
+import * as s from './mod';
 new s.n.K().x, new s.Classic();

@@ -59,7 +59,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 40,
-                  "end": 55,
+                  "end": 47,
                   "ctxt": 0
                 },
                 "value": "tagName",
@@ -137,7 +137,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 89,
-                  "end": 106,
+                  "end": 96,
                   "ctxt": 0
                 },
                 "value": "tagName",
@@ -224,7 +224,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 146,
-                  "end": 160,
+                  "end": 153,
                   "ctxt": 0
                 },
                 "value": "tagName",
@@ -311,7 +311,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 197,
-                  "end": 212,
+                  "end": 204,
                   "ctxt": 0
                 },
                 "value": "tagName",

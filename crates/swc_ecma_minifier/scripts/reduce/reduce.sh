@@ -9,12 +9,15 @@ then
 fi
 
 SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+TARGET_DIR="$(cargo metadata --format-version 1 --no-deps | jq -r '.target_directory')"
 
 echo "Reducing $1"
 ls -al $1
 
+
 # Build swc minifier
-export MINIFY=$(cargo profile bin-path --release --example compress)
+cargo build --release --example compress
+export MINIFY="$TARGET_DIR/release/examples/compress"
 
 wd="$(mktemp -d)"
 echo "Using $MINIFY; dir = $wd"

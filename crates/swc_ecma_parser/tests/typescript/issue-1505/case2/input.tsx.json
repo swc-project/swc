@@ -1402,7 +1402,7 @@
                           "type": "Identifier",
                           "span": {
                             "start": 1441,
-                            "end": 1454,
+                            "end": 1446,
                             "ctxt": 0
                           },
                           "value": "teams",
@@ -1456,7 +1456,7 @@
                           "type": "Identifier",
                           "span": {
                             "start": 1456,
-                            "end": 1475,
+                            "end": 1464,
                             "ctxt": 0
                           },
                           "value": "projects",

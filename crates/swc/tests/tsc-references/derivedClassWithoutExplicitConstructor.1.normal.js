@@ -17,7 +17,7 @@ var Derived = /*#__PURE__*/ function(Base) {
         var _this;
         _this = _super.apply(this, arguments);
         _this.x = 1;
-        _this.y = "hello";
+        _this.y = 'hello';
         return _this;
     }
     return Derived;

@@ -4,9 +4,9 @@
 // same type and the result is of the best common type of the contextual type and the two
 // operand types.
 var r = {
-    a: "",
+    a: '',
     b: 123
 } || {
-    a: "",
+    a: '',
     b: true
 };

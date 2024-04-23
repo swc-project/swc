@@ -791,7 +791,7 @@
             "type": "Identifier",
             "span": {
               "start": 660,
-              "end": 681,
+              "end": 669,
               "ctxt": 0
             },
             "value": "baseClass",

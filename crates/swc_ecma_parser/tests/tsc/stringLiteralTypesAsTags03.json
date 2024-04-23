@@ -464,7 +464,7 @@
             "type": "Identifier",
             "span": {
               "start": 503,
-              "end": 517,
+              "end": 509,
               "ctxt": 0
             },
             "value": "entity",
@@ -510,7 +510,7 @@
             "type": "Identifier",
             "span": {
               "start": 519,
-              "end": 534,
+              "end": 523,
               "ctxt": 0
             },
             "value": "kind",
@@ -663,7 +663,7 @@
             "type": "Identifier",
             "span": {
               "start": 567,
-              "end": 581,
+              "end": 573,
               "ctxt": 0
             },
             "value": "entity",
@@ -709,7 +709,7 @@
             "type": "Identifier",
             "span": {
               "start": 583,
-              "end": 598,
+              "end": 587,
               "ctxt": 0
             },
             "value": "kind",
@@ -862,7 +862,7 @@
             "type": "Identifier",
             "span": {
               "start": 631,
-              "end": 645,
+              "end": 637,
               "ctxt": 0
             },
             "value": "entity",
@@ -908,7 +908,7 @@
             "type": "Identifier",
             "span": {
               "start": 647,
-              "end": 657,
+              "end": 651,
               "ctxt": 0
             },
             "value": "kind",

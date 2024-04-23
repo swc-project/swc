@@ -1,3 +1,3 @@
 //// [stringPropertyAccessWithError.ts]
-var x = "";
-var d = x["charAt"]("invalid"); // error
+var x = '';
+var d = x['charAt']('invalid'); // error

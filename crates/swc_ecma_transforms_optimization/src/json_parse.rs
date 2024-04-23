@@ -1,5 +1,3 @@
-use std::usize;
-
 use serde_json::Value;
 use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -141,10 +139,6 @@ mod tests {
     use swc_ecma_transforms_testing::test;
 
     use super::*;
-
-    struct Normalizer;
-
-    impl Fold for Normalizer {}
 
     test!(
         ::swc_ecma_parser::Syntax::default(),

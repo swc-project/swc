@@ -1,6 +1,7 @@
 use swc_common::{chain, Mark};
 use swc_ecma_ast::*;
-use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut};
+use swc_ecma_utils::stack_size::maybe_grow_default;
+use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 pub use crate::rename::rename;
 use crate::rename::{renamer, Renamer};
@@ -14,6 +15,7 @@ pub struct Config {
     pub keep_class_names: bool,
 
     /// If true, the bug of safari 10 is avoided.
+    #[deprecated = "This field is no longer required to work around bugs in Safari 10."]
     pub safari_10: bool,
 
     /// The marks derived from this marks will treated as `specified by user`
@@ -81,6 +83,10 @@ struct HygieneRemover;
 
 impl VisitMut for HygieneRemover {
     noop_visit_mut_type!();
+
+    fn visit_mut_expr(&mut self, n: &mut Expr) {
+        maybe_grow_default(|| n.visit_mut_children_with(self));
+    }
 
     fn visit_mut_ident(&mut self, i: &mut Ident) {
         i.span.ctxt = Default::default();

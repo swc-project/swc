@@ -742,9 +742,10 @@ impl Pure<'_> {
         };
 
         self.changed = true;
-        report_change!("evaluate: Evaluated `{}` of a string literal", method);
+        report_change!("evaluate: Evaluated `{method}` of a string literal");
         *e = Expr::Lit(Lit::Str(Str {
             value: new_val.into(),
+            raw: None,
             ..s
         }));
     }

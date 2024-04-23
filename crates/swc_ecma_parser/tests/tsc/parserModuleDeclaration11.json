@@ -96,7 +96,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 69,
-                      "end": 78,
+                      "end": 70,
                       "ctxt": 0
                     },
                     "value": "s",

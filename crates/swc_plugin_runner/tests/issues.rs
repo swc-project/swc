@@ -12,9 +12,8 @@ use serde_json::json;
 #[cfg(feature = "__rkyv")]
 use swc_common::plugin::serialized::PluginSerializedBytes;
 use swc_common::{collections::AHashMap, plugin::metadata::TransformPluginMetadataContext, Mark};
-use swc_ecma_ast::{CallExpr, Callee, EsVersion, Expr, Lit, MemberExpr, Program, Str};
+use swc_ecma_ast::{EsVersion, Program};
 use swc_ecma_parser::{parse_file_as_program, Syntax};
-use swc_ecma_visit::Visit;
 use testing::CARGO_TARGET_DIR;
 
 /// Returns the path to the built plugin
@@ -46,27 +45,6 @@ fn build_plugin(dir: &Path, crate_name: &str) -> Result<PathBuf, Error> {
     }
 
     Err(anyhow!("Could not find built plugin"))
-}
-
-struct TestVisitor {
-    pub plugin_transform_found: bool,
-}
-
-impl Visit for TestVisitor {
-    fn visit_call_expr(&mut self, call: &CallExpr) {
-        if let Callee::Expr(expr) = &call.callee {
-            if let Expr::Member(MemberExpr { obj, .. }) = &**expr {
-                if let Expr::Ident(ident) = &**obj {
-                    if ident.sym == *"console" {
-                        let args = &*(call.args[0].expr);
-                        if let Expr::Lit(Lit::Str(Str { value, .. })) = args {
-                            self.plugin_transform_found = value == "changed_via_plugin";
-                        }
-                    }
-                }
-            }
-        }
-    }
 }
 
 #[cfg(feature = "__rkyv")]

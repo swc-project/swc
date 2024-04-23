@@ -1,6 +1,6 @@
 function a() {
     var b;
-    if (b = "b") {
+    if (b = 'b') {
         return b;
     } else {
         return b;

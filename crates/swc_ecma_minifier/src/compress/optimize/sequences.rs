@@ -2308,7 +2308,7 @@ impl Optimizer<'_> {
                         can_take_init = true;
                     }
 
-                    if usage.inline_prevented {
+                    if usage.inline_prevented || usage.used_recursively {
                         return Ok(false);
                     }
 

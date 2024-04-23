@@ -1,0 +1,10 @@
+
+  x the name `Foo` is defined multiple times
+   ,-[1:1]
+ 1 | export default class Foo{}
+   :                      ^|^
+   :                       `-- previous definition of `Foo` here
+ 2 | let Foo = 1; // error
+   :     ^|^
+   :      `-- `Foo` redefined here
+   `----

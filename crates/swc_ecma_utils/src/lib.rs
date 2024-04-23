@@ -11,13 +11,7 @@ pub extern crate swc_ecma_ast;
 #[doc(hidden)]
 pub extern crate swc_common;
 
-use std::{
-    borrow::Cow,
-    f64::{INFINITY, NAN},
-    hash::Hash,
-    num::FpCategory,
-    ops::Add,
-};
+use std::{borrow::Cow, hash::Hash, num::FpCategory, ops::Add};
 
 use rustc_hash::FxHashMap;
 use swc_atoms::JsWord;
@@ -56,6 +50,7 @@ mod value;
 pub mod var;
 
 mod node_ignore_span;
+pub mod stack_size;
 pub use node_ignore_span::NodeIgnoringSpan;
 
 // TODO: remove
@@ -890,8 +885,8 @@ pub trait ExprExt {
                 _ => return (Pure, Unknown),
             },
             Expr::Ident(Ident { sym, span, .. }) => match &**sym {
-                "undefined" | "NaN" if span.ctxt == ctx.unresolved_ctxt => NAN,
-                "Infinity" if span.ctxt == ctx.unresolved_ctxt => INFINITY,
+                "undefined" | "NaN" if span.ctxt == ctx.unresolved_ctxt => f64::NAN,
+                "Infinity" if span.ctxt == ctx.unresolved_ctxt => f64::INFINITY,
                 _ => return (Pure, Unknown),
             },
             Expr::Unary(UnaryExpr {
@@ -907,7 +902,7 @@ pub trait ExprExt {
                 }) if &**sym == "Infinity" && span.ctxt == ctx.unresolved_ctxt
             ) =>
             {
-                -INFINITY
+                -f64::INFINITY
             }
             Expr::Unary(UnaryExpr {
                 op: op!("!"),
@@ -929,13 +924,13 @@ pub trait ExprExt {
                 ..
             }) => {
                 if arg.may_have_side_effects(ctx) {
-                    return (MayBeImpure, Known(NAN));
+                    return (MayBeImpure, Known(f64::NAN));
                 } else {
-                    NAN
+                    f64::NAN
                 }
             }
 
-            Expr::Tpl(..) | Expr::Object(ObjectLit { .. }) | Expr::Array(ArrayLit { .. }) => {
+            Expr::Tpl(..) => {
                 return (
                     Pure,
                     num_from_str(&match self.as_pure_string(ctx) {
@@ -1058,7 +1053,6 @@ pub trait ExprExt {
                 }
                 Known(buf.into())
             }
-            Expr::Object(ObjectLit { .. }) => Known(Cow::Borrowed("[object Object]")),
             _ => Unknown,
         }
     }
@@ -1578,19 +1572,19 @@ pub fn num_from_str(s: &str) -> Value<f64> {
             b"0x" | b"0X" => {
                 return match u64::from_str_radix(&s[2..], 16) {
                     Ok(n) => Known(n as f64),
-                    Err(_) => Known(NAN),
+                    Err(_) => Known(f64::NAN),
                 }
             }
             b"0o" | b"0O" => {
                 return match u64::from_str_radix(&s[2..], 8) {
                     Ok(n) => Known(n as f64),
-                    Err(_) => Known(NAN),
+                    Err(_) => Known(f64::NAN),
                 };
             }
             b"0b" | b"0B" => {
                 return match u64::from_str_radix(&s[2..], 2) {
                     Ok(n) => Known(n as f64),
-                    Err(_) => Known(NAN),
+                    Err(_) => Known(f64::NAN),
                 };
             }
             _ => {}
@@ -1611,7 +1605,7 @@ pub fn num_from_str(s: &str) -> Value<f64> {
         _ => {}
     }
 
-    Known(s.parse().ok().unwrap_or(NAN))
+    Known(s.parse().ok().unwrap_or(f64::NAN))
 }
 
 impl ExprExt for Box<Expr> {
@@ -2254,24 +2248,26 @@ pub fn opt_chain_test(
 pub fn prepend_stmt<T: StmtLike>(stmts: &mut Vec<T>, stmt: T) {
     let idx = stmts
         .iter()
-        .position(|item| match item.as_stmt() {
-            Some(&Stmt::Expr(ExprStmt { ref expr, .. }))
-                if matches!(&**expr, Expr::Lit(Lit::Str(..))) =>
-            {
-                false
-            }
-            _ => true,
+        .position(|item| {
+            item.as_stmt()
+                .map(|s| !is_maybe_branch_directive(s))
+                .unwrap_or(true)
         })
         .unwrap_or(stmts.len());
 
     stmts.insert(idx, stmt);
 }
 
+/// If the stmt is maybe a directive like `"use strict";`
+pub fn is_maybe_branch_directive(stmt: &Stmt) -> bool {
+    match stmt {
+        Stmt::Expr(ExprStmt { ref expr, .. }) if matches!(&**expr, Expr::Lit(Lit::Str(..))) => true,
+        _ => false,
+    }
+}
+
 /// inject `stmts` after directives
-pub fn prepend_stmts<T: StmtLike>(
-    to: &mut Vec<T>,
-    stmts: impl Iterator + ExactSizeIterator<Item = T>,
-) {
+pub fn prepend_stmts<T: StmtLike>(to: &mut Vec<T>, stmts: impl ExactSizeIterator<Item = T>) {
     let idx = to
         .iter()
         .position(|item| {
@@ -2516,11 +2512,6 @@ impl ExprCtx {
                 to.push(Box::new(Expr::New(e)))
             }
             Expr::Member(_) | Expr::SuperProp(_) => to.push(Box::new(expr)),
-            Expr::OptChain(OptChainExpr { ref base, .. })
-                if matches!(&**base, OptChainBase::Member(_)) =>
-            {
-                to.push(Box::new(expr))
-            }
 
             // We are at here because we could not determine value of test.
             //TODO: Drop values if it does not have side effects.
@@ -2660,9 +2651,7 @@ impl ExprCtx {
             | Expr::TsSatisfies(TsSatisfiesExpr { expr, .. }) => {
                 self.extract_side_effects_to(to, *expr)
             }
-            Expr::OptChain(OptChainExpr { base: child, .. }) => {
-                self.extract_side_effects_to(to, (*child).into())
-            }
+            Expr::OptChain(..) => to.push(Box::new(expr)),
 
             Expr::Invalid(..) => unreachable!(),
         }
@@ -2796,6 +2785,24 @@ where
         self.is_pat_decl = false;
         node.visit_children_with(self);
         self.is_pat_decl = old;
+    }
+
+    fn visit_export_default_decl(&mut self, e: &ExportDefaultDecl) {
+        match &e.decl {
+            DefaultDecl::Class(ClassExpr {
+                ident: Some(ident), ..
+            }) => {
+                self.add(ident);
+            }
+            DefaultDecl::Fn(FnExpr {
+                ident: Some(ident),
+                function: f,
+            }) if f.body.is_some() => {
+                self.add(ident);
+            }
+            _ => {}
+        }
+        e.visit_children_with(self);
     }
 
     fn visit_fn_decl(&mut self, node: &FnDecl) {
@@ -3252,6 +3259,12 @@ mod test {
             &["a", "b", "c", "d"],
         );
         run_collect_decls("const [ a, b = 1, [c], ...d ] = [];", &["a", "b", "c", "d"]);
+    }
+
+    #[test]
+    fn test_collect_export_default_expr() {
+        run_collect_decls("export default function foo(){}", &["foo"]);
+        run_collect_decls("export default class Foo{}", &["Foo"]);
     }
 
     fn run_collect_decls(text: &str, expected_names: &[&str]) {

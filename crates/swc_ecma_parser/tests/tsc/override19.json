@@ -122,7 +122,7 @@
             "type": "Identifier",
             "span": {
               "start": 155,
-              "end": 165,
+              "end": 162,
               "ctxt": 0
             },
             "value": "Context",
@@ -168,7 +168,7 @@
             "type": "Identifier",
             "span": {
               "start": 167,
-              "end": 174,
+              "end": 171,
               "ctxt": 0
             },
             "value": "Base",

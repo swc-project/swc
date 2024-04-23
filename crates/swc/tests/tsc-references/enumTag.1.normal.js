@@ -34,7 +34,7 @@
     ;
     v = Second.MISTAKE // meh..ok, I guess?
     ;
-    v = "something else" // allowed, like Typescript's classic enums and unlike its string enums
+    v = 'something else' // allowed, like Typescript's classic enums and unlike its string enums
     ;
 }
 /** @param {string} s */ function ff(s) {

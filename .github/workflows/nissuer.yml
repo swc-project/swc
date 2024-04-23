@@ -20,7 +20,7 @@ jobs:
         uses: balazsorban44/nissuer@1.7.3
         with:
           reproduction-comment: ".github/invalid-link.md"
-          reproduction-hosts: "github.com,play.swc.rs,evanw.github.io,lightningcss.dev,play.rust-lang.org,stackblitz.com"
+          reproduction-hosts: "github.com,gist.github.com,play.swc.rs,evanw.github.io,lightningcss.dev,play.rust-lang.org,stackblitz.com"
           reproduction-invalid-label: "invalid link"
           reproduction-issue-labels: "C-bug"
           reproduction-link-section: "### Playground link \\(or link to the minimal reproduction\\)(.*)### SWC Info output"

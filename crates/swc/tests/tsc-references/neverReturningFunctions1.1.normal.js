@@ -150,7 +150,7 @@ function f43() {
     f[0](); // No effect (not a dotted name)
     f;
 }
-var Component = registerComponent("test-component", {
+var Component = registerComponent('test-component', {
     schema: {
         myProperty: {
             default: [],
@@ -161,13 +161,13 @@ var Component = registerComponent("test-component", {
             }
         },
         string: {
-            type: "string"
+            type: 'string'
         },
         num: 0
     },
     init: function init() {
         this.data.num = 0;
-        this.el.setAttribute("custom-attribute", "custom-value");
+        this.el.setAttribute('custom-attribute', 'custom-value');
     },
     update: function update() {},
     tick: function tick() {},

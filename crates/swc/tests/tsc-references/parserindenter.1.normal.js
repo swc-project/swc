@@ -45,7 +45,7 @@ var Formatting;
             if (this.logger.information()) {
                 for(var i = 0; i < result.count(); i++){
                     var edit = result.get(i);
-                    this.logger.log("edit: minChar=" + edit.position + ", limChar=" + (edit.position + edit.length) + ', text="' + TypeScript.stringToLiteral(edit.replaceWith, 30) + '"');
+                    this.logger.log("edit: minChar=" + edit.position + ", limChar=" + (edit.position + edit.length) + ", text=\"" + TypeScript.stringToLiteral(edit.replaceWith, 30) + "\"");
                 }
             }
             return result;
@@ -320,7 +320,7 @@ var Formatting;
                 if (StringUtils.IsNullOrEmpty(existingIndentation)) return "";
                 var totalIndent = 0;
                 StringUtils.foreach(existingIndentation, function(c) {
-                    if (c == "	") totalIndent += tabSize;
+                    if (c == '\t') totalIndent += tabSize;
                     else totalIndent++;
                 });
                 totalIndent += level * indentSize;
@@ -331,7 +331,7 @@ var Formatting;
             return this.GetIndentString(existingIndentation, totalIndentSize, tabSize, convertTabsToSpaces);
         };
         _proto.GetIndentString = function GetIndentString(prefix, totalIndentSize, tabSize, convertTabsToSpaces) {
-            var tabString = convertTabsToSpaces ? StringUtils.create(" ", tabSize) : "	";
+            var tabString = convertTabsToSpaces ? StringUtils.create(' ', tabSize) : "\t";
             var text = "";
             if (!StringUtils.IsNullOrEmpty(prefix)) text += prefix;
             var pos = 0;
@@ -342,7 +342,7 @@ var Formatting;
             }
             // fill the reminder with spaces
             while(pos < totalIndentSize){
-                text += " ";
+                text += ' ';
                 pos++;
             }
             return text;
@@ -380,7 +380,7 @@ var Formatting;
             }
             return null;
         };
-        _proto.GetIndentationDelta = function GetIndentationDelta(tokenStartPosition, childTokenStartPosition /*?*/ ) {
+        _proto.GetIndentationDelta = function GetIndentationDelta(tokenStartPosition, childTokenStartPosition/*?*/ ) {
             Debug.Assert(childTokenStartPosition !== undefined, "Error: caller must pass 'null' for undefined position");
             var indentationDeltaSize = this.offsetIndentationDeltas.GetValue(tokenStartPosition);
             if (indentationDeltaSize === null) {
@@ -502,7 +502,7 @@ var Formatting;
                 var line = this.snapshot.GetLineFromPosition(offset);
                 var lineText = line.getText();
                 var index = 0;
-                while(index < lineText.length && (lineText.charAt(index) == " " || lineText.charAt(index) == "	")){
+                while(index < lineText.length && (lineText.charAt(index) == ' ' || lineText.charAt(index) == '\t')){
                     ++index;
                 }
                 return lineText.substr(0, index);
@@ -551,8 +551,8 @@ var Formatting;
             var indentSize = 0;
             for(var i = 0; i < text.length; i++){
                 var c = text.charAt(i);
-                if (c == "	") indentSize = indentSize + editorOptions.TabSize - indentSize % editorOptions.TabSize;
-                else if (c == " ") indentSize += 1;
+                if (c == '\t') indentSize = indentSize + editorOptions.TabSize - indentSize % editorOptions.TabSize;
+                else if (c == ' ') indentSize += 1;
                 else {
                     if (includeNonIndentChars) indentSize += 1;
                     else break;

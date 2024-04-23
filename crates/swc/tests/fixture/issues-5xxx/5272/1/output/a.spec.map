@@ -10,6 +10,7 @@
     "toBe",
     "foo"
   ],
+  "rangeMappings": ";;;;;;;;;;",
   "sources": [
     "../../input/source/a/a.spec.ts"
   ],

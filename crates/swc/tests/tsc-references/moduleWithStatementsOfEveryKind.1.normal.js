@@ -50,10 +50,10 @@ var A;
     }
     var array = null;
     var fn = function(s) {
-        return "hello " + s;
+        return 'hello ' + s;
     };
     var ol = {
-        s: "hello",
+        s: 'hello',
         id: 2,
         isvalid: true
     };
@@ -111,10 +111,10 @@ var Y;
     Y.F = F;
     Y.array = null;
     Y.fn = function(s) {
-        return "hello " + s;
+        return 'hello ' + s;
     };
     Y.ol = {
-        s: "hello",
+        s: 'hello',
         id: 2,
         isvalid: true
     };

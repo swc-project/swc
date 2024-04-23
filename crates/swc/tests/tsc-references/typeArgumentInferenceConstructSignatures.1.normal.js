@@ -5,9 +5,9 @@ new noParams();
 new noParams();
 new noParams();
 var noGenericParams;
-new noGenericParams("");
-new noGenericParams("");
-new noGenericParams("");
+new noGenericParams('');
+new noGenericParams('');
+new noGenericParams('');
 var someGenerics1;
 new someGenerics1(3, 4);
 new someGenerics1(3, 4); // Error
@@ -34,7 +34,7 @@ new someGenerics2b(function(n, t) {
 });
 var someGenerics3;
 new someGenerics3(function() {
-    return "";
+    return '';
 });
 new someGenerics3(function() {
     return undefined;
@@ -46,22 +46,22 @@ var someGenerics4;
 new someGenerics4(4, function() {
     return null;
 });
-new someGenerics4("", function() {
+new someGenerics4('', function() {
     return 3;
 });
-new someGenerics4("", function(x) {
-    return "";
+new someGenerics4('', function(x) {
+    return '';
 }); // Error
 new someGenerics4(null, null);
 var someGenerics5;
 new someGenerics5(4, function() {
     return null;
 });
-new someGenerics5("", function() {
+new someGenerics5('', function() {
     return 3;
 });
-new someGenerics5("", function(x) {
-    return "";
+new someGenerics5('', function(x) {
+    return '';
 }); // Error
 new someGenerics5(null, null);
 var someGenerics6;
@@ -119,12 +119,12 @@ var someGenerics8;
 var x = new someGenerics8(someGenerics7);
 new x(null, null, null);
 var someGenerics9;
-var a9a = new someGenerics9("", 0, []);
+var a9a = new someGenerics9('', 0, []);
 var a9a;
 var a9b = new someGenerics9({
     a: 0
 }, {
-    b: ""
+    b: ''
 }, null);
 var a9b;
 var a9e = new someGenerics9(undefined, {
@@ -132,7 +132,7 @@ var a9e = new someGenerics9(undefined, {
     z: window
 }, {
     x: 6,
-    y: ""
+    y: ''
 });
 var a9e;
 var a9f = new someGenerics9(undefined, {
@@ -140,7 +140,7 @@ var a9f = new someGenerics9(undefined, {
     z: window
 }, {
     x: 6,
-    y: ""
+    y: ''
 });
 var a9f;
 // Generic call with multiple parameters of generic type passed arguments with a single best common type

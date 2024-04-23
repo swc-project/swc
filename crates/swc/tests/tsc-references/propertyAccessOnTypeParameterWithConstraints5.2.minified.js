@@ -9,14 +9,14 @@ var i, a, B = function(A) {
         return _class_call_check(this, B), _super.apply(this, arguments);
     }
     return B.prototype.bar = function() {
-        return "";
+        return '';
     }, B;
 }(function() {
     function A() {
         _class_call_check(this, A);
     }
     return A.prototype.foo = function() {
-        return "";
+        return '';
     }, A;
 }());
 new (function() {

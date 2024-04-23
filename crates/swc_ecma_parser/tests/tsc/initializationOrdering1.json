@@ -173,7 +173,7 @@
                   "type": "Identifier",
                   "span": {
                     "start": 193,
-                    "end": 207,
+                    "end": 199,
                     "ctxt": 0
                   },
                   "value": "facade",

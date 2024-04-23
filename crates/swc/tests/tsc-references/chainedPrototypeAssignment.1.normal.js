@@ -16,8 +16,8 @@ A.prototype = B.prototype = {
 };
 //// [use.js]
 /// <reference path='./types.d.ts'/>
-var mod = require("./mod");
+var mod = require('./mod');
 var a = new mod.A();
 var b = new mod.B();
-a.m("nope");
-b.m("not really");
+a.m('nope');
+b.m('not really');

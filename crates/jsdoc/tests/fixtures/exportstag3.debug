@@ -1,70 +1,22 @@
 [
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                13,
-            ),
-            hi: BytePos(
-                13,
-            ),
-            ctxt: #0,
-        },
+        span: 13..13#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    13,
-                ),
-                hi: BytePos(
-                    65,
-                ),
-                ctxt: #0,
-            },
+            span: 13..65#0,
             value: "Utility functions to ease working with DOM elements.",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        13,
-                    ),
-                    hi: BytePos(
-                        20,
-                    ),
-                    ctxt: #0,
-                },
+                span: 13..20#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            13,
-                        ),
-                        hi: BytePos(
-                            20,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 13..20#0,
                     value: "exports",
                 },
                 tag: Exports(
                     ExportsTag {
-                        span: Span {
-                            lo: BytePos(
-                                13,
-                            ),
-                            hi: BytePos(
-                                20,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 13..20#0,
                         module_name: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    13,
-                                ),
-                                hi: BytePos(
-                                    23,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 13..23#0,
                             value: "html/utils",
                         },
                     },
@@ -73,49 +25,17 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                169,
-            ),
-            hi: BytePos(
-                169,
-            ),
-            ctxt: #0,
-        },
+        span: 169..169#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    169,
-                ),
-                hi: BytePos(
-                    211,
-                ),
-                ctxt: #0,
-            },
+            span: 169..211#0,
             value: "Get the value of a property on an element.",
         },
         tags: [],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                340,
-            ),
-            hi: BytePos(
-                340,
-            ),
-            ctxt: #0,
-        },
+        span: 340..340#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    340,
-                ),
-                hi: BytePos(
-                    388,
-                ),
-                ctxt: #0,
-            },
+            span: 340..388#0,
             value: "Determine if an element is in the document head.",
         },
         tags: [],

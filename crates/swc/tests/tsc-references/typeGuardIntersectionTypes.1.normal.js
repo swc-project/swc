@@ -21,7 +21,7 @@ function union(a) {
 }
 // Beast feature detection via user-defined type guards
 function hasLegs(x) {
-    return x && typeof x.legs === "number";
+    return x && typeof x.legs === 'number';
 }
 function hasWings(x) {
     return x && !!x.wings;

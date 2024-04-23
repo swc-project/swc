@@ -1,1 +1,1 @@
-export var shouldNotBeOctal = "\x001";
+export var shouldNotBeOctal = '\x001';

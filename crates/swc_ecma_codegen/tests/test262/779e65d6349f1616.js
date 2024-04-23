@@ -1,5 +1,5 @@
 a = typeof 1;
-b = typeof "c";
+b = typeof 'c';
 d = typeof [];
 e = typeof {};
 f = typeof /./;

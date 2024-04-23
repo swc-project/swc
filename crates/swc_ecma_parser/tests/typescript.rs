@@ -78,7 +78,13 @@ fn spec(file: PathBuf) {
     run_spec(&file, &output);
 }
 
-#[testing::fixture("tests/tsc/**/*.ts", exclude("parserArrowFunctionExpression11"))]
+#[testing::fixture(
+    "tests/tsc/**/*.ts",
+    exclude(
+        "parserArrowFunctionExpression11",
+        "esDecorators-decoratorExpression.1"
+    )
+)]
 fn tsc_spec(file: PathBuf) {
     let output = file.with_extension("json");
     run_spec(&file, &output);

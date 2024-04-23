@@ -3082,7 +3082,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 1573,
-                      "end": 1577,
+                      "end": 1574,
                       "ctxt": 0
                     },
                     "value": "x",

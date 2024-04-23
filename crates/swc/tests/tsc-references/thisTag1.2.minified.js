@@ -4,4 +4,4 @@
         return this.n + s.length;
     },
     n: 1
-}).f("hi");
+}).f('hi');

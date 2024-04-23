@@ -5,9 +5,9 @@ x = function x1() {
     var y = arguments.length > 0 && arguments[0] !== void 0 ? arguments[0] : function(app) {
         return {
             schedule: {
-                interval: "1m",
-                type: "all",
-                disable: app.config.env === "local"
+                interval: '1m',
+                type: 'all',
+                disable: app.config.env === 'local'
             },
             task: function task(ctx) {
                 var res;
@@ -16,8 +16,8 @@ x = function x1() {
                         case 0:
                             return [
                                 4,
-                                ctx.curl("http://www.api.com/cache", {
-                                    contentType: "json"
+                                ctx.curl('http://www.api.com/cache', {
+                                    contentType: 'json'
                                 })
                             ];
                         case 1:

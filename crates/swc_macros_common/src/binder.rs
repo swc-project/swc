@@ -61,7 +61,6 @@ impl<'a> Binder<'a> {
         Self::new(&input.ident, &input.data, &input.attrs)
     }
 
-    ///
     pub fn variants(&self) -> Vec<VariantBinder<'a>> {
         match *self.body {
             Data::Enum(DataEnum { ref variants, .. }) => {

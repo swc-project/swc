@@ -209,7 +209,6 @@ impl Deref for NormalizedOutput {
     }
 }
 
-///
 pub type StdOut = NormalizedOutput;
 
 impl<R> TestOutput<Option<R>> {

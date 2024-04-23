@@ -91,7 +91,7 @@ var GH15907;
     function dispatchAction(action) {}
     var active = true;
     dispatchAction({
-        type: active ? "disactivate" : "activate"
+        type: active ? 'disactivate' : 'activate'
     });
 })(GH15907 || (GH15907 = {}));
 var GH20889;

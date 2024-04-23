@@ -1,82 +1,26 @@
 [
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                1,
-            ),
-            hi: BytePos(
-                1,
-            ),
-            ctxt: #0,
-        },
+        span: 1..1#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    1,
-                ),
-                hi: BytePos(
-                    1,
-                ),
-                ctxt: #0,
-            },
+            span: 1..1#0,
             value: "",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        1,
-                    ),
-                    hi: BytePos(
-                        7,
-                    ),
-                    ctxt: #0,
-                },
+                span: 1..7#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            1,
-                        ),
-                        hi: BytePos(
-                            7,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 1..7#0,
                     value: "module",
                 },
                 tag: Module(
                     ModuleTag {
-                        span: Span {
-                            lo: BytePos(
-                                1,
-                            ),
-                            hi: BytePos(
-                                7,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 1..7#0,
                         name: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    0,
-                                ),
-                                hi: BytePos(
-                                    0,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 0..0#0,
                             value: "",
                         },
                         ty: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    1,
-                                ),
-                                hi: BytePos(
-                                    5,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 1..5#0,
                             value: "test",
                         },
                     },
@@ -85,110 +29,38 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                22,
-            ),
-            hi: BytePos(
-                22,
-            ),
-            ctxt: #0,
-        },
+        span: 22..22#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    22,
-                ),
-                hi: BytePos(
-                    32,
-                ),
-                ctxt: #0,
-            },
+            span: 22..32#0,
             value: "Test class",
         },
         tags: [],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                67,
-            ),
-            hi: BytePos(
-                67,
-            ),
-            ctxt: #0,
-        },
+        span: 67..67#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    67,
-                ),
-                hi: BytePos(
-                    90,
-                ),
-                ctxt: #0,
-            },
+            span: 67..90#0,
             value: "Test constructor\n     *",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        67,
-                    ),
-                    hi: BytePos(
-                        72,
-                    ),
-                    ctxt: #0,
-                },
+                span: 67..72#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            67,
-                        ),
-                        hi: BytePos(
-                            72,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 67..72#0,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: Span {
-                            lo: BytePos(
-                                67,
-                            ),
-                            hi: BytePos(
-                                72,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 67..72#0,
                         name: None,
                         ty: Some(
                             Text {
-                                span: Span {
-                                    lo: BytePos(
-                                        67,
-                                    ),
-                                    hi: BytePos(
-                                        75,
-                                    ),
-                                    ctxt: #0,
-                                },
+                                span: 67..75#0,
                                 value: "{string}",
                             },
                         ),
                         desc: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    67,
-                                ),
-                                hi: BytePos(
-                                    90,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 67..90#0,
                             value: "foo - The foo parameter",
                         },
                     },
@@ -197,73 +69,25 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                181,
-            ),
-            hi: BytePos(
-                181,
-            ),
-            ctxt: #0,
-        },
+        span: 181..181#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    181,
-                ),
-                hi: BytePos(
-                    192,
-                ),
-                ctxt: #0,
-            },
+            span: 181..192#0,
             value: "Test member",
         },
         tags: [],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                235,
-            ),
-            hi: BytePos(
-                235,
-            ),
-            ctxt: #0,
-        },
+        span: 235..235#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    235,
-                ),
-                hi: BytePos(
-                    246,
-                ),
-                ctxt: #0,
-            },
+            span: 235..246#0,
             value: "Test method",
         },
         tags: [],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                273,
-            ),
-            hi: BytePos(
-                273,
-            ),
-            ctxt: #0,
-        },
+        span: 273..273#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    273,
-                ),
-                hi: BytePos(
-                    291,
-                ),
-                ctxt: #0,
-            },
+            span: 273..291#0,
             value: "Test static method",
         },
         tags: [],

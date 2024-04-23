@@ -1,2 +1,2 @@
 //// [importEmptyFromModuleNotExisted.ts]
-import "module-not-existed";
+import 'module-not-existed';

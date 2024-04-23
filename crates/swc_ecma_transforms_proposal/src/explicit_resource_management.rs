@@ -1,9 +1,10 @@
-use std::iter::once;
-
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
-use swc_ecma_utils::{find_pat_ids, private_ident, ExprFactory, ModuleItemLike, StmtLike};
+use swc_ecma_utils::{
+    find_pat_ids, private_ident, quote_ident, stack_size::maybe_grow_default, ExprFactory,
+    ModuleItemLike, StmtLike,
+};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 pub fn explicit_resource_management() -> impl Fold + VisitMut {
@@ -18,9 +19,7 @@ struct ExplicitResourceManagement {
 }
 
 struct State {
-    stack: Ident,
-    has_error: Ident,
-    error_var: Ident,
+    using_ctx: Ident,
     catch_var: Ident,
 
     has_await: bool,
@@ -29,9 +28,7 @@ struct State {
 impl Default for State {
     fn default() -> Self {
         Self {
-            stack: private_ident!("_stack"),
-            has_error: private_ident!("_hasError"),
-            error_var: private_ident!("_error"),
+            using_ctx: private_ident!("_usingCtx"),
             catch_var: private_ident!("_"),
             has_await: false,
         }
@@ -63,13 +60,15 @@ impl ExplicitResourceManagement {
         let mut extras = vec![];
         let mut try_body = vec![];
 
-        let stack_var_decl = VarDeclarator {
+        let using_ctx_var = VarDeclarator {
             span: DUMMY_SP,
-            name: state.stack.clone().into(),
+            name: state.using_ctx.clone().into(),
             init: Some(
-                ArrayLit {
+                CallExpr {
+                    callee: helper!(using_ctx),
                     span: DUMMY_SP,
-                    elems: vec![],
+                    args: Default::default(),
+                    type_args: Default::default(),
                 }
                 .into(),
             ),
@@ -80,7 +79,7 @@ impl ExplicitResourceManagement {
             span: DUMMY_SP,
             kind: VarDeclKind::Var,
             declare: false,
-            decls: vec![stack_var_decl],
+            decls: vec![using_ctx_var],
         }))));
 
         for stmt in stmts.take() {
@@ -88,8 +87,8 @@ impl ExplicitResourceManagement {
                 Ok(stmt @ Stmt::Decl(Decl::Fn(..))) => {
                     new.push(T::from_stmt(stmt));
                 }
-                Ok(Stmt::Decl(Decl::Var(mut var))) => {
-                    var.kind = VarDeclKind::Var;
+                Ok(Stmt::Decl(Decl::Var(var))) => {
+                    // var.kind = VarDeclKind::Var;
                     try_body.push(Stmt::Decl(Decl::Var(var)));
                 }
                 Ok(stmt) => try_body.push(stmt),
@@ -310,39 +309,28 @@ impl ExplicitResourceManagement {
         // Drop `;`
         try_body.retain(|stmt| !matches!(stmt, Stmt::Empty(..)));
 
-        // var error = $catch_var
-        let error_catch_var = Stmt::Decl(Decl::Var(Box::new(VarDecl {
+        // usingCtx.e = $catch_var
+        let assign_error = AssignExpr {
             span: DUMMY_SP,
-            kind: VarDeclKind::Var,
-            declare: false,
-            decls: vec![VarDeclarator {
-                span: DUMMY_SP,
-                name: state.error_var.clone().into(),
-                init: Some(state.catch_var.clone().into()),
-                definite: false,
-            }],
-        })));
+            op: op!("="),
+            left: state
+                .using_ctx
+                .clone()
+                .make_member(quote_ident!("e"))
+                .into(),
+            right: state.catch_var.clone().into(),
+        }
+        .into_stmt();
 
-        // var has_error = true
-        let has_error_true = Stmt::Decl(Decl::Var(Box::new(VarDecl {
-            span: DUMMY_SP,
-            kind: VarDeclKind::Var,
-            declare: false,
-            decls: vec![VarDeclarator {
-                span: DUMMY_SP,
-                name: state.has_error.clone().into(),
-                init: Some(true.into()),
-                definite: false,
-            }],
-        })));
+        // _usingCtx.d()
         let dispose_expr = CallExpr {
             span: DUMMY_SP,
-            callee: helper!(dispose),
-            args: vec![
-                state.stack.as_arg(),
-                state.error_var.as_arg(),
-                state.has_error.as_arg(),
-            ],
+            callee: state
+                .using_ctx
+                .clone()
+                .make_member(quote_ident!("d"))
+                .as_callee(),
+            args: vec![],
             type_args: Default::default(),
         };
         let dispose_stmt = if state.has_await {
@@ -366,7 +354,7 @@ impl ExplicitResourceManagement {
                 param: Some(state.catch_var.into()),
                 body: BlockStmt {
                     span: DUMMY_SP,
-                    stmts: vec![error_catch_var, has_error_true],
+                    stmts: vec![assign_error],
                 },
             }),
             finalizer: Some(BlockStmt {
@@ -384,6 +372,10 @@ impl ExplicitResourceManagement {
 
 impl VisitMut for ExplicitResourceManagement {
     noop_visit_mut_type!();
+
+    fn visit_mut_expr(&mut self, n: &mut Expr) {
+        maybe_grow_default(|| n.visit_mut_children_with(self));
+    }
 
     fn visit_mut_for_of_stmt(&mut self, n: &mut ForOfStmt) {
         n.visit_mut_children_with(self);
@@ -412,7 +404,7 @@ impl VisitMut for ExplicitResourceManagement {
     }
 
     fn visit_mut_stmt(&mut self, s: &mut Stmt) {
-        s.visit_mut_children_with(self);
+        maybe_grow_default(|| s.visit_mut_children_with(self));
 
         if let Stmt::Decl(Decl::Using(decl)) = s {
             let state = self.state.get_or_insert_with(Default::default);
@@ -434,15 +426,16 @@ impl VisitMut for ExplicitResourceManagement {
                     .map(|d| {
                         let init = CallExpr {
                             span: decl.span,
-                            callee: helper!(using),
-                            args: once(state.stack.clone().as_arg())
-                                .chain(once(d.init.unwrap().as_arg()))
-                                .chain(if decl.is_await {
-                                    Some(true.as_arg())
+                            callee: state
+                                .using_ctx
+                                .clone()
+                                .make_member(if decl.is_await {
+                                    quote_ident!("a")
                                 } else {
-                                    None
+                                    quote_ident!("u")
                                 })
-                                .collect(),
+                                .as_callee(),
+                            args: vec![d.init.unwrap().as_arg()],
                             type_args: Default::default(),
                         };
 

@@ -10,7 +10,7 @@ module.exports.Classic = function _class() {
     this.p = 1;
 };
 //// [use.js]
-import * as s from "./mod";
+import * as s from './mod';
 var k = new s.n.K();
 k.x;
 var classic = new s.Classic();

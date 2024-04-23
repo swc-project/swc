@@ -1,60 +1,20 @@
 [
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                1,
-            ),
-            hi: BytePos(
-                1,
-            ),
-            ctxt: #0,
-        },
+        span: 1..1#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    1,
-                ),
-                hi: BytePos(
-                    25,
-                ),
-                ctxt: #0,
-            },
+            span: 1..25#0,
             value: "Toaster singleton.\n *\n *",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        1,
-                    ),
-                    hi: BytePos(
-                        6,
-                    ),
-                    ctxt: #0,
-                },
+                span: 1..6#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            1,
-                        ),
-                        hi: BytePos(
-                            6,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 1..6#0,
                     value: "class",
                 },
                 tag: Class(
                     ClassTag {
-                        span: Span {
-                            lo: BytePos(
-                                1,
-                            ),
-                            hi: BytePos(
-                                6,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 1..6#0,
                         ty: None,
                         name: None,
                     },
@@ -63,82 +23,26 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                129,
-            ),
-            hi: BytePos(
-                194,
-            ),
-            ctxt: #0,
-        },
+        span: 129..194#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    129,
-                ),
-                hi: BytePos(
-                    157,
-                ),
-                ctxt: #0,
-            },
+            span: 129..157#0,
             value: "Toast an item.\n     *\n     *",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        129,
-                    ),
-                    hi: BytePos(
-                        134,
-                    ),
-                    ctxt: #0,
-                },
+                span: 129..134#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            129,
-                        ),
-                        hi: BytePos(
-                            134,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 129..134#0,
                     value: "alias",
                 },
                 tag: Alias(
                     AliasTag {
-                        span: Span {
-                            lo: BytePos(
-                                129,
-                            ),
-                            hi: BytePos(
-                                134,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 129..134#0,
                         name_path: NamePath {
-                            span: Span {
-                                lo: BytePos(
-                                    129,
-                                ),
-                                hi: BytePos(
-                                    194,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 129..194#0,
                             components: [
                                 Text {
-                                    span: Span {
-                                        lo: BytePos(
-                                            129,
-                                        ),
-                                        hi: BytePos(
-                                            136,
-                                        ),
-                                        ctxt: #0,
-                                    },
+                                    span: 129..136#0,
                                     value: "Toaster",
                                 },
                             ],
@@ -149,82 +53,26 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                306,
-            ),
-            hi: BytePos(
-                306,
-            ),
-            ctxt: #0,
-        },
+        span: 306..306#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    306,
-                ),
-                hi: BytePos(
-                    338,
-                ),
-                ctxt: #0,
-            },
+            span: 306..338#0,
             value: "Clean the toaster.\n     *\n     *",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        306,
-                    ),
-                    hi: BytePos(
-                        311,
-                    ),
-                    ctxt: #0,
-                },
+                span: 306..311#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            306,
-                        ),
-                        hi: BytePos(
-                            311,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 306..311#0,
                     value: "alias",
                 },
                 tag: Alias(
                     AliasTag {
-                        span: Span {
-                            lo: BytePos(
-                                306,
-                            ),
-                            hi: BytePos(
-                                311,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 306..311#0,
                         name_path: NamePath {
-                            span: Span {
-                                lo: BytePos(
-                                    306,
-                                ),
-                                hi: BytePos(
-                                    353,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 306..353#0,
                             components: [
                                 Text {
-                                    span: Span {
-                                        lo: BytePos(
-                                            306,
-                                        ),
-                                        hi: BytePos(
-                                            311,
-                                        ),
-                                        ctxt: #0,
-                                    },
+                                    span: 306..311#0,
                                     value: "clean",
                                 },
                             ],
@@ -233,59 +81,19 @@
                 ),
             },
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        306,
-                    ),
-                    hi: BytePos(
-                        314,
-                    ),
-                    ctxt: #0,
-                },
+                span: 306..314#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            306,
-                        ),
-                        hi: BytePos(
-                            314,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 306..314#0,
                     value: "memberof",
                 },
                 tag: MemberOf(
                     MemberOfTag {
-                        span: Span {
-                            lo: BytePos(
-                                306,
-                            ),
-                            hi: BytePos(
-                                314,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 306..314#0,
                         parent_name_path: NamePath {
-                            span: Span {
-                                lo: BytePos(
-                                    306,
-                                ),
-                                hi: BytePos(
-                                    328,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 306..328#0,
                             components: [
                                 Text {
-                                    span: Span {
-                                        lo: BytePos(
-                                            306,
-                                        ),
-                                        hi: BytePos(
-                                            313,
-                                        ),
-                                        ctxt: #0,
-                                    },
+                                    span: 306..313#0,
                                     value: "Toaster",
                                 },
                             ],
@@ -294,120 +102,40 @@
                 ),
             },
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        306,
-                    ),
-                    hi: BytePos(
-                        314,
-                    ),
-                    ctxt: #0,
-                },
+                span: 306..314#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            306,
-                        ),
-                        hi: BytePos(
-                            314,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 306..314#0,
                     value: "instance",
                 },
                 tag: Instance(
                     InstanceTag {
-                        span: Span {
-                            lo: BytePos(
-                                306,
-                            ),
-                            hi: BytePos(
-                                314,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 306..314#0,
                     },
                 ),
             },
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                480,
-            ),
-            hi: BytePos(
-                553,
-            ),
-            ctxt: #0,
-        },
+        span: 480..553#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    480,
-                ),
-                hi: BytePos(
-                    527,
-                ),
-                ctxt: #0,
-            },
+            span: 480..527#0,
             value: "Get the Toaster instance.\n         *\n         *",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        480,
-                    ),
-                    hi: BytePos(
-                        485,
-                    ),
-                    ctxt: #0,
-                },
+                span: 480..485#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            480,
-                        ),
-                        hi: BytePos(
-                            485,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 480..485#0,
                     value: "alias",
                 },
                 tag: Alias(
                     AliasTag {
-                        span: Span {
-                            lo: BytePos(
-                                480,
-                            ),
-                            hi: BytePos(
-                                485,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 480..485#0,
                         name_path: NamePath {
-                            span: Span {
-                                lo: BytePos(
-                                    480,
-                                ),
-                                hi: BytePos(
-                                    553,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 480..553#0,
                             components: [
                                 Text {
-                                    span: Span {
-                                        lo: BytePos(
-                                            480,
-                                        ),
-                                        hi: BytePos(
-                                            487,
-                                        ),
-                                        ctxt: #0,
-                                    },
+                                    span: 480..487#0,
                                     value: "Toaster",
                                 },
                             ],

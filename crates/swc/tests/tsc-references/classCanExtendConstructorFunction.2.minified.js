@@ -36,7 +36,7 @@ var c = new (function(Wagon1) {
     var _super = _create_super(Conestoga);
     function Conestoga(drunkOO) {
         var _this;
-        return _class_call_check(this, Conestoga), (_this = _super.call(this, "nope")).drunkOO = drunkOO, _this;
+        return _class_call_check(this, Conestoga), (_this = _super.call(this, 'nope')).drunkOO = drunkOO, _this;
     }
     return Conestoga.circle = function(others) {
         return others.length;

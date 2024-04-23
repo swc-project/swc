@@ -2,7 +2,7 @@
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 export var Foo = function Foo(/** @internal */ isInternal1, /** @internal */ isInternal2, /** @internal */ isInternal3, // @internal
 isInternal4, // nothing
-/** @internal */ isInternal5, /* @internal */ isInternal6 /* trailing */ , /* @internal */ isInternal7, /** @internal */ // not work
+/** @internal */ isInternal5, /* @internal */ isInternal6/* trailing */ , /* @internal */ isInternal7, /** @internal */ // not work
 notInternal1, // @internal
 /* not work */ notInternal2, /* not work */ // @internal
 /* not work */ notInternal3) {

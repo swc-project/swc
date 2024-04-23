@@ -406,7 +406,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 242,
-                  "end": 274,
+                  "end": 249,
                   "ctxt": 0
                 },
                 "value": "changes",

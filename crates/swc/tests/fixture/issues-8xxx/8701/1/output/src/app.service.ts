@@ -11,7 +11,7 @@ export var AppService = /*#__PURE__*/ function() {
         {
             key: "getHello",
             value: function getHello() {
-                return "Hello World!";
+                return 'Hello World!';
             }
         }
     ]);

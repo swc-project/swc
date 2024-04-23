@@ -96,7 +96,7 @@
    ,-[$DIR/tests/span/ts/type/interface.ts:2:1]
  2 |     new();
  3 |     (foo: string): void;
-   :      ^^^^^^^^^^^
+   :      ^^^
  4 |     [foo: string]: void;
    `----
 
@@ -104,7 +104,7 @@
    ,-[$DIR/tests/span/ts/type/interface.ts:2:1]
  2 |     new();
  3 |     (foo: string): void;
-   :      ^^^^^^^^^^^
+   :      ^^^
  4 |     [foo: string]: void;
    `----
 

@@ -146,10 +146,7 @@ where
                         }
                     };
 
-                    let balance_close_type = match balance_stack.pop() {
-                        Some(v) => v,
-                        None => None,
-                    };
+                    let balance_close_type = balance_stack.pop().unwrap_or_default();
 
                     if Some(value) != balance_close_type {
                         break;

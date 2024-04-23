@@ -30,7 +30,7 @@ Errors || (Errors = {}), foo2(function(x) {
     return null;
 }), WithGenericSignaturesInBaseType || (WithGenericSignaturesInBaseType = {}), foo2(function(x) {
     return [
-        ""
+        ''
     ];
 }), foo3(function(x) {
     return null;

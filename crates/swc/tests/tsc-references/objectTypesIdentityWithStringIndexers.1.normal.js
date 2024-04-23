@@ -37,7 +37,7 @@ var PB = /*#__PURE__*/ function(B) {
 }(B);
 var a;
 var b = {
-    foo: ""
+    foo: ''
 };
 function foo1(x) {}
 function foo1b(x) {}

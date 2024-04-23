@@ -1,4 +1,4 @@
 (function() {
-    throw "a";
+    throw 'a';
     with (b); // This should be removed.
 }());

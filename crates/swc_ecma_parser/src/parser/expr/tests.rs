@@ -1,10 +1,7 @@
-extern crate test;
-
 use std::hint::black_box;
 
 use swc_common::{FileName, SourceMap, DUMMY_SP as span};
 use swc_ecma_visit::assert_eq_ignore_span;
-use test::Bencher;
 
 use super::*;
 use crate::{parse_file_as_expr, EsConfig};

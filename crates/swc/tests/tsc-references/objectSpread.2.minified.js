@@ -5,9 +5,9 @@ import { _ as _object_spread } from "@swc/helpers/_/_object_spread";
 import { _ as _object_spread_props } from "@swc/helpers/_/_object_spread_props";
 var anything, o = {
     a: 1,
-    b: "no"
+    b: 'no'
 }, o2 = {
-    b: "yes",
+    b: 'yes',
     c: !0
 };
 _object_spread_props(_object_spread({}, o), {
@@ -15,21 +15,21 @@ _object_spread_props(_object_spread({}, o), {
 }), _object_spread({
     c: !1
 }, o), _object_spread_props(_object_spread({}, o), {
-    b: "override"
+    b: 'override'
 }), _object_spread_props(_object_spread({}, _object_spread({
     a: 3
 }, {
     b: !1,
-    c: "overriden"
+    c: 'overriden'
 })), {
-    c: "whatever"
+    c: 'whatever'
 }), _object_spread({}, o, o2), _object_spread_props(_object_spread({}, o, o2), {
-    b: "ok"
+    b: 'ok'
 }), _object_spread_props(_object_spread({}, _object_spread({
     a: 1
 }, {
     b: !1,
-    c: "overriden"
+    c: 'overriden'
 })), {
     c: -1
 }), _object_spread({}, o), _object_spread_props(_object_spread({}, {
@@ -47,7 +47,7 @@ var c = new (function() {
 }())();
 function f(t, u) {
     return _object_spread_props(_object_spread({}, t, u), {
-        id: "id"
+        id: 'id'
     });
 }
 _object_spread({}, c), _object_spread_props(_object_spread({}, c), {
@@ -55,31 +55,31 @@ _object_spread({}, c), _object_spread_props(_object_spread({}, c), {
         return this.p + 1;
     }
 }).plus(), _object_spread_props(_object_spread({}, o), {
-    a: "wrong type?"
+    a: 'wrong type?'
 }), _object_spread({}, o, {
-    a: "yes",
+    a: 'yes',
     b: -1
 }), _object_spread_props(_object_spread({}, o), {
     a: 12
 }), _object_spread({}, {}), f({
     a: 1,
-    b: "yes"
+    b: 'yes'
 }, {
-    c: "no",
+    c: 'no',
     d: !1
 }), f({
     a: 1
 }, {
     a: 2,
-    b: "extra"
+    b: 'extra'
 }), f({
     a: 1
 }, {
-    a: "mismatch"
+    a: 'mismatch'
 }), f({
     a: 1,
     id: !0
 }, {
     c: 1,
-    d: "no"
+    d: 'no'
 });

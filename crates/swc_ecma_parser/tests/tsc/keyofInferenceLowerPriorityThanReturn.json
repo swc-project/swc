@@ -1068,7 +1068,7 @@
                   "type": "Identifier",
                   "span": {
                     "start": 447,
-                    "end": 467,
+                    "end": 451,
                     "ctxt": 0
                   },
                   "value": "cols",
@@ -1803,7 +1803,7 @@
             "type": "Identifier",
             "span": {
               "start": 850,
-              "end": 873,
+              "end": 856,
               "ctxt": 0
             },
             "value": "_table",
@@ -1896,7 +1896,7 @@
             "type": "Identifier",
             "span": {
               "start": 875,
-              "end": 917,
+              "end": 890,
               "ctxt": 0
             },
             "value": "_conflictTarget",

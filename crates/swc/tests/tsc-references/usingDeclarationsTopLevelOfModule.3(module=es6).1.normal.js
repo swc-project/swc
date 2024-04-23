@@ -1,21 +1,19 @@
 //// [usingDeclarationsTopLevelOfModule.3.ts]
-import { _ as _dispose } from "@swc/helpers/_/_dispose";
-import { _ as _using } from "@swc/helpers/_/_using";
+import { _ as _using_ctx } from "@swc/helpers/_/_using_ctx";
 export { y };
 function f() {
     console.log(y, z);
 }
 try {
-    var _stack = [];
-    var z = _using(_stack, {
+    var _usingCtx = _using_ctx();
+    var z = _usingCtx.u({
         [Symbol.dispose] () {}
     });
     if (false) {
         var y = 1;
     }
 } catch (_) {
-    var _error = _;
-    var _hasError = true;
+    _usingCtx.e = _;
 } finally{
-    _dispose(_stack, _error, _hasError);
+    _usingCtx.d();
 }

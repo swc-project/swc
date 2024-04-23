@@ -1129,7 +1129,7 @@
             "type": "Identifier",
             "span": {
               "start": 688,
-              "end": 718,
+              "end": 694,
               "ctxt": 0
             },
             "value": "config",

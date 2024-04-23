@@ -1,60 +1,20 @@
 [
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                1,
-            ),
-            hi: BytePos(
-                1,
-            ),
-            ctxt: #0,
-        },
+        span: 1..1#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    1,
-                ),
-                hi: BytePos(
-                    1,
-                ),
-                ctxt: #0,
-            },
+            span: 1..1#0,
             value: "",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        1,
-                    ),
-                    hi: BytePos(
-                        9,
-                    ),
-                    ctxt: #0,
-                },
+                span: 1..9#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            1,
-                        ),
-                        hi: BytePos(
-                            9,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 1..9#0,
                     value: "constant",
                 },
                 tag: Const(
                     ConstTag {
-                        span: Span {
-                            lo: BytePos(
-                                1,
-                            ),
-                            hi: BytePos(
-                                9,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 1..9#0,
                         ty: None,
                         name: None,
                     },
@@ -63,61 +23,21 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                32,
-            ),
-            hi: BytePos(
-                36,
-            ),
-            ctxt: #0,
-        },
+        span: 32..36#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    32,
-                ),
-                hi: BytePos(
-                    32,
-                ),
-                ctxt: #0,
-            },
+            span: 32..32#0,
             value: "",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        32,
-                    ),
-                    hi: BytePos(
-                        37,
-                    ),
-                    ctxt: #0,
-                },
+                span: 32..37#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            32,
-                        ),
-                        hi: BytePos(
-                            37,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 32..37#0,
                     value: "const",
                 },
                 tag: Const(
                     ConstTag {
-                        span: Span {
-                            lo: BytePos(
-                                32,
-                            ),
-                            hi: BytePos(
-                                37,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 32..37#0,
                         ty: None,
                         name: None,
                     },
@@ -126,61 +46,21 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                51,
-            ),
-            hi: BytePos(
-                64,
-            ),
-            ctxt: #0,
-        },
+        span: 51..64#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    51,
-                ),
-                hi: BytePos(
-                    51,
-                ),
-                ctxt: #0,
-            },
+            span: 51..51#0,
             value: "",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        51,
-                    ),
-                    hi: BytePos(
-                        56,
-                    ),
-                    ctxt: #0,
-                },
+                span: 51..56#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            51,
-                        ),
-                        hi: BytePos(
-                            56,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 51..56#0,
                     value: "const",
                 },
                 tag: Const(
                     ConstTag {
-                        span: Span {
-                            lo: BytePos(
-                                51,
-                            ),
-                            hi: BytePos(
-                                56,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 51..56#0,
                         ty: None,
                         name: None,
                     },
@@ -189,61 +69,21 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                79,
-            ),
-            hi: BytePos(
-                88,
-            ),
-            ctxt: #0,
-        },
+        span: 79..88#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    79,
-                ),
-                hi: BytePos(
-                    79,
-                ),
-                ctxt: #0,
-            },
+            span: 79..79#0,
             value: "",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        79,
-                    ),
-                    hi: BytePos(
-                        84,
-                    ),
-                    ctxt: #0,
-                },
+                span: 79..84#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            79,
-                        ),
-                        hi: BytePos(
-                            84,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 79..84#0,
                     value: "const",
                 },
                 tag: Const(
                     ConstTag {
-                        span: Span {
-                            lo: BytePos(
-                                79,
-                            ),
-                            hi: BytePos(
-                                84,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 79..84#0,
                         ty: None,
                         name: None,
                     },
@@ -252,61 +92,21 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                116,
-            ),
-            hi: BytePos(
-                132,
-            ),
-            ctxt: #0,
-        },
+        span: 116..132#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    116,
-                ),
-                hi: BytePos(
-                    116,
-                ),
-                ctxt: #0,
-            },
+            span: 116..116#0,
             value: "",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        116,
-                    ),
-                    hi: BytePos(
-                        121,
-                    ),
-                    ctxt: #0,
-                },
+                span: 116..121#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            116,
-                        ),
-                        hi: BytePos(
-                            121,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 116..121#0,
                     value: "const",
                 },
                 tag: Const(
                     ConstTag {
-                        span: Span {
-                            lo: BytePos(
-                                116,
-                            ),
-                            hi: BytePos(
-                                121,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 116..121#0,
                         ty: None,
                         name: None,
                     },
@@ -315,61 +115,21 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                161,
-            ),
-            hi: BytePos(
-                168,
-            ),
-            ctxt: #0,
-        },
+        span: 161..168#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    161,
-                ),
-                hi: BytePos(
-                    161,
-                ),
-                ctxt: #0,
-            },
+            span: 161..161#0,
             value: "",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        161,
-                    ),
-                    hi: BytePos(
-                        166,
-                    ),
-                    ctxt: #0,
-                },
+                span: 161..166#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            161,
-                        ),
-                        hi: BytePos(
-                            166,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 161..166#0,
                     value: "const",
                 },
                 tag: Const(
                     ConstTag {
-                        span: Span {
-                            lo: BytePos(
-                                161,
-                            ),
-                            hi: BytePos(
-                                166,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 161..166#0,
                         ty: None,
                         name: None,
                     },
@@ -378,25 +138,9 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                197,
-            ),
-            hi: BytePos(
-                197,
-            ),
-            ctxt: #0,
-        },
+        span: 197..197#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    197,
-                ),
-                hi: BytePos(
-                    216,
-                ),
-                ctxt: #0,
-            },
+            span: 197..216#0,
             value: "auto-detected const",
         },
         tags: [],

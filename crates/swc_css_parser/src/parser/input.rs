@@ -176,7 +176,7 @@ where
     }
 
     pub(super) fn reset(&mut self, state: &WrappedState<I::State>) {
-        self.cur = state.cur.clone();
+        self.cur.clone_from(&state.cur);
         self.input.reset(&state.inner);
     }
 }
@@ -465,8 +465,8 @@ impl<'a> ParserInput for Input<'a> {
     }
 
     fn reset(&mut self, state: &Self::State) {
-        self.idx = state.idx.clone();
-        self.balance_stack = state.balance_stack.clone();
+        self.idx.clone_from(&state.idx);
+        self.balance_stack.clone_from(&state.balance_stack);
     }
 
     fn take_errors(&mut self) -> Vec<Error> {

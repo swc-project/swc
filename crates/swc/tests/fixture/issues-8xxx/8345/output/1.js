@@ -1,2 +1,2 @@
-var data = "\\ud";
+var data = '\\ud';
 console.log(data);

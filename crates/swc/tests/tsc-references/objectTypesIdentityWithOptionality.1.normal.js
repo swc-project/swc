@@ -15,7 +15,7 @@ var C = function C() {
 };
 var a;
 var b = {
-    foo: ""
+    foo: ''
 };
 function foo2(x) {}
 function foo3(x) {}

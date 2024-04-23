@@ -706,7 +706,7 @@
             "type": "Identifier",
             "span": {
               "start": 417,
-              "end": 447,
+              "end": 420,
               "ctxt": 0
             },
             "value": "obj",
@@ -898,7 +898,7 @@
             "type": "Identifier",
             "span": {
               "start": 528,
-              "end": 558,
+              "end": 531,
               "ctxt": 0
             },
             "value": "obj",
@@ -1090,7 +1090,7 @@
             "type": "Identifier",
             "span": {
               "start": 634,
-              "end": 668,
+              "end": 637,
               "ctxt": 0
             },
             "value": "obj",
@@ -1324,7 +1324,7 @@
             "type": "Identifier",
             "span": {
               "start": 722,
-              "end": 732,
+              "end": 723,
               "ctxt": 0
             },
             "value": "b",
@@ -1360,7 +1360,7 @@
             "type": "Identifier",
             "span": {
               "start": 734,
-              "end": 768,
+              "end": 735,
               "ctxt": 0
             },
             "value": "t",
@@ -1744,7 +1744,7 @@
             "type": "Identifier",
             "span": {
               "start": 920,
-              "end": 954,
+              "end": 921,
               "ctxt": 0
             },
             "value": "t",
@@ -2020,7 +2020,7 @@
             "type": "Identifier",
             "span": {
               "start": 1054,
-              "end": 1077,
+              "end": 1065,
               "ctxt": 0
             },
             "value": "anyrequired",
@@ -2193,7 +2193,7 @@
             "type": "Identifier",
             "span": {
               "start": 1143,
-              "end": 1167,
+              "end": 1154,
               "ctxt": 0
             },
             "value": "anyoptional",

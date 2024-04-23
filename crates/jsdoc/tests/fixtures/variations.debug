@@ -1,71 +1,23 @@
 [
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                1,
-            ),
-            hi: BytePos(
-                1,
-            ),
-            ctxt: #0,
-        },
+        span: 1..1#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    1,
-                ),
-                hi: BytePos(
-                    1,
-                ),
-                ctxt: #0,
-            },
+            span: 1..1#0,
             value: "",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        1,
-                    ),
-                    hi: BytePos(
-                        10,
-                    ),
-                    ctxt: #0,
-                },
+                span: 1..10#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            1,
-                        ),
-                        hi: BytePos(
-                            10,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 1..10#0,
                     value: "namespace",
                 },
                 tag: Namespace(
                     NamespaceTag {
-                        span: Span {
-                            lo: BytePos(
-                                1,
-                            ),
-                            hi: BytePos(
-                                10,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 1..10#0,
                         ty: Some(
                             Text {
-                                span: Span {
-                                    lo: BytePos(
-                                        1,
-                                    ),
-                                    hi: BytePos(
-                                        5,
-                                    ),
-                                    ctxt: #0,
-                                },
+                                span: 1..5#0,
                                 value: "anim",
                             },
                         ),
@@ -76,72 +28,24 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                29,
-            ),
-            hi: BytePos(
-                29,
-            ),
-            ctxt: #0,
-        },
+        span: 29..29#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    29,
-                ),
-                hi: BytePos(
-                    29,
-                ),
-                ctxt: #0,
-            },
+            span: 29..29#0,
             value: "",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        29,
-                    ),
-                    hi: BytePos(
-                        35,
-                    ),
-                    ctxt: #0,
-                },
+                span: 29..35#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            29,
-                        ),
-                        hi: BytePos(
-                            35,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 29..35#0,
                     value: "method",
                 },
                 tag: Function(
                     FunctionTag {
-                        span: Span {
-                            lo: BytePos(
-                                29,
-                            ),
-                            hi: BytePos(
-                                35,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 29..35#0,
                         name: Some(
                             Text {
-                                span: Span {
-                                    lo: BytePos(
-                                        29,
-                                    ),
-                                    hi: BytePos(
-                                        43,
-                                    ),
-                                    ctxt: #0,
-                                },
+                                span: 29..43#0,
                                 value: "anim.fadein(1)",
                             },
                         ),
@@ -149,284 +53,100 @@
                 ),
             },
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        29,
-                    ),
-                    hi: BytePos(
-                        33,
-                    ),
-                    ctxt: #0,
-                },
+                span: 29..33#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            29,
-                        ),
-                        hi: BytePos(
-                            33,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 29..33#0,
                     value: "desc",
                 },
                 tag: Description(
                     DescriptionTag {
-                        span: Span {
-                            lo: BytePos(
-                                29,
-                            ),
-                            hi: BytePos(
-                                33,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 29..33#0,
                         text: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    29,
-                                ),
-                                hi: BytePos(
-                                    81,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 29..81#0,
                             value: "Show the nodelist elements by fading them to opaque.",
                         },
                     },
                 ),
             },
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        29,
-                    ),
-                    hi: BytePos(
-                        34,
-                    ),
-                    ctxt: #0,
-                },
+                span: 29..34#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            29,
-                        ),
-                        hi: BytePos(
-                            34,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 29..34#0,
                     value: "since",
                 },
                 tag: Since(
                     SinceTag {
-                        span: Span {
-                            lo: BytePos(
-                                29,
-                            ),
-                            hi: BytePos(
-                                34,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 29..34#0,
                         version: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    29,
-                                ),
-                                hi: BytePos(
-                                    32,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 29..32#0,
                             value: "1.0",
                         },
                     },
                 ),
             },
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        29,
-                    ),
-                    hi: BytePos(
-                        34,
-                    ),
-                    ctxt: #0,
-                },
+                span: 29..34#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            29,
-                        ),
-                        hi: BytePos(
-                            34,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 29..34#0,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: Span {
-                            lo: BytePos(
-                                29,
-                            ),
-                            hi: BytePos(
-                                34,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 29..34#0,
                         name: None,
                         ty: Some(
                             Text {
-                                span: Span {
-                                    lo: BytePos(
-                                        29,
-                                    ),
-                                    hi: BytePos(
-                                        37,
-                                    ),
-                                    ctxt: #0,
-                                },
+                                span: 29..37#0,
                                 value: "{number}",
                             },
                         ),
                         desc: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    29,
-                                ),
-                                hi: BytePos(
-                                    76,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 29..76#0,
                             value: "[duration=400] How long the animation will run.",
                         },
                     },
                 ),
             },
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        29,
-                    ),
-                    hi: BytePos(
-                        34,
-                    ),
-                    ctxt: #0,
-                },
+                span: 29..34#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            29,
-                        ),
-                        hi: BytePos(
-                            34,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 29..34#0,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: Span {
-                            lo: BytePos(
-                                29,
-                            ),
-                            hi: BytePos(
-                                34,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 29..34#0,
                         name: None,
                         ty: Some(
                             Text {
-                                span: Span {
-                                    lo: BytePos(
-                                        29,
-                                    ),
-                                    hi: BytePos(
-                                        39,
-                                    ),
-                                    ctxt: #0,
-                                },
+                                span: 29..39#0,
                                 value: "{function}",
                             },
                         ),
                         desc: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    29,
-                                ),
-                                hi: BytePos(
-                                    82,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 29..82#0,
                             value: "[callback]     Called once the animation is complete.",
                         },
                     },
                 ),
             },
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        29,
-                    ),
-                    hi: BytePos(
-                        36,
-                    ),
-                    ctxt: #0,
-                },
+                span: 29..36#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            29,
-                        ),
-                        hi: BytePos(
-                            36,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 29..36#0,
                     value: "returns",
                 },
                 tag: Return(
                     ReturnTag {
-                        span: Span {
-                            lo: BytePos(
-                                29,
-                            ),
-                            hi: BytePos(
-                                36,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 29..36#0,
                         ty: Some(
                             Text {
-                                span: Span {
-                                    lo: BytePos(
-                                        29,
-                                    ),
-                                    hi: BytePos(
-                                        35,
-                                    ),
-                                    ctxt: #0,
-                                },
+                                span: 29..35#0,
                                 value: "{this}",
                             },
                         ),
                         description: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    29,
-                                ),
-                                hi: BytePos(
-                                    29,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 29..29#0,
                             value: "",
                         },
                     },
@@ -435,72 +155,24 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                309,
-            ),
-            hi: BytePos(
-                309,
-            ),
-            ctxt: #0,
-        },
+        span: 309..309#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    309,
-                ),
-                hi: BytePos(
-                    309,
-                ),
-                ctxt: #0,
-            },
+            span: 309..309#0,
             value: "",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        309,
-                    ),
-                    hi: BytePos(
-                        315,
-                    ),
-                    ctxt: #0,
-                },
+                span: 309..315#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            309,
-                        ),
-                        hi: BytePos(
-                            315,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 309..315#0,
                     value: "method",
                 },
                 tag: Function(
                     FunctionTag {
-                        span: Span {
-                            lo: BytePos(
-                                309,
-                            ),
-                            hi: BytePos(
-                                315,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 309..315#0,
                         name: Some(
                             Text {
-                                span: Span {
-                                    lo: BytePos(
-                                        309,
-                                    ),
-                                    hi: BytePos(
-                                        323,
-                                    ),
-                                    ctxt: #0,
-                                },
+                                span: 309..323#0,
                                 value: "anim.fadein(2)",
                             },
                         ),
@@ -508,347 +180,123 @@
                 ),
             },
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        309,
-                    ),
-                    hi: BytePos(
-                        313,
-                    ),
-                    ctxt: #0,
-                },
+                span: 309..313#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            309,
-                        ),
-                        hi: BytePos(
-                            313,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 309..313#0,
                     value: "desc",
                 },
                 tag: Description(
                     DescriptionTag {
-                        span: Span {
-                            lo: BytePos(
-                                309,
-                            ),
-                            hi: BytePos(
-                                313,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 309..313#0,
                         text: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    309,
-                                ),
-                                hi: BytePos(
-                                    361,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 309..361#0,
                             value: "Show the nodelist elements by fading them to opaque.",
                         },
                     },
                 ),
             },
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        309,
-                    ),
-                    hi: BytePos(
-                        314,
-                    ),
-                    ctxt: #0,
-                },
+                span: 309..314#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            309,
-                        ),
-                        hi: BytePos(
-                            314,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 309..314#0,
                     value: "since",
                 },
                 tag: Since(
                     SinceTag {
-                        span: Span {
-                            lo: BytePos(
-                                309,
-                            ),
-                            hi: BytePos(
-                                314,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 309..314#0,
                         version: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    309,
-                                ),
-                                hi: BytePos(
-                                    314,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 309..314#0,
                             value: "1.4.3",
                         },
                     },
                 ),
             },
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        309,
-                    ),
-                    hi: BytePos(
-                        314,
-                    ),
-                    ctxt: #0,
-                },
+                span: 309..314#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            309,
-                        ),
-                        hi: BytePos(
-                            314,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 309..314#0,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: Span {
-                            lo: BytePos(
-                                309,
-                            ),
-                            hi: BytePos(
-                                314,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 309..314#0,
                         name: None,
                         ty: Some(
                             Text {
-                                span: Span {
-                                    lo: BytePos(
-                                        309,
-                                    ),
-                                    hi: BytePos(
-                                        317,
-                                    ),
-                                    ctxt: #0,
-                                },
+                                span: 309..317#0,
                                 value: "{number}",
                             },
                         ),
                         desc: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    309,
-                                ),
-                                hi: BytePos(
-                                    356,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 309..356#0,
                             value: "[duration=400] How long the animation will run.",
                         },
                     },
                 ),
             },
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        309,
-                    ),
-                    hi: BytePos(
-                        314,
-                    ),
-                    ctxt: #0,
-                },
+                span: 309..314#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            309,
-                        ),
-                        hi: BytePos(
-                            314,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 309..314#0,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: Span {
-                            lo: BytePos(
-                                309,
-                            ),
-                            hi: BytePos(
-                                314,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 309..314#0,
                         name: None,
                         ty: Some(
                             Text {
-                                span: Span {
-                                    lo: BytePos(
-                                        309,
-                                    ),
-                                    hi: BytePos(
-                                        317,
-                                    ),
-                                    ctxt: #0,
-                                },
+                                span: 309..317#0,
                                 value: "{string}",
                             },
                         ),
                         desc: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    309,
-                                ),
-                                hi: BytePos(
-                                    363,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 309..363#0,
                             value: "[easing=swing] The easing function for the transition.",
                         },
                     },
                 ),
             },
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        309,
-                    ),
-                    hi: BytePos(
-                        314,
-                    ),
-                    ctxt: #0,
-                },
+                span: 309..314#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            309,
-                        ),
-                        hi: BytePos(
-                            314,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 309..314#0,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: Span {
-                            lo: BytePos(
-                                309,
-                            ),
-                            hi: BytePos(
-                                314,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 309..314#0,
                         name: None,
                         ty: Some(
                             Text {
-                                span: Span {
-                                    lo: BytePos(
-                                        309,
-                                    ),
-                                    hi: BytePos(
-                                        319,
-                                    ),
-                                    ctxt: #0,
-                                },
+                                span: 309..319#0,
                                 value: "{function}",
                             },
                         ),
                         desc: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    309,
-                                ),
-                                hi: BytePos(
-                                    362,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 309..362#0,
                             value: "[callback]     Called once the animation is complete.",
                         },
                     },
                 ),
             },
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        309,
-                    ),
-                    hi: BytePos(
-                        316,
-                    ),
-                    ctxt: #0,
-                },
+                span: 309..316#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            309,
-                        ),
-                        hi: BytePos(
-                            316,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 309..316#0,
                     value: "returns",
                 },
                 tag: Return(
                     ReturnTag {
-                        span: Span {
-                            lo: BytePos(
-                                309,
-                            ),
-                            hi: BytePos(
-                                316,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 309..316#0,
                         ty: Some(
                             Text {
-                                span: Span {
-                                    lo: BytePos(
-                                        309,
-                                    ),
-                                    hi: BytePos(
-                                        315,
-                                    ),
-                                    ctxt: #0,
-                                },
+                                span: 309..315#0,
                                 value: "{this}",
                             },
                         ),
                         description: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    309,
-                                ),
-                                hi: BytePos(
-                                    309,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 309..309#0,
                             value: "",
                         },
                     },

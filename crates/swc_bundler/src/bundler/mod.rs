@@ -48,16 +48,11 @@ pub struct Config {
     pub module: ModuleType,
 }
 
-#[derive(Debug, PartialEq, Eq, Hash)]
+#[derive(Debug, PartialEq, Eq, Hash, Default)]
 pub enum ModuleType {
+    #[default]
     Es,
     Iife,
-}
-
-impl Default for ModuleType {
-    fn default() -> Self {
-        ModuleType::Es
-    }
 }
 
 #[derive(Debug, Clone, PartialEq, Eq, PartialOrd, Ord, Hash)]

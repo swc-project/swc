@@ -1,133 +1,45 @@
 [
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                22,
-            ),
-            hi: BytePos(
-                22,
-            ),
-            ctxt: #0,
-        },
+        span: 22..22#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    22,
-                ),
-                hi: BytePos(
-                    22,
-                ),
-                ctxt: #0,
-            },
+            span: 22..22#0,
             value: "",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        22,
-                    ),
-                    hi: BytePos(
-                        32,
-                    ),
-                    ctxt: #0,
-                },
+                span: 22..32#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            22,
-                        ),
-                        hi: BytePos(
-                            32,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 22..32#0,
                     value: "constructs",
                 },
                 tag: Constructs(
                     ConstructsTag {
-                        span: Span {
-                            lo: BytePos(
-                                22,
-                            ),
-                            hi: BytePos(
-                                32,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 22..32#0,
                         name: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    22,
-                                ),
-                                hi: BytePos(
-                                    26,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 22..26#0,
                             value: "Menu",
                         },
                     },
                 ),
             },
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        22,
-                    ),
-                    hi: BytePos(
-                        27,
-                    ),
-                    ctxt: #0,
-                },
+                span: 22..27#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            22,
-                        ),
-                        hi: BytePos(
-                            27,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 22..27#0,
                     value: "param",
                 },
                 tag: Parameter(
                     ParameterTag {
-                        span: Span {
-                            lo: BytePos(
-                                22,
-                            ),
-                            hi: BytePos(
-                                27,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 22..27#0,
                         name: None,
                         ty: Some(
                             Text {
-                                span: Span {
-                                    lo: BytePos(
-                                        22,
-                                    ),
-                                    hi: BytePos(
-                                        27,
-                                    ),
-                                    ctxt: #0,
-                                },
+                                span: 22..27#0,
                                 value: "items",
                             },
                         ),
                         desc: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    0,
-                                ),
-                                hi: BytePos(
-                                    0,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 0..0#0,
                             value: "",
                         },
                     },
@@ -136,82 +48,26 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                125,
-            ),
-            hi: BytePos(
-                125,
-            ),
-            ctxt: #0,
-        },
+        span: 125..125#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    125,
-                ),
-                hi: BytePos(
-                    125,
-                ),
-                ctxt: #0,
-            },
+            span: 125..125#0,
             value: "",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        125,
-                    ),
-                    hi: BytePos(
-                        133,
-                    ),
-                    ctxt: #0,
-                },
+                span: 125..133#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            125,
-                        ),
-                        hi: BytePos(
-                            133,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 125..133#0,
                     value: "memberof",
                 },
                 tag: MemberOf(
                     MemberOfTag {
-                        span: Span {
-                            lo: BytePos(
-                                125,
-                            ),
-                            hi: BytePos(
-                                133,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 125..133#0,
                         parent_name_path: NamePath {
-                            span: Span {
-                                lo: BytePos(
-                                    125,
-                                ),
-                                hi: BytePos(
-                                    135,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 125..135#0,
                             components: [
                                 Text {
-                                    span: Span {
-                                        lo: BytePos(
-                                            125,
-                                        ),
-                                        hi: BytePos(
-                                            129,
-                                        ),
-                                        ctxt: #0,
-                                    },
+                                    span: 125..129#0,
                                     value: "Menu",
                                 },
                             ],

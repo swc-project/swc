@@ -3,7 +3,6 @@ use std::{
     env,
     path::{Path, PathBuf},
     sync::Arc,
-    usize,
 };
 
 use anyhow::{bail, Context, Error};
@@ -205,7 +204,7 @@ pub enum InputSourceMap {
 
 impl Default for InputSourceMap {
     fn default() -> Self {
-        InputSourceMap::Bool(false)
+        InputSourceMap::Bool(true)
     }
 }
 
@@ -783,8 +782,9 @@ impl Options {
     }
 }
 
-#[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Eq, Default)]
 pub enum RootMode {
+    #[default]
     #[serde(rename = "root")]
     Root,
     #[serde(rename = "upward")]
@@ -793,11 +793,6 @@ pub enum RootMode {
     UpwardOptional,
 }
 
-impl Default for RootMode {
-    fn default() -> Self {
-        RootMode::Root
-    }
-}
 const fn default_swcrc() -> bool {
     true
 }
@@ -1179,19 +1174,14 @@ pub struct JscOutputConfig {
     pub preamble: String,
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, Default)]
 #[serde(deny_unknown_fields, rename_all = "camelCase")]
 pub enum OutputCharset {
+    #[default]
     #[serde(rename = "utf8")]
     Utf8,
     #[serde(rename = "ascii")]
     Ascii,
-}
-
-impl Default for OutputCharset {
-    fn default() -> Self {
-        OutputCharset::Utf8
-    }
 }
 
 /// `jsc.experimental` in `.swcrc`

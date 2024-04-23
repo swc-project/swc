@@ -15,8 +15,8 @@ var n = f(42);
 var de = {
     nested: {
         doublyNested: {
-            d: "yes",
-            f: "no"
+            d: 'yes',
+            f: 'no'
         },
         different: {
             e: 12
@@ -29,10 +29,10 @@ var de = {
 var defg = {
     nested: {
         doublyNested: {
-            d: "yes",
-            f: "no",
-            g: "ok",
-            h: "affirmative"
+            d: 'yes',
+            f: 'no',
+            g: 'ok',
+            h: 'affirmative'
         },
         different: {
             e: 12

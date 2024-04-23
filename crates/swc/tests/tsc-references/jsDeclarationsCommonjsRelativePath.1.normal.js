@@ -1,5 +1,5 @@
 //// [thing.js]
-"use strict";
+'use strict';
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
@@ -11,8 +11,8 @@ module.exports = {
     Thing: Thing
 };
 //// [reexport.js]
-"use strict";
-var Thing = require("./thing").Thing;
+'use strict';
+var Thing = require('./thing').Thing;
 module.exports = {
     Thing: Thing
 };

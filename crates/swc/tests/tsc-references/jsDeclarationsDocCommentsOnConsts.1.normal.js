@@ -2,7 +2,7 @@
 /**
  * const doc comment
  */ var x = function(a) {
-    return "";
+    return '';
 };
 /**
  * function doc comment

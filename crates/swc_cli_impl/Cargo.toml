@@ -6,7 +6,7 @@ include     = ["Cargo.toml", "src/**/*.rs"]
 license     = "Apache-2.0"
 name        = "swc_cli_impl"
 repository  = "https://github.com/swc-project/swc.git"
-version     = "0.8.21"
+version     = "0.8.25"
 
 [[bin]]
 name = "swc"
@@ -24,7 +24,7 @@ plugin = [
 ]
 
 [dependencies]
-anyhow             = "1.0.66"
+anyhow             = "1.0.81"
 atty               = "0.2.14"
 clap               = { version = "3.2.25", features = ["derive", "wrap_help"] }
 glob               = "0.3.0"
@@ -33,14 +33,14 @@ rayon              = "1"
 relative-path      = "1.6.1"
 serde              = { version = "1", features = ["derive"] }
 serde_json         = { version = "1", features = ["unbounded_depth"] }
-sourcemap          = "6.4.1"
-tracing            = "0.1.37"
+sourcemap          = "8.0.0"
+tracing            = "0.1.40"
 tracing-chrome     = "0.5.0"
 tracing-futures    = "0.2.5"
-tracing-subscriber = { version = "0.3.9", features = ["env-filter"] }
+tracing-subscriber = { version = "0.3.18", features = ["env-filter"] }
 walkdir            = "2"
 
-swc_core = { version = "0.90.22", features = [
+swc_core = { version = "0.90.23", features = [
   "trace_macro",
   "common_concurrent",
   "base_concurrent",

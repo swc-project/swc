@@ -78,10 +78,10 @@ var Generic;
         }
         return D;
     }(C);
-    var d = new D(1, "");
+    var d = new D(1, '');
     var r = d.fn();
     var r2 = r.x;
     var r3 = r.y;
-    r.y = "";
+    r.y = '';
     var r6 = d.y(); // error
 })(Generic || (Generic = {}));

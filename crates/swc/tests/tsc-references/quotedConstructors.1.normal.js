@@ -16,7 +16,7 @@ var E = /*#__PURE__*/ function() {
         _class_call_check(this, E);
     }
     var _proto = E.prototype;
-    _proto["constructor"] = function() {
+    _proto['constructor'] = function() {
         console.log(this);
     };
     return E;

@@ -1,10 +1,10 @@
 (function() {
     function a() {
-        b.c("d");
+        b.c('d');
     }
     {
         function a() {
-            b.c("e");
+            b.c('e');
         }
     }
 }());

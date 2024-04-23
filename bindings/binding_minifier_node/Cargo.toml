@@ -29,15 +29,16 @@ node_macro_deps = { path = "../node_macro_deps" }
 path-clean = "0.1"
 serde = { version = "1", features = ["derive"] }
 serde_json = { version = "1", features = ["unbounded_depth"] }
-sourcemap = "6.0.0"
+sourcemap = "8.0.0"
 tracing = { version = "0.1.37", features = ["release_max_level_info"] }
 tracing-chrome = "0.5.0"
 tracing-futures = "0.2.5"
 tracing-subscriber = { version = "0.3.9", features = ["env-filter"] }
 
-swc_compiler_base = { version = "0.7.15", features = ["node"] }
-swc_config = "0.1.11"
-swc_core = { version = "0.90.22", features = [
+
+swc_compiler_base = { version = "0.7.20", features = ["node"] }
+swc_config = "0.1.12"
+swc_core = { version = "0.90.37", features = [
   "allocator_node",
   "common_concurrent",
   "common_sourcemap",
@@ -49,6 +50,6 @@ swc_core = { version = "0.90.22", features = [
   "ecma_transforms",
   "ecma_visit",
 ] }
-swc_error_reporters = "0.17.18"
+swc_error_reporters = "0.17.19"
 swc_malloc = "0.5.10"
 swc_nodejs_common = "0.0.8"

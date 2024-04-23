@@ -603,7 +603,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 490,
-                  "end": 494,
+                  "end": 491,
                   "ctxt": 0
                 },
                 "value": "x",

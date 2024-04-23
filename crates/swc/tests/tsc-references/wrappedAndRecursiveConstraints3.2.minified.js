@@ -14,4 +14,4 @@ new (function() {
 }).foo({
     length: 3,
     charAt: function(x) {}
-})("");
+})('');

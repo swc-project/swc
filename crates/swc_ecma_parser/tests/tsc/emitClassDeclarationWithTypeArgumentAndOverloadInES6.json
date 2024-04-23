@@ -166,7 +166,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 67,
-                  "end": 73,
+                  "end": 68,
                   "ctxt": 0
                 },
                 "value": "a",
@@ -225,7 +225,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 91,
-                  "end": 97,
+                  "end": 92,
                   "ctxt": 0
                 },
                 "value": "a",
@@ -261,7 +261,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 98,
-                  "end": 102,
+                  "end": 99,
                   "ctxt": 0
                 },
                 "value": "b",
@@ -330,7 +330,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 120,
-                  "end": 124,
+                  "end": 121,
                   "ctxt": 0
                 },
                 "value": "a",
@@ -462,7 +462,7 @@
                   "type": "Identifier",
                   "span": {
                     "start": 150,
-                    "end": 154,
+                    "end": 151,
                     "ctxt": 0
                   },
                   "value": "a",
@@ -547,7 +547,7 @@
                   "type": "Identifier",
                   "span": {
                     "start": 164,
-                    "end": 170,
+                    "end": 165,
                     "ctxt": 0
                   },
                   "value": "a",
@@ -622,7 +622,7 @@
                   "type": "Identifier",
                   "span": {
                     "start": 180,
-                    "end": 189,
+                    "end": 181,
                     "ctxt": 0
                   },
                   "value": "b",
@@ -911,7 +911,7 @@
                   "type": "Identifier",
                   "span": {
                     "start": 298,
-                    "end": 302,
+                    "end": 299,
                     "ctxt": 0
                   },
                   "value": "c",

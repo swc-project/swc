@@ -1,7 +1,7 @@
 use swc_common::{Spanned, SyntaxContext};
 
 use super::*;
-use crate::{error::SyntaxError, lexer::TokenContext, Tokens};
+use crate::lexer::TokenContext;
 
 /// Parser for function expression and function declaration.
 impl<I: Tokens> Parser<I> {
@@ -1756,8 +1756,8 @@ struct MakeMethodArgs {
 }
 
 #[cfg(test)]
+#[allow(unused)]
 mod tests {
-    #![allow(unused)]
 
     use swc_common::DUMMY_SP as span;
     use swc_ecma_visit::assert_eq_ignore_span;

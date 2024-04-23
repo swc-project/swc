@@ -12,7 +12,7 @@ var Lion = /*#__PURE__*/ function(Animal1) {
         _class_call_check(this, Lion);
         var _this;
         _this = _super.apply(this, arguments);
-        _define_property(_assert_this_initialized(_this), "sound", "RAWR!" // error here
+        _define_property(_assert_this_initialized(_this), "sound", 'RAWR!' // error here
         );
         return _this;
     }

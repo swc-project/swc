@@ -874,9 +874,7 @@ impl SourceMap {
 
         // Disregard indexes that are at the start or end of their spans, they can't fit
         // bigger characters.
-        if (!forwards && end_index == usize::min_value())
-            || (forwards && start_index == usize::max_value())
-        {
+        if (!forwards && end_index == usize::MIN) || (forwards && start_index == usize::MAX) {
             debug!("find_width_of_character_at_span: start or end of span, cannot be multibyte");
             return 1;
         }
@@ -1191,7 +1189,6 @@ impl SourceMap {
         None
     }
 
-    ///
     #[cfg(feature = "sourcemap")]
     #[cfg_attr(docsrs, doc(cfg(feature = "sourcemap")))]
     pub fn build_source_map(&self, mappings: &[(BytePos, LineCol)]) -> sourcemap::SourceMap {
@@ -1225,7 +1222,7 @@ impl SourceMap {
         if let Some(orig) = orig {
             for src in orig.sources() {
                 let id = builder.add_source(src);
-                src_id = id + 1;
+                src_id = id;
 
                 builder.set_source_contents(id, orig.get_source_contents(id));
             }
@@ -1258,7 +1255,7 @@ impl SourceMap {
             }
 
             if pos == BytePos(u32::MAX) {
-                builder.add_raw(lc.line, lc.col, 0, 0, Some(src_id), None);
+                builder.add_raw(lc.line, lc.col, 0, 0, Some(src_id), None, false);
                 continue;
             }
 
@@ -1352,7 +1349,7 @@ impl SourceMap {
                 .or_else(|| config.name_for_bytepos(pos))
                 .map(|name| builder.add_name(name));
 
-            builder.add_raw(lc.line, lc.col, line, col, Some(src_id), name_idx);
+            builder.add_raw(lc.line, lc.col, line, col, Some(src_id), name_idx, false);
             prev_dst_line = lc.line;
         }
 
@@ -1508,7 +1505,6 @@ pub struct ByteToCharPosState {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::sync::Lrc;
 
     fn init_source_map() -> SourceMap {
         let sm = SourceMap::new(FilePathMapping::empty());
@@ -1763,51 +1759,6 @@ mod tests {
 
             bpos = bpos + BytePos(c.len_utf8() as u32);
             cpos = cpos + CharPos(c.len_utf16());
-        }
-    }
-
-    /// Returns the span corresponding to the `n`th occurrence of
-    /// `substring` in `source_text`.
-    trait SourceMapExtension {
-        fn span_substr(
-            &self,
-            file: &Lrc<SourceFile>,
-            source_text: &str,
-            substring: &str,
-            n: usize,
-        ) -> Span;
-    }
-
-    impl SourceMapExtension for SourceMap {
-        fn span_substr(
-            &self,
-            file: &Lrc<SourceFile>,
-            source_text: &str,
-            substring: &str,
-            n: usize,
-        ) -> Span {
-            let mut i = 0;
-            let mut hi = 0;
-            loop {
-                let offset = source_text[hi..].find(substring).unwrap_or_else(|| {
-                    panic!(
-                        "source_text `{}` does not have {} occurrences of `{}`, only {}",
-                        source_text, n, substring, i
-                    );
-                });
-                let lo = hi + offset;
-                hi = lo + substring.len();
-                if i == n {
-                    let span = Span::new(
-                        BytePos(lo as u32 + file.start_pos.0),
-                        BytePos(hi as u32 + file.start_pos.0),
-                        NO_EXPANSION,
-                    );
-                    assert_eq!(&self.span_to_snippet(span).unwrap()[..], substring);
-                    return span;
-                }
-                i += 1;
-            }
         }
     }
 }

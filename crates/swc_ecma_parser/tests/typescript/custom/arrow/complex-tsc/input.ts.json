@@ -181,7 +181,7 @@
                             "type": "Identifier",
                             "span": {
                               "start": 104,
-                              "end": 114,
+                              "end": 108,
                               "ctxt": 0
                             },
                             "value": "node",

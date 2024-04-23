@@ -43,4 +43,4 @@ var d;
 var e;
 c = e;
 var r = c.foo(1);
-var r2 = e.foo("");
+var r2 = e.foo('');

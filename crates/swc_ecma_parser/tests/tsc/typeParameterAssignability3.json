@@ -104,7 +104,7 @@
             "type": "Identifier",
             "span": {
               "start": 183,
-              "end": 187,
+              "end": 184,
               "ctxt": 0
             },
             "value": "t",
@@ -150,7 +150,7 @@
             "type": "Identifier",
             "span": {
               "start": 189,
-              "end": 193,
+              "end": 190,
               "ctxt": 0
             },
             "value": "u",

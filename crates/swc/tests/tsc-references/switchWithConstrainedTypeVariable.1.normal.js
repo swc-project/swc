@@ -2,7 +2,7 @@
 // Repro from #20840
 function function1(key) {
     switch(key){
-        case "a":
+        case 'a':
             key.toLowerCase();
             break;
         default:

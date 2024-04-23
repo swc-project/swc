@@ -1,9 +1,12 @@
+#![allow(unused_imports)]
+
 use std::borrow::Cow;
 
 use rustc_hash::FxHashSet;
 use swc_atoms::JsWord;
 use swc_common::collections::AHashMap;
 use swc_ecma_ast::*;
+use swc_ecma_utils::stack_size::maybe_grow_default;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith, VisitWith};
 
 #[cfg(feature = "concurrent-renamer")]
@@ -130,7 +133,6 @@ where
     {
         let mut scope = {
             let mut v = Analyzer {
-                safari_10: self.config.safari_10,
                 has_eval,
                 top_level_mark: self.config.top_level_mark,
 
@@ -243,6 +245,10 @@ where
     unit!(visit_mut_fn_decl, FnDecl, true);
 
     unit!(visit_mut_class_decl, ClassDecl, true);
+
+    fn visit_mut_expr(&mut self, n: &mut Expr) {
+        maybe_grow_default(|| n.visit_mut_children_with(self));
+    }
 
     fn visit_mut_module(&mut self, m: &mut Module) {
         self.preserved = self.renamer.preserved_ids_for_module(m);

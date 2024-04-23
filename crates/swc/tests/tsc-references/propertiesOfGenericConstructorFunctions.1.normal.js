@@ -13,10 +13,10 @@ function Multimap(ik, iv) {
 /** @type {Multimap<"a" | "b", number>} with type annotation */ var map = new Multimap("a", 1);
 // without type annotation
 var map2 = new Multimap("m", 2);
-/** @type {number} */ var n = map._map["hi"];
-/** @type {number} */ var n = map._map2["hi"];
-/** @type {number} */ var n = map2._map["hi"];
-/** @type {number} */ var n = map._map2["hi"];
+/** @type {number} */ var n = map._map['hi'];
+/** @type {number} */ var n = map._map2['hi'];
+/** @type {number} */ var n = map2._map['hi'];
+/** @type {number} */ var n = map._map2['hi'];
 /**
  * @class
  * @template T

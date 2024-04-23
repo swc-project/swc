@@ -6,13 +6,13 @@ _async_to_generator(function() {
         _loop = function(i) {
             var value = arr[i];
             setTimeout(function() {
-                console.log("value", value);
+                console.log('value', value);
             }, 0);
         };
         arr = [
-            "value1",
-            "value2",
-            "value3"
+            'value1',
+            'value2',
+            'value3'
         ];
         // for (const value of arr) {
         for(i = 0; i < arr.length; i++)_loop(i);

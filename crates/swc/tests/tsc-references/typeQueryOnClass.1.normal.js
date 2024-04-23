@@ -14,7 +14,7 @@ var C = /*#__PURE__*/ function() {
     }
     var _proto = C.prototype;
     _proto.baz = function baz(x) {
-        return "";
+        return '';
     };
     C.foo = function foo(x) {};
     C.bar = function bar(x) {};

@@ -13,7 +13,7 @@
     opts.x;
 }
 foo({
-    x: "abc"
+    x: 'abc'
 });
 /**
  * @typedef {Object} AnotherOpts
@@ -39,5 +39,5 @@ foo1({
     opts.x;
 }
 foo2({
-    x: "abc"
+    x: 'abc'
 });

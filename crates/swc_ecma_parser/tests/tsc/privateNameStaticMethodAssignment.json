@@ -118,7 +118,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 74,
-                  "end": 86,
+                  "end": 75,
                   "ctxt": 0
                 },
                 "value": "a",
@@ -164,7 +164,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 88,
-                  "end": 94,
+                  "end": 89,
                   "ctxt": 0
                 },
                 "value": "b",

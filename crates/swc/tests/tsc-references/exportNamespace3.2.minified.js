@@ -6,8 +6,8 @@ export var A = function A() {
 //// [b.ts]
 export { };
 //// [c.ts]
-import * as _a from "./b";
+import * as _a from './b';
 export { _a as a };
 //// [d.ts]
-import { a } from "./c";
+import { a } from './c';
 new a.A();

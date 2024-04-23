@@ -75,6 +75,7 @@ pub struct MangleOptions {
     #[serde(default, alias = "ie8")]
     pub ie8: bool,
 
+    #[deprecated = "This field is no longer required to work around bugs in Safari 10."]
     #[serde(default, alias = "safari10")]
     pub safari10: bool,
 

@@ -543,7 +543,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 417,
-                  "end": 426,
+                  "end": 418,
                   "ctxt": 0
                 },
                 "value": "y",
@@ -761,7 +761,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 534,
-                  "end": 543,
+                  "end": 535,
                   "ctxt": 0
                 },
                 "value": "y",

@@ -729,9 +729,6 @@ impl VisitMut for Remover {
                                         &Expr::Lit(Lit::Bool(Bool { value: d, .. })),
                                     ) => test == d,
                                     (&Expr::Lit(Lit::Null(..)), &Expr::Lit(Lit::Null(..))) => true,
-                                    (Expr::Ident(test), Expr::Ident(d)) => {
-                                        test.sym == d.sym && test.span.ctxt() == d.span.ctxt()
-                                    }
 
                                     _ => {
                                         if !test.is_nan()
@@ -767,16 +764,10 @@ impl VisitMut for Remover {
                                 ignore_result(*s.discriminant, true, &self.expr_ctx).map(Box::new),
                             );
 
-                            let mut stmts = s.cases.remove(i).cons;
-                            let mut cases = s.cases.drain(i..);
+                            let mut stmts = s.cases[i].cons.take();
+                            let mut cases = s.cases.drain((i + 1)..);
 
                             for case in cases.by_ref() {
-                                exprs.extend(
-                                    case.test
-                                        .and_then(|e| ignore_result(*e, true, &self.expr_ctx))
-                                        .map(Box::new),
-                                );
-
                                 let should_stop = has_unconditional_stopper(&case.cons);
                                 stmts.extend(case.cons);
                                 //
@@ -968,8 +959,16 @@ impl VisitMut for Remover {
                             .iter()
                             .all(|case| case.test.is_none() || case.cons.is_empty());
 
+                        let is_all_case_side_effect_free = s.cases.iter().all(|case| {
+                            case.test
+                                .as_ref()
+                                .map(|e| e.is_ident() || !e.may_have_side_effects(&self.expr_ctx))
+                                .unwrap_or(true)
+                        });
+
                         if is_default_last
                             && is_all_case_empty
+                            && is_all_case_side_effect_free
                             && !has_conditional_stopper(&s.cases.last().unwrap().cons)
                         {
                             let mut exprs = vec![];

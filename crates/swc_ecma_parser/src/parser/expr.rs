@@ -1,5 +1,5 @@
 use either::Either;
-use swc_common::{ast_node, collections::AHashMap, util::take::Take, Spanned};
+use swc_common::{ast_node, util::take::Take, Spanned};
 
 use super::{pat::PatType, util::ExprExt, *};
 use crate::{lexer::TokenContext, parser::class_and_fn::IsSimpleParameterList};
@@ -1226,7 +1226,7 @@ impl<I: Tokens> Parser<I> {
                         )
                         .map(|expr| (Box::new(Expr::TaggedTpl(expr)), true))
                         .map(Some)
-                    } else if is!(p, '=') {
+                    } else if is_one_of!(p, '=', "as") {
                         Ok(Some((
                             Box::new(Expr::TsInstantiation(TsInstantiation {
                                 span: span!(p, start),
@@ -1236,7 +1236,7 @@ impl<I: Tokens> Parser<I> {
                                 },
                                 type_args,
                             })),
-                            true,
+                            false,
                         )))
                     } else if no_call {
                         unexpected!(p, "`")

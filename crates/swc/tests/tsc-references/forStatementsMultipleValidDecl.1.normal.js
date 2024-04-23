@@ -5,7 +5,7 @@ for(var x = 2;;){}
 for(var x = undefined;;){}
 // new declaration space, making redeclaring x as a string valid
 function declSpace() {
-    for(var x = "this is a string";;){}
+    for(var x = 'this is a string';;){}
 }
 for(var p;;){}
 for(var p = {
@@ -41,8 +41,8 @@ for(var fn = null;;){}
 for(var fn;;){}
 for(var a;;){}
 for(var a = [
-    "a",
-    "b"
+    'a',
+    'b'
 ];;){}
 for(var a = [];;){}
 for(var a = [];;){}

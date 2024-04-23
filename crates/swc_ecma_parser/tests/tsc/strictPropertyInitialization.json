@@ -1976,7 +1976,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 1224,
-                  "end": 1237,
+                  "end": 1228,
                   "ctxt": 0
                 },
                 "value": "cond",
@@ -2319,7 +2319,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 1399,
-                  "end": 1412,
+                  "end": 1403,
                   "ctxt": 0
                 },
                 "value": "cond",

@@ -8,7 +8,7 @@ use std::{
 
 use swc_common::comments::SingleThreadedComments;
 use swc_ecma_ast::EsVersion;
-use swc_ecma_codegen::{self, text_writer::WriteJs, Emitter};
+use swc_ecma_codegen::{text_writer::WriteJs, Emitter};
 use swc_ecma_parser::{lexer::Lexer, Parser, Syntax};
 use testing::NormalizedOutput;
 

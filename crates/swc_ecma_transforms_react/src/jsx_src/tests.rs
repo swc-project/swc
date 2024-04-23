@@ -1,4 +1,4 @@
-use swc_common::{sync::Lrc, FilePathMapping};
+use swc_common::FilePathMapping;
 use swc_ecma_transforms_testing::{test, test_exec};
 
 use super::*;

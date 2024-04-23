@@ -1,48 +1,16 @@
 [
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                1,
-            ),
-            hi: BytePos(
-                1,
-            ),
-            ctxt: #0,
-        },
+        span: 1..1#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    1,
-                ),
-                hi: BytePos(
-                    17,
-                ),
-                ctxt: #0,
-            },
+            span: 1..17#0,
             value: "Inline Comment 1",
         },
         tags: [],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                50,
-            ),
-            hi: BytePos(
-                50,
-            ),
-            ctxt: #0,
-        },
+        span: 50..50#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    50,
-                ),
-                hi: BytePos(
-                    66,
-                ),
-                ctxt: #0,
-            },
+            span: 50..66#0,
             value: "Inline Comment 2",
         },
         tags: [],

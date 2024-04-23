@@ -1,81 +1,25 @@
 [
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                41,
-            ),
-            hi: BytePos(
-                41,
-            ),
-            ctxt: #0,
-        },
+        span: 41..41#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    41,
-                ),
-                hi: BytePos(
-                    41,
-                ),
-                ctxt: #0,
-            },
+            span: 41..41#0,
             value: "",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        41,
-                    ),
-                    hi: BytePos(
-                        49,
-                    ),
-                    ctxt: #0,
-                },
+                span: 41..49#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            41,
-                        ),
-                        hi: BytePos(
-                            49,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 41..49#0,
                     value: "memberof",
                 },
                 tag: MemberOf(
                     MemberOfTag {
-                        span: Span {
-                            lo: BytePos(
-                                41,
-                            ),
-                            hi: BytePos(
-                                49,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 41..49#0,
                         parent_name_path: NamePath {
-                            span: Span {
-                                lo: BytePos(
-                                    41,
-                                ),
-                                hi: BytePos(
-                                    41,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 41..41#0,
                             components: [
                                 Text {
-                                    span: Span {
-                                        lo: BytePos(
-                                            41,
-                                        ),
-                                        hi: BytePos(
-                                            51,
-                                        ),
-                                        ctxt: #0,
-                                    },
+                                    span: 41..51#0,
                                     value: "Observable",
                                 },
                             ],
@@ -86,82 +30,26 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                97,
-            ),
-            hi: BytePos(
-                107,
-            ),
-            ctxt: #0,
-        },
+        span: 97..107#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    97,
-                ),
-                hi: BytePos(
-                    97,
-                ),
-                ctxt: #0,
-            },
+            span: 97..97#0,
             value: "",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        97,
-                    ),
-                    hi: BytePos(
-                        105,
-                    ),
-                    ctxt: #0,
-                },
+                span: 97..105#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            97,
-                        ),
-                        hi: BytePos(
-                            105,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 97..105#0,
                     value: "memberof",
                 },
                 tag: MemberOf(
                     MemberOfTag {
-                        span: Span {
-                            lo: BytePos(
-                                97,
-                            ),
-                            hi: BytePos(
-                                105,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 97..105#0,
                         parent_name_path: NamePath {
-                            span: Span {
-                                lo: BytePos(
-                                    97,
-                                ),
-                                hi: BytePos(
-                                    107,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 97..107#0,
                             components: [
                                 Text {
-                                    span: Span {
-                                        lo: BytePos(
-                                            97,
-                                        ),
-                                        hi: BytePos(
-                                            107,
-                                        ),
-                                        ctxt: #0,
-                                    },
+                                    span: 97..107#0,
                                     value: "Observable",
                                 },
                             ],

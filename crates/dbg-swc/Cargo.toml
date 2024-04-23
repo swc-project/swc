@@ -5,14 +5,14 @@ edition     = "2021"
 license     = "Apache-2.0"
 name        = "dbg-swc"
 repository  = "https://github.com/kdy1/dbg-swc.git"
-version     = "0.91.22"
+version     = "0.91.28"
 
 [[bin]]
 bench = false
 name  = "dbg-swc"
 
 [dependencies]
-anyhow             = "1.0.71"
+anyhow             = "1.0.81"
 clap               = { version = "3", features = ["derive"] }
 dialoguer          = "0.10.2"
 flate2             = "1.0"
@@ -21,22 +21,22 @@ serde              = "1"
 serde_json         = "1"
 sha1               = "0.10.5"
 tempfile           = "3.6.0"
-tracing            = "0.1.37"
-tracing-subscriber = { version = "0.3.17", features = ["fmt", "env-filter"] }
+tracing            = "0.1.40"
+tracing-subscriber = { version = "0.3.18", features = ["fmt", "env-filter"] }
 url                = "2"
 
 swc_atoms = { version = "0.6.5", path = "../swc_atoms" }
-swc_common = { version = "0.33.19", features = [
+swc_common = { version = "0.33.20", features = [
   "concurrent",
   "tty-emitter",
 ], path = "../swc_common" }
-swc_ecma_ast = { version = "0.112.5", path = "../swc_ecma_ast" }
-swc_ecma_codegen = { version = "0.148.11", path = "../swc_ecma_codegen" }
-swc_ecma_minifier = { version = "0.192.17", path = "../swc_ecma_minifier", features = [
+swc_ecma_ast = { version = "0.112.6", path = "../swc_ecma_ast" }
+swc_ecma_codegen = { version = "0.148.12", path = "../swc_ecma_codegen" }
+swc_ecma_minifier = { version = "0.192.18", path = "../swc_ecma_minifier", features = [
   "concurrent",
 ] }
-swc_ecma_parser = { version = "0.143.9", path = "../swc_ecma_parser" }
-swc_ecma_transforms_base = { version = "0.137.15", path = "../swc_ecma_transforms_base" }
-swc_ecma_visit = { version = "0.98.6", path = "../swc_ecma_visit" }
-swc_error_reporters = { version = "0.17.18", path = "../swc_error_reporters" }
-swc_timer = { version = "0.21.20", path = "../swc_timer" }
+swc_ecma_parser = { version = "0.143.10", path = "../swc_ecma_parser" }
+swc_ecma_transforms_base = { version = "0.137.16", path = "../swc_ecma_transforms_base" }
+swc_ecma_visit = { version = "0.98.7", path = "../swc_ecma_visit" }
+swc_error_reporters = { version = "0.17.19", path = "../swc_error_reporters" }
+swc_timer = { version = "0.21.21", path = "../swc_timer" }

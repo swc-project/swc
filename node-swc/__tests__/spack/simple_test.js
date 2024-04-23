@@ -1,38 +1,43 @@
 const swc = require("../../../");
-const path = require('path');
+const path = require("path");
 
-
-it('should handle a simple case', async () => {
+it("should handle a simple case", async () => {
     const result = await swc.bundle({
-        name: 'simple',
+        name: "simple",
         entry: {
-            simple: path.join(__dirname, '../../tests/spack/simple/a.js')
+            simple: path.join(__dirname, "../../tests/spack/simple/a.js"),
         },
     });
 
-    console.log(result)
+    console.log(result);
     expect(result.simple).toBeTruthy();
-    expect(result.simple.code.replace('\n', '')).toBe(`console.log("Foo");`);
+    expect(result.simple.code).toMatchInlineSnapshot(`
+        "console.log('Foo');
+        "
+    `);
 });
 
-it('should handle loader', async () => {
+it("should handle loader", async () => {
     const result = await swc.bundle({
-        name: 'virtual',
+        name: "virtual",
         entry: {
-            simple: path.join(__dirname, '../../tests/spack/simple/a.js')
+            simple: path.join(__dirname, "../../tests/spack/simple/a.js"),
         },
         module: {
             rules: {
                 loaders: [
                     {
-                        test: 'virtual',
-                    }
-                ]
-            }
-        }
+                        test: "virtual",
+                    },
+                ],
+            },
+        },
     });
 
-    console.log(result)
+    console.log(result);
     expect(result.simple).toBeTruthy();
-    expect(result.simple.code.replace('\n', '')).toBe(`console.log("Foo");`);
+    expect(result.simple.code).toMatchInlineSnapshot(`
+        "console.log('Foo');
+        "
+    `);
 });

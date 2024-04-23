@@ -6,5 +6,5 @@
     return k(x);
 };
 //// [main.js]
-var f = require("./first");
+var f = require('./first');
 f(1, function(n) {});

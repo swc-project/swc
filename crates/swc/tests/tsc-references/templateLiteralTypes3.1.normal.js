@@ -1,9 +1,9 @@
 //// [templateLiteralTypes3.ts]
 // Inference from template literal type to template literal type
 function f1(s, n, b, t) {
-    var x1 = foo1("hello"); // Error
-    var x2 = foo1("*hello*");
-    var x3 = foo1("**hello**");
+    var x1 = foo1('hello'); // Error
+    var x2 = foo1('*hello*');
+    var x3 = foo1('**hello**');
     var x4 = foo1("*".concat(s, "*"));
     var x5 = foo1("*".concat(n, "*"));
     var x6 = foo1("*".concat(b, "*"));
@@ -12,20 +12,20 @@ function f1(s, n, b, t) {
 }
 function f2() {
     var x;
-    x = "1.1.1";
-    x = "1.1.1";
-    x = "1.1.1";
-    x = "1.1.1";
-    x = "1.1.1";
-    x = "1.1.1";
-    x = "1.1.1";
-    x = "1.1.1";
+    x = '1.1.1';
+    x = '1.1.1';
+    x = '1.1.1';
+    x = '1.1.1';
+    x = '1.1.1';
+    x = '1.1.1';
+    x = '1.1.1';
+    x = '1.1.1';
 }
 function f3(s, n, b, t) {
     var x;
-    x = "hello"; // Error
-    x = "*hello*";
-    x = "**hello**";
+    x = 'hello'; // Error
+    x = '*hello*';
+    x = '**hello**';
     x = "*".concat(s, "*");
     x = "*".concat(n, "*");
     x = "*".concat(b, "*");
@@ -34,9 +34,9 @@ function f3(s, n, b, t) {
 }
 function f4(s, n, b, t) {
     var x;
-    x = "123"; // Error
-    x = "*123*";
-    x = "**123**"; // Error
+    x = '123'; // Error
+    x = '*123*';
+    x = '**123**'; // Error
     x = "*".concat(s, "*"); // Error
     x = "*".concat(n, "*");
     x = "*".concat(b, "*"); // Error
@@ -67,15 +67,15 @@ function ff3(x, y) {
     }
 }
 function ff4(x, y) {
-    if (x === "foo-test") {
+    if (x === 'foo-test') {
         x; // 'foo-test'
     }
-    if (y === "foo-test") {
+    if (y === 'foo-test') {
         y; // 'foo-test'
     }
 }
 function reducer(action) {
-    if (action.type === "FOO_SUCCESS") {
+    if (action.type === 'FOO_SUCCESS') {
         action.type;
         action.response;
     }

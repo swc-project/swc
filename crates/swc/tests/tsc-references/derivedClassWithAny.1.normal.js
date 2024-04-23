@@ -75,23 +75,23 @@ var E = /*#__PURE__*/ function(D) {
     }
     var _proto = E.prototype;
     _proto.foo = function foo() {
-        return "";
+        return '';
     };
     E.bar = function bar() {
-        return "";
+        return '';
     };
     _create_class(E, [
         {
             key: "X",
             get: function get() {
-                return "";
+                return '';
             }
         }
     ], [
         {
             key: "Y",
             get: function get() {
-                return "";
+                return '';
             }
         }
     ]);

@@ -1,12 +1,10 @@
 //// [usingDeclarations.14.ts]
-import { _ as _dispose } from "@swc/helpers/_/_dispose";
-import { _ as _using } from "@swc/helpers/_/_using";
+import { _ as _using_ctx } from "@swc/helpers/_/_using_ctx";
 try {
-    var _stack = [];
-    var x = _using(_stack, {});
+    var _usingCtx = _using_ctx();
+    var x = _usingCtx.u({});
 } catch (_) {
-    var _error = _;
-    var _hasError = true;
+    _usingCtx.e = _;
 } finally{
-    _dispose(_stack, _error, _hasError);
+    _usingCtx.d();
 }

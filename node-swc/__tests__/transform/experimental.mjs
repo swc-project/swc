@@ -23,7 +23,7 @@ describe("when jsc.experimentalDisableBuiltinTransforms is true", () => {
 
         expect(code).toMatchInlineSnapshot(`
             "const hello: Type = ()=>{
-                console.log("hello");
+                console.log('hello');
             };
             "
         `);

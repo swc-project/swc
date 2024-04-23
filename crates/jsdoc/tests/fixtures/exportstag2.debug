@@ -1,129 +1,41 @@
 [
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                54,
-            ),
-            hi: BytePos(
-                96,
-            ),
-            ctxt: #0,
-        },
+        span: 54..96#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    54,
-                ),
-                hi: BytePos(
-                    83,
-                ),
-                ctxt: #0,
-            },
+            span: 54..83#0,
             value: "A module representing a coat.",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        54,
-                    ),
-                    hi: BytePos(
-                        61,
-                    ),
-                    ctxt: #0,
-                },
+                span: 54..61#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            54,
-                        ),
-                        hi: BytePos(
-                            61,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 54..61#0,
                     value: "exports",
                 },
                 tag: Exports(
                     ExportsTag {
-                        span: Span {
-                            lo: BytePos(
-                                54,
-                            ),
-                            hi: BytePos(
-                                61,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 54..61#0,
                         module_name: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    54,
-                                ),
-                                hi: BytePos(
-                                    61,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 54..61#0,
                             value: "my/coat",
                         },
                     },
                 ),
             },
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        54,
-                    ),
-                    hi: BytePos(
-                        62,
-                    ),
-                    ctxt: #0,
-                },
+                span: 54..62#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            54,
-                        ),
-                        hi: BytePos(
-                            62,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 54..62#0,
                     value: "requires",
                 },
                 tag: Requires(
                     RequiresTag {
-                        span: Span {
-                            lo: BytePos(
-                                54,
-                            ),
-                            hi: BytePos(
-                                62,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 54..62#0,
                         name_path: NamePath {
-                            span: Span {
-                                lo: BytePos(
-                                    54,
-                                ),
-                                hi: BytePos(
-                                    96,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 54..96#0,
                             components: [
                                 Text {
-                                    span: Span {
-                                        lo: BytePos(
-                                            54,
-                                        ),
-                                        hi: BytePos(
-                                            56,
-                                        ),
-                                        ctxt: #0,
-                                    },
+                                    span: 54..56#0,
                                     value: "my",
                                 },
                             ],
@@ -134,25 +46,9 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                251,
-            ),
-            hi: BytePos(
-                251,
-            ),
-            ctxt: #0,
-        },
+        span: 251..251#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    251,
-                ),
-                hi: BytePos(
-                    262,
-                ),
-                ctxt: #0,
-            },
+            span: 251..262#0,
             value: "document me",
         },
         tags: [],

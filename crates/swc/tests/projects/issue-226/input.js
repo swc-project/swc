@@ -1,1 +1,1 @@
-export * as Foo from 'bar';
+export * as Foo from "bar";

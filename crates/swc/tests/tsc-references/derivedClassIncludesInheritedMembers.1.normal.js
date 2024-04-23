@@ -15,7 +15,7 @@ var Base = /*#__PURE__*/ function() {
         {
             key: "c",
             get: function get() {
-                return "";
+                return '';
             },
             set: function set(v) {}
         }
@@ -23,7 +23,7 @@ var Base = /*#__PURE__*/ function() {
         {
             key: "t",
             get: function get() {
-                return "";
+                return '';
             },
             set: function set(v) {}
         }
@@ -44,11 +44,11 @@ var d = new Derived(1);
 var r1 = d.a;
 var r2 = d.b();
 var r3 = d.c;
-d.c = "";
+d.c = '';
 var r4 = Derived.r;
 var r5 = Derived.s();
 var r6 = Derived.t;
-Derived.t = "";
+Derived.t = '';
 var Base2 = function Base2() {
     "use strict";
     _class_call_check(this, Base2);
@@ -64,5 +64,5 @@ var Derived2 = /*#__PURE__*/ function(Base2) {
     return Derived2;
 }(Base2);
 var d2;
-var r7 = d2[""];
+var r7 = d2[''];
 var r8 = d2[1];

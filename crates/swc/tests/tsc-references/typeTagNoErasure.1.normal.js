@@ -4,5 +4,5 @@
 };
 test(1) // ok, T=1
 ;
-test("hi") // error, T=number
+test('hi') // error, T=number
 ;

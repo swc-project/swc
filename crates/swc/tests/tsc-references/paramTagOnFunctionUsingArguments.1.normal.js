@@ -3,7 +3,7 @@
 /**
  * @param {string} first
  */ function concat() {
-    var s = "";
+    var s = '';
     for(var i = 0, l = arguments.length; i < l; i++){
         s += arguments[i];
     }

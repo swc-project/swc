@@ -1,1 +1,1 @@
-import a, * as b from "baz";
+import a, * as b from 'baz';

@@ -1,5 +1,5 @@
 function a() {
-    "use strict";
+    'use strict';
     ({
         b: 1,
         b: 2

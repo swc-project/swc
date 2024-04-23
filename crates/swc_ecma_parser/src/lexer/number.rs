@@ -7,12 +7,11 @@ use std::{borrow::Cow, fmt::Write};
 use either::Either;
 use num_bigint::BigInt as BigIntValue;
 use num_traits::{Num as NumTrait, ToPrimitive};
-use smartstring::{LazyCompact, SmartString};
+use smartstring::LazyCompact;
 use swc_common::SyntaxContext;
 use tracing::trace;
 
 use super::*;
-use crate::error::SyntaxError;
 
 struct LazyBigInt<const RADIX: u8> {
     value: String,
@@ -537,7 +536,7 @@ impl<'a> Lexer<'a> {
 
 #[cfg(test)]
 mod tests {
-    use std::{f64::INFINITY, panic};
+    use std::panic;
 
     use super::*;
 
@@ -577,7 +576,7 @@ mod tests {
                         0000000000000000000000000000000000000000000000000000";
     #[test]
     fn num_inf() {
-        assert_eq!(num(LONG), (INFINITY, LONG.into()));
+        assert_eq!(num(LONG), (f64::INFINITY, LONG.into()));
     }
 
     /// Number >= 2^53
@@ -626,7 +625,7 @@ mod tests {
 
         assert_eq!(
             num(LARGE_POSITIVE_EXP),
-            (INFINITY, LARGE_POSITIVE_EXP.into())
+            (f64::INFINITY, LARGE_POSITIVE_EXP.into())
         );
         assert_eq!(num(LARGE_NEGATIVE_EXP), (0.0, LARGE_NEGATIVE_EXP.into()));
         assert_eq!(

@@ -59,7 +59,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 23,
-                  "end": 57,
+                  "end": 31,
                   "ctxt": 0
                 },
                 "value": "callback",
@@ -83,7 +83,7 @@
                         "type": "Identifier",
                         "span": {
                           "start": 34,
-                          "end": 40,
+                          "end": 35,
                           "ctxt": 0
                         },
                         "value": "a",
@@ -110,7 +110,7 @@
                         "type": "Identifier",
                         "span": {
                           "start": 42,
-                          "end": 48,
+                          "end": 43,
                           "ctxt": 0
                         },
                         "value": "b",

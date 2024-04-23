@@ -89,7 +89,7 @@ function _f3() {
             } finally{
                 try {
                     if (_iteratorAbruptCompletion && _iterator.return != null) {
-                        yield _iterator.return();
+                        yield _await_async_generator(_iterator.return());
                     }
                 } finally{
                     if (_didIteratorError) {
@@ -124,7 +124,7 @@ function _f4() {
             } finally{
                 try {
                     if (_iteratorAbruptCompletion && _iterator.return != null) {
-                        yield _iterator.return();
+                        yield _await_async_generator(_iterator.return());
                     }
                 } finally{
                     if (_didIteratorError) {
@@ -197,7 +197,7 @@ function _f6() {
             } finally{
                 try {
                     if (_iteratorAbruptCompletion && _iterator.return != null) {
-                        yield _iterator.return();
+                        yield _await_async_generator(_iterator.return());
                     }
                 } finally{
                     if (_didIteratorError) {
@@ -234,7 +234,7 @@ function _f7() {
                 } finally{
                     try {
                         if (_iteratorAbruptCompletion && _iterator.return != null) {
-                            yield _iterator.return();
+                            yield _await_async_generator(_iterator.return());
                         }
                     } finally{
                         if (_didIteratorError) {

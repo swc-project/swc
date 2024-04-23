@@ -51,7 +51,7 @@ tracing-chrome = "0.5.0"
 tracing-futures = "0.2.5"
 tracing-subscriber = { version = "0.3.9", features = ["env-filter"] }
 
-swc_core = { version = "0.90.22", features = [
+swc_core = { version = "0.90.37", features = [
   "allocator_node",
   "ecma_ast",
   "ecma_codegen",
@@ -63,5 +63,5 @@ swc_core = { version = "0.90.22", features = [
   "ecma_visit",
   "base_node",
   "base_concurrent",
-]}
+] }
 swc_malloc = "0.5.10"

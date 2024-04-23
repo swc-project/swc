@@ -1,8 +1,8 @@
 {
   "type": "Script",
   "span": {
-    "start": 215,
-    "end": 290,
+    "start": 219,
+    "end": 294,
     "ctxt": 0
   },
   "body": [
@@ -11,8 +11,8 @@
       "identifier": {
         "type": "Identifier",
         "span": {
-          "start": 224,
-          "end": 225,
+          "start": 228,
+          "end": 229,
           "ctxt": 0
         },
         "value": "f",
@@ -20,26 +20,6 @@
       },
       "declare": false,
       "params": [
-        {
-          "type": "Parameter",
-          "span": {
-            "start": 226,
-            "end": 228,
-            "ctxt": 0
-          },
-          "decorators": [],
-          "pat": {
-            "type": "Identifier",
-            "span": {
-              "start": 226,
-              "end": 228,
-              "ctxt": 0
-            },
-            "value": "p1",
-            "optional": false,
-            "typeAnnotation": null
-          }
-        },
         {
           "type": "Parameter",
           "span": {
@@ -55,7 +35,7 @@
               "end": 232,
               "ctxt": 0
             },
-            "value": "p2",
+            "value": "p1",
             "optional": false,
             "typeAnnotation": null
           }
@@ -75,7 +55,7 @@
               "end": 236,
               "ctxt": 0
             },
-            "value": "p3",
+            "value": "p2",
             "optional": false,
             "typeAnnotation": null
           }
@@ -95,7 +75,7 @@
               "end": 240,
               "ctxt": 0
             },
-            "value": "p4",
+            "value": "p3",
             "optional": false,
             "typeAnnotation": null
           }
@@ -115,6 +95,26 @@
               "end": 244,
               "ctxt": 0
             },
+            "value": "p4",
+            "optional": false,
+            "typeAnnotation": null
+          }
+        },
+        {
+          "type": "Parameter",
+          "span": {
+            "start": 246,
+            "end": 248,
+            "ctxt": 0
+          },
+          "decorators": [],
+          "pat": {
+            "type": "Identifier",
+            "span": {
+              "start": 246,
+              "end": 248,
+              "ctxt": 0
+            },
             "value": "p5",
             "optional": false,
             "typeAnnotation": null
@@ -123,70 +123,70 @@
       ],
       "decorators": [],
       "span": {
-        "start": 215,
-        "end": 290,
+        "start": 219,
+        "end": 294,
         "ctxt": 0
       },
       "body": {
         "type": "BlockStatement",
         "span": {
-          "start": 246,
-          "end": 290,
+          "start": 250,
+          "end": 294,
           "ctxt": 0
         },
         "stmts": [
           {
             "type": "ReturnStatement",
             "span": {
-              "start": 252,
-              "end": 288,
+              "start": 256,
+              "end": 292,
               "ctxt": 0
             },
             "argument": {
               "type": "BinaryExpression",
               "span": {
-                "start": 259,
-                "end": 287,
+                "start": 263,
+                "end": 291,
                 "ctxt": 0
               },
               "operator": "+",
               "left": {
                 "type": "BinaryExpression",
                 "span": {
-                  "start": 259,
-                  "end": 281,
+                  "start": 263,
+                  "end": 285,
                   "ctxt": 0
                 },
                 "operator": "+",
                 "left": {
                   "type": "BinaryExpression",
                   "span": {
-                    "start": 259,
-                    "end": 276,
+                    "start": 263,
+                    "end": 280,
                     "ctxt": 0
                   },
                   "operator": "+",
                   "left": {
                     "type": "BinaryExpression",
                     "span": {
-                      "start": 259,
-                      "end": 271,
+                      "start": 263,
+                      "end": 275,
                       "ctxt": 0
                     },
                     "operator": "+",
                     "left": {
                       "type": "BinaryExpression",
                       "span": {
-                        "start": 259,
-                        "end": 266,
+                        "start": 263,
+                        "end": 270,
                         "ctxt": 0
                       },
                       "operator": "+",
                       "left": {
                         "type": "Identifier",
                         "span": {
-                          "start": 259,
-                          "end": 261,
+                          "start": 263,
+                          "end": 265,
                           "ctxt": 0
                         },
                         "value": "p1",
@@ -195,8 +195,8 @@
                       "right": {
                         "type": "Identifier",
                         "span": {
-                          "start": 264,
-                          "end": 266,
+                          "start": 268,
+                          "end": 270,
                           "ctxt": 0
                         },
                         "value": "p2",
@@ -206,8 +206,8 @@
                     "right": {
                       "type": "Identifier",
                       "span": {
-                        "start": 269,
-                        "end": 271,
+                        "start": 273,
+                        "end": 275,
                         "ctxt": 0
                       },
                       "value": "p3",
@@ -217,8 +217,8 @@
                   "right": {
                     "type": "Identifier",
                     "span": {
-                      "start": 274,
-                      "end": 276,
+                      "start": 278,
+                      "end": 280,
                       "ctxt": 0
                     },
                     "value": "p4",
@@ -228,8 +228,8 @@
                 "right": {
                   "type": "Identifier",
                   "span": {
-                    "start": 279,
-                    "end": 281,
+                    "start": 283,
+                    "end": 285,
                     "ctxt": 0
                   },
                   "value": "p5",
@@ -239,8 +239,8 @@
               "right": {
                 "type": "StringLiteral",
                 "span": {
-                  "start": 284,
-                  "end": 287,
+                  "start": 288,
+                  "end": 291,
                   "ctxt": 0
                 },
                 "value": ".",

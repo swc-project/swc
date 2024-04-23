@@ -17,10 +17,10 @@ var t2;
 var a;
 var b;
 var a2 = {
-    foo: ""
+    foo: ''
 };
 var b2 = {
-    foo: ""
+    foo: ''
 };
 s = t;
 t = s;

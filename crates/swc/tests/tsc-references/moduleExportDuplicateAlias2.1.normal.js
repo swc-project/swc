@@ -5,5 +5,5 @@ module.exports.apply = a;
 module.exports.apply = a;
 module.exports.apply();
 //// [test.js]
-var apply = require("./moduleExportAliasDuplicateAlias").apply;
+var apply = require('./moduleExportAliasDuplicateAlias').apply;
 apply();

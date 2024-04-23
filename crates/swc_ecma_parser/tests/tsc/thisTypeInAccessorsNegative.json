@@ -407,7 +407,7 @@
                   "type": "Identifier",
                   "span": {
                     "start": 267,
-                    "end": 276,
+                    "end": 271,
                     "ctxt": 0
                   },
                   "value": "this",

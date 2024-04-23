@@ -26,14 +26,14 @@ var b;
 console.log(a, b);
 export { }; // Error
 //// [/d.ts]
-import { A } from "./a";
+import { A } from './a';
 var a = A;
 var b;
 console.log(a, b);
 //// [/e.ts]
 export { }; // noUnusedLocals error only
 //// [/f.ts]
-import { C } from "./a";
+import { C } from './a';
 C.One;
 var c = C.Two;
 var d = C.Two;

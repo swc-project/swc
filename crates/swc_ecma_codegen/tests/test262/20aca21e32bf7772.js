@@ -1,1 +1,1 @@
-("\uDBFF\uDFFF");
+('\u{10FFFF}');

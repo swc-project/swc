@@ -3,8 +3,7 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _possible_constructor_return } from "@swc/helpers/_/_possible_constructor_return";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
-import { _ as _dispose } from "@swc/helpers/_/_dispose";
-import { _ as _using } from "@swc/helpers/_/_using";
+import { _ as _using_ctx } from "@swc/helpers/_/_using_ctx";
 var A = function A() {
     "use strict";
     _class_call_check(this, A);
@@ -17,14 +16,13 @@ var C1 = /*#__PURE__*/ function(A) {
         _class_call_check(this, C1);
         var _this;
         try {
-            var _stack = [];
-            var x = _using(_stack, null);
+            var _usingCtx = _using_ctx();
+            var x = _usingCtx.u(null);
             _this = _super.call(this);
         } catch (_) {
-            var _error = _;
-            var _hasError = true;
+            _usingCtx.e = _;
         } finally{
-            _dispose(_stack, _error, _hasError);
+            _usingCtx.d();
         }
         return _possible_constructor_return(_this);
     }
@@ -38,14 +36,13 @@ var C2 = /*#__PURE__*/ function(A) {
         _class_call_check(this, C2);
         var _this;
         try {
-            var _stack = [];
+            var _usingCtx = _using_ctx();
             _this = _super.call(this);
-            var x = _using(_stack, null);
+            var x = _usingCtx.u(null);
         } catch (_) {
-            var _error = _;
-            var _hasError = true;
+            _usingCtx.e = _;
         } finally{
-            _dispose(_stack, _error, _hasError);
+            _usingCtx.d();
         }
         return _possible_constructor_return(_this);
     }
@@ -59,15 +56,14 @@ var C3 = /*#__PURE__*/ function(A) {
         _class_call_check(this, C3);
         var _this;
         try {
-            var _stack = [];
-            var x = _using(_stack, null);
+            var _usingCtx = _using_ctx();
+            var x = _usingCtx.u(null);
             _this = _super.call(this);
             _this.y = 1;
         } catch (_) {
-            var _error = _;
-            var _hasError = true;
+            _usingCtx.e = _;
         } finally{
-            _dispose(_stack, _error, _hasError);
+            _usingCtx.d();
         }
         return _possible_constructor_return(_this);
     }
@@ -81,15 +77,14 @@ var C4 = /*#__PURE__*/ function(A) {
         _class_call_check(this, C4);
         var _this;
         try {
-            var _stack = [];
-            var x = _using(_stack, null);
+            var _usingCtx = _using_ctx();
+            var x = _usingCtx.u(null);
             _this = _super.call(this);
             _this.y = y;
         } catch (_) {
-            var _error = _;
-            var _hasError = true;
+            _usingCtx.e = _;
         } finally{
-            _dispose(_stack, _error, _hasError);
+            _usingCtx.d();
         }
         return _possible_constructor_return(_this);
     }
@@ -103,16 +98,15 @@ var C5 = /*#__PURE__*/ function(A) {
         _class_call_check(this, C5);
         var _this;
         try {
-            var _stack = [];
-            var x = _using(_stack, null);
+            var _usingCtx = _using_ctx();
+            var x = _usingCtx.u(null);
             _this = _super.call(this);
             _this.y = y;
             _this.z = 1;
         } catch (_) {
-            var _error = _;
-            var _hasError = true;
+            _usingCtx.e = _;
         } finally{
-            _dispose(_stack, _error, _hasError);
+            _usingCtx.d();
         }
         return _possible_constructor_return(_this);
     }

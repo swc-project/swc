@@ -1,11 +1,8 @@
 #[cfg(feature = "debug")]
+use std::fmt::{self, Debug, Display, Formatter};
+#[cfg(feature = "debug")]
 use std::thread;
-use std::{
-    borrow::Cow,
-    fmt,
-    fmt::{Debug, Display, Formatter, Write},
-    time::Instant,
-};
+use std::{borrow::Cow, fmt::Write, time::Instant};
 
 #[cfg(feature = "pretty_assertions")]
 use pretty_assertions::assert_eq;
@@ -357,9 +354,11 @@ impl VisitMut for Compressor<'_> {
     }
 }
 
+#[cfg(feature = "debug")]
 #[derive(PartialEq, Eq)]
 struct DebugUsingDisplay<'a>(pub &'a str);
 
+#[cfg(feature = "debug")]
 impl<'a> Debug for DebugUsingDisplay<'a> {
     fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
         Display::fmt(self.0, f)

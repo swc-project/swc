@@ -1007,7 +1007,7 @@
             "type": "Identifier",
             "span": {
               "start": 340,
-              "end": 344,
+              "end": 341,
               "ctxt": 0
             },
             "value": "a",

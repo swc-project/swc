@@ -81,7 +81,7 @@
             "type": "Identifier",
             "span": {
               "start": 59,
-              "end": 68,
+              "end": 60,
               "ctxt": 0
             },
             "value": "s",
@@ -741,7 +741,7 @@
             "type": "Identifier",
             "span": {
               "start": 381,
-              "end": 390,
+              "end": 382,
               "ctxt": 0
             },
             "value": "x",
@@ -820,7 +820,7 @@
             "type": "Identifier",
             "span": {
               "start": 422,
-              "end": 431,
+              "end": 423,
               "ctxt": 0
             },
             "value": "x",
@@ -1451,7 +1451,7 @@
             "type": "Identifier",
             "span": {
               "start": 725,
-              "end": 743,
+              "end": 726,
               "ctxt": 0
             },
             "value": "x",

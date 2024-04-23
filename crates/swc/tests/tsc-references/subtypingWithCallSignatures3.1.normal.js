@@ -46,7 +46,7 @@ var Errors;
     var r1a = [
         function(x) {
             return [
-                ""
+                ''
             ];
         },
         function(x) {
@@ -59,7 +59,7 @@ var Errors;
         },
         function(x) {
             return [
-                ""
+                ''
             ];
         }
     ];
@@ -192,7 +192,7 @@ var WithGenericSignaturesInBaseType;
 (function(WithGenericSignaturesInBaseType) {
     var r2arg2 = function(x) {
         return [
-            ""
+            ''
         ];
     };
     var r2 = foo2(r2arg2); // <T>(x:T) => T[] since we can infer from generic signatures now

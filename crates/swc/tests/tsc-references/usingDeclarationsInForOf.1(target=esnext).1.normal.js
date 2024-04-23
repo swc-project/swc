@@ -1,5 +1,5 @@
 //// [usingDeclarationsInForOf.1.ts]
-import { _ as _dispose } from "@swc/helpers/_/_dispose";
+import { _ as _using_ctx } from "@swc/helpers/_/_using_ctx";
 for (const d1 of [
     {
         [Symbol.dispose] () {}
@@ -8,12 +8,11 @@ for (const d1 of [
     undefined
 ]){
     try {
-        var _stack = [];
+        var _usingCtx = _using_ctx();
         {}
     } catch (_) {
-        var _error = _;
-        var _hasError = true;
+        _usingCtx.e = _;
     } finally{
-        _dispose(_stack, _error, _hasError);
+        _usingCtx.d();
     }
 }

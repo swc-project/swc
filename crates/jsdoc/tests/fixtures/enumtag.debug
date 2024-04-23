@@ -1,70 +1,22 @@
 [
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                1,
-            ),
-            hi: BytePos(
-                1,
-            ),
-            ctxt: #0,
-        },
+        span: 1..1#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    1,
-                ),
-                hi: BytePos(
-                    30,
-                ),
-                ctxt: #0,
-            },
+            span: 1..30#0,
             value: "Enum for tri-state values.\n *",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        1,
-                    ),
-                    hi: BytePos(
-                        5,
-                    ),
-                    ctxt: #0,
-                },
+                span: 1..5#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            1,
-                        ),
-                        hi: BytePos(
-                            5,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 1..5#0,
                     value: "enum",
                 },
                 tag: Enum(
                     EnumTag {
-                        span: Span {
-                            lo: BytePos(
-                                1,
-                            ),
-                            hi: BytePos(
-                                5,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 1..5#0,
                         ty: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    1,
-                                ),
-                                hi: BytePos(
-                                    9,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 1..9#0,
                             value: "{number}",
                         },
                     },
@@ -73,95 +25,31 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                78,
-            ),
-            hi: BytePos(
-                78,
-            ),
-            ctxt: #0,
-        },
+        span: 78..78#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    78,
-                ),
-                hi: BytePos(
-                    82,
-                ),
-                ctxt: #0,
-            },
+            span: 78..82#0,
             value: "true",
         },
         tags: [],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                122,
-            ),
-            hi: BytePos(
-                132,
-            ),
-            ctxt: #0,
-        },
+        span: 122..132#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    122,
-                ),
-                hi: BytePos(
-                    122,
-                ),
-                ctxt: #0,
-            },
+            span: 122..122#0,
             value: "",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        122,
-                    ),
-                    hi: BytePos(
-                        126,
-                    ),
-                    ctxt: #0,
-                },
+                span: 122..126#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            122,
-                        ),
-                        hi: BytePos(
-                            126,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 122..126#0,
                     value: "type",
                 },
                 tag: Type(
                     TypeTag {
-                        span: Span {
-                            lo: BytePos(
-                                122,
-                            ),
-                            hi: BytePos(
-                                126,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 122..126#0,
                         name: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    0,
-                                ),
-                                hi: BytePos(
-                                    0,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 0..0#0,
                             value: "",
                         },
                     },
@@ -170,71 +58,23 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                165,
-            ),
-            hi: BytePos(
-                165,
-            ),
-            ctxt: #0,
-        },
+        span: 165..165#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    165,
-                ),
-                hi: BytePos(
-                    203,
-                ),
-                ctxt: #0,
-            },
+            span: 165..203#0,
             value: "Numeric enum for true/false values.\n *",
         },
         tags: [
             TagItem {
-                span: Span {
-                    lo: BytePos(
-                        165,
-                    ),
-                    hi: BytePos(
-                        169,
-                    ),
-                    ctxt: #0,
-                },
+                span: 165..169#0,
                 tag_name: Text {
-                    span: Span {
-                        lo: BytePos(
-                            165,
-                        ),
-                        hi: BytePos(
-                            169,
-                        ),
-                        ctxt: #0,
-                    },
+                    span: 165..169#0,
                     value: "enum",
                 },
                 tag: Enum(
                     EnumTag {
-                        span: Span {
-                            lo: BytePos(
-                                165,
-                            ),
-                            hi: BytePos(
-                                169,
-                            ),
-                            ctxt: #0,
-                        },
+                        span: 165..169#0,
                         ty: Text {
-                            span: Span {
-                                lo: BytePos(
-                                    165,
-                                ),
-                                hi: BytePos(
-                                    174,
-                                ),
-                                ctxt: #0,
-                            },
+                            span: 165..174#0,
                             value: "{boolean}",
                         },
                     },
@@ -243,25 +83,9 @@
         ],
     },
     JsDoc {
-        span: Span {
-            lo: BytePos(
-                260,
-            ),
-            hi: BytePos(
-                260,
-            ),
-            ctxt: #0,
-        },
+        span: 260..260#0,
         description: Text {
-            span: Span {
-                lo: BytePos(
-                    260,
-                ),
-                hi: BytePos(
-                    265,
-                ),
-                ctxt: #0,
-            },
+            span: 260..265#0,
             value: "false",
         },
         tags: [],

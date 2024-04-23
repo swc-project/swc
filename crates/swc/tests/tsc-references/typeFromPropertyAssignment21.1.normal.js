@@ -1,5 +1,5 @@
 //// [chrome-devtools-DOMExtension.js]
 // Extend that DOM! (doesn't work, but shouldn't crash)
 Event.prototype.removeChildren = function() {
-    this.textContent = "nope, not going to happen";
+    this.textContent = 'nope, not going to happen';
 };

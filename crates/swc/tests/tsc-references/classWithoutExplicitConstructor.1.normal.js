@@ -4,7 +4,7 @@ var C = function C() {
     "use strict";
     _class_call_check(this, C);
     this.x = 1;
-    this.y = "hello";
+    this.y = 'hello';
 };
 var c = new C();
 var c2 = new C(null); // error

@@ -31,15 +31,15 @@ function b() {
     x; // string
 }
 function c(data) {
-    if (typeof data === "string") {
+    if (typeof data === 'string') {
         return JSON.parse(data);
     } else {
         return data;
     }
 }
 function d(data) {
-    if (typeof data === "string") {
-        throw new Error("will always happen");
+    if (typeof data === 'string') {
+        throw new Error('will always happen');
     } else {
         return data;
     }

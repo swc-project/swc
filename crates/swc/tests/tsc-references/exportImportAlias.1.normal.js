@@ -3,7 +3,7 @@
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var A;
 (function(A) {
-    A.x = "hello world";
+    A.x = 'hello world';
     var Point = function Point(x, y) {
         "use strict";
         _class_call_check(this, Point);
@@ -60,6 +60,6 @@ var M;
     M.D = K.L;
 })(M || (M = {}));
 var o;
-var o = new M.D("Hello");
+var o = new M.D('Hello');
 var p;
 var p;

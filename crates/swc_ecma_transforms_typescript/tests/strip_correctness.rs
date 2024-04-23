@@ -6,11 +6,11 @@ use std::{
 
 use swc_common::{FileName, Mark};
 use swc_ecma_ast::*;
-use swc_ecma_codegen::{self, Emitter};
+use swc_ecma_codegen::Emitter;
 use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, Syntax, TsConfig};
 use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene, resolver};
 use swc_ecma_transforms_typescript::typescript;
-use swc_ecma_visit::{Fold, FoldWith};
+use swc_ecma_visit::FoldWith;
 
 #[testing::fixture("../swc_ecma_parser/tests/tsc/**/*.ts")]
 #[testing::fixture("../swc_ecma_parser/tests/tsc/**/*.tsx")]
@@ -48,6 +48,8 @@ fn identity(entry: PathBuf) {
         "constEnum4.ts",
         "decoratorOnClassMethod11.ts",
         "elementAccessChain.3.ts",
+        "awaitUsingDeclarationsInForAwaitOf.ts",
+        "awaitUsingDeclarationsInForOf.1.ts",
         "usingDeclarationsInForOf.1.ts",
         "usingDeclarationsInForAwaitOf.ts",
         "tsxReactEmitNesting.tsx",
@@ -61,6 +63,9 @@ fn identity(entry: PathBuf) {
         "esDecorators-classDeclaration-classSuper.2.ts",
         "esDecorators-classExpression-classSuper.2.ts",
         "contextualTypes.ts",
+        "decoratorOnClassMethod12.ts",
+        "decoratorExpression.2.ts",
+        "preservesThis.ts",
     ];
 
     // TODO: Unignore const enum test
@@ -187,60 +192,5 @@ impl Write for Buf {
 
     fn flush(&mut self) -> io::Result<()> {
         self.0.write().unwrap().flush()
-    }
-}
-
-struct Normalizer;
-impl Fold for Normalizer {
-    fn fold_new_expr(&mut self, expr: NewExpr) -> NewExpr {
-        let mut expr = expr.fold_children_with(self);
-
-        expr.args = match expr.args {
-            Some(..) => expr.args,
-            None => Some(vec![]),
-        };
-
-        expr
-    }
-
-    fn fold_prop_name(&mut self, name: PropName) -> PropName {
-        let name = name.fold_children_with(self);
-
-        match name {
-            PropName::Ident(i) => PropName::Str(Str {
-                raw: None,
-                value: i.sym,
-                span: i.span,
-            }),
-            PropName::Num(n) => {
-                let s = if n.value.is_infinite() {
-                    if n.value.is_sign_positive() {
-                        "Infinity".into()
-                    } else {
-                        "-Infinity".into()
-                    }
-                } else {
-                    format!("{}", n.value)
-                };
-                PropName::Str(Str {
-                    raw: None,
-                    value: s.into(),
-                    span: n.span,
-                })
-            }
-            _ => name,
-        }
-    }
-
-    fn fold_stmt(&mut self, stmt: Stmt) -> Stmt {
-        let stmt = stmt.fold_children_with(self);
-
-        match stmt {
-            Stmt::Expr(ExprStmt { span, expr }) => match *expr {
-                Expr::Paren(ParenExpr { expr, .. }) => Stmt::Expr(ExprStmt { span, expr }),
-                _ => Stmt::Expr(ExprStmt { span, expr }),
-            },
-            _ => stmt,
-        }
     }
 }

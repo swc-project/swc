@@ -6,6 +6,6 @@ var A = function A() {
 };
 export { };
 //// [/b.ts]
-import * as types from "./a";
+import * as types from './a';
 types.A;
 var A = types.A;

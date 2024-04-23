@@ -15,7 +15,7 @@ function getFalsyPrimitive(x) {
 var Consts1;
 (function(Consts1) {
     var EMPTY_STRING = getFalsyPrimitive("string");
-    var ZERO = getFalsyPrimitive("number");
+    var ZERO = getFalsyPrimitive('number');
     var FALSE = getFalsyPrimitive("boolean");
 })(Consts1 || (Consts1 = {}));
 var string = "string";

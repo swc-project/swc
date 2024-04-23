@@ -12,9 +12,9 @@ for(var _i = 0, _iter = [
             1,
             2,
             3
-        ]; _i1 < _iter1.length; _i1++)if (_iter1[_i1], 2 === i) throw Error("ERR");
+        ]; _i1 < _iter1.length; _i1++)if (_iter1[_i1], 2 === i) throw Error('ERR');
         console.log(i);
     } catch (err) {
-        console.log("E %s %s", i, err);
+        console.log('E %s %s', i, err);
     }
 }

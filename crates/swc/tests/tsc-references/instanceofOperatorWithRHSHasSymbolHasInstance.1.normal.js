@@ -63,3 +63,5 @@ if (obj instanceof A) {
 if (obj instanceof B) {
     obj; // B
 }
+lhs0 instanceof rhs14 && lhs0;
+lhs0 instanceof rhs15 && lhs0;

@@ -32,7 +32,7 @@
             "type": "Identifier",
             "span": {
               "start": 64,
-              "end": 82,
+              "end": 66,
               "ctxt": 0
             },
             "value": "cb",
@@ -56,7 +56,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 72,
-                      "end": 76,
+                      "end": 73,
                       "ctxt": 0
                     },
                     "value": "x",
@@ -251,7 +251,7 @@
             "type": "Identifier",
             "span": {
               "start": 111,
-              "end": 144,
+              "end": 113,
               "ctxt": 0
             },
             "value": "cb",
@@ -275,7 +275,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 134,
-                      "end": 138,
+                      "end": 135,
                       "ctxt": 0
                     },
                     "value": "x",
@@ -478,7 +478,7 @@
             "type": "Identifier",
             "span": {
               "start": 173,
-              "end": 208,
+              "end": 175,
               "ctxt": 0
             },
             "value": "cb",
@@ -502,7 +502,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 198,
-                      "end": 202,
+                      "end": 199,
                       "ctxt": 0
                     },
                     "value": "x",
@@ -1035,7 +1035,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 355,
-                      "end": 388,
+                      "end": 357,
                       "ctxt": 0
                     },
                     "value": "go",
@@ -1059,7 +1059,7 @@
                             "type": "Identifier",
                             "span": {
                               "start": 363,
-                              "end": 382,
+                              "end": 366,
                               "ctxt": 0
                             },
                             "value": "ops",

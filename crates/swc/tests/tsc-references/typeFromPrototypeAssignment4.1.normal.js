@@ -7,7 +7,7 @@ Multimap4["prototype"] = {
    * @param {string} key
    * @returns {number} the value ok
    */ get: function get(key) {
-        return this._map[key + ""];
+        return this._map[key + ''];
     }
 };
 Multimap4["prototype"]["add-on"] = function() {};

@@ -5276,7 +5276,7 @@
             "type": "Identifier",
             "span": {
               "start": 1961,
-              "end": 1974,
+              "end": 1962,
               "ctxt": 0
             },
             "value": "x",
@@ -8397,7 +8397,7 @@
             "type": "Identifier",
             "span": {
               "start": 3153,
-              "end": 3174,
+              "end": 3166,
               "ctxt": 0
             },
             "value": "alsoShouldBeB",
@@ -9122,7 +9122,7 @@
             "type": "Identifier",
             "span": {
               "start": 3417,
-              "end": 3426,
+              "end": 3418,
               "ctxt": 0
             },
             "value": "x",

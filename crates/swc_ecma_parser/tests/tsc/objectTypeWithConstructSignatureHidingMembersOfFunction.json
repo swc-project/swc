@@ -86,7 +86,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 44,
-                  "end": 50,
+                  "end": 45,
                   "ctxt": 0
                 },
                 "value": "a",
@@ -113,7 +113,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 52,
-                  "end": 59,
+                  "end": 53,
                   "ctxt": 0
                 },
                 "value": "b",
@@ -181,7 +181,7 @@
                 "type": "Identifier",
                 "span": {
                   "start": 77,
-                  "end": 92,
+                  "end": 84,
                   "ctxt": 0
                 },
                 "value": "thisArg",
@@ -380,7 +380,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 145,
-                      "end": 151,
+                      "end": 146,
                       "ctxt": 0
                     },
                     "value": "a",
@@ -407,7 +407,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 153,
-                      "end": 160,
+                      "end": 154,
                       "ctxt": 0
                     },
                     "value": "b",
@@ -529,7 +529,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 191,
-                      "end": 206,
+                      "end": 198,
                       "ctxt": 0
                     },
                     "value": "thisArg",
@@ -808,7 +808,7 @@
                         "type": "Identifier",
                         "span": {
                           "start": 311,
-                          "end": 317,
+                          "end": 312,
                           "ctxt": 0
                         },
                         "value": "a",
@@ -835,7 +835,7 @@
                         "type": "Identifier",
                         "span": {
                           "start": 319,
-                          "end": 326,
+                          "end": 320,
                           "ctxt": 0
                         },
                         "value": "b",
@@ -903,7 +903,7 @@
                         "type": "Identifier",
                         "span": {
                           "start": 344,
-                          "end": 359,
+                          "end": 351,
                           "ctxt": 0
                         },
                         "value": "thisArg",
@@ -1049,7 +1049,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 402,
-                      "end": 408,
+                      "end": 403,
                       "ctxt": 0
                     },
                     "value": "a",
@@ -1076,7 +1076,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 410,
-                      "end": 417,
+                      "end": 411,
                       "ctxt": 0
                     },
                     "value": "b",
@@ -1198,7 +1198,7 @@
                     "type": "Identifier",
                     "span": {
                       "start": 448,
-                      "end": 463,
+                      "end": 455,
                       "ctxt": 0
                     },
                     "value": "thisArg",
