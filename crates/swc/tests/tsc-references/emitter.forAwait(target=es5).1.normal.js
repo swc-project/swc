@@ -1,7 +1,6 @@
 //// [file1.ts]
 import { _ as _async_iterator } from "@swc/helpers/_/_async_iterator";
 import { _ as _async_to_generator } from "@swc/helpers/_/_async_to_generator";
-import { _ as _await_async_generator } from "@swc/helpers/_/_await_async_generator";
 import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
 function f1() {
     return _f1.apply(this, arguments);
@@ -68,7 +67,7 @@ function _f1() {
                     ];
                     return [
                         4,
-                        _await_async_generator(_iterator.return())
+                        _iterator.return()
                     ];
                 case 8:
                     _state.sent();
@@ -101,7 +100,6 @@ function _f1() {
 //// [file2.ts]
 import { _ as _async_iterator } from "@swc/helpers/_/_async_iterator";
 import { _ as _async_to_generator } from "@swc/helpers/_/_async_to_generator";
-import { _ as _await_async_generator } from "@swc/helpers/_/_await_async_generator";
 import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
 function f2() {
     return _f2.apply(this, arguments);
@@ -168,7 +166,7 @@ function _f2() {
                     ];
                     return [
                         4,
-                        _await_async_generator(_iterator.return())
+                        _iterator.return()
                     ];
                 case 8:
                     _state.sent();
@@ -402,7 +400,6 @@ function _f4() {
 // https://github.com/Microsoft/TypeScript/issues/21363
 import { _ as _async_iterator } from "@swc/helpers/_/_async_iterator";
 import { _ as _async_to_generator } from "@swc/helpers/_/_async_to_generator";
-import { _ as _await_async_generator } from "@swc/helpers/_/_await_async_generator";
 import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
 function f5() {
     return _f5.apply(this, arguments);
@@ -470,7 +467,7 @@ function _f5() {
                     ];
                     return [
                         4,
-                        _await_async_generator(_iterator.return())
+                        _iterator.return()
                     ];
                 case 8:
                     _state.sent();

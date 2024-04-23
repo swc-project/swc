@@ -4,7 +4,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 var _async_iterator = require("@swc/helpers/_/_async_iterator");
 var _async_to_generator = require("@swc/helpers/_/_async_to_generator");
-var _await_async_generator = require("@swc/helpers/_/_await_async_generator");
 var _define_property = require("@swc/helpers/_/_define_property");
 var _ts_generator = require("@swc/helpers/_/_ts_generator");
 _async_to_generator._(function() {
@@ -86,7 +85,7 @@ _async_to_generator._(function() {
                                 ];
                                 return [
                                     4,
-                                    _await_async_generator._(_iterator.return())
+                                    _iterator.return()
                                 ];
                             case 8:
                                 _state.sent();

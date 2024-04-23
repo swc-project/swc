@@ -1,6 +1,5 @@
 import { _ as _async_iterator } from "@swc/helpers/_/_async_iterator";
 import { _ as _async_to_generator } from "@swc/helpers/_/_async_to_generator";
-import { _ as _await_async_generator } from "@swc/helpers/_/_await_async_generator";
 _async_to_generator(function*() {
     let counter = 0;
     let resolve;
@@ -30,7 +29,7 @@ _async_to_generator(function*() {
             } finally{
                 try {
                     if (_iteratorAbruptCompletion && _iterator.return != null) {
-                        yield _await_async_generator(_iterator.return());
+                        yield _iterator.return();
                     }
                 } finally{
                     if (_didIteratorError) {

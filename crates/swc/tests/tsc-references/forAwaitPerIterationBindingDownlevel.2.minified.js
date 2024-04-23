@@ -108,7 +108,7 @@ _async_to_generator(function() {
                 ];
                 return [
                     4,
-                    _await_async_generator(_iterator.return())
+                    _iterator.return()
                 ];
             case 8:
                 _state.sent(), _state.label = 9;
