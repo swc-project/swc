@@ -7,7 +7,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_node_bundler"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.62.24"
+version       = "0.63.0"
 
 [lib]
 bench = false
@@ -29,21 +29,21 @@ serde_json = "1"
 tracing    = "0.1.40"
 
 string_enum = { version = "0.4.2", path = "../string_enum" }
-swc = { version = "0.273.22", path = "../swc" }
+swc = { version = "0.274.0", path = "../swc" }
 swc_atoms = { version = "0.6.5", path = "../swc_atoms" }
-swc_bundler = { version = "0.225.17", path = "../swc_bundler", features = [
+swc_bundler = { version = "0.226.0", path = "../swc_bundler", features = [
   "concurrent",
 ] }
 swc_common = { version = "0.33.20", path = "../swc_common", features = [
   "concurrent",
 ] }
-swc_ecma_ast = { version = "0.112.6", path = "../swc_ecma_ast" }
-swc_ecma_codegen = { version = "0.148.12", path = "../swc_ecma_codegen" }
+swc_ecma_ast = { version = "0.113.0", path = "../swc_ecma_ast" }
+swc_ecma_codegen = { version = "0.149.0", path = "../swc_ecma_codegen" }
 swc_ecma_loader = { version = "0.45.23", path = "../swc_ecma_loader" }
-swc_ecma_parser = { version = "0.143.10", path = "../swc_ecma_parser" }
-swc_ecma_transforms = { version = "0.229.17", path = "../swc_ecma_transforms" }
-swc_ecma_utils = { version = "0.127.13", path = "../swc_ecma_utils" }
-swc_ecma_visit = { version = "0.98.7", path = "../swc_ecma_visit" }
+swc_ecma_parser = { version = "0.144.0", path = "../swc_ecma_parser" }
+swc_ecma_transforms = { version = "0.230.0", path = "../swc_ecma_transforms" }
+swc_ecma_utils = { version = "0.128.0", path = "../swc_ecma_utils" }
+swc_ecma_visit = { version = "0.99.0", path = "../swc_ecma_visit" }
 swc_malloc = { version = "0.5.10", path = "../swc_malloc" }
 
 [dev-dependencies]

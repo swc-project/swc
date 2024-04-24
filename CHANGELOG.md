@@ -7,6 +7,12 @@
 
 - **(es/minifier)** Abort seq inline on recursive usage ([#8887](https://github.com/swc-project/swc/issues/8887)) ([cd4548f](https://github.com/swc-project/swc/commit/cd4548fd8c32f67d0e8373f7a2c3cb625f43e6c4))
 
+### Features
+
+
+
+- **(es/ast)** Support abstract auto-accessors ([#8736](https://github.com/swc-project/swc/issues/8736)) ([1155ac7](https://github.com/swc-project/swc/commit/1155ac79720512625568c45bfd3542ec340c0ebd))
+
 ## [1.4.17] - 2024-04-23
 
 ### Bug Fixes
@@ -1343,9 +1349,6 @@
 
 ### Bug Fixes
 
-
-
-- **(es/compat)** Generate `OptCall` for `OptCall` for private fields ([#8031](https://github.com/swc-project/swc/issues/8031)) ([06b6eb9](https://github.com/swc-project/swc/commit/06b6eb999964c25a964b0105bd7a4f20b51300dd))
 
 
 - **(es/minifier)** Check if object shorthand is skippable for seq inliner ([#8036](https://github.com/swc-project/swc/issues/8036)) ([01391e3](https://github.com/swc-project/swc/commit/01391e3c13e42b7f42f80ab13b396cad182942ff))
