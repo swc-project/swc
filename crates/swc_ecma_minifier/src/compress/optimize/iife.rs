@@ -1,6 +1,6 @@
 use std::{collections::HashMap, mem::swap};
 
-use rustc_hash::FxHashMap;
+use rustc_hash::{FxHashMap, FxHashSet};
 use swc_common::{pass::Either, util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
@@ -157,10 +157,38 @@ impl Optimizer<'_> {
             }
         }
 
-        fn clean_params(callee: &mut Expr) {
+        fn clean_params(callee: &mut Expr, vars: &FxHashSet<Id>) {
             match callee {
-                Expr::Arrow(callee) => callee.params.retain(|p| !p.is_invalid()),
-                Expr::Fn(callee) => callee.function.params.retain(|p| !p.pat.is_invalid()),
+                Expr::Arrow(callee) => {
+                    for p in &mut callee.params {
+                        if let Pat::Ident(param) = p {
+                            if vars.contains(&param.to_id()) {
+                                p.take();
+                                continue;
+                            }
+                        }
+
+                        break;
+                    }
+
+                    // Drop invalid nodes
+                    callee.params.retain(|p| !p.is_invalid())
+                }
+                Expr::Fn(callee) => {
+                    for p in &mut callee.function.params {
+                        if let Pat::Ident(param) = &mut p.pat {
+                            if vars.contains(&param.to_id()) {
+                                p.pat.take();
+                                continue;
+                            }
+                        }
+
+                        break;
+                    }
+
+                    // Drop invalid nodes
+                    callee.function.params.retain(|p| !p.pat.is_invalid())
+                }
                 _ => {}
             }
         }
@@ -282,6 +310,8 @@ impl Optimizer<'_> {
                 return;
             }
 
+            let var_keys = vars.keys().cloned().collect();
+
             let ctx = Ctx {
                 in_fn_like: true,
                 top_level: false,
@@ -301,9 +331,9 @@ impl Optimizer<'_> {
                     unreachable!("find_body and find_params should match")
                 }
             }
-        }
 
-        clean_params(callee);
+            clean_params(callee, &var_keys);
+        }
     }
 
     /// If a parameter is not used, we can ignore return value of the
