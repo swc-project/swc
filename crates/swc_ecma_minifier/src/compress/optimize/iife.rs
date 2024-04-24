@@ -586,7 +586,7 @@ impl Optimizer<'_> {
                 trace_op!("iife: Expr::Fn(..)");
 
                 if !self.may_add_ident() {
-                    if !f.params.is_empty() {
+                    if !f.function.params.is_empty() {
                         return;
                     }
 
