@@ -64,6 +64,7 @@
           "isStatic": false,
           "decorators": [],
           "accessibility": null,
+          "isAbstract": false,
           "isOverride": false,
           "definite": false
         },
@@ -98,6 +99,7 @@
           "isStatic": false,
           "decorators": [],
           "accessibility": null,
+          "isAbstract": false,
           "isOverride": false,
           "definite": false
         },
@@ -139,6 +141,7 @@
           "isStatic": true,
           "decorators": [],
           "accessibility": null,
+          "isAbstract": false,
           "isOverride": false,
           "definite": false
         },
@@ -173,6 +176,7 @@
           "isStatic": true,
           "decorators": [],
           "accessibility": null,
+          "isAbstract": false,
           "isOverride": false,
           "definite": false
         }

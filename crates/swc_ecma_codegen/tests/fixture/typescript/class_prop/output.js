@@ -15,5 +15,6 @@ class MyClass extends Base {
     public prop13: string;
     private static prop14: string;
     protected override accessor prop15 = 5;
+    abstract accessor abstractAccessor: string;
     [value]?: string[];
 }

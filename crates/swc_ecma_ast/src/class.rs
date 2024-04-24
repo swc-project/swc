@@ -333,6 +333,9 @@ pub struct AutoAccessor {
     pub accessibility: Option<Accessibility>,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub is_abstract: bool,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
     pub is_override: bool,
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
@@ -349,6 +352,7 @@ impl Take for AutoAccessor {
             is_static: false,
             decorators: Take::dummy(),
             accessibility: None,
+            is_abstract: false,
             is_override: false,
             definite: false,
         }

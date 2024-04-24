@@ -152,6 +152,7 @@
             }
           ],
           "accessibility": null,
+          "isAbstract": false,
           "isOverride": false,
           "definite": false
         }

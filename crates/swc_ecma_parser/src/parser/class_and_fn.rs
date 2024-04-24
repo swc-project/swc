@@ -1094,6 +1094,7 @@ impl<I: Tokens> Parser<I> {
                     is_static,
                     decorators,
                     accessibility,
+                    is_abstract,
                     is_override,
                     definite,
                 }));
