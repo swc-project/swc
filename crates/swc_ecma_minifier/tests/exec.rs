@@ -11219,7 +11219,7 @@ fn issue_8886() {
         "const bar = ((v) => v)(1);
 const foo = ((v) => v)(2);
 
-eval(bar);
-eval(foo);",
+console.log(eval(bar));
+console.log(eval(foo));",
     );
 }
