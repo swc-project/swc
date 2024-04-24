@@ -1693,7 +1693,7 @@
             function _toConsumableArray(arr) {
                 return function(arr) {
                     if (Array.isArray(arr)) {
-                        for(var i = 0, arr2 = Array(arr.length); i < arr.length; i++)arr2[i] = arr[i];
+                        for(var i1 = 0, arr2 = Array(arr.length); i1 < arr.length; i1++)arr2[i1] = arr[i1];
                         return arr2;
                     }
                 }(arr) || function(iter) {
@@ -1705,15 +1705,15 @@
             exports.default = function(_param) {
                 var src, arr, sizerSvg, src1 = _param.src, sizes = _param.sizes, _unoptimized = _param.unoptimized, unoptimized = void 0 !== _unoptimized && _unoptimized, _priority = _param.priority, priority = void 0 !== _priority && _priority, loading = _param.loading, _lazyBoundary = _param.lazyBoundary, className = _param.className, quality = _param.quality, width = _param.width, height = _param.height, objectFit = _param.objectFit, objectPosition = _param.objectPosition, onLoadingComplete = _param.onLoadingComplete, _loader = _param.loader, loader = void 0 === _loader ? defaultImageLoader : _loader, _placeholder = _param.placeholder, placeholder = void 0 === _placeholder ? "empty" : _placeholder, blurDataURL = _param.blurDataURL, all = function(source, excluded) {
                     if (null == source) return {};
-                    var key, i, target = function(source, excluded) {
+                    var key, i1, target = function(source, excluded) {
                         if (null == source) return {};
-                        var key, i, target = {}, sourceKeys = Object.keys(source);
-                        for(i = 0; i < sourceKeys.length; i++)key = sourceKeys[i], excluded.indexOf(key) >= 0 || (target[key] = source[key]);
+                        var key, i1, target = {}, sourceKeys = Object.keys(source);
+                        for(i1 = 0; i1 < sourceKeys.length; i1++)key = sourceKeys[i1], excluded.indexOf(key) >= 0 || (target[key] = source[key]);
                         return target;
                     }(source, excluded);
                     if (Object.getOwnPropertySymbols) {
                         var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
-                        for(i = 0; i < sourceSymbolKeys.length; i++)key = sourceSymbolKeys[i], !(excluded.indexOf(key) >= 0) && Object.prototype.propertyIsEnumerable.call(source, key) && (target[key] = source[key]);
+                        for(i1 = 0; i1 < sourceSymbolKeys.length; i1++)key = sourceSymbolKeys[i1], !(excluded.indexOf(key) >= 0) && Object.prototype.propertyIsEnumerable.call(source, key) && (target[key] = source[key]);
                     }
                     return target;
                 }(_param, [
@@ -1749,10 +1749,10 @@
                 }(arr = _useIntersection.useIntersection({
                     rootMargin: void 0 === _lazyBoundary ? "200px" : _lazyBoundary,
                     disabled: !isLazy
-                })) || function(arr, i) {
+                })) || function(arr) {
                     var _arr = [], _n = !0, _d = !1, _e = void 0;
                     try {
-                        for(var _s, _i = arr[Symbol.iterator](); !(_n = (_s = _i.next()).done) && (_arr.push(_s.value), 2 !== _arr.length); _n = !0);
+                        for(var _s, _i = arr[Symbol.iterator](); !(_n = (_s = _i.next()).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0);
                     } catch (err) {
                         _d = !0, _e = err;
                     } finally{
@@ -1763,7 +1763,7 @@
                         }
                     }
                     return _arr;
-                }(arr, 0) || function() {
+                }(arr, 2) || function() {
                     throw TypeError("Invalid attempt to destructure non-iterable instance");
                 }(), setRef = ref2[0], isIntersected = ref2[1], isVisible = !isLazy || isIntersected, wrapperStyle = {
                     boxSizing: "border-box",
@@ -1900,8 +1900,8 @@
                 };
             }
             function _objectSpread(target) {
-                for(var _arguments = arguments, i = 1; i < arguments.length; i++)!function(i) {
-                    var source = null != _arguments[i] ? _arguments[i] : {}, ownKeys = Object.keys(source);
+                for(var _arguments = arguments, i1 = 1; i1 < arguments.length; i1++)!function(i1) {
+                    var source = null != _arguments[i1] ? _arguments[i1] : {}, ownKeys = Object.keys(source);
                     "function" == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
@@ -1913,7 +1913,7 @@
                             writable: !0
                         }) : target[key] = value;
                     });
-                }(i);
+                }(i1);
                 return target;
             }
             var loadedImageURLs = new Set(), emptyDataURL = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7", loaders = new Map([
@@ -2028,12 +2028,12 @@
                 }(width, layout, sizes), widths = ref.widths, kind = ref.kind, last = widths.length - 1;
                 return {
                     sizes: sizes || "w" !== kind ? sizes : "100vw",
-                    srcSet: widths.map(function(w, i) {
+                    srcSet: widths.map(function(w, i1) {
                         return "".concat(loader({
                             src: src,
                             quality: quality,
                             width: w
-                        }), " ").concat("w" === kind ? w : i + 1).concat(kind);
+                        }), " ").concat("w" === kind ? w : i1 + 1).concat(kind);
                     }).join(", "),
                     src: loader({
                         src: src,
@@ -2068,10 +2068,10 @@
             }), exports.useIntersection = function(param) {
                 var arr, rootMargin = param.rootMargin, isDisabled = param.disabled || !hasIntersectionObserver, unobserve = _react.useRef(), ref = function(arr) {
                     if (Array.isArray(arr)) return arr;
-                }(arr = _react.useState(!1)) || function(arr, i) {
+                }(arr = _react.useState(!1)) || function(arr) {
                     var _arr = [], _n = !0, _d = !1, _e = void 0;
                     try {
-                        for(var _s, _i = arr[Symbol.iterator](); !(_n = (_s = _i.next()).done) && (_arr.push(_s.value), 2 !== _arr.length); _n = !0);
+                        for(var _s, _i = arr[Symbol.iterator](); !(_n = (_s = _i.next()).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0);
                     } catch (err) {
                         _d = !0, _e = err;
                     } finally{
@@ -2082,7 +2082,7 @@
                         }
                     }
                     return _arr;
-                }(arr, 0) || function() {
+                }(arr, 2) || function() {
                     throw TypeError("Invalid attempt to destructure non-iterable instance");
                 }(), visible = ref[0], setVisible = ref[1], setRef = _react.useCallback(function(el) {
                     var callback, ref, id, observer, elements;

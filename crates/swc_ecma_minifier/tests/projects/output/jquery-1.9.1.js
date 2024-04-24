@@ -1110,7 +1110,7 @@
             var elem = this[0];
             if (elem) return jQuery.event.trigger(type, data, elem, !0);
         }
-    }), function(window1, undefined) {
+    }), function(window1) {
         var i, cachedruns, Expr, getText, isXML, compile, hasDuplicate, outermostContext, setDocument, document, docElem, documentIsXML, rbuggyQSA, rbuggyMatches, matches, contains, sortOrder, expando = "sizzle" + -new Date(), preferredDoc = window1.document, support = {}, dirruns = 0, done = 0, classCache = createCache(), tokenCache = createCache(), compilerCache = createCache(), strundefined = "undefined", arr = [], pop = arr.pop, push = arr.push, slice = arr.slice, indexOf = arr.indexOf || function(elem) {
             for(var i = 0, len = this.length; i < len; i++)if (this[i] === elem) return i;
             return -1;

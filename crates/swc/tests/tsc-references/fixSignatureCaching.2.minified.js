@@ -1,7 +1,6 @@
 //// [fixSignatureCaching.ts]
-var undefined;
 import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
-(function(undefined) {
+(function() {
     if ('undefined' != typeof module && module.exports) return function(factory) {
         module.exports = factory();
     };
@@ -355,7 +354,7 @@ import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
                 cache.mobile = cache.phone = phone, cache.tablet = null;
                 return;
             }
-            impl.isMobileFallback(userAgent) ? undefined === (phoneSized = MobileDetect.isPhoneSized(maxPhoneWidth)) ? (cache.mobile = impl.FALLBACK_MOBILE, cache.tablet = cache.phone = null) : phoneSized ? (cache.mobile = cache.phone = impl.FALLBACK_PHONE, cache.tablet = null) : (cache.mobile = cache.tablet = impl.FALLBACK_TABLET, cache.phone = null) : impl.isTabletFallback(userAgent) ? (cache.mobile = cache.tablet = impl.FALLBACK_TABLET, cache.phone = null) : cache.mobile = cache.tablet = cache.phone = null;
+            impl.isMobileFallback(userAgent) ? void 0 === (phoneSized = MobileDetect.isPhoneSized(maxPhoneWidth)) ? (cache.mobile = impl.FALLBACK_MOBILE, cache.tablet = cache.phone = null) : phoneSized ? (cache.mobile = cache.phone = impl.FALLBACK_PHONE, cache.tablet = null) : (cache.mobile = cache.tablet = impl.FALLBACK_TABLET, cache.phone = null) : impl.isTabletFallback(userAgent) ? (cache.mobile = cache.tablet = impl.FALLBACK_TABLET, cache.phone = null) : cache.mobile = cache.tablet = cache.phone = null;
         }
     }, impl.mobileGrade = function(t) {
         var $isMobile = null !== t.mobile();
@@ -376,13 +375,13 @@ import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
             return impl.prepareDetectionCache(this._cache, this.ua, this.maxPhoneWidth), this._cache.tablet;
         },
         userAgent: function() {
-            return undefined === this._cache.userAgent && (this._cache.userAgent = impl.findMatch(impl.mobileDetectRules.uas, this.ua)), this._cache.userAgent;
+            return void 0 === this._cache.userAgent && (this._cache.userAgent = impl.findMatch(impl.mobileDetectRules.uas, this.ua)), this._cache.userAgent;
         },
         userAgents: function() {
-            return undefined === this._cache.userAgents && (this._cache.userAgents = impl.findMatches(impl.mobileDetectRules.uas, this.ua)), this._cache.userAgents;
+            return void 0 === this._cache.userAgents && (this._cache.userAgents = impl.findMatches(impl.mobileDetectRules.uas, this.ua)), this._cache.userAgents;
         },
         os: function() {
-            return undefined === this._cache.os && (this._cache.os = impl.detectOS(this.ua)), this._cache.os;
+            return void 0 === this._cache.os && (this._cache.os = impl.detectOS(this.ua)), this._cache.os;
         },
         version: function(key) {
             return impl.getVersion(key, this.ua);
@@ -400,9 +399,9 @@ import { _ as _instanceof } from "@swc/helpers/_/_instanceof";
             return MobileDetect.isPhoneSized(maxPhoneWidth || this.maxPhoneWidth);
         },
         mobileGrade: function() {
-            return undefined === this._cache.grade && (this._cache.grade = impl.mobileGrade(this)), this._cache.grade;
+            return void 0 === this._cache.grade && (this._cache.grade = impl.mobileGrade(this)), this._cache.grade;
         }
     }, 'undefined' != typeof window && window.screen ? MobileDetect.isPhoneSized = function(maxPhoneWidth) {
-        return maxPhoneWidth < 0 ? undefined : impl.getDeviceSmallerSide() <= maxPhoneWidth;
+        return maxPhoneWidth < 0 ? void 0 : impl.getDeviceSmallerSide() <= maxPhoneWidth;
     } : MobileDetect.isPhoneSized = function() {}, MobileDetect._impl = impl, MobileDetect.version = '1.3.3 2016-07-31', MobileDetect;
 });

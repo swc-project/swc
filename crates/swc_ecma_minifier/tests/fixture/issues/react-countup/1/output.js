@@ -12,13 +12,13 @@
             });
             var __assign = function() {
                 return (__assign = Object.assign || function(t) {
-                    for(var i, a = 1, s = arguments.length; a < s; a++)for(var n in i = arguments[a])Object.prototype.hasOwnProperty.call(i, n) && (t[n] = i[n]);
+                    for(var i1, a = 1, s = arguments.length; a < s; a++)for(var n in i1 = arguments[a])Object.prototype.hasOwnProperty.call(i1, n) && (t[n] = i1[n]);
                     return t;
                 }).apply(this, arguments);
             }, CountUp = function() {
-                function t(t, i, a) {
+                function t(t, i1, a) {
                     var s = this;
-                    this.target = t, this.endVal = i, this.options = a, this.version = "2.0.8", this.defaults = {
+                    this.target = t, this.endVal = i1, this.options = a, this.version = "2.0.8", this.defaults = {
                         startVal: 0,
                         decimalPlaces: 0,
                         duration: 2,
@@ -32,8 +32,8 @@
                         suffix: ""
                     }, this.finalEndVal = null, this.useEasing = !0, this.countDown = !1, this.error = "", this.startVal = 0, this.paused = !0, this.count = function(t) {
                         s.startTime || (s.startTime = t);
-                        var i = t - s.startTime;
-                        s.remaining = s.duration - i, s.useEasing ? s.countDown ? s.frameVal = s.startVal - s.easingFn(i, 0, s.startVal - s.endVal, s.duration) : s.frameVal = s.easingFn(i, s.startVal, s.endVal - s.startVal, s.duration) : s.countDown ? s.frameVal = s.startVal - (s.startVal - s.endVal) * (i / s.duration) : s.frameVal = s.startVal + (s.endVal - s.startVal) * (i / s.duration), s.countDown ? s.frameVal = s.frameVal < s.endVal ? s.endVal : s.frameVal : s.frameVal = s.frameVal > s.endVal ? s.endVal : s.frameVal, s.frameVal = Number(s.frameVal.toFixed(s.options.decimalPlaces)), s.printValue(s.frameVal), i < s.duration ? s.rAF = requestAnimationFrame(s.count) : null !== s.finalEndVal ? s.update(s.finalEndVal) : s.callback && s.callback();
+                        var i1 = t - s.startTime;
+                        s.remaining = s.duration - i1, s.useEasing ? s.countDown ? s.frameVal = s.startVal - s.easingFn(i1, 0, s.startVal - s.endVal, s.duration) : s.frameVal = s.easingFn(i1, s.startVal, s.endVal - s.startVal, s.duration) : s.countDown ? s.frameVal = s.startVal - (s.startVal - s.endVal) * (i1 / s.duration) : s.frameVal = s.startVal + (s.endVal - s.startVal) * (i1 / s.duration), s.countDown ? s.frameVal = s.frameVal < s.endVal ? s.endVal : s.frameVal : s.frameVal = s.frameVal > s.endVal ? s.endVal : s.frameVal, s.frameVal = Number(s.frameVal.toFixed(s.options.decimalPlaces)), s.printValue(s.frameVal), i1 < s.duration ? s.rAF = requestAnimationFrame(s.count) : null !== s.finalEndVal ? s.update(s.finalEndVal) : s.callback && s.callback();
                     }, this.formatNumber = function(t) {
                         var a, n, e, o = (Math.abs(t).toFixed(s.options.decimalPlaces) + "").split(".");
                         if (a = o[0], n = o.length > 1 ? s.options.decimal + o[1] : "", s.options.useGrouping) {
@@ -46,9 +46,9 @@
                         }), n = n.replace(/[0-9]/g, function(t) {
                             return s.options.numerals[+t];
                         })), (t < 0 ? "-" : "") + s.options.prefix + a + n + s.options.suffix;
-                    }, this.easeOutExpo = function(t, i, a, s) {
-                        return a * (1 - Math.pow(2, -10 * t / s)) * 1024 / 1023 + i;
-                    }, this.options = __assign(__assign({}, this.defaults), a), this.formattingFn = this.options.formattingFn ? this.options.formattingFn : this.formatNumber, this.easingFn = this.options.easingFn ? this.options.easingFn : this.easeOutExpo, this.startVal = this.validateValue(this.options.startVal), this.frameVal = this.startVal, this.endVal = this.validateValue(i), this.options.decimalPlaces = Math.max(this.options.decimalPlaces), this.resetDuration(), this.options.separator = String(this.options.separator), this.useEasing = this.options.useEasing, "" === this.options.separator && (this.options.useGrouping = !1), this.el = "string" == typeof t ? document.getElementById(t) : t, this.el ? this.printValue(this.startVal) : this.error = "[CountUp] target is null or undefined";
+                    }, this.easeOutExpo = function(t, i1, a, s) {
+                        return a * (1 - Math.pow(2, -10 * t / s)) * 1024 / 1023 + i1;
+                    }, this.options = __assign(__assign({}, this.defaults), a), this.formattingFn = this.options.formattingFn ? this.options.formattingFn : this.formatNumber, this.easingFn = this.options.easingFn ? this.options.easingFn : this.easeOutExpo, this.startVal = this.validateValue(this.options.startVal), this.frameVal = this.startVal, this.endVal = this.validateValue(i1), this.options.decimalPlaces = Math.max(this.options.decimalPlaces), this.resetDuration(), this.options.separator = String(this.options.separator), this.useEasing = this.options.useEasing, "" === this.options.separator && (this.options.useGrouping = !1), this.el = "string" == typeof t ? document.getElementById(t) : t, this.el ? this.printValue(this.startVal) : this.error = "[CountUp] target is null or undefined";
                 }
                 return t.prototype.determineDirectionAndSmartEasing = function() {
                     var t = this.finalEndVal ? this.finalEndVal : this.endVal;
@@ -67,13 +67,13 @@
                 }, t.prototype.update = function(t) {
                     cancelAnimationFrame(this.rAF), this.startTime = null, this.endVal = this.validateValue(t), this.endVal !== this.frameVal && (this.startVal = this.frameVal, this.finalEndVal || this.resetDuration(), this.finalEndVal = null, this.determineDirectionAndSmartEasing(), this.rAF = requestAnimationFrame(this.count));
                 }, t.prototype.printValue = function(t) {
-                    var i = this.formattingFn(t);
-                    "INPUT" === this.el.tagName ? this.el.value = i : "text" === this.el.tagName || "tspan" === this.el.tagName ? this.el.textContent = i : this.el.innerHTML = i;
+                    var i1 = this.formattingFn(t);
+                    "INPUT" === this.el.tagName ? this.el.value = i1 : "text" === this.el.tagName || "tspan" === this.el.tagName ? this.el.textContent = i1 : this.el.innerHTML = i1;
                 }, t.prototype.ensureNumber = function(t) {
                     return "number" == typeof t && !isNaN(t);
                 }, t.prototype.validateValue = function(t) {
-                    var i = Number(t);
-                    return this.ensureNumber(i) ? i : (this.error = "[CountUp] invalid start or end value: " + t, null);
+                    var i1 = Number(t);
+                    return this.ensureNumber(i1) ? i1 : (this.error = "[CountUp] invalid start or end value: " + t, null);
                 }, t.prototype.resetDuration = function() {
                     this.startTime = null, this.duration = 1e3 * Number(this.options.duration), this.remaining = this.duration;
                 }, t;
@@ -84,7 +84,7 @@
             function _toConsumableArray(arr) {
                 return function(arr) {
                     if (Array.isArray(arr)) {
-                        for(var i = 0, arr2 = Array(arr.length); i < arr.length; i++)arr2[i] = arr[i];
+                        for(var i1 = 0, arr2 = Array(arr.length); i1 < arr.length; i1++)arr2[i1] = arr[i1];
                         return arr2;
                     }
                 }(arr) || function(iter) {
@@ -96,15 +96,15 @@
             exports.default = function(_param) {
                 var src, arr, sizerSvg, src1 = _param.src, sizes = _param.sizes, _unoptimized = _param.unoptimized, unoptimized = void 0 !== _unoptimized && _unoptimized, _priority = _param.priority, priority = void 0 !== _priority && _priority, loading = _param.loading, _lazyBoundary = _param.lazyBoundary, className = _param.className, quality = _param.quality, width = _param.width, height = _param.height, objectFit = _param.objectFit, objectPosition = _param.objectPosition, onLoadingComplete = _param.onLoadingComplete, _loader = _param.loader, loader = void 0 === _loader ? defaultImageLoader : _loader, _placeholder = _param.placeholder, placeholder = void 0 === _placeholder ? "empty" : _placeholder, blurDataURL = _param.blurDataURL, all = function(source, excluded) {
                     if (null == source) return {};
-                    var key, i, target = function(source, excluded) {
+                    var key, i1, target = function(source, excluded) {
                         if (null == source) return {};
-                        var key, i, target = {}, sourceKeys = Object.keys(source);
-                        for(i = 0; i < sourceKeys.length; i++)key = sourceKeys[i], excluded.indexOf(key) >= 0 || (target[key] = source[key]);
+                        var key, i1, target = {}, sourceKeys = Object.keys(source);
+                        for(i1 = 0; i1 < sourceKeys.length; i1++)key = sourceKeys[i1], excluded.indexOf(key) >= 0 || (target[key] = source[key]);
                         return target;
                     }(source, excluded);
                     if (Object.getOwnPropertySymbols) {
                         var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
-                        for(i = 0; i < sourceSymbolKeys.length; i++)key = sourceSymbolKeys[i], !(excluded.indexOf(key) >= 0) && Object.prototype.propertyIsEnumerable.call(source, key) && (target[key] = source[key]);
+                        for(i1 = 0; i1 < sourceSymbolKeys.length; i1++)key = sourceSymbolKeys[i1], !(excluded.indexOf(key) >= 0) && Object.prototype.propertyIsEnumerable.call(source, key) && (target[key] = source[key]);
                     }
                     return target;
                 }(_param, [
@@ -140,10 +140,10 @@
                 }(arr = _useIntersection.useIntersection({
                     rootMargin: void 0 === _lazyBoundary ? "200px" : _lazyBoundary,
                     disabled: !isLazy
-                })) || function(arr, i) {
+                })) || function(arr) {
                     var _arr = [], _n = !0, _d = !1, _e = void 0;
                     try {
-                        for(var _s, _i = arr[Symbol.iterator](); !(_n = (_s = _i.next()).done) && (_arr.push(_s.value), 2 !== _arr.length); _n = !0);
+                        for(var _s, _i = arr[Symbol.iterator](); !(_n = (_s = _i.next()).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0);
                     } catch (err) {
                         _d = !0, _e = err;
                     } finally{
@@ -154,7 +154,7 @@
                         }
                     }
                     return _arr;
-                }(arr, 0) || function() {
+                }(arr, 2) || function() {
                     throw TypeError("Invalid attempt to destructure non-iterable instance");
                 }(), setRef = ref2[0], isIntersected = ref2[1], isVisible = !isLazy || isIntersected, wrapperStyle = {
                     boxSizing: "border-box",
@@ -291,8 +291,8 @@
                 };
             }
             function _objectSpread(target) {
-                for(var _arguments = arguments, i = 1; i < arguments.length; i++)!function(i) {
-                    var source = null != _arguments[i] ? _arguments[i] : {}, ownKeys = Object.keys(source);
+                for(var _arguments = arguments, i1 = 1; i1 < arguments.length; i1++)!function(i1) {
+                    var source = null != _arguments[i1] ? _arguments[i1] : {}, ownKeys = Object.keys(source);
                     "function" == typeof Object.getOwnPropertySymbols && (ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function(sym) {
                         return Object.getOwnPropertyDescriptor(source, sym).enumerable;
                     }))), ownKeys.forEach(function(key) {
@@ -304,7 +304,7 @@
                             writable: !0
                         }) : target[key] = value;
                     });
-                }(i);
+                }(i1);
                 return target;
             }
             var loadedImageURLs = new Set(), emptyDataURL = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7", loaders = new Map([
@@ -419,12 +419,12 @@
                 }(width, layout, sizes), widths = ref.widths, kind = ref.kind, last = widths.length - 1;
                 return {
                     sizes: sizes || "w" !== kind ? sizes : "100vw",
-                    srcSet: widths.map(function(w, i) {
+                    srcSet: widths.map(function(w, i1) {
                         return "".concat(loader({
                             src: src,
                             quality: quality,
                             width: w
-                        }), " ").concat("w" === kind ? w : i + 1).concat(kind);
+                        }), " ").concat("w" === kind ? w : i1 + 1).concat(kind);
                     }).join(", "),
                     src: loader({
                         src: src,
@@ -459,10 +459,10 @@
             }), exports.useIntersection = function(param) {
                 var arr, rootMargin = param.rootMargin, isDisabled = param.disabled || !hasIntersectionObserver, unobserve = _react.useRef(), ref = function(arr) {
                     if (Array.isArray(arr)) return arr;
-                }(arr = _react.useState(!1)) || function(arr, i) {
+                }(arr = _react.useState(!1)) || function(arr) {
                     var _arr = [], _n = !0, _d = !1, _e = void 0;
                     try {
-                        for(var _s, _i = arr[Symbol.iterator](); !(_n = (_s = _i.next()).done) && (_arr.push(_s.value), 2 !== _arr.length); _n = !0);
+                        for(var _s, _i = arr[Symbol.iterator](); !(_n = (_s = _i.next()).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0);
                     } catch (err) {
                         _d = !0, _e = err;
                     } finally{
@@ -473,7 +473,7 @@
                         }
                     }
                     return _arr;
-                }(arr, 0) || function() {
+                }(arr, 2) || function() {
                     throw TypeError("Invalid attempt to destructure non-iterable instance");
                 }(), visible = ref[0], setVisible = ref[1], setRef = _react.useCallback(function(el) {
                     var callback, ref, id, observer, elements;
@@ -592,9 +592,9 @@
                 return keys;
             }
             function _objectSpread2(target) {
-                for(var i = 1; i < arguments.length; i++){
-                    var source = null != arguments[i] ? arguments[i] : {};
-                    i % 2 ? ownKeys(Object(source), !0).forEach(function(key) {
+                for(var i1 = 1; i1 < arguments.length; i1++){
+                    var source = null != arguments[i1] ? arguments[i1] : {};
+                    i1 % 2 ? ownKeys(Object(source), !0).forEach(function(key) {
                         var value;
                         value = source[key], key in target ? Object.defineProperty(target, key, {
                             value: value,
@@ -610,8 +610,8 @@
             }
             function _extends() {
                 return (_extends = Object.assign || function(target) {
-                    for(var i = 1; i < arguments.length; i++){
-                        var source = arguments[i];
+                    for(var i1 = 1; i1 < arguments.length; i1++){
+                        var source = arguments[i1];
                         for(var key in source)Object.prototype.hasOwnProperty.call(source, key) && (target[key] = source[key]);
                     }
                     return target;
@@ -619,15 +619,15 @@
             }
             function _objectWithoutProperties(source, excluded) {
                 if (null == source) return {};
-                var key, i, target = function(source, excluded) {
+                var key, i1, target = function(source, excluded) {
                     if (null == source) return {};
-                    var key, i, target = {}, sourceKeys = Object.keys(source);
-                    for(i = 0; i < sourceKeys.length; i++)key = sourceKeys[i], excluded.indexOf(key) >= 0 || (target[key] = source[key]);
+                    var key, i1, target = {}, sourceKeys = Object.keys(source);
+                    for(i1 = 0; i1 < sourceKeys.length; i1++)key = sourceKeys[i1], excluded.indexOf(key) >= 0 || (target[key] = source[key]);
                     return target;
                 }(source, excluded);
                 if (Object.getOwnPropertySymbols) {
                     var sourceSymbolKeys = Object.getOwnPropertySymbols(source);
-                    for(i = 0; i < sourceSymbolKeys.length; i++)key = sourceSymbolKeys[i], !(excluded.indexOf(key) >= 0) && Object.prototype.propertyIsEnumerable.call(source, key) && (target[key] = source[key]);
+                    for(i1 = 0; i1 < sourceSymbolKeys.length; i1++)key = sourceSymbolKeys[i1], !(excluded.indexOf(key) >= 0) && Object.prototype.propertyIsEnumerable.call(source, key) && (target[key] = source[key]);
                 }
                 return target;
             }

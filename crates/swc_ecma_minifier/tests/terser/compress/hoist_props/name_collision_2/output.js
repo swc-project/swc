@@ -1,6 +1,6 @@
 var o_p = 1;
-console.log(true, function(x) {
+console.log(true, function() {
     return 4;
-}(0), function(x) {
+}(4), function() {
     return 6;
-}(0), 2, 3);
+}(5), 2, 3);

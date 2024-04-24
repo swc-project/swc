@@ -6084,8 +6084,8 @@
                     }
                     return result;
                 }
-                function setCssClass(cssClass, elements, oldClass) {
-                    (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.le)(oldClass) || '' === oldClass || (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.IV)(elements, oldClass.split(' ')), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.le)(cssClass) || '' === cssClass || (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.cn)(elements, cssClass.split(' '));
+                function setCssClass(cssClass1, elements, oldClass) {
+                    (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.le)(oldClass) || '' === oldClass || (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.IV)(elements, oldClass.split(' ')), (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.le)(cssClass1) || '' === cssClass1 || (0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.cn)(elements, cssClass1.split(' '));
                 }
                 function calculateWidth(element, container) {
                     !(0, _syncfusion_ej2_base__WEBPACK_IMPORTED_MODULE_0__.le)(container.getElementsByClassName('e-float-text-content')[0]) && (container.getElementsByClassName('e-float-text-content')[0].classList.contains('e-float-text-overflow') && container.getElementsByClassName('e-float-text-content')[0].classList.remove('e-float-text-overflow'), (element.clientWidth < container.getElementsByClassName('e-float-text-content')[0].clientWidth || element.clientWidth === container.getElementsByClassName('e-float-text-content')[0].clientWidth) && container.getElementsByClassName('e-float-text-content')[0].classList.add('e-float-text-overflow'));
@@ -11091,8 +11091,8 @@
                     'auto' !== width ? (0, ej2_base.V7)(this.element, {
                         width: (0, ej2_base.Ac)(this.width)
                     }) : this.element.style.width = 'auto';
-                }, RichTextEditor.prototype.setCssClass = function(cssClass) {
-                    if (!(0, ej2_base.le)(cssClass)) for(var allClassName = cssClass.split(' '), i = 0; i < allClassName.length; i++)'' !== allClassName[i].trim() && this.element.classList.add(allClassName[i]);
+                }, RichTextEditor.prototype.setCssClass = function(cssClass1) {
+                    if (!(0, ej2_base.le)(cssClass1)) for(var allClassName = cssClass1.split(' '), i = 0; i < allClassName.length; i++)'' !== allClassName[i].trim() && this.element.classList.add(allClassName[i]);
                 }, RichTextEditor.prototype.updateRTL = function() {
                     this.notify(constant.vN, {
                         enableRtl: this.enableRtl
@@ -16073,7 +16073,7 @@
                                         timeOut: 0,
                                         type: 'Bootstrap',
                                         radius: radius
-                                    }, function(innerContainer, uniqueID, makeElement) {
+                                    }, function(innerContainer, uniqueID) {
                                         var svgBoot = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
                                         svgBoot.setAttribute('id', uniqueID), svgBoot.setAttribute('class', 'e-spin-bootstrap'), svgBoot.setAttribute('viewBox', "0 0 64 64"), innerContainer.insertBefore(svgBoot, innerContainer.firstChild);
                                         for(var item = 0; item <= 7; item++){
@@ -16121,7 +16121,7 @@
                         }(theme, container.wrap, radius, makeElement), (0, ej2_base.le)(args.label) || (container2 = container.inner_wrap, label = args.label, (labelEle = makeElement('div', {})).classList.add('e-spin-label'), labelEle.innerHTML = label, container2.appendChild(labelEle));
                     } else {
                         var container3, template = (0, ej2_base.le)(args.template) ? null : args.template;
-                        container.wrap.classList.add(CLS_SPINTEMPLATE), container3 = container.wrap, (0, ej2_base.le)(null) || container3.classList.add(null), container3.querySelector('.e-spinner-inner').innerHTML = template;
+                        container.wrap.classList.add(CLS_SPINTEMPLATE), container3 = container.wrap, (0, ej2_base.le)(null) || container3.classList.add(cssClass), container3.querySelector('.e-spinner-inner').innerHTML = template;
                     }
                     container.wrap.classList.add(CLS_HIDESPIN);
                 }
@@ -21454,17 +21454,17 @@
                     if (this.isMaterialTooltip) {
                         var count = content.toString().length;
                         if (this.tooltipElement) {
-                            var cssClass = count > 4 ? {
+                            var cssClass1 = count > 4 ? {
                                 oldCss: slider_classNames.sliderMaterialDefault,
                                 newCss: slider_classNames.sliderMaterialRange
                             } : {
                                 oldCss: slider_classNames.sliderMaterialRange,
                                 newCss: slider_classNames.sliderMaterialDefault
                             };
-                            this.tooltipElement.classList.remove(cssClass.oldCss), this.tooltipElement.classList.contains(cssClass.newCss) || (this.tooltipElement.classList.add(cssClass.newCss), this.tooltipElement.style.transform = count > 4 ? 'scale(1)' : this.getTooltipTransformProperties(this.previousTooltipClass).rotate);
+                            this.tooltipElement.classList.remove(cssClass1.oldCss), this.tooltipElement.classList.contains(cssClass1.newCss) || (this.tooltipElement.classList.add(cssClass1.newCss), this.tooltipElement.style.transform = count > 4 ? 'scale(1)' : this.getTooltipTransformProperties(this.previousTooltipClass).rotate);
                         } else {
-                            var cssClass = count > 4 ? slider_classNames.sliderMaterialRange : slider_classNames.sliderMaterialDefault;
-                            this.tooltipObj.cssClass = slider_classNames.sliderTooltip + ' ' + cssClass;
+                            var cssClass1 = count > 4 ? slider_classNames.sliderMaterialRange : slider_classNames.sliderMaterialDefault;
+                            this.tooltipObj.cssClass = slider_classNames.sliderTooltip + ' ' + cssClass1;
                         }
                     }
                 }, Slider.prototype.tooltipPlacement = function() {
@@ -21505,21 +21505,21 @@
                 }, Slider.prototype.wireMaterialTooltipEvent = function(destroy) {
                     this.isMaterialTooltip && (destroy ? ej2_base.bi.remove(this.tooltipElement, 'mousedown touchstart', this.materialTooltipEventCallBack) : ej2_base.bi.add(this.tooltipElement, 'mousedown touchstart', this.materialTooltipEventCallBack, this));
                 }, Slider.prototype.tooltipPositionCalculation = function(position) {
-                    var cssClass;
+                    var cssClass1;
                     switch(position){
                         case 'TopCenter':
-                            cssClass = slider_classNames.horizontalTooltipBefore;
+                            cssClass1 = slider_classNames.horizontalTooltipBefore;
                             break;
                         case 'BottomCenter':
-                            cssClass = slider_classNames.horizontalTooltipAfter;
+                            cssClass1 = slider_classNames.horizontalTooltipAfter;
                             break;
                         case 'LeftCenter':
-                            cssClass = slider_classNames.verticalTooltipBefore;
+                            cssClass1 = slider_classNames.verticalTooltipBefore;
                             break;
                         case 'RightCenter':
-                            cssClass = slider_classNames.verticalTooltipAfter;
+                            cssClass1 = slider_classNames.verticalTooltipAfter;
                     }
-                    return cssClass;
+                    return cssClass1;
                 }, Slider.prototype.getTooltipTransformProperties = function(className) {
                     var transformProperties;
                     if (this.tooltipElement) {

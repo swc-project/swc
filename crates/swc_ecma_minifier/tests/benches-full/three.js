@@ -4295,7 +4295,7 @@
         }
         var maxAnisotropy, isWebGL2 = 'undefined' != typeof WebGL2RenderingContext && gl instanceof WebGL2RenderingContext || 'undefined' != typeof WebGL2ComputeRenderingContext && gl instanceof WebGL2ComputeRenderingContext, precision = void 0 !== parameters.precision ? parameters.precision : 'highp', maxPrecision = getMaxPrecision(precision);
         maxPrecision !== precision && (console.warn('THREE.WebGLRenderer:', precision, 'not supported, using', maxPrecision, 'instead.'), precision = maxPrecision);
-        var logarithmicDepthBuffer = !0 === parameters.logarithmicDepthBuffer, maxTextures = gl.getParameter(34930), maxVertexTextures = gl.getParameter(35660), maxTextureSize = gl.getParameter(3379), maxCubemapSize = gl.getParameter(34076), maxAttributes = gl.getParameter(34921), maxVertexUniforms = gl.getParameter(36347), maxVaryings = gl.getParameter(36348), maxFragmentUniforms = gl.getParameter(36349), vertexTextures = maxVertexTextures > 0, floatFragmentTextures = isWebGL2 || !!extensions.get('OES_texture_float'), maxSamples = isWebGL2 ? gl.getParameter(36183) : 0;
+        var logarithmicDepthBuffer = !0 === parameters.logarithmicDepthBuffer, maxTextures = gl.getParameter(34930), maxVertexTextures = gl.getParameter(35660), maxTextureSize = gl.getParameter(3379), maxCubemapSize = gl.getParameter(34076), maxAttributes = gl.getParameter(34921), maxVertexUniforms = gl.getParameter(36347), maxVaryings = gl.getParameter(36348), maxFragmentUniforms = gl.getParameter(36349), vertexTextures = maxVertexTextures > 0, floatFragmentTextures = isWebGL2 || !!extensions.get('OES_texture_float'), maxSamples1 = isWebGL2 ? gl.getParameter(36183) : 0;
         return {
             isWebGL2: isWebGL2,
             getMaxAnisotropy: function() {
@@ -4317,7 +4317,7 @@
             vertexTextures: vertexTextures,
             floatFragmentTextures: floatFragmentTextures,
             floatVertexTextures: vertexTextures && floatFragmentTextures,
-            maxSamples: maxSamples
+            maxSamples: maxSamples1
         };
     }
     function WebGLClipping(properties) {
@@ -6250,7 +6250,7 @@
         };
     }
     function WebGLTextures(_gl, extensions, state, properties, capabilities, utils, info) {
-        var _wrappingToGL, _filterToGL, _canvas, isWebGL2 = capabilities.isWebGL2, maxTextures = capabilities.maxTextures, maxCubemapSize = capabilities.maxCubemapSize, maxTextureSize = capabilities.maxTextureSize, maxSamples = capabilities.maxSamples, _videoTextures = new WeakMap(), useOffscreenCanvas = !1;
+        var _wrappingToGL, _filterToGL, _canvas, isWebGL2 = capabilities.isWebGL2, maxTextures = capabilities.maxTextures, maxCubemapSize = capabilities.maxCubemapSize, maxTextureSize = capabilities.maxTextureSize, maxSamples1 = capabilities.maxSamples, _videoTextures = new WeakMap(), useOffscreenCanvas = !1;
         try {
             useOffscreenCanvas = 'undefined' != typeof OffscreenCanvas && null !== new OffscreenCanvas(1, 1).getContext('2d');
         } catch (err) {}
@@ -6426,7 +6426,7 @@
             _gl.bindRenderbuffer(36161, null);
         }
         function getRenderTargetSamples(renderTarget) {
-            return isWebGL2 && renderTarget.isWebGLMultisampleRenderTarget ? Math.min(maxSamples, renderTarget.samples) : 0;
+            return isWebGL2 && renderTarget.isWebGLMultisampleRenderTarget ? Math.min(maxSamples1, renderTarget.samples) : 0;
         }
         var warnedTexture2D = !1, warnedTextureCube = !1;
         this.allocateTextureUnit = function() {
@@ -13955,7 +13955,7 @@
             this._renderer = renderer, this._pingPongRenderTarget = null, this._blurMaterial = new RawShaderMaterial({
                 name: 'SphericalGaussianBlur',
                 defines: {
-                    n: 20
+                    n: maxSamples
                 },
                 uniforms: {
                     envMap: {

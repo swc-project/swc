@@ -51,18 +51,13 @@
             function et(m, S) {}
             var er = {
                 getClippingRect: function(m) {
-                    var S, h, E;
-                    let { element: k, boundary: A, rootBoundary: O, strategy: L } = m, j = [
-                        ..."clippingAncestors" === A ? function(m, S) {
-                            var h, E, k;
-                            let A = S.get(m);
-                            if (A) return A;
-                            let O = (void (h = 0)).filter((m)=>{
-                                var S;
-                                return Z(m) && (S = 0, true);
-                            }), L = null, j = "fixed" === Q(m).position, B = j ? ee(m) : m;
-                            for(; Z(B) && (k = 0, true);){
-                                let m = Q(B), S = function(m) {
+                    let { element: S, boundary: h, rootBoundary: E, strategy: k } = m, A = [
+                        ..."clippingAncestors" === h ? function(m, S) {
+                            let h = S.get(m);
+                            if (h) return h;
+                            let E = (void 0).filter((m)=>Z(m) && true), k = null, A = "fixed" === Q(m).position, O = A ? ee(m) : m;
+                            for(; Z(O);){
+                                let m = Q(O), S = function(m) {
                                     let S = /firefox/i.test(function() {
                                         if (R) return R;
                                         let m = navigator.userAgentData;
@@ -80,41 +75,40 @@
                                         let S = h.contain;
                                         return null != S && S.includes(m);
                                     });
-                                }(B);
-                                "fixed" === m.position ? L = null : (j ? S || L : S || "static" !== m.position || !L || ![
+                                }(O);
+                                "fixed" === m.position ? k = null : (A ? S || k : S || "static" !== m.position || !k || ![
                                     "absolute",
                                     "fixed"
-                                ].includes(L.position)) ? L = m : O = O.filter((m)=>m !== B), B = ee(B);
+                                ].includes(k.position)) ? k = m : E = E.filter((m)=>m !== O), O = ee(O);
                             }
-                            return S.set(m, O), O;
-                        }(k, this._c) : [].concat(A),
-                        O
-                    ], B = j[0], C = j.reduce(()=>{}, (S = 0, h = 0, void (E = 0)));
+                            return S.set(m, E), E;
+                        }(S, this._c) : [].concat(h),
+                        E
+                    ], O = A[0], L = A.reduce(()=>{}, void 0);
                     return {
-                        width: C.right - C.left,
-                        height: C.bottom - C.top,
-                        x: C.left,
-                        y: C.top
+                        width: L.right - L.left,
+                        height: L.bottom - L.top,
+                        x: L.left,
+                        y: L.top
                     };
                 },
                 convertOffsetParentRelativeRectToViewportRelativeRect: function() {},
                 isElement: Z,
                 getDimensions: function(m) {
-                    var S, h;
-                    return (S = 0), m.getBoundingClientRect();
+                    return m.getBoundingClientRect();
                 },
                 getOffsetParent: et,
                 getDocumentElement: function(m) {},
                 getScale: function(m) {},
                 async getElementRects (m) {
-                    var S, h, E;
-                    let { reference: k, floating: R, strategy: A } = m, O = this.getOffsetParent || et, L = this.getDimensions;
+                    var S, h;
+                    let { reference: E, floating: k, strategy: R } = m, A = this.getOffsetParent || et, O = this.getDimensions;
                     return {
-                        reference: (S = 0, h = await O(R), void (E = 0)),
+                        reference: (S = 0, h = await A(k), void 0),
                         floating: {
                             x: 0,
                             y: 0,
-                            ...await L(R)
+                            ...await O(k)
                         }
                     };
                 },

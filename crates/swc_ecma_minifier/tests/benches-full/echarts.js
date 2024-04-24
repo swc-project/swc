@@ -5029,23 +5029,23 @@
                         break;
                     case CMD.C:
                         var x1 = data[i++], y1 = data[i++], x2 = data[i++], y2 = data[i++], x3 = data[i++], y3 = data[i++];
-                        l = function(x0, y0, x1, y1, x2, y2, x3, y3, iteration) {
-                            for(var px = x0, py = y0, d = 0, i = 1; i <= 10; i++){
+                        l = function(x0, y0, x1, y1, x2, y2, x3, y3) {
+                            for(var px = x0, py = y0, d = 0, i = 1; i <= iteration; i++){
                                 var t = 0.1 * i, x = cubicAt(x0, x1, x2, x3, t), y = cubicAt(y0, y1, y2, y3, t), dx = x - px, dy = y - py;
                                 d += Math.sqrt(dx * dx + dy * dy), px = x, py = y;
                             }
                             return d;
-                        }(xi, yi, x1, y1, x2, y2, x3, y3, 0), xi = x3, yi = y3;
+                        }(xi, yi, x1, y1, x2, y2, x3, y3, 10), xi = x3, yi = y3;
                         break;
                     case CMD.Q:
                         var x1 = data[i++], y1 = data[i++], x2 = data[i++], y2 = data[i++];
-                        l = function(x0, y0, x1, y1, x2, y2, iteration) {
-                            for(var px = x0, py = y0, d = 0, i = 1; i <= 10; i++){
+                        l = function(x0, y0, x1, y1, x2, y2) {
+                            for(var px = x0, py = y0, d = 0, i = 1; i <= iteration; i++){
                                 var t = 0.1 * i, x = quadraticAt(x0, x1, x2, t), y = quadraticAt(y0, y1, y2, t), dx = x - px, dy = y - py;
                                 d += Math.sqrt(dx * dx + dy * dy), px = x, py = y;
                             }
                             return d;
-                        }(xi, yi, x1, y1, x2, y2, 0), xi = x2, yi = y2;
+                        }(xi, yi, x1, y1, x2, y2, 10), xi = x2, yi = y2;
                         break;
                     case CMD.A:
                         var cx = data[i++], cy = data[i++], rx = data[i++], ry = data[i++], startAngle = data[i++], delta = data[i++], endAngle = delta + startAngle;
@@ -9036,7 +9036,7 @@
                         for(var pathArr = path.split(','), obj = opt, i = 0; i < pathArr.length && null != (obj = obj && obj[pathArr[i]]); i++);
                         return obj;
                     }(seriesOpt, 'pointer.color');
-                    null != pointerColor && function(opt, path, val, overwrite) {
+                    null != pointerColor && function(opt, path, val) {
                         for(var key, pathArr = path.split(','), obj = opt, i = 0; i < pathArr.length - 1; i++)null == obj[key = pathArr[i]] && (obj[key] = {}), obj = obj[key];
                         null == obj[pathArr[i]] && (obj[pathArr[i]] = val);
                     }(seriesOpt, 'itemStyle.color', pointerColor);
@@ -14479,10 +14479,10 @@
                 }
             }
             return list;
-        }, List.prototype.downSample = function(dimension, rate, sampleValue, sampleIndex) {
+        }, List.prototype.downSample = function(dimension1, rate, sampleValue, sampleIndex) {
             for(var list = cloneListForMapAndSample(this, [
-                dimension
-            ]), targetStorage = list._storage, frameValues = [], frameSize = mathFloor(1 / rate), dimStore = targetStorage[dimension], len = this.count(), rawExtentOnDim = list._rawExtent[dimension], newIndices = new (getIndicesCtor(this))(len), offset = 0, i = 0; i < len; i += frameSize){
+                dimension1
+            ]), targetStorage = list._storage, frameValues = [], frameSize = mathFloor(1 / rate), dimStore = targetStorage[dimension1], len = this.count(), rawExtentOnDim = list._rawExtent[dimension1], newIndices = new (getIndicesCtor(this))(len), offset = 0, i = 0; i < len; i += frameSize){
                 frameSize > len - i && (frameSize = len - i, frameValues.length = frameSize);
                 for(var k = 0; k < frameSize; k++){
                     var dataIdx = this.getRawIndex(i + k);
@@ -15408,9 +15408,9 @@
                                 }
                             ]);
                             for(var i = 0; i < lastLevelTicks.length - 1; i++){
-                                var approxInterval1, startTick = lastLevelTicks[i].value, endTick = lastLevelTicks[i + 1].value;
+                                var approxInterval1, approxInterval2, approxInterval3, startTick = lastLevelTicks[i].value, endTick = lastLevelTicks[i + 1].value;
                                 if (startTick !== endTick) {
-                                    var approxInterval2, approxInterval3, interval = void 0, getterName = void 0, setterName = void 0;
+                                    var interval = void 0, getterName = void 0, setterName = void 0;
                                     switch(unitName){
                                         case 'year':
                                             interval = Math.max(1, Math.round(approxInterval / 86400000 / 365)), getterName = fullYearGetterName(isUTC), setterName = isUTC ? 'setUTCFullYear' : 'setFullYear';
@@ -15418,17 +15418,17 @@
                                         case 'half-year':
                                         case 'quarter':
                                         case 'month':
-                                            interval = (approxInterval2 = approxInterval / 2592000000) > 6 ? 6 : approxInterval2 > 3 ? 3 : approxInterval2 > 2 ? 2 : 1, getterName = monthGetterName(isUTC), setterName = monthSetterName(isUTC);
+                                            interval = (approxInterval1 = approxInterval / 2592000000) > 6 ? 6 : approxInterval1 > 3 ? 3 : approxInterval1 > 2 ? 2 : 1, getterName = monthGetterName(isUTC), setterName = monthSetterName(isUTC);
                                             break;
                                         case 'week':
                                         case 'half-week':
                                         case 'day':
-                                            interval = (approxInterval3 = approxInterval / 86400000) > 16 ? 16 : approxInterval3 > 7.5 ? 7 : approxInterval3 > 3.5 ? 4 : approxInterval3 > 1.5 ? 2 : 1, getterName = dateGetterName(isUTC), setterName = dateSetterName(isUTC);
+                                            interval = (approxInterval2 = approxInterval / 86400000) > 16 ? 16 : approxInterval2 > 7.5 ? 7 : approxInterval2 > 3.5 ? 4 : approxInterval2 > 1.5 ? 2 : 1, getterName = dateGetterName(isUTC), setterName = dateSetterName(isUTC);
                                             break;
                                         case 'half-day':
                                         case 'quarter-day':
                                         case 'hour':
-                                            interval = (approxInterval1 = approxInterval / 3600000) > 12 ? 12 : approxInterval1 > 6 ? 6 : approxInterval1 > 3.5 ? 4 : approxInterval1 > 2 ? 2 : 1, getterName = hoursGetterName(isUTC), setterName = hoursSetterName(isUTC);
+                                            interval = (approxInterval3 = approxInterval / 3600000) > 12 ? 12 : approxInterval3 > 6 ? 6 : approxInterval3 > 3.5 ? 4 : approxInterval3 > 2 ? 2 : 1, getterName = hoursGetterName(isUTC), setterName = hoursSetterName(isUTC);
                                             break;
                                         case 'minute':
                                             interval = getMinutesAndSecondsInterval(approxInterval, !0), getterName = minutesGetterName(isUTC), setterName = minutesSetterName(isUTC);
@@ -22420,9 +22420,9 @@
             return this.eachNode(function(childNode) {
                 indices.push(childNode.dataIndex);
             }), indices;
-        }, TreeNode.prototype.getValue = function(dimension) {
+        }, TreeNode.prototype.getValue = function(dimension1) {
             var data = this.hostTree.data;
-            return data.get(data.getDimension(dimension || 'value'), this.dataIndex);
+            return data.get(data.getDimension(dimension1 || 'value'), this.dataIndex);
         }, TreeNode.prototype.setLayout = function(layout, merge) {
             this.dataIndex >= 0 && this.hostTree.data.setItemLayout(this.dataIndex, layout, merge);
         }, TreeNode.prototype.getLayout = function() {
@@ -23823,15 +23823,15 @@
                             });
                             var info = function(nodeModel, children, orderBy) {
                                 for(var dataExtent, sum = 0, i = 0, len = children.length; i < len; i++)sum += children[i].getValue();
-                                var dimension = nodeModel.get('visualDimension');
-                                return children && children.length ? 'value' === dimension && orderBy ? (dataExtent = [
+                                var dimension1 = nodeModel.get('visualDimension');
+                                return children && children.length ? 'value' === dimension1 && orderBy ? (dataExtent = [
                                     children[children.length - 1].getValue(),
                                     children[0].getValue()
                                 ], 'asc' === orderBy && dataExtent.reverse()) : (dataExtent = [
                                     1 / 0,
                                     -1 / 0
                                 ], each(children, function(child) {
-                                    var value = child.getValue(dimension);
+                                    var value = child.getValue(dimension1);
                                     value < dataExtent[0] && (dataExtent[0] = value), value > dataExtent[1] && (dataExtent[1] = value);
                                 })) : dataExtent = [
                                     NaN,
@@ -24969,9 +24969,9 @@
     }();
     function createGraphDataProxyMixin(hostName, dataName) {
         return {
-            getValue: function(dimension) {
+            getValue: function(dimension1) {
                 var data = this[hostName][dataName];
-                return data.get(data.getDimension(dimension || 'value'), this.dataIndex);
+                return data.get(data.getDimension(dimension1 || 'value'), this.dataIndex);
             },
             setVisual: function(key, value) {
                 this.dataIndex >= 0 && this[hostName][dataName].setItemVisual(this.dataIndex, key, value);
@@ -30193,12 +30193,12 @@
                 newArray2
             ];
         }(pathToBezierCurves(fromPathProxy), pathToBezierCurves(toPathProxy));
-        !function(path, morphingData, morphT) {
+        !function(path, morphingData) {
             if (isIndividualMorphingPath(path)) {
                 updateIndividualMorphingPath(path, morphingData, 0);
                 return;
             }
-            path.__oldBuildPath = path.buildPath, path.buildPath = morphingPathBuildPath, updateIndividualMorphingPath(path, morphingData, 0);
+            path.__oldBuildPath = path.buildPath, path.buildPath = morphingPathBuildPath, updateIndividualMorphingPath(path, morphingData, morphT);
         }(toPath, function(fromArr, toArr, searchAngleIteration, searchAngleRange) {
             for(var fromNeedsReverse, result = [], i = 0; i < fromArr.length; i++){
                 var fromSubpathBezier = fromArr[i], toSubpathBezier = toArr[i], fromCp = centroid(fromSubpathBezier), toCp = centroid(toSubpathBezier);
@@ -30270,8 +30270,8 @@
             for(var m = 0; m < from.length;)0 === m && path.moveTo(tmpArr$1[m++], tmpArr$1[m++]), path.bezierCurveTo(tmpArr$1[m++], tmpArr$1[m++], tmpArr$1[m++], tmpArr$1[m++], tmpArr$1[m++], tmpArr$1[m++]);
         }
     }
-    function updateIndividualMorphingPath(morphingPath, morphingData, morphT) {
-        morphingPath.__morphingData = morphingData, morphingPath.__morphT = morphT;
+    function updateIndividualMorphingPath(morphingPath, morphingData, morphT1) {
+        morphingPath.__morphingData = morphingData, morphingPath.__morphT = morphT1;
     }
     function isIndividualMorphingPath(path) {
         return null != path.__oldBuildPath;
@@ -30642,13 +30642,13 @@
             return !1;
         }, CustomSeriesView.type = 'custom', CustomSeriesView;
     }(ChartView);
-    function createGetKey(data, diffMode, dimension) {
+    function createGetKey(data, diffMode, dimension1) {
         if (data) {
             if ('oneToOne' === diffMode) return function(rawIdx, dataIndex) {
                 return data.getId(dataIndex);
             };
-            var diffByDimName = data.getDimension(dimension), dimInfo = data.getDimensionInfo(diffByDimName);
-            !dimInfo && throwError(dimension + " is not a valid dimension.");
+            var diffByDimName = data.getDimension(dimension1), dimInfo = data.getDimensionInfo(diffByDimName);
+            !dimInfo && throwError(dimension1 + " is not a valid dimension.");
             var ordinalMeta = dimInfo.ordinalMeta;
             return function(rawIdx, dataIndex) {
                 var key = data.get(diffByDimName, dataIndex);
@@ -31067,7 +31067,7 @@
                 updateElOnState(stateName, el, otherStateOpt, otherStyleOpt, attachedTxInfoTmp);
             }
         }
-        return !function(el, elOption, seriesModel, attachedTxInfo) {
+        return !function(el, elOption, seriesModel) {
             if (!el.isGroup) {
                 var currentZ = seriesModel.currentZ, currentZLevel = seriesModel.currentZLevel;
                 el.z = currentZ, el.zlevel = currentZLevel;
@@ -36187,7 +36187,7 @@
                 } : function(dataIndex) {
                     return checkInRange(seriesModel, rangeInfoList, data, dataIndex) ? (seriesBrushSelected.dataIndex.push(data.getRawIndex(dataIndex)), 'inBrush') : 'outOfBrush';
                 };
-                (linkOthers(seriesIndex) ? hasBrushExists : brushed(rangeInfoList)) && function(stateList, visualMappings, data, getValueState, scope, dimension) {
+                (linkOthers(seriesIndex) ? hasBrushExists : brushed(rangeInfoList)) && function(stateList, visualMappings, data, getValueState) {
                     var dataIndex, visualTypesMap = {};
                     function getVisual(key) {
                         return getItemVisualFromData(data, dataIndex, key);
@@ -36195,17 +36195,20 @@
                     function setVisual(key, value) {
                         setItemVisualFromData(data, dataIndex, key, value);
                     }
-                    each(stateList, function(state) {
-                        var visualTypes = VisualMapping.prepareVisualTypes(visualMappings[state]);
-                        visualTypesMap[state] = visualTypes;
-                    }), data.each(function(valueOrIndex, index) {
+                    function eachItem(valueOrIndex, index) {
                         dataIndex = valueOrIndex;
                         var rawDataItem = data.getRawDataItem(dataIndex);
                         if (!rawDataItem || !1 !== rawDataItem.visualMap) for(var valueState = getValueState.call(void 0, valueOrIndex), mappings = visualMappings[valueState], visualTypes = visualTypesMap[valueState], i = 0, len = visualTypes.length; i < len; i++){
                             var type = visualTypes[i];
                             mappings[type] && mappings[type].applyVisual(valueOrIndex, getVisual, setVisual);
                         }
-                    });
+                    }
+                    each(stateList, function(state) {
+                        var visualTypes = VisualMapping.prepareVisualTypes(visualMappings[state]);
+                        visualTypesMap[state] = visualTypes;
+                    }), null == dimension ? data.each(eachItem) : data.each([
+                        dimension
+                    ], eachItem);
                 }(STATE_LIST, visualMappings, data, getValueState);
             });
         }), function(api, throttleType, throttleDelay, brushSelected, payload) {

@@ -1,5 +1,5 @@
 var c = "FAIL";
-(function(a, NaN) {
+(function(a) {
     (function() {
         switch(a){
             case a:

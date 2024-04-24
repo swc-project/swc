@@ -228,7 +228,7 @@
     }
     function daysInMonth(year, month) {
         if (isNaN(year) || isNaN(month)) return NaN;
-        var modMonth = (month % 12 + 12) % 12;
+        var modMonth = (month % 12 + x) % x;
         return year += (month - modMonth) / 12, 1 === modMonth ? isLeapYear(year) ? 29 : 28 : 31 - modMonth % 7 % 2;
     }
     indexOf = Array.prototype.indexOf ? Array.prototype.indexOf : function(o) {
@@ -561,8 +561,8 @@
                 parentConfig = locale._config;
             }
         }
-        return locales[name] = new Locale(mergeConfigs(parentConfig, config)), localeFamilies[name] && localeFamilies[name].forEach(function(x) {
-            defineLocale(x.name, x.config);
+        return locales[name] = new Locale(mergeConfigs(parentConfig, config)), localeFamilies[name] && localeFamilies[name].forEach(function(x1) {
+            defineLocale(x1.name, x1.config);
         }), getSetGlobalLocale(name), locales[name];
     }
     function getLocale(key) {
@@ -1269,7 +1269,7 @@
                 time = this._d.valueOf(), time += 60000 - (time % 60000 + 60000) % 60000 - 1;
                 break;
             case "second":
-                time = this._d.valueOf(), time += 1000 - (time % 1000 + 1000) % 1000 - 1;
+                time = this._d.valueOf(), time += 1000 - (time % 1000 + divisor) % divisor - 1;
         }
         return this._d.setTime(time), hooks.updateOffset(this, !0), this;
     }, proto.format = function(inputString) {
@@ -1359,7 +1359,7 @@
                 time = this._d.valueOf(), time -= (time % 60000 + 60000) % 60000;
                 break;
             case "second":
-                time = this._d.valueOf(), time -= (time % 1000 + 1000) % 1000;
+                time = this._d.valueOf(), time -= (time % 1000 + divisor) % divisor;
         }
         return this._d.setTime(time), hooks.updateOffset(this, !0), this;
     }, proto.subtract = subtract, proto.toArray = function() {
@@ -1504,9 +1504,9 @@
     }), proto.isDSTShifted = deprecate("isDSTShifted is deprecated. See http://momentjs.com/guides/#/warnings/dst-shifted/ for more information", function() {
         if (!isUndefined(this._isDSTShifted)) return this._isDSTShifted;
         var other, c = {};
-        return copyConfig(c, this), (c = prepareConfig(c))._a ? (other = c._isUTC ? createUTC(c._a) : createLocal(c._a), this._isDSTShifted = this.isValid() && function(array1, array2, dontConvert) {
+        return copyConfig(c, this), (c = prepareConfig(c))._a ? (other = c._isUTC ? createUTC(c._a) : createLocal(c._a), this._isDSTShifted = this.isValid() && function(array1, array2) {
             var i, len = Math.min(array1.length, array2.length), lengthDiff = Math.abs(array1.length - array2.length), diffs = 0;
-            for(i = 0; i < len; i++)toInt(array1[i]) !== toInt(array2[i]) && diffs++;
+            for(i = 0; i < len; i++)!dontConvert && toInt(array1[i]) !== toInt(array2[i]) && diffs++;
             return diffs + lengthDiff;
         }(c._a, other.toArray()) > 0) : this._isDSTShifted = !1, this._isDSTShifted;
     });
@@ -1696,8 +1696,8 @@
         return locale.relativeTime(number || 1, !!withoutSuffix, string, isFuture);
     }
     var abs$1 = Math.abs;
-    function sign(x) {
-        return (x > 0) - (x < 0) || +x;
+    function sign(x1) {
+        return (x1 > 0) - (x1 < 0) || +x1;
     }
     function toISOString$1() {
         if (!this.isValid()) return this.localeData().invalidDate();

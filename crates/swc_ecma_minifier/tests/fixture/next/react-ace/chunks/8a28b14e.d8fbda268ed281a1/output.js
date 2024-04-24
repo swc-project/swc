@@ -56,7 +56,7 @@
                     module = define.modules[moduleName] = exports || module;
                 }
                 return module;
-            }, root = global, global.ace || (global.ace = {}), (root = global.ace).define && root.define.packaged || (define.original = root.define, root.define = define, root.define.packaged = !0), root.require && root.require.packaged || (require.original = root.require, root.require = require, root.require.packaged = !0), ace.define("ace/lib/fixoldbrowsers", [
+            }, root = global, global[ns] || (global[ns] = {}), (root = global[ns]).define && root.define.packaged || (define.original = root.define, root.define = define, root.define.packaged = !0), root.require && root.require.packaged || (require.original = root.require, root.require = require, root.require.packaged = !0), ace.define("ace/lib/fixoldbrowsers", [
                 "require",
                 "exports",
                 "module"
@@ -117,8 +117,8 @@
                     }), parent && parent.appendChild(el), el;
                 }, exports.getDocumentHead = function(doc) {
                     return doc || (doc = document), doc.head || doc.getElementsByTagName("head")[0] || doc.documentElement;
-                }, exports.createElement = function(tag, ns) {
-                    return document.createElementNS ? document.createElementNS(ns || "http://www.w3.org/1999/xhtml", tag) : document.createElement(tag);
+                }, exports.createElement = function(tag, ns1) {
+                    return document.createElementNS ? document.createElementNS(ns1 || "http://www.w3.org/1999/xhtml", tag) : document.createElement(tag);
                 }, exports.removeChildren = function(element) {
                     element.innerHTML = "";
                 }, exports.createTextNode = function(textContent, element) {
@@ -11071,8 +11071,8 @@ margin: 0 10px;\
                             var normalizePath = this.$normalizePath;
                             workerUrl = workerUrl || normalizePath(require.toUrl("ace/worker/worker.js", null, "_"));
                             var tlns = {};
-                            topLevelNamespaces.forEach(function(ns) {
-                                tlns[ns] = normalizePath(require.toUrl(ns, null, "_").replace(/(\.js)?(\?.*)?$/, ""));
+                            topLevelNamespaces.forEach(function(ns1) {
+                                tlns[ns1] = normalizePath(require.toUrl(ns1, null, "_").replace(/(\.js)?(\?.*)?$/, ""));
                             });
                         }
                         return this.$worker = createWorker(workerUrl), importScripts && this.send("importScripts", importScripts), this.$worker.postMessage({
