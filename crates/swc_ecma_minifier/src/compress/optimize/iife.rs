@@ -160,7 +160,7 @@ impl Optimizer<'_> {
         fn clean_params(callee: &mut Expr, vars: &FxHashSet<Id>) {
             match callee {
                 Expr::Arrow(callee) => {
-                    for p in &mut callee.params {
+                    for p in callee.params.iter_mut().rev() {
                         if let Pat::Ident(param) = p {
                             if vars.contains(&param.to_id()) {
                                 p.take();
@@ -175,7 +175,7 @@ impl Optimizer<'_> {
                     callee.params.retain(|p| !p.is_invalid())
                 }
                 Expr::Fn(callee) => {
-                    for p in &mut callee.function.params {
+                    for p in callee.function.params.iter_mut().rev() {
                         if let Pat::Ident(param) = &mut p.pat {
                             if vars.contains(&param.to_id()) {
                                 p.pat.take();
