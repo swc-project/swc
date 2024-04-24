@@ -486,6 +486,10 @@ impl Optimizer<'_> {
                 }
 
                 if !self.may_add_ident() {
+                    if !f.params.is_empty() {
+                        return;
+                    }
+
                     match &*f.body {
                         BlockStmtOrExpr::BlockStmt(body) => {
                             let has_decl =
@@ -582,6 +586,10 @@ impl Optimizer<'_> {
                 trace_op!("iife: Expr::Fn(..)");
 
                 if !self.may_add_ident() {
+                    if !f.params.is_empty() {
+                        return;
+                    }
+
                     let body = f.function.body.as_ref().unwrap();
                     let has_decl = body.stmts.iter().any(|stmt| matches!(stmt, Stmt::Decl(..)));
                     if has_decl {
