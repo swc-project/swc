@@ -11212,3 +11212,14 @@ fn issue_8864_1() {
       ",
     )
 }
+
+#[test]
+fn issue_8886() {
+    run_default_exec_test(
+        "const bar = ((v) => v)(1);
+const foo = ((v) => v)(2);
+
+eval(bar);
+eval(foo);",
+    );
+}
