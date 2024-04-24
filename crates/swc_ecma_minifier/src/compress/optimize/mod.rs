@@ -342,6 +342,10 @@ impl Optimizer<'_> {
     }
 
     fn may_add_ident(&self) -> bool {
+        if self.ctx.in_top_level() && self.data.top.has_eval_call {
+            return false;
+        }
+
         if self.data.scopes.get(&self.ctx.scope).unwrap().has_eval_call {
             return false;
         }
