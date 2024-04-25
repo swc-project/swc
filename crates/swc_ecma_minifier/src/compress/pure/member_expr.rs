@@ -2,7 +2,7 @@ use phf::phf_set;
 use swc_atoms::{Atom, JsWord};
 use swc_ecma_ast::{
     ArrayLit, Expr, ExprOrSpread, Ident, Lit, MemberExpr, MemberProp, ObjectLit, Prop,
-    PropOrSpread, Str,
+    PropOrSpread, SeqExpr, Str,
 };
 use swc_ecma_utils::{prop_name_eq, undefined, ExprExt, Known};
 
@@ -302,6 +302,33 @@ impl Pure<'_> {
         };
 
         match obj {
+            Expr::Seq(SeqExpr { exprs, span }) => {
+                // Optimize when last value in a SeqExpr is being indexed
+                // while preserving side effects.
+                //
+                // (0, {a: 5}).a
+                //
+                // (0, f(), {a: 5}).a
+                //
+                // (0, f(), [1, 2])[0]
+                //
+                // etc.
+
+                // Try to optimize with obj being the last expr
+                let Some(last) = exprs.last_mut() else {
+                    return None;
+                };
+                let Some(replacement) = self.optimize_member_expr(last, prop) else {
+                    return None;
+                };
+
+                // Replace last element with replacement
+                let mut exprs: Vec<Box<Expr>> = exprs.drain(..(exprs.len() - 1)).collect();
+                exprs.push(Box::new(replacement));
+
+                Some(Expr::Seq(SeqExpr { span: *span, exprs }))
+            }
+
             Expr::Lit(Lit::Str(Str { value, span, .. })) => {
                 match op {
                     KnownOp::Index(idx) => {

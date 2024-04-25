@@ -315,14 +315,20 @@ impl SimplifyExpr {
                                 .extract_side_effects_to(&mut exprs, *elem.expr);
                         }
 
+                        // Note: we always replace with a SeqExpr so that
+                        // `this` remains undefined in strict mode.
+
                         if exprs.is_empty() {
-                            // No side effects exist, replace with value.
-                            *expr = *val;
+                            // No side effects exist, replace with:
+                            // (0, val)
+                            *expr = Expr::Seq(SeqExpr {
+                                span: val.span(),
+                                exprs: vec![0.into(), val],
+                            });
                             return;
                         }
 
-                        // Side effects exist, add value to the end and replace
-                        // with a SeqExpr.
+                        // Add value and replace with SeqExpr
                         exprs.push(val);
                         *expr = Expr::Seq(SeqExpr { span: *span, exprs });
                     }
