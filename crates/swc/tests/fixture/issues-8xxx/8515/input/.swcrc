@@ -1,0 +1,14 @@
+{
+    "jsc": {
+        "target": "es2016",
+        "keepClassNames": true,
+        "parser": {
+            "syntax": "ecmascript",
+            "decorators": true
+        },
+        "transform": {
+            "legacyDecorator": true,
+            "useDefineForClassFields": true
+        }
+    }
+}
