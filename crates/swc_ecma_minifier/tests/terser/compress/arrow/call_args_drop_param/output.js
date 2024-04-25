@@ -1,3 +1,5 @@
 const a = 1;
 console.log(1);
-b;
+(function(a) {
+    return 1;
+})(0, b);

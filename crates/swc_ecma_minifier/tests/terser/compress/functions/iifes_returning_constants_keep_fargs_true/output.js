@@ -1,6 +1,14 @@
 console.log("okay");
-console.log(123);
-console.log(void 0);
-console.log(2);
-console.log(6);
-console.log((a(), b(), 6));
+console.log(function(x, y, z) {
+    return 123;
+}());
+console.log(function(x, y, z) {}());
+console.log(function(x, y, z) {
+    return 2;
+}(0, 0, 0));
+console.log(function(x, y) {
+    return 6;
+}(0, 0));
+console.log(function(x, y) {
+    return 6;
+}(0, 0, a(), b()));

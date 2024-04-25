@@ -1542,7 +1542,7 @@
                                 var cache, cachedResp, deferred = $q.defer(), promise = deferred.promise, url = function(url, params) {
                                     if (!params) return url;
                                     var parts = [];
-                                    return function(obj, iterator) {
+                                    return function(obj, iterator, context) {
                                         for(var keys = sortedKeys(obj), i = 0; i < keys.length; i++)iterator.call(void 0, obj[keys[i]], keys[i]);
                                     }(params, function(value, key) {
                                         null === value || isUndefined(value) || (isArray(value) || (value = [

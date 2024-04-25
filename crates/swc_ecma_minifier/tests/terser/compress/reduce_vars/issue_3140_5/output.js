@@ -1,5 +1,5 @@
 var n = 1, c = 0;
-(function() {
+(function(a) {
     var b = function() {
         this;
         n-- && h();

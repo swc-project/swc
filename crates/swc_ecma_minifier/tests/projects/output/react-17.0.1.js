@@ -459,10 +459,7 @@
     }
     function describeUnknownElementTypeFrameInDEV(type, source, ownerFn) {
         if (null == type) return "";
-        if ("function" == typeof type) {
-            var prototype;
-            return describeNativeComponentFrame(type, !!((prototype = type.prototype) && prototype.isReactComponent));
-        }
+        if ("function" == typeof type) return describeNativeComponentFrame(type, !!((prototype = type.prototype) && prototype.isReactComponent));
         if ("string" == typeof type) return describeBuiltInComponentFrame(type);
         switch(type){
             case exports.Suspense:
@@ -478,7 +475,7 @@
             case REACT_BLOCK_TYPE:
                 return describeNativeComponentFrame(type._render, !1);
             case REACT_LAZY_TYPE:
-                var payload = type._payload, init = type._init;
+                var prototype, payload = type._payload, init = type._init;
                 try {
                     return describeUnknownElementTypeFrameInDEV(init(payload), source, ownerFn);
                 } catch (x) {}

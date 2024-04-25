@@ -99,13 +99,13 @@ export var L = function(K) {
     }
     return L;
 }(K);
-export var M = function() {
+export var M = function(_superClass) {
     function M() {
         var _this;
         return _class_call_check(this, M), _this.prop = 12, _possible_constructor_return(_this);
     }
     return _inherits(M, null), _create_super(M), M;
-}(null);
+}(0);
 export var N = function(L) {
     _inherits(N, L);
     var _super = _create_super(N);

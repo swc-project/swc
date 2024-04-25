@@ -3,7 +3,7 @@
         var a = undefined;
         var undefined = a++;
         try {
-            !function() {
+            !function(b) {
                 (void 0)[1] = "foo";
             }();
             console.log("FAIL");

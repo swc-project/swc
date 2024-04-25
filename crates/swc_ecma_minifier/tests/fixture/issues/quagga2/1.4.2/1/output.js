@@ -6785,10 +6785,10 @@
                                 if (0xff !== dataView.getUint8(0) || 0xd8 !== dataView.getUint8(1)) return !1;
                                 for(; offset < length && 0xff === dataView.getUint8(offset);){
                                     if (0xe1 === dataView.getUint8(offset + 1)) return function(file, start, exifTags) {
-                                        if ("Exif" !== function(buffer, start) {
+                                        if ("Exif" !== function(buffer, start, length) {
                                             for(var outstr = "", n = start; n < start + 4; n++)outstr += String.fromCharCode(buffer.getUint8(n));
                                             return outstr;
-                                        }(file, start, 4)) return !1;
+                                        }(file, start, 0)) return !1;
                                         var bigEnd, tiffOffset = start + 6;
                                         if (0x4949 === file.getUint16(tiffOffset)) bigEnd = !1;
                                         else {

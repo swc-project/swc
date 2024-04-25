@@ -30,7 +30,7 @@
                     if (this.isSpeedy) {
                         var sheet = function(tag) {
                             if (tag.sheet) return tag.sheet;
-                            for(var i1 = 0; i1 < document.styleSheets.length; i1++)if (document.styleSheets[i1].ownerNode === tag) return document.styleSheets[i1];
+                            for(var i = 0; i < document.styleSheets.length; i++)if (document.styleSheets[i].ownerNode === tag) return document.styleSheets[i];
                         }(tag1);
                         try {
                             sheet.insertRule(rule, sheet.cssRules.length);
@@ -137,7 +137,7 @@
             }
             var MS = "-ms-", MOZ = "-moz-", WEBKIT = "-webkit-", COMMENT = "comm", Enum_RULESET = "rule", DECLARATION = "decl";
             function serialize(children, callback) {
-                for(var output = "", length = children.length, i1 = 0; i1 < length; i1++)output += callback(children[i1], i1, children, callback) || "";
+                for(var output = "", length = children.length, i = 0; i < length; i++)output += callback(children[i], i, children, callback) || "";
                 return output;
             }
             function stringify(element, index, children, callback) {
@@ -155,7 +155,7 @@
             function ruleset(value, root, parent, index, offset, rules, points, type, props, children, length) {
                 for(var post = offset - 1, rule = 0 === offset ? rules : [
                     ""
-                ], size = rule.length, i1 = 0, j = 0, k = 0; i1 < index; ++i1)for(var x = 0, y = Utility_substr(value, post + 1, post = abs(j = points[i1])), z = value; x < size; ++x)(z = (j > 0 ? rule[x] + " " + y : replace(y, /&\f/g, rule[x])).trim()) && (props[k++] = z);
+                ], size = rule.length, i = 0, j = 0, k = 0; i < index; ++i)for(var x = 0, y = Utility_substr(value, post + 1, post = abs(j = points[i])), z = value; x < size; ++x)(z = (j > 0 ? rule[x] + " " + y : replace(y, /&\f/g, rule[x])).trim()) && (props[k++] = z);
                 return node(value, root, parent, 0 === offset ? Enum_RULESET : type, props, children, length);
             }
             function declaration(value, root, parent, length) {
@@ -191,7 +191,7 @@
                     for(var value = element.value, parent = element.parent, isImplicitRule = element.column === parent.column && element.line === parent.line; "rule" !== parent.type;)if (!(parent = parent.parent)) return;
                     if ((1 !== element.props.length || 58 === value.charCodeAt(0) || fixedElements.get(parent)) && !isImplicitRule) {
                         fixedElements.set(element, !0);
-                        for(var points = [], rules = getRules(value, points), parentRules = parent.props, i1 = 0, k = 0; i1 < rules.length; i1++)for(var j = 0; j < parentRules.length; j++, k++)element.props[k] = points[i1] ? rules[i1].replace(/&\f/g, parentRules[j]) : parentRules[j] + " " + rules[i1];
+                        for(var points = [], rules = getRules(value, points), parentRules = parent.props, i = 0, k = 0; i < rules.length; i++)for(var j = 0; j < parentRules.length; j++, k++)element.props[k] = points[i] ? rules[i].replace(/&\f/g, parentRules[j]) : parentRules[j] + " " + rules[i];
                     }
                 }
             }, removeLabel = function(element) {
@@ -344,14 +344,14 @@
                     }
                 }
             ], hash_browser_esm = function(str) {
-                for(var k, h = 0, i1 = 0, len = str.length; len >= 4; ++i1, len -= 4)k = (0xffff & (k = 0xff & str.charCodeAt(i1) | (0xff & str.charCodeAt(++i1)) << 8 | (0xff & str.charCodeAt(++i1)) << 16 | (0xff & str.charCodeAt(++i1)) << 24)) * 0x5bd1e995 + ((k >>> 16) * 0xe995 << 16), k ^= k >>> 24, h = (0xffff & k) * 0x5bd1e995 + ((k >>> 16) * 0xe995 << 16) ^ (0xffff & h) * 0x5bd1e995 + ((h >>> 16) * 0xe995 << 16);
+                for(var k, h = 0, i = 0, len = str.length; len >= 4; ++i, len -= 4)k = (0xffff & (k = 0xff & str.charCodeAt(i) | (0xff & str.charCodeAt(++i)) << 8 | (0xff & str.charCodeAt(++i)) << 16 | (0xff & str.charCodeAt(++i)) << 24)) * 0x5bd1e995 + ((k >>> 16) * 0xe995 << 16), k ^= k >>> 24, h = (0xffff & k) * 0x5bd1e995 + ((k >>> 16) * 0xe995 << 16) ^ (0xffff & h) * 0x5bd1e995 + ((h >>> 16) * 0xe995 << 16);
                 switch(len){
                     case 3:
-                        h ^= (0xff & str.charCodeAt(i1 + 2)) << 16;
+                        h ^= (0xff & str.charCodeAt(i + 2)) << 16;
                     case 2:
-                        h ^= (0xff & str.charCodeAt(i1 + 1)) << 8;
+                        h ^= (0xff & str.charCodeAt(i + 1)) << 8;
                     case 1:
-                        h ^= 0xff & str.charCodeAt(i1), h = (0xffff & h) * 0x5bd1e995 + ((h >>> 16) * 0xe995 << 16);
+                        h ^= 0xff & str.charCodeAt(i), h = (0xffff & h) * 0x5bd1e995 + ((h >>> 16) * 0xe995 << 16);
                 }
                 return h ^= h >>> 13, (((h = (0xffff & h) * 0x5bd1e995 + ((h >>> 16) * 0xe995 << 16)) ^ h >>> 15) >>> 0).toString(36);
             }, unitless_browser_esm = {
@@ -445,7 +445,7 @@
                         }
                         return function(mergedProps, registered, obj) {
                             var string = "";
-                            if (Array.isArray(obj)) for(var i1 = 0; i1 < obj.length; i1++)string += handleInterpolation(mergedProps, registered, obj[i1]) + ";";
+                            if (Array.isArray(obj)) for(var i = 0; i < obj.length; i++)string += handleInterpolation(mergedProps, registered, obj[i]) + ";";
                             else for(var _key in obj){
                                 var value = obj[_key];
                                 if ("object" != typeof value) null != registered && void 0 !== registered[value] ? string += _key + "{" + registered[value] + "}" : isProcessableValue(value) && (string += processStyleName(_key) + ":" + processStyleValue(_key, value) + ";");
@@ -480,7 +480,7 @@
                 cursor = void 0;
                 var strings = args[0];
                 null == strings || void 0 === strings.raw ? (stringMode = !1, styles += handleInterpolation(mergedProps, registered, strings)) : styles += strings[0];
-                for(var i1 = 1; i1 < args.length; i1++)styles += handleInterpolation(mergedProps, registered, args[i1]), stringMode && (styles += strings[i1]);
+                for(var i = 1; i < args.length; i++)styles += handleInterpolation(mergedProps, registered, args[i]), stringMode && (styles += strings[i]);
                 labelPattern.lastIndex = 0;
                 for(var identifierName = ""; null !== (match = labelPattern.exec(styles));)identifierName += "-" + match[1];
                 return {
@@ -500,7 +500,7 @@
                 }
                 var stylisPlugins = options.stylisPlugins || defaultStylisPlugins, inserted = {}, nodesToHydrate = [];
                 container = options.container || document.head, Array.prototype.forEach.call(document.querySelectorAll('style[data-emotion^="' + key + ' "]'), function(node) {
-                    for(var attrib = node.getAttribute("data-emotion").split(" "), i1 = 1; i1 < attrib.length; i1++)inserted[attrib[i1]] = !0;
+                    for(var attrib = node.getAttribute("data-emotion").split(" "), i = 1; i < attrib.length; i++)inserted[attrib[i]] = !0;
                     nodesToHydrate.push(node);
                 });
                 var serializer = (length = (collection = [
@@ -514,7 +514,7 @@
                         !element.root && (element = element.return) && callback(element);
                     })
                 ])).length, function(element, index, children, callback) {
-                    for(var output = "", i1 = 0; i1 < length; i1++)output += collection[i1](element, index, children, callback) || "";
+                    for(var output = "", i = 0; i < length; i++)output += collection[i](element, index, children, callback) || "";
                     return output;
                 }), stylis = function(styles) {
                     var value, value1;
@@ -739,8 +739,8 @@
                     }
                     var keys = getOwnPropertyNames(sourceComponent);
                     getOwnPropertySymbols && (keys = keys.concat(getOwnPropertySymbols(sourceComponent)));
-                    for(var targetStatics = getStatics(targetComponent), sourceStatics = getStatics(sourceComponent), i1 = 0; i1 < keys.length; ++i1){
-                        var key = keys[i1];
+                    for(var targetStatics = getStatics(targetComponent), sourceStatics = getStatics(sourceComponent), i = 0; i < keys.length; ++i){
+                        var key = keys[i];
                         if (!KNOWN_STATICS[key] && !(blacklist && blacklist[key]) && !(sourceStatics && sourceStatics[key]) && !(targetStatics && targetStatics[key])) {
                             var descriptor = getOwnPropertyDescriptor(sourceComponent, key);
                             try {
@@ -754,13 +754,13 @@
         },
         8418: function(__unused_webpack_module, exports, __webpack_require__) {
             "use strict";
-            function _slicedToArray(arr, i1) {
+            function _slicedToArray(arr, i) {
                 return function(arr) {
                     if (Array.isArray(arr)) return arr;
-                }(arr) || function(arr, i1) {
+                }(arr) || function(arr, i) {
                     var _arr = [], _n = !0, _d = !1, _e = void 0;
                     try {
-                        for(var _s, _i = arr[Symbol.iterator](); !(_n = (_s = _i.next()).done) && (_arr.push(_s.value), !i1 || _arr.length !== i1); _n = !0);
+                        for(var _s, _i = arr[Symbol.iterator](); !(_n = (_s = _i.next()).done) && (_arr.push(_s.value), !i || _arr.length !== i); _n = !0);
                     } catch (err) {
                         _d = !0, _e = err;
                     } finally{
@@ -771,7 +771,7 @@
                         }
                     }
                     return _arr;
-                }(arr, i1) || function() {
+                }(arr, i) || function() {
                     throw TypeError("Invalid attempt to destructure non-iterable instance");
                 }();
             }
@@ -849,10 +849,10 @@
             }), exports.useIntersection = function(param) {
                 var arr, rootMargin = param.rootMargin, isDisabled = param.disabled || !hasIntersectionObserver, unobserve = _react.useRef(), ref = function(arr) {
                     if (Array.isArray(arr)) return arr;
-                }(arr = _react.useState(!1)) || function(arr) {
+                }(arr = _react.useState(!1)) || function(arr, i) {
                     var _arr = [], _n = !0, _d = !1, _e = void 0;
                     try {
-                        for(var _s, _i = arr[Symbol.iterator](); !(_n = (_s = _i.next()).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0);
+                        for(var _s, _i = arr[Symbol.iterator](); !(_n = (_s = _i.next()).done) && (_arr.push(_s.value), 2 !== _arr.length); _n = !0);
                     } catch (err) {
                         _d = !0, _e = err;
                     } finally{
@@ -863,7 +863,7 @@
                         }
                     }
                     return _arr;
-                }(arr, 2) || function() {
+                }(arr, 0) || function() {
                     throw TypeError("Invalid attempt to destructure non-iterable instance");
                 }(), visible = ref[0], setVisible = ref[1], setRef = _react.useCallback(function(el) {
                     var callback, ref, id, observer, elements;
