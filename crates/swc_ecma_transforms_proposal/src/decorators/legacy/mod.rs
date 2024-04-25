@@ -289,7 +289,7 @@ impl VisitMut for TscDecorator {
                     right: Box::new(e.take()),
                 })
                 .map(Into::into)
-                .chain(appended_exprs.into_iter())
+                .chain(appended_exprs)
                 .collect(),
             });
         }
