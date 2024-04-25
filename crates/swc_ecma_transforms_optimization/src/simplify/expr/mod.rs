@@ -115,9 +115,9 @@ impl SimplifyExpr {
             /// [a, b].length
             Len,
 
-            // [a, b][0]
-            //
-            // {0.5: "bar"}[0.5]
+            /// [a, b][0]
+            ///
+            /// {0.5: "bar"}[0.5]
             /// Note: callers need to check `v.fract() == 0.0` in some cases.
             /// ie non-integer indexes for arrays result in `undefined`
             /// but not for objects (because indexing an object
