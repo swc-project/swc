@@ -5,6 +5,9 @@
 
 
 
+- **(es/decorator)** Support for legacy decorators in class expressions ([#8892](https://github.com/swc-project/swc/issues/8892)) ([8fe57ad](https://github.com/swc-project/swc/commit/8fe57adc02f1a67ece9b73769d90320ae4e72808))
+
+
 - **(es/helpers)** Remove unused export from `_using_ctx.js` ([#8891](https://github.com/swc-project/swc/issues/8891)) ([438d0b3](https://github.com/swc-project/swc/commit/438d0b32b680a1a64861e97cb4a1e14213335e48))
 
 

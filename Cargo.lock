@@ -4774,7 +4774,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_proposal"
-version = "0.172.0"
+version = "0.172.1"
 dependencies = [
  "either",
  "rustc-hash",
