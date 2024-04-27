@@ -159,8 +159,14 @@ impl Optimizer<'_> {
 
         fn clean_params(callee: &mut Expr) {
             match callee {
-                Expr::Arrow(callee) => callee.params.retain(|p| !p.is_invalid()),
-                Expr::Fn(callee) => callee.function.params.retain(|p| !p.pat.is_invalid()),
+                Expr::Arrow(callee) => {
+                    // Drop invalid nodes
+                    callee.params.retain(|p| !p.is_invalid())
+                }
+                Expr::Fn(callee) => {
+                    // Drop invalid nodes
+                    callee.function.params.retain(|p| !p.pat.is_invalid())
+                }
                 _ => {}
             }
         }
@@ -301,9 +307,9 @@ impl Optimizer<'_> {
                     unreachable!("find_body and find_params should match")
                 }
             }
-        }
 
-        clean_params(callee);
+            clean_params(callee);
+        }
     }
 
     /// If a parameter is not used, we can ignore return value of the
@@ -519,6 +525,10 @@ impl Optimizer<'_> {
                         }
                     }
                     BlockStmtOrExpr::Expr(body) => {
+                        if !self.can_extract_param(&param_ids) {
+                            return;
+                        }
+
                         if let Expr::Lit(Lit::Num(..)) = &**body {
                             if self.ctx.in_obj_of_non_computed_member {
                                 return;
@@ -528,15 +538,9 @@ impl Optimizer<'_> {
                         self.changed = true;
                         report_change!("inline: Inlining a function call (arrow)");
 
-                        let vars = param_ids
-                            .iter()
-                            .map(|name| VarDeclarator {
-                                span: DUMMY_SP,
-                                name: name.clone().into(),
-                                init: Default::default(),
-                                definite: Default::default(),
-                            })
-                            .collect::<Vec<_>>();
+                        let mut exprs = vec![Box::new(make_number(DUMMY_SP, 0.0))];
+
+                        let vars = self.inline_fn_param(&param_ids, &mut call.args, &mut exprs);
 
                         if !vars.is_empty() {
                             self.prepend_stmts.push(
@@ -548,18 +552,6 @@ impl Optimizer<'_> {
                                 }
                                 .into(),
                             )
-                        }
-
-                        let mut exprs = vec![Box::new(make_number(DUMMY_SP, 0.0))];
-                        for (idx, param) in param_ids.iter().enumerate() {
-                            if let Some(arg) = call.args.get_mut(idx) {
-                                exprs.push(Box::new(Expr::Assign(AssignExpr {
-                                    span: DUMMY_SP,
-                                    op: op!("="),
-                                    left: param.clone().into(),
-                                    right: arg.expr.take(),
-                                })));
-                            }
                         }
 
                         if call.args.len() > f.params.len() {
@@ -697,6 +689,22 @@ impl Optimizer<'_> {
         }
     }
 
+    fn can_extract_param(&self, param_ids: &[Ident]) -> bool {
+        // Don't create top-level variables.
+        if !param_ids.is_empty() && !self.may_add_ident() {
+            for pid in param_ids {
+                if let Some(usage) = self.data.vars.get(&pid.to_id()) {
+                    if usage.ref_count > 1 || usage.assign_count > 0 || usage.inline_prevented {
+                        log_abort!("iife: [x] Cannot inline because of usage of `{}`", pid);
+                        return false;
+                    }
+                }
+            }
+        }
+
+        true
+    }
+
     fn can_inline_fn_like(&self, param_ids: &[Ident], body: &BlockStmt) -> bool {
         trace_op!("can_inline_fn_like");
 
@@ -712,16 +720,8 @@ impl Optimizer<'_> {
             }
         }
 
-        // Don't create top-level variables.
-        if !param_ids.is_empty() && !self.may_add_ident() {
-            for pid in param_ids {
-                if let Some(usage) = self.data.vars.get(&pid.to_id()) {
-                    if usage.ref_count > 1 || usage.assign_count > 0 || usage.inline_prevented {
-                        log_abort!("iife: [x] Cannot inline because of usage of `{}`", pid);
-                        return false;
-                    }
-                }
-            }
+        if !self.can_extract_param(param_ids) {
+            return false;
         }
 
         // Abort on eval.
@@ -835,27 +835,13 @@ impl Optimizer<'_> {
         true
     }
 
-    fn inline_fn_like(
+    fn inline_fn_param(
         &mut self,
         params: &[Ident],
-        body: &mut BlockStmt,
         args: &mut [ExprOrSpread],
-    ) -> Option<Expr> {
-        if !self.can_inline_fn_like(params, &*body) {
-            return None;
-        }
-
-        if args.iter().any(|arg| arg.spread.is_some()) {
-            return None;
-        }
-
-        if self.vars.inline_with_multi_replacer(body) {
-            self.changed = true;
-        }
-
+        exprs: &mut Vec<Box<Expr>>,
+    ) -> Vec<VarDeclarator> {
         let mut vars = Vec::new();
-        let mut exprs = Vec::new();
-        let param_len = params.len();
 
         for (idx, param) in params.iter().enumerate() {
             let arg = args.get_mut(idx).map(|arg| arg.expr.take());
@@ -902,6 +888,31 @@ impl Optimizer<'_> {
                 definite: Default::default(),
             });
         }
+
+        vars
+    }
+
+    fn inline_fn_like(
+        &mut self,
+        params: &[Ident],
+        body: &mut BlockStmt,
+        args: &mut [ExprOrSpread],
+    ) -> Option<Expr> {
+        if !self.can_inline_fn_like(params, &*body) {
+            return None;
+        }
+
+        if args.iter().any(|arg| arg.spread.is_some()) {
+            return None;
+        }
+
+        if self.vars.inline_with_multi_replacer(body) {
+            self.changed = true;
+        }
+
+        let param_len = params.len();
+        let mut exprs = Vec::new();
+        let vars = self.inline_fn_param(params, args, &mut exprs);
 
         if args.len() > param_len {
             for arg in &mut args[param_len..] {
