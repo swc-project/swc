@@ -1,4 +1,15 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(es/helpers)** Remove unused export from `_using_ctx.js` ([#8891](https://github.com/swc-project/swc/issues/8891)) ([438d0b3](https://github.com/swc-project/swc/commit/438d0b32b680a1a64861e97cb4a1e14213335e48))
+
+
+- **(es/minifier)** Do not add vars if `eval` exists ([#8888](https://github.com/swc-project/swc/issues/8888)) ([be359fa](https://github.com/swc-project/swc/commit/be359fa75318d645f954feb90353b884dfa51e6e))
+
 ## [1.5.0] - 2024-04-24
 
 ### Bug Fixes
