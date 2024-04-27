@@ -1,5 +1,5 @@
 # Changelog
-## [unreleased]
+## [1.5.1] - 2024-04-27
 
 ### Bug Fixes
 
@@ -1340,9 +1340,6 @@
 
 ### Bug Fixes
 
-
-
-- **(es/compat)** Fix scoping of `explicit-resource-management` ([#8044](https://github.com/swc-project/swc/issues/8044)) ([96a7a4d](https://github.com/swc-project/swc/commit/96a7a4d045d08547fed75c79a7156f79262edfc2))
 
 
 - **(es/compat)** Transform default-exported class decorators correctly ([#8050](https://github.com/swc-project/swc/issues/8050)) ([a751f1c](https://github.com/swc-project/swc/commit/a751f1cfaf415917ab2a5e5098d9ca32bffa907b))
