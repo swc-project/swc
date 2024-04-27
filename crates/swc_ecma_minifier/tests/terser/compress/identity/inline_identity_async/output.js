@@ -1,2 +1,2 @@
-(async () => await 1)();
-(async (x) => await console.log(2))();
+(async ()=>await 1)();
+(async (x)=>await console.log(2))();

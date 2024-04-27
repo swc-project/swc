@@ -1,5 +1,3 @@
-console.log(
-    (function (a) {
-        return function () {}.length;
-    })()
-);
+console.log(function(a) {
+    return (function() {}).length;
+}());
