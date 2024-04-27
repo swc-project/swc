@@ -1,4 +1,4 @@
-use std::mem;
+use std::{iter, mem};
 
 use swc_atoms::JsWord;
 use swc_common::{collections::AHashMap, util::take::Take, DUMMY_SP};
@@ -268,7 +268,9 @@ impl VisitMut for TscDecorator {
     }
 
     fn visit_mut_expr(&mut self, e: &mut Expr) {
+        let appended_exprs = mem::take(&mut self.appended_exprs);
         e.visit_mut_children_with(self);
+        let appended_exprs = mem::replace(&mut self.appended_exprs, appended_exprs);
 
         if let Some(var_name) = self.assign_class_expr_to.take() {
             self.vars.push(VarDeclarator {
@@ -278,11 +280,17 @@ impl VisitMut for TscDecorator {
                 definite: Default::default(),
             });
 
-            *e = Expr::Assign(AssignExpr {
+            *e = Expr::Seq(SeqExpr {
                 span: DUMMY_SP,
-                op: op!("="),
-                left: var_name.into(),
-                right: Box::new(e.take()),
+                exprs: iter::once(AssignExpr {
+                    span: DUMMY_SP,
+                    op: op!("="),
+                    left: var_name.into(),
+                    right: Box::new(e.take()),
+                })
+                .map(Into::into)
+                .chain(appended_exprs)
+                .collect(),
             });
         }
     }
