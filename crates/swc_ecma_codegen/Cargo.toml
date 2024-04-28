@@ -17,13 +17,13 @@ serde-impl = ["swc_ecma_ast/serde"]
 bench = false
 
 [dependencies]
-memchr     = "2.6.1"
-num-bigint = { version = "0.4", features = ["serde"] }
-once_cell  = "1.19.0"
-rustc-hash = "1.1.0"
-serde      = "1.0.197"
-sourcemap  = "8.0"
-tracing    = "0.1.40"
+memchr     = { workspace = true }
+num-bigint = { workspace = true, features = ["serde"] }
+once_cell  = { workspace = true }
+rustc-hash = { workspace = true }
+serde      = { workspace = true }
+sourcemap  = { workspace = true }
+tracing    = { workspace = true }
 
 swc_atoms               = { version = "0.6.5", path = "../swc_atoms" }
 swc_common              = { version = "0.33.20", path = "../swc_common" }
@@ -31,9 +31,9 @@ swc_ecma_ast            = { version = "0.113.0", path = "../swc_ecma_ast" }
 swc_ecma_codegen_macros = { version = "0.7.4", path = "../swc_ecma_codegen_macros" }
 
 [dev-dependencies]
-base64     = "0.21"
-criterion  = "0.5"
-serde_json = "1"
+base64     = { workspace = true }
+criterion  = { workspace = true }
+serde_json = { workspace = true }
 
 swc_common = { version = "0.33.20", path = "../swc_common", features = [
   "sourcemap",

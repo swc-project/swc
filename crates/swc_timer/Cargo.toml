@@ -12,7 +12,7 @@ version       = "0.21.21"
 bench = false
 
 [dependencies]
-tracing = "0.1.40"
+tracing = { workspace = true }
 
 [dev-dependencies]
 testing = { version = "0.35.21", path = "../testing" }

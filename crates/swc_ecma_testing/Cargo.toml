@@ -12,9 +12,9 @@ version       = "0.22.22"
 bench = false
 
 [dependencies]
-anyhow  = "1"
-hex     = "0.4"
-sha2    = "0.10"
-tracing = "0.1.40"
+anyhow  = { workspace = true }
+hex     = { workspace = true }
+sha2    = { workspace = true }
+tracing = { workspace = true }
 
 testing = { version = "0.35.21", path = "../testing" }

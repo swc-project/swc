@@ -13,6 +13,6 @@ bench      = false
 proc-macro = true
 
 [dependencies]
-proc-macro2 = "1"
-quote       = "1"
-syn         = { version = "2", features = ["full"] }
+proc-macro2 = { workspace = true }
+quote       = { workspace = true }
+syn         = { workspace = true, features = ["full"] }

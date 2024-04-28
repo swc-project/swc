@@ -13,10 +13,10 @@ bench      = false
 proc-macro = true
 
 [dependencies]
-anyhow      = "1"
-proc-macro2 = "1"
-quote       = "1"
-syn         = "2"
+anyhow      = { workspace = true }
+proc-macro2 = { workspace = true }
+quote       = { workspace = true }
+syn         = { workspace = true }
 
 swc_atoms         = { version = "0.6.5", path = "../swc_atoms" }
 swc_common        = { version = "0.33.20", path = "../swc_common" }

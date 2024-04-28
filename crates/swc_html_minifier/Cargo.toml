@@ -16,9 +16,9 @@ version = "0.135.0"
 bench = false
 
 [dependencies]
-once_cell  = "1.19.0"
-serde      = { version = "1.0.197", features = ["derive"] }
-serde_json = "1.0.115"
+once_cell  = { workspace = true }
+serde      = { workspace = true, features = ["derive"] }
+serde_json = { workspace = true }
 
 swc_atoms = { version = "0.6.5", path = "../swc_atoms" }
 swc_cached = { version = "0.3.19", path = "../swc_cached" }
@@ -44,7 +44,7 @@ swc_html_utils = { version = "0.18.19", path = "../swc_html_utils" }
 swc_html_visit = { version = "0.33.19", path = "../swc_html_visit" }
 
 [dev-dependencies]
-criterion = "0.5"
+criterion = { workspace = true }
 
 swc_malloc = { version = "0.5.10", path = "../swc_malloc" }
 testing    = { version = "0.35.21", path = "../testing" }

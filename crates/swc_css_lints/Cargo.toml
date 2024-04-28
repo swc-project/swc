@@ -13,11 +13,11 @@ version       = "0.60.32"
 bench = false
 
 [dependencies]
-auto_impl   = "1.2.0"
-parking_lot = "0.12.1"
-rayon       = "1.7.0"
-serde       = { version = "1.0.197", features = ["derive"] }
-thiserror   = "1.0.30"
+auto_impl   = { workspace = true }
+parking_lot = { workspace = true }
+rayon       = { workspace = true }
+serde       = { workspace = true, features = ["derive"] }
+thiserror   = { workspace = true }
 
 swc_atoms     = { version = "0.6.5", path = "../swc_atoms" }
 swc_cached    = { version = "0.3.19", path = "../swc_cached" }
@@ -26,7 +26,7 @@ swc_css_ast   = { version = "0.140.21", path = "../swc_css_ast" }
 swc_css_visit = { version = "0.139.21", path = "../swc_css_visit" }
 
 [dev-dependencies]
-serde_json = "1.0.115"
+serde_json = { workspace = true }
 
 swc_css_parser = { version = "0.150.30", path = "../swc_css_parser" }
 testing        = { version = "0.35.21", path = "../testing" }

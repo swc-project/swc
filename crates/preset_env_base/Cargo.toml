@@ -11,14 +11,14 @@ version       = "0.4.12"
 bench = false
 
 [dependencies]
-ahash           = "0.8.8"
-anyhow          = "1"
-browserslist-rs = "0.15.0"
-dashmap         = "5.5.3"
-once_cell       = "1.19.0"
-semver          = { version = "1.0.17", features = ["serde"] }
-serde           = { version = "1", features = ["derive"] }
-st-map          = "0.2.0"
-tracing         = { version = "0.1.40" }
+ahash           = { workspace = true }
+anyhow          = { workspace = true }
+browserslist-rs = { workspace = true }
+dashmap         = { workspace = true }
+once_cell       = { workspace = true }
+semver          = { workspace = true, features = ["serde"] }
+serde           = { workspace = true, features = ["derive"] }
+st-map          = { workspace = true }
+tracing         = { workspace = true }
 
 from_variant = { version = "0.1.7", path = "../from_variant" }

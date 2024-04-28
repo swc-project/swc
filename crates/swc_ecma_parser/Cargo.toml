@@ -24,17 +24,17 @@ typescript = []
 verify     = ["swc_ecma_visit"]
 
 [dependencies]
-either      = { version = "1.10" }
-num-bigint  = "0.4"
-num-traits  = "0.2.15"
-serde       = { version = "1", features = ["derive"] }
-smallvec    = "1.8.0"
-smartstring = "1"
-tracing     = "0.1.40"
-typed-arena = "2.0.1"
+either      = { workspace = true }
+num-bigint  = { workspace = true }
+num-traits  = { workspace = true }
+serde       = { workspace = true, features = ["derive"] }
+smallvec    = { workspace = true }
+smartstring = { workspace = true }
+tracing     = { workspace = true }
+typed-arena = { workspace = true }
 
-new_debug_unreachable = "1.0.4"
-phf                   = { version = "0.11.2", features = ["macros"] }
+new_debug_unreachable = { workspace = true }
+phf                   = { workspace = true, features = ["macros"] }
 swc_atoms             = { version = "0.6.5", path = "../swc_atoms" }
 swc_common            = { version = "0.33.20", path = "../swc_common" }
 swc_ecma_ast          = { version = "0.113.0", path = "../swc_ecma_ast" }
@@ -44,10 +44,10 @@ swc_ecma_visit        = { version = "0.99.0", path = "../swc_ecma_visit", option
 stacker = { version = "0.1.15", optional = true }
 
 [dev-dependencies]
-criterion         = "0.5"
-pretty_assertions = "1.3"
-serde_json        = "1"
-walkdir           = "2"
+criterion         = { workspace = true }
+pretty_assertions = { workspace = true }
+serde_json        = { workspace = true }
+walkdir           = { workspace = true }
 
 swc_ecma_ast = { version = "0.113.0", path = "../swc_ecma_ast", features = [
   "serde-impl",

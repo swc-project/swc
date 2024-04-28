@@ -37,30 +37,30 @@ __rkyv    = []
 rkyv-impl = ["__rkyv", "rkyv", "swc_atoms/rkyv-impl", "bytecheck"]
 
 [dependencies]
-ahash     = { version = "0.8.8", optional = true }
-anyhow    = { version = "1.0.81", optional = true }
-arbitrary = { version = "1", optional = true, features = ["derive"] }
-atty      = { version = "0.2", optional = true }
+ahash     = { workspace = true, optional = true }
+anyhow    = { workspace = true, optional = true }
+arbitrary = { workspace = true, features = ["derive"], optional = true }
+atty      = { workspace = true, optional = true }
 # bytecheck version should be in sync with rkyv version. Do not bump individually.
-bytecheck = { version = "0.6.10", optional = true }
-cfg-if = "1.0.0"
-either = "1.10"
-new_debug_unreachable = "1.0.4"
-num-bigint = "0.4"
-once_cell = "1.19.0"
-parking_lot = { version = "0.12.1", optional = true }
-rkyv = { version = "=0.7.44", optional = true, features = [
+bytecheck = { workspace = true, optional = true }
+cfg-if = { workspace = true }
+either = { workspace = true }
+new_debug_unreachable = { workspace = true }
+num-bigint = { workspace = true }
+once_cell = { workspace = true }
+parking_lot = { workspace = true, optional = true }
+rkyv = { workspace = true, features = [
   "strict",
   "validation",
-] }
-rustc-hash = "1.1.0"
-serde = { version = "1.0.197", features = ["derive"] }
-siphasher = "0.3.9"
-sourcemap = { version = "8", optional = true }
-termcolor = { version = "1.0", optional = true }
-tracing = "0.1.40"
-unicode-width = "0.1.4"
-url = "2.4.0"
+], optional = true }
+rustc-hash = { workspace = true }
+serde = { workspace = true, features = ["derive"] }
+siphasher = { workspace = true }
+sourcemap = { workspace = true, optional = true }
+termcolor = { workspace = true, optional = true }
+tracing = { workspace = true }
+unicode-width = { workspace = true }
+url = { workspace = true }
 
 ast_node             = { version = "0.9.6", path = "../ast_node" }
 better_scoped_tls    = { version = "0.1.1", path = "../better_scoped_tls" }
@@ -71,9 +71,9 @@ swc_visit            = { version = "0.5.10", path = "../swc_visit" }
 
 
 [dev-dependencies]
-criterion  = "0.5"
-rayon      = "1"
-serde_json = "1"
+criterion  = { workspace = true }
+rayon      = { workspace = true }
+serde_json = { workspace = true }
 
 [[bench]]
 harness = false

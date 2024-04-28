@@ -24,18 +24,18 @@ concurrent = ["swc_common/concurrent", "dashmap", "rayon", "indexmap/rayon"]
 default    = []
 
 [dependencies]
-anyhow        = "1"
-crc           = "2.1.0"
-dashmap       = { version = "5.5.3", optional = true }
-indexmap      = "2.0.0"
-is-macro      = "0.3.5"
-once_cell     = "1.19.0"
-parking_lot   = "0.12.1"
-petgraph      = "0.6"
+anyhow        = { workspace = true }
+crc           = { workspace = true }
+dashmap       = { workspace = true, optional = true }
+indexmap      = { workspace = true }
+is-macro      = { workspace = true }
+once_cell     = { workspace = true }
+parking_lot   = { workspace = true }
+petgraph      = { workspace = true }
 radix_fmt     = "1"
-rayon         = { version = "1", optional = true }
-relative-path = "1.2"
-tracing       = "0.1.40"
+rayon         = { workspace = true, optional = true }
+relative-path = { workspace = true }
+tracing       = { workspace = true }
 
 swc_atoms                        = { version = "0.6.5", path = "../swc_atoms" }
 swc_common                       = { version = "0.33.20", path = "../swc_common" }
@@ -51,13 +51,13 @@ swc_fast_graph                   = { version = "0.21.20", path = "../swc_fast_gr
 swc_graph_analyzer               = { version = "0.22.22", path = "../swc_graph_analyzer/" }
 
 [dev-dependencies]
-hex        = "0.4"
-ntest      = "0.7.2"
+hex        = { workspace = true }
+ntest      = { workspace = true }
 path-clean = "=0.1.0"
-reqwest    = { version = "0.11.14", features = ["blocking"] }
+reqwest    = { workspace = true, features = ["blocking"] }
 sha-1      = "0.10"
-tempfile   = "3.6.0"
-url        = "2.4.0"
+tempfile   = { workspace = true }
+url        = { workspace = true }
 
 swc_ecma_loader = { version = "0.45.23", path = "../swc_ecma_loader", features = [
   "node",

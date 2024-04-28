@@ -1,7 +1,7 @@
 [package]
 authors = [
-    "강동윤 <kdy1997.dev@gmail.com>",
-    "Alexander Akait <sheo13666q@gmail.com>",
+  "강동윤 <kdy1997.dev@gmail.com>",
+  "Alexander Akait <sheo13666q@gmail.com>",
 ]
 description = "Internal macro for the xml code generator"
 documentation = "https://rustdoc.swc.rs/swc_xml_codegen_macros/"
@@ -16,8 +16,8 @@ bench      = false
 proc-macro = true
 
 [dependencies]
-proc-macro2 = "1"
-quote       = "1"
-syn         = { version = "2", features = ["fold"] }
+proc-macro2 = { workspace = true }
+quote       = { workspace = true }
+syn         = { workspace = true, features = ["fold"] }
 
 swc_macros_common = { version = "0.3.9", path = "../swc_macros_common" }

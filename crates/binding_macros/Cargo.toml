@@ -40,13 +40,19 @@ swc_ecma_transforms = { optional = true, version = "0.230.0", path = "../swc_ecm
 swc_ecma_visit      = { optional = true, version = "0.99.0", path = "../swc_ecma_visit" }
 
 # Optional deps for the wasm binding macro
-anyhow = { optional = true, version = "1.0.81" }
-console_error_panic_hook = { optional = true, version = "0.1.7" }
-js-sys = { optional = true, version = "0.3.59" }
-once_cell = { optional = true, version = "1.19.0" }
-serde = { optional = true, version = "1", features = ["derive"] }
-serde-wasm-bindgen = { optional = true, version = "0.4.5" }
-wasm-bindgen = { optional = true, version = "0.2.91", features = [
-  "enable-interning",
-] }
-wasm-bindgen-futures = { optional = true, version = "0.4.41" }
+anyhow                   = { workspace = true, optional = true }
+console_error_panic_hook = { workspace = true, optional = true }
+js-sys                   = { workspace = true, optional = true }
+once_cell                = { workspace = true, optional = true }
+serde                    = { workspace = true, features = ["derive"], optional = true }
+serde-wasm-bindgen       = { workspace = true, optional = true }
+
+
+  [dependencies.wasm-bindgen]
+  features  = ["enable-interning"]
+  optional  = true
+  workspace = true
+
+  [dependencies.wasm-bindgen-futures]
+  optional  = true
+  workspace = true

@@ -14,9 +14,9 @@ bench      = false
 proc-macro = true
 
 [dependencies]
-Inflector   = "0.11.4"
-proc-macro2 = "1"
-quote       = "1"
-syn         = { version = "2", features = ["parsing", "full"] }
+Inflector   = { workspace = true }
+proc-macro2 = { workspace = true }
+quote       = { workspace = true }
+syn         = { workspace = true, features = ["parsing", "full"] }
 
 swc_macros_common = { version = "0.3.9", path = "../swc_macros_common" }
