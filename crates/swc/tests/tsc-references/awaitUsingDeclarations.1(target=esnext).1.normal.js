@@ -1,37 +1,37 @@
 //// [awaitUsingDeclarations.1.ts]
 import { _ as _using_ctx } from "@swc/helpers/_/_using_ctx";
-async function af() {
-    try {
-        var _usingCtx = _using_ctx();
-        const d3 = _usingCtx.a({
-            async [Symbol.asyncDispose] () {}
-        });
-        await null;
-    } catch (_) {
-        _usingCtx.e = _;
-    } finally{
-        await _usingCtx.d();
-    }
-}
-async function* ag() {
-    try {
-        var _usingCtx = _using_ctx();
-        const d5 = _usingCtx.a({
-            async [Symbol.asyncDispose] () {}
-        });
-        yield;
-        await null;
-    } catch (_) {
-        _usingCtx.e = _;
-    } finally{
-        await _usingCtx.d();
-    }
-}
 try {
     var _usingCtx = _using_ctx();
     var d1 = _usingCtx.a({
         async [Symbol.asyncDispose] () {}
     });
+    async function af() {
+        try {
+            var _usingCtx = _using_ctx();
+            const d3 = _usingCtx.a({
+                async [Symbol.asyncDispose] () {}
+            });
+            await null;
+        } catch (_) {
+            _usingCtx.e = _;
+        } finally{
+            await _usingCtx.d();
+        }
+    }
+    async function* ag() {
+        try {
+            var _usingCtx = _using_ctx();
+            const d5 = _usingCtx.a({
+                async [Symbol.asyncDispose] () {}
+            });
+            yield;
+            await null;
+        } catch (_) {
+            _usingCtx.e = _;
+        } finally{
+            await _usingCtx.d();
+        }
+    }
     const a = async ()=>{
         try {
             var _usingCtx = _using_ctx();

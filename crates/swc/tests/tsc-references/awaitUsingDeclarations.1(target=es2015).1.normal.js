@@ -3,49 +3,6 @@ import { _ as _async_to_generator } from "@swc/helpers/_/_async_to_generator";
 import { _ as _await_async_generator } from "@swc/helpers/_/_await_async_generator";
 import { _ as _wrap_async_generator } from "@swc/helpers/_/_wrap_async_generator";
 import { _ as _using_ctx } from "@swc/helpers/_/_using_ctx";
-function af() {
-    return _af.apply(this, arguments);
-}
-function _af() {
-    _af = _async_to_generator(function*() {
-        try {
-            var _usingCtx = _using_ctx();
-            const d3 = _usingCtx.a({
-                [Symbol.asyncDispose] () {
-                    return _async_to_generator(function*() {})();
-                }
-            });
-            yield null;
-        } catch (_) {
-            _usingCtx.e = _;
-        } finally{
-            yield _usingCtx.d();
-        }
-    });
-    return _af.apply(this, arguments);
-}
-function ag() {
-    return _ag.apply(this, arguments);
-}
-function _ag() {
-    _ag = _wrap_async_generator(function*() {
-        try {
-            var _usingCtx = _using_ctx();
-            const d5 = _usingCtx.a({
-                [Symbol.asyncDispose] () {
-                    return _async_to_generator(function*() {})();
-                }
-            });
-            yield;
-            yield _await_async_generator(null);
-        } catch (_) {
-            _usingCtx.e = _;
-        } finally{
-            yield _await_async_generator(_usingCtx.d());
-        }
-    });
-    return _ag.apply(this, arguments);
-}
 try {
     var _usingCtx = _using_ctx();
     var d1 = _usingCtx.a({
@@ -53,6 +10,49 @@ try {
             return _async_to_generator(function*() {})();
         }
     });
+    function af() {
+        return _af.apply(this, arguments);
+    }
+    function _af() {
+        _af = _async_to_generator(function*() {
+            try {
+                var _usingCtx = _using_ctx();
+                const d3 = _usingCtx.a({
+                    [Symbol.asyncDispose] () {
+                        return _async_to_generator(function*() {})();
+                    }
+                });
+                yield null;
+            } catch (_) {
+                _usingCtx.e = _;
+            } finally{
+                yield _usingCtx.d();
+            }
+        });
+        return _af.apply(this, arguments);
+    }
+    function ag() {
+        return _ag.apply(this, arguments);
+    }
+    function _ag() {
+        _ag = _wrap_async_generator(function*() {
+            try {
+                var _usingCtx = _using_ctx();
+                const d5 = _usingCtx.a({
+                    [Symbol.asyncDispose] () {
+                        return _async_to_generator(function*() {})();
+                    }
+                });
+                yield;
+                yield _await_async_generator(null);
+            } catch (_) {
+                _usingCtx.e = _;
+            } finally{
+                yield _await_async_generator(_usingCtx.d());
+            }
+        });
+        return _ag.apply(this, arguments);
+    }
     const a = function() {
         var _ref = _async_to_generator(function*() {
             try {

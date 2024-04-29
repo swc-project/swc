@@ -1,9 +1,6 @@
 //// [usingDeclarationsTopLevelOfModule.3.ts]
 import { _ as _using_ctx } from "@swc/helpers/_/_using_ctx";
 export { y };
-function f() {
-    console.log(y, z);
-}
 try {
     var _usingCtx = _using_ctx();
     var z = _usingCtx.u({
@@ -11,6 +8,9 @@ try {
     });
     if (false) {
         var y = 1;
+    }
+    function f() {
+        console.log(y, z);
     }
 } catch (_) {
     _usingCtx.e = _;

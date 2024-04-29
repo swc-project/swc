@@ -4,9 +4,6 @@ System.register([
 ], function(_export, _context) {
     "use strict";
     var _using_ctx;
-    function f() {
-        console.log(y, z);
-    }
     return {
         setters: [
             function(_using_ctx1) {
@@ -21,6 +18,9 @@ System.register([
                 });
                 if (false) {
                     var y = 1;
+                }
+                function f() {
+                    console.log(y, z);
                 }
             } catch (_) {
                 _usingCtx.e = _;
