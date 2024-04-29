@@ -6,7 +6,7 @@ license     = "Apache-2.0"
 name        = "binding_minifier_wasm"
 publish     = false
 repository  = "https://github.com/swc-project/swc.git"
-version     = "1.5.3-nightly-20240429.1"
+version     = "1.5.3-nightly-20240429.2"
 
 [lib]
 bench      = false
