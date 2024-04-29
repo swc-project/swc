@@ -655,7 +655,7 @@ impl Optimizer<'_> {
                 let new = self.inline_fn_like(&param_ids, body, &mut call.args);
                 if let Some(new) = new {
                     self.changed = true;
-                    report_change!("inline: Inlining a function call");
+                    report_change!("inline: Inlining a function call (params = {param_ids:?})");
 
                     dump_change_detail!("{}", dump(&new, false));
 
