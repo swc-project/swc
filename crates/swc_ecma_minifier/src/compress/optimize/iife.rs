@@ -849,7 +849,7 @@ impl Optimizer<'_> {
             let no_arg = arg.is_none();
 
             if let Some(arg) = arg {
-                if let Some(usage) = self.data.vars.get(&params[idx].to_id()) {
+                if let Some(usage) = self.data.vars.get_mut(&params[idx].to_id()) {
                     if usage.ref_count == 1
                         && !usage.reassigned
                         && usage.property_mutation_count == 0
@@ -864,6 +864,8 @@ impl Optimizer<'_> {
                         self.vars.vars_for_inlining.insert(param.to_id(), arg);
                         continue;
                     }
+
+                    usage.ref_count += 1;
                 }
 
                 exprs.push(
