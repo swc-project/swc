@@ -56,6 +56,7 @@
                 "unused": false,
                 "const_to_let": true,
                 "pristine_globals": true,
+                "sequences": false,
                 "passes": 2,
             },
             "mangle": false
