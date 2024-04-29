@@ -14,7 +14,7 @@
             "compress": {
                 "arguments": false,
                 "arrows": true,
-                "booleans": true,
+                "booleans": false,
                 "booleans_as_integers": false,
                 "collapse_vars": true,
                 "comparisons": true,
@@ -55,16 +55,10 @@
                 "unsafe_undefined": false,
                 "unused": false,
                 "const_to_let": true,
-                "pristine_globals": true
+                "pristine_globals": true,
+                "passes": 2,
             },
-            "mangle": {
-                "toplevel": false,
-                "keep_classnames": false,
-                "keep_fnames": false,
-                "keep_private_props": false,
-                "ie8": false,
-                "safari10": false
-            }
+            "mangle": false
         }
     },
     "module": {
