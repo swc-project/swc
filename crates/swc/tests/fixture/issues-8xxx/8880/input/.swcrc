@@ -30,7 +30,7 @@
                 "hoist_props": true,
                 "hoist_vars": false,
                 "if_return": true,
-                "join_vars": true,
+                "join_vars": false,
                 "keep_classnames": false,
                 "keep_fargs": true,
                 "keep_fnames": false,
