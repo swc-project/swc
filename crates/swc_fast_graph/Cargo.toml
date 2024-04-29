@@ -12,8 +12,8 @@ version     = "0.21.21"
 bench = false
 
 [dependencies]
-indexmap   = "2.0.0"
-petgraph   = "0.6"
-rustc-hash = "1.1.0"
+indexmap   = { workspace = true }
+petgraph   = { workspace = true }
+rustc-hash = { workspace = true }
 
 swc_common = { version = "0.33.20", path = "../swc_common" }

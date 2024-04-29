@@ -13,7 +13,7 @@ version       = "0.5.0"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-tracing = "0.1.40"
+tracing = { workspace = true }
 
 
 swc_atoms                = { version = "0.6.5", path = "../swc_atoms" }

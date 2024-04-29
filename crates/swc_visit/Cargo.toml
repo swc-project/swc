@@ -14,6 +14,6 @@ bench = false
 path = []
 
 [dependencies]
-either = "1.10.0"
+either = { workspace = true }
 
 swc_visit_macros = { version = "0.5.11", path = "../swc_visit_macros" }

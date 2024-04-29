@@ -12,15 +12,15 @@ version       = "0.141.0"
 bench = false
 
 [dependencies]
-ansi_term  = "0.12.1"
-anyhow     = "1"
-base64     = "0.21"
-hex        = "0.4.3"
-serde      = "1"
-serde_json = "1"
-sha2       = "0.10.8"
-sourcemap  = "8.0"
-tempfile   = "3.6.0"
+ansi_term  = { workspace = true }
+anyhow     = { workspace = true }
+base64     = { workspace = true }
+hex        = { workspace = true }
+serde      = { workspace = true }
+serde_json = { workspace = true }
+sha2       = { workspace = true }
+sourcemap  = { workspace = true }
+tempfile   = { workspace = true }
 
 swc_common = { version = "0.33.20", path = "../swc_common", features = [
   "sourcemap",

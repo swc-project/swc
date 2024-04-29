@@ -13,11 +13,10 @@ bench      = false
 proc-macro = true
 
 [dependencies]
-proc-macro2 = "1"
-quote       = "1"
+proc-macro2 = { workspace = true }
+quote       = { workspace = true }
 
 swc_macros_common = { version = "0.3.9", path = "../swc_macros_common" }
-
   [dependencies.syn]
-  features = ["derive", "fold", "parsing", "printing", "visit-mut"]
-  version  = "2"
+  features  = ["derive", "fold", "parsing", "printing", "visit-mut"]
+  workspace = true

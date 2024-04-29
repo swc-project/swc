@@ -12,12 +12,9 @@ version       = "0.0.8"
 bench = false
 
 [dependencies]
-anyhow = "1"
-napi = { version = "2", default-features = false, features = [
-  "napi3",
-  "serde-json",
-] }
-serde = { version = "1", features = ["derive"] }
-serde_json = { version = "1", features = ["unbounded_depth"] }
-tracing = { version = "0.1.40" }
-tracing-subscriber = { version = "0.3.18", features = ["env-filter"] }
+anyhow             = { workspace = true }
+napi               = { workspace = true, features = ["napi3", "serde-json"] }
+serde              = { workspace = true, features = ["derive"] }
+serde_json         = { workspace = true, features = ["unbounded_depth"] }
+tracing            = { workspace = true }
+tracing-subscriber = { workspace = true, features = ["env-filter"] }

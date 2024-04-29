@@ -46,18 +46,18 @@ __rkyv    = []
 rkyv-impl = ["__rkyv", "swc_common/plugin-rt", "swc_plugin_proxy/plugin-rt"]
 
 [dependencies]
-anyhow       = "1.0.81"
-enumset      = "1.1.2"
-futures      = { version = "0.3" }
-once_cell    = "1.19.0"
-parking_lot  = "0.12.1"
-serde        = { version = "1.0.197", features = ["derive"] }
-serde_json   = "1.0.115"
-tokio        = { version = "1", default-features = false, optional = true }
-tracing      = "0.1.40"
-virtual-fs   = { version = "=0.11.1", default-features = false }
-wasmer       = { version = "4.2.5", default-features = false }
-wasmer-wasix = { version = "0.18.0", default-features = false }
+anyhow       = { workspace = true }
+enumset      = { workspace = true }
+futures      = { workspace = true }
+once_cell    = { workspace = true }
+parking_lot  = { workspace = true }
+serde        = { workspace = true, features = ["derive"] }
+serde_json   = { workspace = true }
+tokio        = { workspace = true, optional = true }
+tracing      = { workspace = true }
+virtual-fs   = { workspace = true }
+wasmer       = { workspace = true }
+wasmer-wasix = { workspace = true }
 
 swc_common = { version = "0.33.20", path = "../swc_common", features = [
   "concurrent",
@@ -71,7 +71,7 @@ wasmer-cache              = { version = "4.0.0", optional = true }
 wasmer-compiler-cranelift = { version = "4.0.0", default-features = false }
 
 [dev-dependencies]
-criterion = "0.5"
+criterion = { workspace = true }
 
 swc_atoms = { version = "0.6.5", path = '../swc_atoms' }
 swc_css_ast = { version = "0.140.21", path = "../swc_css_ast", features = [
@@ -86,7 +86,7 @@ swc_ecma_parser = { version = "0.144.0", path = "../swc_ecma_parser" }
 swc_ecma_visit = { version = "0.99.0", path = "../swc_ecma_visit" }
 swc_malloc = { version = "0.5.10", path = "../swc_malloc" }
 testing = { version = "0.35.21", path = "../testing" }
-tokio = { version = "1", features = ["rt"] }
+tokio = { workspace = true, features = ["rt"] }
 
 [[bench]]
 harness = false

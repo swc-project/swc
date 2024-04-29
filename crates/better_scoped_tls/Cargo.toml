@@ -1,15 +1,15 @@
 [package]
-authors = ["강동윤 <kdy1997.dev@gmail.com>"]
-description = "scoped-tls, but with good error message"
+authors       = ["강동윤 <kdy1997.dev@gmail.com>"]
+description   = "scoped-tls, but with good error message"
 documentation = "https://rustdoc.swc.rs/better_scoped_tls/"
-edition = "2021"
-license = "Apache-2.0"
-name = "better_scoped_tls"
-repository = "https://github.com/swc-project/swc.git"
-version = "0.1.1"
+edition       = "2021"
+license       = "Apache-2.0"
+name          = "better_scoped_tls"
+repository    = "https://github.com/swc-project/swc.git"
+version       = "0.1.1"
 
 [lib]
 bench = false
 
 [dependencies]
-scoped-tls = "1.0.1"
+scoped-tls = { workspace = true }

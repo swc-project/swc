@@ -13,12 +13,12 @@ version       = "0.8.0"
 node = ["napi", "napi-derive"]
 
 [dependencies]
-anyhow    = "1.0.81"
-base64    = "0.21.0"
-once_cell = "1"
-pathdiff  = "0.2.0"
-serde     = { version = "1.0.197", features = ["derive"] }
-sourcemap = "8.0"
+anyhow    = { workspace = true }
+base64    = { workspace = true }
+once_cell = { workspace = true }
+pathdiff  = { workspace = true }
+serde     = { workspace = true, features = ["derive"] }
+sourcemap = { workspace = true }
 
 swc_atoms = { version = "0.6.5", path = "../swc_atoms" }
 swc_common = { version = "0.33.20", path = "../swc_common", features = [
@@ -36,10 +36,10 @@ swc_timer = { version = "0.21.21", path = "../swc_timer" }
   default-features = false
   features         = ["type-def"]
   optional         = true
-  version          = "2.0.0"
+  workspace        = true
 
   [dependencies.napi]
   default-features = false
   features         = ["napi3"]
   optional         = true
-  version          = "2.0.0"
+  workspace        = true

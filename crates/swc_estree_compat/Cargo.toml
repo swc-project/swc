@@ -16,12 +16,12 @@ version       = "0.199.0"
 bench = false
 
 [dependencies]
-ahash      = { version = "0.8.8", features = ["compile-time-rng"] }
-anyhow     = "1"
-copyless   = "0.1.5"
-rayon      = "1.7.0"
-serde      = { version = "1", features = ["derive"] }
-serde_json = "1.0.115"
+ahash      = { workspace = true, features = ["compile-time-rng"] }
+anyhow     = { workspace = true }
+copyless   = { workspace = true }
+rayon      = { workspace = true }
+serde      = { workspace = true, features = ["derive"] }
+serde_json = { workspace = true }
 
 swc_atoms = { version = "0.6.5", path = "../swc_atoms" }
 swc_common = { version = "0.33.20", path = "../swc_common", features = [
@@ -37,15 +37,15 @@ swc_estree_ast = { version = "0.23.19", path = "../swc_estree_ast" }
 swc_node_comments = { version = "0.20.19", path = "../swc_node_comments/" }
 
 [dev-dependencies]
-criterion         = "0.5"
-pretty_assertions = "1.3"
+criterion         = { workspace = true }
+pretty_assertions = { workspace = true }
 
 swc                 = { version = "0.274.0", path = "../swc" }
 swc_ecma_ast        = { version = "0.113.0", path = "../swc_ecma_ast" }
 swc_ecma_parser     = { version = "0.144.0", path = "../swc_ecma_parser" }
 swc_ecma_transforms = { version = "0.230.0", path = "../swc_ecma_transforms/" }
 testing             = { version = "0.35.21", path = "../testing" }
-walkdir             = "2"
+walkdir             = { workspace = true }
 
 [[bench]]
 harness = false

@@ -12,18 +12,19 @@ bench = false
 name  = "dbg-swc"
 
 [dependencies]
-anyhow             = "1.0.81"
+anyhow     = { workspace = true }
+dialoguer  = { workspace = true }
+flate2     = { workspace = true }
+rayon      = { workspace = true }
+serde      = { workspace = true }
+serde_json = { workspace = true }
+sha1       = { workspace = true }
+tempfile   = { workspace = true }
+tracing    = { workspace = true }
+url        = { workspace = true }
+
 clap               = { version = "3", features = ["derive"] }
-dialoguer          = "0.10.2"
-flate2             = "1.0"
-rayon              = "1.7.0"
-serde              = "1"
-serde_json         = "1"
-sha1               = "0.10.5"
-tempfile           = "3.6.0"
-tracing            = "0.1.40"
-tracing-subscriber = { version = "0.3.18", features = ["fmt", "env-filter"] }
-url                = "2"
+tracing-subscriber = { workspace = true, features = ["fmt", "env-filter"] }
 
 swc_atoms = { version = "0.6.5", path = "../swc_atoms" }
 swc_common = { version = "0.33.20", features = [

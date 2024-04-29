@@ -13,13 +13,12 @@ bench      = false
 proc-macro = true
 
 [dependencies]
-proc-macro2       = "1"
-quote             = "1"
+proc-macro2       = { workspace = true }
+quote             = { workspace = true }
 swc_macros_common = { version = "0.3.9", path = "../swc_macros_common" }
-
-    [dependencies.syn]
-    features = ["full", "parsing", "printing", "extra-traits"]
-    version  = "2"
+  [dependencies.syn]
+  features  = ["full", "parsing", "printing", "extra-traits"]
+  workspace = true
 
 [dev-dependencies]
-serde = "1"
+serde = { workspace = true }
