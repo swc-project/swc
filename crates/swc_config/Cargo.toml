@@ -6,7 +6,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_config"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.1.12"
+version       = "0.1.13"
 
 [dependencies]
 anyhow     = { workspace = true }
@@ -16,7 +16,7 @@ serde_json = { workspace = true }
 sourcemap  = { workspace = true, optional = true }
 
 swc_cached       = { version = "0.3.19", path = "../swc_cached" }
-swc_config_macro = { version = "0.1.3", path = "../swc_config_macro" }
+swc_config_macro = { version = "0.1.4", path = "../swc_config_macro" }
 
 [lib]
 bench = false

@@ -6,7 +6,7 @@ edition       = "2021"
 include       = ["Cargo.toml", "src/**/*.rs"]
 license       = "Apache-2.0"
 name          = "jsdoc"
-version       = "0.113.0"
+version       = "0.113.1"
 
 [lib]
 bench = false
@@ -19,12 +19,12 @@ nom   = { workspace = true }
 serde = { workspace = true, features = ["derive"], optional = true }
 
 swc_atoms  = { version = "0.6.5", path = "../swc_atoms" }
-swc_common = { version = "0.33.20", path = "../swc_common" }
+swc_common = { version = "0.33.26", path = "../swc_common" }
 
 [dev-dependencies]
 anyhow  = { workspace = true }
 dashmap = { workspace = true }
 
-swc_ecma_ast    = { version = "0.113.0", path = "../swc_ecma_ast" }
-swc_ecma_parser = { version = "0.144.0", path = "../swc_ecma_parser" }
-testing         = { version = "0.35.21", path = "../testing" }
+swc_ecma_ast    = { version = "0.113.1", path = "../swc_ecma_ast" }
+swc_ecma_parser = { version = "0.144.1", path = "../swc_ecma_parser" }
+testing         = { version = "0.35.24", path = "../testing" }

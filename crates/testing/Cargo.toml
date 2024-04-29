@@ -6,7 +6,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "testing"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.35.23"
+version       = "0.35.24"
 
 [lib]
 bench = false
@@ -23,8 +23,8 @@ serde_json         = { workspace = true }
 tracing            = { workspace = true }
 tracing-subscriber = { workspace = true, features = ["env-filter"] }
 
-swc_common = { version = "0.33.20", path = "../swc_common", features = [
+swc_common = { version = "0.33.26", path = "../swc_common", features = [
   "tty-emitter",
 ] }
-swc_error_reporters = { version = "0.17.19", path = "../swc_error_reporters" }
+swc_error_reporters = { version = "0.17.20", path = "../swc_error_reporters" }
 testing_macros = { version = "0.2.12", path = "../testing_macros" }
