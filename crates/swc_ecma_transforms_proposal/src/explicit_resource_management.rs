@@ -85,7 +85,7 @@ impl ExplicitResourceManagement {
         for stmt in stmts.take() {
             match stmt.try_into_stmt() {
                 Ok(stmt @ Stmt::Decl(Decl::Fn(..))) => {
-                    new.push(T::from_stmt(stmt));
+                    try_body.push(stmt);
                 }
                 Ok(Stmt::Decl(Decl::Var(var))) => {
                     // var.kind = VarDeclKind::Var;
