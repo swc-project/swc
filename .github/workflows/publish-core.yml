@@ -34,17 +34,17 @@ jobs:
           - host: macos-latest
             target: x86_64-apple-darwin
             build: |
-              cargo build --manifest-path ./bindings/swc_cli/Cargo.toml --release --features plugin
-              cp ./bindings/target/release/swc .
+              cargo build --manifest-path ./bindings/swc_cli/Cargo.toml --release --features plugin --target x86_64-apple-darwin
+              cp ./bindings/target/x86_64-apple-darwin/release/swc .
               chmod +x ./swc
-              yarn build
+              yarn build --target x86_64-apple-darwin
               strip -x *.node
           - host: windows-latest
             build: |
               export CARGO_PROFILE_RELEASE_LTO=false
-              yarn build
-              cargo build --manifest-path ./bindings/swc_cli/Cargo.toml --release --features plugin
-              cp ./bindings/target/release/swc .
+              yarn build --target x86_64-pc-windows-msvc
+              cargo build --manifest-path ./bindings/swc_cli/Cargo.toml --release --features plugin --target x86_64-pc-windows-msvc
+              cp ./bindings/target/x86_64-pc-windows-msvc/release/swc .
             target: x86_64-pc-windows-msvc
           - host: windows-latest
             # use npm to run test, because of corepack link the yarn with x64 Node.js
@@ -61,7 +61,7 @@ jobs:
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-debian
             build: >-
               set -e &&
-              unset CC_x86_64_unknown_linux_gnu && unset CC && RUSTFLAGS='-C target-feature=+sse2' cargo build --manifest-path ./bindings/swc_cli/Cargo.toml --release --features plugin &&
+              unset CC_x86_64_unknown_linux_gnu && unset CC && RUSTFLAGS='-C target-feature=+sse2' cargo build --manifest-path ./bindings/swc_cli/Cargo.toml --release --features plugin --target x86_64-unknown-linux-gnu &&
               rm -rf bindings/target/target/x86_64-unknown-linux-gnu/release/.cargo-lock &&
               cp bindings/target/x86_64-unknown-linux-gnu/release/swc . && chmod +x ./swc &&
               yarn build --target x86_64-unknown-linux-gnu
@@ -72,10 +72,10 @@ jobs:
             build: >-
               set -e &&
               export CARGO_PROFILE_RELEASE_LTO=false &&
-              RUSTFLAGS='-C target-feature=+sse2' cargo build --manifest-path ./bindings/swc_cli/Cargo.toml --release --features plugin &&
+              RUSTFLAGS='-C target-feature=+sse2' cargo build --manifest-path ./bindings/swc_cli/Cargo.toml --release --features plugin --target x86_64-unknown-linux-musl &&
               rm -rf target/release/.cargo-lock &&
-              cp bindings/target/release/swc . && chmod +x ./swc &&
-              RUSTFLAGS='-C target-feature=+sse2 -C target-feature=-crt-static' yarn build
+              cp bindings/target/x86_64-unknown-linux-musl/release/swc . && chmod +x ./swc &&
+              RUSTFLAGS='-C target-feature=+sse2 -C target-feature=-crt-static' yarn build --target x86_64-unknown-linux-musl
           - host: macos-latest
             target: aarch64-apple-darwin
             build: |
@@ -84,7 +84,7 @@ jobs:
               export CXX=$(xcrun -f clang++);
               SYSROOT=$(xcrun --sdk macosx --show-sdk-path);
               export CFLAGS="-isysroot $SYSROOT -isystem $SYSROOT";
-              cargo build --manifest-path ./bindings/swc_cli/Cargo.toml --release --features plugin --target=aarch64-apple-darwin
+              cargo build --manifest-path ./bindings/swc_cli/Cargo.toml --release --features plugin --target aarch64-apple-darwin
               cp ./bindings/target/aarch64-apple-darwin/release/swc .
               chmod +x ./swc
               yarn build --target aarch64-apple-darwin
@@ -154,7 +154,7 @@ jobs:
       - uses: goto-bus-stop/setup-zig@v2
         if: ${{ matrix.settings.target == 'armv7-unknown-linux-gnueabihf' }}
         with:
-          version: 0.11.0
+          version: 0.12.0
       - name: Cache cargo registry
         uses: actions/cache@v3
         with:
@@ -235,6 +235,7 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
           cache: yarn
+          architecture: x64
       - name: Install dependencies
         run: yarn install --ignore-scripts --registry https://registry.npmjs.org --network-timeout 300000
       - name: Download artifacts

@@ -35,10 +35,10 @@ jobs:
           - host: macos-latest
             target: x86_64-apple-darwin
             build: |
-              (cd packages/${{ github.event.inputs.package }} && yarn build)
+              (cd packages/${{ github.event.inputs.package }} && yarn build --target x86_64-apple-darwin)
           - host: windows-latest
             build: |
-              (cd packages/${{ github.event.inputs.package }} && yarn build)
+              (cd packages/${{ github.event.inputs.package }} && yarn build --target x86_64-pc-windows-msvc)
             target: x86_64-pc-windows-msvc
           - host: windows-latest
             build: |
@@ -58,7 +58,7 @@ jobs:
             build: >-
               set -e &&
               export CARGO_PROFILE_RELEASE_LTO=false &&
-              (cd packages/${{ github.event.inputs.package }} && RUSTFLAGS='-C target-feature=+sse2 -C target-feature=-crt-static' yarn build)
+              (cd packages/${{ github.event.inputs.package }} && RUSTFLAGS='-C target-feature=+sse2 -C target-feature=-crt-static' yarn build --target x86_64-unknown-linux-musl)
           - host: macos-latest
             target: aarch64-apple-darwin
             build: |
@@ -67,7 +67,7 @@ jobs:
               export CXX=$(xcrun -f clang++);
               SYSROOT=$(xcrun --sdk macosx --show-sdk-path);
               export CFLAGS="-isysroot $SYSROOT -isystem $SYSROOT";
-              (cd packages/${{ github.event.inputs.package }} && yarn build --target=aarch64-apple-darwin)
+              (cd packages/${{ github.event.inputs.package }} && yarn build --target aarch64-apple-darwin)
           - host: ubuntu-latest
             target: aarch64-unknown-linux-gnu
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-debian-aarch64
@@ -92,7 +92,7 @@ jobs:
               export JEMALLOC_SYS_WITH_LG_PAGE=16 &&
               rustup toolchain install $(cat ./rust-toolchain) &&
               rustup target add aarch64-unknown-linux-musl &&
-              (cd packages/${{ github.event.inputs.package }} && env RUSTFLAGS='-C target-feature=-crt-static' yarn build --target=aarch64-unknown-linux-musl)
+              (cd packages/${{ github.event.inputs.package }} && env RUSTFLAGS='-C target-feature=-crt-static' yarn build --target aarch64-unknown-linux-musl)
           - host: windows-latest
             target: aarch64-pc-windows-msvc
             # Disable `LTO` and increase `codegen-units` to avoid llvm `OOM` on GitHub Actions.
@@ -206,6 +206,7 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
           cache: "yarn"
+          architecture: x64
       - name: Install dependencies
         working-directory: "./packages/${{ github.event.inputs.package }}"
         run: yarn
