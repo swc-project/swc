@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(es/minifier)** Increment `ref_count` while invoking IIFE ([#8904](https://github.com/swc-project/swc/issues/8904)) ([86e2bb0](https://github.com/swc-project/swc/commit/86e2bb04ac0ab98e242732d6a925660a6ee24fbb))
+
 ## [1.5.1] - 2024-04-27
 
 ### Bug Fixes
