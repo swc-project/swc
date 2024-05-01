@@ -1833,3 +1833,48 @@ fn issue_6732_2() {
         "var foo;",
     );
 }
+
+fn test_with_comments(input: &str, expected: &str) {
+    swc_ecma_transforms_testing::Tester::run(|tester| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+        let tr = chain!(
+            resolver(unresolved_mark, top_level_mark, false),
+            paren_remover(None),
+            expr_simplifier(top_level_mark, Default::default()),
+            as_folder(super::Remover {
+                changed: false,
+                normal_block: Default::default(),
+                expr_ctx: ExprCtx {
+                    unresolved_ctxt: SyntaxContext::empty().apply_mark(unresolved_mark),
+                    // This is hack
+                    is_unresolved_ref_safe: true,
+                },
+            })
+        );
+
+        let actual = tester.apply_transform(tr, "input.js", Default::default(), input)?;
+        let comments = std::mem::take(&mut tester.comments);
+        let actual_src = tester.print(&actual, &comments);
+
+        if actual_src != expected {
+            println!(">>>>> Orig <<<<<\n{}", input);
+            println!(">>>>> Code <<<<<\n{}", actual_src);
+            panic!(
+                r#"assertion failed: `(left == right)`
+    {}"#,
+                ::testing::diff(&actual_src, expected),
+            );
+        }
+
+        Ok(())
+    });
+}
+
+#[test]
+fn test_seq() {
+    test_with_comments(
+        "const Test1 = /*#__PURE__*/ (0, forwardRef)(Foo);",
+        "const Test1 = /*#__PURE__*/ forwardRef(Foo);\n",
+    )
+}

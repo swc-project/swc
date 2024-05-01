@@ -82,7 +82,10 @@ impl VisitMut for Remover {
                 if s.exprs.is_empty() {
                     *e = Expr::dummy();
                 } else if s.exprs.len() == 1 {
-                    *e = *s.exprs.pop().unwrap();
+                    // TODO: preserve PURE comment attached to original
+                    // sequence expression.
+
+                    // *e = *s.exprs.pop().unwrap();
                 }
             }
 
