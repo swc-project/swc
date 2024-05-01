@@ -6,4 +6,4 @@ const foo = (_class = class _class {
     }
 }, _ts_decorate([
     foo
-], _class.prototype, "foo", null));
+], _class.prototype, "foo", null), _class);
