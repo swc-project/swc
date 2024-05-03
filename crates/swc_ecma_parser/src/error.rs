@@ -291,6 +291,8 @@ pub enum SyntaxError {
 
     ReservedTypeAssertion,
     ReservedArrowTypeParam,
+
+    InvalidAssertKeywords,
 }
 
 impl SyntaxError {
@@ -754,6 +756,9 @@ impl SyntaxError {
                                                     as in `<T,>() => ...`."
                 .into(),
             SyntaxError::InvalidAssignTarget => "Invalid assignment target".into(),
+            SyntaxError::InvalidAssertKeywords => "The `assert` keyword is disallowed. Use the \
+                                                   `with` keyword instead for import attributes"
+                .into(),
         }
     }
 }

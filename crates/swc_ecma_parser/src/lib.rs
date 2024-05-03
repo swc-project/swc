@@ -187,6 +187,20 @@ impl Syntax {
         }
     }
 
+    pub fn disallow_assert_keywords(self) -> bool {
+        match self {
+            Syntax::Es(EsConfig {
+                disallow_assert_keywords,
+                ..
+            }) => disallow_assert_keywords,
+            #[cfg(feature = "typescript")]
+            Syntax::Typescript(TsConfig {
+                disallow_assert_keywords,
+                ..
+            }) => disallow_assert_keywords,
+        }
+    }
+
     /// Should we parse jsx?
     pub fn jsx(self) -> bool {
         match self {
@@ -315,6 +329,9 @@ pub struct TsConfig {
     #[serde(default)]
     pub decorators: bool,
 
+    #[serde(default)]
+    pub disallow_assert_keywords: bool,
+
     /// `.d.ts`
     #[serde(skip, default)]
     pub dts: bool,
@@ -359,6 +376,9 @@ pub struct EsConfig {
     /// Stage 3.
     #[serde(default, alias = "importAssertions")]
     pub import_attributes: bool,
+
+    #[serde(default)]
+    pub disallow_assert_keywords: bool,
 
     #[serde(default, rename = "allowSuperOutsideMethod")]
     pub allow_super_outside_method: bool,
