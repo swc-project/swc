@@ -132,6 +132,7 @@ fn shopify_2_same_opt() {
                     syntax: Some(Syntax::Typescript(TsConfig {
                         tsx: true,
                         decorators: false,
+                        disallow_assert_keywords: false,
                         dts: false,
                         no_early_errors: false,
                         disallow_ambiguous_jsx_like: false,

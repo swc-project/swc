@@ -90,6 +90,7 @@ fn identity(entry: PathBuf) {
             Syntax::Typescript(TsConfig {
                 tsx: file_name.contains("tsx"),
                 decorators: true,
+                disallow_assert_keywords: false,
                 dts: false,
                 no_early_errors: false,
                 disallow_ambiguous_jsx_like: false,
