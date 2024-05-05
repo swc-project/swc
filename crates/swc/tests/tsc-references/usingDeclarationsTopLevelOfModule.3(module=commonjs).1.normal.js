@@ -10,9 +10,6 @@ Object.defineProperty(exports, "y", {
     }
 });
 const _using_ctx = require("@swc/helpers/_/_using_ctx");
-function f() {
-    console.log(y, z);
-}
 try {
     var _usingCtx = _using_ctx._();
     var z = _usingCtx.u({
@@ -20,6 +17,9 @@ try {
     });
     if (false) {
         var y = 1;
+    }
+    function f() {
+        console.log(y, z);
     }
 } catch (_) {
     _usingCtx.e = _;

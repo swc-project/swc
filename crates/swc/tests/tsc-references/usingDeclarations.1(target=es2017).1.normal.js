@@ -1,62 +1,62 @@
 //// [usingDeclarations.1.ts]
 import { _ as _using_ctx } from "@swc/helpers/_/_using_ctx";
-function f() {
-    try {
-        var _usingCtx = _using_ctx();
-        const d2 = _usingCtx.u({
-            [Symbol.dispose] () {}
-        });
-    } catch (_) {
-        _usingCtx.e = _;
-    } finally{
-        _usingCtx.d();
-    }
-}
-async function af() {
-    try {
-        var _usingCtx = _using_ctx();
-        const d3 = _usingCtx.u({
-            [Symbol.dispose] () {}
-        });
-        await null;
-    } catch (_) {
-        _usingCtx.e = _;
-    } finally{
-        _usingCtx.d();
-    }
-}
-function* g() {
-    try {
-        var _usingCtx = _using_ctx();
-        const d4 = _usingCtx.u({
-            [Symbol.dispose] () {}
-        });
-        yield;
-    } catch (_) {
-        _usingCtx.e = _;
-    } finally{
-        _usingCtx.d();
-    }
-}
-async function* ag() {
-    try {
-        var _usingCtx = _using_ctx();
-        const d5 = _usingCtx.u({
-            [Symbol.dispose] () {}
-        });
-        yield;
-        await null;
-    } catch (_) {
-        _usingCtx.e = _;
-    } finally{
-        _usingCtx.d();
-    }
-}
 try {
     var _usingCtx = _using_ctx();
     var d1 = _usingCtx.u({
         [Symbol.dispose] () {}
     });
+    function f() {
+        try {
+            var _usingCtx = _using_ctx();
+            const d2 = _usingCtx.u({
+                [Symbol.dispose] () {}
+            });
+        } catch (_) {
+            _usingCtx.e = _;
+        } finally{
+            _usingCtx.d();
+        }
+    }
+    async function af() {
+        try {
+            var _usingCtx = _using_ctx();
+            const d3 = _usingCtx.u({
+                [Symbol.dispose] () {}
+            });
+            await null;
+        } catch (_) {
+            _usingCtx.e = _;
+        } finally{
+            _usingCtx.d();
+        }
+    }
+    function* g() {
+        try {
+            var _usingCtx = _using_ctx();
+            const d4 = _usingCtx.u({
+                [Symbol.dispose] () {}
+            });
+            yield;
+        } catch (_) {
+            _usingCtx.e = _;
+        } finally{
+            _usingCtx.d();
+        }
+    }
+    async function* ag() {
+        try {
+            var _usingCtx = _using_ctx();
+            const d5 = _usingCtx.u({
+                [Symbol.dispose] () {}
+            });
+            yield;
+            await null;
+        } catch (_) {
+            _usingCtx.e = _;
+        } finally{
+            _usingCtx.d();
+        }
+    }
     const a = ()=>{
         try {
             var _usingCtx = _using_ctx();
