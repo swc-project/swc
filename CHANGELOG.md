@@ -10,6 +10,9 @@
 
 - **(es/minifier)** Increment `ref_count` while invoking IIFE ([#8904](https://github.com/swc-project/swc/issues/8904)) ([86e2bb0](https://github.com/swc-project/swc/commit/86e2bb04ac0ab98e242732d6a925660a6ee24fbb))
 
+
+- **(es/proposal)** Fix scoping of explicit resource management pass ([#8903](https://github.com/swc-project/swc/issues/8903)) ([762b0d4](https://github.com/swc-project/swc/commit/762b0d447759a5596db2975fee7e95d80bf3fc72))
+
 ### Miscellaneous Tasks
 
 
