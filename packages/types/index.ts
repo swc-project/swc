@@ -672,7 +672,7 @@ export interface TsParserConfig {
      */
     decorators?: boolean;
     /**
-     * Defaults to `false`
+     * @deprecated Always true because it's in ecmascript spec.
      */
     dynamicImport?: boolean;
 }
@@ -740,9 +740,29 @@ export interface EsParserConfig {
      */
     topLevelAwait?: boolean;
     /**
-     * Defaults to `false`
+     * @deprecated An alias of `importAttributes`
      */
     importAssertions?: boolean;
+    /**
+     * Defaults to `false`
+     */
+    importAttributes?: boolean;
+    /**
+     * Defaults to `false`
+     */
+    allowSuperOutsideMethod?: boolean;
+    /**
+     * Defaults to `false`
+     */
+    allowReturnOutsideFunction?: boolean;
+    /**
+     * Defaults to `false`
+     */
+    autoAccessors?: boolean;
+    /**
+     * Defaults to `false`
+     */
+    explicitResourceManagement?: boolean;
 }
 
 /**
