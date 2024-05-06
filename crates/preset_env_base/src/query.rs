@@ -1,7 +1,7 @@
 //! Module for `browserslist` queries.
 #![deny(clippy::all)]
 
-use std::{collections::HashMap, sync::Arc};
+use std::{collections::HashMap, path::PathBuf, sync::Arc};
 
 use anyhow::{Context, Error};
 use dashmap::DashMap;
@@ -96,14 +96,20 @@ impl Query {
     }
 }
 
-pub fn targets_to_versions(v: Option<Targets>) -> Result<Arc<Versions>, Error> {
+pub fn targets_to_versions(v: Option<Targets>, path: PathBuf) -> Result<Arc<Versions>, Error> {
     match v {
         #[cfg(not(target_arch = "wasm32"))]
         None => {
             let distribs = browserslist::execute(
                 browserslist::Opts::new()
                     .mobile_to_desktop(true)
-                    .ignore_unknown_versions(true),
+                    .ignore_unknown_versions(true)
+                    .path(
+                        path.clone()
+                            .into_os_string()
+                            .to_str()
+                            .unwrap_or_else(|| panic!("Invalid path \"{:?}\"", path)),
+                    ),
             )
             .with_context(|| "failed to resolve browserslist query from browserslist config")?;
 

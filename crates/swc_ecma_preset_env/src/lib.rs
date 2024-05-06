@@ -45,7 +45,7 @@ where
     C: Comments + Clone,
 {
     let loose = c.loose;
-    let targets = targets_to_versions(c.targets).expect("failed to parse targets");
+    let targets = targets_to_versions(c.targets, c.path).expect("failed to parse targets");
     let is_any_target = targets.is_any_target();
 
     let (include, included_modules) = FeatureOrModule::split(c.include);
