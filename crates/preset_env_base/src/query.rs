@@ -98,6 +98,21 @@ impl Query {
 
 pub fn targets_to_versions(v: Option<Targets>) -> Result<Arc<Versions>, Error> {
     match v {
+        #[cfg(not(target_arch = "wasm32"))]
+        None => {
+            let distribs = browserslist::execute(
+                browserslist::Opts::new()
+                    .mobile_to_desktop(true)
+                    .ignore_unknown_versions(true),
+            )
+            .with_context(|| "failed to resolve browserslist query from browserslist config")?;
+
+            let versions =
+                BrowserData::parse_versions(distribs).expect("failed to parse browser version");
+
+            Ok(Arc::new(versions))
+        }
+        #[cfg(target_arch = "wasm32")]
         None => Ok(Default::default()),
         Some(Targets::Versions(v)) => Ok(Arc::new(v)),
         Some(Targets::Query(q)) => q
