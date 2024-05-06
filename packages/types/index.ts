@@ -767,6 +767,9 @@ export interface EsParserConfig {
      * Defaults to `false`
      */
     explicitResourceManagement?: boolean;
+    /**
+     * Defaults to `false`
+     */
     disallowAssertKeywords?: boolean;
 }
 
