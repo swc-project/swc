@@ -96,22 +96,28 @@ impl Query {
     }
 }
 
-pub fn targets_to_versions(v: Option<Targets>, path: PathBuf) -> Result<Arc<Versions>, Error> {
+pub fn targets_to_versions(
+    v: Option<Targets>,
+    path: Option<PathBuf>,
+) -> Result<Arc<Versions>, Error> {
     match v {
         #[cfg(not(target_arch = "wasm32"))]
         None => {
-            let distribs = browserslist::execute(
-                browserslist::Opts::new()
-                    .mobile_to_desktop(true)
-                    .ignore_unknown_versions(true)
-                    .path(
-                        path.clone()
-                            .into_os_string()
-                            .to_str()
-                            .unwrap_or_else(|| panic!("Invalid path \"{:?}\"", path)),
-                    ),
-            )
-            .with_context(|| "failed to resolve browserslist query from browserslist config")?;
+            let mut browserslist_opts = browserslist::Opts {
+                mobile_to_desktop: true,
+                ignore_unknown_versions: true,
+                ..Default::default()
+            };
+            if let Some(path) = path {
+                browserslist_opts.path = path
+                    .clone()
+                    .into_os_string()
+                    .into_string()
+                    .unwrap_or_else(|_| panic!("Invalid path \"{:?}\"", path))
+                    .into();
+            }
+            let distribs = browserslist::execute(&browserslist_opts)
+                .with_context(|| "failed to resolve browserslist query from browserslist config")?;
 
             let versions =
                 BrowserData::parse_versions(distribs).expect("failed to parse browser version");
