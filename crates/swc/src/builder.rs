@@ -462,6 +462,8 @@ impl VisitMut for MinifierPass<'_> {
                             v.const_to_let = Some(true);
                         }
 
+                        v.module = false;
+
                         v.into_config(self.cm.clone())
                     }),
                 mangle: options
