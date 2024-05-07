@@ -64,8 +64,6 @@ pub fn compile<'a>(ss: &mut Stylesheet, config: impl 'a + TransformConfig) -> Tr
         let mut renamed = result.renamed.clone();
         let class_names = result.renamed.entry(key.clone()).or_default();
 
-        dbg!(key, composes);
-
         class_names.extend(composes.iter().cloned());
         for composed_class_name in composes.iter() {
             if let CssClassName::Local { name } = composed_class_name {
@@ -91,7 +89,7 @@ pub fn compile<'a>(ss: &mut Stylesheet, config: impl 'a + TransformConfig) -> Tr
     for (key, composes) in &composes {
         add(&mut compiler.result, &compiler.data, key, composes);
     }
-    compiler.result.renamed.iter_mut().for_each(|(k, v)| {
+    compiler.result.renamed.iter_mut().for_each(|(_, v)| {
         v.sort();
         v.dedup();
     });
