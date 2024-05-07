@@ -16,6 +16,12 @@
 
 - **(es/minifier)** Consider side effects of operands of binary expressions ([#8929](https://github.com/swc-project/swc/issues/8929)) ([4d4a7a9](https://github.com/swc-project/swc/commit/4d4a7a9bcb39228973c0da2991310b5107feb319))
 
+### Refactor
+
+
+
+- **(es/minifier)** Remove unnecessary check ([#8927](https://github.com/swc-project/swc/issues/8927)) ([8932a1b](https://github.com/swc-project/swc/commit/8932a1b527a685917e7c24f5fd434a71468abcd8))
+
 ## [1.5.4] - 2024-05-06
 
 ### Bug Fixes
@@ -1351,9 +1357,6 @@
 
 ### Refactor
 
-
-
-- **(atoms)** Remove usage of `js_word!` to drop `string-cache` ([#7976](https://github.com/swc-project/swc/issues/7976)) ([84cec87](https://github.com/swc-project/swc/commit/84cec8766db77062cc984c777dd716358ee8fd6e))
 
 
 - **(es/compat)** Split `swc_ecma_transforms_compat` ([#8110](https://github.com/swc-project/swc/issues/8110)) ([affb6fb](https://github.com/swc-project/swc/commit/affb6fb5e3e363f1eb4d42d4501a4a806c4060f7))
