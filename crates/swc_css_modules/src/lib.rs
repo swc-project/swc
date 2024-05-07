@@ -704,9 +704,8 @@ fn prepend_left_subclass_selectors(
     {
         c.subclass_selectors.splice(0..0, sels.drain(..sel_index));
 
-        if sels.len() > sel_index {
-            c.subclass_selectors
-                .extend(sels[..sel_index + 1].iter().cloned());
+        if !sels.is_empty() {
+            c.subclass_selectors.extend(sels[..].iter().cloned());
         }
 
         sel_index = 0;
