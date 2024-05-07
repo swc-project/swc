@@ -10,6 +10,9 @@
 
 - **(es/minifier)** Respect `module: false` ([#8925](https://github.com/swc-project/swc/issues/8925)) ([aca6a77](https://github.com/swc-project/swc/commit/aca6a77903e31099f473587eb9285ae1c4dee309))
 
+
+- **(es/minifier)** Consider side effects of operands of binary expressions ([#8929](https://github.com/swc-project/swc/issues/8929)) ([4d4a7a9](https://github.com/swc-project/swc/commit/4d4a7a9bcb39228973c0da2991310b5107feb319))
+
 ## [1.5.4] - 2024-05-06
 
 ### Bug Fixes
