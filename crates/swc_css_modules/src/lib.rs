@@ -689,4 +689,7 @@ fn prepend_left_subclass_selectors(
 
         sel_index = 0;
     }
+
+    dbg!(&complex_selector_children);
+    dbg!(&sels);
 }
