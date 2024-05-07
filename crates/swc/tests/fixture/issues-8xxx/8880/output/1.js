@@ -1,4 +1,5 @@
 function a(module, exports, farmRequire, farmDynamicRequire) {
+    "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: true
     });

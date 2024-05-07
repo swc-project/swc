@@ -1,4 +1,3 @@
-"use strict";
 function method() {
     var _obj;
     const obj = {};

@@ -1,4 +1,3 @@
-"use strict";
 function a() {}
 var te = function() {
     function n(n) {}

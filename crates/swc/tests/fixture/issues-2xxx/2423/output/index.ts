@@ -1,4 +1,3 @@
-"use strict";
 var A;
 (function(A) {
     A.v = 25;

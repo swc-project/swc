@@ -1,6 +1,6 @@
-import { _ as _define_property } from "@swc/helpers/_/_define_property";
+var _define_property = require("@swc/helpers/_/_define_property");
 class Game {
     constructor(){
-        _define_property(this, "private", void 0);
+        _define_property._(this, "private", void 0);
     }
 }

@@ -1,11 +1,11 @@
-import { _ as _object_without_properties } from "@swc/helpers/_/_object_without_properties";
+var _object_without_properties = require("@swc/helpers/_/_object_without_properties");
 var items = [];
 var _iteratorNormalCompletion = true, _didIteratorError = false, _iteratorError = undefined;
 try {
     for(var _iterator = items[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true){
         var _ref = _step.value;
         var item = _ref;
-        var name = item.name, rest = _object_without_properties(item, [
+        var name = item.name, rest = _object_without_properties._(item, [
             "name"
         ]);
     }

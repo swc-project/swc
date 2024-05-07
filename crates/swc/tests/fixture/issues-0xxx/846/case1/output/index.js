@@ -1,14 +1,15 @@
-import { _ as _assert_this_initialized } from "@swc/helpers/_/_assert_this_initialized";
-import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-import { _ as _decorate } from "@swc/helpers/_/_decorate";
-import { _ as _get } from "@swc/helpers/_/_get";
-import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
-import { _ as _inherits } from "@swc/helpers/_/_inherits";
-import { _ as _create_super } from "@swc/helpers/_/_create_super";
-var SomeClass = _decorate([], function(_initialize) {
+var _assert_this_initialized = require("@swc/helpers/_/_assert_this_initialized");
+var _class_call_check = require("@swc/helpers/_/_class_call_check");
+var _decorate = require("@swc/helpers/_/_decorate");
+var _get = require("@swc/helpers/_/_get");
+var _get_prototype_of = require("@swc/helpers/_/_get_prototype_of");
+var _inherits = require("@swc/helpers/_/_inherits");
+var _create_super = require("@swc/helpers/_/_create_super");
+var SomeClass = _decorate._([], function(_initialize) {
+    "use strict";
     var SomeClass = function SomeClass() {
         "use strict";
-        _class_call_check(this, SomeClass);
+        _class_call_check._(this, SomeClass);
         _initialize(this);
     };
     return {
@@ -25,16 +26,17 @@ var SomeClass = _decorate([], function(_initialize) {
         ]
     };
 });
-var OtherClass = _decorate([], function(_initialize, _SomeClass) {
+var OtherClass = _decorate._([], function(_initialize, _SomeClass) {
+    "use strict";
     var OtherClass = /*#__PURE__*/ function(_SomeClass) {
         "use strict";
-        _inherits(OtherClass, _SomeClass);
-        var _super = _create_super(OtherClass);
+        _inherits._(OtherClass, _SomeClass);
+        var _super = _create_super._(OtherClass);
         function OtherClass() {
-            _class_call_check(this, OtherClass);
+            _class_call_check._(this, OtherClass);
             var _this;
             _this = _super.apply(this, arguments);
-            _initialize(_assert_this_initialized(_this));
+            _initialize(_assert_this_initialized._(_this));
             return _this;
         }
         return OtherClass;
@@ -49,7 +51,7 @@ var OtherClass = _decorate([], function(_initialize, _SomeClass) {
                 ],
                 key: "anotherMethod",
                 value: function anotherMethod() {
-                    _get(_get_prototype_of(OtherClass.prototype), "someMethod", this).call(this);
+                    _get._(_get_prototype_of._(OtherClass.prototype), "someMethod", this).call(this);
                 }
             }
         ]

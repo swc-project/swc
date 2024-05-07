@@ -1,4 +1,4 @@
-import { jsxDEV as _jsxDEV } from "react/jsx-dev-runtime";
+const { jsxDEV: _jsxDEV } = require("react/jsx-dev-runtime");
 const Component = ()=>{
     return _jsxDEV("p", {
         thing: _jsxDEV("a", {}, void 0, false, {

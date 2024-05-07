@@ -1,5 +1,5 @@
-import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-import { _ as _create_class } from "@swc/helpers/_/_create_class";
+var _class_call_check = require("@swc/helpers/_/_class_call_check");
+var _create_class = require("@swc/helpers/_/_create_class");
 var commands;
 var command;
 function retornaTempoArenaEmMilisegundos(distancia, velocidade) {
@@ -7,10 +7,10 @@ function retornaTempoArenaEmMilisegundos(distancia, velocidade) {
         "use strict";
         function LogExit(param) {
             var logger = param.logger;
-            _class_call_check(this, LogExit);
+            _class_call_check._(this, LogExit);
             this.logger = logger;
         }
-        _create_class(LogExit, [
+        _create_class._(LogExit, [
             {
                 key: "handle",
                 value: function handle(commands) {
