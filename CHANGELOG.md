@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(es/minifier)** Respect `module: false` ([#8925](https://github.com/swc-project/swc/issues/8925)) ([aca6a77](https://github.com/swc-project/swc/commit/aca6a77903e31099f473587eb9285ae1c4dee309))
+
 ## [1.5.4] - 2024-05-06
 
 ### Bug Fixes
@@ -1346,12 +1354,6 @@
 
 
 - **(es/compat)** Split `swc_ecma_transforms_compat` ([#8110](https://github.com/swc-project/swc/issues/8110)) ([affb6fb](https://github.com/swc-project/swc/commit/affb6fb5e3e363f1eb4d42d4501a4a806c4060f7))
-
-
-- **(es/module)** Reimplement some functions of module/typescript ([#8063](https://github.com/swc-project/swc/issues/8063)) ([3e5b062](https://github.com/swc-project/swc/commit/3e5b062cd2792703371bbbfeaf1be309e8280abd))
-
-
-- **(es/parser)** Introduce `TokenKind` along with `Token` ([#8071](https://github.com/swc-project/swc/issues/8071)) ([9b9bc51](https://github.com/swc-project/swc/commit/9b9bc51c28fee51de9eeedf6d49fbe115d6052e6))
 
 
 - **(es/preset-env)** Rename parameter to avoid confusion ([#8106](https://github.com/swc-project/swc/issues/8106)) ([95eb147](https://github.com/swc-project/swc/commit/95eb147742ea1aa207845807a306847afc859702))
