@@ -1,19 +1,19 @@
-import { _ as _async_to_generator } from "@swc/helpers/_/_async_to_generator";
-import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
+var _async_to_generator = require("@swc/helpers/_/_async_to_generator");
+var _ts_generator = require("@swc/helpers/_/_ts_generator");
 function scanUser(groups) {
     return _scanUser.apply(this, arguments);
 }
 function _scanUser() {
-    _scanUser = _async_to_generator(function(groups) {
-        return _ts_generator(this, function(_state) {
+    _scanUser = _async_to_generator._(function(groups) {
+        return _ts_generator._(this, function(_state) {
             switch(_state.label){
                 case 0:
                     return [
                         4,
                         Promise.all(groups.map(function() {
-                            var _ref = _async_to_generator(function(param) {
+                            var _ref = _async_to_generator._(function(param) {
                                 var users, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, user, err;
-                                return _ts_generator(this, function(_state) {
+                                return _ts_generator._(this, function(_state) {
                                     switch(_state.label){
                                         case 0:
                                             users = param.users;

@@ -1,5 +1,5 @@
-import { _ as _async_to_generator } from "@swc/helpers/_/_async_to_generator";
-import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
+var _async_to_generator = require("@swc/helpers/_/_async_to_generator");
+var _ts_generator = require("@swc/helpers/_/_ts_generator");
 var source = Math.random() < 2 ? "matilda" : "fred";
 var details = {
     _id: "1"
@@ -8,8 +8,8 @@ function request(path) {
     return _request.apply(this, arguments);
 }
 function _request() {
-    _request = _async_to_generator(function(path) {
-        return _ts_generator(this, function(_state) {
+    _request = _async_to_generator._(function(path) {
+        return _ts_generator._(this, function(_state) {
             return [
                 2,
                 "success:".concat(path)
@@ -18,9 +18,9 @@ function _request() {
     });
     return _request.apply(this, arguments);
 }
-_async_to_generator(function() {
+_async_to_generator._(function() {
     var obj, _tmp;
-    return _ts_generator(this, function(_state) {
+    return _ts_generator._(this, function(_state) {
         switch(_state.label){
             case 0:
                 if (!(source === "matilda")) return [

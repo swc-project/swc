@@ -1,8 +1,4 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-const _using_ctx = require("@swc/helpers/_/_using_ctx");
+var _using_ctx = require("@swc/helpers/_/_using_ctx");
 class File {
     read() {
         return 'content';

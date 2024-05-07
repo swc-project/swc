@@ -1,7 +1,7 @@
-import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
+var _class_call_check = require("@swc/helpers/_/_class_call_check");
 var Foo = function Foo() {
     "use strict";
-    _class_call_check(this, Foo);
+    _class_call_check._(this, Foo);
 };
 var __ = {
     writable: true,

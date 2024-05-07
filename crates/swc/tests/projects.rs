@@ -20,7 +20,7 @@ use swc_common::{
     sync::Lrc,
     BytePos, FileName, Globals, SourceMap, GLOBALS,
 };
-use swc_compiler_base::PrintArgs;
+use swc_compiler_base::{IsModule, PrintArgs};
 use swc_ecma_ast::*;
 use swc_ecma_minifier::option::MangleOptions;
 use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
@@ -818,6 +818,7 @@ fn tests(input_dir: PathBuf) {
                                 external_helpers: true.into(),
                                 ..Default::default()
                             },
+                            is_module: Some(IsModule::Unknown),
                             ..Default::default()
                         },
 
@@ -1117,7 +1118,7 @@ fn issue_7513_2() {
                         }),
                         keep_classnames: false,
                         keep_fnames: false,
-                        toplevel: true,
+                        toplevel: Some(true),
                         ..Default::default()
                     },
                 )

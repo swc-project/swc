@@ -1,7 +1,7 @@
-import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
+var _ts_generator = require("@swc/helpers/_/_ts_generator");
 function foo() {
     var val, _tmp;
-    return _ts_generator(this, function(_state) {
+    return _ts_generator._(this, function(_state) {
         switch(_state.label){
             case 0:
                 if (!true) return [

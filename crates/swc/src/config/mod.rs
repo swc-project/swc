@@ -302,54 +302,58 @@ impl Options {
             syntax.typescript(),
         ));
 
-        if program.is_module() {
-            js_minify = js_minify.map(|c| {
-                let compress = c
-                    .compress
-                    .unwrap_as_option(|default| match default {
-                        Some(true) => Some(Default::default()),
-                        _ => None,
-                    })
-                    .map(|mut c| {
-                        if c.toplevel.is_none() {
-                            c.toplevel = Some(TerserTopLevelOptions::Bool(true));
-                        }
+        let default_top_level = program.is_module();
 
-                        if matches!(
-                            cfg.module,
-                            None | Some(ModuleConfig::Es6(..) | ModuleConfig::NodeNext(..))
-                        ) {
-                            c.module = true;
-                        }
+        js_minify = js_minify.map(|mut c| {
+            let compress = c
+                .compress
+                .unwrap_as_option(|default| match default {
+                    Some(true) => Some(Default::default()),
+                    _ => None,
+                })
+                .map(|mut c| {
+                    if c.toplevel.is_none() {
+                        c.toplevel = Some(TerserTopLevelOptions::Bool(default_top_level));
+                    }
 
-                        c
-                    })
-                    .map(BoolOrDataConfig::from_obj)
-                    .unwrap_or_else(|| BoolOrDataConfig::from_bool(false));
+                    if matches!(
+                        cfg.module,
+                        None | Some(ModuleConfig::Es6(..) | ModuleConfig::NodeNext(..))
+                    ) {
+                        c.module = true;
+                    }
 
-                let mangle = c
-                    .mangle
-                    .unwrap_as_option(|default| match default {
-                        Some(true) => Some(Default::default()),
-                        _ => None,
-                    })
-                    .map(|mut c| {
-                        if c.top_level.is_none() {
-                            c.top_level = Some(true);
-                        }
+                    c
+                })
+                .map(BoolOrDataConfig::from_obj)
+                .unwrap_or_else(|| BoolOrDataConfig::from_bool(false));
 
-                        c
-                    })
-                    .map(BoolOrDataConfig::from_obj)
-                    .unwrap_or_else(|| BoolOrDataConfig::from_bool(false));
+            let mangle = c
+                .mangle
+                .unwrap_as_option(|default| match default {
+                    Some(true) => Some(Default::default()),
+                    _ => None,
+                })
+                .map(|mut c| {
+                    if c.top_level.is_none() {
+                        c.top_level = Some(default_top_level);
+                    }
 
-                JsMinifyOptions {
-                    compress,
-                    mangle,
-                    ..c
-                }
-            });
-        }
+                    c
+                })
+                .map(BoolOrDataConfig::from_obj)
+                .unwrap_or_else(|| BoolOrDataConfig::from_bool(false));
+
+            if c.toplevel.is_none() {
+                c.toplevel = Some(default_top_level);
+            }
+
+            JsMinifyOptions {
+                compress,
+                mangle,
+                ..c
+            }
+        });
 
         if js_minify.is_some() && js_minify.as_ref().unwrap().keep_fnames {
             js_minify = js_minify.map(|c| {

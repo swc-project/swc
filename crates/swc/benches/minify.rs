@@ -39,7 +39,7 @@ fn bench_minify(b: &mut Bencher, filename: &str) {
                     &JsMinifyOptions {
                         compress: BoolOrDataConfig::from_bool(true),
                         mangle: BoolOrDataConfig::from_bool(true),
-                        toplevel: true,
+                        toplevel: Some(true),
                         source_map: BoolOrDataConfig::from_bool(true),
                         output_path: Default::default(),
                         inline_sources_content: true,
