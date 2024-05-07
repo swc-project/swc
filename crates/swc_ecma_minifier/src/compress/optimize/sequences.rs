@@ -1562,8 +1562,16 @@ impl Optimizer<'_> {
             | Expr::Tpl(..)
             | Expr::TaggedTpl(..) => return Ok(false),
 
-            Expr::Assign(AssignExpr { op: op!("="), .. }) => {}
-            Expr::Assign(AssignExpr { right, .. }) => {
+            Expr::Assign(AssignExpr {
+                op: op!("**="),
+                right,
+                ..
+            })
+            | Expr::Bin(BinExpr {
+                op: op!("**"),
+                right,
+                ..
+            }) => {
                 if is_pure_undefined(&self.expr_ctx, right) {
                     return Ok(false);
                 }
