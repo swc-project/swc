@@ -60,13 +60,14 @@ pub fn compile<'a>(ss: &mut Stylesheet, config: impl 'a + TransformConfig) -> Tr
 
     ss.visit_mut_with(&mut compiler);
 
-    fn add(result: &mut TransformResult, data: &mut Data, key: &JsWord, composes: &[CssClassName]) {
+    fn add(result: &mut TransformResult, data: &Data, key: &JsWord, composes: &[CssClassName]) {
         let mut renamed = result.renamed.clone();
         let class_names = result.renamed.entry(key.clone()).or_default();
 
+        dbg!(key, composes);
+
         class_names.extend(composes.iter().cloned());
         for composed_class_name in composes.iter() {
-            dbg!(composed_class_name);
             if let CssClassName::Local { name } = composed_class_name {
                 if let Some(original_class_name) = data.renamed_to_orig.get(&name.value) {
                     class_names.extend(
@@ -82,9 +83,18 @@ pub fn compile<'a>(ss: &mut Stylesheet, config: impl 'a + TransformConfig) -> Tr
         }
     }
 
-    for (key, composes) in compiler.data.composes_inherit.take() {
-        add(&mut compiler.result, &mut compiler.data, &key, &composes);
+    let composes = compiler.data.composes_inherit.take();
+
+    for (key, composes) in &composes {
+        add(&mut compiler.result, &compiler.data, key, composes);
     }
+    for (key, composes) in &composes {
+        add(&mut compiler.result, &compiler.data, key, composes);
+    }
+    compiler.result.renamed.iter_mut().for_each(|(k, v)| {
+        v.sort();
+        v.dedup();
+    });
 
     compiler.result
 }
