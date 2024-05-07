@@ -1,7 +1,7 @@
-import { _ as _object_destructuring_empty } from "@swc/helpers/_/_object_destructuring_empty";
+var _object_destructuring_empty = require("@swc/helpers/_/_object_destructuring_empty");
 var x = 42;
 function f() {
-    var ref = _object_destructuring_empty(x);
+    var ref = _object_destructuring_empty._(x);
     console.log(x);
 }
 f();

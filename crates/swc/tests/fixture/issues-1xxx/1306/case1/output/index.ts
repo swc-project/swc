@@ -1,24 +1,24 @@
-import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-import { _ as _class_private_field_get } from "@swc/helpers/_/_class_private_field_get";
-import { _ as _class_private_field_init } from "@swc/helpers/_/_class_private_field_init";
-import { _ as _class_private_field_set } from "@swc/helpers/_/_class_private_field_set";
-import { _ as _create_class } from "@swc/helpers/_/_create_class";
+var _class_call_check = require("@swc/helpers/_/_class_call_check");
+var _class_private_field_get = require("@swc/helpers/_/_class_private_field_get");
+var _class_private_field_init = require("@swc/helpers/_/_class_private_field_init");
+var _class_private_field_set = require("@swc/helpers/_/_class_private_field_set");
+var _create_class = require("@swc/helpers/_/_create_class");
 var _name = /*#__PURE__*/ new WeakMap();
 var Animal = /*#__PURE__*/ function() {
     "use strict";
     function Animal(name) {
-        _class_call_check(this, Animal);
-        _class_private_field_init(this, _name, {
+        _class_call_check._(this, Animal);
+        _class_private_field_init._(this, _name, {
             writable: true,
             value: void 0
         });
-        _class_private_field_set(this, _name, name);
+        _class_private_field_set._(this, _name, name);
     }
-    _create_class(Animal, [
+    _create_class._(Animal, [
         {
             key: "noise",
             value: function noise() {
-                return _class_private_field_get(this, _name).toUpperCase();
+                return _class_private_field_get._(this, _name).toUpperCase();
             }
         }
     ]);

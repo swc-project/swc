@@ -1,7 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
 var _async_to_generator = require("@swc/helpers/_/_async_to_generator");
 var _ts_generator = require("@swc/helpers/_/_ts_generator");
 _async_to_generator._(function() {

@@ -4,24 +4,24 @@ function foo() {
 }
 ///////////////////
 {
-    var foo1 = function foo1() {};
+    var foo = function foo() {};
 }{
     {
-        var foo2 = function foo2() {};
+        var foo = function foo() {};
     }
 }if (true) {
-    var foo3 = function foo3() {};
+    var foo = function foo() {};
 }
 try {
-    var foo4 = function foo4() {};
+    var foo = function foo() {};
 } catch (e) {
-    var foo5 = function foo5() {};
+    var foo = function foo() {};
 } finally{
-    var foo6 = function foo6() {};
+    var foo = function foo() {};
 }
 switch(x){
     default:
         {
-            var foo7 = function foo7() {};
+            var foo = function foo() {};
         }
 }

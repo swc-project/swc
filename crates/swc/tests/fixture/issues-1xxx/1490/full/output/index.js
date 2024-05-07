@@ -1,7 +1,4 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
 var _class_call_check = require("@swc/helpers/_/_class_call_check");
 var _create_class = require("@swc/helpers/_/_create_class");
 var _get = require("@swc/helpers/_/_get");

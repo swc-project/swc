@@ -39,8 +39,8 @@ pub struct JsMinifyOptions {
     #[serde(default)]
     pub safari10: bool,
 
-    #[serde(default = "true_by_default")]
-    pub toplevel: bool,
+    #[serde(default)]
+    pub toplevel: Option<bool>,
 
     #[serde(default)]
     pub source_map: BoolOrDataConfig<TerserSourceMapOption>,

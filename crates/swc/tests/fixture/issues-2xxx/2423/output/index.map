@@ -1,5 +1,5 @@
 {
-  "mappings": ";;UAAUA;MACOC,IAAI;IACV,SAASC;QACZC,QAAQC,GAAG,GAACH;IAChB;MAFgBC,IAAAA;AAGpB,GALUF,MAAAA",
+  "mappings": ";UAAUA;MACOC,IAAI;IACV,SAASC;QACZC,QAAQC,GAAG,GAACH;IAChB;MAFgBC,IAAAA;AAGpB,GALUF,MAAAA",
   "names": [
     "A",
     "v",
@@ -7,7 +7,7 @@
     "console",
     "log"
   ],
-  "rangeMappings": ";;;;;;;;",
+  "rangeMappings": ";;;;;;;",
   "sources": [
     "../../input/index.ts"
   ],

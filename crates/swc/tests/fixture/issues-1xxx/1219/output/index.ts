@@ -1,7 +1,7 @@
-import { _ as _define_property } from "@swc/helpers/_/_define_property";
+var _define_property = require("@swc/helpers/_/_define_property");
 class Foo {
     constructor(){
-        _define_property(this, "static", 5);
-        _define_property(this, "declare", 5);
+        _define_property._(this, "static", 5);
+        _define_property._(this, "declare", 5);
     }
 }

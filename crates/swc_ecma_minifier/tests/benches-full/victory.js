@@ -2345,7 +2345,7 @@
                 else {
                     var d1 = Math.sqrt(d2), b0 = (w1 * w1 - w0 * w0 + 4 * d2) / (2 * w0 * 2 * d1), b1 = (w1 * w1 - w0 * w0 - 4 * d2) / (2 * w1 * 2 * d1), r0 = Math.log(Math.sqrt(b0 * b0 + 1) - b0);
                     S = (Math.log(Math.sqrt(b1 * b1 + 1) - b1) - r0) / rho, i = function(t) {
-                        var x, x1, s = t * S, coshr0 = cosh(r0), u = w0 / (2 * d1) * (((x = Math.exp(2 * (x = rho * s + r0))) - 1) / (x + 1) * coshr0 - ((x1 = Math.exp(x1 = r0)) - 1 / x1) / 2);
+                        var x, x1, s = t * S, coshr0 = cosh(r0), u = w0 / (2 * d1) * (coshr0 * (((x = Math.exp(2 * (x = rho * s + r0))) - 1) / (x + 1)) - ((x1 = Math.exp(x1 = r0)) - 1 / x1) / 2);
                         return [
                             ux0 + u * dx,
                             uy0 + u * dy,
@@ -22643,7 +22643,7 @@
                                 firstChild && "stack" === firstChild.type.role && (barWidth = (firstChild.props.children && firstChild.props.children[0]).props.barWidth, dataLength = firstChild.props.children.length);
                                 var width = barWidth || this.getWidth(props, children.length, dataLength);
                                 return {
-                                    x: width * children.length / 2 + (offset - (children.length - 1) / 2 * width)
+                                    x: width * children.length / 2 + (offset - width * ((children.length - 1) / 2))
                                 };
                             }
                         }
@@ -29100,7 +29100,7 @@
                                 x: function() {
                                     if (!textAnchor || "middle" === textAnchor) return flyoutCenter.x;
                                     var sign = "end" === textAnchor ? -1 : 1;
-                                    return flyoutCenter.x - labelSize.width / 2 * sign;
+                                    return flyoutCenter.x - sign * (labelSize.width / 2);
                                 }() + (flyoutPadding.left - flyoutPadding.right) / 2,
                                 y: flyoutCenter.y + (flyoutPadding.top - flyoutPadding.bottom) / 2,
                                 verticalAnchor: "middle",

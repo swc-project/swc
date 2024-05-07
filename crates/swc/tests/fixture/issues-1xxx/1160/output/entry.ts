@@ -1,10 +1,6 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-const _define_property = require("@swc/helpers/_/_define_property");
-const _ts_decorate = require("@swc/helpers/_/_ts_decorate");
-const _ts_metadata = require("@swc/helpers/_/_ts_metadata");
+var _define_property = require("@swc/helpers/_/_define_property");
+var _ts_decorate = require("@swc/helpers/_/_ts_decorate");
+var _ts_metadata = require("@swc/helpers/_/_ts_metadata");
 var MyEnum;
 (function(MyEnum) {
     MyEnum["x"] = "xxx";

@@ -14,9 +14,6 @@ define([
             return y;
         }
     });
-    function f() {
-        console.log(y, z);
-    }
     try {
         var _usingCtx = _using_ctx._();
         var z = _usingCtx.u({
@@ -24,6 +21,9 @@ define([
         });
         if (false) {
             var y = 1;
+        }
+        function f() {
+            console.log(y, z);
         }
     } catch (_) {
         _usingCtx.e = _;

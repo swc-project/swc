@@ -285,11 +285,12 @@ impl VisitMut for TscDecorator {
                 exprs: iter::once(AssignExpr {
                     span: DUMMY_SP,
                     op: op!("="),
-                    left: var_name.into(),
+                    left: var_name.clone().into(),
                     right: Box::new(e.take()),
                 })
                 .map(Into::into)
                 .chain(appended_exprs)
+                .chain(iter::once(var_name.into()))
                 .collect(),
             });
         }

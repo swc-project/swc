@@ -1,9 +1,9 @@
 {
-  "mappings": ";AAAA,SAASA;IACL,0DAA0D;IAC1D,OAAO,gBAAkB,OAAO,UAAU;AAC9C;AACAA",
+  "mappings": "AAAA,SAASA;IACL,0DAA0D;IAC1D,OAAO,gBAAkB,OAAO,UAAU;AAC9C;AACAA",
   "names": [
     "test"
   ],
-  "rangeMappings": ";;;;;",
+  "rangeMappings": ";;;;",
   "sources": [
     "../../input/index.js"
   ],

@@ -1,11 +1,7 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-const _async_to_generator = require("@swc/helpers/_/_async_to_generator");
-const _ts_decorate = require("@swc/helpers/_/_ts_decorate");
-const _ts_metadata = require("@swc/helpers/_/_ts_metadata");
-const _ts_param = require("@swc/helpers/_/_ts_param");
+var _async_to_generator = require("@swc/helpers/_/_async_to_generator");
+var _ts_decorate = require("@swc/helpers/_/_ts_decorate");
+var _ts_metadata = require("@swc/helpers/_/_ts_metadata");
+var _ts_param = require("@swc/helpers/_/_ts_param");
 class Foo {
     fnName1(argName) {
         return _async_to_generator._(function*() {})();

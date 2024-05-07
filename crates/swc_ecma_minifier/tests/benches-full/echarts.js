@@ -1158,7 +1158,7 @@
         },
         elasticInOut: function(k) {
             var s, a = 0.1;
-            return 0 === k ? 0 : 1 === k ? 1 : (!a || a < 1 ? (a = 1, s = 0.1) : s = 0.4 * Math.asin(1 / a) / (2 * Math.PI), (k *= 2) < 1) ? -(a * Math.pow(2, 10 * (k -= 1)) * Math.sin(2 * Math.PI * (k - s) / 0.4) * 0.5) : a * Math.pow(2, -10 * (k -= 1)) * Math.sin(2 * Math.PI * (k - s) / 0.4) * 0.5 + 1;
+            return 0 === k ? 0 : 1 === k ? 1 : (!a || a < 1 ? (a = 1, s = 0.1) : s = 0.4 * Math.asin(1 / a) / (2 * Math.PI), (k *= 2) < 1) ? -0.5 * (a * Math.pow(2, 10 * (k -= 1)) * Math.sin(2 * Math.PI * (k - s) / 0.4)) : a * Math.pow(2, -10 * (k -= 1)) * Math.sin(2 * Math.PI * (k - s) / 0.4) * 0.5 + 1;
         },
         backIn: function(k) {
             return k * k * (2.70158 * k - 1.70158);
