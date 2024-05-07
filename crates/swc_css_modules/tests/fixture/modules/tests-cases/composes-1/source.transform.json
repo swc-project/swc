@@ -1,44 +1,44 @@
 {
-  "c1": [
-    {
-      "type": "local",
-      "name": "__local__c1"
-    },
-    {
-      "type": "import",
-      "name": "c2",
-      "from": "./file.css"
-    }
-  ],
-  "c3": [
-    {
-      "type": "local",
-      "name": "__local__c3"
-    },
-    {
-      "type": "local",
-      "name": "__local__c1"
-    },
-    {
-      "type": "import",
-      "name": "c2",
-      "from": "./file.css"
-    }
-  ],
-  "c5": [
-    {
-      "type": "local",
-      "name": "__local__c5"
-    },
-    {
-      "type": "import",
-      "name": "c2",
-      "from": "./file.css"
-    },
-    {
-      "type": "import",
-      "name": "c4",
-      "from": "./file.css"
-    }
-  ]
+    "c1": [
+        {
+            "name": "__local__c1",
+            "type": "local"
+        },
+        {
+            "from": "./file.css",
+            "name": "c2",
+            "type": "import"
+        }
+    ],
+    "c3": [
+        {
+            "name": "__local__c3",
+            "type": "local"
+        },
+        {
+            "name": "__local__c1",
+            "type": "local"
+        },
+        {
+            "from": "./file.css",
+            "name": "c2",
+            "type": "import"
+        }
+    ],
+    "c5": [
+        {
+            "name": "__local__c5",
+            "type": "local"
+        },
+        {
+            "from": "./file.css",
+            "name": "c2",
+            "type": "import"
+        },
+        {
+            "from": "./file.css",
+            "name": "c4",
+            "type": "import"
+        }
+    ]
 }
