@@ -354,12 +354,20 @@ impl Optimizer<'_> {
                         self.changed = true;
                         report_change!("evaluate: Evaluated `{:?} ** {:?}`", l, r);
 
-                        let value = l.powf(r);
-                        *e = Expr::Lit(Lit::Num(Number {
-                            span: bin.span,
-                            value,
-                            raw: None,
-                        }));
+                        if l.is_nan() || r.is_nan() {
+                            *e = Expr::Ident(Ident::new(
+                                "NaN".into(),
+                                bin.span.with_ctxt(
+                                    SyntaxContext::empty().apply_mark(self.marks.unresolved_mark),
+                                ),
+                            ));
+                        } else {
+                            *e = Expr::Lit(Lit::Num(Number {
+                                span: bin.span,
+                                value: l.powf(r),
+                                raw: None,
+                            }));
+                        };
                     }
                 }
             }
