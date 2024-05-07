@@ -1,86 +1,86 @@
 {
-  "chain2": [
-    {
-      "type": "local",
-      "name": "__local__chain2"
-    },
-    {
-      "type": "global",
-      "name": "e"
-    },
-    {
-      "type": "import",
-      "name": "f",
-      "from": "./f.css"
-    }
-  ],
-  "chain1": [
-    {
-      "type": "local",
-      "name": "__local__chain1"
-    },
-    {
-      "type": "local",
-      "name": "__local__chain2"
-    },
-    {
-      "type": "global",
-      "name": "c"
-    },
-    {
-      "type": "import",
-      "name": "d",
-      "from": "./d.css"
-    },
-    {
-      "type": "global",
-      "name": "e"
-    },
-    {
-      "type": "import",
-      "name": "f",
-      "from": "./f.css"
-    }
-  ],
-  "root-class": [
-    {
-      "type": "local",
-      "name": "__local__root-class"
-    },
-    {
-      "type": "local",
-      "name": "__local__chain1"
-    },
-    {
-      "type": "global",
-      "name": "a"
-    },
-    {
-      "type": "import",
-      "name": "b",
-      "from": "./b.css"
-    },
-    {
-      "type": "local",
-      "name": "__local__chain2"
-    },
-    {
-      "type": "global",
-      "name": "c"
-    },
-    {
-      "type": "import",
-      "name": "d",
-      "from": "./d.css"
-    },
-    {
-      "type": "global",
-      "name": "e"
-    },
-    {
-      "type": "import",
-      "name": "f",
-      "from": "./f.css"
-    }
-  ]
+    "chain1": [
+        {
+            "name": "__local__chain1",
+            "type": "local"
+        },
+        {
+            "name": "__local__chain2",
+            "type": "local"
+        },
+        {
+            "name": "e",
+            "type": "global"
+        },
+        {
+            "name": "c",
+            "type": "global"
+        },
+        {
+            "from": "./f.css",
+            "name": "f",
+            "type": "import"
+        },
+        {
+            "from": "./d.css",
+            "name": "d",
+            "type": "import"
+        }
+    ],
+    "chain2": [
+        {
+            "name": "__local__chain2",
+            "type": "local"
+        },
+        {
+            "name": "e",
+            "type": "global"
+        },
+        {
+            "from": "./f.css",
+            "name": "f",
+            "type": "import"
+        }
+    ],
+    "root-class": [
+        {
+            "name": "__local__chain2",
+            "type": "local"
+        },
+        {
+            "name": "__local__root-class",
+            "type": "local"
+        },
+        {
+            "name": "__local__chain1",
+            "type": "local"
+        },
+        {
+            "name": "e",
+            "type": "global"
+        },
+        {
+            "name": "c",
+            "type": "global"
+        },
+        {
+            "name": "a",
+            "type": "global"
+        },
+        {
+            "from": "./f.css",
+            "name": "f",
+            "type": "import"
+        },
+        {
+            "from": "./d.css",
+            "name": "d",
+            "type": "import"
+        },
+        {
+            "from": "./b.css",
+            "name": "b",
+            "type": "import"
+        }
+    ]
 }

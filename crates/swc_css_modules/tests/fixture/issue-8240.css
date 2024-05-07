@@ -1,0 +1,8 @@
+.root-class {
+    composes: chain1;
+}
+.chain1 {
+    composes: chain2;
+}
+.chain2 {
+}

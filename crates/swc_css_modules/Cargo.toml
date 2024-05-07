@@ -26,6 +26,7 @@ swc_css_parser  = { version = "0.150.33", path = "../swc_css_parser" }
 swc_css_visit   = { version = "0.139.22", path = "../swc_css_visit" }
 
 [dev-dependencies]
+indexmap   = { workspace = true, features = ["serde"] }
 serde_json = { workspace = true }
 
 swc_css_compat = { version = "0.27.35", path = "../swc_css_compat" }
