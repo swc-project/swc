@@ -763,8 +763,6 @@ impl Optimizer<'_> {
             }
         }
 
-        dbg!(&self.options);
-
         if !body.stmts.iter().all(|stmt| match stmt {
             Stmt::Decl(Decl::Var(var))
                 if matches!(
