@@ -31,7 +31,7 @@ body:
       required: true
     attributes:
       label: Playground link (or link to the minimal reproduction)
-      description: "You can use [swc playground](https://play.swc.rs/) to create a reproduction link, then paste the link here. If your link is invalid, the issue will be closed automatically. Allowed domains are github.com,play.swc.rs,evanw.github.io,lightningcss.dev,play.rust-lang.org"
+      description: "You can use [swc playground](https://play.swc.rs/) to create a reproduction link, then paste the link here. If your link is invalid, the issue will be closed automatically. Allowed domains are github.com,gist.github.com,play.swc.rs,evanw.github.io,lightningcss.dev,play.rust-lang.org,stackblitz.com"
   - type: textarea
     id: swc-info
     attributes:
