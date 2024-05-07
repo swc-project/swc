@@ -4097,7 +4097,7 @@ dependencies = [
 
 [[package]]
 name = "swc_css_modules"
-version = "0.29.35"
+version = "0.29.36"
 dependencies = [
  "indexmap 2.1.0",
  "rustc-hash",
