@@ -60,6 +60,27 @@ pub fn compile<'a>(ss: &mut Stylesheet, config: impl 'a + TransformConfig) -> Tr
 
     ss.visit_mut_with(&mut compiler);
 
+    for (key, composes) in compiler.data.composes_inherit {
+        let mut renamed = compiler.result.renamed.clone();
+        let class_names = compiler.result.renamed.entry(key).or_default();
+
+        class_names.extend(composes.clone());
+        for composed_class_name in composes.iter() {
+            if let CssClassName::Local { name } = composed_class_name {
+                if let Some(original_class_name) = compiler.data.renamed_to_orig.get(&name.value) {
+                    class_names.extend(
+                        renamed
+                            .entry(original_class_name.clone())
+                            .or_default()
+                            .split_at(1)
+                            .1
+                            .to_vec(),
+                    );
+                }
+            }
+        }
+    }
+
     compiler.result
 }
 
@@ -76,6 +97,7 @@ where
 struct Data {
     /// Context for `composes`
     composes_for_current: Option<Vec<CssClassName>>,
+    composes_inherit: Vec<(JsWord, Vec<CssClassName>)>,
 
     renamed_to_orig: FxHashMap<JsWord, JsWord>,
     orig_to_renamed: FxHashMap<JsWord, JsWord>,
@@ -213,28 +235,15 @@ where
                                     .get(&class_sel.text.value)
                                     .cloned();
 
+                                dbg!(&key);
+
                                 if let Some(key) = key {
-                                    let mut renamed = self.result.renamed.clone();
-                                    let class_names = self.result.renamed.entry(key).or_default();
+                                    let class_names =
+                                        self.result.renamed.entry(key.clone()).or_default();
 
                                     class_names.extend(composes.clone());
 
-                                    for composed_class_name in composes.iter() {
-                                        if let CssClassName::Local { name } = composed_class_name {
-                                            if let Some(original_class_name) =
-                                                self.data.renamed_to_orig.get(&name.value)
-                                            {
-                                                class_names.extend(
-                                                    renamed
-                                                        .entry(original_class_name.clone())
-                                                        .or_default()
-                                                        .split_at(1)
-                                                        .1
-                                                        .to_vec(),
-                                                );
-                                            }
-                                        }
-                                    }
+                                    self.data.composes_inherit.push((key, composes.clone()));
                                 }
                             }
                         }
