@@ -220,16 +220,7 @@ impl Pure<'_> {
                     && !c.contains("\\x")
                     && !c.contains("\\u")
                 {
-                    let value = c
-                        .replace("\\`", "`")
-                        .replace("\\$", "$")
-                        .replace("\\b", "\u{0008}")
-                        .replace("\\f", "\u{000C}")
-                        .replace("\\n", "\n")
-                        .replace("\\r", "\r")
-                        .replace("\\t", "\t")
-                        .replace("\\v", "\u{000B}")
-                        .replace("\\\\", "\\");
+                    let value = Str::from_tpl_raw(&c);
 
                     report_change!("converting a template literal to a string literal");
 

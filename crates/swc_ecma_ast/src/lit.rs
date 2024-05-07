@@ -196,6 +196,64 @@ impl Str {
     pub fn is_empty(&self) -> bool {
         self.value.is_empty()
     }
+
+    pub fn from_tpl_raw(tpl_raw: &str) -> Atom {
+        let mut buf = String::with_capacity(tpl_raw.len());
+
+        let mut iter = tpl_raw.chars();
+
+        let mut ignore_slash = false;
+
+        while let Some(c) = iter.next() {
+            match c {
+                '\\' => {
+                    if ignore_slash {
+                        buf.push(c);
+                        ignore_slash = false;
+                    } else {
+                        ignore_slash = true;
+
+                        if let Some(next) = iter.next() {
+                            match next {
+                                '`' | '$' | '\\' => {
+                                    buf.push(next);
+                                }
+                                'b' => {
+                                    buf.push('\u{0008}');
+                                }
+                                'f' => {
+                                    buf.push('\u{000C}');
+                                }
+                                'n' => {
+                                    buf.push('\n');
+                                }
+                                'r' => {
+                                    buf.push('\r');
+                                }
+                                't' => {
+                                    buf.push('\t');
+                                }
+                                'v' => {
+                                    buf.push('\u{000B}');
+                                }
+                                _ => {
+                                    buf.push('\\');
+                                    buf.push(next);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                c => {
+                    buf.push(c);
+                    ignore_slash = false;
+                }
+            }
+        }
+
+        buf.into()
+    }
 }
 
 impl EqIgnoreSpan for Str {
