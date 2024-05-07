@@ -754,7 +754,7 @@ impl Optimizer<'_> {
         // We should not add a variable to top level scope if the user has disabled it.
         //
         // See https://github.com/swc-project/swc/issues/8909
-        if !self.options.top_level() {
+        if !self.options.top_level() && self.ctx.in_top_level() {
             for s in body.stmts.iter() {
                 if let Stmt::Decl(Decl::Var(..)) = s {
                     log_abort!("iife: [x] Cannot inline because of top level scope");
