@@ -671,6 +671,9 @@ fn prepend_left_subclass_selectors(
     sels: &mut Vec<SubclassSelector>,
     mut sel_index: usize,
 ) {
+    dbg!(&complex_selector_children);
+    dbg!(&sels);
+
     sels.remove(sel_index);
 
     for c in complex_selector_children
