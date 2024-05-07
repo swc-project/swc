@@ -61,15 +61,19 @@ pub fn compile<'a>(ss: &mut Stylesheet, config: impl 'a + TransformConfig) -> Tr
     ss.visit_mut_with(&mut compiler);
 
     fn add(result: &mut TransformResult, data: &Data, key: &JsWord, composes: &[CssClassName]) {
-        let mut renamed = result.renamed.clone();
-        let class_names = result.renamed.entry(key.clone()).or_default();
+        let mut extra_classes = vec![];
+        {
+            let class_names = result.renamed.entry(key.clone()).or_default();
 
-        class_names.extend(composes.iter().cloned());
+            class_names.extend(composes.iter().cloned());
+        }
+
         for composed_class_name in composes.iter() {
             if let CssClassName::Local { name } = composed_class_name {
                 if let Some(original_class_name) = data.renamed_to_orig.get(&name.value) {
-                    class_names.extend(
-                        renamed
+                    extra_classes.extend(
+                        result
+                            .renamed
                             .entry(original_class_name.clone())
                             .or_default()
                             .split_at(1)
@@ -78,6 +82,12 @@ pub fn compile<'a>(ss: &mut Stylesheet, config: impl 'a + TransformConfig) -> Tr
                     );
                 }
             }
+        }
+
+        {
+            let class_names = result.renamed.entry(key.clone()).or_default();
+
+            class_names.extend(extra_classes);
         }
     }
 
