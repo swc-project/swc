@@ -523,7 +523,8 @@ impl Pure<'_> {
                     .as_bin()
                     .filter(|b| b.op.precedence() == op.precedence())
                     .is_none()
-                && !left.may_have_side_effects(&self.expr_ctx));
+                && !left.may_have_side_effects(&self.expr_ctx)
+                && !right.may_have_side_effects(&self.expr_ctx));
 
         if can_swap {
             report_change!("Swapping operands of binary expession");

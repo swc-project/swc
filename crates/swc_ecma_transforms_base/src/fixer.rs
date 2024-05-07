@@ -87,6 +87,7 @@ impl Fixer<'_> {
         match e {
             Expr::Lit(Lit::Num(..) | Lit::Str(..)) => (),
             Expr::Cond(..)
+            | Expr::Class(..)
             | Expr::Bin(..)
             | Expr::Lit(..)
             | Expr::Unary(..)

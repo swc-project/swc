@@ -1,9 +1,5 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-const _async_to_generator = require("@swc/helpers/_/_async_to_generator");
-const _define_property = require("@swc/helpers/_/_define_property");
+var _async_to_generator = require("@swc/helpers/_/_async_to_generator");
+var _define_property = require("@swc/helpers/_/_define_property");
 class A {
     foo() {
         var _this = this;

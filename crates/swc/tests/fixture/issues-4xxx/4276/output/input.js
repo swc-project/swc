@@ -1,1 +1,1 @@
-const o="foo-";console.log(o);const s=`${o}bar`,c=`${o}bar2`;console.log("test",o,s,c);
+let o="foo-";console.log(o);let l=`${o}bar`,e=`${o}bar2`;console.log("test",o,l,e);

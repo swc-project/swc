@@ -1,7 +1,7 @@
-import { _ as _class_private_method_get } from "@swc/helpers/_/_class_private_method_get";
-import { _ as _class_private_method_init } from "@swc/helpers/_/_class_private_method_init";
-import { _ as _get } from "@swc/helpers/_/_get";
-import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
+var _class_private_method_get = require("@swc/helpers/_/_class_private_method_get");
+var _class_private_method_init = require("@swc/helpers/_/_class_private_method_init");
+var _get = require("@swc/helpers/_/_get");
+var _get_prototype_of = require("@swc/helpers/_/_get_prototype_of");
 class Base {
     superMethod() {
         return 'good';
@@ -13,14 +13,14 @@ class Sub extends Base {
         return 'bad';
     }
     publicMethod() {
-        return _class_private_method_get(this, _privateMethod, privateMethod).call(this);
+        return _class_private_method_get._(this, _privateMethod, privateMethod).call(this);
     }
     constructor(...args){
         super(...args);
-        _class_private_method_init(this, _privateMethod);
+        _class_private_method_init._(this, _privateMethod);
     }
 }
 function privateMethod() {
-    return _get(_get_prototype_of(Sub.prototype), "superMethod", this).call(this);
+    return _get._(_get_prototype_of._(Sub.prototype), "superMethod", this).call(this);
 }
 new Sub().publicMethod().toEqual('good');

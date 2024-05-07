@@ -3,3 +3,5 @@
 
     console.log(displayA());
 })();
+
+export { }

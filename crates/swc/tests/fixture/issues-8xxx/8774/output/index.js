@@ -1,4 +1,4 @@
-import { _ as _using_ctx } from "@swc/helpers/_/_using_ctx";
+var _using_ctx = require("@swc/helpers/_/_using_ctx");
 const logClean = function() {
     return {
         [Symbol.dispose] () {
@@ -11,7 +11,7 @@ const logClean = function() {
 };
 async function foo() {
     try {
-        var _usingCtx = _using_ctx();
+        var _usingCtx = _using_ctx._();
         const a = _usingCtx.u(logClean());
         const b = _usingCtx.a(logClean());
         for (const a of [
@@ -19,7 +19,7 @@ async function foo() {
             logClean()
         ]){
             try {
-                var _usingCtx1 = _using_ctx();
+                var _usingCtx1 = _using_ctx._();
                 {}
             } catch (_) {
                 _usingCtx1.e = _;
@@ -32,7 +32,7 @@ async function foo() {
             logClean()
         ]){
             try {
-                var _usingCtx2 = _using_ctx();
+                var _usingCtx2 = _using_ctx._();
                 {}
             } catch (_) {
                 _usingCtx2.e = _;

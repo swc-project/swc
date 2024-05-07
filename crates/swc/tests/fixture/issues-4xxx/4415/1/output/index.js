@@ -1,1 +1,1 @@
-console.log("aaaa");
+let a="aaaa";"aaaa"===a&&console.log(a);

@@ -6,7 +6,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_ecmascript"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.240.1"
+version       = "0.241.0"
 
   [package.metadata.docs.rs]
   all-features = true
@@ -40,7 +40,7 @@ typescript   = ["typescript-parser", "swc_ecma_transforms/typescript"]
 [dependencies]
 swc_ecma_ast        = { version = "0.113.1", path = "../swc_ecma_ast" }
 swc_ecma_codegen    = { version = "0.149.1", path = "../swc_ecma_codegen", optional = true }
-swc_ecma_minifier   = { version = "0.193.2", path = "../swc_ecma_minifier", optional = true }
+swc_ecma_minifier   = { version = "0.194.0", path = "../swc_ecma_minifier", optional = true }
 swc_ecma_parser     = { version = "0.144.1", path = "../swc_ecma_parser", optional = true, default-features = false }
 swc_ecma_preset_env = { version = "0.207.1", path = "../swc_ecma_preset_env", optional = true }
 swc_ecma_quote      = { version = "0.60.1", path = "../swc_ecma_quote", optional = true }

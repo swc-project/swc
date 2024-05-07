@@ -1,15 +1,15 @@
-import { _ as _async_to_generator } from "@swc/helpers/_/_async_to_generator";
-import { _ as _await_async_generator } from "@swc/helpers/_/_await_async_generator";
-import { _ as _wrap_async_generator } from "@swc/helpers/_/_wrap_async_generator";
-import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
+var _async_to_generator = require("@swc/helpers/_/_async_to_generator");
+var _await_async_generator = require("@swc/helpers/_/_await_async_generator");
+var _wrap_async_generator = require("@swc/helpers/_/_wrap_async_generator");
+var _ts_generator = require("@swc/helpers/_/_ts_generator");
 var result = [];
 function foo() {
     return _foo.apply(this, arguments);
 }
 function _foo() {
-    _foo = _wrap_async_generator(function() {
+    _foo = _wrap_async_generator._(function() {
         var input, _iteratorNormalCompletion, _didIteratorError, _iteratorError, _iterator, _step, _, _tmp, _1, _tmp1, err;
-        return _ts_generator(this, function(_state) {
+        return _ts_generator._(this, function(_state) {
             switch(_state.label){
                 case 0:
                     input = [
@@ -40,7 +40,7 @@ function _foo() {
                     _tmp = {};
                     return [
                         4,
-                        _await_async_generator(i)
+                        _await_async_generator._(i)
                     ];
                 case 3:
                     _.apply(result, [
@@ -105,9 +105,9 @@ function main() {
     return _main.apply(this, arguments);
 }
 function _main() {
-    _main = _async_to_generator(function() {
+    _main = _async_to_generator._(function() {
         var state, x;
-        return _ts_generator(this, function(_state) {
+        return _ts_generator._(this, function(_state) {
             switch(_state.label){
                 case 0:
                     return [

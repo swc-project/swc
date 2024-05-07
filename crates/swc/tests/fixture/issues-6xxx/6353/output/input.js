@@ -1,6 +1,6 @@
-import { _ as _async_to_generator } from "@swc/helpers/_/_async_to_generator";
+var _async_to_generator = require("@swc/helpers/_/_async_to_generator");
 (function() {
-    var _ref = _async_to_generator(function*(x) {
+    var _ref = _async_to_generator._(function*(x) {
         return 0;
     });
     return function(x) {
@@ -8,7 +8,7 @@ import { _ as _async_to_generator } from "@swc/helpers/_/_async_to_generator";
     };
 })().x++;
 (function() {
-    var _ref = _async_to_generator(function*(x) {
+    var _ref = _async_to_generator._(function*(x) {
         return 0;
     });
     return function(x) {
@@ -16,7 +16,7 @@ import { _ as _async_to_generator } from "@swc/helpers/_/_async_to_generator";
     };
 })().x--;
 ++function() {
-    var _ref = _async_to_generator(function*(x) {
+    var _ref = _async_to_generator._(function*(x) {
         return 0;
     });
     return function(x) {
@@ -24,7 +24,7 @@ import { _ as _async_to_generator } from "@swc/helpers/_/_async_to_generator";
     };
 }().x;
 --function() {
-    var _ref = _async_to_generator(function*(x) {
+    var _ref = _async_to_generator._(function*(x) {
         return 0;
     });
     return function(x) {
@@ -32,7 +32,7 @@ import { _ as _async_to_generator } from "@swc/helpers/_/_async_to_generator";
     };
 }().x;
 (function() {
-    var _ref = _async_to_generator(function*(x) {
+    var _ref = _async_to_generator._(function*(x) {
         return 0;
     });
     return function(x) {

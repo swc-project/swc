@@ -1,0 +1,32 @@
+{
+    "chain1": [
+        {
+            "name": "__local__chain1",
+            "type": "local"
+        },
+        {
+            "name": "__local__chain2",
+            "type": "local"
+        }
+    ],
+    "chain2": [
+        {
+            "name": "__local__chain2",
+            "type": "local"
+        }
+    ],
+    "root-class": [
+        {
+            "name": "__local__root-class",
+            "type": "local"
+        },
+        {
+            "name": "__local__chain1",
+            "type": "local"
+        },
+        {
+            "name": "__local__chain2",
+            "type": "local"
+        }
+    ]
+}
