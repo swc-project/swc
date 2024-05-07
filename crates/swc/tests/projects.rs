@@ -1117,7 +1117,7 @@ fn issue_7513_2() {
                         }),
                         keep_classnames: false,
                         keep_fnames: false,
-                        toplevel: true,
+                        toplevel: Some(true),
                         ..Default::default()
                     },
                 )
