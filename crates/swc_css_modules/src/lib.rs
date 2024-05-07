@@ -60,14 +60,15 @@ pub fn compile<'a>(ss: &mut Stylesheet, config: impl 'a + TransformConfig) -> Tr
 
     ss.visit_mut_with(&mut compiler);
 
-    for (key, composes) in compiler.data.composes_inherit {
-        let mut renamed = compiler.result.renamed.clone();
-        let class_names = compiler.result.renamed.entry(key).or_default();
+    fn add(result: &mut TransformResult, data: &mut Data, key: &JsWord, composes: &[CssClassName]) {
+        let mut renamed = result.renamed.clone();
+        let class_names = result.renamed.entry(key.clone()).or_default();
 
-        class_names.extend(composes.clone());
+        class_names.extend(composes.iter().cloned());
         for composed_class_name in composes.iter() {
+            dbg!(composed_class_name);
             if let CssClassName::Local { name } = composed_class_name {
-                if let Some(original_class_name) = compiler.data.renamed_to_orig.get(&name.value) {
+                if let Some(original_class_name) = data.renamed_to_orig.get(&name.value) {
                     class_names.extend(
                         renamed
                             .entry(original_class_name.clone())
@@ -79,6 +80,10 @@ pub fn compile<'a>(ss: &mut Stylesheet, config: impl 'a + TransformConfig) -> Tr
                 }
             }
         }
+    }
+
+    for (key, composes) in compiler.data.composes_inherit.take() {
+        add(&mut compiler.result, &mut compiler.data, &key, &composes);
     }
 
     compiler.result
@@ -234,8 +239,6 @@ where
                                     .renamed_to_orig
                                     .get(&class_sel.text.value)
                                     .cloned();
-
-                                dbg!(&key);
 
                                 if let Some(key) = key {
                                     self.data.composes_inherit.push((key, composes.clone()));
