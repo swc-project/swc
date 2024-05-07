@@ -220,14 +220,14 @@ impl Pure<'_> {
                     && !c.contains("\\x")
                     && !c.contains("\\u")
                 {
-                    let value = Str::from_tpl_raw(&c);
+                    let value = Str::from_tpl_raw(c);
 
                     report_change!("converting a template literal to a string literal");
 
                     *e = Expr::Lit(Lit::Str(Str {
                         span: t.span,
                         raw: None,
-                        value: value.into(),
+                        value,
                     }));
                 }
             }
