@@ -238,11 +238,6 @@ where
                                 dbg!(&key);
 
                                 if let Some(key) = key {
-                                    let class_names =
-                                        self.result.renamed.entry(key.clone()).or_default();
-
-                                    class_names.extend(composes.clone());
-
                                     self.data.composes_inherit.push((key, composes.clone()));
                                 }
                             }
