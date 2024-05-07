@@ -304,7 +304,7 @@ impl Options {
 
         let default_top_level = program.is_module();
 
-        js_minify = js_minify.map(|c| {
+        js_minify = js_minify.map(|mut c| {
             let compress = c
                 .compress
                 .unwrap_as_option(|default| match default {
@@ -343,6 +343,10 @@ impl Options {
                 })
                 .map(BoolOrDataConfig::from_obj)
                 .unwrap_or_else(|| BoolOrDataConfig::from_bool(false));
+
+            if c.toplevel.is_none() {
+                c.toplevel = Some(default_top_level);
+            }
 
             JsMinifyOptions {
                 compress,
