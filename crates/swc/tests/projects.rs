@@ -796,6 +796,7 @@ fn tests(input_dir: PathBuf) {
 
                 if !entry.file_name().to_string_lossy().ends_with(".ts")
                     && !entry.file_name().to_string_lossy().ends_with(".js")
+                    && !entry.file_name().to_string_lossy().ends_with(".jsx")
                     && !entry.file_name().to_string_lossy().ends_with(".tsx")
                 {
                     continue;
