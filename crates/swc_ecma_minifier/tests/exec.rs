@@ -11223,3 +11223,30 @@ console.log(eval(bar));
 console.log(eval(foo));",
     );
 }
+
+#[test]
+fn issue_8937() {
+    run_default_exec_test(
+        "
+        class Container {
+            constructor(v) {
+                this.a= v;
+            }
+            add(x) {
+                this.a += x;
+            }
+            toString() {
+                return this.a.toString();
+            }
+        };
+        let x = Math.random();
+        let a = new Container(x);
+        let b = new Container(x+1);
+        let comp = a < b;
+        while (a < b) {
+            a.add(1);
+        }
+        console.log(comp ? 'smaller' : 'not smaller');
+        ",
+    );
+}
