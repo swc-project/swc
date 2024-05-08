@@ -23,6 +23,9 @@
 - **(es/minifier)** Fix operand handling of `**` ([#8933](https://github.com/swc-project/swc/issues/8933)) ([c9d72cd](https://github.com/swc-project/swc/commit/c9d72cdc6aa847ba2d81eb2a99c0d0c74bc669b6))
 
 
+- **(es/minifier)** Fix a bug about `Tpl` => `Str` ([#8934](https://github.com/swc-project/swc/issues/8934)) ([d4be383](https://github.com/swc-project/swc/commit/d4be3833183b829bf39c0b53407b8892517256d9))
+
+
 - **(es/module)** Resolve `.jsx` imports fully ([#8936](https://github.com/swc-project/swc/issues/8936)) ([c536d2a](https://github.com/swc-project/swc/commit/c536d2ad6f731e3284df48902637e6446e91a721))
 
 ### Refactor
@@ -1345,12 +1348,6 @@
 
 
 - **(xtask)** Fix nightly command ([#8105](https://github.com/swc-project/swc/issues/8105)) ([db4ca65](https://github.com/swc-project/swc/commit/db4ca650e445e602f289f7964b24f7e2647beacd))
-
-### Features
-
-
-
-- **(css/parser)** Store lexed comments ([#8091](https://github.com/swc-project/swc/issues/8091)) ([d1097cc](https://github.com/swc-project/swc/commit/d1097ccb599c4343e3f80ca9bd793bbfce424e8b))
 
 ### Miscellaneous Tasks
 
