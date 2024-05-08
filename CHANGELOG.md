@@ -22,6 +22,9 @@
 
 - **(es/minifier)** Fix operand handling of `**` ([#8933](https://github.com/swc-project/swc/issues/8933)) ([c9d72cd](https://github.com/swc-project/swc/commit/c9d72cdc6aa847ba2d81eb2a99c0d0c74bc669b6))
 
+
+- **(es/module)** Resolve `.jsx` imports fully ([#8936](https://github.com/swc-project/swc/issues/8936)) ([c536d2a](https://github.com/swc-project/swc/commit/c536d2ad6f731e3284df48902637e6446e91a721))
+
 ### Refactor
 
 
