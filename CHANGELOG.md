@@ -1,5 +1,5 @@
 # Changelog
-## [unreleased]
+## [1.5.5] - 2024-05-08
 
 ### Bug Fixes
 
@@ -1348,12 +1348,6 @@
 
 
 - **(xtask)** Fix nightly command ([#8105](https://github.com/swc-project/swc/issues/8105)) ([db4ca65](https://github.com/swc-project/swc/commit/db4ca650e445e602f289f7964b24f7e2647beacd))
-
-### Miscellaneous Tasks
-
-
-
-- **(es/minifier)** Fix script for extracting test cases from next.js app ([#8092](https://github.com/swc-project/swc/issues/8092)) ([a2d0779](https://github.com/swc-project/swc/commit/a2d077958f071752dbc347fbf414622e0146e1fd))
 
 ### Refactor
 
