@@ -1552,7 +1552,7 @@ impl Optimizer<'_> {
             }
         }
 
-        if match &*b {
+        match &*b {
             Expr::Arrow(..)
             | Expr::Fn(..)
             | Expr::Class(..)
@@ -1560,13 +1560,27 @@ impl Optimizer<'_> {
             | Expr::Await(..)
             | Expr::Yield(..)
             | Expr::Tpl(..)
-            | Expr::TaggedTpl(..) => true,
+            | Expr::TaggedTpl(..) => return Ok(false),
+
+            Expr::Assign(AssignExpr {
+                op: op!("**="),
+                right,
+                ..
+            })
+            | Expr::Bin(BinExpr {
+                op: op!("**"),
+                right,
+                ..
+            }) => {
+                if is_pure_undefined(&self.expr_ctx, right) {
+                    return Ok(false);
+                }
+            }
+
             Expr::Unary(UnaryExpr {
                 op: op!("delete"), ..
-            }) => true,
-            _ => false,
-        } {
-            return Ok(false);
+            }) => return Ok(false),
+            _ => {}
         }
 
         match a {

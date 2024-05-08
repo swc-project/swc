@@ -173,6 +173,12 @@ where
                 false
             };
 
+            let file_stem_matches = if let Some(stem) = target_path.file_stem() {
+                stem == orig_filename
+            } else {
+                false
+            };
+
             if self.config.resolve_fully && is_resolved_as_js {
             } else if orig_filename == "index" {
                 // Import: `./foo/index`
@@ -188,6 +194,8 @@ where
                 // Resolved: `./foo/index.js`
 
                 target_path.pop();
+            } else if is_resolved_as_non_js && self.config.resolve_fully && file_stem_matches {
+                target_path.set_extension("js");
             } else if !is_resolved_as_js && !is_resolved_as_index && !is_exact {
                 target_path.set_file_name(orig_filename);
             } else if is_resolved_as_non_js && is_exact {
