@@ -7,6 +7,9 @@
 
 - **(es/minifier)** Abort inliner on mutation via property ([#8938](https://github.com/swc-project/swc/issues/8938)) ([257afc9](https://github.com/swc-project/swc/commit/257afc92c9b2a751935f8fdee1b84bc9222359b6))
 
+
+- **(es/minifier)** Don't invoke IIFE containing reserved words ([#8939](https://github.com/swc-project/swc/issues/8939)) ([5a3456c](https://github.com/swc-project/swc/commit/5a3456c254a686ceef343ce5f9ec67b3e4644138))
+
 ## [1.5.5] - 2024-05-08
 
 ### Bug Fixes
@@ -1341,9 +1344,6 @@
 
 ### Bug Fixes
 
-
-
-- **(es/compat)** Handle export default decorator only if not empty ([#8099](https://github.com/swc-project/swc/issues/8099)) ([bf523f5](https://github.com/swc-project/swc/commit/bf523f53513311d6c7d4a94f9a36bedd42230c09))
 
 
 - **(es/decorators)** Fix a regression about class expressions ([#8102](https://github.com/swc-project/swc/issues/8102)) ([cb4361f](https://github.com/swc-project/swc/commit/cb4361f2931cf222edbb449db6fe2c261c4b735d))
