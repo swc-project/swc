@@ -403,14 +403,11 @@ pub(crate) fn is_primitive<'a>(expr_ctx: &ExprCtx, e: &'a Expr) -> Option<&'a Ex
 }
 
 pub(crate) fn is_valid_identifier(s: &str, ascii_only: bool) -> bool {
-    if ascii_only {
-        if s.chars().any(|c| !c.is_ascii()) {
-            return false;
-        }
+    if ascii_only && !s.is_ascii() {
+        return false;
     }
     s.starts_with(Ident::is_valid_start)
         && s.chars().skip(1).all(Ident::is_valid_continue)
-        && !s.contains('𝒶')
         && !s.is_reserved()
 }
 
