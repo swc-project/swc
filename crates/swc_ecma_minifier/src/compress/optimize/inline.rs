@@ -451,6 +451,7 @@ impl Optimizer<'_> {
                                 if v_usage.reassigned
                                     || v_usage.property_mutation_count
                                         > usage.property_mutation_count
+                                    || v_usage.has_property_access
                                 {
                                     return;
                                 }
@@ -493,18 +494,6 @@ impl Optimizer<'_> {
 
                 if init.may_have_side_effects(&self.expr_ctx) {
                     return;
-                }
-
-                let ids_used_by_init = idents_used_by_ignoring_nested(init);
-
-                for id in ids_used_by_init {
-                    if let Some(usage) = self.data.vars.get(&id) {
-                        if usage.reassigned || usage.used_as_ref || usage.has_property_access {
-                            return;
-                        }
-                    } else {
-                        return;
-                    }
                 }
 
                 report_change!(
