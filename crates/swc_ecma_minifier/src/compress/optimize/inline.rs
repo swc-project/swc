@@ -495,6 +495,18 @@ impl Optimizer<'_> {
                     return;
                 }
 
+                let ids_used_by_init = idents_used_by_ignoring_nested(init);
+
+                for id in ids_used_by_init {
+                    if let Some(usage) = self.data.vars.get(&id) {
+                        if usage.reassigned || usage.used_as_ref || usage.has_property_access {
+                            return;
+                        }
+                    } else {
+                        return;
+                    }
+                }
+
                 report_change!(
                     "inline: Decided to inline var '{}' because it's used only once",
                     ident
