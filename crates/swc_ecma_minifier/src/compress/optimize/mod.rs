@@ -357,6 +357,14 @@ impl Optimizer<'_> {
         self.options.top_level()
     }
 
+    fn ident_reserved(&self, sym: &JsWord) -> bool {
+        if let Some(MangleOptions { reserved, .. }) = self.mangle_options {
+            reserved.contains(sym)
+        } else {
+            false
+        }
+    }
+
     fn handle_stmts(&mut self, stmts: &mut Vec<Stmt>, will_terminate: bool) {
         // Skip if `use asm` exists.
         if maybe_par!(
