@@ -568,7 +568,10 @@
     function determinant(rows, rank, rowStart, rowMask, colMask, detCache) {
         var cacheKey = rowMask + '-' + colMask, fullRank = rows.length;
         if (detCache.hasOwnProperty(cacheKey)) return detCache[cacheKey];
-        if (1 === rank) return rows[rowStart][Math.round(Math.log((1 << fullRank) - 1 & ~colMask) / LN2)];
+        if (1 === rank) {
+            var colStart = Math.round(Math.log((1 << fullRank) - 1 & ~colMask) / LN2);
+            return rows[rowStart][colStart];
+        }
         for(var subRowMask = rowMask | 1 << rowStart, subRowStart = rowStart + 1; rowMask & 1 << subRowStart;)subRowStart++;
         for(var sum = 0, j = 0, colLocalIdx = 0; j < fullRank; j++){
             var colTag = 1 << j;
@@ -2237,7 +2240,7 @@
     function fastLerp(normalizedValue, colors, out) {
         if (colors && colors.length && normalizedValue >= 0 && normalizedValue <= 1) {
             out = out || [];
-            var a, a1, a2, a3, value = normalizedValue * (colors.length - 1), leftIndex = Math.floor(value), leftColor = colors[leftIndex], rightColor = colors[Math.ceil(value)], dv = value - leftIndex;
+            var a, a1, a2, a3, value = normalizedValue * (colors.length - 1), leftIndex = Math.floor(value), rightIndex = Math.ceil(value), leftColor = colors[leftIndex], rightColor = colors[rightIndex], dv = value - leftIndex;
             return out[0] = clampCssByte((a = leftColor[0]) + (rightColor[0] - a) * dv), out[1] = clampCssByte((a1 = leftColor[1]) + (rightColor[1] - a1) * dv), out[2] = clampCssByte((a2 = leftColor[2]) + (rightColor[2] - a2) * dv), out[3] = clampCssFloat((a3 = leftColor[3]) + (rightColor[3] - a3) * dv), out;
         }
     }
@@ -5707,7 +5710,10 @@
             var fill, style = this.style, textFont = style.font || DEFAULT_FONT, textPadding = style.padding, contentBlock = function(text, style) {
                 null != text && (text += '');
                 var lines, overflow = style.overflow, padding = style.padding, font = style.font, calculatedLineHeight = getLineHeight(font), lineHeight = retrieve2(style.lineHeight, calculatedLineHeight), truncateLineOverflow = 'truncate' === style.lineOverflow, width = style.width, contentHeight = (lines = null != width && 'break' === overflow || 'breakAll' === overflow ? text ? wrapText(text, style.font, width, 'breakAll' === overflow, 0).lines : [] : text ? text.split('\n') : []).length * lineHeight, height = retrieve2(style.height, contentHeight);
-                contentHeight > height && truncateLineOverflow && (lines = lines.slice(0, Math.floor(height / lineHeight)));
+                if (contentHeight > height && truncateLineOverflow) {
+                    var lineCount = Math.floor(height / lineHeight);
+                    lines = lines.slice(0, lineCount);
+                }
                 var outerHeight = height, outerWidth = width;
                 if (padding && (outerHeight += padding[0] + padding[2], null != outerWidth && (outerWidth += padding[1] + padding[3])), text && 'truncate' === overflow && null != outerWidth) for(var options = prepareTruncateOptions(width, font, style.ellipsis, {
                     minChar: style.truncateMinChar,
@@ -10243,10 +10249,10 @@
             });
         }, Scheduler.prototype.getPerformArgs = function(task, isBlock) {
             if (task.__pipeline) {
-                var pipeline = this._pipelineMap.get(task.__pipeline.id), pCtx = pipeline.context, step = !isBlock && pipeline.progressiveEnabled && (!pCtx || pCtx.progressiveRender) && task.__idxInPipeline > pipeline.blockIndex ? pipeline.step : null, modDataCount = pCtx && pCtx.modDataCount;
+                var pipeline = this._pipelineMap.get(task.__pipeline.id), pCtx = pipeline.context, step = !isBlock && pipeline.progressiveEnabled && (!pCtx || pCtx.progressiveRender) && task.__idxInPipeline > pipeline.blockIndex ? pipeline.step : null, modDataCount = pCtx && pCtx.modDataCount, modBy = null != modDataCount ? Math.ceil(modDataCount / step) : null;
                 return {
                     step: step,
-                    modBy: null != modDataCount ? Math.ceil(modDataCount / step) : null,
+                    modBy: modBy,
                     modDataCount: modDataCount
                 };
             }
@@ -11425,7 +11431,7 @@
         })).__isEmptyBrush = isEmpty, symbolPath.setColor = symbolPathSetColor, color && symbolPath.setColor(color), symbolPath;
     }
     function getCanvasGradient(ctx, obj, rect) {
-        for(var width, height, x, y, r, x1, x2, y1, y2, canvasGradient = 'radial' === obj.type ? (width = rect.width, height = rect.height, x = null == obj.x ? 0.5 : obj.x, y = null == obj.y ? 0.5 : obj.y, r = null == obj.r ? 0.5 : obj.r, obj.global || (x = x * width + rect.x, y = y * height + rect.y, r *= Math.min(width, height)), ctx.createRadialGradient(x, y, 0, x, y, r)) : (x1 = null == obj.x ? 0 : obj.x, x2 = null == obj.x2 ? 1 : obj.x2, y1 = null == obj.y ? 0 : obj.y, y2 = null == obj.y2 ? 0 : obj.y2, obj.global || (x1 = x1 * rect.width + rect.x, x2 = x2 * rect.width + rect.x, y1 = y1 * rect.height + rect.y, y2 = y2 * rect.height + rect.y), x1 = isNaN(x1) ? 0 : x1, x2 = isNaN(x2) ? 1 : x2, y1 = isNaN(y1) ? 0 : y1, y2 = isNaN(y2) ? 0 : y2, ctx.createLinearGradient(x1, y1, x2, y2)), colorStops = obj.colorStops, i = 0; i < colorStops.length; i++)canvasGradient.addColorStop(colorStops[i].offset, colorStops[i].color);
+        for(var width, height, min, x, y, r, x1, x2, y1, y2, canvasGradient = 'radial' === obj.type ? (min = Math.min(width = rect.width, height = rect.height), x = null == obj.x ? 0.5 : obj.x, y = null == obj.y ? 0.5 : obj.y, r = null == obj.r ? 0.5 : obj.r, obj.global || (x = x * width + rect.x, y = y * height + rect.y, r *= min), ctx.createRadialGradient(x, y, 0, x, y, r)) : (x1 = null == obj.x ? 0 : obj.x, x2 = null == obj.x2 ? 1 : obj.x2, y1 = null == obj.y ? 0 : obj.y, y2 = null == obj.y2 ? 0 : obj.y2, obj.global || (x1 = x1 * rect.width + rect.x, x2 = x2 * rect.width + rect.x, y1 = y1 * rect.height + rect.y, y2 = y2 * rect.height + rect.y), x1 = isNaN(x1) ? 0 : x1, x2 = isNaN(x2) ? 1 : x2, y1 = isNaN(y1) ? 0 : y1, y2 = isNaN(y2) ? 0 : y2, ctx.createLinearGradient(x1, y1, x2, y2)), colorStops = obj.colorStops, i = 0; i < colorStops.length; i++)canvasGradient.addColorStop(colorStops[i].offset, colorStops[i].color);
         return canvasGradient;
     }
     function isClipPathChanged(clipPaths, prevClipPaths) {
@@ -16103,13 +16109,13 @@
                 if (ordinalExtent[1] - ordinalExtent[0] < 1) return 0;
                 var step = 1;
                 tickCount > 40 && (step = Math.max(1, Math.floor(tickCount / 40)));
-                for(var tickValue = ordinalExtent[0], unitSpan = axis.dataToCoord(tickValue + 1) - axis.dataToCoord(tickValue), maxW = 0, maxH = 0; tickValue <= ordinalExtent[1]; tickValue += step){
+                for(var tickValue = ordinalExtent[0], unitSpan = axis.dataToCoord(tickValue + 1) - axis.dataToCoord(tickValue), unitW = Math.abs(unitSpan * Math.cos(rotation)), unitH = Math.abs(unitSpan * Math.sin(rotation)), maxW = 0, maxH = 0; tickValue <= ordinalExtent[1]; tickValue += step){
                     var width = 0, height = 0, rect = getBoundingRect(labelFormatter({
                         value: tickValue
                     }), params.font, 'center', 'top');
                     width = 1.3 * rect.width, height = 1.3 * rect.height, maxW = Math.max(maxW, width, 7), maxH = Math.max(maxH, height, 7);
                 }
-                var dw = maxW / Math.abs(unitSpan * Math.cos(rotation)), dh = maxH / Math.abs(unitSpan * Math.sin(rotation));
+                var dw = maxW / unitW, dh = maxH / unitH;
                 isNaN(dw) && (dw = 1 / 0), isNaN(dh) && (dh = 1 / 0);
                 var interval = Math.max(0, Math.floor(Math.min(dw, dh))), cache = inner$4(axis.model), axisExtent = axis.getExtent(), lastAutoInterval = cache.lastAutoInterval, lastTickCount = cache.lastTickCount;
                 return null != lastAutoInterval && null != lastTickCount && 1 >= Math.abs(lastAutoInterval - interval) && 1 >= Math.abs(lastTickCount - tickCount) && lastAutoInterval > interval && cache.axisExtent0 === axisExtent[0] && cache.axisExtent1 === axisExtent[1] ? interval = lastAutoInterval : (cache.lastTickCount = tickCount, cache.lastAutoInterval = interval, cache.axisExtent0 = axisExtent[0], cache.axisExtent1 = axisExtent[1]), interval;
@@ -17160,7 +17166,7 @@
             return (root[cwh] || parseInt10$1(stl[wh]) || parseInt10$1(root.style[wh])) - (parseInt10$1(stl[plt]) || 0) - (parseInt10$1(stl[prb]) || 0) | 0;
         }, CanvasPainter.prototype.pathToImage = function(path, dpr) {
             dpr = dpr || this.dpr;
-            var canvas = document.createElement('canvas'), ctx = canvas.getContext('2d'), rect = path.getBoundingRect(), style = path.style, shadowBlurSize = style.shadowBlur * dpr, shadowOffsetX = style.shadowOffsetX * dpr, shadowOffsetY = style.shadowOffsetY * dpr, lineWidth = path.hasStroke() ? style.lineWidth : 0, leftMargin = Math.max(lineWidth / 2, -shadowOffsetX + shadowBlurSize), topMargin = Math.max(lineWidth / 2, -shadowOffsetY + shadowBlurSize), width = rect.width + leftMargin + Math.max(lineWidth / 2, shadowOffsetX + shadowBlurSize), height = rect.height + topMargin + Math.max(lineWidth / 2, shadowOffsetY + shadowBlurSize);
+            var canvas = document.createElement('canvas'), ctx = canvas.getContext('2d'), rect = path.getBoundingRect(), style = path.style, shadowBlurSize = style.shadowBlur * dpr, shadowOffsetX = style.shadowOffsetX * dpr, shadowOffsetY = style.shadowOffsetY * dpr, lineWidth = path.hasStroke() ? style.lineWidth : 0, leftMargin = Math.max(lineWidth / 2, -shadowOffsetX + shadowBlurSize), rightMargin = Math.max(lineWidth / 2, shadowOffsetX + shadowBlurSize), topMargin = Math.max(lineWidth / 2, -shadowOffsetY + shadowBlurSize), bottomMargin = Math.max(lineWidth / 2, shadowOffsetY + shadowBlurSize), width = rect.width + leftMargin + rightMargin, height = rect.height + topMargin + bottomMargin;
             canvas.width = width * dpr, canvas.height = height * dpr, ctx.scale(dpr, dpr), ctx.clearRect(0, 0, width, height), ctx.dpr = dpr;
             var pathTransform = {
                 x: path.x,
@@ -21304,16 +21310,18 @@
         var data = viewBuildCtx.data, isGeo = viewBuildCtx.isGeo, isDataNaN = data && isNaN(data.get(data.mapDimension('value'), dataIdx)), itemLayout = data && data.getItemLayout(dataIdx);
         if (isGeo || isDataNaN || itemLayout && itemLayout.showLabel) {
             var query = isGeo ? regionName : dataIdx, labelFetcher = void 0;
-            (!data || dataIdx >= 0) && (labelFetcher = mapOrGeoModel), setLabelStyle(el, getLabelStatesModels(regionModel), {
-                labelFetcher: labelFetcher,
-                labelDataIndex: query,
-                defaultText: regionName
-            }, labelXY ? {
+            (!data || dataIdx >= 0) && (labelFetcher = mapOrGeoModel);
+            var specifiedTextOpt = labelXY ? {
                 normal: {
                     align: 'center',
                     verticalAlign: 'middle'
                 }
-            } : null);
+            } : null;
+            setLabelStyle(el, getLabelStatesModels(regionModel), {
+                labelFetcher: labelFetcher,
+                labelDataIndex: query,
+                defaultText: regionName
+            }, specifiedTextOpt);
             var textEl = el.getTextContent();
             if (textEl && (mapLabelRaw(textEl).ignore = textEl.ignore, el.textConfig && labelXY)) {
                 var rect = el.getBoundingRect().clone();
@@ -22170,10 +22178,10 @@
                 };
                 (rad = Math.atan2(center.y - rootLayout.y, center.x - rootLayout.x)) < 0 && (rad = 2 * Math.PI + rad), (isLeft = center.x < rootLayout.x) && (rad -= Math.PI);
             } else (rad = Math.atan2(targetLayout.y - rootLayout.y, targetLayout.x - rootLayout.x)) < 0 && (rad = 2 * Math.PI + rad), 0 === node.children.length || 0 !== node.children.length && !1 === node.isExpand ? (isLeft = targetLayout.x < rootLayout.x) && (rad -= Math.PI) : (isLeft = targetLayout.x > rootLayout.x) || (rad -= Math.PI);
-            var textPosition = isLeft ? 'left' : 'right', normalLabelModel = itemModel.getModel('label'), rotate = normalLabelModel.get('rotate'), textContent = symbolPath.getTextContent();
+            var textPosition = isLeft ? 'left' : 'right', normalLabelModel = itemModel.getModel('label'), rotate = normalLabelModel.get('rotate'), labelRotateRadian = Math.PI / 180 * rotate, textContent = symbolPath.getTextContent();
             textContent && (symbolPath.setTextConfig({
                 position: normalLabelModel.get('position') || textPosition,
-                rotation: null == rotate ? -rad : Math.PI / 180 * rotate,
+                rotation: null == rotate ? -rad : labelRotateRadian,
                 origin: 'center'
             }), textContent.setStyle('verticalAlign', 'middle'));
         }
@@ -25214,14 +25222,14 @@
         }
         return __extends(GaugeView, _super), GaugeView.prototype.render = function(seriesModel, ecModel, api) {
             this.group.removeAll();
-            var center, width, height, colorList = seriesModel.get([
+            var center, size, colorList = seriesModel.get([
                 'axisLine',
                 'lineStyle',
                 'color'
-            ]), posInfo = (center = seriesModel.get('center'), width = api.getWidth(), height = api.getHeight(), {
+            ]), posInfo = (center = seriesModel.get('center'), size = Math.min(api.getWidth(), api.getHeight()), {
                 cx: parsePercent$1(center[0], api.getWidth()),
                 cy: parsePercent$1(center[1], api.getHeight()),
-                r: parsePercent$1(seriesModel.get('radius'), Math.min(width, height) / 2)
+                r: parsePercent$1(seriesModel.get('radius'), size / 2)
             });
             this._renderMain(seriesModel, ecModel, api, colorList, posInfo), this._data = seriesModel.getData();
         }, GaugeView.prototype.dispose = function() {}, GaugeView.prototype._renderMain = function(seriesModel, ecModel, api, colorList, posInfo) {
@@ -27372,9 +27380,9 @@
             seriesModel.layoutInfo = layoutInfo;
             var width = layoutInfo.width, height = layoutInfo.height, graph = seriesModel.getGraph(), nodes = graph.nodes, edges = graph.edges;
             each(nodes, function(node) {
-                var value1 = sum(node.outEdges, getEdgeValue), value2 = sum(node.inEdges, getEdgeValue), nodeRawValue = node.getValue() || 0;
+                var value = Math.max(sum(node.outEdges, getEdgeValue), sum(node.inEdges, getEdgeValue), node.getValue() || 0);
                 node.setLayout({
-                    value: Math.max(value1, value2, nodeRawValue)
+                    value: value
                 }, !0);
             });
             var iterations = 0 !== filter(nodes, function(node) {
@@ -32193,7 +32201,7 @@
         }, AngleAxis.prototype.calculateCategoryInterval = function() {
             var labelModel = this.getLabelModel(), ordinalScale = this.scale, ordinalExtent = ordinalScale.getExtent(), tickCount = ordinalScale.count();
             if (ordinalExtent[1] - ordinalExtent[0] < 1) return 0;
-            var tickValue = ordinalExtent[0], unitSpan = this.dataToCoord(tickValue + 1) - this.dataToCoord(tickValue), dh = Math.max(getBoundingRect(null == tickValue ? '' : tickValue + '', labelModel.getFont(), 'center', 'top').height, 7) / Math.abs(unitSpan);
+            var tickValue = ordinalExtent[0], unitH = Math.abs(this.dataToCoord(tickValue + 1) - this.dataToCoord(tickValue)), dh = Math.max(getBoundingRect(null == tickValue ? '' : tickValue + '', labelModel.getFont(), 'center', 'top').height, 7) / unitH;
             isNaN(dh) && (dh = 1 / 0);
             var interval = Math.max(0, Math.floor(dh)), cache = inner$d(this.model), lastAutoInterval = cache.lastAutoInterval, lastTickCount = cache.lastTickCount;
             return null != lastAutoInterval && null != lastTickCount && 1 >= Math.abs(lastAutoInterval - interval) && 1 >= Math.abs(lastTickCount - tickCount) && lastAutoInterval > interval ? interval = lastAutoInterval : (cache.lastTickCount = tickCount, cache.lastAutoInterval = interval), interval;

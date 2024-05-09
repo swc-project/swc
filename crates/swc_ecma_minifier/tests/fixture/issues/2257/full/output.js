@@ -5290,11 +5290,11 @@
         },
         5607: function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
             "use strict";
-            var $ = __webpack_require__(35437), IndexedObject = __webpack_require__(51478), toIndexedObject = __webpack_require__(74981), arrayMethodIsStrict = __webpack_require__(12707), nativeJoin = [].join, STRICT_METHOD = arrayMethodIsStrict("join", ",");
+            var $ = __webpack_require__(35437), IndexedObject = __webpack_require__(51478), toIndexedObject = __webpack_require__(74981), arrayMethodIsStrict = __webpack_require__(12707), nativeJoin = [].join, ES3_STRINGS = IndexedObject != Object, STRICT_METHOD = arrayMethodIsStrict("join", ",");
             $({
                 target: "Array",
                 proto: !0,
-                forced: IndexedObject != Object || !STRICT_METHOD
+                forced: ES3_STRINGS || !STRICT_METHOD
             }, {
                 join: function(separator) {
                     return nativeJoin.call(toIndexedObject(this), void 0 === separator ? "," : separator);

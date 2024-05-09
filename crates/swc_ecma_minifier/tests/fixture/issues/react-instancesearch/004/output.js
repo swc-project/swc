@@ -288,10 +288,10 @@ export default function createInstantSearchManager(param) {
         },
         getSearchParameters: getSearchParameters,
         onSearchForFacetValues: function(param) {
-            var facetName = param.facetName, query = param.query, _maxFacetHits = param.maxFacetHits;
+            var facetName = param.facetName, query = param.query, _maxFacetHits = param.maxFacetHits, maxFacetHitsWithinRange = Math.max(1, Math.min(void 0 === _maxFacetHits ? 10 : _maxFacetHits, 100));
             store.setState(swcHelpers.objectSpread({}, store.getState(), {
                 searchingForFacetValues: !0
-            })), helper.searchForFacetValues(facetName, query, Math.max(1, Math.min(void 0 === _maxFacetHits ? 10 : _maxFacetHits, 100))).then(function(content) {
+            })), helper.searchForFacetValues(facetName, query, maxFacetHitsWithinRange).then(function(content) {
                 store.setState(swcHelpers.objectSpread({}, store.getState(), {
                     error: null,
                     searchingForFacetValues: !1,

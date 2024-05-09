@@ -6687,8 +6687,8 @@
                 }, NumericTextBox.prototype.correctRounding = function(value, step, result) {
                     var floatExp = RegExp('[,.](.*)'), floatValue = floatExp.test(value.toString()), floatStep = floatExp.test(step.toString());
                     if (floatValue || floatStep) {
-                        var valueCount = floatValue ? floatExp.exec(value.toString())[0].length : 0, stepCount = floatStep ? floatExp.exec(step.toString())[0].length : 0;
-                        return value = this.roundValue(result, Math.max(valueCount, stepCount));
+                        var max = Math.max(floatValue ? floatExp.exec(value.toString())[0].length : 0, floatStep ? floatExp.exec(step.toString())[0].length : 0);
+                        return value = this.roundValue(result, max);
                     }
                     return result;
                 }, NumericTextBox.prototype.roundValue = function(result, precision) {

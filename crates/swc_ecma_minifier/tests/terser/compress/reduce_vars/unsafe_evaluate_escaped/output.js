@@ -15,9 +15,9 @@ console.log(function() {
 console.log(function() {
     var o = {
         p: 3
-    };
-    console.log([
+    }, a = [
         o
-    ][0].p++);
+    ];
+    console.log(a[0].p++);
     return o.p;
 }());

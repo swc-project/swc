@@ -3042,10 +3042,10 @@
                     };
                 },
                 dynamic: function(attributes) {
-                    var NOW = attributes.NOW, clientOffset = attributes.clientOffset, availabilityStartTime = attributes.availabilityStartTime, _attributes$timescale2 = attributes.timescale, timescale = void 0 === _attributes$timescale2 ? 1 : _attributes$timescale2, duration = attributes.duration, _attributes$start = attributes.start, _attributes$minimumUp = attributes.minimumUpdatePeriod, _attributes$timeShift = attributes.timeShiftBufferDepth, endNumber = parseEndNumber(attributes.endNumber), now = (NOW + clientOffset) / 1000, periodStartWC = availabilityStartTime + (void 0 === _attributes$start ? 0 : _attributes$start);
+                    var NOW = attributes.NOW, clientOffset = attributes.clientOffset, availabilityStartTime = attributes.availabilityStartTime, _attributes$timescale2 = attributes.timescale, timescale = void 0 === _attributes$timescale2 ? 1 : _attributes$timescale2, duration = attributes.duration, _attributes$start = attributes.start, _attributes$minimumUp = attributes.minimumUpdatePeriod, _attributes$timeShift = attributes.timeShiftBufferDepth, endNumber = parseEndNumber(attributes.endNumber), now = (NOW + clientOffset) / 1000, periodStartWC = availabilityStartTime + (void 0 === _attributes$start ? 0 : _attributes$start), segmentCount = Math.ceil((now + (void 0 === _attributes$minimumUp ? 0 : _attributes$minimumUp) - periodStartWC) * timescale / duration), availableStart = Math.floor((now - periodStartWC - (void 0 === _attributes$timeShift ? 1 / 0 : _attributes$timeShift)) * timescale / duration), availableEnd = Math.floor((now - periodStartWC) * timescale / duration);
                     return {
-                        start: Math.max(0, Math.floor((now - periodStartWC - (void 0 === _attributes$timeShift ? 1 / 0 : _attributes$timeShift)) * timescale / duration)),
-                        end: "number" == typeof endNumber ? endNumber : Math.min(Math.ceil((now + (void 0 === _attributes$minimumUp ? 0 : _attributes$minimumUp) - periodStartWC) * timescale / duration), Math.floor((now - periodStartWC) * timescale / duration))
+                        start: Math.max(0, availableStart),
+                        end: "number" == typeof endNumber ? endNumber : Math.min(segmentCount, availableEnd)
                     };
                 }
             }, parseByDuration = function(attributes) {

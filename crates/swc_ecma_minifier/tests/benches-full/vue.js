@@ -1722,6 +1722,26 @@
             handleError(e, vnode.context, "directive " + dir.name + " " + hook + " hook");
         }
     }
+    var baseModules = [
+        {
+            create: function(_, vnode) {
+                registerRef(vnode);
+            },
+            update: function(oldVnode, vnode) {
+                oldVnode.data.ref !== vnode.data.ref && (registerRef(oldVnode, !0), registerRef(vnode));
+            },
+            destroy: function(vnode) {
+                registerRef(vnode, !0);
+            }
+        },
+        {
+            create: updateDirectives,
+            update: updateDirectives,
+            destroy: function(vnode) {
+                updateDirectives(vnode, emptyNode);
+            }
+        }
+    ];
     function updateAttrs(oldVnode, vnode) {
         var key, cur, opts = vnode.componentOptions;
         if (!(isDef(opts) && !1 === opts.Ctor.options.inheritAttrs || isUndef(oldVnode.data.attrs) && isUndef(vnode.data.attrs))) {
@@ -2434,26 +2454,7 @@
                     !0 !== vnode.data.show ? leave(vnode, rm) : rm();
                 }
             } : {}
-        ].concat([
-            {
-                create: function(_, vnode) {
-                    registerRef(vnode);
-                },
-                update: function(oldVnode, vnode) {
-                    oldVnode.data.ref !== vnode.data.ref && (registerRef(oldVnode, !0), registerRef(vnode));
-                },
-                destroy: function(vnode) {
-                    registerRef(vnode, !0);
-                }
-            },
-            {
-                create: updateDirectives,
-                update: updateDirectives,
-                destroy: function(vnode) {
-                    updateDirectives(vnode, emptyNode);
-                }
-            }
-        ])
+        ].concat(baseModules)
     });
     isIE9 && document.addEventListener('selectionchange', function() {
         var el = document.activeElement;

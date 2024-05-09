@@ -297,10 +297,10 @@ export default function S(u) {
         },
         getSearchParameters: R,
         onSearchForFacetValues: function(a) {
-            var n = a.facetName, s = a.query, i = a.maxFacetHits;
+            var n = a.facetName, s = a.query, i = a.maxFacetHits, c = Math.max(1, Math.min(void 0 === i ? 10 : i, 100));
             A.setState(r(t({}, A.getState()), {
                 searchingForFacetValues: !0
-            })), w.searchForFacetValues(n, s, Math.max(1, Math.min(void 0 === i ? 10 : i, 100))).then(function(a) {
+            })), w.searchForFacetValues(n, s, c).then(function(a) {
                 var i;
                 A.setState(r(t({}, A.getState()), {
                     error: null,

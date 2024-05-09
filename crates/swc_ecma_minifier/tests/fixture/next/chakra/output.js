@@ -4623,24 +4623,24 @@
             chakra_ui_utils_esm.Ts && (ToastComponent.displayName = "ToastComponent");
             var ToastProvider = function(props) {
                 var state = react.useSyncExternalStore(toastStore.subscribe, toastStore.getState, toastStore.getState), children = props.children, motionVariants = props.motionVariants, _props$component = props.component, Component = void 0 === _props$component ? ToastComponent : _props$component, portalProps = props.portalProps, toastList = (0, chakra_ui_utils_esm.Yd)(state).map(function(position) {
-                    var top, bottom, right, left, toasts = state[position];
+                    var toasts = state[position];
                     return react.createElement("ul", {
                         role: "region",
                         "aria-live": "polite",
                         key: position,
                         id: "chakra-toast-manager-" + position,
-                        style: (top = position.includes("top") ? "env(safe-area-inset-top, 0px)" : void 0, bottom = position.includes("bottom") ? "env(safe-area-inset-bottom, 0px)" : void 0, right = position.includes("left") ? void 0 : "env(safe-area-inset-right, 0px)", left = position.includes("right") ? void 0 : "env(safe-area-inset-left, 0px)", {
+                        style: {
                             position: "fixed",
                             zIndex: 5500,
                             pointerEvents: "none",
                             display: "flex",
                             flexDirection: "column",
                             margin: "top" === position || "bottom" === position ? "0 auto" : void 0,
-                            top: top,
-                            bottom: bottom,
-                            right: right,
-                            left: left
-                        })
+                            top: position.includes("top") ? "env(safe-area-inset-top, 0px)" : void 0,
+                            bottom: position.includes("bottom") ? "env(safe-area-inset-bottom, 0px)" : void 0,
+                            right: position.includes("left") ? void 0 : "env(safe-area-inset-right, 0px)",
+                            left: position.includes("right") ? void 0 : "env(safe-area-inset-left, 0px)"
+                        }
                     }, react.createElement(AnimatePresence.M, {
                         initial: !1
                     }, toasts.map(function(toast) {

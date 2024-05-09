@@ -226,8 +226,8 @@
                     return it.fromMillis(t.getTime());
                 }
                 static fromMillis(t) {
-                    const e = Math.floor(t / 1e3);
-                    return new it(e, Math.floor(1e6 * (t - 1e3 * e)));
+                    const e = Math.floor(t / 1e3), n = Math.floor(1e6 * (t - 1e3 * e));
+                    return new it(e, n);
                 }
                 toDate() {
                     return new Date(this.toMillis());

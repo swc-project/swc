@@ -774,7 +774,9 @@
             return 2 * Math.acos(Math.abs(MathUtils.clamp(this.dot(q), -1, 1)));
         }, _proto.rotateTowards = function(q, step) {
             var angle = this.angleTo(q);
-            return 0 === angle || this.slerp(q, Math.min(1, step / angle)), this;
+            if (0 === angle) return this;
+            var t = Math.min(1, step / angle);
+            return this.slerp(q, t), this;
         }, _proto.identity = function() {
             return this.set(0, 0, 0, 1);
         }, _proto.invert = function() {
@@ -12117,8 +12119,8 @@
     }
     function HemisphereLightProbe(skyColor, groundColor, intensity) {
         LightProbe.call(this, void 0, intensity);
-        var color1 = new Color().set(skyColor), color2 = new Color().set(groundColor), sky = new Vector3(color1.r, color1.g, color1.b), ground = new Vector3(color2.r, color2.g, color2.b), c0 = Math.sqrt(Math.PI);
-        this.sh.coefficients[0].copy(sky).add(ground).multiplyScalar(c0), this.sh.coefficients[1].copy(sky).sub(ground).multiplyScalar(c0 * Math.sqrt(0.75));
+        var color1 = new Color().set(skyColor), color2 = new Color().set(groundColor), sky = new Vector3(color1.r, color1.g, color1.b), ground = new Vector3(color2.r, color2.g, color2.b), c0 = Math.sqrt(Math.PI), c1 = c0 * Math.sqrt(0.75);
+        this.sh.coefficients[0].copy(sky).add(ground).multiplyScalar(c0), this.sh.coefficients[1].copy(sky).sub(ground).multiplyScalar(c1);
     }
     function AmbientLightProbe(color, intensity) {
         LightProbe.call(this, void 0, intensity);

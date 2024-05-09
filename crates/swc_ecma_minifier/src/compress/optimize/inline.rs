@@ -451,6 +451,7 @@ impl Optimizer<'_> {
                                 if v_usage.reassigned
                                     || v_usage.property_mutation_count
                                         > usage.property_mutation_count
+                                    || v_usage.has_property_access
                                 {
                                     return;
                                 }
