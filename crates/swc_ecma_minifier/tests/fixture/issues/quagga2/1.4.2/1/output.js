@@ -6724,7 +6724,10 @@
                 classCallCheck_default()(this, CanvasContainer), defineProperty_default()(this, "ctx", void 0), defineProperty_default()(this, "dom", void 0), this.ctx = new QuaggaContext_CanvasInfo(), this.dom = new QuaggaContext_CanvasInfo();
             }, barcode_locator = __webpack_require__(23);
             function getViewPort_getViewPort(target) {
-                return "undefined" == typeof document ? null : target instanceof HTMLElement && target.nodeName && 1 === target.nodeType ? target : document.querySelector("string" == typeof target ? target : "#interactive.viewport");
+                if ("undefined" == typeof document) return null;
+                if (target instanceof HTMLElement && target.nodeName && 1 === target.nodeType) return target;
+                var selector = "string" == typeof target ? target : "#interactive.viewport";
+                return document.querySelector(selector);
             }
             function getCanvasAndContext(selector, className) {
                 var canvas, canvas1 = ((canvas = document.querySelector(selector)) || ((canvas = document.createElement("canvas")).className = className), canvas), context = canvas1.getContext("2d");

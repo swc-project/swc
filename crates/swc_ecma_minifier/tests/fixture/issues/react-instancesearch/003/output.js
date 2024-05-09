@@ -241,10 +241,11 @@ export default function createInstantSearchManager({ indexName, initialState = {
         },
         getSearchParameters,
         onSearchForFacetValues: function({ facetName, query, maxFacetHits = 10 }) {
+            const maxFacetHitsWithinRange = Math.max(1, Math.min(maxFacetHits, 100));
             store.setState({
                 ...store.getState(),
                 searchingForFacetValues: !0
-            }), helper.searchForFacetValues(facetName, query, Math.max(1, Math.min(maxFacetHits, 100))).then((content)=>{
+            }), helper.searchForFacetValues(facetName, query, maxFacetHitsWithinRange).then((content)=>{
                 store.setState({
                     ...store.getState(),
                     error: null,

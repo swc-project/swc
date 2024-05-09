@@ -22674,9 +22674,9 @@
                 setAnimationState: function(props, nextProps) {
                     if (props.animate) {
                         if (props.animate.parentState) {
-                            var nodesWillExit = props.animate.parentState.nodesWillExit;
+                            var oldProps = props.animate.parentState.nodesWillExit ? props : null;
                             this.setState(lodash_defaults__WEBPACK_IMPORTED_MODULE_8___default()({
-                                oldProps: nodesWillExit ? props : null,
+                                oldProps: oldProps,
                                 nextProps: nextProps
                             }, props.animate.parentState));
                         } else {
