@@ -64,7 +64,7 @@ const IGNORED_PASS_TESTS: &[&str] = &[
     "59ae0289778b80cd.js",
     "a4d62a651f69d815.js",
     "c06df922631aeabc.js",
-    // Unicode
+    // Unicode 14 vs 15
     "046a0bb70d03d0cc.js",
     "08a39e4289b0c3f3.js",
     "300a638d978d0f2c.js",

@@ -258,6 +258,11 @@ static IGNORED_PASS_TESTS: &[&str] = &[
     "bc302492d441d561.js",
     "be2fd5888f434cbd.js",
     "f3260491590325af.js",
+    // Unicode 14 vs 15
+    "046a0bb70d03d0cc.js",
+    "08a39e4289b0c3f3.js",
+    "300a638d978d0f2c.js",
+    "44f31660bd715f05.js",
 ];
 
 #[testing::fixture("../swc_ecma_parser/tests/test262-parser/pass/*.js")]
