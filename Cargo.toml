@@ -117,7 +117,7 @@ resolver = "2"
   tracing-subscriber       = "0.3.18"
   typed-arena              = "2.0.1"
   unicode-id               = "0.3"
-  unicode-id-start         = "1.1.2"
+  unicode-id-start         = "=1.0.4"
   unicode-width            = "0.1.4"
   url                      = "2.4.0"
   vergen                   = { version = "8.0.0", default-features = false }
