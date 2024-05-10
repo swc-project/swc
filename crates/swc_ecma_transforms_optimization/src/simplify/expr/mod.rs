@@ -198,8 +198,6 @@ impl SimplifyExpr {
                     } else if let Some(value) = nth_char(value, idx as _) {
                         self.changed = true;
                 KnownOp::Index(idx) => {
-                    self.changed = true;
-
                     if idx.fract() != 0.0 || idx < 0.0 || idx as usize >= value.len() {
                         // Prototype changes affect indexing if the index is out of bounds, so we
                         // don't replace out-of-bound indexes.
