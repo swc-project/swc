@@ -315,12 +315,7 @@ impl Pure<'_> {
                 // etc.
 
                 // Try to optimize with obj being the last expr
-                let Some(last) = exprs.last_mut() else {
-                    return None;
-                };
-                let Some(replacement) = self.optimize_member_expr(last, prop) else {
-                    return None;
-                };
+                let replacement = self.optimize_member_expr(exprs.last_mut()?, prop)?;
 
                 // Replace last element with replacement
                 let mut exprs: Vec<Box<Expr>> = exprs.drain(..(exprs.len() - 1)).collect();
