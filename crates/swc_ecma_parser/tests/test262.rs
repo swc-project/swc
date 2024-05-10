@@ -79,6 +79,11 @@ const IGNORED_PASS_TESTS: &[&str] = &[
     // Wrong test - strict mode
     "8f8bfb27569ac008.js",
     "ce569e89a005c02a.js",
+    // Unicode 14 vs 15
+    "046a0bb70d03d0cc.js",
+    "08a39e4289b0c3f3.js",
+    "300a638d978d0f2c.js",
+    "44f31660bd715f05.js",
 ];
 
 fn add_test<F: FnOnce() -> Result<(), String> + Send + 'static>(
