@@ -1,5 +1,6 @@
 use phf::phf_set;
 use swc_atoms::{Atom, JsWord};
+use swc_common::Spanned;
 use swc_ecma_ast::{
     ArrayLit, Expr, ExprOrSpread, Ident, Lit, MemberExpr, MemberProp, ObjectLit, Prop,
     PropOrSpread, SeqExpr, Str,
@@ -362,89 +363,111 @@ impl Pure<'_> {
                     return None;
                 }
 
-                // A match expression would be easier to read, but we need to do it this way
-                // unless we want to clone elements or use a macro and deal with mutability
-                // since we need side effect extraction in multiple places.
-                // To be honest, this is probably a lot easier to read and offers minimal
-                // code size anyway.
+                match op {
+                    KnownOp::Index(idx) => {
+                        if idx >= 0.0 && (idx as usize) < elems.len() && idx.fract() == 0.0 {
+                            // idx is in bounds, handled in simplify
+                            return None;
+                        }
 
-                let (is_idx_out_of_bounds, key, is_array_symbol, is_length) = match op {
-                    KnownOp::Index(i) => (
-                        i.fract() != 0.0 || i < 0.0 || i as usize >= elems.len(),
-                        None,
-                        false,
-                        false,
-                    ),
+                        // Replacement is certain at this point, and is always undefined
 
-                    KnownOp::IndexStr(key) => {
-                        let is_array_symbol = is_array_symbol(key.as_str());
-                        let is_length = key == "length";
+                        // Extract side effects
+                        let mut exprs = vec![];
+                        elems.drain(..).flatten().for_each(|elem| {
+                            self.expr_ctx.extract_side_effects_to(&mut exprs, *elem.expr);
+                        });
 
-                        (false, Some(key), is_array_symbol, is_length)
-                    }
-                };
+                        Some(if exprs.is_empty() {
+                            // No side effects, replacement is:
+                            // (0, void 0)
+                            Expr::Seq(SeqExpr {
+                                span: *span,
+                                exprs: vec![0.into(), undefined(*span)]
+                            })
+                        } else {
+                            // Side effects exist, replacement is:
+                            // (x(), y(), void 0)
+                            // Where `x()` and `y()` are side effects.
+                            exprs.push(undefined(*span));
 
-                if is_length {
-                    // Handled in simplify::expr
-                    return None;
-                }
-
-                // If the result is undefined.
-                // In this case, the optimized expression is:
-                // (x, y, undefined)
-                // where x and y are side effects.
-                // If no side effects exist, the result is simply `undefined` instead of a
-                // SeqExpr.
-                let is_result_undefined =
-                    is_idx_out_of_bounds || (key.is_some() && !is_array_symbol);
-
-                // Elements with side effects.
-                // Will be empty if we don't need side effects.
-                let mut side_effects = vec![];
-                // If we need to compute side effects.
-                let need_side_effects = is_result_undefined || is_array_symbol;
-                if need_side_effects {
-                    // Move all side effects into side_effects.
-                    // This completely drains elems.
-                    elems.drain(..).flatten().for_each(|elem| {
-                        self.expr_ctx
-                            .extract_side_effects_to(&mut side_effects, *elem.expr);
-                    });
-                }
-
-                if is_result_undefined {
-                    // Optimization is `undefined`.
-                    Some(
-                        self.expr_ctx
-                            .preserve_effects(*span, *undefined(*span), side_effects),
-                    )
-                } else if is_array_symbol {
-                    // Optimization is the same array but with only side effects.
-                    // e.g. [1, 2, f()].push becomes [f()].push
-
-                    // property
-                    let key = match key {
-                        Some(x) => x,
-                        None => unreachable!(),
-                    };
-
-                    let elems: Vec<Option<ExprOrSpread>> = side_effects
-                        .into_iter()
-                        .map(|e| {
-                            Some(ExprOrSpread {
-                                spread: None,
-                                expr: e,
+                            Expr::Seq(SeqExpr {
+                                span: *span,
+                                exprs
                             })
                         })
-                        .collect();
+                    }
 
-                    Some(Expr::Member(MemberExpr {
-                        span: *span,
-                        obj: Box::new(Expr::Array(ArrayLit { span: *span, elems })),
-                        prop: MemberProp::Ident(Ident::new(key, *span)),
-                    }))
-                } else {
-                    None
+                    KnownOp::IndexStr(key) if key != "length" /* handled in simplify */ => {
+                        // If the property is a known symbol, e.g. [].push
+                        let is_known_symbol = is_array_symbol(&key);
+
+                        if is_known_symbol {
+                            // We need to check if this is already optimized as if we don't,
+                            // it'll lead to infinite optimization when the visitor visits
+                            // again.
+                            //
+                            // A known symbol expression is already optimized if all
+                            // non-side effects have been removed.
+                            let optimized_len = elems
+                                .iter()
+                                .flatten()
+                                .filter(|elem| elem.expr.may_have_side_effects(&self.expr_ctx))
+                                .count();
+
+                            if optimized_len == elems.len() {
+                                // Already optimized
+                                return None;
+                            }
+                        }
+
+                        // Extract side effects
+                        let mut exprs = vec![];
+                        elems.drain(..).flatten().for_each(|elem| {
+                            self.expr_ctx.extract_side_effects_to(&mut exprs, *elem.expr);
+                        });
+
+                        Some(if is_known_symbol {
+                            // [x(), y()].push
+                            Expr::Member(MemberExpr {
+                                span: *span,
+                                obj: Box::new(Expr::Array(ArrayLit {
+                                    span: *span,
+                                    elems: exprs
+                                        .into_iter()
+                                        .map(|elem| Some(ExprOrSpread {
+                                            spread: None,
+                                            expr: elem,
+                                        }))
+                                        .collect()
+                                })),
+                                prop: prop.clone(),
+                            })
+                        } else {
+                            let val = undefined(*span);
+
+                            if exprs.is_empty() {
+                                // No side effects, replacement is:
+                                // (0, void 0)
+                                Expr::Seq(SeqExpr {
+                                    span: val.span(),
+                                    exprs: vec![0.into(), val]
+                                })
+                            } else {
+                                // Side effects exist, replacement is:
+                                // (x(), y(), void 0)
+                                // Where `x()` and `y()` are side effects.
+                                exprs.push(val);
+
+                                Expr::Seq(SeqExpr {
+                                    span: *span,
+                                    exprs
+                                })
+                            }
+                        })
+                    }
+
+                    _ => None
                 }
             }
 
@@ -479,10 +502,29 @@ impl Pure<'_> {
                     return None;
                 }
 
+                let is_known_symbol = is_object_symbol(&key);
+                if is_known_symbol {
+                    // Like with arrays, we need to check if this is already optimized
+                    // before returning Some so we don't end up in an infinite loop.
+                    //
+                    // The same logic with arrays applies; read above.
+                    let optimized_len = props
+                        .iter()
+                        .filter(|prop| {
+                            matches!(prop, PropOrSpread::Prop(prop) if matches!(&**prop, Prop::KeyValue(prop) if prop.value.may_have_side_effects(&self.expr_ctx)))
+                        })
+                        .count();
+
+                    if optimized_len == props.len() {
+                        // Already optimized
+                        return None;
+                    }
+                }
+
                 // Can be optimized fully or partially
                 Some(self.expr_ctx.preserve_effects(
                     *span,
-                    if is_object_symbol(key.as_str()) {
+                    if is_known_symbol {
                         // Valid key, e.g. "hasOwnProperty". Replacement:
                         // (foo(), bar(), {}.hasOwnProperty)
                         Expr::Member(MemberExpr {

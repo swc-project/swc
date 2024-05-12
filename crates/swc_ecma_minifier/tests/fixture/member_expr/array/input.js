@@ -1,12 +1,12 @@
 // Invalid
-[][0];
-[][1];
-[][-1];
+f([][0]);
+f([][1]);
+f([][-1]);
 
-[].invalid;
-[]["invalid"];
-[][[]];
-[][0+[]];
+f([].invalid);
+f([]["invalid"]);
+f([][[]]);
+f([][0+[]]);
 
 // Object symbols
 [].constructor;
