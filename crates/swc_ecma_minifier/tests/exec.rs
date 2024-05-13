@@ -11225,6 +11225,21 @@ console.log(eval(foo));",
 }
 
 #[test]
+fn issue_8942() {
+    run_default_exec_test(
+        "
+        'use strict';
+        const k = (() => {
+            let x = 1;
+            x **= undefined / x;
+            return x;
+        })();
+        console.log(k);
+        ",
+    );
+}
+
+#[test]
 fn issue_8937() {
     run_default_exec_test(
         "

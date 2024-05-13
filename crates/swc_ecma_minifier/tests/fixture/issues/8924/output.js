@@ -1,2 +1,5 @@
 "use strict";
-const k = NaN;
+const k = (()=>{
+    let x = 1;
+    return x **= void 0;
+})();

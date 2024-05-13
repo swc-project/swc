@@ -1562,6 +1562,7 @@ impl Optimizer<'_> {
             | Expr::Tpl(..)
             | Expr::TaggedTpl(..) => return Ok(false),
 
+            // See https://github.com/swc-project/swc/issues/8924 and https://github.com/swc-project/swc/issues/8942
             Expr::Assign(AssignExpr {
                 op: op!("**="),
                 right,
@@ -1572,7 +1573,7 @@ impl Optimizer<'_> {
                 right,
                 ..
             }) => {
-                if is_pure_undefined(&self.expr_ctx, right) {
+                if !right.is_lit() {
                     return Ok(false);
                 }
             }
