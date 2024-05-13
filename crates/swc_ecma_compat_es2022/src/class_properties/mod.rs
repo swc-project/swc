@@ -1,9 +1,6 @@
 use swc_common::{
-    collections::{AHashMap, AHashSet},
-    comments::Comments,
-    errors::HANDLER,
-    util::take::Take,
-    Mark, Span, Spanned, SyntaxContext, DUMMY_SP,
+    collections::AHashMap, comments::Comments, errors::HANDLER, util::take::Take, Mark, Span,
+    Spanned, SyntaxContext, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{helper, perf::Check};
@@ -530,7 +527,6 @@ impl<C: Comments> ClassProperties<C> {
         let mut super_ident = None;
 
         class.body.visit_mut_with(&mut BrandCheckHandler {
-            names: &mut AHashSet::default(),
             private: &self.private,
         });
 
@@ -806,7 +802,13 @@ impl<C: Comments> ClassProperties<C> {
                         match method.kind {
                             MethodKind::Getter => format!("get_{}", method.key.id.sym).into(),
                             MethodKind::Setter => format!("set_{}", method.key.id.sym).into(),
-                            MethodKind::Method => method.key.id.sym.clone(),
+                            MethodKind::Method => {
+                                if method.key.id.is_reserved_in_any() {
+                                    format!("__{}", method.key.id.sym).into()
+                                } else {
+                                    method.key.id.sym.clone()
+                                }
+                            }
                         },
                         method
                             .span

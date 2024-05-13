@@ -4831,6 +4831,46 @@ class Cl {
 "#
 );
 
+test!(
+    syntax(),
+    |t| {
+        let unresolved_mark = Mark::new();
+        let top_level_mark = Mark::new();
+
+        chain!(
+            resolver(unresolved_mark, top_level_mark, false),
+            class_properties(
+                Some(t.comments.clone()),
+                class_properties::Config {
+                    private_as_properties: true,
+                    ..Default::default()
+                },
+                unresolved_mark,
+            )
+        )
+    },
+    loose_keyword_method,
+    r##"
+class TestCls{
+    foo(){
+        this.#bar()    
+        this.#switch()    
+    }
+    #switch(){
+        console.log("#switch called")
+    }
+
+    #bar(){
+        console.log("#bar called")
+    }
+}
+export {TestCls}
+
+let a = new TestCls
+a.foo()
+"##
+);
+
 #[testing::fixture("tests/classes/**/exec.js")]
 fn exec(input: PathBuf) {
     let src = read_to_string(input).unwrap();

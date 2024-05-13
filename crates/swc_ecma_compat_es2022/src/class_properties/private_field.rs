@@ -2,10 +2,8 @@ use std::iter;
 
 use swc_atoms::JsWord;
 use swc_common::{
-    collections::{AHashMap, AHashSet},
-    errors::HANDLER,
-    util::take::Take,
-    Mark, Spanned, SyntaxContext, DUMMY_SP,
+    collections::AHashMap, errors::HANDLER, util::take::Take, Mark, Spanned, SyntaxContext,
+    DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
@@ -83,9 +81,6 @@ impl PrivateKind {
 }
 
 pub(super) struct BrandCheckHandler<'a> {
-    /// Private names used for brand checks.
-    pub names: &'a mut AHashSet<JsWord>,
-
     pub private: &'a PrivateRecord,
 }
 
@@ -116,8 +111,6 @@ impl VisitMut for BrandCheckHandler<'_> {
                         return;
                     }
                 }
-
-                self.names.insert(n.id.sym.clone());
 
                 let (mark, kind, class_name) = self.private.get(&n.id);
 
@@ -596,7 +589,11 @@ impl<'a> PrivateAccessVisitor<'a> {
         }
 
         let method_name = Ident::new(
-            n.id.sym.clone(),
+            if n.id.is_reserved_in_any() {
+                format!("__{}", n.id.sym).into()
+            } else {
+                n.id.sym.clone()
+            },
             n.id.span.with_ctxt(SyntaxContext::empty()).apply_mark(mark),
         );
         let ident = Ident::new(format!("_{}", n.id.sym).into(), n.id.span.apply_mark(mark));
