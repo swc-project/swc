@@ -711,8 +711,13 @@ impl Pure<'_> {
 
                     let idx = value.round() as i64 as usize;
                     let c = s.value.chars().nth(idx);
+
                     match c {
                         Some(v) => {
+                            let mut b = [0; 2];
+                            v.encode_utf16(&mut b);
+                            let v = b[0];
+
                             self.changed = true;
                             report_change!(
                                 "evaluate: Evaluated `charCodeAt` of a string literal as `{}`",
@@ -728,6 +733,44 @@ impl Pure<'_> {
                             self.changed = true;
                             report_change!(
                                 "evaluate: Evaluated `charCodeAt` of a string literal as `NaN`",
+                            );
+                            *e = Expr::Ident(Ident::new(
+                                "NaN".into(),
+                                e.span().with_ctxt(SyntaxContext::empty()),
+                            ))
+                        }
+                    }
+                }
+                return;
+            }
+            "codePointAt" => {
+                if call.args.len() != 1 {
+                    return;
+                }
+                if let Expr::Lit(Lit::Num(Number { value, .. })) = &*call.args[0].expr {
+                    if value.fract() != 0.0 {
+                        return;
+                    }
+
+                    let idx = value.round() as i64 as usize;
+                    let c = s.value.chars().nth(idx);
+                    match c {
+                        Some(v) => {
+                            self.changed = true;
+                            report_change!(
+                                "evaluate: Evaluated `codePointAt` of a string literal as `{}`",
+                                v
+                            );
+                            *e = Expr::Lit(Lit::Num(Number {
+                                span: call.span,
+                                value: v as usize as f64,
+                                raw: None,
+                            }))
+                        }
+                        None => {
+                            self.changed = true;
+                            report_change!(
+                                "evaluate: Evaluated `codePointAt` of a string literal as `NaN`",
                             );
                             *e = Expr::Ident(Ident::new(
                                 "NaN".into(),

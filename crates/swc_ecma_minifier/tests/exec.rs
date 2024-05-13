@@ -11265,3 +11265,16 @@ fn issue_8937() {
         ",
     );
 }
+
+#[test]
+fn issue_8943() {
+    run_default_exec_test(
+        "
+        'use strict';
+        const k = (() => {
+            return '👨‍👩‍👦'.charCodeAt(0);
+        });
+        console.log(k());
+        ",
+    );
+}
