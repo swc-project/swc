@@ -700,6 +700,50 @@ impl Pure<'_> {
         let new_val = match &*method {
             "toLowerCase" => s.value.to_lowercase(),
             "toUpperCase" => s.value.to_uppercase(),
+            "charCodeAt" => {
+                if call.args.len() != 1 {
+                    return;
+                }
+                if let Expr::Lit(Lit::Num(Number { value, .. })) = &*call.args[0].expr {
+                    if value.fract() != 0.0 {
+                        return;
+                    }
+
+                    // TODO: Handle non-ascii characters
+
+                    if s.value.is_ascii() {
+                        let idx = value.round() as i64 as usize;
+
+                        let c = s.value.as_bytes().get(idx).map(|&v| v as usize as f64);
+                        match c {
+                            Some(v) => {
+                                self.changed = true;
+                                report_change!(
+                                    "evaluate: Evaluated `codePointAt` of a string literal as `{}`",
+                                    v
+                                );
+                                *e = Expr::Lit(Lit::Num(Number {
+                                    span: call.span,
+                                    value: v as usize as f64,
+                                    raw: None,
+                                }))
+                            }
+                            None => {
+                                self.changed = true;
+                                report_change!(
+                                    "evaluate: Evaluated `codePointAt` of a string literal as \
+                                     `NaN`",
+                                );
+                                *e = Expr::Ident(Ident::new(
+                                    "NaN".into(),
+                                    e.span().with_ctxt(SyntaxContext::empty()),
+                                ))
+                            }
+                        }
+                    }
+                }
+                return;
+            }
             "codePointAt" => {
                 if call.args.len() != 1 {
                     return;
