@@ -711,34 +711,35 @@ impl Pure<'_> {
 
                     // TODO: Handle non-ascii characters
 
-                    if s.value.is_ascii() {
-                        let idx = value.round() as i64 as usize;
+                    let idx = value.round() as i64 as usize;
+                    if !s.value.is_char_boundary(idx) {
+                        return;
+                    }
 
-                        let c = s.value.as_bytes().get(idx).map(|&v| v as usize as f64);
-                        match c {
-                            Some(v) => {
-                                self.changed = true;
-                                report_change!(
-                                    "evaluate: Evaluated `codePointAt` of a string literal as `{}`",
-                                    v
-                                );
-                                *e = Expr::Lit(Lit::Num(Number {
-                                    span: call.span,
-                                    value: v as usize as f64,
-                                    raw: None,
-                                }))
-                            }
-                            None => {
-                                self.changed = true;
-                                report_change!(
-                                    "evaluate: Evaluated `codePointAt` of a string literal as \
-                                     `NaN`",
-                                );
-                                *e = Expr::Ident(Ident::new(
-                                    "NaN".into(),
-                                    e.span().with_ctxt(SyntaxContext::empty()),
-                                ))
-                            }
+                    let c = s.value.chars().nth(idx);
+
+                    match c {
+                        Some(v) => {
+                            self.changed = true;
+                            report_change!(
+                                "evaluate: Evaluated `charCodeAt` of a string literal as `{}`",
+                                v
+                            );
+                            *e = Expr::Lit(Lit::Num(Number {
+                                span: call.span,
+                                value: v as usize as f64,
+                                raw: None,
+                            }))
+                        }
+                        None => {
+                            self.changed = true;
+                            report_change!(
+                                "evaluate: Evaluated `charCodeAt` of a string literal as `NaN`",
+                            );
+                            *e = Expr::Ident(Ident::new(
+                                "NaN".into(),
+                                e.span().with_ctxt(SyntaxContext::empty()),
+                            ))
                         }
                     }
                 }
