@@ -709,17 +709,15 @@ impl Pure<'_> {
                         return;
                     }
 
-                    // TODO: Handle non-ascii characters
-
                     let idx = value.round() as i64 as usize;
-                    if !s.value.is_char_boundary(idx) {
-                        return;
-                    }
-
                     let c = s.value.chars().nth(idx);
 
                     match c {
                         Some(v) => {
+                            let mut b = [0; 2];
+                            v.encode_utf16(&mut b);
+                            let v = b[0];
+
                             self.changed = true;
                             report_change!(
                                 "evaluate: Evaluated `charCodeAt` of a string literal as `{}`",
