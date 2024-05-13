@@ -700,7 +700,7 @@ impl Pure<'_> {
         let new_val = match &*method {
             "toLowerCase" => s.value.to_lowercase(),
             "toUpperCase" => s.value.to_uppercase(),
-            "charCodeAt" => {
+            "codePointAt" => {
                 if call.args.len() != 1 {
                     return;
                 }
@@ -715,7 +715,7 @@ impl Pure<'_> {
                         Some(v) => {
                             self.changed = true;
                             report_change!(
-                                "evaluate: Evaluated `charCodeAt` of a string literal as `{}`",
+                                "evaluate: Evaluated `codePointAt` of a string literal as `{}`",
                                 v
                             );
                             *e = Expr::Lit(Lit::Num(Number {
@@ -727,7 +727,7 @@ impl Pure<'_> {
                         None => {
                             self.changed = true;
                             report_change!(
-                                "evaluate: Evaluated `charCodeAt` of a string literal as `NaN`",
+                                "evaluate: Evaluated `codePointAt` of a string literal as `NaN`",
                             );
                             *e = Expr::Ident(Ident::new(
                                 "NaN".into(),
