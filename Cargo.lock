@@ -3706,7 +3706,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.275.0"
+version = "0.275.1"
 dependencies = [
  "ansi_term",
  "anyhow",

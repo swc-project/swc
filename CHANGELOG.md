@@ -5,6 +5,9 @@
 
 
 
+- **(es)** Allow input source map file to be omitted ([#8951](https://github.com/swc-project/swc/issues/8951)) ([606cb67](https://github.com/swc-project/swc/commit/606cb677c42dd43c24ba49ad0912998e33159560))
+
+
 - **(es/ast)** Pin version of unicodes ([#8941](https://github.com/swc-project/swc/issues/8941)) ([6362ff4](https://github.com/swc-project/swc/commit/6362ff4ba80afc9c887a8817582ae976a05c1d90))
 
 
@@ -1359,9 +1362,6 @@
 
 
 - **(es/minifier)** Don't inline functions if `keep_fnames` is enabled ([#8093](https://github.com/swc-project/swc/issues/8093)) ([94bb42e](https://github.com/swc-project/swc/commit/94bb42e29418a8697ba0ab41dad2ffe63f1c32c7))
-
-
-- **(xtask)** Fix nightly command ([#8105](https://github.com/swc-project/swc/issues/8105)) ([db4ca65](https://github.com/swc-project/swc/commit/db4ca650e445e602f289f7964b24f7e2647beacd))
 
 ### Refactor
 

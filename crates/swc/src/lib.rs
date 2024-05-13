@@ -114,6 +114,7 @@ extern crate swc_common as common;
 
 use std::{
     fs::{read_to_string, File},
+    io::ErrorKind,
     path::{Path, PathBuf},
     sync::Arc,
 };
@@ -154,6 +155,7 @@ use swc_ecma_visit::{FoldWith, VisitMutWith, VisitWith};
 pub use swc_error_reporters::handler::{try_with_handler, HandlerOpts};
 pub use swc_node_comments::SwcComments;
 use swc_timer::timer;
+use tracing::warn;
 use url::Url;
 
 pub use crate::builder::PassBuilder;
@@ -338,6 +340,23 @@ impl Compiler {
                                 Some(map_path) => {
                                     let path = map_path.display().to_string();
                                     let file = File::open(&path);
+
+                                    // If file is not found, we should return None.
+                                    // Some libraries generates source map but omit them from the
+                                    // npm package.
+                                    //
+                                    // See https://github.com/swc-project/swc/issues/8789#issuecomment-2105055772
+                                    if file
+                                        .as_ref()
+                                        .is_err_and(|err| err.kind() == ErrorKind::NotFound)
+                                    {
+                                        warn!(
+                                            "source map is specified by sourceMappingURL but \
+                                             there's no source map at `{}`",
+                                            path
+                                        );
+                                        return Ok(None);
+                                    }
 
                                     // Old behavior.
                                     let file = if !is_default {
