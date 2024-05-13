@@ -1572,9 +1572,7 @@ impl Optimizer<'_> {
                 right,
                 ..
             }) => {
-                if is_pure_undefined(&self.expr_ctx, right)
-                    || right.is_global_ref_to(&self.expr_ctx, "NaN")
-                {
+                if is_pure_undefined(&self.expr_ctx, right) {
                     return Ok(false);
                 }
             }
