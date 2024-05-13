@@ -114,6 +114,7 @@ extern crate swc_common as common;
 
 use std::{
     fs::{read_to_string, File},
+    io::ErrorKind,
     path::{Path, PathBuf},
     sync::Arc,
 };
@@ -338,6 +339,18 @@ impl Compiler {
                                 Some(map_path) => {
                                     let path = map_path.display().to_string();
                                     let file = File::open(&path);
+
+                                    // If file is not found, we should return None.
+                                    // Some libraries generates source map but omit them from the
+                                    // npm package.
+                                    //
+                                    // See https://github.com/swc-project/swc/issues/8789#issuecomment-2105055772
+                                    if file
+                                        .as_ref()
+                                        .is_err_and(|err| err.kind() == ErrorKind::NotFound)
+                                    {
+                                        return Ok(None);
+                                    }
 
                                     // Old behavior.
                                     let file = if !is_default {
