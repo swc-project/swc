@@ -155,6 +155,7 @@ use swc_ecma_visit::{FoldWith, VisitMutWith, VisitWith};
 pub use swc_error_reporters::handler::{try_with_handler, HandlerOpts};
 pub use swc_node_comments::SwcComments;
 use swc_timer::timer;
+use tracing::warn;
 use url::Url;
 
 pub use crate::builder::PassBuilder;
@@ -349,6 +350,11 @@ impl Compiler {
                                         .as_ref()
                                         .is_err_and(|err| err.kind() == ErrorKind::NotFound)
                                     {
+                                        warn!(
+                                            "source map is specified by sourceMappingURL but \
+                                             there's no source map at `{}`",
+                                            path
+                                        );
                                         return Ok(None);
                                     }
 
