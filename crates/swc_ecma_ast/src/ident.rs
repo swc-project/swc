@@ -425,6 +425,8 @@ static RESSERVED_IN_STRICT_MODE: phf::Set<&str> = phf_set!(
     "yield",
 );
 
+static RESSERVED_IN_STRICT_BIND: phf::Set<&str> = phf_set!("eval", "arguments",);
+
 static RESERVED_IN_ES3: phf::Set<&str> = phf_set!(
     "abstract",
     "boolean",
@@ -457,11 +459,18 @@ pub trait IdentExt: AsRef<str> {
     }
 
     fn is_reserved_in_strict_bind(&self) -> bool {
-        ["eval", "arguments"].contains(&self.as_ref())
+        RESSERVED_IN_STRICT_BIND.contains(self.as_ref())
     }
 
     fn is_reserved_in_es3(&self) -> bool {
         RESERVED_IN_ES3.contains(self.as_ref())
+    }
+
+    fn is_reserved_in_any(&self) -> bool {
+        RESERVED.contains(self.as_ref())
+            || RESSERVED_IN_STRICT_MODE.contains(self.as_ref())
+            || RESSERVED_IN_STRICT_BIND.contains(self.as_ref())
+            || RESERVED_IN_ES3.contains(self.as_ref())
     }
 }
 
