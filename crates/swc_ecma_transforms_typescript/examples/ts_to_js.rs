@@ -52,7 +52,7 @@ fn main() {
     }
 
     let module = parser
-        .parse_module()
+        .parse_program()
         .map_err(|e| e.into_diagnostic(&handler).emit())
         .expect("failed to parse module.");
 
@@ -74,7 +74,7 @@ fn main() {
         let module = module.fold_with(&mut hygiene());
 
         // Ensure that we have enough parenthesis.
-        let module = module.fold_with(&mut fixer(Some(&comments)));
+        let program = module.fold_with(&mut fixer(Some(&comments)));
 
         let mut buf = vec![];
         {
@@ -85,7 +85,7 @@ fn main() {
                 wr: JsWriter::new(cm.clone(), "\n", &mut buf, None),
             };
 
-            emitter.emit_module(&module).unwrap();
+            emitter.emit_program(&program).unwrap();
         }
 
         println!("{}", String::from_utf8(buf).expect("non-utf8?"));
