@@ -2884,7 +2884,7 @@ __metadata:
     "@swc/counter": "npm:^0.1.2"
     "@swc/helpers": "npm:^0.5.0"
     "@swc/plugin-jest": "npm:^1.5.117"
-    "@swc/types": "npm:^0.1.5"
+    "@swc/types": "npm:0.1.7"
     "@taplo/cli": "npm:^0.5.2"
     "@types/jest": "npm:^29.5.11"
     "@types/node": "npm:^20.5.0"
@@ -2955,10 +2955,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@swc/types@npm:^0.1.5":
-  version: 0.1.5
-  resolution: "@swc/types@npm:0.1.5"
-  checksum: 10/5f4de8c60d2623bed607c7fa1e0cee4ffc682af28d5ffe88dc9ed9903a1c2088ccc39f684689d6bb314595c9fbb560beaec773d633be515fb856ffc81d738822
+"@swc/types@npm:0.1.7":
+  version: 0.1.7
+  resolution: "@swc/types@npm:0.1.7"
+  dependencies:
+    "@swc/counter": "npm:^0.1.3"
+  checksum: 10/ed66c26b36972a74f852c1781fadc75946578abfeeea58f110684833b5d1e70f28a77ddb82fd5bf3cf3c4dad0e1b6a1c924d7e2cc7a99f9b16ed16fe266bba25
   languageName: node
   linkType: hard
 
