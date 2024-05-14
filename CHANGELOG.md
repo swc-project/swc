@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Documentation
+
+
+
+- **(es/typescript)** Fix example ([#8952](https://github.com/swc-project/swc/issues/8952)) ([ff60960](https://github.com/swc-project/swc/commit/ff60960afe3f2866e5c98f0414884fa93b5ab3f6))
+
 ## [1.5.6] - 2024-05-14
 
 ### Bug Fixes
