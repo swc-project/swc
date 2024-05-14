@@ -1,5 +1,5 @@
 # Changelog
-## [unreleased]
+## [1.5.7] - 2024-05-14
 
 ### Documentation
 
@@ -1364,12 +1364,6 @@
 - **(es/minifier)** Decouple `assign_count` from `reassigned` ([#8137](https://github.com/swc-project/swc/issues/8137)) ([13106e0](https://github.com/swc-project/swc/commit/13106e0d2eaa08c4c74f58205f57c4f2d7d4479f))
 
 ## [1.3.93] - 2023-10-13
-
-### Bug Fixes
-
-
-
-- **(es/minifier)** Don't inline functions if `keep_fnames` is enabled ([#8093](https://github.com/swc-project/swc/issues/8093)) ([94bb42e](https://github.com/swc-project/swc/commit/94bb42e29418a8697ba0ab41dad2ffe63f1c32c7))
 
 ### Refactor
 
