@@ -1416,7 +1416,11 @@ impl<I: Tokens> Parser<I> {
 
         let optional = eat!(self, '?');
 
-        if !readonly && is_one_of!(self, '(', '<') {
+        if is_one_of!(self, '(', '<') {
+            if readonly {
+                syntax_error!(self, SyntaxError::ReadOnlyMethod)
+            }
+
             let type_params = self.try_parse_ts_type_params(false, true)?;
             expect!(self, '(');
             let params = self.parse_ts_binding_list_for_signature()?;
@@ -1432,7 +1436,6 @@ impl<I: Tokens> Parser<I> {
             Ok(Either::Right(TsMethodSignature {
                 span: span!(self, start),
                 computed,
-                readonly,
                 key,
                 optional,
                 type_params,
@@ -1449,9 +1452,6 @@ impl<I: Tokens> Parser<I> {
                 readonly,
                 key,
                 optional,
-                init: None,
-                type_params: None,
-                params: vec![],
                 type_ann,
             }))
         }
@@ -1491,7 +1491,9 @@ impl<I: Tokens> Parser<I> {
         if let Some(v) = self.try_parse_ts(|p| {
             let start = p.input.cur_pos();
 
-            let readonly = p.parse_ts_modifier(&["readonly"], false)?.is_some();
+            if readonly {
+                syntax_error!(p, SyntaxError::GetterSetterCannotBeReadonly)
+            }
 
             let is_get = if eat!(p, "get") {
                 true
@@ -1502,8 +1504,6 @@ impl<I: Tokens> Parser<I> {
 
             let (computed, key) = p.parse_ts_property_name()?;
 
-            let optional = eat!(p, '?');
-
             if is_get {
                 expect!(p, '(');
                 expect!(p, ')');
@@ -1513,10 +1513,8 @@ impl<I: Tokens> Parser<I> {
 
                 Ok(Some(TsTypeElement::TsGetterSignature(TsGetterSignature {
                     span: span!(p, start),
-                    readonly,
                     key,
                     computed,
-                    optional,
                     type_ann,
                 })))
             } else {
@@ -1531,10 +1529,8 @@ impl<I: Tokens> Parser<I> {
 
                 Ok(Some(TsTypeElement::TsSetterSignature(TsSetterSignature {
                     span: span!(p, start),
-                    readonly,
                     key,
                     computed,
-                    optional,
                     param,
                 })))
             }

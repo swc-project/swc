@@ -1,0 +1,7 @@
+
+  x Expected '{', got 'A'
+   ,-[$DIR/tests/typescript-errors/type-lit/readonly-getter/input.ts:1:1]
+ 1 | export type A = {
+   :             ^
+ 2 |   readonly get m(): string;
+   `----

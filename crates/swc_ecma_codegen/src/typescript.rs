@@ -542,10 +542,6 @@ where
     fn emit_ts_method_signature(&mut self, n: &TsMethodSignature) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
-        if n.readonly {
-            keyword!("readonly");
-        }
-
         if n.computed {
             punct!("[");
             emit!(n.key);
@@ -751,8 +747,6 @@ where
             punct!("?");
         }
 
-        emit!(n.type_params);
-
         // punct!("(");
         // self.emit_list(n.span, Some(&n.params), ListFormat::Parameters)?;
         // punct!(")");
@@ -761,13 +755,6 @@ where
             punct!(":");
             formatting_space!();
             emit!(type_ann);
-        }
-
-        if let Some(init) = &n.init {
-            formatting_space!();
-            punct!("=");
-            formatting_space!();
-            emit!(init);
         }
     }
 

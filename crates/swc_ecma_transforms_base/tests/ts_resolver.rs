@@ -89,10 +89,7 @@ impl Visit for AssertNoEmptyCtxt {
             n.key.visit_with(self);
         }
 
-        n.init.visit_with(self);
-        n.params.visit_with(self);
         n.type_ann.visit_with(self);
-        n.type_params.visit_with(self);
     }
 
     fn visit_ts_setter_signature(&mut self, n: &TsSetterSignature) {

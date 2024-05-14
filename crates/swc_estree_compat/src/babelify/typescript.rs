@@ -261,7 +261,6 @@ impl Babelify for TsPropertySignature {
             type_annotation: self
                 .type_ann
                 .map(|ann| Box::alloc().init(ann.babelify(ctx))),
-            initializer: self.init.map(|i| Box::alloc().init(i.babelify(ctx).into())),
             computed: Some(self.computed),
             optional: Some(self.optional),
             readonly: Some(self.readonly),

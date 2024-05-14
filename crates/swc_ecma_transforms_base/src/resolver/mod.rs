@@ -1401,9 +1401,6 @@ impl<'a> VisitMut for Resolver<'a> {
         self.with_child(ScopeKind::Fn, |child| {
             child.in_type = true;
 
-            n.type_params.visit_mut_with(child);
-            n.init.visit_mut_with(child);
-            n.params.visit_mut_with(child);
             n.type_ann.visit_mut_with(child);
         });
     }
