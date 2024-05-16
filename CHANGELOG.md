@@ -7,6 +7,9 @@
 
 - **(es/minifier)** Abort array property inliner if the array is used as a ref ([#8956](https://github.com/swc-project/swc/issues/8956)) ([255485e](https://github.com/swc-project/swc/commit/255485e373db506cf96448a76761113050b53c4d))
 
+
+- **(es/minifier)** Abort property hoisting on `eval` ([#8957](https://github.com/swc-project/swc/issues/8957)) ([02729f2](https://github.com/swc-project/swc/commit/02729f24d8d67ce598b530f84b4eb8a9c71cc45b))
+
 ## [1.5.7] - 2024-05-14
 
 ### Documentation
