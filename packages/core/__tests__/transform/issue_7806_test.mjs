@@ -10,6 +10,7 @@ describe("jsc.paths", () => {
             __filename,
             "..",
             "..",
+            "..",
             "tests",
             "swc-path-bug-1"
         );
@@ -41,7 +42,7 @@ describe("jsc.paths", () => {
     });
 
     it("should work with process.cwd() and relative url", async () => {
-        const testDir = path.join("node-swc", "tests", "swc-path-bug-1");
+        const testDir = path.join("tests", "swc-path-bug-1");
         const f = path.join(testDir, "src", "index.ts");
         console.log(f);
         expect(
