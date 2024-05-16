@@ -3936,7 +3936,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.92.4"
+version = "0.92.5"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -4470,7 +4470,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.194.4"
+version = "0.194.5"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -4873,7 +4873,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_usage_analyzer"
-version = "0.24.1"
+version = "0.24.2"
 dependencies = [
  "indexmap 2.1.0",
  "rustc-hash",

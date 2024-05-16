@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(es/minifier)** Abort array property inliner if the array is used as a ref ([#8956](https://github.com/swc-project/swc/issues/8956)) ([255485e](https://github.com/swc-project/swc/commit/255485e373db506cf96448a76761113050b53c4d))
+
 ## [1.5.7] - 2024-05-14
 
 ### Documentation
