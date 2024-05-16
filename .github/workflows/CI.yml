@@ -170,6 +170,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - shell: bash
+        run: corepack enable
+
       # We explicitly do this to cache properly.
       - uses: actions-rs/toolchain@v1
         with:
@@ -729,8 +732,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Corepack
-        shell: bash
+      - shell: bash
         run: corepack enable
 
       # We explicitly do this to cache properly.
@@ -776,8 +778,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Corepack
-        shell: bash
+      - shell: bash
         run: corepack enable
 
       - uses: actions/setup-node@v4
@@ -882,7 +883,8 @@ jobs:
         with:
           submodules: true
 
-      - run: corepack enable
+      - shell: bash
+        run: corepack enable
 
       - uses: actions/setup-node@v4
         with:
