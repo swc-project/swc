@@ -18,12 +18,12 @@ const bindingsOverride = process.env["SWC_BINARY_PATH"];
 // `@swc/core` includes d.ts for the `@swc/wasm` to provide typed fallback bindings
 // todo: fix package.json scripts
 let fallbackBindings: any;
-const bindings: typeof import("./binding") = (() => {
+const bindings: typeof import("../binding") = (() => {
     let binding;
     try {
         binding = !!bindingsOverride
             ? require(resolve(bindingsOverride))
-            : require("./binding");
+            : require("../binding.js");
 
         // If native binding loaded successfully, it should return proper target triple constant.
         const triple = binding.getTargetTriple();
