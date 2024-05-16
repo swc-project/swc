@@ -10,7 +10,6 @@ describe("jsc.paths", () => {
             __filename,
             "..",
             "..",
-            "..",
             "tests",
             "swc-path-bug-1"
         );
