@@ -3364,6 +3364,7 @@ __metadata:
     "@swc/counter": "npm:^0.1.2"
     "@swc/types": "npm:^0.1.7"
     cross-env: "npm:^7.0.3"
+    jest: "npm:^29.7.0"
     typescript: "npm:^5.3.3"
   peerDependencies:
     "@swc/helpers": "*"
@@ -3457,7 +3458,6 @@ __metadata:
     expect: "npm:^27.4.2"
     glob: "npm:^8.0.3"
     husky: "npm:^7.0.2"
-    jest: "npm:^29.7.0"
     js-beautify: "npm:^1.14.3"
     lint-staged: "npm:^12.3.6"
     lodash: "npm:^4.17.21"
