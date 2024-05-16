@@ -3501,6 +3501,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "@swc/core@workspace:packages/core"
   dependencies:
+    "@napi-rs/cli": "npm:^3.0.0-alpha.43"
     "@swc/counter": "npm:^0.1.2"
     "@swc/types": "npm:^0.1.7"
     typescript: "npm:^5.3.3"
@@ -3585,7 +3586,6 @@ __metadata:
     "@babel/preset-react": "npm:^7.13.13"
     "@babel/preset-typescript": "npm:^7.13.0"
     "@babel/types": "npm:^7.14.0"
-    "@napi-rs/cli": "npm:^3.0.0-alpha.43"
     "@swc/core": "npm:=1.2.220"
     "@swc/helpers": "npm:^0.5.0"
     "@swc/plugin-jest": "npm:^1.5.117"
