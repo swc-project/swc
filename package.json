@@ -21,7 +21,7 @@
         "@babel/preset-react": "^7.13.13",
         "@babel/preset-typescript": "^7.13.0",
         "@babel/types": "^7.14.0",
-        "@swc/helpers": "workspace:^",
+        "@swc/helpers": "./packages/helpers",
         "@swc/plugin-jest": "^1.5.117",
         "@taplo/cli": "^0.5.2",
         "@types/jest": "^29.5.11",
