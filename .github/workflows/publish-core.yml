@@ -38,7 +38,7 @@ jobs:
           - host: macos-latest
             target: x86_64-apple-darwin
             build: |
-              cargo build --manifest-path ./bindings/swc_cli/Cargo.toml --release --features plugin --target x86_64-apple-darwin
+              cargo build --manifest-path ../../bindings/swc_cli/Cargo.toml --release --features plugin --target x86_64-apple-darwin
               cp ./bindings/target/x86_64-apple-darwin/release/swc .
               chmod +x ./swc
               yarn build --target x86_64-apple-darwin
@@ -47,7 +47,7 @@ jobs:
             build: |
               export CARGO_PROFILE_RELEASE_LTO=false
               yarn build --target x86_64-pc-windows-msvc
-              cargo build --manifest-path ./bindings/swc_cli/Cargo.toml --release --features plugin --target x86_64-pc-windows-msvc
+              cargo build --manifest-path ../../bindings/swc_cli/Cargo.toml --release --features plugin --target x86_64-pc-windows-msvc
               cp ./bindings/target/x86_64-pc-windows-msvc/release/swc .
             target: x86_64-pc-windows-msvc
           - host: windows-latest
@@ -55,7 +55,7 @@ jobs:
             build: |
               export DISABLE_PLUGIN_E2E_TESTS=true
               export CARGO_PROFILE_RELEASE_LTO=false
-              cargo build --manifest-path ./bindings/swc_cli/Cargo.toml --release --target i686-pc-windows-msvc
+              cargo build --manifest-path ../../bindings/swc_cli/Cargo.toml --release --target i686-pc-windows-msvc
               cp bindings/target/i686-pc-windows-msvc/release/swc .
               yarn build --target i686-pc-windows-msvc --no-default-features --features swc_v1
               npm run test
@@ -65,7 +65,7 @@ jobs:
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-debian
             build: >-
               set -e &&
-              unset CC_x86_64_unknown_linux_gnu && unset CC && RUSTFLAGS='-C target-feature=+sse2' cargo build --manifest-path ./bindings/swc_cli/Cargo.toml --release --features plugin --target x86_64-unknown-linux-gnu &&
+              unset CC_x86_64_unknown_linux_gnu && unset CC && RUSTFLAGS='-C target-feature=+sse2' cargo build --manifest-path ../../bindings/swc_cli/Cargo.toml --release --features plugin --target x86_64-unknown-linux-gnu &&
               rm -rf bindings/target/target/x86_64-unknown-linux-gnu/release/.cargo-lock &&
               cp bindings/target/x86_64-unknown-linux-gnu/release/swc . && chmod +x ./swc &&
               yarn build --target x86_64-unknown-linux-gnu
@@ -76,7 +76,7 @@ jobs:
             build: >-
               set -e &&
               export CARGO_PROFILE_RELEASE_LTO=false &&
-              RUSTFLAGS='-C target-feature=+sse2' cargo build --manifest-path ./bindings/swc_cli/Cargo.toml --release --features plugin --target x86_64-unknown-linux-musl &&
+              RUSTFLAGS='-C target-feature=+sse2' cargo build --manifest-path ../../bindings/swc_cli/Cargo.toml --release --features plugin --target x86_64-unknown-linux-musl &&
               rm -rf target/release/.cargo-lock &&
               cp bindings/target/x86_64-unknown-linux-musl/release/swc . && chmod +x ./swc &&
               RUSTFLAGS='-C target-feature=+sse2 -C target-feature=-crt-static' yarn build --target x86_64-unknown-linux-musl
@@ -88,7 +88,7 @@ jobs:
               export CXX=$(xcrun -f clang++);
               SYSROOT=$(xcrun --sdk macosx --show-sdk-path);
               export CFLAGS="-isysroot $SYSROOT -isystem $SYSROOT";
-              cargo build --manifest-path ./bindings/swc_cli/Cargo.toml --release --features plugin --target aarch64-apple-darwin
+              cargo build --manifest-path ../../bindings/swc_cli/Cargo.toml --release --features plugin --target aarch64-apple-darwin
               cp ./bindings/target/aarch64-apple-darwin/release/swc .
               chmod +x ./swc
               yarn build --target aarch64-apple-darwin
@@ -99,7 +99,7 @@ jobs:
               set -e &&
               export JEMALLOC_SYS_WITH_LG_PAGE=16 &&
               rustup target add aarch64-unknown-linux-gnu &&
-              RUSTFLAGS='' cargo build --manifest-path ./bindings/swc_cli/Cargo.toml --release --features plugin --target aarch64-unknown-linux-gnu &&
+              RUSTFLAGS='' cargo build --manifest-path ../../bindings/swc_cli/Cargo.toml --release --features plugin --target aarch64-unknown-linux-gnu &&
               cp ./bindings/target/aarch64-unknown-linux-gnu/release/swc . && chmod +x ./swc &&
               export CC_aarch64_unknown_linux_gnu=/usr/aarch64-unknown-linux-gnu/bin/aarch64-unknown-linux-gnu-gcc &&
               yarn build --target aarch64-unknown-linux-gnu
@@ -107,7 +107,7 @@ jobs:
             target: armv7-unknown-linux-gnueabihf
             build: |
               export DISABLE_PLUGIN_E2E_TESTS=true
-              yarn napi build --bin swc --release --target armv7-unknown-linux-gnueabihf --manifest-path ./bindings/swc_cli/Cargo.toml -x --target-dir ../release -o .
+              yarn napi build --bin swc --release --target armv7-unknown-linux-gnueabihf --manifest-path ../../bindings/swc_cli/Cargo.toml -x --target-dir ../release -o .
               chmod +x ./swc
               yarn build --target armv7-unknown-linux-gnueabihf --no-default-features --features swc_v1 --use-napi-cross
           - host: ubuntu-latest
@@ -118,7 +118,7 @@ jobs:
               export JEMALLOC_SYS_WITH_LG_PAGE=16 &&
               rustup toolchain install $(cat ./rust-toolchain) &&
               rustup target add aarch64-unknown-linux-musl &&
-              RUSTFLAGS='-C target-feature=+crt-static -C link-arg=-lgcc' cargo build --manifest-path ./bindings/swc_cli/Cargo.toml --release --features plugin --target aarch64-unknown-linux-musl &&
+              RUSTFLAGS='-C target-feature=+crt-static -C link-arg=-lgcc' cargo build --manifest-path ../../bindings/swc_cli/Cargo.toml --release --features plugin --target aarch64-unknown-linux-musl &&
               rm -rf target/release/.cargo-lock &&
               cp bindings/target/aarch64-unknown-linux-musl/release/swc . && chmod +x ./swc &&
               env RUSTFLAGS='-C target-feature=-crt-static' yarn build --target=aarch64-unknown-linux-musl
@@ -129,7 +129,7 @@ jobs:
               export DISABLE_PLUGIN_E2E_TESTS=true
               export CARGO_PROFILE_RELEASE_CODEGEN_UNITS=256
               export CARGO_PROFILE_RELEASE_LTO=false
-              cargo build --manifest-path ./bindings/swc_cli/Cargo.toml --release --target aarch64-pc-windows-msvc
+              cargo build --manifest-path ../../bindings/swc_cli/Cargo.toml --release --target aarch64-pc-windows-msvc
               cp bindings/target/aarch64-pc-windows-msvc/release/swc.exe .
               yarn build --target aarch64-pc-windows-msvc --no-default-features --features swc_v1
     name: stable - ${{ matrix.settings.target }} - node@20
