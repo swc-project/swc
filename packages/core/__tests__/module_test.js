@@ -3,8 +3,8 @@ const swc = require("../../");
 it("should emit _interop_require_default", () => {
     const out = swc.transformSync(`import foo from "foo"`, {
         module: {
-            type: "commonjs"
-        }
+            type: "commonjs",
+        },
     });
     expect(out.map).toBeFalsy();
 
@@ -15,15 +15,13 @@ it("should emit _interop_require_default", () => {
 it("should emit _interop_require_wildcard", () => {
     const out = swc.transformSync('import * as foo from "foo"', {
         module: {
-            type: "commonjs"
-        }
+            type: "commonjs",
+        },
     });
     expect(out.map).toBeFalsy();
 
     expect(out.code).toContain(`function _interop_require_wildcard`);
-    expect(out.code).toContain(
-        `_interop_require_wildcard(require("foo"))`
-    );
+    expect(out.code).toContain(`_interop_require_wildcard(require("foo"))`);
 });
 
 it("should work with amd and external helpers", () => {
@@ -32,12 +30,12 @@ it("should work with amd and external helpers", () => {
     class Bar extends Foo {}`,
         {
             jsc: {
-                externalHelpers: true
+                externalHelpers: true,
             },
             module: {
                 type: "amd",
-                moduleId: "a"
-            }
+                moduleId: "a",
+            },
         }
     );
 
@@ -48,17 +46,17 @@ it("should work with amd and external helpers", () => {
     expect(out.code).toContain(`_inherits._(Bar, Foo);`);
 });
 
-it('should not require filename if no exports in umd', () => {
+it("should not require filename if no exports in umd", () => {
     const code = `console.log('test')`;
 
     const out = swc.transformSync(code, {
         jsc: {
             parser: {
-                syntax: 'ecmascript',
+                syntax: "ecmascript",
             },
         },
         module: {
-            type: 'umd',
+            type: "umd",
         },
         isModule: true,
     });

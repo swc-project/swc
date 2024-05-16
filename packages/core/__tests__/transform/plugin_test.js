@@ -2,7 +2,7 @@ const swc = require("../../../");
 const Visitor = require("../../../Visitor").default;
 
 {
-  const src = `
+    const src = `
   'use strict';
   
   class Foo {
@@ -97,18 +97,18 @@ const Visitor = require("../../../Visitor").default;
   };
   `;
 
-  it("works", () => {
-    swc.transformSync(src, {
-      plugin: m => m
+    it("works", () => {
+        swc.transformSync(src, {
+            plugin: (m) => m,
+        });
     });
-  });
 
-  it("works with visitor", () => {
-    swc.transformSync(src, {
-      plugin: m => {
-        let v = new Visitor();
-        return v.visitProgram(m);
-      }
+    it("works with visitor", () => {
+        swc.transformSync(src, {
+            plugin: (m) => {
+                let v = new Visitor();
+                return v.visitProgram(m);
+            },
+        });
     });
-  });
 }

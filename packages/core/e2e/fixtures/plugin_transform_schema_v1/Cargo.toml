@@ -2,7 +2,7 @@
 
 [package]
 edition = "2021"
-name = "plugin_transform_schema_v1"
+name    = "plugin_transform_schema_v1"
 publish = false
 version = "0.1.0"
 

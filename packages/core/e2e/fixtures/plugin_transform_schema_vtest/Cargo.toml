@@ -1,0 +1,16 @@
+[workspace]
+
+[package]
+edition = "2021"
+name    = "plugin_transform_schema_vtest"
+publish = false
+version = "0.1.0"
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+serde = "1.0.140"
+swc_core = { path = "../../../../crates/swc_core", features = [
+  "__plugin_transform_schema_test",
+] }

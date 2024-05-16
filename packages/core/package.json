@@ -55,7 +55,7 @@
         "build:wasm": "npm-run-all \"pack -- build ../../bindings/binding_core_wasm --scope swc {1} -t {2} --features plugin\" --",
         "build": "napi build --manifest-path ../../bindings/Cargo.toml --platform -p binding_core_node --js ./binding.js --dts ./binding.d.ts --release -o . && tsc -d",
         "build:dev": "napi build --manifest-path ../../bindings/Cargo.toml --platform -p binding_core_node --js ./binding.js --dts ./binding.d.ts -o . && tsc -d",
-        "test": "cross-env NODE_OPTIONS='--experimental-vm-modules' jest --config ./node-swc/jest.config.js",
+        "test": "cross-env NODE_OPTIONS='--experimental-vm-modules' jest --config ./jest.config.js",
         "version": "napi version --npm-dir scripts/npm"
     },
     "peerDependencies": {
