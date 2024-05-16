@@ -93,5 +93,8 @@
     "dependencies": {
         "@swc/counter": "^0.1.2",
         "@swc/types": "^0.1.7"
+    },
+    "devDependencies": {
+        "typescript": "^5.3.3"
     }
 }
