@@ -3503,6 +3503,7 @@ __metadata:
   dependencies:
     "@swc/counter": "npm:^0.1.2"
     "@swc/types": "npm:^0.1.7"
+    typescript: "npm:^5.3.3"
   peerDependencies:
     "@swc/helpers": ^0.5.0
   peerDependenciesMeta:
