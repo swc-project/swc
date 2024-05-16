@@ -3365,7 +3365,7 @@ __metadata:
     "@swc/types": "npm:^0.1.7"
     typescript: "npm:^5.3.3"
   peerDependencies:
-    "@swc/helpers": ^0.5.0
+    "@swc/helpers": "*"
   peerDependenciesMeta:
     "@swc/helpers":
       optional: true
@@ -3379,7 +3379,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@swc/helpers@workspace:^, @swc/helpers@workspace:packages/helpers":
+"@swc/helpers@file:./packages/helpers::locator=%40swc%2Fworkspace%40workspace%3A.":
+  version: 0.5.11
+  resolution: "@swc/helpers@file:./packages/helpers#./packages/helpers::hash=9edce4&locator=%40swc%2Fworkspace%40workspace%3A."
+  dependencies:
+    tslib: "npm:^2.4.0"
+  checksum: c6dfbb82df36b6c5b1bbc85893594aa28d3e86775b96e7a0741ee7388630b2a80819695d473c07b86c77f09464fd677015fb08bae4759d34f0ca90f3eee1c635
+  languageName: node
+  linkType: hard
+
+"@swc/helpers@workspace:packages/helpers":
   version: 0.0.0-use.local
   resolution: "@swc/helpers@workspace:packages/helpers"
   dependencies:
@@ -3436,7 +3445,7 @@ __metadata:
     "@babel/preset-react": "npm:^7.13.13"
     "@babel/preset-typescript": "npm:^7.13.0"
     "@babel/types": "npm:^7.14.0"
-    "@swc/helpers": "workspace:^"
+    "@swc/helpers": ./packages/helpers
     "@swc/plugin-jest": "npm:^1.5.117"
     "@taplo/cli": "npm:^0.5.2"
     "@types/jest": "npm:^29.5.11"
