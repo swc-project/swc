@@ -63,7 +63,6 @@ fn init_helpers() -> Arc<PathBuf> {
         }
 
         let yarn = find_executable("yarn").expect("failed to find yarn");
-        let npm = find_executable("npm").expect("failed to find npm");
         {
             let mut cmd = if cfg!(target_os = "windows") {
                 let mut c = Command::new("cmd");
@@ -87,25 +86,6 @@ fn init_helpers() -> Arc<PathBuf> {
             };
             cmd.current_dir(&helper_dir).arg("build");
             let status = cmd.status().expect("failed to compile helper package");
-            assert!(status.success());
-        }
-
-        {
-            let mut cmd = if cfg!(target_os = "windows") {
-                let mut c = Command::new("cmd");
-                c.arg("/C").arg(&npm);
-                c
-            } else {
-                Command::new(&npm)
-            };
-            cmd.current_dir(&project_root)
-                .arg("install")
-                .arg("--no-save")
-                .arg("--no-package-lock")
-                .arg("./packages/helpers");
-            let status = cmd
-                .status()
-                .expect("failed to install helper package from root");
             assert!(status.success());
         }
 
