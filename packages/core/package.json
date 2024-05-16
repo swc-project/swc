@@ -95,6 +95,7 @@
         "@swc/types": "^0.1.7"
     },
     "devDependencies": {
+        "@napi-rs/cli": "^3.0.0-alpha.43",
         "typescript": "^5.3.3"
     }
 }
