@@ -156,6 +156,7 @@ jobs:
       - name: Install node dependencies
         shell: bash
         run: |
+          corepack enable
           yarn
 
       # Ensure that all components are compilable.
@@ -196,6 +197,7 @@ jobs:
       - name: Install node dependencies
         shell: bash
         run: |
+          corepack enable
           yarn
 
       - name: Build
@@ -620,6 +622,7 @@ jobs:
       - name: Install node dependencies
         shell: bash
         run: |
+          corepack enable
           yarn
           # I don't want to think deeply about this
           yarn global add jest@27 mocha || \
@@ -893,7 +896,9 @@ jobs:
 
       - name: Install node dependencies
         shell: bash
-        run: yarn
+        run: |
+          corepack enable
+          yarn
 
       - name: Print rustup toolchain version
         shell: bash
