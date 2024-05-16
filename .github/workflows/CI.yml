@@ -771,7 +771,7 @@ jobs:
           yarn
 
           yarn build:dev
-          yarn test
+          (cd packages/core && yarn test)
 
   integration-test:
     name: "Test with @swc/cli"
