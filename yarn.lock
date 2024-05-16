@@ -3363,6 +3363,7 @@ __metadata:
     "@napi-rs/cli": "npm:^3.0.0-alpha.43"
     "@swc/counter": "npm:^0.1.2"
     "@swc/types": "npm:^0.1.7"
+    cross-env: "npm:^7.0.3"
     typescript: "npm:^5.3.3"
   peerDependencies:
     "@swc/helpers": "*"
