@@ -104,6 +104,7 @@ impl Optimizer<'_> {
                 && usage.accessed_props.is_empty()
                 && !usage.is_infected()
                 && is_inline_enabled
+                && !usage.used_as_ref
             {
                 if let Expr::Array(arr) = init {
                     if arr.elems.len() < 32
