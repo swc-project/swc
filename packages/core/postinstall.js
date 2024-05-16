@@ -123,7 +123,7 @@ const validateBinary = () =>
                 process.env.INIT_CWD,
                 "package.json"
             ));
-            if (name === "@swc/core") {
+            if (name === "@swc/core" || name === "@swc/workspace") {
                 return;
             }
         } catch (_) {
