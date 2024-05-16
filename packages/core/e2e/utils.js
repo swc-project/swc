@@ -8,7 +8,7 @@ const getPkgRoot = (() => () => {
     let ret;
 
     if (!ret) {
-        ret = path.resolve(__dirname, "../../");
+        ret = path.resolve(__dirname, "..");
     }
     return ret;
 })();
