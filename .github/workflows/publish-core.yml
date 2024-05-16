@@ -116,7 +116,7 @@ jobs:
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine
             build: >-
               export JEMALLOC_SYS_WITH_LG_PAGE=16 &&
-              rustup toolchain install $(cat ./rust-toolchain) &&
+              rustup toolchain install $(cat ../../rust-toolchain) &&
               rustup target add aarch64-unknown-linux-musl &&
               RUSTFLAGS='-C target-feature=+crt-static -C link-arg=-lgcc' cargo build --manifest-path ../../bindings/swc_cli/Cargo.toml --release --features plugin --target aarch64-unknown-linux-musl &&
               rm -rf target/release/.cargo-lock &&
@@ -148,7 +148,7 @@ jobs:
       - name: Output toolchain
         id: toolchain
         shell: bash
-        run: echo "version=$(cat ./rust-toolchain)" >> "$GITHUB_OUTPUT"
+        run: echo "version=$(cat ../../rust-toolchain)" >> "$GITHUB_OUTPUT"
       - name: Install
         uses: dtolnay/rust-toolchain@stable
         if: ${{ !matrix.settings.docker }}
