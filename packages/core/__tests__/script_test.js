@@ -1,4 +1,4 @@
-const swc = require("../../");
+const swc = require("../");
 
 it("should handle script", () => {
     const script = swc.transformSync(`foo;`, { isModule: false });

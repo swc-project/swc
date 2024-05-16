@@ -1,4 +1,4 @@
-import swc from "../../..";
+import swc from "../..";
 
 it("should respect custom transform option", async () => {
     const { code } = await swc.transform(

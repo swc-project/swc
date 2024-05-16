@@ -1,5 +1,5 @@
-const swc = require("../../../");
-const Visitor = require("../../../Visitor").default;
+const swc = require("../../");
+const Visitor = require("../../Visitor").default;
 
 {
     const src = `

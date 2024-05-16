@@ -1,3 +1,3 @@
 it("should work", () => {
-    require("../../");
+    require("../");
 });

@@ -1,4 +1,4 @@
-import swc from "../..";
+import swc from "..";
 import path from "path";
 import { fileURLToPath } from "url";
 

@@ -1,5 +1,5 @@
 import path from "path";
-import swc from "../../..";
+import swc from "../..";
 import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url);

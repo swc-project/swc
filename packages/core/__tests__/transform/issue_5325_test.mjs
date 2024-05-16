@@ -1,4 +1,4 @@
-import swc from "../../..";
+import swc from "../..";
 
 it("should transpile decorators", async () => {
     const source = "`${100}testing`";

@@ -1,11 +1,11 @@
-const swc = require("../../../");
+const swc = require("../../");
 const path = require("path");
 
 it("should handle a simple case", async () => {
     const result = await swc.bundle({
         name: "simple",
         entry: {
-            simple: path.join(__dirname, "../../tests/spack/simple/a.js"),
+            simple: path.join(__dirname, "../tests/spack/simple/a.js"),
         },
     });
 
@@ -21,7 +21,7 @@ it("should handle loader", async () => {
     const result = await swc.bundle({
         name: "virtual",
         entry: {
-            simple: path.join(__dirname, "../../tests/spack/simple/a.js"),
+            simple: path.join(__dirname, "../tests/spack/simple/a.js"),
         },
         module: {
             rules: {

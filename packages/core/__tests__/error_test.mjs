@@ -1,6 +1,6 @@
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
-import * as swc from '../..';
+import * as swc from '..';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 

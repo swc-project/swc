@@ -1,4 +1,4 @@
-const swc = require("../../../");
+const swc = require("../../");
 
 it("should hoist methods", () => {
     const src = 'console.log("Hello"); jest.mock(); console.log("World")';

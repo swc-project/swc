@@ -1,4 +1,4 @@
-const swc = require("../../../");
+const swc = require("../../");
 
 it("should work without parser.syntax", () => {
     const out = swc.transformSync(

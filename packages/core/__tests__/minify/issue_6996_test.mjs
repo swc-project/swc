@@ -1,4 +1,4 @@
-import swc from "../../..";
+import swc from "../..";
 
 it("should not throw when keep_fnames is on", async () => {
     async function transform() {

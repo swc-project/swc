@@ -1,6 +1,6 @@
-import swc from "../..";
+import swc from "..";
 import path from "path";
-import {fileURLToPath} from "url";
+import { fileURLToPath } from "url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -23,7 +23,7 @@ describe("Should preserve comments", () => {
             __dirname + "/../tests/issue-2964/input1.ts"
         );
 
-        const {code} = swc.transformFileSync(filename);
+        const { code } = swc.transformFileSync(filename);
 
         expect(code).toContain("/* input 1 comment 1 */ \"use strict\"")
         expect(code).toContain(`// input 1 comment 2\nvar saysHello =`)

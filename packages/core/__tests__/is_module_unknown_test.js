@@ -1,4 +1,4 @@
-const swc = require("../../");
+const swc = require("../");
 
 it("should detect script", () => {
     const script = swc.parseSync(`const fs = require('fs');`, {

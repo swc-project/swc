@@ -1,4 +1,4 @@
-import swc from "../../..";
+import swc from "../..";
 
 describe("when jsc.experimentalDisableBuiltinTransforms is true", () => {
     it("should preserve TypeScript", async () => {

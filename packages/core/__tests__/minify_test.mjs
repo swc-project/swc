@@ -1,4 +1,4 @@
-import swc from "../..";
+import swc from "..";
 
 it("should compress", async () => {
     const { code } = await swc.minify(

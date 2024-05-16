@@ -1,4 +1,4 @@
-const swc = require("../../../");
+const swc = require("../../");
 const path = require("path");
 
 it("should handle minify", () => {
@@ -174,9 +174,7 @@ it("should respect `error.filename = false`", async () => {
 });
 
 it("should support overring `jsc.externalHelpers` using js api", async () => {
-    const filename = path.resolve(
-        __dirname + "/../../tests/issue-3834/input.js"
-    );
+    const filename = path.resolve(__dirname + "/../tests/issue-3834/input.js");
 
     const { code } = await swc.transformFile(filename, {
         jsc: {

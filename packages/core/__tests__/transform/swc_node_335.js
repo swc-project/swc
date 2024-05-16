@@ -1,4 +1,4 @@
-const swc = require("../../..");
+const swc = require("../..");
 
 it("should handle es2019", () => {
     expect(

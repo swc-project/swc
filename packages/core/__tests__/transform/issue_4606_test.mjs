@@ -1,4 +1,4 @@
-import swc from "../../..";
+import swc from "../..";
 import { dirname, join } from "path";
 import { platform } from "os";
 import { fileURLToPath } from "url";

@@ -1,4 +1,4 @@
-const swc = require("../../");
+const swc = require("../");
 
 it("should emit _interop_require_default", () => {
     const out = swc.transformSync(`import foo from "foo"`, {

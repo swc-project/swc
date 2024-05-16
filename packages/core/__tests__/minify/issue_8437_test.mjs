@@ -1,7 +1,7 @@
-import swc from "../../..";
+import swc from "../..";
 
 it("should output same result", async () => {
-    const origin = `
+  const origin = `
 function toFixed(value, maxDecimals, roundingFunction, optionals) {
     var splitValue = value.toString().split('.'),
         minDecimals = maxDecimals - (optionals || 0),
@@ -34,28 +34,28 @@ function toFixed(value, maxDecimals, roundingFunction, optionals) {
 toFixed(1.2345, 2, Math.round, 1);
     `
 
-    async function minify() {
-        const { code } = await swc.minify(origin, {
-            compress: true,
-            mangle: false
-          });
-        return code;
-    }
+  async function minify() {
+    const { code } = await swc.minify(origin, {
+      compress: true,
+      mangle: false
+    });
+    return code;
+  }
 
-    async function transform() {
-        const { code } = await swc.transform(origin, {
-          jsc: {
-            minify: {
-                compress: true,
-                mangle: false
-            },
-          },
-          isModule: false,
-          minify: true
-        });
-        return code;
-    }
+  async function transform() {
+    const { code } = await swc.transform(origin, {
+      jsc: {
+        minify: {
+          compress: true,
+          mangle: false
+        },
+      },
+      isModule: false,
+      minify: true
+    });
+    return code;
+  }
 
-    const [minifyResult, transformResult] = await Promise.all([minify(), transform()]);
-    expect(minifyResult).toEqual(transformResult);
+  const [minifyResult, transformResult] = await Promise.all([minify(), transform()]);
+  expect(minifyResult).toEqual(transformResult);
 });

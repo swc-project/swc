@@ -1,4 +1,4 @@
-const swc = require("../../../");
+const swc = require("../../");
 
 it("should perform dce", () => {
     const out = swc.transformSync(
