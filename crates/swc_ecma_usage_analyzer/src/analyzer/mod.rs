@@ -217,6 +217,14 @@ where
 {
     noop_visit_type!();
 
+    fn visit_array_lit(&mut self, n: &ArrayLit) {
+        let ctx = Ctx {
+            is_id_ref: true,
+            ..self.ctx
+        };
+        n.visit_children_with(&mut *self.with_ctx(ctx));
+    }
+
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_arrow_expr(&mut self, n: &ArrowExpr) {
         self.with_child(n.span.ctxt, ScopeKind::Fn, |child| {
