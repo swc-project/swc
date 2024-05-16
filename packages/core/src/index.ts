@@ -40,7 +40,7 @@ const bindings: typeof import("../binding") = (() => {
 /**
  * Version of the swc binding.
  */
-export const version: string = require("./package.json").version;
+export const version: string = require("../package.json").version;
 
 /**
  * @deprecated JavaScript API is deprecated. Please use Wasm plugin instead.
