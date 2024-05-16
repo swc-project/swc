@@ -47,7 +47,7 @@
     "types": "./src/index.d.ts",
     "scripts": {
         "changelog": "git cliff --output CHANGELOG.md",
-        "postinstall": "node src/postinstall.js",
+        "postinstall": "node postinstall.js",
         "artifacts": "napi artifacts --npm-dir scripts/npm",
         "prepublishOnly": "tsc -d && napi prepublish -p scripts/npm --tag-style npm",
         "pack": "wasm-pack",
