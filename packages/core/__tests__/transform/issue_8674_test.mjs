@@ -5,7 +5,7 @@ import swc from "../..";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 it("should transpile import path correctly", async () => {
-    const baseUrl = path.resolve(__dirname, "../tests/issue-8674");
+    const baseUrl = path.resolve(__dirname, "/../../tests/issue-8674");
     console.log("baseUrl", baseUrl);
     process.chdir(baseUrl);
 
