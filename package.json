@@ -16,7 +16,7 @@
         "tsc"
     ],
     "engines": {
-        "node": ">=10"
+        "node": ">=14"
     },
     "repository": {
         "type": "git",
