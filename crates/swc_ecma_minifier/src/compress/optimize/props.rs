@@ -44,6 +44,10 @@ impl Optimizer<'_> {
                 return None;
             }
 
+            if !self.may_add_ident() {
+                return None;
+            }
+
             // If a variable is initialized multiple time, we currently don't do anything
             // smart.
             let usage = self.data.vars.get(&name.to_id())?;
