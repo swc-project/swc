@@ -201,6 +201,7 @@ jobs:
             npm i -g wasm-pack &&
             ${{ matrix.settings.build }}
       - name: Build
+        working-directory: ./packages/core
         if: ${{ !matrix.settings.docker }}
         run: ${{ matrix.settings.build }}
         shell: bash
