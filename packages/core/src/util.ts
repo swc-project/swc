@@ -13,7 +13,7 @@ export function wrapNativeSuper(Class) {
             if (_cache.has(Class)) return _cache.get(Class);
             _cache.set(Class, Wrapper);
         }
-        function Wrapper() {
+        function Wrapper(this: any) {
             //@ts-ignore
             return _construct(
                 Class,
@@ -89,7 +89,7 @@ function _setPrototypeOf(o, p) {
 }
 
 //@ts-ignore
-function _getPrototypeOf(o) {
+function _getPrototypeOf(o): any {
     //@ts-ignore
     _getPrototypeOf = Object.setPrototypeOf
         ? Object.getPrototypeOf
