@@ -45,7 +45,7 @@ const validateBinary = async () => {
     // For now, it is considered as deliberate decision.
     let binding;
     try {
-        binding = require("./binding");
+        binding = require("./src/binding");
 
         // Check if binding binary actually works.
         // For the latest version, checks target triple. If it's old version doesn't have target triple, use parseSync instead.
