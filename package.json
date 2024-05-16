@@ -3,7 +3,7 @@
     "packageManager": "yarn@4.0.2",
     "private": true,
     "workspaces": [
-        "./pacakges/*"
+        "./packages/*"
     ],
     "scripts": {
         "prepare": "husky install && git config feature.manyFiles true && node ./crates/swc_ecma_preset_env/scripts/copy-data.js",
