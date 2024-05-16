@@ -1,9 +1,10 @@
 use std::{
-    env, fmt,
-    fmt::{Debug, Display, Formatter},
+    env,
+    fmt::{self, Debug, Display, Formatter},
     fs::{create_dir_all, rename, File},
     io::Write,
     path::{Component, Path, PathBuf},
+    process::Command,
     str::FromStr,
     sync::RwLock,
     thread,
@@ -60,7 +61,7 @@ pub fn find_executable(name: &str) -> Option<PathBuf> {
         }
     }
 
-    let path = env::var_os("PATH").and_then(|paths| {
+    let mut path = env::var_os("PATH").and_then(|paths| {
         env::split_paths(&paths)
             .filter_map(|dir| {
                 let full_path = dir.join(name);
@@ -72,6 +73,28 @@ pub fn find_executable(name: &str) -> Option<PathBuf> {
             })
             .next()
     });
+
+    if path.is_none() {
+        // Run yarn bin $name
+
+        path = Command::new("yarn")
+            .arg("bin")
+            .arg(name)
+            .output()
+            .ok()
+            .and_then(|output| {
+                if output.status.success() {
+                    let path = String::from_utf8(output.stdout).ok()?;
+                    let path = path.trim();
+                    let path = PathBuf::from(path);
+                    if path.is_file() {
+                        return Some(path);
+                    }
+                }
+
+                None
+            });
+    }
 
     if let Some(path) = path.clone() {
         let mut locked = CACHE.write().unwrap();
