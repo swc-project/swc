@@ -148,7 +148,7 @@ jobs:
       - name: Output toolchain
         id: toolchain
         shell: bash
-        run: echo "version=$(cat ../../rust-toolchain)" >> "$GITHUB_OUTPUT"
+        run: echo "version=$(cat ./rust-toolchain)" >> "$GITHUB_OUTPUT"
       - name: Install
         uses: dtolnay/rust-toolchain@stable
         if: ${{ !matrix.settings.docker }}
