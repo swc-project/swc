@@ -201,6 +201,7 @@ jobs:
           image: ${{ matrix.settings.docker }}
           options: -v ${{ env.HOME }}/.cargo/git:/root/.cargo/git -v ${{ env.HOME }}/.cargo/registry:/root/.cargo/registry -v ${{ github.workspace }}:/build -w /build
           run: >-
+            cd ./packages/core &&
             corepack enable &&
             npm i -g wasm-pack &&
             ${{ matrix.settings.build }}
