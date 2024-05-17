@@ -235,6 +235,8 @@ jobs:
     runs-on: ${{ matrix.settings.host }}
     steps:
       - uses: actions/checkout@v4
+      - run: corepack enable
+        shell: bash
       - name: Setup node
         uses: actions/setup-node@v4
         with:
@@ -242,7 +244,7 @@ jobs:
           cache: yarn
           architecture: x64
       - name: Install dependencies
-        run: yarn install --ignore-scripts --registry https://registry.npmjs.org --network-timeout 300000
+        run: corepack enable && yarn install --ignore-scripts --registry https://registry.npmjs.org --network-timeout 300000
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
@@ -277,7 +279,7 @@ jobs:
           node-version: ${{ matrix.node }}
           cache: yarn
       - name: Install dependencies
-        run: yarn install
+        run: corepack enable && yarn install
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
@@ -304,6 +306,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - run: corepack enable
+        shell: bash
       - name: Setup node
         uses: actions/setup-node@v4
         with:
@@ -311,6 +315,7 @@ jobs:
           cache: yarn
       - name: Install dependencies
         run: |
+          corepack enable
           yarn config set supportedArchitectures.libc "musl"
           yarn install
       - name: Download artifacts
@@ -345,6 +350,7 @@ jobs:
         shell: bash
       - name: Install dependencies
         run: |
+          corepack enable
           yarn config set supportedArchitectures.cpu "arm64"
           yarn config set supportedArchitectures.libc "musl"
           yarn install
@@ -390,6 +396,7 @@ jobs:
         shell: bash
       - name: Install dependencies
         run: |
+          corepack enable
           yarn config set supportedArchitectures.cpu "arm"
           yarn install
       - name: Build TypeScript
@@ -440,7 +447,7 @@ jobs:
         run: echo "NPM_TAG=nightly" >> $GITHUB_ENV
 
       - name: Install dependencies
-        run: yarn install
+        run: corepack enable && yarn install
 
       - name: Download all artifacts
         uses: actions/download-artifact@v3
