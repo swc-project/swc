@@ -454,10 +454,10 @@ jobs:
       - name: Download all artifacts
         uses: actions/download-artifact@v3
         with:
-          path: artifacts
+          path: ./packages/core/artifacts
 
       - name: List binaries
-        run: ls -R artifacts
+        run: ls -R ./packages/core/artifacts
         shell: bash
 
       - name: Move binaries
