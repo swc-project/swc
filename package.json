@@ -9,7 +9,8 @@
         "prepare": "husky install && git config feature.manyFiles true && node ./crates/swc_ecma_preset_env/scripts/copy-data.js",
         "build": "cd ./packages/core && yarn build",
         "build:dev": "cd ./packages/core && yarn build:dev",
-        "build:ts": "cd ./packages/core && yarn build:ts"
+        "build:ts": "cd ./packages/core && yarn build:ts",
+        "test": "cd ./packages/core && yarn test"
     },
     "devDependencies": {
         "@babel/compat-data": "^7.23.2",
