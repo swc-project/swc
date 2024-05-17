@@ -462,6 +462,7 @@ jobs:
 
       - name: Move binaries
         shell: bash
+        working-directory: ./packages/core
         run: |
           ./scripts/cli_artifacts.sh
           ls -R ./artifacts_cli
