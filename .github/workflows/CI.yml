@@ -770,8 +770,15 @@ jobs:
           corepack enable
           yarn
 
+      - name: Build
+        working-directory: packages/core
+        run: |
           yarn build:dev
-          (cd packages/core && yarn test)
+
+      - name: Test
+        working-directory: packages/core
+        run: |
+          yarn test
 
   integration-test:
     name: "Test with @swc/cli"
