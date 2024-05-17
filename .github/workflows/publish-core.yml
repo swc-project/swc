@@ -254,8 +254,10 @@ jobs:
         run: ls -R .
         shell: bash
       - name: Build TypeScript
+        working-directory: ./packages/core
         run: yarn build:ts
       - name: Test bindings
+        working-directory: ./packages/core
         run: yarn test
   test-linux-x64-gnu-binding:
     if: ${{ startsWith(github.ref, 'refs/tags/v') || startsWith(github.ref, 'refs/heads/ci') }}
