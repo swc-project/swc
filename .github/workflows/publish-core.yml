@@ -244,7 +244,7 @@ jobs:
           cache: yarn
           architecture: x64
       - name: Install dependencies
-        run: corepack enable && yarn install --ignore-scripts --registry https://registry.npmjs.org --network-timeout 300000
+        run: corepack enable && yarn install --network-timeout 300000
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
