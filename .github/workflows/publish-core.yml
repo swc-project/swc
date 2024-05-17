@@ -470,6 +470,7 @@ jobs:
 
       - name: List npm
         run: ls -R ./scripts/npm
+        working-directory: ./packages/core
         shell: bash
 
       - name: Set fallback dependencies
