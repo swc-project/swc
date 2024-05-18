@@ -5510,7 +5510,7 @@ checksum = "3369f5ac52d5eb6ab48c6b4ffdc8efbcad6b89c765749064ba298f2c68a16a76"
 
 [[package]]
 name = "testing"
-version = "0.35.24"
+version = "0.35.25"
 dependencies = [
  "ansi_term",
  "cargo_metadata 0.15.4",
