@@ -1,5 +1,0 @@
-
-
-it('should work', () => {
-    require('../../')
-})

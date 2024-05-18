@@ -1,5 +1,8 @@
 name: Publish (core)
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+
 env:
   DEBUG: napi:*
   APP_NAME: swc
@@ -34,8 +37,8 @@ jobs:
           - host: macos-latest
             target: x86_64-apple-darwin
             build: |
-              cargo build --manifest-path ./bindings/swc_cli/Cargo.toml --release --features plugin --target x86_64-apple-darwin
-              cp ./bindings/target/x86_64-apple-darwin/release/swc .
+              cargo build --manifest-path ../../bindings/swc_cli/Cargo.toml --release --features plugin --target x86_64-apple-darwin
+              cp ../../bindings/target/x86_64-apple-darwin/release/swc .
               chmod +x ./swc
               yarn build --target x86_64-apple-darwin
               strip -x *.node
@@ -43,16 +46,16 @@ jobs:
             build: |
               export CARGO_PROFILE_RELEASE_LTO=false
               yarn build --target x86_64-pc-windows-msvc
-              cargo build --manifest-path ./bindings/swc_cli/Cargo.toml --release --features plugin --target x86_64-pc-windows-msvc
-              cp ./bindings/target/x86_64-pc-windows-msvc/release/swc .
+              cargo build --manifest-path ../../bindings/swc_cli/Cargo.toml --release --features plugin --target x86_64-pc-windows-msvc
+              cp ../../bindings/target/x86_64-pc-windows-msvc/release/swc .
             target: x86_64-pc-windows-msvc
           - host: windows-latest
             # use npm to run test, because of corepack link the yarn with x64 Node.js
             build: |
               export DISABLE_PLUGIN_E2E_TESTS=true
               export CARGO_PROFILE_RELEASE_LTO=false
-              cargo build --manifest-path ./bindings/swc_cli/Cargo.toml --release --target i686-pc-windows-msvc
-              cp bindings/target/i686-pc-windows-msvc/release/swc .
+              cargo build --manifest-path ../../bindings/swc_cli/Cargo.toml --release --target i686-pc-windows-msvc
+              cp ../../bindings/target/i686-pc-windows-msvc/release/swc .
               yarn build --target i686-pc-windows-msvc --no-default-features --features swc_v1
               npm run test
             target: i686-pc-windows-msvc
@@ -61,9 +64,9 @@ jobs:
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-debian
             build: >-
               set -e &&
-              unset CC_x86_64_unknown_linux_gnu && unset CC && RUSTFLAGS='-C target-feature=+sse2' cargo build --manifest-path ./bindings/swc_cli/Cargo.toml --release --features plugin --target x86_64-unknown-linux-gnu &&
-              rm -rf bindings/target/target/x86_64-unknown-linux-gnu/release/.cargo-lock &&
-              cp bindings/target/x86_64-unknown-linux-gnu/release/swc . && chmod +x ./swc &&
+              unset CC_x86_64_unknown_linux_gnu && unset CC && RUSTFLAGS='-C target-feature=+sse2' cargo build --manifest-path ../../bindings/swc_cli/Cargo.toml --release --features plugin --target x86_64-unknown-linux-gnu &&
+              rm -rf ../../bindings/target/target/x86_64-unknown-linux-gnu/release/.cargo-lock &&
+              cp ../../bindings/target/x86_64-unknown-linux-gnu/release/swc . && chmod +x ./swc &&
               yarn build --target x86_64-unknown-linux-gnu
           - host: ubuntu-latest
             target: x86_64-unknown-linux-musl
@@ -72,9 +75,9 @@ jobs:
             build: >-
               set -e &&
               export CARGO_PROFILE_RELEASE_LTO=false &&
-              RUSTFLAGS='-C target-feature=+sse2' cargo build --manifest-path ./bindings/swc_cli/Cargo.toml --release --features plugin --target x86_64-unknown-linux-musl &&
+              RUSTFLAGS='-C target-feature=+sse2' cargo build --manifest-path ../../bindings/swc_cli/Cargo.toml --release --features plugin --target x86_64-unknown-linux-musl &&
               rm -rf target/release/.cargo-lock &&
-              cp bindings/target/x86_64-unknown-linux-musl/release/swc . && chmod +x ./swc &&
+              cp ../../bindings/target/x86_64-unknown-linux-musl/release/swc . && chmod +x ./swc &&
               RUSTFLAGS='-C target-feature=+sse2 -C target-feature=-crt-static' yarn build --target x86_64-unknown-linux-musl
           - host: macos-latest
             target: aarch64-apple-darwin
@@ -84,8 +87,8 @@ jobs:
               export CXX=$(xcrun -f clang++);
               SYSROOT=$(xcrun --sdk macosx --show-sdk-path);
               export CFLAGS="-isysroot $SYSROOT -isystem $SYSROOT";
-              cargo build --manifest-path ./bindings/swc_cli/Cargo.toml --release --features plugin --target aarch64-apple-darwin
-              cp ./bindings/target/aarch64-apple-darwin/release/swc .
+              cargo build --manifest-path ../../bindings/swc_cli/Cargo.toml --release --features plugin --target aarch64-apple-darwin
+              cp ../../bindings/target/aarch64-apple-darwin/release/swc .
               chmod +x ./swc
               yarn build --target aarch64-apple-darwin
           - host: ubuntu-latest
@@ -95,15 +98,15 @@ jobs:
               set -e &&
               export JEMALLOC_SYS_WITH_LG_PAGE=16 &&
               rustup target add aarch64-unknown-linux-gnu &&
-              RUSTFLAGS='' cargo build --manifest-path ./bindings/swc_cli/Cargo.toml --release --features plugin --target aarch64-unknown-linux-gnu &&
-              cp ./bindings/target/aarch64-unknown-linux-gnu/release/swc . && chmod +x ./swc &&
+              RUSTFLAGS='' cargo build --manifest-path ../../bindings/swc_cli/Cargo.toml --release --features plugin --target aarch64-unknown-linux-gnu &&
+              cp ../../bindings/target/aarch64-unknown-linux-gnu/release/swc . && chmod +x ./swc &&
               export CC_aarch64_unknown_linux_gnu=/usr/aarch64-unknown-linux-gnu/bin/aarch64-unknown-linux-gnu-gcc &&
               yarn build --target aarch64-unknown-linux-gnu
           - host: ubuntu-latest
             target: armv7-unknown-linux-gnueabihf
             build: |
               export DISABLE_PLUGIN_E2E_TESTS=true
-              yarn napi build --bin swc --release --target armv7-unknown-linux-gnueabihf --manifest-path ./bindings/swc_cli/Cargo.toml -x --target-dir ../release -o .
+              yarn napi build --bin swc --release --target armv7-unknown-linux-gnueabihf --manifest-path ../../bindings/swc_cli/Cargo.toml -x --target-dir ../release -o .
               chmod +x ./swc
               yarn build --target armv7-unknown-linux-gnueabihf --no-default-features --features swc_v1 --use-napi-cross
           - host: ubuntu-latest
@@ -112,11 +115,11 @@ jobs:
             docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine
             build: >-
               export JEMALLOC_SYS_WITH_LG_PAGE=16 &&
-              rustup toolchain install $(cat ./rust-toolchain) &&
+              rustup toolchain install $(cat ../../rust-toolchain) &&
               rustup target add aarch64-unknown-linux-musl &&
-              RUSTFLAGS='-C target-feature=+crt-static -C link-arg=-lgcc' cargo build --manifest-path ./bindings/swc_cli/Cargo.toml --release --features plugin --target aarch64-unknown-linux-musl &&
+              RUSTFLAGS='-C target-feature=+crt-static -C link-arg=-lgcc' cargo build --manifest-path ../../bindings/swc_cli/Cargo.toml --release --features plugin --target aarch64-unknown-linux-musl &&
               rm -rf target/release/.cargo-lock &&
-              cp bindings/target/aarch64-unknown-linux-musl/release/swc . && chmod +x ./swc &&
+              cp ../../bindings/target/aarch64-unknown-linux-musl/release/swc . && chmod +x ./swc &&
               env RUSTFLAGS='-C target-feature=-crt-static' yarn build --target=aarch64-unknown-linux-musl
           - host: windows-latest
             target: aarch64-pc-windows-msvc
@@ -125,8 +128,8 @@ jobs:
               export DISABLE_PLUGIN_E2E_TESTS=true
               export CARGO_PROFILE_RELEASE_CODEGEN_UNITS=256
               export CARGO_PROFILE_RELEASE_LTO=false
-              cargo build --manifest-path ./bindings/swc_cli/Cargo.toml --release --target aarch64-pc-windows-msvc
-              cp bindings/target/aarch64-pc-windows-msvc/release/swc.exe .
+              cargo build --manifest-path ../../bindings/swc_cli/Cargo.toml --release --target aarch64-pc-windows-msvc
+              cp ../../bindings/target/aarch64-pc-windows-msvc/release/swc.exe .
               yarn build --target aarch64-pc-windows-msvc --no-default-features --features swc_v1
     name: stable - ${{ matrix.settings.target }} - node@20
     runs-on: ${{ matrix.settings.host }}
@@ -197,10 +200,12 @@ jobs:
           image: ${{ matrix.settings.docker }}
           options: -v ${{ env.HOME }}/.cargo/git:/root/.cargo/git -v ${{ env.HOME }}/.cargo/registry:/root/.cargo/registry -v ${{ github.workspace }}:/build -w /build
           run: >-
+            cd ./packages/core &&
             corepack enable &&
             npm i -g wasm-pack &&
             ${{ matrix.settings.build }}
       - name: Build
+        working-directory: ./packages/core
         if: ${{ !matrix.settings.docker }}
         run: ${{ matrix.settings.build }}
         shell: bash
@@ -209,7 +214,7 @@ jobs:
         with:
           name: bindings-${{ matrix.settings.target }}
           path: |
-            swc*
+            packages/core/swc*
           if-no-files-found: error
   test-macOS-windows-binding:
     if: ${{ startsWith(github.ref, 'refs/tags/v') || startsWith(github.ref, 'refs/heads/ci') }}
@@ -230,6 +235,8 @@ jobs:
     runs-on: ${{ matrix.settings.host }}
     steps:
       - uses: actions/checkout@v4
+      - run: corepack enable
+        shell: bash
       - name: Setup node
         uses: actions/setup-node@v4
         with:
@@ -237,18 +244,20 @@ jobs:
           cache: yarn
           architecture: x64
       - name: Install dependencies
-        run: yarn install --ignore-scripts --registry https://registry.npmjs.org --network-timeout 300000
+        run: corepack enable && yarn install --network-timeout 300000
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
           name: bindings-${{ matrix.settings.target }}
-          path: .
+          path: ./packages/core
       - name: List packages
         run: ls -R .
         shell: bash
       - name: Build TypeScript
+        working-directory: ./packages/core
         run: yarn build:ts
       - name: Test bindings
+        working-directory: ./packages/core
         run: yarn test
   test-linux-x64-gnu-binding:
     if: ${{ startsWith(github.ref, 'refs/tags/v') || startsWith(github.ref, 'refs/heads/ci') }}
@@ -272,12 +281,12 @@ jobs:
           node-version: ${{ matrix.node }}
           cache: yarn
       - name: Install dependencies
-        run: yarn install
+        run: corepack enable && yarn install
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
           name: bindings-x86_64-unknown-linux-gnu
-          path: .
+          path: ./packages/core
       - name: List packages
         run: ls -R .
         shell: bash
@@ -299,6 +308,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - run: corepack enable
+        shell: bash
       - name: Setup node
         uses: actions/setup-node@v4
         with:
@@ -306,13 +317,14 @@ jobs:
           cache: yarn
       - name: Install dependencies
         run: |
+          corepack enable
           yarn config set supportedArchitectures.libc "musl"
           yarn install
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
           name: bindings-x86_64-unknown-linux-musl
-          path: .
+          path: ./packages/core
       - name: List packages
         run: ls -R .
         shell: bash
@@ -334,12 +346,13 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: bindings-aarch64-unknown-linux-musl
-          path: .
+          path: ./packages/core
       - name: List packages
         run: ls -R .
         shell: bash
       - name: Install dependencies
         run: |
+          corepack enable
           yarn config set supportedArchitectures.cpu "arm64"
           yarn config set supportedArchitectures.libc "musl"
           yarn install
@@ -379,12 +392,13 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: bindings-armv7-unknown-linux-gnueabihf
-          path: .
+          path: ./packages/core
       - name: List packages
         run: ls -R .
         shell: bash
       - name: Install dependencies
         run: |
+          corepack enable
           yarn config set supportedArchitectures.cpu "arm"
           yarn install
       - name: Build TypeScript
@@ -435,19 +449,20 @@ jobs:
         run: echo "NPM_TAG=nightly" >> $GITHUB_ENV
 
       - name: Install dependencies
-        run: yarn install
+        run: corepack enable && yarn install
 
       - name: Download all artifacts
         uses: actions/download-artifact@v3
         with:
-          path: artifacts
+          path: ./packages/core/artifacts
 
       - name: List binaries
-        run: ls -R artifacts
+        run: ls -R ./packages/core/artifacts
         shell: bash
 
       - name: Move binaries
         shell: bash
+        working-directory: ./packages/core
         run: |
           ./scripts/cli_artifacts.sh
           ls -R ./artifacts_cli
@@ -455,6 +470,7 @@ jobs:
 
       - name: List npm
         run: ls -R ./scripts/npm
+        working-directory: ./packages/core
         shell: bash
 
       - name: Set fallback dependencies

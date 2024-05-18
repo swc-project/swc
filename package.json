@@ -1,86 +1,16 @@
 {
-    "name": "@swc/core",
-    "version": "1.5.8-nightly-20240516.2",
-    "description": "Super-fast alternative for babel",
-    "homepage": "https://swc.rs",
-    "main": "./index.js",
-    "author": "강동윤 <kdy1997.dev@gmail.com>",
-    "license": "Apache-2.0",
-    "keywords": [
-        "swc",
-        "swcpack",
-        "babel",
-        "typescript",
-        "rust",
-        "webpack",
-        "tsc"
+    "name": "@swc/workspace",
+    "packageManager": "yarn@4.0.2",
+    "private": true,
+    "workspaces": [
+        "./packages/*"
     ],
-    "engines": {
-        "node": ">=10"
-    },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/swc-project/swc.git"
-    },
-    "bugs": {
-        "url": "https://github.com/swc-project/swc/issues"
-    },
-    "napi": {
-        "binaryName": "swc",
-        "targets": [
-            "x86_64-apple-darwin",
-            "x86_64-pc-windows-msvc",
-            "x86_64-unknown-linux-gnu",
-            "x86_64-unknown-linux-musl",
-            "i686-pc-windows-msvc",
-            "armv7-unknown-linux-gnueabihf",
-            "aarch64-unknown-linux-gnu",
-            "aarch64-apple-darwin",
-            "aarch64-unknown-linux-musl",
-            "aarch64-pc-windows-msvc"
-        ]
-    },
-    "publishConfig": {
-        "registry": "https://registry.npmjs.org/",
-        "access": "public"
-    },
-    "types": "./index.d.ts",
     "scripts": {
-        "changelog": "git cliff --output CHANGELOG.md",
-        "setup": "husky install && git config feature.manyFiles true && node ./crates/swc_ecma_preset_env/scripts/copy-data.js",
-        "postinstall": "node postinstall.js",
-        "artifacts": "napi artifacts --npm-dir scripts/npm",
-        "prepublishOnly": "tsc -d && napi prepublish -p scripts/npm --tag-style npm",
-        "pack": "wasm-pack",
-        "build:ts": "tsc -d",
-        "build:wasm": "npm-run-all \"pack -- build ./bindings/binding_core_wasm --scope swc {1} -t {2} --features plugin\" --",
-        "build": "tsc -d && napi build --manifest-path bindings/Cargo.toml --platform -p binding_core_node --js ./node-swc/src/binding.js --dts ./node-swc/src/binding.d.ts --release -o .",
-        "build:dev": "tsc -d && napi build --manifest-path bindings/Cargo.toml --platform -p binding_core_node --js ./node-swc/src/binding.js --dts ./node-swc/src/binding.d.ts -o .",
-        "test": "cross-env NODE_OPTIONS='--experimental-vm-modules' jest --config ./node-swc/jest.config.js",
-        "version": "napi version --npm-dir scripts/npm"
-    },
-    "lint-staged": {
-        "*.toml": [
-            "taplo format"
-        ],
-        "*.rs": [
-            "rustfmt --"
-        ],
-        "*.json": [
-            "prettier --write"
-        ],
-        "!(**/tests/**/*)*.js": [
-            "prettier --write"
-        ],
-        "!(**/tests/**/*)*.ts": [
-            "prettier --write"
-        ],
-        "!(**/tests/**/*)*.jsx": [
-            "prettier --write"
-        ],
-        "!(**/tests/**/*)*.tsx": [
-            "prettier --write"
-        ]
+        "prepare": "husky install && git config feature.manyFiles true && node ./crates/swc_ecma_preset_env/scripts/copy-data.js",
+        "build": "cd ./packages/core && yarn build",
+        "build:dev": "cd ./packages/core && yarn build:dev",
+        "build:ts": "cd ./packages/core && yarn build:ts",
+        "test": "cd ./packages/core && yarn test"
     },
     "devDependencies": {
         "@babel/compat-data": "^7.23.2",
@@ -93,9 +23,7 @@
         "@babel/preset-react": "^7.13.13",
         "@babel/preset-typescript": "^7.13.0",
         "@babel/types": "^7.14.0",
-        "@napi-rs/cli": "^3.0.0-alpha.43",
-        "@swc/core": "=1.2.220",
-        "@swc/helpers": "^0.5.0",
+        "@swc/helpers": "workspace:^",
         "@swc/plugin-jest": "^1.5.117",
         "@taplo/cli": "^0.5.2",
         "@types/jest": "^29.5.11",
@@ -135,41 +63,27 @@
         "ts-node": "^10.5.0",
         "typescript": "^5.3.3"
     },
-    "peerDependencies": {
-        "@swc/helpers": "^0.5.0"
-    },
-    "peerDependenciesMeta": {
-        "@swc/helpers": {
-            "optional": true
-        }
-    },
-    "funding": {
-        "type": "opencollective",
-        "url": "https://opencollective.com/swc"
-    },
-    "files": [
-        "CHANGELOG.md",
-        "Visitor.d.ts",
-        "index.d.ts",
-        "spack.js",
-        "util.d.ts",
-        "LICENSE",
-        "Visitor.js",
-        "binding.d.ts",
-        "index.js",
-        "types.d.ts",
-        "util.js",
-        "README.md",
-        "binding.js",
-        "package.json",
-        "spack.d.ts",
-        "types.js",
-        "postinstall.js",
-        "bindings/binding_core_wasm/pkg/binding_core_wasm.d.ts"
-    ],
-    "packageManager": "yarn@4.1.1",
-    "dependencies": {
-        "@swc/counter": "^0.1.2",
-        "@swc/types": "0.1.7"
+    "lint-staged": {
+        "*.toml": [
+            "taplo format"
+        ],
+        "*.rs": [
+            "rustfmt --"
+        ],
+        "*.json": [
+            "prettier --write"
+        ],
+        "!(**/tests/**/*)*.js": [
+            "prettier --write"
+        ],
+        "!(**/tests/**/*)*.ts": [
+            "prettier --write"
+        ],
+        "!(**/tests/**/*)*.jsx": [
+            "prettier --write"
+        ],
+        "!(**/tests/**/*)*.tsx": [
+            "prettier --write"
+        ]
     }
 }

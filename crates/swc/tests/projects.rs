@@ -1141,7 +1141,7 @@ fn issue_8674_1() {
 
     let base_url = current_dir()
         .unwrap()
-        .join("../../node-swc/tests/issue-8674")
+        .join("../../packages/core/tests/issue-8674")
         .canonicalize()
         .unwrap();
 

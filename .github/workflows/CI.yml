@@ -146,6 +146,8 @@ jobs:
           # toolchain: stable
           # override: true
 
+      - run: corepack enable
+
       - uses: actions/setup-node@v4
         with:
           node-version: "18"
@@ -154,6 +156,7 @@ jobs:
       - name: Install node dependencies
         shell: bash
         run: |
+          corepack enable
           yarn
 
       # Ensure that all components are compilable.
@@ -167,6 +170,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      - shell: bash
+        run: corepack enable
 
       # We explicitly do this to cache properly.
       - uses: actions-rs/toolchain@v1
@@ -191,6 +197,7 @@ jobs:
       - name: Install node dependencies
         shell: bash
         run: |
+          corepack enable
           yarn
 
       - name: Build
@@ -589,6 +596,8 @@ jobs:
         with:
           submodules: true
 
+      - run: corepack enable
+
       # Source map format
       - uses: actions/setup-node@v4
         with:
@@ -613,6 +622,7 @@ jobs:
       - name: Install node dependencies
         shell: bash
         run: |
+          corepack enable
           yarn
           # I don't want to think deeply about this
           yarn global add jest@27 mocha || \
@@ -633,7 +643,7 @@ jobs:
       - name: Verify dependencies
         shell: bash
         run: |
-          jest --version && mocha --version
+          yarn jest --version && yarn mocha --version
 
       - name: Configure execution cache
         shell: bash
@@ -725,8 +735,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Corepack
-        shell: bash
+      - shell: bash
         run: corepack enable
 
       # We explicitly do this to cache properly.
@@ -735,7 +744,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 18
           cache: "yarn"
 
       - name: Patch
@@ -761,7 +770,14 @@ jobs:
           corepack enable
           yarn
 
+      - name: Build
+        working-directory: packages/core
+        run: |
           yarn build:dev
+
+      - name: Test
+        working-directory: packages/core
+        run: |
           yarn test
 
   integration-test:
@@ -772,8 +788,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Corepack
-        shell: bash
+      - shell: bash
         run: corepack enable
 
       - uses: actions/setup-node@v4
@@ -878,6 +893,9 @@ jobs:
         with:
           submodules: true
 
+      - shell: bash
+        run: corepack enable
+
       - uses: actions/setup-node@v4
         with:
           node-version: "18"
@@ -885,7 +903,9 @@ jobs:
 
       - name: Install node dependencies
         shell: bash
-        run: yarn
+        run: |
+          corepack enable
+          yarn
 
       - name: Print rustup toolchain version
         shell: bash
