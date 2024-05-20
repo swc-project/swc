@@ -86,5 +86,6 @@
         "!(**/tests/**/*)*.tsx": [
             "prettier --write"
         ]
-    }
+    },
+    "version": "1.5.8"
 }

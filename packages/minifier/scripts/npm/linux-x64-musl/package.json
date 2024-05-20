@@ -1,6 +1,6 @@
 {
   "name": "@swc/minifier-linux-x64-musl",
-  "version": "1.5.7",
+  "version": "1.5.8",
   "os": [
     "linux"
   ],
