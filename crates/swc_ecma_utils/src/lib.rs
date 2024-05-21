@@ -746,36 +746,6 @@ pub trait ExprExt {
 
             Expr::Bin(BinExpr {
                 ref left,
-                op: op @ op!("&"),
-                ref right,
-                ..
-            })
-            | Expr::Bin(BinExpr {
-                ref left,
-                op: op @ op!("|"),
-                ref right,
-                ..
-            }) => {
-                // TODO: Ignore purity if value cannot be reached.
-
-                let (lp, lv) = left.cast_to_bool(ctx);
-                let (rp, rv) = right.cast_to_bool(ctx);
-
-                let v = if *op == op!("&") {
-                    lv.and(rv)
-                } else {
-                    lv.or(rv)
-                };
-
-                if lp + rp == Pure {
-                    return (Pure, v);
-                }
-
-                v
-            }
-
-            Expr::Bin(BinExpr {
-                ref left,
                 op: op!("||"),
                 ref right,
                 ..
