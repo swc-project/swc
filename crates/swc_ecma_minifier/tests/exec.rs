@@ -11278,3 +11278,18 @@ fn issue_8943() {
         ",
     );
 }
+
+#[test]
+fn issue_8964() {
+    run_default_exec_test(
+        "
+        function foo(bit) {
+            a = !(bit & 1)
+            b = !(bit & 2)
+            return a + b
+        };
+        
+        console.log(foo(1));
+        ",
+    );
+}
