@@ -3936,7 +3936,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.92.5"
+version = "0.92.6"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -5228,7 +5228,7 @@ dependencies = [
 
 [[package]]
 name = "swc_plugin_runner"
-version = "0.107.1"
+version = "0.107.2"
 dependencies = [
  "anyhow",
  "criterion",
