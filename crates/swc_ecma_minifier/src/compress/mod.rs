@@ -201,7 +201,7 @@ impl Compressor<'_> {
                 {
                     debug!(
                         "===== Simplified =====\n{start}===== ===== ===== =====\n{}",
-                        dump(&*n, false)
+                        n.dump()
                     );
                 }
             }
