@@ -394,7 +394,9 @@ impl TransformExecutor {
             .context(
                 "failed to run Wasm plugin transform. Please ensure the version of `swc_core` \
                  used by the plugin is compatible with the host runtime. See https://swc.rs/docs/plugin/selecting-swc-core for compatibility information. If you are an author of the plugin, please update \
-                 `swc_core` to the compatible version.",
+                 `swc_core` to the compatible version.
+                 
+                 Note that if you want to use the os features like filesystem, you need to use `wasi`. Wasm itself does not have concept of filesystem.",
             )
     }
 }
