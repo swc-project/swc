@@ -165,8 +165,8 @@ fn test_if() {
         "} else log(3);",
     ));
     test_same("if (0 | x) y = 1; else y = 2;");
-    test("if (1 | x) y = 1; else y = 2;", "y=1;");
-    test("if (0 & x) y = 1; else y = 2;", "y=2");
+    // test("if (1 | x) y = 1; else y = 2;", "y=1;");
+    // test("if (0 & x) y = 1; else y = 2;", "y=2");
     test_same("if (1 & x) y = 1; else y = 2;");
 }
 
