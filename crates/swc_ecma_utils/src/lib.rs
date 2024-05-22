@@ -756,6 +756,10 @@ pub trait ExprExt {
                 ref right,
                 ..
             }) => {
+                if left.get_type() != Known(BoolType) || right.get_type() != Known(BoolType) {
+                    return (MayBeImpure, Unknown);
+                }
+
                 // TODO: Ignore purity if value cannot be reached.
 
                 let (lp, lv) = left.cast_to_bool(ctx);

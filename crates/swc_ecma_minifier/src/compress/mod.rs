@@ -188,6 +188,9 @@ impl Compressor<'_> {
 
             let start_time = now();
 
+            #[cfg(feature = "debug")]
+            let start = n.dump();
+
             let mut visitor = expr_simplifier(self.marks.unresolved_mark, ExprSimplifierConfig {});
             n.apply(&mut visitor);
 
@@ -196,7 +199,10 @@ impl Compressor<'_> {
                 debug!("compressor: Simplified expressions");
                 #[cfg(feature = "debug")]
                 {
-                    debug!("===== Simplified =====\n{}", dump(&*n, false));
+                    debug!(
+                        "===== Simplified =====\n{start}===== ===== ===== =====\n{}",
+                        n.dump()
+                    );
                 }
             }
 
