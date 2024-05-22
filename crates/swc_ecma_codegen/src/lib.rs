@@ -13,7 +13,7 @@ use swc_atoms::Atom;
 use swc_common::{
     comments::{CommentKind, Comments},
     sync::Lrc,
-    BytePos, SourceMapper, Span, Spanned, DUMMY_SP,
+    BytePos, SourceMap, SourceMapper, Span, Spanned, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_codegen_macros::emitter;
@@ -37,6 +37,36 @@ mod typescript;
 pub mod util;
 
 pub type Result = io::Result<()>;
+
+/// Generate a code from a syntax node using default options.
+pub fn to_code_with_all(
+    cm: Lrc<SourceMap>,
+    comments: Option<&dyn Comments>,
+    node: impl Node,
+) -> String {
+    let mut buf = vec![];
+    {
+        let mut emitter = Emitter {
+            cfg: Default::default(),
+            cm: cm.clone(),
+            comments,
+            wr: text_writer::JsWriter::new(cm, "\n", &mut buf, None),
+        };
+        node.emit_with(&mut emitter).unwrap();
+    }
+
+    String::from_utf8(buf).unwrap()
+}
+
+/// Generate a code from a syntax node using default options.
+pub fn to_code_with_comments(comments: Option<&dyn Comments>, node: impl Node) -> String {
+    to_code_with_all(Default::default(), comments, node)
+}
+
+/// Generate a code from a syntax node using default options.
+pub fn to_code(node: impl Node) -> String {
+    to_code_with_comments(None, node)
+}
 
 pub trait Node: Spanned {
     fn emit_with<W, S>(&self, e: &mut Emitter<'_, W, S>) -> Result
