@@ -19,7 +19,8 @@
     "git.autoRepositoryDetection": false,
     "git.ignoredRepositories": [
         "crates/swc_ecma_parser/tests/test262-parser",
-        "crates/swc_html_parser/tests/html5lib-tests"
+        "crates/swc_html_parser/tests/html5lib-tests",
+        "crates/swc_ecma_transforms_proposal/tests/decorator-tests"
     ],
     "eslint.enable": false,
     "rust-analyzer.check.command": "clippy",
