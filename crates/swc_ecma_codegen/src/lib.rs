@@ -39,7 +39,7 @@ pub mod util;
 pub type Result = io::Result<()>;
 
 /// Generate a code from a syntax node using default options.
-pub fn to_code_with_all(
+pub fn to_code_default(
     cm: Lrc<SourceMap>,
     comments: Option<&dyn Comments>,
     node: impl Node,
@@ -60,7 +60,7 @@ pub fn to_code_with_all(
 
 /// Generate a code from a syntax node using default options.
 pub fn to_code_with_comments(comments: Option<&dyn Comments>, node: impl Node) -> String {
-    to_code_with_all(Default::default(), comments, node)
+    to_code_default(Default::default(), comments, node)
 }
 
 /// Generate a code from a syntax node using default options.
