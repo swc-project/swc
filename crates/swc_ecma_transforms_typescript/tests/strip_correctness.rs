@@ -1,8 +1,4 @@
-use std::{
-    io::{self, Write},
-    path::PathBuf,
-    sync::{Arc, RwLock},
-};
+use std::path::PathBuf;
 
 use swc_common::{FileName, Mark};
 use swc_ecma_ast::*;
