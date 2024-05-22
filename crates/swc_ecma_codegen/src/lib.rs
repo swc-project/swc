@@ -55,7 +55,7 @@ pub fn to_code_default(
         node.emit_with(&mut emitter).unwrap();
     }
 
-    String::from_utf8(buf).unwrap()
+    String::from_utf8(buf).expect("codegen generated non-utf8 output")
 }
 
 /// Generate a code from a syntax node using default options.
