@@ -1,6 +1,12 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(es/minifier)** Add type check to `&` and `|` ([#8965](https://github.com/swc-project/swc/issues/8965)) ([545ec51](https://github.com/swc-project/swc/commit/545ec51b51643b8ef7908dbfceda09811f5fc087))
+
 ### Features
 
 

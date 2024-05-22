@@ -4470,7 +4470,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.194.5"
+version = "0.194.6"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -4888,7 +4888,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "0.128.1"
+version = "0.128.2"
 dependencies = [
  "indexmap 2.1.0",
  "num_cpus",
