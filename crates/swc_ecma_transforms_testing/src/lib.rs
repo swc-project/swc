@@ -28,7 +28,7 @@ use swc_common::{
     FileName, Mark, SourceMap, DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_codegen::Emitter;
+use swc_ecma_codegen::{to_code_default, Emitter};
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
 use swc_ecma_testing::{exec_node_js, JsExecOptions};
 use swc_ecma_transforms_base::{
@@ -188,26 +188,7 @@ impl<'a> Tester<'a> {
     }
 
     pub fn print(&mut self, module: &Module, comments: &Rc<SingleThreadedComments>) -> String {
-        let mut buf = vec![];
-        {
-            let mut emitter = Emitter {
-                cfg: Default::default(),
-                cm: self.cm.clone(),
-                wr: Box::new(swc_ecma_codegen::text_writer::JsWriter::new(
-                    self.cm.clone(),
-                    "\n",
-                    &mut buf,
-                    None,
-                )),
-                comments: Some(comments),
-            };
-
-            // println!("Emitting: {:?}", module);
-            emitter.emit_module(module).unwrap();
-        }
-
-        let s = String::from_utf8_lossy(&buf);
-        s.to_string()
+        to_code_default(self.cm.clone(), Some(comments), module)
     }
 }
 
