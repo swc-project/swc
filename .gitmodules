@@ -8,3 +8,6 @@
 	url = https://github.com/html5lib/html5lib-tests.git
     shallow = true
     ignore = dirty
+[submodule "crates/swc_ecma_transforms_proposal/tests/decorator-tests"]
+	path = crates/swc_ecma_transforms_proposal/tests/decorator-tests
+	url = https://github.com/evanw/decorator-tests
