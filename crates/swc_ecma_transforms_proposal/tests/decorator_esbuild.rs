@@ -1,4 +1,4 @@
-use std::process::Command;
+use std::{fs, process::Command};
 
 use swc_common::Mark;
 use swc_ecma_ast::EsVersion;
@@ -65,9 +65,10 @@ fn execute() {
             to_code(&program)
         };
 
+        fs::write("tests/run-decorator-tests.js", code).expect("failed to write file");
+
         let status = Command::new(node)
-            .arg("-e")
-            .arg(&code)
+            .arg("tests/run-decorator-tests.js")
             .status()
             .expect("failed to execute process");
 
