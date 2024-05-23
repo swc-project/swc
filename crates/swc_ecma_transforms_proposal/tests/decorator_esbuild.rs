@@ -65,10 +65,10 @@ fn execute() {
             to_code(&program)
         };
 
-        fs::write("tests/run-decorator-tests.js", code).expect("failed to write file");
+        fs::write("tests/built-decorator-tests.js", code).expect("failed to write file");
 
         let status = Command::new(node)
-            .arg("tests/run-decorator-tests.js")
+            .arg("tests/built-decorator-tests.js")
             .status()
             .expect("failed to execute process");
 
