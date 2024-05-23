@@ -1,4 +1,4 @@
-use std::f64;
+use std::{cmp::Ordering, f64};
 
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -760,13 +760,13 @@ impl Visit for SuperFinder {
     }
 }
 
-fn cmp_num(a: f64, b: f64) -> std::cmp::Ordering {
+fn cmp_num(a: f64, b: f64) -> Ordering {
     if a == -0.0 && b == 0.0 {
-        return std::cmp::Ordering::Less;
+        return Ordering::Greater;
     }
 
     if a == 0.0 && b == -0.0 {
-        return std::cmp::Ordering::Greater;
+        return Ordering::Less;
     }
 
     a.partial_cmp(&b).unwrap()
