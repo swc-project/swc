@@ -5,6 +5,9 @@
 
 
 
+- **(es/codegen)** Accept `&impl Node` instead of `impl Node` ([#8969](https://github.com/swc-project/swc/issues/8969)) ([a456799](https://github.com/swc-project/swc/commit/a4567998b0570fe7b657ce1361bd4e7c7d900999))
+
+
 - **(es/minifier)** Add type check to `&` and `|` ([#8965](https://github.com/swc-project/swc/issues/8965)) ([545ec51](https://github.com/swc-project/swc/commit/545ec51b51643b8ef7908dbfceda09811f5fc087))
 
 ### Features
@@ -1366,9 +1369,6 @@
 
 
 - **(es/compat)** Skip empty class static blocks ([#8138](https://github.com/swc-project/swc/issues/8138)) ([e186b80](https://github.com/swc-project/swc/commit/e186b80ddcc0c95f276e845cc491b276d0fb15ee))
-
-
-- **(es/minifier)** Evaluate more `toFixed` expressions ([#8109](https://github.com/swc-project/swc/issues/8109)) ([7da3f52](https://github.com/swc-project/swc/commit/7da3f52485062eb23c719e1236b2fee90c228bdd))
 
 
 - **(es/minifier)** Inline into the arguments of `new` using seq inliner ([#8127](https://github.com/swc-project/swc/issues/8127)) ([4f67794](https://github.com/swc-project/swc/commit/4f67794223cf2848ac3c3e42e1e43acec4533246))
