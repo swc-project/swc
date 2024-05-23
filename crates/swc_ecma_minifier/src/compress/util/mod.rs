@@ -500,7 +500,6 @@ pub(crate) fn eval_as_number(expr_ctx: &ExprCtx, e: &Expr) -> Option<f64> {
                                 }
                                 numbers.push(v);
                             }
-                            dbg!(&numbers);
 
                             return Some(
                                 numbers
