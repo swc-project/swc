@@ -19,6 +19,12 @@
 
 - **(plugin/runner)** Add description about wasi and file system ([#8963](https://github.com/swc-project/swc/issues/8963)) ([ced63a9](https://github.com/swc-project/swc/commit/ced63a973e48e542bc889675b2f2d4fb48abfb8d))
 
+### Testing
+
+
+
+- **(es/decorators)** Add tests written by evanw ([#8967](https://github.com/swc-project/swc/issues/8967)) ([95472e4](https://github.com/swc-project/swc/commit/95472e4037dcfd85c96de92fad93c27bceee080e))
+
 ## [1.5.8] - 2024-05-20
 
 ### Bug Fixes
