@@ -10,7 +10,7 @@ use swc_common::{
     sync::Lrc,
     Globals, Mark, SourceMap, GLOBALS,
 };
-use swc_ecma_codegen::{text_writer::JsWriter, Emitter};
+use swc_ecma_codegen::to_code_default;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax, TsConfig};
 use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene, resolver};
 use swc_ecma_transforms_typescript::strip;
@@ -76,18 +76,6 @@ fn main() {
         // Ensure that we have enough parenthesis.
         let program = module.fold_with(&mut fixer(Some(&comments)));
 
-        let mut buf = vec![];
-        {
-            let mut emitter = Emitter {
-                cfg: swc_ecma_codegen::Config::default(),
-                cm: cm.clone(),
-                comments: Some(&comments),
-                wr: JsWriter::new(cm.clone(), "\n", &mut buf, None),
-            };
-
-            emitter.emit_program(&program).unwrap();
-        }
-
-        println!("{}", String::from_utf8(buf).expect("non-utf8?"));
+        println!("{}", to_code_default(cm, Some(&comments), program));
     })
 }

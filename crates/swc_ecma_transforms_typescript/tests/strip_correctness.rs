@@ -1,12 +1,8 @@
-use std::{
-    io::{self, Write},
-    path::PathBuf,
-    sync::{Arc, RwLock},
-};
+use std::path::PathBuf;
 
 use swc_common::{FileName, Mark};
 use swc_ecma_ast::*;
-use swc_ecma_codegen::Emitter;
+use swc_ecma_codegen::to_code_default;
 use swc_ecma_parser::{lexer::Lexer, EsConfig, Parser, Syntax, TsConfig};
 use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene, resolver};
 use swc_ecma_transforms_typescript::typescript;
@@ -98,21 +94,7 @@ fn identity(entry: PathBuf) {
             None,
         );
 
-        let mut wr = Buf(Arc::new(RwLock::new(vec![])));
-
-        {
-            let mut emitter = Emitter {
-                cfg: swc_ecma_codegen::Config::default(),
-                cm: cm.clone(),
-                wr: Box::new(swc_ecma_codegen::text_writer::JsWriter::new(
-                    cm.clone(),
-                    "\n",
-                    &mut wr,
-                    None,
-                )),
-                comments: None,
-            };
-
+        let js_content = {
             // Parse source
             let program = parser
                 .parse_typescript_module()
@@ -142,10 +124,8 @@ fn identity(entry: PathBuf) {
                 Err(_) => return Ok(()),
             };
 
-            emitter.emit_program(&program).unwrap();
-        }
-
-        let js_content = String::from_utf8_lossy(&wr.0.read().unwrap()).to_string();
+            to_code_default(cm.clone(), None, program)
+        };
 
         println!("---------------- JS ----------------\n\n{}", js_content);
 
@@ -181,16 +161,4 @@ fn identity(entry: PathBuf) {
         Ok(())
     })
     .expect("failed to run test");
-}
-
-#[derive(Debug, Clone)]
-struct Buf(Arc<RwLock<Vec<u8>>>);
-impl Write for Buf {
-    fn write(&mut self, data: &[u8]) -> io::Result<usize> {
-        self.0.write().unwrap().write(data)
-    }
-
-    fn flush(&mut self) -> io::Result<()> {
-        self.0.write().unwrap().flush()
-    }
 }
