@@ -1,4 +1,4 @@
-use std::{fs::read_to_string, process::Command};
+use std::process::Command;
 
 use swc_common::Mark;
 use swc_ecma_ast::EsVersion;
@@ -20,8 +20,9 @@ fn execute() {
 
         let code = {
             // Transpile with swc
+            let mut errors = vec![];
 
-            let mut program = parse_file_as_program(
+            let program = parse_file_as_program(
                 &fm,
                 swc_ecma_parser::Syntax::Es(swc_ecma_parser::EsConfig {
                     decorators: true,
@@ -29,9 +30,20 @@ fn execute() {
                 }),
                 EsVersion::EsNext,
                 None,
-                &mut vec![],
-            )
-            .expect("failed to parse file");
+                &mut errors,
+            );
+
+            let mut program = match program {
+                Ok(v) => v,
+                Err(e) => {
+                    e.into_diagnostic(handler).emit();
+                    return Err(());
+                }
+            };
+
+            for e in errors {
+                e.into_diagnostic(handler).emit();
+            }
 
             let unresolved_mark = Mark::new();
             let top_level_mark = Mark::new();
