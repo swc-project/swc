@@ -10,7 +10,7 @@ use swc_ecma_transforms_base::{
     hygiene::hygiene,
     resolver,
 };
-use swc_ecma_transforms_proposal::decorator_2022_03::decorator_2022_03;
+use swc_ecma_transforms_proposal::decorator_2023_11::decorator_2023_11;
 use swc_ecma_visit::VisitMutWith;
 use testing::find_executable;
 
@@ -55,7 +55,7 @@ fn execute() {
                 let top_level_mark = Mark::new();
                 program.visit_mut_with(&mut resolver(unresolved_mark, top_level_mark, false));
 
-                program.visit_mut_with(&mut decorator_2022_03());
+                program.visit_mut_with(&mut decorator_2023_11());
 
                 program.visit_mut_with(&mut inject_helpers(unresolved_mark));
                 program.visit_mut_with(&mut hygiene());
