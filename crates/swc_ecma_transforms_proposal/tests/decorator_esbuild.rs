@@ -1,6 +1,7 @@
 use std::{fs::read_to_string, process::Command};
 
 use swc_ecma_ast::EsVersion;
+use swc_ecma_codegen::to_code;
 use swc_ecma_parser::parse_file_as_program;
 use testing::find_executable;
 
@@ -28,7 +29,7 @@ fn execute() {
             )
             .expect("failed to parse file");
 
-            code
+            to_code(None, &program)
         };
 
         let status = Command::new(node)
