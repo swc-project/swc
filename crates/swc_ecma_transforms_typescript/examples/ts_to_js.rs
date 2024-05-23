@@ -76,6 +76,6 @@ fn main() {
         // Ensure that we have enough parenthesis.
         let program = module.fold_with(&mut fixer(Some(&comments)));
 
-        println!("{}", to_code_default(cm, Some(&comments), program));
+        println!("{}", to_code_default(cm, Some(&comments), &program));
     })
 }
