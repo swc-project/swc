@@ -4193,7 +4193,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "0.149.1"
+version = "0.149.2"
 dependencies = [
  "base64",
  "criterion",
