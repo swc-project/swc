@@ -7,6 +7,7 @@ pub use self::{
 };
 
 pub mod decorator_2022_03;
+pub mod decorator_2023_11;
 pub mod decorators;
 pub mod explicit_resource_management;
 mod export_default_from;
