@@ -42,7 +42,7 @@ pub type Result = io::Result<()>;
 pub fn to_code_default(
     cm: Lrc<SourceMap>,
     comments: Option<&dyn Comments>,
-    node: impl Node,
+    node: &impl Node,
 ) -> String {
     let mut buf = vec![];
     {
@@ -59,12 +59,12 @@ pub fn to_code_default(
 }
 
 /// Generate a code from a syntax node using default options.
-pub fn to_code_with_comments(comments: Option<&dyn Comments>, node: impl Node) -> String {
+pub fn to_code_with_comments(comments: Option<&dyn Comments>, node: &impl Node) -> String {
     to_code_default(Default::default(), comments, node)
 }
 
 /// Generate a code from a syntax node using default options.
-pub fn to_code(node: impl Node) -> String {
+pub fn to_code(node: &impl Node) -> String {
     to_code_with_comments(None, node)
 }
 
