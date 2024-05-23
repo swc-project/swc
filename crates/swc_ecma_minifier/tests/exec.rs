@@ -11295,11 +11295,19 @@ fn issue_8964() {
 }
 
 #[test]
-fn issue_8982() {
+fn issue_8982_1() {
+    run_default_exec_test(
+        "
+        console.log(Math.max(0, -0));
+        ",
+    );
+}
+
+#[test]
+fn issue_8982_2() {
     run_default_exec_test(
         "
         console.log(Math.min(0, -0));
-        console.log(Math.max(0, -0));
         ",
     );
 }
