@@ -4,7 +4,12 @@ use swc_common::Mark;
 use swc_ecma_ast::EsVersion;
 use swc_ecma_codegen::to_code;
 use swc_ecma_parser::parse_file_as_program;
-use swc_ecma_transforms_base::{fixer::fixer, helpers::inject_helpers, hygiene::hygiene, resolver};
+use swc_ecma_transforms_base::{
+    fixer::fixer,
+    helpers::{inject_helpers, Helpers, HELPERS},
+    hygiene::hygiene,
+    resolver,
+};
 use swc_ecma_transforms_proposal::decorator_2022_03::decorator_2022_03;
 use swc_ecma_visit::VisitMutWith;
 use testing::find_executable;
@@ -26,6 +31,7 @@ fn execute() {
                 &fm,
                 swc_ecma_parser::Syntax::Es(swc_ecma_parser::EsConfig {
                     decorators: true,
+                    auto_accessors: true,
                     ..Default::default()
                 }),
                 EsVersion::EsNext,
@@ -44,16 +50,17 @@ fn execute() {
             for e in errors {
                 e.into_diagnostic(handler).emit();
             }
+            HELPERS.set(&Helpers::new(false), || {
+                let unresolved_mark = Mark::new();
+                let top_level_mark = Mark::new();
+                program.visit_mut_with(&mut resolver(unresolved_mark, top_level_mark, false));
 
-            let unresolved_mark = Mark::new();
-            let top_level_mark = Mark::new();
-            program.visit_mut_with(&mut resolver(unresolved_mark, top_level_mark, false));
+                program.visit_mut_with(&mut decorator_2022_03());
 
-            program.visit_mut_with(&mut decorator_2022_03());
-
-            program.visit_mut_with(&mut inject_helpers(unresolved_mark));
-            program.visit_mut_with(&mut hygiene());
-            program.visit_mut_with(&mut fixer(None));
+                program.visit_mut_with(&mut inject_helpers(unresolved_mark));
+                program.visit_mut_with(&mut hygiene());
+                program.visit_mut_with(&mut fixer(None));
+            });
 
             to_code(&program)
         };
