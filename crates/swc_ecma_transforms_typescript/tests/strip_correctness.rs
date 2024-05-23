@@ -124,7 +124,7 @@ fn identity(entry: PathBuf) {
                 Err(_) => return Ok(()),
             };
 
-            to_code_default(cm.clone(), None, program)
+            to_code_default(cm.clone(), None, &program)
         };
 
         println!("---------------- JS ----------------\n\n{}", js_content);
