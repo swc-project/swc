@@ -42,6 +42,8 @@ use swc_ecma_minifier::option::terser::TerserTopLevelOptions;
 #[allow(deprecated)]
 pub use swc_ecma_parser::JscTarget;
 use swc_ecma_parser::{parse_file_as_expr, Syntax, TsSyntax};
+use swc_ecma_parser::{parse_file_as_expr, Syntax, TsConfig};
+pub use swc_ecma_transforms::proposals::DecoratorVersion;
 use swc_ecma_transforms::{
     feature::FeatureFlag,
     hygiene, modules,
@@ -1444,17 +1446,6 @@ pub struct TransformConfig {
 
     #[serde(default)]
     pub decorator_version: Option<DecoratorVersion>,
-}
-
-#[derive(Debug, Default, Clone, Copy, Serialize, Deserialize)]
-#[serde(deny_unknown_fields, rename_all = "camelCase")]
-pub enum DecoratorVersion {
-    #[default]
-    #[serde(rename = "2021-12")]
-    V202112,
-
-    #[serde(rename = "2022-03")]
-    V202203,
 }
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize, Merge)]
