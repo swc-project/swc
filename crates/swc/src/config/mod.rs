@@ -678,6 +678,21 @@ impl Options {
         {
             Box::new(plugin_transforms)
         } else {
+            let decorator_pass: Box<dyn Fold> =
+                match transform.decorator_version.unwrap_or_default() {
+                    DecoratorVersion::V202112 => Box::new(decorators(decorators::Config {
+                        legacy: transform.legacy_decorator.into_bool(),
+                        emit_metadata: transform.decorator_metadata.into_bool(),
+                        use_define_for_class_fields: !assumptions.set_public_class_fields,
+                    })),
+                    DecoratorVersion::V202203 => Box::new(
+                        swc_ecma_transforms::proposals::decorator_2022_03::decorator_2022_03(),
+                    ),
+                    DecoratorVersion::V202311 => Box::new(
+                        swc_ecma_transforms::proposals::decorator_2023_11::decorator_2023_11(),
+                    ),
+                };
+
             Box::new(chain!(
                 lint_to_fold(swc_ecma_lints::rules::all(LintParams {
                     program: &program,
@@ -688,23 +703,7 @@ impl Options {
                     source_map: cm.clone(),
                 })),
                 // Decorators may use type information
-                Optional::new(
-                    match transform.decorator_version.unwrap_or_default() {
-                        DecoratorVersion::V202112 => {
-                            Either::Left(decorators(decorators::Config {
-                                legacy: transform.legacy_decorator.into_bool(),
-                                emit_metadata: transform.decorator_metadata.into_bool(),
-                                use_define_for_class_fields: !assumptions.set_public_class_fields,
-                            }))
-                        }
-                        DecoratorVersion::V202203 => {
-                            Either::Right(
-                            swc_ecma_transforms::proposals::decorator_2022_03::decorator_2022_03(),
-                        )
-                        }
-                    },
-                    syntax.decorators()
-                ),
+                Optional::new(decorator_pass, syntax.decorators()),
                 Optional::new(
                     explicit_resource_management(),
                     syntax.explicit_resource_management()
