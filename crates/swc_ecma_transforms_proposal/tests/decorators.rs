@@ -133,10 +133,7 @@ fn create_pass(comments: Rc<SingleThreadedComments>, input: &Path) -> Box<dyn Fo
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
 
-    let mut pass: Box<dyn Fold> = Box::new(chain!(
-        resolver(unresolved_mark, top_level_mark, false),
-        decorator_2022_03()
-    ));
+    let mut pass: Box<dyn Fold> = Box::new(resolver(unresolved_mark, top_level_mark, false));
 
     macro_rules! add {
         ($e:expr) => {{
@@ -178,7 +175,11 @@ fn create_pass(comments: Rc<SingleThreadedComments>, input: &Path) -> Box<dyn Fo
                 }
                 _ => {}
             },
-            BabelPluginEntry::WithConfig(name, config) => {}
+            BabelPluginEntry::WithConfig(name, config) => match name {
+                _ => {
+                    panic!("Unknown plugin: {}", name);
+                }
+            },
         }
 
         dbg!(&plugin);
