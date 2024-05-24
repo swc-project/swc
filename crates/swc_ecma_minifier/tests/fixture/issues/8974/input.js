@@ -9,3 +9,5 @@ const two = {
 };
 
 const three = a`${one}`;
+
+export { }
