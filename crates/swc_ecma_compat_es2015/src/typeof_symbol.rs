@@ -137,7 +137,7 @@ fn is_non_symbol_literal(e: &Expr) -> bool {
     match e {
         Expr::Lit(Lit::Str(Str { value, .. })) => matches!(
             &**value,
-            "undefined" | "object" | "boolean" | "number" | "string" | "function"
+            "undefined" | "boolean" | "number" | "string" | "function"
         ),
         _ => false,
     }
