@@ -10,6 +10,9 @@
 
 - **(es/minifier)** Add type check to `&` and `|` ([#8965](https://github.com/swc-project/swc/issues/8965)) ([545ec51](https://github.com/swc-project/swc/commit/545ec51b51643b8ef7908dbfceda09811f5fc087))
 
+
+- **(es/minifier)** Fix comparison of `-0.0` and `0` ([#8973](https://github.com/swc-project/swc/issues/8973)) ([2a43df4](https://github.com/swc-project/swc/commit/2a43df49848267ba68a320370e3a5818bf14478e))
+
 ### Features
 
 
@@ -1384,9 +1387,6 @@
 
 
 - **(es/parser)** Implement `AsRef<str>` for `IdentLike` ([#8133](https://github.com/swc-project/swc/issues/8133)) ([bffe33a](https://github.com/swc-project/swc/commit/bffe33a27036d01d409bad3fcc69d35157665662))
-
-
-- **(es/typescript)** Add `ts_enum_is_mutable` to disable enum inlining ([#8115](https://github.com/swc-project/swc/issues/8115)) ([57b171d](https://github.com/swc-project/swc/commit/57b171dcbe55a8d285d5bc477844b24fdf48835a))
 
 ### Miscellaneous Tasks
 
