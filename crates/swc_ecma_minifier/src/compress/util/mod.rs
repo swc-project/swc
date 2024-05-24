@@ -1,4 +1,4 @@
-use std::f64;
+use std::{cmp::Ordering, f64};
 
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
@@ -486,7 +486,7 @@ pub(crate) fn eval_as_number(expr_ctx: &ExprCtx, e: &Expr) -> Option<f64> {
                             return Some(
                                 numbers
                                     .into_iter()
-                                    .max_by(|a, b| a.partial_cmp(b).unwrap())
+                                    .max_by(|&a, &b| cmp_num(a, b))
                                     .unwrap_or(f64::NEG_INFINITY),
                             );
                         }
@@ -504,7 +504,7 @@ pub(crate) fn eval_as_number(expr_ctx: &ExprCtx, e: &Expr) -> Option<f64> {
                             return Some(
                                 numbers
                                     .into_iter()
-                                    .min_by(|a, b| a.partial_cmp(b).unwrap())
+                                    .min_by(|&a, &b| cmp_num(a, b))
                                     .unwrap_or(f64::INFINITY),
                             );
                         }
@@ -757,4 +757,16 @@ impl Visit for SuperFinder {
     fn visit_super(&mut self, _: &Super) {
         self.found = true;
     }
+}
+
+fn cmp_num(a: f64, b: f64) -> Ordering {
+    if a == -0.0 && b == 0.0 {
+        return Ordering::Greater;
+    }
+
+    if a == 0.0 && b == -0.0 {
+        return Ordering::Less;
+    }
+
+    a.partial_cmp(&b).unwrap()
 }
