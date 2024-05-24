@@ -1168,12 +1168,24 @@ where
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_tagged_tpl(&mut self, n: &TaggedTpl) {
-        let ctx = Ctx {
-            is_id_ref: false,
-            ..self.ctx
-        };
+        {
+            let ctx = Ctx {
+                is_id_ref: false,
+                ..self.ctx
+            };
 
-        n.visit_children_with(&mut *self.with_ctx(ctx))
+            n.tag.visit_with(&mut *self.with_ctx(ctx));
+        }
+
+        {
+            let ctx = Ctx {
+                is_id_ref: true,
+                ..self.ctx
+            };
+
+            // Bypass visit_tpl
+            n.tpl.visit_children_with(&mut *self.with_ctx(ctx))
+        }
     }
 
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
