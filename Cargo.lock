@@ -4874,7 +4874,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_usage_analyzer"
-version = "0.24.2"
+version = "0.24.3"
 dependencies = [
  "indexmap 2.1.0",
  "rustc-hash",
