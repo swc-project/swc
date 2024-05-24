@@ -1179,7 +1179,7 @@ where
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_tpl(&mut self, n: &Tpl) {
         let ctx = Ctx {
-            is_id_ref: false,
+            is_id_ref: true,
             ..self.ctx
         };
 
