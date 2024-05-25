@@ -3,13 +3,9 @@ use swc_common::{util::take::Take, Spanned, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{number::ToJsString, ExprExt, IsEmpty, Value};
 use swc_ecma_utils::{undefined, ExprExt, IsEmpty, Value};
-use tracing::debug;
 
 use super::Pure;
-use crate::{
-    compress::util::{eval_as_number, is_pure_undefined_or_null},
-    debug::dump,
-};
+use crate::compress::util::{eval_as_number, is_pure_undefined_or_null};
 
 impl Pure<'_> {
     pub(super) fn eval_array_method_call(&mut self, e: &mut Expr) {
