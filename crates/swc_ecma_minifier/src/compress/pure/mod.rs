@@ -594,23 +594,7 @@ impl VisitMut for Pure<'_> {
             debug_assert_valid(e);
         }
 
-        if let Expr::Member(member_expr) = e {
-            #[cfg(feature = "debug")]
-            debug!(
-                "before: optimize_member_expr: {}",
-                dump(&*member_expr, false)
-            );
-
-            if let Some(replacement) =
-                self.optimize_member_expr(&mut member_expr.obj, &member_expr.prop)
-            {
-                *e = replacement;
-                self.changed = true;
-
-                #[cfg(feature = "debug")]
-                debug!("after: optimize_member_expr: {}", dump(&*e, false));
-            }
-        }
+        self.eval_member_expr(e);
     }
 
     fn visit_mut_expr_or_spreads(&mut self, nodes: &mut Vec<ExprOrSpread>) {
