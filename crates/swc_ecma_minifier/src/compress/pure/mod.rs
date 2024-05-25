@@ -306,6 +306,20 @@ impl VisitMut for Pure<'_> {
         self.drop_arguments_of_symbol_call(e);
     }
 
+    fn visit_mut_opt_call(&mut self, opt_call: &mut OptCall) {
+        {
+            let ctx = Ctx {
+                is_opt_call: true,
+                ..self.ctx
+            };
+            opt_call.callee.visit_mut_with(&mut *self.with_ctx(ctx));
+        }
+
+        opt_call.args.visit_mut_with(self);
+
+        self.eval_spread_array(&mut opt_call.args);
+    }
+
     fn visit_mut_class_member(&mut self, m: &mut ClassMember) {
         m.visit_mut_children_with(self);
 
@@ -581,11 +595,20 @@ impl VisitMut for Pure<'_> {
         }
 
         if let Expr::Member(member_expr) = e {
+            #[cfg(feature = "debug")]
+            debug!(
+                "before: optimize_member_expr: {}",
+                dump(&*member_expr, false)
+            );
+
             if let Some(replacement) =
                 self.optimize_member_expr(&mut member_expr.obj, &member_expr.prop)
             {
                 *e = replacement;
                 self.changed = true;
+
+                #[cfg(feature = "debug")]
+                debug!("after: optimize_member_expr: {}", dump(&*e, false));
             }
         }
     }
@@ -875,6 +898,7 @@ impl VisitMut for Pure<'_> {
             let ctx = Ctx {
                 is_update_arg: false,
                 is_callee: false,
+                is_opt_call: false,
                 in_delete: false,
                 in_first_expr: true,
                 ..self.ctx

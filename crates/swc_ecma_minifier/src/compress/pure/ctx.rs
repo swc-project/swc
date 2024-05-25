@@ -14,6 +14,8 @@ pub(super) struct Ctx {
     #[allow(unused)]
     pub is_callee: bool,
 
+    pub is_opt_call: bool,
+
     pub _in_try_block: bool,
 
     pub is_lhs_of_assign: bool,
