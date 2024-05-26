@@ -130,7 +130,7 @@ export var preTransforms = Object.freeze([
         _classCallCheck(this, Mat4);
         var _this;
         _this = _possibleConstructorReturn(this, _getPrototypeOf(Mat4).call(this));
-        if (m00 && typeof m00 === "object") {
+        if (m00 && (typeof m00 === "undefined" ? "undefined" : _type_of(m00)) === "object") {
             if (ArrayBuffer.isView(m00)) {
                 _this._array = m00;
                 _this._array.set([
@@ -399,7 +399,7 @@ export var preTransforms = Object.freeze([
             key: "set",
             value: function set(param, param1, param2, param3, param4, param5, param6, param7, param8, param9, param10, param11, param12, param13, param14, param15) {
                 var m00 = param === void 0 ? 1 : param, m01 = param1 === void 0 ? 0 : param1, m02 = param2 === void 0 ? 0 : param2, m03 = param3 === void 0 ? 0 : param3, m04 = param4 === void 0 ? 0 : param4, m05 = param5 === void 0 ? 1 : param5, m06 = param6 === void 0 ? 0 : param6, m07 = param7 === void 0 ? 0 : param7, m08 = param8 === void 0 ? 0 : param8, m09 = param9 === void 0 ? 0 : param9, m10 = param10 === void 0 ? 1 : param10, m11 = param11 === void 0 ? 0 : param11, m12 = param12 === void 0 ? 0 : param12, m13 = param13 === void 0 ? 0 : param13, m14 = param14 === void 0 ? 0 : param14, m15 = param15 === void 0 ? 1 : param15;
-                if (m00 && typeof m00 === "object") {
+                if (m00 && (typeof m00 === "undefined" ? "undefined" : _type_of(m00)) === "object") {
                     var v = m00.array;
                     this._array[1] = v[1];
                     this._array[2] = v[2];

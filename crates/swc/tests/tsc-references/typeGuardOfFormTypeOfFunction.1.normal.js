@@ -1,4 +1,5 @@
 //// [typeGuardOfFormTypeOfFunction.ts]
+import { _ as _type_of } from "@swc/helpers/_/_type_of";
 function f1(x) {
     if (typeof x === "function") {
         x; // any
@@ -82,5 +83,5 @@ function configureStore(reducer) {
     }
 }
 function f101(x) {
-    return typeof x === "object" && x.anything;
+    return (typeof x === "undefined" ? "undefined" : _type_of(x)) === "object" && x.anything;
 }

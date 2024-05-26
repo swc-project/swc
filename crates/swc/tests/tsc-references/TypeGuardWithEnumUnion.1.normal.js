@@ -1,4 +1,5 @@
 //// [TypeGuardWithEnumUnion.ts]
+import { _ as _type_of } from "@swc/helpers/_/_type_of";
 var Color;
 (function(Color) {
     Color[Color["R"] = 0] = "R";
@@ -15,7 +16,7 @@ function f1(x) {
     }
 }
 function f2(x) {
-    if (typeof x === "object") {
+    if ((typeof x === "undefined" ? "undefined" : _type_of(x)) === "object") {
         var y = x;
         var y;
     }
