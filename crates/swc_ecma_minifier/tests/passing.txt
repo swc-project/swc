@@ -93,6 +93,7 @@ block_scope/do_not_hoist_let/input.js
 block_scope/do_not_remove_anon_blocks_if_they_have_decls/input.js
 block_scope/drop_undefined_vardef/input.js
 block_scope/issue_241/input.js
+block_scope/issue_334/input.js
 block_scope/issue_508/input.js
 block_scope/let_statement/input.js
 block_scope/regression_block_scope_resolves/input.js
@@ -154,6 +155,7 @@ collapse_vars/collapse_vars_issue_721/input.js
 collapse_vars/collapse_vars_lvalues_drop_assign/input.js
 collapse_vars/collapse_vars_properties/input.js
 collapse_vars/collapse_vars_regexp/input.js
+collapse_vars/collapse_vars_repeated/input.js
 collapse_vars/collapse_vars_self_reference/input.js
 collapse_vars/collapse_vars_seq/input.js
 collapse_vars/collapse_vars_side_effects_2/input.js
@@ -430,6 +432,7 @@ drop_unused/drop_assign/input.js
 drop_unused/drop_fargs/input.js
 drop_unused/drop_fnames/input.js
 drop_unused/drop_toplevel_all/input.js
+drop_unused/drop_toplevel_all_retain/input.js
 drop_unused/drop_value/input.js
 drop_unused/function_argument_modified_by_function_statement/input.js
 drop_unused/global_var/input.js
@@ -1302,6 +1305,7 @@ reduce_vars/duplicate_lambda_defun_name_1/input.js
 reduce_vars/duplicate_lambda_defun_name_2/input.js
 reduce_vars/escape_await/input.js
 reduce_vars/escape_conditional/input.js
+reduce_vars/escape_expansion/input.js
 reduce_vars/escape_local_conditional/input.js
 reduce_vars/escape_local_sequence/input.js
 reduce_vars/escape_local_throw/input.js
