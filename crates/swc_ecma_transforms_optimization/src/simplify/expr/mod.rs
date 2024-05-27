@@ -130,17 +130,15 @@ impl SimplifyExpr {
             IndexStr(JsWord),
         }
         let op = match prop {
-            MemberProp::Ident(Ident { sym, .. })
-                if &**sym == "length" && !matches!(**obj, Expr::Object(..)) =>
-            {
+            MemberProp::Ident(Ident { sym, .. }) if &**sym == "length" && !obj.is_object() => {
                 KnownOp::Len
             }
             MemberProp::Ident(Ident { sym, .. }) => {
-                if !self.in_callee {
-                    KnownOp::IndexStr(sym.clone())
-                } else {
+                if self.in_callee {
                     return;
                 }
+
+                KnownOp::IndexStr(sym.clone())
             }
             MemberProp::Computed(ComputedPropName { expr, .. }) => {
                 if self.in_callee {
@@ -151,15 +149,15 @@ impl SimplifyExpr {
                     // x[5]
                     KnownOp::Index(*value)
                 } else if let Known(s) = expr.as_pure_string(&self.expr_ctx) {
-                    if let Ok(n) = s.parse::<f64>() {
-                        // x['0'] is treated as x[0]
-                        KnownOp::Index(n)
-                    } else if s == "length" && !matches!(**obj, Expr::Object(..)) {
+                    if s == "length" && !obj.is_object() {
                         // Length of non-object type
                         KnownOp::Len
+                    } else if let Ok(n) = s.parse::<f64>() {
+                        // x['0'] is treated as x[0]
+                        KnownOp::Index(n)
                     } else {
                         // x[''] or x[...] where ... is an expression like [], ie x[[]]
-                        KnownOp::IndexStr(JsWord::from(s))
+                        KnownOp::IndexStr(s.into())
                     }
                 } else {
                     return;
