@@ -1,3 +1,2 @@
-(function (A) {
-    A.x || console.log(A);
-})("Hello World!");
+var A;
+(A = "Hello World!").x || console.log(A);

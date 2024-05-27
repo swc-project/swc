@@ -11,7 +11,6 @@ ascii/ascii_only_false/input.js
 ascii/ascii_only_true/input.js
 asm/asm_mixed/input.js
 async/async_inline/input.js
-block_scope/issue_334/input.js
 class_properties/class_expression_constant/input.js
 class_properties/mangle_class_properties_keep_quoted/input.js
 class_properties/static_means_execution/input.js
@@ -27,7 +26,6 @@ collapse_vars/collapse_vars_if/input.js
 collapse_vars/collapse_vars_lvalues/input.js
 collapse_vars/collapse_vars_misc1/input.js
 collapse_vars/collapse_vars_object/input.js
-collapse_vars/collapse_vars_repeated/input.js
 collapse_vars/collapse_vars_short_circuit/input.js
 collapse_vars/collapse_vars_short_circuited_conditions/input.js
 collapse_vars/collapse_vars_side_effects_1/input.js
@@ -282,7 +280,6 @@ reduce_vars/defun_redefine/input.js
 reduce_vars/defun_var_1/input.js
 reduce_vars/defun_var_2/input.js
 reduce_vars/delay_def/input.js
-reduce_vars/escape_expansion/input.js
 reduce_vars/escaped_prop_1/input.js
 reduce_vars/escaped_prop_2/input.js
 reduce_vars/func_arg_2/input.js
