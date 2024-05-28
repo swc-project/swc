@@ -1287,7 +1287,7 @@
         }
         function copyObject(source, props, object, customizer) {
             var isNew = !object;
-            object || (object = {});
+            object = {};
             for(var index = -1, length = props.length; ++index < length;){
                 var key = props[index], newValue = customizer ? customizer(object[key], source[key], key, object, source) : undefined;
                 undefined === newValue && (newValue = source[key]), isNew ? baseAssignValue(object, key, newValue) : assignValue(object, key, newValue);

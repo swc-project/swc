@@ -277,7 +277,7 @@
         ].concat(slice.call(arguments, 1)));
     }, _.throttle = function(func, wait, options) {
         var context, args, result, timeout = null, previous = 0;
-        options || (options = {});
+        options = {};
         var later = function() {
             previous = !1 === options.leading ? 0 : new Date(), timeout = null, result = func.apply(context, args);
         };

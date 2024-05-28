@@ -2,16 +2,16 @@
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
-var M, N, M1, N1, C = function C() {
+var M, N, C = function C() {
     _class_call_check(this, C);
 }, D = function D() {
     _class_call_check(this, D);
 };
-for((M = M1 || (M1 = {})).A = function A() {
+for((M = {}).A = function A() {
     _class_call_check(this, A);
 }, M.F2 = function(x) {
     return x.toString();
-}, (N = N1 || (N1 = {})).A = function A() {
+}, (N = {}).A = function A() {
     _class_call_check(this, A);
 }, N.F2 = function(x) {
     return x.toString();

@@ -3,7 +3,7 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 var M, M1, C = function C() {
     _class_call_check(this, C);
 };
-(M = M1 || (M1 = {})).A = function A() {
+(M = M1 = {}).A = function A() {
     _class_call_check(this, A);
 }, M.F2 = function(x) {
     return x.toString();

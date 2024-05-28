@@ -1,9 +1,8 @@
 //// [subtypingWithCallSignatures3.ts]
-var Errors, WithGenericSignaturesInBaseType;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
-Errors || (Errors = {}), foo2(function(x) {
+foo2(function(x) {
     return null;
 }), foo7(function(x) {
     return function(r) {
@@ -28,7 +27,7 @@ Errors || (Errors = {}), foo2(function(x) {
     return null;
 }), foo17(function(x) {
     return null;
-}), WithGenericSignaturesInBaseType || (WithGenericSignaturesInBaseType = {}), foo2(function(x) {
+}), foo2(function(x) {
     return [
         ''
     ];
