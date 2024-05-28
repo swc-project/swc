@@ -482,7 +482,7 @@ jobs:
         if: ${{ startsWith(github.ref, 'refs/tags/v') }}
         run: |
           npm config set provenance true
-          yarn npm publish --access public --tag $NPM_TAG
+          (cd packages/core && yarn npm publish --access public --tag $NPM_TAG)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
