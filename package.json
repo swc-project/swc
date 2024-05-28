@@ -4,7 +4,8 @@
     "private": true,
     "workspaces": [
         "./packages/*",
-        "bindings/*"
+        "./bindings/*",
+        "./bindings/binding_core_wasm/*"
     ],
     "scripts": {
         "changelog": "git cliff --output CHANGELOG.md",
