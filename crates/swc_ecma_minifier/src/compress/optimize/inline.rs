@@ -891,6 +891,13 @@ impl Optimizer<'_> {
             _ => (),
         }
     }
+
+    /// Optimizes
+    /// ```ts
+    /// var Foo;
+    /// Foo || (Foo = {}
+    /// ```
+    pub(super) fn optimize_ts_enum_init(&mut self, e: &mut Expr) {}
 }
 
 fn is_arrow_simple_enough_for_copy(e: &ArrowExpr) -> bool {
