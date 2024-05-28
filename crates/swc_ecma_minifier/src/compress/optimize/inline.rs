@@ -926,6 +926,9 @@ impl Optimizer<'_> {
             if !usage.declared {
                 return None;
             }
+            if usage.assign_count != 1 {
+                return None;
+            }
         }
 
         if let Expr::Object(obj) = &*rhs.right {
