@@ -1358,12 +1358,6 @@
 
 ## [1.3.94] - 2023-10-21
 
-### Bug Fixes
-
-
-
-- **(es/parser)** Skip `this` parameters in setter ([#8158](https://github.com/swc-project/swc/issues/8158)) ([826386f](https://github.com/swc-project/swc/commit/826386f49a1226ff3f7d352a75ccdc65c982b4be))
-
 ### Miscellaneous Tasks
 
 
