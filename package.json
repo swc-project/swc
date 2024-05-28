@@ -11,8 +11,7 @@
         "build": "cd ./packages/core && yarn build",
         "build:dev": "cd ./packages/core && yarn build:dev",
         "build:ts": "cd ./packages/core && yarn build:ts",
-        "test": "cd ./packages/core && yarn test",
-        "version": "cd ./packages/core && npm version"
+        "test": "cd ./packages/core && yarn test"
     },
     "devDependencies": {
         "@babel/compat-data": "^7.23.2",

@@ -17,7 +17,7 @@ echo "Publishing $version with swc_core $swc_core_version"
 
 
 # Update version
-npm version "$version" --no-git-tag-version --allow-same-version || true
+(cd ./packages/core && npm version "$version" --no-git-tag-version --allow-same-version || true)
 (cd ./packages/minifier && npm version "$version" --no-git-tag-version --allow-same-version || true)
 (cd ./bindings && cargo set-version $version -p binding_core_wasm -p binding_minifier_wasm)
 (cd ./bindings && cargo set-version --bump patch -p swc_cli)
