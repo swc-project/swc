@@ -12,7 +12,7 @@
         "build:dev": "cd ./packages/core && yarn build:dev",
         "build:ts": "cd ./packages/core && yarn build:ts",
         "test": "cd ./packages/core && yarn test",
-        "version": "cd ./packages/core && yarn version"
+        "version": "cd ./packages/core && npm version"
     },
     "devDependencies": {
         "@babel/compat-data": "^7.23.2",
@@ -88,5 +88,5 @@
             "prettier --write"
         ]
     },
-    "version": "1.5.9"
+    "version": "1.5.10"
 }
