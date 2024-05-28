@@ -1,6 +1,6 @@
 {
   "name": "@swc/core-linux-arm-gnueabihf",
-  "version": "1.5.16",
+  "version": "1.5.17",
   "os": [
     "linux"
   ],
