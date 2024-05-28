@@ -3,7 +3,8 @@
     "packageManager": "yarn@4.0.2",
     "private": true,
     "workspaces": [
-        "./packages/*"
+        "./packages/*",
+        "bindings/*"
     ],
     "scripts": {
         "changelog": "git cliff --output CHANGELOG.md",
