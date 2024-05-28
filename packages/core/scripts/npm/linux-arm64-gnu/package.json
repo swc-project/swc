@@ -1,6 +1,6 @@
 {
   "name": "@swc/core-linux-arm64-gnu",
-  "version": "1.5.11",
+  "version": "1.5.12",
   "os": [
     "linux"
   ],
