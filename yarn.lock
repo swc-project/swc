@@ -3822,6 +3822,66 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@swc/core-darwin-arm64@workspace:packages/core/scripts/npm/darwin-arm64":
+  version: 0.0.0-use.local
+  resolution: "@swc/core-darwin-arm64@workspace:packages/core/scripts/npm/darwin-arm64"
+  languageName: unknown
+  linkType: soft
+
+"@swc/core-darwin-x64@workspace:packages/core/scripts/npm/darwin-x64":
+  version: 0.0.0-use.local
+  resolution: "@swc/core-darwin-x64@workspace:packages/core/scripts/npm/darwin-x64"
+  languageName: unknown
+  linkType: soft
+
+"@swc/core-linux-arm-gnueabihf@workspace:packages/core/scripts/npm/linux-arm-gnueabihf":
+  version: 0.0.0-use.local
+  resolution: "@swc/core-linux-arm-gnueabihf@workspace:packages/core/scripts/npm/linux-arm-gnueabihf"
+  languageName: unknown
+  linkType: soft
+
+"@swc/core-linux-arm64-gnu@workspace:packages/core/scripts/npm/linux-arm64-gnu":
+  version: 0.0.0-use.local
+  resolution: "@swc/core-linux-arm64-gnu@workspace:packages/core/scripts/npm/linux-arm64-gnu"
+  languageName: unknown
+  linkType: soft
+
+"@swc/core-linux-arm64-musl@workspace:packages/core/scripts/npm/linux-arm64-musl":
+  version: 0.0.0-use.local
+  resolution: "@swc/core-linux-arm64-musl@workspace:packages/core/scripts/npm/linux-arm64-musl"
+  languageName: unknown
+  linkType: soft
+
+"@swc/core-linux-x64-gnu@workspace:packages/core/scripts/npm/linux-x64-gnu":
+  version: 0.0.0-use.local
+  resolution: "@swc/core-linux-x64-gnu@workspace:packages/core/scripts/npm/linux-x64-gnu"
+  languageName: unknown
+  linkType: soft
+
+"@swc/core-linux-x64-musl@workspace:packages/core/scripts/npm/linux-x64-musl":
+  version: 0.0.0-use.local
+  resolution: "@swc/core-linux-x64-musl@workspace:packages/core/scripts/npm/linux-x64-musl"
+  languageName: unknown
+  linkType: soft
+
+"@swc/core-win32-arm64-msvc@workspace:packages/core/scripts/npm/win32-arm64-msvc":
+  version: 0.0.0-use.local
+  resolution: "@swc/core-win32-arm64-msvc@workspace:packages/core/scripts/npm/win32-arm64-msvc"
+  languageName: unknown
+  linkType: soft
+
+"@swc/core-win32-ia32-msvc@workspace:packages/core/scripts/npm/win32-ia32-msvc":
+  version: 0.0.0-use.local
+  resolution: "@swc/core-win32-ia32-msvc@workspace:packages/core/scripts/npm/win32-ia32-msvc"
+  languageName: unknown
+  linkType: soft
+
+"@swc/core-win32-x64-msvc@workspace:packages/core/scripts/npm/win32-x64-msvc":
+  version: 0.0.0-use.local
+  resolution: "@swc/core-win32-x64-msvc@workspace:packages/core/scripts/npm/win32-x64-msvc"
+  languageName: unknown
+  linkType: soft
+
 "@swc/core@workspace:packages/core":
   version: 0.0.0-use.local
   resolution: "@swc/core@workspace:packages/core"
@@ -3856,6 +3916,66 @@ __metadata:
     magic-string: "npm:^0.30.0"
     tslib: "npm:^2.4.0"
     zx: "npm:^7.2.1"
+  languageName: unknown
+  linkType: soft
+
+"@swc/minifier-darwin-arm64@workspace:packages/minifier/scripts/npm/darwin-arm64":
+  version: 0.0.0-use.local
+  resolution: "@swc/minifier-darwin-arm64@workspace:packages/minifier/scripts/npm/darwin-arm64"
+  languageName: unknown
+  linkType: soft
+
+"@swc/minifier-darwin-x64@workspace:packages/minifier/scripts/npm/darwin-x64":
+  version: 0.0.0-use.local
+  resolution: "@swc/minifier-darwin-x64@workspace:packages/minifier/scripts/npm/darwin-x64"
+  languageName: unknown
+  linkType: soft
+
+"@swc/minifier-linux-arm-gnueabihf@workspace:packages/minifier/scripts/npm/linux-arm-gnueabihf":
+  version: 0.0.0-use.local
+  resolution: "@swc/minifier-linux-arm-gnueabihf@workspace:packages/minifier/scripts/npm/linux-arm-gnueabihf"
+  languageName: unknown
+  linkType: soft
+
+"@swc/minifier-linux-arm64-gnu@workspace:packages/minifier/scripts/npm/linux-arm64-gnu":
+  version: 0.0.0-use.local
+  resolution: "@swc/minifier-linux-arm64-gnu@workspace:packages/minifier/scripts/npm/linux-arm64-gnu"
+  languageName: unknown
+  linkType: soft
+
+"@swc/minifier-linux-arm64-musl@workspace:packages/minifier/scripts/npm/linux-arm64-musl":
+  version: 0.0.0-use.local
+  resolution: "@swc/minifier-linux-arm64-musl@workspace:packages/minifier/scripts/npm/linux-arm64-musl"
+  languageName: unknown
+  linkType: soft
+
+"@swc/minifier-linux-x64-gnu@workspace:packages/minifier/scripts/npm/linux-x64-gnu":
+  version: 0.0.0-use.local
+  resolution: "@swc/minifier-linux-x64-gnu@workspace:packages/minifier/scripts/npm/linux-x64-gnu"
+  languageName: unknown
+  linkType: soft
+
+"@swc/minifier-linux-x64-musl@workspace:packages/minifier/scripts/npm/linux-x64-musl":
+  version: 0.0.0-use.local
+  resolution: "@swc/minifier-linux-x64-musl@workspace:packages/minifier/scripts/npm/linux-x64-musl"
+  languageName: unknown
+  linkType: soft
+
+"@swc/minifier-win32-arm64-msvc@workspace:packages/minifier/scripts/npm/win32-arm64-msvc":
+  version: 0.0.0-use.local
+  resolution: "@swc/minifier-win32-arm64-msvc@workspace:packages/minifier/scripts/npm/win32-arm64-msvc"
+  languageName: unknown
+  linkType: soft
+
+"@swc/minifier-win32-ia32-msvc@workspace:packages/minifier/scripts/npm/win32-ia32-msvc":
+  version: 0.0.0-use.local
+  resolution: "@swc/minifier-win32-ia32-msvc@workspace:packages/minifier/scripts/npm/win32-ia32-msvc"
+  languageName: unknown
+  linkType: soft
+
+"@swc/minifier-win32-x64-msvc@workspace:packages/minifier/scripts/npm/win32-x64-msvc":
+  version: 0.0.0-use.local
+  resolution: "@swc/minifier-win32-x64-msvc@workspace:packages/minifier/scripts/npm/win32-x64-msvc"
   languageName: unknown
   linkType: soft
 
