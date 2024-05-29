@@ -86,7 +86,7 @@
         "package.json",
         "src/spack.d.ts",
         "src/types.js",
-        "src/postinstall.js",
+        "postinstall.js",
         "bindings/binding_core_wasm/pkg/binding_core_wasm.d.ts"
     ],
     "dependencies": {
