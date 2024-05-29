@@ -48,7 +48,7 @@
     "scripts": {
         "postinstall": "node postinstall.js",
         "artifacts": "napi artifacts --npm-dir scripts/npm",
-        "prepublish": "tsc -d && napi prepublish -p scripts/npm --tag-style npm",
+        "prepack": "tsc -d && napi prepublish -p scripts/npm --tag-style npm",
         "pack": "wasm-pack",
         "build:ts": "tsc -d",
         "build:wasm": "npm-run-all \"pack -- build ../../bindings/binding_core_wasm --scope swc {1} -t {2} --features plugin\" --",
