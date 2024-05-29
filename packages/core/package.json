@@ -82,7 +82,7 @@
         "src/types.d.ts",
         "src/util.js",
         "README.md",
-        "src/binding.js",
+        "binding.js",
         "package.json",
         "src/spack.d.ts",
         "src/types.js",
