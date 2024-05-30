@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(es/jest)** Handle `@jest/globals` ([#8994](https://github.com/swc-project/swc/issues/8994)) ([a81a01f](https://github.com/swc-project/swc/commit/a81a01f629613a624798693e60f9796904a8dce1))
+
 ## [1.5.9] - 2024-05-28
 
 ### Bug Fixes

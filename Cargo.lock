@@ -3936,7 +3936,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.92.6"
+version = "0.92.7"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -4173,7 +4173,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "0.113.4"
+version = "0.113.5"
 dependencies = [
  "arbitrary",
  "bitflags 2.5.0",
@@ -4415,7 +4415,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ext_transforms"
-version = "0.114.1"
+version = "0.114.2"
 dependencies = [
  "phf",
  "swc_atoms",
