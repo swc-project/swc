@@ -1619,8 +1619,8 @@ fn test_issue8747() {
     fold("({0.5: 'a'})[0.5]", "'a';");
     fold("({'0.5': 'a'})[0.5]", "'a';");
     fold("({0.5: 'a'})['0.5']", "'a';");
-    // Indexing objects that have a spread operator in `__proto__` can still be optimized
-    // if the key comes before the `__proto__` object.
+    // Indexing objects that have a spread operator in `__proto__` can still be
+    // optimized if the key comes before the `__proto__` object.
     fold("({1: 'bar', __proto__: {...[1]}})[1]", "({...[1]}), 'bar';");
     // Spread operator comes first, can't be evaluated.
     fold_same("({...[1], 1: 'bar'})[1]");

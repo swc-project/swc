@@ -1800,14 +1800,12 @@ fn need_zero_for_this(e: &Expr) -> bool {
     e.directness_maters() || e.is_seq()
 }
 
-/// Gets the value of the given key from the given object properties, if the key exists.
-/// If the key does exist, `Some` is returned and the property is removed from the given
-/// properties.
+/// Gets the value of the given key from the given object properties, if the key
+/// exists. If the key does exist, `Some` is returned and the property is
+/// removed from the given properties.
 fn get_key_value(key: &str, props: &mut Vec<PropOrSpread>) -> Option<Expr> {
     // It's impossible to know the value for certain if a spread property exists.
-    let has_spread = props
-        .iter()
-        .any(|prop| prop.is_spread());
+    let has_spread = props.iter().any(|prop| prop.is_spread());
 
     if has_spread {
         return None;
@@ -1816,18 +1814,18 @@ fn get_key_value(key: &str, props: &mut Vec<PropOrSpread>) -> Option<Expr> {
     for (i, prop) in props.iter_mut().enumerate() {
         let prop = match prop {
             PropOrSpread::Prop(x) => &mut **x,
-            PropOrSpread::Spread(_) => unreachable!()
+            PropOrSpread::Spread(_) => unreachable!(),
         };
 
         match prop {
             Prop::Shorthand(ident) if ident.sym == key => {
                 let prop = match props.remove(i) {
                     PropOrSpread::Prop(x) => *x,
-                    _ => unreachable!()
+                    _ => unreachable!(),
                 };
                 let ident = match prop {
                     Prop::Shorthand(x) => x,
-                    _ => unreachable!()
+                    _ => unreachable!(),
                 };
                 return Some(Expr::Ident(ident));
             }
@@ -1852,11 +1850,11 @@ fn get_key_value(key: &str, props: &mut Vec<PropOrSpread>) -> Option<Expr> {
                 } else if prop_name_eq(&prop.key, key) {
                     let prop = match props.remove(i) {
                         PropOrSpread::Prop(x) => *x,
-                        _ => unreachable!()
+                        _ => unreachable!(),
                     };
                     let prop = match prop {
                         Prop::KeyValue(x) => x,
-                        _ => unreachable!()
+                        _ => unreachable!(),
                     };
                     return Some(*prop.value);
                 }
