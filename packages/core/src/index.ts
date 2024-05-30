@@ -23,7 +23,7 @@ const bindings: typeof import("../binding") = (() => {
     try {
         binding = !!bindingsOverride
             ? require(resolve(bindingsOverride))
-            : require("../binding.js");
+            : require("./binding.js");
 
         // If native binding loaded successfully, it should return proper target triple constant.
         const triple = binding.getTargetTriple();
@@ -40,7 +40,7 @@ const bindings: typeof import("../binding") = (() => {
 /**
  * Version of the swc binding.
  */
-export const version: string = require("../package.json").version;
+export const version: string = require("./package.json").version;
 
 /**
  * @deprecated JavaScript API is deprecated. Please use Wasm plugin instead.
