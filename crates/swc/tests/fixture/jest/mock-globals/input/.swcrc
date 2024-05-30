@@ -1,0 +1,23 @@
+{
+    "$schema": "https://json.schemastore.org/swcrc",
+    "jsc": {
+        "parser": {
+            "syntax": "typescript",
+            "tsx": true,
+            "dynamicImport": true
+        },
+        "transform": {
+            "react": {
+                "runtime": "automatic"
+            }
+        },
+        "baseUrl": "./",
+        "target": "es2021",
+        "keepClassNames": true
+    },
+    "isModule": true,
+    "module": {
+        "type": "commonjs",
+        "ignoreDynamic": false
+    }
+}

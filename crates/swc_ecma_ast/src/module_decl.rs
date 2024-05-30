@@ -1,4 +1,5 @@
 use is_macro::Is;
+use swc_atoms::Atom;
 use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
 
 use crate::{
@@ -312,4 +313,14 @@ pub enum ModuleExportName {
 
     #[tag("StringLiteral")]
     Str(Str),
+}
+
+impl ModuleExportName {
+    /// Get the atom of the export name.
+    pub fn atom(&self) -> &Atom {
+        match self {
+            ModuleExportName::Ident(i) => &i.sym,
+            ModuleExportName::Str(s) => &s.value,
+        }
+    }
 }
