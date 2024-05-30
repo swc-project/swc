@@ -405,54 +405,22 @@ impl SimplifyExpr {
                     _ => return,
                 };
 
-                // do nothing if spread exists
-                let has_spread = props
-                    .iter()
-                    .any(|prop| matches!(prop, PropOrSpread::Spread(..)));
-
-                if has_spread {
+                // Get `key`s value. Non-existent keys are handled in compress.
+                // This also checks if spread exists.
+                let Some(v) = get_key_value(&key, props) else {
                     return;
-                }
+                };
 
-                let idx = props.iter().rev().position(|p| match p {
-                    PropOrSpread::Prop(p) => match &**p {
-                        Prop::Shorthand(i) => i.sym == key,
-                        Prop::KeyValue(k) => prop_name_eq(&k.key, &key),
-                        Prop::Assign(p) => p.key.sym == key,
-                        Prop::Getter(..) => false,
-                        Prop::Setter(..) => false,
-                        // TODO
-                        Prop::Method(..) => false,
-                    },
-                    _ => unreachable!(),
-                });
-                let idx = idx.map(|idx| props.len() - 1 - idx);
+                self.changed = true;
 
-                // Only replace if key exists; non-existent keys are handled in compress
-                if let Some(i) = idx {
-                    let v = props.remove(i);
-                    self.changed = true;
-
-                    *expr = self.expr_ctx.preserve_effects(
-                        *span,
-                        match v {
-                            PropOrSpread::Prop(p) => match *p {
-                                Prop::Shorthand(i) => Expr::Ident(i),
-                                Prop::KeyValue(p) => *p.value,
-                                Prop::Assign(p) => *p.value,
-                                Prop::Getter(..) => unreachable!(),
-                                Prop::Setter(..) => unreachable!(),
-                                // TODO
-                                Prop::Method(..) => unreachable!(),
-                            },
-                            _ => unreachable!(),
-                        },
-                        once(Box::new(Expr::Object(ObjectLit {
-                            props: props.take(),
-                            span: *span,
-                        }))),
-                    );
-                }
+                *expr = self.expr_ctx.preserve_effects(
+                    *span,
+                    v,
+                    once(Box::new(Expr::Object(ObjectLit {
+                        props: props.take(),
+                        span: *span,
+                    }))),
+                );
             }
 
             _ => {}
@@ -1830,4 +1798,73 @@ fn nth_char(s: &str, mut idx: usize) -> Option<Cow<str>> {
 
 fn need_zero_for_this(e: &Expr) -> bool {
     e.directness_maters() || e.is_seq()
+}
+
+/// Gets the value of the given key from the given object properties, if the key exists.
+/// If the key does exist, `Some` is returned and the property is removed from the given
+/// properties.
+fn get_key_value(key: &str, props: &mut Vec<PropOrSpread>) -> Option<Expr> {
+    // It's impossible to know the value for certain if a spread property exists.
+    let has_spread = props
+        .iter()
+        .any(|prop| prop.is_spread());
+
+    if has_spread {
+        return None;
+    }
+
+    for (i, prop) in props.iter_mut().enumerate() {
+        let prop = match prop {
+            PropOrSpread::Prop(x) => &mut **x,
+            PropOrSpread::Spread(_) => unreachable!()
+        };
+
+        match prop {
+            Prop::Shorthand(ident) if ident.sym == key => {
+                let prop = match props.remove(i) {
+                    PropOrSpread::Prop(x) => *x,
+                    _ => unreachable!()
+                };
+                let ident = match prop {
+                    Prop::Shorthand(x) => x,
+                    _ => unreachable!()
+                };
+                return Some(Expr::Ident(ident));
+            }
+
+            Prop::KeyValue(prop) => {
+                if key != "__proto__" && prop_name_eq(&prop.key, "__proto__") {
+                    // If __proto__ is defined, we need to check the contents of it,
+                    // as well as any nested __proto__ objects
+                    let Expr::Object(ObjectLit { props, .. }) = &mut *prop.value else {
+                        // __proto__ is not an ObjectLiteral. It's unsafe to keep trying to find
+                        // a value for this key, since __proto__ might also contain the key.
+                        return None;
+                    };
+
+                    // Get key value from __props__ object. Only return if
+                    // the result is Some. If None, we keep searching in the
+                    // parent object.
+                    let v = get_key_value(key, props);
+                    if v.is_some() {
+                        return v;
+                    }
+                } else if prop_name_eq(&prop.key, key) {
+                    let prop = match props.remove(i) {
+                        PropOrSpread::Prop(x) => *x,
+                        _ => unreachable!()
+                    };
+                    let prop = match prop {
+                        Prop::KeyValue(x) => x,
+                        _ => unreachable!()
+                    };
+                    return Some(*prop.value);
+                }
+            }
+
+            _ => {}
+        }
+    }
+
+    None
 }
