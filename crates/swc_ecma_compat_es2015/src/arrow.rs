@@ -182,14 +182,18 @@ impl VisitMut for Arrow {
     }
 
     fn visit_mut_getter_prop(&mut self, f: &mut GetterProp) {
-        let old_rep = self.hoister.take();
+        f.key.visit_mut_with(self);
 
-        f.visit_mut_children_with(self);
+        if let Some(body) = &mut f.body {
+            let old_rep = self.hoister.take();
 
-        let decl = mem::replace(&mut self.hoister, old_rep).to_stmt();
+            body.visit_mut_children_with(self);
 
-        if let (Some(body), Some(stmt)) = (&mut f.body, decl) {
-            prepend_stmt(&mut body.stmts, stmt);
+            let decl = mem::replace(&mut self.hoister, old_rep).to_stmt();
+
+            if let Some(stmt) = decl {
+                prepend_stmt(&mut body.stmts, stmt);
+            }
         }
     }
 
@@ -214,14 +218,18 @@ impl VisitMut for Arrow {
     }
 
     fn visit_mut_setter_prop(&mut self, f: &mut SetterProp) {
-        let old_rep = self.hoister.take();
+        f.key.visit_mut_with(self);
 
-        f.visit_mut_children_with(self);
+        if let Some(body) = &mut f.body {
+            let old_rep = self.hoister.take();
 
-        let decl = mem::replace(&mut self.hoister, old_rep).to_stmt();
+            body.visit_mut_children_with(self);
 
-        if let (Some(body), Some(stmt)) = (&mut f.body, decl) {
-            prepend_stmt(&mut body.stmts, stmt);
+            let decl = mem::replace(&mut self.hoister, old_rep).to_stmt();
+
+            if let Some(stmt) = decl {
+                prepend_stmt(&mut body.stmts, stmt);
+            }
         }
     }
 }
