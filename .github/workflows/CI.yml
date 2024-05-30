@@ -741,7 +741,7 @@ jobs:
       fail-fast: false
       matrix:
         os:
-          # - ubuntu-latest
+          - ubuntu-latest
           - windows-latest
           - macos-latest
     steps:
