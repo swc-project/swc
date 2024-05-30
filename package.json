@@ -3,7 +3,11 @@
     "packageManager": "yarn@4.0.2",
     "private": true,
     "workspaces": [
-        "./packages/*"
+        "./packages/*",
+        "./packages/core/scripts/npm/*",
+        "./packages/minifier/scripts/npm/*",
+        "./bindings/*",
+        "./bindings/binding_core_wasm/*"
     ],
     "scripts": {
         "changelog": "git cliff --output CHANGELOG.md",
@@ -87,5 +91,5 @@
             "prettier --write"
         ]
     },
-    "version": "1.5.8"
+    "version": "1.5.10"
 }
