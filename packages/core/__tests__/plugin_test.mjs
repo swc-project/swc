@@ -1,5 +1,5 @@
 import swc from "..";
-import Visitor from "../src/Visitor";
+import Visitor from "../Visitor";
 
 function assertAllObjectHasTypeFiled(obj, desc = '') {
     if (Array.isArray(obj)) {

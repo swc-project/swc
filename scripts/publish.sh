@@ -31,8 +31,8 @@ git tag -a -m "swc_core $swc_core_version" "v$version"
 
 # Update changelog
 yarn changelog
-git add -A
-git commit -m 'chore: Update changelog'
+git add -A || true
+git commit -m 'chore: Update changelog' || true
 
 # Publish packages
 git push

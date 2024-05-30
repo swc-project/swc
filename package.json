@@ -4,6 +4,8 @@
     "private": true,
     "workspaces": [
         "./packages/*",
+        "./packages/core/scripts/npm/*",
+        "./packages/minifier/scripts/npm/*",
         "./bindings/*",
         "./bindings/binding_core_wasm/*"
     ],
