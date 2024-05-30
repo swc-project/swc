@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Features
+
+
+
+- **(es/minifier)** Detect TypeScript enum initialization pattern ([#8986](https://github.com/swc-project/swc/issues/8986)) ([cc8c155](https://github.com/swc-project/swc/commit/cc8c1550ddd8f45712039663487fe07b8dfa2599))
+
 ## [1.5.23] - 2024-05-30
 
 ### Bug Fixes
@@ -1301,9 +1309,6 @@
 
 
 - **(ci)** Set `tag` for wasm publish actions ([#8200](https://github.com/swc-project/swc/issues/8200)) ([8db80b8](https://github.com/swc-project/swc/commit/8db80b8c28bba5a423194dd19ddf05ccd94eb650))
-
-
-- **(es/compat)** Make `block-scoping` pass rename exports correctly ([#8175](https://github.com/swc-project/swc/issues/8175)) ([b13bc32](https://github.com/swc-project/swc/commit/b13bc320274e773c9b0ef479e86194c4c6f1f6f8))
 
 
 - **(es/compat)** Use dummy span for blocks in `parameters` ([#8202](https://github.com/swc-project/swc/issues/8202)) ([c1b255a](https://github.com/swc-project/swc/commit/c1b255a59c1e8d81371c9576ca0c4573f04e65da))
