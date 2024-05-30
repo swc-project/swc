@@ -187,7 +187,7 @@ impl VisitMut for Arrow {
         if let Some(body) = &mut f.body {
             let old_rep = self.hoister.take();
 
-            body.visit_mut_children_with(self);
+            body.visit_mut_with(self);
 
             let decl = mem::replace(&mut self.hoister, old_rep).to_stmt();
 
@@ -223,7 +223,7 @@ impl VisitMut for Arrow {
         if let Some(body) = &mut f.body {
             let old_rep = self.hoister.take();
 
-            body.visit_mut_children_with(self);
+            body.visit_mut_with(self);
 
             let decl = mem::replace(&mut self.hoister, old_rep).to_stmt();
 
