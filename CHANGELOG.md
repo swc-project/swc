@@ -5,6 +5,9 @@
 
 
 
+- **(bindings/node)** Fix regression of JS APIs ([#8998](https://github.com/swc-project/swc/issues/8998)) ([125ddd2](https://github.com/swc-project/swc/commit/125ddd2dd98e882f9e10b7d94f766eae85143d71))
+
+
 - **(es/jest)** Handle `@jest/globals` ([#8994](https://github.com/swc-project/swc/issues/8994)) ([a81a01f](https://github.com/swc-project/swc/commit/a81a01f629613a624798693e60f9796904a8dce1))
 
 ## [1.5.9] - 2024-05-28
@@ -1325,9 +1328,6 @@
 
 
 - **(es/preset-env)** Update compat data ([#8194](https://github.com/swc-project/swc/issues/8194)) ([3dc4e1e](https://github.com/swc-project/swc/commit/3dc4e1e02d3e594da6301ca4c80aaee582642fd7))
-
-
-- **(es/testing)** Support babel-like fixture testing officially ([#8190](https://github.com/swc-project/swc/issues/8190)) ([e960614](https://github.com/swc-project/swc/commit/e9606147fc560cac2ffa75b917a08413b7c94908))
 
 
 - **(es/testing)** Use `__swc_snapshots__` for `test!` macro ([#8191](https://github.com/swc-project/swc/issues/8191)) ([0aafa75](https://github.com/swc-project/swc/commit/0aafa75fef43beb6630b143e9d71f129300e7614))
