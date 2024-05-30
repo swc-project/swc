@@ -5300,6 +5300,10 @@ dependencies = [
 ]
 
 [[package]]
+name = "swc_x_optimizer"
+version = "0.1.0"
+
+[[package]]
 name = "swc_xml"
 version = "0.13.22"
 dependencies = [
