@@ -1830,6 +1830,12 @@ impl VisitMut for Optimizer<'_> {
             debug_assert_valid(e);
         }
 
+        self.optimize_ts_enum_init(e);
+
+        if e.is_seq() {
+            debug_assert_valid(e);
+        }
+
         self.optimize_str_access_to_arguments(e);
 
         if e.is_seq() {

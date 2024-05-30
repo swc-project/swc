@@ -14,7 +14,7 @@ var M, M1, a, b, arr, m, C = function C() {
 }(C), D = function D() {
     _class_call_check(this, D);
 };
-for((M = M1 || (M1 = {})).A = function A() {
+for((M = M1 = {}).A = function A() {
     _class_call_check(this, A);
 }, M.F2 = function(x) {
     return x.toString();
