@@ -2359,7 +2359,7 @@
     }
     function ajaxExtend(target, src) {
         var deep, key, flatOptions = jQuery.ajaxSettings.flatOptions || {};
-        for(key in src)undefined !== src[key] && ((flatOptions[key] ? target : deep || (deep = {}))[key] = src[key]);
+        for(key in src)undefined !== src[key] && ((flatOptions[key] ? target : deep = {})[key] = src[key]);
         return deep && jQuery.extend(!0, target, deep), target;
     }
     ajaxLocParts = rurl.exec(ajaxLocation.toLowerCase()) || [], jQuery.fn.load = function(url, params, callback) {

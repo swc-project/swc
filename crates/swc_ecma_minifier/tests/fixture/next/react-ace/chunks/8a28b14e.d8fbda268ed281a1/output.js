@@ -8632,7 +8632,7 @@
                     }, this.getLastSearchOptions = function() {
                         return this.$search.getOptions();
                     }, this.find = function(needle, options, animate) {
-                        options || (options = {}), "string" == typeof needle || needle instanceof RegExp ? options.needle = needle : "object" == typeof needle && oop.mixin(options, needle);
+                        options = {}, "string" == typeof needle || needle instanceof RegExp ? options.needle = needle : "object" == typeof needle && oop.mixin(options, needle);
                         var range = this.selection.getRange();
                         null == options.needle && ((needle = this.session.getTextRange(range) || this.$search.$options.needle) || (range = this.session.getWordRange(range.start.row, range.start.column), needle = this.session.getTextRange(range)), this.$search.set({
                             needle: needle

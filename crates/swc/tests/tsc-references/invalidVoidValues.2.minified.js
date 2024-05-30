@@ -1,4 +1,4 @@
 //// [invalidVoidValues.ts]
-var E, M, E1;
+var E;
 import "@swc/helpers/_/_class_call_check";
-(E1 = E || (E = {}))[E1.A = 0] = "A", (M || (M = {})).x = 1;
+(E = {})[E.A = 0] = "A";

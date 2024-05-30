@@ -4,7 +4,7 @@ import "@swc/helpers/_/_await_async_generator";
 import "@swc/helpers/_/_wrap_async_generator";
 import { _ as _using_ctx } from "@swc/helpers/_/_using_ctx";
 try {
-    var N, _usingCtx = _using_ctx();
+    var _usingCtx = _using_ctx();
     _usingCtx.u({
         [Symbol.dispose] () {}
     }), (()=>{
@@ -29,7 +29,7 @@ try {
         } finally{
             _usingCtx.d();
         }
-    }(N || (N = {}));
+    }(0);
     try {
         var _usingCtx1 = _using_ctx();
         _usingCtx1.u({

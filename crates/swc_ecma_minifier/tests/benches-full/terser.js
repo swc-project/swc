@@ -86,7 +86,7 @@
         return MAP;
     }();
     function make_node(ctor, orig, props) {
-        return props || (props = {}), orig && (props.start || (props.start = orig.start), props.end || (props.end = orig.end)), new ctor(props);
+        return props = {}, orig && (props.start || (props.start = orig.start), props.end || (props.end = orig.end)), new ctor(props);
     }
     function push_uniq(array, el) {
         array.includes(el) || array.push(el);
@@ -5031,7 +5031,7 @@
             return !this.fixed || this.fixed instanceof AST_Node ? this.fixed : this.fixed();
         }
         unmangleable(options) {
-            return options || (options = {}), !!(function_defs && function_defs.has(this.id) && keep_name(options.keep_fnames, this.orig[0].name)) || this.global && !options.toplevel || 1 & this.export || this.undeclared || !options.eval && this.scope.pinned() || (this.orig[0] instanceof AST_SymbolLambda || this.orig[0] instanceof AST_SymbolDefun) && keep_name(options.keep_fnames, this.orig[0].name) || this.orig[0] instanceof AST_SymbolMethod || (this.orig[0] instanceof AST_SymbolClass || this.orig[0] instanceof AST_SymbolDefClass) && keep_name(options.keep_classnames, this.orig[0].name);
+            return options = {}, !!(function_defs && function_defs.has(this.id) && keep_name(options.keep_fnames, this.orig[0].name)) || this.global && !options.toplevel || 1 & this.export || this.undeclared || !options.eval && this.scope.pinned() || (this.orig[0] instanceof AST_SymbolLambda || this.orig[0] instanceof AST_SymbolDefun) && keep_name(options.keep_fnames, this.orig[0].name) || this.orig[0] instanceof AST_SymbolMethod || (this.orig[0] instanceof AST_SymbolClass || this.orig[0] instanceof AST_SymbolDefClass) && keep_name(options.keep_classnames, this.orig[0].name);
         }
         mangle(options) {
             const cache = options.cache && options.cache.props;

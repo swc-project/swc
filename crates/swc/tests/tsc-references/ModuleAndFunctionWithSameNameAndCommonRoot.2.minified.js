@@ -1,19 +1,11 @@
 //// [module.ts]
-var A, A1;
-((A1 = A || (A = {})).Point || (A1.Point = {})).Origin = {
+var A;
+((A = {}).Point || (A.Point = {})).Origin = {
     x: 0,
     y: 0
 };
 //// [function.ts]
-var A;
-(A || (A = {})).Point = function() {
-    return {
-        x: 0,
-        y: 0
-    };
-};
 //// [simple.ts]
-var B;
 !function(B) {
     var Point;
     function Point() {
@@ -26,4 +18,4 @@ var B;
         x: 0,
         y: 0
     }, B.Point = Point;
-}(B || (B = {}));
+}({});

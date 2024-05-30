@@ -1,6 +1,6 @@
 //// [ModuleWithExportedAndNonExportedFunctions.ts]
 var A, A1;
-(A1 = A || (A = {})).fn = function(s) {
+(A1 = A = {}).fn = function(s) {
     return !0;
 }, A1.fng = function(s) {
     return null;
