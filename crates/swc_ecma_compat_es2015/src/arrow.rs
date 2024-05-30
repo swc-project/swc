@@ -219,6 +219,7 @@ impl VisitMut for Arrow {
 
     fn visit_mut_setter_prop(&mut self, f: &mut SetterProp) {
         f.key.visit_mut_with(self);
+        f.param.visit_mut_with(self);
 
         if let Some(body) = &mut f.body {
             let old_rep = self.hoister.take();
