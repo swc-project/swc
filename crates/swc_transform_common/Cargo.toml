@@ -13,3 +13,7 @@ version       = "0.1.0"
   rustdoc-args = ["--cfg", "docsrs"]
 
 [dependencies]
+better_scoped_tls = { workspace = true }
+once_cell         = { workspace = true }
+serde             = { workspace = true }
+serde_json        = { workspace = true }
