@@ -7,6 +7,9 @@
 
 - **(es/es2015)** Fix injection location of `this` for getter/setter properties ([#8993](https://github.com/swc-project/swc/issues/8993)) ([09121a6](https://github.com/swc-project/swc/commit/09121a61cc5bf390b627e548c471bfc39ccb1c0f))
 
+
+- **(es/minifier)** Preserve unused special properties ([#9005](https://github.com/swc-project/swc/issues/9005)) ([e764ff6](https://github.com/swc-project/swc/commit/e764ff6f64d4e528a2af3e3ad7859ab3f8a2fe48))
+
 ### Features
 
 
