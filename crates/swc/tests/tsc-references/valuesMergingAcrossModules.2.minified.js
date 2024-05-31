@@ -5,5 +5,5 @@ export { A };
 import "./a";
 //// [c.ts]
 var A;
-(A || (A = {})).displayName = "A", A(), A.displayName;
+(A = {}).displayName = "A", A(), A.displayName;
 export { };

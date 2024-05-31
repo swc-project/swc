@@ -26,6 +26,6 @@ var a = [
     "b",
     "c"
 ];
-Object.entries(a), Object.values(a), (E = E1 || (E1 = {}))[E.A = 0] = "A", E[E.B = 1] = "B", Object.entries(E1), Object.values(E1);
+Object.entries(a), Object.values(a), (E = E1 = {})[E.A = 0] = "A", E[E.B = 1] = "B", Object.entries(E1), Object.values(E1);
 var i = {};
 Object.entries(i), Object.values(i);

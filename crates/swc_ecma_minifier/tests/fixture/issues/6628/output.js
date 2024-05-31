@@ -5,7 +5,7 @@
     }();
     !function(n) {
         n[n.Var = 0] = "Var", n[n.All = 1] = "All";
-    }(CallbackType || (CallbackType = {}));
+    }(CallbackType = {});
     var CepRule = function() {
         eval();
     }();

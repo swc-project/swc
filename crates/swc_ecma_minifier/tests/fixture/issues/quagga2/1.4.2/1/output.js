@@ -2083,7 +2083,7 @@
             var assignValue = __webpack_require__(55), baseAssignValue = __webpack_require__(37);
             module1.exports = function(source, props, object, customizer) {
                 var isNew = !object;
-                object || (object = {});
+                object = {};
                 for(var index = -1, length = props.length; ++index < length;){
                     var key = props[index], newValue = customizer ? customizer(object[key], source[key], key, object, source) : void 0;
                     void 0 === newValue && (newValue = source[key]), isNew ? baseAssignValue(object, key, newValue) : assignValue(object, key, newValue);
@@ -3252,7 +3252,7 @@
                 }
             };
             var image_debug = __webpack_require__(9), classCallCheck = __webpack_require__(3), classCallCheck_default = __webpack_require__.n(classCallCheck), createClass = __webpack_require__(4), createClass_default = __webpack_require__.n(createClass), assertThisInitialized = __webpack_require__(1), assertThisInitialized_default = __webpack_require__.n(assertThisInitialized), inherits = __webpack_require__(6), inherits_default = __webpack_require__.n(inherits), possibleConstructorReturn = __webpack_require__(5), possibleConstructorReturn_default = __webpack_require__.n(possibleConstructorReturn), getPrototypeOf = __webpack_require__(2), getPrototypeOf_default = __webpack_require__.n(getPrototypeOf), defineProperty = __webpack_require__(0), defineProperty_default = __webpack_require__.n(defineProperty), array_helper = __webpack_require__(10);
-            (BarcodeDirection = BarcodeDirection1 || (BarcodeDirection1 = {}))[BarcodeDirection.Forward = 1] = "Forward", BarcodeDirection[BarcodeDirection.Reverse = -1] = "Reverse";
+            (BarcodeDirection = BarcodeDirection1 = {})[BarcodeDirection.Forward = 1] = "Forward", BarcodeDirection[BarcodeDirection.Reverse = -1] = "Reverse";
             var barcode_reader = function() {
                 function BarcodeReader(config, supplements) {
                     return classCallCheck_default()(this, BarcodeReader), defineProperty_default()(this, "_row", []), defineProperty_default()(this, "config", {}), defineProperty_default()(this, "supplements", []), defineProperty_default()(this, "SINGLE_CODE_ERROR", 0), defineProperty_default()(this, "FORMAT", "unknown"), defineProperty_default()(this, "CONFIG_KEYS", {}), this._row = [], this.config = config || {}, supplements && (this.supplements = supplements), this;

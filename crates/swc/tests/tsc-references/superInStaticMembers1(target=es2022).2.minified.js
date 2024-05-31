@@ -9,7 +9,6 @@ export default class {
 //// [locals.ts]
 class C extends B {
     static{
-        let Reflect;
         this._ = [
             void super.w(),
             (()=>{
@@ -26,7 +25,7 @@ class C extends B {
             })(),
             void super.w(),
             void super.w(),
-            void (Reflect || (Reflect = {}), super.w()),
+            void super.w(),
             void super.w(),
             void super.w(),
             void super.w(),
@@ -56,8 +55,7 @@ class C extends B {
         super.w();
     }
     static{
-        let Reflect;
-        Reflect || (Reflect = {}), super.w();
+        super.w();
     }
     static{
         super.w();
@@ -173,8 +171,6 @@ class C extends B {
 }
 export { };
 //// [enumInContainingScopeStaticField.ts]
-var Reflect;
-Reflect || (Reflect = {});
 class C extends B {
     static{
         this._ = super.w();
@@ -182,8 +178,6 @@ class C extends B {
 }
 export { };
 //// [enumInContainingScopeStaticBlock.ts]
-var Reflect;
-Reflect || (Reflect = {});
 class C extends B {
     static{
         super.w();
