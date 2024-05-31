@@ -22,6 +22,7 @@ members = [
   "crates/swc_timer",
   "crates/swc_xml",
   "crates/swc_x_optimizer",
+  "crates/swc_transform_common",
 ]
 resolver = "2"
 

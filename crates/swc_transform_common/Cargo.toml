@@ -1,0 +1,6 @@
+[package]
+edition = "2021"
+name    = "swc_transform_common"
+version = "0.1.0"
+
+[dependencies]
