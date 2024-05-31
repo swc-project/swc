@@ -299,6 +299,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "better_scoped_tls"
+version = "0.1.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "794edcc9b3fb07bb4aecaa11f093fd45663b4feadb782d68303a2268bc2701de"
+dependencies = [
+ "scoped-tls",
+]
+
+[[package]]
 name = "bincode"
 version = "1.3.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3862,7 +3871,7 @@ dependencies = [
  "arbitrary",
  "ast_node",
  "atty",
- "better_scoped_tls",
+ "better_scoped_tls 0.1.1",
  "bytecheck",
  "cfg-if",
  "criterion",
@@ -4630,7 +4639,7 @@ dependencies = [
 name = "swc_ecma_transforms_base"
 version = "0.138.3"
 dependencies = [
- "better_scoped_tls",
+ "better_scoped_tls 0.1.1",
  "bitflags 2.5.0",
  "criterion",
  "indexmap 2.1.0",
@@ -4960,7 +4969,7 @@ dependencies = [
 name = "swc_estree_ast"
 version = "0.23.21"
 dependencies = [
- "better_scoped_tls",
+ "better_scoped_tls 0.1.1",
  "serde",
  "serde_json",
  "swc_atoms",
@@ -5220,7 +5229,7 @@ dependencies = [
 name = "swc_plugin_proxy"
 version = "0.42.1"
 dependencies = [
- "better_scoped_tls",
+ "better_scoped_tls 0.1.1",
  "rkyv",
  "swc_common",
  "swc_ecma_ast",
@@ -5284,6 +5293,12 @@ dependencies = [
 [[package]]
 name = "swc_transform_common"
 version = "0.1.0"
+dependencies = [
+ "better_scoped_tls 0.1.1 (registry+https://github.com/rust-lang/crates.io-index)",
+ "once_cell",
+ "serde",
+ "serde_json",
+]
 
 [[package]]
 name = "swc_visit"
