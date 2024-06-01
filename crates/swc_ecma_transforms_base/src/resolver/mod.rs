@@ -1969,15 +1969,7 @@ impl VisitMut for Hoister<'_, '_> {
 
         for item in stmts {
             match item {
-                Stmt::Decl(Decl::Var(v))
-                    if matches!(
-                        &**v,
-                        VarDecl {
-                            kind: VarDeclKind::Var,
-                            ..
-                        }
-                    ) =>
-                {
+                Stmt::Decl(Decl::Var(..)) => {
                     item.visit_mut_with(self);
                 }
                 Stmt::Decl(Decl::Fn(..)) => {

@@ -34,39 +34,6 @@
  59 |         setTimeout(() => {
     `----
 
-  x the name `ee` is defined multiple times
-    ,-[46:1]
- 46 | while (cond) {
- 47 |     let x = 10;
- 48 | 
- 49 |     function ee() {
-    :              ^|
-    :               `-- previous definition of `ee` here
- 50 |         alert(x);
- 51 |     }
- 52 | }
- 53 | 
- 54 | // not ok
- 55 | while (true) {
- 56 |     var a = 0;
- 57 | 
- 58 |     while (true) {
- 59 |         setTimeout(() => {
- 60 |             a;
- 61 |         })
- 62 |     }
- 63 | }
- 64 | 
- 65 | 
- 66 | 
- 67 | let { aa, bb: { bb }, cc: [cc], ...ee } = obj;
-    :                                    ^|
-    :                                     `-- `ee` redefined here
- 68 | for (const k in obj) {
- 69 |     setTimeout(() => {
- 70 |         aa;
-    `----
-
   x Function declared in a loop contains unsafe references to variable i
     ,-[6:1]
   6 |     
