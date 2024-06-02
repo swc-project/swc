@@ -4896,7 +4896,7 @@ dependencies = [
  "once_cell",
  "rayon",
  "rustc-hash",
- "ryu",
+ "ryu-js",
  "stacker",
  "swc_atoms",
  "swc_common",

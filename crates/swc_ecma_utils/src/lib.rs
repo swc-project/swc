@@ -984,7 +984,7 @@ pub trait ExprExt {
                         return Known(Cow::Borrowed("0"));
                     }
 
-                    let mut buffer = ryu::Buffer::new();
+                    let mut buffer = ryu_js::Buffer::new();
                     Known(Cow::Owned(buffer.format(n.value).to_string()))
                 }
                 Lit::Bool(Bool { value: true, .. }) => Known(Cow::Borrowed("true")),
