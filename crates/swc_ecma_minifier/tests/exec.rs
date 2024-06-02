@@ -11295,6 +11295,11 @@ fn issue_8964() {
 }
 
 #[test]
+fn issue_9008() {
+    run_default_exec_test("console.log('💖'[0]);")
+}
+
+#[test]
 fn issue_8982_1() {
     run_default_exec_test(
         "
