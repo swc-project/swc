@@ -979,7 +979,13 @@ pub trait ExprExt {
         match *expr {
             Expr::Lit(ref l) => match *l {
                 Lit::Str(Str { ref value, .. }) => Known(Cow::Borrowed(value)),
-                Lit::Num(ref n) => Known(format!("{}", n).into()),
+                Lit::Num(ref n) => {
+                    if n.value == -0.0 {
+                        return Known(Cow::Borrowed("0"));
+                    }
+
+                    Known(format!("{}", n).into())
+                }
                 Lit::Bool(Bool { value: true, .. }) => Known(Cow::Borrowed("true")),
                 Lit::Bool(Bool { value: false, .. }) => Known(Cow::Borrowed("false")),
                 Lit::Null(..) => Known(Cow::Borrowed("null")),
