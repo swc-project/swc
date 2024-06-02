@@ -246,7 +246,7 @@ impl Pure<'_> {
         obj: &mut Expr,
         prop: &MemberProp,
     ) -> Option<Expr> {
-        if !self.options.pristine_globals || self.ctx.is_lhs_of_assign || self.ctx.is_opt_call {
+        if !self.options.pristine_globals || self.ctx.is_lhs_of_assign || self.ctx.is_callee {
             return None;
         }
 

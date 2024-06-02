@@ -309,7 +309,7 @@ impl VisitMut for Pure<'_> {
     fn visit_mut_opt_call(&mut self, opt_call: &mut OptCall) {
         {
             let ctx = Ctx {
-                is_opt_call: true,
+                is_callee: true,
                 ..self.ctx
             };
             opt_call.callee.visit_mut_with(&mut *self.with_ctx(ctx));
@@ -882,7 +882,6 @@ impl VisitMut for Pure<'_> {
             let ctx = Ctx {
                 is_update_arg: false,
                 is_callee: false,
-                is_opt_call: false,
                 in_delete: false,
                 in_first_expr: true,
                 ..self.ctx
