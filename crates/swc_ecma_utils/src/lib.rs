@@ -13,6 +13,7 @@ pub extern crate swc_common;
 
 use std::{borrow::Cow, hash::Hash, num::FpCategory, ops::Add};
 
+use number::ToJsString;
 use rustc_hash::FxHashMap;
 use swc_atoms::JsWord;
 use swc_common::{
@@ -50,6 +51,7 @@ mod value;
 pub mod var;
 
 mod node_ignore_span;
+pub mod number;
 pub mod stack_size;
 pub use node_ignore_span::NodeIgnoringSpan;
 
@@ -979,7 +981,13 @@ pub trait ExprExt {
         match *expr {
             Expr::Lit(ref l) => match *l {
                 Lit::Str(Str { ref value, .. }) => Known(Cow::Borrowed(value)),
-                Lit::Num(ref n) => Known(format!("{}", n).into()),
+                Lit::Num(ref n) => {
+                    if n.value == -0.0 {
+                        return Known(Cow::Borrowed("0"));
+                    }
+
+                    Known(Cow::Owned(n.value.to_js_string()))
+                }
                 Lit::Bool(Bool { value: true, .. }) => Known(Cow::Borrowed("true")),
                 Lit::Bool(Bool { value: false, .. }) => Known(Cow::Borrowed("false")),
                 Lit::Null(..) => Known(Cow::Borrowed("null")),

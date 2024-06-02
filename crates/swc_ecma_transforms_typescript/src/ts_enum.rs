@@ -3,7 +3,7 @@ use std::mem;
 use swc_atoms::JsWord;
 use swc_common::{collections::AHashMap, Mark, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{undefined, ExprFactory};
+use swc_ecma_utils::{number::ToJsString, undefined, ExprFactory};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -207,14 +207,12 @@ impl<'a> EnumValueComputer<'a> {
                 TsEnumRecordValue::String(format!("{}{}", left, right).into())
             }
             (TsEnumRecordValue::Number(left), TsEnumRecordValue::String(right), op!(bin, "+")) => {
-                let mut buffer = ryu_js::Buffer::new();
-                let left = buffer.format(left);
+                let left = left.to_js_string();
 
                 TsEnumRecordValue::String(format!("{}{}", left, right).into())
             }
             (TsEnumRecordValue::String(left), TsEnumRecordValue::Number(right), op!(bin, "+")) => {
-                let mut buffer = ryu_js::Buffer::new();
-                let right = buffer.format(right);
+                let right = right.to_js_string();
 
                 TsEnumRecordValue::String(format!("{}{}", left, right).into())
             }
@@ -279,7 +277,7 @@ impl<'a> EnumValueComputer<'a> {
 
             let expr = match expr {
                 TsEnumRecordValue::String(s) => s.to_string(),
-                TsEnumRecordValue::Number(n) => ryu_js::Buffer::new().format(n).to_string(),
+                TsEnumRecordValue::Number(n) => n.to_js_string(),
                 _ => return opaque_expr,
             };
 
