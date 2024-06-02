@@ -11311,3 +11311,12 @@ fn issue_8982_2() {
         ",
     );
 }
+
+#[test]
+fn issue_9010() {
+    run_default_exec_test(
+        r#"
+        console.log(-0 + [])
+        "#,
+    );
+}
