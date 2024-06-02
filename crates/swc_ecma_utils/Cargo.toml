@@ -25,6 +25,7 @@ num_cpus   = { workspace = true }
 once_cell  = { workspace = true }
 rayon      = { workspace = true, optional = true }
 rustc-hash = { workspace = true }
+ryu        = { workspace = true }
 tracing    = { workspace = true }
 unicode-id = { workspace = true }
 
