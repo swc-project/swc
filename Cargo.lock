@@ -4470,7 +4470,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.194.8"
+version = "0.194.9"
 dependencies = [
  "ansi_term",
  "anyhow",
