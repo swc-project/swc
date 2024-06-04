@@ -31,6 +31,12 @@
 
 - **(x)** Initialize project ([#8999](https://github.com/swc-project/swc/issues/8999)) ([da70ebe](https://github.com/swc-project/swc/commit/da70ebed692d734ac4c042cd6a67fee9da793731))
 
+### Performance
+
+
+
+- **(es/parser)** Add feature named `tracing-spans` ([#9019](https://github.com/swc-project/swc/issues/9019)) ([3bf3114](https://github.com/swc-project/swc/commit/3bf31148ba5058323ee89bb2ca74b641c52c0669))
+
 ## [1.5.23] - 2024-05-30
 
 ### Bug Fixes
@@ -1330,9 +1336,6 @@
 
 ### Bug Fixes
 
-
-
-- **(es/compat)** Handle private names from class properties pass ([#8090](https://github.com/swc-project/swc/issues/8090)) ([83a5a0c](https://github.com/swc-project/swc/commit/83a5a0c612b7ca97529720f8a35117957d4cb9a6))
 
 
 - **(es/react)** Visit children nodes in `jsx-src` pass ([#8212](https://github.com/swc-project/swc/issues/8212)) ([47733a9](https://github.com/swc-project/swc/commit/47733a951c14bc22c2a60acb420b597ddab7d306))
