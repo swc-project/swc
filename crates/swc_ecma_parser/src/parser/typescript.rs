@@ -570,7 +570,7 @@ impl<I: Tokens> Parser<I> {
         }
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
+    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
     pub(super) fn try_parse_ts_type_args(&mut self) -> Option<Box<TsTypeParamInstantiation>> {
         trace_cur!(self, try_parse_ts_type_args);
         debug_assert!(self.input.syntax().typescript());
@@ -642,7 +642,7 @@ impl<I: Tokens> Parser<I> {
         }
     }
 
-    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
+    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
     pub(super) fn parse_ts_type_ann(
         &mut self,
         eat_colon: bool,
@@ -1972,7 +1972,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     /// `tsTryParseTypeAnnotation`
-    #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
+    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
     pub(super) fn try_parse_ts_type_ann(&mut self) -> PResult<Option<Box<TsTypeAnn>>> {
         if !cfg!(feature = "typescript") {
             return Ok(None);

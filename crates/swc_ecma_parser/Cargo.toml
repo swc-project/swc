@@ -18,10 +18,11 @@ bench = false
 
 [features]
 # Used for debugging
-debug      = []
-default    = ["typescript", "stacker"]
-typescript = []
-verify     = ["swc_ecma_visit"]
+debug         = ["tracing-spans"]
+default       = ["typescript", "stacker"]
+tracing-spans = []
+typescript    = []
+verify        = ["swc_ecma_visit"]
 
 [dependencies]
 either      = { workspace = true }
