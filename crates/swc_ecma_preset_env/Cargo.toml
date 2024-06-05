@@ -1,13 +1,13 @@
 [package]
-authors              = ["강동윤 <kdy1997.dev@gmail.com>"]
-description          = "preset-env for the swc"
-documentation        = "https://rustdoc.swc.rs/swc_ecma_preset_env/"
-edition              = "2021"
-include              = ["Cargo.toml", "src/**/*.rs", "src/**/*.json", "data/**/*.json"]
-license              = "Apache-2.0"
-name                 = "swc_ecma_preset_env"
-repository.workspace = true
-version              = "0.207.1"
+authors       = ["강동윤 <kdy1997.dev@gmail.com>"]
+description   = "preset-env for the swc"
+documentation = "https://rustdoc.swc.rs/swc_ecma_preset_env/"
+edition       = "2021"
+include       = ["Cargo.toml", "src/**/*.rs", "src/**/*.json", "data/**/*.json"]
+license       = "Apache-2.0"
+name          = "swc_ecma_preset_env"
+repository    = { workspace = true }
+version       = "0.207.1"
 
 [lib]
 bench = false

@@ -1,11 +1,11 @@
 [package]
-authors              = ["강동윤 <kdy1997.dev@gmail.com>"]
-description          = "Debug utilities"
-edition              = "2021"
-license              = "Apache-2.0"
-name                 = "dbg-swc"
-repository.workspace = true
-version              = "0.93.5"
+authors     = ["강동윤 <kdy1997.dev@gmail.com>"]
+description = "Debug utilities"
+edition     = "2021"
+license     = "Apache-2.0"
+name        = "dbg-swc"
+repository  = { workspace = true }
+version     = "0.93.5"
 
 [[bin]]
 bench = false
