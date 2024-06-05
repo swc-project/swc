@@ -1,0 +1,21 @@
+[package]
+authors       = ["강동윤 <kdy1997.dev@gmail.com>"]
+description   = "Common utilities for swc transforms for any language"
+documentation = "https://rustdoc.swc.rs/swc_transform_common/"
+edition       = "2021"
+license       = "Apache-2.0"
+name          = "swc_transform_common"
+repository    = "https://github.com/swc-project/swc.git"
+version       = "0.1.0"
+
+  [package.metadata.docs.rs]
+  all-features = true
+  rustdoc-args = ["--cfg", "docsrs"]
+
+[dependencies]
+once_cell  = { workspace = true }
+rustc-hash = { workspace = true }
+serde      = { workspace = true }
+serde_json = { workspace = true }
+
+better_scoped_tls = { version = "0.1.1", path = "../better_scoped_tls" }

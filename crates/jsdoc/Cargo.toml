@@ -1,12 +1,13 @@
 [package]
-authors       = ["강동윤 <kdy1997.dev@gmail.com>"]
-description   = "JsDoc parser writen in rust"
-documentation = "https://rustdoc.swc.rs/jsdoc/"
-edition       = "2021"
-include       = ["Cargo.toml", "src/**/*.rs"]
-license       = "Apache-2.0"
-name          = "jsdoc"
-version       = "0.113.1"
+authors              = ["강동윤 <kdy1997.dev@gmail.com>"]
+description          = "JsDoc parser writen in rust"
+documentation        = "https://rustdoc.swc.rs/jsdoc/"
+edition              = "2021"
+include              = ["Cargo.toml", "src/**/*.rs"]
+license              = "Apache-2.0"
+name                 = "jsdoc"
+repository.workspace = true
+version              = "0.113.1"
 
 [lib]
 bench = false
