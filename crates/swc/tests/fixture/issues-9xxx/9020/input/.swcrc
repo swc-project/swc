@@ -1,5 +1,4 @@
 {
-    "sourceMaps": true,
     "jsc": {
         "parser": {
             "syntax": "ecmascript",
