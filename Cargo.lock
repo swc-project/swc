@@ -3982,6 +3982,7 @@ dependencies = [
  "swc_plugin_proxy",
  "swc_plugin_runner",
  "swc_trace_macro",
+ "swc_transform_common",
  "testing",
  "vergen",
 ]

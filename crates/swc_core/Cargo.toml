@@ -21,6 +21,7 @@ version       = "0.92.11"
     "ecma_loader",
     "ecma_ast",
     "trace_macro",
+    "transform_common",
     "plugin_transform",
   ]
   rustdoc-args = ["--cfg", "docsrs"]
@@ -39,6 +40,8 @@ doctest = false
 
 # swc_common/ahash
 common_ahash = ["swc_common/ahash"]
+
+transform_common = []
 
 # swc_ecma_loader/cache*
 ecma_loader_lru         = ["swc_ecma_loader/lru"]
@@ -371,6 +374,7 @@ swc_plugin                       = { optional = true, version = "0.90.0", path =
 swc_plugin_macro                 = { optional = true, version = "0.9.16", path = "../swc_plugin_macro" }
 swc_plugin_proxy                 = { optional = true, version = "0.42.1", path = "../swc_plugin_proxy" }
 swc_trace_macro                  = { optional = true, version = "0.1.3", path = "../swc_trace_macro" }
+swc_transform_common             = { optional = true, version = "0.1.0", path = "../swc_transform_common" }
 testing                          = { optional = true, version = "0.35.24", path = "../testing" }
 # TODO: eventually swc_plugin_runner needs to remove default features
 swc_plugin_runner = { optional = true, version = "0.107.1", path = "../swc_plugin_runner", default-features = false }

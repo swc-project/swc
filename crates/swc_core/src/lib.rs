@@ -184,6 +184,12 @@ pub mod trace_macro {
     pub use swc_trace_macro::*;
 }
 
+#[cfg(feature = "transform_common")]
+#[cfg_attr(docsrs, doc(cfg(feature = "transform_common")))]
+pub mod transform_common {
+    pub use swc_transform_common::*;
+}
+
 // swc_bundler
 #[cfg(feature = "__bundler")]
 #[cfg_attr(docsrs, doc(cfg(feature = "__bundler")))]
