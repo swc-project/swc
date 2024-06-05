@@ -1,11 +1,12 @@
 [package]
-authors       = ["강동윤 <kdy1997.dev@gmail.com>"]
-description   = "Common logic for targetting vairous browsers"
-documentation = "https://rustdoc.swc.rs/preset_env_base/"
-edition       = "2021"
-license       = "Apache-2.0"
-name          = "preset_env_base"
-version       = "0.4.13"
+authors              = ["강동윤 <kdy1997.dev@gmail.com>"]
+description          = "Common logic for targetting vairous browsers"
+documentation        = "https://rustdoc.swc.rs/preset_env_base/"
+edition              = "2021"
+license              = "Apache-2.0"
+name                 = "preset_env_base"
+repository.workspace = true
+version              = "0.4.13"
 
 [lib]
 bench = false
