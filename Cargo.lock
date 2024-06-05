@@ -3936,7 +3936,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.92.10"
+version = "0.92.11"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -4255,7 +4255,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2015"
-version = "0.5.3"
+version = "0.5.4"
 dependencies = [
  "arrayvec",
  "indexmap 2.1.0",
