@@ -551,10 +551,16 @@ jobs:
           - crate: swc_trace_macro
             os: ubuntu-latest
             runner: ubuntu-latest
+          - crate: swc_transform_common
+            os: ubuntu-latest
+            runner: ubuntu-latest
           - crate: swc_visit
             os: ubuntu-latest
             runner: ubuntu-latest
           - crate: swc_visit_macros
+            os: ubuntu-latest
+            runner: ubuntu-latest
+          - crate: swc_x_optimizer
             os: ubuntu-latest
             runner: ubuntu-latest
           - crate: swc_xml
