@@ -1,3 +1,7 @@
+//! (Experimental) Output capturing.
+//!
+//! This module provides a way to emit metadata to the JS caller.
+
 use std::cell::RefCell;
 
 use better_scoped_tls::scoped_tls;
