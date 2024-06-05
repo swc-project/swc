@@ -7,6 +7,15 @@
 
 - **(es/es2015)** Remove needless `unreachable!` ([#9021](https://github.com/swc-project/swc/issues/9021)) ([555e71c](https://github.com/swc-project/swc/commit/555e71cfd5dddfec35c8a694b50d6a08ab89ae3c))
 
+### Features
+
+
+
+- **(es/transforms)** Add experimental output API for transforms ([#9000](https://github.com/swc-project/swc/issues/9000)) ([6fa79be](https://github.com/swc-project/swc/commit/6fa79be0814a6e4dc5d7f61fb3bead3c13920a9d))
+
+
+- **(es/transforms)** Add an API for returning metadata to JS ([#9022](https://github.com/swc-project/swc/issues/9022)) ([6ce112c](https://github.com/swc-project/swc/commit/6ce112cfebc9be87df7d6e532a67a1af43cc0038))
+
 ## [1.5.25] - 2024-06-05
 
 ### Bug Fixes
@@ -1272,9 +1281,6 @@
 
 
 
-- **(css/modules)** Allow out-of-order class names for `composes` ([#8218](https://github.com/swc-project/swc/issues/8218)) ([aeb9caf](https://github.com/swc-project/swc/commit/aeb9cafd11c56d9dce41372211d90a3edb4d1848))
-
-
 - **(css/modules)** Fix handling of `:global()` selector ([#8219](https://github.com/swc-project/swc/issues/8219)) ([02cd7c2](https://github.com/swc-project/swc/commit/02cd7c2608758476545aadf62e01f2d74ed486f2))
 
 ### Features
@@ -1321,9 +1327,6 @@
 
 
 - **(es/parser)** Use smarter lookup table for lexer ([#8226](https://github.com/swc-project/swc/issues/8226)) ([d4ae44a](https://github.com/swc-project/swc/commit/d4ae44ac4547ad0964bb4c3bc482c9a23c13feb9))
-
-
-- **(es/typescript)** Visit ts import/export only once ([#8213](https://github.com/swc-project/swc/issues/8213)) ([a00f575](https://github.com/swc-project/swc/commit/a00f575837a44a14dd09dd634f45a64e138263b0))
 
 ### Refactor
 
