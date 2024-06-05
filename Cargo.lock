@@ -5287,6 +5287,7 @@ version = "0.1.0"
 dependencies = [
  "better_scoped_tls",
  "once_cell",
+ "rustc-hash",
  "serde",
  "serde_json",
 ]
