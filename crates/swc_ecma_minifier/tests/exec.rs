@@ -11295,6 +11295,11 @@ fn issue_8964() {
 }
 
 #[test]
+fn issue_9008() {
+    run_default_exec_test("console.log('💖'[0]);")
+}
+
+#[test]
 fn issue_8982_1() {
     run_default_exec_test(
         "
@@ -11309,5 +11314,14 @@ fn issue_8982_2() {
         "
         console.log(Math.min(0, -0));
         ",
+    );
+}
+
+#[test]
+fn issue_9010() {
+    run_default_exec_test(
+        r#"
+        console.log(-0 + [])
+        "#,
     );
 }

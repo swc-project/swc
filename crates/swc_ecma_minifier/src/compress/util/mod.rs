@@ -760,12 +760,12 @@ impl Visit for SuperFinder {
 }
 
 fn cmp_num(a: f64, b: f64) -> Ordering {
-    if a == -0.0 && b == 0.0 {
-        return Ordering::Greater;
+    if a == 0.0 && a.is_sign_negative() && b == 0.0 && b.is_sign_positive() {
+        return Ordering::Less;
     }
 
-    if a == 0.0 && b == -0.0 {
-        return Ordering::Less;
+    if a == 0.0 && a.is_sign_positive() && b == 0.0 && b.is_sign_negative() {
+        return Ordering::Greater;
     }
 
     a.partial_cmp(&b).unwrap()

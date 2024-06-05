@@ -849,11 +849,19 @@ impl Optimizer<'_> {
             match &**prop {
                 Prop::KeyValue(p) => match &p.key {
                     PropName::Str(s) => {
+                        if !can_remove_property(&s.value) {
+                            return None;
+                        }
+
                         if let Some(v) = unknown_used_props.get_mut(&s.value) {
                             *v = 0;
                         }
                     }
                     PropName::Ident(i) => {
+                        if !can_remove_property(&i.sym) {
+                            return None;
+                        }
+
                         if let Some(v) = unknown_used_props.get_mut(&i.sym) {
                             *v = 0;
                         }
@@ -861,6 +869,10 @@ impl Optimizer<'_> {
                     _ => return None,
                 },
                 Prop::Shorthand(p) => {
+                    if !can_remove_property(&p.sym) {
+                        return None;
+                    }
+
                     if let Some(v) = unknown_used_props.get_mut(&p.sym) {
                         *v = 0;
                     }
@@ -912,6 +924,10 @@ impl Optimizer<'_> {
 
         None
     }
+}
+
+fn can_remove_property(sym: &str) -> bool {
+    !matches!(sym, "toString" | "valueOf")
 }
 
 #[derive(Default)]

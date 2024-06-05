@@ -2243,7 +2243,7 @@
                 79930,
                 79960,
                 79990
-            ], (HijriParser = HijriParser1 || (HijriParser1 = {})).getHijriDate = function(gDate) {
+            ], (HijriParser = HijriParser1 = {}).getHijriDate = function(gDate) {
                 var day = gDate.getDate(), month = gDate.getMonth(), year = gDate.getFullYear(), tMonth = month + 1, tYear = year;
                 tMonth < 3 && (tYear -= 1, tMonth += 12);
                 var yPrefix = Math.floor(tYear / 100.), julilanOffset = yPrefix - Math.floor(yPrefix / 4.) - 2, julianNumber = Math.floor(365.25 * (tYear + 4716)) + Math.floor(30.6001 * (tMonth + 1)) + day - julilanOffset - 1524;
@@ -3614,7 +3614,7 @@
                     } else weeknum = Math.floor((daynum + day - 1) / 7);
                     return weeknum;
                 };
-            }(intl_base_IntlBase || (intl_base_IntlBase = {}));
+            }(intl_base_IntlBase = {});
             var headerRegex = /^(.*?):[ \t]*([^\r\n]*)$/gm, Ajax = function() {
                 function Ajax(options, type, async, contentType) {
                     this.mode = !0, this.emitError = !0, this.options = {}, 'string' == typeof options ? (this.url = options, this.type = type ? type.toUpperCase() : 'GET', this.mode = !!util_isNullOrUndefined(async) || async) : 'object' == typeof options && (this.options = options, util_merge(this, this.options)), this.type = this.type ? this.type.toUpperCase() : 'GET', this.contentType = void 0 !== this.contentType ? this.contentType : contentType;
@@ -6290,7 +6290,7 @@
                     }
                     container.getElementsByClassName('e-input-group-icon')[0] && container.getElementsByClassName('e-float-text-overflow')[0] && container.getElementsByClassName('e-float-text-overflow')[0].classList.add('e-icon');
                 }, Input.prependSpan = prependSpan, Input.appendSpan = appendSpan, Input.validateInputType = validateInputType;
-            }(Input || (Input = {}));
+            }(Input = {});
         },
         8801: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
             "use strict";
@@ -8007,7 +8007,7 @@
                     return RichTextEditorComponent;
                 }
             });
-            var extendStatics, extendStatics1, extendStatics2, extendStatics3, extendStatics4, extendStatics5, extendStatics6, extendStatics7, extendStatics8, extendStatics9, extendStatics10, extendStatics11, extendStatics12, extendStatics13, targetElement, selectedHandler, minHeight, maxHeight, minWidth, maxWidth, containerElement, resizeWestWidth, proxy, DialogUtility, react = __webpack_require__(7294), ej2_base = __webpack_require__(1807), popup = __webpack_require__(9486), constant = __webpack_require__(3386), classes = __webpack_require__(9805), base_enum = __webpack_require__(809), Render = function() {
+            var extendStatics, extendStatics1, extendStatics2, extendStatics3, extendStatics4, extendStatics5, extendStatics6, extendStatics7, extendStatics8, extendStatics9, extendStatics10, extendStatics11, extendStatics12, extendStatics13, targetElement, selectedHandler, minHeight, maxHeight, minWidth, maxWidth, containerElement, resizeWestWidth, proxy, react = __webpack_require__(7294), ej2_base = __webpack_require__(1807), popup = __webpack_require__(9486), constant = __webpack_require__(3386), classes = __webpack_require__(9805), base_enum = __webpack_require__(809), Render = function() {
                 function Render(parent, locator) {
                     this.parent = parent, this.locator = locator, this.renderer = this.locator.getService('rendererFactory'), this.addEventListener();
                 }
@@ -10450,7 +10450,7 @@
                         args && args.close && args.close.apply(confirmDialogObj), confirmDialogObj.destroy(), confirmDialogObj.element.classList.contains('e-dlg-modal') ? (confirmDialogObj.element.parentElement.remove(), confirmDialogObj.target.classList.remove(DLG_UTIL_ROOT)) : confirmDialogObj.element.remove();
                     }, confirmDialogObj;
                 };
-            }(DialogUtility || (DialogUtility = {}));
+            }({});
             var DialogRenderer = function() {
                 function DialogRenderer(parent) {
                     this.parent = parent, this.addEventListener();
@@ -24993,7 +24993,7 @@
                 y2: function() {
                     return RenderType;
                 }
-            }), (RenderType1 = RenderType || (RenderType = {}))[RenderType1.Toolbar = 0] = "Toolbar", RenderType1[RenderType1.Content = 1] = "Content", RenderType1[RenderType1.Popup = 2] = "Popup", RenderType1[RenderType1.LinkToolbar = 3] = "LinkToolbar", RenderType1[RenderType1.TextToolbar = 4] = "TextToolbar", RenderType1[RenderType1.ImageToolbar = 5] = "ImageToolbar", RenderType1[RenderType1.InlineToolbar = 6] = "InlineToolbar", RenderType1[RenderType1.TableToolbar = 7] = "TableToolbar", (ToolbarType1 = ToolbarType || (ToolbarType = {})).Expand = "Expand", ToolbarType1.MultiRow = "MultiRow", ToolbarType1.Scrollable = "Scrollable", (DialogType1 = DialogType || (DialogType = {})).InsertLink = "InsertLink", DialogType1.InsertImage = "InsertImage", DialogType1.InsertTable = "InsertTable";
+            }), (RenderType1 = RenderType = {})[RenderType1.Toolbar = 0] = "Toolbar", RenderType1[RenderType1.Content = 1] = "Content", RenderType1[RenderType1.Popup = 2] = "Popup", RenderType1[RenderType1.LinkToolbar = 3] = "LinkToolbar", RenderType1[RenderType1.TextToolbar = 4] = "TextToolbar", RenderType1[RenderType1.ImageToolbar = 5] = "ImageToolbar", RenderType1[RenderType1.InlineToolbar = 6] = "InlineToolbar", RenderType1[RenderType1.TableToolbar = 7] = "TableToolbar", (ToolbarType1 = ToolbarType = {}).Expand = "Expand", ToolbarType1.MultiRow = "MultiRow", ToolbarType1.Scrollable = "Scrollable", (DialogType1 = DialogType = {}).InsertLink = "InsertLink", DialogType1.InsertImage = "InsertImage", DialogType1.InsertTable = "InsertTable";
         },
         5932: function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
             "use strict";

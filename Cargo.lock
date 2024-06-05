@@ -1064,7 +1064,7 @@ checksum = "7e962a19be5cfc3f3bf6dd8f61eb50107f356ad6270fbb3ed41476571db78be5"
 
 [[package]]
 name = "dbg-swc"
-version = "0.93.3"
+version = "0.93.4"
 dependencies = [
  "anyhow",
  "clap 3.2.25",
@@ -3225,9 +3225,9 @@ dependencies = [
 
 [[package]]
 name = "ryu"
-version = "1.0.17"
+version = "1.0.18"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e86697c916019a8588c99b5fac3cead74ec0b4b819707a682fd4d23fa0ce1ba1"
+checksum = "f3cb5ba0dc43242ce17de99c180e96db90b235b8a9fdc9543c96d2209116bd9f"
 
 [[package]]
 name = "ryu-js"
@@ -3936,7 +3936,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.92.7"
+version = "0.92.11"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -4173,7 +4173,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_ast"
-version = "0.113.5"
+version = "0.113.6"
 dependencies = [
  "arbitrary",
  "bitflags 2.5.0",
@@ -4255,7 +4255,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2015"
-version = "0.5.2"
+version = "0.5.4"
 dependencies = [
  "arrayvec",
  "indexmap 2.1.0",
@@ -4470,7 +4470,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_minifier"
-version = "0.194.6"
+version = "0.194.9"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -4511,7 +4511,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.144.1"
+version = "0.144.2"
 dependencies = [
  "criterion",
  "either",
@@ -4628,7 +4628,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.138.2"
+version = "0.138.3"
 dependencies = [
  "better_scoped_tls",
  "bitflags 2.5.0",
@@ -4745,7 +4745,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_optimization"
-version = "0.199.1"
+version = "0.199.2"
 dependencies = [
  "dashmap",
  "indexmap 2.1.0",
@@ -4889,13 +4889,14 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "0.128.2"
+version = "0.128.3"
 dependencies = [
  "indexmap 2.1.0",
  "num_cpus",
  "once_cell",
  "rayon",
  "rustc-hash",
+ "ryu-js",
  "stacker",
  "swc_atoms",
  "swc_common",
@@ -5298,6 +5299,10 @@ dependencies = [
  "swc_macros_common",
  "syn 2.0.55",
 ]
+
+[[package]]
+name = "swc_x_optimizer"
+version = "0.1.0"
 
 [[package]]
 name = "swc_xml"

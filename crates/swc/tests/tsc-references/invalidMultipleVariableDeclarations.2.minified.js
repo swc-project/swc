@@ -14,7 +14,7 @@ var M, M1, C = function C() {
 }(C), D = function D() {
     _class_call_check(this, D);
 };
-(M = M1 || (M1 = {})).A = function A() {
+(M = M1 = {}).A = function A() {
     _class_call_check(this, A);
 }, M.F2 = function(x) {
     return x.toString();

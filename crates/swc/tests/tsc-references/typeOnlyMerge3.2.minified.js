@@ -2,7 +2,7 @@
 export { };
 //// [b.ts]
 var A;
-(A || (A = {})).displayName = "A";
+(A = {}).displayName = "A";
 export { A };
 //// [c.ts]
 import { A } from "./b";

@@ -1,7 +1,7 @@
 use radix_fmt::Radix;
 use swc_common::{util::take::Take, Spanned, SyntaxContext};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{undefined, ExprExt, IsEmpty, Value};
+use swc_ecma_utils::{number::ToJsString, undefined, ExprExt, IsEmpty, Value};
 
 use super::Pure;
 use crate::compress::util::{eval_as_number, is_pure_undefined_or_null};
@@ -382,7 +382,7 @@ impl Pure<'_> {
             if args.first().is_none() {
                 // https://tc39.es/ecma262/multipage/numbers-and-dates.html#sec-number.prototype.toprecision
                 // 2. If precision is undefined, return ! ToString(x).
-                let value = ryu_js::Buffer::new().format(num.value).to_string().into();
+                let value = num.value.to_js_string().into();
 
                 self.changed = true;
                 report_change!(
@@ -478,7 +478,7 @@ impl Pure<'_> {
                 .map_or(Some(10f64), |arg| eval_as_number(&self.expr_ctx, &arg.expr))
             {
                 if base.trunc() == 10. {
-                    let value = ryu_js::Buffer::new().format(num.value).to_string().into();
+                    let value = num.value.to_js_string().into();
                     *e = Expr::Lit(Lit::Str(Str {
                         span: e.span(),
                         raw: None,

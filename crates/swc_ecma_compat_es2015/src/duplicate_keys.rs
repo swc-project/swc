@@ -64,7 +64,7 @@ impl VisitMut for PropFolder {
                 }
             }
 
-            Prop::Assign(..) => unreachable!("assign property in object literal is invalid"),
+            Prop::Assign(..) => {}
 
             Prop::Getter(..) => prop.visit_mut_children_with(&mut PropNameFolder {
                 props: &mut self.getter_props,

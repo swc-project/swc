@@ -159,13 +159,11 @@ impl SimplifyExpr {
 
                 // 'foo'[1]
                 KnownOp::Index(idx) if (idx as usize) < value.len() => {
-                    self.changed = true;
-
                     if idx < 0 {
+                        self.changed = true;
                         *expr = *undefined(*span)
-                    } else {
-                        let value = nth_char(value, idx as _);
-
+                    } else if let Some(value) = nth_char(value, idx as _) {
+                        self.changed = true;
                         *expr = Expr::Lit(Lit::Str(Str {
                             raw: None,
                             value: value.into(),
@@ -1661,9 +1659,13 @@ where
     ctx.preserve_effects(span, Expr::Lit(Lit::Bool(Bool { value, span })), orig)
 }
 
-fn nth_char(s: &str, mut idx: usize) -> Cow<str> {
+fn nth_char(s: &str, mut idx: usize) -> Option<Cow<str>> {
+    if s.chars().any(|c| c.len_utf16() > 1) {
+        return None;
+    }
+
     if !s.contains("\\ud") && !s.contains("\\uD") {
-        return Cow::Owned(s.chars().nth(idx).unwrap().to_string());
+        return Some(Cow::Owned(s.chars().nth(idx).unwrap().to_string()));
     }
 
     let mut iter = s.chars().peekable();
@@ -1674,7 +1676,7 @@ fn nth_char(s: &str, mut idx: usize) -> Cow<str> {
                 let mut buf = String::new();
                 buf.push('\\');
                 buf.extend(iter.take(5));
-                return Cow::Owned(buf);
+                return Some(Cow::Owned(buf));
             } else {
                 for _ in 0..5 {
                     iter.next();
@@ -1683,7 +1685,7 @@ fn nth_char(s: &str, mut idx: usize) -> Cow<str> {
         }
 
         if idx == 0 {
-            return Cow::Owned(c.to_string());
+            return Some(Cow::Owned(c.to_string()));
         }
 
         idx -= 1;
