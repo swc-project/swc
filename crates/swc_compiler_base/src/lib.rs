@@ -34,6 +34,9 @@ pub struct TransformOutput {
     pub code: String,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub map: Option<String>,
+
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub output: Option<FxHashMap<String, serde_json::Value>>,
 }
 
 #[cfg(not(feature = "node"))]
