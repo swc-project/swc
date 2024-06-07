@@ -27,7 +27,7 @@ export interface JsMinifyOptions {
 
     keep_fnames?: boolean;
 
-    module?: boolean;
+    module?: boolean | "unknown";
 
     safari10?: boolean;
 

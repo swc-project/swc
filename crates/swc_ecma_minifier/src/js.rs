@@ -1,7 +1,7 @@
 //! NOT A PUBLIC API
 
 use serde::{Deserialize, Serialize};
-use swc_config::{config_types::BoolOrDataConfig, SourceMapContent};
+use swc_config::{config_types::BoolOrDataConfig, IsModule, SourceMapContent};
 
 use crate::option::{
     terser::{TerserCompressorOptions, TerserEcmaVersion},
@@ -33,8 +33,8 @@ pub struct JsMinifyOptions {
     #[serde(default, alias = "keep_fnames")]
     pub keep_fnames: bool,
 
-    #[serde(default)]
-    pub module: bool,
+    #[serde(default = "default_module")]
+    pub module: IsModule,
 
     #[serde(default)]
     pub safari10: bool,
@@ -209,4 +209,8 @@ pub enum JsMinifyCommentOption {
     PreserveSomeComments,
     #[serde(rename = "all")]
     PreserveAllComments,
+}
+
+fn default_module() -> IsModule {
+    IsModule::Bool(false)
 }
