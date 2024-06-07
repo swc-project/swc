@@ -5,15 +5,16 @@
 use std::cell::RefCell;
 
 use better_scoped_tls::scoped_tls;
+use rustc_hash::FxHashMap;
 use serde_json::Value;
 
-scoped_tls!(static OUTPUT: RefCell<serde_json::Map<String, Value>>);
+scoped_tls!(static OUTPUT: RefCell<FxHashMap<String, serde_json::Value>>);
 
 /// (Experimental) Captures output.
 ///
 /// This is not stable and may be removed in the future.
-pub fn capture<Ret>(f: impl FnOnce() -> Ret) -> (Ret, serde_json::Map<String, serde_json::Value>) {
-    let output = RefCell::new(serde_json::Map::default());
+pub fn capture<Ret>(f: impl FnOnce() -> Ret) -> (Ret, FxHashMap<String, serde_json::Value>) {
+    let output = RefCell::new(Default::default());
 
     let ret = OUTPUT.set(&output, f);
 
