@@ -106,6 +106,7 @@ swc_node_comments = { version = "0.20.20", path = "../swc_node_comments" }
 swc_plugin_proxy = { version = "0.42.1", path = "../swc_plugin_proxy", optional = true }
 swc_plugin_runner = { version = "0.107.1", path = "../swc_plugin_runner", optional = true, default-features = false }
 swc_timer = { version = "0.21.22", path = "../swc_timer" }
+swc_transform_common = { version = "0.1.1", path = "../swc_transform_common" }
 swc_visit = { version = "0.5.14", path = "../swc_visit" }
 
   [dependencies.tokio]

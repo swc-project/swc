@@ -8,13 +8,13 @@ use better_scoped_tls::scoped_tls;
 use rustc_hash::FxHashMap;
 use serde_json::Value;
 
-scoped_tls!(static OUTPUT: RefCell<FxHashMap<String, Value>>);
+scoped_tls!(static OUTPUT: RefCell<FxHashMap<String, serde_json::Value>>);
 
 /// (Experimental) Captures output.
 ///
 /// This is not stable and may be removed in the future.
-pub fn capture<Ret>(f: impl FnOnce() -> Ret) -> (Ret, FxHashMap<String, Value>) {
-    let output = RefCell::new(FxHashMap::default());
+pub fn capture<Ret>(f: impl FnOnce() -> Ret) -> (Ret, FxHashMap<String, serde_json::Value>) {
+    let output = RefCell::new(Default::default());
 
     let ret = OUTPUT.set(&output, f);
 

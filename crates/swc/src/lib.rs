@@ -915,6 +915,7 @@ impl Compiler {
                         .with_emit_assert_for_import_attributes(
                             opts.format.emit_assert_for_import_attributes,
                         ),
+                    output: None,
                 },
             )
         })
@@ -966,10 +967,12 @@ impl Compiler {
             };
 
             let mut pass = config.pass;
-            let program = helpers::HELPERS.set(&Helpers::new(config.external_helpers), || {
-                HANDLER.set(handler, || {
-                    // Fold module
-                    program.fold_with(&mut pass)
+            let (program, output) = swc_transform_common::output::capture(|| {
+                helpers::HELPERS.set(&Helpers::new(config.external_helpers), || {
+                    HANDLER.set(handler, || {
+                        // Fold module
+                        program.fold_with(&mut pass)
+                    })
                 })
             });
 
@@ -1003,6 +1006,7 @@ impl Compiler {
                         .with_emit_assert_for_import_attributes(
                             config.emit_assert_for_import_attributes,
                         ),
+                    output: Some(output),
                 },
             )
         })
