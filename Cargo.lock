@@ -3754,6 +3754,7 @@ dependencies = [
  "swc_plugin_proxy",
  "swc_plugin_runner",
  "swc_timer",
+ "swc_transform_common",
  "swc_visit",
  "testing",
  "tokio",
