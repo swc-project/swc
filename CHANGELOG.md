@@ -11,6 +11,9 @@
 
 
 
+- **(es)** Integrate experimental data API ([#9027](https://github.com/swc-project/swc/issues/9027)) ([825749f](https://github.com/swc-project/swc/commit/825749f44052234ba0de9db3f4cea40517ddd917))
+
+
 - **(es/minifier)** Support `module: "unknown"` ([#9026](https://github.com/swc-project/swc/issues/9026)) ([cada50b](https://github.com/swc-project/swc/commit/cada50b01746978d7c2c16fd03c3a6672aeed118))
 
 
@@ -1330,9 +1333,6 @@
 
 ### Build
 
-
-
-- **(cargo)** Update rustc to `nightly-2023-11-04` ([#8221](https://github.com/swc-project/swc/issues/8221)) ([14ea705](https://github.com/swc-project/swc/commit/14ea705f272968cba65399271a62e56a9943dc72))
 
 
 - **(preset-env/base)** Upgrade `browserslist-rs` to `v0.13.0` ([#8229](https://github.com/swc-project/swc/issues/8229)) ([f9f305c](https://github.com/swc-project/swc/commit/f9f305cc5faa79dd13bfa5763c6250b23a2a91e3))
