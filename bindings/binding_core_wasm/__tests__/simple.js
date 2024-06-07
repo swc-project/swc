@@ -190,7 +190,8 @@ describe("parse", () => {
 describe("minify", () => {
     it("should work", () => {
         const output = swc.minifySync(
-            "const somename = 1; console.log(somename);"
+            "const somename = 1; console.log(somename);",
+            { module: false }
         );
 
         expect(output).toMatchInlineSnapshot(`
@@ -202,7 +203,8 @@ describe("minify", () => {
 
     it("should work with async facade", async () => {
         const output = await swc.minify(
-            "const somename = 1; console.log(somename);"
+            "const somename = 1; console.log(somename);",
+            { module: false }
         );
 
         expect(output).toMatchInlineSnapshot(`
