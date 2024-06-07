@@ -91,5 +91,5 @@
             "prettier --write"
         ]
     },
-    "version": "1.5.11-nightly-20240606.1"
+    "version": "1.5.26-nightly-20240607.1"
 }
