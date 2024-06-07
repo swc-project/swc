@@ -757,15 +757,14 @@ fn should_visit() {
                     output_path: config.output_path,
                     inline_sources_content: config.inline_sources_content,
                     source_map: config.source_maps,
-                    source_map_names: &Default::default(),
                     orig: None,
                     // TODO: figure out sourcemaps
                     comments: Some(&comments),
                     emit_source_map_columns: config.emit_source_map_columns,
-                    preamble: Default::default(),
                     codegen_config: swc_ecma_codegen::Config::default()
                         .with_target(config.target)
                         .with_minify(config.minify),
+                    ..Default::default()
                 },
             )
             .unwrap()
