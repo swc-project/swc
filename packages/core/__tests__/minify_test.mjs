@@ -260,7 +260,9 @@ it("should accept non-strict code", async () => {
     a = 1;
     delete a;
     console.log(a);
-    `);
+    `, {
+        module: false
+    });
 
     expect(code).toMatchInlineSnapshot(`"a=1,delete a,console.log(a);"`);
 });

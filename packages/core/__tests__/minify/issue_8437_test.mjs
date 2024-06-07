@@ -37,7 +37,8 @@ toFixed(1.2345, 2, Math.round, 1);
   async function minify() {
     const { code } = await swc.minify(origin, {
       compress: true,
-      mangle: false
+      mangle: false,
+      module: false
     });
     return code;
   }
