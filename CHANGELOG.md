@@ -11,6 +11,9 @@
 
 
 
+- **(es/minifier)** Support `module: "unknown"` ([#9026](https://github.com/swc-project/swc/issues/9026)) ([cada50b](https://github.com/swc-project/swc/commit/cada50b01746978d7c2c16fd03c3a6672aeed118))
+
+
 - **(es/transforms)** Add experimental output API for transforms ([#9000](https://github.com/swc-project/swc/issues/9000)) ([6fa79be](https://github.com/swc-project/swc/commit/6fa79be0814a6e4dc5d7f61fb3bead3c13920a9d))
 
 
@@ -1283,12 +1286,6 @@
 
 - **(css/modules)** Fix handling of `:global()` selector ([#8219](https://github.com/swc-project/swc/issues/8219)) ([02cd7c2](https://github.com/swc-project/swc/commit/02cd7c2608758476545aadf62e01f2d74ed486f2))
 
-### Features
-
-
-
-- **(es/codegen)** Respect `ascii_only: false` for `StrLit` ([#8217](https://github.com/swc-project/swc/issues/8217)) ([1a26be2](https://github.com/swc-project/swc/commit/1a26be2a271437894b1cda86c4707014e684b5ba))
-
 ### Miscellaneous Tasks
 
 
@@ -1309,9 +1306,6 @@
 
 
 - **(css/parser)** Use `AtomStore` ([#8238](https://github.com/swc-project/swc/issues/8238)) ([a3c03b3](https://github.com/swc-project/swc/commit/a3c03b30fb3aa19cb590addbf47b0583d1b05dad))
-
-
-- **(es)** Delete useless partition and extend in comments ([#8214](https://github.com/swc-project/swc/issues/8214)) ([67e2c4a](https://github.com/swc-project/swc/commit/67e2c4a4fd17436732099422c25d1c0d82f815dd))
 
 
 - **(es/lexer)** Remove needless clones of `Rc<RefCell<AtomStore>>` ([#8231](https://github.com/swc-project/swc/issues/8231)) ([37657b8](https://github.com/swc-project/swc/commit/37657b8bd53d848035040f31a386029ef4af7cea))
