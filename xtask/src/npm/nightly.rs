@@ -23,9 +23,10 @@ impl NightlyCmd {
 
             update_swc_crates().context("failed to update swc crates")?;
 
-            let root_pkg_json = repository_root()?.join("package.json");
+            let root_pkg_json = repository_root()?.join("./packages/core/package.json");
             let content = serde_json::from_reader::<_, serde_json::Value>(
-                std::fs::File::open(root_pkg_json).context("failed to open package.json")?,
+                std::fs::File::open(root_pkg_json)
+                    .context("failed to open ./packages/core/package.json")?,
             )?;
             let prev_version = Version::parse(content["version"].as_str().unwrap())?;
 
