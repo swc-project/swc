@@ -6,7 +6,6 @@ use std::{
 use anyhow::{Context, Error};
 use base64::prelude::{Engine, BASE64_STANDARD};
 use once_cell::sync::Lazy;
-use rustc_hash::FxHashMap;
 #[allow(unused)]
 use serde::{Deserialize, Serialize};
 use swc_atoms::JsWord;
@@ -36,7 +35,7 @@ pub struct TransformOutput {
     pub map: Option<String>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub output: Option<FxHashMap<String, serde_json::Value>>,
+    pub output: Option<serde_json::Map<String, serde_json::Value>>,
 }
 
 #[cfg(not(feature = "node"))]
@@ -47,7 +46,7 @@ pub struct TransformOutput {
     pub map: Option<String>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub output: Option<FxHashMap<String, serde_json::Value>>,
+    pub output: Option<serde_json::Map<String, serde_json::Value>>,
 }
 
 /// This method parses a javascript / typescript file
@@ -114,7 +113,7 @@ pub struct PrintArgs<'a> {
     pub emit_source_map_columns: bool,
     pub preamble: &'a str,
     pub codegen_config: swc_ecma_codegen::Config,
-    pub output: Option<FxHashMap<String, serde_json::Value>>,
+    pub output: Option<serde_json::Map<String, serde_json::Value>>,
 }
 
 impl Default for PrintArgs<'_> {
