@@ -7,10 +7,8 @@ use anyhow::{Context, Error};
 use base64::prelude::{Engine, BASE64_STANDARD};
 use once_cell::sync::Lazy;
 use rustc_hash::FxHashMap;
-use serde::{
-    de::{Unexpected, Visitor},
-    Deserialize, Deserializer, Serialize, Serializer,
-};
+#[allow(unused)]
+use serde::{Deserialize, Serialize};
 use swc_atoms::JsWord;
 use swc_common::{
     collections::AHashMap,
