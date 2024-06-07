@@ -1006,7 +1006,7 @@ impl Compiler {
                         .with_emit_assert_for_import_attributes(
                             config.emit_assert_for_import_attributes,
                         ),
-                    output: Some(output),
+                    output: Some(serde_json::Value::Object(output)),
                 },
             )
         })
