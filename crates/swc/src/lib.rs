@@ -804,7 +804,35 @@ impl Compiler {
 
             // https://github.com/swc-project/swc/issues/2254
 
-            if opts.module {
+            if opts.keep_fnames {
+                if let Some(opts) = &mut min_opts.compress {
+                    opts.keep_fnames = true;
+                }
+                if let Some(opts) = &mut min_opts.mangle {
+                    opts.keep_fn_names = true;
+                }
+            }
+
+            let comments = SingleThreadedComments::default();
+
+            let program = self
+                .parse_js(
+                    fm.clone(),
+                    handler,
+                    target,
+                    Syntax::Es(EsConfig {
+                        jsx: true,
+                        decorators: true,
+                        decorators_before_export: true,
+                        import_attributes: true,
+                        ..Default::default()
+                    }),
+                    opts.module,
+                    Some(&comments),
+                )
+                .context("failed to parse input file")?;
+
+            if program.is_module() {
                 if let Some(opts) = &mut min_opts.compress {
                     if opts.top_level.is_none() {
                         opts.top_level = Some(TopLevelOptions { functions: true });
@@ -818,40 +846,12 @@ impl Compiler {
                 }
             }
 
-            if opts.keep_fnames {
-                if let Some(opts) = &mut min_opts.compress {
-                    opts.keep_fnames = true;
-                }
-                if let Some(opts) = &mut min_opts.mangle {
-                    opts.keep_fn_names = true;
-                }
-            }
-
-            let comments = SingleThreadedComments::default();
-
-            let module = self
-                .parse_js(
-                    fm.clone(),
-                    handler,
-                    target,
-                    Syntax::Es(EsConfig {
-                        jsx: true,
-                        decorators: true,
-                        decorators_before_export: true,
-                        import_attributes: true,
-                        ..Default::default()
-                    }),
-                    IsModule::Bool(opts.module),
-                    Some(&comments),
-                )
-                .context("failed to parse input file")?;
-
             let source_map_names = if source_map.enabled() {
                 let mut v = swc_compiler_base::IdentCollector {
                     names: Default::default(),
                 };
 
-                module.visit_with(&mut v);
+                program.visit_with(&mut v);
 
                 v.names
             } else {
@@ -864,7 +864,7 @@ impl Compiler {
             let is_mangler_enabled = min_opts.mangle.is_some();
 
             let module = self.run_transform(handler, false, || {
-                let module = module.fold_with(&mut paren_remover(Some(&comments)));
+                let module = program.fold_with(&mut paren_remover(Some(&comments)));
 
                 let module =
                     module.fold_with(&mut resolver(unresolved_mark, top_level_mark, false));
