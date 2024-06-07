@@ -33,7 +33,7 @@ pub struct JsMinifyOptions {
     #[serde(default, alias = "keep_fnames")]
     pub keep_fnames: bool,
 
-    #[serde(default)]
+    #[serde(default = "default_module")]
     pub module: IsModule,
 
     #[serde(default)]
@@ -209,4 +209,8 @@ pub enum JsMinifyCommentOption {
     PreserveSomeComments,
     #[serde(rename = "all")]
     PreserveAllComments,
+}
+
+fn default_module() -> IsModule {
+    IsModule::Bool(false)
 }
