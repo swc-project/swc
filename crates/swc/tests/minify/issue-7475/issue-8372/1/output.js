@@ -1,1 +1,1 @@
-console.log({aób:"\xf3"});
+let a={aób:"\xf3"};console.log(a);

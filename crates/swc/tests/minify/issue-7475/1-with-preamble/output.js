@@ -1,2 +1,2 @@
 /** @license */
-console.log("Foo");
+function foo(){console.log("Foo")}foo();

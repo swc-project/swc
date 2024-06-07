@@ -1,9 +1,10 @@
 {
-  "mappings": "AAEAA,QAAQC,GAAG,CAFD,CAAEC,IAAK,MAAI",
+  "mappings": "AAAA,IAAMA,EAAI,CAAEC,IAAK,MAAI,EAErBC,QAAQC,GAAG,CAACH",
   "names": [
+    "a",
+    "aób",
     "console",
-    "log",
-    "aób"
+    "log"
   ],
   "rangeMappings": "",
   "sources": [

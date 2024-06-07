@@ -1,6 +1,7 @@
 {
-  "mappings": "AACIA,QAAQC,GAAG,CAAC",
+  "mappings": "AAAA,SAASA,MACLC,QAAQC,GAAG,CAAC,MAChB,CAEAF",
   "names": [
+    "foo",
     "console",
     "log"
   ],
