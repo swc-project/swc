@@ -6,7 +6,6 @@ use std::{
 use anyhow::{Context, Error};
 use base64::prelude::{Engine, BASE64_STANDARD};
 use once_cell::sync::Lazy;
-use serde::{Deserialize, Serialize};
 use rustc_hash::FxHashMap;
 use serde::{
     de::{Unexpected, Visitor},
