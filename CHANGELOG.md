@@ -17,6 +17,9 @@
 - **(es/minifier)** Support `module: "unknown"` ([#9026](https://github.com/swc-project/swc/issues/9026)) ([cada50b](https://github.com/swc-project/swc/commit/cada50b01746978d7c2c16fd03c3a6672aeed118))
 
 
+- **(es/renamer)** Workaround a bug of Safari ([#9029](https://github.com/swc-project/swc/issues/9029)) ([54ac992](https://github.com/swc-project/swc/commit/54ac992781fa5a619ee1bcb9f097c3915276d9a3))
+
+
 - **(es/transforms)** Add experimental output API for transforms ([#9000](https://github.com/swc-project/swc/issues/9000)) ([6fa79be](https://github.com/swc-project/swc/commit/6fa79be0814a6e4dc5d7f61fb3bead3c13920a9d))
 
 
@@ -1282,12 +1285,6 @@
 - **(es)** Remove duplicate `phf` dependency ([#8294](https://github.com/swc-project/swc/issues/8294)) ([25ac679](https://github.com/swc-project/swc/commit/25ac679bd3906c09212134859df9c75f38018822))
 
 ## [1.3.97] - 2023-11-09
-
-### Bug Fixes
-
-
-
-- **(css/modules)** Fix handling of `:global()` selector ([#8219](https://github.com/swc-project/swc/issues/8219)) ([02cd7c2](https://github.com/swc-project/swc/commit/02cd7c2608758476545aadf62e01f2d74ed486f2))
 
 ### Miscellaneous Tasks
 
