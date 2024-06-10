@@ -1,6 +1,6 @@
 {
     "name": "@swc/core-linux-arm64-musl",
-    "version": "1.5.26",
+    "version": "1.5.27",
     "os": [
         "linux"
     ],
