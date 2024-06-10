@@ -1006,7 +1006,11 @@ impl Compiler {
                         .with_emit_assert_for_import_attributes(
                             config.emit_assert_for_import_attributes,
                         ),
-                    output: Some(output),
+                    output: if output.is_empty() {
+                        None
+                    } else {
+                        Some(output)
+                    },
                 },
             )
         })
