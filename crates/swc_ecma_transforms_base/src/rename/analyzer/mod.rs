@@ -250,7 +250,14 @@ impl Visit for Analyzer {
         self.add_decl(f.ident.to_id(), true);
 
         // https://github.com/swc-project/swc/issues/6819
-        let has_rest = f.function.params.iter().any(|p| p.pat.is_rest());
+        //
+        // We need to check for assign pattern because safari has a bug.
+        // https://github.com/swc-project/swc/issues/9015
+        let has_rest = f
+            .function
+            .params
+            .iter()
+            .any(|p| p.pat.is_rest() || p.pat.is_assign());
         if has_rest {
             self.add_usage(f.ident.to_id());
         }
@@ -274,7 +281,14 @@ impl Visit for Analyzer {
                 v.add_decl(id.to_id(), true);
                 v.with_fn_scope(|v| {
                     // https://github.com/swc-project/swc/issues/6819
-                    if f.function.params.iter().any(|p| p.pat.is_rest()) {
+                    //
+                    // We need to check for assign pattern because safari has a bug.
+                    // https://github.com/swc-project/swc/issues/9015
+                    if f.function
+                        .params
+                        .iter()
+                        .any(|p| p.pat.is_rest() || p.pat.is_assign())
+                    {
                         v.add_usage(id.to_id());
                     }
 
