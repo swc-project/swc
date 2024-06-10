@@ -1,11 +1,11 @@
-function n(n = []) {
-    var l, u = "unused";
+function n(l = []) {
+    var u, e = "unused";
     if (arguments.length == 1) {
-        n = [
-            n
+        l = [
+            l
         ];
     }
-    return n;
+    return l;
 }
 console.log(JSON.stringify([
     n(),

@@ -9,7 +9,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 const e = t(require("./config.json"));
 function n({ config: t = e.default } = {}) {
-    function n(e) {
+    function r(e) {
         const n = t[e] || null;
         if (!n) {
             return false;
@@ -20,13 +20,13 @@ function n({ config: t = e.default } = {}) {
         }
         return Date.now() >= u && r;
     }
-    function r(e) {
+    function u(e) {
         const n = t[e] || null;
         return n;
     }
     return {
-        longlong10: r,
-        longlong2: n,
+        longlong10: u,
+        longlong2: r,
         longlong100: t
     };
 }

@@ -204,10 +204,10 @@ class e extends Text {
         return a(), 1 == o.length ? o[0] : new e(o, i);
     }
 }
-function n(t, e, n = 0, i = 1e9) {
-    for(let s = 0, h = 0, l = !0; h < t.length && s <= i; h++){
-        let r = t[h], o = s + r.length;
-        o >= n && (o > i && (r = r.slice(0, i - s)), s < n && (r = r.slice(n - s)), l ? (e[e.length - 1] += r, l = !1) : e.push(r)), s = o + 1;
+function n(t, e, i = 0, s = 1e9) {
+    for(let n = 0, h = 0, l = !0; h < t.length && n <= s; h++){
+        let r = t[h], o = n + r.length;
+        o >= i && (o > s && (r = r.slice(0, s - n)), n < i && (r = r.slice(i - n)), l ? (e[e.length - 1] += r, l = !1) : e.push(r)), n = o + 1;
     }
     return e;
 }
