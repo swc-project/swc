@@ -25189,10 +25189,10 @@
             "use strict";
             function pairs(values, pairof = pair) {
                 let previous;
-                const pairs = [];
+                const pairs1 = [];
                 let first = !1;
-                for (const value of values)first && pairs.push(pairof(previous, value)), previous = value, first = !0;
-                return pairs;
+                for (const value of values)first && pairs1.push(pairof(previous, value)), previous = value, first = !0;
+                return pairs1;
             }
             function pair(a, b) {
                 return [

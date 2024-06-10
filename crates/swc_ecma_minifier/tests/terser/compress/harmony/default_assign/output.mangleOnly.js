@@ -1,5 +1,5 @@
-function o(o, n = 3) {
-    console.log(o);
+function o(n, c = 3) {
+    console.log(n);
 }
 g = ([[] = 123])=>{};
 h = ([[o, n, c] = [
@@ -7,7 +7,7 @@ h = ([[o, n, c] = [
     5,
     6
 ]] = [])=>{};
-function n([[o, n, c] = [
+function n([[o, c, l] = [
     4,
     5,
     6

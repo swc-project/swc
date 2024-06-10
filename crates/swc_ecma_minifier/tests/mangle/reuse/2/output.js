@@ -1,8 +1,8 @@
-function e(e, t = {}, n = false) {
+function e(t, n = {}, r = false) {
     return {
-        rule: e,
-        params: t,
-        implicit: n
+        rule: t,
+        params: n,
+        implicit: r
     };
 }
 function t(t) {
