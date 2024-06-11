@@ -270,7 +270,9 @@ where
     Ok(TransformOutput {
         code,
         map,
-        output: Some(serde_json::to_string(&output).context("failed to serilaize output")?),
+        output: output
+            .map(|v| serde_json::to_string(&v).context("failed to serilaize output"))
+            .transpose()?,
     })
 }
 
