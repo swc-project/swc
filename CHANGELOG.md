@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Bug Fixes
+
+
+
+- **(es/minifier)** Fix typescript enum detection ([#9031](https://github.com/swc-project/swc/issues/9031)) ([6669343](https://github.com/swc-project/swc/commit/6669343b4aaaaca5cb4f4ee5753f86aea71974b1))
+
 ## [1.5.26] - 2024-06-10
 
 ### Bug Fixes
@@ -1285,12 +1293,6 @@
 - **(es)** Remove duplicate `phf` dependency ([#8294](https://github.com/swc-project/swc/issues/8294)) ([25ac679](https://github.com/swc-project/swc/commit/25ac679bd3906c09212134859df9c75f38018822))
 
 ## [1.3.97] - 2023-11-09
-
-### Miscellaneous Tasks
-
-
-
-- **(bindings/node)** Upgrade jemalloc ([#8227](https://github.com/swc-project/swc/issues/8227)) ([495268f](https://github.com/swc-project/swc/commit/495268f12611161285536ccbc03304a1bf1589d0))
 
 ### Performance
 
