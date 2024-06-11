@@ -1162,6 +1162,17 @@ impl<'a> Lexer<'a> {
         let mut raw = SmartString::new();
         let mut raw_slice_start = start;
 
+        macro_rules! consume_raw {
+            () => {{
+                let last_pos = self.cur_pos();
+                raw.push_str(unsafe {
+                    // Safety: Both of start and last_pos are valid position because we got them
+                    // from `self.input`
+                    self.input.slice(raw_slice_start, last_pos)
+                });
+            }};
+        }
+
         while let Some(c) = self.cur() {
             if c == '`' || (c == '$' && self.peek() == Some('{')) {
                 if start == self.cur_pos() && self.state.last_was_tpl_element() {
@@ -1175,12 +1186,7 @@ impl<'a> Lexer<'a> {
                     }
                 }
 
-                let last_pos = self.cur_pos();
-                raw.push_str(unsafe {
-                    // Safety: Both of start and last_pos are valid position because we got them
-                    // from `self.input`
-                    self.input.slice(raw_slice_start, last_pos)
-                });
+                consume_raw!();
 
                 // TODO: Handle error
                 return Ok(Token::Template {
@@ -1190,12 +1196,7 @@ impl<'a> Lexer<'a> {
             }
 
             if c == '\\' {
-                let last_pos = self.cur_pos();
-                raw.push_str(unsafe {
-                    // Safety: Both of start and last_pos are valid position because we got them
-                    // from `self.input`
-                    self.input.slice(raw_slice_start, last_pos)
-                });
+                consume_raw!();
 
                 raw.push('\\');
                 let mut wrapped = Raw(Some(raw));
@@ -1219,14 +1220,7 @@ impl<'a> Lexer<'a> {
             } else if c.is_line_terminator() {
                 self.state.had_line_break = true;
 
-                {
-                    let last_pos = self.cur_pos();
-                    raw.push_str(unsafe {
-                        // Safety: Both of start and last_pos are valid position because we got them
-                        // from `self.input`
-                        self.input.slice(raw_slice_start, last_pos)
-                    });
-                }
+                consume_raw!();
 
                 let c = if c == '\r' && self.peek() == Some('\n') {
                     raw.push('\r');
