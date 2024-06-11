@@ -100,7 +100,7 @@
     }), Events.bind = Events.on, Events.unbind = Events.off, _.extend(Backbone, Events);
     var Model = Backbone.Model = function(attributes, options) {
         var attrs = attributes || {};
-        options = {}, this.cid = _.uniqueId("c"), this.attributes = {}, options.collection && (this.collection = options.collection), options.parse && (attrs = this.parse(attrs, options) || {}), attrs = _.defaults({}, attrs, _.result(this, "defaults")), this.set(attrs, options), this.changed = {}, this.initialize.apply(this, arguments);
+        options || (options = {}), this.cid = _.uniqueId("c"), this.attributes = {}, options.collection && (this.collection = options.collection), options.parse && (attrs = this.parse(attrs, options) || {}), attrs = _.defaults({}, attrs, _.result(this, "defaults")), this.set(attrs, options), this.changed = {}, this.initialize.apply(this, arguments);
     };
     _.extend(Model.prototype, Events, {
         changed: null,
@@ -238,7 +238,7 @@
         };
     });
     var Collection = Backbone.Collection = function(models, options) {
-        (options = {}).model && (this.model = options.model), void 0 !== options.comparator && (this.comparator = options.comparator), this._reset(), this.initialize.apply(this, arguments), models && this.reset(models, _.extend({
+        options || (options = {}), options.model && (this.model = options.model), void 0 !== options.comparator && (this.comparator = options.comparator), this._reset(), this.initialize.apply(this, arguments), models && this.reset(models, _.extend({
             silent: !0
         }, options));
     }, setOptions = {
@@ -267,9 +267,9 @@
         },
         remove: function(models, options) {
             var i, l, index, model, singular = !_.isArray(models);
-            for(i = 0, models = singular ? [
+            for(models = singular ? [
                 models
-            ] : _.clone(models), options = {}, l = models.length; i < l; i++)(model = models[i] = this.get(models[i])) && (delete this._byId[model.id], delete this._byId[model.cid], index = this.indexOf(model), this.models.splice(index, 1), this.length--, options.silent || (options.index = index, model.trigger("remove", model, this, options)), this._removeReference(model));
+            ] : _.clone(models), options || (options = {}), i = 0, l = models.length; i < l; i++)(model = models[i] = this.get(models[i])) && (delete this._byId[model.id], delete this._byId[model.cid], index = this.indexOf(model), this.models.splice(index, 1), this.length--, options.silent || (options.index = index, model.trigger("remove", model, this, options)), this._removeReference(model));
             return singular ? models[0] : models;
         },
         set: function(models, options) {
@@ -308,7 +308,7 @@
             return singular ? models[0] : models;
         },
         reset: function(models, options) {
-            options = {};
+            options || (options = {});
             for(var i = 0, l = this.models.length; i < l; i++)this._removeReference(this.models[i]);
             return options.previousModels = this.models, this._reset(), models = this.add(models, _.extend({
                 silent: !0
@@ -352,7 +352,7 @@
         },
         sort: function(options) {
             if (!this.comparator) throw Error("Cannot sort a set without a comparator");
-            return options = {}, _.isString(this.comparator) || 1 === this.comparator.length ? this.models = this.sortBy(this.comparator, this) : this.models.sort(_.bind(this.comparator, this)), options.silent || this.trigger("sort", this, options), this;
+            return options || (options = {}), _.isString(this.comparator) || 1 === this.comparator.length ? this.models = this.sortBy(this.comparator, this) : this.models.sort(_.bind(this.comparator, this)), options.silent || this.trigger("sort", this, options), this;
         },
         pluck: function(attr) {
             return _.invoke(this.models, "get", attr);
@@ -452,7 +452,7 @@
         };
     });
     var View = Backbone.View = function(options) {
-        this.cid = _.uniqueId("view"), options = {}, _.extend(this, _.pick(options, viewOptions)), this._ensureElement(), this.initialize.apply(this, arguments), this.delegateEvents();
+        this.cid = _.uniqueId("view"), options || (options = {}), _.extend(this, _.pick(options, viewOptions)), this._ensureElement(), this.initialize.apply(this, arguments), this.delegateEvents();
     }, delegateEventSplitter = /^(\S+)\s*(.*)$/, viewOptions = [
         "model",
         "collection",
@@ -503,7 +503,7 @@
         }
     }), Backbone.sync = function(method, model, options) {
         var type = methodMap[method];
-        _.defaults(options = {}, {
+        _.defaults(options || (options = {}), {
             emulateHTTP: Backbone.emulateHTTP,
             emulateJSON: Backbone.emulateJSON
         });
@@ -537,7 +537,7 @@
         return Backbone.$.ajax.apply(Backbone.$, arguments);
     };
     var Router = Backbone.Router = function(options) {
-        (options = {}).routes && (this.routes = options.routes), this._bindRoutes(), this.initialize.apply(this, arguments);
+        options || (options = {}), options.routes && (this.routes = options.routes), this._bindRoutes(), this.initialize.apply(this, arguments);
     }, optionalParam = /\((.*?)\)/g, namedParam = /(\(\?)?:\w+/g, splatParam = /\*\w+/g, escapeRegExp = /[\-{}\[\]+?.,\\\^$|#\s]/g;
     _.extend(Router.prototype, Events, {
         initialize: function() {},

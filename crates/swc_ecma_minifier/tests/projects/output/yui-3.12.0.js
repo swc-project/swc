@@ -438,7 +438,7 @@ var YUI = function() {
     }, Y.Queue = Queue, YUI.Env._loaderQueue = YUI.Env._loaderQueue || new Queue();
     var hasOwn = Object.prototype.hasOwnProperty, isObject = Y.Lang.isObject;
     Y.cached = function(source, cache, refetch) {
-        return cache = {}, function(arg) {
+        return cache || (cache = {}), function(arg) {
             var key = arguments.length > 1 ? Array.prototype.join.call(arguments, "__") : String(arg);
             return key in cache && (!refetch || cache[key] != refetch) || (cache[key] = source.apply(source, arguments)), cache[key];
         };

@@ -1,4 +1,4 @@
 //// [mergedInterfacesWithMultipleBases2.ts]
-var a;
+var a, M;
 import "@swc/helpers/_/_class_call_check";
-a.a;
+a.a, M || (M = {});

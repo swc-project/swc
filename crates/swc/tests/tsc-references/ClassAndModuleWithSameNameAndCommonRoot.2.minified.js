@@ -1,12 +1,12 @@
 //// [class.ts]
-var X;
+var X, X1;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-((X = {}).Y || (X.Y = {})).Point = function Point(x, y) {
+((X1 = X || (X = {})).Y || (X1.Y = {})).Point = function Point(x, y) {
     _class_call_check(this, Point), this.x = x, this.y = y;
 };
 //// [module.ts]
-var X, Y, Point;
-(Point = (Y = (X = {}).Y || (X.Y = {})).Point || (Y.Point = {})).Origin = new Point(0, 0);
+var X, X1, Y, Point;
+(Point = (Y = (X1 = X || (X = {})).Y || (X1.Y = {})).Point || (Y.Point = {})).Origin = new Point(0, 0);
 //// [test.ts]
 new X.Y.Point(1, 1), X.Y.Point.Origin;
 //// [simple.ts]

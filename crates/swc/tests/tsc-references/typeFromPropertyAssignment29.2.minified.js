@@ -6,7 +6,7 @@ function ExpandoDecl(n) {
 ExpandoDecl.prop = 2, ExpandoDecl.m = function(n) {
     return n + 1;
 }, ExpandoDecl.prop, ExpandoDecl.m(12), ExpandoDecl(101).length;
-var ExpandoExpr = function(n) {
+var Ns, ExpandoExpr = function(n) {
     return n.toString();
 };
 ExpandoExpr.prop = {
@@ -29,7 +29,7 @@ ExpandoArrow.prop = 2, ExpandoArrow.m = function(n) {
     ExpandoNamespace.p6 = 42, Ns.foo = function() {
         return ExpandoNamespace;
     };
-}({});
+}(Ns || (Ns = {}));
 var ExpandoExpr2 = function(n) {
     return n.toString();
 };

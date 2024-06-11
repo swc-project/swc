@@ -7,7 +7,7 @@ var ANY, ANY1, M, ANY2 = [
     x: 1,
     y: null
 };
-M = {};
+M || (M = {});
 var objA = new function A() {
     _class_call_check(this, A);
 }();

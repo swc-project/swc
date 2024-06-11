@@ -1,3 +1,3 @@
 //// [mappedTypeOverlappingStringEnumKeys.ts]
-var TerrestrialAnimalTypes;
-(TerrestrialAnimalTypes = {}).CAT = "cat", TerrestrialAnimalTypes.DOG = "dog";
+var TerrestrialAnimalTypes, AlienAnimalTypes, TerrestrialAnimalTypes1;
+(TerrestrialAnimalTypes1 = TerrestrialAnimalTypes || (TerrestrialAnimalTypes = {})).CAT = "cat", TerrestrialAnimalTypes1.DOG = "dog", (AlienAnimalTypes || (AlienAnimalTypes = {})).CAT = "cat";

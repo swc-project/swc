@@ -1,15 +1,15 @@
 //// [everyTypeWithAnnotationAndInvalidInitializer.ts]
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-var M, N, N1, C = function C() {
+var M, N, M1, N1, C = function C() {
     _class_call_check(this, C);
 }, D = function D() {
     _class_call_check(this, D);
 };
-(M = {}).A = function A() {
+(M = M1 || (M1 = {})).A = function A() {
     _class_call_check(this, A);
 }, M.F2 = function(x) {
     return x.toString();
-}, (N = N1 = {}).A = function A() {
+}, (N = N1 || (N1 = {})).A = function A() {
     _class_call_check(this, A);
 }, N.F2 = function(x) {
     return x.toString();

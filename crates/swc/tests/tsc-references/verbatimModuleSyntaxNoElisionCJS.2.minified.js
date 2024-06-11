@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 }), require("./a");
 //// [/c.ts]
 var I;
-(I = {}).x = 1, module.exports = I;
+(I || (I = {})).x = 1, module.exports = I;
 //// [/d.ts]
 require("./c"), module.exports = J;
 //// [/e.d.ts]

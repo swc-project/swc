@@ -1,4 +1,5 @@
 //// [parserRealSource8.ts]
+var TypeScript;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 !function(TypeScript) {
     function pushAssignScope(scope, context, type, classType, fnc) {
@@ -102,4 +103,4 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
         var context = walker.state, go = !0;
         return ast && (ast.nodeType == NodeType.ModuleDeclaration ? (popAssignScope(context), context.modDeclChain.pop(), context.modDeclChain.length >= 1 && (context.typeFlow.checker.currentModDecl = context.modDeclChain[context.modDeclChain.length - 1])) : ast.nodeType == NodeType.ClassDeclaration ? popAssignScope(context) : ast.nodeType == NodeType.InterfaceDeclaration ? popAssignScope(context) : ast.nodeType == NodeType.With ? popAssignScope(context) : ast.nodeType == NodeType.FuncDecl ? (!ast.isConstructor || hasFlag(ast.fncFlags, FncFlags.ClassMethod)) && !ast.isOverload && popAssignScope(context) : ast.nodeType == NodeType.Catch ? ast.param && popAssignScope(context) : go = !1), walker.options.goChildren = go, ast;
     };
-}({});
+}(TypeScript || (TypeScript = {}));

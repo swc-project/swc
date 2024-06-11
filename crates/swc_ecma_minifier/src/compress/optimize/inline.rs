@@ -1,5 +1,3 @@
-use std::convert::Infallible;
-
 use rustc_hash::FxHashMap;
 use swc_common::{collections::AHashSet, util::take::Take, EqIgnoreSpan, Mark, Spanned};
 use swc_ecma_ast::*;
@@ -892,69 +890,6 @@ impl Optimizer<'_> {
             }
             _ => (),
         }
-    }
-
-    /// Optimizes
-    /// ```ts
-    /// var Foo;
-    /// Foo || (Foo = {}
-    /// ```
-    pub(super) fn optimize_ts_enum_init(&mut self, e: &mut Expr) -> Option<Infallible> {
-        if !self.options.reduce_vars {
-            return None;
-        }
-
-        let bin = match e {
-            Expr::Bin(bin @ BinExpr { op: op!("||"), .. }) => bin,
-            _ => return None,
-        };
-
-        let lhs = bin.left.as_ident()?;
-
-        let rhs = match &mut *bin.right {
-            Expr::Assign(a @ AssignExpr { op: op!("="), .. }) => a,
-            _ => return None,
-        };
-
-        if !self.may_remove_ident(lhs) {
-            return None;
-        }
-
-        {
-            let usage = self.data.vars.get(&lhs.to_id())?;
-
-            if !usage.declared {
-                return None;
-            }
-            if usage.assign_count != 1 {
-                return None;
-            }
-        }
-
-        if let Expr::Object(obj) = &*rhs.right {
-            if !obj.props.is_empty() {
-                return None;
-            }
-        } else {
-            return None;
-        }
-
-        let rhs_left = rhs.left.as_ident()?;
-
-        if !lhs.eq_ignore_span(rhs_left) {
-            return None;
-        }
-
-        self.changed = true;
-        report_change!("inline: Removed `||` operator");
-        *e = Expr::Assign(AssignExpr {
-            span: rhs.span,
-            op: op!("="),
-            left: lhs.clone().into(),
-            right: rhs.right.take(),
-        });
-
-        None
     }
 }
 

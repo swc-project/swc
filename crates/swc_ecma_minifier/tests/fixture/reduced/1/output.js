@@ -1,4 +1,4 @@
-var A, A2;
+var A, B, A2;
 ((A2 = A || (A = {})).Point || (A2.Point = {})).Origin = {
     x: 0,
     y: 0
@@ -18,4 +18,4 @@ var A, A2;
         x: 0,
         y: 0
     }, B1.Point = Point1;
-}({});
+}(B || (B = {}));

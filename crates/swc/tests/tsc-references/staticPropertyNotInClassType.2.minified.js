@@ -1,8 +1,8 @@
 //// [staticPropertyNotInClassType.ts]
-var C, c, C1, c1;
+var NonGeneric, Generic, C, c, C1, c1;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _create_class } from "@swc/helpers/_/_create_class";
-((C = function() {
+NonGeneric || (NonGeneric = {}), ((C = function() {
     function C(a, b) {
         _class_call_check(this, C), this.a = a, this.b = b;
     }
@@ -17,7 +17,7 @@ import { _ as _create_class } from "@swc/helpers/_/_create_class";
             set: function(v) {}
         }
     ]), C;
-}()) || (C = {})).bar = '', (c = new C(1, 2)).fn(), c.foo, c.bar, c.x, ((C1 = function() {
+}()) || (C = {})).bar = '', (c = new C(1, 2)).fn(), c.foo, c.bar, c.x, Generic || (Generic = {}), ((C1 = function() {
     function C(a, b) {
         _class_call_check(this, C), this.a = a, this.b = b;
     }

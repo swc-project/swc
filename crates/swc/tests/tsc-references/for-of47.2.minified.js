@@ -1,6 +1,6 @@
 //// [for-of47.ts]
-var x, y, E;
-for ({ x, y: y = 0 } of ((E = {})[E.x = 0] = "x", [
+var x, y, E, E1;
+for ({ x, y: y = 0 } of ((E1 = E || (E = {}))[E1.x = 0] = "x", [
     {
         x: "",
         y: !0

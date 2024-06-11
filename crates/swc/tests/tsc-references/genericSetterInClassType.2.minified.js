@@ -1,6 +1,6 @@
 //// [genericSetterInClassType.ts]
-var c;
-(c = new class {
+var Generic, c;
+Generic || (Generic = {}), (c = new class {
     get y() {
         return 1;
     }

@@ -1,3 +1,3 @@
 //// [validEnumAssignments.ts]
-var E;
-(E = {})[E.A = 0] = "A", E[E.B = 1] = "B";
+var E, E1;
+(E1 = E || (E = {}))[E1.A = 0] = "A", E1[E1.B = 1] = "B";

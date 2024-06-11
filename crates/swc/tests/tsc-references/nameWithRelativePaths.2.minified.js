@@ -29,7 +29,7 @@ Object.defineProperty(exports, "__esModule", {
     get: function() {
         return M2;
     }
-}), (M2 = {}).x = !0;
+}), (M2 || (M2 = {})).x = !0;
 //// [test/foo_3.ts]
 Object.defineProperty(exports, "__esModule", {
     value: !0

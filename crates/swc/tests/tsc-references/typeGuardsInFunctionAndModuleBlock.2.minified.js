@@ -1,3 +1,3 @@
 //// [typeGuardsInFunctionAndModuleBlock.ts]
-var x, x1, m2;
-"string" == typeof x || x.toString(), (m2 = {}).m3 || (m2.m3 = {}), "string" == typeof x1 || x1.toString();
+var m, m1, x, m2, x1, m21, m22;
+m || (m = {}), m2 || (m2 = {}), "string" == typeof x || x.toString(), m1 || (m1 = {}), (m22 = m21 || (m21 = {})).m3 || (m22.m3 = {}), "string" == typeof x1 || x1.toString();

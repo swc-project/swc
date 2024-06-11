@@ -1,5 +1,5 @@
 //// [parserRealSource1.ts]
-var TypeScript, NullLogger, LoggerAdapter, BufferedLogger;
+var TypeScript, TypeScript1, NullLogger, LoggerAdapter, BufferedLogger;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 !function(CompilerDiagnostics) {
     function Alert(output) {
@@ -10,7 +10,7 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
     }, CompilerDiagnostics.assert = function(condition, s) {
         CompilerDiagnostics.debug && !condition && Alert(s);
     };
-}((TypeScript = {}).CompilerDiagnostics || (TypeScript.CompilerDiagnostics = {})), NullLogger = function() {
+}((TypeScript1 = TypeScript || (TypeScript = {})).CompilerDiagnostics || (TypeScript1.CompilerDiagnostics = {})), NullLogger = function() {
     function NullLogger() {
         _class_call_check(this, NullLogger);
     }
@@ -26,7 +26,7 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
     }, _proto.fatal = function() {
         return !1;
     }, _proto.log = function(s) {}, NullLogger;
-}(), TypeScript.NullLogger = NullLogger, LoggerAdapter = function() {
+}(), TypeScript1.NullLogger = NullLogger, LoggerAdapter = function() {
     function LoggerAdapter(logger) {
         _class_call_check(this, LoggerAdapter), this.logger = logger, this._information = this.logger.information(), this._debug = this.logger.debug(), this._warning = this.logger.warning(), this._error = this.logger.error(), this._fatal = this.logger.fatal();
     }
@@ -44,7 +44,7 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
     }, _proto.log = function(s) {
         this.logger.log(s);
     }, LoggerAdapter;
-}(), TypeScript.LoggerAdapter = LoggerAdapter, BufferedLogger = function() {
+}(), TypeScript1.LoggerAdapter = LoggerAdapter, BufferedLogger = function() {
     function BufferedLogger() {
         _class_call_check(this, BufferedLogger), this.logContents = [];
     }
@@ -62,10 +62,10 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
     }, _proto.log = function(s) {
         this.logContents.push(s);
     }, BufferedLogger;
-}(), TypeScript.BufferedLogger = BufferedLogger, TypeScript.timeFunction = function(logger, funcDescription, func) {
+}(), TypeScript1.BufferedLogger = BufferedLogger, TypeScript1.timeFunction = function(logger, funcDescription, func) {
     var start = +new Date(), result = func(), end = +new Date();
     return logger.log(funcDescription + " completed in " + (end - start) + " msec"), result;
-}, TypeScript.stringToLiteral = function(value, length) {
+}, TypeScript1.stringToLiteral = function(value, length) {
     var result = "", addChar = function(index) {
         switch(value.charCodeAt(index)){
             case 0x09:

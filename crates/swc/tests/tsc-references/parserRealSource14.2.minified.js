@@ -1,4 +1,5 @@
 //// [parserRealSource14.ts]
+var TypeScript;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 !function(TypeScript) {
     function lastOf(items) {
@@ -189,4 +190,4 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
             return walker.state.pop(), cur;
         }, null, path);
     };
-}({});
+}(TypeScript || (TypeScript = {}));

@@ -1,10 +1,10 @@
 //// [instancePropertiesInheritedIntoClassType.ts]
-var d, r, d1, r1;
+var NonGeneric, Generic, d, r, d1, r1;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _create_class } from "@swc/helpers/_/_create_class";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
-(r = (d = new (function(C) {
+NonGeneric || (NonGeneric = {}), (r = (d = new (function(C) {
     _inherits(D, C);
     var _super = _create_super(D);
     function D() {
@@ -26,7 +26,7 @@ import { _ as _create_super } from "@swc/helpers/_/_create_super";
             set: function(v) {}
         }
     ]), C;
-}()))(1, 2)).fn()).x, r.y, r.y = 4, d.y(), (r1 = (d1 = new (function(C) {
+}()))(1, 2)).fn()).x, r.y, r.y = 4, d.y(), Generic || (Generic = {}), (r1 = (d1 = new (function(C) {
     _inherits(D, C);
     var _super = _create_super(D);
     function D() {

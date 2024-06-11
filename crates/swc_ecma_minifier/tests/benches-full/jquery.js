@@ -2562,7 +2562,7 @@
     }
     function ajaxExtend(target, src) {
         var key, deep, flatOptions = jQuery.ajaxSettings.flatOptions || {};
-        for(key in src)void 0 !== src[key] && ((flatOptions[key] ? target : deep = {})[key] = src[key]);
+        for(key in src)void 0 !== src[key] && ((flatOptions[key] ? target : deep || (deep = {}))[key] = src[key]);
         return deep && jQuery.extend(!0, target, deep), target;
     }
     originAnchor.href = location.href, jQuery.extend({

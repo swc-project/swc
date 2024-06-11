@@ -1,9 +1,9 @@
 //// [constructorHasPrototypeProperty.ts]
-var C, D, C1, D1;
+var NonGeneric, Generic, C, D, C1, D1;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
-D = function(C) {
+NonGeneric || (NonGeneric = {}), D = function(C) {
     _inherits(D, C);
     var _super = _create_super(D);
     function D() {
@@ -12,7 +12,7 @@ D = function(C) {
     return D;
 }(C = function C() {
     _class_call_check(this, C);
-}), C.prototype.foo, D.prototype.bar, D1 = function(C) {
+}), C.prototype.foo, D.prototype.bar, Generic || (Generic = {}), D1 = function(C) {
     _inherits(D, C);
     var _super = _create_super(D);
     function D() {

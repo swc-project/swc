@@ -8442,7 +8442,7 @@
                     }), t;
                 }
                 function v(e, t) {
-                    t = {}, this.type = "default", this.status = void 0 === t.status ? 200 : t.status, this.ok = this.status >= 200 && this.status < 300, this.statusText = "statusText" in t ? t.statusText : "OK", this.headers = new l(t.headers), this.url = t.url || "", this._initBody(e);
+                    t || (t = {}), this.type = "default", this.status = void 0 === t.status ? 200 : t.status, this.ok = this.status >= 200 && this.status < 300, this.statusText = "statusText" in t ? t.statusText : "OK", this.headers = new l(t.headers), this.url = t.url || "", this._initBody(e);
                 }
                 y.prototype.clone = function() {
                     return new y(this, {
@@ -21710,7 +21710,7 @@
                         function i() {}
                         e.exports = function e(t, r, o) {
                             if ("function" == typeof r) return e(t, null, r);
-                            r = {}, a = o || i, u = !1, o = function() {
+                            r || (r = {}), a = o || i, u = !1, o = function() {
                                 if (!u) {
                                     u = !0;
                                     for(var e = arguments.length, t = Array(e), r = 0; r < e; r++)t[r] = arguments[r];
