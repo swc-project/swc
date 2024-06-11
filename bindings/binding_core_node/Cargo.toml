@@ -51,7 +51,7 @@ tracing-chrome = "0.5.0"
 tracing-futures = "0.2.5"
 tracing-subscriber = { version = "0.3.9", features = ["env-filter"] }
 
-swc_core = { version = "0.93.1", features = [
+swc_core = { version = "0.93.2", features = [
   "allocator_node",
   "ecma_ast",
   "ecma_codegen",
