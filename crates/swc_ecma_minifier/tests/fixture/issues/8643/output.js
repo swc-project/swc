@@ -77,7 +77,7 @@ export class FileLoader extends Loader {
                 let loaded = 0;
                 return new Response(new ReadableStream({
                     start (controller) {
-                        (function readData() {
+                        !function readData() {
                             reader.read().then(({ done, value })=>{
                                 if (done) controller.close();
                                 else {
@@ -93,7 +93,7 @@ export class FileLoader extends Loader {
                                     controller.enqueue(value), readData();
                                 }
                             });
-                        })();
+                        }();
                     }
                 }));
             }

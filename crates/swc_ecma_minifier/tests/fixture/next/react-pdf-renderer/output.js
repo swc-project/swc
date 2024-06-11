@@ -8781,7 +8781,7 @@
         4289: function(e, t, r) {
             "use strict";
             var n = r(2215), i = "function" == typeof Symbol && "symbol" == typeof Symbol("foo"), o = Object.prototype.toString, a = Array.prototype.concat, u = Object.defineProperty, l = r(1044)(), s = u && l, c = function(e, t, r, n) {
-                (!(t in e) || "function" == typeof n && "[object Function]" === o.call(n) && n()) && (s ? u(e, t, {
+                t in e && (!("function" == typeof n && "[object Function]" === o.call(n)) || !n()) || (s ? u(e, t, {
                     configurable: !0,
                     enumerable: !1,
                     value: r,
@@ -16561,7 +16561,7 @@
                                 return !1;
                             }
                         }(), s = function(e, t, r, n) {
-                            (!(t in e) || "function" == typeof n && "[object Function]" === o.call(n) && n()) && (l ? u(e, t, {
+                            t in e && (!("function" == typeof n && "[object Function]" === o.call(n)) || !n()) || (l ? u(e, t, {
                                 configurable: !0,
                                 enumerable: !1,
                                 value: r,
@@ -17449,9 +17449,9 @@
                                 return b(t) ? e.stylize("" + t, "number") : g(t) ? e.stylize("" + t, "boolean") : v(t) ? e.stylize("null", "null") : void 0;
                             }(e, r);
                             if (c) return c;
-                            var f = Object.keys(r), E = (u = {}, f.forEach(function(e, t) {
-                                u[e] = !0;
-                            }), u);
+                            var f = Object.keys(r), E = (i = {}, f.forEach(function(e, t) {
+                                i[e] = !0;
+                            }), i);
                             if (e.showHidden && (f = Object.getOwnPropertyNames(r)), x(r) && (f.indexOf("message") >= 0 || f.indexOf("description") >= 0)) return p(r);
                             if (0 === f.length) {
                                 if (S(r)) {
@@ -17476,9 +17476,9 @@
                                 }), o;
                             }(e, r, n, E, f) : f.map(function(t) {
                                 return h(e, r, n, E, t, T);
-                            }), e.seen.pop(), i = k, o = C, a = 0, l.reduce(function(e, t) {
-                                return a++, t.indexOf("\n") >= 0 && a++, e + t.replace(/\u001b\[\d\d?m/g, "").length + 1;
-                            }, 0) > 60 ? o[0] + ("" === i ? "" : i + "\n ") + " " + l.join(",\n  ") + " " + o[1] : o[0] + i + " " + l.join(", ") + " " + o[1]) : C[0] + k + C[1];
+                            }), e.seen.pop(), o = k, a = C, u = 0, l.reduce(function(e, t) {
+                                return u++, t.indexOf("\n") >= 0 && u++, e + t.replace(/\u001b\[\d\d?m/g, "").length + 1;
+                            }, 0) > 60 ? a[0] + ("" === o ? "" : o + "\n ") + " " + l.join(",\n  ") + " " + a[1] : a[0] + o + " " + l.join(", ") + " " + a[1]) : C[0] + k + C[1];
                         }
                         function p(e) {
                             return "[" + Error.prototype.toString.call(e) + "]";
@@ -18467,7 +18467,7 @@
                                     if ((0 === c || u._offset >= u._chunkSize) && (o = u._chunkSize, u._offset = 0, u._buffer = n.allocUnsafe(u._chunkSize)), 0 === c) {
                                         if (a += i - s, i = s, !f) return !0;
                                         var g = u._handle.write(t, e, a, i, u._buffer, u._offset, u._chunkSize);
-                                        return g.callback = b, void (g.buffer = e);
+                                        return void (g.callback = b, g.buffer = e);
                                     }
                                     if (!f) return !1;
                                     r();
@@ -20943,8 +20943,8 @@
                         }
                         function k(e, t, r, n, i) {
                             a("readableAddChunk", t);
-                            var o, u, l, s, c = e._readableState;
-                            if (null === t) c.reading = !1, function(e, t) {
+                            var o, u, l, s, c, f = e._readableState;
+                            if (null === t) f.reading = !1, function(e, t) {
                                 if (a("onEofChunk"), !t.ended) {
                                     if (t.decoder) {
                                         var r = t.decoder.end();
@@ -20952,21 +20952,21 @@
                                     }
                                     t.ended = !0, t.sync ? C(e) : (t.needReadable = !1, t.emittedReadable || (t.emittedReadable = !0, P(e)));
                                 }
-                            }(e, c);
-                            else if (i || (o = t, d.isBuffer(o) || o instanceof p || "string" == typeof o || void 0 === o || c.objectMode || (u = new m("chunk", [
+                            }(e, f);
+                            else if (i || (l = o = t, d.isBuffer(l) || l instanceof p || "string" == typeof o || void 0 === o || f.objectMode || (u = new m("chunk", [
                                 "string",
                                 "Buffer",
                                 "Uint8Array"
-                            ], o)), s = u), s) _(e, s);
-                            else if (c.objectMode || t && t.length > 0) {
-                                if ("string" == typeof t || c.objectMode || Object.getPrototypeOf(t) === d.prototype || (l = t, t = d.from(l)), n) c.endEmitted ? _(e, new E()) : T(e, c, t, !0);
-                                else if (c.ended) _(e, new D());
+                            ], o)), c = u), c) _(e, c);
+                            else if (f.objectMode || t && t.length > 0) {
+                                if ("string" == typeof t || f.objectMode || Object.getPrototypeOf(t) === d.prototype || (s = t, t = d.from(s)), n) f.endEmitted ? _(e, new E()) : T(e, f, t, !0);
+                                else if (f.ended) _(e, new D());
                                 else {
-                                    if (c.destroyed) return !1;
-                                    c.reading = !1, c.decoder && !r ? (t = c.decoder.write(t), c.objectMode || 0 !== t.length ? T(e, c, t, !1) : F(e, c)) : T(e, c, t, !1);
+                                    if (f.destroyed) return !1;
+                                    f.reading = !1, f.decoder && !r ? (t = f.decoder.write(t), f.objectMode || 0 !== t.length ? T(e, f, t, !1) : F(e, f)) : T(e, f, t, !1);
                                 }
-                            } else n || (c.reading = !1, F(e, c));
-                            return !c.ended && (c.length < c.highWaterMark || 0 === c.length);
+                            } else n || (f.reading = !1, F(e, f));
+                            return !f.ended && (f.length < f.highWaterMark || 0 === f.length);
                         }
                         function T(e, t, r, n) {
                             t.flowing && 0 === t.length && !t.sync ? (t.awaitDrain = 0, e.emit("data", r)) : (t.length += t.objectMode ? 1 : r.length, n ? t.buffer.unshift(r) : t.buffer.push(r), t.needReadable && C(e)), F(e, t);
@@ -21155,7 +21155,7 @@
                                 }
                                 t.push(null);
                             }), e.on("data", function(i) {
-                                a("wrapped data"), r.decoder && (i = r.decoder.write(i)), (!r.objectMode || null != i) && (r.objectMode || i && i.length) && (t.push(i) || (n = !0, e.pause()));
+                                a("wrapped data"), r.decoder && (i = r.decoder.write(i)), r.objectMode && null == i || !r.objectMode && (!i || !i.length) || t.push(i) || (n = !0, e.pause());
                             }), e)void 0 === this[i] && "function" == typeof e[i] && (this[i] = function(t) {
                                 return function() {
                                     return e[t].apply(e, arguments);
@@ -21683,7 +21683,7 @@
                             i(e, t), r(e);
                         }
                         function r(e) {
-                            (!e._writableState || e._writableState.emitClose) && (!e._readableState || e._readableState.emitClose) && e.emit("close");
+                            e._writableState && !e._writableState.emitClose || e._readableState && !e._readableState.emitClose || e.emit("close");
                         }
                         function i(e, t) {
                             e.emit("error", t);
@@ -23177,9 +23177,9 @@
                                 return b(t) ? e.stylize("" + t, "number") : g(t) ? e.stylize("" + t, "boolean") : v(t) ? e.stylize("null", "null") : void 0;
                             }(e, r);
                             if (c) return c;
-                            var f = Object.keys(r), E = (u = {}, f.forEach(function(e, t) {
-                                u[e] = !0;
-                            }), u);
+                            var f = Object.keys(r), E = (i = {}, f.forEach(function(e, t) {
+                                i[e] = !0;
+                            }), i);
                             if (e.showHidden && (f = Object.getOwnPropertyNames(r)), x(r) && (f.indexOf("message") >= 0 || f.indexOf("description") >= 0)) return p(r);
                             if (0 === f.length) {
                                 if (S(r)) {
@@ -23204,9 +23204,9 @@
                                 }), o;
                             }(e, r, n, E, f) : f.map(function(t) {
                                 return h(e, r, n, E, t, T);
-                            }), e.seen.pop(), i = k, o = C, a = 0, l.reduce(function(e, t) {
-                                return a++, t.indexOf("\n") >= 0 && a++, e + t.replace(/\u001b\[\d\d?m/g, "").length + 1;
-                            }, 0) > 60 ? o[0] + ("" === i ? "" : i + "\n ") + " " + l.join(",\n  ") + " " + o[1] : o[0] + i + " " + l.join(", ") + " " + o[1]) : C[0] + k + C[1];
+                            }), e.seen.pop(), o = k, a = C, u = 0, l.reduce(function(e, t) {
+                                return u++, t.indexOf("\n") >= 0 && u++, e + t.replace(/\u001b\[\d\d?m/g, "").length + 1;
+                            }, 0) > 60 ? a[0] + ("" === o ? "" : o + "\n ") + " " + l.join(",\n  ") + " " + a[1] : a[0] + o + " " + l.join(", ") + " " + a[1]) : C[0] + k + C[1];
                         }
                         function p(e) {
                             return "[" + Error.prototype.toString.call(e) + "]";

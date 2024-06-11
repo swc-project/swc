@@ -1,6 +1,7 @@
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{contains_this_expr, private_ident, prop_name_eq, ExprExt};
+use swc_ecma_visit::VisitMutWith;
 
 use super::{unused::PropertyAccessOpts, Optimizer};
 use crate::util::deeply_contains_this_expr;
@@ -23,6 +24,10 @@ impl Optimizer<'_> {
 
         let mut new = Vec::with_capacity(n.len());
         for mut n in n.take() {
+            if let Some(init) = &mut n.init {
+                init.visit_mut_with(self);
+            }
+
             let new_vars = self.hoist_props_of_var(&mut n);
 
             if let Some(new_vars) = new_vars {
