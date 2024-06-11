@@ -491,7 +491,7 @@
             };
             Object.prototype.hasOwnProperty;
             var EmotionCacheContext = (0, react.createContext)("undefined" != typeof HTMLElement ? function(options) {
-                var collection, length, callback, container, _insert, currentSheet, key = options.key;
+                var callback, container, _insert, currentSheet, collection, length, key = options.key;
                 if ("css" === key) {
                     var ssrStyles = document.querySelectorAll("style[data-emotion]:not([data-s])");
                     Array.prototype.forEach.call(ssrStyles, function(node) {
@@ -824,7 +824,7 @@
                     ref: setRef,
                     onClick: function(e) {
                         var scroll1, target;
-                        child.props && "function" == typeof child.props.onClick && child.props.onClick(e), e.defaultPrevented || (scroll1 = scroll, ("A" !== e.currentTarget.nodeName || (!(target = e.currentTarget.target) || "_self" === target) && !e.metaKey && !e.ctrlKey && !e.shiftKey && !e.altKey && (!e.nativeEvent || 2 !== e.nativeEvent.which) && _router.isLocalURL(href)) && (e.preventDefault(), null == scroll1 && as.indexOf("#") >= 0 && (scroll1 = !1), router[replace ? "replace" : "push"](href, as, {
+                        child.props && "function" == typeof child.props.onClick && child.props.onClick(e), e.defaultPrevented || (scroll1 = scroll, "A" === e.currentTarget.nodeName && ((target = e.currentTarget.target) && "_self" !== target || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.nativeEvent && 2 === e.nativeEvent.which || !_router.isLocalURL(href)) || (e.preventDefault(), null == scroll1 && as.indexOf("#") >= 0 && (scroll1 = !1), router[replace ? "replace" : "push"](href, as, {
                             shallow: shallow,
                             locale: locale,
                             scroll: scroll1
