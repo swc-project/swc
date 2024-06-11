@@ -1219,8 +1219,17 @@ impl<'a> Lexer<'a> {
             } else if c.is_line_terminator() {
                 self.state.had_line_break = true;
 
+                {
+                    let last_pos = self.cur_pos();
+                    raw.push_str(unsafe {
+                        // Safety: Both of start and last_pos are valid position because we got them
+                        // from `self.input`
+                        self.input.slice(raw_slice_start, last_pos)
+                    });
+                }
+
                 let c = if c == '\r' && self.peek() == Some('\n') {
-                    // raw.push('\r');
+                    raw.push('\r');
                     self.bump(); // '\r'
                     '\n'
                 } else {
@@ -1238,6 +1247,8 @@ impl<'a> Lexer<'a> {
                 if let Ok(ref mut cooked) = cooked {
                     cooked.push(c);
                 }
+                raw.push(c);
+                raw_slice_start = self.cur_pos();
             } else {
                 self.bump();
 
