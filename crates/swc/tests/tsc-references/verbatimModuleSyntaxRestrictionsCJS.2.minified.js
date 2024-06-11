@@ -30,14 +30,14 @@ Object.defineProperty(exports, "__esModule", {
 const _interop_require_wildcard = require("@swc/helpers/_/_interop_require_wildcard");
 require("./decl"), Promise.resolve().then(()=>_interop_require_wildcard._(require("./decl")));
 const x = 1;
-(Values = {}).x = 1;
+(Values || (Values = {})).x = 1;
 //// [/main2.ts]
 module.exports = {
     x: 1
 };
 //// [/main3.ts]
 var ns;
-(ns = {}).x = 1, module.exports = ns;
+(ns || (ns = {})).x = 1, module.exports = ns;
 //// [/main4.ts]
 Object.defineProperty(exports, "__esModule", {
     value: !0

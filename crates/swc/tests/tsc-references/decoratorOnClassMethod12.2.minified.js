@@ -1,10 +1,10 @@
 //// [decoratorOnClassMethod12.ts]
-var C;
+var M, C;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
 import { _ as _ts_decorate } from "@swc/helpers/_/_ts_decorate";
-C = function(S) {
+M || (M = {}), C = function(S) {
     _inherits(C, S);
     var _super = _create_super(C);
     function C() {

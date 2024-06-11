@@ -7,6 +7,7 @@ Baz || (Baz = {});
 export default class {
 }
 //// [locals.ts]
+let Reflect, Reflect1;
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
 class C extends B {
@@ -27,7 +28,7 @@ C._ = [
     })(),
     void _get(_get_prototype_of(C), "w", C).call(C),
     void _get(_get_prototype_of(C), "w", C).call(C),
-    void _get(_get_prototype_of(C), "w", C).call(C),
+    void (Reflect || (Reflect = {}), _get(_get_prototype_of(C), "w", C).call(C)),
     void _get(_get_prototype_of(C), "w", C).call(C),
     void _get(_get_prototype_of(C), "w", C).call(C),
     void _get(_get_prototype_of(C), "w", C).call(C),
@@ -43,7 +44,7 @@ C._ = [
         null
     ];
     _get(_get_prototype_of(C), "w", C).call(C);
-})(), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C);
+})(), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C), Reflect1 || (Reflect1 = {}), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C), _get(_get_prototype_of(C), "w", C).call(C);
 //// [varInContainingScopeStaticField1.ts]
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
@@ -129,14 +130,18 @@ class C extends B {
 }
 _get(_get_prototype_of(C), "w", C).call(C);
 //// [enumInContainingScopeStaticField.ts]
+var Reflect;
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
+Reflect || (Reflect = {});
 class C extends B {
 }
 C._ = _get(_get_prototype_of(C), "w", C).call(C);
 //// [enumInContainingScopeStaticBlock.ts]
+var Reflect;
 import { _ as _get } from "@swc/helpers/_/_get";
 import { _ as _get_prototype_of } from "@swc/helpers/_/_get_prototype_of";
+Reflect || (Reflect = {});
 class C extends B {
 }
 _get(_get_prototype_of(C), "w", C).call(C);

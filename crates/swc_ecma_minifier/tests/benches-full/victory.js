@@ -7445,7 +7445,7 @@
             var assignValue = __webpack_require__("../../../node_modules/lodash/_assignValue.js"), baseAssignValue = __webpack_require__("../../../node_modules/lodash/_baseAssignValue.js");
             module1.exports = function(source, props, object, customizer) {
                 var isNew = !object;
-                object = {};
+                object || (object = {});
                 for(var index = -1, length = props.length; ++index < length;){
                     var key = props[index], newValue = customizer ? customizer(object[key], source[key], key, object, source) : void 0;
                     void 0 === newValue && (newValue = source[key]), isNew ? baseAssignValue(object, key, newValue) : assignValue(object, key, newValue);

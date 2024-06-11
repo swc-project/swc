@@ -6,6 +6,6 @@ var M, A = function() {
     }
     return A.foo = function() {}, A;
 }();
-M = {};
+M || (M = {});
 var objA = new A();
 objA.a, M.n, A.foo(), objA.a, M.n;

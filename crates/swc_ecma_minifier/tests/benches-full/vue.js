@@ -1304,7 +1304,7 @@
                 Ctor.superOptions = superOptions;
                 var modifiedOptions = function(Ctor) {
                     var modified, latest = Ctor.options, sealed = Ctor.sealedOptions;
-                    for(var key in latest)latest[key] !== sealed[key] && ((modified = {})[key] = latest[key]);
+                    for(var key in latest)latest[key] !== sealed[key] && (modified || (modified = {}), modified[key] = latest[key]);
                     return modified;
                 }(Ctor);
                 modifiedOptions && extend(Ctor.extendOptions, modifiedOptions), (options = Ctor.options = mergeOptions(superOptions, Ctor.extendOptions)).name && (options.components[options.name] = Ctor);

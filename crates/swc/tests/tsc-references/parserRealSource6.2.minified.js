@@ -1,4 +1,5 @@
 //// [parserRealSource6.ts]
+var TypeScript;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 !function(TypeScript) {
     TypeScript.TypeCollectionContext = function TypeCollectionContext(scopeChain, checker) {
@@ -83,4 +84,4 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
         var context = new EnclosingScopeContext(logger, script, text, pos, isMemberCompletion);
         return (TypeScript.getAstWalkerFactory().walk(script, preFindEnclosingScope, null, null, context), null === context.scopeStartAST) ? null : context;
     };
-}({});
+}(TypeScript || (TypeScript = {}));

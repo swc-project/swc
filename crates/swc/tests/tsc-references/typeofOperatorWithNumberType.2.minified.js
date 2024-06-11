@@ -16,7 +16,7 @@ var A = function() {
         return 1;
     }, A;
 }();
-M = {};
+M || (M = {});
 var objA = new A();
 void 0 === NUMBER || _type_of(NUMBER), _type_of(NUMBER1), _type_of(1), _type_of({
     x: 1,

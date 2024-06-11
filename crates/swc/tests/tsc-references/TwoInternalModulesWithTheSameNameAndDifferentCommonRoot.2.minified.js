@@ -1,15 +1,15 @@
 //// [part1.ts]
-var Root, A;
-((A = (Root = {}).A || (Root.A = {})).Utils || (A.Utils = {})).mirror = function(p) {
+var Root, Root1, A;
+((A = (Root1 = Root || (Root = {})).A || (Root1.A = {})).Utils || (A.Utils = {})).mirror = function(p) {
     return {
         x: p.y,
         y: p.x
     };
 };
 //// [part2.ts]
-var otherRoot, A;
+var otherRoot, otherRoot1, A;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-(A = (otherRoot = {}).A || (otherRoot.A = {})).Origin = {
+(A = (otherRoot1 = otherRoot || (otherRoot = {})).A || (otherRoot1.A = {})).Origin = {
     x: 0,
     y: 0
 }, (A.Utils || (A.Utils = {})).Plane = function Plane(tl, br) {

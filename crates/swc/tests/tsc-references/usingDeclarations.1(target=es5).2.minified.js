@@ -11,7 +11,7 @@ import { _ as _create_super } from "@swc/helpers/_/_create_super";
 import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
 import { _ as _using_ctx } from "@swc/helpers/_/_using_ctx";
 try {
-    var _usingCtx = _using_ctx();
+    var N, _usingCtx = _using_ctx();
     _usingCtx.u(_define_property({}, Symbol.dispose, function() {})), function() {
         try {
             var _usingCtx = _using_ctx();
@@ -30,7 +30,7 @@ try {
         } finally{
             _usingCtx.d();
         }
-    }(0);
+    }(N || (N = {}));
     try {
         var _usingCtx1 = _using_ctx();
         _usingCtx1.u(_define_property({}, Symbol.dispose, function() {}));

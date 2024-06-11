@@ -3365,7 +3365,7 @@
             return doc.scrollTop = this.scrollTop, doc.scrollLeft = this.scrollLeft, doc.sel = this.sel, doc.extend = !1, copyHistory && (doc.history.undoDepth = this.history.undoDepth, doc.setHistory(this.getHistory())), doc;
         },
         linkedDoc: function(options) {
-            options = {};
+            options || (options = {});
             var from = this.first, to = this.first + this.size;
             null != options.from && options.from > from && (from = options.from), null != options.to && options.to < to && (to = options.to);
             var copy = new Doc(getLines(this, from, to), options.mode || this.modeOption, from, this.lineSep, this.direction);

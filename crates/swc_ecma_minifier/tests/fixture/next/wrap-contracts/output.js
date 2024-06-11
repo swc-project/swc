@@ -10379,7 +10379,7 @@
             }, EC.prototype.keyFromPublic = function(pub, enc) {
                 return KeyPair.fromPublic(this, pub, enc);
             }, EC.prototype.genKeyPair = function(options) {
-                options = {};
+                options || (options = {});
                 for(var drbg = new HmacDRBG({
                     hash: this.hash,
                     pers: options.pers,
@@ -15155,7 +15155,7 @@
             var assignValue = __webpack_require__(4865), baseAssignValue = __webpack_require__(9465);
             function copyObject(source, props, object, customizer) {
                 var isNew = !object;
-                object = {};
+                object || (object = {});
                 for(var index = -1, length = props.length; ++index < length;){
                     var key = props[index], newValue = customizer ? customizer(object[key], source[key], key, object, source) : void 0;
                     void 0 === newValue && (newValue = source[key]), isNew ? baseAssignValue(object, key, newValue) : assignValue(object, key, newValue);
@@ -17054,7 +17054,7 @@
                         }
                         function eos(e, t, r) {
                             if ("function" == typeof t) return eos(e, null, t);
-                            t = {}, r = once(r || noop);
+                            t || (t = {}), r = once(r || noop);
                             var i = t.readable || !1 !== t.readable && e.readable, a = t.writable || !1 !== t.writable && e.writable, o = function() {
                                 e.writable || f();
                             }, s = e._writableState && e._writableState.finished, f = function() {

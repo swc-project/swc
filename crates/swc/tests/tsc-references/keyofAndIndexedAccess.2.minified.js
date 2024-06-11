@@ -1,5 +1,5 @@
 //// [keyofAndIndexedAccess.ts]
-var Flag;
+var Flag, Flag1;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
 import { _ as _inherits } from "@swc/helpers/_/_inherits";
 import { _ as _create_super } from "@swc/helpers/_/_create_super";
@@ -27,4 +27,4 @@ one(function() {}), on({
     }, AnotherSampleClass;
 }(function SampleClass(props) {
     _class_call_check(this, SampleClass), this.props = Object.freeze(props);
-}))({}), (Flag = {}).FLAG_1 = "flag_1", Flag.FLAG_2 = "flag_2";
+}))({}), (Flag1 = Flag || (Flag = {})).FLAG_1 = "flag_1", Flag1.FLAG_2 = "flag_2";

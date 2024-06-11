@@ -1,7 +1,7 @@
 //// [genericClassWithFunctionTypedMemberArguments.ts]
-var c, c2, c1, c21;
+var ImmediatelyFix, WithCandidates, c, c2, c1, c21;
 import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
-(c = new (function() {
+ImmediatelyFix || (ImmediatelyFix = {}), (c = new (function() {
     function C() {
         _class_call_check(this, C);
     }
@@ -25,7 +25,7 @@ import { _ as _class_call_check } from "@swc/helpers/_/_class_call_check";
     return 1;
 }), c2.foo(function(x) {
     return 1;
-}), c1.foo2(1, function(a) {
+}), WithCandidates || (WithCandidates = {}), c1.foo2(1, function(a) {
     return '';
 }), c1.foo2(1, function(a) {
     return '';
