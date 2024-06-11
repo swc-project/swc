@@ -1190,8 +1190,6 @@ impl<'a> Lexer<'a> {
             }
 
             if c == '\\' {
-                raw.push('\\');
-
                 let last_pos = self.cur_pos();
                 raw.push_str(unsafe {
                     // Safety: Both of start and last_pos are valid position because we got them
@@ -1199,6 +1197,7 @@ impl<'a> Lexer<'a> {
                     self.input.slice(raw_slice_start, last_pos)
                 });
 
+                raw.push('\\');
                 let mut wrapped = Raw(Some(raw));
 
                 match self.read_escaped_char(&mut wrapped, true) {
