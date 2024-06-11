@@ -7,6 +7,9 @@
 
 - **(es)** Make `output` field optional ([#9033](https://github.com/swc-project/swc/issues/9033)) ([39654bf](https://github.com/swc-project/swc/commit/39654bf1e7136077d2db2f85a93591708b4cfe8c))
 
+
+- **(es/minifier)** Visit RHS while hoisting properties ([#9032](https://github.com/swc-project/swc/issues/9032)) ([cb16994](https://github.com/swc-project/swc/commit/cb16994a8d7a203e923b52e444d265bad0fa9e6e))
+
 ## [1.5.28] - 2024-06-11
 
 ### Bug Fixes
@@ -1313,9 +1316,6 @@
 
 
 - **(css/parser)** Use `AtomStore` ([#8238](https://github.com/swc-project/swc/issues/8238)) ([a3c03b3](https://github.com/swc-project/swc/commit/a3c03b30fb3aa19cb590addbf47b0583d1b05dad))
-
-
-- **(es/lexer)** Remove needless clones of `Rc<RefCell<AtomStore>>` ([#8231](https://github.com/swc-project/swc/issues/8231)) ([37657b8](https://github.com/swc-project/swc/commit/37657b8bd53d848035040f31a386029ef4af7cea))
 
 ### Refactor
 
