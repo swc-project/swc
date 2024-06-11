@@ -1145,6 +1145,15 @@ where
         }
     }
 
+    fn visit_switch_case(&mut self, n: &SwitchCase) {
+        let ctx = Ctx {
+            is_id_ref: false,
+            ..self.ctx
+        };
+
+        n.visit_children_with(&mut *self.with_ctx(ctx))
+    }
+
     #[cfg_attr(feature = "debug", tracing::instrument(skip_all))]
     fn visit_switch_stmt(&mut self, n: &SwitchStmt) {
         n.discriminant.visit_with(self);
