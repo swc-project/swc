@@ -17,6 +17,9 @@
 
 
 
+- **(es/minifier)** Do not visit var init multiple times ([#9039](https://github.com/swc-project/swc/issues/9039)) ([675916c](https://github.com/swc-project/swc/commit/675916ccbd378d3b0334ffeb7ad0759538856ddd))
+
+
 - **(es/parser)** Optimize lexing of template literals ([#9036](https://github.com/swc-project/swc/issues/9036)) ([6ab19a1](https://github.com/swc-project/swc/commit/6ab19a1b5f37e7f485f392ef3b63af024ae9e644))
 
 
