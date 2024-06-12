@@ -2071,9 +2071,9 @@
                                 return m(e) ? t.stylize("" + e, "number") : g(e) ? t.stylize("" + e, "boolean") : h(e) ? t.stylize("null", "null") : void 0;
                             }(t, r);
                             if (f) return f;
-                            var y = Object.keys(r), O = (n = {}, y.forEach(function(t, e) {
-                                n[t] = !0;
-                            }), n);
+                            var y = Object.keys(r), O = (p = {}, y.forEach(function(t, e) {
+                                p[t] = !0;
+                            }), p);
                             if (t.showHidden && (y = Object.getOwnPropertyNames(r)), P(r) && (y.indexOf("message") >= 0 || y.indexOf("description") >= 0)) return s(r);
                             if (0 === y.length) {
                                 if (x(r)) {
@@ -2098,9 +2098,9 @@
                                 }), i;
                             }(t, r, o, O, y) : y.map(function(e) {
                                 return d(t, r, o, O, e, F);
-                            }), t.seen.pop(), i = E, a = k, p = 0, c.reduce(function(t, e) {
-                                return p++, e.indexOf("\n") >= 0 && p++, t + e.replace(/\u001b\[\d\d?m/g, "").length + 1;
-                            }, 0) > 60 ? a[0] + ("" === i ? "" : i + "\n ") + " " + c.join(",\n  ") + " " + a[1] : a[0] + i + " " + c.join(", ") + " " + a[1]) : k[0] + E + k[1];
+                            }), t.seen.pop(), n = E, i = k, a = 0, c.reduce(function(t, e) {
+                                return a++, e.indexOf("\n") >= 0 && a++, t + e.replace(/\u001b\[\d\d?m/g, "").length + 1;
+                            }, 0) > 60 ? i[0] + ("" === n ? "" : n + "\n ") + " " + c.join(",\n  ") + " " + i[1] : i[0] + n + " " + c.join(", ") + " " + i[1]) : k[0] + E + k[1];
                         }
                         function s(t) {
                             return "[" + Error.prototype.toString.call(t) + "]";

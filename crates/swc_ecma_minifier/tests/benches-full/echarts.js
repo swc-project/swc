@@ -9609,7 +9609,7 @@
             ], upstreamSignList = [];
             assert(resultSourceList && upstreamSignList), this._setLocalSource(resultSourceList, upstreamSignList);
         }, SourceManager.prototype._applyTransform = function(upMgrList) {
-            var source, encodeDefine, sourceList, datasetModel = this._sourceHost, transformOption = datasetModel.get('transform', !0), fromTransformResult = datasetModel.get('fromTransformResult', !0);
+            var encodeDefine, source, sourceList, datasetModel = this._sourceHost, transformOption = datasetModel.get('transform', !0), fromTransformResult = datasetModel.get('fromTransformResult', !0);
             assert(null != fromTransformResult || null != transformOption), null != fromTransformResult && 1 !== upMgrList.length && doThrow('When using `fromTransformResult`, there should be only one upstream dataset');
             var upSourceList = [], upstreamSignList = [];
             return (each(upMgrList, function(upMgr) {
@@ -15070,10 +15070,10 @@
             return null == precision ? precision = getPrecisionSafe(data.value) || 0 : 'auto' === precision && (precision = this._intervalPrecision), addCommas(round(data.value, precision, !0));
         }, IntervalScale.prototype.niceTicks = function(splitNumber, minInterval, maxInterval) {
             splitNumber = splitNumber || 5;
-            var splitNumber1, result, span, interval, precision, niceTickExtent, extent = this._extent, span1 = extent[1] - extent[0];
+            var splitNumber1, result, span, interval, precision, extent = this._extent, span1 = extent[1] - extent[0];
             if (isFinite(span1)) {
                 span1 < 0 && (span1 = -span1, extent.reverse());
-                var result1 = (splitNumber1 = splitNumber, result = {}, span = extent[1] - extent[0], interval = result.interval = nice(span / splitNumber1, !0), null != minInterval && interval < minInterval && (interval = result.interval = minInterval), null != maxInterval && interval > maxInterval && (interval = result.interval = maxInterval), precision = result.intervalPrecision = getPrecisionSafe(interval) + 2, isFinite((niceTickExtent = result.niceTickExtent = [
+                var niceTickExtent, result1 = (splitNumber1 = splitNumber, result = {}, span = extent[1] - extent[0], interval = result.interval = nice(span / splitNumber1, !0), null != minInterval && interval < minInterval && (interval = result.interval = minInterval), null != maxInterval && interval > maxInterval && (interval = result.interval = maxInterval), precision = result.intervalPrecision = getPrecisionSafe(interval) + 2, isFinite((niceTickExtent = result.niceTickExtent = [
                     round(Math.ceil(extent[0] / interval) * interval, precision),
                     round(Math.floor(extent[1] / interval) * interval, precision)
                 ])[0]) || (niceTickExtent[0] = extent[0]), isFinite(niceTickExtent[1]) || (niceTickExtent[1] = extent[1]), clamp(niceTickExtent, 0, extent), clamp(niceTickExtent, 1, extent), niceTickExtent[0] > niceTickExtent[1] && (niceTickExtent[0] = niceTickExtent[1]), result);
@@ -16083,7 +16083,7 @@
             return ('category' === this.type ? (result = makeCategoryLabelsActually(this, labelModel = this.getLabelModel()), !labelModel.get('show') || this.scale.isBlank() ? {
                 labels: [],
                 labelCategoryInterval: result.labelCategoryInterval
-            } : result) : (ticks = (axis = this).scale.getTicks(), labelFormatter = makeLabelFormatter(axis), {
+            } : result) : (axis = this, ticks = axis.scale.getTicks(), labelFormatter = makeLabelFormatter(axis), {
                 labels: map(ticks, function(tick, idx) {
                     return {
                         formattedLabel: labelFormatter(tick, idx),
@@ -19281,13 +19281,13 @@
             this._ctx = null;
             for(var i = 0; i < points.length;){
                 var x = points[i++], y = points[i++];
-                isNaN(x) || isNaN(y) || this.softClipShape && !this.softClipShape.contain(x, y) || (symbolProxyShape.x = x - size[0] / 2, symbolProxyShape.y = y - size[1] / 2, symbolProxyShape.width = size[0], symbolProxyShape.height = size[1], symbolProxy.buildPath(path, symbolProxyShape, !0));
+                !(isNaN(x) || isNaN(y)) && (!this.softClipShape || this.softClipShape.contain(x, y)) && (symbolProxyShape.x = x - size[0] / 2, symbolProxyShape.y = y - size[1] / 2, symbolProxyShape.width = size[0], symbolProxyShape.height = size[1], symbolProxy.buildPath(path, symbolProxyShape, !0));
             }
         }, LargeSymbolPath.prototype.afterBrush = function() {
             var shape = this.shape, points = shape.points, size = shape.size, ctx = this._ctx;
             if (ctx) for(var i = 0; i < points.length;){
                 var x = points[i++], y = points[i++];
-                isNaN(x) || isNaN(y) || this.softClipShape && !this.softClipShape.contain(x, y) || ctx.fillRect(x - size[0] / 2, y - size[1] / 2, size[0], size[1]);
+                !(isNaN(x) || isNaN(y)) && (!this.softClipShape || this.softClipShape.contain(x, y)) && ctx.fillRect(x - size[0] / 2, y - size[1] / 2, size[0], size[1]);
             }
         }, LargeSymbolPath.prototype.findDataIndex = function(x, y) {
             for(var shape = this.shape, points = shape.points, size = shape.size, w = Math.max(size[0], 4), h = Math.max(size[1], 4), idx = points.length / 2 - 1; idx >= 0; idx--){
@@ -20188,11 +20188,11 @@
         axisName: function(opt, axisModel, group, transformGroup) {
             var labelLayout, axisNameAvailableWidth, name = retrieve(opt.axisName, axisModel.get('name'));
             if (name) {
-                var textAlign, textVerticalAlign, rotationDiff, inverse, onLeft, nameLocation = axisModel.get('nameLocation'), nameDirection = opt.nameDirection, textStyleModel = axisModel.getModel('nameTextStyle'), gap = axisModel.get('nameGap') || 0, extent = axisModel.axis.getExtent(), gapSignal = extent[0] > extent[1] ? -1 : 1, pos = [
+                var rotation, textAlign, textVerticalAlign, rotationDiff, inverse, onLeft, nameLocation = axisModel.get('nameLocation'), nameDirection = opt.nameDirection, textStyleModel = axisModel.getModel('nameTextStyle'), gap = axisModel.get('nameGap') || 0, extent = axisModel.axis.getExtent(), gapSignal = extent[0] > extent[1] ? -1 : 1, pos = [
                     'start' === nameLocation ? extent[0] - gapSignal * gap : 'end' === nameLocation ? extent[1] + gapSignal * gap : (extent[0] + extent[1]) / 2,
                     isNameLocationCenter(nameLocation) ? opt.labelOffset + nameDirection * gap : 0
                 ], nameRotation = axisModel.get('nameRotate');
-                null != nameRotation && (nameRotation = nameRotation * PI$5 / 180), isNameLocationCenter(nameLocation) ? labelLayout = AxisBuilder.innerTextLayout(opt.rotation, null != nameRotation ? nameRotation : opt.rotation, nameDirection) : (rotationDiff = remRadian((nameRotation || 0) - opt.rotation), inverse = extent[0] > extent[1], onLeft = 'start' === nameLocation && !inverse || 'start' !== nameLocation && inverse, isRadianAroundZero(rotationDiff - PI$5 / 2) ? (textVerticalAlign = onLeft ? 'bottom' : 'top', textAlign = 'center') : isRadianAroundZero(rotationDiff - 1.5 * PI$5) ? (textVerticalAlign = onLeft ? 'top' : 'bottom', textAlign = 'center') : (textVerticalAlign = 'middle', textAlign = rotationDiff < 1.5 * PI$5 && rotationDiff > PI$5 / 2 ? onLeft ? 'left' : 'right' : onLeft ? 'right' : 'left'), labelLayout = {
+                null != nameRotation && (nameRotation = nameRotation * PI$5 / 180), isNameLocationCenter(nameLocation) ? labelLayout = AxisBuilder.innerTextLayout(opt.rotation, null != nameRotation ? nameRotation : opt.rotation, nameDirection) : (rotation = opt.rotation, rotationDiff = remRadian((nameRotation || 0) - rotation), inverse = extent[0] > extent[1], onLeft = 'start' === nameLocation && !inverse || 'start' !== nameLocation && inverse, isRadianAroundZero(rotationDiff - PI$5 / 2) ? (textVerticalAlign = onLeft ? 'bottom' : 'top', textAlign = 'center') : isRadianAroundZero(rotationDiff - 1.5 * PI$5) ? (textVerticalAlign = onLeft ? 'top' : 'bottom', textAlign = 'center') : (textVerticalAlign = 'middle', textAlign = rotationDiff < 1.5 * PI$5 && rotationDiff > PI$5 / 2 ? onLeft ? 'left' : 'right' : onLeft ? 'right' : 'left'), labelLayout = {
                     rotation: rotationDiff,
                     textAlign: textAlign,
                     textVerticalAlign: textVerticalAlign
@@ -22924,19 +22924,19 @@
                                 ],
                                 [
                                     x + itemWidth,
-                                    0 + itemHeight
+                                    y + itemHeight
                                 ],
                                 [
                                     head ? x : x - 5,
-                                    0 + itemHeight
+                                    y + itemHeight
                                 ]
                             ];
                             return tail || points.splice(2, 0, [
                                 x + itemWidth + 5,
-                                0 + itemHeight / 2
+                                y + itemHeight / 2
                             ]), head || points.push([
                                 x,
-                                0 + itemHeight / 2
+                                y + itemHeight / 2
                             ]), points;
                         }(lastX, 0, itemWidth, height, i === renderList.length - 1, 0 === i)
                     },
@@ -28681,7 +28681,7 @@
             ]);
         }, LinesView.prototype._clearLayer = function(api) {
             var zr = api.getZr();
-            'svg' === zr.painter.getType() || null == this._lastZlevel || zr.painter.getLayer(this._lastZlevel).clear(!0);
+            'svg' !== zr.painter.getType() && null != this._lastZlevel && zr.painter.getLayer(this._lastZlevel).clear(!0);
         }, LinesView.prototype.remove = function(ecModel, api) {
             this._lineDraw && this._lineDraw.remove(), this._lineDraw = null, this._clearLayer(api);
         }, LinesView.type = 'lines', LinesView;
@@ -34689,7 +34689,7 @@
             return null !== _super && _super.apply(this, arguments) || this;
         }
         return __extends(DataView, _super), DataView.prototype.onclick = function(ecModel, api) {
-            var seriesGroupByCategoryAxis, otherSeries, meta, result, groups, tables, container = api.getDom(), model = this.model;
+            var seriesGroupByCategoryAxis, otherSeries, meta, groups, tables, result, container = api.getDom(), model = this.model;
             this._dom && container.removeChild(this._dom);
             var root = document.createElement('div');
             root.style.cssText = 'position:absolute;left:5px;top:5px;bottom:5px;right:5px;', root.style.backgroundColor = model.get('backgroundColor') || '#fff';
@@ -35481,7 +35481,7 @@
         }, TooltipHTMLContent.prototype.show = function(tooltipModel, nearPointColor) {
             clearTimeout(this._hideTimeout), clearTimeout(this._longHideTimeout);
             var enableTransition, onlyFade, cssText, transitionDuration, backgroundColor, shadowBlur, shadowColor, shadowOffsetX, shadowOffsetY, textStyleModel, padding, transitionCurve, transitionOption, transitionText, cssText1, fontSize, color, shadowColor1, shadowBlur1, shadowOffsetX1, shadowOffsetY1, el = this.el, style = el.style, styleCoord = this._styleCoord;
-            el.innerHTML ? style.cssText = gCssText + (enableTransition = !this._firstShow, onlyFade = this._longHide, cssText = [], transitionDuration = tooltipModel.get('transitionDuration'), backgroundColor = tooltipModel.get('backgroundColor'), shadowBlur = tooltipModel.get('shadowBlur'), shadowColor = tooltipModel.get('shadowColor'), shadowOffsetX = tooltipModel.get('shadowOffsetX'), shadowOffsetY = tooltipModel.get('shadowOffsetY'), textStyleModel = tooltipModel.getModel('textStyle'), padding = getPaddingFromTooltipModel(tooltipModel, 'html'), cssText.push('box-shadow:' + shadowOffsetX + "px " + shadowOffsetY + "px " + shadowBlur + "px " + shadowColor), enableTransition && transitionDuration && cssText.push((transitionText = "opacity" + (transitionOption = " " + transitionDuration / 2 + "s " + (transitionCurve = 'cubic-bezier(0.23,1,0.32,1)')) + ",visibility" + transitionOption, onlyFade || (transitionOption = " " + transitionDuration + "s " + transitionCurve, transitionText += env.transformSupported ? "," + TRANSFORM_VENDOR + transitionOption : ",left" + transitionOption + ",top" + transitionOption), CSS_TRANSITION_VENDOR + ':' + transitionText)), backgroundColor && (env.canvasSupported ? cssText.push('background-color:' + backgroundColor) : (cssText.push('background-color:#' + toHex(backgroundColor)), cssText.push('filter:alpha(opacity=70)'))), each([
+            el.innerHTML ? style.cssText = gCssText + (enableTransition = !this._firstShow, onlyFade = this._longHide, cssText = [], transitionDuration = tooltipModel.get('transitionDuration'), backgroundColor = tooltipModel.get('backgroundColor'), shadowBlur = tooltipModel.get('shadowBlur'), shadowColor = tooltipModel.get('shadowColor'), shadowOffsetX = tooltipModel.get('shadowOffsetX'), shadowOffsetY = tooltipModel.get('shadowOffsetY'), textStyleModel = tooltipModel.getModel('textStyle'), padding = getPaddingFromTooltipModel(tooltipModel, 'html'), cssText.push('box-shadow:' + (shadowOffsetX + "px " + shadowOffsetY + "px ") + shadowBlur + "px " + shadowColor), enableTransition && transitionDuration && cssText.push((transitionText = "opacity" + (transitionOption = " " + transitionDuration / 2 + "s " + (transitionCurve = 'cubic-bezier(0.23,1,0.32,1)')) + ",visibility" + transitionOption, onlyFade || (transitionOption = " " + transitionDuration + "s " + transitionCurve, transitionText += env.transformSupported ? "," + TRANSFORM_VENDOR + transitionOption : ",left" + transitionOption + ",top" + transitionOption), CSS_TRANSITION_VENDOR + ':' + transitionText)), backgroundColor && (env.canvasSupported ? cssText.push('background-color:' + backgroundColor) : (cssText.push('background-color:#' + toHex(backgroundColor)), cssText.push('filter:alpha(opacity=70)'))), each([
                 'width',
                 'color',
                 'radius'

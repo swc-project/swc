@@ -248,7 +248,8 @@
         }
         function createDisabledPseudo(disabled) {
             return function(elem) {
-                return "form" in elem ? elem.parentNode && !1 === elem.disabled ? "label" in elem ? "label" in elem.parentNode ? elem.parentNode.disabled === disabled : elem.disabled === disabled : elem.isDisabled === disabled || !disabled !== elem.isDisabled && inDisabledFieldset(elem) === disabled : elem.disabled === disabled : "label" in elem && elem.disabled === disabled;
+                if ("form" in elem) return elem.parentNode && !1 === elem.disabled ? "label" in elem ? "label" in elem.parentNode ? elem.parentNode.disabled === disabled : elem.disabled === disabled : elem.isDisabled === disabled || !disabled !== elem.isDisabled && inDisabledFieldset(elem) === disabled : elem.disabled === disabled;
+                return "label" in elem && elem.disabled === disabled;
             };
         }
         function createPositionalPseudo(fn) {

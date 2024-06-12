@@ -1949,7 +1949,7 @@
                         }
                         function formatValue(r, e, o) {
                             if (r.customInspect && e && isFunction(e.inspect) && e.inspect !== t.inspect && !(e.constructor && e.constructor.prototype === e)) {
-                                var t1, t2, e1, o1, l, n = e.inspect(o, r);
+                                var t1, e1, o1, t2, l, n = e.inspect(o, r);
                                 return isString(n) || (n = formatValue(r, n, o)), n;
                             }
                             var i = function(r, t) {
@@ -1961,9 +1961,9 @@
                                 return isNumber(t) ? r.stylize("" + t, "number") : isBoolean(t) ? r.stylize("" + t, "boolean") : isNull(t) ? r.stylize("null", "null") : void 0;
                             }(r, e);
                             if (i) return i;
-                            var a = Object.keys(e), y = (t1 = {}, a.forEach(function(r, e) {
-                                t1[r] = !0;
-                            }), t1);
+                            var a = Object.keys(e), y = (t2 = {}, a.forEach(function(r, e) {
+                                t2[r] = !0;
+                            }), t2);
                             if (r.showHidden && (a = Object.getOwnPropertyNames(e)), isError(e) && (a.indexOf("message") >= 0 || a.indexOf("description") >= 0)) return formatError(e);
                             if (0 === a.length) {
                                 if (isFunction(e)) {
@@ -1988,9 +1988,9 @@
                                 }), i;
                             }(r, e, o, y, a) : a.map(function(t) {
                                 return formatProperty(r, e, o, y, t, u);
-                            }), r.seen.pop(), t2 = f, e1 = s, o1 = 0, l.reduce(function(r, t) {
+                            }), r.seen.pop(), t1 = f, e1 = s, o1 = 0, l.reduce(function(r, t) {
                                 return o1++, t.indexOf("\n") >= 0 && o1++, r + t.replace(/\u001b\[\d\d?m/g, "").length + 1;
-                            }, 0) > 60 ? e1[0] + ("" === t2 ? "" : t2 + "\n ") + " " + l.join(",\n  ") + " " + e1[1] : e1[0] + t2 + " " + l.join(", ") + " " + e1[1]) : s[0] + f + s[1];
+                            }, 0) > 60 ? e1[0] + ("" === t1 ? "" : t1 + "\n ") + " " + l.join(",\n  ") + " " + e1[1] : e1[0] + t1 + " " + l.join(", ") + " " + e1[1]) : s[0] + f + s[1];
                         }
                         function formatError(r) {
                             return "[" + Error.prototype.toString.call(r) + "]";

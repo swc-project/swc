@@ -2955,10 +2955,38 @@ impl VisitMut for Optimizer<'_> {
                 return false;
             }
 
-            var.visit_mut_with(self);
+            true
+        });
 
+        {
+            // We loop with index to avoid borrow checker issue.
+            // We use splice so we cannot use for _ in vars
+            let mut idx = 0;
+
+            while idx < vars.len() {
+                let var = &mut vars[idx];
+                var.visit_mut_with(self);
+
+                // The varaible is dropped.
+                if var.name.is_invalid() {
+                    vars.remove(idx);
+                    continue;
+                }
+
+                let new = self.hoist_props_of_var(var);
+
+                if let Some(new) = new {
+                    let len = new.len();
+                    vars.splice(idx..=idx, new);
+                    idx += len;
+                } else {
+                    idx += 1;
+                }
+            }
+        }
+
+        vars.retain_mut(|var| {
             if var.name.is_invalid() {
-                // It will be inlined.
                 self.changed = true;
                 return false;
             }
@@ -2967,8 +2995,6 @@ impl VisitMut for Optimizer<'_> {
 
             true
         });
-
-        self.hoist_props_of_vars(vars);
 
         let uses_eval = self.data.scopes.get(&self.ctx.scope).unwrap().has_eval_call;
 

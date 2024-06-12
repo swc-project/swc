@@ -622,7 +622,7 @@
                 var length, result1, object1, object2, object3, tag = getTag(value), isFunc = tag == funcTag || tag == genTag;
                 if (isBuffer(value)) return cloneBuffer(value, isDeep);
                 if (tag == objectTag || tag == argsTag || isFunc && !object) {
-                    if (result = isFlat || isFunc ? {} : initCloneObject(value), !isDeep) return isFlat ? (object2 = (object1 = result) && copyObject(value, keysIn(value), object1), copyObject(value, getSymbolsIn(value), object2)) : (object3 = baseAssign(result, value), copyObject(value, getSymbols(value), object3));
+                    if (result = isFlat || isFunc ? {} : initCloneObject(value), !isDeep) return isFlat ? (object1 = (object3 = result) && copyObject(value, keysIn(value), object3), copyObject(value, getSymbolsIn(value), object1)) : (object2 = baseAssign(result, value), copyObject(value, getSymbols(value), object2));
                 } else {
                     if (!cloneableTags[tag]) return object ? value : {};
                     result = function(object, tag, isDeep) {
@@ -976,7 +976,7 @@
             return !0;
         }
         function baseIsNative(value) {
-            return !!isObject(value) && (!maskSrcKey || !(maskSrcKey in value)) && (isFunction(value) ? reIsNative : reIsHostCtor).test(toSource(value));
+            return !(!isObject(value) || maskSrcKey && maskSrcKey in value) && (isFunction(value) ? reIsNative : reIsHostCtor).test(toSource(value));
         }
         function baseIteratee(value) {
             return 'function' == typeof value ? value : null == value ? identity : 'object' == typeof value ? isArray(value) ? baseMatchesProperty(value[0], value[1]) : baseMatches(value) : property(value);
@@ -1003,7 +1003,8 @@
             };
         }
         function baseMatchesProperty(path, srcValue) {
-            return isKey(path) && srcValue == srcValue && !isObject(srcValue) ? matchesStrictComparable(toKey(path), srcValue) : function(object) {
+            var value;
+            return isKey(path) && (value = srcValue) == value && !isObject(value) ? matchesStrictComparable(toKey(path), srcValue) : function(object) {
                 var objValue = get(object, path);
                 return undefined === objValue && objValue === srcValue ? hasIn(object, path) : baseIsEqual(srcValue, objValue, 3);
             };
@@ -1729,7 +1730,7 @@
             return root.setTimeout(func, wait);
         }, setToString = shortOut(baseSetToString);
         function setWrapToString(wrapper, reference, bitmask) {
-            var match, details, source = reference + '';
+            var details, match, source = reference + '';
             return setToString(wrapper, function(source, details) {
                 var length = details.length;
                 if (!length) return source;

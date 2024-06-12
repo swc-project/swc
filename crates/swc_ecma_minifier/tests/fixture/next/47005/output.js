@@ -54,15 +54,15 @@
                     var S, h, E;
                     let { element: k, boundary: A, rootBoundary: O, strategy: L } = m, j = [
                         ..."clippingAncestors" === A ? function(m, S) {
-                            var h, E;
-                            let k = S.get(m);
-                            if (k) return k;
-                            let A = (void 0).filter((m)=>{
+                            var h, E, k;
+                            let A = S.get(m);
+                            if (A) return A;
+                            let O = (void (h = 0)).filter((m)=>{
                                 var S;
-                                return Z(m) && true;
-                            }), O = null, L = "fixed" === Q(m).position, j = L ? ee(m) : m;
-                            for(; Z(j);){
-                                let m = Q(j), S = function(m) {
+                                return Z(m) && (S = 0, true);
+                            }), L = null, j = "fixed" === Q(m).position, B = j ? ee(m) : m;
+                            for(; Z(B) && (k = 0, true);){
+                                let m = Q(B), S = function(m) {
                                     let S = /firefox/i.test(function() {
                                         if (R) return R;
                                         let m = navigator.userAgentData;
@@ -80,16 +80,16 @@
                                         let S = h.contain;
                                         return null != S && S.includes(m);
                                     });
-                                }(j);
-                                "fixed" === m.position ? O = null : (L ? S || O : S || "static" !== m.position || !O || ![
+                                }(B);
+                                "fixed" === m.position ? L = null : (j ? S || L : S || "static" !== m.position || !L || ![
                                     "absolute",
                                     "fixed"
-                                ].includes(O.position)) ? O = m : A = A.filter((m)=>m !== j), j = ee(j);
+                                ].includes(L.position)) ? L = m : O = O.filter((m)=>m !== B), B = ee(B);
                             }
-                            return S.set(m, A), A;
+                            return S.set(m, O), O;
                         }(k, this._c) : [].concat(A),
                         O
-                    ], B = j[0], C = j.reduce(()=>{}, void 0);
+                    ], B = j[0], C = j.reduce(()=>{}, (S = 0, h = 0, void (E = 0)));
                     return {
                         width: C.right - C.left,
                         height: C.bottom - C.top,
@@ -101,7 +101,7 @@
                 isElement: Z,
                 getDimensions: function(m) {
                     var S, h;
-                    return m.getBoundingClientRect();
+                    return (S = 0), m.getBoundingClientRect();
                 },
                 getOffsetParent: et,
                 getDocumentElement: function(m) {},
@@ -110,7 +110,7 @@
                     var S, h, E;
                     let { reference: k, floating: R, strategy: A } = m, O = this.getOffsetParent || et, L = this.getDimensions;
                     return {
-                        reference: void await O(R),
+                        reference: (S = 0, h = await O(R), void (E = 0)),
                         floating: {
                             x: 0,
                             y: 0,

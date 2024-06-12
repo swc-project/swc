@@ -3290,8 +3290,8 @@
             return 12 > date.getHours() ? formats.AMPMS[0] : formats.AMPMS[1];
         },
         Z: function(date) {
-            var zone = -1 * date.getTimezoneOffset();
-            return (zone >= 0 ? "+" : "") + (padNumber(Math[zone > 0 ? "floor" : "ceil"](zone / 60), 2) + padNumber(Math.abs(zone % 60), 2));
+            var zone = -1 * date.getTimezoneOffset(), paddedZone = zone >= 0 ? "+" : "";
+            return paddedZone + (padNumber(Math[zone > 0 ? "floor" : "ceil"](zone / 60), 2) + padNumber(Math.abs(zone % 60), 2));
         }
     }, DATE_FORMATS_SPLIT = /((?:[^yMdHhmsaZE']+)|(?:'(?:[^']|'')*')|(?:E+|y+|M+|d+|H+|h+|m+|s+|a|Z))(.*)/, NUMBER_STRING = /^\-?\d+$/;
     function dateFilter($locale) {
@@ -4148,16 +4148,16 @@
                 ],
                 link: function(scope, element, attr, ctrls) {
                     if (ctrls[1]) {
-                        for(var lastView, emptyOption, selectCtrl = ctrls[0], ngModelCtrl = ctrls[1], multiple = attr.multiple, optionsExp = attr.ngOptions, nullOption = !1, optionTemplate = jqLite(document1.createElement("option")), optGroupTemplate = jqLite(document1.createElement("optgroup")), unknownOption = optionTemplate.clone(), i = 0, children = element.children(), ii = children.length; i < ii; i++)if ("" === children[i].value) {
+                        for(var scope1, selectElement, ctrl, lastView, scope2, selectElement1, ngModelCtrl, selectCtrl, emptyOption, selectCtrl1 = ctrls[0], ngModelCtrl1 = ctrls[1], multiple = attr.multiple, optionsExp = attr.ngOptions, nullOption = !1, optionTemplate = jqLite(document1.createElement("option")), optGroupTemplate = jqLite(document1.createElement("optgroup")), unknownOption = optionTemplate.clone(), i = 0, children = element.children(), ii = children.length; i < ii; i++)if ("" === children[i].value) {
                             emptyOption = nullOption = children.eq(i);
                             break;
                         }
-                        if (selectCtrl.init(ngModelCtrl, nullOption, unknownOption), multiple && (attr.required || attr.ngRequired)) {
+                        if (selectCtrl1.init(ngModelCtrl1, nullOption, unknownOption), multiple && (attr.required || attr.ngRequired)) {
                             var requiredValidator = function(value) {
-                                return ngModelCtrl.$setValidity("required", !attr.required || value && value.length), value;
+                                return ngModelCtrl1.$setValidity("required", !attr.required || value && value.length), value;
                             };
-                            ngModelCtrl.$parsers.push(requiredValidator), ngModelCtrl.$formatters.unshift(requiredValidator), attr.$observe("required", function() {
-                                requiredValidator(ngModelCtrl.$viewValue);
+                            ngModelCtrl1.$parsers.push(requiredValidator), ngModelCtrl1.$formatters.unshift(requiredValidator), attr.$observe("required", function() {
+                                requiredValidator(ngModelCtrl1.$viewValue);
                             });
                         }
                         optionsExp ? function(scope, selectElement, ctrl) {
@@ -4245,26 +4245,26 @@
                                     ctrl.$setViewValue(value);
                                 });
                             }), ctrl.$render = render, scope.$watch(render);
-                        }(scope, element, ngModelCtrl) : multiple ? (ngModelCtrl.$render = function() {
-                            var items = new HashMap(ngModelCtrl.$viewValue);
-                            forEach(element.find("option"), function(option) {
+                        }(scope, element, ngModelCtrl1) : multiple ? (scope1 = scope, selectElement = element, (ctrl = ngModelCtrl1).$render = function() {
+                            var items = new HashMap(ctrl.$viewValue);
+                            forEach(selectElement.find("option"), function(option) {
                                 option.selected = isDefined(items.get(option.value));
                             });
-                        }, scope.$watch(function() {
-                            equals(lastView, ngModelCtrl.$viewValue) || (lastView = copy(ngModelCtrl.$viewValue), ngModelCtrl.$render());
-                        }), element.on("change", function() {
-                            scope.$apply(function() {
+                        }, scope1.$watch(function() {
+                            equals(lastView, ctrl.$viewValue) || (lastView = copy(ctrl.$viewValue), ctrl.$render());
+                        }), selectElement.on("change", function() {
+                            scope1.$apply(function() {
                                 var array = [];
-                                forEach(element.find("option"), function(option) {
+                                forEach(selectElement.find("option"), function(option) {
                                     option.selected && array.push(option.value);
-                                }), ngModelCtrl.$setViewValue(array);
+                                }), ctrl.$setViewValue(array);
                             });
-                        })) : (ngModelCtrl.$render = function() {
+                        })) : (scope2 = scope, selectElement1 = element, ngModelCtrl = ngModelCtrl1, selectCtrl = selectCtrl1, ngModelCtrl.$render = function() {
                             var viewValue = ngModelCtrl.$viewValue;
-                            selectCtrl.hasOption(viewValue) ? (unknownOption.parent() && unknownOption.remove(), element.val(viewValue), "" === viewValue && emptyOption.prop("selected", !0)) : isUndefined(viewValue) && emptyOption ? element.val("") : selectCtrl.renderUnknownOption(viewValue);
-                        }, element.on("change", function() {
-                            scope.$apply(function() {
-                                unknownOption.parent() && unknownOption.remove(), ngModelCtrl.$setViewValue(element.val());
+                            selectCtrl.hasOption(viewValue) ? (unknownOption.parent() && unknownOption.remove(), selectElement1.val(viewValue), "" === viewValue && emptyOption.prop("selected", !0)) : isUndefined(viewValue) && emptyOption ? selectElement1.val("") : selectCtrl.renderUnknownOption(viewValue);
+                        }, selectElement1.on("change", function() {
+                            scope2.$apply(function() {
+                                unknownOption.parent() && unknownOption.remove(), ngModelCtrl.$setViewValue(selectElement1.val());
                             });
                         }));
                     }
