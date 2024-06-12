@@ -2407,7 +2407,8 @@ where
     op: F,
 }
 
-/// Finds all **binding** idents of `node`.
+/// Finds all **binding** idents of `node`. **Any nested identifiers in
+/// expressions are ignored**.
 pub fn for_each_binding_ident<T, F>(node: &T, op: F)
 where
     T: VisitWith<BindingIdentifierVisitor<F>>,
@@ -2426,12 +2427,9 @@ where
     /// No-op (we don't care about expressions)
     fn visit_expr(&mut self, _: &Expr) {}
 
-    fn visit_ident(&mut self, i: &Ident) {
+    fn visit_binding_ident(&mut self, i: &BindingIdent) {
         (self.op)(i);
     }
-
-    /// No-op (we don't care about expressions)
-    fn visit_prop_name(&mut self, _: &PropName) {}
 }
 
 pub fn is_valid_ident(s: &JsWord) -> bool {
