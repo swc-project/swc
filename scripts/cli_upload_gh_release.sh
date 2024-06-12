@@ -1,7 +1,9 @@
 #!/bin/sh
 
+cd ./packages/core/
+
 # Naive substitution to napi artifacts for the cli binary.
-for filename in ./packages/core/artifacts_cli/*
+for filename in artifacts_cli/*
 do
   echo "Trying to upload $filename"
 
