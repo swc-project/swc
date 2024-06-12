@@ -2976,8 +2976,9 @@ impl VisitMut for Optimizer<'_> {
                 let new = self.hoist_props_of_var(var);
 
                 if let Some(new) = new {
-                    idx += new.len();
+                    let len = new.len();
                     vars.splice(idx..=idx, new);
+                    idx += len;
                 } else {
                     idx += 1;
                 }
