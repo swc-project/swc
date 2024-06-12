@@ -4197,7 +4197,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_codegen"
-version = "0.149.2"
+version = "0.149.3"
 dependencies = [
  "base64",
  "criterion",
@@ -4515,7 +4515,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.144.2"
+version = "0.144.3"
 dependencies = [
  "criterion",
  "either",

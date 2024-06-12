@@ -482,12 +482,14 @@ where
         }
 
         punct!("[");
+
         emit!(n.type_param.name);
 
-        if n.type_param.constraint.is_some() {
+        if let Some(constraints) = &n.type_param.constraint {
             space!();
             keyword!("in");
             space!();
+            emit!(constraints);
         }
 
         if let Some(default) = &n.type_param.default {
@@ -497,7 +499,12 @@ where
             emit!(default);
         }
 
-        emit!(n.type_param.constraint);
+        if let Some(name_type) = &n.name_type {
+            space!();
+            keyword!("as");
+            space!();
+            emit!(name_type);
+        }
 
         punct!("]");
 
@@ -518,9 +525,12 @@ where
             },
         }
 
-        punct!(":");
-        space!();
-        emit!(n.type_ann);
+        if let Some(type_ann) = &n.type_ann {
+            punct!(":");
+            space!();
+            emit!(type_ann);
+        }
+
         formatting_semi!();
 
         self.wr.write_line()?;
