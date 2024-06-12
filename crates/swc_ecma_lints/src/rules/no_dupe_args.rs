@@ -31,9 +31,9 @@ macro_rules! check {
                     return;
                 }
 
-                done.push(i1);
-
                 if id1.span.ctxt == id2.span.ctxt && id1.sym == id2.sym {
+                    done.push(i1);
+
                     HANDLER.with(|handler| {
                         handler
                             .struct_span_err(
