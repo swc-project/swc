@@ -2919,7 +2919,7 @@
         directives: {
             model: function(el, dir, _warn) {
                 warn$1 = _warn;
-                var number, valueBinding, trueValueBinding, falseValueBinding, number1, valueBinding1, value = dir.value, modifiers = dir.modifiers, tag = el.tag, type = el.attrsMap.type;
+                var code, number, valueBinding, trueValueBinding, falseValueBinding, number1, valueBinding1, value = dir.value, modifiers = dir.modifiers, tag = el.tag, type = el.attrsMap.type;
                 if ('input' === tag && 'file' === type && warn$1("<" + el.tag + " v-model=\"" + value + '" type="file">:\nFile inputs are read only. Use a v-on:change listener instead.', el.rawAttrsMap['v-model']), el.component) return genComponentModel(el, value, modifiers), !1;
                 if ('select' === tag) addHandler(el, 'change', 'var $$selectedVal = Array.prototype.filter.call($event.target.options,function(o){return o.selected}).map(function(o){var val = "_value" in o ? o._value : o.value;return ' + (modifiers && modifiers.number ? '_n(val)' : 'val') + "}); " + genAssignmentCode(value, '$event.target.multiple ? $$selectedVal : $$selectedVal[0]'), null, !0);
                 else if ('input' === tag && 'checkbox' === type) number = modifiers && modifiers.number, valueBinding = getBindingAttr(el, 'value') || 'null', trueValueBinding = getBindingAttr(el, 'true-value') || 'true', falseValueBinding = getBindingAttr(el, 'false-value') || 'false', addProp(el, 'checked', "Array.isArray(" + value + ")?_i(" + value + "," + valueBinding + ")>-1" + ('true' === trueValueBinding ? ":(" + value + ")" : ":_q(" + value + "," + trueValueBinding + ")")), addHandler(el, 'change', "var $$a=" + value + ",$$el=$event.target,$$c=$$el.checked?(" + trueValueBinding + "):(" + falseValueBinding + ");if(Array.isArray($$a)){var $$v=" + (number ? '_n(' + valueBinding + ')' : valueBinding) + ",$$i=_i($$a,$$v);if($$el.checked){$$i<0&&(" + genAssignmentCode(value, '$$a.concat([$$v])') + ")}else{$$i>-1&&(" + genAssignmentCode(value, '$$a.slice(0,$$i).concat($$a.slice($$i+1))') + ")}}else{" + genAssignmentCode(value, '$$c') + "}", null, !0);
@@ -3513,7 +3513,7 @@
                 }
             }), root;
         }(template.trim(), options);
-        !1 === options.optimize || ast && (isStaticKey = genStaticKeysCached(options.staticKeys || ''), isPlatformReservedTag = options.isReservedTag || no, function markStatic$1(node) {
+        !1 !== options.optimize && ast && (isStaticKey = genStaticKeysCached(options.staticKeys || ''), isPlatformReservedTag = options.isReservedTag || no, function markStatic$1(node) {
             if (node.static = 2 !== node.type && (3 === node.type || !!(node.pre || !node.hasBindings && !node.if && !node.for && !isBuiltInTag(node.tag) && isPlatformReservedTag(node.tag) && !function(node) {
                 for(; node.parent && 'template' === (node = node.parent).tag;)if (node.for) return !0;
                 return !1;

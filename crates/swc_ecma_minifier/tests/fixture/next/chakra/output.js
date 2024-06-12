@@ -1582,7 +1582,7 @@
                     colorScheme: "blue"
                 }
             }, baseStyleContainer$3 = function(props) {
-                var opts, fallback, list, name = props.name, theme = props.theme, bg = name ? (opts = {
+                var list, opts, fallback, name = props.name, theme = props.theme, bg = name ? (opts = {
                     string: name
                 }, fallback = (function random(options) {
                     if (void 0 === options && (options = {}), void 0 !== options.count && null !== options.count) {

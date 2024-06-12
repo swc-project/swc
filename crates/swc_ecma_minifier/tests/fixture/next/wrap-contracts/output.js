@@ -16434,7 +16434,7 @@
                                 }
                                 t.push(null);
                             }), e.on("data", function(i) {
-                                u("wrapped data"), r.decoder && (i = r.decoder.write(i)), r.objectMode && null == i || !r.objectMode && (!i || !i.length) || t.push(i) || (n = !0, e.pause());
+                                u("wrapped data"), r.decoder && (i = r.decoder.write(i)), (!r.objectMode || null != i) && (r.objectMode || i && i.length) && (t.push(i) || (n = !0, e.pause()));
                             }), e)void 0 === this[i] && "function" == typeof e[i] && (this[i] = function(t) {
                                 return function() {
                                     return e[t].apply(e, arguments);
@@ -17017,7 +17017,7 @@
                             emitErrorNT(e, t), emitCloseNT(e);
                         }
                         function emitCloseNT(e) {
-                            e._writableState && !e._writableState.emitClose || e._readableState && !e._readableState.emitClose || e.emit("close");
+                            (!e._writableState || e._writableState.emitClose) && (!e._readableState || e._readableState.emitClose) && e.emit("close");
                         }
                         function undestroy() {
                             this._readableState && (this._readableState.destroyed = !1, this._readableState.reading = !1, this._readableState.ended = !1, this._readableState.endEmitted = !1), this._writableState && (this._writableState.destroyed = !1, this._writableState.ended = !1, this._writableState.ending = !1, this._writableState.finalCalled = !1, this._writableState.prefinished = !1, this._writableState.finished = !1, this._writableState.errorEmitted = !1);

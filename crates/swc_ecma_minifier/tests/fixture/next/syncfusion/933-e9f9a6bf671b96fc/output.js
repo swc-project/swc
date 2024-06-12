@@ -4623,13 +4623,13 @@
                 return component_extends(Component, _super), Component.prototype.requiredModules = function() {
                     return [];
                 }, Component.prototype.destroy = function() {
-                    this.isDestroyed || (this.enablePersistence && this.setPersistData(), this.localObserver.destroy(), this.refreshing) || (removeClass([
+                    !this.isDestroyed && (this.enablePersistence && this.setPersistData(), this.localObserver.destroy(), this.refreshing || (removeClass([
                         this.element
                     ], [
                         'e-control'
                     ]), this.trigger('destroyed', {
                         cancel: !1
-                    }), _super.prototype.destroy.call(this), this.moduleLoader.clean(), onIntlChange.off('notifyExternalChange', this.detectFunction, this.randomId));
+                    }), _super.prototype.destroy.call(this), this.moduleLoader.clean(), onIntlChange.off('notifyExternalChange', this.detectFunction, this.randomId)));
                 }, Component.prototype.refresh = function() {
                     this.refreshing = !0, this.moduleLoader.clean(), this.destroy(), this.clearChanges(), this.localObserver = new Observer(this), this.preRender(), this.injectModules(), this.render(), this.refreshing = !1;
                 }, Component.prototype.accessMount = function() {
@@ -10658,7 +10658,7 @@
                 }, RichTextEditor.prototype.executeCommand = function(commandName, value, option) {
                     if (value = this.htmlPurifier(commandName, value), 'HTML' === this.editorMode) {
                         var range = this.getRange();
-                        this.iframeSettings.enable && this.formatter.editorManager.nodeSelection.Clear(this.element.ownerDocument), (!this.iframeSettings.enable || range.startContainer !== this.inputElement) && this.inputElement.contains(range.startContainer) || this.focusIn();
+                        this.iframeSettings.enable && this.formatter.editorManager.nodeSelection.Clear(this.element.ownerDocument), (this.iframeSettings.enable && range.startContainer === this.inputElement || !this.inputElement.contains(range.startContainer)) && this.focusIn();
                     }
                     var tool = executeGroup[commandName];
                     if (option && option.undo && option.undo && 0 === this.formatter.getUndoRedoStack().length && this.formatter.saveData(), -1 !== this.maxLength && !(0, ej2_base.le)(tool.command)) {
@@ -23380,7 +23380,7 @@
                 }, ToolbarRenderer.prototype.dropDownSelected = function(args) {
                     this.parent.notify(constant.s7, args), this.onPopupOverlay();
                 }, ToolbarRenderer.prototype.beforeDropDownItemRender = function(args) {
-                    this.parent.readonly || !this.parent.enabled || this.parent.notify(constant.nd, args);
+                    !this.parent.readonly && this.parent.enabled && this.parent.notify(constant.nd, args);
                 }, ToolbarRenderer.prototype.dropDownOpen = function(args) {
                     if (args.element.parentElement.getAttribute('id').indexOf('TableCell') > -1 && !(0, ej2_base.le)(args.element.parentElement.querySelector('.e-cell-merge')) && (!(0, ej2_base.le)(args.element.parentElement.querySelector('.e-cell-horizontal-split')) || !(0, ej2_base.le)(args.element.parentElement.querySelector('.e-cell-vertical-split')))) {
                         var listEle = args.element.querySelectorAll('li');

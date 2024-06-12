@@ -3428,7 +3428,7 @@
                 }, _proto.handleSubmenuKeyDown = function(event) {
                     (keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Esc") || keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Tab")) && (this.buttonPressed_ && this.unpressButton(), keycode__WEBPACK_IMPORTED_MODULE_3___default().isEventKey(event, "Tab") || (event.preventDefault(), this.menuButton_.focus()));
                 }, _proto.pressButton = function() {
-                    this.enabled_ && (this.buttonPressed_ = !0, this.menu.show(), this.menu.lockShowing(), this.menuButton_.el_.setAttribute("aria-expanded", "true"), !(IS_IOS && isInFrame())) && this.menu.focus();
+                    this.enabled_ && (this.buttonPressed_ = !0, this.menu.show(), this.menu.lockShowing(), this.menuButton_.el_.setAttribute("aria-expanded", "true"), IS_IOS && isInFrame() || this.menu.focus());
                 }, _proto.unpressButton = function() {
                     this.enabled_ && (this.buttonPressed_ = !1, this.menu.unlockShowing(), this.menu.hide(), this.menuButton_.el_.setAttribute("aria-expanded", "false"));
                 }, _proto.disable = function() {
@@ -5853,12 +5853,12 @@
                             }(src, middlewares[src.type], next, player);
                         }, 1);
                     }(this, sources[0], function(middlewareSource, mws) {
-                        if (_this14.middleware_ = mws, isRetry || (_this14.cache_.sources = sources), _this14.updateSourceCaches_(middlewareSource), _this14.src_(middlewareSource)) return sources.length > 1 ? _this14.handleSrc_(sources.slice(1)) : void (_this14.changingSrc_ = !1, _this14.setTimeout(function() {
+                        if (_this14.middleware_ = mws, isRetry || (_this14.cache_.sources = sources), _this14.updateSourceCaches_(middlewareSource), _this14.src_(middlewareSource)) return sources.length > 1 ? _this14.handleSrc_(sources.slice(1)) : (_this14.changingSrc_ = !1, _this14.setTimeout(function() {
                             this.error({
                                 code: 4,
                                 message: this.localize(this.options_.notSupportedMessage)
                             });
-                        }, 0), _this14.triggerReady());
+                        }, 0), void _this14.triggerReady());
                         !function(middleware, tech) {
                             middleware.forEach(function(mw) {
                                 return mw.setTech && mw.setTech(tech);
@@ -7025,7 +7025,7 @@
                     media && !media.endList ? this.trigger("mediaupdatetimeout") : this.trigger("loadedplaylist");
                 }, _proto.updateMediaUpdateTimeout_ = function(delay) {
                     var _this6 = this;
-                    this.mediaUpdateTimeout && (global_window__WEBPACK_IMPORTED_MODULE_0___default().clearTimeout(this.mediaUpdateTimeout), this.mediaUpdateTimeout = null), !this.media() || this.media().endList || (this.mediaUpdateTimeout = global_window__WEBPACK_IMPORTED_MODULE_0___default().setTimeout(function() {
+                    this.mediaUpdateTimeout && (global_window__WEBPACK_IMPORTED_MODULE_0___default().clearTimeout(this.mediaUpdateTimeout), this.mediaUpdateTimeout = null), this.media() && !this.media().endList && (this.mediaUpdateTimeout = global_window__WEBPACK_IMPORTED_MODULE_0___default().setTimeout(function() {
                         _this6.mediaUpdateTimeout = null, _this6.trigger("mediaupdatetimeout"), _this6.updateMediaUpdateTimeout_(delay);
                     }, delay));
                 }, _proto.start = function() {
@@ -7225,7 +7225,7 @@
                 var segment = matchedSegment.segment, mediaOffset = getOffsetFromTimestamp(segment.dateTimeObject, programTime);
                 if ("estimate" === matchedSegment.type) return 0 === retryCount ? callback({
                     message: programTime + " is not buffered yet. Try again"
-                }) : void (seekTo(matchedSegment.estimatedStart + mediaOffset), tech.one("seeked", function() {
+                }) : (seekTo(matchedSegment.estimatedStart + mediaOffset), void tech.one("seeked", function() {
                     seekToProgramTime({
                         programTime: programTime,
                         playlist: playlist,
@@ -10867,12 +10867,12 @@
                     buffer: []
                 }, waitForEndedTimelineEvent = isEndOfTimeline;
                 if (transmuxer.onmessage = function(event) {
-                    transmuxer.currentTransmux !== options || ("data" === event.data.action && handleData_(event, transmuxedData, onData), "trackinfo" === event.data.action && onTrackInfo(event.data.trackInfo), "gopInfo" === event.data.action && handleGopInfo_(event, transmuxedData), "audioTimingInfo" === event.data.action && onAudioTimingInfo(event.data.audioTimingInfo), "videoTimingInfo" === event.data.action && onVideoTimingInfo(event.data.videoTimingInfo), "videoSegmentTimingInfo" === event.data.action && onVideoSegmentTimingInfo(event.data.videoSegmentTimingInfo), "audioSegmentTimingInfo" === event.data.action && onAudioSegmentTimingInfo(event.data.audioSegmentTimingInfo), "id3Frame" === event.data.action && onId3([
+                    transmuxer.currentTransmux === options && ("data" === event.data.action && handleData_(event, transmuxedData, onData), "trackinfo" === event.data.action && onTrackInfo(event.data.trackInfo), "gopInfo" === event.data.action && handleGopInfo_(event, transmuxedData), "audioTimingInfo" === event.data.action && onAudioTimingInfo(event.data.audioTimingInfo), "videoTimingInfo" === event.data.action && onVideoTimingInfo(event.data.videoTimingInfo), "videoSegmentTimingInfo" === event.data.action && onVideoSegmentTimingInfo(event.data.videoSegmentTimingInfo), "audioSegmentTimingInfo" === event.data.action && onAudioSegmentTimingInfo(event.data.audioSegmentTimingInfo), "id3Frame" === event.data.action && onId3([
                         event.data.id3Frame
-                    ], event.data.id3Frame.dispatchType), "caption" === event.data.action && onCaptions(event.data.caption), "endedtimeline" === event.data.action && (waitForEndedTimelineEvent = !1, onEndedTimeline()), "log" === event.data.action && onTransmuxerLog(event.data.log), "transmuxed" !== event.data.type || waitForEndedTimelineEvent) || (transmuxer.onmessage = null, handleDone_({
+                    ], event.data.id3Frame.dispatchType), "caption" === event.data.action && onCaptions(event.data.caption), "endedtimeline" === event.data.action && (waitForEndedTimelineEvent = !1, onEndedTimeline()), "log" === event.data.action && onTransmuxerLog(event.data.log), "transmuxed" !== event.data.type || waitForEndedTimelineEvent || (transmuxer.onmessage = null, handleDone_({
                         transmuxedData: transmuxedData,
                         callback: onDone
-                    }), dequeue(transmuxer));
+                    }), dequeue(transmuxer)));
                 }, audioAppendStart && transmuxer.postMessage({
                     action: "setAudioAppendStart",
                     appendStart: audioAppendStart
@@ -11963,7 +11963,7 @@
                             });
                             if (switchCandidate) {
                                 var timeSavedBySwitching = requestTimeRemaining - timeUntilRebuffer$1 - switchCandidate.rebufferingImpact, minimumTimeSaving = 0.5;
-                                timeUntilRebuffer$1 <= TIME_FUDGE_FACTOR && (minimumTimeSaving = 1), !switchCandidate.playlist || switchCandidate.playlist.uri === this.playlist_.uri || timeSavedBySwitching < minimumTimeSaving || (this.bandwidth = switchCandidate.playlist.attributes.BANDWIDTH * Config.BANDWIDTH_VARIANCE + 1, this.trigger("earlyabort"));
+                                timeUntilRebuffer$1 <= TIME_FUDGE_FACTOR && (minimumTimeSaving = 1), switchCandidate.playlist && switchCandidate.playlist.uri !== this.playlist_.uri && !(timeSavedBySwitching < minimumTimeSaving) && (this.bandwidth = switchCandidate.playlist.attributes.BANDWIDTH * Config.BANDWIDTH_VARIANCE + 1, this.trigger("earlyabort"));
                             }
                         }
                     }
@@ -11972,10 +11972,10 @@
                 }, _proto.handleProgress_ = function(event, simpleSegment) {
                     this.earlyAbortWhenNeeded_(simpleSegment.stats), this.checkForAbort_(simpleSegment.requestId) || this.trigger("progress");
                 }, _proto.handleTrackInfo_ = function(simpleSegment, trackInfo) {
-                    this.earlyAbortWhenNeeded_(simpleSegment.stats), !(this.checkForAbort_(simpleSegment.requestId) || this.checkForIllegalMediaSwitch(trackInfo) || (trackInfo = trackInfo || {}, shallowEqual(this.currentMediaInfo_, trackInfo) || (this.appendInitSegment_ = {
+                    this.earlyAbortWhenNeeded_(simpleSegment.stats), this.checkForAbort_(simpleSegment.requestId) || this.checkForIllegalMediaSwitch(trackInfo) || (trackInfo = trackInfo || {}, shallowEqual(this.currentMediaInfo_, trackInfo) || (this.appendInitSegment_ = {
                         audio: !0,
                         video: !0
-                    }, this.startingMediaInfo_ = trackInfo, this.currentMediaInfo_ = trackInfo, this.logger_("trackinfo update", trackInfo), this.trigger("trackinfo")), this.checkForAbort_(simpleSegment.requestId))) && (this.pendingSegment_.trackInfo = trackInfo, this.hasEnoughInfoToAppend_() && this.processCallQueue_());
+                    }, this.startingMediaInfo_ = trackInfo, this.currentMediaInfo_ = trackInfo, this.logger_("trackinfo update", trackInfo), this.trigger("trackinfo")), !this.checkForAbort_(simpleSegment.requestId) && (this.pendingSegment_.trackInfo = trackInfo, this.hasEnoughInfoToAppend_() && this.processCallQueue_()));
                 }, _proto.handleTimingInfo_ = function(simpleSegment, mediaType, timeType, time) {
                     if (this.earlyAbortWhenNeeded_(simpleSegment.stats), !this.checkForAbort_(simpleSegment.requestId)) {
                         var segmentInfo = this.pendingSegment_, timingInfoProperty = timingInfoPropertyForMedia(mediaType);
@@ -14088,12 +14088,12 @@
                             var expired = this.syncController_.getExpiredTime(media, this.duration());
                             if (null !== expired) {
                                 var master = this.masterPlaylistLoader_.master, mainSeekable = Vhs$1.Playlist.seekable(media, expired, Vhs$1.Playlist.liveEdgeDelay(master, media));
-                                0 === mainSeekable.length || this.mediaTypes_.AUDIO.activePlaylistLoader && (media = this.mediaTypes_.AUDIO.activePlaylistLoader.media(), null === (expired = this.syncController_.getExpiredTime(media, this.duration())) || 0 === (audioSeekable = Vhs$1.Playlist.seekable(media, expired, Vhs$1.Playlist.liveEdgeDelay(master, media))).length) || (this.seekable_ && this.seekable_.length && (oldEnd = this.seekable_.end(0), oldStart = this.seekable_.start(0)), audioSeekable ? audioSeekable.start(0) > mainSeekable.end(0) || mainSeekable.start(0) > audioSeekable.end(0) ? this.seekable_ = mainSeekable : this.seekable_ = videojs.createTimeRanges([
+                                0 !== mainSeekable.length && (!this.mediaTypes_.AUDIO.activePlaylistLoader || (media = this.mediaTypes_.AUDIO.activePlaylistLoader.media(), null !== (expired = this.syncController_.getExpiredTime(media, this.duration())) && 0 !== (audioSeekable = Vhs$1.Playlist.seekable(media, expired, Vhs$1.Playlist.liveEdgeDelay(master, media))).length)) && (this.seekable_ && this.seekable_.length && (oldEnd = this.seekable_.end(0), oldStart = this.seekable_.start(0)), audioSeekable ? audioSeekable.start(0) > mainSeekable.end(0) || mainSeekable.start(0) > audioSeekable.end(0) ? this.seekable_ = mainSeekable : this.seekable_ = videojs.createTimeRanges([
                                     [
                                         audioSeekable.start(0) > mainSeekable.start(0) ? audioSeekable.start(0) : mainSeekable.start(0),
                                         audioSeekable.end(0) < mainSeekable.end(0) ? audioSeekable.end(0) : mainSeekable.end(0)
                                     ]
-                                ]) : this.seekable_ = mainSeekable, this.seekable_ && this.seekable_.length && this.seekable_.end(0) === oldEnd && this.seekable_.start(0) === oldStart) || (this.logger_("seekable updated [" + printableRange(this.seekable_) + "]"), this.tech_.trigger("seekablechanged"));
+                                ]) : this.seekable_ = mainSeekable, this.seekable_ && this.seekable_.length && this.seekable_.end(0) === oldEnd && this.seekable_.start(0) === oldStart || (this.logger_("seekable updated [" + printableRange(this.seekable_) + "]"), this.tech_.trigger("seekablechanged")));
                             }
                         }
                     }
@@ -14336,9 +14336,9 @@
                     }), this[type + "StalledDownloads_"] < 10 || (this.logger_(type + " loader stalled download exclusion"), this.resetSegmentDownloads_(type), this.tech_.trigger({
                         type: "usage",
                         name: "vhs-" + type + "-download-exclusion"
-                    }), "subtitle" === type) || mpc.blacklistCurrentPlaylist({
+                    }), "subtitle" !== type && mpc.blacklistCurrentPlaylist({
                         message: "Excessive " + type + " segment downloading detected."
-                    }, 1 / 0);
+                    }, 1 / 0));
                 }, _proto.checkCurrentTime_ = function() {
                     if (!(this.tech_.paused() || this.tech_.seeking())) {
                         var currentTime = this.tech_.currentTime(), buffered = this.tech_.buffered();

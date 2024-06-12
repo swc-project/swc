@@ -914,7 +914,7 @@
                             inComposition.useTextareaForIME ? host.onCompositionUpdate(text.value) : (sendText(text.value), inComposition.markerRange && (inComposition.context && (inComposition.markerRange.start.column = inComposition.selectionStart = inComposition.context.compositionStartOffset), inComposition.markerRange.end.column = inComposition.markerRange.start.column + lastSelectionEnd - inComposition.selectionStart + lastRestoreEnd));
                         }
                     }, onCompositionEnd = function(e) {
-                        !host.onCompositionEnd || host.$readOnly || (inComposition = !1, host.onCompositionEnd(), host.off("mousedown", cancelComposition), e && onInput());
+                        host.onCompositionEnd && !host.$readOnly && (inComposition = !1, host.onCompositionEnd(), host.off("mousedown", cancelComposition), e && onInput());
                     };
                     function cancelComposition() {
                         ignoreFocusEvents = !0, text.blur(), text.focus(), ignoreFocusEvents = !1;

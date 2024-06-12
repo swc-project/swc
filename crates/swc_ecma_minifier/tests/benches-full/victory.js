@@ -8437,7 +8437,7 @@
                         return createChainableTypeChecker(function(props, propName, componentName, location, propFullName) {
                             if ('function' != typeof typeChecker) return new PropTypeError('Property `' + propFullName + '` of component `' + componentName + '` has invalid PropType notation inside arrayOf.');
                             var propValue = props[propName];
-                            if (!Array.isArray(propValue)) return new PropTypeError('Invalid ' + location + ' `' + propFullName + "` of type `" + getPropType(propValue) + '` supplied to `' + componentName + '`, expected an array.');
+                            if (!Array.isArray(propValue)) return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + getPropType(propValue)) + '` supplied to `' + componentName + '`, expected an array.');
                             for(var i = 0; i < propValue.length; i++){
                                 var error = typeChecker(propValue, i, componentName, location, propFullName + '[' + i + ']', ReactPropTypesSecret);
                                 if (error instanceof Error) return error;
@@ -8447,17 +8447,17 @@
                     },
                     element: createChainableTypeChecker(function(props, propName, componentName, location, propFullName) {
                         var propValue = props[propName];
-                        return isValidElement(propValue) ? null : new PropTypeError('Invalid ' + location + ' `' + propFullName + "` of type `" + getPropType(propValue) + '` supplied to `' + componentName + '`, expected a single ReactElement.');
+                        return isValidElement(propValue) ? null : new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + getPropType(propValue)) + '` supplied to `' + componentName + '`, expected a single ReactElement.');
                     }),
                     elementType: createChainableTypeChecker(function(props, propName, componentName, location, propFullName) {
                         var propValue = props[propName];
-                        return ReactIs.isValidElementType(propValue) ? null : new PropTypeError('Invalid ' + location + ' `' + propFullName + "` of type `" + getPropType(propValue) + '` supplied to `' + componentName + '`, expected a single ReactElement type.');
+                        return ReactIs.isValidElementType(propValue) ? null : new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + getPropType(propValue)) + '` supplied to `' + componentName + '`, expected a single ReactElement type.');
                     }),
                     instanceOf: function(expectedClass) {
                         return createChainableTypeChecker(function(props, propName, componentName, location, propFullName) {
                             if (!(props[propName] instanceof expectedClass)) {
                                 var propValue, expectedClassName = expectedClass.name || ANONYMOUS;
-                                return new PropTypeError('Invalid ' + location + ' `' + propFullName + "` of type `" + ((propValue = props[propName]).constructor && propValue.constructor.name ? propValue.constructor.name : ANONYMOUS) + '` supplied to `' + componentName + "`, expected instance of `" + expectedClassName + '`.');
+                                return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + ((propValue = props[propName]).constructor && propValue.constructor.name ? propValue.constructor.name : ANONYMOUS)) + '` supplied to `' + componentName + "`, expected instance of `" + expectedClassName + '`.');
                             }
                             return null;
                         });
@@ -8496,7 +8496,7 @@
                         return createChainableTypeChecker(function(props, propName, componentName, location, propFullName) {
                             if ('function' != typeof typeChecker) return new PropTypeError('Property `' + propFullName + '` of component `' + componentName + '` has invalid PropType notation inside objectOf.');
                             var propValue = props[propName], propType = getPropType(propValue);
-                            if ('object' !== propType) return new PropTypeError('Invalid ' + location + ' `' + propFullName + "` of type `" + propType + '` supplied to `' + componentName + '`, expected an object.');
+                            if ('object' !== propType) return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of type ' + ('`' + propType) + '` supplied to `' + componentName + '`, expected an object.');
                             for(var key in propValue)if (has(propValue, key)) {
                                 var error = typeChecker(propValue, key, componentName, location, propFullName + '.' + key, ReactPropTypesSecret);
                                 if (error instanceof Error) return error;
@@ -8510,7 +8510,7 @@
                             var valuesString = JSON.stringify(expectedValues, function(key, value) {
                                 return 'symbol' === getPreciseType(value) ? String(value) : value;
                             });
-                            return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of value `' + String(propValue) + "` supplied to `" + componentName + '`, expected one of ' + valuesString + '.');
+                            return new PropTypeError('Invalid ' + location + ' `' + propFullName + '` of value `' + String(propValue) + '` ' + ('supplied to `' + componentName) + '`, expected one of ' + valuesString + '.');
                         }) : (arguments.length > 1 ? printWarning('Invalid arguments supplied to oneOf, expected an array, got ' + arguments.length + " arguments. A common mistake is to write oneOf(x, y, z) instead of oneOf([x, y, z]).") : printWarning('Invalid argument supplied to oneOf, expected an array.'), emptyFunctionThatReturnsNull);
                     },
                     oneOfType: function(arrayOfTypeCheckers) {
@@ -13407,17 +13407,17 @@
                 childComponents = childComponents || getChildComponents(props);
                 var baseStyle = (calculatedProps = calculatedProps || getCalculatedProps(props, childComponents)).style.parent, height = props.height, polar = props.polar, theme = props.theme, width = props.width, _calculatedProps = calculatedProps, origin = _calculatedProps.origin, horizontal = _calculatedProps.horizontal, parentName = props.name || "chart";
                 return childComponents.map(function(child, index) {
-                    var calculatedProps1, domain, scale, stringMap, categories, axisChild, role = child.type && child.type.role, style = Array.isArray(child.props.style) ? child.props.style : lodash_defaults__WEBPACK_IMPORTED_MODULE_1___default()({}, child.props.style, {
+                    var child1, props1, calculatedProps1, domain, scale, stringMap, categories, axisChild, role = child.type && child.type.role, style = Array.isArray(child.props.style) ? child.props.style : lodash_defaults__WEBPACK_IMPORTED_MODULE_1___default()({}, child.props.style, {
                         parent: baseStyle
-                    }), childProps = (calculatedProps1 = calculatedProps, (axisChild = victory_core__WEBPACK_IMPORTED_MODULE_3__.Axis.findAxisComponents([
-                        child
+                    }), childProps = (child1 = child, props1 = props, calculatedProps1 = calculatedProps, (axisChild = victory_core__WEBPACK_IMPORTED_MODULE_3__.Axis.findAxisComponents([
+                        child1
                     ])).length > 0 ? (axisChild[0], domain = calculatedProps1.domain, scale = calculatedProps1.scale, stringMap = calculatedProps1.stringMap, categories = calculatedProps1.categories, {
                         stringMap: stringMap,
                         horizontal: calculatedProps1.horizontal,
                         categories: categories,
-                        startAngle: props.startAngle,
-                        endAngle: props.endAngle,
-                        innerRadius: props.innerRadius,
+                        startAngle: props1.startAngle,
+                        endAngle: props1.endAngle,
+                        innerRadius: props1.innerRadius,
                         domain: domain,
                         scale: scale
                     }) : {
@@ -22976,7 +22976,7 @@
                             }
                         }
                         return _arr;
-                    }(_ref, 0) || function() {
+                    }(_ref, 2) || function() {
                         throw TypeError("Invalid attempt to destructure non-iterable instance");
                     }(), target = _ref2[0], eventsArray = _ref2[1];
                     return eventsArray = eventsArray.filter(Boolean), lodash_isEmpty__WEBPACK_IMPORTED_MODULE_2___default()(eventsArray) ? null : {
@@ -23973,7 +23973,7 @@
                     standalone: !1
                 }), parentName = props.name || "group";
                 return childComponents.map(function(child, index) {
-                    var props1, calculatedProps1, props2, calculatedProps2, range, angularRange, r, role = child.type && child.type.role, xOffset = polar ? (props1 = props, calculatedProps1 = calculatedProps, (index - (("stack" === role ? calculatedProps1.datasets[0].length : calculatedProps1.datasets.length) - 1) / 2) * (angularRange = Math.abs((range = calculatedProps1.range).x[1] - range.x[0]), r = Math.max.apply(Math, _toConsumableArray(range.y)), props1.offset / (2 * Math.PI * r) * angularRange)) : (props2 = props, calculatedProps2 = calculatedProps, (index - (("stack" === role ? calculatedProps2.datasets[0].length : calculatedProps2.datasets.length) - 1) / 2) * function(props, axis, calculatedProps) {
+                    var range, angularRange, r, props1, calculatedProps1, props2, calculatedProps2, role = child.type && child.type.role, xOffset = polar ? (props1 = props, calculatedProps1 = calculatedProps, (index - (("stack" === role ? calculatedProps1.datasets[0].length : calculatedProps1.datasets.length) - 1) / 2) * (angularRange = Math.abs((range = calculatedProps1.range).x[1] - range.x[0]), r = Math.max.apply(Math, _toConsumableArray(range.y)), props1.offset / (2 * Math.PI * r) * angularRange)) : (props2 = props, calculatedProps2 = calculatedProps, (index - (("stack" === role ? calculatedProps2.datasets[0].length : calculatedProps2.datasets.length) - 1) / 2) * function(props, axis, calculatedProps) {
                         if (!props.offset) return 0;
                         var currentAxis = victory_core__WEBPACK_IMPORTED_MODULE_2__.Helpers.getCurrentAxis("x", props.horizontal), domain = calculatedProps.domain.x, range = calculatedProps.range[currentAxis];
                         return (Math.max.apply(Math, _toConsumableArray(domain)) - Math.min.apply(Math, _toConsumableArray(domain))) / (Math.max.apply(Math, _toConsumableArray(range)) - Math.min.apply(Math, _toConsumableArray(range))) * props.offset;
@@ -28201,7 +28201,7 @@
                                     }
                                 }
                                 return _arr;
-                            }(arr, 0) || function() {
+                            }(arr, 2) || function() {
                                 throw TypeError("Invalid attempt to destructure non-iterable instance");
                             }(), sharedEvents = _ref2[0], prevCacheValues = _ref2[1];
                             if (sharedEvents && react_fast_compare__WEBPACK_IMPORTED_MODULE_10___default()(cacheValues, prevCacheValues)) return sharedEvents;

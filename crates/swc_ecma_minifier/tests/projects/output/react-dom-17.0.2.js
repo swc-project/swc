@@ -1141,17 +1141,17 @@
         });
     });
     var uppercasePattern = /([A-Z])/g, msPattern = /^ms-/, warnValidStyle = function() {}, badVendoredStyleNamePattern = /^(?:webkit|moz|o)[A-Z]/, msPattern$1 = /^-ms-/, hyphenPattern = /-(.)/g, badStyleValueWithSemicolonPattern = /;\s*$/, warnedStyleNames = {}, warnedStyleValues = {}, warnedForNaNValue = !1, warnedForInfinityValue = !1, warnHyphenatedStyleName = function(name) {
-        warnedStyleNames.hasOwnProperty(name) && warnedStyleNames[name] || (warnedStyleNames[name] = !0, error("Unsupported style property %s. Did you mean %s?", name, name.replace(msPattern$1, "ms-").replace(hyphenPattern, function(_, character) {
+        (!warnedStyleNames.hasOwnProperty(name) || !warnedStyleNames[name]) && (warnedStyleNames[name] = !0, error("Unsupported style property %s. Did you mean %s?", name, name.replace(msPattern$1, "ms-").replace(hyphenPattern, function(_, character) {
             return character.toUpperCase();
         })));
     }, warnBadVendoredStyleName = function(name) {
-        warnedStyleNames.hasOwnProperty(name) && warnedStyleNames[name] || (warnedStyleNames[name] = !0, error("Unsupported vendor-prefixed style property %s. Did you mean %s?", name, name.charAt(0).toUpperCase() + name.slice(1)));
+        (!warnedStyleNames.hasOwnProperty(name) || !warnedStyleNames[name]) && (warnedStyleNames[name] = !0, error("Unsupported vendor-prefixed style property %s. Did you mean %s?", name, name.charAt(0).toUpperCase() + name.slice(1)));
     }, warnStyleValueWithSemicolon = function(name, value) {
-        warnedStyleValues.hasOwnProperty(value) && warnedStyleValues[value] || (warnedStyleValues[value] = !0, error('Style property values shouldn\'t contain a semicolon. Try "%s: %s" instead.', name, value.replace(badStyleValueWithSemicolonPattern, "")));
+        (!warnedStyleValues.hasOwnProperty(value) || !warnedStyleValues[value]) && (warnedStyleValues[value] = !0, error('Style property values shouldn\'t contain a semicolon. Try "%s: %s" instead.', name, value.replace(badStyleValueWithSemicolonPattern, "")));
     }, warnStyleValueIsNaN = function(name, value) {
-        warnedForNaNValue || (warnedForNaNValue = !0, error("`NaN` is an invalid value for the `%s` css style property.", name));
+        !warnedForNaNValue && (warnedForNaNValue = !0, error("`NaN` is an invalid value for the `%s` css style property.", name));
     }, warnStyleValueIsInfinity = function(name, value) {
-        warnedForInfinityValue || (warnedForInfinityValue = !0, error("`Infinity` is an invalid value for the `%s` css style property.", name));
+        !warnedForInfinityValue && (warnedForInfinityValue = !0, error("`Infinity` is an invalid value for the `%s` css style property.", name));
     }, warnValidStyle$1 = function(name, value) {
         name.indexOf("-") > -1 ? warnHyphenatedStyleName(name) : badVendoredStyleNamePattern.test(name) ? warnBadVendoredStyleName(name) : badStyleValueWithSemicolonPattern.test(value) && warnStyleValueWithSemicolon(name, value), "number" != typeof value || (isNaN(value) ? warnStyleValueIsNaN(name, value) : isFinite(value) || warnStyleValueIsInfinity(name, value));
     };
@@ -3914,10 +3914,7 @@
         if (element) {
             var owner = element._owner, stack = function describeUnknownElementTypeFrameInDEV(type, source, ownerFn) {
                 if (null == type) return "";
-                if ("function" == typeof type) {
-                    var prototype;
-                    return describeNativeComponentFrame(type, !!((prototype = type.prototype) && prototype.isReactComponent));
-                }
+                if ("function" == typeof type) return describeNativeComponentFrame(type, !!((prototype = type.prototype) && prototype.isReactComponent));
                 if ("string" == typeof type) return describeBuiltInComponentFrame(type);
                 switch(type){
                     case REACT_SUSPENSE_TYPE:
@@ -3933,7 +3930,7 @@
                     case REACT_BLOCK_TYPE:
                         return describeNativeComponentFrame(type._render, !1);
                     case REACT_LAZY_TYPE:
-                        var payload = type._payload, init = type._init;
+                        var prototype, payload = type._payload, init = type._init;
                         try {
                             return describeUnknownElementTypeFrameInDEV(init(payload), source, ownerFn);
                         } catch (x) {}
@@ -6764,143 +6761,144 @@
                         return null;
                     }
                     var currentHostContext = getHostContext();
-                    if (popHydrationState(workInProgress)) instance = workInProgress.stateNode, type1 = workInProgress.type, props = workInProgress.memoizedProps, instance[internalInstanceKey] = workInProgress, instance[internalPropsKey] = props, updatePayload = function(domElement, tag, rawProps, parentNamespace, rootContainerElement) {
-                        switch(suppressHydrationWarning = !0 === rawProps[SUPPRESS_HYDRATION_WARNING], isCustomComponentTag = isCustomComponent(tag, rawProps), validatePropertiesInDevelopment(tag, rawProps), tag){
-                            case "dialog":
-                                listenToNonDelegatedEvent("cancel", domElement), listenToNonDelegatedEvent("close", domElement);
-                                break;
-                            case "iframe":
-                            case "object":
-                            case "embed":
-                                listenToNonDelegatedEvent("load", domElement);
-                                break;
-                            case "video":
-                            case "audio":
-                                for(var isCustomComponentTag, extraAttributeNames, i = 0; i < mediaEventTypes.length; i++)listenToNonDelegatedEvent(mediaEventTypes[i], domElement);
-                                break;
-                            case "source":
-                                listenToNonDelegatedEvent("error", domElement);
-                                break;
-                            case "img":
-                            case "image":
-                            case "link":
-                                listenToNonDelegatedEvent("error", domElement), listenToNonDelegatedEvent("load", domElement);
-                                break;
-                            case "details":
-                                listenToNonDelegatedEvent("toggle", domElement);
-                                break;
-                            case "input":
-                                initWrapperState(domElement, rawProps), listenToNonDelegatedEvent("invalid", domElement);
-                                break;
-                            case "option":
-                                validateProps(domElement, rawProps);
-                                break;
-                            case "select":
-                                initWrapperState$1(domElement, rawProps), listenToNonDelegatedEvent("invalid", domElement);
-                                break;
-                            case "textarea":
-                                initWrapperState$2(domElement, rawProps), listenToNonDelegatedEvent("invalid", domElement);
-                        }
-                        assertValidProps(tag, rawProps), extraAttributeNames = new Set();
-                        for(var attributes = domElement.attributes, _i = 0; _i < attributes.length; _i++)switch(attributes[_i].name.toLowerCase()){
-                            case "data-reactroot":
-                            case "value":
-                            case "checked":
-                            case "selected":
-                                break;
-                            default:
-                                extraAttributeNames.add(attributes[_i].name);
-                        }
-                        var updatePayload = null;
-                        for(var propKey in rawProps)if (rawProps.hasOwnProperty(propKey)) {
-                            var nextProp = rawProps[propKey];
-                            if (propKey === CHILDREN) "string" == typeof nextProp ? domElement.textContent !== nextProp && (suppressHydrationWarning || warnForTextDifference(domElement.textContent, nextProp), updatePayload = [
-                                CHILDREN,
-                                nextProp
-                            ]) : "number" == typeof nextProp && domElement.textContent !== "" + nextProp && (suppressHydrationWarning || warnForTextDifference(domElement.textContent, nextProp), updatePayload = [
-                                CHILDREN,
-                                "" + nextProp
-                            ]);
-                            else if (registrationNameDependencies.hasOwnProperty(propKey)) null != nextProp && ("function" != typeof nextProp && warnForInvalidEventListener(propKey, nextProp), "onScroll" === propKey && listenToNonDelegatedEvent("scroll", domElement));
-                            else if ("boolean" == typeof isCustomComponentTag) {
-                                var serverValue = void 0, propertyInfo = getPropertyInfo(propKey);
-                                if (suppressHydrationWarning) ;
-                                else if (propKey === SUPPRESS_CONTENT_EDITABLE_WARNING || propKey === SUPPRESS_HYDRATION_WARNING || "value" === propKey || "checked" === propKey || "selected" === propKey) ;
-                                else if (propKey === DANGEROUSLY_SET_INNER_HTML) {
-                                    var serverHTML = domElement.innerHTML, nextHtml = nextProp ? nextProp[HTML$1] : void 0;
-                                    if (null != nextHtml) {
-                                        var expectedHTML = normalizeHTML(domElement, nextHtml);
-                                        expectedHTML !== serverHTML && warnForPropDifference(propKey, serverHTML, expectedHTML);
-                                    }
-                                } else if (propKey === STYLE) {
-                                    if (extraAttributeNames.delete(propKey), canDiffStyleForHydrationWarning) {
-                                        var expectedStyle = function(styles) {
-                                            var serialized = "", delimiter = "";
-                                            for(var styleName in styles)if (styles.hasOwnProperty(styleName)) {
-                                                var styleValue = styles[styleName];
-                                                if (null != styleValue) {
-                                                    var isCustomProperty = 0 === styleName.indexOf("--");
-                                                    serialized += delimiter + (isCustomProperty ? styleName : styleName.replace(uppercasePattern, "-$1").toLowerCase().replace(msPattern, "-ms-")) + ":" + dangerousStyleValue(styleName, styleValue, isCustomProperty), delimiter = ";";
+                    if (popHydrationState(workInProgress)) {
+                        if (instance = workInProgress.stateNode, type1 = workInProgress.type, props = workInProgress.memoizedProps, rootContainerInstance1 = 0, hostContext = currentHostContext, hostInst = workInProgress, instance[internalInstanceKey] = hostInst, node = instance, props1 = props, node[internalPropsKey] = props1, updatePayload = function(domElement, tag, rawProps, parentNamespace, rootContainerElement) {
+                            switch(suppressHydrationWarning = !0 === rawProps[SUPPRESS_HYDRATION_WARNING], isCustomComponentTag = isCustomComponent(tag, rawProps), validatePropertiesInDevelopment(tag, rawProps), tag){
+                                case "dialog":
+                                    listenToNonDelegatedEvent("cancel", domElement), listenToNonDelegatedEvent("close", domElement);
+                                    break;
+                                case "iframe":
+                                case "object":
+                                case "embed":
+                                    listenToNonDelegatedEvent("load", domElement);
+                                    break;
+                                case "video":
+                                case "audio":
+                                    for(var isCustomComponentTag, extraAttributeNames, i = 0; i < mediaEventTypes.length; i++)listenToNonDelegatedEvent(mediaEventTypes[i], domElement);
+                                    break;
+                                case "source":
+                                    listenToNonDelegatedEvent("error", domElement);
+                                    break;
+                                case "img":
+                                case "image":
+                                case "link":
+                                    listenToNonDelegatedEvent("error", domElement), listenToNonDelegatedEvent("load", domElement);
+                                    break;
+                                case "details":
+                                    listenToNonDelegatedEvent("toggle", domElement);
+                                    break;
+                                case "input":
+                                    initWrapperState(domElement, rawProps), listenToNonDelegatedEvent("invalid", domElement);
+                                    break;
+                                case "option":
+                                    validateProps(domElement, rawProps);
+                                    break;
+                                case "select":
+                                    initWrapperState$1(domElement, rawProps), listenToNonDelegatedEvent("invalid", domElement);
+                                    break;
+                                case "textarea":
+                                    initWrapperState$2(domElement, rawProps), listenToNonDelegatedEvent("invalid", domElement);
+                            }
+                            assertValidProps(tag, rawProps), extraAttributeNames = new Set();
+                            for(var attributes = domElement.attributes, _i = 0; _i < attributes.length; _i++)switch(attributes[_i].name.toLowerCase()){
+                                case "data-reactroot":
+                                case "value":
+                                case "checked":
+                                case "selected":
+                                    break;
+                                default:
+                                    extraAttributeNames.add(attributes[_i].name);
+                            }
+                            var updatePayload = null;
+                            for(var propKey in rawProps)if (rawProps.hasOwnProperty(propKey)) {
+                                var nextProp = rawProps[propKey];
+                                if (propKey === CHILDREN) "string" == typeof nextProp ? domElement.textContent !== nextProp && (suppressHydrationWarning || warnForTextDifference(domElement.textContent, nextProp), updatePayload = [
+                                    CHILDREN,
+                                    nextProp
+                                ]) : "number" == typeof nextProp && domElement.textContent !== "" + nextProp && (suppressHydrationWarning || warnForTextDifference(domElement.textContent, nextProp), updatePayload = [
+                                    CHILDREN,
+                                    "" + nextProp
+                                ]);
+                                else if (registrationNameDependencies.hasOwnProperty(propKey)) null != nextProp && ("function" != typeof nextProp && warnForInvalidEventListener(propKey, nextProp), "onScroll" === propKey && listenToNonDelegatedEvent("scroll", domElement));
+                                else if ("boolean" == typeof isCustomComponentTag) {
+                                    var serverValue = void 0, propertyInfo = getPropertyInfo(propKey);
+                                    if (suppressHydrationWarning) ;
+                                    else if (propKey === SUPPRESS_CONTENT_EDITABLE_WARNING || propKey === SUPPRESS_HYDRATION_WARNING || "value" === propKey || "checked" === propKey || "selected" === propKey) ;
+                                    else if (propKey === DANGEROUSLY_SET_INNER_HTML) {
+                                        var serverHTML = domElement.innerHTML, nextHtml = nextProp ? nextProp[HTML$1] : void 0;
+                                        if (null != nextHtml) {
+                                            var expectedHTML = normalizeHTML(domElement, nextHtml);
+                                            expectedHTML !== serverHTML && warnForPropDifference(propKey, serverHTML, expectedHTML);
+                                        }
+                                    } else if (propKey === STYLE) {
+                                        if (extraAttributeNames.delete(propKey), canDiffStyleForHydrationWarning) {
+                                            var expectedStyle = function(styles) {
+                                                var serialized = "", delimiter = "";
+                                                for(var styleName in styles)if (styles.hasOwnProperty(styleName)) {
+                                                    var styleValue = styles[styleName];
+                                                    if (null != styleValue) {
+                                                        var isCustomProperty = 0 === styleName.indexOf("--");
+                                                        serialized += delimiter + (isCustomProperty ? styleName : styleName.replace(uppercasePattern, "-$1").toLowerCase().replace(msPattern, "-ms-")) + ":" + dangerousStyleValue(styleName, styleValue, isCustomProperty), delimiter = ";";
+                                                    }
                                                 }
-                                            }
-                                            return serialized || null;
-                                        }(nextProp);
-                                        expectedStyle !== (serverValue = domElement.getAttribute("style")) && warnForPropDifference(propKey, serverValue, expectedStyle);
-                                    }
-                                } else if (isCustomComponentTag) extraAttributeNames.delete(propKey.toLowerCase()), serverValue = getValueForAttribute(domElement, propKey, nextProp), nextProp !== serverValue && warnForPropDifference(propKey, serverValue, nextProp);
-                                else if (!shouldIgnoreAttribute(propKey, propertyInfo, isCustomComponentTag) && !shouldRemoveAttribute(propKey, nextProp, propertyInfo, isCustomComponentTag)) {
-                                    var isMismatchDueToBadCasing = !1;
-                                    if (null !== propertyInfo) extraAttributeNames.delete(propertyInfo.attributeName), serverValue = function(node, name, expected, propertyInfo) {
-                                        if (propertyInfo.mustUseProperty) return node[propertyInfo.propertyName];
-                                        propertyInfo.sanitizeURL && sanitizeURL("" + expected);
-                                        var attributeName = propertyInfo.attributeName, stringValue = null;
-                                        if (4 === propertyInfo.type) {
-                                            if (node.hasAttribute(attributeName)) {
-                                                var value = node.getAttribute(attributeName);
-                                                return "" === value || (shouldRemoveAttribute(name, expected, propertyInfo, !1) ? value : value === "" + expected ? expected : value);
-                                            }
-                                        } else if (node.hasAttribute(attributeName)) {
-                                            if (shouldRemoveAttribute(name, expected, propertyInfo, !1)) return node.getAttribute(attributeName);
-                                            if (3 === propertyInfo.type) return expected;
-                                            stringValue = node.getAttribute(attributeName);
+                                                return serialized || null;
+                                            }(nextProp);
+                                            expectedStyle !== (serverValue = domElement.getAttribute("style")) && warnForPropDifference(propKey, serverValue, expectedStyle);
                                         }
-                                        return shouldRemoveAttribute(name, expected, propertyInfo, !1) ? null === stringValue ? expected : stringValue : stringValue === "" + expected ? expected : stringValue;
-                                    }(domElement, propKey, nextProp, propertyInfo);
-                                    else {
-                                        var ownNamespace = parentNamespace;
-                                        if (ownNamespace === HTML_NAMESPACE && (ownNamespace = getIntrinsicNamespace(tag)), ownNamespace === HTML_NAMESPACE) extraAttributeNames.delete(propKey.toLowerCase());
+                                    } else if (isCustomComponentTag) extraAttributeNames.delete(propKey.toLowerCase()), serverValue = getValueForAttribute(domElement, propKey, nextProp), nextProp !== serverValue && warnForPropDifference(propKey, serverValue, nextProp);
+                                    else if (!shouldIgnoreAttribute(propKey, propertyInfo, isCustomComponentTag) && !shouldRemoveAttribute(propKey, nextProp, propertyInfo, isCustomComponentTag)) {
+                                        var isMismatchDueToBadCasing = !1;
+                                        if (null !== propertyInfo) extraAttributeNames.delete(propertyInfo.attributeName), serverValue = function(node, name, expected, propertyInfo) {
+                                            if (propertyInfo.mustUseProperty) return node[propertyInfo.propertyName];
+                                            propertyInfo.sanitizeURL && sanitizeURL("" + expected);
+                                            var attributeName = propertyInfo.attributeName, stringValue = null;
+                                            if (4 === propertyInfo.type) {
+                                                if (node.hasAttribute(attributeName)) {
+                                                    var value = node.getAttribute(attributeName);
+                                                    return "" === value || (shouldRemoveAttribute(name, expected, propertyInfo, !1) ? value : value === "" + expected ? expected : value);
+                                                }
+                                            } else if (node.hasAttribute(attributeName)) {
+                                                if (shouldRemoveAttribute(name, expected, propertyInfo, !1)) return node.getAttribute(attributeName);
+                                                if (3 === propertyInfo.type) return expected;
+                                                stringValue = node.getAttribute(attributeName);
+                                            }
+                                            return shouldRemoveAttribute(name, expected, propertyInfo, !1) ? null === stringValue ? expected : stringValue : stringValue === "" + expected ? expected : stringValue;
+                                        }(domElement, propKey, nextProp, propertyInfo);
                                         else {
-                                            var standardName = function(propName) {
-                                                var lowerCasedName = propName.toLowerCase();
-                                                return possibleStandardNames.hasOwnProperty(lowerCasedName) && possibleStandardNames[lowerCasedName] || null;
-                                            }(propKey);
-                                            null !== standardName && standardName !== propKey && (isMismatchDueToBadCasing = !0, extraAttributeNames.delete(standardName)), extraAttributeNames.delete(propKey);
+                                            var ownNamespace = parentNamespace;
+                                            if (ownNamespace === HTML_NAMESPACE && (ownNamespace = getIntrinsicNamespace(tag)), ownNamespace === HTML_NAMESPACE) extraAttributeNames.delete(propKey.toLowerCase());
+                                            else {
+                                                var standardName = function(propName) {
+                                                    var lowerCasedName = propName.toLowerCase();
+                                                    return possibleStandardNames.hasOwnProperty(lowerCasedName) && possibleStandardNames[lowerCasedName] || null;
+                                                }(propKey);
+                                                null !== standardName && standardName !== propKey && (isMismatchDueToBadCasing = !0, extraAttributeNames.delete(standardName)), extraAttributeNames.delete(propKey);
+                                            }
+                                            serverValue = getValueForAttribute(domElement, propKey, nextProp);
                                         }
-                                        serverValue = getValueForAttribute(domElement, propKey, nextProp);
+                                        nextProp === serverValue || isMismatchDueToBadCasing || warnForPropDifference(propKey, serverValue, nextProp);
                                     }
-                                    nextProp === serverValue || isMismatchDueToBadCasing || warnForPropDifference(propKey, serverValue, nextProp);
                                 }
                             }
-                        }
-                        switch(extraAttributeNames.size > 0 && !suppressHydrationWarning && warnForExtraAttributes(extraAttributeNames), tag){
-                            case "input":
-                                track(domElement), postMountWrapper(domElement, rawProps, !0);
-                                break;
-                            case "textarea":
-                                track(domElement), postMountWrapper$3(domElement);
-                                break;
-                            case "select":
-                            case "option":
-                                break;
-                            default:
-                                "function" == typeof rawProps.onClick && trapClickOnNonInteractiveElement(domElement);
-                        }
-                        return updatePayload;
-                    }(instance, type1, props, currentHostContext.namespace), workInProgress.updateQueue = updatePayload, null !== updatePayload && markUpdate(workInProgress);
-                    else {
-                        var instance, type1, props, updatePayload, instance1 = function(type, props, rootContainerInstance, hostContext, internalInstanceHandle) {
+                            switch(extraAttributeNames.size > 0 && !suppressHydrationWarning && warnForExtraAttributes(extraAttributeNames), tag){
+                                case "input":
+                                    track(domElement), postMountWrapper(domElement, rawProps, !0);
+                                    break;
+                                case "textarea":
+                                    track(domElement), postMountWrapper$3(domElement);
+                                    break;
+                                case "select":
+                                case "option":
+                                    break;
+                                default:
+                                    "function" == typeof rawProps.onClick && trapClickOnNonInteractiveElement(domElement);
+                            }
+                            return updatePayload;
+                        }(instance, type1, props, hostContext.namespace), workInProgress.updateQueue = updatePayload, null !== updatePayload) markUpdate(workInProgress);
+                    } else {
+                        var instance, type1, props, rootContainerInstance1, hostContext, hostInst, node, props1, updatePayload, instance1 = function(type, props, rootContainerInstance, hostContext, internalInstanceHandle) {
                             if (validateDOMNesting(type, null, hostContext.ancestorInfo), "string" == typeof props.children || "number" == typeof props.children) {
-                                var string = "" + props.children, ownAncestorInfo = updatedAncestorInfo(hostContext.ancestorInfo, type);
+                                var hostInst, node, props1, string = "" + props.children, ownAncestorInfo = updatedAncestorInfo(hostContext.ancestorInfo, type);
                                 validateDOMNesting(null, string, ownAncestorInfo);
                             }
                             var domElement = function(type, props, rootContainerElement, parentNamespace) {
@@ -6921,7 +6919,7 @@
                                 } else domElement = ownerDocument.createElementNS(namespaceURI, type);
                                 return namespaceURI !== HTML_NAMESPACE || isCustomComponentTag || "[object HTMLUnknownElement]" !== Object.prototype.toString.call(domElement) || Object.prototype.hasOwnProperty.call(warnedUnknownTags, type) || (warnedUnknownTags[type] = !0, error("The tag <%s> is unrecognized in this browser. If you meant to render a React component, start its name with an uppercase letter.", type)), domElement;
                             }(type, props, rootContainerInstance, hostContext.namespace);
-                            return domElement[internalInstanceKey] = internalInstanceHandle, domElement[internalPropsKey] = props, domElement;
+                            return hostInst = internalInstanceHandle, domElement[internalInstanceKey] = hostInst, node = domElement, props1 = props, node[internalPropsKey] = props1, domElement;
                         }(type, newProps, rootContainerInstance, currentHostContext, workInProgress);
                         appendAllChildren(instance1, workInProgress, !1, !1), workInProgress.stateNode = instance1, !function(domElement, tag, rawProps, rootContainerElement) {
                             var element, props, value, props1, isCustomComponentTag = isCustomComponent(tag, rawProps);
@@ -7001,9 +6999,9 @@
                     updateHostText$1(current, workInProgress, oldText, newProps);
                 } else {
                     if ("string" != typeof newProps && !(null !== workInProgress.stateNode)) throw Error("We must have new props for new mounts. This error is likely caused by a bug in React. Please file an issue.");
-                    var hostInst, textNode, _rootContainerInstance = getRootHostContainer(), _currentHostContext = getHostContext();
+                    var hostInst1, textNode, _rootContainerInstance = getRootHostContainer(), _currentHostContext = getHostContext();
                     if (popHydrationState(workInProgress)) (function(fiber) {
-                        var textInstance = fiber.stateNode, textContent = fiber.memoizedProps, shouldUpdate = (textInstance[internalInstanceKey] = fiber, textInstance.nodeValue !== textContent);
+                        var hostInst, textInstance = fiber.stateNode, textContent = fiber.memoizedProps, shouldUpdate = (hostInst = fiber, textInstance[internalInstanceKey] = hostInst, textInstance.nodeValue !== textContent);
                         if (shouldUpdate) {
                             var returnFiber = hydrationParentFiber;
                             if (null !== returnFiber) switch(returnFiber.tag){
@@ -7019,7 +7017,7 @@
                         return shouldUpdate;
                     })(workInProgress) && markUpdate(workInProgress);
                     else {
-                        workInProgress.stateNode = (validateDOMNesting(null, newProps, _currentHostContext.ancestorInfo), hostInst = workInProgress, (textNode = getOwnerDocumentFromRootContainer(_rootContainerInstance).createTextNode(newProps))[internalInstanceKey] = hostInst, textNode);
+                        workInProgress.stateNode = (validateDOMNesting(null, newProps, _currentHostContext.ancestorInfo), hostInst1 = workInProgress, (textNode = getOwnerDocumentFromRootContainer(_rootContainerInstance).createTextNode(newProps))[internalInstanceKey] = hostInst1, textNode);
                     }
                 }
                 return null;
