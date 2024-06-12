@@ -1,27 +1,22 @@
 use std::process::{Command, Stdio};
 
-use anyhow::{Context, Result};
+use anyhow::{ensure, Context, Result};
 use chrono::Utc;
 use clap::Args;
 use semver::{Prerelease, Version};
 
 use crate::{
-    npm::util::{bump_swc_cli, set_version, update_swc_crates},
+    npm::util::{bump_swc_cli, set_version},
     util::{repository_root, wrap},
 };
 
 #[derive(Debug, Args)]
-pub(super) struct NightlyCmd {
-    #[clap(long)]
-    git: bool,
-}
+pub(super) struct NightlyCmd {}
 
 impl NightlyCmd {
     pub fn run(self) -> Result<()> {
         wrap(|| {
             let date = Utc::now().format("%Y%m%d").to_string();
-
-            update_swc_crates().context("failed to update swc crates")?;
 
             let root_pkg_json = repository_root()?.join("./packages/core/package.json");
             let content = serde_json::from_reader::<_, serde_json::Value>(
@@ -37,38 +32,14 @@ impl NightlyCmd {
             set_version(&version).context("failed to set version")?;
             bump_swc_cli().context("failed to bump swc-cli")?;
 
-            if self.git {
-                // git add -A
-                Command::new("git")
-                    .current_dir(repository_root()?)
-                    .arg("add")
-                    .arg("-A")
-                    .stderr(Stdio::inherit())
-                    .status()
-                    .context("git add failed")?;
+            // ./scripts/publish.sh $version
+            let status = Command::new("sh")
+                .arg("./scripts/publish.sh")
+                .arg(format!("{}", version))
+                .status()
+                .context("failed to publish")?;
 
-                // git commit --no-verify -m 'chore: Publish $version'
-
-                Command::new("git")
-                    .current_dir(repository_root()?)
-                    .arg("commit")
-                    .arg("--no-verify")
-                    .arg("-m")
-                    .arg(format!("chore: Publish {}", version))
-                    .stderr(Stdio::inherit())
-                    .status()
-                    .context("git commit failed")?;
-
-                // git tag $version
-
-                Command::new("git")
-                    .current_dir(repository_root()?)
-                    .arg("tag")
-                    .arg(format!("v{}", version))
-                    .stderr(Stdio::inherit())
-                    .status()
-                    .context("git tag failed")?;
-            }
+            ensure!(status.success(), "failed to publish");
 
             Ok(())
         })
