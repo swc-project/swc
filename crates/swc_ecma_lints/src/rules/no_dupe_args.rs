@@ -1,7 +1,6 @@
-use swc_atoms::JsWord;
-use swc_common::{collections::AHashMap, errors::HANDLER, Span};
+use swc_common::errors::HANDLER;
 use swc_ecma_ast::*;
-use swc_ecma_utils::find_pat_ids;
+use swc_ecma_utils::for_each_binding_ident;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use crate::rule::{visitor_rule, Rule};
@@ -13,54 +12,60 @@ pub fn no_dupe_args() -> Box<dyn Rule> {
 #[derive(Debug, Default)]
 struct NoDupeArgs {}
 
-impl NoDupeArgs {
-    fn check(&self, param_list: Vec<(JsWord, Span)>) {
-        let mut variables_map = AHashMap::<JsWord, Span>::default();
+/// This has time complexity of O(n^2), but it's fine as the number of paramters
+/// is usually small.
+macro_rules! check {
+    ($node:expr) => {{
+        let mut i1 = 0;
+        for_each_binding_ident($node, |id1| {
+            i1 += 1;
 
-        param_list.into_iter().for_each(|(js_word, span)| {
-            if let Some(old_span) = variables_map.insert(js_word.clone(), span) {
-                HANDLER.with(|handler| {
-                    handler
-                        .struct_span_err(
-                            span,
-                            &format!(
-                                "the name `{}` is bound more than once in this parameter list",
-                                js_word
-                            ),
-                        )
-                        .span_label(old_span, "previous definition here".to_string())
-                        .span_label(span, &"used as parameter more than once".to_string())
-                        .emit();
-                });
-            }
-        });
-    }
+            let mut i2 = 0;
+            for_each_binding_ident($node, |id2| {
+                i2 += 1;
+
+                if i1 == i2 {
+                    return;
+                }
+
+                if id1.span.ctxt == id2.span.ctxt && id1.sym == id2.sym {
+                    HANDLER.with(|handler| {
+                        handler
+                            .struct_span_err(
+                                id2.span,
+                                &format!(
+                                    "the name `{}` is bound more than once in this parameter list",
+                                    id1.sym
+                                ),
+                            )
+                            .span_label(id1.span, "previous definition here".to_string())
+                            .span_label(id2.span, &"used as parameter more than once".to_string())
+                            .emit();
+                    });
+                }
+            })
+        })
+    }};
 }
 
 impl Visit for NoDupeArgs {
     noop_visit_type!();
 
     fn visit_function(&mut self, f: &Function) {
-        let variables: Vec<(JsWord, Span)> = find_pat_ids(&f.params);
-
-        self.check(variables);
+        check!(&f.params);
 
         f.visit_children_with(self);
     }
 
-    fn visit_arrow_expr(&mut self, arrow_fn: &ArrowExpr) {
-        let variables: Vec<(JsWord, Span)> = find_pat_ids(&arrow_fn.params);
+    fn visit_arrow_expr(&mut self, f: &ArrowExpr) {
+        check!(&f.params);
 
-        self.check(variables);
-
-        arrow_fn.visit_children_with(self);
+        f.visit_children_with(self);
     }
 
-    fn visit_constructor(&mut self, n: &Constructor) {
-        let variables: Vec<(JsWord, Span)> = find_pat_ids(&n.params);
+    fn visit_constructor(&mut self, f: &Constructor) {
+        check!(&f.params);
 
-        self.check(variables);
-
-        n.visit_children_with(self);
+        f.visit_children_with(self);
     }
 }
