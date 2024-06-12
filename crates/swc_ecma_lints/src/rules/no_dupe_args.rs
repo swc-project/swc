@@ -16,6 +16,9 @@ struct NoDupeArgs {}
 /// is usually small.
 macro_rules! check {
     ($node:expr) => {{
+        // This allocates only if there are duplicate parameters.
+        let mut done = vec![];
+
         let mut i1 = 0;
         for_each_binding_ident($node, |id1| {
             i1 += 1;
@@ -24,9 +27,11 @@ macro_rules! check {
             for_each_binding_ident($node, |id2| {
                 i2 += 1;
 
-                if i1 >= i2 {
+                if i1 >= i2 || done.contains(&i1) {
                     return;
                 }
+
+                done.push(i1);
 
                 if id1.span.ctxt == id2.span.ctxt && id1.sym == id2.sym {
                     HANDLER.with(|handler| {
