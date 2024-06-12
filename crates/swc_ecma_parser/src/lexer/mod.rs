@@ -1159,6 +1159,7 @@ impl<'a> Lexer<'a> {
         let start = self.cur_pos();
 
         let mut cooked = Ok(String::new());
+        let mut cooked_slice_start = start;
         let mut raw = SmartString::new();
         let mut raw_slice_start = start;
 
@@ -1170,6 +1171,19 @@ impl<'a> Lexer<'a> {
                     // from `self.input`
                     self.input.slice(raw_slice_start, last_pos)
                 });
+            }};
+        }
+
+        macro_rules! consume_cooked {
+            () => {{
+                if let Ok(cooked) = &mut cooked {
+                    let last_pos = self.cur_pos();
+                    cooked.push_str(unsafe {
+                        // Safety: Both of start and last_pos are valid position because we got them
+                        // from `self.input`
+                        self.input.slice(cooked_slice_start, last_pos)
+                    });
+                }
             }};
         }
 
@@ -1186,6 +1200,7 @@ impl<'a> Lexer<'a> {
                     }
                 }
 
+                consume_cooked!();
                 consume_raw!();
 
                 // TODO: Handle error
@@ -1196,6 +1211,7 @@ impl<'a> Lexer<'a> {
             }
 
             if c == '\\' {
+                consume_cooked!();
                 consume_raw!();
 
                 raw.push('\\');
@@ -1217,9 +1233,11 @@ impl<'a> Lexer<'a> {
 
                 raw = wrapped.0.unwrap();
                 raw_slice_start = self.cur_pos();
+                cooked_slice_start = self.cur_pos();
             } else if c.is_line_terminator() {
                 self.state.had_line_break = true;
 
+                consume_cooked!();
                 consume_raw!();
 
                 let c = if c == '\r' && self.peek() == Some('\n') {
@@ -1243,12 +1261,9 @@ impl<'a> Lexer<'a> {
                 }
                 raw.push(c);
                 raw_slice_start = self.cur_pos();
+                cooked_slice_start = self.cur_pos();
             } else {
                 self.bump();
-
-                if let Ok(ref mut cooked) = cooked {
-                    cooked.push(c);
-                }
             }
         }
 
