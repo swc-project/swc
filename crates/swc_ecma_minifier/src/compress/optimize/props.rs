@@ -1,46 +1,29 @@
 use swc_common::{util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{contains_this_expr, private_ident, prop_name_eq, ExprExt};
-use swc_ecma_visit::VisitMutWith;
 
 use super::{unused::PropertyAccessOpts, Optimizer};
 use crate::util::deeply_contains_this_expr;
 
 /// Methods related to the option `hoist_props`.
 impl Optimizer<'_> {
-    pub(super) fn hoist_props_of_vars(&mut self, n: &mut Vec<VarDeclarator>) {
+    pub(super) fn hoist_props_of_var(
+        &mut self,
+        n: &mut VarDeclarator,
+    ) -> Option<Vec<VarDeclarator>> {
         if !self.options.hoist_props {
             log_abort!("hoist_props: option is disabled");
-            return;
+            return None;
         }
         if self.ctx.is_exported {
             log_abort!("hoist_props: Exported variable is not hoisted");
-            return;
+            return None;
         }
         if self.ctx.in_top_level() && !self.options.top_level() {
             log_abort!("hoist_props: Top-level variable is not hoisted");
-            return;
+            return None;
         }
 
-        let mut new = Vec::with_capacity(n.len());
-        for mut n in n.take() {
-            if let Some(init) = &mut n.init {
-                init.visit_mut_with(self);
-            }
-
-            let new_vars = self.hoist_props_of_var(&mut n);
-
-            if let Some(new_vars) = new_vars {
-                new.extend(new_vars);
-            } else {
-                new.push(n);
-            }
-        }
-
-        *n = new;
-    }
-
-    fn hoist_props_of_var(&mut self, n: &mut VarDeclarator) -> Option<Vec<VarDeclarator>> {
         if let Pat::Ident(name) = &mut n.name {
             if name.id.span.ctxt == self.marks.top_level_ctxt
                 && self.options.top_retain.contains(&name.id.sym)
