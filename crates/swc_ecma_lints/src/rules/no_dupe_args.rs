@@ -24,7 +24,7 @@ macro_rules! check {
             for_each_binding_ident($node, |id2| {
                 i2 += 1;
 
-                if i1 == i2 {
+                if i1 >= i2 {
                     return;
                 }
 
