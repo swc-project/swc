@@ -16,7 +16,9 @@ struct NoDupeArgs {}
 /// is usually small.
 macro_rules! check {
     ($node:expr) => {{
-        // This allocates only if there are duplicate parameters.
+        // This vector allocates only if there are duplicate parameters.
+        // This is used to handle the case where the same parameter is used 3 or more
+        // times.
         let mut done = vec![];
 
         let mut i1 = 0;
