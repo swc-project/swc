@@ -1159,8 +1159,33 @@ impl<'a> Lexer<'a> {
         let start = self.cur_pos();
 
         let mut cooked = Ok(String::new());
+        let mut cooked_slice_start = start;
         let mut raw = SmartString::new();
         let mut raw_slice_start = start;
+
+        macro_rules! consume_raw {
+            () => {{
+                let last_pos = self.cur_pos();
+                raw.push_str(unsafe {
+                    // Safety: Both of start and last_pos are valid position because we got them
+                    // from `self.input`
+                    self.input.slice(raw_slice_start, last_pos)
+                });
+            }};
+        }
+
+        macro_rules! consume_cooked {
+            () => {{
+                if let Ok(cooked) = &mut cooked {
+                    let last_pos = self.cur_pos();
+                    cooked.push_str(unsafe {
+                        // Safety: Both of start and last_pos are valid position because we got them
+                        // from `self.input`
+                        self.input.slice(cooked_slice_start, last_pos)
+                    });
+                }
+            }};
+        }
 
         while let Some(c) = self.cur() {
             if c == '`' || (c == '$' && self.peek() == Some('{')) {
@@ -1175,12 +1200,8 @@ impl<'a> Lexer<'a> {
                     }
                 }
 
-                let last_pos = self.cur_pos();
-                raw.push_str(unsafe {
-                    // Safety: Both of start and last_pos are valid position because we got them
-                    // from `self.input`
-                    self.input.slice(raw_slice_start, last_pos)
-                });
+                consume_cooked!();
+                consume_raw!();
 
                 // TODO: Handle error
                 return Ok(Token::Template {
@@ -1190,12 +1211,8 @@ impl<'a> Lexer<'a> {
             }
 
             if c == '\\' {
-                let last_pos = self.cur_pos();
-                raw.push_str(unsafe {
-                    // Safety: Both of start and last_pos are valid position because we got them
-                    // from `self.input`
-                    self.input.slice(raw_slice_start, last_pos)
-                });
+                consume_cooked!();
+                consume_raw!();
 
                 raw.push('\\');
                 let mut wrapped = Raw(Some(raw));
@@ -1216,17 +1233,12 @@ impl<'a> Lexer<'a> {
 
                 raw = wrapped.0.unwrap();
                 raw_slice_start = self.cur_pos();
+                cooked_slice_start = self.cur_pos();
             } else if c.is_line_terminator() {
                 self.state.had_line_break = true;
 
-                {
-                    let last_pos = self.cur_pos();
-                    raw.push_str(unsafe {
-                        // Safety: Both of start and last_pos are valid position because we got them
-                        // from `self.input`
-                        self.input.slice(raw_slice_start, last_pos)
-                    });
-                }
+                consume_cooked!();
+                consume_raw!();
 
                 let c = if c == '\r' && self.peek() == Some('\n') {
                     raw.push('\r');
@@ -1249,12 +1261,9 @@ impl<'a> Lexer<'a> {
                 }
                 raw.push(c);
                 raw_slice_start = self.cur_pos();
+                cooked_slice_start = self.cur_pos();
             } else {
                 self.bump();
-
-                if let Ok(ref mut cooked) = cooked {
-                    cooked.push(c);
-                }
             }
         }
 
