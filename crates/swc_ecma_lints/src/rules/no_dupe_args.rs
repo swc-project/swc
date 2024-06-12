@@ -1,4 +1,4 @@
-use swc_common::errors::HANDLER;
+use swc_common::{collections::AHashMap, errors::HANDLER};
 use swc_ecma_ast::*;
 use swc_ecma_utils::for_each_binding_ident;
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
@@ -12,6 +12,22 @@ pub fn no_dupe_args() -> Box<dyn Rule> {
 #[derive(Debug, Default)]
 struct NoDupeArgs {}
 
+fn error(first: &Ident, second: &Ident) {
+    HANDLER.with(|handler| {
+        handler
+            .struct_span_err(
+                second.span,
+                &format!(
+                    "the name `{}` is bound more than once in this parameter list",
+                    first.sym
+                ),
+            )
+            .span_label(first.span, "previous definition here".to_string())
+            .span_label(second.span, &"used as parameter more than once".to_string())
+            .emit();
+    });
+}
+
 /// This has time complexity of O(n^2), but it's fine as the number of paramters
 /// is usually small.
 macro_rules! check {
@@ -22,46 +38,40 @@ macro_rules! check {
         let mut done = vec![];
 
         let mut hash_mode = false;
+        // An empty hashmap does not allocate.
+        let mut map = AHashMap::default();
 
         let mut i1 = 0;
         for_each_binding_ident($node, |id1| {
             i1 += 1;
 
-            let mut i2 = 0;
-            for_each_binding_ident($node, |id2| {
-                i2 += 1;
+            if !hash_mode {
+                let mut i2 = 0;
+                for_each_binding_ident($node, |id2| {
+                    i2 += 1;
 
-                if hash_mode {
-                    return;
-                } else if i2 >= 100 {
-                    // While iterating for the first `id1`, we detect that there are more than 100
-                    // identifiers. We switch to hash mode.
-                    hash_mode = true;
-                    return;
-                }
+                    if hash_mode {
+                        return;
+                    } else if i2 >= 100 {
+                        // While iterating for the first `id1`, we detect that there are more than
+                        // 100 identifiers. We switch to hash mode.
+                        hash_mode = true;
+                    }
 
-                if i1 >= i2 || done.contains(&i1) {
-                    return;
-                }
+                    if i1 >= i2 || done.contains(&i1) {
+                        return;
+                    }
 
-                if id1.span.ctxt == id2.span.ctxt && id1.sym == id2.sym {
-                    done.push(i1);
+                    if id1.span.ctxt == id2.span.ctxt && id1.sym == id2.sym {
+                        done.push(i1);
 
-                    HANDLER.with(|handler| {
-                        handler
-                            .struct_span_err(
-                                id2.span,
-                                &format!(
-                                    "the name `{}` is bound more than once in this parameter list",
-                                    id1.sym
-                                ),
-                            )
-                            .span_label(id1.span, "previous definition here".to_string())
-                            .span_label(id2.span, &"used as parameter more than once".to_string())
-                            .emit();
-                    });
-                }
-            })
+                        error(id2, id1);
+                    }
+                });
+            } else {
+                // We finished checking for the first `id1`. We switch to hash
+                // mode.
+            }
         })
     }};
 }
