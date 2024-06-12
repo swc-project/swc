@@ -2967,6 +2967,7 @@ impl VisitMut for Optimizer<'_> {
                 let var = &mut vars[idx];
                 var.visit_mut_with(self);
 
+                // The varaible is dropped.
                 if var.name.is_invalid() {
                     vars.remove(idx);
                     continue;
