@@ -1,3 +1,5 @@
+use std::collections::hash_map::Entry;
+
 use swc_common::{collections::AHashMap, errors::HANDLER};
 use swc_ecma_ast::*;
 use swc_ecma_utils::for_each_binding_ident;
@@ -38,8 +40,6 @@ macro_rules! check {
         let mut done = vec![];
 
         let mut hash_mode = false;
-        // An empty hashmap does not allocate.
-        let mut map = AHashMap::default();
 
         let mut i1 = 0;
         for_each_binding_ident($node, |id1| {
@@ -65,14 +65,28 @@ macro_rules! check {
                     if id1.span.ctxt == id2.span.ctxt && id1.sym == id2.sym {
                         done.push(i1);
 
-                        error(id2, id1);
+                        error(id1, id2);
                     }
                 });
-            } else {
-                // We finished checking for the first `id1`. We switch to hash
-                // mode.
             }
-        })
+        });
+
+        if hash_mode {
+            let mut map = AHashMap::default();
+
+            for_each_binding_ident($node, |id| {
+                //
+                match map.entry((id.sym.clone(), id.span.ctxt)) {
+                    Entry::Occupied(v) => {
+                        error(v.get(), id);
+                    }
+
+                    Entry::Vacant(v) => {
+                        v.insert(id.clone());
+                    }
+                }
+            });
+        }
     }};
 }
 
