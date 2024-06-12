@@ -21,6 +21,8 @@ macro_rules! check {
         // times.
         let mut done = vec![];
 
+        let mut hash_mode = false;
+
         let mut i1 = 0;
         for_each_binding_ident($node, |id1| {
             i1 += 1;
@@ -28,6 +30,15 @@ macro_rules! check {
             let mut i2 = 0;
             for_each_binding_ident($node, |id2| {
                 i2 += 1;
+
+                if hash_mode {
+                    return;
+                } else if i2 >= 100 {
+                    // While iterating for the first `id1`, we detect that there are more than 100
+                    // identifiers. We switch to hash mode.
+                    hash_mode = true;
+                    return;
+                }
 
                 if i1 >= i2 || done.contains(&i1) {
                     return;
