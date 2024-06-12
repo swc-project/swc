@@ -2990,10 +2990,10 @@ impl VisitMut for Optimizer<'_> {
                 return false;
             }
 
+            debug_assert_valid(&*var);
+
             true
         });
-
-        debug_assert_valid(&*vars);
 
         let uses_eval = self.data.scopes.get(&self.ctx.scope).unwrap().has_eval_call;
 
