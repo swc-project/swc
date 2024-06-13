@@ -26,7 +26,7 @@ pub use self::{atom as js_word, Atom as JsWord};
 /// Clone-on-write string.
 ///
 ///
-/// See [tendril] for more details.
+/// See [hstr] for more details.
 #[derive(Clone, Default, PartialEq, Eq, Hash)]
 #[cfg_attr(feature = "rkyv-impl", derive(rkyv::bytecheck::CheckBytes))]
 #[cfg_attr(feature = "rkyv-impl", repr(C))]
