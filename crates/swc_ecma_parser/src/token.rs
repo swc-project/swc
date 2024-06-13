@@ -309,7 +309,7 @@ pub enum Token<'a> {
     Error(Error),
 }
 
-impl Token {
+impl Token<'_> {
     pub(crate) fn kind(&self) -> TokenKind {
         match self {
             Self::Arrow => TokenKind::Arrow,
@@ -471,14 +471,14 @@ impl BinOpToken {
 }
 
 #[derive(Debug, Clone, PartialEq)]
-pub struct TokenAndSpan {
-    pub token: Token,
+pub struct TokenAndSpan<'a> {
+    pub token: Token<'a>,
     /// Had a line break before this token?
     pub had_line_break: bool,
     pub span: Span,
 }
 
-impl Spanned for TokenAndSpan {
+impl Spanned for TokenAndSpan<'_> {
     #[inline]
     fn span(&self) -> Span {
         self.span
@@ -591,7 +591,7 @@ impl WordKind {
     }
 }
 
-impl AsRef<str> for IdentLike {
+impl AsRef<str> for IdentLike<'_> {
     fn as_ref(&self) -> &str {
         match self {
             IdentLike::Known(k) => (*k).into(),
@@ -600,13 +600,13 @@ impl AsRef<str> for IdentLike {
     }
 }
 
-impl From<Keyword> for Word {
+impl From<Keyword> for Word<'_> {
     fn from(kwd: Keyword) -> Self {
         Word::Keyword(kwd)
     }
 }
 
-impl From<Word> for JsWord {
+impl From<Word<'_>> for JsWord {
     fn from(w: Word) -> Self {
         match w {
             Word::Keyword(k) => match k {
@@ -944,7 +944,7 @@ impl Word {
     }
 }
 
-impl Debug for Token {
+impl Debug for Token<'_> {
     /// This method is called only in the case of parsing failure.
     #[cold]
     #[inline(never)]
