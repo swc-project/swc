@@ -254,8 +254,8 @@ pub enum Token<'a> {
     /// '`'
     BackQuote,
     Template {
-        raw: Atom,
-        cooked: LexResult<Atom>,
+        raw: &'a str,
+        cooked: LexResult<&'a str>,
     },
     /// ':'
     Colon,
@@ -278,29 +278,29 @@ pub enum Token<'a> {
 
     /// String literal. Span of this token contains quote.
     Str {
-        value: JsWord,
-        raw: Atom,
+        value: &'a str,
+        raw: &'a str,
     },
 
     /// Regexp literal.
-    Regex(Atom, Atom),
+    Regex(&'a str, &'a str),
 
     /// TODO: Make Num as enum and separate decimal, binary, ..etc
     Num {
         value: f64,
-        raw: Atom,
+        raw: &'a str,
     },
 
     BigInt {
         value: Box<BigIntValue>,
-        raw: Atom,
+        raw: &'a str,
     },
 
     JSXName {
-        name: JsWord,
+        name: &'a str,
     },
     JSXText {
-        raw: Atom,
+        raw: &'a str,
     },
     JSXTagStart,
     JSXTagEnd,
@@ -502,16 +502,16 @@ pub enum IdentLike<'a> {
     Other(&'a str),
 }
 
-impl From<&'_ str> for IdentLike {
-    fn from(s: &str) -> Self {
+impl<'a> From<&'a str> for IdentLike<'a> {
+    fn from(s: &'a str) -> Self {
         s.parse::<KnownIdent>()
             .map(Self::Known)
-            .unwrap_or_else(|_| Self::Other(s.into()))
+            .unwrap_or_else(|_| Self::Other(s))
     }
 }
 
-impl IdentLike {
-    pub(crate) fn from_str(atoms: &mut AtomStore, s: &str) -> IdentLike {
+impl<'a> IdentLike<'a> {
+    pub(crate) fn from_str(atoms: &mut AtomStore, s: &'a str) -> IdentLike {
         s.parse::<KnownIdent>()
             .map(Self::Known)
             .unwrap_or_else(|_| Self::Other(atoms.atom(s)))
