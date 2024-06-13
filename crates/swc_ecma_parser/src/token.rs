@@ -211,11 +211,11 @@ pub enum TokenKind {
 }
 
 #[derive(Clone, PartialEq)]
-pub enum Token {
+pub enum Token<'a> {
     /// Identifier, "null", "true", "false".
     ///
     /// Contains `null` and ``
-    Word(Word),
+    Word(Word<'a>),
 
     /// '=>'
     Arrow,
@@ -486,20 +486,20 @@ impl Spanned for TokenAndSpan {
 }
 
 #[derive(Clone, PartialEq, Eq, Hash)]
-pub enum Word {
+pub enum Word<'a> {
     Keyword(Keyword),
 
     Null,
     True,
     False,
 
-    Ident(IdentLike),
+    Ident(IdentLike<'a>),
 }
 
 #[derive(Clone, PartialEq, Eq, Hash)]
-pub enum IdentLike {
+pub enum IdentLike<'a> {
     Known(KnownIdent),
-    Other(JsWord),
+    Other(&'a str),
 }
 
 impl From<&'_ str> for IdentLike {
