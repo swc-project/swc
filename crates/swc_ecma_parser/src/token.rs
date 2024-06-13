@@ -292,7 +292,7 @@ pub enum Token<'a> {
     },
 
     BigInt {
-        value: Box<BigIntValue>,
+        value: &'a BigIntValue,
         raw: &'a str,
     },
 
@@ -305,7 +305,7 @@ pub enum Token<'a> {
     JSXTagStart,
     JSXTagEnd,
 
-    Shebang(Atom),
+    Shebang(&'a str),
     Error(Error),
 }
 
