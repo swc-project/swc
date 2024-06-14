@@ -1965,11 +1965,12 @@ where
     fn emit_quasi(&mut self, node: &TplElement) -> Result {
         srcmap!(node, true);
 
+        let raw = node.raw.replace("\r\n", "\n").replace('\r', "\n");
         if self.cfg.minify || (self.cfg.ascii_only && !node.raw.is_ascii()) {
-            let v = get_template_element_from_raw(&node.raw, self.cfg.ascii_only);
+            let v = get_template_element_from_raw(&raw, self.cfg.ascii_only);
             self.wr.write_str_lit(DUMMY_SP, &v)?;
         } else {
-            self.wr.write_str_lit(DUMMY_SP, &node.raw)?;
+            self.wr.write_str_lit(DUMMY_SP, &raw)?;
         }
 
         srcmap!(node, false);
