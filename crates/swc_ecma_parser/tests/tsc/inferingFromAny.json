@@ -725,8 +725,6 @@
                     },
                     "computed": false,
                     "optional": false,
-                    "init": null,
-                    "params": [],
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -753,8 +751,7 @@
                         },
                         "typeParams": null
                       }
-                    },
-                    "typeParams": null
+                    }
                   },
                   {
                     "type": "TsPropertySignature",
@@ -776,8 +773,6 @@
                     },
                     "computed": false,
                     "optional": false,
-                    "init": null,
-                    "params": [],
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -804,8 +799,7 @@
                         },
                         "typeParams": null
                       }
-                    },
-                    "typeParams": null
+                    }
                   }
                 ]
               }
@@ -2643,8 +2637,6 @@
                     },
                     "computed": false,
                     "optional": false,
-                    "init": null,
-                    "params": [],
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -2700,8 +2692,7 @@
                           }
                         ]
                       }
-                    },
-                    "typeParams": null
+                    }
                   },
                   {
                     "type": "TsPropertySignature",
@@ -2723,8 +2714,6 @@
                     },
                     "computed": false,
                     "optional": false,
-                    "init": null,
-                    "params": [],
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -2780,8 +2769,7 @@
                           }
                         ]
                       }
-                    },
-                    "typeParams": null
+                    }
                   }
                 ]
               }

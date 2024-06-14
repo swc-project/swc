@@ -1950,7 +1950,6 @@
                       "end": 1146,
                       "ctxt": 0
                     },
-                    "readonly": false,
                     "key": {
                       "type": "MemberExpression",
                       "span": {
@@ -2026,8 +2025,6 @@
                                 },
                                 "computed": false,
                                 "optional": false,
-                                "init": null,
-                                "params": [],
                                 "typeAnnotation": {
                                   "type": "TsTypeAnnotation",
                                   "span": {
@@ -2044,8 +2041,7 @@
                                     },
                                     "kind": "number"
                                   }
-                                },
-                                "typeParams": null
+                                }
                               }
                             ]
                           }
@@ -2141,8 +2137,6 @@
                     },
                     "computed": false,
                     "optional": false,
-                    "init": null,
-                    "params": [],
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -2159,8 +2153,7 @@
                         },
                         "kind": "string"
                       }
-                    },
-                    "typeParams": null
+                    }
                   }
                 ]
               }
@@ -2280,7 +2273,6 @@
                       "end": 1307,
                       "ctxt": 0
                     },
-                    "readonly": false,
                     "key": {
                       "type": "MemberExpression",
                       "span": {

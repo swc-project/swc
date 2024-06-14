@@ -115,8 +115,6 @@
                     },
                     "computed": false,
                     "optional": false,
-                    "init": null,
-                    "params": [],
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -132,8 +130,7 @@
                           "ctxt": 0
                         }
                       }
-                    },
-                    "typeParams": null
+                    }
                   }
                 ]
               }
@@ -398,8 +395,6 @@
             },
             "computed": false,
             "optional": false,
-            "init": null,
-            "params": [],
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -435,8 +430,6 @@
                     },
                     "computed": false,
                     "optional": false,
-                    "init": null,
-                    "params": [],
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -452,13 +445,11 @@
                           "ctxt": 0
                         }
                       }
-                    },
-                    "typeParams": null
+                    }
                   }
                 ]
               }
-            },
-            "typeParams": null
+            }
           },
           {
             "type": "TsPropertySignature",
@@ -480,8 +471,6 @@
             },
             "computed": false,
             "optional": false,
-            "init": null,
-            "params": [],
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -525,8 +514,7 @@
                   }
                 ]
               }
-            },
-            "typeParams": null
+            }
           },
           {
             "type": "TsPropertySignature",
@@ -548,8 +536,6 @@
             },
             "computed": false,
             "optional": false,
-            "init": null,
-            "params": [],
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -593,8 +579,7 @@
                   }
                 ]
               }
-            },
-            "typeParams": null
+            }
           },
           {
             "type": "TsPropertySignature",
@@ -616,8 +601,6 @@
             },
             "computed": false,
             "optional": false,
-            "init": null,
-            "params": [],
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -690,8 +673,7 @@
                   }
                 ]
               }
-            },
-            "typeParams": null
+            }
           },
           {
             "type": "TsPropertySignature",
@@ -713,8 +695,6 @@
             },
             "computed": false,
             "optional": false,
-            "init": null,
-            "params": [],
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -737,7 +717,6 @@
                       "end": 255,
                       "ctxt": 0
                     },
-                    "readonly": false,
                     "key": {
                       "type": "Identifier",
                       "span": {
@@ -798,8 +777,7 @@
                   }
                 ]
               }
-            },
-            "typeParams": null
+            }
           }
         ]
       }
@@ -877,8 +855,6 @@
                   },
                   "computed": false,
                   "optional": false,
-                  "init": null,
-                  "params": [],
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
@@ -894,8 +870,7 @@
                         "ctxt": 0
                       }
                     }
-                  },
-                  "typeParams": null
+                  }
                 }
               ]
             }
@@ -1195,7 +1170,6 @@
                     "end": 394,
                     "ctxt": 0
                   },
-                  "readonly": false,
                   "key": {
                     "type": "Identifier",
                     "span": {

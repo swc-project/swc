@@ -54,10 +54,7 @@
             },
             "computed": false,
             "optional": true,
-            "init": null,
-            "params": [],
-            "typeAnnotation": null,
-            "typeParams": null
+            "typeAnnotation": null
           }
         ]
       }

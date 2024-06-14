@@ -70,10 +70,7 @@
                 },
                 "computed": false,
                 "optional": false,
-                "init": null,
-                "params": [],
-                "typeAnnotation": null,
-                "typeParams": null
+                "typeAnnotation": null
               }
             ]
           }
@@ -144,10 +141,7 @@
                 },
                 "computed": false,
                 "optional": false,
-                "init": null,
-                "params": [],
-                "typeAnnotation": null,
-                "typeParams": null
+                "typeAnnotation": null
               }
             ]
           }

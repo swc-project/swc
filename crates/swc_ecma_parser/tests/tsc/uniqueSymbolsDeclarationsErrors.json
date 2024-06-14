@@ -112,8 +112,6 @@
             },
             "computed": false,
             "optional": false,
-            "init": null,
-            "params": [],
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -139,8 +137,7 @@
                   "kind": "symbol"
                 }
               }
-            },
-            "typeParams": null
+            }
           }
         ]
       }
@@ -946,7 +943,6 @@
                         "end": 665,
                         "ctxt": 0
                       },
-                      "readonly": false,
                       "key": {
                         "type": "Identifier",
                         "span": {
@@ -1118,8 +1114,6 @@
               },
               "computed": true,
               "optional": false,
-              "init": null,
-              "params": [],
               "typeAnnotation": {
                 "type": "TsTypeAnnotation",
                 "span": {
@@ -1136,8 +1130,7 @@
                   },
                   "kind": "any"
                 }
-              },
-              "typeParams": null
+              }
             }
           ]
         }
@@ -1185,7 +1178,6 @@
                 "end": 829,
                 "ctxt": 0
               },
-              "readonly": false,
               "key": {
                 "type": "Identifier",
                 "span": {
@@ -1276,8 +1268,6 @@
               },
               "computed": true,
               "optional": false,
-              "init": null,
-              "params": [],
               "typeAnnotation": {
                 "type": "TsTypeAnnotation",
                 "span": {
@@ -1294,8 +1284,7 @@
                   },
                   "kind": "any"
                 }
-              },
-              "typeParams": null
+              }
             }
           ]
         }
@@ -1342,7 +1331,6 @@
                 "end": 970,
                 "ctxt": 0
               },
-              "readonly": false,
               "key": {
                 "type": "Identifier",
                 "span": {
