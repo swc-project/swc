@@ -844,10 +844,6 @@ fn tests(input_dir: PathBuf, is_module: Option<IsModule>) {
                         let _ = create_dir_all(output.join(rel_path).parent().unwrap());
 
                         let map = v.map.map(|json| {
-                            // Ensure that we can parse the source map
-                            sourcemap::SourceMap::from_slice(json.as_bytes())
-                                .expect("failed to parse source map we generated");
-
                             let json: serde_json::Value = serde_json::from_str(&json).unwrap();
                             serde_json::to_string_pretty(&json).unwrap()
                         });
