@@ -7,7 +7,6 @@
     "document",
     "getElementById"
   ],
-  "rangeMappings": ";;;;",
   "sources": [
     "../../input/index.tsx"
   ],

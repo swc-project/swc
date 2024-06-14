@@ -5,7 +5,6 @@
     "console",
     "log"
   ],
-  "rangeMappings": "",
   "sources": [
     "$DIR/tests/minify/issue-7475/2-no-preamble/input.js"
   ],

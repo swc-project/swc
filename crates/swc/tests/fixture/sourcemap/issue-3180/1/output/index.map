@@ -1,7 +1,6 @@
 {
   "mappings": "AAAA,cAAc,iBAAiB;AAC/B,cAAc,wBAAwB;AACtC,cAAc,eAAe;AAC7B,cAAc,WAAW;AACzB,cAAc,eAAe",
   "names": [],
-  "rangeMappings": ";;;;",
   "sources": [
     "../../input/index.ts"
   ],

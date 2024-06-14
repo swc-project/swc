@@ -8,7 +8,6 @@
     "getStaticProps",
     "props"
   ],
-  "rangeMappings": ";;;;;;;;;;;;;;;;;;;;;;;;",
   "sources": [
     "../../input/index.js"
   ],

@@ -7,7 +7,6 @@
     "toBe",
     "str"
   ],
-  "rangeMappings": ";;;;;;;;;;;;;",
   "sources": [
     "../../input/index.js"
   ],
