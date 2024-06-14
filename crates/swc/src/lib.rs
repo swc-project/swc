@@ -731,7 +731,7 @@ impl Compiler {
                 None
             };
 
-            self.apply_transforms(handler, orig.as_ref(), config)
+            self.apply_transforms(handler, orig, config)
         })
     }
 
@@ -904,7 +904,7 @@ impl Compiler {
                     inline_sources_content: opts.inline_sources_content,
                     source_map,
                     source_map_names: &source_map_names,
-                    orig: orig.as_ref(),
+                    orig,
                     comments: Some(&comments),
                     emit_source_map_columns: opts.emit_source_map_columns,
                     preamble: &opts.format.preamble,
@@ -949,7 +949,7 @@ impl Compiler {
     fn apply_transforms(
         &self,
         handler: &Handler,
-        orig: Option<&sourcemap::SourceMap>,
+        orig: Option<sourcemap::SourceMap>,
         config: BuiltInput<impl swc_ecma_visit::Fold>,
     ) -> Result<TransformOutput, Error> {
         self.run(|| {

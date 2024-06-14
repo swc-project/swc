@@ -109,7 +109,7 @@ pub struct PrintArgs<'a> {
     pub inline_sources_content: bool,
     pub source_map: SourceMapsConfig,
     pub source_map_names: &'a AHashMap<BytePos, JsWord>,
-    pub orig: Option<&'a sourcemap::SourceMap>,
+    pub orig: Option<sourcemap::SourceMap>,
     pub comments: Option<&'a dyn Comments>,
     pub emit_source_map_columns: bool,
     pub preamble: &'a str,

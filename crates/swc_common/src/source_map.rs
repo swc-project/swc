@@ -1201,7 +1201,7 @@ impl SourceMap {
     pub fn build_source_map_from(
         &self,
         mappings: &[(BytePos, LineCol)],
-        orig: Option<&sourcemap::SourceMap>,
+        orig: Option<sourcemap::SourceMap>,
     ) -> sourcemap::SourceMap {
         self.build_source_map_with_config(mappings, orig, DefaultSourceMapGenConfig)
     }
@@ -1212,7 +1212,7 @@ impl SourceMap {
     pub fn build_source_map_with_config(
         &self,
         mappings: &[(BytePos, LineCol)],
-        orig: Option<&sourcemap::SourceMap>,
+        mut orig: Option<sourcemap::SourceMap>,
         config: impl SourceMapGenConfig,
     ) -> sourcemap::SourceMap {
         let mut builder = SourceMapBuilder::new(None);
@@ -1320,10 +1320,12 @@ impl SourceMap {
 
         let mut map = builder.into_sourcemap();
 
+        if let Some(o) = &mut orig {
+            o.adjust_mappings(&map);
+        }
+
         if let Some(orig) = orig {
-            let mut copied = orig.clone();
-            copied.adjust_mappings(&map);
-            map = copied;
+            map = orig;
         }
 
         map
