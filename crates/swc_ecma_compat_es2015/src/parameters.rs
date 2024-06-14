@@ -8,7 +8,7 @@ use swc_ecma_ast::*;
 // use swc_ecma_transforms_macros::parallel;
 use swc_ecma_utils::{
     function::{init_this, FnEnvHoister},
-    member_expr, prepend_stmt, prepend_stmts, private_ident, quote_ident, undefined, ExprFactory,
+    member_expr, prepend_stmt, prepend_stmts, private_ident, quote_ident, ExprFactory,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
@@ -148,7 +148,7 @@ impl Params {
                                     right: Box::new(Expr::Bin(BinExpr {
                                         left: make_arg_nth(i).into(),
                                         op: op!("!=="),
-                                        right: undefined(DUMMY_SP),
+                                        right: Expr::undefined(DUMMY_SP),
                                         span: DUMMY_SP,
                                     })),
                                     span,
@@ -170,7 +170,7 @@ impl Params {
                                 span: DUMMY_SP,
                                 left: Box::new(Expr::Ident(ident.id.clone())),
                                 op: op!("==="),
-                                right: undefined(DUMMY_SP),
+                                right: Expr::undefined(DUMMY_SP),
                             })),
                             cons: Box::new(Stmt::Expr(ExprStmt {
                                 span,
@@ -203,7 +203,7 @@ impl Params {
                                             span: DUMMY_SP,
                                             left: Box::new(Expr::Ident(binding.clone())),
                                             op: op!("==="),
-                                            right: undefined(DUMMY_SP),
+                                            right: Expr::undefined(DUMMY_SP),
                                         })),
                                         cons: right,
                                         alt: Box::new(Expr::Ident(binding)),
@@ -786,7 +786,7 @@ fn check_arg_len_or_undef(n: usize) -> Expr {
     Expr::Cond(CondExpr {
         test: Box::new(check_arg_len(n)),
         cons: make_arg_nth(n).into(),
-        alt: undefined(DUMMY_SP),
+        alt: Expr::undefined(DUMMY_SP),
         span: DUMMY_SP,
     })
 }

@@ -6,7 +6,7 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{ext::ExprRefExt, helper, perf::Check};
 use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::{
-    alias_ident_for, member_expr, prepend_stmt, quote_ident, undefined, ExprFactory, StmtLike,
+    alias_ident_for, member_expr, prepend_stmt, quote_ident, ExprFactory, StmtLike,
 };
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
@@ -95,7 +95,7 @@ impl VisitMut for Spread {
                         (Box::new(Expr::Ident(obj.as_ident().unwrap().clone())), None)
                     }
 
-                    Expr::Ident(Ident { span, .. }) => (undefined(*span), None),
+                    Expr::Ident(Ident { span, .. }) => (Expr::undefined(*span), None),
 
                     Expr::Member(MemberExpr { span, obj, prop }) => {
                         let ident = alias_ident_for(obj, "_instance");

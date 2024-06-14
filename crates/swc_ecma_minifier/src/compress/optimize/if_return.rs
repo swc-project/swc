@@ -1,7 +1,7 @@
 use swc_common::{util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::debug_assert_valid;
-use swc_ecma_utils::{undefined, StmtExt, StmtLike};
+use swc_ecma_utils::{StmtExt, StmtLike};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 
 use super::Optimizer;
@@ -427,7 +427,7 @@ impl Optimizer<'_> {
                 let cons = Box::new(self.merge_if_returns_to(*cons, vec![]));
                 let alt = match alt {
                     Some(alt) => Box::new(self.merge_if_returns_to(*alt, vec![])),
-                    None => undefined(DUMMY_SP),
+                    None => Expr::undefined(DUMMY_SP),
                 };
 
                 exprs.push(test);
@@ -455,7 +455,7 @@ impl Optimizer<'_> {
             }
             Stmt::Return(stmt) => {
                 let span = stmt.span;
-                exprs.push(stmt.arg.unwrap_or_else(|| undefined(span)));
+                exprs.push(stmt.arg.unwrap_or_else(|| Expr::undefined(span)));
                 Expr::Seq(SeqExpr {
                     span: DUMMY_SP,
                     exprs,

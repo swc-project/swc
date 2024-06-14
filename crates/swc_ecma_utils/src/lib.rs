@@ -1140,7 +1140,7 @@ pub trait ExprExt {
                 }
 
                 if !may_be_str(lt) && !may_be_str(rt) {
-                    // ADD used with compilations of null, undefined, boolean and number always
+                    // ADD used with compilations of null, boolean and number always
                     // result in numbers.
                     return Known(NumberType);
                 }
@@ -2207,22 +2207,6 @@ pub fn is_rest_arguments(e: &ExprOrSpread) -> bool {
     e.expr.is_ident_ref_to("arguments")
 }
 
-/// Creates `void 0`.
-#[inline]
-pub fn undefined(span: Span) -> Box<Expr> {
-    UnaryExpr {
-        span,
-        op: op!("void"),
-        arg: Lit::Num(Number {
-            span,
-            value: 0.0,
-            raw: None,
-        })
-        .into(),
-    }
-    .into()
-}
-
 pub fn opt_chain_test(
     left: Box<Expr>,
     right: Box<Expr>,
@@ -2250,7 +2234,7 @@ pub fn opt_chain_test(
                 span: DUMMY_SP,
                 left: right,
                 op: op!("==="),
-                right: undefined(DUMMY_SP),
+                right: Expr::undefined(DUMMY_SP),
             })),
         })
     }
@@ -2346,24 +2330,6 @@ impl IsDirective for ModuleItem {
 impl IsDirective for &ModuleItem {
     fn as_ref(&self) -> Option<&Stmt> {
         self.as_stmt()
-    }
-}
-
-pub trait IdentExt {
-    fn prefix(&self, prefix: &str) -> Ident;
-
-    fn private(self) -> Ident;
-}
-
-impl IdentExt for Ident {
-    fn prefix(&self, prefix: &str) -> Ident {
-        Ident::new(format!("{}{}", prefix, self.sym).into(), self.span)
-    }
-
-    fn private(self) -> Ident {
-        let span = self.span.apply_mark(Mark::fresh(Mark::root()));
-
-        Ident::new(self.sym, span)
     }
 }
 

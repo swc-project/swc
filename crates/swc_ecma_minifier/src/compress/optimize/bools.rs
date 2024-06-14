@@ -1,7 +1,7 @@
 use swc_common::{util::take::Take, EqIgnoreSpan, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
-    undefined, ExprExt, Type,
+    ExprExt, Type,
     Value::{self, Known},
 };
 
@@ -132,7 +132,7 @@ impl Optimizer<'_> {
                         }
                     }
 
-                    *l = *undefined(l.span());
+                    *l = *Expr::undefined(l.span());
                     *r = *arg.take();
                     true
                 }

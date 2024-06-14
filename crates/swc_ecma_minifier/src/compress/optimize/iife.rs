@@ -3,9 +3,7 @@ use std::{collections::HashMap, mem::swap};
 use rustc_hash::FxHashMap;
 use swc_common::{pass::Either, util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{
-    contains_arguments, contains_this_expr, find_pat_ids, undefined, ExprFactory,
-};
+use swc_ecma_utils::{contains_arguments, contains_this_expr, find_pat_ids, ExprFactory};
 use swc_ecma_visit::VisitMutWith;
 
 use super::{util::NormalMultiReplacer, Optimizer};
@@ -235,7 +233,7 @@ impl Optimizer<'_> {
                                 param.id.span.ctxt
                             );
 
-                            vars.insert(param.to_id(), undefined(param.span()));
+                            vars.insert(param.to_id(), Expr::undefined(param.span()));
                         }
                     }
 
@@ -636,7 +634,7 @@ impl Optimizer<'_> {
                 if body.stmts.is_empty() && call.args.is_empty() {
                     self.changed = true;
                     report_change!("iife: Inlining an empty function call as `undefined`");
-                    *e = *undefined(f.function.span);
+                    *e = *Expr::undefined(f.function.span);
                     return;
                 }
 
@@ -905,7 +903,7 @@ impl Optimizer<'_> {
                 span: DUMMY_SP,
                 name: Pat::Ident(param.clone().into()),
                 init: if self.ctx.executed_multiple_time && no_arg {
-                    Some(undefined(DUMMY_SP))
+                    Some(Expr::undefined(DUMMY_SP))
                 } else {
                     None
                 },
@@ -991,7 +989,7 @@ impl Optimizer<'_> {
 
                 Stmt::Return(stmt) => {
                     let span = stmt.span;
-                    let val = *stmt.arg.unwrap_or_else(|| undefined(span));
+                    let val = *stmt.arg.unwrap_or_else(|| Expr::undefined(span));
                     exprs.push(Box::new(val));
 
                     let mut e = SeqExpr {
@@ -1015,7 +1013,7 @@ impl Optimizer<'_> {
                 arg: last.take(),
             }));
         } else {
-            return Some(*undefined(body.span));
+            return Some(*Expr::undefined(body.span));
         }
 
         let mut e = SeqExpr {

@@ -8,7 +8,7 @@ use swc_common::{
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
-use swc_ecma_utils::{quote_ident, undefined, ExprFactory};
+use swc_ecma_utils::{quote_ident, ExprFactory};
 use swc_ecma_visit::{VisitMut, VisitMutWith};
 
 use super::EnumKind;
@@ -405,7 +405,7 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
             | TsType::TsKeywordType(TsKeywordType {
                 kind: TsKeywordTypeKind::TsNeverKeyword,
                 ..
-            }) => *undefined(span),
+            }) => *Expr::undefined(span),
 
             TsType::TsParenthesizedType(ty) => serialize_type_node(class_name, &ty.type_ann),
 
@@ -495,7 +495,7 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
 
     let param = match param {
         Some(v) => &v.type_ann,
-        None => return *undefined(DUMMY_SP),
+        None => return *Expr::undefined(DUMMY_SP),
     };
 
     serialize_type_node(class_name.map(|v| &*v.sym).unwrap_or(""), param)

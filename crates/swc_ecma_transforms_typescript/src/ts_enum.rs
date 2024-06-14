@@ -3,7 +3,7 @@ use std::mem;
 use swc_atoms::JsWord;
 use swc_common::{collections::AHashMap, Mark, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{number::ToJsString, undefined, ExprFactory};
+use swc_ecma_utils::{number::ToJsString, ExprFactory};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
@@ -77,7 +77,7 @@ impl From<TsEnumRecordValue> for Expr {
                 value: num,
                 raw: None,
             })),
-            TsEnumRecordValue::Void => *undefined(DUMMY_SP),
+            TsEnumRecordValue::Void => *Expr::undefined(DUMMY_SP),
             TsEnumRecordValue::Opaque(expr) => *expr,
         }
     }

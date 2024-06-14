@@ -7,7 +7,7 @@ use phf::phf_set;
 use scoped_tls::scoped_thread_local;
 use swc_atoms::{js_word, Atom};
 use swc_common::{
-    ast_node, util::take::Take, BytePos, EqIgnoreSpan, Span, Spanned, SyntaxContext, DUMMY_SP,
+    ast_node, util::take::Take, BytePos, EqIgnoreSpan, Mark, Span, Spanned, SyntaxContext, DUMMY_SP,
 };
 
 use crate::{typescript::TsTypeAnn, Expr};
@@ -307,6 +307,19 @@ impl Ident {
         Err(buf)
     }
 
+    /// Create a new identifier with the given prefix.
+    pub fn with_prefix(&self, prefix: &str) -> Ident {
+        Ident::new(format!("{}{}", prefix, self.sym).into(), self.span)
+    }
+
+    /// Create a private identifier that is unique in the file, but with the
+    /// same symbol.
+    pub fn into_private(self) -> Ident {
+        let span = self.span.apply_mark(Mark::new());
+
+        Self::new(self.sym, span)
+    }
+
     #[inline]
     pub fn is_dummy(&self) -> bool {
         self.sym == js_word!("") && self.span.is_dummy()
@@ -446,7 +459,7 @@ static RESERVED_IN_ES3: phf::Set<&str> = phf_set!(
     "volatile",
 );
 
-pub trait IdentExt: AsRef<str> {
+pub trait EsReserved: AsRef<str> {
     fn is_reserved(&self) -> bool {
         RESERVED.contains(self.as_ref())
     }
@@ -474,7 +487,7 @@ pub trait IdentExt: AsRef<str> {
     }
 }
 
-impl IdentExt for Atom {}
-impl IdentExt for Ident {}
-impl IdentExt for &'_ str {}
-impl IdentExt for String {}
+impl EsReserved for Atom {}
+impl EsReserved for Ident {}
+impl EsReserved for &'_ str {}
+impl EsReserved for String {}
