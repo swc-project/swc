@@ -1,7 +1,7 @@
 use radix_fmt::Radix;
 use swc_common::{util::take::Take, Spanned, SyntaxContext};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{number::ToJsString, undefined, ExprExt, IsEmpty, Value};
+use swc_ecma_utils::{number::ToJsString, ExprExt, IsEmpty, Value};
 
 use super::Pure;
 use crate::compress::util::{eval_as_number, is_pure_undefined_or_null};

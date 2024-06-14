@@ -3,9 +3,7 @@ use std::{collections::HashMap, mem::swap};
 use rustc_hash::FxHashMap;
 use swc_common::{pass::Either, util::take::Take, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{
-    contains_arguments, contains_this_expr, find_pat_ids, undefined, ExprFactory,
-};
+use swc_ecma_utils::{contains_arguments, contains_this_expr, find_pat_ids, ExprFactory};
 use swc_ecma_visit::VisitMutWith;
 
 use super::{util::NormalMultiReplacer, Optimizer};
@@ -905,7 +903,7 @@ impl Optimizer<'_> {
                 span: DUMMY_SP,
                 name: Pat::Ident(param.clone().into()),
                 init: if self.ctx.executed_multiple_time && no_arg {
-                    Some(undefined(DUMMY_SP))
+                    Some(Expr::undefined(DUMMY_SP))
                 } else {
                     None
                 },

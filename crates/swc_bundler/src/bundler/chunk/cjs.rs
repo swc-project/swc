@@ -3,7 +3,7 @@ use std::{collections::HashMap, sync::atomic::Ordering};
 use anyhow::Error;
 use swc_common::{collections::AHashMap, Span, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{quote_ident, undefined, ExprFactory};
+use swc_ecma_utils::{quote_ident, ExprFactory};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 use crate::{
@@ -168,7 +168,7 @@ fn wrap_module(
                 )
                 .make_member(Ident::new("bind".into(), DUMMY_SP))
                 .as_callee(),
-                args: vec![undefined(DUMMY_SP).as_arg(), module_fn.as_arg()],
+                args: vec![Expr::undefined(DUMMY_SP).as_arg(), module_fn.as_arg()],
                 type_args: None,
             }))),
             definite: false,

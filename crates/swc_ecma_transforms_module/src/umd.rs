@@ -6,7 +6,7 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::{feature::FeatureFlag, helper_expr};
 use swc_ecma_utils::{
-    is_valid_prop_ident, private_ident, quote_ident, quote_str, undefined, ExprFactory, IsDirective,
+    is_valid_prop_ident, private_ident, quote_ident, quote_str, ExprFactory, IsDirective,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
@@ -127,7 +127,7 @@ where
         }
 
         if !self.config.config.allow_top_level_this {
-            top_level_this(module_items, *undefined(DUMMY_SP));
+            top_level_this(module_items, *Expr::undefined(DUMMY_SP));
         }
 
         let import_interop = self.config.config.import_interop();

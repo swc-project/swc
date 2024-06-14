@@ -3,7 +3,7 @@ use std::{borrow::Cow, mem};
 use swc_common::{pass::CompilerPass, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::perf::{should_work, Check};
-use swc_ecma_utils::{private_ident, quote_ident, undefined, ExprFactory};
+use swc_ecma_utils::{private_ident, quote_ident, ExprFactory};
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith,
 };
@@ -68,7 +68,7 @@ impl VisitMut for NewTarget {
             };
             match &self.ctx {
                 Ctx::Constructor => *e = this_ctor(*span),
-                Ctx::Method => *e = *undefined(DUMMY_SP),
+                Ctx::Method => *e = *Expr::undefined(DUMMY_SP),
                 Ctx::Function(i) => {
                     *e = Expr::Cond(CondExpr {
                         span: *span,
@@ -81,7 +81,7 @@ impl VisitMut for NewTarget {
                         })),
                         cons: Box::new(this_ctor(DUMMY_SP)),
                         // void 0
-                        alt: undefined(DUMMY_SP),
+                        alt: Expr::undefined(DUMMY_SP),
                     })
                 }
             }

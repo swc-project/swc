@@ -427,7 +427,7 @@ impl Optimizer<'_> {
                 let cons = Box::new(self.merge_if_returns_to(*cons, vec![]));
                 let alt = match alt {
                     Some(alt) => Box::new(self.merge_if_returns_to(*alt, vec![])),
-                    None => undefined(DUMMY_SP),
+                    None => Expr::undefined(DUMMY_SP),
                 };
 
                 exprs.push(test);

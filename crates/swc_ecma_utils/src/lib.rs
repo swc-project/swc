@@ -1140,7 +1140,7 @@ pub trait ExprExt {
                 }
 
                 if !may_be_str(lt) && !may_be_str(rt) {
-                    // ADD used with compilations of null, undefined, boolean and number always
+                    // ADD used with compilations of null, boolean and number always
                     // result in numbers.
                     return Known(NumberType);
                 }

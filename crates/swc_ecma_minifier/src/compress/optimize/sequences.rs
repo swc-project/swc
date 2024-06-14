@@ -7,8 +7,7 @@ use swc_ecma_usage_analyzer::{
     util::is_global_var_with_pure_property_access,
 };
 use swc_ecma_utils::{
-    contains_arguments, contains_this_expr, prepend_stmts, undefined, ExprExt, IdentUsageFinder,
-    StmtLike,
+    contains_arguments, contains_this_expr, prepend_stmts, ExprExt, IdentUsageFinder, StmtLike,
 };
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 #[cfg(feature = "debug")]
@@ -2334,7 +2333,7 @@ impl Optimizer<'_> {
                                 return Ok(false);
                             }
 
-                            right_val = undefined(DUMMY_SP);
+                            right_val = Expr::undefined(DUMMY_SP);
                             (left, Some(&mut right_val))
                         }
                     }
@@ -2394,7 +2393,7 @@ impl Optimizer<'_> {
 
                         if let Some(usage) = self.data.vars.get(&left_id.to_id()) {
                             if usage.var_kind == Some(VarDeclKind::Const) {
-                                a.init = Some(undefined(DUMMY_SP));
+                                a.init = Some(Expr::undefined(DUMMY_SP));
                             }
                         }
 
@@ -2402,7 +2401,7 @@ impl Optimizer<'_> {
                     } else {
                         a.init.clone()
                     }
-                    .unwrap_or_else(|| undefined(DUMMY_SP))
+                    .unwrap_or_else(|| Expr::undefined(DUMMY_SP))
                 }
                 Mergable::Expr(a) => {
                     if can_remove || force_drop {

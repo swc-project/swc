@@ -4,9 +4,7 @@ use swc_atoms::JsWord;
 use swc_common::{collections::AHashMap, util::take::Take, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
-use swc_ecma_utils::{
-    private_ident, prop_name_to_expr_value, quote_ident, undefined, ExprFactory, StmtLike,
-};
+use swc_ecma_utils::{private_ident, prop_name_to_expr_value, quote_ident, ExprFactory, StmtLike};
 use swc_ecma_visit::{Visit, VisitMut, VisitMutWith, VisitWith};
 
 use self::metadata::{Metadata, ParamMetadata};
@@ -359,7 +357,7 @@ impl VisitMut for TscDecorator {
                     c.decorators.drain(..).map(|d| d.expr),
                     target,
                     key.as_arg(),
-                    undefined(DUMMY_SP).as_arg(),
+                    Expr::undefined(DUMMY_SP).as_arg(),
                 );
             }
         }

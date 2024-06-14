@@ -8,8 +8,7 @@ use swc_ecma_transforms_base::helper;
 use swc_ecma_transforms_classes::super_field::SuperFieldAccessFolder;
 use swc_ecma_utils::{
     alias_ident_for, constructor::inject_after_super, default_constructor, prepend_stmt,
-    private_ident, prop_name_to_expr, prop_name_to_expr_value, quote_ident, quote_str, undefined,
-    ExprFactory,
+    private_ident, prop_name_to_expr, prop_name_to_expr_value, quote_ident, quote_str, ExprFactory,
 };
 use swc_ecma_visit::{as_folder, noop_fold_type, Fold, FoldWith, Visit, VisitWith};
 
@@ -532,7 +531,7 @@ impl Decorators {
                                     }),
                                     _ => Prop::KeyValue(KeyValueProp {
                                         key: PropName::Ident(quote_ident!("value")),
-                                        value: undefined(DUMMY_SP),
+                                        value: Expr::undefined(DUMMY_SP),
                                     }),
                                 }))))
                                 .collect(),

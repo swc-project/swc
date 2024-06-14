@@ -13,7 +13,7 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{
     find_pat_ids, function::FnEnvHoister, prepend_stmt, private_ident, quote_ident, quote_str,
-    undefined, ExprFactory, StmtLike,
+    ExprFactory, StmtLike,
 };
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, visit_mut_obj_and_computed, Fold, Visit,
@@ -819,7 +819,7 @@ impl VisitMut for FlowHelper<'_> {
                                 Box::new(Expr::Unary(UnaryExpr {
                                     span: DUMMY_SP,
                                     op: op!("void"),
-                                    arg: undefined(DUMMY_SP),
+                                    arg: Expr::undefined(DUMMY_SP),
                                 }))
                             }),
                         })))],
@@ -869,7 +869,7 @@ struct MutationHandler<'a> {
 impl MutationHandler<'_> {
     fn make_reassignment(&self, orig: Option<Box<Expr>>) -> Expr {
         if self.map.is_empty() {
-            return *orig.unwrap_or_else(|| undefined(DUMMY_SP));
+            return *orig.unwrap_or_else(|| Expr::undefined(DUMMY_SP));
         }
 
         let mut exprs = Vec::with_capacity(self.map.len() + 1);
@@ -885,7 +885,7 @@ impl MutationHandler<'_> {
                 ))),
             })));
         }
-        exprs.push(orig.unwrap_or_else(|| undefined(DUMMY_SP)));
+        exprs.push(orig.unwrap_or_else(|| Expr::undefined(DUMMY_SP)));
 
         Expr::Seq(SeqExpr {
             span: DUMMY_SP,

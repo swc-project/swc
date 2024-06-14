@@ -13,8 +13,8 @@ use swc_ecma_transforms_base::{
     perf::{cpu_count, Parallel, ParallelExt},
 };
 use swc_ecma_utils::{
-    is_literal, prop_name_eq, to_int32, undefined, BoolType, ExprCtx, ExprExt, NullType,
-    NumberType, ObjectType, StringType, SymbolType, UndefinedType, Value,
+    is_literal, prop_name_eq, to_int32, BoolType, ExprCtx, ExprExt, NullType, NumberType,
+    ObjectType, StringType, SymbolType, UndefinedType, Value,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut, VisitMutWith};
 use Value::{Known, Unknown};
@@ -1363,7 +1363,7 @@ impl VisitMut for SimplifyExpr {
                             e.extend(expr.array().unwrap().elems.into_iter().map(|elem| {
                                 Some(elem.unwrap_or_else(|| ExprOrSpread {
                                     spread: None,
-                                    expr: undefined(DUMMY_SP),
+                                    expr: Expr::undefined(DUMMY_SP),
                                 }))
                             }));
                         }

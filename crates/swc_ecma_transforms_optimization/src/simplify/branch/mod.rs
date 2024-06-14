@@ -11,8 +11,8 @@ use swc_ecma_transforms_base::{
     perf::{cpu_count, Parallel, ParallelExt},
 };
 use swc_ecma_utils::{
-    extract_var_ids, is_literal, prepend_stmt, undefined, ExprCtx, ExprExt, ExprFactory, Hoister,
-    IsEmpty, StmtExt, StmtLike, Value::Known,
+    extract_var_ids, is_literal, prepend_stmt, ExprCtx, ExprExt, ExprFactory, Hoister, IsEmpty,
+    StmtExt, StmtLike, Value::Known,
 };
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Visit, VisitMut, VisitMutWith, VisitWith,
@@ -1634,7 +1634,7 @@ fn ignore_result(e: Expr, drop_str_lit: bool, ctx: &ExprCtx) -> Option<Expr> {
                 ignore_result(
                     ctx.preserve_effects(
                         span,
-                        *undefined(DUMMY_SP),
+                        *Expr::undefined(DUMMY_SP),
                         once(Box::new(Expr::Object(ObjectLit { span, props }))),
                     ),
                     true,

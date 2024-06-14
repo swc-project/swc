@@ -82,7 +82,7 @@ impl Pure<'_> {
                                 None => {
                                     new_args.push(ExprOrSpread {
                                         spread: None,
-                                        expr: undefined(DUMMY_SP),
+                                        expr: Expr::undefined(DUMMY_SP),
                                     });
                                 }
                             }

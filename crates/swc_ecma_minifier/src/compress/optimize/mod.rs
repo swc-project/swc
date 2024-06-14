@@ -12,8 +12,7 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::debug_assert_valid;
 use swc_ecma_usage_analyzer::{analyzer::UsageAnalyzer, marks::Marks};
 use swc_ecma_utils::{
-    prepend_stmts, undefined, ExprCtx, ExprExt, ExprFactory, IsEmpty, ModuleItemLike, StmtLike,
-    Type, Value,
+    prepend_stmts, ExprCtx, ExprExt, ExprFactory, IsEmpty, ModuleItemLike, StmtLike, Type, Value,
 };
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 #[cfg(feature = "debug")]
@@ -2014,7 +2013,7 @@ impl VisitMut for Optimizer<'_> {
                     #[cfg(feature = "debug")]
                     dump_change_detail!("Removed {}", start);
 
-                    undefined(DUMMY_SP)
+                    Expr::undefined(DUMMY_SP)
                 });
             }
         } else {
