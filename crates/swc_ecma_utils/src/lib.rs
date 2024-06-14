@@ -2373,6 +2373,8 @@ pub struct DestructuringFinder<I: IdentLike> {
 }
 
 /// Finds all **binding** idents of `node`.
+///
+/// If you want to avoid allocation, use [`for_each_binding_ident`] instead.
 pub fn find_pat_ids<T, I: IdentLike>(node: &T) -> Vec<I>
 where
     T: VisitWith<DestructuringFinder<I>>,
@@ -2395,6 +2397,39 @@ impl<I: IdentLike> Visit for DestructuringFinder<I> {
 
     /// No-op (we don't care about expressions)
     fn visit_prop_name(&mut self, _: &PropName) {}
+}
+
+/// Finds all **binding** idents of variables.
+pub struct BindingIdentifierVisitor<F>
+where
+    F: for<'a> FnMut(&'a Ident),
+{
+    op: F,
+}
+
+/// Finds all **binding** idents of `node`. **Any nested identifiers in
+/// expressions are ignored**.
+pub fn for_each_binding_ident<T, F>(node: &T, op: F)
+where
+    T: VisitWith<BindingIdentifierVisitor<F>>,
+    F: for<'a> FnMut(&'a Ident),
+{
+    let mut v = BindingIdentifierVisitor { op };
+    node.visit_with(&mut v);
+}
+
+impl<F> Visit for BindingIdentifierVisitor<F>
+where
+    F: for<'a> FnMut(&'a Ident),
+{
+    noop_visit_type!();
+
+    /// No-op (we don't care about expressions)
+    fn visit_expr(&mut self, _: &Expr) {}
+
+    fn visit_binding_ident(&mut self, i: &BindingIdent) {
+        (self.op)(i);
+    }
 }
 
 pub fn is_valid_ident(s: &JsWord) -> bool {
