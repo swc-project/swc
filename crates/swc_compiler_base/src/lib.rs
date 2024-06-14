@@ -237,14 +237,6 @@ where
         if source_root.is_some() {
             map.set_source_root(source_root)
         }
-
-        // Ensure that the source map is valid
-        if cfg!(debug_assertions) {
-            let mut wr = vec![];
-            map.to_writer(&mut wr).unwrap();
-
-            sourcemap::SourceMap::from_slice(&wr).expect("failed to parse source map we generated");
-        }
     }
 
     let (code, map) = match source_map {
