@@ -6,7 +6,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_ecma_quote_macros"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.56.0"
+version       = "0.57.0"
 
 [lib]
 bench      = false
@@ -19,7 +19,7 @@ quote       = { workspace = true }
 syn         = { workspace = true }
 
 swc_atoms         = { version = "0.6.5", path = "../swc_atoms" }
-swc_common        = { version = "0.33.26", path = "../swc_common" }
-swc_ecma_ast      = { version = "0.114.0", path = "../swc_ecma_ast" }
-swc_ecma_parser   = { version = "0.145.0", path = "../swc_ecma_parser" }
+swc_common        = { version = "0.34.0", path = "../swc_common" }
+swc_ecma_ast      = { version = "0.115.0", path = "../swc_ecma_ast" }
+swc_ecma_parser   = { version = "0.146.0", path = "../swc_ecma_parser" }
 swc_macros_common = { version = "0.3.11", path = "../swc_macros_common" }

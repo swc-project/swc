@@ -6,7 +6,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_timer"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.21.22"
+version       = "0.22.0"
 
 [lib]
 bench = false
@@ -15,4 +15,4 @@ bench = false
 tracing = { workspace = true }
 
 [dev-dependencies]
-testing = { version = "0.35.24", path = "../testing" }
+testing = { version = "0.36.0", path = "../testing" }
