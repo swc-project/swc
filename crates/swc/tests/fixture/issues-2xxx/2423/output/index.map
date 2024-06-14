@@ -7,7 +7,6 @@
     "console",
     "log"
   ],
-  "rangeMappings": ";;;;;;;",
   "sources": [
     "../../input/index.ts"
   ],
