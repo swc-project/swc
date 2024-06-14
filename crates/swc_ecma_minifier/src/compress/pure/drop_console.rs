@@ -1,6 +1,5 @@
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
-use swc_ecma_utils::undefined;
 
 use super::Pure;
 

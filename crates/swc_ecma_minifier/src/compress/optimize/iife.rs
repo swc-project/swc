@@ -233,7 +233,7 @@ impl Optimizer<'_> {
                                 param.id.span.ctxt
                             );
 
-                            vars.insert(param.to_id(), undefined(param.span()));
+                            vars.insert(param.to_id(), Expr::undefined(param.span()));
                         }
                     }
 
@@ -634,7 +634,7 @@ impl Optimizer<'_> {
                 if body.stmts.is_empty() && call.args.is_empty() {
                     self.changed = true;
                     report_change!("iife: Inlining an empty function call as `undefined`");
-                    *e = *undefined(f.function.span);
+                    *e = *Expr::undefined(f.function.span);
                     return;
                 }
 

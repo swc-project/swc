@@ -3,7 +3,7 @@ use std::num::FpCategory;
 use swc_atoms::atom;
 use swc_common::{util::take::Take, Spanned, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{undefined, ExprExt, Value::Known};
+use swc_ecma_utils::{ExprExt, Value::Known};
 
 use super::Optimizer;
 use crate::{compress::util::eval_as_number, maybe_par, DISABLE_BUGGY_PASSES};
@@ -107,7 +107,7 @@ impl Optimizer<'_> {
             Expr::Ident(Ident { span, sym, .. }) if &**sym == "undefined" => {
                 report_change!("evaluate: `undefined` -> `void 0`");
                 self.changed = true;
-                *e = *undefined(*span);
+                *e = *Expr::undefined(*span);
             }
 
             Expr::Ident(Ident { span, sym, .. }) if &**sym == "Infinity" => {
