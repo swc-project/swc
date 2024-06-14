@@ -80,8 +80,6 @@
                   },
                   "computed": false,
                   "optional": false,
-                  "init": null,
-                  "params": [],
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
@@ -98,8 +96,7 @@
                       },
                       "kind": "string"
                     }
-                  },
-                  "typeParams": null
+                  }
                 }
               ]
             },
@@ -136,8 +133,6 @@
             },
             "computed": false,
             "optional": false,
-            "init": null,
-            "params": [],
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -164,8 +159,7 @@
                 },
                 "typeParams": null
               }
-            },
-            "typeParams": null
+            }
           }
         ]
       }
@@ -244,8 +238,6 @@
                         },
                         "computed": false,
                         "optional": false,
-                        "init": null,
-                        "params": [],
                         "typeAnnotation": {
                           "type": "TsTypeAnnotation",
                           "span": {
@@ -272,8 +264,7 @@
                             },
                             "typeParams": null
                           }
-                        },
-                        "typeParams": null
+                        }
                       }
                     ]
                   },
@@ -367,8 +358,6 @@
                   },
                   "computed": false,
                   "optional": false,
-                  "init": null,
-                  "params": [],
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
@@ -385,8 +374,7 @@
                       },
                       "kind": "string"
                     }
-                  },
-                  "typeParams": null
+                  }
                 }
               ]
             },
@@ -603,8 +591,6 @@
                               },
                               "computed": false,
                               "optional": false,
-                              "init": null,
-                              "params": [],
                               "typeAnnotation": {
                                 "type": "TsTypeAnnotation",
                                 "span": {
@@ -630,8 +616,7 @@
                                     "raw": "\"foo\""
                                   }
                                 }
-                              },
-                              "typeParams": null
+                              }
                             }
                           ]
                         }

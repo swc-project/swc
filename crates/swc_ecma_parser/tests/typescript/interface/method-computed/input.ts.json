@@ -41,7 +41,6 @@
               "end": 45,
               "ctxt": 0
             },
-            "readonly": false,
             "key": {
               "type": "MemberExpression",
               "span": {
@@ -99,7 +98,6 @@
               "end": 79,
               "ctxt": 0
             },
-            "readonly": false,
             "key": {
               "type": "MemberExpression",
               "span": {

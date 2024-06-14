@@ -1504,7 +1504,6 @@
               "end": 562,
               "ctxt": 0
             },
-            "readonly": false,
             "key": {
               "type": "Identifier",
               "span": {
@@ -1583,7 +1582,6 @@
               "end": 606,
               "ctxt": 0
             },
-            "readonly": false,
             "key": {
               "type": "Identifier",
               "span": {
@@ -2241,7 +2239,6 @@
                       "end": 768,
                       "ctxt": 0
                     },
-                    "readonly": false,
                     "key": {
                       "type": "Identifier",
                       "span": {
@@ -2320,7 +2317,6 @@
                       "end": 812,
                       "ctxt": 0
                     },
-                    "readonly": false,
                     "key": {
                       "type": "Identifier",
                       "span": {

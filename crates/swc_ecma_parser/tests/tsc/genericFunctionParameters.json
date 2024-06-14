@@ -1086,7 +1086,6 @@
                                       "end": 380,
                                       "ctxt": 0
                                     },
-                                    "readonly": false,
                                     "key": {
                                       "type": "Identifier",
                                       "span": {

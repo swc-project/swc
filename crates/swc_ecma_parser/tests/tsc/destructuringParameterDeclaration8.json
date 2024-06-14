@@ -156,8 +156,6 @@
                     },
                     "computed": false,
                     "optional": true,
-                    "init": null,
-                    "params": [],
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -211,8 +209,7 @@
                           }
                         ]
                       }
-                    },
-                    "typeParams": null
+                    }
                   },
                   {
                     "type": "TsPropertySignature",
@@ -234,8 +231,6 @@
                     },
                     "computed": false,
                     "optional": true,
-                    "init": null,
-                    "params": [],
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -271,8 +266,6 @@
                             },
                             "computed": false,
                             "optional": false,
-                            "init": null,
-                            "params": [],
                             "typeAnnotation": {
                               "type": "TsTypeAnnotation",
                               "span": {
@@ -326,13 +319,11 @@
                                   }
                                 ]
                               }
-                            },
-                            "typeParams": null
+                            }
                           }
                         ]
                       }
-                    },
-                    "typeParams": null
+                    }
                   }
                 ]
               }

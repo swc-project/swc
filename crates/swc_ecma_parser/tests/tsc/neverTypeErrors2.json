@@ -810,8 +810,6 @@
             },
             "computed": false,
             "optional": false,
-            "init": null,
-            "params": [],
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -837,8 +835,7 @@
                   "raw": "\"a\""
                 }
               }
-            },
-            "typeParams": null
+            }
           }
         ]
       }
@@ -891,8 +888,6 @@
             },
             "computed": false,
             "optional": false,
-            "init": null,
-            "params": [],
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -918,8 +913,7 @@
                   "raw": "\"b\""
                 }
               }
-            },
-            "typeParams": null
+            }
           }
         ]
       }
@@ -1100,8 +1094,6 @@
               },
               "computed": false,
               "optional": false,
-              "init": null,
-              "params": [],
               "typeAnnotation": {
                 "type": "TsTypeAnnotation",
                 "span": {
@@ -1136,8 +1128,7 @@
                     "typeParams": null
                   }
                 }
-              },
-              "typeParams": null
+              }
             }
           ]
         }

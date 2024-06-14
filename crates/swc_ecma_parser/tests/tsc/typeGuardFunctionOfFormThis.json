@@ -2118,8 +2118,6 @@
             },
             "computed": false,
             "optional": false,
-            "init": null,
-            "params": [],
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -2136,8 +2134,7 @@
                 },
                 "kind": "boolean"
               }
-            },
-            "typeParams": null
+            }
           }
         ]
       }
@@ -2190,8 +2187,6 @@
             },
             "computed": false,
             "optional": false,
-            "init": null,
-            "params": [],
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -2208,8 +2203,7 @@
                 },
                 "kind": "boolean"
               }
-            },
-            "typeParams": null
+            }
           }
         ]
       }
@@ -2294,8 +2288,6 @@
             },
             "computed": false,
             "optional": false,
-            "init": null,
-            "params": [],
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -2322,8 +2314,7 @@
                 },
                 "typeParams": null
               }
-            },
-            "typeParams": null
+            }
           },
           {
             "type": "TsPropertySignature",
@@ -2345,8 +2336,6 @@
             },
             "computed": false,
             "optional": false,
-            "init": null,
-            "params": [],
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -2363,8 +2352,7 @@
                 },
                 "kind": "number"
               }
-            },
-            "typeParams": null
+            }
           },
           {
             "type": "TsMethodSignature",
@@ -2373,7 +2361,6 @@
               "end": 1582,
               "ctxt": 0
             },
-            "readonly": false,
             "key": {
               "type": "Identifier",
               "span": {
@@ -2476,7 +2463,6 @@
               "end": 1625,
               "ctxt": 0
             },
-            "readonly": false,
             "key": {
               "type": "Identifier",
               "span": {
@@ -3969,7 +3955,6 @@
               "end": 2436,
               "ctxt": 0
             },
-            "readonly": false,
             "key": {
               "type": "Identifier",
               "span": {
@@ -4044,7 +4029,6 @@
               "end": 2477,
               "ctxt": 0
             },
-            "readonly": false,
             "key": {
               "type": "Identifier",
               "span": {

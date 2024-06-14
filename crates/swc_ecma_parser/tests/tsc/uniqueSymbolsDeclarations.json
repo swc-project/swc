@@ -3455,8 +3455,6 @@
             },
             "computed": false,
             "optional": false,
-            "init": null,
-            "params": [],
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -3482,8 +3480,7 @@
                   "kind": "symbol"
                 }
               }
-            },
-            "typeParams": null
+            }
           }
         ]
       }
@@ -3866,8 +3863,6 @@
             },
             "computed": false,
             "optional": false,
-            "init": null,
-            "params": [],
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -3893,8 +3888,7 @@
                   "kind": "symbol"
                 }
               }
-            },
-            "typeParams": null
+            }
           },
           {
             "type": "TsPropertySignature",
@@ -3916,8 +3910,6 @@
             },
             "computed": false,
             "optional": false,
-            "init": null,
-            "params": [],
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -3953,8 +3945,6 @@
                     },
                     "computed": false,
                     "optional": false,
-                    "init": null,
-                    "params": [],
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -3980,13 +3970,11 @@
                           "kind": "symbol"
                         }
                       }
-                    },
-                    "typeParams": null
+                    }
                   }
                 ]
               }
-            },
-            "typeParams": null
+            }
           }
         ]
       }
@@ -5034,8 +5022,6 @@
                     },
                     "computed": true,
                     "optional": false,
-                    "init": null,
-                    "params": [],
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -5061,8 +5047,7 @@
                           "raw": "\"a\""
                         }
                       }
-                    },
-                    "typeParams": null
+                    }
                   },
                   {
                     "type": "TsPropertySignature",
@@ -5102,8 +5087,6 @@
                     },
                     "computed": true,
                     "optional": false,
-                    "init": null,
-                    "params": [],
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -5129,8 +5112,7 @@
                           "raw": "\"b\""
                         }
                       }
-                    },
-                    "typeParams": null
+                    }
                   }
                 ]
               }
@@ -8839,7 +8821,6 @@
               "end": 6451,
               "ctxt": 0
             },
-            "readonly": false,
             "key": {
               "type": "Identifier",
               "span": {
@@ -8889,7 +8870,6 @@
               "end": 6485,
               "ctxt": 0
             },
-            "readonly": false,
             "key": {
               "type": "Identifier",
               "span": {
@@ -8967,7 +8947,6 @@
               "end": 6533,
               "ctxt": 0
             },
-            "readonly": false,
             "key": {
               "type": "Identifier",
               "span": {
@@ -9045,7 +9024,6 @@
               "end": 6576,
               "ctxt": 0
             },
-            "readonly": false,
             "key": {
               "type": "Identifier",
               "span": {
@@ -9123,7 +9101,6 @@
               "end": 6613,
               "ctxt": 0
             },
-            "readonly": false,
             "key": {
               "type": "Identifier",
               "span": {

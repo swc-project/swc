@@ -98,8 +98,6 @@
             },
             "computed": true,
             "optional": true,
-            "init": null,
-            "params": [],
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -135,15 +133,11 @@
                     },
                     "computed": false,
                     "optional": false,
-                    "init": null,
-                    "params": [],
-                    "typeAnnotation": null,
-                    "typeParams": null
+                    "typeAnnotation": null
                   }
                 ]
               }
-            },
-            "typeParams": null
+            }
           }
         ]
       }

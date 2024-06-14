@@ -41,7 +41,6 @@
               "end": 37,
               "ctxt": 0
             },
-            "readonly": false,
             "key": {
               "type": "Identifier",
               "span": {
@@ -53,7 +52,6 @@
               "optional": false
             },
             "computed": false,
-            "optional": false,
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -79,7 +77,6 @@
               "end": 66,
               "ctxt": 0
             },
-            "readonly": false,
             "key": {
               "type": "Identifier",
               "span": {
@@ -91,7 +88,6 @@
               "optional": false
             },
             "computed": false,
-            "optional": false,
             "param": {
               "type": "Identifier",
               "span": {

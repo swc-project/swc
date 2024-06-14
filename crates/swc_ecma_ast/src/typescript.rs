@@ -185,13 +185,8 @@ pub struct TsPropertySignature {
     pub key: Box<Expr>,
     pub computed: bool,
     pub optional: bool,
-    #[cfg_attr(feature = "serde-impl", serde(default))]
-    pub init: Option<Box<Expr>>,
-    pub params: Vec<TsFnParam>,
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
     pub type_ann: Option<Box<TsTypeAnn>>,
-    #[cfg_attr(feature = "serde-impl", serde(default))]
-    pub type_params: Option<Box<TsTypeParamDecl>>,
 }
 
 #[ast_node("TsGetterSignature")]
@@ -199,10 +194,8 @@ pub struct TsPropertySignature {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsGetterSignature {
     pub span: Span,
-    pub readonly: bool,
     pub key: Box<Expr>,
     pub computed: bool,
-    pub optional: bool,
     #[cfg_attr(feature = "serde-impl", serde(default, rename = "typeAnnotation"))]
     pub type_ann: Option<Box<TsTypeAnn>>,
 }
@@ -212,10 +205,8 @@ pub struct TsGetterSignature {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsSetterSignature {
     pub span: Span,
-    pub readonly: bool,
     pub key: Box<Expr>,
     pub computed: bool,
-    pub optional: bool,
     pub param: TsFnParam,
 }
 
@@ -224,7 +215,6 @@ pub struct TsSetterSignature {
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
 pub struct TsMethodSignature {
     pub span: Span,
-    pub readonly: bool,
     pub key: Box<Expr>,
     pub computed: bool,
     pub optional: bool,

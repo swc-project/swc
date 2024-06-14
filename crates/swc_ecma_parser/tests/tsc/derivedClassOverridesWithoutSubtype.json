@@ -79,8 +79,6 @@
                   },
                   "computed": false,
                   "optional": false,
-                  "init": null,
-                  "params": [],
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
@@ -97,8 +95,7 @@
                       },
                       "kind": "string"
                     }
-                  },
-                  "typeParams": null
+                  }
                 }
               ]
             }
@@ -193,8 +190,6 @@
                   },
                   "computed": false,
                   "optional": false,
-                  "init": null,
-                  "params": [],
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
@@ -211,8 +206,7 @@
                       },
                       "kind": "any"
                     }
-                  },
-                  "typeParams": null
+                  }
                 }
               ]
             }
@@ -316,8 +310,6 @@
                   },
                   "computed": false,
                   "optional": false,
-                  "init": null,
-                  "params": [],
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
@@ -334,8 +326,7 @@
                       },
                       "kind": "string"
                     }
-                  },
-                  "typeParams": null
+                  }
                 }
               ]
             }
@@ -430,8 +421,6 @@
                   },
                   "computed": false,
                   "optional": false,
-                  "init": null,
-                  "params": [],
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
@@ -448,8 +437,7 @@
                       },
                       "kind": "any"
                     }
-                  },
-                  "typeParams": null
+                  }
                 }
               ]
             }

@@ -54,8 +54,6 @@
             },
             "computed": false,
             "optional": false,
-            "init": null,
-            "params": [],
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -72,8 +70,7 @@
                 },
                 "kind": "string"
               }
-            },
-            "typeParams": null
+            }
           },
           {
             "type": "TsPropertySignature",
@@ -95,8 +92,6 @@
             },
             "computed": false,
             "optional": true,
-            "init": null,
-            "params": [],
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -113,8 +108,7 @@
                 },
                 "kind": "number"
               }
-            },
-            "typeParams": null
+            }
           },
           {
             "type": "TsMethodSignature",
@@ -123,7 +117,6 @@
               "end": 123,
               "ctxt": 0
             },
-            "readonly": false,
             "key": {
               "type": "Identifier",
               "span": {
@@ -220,8 +213,6 @@
                     },
                     "computed": false,
                     "optional": false,
-                    "init": null,
-                    "params": [],
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -238,8 +229,7 @@
                         },
                         "kind": "string"
                       }
-                    },
-                    "typeParams": null
+                    }
                   },
                   {
                     "type": "TsPropertySignature",
@@ -261,8 +251,6 @@
                     },
                     "computed": false,
                     "optional": true,
-                    "init": null,
-                    "params": [],
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -279,8 +267,7 @@
                         },
                         "kind": "number"
                       }
-                    },
-                    "typeParams": null
+                    }
                   },
                   {
                     "type": "TsMethodSignature",
@@ -289,7 +276,6 @@
                       "end": 191,
                       "ctxt": 0
                     },
-                    "readonly": false,
                     "key": {
                       "type": "Identifier",
                       "span": {

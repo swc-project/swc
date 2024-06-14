@@ -54,8 +54,6 @@
             },
             "computed": false,
             "optional": false,
-            "init": null,
-            "params": [],
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -72,8 +70,7 @@
                 },
                 "kind": "number"
               }
-            },
-            "typeParams": null
+            }
           },
           {
             "type": "TsPropertySignature",
@@ -95,8 +92,6 @@
             },
             "computed": false,
             "optional": false,
-            "init": null,
-            "params": [],
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -113,8 +108,7 @@
                 },
                 "kind": "number"
               }
-            },
-            "typeParams": null
+            }
           }
         ]
       }
@@ -167,8 +161,6 @@
             },
             "computed": false,
             "optional": false,
-            "init": null,
-            "params": [],
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -185,8 +177,7 @@
                 },
                 "kind": "number"
               }
-            },
-            "typeParams": null
+            }
           },
           {
             "type": "TsPropertySignature",
@@ -208,8 +199,6 @@
             },
             "computed": false,
             "optional": false,
-            "init": null,
-            "params": [],
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -226,8 +215,7 @@
                 },
                 "kind": "number"
               }
-            },
-            "typeParams": null
+            }
           },
           {
             "type": "TsPropertySignature",
@@ -249,8 +237,6 @@
             },
             "computed": false,
             "optional": false,
-            "init": null,
-            "params": [],
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -267,8 +253,7 @@
                 },
                 "kind": "number"
               }
-            },
-            "typeParams": null
+            }
           }
         ]
       }
@@ -341,8 +326,6 @@
             },
             "computed": false,
             "optional": false,
-            "init": null,
-            "params": [],
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -359,8 +342,7 @@
                 },
                 "kind": "number"
               }
-            },
-            "typeParams": null
+            }
           }
         ]
       }
@@ -413,8 +395,6 @@
             },
             "computed": false,
             "optional": false,
-            "init": null,
-            "params": [],
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -441,8 +421,7 @@
                 },
                 "typeParams": null
               }
-            },
-            "typeParams": null
+            }
           },
           {
             "type": "TsPropertySignature",
@@ -464,8 +443,6 @@
             },
             "computed": false,
             "optional": false,
-            "init": null,
-            "params": [],
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -492,8 +469,7 @@
                 },
                 "typeParams": null
               }
-            },
-            "typeParams": null
+            }
           }
         ]
       }
@@ -546,7 +522,6 @@
                       "end": 290,
                       "ctxt": 0
                     },
-                    "readonly": false,
                     "key": {
                       "type": "MemberExpression",
                       "span": {
@@ -682,7 +657,6 @@
                       "end": 356,
                       "ctxt": 0
                     },
-                    "readonly": false,
                     "key": {
                       "type": "MemberExpression",
                       "span": {
@@ -818,7 +792,6 @@
                       "end": 429,
                       "ctxt": 0
                     },
-                    "readonly": false,
                     "key": {
                       "type": "MemberExpression",
                       "span": {
@@ -991,7 +964,6 @@
                       "end": 511,
                       "ctxt": 0
                     },
-                    "readonly": false,
                     "key": {
                       "type": "MemberExpression",
                       "span": {
@@ -1203,7 +1175,6 @@
                       "end": 592,
                       "ctxt": 0
                     },
-                    "readonly": false,
                     "key": {
                       "type": "MemberExpression",
                       "span": {
@@ -1415,7 +1386,6 @@
                       "end": 686,
                       "ctxt": 0
                     },
-                    "readonly": false,
                     "key": {
                       "type": "MemberExpression",
                       "span": {
@@ -1646,7 +1616,6 @@
                       "end": 772,
                       "ctxt": 0
                     },
-                    "readonly": false,
                     "key": {
                       "type": "MemberExpression",
                       "span": {
@@ -7218,8 +7187,6 @@
                               },
                               "computed": false,
                               "optional": false,
-                              "init": null,
-                              "params": [],
                               "typeAnnotation": {
                                 "type": "TsTypeAnnotation",
                                 "span": {
@@ -7258,8 +7225,7 @@
                                     "default": null
                                   }
                                 }
-                              },
-                              "typeParams": null
+                              }
                             }
                           ]
                         },
@@ -7874,7 +7840,6 @@
               "end": 4281,
               "ctxt": 0
             },
-            "readonly": false,
             "key": {
               "type": "MemberExpression",
               "span": {
@@ -8164,7 +8129,6 @@
               "end": 4463,
               "ctxt": 0
             },
-            "readonly": false,
             "key": {
               "type": "MemberExpression",
               "span": {
@@ -8318,7 +8282,6 @@
               "end": 4536,
               "ctxt": 0
             },
-            "readonly": false,
             "key": {
               "type": "MemberExpression",
               "span": {

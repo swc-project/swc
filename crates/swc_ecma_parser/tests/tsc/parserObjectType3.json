@@ -67,10 +67,7 @@
                     },
                     "computed": false,
                     "optional": false,
-                    "init": null,
-                    "params": [],
-                    "typeAnnotation": null,
-                    "typeParams": null
+                    "typeAnnotation": null
                   },
                   {
                     "type": "TsPropertySignature",
@@ -92,10 +89,7 @@
                     },
                     "computed": false,
                     "optional": false,
-                    "init": null,
-                    "params": [],
-                    "typeAnnotation": null,
-                    "typeParams": null
+                    "typeAnnotation": null
                   }
                 ]
               }

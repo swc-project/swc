@@ -41,7 +41,6 @@
               "end": 26,
               "ctxt": 0
             },
-            "readonly": false,
             "key": {
               "type": "StringLiteral",
               "span": {

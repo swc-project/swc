@@ -1,0 +1,7 @@
+
+  x Expected '{', got 'A'
+   ,-[$DIR/tests/typescript-errors/type-lit/optional-setter/input.ts:1:1]
+ 1 | export type A = {
+   :             ^
+ 2 |   set m?(val: string);
+   `----

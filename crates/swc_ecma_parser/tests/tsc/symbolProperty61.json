@@ -81,8 +81,6 @@
                   },
                   "computed": false,
                   "optional": false,
-                  "init": null,
-                  "params": [],
                   "typeAnnotation": {
                     "type": "TsTypeAnnotation",
                     "span": {
@@ -99,8 +97,7 @@
                       },
                       "kind": "symbol"
                     }
-                  },
-                  "typeParams": null
+                  }
                 }
               ]
             }
@@ -720,8 +717,6 @@
             },
             "computed": true,
             "optional": false,
-            "init": null,
-            "params": [],
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -760,7 +755,6 @@
                           "end": 455,
                           "ctxt": 0
                         },
-                        "readonly": false,
                         "key": {
                           "type": "Identifier",
                           "span": {
@@ -881,8 +875,7 @@
                   }
                 }
               }
-            },
-            "typeParams": null
+            }
           }
         ]
       }

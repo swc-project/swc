@@ -187,8 +187,6 @@
                     },
                     "computed": false,
                     "optional": false,
-                    "init": null,
-                    "params": [],
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -205,8 +203,7 @@
                         },
                         "kind": "number"
                       }
-                    },
-                    "typeParams": null
+                    }
                   }
                 ]
               }

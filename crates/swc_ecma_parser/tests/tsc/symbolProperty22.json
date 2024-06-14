@@ -96,7 +96,6 @@
               "end": 70,
               "ctxt": 0
             },
-            "readonly": false,
             "key": {
               "type": "MemberExpression",
               "span": {

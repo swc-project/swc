@@ -531,8 +531,6 @@
             },
             "computed": false,
             "optional": false,
-            "init": null,
-            "params": [],
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -549,8 +547,7 @@
                 },
                 "kind": "string"
               }
-            },
-            "typeParams": null
+            }
           },
           {
             "type": "TsIndexSignature",
@@ -815,8 +812,6 @@
                     },
                     "computed": false,
                     "optional": false,
-                    "init": null,
-                    "params": [],
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -833,8 +828,7 @@
                         },
                         "kind": "string"
                       }
-                    },
-                    "typeParams": null
+                    }
                   },
                   {
                     "type": "TsIndexSignature",

@@ -54,8 +54,6 @@
             },
             "computed": false,
             "optional": false,
-            "init": null,
-            "params": [],
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -119,8 +117,7 @@
                 },
                 "isAbstract": false
               }
-            },
-            "typeParams": null
+            }
           }
         ]
       }
@@ -245,8 +242,6 @@
                     },
                     "computed": false,
                     "optional": false,
-                    "init": null,
-                    "params": [],
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -310,8 +305,7 @@
                         },
                         "isAbstract": false
                       }
-                    },
-                    "typeParams": null
+                    }
                   }
                 ]
               }
@@ -446,8 +440,6 @@
             },
             "computed": false,
             "optional": false,
-            "init": null,
-            "params": [],
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -511,8 +503,7 @@
                 },
                 "isAbstract": false
               }
-            },
-            "typeParams": null
+            }
           }
         ]
       }
@@ -637,8 +628,6 @@
                     },
                     "computed": false,
                     "optional": false,
-                    "init": null,
-                    "params": [],
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -702,8 +691,7 @@
                         },
                         "isAbstract": false
                       }
-                    },
-                    "typeParams": null
+                    }
                   }
                 ]
               }
@@ -1219,7 +1207,6 @@
               "end": 512,
               "ctxt": 0
             },
-            "readonly": false,
             "key": {
               "type": "Identifier",
               "span": {
@@ -1390,7 +1377,6 @@
                       "end": 555,
                       "ctxt": 0
                     },
-                    "readonly": false,
                     "key": {
                       "type": "Identifier",
                       "span": {

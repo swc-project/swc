@@ -1157,8 +1157,6 @@
             },
             "computed": false,
             "optional": false,
-            "init": null,
-            "params": [],
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -1175,8 +1173,7 @@
                 },
                 "members": []
               }
-            },
-            "typeParams": null
+            }
           }
         ]
       }
@@ -1474,7 +1471,6 @@
                 "end": 992,
                 "ctxt": 0
               },
-              "readonly": false,
               "key": {
                 "type": "Identifier",
                 "span": {

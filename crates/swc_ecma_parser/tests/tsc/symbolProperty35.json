@@ -41,7 +41,6 @@
               "end": 72,
               "ctxt": 0
             },
-            "readonly": false,
             "key": {
               "type": "MemberExpression",
               "span": {
@@ -108,8 +107,6 @@
                     },
                     "computed": false,
                     "optional": false,
-                    "init": null,
-                    "params": [],
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -126,8 +123,7 @@
                         },
                         "kind": "string"
                       }
-                    },
-                    "typeParams": null
+                    }
                   }
                 ]
               }
@@ -172,7 +168,6 @@
               "end": 131,
               "ctxt": 0
             },
-            "readonly": false,
             "key": {
               "type": "MemberExpression",
               "span": {
@@ -239,8 +234,6 @@
                     },
                     "computed": false,
                     "optional": false,
-                    "init": null,
-                    "params": [],
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -257,8 +250,7 @@
                         },
                         "kind": "number"
                       }
-                    },
-                    "typeParams": null
+                    }
                   }
                 ]
               }

@@ -54,8 +54,6 @@
             },
             "computed": false,
             "optional": false,
-            "init": null,
-            "params": [],
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -100,8 +98,7 @@
                   }
                 ]
               }
-            },
-            "typeParams": null
+            }
           }
         ]
       }
@@ -180,8 +177,6 @@
                 },
                 "computed": false,
                 "optional": true,
-                "init": null,
-                "params": [],
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -198,8 +193,7 @@
                     },
                     "kind": "unknown"
                   }
-                },
-                "typeParams": null
+                }
               }
             ]
           }

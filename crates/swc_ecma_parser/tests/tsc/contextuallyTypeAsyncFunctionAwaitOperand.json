@@ -54,8 +54,6 @@
             },
             "computed": false,
             "optional": false,
-            "init": null,
-            "params": [],
             "typeAnnotation": {
               "type": "TsTypeAnnotation",
               "span": {
@@ -81,8 +79,7 @@
                   "raw": "\"value\""
                 }
               }
-            },
-            "typeParams": null
+            }
           }
         ]
       }

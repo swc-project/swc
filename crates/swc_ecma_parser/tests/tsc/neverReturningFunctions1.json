@@ -3681,8 +3681,6 @@
                     },
                     "computed": false,
                     "optional": false,
-                    "init": null,
-                    "params": [],
                     "typeAnnotation": {
                       "type": "TsTypeAnnotation",
                       "span": {
@@ -3718,8 +3716,7 @@
                           }
                         ]
                       }
-                    },
-                    "typeParams": null
+                    }
                   }
                 ]
               }
@@ -5000,8 +4997,6 @@
               },
               "computed": false,
               "optional": true,
-              "init": null,
-              "params": [],
               "typeAnnotation": {
                 "type": "TsTypeAnnotation",
                 "span": {
@@ -5018,8 +5013,7 @@
                   },
                   "kind": "string"
                 }
-              },
-              "typeParams": null
+              }
             },
             {
               "type": "TsPropertySignature",
@@ -5041,8 +5035,6 @@
               },
               "computed": false,
               "optional": false,
-              "init": null,
-              "params": [],
               "typeAnnotation": {
                 "type": "TsTypeAnnotation",
                 "span": {
@@ -5069,8 +5061,7 @@
                   },
                   "typeParams": null
                 }
-              },
-              "typeParams": null
+              }
             },
             {
               "type": "TsPropertySignature",
@@ -5092,8 +5083,6 @@
               },
               "computed": false,
               "optional": true,
-              "init": null,
-              "params": [],
               "typeAnnotation": {
                 "type": "TsTypeAnnotation",
                 "span": {
@@ -5118,8 +5107,7 @@
                     "kind": "string"
                   }
                 }
-              },
-              "typeParams": null
+              }
             },
             {
               "type": "TsPropertySignature",
@@ -5141,8 +5129,6 @@
               },
               "computed": false,
               "optional": false,
-              "init": null,
-              "params": [],
               "typeAnnotation": {
                 "type": "TsTypeAnnotation",
                 "span": {
@@ -5159,8 +5145,7 @@
                   },
                   "kind": "any"
                 }
-              },
-              "typeParams": null
+              }
             },
             {
               "type": "TsPropertySignature",
@@ -5182,8 +5167,6 @@
               },
               "computed": false,
               "optional": false,
-              "init": null,
-              "params": [],
               "typeAnnotation": {
                 "type": "TsTypeAnnotation",
                 "span": {
@@ -5200,8 +5183,7 @@
                   },
                   "kind": "string"
                 }
-              },
-              "typeParams": null
+              }
             },
             {
               "type": "TsPropertySignature",
@@ -5223,8 +5205,6 @@
               },
               "computed": false,
               "optional": true,
-              "init": null,
-              "params": [],
               "typeAnnotation": {
                 "type": "TsTypeAnnotation",
                 "span": {
@@ -5241,8 +5221,7 @@
                   },
                   "kind": "boolean"
                 }
-              },
-              "typeParams": null
+              }
             },
             {
               "type": "TsPropertySignature",
@@ -5264,8 +5243,6 @@
               },
               "computed": false,
               "optional": false,
-              "init": null,
-              "params": [],
               "typeAnnotation": {
                 "type": "TsTypeAnnotation",
                 "span": {
@@ -5282,8 +5259,7 @@
                   },
                   "kind": "string"
                 }
-              },
-              "typeParams": null
+              }
             },
             {
               "type": "TsPropertySignature",
@@ -5305,8 +5281,6 @@
               },
               "computed": false,
               "optional": false,
-              "init": null,
-              "params": [],
               "typeAnnotation": {
                 "type": "TsTypeAnnotation",
                 "span": {
@@ -5323,8 +5297,7 @@
                   },
                   "kind": "unknown"
                 }
-              },
-              "typeParams": null
+              }
             },
             {
               "type": "TsPropertySignature",
@@ -5346,8 +5319,6 @@
               },
               "computed": false,
               "optional": false,
-              "init": null,
-              "params": [],
               "typeAnnotation": {
                 "type": "TsTypeAnnotation",
                 "span": {
@@ -5364,8 +5335,7 @@
                   },
                   "kind": "any"
                 }
-              },
-              "typeParams": null
+              }
             },
             {
               "type": "TsMethodSignature",
@@ -5374,7 +5344,6 @@
                 "end": 3456,
                 "ctxt": 0
               },
-              "readonly": false,
               "key": {
                 "type": "Identifier",
                 "span": {
@@ -5452,7 +5421,6 @@
                 "end": 3472,
                 "ctxt": 0
               },
-              "readonly": false,
               "key": {
                 "type": "Identifier",
                 "span": {
@@ -5492,7 +5460,6 @@
                 "end": 3487,
                 "ctxt": 0
               },
-              "readonly": false,
               "key": {
                 "type": "Identifier",
                 "span": {
@@ -5532,7 +5499,6 @@
                 "end": 3504,
                 "ctxt": 0
               },
-              "readonly": false,
               "key": {
                 "type": "Identifier",
                 "span": {
@@ -5572,7 +5538,6 @@
                 "end": 3551,
                 "ctxt": 0
               },
-              "readonly": false,
               "key": {
                 "type": "Identifier",
                 "span": {
@@ -5667,7 +5632,6 @@
                 "end": 3578,
                 "ctxt": 0
               },
-              "readonly": false,
               "key": {
                 "type": "Identifier",
                 "span": {
@@ -5745,7 +5709,6 @@
                 "end": 3602,
                 "ctxt": 0
               },
-              "readonly": false,
               "key": {
                 "type": "Identifier",
                 "span": {
@@ -5785,7 +5748,6 @@
                 "end": 3641,
                 "ctxt": 0
               },
-              "readonly": false,
               "key": {
                 "type": "Identifier",
                 "span": {
@@ -5853,7 +5815,6 @@
                 "end": 3662,
                 "ctxt": 0
               },
-              "readonly": false,
               "key": {
                 "type": "Identifier",
                 "span": {
@@ -6133,8 +6094,6 @@
               },
               "computed": false,
               "optional": false,
-              "init": null,
-              "params": [],
               "typeAnnotation": {
                 "type": "TsTypeAnnotation",
                 "span": {
@@ -6197,8 +6156,6 @@
                           },
                           "computed": false,
                           "optional": false,
-                          "init": null,
-                          "params": [],
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -6215,8 +6172,7 @@
                               },
                               "kind": "string"
                             }
-                          },
-                          "typeParams": null
+                          }
                         },
                         {
                           "type": "TsPropertySignature",
@@ -6238,8 +6194,6 @@
                           },
                           "computed": false,
                           "optional": false,
-                          "init": null,
-                          "params": [],
                           "typeAnnotation": {
                             "type": "TsTypeAnnotation",
                             "span": {
@@ -6256,8 +6210,7 @@
                               },
                               "kind": "unknown"
                             }
-                          },
-                          "typeParams": null
+                          }
                         },
                         {
                           "type": "TsMethodSignature",
@@ -6266,7 +6219,6 @@
                             "end": 3858,
                             "ctxt": 0
                           },
-                          "readonly": false,
                           "key": {
                             "type": "Identifier",
                             "span": {
@@ -6306,7 +6258,6 @@
                             "end": 3875,
                             "ctxt": 0
                           },
-                          "readonly": false,
                           "key": {
                             "type": "Identifier",
                             "span": {
@@ -6343,8 +6294,7 @@
                     }
                   ]
                 }
-              },
-              "typeParams": null
+              }
             }
           ]
         }
@@ -8109,7 +8059,6 @@
               "end": 4965,
               "ctxt": 0
             },
-            "readonly": false,
             "key": {
               "type": "Identifier",
               "span": {

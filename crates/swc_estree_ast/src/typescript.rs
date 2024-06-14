@@ -289,8 +289,6 @@ pub struct TSPropertySignature {
     #[serde(default)]
     pub type_annotation: Option<Box<TSTypeAnnotation>>,
     #[serde(default)]
-    pub initializer: Option<Box<Expression>>,
-    #[serde(default)]
     pub computed: Option<bool>,
     #[serde(default)]
     pub optional: Option<bool>,

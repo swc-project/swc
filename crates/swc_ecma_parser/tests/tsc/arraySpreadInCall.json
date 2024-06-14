@@ -2958,7 +2958,6 @@
               "end": 1038,
               "ctxt": 0
             },
-            "readonly": false,
             "key": {
               "type": "Identifier",
               "span": {

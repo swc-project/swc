@@ -64,6 +64,7 @@ pub enum SyntaxError {
     ArrowNotAllowed,
     ExportNotAllowed,
     GetterSetterCannotBeReadonly,
+    GetterSetterCannotBeOptional,
     GetterParam,
     SetterParam,
 
@@ -562,6 +563,9 @@ impl SyntaxError {
             SyntaxError::ExportNotAllowed => "`export` is not allowed here".into(),
             SyntaxError::GetterSetterCannotBeReadonly => {
                 "A getter or a setter cannot be readonly".into()
+            }
+            SyntaxError::GetterSetterCannotBeOptional => {
+                "A getter or a setter cannot be optional".into()
             }
             SyntaxError::GetterParam => "A `get` accessor cannot have parameters".into(),
             SyntaxError::SetterParam => "A `set` accessor must have exactly one parameter".into(),

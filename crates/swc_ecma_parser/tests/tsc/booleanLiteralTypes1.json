@@ -3025,8 +3025,6 @@
                 },
                 "computed": false,
                 "optional": false,
-                "init": null,
-                "params": [],
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -3051,8 +3049,7 @@
                       "value": true
                     }
                   }
-                },
-                "typeParams": null
+                }
               },
               {
                 "type": "TsPropertySignature",
@@ -3074,8 +3071,6 @@
                 },
                 "computed": false,
                 "optional": false,
-                "init": null,
-                "params": [],
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -3092,8 +3087,7 @@
                     },
                     "kind": "string"
                   }
-                },
-                "typeParams": null
+                }
               }
             ]
           },
@@ -3125,8 +3119,6 @@
                 },
                 "computed": false,
                 "optional": false,
-                "init": null,
-                "params": [],
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -3151,8 +3143,7 @@
                       "value": false
                     }
                   }
-                },
-                "typeParams": null
+                }
               },
               {
                 "type": "TsPropertySignature",
@@ -3174,8 +3165,6 @@
                 },
                 "computed": false,
                 "optional": false,
-                "init": null,
-                "params": [],
                 "typeAnnotation": {
                   "type": "TsTypeAnnotation",
                   "span": {
@@ -3192,8 +3181,7 @@
                     },
                     "kind": "string"
                   }
-                },
-                "typeParams": null
+                }
               }
             ]
           }
