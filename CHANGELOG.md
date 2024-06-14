@@ -14,6 +14,9 @@
 
 
 
+- **(es/ast)** Remove unused fields of `TsPropertySignature` ([#8955](https://github.com/swc-project/swc/issues/8955)) ([6306778](https://github.com/swc-project/swc/commit/63067785127a0bf311c3bac2731df447a3cd614a))
+
+
 - **(es/parser)** Remove unused `raw: Raw` params ([#9048](https://github.com/swc-project/swc/issues/9048)) ([32e23ed](https://github.com/swc-project/swc/commit/32e23edd8591784bda2b49f941611b01a60e9a80))
 
 
