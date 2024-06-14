@@ -459,7 +459,7 @@ static RESERVED_IN_ES3: phf::Set<&str> = phf_set!(
     "volatile",
 );
 
-pub trait IdentExt: AsRef<str> {
+pub trait EsReserved: AsRef<str> {
     fn is_reserved(&self) -> bool {
         RESERVED.contains(self.as_ref())
     }
@@ -487,7 +487,7 @@ pub trait IdentExt: AsRef<str> {
     }
 }
 
-impl IdentExt for Atom {}
-impl IdentExt for Ident {}
-impl IdentExt for &'_ str {}
-impl IdentExt for String {}
+impl EsReserved for Atom {}
+impl EsReserved for Ident {}
+impl EsReserved for &'_ str {}
+impl EsReserved for String {}
