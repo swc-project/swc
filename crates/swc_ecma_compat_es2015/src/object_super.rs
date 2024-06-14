@@ -5,7 +5,6 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{
     alias_ident_for, is_rest_arguments, prepend_stmt, private_ident, quote_ident, ExprFactory,
-    IdentExt,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
@@ -397,7 +396,7 @@ impl SuperReplacer {
                     self.get_proto(),
                     super_token,
                     if computed {
-                        let ref_ident = alias_ident_for(&rhs, "_ref").private();
+                        let ref_ident = alias_ident_for(&rhs, "_ref").into_private();
                         self.vars.push(ref_ident.clone());
                         *prop = Expr::Assign(AssignExpr {
                             span: DUMMY_SP,
@@ -427,7 +426,7 @@ impl SuperReplacer {
                             .as_arg(),
                         )
                     } else {
-                        let update_ident = alias_ident_for(&rhs, "_super").private();
+                        let update_ident = alias_ident_for(&rhs, "_super").into_private();
                         self.vars.push(update_ident.clone());
                         Expr::Seq(SeqExpr {
                             span: DUMMY_SP,
