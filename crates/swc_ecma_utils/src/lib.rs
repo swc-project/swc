@@ -2349,24 +2349,6 @@ impl IsDirective for &ModuleItem {
     }
 }
 
-pub trait IdentExt {
-    fn prefix(&self, prefix: &str) -> Ident;
-
-    fn private(self) -> Ident;
-}
-
-impl IdentExt for Ident {
-    fn prefix(&self, prefix: &str) -> Ident {
-        Ident::new(format!("{}{}", prefix, self.sym).into(), self.span)
-    }
-
-    fn private(self) -> Ident {
-        let span = self.span.apply_mark(Mark::fresh(Mark::root()));
-
-        Ident::new(self.sym, span)
-    }
-}
-
 /// Finds all **binding** idents of variables.
 pub struct DestructuringFinder<I: IdentLike> {
     pub found: Vec<I>,

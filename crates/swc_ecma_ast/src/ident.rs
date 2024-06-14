@@ -7,7 +7,7 @@ use phf::phf_set;
 use scoped_tls::scoped_thread_local;
 use swc_atoms::{js_word, Atom};
 use swc_common::{
-    ast_node, util::take::Take, BytePos, EqIgnoreSpan, Span, Spanned, SyntaxContext, DUMMY_SP,
+    ast_node, util::take::Take, BytePos, EqIgnoreSpan, Mark, Span, Spanned, SyntaxContext, DUMMY_SP,
 };
 
 use crate::{typescript::TsTypeAnn, Expr};
@@ -305,6 +305,19 @@ impl Ident {
         }
 
         Err(buf)
+    }
+
+    /// Create a new identifier with the given prefix.
+    pub fn with_prefix(&self, prefix: &str) -> Ident {
+        Ident::new(format!("{}{}", prefix, self.sym).into(), self.span)
+    }
+
+    /// Create a private identifier that is unique in the file, but with the
+    /// same symbol.
+    pub fn into_private(self) -> Ident {
+        let span = self.span.apply_mark(Mark::new());
+
+        Self::new(self.sym, span)
     }
 
     #[inline]
