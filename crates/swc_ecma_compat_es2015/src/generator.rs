@@ -14,8 +14,7 @@ use swc_common::{
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{
-    function::FnEnvHoister, private_ident, prop_name_to_expr_value, quote_ident, undefined,
-    ExprFactory,
+    function::FnEnvHoister, private_ident, prop_name_to_expr_value, quote_ident, ExprFactory,
 };
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
@@ -812,7 +811,7 @@ impl VisitMut for Generator {
                     &mut args,
                     Some(ExprOrSpread {
                         spread: None,
-                        expr: undefined(DUMMY_SP),
+                        expr: Expr::undefined(DUMMY_SP),
                     }),
                     None,
                 ))
@@ -3463,7 +3462,7 @@ impl Generator {
                 if is_new_call {
                     callee
                 } else {
-                    undefined(DUMMY_SP)
+                    Expr::undefined(DUMMY_SP)
                 },
             ),
 
@@ -3481,7 +3480,7 @@ impl Generator {
 
             _ => {
                 if !is_new_call {
-                    (callee, undefined(DUMMY_SP))
+                    (callee, Expr::undefined(DUMMY_SP))
                 } else {
                     let this_arg = self.create_temp_variable();
                     let target = callee.make_assign_to(op!("="), this_arg.clone().into());

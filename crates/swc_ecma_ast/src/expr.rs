@@ -18,8 +18,8 @@ use crate::{
         TsAsExpr, TsConstAssertion, TsInstantiation, TsNonNullExpr, TsSatisfiesExpr, TsTypeAnn,
         TsTypeAssertion, TsTypeParamDecl, TsTypeParamInstantiation,
     },
-    ArrayPat, BindingIdent, ComputedPropName, Id, ImportPhase, Invalid, KeyValueProp, ObjectPat,
-    PropName, Str,
+    ArrayPat, BindingIdent, ComputedPropName, Id, ImportPhase, Invalid, KeyValueProp, Number,
+    ObjectPat, PropName, Str,
 };
 
 #[ast_node(no_clone)]
@@ -171,6 +171,22 @@ bridge_from!(Box<Expr>, Box<JSXElement>, JSXElement);
 // assert_eq_size!(Expr, [u8; 80]);
 
 impl Expr {
+    /// Creates `void 0`.
+    #[inline]
+    pub fn undefined(span: Span) -> Box<Expr> {
+        UnaryExpr {
+            span,
+            op: op!("void"),
+            arg: Lit::Num(Number {
+                span,
+                value: 0.0,
+                raw: None,
+            })
+            .into(),
+        }
+        .into()
+    }
+
     pub fn leftmost(&self) -> Option<&Ident> {
         match self {
             Expr::Ident(i) => Some(i),

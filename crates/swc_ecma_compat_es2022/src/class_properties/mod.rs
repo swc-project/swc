@@ -8,7 +8,7 @@ use swc_ecma_transforms_classes::super_field::SuperFieldAccessFolder;
 use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::{
     alias_ident_for, alias_if_required, constructor::inject_after_super, default_constructor,
-    is_literal, prepend_stmt, private_ident, quote_ident, replace_ident, undefined, ExprFactory,
+    is_literal, prepend_stmt, private_ident, quote_ident, replace_ident, ExprFactory,
     ModuleItemLike, StmtLike,
 };
 use swc_ecma_visit::{
@@ -632,7 +632,7 @@ impl<C: Comments> ClassProperties<C> {
                         _ => (),
                     };
 
-                    let mut value = prop.value.unwrap_or_else(|| undefined(prop_span));
+                    let mut value = prop.value.unwrap_or_else(|| Expr::undefined(prop_span));
 
                     value.visit_mut_with(&mut NewTargetInProp);
 
@@ -738,7 +738,7 @@ impl<C: Comments> ClassProperties<C> {
                         });
                     }
 
-                    let value = prop.value.unwrap_or_else(|| undefined(prop_span));
+                    let value = prop.value.unwrap_or_else(|| Expr::undefined(prop_span));
 
                     if prop.is_static && prop.span.has_mark(self.c.static_blocks_mark) {
                         let init = MemberInit::StaticBlock(value);

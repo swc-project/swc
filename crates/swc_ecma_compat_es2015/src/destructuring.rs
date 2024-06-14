@@ -8,7 +8,7 @@ use swc_ecma_transforms_base::{helper, helper_expr, perf::Check};
 use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::{
     alias_ident_for, alias_if_required, has_rest_pat, is_literal, member_expr, private_ident,
-    prop_name_to_expr, quote_ident, undefined, ExprFactory, StmtLike,
+    prop_name_to_expr, quote_ident, ExprFactory, StmtLike,
 };
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
@@ -682,7 +682,7 @@ impl VisitMut for AssignFolder {
                                                 debug_assert_eq!(e.spread, None);
                                                 e.expr
                                             })
-                                            .unwrap_or_else(|| undefined(p.span()));
+                                            .unwrap_or_else(|| Expr::undefined(p.span()));
 
                                         let p = p.take();
                                         let mut expr = if let Pat::Assign(pat) = p {
@@ -1002,7 +1002,7 @@ impl VisitMut for AssignFolder {
         if var_decl.kind == VarDeclKind::Const {
             var_decl.decls.iter_mut().for_each(|v| {
                 if v.init.is_none() {
-                    v.init = Some(undefined(DUMMY_SP));
+                    v.init = Some(Expr::undefined(DUMMY_SP));
                 }
             })
         }

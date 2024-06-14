@@ -3,9 +3,7 @@ use std::mem::take;
 use serde::Deserialize;
 use swc_common::{util::take::Take, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{
-    alias_ident_for_simple_assign_tatget, alias_if_required, undefined, StmtLike,
-};
+use swc_ecma_utils::{alias_ident_for_simple_assign_tatget, alias_if_required, StmtLike};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
@@ -246,7 +244,7 @@ fn make_cond(c: Config, span: Span, alias: &Ident, var_expr: Expr, init: Box<Exp
                     span: DUMMY_SP,
                     left: Box::new(Expr::Ident(alias.clone())),
                     op: op!("!=="),
-                    right: undefined(DUMMY_SP),
+                    right: Expr::undefined(DUMMY_SP),
                 })),
             })),
             cons: Box::new(Expr::Ident(alias.clone())),

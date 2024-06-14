@@ -12,8 +12,7 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::debug_assert_valid;
 use swc_ecma_usage_analyzer::{analyzer::UsageAnalyzer, marks::Marks};
 use swc_ecma_utils::{
-    prepend_stmts, undefined, ExprCtx, ExprExt, ExprFactory, IsEmpty, ModuleItemLike, StmtLike,
-    Type, Value,
+    prepend_stmts, ExprCtx, ExprExt, ExprFactory, IsEmpty, ModuleItemLike, StmtLike, Type, Value,
 };
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith, VisitWith};
 #[cfg(feature = "debug")]
@@ -627,7 +626,7 @@ impl Optimizer<'_> {
     fn compress_undefined(&mut self, e: &mut Expr) {
         if let Expr::Ident(Ident { span, sym, .. }) = e {
             if &**sym == "undefined" {
-                *e = *undefined(*span);
+                *e = *Expr::undefined(*span);
             }
         }
     }
@@ -1215,12 +1214,12 @@ impl Optimizer<'_> {
                     cons: cons.unwrap_or_else(|| {
                         report_change!("ignore_return_value: Dropped `cons`");
                         self.changed = true;
-                        undefined(cons_span)
+                        Expr::undefined(cons_span)
                     }),
                     alt: alt.unwrap_or_else(|| {
                         report_change!("ignore_return_value: Dropped `alt`");
                         self.changed = true;
-                        undefined(alt_span)
+                        Expr::undefined(alt_span)
                     }),
                 }));
             }
@@ -2014,7 +2013,7 @@ impl VisitMut for Optimizer<'_> {
                     #[cfg(feature = "debug")]
                     dump_change_detail!("Removed {}", start);
 
-                    undefined(DUMMY_SP)
+                    Expr::undefined(DUMMY_SP)
                 });
             }
         } else {

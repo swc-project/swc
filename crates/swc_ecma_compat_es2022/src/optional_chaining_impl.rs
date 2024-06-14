@@ -2,9 +2,7 @@ use std::mem;
 
 use swc_common::{util::take::Take, Mark, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{
-    alias_ident_for, prepend_stmt, quote_ident, undefined, ExprFactory, StmtLike,
-};
+use swc_ecma_utils::{alias_ident_for, prepend_stmt, quote_ident, ExprFactory, StmtLike};
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 
 /// Not a public API and may break any time. Don't use it directly.
@@ -306,7 +304,7 @@ impl OptionalChaining {
                         cons: if is_delete {
                             true.into()
                         } else {
-                            undefined(DUMMY_SP)
+                            Expr::undefined(DUMMY_SP)
                         },
                         alt: Take::dummy(),
                     });
@@ -327,7 +325,7 @@ impl OptionalChaining {
                         cons: if is_delete {
                             true.into()
                         } else {
-                            undefined(DUMMY_SP)
+                            Expr::undefined(DUMMY_SP)
                         },
                         alt: Take::dummy(),
                     });
@@ -458,7 +456,7 @@ fn init_and_eq_null_or_undefined(i: &Memo, init: Expr, no_document_all: bool) ->
         span: DUMMY_SP,
         left: left_expr,
         op: op!("==="),
-        right: undefined(DUMMY_SP),
+        right: Expr::undefined(DUMMY_SP),
     }));
 
     Box::new(Expr::Bin(BinExpr {

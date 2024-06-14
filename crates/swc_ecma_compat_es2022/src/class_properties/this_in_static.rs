@@ -1,5 +1,4 @@
 use swc_ecma_ast::*;
-use swc_ecma_utils::undefined;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 use swc_trace_macro::swc_trace;
 
@@ -42,7 +41,7 @@ impl VisitMut for NewTargetInProp {
             kind: MetaPropKind::NewTarget,
         }) = e
         {
-            *e = *undefined(*span);
+            *e = *Expr::undefined(*span);
         }
     }
 

@@ -1,6 +1,5 @@
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::*;
-use swc_ecma_utils::undefined;
 
 use super::Pure;
 
@@ -46,7 +45,7 @@ impl Pure<'_> {
 
                 report_change!("drop_console: Removing console call");
                 self.changed = true;
-                *e = *undefined(DUMMY_SP);
+                *e = *Expr::undefined(DUMMY_SP);
             }
         }
     }

@@ -1,7 +1,7 @@
 use radix_fmt::Radix;
 use swc_common::{util::take::Take, Spanned, SyntaxContext};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{number::ToJsString, undefined, ExprExt, IsEmpty, Value};
+use swc_ecma_utils::{number::ToJsString, ExprExt, IsEmpty, Value};
 
 use super::Pure;
 use crate::compress::util::{eval_as_number, is_pure_undefined_or_null};
@@ -154,7 +154,7 @@ impl Pure<'_> {
                 *obj = arr.elems[0]
                     .take()
                     .map(|elem| elem.expr)
-                    .unwrap_or_else(|| undefined(*span));
+                    .unwrap_or_else(|| Expr::undefined(*span));
             }
         }
     }
@@ -529,7 +529,7 @@ impl Pure<'_> {
                          always null or undefined"
                     );
 
-                    *e = *undefined(*span);
+                    *e = *Expr::undefined(*span);
                 }
             }
 
@@ -541,7 +541,7 @@ impl Pure<'_> {
                          because object is always null or undefined"
                     );
 
-                    *e = *undefined(*span);
+                    *e = *Expr::undefined(*span);
                 }
             }
         }

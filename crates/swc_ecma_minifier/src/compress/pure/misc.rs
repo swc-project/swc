@@ -7,7 +7,7 @@ use swc_ecma_ast::*;
 use swc_ecma_transforms_optimization::debug_assert_valid;
 use swc_ecma_usage_analyzer::util::is_global_var_with_pure_property_access;
 use swc_ecma_utils::{
-    undefined, ExprExt, ExprFactory, IdentUsageFinder, Type,
+    ExprExt, ExprFactory, IdentUsageFinder, Type,
     Value::{self, Known},
 };
 
@@ -82,7 +82,7 @@ impl Pure<'_> {
                                 None => {
                                     new_args.push(ExprOrSpread {
                                         spread: None,
-                                        expr: undefined(DUMMY_SP),
+                                        expr: Expr::undefined(DUMMY_SP),
                                     });
                                 }
                             }

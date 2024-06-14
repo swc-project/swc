@@ -12,7 +12,7 @@ use swc_ecma_transforms_macros::fast_path;
 use swc_ecma_utils::{
     alias_if_required, contains_this_expr, default_constructor, is_valid_ident,
     is_valid_prop_ident, prepend_stmt, private_ident, prop_name_to_expr, quote_expr, quote_ident,
-    quote_str, replace_ident, ExprFactory, IdentExt, ModuleItemLike, StmtLike,
+    quote_str, replace_ident, ExprFactory, ModuleItemLike, StmtLike,
 };
 use swc_ecma_visit::{
     as_folder, noop_visit_mut_type, noop_visit_type, Fold, Visit, VisitMut, VisitMutWith, VisitWith,
@@ -264,7 +264,7 @@ where
         } = d
         {
             if let Expr::Class(c @ ClassExpr { ident: None, .. }) = &mut **init {
-                c.ident = Some(i.id.clone().private())
+                c.ident = Some(i.id.clone().into_private())
             }
         }
 
@@ -275,7 +275,7 @@ where
     fn visit_mut_assign_pat_prop(&mut self, n: &mut AssignPatProp) {
         if let Some(value) = &mut n.value {
             if let Expr::Class(c @ ClassExpr { ident: None, .. }) = &mut **value {
-                c.ident = Some((*n.key).clone().private());
+                c.ident = Some((*n.key).clone().into_private());
             }
         }
 
@@ -290,7 +290,7 @@ where
             Expr::Class(c @ ClassExpr { ident: None, .. }),
         ) = (&*n.left, &mut *n.right)
         {
-            c.ident = Some(id.clone().private())
+            c.ident = Some(id.clone().into_private())
         }
 
         n.visit_mut_children_with(self);
@@ -305,7 +305,7 @@ where
         if let Expr::Class(c @ ClassExpr { ident: None, .. }) = &mut *n.value {
             match &n.key {
                 PropName::Ident(ident) => {
-                    c.ident = Some(ident.clone().private());
+                    c.ident = Some(ident.clone().into_private());
                 }
                 PropName::Str(Str { value, span, .. }) => {
                     if is_valid_prop_ident(value) {
@@ -336,7 +336,7 @@ where
         {
             if let Expr::Class(c @ ClassExpr { ident: None, .. }) = &mut **right {
                 if let AssignTarget::Simple(SimpleAssignTarget::Ident(ident)) = left {
-                    c.ident = Some((**ident).clone().private())
+                    c.ident = Some((**ident).clone().into_private())
                 }
             }
         }
