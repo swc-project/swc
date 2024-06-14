@@ -445,7 +445,7 @@ jobs:
         run: echo "NPM_TAG=latest" >> $GITHUB_ENV
 
       - name: Tag npm release (nightly)
-        if: ${{ contains(github.ref, 'nightly') }}
+        if: ${{ contains(github.event.release.tag_name, 'nightly') }}
         run: echo "NPM_TAG=nightly" >> $GITHUB_ENV
 
       - name: Install dependencies
@@ -513,7 +513,7 @@ jobs:
         run: echo "NPM_TAG=latest" >> $GITHUB_ENV
 
       - name: Tag npm release (nightly)
-        if: ${{ contains(github.ref, 'nightly') }}
+        if: ${{ contains(github.event.release.tag_name, 'nightly') }}
         run: echo "NPM_TAG=nightly" >> $GITHUB_ENV
 
       - name: Setup node
@@ -564,7 +564,7 @@ jobs:
         run: echo "NPM_TAG=latest" >> $GITHUB_ENV
 
       - name: Tag npm release (nightly)
-        if: ${{ contains(github.ref, 'nightly') }}
+        if: ${{ contains(github.event.release.tag_name, 'nightly') }}
         run: echo "NPM_TAG=nightly" >> $GITHUB_ENV
 
       - name: Setup node
