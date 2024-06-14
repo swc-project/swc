@@ -1000,10 +1000,7 @@ impl<'a> Lexer<'a> {
     fn read_str_lit(&mut self) -> LexResult<Token> {
         debug_assert!(self.cur() == Some('\'') || self.cur() == Some('"'));
         let start = self.cur_pos();
-        let mut raw = String::new();
         let quote = self.cur().unwrap();
-
-        raw.push(quote);
 
         self.bump(); // '"'
 
@@ -1015,15 +1012,20 @@ impl<'a> Lexer<'a> {
                         .input
                         .uncons_while(|c| c != quote && c != '\\' && !c.is_line_break());
                     out.push_str(s);
-                    raw.push_str(s);
                 }
                 l.cur()
             } {
                 match c {
                     c if c == quote => {
-                        raw.push(c);
-
                         l.bump();
+
+                        let end = l.cur_pos();
+
+                        let raw = unsafe {
+                            // Safety: start and end are valid position because we got them from
+                            // `self.input`
+                            l.input.slice(start, end)
+                        };
 
                         return Ok(Token::Str {
                             value: l.atoms.atom(&*out),
@@ -1031,8 +1033,6 @@ impl<'a> Lexer<'a> {
                         });
                     }
                     '\\' => {
-                        raw.push(c);
-
                         let mut wrapped = Raw(Some(Default::default()));
 
                         if let Some(chars) = l.read_escaped_char(&mut wrapped, false)? {
@@ -1040,17 +1040,12 @@ impl<'a> Lexer<'a> {
                                 out.extend(c);
                             }
                         }
-
-                        raw.push_str(&wrapped.0.unwrap());
                     }
                     c if c.is_line_break() => {
-                        raw.push(c);
-
                         break;
                     }
                     _ => {
                         out.push(c);
-                        raw.push(c);
 
                         l.bump();
                     }
@@ -1059,6 +1054,13 @@ impl<'a> Lexer<'a> {
 
             l.emit_error(start, SyntaxError::UnterminatedStrLit);
 
+            let end = l.cur_pos();
+
+            let raw = unsafe {
+                // Safety: start and end are valid position because we got them from
+                // `self.input`
+                l.input.slice(start, end)
+            };
             Ok(Token::Str {
                 value: l.atoms.atom(&*out),
                 raw: l.atoms.atom(raw),
