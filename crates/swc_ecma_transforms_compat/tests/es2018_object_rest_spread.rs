@@ -394,7 +394,7 @@ const {
 expect(rest).toEqual({"foo": "bar"});
 expect(omit).toBe("three");
 
-const [k1, k2, k3, k4, k5] = [null, true, false, {toString() { return "warrior"; }}];
+const [k1, k2, k3, k4, k5] = [null, undefined, true, false, {toString() { return "warrior"; }}];
 const c = {
   [k1]: "1"
   [k2]: "2"
@@ -457,7 +457,7 @@ const {
 expect(rest).toEqual({"foo": "bar"});
 expect(omit).toBe("three");
 
-const [k1, k2, k3, k4, k5] = [null, true, false, {toString() { return "warrior"; }}];
+const [k1, k2, k3, k4, k5] = [null, undefined, true, false, {toString() { return "warrior"; }}];
 const c = {
   [k1]: "1"
   [k2]: "2"
@@ -1641,7 +1641,7 @@ expect(log).toEqual([1]);
 //expect(rest).toEqual({"foo": "bar"});
 //expect(omit).toBe("three");
 //
-//const [k1, k2, k3, k4, k5] = [null, true, false, {toString() {
+//const [k1, k2, k3, k4, k5] = [null, undefined, true, false, {toString() {
 // return "warrior"; }}]; const c = {
 //  [k1]: "1"
 //  [k2]: "2"
@@ -1696,7 +1696,7 @@ expect(log).toEqual([1]);
 //  "foo": "bar"
 //});
 //expect(omit).toBe("three");
-//const [k1, k2, k3, k4, k5] = [null, true, false, {
+//const [k1, k2, k3, k4, k5] = [null, undefined, true, false, {
 //  toString() {
 //    return "warrior";
 //  }
@@ -1854,7 +1854,7 @@ const {
 expect(rest).toEqual({"foo": "bar"});
 expect(omit).toBe("three");
 
-const [k1, k2, k3, k4, k5] = [null, true, false, {toString() { return "warrior"; }}];
+const [k1, k2, k3, k4, k5] = [null, undefined, true, false, {toString() { return "warrior"; }}];
 const c = {
   [k1]: "1",
   [k2]: "2",
