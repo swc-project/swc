@@ -29,13 +29,6 @@ pub(super) struct Raw(pub Option<SmartString<LazyCompact>>);
 
 impl Raw {
     #[inline]
-    pub fn push_str(&mut self, s: &str) {
-        if let Some(ref mut st) = self.0 {
-            st.push_str(s)
-        }
-    }
-
-    #[inline]
     pub fn push(&mut self, c: char) {
         if let Some(ref mut st) = self.0 {
             st.push(c)
