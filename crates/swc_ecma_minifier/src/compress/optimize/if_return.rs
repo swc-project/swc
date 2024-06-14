@@ -455,7 +455,7 @@ impl Optimizer<'_> {
             }
             Stmt::Return(stmt) => {
                 let span = stmt.span;
-                exprs.push(stmt.arg.unwrap_or_else(|| undefined(span)));
+                exprs.push(stmt.arg.unwrap_or_else(|| Expr::undefined(span)));
                 Expr::Seq(SeqExpr {
                     span: DUMMY_SP,
                     exprs,

@@ -989,7 +989,7 @@ impl Optimizer<'_> {
 
                 Stmt::Return(stmt) => {
                     let span = stmt.span;
-                    let val = *stmt.arg.unwrap_or_else(|| undefined(span));
+                    let val = *stmt.arg.unwrap_or_else(|| Expr::undefined(span));
                     exprs.push(Box::new(val));
 
                     let mut e = SeqExpr {
@@ -1013,7 +1013,7 @@ impl Optimizer<'_> {
                 arg: last.take(),
             }));
         } else {
-            return Some(*undefined(body.span));
+            return Some(*Expr::undefined(body.span));
         }
 
         let mut e = SeqExpr {

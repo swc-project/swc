@@ -191,7 +191,7 @@ impl Optimizer<'_> {
                                     e.prepend_exprs(take(&mut exprs));
                                 }
                                 _ => {
-                                    let mut e = undefined(stmt.span);
+                                    let mut e = Expr::undefined(stmt.span);
                                     e.prepend_exprs(take(&mut exprs));
 
                                     stmt.arg = Some(e);
