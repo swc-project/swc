@@ -1020,6 +1020,8 @@ pub struct TplElement {
     /// don't have to worry about this value.
     pub cooked: Option<Atom>,
 
+    /// You may need to perform. `.replace("\r\n", "\n").replace('\r', "\n")` on
+    /// this value.
     pub raw: Atom,
 }
 
