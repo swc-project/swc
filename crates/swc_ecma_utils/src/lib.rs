@@ -2207,22 +2207,6 @@ pub fn is_rest_arguments(e: &ExprOrSpread) -> bool {
     e.expr.is_ident_ref_to("arguments")
 }
 
-/// Creates `void 0`.
-#[inline]
-pub fn undefined(span: Span) -> Box<Expr> {
-    UnaryExpr {
-        span,
-        op: op!("void"),
-        arg: Lit::Num(Number {
-            span,
-            value: 0.0,
-            raw: None,
-        })
-        .into(),
-    }
-    .into()
-}
-
 pub fn opt_chain_test(
     left: Box<Expr>,
     right: Box<Expr>,
@@ -2250,7 +2234,7 @@ pub fn opt_chain_test(
                 span: DUMMY_SP,
                 left: right,
                 op: op!("==="),
-                right: undefined(DUMMY_SP),
+                right: Expr::undefined(DUMMY_SP),
             })),
         })
     }
