@@ -1,9 +1,6 @@
 use std::{
-    env,
     fs::read_to_string,
-    io::{self, Write},
     path::{Path, PathBuf},
-    sync::{Arc, RwLock},
 };
 
 use swc_common::comments::SingleThreadedComments;
@@ -105,7 +102,7 @@ fn do_test(entry: &Path, minify: bool) {
         "\n\n========== Running codegen test {}\nSource:\n{}\n",
         file_name, input
     );
-    let mut wr = Buf(Arc::new(RwLock::new(vec![])));
+    let mut wr = vec![];
 
     ::testing::run_test(false, |cm, handler| {
         let src = cm.load_file(entry).expect("failed to load file");
@@ -168,23 +165,11 @@ fn do_test(entry: &Path, minify: bool) {
         }
         let ref_file = format!("{}", ref_dir.join(&file_name).display());
 
-        let code_output = wr.0.read().unwrap();
+        let code_output = wr;
         let with_srcmap =
             NormalizedOutput::from(String::from_utf8_lossy(&code_output).into_owned());
         with_srcmap.compare_to_file(ref_file).unwrap();
         Ok(())
     })
     .expect("failed to run test");
-}
-
-#[derive(Debug, Clone)]
-struct Buf(Arc<RwLock<Vec<u8>>>);
-impl Write for Buf {
-    fn write(&mut self, data: &[u8]) -> io::Result<usize> {
-        self.0.write().unwrap().write(data)
-    }
-
-    fn flush(&mut self) -> io::Result<()> {
-        self.0.write().unwrap().flush()
-    }
 }
