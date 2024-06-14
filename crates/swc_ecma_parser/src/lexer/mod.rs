@@ -1160,19 +1160,7 @@ impl<'a> Lexer<'a> {
 
         let mut cooked = Ok(String::new());
         let mut cooked_slice_start = start;
-        let mut raw = SmartString::new();
-        let mut raw_slice_start = start;
-
-        macro_rules! consume_raw {
-            () => {{
-                let last_pos = self.cur_pos();
-                raw.push_str(unsafe {
-                    // Safety: Both of start and last_pos are valid position because we got them
-                    // from `self.input`
-                    self.input.slice(raw_slice_start, last_pos)
-                });
-            }};
-        }
+        let raw_slice_start = start;
 
         macro_rules! consume_cooked {
             () => {{
@@ -1201,21 +1189,24 @@ impl<'a> Lexer<'a> {
                 }
 
                 consume_cooked!();
-                consume_raw!();
 
                 // TODO: Handle error
+                let end = self.input.cur_pos();
+                let raw = unsafe {
+                    // Safety: Both of start and last_pos are valid position because we got them
+                    // from `self.input`
+                    self.input.slice(raw_slice_start, end)
+                };
                 return Ok(Token::Template {
                     cooked: cooked.map(Atom::from),
-                    raw: self.atoms.atom(&*raw),
+                    raw: self.atoms.atom(raw),
                 });
             }
 
             if c == '\\' {
                 consume_cooked!();
-                consume_raw!();
 
-                raw.push('\\');
-                let mut wrapped = Raw(Some(raw));
+                let mut wrapped = Raw(None);
 
                 match self.read_escaped_char(&mut wrapped, true) {
                     Ok(Some(chars)) => {
@@ -1231,17 +1222,13 @@ impl<'a> Lexer<'a> {
                     }
                 }
 
-                raw = wrapped.0.unwrap();
-                raw_slice_start = self.cur_pos();
                 cooked_slice_start = self.cur_pos();
             } else if c.is_line_terminator() {
                 self.state.had_line_break = true;
 
                 consume_cooked!();
-                consume_raw!();
 
                 let c = if c == '\r' && self.peek() == Some('\n') {
-                    raw.push('\r');
                     self.bump(); // '\r'
                     '\n'
                 } else {
@@ -1259,8 +1246,6 @@ impl<'a> Lexer<'a> {
                 if let Ok(ref mut cooked) = cooked {
                     cooked.push(c);
                 }
-                raw.push(c);
-                raw_slice_start = self.cur_pos();
                 cooked_slice_start = self.cur_pos();
             } else {
                 self.bump();
