@@ -211,11 +211,11 @@ pub enum TokenKind {
 }
 
 #[derive(Clone, PartialEq)]
-pub enum Token<'a> {
+pub enum Token<'i> {
     /// Identifier, "null", "true", "false".
     ///
     /// Contains `null` and ``
-    Word(Word<'a>),
+    Word(Word<'i>),
 
     /// '=>'
     Arrow,
@@ -254,8 +254,8 @@ pub enum Token<'a> {
     /// '`'
     BackQuote,
     Template {
-        raw: &'a str,
-        cooked: LexResult<&'a str>,
+        raw: &'i str,
+        cooked: LexResult<&'i str>,
     },
     /// ':'
     Colon,
@@ -278,34 +278,33 @@ pub enum Token<'a> {
 
     /// String literal. Span of this token contains quote.
     Str {
-        value: &'a str,
-        raw: &'a str,
+        value: &'i str,
+        raw: &'i str,
     },
 
     /// Regexp literal.
-    Regex(&'a str, &'a str),
+    Regex(&'i str, &'i str),
 
-    /// TODO: Make Num as enum and separate decimal, binary, ..etc
     Num {
         value: f64,
-        raw: &'a str,
+        raw: &'i str,
     },
 
     BigInt {
-        value: &'a BigIntValue,
-        raw: &'a str,
+        value: &'i BigIntValue,
+        raw: &'i str,
     },
 
     JSXName {
-        name: &'a str,
+        name: &'i str,
     },
     JSXText {
-        raw: &'a str,
+        raw: &'i str,
     },
     JSXTagStart,
     JSXTagEnd,
 
-    Shebang(&'a str),
+    Shebang(&'i str),
     Error(Error),
 }
 
