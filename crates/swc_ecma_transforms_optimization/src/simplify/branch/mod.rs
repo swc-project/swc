@@ -1493,7 +1493,11 @@ fn ignore_result(e: Expr, drop_str_lit: bool, ctx: &ExprCtx) -> Option<Expr> {
 
             match (left, right) {
                 (Some(l), Some(r)) => ignore_result(
-                    ctx.preserve_effects(span, *undefined(span), vec![Box::new(l), Box::new(r)]),
+                    ctx.preserve_effects(
+                        span,
+                        *Expr::undefined(span),
+                        vec![Box::new(l), Box::new(r)],
+                    ),
                     true,
                     ctx,
                 ),
@@ -1607,7 +1611,7 @@ fn ignore_result(e: Expr, drop_str_lit: bool, ctx: &ExprCtx) -> Option<Expr> {
                 ignore_result(
                     ctx.preserve_effects(
                         span,
-                        *undefined(span),
+                        *Expr::undefined(span),
                         elems.into_iter().map(|v| v.unwrap().expr),
                     ),
                     true,
@@ -1674,14 +1678,14 @@ fn ignore_result(e: Expr, drop_str_lit: bool, ctx: &ExprCtx) -> Option<Expr> {
         ),
 
         Expr::Tpl(Tpl { span, exprs, .. }) => ignore_result(
-            ctx.preserve_effects(span, *undefined(span), exprs),
+            ctx.preserve_effects(span, *Expr::undefined(span), exprs),
             true,
             ctx,
         ),
 
         Expr::TaggedTpl(TaggedTpl { span, tag, tpl, .. }) if tag.is_pure_callee(ctx) => {
             ignore_result(
-                ctx.preserve_effects(span, *undefined(span), tpl.exprs),
+                ctx.preserve_effects(span, *Expr::undefined(span), tpl.exprs),
                 true,
                 ctx,
             )

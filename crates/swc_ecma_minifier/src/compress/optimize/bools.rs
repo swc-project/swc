@@ -1,7 +1,7 @@
 use swc_common::{util::take::Take, EqIgnoreSpan, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{
-    undefined, ExprExt, Type,
+    ExprExt, Type,
     Value::{self, Known},
 };
 

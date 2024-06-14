@@ -161,7 +161,7 @@ impl SimplifyExpr {
                 KnownOp::Index(idx) if (idx as usize) < value.len() => {
                     if idx < 0 {
                         self.changed = true;
-                        *expr = *undefined(*span)
+                        *expr = *Expr::undefined(*span)
                     } else if let Some(value) = nth_char(value, idx as _) {
                         self.changed = true;
                         *expr = Expr::Lit(Lit::Str(Str {
@@ -235,7 +235,7 @@ impl SimplifyExpr {
                     };
 
                     let v = match e {
-                        None => undefined(*span),
+                        None => Expr::undefined(*span),
                         Some(e) => e.expr,
                     };
 

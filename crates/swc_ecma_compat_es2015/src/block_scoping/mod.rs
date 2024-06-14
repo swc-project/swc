@@ -596,7 +596,7 @@ impl VisitMut for BlockScoping {
             if self.var_decl_kind == VarDeclKind::Var {
                 var.init = None
             } else {
-                var.init = Some(undefined(var.span()))
+                var.init = Some(Expr::undefined(var.span()))
             }
         }
     }

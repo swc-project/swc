@@ -405,7 +405,7 @@ fn serialize_type(class_name: Option<&Ident>, param: Option<&TsTypeAnn>) -> Expr
             | TsType::TsKeywordType(TsKeywordType {
                 kind: TsKeywordTypeKind::TsNeverKeyword,
                 ..
-            }) => *undefined(span),
+            }) => *Expr::undefined(span),
 
             TsType::TsParenthesizedType(ty) => serialize_type_node(class_name, &ty.type_ann),
 

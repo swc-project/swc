@@ -632,7 +632,7 @@ impl<C: Comments> ClassProperties<C> {
                         _ => (),
                     };
 
-                    let mut value = prop.value.unwrap_or_else(|| undefined(prop_span));
+                    let mut value = prop.value.unwrap_or_else(|| Expr::undefined(prop_span));
 
                     value.visit_mut_with(&mut NewTargetInProp);
 
@@ -738,7 +738,7 @@ impl<C: Comments> ClassProperties<C> {
                         });
                     }
 
-                    let value = prop.value.unwrap_or_else(|| undefined(prop_span));
+                    let value = prop.value.unwrap_or_else(|| Expr::undefined(prop_span));
 
                     if prop.is_static && prop.span.has_mark(self.c.static_blocks_mark) {
                         let init = MemberInit::StaticBlock(value);

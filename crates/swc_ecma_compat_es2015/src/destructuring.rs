@@ -682,7 +682,7 @@ impl VisitMut for AssignFolder {
                                                 debug_assert_eq!(e.spread, None);
                                                 e.expr
                                             })
-                                            .unwrap_or_else(|| undefined(p.span()));
+                                            .unwrap_or_else(|| Expr::undefined(p.span()));
 
                                         let p = p.take();
                                         let mut expr = if let Pat::Assign(pat) = p {
