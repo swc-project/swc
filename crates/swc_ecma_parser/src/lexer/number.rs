@@ -47,7 +47,6 @@ impl<'a> Lexer<'a> {
 
         let start = self.cur_pos();
         let mut raw_val = SmartString::<LazyCompact>::new();
-        let mut raw_str = SmartString::<LazyCompact>::new();
 
         let val = if starts_with_dot {
             // first char is '.'
@@ -68,8 +67,6 @@ impl<'a> Lexer<'a> {
             }
 
             write!(raw_val, "{}", &s.value).unwrap();
-
-            raw_str.push_str(&raw);
 
             if starts_with_zero {
                 // TODO: I guess it would be okay if I don't use -ffast-math
@@ -132,7 +129,6 @@ impl<'a> Lexer<'a> {
         // `.1.a`, `.1e-4.a` are valid,
         if self.cur() == Some('.') {
             raw_val.push('.');
-            raw_str.push('.');
 
             self.bump();
 
@@ -144,8 +140,6 @@ impl<'a> Lexer<'a> {
             let mut raw = Raw(Some(Default::default()));
             // Read numbers after dot
             let dec_val = self.read_int::<10>(0, &mut raw)?;
-
-            raw_str.push_str(raw.0.as_ref().unwrap());
 
             val = {
                 if dec_val.is_some() {
@@ -170,7 +164,7 @@ impl<'a> Lexer<'a> {
         // 1e+2 = 100
         // 1e-2 = 0.01
         match self.cur() {
-            Some(e @ 'e') | Some(e @ 'E') => {
+            Some('e') | Some('E') => {
                 self.bump();
 
                 let next = match self.cur() {
@@ -182,12 +176,9 @@ impl<'a> Lexer<'a> {
                 };
 
                 raw_val.push('e');
-                raw_str.push(e);
 
                 let positive = if next == '+' || next == '-' {
                     self.bump(); // remove '+', '-'
-
-                    raw_str.push(next);
 
                     next == '+'
                 } else {
@@ -196,8 +187,6 @@ impl<'a> Lexer<'a> {
 
                 let mut raw = Raw(Some(Default::default()));
                 let exp = self.read_number_no_dot::<10>(&mut raw)?;
-
-                raw_str.push_str(&raw.0.take().unwrap());
 
                 val = if exp == f64::INFINITY {
                     if positive && val != 0.0 {
@@ -226,7 +215,12 @@ impl<'a> Lexer<'a> {
 
         self.ensure_not_ident()?;
 
-        Ok(Either::Left((val, self.atoms.atom(&*raw_str))))
+        let end = self.cur_pos();
+        let raw_str = unsafe {
+            // Safety: We got both start and end position from `self.input`
+            self.input.slice(start, end)
+        };
+        Ok(Either::Left((val, raw_str.into())))
     }
 
     /// Returns `Left(value)` or `Right(BigInt)`
