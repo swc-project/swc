@@ -16,6 +16,9 @@
 
 - **(es/parser)** Remove unused `raw: Raw` params ([#9048](https://github.com/swc-project/swc/issues/9048)) ([32e23ed](https://github.com/swc-project/swc/commit/32e23edd8591784bda2b49f941611b01a60e9a80))
 
+
+- **(es/utils)** Refine some APIs ([#9049](https://github.com/swc-project/swc/issues/9049)) ([e856478](https://github.com/swc-project/swc/commit/e8564780600d367a717e7b90a33bfd34275f5a19))
+
 ### Testing
 
 
@@ -1307,9 +1310,6 @@
 
 ### Refactor
 
-
-
-- **(swc_node_base)** Rename to `swc_malloc` ([#8272](https://github.com/swc-project/swc/issues/8272)) ([9a0572b](https://github.com/swc-project/swc/commit/9a0572b9680e824ff904d7563167faa84aab47b5))
 
 
 - Remove `swc_ecma_dep_graph` ([#8290](https://github.com/swc-project/swc/issues/8290)) ([7bbe5e6](https://github.com/swc-project/swc/commit/7bbe5e67d9a4316f47158bf717f8dfa86236b41b))
