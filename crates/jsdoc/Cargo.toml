@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = "Apache-2.0"
 name          = "jsdoc"
 repository    = { workspace = true }
-version       = "0.113.1"
+version       = "0.114.0"
 
 [lib]
 bench = false
@@ -26,6 +26,6 @@ swc_common = { version = "0.33.26", path = "../swc_common" }
 anyhow  = { workspace = true }
 dashmap = { workspace = true }
 
-swc_ecma_ast    = { version = "0.113.1", path = "../swc_ecma_ast" }
-swc_ecma_parser = { version = "0.144.1", path = "../swc_ecma_parser" }
+swc_ecma_ast    = { version = "0.114.0", path = "../swc_ecma_ast" }
+swc_ecma_parser = { version = "0.145.0", path = "../swc_ecma_parser" }
 testing         = { version = "0.35.24", path = "../testing" }

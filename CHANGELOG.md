@@ -1,6 +1,12 @@
 # Changelog
 ## [unreleased]
 
+### Performance
+
+
+
+- **(es/parser)** Do not track `raw` by hand ([#9047](https://github.com/swc-project/swc/issues/9047)) ([60fe5f0](https://github.com/swc-project/swc/commit/60fe5f0effdcc45f0cfd363fd0ff4e6f4dba5b33))
+
 ### Testing
 
 
@@ -1256,9 +1262,6 @@
 
 
 - **(es/module)** Read link if an import is resolved as symlink ([#8297](https://github.com/swc-project/swc/issues/8297)) ([7dfdc12](https://github.com/swc-project/swc/commit/7dfdc1221890d373d2e6caf52bc8dee8c20765ca))
-
-
-- **(es/parser)** Adjust the context for cond expr while parsing JSX ([#8261](https://github.com/swc-project/swc/issues/8261)) ([0678c3c](https://github.com/swc-project/swc/commit/0678c3c55fa65780caf15e55919276912348943b))
 
 
 - **(es/parser)** Fix ASI hazard of `static` ([#8262](https://github.com/swc-project/swc/issues/8262)) ([c128153](https://github.com/swc-project/swc/commit/c1281534b65d1d7f0069c04d35c1eb29f08e9a14))
