@@ -7,7 +7,6 @@ use swc_ecma_visit::{Visit, VisitWith};
 use crate::{
     config::{LintRuleReaction, RuleConfig},
     rule::{visitor_rule, Rule},
-    rules::utils::unwrap_seqs_and_parens,
 };
 
 const BAD_SUPER_MESSAGE: &str = "Unexpected 'super()' because 'super' is not a constructor";
@@ -81,7 +80,7 @@ impl ConstructorSuper {
 
     fn collect_class(&mut self, class: &Class) {
         self.class_meta.super_class = match &class.super_class {
-            Some(super_class) => match unwrap_seqs_and_parens(super_class.as_ref()) {
+            Some(super_class) => match super_class.unwrap_seqs_and_parens() {
                 Expr::Ident(_) | Expr::Class(_) => SuperClass::Valid,
                 _ => SuperClass::Invalid,
             },

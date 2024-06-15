@@ -5,7 +5,6 @@ use swc_ecma_visit::{Visit, VisitWith};
 use crate::{
     config::{LintRuleReaction, RuleConfig},
     rule::{visitor_rule, Rule},
-    rules::utils::unwrap_seqs_and_parens,
 };
 
 const EXPECTED_AN_ERROR_OBJECT: &str = "Expected an error object to be thrown";
@@ -52,7 +51,7 @@ impl NoThrowLiteral {
 
     #[allow(clippy::only_used_in_recursion)]
     fn could_be_error(&self, expr: &Expr) -> bool {
-        match unwrap_seqs_and_parens(expr) {
+        match expr.unwrap_seqs_and_parens() {
             Expr::Ident(_)
             | Expr::New(_)
             | Expr::Call(_)
@@ -96,7 +95,7 @@ impl NoThrowLiteral {
     }
 
     fn check(&self, throw_stmt: &ThrowStmt) {
-        let arg = unwrap_seqs_and_parens(throw_stmt.arg.as_ref());
+        let arg = throw_stmt.arg.unwrap_seqs_and_parens();
 
         if !self.could_be_error(arg) {
             self.emit_report(throw_stmt.span, EXPECTED_AN_ERROR_OBJECT);

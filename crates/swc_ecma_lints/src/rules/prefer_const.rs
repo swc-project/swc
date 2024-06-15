@@ -6,7 +6,6 @@ use swc_ecma_visit::{Visit, VisitWith};
 use crate::{
     config::{LintRuleReaction, RuleConfig},
     rule::{visitor_rule, Rule},
-    rules::utils::unwrap_seqs_and_parens,
 };
 
 // todo: implement option destructuring: all | any
@@ -293,7 +292,7 @@ impl Visit for PreferConst {
     }
 
     fn visit_update_expr(&mut self, update_expr: &UpdateExpr) {
-        if let Expr::Ident(ident) = unwrap_seqs_and_parens(update_expr.arg.as_ref()) {
+        if let Expr::Ident(ident) = update_expr.arg.unwrap_seqs_and_parens() {
             self.consider_mutation_for_ident(ident, false);
         }
 

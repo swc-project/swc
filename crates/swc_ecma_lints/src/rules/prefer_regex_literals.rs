@@ -6,7 +6,7 @@ use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 use crate::{
     config::{LintRuleReaction, RuleConfig},
     rule::{visitor_rule, Rule},
-    rules::utils::{extract_arg_val, unwrap_seqs_and_parens, ArgValue},
+    rules::utils::{extract_arg_val, ArgValue},
 };
 
 const UNEXPECTED_REG_EXP_MESSAGE: &str =
@@ -90,14 +90,14 @@ impl PreferRegexLiterals {
         if let Some(ExprOrSpread { expr, .. }) = args.first() {
             self.first_arg = Some(extract_arg_val(
                 self.unresolved_ctxt,
-                unwrap_seqs_and_parens(expr.as_ref()),
+                expr.unwrap_seqs_and_parens(),
             ));
         }
 
         if let Some(ExprOrSpread { expr, .. }) = args.get(1) {
             self.second_arg = Some(extract_arg_val(
                 self.unresolved_ctxt,
-                unwrap_seqs_and_parens(expr.as_ref()),
+                expr.unwrap_seqs_and_parens(),
             ));
         }
     }

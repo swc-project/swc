@@ -13,7 +13,6 @@ use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 use crate::{
     config::{LintRuleReaction, RuleConfig},
     rule::{visitor_rule, Rule},
-    rules::utils::unwrap_seqs_and_parens,
 };
 
 const INVALID_REGEX_MESSAGE: &str = "no-param-reassign: invalid regex pattern in allowPattern. Check syntax documentation https://docs.rs/regex/latest/regex/#syntax";
@@ -150,7 +149,7 @@ impl NoParamReassign {
             return;
         }
 
-        match unwrap_seqs_and_parens(member_expr.obj.as_ref()) {
+        match member_expr.obj.unwrap_seqs_and_parens() {
             Expr::Ident(ident) => {
                 if self.is_satisfying_function_param(ident) {
                     self.emit_report(ident.span, &ident.sym);
@@ -190,7 +189,7 @@ impl NoParamReassign {
     }
 
     fn check_expr(&self, expr: &Expr) {
-        match unwrap_seqs_and_parens(expr) {
+        match expr.unwrap_seqs_and_parens() {
             Expr::Ident(ident) => {
                 if self.is_satisfying_function_param(ident) {
                     self.emit_report(ident.span, &ident.sym);
