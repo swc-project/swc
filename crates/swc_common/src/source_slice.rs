@@ -4,6 +4,8 @@ use std::{
     ops::Deref,
 };
 
+use once_cell::sync::Lazy;
+
 use crate::sync::Lrc;
 
 /// A slice of source code. This is a reference to a part of a source code.
@@ -14,6 +16,10 @@ use crate::sync::Lrc;
 /// You may need to perform. `.replace("\r\n", "\n").replace('\r', "\n")` on
 /// this value. (ECMAScript specification normalizes line terminators to `\n`.)
 #[derive(Clone)]
+#[cfg_attr(
+    feature = "rkyv-impl",
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
 pub struct SourceSlice(Repr);
 
 impl SourceSlice {
@@ -32,9 +38,18 @@ impl SourceSlice {
             Repr::Pointer { src, start, end } => &src[*start as usize..*end as usize],
         }
     }
+
+    pub fn empty() -> Self {
+        static EMPTY: Lazy<Lrc<str>> = Lazy::new(|| "".into());
+        SourceSlice::new_owned(EMPTY.clone())
+    }
 }
 
 #[derive(Clone)]
+#[cfg_attr(
+    feature = "rkyv-impl",
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
 enum Repr {
     Owned { value: Lrc<str> },
     Pointer { src: Lrc<str>, start: u32, end: u32 },
@@ -72,5 +87,30 @@ impl Display for SourceSlice {
 impl Hash for SourceSlice {
     fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
         self.as_str().hash(state)
+    }
+}
+
+impl serde::Serialize for SourceSlice {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: serde::Serializer,
+    {
+        self.as_str().serialize(serializer)
+    }
+}
+
+impl<'de> serde::Deserialize<'de> for SourceSlice {
+    fn deserialize<D>(deserializer: D) -> Result<SourceSlice, D::Error>
+    where
+        D: serde::Deserializer<'de>,
+    {
+        let s = String::deserialize(deserializer)?;
+        Ok(SourceSlice::new_owned(s.into()))
+    }
+}
+
+impl Default for SourceSlice {
+    fn default() -> Self {
+        Self::empty()
     }
 }
