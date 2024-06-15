@@ -1,5 +1,5 @@
 # Changelog
-## [unreleased]
+## [1.6.0] - 2024-06-15
 
 ### Features
 
@@ -1301,9 +1301,6 @@
 
 ### Features
 
-
-
-- **(es/minifier)** Swap bin expr to save paren ([#8277](https://github.com/swc-project/swc/issues/8277)) ([65c3d0e](https://github.com/swc-project/swc/commit/65c3d0e3f4ec4b447e6d36f31eb40bdafdf65db7))
 
 
 - **(es/minifier)** Support `format.inline_script` ([#8252](https://github.com/swc-project/swc/issues/8252)) ([f059270](https://github.com/swc-project/swc/commit/f059270348a7ee26ee8ed2d185ba71d166f43e14))
