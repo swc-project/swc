@@ -28,8 +28,10 @@ impl SourceSlice {
         SourceSlice(Repr::Pointer { src, start, end })
     }
 
-    pub fn new_owned(value: Lrc<str>) -> Self {
-        SourceSlice(Repr::Owned { value })
+    pub fn new_owned(value: impl Into<Lrc<str>>) -> Self {
+        SourceSlice(Repr::Owned {
+            value: value.into(),
+        })
     }
 
     #[inline]
@@ -126,7 +128,7 @@ impl<'de> serde::Deserialize<'de> for SourceSlice {
         D: serde::Deserializer<'de>,
     {
         let s = String::deserialize(deserializer)?;
-        Ok(SourceSlice::new_owned(s.into()))
+        Ok(SourceSlice::new_owned(s))
     }
 }
 
