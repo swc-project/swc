@@ -219,6 +219,31 @@ pub enum ImportSpecifier {
     Namespace(ImportStarAsSpecifier),
 }
 
+impl ImportSpecifier {
+    pub fn is_type_only(&self) -> bool {
+        match self {
+            ImportSpecifier::Named(named) => named.is_type_only,
+            ImportSpecifier::Default(..) | ImportSpecifier::Namespace(..) => false,
+        }
+    }
+
+    pub fn local(&self) -> &Ident {
+        match self {
+            ImportSpecifier::Named(named) => &named.local,
+            ImportSpecifier::Default(default) => &default.local,
+            ImportSpecifier::Namespace(ns) => &ns.local,
+        }
+    }
+
+    pub fn local_mut(&mut self) -> &mut Ident {
+        match self {
+            ImportSpecifier::Named(named) => &mut named.local,
+            ImportSpecifier::Default(default) => &mut default.local,
+            ImportSpecifier::Namespace(ns) => &mut ns.local,
+        }
+    }
+}
+
 /// e.g. `import foo from 'mod.js'`
 #[ast_node("ImportDefaultSpecifier")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
