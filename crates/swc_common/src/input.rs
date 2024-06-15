@@ -140,6 +140,25 @@ impl<'a> Input for StringInput<'a> {
     }
 
     #[inline]
+    unsafe fn slice_owned(&mut self, start: BytePos, end: BytePos) -> SourceSlice {
+        debug_assert!(start <= end, "Cannot slice {:?}..{:?}", start, end);
+        let s = self.orig;
+
+        let start_idx = (start - self.orig_start).0;
+        let end_idx = (end - self.orig_start).0;
+
+        debug_assert!((end_idx as usize) <= s.len());
+
+        let ret = SourceSlice::new(self.orig.clone(), start_idx, end_idx);
+
+        self.iter = unsafe { s.get_unchecked((end_idx as usize)..) }.char_indices();
+        self.last_pos = end;
+        self.start_pos_of_iter = end;
+
+        ret
+    }
+
+    #[inline]
     fn uncons_while<F>(&mut self, mut pred: F) -> &str
     where
         F: FnMut(char) -> bool,
