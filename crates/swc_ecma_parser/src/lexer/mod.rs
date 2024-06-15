@@ -1054,11 +1054,15 @@ impl<'a> Lexer<'a> {
                         let raw = unsafe {
                             // Safety: start and end are valid position because we got them from
                             // `self.input`
-                            l.input.slice(start, end)
+                            l.input.slice_owned(start, end)
                         };
                         let raw = l.atoms.atom(raw);
 
                         return Ok(Token::Str { value, raw });
+                        return Ok(Token::Str {
+                            value: l.atoms.atom(&*out),
+                            raw,
+                        });
                     }
 
                     if c == b'\\' {
@@ -1126,11 +1130,13 @@ impl<'a> Lexer<'a> {
             let raw = unsafe {
                 // Safety: start and end are valid position because we got them from
                 // `self.input`
-                l.input.slice(start, end)
+                l.input.slice_owned(start, end)
             };
             Ok(Token::Str {
                 value: l.atoms.atom(&*buf),
                 raw: l.atoms.atom(raw),
+                value: l.atoms.atom(&*out),
+                raw,
             })
         })
     }
@@ -1278,11 +1284,13 @@ impl<'a> Lexer<'a> {
                 let raw = unsafe {
                     // Safety: Both of start and last_pos are valid position because we got them
                     // from `self.input`
-                    self.input.slice(raw_slice_start, end)
+                    self.input.slice_owned(raw_slice_start, end)
                 };
                 return Ok(Token::Template {
                     cooked,
                     raw: self.atoms.atom(raw),
+                    cooked: cooked.map(Atom::from),
+                    raw,
                 });
             }
 

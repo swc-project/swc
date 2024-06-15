@@ -8,6 +8,8 @@ use either::Either;
 use num_bigint::BigInt as BigIntValue;
 use num_traits::{Num as NumTrait, ToPrimitive};
 use swc_common::SyntaxContext;
+use smartstring::LazyCompact;
+use swc_common::{source_slice::SourceSlice, SyntaxContext};
 use tracing::trace;
 
 use super::*;
@@ -33,7 +35,7 @@ impl<'a> Lexer<'a> {
     pub(super) fn read_number(
         &mut self,
         starts_with_dot: bool,
-    ) -> LexResult<Either<(f64, Atom), (Box<BigIntValue>, Atom)>> {
+    ) -> LexResult<Either<(f64, SourceSlice), (Box<BigIntValue>, SourceSlice)>> {
         debug_assert!(self.cur().is_some());
 
         if starts_with_dot {
@@ -59,13 +61,10 @@ impl<'a> Lexer<'a> {
                 let end = self.cur_pos();
                 let raw = unsafe {
                     // Safety: We got both start and end position from `self.input`
-                    self.input.slice(start, end)
+                    self.input.slice_owned(start, end)
                 };
 
-                return Ok(Either::Right((
-                    Box::new(s.into_value()),
-                    self.atoms.atom(raw),
-                )));
+                return Ok(Either::Right((Box::new(s.into_value()), raw)));
             }
 
             if starts_with_zero {
@@ -84,9 +83,8 @@ impl<'a> Lexer<'a> {
                         let end = self.cur_pos();
                         let raw = unsafe {
                             // Safety: We got both start and end position from `self.input`
-                            self.input.slice(start, end)
+                            self.input.slice_owned(start, end)
                         };
-                        let raw = self.atoms.atom(raw);
                         return self
                             .make_legacy_octal(start, 0f64)
                             .map(|value| Either::Left((value, raw)));
@@ -119,9 +117,8 @@ impl<'a> Lexer<'a> {
                             let end = self.cur_pos();
                             let raw = unsafe {
                                 // Safety: We got both start and end position from `self.input`
-                                self.input.slice(start, end)
+                                self.input.slice_owned(start, end)
                             };
-                            let raw = self.atoms.atom(raw);
 
                             return self
                                 .make_legacy_octal(start, val)
@@ -228,15 +225,15 @@ impl<'a> Lexer<'a> {
         let end = self.cur_pos();
         let raw_str = unsafe {
             // Safety: We got both start and end position from `self.input`
-            self.input.slice(start, end)
+            self.input.slice_owned(start, end)
         };
-        Ok(Either::Left((val, raw_str.into())))
+        Ok(Either::Left((val, raw_str)))
     }
 
     /// Returns `Left(value)` or `Right(BigInt)`
     pub(super) fn read_radix_number<const RADIX: u8>(
         &mut self,
-    ) -> LexResult<Either<(f64, Atom), (Box<BigIntValue>, Atom)>> {
+    ) -> LexResult<Either<(f64, SourceSlice), (Box<BigIntValue>, SourceSlice)>> {
         debug_assert!(
             RADIX == 2 || RADIX == 8 || RADIX == 16,
             "radix should be one of 2, 8, 16, but got {}",
@@ -263,13 +260,10 @@ impl<'a> Lexer<'a> {
             let end = self.cur_pos();
             let raw = unsafe {
                 // Safety: We got both start and end position from `self.input`
-                self.input.slice(start, end)
+                self.input.slice_owned(start, end)
             };
 
-            return Ok(Either::Right((
-                Box::new(s.into_value()),
-                self.atoms.atom(raw),
-            )));
+            return Ok(Either::Right((Box::new(s.into_value()), raw)));
         }
 
         self.ensure_not_ident()?;
@@ -277,10 +271,10 @@ impl<'a> Lexer<'a> {
         let end = self.cur_pos();
         let raw = unsafe {
             // Safety: We got both start and end position from `self.input`
-            self.input.slice(start, end)
+            self.input.slice_owned(start, end)
         };
 
-        Ok(Either::Left((val, self.atoms.atom(raw))))
+        Ok(Either::Left((val, raw)))
     }
 
     /// This can read long integers like
