@@ -2,7 +2,10 @@ use std::str;
 
 use debug_unreachable::debug_unreachable;
 
-use crate::syntax_pos::{BytePos, SourceFile};
+use crate::{
+    source_slice::SourceSlice,
+    syntax_pos::{BytePos, SourceFile},
+};
 
 pub type SourceFileInput<'a> = StringInput<'a>;
 
@@ -254,6 +257,14 @@ pub trait Input: Clone {
     /// - start should be less than or equal to end.
     /// - start and end should be in the valid range of input.
     unsafe fn slice(&mut self, start: BytePos, end: BytePos) -> &str;
+
+    /// Returns a slice of input as [SourceSlice].
+    ///
+    /// # Safety
+    ///
+    /// - start should be less than or equal to end.
+    /// - start and end should be in the valid range of input.
+    unsafe fn slice_owned(&mut self, start: BytePos, end: BytePos) -> SourceSlice;
 
     /// Takes items from stream, testing each one with predicate. returns the
     /// range of items which passed predicate.
