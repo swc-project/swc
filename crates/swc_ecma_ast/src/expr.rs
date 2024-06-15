@@ -276,6 +276,18 @@ impl Expr {
         })
     }
 
+    /// Normalize sequences and parenthesized expressions.
+    ///
+    /// This returns the last expression of a sequence expression or the
+    /// expression of a parenthesized expression.
+    pub fn unwrap_seqs_and_parens(&self) -> &Self {
+        self.unwrap_with(|expr| match expr {
+            Expr::Seq(SeqExpr { exprs, .. }) => exprs.last().map(|v| &**v),
+            Expr::Paren(ParenExpr { expr, .. }) => Some(expr),
+            _ => None,
+        })
+    }
+
     /// Creates an expression from `exprs`. This will return first element if
     /// the length is 1 and a sequential expression otherwise.
     ///
