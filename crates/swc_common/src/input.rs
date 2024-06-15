@@ -4,6 +4,7 @@ use debug_unreachable::debug_unreachable;
 
 use crate::{
     source_slice::SourceSlice,
+    sync::Lrc,
     syntax_pos::{BytePos, SourceFile},
 };
 
@@ -16,6 +17,8 @@ pub struct StringInput<'a> {
     /// Current cursor
     iter: str::Chars<'a>,
     orig: &'a str,
+    iter: str::CharIndices<'a>,
+    orig: &'a Lrc<str>,
     /// Original start position.
     orig_start: BytePos,
 }
@@ -29,7 +32,7 @@ impl<'a> StringInput<'a> {
     /// some methods of [SourceMap].
     /// If you are not going to use methods from
     /// [SourceMap], you may use any value.
-    pub fn new(src: &'a str, start: BytePos, end: BytePos) -> Self {
+    pub fn new(src: &'a Lrc<str>, start: BytePos, end: BytePos) -> Self {
         assert!(start <= end);
 
         StringInput {

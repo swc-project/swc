@@ -864,12 +864,12 @@ impl Sub<BytePos> for NonNarrowChar {
 pub struct EncodeArcString;
 
 #[cfg(feature = "rkyv-impl")]
-impl rkyv::with::ArchiveWith<Lrc<String>> for EncodeArcString {
+impl rkyv::with::ArchiveWith<Lrc<str>> for EncodeArcString {
     type Archived = rkyv::Archived<String>;
     type Resolver = rkyv::Resolver<String>;
 
     unsafe fn resolve_with(
-        field: &Lrc<String>,
+        field: &Lrc<str>,
         pos: usize,
         resolver: Self::Resolver,
         out: *mut Self::Archived,
@@ -880,24 +880,24 @@ impl rkyv::with::ArchiveWith<Lrc<String>> for EncodeArcString {
 }
 
 #[cfg(feature = "rkyv-impl")]
-impl<S> rkyv::with::SerializeWith<Lrc<String>, S> for EncodeArcString
+impl<S> rkyv::with::SerializeWith<Lrc<str>, S> for EncodeArcString
 where
     S: ?Sized + rkyv::ser::Serializer,
 {
-    fn serialize_with(field: &Lrc<String>, serializer: &mut S) -> Result<Self::Resolver, S::Error> {
+    fn serialize_with(field: &Lrc<str>, serializer: &mut S) -> Result<Self::Resolver, S::Error> {
         rkyv::string::ArchivedString::serialize_from_str(field, serializer)
     }
 }
 
 #[cfg(feature = "rkyv-impl")]
-impl<D> rkyv::with::DeserializeWith<rkyv::Archived<String>, Lrc<String>, D> for EncodeArcString
+impl<D> rkyv::with::DeserializeWith<rkyv::Archived<String>, Lrc<str>, D> for EncodeArcString
 where
     D: ?Sized + rkyv::Fallible,
 {
     fn deserialize_with(
         field: &rkyv::Archived<String>,
         deserializer: &mut D,
-    ) -> Result<Lrc<String>, D::Error> {
+    ) -> Result<Lrc<str>, D::Error> {
         use rkyv::Deserialize;
 
         let s: String = field.deserialize(deserializer)?;
@@ -929,7 +929,7 @@ pub struct SourceFile {
     pub crate_of_origin: u32,
     /// The complete source code
     #[cfg_attr(any(feature = "rkyv-impl"), with(EncodeArcString))]
-    pub src: Lrc<String>,
+    pub src: Lrc<str>,
     /// The source code's hash
     pub src_hash: u128,
     /// The start position of this source in the `SourceMap`
@@ -976,7 +976,7 @@ impl SourceFile {
         name: FileName,
         name_was_remapped: bool,
         unmapped_path: FileName,
-        src: Lrc<String>,
+        src: Lrc<str>,
         start_pos: BytePos,
     ) -> SourceFile {
         debug_assert_ne!(
