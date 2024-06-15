@@ -1,4 +1,6 @@
 #![allow(clippy::vec_box)]
+use std::mem::transmute;
+
 use is_macro::Is;
 use string_enum::StringEnum;
 use swc_atoms::Atom;
@@ -221,17 +223,42 @@ impl Expr {
         }
     }
 
+    /// Unwraps an expression with a given function.
+    ///
+    /// If the provided function returns [Some], the function is called again
+    /// with the returned value. If the provided functions returns [None],
+    /// the last expression is returned.
+    pub fn unwrap_mut_with<'a, F>(&'a mut self, mut op: F) -> &'a mut Expr
+    where
+        F: FnMut(&'a mut Expr) -> Option<&'a mut Expr>,
+    {
+        let mut cur = self;
+        loop {
+            match unsafe {
+                // Safety: Polonius is not yet stable
+                op(transmute::<&mut _, &mut _>(cur))
+            } {
+                Some(next) => cur = next,
+                None => {
+                    return cur;
+                }
+            }
+        }
+    }
+
     /// Normalize parenthesized expressions.
     ///
     /// This will normalize `(foo)`, `((foo))`, ... to `foo`.
     ///
     /// If `self` is not a parenthesized expression, it will be returned as is.
     pub fn unwrap_parens(&self) -> &Expr {
-        let mut cur = self;
-        while let Expr::Paren(ref expr) = cur {
-            cur = &expr.expr;
-        }
-        cur
+        self.unwrap_with(|e| {
+            if let Expr::Paren(expr) = e {
+                Some(&expr.expr)
+            } else {
+                None
+            }
+        })
     }
 
     /// Normalize parenthesized expressions.
@@ -240,11 +267,13 @@ impl Expr {
     ///
     /// If `self` is not a parenthesized expression, it will be returned as is.
     pub fn unwrap_parens_mut(&mut self) -> &mut Expr {
-        let mut cur = self;
-        while let Expr::Paren(ref mut expr) = cur {
-            cur = &mut expr.expr;
-        }
-        cur
+        self.unwrap_mut_with(|e| {
+            if let Expr::Paren(expr) = e {
+                Some(&mut expr.expr)
+            } else {
+                None
+            }
+        })
     }
 
     /// Creates an expression from `exprs`. This will return first element if
