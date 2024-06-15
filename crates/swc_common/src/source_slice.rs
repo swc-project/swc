@@ -1,3 +1,5 @@
+use std::ops::Deref;
+
 use crate::sync::Lrc;
 
 #[derive(Clone)]
@@ -17,4 +19,15 @@ impl SourceSlice {
 enum Repr {
     Owned { value: Lrc<str> },
     Pointer { src: Lrc<str>, start: u32, end: u32 },
+}
+
+impl Deref for SourceSlice {
+    type Target = str;
+
+    fn deref(&self) -> &str {
+        match &self.0 {
+            Repr::Owned { value } => value,
+            Repr::Pointer { src, start, end } => &src[*start as usize..*end as usize],
+        }
+    }
 }
