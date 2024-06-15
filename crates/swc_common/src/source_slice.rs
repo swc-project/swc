@@ -1,4 +1,5 @@
 use std::{
+    borrow::Cow,
     fmt::{Debug, Display},
     hash::Hash,
     ops::Deref,
@@ -61,6 +62,26 @@ impl Deref for SourceSlice {
     #[inline]
     fn deref(&self) -> &str {
         self.as_str()
+    }
+}
+
+macro_rules! impl_eq {
+    ($T:ty) => {
+        impl PartialEq<$T> for SourceSlice {
+            fn eq(&self, other: &$T) -> bool {
+                *self.as_str() == *other
+            }
+        }
+    };
+}
+
+impl_eq!(str);
+impl_eq!(String);
+impl_eq!(Cow<'_, str>);
+
+impl PartialEq<&'_ str> for SourceSlice {
+    fn eq(&self, other: &&'_ str) -> bool {
+        self.as_str() == *other
     }
 }
 
