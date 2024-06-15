@@ -8,7 +8,7 @@ use std::{
 
 use num_bigint::BigInt as BigIntValue;
 use swc_atoms::{atom, Atom, AtomStore, JsWord};
-use swc_common::{Span, Spanned};
+use swc_common::{source_slice::SourceSlice, Span, Spanned};
 use swc_ecma_ast::{AssignOp, BinaryOp};
 
 pub(crate) use self::{Keyword::*, Token::*};
@@ -254,7 +254,7 @@ pub enum Token {
     /// '`'
     BackQuote,
     Template {
-        raw: Atom,
+        raw: SourceSlice,
         cooked: LexResult<Atom>,
     },
     /// ':'
@@ -279,7 +279,7 @@ pub enum Token {
     /// String literal. Span of this token contains quote.
     Str {
         value: JsWord,
-        raw: Atom,
+        raw: SourceSlice,
     },
 
     /// Regexp literal.
@@ -288,12 +288,12 @@ pub enum Token {
     /// TODO: Make Num as enum and separate decimal, binary, ..etc
     Num {
         value: f64,
-        raw: Atom,
+        raw: SourceSlice,
     },
 
     BigInt {
         value: Box<BigIntValue>,
-        raw: Atom,
+        raw: SourceSlice,
     },
 
     JSXName {
