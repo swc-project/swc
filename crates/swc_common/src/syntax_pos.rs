@@ -966,7 +966,7 @@ impl SourceFile {
             name,
             name_was_remapped,
             unmapped_path,
-            Lrc::new(src),
+            src.into(),
             start_pos,
         )
     }
