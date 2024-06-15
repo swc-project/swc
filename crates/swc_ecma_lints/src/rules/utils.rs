@@ -1,9 +1,7 @@
 use serde::{Deserialize, Serialize};
 use swc_atoms::Atom;
 use swc_common::SyntaxContext;
-use swc_ecma_ast::{
-    Expr, Lit, MemberExpr, MemberProp, Number, ParenExpr, Regex, SeqExpr, Str, TaggedTpl, Tpl,
-};
+use swc_ecma_ast::{Expr, Lit, MemberExpr, MemberProp, Number, Regex, Str, TaggedTpl, Tpl};
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]
 #[serde(rename_all = "lowercase")]
@@ -91,13 +89,5 @@ pub fn extract_arg_val(unresolved_ctxt: SyntaxContext, expr: &Expr) -> ArgValue 
             ArgValue::Other
         }
         _ => ArgValue::Other,
-    }
-}
-
-pub fn unwrap_seqs_and_parens(expr: &Expr) -> &Expr {
-    match expr {
-        Expr::Seq(SeqExpr { exprs, .. }) => unwrap_seqs_and_parens(exprs.last().unwrap()),
-        Expr::Paren(ParenExpr { expr, .. }) => unwrap_seqs_and_parens(expr.as_ref()),
-        _ => expr,
     }
 }

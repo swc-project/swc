@@ -5,7 +5,6 @@ use swc_ecma_visit::{Visit, VisitWith};
 use crate::{
     config::{LintRuleReaction, RuleConfig},
     rule::{visitor_rule, Rule},
-    rules::utils::unwrap_seqs_and_parens,
 };
 
 pub fn no_compare_neg_zero(config: &RuleConfig<()>) -> Option<Box<dyn Rule>> {
@@ -46,10 +45,9 @@ impl NoCompareNegZero {
             op: op!(unary, "-"),
             arg,
             ..
-        }) = unwrap_seqs_and_parens(expr)
+        }) = expr.unwrap_seqs_and_parens()
         {
-            if let Expr::Lit(Lit::Num(Number { value, .. })) = unwrap_seqs_and_parens(arg.as_ref())
-            {
+            if let Expr::Lit(Lit::Num(Number { value, .. })) = arg.unwrap_seqs_and_parens() {
                 return *value == 0f64;
             }
         }

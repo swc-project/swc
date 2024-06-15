@@ -10,7 +10,7 @@ use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
 use crate::{
     config::{LintRuleReaction, RuleConfig},
     rule::{visitor_rule, Rule},
-    rules::utils::{extract_arg_val, unwrap_seqs_and_parens, ArgValue},
+    rules::utils::{extract_arg_val, ArgValue},
 };
 
 const OBJ_NAMES: &[&str] = &["Number", "globalThis"];
@@ -140,7 +140,7 @@ impl Radix {
         match call_expr.args.get(1) {
             Some(ExprOrSpread { expr, .. }) => {
                 let expr = if self.unwrap_parens_and_seqs {
-                    unwrap_seqs_and_parens(expr.as_ref())
+                    expr.unwrap_seqs_and_parens()
                 } else {
                     expr.as_ref()
                 };

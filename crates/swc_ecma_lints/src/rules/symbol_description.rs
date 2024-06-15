@@ -6,7 +6,7 @@ use swc_ecma_visit::{Visit, VisitWith};
 use crate::{
     config::{LintRuleReaction, RuleConfig},
     rule::{visitor_rule, Rule},
-    rules::utils::{extract_arg_val, unwrap_seqs_and_parens, ArgValue},
+    rules::utils::{extract_arg_val, ArgValue},
 };
 
 const SYMBOL_EXPECTED_MESSAGE: &str = "Expected Symbol to have a description";
@@ -62,7 +62,7 @@ impl SymbolDescription {
     fn check(&self, span: Span, first_arg: Option<&ExprOrSpread>) {
         if let Some(ExprOrSpread { expr, .. }) = first_arg {
             if self.enforce_string_description {
-                match extract_arg_val(self.unresolved_ctxt, unwrap_seqs_and_parens(expr)) {
+                match extract_arg_val(self.unresolved_ctxt, expr.unwrap_seqs_and_parens()) {
                     ArgValue::Str(_) => {}
                     _ => {
                         self.emit_report(span, SYMBOL_STRING_DESCRIPTION_EXPECTED_MESSAGE);
