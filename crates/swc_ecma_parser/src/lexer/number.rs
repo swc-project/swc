@@ -55,14 +55,18 @@ impl<'a> Lexer<'a> {
             let starts_with_zero = self.cur().unwrap() == '0';
 
             // Use read_number_no_dot to support long numbers.
-            let (val, s, mut raw, not_octal) = self.read_number_no_dot_as_str::<10>()?;
+            let (val, s, not_octal) = self.read_number_no_dot_as_str::<10>()?;
 
             if self.eat(b'n') {
-                raw.push('n');
+                let end = self.cur_pos();
+                let raw = unsafe {
+                    // Safety: We got both start and end position from `self.input`
+                    self.input.slice(start, end)
+                };
 
                 return Ok(Either::Right((
                     Box::new(s.into_value()),
-                    self.atoms.atom(&*raw),
+                    self.atoms.atom(raw),
                 )));
             }
 
@@ -80,9 +84,16 @@ impl<'a> Lexer<'a> {
                     // e.g. `000` is octal
                     if start.0 != self.last_pos().0 - 1 {
                         // `-1` is utf 8 length of `0`
+
+                        let end = self.cur_pos();
+                        let raw = unsafe {
+                            // Safety: We got both start and end position from `self.input`
+                            self.input.slice(start, end)
+                        };
+                        let raw = self.atoms.atom(raw);
                         return self
                             .make_legacy_octal(start, 0f64)
-                            .map(|value| Either::Left((value, self.atoms.atom(&*raw))));
+                            .map(|value| Either::Left((value, raw)));
                     }
                 } else {
                     // strict mode hates non-zero decimals starting with zero.
@@ -109,9 +120,16 @@ impl<'a> Lexer<'a> {
                                     panic!("failed to parse {} into float using BigInt", val_str)
                                 });
 
+                            let end = self.cur_pos();
+                            let raw = unsafe {
+                                // Safety: We got both start and end position from `self.input`
+                                self.input.slice(start, end)
+                            };
+                            let raw = self.atoms.atom(raw);
+
                             return self
                                 .make_legacy_octal(start, val)
-                                .map(|value| Either::Left((value, self.atoms.atom(&*raw))));
+                                .map(|value| Either::Left((value, raw)));
                         }
                     }
                 }
@@ -234,41 +252,43 @@ impl<'a> Lexer<'a> {
         );
         debug_assert_eq!(self.cur(), Some('0'));
 
-        self.with_buf(|l, buf| {
-            l.bump();
+        let start = self.cur_pos();
 
-            buf.push('0');
+        self.bump();
 
-            let c = match l.input.cur() {
-                Some(c) => {
-                    l.bump();
+        match self.input.cur() {
+            Some(..) => {
+                self.bump();
+            }
+            _ => {
+                unreachable!();
+            }
+        }
 
-                    c
-                }
-                _ => {
-                    unreachable!();
-                }
+        let (val, s, _) = self.read_number_no_dot_as_str::<RADIX>()?;
+
+        if self.eat(b'n') {
+            let end = self.cur_pos();
+            let raw = unsafe {
+                // Safety: We got both start and end position from `self.input`
+                self.input.slice(start, end)
             };
 
-            buf.push(c);
+            return Ok(Either::Right((
+                Box::new(s.into_value()),
+                self.atoms.atom(raw),
+            )));
+        }
 
-            let (val, s, raw, _) = l.read_number_no_dot_as_str::<RADIX>()?;
+        self.ensure_not_ident()?;
 
-            buf.push_str(&raw);
+        let end = self.cur_pos();
+        let raw = unsafe {
+            // Safety: We got both start and end position from `self.input`
+            self.input.slice(start, end)
+        };
 
-            if l.eat(b'n') {
-                buf.push('n');
-
-                return Ok(Either::Right((
-                    Box::new(s.into_value()),
-                    l.atoms.atom(&**buf),
-                )));
-            }
-
-            l.ensure_not_ident()?;
-
-            Ok(Either::Left((val, l.atoms.atom(&**buf))))
-        })
+        Ok(Either::Left((val, self.atoms.atom(raw))))
     }
 
     /// This can read long integers like
@@ -302,11 +322,10 @@ impl<'a> Lexer<'a> {
     /// This can read long integers like
     /// "13612536612375123612312312312312312312312".
     ///
-    ///
-    /// Returned bool is `true` is there was `8` or `9`.
+    /// - Returned `bool` is `true` is there was `8` or `9`.
     fn read_number_no_dot_as_str<const RADIX: u8>(
         &mut self,
-    ) -> LexResult<(f64, LazyBigInt<RADIX>, SmartString<LazyCompact>, bool)> {
+    ) -> LexResult<(f64, LazyBigInt<RADIX>, bool)> {
         debug_assert!(
             RADIX == 2 || RADIX == 8 || RADIX == 10 || RADIX == 16,
             "radix for read_number_no_dot should be one of 2, 8, 10, 16, but got {}",
@@ -344,12 +363,7 @@ impl<'a> Lexer<'a> {
             .expect("failed to parse float using BigInt")
             .to_f64()
             .expect("failed to parse float using BigInt");
-        Ok((
-            parsed_float,
-            LazyBigInt::new(raw_number_str),
-            raw_str,
-            non_octal,
-        ))
+        Ok((parsed_float, LazyBigInt::new(raw_number_str), non_octal))
     }
 
     /// Ensure that ident cannot directly follow numbers.
