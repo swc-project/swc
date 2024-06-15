@@ -1,4 +1,8 @@
-use std::ops::Deref;
+use std::{
+    fmt::{Debug, Display},
+    hash::Hash,
+    ops::Deref,
+};
 
 use crate::sync::Lrc;
 
@@ -52,3 +56,21 @@ impl PartialEq for SourceSlice {
 }
 
 impl Eq for SourceSlice {}
+
+impl Debug for SourceSlice {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        Debug::fmt(self.as_str(), f)
+    }
+}
+
+impl Display for SourceSlice {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        Display::fmt(self.as_str(), f)
+    }
+}
+
+impl Hash for SourceSlice {
+    fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
+        self.as_str().hash(state)
+    }
+}
