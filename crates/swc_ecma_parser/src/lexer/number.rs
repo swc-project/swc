@@ -302,11 +302,11 @@ impl<'a> Lexer<'a> {
     /// This can read long integers like
     /// "13612536612375123612312312312312312312312".
     ///
-    ///
-    /// Returned bool is `true` is there was `8` or `9`.
+    /// - Returned `(BytePos, BytePos)` is the span of the number.
+    /// - Returned `bool` is `true` is there was `8` or `9`.
     fn read_number_no_dot_as_str<const RADIX: u8>(
         &mut self,
-    ) -> LexResult<(f64, LazyBigInt<RADIX>, SmartString<LazyCompact>, bool)> {
+    ) -> LexResult<(f64, LazyBigInt<RADIX>, (BytePos, BytePos), bool)> {
         debug_assert!(
             RADIX == 2 || RADIX == 8 || RADIX == 10 || RADIX == 16,
             "radix for read_number_no_dot should be one of 2, 8, 10, 16, but got {}",
