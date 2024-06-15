@@ -54,6 +54,7 @@ pub use self::{
 };
 #[doc(hidden)]
 pub mod private;
+pub mod source_slice;
 
 /// A trait for ast nodes.
 pub trait AstNode: Debug + PartialEq + Clone + Spanned {
