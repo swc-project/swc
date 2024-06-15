@@ -2,7 +2,7 @@ use std::fmt::Write;
 
 use either::Either;
 use swc_atoms::js_word;
-use swc_common::{Spanned, SyntaxContext};
+use swc_common::{source_slice::SourceSlice, Spanned, SyntaxContext};
 
 use super::*;
 use crate::{lexer::TokenContexts, parser::class_and_fn::IsSimpleParameterList, token::Keyword};
@@ -313,7 +313,7 @@ impl<I: Tokens> Parser<I> {
                 Str {
                     span: arg_span,
                     value: "".into(),
-                    raw: Some("\"\"".into()),
+                    raw: Some(SourceSlice::new_owned("\"\"")),
                 }
             }
         };
@@ -751,7 +751,7 @@ impl<I: Tokens> Parser<I> {
                 TsEnumMemberId::Str(Str {
                     span,
                     value: value.to_string().into(),
-                    raw: Some(new_raw.into()),
+                    raw: Some(SourceSlice::new_owned(new_raw)),
                 })
             }
             Token::LBracket => {
@@ -2117,7 +2117,7 @@ impl<I: Tokens> Parser<I> {
                         TsLit::Number(Number {
                             span,
                             value: -value,
-                            raw: Some(new_raw.into()),
+                            raw: Some(SourceSlice::new_owned(new_raw)),
                         })
                     }
                     Lit::BigInt(BigInt { span, value, raw }) => {
@@ -2135,7 +2135,7 @@ impl<I: Tokens> Parser<I> {
                         TsLit::BigInt(BigInt {
                             span,
                             value: Box::new(-*value),
-                            raw: Some(new_raw.into()),
+                            raw: Some(SourceSlice::new_owned(new_raw)),
                         })
                     }
                     _ => unreachable!(),
