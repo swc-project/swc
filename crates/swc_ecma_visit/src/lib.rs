@@ -13,6 +13,7 @@ use swc_atoms::Atom;
 use swc_common::{pass::CompilerPass, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_visit::{define, AndThen, Repeat, Repeated};
+use swc_common::source_slice::SourceSlice;
 
 impl<A, B> Fold for AndThen<A, B>
 where
@@ -843,7 +844,7 @@ define!({
         pub span: Span,
         pub tail: bool,
         pub cooked: Option<Atom>,
-        pub raw: Atom,
+        pub raw: SourceSlice,
     }
     pub struct ParenExpr {
         pub span: Span,
@@ -1053,12 +1054,12 @@ define!({
     pub struct BigInt {
         pub span: Span,
         pub value: Box<BigIntValue>,
-        pub raw: Option<Atom>,
+        pub raw: Option<SourceSlice>,
     }
     pub struct Str {
         pub span: Span,
         pub value: Atom,
-        pub raw: Option<Atom>,
+        pub raw: Option<SourceSlice>,
     }
     pub struct Bool {
         pub span: Span,
@@ -1075,7 +1076,7 @@ define!({
     pub struct Number {
         pub span: Span,
         pub value: f64,
-        pub raw: Option<Atom>,
+        pub raw: Option<SourceSlice>,
     }
     pub enum Program {
         Module(Module),

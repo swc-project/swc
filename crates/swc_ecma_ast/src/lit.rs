@@ -6,7 +6,9 @@ use std::{
 
 use num_bigint::BigInt as BigIntValue;
 use swc_atoms::{js_word, Atom};
-use swc_common::{ast_node, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP};
+use swc_common::{
+    ast_node, source_slice::SourceSlice, util::take::Take, EqIgnoreSpan, Span, DUMMY_SP,
+};
 
 use crate::jsx::JSXText;
 
@@ -83,7 +85,7 @@ pub struct BigInt {
 
     /// Use `None` value only for transformations to avoid recalculate
     /// characters in big integer
-    pub raw: Option<Atom>,
+    pub raw: Option<SourceSlice>,
 }
 
 impl EqIgnoreSpan for BigInt {
@@ -180,7 +182,7 @@ pub struct Str {
 
     /// Use `None` value only for transformations to avoid recalculate escaped
     /// characters in strings
-    pub raw: Option<Atom>,
+    pub raw: Option<SourceSlice>,
 }
 
 impl Take for Str {
@@ -385,7 +387,7 @@ pub struct Number {
 
     /// Use `None` value only for transformations to avoid recalculate
     /// characters in number literal
-    pub raw: Option<Atom>,
+    pub raw: Option<SourceSlice>,
 }
 
 impl Eq for Number {}
