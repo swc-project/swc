@@ -300,7 +300,7 @@ pub enum Token {
         name: JsWord,
     },
     JSXText {
-        raw: Atom,
+        name: Atom,
     },
     JSXTagStart,
     JSXTagEnd,
@@ -980,7 +980,7 @@ impl Debug for Token {
             Num { value, raw, .. } => write!(f, "numeric literal ({}, {})", value, raw)?,
             BigInt { value, raw } => write!(f, "bigint literal ({}, {})", value, raw)?,
             JSXName { name } => write!(f, "jsx name ({})", name)?,
-            JSXText { raw } => write!(f, "jsx text ({})", raw)?,
+            JSXText { name: raw } => write!(f, "jsx text ({})", raw)?,
             JSXTagStart => write!(f, "< (jsx tag start)")?,
             JSXTagEnd => write!(f, "> (jsx tag end)")?,
             Shebang(_) => write!(f, "#!")?,

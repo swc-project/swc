@@ -428,11 +428,11 @@ impl<I: Tokens> Parser<I> {
         let token = bump!(self);
         let span = self.input.prev_span();
         match token {
-            Token::JSXText { raw } => Ok(JSXText {
+            Token::JSXText { name } => Ok(JSXText {
                 span,
                 // TODO
-                value: raw.clone(),
-                raw,
+                value: name.clone(),
+                raw: name,
             }),
             _ => unreachable!(),
         }

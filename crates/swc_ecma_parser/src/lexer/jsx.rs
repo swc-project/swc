@@ -58,6 +58,9 @@ impl<'a> Lexer<'a> {
                     };
 
                     return Ok(Some(Token::JSXText { raw }));
+                    return Ok(Some(Token::JSXText {
+                        name: self.atoms.atom(out),
+                    }));
                 }
                 '>' => {
                     self.emit_error(
