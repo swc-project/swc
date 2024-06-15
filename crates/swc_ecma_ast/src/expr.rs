@@ -203,6 +203,24 @@ impl Expr {
         }
     }
 
+    /// Unwraps an expression with a given function.
+    ///
+    /// If the provided function returns [Some], the function is called again
+    /// with the returned value. If the provided functions returns [None],
+    /// the last expression is returned.
+    pub fn unwrap_with<'a, F>(&'a self, mut op: F) -> &'a Expr
+    where
+        F: FnMut(&'a Expr) -> Option<&'a Expr>,
+    {
+        let mut cur = self;
+        loop {
+            match op(cur) {
+                Some(next) => cur = next,
+                None => return cur,
+            }
+        }
+    }
+
     /// Normalize parenthesized expressions.
     ///
     /// This will normalize `(foo)`, `((foo))`, ... to `foo`.
