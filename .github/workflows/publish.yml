@@ -108,9 +108,9 @@ jobs:
     with:
       package: "core"
       version: ${{ needs.determine-nightly-version.outputs.version }}
-      build-cli: true
+      buildCli: true
       # Skip on pull requests
-      skip-publishing: ${{ github.event_name != 'workflow_dispatch' }}
+      skipPublishing: ${{ github.event_name != 'workflow_dispatch' }}
 
   test-nightly-ecosystem:
     name: "Test nightly using ecosystem CI"

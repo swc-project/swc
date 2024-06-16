@@ -27,10 +27,10 @@ on:
       version:
         type: string
         required: true
-      build-cli:
+      buildCli:
         type: boolean
         required: true
-      skip-publishing:
+      skipPublishing:
         type: boolean
         required: true
 
@@ -473,7 +473,7 @@ jobs:
           node ./scripts/update_fallback_dependencies.js
 
       - name: Publish
-        if: ${{ !inputs.skip-publishing }}
+        if: ${{ !inputs.skipPublishing }}
         run: |
           npm config set provenance true
           echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
@@ -484,7 +484,7 @@ jobs:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Upload CLI binaries to gh release
-        if: ${{ !inputs.skip-publishing }}
+        if: ${{ !inputs.skipPublishing }}
         shell: bash
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
