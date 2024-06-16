@@ -44,9 +44,7 @@ jobs:
         run: yarn tsx run-all.ts
         working-directory: .github/swc-ecosystem-ci
         env:
-          SWC_VERSION: ${{ github.event.inputs.version || 'nightly' }}
           CI_MODE: ${{ github.event.inputs.mode || 'passing' }}
-          BOT_GH_TOKEN: ${{ secrets.BOT_GH_TOKEN }}
 
   execute-selected-suite:
     needs:
