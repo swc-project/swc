@@ -124,9 +124,15 @@ jobs:
 
   publish-npm-stable:
     name: "Publish stable to npm"
-    runs-on: ubuntu-latest
     needs:
+      - publish-cargo
       - test-nightly-ecosystem
 
-    steps:
-      - uses: actions/checkout@v4
+    uses: ./.github/workflows/publish-npm-package.yml
+    with:
+      package: "core"
+      version: ${{ github.event.inputs.version }}
+      buildCli: true
+      skipBuild: ${{ github.event.inputs.skipBuild || github.event_name != 'workflow_dispatch' }}
+      # Skip on pull requests
+      skipPublishing: ${{ github.event_name != 'workflow_dispatch' }}
