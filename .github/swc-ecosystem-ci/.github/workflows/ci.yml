@@ -1,0 +1,76 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+env:
+  CI: 1
+  # 7 GiB by default on GitHub, setting to 6 GiB
+  # https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners#supported-runners-and-hardware-resources
+  NODE_OPTIONS: --max-old-space-size=6144
+  FNM_COREPACK_ENABLED: true
+  FNM_RESOLVE_ENGINES: true
+  # https://github.com/actions/setup-node/issues/899#issuecomment-1819151595
+  SKIP_YARN_COREPACK_CHECK: 1
+
+jobs:
+  ensure:
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - run: |
+          curl -fsSL https://fnm.vercel.app/install | bash
+
+      - run: |
+          export PATH="/home/runner/.local/share/fnm:$PATH"
+          echo "/home/runner/.local/share/fnm" >> $GITHUB_PATH
+
+          fnm env --json | jq -r 'to_entries|map("\(.key)=\(.value|tostring)")|.[]' | xargs -I {} echo "{}" >> $GITHUB_ENV
+
+      - run: |
+          eval "$(fnm env --use-on-cd)"
+          echo $PATH
+          fnm use --install-if-missing 18
+          which node
+
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - run: pnpm --version
+      - name: install
+        run: |
+          export PATH="/home/runner/.local/share/fnm:$PATH"
+          eval "$(fnm env --use-on-cd)"
+          pnpm install --frozen-lockfile --prefer-offline
+
+      - id: diff
+        if: ${{ github.head_ref }}
+        name: List for difference of the test cases
+        run: |
+          git diff HEAD~1 --name-only -- ./tests | sed 's/^tests\///g' | sed 's/.ts$//' | xargs > diff.txt
+          cat diff.txt
+          echo "SUITES=$(cat diff.txt)" >> $GITHUB_OUTPUT
+
+      - name: Run tests
+        if: ${{ github.head_ref }}
+        run: |
+          export PATH="/home/runner/.local/share/fnm:$PATH"
+          eval "$(fnm env --use-on-cd)"
+          bash -r
+          echo $PATH
+          which node
+          pnpm tsx ecosystem-ci.ts run-suites ${{ steps.diff.outputs.SUITES }}
