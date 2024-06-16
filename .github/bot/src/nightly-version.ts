@@ -50,7 +50,7 @@ async function main() {
   }
   process.stderr.write(`Nightly version: ${nightlyVersion}\n`);
 
-  console.log(`version=${nightlyVersion}`);
+  process.stdout.write(`version=${nightlyVersion}\n`);
 }
 
 main();
