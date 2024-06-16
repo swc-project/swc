@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Performance
+
+
+
+- **(es/parser)** Reduce allocations while lexing numbers ([#9057](https://github.com/swc-project/swc/issues/9057)) ([ca26eb7](https://github.com/swc-project/swc/commit/ca26eb796b1aefa150ccab7b16822ecb748aca7b))
+
 ## [1.6.0] - 2024-06-15
 
 ### Features
@@ -1265,9 +1273,6 @@
 
 
 - **(es/codegen)** Fix `get_ascii_only_ident` ([#8287](https://github.com/swc-project/swc/issues/8287)) ([07c8935](https://github.com/swc-project/swc/commit/07c8935904122191b4dad141e6fe164298f46af9))
-
-
-- **(es/minifier)** Respect `pure_funcs` for tagged tpls ([#8280](https://github.com/swc-project/swc/issues/8280)) ([1ccfc07](https://github.com/swc-project/swc/commit/1ccfc0762cdc2895d013e7730eda24d81ce53501))
 
 
 - **(es/minifier)** Make `Finalizer` inline literals ([#8285](https://github.com/swc-project/swc/issues/8285)) ([73fec94](https://github.com/swc-project/swc/commit/73fec945b5b64845308ab03bea639b53e4ff021e))
