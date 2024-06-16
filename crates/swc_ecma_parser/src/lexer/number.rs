@@ -203,8 +203,7 @@ impl<'a> Lexer<'a> {
                     true
                 };
 
-                let mut raw = Raw(Some(Default::default()));
-                let exp = self.read_number_no_dot::<10>(&mut raw)?;
+                let exp = self.read_number_no_dot::<10>()?;
 
                 val = if exp == f64::INFINITY {
                     if positive && val != 0.0 {
@@ -293,7 +292,7 @@ impl<'a> Lexer<'a> {
 
     /// This can read long integers like
     /// "13612536612375123612312312312312312312312".
-    fn read_number_no_dot<const RADIX: u8>(&mut self, raw: &mut Raw) -> LexResult<f64> {
+    fn read_number_no_dot<const RADIX: u8>(&mut self) -> LexResult<f64> {
         debug_assert!(
             RADIX == 2 || RADIX == 8 || RADIX == 10 || RADIX == 16,
             "radix for read_number_no_dot should be one of 2, 8, 10, 16, but got {}",
@@ -309,7 +308,7 @@ impl<'a> Lexer<'a> {
 
                 Ok((f64::mul_add(total, radix as f64, v as f64), true))
             },
-            raw,
+            &mut Raw(None),
             true,
         );
 
