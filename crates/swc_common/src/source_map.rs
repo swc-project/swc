@@ -1212,12 +1212,21 @@ impl SourceMap {
     pub fn build_source_map_with_config(
         &self,
         mappings: &[(BytePos, LineCol)],
-        mut orig: Option<sourcemap::SourceMap>,
+        orig: Option<sourcemap::SourceMap>,
         config: impl SourceMapGenConfig,
     ) -> sourcemap::SourceMap {
         let mut builder = SourceMapBuilder::new(None);
 
         let mut src_id = 0u32;
+
+        if let Some(orig) = &orig {
+            for src in orig.sources() {
+                let id = builder.add_source(src);
+                src_id = id;
+
+                builder.set_source_contents(id, orig.get_source_contents(id));
+            }
+        }
 
         // // This method is optimized based on the fact that mapping is sorted.
         // mappings.sort_by_key(|v| v.0);
@@ -1226,6 +1235,7 @@ impl SourceMap {
 
         let mut prev_dst_line = u32::MAX;
 
+        let mut inline_sources_content = false;
         let mut ch_state = ByteToCharPosState::default();
         let mut line_state = ByteToCharPosState::default();
 
@@ -1257,11 +1267,13 @@ impl SourceMap {
                     if config.skip(&f.name) {
                         continue;
                     }
-                    src_id = builder.add_source(&config.file_name_to_source(&f.name));
+                    if orig.is_none() {
+                        src_id = builder.add_source(&config.file_name_to_source(&f.name));
 
-                    let inline_sources_content = config.inline_sources_content(&f.name);
-                    if inline_sources_content {
-                        builder.set_source_contents(src_id, Some(&f.src));
+                        inline_sources_content = config.inline_sources_content(&f.name);
+                        if inline_sources_content && orig.is_none() {
+                            builder.set_source_contents(src_id, Some(&f.src));
+                        }
                     }
 
                     ch_state = ByteToCharPosState::default();
@@ -1281,7 +1293,7 @@ impl SourceMap {
                 continue;
             }
 
-            let line = match f.lookup_line(pos) {
+            let mut line = match f.lookup_line(pos) {
                 Some(line) => line as u32,
                 None => continue,
             };
@@ -1307,8 +1319,31 @@ impl SourceMap {
                 linechpos,
             );
 
-            let col = chpos - linechpos;
-            let name = None;
+            let mut col = chpos - linechpos;
+            let mut name = None;
+            if let Some(orig) = &orig {
+                if let Some(token) = orig
+                    .lookup_token(line, col)
+                    .filter(|t| t.get_dst_line() == line)
+                {
+                    line = token.get_src_line();
+                    col = token.get_src_col();
+                    if token.has_name() {
+                        name = token.get_name();
+                    }
+                    if token.get_source().is_some() {
+                        // When we have the original source map, we use the source ids from it
+                        src_id = token.get_raw_token().src_id;
+                        if inline_sources_content && !builder.has_source_contents(src_id) {
+                            if let Some(contents) = token.get_source_view() {
+                                builder.set_source_contents(src_id, Some(contents.source()));
+                            }
+                        }
+                    }
+                } else {
+                    continue;
+                }
+            }
 
             let name_idx = name
                 .or_else(|| config.name_for_bytepos(pos))
@@ -1318,17 +1353,7 @@ impl SourceMap {
             prev_dst_line = lc.line;
         }
 
-        let mut map = builder.into_sourcemap();
-
-        if let Some(o) = &mut orig {
-            o.adjust_mappings(&map);
-        }
-
-        if let Some(orig) = orig {
-            map = orig;
-        }
-
-        map
+        builder.into_sourcemap()
     }
 }
 
