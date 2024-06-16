@@ -79,12 +79,7 @@ jobs:
           fnm use --install-if-missing 18
           which node
 
-      - uses: pnpm/action-setup@v2
-        with:
-          version: 8
-
-      - run: pnpm --version
-      - run: pnpm i --frozen-lockfile
+      - run: yarn
       - run: |
           export PATH="/home/runner/.local/share/fnm:$PATH"
           eval "$(fnm env --use-on-cd)"
@@ -92,7 +87,7 @@ jobs:
           echo $PATH
           which node
 
-          pnpm tsx ecosystem-ci.ts run-suites ${{ matrix.suite }}
+          yarn tsx ecosystem-ci.ts run-suites ${{ matrix.suite }}
         env:
           SWC_VERSION: ${{ inputs.version }}
           CI_MODE: ${{ inputs.mode }}
