@@ -117,10 +117,11 @@ jobs:
     name: "Test nightly using ecosystem CI"
     runs-on: ubuntu-latest
     needs:
+      - determine-nightly-version
       - publish-npm-nightly
-
     steps:
       - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-node
 
   publish-npm-stable:
     name: "Publish stable to npm"
