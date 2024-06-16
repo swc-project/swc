@@ -65,7 +65,7 @@ jobs:
           locked: true
 
       - name: Update constant of swc_core
-        run: npx ts-node scripts/bot/src/cargo/update-constants.ts
+        run: npx ts-node .github/bot/src/cargo/update-constants.ts
 
       - name: Publish crates
         # Skip on pull requests
@@ -94,7 +94,7 @@ jobs:
       - name: Determine nightly version
         id: determine-nightly-version
         run: |
-          echo "::set-output name=version::$(npx ts-node scripts/bot/src/nightly-version.ts ${{ github.event.inputs.version }})"
+          echo "::set-output name=version::$(npx ts-node .github/bot/src/nightly-version.ts ${{ github.event.inputs.version }})"
 
   publish-npm-nightly:
     name: "Publish nightly to npm"
