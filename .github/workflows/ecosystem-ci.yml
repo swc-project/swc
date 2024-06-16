@@ -47,7 +47,7 @@ jobs:
           CI_MODE: ${{ github.event.inputs.mode || 'passing' }}
 
   run-test-suite:
-    name: Test ${{ matrix.suite }} with ${{ inputs.version }}
+    name: Test ${{ matrix.suite }}
     needs:
       - list-tests
     timeout-minutes: 30
