@@ -87,6 +87,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-node
+      - name: Debug
+        run: |
+          npx ts-node .github/bot/src/nightly-version.ts ${{ github.event.inputs.version }}
       - name: Determine nightly version
         id: determine-nightly-version
         run: |
