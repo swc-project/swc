@@ -114,7 +114,7 @@ cli.help();
 cli.parse();
 
 async function run(suite: string, options: RunOptions) {
-  const { test } = await import(`./${testDir}/${suite}.ts`);
+  const { test } = await import(`./${testDir}/${suite}.js`);
   await test({
     ...options,
     workspace: path.resolve(options.workspace, suite),
