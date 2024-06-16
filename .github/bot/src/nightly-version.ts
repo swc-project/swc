@@ -10,7 +10,17 @@ async function main() {
   // Default to the core version in packages/core/package.json
   const coreVersion = require("../../../packages/core/package.json").version;
 
-  const version = process.argv[2] || coreVersion;
+  const latest: string = process.argv[2] || coreVersion;
+
+  // Bump patch version
+
+  const [major, minor, patch] = latest.split(".").map(Number);
+
+  // Nightly version after 1.2.3 is 1.2.4-nightly-20211020.1
+  // Nightly version after 1.2.3-nightly-20211020.1 is 1.2.3-nightly-20211020.2
+  const newPatch = patch + (latest.includes("-") ? 0 : 1);
+
+  const version = `${major}.${minor}.${newPatch}`;
 
   console.log(`Version: ${version}\n`);
 
