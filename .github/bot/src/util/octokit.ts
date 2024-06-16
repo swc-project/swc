@@ -4,6 +4,9 @@ export const octokit = new Octokit({
   auth: process.env.GITHUB_TOKEN,
 });
 
+export const owner = "swc-project";
+export const repo = "swc";
+
 export function getCurrentPrNumber(): number {
   const ref = process.env.GITHUB_REF;
   if (!ref) {
