@@ -46,10 +46,10 @@ jobs:
         env:
           CI_MODE: ${{ github.event.inputs.mode || 'passing' }}
 
-  execute-selected-suite:
+  run-test-suite:
+    name: Test ${{ matrix.suite }} with ${{ inputs.version }}
     needs:
       - list-tests
-    name: Test ${{ matrix.suite }} with ${{ inputs.version }}
     timeout-minutes: 30
     concurrency:
       group: swc-ci-project=${{ matrix.suite }}
