@@ -1,0 +1,24 @@
+name: "Configure Node.js"
+description: "Sets Node.js up for CI"
+inputs:
+  node-version:
+    description: "Node version to install"
+    required: false
+    default: "20"
+
+runs:
+  using: "composite"
+  steps:
+    - name: Install Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ inputs.node-version }}
+        cache: "yarn"
+
+    - name: Enable corepack
+      shell: bash
+      run: corepack enable
+
+    - name: Install dependencies
+      shell: bash
+      run: yarn
