@@ -232,7 +232,7 @@ jobs:
             target: x86_64-apple-darwin
         node:
           - "18"
-          # - "20"
+          - "20"
     runs-on: ${{ matrix.settings.host }}
     steps:
       - uses: actions/checkout@v4
@@ -269,7 +269,7 @@ jobs:
       matrix:
         node:
           - "18"
-          # - "20"
+          - "20"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -303,7 +303,7 @@ jobs:
       matrix:
         node:
           - "18"
-          # - "20"
+          - "20"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -331,44 +331,44 @@ jobs:
         run: yarn build:ts
       - name: Test bindings
         run: docker run --rm -v $(pwd):/swc -w /swc node:${{ matrix.node }}-alpine env DISABLE_PLUGIN_E2E_TESTS=true yarn test
-  # test-linux-aarch64-musl-binding:
-  #   name: Test bindings on aarch64-unknown-linux-musl - node@lts
-  #   needs:
-  #     - build
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #     - name: Corepack
-  #       run: corepack enable
-  #     - name: Download artifacts
-  #       uses: actions/download-artifact@v3
-  #       with:
-  #         name: bindings-aarch64-unknown-linux-musl
-  #         path: ./packages/core
-  #     - name: List packages
-  #       run: ls -R .
-  #       shell: bash
-  #     - name: Install dependencies
-  #       run: |
-  #         corepack enable
-  #         yarn config set supportedArchitectures.cpu "arm64"
-  #         yarn config set supportedArchitectures.libc "musl"
-  #         yarn install
-  #     - name: Build TypeScript
-  #       run: yarn build:ts
-  #     - name: Set up QEMU
-  #       uses: docker/setup-qemu-action@v2
-  #       with:
-  #         platforms: arm64
-  #     - run: docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
-  #     - name: Setup and run tests
-  #       uses: addnab/docker-run-action@v3
-  #       with:
-  #         image: node:lts-alpine
-  #         options: "--platform linux/arm64 -v ${{ github.workspace }}:/build -w /build"
-  #         run: >-
-  #           set -e &&
-  #           DISABLE_PLUGIN_E2E_TESTS=true yarn test
+  test-linux-aarch64-musl-binding:
+    name: Test bindings on aarch64-unknown-linux-musl - node@lts
+    needs:
+      - build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Corepack
+        run: corepack enable
+      - name: Download artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: bindings-aarch64-unknown-linux-musl
+          path: ./packages/core
+      - name: List packages
+        run: ls -R .
+        shell: bash
+      - name: Install dependencies
+        run: |
+          corepack enable
+          yarn config set supportedArchitectures.cpu "arm64"
+          yarn config set supportedArchitectures.libc "musl"
+          yarn install
+      - name: Build TypeScript
+        run: yarn build:ts
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+        with:
+          platforms: arm64
+      - run: docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+      - name: Setup and run tests
+        uses: addnab/docker-run-action@v3
+        with:
+          image: node:lts-alpine
+          options: "--platform linux/arm64 -v ${{ github.workspace }}:/build -w /build"
+          run: >-
+            set -e &&
+            DISABLE_PLUGIN_E2E_TESTS=true yarn test
 
   test-linux-arm-gnueabihf-binding:
     name: Test bindings on armv7-unknown-linux-gnueabihf - node@${{ matrix.node }}
@@ -379,7 +379,7 @@ jobs:
       matrix:
         node:
           - "18"
-          # - "20"
+          - "20"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -422,7 +422,7 @@ jobs:
       - test-linux-x64-musl-binding
       - test-linux-arm-gnueabihf-binding
       - test-macOS-windows-binding
-      # - test-linux-aarch64-musl-binding
+      - test-linux-aarch64-musl-binding
     steps:
       - uses: actions/checkout@v4
 
