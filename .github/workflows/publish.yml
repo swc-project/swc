@@ -18,10 +18,11 @@ on:
         description: "Version to publish"
         required: true
         type: string
-      tag:
-        description: "Tag to publish"
-        required: true
-        type: string
+      skipBuild:
+        description: "Skip build. Used to debug swc-ecosystem-ci."
+        required: false
+        type: boolean
+        default: false
       onlyNightly:
         description: "Publish only nightly"
         required: false
@@ -88,6 +89,8 @@ jobs:
     name: "Determine nightly version"
     runs-on: ubuntu-latest
 
+    outputs:
+      version: ${{ steps.determine-nightly-version.outputs.version }}
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-node
@@ -97,7 +100,7 @@ jobs:
           npx ts-node .github/bot/src/nightly-version.ts ${{ github.event.inputs.version }} >> $GITHUB_OUTPUT
 
   publish-npm-nightly:
-    name: "Publish nightly to npm"
+    name: "Publish ${{ needs.determine-nightly-version.outputs.version }} to npm"
     needs:
       - publish-cargo
       - determine-nightly-version
@@ -105,9 +108,10 @@ jobs:
     with:
       package: "core"
       version: ${{ needs.determine-nightly-version.outputs.version }}
-      build-cli: true
+      buildCli: true
+      skipBuild: ${{ github.event.inputs.skipBuild || github.event_name != 'workflow_dispatch' }}
       # Skip on pull requests
-      skip-publishing: ${{ github.event_name != 'workflow_dispatch' }}
+      skipPublishing: ${{ github.event_name != 'workflow_dispatch' }}
 
   test-nightly-ecosystem:
     name: "Test nightly using ecosystem CI"
@@ -120,9 +124,15 @@ jobs:
 
   publish-npm-stable:
     name: "Publish stable to npm"
-    runs-on: ubuntu-latest
     needs:
+      - publish-cargo
       - test-nightly-ecosystem
 
-    steps:
-      - uses: actions/checkout@v4
+    uses: ./.github/workflows/publish-npm-package.yml
+    with:
+      package: "core"
+      version: ${{ github.event.inputs.version }}
+      buildCli: true
+      skipBuild: ${{ github.event.inputs.skipBuild || github.event_name != 'workflow_dispatch' }}
+      # Skip on pull requests
+      skipPublishing: ${{ github.event_name != 'workflow_dispatch' }}
