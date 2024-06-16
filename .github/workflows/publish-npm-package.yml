@@ -45,6 +45,7 @@ jobs:
       need-build: ${{ steps.check.outputs.need-build }}
     steps:
       - uses: actions/checkout@v4
+      # TODO: Check for existing artifacts
       - id: check
         if: ${{ !inputs.skipBuild }}
         run: |
