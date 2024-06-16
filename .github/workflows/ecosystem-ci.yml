@@ -52,7 +52,7 @@ jobs:
       - list-tests
     timeout-minutes: 30
     concurrency:
-      group: swc-ci-project=${{ matrix.suite }}
+      group: swc-ci-project-${{ matrix.suite }}
       cancel-in-progress: true
     runs-on: ubuntu-latest
     strategy:
