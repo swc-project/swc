@@ -113,7 +113,7 @@ jobs:
       # Skip on pull requests
       skipPublishing: ${{ github.event_name != 'workflow_dispatch' }}
 
-  test-nightly-ecosystem:
+  run-ecosystem-ci-with-nightly:
     name: "Test nightly using ecosystem CI"
     runs-on: ubuntu-latest
     needs:
@@ -127,7 +127,7 @@ jobs:
     name: "Publish ${{ inputs.version || 'stable' }} to npm"
     needs:
       - publish-cargo
-      - test-nightly-ecosystem
+      - run-ecosystem-ci-with-nightly
 
     uses: ./.github/workflows/publish-npm-package.yml
     with:
