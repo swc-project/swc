@@ -35,6 +35,7 @@ async function main() {
     idx += 1;
     nightlyVersion = `${base}.${idx}`;
   }
+  console.log(`Nightly version: ${nightlyVersion}`);
 
   console.log(`::set-output name=version::${nightlyVersion}`);
 }
