@@ -11,7 +11,7 @@ env:
   SKIP_YARN_COREPACK_CHECK: 1
 
 on:
-  workflow_dispatch:
+  workflow_call:
     inputs:
       version:
         description: "swc version to use"

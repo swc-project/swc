@@ -8,25 +8,6 @@ env:
   # https://github.com/actions/setup-node/issues/899#issuecomment-1819151595
   SKIP_YARN_COREPACK_CHECK: 1
 
-on:
-  schedule:
-    # Once per a week
-    - cron: "0 0 * * 0"
-  workflow_dispatch:
-    inputs:
-      version:
-        description: "swc version to use"
-        required: true
-        type: string
-        default: "nightly"
-
-      mode:
-        type: choice
-        description: "Passing is a regular procces, and ignored is about ignored tests"
-        options:
-          - "passing"
-          - "ignored"
-
 jobs:
   run-all:
     timeout-minutes: 30
