@@ -1,10 +1,9 @@
 {
-  "name": "swc-ecosystem-ci",
-  "packageManager": "pnpm@8.7.5",
+  "name": "@swc/ecosystem-ci",
+  "private": true,
   "type": "module",
   "engines": {
-    "node": ">=18",
-    "pnpm": "^8.0.0"
+    "node": ">=18"
   },
   "repository": {
     "type": "git",
@@ -15,7 +14,6 @@
     "url": "https://github.com/swc-project/swc-ecosystem-ci/issues"
   },
   "homepage": "https://github.com/swc-project/swc-ecosystem-ci#readme",
-  "private": true,
   "version": "0.1.0",
   "keywords": [],
   "author": "",
