@@ -41,11 +41,11 @@ jobs:
     name: "Publish cargo crates"
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
+
       - uses: ./.github/actions/setup-node
         with:
           node-version: 20
-
-      - uses: actions/checkout@v4
 
       - uses: actions-rs/toolchain@v1
         with:
