@@ -79,6 +79,7 @@ jobs:
           fnm use --install-if-missing 18
           which node
 
+      - run: corepack enable
       - run: yarn
       - run: |
           export PATH="/home/runner/.local/share/fnm:$PATH"
