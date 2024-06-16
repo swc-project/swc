@@ -1,6 +1,12 @@
 # Changelog
 ## [unreleased]
 
+### Bug Fixes
+
+
+
+- **(common)** Revert `Use SourceMap::adjust_mappings` ([#9058](https://github.com/swc-project/swc/issues/9058)) ([cdd20cd](https://github.com/swc-project/swc/commit/cdd20cd16370342f645a181198432a3dc3b6c7ab))
+
 ### Performance
 
 
@@ -1303,12 +1309,6 @@
 
 
 - **(es/resolver)** Ignore qualifiers of `TsImportType` ([#8299](https://github.com/swc-project/swc/issues/8299)) ([2113bb3](https://github.com/swc-project/swc/commit/2113bb3e19131d68eb2a1c384e4ac58b2bc10f00))
-
-### Features
-
-
-
-- **(es/minifier)** Support `format.inline_script` ([#8252](https://github.com/swc-project/swc/issues/8252)) ([f059270](https://github.com/swc-project/swc/commit/f059270348a7ee26ee8ed2d185ba71d166f43e14))
 
 ### Performance
 
