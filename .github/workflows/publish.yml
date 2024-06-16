@@ -86,14 +86,29 @@ jobs:
           cargo mono publish --no-verify
           cargo mono publish --no-verify
 
+  determine-nightly-version:
+    name: "Determine nightly version"
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-node
+        with:
+          node-version: 20
+      - name: Determine nightly version
+        id: determine-nightly-version
+        run: |
+          echo "::set-output name=version::1.6.0-nightly.20240616.1"
+
   publish-npm-nightly:
     name: "Publish nightly to npm"
     needs:
       - publish-cargo
+      - determine-nightly-version
     uses: ./.github/workflows/publish-npm-package.yml
     with:
       package: "core"
-      version: "${{ github.event.inputs.version }} || '1.6.0-nightly.20240616.1'"
+      version: ${{ needs.determine-nightly-version.outputs.version }}
       build-cli: true
 
   test-nightly-ecosystem:
