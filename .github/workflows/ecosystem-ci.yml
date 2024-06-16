@@ -85,6 +85,7 @@ jobs:
         working-directory: .github/swc-ecosystem-ci
 
       - id: ecosystem-ci-run
+        working-directory: .github/swc-ecosystem-ci
         run: |
           export PATH="/home/runner/.local/share/fnm:$PATH"
           eval "$(fnm env --use-on-cd)"
