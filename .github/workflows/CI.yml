@@ -659,12 +659,13 @@ jobs:
 
       - name: Cache execution results
         uses: actions/cache@v3
+        if: ${{ matrix.settings.crate }} == 'swc' || ${{ startsWith(matrix.settings.crate, 'swc_ecma_transforms_') }}
         with:
           path: |
             .swc-exec-cache
-          key: swc-exec-cache-${{ runner.os }}-${{ matrix.settings.crate }}-${{ hashFiles('**/Cargo.lock') }}
+          key: swc-exec-cache-${{ matrix.settings.crate }}-${{ hashFiles('**/Cargo.lock') }}
           restore-keys: |
-            swc-exec-cache-${{ matrix.settings.crate }}-${{ runner.os }}
+            swc-exec-cache-${{ matrix.settings.crate }}
 
       - name: Run cargo test
         if: matrix.settings.crate != 'swc_plugin_runner' && matrix.settings.crate != 'swc_ecma_minifier' && matrix.settings.crate != 'swc_core' && matrix.settings.crate != 'swc_ecma_quote' && matrix.settings.crate != 'swc_cli' && matrix.settings.crate != 'binding_core_wasm'
