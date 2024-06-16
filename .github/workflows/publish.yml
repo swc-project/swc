@@ -139,6 +139,6 @@ jobs:
       package: "core"
       version: ${{ github.event.inputs.version }}
       buildCli: true
-      skipBuild: ${{ github.event.inputs.skipBuild || github.event_name != 'workflow_dispatch' }}
+      skipBuild: ${{ github.event.inputs.skipBuild || github.event.inputs.onlyNightly || github.event_name != 'workflow_dispatch' }}
       # Skip on pull requests
-      skipPublishing: ${{ github.event_name != 'workflow_dispatch' }}
+      skipPublishing: ${{ github.event_name != 'workflow_dispatch' || github.event.inputs.onlyNightly }}
