@@ -18,10 +18,6 @@ on:
         description: "Version to publish"
         required: true
         type: string
-      tag:
-        description: "Tag to publish"
-        required: true
-        type: string
       onlyNightly:
         description: "Publish only nightly"
         required: false
