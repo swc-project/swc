@@ -3,8 +3,8 @@
   "exclude": ["**/node_modules/**"],
   "compilerOptions": {
     "target": "esnext",
-    "module": "nodenext",
-    "moduleResolution": "node",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
     "strict": true,
     "declaration": true,
     "noImplicitOverride": true,
