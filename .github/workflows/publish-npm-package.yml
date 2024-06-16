@@ -46,7 +46,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - id: check
-        if: ${{ !github.event.inputs.skipBuild }}
+        if: ${{ !inputs.skipBuild }}
         run: |
           echo "need-build=true" >> $GITHUB_OUTPUT
 
@@ -438,7 +438,6 @@ jobs:
             ls -la
   publish:
     name: Publish ${{ inputs.version }} to npm
-    if: ${{ always() }}
     runs-on: ubuntu-latest
     needs:
       - test-linux-x64-gnu-binding
