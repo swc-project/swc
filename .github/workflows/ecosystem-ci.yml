@@ -33,10 +33,15 @@ jobs:
     name: "List tests"
     timeout-minutes: 30
     runs-on: ubuntu-latest
+    outputs:
+      suites: ${{ steps.list-tests.outputs.suites }}
     steps:
       - uses: actions/checkout@v4
+
       - uses: ./.github/actions/setup-node
-      - run: yarn tsx run-all.ts
+
+      - id: list-tests
+        run: yarn tsx run-all.ts
         working-directory: .github/swc-ecosystem-ci
         env:
           SWC_VERSION: ${{ github.event.inputs.version || 'nightly' }}
