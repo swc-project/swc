@@ -13,28 +13,12 @@ runs:
       uses: actions/setup-node@v3
       with:
         node-version: ${{ inputs.node-version }}
+        cache: "yarn"
 
-    - uses: pnpm/action-setup@v2
-      with:
-        version: 8
-        run_install: false
-
-    - name: Get pnpm store directory
+    - name: Enable corepack
       shell: bash
-      run: |
-        echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
-
-    - uses: actions/cache@v3
-      name: Setup pnpm cache
-      with:
-        path: |
-          ${{ env.STORE_PATH }}
-          /home/runner/.cache/Cypress
-          /github/home/.cache/Cypress
-        key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
-        restore-keys: |
-          ${{ runner.os }}-pnpm-store-
+      run: corepack enable
 
     - name: Install dependencies
       shell: bash
-      run: pnpm install
+      run: yarn
