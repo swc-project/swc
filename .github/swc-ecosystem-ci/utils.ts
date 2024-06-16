@@ -9,7 +9,7 @@ import {
   RepoOptions,
   RunOptions,
   Task,
-} from "./types";
+} from "./types.js";
 //eslint-disable-next-line n/no-unpublished-import
 import { detect, AGENTS, Agent, getCommand } from "@antfu/ni";
 import actionsCore from "@actions/core";
@@ -56,7 +56,6 @@ export async function $(literals: TemplateStringsArray, ...values: any[]) {
   return result.stdout;
 }
 
-// @ts-expect-error import.meta
 const root = dirnameFrom(import.meta.url);
 
 export async function setupEnvironment(): Promise<EnvironmentData> {

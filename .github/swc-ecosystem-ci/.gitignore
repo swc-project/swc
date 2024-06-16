@@ -140,3 +140,7 @@ workspace
 
 
 .cache/
+
+*.d.ts
+*.js
+*.map

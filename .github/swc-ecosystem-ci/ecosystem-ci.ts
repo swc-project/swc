@@ -8,8 +8,8 @@ import {
   installSwc,
   setupEnvironment,
   testDir,
-} from "./utils";
-import { CommandOptions, RunOptions } from "./types";
+} from "./utils.js";
+import { CommandOptions, RunOptions } from "./types.js";
 
 const cli = cac();
 

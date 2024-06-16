@@ -1,4 +1,4 @@
-import { getSuitesToRun, setupEnvironment } from "./utils";
+import { getSuitesToRun, setupEnvironment } from "./utils.js";
 
 async function runAll() {
   const { root } = await setupEnvironment();
