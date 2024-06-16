@@ -124,7 +124,7 @@ jobs:
       - uses: ./.github/actions/setup-node
 
   publish-npm-stable:
-    name: "Publish stable to npm"
+    name: "Publish ${{ inputs.version || 'stable' }} to npm"
     needs:
       - publish-cargo
       - test-nightly-ecosystem
