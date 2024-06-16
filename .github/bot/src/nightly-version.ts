@@ -2,6 +2,10 @@
 
 import { octokit, owner, repo } from "./util/octokit";
 
+function addZ(n: number) {
+  return n < 10 ? "0" + n : "" + n;
+}
+
 async function main() {
   // Default to the core version in packages/core/package.json
   const coreVersion = require("../../../packages/core/package.json").version;
@@ -18,7 +22,7 @@ async function main() {
   const month = date.getMonth() + 1;
   const day = date.getDate();
 
-  const datePart = `${year}.${month}.${day}`;
+  const datePart = `${year}${addZ(month)}.${addZ(day)}`;
 
   const base = `${version}-nightly-${datePart}`;
   let idx = 1;
