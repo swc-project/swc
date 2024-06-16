@@ -663,7 +663,7 @@ jobs:
         with:
           path: |
             .swc-exec-cache
-          key: swc-exec-cache-${{ runner.os }}-${{ matrix.settings.crate }}-${{ hashFiles('**/Cargo.lock') }}
+          key: swc-exec-cache-${{ matrix.settings.crate }}-${{ hashFiles('**/Cargo.lock') }}
           restore-keys: |
             swc-exec-cache-${{ matrix.settings.crate }}-${{ runner.os }}
 
