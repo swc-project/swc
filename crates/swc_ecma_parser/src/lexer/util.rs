@@ -4,7 +4,6 @@
 //! [babylon/util/identifier.js]:https://github.com/babel/babel/blob/master/packages/babylon/src/util/identifier.js
 use std::char;
 
-use smartstring::{LazyCompact, SmartString};
 use swc_common::{
     comments::{Comment, CommentKind},
     BytePos, Span, SyntaxContext,
@@ -21,27 +20,6 @@ use crate::{
     lexer::comments_buffer::BufferedCommentKind,
     Tokens,
 };
-
-/// Collector for raw string.
-///
-/// Methods of this struct is noop if the value is [None].
-pub(super) struct Raw(pub Option<SmartString<LazyCompact>>);
-
-impl Raw {
-    #[inline]
-    pub fn push(&mut self, c: char) {
-        if let Some(ref mut st) = self.0 {
-            st.push(c)
-        }
-    }
-}
-
-// pub const BACKSPACE: char = 8 as char;
-// pub const SHIFT_OUT: char = 14 as char;
-// pub const OGHAM_SPACE_MARK: char = '\u{1680}'; // ' '
-// pub const LINE_FEED: char = '\n';
-// pub const LINE_SEPARATOR: char = '\u{2028}';
-// pub const PARAGRAPH_SEPARATOR: char = '\u{2029}';
 
 impl<'a> Lexer<'a> {
     pub(super) fn span(&self, start: BytePos) -> Span {
