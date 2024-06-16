@@ -9,8 +9,9 @@ env:
   SKIP_YARN_COREPACK_CHECK: 1
 
 on:
-  pull_request:
-    types: ["opened", "reopened", "synchronize"]
+  push:
+    branches:
+      - publish*
   workflow_dispatch:
     inputs:
       version:
