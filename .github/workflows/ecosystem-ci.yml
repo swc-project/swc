@@ -58,7 +58,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        suite: ${{ fromJSON(github.event.inputs.suites )}}
+        suite: ${{ fromJSON(needs.list-tests.outputs.suites) }}
     steps:
       - uses: actions/checkout@v4
 
@@ -101,38 +101,6 @@ jobs:
           CI_MODE: ${{ inputs.mode }}
 
         id: ecosystem-ci-run
-
-      - if: ${{ github.event.inputs.mode == 'passing' }}
-        name: Download previous result
-        uses: actions/checkout@v4
-        with:
-          repository: swc-project/raw-green-data
-          path: "green-data"
-
-      - if: ${{ (success() || failure()) && github.event.inputs.mode == 'passing' }}
-        name: "Last"
-        run: |
-          mkdir -p green-data/${{ matrix.suite }}
-          echo "${{ job.status }}" > green-data/${{ matrix.suite }}/last.txt
-
-      - if: ${{ success() && github.event.inputs.mode == 'passing' }}
-        name: "Mark last success"
-        run: |
-          echo "https://github.com/swc-project/swc-ecosystem-ci/actions/runs/${{ github.run_id }}" > green-data/${{ matrix.suite }}/last-success.txt
-
-      - if: ${{ (success() || failure()) && github.event.inputs.mode == 'passing' }}
-        name: Upload result
-        uses: JamesIves/github-pages-deploy-action@4.1.0
-        continue-on-error: true
-        with:
-          token: ${{ secrets.BOT_GH_TOKEN }}
-          branch: main
-          folder: green-data
-          clean: false
-          single-commit: false
-          git-config-email: bot@swc.rs
-          repository-name: swc-project/raw-green-data
-          commit-message: "Update ${{ matrix.suite }}: ${{ job.status }}"
 
       - if: ${{ failure() && github.event.inputs.mode == 'passing' }}
         name: Notify failure
