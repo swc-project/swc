@@ -38,7 +38,21 @@ on:
         required: true
 
 jobs:
+  check-if-build-required:
+    name: Check if build is required
+    runs-on: ubuntu-latest
+    outputs:
+      need-build: ${{ steps.check.outputs.need-build }}
+    steps:
+      - uses: actions/checkout@v4
+      - id: check
+        if: ${{ github.event.inputs.skipBuild == false }}
+        run: |
+          echo "::set-output name=need-build::true"
+
   build:
+    needs:
+      - check-if-build-required
     strategy:
       fail-fast: false
       matrix:
