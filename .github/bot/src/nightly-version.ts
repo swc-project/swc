@@ -22,7 +22,7 @@ async function main() {
 
   const version = `${major}.${minor}.${newPatch}`;
 
-  console.log(`Version: ${version}\n`);
+  process.stderr.write(`Version: ${version}\n`);
 
   // Nightly version
 
@@ -49,9 +49,9 @@ async function main() {
     idx += 1;
     nightlyVersion = `${base}.${idx}`;
   }
-  console.log(`Nightly version: ${nightlyVersion}`);
+  process.stderr.write(`Nightly version: ${nightlyVersion}\n`);
 
-  console.log(`::set-output name=version::${nightlyVersion}`);
+  console.log(`version=${nightlyVersion}`);
 }
 
 main();
