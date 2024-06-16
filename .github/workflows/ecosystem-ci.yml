@@ -84,6 +84,11 @@ jobs:
       - run: yarn tsc
         working-directory: .github/swc-ecosystem-ci
 
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 8
+          run_install: false
+
       - id: ecosystem-ci-run
         working-directory: .github/swc-ecosystem-ci
         run: |
