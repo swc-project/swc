@@ -1,4 +1,4 @@
-name: 'Publish'
+name: "Publish"
 
 env:
   GIT_AUTHOR_NAME: "SWC Bot"
@@ -14,60 +14,50 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'Version to publish'
+        description: "Version to publish"
         required: true
         type: string
       tag:
-        description: 'Tag to publish'
+        description: "Tag to publish"
         required: true
         type: string
       onlyNightly:
-        description: 'Publish only nightly'
+        description: "Publish only nightly"
         required: false
         type: boolean
         default: false
       allowBreakingWasm:
-        description: 'Allow breaking changes in wasm'
+        description: "Allow breaking changes in wasm"
         required: false
         type: boolean
         default: false
-    
+
 concurrency:
   group: "publish"
   cancel-in-progress: true
-    
+
 jobs:
   publish-cargo:
     name: "Publish cargo crates"
     runs-on: ubuntu-latest
     steps:
-
-      - uses: actions/checkout@v4
-
-      - run: ls -alR .
-        
       - uses: ./.github/actions/setup-node
         with:
           node-version: 20
-        
+
       - uses: actions/checkout@v4
-        with:
-          repository: "swc-project/swc"
-          ref: "main"
-          path: "swc"
-  
+
       - uses: actions-rs/toolchain@v1
         with:
           profile: minimal
-          toolchain: stable
-  
+
       - name: Install cargo-edit
         uses: baptiste0928/cargo-install@v2.2.0
         with:
           crate: cargo-edit
           version: "0.12.2"
           locked: true
-  
+
       - name: Install cargo-mono
         uses: baptiste0928/cargo-install@v2.2.0
         with:
@@ -76,7 +66,7 @@ jobs:
           locked: true
 
       - name: Update constant of swc_core
-        run: npx ts-node src/cargo/update-constants.ts
+        run: npx ts-node scripts/bot/src/cargo/update-constants.ts
 
       - name: Publish crates
         # Skip on pull requests
@@ -94,22 +84,21 @@ jobs:
           cargo mono publish --no-verify
           cargo mono publish --no-verify
           cargo mono publish --no-verify
-  
-        
+
   publish-npm-nightly:
     name: "Publish nightly to npm"
     needs:
       - publish-cargo
     uses: ./.github/workflows/publish-npm-package.yml
     with:
-      package: 'core'
+      package: "core"
       version: "${{ github.event.inputs.version }} || '1.6.0-nightly.20240616.1'"
       build-cli: true
-  
+
   test-nightly-ecosystem:
     name: "Test nightly using ecosystem CI"
     runs-on: ubuntu-latest
-    needs: 
+    needs:
       - publish-npm-nightly
 
     steps:
