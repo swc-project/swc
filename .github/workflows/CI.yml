@@ -659,6 +659,7 @@ jobs:
 
       - name: Cache execution results
         uses: actions/cache@v3
+        if: ${{ matrix.settings.crate }} == 'swc' || ${{ startsWith(matrix.settings.crate, 'swc_ecma_transforms_') }}
         with:
           path: |
             .swc-exec-cache
