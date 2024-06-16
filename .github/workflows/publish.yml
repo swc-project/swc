@@ -100,7 +100,7 @@ jobs:
           npx ts-node .github/bot/src/nightly-version.ts ${{ github.event.inputs.version }} >> $GITHUB_OUTPUT
 
   publish-npm-nightly:
-    name: "Publish nightly to npm"
+    name: "Publish ${{ needs.determine-nightly-version.outputs.version }} to npm"
     needs:
       - publish-cargo
       - determine-nightly-version

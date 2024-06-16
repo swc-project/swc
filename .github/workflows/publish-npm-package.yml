@@ -140,7 +140,7 @@ jobs:
               cargo build --manifest-path ../../bindings/swc_cli/Cargo.toml --release --target aarch64-pc-windows-msvc
               cp ../../bindings/target/aarch64-pc-windows-msvc/release/swc.exe .
               yarn build --target aarch64-pc-windows-msvc --no-default-features --features swc_v1
-    name: "${{ inputs.package }}@${{ inputs.version }} - ${{ matrix.settings.target }} - node@20"
+    name: "Build ${{ inputs.package }} - ${{ matrix.settings.target }} - node@20"
     runs-on: ${{ matrix.settings.host }}
     steps:
       - uses: actions/checkout@v4
