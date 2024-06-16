@@ -4,7 +4,6 @@ use std::{cell::RefCell, char, iter::FusedIterator, rc::Rc};
 
 use either::Either::{Left, Right};
 use smallvec::{smallvec, SmallVec};
-use smartstring::SmartString;
 use swc_atoms::{Atom, AtomStoreCell};
 use swc_common::{comments::Comments, input::StringInput, BytePos, Span};
 use swc_ecma_ast::{op, AssignOp, EsVersion};
@@ -472,7 +471,7 @@ impl<'a> Lexer<'a> {
             'x' => {
                 self.bump(); // 'x'
 
-                match self.read_int_u32::<16>(2, &mut Raw(None))? {
+                match self.read_int_u32::<16>(2)? {
                     Some(val) => return Ok(Some(vec![Char::from(val)])),
                     None => self.error(
                         start,
@@ -880,7 +879,7 @@ impl<'a> Lexer<'a> {
         }
 
         let state = self.input.cur_pos();
-        let c = match self.read_int_u32::<16>(if is_curly { 0 } else { 4 }, &mut Raw(None)) {
+        let c = match self.read_int_u32::<16>(if is_curly { 0 } else { 4 }) {
             Ok(Some(val)) => {
                 if 0x0010_ffff >= val {
                     char::from_u32(val)
