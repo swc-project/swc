@@ -5,7 +5,7 @@ export async function test(options: RunOptions) {
   await runInRepo({
     ...options,
     repo: "colinhacks/zod",
-    branch: "master",
+    branch: "main",
     build: "build",
     test: ["test:swc"],
     agent: "yarn",
