@@ -96,7 +96,6 @@ jobs:
         run: |
           npx ts-node .github/bot/src/nightly-version.ts ${{ github.event.inputs.version }}
       - name: Determine nightly version
-        id: determine-nightly-version
         run: |
           npx ts-node .github/bot/src/nightly-version.ts ${{ github.event.inputs.version }} >> $GITHUB_OUTPUT
 
