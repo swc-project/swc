@@ -39,7 +39,6 @@ on:
 
 jobs:
   build:
-    if: ${{ !inputs.skipBuild }}
     strategy:
       fail-fast: false
       matrix:
