@@ -18,6 +18,11 @@ on:
         description: "Version to publish"
         required: true
         type: string
+      skipBuild:
+        description: "Skip build. Used to debug swc-ecosystem-ci."
+        required: false
+        type: boolean
+        default: false
       onlyNightly:
         description: "Publish only nightly"
         required: false
