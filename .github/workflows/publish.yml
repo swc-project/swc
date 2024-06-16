@@ -34,7 +34,7 @@ on:
         default: false
 
 concurrency:
-  group: "publish"
+  group: ${{ github.workflow }}
   cancel-in-progress: true
 
 jobs:
@@ -94,7 +94,7 @@ jobs:
       - name: Determine nightly version
         id: determine-nightly-version
         run: |
-          echo "::set-output name=version::$(npx ts-node scripts/bot/src/nightly-version.ts)"
+          echo "::set-output name=version::$(npx ts-node scripts/bot/src/nightly-version.ts ${{ github.event.inputs.version }})"
 
   publish-npm-nightly:
     name: "Publish nightly to npm"
