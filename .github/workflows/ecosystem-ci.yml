@@ -81,6 +81,8 @@ jobs:
 
       - run: corepack enable
       - run: yarn
+      - run: yarn tsc
+        working-directory: .github/swc-ecosystem-ci
       - run: |
           export PATH="/home/runner/.local/share/fnm:$PATH"
           eval "$(fnm env --use-on-cd)"
@@ -89,7 +91,7 @@ jobs:
           which node
 
           corepack disable
-          yarn tsx ecosystem-ci.ts run-suites ${{ matrix.suite }}
+          node ecosystem-ci.js run-suites ${{ matrix.suite }}
         env:
           SWC_VERSION: ${{ inputs.version }}
           CI_MODE: ${{ inputs.mode }}
