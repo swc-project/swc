@@ -45,8 +45,6 @@ jobs:
       - uses: actions/checkout@v4
 
       - uses: ./.github/actions/setup-node
-        with:
-          node-version: 20
 
       - uses: actions-rs/toolchain@v1
         with:
@@ -93,12 +91,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: ./.github/actions/setup-node
-        with:
-          node-version: 20
       - name: Determine nightly version
         id: determine-nightly-version
         run: |
-          echo "::set-output name=version::1.6.0-nightly.20240616.1"
+          echo "::set-output name=version::$(npx ts-node scripts/bot/src/nightly-version.ts)"
 
   publish-npm-nightly:
     name: "Publish nightly to npm"
