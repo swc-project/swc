@@ -46,9 +46,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - id: check
-        if: ${{ github.event.inputs.skipBuild == false }}
+        if: ${{ !github.event.inputs.skipBuild }}
         run: |
-          echo "::set-output name=need-build::true"
+          echo "need-build=true" >> $GITHUB_OUTPUT
 
   build:
     if: needs.check-if-build-required.outputs.need-build == 'true'
