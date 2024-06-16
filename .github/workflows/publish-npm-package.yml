@@ -426,14 +426,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Corepack
-        run: corepack enable
-
-      - name: Setup node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 18
-          cache: yarn
+      - uses: ./github/actions/setup-node
 
       - name: Set release name
         run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
