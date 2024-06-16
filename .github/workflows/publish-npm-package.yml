@@ -30,12 +30,16 @@ on:
       buildCli:
         type: boolean
         required: true
+      skipBuild:
+        type: boolean
+        required: true
       skipPublishing:
         type: boolean
         required: true
 
 jobs:
   build:
+    if: ${{ !inputs.skipBuild }}
     strategy:
       fail-fast: false
       matrix:
