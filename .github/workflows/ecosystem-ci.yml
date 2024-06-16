@@ -25,14 +25,34 @@ on:
         type: string
 
       mode:
-        type: choice
+        type: string
         description: "Passing is a regular proces, and ignored is about ignored tests"
-        options:
-          - "passing"
-          - "ignored"
 
 jobs:
+  list-tests:
+    name: "List tests"
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+        id: setup-node
+        continue-on-error: true
+      - run: corepack enable
+      - run: yarn --version
+      - run: yarn
+      - run: yarn tsx run-all.ts
+        working-directory: .github/swc-ecosystem-ci
+        env:
+          SWC_VERSION: ${{ github.event.inputs.version || 'nightly' }}
+          CI_MODE: ${{ github.event.inputs.mode || 'passing' }}
+          BOT_GH_TOKEN: ${{ secrets.BOT_GH_TOKEN }}
+
   execute-selected-suite:
+    needs:
+      - list-tests
     name: Test ${{ matrix.suite }} with ${{ inputs.version }}
     timeout-minutes: 30
     concurrency:
