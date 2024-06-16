@@ -22,7 +22,7 @@ async function main() {
   const month = date.getMonth() + 1;
   const day = date.getDate();
 
-  const datePart = `${year}${addZ(month)}.${addZ(day)}`;
+  const datePart = `${year}${addZ(month)}${addZ(day)}`;
 
   const base = `${version}-nightly-${datePart}`;
   let idx = 1;
