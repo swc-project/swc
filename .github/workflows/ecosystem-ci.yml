@@ -99,19 +99,19 @@ jobs:
           SWC_VERSION: ${{ inputs.version }}
           CI_MODE: ${{ inputs.mode }}
 
-      - if: ${{ failure() && github.event.inputs.mode == 'passing' }}
-        name: Notify failure
-        uses: tsickert/discord-webhook@v5.3.0
-        with:
-          webhook-url: ${{ secrets.DISCORD_WEBHOOK_URL }}
-          content: |
-            Test for `${{ matrix.suite }}` with `${{ inputs.version }}` failed.
-            See https://github.com/swc-project/swc-ecosystem-ci/actions/runs/${{ github.run_id }} for details.
+      # - if: ${{ failure() && github.event.inputs.mode == 'passing' }}
+      #   name: Notify failure
+      #   uses: tsickert/discord-webhook@v5.3.0
+      #   with:
+      #     webhook-url: ${{ secrets.DISCORD_WEBHOOK_URL }}
+      #     content: |
+      #       Test for `${{ matrix.suite }}` with `${{ inputs.version }}` failed.
+      #       See https://github.com/swc-project/swc-ecosystem-ci/actions/runs/${{ github.run_id }} for details.
 
-      - if: ${{ success() &&github.event.inputs.mode == 'ignored' }}
-        name: Notify success
-        uses: tsickert/discord-webhook@v5.3.0
-        with:
-          webhook-url: ${{ secrets.DISCORD_WEBHOOK_URL }}
-          content: |
-            Test `${{ matrix.suite }}` is now passing
+      # - if: ${{ success() &&github.event.inputs.mode == 'ignored' }}
+      #   name: Notify success
+      #   uses: tsickert/discord-webhook@v5.3.0
+      #   with:
+      #     webhook-url: ${{ secrets.DISCORD_WEBHOOK_URL }}
+      #     content: |
+      #       Test `${{ matrix.suite }}` is now passing
