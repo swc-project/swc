@@ -1,6 +1,10 @@
 name: "Publish"
 
 env:
+  CI: 1
+  # 7 GiB by default on GitHub, setting to 6 GiB
+  # https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners#supported-runners-and-hardware-resources
+  NODE_OPTIONS: --max-old-space-size=6144
   GIT_AUTHOR_NAME: "SWC Bot"
   GIT_AUTHOR_EMAIL: "bot@swc.rs"
   GIT_COMMITTER_NAME: "SWC Bot"
@@ -113,26 +117,28 @@ jobs:
       # Skip on pull requests
       skipPublishing: ${{ github.event_name != 'workflow_dispatch' }}
 
-  test-nightly-ecosystem:
+  run-ecosystem-ci-with-nightly:
     name: "Test nightly using ecosystem CI"
-    runs-on: ubuntu-latest
     needs:
+      - determine-nightly-version
       - publish-npm-nightly
-
-    steps:
-      - uses: actions/checkout@v4
+    uses: ./.github/workflows/ecosystem-ci.yml
+    with:
+      version: ${{ needs.determine-nightly-version.outputs.version }}
+      mode: "passing"
+      suites: '["_"]'
 
   publish-npm-stable:
-    name: "Publish stable to npm"
+    name: "Publish ${{ inputs.version || 'stable' }} to npm"
     needs:
       - publish-cargo
-      - test-nightly-ecosystem
+      - run-ecosystem-ci-with-nightly
 
     uses: ./.github/workflows/publish-npm-package.yml
     with:
       package: "core"
       version: ${{ github.event.inputs.version }}
       buildCli: true
-      skipBuild: ${{ github.event.inputs.skipBuild || github.event_name != 'workflow_dispatch' }}
+      skipBuild: ${{ github.event.inputs.skipBuild || github.event.inputs.onlyNightly || github.event_name != 'workflow_dispatch' }}
       # Skip on pull requests
-      skipPublishing: ${{ github.event_name != 'workflow_dispatch' }}
+      skipPublishing: ${{ github.event_name != 'workflow_dispatch' || github.event.inputs.onlyNightly }}
