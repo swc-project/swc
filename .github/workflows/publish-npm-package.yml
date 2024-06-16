@@ -1,4 +1,4 @@
-name: 'Build npm package'
+name: "Build npm package"
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -26,6 +26,8 @@ on:
       version:
         type: string
       build-cli:
+        type: boolean
+      skip-publishing:
         type: boolean
 
 jobs:

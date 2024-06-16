@@ -34,8 +34,8 @@ on:
         default: false
 
 concurrency:
-  group: "publish"
-  cancel-in-progress: true
+  group: ${{ github.workflow }}
+  cancel-in-progress: ${{ github.event_name != 'workflow_dispatch'}}
 
 jobs:
   publish-cargo:
@@ -45,8 +45,6 @@ jobs:
       - uses: actions/checkout@v4
 
       - uses: ./.github/actions/setup-node
-        with:
-          node-version: 20
 
       - uses: actions-rs/toolchain@v1
         with:
@@ -67,7 +65,7 @@ jobs:
           locked: true
 
       - name: Update constant of swc_core
-        run: npx ts-node scripts/bot/src/cargo/update-constants.ts
+        run: npx ts-node .github/bot/src/cargo/update-constants.ts
 
       - name: Publish crates
         # Skip on pull requests
@@ -86,15 +84,30 @@ jobs:
           cargo mono publish --no-verify
           cargo mono publish --no-verify
 
+  determine-nightly-version:
+    name: "Determine nightly version"
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup-node
+      - name: Determine nightly version
+        id: determine-nightly-version
+        run: |
+          npx ts-node .github/bot/src/nightly-version.ts ${{ github.event.inputs.version }} >> $GITHUB_OUTPUT
+
   publish-npm-nightly:
     name: "Publish nightly to npm"
     needs:
       - publish-cargo
+      - determine-nightly-version
     uses: ./.github/workflows/publish-npm-package.yml
     with:
       package: "core"
-      version: "${{ github.event.inputs.version }} || '1.6.0-nightly.20240616.1'"
+      version: ${{ needs.determine-nightly-version.outputs.version }}
       build-cli: true
+      # Skip on pull requests
+      skip-publishing: ${{ github.event_name != 'workflow_dispatch' }}
 
   test-nightly-ecosystem:
     name: "Test nightly using ecosystem CI"

@@ -19,11 +19,11 @@ jobs:
           node-version: "16"
 
       - name: Install dependencies
-        working-directory: scripts/bot
+        working-directory: .github/bot
         run: |
           yarn
 
       - name: Ensure that bump command exists
-        working-directory: scripts/bot
+        working-directory: .github/bot
         run: |
           npx ts-node src/cargo/ensure-comment.ts

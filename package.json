@@ -3,6 +3,7 @@
     "packageManager": "yarn@4.0.2",
     "private": true,
     "workspaces": [
+        "./.github/bot",
         "./packages/*",
         "./packages/core/scripts/npm/*",
         "./packages/minifier/scripts/npm/*",
