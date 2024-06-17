@@ -59,35 +59,28 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 18
+      - uses: ./.giyhub/actions/setup-node
 
-      - run: |
-          curl -fsSL https://fnm.vercel.app/install | bash
+      # - run: |
+      #     curl -fsSL https://fnm.vercel.app/install | bash
 
-      - run: |
-          export PATH="/home/runner/.local/share/fnm:$PATH"
-          echo "/home/runner/.local/share/fnm" >> $GITHUB_PATH
+      # - run: |
+      #     export PATH="/home/runner/.local/share/fnm:$PATH"
+      #     echo "/home/runner/.local/share/fnm" >> $GITHUB_PATH
 
-          fnm env --json | jq -r 'to_entries|map("\(.key)=\(.value|tostring)")|.[]' | xargs -I {} echo "{}" >> $GITHUB_ENV
+      #     fnm env --json | jq -r 'to_entries|map("\(.key)=\(.value|tostring)")|.[]' | xargs -I {} echo "{}" >> $GITHUB_ENV
 
-      - run: |
-          export PATH="/home/runner/.local/share/fnm:$PATH"
-          eval "$(fnm env --use-on-cd)"
-          echo $PATH
-          fnm use --install-if-missing 18
-          which node
+      # - run: |
+      #     export PATH="/home/runner/.local/share/fnm:$PATH"
+      #     eval "$(fnm env --use-on-cd)"
+      #     echo $PATH
+      #     fnm use --install-if-missing 18
+      #     which node
 
       - run: corepack enable
       - run: yarn
       - run: yarn tsc
         working-directory: .github/swc-ecosystem-ci
-
-      - name: Install pnpm
-        working-directory: "../"
-        run: |
-          npm i -g pnpm
 
       - id: ecosystem-ci-run
         working-directory: .github/swc-ecosystem-ci
