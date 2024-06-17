@@ -496,7 +496,7 @@ export async function installSwc({ version }: { version: string }) {
   await fs.promises.mkdir(swcPath, { recursive: true });
   await fs.promises.writeFile(path.join(swcPath, "package.json"), "{}", "utf8");
   cd(swcPath);
-  await $`npm install @swc/core@${version} @swc/jest @swc/types ts-node@11.0.0-beta.1 jest@29.6.4 --no-save --force`;
+  await $`npm install @swc/core@${version} @swc/jest @swc/types --no-save --force`;
 }
 
 export const isWorkingWithIgnoredTess = process.env.CI_MODE === "ignored";
