@@ -62,12 +62,15 @@ jobs:
       - name: Run benchmark
         run: cargo bench -p ${{ matrix.crate }} -- --output-format bencher --sample-size 10 | tee output-${{ matrix.crate }}.txt
 
+      - name: List outputs
+        run: ls -l output-*.txt
+
       - name: Upload benchmark result
         uses: actions/upload-artifact@v2
         # We need to merge output.txt for each crates
         with:
           name: output
-          path: output-${{ matrix.crate }}.txt
+          path: output-*
 
   process-result:
     name: Process result
