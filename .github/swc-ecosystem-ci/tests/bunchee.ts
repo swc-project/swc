@@ -6,7 +6,7 @@ export async function test(options: RunOptions) {
     ...options,
     repo: "huozhi/bunchee",
     branch: "main",
-    build: "build",
-    test: ["test"],
+    // build: "build",
+    test: ["test:ci"],
   });
 }
