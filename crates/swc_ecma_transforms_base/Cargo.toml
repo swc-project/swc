@@ -50,3 +50,6 @@ name    = "base"
 [[bench]]
 harness = false
 name    = "deps"
+[[bench]]
+harness = false
+name    = "parallel"
