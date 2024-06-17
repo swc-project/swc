@@ -86,6 +86,8 @@ jobs:
 
       - name: Install pnpm
         working-directory: "../"
+        env:
+          SHELL: "/bin/bash"
         run: curl -fsSL https://get.pnpm.io/install.sh | sh -
 
       - id: ecosystem-ci-run
