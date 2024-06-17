@@ -230,9 +230,10 @@ export async function runInRepo(options: RunOptions & RepoOptions) {
     cd(dir);
   }
   if (options.agent == null) {
-    const detectedAgent = await detect({ cwd: dir, autoInstall: true });
+    let detectedAgent = await detect({ cwd: dir, autoInstall: true });
     if (detectedAgent == null) {
-      throw new Error(`Failed to detect packagemanager in ${dir}`);
+      console.error(`Failed to detect packagemanager in ${dir}`);
+      detectedAgent = "npm";
     }
     options.agent = detectedAgent;
   }
