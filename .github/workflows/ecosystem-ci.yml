@@ -85,6 +85,7 @@ jobs:
         working-directory: .github/swc-ecosystem-ci
 
       - name: Install pnpm
+        working-directory: "../"
         run: curl -fsSL https://get.pnpm.io/install.sh | sh -
 
       - id: ecosystem-ci-run
