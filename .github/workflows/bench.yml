@@ -60,7 +60,14 @@ jobs:
       - uses: ./.github/actions/setup-node
 
       - name: Run benchmark
-        run: cargo bench -p ${{ matrix.crate }} --features plugin_transform_schema_vtest --features rkyv-impl -- --output-format bencher --sample-size 10 | tee output.txt
+        run: cargo bench -p ${{ matrix.crate }} --features plugin_transform_schema_vtest --features rkyv-impl -- --output-format bencher --sample-size 10 | tee output-${{ matrix.crate }}.txt
+
+      - name: Upload benchmark result
+        uses: actions/upload-artifact@v2
+        # We need to merge output.txt for each crates
+        with:
+          name: output
+          path: output-${{ matrix.crate }}.txt
 
   process-result:
     name: Process result
