@@ -1357,6 +1357,8 @@ export interface Identifier extends ExpressionBase {
 
   /// TypeScript only. Used in case of an optional parameter.
   optional: boolean;
+
+  typeAnnotation?: TsTypeAnnotation;
 }
 
 export interface OptionalChainingExpression extends ExpressionBase {
