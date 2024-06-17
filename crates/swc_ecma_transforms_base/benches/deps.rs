@@ -166,23 +166,6 @@ fn boxing_unboxed(b: &mut Bencher) {
     });
 }
 
-fn visit_empty(b: &mut Bencher) {
-    let _ = ::testing::run_test(false, |cm, _| {
-        let fm = cm.new_source_file(FileName::Anon, SOURCE.into());
-        let lexer = Lexer::new(
-            Syntax::Typescript(Default::default()),
-            Default::default(),
-            StringInput::from(&*fm),
-            None,
-        );
-        let mut parser = Parser::new_from(lexer);
-        let _module = parser.parse_module().map_err(|_| ()).unwrap();
-
-        b.iter(|| black_box(()));
-        Ok(())
-    });
-}
-
 fn visit_contains_this(b: &mut Bencher) {
     fn contains_this_expr(body: &Module) -> bool {
         struct Visitor {
@@ -243,7 +226,6 @@ fn bench_cases(c: &mut Criterion) {
     );
     c.bench_function("es/visitor/base-perf/boxing_boxed", boxing_boxed);
     c.bench_function("es/visitor/base-perf/boxing_unboxed", boxing_unboxed);
-    c.bench_function("es/visitor/base-perf/visit_empty", visit_empty);
     c.bench_function(
         "es/visitor/base-perf/visit_contains_this",
         visit_contains_this,
