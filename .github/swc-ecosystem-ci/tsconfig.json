@@ -1,0 +1,18 @@
+{
+  "include": ["./**/*.ts", "tests/.*.ts"],
+  "exclude": ["**/node_modules/**", "**/workspace/**"],
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "strict": true,
+    "declaration": true,
+    "noImplicitOverride": true,
+    "noUnusedLocals": true,
+    "esModuleInterop": true,
+    "useUnknownInCatchVariables": false,
+    "allowSyntheticDefaultImports": true,
+    "lib": ["esnext"],
+    "sourceMap": true
+  }
+}

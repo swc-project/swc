@@ -12,6 +12,8 @@ async function main() {
 
   const latest: string = process.argv[2] || coreVersion;
 
+  process.stderr.write(`Previous version: ${latest}\n`);
+
   // Bump patch version
 
   const [major, minor, patch] = latest.split(".").map(Number);
@@ -21,9 +23,6 @@ async function main() {
   const newPatch = patch + (latest.includes("-") ? 0 : 1);
 
   const version = `${major}.${minor}.${newPatch}`;
-
-  process.stderr.write(`Version: ${version}\n`);
-
   // Nightly version
 
   const date = new Date();
@@ -51,7 +50,7 @@ async function main() {
   }
   process.stderr.write(`Nightly version: ${nightlyVersion}\n`);
 
-  console.log(`version=${nightlyVersion}`);
+  process.stdout.write(`version=${nightlyVersion}\n`);
 }
 
 main();

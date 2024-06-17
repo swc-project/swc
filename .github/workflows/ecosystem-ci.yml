@@ -1,0 +1,115 @@
+name: Ecosystem CI
+
+env:
+  CI: 1
+  # 7 GiB by default on GitHub, setting to 6 GiB
+  # https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners#supported-runners-and-hardware-resources
+  NODE_OPTIONS: --max-old-space-size=6144
+  FNM_COREPACK_ENABLED: true
+  FNM_RESOLVE_ENGINES: true
+  # https://github.com/actions/setup-node/issues/899#issuecomment-1819151595
+  SKIP_YARN_COREPACK_CHECK: 1
+
+on:
+  workflow_call:
+    inputs:
+      version:
+        description: "swc version to use"
+        required: true
+        type: string
+        default: "nightly"
+
+      suites:
+        description: 'JSON array for test suites to run. Select ["_"] to run all tests'
+        required: true
+        type: string
+
+      mode:
+        type: string
+        description: "Passing is a regular proces, and ignored is about ignored tests"
+
+jobs:
+  list-tests:
+    name: "List tests"
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+    outputs:
+      suites: ${{ steps.list-tests.outputs.suites }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ./.github/actions/setup-node
+
+      - id: list-tests
+        run: yarn tsx run-all.ts
+        working-directory: .github/swc-ecosystem-ci
+        env:
+          CI_MODE: ${{ github.event.inputs.mode || 'passing' }}
+
+  run-test-suite:
+    name: Test ${{ matrix.suite }}
+    needs:
+      - list-tests
+    timeout-minutes: 30
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        suite: ${{ fromJSON(needs.list-tests.outputs.suites) }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: ./.github/actions/setup-node
+
+      - run: |
+          curl -fsSL https://fnm.vercel.app/install | bash
+
+      - run: |
+          export PATH="/home/runner/.local/share/fnm:$PATH"
+          echo "/home/runner/.local/share/fnm" >> $GITHUB_PATH
+
+          fnm env --json | jq -r 'to_entries|map("\(.key)=\(.value|tostring)")|.[]' | xargs -I {} echo "{}" >> $GITHUB_ENV
+
+      - run: |
+          export PATH="/home/runner/.local/share/fnm:$PATH"
+          eval "$(fnm env --use-on-cd)"
+          echo $PATH
+          fnm use --install-if-missing 18
+          which node
+
+      - run: corepack enable
+      - run: yarn
+      - run: yarn tsc
+        working-directory: .github/swc-ecosystem-ci
+
+      - id: ecosystem-ci-run
+        working-directory: .github/swc-ecosystem-ci
+        run: |
+          export PATH="/home/runner/.local/share/fnm:$PATH"
+          eval "$(fnm env --use-on-cd)"
+          bash -r
+          echo $PATH
+          which node
+
+          corepack disable
+          node ecosystem-ci.js run-suites ${{ matrix.suite }}
+        env:
+          SWC_VERSION: ${{ inputs.version }}
+          CI_MODE: ${{ inputs.mode }}
+
+      # - if: ${{ failure() && github.event.inputs.mode == 'passing' }}
+      #   name: Notify failure
+      #   uses: tsickert/discord-webhook@v5.3.0
+      #   with:
+      #     webhook-url: ${{ secrets.DISCORD_WEBHOOK_URL }}
+      #     content: |
+      #       Test for `${{ matrix.suite }}` with `${{ inputs.version }}` failed.
+      #       See https://github.com/swc-project/swc-ecosystem-ci/actions/runs/${{ github.run_id }} for details.
+
+      # - if: ${{ success() &&github.event.inputs.mode == 'ignored' }}
+      #   name: Notify success
+      #   uses: tsickert/discord-webhook@v5.3.0
+      #   with:
+      #     webhook-url: ${{ secrets.DISCORD_WEBHOOK_URL }}
+      #     content: |
+      #       Test `${{ matrix.suite }}` is now passing

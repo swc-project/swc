@@ -1,0 +1,56 @@
+{
+  "name": "@swc/ecosystem-ci",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=18"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/swc-project/swc-ecosystem-ci.git"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/swc-project/swc-ecosystem-ci/issues"
+  },
+  "homepage": "https://github.com/swc-project/swc-ecosystem-ci#readme",
+  "version": "0.1.0",
+  "keywords": [],
+  "author": "",
+  "scripts": {
+    "test": "tsx ecosystem-ci.ts run-suites",
+    "enable": "tsx ecosystem-ci.ts enable",
+    "bisect": "tsx ecosystem-ci.ts bisect"
+  },
+  "devDependencies": {
+    "@types/node": "^20.8.3",
+    "@typescript-eslint/eslint-plugin": "^6.7.4",
+    "@typescript-eslint/parser": "^6",
+    "eslint": "^8.51.0",
+    "eslint-define-config": "^1.23.0",
+    "eslint-plugin-n": "^16.1.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^14.0.1",
+    "prettier": "^3.0.3",
+    "tsx": "^3.13.0",
+    "typescript": "^5.2.2"
+  },
+  "lint-staged": {
+    "**/*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*": [
+      "prettier --write --ignore-unknown"
+    ]
+  },
+  "dependencies": {
+    "@actions/core": "^1.10.1",
+    "@antfu/ni": "^0.21.8",
+    "@octokit/core": "^5.0.1",
+    "cac": "^6.7.14",
+    "execa": "^8.0.1",
+    "octokit": "^3.1.1",
+    "semver": "^7.5.4"
+  }
+}

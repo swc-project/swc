@@ -4,6 +4,7 @@
     "private": true,
     "workspaces": [
         "./.github/bot",
+        "./.github/swc-ecosystem-ci",
         "./packages/*",
         "./packages/core/scripts/npm/*",
         "./packages/minifier/scripts/npm/*",
