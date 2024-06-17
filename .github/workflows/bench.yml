@@ -75,6 +75,19 @@ jobs:
     needs:
       - bench-crate
     steps:
+      - uses: actions/checkout@v4
+
+      - name: Download benchmark results
+        uses: actions/download-artifact@v2
+        with:
+          name: output
+
+      - name: List outputs
+        run: ls -l output-*.txt
+
+      - name: Merge outputs
+        run: cat output-*.txt > output.txt
+
       - name: Download previous benchmark results
         run: mkdir raw-data && curl -o raw-data/benchmark-data.json https://raw.githubusercontent.com/swc-project/raw-data/gh-pages/benchmark-data.json
 
