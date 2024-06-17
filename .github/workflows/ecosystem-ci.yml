@@ -84,6 +84,9 @@ jobs:
       - run: yarn tsc
         working-directory: .github/swc-ecosystem-ci
 
+      - name: Install pnpm
+        run: curl -fsSL https://get.pnpm.io/install.sh | sh -
+
       - id: ecosystem-ci-run
         working-directory: .github/swc-ecosystem-ci
         run: |
