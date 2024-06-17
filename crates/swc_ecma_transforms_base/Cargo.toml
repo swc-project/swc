@@ -49,10 +49,7 @@ harness = false
 name    = "base"
 [[bench]]
 harness = false
-name    = "parallel"
-[[bench]]
-harness = false
 name    = "deps"
 [[bench]]
 harness = false
-name    = "time_complexity"
+name    = "parallel"

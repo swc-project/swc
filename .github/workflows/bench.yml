@@ -1,0 +1,143 @@
+name: Benchmark
+
+on:
+  push:
+    branches:
+      - main
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.sha }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+env:
+  CI: 1
+  CARGO_INCREMENTAL: 0
+  CARGO_TERM_COLOR: "always"
+  DIFF: 0
+  # For faster CI
+  RUST_LOG: "off"
+  # https://github.com/swc-project/swc/pull/3742
+  RUST_MIN_STACK: 4194304
+  # https://github.com/actions/setup-node/issues/899#issuecomment-1819151595
+  SKIP_YARN_COREPACK_CHECK: 1
+
+jobs:
+  list-crates:
+    name: List crates
+    runs-on: ubuntu-latest
+    outputs:
+      crates: ${{ steps.list-crates.outputs.crates }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+
+      - name: List crates
+        id: list-crates
+        run: echo "crates=$(./scripts/cargo/get-crates.sh)" >> $GITHUB_OUTPUT
+
+  bench-crate:
+    name: Bench ${{ matrix.crate }}
+    runs-on: ubuntu-latest
+    needs:
+      - list-crates
+    strategy:
+      matrix:
+        crate: ${{fromJson(needs.list-crates.outputs.crates)}}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Rust
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+
+      - uses: ./.github/actions/setup-node
+
+      - name: Run benchmark
+        run: cargo bench -p ${{ matrix.crate }} -- --output-format bencher --sample-size 10 | tee output-${{ matrix.crate }}.txt
+
+      - name: List outputs
+        run: ls -l output-*.txt
+
+      - name: Upload benchmark result
+        uses: actions/upload-artifact@v2
+        # We need to merge output.txt for each crates
+        with:
+          name: output
+          path: output-*
+
+  process-result:
+    name: Process result
+    runs-on: ubuntu-latest
+    needs:
+      - bench-crate
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download benchmark results
+        uses: actions/download-artifact@v2
+        with:
+          name: output
+
+      - name: List outputs
+        run: ls -l output-*.txt
+
+      - name: Merge outputs
+        run: cat output-*.txt > output.txt
+
+      - name: Download previous benchmark results
+        run: mkdir raw-data && curl -o raw-data/benchmark-data.json https://raw.githubusercontent.com/swc-project/raw-data/gh-pages/benchmark-data.json
+
+      - name: Analyze benchmark result
+        uses: benchmark-action/github-action-benchmark@v1
+        with:
+          # What benchmark tool the output.txt came from
+          tool: "cargo"
+          # Where the output from the benchmark tool is stored
+          output-file-path: output.txt
+          external-data-json-path: ./raw-data/${{ github.sha }}/benchmark-data.json
+          # Workflow will fail when an alert happens
+          fail-on-alert: true
+          # GitHub API token to make a commit comment
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          # Enable alert commit comment
+          comment-on-alert: true
+          comment-always: true
+          skip-fetch-gh-pages: true
+
+      - name: Analyze benchmark result (root)
+        if: ${{ github.event_name == 'push' }}
+        uses: benchmark-action/github-action-benchmark@v1
+        with:
+          # What benchmark tool the output.txt came from
+          tool: "cargo"
+          # Where the output from the benchmark tool is stored
+          output-file-path: output.txt
+          external-data-json-path: ./raw-data/benchmark-data.json
+          # Workflow will fail when an alert happens
+          # fail-on-alert: true
+          # GitHub API token to make a commit comment
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          # Enable alert commit comment
+          comment-on-alert: true
+          comment-always: true
+          alert-comment-cc-users: "@kdy1"
+          skip-fetch-gh-pages: true
+          max-items-in-chart: 250
+
+      - name: Deploy
+        if: github.ref == 'refs/heads/main'
+        uses: JamesIves/github-pages-deploy-action@4.1.0
+        with:
+          token: ${{ secrets.GH_TOKEN }}
+          branch: gh-pages
+          folder: raw-data
+          clean: false
+          single-commit: false
+          git-config-email: github-bot@swc.rs
+          repository-name: swc-project/raw-data
+          commit-message: "Update"
