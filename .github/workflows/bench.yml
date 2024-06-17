@@ -29,10 +29,13 @@ jobs:
         run: echo "crates=$(./scripts/cargo/get-crates.sh)" >> $GITHUB_OUTPUT
 
   benchmark:
-    name: Performance regression check
+    name: Bench ${{ matrix.crate }}
     runs-on: ubuntu-latest
     needs:
       - list-crates
+    strategy:
+      matrix:
+        crate: ${{fromJson(needs.list-crates.outputs.crates)}}
     steps:
       - uses: actions/checkout@v4
 
@@ -44,8 +47,14 @@ jobs:
       - uses: ./.github/actions/setup-node
 
       - name: Run benchmark
-        run: cargo bench --workspace --exclude swc_plugin --features plugin_transform_schema_vtest --features rkyv-impl -- --output-format bencher --sample-size 10 | tee output.txt
+        run: cargo bench -p ${{ matrix.crate }} --features plugin_transform_schema_vtest --features rkyv-impl -- --output-format bencher --sample-size 10 | tee output.txt
 
+  process-result:
+    name: Process result
+    runs-on: ubuntu-latest
+    needs:
+      - benchmark
+    steps:
       - name: Download previous benchmark results
         run: mkdir raw-data && curl -o raw-data/benchmark-data.json https://raw.githubusercontent.com/swc-project/raw-data/gh-pages/benchmark-data.json
 
