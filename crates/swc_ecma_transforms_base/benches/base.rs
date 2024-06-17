@@ -8,7 +8,7 @@ use swc_ecma_parser::{Parser, StringInput, Syntax};
 use swc_ecma_transforms_base::helpers;
 use swc_ecma_visit::FoldWith;
 
-static SOURCE: &str = include_str!("../../swc_ecma_minifier/benches/full/react.js");
+static SOURCE: &str = include_str!("../../swc_ecma_minifier/benches/full/typescript.js");
 
 /// Benchmark a folder
 macro_rules! tr {
@@ -61,10 +61,10 @@ fn resolver_with_hygiene(b: &mut Bencher) {
 }
 
 fn bench_cases(c: &mut Criterion) {
-    c.bench_function("es/resolver/react", resolver);
-    c.bench_function("es/fixer/react", fixer);
-    c.bench_function("es/hygiene/react", hygiene);
-    c.bench_function("es/resolver_with_hygiene/react", resolver_with_hygiene);
+    c.bench_function("es/resolver/typescript", resolver);
+    c.bench_function("es/fixer/typescript", fixer);
+    c.bench_function("es/hygiene/typescript", hygiene);
+    c.bench_function("es/resolver_with_hygiene/typescript", resolver_with_hygiene);
 }
 
 criterion_group!(benches, bench_cases);
