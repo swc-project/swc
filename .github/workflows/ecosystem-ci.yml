@@ -59,9 +59,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 18
+      - uses: ./.github/actions/setup-node
 
       - run: |
           curl -fsSL https://fnm.vercel.app/install | bash

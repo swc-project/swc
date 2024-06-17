@@ -8,5 +8,6 @@ export async function test(options: RunOptions) {
     branch: "develop",
     build: "compile",
     test: "test",
+    nodeVerison: "20",
   });
 }

@@ -224,7 +224,7 @@ export async function runInRepo(options: RunOptions & RepoOptions) {
     cd(dir);
   }
   if (options.agent == null) {
-    const detectedAgent = await detect({ cwd: dir, autoInstall: false });
+    const detectedAgent = await detect({ cwd: dir, autoInstall: true });
     if (detectedAgent == null) {
       throw new Error(`Failed to detect packagemanager in ${dir}`);
     }
@@ -416,7 +416,7 @@ export async function applyPackageOverrides(
   await $`git clean -fdxq`; // remove current install
 
   if (!agent) {
-    agent = await detect({ cwd: dir, autoInstall: false });
+    agent = await detect({ cwd: dir, autoInstall: true });
   }
   if (!agent) {
     throw new Error(`failed to detect packageManager in ${dir}`);
