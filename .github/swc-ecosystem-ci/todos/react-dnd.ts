@@ -4,9 +4,10 @@ import { RunOptions } from "../types.js";
 export async function test(options: RunOptions) {
   await runInRepo({
     ...options,
-    repo: "huozhi/bunchee",
+    repo: "react-dnd/react-dnd",
     branch: "main",
     build: "build",
     test: ["test"],
+    agent: "yarn@berry",
   });
 }

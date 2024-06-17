@@ -59,7 +59,13 @@ export async function $(literals: TemplateStringsArray, ...values: any[]) {
 const root = dirnameFrom(import.meta.url);
 
 export async function setupEnvironment(): Promise<EnvironmentData> {
-  const workspace = path.resolve(root, "workspace");
+  const workspace = path.resolve(
+    root,
+    "..",
+    "..",
+    "..",
+    "swc-ecosystem-ci-workspace",
+  );
   swcPath = path.resolve(workspace, ".swc");
   cwd = process.cwd();
   env = {
@@ -224,9 +230,10 @@ export async function runInRepo(options: RunOptions & RepoOptions) {
     cd(dir);
   }
   if (options.agent == null) {
-    const detectedAgent = await detect({ cwd: dir, autoInstall: true });
+    let detectedAgent = await detect({ cwd: dir, autoInstall: true });
     if (detectedAgent == null) {
-      throw new Error(`Failed to detect packagemanager in ${dir}`);
+      console.error(`Failed to detect packagemanager in ${dir}`);
+      detectedAgent = "npm";
     }
     options.agent = detectedAgent;
   }
@@ -265,8 +272,7 @@ export async function runInRepo(options: RunOptions & RepoOptions) {
   }
   const overrides = options.overrides || {};
   // https://github.com/facebook/react-native/issues/35701#issuecomment-1697798232
-  overrides["jest"] = path.join(swcPath, "node_modules", "jest");
-  overrides["ts-node"] = path.join(swcPath, "node_modules", "ts-node");
+  overrides["@swc/jest"] = path.join(swcPath, "node_modules", "@swc", "jest");
   overrides["@swc/core"] = path.join(swcPath, "node_modules", "@swc", "core");
   overrides["@swc/types"] = path.join(swcPath, "node_modules", "@swc", "types");
   console.log("OVERRIDES", overrides);
@@ -496,7 +502,7 @@ export async function installSwc({ version }: { version: string }) {
   await fs.promises.mkdir(swcPath, { recursive: true });
   await fs.promises.writeFile(path.join(swcPath, "package.json"), "{}", "utf8");
   cd(swcPath);
-  await $`npm install @swc/core@${version} @swc/jest @swc/types ts-node@11.0.0-beta.1 jest@29.6.4 --no-save --force`;
+  await $`npm install @swc/core@${version} @swc/jest @swc/types --no-save --force`;
 }
 
 export const isWorkingWithIgnoredTess = process.env.CI_MODE === "ignored";
