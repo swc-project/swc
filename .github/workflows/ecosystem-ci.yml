@@ -86,11 +86,8 @@ jobs:
 
       - name: Install pnpm
         working-directory: "../"
-        env:
-          SHELL: "/bin/bash"
         run: |
-          curl -fsSL https://get.pnpm.io/install.sh | sh -
-          echo "$PNPM_HOME" >> $GITHUB_PATH
+          npm i -g pnpm
 
       - id: ecosystem-ci-run
         working-directory: .github/swc-ecosystem-ci
