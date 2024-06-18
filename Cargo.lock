@@ -3856,7 +3856,7 @@ dependencies = [
 
 [[package]]
 name = "swc_common"
-version = "0.34.1"
+version = "0.34.2"
 dependencies = [
  "ahash 0.8.8",
  "anyhow",
@@ -3939,7 +3939,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.95.2"
+version = "0.95.3"
 dependencies = [
  "anyhow",
  "binding_macros",
