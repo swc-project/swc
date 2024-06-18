@@ -80,7 +80,7 @@ impl<'a> Input for StringInput<'a> {
 
     #[inline]
     unsafe fn bump(&mut self) {
-        if let Some((i, c)) = self.iter.next() {
+        if let Some((_, c)) = self.iter.next() {
             self.last_pos = self.last_pos + BytePos((c.len_utf8()) as u32);
         } else {
             unsafe {
@@ -211,15 +211,8 @@ impl<'a> Input for StringInput<'a> {
     #[inline]
     fn eat_byte(&mut self, c: u8) -> bool {
         if self.is_byte(c) {
-            if let Some((i, _)) = self.iter.next() {
-                self.last_pos = self.last_pos + BytePos((1) as u32);
-            } else {
-                unsafe {
-                    debug_unreachable!(
-                        "We can't enter here as we already checked the state using `is_byte`"
-                    )
-                }
-            }
+            self.iter.next();
+            self.last_pos = self.last_pos + BytePos(1_u32);
             true
         } else {
             false
