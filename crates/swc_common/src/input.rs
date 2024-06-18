@@ -11,7 +11,7 @@ pub type SourceFileInput<'a> = StringInput<'a>;
 pub struct StringInput<'a> {
     last_pos: BytePos,
     /// Current cursor
-    iter: str::CharIndices<'a>,
+    iter: str::Chars<'a>,
     orig: &'a str,
     /// Original start position.
     orig_start: BytePos,
@@ -32,7 +32,7 @@ impl<'a> StringInput<'a> {
         StringInput {
             last_pos: start,
             orig: src,
-            iter: src.char_indices(),
+            iter: src.chars(),
             orig_start: start,
         }
     }
@@ -65,22 +65,22 @@ impl<'a> From<&'a SourceFile> for StringInput<'a> {
 impl<'a> Input for StringInput<'a> {
     #[inline]
     fn cur(&mut self) -> Option<char> {
-        self.iter.clone().next().map(|i| i.1)
+        self.iter.clone().next()
     }
 
     #[inline]
     fn peek(&mut self) -> Option<char> {
-        self.iter.clone().nth(1).map(|i| i.1)
+        self.iter.clone().nth(1)
     }
 
     #[inline]
     fn peek_ahead(&mut self) -> Option<char> {
-        self.iter.clone().nth(2).map(|i| i.1)
+        self.iter.clone().nth(2)
     }
 
     #[inline]
     unsafe fn bump(&mut self) {
-        if let Some((_, c)) = self.iter.next() {
+        if let Some(c) = self.iter.next() {
             self.last_pos = self.last_pos + BytePos((c.len_utf8()) as u32);
         } else {
             unsafe {
@@ -127,7 +127,7 @@ impl<'a> Input for StringInput<'a> {
 
         let ret = unsafe { s.get_unchecked(start_idx..end_idx) };
 
-        self.iter = unsafe { s.get_unchecked(end_idx..) }.char_indices();
+        self.iter = unsafe { s.get_unchecked(end_idx..) }.chars();
         self.last_pos = end;
 
         ret
@@ -152,7 +152,7 @@ impl<'a> Input for StringInput<'a> {
         let ret = unsafe { s.get_unchecked(..last) };
 
         self.last_pos = self.last_pos + BytePos(last as _);
-        self.iter = unsafe { s.get_unchecked(last..) }.char_indices();
+        self.iter = unsafe { s.get_unchecked(last..) }.chars();
 
         ret
     }
@@ -177,7 +177,7 @@ impl<'a> Input for StringInput<'a> {
         debug_assert!(last <= s.len());
 
         self.last_pos = self.last_pos + BytePos(last as _);
-        self.iter = unsafe { s.get_unchecked(last..) }.char_indices();
+        self.iter = unsafe { s.get_unchecked(last..) }.chars();
 
         Some(self.last_pos)
     }
@@ -189,7 +189,7 @@ impl<'a> Input for StringInput<'a> {
 
         debug_assert!(idx <= orig.len());
         let s = unsafe { orig.get_unchecked(idx..) };
-        self.iter = s.char_indices();
+        self.iter = s.chars();
         self.last_pos = to;
     }
 
