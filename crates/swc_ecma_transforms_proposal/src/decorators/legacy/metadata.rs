@@ -4,7 +4,7 @@ use swc_atoms::JsWord;
 use swc_common::{
     collections::AHashMap,
     util::{move_map::MoveMap, take::Take},
-    Spanned, DUMMY_SP,
+    BytePos, Spanned, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
@@ -512,7 +512,7 @@ fn ts_entity_to_member_expr(type_name: &TsEntityName) -> Expr {
                 prop: MemberProp::Ident(q.right.clone()),
             })
         }
-        TsEntityName::Ident(i) => Expr::Ident(i.clone()),
+        TsEntityName::Ident(i) => Expr::Ident(i.clone().with_pos(BytePos::DUMMY, BytePos::DUMMY)),
     }
 }
 
