@@ -858,6 +858,7 @@ impl<'a> Lexer<'a> {
                 }
 
                 if let Some(c) = l.input.cur() {
+                    can_be_keyword = false;
                     if Ident::is_valid_continue(c) {
                         l.bump();
                         continue;
