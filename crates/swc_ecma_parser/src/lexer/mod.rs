@@ -821,15 +821,18 @@ impl<'a> Lexer<'a> {
                         }
 
                         {
-                            let end = l.cur_pos();
+                            let end = l.input.cur_pos();
                             let s = unsafe {
                                 // Safety: start and end are valid position because we got them from
                                 // `self.input`
-                                l.input.slice(slice_start, end)
+                                l.input.slice(slice_start, start)
                             };
                             buf.push_str(s);
+                            unsafe {
+                                // Safety: We got end from `self.input`
+                                l.input.reset_to(end);
+                            }
                         }
-                        buf.push('\\');
 
                         let chars = l.read_unicode_escape()?;
 
