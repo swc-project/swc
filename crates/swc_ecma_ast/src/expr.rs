@@ -311,6 +311,53 @@ impl Expr {
     pub fn directness_maters(&self) -> bool {
         self.is_ident_ref_to("eval") || matches!(self, Expr::Member(..))
     }
+
+    /// # Note: This preserves SyntaxContext of [`Expr::Ident`], and noop for [`Expr::JSXMember`] and [`Expr::JSXNamespacedName`].
+
+    pub fn set_span(&mut self, span: Span) {
+        match self {
+            Expr::Ident(i) => {
+                i.span = span.with_ctxt(i.span.ctxt);
+            }
+            Expr::This(e) => e.span = span,
+            Expr::Array(e) => e.span = span,
+            Expr::Object(e) => e.span = span,
+            Expr::Fn(e) => e.function.span = span,
+            Expr::Unary(e) => e.span = span,
+            Expr::Update(e) => e.span = span,
+            Expr::Bin(e) => e.span = span,
+            Expr::Assign(e) => e.span = span,
+            Expr::Member(e) => e.span = span,
+            Expr::SuperProp(e) => e.span = span,
+            Expr::Cond(e) => e.span = span,
+            Expr::Call(e) => e.span = span,
+            Expr::New(e) => e.span = span,
+            Expr::Seq(e) => e.span = span,
+            Expr::Tpl(e) => e.span = span,
+            Expr::TaggedTpl(e) => e.span = span,
+            Expr::Arrow(e) => e.span = span,
+            Expr::Class(e) => e.class.span = span,
+            Expr::Yield(e) => e.span = span,
+            Expr::Invalid(e) => e.span = span,
+            Expr::TsAs(e) => e.span = span,
+            Expr::TsTypeAssertion(e) => e.span = span,
+            Expr::TsConstAssertion(e) => e.span = span,
+            Expr::TsSatisfies(e) => e.span = span,
+            Expr::TsNonNull(e) => e.span = span,
+            Expr::TsInstantiation(e) => e.span = span,
+            Expr::MetaProp(e) => e.span = span,
+            Expr::Await(e) => e.span = span,
+            Expr::Paren(e) => e.span = span,
+            Expr::JSXMember(..) => {}
+            Expr::JSXNamespacedName(..) => {}
+            Expr::JSXEmpty(e) => e.span = span,
+            Expr::JSXElement(e) => e.span = span,
+            Expr::JSXFragment(e) => e.span = span,
+            Expr::PrivateName(e) => e.span = span,
+            Expr::OptChain(e) => e.span = span,
+            Expr::Lit(e) => e.set_span(span),
+        }
+    }
 }
 
 // Implement Clone without inline to avoid multiple copies of the
