@@ -977,10 +977,8 @@ impl<'a> Lexer<'a> {
         let mut slice_start = self.input.cur_pos();
 
         self.with_buf(|l, buf| {
-            dbg!("start", l.input.cur());
             loop {
                 if let Some(c) = l.input.cur_as_ascii() {
-                    dbg!(c as char);
                     if c == quote {
                         let value_end = l.cur_pos();
 
@@ -1058,6 +1056,10 @@ impl<'a> Lexer<'a> {
                     Some(c) => {
                         if c.is_line_break() {
                             break;
+                        }
+                        unsafe {
+                            // Safety: cur is Some(c)
+                            l.input.bump();
                         }
                     }
                     None => break,
