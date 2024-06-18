@@ -312,13 +312,19 @@ impl Expr {
         self.is_ident_ref_to("eval") || matches!(self, Expr::Member(..))
     }
 
-    /// # Note: This preserves SyntaxContext of [`Expr::Ident`], and noop for [`Expr::JSXMember`] and [`Expr::JSXNamespacedName`].
+    /// #Note
+    ///
+    /// This preserves SyntaxContext of [`Expr::Ident`], and noop for
+    /// [`Expr::JSXMember`] and [`Expr::JSXNamespacedName`].
     pub fn with_span(mut self, span: Span) -> Expr {
         self.set_span(span);
         self
     }
 
-    /// # Note: This preserves SyntaxContext of [`Expr::Ident`], and noop for [`Expr::JSXMember`] and [`Expr::JSXNamespacedName`].
+    /// # Note
+    ///
+    /// This preserves SyntaxContext of [`Expr::Ident`], and noop for
+    /// [`Expr::JSXMember`] and [`Expr::JSXNamespacedName`].
 
     pub fn set_span(&mut self, span: Span) {
         match self {
