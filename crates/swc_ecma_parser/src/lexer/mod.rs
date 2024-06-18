@@ -977,10 +977,25 @@ impl<'a> Lexer<'a> {
         let mut slice_start = self.input.cur_pos();
 
         self.with_buf(|l, buf| {
+            dbg!("start", l.input.cur());
             loop {
                 if let Some(c) = l.input.cur_as_ascii() {
+                    dbg!(c as char);
                     if c == quote {
                         let value_end = l.cur_pos();
+
+                        let value = if !has_escape {
+                            let s = unsafe {
+                                // Safety: slice_start and value_end are valid position because we
+                                // got them from `self.input`
+                                l.input.slice(slice_start, value_end)
+                            };
+
+                            l.atoms.atom(s)
+                        } else {
+                            l.atoms.atom(&**buf)
+                        };
+
                         unsafe {
                             // Safety: cur is quote
                             l.input.bump();
@@ -994,18 +1009,6 @@ impl<'a> Lexer<'a> {
                             l.input.slice(start, end)
                         };
                         let raw = l.atoms.atom(raw);
-
-                        let value = if !has_escape {
-                            let s = unsafe {
-                                // Safety: slice_start and value_end are valid position because we
-                                // got them from `self.input`
-                                l.input.slice(slice_start, value_end)
-                            };
-
-                            l.atoms.atom(s)
-                        } else {
-                            l.atoms.atom(&**buf)
-                        };
 
                         return Ok(Token::Str { value, raw });
                     }
