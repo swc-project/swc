@@ -981,7 +981,10 @@ impl<'a> Lexer<'a> {
                 if let Some(c) = l.input.cur_as_ascii() {
                     if c == quote {
                         let value_end = l.cur_pos();
-                        l.bump();
+                        unsafe {
+                            // Safety: cur is quote
+                            l.input.bump();
+                        }
 
                         let end = l.cur_pos();
 
@@ -1009,6 +1012,10 @@ impl<'a> Lexer<'a> {
 
                     if c == b'\\' {
                         has_escape = true;
+                        unsafe {
+                            // Safety: cur is '\'
+                            l.input.bump();
+                        }
 
                         {
                             let end = l.cur_pos();
@@ -1033,6 +1040,10 @@ impl<'a> Lexer<'a> {
                         break;
                     }
 
+                    unsafe {
+                        // Safety: cur is a ascii character
+                        l.input.bump();
+                    }
                     continue;
                 }
 
