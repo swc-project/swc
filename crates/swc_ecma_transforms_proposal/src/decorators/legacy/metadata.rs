@@ -4,7 +4,7 @@ use swc_atoms::JsWord;
 use swc_common::{
     collections::AHashMap,
     util::{move_map::MoveMap, take::Take},
-    Spanned, DUMMY_SP,
+    BytePos, Spanned, DUMMY_SP,
 };
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
@@ -60,15 +60,42 @@ impl VisitMut for ParamMetadata {
 }
 
 impl ParamMetadata {
-    fn create_param_decorator(&self, param_index: usize, decorator_expr: Box<Expr>) -> Decorator {
+    fn create_param_decorator(
+        &self,
+        param_index: usize,
+        mut decorator_expr: Box<Expr>,
+    ) -> Decorator {
+        remove_span(&mut decorator_expr);
+
         Decorator {
             span: DUMMY_SP,
             expr: Box::new(Expr::Call(CallExpr {
-                span: decorator_expr.span(),
+                span: DUMMY_SP,
                 callee: helper!(ts, ts_param),
                 args: vec![param_index.as_arg(), decorator_expr.as_arg()],
                 type_args: Default::default(),
             })),
+        }
+    }
+}
+
+pub(super) fn remove_span(e: &mut Expr) {
+    match e {
+        Expr::Member(m) => {
+            m.span = DUMMY_SP;
+            remove_span(&mut m.obj);
+        }
+        Expr::Call(c) => {
+            c.span = DUMMY_SP;
+            if let Callee::Expr(e) = &mut c.callee {
+                remove_span(e);
+            }
+            for arg in &mut c.args {
+                remove_span(&mut arg.expr);
+            }
+        }
+        _ => {
+            e.set_span(DUMMY_SP);
         }
     }
 }
@@ -512,7 +539,7 @@ fn ts_entity_to_member_expr(type_name: &TsEntityName) -> Expr {
                 prop: MemberProp::Ident(q.right.clone()),
             })
         }
-        TsEntityName::Ident(i) => Expr::Ident(i.clone()),
+        TsEntityName::Ident(i) => Expr::Ident(i.clone().with_pos(BytePos::DUMMY, BytePos::DUMMY)),
     }
 }
 

@@ -1,7 +1,8 @@
 use std::{iter, mem};
 
+use metadata::remove_span;
 use swc_atoms::JsWord;
-use swc_common::{collections::AHashMap, util::take::Take, DUMMY_SP};
+use swc_common::{collections::AHashMap, util::take::Take, BytePos, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_transforms_base::helper;
 use swc_ecma_utils::{private_ident, prop_name_to_expr_value, quote_ident, ExprFactory, StmtLike};
@@ -151,19 +152,26 @@ impl TscDecorator {
     fn add_decorate_call(
         &mut self,
         decorators: impl IntoIterator<Item = Box<Expr>>,
-        target: ExprOrSpread,
+        mut target: ExprOrSpread,
         key: ExprOrSpread,
-        desc: ExprOrSpread,
+        mut desc: ExprOrSpread,
     ) {
         let decorators = ArrayLit {
             span: DUMMY_SP,
             elems: decorators
                 .into_iter()
-                .map(|v| v.as_arg())
+                .map(|mut v| {
+                    remove_span(&mut v);
+
+                    v.as_arg()
+                })
                 .map(Some)
                 .collect(),
         }
         .as_arg();
+
+        remove_span(&mut target.expr);
+        remove_span(&mut desc.expr);
 
         self.appended_exprs.push(Box::new(Expr::Call(CallExpr {
             span: DUMMY_SP,
@@ -235,7 +243,11 @@ impl VisitMut for TscDecorator {
                         .decorators
                         .take()
                         .into_iter()
-                        .map(|v| v.expr.as_arg())
+                        .map(|mut v| {
+                            remove_span(&mut v.expr);
+
+                            v.expr.as_arg()
+                        })
                         .map(Some)
                         .collect(),
                 }
@@ -244,13 +256,19 @@ impl VisitMut for TscDecorator {
                 let decorated = Box::new(Expr::Call(CallExpr {
                     span: DUMMY_SP,
                     callee: helper!(ts, ts_decorate),
-                    args: vec![decorators, class_name.clone().as_arg()],
+                    args: vec![
+                        decorators,
+                        class_name
+                            .clone()
+                            .with_pos(BytePos::DUMMY, BytePos::DUMMY)
+                            .as_arg(),
+                    ],
                     type_args: Default::default(),
                 }));
                 self.appended_exprs.push(Box::new(Expr::Assign(AssignExpr {
                     span: DUMMY_SP,
                     op: op!("="),
-                    left: class_name.into(),
+                    left: class_name.with_pos(BytePos::DUMMY, BytePos::DUMMY).into(),
                     right: decorated,
                 })));
             }

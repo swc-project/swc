@@ -324,6 +324,12 @@ impl Ident {
     pub fn is_dummy(&self) -> bool {
         self.sym == js_word!("") && self.span.is_dummy()
     }
+
+    /// Create a new identifier with the given position.
+    pub fn with_pos(self, lo: BytePos, hi: BytePos) -> Ident {
+        let span = Span::new(lo, hi, self.span.ctxt);
+        Ident { span, ..self }
+    }
 }
 
 /// See [Ident] for documentation.

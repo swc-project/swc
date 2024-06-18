@@ -60,6 +60,20 @@ bridge_lit_from!(Number, f64);
 bridge_lit_from!(Number, usize);
 bridge_lit_from!(BigInt, BigIntValue);
 
+impl Lit {
+    pub fn set_span(&mut self, span: Span) {
+        match self {
+            Lit::Str(s) => s.span = span,
+            Lit::Bool(b) => b.span = span,
+            Lit::Null(n) => n.span = span,
+            Lit::Num(n) => n.span = span,
+            Lit::BigInt(n) => n.span = span,
+            Lit::Regex(n) => n.span = span,
+            Lit::JSXText(n) => n.span = span,
+        }
+    }
+}
+
 #[ast_node("BigIntLiteral")]
 #[derive(Eq, Hash)]
 pub struct BigInt {
