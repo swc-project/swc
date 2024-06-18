@@ -1,12 +1,12 @@
 //! ECMAScript lexer.
 
-use std::{cell::RefCell, char, iter::FusedIterator, rc::Rc};
+use std::{cell::RefCell, char, iter::FusedIterator, mem::transmute, rc::Rc};
 
 use either::Either::{Left, Right};
 use smallvec::{smallvec, SmallVec};
 use swc_atoms::{Atom, AtomStoreCell};
 use swc_common::{comments::Comments, input::StringInput, BytePos, Span};
-use swc_ecma_ast::{op, AssignOp, EsVersion};
+use swc_ecma_ast::{op, AssignOp, EsVersion, Ident};
 
 use self::{
     comments_buffer::CommentsBuffer,
@@ -793,49 +793,43 @@ impl<'a> Lexer<'a> {
         debug_assert!(self.cur().is_some());
         let mut first = true;
         let mut can_be_keyword = true;
+        let mut slice_start = self.cur_pos();
+        let mut has_escape = false;
 
         self.with_buf(|l, buf| {
-            let mut has_escape = false;
-
-            while let Some(c) = {
-                // Optimization
-                {
-                    let s = l.input.uncons_while(|c| {
-                        if !c.is_ident_part() {
-                            return false;
-                        }
-
-                        // Performance optimization
-                        if c.is_ascii_uppercase() || c.is_ascii_digit() || !c.is_ascii() {
-                            can_be_keyword = false;
-                        }
-
-                        true
-                    });
-                    if !s.is_empty() {
-                        first = false;
-                    }
-                    buf.push_str(s)
-                }
-
-                l.cur()
-            } {
-                let start = l.cur_pos();
-
-                match c {
-                    c if c.is_ident_part() => {
+            loop {
+                if let Some(c) = l.input.cur_as_ascii() {
+                    if Ident::is_valid_continue(c as _) {
                         l.bump();
-                        buf.push(c);
+                        continue;
+                    } else if first && Ident::is_valid_start(c as _) {
+                        l.bump();
+                        first = false;
+                        continue;
                     }
+
                     // unicode escape
-                    '\\' => {
+                    if c == b'\\' {
+                        first = false;
+                        can_be_keyword = false;
+                        has_escape = true;
+                        let start = l.cur_pos();
                         l.bump();
 
                         if !l.is(b'u') {
                             l.error_span(pos_span(start), SyntaxError::ExpectedUnicodeEscape)?
                         }
 
-                        has_escape = true;
+                        {
+                            let end = l.cur_pos();
+                            let s = unsafe {
+                                // Safety: start and end are valid position because we got them from
+                                // `self.input`
+                                l.input.slice(slice_start, end)
+                            };
+                            buf.push_str(s);
+                        }
+                        buf.push('\\');
 
                         let chars = l.read_unicode_escape()?;
 
@@ -854,14 +848,55 @@ impl<'a> Lexer<'a> {
                         for c in chars {
                             buf.extend(c);
                         }
+
+                        slice_start = l.cur_pos();
                     }
-                    _ => {
-                        break;
+
+                    // ASCII but not a valid identifier
+
+                    break;
+                }
+
+                if let Some(c) = l.input.cur() {
+                    if Ident::is_valid_continue(c) {
+                        l.bump();
+                        continue;
+                    } else if first && Ident::is_valid_start(c) {
+                        l.bump();
+                        first = false;
+                        continue;
                     }
                 }
-                first = false;
+
+                break;
             }
-            let value = convert(l, buf, has_escape, can_be_keyword);
+
+            let end = l.cur_pos();
+
+            let value = if !has_escape {
+                // Fast path: raw slice is enough if there's no escape.
+
+                let s = unsafe {
+                    // Safety: slice_start and end are valid position because we got them from
+                    // `self.input`
+                    l.input.slice(slice_start, end)
+                };
+                let s = unsafe {
+                    // Safety: We don't use 'static. We just bypass the lifetime check.
+                    transmute::<&str, &'static str>(s)
+                };
+
+                convert(l, s, has_escape, can_be_keyword)
+            } else {
+                let s = unsafe {
+                    // Safety: slice_start and end are valid position because we got them from
+                    // `self.input`
+                    l.input.slice(slice_start, end)
+                };
+                buf.push_str(s);
+
+                convert(l, buf, has_escape, can_be_keyword)
+            };
 
             Ok((value, has_escape))
         })
