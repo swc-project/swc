@@ -1034,6 +1034,7 @@ impl<'a> Lexer<'a> {
                         }
 
                         slice_start = l.cur_pos();
+                        continue;
                     }
 
                     if (c as char).is_line_break() {
