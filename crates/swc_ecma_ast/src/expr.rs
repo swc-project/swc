@@ -313,6 +313,12 @@ impl Expr {
     }
 
     /// # Note: This preserves SyntaxContext of [`Expr::Ident`], and noop for [`Expr::JSXMember`] and [`Expr::JSXNamespacedName`].
+    pub fn with_span(mut self, span: Span) -> Expr {
+        self.set_span(span);
+        self
+    }
+
+    /// # Note: This preserves SyntaxContext of [`Expr::Ident`], and noop for [`Expr::JSXMember`] and [`Expr::JSXNamespacedName`].
 
     pub fn set_span(&mut self, span: Span) {
         match self {
