@@ -1036,8 +1036,13 @@ impl<'a> Lexer<'a> {
                     continue;
                 }
 
-                if l.input.cur().is_none() {
-                    break;
+                match l.input.cur() {
+                    Some(c) => {
+                        if c.is_line_break() {
+                            break;
+                        }
+                    }
+                    None => break,
                 }
             }
 
