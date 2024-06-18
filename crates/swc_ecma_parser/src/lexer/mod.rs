@@ -1035,6 +1035,10 @@ impl<'a> Lexer<'a> {
 
                     continue;
                 }
+
+                if l.input.cur().is_none() {
+                    break;
+                }
             }
 
             {
