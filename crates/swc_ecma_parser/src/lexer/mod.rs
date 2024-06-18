@@ -969,23 +969,18 @@ impl<'a> Lexer<'a> {
     fn read_str_lit(&mut self) -> LexResult<Token> {
         debug_assert!(self.cur() == Some('\'') || self.cur() == Some('"'));
         let start = self.cur_pos();
-        let quote = self.cur().unwrap();
+        let quote = self.cur().unwrap() as u8;
 
         self.bump(); // '"'
 
-        self.with_buf(|l, out| {
-            while let Some(c) = {
-                // Optimization
-                {
-                    let s = l
-                        .input
-                        .uncons_while(|c| c != quote && c != '\\' && !c.is_line_break());
-                    out.push_str(s);
-                }
-                l.cur()
-            } {
-                match c {
-                    c if c == quote => {
+        let mut has_escape = false;
+        let mut slice_start = self.input.cur_pos();
+
+        self.with_buf(|l, buf| {
+            loop {
+                if let Some(c) = l.input.cur_as_ascii() {
+                    if c == quote {
+                        let value_end = l.cur_pos();
                         l.bump();
 
                         let end = l.cur_pos();
@@ -995,28 +990,61 @@ impl<'a> Lexer<'a> {
                             // `self.input`
                             l.input.slice(start, end)
                         };
+                        let raw = l.atoms.atom(raw);
 
-                        return Ok(Token::Str {
-                            value: l.atoms.atom(&*out),
-                            raw: l.atoms.atom(raw),
-                        });
+                        let value = if !has_escape {
+                            let s = unsafe {
+                                // Safety: slice_start and value_end are valid position because we
+                                // got them from `self.input`
+                                l.input.slice(slice_start, value_end)
+                            };
+
+                            l.atoms.atom(s)
+                        } else {
+                            l.atoms.atom(&**buf)
+                        };
+
+                        return Ok(Token::Str { value, raw });
                     }
-                    '\\' => {
+
+                    if c == b'\\' {
+                        has_escape = true;
+
+                        {
+                            let end = l.cur_pos();
+                            let s = unsafe {
+                                // Safety: start and end are valid position because we got them from
+                                // `self.input`
+                                l.input.slice(slice_start, end)
+                            };
+                            buf.push_str(s);
+                        }
+
                         if let Some(chars) = l.read_escaped_char(false)? {
                             for c in chars {
-                                out.extend(c);
+                                buf.extend(c);
                             }
                         }
+
+                        slice_start = l.cur_pos();
                     }
-                    c if c.is_line_break() => {
+
+                    if (c as char).is_line_break() {
                         break;
                     }
-                    _ => {
-                        out.push(c);
 
-                        l.bump();
-                    }
+                    continue;
                 }
+            }
+
+            {
+                let end = l.cur_pos();
+                let s = unsafe {
+                    // Safety: start and end are valid position because we got them from
+                    // `self.input`
+                    l.input.slice(slice_start, end)
+                };
+                buf.push_str(s);
             }
 
             l.emit_error(start, SyntaxError::UnterminatedStrLit);
@@ -1029,7 +1057,7 @@ impl<'a> Lexer<'a> {
                 l.input.slice(start, end)
             };
             Ok(Token::Str {
-                value: l.atoms.atom(&*out),
+                value: l.atoms.atom(&*buf),
                 raw: l.atoms.atom(raw),
             })
         })
