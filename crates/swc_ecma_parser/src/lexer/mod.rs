@@ -853,6 +853,7 @@ impl<'a> Lexer<'a> {
                         }
 
                         slice_start = l.cur_pos();
+                        continue;
                     }
 
                     // ASCII but not a valid identifier
