@@ -19,6 +19,9 @@
 
 - **(es/lexer)** Optimize lexer ([#9075](https://github.com/swc-project/swc/issues/9075)) ([6426928](https://github.com/swc-project/swc/commit/6426928b912baa6573b902d7d3c85bcd49b2e823))
 
+
+- **(es/lexer)** Make lexing of string literals faster ([#9077](https://github.com/swc-project/swc/issues/9077)) ([373bac5](https://github.com/swc-project/swc/commit/373bac55aaffbe1f6e001c7c6d490797de45114e))
+
 ### Refactor
 
 
