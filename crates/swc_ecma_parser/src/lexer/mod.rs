@@ -993,6 +993,13 @@ impl<'a> Lexer<'a> {
 
                             l.atoms.atom(s)
                         } else {
+                            let s = unsafe {
+                                // Safety: slice_start and value_end are valid position because we
+                                // got them from `self.input`
+                                l.input.slice(slice_start, value_end)
+                            };
+                            buf.push_str(s);
+
                             l.atoms.atom(&**buf)
                         };
 
@@ -1015,10 +1022,6 @@ impl<'a> Lexer<'a> {
 
                     if c == b'\\' {
                         has_escape = true;
-                        unsafe {
-                            // Safety: cur is '\'
-                            l.input.bump();
-                        }
 
                         {
                             let end = l.cur_pos();
