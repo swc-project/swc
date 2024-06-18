@@ -799,6 +799,11 @@ impl<'a> Lexer<'a> {
         self.with_buf(|l, buf| {
             loop {
                 if let Some(c) = l.input.cur_as_ascii() {
+                    // Performance optimization
+                    if c.is_ascii_uppercase() || c.is_ascii_digit() {
+                        can_be_keyword = false;
+                    }
+
                     if Ident::is_valid_continue(c as _) {
                         l.bump();
                         continue;
@@ -811,7 +816,6 @@ impl<'a> Lexer<'a> {
                     // unicode escape
                     if c == b'\\' {
                         first = false;
-                        can_be_keyword = false;
                         has_escape = true;
                         let start = l.cur_pos();
                         l.bump();
@@ -862,6 +866,7 @@ impl<'a> Lexer<'a> {
                 }
 
                 if let Some(c) = l.input.cur() {
+                    can_be_keyword = false;
                     if Ident::is_valid_continue(c) {
                         l.bump();
                         continue;
