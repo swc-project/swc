@@ -32,6 +32,7 @@ pub(super) struct State {
     pub cur_line: usize,
     pub line_start: BytePos,
     pub prev_hi: BytePos,
+    pub tpl_start: BytePos,
 
     context: TokenContexts,
     syntax: Syntax,
@@ -323,11 +324,9 @@ impl<'a> Iterator for Lexer<'a> {
                 }
             }
 
-            if let Some(TokenContext::Tpl {
-                start: start_pos_of_tpl,
-            }) = self.state.context.current()
-            {
-                return self.read_tmpl_token(start_pos_of_tpl).map(Some);
+            if let Some(TokenContext::Tpl {}) = self.state.context.current() {
+                let start = self.state.tpl_start;
+                return self.read_tmpl_token(start).map(Some);
             }
 
             self.read_token()
@@ -373,16 +372,17 @@ impl State {
         State {
             is_expr_allowed: true,
             next_regexp: None,
-            is_first: true,
             had_line_break: false,
             had_line_break_before_last: false,
-            prev_hi: start_pos,
-            context,
-            token_type: None,
+            is_first: true,
             start: BytePos(0),
-            line_start: BytePos(0),
             cur_line: 1,
+            line_start: BytePos(0),
+            prev_hi: start_pos,
+            tpl_start: BytePos::DUMMY,
+            context,
             syntax,
+            token_type: None,
         }
     }
 }
@@ -431,30 +431,26 @@ impl State {
         let prev = self.token_type.take();
         self.token_type = Some(TokenType::from(next));
 
-        self.is_expr_allowed = Self::is_expr_allowed_on_next(
-            &mut self.context,
-            self.syntax,
-            prev,
-            start,
-            next,
-            self.had_line_break,
-            self.had_line_break_before_last,
-            self.is_expr_allowed,
-        );
+        self.is_expr_allowed = self.is_expr_allowed_on_next(prev, start, next);
     }
 
     /// `is_expr_allowed`: previous value.
     /// `start`: start of newly produced token.
     fn is_expr_allowed_on_next(
-        context: &mut TokenContexts,
-        syntax: Syntax,
+        &mut self,
         prev: Option<TokenType>,
         start: BytePos,
         next: TokenKind,
-        had_line_break: bool,
-        had_line_break_before_last: bool,
-        is_expr_allowed: bool,
     ) -> bool {
+        let State {
+            ref mut context,
+            had_line_break,
+            had_line_break_before_last,
+            is_expr_allowed,
+            syntax,
+            ..
+        } = *self;
+
         let is_next_keyword = matches!(next, TokenKind::Word(WordKind::Keyword(..)));
 
         if is_next_keyword && prev == Some(TokenType::Dot) {
@@ -612,7 +608,8 @@ impl State {
                     if let Some(TokenContext::Tpl { .. }) = context.current() {
                         context.pop();
                     } else {
-                        context.push(TokenContext::Tpl { start });
+                        self.tpl_start = start;
+                        context.push(TokenContext::Tpl);
                     }
                     false
                 }
@@ -761,7 +758,6 @@ impl TokenContexts {
 /// The algorithm used to determine whether a regexp can appear at a
 /// given point in the program is loosely based on sweet.js' approach.
 /// See https://github.com/mozilla/sweet.js/wiki/design
-#[repr(u8)]
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum TokenContext {
     BraceStmt,
@@ -772,10 +768,7 @@ pub enum TokenContext {
         is_for_loop: bool,
     },
     ParenExpr,
-    Tpl {
-        /// Start of a template literal.
-        start: BytePos,
-    },
+    Tpl,
     FnExpr,
     ClassExpr,
     JSXOpeningTag,
