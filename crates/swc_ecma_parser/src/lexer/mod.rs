@@ -25,6 +25,7 @@ use crate::{
 };
 
 mod comments_buffer;
+#[deprecated = "Directly use swc_common::input instead"]
 pub mod input;
 mod jsx;
 mod number;
