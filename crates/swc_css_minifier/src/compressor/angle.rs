@@ -37,8 +37,6 @@ impl Compressor {
             return;
         }
 
-        let deg = normalize_deg(deg);
-
         angle.value = Number {
             value: deg,
             raw: None,
@@ -51,14 +49,4 @@ impl Compressor {
             raw: None,
         };
     }
-}
-
-fn normalize_deg(mut value: f64) -> f64 {
-    value = (value % 360.0 + 360.0) % 360.0;
-
-    if value > 350.0 {
-        return value - 360.0;
-    }
-
-    value
 }
