@@ -1056,13 +1056,8 @@ impl<'a> Lexer<'a> {
                             // `self.input`
                             l.input.slice_owned(start, end)
                         };
-                        let raw = l.atoms.atom(raw);
 
                         return Ok(Token::Str { value, raw });
-                        return Ok(Token::Str {
-                            value: l.atoms.atom(&*out),
-                            raw,
-                        });
                     }
 
                     if c == b'\\' {
@@ -1134,8 +1129,6 @@ impl<'a> Lexer<'a> {
             };
             Ok(Token::Str {
                 value: l.atoms.atom(&*buf),
-                raw: l.atoms.atom(raw),
-                value: l.atoms.atom(&*out),
                 raw,
             })
         })
@@ -1286,12 +1279,7 @@ impl<'a> Lexer<'a> {
                     // from `self.input`
                     self.input.slice_owned(raw_slice_start, end)
                 };
-                return Ok(Token::Template {
-                    cooked,
-                    raw: self.atoms.atom(raw),
-                    cooked: cooked.map(Atom::from),
-                    raw,
-                });
+                return Ok(Token::Template { cooked, raw });
             }
 
             if c == '\\' {

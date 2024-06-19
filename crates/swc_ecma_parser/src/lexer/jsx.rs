@@ -57,10 +57,7 @@ impl<'a> Lexer<'a> {
                         self.atoms.atom(out)
                     };
 
-                    return Ok(Some(Token::JSXText { raw }));
-                    return Ok(Some(Token::JSXText {
-                        name: self.atoms.atom(out),
-                    }));
+                    return Ok(Some(Token::JSXText { name: raw }));
                 }
                 '>' => {
                     self.emit_error(
@@ -342,12 +339,7 @@ impl<'a> Lexer<'a> {
             self.input.slice_owned(start, end)
         };
 
-        Ok(Token::Str {
-            value,
-            raw: self.atoms.atom(raw),
-            value: self.atoms.atom(out),
-            raw,
-        })
+        Ok(Token::Str { value, raw })
     }
 
     /// Read a JSX identifier (valid tag or attribute name).
