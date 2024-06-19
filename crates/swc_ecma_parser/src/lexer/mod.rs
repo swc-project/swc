@@ -2,6 +2,7 @@
 
 use std::{cell::RefCell, char, iter::FusedIterator, mem::transmute, rc::Rc};
 
+use debug_unreachable::debug_unreachable;
 use either::Either::{Left, Right};
 use smallvec::{smallvec, SmallVec};
 use swc_atoms::{Atom, AtomStoreCell};
@@ -186,14 +187,10 @@ impl<'a> Lexer<'a> {
 
         match handler {
             Some(handler) => handler(self),
-            None => {
-                let start = self.cur_pos();
-                self.input.bump_bytes(1);
-                self.error_span(
-                    pos_span(start),
-                    SyntaxError::UnexpectedChar { c: byte as _ },
-                )
-            }
+            None => unsafe {
+                // Safety: We declare byte handlers for all possible bytes.
+                debug_unreachable!("No handler for byte")
+            },
         }
     }
 
