@@ -21,22 +21,22 @@ use crate::sync::Lrc;
     feature = "rkyv-impl",
     derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
 )]
-pub struct SourceSlice(Repr);
+pub struct SourceSlice(Box<Repr>);
 
 impl SourceSlice {
     pub fn new(src: Lrc<str>, start: u32, end: u32) -> Self {
-        SourceSlice(Repr::Pointer { src, start, end })
+        SourceSlice(Box::new(Repr::Pointer { src, start, end }))
     }
 
     pub fn new_owned(value: impl Into<Lrc<str>>) -> Self {
-        SourceSlice(Repr::Owned {
+        SourceSlice(Box::new(Repr::Owned {
             value: value.into(),
-        })
+        }))
     }
 
     #[inline]
     pub fn as_str(&self) -> &str {
-        match &self.0 {
+        match &*self.0 {
             Repr::Owned { value } => value,
             Repr::Pointer { src, start, end } => &src[*start as usize..*end as usize],
         }
