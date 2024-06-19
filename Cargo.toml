@@ -76,7 +76,7 @@ resolver = "2"
   miette                   = "4.2.1"
   napi                     = { version = "2.0.0", default-features = false }
   napi-derive              = { version = "2.0.0", default-features = false }
-  new_debug_unreachable    = "1.0.4"
+  new_debug_unreachable    = "1.0.6"
   nom                      = "7.1.3"
   ntest                    = "0.7.2"
   num-bigint               = "0.4.3"
