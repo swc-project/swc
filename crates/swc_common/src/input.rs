@@ -16,8 +16,6 @@ pub struct StringInput<'a> {
     last_pos: BytePos,
     /// Current cursor
     iter: str::Chars<'a>,
-    orig: &'a str,
-    iter: str::CharIndices<'a>,
     orig: &'a Lrc<str>,
     /// Original start position.
     orig_start: BytePos,
@@ -151,9 +149,8 @@ impl<'a> Input for StringInput<'a> {
 
         let ret = SourceSlice::new(self.orig.clone(), start_idx, end_idx);
 
-        self.iter = unsafe { s.get_unchecked((end_idx as usize)..) }.char_indices();
+        self.iter = unsafe { s.get_unchecked((end_idx as usize)..) }.chars();
         self.last_pos = end;
-        self.start_pos_of_iter = end;
 
         ret
     }
