@@ -1,4 +1,5 @@
 use either::Either;
+use smartstring::{LazyCompact, SmartString};
 
 use super::*;
 
@@ -137,7 +138,7 @@ impl<'a> Lexer<'a> {
             s.chars().all(|c| c.is_ascii_digit())
         }
 
-        let mut s = String::new();
+        let mut s = SmartString::<LazyCompact>::default();
 
         let c = self.input.cur();
         debug_assert_eq!(c, Some('&'));
