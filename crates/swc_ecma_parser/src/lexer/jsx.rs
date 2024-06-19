@@ -1,4 +1,5 @@
 use either::Either;
+use smartstring::{LazyCompact, SmartString};
 
 use super::*;
 
@@ -40,14 +41,23 @@ impl<'a> Lexer<'a> {
                         }
                         return self.read_token();
                     }
-                    out.push_str(unsafe {
-                        // Safety: We already checked for the range
-                        self.input.slice(chunk_start, cur_pos)
-                    });
 
-                    return Ok(Some(Token::JSXText {
-                        raw: self.atoms.atom(out),
-                    }));
+                    let raw = if out.is_empty() {
+                        // Fast path: We don't need to allocate
+                        let s = unsafe {
+                            // Safety: We already checked for the range
+                            self.input.slice(chunk_start, cur_pos)
+                        };
+                        self.atoms.atom(s)
+                    } else {
+                        out.push_str(unsafe {
+                            // Safety: We already checked for the range
+                            self.input.slice(chunk_start, cur_pos)
+                        });
+                        self.atoms.atom(out)
+                    };
+
+                    return Ok(Some(Token::JSXText { raw }));
                 }
                 '>' => {
                     self.emit_error(
@@ -128,7 +138,7 @@ impl<'a> Lexer<'a> {
             s.chars().all(|c| c.is_ascii_digit())
         }
 
-        let mut s = String::new();
+        let mut s = SmartString::<LazyCompact>::default();
 
         let c = self.input.cur();
         debug_assert_eq!(c, Some('&'));
@@ -292,13 +302,27 @@ impl<'a> Lexer<'a> {
             }
         }
 
-        let cur_pos = self.input.cur_pos();
-        let value = unsafe {
-            // Safety: We already checked for the range
-            self.input.slice(chunk_start, cur_pos)
-        };
+        let value = if out.is_empty() {
+            // Fast path: We don't need to allocate
 
-        out.push_str(value);
+            let cur_pos = self.input.cur_pos();
+            let value = unsafe {
+                // Safety: We already checked for the range
+                self.input.slice(chunk_start, cur_pos)
+            };
+
+            self.atoms.atom(value)
+        } else {
+            let cur_pos = self.input.cur_pos();
+            let value = unsafe {
+                // Safety: We already checked for the range
+                self.input.slice(chunk_start, cur_pos)
+            };
+
+            out.push_str(value);
+
+            self.atoms.atom(out)
+        };
 
         // it might be at the end of the file when
         // the string literal is unterminated
@@ -316,7 +340,7 @@ impl<'a> Lexer<'a> {
         };
 
         Ok(Token::Str {
-            value: self.atoms.atom(out),
+            value,
             raw: self.atoms.atom(raw),
         })
     }
