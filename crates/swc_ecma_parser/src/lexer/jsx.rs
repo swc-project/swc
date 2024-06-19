@@ -302,13 +302,27 @@ impl<'a> Lexer<'a> {
             }
         }
 
-        let cur_pos = self.input.cur_pos();
-        let value = unsafe {
-            // Safety: We already checked for the range
-            self.input.slice(chunk_start, cur_pos)
-        };
+        let value = if out.is_empty() {
+            // Fast path: We don't need to allocate
 
-        out.push_str(value);
+            let cur_pos = self.input.cur_pos();
+            let value = unsafe {
+                // Safety: We already checked for the range
+                self.input.slice(chunk_start, cur_pos)
+            };
+
+            self.atoms.atom(value)
+        } else {
+            let cur_pos = self.input.cur_pos();
+            let value = unsafe {
+                // Safety: We already checked for the range
+                self.input.slice(chunk_start, cur_pos)
+            };
+
+            out.push_str(value);
+
+            self.atoms.atom(out)
+        };
 
         // it might be at the end of the file when
         // the string literal is unterminated
@@ -326,7 +340,7 @@ impl<'a> Lexer<'a> {
         };
 
         Ok(Token::Str {
-            value: self.atoms.atom(out),
+            value,
             raw: self.atoms.atom(raw),
         })
     }
