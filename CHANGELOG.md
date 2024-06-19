@@ -28,6 +28,9 @@
 
 - **(es/lexer)** Add a fast-path to template literal lexer ([#9080](https://github.com/swc-project/swc/issues/9080)) ([238f1c5](https://github.com/swc-project/swc/commit/238f1c50e5b27a8655e10ac2b2be723b62233931))
 
+
+- **(es/lexer)** Add fast-path to jsx lexer ([#9081](https://github.com/swc-project/swc/issues/9081)) ([af58606](https://github.com/swc-project/swc/commit/af586069a922525dc24b5f59aefaf53daed7759a))
+
 ### Refactor
 
 
@@ -1308,9 +1311,6 @@
 
 ### Bug Fixes
 
-
-
-- **(es/minifier)** Apply new `SyntaxContext` to inlined `Arrow` correctly ([#8312](https://github.com/swc-project/swc/issues/8312)) ([572ad63](https://github.com/swc-project/swc/commit/572ad63e0825e4eddb511933d1a6d57184fc03c2))
 
 
 - **(es/module)** Read link if an import is resolved as symlink ([#8297](https://github.com/swc-project/swc/issues/8297)) ([7dfdc12](https://github.com/swc-project/swc/commit/7dfdc1221890d373d2e6caf52bc8dee8c20765ca))
