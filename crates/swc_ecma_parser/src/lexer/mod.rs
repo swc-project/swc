@@ -1257,7 +1257,21 @@ impl<'a> Lexer<'a> {
                     }
                 }
 
-                consume_cooked!();
+                // If we don't have any escape
+                let cooked = if cooked_slice_start == raw_slice_start {
+                    let last_pos = self.cur_pos();
+                    let s = unsafe {
+                        // Safety: Both of start and last_pos are valid position because we got them
+                        // from `self.input`
+                        self.input.slice(cooked_slice_start, last_pos)
+                    };
+
+                    Ok(self.atoms.atom(s))
+                } else {
+                    consume_cooked!();
+
+                    cooked.map(|s| self.atoms.atom(s))
+                };
 
                 // TODO: Handle error
                 let end = self.input.cur_pos();
@@ -1267,7 +1281,7 @@ impl<'a> Lexer<'a> {
                     self.input.slice(raw_slice_start, end)
                 };
                 return Ok(Token::Template {
-                    cooked: cooked.map(Atom::from),
+                    cooked,
                     raw: self.atoms.atom(raw),
                 });
             }
