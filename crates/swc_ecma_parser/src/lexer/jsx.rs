@@ -40,14 +40,23 @@ impl<'a> Lexer<'a> {
                         }
                         return self.read_token();
                     }
-                    out.push_str(unsafe {
-                        // Safety: We already checked for the range
-                        self.input.slice(chunk_start, cur_pos)
-                    });
 
-                    return Ok(Some(Token::JSXText {
-                        raw: self.atoms.atom(out),
-                    }));
+                    let raw = if out.is_empty() {
+                        // Fast path: We don't need to allocate
+                        let s = unsafe {
+                            // Safety: We already checked for the range
+                            self.input.slice(chunk_start, cur_pos)
+                        };
+                        self.atoms.atom(s)
+                    } else {
+                        out.push_str(unsafe {
+                            // Safety: We already checked for the range
+                            self.input.slice(chunk_start, cur_pos)
+                        });
+                        self.atoms.atom(out)
+                    };
+
+                    return Ok(Some(Token::JSXText { raw }));
                 }
                 '>' => {
                     self.emit_error(
