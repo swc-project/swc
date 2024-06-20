@@ -1489,6 +1489,7 @@ define!({
         pub decorators: Vec<Decorator>,
         pub accessibility: Option<Accessibility>,
         pub is_override: bool,
+        pub deferred: bool,
         pub readonly: bool,
         pub param: TsParamPropParam,
     }

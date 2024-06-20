@@ -85,6 +85,7 @@ pub struct TsParamProp {
     pub accessibility: Option<Accessibility>,
     #[cfg_attr(feature = "serde-impl", serde(rename = "override"))]
     pub is_override: bool,
+    pub deferred: bool,
     pub readonly: bool,
     pub param: TsParamPropParam,
 }
