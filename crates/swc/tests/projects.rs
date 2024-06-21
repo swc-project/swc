@@ -776,10 +776,15 @@ fn should_visit() {
 #[testing::fixture("tests/fixture/**/input/")]
 #[testing::fixture("tests/vercel/**/input/")]
 fn fixture(input_dir: PathBuf) {
-    tests(input_dir)
+    tests(input_dir, Some(IsModule::Unknown));
 }
 
-fn tests(input_dir: PathBuf) {
+#[testing::fixture("tests/ts-isolated-declaration/**/input/")]
+fn ts_id(input_dir: PathBuf) {
+    tests(input_dir, Some(IsModule::Bool(true)));
+}
+
+fn tests(input_dir: PathBuf, is_module: Option<IsModule>) {
     let output = input_dir.parent().unwrap().join("output");
 
     Tester::new()
@@ -818,7 +823,7 @@ fn tests(input_dir: PathBuf) {
                                 external_helpers: true.into(),
                                 ..Default::default()
                             },
-                            is_module: Some(IsModule::Unknown),
+                            is_module,
                             ..Default::default()
                         },
 
