@@ -6,11 +6,11 @@ use swc_atoms::Atom;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::{
     BindingIdent, ClassMember, Decl, DefaultDecl, ExportDecl, ExportDefaultDecl, ExportDefaultExpr,
-    Expr, FnDecl, FnExpr, Ident, Lit, Module, ModuleDecl, ModuleItem, OptChainBase, Pat, Prop,
-    PropName, PropOrSpread, Stmt, TsEntityName, TsFnOrConstructorType, TsFnParam, TsFnType,
-    TsKeywordType, TsKeywordTypeKind, TsLit, TsNamespaceBody, TsPropertySignature, TsTupleElement,
-    TsTupleType, TsType, TsTypeAnn, TsTypeElement, TsTypeLit, TsTypeOperator, TsTypeOperatorOp,
-    TsTypeRef,
+    Expr, FnDecl, FnExpr, Ident, Lit, MethodKind, Module, ModuleDecl, ModuleItem, OptChainBase,
+    Pat, Prop, PropName, PropOrSpread, Stmt, TsEntityName, TsFnOrConstructorType, TsFnParam,
+    TsFnType, TsKeywordType, TsKeywordTypeKind, TsLit, TsNamespaceBody, TsPropertySignature,
+    TsTupleElement, TsTupleType, TsType, TsTypeAnn, TsTypeElement, TsTypeLit, TsTypeOperator,
+    TsTypeOperatorOp, TsTypeRef,
 };
 
 pub struct Checker {
@@ -176,6 +176,8 @@ impl Checker {
 
             prev_is_overload = is_overload;
         }
+
+        *items = new_items;
     }
 
     fn expr_to_ts_type(
@@ -657,11 +659,11 @@ impl Checker {
 
     fn infer_expr_fallback_any(
         &mut self,
-        expr: Expr,
+        expr: Box<Expr>,
         as_const: bool,
         as_readonly: bool,
     ) -> Option<Box<TsTypeAnn>> {
-        if let Some(ts_type) = self.expr_to_ts_type(expr.clone(), as_const, as_readonly) {
+        if let Some(ts_type) = self.expr_to_ts_type(expr, as_const, as_readonly) {
             Some(type_ann(ts_type))
         } else {
             self.mark_diagnostic_any_fallback(expr.range());
@@ -726,7 +728,7 @@ impl Checker {
                     if prop.type_ann.is_none() {
                         if let Some(value) = prop.value {
                             prop.type_ann = self
-                                .expr_to_ts_type(*value, false, false)
+                                .expr_to_ts_type(value, false, false)
                                 .map(type_ann)
                                 .or_else(|| Some(any_type_ann()));
                         }
