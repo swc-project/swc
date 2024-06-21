@@ -3975,6 +3975,7 @@ dependencies = [
  "swc_plugin_runner",
  "swc_trace_macro",
  "swc_transform_common",
+ "swc_typescript",
  "testing",
  "vergen",
 ]
