@@ -1,7 +1,3 @@
-//! Mostly copied from <https://github.com/denoland/deno_graph/blob/15db6e5fb6d3faea027e16c3d9ce6498b11beed2/src/fast_check/transform_dts.rs>
-//!
-//! The original code is MIT licensed.
-
 use std::{mem::take, sync::Arc};
 
 use swc_atoms::Atom;
@@ -17,7 +13,17 @@ use swc_ecma_ast::{
 
 use crate::diagnostic::{DtsIssue, SourceRange};
 
-pub struct Checker {
+/// TypeScript Isolated Declaration support.
+///
+/// ---
+///
+/// # License
+///
+/// Mostly copied from <https://github.com/denoland/deno_graph/blob/15db6e5fb6d3faea027e16c3d9ce6498b11beed2/src/fast_check/transform_dts.rs>
+///
+/// The original code is MIT licensed.
+
+pub struct FastDts {
     filename: Arc<FileName>,
     is_top_level: bool,
     id_counter: u32,
@@ -25,7 +31,7 @@ pub struct Checker {
 }
 
 /// Diagnostics
-impl Checker {
+impl FastDts {
     fn mark_diagnostic(&mut self, diagnostic: DtsIssue) {
         self.diagnostics.push(diagnostic)
     }
@@ -56,7 +62,7 @@ impl Checker {
     }
 }
 
-impl Checker {
+impl FastDts {
     pub fn transform(&mut self, module: &mut Module) {
         self.is_top_level = true;
 
