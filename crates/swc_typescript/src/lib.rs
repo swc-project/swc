@@ -5,11 +5,12 @@ use std::mem::take;
 use swc_atoms::Atom;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::{
-    Decl, DefaultDecl, ExportDecl, ExportDefaultDecl, Expr, FnDecl, FnExpr, Ident, Lit, Module,
-    ModuleDecl, ModuleItem, OptChainBase, Pat, Prop, PropName, PropOrSpread, Stmt, TsEntityName,
-    TsFnOrConstructorType, TsFnParam, TsFnType, TsKeywordType, TsKeywordTypeKind, TsLit,
-    TsNamespaceBody, TsPropertySignature, TsTupleElement, TsTupleType, TsType, TsTypeAnn,
-    TsTypeElement, TsTypeLit, TsTypeOperator, TsTypeOperatorOp, TsTypeRef,
+    BindingIdent, ClassMember, Decl, DefaultDecl, ExportDecl, ExportDefaultDecl, ExportDefaultExpr,
+    Expr, FnDecl, FnExpr, Ident, Lit, Module, ModuleDecl, ModuleItem, OptChainBase, Pat, Prop,
+    PropName, PropOrSpread, Stmt, TsEntityName, TsFnOrConstructorType, TsFnParam, TsFnType,
+    TsKeywordType, TsKeywordTypeKind, TsLit, TsNamespaceBody, TsPropertySignature, TsTupleElement,
+    TsTupleType, TsType, TsTypeAnn, TsTypeElement, TsTypeLit, TsTypeOperator, TsTypeOperatorOp,
+    TsTypeRef,
 };
 
 pub struct Checker {
@@ -115,7 +116,7 @@ impl Checker {
                     let name = self.gen_unique_name();
                     let name_ident = Ident::new(name.into(), DUMMY_SP);
                     let type_ann = self
-                        .expr_to_ts_type(*export_default_expr.expr.clone(), false, true)
+                        .expr_to_ts_type(*export.expr.clone(), false, true)
                         .map(type_ann);
 
                     if let Some(type_ann) = type_ann {
@@ -138,15 +139,15 @@ impl Checker {
 
                         new_items.push(ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(
                             ExportDefaultExpr {
-                                span: export_default_expr.span,
+                                span: export.span,
                                 expr: Box::new(Expr::Ident(name_ident)),
                             },
                         )))
                     } else {
                         new_items.push(ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(
                             ExportDefaultExpr {
-                                span: export_default_expr.span,
-                                expr: export_default_expr.expr,
+                                span: export.span,
+                                expr: export.expr,
                             },
                         )))
                     }
@@ -757,10 +758,10 @@ impl Checker {
             Pat::Rest(rest_pat) => Some(TsFnParam::Rest(rest_pat)),
             Pat::Object(obj) => Some(TsFnParam::Object(obj)),
             Pat::Assign(assign_pat) => {
-                self.expr_to_ts_type(*assign_pat.right, false, false)
+                self.expr_to_ts_type(assign_pat.right, false, false)
                     .map(|param| {
                         let name = if let Pat::Ident(ident) = *assign_pat.left {
-                            ident.id.sym.as_str().to_string()
+                            ident.id.sym.clone()
                         } else {
                             self.gen_unique_name()
                         };
