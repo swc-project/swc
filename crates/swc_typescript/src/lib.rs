@@ -365,6 +365,421 @@ impl Checker {
             | Expr::Invalid(_) => None,
         }
     }
+
+    fn decl_to_type_decl(&mut self, decl: &mut Decl) -> Option<Decl> {
+        let is_declare = self.is_top_level;
+        match decl {
+            Decl::Class(mut class_decl) => {
+                class_decl.class.body = self.class_body_to_type(class_decl.class.body);
+                class_decl.declare = is_declare;
+                Some(Decl::Class(class_decl))
+            }
+            Decl::Fn(mut fn_decl) => {
+                fn_decl.function.body = None;
+                fn_decl.declare = is_declare;
+
+                for param in &mut fn_decl.function.params {
+                    match &mut param.pat {
+                        Pat::Ident(ident) => {
+                            if ident.type_ann.is_none() {
+                                self.mark_diagnostic_any_fallback(ident.range());
+                                ident.type_ann = Some(any_type_ann());
+                            }
+                        }
+                        Pat::Assign(assign_pat) => {
+                            match &mut *assign_pat.left {
+                                Pat::Ident(ident) => {
+                                    if ident.type_ann.is_none() {
+                                        ident.type_ann = self.infer_expr_fallback_any(
+                                            *assign_pat.right.clone(),
+                                            false,
+                                            false,
+                                        );
+                                    }
+
+                                    ident.optional = true;
+                                    param.pat = Pat::Ident(ident.clone());
+                                }
+                                Pat::Array(arr_pat) => {
+                                    if arr_pat.type_ann.is_none() {
+                                        arr_pat.type_ann = self.infer_expr_fallback_any(
+                                            *assign_pat.right.clone(),
+                                            false,
+                                            false,
+                                        );
+                                    }
+
+                                    arr_pat.optional = true;
+                                    param.pat = Pat::Array(arr_pat.clone());
+                                }
+                                Pat::Object(obj_pat) => {
+                                    if obj_pat.type_ann.is_none() {
+                                        obj_pat.type_ann = self.infer_expr_fallback_any(
+                                            *assign_pat.right.clone(),
+                                            false,
+                                            false,
+                                        );
+                                    }
+
+                                    obj_pat.optional = true;
+                                    param.pat = Pat::Object(obj_pat.clone());
+                                }
+                                Pat::Rest(_) | Pat::Assign(_) | Pat::Expr(_) | Pat::Invalid(_) => {}
+                            };
+                        }
+                        Pat::Array(_)
+                        | Pat::Rest(_)
+                        | Pat::Object(_)
+                        | Pat::Invalid(_)
+                        | Pat::Expr(_) => {}
+                    }
+                }
+
+                Some(Decl::Fn(fn_decl))
+            }
+            Decl::Var(mut var_decl) => {
+                var_decl.declare = is_declare;
+
+                for decl in &mut var_decl.decls {
+                    if let Pat::Ident(ident) = &mut decl.name {
+                        if ident.type_ann.is_some() {
+                            decl.init = None;
+                            continue;
+                        }
+
+                        let ts_type = decl
+                            .init
+                            .as_ref()
+                            .and_then(|init_box| {
+                                let init = *init_box.clone();
+                                self.expr_to_ts_type(init, false, true)
+                            })
+                            .map(type_ann)
+                            .or_else(|| {
+                                self.mark_diagnostic_any_fallback(ident.range());
+                                Some(any_type_ann())
+                            });
+                        ident.type_ann = ts_type;
+                    } else {
+                        self.mark_diagnostic_unable_to_infer(decl.range());
+                    }
+
+                    decl.init = None;
+                }
+
+                Some(Decl::Var(var_decl))
+            }
+            Decl::TsEnum(mut ts_enum) => {
+                ts_enum.declare = is_declare;
+
+                for member in &mut ts_enum.members {
+                    if let Some(init) = &member.init {
+                        // Support for expressions is limited in enums,
+                        // see https://www.typescriptlang.org/docs/handbook/enums.html
+                        member.init = if self.valid_enum_init_expr(*init.clone()) {
+                            Some(init.clone())
+                        } else {
+                            None
+                        };
+                    }
+                }
+
+                Some(Decl::TsEnum(ts_enum))
+            }
+            Decl::TsModule(mut ts_module) => {
+                ts_module.declare = is_declare;
+
+                if let Some(body) = ts_module.body.clone() {
+                    ts_module.body = Some(self.transform_ts_ns_body(body));
+
+                    Some(Decl::TsModule(ts_module))
+                } else {
+                    Some(Decl::TsModule(ts_module))
+                }
+            }
+            Decl::TsInterface(_) | Decl::TsTypeAlias(_) => Some(decl),
+            Decl::Using(_) => {
+                self.mark_diagnostic(FastCheckDtsDiagnostic::UnsupportedUsing {
+                    range: self.source_range_to_range(decl.range()),
+                });
+                None
+            }
+        }
+    }
+
+    fn transform_ts_ns_body(&mut self, ns: TsNamespaceBody) -> TsNamespaceBody {
+        let original_is_top_level = self.is_top_level;
+        self.is_top_level = false;
+        let body = match ns {
+            TsNamespaceBody::TsModuleBlock(mut ts_module_block) => {
+                ts_module_block.body = self.transform_module_items(ts_module_block.body);
+                TsNamespaceBody::TsModuleBlock(ts_module_block)
+            }
+            TsNamespaceBody::TsNamespaceDecl(ts_ns) => self.transform_ts_ns_body(*ts_ns.body),
+        };
+        self.is_top_level = original_is_top_level;
+        body
+    }
+
+    // Support for expressions is limited in enums,
+    // see https://www.typescriptlang.org/docs/handbook/enums.html
+    fn valid_enum_init_expr(&mut self, expr: Expr) -> bool {
+        match expr {
+            Expr::Bin(bin_expr) => {
+                if !self.valid_enum_init_expr(*bin_expr.left) {
+                    false
+                } else {
+                    self.valid_enum_init_expr(*bin_expr.right)
+                }
+            }
+
+            Expr::Member(member_expr) => self.valid_enum_init_expr(*member_expr.obj),
+            Expr::OptChain(opt_expr) => match *opt_expr.base {
+                OptChainBase::Member(member_expr) => {
+                    self.valid_enum_init_expr(Expr::Member(member_expr))
+                }
+                OptChainBase::Call(_) => false,
+            },
+            // TS does infer the type of identifiers
+            Expr::Ident(_) => true,
+            Expr::Lit(lit) => match lit {
+                Lit::Num(_) | Lit::Str(_) => true,
+                Lit::Bool(_) | Lit::Null(_) | Lit::BigInt(_) | Lit::Regex(_) | Lit::JSXText(_) => {
+                    false
+                }
+            },
+            Expr::Tpl(tpl_expr) => {
+                for expr in tpl_expr.exprs {
+                    if !self.valid_enum_init_expr(*expr) {
+                        return false;
+                    }
+                }
+                true
+            }
+
+            Expr::Paren(paren_expr) => self.valid_enum_init_expr(*paren_expr.expr),
+
+            Expr::TsTypeAssertion(ts_ass) => {
+                // Only assertions to number are allowed for computed
+                // enum members.
+                match *ts_ass.type_ann {
+                    TsType::TsLitType(ts_lit) => match ts_lit.lit {
+                        TsLit::Number(_) => true,
+                        TsLit::Str(_) | TsLit::Bool(_) | TsLit::BigInt(_) | TsLit::Tpl(_) => false,
+                    },
+                    TsType::TsKeywordType(_)
+                    | TsType::TsThisType(_)
+                    | TsType::TsFnOrConstructorType(_)
+                    | TsType::TsTypeRef(_)
+                    | TsType::TsTypeQuery(_)
+                    | TsType::TsTypeLit(_)
+                    | TsType::TsArrayType(_)
+                    | TsType::TsTupleType(_)
+                    | TsType::TsOptionalType(_)
+                    | TsType::TsRestType(_)
+                    | TsType::TsUnionOrIntersectionType(_)
+                    | TsType::TsConditionalType(_)
+                    | TsType::TsInferType(_)
+                    | TsType::TsParenthesizedType(_)
+                    | TsType::TsTypeOperator(_)
+                    | TsType::TsIndexedAccessType(_)
+                    | TsType::TsMappedType(_)
+                    | TsType::TsTypePredicate(_)
+                    | TsType::TsImportType(_) => false,
+                }
+            }
+
+            Expr::TsAs(ts_as) => self.valid_enum_ts_type(*ts_as.type_ann),
+
+            // These are not valid as enum member initializer and
+            // TS will throw a type error. For declaration generation
+            // they will be dropped in TS so we do that too.
+            Expr::TsInstantiation(_)
+            | Expr::Call(_)
+            | Expr::Update(_)
+            | Expr::PrivateName(_)
+            | Expr::TsSatisfies(_)
+            | Expr::TsNonNull(_)
+            | Expr::TsConstAssertion(_)
+            | Expr::Cond(_)
+            | Expr::Seq(_)
+            | Expr::TaggedTpl(_)
+            | Expr::Object(_)
+            | Expr::Array(_)
+            | Expr::Arrow(_)
+            | Expr::Class(_)
+            | Expr::Await(_)
+            | Expr::MetaProp(_)
+            | Expr::New(_)
+            | Expr::JSXMember(_)
+            | Expr::JSXNamespacedName(_)
+            | Expr::JSXEmpty(_)
+            | Expr::JSXElement(_)
+            | Expr::JSXFragment(_)
+            | Expr::Unary(_)
+            | Expr::Assign(_)
+            | Expr::Yield(_)
+            | Expr::SuperProp(_)
+            | Expr::Fn(_)
+            | Expr::This(_)
+            | Expr::Invalid(_) => false,
+        }
+    }
+
+    fn valid_enum_ts_type(&mut self, ts_type: TsType) -> bool {
+        match ts_type {
+            TsType::TsLitType(ts_lit) => match ts_lit.lit {
+                TsLit::Number(_) => true,
+                TsLit::Str(_) | TsLit::Bool(_) | TsLit::BigInt(_) | TsLit::Tpl(_) => false,
+            },
+            TsType::TsKeywordType(_)
+            | TsType::TsThisType(_)
+            | TsType::TsFnOrConstructorType(_)
+            | TsType::TsTypeRef(_)
+            | TsType::TsTypeQuery(_)
+            | TsType::TsTypeLit(_)
+            | TsType::TsArrayType(_)
+            | TsType::TsTupleType(_)
+            | TsType::TsOptionalType(_)
+            | TsType::TsRestType(_)
+            | TsType::TsUnionOrIntersectionType(_)
+            | TsType::TsConditionalType(_)
+            | TsType::TsInferType(_)
+            | TsType::TsParenthesizedType(_)
+            | TsType::TsTypeOperator(_)
+            | TsType::TsIndexedAccessType(_)
+            | TsType::TsMappedType(_)
+            | TsType::TsTypePredicate(_)
+            | TsType::TsImportType(_) => false,
+        }
+    }
+
+    fn infer_expr_fallback_any(
+        &mut self,
+        expr: Expr,
+        as_const: bool,
+        as_readonly: bool,
+    ) -> Option<Box<TsTypeAnn>> {
+        if let Some(ts_type) = self.expr_to_ts_type(expr.clone(), as_const, as_readonly) {
+            Some(type_ann(ts_type))
+        } else {
+            self.mark_diagnostic_any_fallback(expr.range());
+            Some(any_type_ann())
+        }
+    }
+
+    fn class_body_to_type(&mut self, body: Vec<ClassMember>) -> Vec<ClassMember> {
+        // Track if the previous member was an overload signature or not.
+        // When overloads are present the last item has the implementation
+        // body. For declaration files the implementation always needs to
+        // be dropped. Needs to be unique for each class because another
+        // class could be created inside a class method.
+        let mut prev_is_overload = false;
+
+        body.into_iter()
+            .filter(|member| match member {
+                ClassMember::Constructor(class_constructor) => {
+                    let is_overload = class_constructor.body.is_none();
+                    if !prev_is_overload || is_overload {
+                        prev_is_overload = is_overload;
+                        true
+                    } else {
+                        prev_is_overload = false;
+                        false
+                    }
+                }
+                ClassMember::Method(method) => {
+                    let is_overload = method.function.body.is_none();
+                    if !prev_is_overload || is_overload {
+                        prev_is_overload = is_overload;
+                        true
+                    } else {
+                        prev_is_overload = false;
+                        false
+                    }
+                }
+                ClassMember::TsIndexSignature(_)
+                | ClassMember::ClassProp(_)
+                | ClassMember::PrivateProp(_)
+                | ClassMember::Empty(_)
+                | ClassMember::StaticBlock(_)
+                | ClassMember::AutoAccessor(_)
+                | ClassMember::PrivateMethod(_) => {
+                    prev_is_overload = false;
+                    true
+                }
+            })
+            .filter_map(|member| match member {
+                ClassMember::Constructor(mut class_constructor) => {
+                    class_constructor.body = None;
+                    Some(ClassMember::Constructor(class_constructor))
+                }
+                ClassMember::Method(mut method) => {
+                    method.function.body = None;
+                    if method.kind == MethodKind::Setter {
+                        method.function.return_type = None;
+                    }
+                    Some(ClassMember::Method(method))
+                }
+                ClassMember::ClassProp(mut prop) => {
+                    if prop.type_ann.is_none() {
+                        if let Some(value) = prop.value {
+                            prop.type_ann = self
+                                .expr_to_ts_type(*value, false, false)
+                                .map(type_ann)
+                                .or_else(|| Some(any_type_ann()));
+                        }
+                    }
+                    prop.value = None;
+                    prop.definite = false;
+                    prop.declare = false;
+
+                    Some(ClassMember::ClassProp(prop))
+                }
+                ClassMember::TsIndexSignature(index_sig) => {
+                    Some(ClassMember::TsIndexSignature(index_sig))
+                }
+
+                // These can be removed as they are not relevant for types
+                ClassMember::PrivateMethod(_)
+                | ClassMember::PrivateProp(_)
+                | ClassMember::Empty(_)
+                | ClassMember::StaticBlock(_)
+                | ClassMember::AutoAccessor(_) => None,
+            })
+            .collect()
+    }
+
+    fn pat_to_ts_fn_param(&mut self, pat: Pat) -> Option<TsFnParam> {
+        match pat {
+            Pat::Ident(binding_id) => Some(TsFnParam::Ident(binding_id)),
+            Pat::Array(arr_pat) => Some(TsFnParam::Array(arr_pat)),
+            Pat::Rest(rest_pat) => Some(TsFnParam::Rest(rest_pat)),
+            Pat::Object(obj) => Some(TsFnParam::Object(obj)),
+            Pat::Assign(assign_pat) => {
+                self.expr_to_ts_type(*assign_pat.right, false, false)
+                    .map(|param| {
+                        let name = if let Pat::Ident(ident) = *assign_pat.left {
+                            ident.id.sym.as_str().to_string()
+                        } else {
+                            self.gen_unique_name()
+                        };
+
+                        TsFnParam::Ident(BindingIdent {
+                            id: Ident::new(name.into(), assign_pat.span),
+                            type_ann: Some(type_ann(param)),
+                        })
+                    })
+            }
+            Pat::Expr(expr) => {
+                self.mark_diagnostic_unable_to_infer(expr.range());
+                None
+            }
+            // Invalid code is invalid, not sure why SWC doesn't throw
+            // a parse error here.
+            Pat::Invalid(_) => None,
+        }
+    }
 }
 
 fn is_void_type(return_type: &TsType) -> bool {
