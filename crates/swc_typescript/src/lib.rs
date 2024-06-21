@@ -127,8 +127,6 @@ impl Checker {
                     match &mut export.decl {
                         DefaultDecl::Class(class_expr) => {
                             class_expr.class.body = self.class_body_to_type(class_expr.class.body);
-
-                            export.decl = DefaultDecl::Class(class_expr);
                         }
                         DefaultDecl::Fn(fn_expr) => {
                             fn_expr.function.body = None;
