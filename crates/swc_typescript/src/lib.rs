@@ -437,7 +437,7 @@ impl Checker {
                                 Pat::Ident(ident) => {
                                     if ident.type_ann.is_none() {
                                         ident.type_ann = self.infer_expr_fallback_any(
-                                            assign_pat.right,
+                                            assign_pat.right.take(),
                                             false,
                                             false,
                                         );
@@ -449,7 +449,7 @@ impl Checker {
                                 Pat::Array(arr_pat) => {
                                     if arr_pat.type_ann.is_none() {
                                         arr_pat.type_ann = self.infer_expr_fallback_any(
-                                            assign_pat.right,
+                                            assign_pat.right.take(),
                                             false,
                                             false,
                                         );
@@ -461,7 +461,7 @@ impl Checker {
                                 Pat::Object(obj_pat) => {
                                     if obj_pat.type_ann.is_none() {
                                         obj_pat.type_ann = self.infer_expr_fallback_any(
-                                            assign_pat.right,
+                                            assign_pat.right.take(),
                                             false,
                                             false,
                                         );
@@ -512,7 +512,7 @@ impl Checker {
 
                 Some(())
             }
-            Decl::TsEnum(mut ts_enum) => {
+            Decl::TsEnum(ts_enum) => {
                 ts_enum.declare = is_declare;
 
                 for member in &mut ts_enum.members {
@@ -529,10 +529,10 @@ impl Checker {
 
                 Some(())
             }
-            Decl::TsModule(mut ts_module) => {
+            Decl::TsModule(ts_module) => {
                 ts_module.declare = is_declare;
 
-                if let Some(body) = ts_module.body {
+                if let Some(body) = ts_module.body.take() {
                     ts_module.body = Some(self.transform_ts_ns_body(body));
 
                     Some(())
@@ -579,7 +579,7 @@ impl Checker {
             Expr::Member(member_expr) => self.valid_enum_init_expr(&member_expr.obj),
             Expr::OptChain(opt_expr) => match &*opt_expr.base {
                 OptChainBase::Member(member_expr) => {
-                    self.valid_enum_init_expr(&Expr::Member(member_expr))
+                    self.valid_enum_init_expr(&Expr::Member(member_expr.clone()))
                 }
                 OptChainBase::Call(_) => false,
             },
