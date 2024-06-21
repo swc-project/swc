@@ -2,9 +2,11 @@
 
 use std::mem::take;
 
+use swc_common::DUMMY_SP;
 use swc_ecma_ast::{
     Decl, DefaultDecl, ExportDecl, ExportDefaultDecl, Expr, FnDecl, FnExpr, Module, ModuleDecl,
-    ModuleItem, Stmt, TsType,
+    ModuleItem, Stmt, TsKeywordType, TsKeywordTypeKind, TsTupleElement, TsTupleType, TsType,
+    TsTypeOperator, TsTypeOperatorOp,
 };
 
 pub struct Checker {
@@ -178,5 +180,62 @@ impl Checker {
         as_const: bool,
         as_readonly: bool,
     ) -> Option<TsType> {
+        match *e {
+            Expr::Array(arr) => {
+                let mut elem_types: Vec<TsTupleElement> = vec![];
+
+                for elems in arr.elems {
+                    if let Some(expr_or_spread) = elems {
+                        if let Some(ts_expr) =
+                            self.expr_to_ts_type(expr_or_spread.expr, as_const, as_readonly)
+                        {
+                            elem_types.push(ts_tuple_element(ts_expr));
+                        } else {
+                            self.mark_diagnostic_unable_to_infer(expr_or_spread);
+                        }
+                    } else {
+                        // TypeScript converts holey arrays to any
+                        // Example: const a = [,,] -> const a = [any, any, any]
+                        elem_types.push(ts_tuple_element(TsType::TsKeywordType(TsKeywordType {
+                            kind: TsKeywordTypeKind::TsAnyKeyword,
+                            span: DUMMY_SP,
+                        })))
+                    }
+                }
+
+                let mut result = TsType::TsTupleType(TsTupleType {
+                    span: arr.span,
+                    elem_types,
+                });
+
+                if as_readonly {
+                    result = ts_readonly(result);
+                }
+                Some(result)
+            }
+        }
     }
+}
+
+fn ts_readonly(ann: TsType) -> TsType {
+    TsType::TsTypeOperator(TsTypeOperator {
+        span: DUMMY_SP,
+        op: TsTypeOperatorOp::ReadOnly,
+        type_ann: Box::new(ann),
+    })
+}
+
+fn ts_tuple_element(ts_type: TsType) -> TsTupleElement {
+    TsTupleElement {
+        label: None,
+        span: DUMMY_SP,
+        ty: Box::new(ts_type),
+    }
+}
+
+fn ts_keyword_type(kind: TsKeywordTypeKind) -> TsType {
+    TsType::TsKeywordType(TsKeywordType {
+        span: DUMMY_SP,
+        kind,
+    })
 }
