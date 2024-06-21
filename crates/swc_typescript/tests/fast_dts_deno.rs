@@ -81,8 +81,8 @@ export function foo(a: any): number {
   return 2;
 }"#,
         r#"export declare function foo({ a, b }?: {
-  a: number;
-  b: number;
+    a: number;
+    b: number;
 }): number;"#,
     );
 }
@@ -283,18 +283,18 @@ fn dts_as_const() {
     transform_dts_test(
         r#"export const foo = { str: "bar", bool: true, bool2: false, num: 42,   nullish: null } as const;"#,
         r#"export declare const foo: {
-  readonly str: "bar";
-  readonly bool: true;
-  readonly bool2: false;
-  readonly num: 42;
-  readonly nullish: null;
+    readonly str: "bar";
+    readonly bool: true;
+    readonly bool2: false;
+    readonly num: 42;
+    readonly nullish: null;
 };"#,
     );
 
     transform_dts_test(
         r#"export const foo = { str: [1, 2] as const } as const;"#,
         r#"export declare const foo: {
-  readonly str: readonly [1, 2];
+    readonly str: readonly [1, 2];
 };"#,
     );
 
@@ -458,7 +458,7 @@ export default function(a: number, b: number): any {
     transform_dts_test(
         r#"export default class {foo = 2};"#,
         r#"export default class {
-  foo: number;
+    foo: number;
 }"#,
     );
     transform_dts_test(
