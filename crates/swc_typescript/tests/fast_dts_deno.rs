@@ -7,6 +7,7 @@ use swc_ecma_codegen::to_code;
 use swc_ecma_parser::{parse_file_as_module, Syntax, TsConfig};
 use swc_typescript::fast_dts::FastDts;
 
+#[track_caller]
 fn transform_dts_test(source: &str, expected: &str) {
     testing::run_test(false, |cm, _| {
         let fm = cm.new_source_file(
@@ -31,7 +32,11 @@ fn transform_dts_test(source: &str, expected: &str) {
 
         let code = to_code(&module);
 
-        assert_eq!(code.trim(), expected.trim(), "Expected:\n{expected}");
+        assert_eq!(
+            code.trim(),
+            expected.trim(),
+            "Actual:\n{code}\nExpected:\n{expected}"
+        );
 
         Ok(())
     })
