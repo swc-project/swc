@@ -25,12 +25,12 @@ impl Checker {
     }
 
     fn transform_module_items(&mut self, items: &mut Vec<ModuleItem>) {
-        let items = take(items);
-        let mut new_items = Vec::with_capacity(items.len());
+        let orig_items = take(items);
+        let mut new_items = Vec::with_capacity(orig_items.len());
 
         let mut prev_is_overload = false;
 
-        for mut item in items {
+        for mut item in orig_items {
             let is_overload = match item {
                 ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl { decl, .. }))
                 | ModuleItem::Stmt(Stmt::Decl(decl)) => match decl {
