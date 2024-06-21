@@ -587,7 +587,7 @@ jobs:
           - crate: testing_macros
             os: ubuntu-latest
             runner: ubuntu-latest
-          - crate: xtask
+          - crate: swc_typescript
             os: ubuntu-latest
             runner: ubuntu-latest
     steps:
