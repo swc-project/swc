@@ -1,14 +1,22 @@
+#![allow(clippy::boxed_local)]
+
 use std::mem::take;
 
 use swc_ecma_ast::{
-    Decl, DefaultDecl, ExportDecl, ExportDefaultDecl, FnDecl, FnExpr, Module, ModuleDecl,
-    ModuleItem, Stmt,
+    Decl, DefaultDecl, ExportDecl, ExportDefaultDecl, Expr, FnDecl, FnExpr, Module, ModuleDecl,
+    ModuleItem, Stmt, TsType,
 };
 
-pub struct Checker {}
+pub struct Checker {
+    is_top_level: bool,
+}
 
 impl Checker {
-    pub fn transform(&mut self, module: &mut Module) {}
+    pub fn transform(&mut self, module: &mut Module) {
+        self.is_top_level = true;
+
+        self.transform_module_items(&mut module.body);
+    }
 
     fn transform_module_items(&mut self, items: &mut Vec<ModuleItem>) {
         let items = take(items);
@@ -162,5 +170,13 @@ impl Checker {
 
             prev_is_overload = is_overload;
         }
+    }
+
+    fn expr_to_ts_type(
+        &mut self,
+        e: Box<Expr>,
+        as_const: bool,
+        as_readonly: bool,
+    ) -> Option<TsType> {
     }
 }
