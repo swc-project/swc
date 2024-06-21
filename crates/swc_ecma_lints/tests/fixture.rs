@@ -22,7 +22,7 @@ fn pass(input: PathBuf) {
             if input.extension().unwrap() == "ts" {
                 Syntax::Typescript(Default::default())
             } else if input.extension().unwrap() == "tsx" {
-                Syntax::Typescript(swc_ecma_parser::TsConfig {
+                Syntax::Typescript(swc_ecma_parser::TsSyntax {
                     tsx: true,
                     ..Default::default()
                 })

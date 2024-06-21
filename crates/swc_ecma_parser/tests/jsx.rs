@@ -28,7 +28,7 @@ where
         .unwrap_or_else(|e| panic!("failed to load {}: {}", file_name.display(), e));
 
     let mut p = Parser::new(
-        ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+        ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
             jsx: true,
             ..Default::default()
         }),

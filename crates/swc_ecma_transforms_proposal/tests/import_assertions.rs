@@ -1,4 +1,4 @@
-use swc_ecma_parser::{EsConfig, Syntax};
+use swc_ecma_parser::{EsSyntax, Syntax};
 use swc_ecma_transforms_proposal::import_assertions;
 use swc_ecma_transforms_testing::test;
 use swc_ecma_visit::Fold;
@@ -8,7 +8,7 @@ fn tr() -> impl Fold {
 }
 
 fn syntax() -> Syntax {
-    Syntax::Es(EsConfig {
+    Syntax::Es(EsSyntax {
         import_attributes: true,
         ..Default::default()
     })

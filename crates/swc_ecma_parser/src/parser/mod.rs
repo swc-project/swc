@@ -13,7 +13,7 @@ use crate::{
     error::SyntaxError,
     lexer::Lexer,
     token::{Token, Word},
-    Context, EsVersion, Syntax, TsConfig,
+    Context, EsVersion, Syntax, TsSyntax,
 };
 #[cfg(test)]
 extern crate test;
@@ -70,7 +70,7 @@ impl<I: Tokens> Parser<I> {
         #[cfg(feature = "typescript")]
         let in_declare = matches!(
             input.syntax(),
-            Syntax::Typescript(TsConfig { dts: true, .. })
+            Syntax::Typescript(TsSyntax { dts: true, .. })
         );
         #[cfg(not(feature = "typescript"))]
         let in_declare = false;

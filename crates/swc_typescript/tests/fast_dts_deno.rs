@@ -4,7 +4,7 @@ use std::sync::Arc;
 
 use swc_ecma_ast::EsVersion;
 use swc_ecma_codegen::to_code;
-use swc_ecma_parser::{parse_file_as_module, Syntax, TsConfig};
+use swc_ecma_parser::{parse_file_as_module, Syntax, TsSyntax};
 use swc_typescript::fast_dts::FastDts;
 
 #[track_caller]
@@ -19,7 +19,7 @@ fn transform_dts_test(source: &str, expected: &str) {
 
         let mut module = parse_file_as_module(
             &fm,
-            Syntax::Typescript(TsConfig {
+            Syntax::Typescript(TsSyntax {
                 ..Default::default()
             }),
             EsVersion::latest(),

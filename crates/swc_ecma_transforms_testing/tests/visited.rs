@@ -1,5 +1,5 @@
 use swc_ecma_ast::*;
-use swc_ecma_parser::{EsConfig, Syntax};
+use swc_ecma_parser::{EsSyntax, Syntax};
 use swc_ecma_transforms_testing::test_transform;
 use swc_ecma_visit::Fold;
 
@@ -22,7 +22,7 @@ impl Fold for Panicking {
 #[should_panic = "visited"]
 fn ensure_visited() {
     test_transform(
-        Syntax::Es(EsConfig {
+        Syntax::Es(EsSyntax {
             jsx: true,
             ..Default::default()
         }),

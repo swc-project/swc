@@ -16,7 +16,7 @@ use swc::{
 };
 use swc_common::{errors::ColorConfig, SourceMap, GLOBALS};
 use swc_ecma_ast::EsVersion;
-use swc_ecma_parser::{Syntax, TsConfig};
+use swc_ecma_parser::{Syntax, TsSyntax};
 use swc_ecma_testing::{exec_node_js, JsExecOptions};
 use testing::{assert_eq, find_executable, unignore_fixture};
 use tracing::{span, Level};
@@ -133,7 +133,7 @@ fn create_matrix(entry: &Path) -> Vec<Options> {
 
         if let Some(ext) = entry.extension() {
             if ext == "ts" {
-                let ts = Syntax::Typescript(TsConfig {
+                let ts = Syntax::Typescript(TsSyntax {
                     decorators: true,
                     ..Default::default()
                 });
@@ -279,7 +279,7 @@ fn get_expected_stdout(input: &Path) -> Result<String, Error> {
                             config: Config {
                                 jsc: JscConfig {
                                     target: Some(EsVersion::Es2022),
-                                    syntax: Some(Syntax::Typescript(TsConfig {
+                                    syntax: Some(Syntax::Typescript(TsSyntax {
                                         decorators: true,
                                         ..Default::default()
                                     })),

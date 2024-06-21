@@ -899,7 +899,7 @@ impl<'a, I: Tokens> StmtLikeParser<'a, ModuleItem> for Parser<I> {
 
 #[cfg(test)]
 mod tests {
-    use crate::{EsConfig, Syntax};
+    use crate::{EsSyntax, Syntax};
 
     #[test]
     fn test_legacy_decorator() {
@@ -910,7 +910,7 @@ export default class Foo {
     class Baz {}
   }
 }",
-            Syntax::Es(EsConfig {
+            Syntax::Es(EsSyntax {
                 decorators: true,
                 decorators_before_export: true,
                 ..Default::default()

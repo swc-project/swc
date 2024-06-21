@@ -141,7 +141,7 @@ use swc_ecma_loader::resolvers::{
     lru::CachingResolver, node::NodeModulesResolver, tsc::TsConfigResolver,
 };
 use swc_ecma_minifier::option::{MinifyOptions, TopLevelOptions};
-use swc_ecma_parser::{EsConfig, Syntax};
+use swc_ecma_parser::{EsSyntax, Syntax};
 use swc_ecma_transforms::{
     fixer,
     helpers::{self, Helpers},
@@ -822,7 +822,7 @@ impl Compiler {
                     fm.clone(),
                     handler,
                     target,
-                    Syntax::Es(EsConfig {
+                    Syntax::Es(EsSyntax {
                         jsx: true,
                         decorators: true,
                         decorators_before_export: true,
