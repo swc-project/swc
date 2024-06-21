@@ -1,14 +1,7 @@
-pub fn add(left: usize, right: usize) -> usize {
-    left + right
-}
+use swc_ecma_ast::Module;
 
-#[cfg(test)]
-mod tests {
-    use super::*;
+pub struct Checker {}
 
-    #[test]
-    fn it_works() {
-        let result = add(2, 2);
-        assert_eq!(result, 4);
-    }
+impl Checker {
+    pub fn transform(&mut self, module: &mut Module) {}
 }
