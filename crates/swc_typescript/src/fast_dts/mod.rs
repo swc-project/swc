@@ -82,10 +82,9 @@ impl Checker {
                 ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
                     decl,
                     ..
-                })) => match decl {
-                    DefaultDecl::Fn(FnExpr { function, .. }) => function.body.is_none(),
-                    _ => false,
-                },
+                })) => {
+                    matches!(decl, DefaultDecl::Fn(FnExpr { function, .. }) if function.body.is_none())
+                }
 
                 _ => false,
             };
@@ -153,7 +152,7 @@ impl Checker {
                     }
 
                     let name = self.gen_unique_name();
-                    let name_ident = Ident::new(name.into(), DUMMY_SP);
+                    let name_ident = Ident::new(name, DUMMY_SP);
                     let type_ann = self
                         .expr_to_ts_type(export.expr.clone(), false, true)
                         .map(type_ann);
@@ -518,7 +517,7 @@ impl Checker {
                     if let Some(init) = &member.init {
                         // Support for expressions is limited in enums,
                         // see https://www.typescriptlang.org/docs/handbook/enums.html
-                        member.init = if self.valid_enum_init_expr(&init) {
+                        member.init = if self.valid_enum_init_expr(init) {
                             Some(init.clone())
                         } else {
                             None
@@ -592,7 +591,7 @@ impl Checker {
             },
             Expr::Tpl(tpl_expr) => {
                 for expr in &tpl_expr.exprs {
-                    if !self.valid_enum_init_expr(&expr) {
+                    if !self.valid_enum_init_expr(expr) {
                         return false;
                     }
                 }
@@ -814,7 +813,7 @@ impl Checker {
                         };
 
                         TsFnParam::Ident(BindingIdent {
-                            id: Ident::new(name.into(), assign_pat.span),
+                            id: Ident::new(name, assign_pat.span),
                             type_ann: Some(type_ann(param)),
                         })
                     })
