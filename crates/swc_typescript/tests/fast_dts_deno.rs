@@ -115,12 +115,12 @@ fn dts_class_decl_test() {
   }
 }"#,
         r#"export declare class Foo {
-  a: number;
-  static b: number;
-  constructor(value: string);
-  foo(): string;
-  get asdf(): number;
-  set asdf(value: number);
+    a: number;
+    static b: number;
+    constructor(value: string);
+    foo(): string;
+    get asdf(): number;
+    set asdf(value: number);
 }"#,
     );
 }
@@ -132,7 +132,7 @@ fn dts_class_decl_rest_test() {
   constructor(...args: string[]) {}
 }"#,
         r#"export declare class Foo {
-  constructor(...args: string[]);
+    constructor(...args: string[]);
 }"#,
     );
 }
@@ -146,8 +146,8 @@ fn dts_class_decl_overloads_test() {
   constructor(arg: any) {}
 }"#,
         r#"export declare class Foo {
-  constructor(arg: string);
-  constructor(arg: number);
+    constructor(arg: string);
+    constructor(arg: number);
 }"#,
     );
 
@@ -158,8 +158,8 @@ fn dts_class_decl_overloads_test() {
   foo(arg: any) {}
 }"#,
         r#"export declare class Foo {
-  foo(arg: string);
-  foo(arg: number);
+    foo(arg: string);
+    foo(arg: number);
 }"#,
     );
 
@@ -178,11 +178,11 @@ fn dts_class_decl_overloads_test() {
   foo(arg: any) {}
 }"#,
         r#"export declare class Foo {
-  constructor(arg: string);
-  constructor(arg: number);
-  bar(arg: number): number;
-  foo(arg: string);
-  foo(arg: number);
+    constructor(arg: string);
+    constructor(arg: number);
+    bar(arg: number): number;
+    foo(arg: string);
+    foo(arg: number);
 }"#,
     );
 }
@@ -192,14 +192,14 @@ fn dts_class_decl_prop_test() {
     transform_dts_test(
         r#"export class Foo { private a!: string }"#,
         r#"export declare class Foo {
-  private a: string;
+    private a: string;
 }"#,
     );
 
     transform_dts_test(
         r#"export class Foo { declare a: string }"#,
         r#"export declare class Foo {
-  a: string;
+    a: string;
 }"#,
     );
 }
@@ -209,13 +209,13 @@ fn dts_class_decl_prop_infer_test() {
     transform_dts_test(
         r#"export class Foo { foo = (a: string): string => ({} as any) }"#,
         r#"export declare class Foo {
-  foo: (a: string) => string;
+    foo: (a: string) => string;
 }"#,
     );
     transform_dts_test(
         r#"export class Foo { foo = function(a: string): void {} }"#,
         r#"export declare class Foo {
-  foo: (a: string) => void;
+    foo: (a: string) => void;
 }"#,
     );
 }
@@ -254,9 +254,9 @@ fn dts_global_declare() {
   }
 }"#,
         r#"declare global {
-  interface String {
-    fancyFormat(opts: StringFormatOptions): string;
-  }
+    interface String {
+        fancyFormat(opts: StringFormatOptions): string;
+    }
 }"#,
     );
 }
@@ -424,18 +424,18 @@ fn dts_type_export() {
 fn dts_enum_export() {
     transform_dts_test(
         r#"export enum Foo { A, B }"#,
-        "export declare enum Foo {\n  A,\n  B\n}",
+        "export declare enum Foo {\n    A,\n    B\n}",
     );
     transform_dts_test(
         r#"export const enum Foo { A, B }"#,
-        "export declare const enum Foo {\n  A,\n  B\n}",
+        "export declare const enum Foo {\n    A,\n    B\n}",
     );
 
     transform_dts_test(
         r#"export enum Foo { A = "foo", B = "bar" }"#,
         r#"export declare enum Foo {
-  A = "foo",
-  B = "bar"
+    A = "foo",
+    B = "bar"
 }"#,
     );
 
