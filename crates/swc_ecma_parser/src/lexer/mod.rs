@@ -1210,6 +1210,7 @@ impl<'a> Lexer<'a> {
         Ok(Token::Regex(content, flags))
     }
 
+    #[cold]
     fn read_shebang(&mut self) -> LexResult<Option<Atom>> {
         if self.input.cur() != Some('#') || self.input.peek() != Some('!') {
             return Ok(None);
