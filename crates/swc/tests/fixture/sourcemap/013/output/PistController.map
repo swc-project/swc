@@ -48,7 +48,6 @@
     "createPostComment",
     "createCommentDto"
   ],
-  "rangeMappings": ";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;",
   "sources": [
     "../../input/PistController.ts"
   ],

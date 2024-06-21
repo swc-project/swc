@@ -6,7 +6,6 @@
     "x",
     "Error"
   ],
-  "rangeMappings": ";;;;;;;;;;;",
   "sources": [
     "../../input/index.ts"
   ],

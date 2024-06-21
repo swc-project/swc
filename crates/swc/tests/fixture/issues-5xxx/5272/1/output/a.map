@@ -6,7 +6,6 @@
     "foo",
     "Base"
   ],
-  "rangeMappings": ";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;",
   "sources": [
     "../../input/source/a/a.ts"
   ],

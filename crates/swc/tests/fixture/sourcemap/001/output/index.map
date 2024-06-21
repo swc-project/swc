@@ -4,7 +4,6 @@
     "foo",
     "arr"
   ],
-  "rangeMappings": ";;;;;;;;;;;;",
   "sources": [
     "../../input/index.ts"
   ],
