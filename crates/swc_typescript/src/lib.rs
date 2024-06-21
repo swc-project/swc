@@ -145,7 +145,7 @@ impl Checker {
                     | Decl::Fn(_)
                     | Decl::Var(_)
                     | Decl::TsModule(_) => {
-                        if let Some(decl) = self.decl_to_type_decl(decl.clone()) {
+                        if let Some(decl) = self.decl_to_type_decl(decl) {
                             new_items.push(ModuleItem::Stmt(Stmt::Decl(decl)));
                         } else {
                             self.mark_diagnostic_unable_to_infer(decl.range())
@@ -153,7 +153,7 @@ impl Checker {
                     }
 
                     Decl::TsInterface(_) | Decl::TsTypeAlias(_) | Decl::Using(_) => {
-                        new_items.push(ModuleItem::Stmt(Stmt::Decl(decl)));
+                        new_items.push(item);
                     }
                 },
 
