@@ -2,11 +2,14 @@
 
 use std::mem::take;
 
+use swc_atoms::Atom;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::{
-    Decl, DefaultDecl, ExportDecl, ExportDefaultDecl, Expr, FnDecl, FnExpr, Module, ModuleDecl,
-    ModuleItem, Stmt, TsKeywordType, TsKeywordTypeKind, TsTupleElement, TsTupleType, TsType,
-    TsTypeOperator, TsTypeOperatorOp,
+    Decl, DefaultDecl, ExportDecl, ExportDefaultDecl, Expr, FnDecl, FnExpr, Ident, Lit, Module,
+    ModuleDecl, ModuleItem, Prop, PropName, PropOrSpread, Stmt, TsEntityName,
+    TsFnOrConstructorType, TsFnParam, TsFnType, TsKeywordType, TsKeywordTypeKind,
+    TsPropertySignature, TsTupleElement, TsTupleType, TsType, TsTypeAnn, TsTypeElement, TsTypeLit,
+    TsTypeOperator, TsTypeOperatorOp, TsTypeRef,
 };
 
 pub struct Checker {
@@ -213,7 +216,184 @@ impl Checker {
                 }
                 Some(result)
             }
+
+            Expr::Object(obj) => {
+                let mut members: Vec<TsTypeElement> = vec![];
+
+                // TODO: Prescan all object properties to know which ones
+                // have a getter or a setter. This allows us to apply
+                // TypeScript's `readonly` keyword accordingly.
+
+                for item in obj.props {
+                    match item {
+                        PropOrSpread::Prop(prop_box) => {
+                            let prop = *prop_box;
+                            match prop {
+                                Prop::KeyValue(key_value) => {
+                                    let (key, computed) = match key_value.key {
+                                        PropName::Ident(ident) => (Expr::Ident(ident), false),
+                                        PropName::Str(str_prop) => {
+                                            (Expr::Lit(Lit::Str(str_prop)), false)
+                                        }
+                                        PropName::Num(num) => (Expr::Lit(Lit::Num(num)), true),
+                                        PropName::Computed(computed) => (*computed.expr, true),
+                                        PropName::BigInt(big_int) => {
+                                            (Expr::Lit(Lit::BigInt(big_int)), true)
+                                        }
+                                    };
+
+                                    let init_type = self
+                                        .expr_to_ts_type(key_value.value, as_const, as_readonly)
+                                        .map(type_ann);
+
+                                    members.push(TsTypeElement::TsPropertySignature(
+                                        TsPropertySignature {
+                                            span: DUMMY_SP,
+                                            readonly: as_readonly,
+                                            key: Box::new(key),
+                                            computed,
+                                            optional: false,
+                                            type_ann: init_type,
+                                        },
+                                    ));
+                                }
+                                Prop::Shorthand(_)
+                                | Prop::Assign(_)
+                                | Prop::Getter(_)
+                                | Prop::Setter(_)
+                                | Prop::Method(_) => {
+                                    self.mark_diagnostic_unsupported_prop(prop.range());
+                                }
+                            }
+                        }
+                        PropOrSpread::Spread(_) => self.mark_diagnostic(
+                            FastCheckDtsDiagnostic::UnableToInferTypeFromSpread {
+                                range: self.source_range_to_range(item.range()),
+                            },
+                        ),
+                    }
+                }
+
+                Some(TsType::TsTypeLit(TsTypeLit {
+                    span: obj.span,
+                    members,
+                }))
+            }
+            Expr::Lit(lit) => {
+                if as_const {
+                    maybe_lit_to_ts_type_const(&lit)
+                } else {
+                    maybe_lit_to_ts_type(&lit)
+                }
+            }
+            Expr::TsConstAssertion(ts_const) => self.expr_to_ts_type(ts_const.expr, true, true),
+            Expr::TsSatisfies(satisifies) => {
+                self.expr_to_ts_type(satisifies.expr, as_const, as_readonly)
+            }
+            Expr::TsAs(ts_as) => Some(*ts_as.type_ann),
+            Expr::Fn(fn_expr) => {
+                let return_type = fn_expr
+                    .function
+                    .return_type
+                    .map_or(any_type_ann(), |val| val);
+
+                let params: Vec<TsFnParam> = fn_expr
+                    .function
+                    .params
+                    .into_iter()
+                    .filter_map(|param| self.pat_to_ts_fn_param(param.pat))
+                    .collect();
+
+                Some(TsType::TsFnOrConstructorType(
+                    TsFnOrConstructorType::TsFnType(TsFnType {
+                        span: fn_expr.function.span,
+                        params,
+                        type_ann: return_type,
+                        type_params: fn_expr.function.type_params,
+                    }),
+                ))
+            }
+            Expr::Arrow(arrow_expr) => {
+                let return_type = arrow_expr.return_type.map_or(any_type_ann(), |val| val);
+
+                let params = arrow_expr
+                    .params
+                    .into_iter()
+                    .filter_map(|pat| self.pat_to_ts_fn_param(pat))
+                    .collect();
+
+                Some(TsType::TsFnOrConstructorType(
+                    TsFnOrConstructorType::TsFnType(TsFnType {
+                        span: arrow_expr.span,
+                        params,
+                        type_ann: return_type,
+                        type_params: arrow_expr.type_params,
+                    }),
+                ))
+            }
+            // Since fast check requires explicit type annotations these
+            // can be dropped as they are not part of an export declaration
+            Expr::This(_)
+            | Expr::Unary(_)
+            | Expr::Update(_)
+            | Expr::Bin(_)
+            | Expr::Assign(_)
+            | Expr::Member(_)
+            | Expr::SuperProp(_)
+            | Expr::Cond(_)
+            | Expr::Call(_)
+            | Expr::New(_)
+            | Expr::Seq(_)
+            | Expr::Ident(_)
+            | Expr::Tpl(_)
+            | Expr::TaggedTpl(_)
+            | Expr::Class(_)
+            | Expr::Yield(_)
+            | Expr::MetaProp(_)
+            | Expr::Await(_)
+            | Expr::Paren(_)
+            | Expr::JSXMember(_)
+            | Expr::JSXNamespacedName(_)
+            | Expr::JSXEmpty(_)
+            | Expr::JSXElement(_)
+            | Expr::JSXFragment(_)
+            | Expr::TsTypeAssertion(_)
+            | Expr::TsNonNull(_)
+            | Expr::TsInstantiation(_)
+            | Expr::PrivateName(_)
+            | Expr::OptChain(_)
+            | Expr::Invalid(_) => None,
         }
+    }
+}
+
+fn is_void_type(return_type: &TsType) -> bool {
+    is_keyword_type(return_type, TsKeywordTypeKind::TsVoidKeyword)
+}
+
+fn is_keyword_type(return_type: &TsType, kind: TsKeywordTypeKind) -> bool {
+    match return_type {
+        TsType::TsKeywordType(TsKeywordType { kind: k, .. }) => k == &kind,
+        _ => false,
+    }
+}
+
+fn any_type_ann() -> Box<TsTypeAnn> {
+    type_ann(ts_keyword_type(TsKeywordTypeKind::TsAnyKeyword))
+}
+
+fn type_ann(ts_type: TsType) -> Box<TsTypeAnn> {
+    Box::new(TsTypeAnn {
+        span: DUMMY_SP,
+        type_ann: Box::new(ts_type),
+    })
+}
+
+fn type_ref(name: Atom) -> TsTypeRef {
+    TsTypeRef {
+        span: DUMMY_SP,
+        type_name: TsEntityName::Ident(Ident::new(name, DUMMY_SP)),
+        type_params: None,
     }
 }
 
