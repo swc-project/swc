@@ -49,6 +49,25 @@ impl Take for ModuleDecl {
     }
 }
 
+/// Default exports other than **direct** function expression or class
+/// expression.
+///
+///
+/// # Note
+///
+/// ```ts
+/// export default function Foo() {
+/// }
+/// ```
+///
+/// is [`ExportDefaultDecl`] and it's hoisted.
+///
+/// ```ts
+/// export default (function Foo() {
+/// })
+/// ```
+///
+/// is [`ExportDefaultExpr`] and it's not hoisted.
 #[ast_node("ExportDefaultExpression")]
 #[derive(Eq, Hash, EqIgnoreSpan)]
 #[cfg_attr(feature = "arbitrary", derive(arbitrary::Arbitrary))]
