@@ -1,7 +1,7 @@
 // Correct
-var _ts_generator = require("@swc/helpers/_/_ts_generator");
+import { _ as _ts_generator } from "@swc/helpers/_/_ts_generator";
 function generatorGood() {
-    return _ts_generator._(this, function(_state) {
+    return _ts_generator(this, function(_state) {
         return [
             2
         ];
@@ -10,7 +10,7 @@ function generatorGood() {
 // Need to explicit return type for async functions
 // Incorrect
 function generatorGoodBad() {
-    return _ts_generator._(this, function(_state) {
+    return _ts_generator(this, function(_state) {
         switch(_state.label){
             case 0:
                 return [
