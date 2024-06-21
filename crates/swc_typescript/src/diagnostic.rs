@@ -1,15 +1,33 @@
-pub struct SrcRange {}
+use swc_common::{FileName, Span};
+
+#[derive(Debug, Clone)]
+pub struct SourceRange {
+    pub filename: FileName,
+    pub range: Span,
+}
 
 #[derive(Debug, Clone, thiserror::Error)]
 pub enum DtsIssue {
     #[error("unable to infer type from expression or declaration")]
-    UnableToInferType { range: FastCheckDiagnosticRange },
+    UnableToInferType { range: SourceRange },
     #[error("unable to infer type, falling back to any type")]
-    UnableToInferTypeFallbackAny { range: FastCheckDiagnosticRange },
+    UnableToInferTypeFallbackAny { range: SourceRange },
     #[error("unable to infer type from object property, skipping")]
-    UnableToInferTypeFromProp { range: FastCheckDiagnosticRange },
+    UnableToInferTypeFromProp { range: SourceRange },
     #[error("unable to infer type from spread, skipping")]
-    UnableToInferTypeFromSpread { range: FastCheckDiagnosticRange },
+    UnableToInferTypeFromSpread { range: SourceRange },
     #[error("cannot infer type from using, skipping")]
-    UnsupportedUsing { range: FastCheckDiagnosticRange },
+    UnsupportedUsing { range: SourceRange },
+}
+
+impl DtsIssue {
+    pub fn range(&self) -> Option<&SourceRange> {
+        match self {
+            DtsIssue::UnableToInferType { range } => Some(range),
+            DtsIssue::UnableToInferTypeFallbackAny { range } => Some(range),
+            DtsIssue::UnableToInferTypeFromProp { range } => Some(range),
+            DtsIssue::UnableToInferTypeFromSpread { range } => Some(range),
+            DtsIssue::UnsupportedUsing { range } => Some(range),
+        }
+    }
 }
