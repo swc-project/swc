@@ -4,6 +4,7 @@
 //! [babylon/util/identifier.js]:https://github.com/babel/babel/blob/master/packages/babylon/src/util/identifier.js
 use std::char;
 
+use ::memchr::memmem;
 use swc_common::{
     comments::{Comment, CommentKind},
     BytePos, Span, SyntaxContext,
@@ -258,54 +259,28 @@ impl<'a> Lexer<'a> {
 
         // jsdoc
         let slice_start = self.cur_pos();
-        let mut was_star = if self.input.is_byte(b'*') {
-            self.bump();
-            true
-        } else {
-            false
-        };
 
         let mut is_for_next = self.state.had_line_break || !self.state.can_have_trailing_comment();
 
-        loop {
-            if let Some(c) = self.input.cur_as_ascii() {
-                if was_star && c == b'/' {
-                    debug_assert_eq!(self.cur(), Some('/'));
-                    self.bump(); // '/'
-
-                    let end = self.cur_pos();
-
-                    self.skip_space::<false>();
-
-                    if self.input.is_byte(b';') {
-                        is_for_next = false;
-                    }
-
-                    self.store_comment(is_for_next, start, end, slice_start);
-
-                    return;
-                }
-
-                if (c as char).is_line_terminator() {
-                    self.state.had_line_break = true;
-                }
-
-                was_star = c == b'*';
-
-                self.bump();
-                continue;
+        if let Some(idx) = memmem::find(self.input.as_str().as_bytes(), b"*/") {
+            if !self.state.had_line_break {
+                self.state.had_line_break = self.input.as_str()[0..idx]
+                    .chars()
+                    .any(|c| c.is_line_terminator());
             }
 
-            if let Some(c) = self.cur() {
-                if c.is_line_terminator() {
-                    self.state.had_line_break = true;
-                }
-                self.bump();
+            self.input.bump_bytes(idx + 2);
+            let end = self.cur_pos();
 
-                continue;
+            self.skip_space::<false>();
+
+            if self.input.is_byte(b';') {
+                is_for_next = false;
             }
-            // EOF
-            break;
+
+            self.store_comment(is_for_next, start, end, slice_start);
+
+            return;
         }
 
         self.emit_error(start, SyntaxError::UnterminatedBlockComment)
