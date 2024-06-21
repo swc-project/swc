@@ -842,6 +842,27 @@ fn tests(input_dir: PathBuf) {
                                 output.join(rel_path.with_extension("map").file_name().unwrap()),
                             )
                             .unwrap();
+
+                        if let Some(extra) = v.output {
+                            let mut value: serde_json::Map<_, serde_json::Value> =
+                                serde_json::from_str(&extra).unwrap();
+
+                            if let Some(v) = value.remove("__swc_isolated_declarations__") {
+                                let code = v
+                                    .as_str()
+                                    .expect("isolated declaration pass should emit string");
+
+                                NormalizedOutput::from(code.to_string())
+                                    .compare_to_file(output.join(rel_path).with_extension("d.ts"))
+                                    .unwrap();
+                            }
+
+                            let extra = serde_json::to_string_pretty(&value).unwrap();
+
+                            NormalizedOutput::from(extra)
+                                .compare_to_file(output.join(rel_path.with_extension("extra.json")))
+                                .unwrap();
+                        }
                     }
                     Err(ref err) if format!("{:?}", err).contains("not matched") => {}
                     Err(ref err) if format!("{:?}", err).contains("Syntax Error") => return Err(()),
