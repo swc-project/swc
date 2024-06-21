@@ -275,9 +275,15 @@ impl SourceMap {
     }
 
     /// Lookup source information about a BytePos
+    #[deprecated = "Use 'try_lookup_char_pos' instead"]
     pub fn lookup_char_pos(&self, pos: BytePos) -> Loc {
-        let fm = self.lookup_source_file(pos);
-        self.lookup_char_pos_with(fm, pos)
+        self.try_lookup_char_pos(pos).unwrap()
+    }
+
+    /// Lookup source information about a BytePos
+    pub fn try_lookup_char_pos(&self, pos: BytePos) -> Result<Loc, SourceMapLookupError> {
+        let fm = self.lookup_source_file(pos)?;
+        Ok(self.lookup_char_pos_with(fm, pos))
     }
 
     /// Lookup source information about a BytePos
@@ -366,7 +372,7 @@ impl SourceMap {
 
     /// If the relevant source_file is empty, we don't return a line number.
     pub fn lookup_line(&self, pos: BytePos) -> Result<SourceFileAndLine, Lrc<SourceFile>> {
-        let f = self.lookup_source_file(pos);
+        let f = self.lookup_source_file(pos).unwrap();
 
         self.lookup_line_with(f, pos)
     }
@@ -948,9 +954,7 @@ impl SourceMap {
     /// SourceFile
     #[deprecated = "Use `try_lookup_byte_offset` instead"]
     pub fn lookup_byte_offset(&self, bpos: BytePos) -> SourceFileAndBytePos {
-        let sf = self.lookup_source_file(bpos);
-        let offset = bpos - sf.start_pos;
-        SourceFileAndBytePos { sf, pos: offset }
+        self.try_lookup_byte_offset(bpos).unwrap()
     }
 
     /// For a global BytePos compute the local offset within the containing
@@ -958,17 +962,17 @@ impl SourceMap {
     pub fn try_lookup_byte_offset(
         &self,
         bpos: BytePos,
-    ) -> Result<SourceFileAndBytePos, Box<SourceMapLookupError>> {
-        let sf = self.lookup_source_file(bpos);
+    ) -> Result<SourceFileAndBytePos, SourceMapLookupError> {
+        let sf = self.lookup_source_file(bpos)?;
         let offset = bpos - sf.start_pos;
         Ok(SourceFileAndBytePos { sf, pos: offset })
     }
 
     /// Converts an absolute BytePos to a CharPos relative to the source_file.
-    fn bytepos_to_file_charpos(&self, bpos: BytePos) -> CharPos {
-        let map = self.lookup_source_file(bpos);
+    fn bytepos_to_file_charpos(&self, bpos: BytePos) -> Result<CharPos, SourceMapLookupError> {
+        let map = self.lookup_source_file(bpos)?;
 
-        self.bytepos_to_file_charpos_with(&map, bpos)
+        Ok(self.bytepos_to_file_charpos_with(&map, bpos))
     }
 
     fn bytepos_to_file_charpos_with(&self, map: &SourceFile, bpos: BytePos) -> CharPos {
@@ -1100,7 +1104,7 @@ impl SourceMap {
     pub fn lookup_source_file(
         &self,
         pos: BytePos,
-    ) -> Result<Lrc<SourceFile>, Box<SourceMapLookupError>> {
+    ) -> Result<Lrc<SourceFile>, SourceMapLookupError> {
         let files = self.files.borrow();
         let files = &files.source_files;
         let fm = Self::lookup_source_file_in(files, pos);

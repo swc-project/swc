@@ -1406,9 +1406,13 @@ pub enum SpanSnippetError {
     DistinctSources(DistinctSources),
     MalformedForSourcemap(MalformedSourceMapPositions),
     SourceNotAvailable { filename: FileName },
-    LookupFailed(Box<SourceMapLookupError>),
+    LookupFailed(SourceMapLookupError),
 }
 
+/// An error type for looking up source maps.
+///
+///
+/// This type is small.
 #[derive(Clone, PartialEq, Eq, Debug)]
 #[cfg_attr(
     any(feature = "rkyv-impl"),
@@ -1465,10 +1469,10 @@ fn lookup_line(lines: &[BytePos], pos: BytePos) -> isize {
     }
 }
 
-impl From<Box<SourceMapLookupError>> for SpanSnippetError {
+impl From<SourceMapLookupError> for Box<SpanSnippetError> {
     #[cold]
-    fn from(err: Box<SourceMapLookupError>) -> Self {
-        SpanSnippetError::LookupFailed(err)
+    fn from(err: SourceMapLookupError) -> Self {
+        Box::new(SpanSnippetError::LookupFailed(err))
     }
 }
 
