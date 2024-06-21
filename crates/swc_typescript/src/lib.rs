@@ -428,7 +428,7 @@ impl Checker {
                     match &mut param.pat {
                         Pat::Ident(ident) => {
                             if ident.type_ann.is_none() {
-                                self.mark_diagnostic_any_fallback(ident.range());
+                                self.mark_diagnostic_any_fallback(ident.span());
                                 ident.type_ann = Some(any_type_ann());
                             }
                         }
@@ -499,12 +499,12 @@ impl Checker {
                             .and_then(|init| self.expr_to_ts_type(init, false, true))
                             .map(type_ann)
                             .or_else(|| {
-                                self.mark_diagnostic_any_fallback(ident.range());
+                                self.mark_diagnostic_any_fallback(ident.span());
                                 Some(any_type_ann())
                             });
                         ident.type_ann = ts_type;
                     } else {
-                        self.mark_diagnostic_unable_to_infer(decl.range());
+                        self.mark_diagnostic_unable_to_infer(decl.span());
                     }
 
                     decl.init = None;
@@ -543,7 +543,7 @@ impl Checker {
             Decl::TsInterface(_) | Decl::TsTypeAlias(_) => Some(decl),
             Decl::Using(_) => {
                 self.mark_diagnostic(DtsIssue::UnsupportedUsing {
-                    range: self.source_range_to_range(decl.range()),
+                    range: self.source_range_to_range(decl.span()),
                 });
                 None
             }
@@ -817,7 +817,7 @@ impl Checker {
                     })
             }
             Pat::Expr(expr) => {
-                self.mark_diagnostic_unable_to_infer(expr.range());
+                self.mark_diagnostic_unable_to_infer(expr.span());
                 None
             }
             // Invalid code is invalid, not sure why SWC doesn't throw
