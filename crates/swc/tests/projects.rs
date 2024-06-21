@@ -787,13 +787,14 @@ fn ts_id(input_dir: PathBuf) {
 fn tests(input_dir: PathBuf, is_module: Option<IsModule>) {
     let output_dir = input_dir.parent().unwrap().join("output");
 
-    let errors = Tester::new().print_errors(|cm, handler| {
-        let c = Compiler::new(cm.clone());
+    for entry in WalkDir::new(&input_dir) {
+        let entry = entry.unwrap();
 
-        for entry in WalkDir::new(&input_dir) {
-            let entry = entry.unwrap();
+        let errors = Tester::new().print_errors(|cm, handler| {
+            let c = Compiler::new(cm.clone());
+
             if entry.metadata().unwrap().is_dir() {
-                continue;
+                return Ok(());
             }
             println!("File: {}", entry.path().to_string_lossy());
 
@@ -802,7 +803,7 @@ fn tests(input_dir: PathBuf, is_module: Option<IsModule>) {
                 && !entry.file_name().to_string_lossy().ends_with(".jsx")
                 && !entry.file_name().to_string_lossy().ends_with(".tsx")
             {
-                continue;
+                return Ok(());
             }
 
             let rel_path = entry
@@ -876,17 +877,17 @@ fn tests(input_dir: PathBuf, is_module: Option<IsModule>) {
                 Err(ref err) if format!("{:?}", err).contains("Syntax Error") => return Err(()),
                 Err(err) => panic!("Error: {:?}", err),
             }
-        }
-        if handler.has_errors() {
-            Err(())
-        } else {
-            Ok(())
-        }
-    });
+            if handler.has_errors() {
+                Err(())
+            } else {
+                Ok(())
+            }
+        });
 
-    if let Err(err) = errors {
-        err.compare_to_file(output_dir.join("issues.swc-stderr"))
-            .unwrap();
+        if let Err(err) = errors {
+            err.compare_to_file(output_dir.join(entry.path().with_extension("swc-stderr")))
+                .unwrap();
+        }
     }
 }
 
