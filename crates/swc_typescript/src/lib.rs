@@ -9,9 +9,9 @@ use swc_ecma_ast::{
     BindingIdent, ClassMember, Decl, DefaultDecl, ExportDecl, ExportDefaultDecl, ExportDefaultExpr,
     Expr, FnDecl, FnExpr, Ident, Lit, MethodKind, Module, ModuleDecl, ModuleItem, OptChainBase,
     Pat, Prop, PropName, PropOrSpread, Stmt, TsEntityName, TsFnOrConstructorType, TsFnParam,
-    TsFnType, TsKeywordType, TsKeywordTypeKind, TsLit, TsNamespaceBody, TsPropertySignature,
-    TsTupleElement, TsTupleType, TsType, TsTypeAnn, TsTypeElement, TsTypeLit, TsTypeOperator,
-    TsTypeOperatorOp, TsTypeRef, VarDecl, VarDeclKind, VarDeclarator,
+    TsFnType, TsKeywordType, TsKeywordTypeKind, TsLit, TsLitType, TsNamespaceBody,
+    TsPropertySignature, TsTupleElement, TsTupleType, TsType, TsTypeAnn, TsTypeElement, TsTypeLit,
+    TsTypeOperator, TsTypeOperatorOp, TsTypeRef, VarDecl, VarDeclKind, VarDeclarator,
 };
 
 use crate::diagnostic::DtsIssue;
@@ -836,19 +836,8 @@ impl Checker {
     }
 }
 
-fn is_void_type(return_type: &TsType) -> bool {
-    is_keyword_type(return_type, TsKeywordTypeKind::TsVoidKeyword)
-}
-
-fn is_keyword_type(return_type: &TsType, kind: TsKeywordTypeKind) -> bool {
-    match return_type {
-        TsType::TsKeywordType(TsKeywordType { kind: k, .. }) => k == &kind,
-        _ => false,
-    }
-}
-
 fn any_type_ann() -> Box<TsTypeAnn> {
-    type_ann(Box::new(ts_keyword_type(TsKeywordTypeKind::TsAnyKeyword)))
+    type_ann(ts_keyword_type(TsKeywordTypeKind::TsAnyKeyword))
 }
 
 fn type_ann(ts_type: Box<TsType>) -> Box<TsTypeAnn> {
@@ -882,9 +871,44 @@ fn ts_tuple_element(ts_type: Box<TsType>) -> TsTupleElement {
     }
 }
 
-fn ts_keyword_type(kind: TsKeywordTypeKind) -> TsType {
-    TsType::TsKeywordType(TsKeywordType {
+fn ts_keyword_type(kind: TsKeywordTypeKind) -> Box<TsType> {
+    Box::new(TsType::TsKeywordType(TsKeywordType {
         span: DUMMY_SP,
         kind,
-    })
+    }))
+}
+
+fn ts_lit_type(lit: TsLit) -> Box<TsType> {
+    Box::new(TsType::TsLitType(TsLitType {
+        lit,
+        span: DUMMY_SP,
+    }))
+}
+
+fn regex_type() -> Box<TsType> {
+    Box::new(TsType::TsTypeRef(type_ref("RegExp".into())))
+}
+
+fn maybe_lit_to_ts_type_const(lit: &Lit) -> Option<Box<TsType>> {
+    match lit {
+        Lit::Str(lit_str) => Some(ts_lit_type(TsLit::Str(lit_str.clone()))),
+        Lit::Bool(lit_bool) => Some(ts_lit_type(TsLit::Bool(*lit_bool))),
+        Lit::Null(_) => Some(ts_keyword_type(TsKeywordTypeKind::TsNullKeyword)),
+        Lit::Num(lit_num) => Some(ts_lit_type(TsLit::Number(lit_num.clone()))),
+        Lit::BigInt(lit_bigint) => Some(ts_lit_type(TsLit::BigInt(lit_bigint.clone()))),
+        Lit::Regex(_) => Some(regex_type()),
+        Lit::JSXText(_) => None,
+    }
+}
+
+fn maybe_lit_to_ts_type(lit: &Lit) -> Option<Box<TsType>> {
+    match lit {
+        Lit::Str(_) => Some(ts_keyword_type(TsKeywordTypeKind::TsStringKeyword)),
+        Lit::Bool(_) => Some(ts_keyword_type(TsKeywordTypeKind::TsBooleanKeyword)),
+        Lit::Null(_) => Some(ts_keyword_type(TsKeywordTypeKind::TsNullKeyword)),
+        Lit::Num(_) => Some(ts_keyword_type(TsKeywordTypeKind::TsNumberKeyword)),
+        Lit::BigInt(_) => Some(ts_keyword_type(TsKeywordTypeKind::TsBigIntKeyword)),
+        Lit::Regex(_) => Some(regex_type()),
+        Lit::JSXText(_) => None,
+    }
 }
