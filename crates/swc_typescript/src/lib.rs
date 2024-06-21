@@ -112,9 +112,12 @@ impl Checker {
                         continue;
                     }
 
-                    if let Some(decl) = self.decl_to_type_decl(decl) {
+                    if let Some(()) = self.decl_to_type_decl(decl) {
                         new_items.push(ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(
-                            ExportDecl { decl, span: *span },
+                            ExportDecl {
+                                decl: decl.take(),
+                                span: *span,
+                            },
                         )));
                     } else {
                         self.mark_diagnostic(DtsIssue::UnableToInferType {
@@ -196,8 +199,8 @@ impl Checker {
                     | Decl::Fn(_)
                     | Decl::Var(_)
                     | Decl::TsModule(_) => {
-                        if let Some(decl) = self.decl_to_type_decl(decl) {
-                            new_items.push(ModuleItem::Stmt(Stmt::Decl(decl)));
+                        if let Some(()) = self.decl_to_type_decl(decl) {
+                            new_items.push(item);
                         } else {
                             self.mark_diagnostic_unable_to_infer(decl.span())
                         }
@@ -409,13 +412,13 @@ impl Checker {
         }
     }
 
-    fn decl_to_type_decl(&mut self, decl: &mut Decl) -> Option<Decl> {
+    fn decl_to_type_decl(&mut self, decl: &mut Decl) -> Option<()> {
         let is_declare = self.is_top_level;
         match decl {
             Decl::Class(class_decl) => {
                 self.class_body_to_type(&mut class_decl.class.body);
                 class_decl.declare = is_declare;
-                Some(Decl::Class(class_decl))
+                Some(())
             }
             Decl::Fn(fn_decl) => {
                 fn_decl.function.body = None;
@@ -478,7 +481,7 @@ impl Checker {
                     }
                 }
 
-                Some(Decl::Fn(fn_decl))
+                Some(())
             }
             Decl::Var(var_decl) => {
                 var_decl.declare = is_declare;
@@ -507,7 +510,7 @@ impl Checker {
                     decl.init = None;
                 }
 
-                Some(Decl::Var(var_decl))
+                Some(())
             }
             Decl::TsEnum(mut ts_enum) => {
                 ts_enum.declare = is_declare;
@@ -524,20 +527,20 @@ impl Checker {
                     }
                 }
 
-                Some(Decl::TsEnum(ts_enum))
+                Some(())
             }
             Decl::TsModule(mut ts_module) => {
                 ts_module.declare = is_declare;
 
-                if let Some(body) = ts_module.body.clone() {
+                if let Some(body) = ts_module.body {
                     ts_module.body = Some(self.transform_ts_ns_body(body));
 
-                    Some(Decl::TsModule(ts_module))
+                    Some(())
                 } else {
-                    Some(Decl::TsModule(ts_module))
+                    Some(())
                 }
             }
-            Decl::TsInterface(_) | Decl::TsTypeAlias(_) => Some(decl),
+            Decl::TsInterface(_) | Decl::TsTypeAlias(_) => Some(()),
             Decl::Using(_) => {
                 self.mark_diagnostic(DtsIssue::UnsupportedUsing {
                     range: self.source_range_to_range(decl.span()),
@@ -574,7 +577,7 @@ impl Checker {
             }
 
             Expr::Member(member_expr) => self.valid_enum_init_expr(&member_expr.obj),
-            Expr::OptChain(opt_expr) => match *opt_expr.base {
+            Expr::OptChain(opt_expr) => match &*opt_expr.base {
                 OptChainBase::Member(member_expr) => {
                     self.valid_enum_init_expr(&Expr::Member(member_expr))
                 }
