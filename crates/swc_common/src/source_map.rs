@@ -275,7 +275,6 @@ impl SourceMap {
     }
 
     /// Lookup source information about a BytePos
-    #[deprecated = "Use 'try_lookup_char_pos' instead"]
     pub fn lookup_char_pos(&self, pos: BytePos) -> Loc {
         self.try_lookup_char_pos(pos).unwrap()
     }
@@ -956,7 +955,6 @@ impl SourceMap {
 
     /// For a global BytePos compute the local offset within the containing
     /// SourceFile
-    #[deprecated = "Use `try_lookup_byte_offset` instead"]
     pub fn lookup_byte_offset(&self, bpos: BytePos) -> SourceFileAndBytePos {
         self.try_lookup_byte_offset(bpos).unwrap()
     }

@@ -46,7 +46,7 @@ impl Context {
     }
 
     fn line_col(&self, pos: BytePos) -> Option<LineCol> {
-        let loc = self.cm.lookup_char_pos_with(self.fm.clone(), pos);
+        let loc = self.cm.lookup_char_pos_with(self.fm.clone(), pos).unwrap();
 
         Some(LineCol {
             line: loc.line,
