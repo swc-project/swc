@@ -970,7 +970,7 @@ impl Compiler {
                 Default::default()
             };
 
-            if emit_dts && program.is_module() {
+            let dts_code = if emit_dts && program.is_module() {
                 let mut checker = FastDts::new(fm.name.clone().into());
                 let mut module = program.clone().expect_module();
 
@@ -984,14 +984,20 @@ impl Compiler {
                         .emit();
                 }
                 let dts_code = to_code(&module);
-                emit(
-                    "__swc_isolated_declarations__".into(),
-                    serde_json::Value::String(dts_code),
-                );
-            }
+                Some(dts_code)
+            } else {
+                None
+            };
 
             let mut pass = config.pass;
             let (program, output) = swc_transform_common::output::capture(|| {
+                if let Some(dts_code) = dts_code {
+                    emit(
+                        "__swc_isolated_declarations__".into(),
+                        serde_json::Value::String(dts_code),
+                    );
+                }
+
                 helpers::HELPERS.set(&Helpers::new(config.external_helpers), || {
                     HANDLER.set(handler, || {
                         // Fold module
