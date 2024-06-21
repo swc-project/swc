@@ -818,7 +818,7 @@ fn tests(input_dir: PathBuf) {
                                 external_helpers: true.into(),
                                 ..Default::default()
                             },
-                            is_module: None,
+                            is_module: Some(IsModule::Unknown),
                             ..Default::default()
                         },
 
