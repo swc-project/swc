@@ -201,17 +201,19 @@ impl Checker {
                     } else {
                         // TypeScript converts holey arrays to any
                         // Example: const a = [,,] -> const a = [any, any, any]
-                        elem_types.push(ts_tuple_element(TsType::TsKeywordType(TsKeywordType {
-                            kind: TsKeywordTypeKind::TsAnyKeyword,
-                            span: DUMMY_SP,
-                        })))
+                        elem_types.push(ts_tuple_element(Box::new(TsType::TsKeywordType(
+                            TsKeywordType {
+                                kind: TsKeywordTypeKind::TsAnyKeyword,
+                                span: DUMMY_SP,
+                            },
+                        ))))
                     }
                 }
 
-                let mut result = TsType::TsTupleType(TsTupleType {
+                let mut result = Box::new(TsType::TsTupleType(TsTupleType {
                     span: arr.span,
                     elem_types,
-                });
+                }));
 
                 if as_readonly {
                     result = ts_readonly(result);
@@ -276,10 +278,10 @@ impl Checker {
                     }
                 }
 
-                Some(TsType::TsTypeLit(TsTypeLit {
+                Some(Box::new(TsType::TsTypeLit(TsTypeLit {
                     span: obj.span,
                     members,
-                }))
+                })))
             }
             Expr::Lit(lit) => {
                 if as_const {
@@ -292,7 +294,7 @@ impl Checker {
             Expr::TsSatisfies(satisifies) => {
                 self.expr_to_ts_type(satisifies.expr, as_const, as_readonly)
             }
-            Expr::TsAs(ts_as) => Some(*ts_as.type_ann),
+            Expr::TsAs(ts_as) => Some(ts_as.type_ann),
             Expr::Fn(fn_expr) => {
                 let return_type = fn_expr
                     .function
@@ -306,14 +308,14 @@ impl Checker {
                     .filter_map(|param| self.pat_to_ts_fn_param(param.pat))
                     .collect();
 
-                Some(TsType::TsFnOrConstructorType(
+                Some(Box::new(TsType::TsFnOrConstructorType(
                     TsFnOrConstructorType::TsFnType(TsFnType {
                         span: fn_expr.function.span,
                         params,
                         type_ann: return_type,
                         type_params: fn_expr.function.type_params,
                     }),
-                ))
+                )))
             }
             Expr::Arrow(arrow_expr) => {
                 let return_type = arrow_expr.return_type.map_or(any_type_ann(), |val| val);
@@ -324,14 +326,14 @@ impl Checker {
                     .filter_map(|pat| self.pat_to_ts_fn_param(pat))
                     .collect();
 
-                Some(TsType::TsFnOrConstructorType(
+                Some(Box::new(TsType::TsFnOrConstructorType(
                     TsFnOrConstructorType::TsFnType(TsFnType {
                         span: arrow_expr.span,
                         params,
                         type_ann: return_type,
                         type_params: arrow_expr.type_params,
                     }),
-                ))
+                )))
             }
             // Since fast check requires explicit type annotations these
             // can be dropped as they are not part of an export declaration
@@ -417,7 +419,7 @@ impl Checker {
                                 Pat::Object(obj_pat) => {
                                     if obj_pat.type_ann.is_none() {
                                         obj_pat.type_ann = self.infer_expr_fallback_any(
-                                            *assign_pat.right.clone(),
+                                            assign_pat.right,
                                             false,
                                             false,
                                         );
@@ -816,19 +818,19 @@ fn type_ref(name: Atom) -> TsTypeRef {
     }
 }
 
-fn ts_readonly(ann: TsType) -> TsType {
-    TsType::TsTypeOperator(TsTypeOperator {
+fn ts_readonly(ann: Box<TsType>) -> Box<TsType> {
+    Box::new(TsType::TsTypeOperator(TsTypeOperator {
         span: DUMMY_SP,
         op: TsTypeOperatorOp::ReadOnly,
-        type_ann: Box::new(ann),
-    })
+        type_ann: ann,
+    }))
 }
 
-fn ts_tuple_element(ts_type: TsType) -> TsTupleElement {
+fn ts_tuple_element(ts_type: Box<TsType>) -> TsTupleElement {
     TsTupleElement {
         label: None,
         span: DUMMY_SP,
-        ty: Box::new(ts_type),
+        ty: ts_type,
     }
 }
 
