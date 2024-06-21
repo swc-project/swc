@@ -787,7 +787,7 @@ impl TokenContext {
             Self::BraceExpr
                 | Self::TplQuasi
                 | Self::ParenExpr
-                | Self::Tpl { .. }
+                | Self::Tpl
                 | Self::FnExpr
                 | Self::ClassExpr
                 | Self::JSXExpr
@@ -796,7 +796,7 @@ impl TokenContext {
 
     pub(crate) const fn preserve_space(&self) -> bool {
         match self {
-            Self::Tpl { .. } | Self::JSXExpr => true,
+            Self::Tpl | Self::JSXExpr => true,
             _ => false,
         }
     }
