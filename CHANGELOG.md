@@ -8,6 +8,9 @@
 - **(common)** Add fallible methods to `swc_common::SourceMap` ([#9090](https://github.com/swc-project/swc/issues/9090)) ([e423d1b](https://github.com/swc-project/swc/commit/e423d1bcedc24803eaeeed4c72cc84fe9a938f65))
 
 
+- **(es/transform)** Add experimental `.d.ts` generation ([#9093](https://github.com/swc-project/swc/issues/9093)) ([51a2702](https://github.com/swc-project/swc/commit/51a27022b9a3fa8767797813b23803ea1ecad3e2))
+
+
 - **(swc_core)** Reexport `swc_typescript` ([#9092](https://github.com/swc-project/swc/issues/9092)) ([a2645e2](https://github.com/swc-project/swc/commit/a2645e2fa0a55c4dbe519b6f8baa9e83a69bb2f0))
 
 

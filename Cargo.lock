@@ -3695,7 +3695,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.278.0"
+version = "0.278.1"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -5289,7 +5289,7 @@ dependencies = [
 
 [[package]]
 name = "swc_typescript"
-version = "0.1.1"
+version = "0.1.2"
 dependencies = [
  "swc_atoms",
  "swc_common",
