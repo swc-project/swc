@@ -126,11 +126,11 @@ impl Checker {
                 ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(export)) => {
                     match &mut export.decl {
                         DefaultDecl::Class(class_expr) => {
-                            class_expr.class.body = self.class_body_to_type(class_expr.class.body);
+                            class_expr.class.body =
+                                self.class_body_to_type(&mut class_expr.class.body);
                         }
                         DefaultDecl::Fn(fn_expr) => {
                             fn_expr.function.body = None;
-                            export.decl = DefaultDecl::Fn(fn_expr);
                         }
                         DefaultDecl::TsInterfaceDecl(_) => {}
                     };
@@ -711,7 +711,7 @@ impl Checker {
         }
     }
 
-    fn class_body_to_type(&mut self, body: Vec<ClassMember>) -> Vec<ClassMember> {
+    fn class_body_to_type(&mut self, body: &mut Vec<ClassMember>) {
         // Track if the previous member was an overload signature or not.
         // When overloads are present the last item has the implementation
         // body. For declaration files the implementation always needs to
@@ -719,7 +719,8 @@ impl Checker {
         // class could be created inside a class method.
         let mut prev_is_overload = false;
 
-        body.into_iter()
+        let new_body = body
+            .into_iter()
             .filter(|member| match member {
                 ClassMember::Constructor(class_constructor) => {
                     let is_overload = class_constructor.body.is_none();
@@ -790,7 +791,9 @@ impl Checker {
                 | ClassMember::StaticBlock(_)
                 | ClassMember::AutoAccessor(_) => None,
             })
-            .collect()
+            .collect();
+
+        *body = new_body;
     }
 
     fn pat_to_ts_fn_param(&mut self, pat: Pat) -> Option<TsFnParam> {
