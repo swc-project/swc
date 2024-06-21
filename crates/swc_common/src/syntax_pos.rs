@@ -1406,6 +1406,18 @@ pub enum SpanSnippetError {
     DistinctSources(DistinctSources),
     MalformedForSourcemap(MalformedSourceMapPositions),
     SourceNotAvailable { filename: FileName },
+    LookupFailed(Box<SourceMapLookupError>),
+}
+
+#[derive(Clone, PartialEq, Eq, Debug)]
+#[cfg_attr(
+    any(feature = "rkyv-impl"),
+    derive(rkyv::Archive, rkyv::Serialize, rkyv::Deserialize)
+)]
+#[cfg_attr(feature = "rkyv-impl", archive(check_bytes))]
+#[cfg_attr(feature = "rkyv-impl", archive_attr(repr(u32)))]
+pub enum SourceMapLookupError {
+    NoFileFor(BytePos),
 }
 
 #[derive(Clone, PartialEq, Eq, Debug)]
@@ -1450,6 +1462,13 @@ fn lookup_line(lines: &[BytePos], pos: BytePos) -> isize {
     match lines.binary_search(&pos) {
         Ok(line) => line as isize,
         Err(line) => line as isize - 1,
+    }
+}
+
+impl From<Box<SourceMapLookupError>> for SpanSnippetError {
+    #[cold]
+    fn from(err: Box<SourceMapLookupError>) -> Self {
+        SpanSnippetError::LookupFailed(err)
     }
 }
 

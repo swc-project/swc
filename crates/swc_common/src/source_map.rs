@@ -559,8 +559,8 @@ impl SourceMap {
             return Err(Box::new(SpanSnippetError::DummyBytePos));
         }
 
-        let local_begin = self.lookup_byte_offset(sp.lo());
-        let local_end = self.lookup_byte_offset(sp.hi());
+        let local_begin = self.try_lookup_byte_offset(sp.lo())?;
+        let local_end = self.try_lookup_byte_offset(sp.hi())?;
 
         if local_begin.sf.start_pos != local_end.sf.start_pos {
             Err(Box::new(SpanSnippetError::DistinctSources(
@@ -946,10 +946,22 @@ impl SourceMap {
 
     /// For a global BytePos compute the local offset within the containing
     /// SourceFile
+    #[deprecated = "Use `try_lookup_byte_offset` instead"]
     pub fn lookup_byte_offset(&self, bpos: BytePos) -> SourceFileAndBytePos {
         let sf = self.lookup_source_file(bpos);
         let offset = bpos - sf.start_pos;
         SourceFileAndBytePos { sf, pos: offset }
+    }
+
+    /// For a global BytePos compute the local offset within the containing
+    /// SourceFile
+    pub fn try_lookup_byte_offset(
+        &self,
+        bpos: BytePos,
+    ) -> Result<SourceFileAndBytePos, Box<SourceMapLookupError>> {
+        let sf = self.lookup_source_file(bpos);
+        let offset = bpos - sf.start_pos;
+        Ok(SourceFileAndBytePos { sf, pos: offset })
     }
 
     /// Converts an absolute BytePos to a CharPos relative to the source_file.
@@ -1085,12 +1097,15 @@ impl SourceMap {
     ///
     /// This is not a public api.
     #[doc(hidden)]
-    pub fn lookup_source_file(&self, pos: BytePos) -> Lrc<SourceFile> {
+    pub fn lookup_source_file(
+        &self,
+        pos: BytePos,
+    ) -> Result<Lrc<SourceFile>, Box<SourceMapLookupError>> {
         let files = self.files.borrow();
         let files = &files.source_files;
         let fm = Self::lookup_source_file_in(files, pos);
         match fm {
-            Some(fm) => fm,
+            Some(fm) => Ok(fm),
             None => {
                 panic!(
                     "position {} does not resolve to a source location",
