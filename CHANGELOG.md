@@ -19,6 +19,12 @@
 
 - **(deps)** Replace `sha-1` with `sha1` ([#9091](https://github.com/swc-project/swc/issues/9091)) ([5a2c968](https://github.com/swc-project/swc/commit/5a2c968720141b115ec2055ea13ae6d025175e95))
 
+### Performance
+
+
+
+- **(es/lexer)** Apply various optimizations ([#9095](https://github.com/swc-project/swc/issues/9095)) ([2f02630](https://github.com/swc-project/swc/commit/2f02630b1e597692ce5a3d946f8d498ca33709dd))
+
 ### Refactor
 
 
