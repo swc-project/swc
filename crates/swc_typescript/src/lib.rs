@@ -722,6 +722,7 @@ impl Checker {
         let mut prev_is_overload = false;
 
         let new_body = body
+            .take()
             .into_iter()
             .filter(|member| match member {
                 ClassMember::Constructor(class_constructor) => {
