@@ -13,9 +13,47 @@ use swc_ecma_ast::{
     TsTypeOperatorOp, TsTypeRef, VarDecl, VarDeclKind, VarDeclarator,
 };
 
+use crate::diagnostic::DtsIssue;
+
+pub mod diagnostic;
+
 pub struct Checker {
     is_top_level: bool,
     id_counter: u32,
+    diagnostics: Vec<DtsIssue>,
+}
+
+/// Diagnostics
+impl Checker {
+    fn mark_diagnostic(&mut self, diagnostic: DtsIssue) {
+        self.diagnostics.push(diagnostic)
+    }
+
+    fn source_range_to_range(&self, range: SourceRange) -> FastCheckDiagnosticRange {
+        FastCheckDiagnosticRange {
+            specifier: self.specifier.clone(),
+            text_info: self.text_info.clone(),
+            range,
+        }
+    }
+
+    fn mark_diagnostic_unable_to_infer(&mut self, range: SourceRange) {
+        self.mark_diagnostic(DtsIssue::UnableToInferType {
+            range: self.source_range_to_range(range),
+        })
+    }
+
+    fn mark_diagnostic_any_fallback(&mut self, range: SourceRange) {
+        self.mark_diagnostic(DtsIssue::UnableToInferTypeFallbackAny {
+            range: self.source_range_to_range(range),
+        })
+    }
+
+    fn mark_diagnostic_unsupported_prop(&mut self, range: SourceRange) {
+        self.mark_diagnostic(DtsIssue::UnableToInferTypeFromProp {
+            range: self.source_range_to_range(range),
+        })
+    }
 }
 
 impl Checker {
@@ -78,7 +116,7 @@ impl Checker {
                             ExportDecl { decl, span: *span },
                         )));
                     } else {
-                        self.mark_diagnostic(FastCheckDtsDiagnostic::UnableToInferType {
+                        self.mark_diagnostic(DtsIssue::UnableToInferType {
                             range: self.source_range_to_range(export_decl.range()),
                         })
                     }
@@ -270,11 +308,11 @@ impl Checker {
                                 }
                             }
                         }
-                        PropOrSpread::Spread(_) => self.mark_diagnostic(
-                            FastCheckDtsDiagnostic::UnableToInferTypeFromSpread {
+                        PropOrSpread::Spread(_) => {
+                            self.mark_diagnostic(DtsIssue::UnableToInferTypeFromSpread {
                                 range: self.source_range_to_range(item.range()),
-                            },
-                        ),
+                            })
+                        }
                     }
                 }
 
@@ -500,7 +538,7 @@ impl Checker {
             }
             Decl::TsInterface(_) | Decl::TsTypeAlias(_) => Some(decl),
             Decl::Using(_) => {
-                self.mark_diagnostic(FastCheckDtsDiagnostic::UnsupportedUsing {
+                self.mark_diagnostic(DtsIssue::UnsupportedUsing {
                     range: self.source_range_to_range(decl.range()),
                 });
                 None
