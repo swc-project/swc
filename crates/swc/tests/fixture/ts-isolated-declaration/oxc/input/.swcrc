@@ -6,5 +6,6 @@
         "experimental": {
             "emitIsolatedDts": true
         }
-    }
+    },
+    "isModule": true
 }
