@@ -45,7 +45,7 @@ where
             ..Default::default()
         })
     } else {
-        ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+        ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
             jsx: is_jsx,
             explicit_resource_management: true,
             ..Default::default()

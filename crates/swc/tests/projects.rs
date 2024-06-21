@@ -23,7 +23,7 @@ use swc_common::{
 use swc_compiler_base::{IsModule, PrintArgs};
 use swc_ecma_ast::*;
 use swc_ecma_minifier::option::MangleOptions;
-use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
+use swc_ecma_parser::{EsSyntax, Syntax, TsConfig};
 use swc_ecma_transforms::{
     helpers::{self, Helpers},
     pass::noop,
@@ -711,7 +711,7 @@ fn should_visit() {
                     &swc::config::Options {
                         config: swc::config::Config {
                             jsc: JscConfig {
-                                syntax: Some(Syntax::Es(EsConfig {
+                                syntax: Some(Syntax::Es(EsSyntax {
                                     jsx: true,
                                     ..Default::default()
                                 })),

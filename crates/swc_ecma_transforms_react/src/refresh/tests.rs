@@ -25,7 +25,7 @@ fn tr(t: &mut Tester) -> impl Fold {
 }
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
     }),
@@ -43,7 +43,7 @@ test!(
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
     }),
@@ -68,7 +68,7 @@ test!(
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
     }),
@@ -89,7 +89,7 @@ test!(
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
     }),
@@ -105,7 +105,7 @@ test!(
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
     }),
@@ -119,7 +119,7 @@ test!(
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
     }),
@@ -140,7 +140,7 @@ test!(
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
     }),
@@ -160,7 +160,7 @@ test!(
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
     }),
@@ -186,7 +186,7 @@ test!(
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
     }),
@@ -209,7 +209,7 @@ test!(
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
     }),
@@ -219,7 +219,7 @@ test!(
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
     }),
@@ -239,7 +239,7 @@ test!(
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
     }),
@@ -253,7 +253,7 @@ test!(
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
     }),
@@ -267,7 +267,7 @@ test!(
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
     }),
@@ -283,7 +283,7 @@ test!(
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
     }),
@@ -301,7 +301,7 @@ test!(
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
     }),
@@ -336,7 +336,7 @@ test!(
 // A doesn't get registered because it's not declared locally.
 // Alias doesn't get registered because its definition is just an identifier.
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
     }),
@@ -377,7 +377,7 @@ test!(
 
 test!(
     ignore,
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
     }),
@@ -393,7 +393,7 @@ test!(
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
     }),
@@ -410,7 +410,7 @@ test!(
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
     }),
@@ -426,7 +426,7 @@ test!(
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
     }),
@@ -451,7 +451,7 @@ test!(
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
     }),
@@ -480,7 +480,7 @@ test!(
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
     }),
@@ -496,7 +496,7 @@ test!(
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
     }),
@@ -513,7 +513,7 @@ test!(
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
     }),
@@ -577,7 +577,7 @@ test!(
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
     }),
@@ -628,7 +628,7 @@ test!(
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
     }),
@@ -651,7 +651,7 @@ test!(
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
     }),
@@ -667,7 +667,7 @@ test!(
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
     }),
@@ -740,7 +740,7 @@ test!(
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
     }),
@@ -758,7 +758,7 @@ const a = (a) => {
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         jsx: true,
         ..Default::default()
     }),

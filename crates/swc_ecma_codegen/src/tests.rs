@@ -5,7 +5,7 @@ use swc_ecma_parser;
 use swc_ecma_testing::{exec_node_js, JsExecOptions};
 use testing::DebugUsingDisplay;
 
-use self::swc_ecma_parser::{EsConfig, Parser, StringInput, Syntax};
+use self::swc_ecma_parser::{EsSyntax, Parser, StringInput, Syntax};
 use super::*;
 use crate::text_writer::omit_trailing_semi;
 
@@ -305,7 +305,7 @@ fn export_namespace_from() {
         "export * as Foo from 'foo';",
         "export * as Foo from 'foo';",
         Default::default(),
-        Syntax::Es(EsConfig::default()),
+        Syntax::Es(EsSyntax::default()),
     );
 }
 
@@ -318,7 +318,7 @@ fn export_namespace_from_min() {
             minify: true,
             ..Default::default()
         },
-        Syntax::Es(EsConfig::default()),
+        Syntax::Es(EsSyntax::default()),
     );
 }
 
@@ -328,9 +328,9 @@ fn named_and_namespace_export_from() {
         "export * as Foo, { bar } from 'foo';",
         "export * as Foo, { bar } from 'foo';",
         Default::default(),
-        Syntax::Es(EsConfig {
+        Syntax::Es(EsSyntax {
             export_default_from: true,
-            ..EsConfig::default()
+            ..EsSyntax::default()
         }),
     );
 }
@@ -344,9 +344,9 @@ fn named_and_namespace_export_from_min() {
             minify: true,
             ..Default::default()
         },
-        Syntax::Es(EsConfig {
+        Syntax::Es(EsSyntax {
             export_default_from: true,
-            ..EsConfig::default()
+            ..EsSyntax::default()
         }),
     );
 }
@@ -508,7 +508,7 @@ fn jsx_1() {
         "<Foo title=\"name\" desc=\"<empty>\" bool it>foo</Foo>;",
         "<Foo title=\"name\" desc=\"<empty>\" bool it>foo</Foo>;",
         Default::default(),
-        Syntax::Es(EsConfig {
+        Syntax::Es(EsSyntax {
             jsx: true,
             ..Default::default()
         }),

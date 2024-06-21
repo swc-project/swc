@@ -8,7 +8,7 @@
 use std::{fs, path::PathBuf};
 
 use swc_common::{chain, Mark};
-use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
+use swc_ecma_parser::{EsSyntax, Syntax, TsConfig};
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::{
     class_fields_use_set::class_fields_use_set,
@@ -29,7 +29,7 @@ fn ts() -> Syntax {
 }
 
 fn syntax(decorators_before_export: bool) -> Syntax {
-    Syntax::Es(EsConfig {
+    Syntax::Es(EsSyntax {
         decorators_before_export,
         decorators: true,
         ..Default::default()
@@ -3657,7 +3657,7 @@ c = 456;
 );
 
 fn issue_395_syntax() -> ::swc_ecma_parser::Syntax {
-    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsConfig {
+    ::swc_ecma_parser::Syntax::Es(::swc_ecma_parser::EsSyntax {
         decorators: true,
         ..Default::default()
     })

@@ -4,7 +4,7 @@ use swc::{
 };
 use swc_common::{comments::SingleThreadedComments, FileName};
 use swc_ecma_ast::*;
-use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
+use swc_ecma_parser::{EsSyntax, Syntax, TsConfig};
 use swc_ecma_transforms::pass::noop;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut};
 
@@ -86,7 +86,7 @@ fn shopify_1_check_filename() {
             &Options {
                 config: Config {
                     jsc: JscConfig {
-                        syntax: Some(Syntax::Es(EsConfig {
+                        syntax: Some(Syntax::Es(EsSyntax {
                             jsx: true,
                             ..Default::default()
                         })),
@@ -279,7 +279,7 @@ fn shopify_4_reduce_more() {
         let opts = Options {
             config: Config {
                 jsc: JscConfig {
-                    syntax: Some(Syntax::Es(EsConfig {
+                    syntax: Some(Syntax::Es(EsSyntax {
                         jsx: true,
                         ..Default::default()
                     })),

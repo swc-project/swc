@@ -30,7 +30,7 @@ fn execute() {
 
             let program = parse_file_as_program(
                 &fm,
-                swc_ecma_parser::Syntax::Es(swc_ecma_parser::EsConfig {
+                swc_ecma_parser::Syntax::Es(swc_ecma_parser::EsSyntax {
                     decorators: true,
                     auto_accessors: true,
                     ..Default::default()
