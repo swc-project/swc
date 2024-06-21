@@ -6,10 +6,10 @@ use swc_atoms::Atom;
 use swc_common::DUMMY_SP;
 use swc_ecma_ast::{
     Decl, DefaultDecl, ExportDecl, ExportDefaultDecl, Expr, FnDecl, FnExpr, Ident, Lit, Module,
-    ModuleDecl, ModuleItem, Prop, PropName, PropOrSpread, Stmt, TsEntityName,
-    TsFnOrConstructorType, TsFnParam, TsFnType, TsKeywordType, TsKeywordTypeKind,
-    TsPropertySignature, TsTupleElement, TsTupleType, TsType, TsTypeAnn, TsTypeElement, TsTypeLit,
-    TsTypeOperator, TsTypeOperatorOp, TsTypeRef,
+    ModuleDecl, ModuleItem, OptChainBase, Pat, Prop, PropName, PropOrSpread, Stmt, TsEntityName,
+    TsFnOrConstructorType, TsFnParam, TsFnType, TsKeywordType, TsKeywordTypeKind, TsLit,
+    TsNamespaceBody, TsPropertySignature, TsTupleElement, TsTupleType, TsType, TsTypeAnn,
+    TsTypeElement, TsTypeLit, TsTypeOperator, TsTypeOperatorOp, TsTypeRef,
 };
 
 pub struct Checker {
