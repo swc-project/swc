@@ -262,10 +262,7 @@ impl Modules {
                 if module_span.is_dummy() {
                     return None;
                 }
-                Some(format!(
-                    "{}\n",
-                    cm.try_lookup_source_file(module_span.lo).name
-                ))
+                Some(format!("{}\n", cm.lookup_source_file(module_span.lo).name))
             })
             .collect::<String>();
         let mut cloned = self.clone();
