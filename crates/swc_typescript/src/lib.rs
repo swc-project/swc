@@ -4,7 +4,7 @@ use std::{mem::take, sync::Arc};
 
 use diagnostic::SourceRange;
 use swc_atoms::Atom;
-use swc_common::{FileName, Span, Spanned, DUMMY_SP};
+use swc_common::{util::take::Take, FileName, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::{
     BindingIdent, ClassMember, Decl, DefaultDecl, ExportDecl, ExportDefaultDecl, ExportDefaultExpr,
     Expr, FnDecl, FnExpr, Ident, Lit, MethodKind, Module, ModuleDecl, ModuleItem, OptChainBase,
@@ -125,12 +125,12 @@ impl Checker {
 
                 ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(export)) => {
                     match &mut export.decl {
-                        DefaultDecl::Class(mut class_expr) => {
+                        DefaultDecl::Class(class_expr) => {
                             class_expr.class.body = self.class_body_to_type(class_expr.class.body);
 
                             export.decl = DefaultDecl::Class(class_expr);
                         }
-                        DefaultDecl::Fn(mut fn_expr) => {
+                        DefaultDecl::Fn(fn_expr) => {
                             fn_expr.function.body = None;
                             export.decl = DefaultDecl::Fn(fn_expr);
                         }
@@ -155,7 +155,9 @@ impl Checker {
 
                     let name = self.gen_unique_name();
                     let name_ident = Ident::new(name.into(), DUMMY_SP);
-                    let type_ann = self.expr_to_ts_type(export.expr, false, true).map(type_ann);
+                    let type_ann = self
+                        .expr_to_ts_type(export.expr.clone(), false, true)
+                        .map(type_ann);
 
                     if let Some(type_ann) = type_ann {
                         new_items.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(Box::new(
@@ -185,7 +187,7 @@ impl Checker {
                         new_items.push(ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(
                             ExportDefaultExpr {
                                 span: export.span,
-                                expr: export.expr,
+                                expr: export.expr.take(),
                             },
                         )))
                     }
@@ -701,10 +703,12 @@ impl Checker {
         as_const: bool,
         as_readonly: bool,
     ) -> Option<Box<TsTypeAnn>> {
+        let span = expr.span();
+
         if let Some(ts_type) = self.expr_to_ts_type(expr, as_const, as_readonly) {
             Some(type_ann(ts_type))
         } else {
-            self.mark_diagnostic_any_fallback(expr.range());
+            self.mark_diagnostic_any_fallback(span);
             Some(any_type_ann())
         }
     }
