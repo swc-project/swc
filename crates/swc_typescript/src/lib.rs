@@ -71,7 +71,7 @@ impl Checker {
         let mut prev_is_overload = false;
 
         for mut item in orig_items {
-            let is_overload = match item {
+            let is_overload = match &item {
                 ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl { decl, .. }))
                 | ModuleItem::Stmt(Stmt::Decl(decl)) => match decl {
                     Decl::Fn(FnDecl {
@@ -126,8 +126,7 @@ impl Checker {
                 ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(export)) => {
                     match &mut export.decl {
                         DefaultDecl::Class(class_expr) => {
-                            class_expr.class.body =
-                                self.class_body_to_type(&mut class_expr.class.body);
+                            self.class_body_to_type(&mut class_expr.class.body);
                         }
                         DefaultDecl::Fn(fn_expr) => {
                             fn_expr.function.body = None;
@@ -413,12 +412,12 @@ impl Checker {
     fn decl_to_type_decl(&mut self, decl: &mut Decl) -> Option<Decl> {
         let is_declare = self.is_top_level;
         match decl {
-            Decl::Class(mut class_decl) => {
-                class_decl.class.body = self.class_body_to_type(class_decl.class.body);
+            Decl::Class(class_decl) => {
+                self.class_body_to_type(&mut class_decl.class.body);
                 class_decl.declare = is_declare;
                 Some(Decl::Class(class_decl))
             }
-            Decl::Fn(mut fn_decl) => {
+            Decl::Fn(fn_decl) => {
                 fn_decl.function.body = None;
                 fn_decl.declare = is_declare;
 
@@ -481,7 +480,7 @@ impl Checker {
 
                 Some(Decl::Fn(fn_decl))
             }
-            Decl::Var(mut var_decl) => {
+            Decl::Var(var_decl) => {
                 var_decl.declare = is_declare;
 
                 for decl in &mut var_decl.decls {
@@ -564,20 +563,20 @@ impl Checker {
 
     // Support for expressions is limited in enums,
     // see https://www.typescriptlang.org/docs/handbook/enums.html
-    fn valid_enum_init_expr(&mut self, expr: Expr) -> bool {
+    fn valid_enum_init_expr(&mut self, expr: &Expr) -> bool {
         match expr {
             Expr::Bin(bin_expr) => {
-                if !self.valid_enum_init_expr(*bin_expr.left) {
+                if !self.valid_enum_init_expr(&bin_expr.left) {
                     false
                 } else {
-                    self.valid_enum_init_expr(*bin_expr.right)
+                    self.valid_enum_init_expr(&bin_expr.right)
                 }
             }
 
-            Expr::Member(member_expr) => self.valid_enum_init_expr(*member_expr.obj),
+            Expr::Member(member_expr) => self.valid_enum_init_expr(&member_expr.obj),
             Expr::OptChain(opt_expr) => match *opt_expr.base {
                 OptChainBase::Member(member_expr) => {
-                    self.valid_enum_init_expr(Expr::Member(member_expr))
+                    self.valid_enum_init_expr(&Expr::Member(member_expr))
                 }
                 OptChainBase::Call(_) => false,
             },
@@ -591,19 +590,19 @@ impl Checker {
             },
             Expr::Tpl(tpl_expr) => {
                 for expr in tpl_expr.exprs {
-                    if !self.valid_enum_init_expr(*expr) {
+                    if !self.valid_enum_init_expr(&expr) {
                         return false;
                     }
                 }
                 true
             }
 
-            Expr::Paren(paren_expr) => self.valid_enum_init_expr(*paren_expr.expr),
+            Expr::Paren(paren_expr) => self.valid_enum_init_expr(&paren_expr.expr),
 
             Expr::TsTypeAssertion(ts_ass) => {
                 // Only assertions to number are allowed for computed
                 // enum members.
-                match *ts_ass.type_ann {
+                match &*ts_ass.type_ann {
                     TsType::TsLitType(ts_lit) => match ts_lit.lit {
                         TsLit::Number(_) => true,
                         TsLit::Str(_) | TsLit::Bool(_) | TsLit::BigInt(_) | TsLit::Tpl(_) => false,
@@ -630,7 +629,7 @@ impl Checker {
                 }
             }
 
-            Expr::TsAs(ts_as) => self.valid_enum_ts_type(*ts_as.type_ann),
+            Expr::TsAs(ts_as) => self.valid_enum_ts_type(&ts_as.type_ann),
 
             // These are not valid as enum member initializer and
             // TS will throw a type error. For declaration generation
@@ -667,7 +666,7 @@ impl Checker {
         }
     }
 
-    fn valid_enum_ts_type(&mut self, ts_type: TsType) -> bool {
+    fn valid_enum_ts_type(&mut self, ts_type: &TsType) -> bool {
         match ts_type {
             TsType::TsLitType(ts_lit) => match ts_lit.lit {
                 TsLit::Number(_) => true,
