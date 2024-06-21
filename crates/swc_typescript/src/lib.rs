@@ -4,7 +4,7 @@ use std::{mem::take, sync::Arc};
 
 use diagnostic::SourceRange;
 use swc_atoms::Atom;
-use swc_common::{FileName, DUMMY_SP};
+use swc_common::{FileName, Span, DUMMY_SP};
 use swc_ecma_ast::{
     BindingIdent, ClassMember, Decl, DefaultDecl, ExportDecl, ExportDefaultDecl, ExportDefaultExpr,
     Expr, FnDecl, FnExpr, Ident, Lit, MethodKind, Module, ModuleDecl, ModuleItem, OptChainBase,
@@ -31,27 +31,26 @@ impl Checker {
         self.diagnostics.push(diagnostic)
     }
 
-    fn source_range_to_range(&self, range: SourceRange) -> SourceRange {
+    fn source_range_to_range(&self, range: Span) -> SourceRange {
         SourceRange {
-            specifier: self.specifier.clone(),
-            text_info: self.text_info.clone(),
+            filename: self.filename.clone(),
             range,
         }
     }
 
-    fn mark_diagnostic_unable_to_infer(&mut self, range: SourceRange) {
+    fn mark_diagnostic_unable_to_infer(&mut self, range: Span) {
         self.mark_diagnostic(DtsIssue::UnableToInferType {
             range: self.source_range_to_range(range),
         })
     }
 
-    fn mark_diagnostic_any_fallback(&mut self, range: SourceRange) {
+    fn mark_diagnostic_any_fallback(&mut self, range: Span) {
         self.mark_diagnostic(DtsIssue::UnableToInferTypeFallbackAny {
             range: self.source_range_to_range(range),
         })
     }
 
-    fn mark_diagnostic_unsupported_prop(&mut self, range: SourceRange) {
+    fn mark_diagnostic_unsupported_prop(&mut self, range: Span) {
         self.mark_diagnostic(DtsIssue::UnableToInferTypeFromProp {
             range: self.source_range_to_range(range),
         })
