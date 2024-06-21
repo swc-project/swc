@@ -38,7 +38,15 @@ impl Checker {
             };
 
             match &mut item {
-                ModuleItem::ModuleDecl(ModuleDecl::Import(..)) => new_items.push(item),
+                // Keep all these
+                ModuleItem::ModuleDecl(
+                    ModuleDecl::Import(..)
+                    | ModuleDecl::TsImportEquals(_)
+                    | ModuleDecl::TsNamespaceExport(_)
+                    | ModuleDecl::TsExportAssignment(_)
+                    | ModuleDecl::ExportNamed(_)
+                    | ModuleDecl::ExportAll(_),
+                ) => new_items.push(item),
 
                 ModuleItem::ModuleDecl(ModuleDecl::ExportDecl(ExportDecl {
                     span, decl, ..
@@ -83,6 +91,73 @@ impl Checker {
 
                     new_items.push(item);
                 }
+
+                ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(export)) => {
+                    let should_keep = prev_is_overload && !is_overload;
+                    prev_is_overload = is_overload;
+                    if should_keep {
+                        continue;
+                    }
+
+                    let name = self.gen_unique_name();
+                    let name_ident = Ident::new(name.into(), DUMMY_SP);
+                    let type_ann = self
+                        .expr_to_ts_type(*export_default_expr.expr.clone(), false, true)
+                        .map(type_ann);
+
+                    if let Some(type_ann) = type_ann {
+                        new_items.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(Box::new(
+                            VarDecl {
+                                span: DUMMY_SP,
+                                kind: VarDeclKind::Const,
+                                declare: true,
+                                decls: vec![VarDeclarator {
+                                    span: DUMMY_SP,
+                                    name: Pat::Ident(BindingIdent {
+                                        id: name_ident.clone(),
+                                        type_ann: Some(type_ann),
+                                    }),
+                                    init: None,
+                                    definite: false,
+                                }],
+                            },
+                        )))));
+
+                        new_items.push(ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(
+                            ExportDefaultExpr {
+                                span: export_default_expr.span,
+                                expr: Box::new(Expr::Ident(name_ident)),
+                            },
+                        )))
+                    } else {
+                        new_items.push(ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultExpr(
+                            ExportDefaultExpr {
+                                span: export_default_expr.span,
+                                expr: export_default_expr.expr,
+                            },
+                        )))
+                    }
+                }
+
+                ModuleItem::Stmt(Stmt::Decl(decl)) => match decl {
+                    Decl::TsEnum(_)
+                    | Decl::Class(_)
+                    | Decl::Fn(_)
+                    | Decl::Var(_)
+                    | Decl::TsModule(_) => {
+                        if let Some(decl) = self.decl_to_type_decl(decl.clone()) {
+                            new_items.push(ModuleItem::Stmt(Stmt::Decl(decl)));
+                        } else {
+                            self.mark_diagnostic_unable_to_infer(decl.range())
+                        }
+                    }
+
+                    Decl::TsInterface(_) | Decl::TsTypeAlias(_) | Decl::Using(_) => {
+                        new_items.push(ModuleItem::Stmt(Stmt::Decl(decl)));
+                    }
+                },
+
+                ModuleItem::Stmt(..) => {}
             }
 
             prev_is_overload = is_overload;
