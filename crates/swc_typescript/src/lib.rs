@@ -184,7 +184,7 @@ impl Checker {
         e: Box<Expr>,
         as_const: bool,
         as_readonly: bool,
-    ) -> Option<TsType> {
+    ) -> Option<Box<TsType>> {
         match *e {
             Expr::Array(arr) => {
                 let mut elem_types: Vec<TsTupleElement> = vec![];
@@ -798,13 +798,13 @@ fn is_keyword_type(return_type: &TsType, kind: TsKeywordTypeKind) -> bool {
 }
 
 fn any_type_ann() -> Box<TsTypeAnn> {
-    type_ann(ts_keyword_type(TsKeywordTypeKind::TsAnyKeyword))
+    type_ann(Box::new(ts_keyword_type(TsKeywordTypeKind::TsAnyKeyword)))
 }
 
-fn type_ann(ts_type: TsType) -> Box<TsTypeAnn> {
+fn type_ann(ts_type: Box<TsType>) -> Box<TsTypeAnn> {
     Box::new(TsTypeAnn {
         span: DUMMY_SP,
-        type_ann: Box::new(ts_type),
+        type_ann: ts_type,
     })
 }
 
