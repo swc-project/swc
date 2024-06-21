@@ -247,9 +247,10 @@ impl Lexer<'_> {
             if let Some(shebang) = self.read_shebang()? {
                 return Ok(Some(Token::Shebang(shebang)));
             }
-        } else {
-            self.state.is_first = false;
         }
+
+        self.state.had_line_break = self.state.is_first;
+        self.state.is_first = false;
 
         // skip spaces before getting next character, if we are allowed to.
         if self.state.can_skip_space() {
@@ -385,7 +386,7 @@ impl State {
         State {
             is_expr_allowed: true,
             next_regexp: None,
-            had_line_break: true,
+            had_line_break: false,
             had_line_break_before_last: false,
             is_first: true,
             start: BytePos(0),
