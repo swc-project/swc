@@ -26,6 +26,7 @@ verify        = ["swc_ecma_visit"]
 
 [dependencies]
 either      = { workspace = true }
+memchr      = { workspace = true, features = ["use_std"] }
 num-bigint  = { workspace = true }
 num-traits  = { workspace = true }
 serde       = { workspace = true, features = ["derive"] }
