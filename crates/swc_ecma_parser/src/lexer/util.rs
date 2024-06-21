@@ -160,7 +160,7 @@ impl<'a> Lexer<'a> {
     ///
     /// See https://tc39.github.io/ecma262/#sec-white-space
     #[inline(never)]
-    pub(super) fn skip_space<const LEX_COMMENTS: bool>(&mut self) -> LexResult<()> {
+    pub(super) fn skip_space<const LEX_COMMENTS: bool>(&mut self) {
         loop {
             let (offset, newline) = {
                 let mut skip = SkipWhitespace {
@@ -182,15 +182,13 @@ impl<'a> Lexer<'a> {
                     self.skip_line_comment(2);
                     continue;
                 } else if self.peek() == Some('*') {
-                    self.skip_block_comment()?;
+                    self.skip_block_comment();
                     continue;
                 }
             }
 
             break;
         }
-
-        Ok(())
     }
 
     #[inline(never)]
@@ -250,7 +248,7 @@ impl<'a> Lexer<'a> {
 
     /// Expects current char to be '/' and next char to be '*'.
     #[inline(never)]
-    pub(super) fn skip_block_comment(&mut self) -> LexResult<()> {
+    pub(super) fn skip_block_comment(&mut self) {
         let start = self.cur_pos();
 
         debug_assert_eq!(self.cur(), Some('/'));
@@ -276,7 +274,7 @@ impl<'a> Lexer<'a> {
 
                 let end = self.cur_pos();
 
-                self.skip_space::<false>()?;
+                self.skip_space::<false>();
 
                 if self.input.is_byte(b';') {
                     is_for_next = false;
@@ -284,7 +282,7 @@ impl<'a> Lexer<'a> {
 
                 self.store_comment(is_for_next, start, end, slice_start);
 
-                return Ok(());
+                return;
             }
             if c.is_line_terminator() {
                 self.state.had_line_break = true;
@@ -294,7 +292,7 @@ impl<'a> Lexer<'a> {
             self.bump();
         }
 
-        self.error(start, SyntaxError::UnterminatedBlockComment)?
+        self.emit_error(start, SyntaxError::UnterminatedBlockComment)
     }
 
     #[inline(never)]
