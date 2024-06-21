@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Features
+
+
+
+- **(common)** Add fallible methods to `swc_common::SourceMap` ([#9090](https://github.com/swc-project/swc/issues/9090)) ([e423d1b](https://github.com/swc-project/swc/commit/e423d1bcedc24803eaeeed4c72cc84fe9a938f65))
+
 ## [1.6.3] - 2024-06-19
 
 ### Bug Fixes
