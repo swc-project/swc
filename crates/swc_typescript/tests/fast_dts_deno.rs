@@ -1,64 +1,42 @@
 //! Tests copied from deno
 
+use std::sync::Arc;
+
+use swc_ecma_ast::EsVersion;
+use swc_ecma_codegen::to_code;
+use swc_ecma_parser::{parse_file_as_module, Syntax, TsConfig};
+use swc_typescript::fast_dts::FastDts;
+use testing::NormalizedOutput;
+
 fn transform_dts_test(source: &str, expected: &str) {
-    let specifier = Url::parse("file:///mod.ts").unwrap();
+    testing::run_test(false, |cm, handler| {
+        let fm = cm.new_source_file(
+            swc_common::FileName::Real("test.ts".into()),
+            source.to_string(),
+        );
 
-    let loader = MemoryLoader::new(
-        vec![(
-            specifier.to_string(),
-            Source::Module {
-                specifier: specifier.to_string(),
-                maybe_headers: None,
-                content: source.to_string(),
-            },
-        )],
-        vec![],
-    );
-    let analyzer = CapturingModuleAnalyzer::default();
-    let mut graph = ModuleGraph::new(GraphKind::All);
-    graph.build(
-        vec![specifier.clone()],
-        &loader,
-        BuildOptions {
-            module_analyzer: &analyzer,
-            ..Default::default()
-        },
-    );
+        let mut checker = FastDts::new(Arc::new(fm.name.clone()));
 
-    let root_sym = RootSymbol::new(&graph, &analyzer);
-
-    let module_info = root_sym
-        .module_from_specifier(&specifier)
-        .unwrap()
-        .esm()
+        let mut module = parse_file_as_module(
+            &fm,
+            Syntax::Typescript(TsConfig {
+                ..Default::default()
+            }),
+            EsVersion::latest(),
+            None,
+            &mut vec![],
+        )
         .unwrap();
 
-    let parsed_source = module_info.source();
-    let module = parsed_source.module().to_owned();
+        let _issues = checker.transform(&mut module);
 
-    let mut transformer = FastCheckDtsTransformer::new(parsed_source.text_info_lazy(), &specifier);
-    let module = transformer.transform(module).unwrap();
+        let code = to_code(&module);
 
-    let comments = parsed_source.comments().as_single_threaded();
+        assert_eq!(code.trim(), expected.trim(), "Expected:\n{expected}");
 
-    let source_map = SourceMap::single(specifier, parsed_source.text().to_string());
-
-    let EmittedSourceText { text: actual, .. } = emit(
-        &deno_ast::swc::ast::Program::Module(module),
-        &comments,
-        &source_map,
-        &EmitOptions {
-            remove_comments: false,
-            source_map: deno_ast::SourceMapOption::None,
-            source_map_file: None,
-            inline_sources: false,
-        },
-    )
-    .unwrap()
-    .into_string()
+        Ok(())
+    })
     .unwrap();
-
-    assert_eq!(actual.trim(), expected.trim());
 }
 
 #[test]

@@ -32,6 +32,15 @@ pub struct FastDts {
 
 /// Diagnostics
 impl FastDts {
+    pub fn new(filename: Arc<FileName>) -> Self {
+        Self {
+            filename,
+            is_top_level: false,
+            id_counter: 0,
+            diagnostics: vec![],
+        }
+    }
+
     fn mark_diagnostic(&mut self, diagnostic: DtsIssue) {
         self.diagnostics.push(diagnostic)
     }
@@ -63,10 +72,12 @@ impl FastDts {
 }
 
 impl FastDts {
-    pub fn transform(&mut self, module: &mut Module) {
+    pub fn transform(&mut self, module: &mut Module) -> Vec<DtsIssue> {
         self.is_top_level = true;
 
         self.transform_module_items(&mut module.body);
+
+        take(&mut self.diagnostics)
     }
 
     fn transform_module_items(&mut self, items: &mut Vec<ModuleItem>) {
