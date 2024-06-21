@@ -283,7 +283,7 @@ impl SourceMap {
     /// Lookup source information about a BytePos
     pub fn try_lookup_char_pos(&self, pos: BytePos) -> Result<Loc, SourceMapLookupError> {
         let fm = self.lookup_source_file(pos)?;
-        Ok(self.lookup_char_pos_with(fm, pos))
+        self.lookup_char_pos_with(fm, pos)
     }
 
     /// Lookup source information about a BytePos
@@ -292,7 +292,11 @@ impl SourceMap {
     /// This method exists only for optimization and it's not part of public
     /// api.
     #[doc(hidden)]
-    pub fn lookup_char_pos_with(&self, fm: Lrc<SourceFile>, pos: BytePos) -> Loc {
+    pub fn lookup_char_pos_with(
+        &self,
+        fm: Lrc<SourceFile>,
+        pos: BytePos,
+    ) -> Result<Loc, SourceMapLookupError> {
         let line_info = self.lookup_line_with(fm, pos);
         match line_info {
             Ok(SourceFileAndLine { sf: f, line: a }) => {
@@ -339,15 +343,15 @@ impl SourceMap {
                     debug!("byte is on line: {}", line);
                 }
                 //                assert!(chpos >= linechpos);
-                Loc {
+                Ok(Loc {
                     file: f,
                     line,
                     col,
                     col_display,
-                }
+                })
             }
             Err(f) => {
-                let chpos = self.bytepos_to_file_charpos(pos);
+                let chpos = self.bytepos_to_file_charpos(pos)?;
 
                 let col_display = {
                     let end_width_idx = f
@@ -360,12 +364,12 @@ impl SourceMap {
                         .sum();
                     chpos.0 - end_width_idx + non_narrow
                 };
-                Loc {
+                Ok(Loc {
                     file: f,
                     line: 0,
                     col: chpos,
                     col_display,
-                }
+                })
             }
         }
     }
@@ -1282,7 +1286,7 @@ impl SourceMap {
             let f = match cur_file {
                 Some(ref f) if f.start_pos <= pos && pos < f.end_pos => f,
                 _ => {
-                    f = self.lookup_source_file(pos);
+                    f = self.lookup_source_file(pos).unwrap();
                     if config.skip(&f.name) {
                         continue;
                     }
@@ -1562,10 +1566,10 @@ mod tests {
         // Test bytepos_to_file_charpos
         let sm = init_source_map();
 
-        let cp1 = sm.bytepos_to_file_charpos(BytePos(23));
+        let cp1 = sm.bytepos_to_file_charpos(BytePos(23)).unwrap();
         assert_eq!(cp1, CharPos(22));
 
-        let cp2 = sm.bytepos_to_file_charpos(BytePos(26));
+        let cp2 = sm.bytepos_to_file_charpos(BytePos(26)).unwrap();
         assert_eq!(cp2, CharPos(0));
     }
 
@@ -1604,16 +1608,16 @@ mod tests {
         // Test bytepos_to_file_charpos in the presence of multi-byte chars
         let sm = init_source_map_mbc();
 
-        let cp1 = sm.bytepos_to_file_charpos(BytePos(4));
+        let cp1 = sm.bytepos_to_file_charpos(BytePos(4)).unwrap();
         assert_eq!(cp1, CharPos(3));
 
-        let cp2 = sm.bytepos_to_file_charpos(BytePos(7));
+        let cp2 = sm.bytepos_to_file_charpos(BytePos(7)).unwrap();
         assert_eq!(cp2, CharPos(4));
 
-        let cp3 = sm.bytepos_to_file_charpos(BytePos(57));
+        let cp3 = sm.bytepos_to_file_charpos(BytePos(57)).unwrap();
         assert_eq!(cp3, CharPos(12));
 
-        let cp4 = sm.bytepos_to_file_charpos(BytePos(62));
+        let cp4 = sm.bytepos_to_file_charpos(BytePos(62)).unwrap();
         assert_eq!(cp4, CharPos(15));
     }
 
