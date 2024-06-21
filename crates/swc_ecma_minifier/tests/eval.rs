@@ -8,7 +8,7 @@ use swc_ecma_minifier::{
     eval::{EvalResult, Evaluator},
     marks::Marks,
 };
-use swc_ecma_parser::{parse_file_as_expr, parse_file_as_module, EsConfig, Syntax};
+use swc_ecma_parser::{parse_file_as_expr, parse_file_as_module, EsSyntax, Syntax};
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_visit::{noop_visit_mut_type, VisitMut, VisitMutWith};
 use testing::{assert_eq, DebugUsingDisplay};
@@ -88,7 +88,7 @@ impl PartialInliner {
 
             let mut module = parse_file_as_module(
                 &fm,
-                Syntax::Es(EsConfig {
+                Syntax::Es(EsSyntax {
                     jsx: true,
                     ..Default::default()
                 }),
@@ -121,7 +121,7 @@ impl PartialInliner {
 
                 parse_file_as_module(
                     &fm,
-                    Syntax::Es(EsConfig {
+                    Syntax::Es(EsSyntax {
                         jsx: true,
                         ..Default::default()
                     }),

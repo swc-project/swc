@@ -21,7 +21,7 @@ use swc_common::{
     collections::AHashSet, errors::ColorConfig, FileName, SourceFile, SourceMap, GLOBALS,
 };
 use swc_ecma_ast::EsVersion;
-use swc_ecma_parser::{Syntax, TsConfig};
+use swc_ecma_parser::{Syntax, TsSyntax};
 use testing::NormalizedOutput;
 
 #[testing::fixture(
@@ -383,7 +383,7 @@ fn matrix(input: &Path) -> Vec<TestUnitData> {
                 let opts = Options {
                     config: Config {
                         jsc: JscConfig {
-                            syntax: Some(Syntax::Typescript(TsConfig {
+                            syntax: Some(Syntax::Typescript(TsSyntax {
                                 tsx: is_jsx,
                                 decorators,
                                 dts: false,

@@ -30,7 +30,7 @@ use swc_ecma_minifier::{
 };
 use swc_ecma_parser::{
     lexer::{input::SourceFileInput, Lexer},
-    EsConfig, Parser, Syntax,
+    EsSyntax, Parser, Syntax,
 };
 use swc_ecma_transforms_base::{
     fixer::{fixer, paren_remover},
@@ -189,7 +189,7 @@ fn run(cm: Lrc<SourceMap>, handler: &Handler, input: &Path, config: &str) -> Opt
         let minification_start = Instant::now();
 
         let lexer = Lexer::new(
-            Syntax::Es(EsConfig {
+            Syntax::Es(EsSyntax {
                 jsx: true,
                 ..Default::default()
             }),

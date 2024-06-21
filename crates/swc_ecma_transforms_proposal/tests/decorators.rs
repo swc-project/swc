@@ -7,14 +7,14 @@ use std::{
 
 use serde::Deserialize;
 use swc_common::{chain, comments::SingleThreadedComments, Mark};
-use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
+use swc_ecma_parser::{EsSyntax, Syntax, TsSyntax};
 use swc_ecma_transforms_base::{assumptions::Assumptions, resolver};
 use swc_ecma_transforms_proposal::decorator_2022_03::decorator_2022_03;
 use swc_ecma_transforms_testing::{test_fixture, FixtureTestConfig};
 use swc_ecma_visit::Fold;
 
 fn syntax_default() -> Syntax {
-    Syntax::Es(EsConfig {
+    Syntax::Es(EsSyntax {
         decorators: true,
         auto_accessors: true,
         allow_super_outside_method: true,
@@ -25,7 +25,7 @@ fn syntax_default() -> Syntax {
 }
 
 fn syntax_default_ts() -> Syntax {
-    Syntax::Typescript(TsConfig {
+    Syntax::Typescript(TsSyntax {
         decorators: true,
         ..Default::default()
     })
@@ -41,7 +41,7 @@ fn exec_inner(input: PathBuf) {
 
     swc_ecma_transforms_testing::exec_tr(
         "decorator",
-        Syntax::Typescript(TsConfig {
+        Syntax::Typescript(TsSyntax {
             decorators: true,
             ..Default::default()
         }),

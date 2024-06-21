@@ -1,7 +1,7 @@
 use std::{fs::File, path::PathBuf};
 
 use swc_common::{chain, Mark};
-use swc_ecma_parser::{Syntax, TsConfig};
+use swc_ecma_parser::{Syntax, TsSyntax};
 use swc_ecma_transforms_base::{feature::FeatureFlag, resolver};
 use swc_ecma_transforms_module::umd::{umd, Config};
 use swc_ecma_transforms_testing::{test_fixture, Tester};
@@ -12,7 +12,7 @@ fn syntax() -> Syntax {
 }
 
 fn ts_syntax() -> Syntax {
-    Syntax::Typescript(TsConfig::default())
+    Syntax::Typescript(TsSyntax::default())
 }
 
 fn tr(tester: &mut Tester<'_>, config: Config, typescript: bool) -> impl Fold {
