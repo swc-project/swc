@@ -3766,7 +3766,7 @@ dependencies = [
 
 [[package]]
 name = "swc_bundler"
-version = "0.230.0"
+version = "0.230.1"
 dependencies = [
  "anyhow",
  "crc",
@@ -4793,7 +4793,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_react"
-version = "0.186.0"
+version = "0.186.1"
 dependencies = [
  "base64",
  "dashmap",
