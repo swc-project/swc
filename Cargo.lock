@@ -5299,6 +5299,13 @@ dependencies = [
 [[package]]
 name = "swc_typescript"
 version = "0.1.0"
+dependencies = [
+ "swc_atoms",
+ "swc_common",
+ "swc_ecma_ast",
+ "swc_ecma_codegen",
+ "swc_ecma_parser",
+]
 
 [[package]]
 name = "swc_visit"
