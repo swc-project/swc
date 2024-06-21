@@ -1130,12 +1130,7 @@ impl SourceMap {
         let fm = Self::lookup_source_file_in(files, pos);
         match fm {
             Some(fm) => Ok(fm),
-            None => {
-                panic!(
-                    "position {} does not resolve to a source location",
-                    pos.to_usize()
-                );
-            }
+            None => Err(SourceMapLookupError::NoFileFor(pos)),
         }
     }
 
