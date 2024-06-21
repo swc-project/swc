@@ -15,6 +15,7 @@ use swc_ecma_ast::{
 
 pub struct Checker {
     is_top_level: bool,
+    id_counter: u32,
 }
 
 impl Checker {
@@ -777,6 +778,11 @@ impl Checker {
             // a parse error here.
             Pat::Invalid(_) => None,
         }
+    }
+
+    fn gen_unique_name(&mut self) -> Atom {
+        self.id_counter += 1;
+        format!("_dts_{}", self.id_counter).into()
     }
 }
 
