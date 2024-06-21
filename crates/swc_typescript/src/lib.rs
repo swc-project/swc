@@ -394,7 +394,7 @@ impl Checker {
                                 Pat::Ident(ident) => {
                                     if ident.type_ann.is_none() {
                                         ident.type_ann = self.infer_expr_fallback_any(
-                                            *assign_pat.right.clone(),
+                                            assign_pat.right,
                                             false,
                                             false,
                                         );
@@ -406,7 +406,7 @@ impl Checker {
                                 Pat::Array(arr_pat) => {
                                     if arr_pat.type_ann.is_none() {
                                         arr_pat.type_ann = self.infer_expr_fallback_any(
-                                            *assign_pat.right.clone(),
+                                            assign_pat.right,
                                             false,
                                             false,
                                         );
@@ -452,11 +452,8 @@ impl Checker {
 
                         let ts_type = decl
                             .init
-                            .as_ref()
-                            .and_then(|init_box| {
-                                let init = *init_box.clone();
-                                self.expr_to_ts_type(init, false, true)
-                            })
+                            .take()
+                            .and_then(|init| self.expr_to_ts_type(init, false, true))
                             .map(type_ann)
                             .or_else(|| {
                                 self.mark_diagnostic_any_fallback(ident.range());
@@ -515,7 +512,7 @@ impl Checker {
         self.is_top_level = false;
         let body = match ns {
             TsNamespaceBody::TsModuleBlock(mut ts_module_block) => {
-                ts_module_block.body = self.transform_module_items(ts_module_block.body);
+                self.transform_module_items(&mut ts_module_block.body);
                 TsNamespaceBody::TsModuleBlock(ts_module_block)
             }
             TsNamespaceBody::TsNamespaceDecl(ts_ns) => self.transform_ts_ns_body(*ts_ns.body),
