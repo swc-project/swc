@@ -1,0 +1,16 @@
+
+  x unable to infer type from object property, skipping
+    ,-[$DIR/tests/ts-isolated-declaration/oxc/input/as-const.ts:8:1]
+  8 |   undefined: undefined,
+  9 |   function(a: string): void {},
+    :   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 10 |   arrow: (a: string): void => {},
+    `----
+
+  x unable to infer type from expression or declaration
+    ,-[$DIR/tests/ts-isolated-declaration/oxc/input/as-const.ts:14:1]
+ 14 |   },
+ 15 |   array: [`a`, , { b: `\n` }],
+    :           ^^^
+ 16 | } as const
+    `----

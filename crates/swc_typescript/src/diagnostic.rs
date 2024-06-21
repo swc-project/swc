@@ -5,7 +5,7 @@ use swc_common::{FileName, Span};
 #[derive(Debug, Clone)]
 pub struct SourceRange {
     pub filename: Arc<FileName>,
-    pub range: Span,
+    pub span: Span,
 }
 
 #[derive(Debug, Clone, thiserror::Error)]
@@ -23,13 +23,13 @@ pub enum DtsIssue {
 }
 
 impl DtsIssue {
-    pub fn range(&self) -> Option<&SourceRange> {
+    pub fn range(&self) -> &SourceRange {
         match self {
-            DtsIssue::UnableToInferType { range } => Some(range),
-            DtsIssue::UnableToInferTypeFallbackAny { range } => Some(range),
-            DtsIssue::UnableToInferTypeFromProp { range } => Some(range),
-            DtsIssue::UnableToInferTypeFromSpread { range } => Some(range),
-            DtsIssue::UnsupportedUsing { range } => Some(range),
+            DtsIssue::UnableToInferType { range } => range,
+            DtsIssue::UnableToInferTypeFallbackAny { range } => range,
+            DtsIssue::UnableToInferTypeFromProp { range } => range,
+            DtsIssue::UnableToInferTypeFromSpread { range } => range,
+            DtsIssue::UnsupportedUsing { range } => range,
         }
     }
 }
