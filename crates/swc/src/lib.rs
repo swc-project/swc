@@ -155,6 +155,7 @@ use swc_ecma_visit::{FoldWith, VisitMutWith, VisitWith};
 pub use swc_error_reporters::handler::{try_with_handler, HandlerOpts};
 pub use swc_node_comments::SwcComments;
 use swc_timer::timer;
+use swc_typescript::fast_dts::FastDts;
 use tracing::warn;
 use url::Url;
 
@@ -731,7 +732,7 @@ impl Compiler {
                 None
             };
 
-            self.apply_transforms(handler, orig, config)
+            self.apply_transforms(handler, fm.clone(), orig, config)
         })
     }
 
@@ -949,11 +950,13 @@ impl Compiler {
     fn apply_transforms(
         &self,
         handler: &Handler,
+        fm: Arc<SourceFile>,
         orig: Option<sourcemap::SourceMap>,
         config: BuiltInput<impl swc_ecma_visit::Fold>,
     ) -> Result<TransformOutput, Error> {
         self.run(|| {
             let program = config.program;
+            let emit_dts = config.emit_isolated_dts;
             let source_map_names = if config.source_maps.enabled() {
                 let mut v = swc_compiler_base::IdentCollector {
                     names: Default::default(),
@@ -965,6 +968,21 @@ impl Compiler {
             } else {
                 Default::default()
             };
+
+            if emit_dts && program.is_module() {
+                let mut checker = FastDts::new(fm.name.clone().into());
+                let mut module = program.clone().expect_module();
+
+                let issues = checker.transform(&mut module);
+
+                for issue in issues {
+                    let range = issue.range();
+
+                    handler
+                        .struct_span_err(range.span, "failed to generate .d.ts file")
+                        .emit();
+                }
+            }
 
             let mut pass = config.pass;
             let (program, output) = swc_transform_common::output::capture(|| {
