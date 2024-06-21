@@ -1,5 +1,6 @@
 use std::mem::take;
 
+use smallvec::{smallvec, SmallVec};
 use swc_common::{BytePos, Span};
 use tracing::trace;
 
@@ -371,7 +372,7 @@ impl<'a> Iterator for Lexer<'a> {
 
 impl State {
     pub fn new(syntax: Syntax, start_pos: BytePos) -> Self {
-        let context = TokenContexts(vec![TokenContext::BraceStmt]);
+        let context = TokenContexts(smallvec![TokenContext::BraceStmt]);
 
         State {
             is_expr_allowed: true,
@@ -646,7 +647,7 @@ impl State {
 }
 
 #[derive(Clone, Default)]
-pub struct TokenContexts(pub(crate) Vec<TokenContext>);
+pub struct TokenContexts(pub(crate) SmallVec<[TokenContext; 32]>);
 
 impl TokenContexts {
     /// Returns true if following `LBrace` token is `block statement` according
@@ -817,9 +818,9 @@ where
         let res = f(&mut l);
 
         #[cfg(debug_assertions)]
-        let c = vec![TokenContext::BraceStmt];
+        let c = TokenContexts(smallvec![TokenContext::BraceStmt]);
         #[cfg(debug_assertions)]
-        debug_assert_eq!(l.state.context.0, c);
+        debug_assert_eq!(l.state.context.0, c.0);
 
         res
     })
