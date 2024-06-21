@@ -18,7 +18,7 @@ use swc_common::{
 };
 use swc_ecma_ast::{EsVersion, Program};
 use swc_ecma_loader::resolve::Resolution;
-use swc_ecma_parser::{parse_file_as_module, Syntax, TsConfig};
+use swc_ecma_parser::{parse_file_as_module, Syntax, TsSyntax};
 use swc_ecma_transforms_base::{
     helpers::{inject_helpers, Helpers, HELPERS},
     resolver,
@@ -117,7 +117,7 @@ impl Load for Loader {
 
         let module = parse_file_as_module(
             &fm,
-            Syntax::Typescript(TsConfig {
+            Syntax::Typescript(TsSyntax {
                 decorators: true,
                 tsx,
                 ..Default::default()

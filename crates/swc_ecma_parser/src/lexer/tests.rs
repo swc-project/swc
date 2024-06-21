@@ -1953,7 +1953,7 @@ fn issue_2853_5_jsx() {
 #[test]
 fn issue_2853_6_tsx() {
     let (tokens, errors) = lex_errors(
-        crate::Syntax::Typescript(crate::TsConfig {
+        crate::Syntax::Typescript(crate::TsSyntax {
             tsx: true,
             ..Default::default()
         }),
@@ -2003,7 +2003,7 @@ fn issue_2853_7_jsx() {
 #[test]
 fn issue_2853_8_tsx() {
     let (tokens, errors) = lex_errors(
-        crate::Syntax::Typescript(crate::TsConfig {
+        crate::Syntax::Typescript(crate::TsSyntax {
             tsx: true,
             ..Default::default()
         }),
@@ -2084,7 +2084,7 @@ class C {
 #[test]
 fn conflict_marker_trivia3() {
     let (_, errors) = lex_errors(
-        crate::Syntax::Typescript(crate::TsConfig {
+        crate::Syntax::Typescript(crate::TsSyntax {
             tsx: true,
             ..Default::default()
         }),

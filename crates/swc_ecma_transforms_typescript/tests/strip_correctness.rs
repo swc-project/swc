@@ -3,7 +3,7 @@ use std::path::PathBuf;
 use swc_common::{FileName, Mark};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::to_code_default;
-use swc_ecma_parser::{lexer::Lexer, EsSyntax, Parser, Syntax, TsConfig};
+use swc_ecma_parser::{lexer::Lexer, EsSyntax, Parser, Syntax, TsSyntax};
 use swc_ecma_transforms_base::{fixer::fixer, hygiene::hygiene, resolver};
 use swc_ecma_transforms_typescript::typescript;
 use swc_ecma_visit::FoldWith;
@@ -83,7 +83,7 @@ fn identity(entry: PathBuf) {
         println!("{}", src.src);
 
         let mut parser: Parser<Lexer> = Parser::new(
-            Syntax::Typescript(TsConfig {
+            Syntax::Typescript(TsSyntax {
                 tsx: file_name.contains("tsx"),
                 decorators: true,
                 dts: false,

@@ -536,7 +536,7 @@ test!(
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Typescript(::swc_ecma_parser::TsConfig {
+    ::swc_ecma_parser::Syntax::Typescript(::swc_ecma_parser::TsSyntax {
         tsx: true,
         ..Default::default()
     }),
@@ -601,7 +601,7 @@ test!(
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Typescript(::swc_ecma_parser::TsConfig {
+    ::swc_ecma_parser::Syntax::Typescript(::swc_ecma_parser::TsSyntax {
         tsx: true,
         ..Default::default()
     }),
@@ -700,7 +700,7 @@ test!(
 );
 
 test!(
-    ::swc_ecma_parser::Syntax::Typescript(::swc_ecma_parser::TsConfig {
+    ::swc_ecma_parser::Syntax::Typescript(::swc_ecma_parser::TsSyntax {
         tsx: true,
         ..Default::default()
     }),

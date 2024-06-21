@@ -7,7 +7,7 @@ use swc_common::{
     BytePos, Span,
 };
 use swc_ecma_ast::*;
-use swc_ecma_parser::{lexer::Lexer, EsSyntax, Parser, Syntax, TsConfig};
+use swc_ecma_parser::{lexer::Lexer, EsSyntax, Parser, Syntax, TsSyntax};
 use swc_ecma_visit::{Visit, VisitWith};
 use testing::{fixture, Tester};
 
@@ -32,7 +32,7 @@ fn test(input: PathBuf) {
                     import_attributes: true,
                     ..Default::default()
                 }),
-                "ts" | "tsx" => Syntax::Typescript(TsConfig {
+                "ts" | "tsx" => Syntax::Typescript(TsSyntax {
                     tsx: ext == "tsx",
                     decorators: true,
                     no_early_errors: true,

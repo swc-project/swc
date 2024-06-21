@@ -3,7 +3,7 @@ use std::path::{Path, PathBuf};
 use swc_common::{chain, sync::Lrc, Mark, SourceMap, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_codegen::Emitter;
-use swc_ecma_parser::{lexer::Lexer, EsSyntax, Parser, StringInput, Syntax, TsConfig};
+use swc_ecma_parser::{lexer::Lexer, EsSyntax, Parser, StringInput, Syntax, TsSyntax};
 use swc_ecma_transforms_base::{fixer::fixer, resolver};
 use swc_ecma_visit::{
     as_folder, visit_mut_obj_and_computed, Fold, FoldWith, VisitMut, VisitMutWith,
@@ -88,7 +88,7 @@ fn test_resolver(input: PathBuf) {
 #[fixture("tests/ts-resolver/**/input.ts")]
 fn test_ts_resolver(input: PathBuf) {
     run(
-        Syntax::Typescript(TsConfig {
+        Syntax::Typescript(TsSyntax {
             decorators: true,
             ..Default::default()
         }),

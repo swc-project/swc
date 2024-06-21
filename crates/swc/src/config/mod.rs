@@ -41,7 +41,7 @@ pub use swc_ecma_minifier::js::*;
 use swc_ecma_minifier::option::terser::TerserTopLevelOptions;
 #[allow(deprecated)]
 pub use swc_ecma_parser::JscTarget;
-use swc_ecma_parser::{parse_file_as_expr, Syntax, TsConfig};
+use swc_ecma_parser::{parse_file_as_expr, Syntax, TsSyntax};
 use swc_ecma_transforms::{
     feature::FeatureFlag,
     hygiene, modules,
@@ -852,7 +852,7 @@ impl Default for Rc {
                 test: Some(FileMatcher::Regex("\\.tsx$".into())),
                 exclude: None,
                 jsc: JscConfig {
-                    syntax: Some(Syntax::Typescript(TsConfig {
+                    syntax: Some(Syntax::Typescript(TsSyntax {
                         tsx: true,
                         ..Default::default()
                     })),
@@ -865,7 +865,7 @@ impl Default for Rc {
                 test: Some(FileMatcher::Regex("\\.(cts|mts)$".into())),
                 exclude: None,
                 jsc: JscConfig {
-                    syntax: Some(Syntax::Typescript(TsConfig {
+                    syntax: Some(Syntax::Typescript(TsSyntax {
                         tsx: false,
                         disallow_ambiguous_jsx_like: true,
                         ..Default::default()
@@ -879,7 +879,7 @@ impl Default for Rc {
                 test: Some(FileMatcher::Regex("\\.ts$".into())),
                 exclude: None,
                 jsc: JscConfig {
-                    syntax: Some(Syntax::Typescript(TsConfig {
+                    syntax: Some(Syntax::Typescript(TsSyntax {
                         tsx: false,
                         ..Default::default()
                     })),
@@ -980,7 +980,7 @@ impl Config {
     ///
     /// - typescript: `tsx` will be modified if file extension is `ts`.
     pub fn adjust(&mut self, file: &Path) {
-        if let Some(Syntax::Typescript(TsConfig { tsx, dts, .. })) = &mut self.jsc.syntax {
+        if let Some(Syntax::Typescript(TsSyntax { tsx, dts, .. })) = &mut self.jsc.syntax {
             let is_dts = file
                 .file_name()
                 .and_then(|f| f.to_str())

@@ -4,7 +4,7 @@ use swc::{
 };
 use swc_common::{comments::SingleThreadedComments, FileName};
 use swc_ecma_ast::*;
-use swc_ecma_parser::{EsSyntax, Syntax, TsConfig};
+use swc_ecma_parser::{EsSyntax, Syntax, TsSyntax};
 use swc_ecma_transforms::pass::noop;
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut};
 
@@ -129,7 +129,7 @@ fn shopify_2_same_opt() {
                 test: None,
                 exclude: None,
                 jsc: JscConfig {
-                    syntax: Some(Syntax::Typescript(TsConfig {
+                    syntax: Some(Syntax::Typescript(TsSyntax {
                         tsx: true,
                         decorators: false,
                         dts: false,
@@ -211,7 +211,7 @@ fn shopify_3_reduce_defaults() {
         let opts = Options {
             config: Config {
                 jsc: JscConfig {
-                    syntax: Some(Syntax::Typescript(TsConfig {
+                    syntax: Some(Syntax::Typescript(TsSyntax {
                         tsx: true,
                         ..Default::default()
                     })),

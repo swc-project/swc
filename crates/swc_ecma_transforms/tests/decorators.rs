@@ -8,7 +8,7 @@
 use std::{fs, path::PathBuf};
 
 use swc_common::{chain, Mark};
-use swc_ecma_parser::{EsSyntax, Syntax, TsConfig};
+use swc_ecma_parser::{EsSyntax, Syntax, TsSyntax};
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::{
     class_fields_use_set::class_fields_use_set,
@@ -22,7 +22,7 @@ use swc_ecma_transforms_typescript::{strip, typescript};
 use swc_ecma_visit::Fold;
 
 fn ts() -> Syntax {
-    Syntax::Typescript(TsConfig {
+    Syntax::Typescript(TsSyntax {
         decorators: true,
         ..Default::default()
     })
@@ -4001,7 +4001,7 @@ test!(
 );
 
 test_exec!(
-    Syntax::Typescript(TsConfig {
+    Syntax::Typescript(TsSyntax {
         decorators: true,
         ..Default::default()
     }),
@@ -4030,7 +4030,7 @@ fn fixture_exec(input: PathBuf) {
 
     swc_ecma_transforms_testing::exec_tr(
         "decorator",
-        Syntax::Typescript(TsConfig {
+        Syntax::Typescript(TsSyntax {
             decorators: true,
             ..Default::default()
         }),

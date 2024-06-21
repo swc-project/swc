@@ -23,7 +23,7 @@ use swc_common::{
 use swc_compiler_base::{IsModule, PrintArgs};
 use swc_ecma_ast::*;
 use swc_ecma_minifier::option::MangleOptions;
-use swc_ecma_parser::{EsSyntax, Syntax, TsConfig};
+use swc_ecma_parser::{EsSyntax, Syntax, TsSyntax};
 use swc_ecma_transforms::{
     helpers::{self, Helpers},
     pass::noop,
@@ -544,7 +544,7 @@ fn issue_879() {
                 env: Some(Default::default()),
                 module: Some(ModuleConfig::CommonJs(Default::default())),
                 jsc: JscConfig {
-                    syntax: Some(Syntax::Typescript(TsConfig {
+                    syntax: Some(Syntax::Typescript(TsSyntax {
                         tsx: true,
                         decorators: true,
                         ..Default::default()
@@ -914,7 +914,7 @@ fn issue_2224() {
         Options {
             config: Config {
                 jsc: JscConfig {
-                    syntax: Some(Syntax::Typescript(TsConfig {
+                    syntax: Some(Syntax::Typescript(TsSyntax {
                         decorators: true,
                         ..Default::default()
                     })),

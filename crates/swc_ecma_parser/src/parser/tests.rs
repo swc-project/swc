@@ -185,7 +185,7 @@ fn issue_2264_1() {
     let _ = super::test_parser_comment(
         &c,
         s,
-        Syntax::Typescript(TsConfig {
+        Syntax::Typescript(TsSyntax {
             tsx: true,
             ..Default::default()
         }),
@@ -228,7 +228,7 @@ fn issue_2264_3() {
     let _ = super::test_parser_comment(
         &c,
         s,
-        Syntax::Typescript(TsConfig {
+        Syntax::Typescript(TsSyntax {
             tsx: true,
             ..Default::default()
         }),
@@ -255,7 +255,7 @@ fn issue_2339_1() {
     let _ = super::test_parser_comment(
         &c,
         s,
-        Syntax::Typescript(TsConfig {
+        Syntax::Typescript(TsSyntax {
             tsx: true,
             ..Default::default()
         }),

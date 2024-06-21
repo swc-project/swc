@@ -1,7 +1,7 @@
 use std::path::PathBuf;
 
 use swc_common::{chain, comments::SingleThreadedComments, pass::Optional, Mark};
-use swc_ecma_parser::{Syntax, TsConfig};
+use swc_ecma_parser::{Syntax, TsSyntax};
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_compat::{
     class_fields_use_set::class_fields_use_set,
@@ -599,7 +599,7 @@ test!(
 );
 
 test!(
-    Syntax::Typescript(TsConfig {
+    Syntax::Typescript(TsSyntax {
         decorators: true,
         ..Default::default()
     }),
@@ -634,7 +634,7 @@ test!(
 );
 
 test_exec!(
-    Syntax::Typescript(TsConfig {
+    Syntax::Typescript(TsSyntax {
         decorators: true,
         ..Default::default()
     }),
@@ -1744,7 +1744,7 @@ export default (identifier: string, level = 0, b = "", m = false) => {
 to!(bin_01, "a!!!! + b!!!!!! + c!!!!!");
 
 test!(
-    Syntax::Typescript(TsConfig {
+    Syntax::Typescript(TsSyntax {
         decorators: true,
         ..Default::default()
     }),
@@ -1757,7 +1757,7 @@ test!(
 );
 
 test!(
-    Syntax::Typescript(TsConfig {
+    Syntax::Typescript(TsSyntax {
         decorators: true,
         ..Default::default()
     }),
@@ -1769,7 +1769,7 @@ test!(
 );
 
 test!(
-    Syntax::Typescript(TsConfig {
+    Syntax::Typescript(TsSyntax {
         decorators: true,
         ..Default::default()
     }),
@@ -1792,7 +1792,7 @@ test!(
 );
 
 test!(
-    Syntax::Typescript(TsConfig {
+    Syntax::Typescript(TsSyntax {
         tsx: true,
         ..Default::default()
     }),
@@ -1809,7 +1809,7 @@ serve((_req) =>
 );
 
 test!(
-    Syntax::Typescript(TsConfig {
+    Syntax::Typescript(TsSyntax {
         tsx: true,
         ..Default::default()
     }),
@@ -1827,7 +1827,7 @@ serve((_req) =>
 );
 
 test!(
-    Syntax::Typescript(TsConfig {
+    Syntax::Typescript(TsSyntax {
         decorators: true,
         ..Default::default()
     }),
@@ -1867,7 +1867,7 @@ test!(
 );
 
 test!(
-    Syntax::Typescript(TsConfig {
+    Syntax::Typescript(TsSyntax {
         decorators: true,
         ..Default::default()
     }),
@@ -1948,7 +1948,7 @@ class C {
 );
 
 test!(
-    Syntax::Typescript(TsConfig {
+    Syntax::Typescript(TsSyntax {
         decorators: true,
         ..Default::default()
     }),
@@ -2646,7 +2646,7 @@ namespace Namespace {
 fn exec(input: PathBuf) {
     let output = input.with_file_name("output.js");
     test_fixture(
-        Syntax::Typescript(TsConfig {
+        Syntax::Typescript(TsSyntax {
             tsx: input.to_string_lossy().ends_with(".tsx"),
             ..Default::default()
         }),
@@ -2673,7 +2673,7 @@ let b = class {
 );
 
 test!(
-    Syntax::Typescript(TsConfig::default()),
+    Syntax::Typescript(TsSyntax::default()),
     |_| tr_config(None, None, true),
     export_import_assign,
     r#"
@@ -2684,7 +2684,7 @@ test!(
 );
 
 test!(
-    Syntax::Typescript(TsConfig::default()),
+    Syntax::Typescript(TsSyntax::default()),
     |_| tr_config(
         Some(typescript::Config {
             import_export_assign_config: TsImportExportAssignConfig::NodeNext,
@@ -2702,7 +2702,7 @@ test!(
 );
 
 test!(
-    Syntax::Typescript(TsConfig::default()),
+    Syntax::Typescript(TsSyntax::default()),
     |_| tr_config(
         Some(typescript::Config {
             import_export_assign_config: TsImportExportAssignConfig::NodeNext,
@@ -2756,7 +2756,7 @@ test!(
 );
 
 test!(
-    Syntax::Typescript(TsConfig::default()),
+    Syntax::Typescript(TsSyntax::default()),
     |_| tr_config(
         Some(typescript::Config {
             ts_enum_is_mutable: true,
@@ -2799,7 +2799,7 @@ test!(
 );
 
 test!(
-    Syntax::Typescript(TsConfig::default()),
+    Syntax::Typescript(TsSyntax::default()),
     |t| {
         let unresolved_mark = Mark::new();
         let top_level_mark = Mark::new();

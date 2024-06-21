@@ -155,7 +155,7 @@ pub enum Syntax {
     #[cfg(feature = "typescript")]
     #[cfg_attr(docsrs, doc(cfg(feature = "typescript")))]
     #[serde(rename = "typescript")]
-    Typescript(TsConfig),
+    Typescript(TsSyntax),
 }
 
 impl Default for Syntax {
@@ -192,7 +192,7 @@ impl Syntax {
         match self {
             Syntax::Es(EsSyntax { jsx: true, .. }) => true,
             #[cfg(feature = "typescript")]
-            Syntax::Typescript(TsConfig { tsx: true, .. }) => true,
+            Syntax::Typescript(TsSyntax { tsx: true, .. }) => true,
             _ => false,
         }
     }
@@ -207,7 +207,7 @@ impl Syntax {
                 decorators: true, ..
             }) => true,
             #[cfg(feature = "typescript")]
-            Syntax::Typescript(TsConfig {
+            Syntax::Typescript(TsSyntax {
                 decorators: true, ..
             }) => true,
             _ => false,
@@ -308,7 +308,7 @@ impl Syntax {
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Default, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct TsConfig {
+pub struct TsSyntax {
     #[serde(default)]
     pub tsx: bool,
 
