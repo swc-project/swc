@@ -5287,7 +5287,7 @@ dependencies = [
 
 [[package]]
 name = "swc_typescript"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "swc_atoms",
  "swc_common",
