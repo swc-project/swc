@@ -10,7 +10,7 @@ use swc_ecma_ast::{
     Pat, Prop, PropName, PropOrSpread, Stmt, TsEntityName, TsFnOrConstructorType, TsFnParam,
     TsFnType, TsKeywordType, TsKeywordTypeKind, TsLit, TsNamespaceBody, TsPropertySignature,
     TsTupleElement, TsTupleType, TsType, TsTypeAnn, TsTypeElement, TsTypeLit, TsTypeOperator,
-    TsTypeOperatorOp, TsTypeRef,
+    TsTypeOperatorOp, TsTypeRef, VarDecl, VarDeclKind, VarDeclarator,
 };
 
 pub struct Checker {
@@ -115,9 +115,7 @@ impl Checker {
 
                     let name = self.gen_unique_name();
                     let name_ident = Ident::new(name.into(), DUMMY_SP);
-                    let type_ann = self
-                        .expr_to_ts_type(*export.expr.clone(), false, true)
-                        .map(type_ann);
+                    let type_ann = self.expr_to_ts_type(export.expr, false, true).map(type_ann);
 
                     if let Some(type_ann) = type_ann {
                         new_items.push(ModuleItem::Stmt(Stmt::Decl(Decl::Var(Box::new(
