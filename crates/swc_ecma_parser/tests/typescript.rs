@@ -9,7 +9,7 @@ use std::{
 use pretty_assertions::assert_eq;
 use swc_common::{comments::SingleThreadedComments, FileName};
 use swc_ecma_ast::*;
-use swc_ecma_parser::{lexer::Lexer, PResult, Parser, Syntax, TsConfig};
+use swc_ecma_parser::{lexer::Lexer, PResult, Parser, Syntax, TsSyntax};
 use swc_ecma_visit::FoldWith;
 use testing::StdErr;
 
@@ -254,7 +254,7 @@ where
             .unwrap_or_else(|e| panic!("failed to load {}: {}", file_name.display(), e));
 
         let lexer = Lexer::new(
-            Syntax::Typescript(TsConfig {
+            Syntax::Typescript(TsSyntax {
                 dts: fname.ends_with(".d.ts"),
                 tsx: fname.contains("tsx"),
                 decorators: true,

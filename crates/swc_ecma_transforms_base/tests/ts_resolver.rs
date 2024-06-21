@@ -4,7 +4,7 @@ use std::path::PathBuf;
 
 use swc_common::{Mark, SyntaxContext};
 use swc_ecma_ast::*;
-use swc_ecma_parser::{parse_file_as_module, Syntax, TsConfig};
+use swc_ecma_parser::{parse_file_as_module, Syntax, TsSyntax};
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_visit::{FoldWith, Visit, VisitWith};
 use testing::fixture;
@@ -19,7 +19,7 @@ fn no_empty(input: PathBuf) {
 
         let module = match parse_file_as_module(
             &fm,
-            Syntax::Typescript(TsConfig {
+            Syntax::Typescript(TsSyntax {
                 tsx: input.ends_with("tsx"),
                 decorators: true,
                 no_early_errors: true,

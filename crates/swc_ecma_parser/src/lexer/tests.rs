@@ -992,7 +992,7 @@ a"
 fn jsx_01() {
     assert_eq!(
         lex_tokens(
-            crate::Syntax::Es(crate::EsConfig {
+            crate::Syntax::Es(crate::EsSyntax {
                 jsx: true,
                 ..Default::default()
             }),
@@ -1011,7 +1011,7 @@ fn jsx_01() {
 fn jsx_02() {
     assert_eq!(
         lex_tokens(
-            crate::Syntax::Es(crate::EsConfig {
+            crate::Syntax::Es(crate::EsSyntax {
                 jsx: true,
                 ..Default::default()
             }),
@@ -1034,7 +1034,7 @@ fn jsx_02() {
 fn jsx_03() {
     assert_eq!(
         lex_tokens(
-            crate::Syntax::Es(crate::EsConfig {
+            crate::Syntax::Es(crate::EsSyntax {
                 jsx: true,
                 ..Default::default()
             }),
@@ -1062,7 +1062,7 @@ fn jsx_03() {
 fn jsx_04() {
     assert_eq!(
         lex_tokens(
-            crate::Syntax::Es(crate::EsConfig {
+            crate::Syntax::Es(crate::EsSyntax {
                 jsx: true,
                 ..Default::default()
             }),
@@ -1104,7 +1104,7 @@ fn empty() {
 fn issue_191() {
     assert_eq!(
         lex_tokens(
-            crate::Syntax::Es(crate::EsConfig {
+            crate::Syntax::Es(crate::EsSyntax {
                 jsx: true,
                 ..Default::default()
             }),
@@ -1161,7 +1161,7 @@ fn issue_5722() {
 fn jsx_05() {
     assert_eq!(
         lex_tokens(
-            crate::Syntax::Es(crate::EsConfig {
+            crate::Syntax::Es(crate::EsSyntax {
                 jsx: true,
                 ..Default::default()
             }),
@@ -1187,7 +1187,7 @@ fn jsx_05() {
 fn issue_299_01() {
     assert_eq!(
         lex_tokens(
-            crate::Syntax::Es(crate::EsConfig {
+            crate::Syntax::Es(crate::EsSyntax {
                 jsx: true,
                 ..Default::default()
             }),
@@ -1221,7 +1221,7 @@ fn issue_299_01() {
 fn issue_299_02() {
     assert_eq!(
         lex_tokens(
-            crate::Syntax::Es(crate::EsConfig {
+            crate::Syntax::Es(crate::EsSyntax {
                 jsx: true,
                 ..Default::default()
             }),
@@ -1255,7 +1255,7 @@ fn issue_299_02() {
 fn jsx_string_1() {
     assert_eq!(
         lex_tokens(
-            crate::Syntax::Es(crate::EsConfig {
+            crate::Syntax::Es(crate::EsSyntax {
                 jsx: true,
                 ..Default::default()
             }),
@@ -1289,7 +1289,7 @@ fn jsx_string_1() {
 fn jsx_string_2() {
     assert_eq!(
         lex_tokens(
-            crate::Syntax::Es(crate::EsConfig {
+            crate::Syntax::Es(crate::EsSyntax {
                 jsx: true,
                 ..Default::default()
             }),
@@ -1323,7 +1323,7 @@ fn jsx_string_2() {
 fn jsx_string_3() {
     assert_eq!(
         lex_tokens(
-            crate::Syntax::Es(crate::EsConfig {
+            crate::Syntax::Es(crate::EsSyntax {
                 jsx: true,
                 ..Default::default()
             }),
@@ -1357,7 +1357,7 @@ fn jsx_string_3() {
 fn jsx_string_4() {
     assert_eq!(
         lex_tokens(
-            crate::Syntax::Es(crate::EsConfig {
+            crate::Syntax::Es(crate::EsSyntax {
                 jsx: true,
                 ..Default::default()
             }),
@@ -1391,7 +1391,7 @@ fn jsx_string_4() {
 fn jsx_string_5() {
     assert_eq!(
         lex_tokens(
-            crate::Syntax::Es(crate::EsConfig {
+            crate::Syntax::Es(crate::EsSyntax {
                 jsx: true,
                 ..Default::default()
             }),
@@ -1425,7 +1425,7 @@ fn jsx_string_5() {
 fn jsx_string_6() {
     assert_eq!(
         lex_tokens(
-            crate::Syntax::Es(crate::EsConfig {
+            crate::Syntax::Es(crate::EsSyntax {
                 jsx: true,
                 ..Default::default()
             }),
@@ -1459,7 +1459,7 @@ fn jsx_string_6() {
 fn jsx_string_7() {
     assert_eq!(
         lex_tokens(
-            crate::Syntax::Es(crate::EsConfig {
+            crate::Syntax::Es(crate::EsSyntax {
                 jsx: true,
                 ..Default::default()
             }),
@@ -1493,7 +1493,7 @@ fn jsx_string_7() {
 fn jsx_string_8() {
     assert_eq!(
         lex_tokens(
-            crate::Syntax::Es(crate::EsConfig {
+            crate::Syntax::Es(crate::EsSyntax {
                 jsx: true,
                 ..Default::default()
             }),
@@ -1527,7 +1527,7 @@ fn jsx_string_8() {
 fn jsx_string_9() {
     assert_eq!(
         lex_tokens(
-            crate::Syntax::Es(crate::EsConfig {
+            crate::Syntax::Es(crate::EsSyntax {
                 jsx: true,
                 ..Default::default()
             }),
@@ -1587,7 +1587,7 @@ fn issue_401() {
 fn issue_481() {
     assert_eq!(
         lex_tokens(
-            crate::Syntax::Es(crate::EsConfig {
+            crate::Syntax::Es(crate::EsSyntax {
                 jsx: true,
                 ..Default::default()
             }),
@@ -1928,7 +1928,7 @@ fn issue_2853_4_ts() {
 #[test]
 fn issue_2853_5_jsx() {
     let (tokens, errors) = lex_errors(
-        crate::Syntax::Es(crate::EsConfig {
+        crate::Syntax::Es(crate::EsSyntax {
             jsx: true,
             ..Default::default()
         }),
@@ -1953,7 +1953,7 @@ fn issue_2853_5_jsx() {
 #[test]
 fn issue_2853_6_tsx() {
     let (tokens, errors) = lex_errors(
-        crate::Syntax::Typescript(crate::TsConfig {
+        crate::Syntax::Typescript(crate::TsSyntax {
             tsx: true,
             ..Default::default()
         }),
@@ -1978,7 +1978,7 @@ fn issue_2853_6_tsx() {
 #[test]
 fn issue_2853_7_jsx() {
     let (tokens, errors) = lex_errors(
-        crate::Syntax::Es(crate::EsConfig {
+        crate::Syntax::Es(crate::EsSyntax {
             jsx: true,
             ..Default::default()
         }),
@@ -2003,7 +2003,7 @@ fn issue_2853_7_jsx() {
 #[test]
 fn issue_2853_8_tsx() {
     let (tokens, errors) = lex_errors(
-        crate::Syntax::Typescript(crate::TsConfig {
+        crate::Syntax::Typescript(crate::TsSyntax {
             tsx: true,
             ..Default::default()
         }),
@@ -2084,7 +2084,7 @@ class C {
 #[test]
 fn conflict_marker_trivia3() {
     let (_, errors) = lex_errors(
-        crate::Syntax::Typescript(crate::TsConfig {
+        crate::Syntax::Typescript(crate::TsSyntax {
             tsx: true,
             ..Default::default()
         }),

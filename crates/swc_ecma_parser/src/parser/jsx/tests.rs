@@ -6,7 +6,7 @@ use super::*;
 fn jsx(src: &'static str) -> Box<Expr> {
     test_parser(
         src,
-        crate::Syntax::Es(crate::EsConfig {
+        crate::Syntax::Es(crate::EsSyntax {
             jsx: true,
             ..Default::default()
         }),

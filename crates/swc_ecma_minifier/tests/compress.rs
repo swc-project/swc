@@ -36,7 +36,7 @@ use swc_ecma_minifier::{
 };
 use swc_ecma_parser::{
     lexer::{input::SourceFileInput, Lexer},
-    EsConfig, Parser, Syntax,
+    EsSyntax, Parser, Syntax,
 };
 use swc_ecma_testing::{exec_node_js, JsExecOptions};
 use swc_ecma_transforms_base::{
@@ -183,7 +183,7 @@ fn run(
         let minification_start = Instant::now();
 
         let lexer = Lexer::new(
-            Syntax::Es(EsConfig {
+            Syntax::Es(EsSyntax {
                 jsx: true,
                 ..Default::default()
             }),

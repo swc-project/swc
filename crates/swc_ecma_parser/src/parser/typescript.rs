@@ -2370,7 +2370,7 @@ impl<I: Tokens> Parser<I> {
         if self.ctx().in_declare
             && matches!(
                 self.syntax(),
-                Syntax::Typescript(TsConfig { dts: false, .. })
+                Syntax::Typescript(TsSyntax { dts: false, .. })
             )
         {
             let span_of_declare = span!(self, start);
