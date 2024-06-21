@@ -1,6 +1,9 @@
 use std::mem::take;
 
-use swc_ecma_ast::{Decl, ExportDecl, FnDecl, Module, ModuleDecl, ModuleItem, Stmt};
+use swc_ecma_ast::{
+    Decl, DefaultDecl, ExportDecl, ExportDefaultDecl, FnDecl, FnExpr, Module, ModuleDecl,
+    ModuleItem, Stmt,
+};
 
 pub struct Checker {}
 
@@ -22,6 +25,16 @@ impl Checker {
                     }) => !declare && function.body.is_none(),
                     _ => false,
                 },
+
+                ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(ExportDefaultDecl {
+                    decl,
+                    ..
+                })) => match decl {
+                    DefaultDecl::Fn(FnExpr { function, .. }) => function.body.is_none(),
+                    _ => false,
+                },
+
+                _ => false,
             };
 
             match &mut item {
@@ -46,6 +59,29 @@ impl Checker {
                             range: self.source_range_to_range(export_decl.range()),
                         })
                     }
+                }
+
+                ModuleItem::ModuleDecl(ModuleDecl::ExportDefaultDecl(export)) => {
+                    match &mut export.decl {
+                        DefaultDecl::Class(mut class_expr) => {
+                            class_expr.class.body = self.class_body_to_type(class_expr.class.body);
+
+                            export.decl = DefaultDecl::Class(class_expr);
+                        }
+                        DefaultDecl::Fn(mut fn_expr) => {
+                            fn_expr.function.body = None;
+                            export.decl = DefaultDecl::Fn(fn_expr);
+                        }
+                        DefaultDecl::TsInterfaceDecl(_) => {}
+                    };
+
+                    let should_keep = prev_is_overload && !is_overload;
+                    prev_is_overload = is_overload;
+                    if should_keep {
+                        continue;
+                    }
+
+                    new_items.push(item);
                 }
             }
 
