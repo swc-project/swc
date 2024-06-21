@@ -55,7 +55,7 @@ hex        = { workspace = true }
 ntest      = { workspace = true }
 path-clean = "=0.1.0"
 reqwest    = { workspace = true, features = ["blocking"] }
-sha-1      = "0.10"
+sha1       = { workspace = true }
 tempfile   = { workspace = true }
 url        = { workspace = true }
 
