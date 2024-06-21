@@ -31,7 +31,6 @@
     "user",
     "id"
   ],
-  "rangeMappings": ";;;;;;;;;;;;;;;;;;;;;;;;;",
   "sources": [
     "../../input/UserController.ts"
   ],

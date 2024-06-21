@@ -6,7 +6,6 @@
     "Error",
     "stack"
   ],
-  "rangeMappings": ";;;;;",
   "sources": [
     "../../input/index.js"
   ],

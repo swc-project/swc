@@ -5,7 +5,6 @@
     "Symbol",
     "for"
   ],
-  "rangeMappings": ";;",
   "sources": [
     "../../input/index.js"
   ],
