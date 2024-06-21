@@ -193,7 +193,7 @@ impl Tokens for Lexer<'_> {
 }
 
 impl Lexer<'_> {
-    fn next_token(&mut self, mut start: BytePos) -> Result<Option<Token>, Error> {
+    fn next_token(&mut self, start: &mut BytePos) -> Result<Option<Token>, Error> {
         if let Some(start) = self.state.next_regexp {
             return Ok(Some(self.read_regexp(start)?));
         }
@@ -210,7 +210,7 @@ impl Lexer<'_> {
         // skip spaces before getting next character, if we are allowed to.
         if self.state.can_skip_space() {
             self.skip_space::<true>()?;
-            start = self.input.cur_pos();
+            *start = self.input.cur_pos();
         };
 
         match self.input.cur() {
@@ -264,7 +264,7 @@ impl Lexer<'_> {
         //     self.state.context.0
         // );
 
-        self.state.start = start;
+        self.state.start = *start;
 
         if self.syntax.jsx() && !self.ctx.in_property_name && !self.ctx.in_type {
             //jsx
@@ -332,9 +332,9 @@ impl<'a> Iterator for Lexer<'a> {
     type Item = TokenAndSpan;
 
     fn next(&mut self) -> Option<Self::Item> {
-        let start = self.cur_pos();
+        let mut start = self.cur_pos();
 
-        let res = self.next_token(start);
+        let res = self.next_token(&mut start);
 
         let token = match res.map_err(Token::Error).map_err(Some) {
             Ok(t) => t,
