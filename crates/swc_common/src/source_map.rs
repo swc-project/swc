@@ -282,7 +282,7 @@ impl SourceMap {
     /// Lookup source information about a BytePos
     pub fn try_lookup_char_pos(&self, pos: BytePos) -> Result<Loc, SourceMapLookupError> {
         let fm = self.lookup_source_file(pos)?;
-        self.lookup_char_pos_with(fm, pos)
+        self.try_lookup_char_pos_with(fm, pos)
     }
 
     /// Lookup source information about a BytePos
@@ -291,7 +291,17 @@ impl SourceMap {
     /// This method exists only for optimization and it's not part of public
     /// api.
     #[doc(hidden)]
-    pub fn lookup_char_pos_with(
+    pub fn lookup_char_pos_with(&self, fm: Lrc<SourceFile>, pos: BytePos) -> Loc {
+        self.try_lookup_char_pos_with(fm, pos).unwrap()
+    }
+
+    /// Lookup source information about a BytePos
+    ///
+    ///
+    /// This method exists only for optimization and it's not part of public
+    /// api.
+    #[doc(hidden)]
+    pub fn try_lookup_char_pos_with(
         &self,
         fm: Lrc<SourceFile>,
         pos: BytePos,
