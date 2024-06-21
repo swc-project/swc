@@ -192,6 +192,9 @@ ecma_plugin_transform = ["common_plugin_transform", "__ecma_plugin_transform"]
 # Use `stacker` to avoid stack overflow.
 stacker = ["swc_ecma_parser/stacker", "swc_ecma_utils/stacker"]
 
+
+typescript = ["swc_typescript"]
+
 # Host features to enable plugin `runner` runtime.
 # native feature is for the host environment does not have, or cannot access
 # to the wasm runtime (i.e cli, or @swc/core node bindings).
@@ -375,6 +378,7 @@ swc_plugin_macro                 = { optional = true, version = "0.9.16", path =
 swc_plugin_proxy                 = { optional = true, version = "0.44.0", path = "../swc_plugin_proxy" }
 swc_trace_macro                  = { optional = true, version = "0.1.3", path = "../swc_trace_macro" }
 swc_transform_common             = { optional = true, version = "0.1.0", path = "../swc_transform_common" }
+swc_typescript                   = { optional = true, version = "0.1.11", path = "../swc_typescript" }
 testing                          = { optional = true, version = "0.36.0", path = "../testing" }
 # TODO: eventually swc_plugin_runner needs to remove default features
 swc_plugin_runner = { optional = true, version = "0.109.0", path = "../swc_plugin_runner", default-features = false }
