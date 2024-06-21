@@ -6,10 +6,9 @@ use swc_ecma_ast::EsVersion;
 use swc_ecma_codegen::to_code;
 use swc_ecma_parser::{parse_file_as_module, Syntax, TsConfig};
 use swc_typescript::fast_dts::FastDts;
-use testing::NormalizedOutput;
 
 fn transform_dts_test(source: &str, expected: &str) {
-    testing::run_test(false, |cm, handler| {
+    testing::run_test(false, |cm, _| {
         let fm = cm.new_source_file(
             swc_common::FileName::Real("test.ts".into()),
             source.to_string(),
