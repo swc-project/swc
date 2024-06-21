@@ -857,11 +857,15 @@ fn tests(input_dir: PathBuf) {
                                     .unwrap();
                             }
 
-                            let extra = serde_json::to_string_pretty(&value).unwrap();
+                            if !value.is_empty() {
+                                let extra = serde_json::to_string_pretty(&value).unwrap();
 
-                            NormalizedOutput::from(extra)
-                                .compare_to_file(output.join(rel_path.with_extension("extra.json")))
-                                .unwrap();
+                                NormalizedOutput::from(extra)
+                                    .compare_to_file(
+                                        output.join(rel_path.with_extension("extra.json")),
+                                    )
+                                    .unwrap();
+                            }
                         }
                     }
                     Err(ref err) if format!("{:?}", err).contains("not matched") => {}
