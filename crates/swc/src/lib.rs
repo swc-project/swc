@@ -136,7 +136,7 @@ use swc_common::{
 pub use swc_compiler_base::{PrintArgs, TransformOutput};
 pub use swc_config::config_types::{BoolConfig, BoolOr, BoolOrDataConfig};
 use swc_ecma_ast::{EsVersion, Program};
-use swc_ecma_codegen::Node;
+use swc_ecma_codegen::{to_code, Node};
 use swc_ecma_loader::resolvers::{
     lru::CachingResolver, node::NodeModulesResolver, tsc::TsConfigResolver,
 };
@@ -155,6 +155,7 @@ use swc_ecma_visit::{FoldWith, VisitMutWith, VisitWith};
 pub use swc_error_reporters::handler::{try_with_handler, HandlerOpts};
 pub use swc_node_comments::SwcComments;
 use swc_timer::timer;
+use swc_transform_common::output::emit;
 use swc_typescript::fast_dts::FastDts;
 use tracing::warn;
 use url::Url;
@@ -956,7 +957,7 @@ impl Compiler {
     ) -> Result<TransformOutput, Error> {
         self.run(|| {
             let program = config.program;
-            let emit_dts = config.emit_isolated_dts;
+            let emit_dts = config.syntax.typescript() && config.emit_isolated_dts;
             let source_map_names = if config.source_maps.enabled() {
                 let mut v = swc_compiler_base::IdentCollector {
                     names: Default::default(),
@@ -979,9 +980,14 @@ impl Compiler {
                     let range = issue.range();
 
                     handler
-                        .struct_span_err(range.span, "failed to generate .d.ts file")
+                        .struct_span_err(range.span, &issue.to_string())
                         .emit();
                 }
+                let dts_code = to_code(&module);
+                emit(
+                    "__swc_isolated_declarations__".into(),
+                    serde_json::Value::String(dts_code),
+                );
             }
 
             let mut pass = config.pass;
