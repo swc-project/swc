@@ -1212,8 +1212,11 @@ pub struct JscExperimental {
     #[serde(default)]
     pub disable_builtin_transforms_for_internal_testing: BoolConfig<false>,
 
+    /// Emit TypeScript definitions for `.ts`, `.tsx` files.
+    ///
+    /// This requires `isolatedDeclartion` feature of TypeScript 5.5.
     #[serde(default)]
-    pub emit_dts: BoolConfig<false>,
+    pub emit_isolated_dts: BoolConfig<false>,
 }
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]
