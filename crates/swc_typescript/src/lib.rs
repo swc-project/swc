@@ -4,7 +4,7 @@ use std::{mem::take, sync::Arc};
 
 use diagnostic::SourceRange;
 use swc_atoms::Atom;
-use swc_common::{FileName, Span, DUMMY_SP};
+use swc_common::{FileName, Span, Spanned, DUMMY_SP};
 use swc_ecma_ast::{
     BindingIdent, ClassMember, Decl, DefaultDecl, ExportDecl, ExportDefaultDecl, ExportDefaultExpr,
     Expr, FnDecl, FnExpr, Ident, Lit, MethodKind, Module, ModuleDecl, ModuleItem, OptChainBase,
@@ -118,7 +118,7 @@ impl Checker {
                         )));
                     } else {
                         self.mark_diagnostic(DtsIssue::UnableToInferType {
-                            range: self.source_range_to_range(export_decl.range()),
+                            range: self.source_range_to_range(*span),
                         })
                     }
                 }
@@ -200,7 +200,7 @@ impl Checker {
                         if let Some(decl) = self.decl_to_type_decl(decl) {
                             new_items.push(ModuleItem::Stmt(Stmt::Decl(decl)));
                         } else {
-                            self.mark_diagnostic_unable_to_infer(decl.range())
+                            self.mark_diagnostic_unable_to_infer(decl.span())
                         }
                     }
 
@@ -230,12 +230,13 @@ impl Checker {
 
                 for elems in arr.elems {
                     if let Some(expr_or_spread) = elems {
+                        let span = expr_or_spread.span();
                         if let Some(ts_expr) =
                             self.expr_to_ts_type(expr_or_spread.expr, as_const, as_readonly)
                         {
                             elem_types.push(ts_tuple_element(ts_expr));
                         } else {
-                            self.mark_diagnostic_unable_to_infer(expr_or_spread);
+                            self.mark_diagnostic_unable_to_infer(span);
                         }
                     } else {
                         // TypeScript converts holey arrays to any
@@ -305,13 +306,13 @@ impl Checker {
                                 | Prop::Getter(_)
                                 | Prop::Setter(_)
                                 | Prop::Method(_) => {
-                                    self.mark_diagnostic_unsupported_prop(prop.range());
+                                    self.mark_diagnostic_unsupported_prop(prop.span());
                                 }
                             }
                         }
                         PropOrSpread::Spread(_) => {
                             self.mark_diagnostic(DtsIssue::UnableToInferTypeFromSpread {
-                                range: self.source_range_to_range(item.range()),
+                                range: self.source_range_to_range(item.span()),
                             })
                         }
                     }
