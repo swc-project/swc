@@ -516,7 +516,7 @@ impl Checker {
                     if let Some(init) = &member.init {
                         // Support for expressions is limited in enums,
                         // see https://www.typescriptlang.org/docs/handbook/enums.html
-                        member.init = if self.valid_enum_init_expr(*init.clone()) {
+                        member.init = if self.valid_enum_init_expr(&init) {
                             Some(init.clone())
                         } else {
                             None
@@ -589,7 +589,7 @@ impl Checker {
                 }
             },
             Expr::Tpl(tpl_expr) => {
-                for expr in tpl_expr.exprs {
+                for expr in &tpl_expr.exprs {
                     if !self.valid_enum_init_expr(&expr) {
                         return false;
                     }
