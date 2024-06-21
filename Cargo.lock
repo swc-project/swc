@@ -5297,6 +5297,10 @@ dependencies = [
 ]
 
 [[package]]
+name = "swc_typescript"
+version = "0.1.0"
+
+[[package]]
 name = "swc_visit"
 version = "0.5.14"
 dependencies = [

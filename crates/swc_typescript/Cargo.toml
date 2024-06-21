@@ -1,0 +1,11 @@
+[package]
+authors              = ["강동윤 <kdy1997.dev@gmail.com>"]
+description          = "Proc macro for performance trace of swc"
+documentation        = "https://rustdoc.swc.rs/swc_trace_macro/"
+edition              = "2021"
+license              = "Apache-2.0"
+name                 = "swc_typescript"
+repository.workspace = true
+version              = "0.1.0"
+
+[dependencies]
