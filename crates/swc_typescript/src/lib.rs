@@ -1,9 +1,10 @@
 #![allow(clippy::boxed_local)]
 
-use std::mem::take;
+use std::{mem::take, sync::Arc};
 
+use diagnostic::SourceRange;
 use swc_atoms::Atom;
-use swc_common::DUMMY_SP;
+use swc_common::{FileName, DUMMY_SP};
 use swc_ecma_ast::{
     BindingIdent, ClassMember, Decl, DefaultDecl, ExportDecl, ExportDefaultDecl, ExportDefaultExpr,
     Expr, FnDecl, FnExpr, Ident, Lit, MethodKind, Module, ModuleDecl, ModuleItem, OptChainBase,
@@ -18,6 +19,7 @@ use crate::diagnostic::DtsIssue;
 pub mod diagnostic;
 
 pub struct Checker {
+    filename: Arc<FileName>,
     is_top_level: bool,
     id_counter: u32,
     diagnostics: Vec<DtsIssue>,
@@ -29,8 +31,8 @@ impl Checker {
         self.diagnostics.push(diagnostic)
     }
 
-    fn source_range_to_range(&self, range: SourceRange) -> FastCheckDiagnosticRange {
-        FastCheckDiagnosticRange {
+    fn source_range_to_range(&self, range: SourceRange) -> SourceRange {
+        SourceRange {
             specifier: self.specifier.clone(),
             text_info: self.text_info.clone(),
             range,

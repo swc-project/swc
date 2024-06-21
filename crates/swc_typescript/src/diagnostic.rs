@@ -1,8 +1,10 @@
+use std::sync::Arc;
+
 use swc_common::{FileName, Span};
 
 #[derive(Debug, Clone)]
 pub struct SourceRange {
-    pub filename: FileName,
+    pub filename: Arc<FileName>,
     pub range: Span,
 }
 
