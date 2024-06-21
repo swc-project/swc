@@ -281,7 +281,7 @@ impl SourceMap {
 
     /// Lookup source information about a BytePos
     pub fn try_lookup_char_pos(&self, pos: BytePos) -> Result<Loc, SourceMapLookupError> {
-        let fm = self.lookup_source_file(pos)?;
+        let fm = self.try_lookup_source_file(pos)?;
         self.try_lookup_char_pos_with(fm, pos)
     }
 
@@ -385,7 +385,7 @@ impl SourceMap {
 
     /// If the relevant source_file is empty, we don't return a line number.
     pub fn lookup_line(&self, pos: BytePos) -> Result<SourceFileAndLine, Lrc<SourceFile>> {
-        let f = self.lookup_source_file(pos).unwrap();
+        let f = self.try_lookup_source_file(pos).unwrap();
 
         self.lookup_line_with(f, pos)
     }
@@ -975,14 +975,14 @@ impl SourceMap {
         &self,
         bpos: BytePos,
     ) -> Result<SourceFileAndBytePos, SourceMapLookupError> {
-        let sf = self.lookup_source_file(bpos)?;
+        let sf = self.try_lookup_source_file(bpos)?;
         let offset = bpos - sf.start_pos;
         Ok(SourceFileAndBytePos { sf, pos: offset })
     }
 
     /// Converts an absolute BytePos to a CharPos relative to the source_file.
     fn bytepos_to_file_charpos(&self, bpos: BytePos) -> Result<CharPos, SourceMapLookupError> {
-        let map = self.lookup_source_file(bpos)?;
+        let map = self.try_lookup_source_file(bpos)?;
 
         Ok(self.bytepos_to_file_charpos_with(&map, bpos))
     }
@@ -1113,7 +1113,15 @@ impl SourceMap {
     ///
     /// This is not a public api.
     #[doc(hidden)]
-    pub fn lookup_source_file(
+    pub fn lookup_source_file(&self, pos: BytePos) -> Lrc<SourceFile> {
+        self.try_lookup_source_file(pos).unwrap()
+    }
+
+    /// Return the index of the source_file (in self.files) which contains pos.
+    ///
+    /// This is not a public api.
+    #[doc(hidden)]
+    pub fn try_lookup_source_file(
         &self,
         pos: BytePos,
     ) -> Result<Lrc<SourceFile>, SourceMapLookupError> {
@@ -1294,7 +1302,7 @@ impl SourceMap {
             let f = match cur_file {
                 Some(ref f) if f.start_pos <= pos && pos < f.end_pos => f,
                 _ => {
-                    f = self.lookup_source_file(pos).unwrap();
+                    f = self.try_lookup_source_file(pos).unwrap();
                     if config.skip(&f.name) {
                         continue;
                     }
