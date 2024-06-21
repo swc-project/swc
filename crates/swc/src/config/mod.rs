@@ -1211,6 +1211,9 @@ pub struct JscExperimental {
 
     #[serde(default)]
     pub disable_builtin_transforms_for_internal_testing: BoolConfig<false>,
+
+    #[serde(default)]
+    pub emit_dts: BoolConfig<false>,
 }
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]
