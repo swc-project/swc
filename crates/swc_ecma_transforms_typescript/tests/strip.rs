@@ -95,7 +95,7 @@ fn properties(t: &Tester, loose: bool) -> impl Fold {
 macro_rules! to {
     ($name:ident, $from:expr) => {
         test!(
-            Syntax::Typescript(TsConfig {
+            Syntax::Typescript(TsSyntax {
                 decorators: true,
                 ..Default::default()
             }),
@@ -115,7 +115,7 @@ macro_rules! test_with_config {
     };
     ($name:ident, $config:expr, $use_define:expr,$from:expr) => {
         test!(
-            Syntax::Typescript(TsConfig {
+            Syntax::Typescript(TsSyntax {
                 decorators: true,
                 ..Default::default()
             }),

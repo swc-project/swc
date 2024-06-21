@@ -331,6 +331,9 @@ pub struct TsSyntax {
     pub disallow_ambiguous_jsx_like: bool,
 }
 
+#[deprecated(note = "Use 'TsSyntax' instead")]
+pub type TsConfig = TsSyntax;
+
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Default, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct EsSyntax {
@@ -372,6 +375,9 @@ pub struct EsSyntax {
     #[serde(default)]
     pub explicit_resource_management: bool,
 }
+
+#[deprecated(note = "Use 'EsSyntax' instead")]
+pub type EsConfig = EsSyntax;
 
 /// Syntactic context.
 #[derive(Debug, Clone, Copy, Default)]
