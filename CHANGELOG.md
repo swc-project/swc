@@ -5,6 +5,9 @@
 
 
 
+- **(cli)** Support generating `.d.ts` files ([#9097](https://github.com/swc-project/swc/issues/9097)) ([e71b6d3](https://github.com/swc-project/swc/commit/e71b6d31b1179dffb8a6e2d652b394273a6d7852))
+
+
 - **(common)** Add fallible methods to `swc_common::SourceMap` ([#9090](https://github.com/swc-project/swc/issues/9090)) ([e423d1b](https://github.com/swc-project/swc/commit/e423d1bcedc24803eaeeed4c72cc84fe9a938f65))
 
 
@@ -1326,9 +1329,6 @@
 
 
 - **(es/renamer)** Allow `globalThis` to be shadowed ([#8327](https://github.com/swc-project/swc/issues/8327)) ([3dd73a3](https://github.com/swc-project/swc/commit/3dd73a3cd8fddd9e19dc85c2a2bf785b585b5b9a))
-
-
-- **(es/typescript)** Handle shebang with jsx pragma ([#8318](https://github.com/swc-project/swc/issues/8318)) ([c25601d](https://github.com/swc-project/swc/commit/c25601dec21d7293ad48549a1f49ccd161f9da72))
 
 ### Miscellaneous Tasks
 
