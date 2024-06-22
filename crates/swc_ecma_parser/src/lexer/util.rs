@@ -283,7 +283,12 @@ impl<'a> Lexer<'a> {
             return;
         }
 
-        self.emit_error(start, SyntaxError::UnterminatedBlockComment)
+        let len = self.input.as_str().bytes().len();
+        self.input.bump_bytes(len);
+
+        let span = self.span(start);
+
+        self.emit_error_span(span, SyntaxError::UnterminatedBlockComment)
     }
 
     #[inline(never)]
