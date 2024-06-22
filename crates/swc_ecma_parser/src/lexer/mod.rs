@@ -379,7 +379,7 @@ impl<'a> Lexer<'a> {
                 let span = fixed_len_span(start, 7);
                 self.emit_error_span(span, SyntaxError::TS1185);
                 self.skip_line_comment(5);
-                self.skip_space::<true>()?;
+                self.skip_space::<true>();
                 return self.error_span(span, SyntaxError::TS1185);
             }
 
@@ -572,7 +572,7 @@ impl<'a> Lexer<'a> {
             if self.state.had_line_break && c == b'-' && self.eat(b'>') {
                 self.emit_module_mode_error(start, SyntaxError::LegacyCommentInModule);
                 self.skip_line_comment(0);
-                self.skip_space::<true>()?;
+                self.skip_space::<true>();
                 return self.read_token();
             }
 
@@ -617,7 +617,7 @@ impl<'a> Lexer<'a> {
                     if had_line_break_before_last && self.is_str("====") {
                         self.emit_error_span(fixed_len_span(start, 7), SyntaxError::TS1185);
                         self.skip_line_comment(4);
-                        self.skip_space::<true>()?;
+                        self.skip_space::<true>();
                         return self.read_token();
                     }
 
@@ -676,7 +676,7 @@ impl<'a> Lexer<'a> {
         // XML style comment. `<!--`
         if c == '<' && self.is(b'!') && self.peek() == Some('-') && self.peek_ahead() == Some('-') {
             self.skip_line_comment(3);
-            self.skip_space::<true>()?;
+            self.skip_space::<true>();
             self.emit_module_mode_error(start, SyntaxError::LegacyCommentInModule);
 
             return self.read_token();
@@ -732,7 +732,7 @@ impl<'a> Lexer<'a> {
         {
             self.emit_error_span(fixed_len_span(start, 7), SyntaxError::TS1185);
             self.skip_line_comment(5);
-            self.skip_space::<true>()?;
+            self.skip_space::<true>();
             return self.read_token();
         }
 
