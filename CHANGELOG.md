@@ -1319,9 +1319,6 @@
 - **(es/minifier)** Give up terminate merge if in `try` with `finally` ([#8342](https://github.com/swc-project/swc/issues/8342)) ([ed5a9b3](https://github.com/swc-project/swc/commit/ed5a9b3f2e5b7035f657a8ea3cb38a27413369b2))
 
 
-- **(es/parser)** Wrap with `OptChain` across `TsNonNull` ([#8332](https://github.com/swc-project/swc/issues/8332)) ([8af6ffb](https://github.com/swc-project/swc/commit/8af6ffb1ddaf60b997163aaf80abfb528eb2ca9c))
-
-
 - **(es/parser)** Fix conditional compilation ([#8343](https://github.com/swc-project/swc/issues/8343)) ([a423681](https://github.com/swc-project/swc/commit/a423681df897956e58650b3acc9f2331887e42e8))
 
 
