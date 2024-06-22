@@ -1,5 +1,5 @@
 # Changelog
-## [unreleased]
+## [1.6.4] - 2024-06-22
 
 ### Features
 
