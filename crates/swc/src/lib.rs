@@ -959,13 +959,9 @@ impl Compiler {
             let program = config.program;
 
             if config.emit_isolated_dts && !config.syntax.typescript() {
-                HANDLER.with(|h| {
-                    h.struct_warn(
-                        "jsc.experimental.emitIsolatedDts is enabled but the syntax is not \
-                         TypeScript",
-                    )
-                    .emit();
-                });
+                handler.warn(
+                    "jsc.experimental.emitIsolatedDts is enabled but the syntax is not TypeScript",
+                );
             }
 
             let emit_dts = config.syntax.typescript() && config.emit_isolated_dts;
