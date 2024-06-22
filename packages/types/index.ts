@@ -634,6 +634,11 @@ export interface JscConfig {
          * Disable builtin transforms. If enabled, only Wasm plugins are used.
          */
         disableBuiltinTransformsForInternalTesting?: boolean;
+
+        /**
+         * Emit isolated dts files for each module.
+         */
+        emitIsolatedDts?: boolean;
     };
 
     baseUrl?: string;
