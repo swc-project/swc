@@ -1,0 +1,11 @@
+
+  x the name `b` is defined multiple times
+   ,-[$DIR/tests/ts-isolated-declaration/oxc/input/function-overloads.ts:5:1]
+ 5 | 
+ 6 | function b(a: number): number {};
+   :          |
+   :          `-- previous definition of `b` here
+ 7 | function b(a: string): string {};
+   :          |
+   :          `-- `b` redefined here
+   `----

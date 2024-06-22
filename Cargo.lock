@@ -3695,7 +3695,7 @@ dependencies = [
 
 [[package]]
 name = "swc"
-version = "0.278.0"
+version = "0.278.1"
 dependencies = [
  "ansi_term",
  "anyhow",
@@ -3744,6 +3744,7 @@ dependencies = [
  "swc_plugin_runner",
  "swc_timer",
  "swc_transform_common",
+ "swc_typescript",
  "swc_visit",
  "testing",
  "tokio",
@@ -3821,7 +3822,7 @@ dependencies = [
 
 [[package]]
 name = "swc_cli_impl"
-version = "0.13.0"
+version = "0.13.1"
 dependencies = [
  "anyhow",
  "assert_cmd",
@@ -5289,7 +5290,7 @@ dependencies = [
 
 [[package]]
 name = "swc_typescript"
-version = "0.1.1"
+version = "0.1.2"
 dependencies = [
  "swc_atoms",
  "swc_common",

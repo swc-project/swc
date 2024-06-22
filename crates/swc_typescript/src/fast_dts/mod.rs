@@ -48,7 +48,7 @@ impl FastDts {
     fn source_range_to_range(&self, range: Span) -> SourceRange {
         SourceRange {
             filename: self.filename.clone(),
-            range,
+            span: range,
         }
     }
 

@@ -1,0 +1,12 @@
+
+  x the name `Button` is defined multiple times
+   ,-[$DIR/tests/fixture/issues-8xxx/8935/input/src/button.jsx:1:1]
+ 1 | export function Button(props) {
+   :                 ^^^|^^
+   :                    `-- previous definition of `Button` here
+ 2 |     return <button {...props} />;
+ 3 |   }export function Button(props) {
+   :                    ^^^|^^
+   :                       `-- `Button` redefined here
+ 4 |   return <button {...props} />;
+   `----

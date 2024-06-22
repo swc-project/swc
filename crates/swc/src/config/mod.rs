@@ -782,6 +782,7 @@ impl Options {
             emit_assert_for_import_attributes: experimental
                 .emit_assert_for_import_attributes
                 .into_bool(),
+            emit_isolated_dts: experimental.emit_isolated_dts.into_bool(),
         })
     }
 }
@@ -1088,6 +1089,8 @@ pub struct BuiltInput<P: swc_ecma_visit::Fold> {
 
     pub output: JscOutputConfig,
     pub emit_assert_for_import_attributes: bool,
+
+    pub emit_isolated_dts: bool,
 }
 
 impl<P> BuiltInput<P>
@@ -1117,6 +1120,7 @@ where
             emit_source_map_columns: self.emit_source_map_columns,
             output: self.output,
             emit_assert_for_import_attributes: self.emit_assert_for_import_attributes,
+            emit_isolated_dts: self.emit_isolated_dts,
         }
     }
 }
@@ -1211,6 +1215,12 @@ pub struct JscExperimental {
 
     #[serde(default)]
     pub disable_builtin_transforms_for_internal_testing: BoolConfig<false>,
+
+    /// Emit TypeScript definitions for `.ts`, `.tsx` files.
+    ///
+    /// This requires `isolatedDeclartion` feature of TypeScript 5.5.
+    #[serde(default)]
+    pub emit_isolated_dts: BoolConfig<false>,
 }
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]
