@@ -957,6 +957,17 @@ impl Compiler {
     ) -> Result<TransformOutput, Error> {
         self.run(|| {
             let program = config.program;
+
+            if config.emit_isolated_dts && !config.syntax.typescript() {
+                HANDLER.with(|h| {
+                    h.struct_warn(
+                        "jsc.experimental.emitIsolatedDts is enabled but the syntax is not \
+                         TypeScript",
+                    )
+                    .emit();
+                });
+            }
+
             let emit_dts = config.syntax.typescript() && config.emit_isolated_dts;
             let source_map_names = if config.source_maps.enabled() {
                 let mut v = swc_compiler_base::IdentCollector {
