@@ -1707,7 +1707,7 @@ impl<I: Tokens> Parser<I> {
             let is_async = is!(self, "async")
                 && matches!(
                     peek!(self),
-                    Ok(tok!('(') | tok!("function") | Token::Word(..))
+                    Some(tok!('(') | tok!("function") | Token::Word(..))
                 );
 
             let start = cur_pos!(self);

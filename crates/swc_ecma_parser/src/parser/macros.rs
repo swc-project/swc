@@ -84,7 +84,7 @@ macro_rules! peeked_is {
     ($p:expr, BindingIdent) => {{
         let ctx = $p.ctx();
         match peek!($p) {
-            Ok(&Word(ref w)) => !ctx.is_reserved(w),
+            Some(&Word(ref w)) => !ctx.is_reserved(w),
             _ => false,
         }
     }};
@@ -92,21 +92,21 @@ macro_rules! peeked_is {
     ($p:expr, IdentRef) => {{
         let ctx = $p.ctx();
         match peek!($p) {
-            Ok(&Word(ref w)) => !ctx.is_reserved(w),
+            Some(&Word(ref w)) => !ctx.is_reserved(w),
             _ => false,
         }
     }};
 
     ($p:expr,IdentName) => {{
         match peek!($p) {
-            Ok(&Word(..)) => true,
+            Some(&Word(..)) => true,
             _ => false,
         }
     }};
 
     ($p:expr, JSXName) => {{
         match peek!($p) {
-            Ok(&Token::JSXName { .. }) => true,
+            Some(&Token::JSXName { .. }) => true,
             _ => false,
         }
     }};
@@ -116,7 +116,7 @@ macro_rules! peeked_is {
     }};
 
     ($p:expr, $t:tt) => {
-        match peek!($p).ok() {
+        match peek!($p) {
             Some(&token_including_semi!($t)) => true,
             _ => false,
         }
@@ -281,15 +281,7 @@ Current token is {:?}",
             cur!($p, false),
         );
 
-        let pos = cur_pos!($p);
-        let last = Span::new(pos, pos, Default::default());
-        match $p.input.peek() {
-            Some(c) => Ok(c),
-            None => {
-                let err = crate::error::Error::new(last, crate::error::SyntaxError::Eof);
-                Err(err)
-            }
-        }
+        $p.input.peek()
     }};
 }
 
