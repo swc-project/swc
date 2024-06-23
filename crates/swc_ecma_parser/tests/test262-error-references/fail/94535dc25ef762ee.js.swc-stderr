@@ -1,6 +1,12 @@
 
-  x Bad character escape sequence, expected 4 hex characters
+  x Expected unicode escape
    ,-[$DIR/tests/test262-parser/fail/94535dc25ef762ee.js:1:1]
  1 | var x = /[a-z]/\\ux
-   :                   ^
+   :                ^
+   `----
+
+  x Expected a semicolon
+   ,-[$DIR/tests/test262-parser/fail/94535dc25ef762ee.js:1:1]
+ 1 | var x = /[a-z]/\\ux
+   :                ^
    `----
