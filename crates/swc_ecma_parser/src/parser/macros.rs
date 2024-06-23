@@ -369,6 +369,20 @@ macro_rules! syntax_error {
     };
 
     ($p:expr, $span:expr, $err:expr) => {{
+        {
+            let is_err_token = match $p.input.cur() {
+                Some(&$crate::token::Token::Error(..)) => true,
+                _ => false,
+            };
+            if is_err_token {
+                match $p.input.bump() {
+                    $crate::token::Token::Error(e) => {
+                        $p.emit_error(e);
+                    }
+                    _ => unreachable!(),
+                }
+            }
+        }
         let err = make_error!($p, $span, $err);
 
         if cfg!(feature = "debug") {
