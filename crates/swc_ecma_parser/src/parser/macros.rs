@@ -18,51 +18,51 @@ macro_rules! unexpected {
 macro_rules! is {
     ($p:expr, BindingIdent) => {{
         let ctx = $p.ctx();
-        match cur!($p, false) {
-            Ok(&Word(ref w)) => !ctx.is_reserved(w),
+        match $p.input.cur() {
+            Some(&Word(ref w)) => !ctx.is_reserved(w),
             _ => false,
         }
     }};
 
     ($p:expr, IdentRef) => {{
         let ctx = $p.ctx();
-        match cur!($p, false) {
-            Ok(&Word(ref w)) => !ctx.is_reserved(w),
+        match $p.input.cur() {
+            Some(&Word(ref w)) => !ctx.is_reserved(w),
             _ => false,
         }
     }};
 
     ($p:expr,IdentName) => {{
-        match cur!($p, false) {
-            Ok(&Word(..)) => true,
+        match $p.input.cur() {
+            Some(&Word(..)) => true,
             _ => false,
         }
     }};
 
     ($p:expr,Str) => {{
-        match cur!($p, false) {
-            Ok(&Token::Str { .. }) => true,
+        match $p.input.cur() {
+            Some(&Token::Str { .. }) => true,
             _ => false,
         }
     }};
 
     ($p:expr,Num) => {{
-        match cur!($p, false) {
-            Ok(&Token::Num { .. }) => true,
+        match $p.input.cur() {
+            Some(&Token::Num { .. }) => true,
             _ => false,
         }
     }};
 
     ($p:expr,Regex) => {{
-        match cur!($p, false) {
-            Ok(&Token::Regex { .. }) => true,
+        match $p.input.cur() {
+            Some(&Token::Regex { .. }) => true,
             _ => false,
         }
     }};
 
     ($p:expr,BigInt) => {{
-        match cur!($p, false) {
-            Ok(&Token::BigInt { .. }) => true,
+        match $p.input.cur() {
+            Some(&Token::BigInt { .. }) => true,
             _ => false,
         }
     }};
