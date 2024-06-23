@@ -235,6 +235,21 @@ macro_rules! store {
 
 /// cur!($parser, required:bool)
 macro_rules! cur {
+    ($p:expr, false) => {{
+        match $p.input.cur() {
+            Some(c) => Ok(c),
+            None => {
+                let pos = $p.input.last_pos();
+                let last = Span::new(pos, pos, Default::default());
+
+                Err(crate::error::Error::new(
+                    last,
+                    crate::error::SyntaxError::Eof,
+                ))
+            }
+        }
+    }};
+
     ($p:expr, $required:expr) => {{
         let pos = $p.input.last_pos();
         let last = Span::new(pos, pos, Default::default());
