@@ -154,8 +154,8 @@ impl<I: Tokens> Parser<I> {
     fn finish_assignment_expr(&mut self, start: BytePos, cond: Box<Expr>) -> PResult<Box<Expr>> {
         trace_cur!(self, finish_assignment_expr);
 
-        match cur!(self, false) {
-            Ok(&Token::AssignOp(op)) => {
+        match self.input.cur() {
+            Some(&Token::AssignOp(op)) => {
                 let left = if op == AssignOp::Assign {
                     match AssignTarget::try_from(
                         self.reparse_expr_as_pat(PatType::AssignPat, cond)?,
@@ -882,7 +882,7 @@ impl<I: Tokens> Parser<I> {
                 type_params: None,
             };
             if let BlockStmtOrExpr::BlockStmt(..) = &*arrow_expr.body {
-                if let Ok(&Token::BinOp(..)) = cur!(self, false) {
+                if let Some(&Token::BinOp(..)) = self.input.cur() {
                     // ) is required
                     self.emit_err(self.input.cur_span(), SyntaxError::TS1005);
                     let errorred_expr =
