@@ -58,12 +58,12 @@ impl<I: Tokens> Parser<I> {
         let start = cur_pos!(self);
 
         let w = match cur!(self, true) {
-            &Word(..) => match bump!(self) {
+            Word(..) => match bump!(self) {
                 Word(w) => w.into(),
                 _ => unreachable!(),
             },
 
-            &Token::JSXName { .. } if in_type => match bump!(self) {
+            Token::JSXName { .. } if in_type => match bump!(self) {
                 Token::JSXName { name } => name,
                 _ => unreachable!(),
             },
