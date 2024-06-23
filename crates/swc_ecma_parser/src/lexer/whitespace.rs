@@ -1,5 +1,5 @@
 /// Returns true if it's done
-pub(super) type ByteHandler = Option<for<'aa> fn(&mut SkipWhitespace<'aa>) -> usize>;
+pub(super) type ByteHandler = Option<for<'aa> fn(&mut SkipWhitespace<'aa>) -> u32>;
 
 /// Lookup table for whitespace
 static BYTE_HANDLERS: [ByteHandler; 256] = [
@@ -39,7 +39,7 @@ const SPC: ByteHandler = Some(|_| 1);
 const UNI: ByteHandler = Some(|skip| {
     let s = unsafe {
         // Safety: `skip.offset` is always valid
-        skip.input.get_unchecked(skip.offset..)
+        skip.input.get_unchecked(skip.offset as usize..)
     };
 
     let c = unsafe {
@@ -60,7 +60,7 @@ const UNI: ByteHandler = Some(|skip| {
         _ => return 0,
     }
 
-    c.len_utf8()
+    c.len_utf8() as u32
 });
 
 /// API is taked from oxc by Boshen (https://github.com/Boshen/oxc/pull/26)
@@ -68,7 +68,7 @@ pub(super) struct SkipWhitespace<'a> {
     pub input: &'a str,
 
     /// Total offset
-    pub offset: usize,
+    pub offset: u32,
 
     /// Found newline
     pub newline: bool,
@@ -79,7 +79,7 @@ impl SkipWhitespace<'_> {
     pub fn scan(&mut self) {
         let mut byte;
         loop {
-            byte = match self.input.as_bytes().get(self.offset).copied() {
+            byte = match self.input.as_bytes().get(self.offset as usize).copied() {
                 Some(v) => v,
                 None => return,
             };

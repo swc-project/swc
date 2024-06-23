@@ -158,7 +158,7 @@ impl<'a, I: Tokens> Parser<I> {
                 .map(Stmt::from);
         }
 
-        match cur!(self, true)? {
+        match cur!(self, true) {
             tok!("await") if include_decl => {
                 if peeked_is!(self, "using") {
                     assert_and_bump!(self, "await");
@@ -306,7 +306,7 @@ impl<'a, I: Tokens> Parser<I> {
             tok!("let") if include_decl => {
                 let strict = self.ctx().strict;
                 let is_keyword = match peek!(self) {
-                    Ok(t) => t.kind().follows_keyword_let(strict),
+                    Some(t) => t.kind().follows_keyword_let(strict),
                     _ => false,
                 };
 
@@ -1134,9 +1134,13 @@ impl<'a, I: Tokens> Parser<I> {
         self.with_ctx(ctx).parse_with(|p| {
             let start = l.span.lo();
 
+            let mut errors = vec![];
             for lb in &p.state.labels {
                 if l.sym == *lb {
-                    p.emit_err(l.span, SyntaxError::DuplicateLabel(l.sym.clone()));
+                    errors.push(Error::new(
+                        l.span,
+                        SyntaxError::DuplicateLabel(l.sym.clone()),
+                    ));
                 }
             }
             p.state.labels.push(l.sym.clone());
@@ -1156,6 +1160,10 @@ impl<'a, I: Tokens> Parser<I> {
             } else {
                 p.parse_stmt(false)?
             });
+
+            for err in errors {
+                p.emit_error(err);
+            }
 
             {
                 let pos = p.state.labels.iter().position(|v| v == &l.sym);
@@ -1238,7 +1246,8 @@ impl<'a, I: Tokens> Parser<I> {
         let strict = self.ctx().strict;
 
         if is_one_of!(self, "const", "var")
-            || (is!(self, "let") && peek!(self)?.kind().follows_keyword_let(strict))
+            || (is!(self, "let")
+                && peek!(self).map_or(false, |v| v.kind().follows_keyword_let(strict)))
         {
             let decl = self.parse_var_stmt(true)?;
 
@@ -1329,7 +1338,7 @@ impl<'a, I: Tokens> Parser<I> {
                 decls: vec![decl],
             });
 
-            cur!(self, true)?;
+            cur!(self, true);
 
             return self.parse_for_each_head(ForHead::UsingDecl(pat));
         }

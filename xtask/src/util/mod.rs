@@ -26,7 +26,7 @@ pub fn run_cmd(cmd: &mut Command) -> Result<()> {
     let status = cmd.status()?;
 
     if !status.success() {
-        anyhow::bail!("Failed to run cargo clean");
+        anyhow::bail!("Failed to run cargo command");
     }
 
     Ok(())

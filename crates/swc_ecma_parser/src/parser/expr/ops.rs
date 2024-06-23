@@ -15,7 +15,7 @@ impl<I: Tokens> Parser<I> {
             Err(err) => {
                 trace_cur!(self, parse_bin_expr__recovery_unary_err);
 
-                match cur!(self, true)? {
+                match cur!(self, true) {
                     &tok!("in") if ctx.include_in_expr => {
                         self.emit_err(self.input.cur_span(), SyntaxError::TS1109);
 
