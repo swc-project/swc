@@ -68,7 +68,7 @@ pub(super) struct SkipWhitespace<'a> {
     pub input: &'a str,
 
     /// Total offset
-    pub offset: usize,
+    pub offset: u32,
 
     /// Found newline
     pub newline: bool,
