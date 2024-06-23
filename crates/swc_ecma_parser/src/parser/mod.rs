@@ -220,7 +220,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     #[cold]
-    fn emit_err(&self, span: Span, error: SyntaxError) {
+    fn emit_err(&mut self, span: Span, error: SyntaxError) {
         if self.ctx().ignore_error || !self.syntax().early_errors() {
             return;
         }
@@ -229,9 +229,19 @@ impl<I: Tokens> Parser<I> {
     }
 
     #[cold]
-    fn emit_error(&self, error: Error) {
+    fn emit_error(&mut self, error: Error) {
         if self.ctx().ignore_error || !self.syntax().early_errors() {
             return;
+        }
+
+        if matches!(self.input.cur(), Some(Token::Error(..))) {
+            let err = self.input.bump();
+            match err {
+                Token::Error(err) => {
+                    self.input_ref().add_error(err);
+                }
+                _ => unreachable!(),
+            }
         }
 
         self.input_ref().add_error(error);

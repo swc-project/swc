@@ -1134,9 +1134,13 @@ impl<'a, I: Tokens> Parser<I> {
         self.with_ctx(ctx).parse_with(|p| {
             let start = l.span.lo();
 
+            let mut errors = vec![];
             for lb in &p.state.labels {
                 if l.sym == *lb {
-                    p.emit_err(l.span, SyntaxError::DuplicateLabel(l.sym.clone()));
+                    errors.push(Error::new(
+                        l.span,
+                        SyntaxError::DuplicateLabel(l.sym.clone()),
+                    ));
                 }
             }
             p.state.labels.push(l.sym.clone());
@@ -1156,6 +1160,10 @@ impl<'a, I: Tokens> Parser<I> {
             } else {
                 p.parse_stmt(false)?
             });
+
+            for err in errors {
+                p.emit_error(err);
+            }
 
             {
                 let pos = p.state.labels.iter().position(|v| v == &l.sym);
