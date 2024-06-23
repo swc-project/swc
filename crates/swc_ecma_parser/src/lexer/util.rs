@@ -175,7 +175,7 @@ impl<'a> Lexer<'a> {
                 (skip.offset, skip.newline)
             };
 
-            self.input.bump_bytes(offset);
+            self.input.bump_bytes(offset as usize);
             self.state.had_line_break |= newline;
 
             if LEX_COMMENTS && self.input.is_byte(b'/') {
