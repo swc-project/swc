@@ -129,7 +129,7 @@ impl<I: Tokens> Parser<I> {
             return self.parse_yield_expr();
         }
 
-        self.state.potential_arrow_start = match *cur!(self, true)? {
+        self.state.potential_arrow_start = match *cur!(self, true) {
             Word(Word::Ident(..)) | tok!('(') | tok!("yield") => Some(cur_pos!(self)),
             _ => None,
         };
@@ -1063,7 +1063,7 @@ impl<I: Tokens> Parser<I> {
     pub(super) fn parse_tpl_element(&mut self, is_tagged_tpl: bool) -> PResult<TplElement> {
         let start = cur_pos!(self);
 
-        let (raw, cooked) = match *cur!(self, true)? {
+        let (raw, cooked) = match *cur!(self, true) {
             Token::Template { .. } => match bump!(self) {
                 Token::Template { raw, cooked, .. } => match cooked {
                     Ok(cooked) => (raw, Some(cooked)),
@@ -1558,7 +1558,7 @@ impl<I: Tokens> Parser<I> {
                     Either::Right(r) => r.into(),
                 }
             }
-            match *cur!(self, true)? {
+            match *cur!(self, true) {
                 Token::JSXText { .. } => {
                     return self
                         .parse_jsx_text()
@@ -2016,7 +2016,7 @@ impl<I: Tokens> Parser<I> {
     pub(super) fn parse_lit(&mut self) -> PResult<Lit> {
         let start = cur_pos!(self);
 
-        let v = match cur!(self, true)? {
+        let v = match cur!(self, true) {
             Word(Word::Null) => {
                 bump!(self);
                 let span = span!(self, start);

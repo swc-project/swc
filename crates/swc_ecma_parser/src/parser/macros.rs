@@ -150,7 +150,7 @@ macro_rules! assert_and_bump {
                 $p.input.cur()
             );
         }
-        let _ = cur!($p, true)?;
+        let _ = cur!($p, true);
         bump!($p);
     }};
 }
@@ -250,33 +250,23 @@ macro_rules! cur {
         }
     }};
 
-    ($p:expr, $required:expr) => {{
-        let pos = $p.input.last_pos();
-        let last = Span::new(pos, pos, Default::default());
-        let is_err_token = match $p.input.cur() {
-            Some(&$crate::token::Token::Error(..)) => true,
-            _ => false,
-        };
-        if is_err_token {
-            match $p.input.bump() {
-                $crate::token::Token::Error(e) => {
-                    return Err(e);
-                }
-                _ => unreachable!(),
-            }
-        }
-
+    ($p:expr, true) => {{
         match $p.input.cur() {
-            Some(c) => Ok(c),
+            Some(c) => match c {
+                Token::Error(..) => match $p.input.bump() {
+                    $crate::token::Token::Error(e) => {
+                        return Err(e);
+                    }
+                    _ => unreachable!(),
+                },
+
+                _ => c,
+            },
             None => {
-                if $required {
-                    let err = crate::error::Error::new(last, crate::error::SyntaxError::Eof);
-                    return Err(err);
-                }
-                Err(crate::error::Error::new(
-                    last,
-                    crate::error::SyntaxError::Eof,
-                ))
+                let pos = $p.input.last_pos();
+                let last = Span::new(pos, pos, Default::default());
+                let err = crate::error::Error::new(last, crate::error::SyntaxError::Eof);
+                return Err(err);
             }
         }
     }};

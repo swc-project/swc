@@ -158,7 +158,7 @@ impl<'a, I: Tokens> Parser<I> {
                 .map(Stmt::from);
         }
 
-        match cur!(self, true)? {
+        match cur!(self, true) {
             tok!("await") if include_decl => {
                 if peeked_is!(self, "using") {
                     assert_and_bump!(self, "await");
@@ -1329,7 +1329,7 @@ impl<'a, I: Tokens> Parser<I> {
                 decls: vec![decl],
             });
 
-            cur!(self, true)?;
+            cur!(self, true);
 
             return self.parse_for_each_head(ForHead::UsingDecl(pat));
         }
