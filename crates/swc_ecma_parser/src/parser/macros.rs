@@ -369,6 +369,8 @@ macro_rules! syntax_error {
     };
 
     ($p:expr, $span:expr, $err:expr) => {{
+        let err = make_error!($p, $span, $err);
+
         {
             let is_err_token = match $p.input.cur() {
                 Some(&$crate::token::Token::Error(..)) => true,
@@ -383,7 +385,6 @@ macro_rules! syntax_error {
                 }
             }
         }
-        let err = make_error!($p, $span, $err);
 
         if cfg!(feature = "debug") {
             tracing::error!(
