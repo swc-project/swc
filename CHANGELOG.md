@@ -1,4 +1,12 @@
 # Changelog
+## [unreleased]
+
+### Performance
+
+
+
+- **(es/parser)** Optimize macros ([#9100](https://github.com/swc-project/swc/issues/9100)) ([719b7c5](https://github.com/swc-project/swc/commit/719b7c54f69ef276270dc39fbcb8bbdbf52899bf))
+
 ## [1.6.4] - 2024-06-22
 
 ### Features
@@ -1311,9 +1319,6 @@
 
 
 - **(es/fixer)** Wrap yield expression in await expression ([#8357](https://github.com/swc-project/swc/issues/8357)) ([ff719f0](https://github.com/swc-project/swc/commit/ff719f0cdd3cf79e7afa1c136243e6fa53c5abe3))
-
-
-- **(es/minifier)** Fix `if_return` bug related to `await` and `yield` ([#8328](https://github.com/swc-project/swc/issues/8328)) ([01e2c7f](https://github.com/swc-project/swc/commit/01e2c7fc5ab71d55c522e48eae9e3e08d8bf418d))
 
 
 - **(es/minifier)** Give up terminate merge if in `try` with `finally` ([#8342](https://github.com/swc-project/swc/issues/8342)) ([ed5a9b3](https://github.com/swc-project/swc/commit/ed5a9b3f2e5b7035f657a8ea3cb38a27413369b2))
