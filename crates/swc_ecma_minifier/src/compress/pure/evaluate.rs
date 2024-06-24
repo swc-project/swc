@@ -658,6 +658,7 @@ impl Pure<'_> {
         {
             *e = replacement;
             self.changed = true;
+            report_change!("member_expr: Optimized member expression");
 
             #[cfg(feature = "debug")]
             debug!("after: optimize_member_expr: {}", dump(&*e, false));
