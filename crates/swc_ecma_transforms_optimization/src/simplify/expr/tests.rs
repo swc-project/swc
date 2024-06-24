@@ -1577,7 +1577,7 @@ fn test_export_default_paren_expr() {
 }
 
 #[test]
-fn test_issue8747() {
+fn test_issue_8747() {
     // Index with a valid index.
     fold("'a'[0]", "\"a\";");
     fold("'a'['0']", "\"a\";");
