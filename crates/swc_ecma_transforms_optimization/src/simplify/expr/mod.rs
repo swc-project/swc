@@ -193,9 +193,12 @@ impl SimplifyExpr {
                         return;
                     }
 
+                    let Some(value) = nth_char(value, idx as _) else {
+                        return;
+                    };
+
                     self.changed = true;
 
-                    let value = nth_char(value, idx as _);
                     *expr = Expr::Lit(Lit::Str(Str {
                         raw: None,
                         value: value.into(),
