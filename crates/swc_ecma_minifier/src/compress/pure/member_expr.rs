@@ -5,7 +5,7 @@ use swc_ecma_ast::{
     ArrayLit, Expr, ExprOrSpread, Ident, Lit, MemberExpr, MemberProp, ObjectLit, Prop,
     PropOrSpread, SeqExpr, Str,
 };
-use swc_ecma_utils::{prop_name_eq, undefined, ExprExt, Known};
+use swc_ecma_utils::{prop_name_eq, ExprExt, Known};
 
 use super::Pure;
 
@@ -329,7 +329,7 @@ impl Pure<'_> {
                 match op {
                     KnownOp::Index(idx) => {
                         if idx.fract() != 0.0 || idx < 0.0 || idx as usize >= value.len() {
-                            Some(*undefined(*span))
+                            Some(*Expr::undefined(*span))
                         } else {
                             // idx is in bounds, this is handled in simplify
                             None
@@ -345,7 +345,7 @@ impl Pure<'_> {
                         if is_string_symbol(key.as_str()) {
                             None
                         } else {
-                            Some(*undefined(*span))
+                            Some(*Expr::undefined(*span))
                         }
                     }
                 }
@@ -383,13 +383,13 @@ impl Pure<'_> {
                             // (0, void 0)
                             Expr::Seq(SeqExpr {
                                 span: *span,
-                                exprs: vec![0.into(), undefined(*span)]
+                                exprs: vec![0.into(), Expr::undefined(*span)]
                             })
                         } else {
                             // Side effects exist, replacement is:
                             // (x(), y(), void 0)
                             // Where `x()` and `y()` are side effects.
-                            exprs.push(undefined(*span));
+                            exprs.push(Expr::undefined(*span));
 
                             Expr::Seq(SeqExpr {
                                 span: *span,

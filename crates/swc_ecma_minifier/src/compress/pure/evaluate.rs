@@ -2,7 +2,6 @@ use radix_fmt::Radix;
 use swc_common::{util::take::Take, Spanned, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{number::ToJsString, ExprExt, IsEmpty, Value};
-use swc_ecma_utils::{undefined, ExprExt, IsEmpty, Value};
 #[cfg(feature = "debug")]
 use {crate::debug::dump, tracing::debug};
 

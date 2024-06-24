@@ -15,9 +15,6 @@ use swc_ecma_transforms_base::{
 use swc_ecma_utils::{
     is_literal, prop_name_eq, to_int32, BoolType, ExprCtx, ExprExt, NullType, NumberType,
     ObjectType, StringType, SymbolType, UndefinedType, Value,
-    prop_name_eq, to_int32, undefined, BoolType, ExprCtx, ExprExt, NullType,
-    is_literal, prop_name_eq, to_int32, undefined, BoolType, ExprCtx, ExprExt, NullType,
-    NumberType, ObjectType, StringType, SymbolType, UndefinedType, Value,
 };
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, VisitMut, VisitMutWith};
 use Value::{Known, Unknown};
@@ -189,12 +186,6 @@ impl SimplifyExpr {
                 }
 
                 // 'foo'[1]
-                KnownOp::Index(idx) if (idx as usize) < value.len() => {
-                    if idx < 0 {
-                        self.changed = true;
-                        *expr = *Expr::undefined(*span)
-                    } else if let Some(value) = nth_char(value, idx as _) {
-                        self.changed = true;
                 KnownOp::Index(idx) => {
                     if idx.fract() != 0.0 || idx < 0.0 || idx as usize >= value.len() {
                         // Prototype changes affect indexing if the index is out of bounds, so we
@@ -329,66 +320,6 @@ impl SimplifyExpr {
                         *expr = Expr::Seq(SeqExpr { span: *span, exprs });
                     }
 
-                    self.changed = true;
-
-                    let (before, e, after) = if elems.len() > idx as _ && idx >= 0 {
-                        let before = elems.drain(..(idx as usize)).collect();
-                        let mut iter = elems.take().into_iter();
-                        let e = iter.next().flatten();
-                        let after = iter.collect();
-
-                        (before, e, after)
-                    } else {
-                        let before = elems.take();
-
-                        (before, None, vec![])
-                    };
-
-                    let v = match e {
-                        None => Expr::undefined(*span),
-                        Some(e) => e.expr,
-                    };
-
-                    let mut exprs = vec![];
-                    for elem in before.into_iter().flatten() {
-                        self.expr_ctx
-                            .extract_side_effects_to(&mut exprs, *elem.expr);
-                    }
-
-                    let val = v;
-
-                    for elem in after.into_iter().flatten() {
-                        self.expr_ctx
-                            .extract_side_effects_to(&mut exprs, *elem.expr);
-                    }
-
-                    if exprs.is_empty() {
-                        *expr = Expr::Seq(SeqExpr {
-                            span: val.span(),
-                            exprs: vec![0.into(), val],
-                        });
-                        return;
-                    }
-
-                    exprs.push(val);
-
-                    *expr = Expr::Seq(SeqExpr { span: *span, exprs });
-                } else if matches!(op, KnownOp::IndexStr(..)) {
-                    let key = match op {
-                        KnownOp::IndexStr(key) => key,
-                        _ => unreachable!(),
-                    };
-
-                    if is_array_prop(key.as_str()) {
-                        // Valid property
-                        return;
-                    }
-
-                    // Invalid property, resulting to undefined
-                    self.changed = true;
-                    *expr = *undefined(*span);
-                    return;
-                    
                     // Handled in compress
                     KnownOp::IndexStr(..) => {}
                 }
