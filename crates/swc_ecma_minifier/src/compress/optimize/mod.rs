@@ -833,7 +833,8 @@ impl Optimizer<'_> {
                     BlockStmtOrExpr::Expr(_) => false,
                 },
                 _ => false,
-            } && args.is_empty() =>
+            } && args.is_empty()
+                || e.span().has_mark(self.marks.pure) =>
             {
                 report_change!("ignore_return_value: Dropping a pure call");
                 self.changed = true;
