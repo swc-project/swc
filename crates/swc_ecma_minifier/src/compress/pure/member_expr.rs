@@ -444,7 +444,7 @@ impl Pure<'_> {
                                 prop: prop.clone(),
                             })
                         } else {
-                            let val = undefined(*span);
+                            let val = Expr::undefined(*span);
 
                             if exprs.is_empty() {
                                 // No side effects, replacement is:
@@ -537,7 +537,7 @@ impl Pure<'_> {
                         })
                     } else {
                         // Invalid key. Replace with side effects plus `undefined`.
-                        *undefined(*span)
+                        *Expr::undefined(*span)
                     },
                     props.drain(..).map(|x| match x {
                         PropOrSpread::Prop(prop) => match *prop {

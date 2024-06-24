@@ -283,7 +283,7 @@ impl SimplifyExpr {
 
                         // element value
                         let v = match e {
-                            None => undefined(*span),
+                            None => Expr::undefined(*span),
                             Some(e) => e.expr,
                         };
 
