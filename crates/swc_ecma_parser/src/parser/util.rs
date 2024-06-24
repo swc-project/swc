@@ -60,7 +60,12 @@ impl Context {
         }
     }
 
+    #[cfg_attr(not(feature = "verify"), inline(always))]
     pub fn is_reserved_word(self, word: &Atom) -> bool {
+        if !cfg!(feature = "verify") {
+            return false;
+        }
+
         match &**word {
             "let" => self.strict,
             // SyntaxError in the module only, not in the strict.
