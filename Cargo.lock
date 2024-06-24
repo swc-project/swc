@@ -4477,6 +4477,7 @@ dependencies = [
  "num_cpus",
  "once_cell",
  "parking_lot",
+ "phf",
  "pretty_assertions",
  "radix_fmt",
  "rayon",

@@ -29,6 +29,7 @@ mod drop_console;
 mod evaluate;
 mod if_return;
 mod loops;
+mod member_expr;
 mod misc;
 mod numbers;
 mod properties;
@@ -66,6 +67,7 @@ pub(crate) fn pure_optimizer<'a>(
         data,
         ctx: Default::default(),
         changed: Default::default(),
+        in_callee: false,
     }
 }
 
@@ -79,6 +81,7 @@ struct Pure<'a> {
     data: Option<&'a ProgramData>,
     ctx: Ctx,
     changed: bool,
+    in_callee: bool,
 }
 
 impl Repeated for Pure<'_> {
@@ -289,6 +292,13 @@ impl VisitMut for Pure<'_> {
         self.optimize_arrow_body(body);
     }
 
+    fn visit_mut_callee(&mut self, callee: &mut Callee) {
+        let old_in_callee = self.in_callee;
+        self.in_callee = true;
+        callee.visit_mut_children_with(self);
+        self.in_callee = old_in_callee;
+    }
+
     fn visit_mut_call_expr(&mut self, e: &mut CallExpr) {
         {
             let ctx = Ctx {
@@ -379,6 +389,15 @@ impl VisitMut for Pure<'_> {
                         return;
                     }
                 }
+            }
+        }
+
+        if let Some(member_expr) = e.as_member() {
+            if let Some(replacement) =
+                self.optimize_member_expr(&member_expr.obj, &member_expr.prop)
+            {
+                *e = replacement;
+                return;
             }
         }
 
@@ -685,6 +704,7 @@ impl VisitMut for Pure<'_> {
 
     fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
         e.obj.visit_mut_with(self);
+
         if let MemberProp::Computed(c) = &mut e.prop {
             c.visit_mut_with(self);
 

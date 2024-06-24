@@ -1,10 +1,7 @@
 var nothing = [];
 console.log(10);
 console.log(20);
-console.log([
-    10,
-    20
-][2]);
+console.log(void 0);
 console.log([
     ...nothing,
     10,

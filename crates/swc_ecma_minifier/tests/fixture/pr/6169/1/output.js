@@ -1,3 +1,1 @@
-[
-    "foo"
-][1].toUpperCase();
+(void 0).toUpperCase();

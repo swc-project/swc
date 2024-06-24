@@ -6,47 +6,23 @@ console.log([
     t(1),
     t(2)
 ][0]);
-console.log([
-    t(1),
-    t(2)
-][1]);
-console.log([
-    t(1),
-    t(2)
-][2]);
+console.log((t(1), t(2)));
+console.log((t(1), void t(2)));
 console.log([
     t(1),
     t(2)
 ][0]);
-console.log([
-    t(1),
-    t(2)
-][1]);
-console.log([
-    t(1),
-    t(2)
-][2]);
+console.log((t(1), t(2)));
+console.log((t(1), void t(2)));
 console.log([
     t(1),
     t(2)
 ][0]);
-console.log([
-    t(1),
-    t(2)
-][1]);
-console.log([
-    t(1),
-    t(2)
-][2]);
+console.log((t(1), t(2)));
+console.log((t(1), void t(2)));
 console.log([
     t(1),
     t(2)
 ][0]);
-console.log([
-    t(1),
-    t(2)
-][1]);
-console.log([
-    t(1),
-    t(2)
-][2]);
+console.log((t(1), t(2)));
+console.log((t(1), void t(2)));
