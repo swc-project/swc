@@ -211,11 +211,11 @@ pub enum TokenKind {
 }
 
 #[derive(Clone, PartialEq)]
-pub enum Token {
+pub enum Token<'i> {
     /// Identifier, "null", "true", "false".
     ///
     /// Contains `null` and ``
-    Word(Word),
+    Word(Word<'i>),
 
     /// '=>'
     Arrow,
@@ -254,8 +254,8 @@ pub enum Token {
     /// '`'
     BackQuote,
     Template {
-        raw: Atom,
-        cooked: LexResult<Atom>,
+        raw: &'i str,
+        cooked: LexResult<&'i str>,
     },
     /// ':'
     Colon,
@@ -278,38 +278,37 @@ pub enum Token {
 
     /// String literal. Span of this token contains quote.
     Str {
-        value: JsWord,
-        raw: Atom,
+        value: &'i str,
+        raw: &'i str,
     },
 
     /// Regexp literal.
-    Regex(Atom, Atom),
+    Regex(&'i str, &'i str),
 
-    /// TODO: Make Num as enum and separate decimal, binary, ..etc
     Num {
         value: f64,
-        raw: Atom,
+        raw: &'i str,
     },
 
     BigInt {
-        value: Box<BigIntValue>,
-        raw: Atom,
+        value: &'i BigIntValue,
+        raw: &'i str,
     },
 
     JSXName {
-        name: JsWord,
+        name: &'i str,
     },
     JSXText {
-        raw: Atom,
+        raw: &'i str,
     },
     JSXTagStart,
     JSXTagEnd,
 
-    Shebang(Atom),
+    Shebang(&'i str),
     Error(Error),
 }
 
-impl Token {
+impl Token<'_> {
     pub(crate) fn kind(&self) -> TokenKind {
         match self {
             Self::Arrow => TokenKind::Arrow,
@@ -471,14 +470,14 @@ impl BinOpToken {
 }
 
 #[derive(Debug, Clone, PartialEq)]
-pub struct TokenAndSpan {
-    pub token: Token,
+pub struct TokenAndSpan<'a> {
+    pub token: Token<'a>,
     /// Had a line break before this token?
     pub had_line_break: bool,
     pub span: Span,
 }
 
-impl Spanned for TokenAndSpan {
+impl Spanned for TokenAndSpan<'_> {
     #[inline]
     fn span(&self) -> Span {
         self.span
@@ -486,32 +485,32 @@ impl Spanned for TokenAndSpan {
 }
 
 #[derive(Clone, PartialEq, Eq, Hash)]
-pub enum Word {
+pub enum Word<'a> {
     Keyword(Keyword),
 
     Null,
     True,
     False,
 
-    Ident(IdentLike),
+    Ident(IdentLike<'a>),
 }
 
 #[derive(Clone, PartialEq, Eq, Hash)]
-pub enum IdentLike {
+pub enum IdentLike<'a> {
     Known(KnownIdent),
-    Other(JsWord),
+    Other(&'a str),
 }
 
-impl From<&'_ str> for IdentLike {
-    fn from(s: &str) -> Self {
+impl<'a> From<&'a str> for IdentLike<'a> {
+    fn from(s: &'a str) -> Self {
         s.parse::<KnownIdent>()
             .map(Self::Known)
-            .unwrap_or_else(|_| Self::Other(s.into()))
+            .unwrap_or_else(|_| Self::Other(s))
     }
 }
 
-impl IdentLike {
-    pub(crate) fn from_str(atoms: &mut AtomStore, s: &str) -> IdentLike {
+impl<'a> IdentLike<'a> {
+    pub(crate) fn from_str(atoms: &mut AtomStore, s: &'a str) -> IdentLike {
         s.parse::<KnownIdent>()
             .map(Self::Known)
             .unwrap_or_else(|_| Self::Other(atoms.atom(s)))
@@ -591,7 +590,7 @@ impl WordKind {
     }
 }
 
-impl AsRef<str> for IdentLike {
+impl AsRef<str> for IdentLike<'_> {
     fn as_ref(&self) -> &str {
         match self {
             IdentLike::Known(k) => (*k).into(),
@@ -600,13 +599,13 @@ impl AsRef<str> for IdentLike {
     }
 }
 
-impl From<Keyword> for Word {
+impl From<Keyword> for Word<'_> {
     fn from(kwd: Keyword) -> Self {
         Word::Keyword(kwd)
     }
 }
 
-impl From<Word> for JsWord {
+impl From<Word<'_>> for JsWord {
     fn from(w: Word) -> Self {
         match w {
             Word::Keyword(k) => match k {
@@ -944,7 +943,7 @@ impl Word {
     }
 }
 
-impl Debug for Token {
+impl Debug for Token<'_> {
     /// This method is called only in the case of parsing failure.
     #[cold]
     #[inline(never)]
