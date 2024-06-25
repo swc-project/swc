@@ -656,7 +656,7 @@ impl State {
 }
 
 #[derive(Clone, Default)]
-pub struct TokenContexts(pub(crate) SmallVec<[TokenContext; 32]>);
+pub struct TokenContexts(pub(crate) SmallVec<[TokenContext; 128]>);
 
 impl TokenContexts {
     /// Returns true if following `LBrace` token is `block statement` according
