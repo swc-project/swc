@@ -7,6 +7,9 @@
 
 - **(es/parser)** Optimize macros ([#9100](https://github.com/swc-project/swc/issues/9100)) ([719b7c5](https://github.com/swc-project/swc/commit/719b7c54f69ef276270dc39fbcb8bbdbf52899bf))
 
+
+- **(es/parser)** Remove unnecessary check ([#9102](https://github.com/swc-project/swc/issues/9102)) ([2a490ad](https://github.com/swc-project/swc/commit/2a490ad0b2f9f89260742e653ba9ca086c1a9798))
+
 ## [1.6.4] - 2024-06-22
 
 ### Features
@@ -1328,9 +1331,6 @@
 
 
 - **(es/react)** Make jsx with single spread child static ([#8339](https://github.com/swc-project/swc/issues/8339)) ([58568fa](https://github.com/swc-project/swc/commit/58568fa23be932ed8f3858c24962973bdc4b8057))
-
-
-- **(es/renamer)** Allow `globalThis` to be shadowed ([#8327](https://github.com/swc-project/swc/issues/8327)) ([3dd73a3](https://github.com/swc-project/swc/commit/3dd73a3cd8fddd9e19dc85c2a2bf785b585b5b9a))
 
 ### Miscellaneous Tasks
 
