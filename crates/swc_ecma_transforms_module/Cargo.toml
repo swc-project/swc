@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs"]
 license       = "Apache-2.0"
 name          = "swc_ecma_transforms_module"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.183.0"
+version       = "0.183.1"
 
 [lib]
 bench = false
@@ -31,9 +31,9 @@ swc_ecma_ast = { version = "0.115.0", path = "../swc_ecma_ast" }
 swc_ecma_loader = { version = "0.46.0", path = "../swc_ecma_loader", features = [
   "node",
 ] }
-swc_ecma_parser = { version = "0.146.0", path = "../swc_ecma_parser" }
-swc_ecma_transforms_base = { version = "0.140.0", path = "../swc_ecma_transforms_base" }
-swc_ecma_utils = { version = "0.130.0", path = "../swc_ecma_utils" }
+swc_ecma_parser = { version = "0.146.6", path = "../swc_ecma_parser" }
+swc_ecma_transforms_base = { version = "0.140.1", path = "../swc_ecma_transforms_base" }
+swc_ecma_utils = { version = "0.130.1", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "0.101.0", path = "../swc_ecma_visit" }
 
 [dev-dependencies]
@@ -44,6 +44,6 @@ swc_ecma_loader = { version = "0.46.0", path = "../swc_ecma_loader", features = 
   "node",
   "tsc",
 ] }
-swc_ecma_transforms_compat = { version = "0.166.0", path = "../swc_ecma_transforms_compat" }
-swc_ecma_transforms_testing = { version = "0.143.0", path = "../swc_ecma_transforms_testing" }
+swc_ecma_transforms_compat = { version = "0.166.1", path = "../swc_ecma_transforms_compat" }
+swc_ecma_transforms_testing = { version = "0.143.1", path = "../swc_ecma_transforms_testing" }
 testing = { version = "0.36.0", path = "../testing/" }
