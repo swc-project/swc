@@ -13,6 +13,9 @@
 
 - **(es/parser)** Add a check before numeric operations ([#9105](https://github.com/swc-project/swc/issues/9105)) ([c0602c8](https://github.com/swc-project/swc/commit/c0602c81db55777be726cd8fe2fd074e34bd4d96))
 
+
+- **(es/parser)** Increase token context size ([#9104](https://github.com/swc-project/swc/issues/9104)) ([8ef30cc](https://github.com/swc-project/swc/commit/8ef30cc08c86251bb8bebf66286949805e332b6c))
+
 ## [1.6.4] - 2024-06-22
 
 ### Features
