@@ -800,7 +800,7 @@ impl<'a> Lexer<'a> {
             loop {
                 if let Some(c) = l.input.cur_as_ascii() {
                     // Performance optimization
-                    if c.is_ascii_uppercase() || c.is_ascii_digit() {
+                    if can_be_keyword && (c.is_ascii_uppercase() || c.is_ascii_digit()) {
                         can_be_keyword = false;
                     }
 
