@@ -4,7 +4,10 @@ use std::mem::transmute;
 use is_macro::Is;
 use string_enum::StringEnum;
 use swc_atoms::Atom;
-use swc_common::{ast_node, util::take::Take, BytePos, EqIgnoreSpan, Span, Spanned, DUMMY_SP};
+use swc_common::{
+    ast_node, source_slice::SourceSlice, util::take::Take, BytePos, EqIgnoreSpan, Span, Spanned,
+    DUMMY_SP,
+};
 
 use crate::{
     class::Class,
@@ -1154,9 +1157,7 @@ pub struct TplElement {
     /// don't have to worry about this value.
     pub cooked: Option<Atom>,
 
-    /// You may need to perform. `.replace("\r\n", "\n").replace('\r', "\n")` on
-    /// this value.
-    pub raw: Atom,
+    pub raw: SourceSlice,
 }
 
 impl Take for TplElement {

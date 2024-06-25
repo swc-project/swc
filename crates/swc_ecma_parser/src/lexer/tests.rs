@@ -1021,7 +1021,7 @@ fn jsx_02() {
             Token::JSXTagStart,
             Token::JSXName { name: "a".into() },
             Token::JSXTagEnd,
-            Token::JSXText { raw: "foo".into() },
+            Token::JSXText { name: "foo".into() },
             Token::JSXTagStart,
             tok!('/'),
             Token::JSXName { name: "a".into() },
@@ -1205,7 +1205,7 @@ fn issue_299_01() {
                 raw: "'\\ '".into(),
             },
             Token::JSXTagEnd,
-            JSXText { raw: "ABC".into() },
+            JSXText { name: "ABC".into() },
             JSXTagStart,
             tok!('/'),
             JSXName {
@@ -1239,7 +1239,7 @@ fn issue_299_02() {
                 raw: "'\\\\'".into(),
             },
             Token::JSXTagEnd,
-            JSXText { raw: "ABC".into() },
+            JSXText { name: "ABC".into() },
             JSXTagStart,
             tok!('/'),
             JSXName {
@@ -1273,7 +1273,7 @@ fn jsx_string_1() {
                 raw: "'abc'".into(),
             },
             Token::JSXTagEnd,
-            JSXText { raw: "ABC".into() },
+            JSXText { name: "ABC".into() },
             JSXTagStart,
             tok!('/'),
             JSXName {
@@ -1307,7 +1307,7 @@ fn jsx_string_2() {
                 raw: "\"abc\"".into(),
             },
             Token::JSXTagEnd,
-            JSXText { raw: "ABC".into() },
+            JSXText { name: "ABC".into() },
             JSXTagStart,
             tok!('/'),
             JSXName {
@@ -1341,7 +1341,7 @@ fn jsx_string_3() {
                 raw: "'\n'".into(),
             },
             Token::JSXTagEnd,
-            JSXText { raw: "ABC".into() },
+            JSXText { name: "ABC".into() },
             JSXTagStart,
             tok!('/'),
             JSXName {
@@ -1375,7 +1375,7 @@ fn jsx_string_4() {
                 raw: "'&sup3;'".into(),
             },
             Token::JSXTagEnd,
-            JSXText { raw: "ABC".into() },
+            JSXText { name: "ABC".into() },
             JSXTagStart,
             tok!('/'),
             JSXName {
@@ -1409,7 +1409,7 @@ fn jsx_string_5() {
                 raw: "'&#42;'".into(),
             },
             Token::JSXTagEnd,
-            JSXText { raw: "ABC".into() },
+            JSXText { name: "ABC".into() },
             JSXTagStart,
             tok!('/'),
             JSXName {
@@ -1443,7 +1443,7 @@ fn jsx_string_6() {
                 raw: "'&#x23;'".into(),
             },
             Token::JSXTagEnd,
-            JSXText { raw: "ABC".into() },
+            JSXText { name: "ABC".into() },
             JSXTagStart,
             tok!('/'),
             JSXName {
@@ -1477,7 +1477,7 @@ fn jsx_string_7() {
                 raw: "'&'".into(),
             },
             Token::JSXTagEnd,
-            JSXText { raw: "ABC".into() },
+            JSXText { name: "ABC".into() },
             JSXTagStart,
             tok!('/'),
             JSXName {
@@ -1511,7 +1511,7 @@ fn jsx_string_8() {
                 raw: "'&;'".into(),
             },
             Token::JSXTagEnd,
-            JSXText { raw: "ABC".into() },
+            JSXText { name: "ABC".into() },
             JSXTagStart,
             tok!('/'),
             JSXName {
@@ -1545,7 +1545,7 @@ fn jsx_string_9() {
                 raw: "'&&'".into(),
             },
             Token::JSXTagEnd,
-            JSXText { raw: "ABC".into() },
+            JSXText { name: "ABC".into() },
             JSXTagStart,
             tok!('/'),
             JSXName {
@@ -1599,7 +1599,7 @@ fn issue_481() {
                 name: "span".into()
             },
             Token::JSXTagEnd,
-            JSXText { raw: " ".into() },
+            JSXText { name: " ".into() },
             LBrace,
             Word(Word::Ident("foo".into())),
             RBrace,

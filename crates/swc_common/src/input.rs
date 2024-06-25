@@ -2,7 +2,11 @@ use std::str;
 
 use debug_unreachable::debug_unreachable;
 
-use crate::syntax_pos::{BytePos, SourceFile};
+use crate::{
+    source_slice::SourceSlice,
+    sync::Lrc,
+    syntax_pos::{BytePos, SourceFile},
+};
 
 pub type SourceFileInput<'a> = StringInput<'a>;
 
@@ -12,7 +16,7 @@ pub struct StringInput<'a> {
     last_pos: BytePos,
     /// Current cursor
     iter: str::Chars<'a>,
-    orig: &'a str,
+    orig: &'a Lrc<str>,
     /// Original start position.
     orig_start: BytePos,
 }
@@ -26,7 +30,7 @@ impl<'a> StringInput<'a> {
     /// some methods of [SourceMap].
     /// If you are not going to use methods from
     /// [SourceMap], you may use any value.
-    pub fn new(src: &'a str, start: BytePos, end: BytePos) -> Self {
+    pub fn new(src: &'a Lrc<str>, start: BytePos, end: BytePos) -> Self {
         assert!(start <= end);
 
         StringInput {
@@ -128,6 +132,24 @@ impl<'a> Input for StringInput<'a> {
         let ret = unsafe { s.get_unchecked(start_idx..end_idx) };
 
         self.iter = unsafe { s.get_unchecked(end_idx..) }.chars();
+        self.last_pos = end;
+
+        ret
+    }
+
+    #[inline]
+    unsafe fn slice_owned(&mut self, start: BytePos, end: BytePos) -> SourceSlice {
+        debug_assert!(start <= end, "Cannot slice {:?}..{:?}", start, end);
+        let s = self.orig;
+
+        let start_idx = (start - self.orig_start).0;
+        let end_idx = (end - self.orig_start).0;
+
+        debug_assert!((end_idx as usize) <= s.len());
+
+        let ret = SourceSlice::new(self.orig.clone(), start_idx, end_idx);
+
+        self.iter = unsafe { s.get_unchecked((end_idx as usize)..) }.chars();
         self.last_pos = end;
 
         ret
@@ -254,6 +276,14 @@ pub trait Input: Clone {
     /// - start should be less than or equal to end.
     /// - start and end should be in the valid range of input.
     unsafe fn slice(&mut self, start: BytePos, end: BytePos) -> &str;
+
+    /// Returns a slice of input as [SourceSlice].
+    ///
+    /// # Safety
+    ///
+    /// - start should be less than or equal to end.
+    /// - start and end should be in the valid range of input.
+    unsafe fn slice_owned(&mut self, start: BytePos, end: BytePos) -> SourceSlice;
 
     /// Takes items from stream, testing each one with predicate. returns the
     /// range of items which passed predicate.
