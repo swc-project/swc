@@ -13,7 +13,7 @@ impl<I: Tokens> Parser<I> {
         trace_cur!(self, parse_jsx_ident);
 
         let ctx = self.ctx();
-        match *cur!(self, true)? {
+        match *cur!(self, true) {
             Token::JSXName { .. } => match bump!(self) {
                 Token::JSXName { name } => {
                     let span = self.input.prev_span();
@@ -77,7 +77,7 @@ impl<I: Tokens> Parser<I> {
 
         let start = cur_pos!(self);
 
-        match *cur!(self, true)? {
+        match *cur!(self, true) {
             tok!('{') => {
                 let node = self.parse_jsx_expr_container(start)?;
 
@@ -313,7 +313,7 @@ impl<I: Tokens> Parser<I> {
 
             if !self_closing {
                 'contents: loop {
-                    match *cur!(p, true)? {
+                    match *cur!(p, true) {
                         Token::JSXTagStart => {
                             let start = cur_pos!(p);
 
@@ -409,7 +409,7 @@ impl<I: Tokens> Parser<I> {
         trace_cur!(self, parse_jsx_element);
 
         debug_assert!(self.input.syntax().jsx());
-        debug_assert!({ matches!(*cur!(self, true)?, Token::JSXTagStart | tok!('<')) });
+        debug_assert!({ matches!(*cur!(self, true), Token::JSXTagStart | tok!('<')) });
 
         let start_pos = cur_pos!(self);
 

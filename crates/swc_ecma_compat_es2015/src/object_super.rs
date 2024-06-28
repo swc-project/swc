@@ -473,7 +473,7 @@ impl SuperReplacer {
 #[cfg(test)]
 mod tests {
     use swc_common::{chain, Mark};
-    use swc_ecma_parser::{EsConfig, Syntax};
+    use swc_ecma_parser::{EsSyntax, Syntax};
     use swc_ecma_transforms_base::resolver;
     use swc_ecma_transforms_testing::test;
 
@@ -555,7 +555,7 @@ mod tests {
         }"
     );
     test!(
-        Syntax::Es(EsConfig {
+        Syntax::Es(EsSyntax {
             allow_super_outside_method: true,
             ..Default::default()
         }),

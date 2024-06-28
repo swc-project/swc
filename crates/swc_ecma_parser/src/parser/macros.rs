@@ -18,51 +18,51 @@ macro_rules! unexpected {
 macro_rules! is {
     ($p:expr, BindingIdent) => {{
         let ctx = $p.ctx();
-        match cur!($p, false) {
-            Ok(&Word(ref w)) => !ctx.is_reserved(w),
+        match $p.input.cur() {
+            Some(&Word(ref w)) => !ctx.is_reserved(w),
             _ => false,
         }
     }};
 
     ($p:expr, IdentRef) => {{
         let ctx = $p.ctx();
-        match cur!($p, false) {
-            Ok(&Word(ref w)) => !ctx.is_reserved(w),
+        match $p.input.cur() {
+            Some(&Word(ref w)) => !ctx.is_reserved(w),
             _ => false,
         }
     }};
 
     ($p:expr,IdentName) => {{
-        match cur!($p, false) {
-            Ok(&Word(..)) => true,
+        match $p.input.cur() {
+            Some(&Word(..)) => true,
             _ => false,
         }
     }};
 
     ($p:expr,Str) => {{
-        match cur!($p, false) {
-            Ok(&Token::Str { .. }) => true,
+        match $p.input.cur() {
+            Some(&Token::Str { .. }) => true,
             _ => false,
         }
     }};
 
     ($p:expr,Num) => {{
-        match cur!($p, false) {
-            Ok(&Token::Num { .. }) => true,
+        match $p.input.cur() {
+            Some(&Token::Num { .. }) => true,
             _ => false,
         }
     }};
 
     ($p:expr,Regex) => {{
-        match cur!($p, false) {
-            Ok(&Token::Regex { .. }) => true,
+        match $p.input.cur() {
+            Some(&Token::Regex { .. }) => true,
             _ => false,
         }
     }};
 
     ($p:expr,BigInt) => {{
-        match cur!($p, false) {
-            Ok(&Token::BigInt { .. }) => true,
+        match $p.input.cur() {
+            Some(&Token::BigInt { .. }) => true,
             _ => false,
         }
     }};
@@ -84,7 +84,7 @@ macro_rules! peeked_is {
     ($p:expr, BindingIdent) => {{
         let ctx = $p.ctx();
         match peek!($p) {
-            Ok(&Word(ref w)) => !ctx.is_reserved(w),
+            Some(&Word(ref w)) => !ctx.is_reserved(w),
             _ => false,
         }
     }};
@@ -92,21 +92,21 @@ macro_rules! peeked_is {
     ($p:expr, IdentRef) => {{
         let ctx = $p.ctx();
         match peek!($p) {
-            Ok(&Word(ref w)) => !ctx.is_reserved(w),
+            Some(&Word(ref w)) => !ctx.is_reserved(w),
             _ => false,
         }
     }};
 
     ($p:expr,IdentName) => {{
         match peek!($p) {
-            Ok(&Word(..)) => true,
+            Some(&Word(..)) => true,
             _ => false,
         }
     }};
 
     ($p:expr, JSXName) => {{
         match peek!($p) {
-            Ok(&Token::JSXName { .. }) => true,
+            Some(&Token::JSXName { .. }) => true,
             _ => false,
         }
     }};
@@ -116,7 +116,7 @@ macro_rules! peeked_is {
     }};
 
     ($p:expr, $t:tt) => {
-        match peek!($p).ok() {
+        match peek!($p) {
             Some(&token_including_semi!($t)) => true,
             _ => false,
         }
@@ -150,7 +150,7 @@ macro_rules! assert_and_bump {
                 $p.input.cur()
             );
         }
-        let _ = cur!($p, true)?;
+        let _ = cur!($p, true);
         bump!($p);
     }};
 }
@@ -235,33 +235,38 @@ macro_rules! store {
 
 /// cur!($parser, required:bool)
 macro_rules! cur {
-    ($p:expr, $required:expr) => {{
-        let pos = $p.input.last_pos();
-        let last = Span::new(pos, pos, Default::default());
-        let is_err_token = match $p.input.cur() {
-            Some(&$crate::token::Token::Error(..)) => true,
-            _ => false,
-        };
-        if is_err_token {
-            match $p.input.bump() {
-                $crate::token::Token::Error(e) => {
-                    return Err(e);
-                }
-                _ => unreachable!(),
-            }
-        }
-
+    ($p:expr, false) => {{
         match $p.input.cur() {
             Some(c) => Ok(c),
             None => {
-                if $required {
-                    let err = crate::error::Error::new(last, crate::error::SyntaxError::Eof);
-                    return Err(err);
-                }
+                let pos = $p.input.last_pos();
+                let last = Span::new(pos, pos, Default::default());
+
                 Err(crate::error::Error::new(
                     last,
                     crate::error::SyntaxError::Eof,
                 ))
+            }
+        }
+    }};
+
+    ($p:expr, true) => {{
+        match $p.input.cur() {
+            Some(c) => match c {
+                Token::Error(..) => match $p.input.bump() {
+                    $crate::token::Token::Error(e) => {
+                        return Err(e);
+                    }
+                    _ => unreachable!(),
+                },
+
+                _ => c,
+            },
+            None => {
+                let pos = $p.input.last_pos();
+                let last = Span::new(pos, pos, Default::default());
+                let err = crate::error::Error::new(last, crate::error::SyntaxError::Eof);
+                return Err(err);
             }
         }
     }};
@@ -276,15 +281,7 @@ Current token is {:?}",
             cur!($p, false),
         );
 
-        let pos = cur_pos!($p);
-        let last = Span::new(pos, pos, Default::default());
-        match $p.input.peek() {
-            Some(c) => Ok(c),
-            None => {
-                let err = crate::error::Error::new(last, crate::error::SyntaxError::Eof);
-                Err(err)
-            }
-        }
+        $p.input.peek()
     }};
 }
 
@@ -365,6 +362,21 @@ macro_rules! syntax_error {
 
     ($p:expr, $span:expr, $err:expr) => {{
         let err = make_error!($p, $span, $err);
+
+        {
+            let is_err_token = match $p.input.cur() {
+                Some(&$crate::token::Token::Error(..)) => true,
+                _ => false,
+            };
+            if is_err_token {
+                match $p.input.bump() {
+                    $crate::token::Token::Error(e) => {
+                        $p.emit_error(e);
+                    }
+                    _ => unreachable!(),
+                }
+            }
+        }
 
         if cfg!(feature = "debug") {
             tracing::error!(

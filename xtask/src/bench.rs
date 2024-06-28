@@ -39,6 +39,8 @@ impl BenchCmd {
         let mut cmd = self.build_cmd()?;
 
         cmd.env("RUST_LOG", "off");
+        cmd.env("CARGO_PROFILE_RELEASE_DEBUG", "true");
+        cmd.env("CARGO_PROFILE_BENCH_DEBUG", "true");
 
         run_cmd(&mut cmd)
     }

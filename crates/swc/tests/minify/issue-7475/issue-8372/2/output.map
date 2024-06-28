@@ -6,7 +6,6 @@
     "console",
     "log"
   ],
-  "rangeMappings": "",
   "sources": [
     "$DIR/tests/minify/issue-7475/issue-8372/2/input.js"
   ],

@@ -23,7 +23,7 @@ use swc_common::{
 use swc_compiler_base::{IsModule, PrintArgs};
 use swc_ecma_ast::*;
 use swc_ecma_minifier::option::MangleOptions;
-use swc_ecma_parser::{EsConfig, Syntax, TsConfig};
+use swc_ecma_parser::{EsSyntax, Syntax, TsSyntax};
 use swc_ecma_transforms::{
     helpers::{self, Helpers},
     pass::noop,
@@ -544,7 +544,7 @@ fn issue_879() {
                 env: Some(Default::default()),
                 module: Some(ModuleConfig::CommonJs(Default::default())),
                 jsc: JscConfig {
-                    syntax: Some(Syntax::Typescript(TsConfig {
+                    syntax: Some(Syntax::Typescript(TsSyntax {
                         tsx: true,
                         decorators: true,
                         ..Default::default()
@@ -711,7 +711,7 @@ fn should_visit() {
                     &swc::config::Options {
                         config: swc::config::Config {
                             jsc: JscConfig {
-                                syntax: Some(Syntax::Es(EsConfig {
+                                syntax: Some(Syntax::Es(EsSyntax {
                                     jsx: true,
                                     ..Default::default()
                                 })),
@@ -776,83 +776,119 @@ fn should_visit() {
 #[testing::fixture("tests/fixture/**/input/")]
 #[testing::fixture("tests/vercel/**/input/")]
 fn fixture(input_dir: PathBuf) {
-    tests(input_dir)
+    tests(input_dir, Some(IsModule::Unknown));
 }
 
-fn tests(input_dir: PathBuf) {
-    let output = input_dir.parent().unwrap().join("output");
+#[testing::fixture("tests/ts-isolated-declaration/**/input/")]
+fn ts_id(input_dir: PathBuf) {
+    tests(input_dir, Some(IsModule::Bool(true)));
+}
 
-    Tester::new()
-        .print_errors(|cm, handler| {
+fn tests(input_dir: PathBuf, is_module: Option<IsModule>) {
+    let output_dir = input_dir.parent().unwrap().join("output");
+
+    for entry in WalkDir::new(&input_dir) {
+        let entry = entry.unwrap();
+
+        let errors = Tester::new().print_errors(|cm, handler| {
             let c = Compiler::new(cm.clone());
 
-            for entry in WalkDir::new(&input_dir) {
-                let entry = entry.unwrap();
-                if entry.metadata().unwrap().is_dir() {
-                    continue;
-                }
-                println!("File: {}", entry.path().to_string_lossy());
+            if entry.metadata().unwrap().is_dir() {
+                return Ok(());
+            }
+            println!("File: {}", entry.path().to_string_lossy());
 
-                if !entry.file_name().to_string_lossy().ends_with(".ts")
-                    && !entry.file_name().to_string_lossy().ends_with(".js")
-                    && !entry.file_name().to_string_lossy().ends_with(".jsx")
-                    && !entry.file_name().to_string_lossy().ends_with(".tsx")
-                {
-                    continue;
-                }
-
-                let rel_path = entry
-                    .path()
-                    .strip_prefix(&input_dir)
-                    .expect("failed to strip prefix");
-
-                let fm = cm.load_file(entry.path()).expect("failed to load file");
-                match c.process_js_file(
-                    fm,
-                    &handler,
-                    &Options {
-                        swcrc: true,
-                        output_path: Some(output.join(entry.file_name())),
-                        config: Config {
-                            jsc: JscConfig {
-                                external_helpers: true.into(),
-                                ..Default::default()
-                            },
-                            is_module: Some(IsModule::Unknown),
-                            ..Default::default()
-                        },
-
-                        ..Default::default()
-                    },
-                ) {
-                    Ok(v) => {
-                        NormalizedOutput::from(v.code)
-                            .compare_to_file(output.join(rel_path))
-                            .unwrap();
-
-                        let _ = create_dir_all(output.join(rel_path).parent().unwrap());
-
-                        let map = v.map.map(|json| {
-                            let json: serde_json::Value = serde_json::from_str(&json).unwrap();
-                            serde_json::to_string_pretty(&json).unwrap()
-                        });
-
-                        NormalizedOutput::from(map.unwrap_or_default())
-                            .compare_to_file(
-                                output.join(rel_path.with_extension("map").file_name().unwrap()),
-                            )
-                            .unwrap();
-                    }
-                    Err(ref err) if format!("{:?}", err).contains("not matched") => {}
-                    Err(ref err) if format!("{:?}", err).contains("Syntax Error") => return Err(()),
-                    Err(err) => panic!("Error: {:?}", err),
-                }
+            if !entry.file_name().to_string_lossy().ends_with(".ts")
+                && !entry.file_name().to_string_lossy().ends_with(".js")
+                && !entry.file_name().to_string_lossy().ends_with(".jsx")
+                && !entry.file_name().to_string_lossy().ends_with(".tsx")
+            {
+                return Ok(());
             }
 
-            Ok(())
-        })
-        .map(|_| ())
-        .expect("failed");
+            let rel_path = entry
+                .path()
+                .strip_prefix(&input_dir)
+                .expect("failed to strip prefix");
+
+            let fm = cm.load_file(entry.path()).expect("failed to load file");
+            match c.process_js_file(
+                fm,
+                &handler,
+                &Options {
+                    swcrc: true,
+                    output_path: Some(output_dir.join(entry.file_name())),
+                    config: Config {
+                        jsc: JscConfig {
+                            external_helpers: true.into(),
+                            ..Default::default()
+                        },
+                        is_module,
+                        ..Default::default()
+                    },
+
+                    ..Default::default()
+                },
+            ) {
+                Ok(v) => {
+                    NormalizedOutput::from(v.code)
+                        .compare_to_file(output_dir.join(rel_path))
+                        .unwrap();
+
+                    let _ = create_dir_all(output_dir.join(rel_path).parent().unwrap());
+
+                    let map = v.map.map(|json| {
+                        let json: serde_json::Value = serde_json::from_str(&json).unwrap();
+                        serde_json::to_string_pretty(&json).unwrap()
+                    });
+
+                    NormalizedOutput::from(map.unwrap_or_default())
+                        .compare_to_file(
+                            output_dir.join(rel_path.with_extension("map").file_name().unwrap()),
+                        )
+                        .unwrap();
+
+                    if let Some(extra) = v.output {
+                        let mut value: serde_json::Map<_, serde_json::Value> =
+                            serde_json::from_str(&extra).unwrap();
+
+                        if let Some(v) = value.remove("__swc_isolated_declarations__") {
+                            let code = v
+                                .as_str()
+                                .expect("isolated declaration pass should emit string");
+
+                            NormalizedOutput::from(code.to_string())
+                                .compare_to_file(output_dir.join(rel_path).with_extension("d.ts"))
+                                .unwrap();
+                        }
+
+                        if !value.is_empty() {
+                            let extra = serde_json::to_string_pretty(&value).unwrap();
+
+                            NormalizedOutput::from(extra)
+                                .compare_to_file(
+                                    output_dir.join(rel_path.with_extension("extra.json")),
+                                )
+                                .unwrap();
+                        }
+                    }
+                }
+                Err(ref err) if format!("{:?}", err).contains("not matched") => {}
+                Err(ref err) if format!("{:?}", err).contains("Syntax Error") => return Err(()),
+                Err(err) => panic!("Error: {:?}", err),
+            }
+            if handler.has_errors() {
+                Err(())
+            } else {
+                Ok(())
+            }
+        });
+
+        if let Err(err) = errors {
+            err.compare_to_file(output_dir.join(entry.path().with_extension("swc-stderr")))
+                .unwrap();
+        }
+    }
 }
 
 #[test]
@@ -914,7 +950,7 @@ fn issue_2224() {
         Options {
             config: Config {
                 jsc: JscConfig {
-                    syntax: Some(Syntax::Typescript(TsConfig {
+                    syntax: Some(Syntax::Typescript(TsSyntax {
                         decorators: true,
                         ..Default::default()
                     })),

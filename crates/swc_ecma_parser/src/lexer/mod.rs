@@ -1,12 +1,12 @@
 //! ECMAScript lexer.
 
-use std::{cell::RefCell, char, iter::FusedIterator, rc::Rc};
+use std::{cell::RefCell, char, iter::FusedIterator, mem::transmute, rc::Rc};
 
 use either::Either::{Left, Right};
 use smallvec::{smallvec, SmallVec};
 use swc_atoms::{Atom, AtomStoreCell};
 use swc_common::{comments::Comments, input::StringInput, BytePos, Span};
-use swc_ecma_ast::{op, AssignOp, EsVersion};
+use swc_ecma_ast::{op, AssignOp, EsVersion, Ident};
 
 use self::{
     comments_buffer::CommentsBuffer,
@@ -25,6 +25,7 @@ use crate::{
 };
 
 mod comments_buffer;
+#[deprecated = "Directly use swc_common::input instead"]
 pub mod input;
 mod jsx;
 mod number;
@@ -378,7 +379,7 @@ impl<'a> Lexer<'a> {
                 let span = fixed_len_span(start, 7);
                 self.emit_error_span(span, SyntaxError::TS1185);
                 self.skip_line_comment(5);
-                self.skip_space::<true>()?;
+                self.skip_space::<true>();
                 return self.error_span(span, SyntaxError::TS1185);
             }
 
@@ -571,7 +572,7 @@ impl<'a> Lexer<'a> {
             if self.state.had_line_break && c == b'-' && self.eat(b'>') {
                 self.emit_module_mode_error(start, SyntaxError::LegacyCommentInModule);
                 self.skip_line_comment(0);
-                self.skip_space::<true>()?;
+                self.skip_space::<true>();
                 return self.read_token();
             }
 
@@ -616,7 +617,7 @@ impl<'a> Lexer<'a> {
                     if had_line_break_before_last && self.is_str("====") {
                         self.emit_error_span(fixed_len_span(start, 7), SyntaxError::TS1185);
                         self.skip_line_comment(4);
-                        self.skip_space::<true>()?;
+                        self.skip_space::<true>();
                         return self.read_token();
                     }
 
@@ -675,7 +676,7 @@ impl<'a> Lexer<'a> {
         // XML style comment. `<!--`
         if c == '<' && self.is(b'!') && self.peek() == Some('-') && self.peek_ahead() == Some('-') {
             self.skip_line_comment(3);
-            self.skip_space::<true>()?;
+            self.skip_space::<true>();
             self.emit_module_mode_error(start, SyntaxError::LegacyCommentInModule);
 
             return self.read_token();
@@ -731,7 +732,7 @@ impl<'a> Lexer<'a> {
         {
             self.emit_error_span(fixed_len_span(start, 7), SyntaxError::TS1185);
             self.skip_line_comment(5);
-            self.skip_space::<true>()?;
+            self.skip_space::<true>();
             return self.read_token();
         }
 
@@ -753,7 +754,7 @@ impl<'a> Lexer<'a> {
     /// character.
     fn read_word_with(
         &mut self,
-        convert: impl FnOnce(&str) -> Option<Word>,
+        convert: &dyn Fn(&str) -> Option<Word>,
     ) -> LexResult<Option<Token>> {
         debug_assert!(self.cur().is_some());
 
@@ -792,49 +793,50 @@ impl<'a> Lexer<'a> {
         debug_assert!(self.cur().is_some());
         let mut first = true;
         let mut can_be_keyword = true;
+        let mut slice_start = self.cur_pos();
+        let mut has_escape = false;
 
         self.with_buf(|l, buf| {
-            let mut has_escape = false;
-
-            while let Some(c) = {
-                // Optimization
-                {
-                    let s = l.input.uncons_while(|c| {
-                        if !c.is_ident_part() {
-                            return false;
-                        }
-
-                        // Performance optimization
-                        if c.is_ascii_uppercase() || c.is_ascii_digit() || !c.is_ascii() {
-                            can_be_keyword = false;
-                        }
-
-                        true
-                    });
-                    if !s.is_empty() {
-                        first = false;
+            loop {
+                if let Some(c) = l.input.cur_as_ascii() {
+                    // Performance optimization
+                    if can_be_keyword && (c.is_ascii_uppercase() || c.is_ascii_digit()) {
+                        can_be_keyword = false;
                     }
-                    buf.push_str(s)
-                }
 
-                l.cur()
-            } {
-                let start = l.cur_pos();
-
-                match c {
-                    c if c.is_ident_part() => {
+                    if Ident::is_valid_continue(c as _) {
                         l.bump();
-                        buf.push(c);
+                        continue;
+                    } else if first && Ident::is_valid_start(c as _) {
+                        l.bump();
+                        first = false;
+                        continue;
                     }
+
                     // unicode escape
-                    '\\' => {
+                    if c == b'\\' {
+                        first = false;
+                        has_escape = true;
+                        let start = l.cur_pos();
                         l.bump();
 
                         if !l.is(b'u') {
                             l.error_span(pos_span(start), SyntaxError::ExpectedUnicodeEscape)?
                         }
 
-                        has_escape = true;
+                        {
+                            let end = l.input.cur_pos();
+                            let s = unsafe {
+                                // Safety: start and end are valid position because we got them from
+                                // `self.input`
+                                l.input.slice(slice_start, start)
+                            };
+                            buf.push_str(s);
+                            unsafe {
+                                // Safety: We got end from `self.input`
+                                l.input.reset_to(end);
+                            }
+                        }
 
                         let chars = l.read_unicode_escape()?;
 
@@ -853,14 +855,56 @@ impl<'a> Lexer<'a> {
                         for c in chars {
                             buf.extend(c);
                         }
+
+                        slice_start = l.cur_pos();
+                        continue;
                     }
-                    _ => {
-                        break;
+
+                    // ASCII but not a valid identifier
+
+                    break;
+                }
+
+                if let Some(c) = l.input.cur() {
+                    if Ident::is_valid_continue(c) {
+                        l.bump();
+                        continue;
+                    } else if first && Ident::is_valid_start(c) {
+                        l.bump();
+                        first = false;
+                        continue;
                     }
                 }
-                first = false;
+
+                break;
             }
-            let value = convert(l, buf, has_escape, can_be_keyword);
+
+            let end = l.cur_pos();
+
+            let value = if !has_escape {
+                // Fast path: raw slice is enough if there's no escape.
+
+                let s = unsafe {
+                    // Safety: slice_start and end are valid position because we got them from
+                    // `self.input`
+                    l.input.slice(slice_start, end)
+                };
+                let s = unsafe {
+                    // Safety: We don't use 'static. We just bypass the lifetime check.
+                    transmute::<&str, &'static str>(s)
+                };
+
+                convert(l, s, has_escape, can_be_keyword)
+            } else {
+                let s = unsafe {
+                    // Safety: slice_start and end are valid position because we got them from
+                    // `self.input`
+                    l.input.slice(slice_start, end)
+                };
+                buf.push_str(s);
+
+                convert(l, buf, has_escape, can_be_keyword)
+            };
 
             Ok((value, has_escape))
         })
@@ -968,24 +1012,42 @@ impl<'a> Lexer<'a> {
     fn read_str_lit(&mut self) -> LexResult<Token> {
         debug_assert!(self.cur() == Some('\'') || self.cur() == Some('"'));
         let start = self.cur_pos();
-        let quote = self.cur().unwrap();
+        let quote = self.cur().unwrap() as u8;
 
         self.bump(); // '"'
 
-        self.with_buf(|l, out| {
-            while let Some(c) = {
-                // Optimization
-                {
-                    let s = l
-                        .input
-                        .uncons_while(|c| c != quote && c != '\\' && !c.is_line_break());
-                    out.push_str(s);
-                }
-                l.cur()
-            } {
-                match c {
-                    c if c == quote => {
-                        l.bump();
+        let mut has_escape = false;
+        let mut slice_start = self.input.cur_pos();
+
+        self.with_buf(|l, buf| {
+            loop {
+                if let Some(c) = l.input.cur_as_ascii() {
+                    if c == quote {
+                        let value_end = l.cur_pos();
+
+                        let value = if !has_escape {
+                            let s = unsafe {
+                                // Safety: slice_start and value_end are valid position because we
+                                // got them from `self.input`
+                                l.input.slice(slice_start, value_end)
+                            };
+
+                            l.atoms.atom(s)
+                        } else {
+                            let s = unsafe {
+                                // Safety: slice_start and value_end are valid position because we
+                                // got them from `self.input`
+                                l.input.slice(slice_start, value_end)
+                            };
+                            buf.push_str(s);
+
+                            l.atoms.atom(&**buf)
+                        };
+
+                        unsafe {
+                            // Safety: cur is quote
+                            l.input.bump();
+                        }
 
                         let end = l.cur_pos();
 
@@ -994,28 +1056,67 @@ impl<'a> Lexer<'a> {
                             // `self.input`
                             l.input.slice(start, end)
                         };
+                        let raw = l.atoms.atom(raw);
 
-                        return Ok(Token::Str {
-                            value: l.atoms.atom(&*out),
-                            raw: l.atoms.atom(raw),
-                        });
+                        return Ok(Token::Str { value, raw });
                     }
-                    '\\' => {
+
+                    if c == b'\\' {
+                        has_escape = true;
+
+                        {
+                            let end = l.cur_pos();
+                            let s = unsafe {
+                                // Safety: start and end are valid position because we got them from
+                                // `self.input`
+                                l.input.slice(slice_start, end)
+                            };
+                            buf.push_str(s);
+                        }
+
                         if let Some(chars) = l.read_escaped_char(false)? {
                             for c in chars {
-                                out.extend(c);
+                                buf.extend(c);
                             }
                         }
+
+                        slice_start = l.cur_pos();
+                        continue;
                     }
-                    c if c.is_line_break() => {
+
+                    if (c as char).is_line_break() {
                         break;
                     }
-                    _ => {
-                        out.push(c);
 
-                        l.bump();
+                    unsafe {
+                        // Safety: cur is a ascii character
+                        l.input.bump();
                     }
+                    continue;
                 }
+
+                match l.input.cur() {
+                    Some(c) => {
+                        if c.is_line_break() {
+                            break;
+                        }
+                        unsafe {
+                            // Safety: cur is Some(c)
+                            l.input.bump();
+                        }
+                    }
+                    None => break,
+                }
+            }
+
+            {
+                let end = l.cur_pos();
+                let s = unsafe {
+                    // Safety: start and end are valid position because we got them from
+                    // `self.input`
+                    l.input.slice(slice_start, end)
+                };
+                buf.push_str(s);
             }
 
             l.emit_error(start, SyntaxError::UnterminatedStrLit);
@@ -1028,7 +1129,7 @@ impl<'a> Lexer<'a> {
                 l.input.slice(start, end)
             };
             Ok(Token::Str {
-                value: l.atoms.atom(&*out),
+                value: l.atoms.atom(&*buf),
                 raw: l.atoms.atom(raw),
             })
         })
@@ -1109,6 +1210,7 @@ impl<'a> Lexer<'a> {
         Ok(Token::Regex(content, flags))
     }
 
+    #[cold]
     fn read_shebang(&mut self) -> LexResult<Option<Atom>> {
         if self.input.cur() != Some('#') || self.input.peek() != Some('!') {
             return Ok(None);
@@ -1156,7 +1258,21 @@ impl<'a> Lexer<'a> {
                     }
                 }
 
-                consume_cooked!();
+                // If we don't have any escape
+                let cooked = if cooked_slice_start == raw_slice_start {
+                    let last_pos = self.cur_pos();
+                    let s = unsafe {
+                        // Safety: Both of start and last_pos are valid position because we got them
+                        // from `self.input`
+                        self.input.slice(cooked_slice_start, last_pos)
+                    };
+
+                    Ok(self.atoms.atom(s))
+                } else {
+                    consume_cooked!();
+
+                    cooked.map(|s| self.atoms.atom(s))
+                };
 
                 // TODO: Handle error
                 let end = self.input.cur_pos();
@@ -1166,7 +1282,7 @@ impl<'a> Lexer<'a> {
                     self.input.slice(raw_slice_start, end)
                 };
                 return Ok(Token::Template {
-                    cooked: cooked.map(Atom::from),
+                    cooked,
                     raw: self.atoms.atom(raw),
                 });
             }

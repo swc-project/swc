@@ -164,7 +164,7 @@ impl<I: Tokens> Parser<I> {
             expect!(self, "from");
             let str_start = cur_pos!(self);
 
-            match *cur!(self, true)? {
+            match *cur!(self, true) {
                 Token::Str { .. } => match bump!(self) {
                     Token::Str { value, raw, .. } => Box::new(Str {
                         span: span!(self, str_start),
@@ -375,7 +375,7 @@ impl<I: Tokens> Parser<I> {
         }
 
         if self.input.syntax().typescript() && is!(self, IdentName) {
-            let sym = match *cur!(self, true)? {
+            let sym = match *cur!(self, true) {
                 Token::Word(ref w) => w.clone().into(),
                 _ => unreachable!(),
             };
@@ -835,7 +835,7 @@ impl<I: Tokens> Parser<I> {
         expect!(self, "from");
 
         let str_start = cur_pos!(self);
-        let src = match *cur!(self, true)? {
+        let src = match *cur!(self, true) {
             Token::Str { .. } => match bump!(self) {
                 Token::Str { value, raw, .. } => Box::new(Str {
                     span: span!(self, str_start),
@@ -899,7 +899,7 @@ impl<'a, I: Tokens> StmtLikeParser<'a, ModuleItem> for Parser<I> {
 
 #[cfg(test)]
 mod tests {
-    use crate::{EsConfig, Syntax};
+    use crate::{EsSyntax, Syntax};
 
     #[test]
     fn test_legacy_decorator() {
@@ -910,7 +910,7 @@ export default class Foo {
     class Baz {}
   }
 }",
-            Syntax::Es(EsConfig {
+            Syntax::Es(EsSyntax {
                 decorators: true,
                 decorators_before_export: true,
                 ..Default::default()

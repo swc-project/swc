@@ -35,7 +35,7 @@ impl<I: Tokens> Parser<I> {
         }
 
         let pos = {
-            let modifier = match *cur!(self, true)? {
+            let modifier = match *cur!(self, true) {
                 Token::Word(ref w @ Word::Ident(..))
                 | Token::Word(ref w @ Word::Keyword(Keyword::In | Keyword::Const)) => w.cow(),
 
@@ -298,7 +298,7 @@ impl<I: Tokens> Parser<I> {
 
         let arg_span = self.input.cur_span();
 
-        let arg = match cur!(self, true)? {
+        let arg = match cur!(self, true) {
             Token::Str { .. } => match bump!(self) {
                 Token::Str { value, raw } => Str {
                     span: arg_span,
@@ -729,7 +729,7 @@ impl<I: Tokens> Parser<I> {
         let start = cur_pos!(self);
         // Computed property names are grammar errors in an enum, so accept just string
         // literal or identifier.
-        let id = match *cur!(self, true)? {
+        let id = match *cur!(self, true) {
             Token::Str { .. } => self.parse_lit().map(|lit| match lit {
                 Lit::Str(s) => TsEnumMemberId::Str(s),
                 _ => unreachable!(),
@@ -876,7 +876,7 @@ impl<I: Tokens> Parser<I> {
         let (global, id) = if is!(self, "global") {
             let id = self.parse_ident_name()?;
             (true, TsModuleName::Ident(id))
-        } else if matches!(*cur!(self, true)?, Token::Str { .. }) {
+        } else if matches!(*cur!(self, true), Token::Str { .. }) {
             let id = self.parse_lit().map(|lit| match lit {
                 Lit::Str(s) => TsModuleName::Str(s),
                 _ => unreachable!(),
@@ -1181,7 +1181,7 @@ impl<I: Tokens> Parser<I> {
         let start = cur_pos!(self);
         expect!(self, "require");
         expect!(self, '(');
-        match *cur!(self, true)? {
+        match *cur!(self, true) {
             Token::Str { .. } => {}
             _ => unexpected!(self, "a string literal"),
         }
@@ -1385,7 +1385,7 @@ impl<I: Tokens> Parser<I> {
             };
             self.with_ctx(ctx).parse_with(|p| {
                 // We check if it's valid for it to be a private name when we push it.
-                let key = match *cur!(p, true)? {
+                let key = match *cur!(p, true) {
                     Token::Num { .. } | Token::Str { .. } => p.parse_new_expr(),
                     _ => p.parse_maybe_private_name().map(|e| match e {
                         Either::Left(e) => {
@@ -2019,7 +2019,7 @@ impl<I: Tokens> Parser<I> {
 
         let start = cur_pos!(self);
 
-        match *cur!(self, true)? {
+        match *cur!(self, true) {
             Token::Word(Word::Ident(..))
             | tok!("void")
             | tok!("yield")
@@ -2096,7 +2096,7 @@ impl<I: Tokens> Parser<I> {
 
                 bump!(self);
 
-                if !matches!(*cur!(self, true)?, Token::Num { .. } | Token::BigInt { .. }) {
+                if !matches!(*cur!(self, true), Token::Num { .. } | Token::BigInt { .. }) {
                     unexpected!(self, "numeric literal or bigint literal")
                 }
 
@@ -2370,7 +2370,7 @@ impl<I: Tokens> Parser<I> {
         if self.ctx().in_declare
             && matches!(
                 self.syntax(),
-                Syntax::Typescript(TsConfig { dts: false, .. })
+                Syntax::Typescript(TsSyntax { dts: false, .. })
             )
         {
             let span_of_declare = span!(self, start);
@@ -2466,7 +2466,7 @@ impl<I: Tokens> Parser<I> {
                     .map(make_decl_declare)
                     .map(Some);
             } else if is!(p, IdentName) {
-                let value = match *cur!(p, true)? {
+                let value = match *cur!(p, true) {
                     Token::Word(ref w) => w.clone().into(),
                     _ => unreachable!(),
                 };
@@ -2554,7 +2554,7 @@ impl<I: Tokens> Parser<I> {
                     bump!(self);
                 }
 
-                if matches!(*cur!(self, true)?, Token::Str { .. }) {
+                if matches!(*cur!(self, true), Token::Str { .. }) {
                     return self
                         .parse_ts_ambient_external_module_decl(start)
                         .map(From::from)
@@ -2771,7 +2771,7 @@ impl<I: Tokens> Parser<I> {
         let cloned = self.input.token_context().clone();
 
         self.input
-            .set_token_context(TokenContexts(vec![cloned.0[0]]));
+            .set_token_context(TokenContexts(smallvec::smallvec![cloned.0[0]]));
         let res = op(self);
         self.input.set_token_context(cloned);
 

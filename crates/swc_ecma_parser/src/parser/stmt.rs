@@ -158,7 +158,7 @@ impl<'a, I: Tokens> Parser<I> {
                 .map(Stmt::from);
         }
 
-        match cur!(self, true)? {
+        match cur!(self, true) {
             tok!("await") if include_decl => {
                 if peeked_is!(self, "using") {
                     assert_and_bump!(self, "await");
@@ -306,7 +306,7 @@ impl<'a, I: Tokens> Parser<I> {
             tok!("let") if include_decl => {
                 let strict = self.ctx().strict;
                 let is_keyword = match peek!(self) {
-                    Ok(t) => t.kind().follows_keyword_let(strict),
+                    Some(t) => t.kind().follows_keyword_let(strict),
                     _ => false,
                 };
 
@@ -1134,9 +1134,13 @@ impl<'a, I: Tokens> Parser<I> {
         self.with_ctx(ctx).parse_with(|p| {
             let start = l.span.lo();
 
+            let mut errors = vec![];
             for lb in &p.state.labels {
                 if l.sym == *lb {
-                    p.emit_err(l.span, SyntaxError::DuplicateLabel(l.sym.clone()));
+                    errors.push(Error::new(
+                        l.span,
+                        SyntaxError::DuplicateLabel(l.sym.clone()),
+                    ));
                 }
             }
             p.state.labels.push(l.sym.clone());
@@ -1156,6 +1160,10 @@ impl<'a, I: Tokens> Parser<I> {
             } else {
                 p.parse_stmt(false)?
             });
+
+            for err in errors {
+                p.emit_error(err);
+            }
 
             {
                 let pos = p.state.labels.iter().position(|v| v == &l.sym);
@@ -1238,7 +1246,8 @@ impl<'a, I: Tokens> Parser<I> {
         let strict = self.ctx().strict;
 
         if is_one_of!(self, "const", "var")
-            || (is!(self, "let") && peek!(self)?.kind().follows_keyword_let(strict))
+            || (is!(self, "let")
+                && peek!(self).map_or(false, |v| v.kind().follows_keyword_let(strict)))
         {
             let decl = self.parse_var_stmt(true)?;
 
@@ -1329,7 +1338,7 @@ impl<'a, I: Tokens> Parser<I> {
                 decls: vec![decl],
             });
 
-            cur!(self, true)?;
+            cur!(self, true);
 
             return self.parse_for_each_head(ForHead::UsingDecl(pat));
         }
@@ -1490,7 +1499,7 @@ mod tests {
     use swc_ecma_visit::assert_eq_ignore_span;
 
     use super::*;
-    use crate::EsConfig;
+    use crate::EsSyntax;
 
     fn stmt(s: &'static str) -> Stmt {
         test_parser(s, Syntax::default(), |p| p.parse_stmt(true))
@@ -1626,7 +1635,7 @@ mod tests {
             @dec2
             class Foo {}
             ",
-                Syntax::Es(EsConfig {
+                Syntax::Es(EsSyntax {
                     decorators: true,
                     ..Default::default()
                 }),
@@ -1673,7 +1682,7 @@ ReactDOM.render(<App />, document.getElementById('root'))
 "#;
         test_parser(
             src,
-            Syntax::Es(EsConfig {
+            Syntax::Es(EsSyntax {
                 jsx: true,
                 ..Default::default()
             }),
@@ -1692,7 +1701,7 @@ function App() {
 export default App"#;
         test_parser(
             src,
-            Syntax::Es(EsConfig {
+            Syntax::Es(EsSyntax {
                 jsx: true,
                 ..Default::default()
             }),
@@ -1705,7 +1714,7 @@ export default App"#;
         let src = "export v, { x, y as w } from 'mod';";
         test_parser(
             src,
-            Syntax::Es(EsConfig {
+            Syntax::Es(EsSyntax {
                 export_default_from: true,
                 ..Default::default()
             }),
@@ -1718,7 +1727,7 @@ export default App"#;
         let src = "export foo from 'bar';";
         test_parser(
             src,
-            Syntax::Es(EsConfig {
+            Syntax::Es(EsSyntax {
                 export_default_from: true,
                 ..Default::default()
             }),
@@ -1731,7 +1740,7 @@ export default App"#;
         let src = "export default from 'bar';";
         test_parser(
             src,
-            Syntax::Es(EsConfig {
+            Syntax::Es(EsSyntax {
                 export_default_from: true,
                 ..Default::default()
             }),
@@ -1744,7 +1753,7 @@ export default App"#;
         let src = "export default, {foo} from 'bar';";
         test_parser(
             src,
-            Syntax::Es(EsConfig {
+            Syntax::Es(EsSyntax {
                 export_default_from: true,
                 ..Default::default()
             }),
@@ -1774,7 +1783,7 @@ let x = 4";
     fn issue_226() {
         test_parser(
             "export * as Foo from 'bar';",
-            Syntax::Es(EsConfig {
+            Syntax::Es(EsSyntax {
                 export_default_from: true,
                 ..Default::default()
             }),
@@ -1787,7 +1796,7 @@ let x = 4";
     fn issue_4369_1() {
         test_parser(
             r#"export * as foo, { bar } from "mod""#,
-            Syntax::Es(EsConfig {
+            Syntax::Es(EsSyntax {
                 export_default_from: false,
                 ..Default::default()
             }),
@@ -1799,7 +1808,7 @@ let x = 4";
     fn issue_4369_2() {
         test_parser(
             r#"export foo, * as bar, { baz } from "mod""#,
-            Syntax::Es(EsConfig {
+            Syntax::Es(EsSyntax {
                 export_default_from: true,
                 ..Default::default()
             }),
@@ -1811,7 +1820,7 @@ let x = 4";
     fn issue_4369_3() {
         test_parser(
             r#"export foo, * as bar from "mod""#,
-            Syntax::Es(EsConfig {
+            Syntax::Es(EsSyntax {
                 export_default_from: true,
                 ..Default::default()
             }),
@@ -1823,7 +1832,7 @@ let x = 4";
     fn issue_4369_4() {
         test_parser(
             r#"export * as bar, { baz } from "mod""#,
-            Syntax::Es(EsConfig {
+            Syntax::Es(EsSyntax {
                 export_default_from: true,
                 ..Default::default()
             }),
@@ -1835,7 +1844,7 @@ let x = 4";
     fn issue_4369_5() {
         test_parser(
             r#"export foo, { baz } from "mod""#,
-            Syntax::Es(EsConfig {
+            Syntax::Es(EsSyntax {
                 export_default_from: true,
                 ..Default::default()
             }),
@@ -2494,7 +2503,7 @@ export default function waitUntil(callback, options = {}) {
         let src = "import('foo',)";
         test_parser(
             src,
-            Syntax::Es(EsConfig {
+            Syntax::Es(EsSyntax {
                 import_attributes: true,
                 ..Default::default()
             }),

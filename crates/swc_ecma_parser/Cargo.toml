@@ -7,7 +7,7 @@ include       = ["Cargo.toml", "src/**/*.rs", "examples/**/*.rs"]
 license       = "Apache-2.0"
 name          = "swc_ecma_parser"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.146.1"
+version       = "0.146.7"
 
   [package.metadata.docs.rs]
   all-features = true
@@ -26,6 +26,7 @@ verify        = ["swc_ecma_visit"]
 
 [dependencies]
 either      = { workspace = true }
+memchr      = { workspace = true, features = ["use_std"] }
 num-bigint  = { workspace = true }
 num-traits  = { workspace = true }
 serde       = { workspace = true, features = ["derive"] }

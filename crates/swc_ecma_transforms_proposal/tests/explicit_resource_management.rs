@@ -1,7 +1,7 @@
 use std::{fs::read_to_string, path::PathBuf};
 
 use swc_common::{chain, Mark};
-use swc_ecma_parser::{EsConfig, Syntax};
+use swc_ecma_parser::{EsSyntax, Syntax};
 use swc_ecma_transforms_base::resolver;
 use swc_ecma_transforms_proposal::explicit_resource_management::explicit_resource_management;
 use swc_ecma_transforms_testing::{exec_tr, test_fixture, FixtureTestConfig};
@@ -11,7 +11,7 @@ use swc_ecma_transforms_testing::{exec_tr, test_fixture, FixtureTestConfig};
 fn exec(input: PathBuf) {
     exec_tr(
         "explicit-resource-management",
-        Syntax::Es(EsConfig {
+        Syntax::Es(EsSyntax {
             explicit_resource_management: true,
             ..Default::default()
         }),
@@ -41,7 +41,7 @@ fn run_fixture(input: PathBuf) {
     ));
 
     test_fixture(
-        Syntax::Es(EsConfig {
+        Syntax::Es(EsSyntax {
             explicit_resource_management: true,
             ..Default::default()
         }),

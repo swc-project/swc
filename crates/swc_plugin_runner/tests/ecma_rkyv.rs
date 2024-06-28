@@ -15,7 +15,7 @@ use swc_common::{
     Mark,
 };
 use swc_ecma_ast::{EsVersion, Program};
-use swc_ecma_parser::{parse_file_as_program, Syntax, TsConfig};
+use swc_ecma_parser::{parse_file_as_program, Syntax, TsSyntax};
 use testing::CARGO_TARGET_DIR;
 use tracing::info;
 
@@ -86,7 +86,7 @@ fn internal(input: PathBuf) {
 
             let parsed = parse_file_as_program(
                 &fm,
-                Syntax::Typescript(TsConfig {
+                Syntax::Typescript(TsSyntax {
                     tsx: input.to_string_lossy().ends_with(".tsx"),
                     ..Default::default()
                 }),

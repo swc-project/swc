@@ -190,6 +190,12 @@ pub mod transform_common {
     pub use swc_transform_common::*;
 }
 
+#[cfg(feature = "typescript")]
+#[cfg_attr(docsrs, doc(cfg(feature = "typescript")))]
+pub mod typescript {
+    pub use swc_typescript::*;
+}
+
 // swc_bundler
 #[cfg(feature = "__bundler")]
 #[cfg_attr(docsrs, doc(cfg(feature = "__bundler")))]

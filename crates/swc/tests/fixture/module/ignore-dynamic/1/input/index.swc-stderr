@@ -1,0 +1,12 @@
+
+  x the name `foo` is defined multiple times
+   ,-[$DIR/tests/fixture/module/ignore-dynamic/1/input/index.js:1:1]
+ 1 | import foo from "foo";
+   :        ^|^
+   :         `-- previous definition of `foo` here
+ 2 | 
+ 3 | async function foo() {
+   :                ^|^
+   :                 `-- `foo` redefined here
+ 4 |     await import("foo");
+   `----

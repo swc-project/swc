@@ -1,0 +1,24 @@
+
+  x unable to infer type from expression or declaration
+   ,-[$DIR/tests/ts-isolated-declaration/oxc/input/non-exported-binding-elements.ts:1:1]
+ 1 | // Correct
+ 2 | const [A, B] = [1, 2, 3];
+   :       ^^^^^^^^^^^^^^^^^^
+ 3 | export function foo(): number {
+   `----
+
+  x unable to infer type from expression or declaration
+   ,-[$DIR/tests/ts-isolated-declaration/oxc/input/non-exported-binding-elements.ts:7:1]
+ 7 | // Incorrect
+ 8 | const { c, d } = { c: 1, d: 2 };
+   :       ^^^^^^^^^^^^^^^^^^^^^^^^^
+ 9 | const [ e ] = [4];
+   `----
+
+  x unable to infer type from expression or declaration
+    ,-[$DIR/tests/ts-isolated-declaration/oxc/input/non-exported-binding-elements.ts:8:1]
+  8 | const { c, d } = { c: 1, d: 2 };
+  9 | const [ e ] = [4];
+    :       ^^^^^^^^^^^
+ 10 | export { c, d, e }
+    `----

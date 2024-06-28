@@ -51,7 +51,7 @@ impl<I: Tokens> Parser<I> {
         .parse_with(|p| {
             let start = cur_pos!(p);
 
-            let v = match *cur!(p, true)? {
+            let v = match *cur!(p, true) {
                 Token::Str { .. } => match bump!(p) {
                     Token::Str { value, raw } => PropName::Str(Str {
                         span: span!(p, start),

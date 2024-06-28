@@ -1,7 +1,6 @@
 {
   "mappings": ";;;;;uBAAc;uBACA;uBACA;uBACA;uBACA;uBACA;uBACA;uBACA;uBACA;uBACA;uBACA;uBACA;uBACA;uBACA;uBACA;uBACA;uBACA;uBACA;uBACA;uBACA;uBACA;uBACA;uBACA",
   "names": [],
-  "rangeMappings": ";;;;;;;;;;;;;;;;;;;;;;;;;;;",
   "sources": [
     "../../input/index.ts"
   ],

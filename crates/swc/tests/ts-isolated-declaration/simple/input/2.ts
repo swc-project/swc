@@ -1,0 +1,1 @@
+export var foo: number = "abc";

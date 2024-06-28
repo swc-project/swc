@@ -4,10 +4,10 @@ use swc_common::{FileName, SourceMap, DUMMY_SP as span};
 use swc_ecma_visit::assert_eq_ignore_span;
 
 use super::*;
-use crate::{parse_file_as_expr, EsConfig};
+use crate::{parse_file_as_expr, EsSyntax};
 
 fn syntax() -> Syntax {
-    Syntax::Es(EsConfig {
+    Syntax::Es(EsSyntax {
         allow_super_outside_method: true,
         ..Default::default()
     })

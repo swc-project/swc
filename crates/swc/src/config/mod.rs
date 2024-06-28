@@ -41,7 +41,7 @@ pub use swc_ecma_minifier::js::*;
 use swc_ecma_minifier::option::terser::TerserTopLevelOptions;
 #[allow(deprecated)]
 pub use swc_ecma_parser::JscTarget;
-use swc_ecma_parser::{parse_file_as_expr, Syntax, TsConfig};
+use swc_ecma_parser::{parse_file_as_expr, Syntax, TsSyntax};
 use swc_ecma_transforms::{
     feature::FeatureFlag,
     hygiene, modules,
@@ -782,6 +782,7 @@ impl Options {
             emit_assert_for_import_attributes: experimental
                 .emit_assert_for_import_attributes
                 .into_bool(),
+            emit_isolated_dts: experimental.emit_isolated_dts.into_bool(),
         })
     }
 }
@@ -852,7 +853,7 @@ impl Default for Rc {
                 test: Some(FileMatcher::Regex("\\.tsx$".into())),
                 exclude: None,
                 jsc: JscConfig {
-                    syntax: Some(Syntax::Typescript(TsConfig {
+                    syntax: Some(Syntax::Typescript(TsSyntax {
                         tsx: true,
                         ..Default::default()
                     })),
@@ -865,7 +866,7 @@ impl Default for Rc {
                 test: Some(FileMatcher::Regex("\\.(cts|mts)$".into())),
                 exclude: None,
                 jsc: JscConfig {
-                    syntax: Some(Syntax::Typescript(TsConfig {
+                    syntax: Some(Syntax::Typescript(TsSyntax {
                         tsx: false,
                         disallow_ambiguous_jsx_like: true,
                         ..Default::default()
@@ -879,7 +880,7 @@ impl Default for Rc {
                 test: Some(FileMatcher::Regex("\\.ts$".into())),
                 exclude: None,
                 jsc: JscConfig {
-                    syntax: Some(Syntax::Typescript(TsConfig {
+                    syntax: Some(Syntax::Typescript(TsSyntax {
                         tsx: false,
                         ..Default::default()
                     })),
@@ -980,7 +981,7 @@ impl Config {
     ///
     /// - typescript: `tsx` will be modified if file extension is `ts`.
     pub fn adjust(&mut self, file: &Path) {
-        if let Some(Syntax::Typescript(TsConfig { tsx, dts, .. })) = &mut self.jsc.syntax {
+        if let Some(Syntax::Typescript(TsSyntax { tsx, dts, .. })) = &mut self.jsc.syntax {
             let is_dts = file
                 .file_name()
                 .and_then(|f| f.to_str())
@@ -1088,6 +1089,8 @@ pub struct BuiltInput<P: swc_ecma_visit::Fold> {
 
     pub output: JscOutputConfig,
     pub emit_assert_for_import_attributes: bool,
+
+    pub emit_isolated_dts: bool,
 }
 
 impl<P> BuiltInput<P>
@@ -1117,6 +1120,7 @@ where
             emit_source_map_columns: self.emit_source_map_columns,
             output: self.output,
             emit_assert_for_import_attributes: self.emit_assert_for_import_attributes,
+            emit_isolated_dts: self.emit_isolated_dts,
         }
     }
 }
@@ -1211,6 +1215,12 @@ pub struct JscExperimental {
 
     #[serde(default)]
     pub disable_builtin_transforms_for_internal_testing: BoolConfig<false>,
+
+    /// Emit TypeScript definitions for `.ts`, `.tsx` files.
+    ///
+    /// This requires `isolatedDeclartion` feature of TypeScript 5.5.
+    #[serde(default)]
+    pub emit_isolated_dts: BoolConfig<false>,
 }
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]

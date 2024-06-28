@@ -129,7 +129,7 @@ impl<I: Tokens> Parser<I> {
             return self.parse_yield_expr();
         }
 
-        self.state.potential_arrow_start = match *cur!(self, true)? {
+        self.state.potential_arrow_start = match *cur!(self, true) {
             Word(Word::Ident(..)) | tok!('(') | tok!("yield") => Some(cur_pos!(self)),
             _ => None,
         };
@@ -154,8 +154,8 @@ impl<I: Tokens> Parser<I> {
     fn finish_assignment_expr(&mut self, start: BytePos, cond: Box<Expr>) -> PResult<Box<Expr>> {
         trace_cur!(self, finish_assignment_expr);
 
-        match cur!(self, false) {
-            Ok(&Token::AssignOp(op)) => {
+        match self.input.cur() {
+            Some(&Token::AssignOp(op)) => {
                 let left = if op == AssignOp::Assign {
                     match AssignTarget::try_from(
                         self.reparse_expr_as_pat(PatType::AssignPat, cond)?,
@@ -882,7 +882,7 @@ impl<I: Tokens> Parser<I> {
                 type_params: None,
             };
             if let BlockStmtOrExpr::BlockStmt(..) = &*arrow_expr.body {
-                if let Ok(&Token::BinOp(..)) = cur!(self, false) {
+                if let Some(&Token::BinOp(..)) = self.input.cur() {
                     // ) is required
                     self.emit_err(self.input.cur_span(), SyntaxError::TS1005);
                     let errorred_expr =
@@ -1063,7 +1063,7 @@ impl<I: Tokens> Parser<I> {
     pub(super) fn parse_tpl_element(&mut self, is_tagged_tpl: bool) -> PResult<TplElement> {
         let start = cur_pos!(self);
 
-        let (raw, cooked) = match *cur!(self, true)? {
+        let (raw, cooked) = match *cur!(self, true) {
             Token::Template { .. } => match bump!(self) {
                 Token::Template { raw, cooked, .. } => match cooked {
                     Ok(cooked) => (raw, Some(cooked)),
@@ -1558,7 +1558,7 @@ impl<I: Tokens> Parser<I> {
                     Either::Right(r) => r.into(),
                 }
             }
-            match *cur!(self, true)? {
+            match *cur!(self, true) {
                 Token::JSXText { .. } => {
                     return self
                         .parse_jsx_text()
@@ -1707,7 +1707,7 @@ impl<I: Tokens> Parser<I> {
             let is_async = is!(self, "async")
                 && matches!(
                     peek!(self),
-                    Ok(tok!('(') | tok!("function") | Token::Word(..))
+                    Some(tok!('(') | tok!("function") | Token::Word(..))
                 );
 
             let start = cur_pos!(self);
@@ -2016,7 +2016,7 @@ impl<I: Tokens> Parser<I> {
     pub(super) fn parse_lit(&mut self) -> PResult<Lit> {
         let start = cur_pos!(self);
 
-        let v = match cur!(self, true)? {
+        let v = match cur!(self, true) {
             Word(Word::Null) => {
                 bump!(self);
                 let span = span!(self, start);
