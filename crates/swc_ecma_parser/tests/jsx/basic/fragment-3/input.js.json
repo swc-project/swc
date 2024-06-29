@@ -36,8 +36,8 @@
               "end": 7,
               "ctxt": 0
             },
-            "value": "\n\n  ",
-            "raw": "\n\n  "
+            "value": "\n  ",
+            "raw": "\n  "
           },
           {
             "type": "JSXElement",
@@ -75,8 +75,8 @@
                   "end": 23,
                   "ctxt": 0
                 },
-                "value": "\n\n    hi\n\n  ",
-                "raw": "\n\n    hi\n\n  "
+                "value": "\n    hi\n  ",
+                "raw": "\n    hi\n  "
               }
             ],
             "closing": {
@@ -105,8 +105,8 @@
               "end": 33,
               "ctxt": 0
             },
-            "value": "\n\n  ",
-            "raw": "\n\n  "
+            "value": "\n  ",
+            "raw": "\n  "
           },
           {
             "type": "JSXElement",
@@ -174,8 +174,8 @@
               "end": 48,
               "ctxt": 0
             },
-            "value": "\n\n",
-            "raw": "\n\n"
+            "value": "\n",
+            "raw": "\n"
           }
         ],
         "closing": {

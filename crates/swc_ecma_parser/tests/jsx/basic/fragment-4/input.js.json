@@ -36,8 +36,8 @@
               "end": 6,
               "ctxt": 0
             },
-            "value": "\n\n  ",
-            "raw": "\n\n  "
+            "value": "\n  ",
+            "raw": "\n  "
           },
           {
             "type": "JSXFragment",
@@ -62,8 +62,8 @@
                   "end": 13,
                   "ctxt": 0
                 },
-                "value": "\n\n    ",
-                "raw": "\n\n    "
+                "value": "\n    ",
+                "raw": "\n    "
               },
               {
                 "type": "JSXFragment",
@@ -88,8 +88,8 @@
                       "end": 37,
                       "ctxt": 0
                     },
-                    "value": "\n\n      super deep\n\n    ",
-                    "raw": "\n\n      super deep\n\n    "
+                    "value": "\n      super deep\n    ",
+                    "raw": "\n      super deep\n    "
                   }
                 ],
                 "closing": {
@@ -108,8 +108,8 @@
                   "end": 43,
                   "ctxt": 0
                 },
-                "value": "\n\n  ",
-                "raw": "\n\n  "
+                "value": "\n  ",
+                "raw": "\n  "
               }
             ],
             "closing": {
@@ -128,8 +128,8 @@
               "end": 47,
               "ctxt": 0
             },
-            "value": "\n\n",
-            "raw": "\n\n"
+            "value": "\n",
+            "raw": "\n"
           }
         ],
         "closing": {
