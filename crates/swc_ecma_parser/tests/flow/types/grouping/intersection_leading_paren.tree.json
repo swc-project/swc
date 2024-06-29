@@ -10,41 +10,31 @@
       "type": "EmptyStatement",
       "span": {
         "start": 1,
-        "end": 9,
+        "end": 13,
         "ctxt": 0
       }
     },
     {
       "type": "ExpressionStatement",
       "span": {
-        "start": 10,
+        "start": 14,
         "end": 17,
         "ctxt": 0
       },
       "expression": {
         "type": "BinaryExpression",
         "span": {
-          "start": 10,
+          "start": 14,
           "end": 17,
           "ctxt": 0
         },
         "operator": "&",
         "left": {
-          "type": "ParenthesisExpression",
+          "type": "Invalid",
           "span": {
-            "start": 10,
-            "end": 13,
+            "start": 14,
+            "end": 15,
             "ctxt": 0
-          },
-          "expression": {
-            "type": "Identifier",
-            "span": {
-              "start": 11,
-              "end": 12,
-              "ctxt": 0
-            },
-            "value": "B",
-            "optional": false
           }
         },
         "right": {
