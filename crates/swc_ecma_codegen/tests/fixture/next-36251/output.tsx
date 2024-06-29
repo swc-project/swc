@@ -4,8 +4,6 @@ type ü = {
 };
 export const SomeComponent = ({ name, value }: ü)=>{
     return (<div>
-
             {name} {value}
-
         </div>);
 };
