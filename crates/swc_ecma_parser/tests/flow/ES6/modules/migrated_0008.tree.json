@@ -1,0 +1,29 @@
+{
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":26}},
+  "range":[0,26],
+  "body":[
+    {
+      "type":"ExportAllDeclaration",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":26}},
+      "range":[0,26],
+      "source":{
+        "type":"Literal",
+        "loc":{"source":null,"start":{"line":1,"column":21},"end":{"line":1,"column":26}},
+        "range":[21,26],
+        "value":"bar",
+        "raw":"\"bar\""
+      },
+      "exported":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":1,"column":12},"end":{"line":1,"column":15}},
+        "range":[12,15],
+        "name":"foo",
+        "typeAnnotation":null,
+        "optional":false
+      },
+      "exportKind":"value"
+    }
+  ],
+  "comments":[]
+}

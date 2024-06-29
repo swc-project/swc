@@ -1,0 +1,13 @@
+{
+  "errors":[
+    {
+      "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":0}},
+      "message":"Unexpected end of input"
+    }
+  ],
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":0}},
+  "range":[5,5],
+  "body":[],
+  "comments":[]
+}

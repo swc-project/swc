@@ -1,0 +1,46 @@
+{
+  "errors":[
+    {
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":9}},
+      "message":"Unexpected token ILLEGAL"
+    },
+    {
+      "loc":{"source":null,"start":{"line":1,"column":4},"end":{"line":1,"column":9}},
+      "message":"Unexpected identifier, expected the end of an expression statement (`;`)"
+    }
+  ],
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":10}},
+  "range":[0,10],
+  "body":[
+    {
+      "type":"ExpressionStatement",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":4}},
+      "range":[0,4],
+      "expression":{
+        "type":"Literal",
+        "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":4}},
+        "range":[0,4],
+        "value":null,
+        "bigint":"100",
+        "raw":"100n"
+      },
+      "directive":null
+    },
+    {
+      "type":"ExpressionStatement",
+      "loc":{"source":null,"start":{"line":1,"column":4},"end":{"line":1,"column":10}},
+      "range":[4,10],
+      "expression":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":1,"column":4},"end":{"line":1,"column":9}},
+        "range":[4,9],
+        "name":"hello",
+        "typeAnnotation":null,
+        "optional":false
+      },
+      "directive":null
+    }
+  ],
+  "comments":[]
+}

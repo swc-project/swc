@@ -1,0 +1,46 @@
+{
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":47}},
+  "range":[0,47],
+  "body":[
+    {
+      "type":"VariableDeclaration",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":47}},
+      "range":[0,47],
+      "declarations":[
+        {
+          "type":"VariableDeclarator",
+          "loc":{"source":null,"start":{"line":1,"column":4},"end":{"line":1,"column":44}},
+          "range":[4,44],
+          "id":{
+            "type":"Identifier",
+            "loc":{"source":null,"start":{"line":1,"column":4},"end":{"line":1,"column":44}},
+            "range":[4,44],
+            "name":"a",
+            "typeAnnotation":{
+              "type":"TypeAnnotation",
+              "loc":{"source":null,"start":{"line":1,"column":5},"end":{"line":1,"column":44}},
+              "range":[5,44],
+              "typeAnnotation":{
+                "type":"NumberTypeAnnotation",
+                "loc":{"source":null,"start":{"line":1,"column":38},"end":{"line":1,"column":44}},
+                "range":[38,44]
+              }
+            },
+            "optional":false
+          },
+          "init":null
+        }
+      ],
+      "kind":"var"
+    }
+  ],
+  "comments":[
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":1,"column":9},"end":{"line":1,"column":37}},
+      "range":[9,37],
+      "value":" inner escaped comment "
+    }
+  ]
+}

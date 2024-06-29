@@ -1,0 +1,61 @@
+{
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":37}},
+  "range":[0,37],
+  "body":[
+    {
+      "type":"FunctionDeclaration",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":37}},
+      "range":[0,37],
+      "id":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":1,"column":9},"end":{"line":1,"column":13}},
+        "range":[9,13],
+        "name":"test",
+        "typeAnnotation":null,
+        "optional":false
+      },
+      "params":[],
+      "body":{
+        "type":"BlockStatement",
+        "loc":{"source":null,"start":{"line":1,"column":16},"end":{"line":1,"column":37}},
+        "range":[16,37],
+        "body":[
+          {
+            "type":"ExpressionStatement",
+            "loc":{"source":null,"start":{"line":1,"column":17},"end":{"line":1,"column":30}},
+            "range":[17,30],
+            "expression":{
+              "type":"Literal",
+              "loc":{"source":null,"start":{"line":1,"column":17},"end":{"line":1,"column":29}},
+              "range":[17,29],
+              "value":"use strict",
+              "raw":"'use strict'"
+            },
+            "directive":"use strict"
+          },
+          {
+            "type":"ExpressionStatement",
+            "loc":{"source":null,"start":{"line":1,"column":31},"end":{"line":1,"column":35}},
+            "range":[31,35],
+            "expression":{
+              "type":"Literal",
+              "loc":{"source":null,"start":{"line":1,"column":31},"end":{"line":1,"column":34}},
+              "range":[31,34],
+              "value":0,
+              "raw":"0O0"
+            },
+            "directive":null
+          }
+        ]
+      },
+      "async":false,
+      "generator":false,
+      "predicate":null,
+      "expression":false,
+      "returnType":null,
+      "typeParameters":null
+    }
+  ],
+  "comments":[]
+}

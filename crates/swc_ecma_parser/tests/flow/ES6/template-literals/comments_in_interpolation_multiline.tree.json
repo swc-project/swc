@@ -1,0 +1,73 @@
+{
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":5,"column":6}},
+  "range":[0,36],
+  "body":[
+    {
+      "type":"ExpressionStatement",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":5,"column":6}},
+      "range":[0,36],
+      "expression":{
+        "type":"TemplateLiteral",
+        "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":5,"column":6}},
+        "range":[0,36],
+        "quasis":[
+          {
+            "type":"TemplateElement",
+            "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":7}},
+            "range":[0,7],
+            "value":{"raw":"foo ","cooked":"foo "},
+            "tail":false
+          },
+          {
+            "type":"TemplateElement",
+            "loc":{"source":null,"start":{"line":5,"column":0},"end":{"line":5,"column":6}},
+            "range":[30,36],
+            "value":{"raw":" baz","cooked":" baz"},
+            "tail":true
+          }
+        ],
+        "expressions":[
+          {
+            "type":"Literal",
+            "trailingComments":[
+              {
+                "type":"Line",
+                "loc":{"source":null,"start":{"line":4,"column":2},"end":{"line":4,"column":6}},
+                "range":[25,29],
+                "value":" b"
+              }
+            ],
+            "leadingComments":[
+              {
+                "type":"Line",
+                "loc":{"source":null,"start":{"line":2,"column":2},"end":{"line":2,"column":6}},
+                "range":[10,14],
+                "value":" a"
+              }
+            ],
+            "loc":{"source":null,"start":{"line":3,"column":2},"end":{"line":3,"column":7}},
+            "range":[17,22],
+            "value":"bar",
+            "raw":"\"bar\""
+          }
+        ]
+      },
+      "directive":null
+    }
+  ],
+  "comments":[
+    {
+      "type":"Line",
+      "loc":{"source":null,"start":{"line":2,"column":2},"end":{"line":2,"column":6}},
+      "range":[10,14],
+      "value":" a"
+    },
+    {
+      "type":"Line",
+      "loc":{"source":null,"start":{"line":4,"column":2},"end":{"line":4,"column":6}},
+      "range":[25,29],
+      "value":" b"
+    }
+  ]
+}
