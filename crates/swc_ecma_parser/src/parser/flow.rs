@@ -232,7 +232,13 @@ where
         if eat!(self, '(') {
             // Check to see if this is actually a grouped type
             if !is!(self, ')') && !is!(self, "...") {
-                if is!(self, "this") || token_is_identifier(cur!(self, true)) {
+                if is!(self, "this")
+                    || self
+                        .input
+                        .cur()
+                        .map(token_is_identifier)
+                        .unwrap_or_default()
+                {
                     is_grouped_type = !peeked_is!(self, '?') && !peeked_is!(self, ':');
                 } else {
                     is_grouped_type = true;
@@ -286,11 +292,16 @@ where
             return self.consume_flow_typeof_type();
         }
 
-        if token_is_keyword(cur!(self, true)) {
+        if self.input.cur().map(token_is_keyword).unwrap_or_default() {
             // let _label = token_label_name(cur!(self, true));
             self.input.bump();
             return Ok(());
-        } else if token_is_identifier(cur!(self, true)) {
+        } else if self
+            .input
+            .cur()
+            .map(token_is_identifier)
+            .unwrap_or_default()
+        {
             if is_contextual!(self, "interface") {
                 return self.consume_flow_inteface_type();
             }
