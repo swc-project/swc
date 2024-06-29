@@ -10,63 +10,9 @@
       "type": "EmptyStatement",
       "span": {
         "start": 1,
-        "end": 9,
-        "ctxt": 0
-      }
-    },
-    {
-      "type": "BlockStatement",
-      "span": {
-        "start": 10,
         "end": 22,
         "ctxt": 0
-      },
-      "stmts": [
-        {
-          "type": "LabeledStatement",
-          "span": {
-            "start": 14,
-            "end": 20,
-            "ctxt": 0
-          },
-          "label": {
-            "type": "Identifier",
-            "span": {
-              "start": 14,
-              "end": 15,
-              "ctxt": 0
-            },
-            "value": "b",
-            "optional": false
-          },
-          "body": {
-            "type": "ExpressionStatement",
-            "span": {
-              "start": 17,
-              "end": 20,
-              "ctxt": 0
-            },
-            "expression": {
-              "type": "ParenthesisExpression",
-              "span": {
-                "start": 17,
-                "end": 20,
-                "ctxt": 0
-              },
-              "expression": {
-                "type": "Identifier",
-                "span": {
-                  "start": 18,
-                  "end": 19,
-                  "ctxt": 0
-                },
-                "value": "B",
-                "optional": false
-              }
-            }
-          }
-        }
-      ]
+      }
     }
   ],
   "interpreter": null
