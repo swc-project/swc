@@ -134,6 +134,18 @@ where
         todo!("consume_flow_primary_type")
     }
 
+    fn consume_flow_function_type_param(&mut self, first: bool) -> PResult<()> {
+        if peeked_is!(self, ':') || peeked_is!(self, '?') {
+            let n = self.parse_ident(true, true)?;
+
+            eat!(self, '?');
+
+            self.consume_flow_type_initializer()?
+        } else {
+            self.consume_flow_type()
+        }
+    }
+
     fn consume_flow_tuple_type(&mut self) -> PResult<()> {
         expect!(self, '[');
 
