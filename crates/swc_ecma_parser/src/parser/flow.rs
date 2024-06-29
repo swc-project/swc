@@ -14,7 +14,7 @@ where
     I: Tokens,
 {
     pub(super) fn may_consume_flow_type_param_decls(&mut self) -> PResult<()> {
-        if !is!(self, '<') && !is!(self, JSXTagStart) {
+        if !is_one_of!(self, '<', JSXTagStart) {
             return Ok(());
         }
 
