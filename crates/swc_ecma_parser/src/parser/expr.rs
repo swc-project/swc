@@ -616,6 +616,10 @@ impl<I: Tokens> Parser<I> {
                     }
                     Ok(Some(args))
                 })
+            } else if self.input.syntax().flow() && is!(self, '<') {
+                self.consume_flow_type_params()?;
+
+                None
             } else {
                 None
             };
