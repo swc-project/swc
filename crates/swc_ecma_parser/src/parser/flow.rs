@@ -259,7 +259,18 @@ where
             return self.consume_flow_typeof_type();
         }
 
-        todo!("consume_flow_primary_type")
+        if token_is_keyword(cur!(self, true)) {
+            let _label = token_label_name(cur!(self, true));
+            self.input.bump();
+            return Ok(());
+        } else if token_is_identifier(cur!(self, true)) {
+            if is_contextual!(self, "interface") {
+                return self.parse_flow_inteface_type();
+            }
+            let _ident = self.parse_ident(true, true)?;
+
+            return Ok(());
+        }
     }
 
     fn consume_flow_function_type_parmas(&mut self) -> PResult<()> {
