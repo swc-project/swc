@@ -23,14 +23,14 @@
       "decorators": [],
       "span": {
         "start": 1,
-        "end": 19,
+        "end": 22,
         "ctxt": 0
       },
       "body": {
         "type": "BlockStatement",
         "span": {
-          "start": 17,
-          "end": 19,
+          "start": 20,
+          "end": 22,
           "ctxt": 0
         },
         "stmts": []
@@ -39,15 +39,6 @@
       "async": false,
       "typeParameters": null,
       "returnType": null
-    },
-    {
-      "type": "BlockStatement",
-      "span": {
-        "start": 20,
-        "end": 22,
-        "ctxt": 0
-      },
-      "stmts": []
     }
   ],
   "interpreter": null

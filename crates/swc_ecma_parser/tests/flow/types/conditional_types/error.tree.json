@@ -20,7 +20,7 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 5,
-            "end": 6,
+            "end": 14,
             "ctxt": 0
           },
           "id": {
@@ -53,7 +53,7 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 68,
-            "end": 69,
+            "end": 77,
             "ctxt": 0
           },
           "id": {
@@ -86,7 +86,7 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 138,
-            "end": 139,
+            "end": 147,
             "ctxt": 0
           },
           "id": {
