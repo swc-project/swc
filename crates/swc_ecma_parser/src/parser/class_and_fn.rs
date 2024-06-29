@@ -94,6 +94,9 @@ impl<I: Tokens> Parser<I> {
 
             let type_params = if p.input.syntax().typescript() {
                 p.try_parse_ts_type_params(true, true)?
+            } else if p.syntax().flow() {
+                p.may_consume_flow_type_param_decls()?;
+                None
             } else {
                 None
             };
