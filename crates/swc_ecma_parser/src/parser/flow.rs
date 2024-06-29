@@ -61,6 +61,10 @@ where
             return self.consume_flow_tuple_type();
         }
 
+        if is!(self, '{') {
+            return self.consume_flow_object_type();
+        }
+
         unexpected!(self, "flow type")
     }
 
@@ -120,6 +124,38 @@ where
         }
 
         expect!(self, ']');
+
+        Ok(())
+    }
+
+    pub(super) fn consume_flow_object_type(&mut self) -> PResult<()> {
+        expect!(self, '{');
+
+        while !eof!(self) && !is!(self, '}') {
+            self.consume_flow_object_property()?;
+        }
+
+        expect!(self, '}');
+
+        Ok(())
+    }
+
+    pub(super) fn consume_flow_object_property(&mut self) -> PResult<()> {
+        if is!(self, "get") || is!(self, "set") {
+            self.input.bump();
+        }
+
+        if is!(self, IdentName) {
+            self.input.bump();
+        } else {
+            syntax_error!(self, self.input.cur_span(), SyntaxError::ExpectedIdent);
+        }
+
+        if is!(self, '(') {
+            self.consume_flow_fn_type()?;
+        } else {
+            self.consume_flow_type()?;
+        }
 
         Ok(())
     }
