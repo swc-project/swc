@@ -439,7 +439,7 @@ impl<I: Tokens> Parser<I> {
                     let ty = self.parse_ts_type_ann(/* eat_colon */ true, cur_pos)?;
                     Some(ty)
                 } else if self.input.syntax().flow() && is!(self, ':') {
-                    self.consume_flow_type()?;
+                    self.consume_flow_type_ann()?;
 
                     None
                 } else {
