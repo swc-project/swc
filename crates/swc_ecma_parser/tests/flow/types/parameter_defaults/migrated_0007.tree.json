@@ -1,78 +1,37 @@
 {
-  "type":"Program",
-  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":43}},
-  "range":[0,43],
-  "body":[
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 44,
+    "ctxt": 0
+  },
+  "body": [
     {
-      "type":"ClassDeclaration",
-      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":43}},
-      "range":[0,43],
-      "id":{
-        "type":"Identifier",
-        "loc":{"source":null,"start":{"line":1,"column":6},"end":{"line":1,"column":7}},
-        "range":[6,7],
-        "name":"A",
-        "typeAnnotation":null,
-        "optional":false
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 7,
+          "end": 8,
+          "ctxt": 0
+        },
+        "value": "A",
+        "optional": false
       },
-      "body":{
-        "type":"ClassBody",
-        "loc":{"source":null,"start":{"line":1,"column":41},"end":{"line":1,"column":43}},
-        "range":[41,43],
-        "body":[]
+      "declare": false,
+      "span": {
+        "start": 1,
+        "end": 44,
+        "ctxt": 0
       },
-      "typeParameters":{
-        "type":"TypeParameterDeclaration",
-        "loc":{"source":null,"start":{"line":1,"column":7},"end":{"line":1,"column":40}},
-        "range":[7,40],
-        "params":[
-          {
-            "type":"TypeParameter",
-            "loc":{"source":null,"start":{"line":1,"column":8},"end":{"line":1,"column":18}},
-            "range":[8,18],
-            "name":"S",
-            "bound":null,
-            "variance":null,
-            "default":{
-              "type":"NumberTypeAnnotation",
-              "loc":{"source":null,"start":{"line":1,"column":12},"end":{"line":1,"column":18}},
-              "range":[12,18]
-            }
-          },
-          {
-            "type":"TypeParameter",
-            "loc":{"source":null,"start":{"line":1,"column":20},"end":{"line":1,"column":39}},
-            "range":[20,39],
-            "name":"T",
-            "bound":{
-              "type":"TypeAnnotation",
-              "loc":{"source":null,"start":{"line":1,"column":21},"end":{"line":1,"column":30}},
-              "range":[21,30],
-              "typeAnnotation":{
-                "type":"NullableTypeAnnotation",
-                "loc":{"source":null,"start":{"line":1,"column":23},"end":{"line":1,"column":30}},
-                "range":[23,30],
-                "typeAnnotation":{
-                  "type":"StringTypeAnnotation",
-                  "loc":{"source":null,"start":{"line":1,"column":24},"end":{"line":1,"column":30}},
-                  "range":[24,30]
-                }
-              }
-            },
-            "variance":null,
-            "default":{
-              "type":"StringTypeAnnotation",
-              "loc":{"source":null,"start":{"line":1,"column":33},"end":{"line":1,"column":39}},
-              "range":[33,39]
-            }
-          }
-        ]
-      },
-      "superClass":null,
-      "superTypeParameters":null,
-      "implements":[],
-      "decorators":[]
+      "decorators": [],
+      "body": [],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
     }
   ],
-  "comments":[]
+  "interpreter": null
 }
