@@ -242,6 +242,10 @@ impl<I: Tokens> Parser<I> {
                 // but it's a super class with type params, for example, in JSX.
                 if self.syntax().typescript() && is!(self, '<') {
                     Ok((super_class, self.parse_ts_type_args().map(Some)?))
+                } else if self.syntax().flow() && is!(self, '<') {
+                    self.may_consume_flow_type_param_decls()?;
+
+                    Ok((super_class, None))
                 } else {
                     Ok((super_class, None))
                 }
