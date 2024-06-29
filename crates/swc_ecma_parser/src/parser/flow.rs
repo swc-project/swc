@@ -248,29 +248,29 @@ where
             return Ok(());
         }
 
-        if is_one_of!(self, Str, Num, BigInt, "true", "false", "null", "this") {
+        if is_one_of!(self, Str, Num, BigInt, "true", "false", "null", "this", '*') {
             self.input.bump();
             return Ok(());
         }
-
-        if is!(self, '*') {}
 
         if is!(self, "typeof") {
             return self.consume_flow_typeof_type();
         }
 
         if token_is_keyword(cur!(self, true)) {
-            let _label = token_label_name(cur!(self, true));
+            // let _label = token_label_name(cur!(self, true));
             self.input.bump();
             return Ok(());
         } else if token_is_identifier(cur!(self, true)) {
             if is_contextual!(self, "interface") {
-                return self.parse_flow_inteface_type();
+                return self.consume_flow_inteface_type();
             }
             let _ident = self.parse_ident(true, true)?;
 
             return Ok(());
         }
+
+        unexpected!(self, "primary flow type")
     }
 
     fn consume_flow_function_type_parmas(&mut self) -> PResult<()> {
@@ -279,6 +279,10 @@ where
 
     fn consume_flow_type_params(&mut self) -> PResult<()> {
         todo!("consume_flow_type_params")
+    }
+
+    fn consume_flow_inteface_type(&mut self) -> PResult<()> {
+        todo!("consume_flow_inteface_type")
     }
 
     fn consume_flow_typeof_type(&mut self) -> PResult<()> {
