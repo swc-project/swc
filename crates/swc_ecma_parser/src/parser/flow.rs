@@ -248,12 +248,16 @@ where
             return Ok(());
         }
 
-        if is_one_of!(self, Str, Num, BigInt, "true", "false", "null") {
+        if is_one_of!(self, Str, Num, BigInt, "true", "false", "null", "this") {
             self.input.bump();
             return Ok(());
         }
 
-        if is_one_of!(self, '+', '-') {}
+        if is!(self, '*') {}
+
+        if is!(self, "typeof") {
+            return self.consume_flow_typeof_type();
+        }
 
         todo!("consume_flow_primary_type")
     }
@@ -264,6 +268,14 @@ where
 
     fn consume_flow_type_params(&mut self) -> PResult<()> {
         todo!("consume_flow_type_params")
+    }
+
+    fn consume_flow_typeof_type(&mut self) -> PResult<()> {
+        assert_and_bump!(self, "typeof");
+
+        let _arguemnt = self.consume_flow_primary_type()?;
+
+        Ok(())
     }
 
     fn consume_flow_object_type(
