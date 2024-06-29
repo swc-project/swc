@@ -475,6 +475,8 @@ pub struct Context {
     disallow_conditional_types: bool,
 
     allow_using_decl: bool,
+
+    flow_no_anon_function_type: bool,
 }
 
 #[derive(Debug, Clone, Copy, Default)]
