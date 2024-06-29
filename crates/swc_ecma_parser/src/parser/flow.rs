@@ -23,7 +23,7 @@ where
 
     pub(super) fn consume_flow_type_param_decls(&mut self) -> PResult<()> {
         self.in_type().parse_with(|p| {
-            if !eat!(p, '<') && !eat!(p, JSXTagStart) {
+            if !(eat!(p, '<') || eat!(p, JSXTagStart)) {
                 unexpected!(p, "< or JSXTagStart")
             }
 
