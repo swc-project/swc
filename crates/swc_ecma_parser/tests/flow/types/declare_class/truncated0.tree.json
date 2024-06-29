@@ -1,78 +1,29 @@
 {
-  "errors":[
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 29,
+    "ctxt": 0
+  },
+  "body": [
     {
-      "loc":{"source":null,"start":{"line":3,"column":0},"end":{"line":3,"column":1}},
-      "message":"Unexpected token `}`, expected an identifier"
-    },
-    {
-      "loc":{"source":null,"start":{"line":4,"column":0},"end":{"line":4,"column":0}},
-      "message":"Unexpected end of input, expected the token `:`"
-    },
-    {
-      "loc":{"source":null,"start":{"line":4,"column":0},"end":{"line":4,"column":0}},
-      "message":"Unexpected end of input, expected the token `,`"
-    },
-    {
-      "loc":{"source":null,"start":{"line":4,"column":0},"end":{"line":4,"column":0}},
-      "message":"Unexpected end of input, expected the token `}`"
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 1,
+        "end": 29,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "Identifier",
+        "span": {
+          "start": 1,
+          "end": 8,
+          "ctxt": 0
+        },
+        "value": "declare",
+        "optional": false
+      }
     }
   ],
-  "type":"Program",
-  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":4,"column":0}},
-  "range":[0,29],
-  "body":[
-    {
-      "type":"DeclareClass",
-      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":4,"column":0}},
-      "range":[0,29],
-      "id":{
-        "type":"Identifier",
-        "loc":{"source":null,"start":{"line":1,"column":14},"end":{"line":1,"column":15}},
-        "range":[14,15],
-        "name":"A",
-        "typeAnnotation":null,
-        "optional":false
-      },
-      "typeParameters":null,
-      "body":{
-        "type":"ObjectTypeAnnotation",
-        "loc":{"source":null,"start":{"line":1,"column":16},"end":{"line":4,"column":0}},
-        "range":[16,29],
-        "exact":false,
-        "properties":[
-          {
-            "type":"ObjectTypeProperty",
-            "loc":{"source":null,"start":{"line":2,"column":2},"end":{"line":3,"column":1}},
-            "range":[20,28],
-            "key":{
-              "type":"Identifier",
-              "loc":{"source":null,"start":{"line":3,"column":0},"end":{"line":3,"column":1}},
-              "range":[27,28],
-              "name":"",
-              "typeAnnotation":null,
-              "optional":false
-            },
-            "value":{
-              "type":"AnyTypeAnnotation",
-              "loc":{"source":null,"start":{"line":3,"column":0},"end":{"line":3,"column":1}},
-              "range":[27,28]
-            },
-            "method":false,
-            "optional":false,
-            "static":true,
-            "proto":false,
-            "variance":null,
-            "kind":"init"
-          }
-        ],
-        "indexers":[],
-        "callProperties":[],
-        "internalSlots":[]
-      },
-      "extends":[],
-      "implements":[],
-      "mixins":[]
-    }
-  ],
-  "comments":[]
+  "interpreter": null
 }
