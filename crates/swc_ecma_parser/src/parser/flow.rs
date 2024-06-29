@@ -348,3 +348,7 @@ where
 fn token_is_identifier(cur: &Token) -> bool {
     matches!(cur, Token::Word(Word::Ident(..)))
 }
+
+fn token_is_keyword(cur: &Token) -> bool {
+    matches!(cur, Token::Word(Word::Keyword(..)))
+}
