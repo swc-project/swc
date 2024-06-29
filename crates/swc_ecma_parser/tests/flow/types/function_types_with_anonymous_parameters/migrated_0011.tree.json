@@ -20,7 +20,7 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 79,
-            "end": 96,
+            "end": 110,
             "ctxt": 0
           },
           "id": {
@@ -35,20 +35,14 @@
             "typeAnnotation": null
           },
           "init": {
-            "type": "CallExpression",
+            "type": "ArrowFunctionExpression",
             "span": {
               "start": 83,
-              "end": 96,
+              "end": 110,
               "ctxt": 0
             },
-            "callee": {
-              "type": "ParenthesisExpression",
-              "span": {
-                "start": 83,
-                "end": 87,
-                "ctxt": 0
-              },
-              "expression": {
+            "params": [
+              {
                 "type": "Identifier",
                 "span": {
                   "start": 84,
@@ -56,25 +50,24 @@
                   "ctxt": 0
                 },
                 "value": "x",
-                "optional": false
-              }
-            },
-            "arguments": [
-              {
-                "spread": null,
-                "expression": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 89,
-                    "end": 95,
-                    "ctxt": 0
-                  },
-                  "value": "number",
-                  "optional": false
-                }
+                "optional": false,
+                "typeAnnotation": null
               }
             ],
-            "typeArguments": null
+            "body": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 107,
+                "end": 110,
+                "ctxt": 0
+              },
+              "value": 123.0,
+              "raw": "123"
+            },
+            "async": false,
+            "generator": false,
+            "typeParameters": null,
+            "returnType": null
           },
           "definite": false
         }

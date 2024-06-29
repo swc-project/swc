@@ -20,7 +20,7 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 132,
-            "end": 155,
+            "end": 162,
             "ctxt": 0
           },
           "id": {
@@ -35,31 +35,27 @@
             "typeAnnotation": null
           },
           "init": {
-            "type": "BinaryExpression",
+            "type": "ArrowFunctionExpression",
             "span": {
               "start": 136,
-              "end": 155,
+              "end": 162,
               "ctxt": 0
             },
-            "operator": "|",
-            "left": {
-              "type": "Invalid",
+            "params": [],
+            "body": {
+              "type": "NumericLiteral",
               "span": {
-                "start": 136,
-                "end": 146,
-                "ctxt": 0
-              }
-            },
-            "right": {
-              "type": "Identifier",
-              "span": {
-                "start": 149,
-                "end": 155,
+                "start": 159,
+                "end": 162,
                 "ctxt": 0
               },
-              "value": "number",
-              "optional": false
-            }
+              "value": 123.0,
+              "raw": "123"
+            },
+            "async": false,
+            "generator": false,
+            "typeParameters": null,
+            "returnType": null
           },
           "definite": false
         }
