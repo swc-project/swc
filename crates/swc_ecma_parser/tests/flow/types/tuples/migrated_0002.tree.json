@@ -20,7 +20,7 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 5,
-            "end": 6,
+            "end": 27,
             "ctxt": 0
           },
           "id": {
@@ -34,7 +34,29 @@
             "optional": false,
             "typeAnnotation": null
           },
-          "init": null,
+          "init": {
+            "type": "ArrayExpression",
+            "span": {
+              "start": 21,
+              "end": 27,
+              "ctxt": 0
+            },
+            "elements": [
+              {
+                "spread": null,
+                "expression": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 22,
+                    "end": 25,
+                    "ctxt": 0
+                  },
+                  "value": 123.0,
+                  "raw": "123"
+                }
+              }
+            ]
+          },
           "definite": false
         }
       ]

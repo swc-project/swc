@@ -825,7 +825,7 @@
               "type": "VariableDeclarator",
               "span": {
                 "start": 787,
-                "end": 788,
+                "end": 793,
                 "ctxt": 0
               },
               "id": {
@@ -879,7 +879,7 @@
               "type": "VariableDeclarator",
               "span": {
                 "start": 836,
-                "end": 837,
+                "end": 842,
                 "ctxt": 0
               },
               "id": {

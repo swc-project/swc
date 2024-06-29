@@ -20,7 +20,7 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 5,
-            "end": 6,
+            "end": 41,
             "ctxt": 0
           },
           "id": {
@@ -34,7 +34,42 @@
             "optional": false,
             "typeAnnotation": null
           },
-          "init": null,
+          "init": {
+            "type": "ArrayExpression",
+            "span": {
+              "start": 28,
+              "end": 41,
+              "ctxt": 0
+            },
+            "elements": [
+              {
+                "spread": null,
+                "expression": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 29,
+                    "end": 32,
+                    "ctxt": 0
+                  },
+                  "value": 123.0,
+                  "raw": "123"
+                }
+              },
+              {
+                "spread": null,
+                "expression": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 34,
+                    "end": 40,
+                    "ctxt": 0
+                  },
+                  "value": "duck",
+                  "raw": "\"duck\""
+                }
+              }
+            ]
+          },
           "definite": false
         }
       ]
