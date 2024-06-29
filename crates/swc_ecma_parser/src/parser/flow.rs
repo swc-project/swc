@@ -1,3 +1,5 @@
+#![warn(unused)]
+
 use swc_common::{Span, DUMMY_SP};
 use swc_ecma_ast::{Expr, Invalid};
 
@@ -25,17 +27,33 @@ where
             return Ok(());
         }
 
+        if is!(self, IdentName) {
+            self.parse_flow_ident_or_member_expr()?;
+        }
+
+        Ok(())
+    }
+
+    fn parse_flow_ident_or_member_expr(&mut self) -> PResult<()> {
+        loop {
+            if !eat!(self, IdentName) {
+                break;
+            }
+
+            if is!(self, '.') {
+                self.input.bump();
+            } else {
+                break;
+            }
+        }
+
         Ok(())
     }
 
     fn parse_flow_type_query(&mut self) -> PResult<()> {
-        expect!(self, "typeof");
+        assert_and_bump!(self, "typeof");
 
-        self.parse_subscripts(
-            swc_ecma_ast::Callee::Expr(Box::new(Expr::Invalid(Invalid { span: DUMMY_SP }))),
-            true,
-            true,
-        )?;
+        self.parse_flow_ident_or_member_expr()?;
 
         self.may_consume_flow_generic_def()?;
 
