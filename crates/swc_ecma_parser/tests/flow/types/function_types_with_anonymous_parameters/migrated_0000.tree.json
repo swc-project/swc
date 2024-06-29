@@ -1,48 +1,69 @@
 {
-  "type":"Program",
-  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":25}},
-  "range":[0,25],
-  "body":[
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 26,
+    "ctxt": 0
+  },
+  "body": [
     {
-      "type":"TypeAlias",
-      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":25}},
-      "range":[0,25],
-      "id":{
-        "type":"Identifier",
-        "loc":{"source":null,"start":{"line":1,"column":5},"end":{"line":1,"column":6}},
-        "range":[5,6],
-        "name":"A",
-        "typeAnnotation":null,
-        "optional":false
+      "type": "EmptyStatement",
+      "span": {
+        "start": 1,
+        "end": 9,
+        "ctxt": 0
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 10,
+        "end": 26,
+        "ctxt": 0
       },
-      "typeParameters":null,
-      "right":{
-        "type":"FunctionTypeAnnotation",
-        "loc":{"source":null,"start":{"line":1,"column":9},"end":{"line":1,"column":25}},
-        "range":[9,25],
-        "params":[
+      "expression": {
+        "type": "ArrowFunctionExpression",
+        "span": {
+          "start": 10,
+          "end": 26,
+          "ctxt": 0
+        },
+        "params": [
           {
-            "type":"FunctionTypeParam",
-            "loc":{"source":null,"start":{"line":1,"column":10},"end":{"line":1,"column":16}},
-            "range":[10,16],
-            "name":null,
-            "typeAnnotation":{
-              "type":"StringTypeAnnotation",
-              "loc":{"source":null,"start":{"line":1,"column":10},"end":{"line":1,"column":16}},
-              "range":[10,16]
+            "type": "Identifier",
+            "span": {
+              "start": 11,
+              "end": 17,
+              "ctxt": 0
             },
-            "optional":false
+            "value": "string",
+            "optional": false,
+            "typeAnnotation": null
           }
         ],
-        "returnType":{
-          "type":"VoidTypeAnnotation",
-          "loc":{"source":null,"start":{"line":1,"column":21},"end":{"line":1,"column":25}},
-          "range":[21,25]
+        "body": {
+          "type": "UnaryExpression",
+          "span": {
+            "start": 22,
+            "end": 25,
+            "ctxt": 0
+          },
+          "operator": "void",
+          "argument": {
+            "type": "Invalid",
+            "span": {
+              "start": 25,
+              "end": 25,
+              "ctxt": 0
+            }
+          }
         },
-        "rest":null,
-        "typeParameters":null
+        "async": false,
+        "generator": false,
+        "typeParameters": null,
+        "returnType": null
       }
     }
   ],
-  "comments":[]
+  "interpreter": null
 }

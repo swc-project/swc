@@ -1,74 +1,71 @@
 {
-  "errors":[
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 21,
+    "ctxt": 0
+  },
+  "body": [
     {
-      "loc":{"source":null,"start":{"line":1,"column":9},"end":{"line":1,"column":10}},
-      "message":"Flow does not support template literal types."
-    },
-    {
-      "loc":{"source":null,"start":{"line":1,"column":9},"end":{"line":1,"column":16}},
-      "message":"Unexpected template literal part, expected the token `;`"
-    }
-  ],
-  "type":"Program",
-  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":20}},
-  "range":[0,20],
-  "body":[
-    {
-      "type":"TypeAlias",
-      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":8}},
-      "range":[0,8],
-      "id":{
-        "type":"Identifier",
-        "loc":{"source":null,"start":{"line":1,"column":5},"end":{"line":1,"column":6}},
-        "range":[5,6],
-        "name":"T",
-        "typeAnnotation":null,
-        "optional":false
-      },
-      "typeParameters":null,
-      "right":{
-        "type":"AnyTypeAnnotation",
-        "loc":{"source":null,"start":{"line":1,"column":9},"end":{"line":1,"column":10}},
-        "range":[9,10]
+      "type": "EmptyStatement",
+      "span": {
+        "start": 1,
+        "end": 9,
+        "ctxt": 0
       }
     },
     {
-      "type":"ExpressionStatement",
-      "loc":{"source":null,"start":{"line":1,"column":9},"end":{"line":1,"column":20}},
-      "range":[9,20],
-      "expression":{
-        "type":"TemplateLiteral",
-        "loc":{"source":null,"start":{"line":1,"column":9},"end":{"line":1,"column":19}},
-        "range":[9,19],
-        "quasis":[
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 10,
+        "end": 21,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "TemplateLiteral",
+        "span": {
+          "start": 10,
+          "end": 20,
+          "ctxt": 0
+        },
+        "expressions": [
           {
-            "type":"TemplateElement",
-            "loc":{"source":null,"start":{"line":1,"column":9},"end":{"line":1,"column":16}},
-            "range":[9,16],
-            "value":{"raw":"Foo ","cooked":"Foo "},
-            "tail":false
-          },
-          {
-            "type":"TemplateElement",
-            "loc":{"source":null,"start":{"line":1,"column":17},"end":{"line":1,"column":19}},
-            "range":[17,19],
-            "value":{"raw":"","cooked":""},
-            "tail":true
+            "type": "Identifier",
+            "span": {
+              "start": 17,
+              "end": 18,
+              "ctxt": 0
+            },
+            "value": "S",
+            "optional": false
           }
         ],
-        "expressions":[
+        "quasis": [
           {
-            "type":"Identifier",
-            "loc":{"source":null,"start":{"line":1,"column":16},"end":{"line":1,"column":17}},
-            "range":[16,17],
-            "name":"S",
-            "typeAnnotation":null,
-            "optional":false
+            "type": "TemplateElement",
+            "span": {
+              "start": 11,
+              "end": 15,
+              "ctxt": 0
+            },
+            "tail": false,
+            "cooked": "Foo ",
+            "raw": "Foo "
+          },
+          {
+            "type": "TemplateElement",
+            "span": {
+              "start": 19,
+              "end": 19,
+              "ctxt": 0
+            },
+            "tail": true,
+            "cooked": "",
+            "raw": ""
           }
         ]
-      },
-      "directive":null
+      }
     }
   ],
-  "comments":[]
+  "interpreter": null
 }

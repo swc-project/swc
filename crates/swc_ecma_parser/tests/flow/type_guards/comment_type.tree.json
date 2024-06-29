@@ -1,88 +1,84 @@
 {
-  "type":"Program",
-  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":54}},
-  "range":[0,54],
-  "body":[
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 55,
+    "ctxt": 0
+  },
+  "body": [
     {
-      "type":"FunctionDeclaration",
-      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":54}},
-      "range":[0,54],
-      "id":{
-        "type":"Identifier",
-        "loc":{"source":null,"start":{"line":1,"column":9},"end":{"line":1,"column":10}},
-        "range":[9,10],
-        "name":"f",
-        "typeAnnotation":null,
-        "optional":false
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 10,
+          "end": 11,
+          "ctxt": 0
+        },
+        "value": "f",
+        "optional": false
       },
-      "params":[
+      "declare": false,
+      "params": [
         {
-          "type":"Identifier",
-          "loc":{"source":null,"start":{"line":1,"column":11},"end":{"line":1,"column":17}},
-          "range":[11,17],
-          "name":"x",
-          "typeAnnotation":{
-            "type":"TypeAnnotation",
-            "loc":{"source":null,"start":{"line":1,"column":12},"end":{"line":1,"column":17}},
-            "range":[12,17],
-            "typeAnnotation":{
-              "type":"AnyTypeAnnotation",
-              "loc":{"source":null,"start":{"line":1,"column":14},"end":{"line":1,"column":17}},
-              "range":[14,17]
-            }
+          "type": "Parameter",
+          "span": {
+            "start": 12,
+            "end": 18,
+            "ctxt": 0
           },
-          "optional":false
+          "decorators": [],
+          "pat": {
+            "type": "Identifier",
+            "span": {
+              "start": 12,
+              "end": 13,
+              "ctxt": 0
+            },
+            "value": "x",
+            "optional": false,
+            "typeAnnotation": null
+          }
         }
       ],
-      "body":{
-        "type":"BlockStatement",
-        "loc":{"source":null,"start":{"line":1,"column":38},"end":{"line":1,"column":54}},
-        "range":[38,54],
-        "body":[
+      "decorators": [],
+      "span": {
+        "start": 1,
+        "end": 55,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 39,
+          "end": 55,
+          "ctxt": 0
+        },
+        "stmts": [
           {
-            "type":"ReturnStatement",
-            "loc":{"source":null,"start":{"line":1,"column":40},"end":{"line":1,"column":52}},
-            "range":[40,52],
-            "argument":{
-              "type":"Literal",
-              "loc":{"source":null,"start":{"line":1,"column":47},"end":{"line":1,"column":51}},
-              "range":[47,51],
-              "value":true,
-              "raw":"true"
+            "type": "ReturnStatement",
+            "span": {
+              "start": 41,
+              "end": 53,
+              "ctxt": 0
+            },
+            "argument": {
+              "type": "BooleanLiteral",
+              "span": {
+                "start": 48,
+                "end": 52,
+                "ctxt": 0
+              },
+              "value": true
             }
           }
         ]
       },
-      "returnType":{
-        "type":"TypeAnnotation",
-        "loc":{"source":null,"start":{"line":1,"column":19},"end":{"line":1,"column":34}},
-        "range":[19,34],
-        "typeAnnotation":{
-          "type":"TypePredicate",
-          "loc":{"source":null,"start":{"line":1,"column":23},"end":{"line":1,"column":34}},
-          "range":[23,34],
-          "parameterName":{
-            "type":"Identifier",
-            "loc":{"source":null,"start":{"line":1,"column":23},"end":{"line":1,"column":24}},
-            "range":[23,24],
-            "name":"x",
-            "typeAnnotation":null,
-            "optional":false
-          },
-          "typeAnnotation":{
-            "type":"NumberTypeAnnotation",
-            "loc":{"source":null,"start":{"line":1,"column":28},"end":{"line":1,"column":34}},
-            "range":[28,34]
-          },
-          "kind":null
-        }
-      },
-      "typeParameters":null,
-      "async":false,
-      "generator":false,
-      "predicate":null,
-      "expression":false
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
     }
   ],
-  "comments":[]
+  "interpreter": null
 }

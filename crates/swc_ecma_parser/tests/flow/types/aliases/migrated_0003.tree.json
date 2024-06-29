@@ -1,71 +1,92 @@
 {
-  "type":"Program",
-  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":24}},
-  "range":[0,24],
-  "body":[
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 25,
+    "ctxt": 0
+  },
+  "body": [
     {
-      "type":"TypeAlias",
-      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":24}},
-      "range":[0,24],
-      "id":{
-        "type":"Identifier",
-        "loc":{"source":null,"start":{"line":1,"column":5},"end":{"line":1,"column":10}},
-        "range":[5,10],
-        "name":"union",
-        "typeAnnotation":null,
-        "optional":false
+      "type": "EmptyStatement",
+      "span": {
+        "start": 1,
+        "end": 13,
+        "ctxt": 0
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 14,
+        "end": 25,
+        "ctxt": 0
       },
-      "typeParameters":null,
-      "right":{
-        "type":"UnionTypeAnnotation",
-        "loc":{"source":null,"start":{"line":1,"column":13},"end":{"line":1,"column":24}},
-        "range":[13,24],
-        "types":[
-          {
-            "type":"GenericTypeAnnotation",
-            "loc":{"source":null,"start":{"line":1,"column":15},"end":{"line":1,"column":16}},
-            "range":[15,16],
-            "id":{
-              "type":"Identifier",
-              "loc":{"source":null,"start":{"line":1,"column":15},"end":{"line":1,"column":16}},
-              "range":[15,16],
-              "name":"A",
-              "typeAnnotation":null,
-              "optional":false
-            },
-            "typeParameters":null
+      "expression": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 14,
+          "end": 25,
+          "ctxt": 0
+        },
+        "operator": "|",
+        "left": {
+          "type": "BinaryExpression",
+          "span": {
+            "start": 14,
+            "end": 21,
+            "ctxt": 0
           },
-          {
-            "type":"GenericTypeAnnotation",
-            "loc":{"source":null,"start":{"line":1,"column":19},"end":{"line":1,"column":20}},
-            "range":[19,20],
-            "id":{
-              "type":"Identifier",
-              "loc":{"source":null,"start":{"line":1,"column":19},"end":{"line":1,"column":20}},
-              "range":[19,20],
-              "name":"B",
-              "typeAnnotation":null,
-              "optional":false
+          "operator": "|",
+          "left": {
+            "type": "BinaryExpression",
+            "span": {
+              "start": 14,
+              "end": 17,
+              "ctxt": 0
             },
-            "typeParameters":null
+            "operator": "|",
+            "left": {
+              "type": "Invalid",
+              "span": {
+                "start": 14,
+                "end": 15,
+                "ctxt": 0
+              }
+            },
+            "right": {
+              "type": "Identifier",
+              "span": {
+                "start": 16,
+                "end": 17,
+                "ctxt": 0
+              },
+              "value": "A",
+              "optional": false
+            }
           },
-          {
-            "type":"GenericTypeAnnotation",
-            "loc":{"source":null,"start":{"line":1,"column":23},"end":{"line":1,"column":24}},
-            "range":[23,24],
-            "id":{
-              "type":"Identifier",
-              "loc":{"source":null,"start":{"line":1,"column":23},"end":{"line":1,"column":24}},
-              "range":[23,24],
-              "name":"C",
-              "typeAnnotation":null,
-              "optional":false
+          "right": {
+            "type": "Identifier",
+            "span": {
+              "start": 20,
+              "end": 21,
+              "ctxt": 0
             },
-            "typeParameters":null
+            "value": "B",
+            "optional": false
           }
-        ]
+        },
+        "right": {
+          "type": "Identifier",
+          "span": {
+            "start": 24,
+            "end": 25,
+            "ctxt": 0
+          },
+          "value": "C",
+          "optional": false
+        }
       }
     }
   ],
-  "comments":[]
+  "interpreter": null
 }

@@ -1,57 +1,62 @@
 {
-  "type":"Program",
-  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":16}},
-  "range":[0,16],
-  "body":[
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 17,
+    "ctxt": 0
+  },
+  "body": [
     {
-      "type":"TypeAlias",
-      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":16}},
-      "range":[0,16],
-      "id":{
-        "type":"Identifier",
-        "loc":{"source":null,"start":{"line":1,"column":5},"end":{"line":1,"column":6}},
-        "range":[5,6],
-        "name":"A",
-        "typeAnnotation":null,
-        "optional":false
+      "type": "EmptyStatement",
+      "span": {
+        "start": 1,
+        "end": 11,
+        "ctxt": 0
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 12,
+        "end": 17,
+        "ctxt": 0
       },
-      "typeParameters":null,
-      "right":{
-        "type":"UnionTypeAnnotation",
-        "loc":{"source":null,"start":{"line":1,"column":9},"end":{"line":1,"column":16}},
-        "range":[9,16],
-        "types":[
-          {
-            "type":"GenericTypeAnnotation",
-            "loc":{"source":null,"start":{"line":1,"column":9},"end":{"line":1,"column":10}},
-            "range":[9,10],
-            "id":{
-              "type":"Identifier",
-              "loc":{"source":null,"start":{"line":1,"column":9},"end":{"line":1,"column":10}},
-              "range":[9,10],
-              "name":"B",
-              "typeAnnotation":null,
-              "optional":false
-            },
-            "typeParameters":null
-          },
-          {
-            "type":"GenericTypeAnnotation",
-            "loc":{"source":null,"start":{"line":1,"column":14},"end":{"line":1,"column":15}},
-            "range":[14,15],
-            "id":{
-              "type":"Identifier",
-              "loc":{"source":null,"start":{"line":1,"column":14},"end":{"line":1,"column":15}},
-              "range":[14,15],
-              "name":"C",
-              "typeAnnotation":null,
-              "optional":false
-            },
-            "typeParameters":null
+      "expression": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 12,
+          "end": 17,
+          "ctxt": 0
+        },
+        "operator": "|",
+        "left": {
+          "type": "Invalid",
+          "span": {
+            "start": 12,
+            "end": 13,
+            "ctxt": 0
           }
-        ]
+        },
+        "right": {
+          "type": "ParenthesisExpression",
+          "span": {
+            "start": 14,
+            "end": 17,
+            "ctxt": 0
+          },
+          "expression": {
+            "type": "Identifier",
+            "span": {
+              "start": 15,
+              "end": 16,
+              "ctxt": 0
+            },
+            "value": "C",
+            "optional": false
+          }
+        }
       }
     }
   ],
-  "comments":[]
+  "interpreter": null
 }

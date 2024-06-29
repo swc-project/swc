@@ -1,118 +1,95 @@
 {
-  "errors":[
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 84,
+    "ctxt": 0
+  },
+  "body": [
     {
-      "loc":{"source":null,"start":{"line":5,"column":14},"end":{"line":5,"column":15}},
-      "message":"Unexpected token `;`, expected a type"
-    }
-  ],
-  "type":"Program",
-  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":5,"column":15}},
-  "range":[0,83],
-  "body":[
-    {
-      "type":"TypeAlias",
-      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":17}},
-      "range":[0,17],
-      "id":{
-        "type":"Identifier",
-        "loc":{"source":null,"start":{"line":1,"column":5},"end":{"line":1,"column":6}},
-        "range":[5,6],
-        "name":"T",
-        "typeAnnotation":null,
-        "optional":false
-      },
-      "typeParameters":null,
-      "right":{
-        "type":"KeyofTypeAnnotation",
-        "loc":{"source":null,"start":{"line":1,"column":9},"end":{"line":1,"column":16}},
-        "range":[9,16],
-        "argument":{
-          "type":"GenericTypeAnnotation",
-          "loc":{"source":null,"start":{"line":1,"column":15},"end":{"line":1,"column":16}},
-          "range":[15,16],
-          "id":{
-            "type":"Identifier",
-            "loc":{"source":null,"start":{"line":1,"column":15},"end":{"line":1,"column":16}},
-            "range":[15,16],
-            "name":"O",
-            "typeAnnotation":null,
-            "optional":false
-          },
-          "typeParameters":null
-        }
+      "type": "EmptyStatement",
+      "span": {
+        "start": 1,
+        "end": 15,
+        "ctxt": 0
       }
     },
     {
-      "type":"VariableDeclaration",
-      "loc":{"source":null,"start":{"line":3,"column":0},"end":{"line":3,"column":16}},
-      "range":[25,41],
-      "declarations":[
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 16,
+        "end": 18,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "Identifier",
+        "span": {
+          "start": 16,
+          "end": 17,
+          "ctxt": 0
+        },
+        "value": "O",
+        "optional": false
+      }
+    },
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 26,
+        "end": 42,
+        "ctxt": 0
+      },
+      "kind": "const",
+      "declare": false,
+      "declarations": [
         {
-          "type":"VariableDeclarator",
-          "loc":{"source":null,"start":{"line":3,"column":6},"end":{"line":3,"column":15}},
-          "range":[31,40],
-          "id":{
-            "type":"Identifier",
-            "loc":{"source":null,"start":{"line":3,"column":6},"end":{"line":3,"column":11}},
-            "range":[31,36],
-            "name":"keyof",
-            "typeAnnotation":null,
-            "optional":false
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 32,
+            "end": 41,
+            "ctxt": 0
           },
-          "init":{
-            "type":"Literal",
-            "loc":{"source":null,"start":{"line":3,"column":14},"end":{"line":3,"column":15}},
-            "range":[39,40],
-            "value":1,
-            "raw":"1"
-          }
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 32,
+              "end": 37,
+              "ctxt": 0
+            },
+            "value": "keyof",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 40,
+              "end": 41,
+              "ctxt": 0
+            },
+            "value": 1.0,
+            "raw": "1"
+          },
+          "definite": false
         }
-      ],
-      "kind":"const"
+      ]
     },
     {
-      "type":"TypeAlias",
-      "loc":{"source":null,"start":{"line":5,"column":0},"end":{"line":5,"column":15}},
-      "range":[68,83],
-      "id":{
-        "type":"Identifier",
-        "loc":{"source":null,"start":{"line":5,"column":5},"end":{"line":5,"column":6}},
-        "range":[73,74],
-        "name":"S",
-        "typeAnnotation":null,
-        "optional":false
-      },
-      "typeParameters":null,
-      "right":{
-        "type":"KeyofTypeAnnotation",
-        "loc":{"source":null,"start":{"line":5,"column":9},"end":{"line":5,"column":14}},
-        "range":[77,82],
-        "argument":{
-          "type":"AnyTypeAnnotation",
-          "loc":{"source":null,"start":{"line":5,"column":14},"end":{"line":5,"column":15}},
-          "range":[82,83]
-        }
+      "type": "EmptyStatement",
+      "span": {
+        "start": 69,
+        "end": 83,
+        "ctxt": 0
+      }
+    },
+    {
+      "type": "EmptyStatement",
+      "span": {
+        "start": 83,
+        "end": 84,
+        "ctxt": 0
       }
     }
   ],
-  "comments":[
-    {
-      "type":"Line",
-      "loc":{"source":null,"start":{"line":1,"column":18},"end":{"line":1,"column":23}},
-      "range":[18,23],
-      "value":" OK"
-    },
-    {
-      "type":"Line",
-      "loc":{"source":null,"start":{"line":3,"column":17},"end":{"line":3,"column":41}},
-      "range":[42,66],
-      "value":" OK - in value context"
-    },
-    {
-      "type":"Line",
-      "loc":{"source":null,"start":{"line":5,"column":16},"end":{"line":5,"column":24}},
-      "range":[84,92],
-      "value":" ERROR"
-    }
-  ]
+  "interpreter": null
 }

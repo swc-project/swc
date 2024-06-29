@@ -1,87 +1,86 @@
 {
-  "type":"Program",
-  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":38}},
-  "range":[0,38],
-  "body":[
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 39,
+    "ctxt": 0
+  },
+  "body": [
     {
-      "type":"FunctionDeclaration",
-      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":38}},
-      "range":[0,38],
-      "id":{
-        "type":"Identifier",
-        "loc":{"source":null,"start":{"line":1,"column":9},"end":{"line":1,"column":12}},
-        "range":[9,12],
-        "name":"foo",
-        "typeAnnotation":null,
-        "optional":false
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 10,
+          "end": 13,
+          "ctxt": 0
+        },
+        "value": "foo",
+        "optional": false
       },
-      "params":[
+      "declare": false,
+      "params": [
         {
-          "type":"Identifier",
-          "loc":{"source":null,"start":{"line":1,"column":13},"end":{"line":1,"column":24}},
-          "range":[13,24],
-          "name":"a",
-          "typeAnnotation":{
-            "type":"TypeAnnotation",
-            "loc":{"source":null,"start":{"line":1,"column":14},"end":{"line":1,"column":24}},
-            "range":[14,24],
-            "typeAnnotation":{
-              "type":"GenericTypeAnnotation",
-              "loc":{"source":null,"start":{"line":1,"column":16},"end":{"line":1,"column":24}},
-              "range":[16,24],
-              "id":{
-                "type":"Identifier",
-                "loc":{"source":null,"start":{"line":1,"column":16},"end":{"line":1,"column":24}},
-                "range":[16,24],
-                "name":"Function",
-                "typeAnnotation":null,
-                "optional":false
-              },
-              "typeParameters":null
-            }
+          "type": "Parameter",
+          "span": {
+            "start": 14,
+            "end": 25,
+            "ctxt": 0
           },
-          "optional":false
+          "decorators": [],
+          "pat": {
+            "type": "Identifier",
+            "span": {
+              "start": 14,
+              "end": 15,
+              "ctxt": 0
+            },
+            "value": "a",
+            "optional": false,
+            "typeAnnotation": null
+          }
         },
         {
-          "type":"Identifier",
-          "loc":{"source":null,"start":{"line":1,"column":26},"end":{"line":1,"column":35}},
-          "range":[26,35],
-          "name":"b",
-          "typeAnnotation":{
-            "type":"TypeAnnotation",
-            "loc":{"source":null,"start":{"line":1,"column":27},"end":{"line":1,"column":35}},
-            "range":[27,35],
-            "typeAnnotation":{
-              "type":"GenericTypeAnnotation",
-              "loc":{"source":null,"start":{"line":1,"column":29},"end":{"line":1,"column":35}},
-              "range":[29,35],
-              "id":{
-                "type":"Identifier",
-                "loc":{"source":null,"start":{"line":1,"column":29},"end":{"line":1,"column":35}},
-                "range":[29,35],
-                "name":"switch",
-                "typeAnnotation":null,
-                "optional":false
-              },
-              "typeParameters":null
-            }
+          "type": "Parameter",
+          "span": {
+            "start": 27,
+            "end": 36,
+            "ctxt": 0
           },
-          "optional":false
+          "decorators": [],
+          "pat": {
+            "type": "Identifier",
+            "span": {
+              "start": 27,
+              "end": 28,
+              "ctxt": 0
+            },
+            "value": "b",
+            "optional": false,
+            "typeAnnotation": null
+          }
         }
       ],
-      "body":{
-        "type":"BlockStatement",
-        "loc":{"source":null,"start":{"line":1,"column":36},"end":{"line":1,"column":38}},
-        "range":[36,38],
-        "body":[]
+      "decorators": [],
+      "span": {
+        "start": 1,
+        "end": 39,
+        "ctxt": 0
       },
-      "async":false,
-      "generator":false,
-      "predicate":null,
-      "expression":false,
-      "returnType":null,
-      "typeParameters":null
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 37,
+          "end": 39,
+          "ctxt": 0
+        },
+        "stmts": []
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
     }
   ],
-  "comments":[]
+  "interpreter": null
 }
