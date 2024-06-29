@@ -853,6 +853,12 @@ impl<I: Tokens> Parser<I> {
 
                 Ok(Some(return_type))
             })
+        } else if !self.ctx().will_expect_colon_for_cond
+            && self.input.syntax().flow()
+            && is!(self, ':')
+        {
+            self.consume_flow_type_ann()?;
+            None
         } else {
             None
         };
