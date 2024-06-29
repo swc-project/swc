@@ -1313,6 +1313,9 @@ impl<I: Tokens> Parser<I> {
                         None
                     })
                 })?
+            } else if p.syntax().flow() {
+                p.consume_flow_type_params()?;
+                None
             } else {
                 None
             };
