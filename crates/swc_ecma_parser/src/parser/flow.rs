@@ -275,6 +275,8 @@ where
                 }
             }
 
+            self.consume_flow_function_type_parmas()?;
+
             expect!(self, ')');
             expect!(self, "=>");
 
