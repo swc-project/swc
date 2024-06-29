@@ -5,7 +5,7 @@ use swc_ecma_ast::{op, Expr, Invalid};
 
 use crate::{
     error::SyntaxError,
-    token::{Token, TokenKind},
+    token::{Token, TokenKind, Word},
     Context, PResult, Parser, Tokens,
 };
 
@@ -323,5 +323,5 @@ where
 }
 
 fn token_is_identifier(cur: &Token) -> bool {
-    todo!("token_is_identifier")
+    matches!(cur, Token::Word(Word::Ident(..)))
 }
