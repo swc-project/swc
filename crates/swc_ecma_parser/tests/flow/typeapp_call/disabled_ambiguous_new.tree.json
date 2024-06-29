@@ -14,70 +14,38 @@
         "ctxt": 0
       },
       "expression": {
-        "type": "BinaryExpression",
+        "type": "NewExpression",
         "span": {
           "start": 1,
           "end": 12,
           "ctxt": 0
         },
-        "operator": ">",
-        "left": {
-          "type": "BinaryExpression",
+        "callee": {
+          "type": "Identifier",
           "span": {
-            "start": 1,
-            "end": 8,
+            "start": 5,
+            "end": 6,
             "ctxt": 0
           },
-          "operator": "<",
-          "left": {
-            "type": "NewExpression",
-            "span": {
-              "start": 1,
-              "end": 6,
-              "ctxt": 0
-            },
-            "callee": {
+          "value": "C",
+          "optional": false
+        },
+        "arguments": [
+          {
+            "spread": null,
+            "expression": {
               "type": "Identifier",
               "span": {
-                "start": 5,
-                "end": 6,
+                "start": 10,
+                "end": 11,
                 "ctxt": 0
               },
-              "value": "C",
+              "value": "e",
               "optional": false
-            },
-            "arguments": null,
-            "typeArguments": null
-          },
-          "right": {
-            "type": "Identifier",
-            "span": {
-              "start": 7,
-              "end": 8,
-              "ctxt": 0
-            },
-            "value": "T",
-            "optional": false
+            }
           }
-        },
-        "right": {
-          "type": "ParenthesisExpression",
-          "span": {
-            "start": 9,
-            "end": 12,
-            "ctxt": 0
-          },
-          "expression": {
-            "type": "Identifier",
-            "span": {
-              "start": 10,
-              "end": 11,
-              "ctxt": 0
-            },
-            "value": "e",
-            "optional": false
-          }
-        }
+        ],
+        "typeArguments": null
       }
     }
   ],
