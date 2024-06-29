@@ -19,7 +19,13 @@ where
         if is!(self, "typeof") {
             return self.parse_flow_type_query();
         }
-        todo!("consume_flow_type")
+
+        if is_one_of!(self, "number", "string") {
+            self.input.bump();
+            return Ok(());
+        }
+
+        Ok(())
     }
 
     fn parse_flow_type_query(&mut self) -> PResult<()> {

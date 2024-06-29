@@ -261,6 +261,10 @@ impl<I: Tokens> Parser<I> {
             }
         }
 
+        if self.syntax().flow() && is!(self, ':') {
+            self.consume_flow_type_ann()?;
+        }
+
         let pat = if eat!(self, '=') {
             // `=` cannot follow optional parameter.
             if opt {
