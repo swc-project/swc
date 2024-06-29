@@ -1,9 +1,8 @@
-use std::hash::Hash;
+use std::hash::{BuildHasherDefault, Hash};
 
 use indexmap::IndexSet;
+use rustc_hash::FxHasher;
 use swc_fast_graph::digraph::FastDiGraphMap;
-
-use super::FxBuildHasher;
 
 #[derive(Debug, Clone)]
 pub struct InternedGraph<T>
@@ -11,7 +10,7 @@ where
     T: Eq + Hash + Clone,
 {
     pub(super) idx_graph: FastDiGraphMap<u32, Dependency>,
-    pub(super) graph_ix: IndexSet<T, FxBuildHasher>,
+    pub(super) graph_ix: IndexSet<T, BuildHasherDefault<FxHasher>>,
 }
 
 #[derive(Debug, Clone, Copy)]
