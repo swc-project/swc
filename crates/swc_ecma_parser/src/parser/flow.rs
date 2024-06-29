@@ -64,7 +64,9 @@ where
     }
 
     pub(super) fn consume_flow_variance(&mut self) -> PResult<()> {
-        eat!(self, '+') || eat!(self, '-');
+        if !eat!(self, '+') {
+            eat!(self, '-');
+        }
 
         Ok(())
     }
