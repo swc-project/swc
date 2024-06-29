@@ -50,7 +50,11 @@ where
         }
 
         if is!(self, IdentName) {
-            self.parse_flow_ident_or_member_expr()?;
+            return self.parse_flow_ident_or_member_expr();
+        }
+
+        if is!(self, '(') {
+            return self.consume_flow_fn_type();
         }
 
         unexpected!(self, "flow type")
@@ -97,6 +101,26 @@ where
         }
 
         expect!(self, '>');
+
+        Ok(())
+    }
+
+    pub(super) fn consume_flow_fn_type(&mut self) -> PResult<()> {
+        expect!(self, '(');
+
+        while !eof!(self) && !is!(self, ')') {
+            self.consume_flow_type()?;
+            if !eof!(self) && !is!(self, ')') {
+                expect!(self, ',');
+            }
+        }
+
+        expect!(self, ')');
+
+        if is!(self, "=>") {
+            self.input.bump();
+            self.consume_flow_type()?;
+        }
 
         Ok(())
     }
