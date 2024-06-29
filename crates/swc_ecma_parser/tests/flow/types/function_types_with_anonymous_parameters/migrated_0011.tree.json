@@ -20,7 +20,7 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 79,
-            "end": 86,
+            "end": 96,
             "ctxt": 0
           },
           "id": {
@@ -35,22 +35,46 @@
             "typeAnnotation": null
           },
           "init": {
-            "type": "ParenthesisExpression",
+            "type": "CallExpression",
             "span": {
               "start": 83,
-              "end": 86,
+              "end": 96,
               "ctxt": 0
             },
-            "expression": {
-              "type": "Identifier",
+            "callee": {
+              "type": "ParenthesisExpression",
               "span": {
-                "start": 84,
-                "end": 85,
+                "start": 83,
+                "end": 87,
                 "ctxt": 0
               },
-              "value": "x",
-              "optional": false
-            }
+              "expression": {
+                "type": "Identifier",
+                "span": {
+                  "start": 84,
+                  "end": 85,
+                  "ctxt": 0
+                },
+                "value": "x",
+                "optional": false
+              }
+            },
+            "arguments": [
+              {
+                "spread": null,
+                "expression": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 89,
+                    "end": 95,
+                    "ctxt": 0
+                  },
+                  "value": "number",
+                  "optional": false
+                }
+              }
+            ],
+            "typeArguments": null
           },
           "definite": false
         }

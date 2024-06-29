@@ -20,7 +20,7 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 108,
-            "end": 115,
+            "end": 132,
             "ctxt": 0
           },
           "id": {
@@ -35,22 +35,71 @@
             "typeAnnotation": null
           },
           "init": {
-            "type": "ParenthesisExpression",
+            "type": "CallExpression",
             "span": {
               "start": 112,
-              "end": 115,
+              "end": 132,
               "ctxt": 0
             },
-            "expression": {
-              "type": "Identifier",
+            "callee": {
+              "type": "ParenthesisExpression",
               "span": {
-                "start": 113,
-                "end": 114,
+                "start": 112,
+                "end": 116,
                 "ctxt": 0
               },
-              "value": "x",
-              "optional": false
-            }
+              "expression": {
+                "type": "Identifier",
+                "span": {
+                  "start": 113,
+                  "end": 114,
+                  "ctxt": 0
+                },
+                "value": "x",
+                "optional": false
+              }
+            },
+            "arguments": [
+              {
+                "spread": null,
+                "expression": {
+                  "type": "ArrowFunctionExpression",
+                  "span": {
+                    "start": 118,
+                    "end": 131,
+                    "ctxt": 0
+                  },
+                  "params": [
+                    {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 118,
+                        "end": 124,
+                        "ctxt": 0
+                      },
+                      "value": "number",
+                      "optional": false,
+                      "typeAnnotation": null
+                    }
+                  ],
+                  "body": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 128,
+                      "end": 131,
+                      "ctxt": 0
+                    },
+                    "value": 123.0,
+                    "raw": "123"
+                  },
+                  "async": false,
+                  "generator": false,
+                  "typeParameters": null,
+                  "returnType": null
+                }
+              }
+            ],
+            "typeArguments": null
           },
           "definite": false
         }
