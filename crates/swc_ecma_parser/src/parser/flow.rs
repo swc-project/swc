@@ -71,6 +71,7 @@ where
         Ok(())
     }
 
+    /// Ported from babel
     pub(super) fn consume_flow_type_annotation_identifier(
         &mut self,
         allow_primitive_override: bool,
