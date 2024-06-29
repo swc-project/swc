@@ -1,83 +1,70 @@
 {
-  "type":"Program",
-  "loc":{"source":null,"start":{"line":3,"column":0},"end":{"line":3,"column":35}},
-  "range":[127,162],
-  "body":[
+  "type": "Script",
+  "span": {
+    "start": 128,
+    "end": 163,
+    "ctxt": 0
+  },
+  "body": [
     {
-      "type":"VariableDeclaration",
-      "loc":{"source":null,"start":{"line":3,"column":0},"end":{"line":3,"column":35}},
-      "range":[127,162],
-      "declarations":[
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 128,
+        "end": 163,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
         {
-          "type":"VariableDeclarator",
-          "loc":{"source":null,"start":{"line":3,"column":4},"end":{"line":3,"column":34}},
-          "range":[131,161],
-          "id":{
-            "type":"Identifier",
-            "loc":{"source":null,"start":{"line":3,"column":4},"end":{"line":3,"column":5}},
-            "range":[131,132],
-            "name":"f",
-            "typeAnnotation":null,
-            "optional":false
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 132,
+            "end": 155,
+            "ctxt": 0
           },
-          "init":{
-            "type":"ArrowFunctionExpression",
-            "loc":{"source":null,"start":{"line":3,"column":8},"end":{"line":3,"column":34}},
-            "range":[135,161],
-            "id":null,
-            "params":[],
-            "body":{
-              "type":"Literal",
-              "loc":{"source":null,"start":{"line":3,"column":31},"end":{"line":3,"column":34}},
-              "range":[158,161],
-              "value":123,
-              "raw":"123"
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 132,
+              "end": 133,
+              "ctxt": 0
             },
-            "async":false,
-            "generator":false,
-            "predicate":null,
-            "expression":true,
-            "returnType":{
-              "type":"TypeAnnotation",
-              "loc":{"source":null,"start":{"line":3,"column":10},"end":{"line":3,"column":27}},
-              "range":[137,154],
-              "typeAnnotation":{
-                "type":"UnionTypeAnnotation",
-                "loc":{"source":null,"start":{"line":3,"column":12},"end":{"line":3,"column":27}},
-                "range":[139,154],
-                "types":[
-                  {
-                    "type":"StringTypeAnnotation",
-                    "loc":{"source":null,"start":{"line":3,"column":12},"end":{"line":3,"column":18}},
-                    "range":[139,145]
-                  },
-                  {
-                    "type":"NumberTypeAnnotation",
-                    "loc":{"source":null,"start":{"line":3,"column":21},"end":{"line":3,"column":27}},
-                    "range":[148,154]
-                  }
-                ]
+            "value": "f",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "BinaryExpression",
+            "span": {
+              "start": 136,
+              "end": 155,
+              "ctxt": 0
+            },
+            "operator": "|",
+            "left": {
+              "type": "Invalid",
+              "span": {
+                "start": 136,
+                "end": 146,
+                "ctxt": 0
               }
             },
-            "typeParameters":null
-          }
+            "right": {
+              "type": "Identifier",
+              "span": {
+                "start": 149,
+                "end": 155,
+                "ctxt": 0
+              },
+              "value": "number",
+              "optional": false
+            }
+          },
+          "definite": false
         }
-      ],
-      "kind":"var"
+      ]
     }
   ],
-  "comments":[
-    {
-      "type":"Line",
-      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":73}},
-      "range":[0,73],
-      "value":" Anonymous function types are disallowed as arrow function return types"
-    },
-    {
-      "type":"Line",
-      "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":52}},
-      "range":[74,126],
-      "value":" So the `=>` clearly belongs to the arrow function"
-    }
-  ]
+  "interpreter": null
 }
