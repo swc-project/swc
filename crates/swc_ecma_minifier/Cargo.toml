@@ -40,6 +40,7 @@ num-bigint        = { workspace = true }
 num_cpus          = { workspace = true }
 once_cell         = { workspace = true }
 parking_lot       = { workspace = true }
+petgraph          = { workspace = true }
 pretty_assertions = { workspace = true, optional = true }
 radix_fmt         = "=1.0.0"
 rayon             = { workspace = true, optional = true }
