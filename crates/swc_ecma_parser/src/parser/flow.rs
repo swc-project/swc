@@ -3,12 +3,34 @@
 use swc_common::{Span, DUMMY_SP};
 use swc_ecma_ast::{Expr, Invalid};
 
-use crate::{token::Token, PResult, Parser, Tokens};
+use crate::{error::SyntaxError, token::Token, PResult, Parser, Tokens};
 
 impl<I> Parser<I>
 where
     I: Tokens,
 {
+    pub(super) fn consume_flow_type_params(&mut self) -> PResult<()> {
+        expect!(self, '<');
+
+        loop {
+            if is!(self, '>') {
+                break;
+            }
+
+            if !eat!(self, IdentName) {
+                syntax_error!(self, self.input.cur_span(), SyntaxError::ExpectedIdent);
+            }
+
+            if !eof!(self) && !is!(self, '>') {
+                expect!(self, ',');
+            }
+        }
+
+        expect!(self, '>');
+
+        Ok(())
+    }
+
     pub(super) fn consume_flow_type_ann(&mut self) -> PResult<()> {
         expect!(self, ':');
 
