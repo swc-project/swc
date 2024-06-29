@@ -385,16 +385,13 @@ macro_rules! syntax_error {
                 }
             }
         }
-
-        if cfg!(feature = "debug") {
-            tracing::error!(
-                "Syntax error called from {}:{}:{}\nCurrent token = {:?}",
-                file!(),
-                line!(),
-                column!(),
-                $p.input.cur()
-            );
-        }
+        tracing::error!(
+            "Syntax error called from {}:{}:{}\nCurrent token = {:?}",
+            file!(),
+            line!(),
+            column!(),
+            $p.input.cur()
+        );
         return Err(err.into());
     }};
 }
