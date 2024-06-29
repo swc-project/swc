@@ -369,6 +369,8 @@ where
     }
 
     fn consume_flow_declare(&mut self, start: BytePos) -> PResult<()> {
+        eat!(self, "export");
+
         if is!(self, "class") {
             let class_start = self.input.cur_pos();
             self.parse_class_decl(start, class_start, vec![], false)?;
