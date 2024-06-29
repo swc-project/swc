@@ -1004,6 +1004,8 @@ impl<'a, I: Tokens> Parser<I> {
                 }
                 _ => unreachable!("invalid syntax: Pat: {:?}", name),
             }
+        } else if self.input.syntax().typescript() && is!(self, ':') {
+            self.consume_flow_type_ann()?;
         }
 
         //FIXME: This is wrong. Should check in/of only on first loop.
