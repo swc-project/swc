@@ -189,6 +189,8 @@ impl Syntax {
             }) => import_attributes,
             #[cfg(feature = "typescript")]
             Syntax::Typescript(_) => true,
+            #[cfg(feature = "flow")]
+            Syntax::Flow(..) => true,
         }
     }
 
@@ -269,6 +271,8 @@ impl Syntax {
             }) => allow_super_outside_method,
             #[cfg(feature = "typescript")]
             Syntax::Typescript(_) => true,
+            #[cfg(feature = "flow")]
+            Syntax::Flow(..) => false,
         }
     }
 
@@ -280,6 +284,8 @@ impl Syntax {
             }) => allow_return_outside_function,
             #[cfg(feature = "typescript")]
             Syntax::Typescript(_) => false,
+            #[cfg(feature = "flow")]
+            Syntax::Flow(..) => false,
         }
     }
 
@@ -288,6 +294,8 @@ impl Syntax {
             #[cfg(feature = "typescript")]
             Syntax::Typescript(t) => !t.no_early_errors,
             Syntax::Es(..) => true,
+            #[cfg(feature = "flow")]
+            Syntax::Flow(..) => true,
         }
     }
 
@@ -307,6 +315,8 @@ impl Syntax {
             }) => *using_decl,
             #[cfg(feature = "typescript")]
             Syntax::Typescript(_) => true,
+            #[cfg(feature = "flow")]
+            Syntax::Flow(..) => true,
         }
     }
 }
