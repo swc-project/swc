@@ -121,6 +121,8 @@ where
             if !eof!(self) && !is!(self, ']') {
                 expect!(self, ',');
             }
+            // Remove all commas
+            while eat!(self, ',') {}
         }
 
         expect!(self, ']');
