@@ -333,9 +333,9 @@ impl VisitMut for Compressor<'_> {
     }
 
     fn visit_mut_module(&mut self, n: &mut Module) {
-        self::tree_shaking::optimize(n, self.marks);
-
         self.optimize_unit_repeatedly(n);
+
+        self::tree_shaking::optimize(n, self.marks);
     }
 
     fn visit_mut_module_items(&mut self, stmts: &mut Vec<ModuleItem>) {
