@@ -1334,6 +1334,10 @@ impl<I: Tokens> Parser<I> {
             let return_type = if p.syntax().typescript() && is!(p, ':') {
                 p.parse_ts_type_or_type_predicate_ann(&tok!(':'))
                     .map(Some)?
+            } else if p.input.syntax().flow() && is!(p, ':') {
+                p.consume_flow_type_ann()?;
+
+                None
             } else {
                 None
             };
