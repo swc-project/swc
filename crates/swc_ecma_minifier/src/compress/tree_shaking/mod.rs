@@ -6,6 +6,7 @@ use rustc_hash::{FxHashMap, FxHashSet, FxHasher};
 use swc_atoms::Atom;
 use swc_common::{util::take::Take, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
+use swc_ecma_usage_analyzer::marks::Marks;
 use swc_ecma_utils::{find_pat_ids, private_ident, quote_ident};
 
 use self::{
@@ -19,6 +20,16 @@ mod graph;
 mod util;
 
 type FxBuildHasher = BuildHasherDefault<FxHasher>;
+
+pub fn optimize(module: &mut Module, marks: Marks) {
+    let (mut dep_graph, items) = Analyzer::analyze(
+        module,
+        SyntaxContext::empty().apply_mark(marks.unresolved_mark),
+        marks.top_level_ctxt,
+    );
+
+    dep_graph.handle_weak(Mode::Production);
+}
 
 pub(super) struct TreeShaking {
     pub top_level_ctxt: SyntaxContext,
@@ -453,157 +464,158 @@ impl DepGraph {
         }
     }
 
-    pub(super) fn split_module(&self, data: &FxHashMap<ItemId, ItemData>) -> SplitModuleResult {
-        let groups = self.finalize(data);
-        let mut exports = FxHashMap::default();
-        let mut part_deps = FxHashMap::<_, Vec<_>>::default();
+    // pub(super) fn split_module(&self, data: &FxHashMap<ItemId, ItemData>) ->
+    // SplitModuleResult {     let groups = self.finalize(data);
+    //     let mut exports = FxHashMap::default();
+    //     let mut part_deps = FxHashMap::<_, Vec<_>>::default();
 
-        let mut modules = vec![];
+    //     let mut modules = vec![];
 
-        if groups.graph_ix.is_empty() {
-            // If there's no dependency, all nodes are in the module evaluaiotn group.
-            modules.push(Module {
-                span: DUMMY_SP,
-                body: data.values().map(|v| v.content.clone()).collect(),
-                shebang: None,
-            });
-            exports.insert(Key::ModuleEvaluation, 0);
-        }
+    //     if groups.graph_ix.is_empty() {
+    //         // If there's no dependency, all nodes are in the module evaluaiotn
+    // group.         modules.push(Module {
+    //             span: DUMMY_SP,
+    //             body: data.values().map(|v| v.content.clone()).collect(),
+    //             shebang: None,
+    //         });
+    //         exports.insert(Key::ModuleEvaluation, 0);
+    //     }
 
-        for (ix, group) in groups.graph_ix.iter().enumerate() {
-            let mut chunk = Module {
-                span: DUMMY_SP,
-                body: vec![],
-                shebang: None,
-            };
+    //     for (ix, group) in groups.graph_ix.iter().enumerate() {
+    //         let mut chunk = Module {
+    //             span: DUMMY_SP,
+    //             body: vec![],
+    //             shebang: None,
+    //         };
 
-            let mut required_vars = group
-                .iter()
-                .flat_map(|id| {
-                    let data = data.get(id).unwrap();
+    //         let mut required_vars = group
+    //             .iter()
+    //             .flat_map(|id| {
+    //                 let data = data.get(id).unwrap();
 
-                    data.read_vars
-                        .iter()
-                        .chain(data.write_vars.iter())
-                        .chain(data.eventual_read_vars.iter())
-                        .chain(data.eventual_write_vars.iter())
-                })
-                .collect::<FxHashSet<_>>();
+    //                 data.read_vars
+    //                     .iter()
+    //                     .chain(data.write_vars.iter())
+    //                     .chain(data.eventual_read_vars.iter())
+    //                     .chain(data.eventual_write_vars.iter())
+    //             })
+    //             .collect::<FxHashSet<_>>();
 
-            for id in group {
-                let data = data.get(id).unwrap();
+    //         for id in group {
+    //             let data = data.get(id).unwrap();
 
-                for var in data.var_decls.iter() {
-                    required_vars.remove(var);
-                }
-            }
+    //             for var in data.var_decls.iter() {
+    //                 required_vars.remove(var);
+    //             }
+    //         }
 
-            for item in group {
-                match item {
-                    ItemId::Group(ItemIdGroupKind::Export(id, _)) => {
-                        required_vars.insert(id);
+    //         for item in group {
+    //             match item {
+    //                 ItemId::Group(ItemIdGroupKind::Export(id, _)) => {
+    //                     required_vars.insert(id);
 
-                        if let Some(export) = &data[item].export {
-                            exports.insert(Key::Export(export.as_str().into()), ix as u32);
-                        }
-                    }
-                    ItemId::Group(ItemIdGroupKind::ModuleEvaluation) => {
-                        exports.insert(Key::ModuleEvaluation, ix as u32);
-                    }
+    //                     if let Some(export) = &data[item].export {
+    //                         exports.insert(Key::Export(export.as_str().into()),
+    // ix as u32);                     }
+    //                 }
+    //                 ItemId::Group(ItemIdGroupKind::ModuleEvaluation) => {
+    //                     exports.insert(Key::ModuleEvaluation, ix as u32);
+    //                 }
 
-                    _ => {}
-                }
-            }
+    //                 _ => {}
+    //             }
+    //         }
 
-            for dep in groups
-                .idx_graph
-                .neighbors_directed(ix as u32, petgraph::Direction::Outgoing)
-            {
-                let mut specifiers = vec![];
+    //         for dep in groups
+    //             .idx_graph
+    //             .neighbors_directed(ix as u32, petgraph::Direction::Outgoing)
+    //         {
+    //             let mut specifiers = vec![];
 
-                let dep_items = groups.graph_ix.get_index(dep as usize).unwrap();
+    //             let dep_items = groups.graph_ix.get_index(dep as usize).unwrap();
 
-                for dep_item in dep_items {
-                    let data = data.get(dep_item).unwrap();
+    //             for dep_item in dep_items {
+    //                 let data = data.get(dep_item).unwrap();
 
-                    for var in data.var_decls.iter() {
-                        if required_vars.contains(var) {
-                            specifiers.push(ImportSpecifier::Named(ImportNamedSpecifier {
-                                span: DUMMY_SP,
-                                local: var.clone().into(),
-                                imported: None,
-                                is_type_only: false,
-                            }));
-                        }
-                    }
-                }
+    //                 for var in data.var_decls.iter() {
+    //                     if required_vars.contains(var) {
+    //
+    // specifiers.push(ImportSpecifier::Named(ImportNamedSpecifier {
+    // span: DUMMY_SP,                             local: var.clone().into(),
+    //                             imported: None,
+    //                             is_type_only: false,
+    //                         }));
+    //                     }
+    //                 }
+    //             }
 
-                part_deps.entry(ix as u32).or_default().push(dep);
+    //             part_deps.entry(ix as u32).or_default().push(dep);
 
-                chunk
-                    .body
-                    .push(ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
-                        span: DUMMY_SP,
-                        specifiers,
-                        src: Box::new(TURBOPACK_PART_IMPORT_SOURCE.into()),
-                        type_only: false,
-                        with: Some(Box::new(create_turbopack_part_id_assert(PartId::Internal(
-                            dep,
-                        )))),
-                        phase: Default::default(),
-                    })));
-            }
+    //             chunk
+    //                 .body
+    //                 .push(ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
+    //                     span: DUMMY_SP,
+    //                     specifiers,
+    //                     src: Box::new(TURBOPACK_PART_IMPORT_SOURCE.into()),
+    //                     type_only: false,
+    //                     with:
+    // Some(Box::new(create_turbopack_part_id_assert(PartId::Internal(
+    //                         dep,
+    //                     )))),
+    //                     phase: Default::default(),
+    //                 })));
+    //         }
 
-            for g in group {
-                chunk.body.push(data[g].content.clone());
-            }
+    //         for g in group {
+    //             chunk.body.push(data[g].content.clone());
+    //         }
 
-            for g in group {
-                let data = data.get(g).unwrap();
+    //         for g in group {
+    //             let data = data.get(g).unwrap();
 
-                // Emit `export { foo }`
-                for var in data.var_decls.iter() {
-                    let assertion_prop =
-                        PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
-                            key: quote_ident!("__turbopack_var__").into(),
-                            value: Box::new(true.into()),
-                        })));
+    //             // Emit `export { foo }`
+    //             for var in data.var_decls.iter() {
+    //                 let assertion_prop =
+    //                     PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
+    //                         key: quote_ident!("__turbopack_var__").into(),
+    //                         value: Box::new(true.into()),
+    //                     })));
 
-                    chunk
-                        .body
-                        .push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
-                            NamedExport {
-                                span: DUMMY_SP,
-                                specifiers: vec![ExportSpecifier::Named(ExportNamedSpecifier {
-                                    span: DUMMY_SP,
-                                    orig: ModuleExportName::Ident(var.clone().into()),
-                                    exported: None,
-                                    is_type_only: false,
-                                })],
-                                src: if cfg!(test) {
-                                    Some(Box::new("__TURBOPACK_VAR__".into()))
-                                } else {
-                                    None
-                                },
-                                type_only: false,
-                                with: Some(Box::new(ObjectLit {
-                                    span: DUMMY_SP,
-                                    props: vec![assertion_prop],
-                                })),
-                            },
-                        )));
-                }
-            }
+    //                 chunk
+    //                     .body
+    //                     .push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
+    //                         NamedExport {
+    //                             span: DUMMY_SP,
+    //                             specifiers:
+    // vec![ExportSpecifier::Named(ExportNamedSpecifier {
+    // span: DUMMY_SP,                                 orig:
+    // ModuleExportName::Ident(var.clone().into()),
+    // exported: None,                                 is_type_only: false,
+    //                             })],
+    //                             src: if cfg!(test) {
+    //                                 Some(Box::new("__TURBOPACK_VAR__".into()))
+    //                             } else {
+    //                                 None
+    //                             },
+    //                             type_only: false,
+    //                             with: Some(Box::new(ObjectLit {
+    //                                 span: DUMMY_SP,
+    //                                 props: vec![assertion_prop],
+    //                             })),
+    //                         },
+    //                     )));
+    //             }
+    //         }
 
-            modules.push(chunk);
-        }
+    //         modules.push(chunk);
+    //     }
 
-        SplitModuleResult {
-            entrypoints: exports,
-            part_deps,
-            modules,
-        }
-    }
+    //     SplitModuleResult {
+    //         entrypoints: exports,
+    //         part_deps,
+    //         modules,
+    //     }
+    // }
 
     /// Merges a dependency group between [ModuleItem]s into a dependency graph
     /// of [Module]s.
