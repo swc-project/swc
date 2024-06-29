@@ -1,105 +1,74 @@
 {
-  "errors":[
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 26,
+    "ctxt": 0
+  },
+  "body": [
     {
-      "loc":{"source":null,"start":{"line":1,"column":24},"end":{"line":1,"column":25}},
-      "message":"Unexpected token `}`, expected the token `:`"
-    },
-    {
-      "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":0}},
-      "message":"Unexpected end of input, expected a type"
-    },
-    {
-      "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":0}},
-      "message":"Unexpected end of input, expected the token `,`"
-    },
-    {
-      "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":0}},
-      "message":"Unexpected end of input, expected the token `}`"
-    },
-    {
-      "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":0}},
-      "message":"Unexpected end of input, expected the token `{`"
-    }
-  ],
-  "type":"Program",
-  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":2,"column":0}},
-  "range":[0,26],
-  "body":[
-    {
-      "type":"FunctionDeclaration",
-      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":2,"column":0}},
-      "range":[0,26],
-      "id":{
-        "type":"Identifier",
-        "loc":{"source":null,"start":{"line":1,"column":9},"end":{"line":1,"column":12}},
-        "range":[9,12],
-        "name":"foo",
-        "typeAnnotation":null,
-        "optional":false
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 10,
+          "end": 13,
+          "ctxt": 0
+        },
+        "value": "foo",
+        "optional": false
       },
-      "params":[],
-      "body":{
-        "type":"BlockStatement",
-        "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":0}},
-        "range":[26,26],
-        "body":[]
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 1,
+        "end": 26,
+        "ctxt": 0
       },
-      "async":false,
-      "generator":false,
-      "predicate":null,
-      "expression":false,
-      "returnType":{
-        "type":"TypeAnnotation",
-        "loc":{"source":null,"start":{"line":1,"column":14},"end":{"line":2,"column":0}},
-        "range":[14,26],
-        "typeAnnotation":{
-          "type":"ObjectTypeAnnotation",
-          "loc":{"source":null,"start":{"line":1,"column":16},"end":{"line":2,"column":0}},
-          "range":[16,26],
-          "inexact":false,
-          "exact":false,
-          "properties":[
-            {
-              "type":"ObjectTypeProperty",
-              "loc":{"source":null,"start":{"line":1,"column":18},"end":{"line":1,"column":25}},
-              "range":[18,25],
-              "key":{
-                "type":"Identifier",
-                "loc":{"source":null,"start":{"line":1,"column":18},"end":{"line":1,"column":21}},
-                "range":[18,21],
-                "name":"foo",
-                "typeAnnotation":null,
-                "optional":false
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 17,
+          "end": 26,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 19,
+              "end": 24,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "CallExpression",
+              "span": {
+                "start": 19,
+                "end": 24,
+                "ctxt": 0
               },
-              "value":{
-                "type":"FunctionTypeAnnotation",
-                "loc":{"source":null,"start":{"line":1,"column":18},"end":{"line":1,"column":25}},
-                "range":[18,25],
-                "params":[],
-                "this":null,
-                "returnType":{
-                  "type":"AnyTypeAnnotation",
-                  "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":0}},
-                  "range":[26,26]
+              "callee": {
+                "type": "Identifier",
+                "span": {
+                  "start": 19,
+                  "end": 22,
+                  "ctxt": 0
                 },
-                "rest":null,
-                "typeParameters":null
+                "value": "foo",
+                "optional": false
               },
-              "method":true,
-              "optional":false,
-              "static":false,
-              "proto":false,
-              "variance":null,
-              "kind":"init"
+              "arguments": [],
+              "typeArguments": null
             }
-          ],
-          "indexers":[],
-          "callProperties":[],
-          "internalSlots":[]
-        }
+          }
+        ]
       },
-      "typeParameters":null
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
     }
   ],
-  "comments":[]
+  "interpreter": null
 }
