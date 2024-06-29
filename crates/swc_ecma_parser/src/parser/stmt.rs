@@ -341,7 +341,7 @@ impl<'a, I: Tokens> Parser<I> {
                     assert_and_bump!(self, "type");
                     self.parse_ident_name()?;
 
-                    self.may_consume_flow_generic_def()?;
+                    self.may_consume_flow_type_param_decls()?;
 
                     expect!(self, '=');
 
