@@ -1004,7 +1004,7 @@ impl<'a, I: Tokens> Parser<I> {
                 }
                 _ => unreachable!("invalid syntax: Pat: {:?}", name),
             }
-        } else if self.input.syntax().typescript() && is!(self, ':') {
+        } else if self.input.syntax().flow() && is!(self, ':') {
             self.consume_flow_type_ann()?;
         }
 
