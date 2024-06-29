@@ -200,6 +200,8 @@ impl Syntax {
             Syntax::Es(EsSyntax { jsx: true, .. }) => true,
             #[cfg(feature = "typescript")]
             Syntax::Typescript(TsSyntax { tsx: true, .. }) => true,
+            #[cfg(feature = "flow")]
+            Syntax::Flow(..) => true,
             _ => false,
         }
     }
