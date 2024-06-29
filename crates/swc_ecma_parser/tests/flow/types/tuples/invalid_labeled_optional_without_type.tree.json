@@ -1,0 +1,68 @@
+{
+  "errors":[
+    {
+      "loc":{"source":null,"start":{"line":1,"column":14},"end":{"line":1,"column":15}},
+      "message":"Unexpected token `]`, expected the token `:`"
+    },
+    {
+      "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":0}},
+      "message":"Unexpected end of input, expected a type"
+    },
+    {
+      "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":0}},
+      "message":"Unexpected end of input, expected the token `,`"
+    },
+    {
+      "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":0}},
+      "message":"Unexpected end of input, expected the token `]`"
+    }
+  ],
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":2,"column":0}},
+  "range":[0,16],
+  "body":[
+    {
+      "type":"TypeAlias",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":2,"column":0}},
+      "range":[0,16],
+      "id":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":1,"column":5},"end":{"line":1,"column":6}},
+        "range":[5,6],
+        "name":"T",
+        "typeAnnotation":null,
+        "optional":false
+      },
+      "typeParameters":null,
+      "right":{
+        "type":"TupleTypeAnnotation",
+        "loc":{"source":null,"start":{"line":1,"column":9},"end":{"line":2,"column":0}},
+        "range":[9,16],
+        "elementTypes":[
+          {
+            "type":"TupleTypeLabeledElement",
+            "loc":{"source":null,"start":{"line":1,"column":10},"end":{"line":1,"column":15}},
+            "range":[10,15],
+            "label":{
+              "type":"Identifier",
+              "loc":{"source":null,"start":{"line":1,"column":10},"end":{"line":1,"column":13}},
+              "range":[10,13],
+              "name":"foo",
+              "typeAnnotation":null,
+              "optional":false
+            },
+            "elementType":{
+              "type":"AnyTypeAnnotation",
+              "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":0}},
+              "range":[16,16]
+            },
+            "variance":null,
+            "optional":true
+          }
+        ],
+        "inexact":false
+      }
+    }
+  ],
+  "comments":[]
+}

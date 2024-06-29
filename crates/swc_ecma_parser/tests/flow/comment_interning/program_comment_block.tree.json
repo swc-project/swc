@@ -1,0 +1,56 @@
+{
+  "type":"Program",
+  "leadingComments":[
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":3,"column":3}},
+      "range":[0,26],
+      "value":"*\n * Program comment\n "
+    }
+  ],
+  "loc":{"source":null,"start":{"line":6,"column":0},"end":{"line":6,"column":13}},
+  "range":[49,62],
+  "body":[
+    {
+      "type":"TypeAlias",
+      "leadingComments":[
+        {
+          "type":"Line",
+          "loc":{"source":null,"start":{"line":5,"column":0},"end":{"line":5,"column":20}},
+          "range":[28,48],
+          "value":" L first statement"
+        }
+      ],
+      "loc":{"source":null,"start":{"line":6,"column":0},"end":{"line":6,"column":13}},
+      "range":[49,62],
+      "id":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":6,"column":5},"end":{"line":6,"column":6}},
+        "range":[54,55],
+        "name":"T",
+        "typeAnnotation":null,
+        "optional":false
+      },
+      "typeParameters":null,
+      "right":{
+        "type":"AnyTypeAnnotation",
+        "loc":{"source":null,"start":{"line":6,"column":9},"end":{"line":6,"column":12}},
+        "range":[58,61]
+      }
+    }
+  ],
+  "comments":[
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":3,"column":3}},
+      "range":[0,26],
+      "value":"*\n * Program comment\n "
+    },
+    {
+      "type":"Line",
+      "loc":{"source":null,"start":{"line":5,"column":0},"end":{"line":5,"column":20}},
+      "range":[28,48],
+      "value":" L first statement"
+    }
+  ]
+}

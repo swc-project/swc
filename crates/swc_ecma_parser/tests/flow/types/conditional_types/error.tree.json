@@ -1,0 +1,167 @@
+{
+  "errors":[
+    {
+      "loc":{"source":null,"start":{"line":1,"column":29},"end":{"line":1,"column":36}},
+      "message":"Unexpected token `extends`, expected the token `?`"
+    },
+    {
+      "loc":{"source":null,"start":{"line":1,"column":29},"end":{"line":1,"column":36}},
+      "message":"Unexpected reserved type"
+    },
+    {
+      "loc":{"source":null,"start":{"line":1,"column":37},"end":{"line":1,"column":43}},
+      "message":"Unexpected token `string`, expected the token `:`"
+    },
+    {
+      "loc":{"source":null,"start":{"line":1,"column":44},"end":{"line":1,"column":45}},
+      "message":"Unexpected token `?`, expected the token `;`"
+    },
+    {
+      "loc":{"source":null,"start":{"line":1,"column":44},"end":{"line":1,"column":45}},
+      "message":"Unexpected token `?`"
+    },
+    {
+       "loc":{"source":null,"start":{"line":2,"column":29},"end":{"line":2,"column":35}},
+       "message":"Unexpected token `number`, expected the token `?`"
+    },
+    {
+       "loc":{"source":null,"start":{"line":2,"column":68},"end":{"line":2,"column":69}},
+       "message":"Unexpected token `;`, expected the token `:`"
+    },
+    {
+      "loc":{"source":null,"start":{"line":2,"column":68},"end":{"line":2,"column":69}},
+      "message":"Unexpected token `;`, expected a type"
+    },
+    {
+      "loc":{"source":null,"start":{"line":3,"column":63},"end":{"line":3,"column":64}},
+      "message":"Unexpected token `?`, expected the token `;`"
+    },
+    {
+      "loc":{"source":null,"start":{"line":3,"column":63},"end":{"line":3,"column":64}},
+      "message":"Unexpected token `?`"
+    }
+  ],
+  "type": "Program",
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "kind": "let",
+      "declarations": [{"type": "VariableDeclarator","id":{"type":"Identifier","name":"x"}}]
+    },
+    {
+      "type": "ExpressionStatement",
+      "expression": {
+        "type": "ConditionalExpression",
+        "test": {"type":"Literal", "raw":"null"},
+        "consequent": {"type":"Identifier","name":"string"},
+        "alternate": {"type":"Identifier","name":"string"}
+      }
+    },
+    {
+      "type": "VariableDeclaration",
+      "kind": "let",
+      "declarations": [{"type": "VariableDeclarator","id":{"type":"Identifier","name":"x"}}]
+    },
+    {
+      "type":"VariableDeclaration",
+      "kind":"let",
+      "loc":{"source":null,"start":{"line":3,"column":0},"end":{"line":3,"column":62}},
+      "range":[133,195],
+      "declarations":[{
+        "type":"VariableDeclarator",
+        "loc":{"source":null,"start":{"line":3,"column":4},"end":{"line":3,"column":62}},
+        "range":[137,195],
+        "id":{
+          "type":"Identifier",
+          "loc":{"source":null,"start":{"line":3,"column":4},"end":{"line":3,"column":62}},
+          "range":[137,195],
+          "name":"x",
+          "typeAnnotation":{
+            "type":"TypeAnnotation",
+            "loc":{"source":null,"start":{"line":3,"column":5},"end":{"line":3,"column":62}},
+            "range":[138,195],
+            "typeAnnotation":{
+              "type":"ConditionalTypeAnnotation",
+              "loc":{"source":null,"start":{"line":3,"column":7},"end":{"line":3,"column":62}},
+              "range":[140,195],
+              "checkType":{
+                "type":"NumberTypeAnnotation",
+                "loc":{"source":null,"start":{"line":3,"column":7},"end":{"line":3,"column":13}},
+                "range":[140,146]
+              },
+              "extendsType":{
+                "type":"InferTypeAnnotation",
+                "loc":{"source":null,"start":{"line":3,"column":22},"end":{"line":3,"column":44}},
+                "range":[155,177],
+                "typeParameter":{
+                  "type":"TypeParameter",
+                  "loc":{"source":null,"start":{"line":3,"column":28},"end":{"line":3,"column":44}},
+                  "range":[161,177],
+                  "name":"T",
+                  "bound":{
+                    "type":"TypeAnnotation",
+                    "loc":{"source":null,"start":{"line":3,"column":38},"end":{"line":3,"column":44}},
+                    "range":[171,177],
+                    "typeAnnotation":{
+                      "type":"NumberTypeAnnotation",
+                      "loc":{"source":null,"start":{"line":3,"column":38},"end":{"line":3,"column":44}},
+                      "range":[171,177]
+                    }
+                  },
+                  "variance":null,
+                  "default":null,
+                  "usesExtendsBound":true
+                }
+              },
+              "trueType":{
+                "type":"NumberTypeAnnotation",
+                "loc":{"source":null,"start":{"line":3,"column":47},"end":{"line":3,"column":53}},
+                "range":[180,186]
+              },
+              "falseType":{
+                "type":"NumberTypeAnnotation",
+                "loc":{"source":null,"start":{"line":3,"column":56},"end":{"line":3,"column":62}},
+                "range":[189,195]
+              }
+            }
+          },
+          "optional":false
+        },
+        "init":null
+      }]} ,
+    {
+      "type":"ExpressionStatement",
+      "loc":{"source":null,"start":{"line":3,"column":63},"end":{"line":3,"column":81}},
+      "range":[196,214],
+      "expression":{
+        "type":"ConditionalExpression",
+        "loc":{"source":null,"start":{"line":3,"column":63},"end":{"line":3,"column":80}},
+        "range":[196,213],
+        "test":{
+          "type":"Literal",
+          "loc":{"source":null,"start":{"line":3,"column":63},"end":{"line":3,"column":64}},
+          "range":[196,197],
+          "value":null,
+          "raw":"null"
+        },
+        "consequent":{
+          "type":"Identifier",
+          "loc":{"source":null,"start":{"line":3,"column":65},"end":{"line":3,"column":71}},
+          "range":[198,204],
+          "name":"number",
+          "typeAnnotation":null,
+          "optional":false
+        },
+        "alternate":{
+          "type":"Identifier",
+          "loc":{"source":null,"start":{"line":3,"column":74},"end":{"line":3,"column":80}},
+          "range":[207,213],
+          "name":"number",
+          "typeAnnotation":null,
+          "optional":false
+        }
+      },
+      "directive":null
+    }
+  ]
+}

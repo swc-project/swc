@@ -1,0 +1,41 @@
+{
+  "errors":[
+    {
+      "loc":{"source":null,"start":{"line":1,"column":15},"end":{"line":1,"column":16}},
+      "message":"Unexpected token `{`, expected an identifier"
+    },
+    {
+      "loc":{"source":null,"start":{"line":1,"column":16},"end":{"line":1,"column":17}},
+      "message":"Unexpected token `}`, expected the token `{`"
+    },
+    {
+      "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":0}},
+      "message":"Unexpected end of input, expected the token `}`"
+    }
+  ],
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":2,"column":0}},
+  "range":[0,18],
+  "body":[
+    {
+      "type":"DeclareModule",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":2,"column":0}},
+      "range":[0,18],
+      "id":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":1,"column":15},"end":{"line":1,"column":16}},
+        "range":[15,16],
+        "name":"",
+        "typeAnnotation":null,
+        "optional":false
+      },
+      "body":{
+        "type":"BlockStatement",
+        "loc":{"source":null,"start":{"line":1,"column":16},"end":{"line":2,"column":0}},
+        "range":[16,18],
+        "body":[]
+      }
+    }
+  ],
+  "comments":[]
+}

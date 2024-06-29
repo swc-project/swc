@@ -1,0 +1,132 @@
+{
+  "errors":[
+    {
+      "loc":{"source":null,"start":{"line":2,"column":2},"end":{"line":2,"column":3}},
+      "message":"Unexpected token `@`, expected an identifier"
+    },
+    {
+      "loc":{"source":null,"start":{"line":2,"column":3},"end":{"line":2,"column":6}},
+      "message":"Unexpected identifier, expected the token `(`"
+    },
+    {
+      "loc":{"source":null,"start":{"line":2,"column":7},"end":{"line":2,"column":8}},
+      "message":"Unexpected token `#`, expected an identifier"
+    },
+    {
+      "loc":{"source":null,"start":{"line":2,"column":8},"end":{"line":2,"column":11}},
+      "message":"Unexpected identifier, expected the token `,`"
+    },
+    {
+      "loc":{"source":null,"start":{"line":2,"column":11},"end":{"line":2,"column":12}},
+      "message":"Unexpected token `;`, expected an identifier"
+    },
+    {
+      "loc":{"source":null,"start":{"line":3,"column":0},"end":{"line":3,"column":1}},
+      "message":"Unexpected token `}`, expected the token `,`"
+    },
+    {
+      "loc":{"source":null,"start":{"line":4,"column":0},"end":{"line":4,"column":0}},
+      "message":"Rest parameter must be final parameter of an argument list"
+    },
+    {
+      "loc":{"source":null,"start":{"line":4,"column":0},"end":{"line":4,"column":0}},
+      "message":"Unexpected end of input, expected the token `)`"
+    },
+    {
+      "loc":{"source":null,"start":{"line":4,"column":0},"end":{"line":4,"column":0}},
+      "message":"Unexpected end of input, expected the token `{`"
+    },
+    {
+      "loc":{"source":null,"start":{"line":4,"column":0},"end":{"line":4,"column":0}},
+      "message":"Unexpected end of input, expected the token `}`"
+    },
+    {
+      "loc":{"source":null,"start":{"line":2,"column":11},"end":{"line":2,"column":12}},
+      "message":"Strict mode function may not have duplicate parameter names"
+    }
+  ],
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":4,"column":0}},
+  "range":[0,25],
+  "body":[
+    {
+      "type":"ClassDeclaration",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":4,"column":0}},
+      "range":[0,25],
+      "id":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":1,"column":6},"end":{"line":1,"column":7}},
+        "range":[6,7],
+        "name":"C",
+        "typeAnnotation":null,
+        "optional":false
+      },
+      "body":{
+        "type":"ClassBody",
+        "loc":{"source":null,"start":{"line":1,"column":8},"end":{"line":4,"column":0}},
+        "range":[8,25],
+        "body":[
+          {
+            "type":"MethodDefinition",
+            "loc":{"source":null,"start":{"line":2,"column":2},"end":{"line":4,"column":0}},
+            "range":[12,25],
+            "key":{
+              "type":"Identifier",
+              "loc":{"source":null,"start":{"line":2,"column":2},"end":{"line":2,"column":3}},
+              "range":[12,13],
+              "name":"",
+              "typeAnnotation":null,
+              "optional":false
+            },
+            "value":{
+              "type":"FunctionExpression",
+              "loc":{"source":null,"start":{"line":2,"column":3},"end":{"line":4,"column":0}},
+              "range":[13,25],
+              "id":null,
+              "params":[
+                {
+                  "type":"Identifier",
+                  "loc":{"source":null,"start":{"line":2,"column":7},"end":{"line":2,"column":8}},
+                  "range":[17,18],
+                  "name":"",
+                  "typeAnnotation":null,
+                  "optional":false
+                },
+                {
+                  "type":"Identifier",
+                  "loc":{"source":null,"start":{"line":2,"column":11},"end":{"line":2,"column":12}},
+                  "range":[21,22],
+                  "name":"",
+                  "typeAnnotation":null,
+                  "optional":false
+                }
+              ],
+              "body":{
+                "type":"BlockStatement",
+                "loc":{"source":null,"start":{"line":4,"column":0},"end":{"line":4,"column":0}},
+                "range":[25,25],
+                "body":[]
+              },
+              "async":false,
+              "generator":false,
+              "predicate":null,
+              "expression":false,
+              "returnType":null,
+              "typeParameters":null
+            },
+            "kind":"method",
+            "static":false,
+            "computed":false,
+            "decorators":[]
+          }
+        ]
+      },
+      "typeParameters":null,
+      "superClass":null,
+      "superTypeParameters":null,
+      "implements":[],
+      "decorators":[]
+    }
+  ],
+  "comments":[]
+}

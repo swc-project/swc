@@ -1,0 +1,65 @@
+{
+  "errors":[
+    {
+      "loc":{"source":null,"start":{"line":2,"column":29},"end":{"line":2,"column":30}},
+      "message":"Unexpected token `;`, expected the token `:`"
+    },
+    {
+      "loc":{"source":null,"start":{"line":3,"column":0},"end":{"line":3,"column":0}},
+      "message":"Unexpected end of input, expected a type"
+    }
+  ],
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":30}},
+  "range":[34,64],
+  "body":[
+    {
+      "type":"DeclareExportDeclaration",
+      "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":30}},
+      "range":[34,64],
+      "default":false,
+      "declaration":{
+        "type":"DeclareFunction",
+        "loc":{"source":null,"start":{"line":2,"column":15},"end":{"line":2,"column":30}},
+        "range":[49,64],
+        "id":{
+          "type":"Identifier",
+          "loc":{"source":null,"start":{"line":2,"column":24},"end":{"line":2,"column":30}},
+          "range":[58,64],
+          "name":"foo",
+          "typeAnnotation":{
+            "type":"TypeAnnotation",
+            "loc":{"source":null,"start":{"line":2,"column":27},"end":{"line":2,"column":30}},
+            "range":[61,64],
+            "typeAnnotation":{
+              "type":"FunctionTypeAnnotation",
+              "loc":{"source":null,"start":{"line":2,"column":27},"end":{"line":2,"column":30}},
+              "range":[61,64],
+              "params":[],
+              "this":null,
+              "returnType":{
+                "type":"AnyTypeAnnotation",
+                "loc":{"source":null,"start":{"line":3,"column":0},"end":{"line":3,"column":0}},
+                "range":[65,65]
+              },
+              "rest":null,
+              "typeParameters":null
+            }
+          },
+          "optional":false
+        },
+        "predicate":null
+      },
+      "specifiers":[],
+      "source":null
+    }
+  ],
+  "comments":[
+    {
+      "type":"Line",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":33}},
+      "range":[0,33],
+      "value":" You must provide a return type"
+    }
+  ]
+}

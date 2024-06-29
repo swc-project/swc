@@ -1,0 +1,49 @@
+{
+  "errors":[
+    {
+      "loc":{"source":null,"start":{"line":2,"column":12},"end":{"line":2,"column":13}},
+      "message":"Unexpected token `*`"
+    }
+  ],
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":42}},
+  "range":[53,95],
+  "body":[
+    {
+      "type":"ImportDeclaration",
+      "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":42}},
+      "range":[53,95],
+      "specifiers":[
+        {
+          "type":"ImportNamespaceSpecifier",
+          "loc":{"source":null,"start":{"line":2,"column":12},"end":{"line":2,"column":23}},
+          "range":[65,76],
+          "local":{
+            "type":"Identifier",
+            "loc":{"source":null,"start":{"line":2,"column":17},"end":{"line":2,"column":23}},
+            "range":[70,76],
+            "name":"switch",
+            "typeAnnotation":null,
+            "optional":false
+          }
+        }
+      ],
+      "source":{
+        "type":"Literal",
+        "loc":{"source":null,"start":{"line":2,"column":29},"end":{"line":2,"column":41}},
+        "range":[82,94],
+        "value":"ModuleName",
+        "raw":"\"ModuleName\""
+      },
+      "importKind":"type"
+    }
+  ],
+  "comments":[
+    {
+      "type":"Line",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":52}},
+      "range":[0,52],
+      "value":" ok, `switch` is a reserved value but ok type name"
+    }
+  ]
+}

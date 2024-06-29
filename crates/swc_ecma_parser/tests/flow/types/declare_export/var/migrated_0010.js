@@ -1,0 +1,1 @@
+declare export var x;

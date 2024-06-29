@@ -1,0 +1,39 @@
+{
+  "errors":[
+    {
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":5}},
+      "message":"Found a decorator in an unsupported position."
+    }
+  ],
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":16}},
+  "range":[6,22],
+  "body":[
+    {
+      "type":"InterfaceDeclaration",
+      "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":16}},
+      "range":[6,22],
+      "id":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":2,"column":10},"end":{"line":2,"column":13}},
+        "range":[16,19],
+        "name":"Foo",
+        "typeAnnotation":null,
+        "optional":false
+      },
+      "typeParameters":null,
+      "body":{
+        "type":"ObjectTypeAnnotation",
+        "loc":{"source":null,"start":{"line":2,"column":14},"end":{"line":2,"column":16}},
+        "range":[20,22],
+        "exact":false,
+        "properties":[],
+        "indexers":[],
+        "callProperties":[],
+        "internalSlots":[]
+      },
+      "extends":[]
+    }
+  ],
+  "comments":[]
+}

@@ -1,0 +1,5 @@
+/*::
+type duck = {
+  quack(): string;
+};
+*/

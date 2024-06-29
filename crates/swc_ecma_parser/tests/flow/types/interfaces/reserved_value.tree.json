@@ -1,0 +1,40 @@
+{
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":19}},
+  "range":[42,61],
+  "body":[
+    {
+      "type":"InterfaceDeclaration",
+      "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":19}},
+      "range":[42,61],
+      "id":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":2,"column":10},"end":{"line":2,"column":16}},
+        "range":[52,58],
+        "name":"switch",
+        "typeAnnotation":null,
+        "optional":false
+      },
+      "typeParameters":null,
+      "body":{
+        "type":"ObjectTypeAnnotation",
+        "loc":{"source":null,"start":{"line":2,"column":17},"end":{"line":2,"column":19}},
+        "range":[59,61],
+        "exact":false,
+        "properties":[],
+        "indexers":[],
+        "callProperties":[],
+        "internalSlots":[]
+      },
+      "extends":[]
+    }
+  ],
+  "comments":[
+    {
+      "type":"Line",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":41}},
+      "range":[0,41],
+      "value":" ok, reserved values can be valid types"
+    }
+  ]
+}

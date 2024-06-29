@@ -1,0 +1,1 @@
+instance.method()<_>();

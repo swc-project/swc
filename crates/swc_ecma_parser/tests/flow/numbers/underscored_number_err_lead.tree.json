@@ -1,0 +1,22 @@
+{
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":6}},
+  "range":[0,6],
+  "body":[
+    {
+      "type":"ExpressionStatement",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":6}},
+      "range":[0,6],
+      "expression":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":6}},
+        "range":[0,6],
+        "name":"_12345",
+        "typeAnnotation":null,
+        "optional":false
+      },
+      "directive":null
+    }
+  ],
+  "comments":[]
+}

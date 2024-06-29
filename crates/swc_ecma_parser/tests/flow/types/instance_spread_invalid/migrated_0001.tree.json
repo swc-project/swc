@@ -1,0 +1,41 @@
+{
+  "errors":[
+    {
+      "loc":{"source":null,"start":{"line":1,"column":17},"end":{"line":1,"column":20}},
+      "message":"Spreading a type is only allowed inside an object type"
+    }
+  ],
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":22}},
+  "range":[0,22],
+  "body":[
+    {
+      "type":"DeclareClass",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":22}},
+      "range":[0,22],
+      "id":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":1,"column":14},"end":{"line":1,"column":15}},
+        "range":[14,15],
+        "name":"C",
+        "typeAnnotation":null,
+        "optional":false
+      },
+      "typeParameters":null,
+      "body":{
+        "type":"ObjectTypeAnnotation",
+        "loc":{"source":null,"start":{"line":1,"column":16},"end":{"line":1,"column":22}},
+        "range":[16,22],
+        "exact":false,
+        "properties":[],
+        "indexers":[],
+        "callProperties":[],
+        "internalSlots":[]
+      },
+      "extends":[],
+      "implements":[],
+      "mixins":[]
+    }
+  ],
+  "comments":[]
+}

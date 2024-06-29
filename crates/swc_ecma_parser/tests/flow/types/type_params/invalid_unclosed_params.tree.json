@@ -1,0 +1,49 @@
+{
+  "errors":[
+    {
+      "loc":{"source":null,"start":{"line":1,"column":11},"end":{"line":1,"column":12}},
+      "message":"Unexpected token `(`, expected the token `>`"
+    },
+    {
+      "loc":{"source":null,"start":{"line":1,"column":10},"end":{"line":1,"column":11}},
+      "message":"Expected at least one type parameter."
+    }
+  ],
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":16}},
+  "range":[0,16],
+  "body":[
+    {
+      "type":"FunctionDeclaration",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":16}},
+      "range":[0,16],
+      "id":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":1,"column":9},"end":{"line":1,"column":10}},
+        "range":[9,10],
+        "name":"x",
+        "typeAnnotation":null,
+        "optional":false
+      },
+      "params":[],
+      "body":{
+        "type":"BlockStatement",
+        "loc":{"source":null,"start":{"line":1,"column":14},"end":{"line":1,"column":16}},
+        "range":[14,16],
+        "body":[]
+      },
+      "async":false,
+      "generator":false,
+      "predicate":null,
+      "expression":false,
+      "returnType":null,
+      "typeParameters":{
+        "type":"TypeParameterDeclaration",
+        "loc":{"source":null,"start":{"line":1,"column":10},"end":{"line":1,"column":11}},
+        "range":[10,11],
+        "params":[]
+      }
+    }
+  ],
+  "comments":[]
+}

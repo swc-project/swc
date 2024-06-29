@@ -1,0 +1,2 @@
+@blah
+declare class Foo {}

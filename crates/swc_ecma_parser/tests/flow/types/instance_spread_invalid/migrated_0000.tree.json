@@ -1,0 +1,39 @@
+{
+  "errors":[
+    {
+      "loc":{"source":null,"start":{"line":1,"column":13},"end":{"line":1,"column":16}},
+      "message":"Spreading a type is only allowed inside an object type"
+    }
+  ],
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":18}},
+  "range":[0,18],
+  "body":[
+    {
+      "type":"InterfaceDeclaration",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":18}},
+      "range":[0,18],
+      "id":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":1,"column":10},"end":{"line":1,"column":11}},
+        "range":[10,11],
+        "name":"I",
+        "typeAnnotation":null,
+        "optional":false
+      },
+      "typeParameters":null,
+      "body":{
+        "type":"ObjectTypeAnnotation",
+        "loc":{"source":null,"start":{"line":1,"column":12},"end":{"line":1,"column":18}},
+        "range":[12,18],
+        "exact":false,
+        "properties":[],
+        "indexers":[],
+        "callProperties":[],
+        "internalSlots":[]
+      },
+      "extends":[]
+    }
+  ],
+  "comments":[]
+}

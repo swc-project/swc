@@ -1,0 +1,1 @@
+label: typeThatIsActuallyAnParam => 42

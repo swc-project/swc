@@ -1,0 +1,40 @@
+{
+  "errors":[
+    {
+      "loc":{"source":null,"start":{"line":1,"column":9},"end":{"line":1,"column":13}},
+      "message":"Unexpected reserved word"
+    }
+  ],
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":18}},
+  "range":[0,18],
+  "body":[
+    {
+      "type":"FunctionDeclaration",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":18}},
+      "range":[0,18],
+      "id":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":1,"column":9},"end":{"line":1,"column":13}},
+        "range":[9,13],
+        "name":"enum",
+        "typeAnnotation":null,
+        "optional":false
+      },
+      "params":[],
+      "body":{
+        "type":"BlockStatement",
+        "loc":{"source":null,"start":{"line":1,"column":16},"end":{"line":1,"column":18}},
+        "range":[16,18],
+        "body":[]
+      },
+      "async":false,
+      "generator":false,
+      "predicate":null,
+      "expression":false,
+      "returnType":null,
+      "typeParameters":null
+    }
+  ],
+  "comments":[]
+}

@@ -1,0 +1,17 @@
+func?.()
+
+func?.(a, b)
+
+a?.func?.()
+
+a?.func?.(a, b)
+
+a.func?.()
+
+func?.()()
+
+func?.().a
+
+func?.()?.()
+
+func?.()?.a

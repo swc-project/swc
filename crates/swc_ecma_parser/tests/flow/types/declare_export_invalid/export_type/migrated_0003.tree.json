@@ -1,0 +1,67 @@
+{
+  "errors":[
+    {
+      "loc":{"source":null,"start":{"line":1,"column":24},"end":{"line":1,"column":25}},
+      "message":"Unexpected identifier, expected the token `=`"
+    },
+    {
+      "loc":{"source":null,"start":{"line":1,"column":25},"end":{"line":1,"column":26}},
+      "message":"Unexpected token `:`, expected a type"
+    },
+    {
+      "loc":{"source":null,"start":{"line":1,"column":25},"end":{"line":1,"column":26}},
+      "message":"Unexpected token `:`, expected the token `;`"
+    },
+    {
+      "loc":{"source":null,"start":{"line":1,"column":25},"end":{"line":1,"column":26}},
+      "message":"Unexpected token `:`, expected the start of a statement"
+    }
+  ],
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":34}},
+  "range":[0,34],
+  "body":[
+    {
+      "type":"DeclareExportDeclaration",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":25}},
+      "range":[0,25],
+      "default":false,
+      "declaration":{
+        "type":"TypeAlias",
+        "loc":{"source":null,"start":{"line":1,"column":15},"end":{"line":1,"column":25}},
+        "range":[15,25],
+        "id":{
+          "type":"Identifier",
+          "loc":{"source":null,"start":{"line":1,"column":20},"end":{"line":1,"column":23}},
+          "range":[20,23],
+          "name":"var",
+          "typeAnnotation":null,
+          "optional":false
+        },
+        "typeParameters":null,
+        "right":{
+          "type":"AnyTypeAnnotation",
+          "loc":{"source":null,"start":{"line":1,"column":25},"end":{"line":1,"column":26}},
+          "range":[25,26]
+        }
+      },
+      "specifiers":[],
+      "source":null
+    },
+    {
+      "type":"ExpressionStatement",
+      "loc":{"source":null,"start":{"line":1,"column":27},"end":{"line":1,"column":34}},
+      "range":[27,34],
+      "expression":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":1,"column":27},"end":{"line":1,"column":33}},
+        "range":[27,33],
+        "name":"number",
+        "typeAnnotation":null,
+        "optional":false
+      },
+      "directive":null
+    }
+  ],
+  "comments":[]
+}

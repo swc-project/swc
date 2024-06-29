@@ -1,0 +1,30 @@
+{
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":14}},
+  "range":[0,14],
+  "body":[
+    {
+      "type":"HookDeclaration",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":14}},
+      "range":[0,14],
+      "id":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":1,"column":5},"end":{"line":1,"column":8}},
+        "range":[5,8],
+        "name":"foo",
+        "typeAnnotation":null,
+        "optional":false
+      },
+      "params":[],
+      "body":{
+        "type":"BlockStatement",
+        "loc":{"source":null,"start":{"line":1,"column":11},"end":{"line":1,"column":14}},
+        "range":[11,14],
+        "body":[]
+      },
+      "returnType":null,
+      "typeParameters":null
+    }
+  ],
+  "comments":[]
+}

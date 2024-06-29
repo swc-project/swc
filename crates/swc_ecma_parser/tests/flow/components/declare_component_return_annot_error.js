@@ -1,0 +1,1 @@
+declare component Foo(): number;

@@ -1,0 +1,1 @@
+export interface = 1

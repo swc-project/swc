@@ -1,0 +1,47 @@
+{
+  "errors":[
+    {
+      "loc":{"source":null,"start":{"line":1,"column":22},"end":{"line":1,"column":23}},
+      "message":"Components use `renders` instead of `:` to annotate the render type of a component."
+    }
+  ],
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":31}},
+  "range":[0,31],
+  "body":[
+    {
+      "type":"TypeAlias",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":31}},
+      "range":[0,31],
+      "id":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":1,"column":5},"end":{"line":1,"column":8}},
+        "range":[5,8],
+        "name":"Foo",
+        "typeAnnotation":null,
+        "optional":false
+      },
+      "typeParameters":null,
+      "right":{
+        "type":"ComponentTypeAnnotation",
+        "loc":{"source":null,"start":{"line":1,"column":11},"end":{"line":1,"column":30}},
+        "range":[11,30],
+        "params":[],
+        "rest":null,
+        "rendersType":{
+          "type":"TypeOperator",
+          "loc":{"source":null,"start":{"line":1,"column":24},"end":{"line":1,"column":30}},
+          "range":[24,30],
+          "operator":"renders",
+          "typeAnnotation":{
+            "type":"NumberTypeAnnotation",
+            "loc":{"source":null,"start":{"line":1,"column":24},"end":{"line":1,"column":30}},
+            "range":[24,30]
+          }
+        },
+        "typeParameters":null
+      }
+    }
+  ],
+  "comments":[]
+}
