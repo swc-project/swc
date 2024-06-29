@@ -1,34 +1,29 @@
 {
-  "errors":[
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 29,
+    "ctxt": 0
+  },
+  "body": [
     {
-      "loc":{"source":null,"start":{"line":1,"column":12},"end":{"line":1,"column":18}},
-      "message":"Unexpected reserved type"
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 1,
+        "end": 29,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "Identifier",
+        "span": {
+          "start": 1,
+          "end": 7,
+          "ctxt": 0
+        },
+        "value": "opaque",
+        "optional": false
+      }
     }
   ],
-  "type":"Program",
-  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":28}},
-  "range":[0,28],
-  "body":[
-    {
-      "type":"OpaqueType",
-      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":28}},
-      "range":[0,28],
-      "id":{
-        "type":"Identifier",
-        "loc":{"source":null,"start":{"line":1,"column":12},"end":{"line":1,"column":18}},
-        "range":[12,18],
-        "name":"string",
-        "typeAnnotation":null,
-        "optional":false
-      },
-      "typeParameters":null,
-      "impltype":{
-        "type":"NumberTypeAnnotation",
-        "loc":{"source":null,"start":{"line":1,"column":21},"end":{"line":1,"column":27}},
-        "range":[21,27]
-      },
-      "supertype":null
-    }
-  ],
-  "comments":[]
+  "interpreter": null
 }
