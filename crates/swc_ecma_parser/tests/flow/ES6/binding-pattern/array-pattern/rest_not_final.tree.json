@@ -1,62 +1,89 @@
 {
-  "errors":[
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 20,
+    "ctxt": 0
+  },
+  "body": [
     {
-      "loc":{"source":null,"start":{"line":1,"column":5},"end":{"line":1,"column":9}},
-      "message":"Rest element must be final element of an array pattern"
-    }
-  ],
-  "type":"Program",
-  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":19}},
-  "range":[0,19],
-  "body":[
-    {
-      "type":"VariableDeclaration",
-      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":19}},
-      "range":[0,19],
-      "declarations":[
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1,
+        "end": 20,
+        "ctxt": 0
+      },
+      "kind": "let",
+      "declare": false,
+      "declarations": [
         {
-          "type":"VariableDeclarator",
-          "loc":{"source":null,"start":{"line":1,"column":4},"end":{"line":1,"column":18}},
-          "range":[4,18],
-          "id":{
-            "type":"ArrayPattern",
-            "loc":{"source":null,"start":{"line":1,"column":4},"end":{"line":1,"column":13}},
-            "range":[4,13],
-            "elements":[
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 5,
+            "end": 19,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "ArrayPattern",
+            "span": {
+              "start": 5,
+              "end": 14,
+              "ctxt": 0
+            },
+            "elements": [
               {
-                "type":"RestElement",
-                "loc":{"source":null,"start":{"line":1,"column":5},"end":{"line":1,"column":9}},
-                "range":[5,9],
-                "argument":{
-                  "type":"Identifier",
-                  "loc":{"source":null,"start":{"line":1,"column":8},"end":{"line":1,"column":9}},
-                  "range":[8,9],
-                  "name":"a",
-                  "typeAnnotation":null,
-                  "optional":false
-                }
+                "type": "RestElement",
+                "span": {
+                  "start": 6,
+                  "end": 10,
+                  "ctxt": 0
+                },
+                "rest": {
+                  "start": 6,
+                  "end": 9,
+                  "ctxt": 0
+                },
+                "argument": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 9,
+                    "end": 10,
+                    "ctxt": 0
+                  },
+                  "value": "a",
+                  "optional": false,
+                  "typeAnnotation": null
+                },
+                "typeAnnotation": null
               },
               {
-                "type":"Identifier",
-                "loc":{"source":null,"start":{"line":1,"column":11},"end":{"line":1,"column":12}},
-                "range":[11,12],
-                "name":"b",
-                "typeAnnotation":null,
-                "optional":false
+                "type": "Identifier",
+                "span": {
+                  "start": 12,
+                  "end": 13,
+                  "ctxt": 0
+                },
+                "value": "b",
+                "optional": false,
+                "typeAnnotation": null
               }
             ],
-            "typeAnnotation":null
+            "optional": false,
+            "typeAnnotation": null
           },
-          "init":{
-            "type":"ArrayExpression",
-            "loc":{"source":null,"start":{"line":1,"column":16},"end":{"line":1,"column":18}},
-            "range":[16,18],
-            "elements":[]
-          }
+          "init": {
+            "type": "ArrayExpression",
+            "span": {
+              "start": 17,
+              "end": 19,
+              "ctxt": 0
+            },
+            "elements": []
+          },
+          "definite": false
         }
-      ],
-      "kind":"let"
+      ]
     }
   ],
-  "comments":[]
+  "interpreter": null
 }

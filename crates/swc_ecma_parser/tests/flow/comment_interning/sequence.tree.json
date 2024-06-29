@@ -1,173 +1,165 @@
 {
-  "type":"Program",
-  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":7,"column":1}},
-  "range":[0,188],
-  "body":[
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 189,
+    "ctxt": 0
+  },
+  "body": [
     {
-      "type":"FunctionDeclaration",
-      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":3,"column":1}},
-      "range":[0,93],
-      "id":{
-        "type":"Identifier",
-        "loc":{"source":null,"start":{"line":1,"column":9},"end":{"line":1,"column":30}},
-        "range":[9,30],
-        "name":"parenthesizedSequence",
-        "typeAnnotation":null,
-        "optional":false
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 10,
+          "end": 31,
+          "ctxt": 0
+        },
+        "value": "parenthesizedSequence",
+        "optional": false
       },
-      "params":[],
-      "body":{
-        "type":"BlockStatement",
-        "loc":{"source":null,"start":{"line":1,"column":33},"end":{"line":3,"column":1}},
-        "range":[33,93],
-        "body":[
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 1,
+        "end": 94,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 34,
+          "end": 94,
+          "ctxt": 0
+        },
+        "stmts": [
           {
-            "type":"ExpressionStatement",
-            "loc":{"source":null,"start":{"line":2,"column":26},"end":{"line":2,"column":56}},
-            "range":[61,91],
-            "expression":{
-              "type":"SequenceExpression",
-              "trailingComments":[
-                {
-                  "type":"Block",
-                  "loc":{"source":null,"start":{"line":2,"column":33},"end":{"line":2,"column":55}},
-                  "range":[68,90],
-                  "value":" 1.2 Trailing seq "
-                }
-              ],
-              "leadingComments":[
-                {
-                  "type":"Block",
-                  "loc":{"source":null,"start":{"line":2,"column":4},"end":{"line":2,"column":25}},
-                  "range":[39,60],
-                  "value":" 1.1 Leading seq "
-                }
-              ],
-              "loc":{"source":null,"start":{"line":2,"column":27},"end":{"line":2,"column":31}},
-              "range":[62,66],
-              "expressions":[
-                {
-                  "type":"Literal",
-                  "loc":{"source":null,"start":{"line":2,"column":27},"end":{"line":2,"column":28}},
-                  "range":[62,63],
-                  "value":1,
-                  "raw":"1"
-                },
-                {
-                  "type":"Literal",
-                  "loc":{"source":null,"start":{"line":2,"column":30},"end":{"line":2,"column":31}},
-                  "range":[65,66],
-                  "value":1,
-                  "raw":"1"
-                }
-              ]
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 62,
+              "end": 92,
+              "ctxt": 0
             },
-            "directive":null
+            "expression": {
+              "type": "ParenthesisExpression",
+              "span": {
+                "start": 62,
+                "end": 68,
+                "ctxt": 0
+              },
+              "expression": {
+                "type": "SequenceExpression",
+                "span": {
+                  "start": 63,
+                  "end": 67,
+                  "ctxt": 0
+                },
+                "expressions": [
+                  {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 63,
+                      "end": 64,
+                      "ctxt": 0
+                    },
+                    "value": 1.0,
+                    "raw": "1"
+                  },
+                  {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 66,
+                      "end": 67,
+                      "ctxt": 0
+                    },
+                    "value": 1.0,
+                    "raw": "1"
+                  }
+                ]
+              }
+            }
           }
         ]
       },
-      "async":false,
-      "generator":false,
-      "predicate":null,
-      "expression":false,
-      "returnType":null,
-      "typeParameters":null
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
     },
     {
-      "type":"FunctionDeclaration",
-      "loc":{"source":null,"start":{"line":5,"column":0},"end":{"line":7,"column":1}},
-      "range":[95,188],
-      "id":{
-        "type":"Identifier",
-        "loc":{"source":null,"start":{"line":5,"column":9},"end":{"line":5,"column":32}},
-        "range":[104,127],
-        "name":"unparenthesizedSequence",
-        "typeAnnotation":null,
-        "optional":false
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 105,
+          "end": 128,
+          "ctxt": 0
+        },
+        "value": "unparenthesizedSequence",
+        "optional": false
       },
-      "params":[],
-      "body":{
-        "type":"BlockStatement",
-        "loc":{"source":null,"start":{"line":5,"column":35},"end":{"line":7,"column":1}},
-        "range":[130,188],
-        "body":[
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 96,
+        "end": 189,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 131,
+          "end": 189,
+          "ctxt": 0
+        },
+        "stmts": [
           {
-            "type":"ExpressionStatement",
-            "loc":{"source":null,"start":{"line":6,"column":26},"end":{"line":6,"column":54}},
-            "range":[158,186],
-            "expression":{
-              "type":"SequenceExpression",
-              "loc":{"source":null,"start":{"line":6,"column":26},"end":{"line":6,"column":30}},
-              "range":[158,162],
-              "expressions":[
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 159,
+              "end": 187,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "SequenceExpression",
+              "span": {
+                "start": 159,
+                "end": 163,
+                "ctxt": 0
+              },
+              "expressions": [
                 {
-                  "type":"Literal",
-                  "leadingComments":[
-                    {
-                      "type":"Block",
-                      "loc":{"source":null,"start":{"line":6,"column":4},"end":{"line":6,"column":25}},
-                      "range":[136,157],
-                      "value":" 2.1 Leading num "
-                    }
-                  ],
-                  "loc":{"source":null,"start":{"line":6,"column":26},"end":{"line":6,"column":27}},
-                  "range":[158,159],
-                  "value":1,
-                  "raw":"1"
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 159,
+                    "end": 160,
+                    "ctxt": 0
+                  },
+                  "value": 1.0,
+                  "raw": "1"
                 },
                 {
-                  "type":"Literal",
-                  "trailingComments":[
-                    {
-                      "type":"Block",
-                      "loc":{"source":null,"start":{"line":6,"column":31},"end":{"line":6,"column":53}},
-                      "range":[163,185],
-                      "value":" 2.2 Trailing num "
-                    }
-                  ],
-                  "loc":{"source":null,"start":{"line":6,"column":29},"end":{"line":6,"column":30}},
-                  "range":[161,162],
-                  "value":1,
-                  "raw":"1"
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 162,
+                    "end": 163,
+                    "ctxt": 0
+                  },
+                  "value": 1.0,
+                  "raw": "1"
                 }
               ]
-            },
-            "directive":null
+            }
           }
         ]
       },
-      "async":false,
-      "generator":false,
-      "predicate":null,
-      "expression":false,
-      "returnType":null,
-      "typeParameters":null
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
     }
   ],
-  "comments":[
-    {
-      "type":"Block",
-      "loc":{"source":null,"start":{"line":2,"column":4},"end":{"line":2,"column":25}},
-      "range":[39,60],
-      "value":" 1.1 Leading seq "
-    },
-    {
-      "type":"Block",
-      "loc":{"source":null,"start":{"line":2,"column":33},"end":{"line":2,"column":55}},
-      "range":[68,90],
-      "value":" 1.2 Trailing seq "
-    },
-    {
-      "type":"Block",
-      "loc":{"source":null,"start":{"line":6,"column":4},"end":{"line":6,"column":25}},
-      "range":[136,157],
-      "value":" 2.1 Leading num "
-    },
-    {
-      "type":"Block",
-      "loc":{"source":null,"start":{"line":6,"column":31},"end":{"line":6,"column":53}},
-      "range":[163,185],
-      "value":" 2.2 Trailing num "
-    }
-  ]
+  "interpreter": null
 }

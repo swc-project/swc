@@ -1,80 +1,96 @@
 {
-  "type":"Program",
-  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":3,"column":22}},
-  "range":[0,37],
-  "body":[
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 38,
+    "ctxt": 0
+  },
+  "body": [
     {
-      "type":"ExpressionStatement",
-      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":13}},
-      "range":[0,13],
-      "expression":{
-        "type":"Literal",
-        "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":12}},
-        "range":[0,12],
-        "value":"use strict",
-        "raw":"\"use strict\""
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 1,
+        "end": 14,
+        "ctxt": 0
       },
-      "directive":"use strict"
+      "expression": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 1,
+          "end": 13,
+          "ctxt": 0
+        },
+        "value": "use strict",
+        "raw": "\"use strict\""
+      }
     },
     {
-      "type":"ExpressionStatement",
-      "loc":{"source":null,"start":{"line":3,"column":0},"end":{"line":3,"column":22}},
-      "range":[15,37],
-      "expression":{
-        "type":"ArrowFunctionExpression",
-        "loc":{"source":null,"start":{"line":3,"column":0},"end":{"line":3,"column":22}},
-        "range":[15,37],
-        "id":null,
-        "params":[
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 16,
+        "end": 38,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "ArrowFunctionExpression",
+        "span": {
+          "start": 16,
+          "end": 38,
+          "ctxt": 0
+        },
+        "params": [
           {
-            "type":"ObjectPattern",
-            "loc":{"source":null,"start":{"line":3,"column":1},"end":{"line":3,"column":15}},
-            "range":[16,30],
-            "properties":[
+            "type": "ObjectPattern",
+            "span": {
+              "start": 17,
+              "end": 31,
+              "ctxt": 0
+            },
+            "properties": [
               {
-                "type":"Property",
-                "loc":{"source":null,"start":{"line":3,"column":2},"end":{"line":3,"column":14}},
-                "range":[17,29],
-                "key":{
-                  "type":"Identifier",
-                  "loc":{"source":null,"start":{"line":3,"column":2},"end":{"line":3,"column":9}},
-                  "range":[17,24],
-                  "name":"package",
-                  "typeAnnotation":null,
-                  "optional":false
+                "type": "KeyValuePatternProperty",
+                "key": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 18,
+                    "end": 25,
+                    "ctxt": 0
+                  },
+                  "value": "package",
+                  "optional": false
                 },
-                "value":{
-                  "type":"Identifier",
-                  "loc":{"source":null,"start":{"line":3,"column":11},"end":{"line":3,"column":14}},
-                  "range":[26,29],
-                  "name":"pkg",
-                  "typeAnnotation":null,
-                  "optional":false
-                },
-                "kind":"init",
-                "method":false,
-                "shorthand":false,
-                "computed":false
+                "value": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 27,
+                    "end": 30,
+                    "ctxt": 0
+                  },
+                  "value": "pkg",
+                  "optional": false,
+                  "typeAnnotation": null
+                }
               }
             ],
-            "typeAnnotation":null
+            "optional": false,
+            "typeAnnotation": null
           }
         ],
-        "body":{
-          "type":"BlockStatement",
-          "loc":{"source":null,"start":{"line":3,"column":20},"end":{"line":3,"column":22}},
-          "range":[35,37],
-          "body":[]
+        "body": {
+          "type": "BlockStatement",
+          "span": {
+            "start": 36,
+            "end": 38,
+            "ctxt": 0
+          },
+          "stmts": []
         },
-        "async":false,
-        "generator":false,
-        "predicate":null,
-        "expression":false,
-        "returnType":null,
-        "typeParameters":null
-      },
-      "directive":null
+        "async": false,
+        "generator": false,
+        "typeParameters": null,
+        "returnType": null
+      }
     }
   ],
-  "comments":[]
+  "interpreter": null
 }

@@ -1,63 +1,44 @@
 {
-  "type":"Program",
-  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":34}},
-  "range":[0,34],
-  "body":[
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 35,
+    "ctxt": 0
+  },
+  "body": [
     {
-      "type":"VariableDeclaration",
-      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":34}},
-      "range":[0,34],
-      "declarations":[
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1,
+        "end": 35,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
         {
-          "type":"VariableDeclarator",
-          "loc":{"source":null,"start":{"line":1,"column":4},"end":{"line":1,"column":34}},
-          "range":[4,34],
-          "id":{
-            "type":"Identifier",
-            "loc":{"source":null,"start":{"line":1,"column":4},"end":{"line":1,"column":34}},
-            "range":[4,34],
-            "name":"a",
-            "typeAnnotation":{
-              "type":"TypeAnnotation",
-              "loc":{"source":null,"start":{"line":1,"column":5},"end":{"line":1,"column":34}},
-              "range":[5,34],
-              "typeAnnotation":{
-                "type":"IntersectionTypeAnnotation",
-                "loc":{"source":null,"start":{"line":1,"column":7},"end":{"line":1,"column":34}},
-                "range":[7,34],
-                "types":[
-                  {
-                    "type":"NumberTypeAnnotation",
-                    "loc":{"source":null,"start":{"line":1,"column":7},"end":{"line":1,"column":13}},
-                    "range":[7,13]
-                  },
-                  {
-                    "type":"UnionTypeAnnotation",
-                    "loc":{"source":null,"start":{"line":1,"column":17},"end":{"line":1,"column":33}},
-                    "range":[17,33],
-                    "types":[
-                      {
-                        "type":"StringTypeAnnotation",
-                        "loc":{"source":null,"start":{"line":1,"column":17},"end":{"line":1,"column":23}},
-                        "range":[17,23]
-                      },
-                      {
-                        "type":"BooleanTypeAnnotation",
-                        "loc":{"source":null,"start":{"line":1,"column":26},"end":{"line":1,"column":33}},
-                        "range":[26,33]
-                      }
-                    ]
-                  }
-                ]
-              }
-            },
-            "optional":false
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 5,
+            "end": 6,
+            "ctxt": 0
           },
-          "init":null
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 5,
+              "end": 6,
+              "ctxt": 0
+            },
+            "value": "a",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": null,
+          "definite": false
         }
-      ],
-      "kind":"var"
+      ]
     }
   ],
-  "comments":[]
+  "interpreter": null
 }

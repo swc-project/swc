@@ -1,89 +1,105 @@
 {
-  "type":"Program",
-  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":31}},
-  "range":[0,31],
-  "body":[
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 32,
+    "ctxt": 0
+  },
+  "body": [
     {
-      "type":"VariableDeclaration",
-      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":14}},
-      "range":[0,14],
-      "declarations":[
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1,
+        "end": 15,
+        "ctxt": 0
+      },
+      "kind": "let",
+      "declare": false,
+      "declarations": [
         {
-          "type":"VariableDeclarator",
-          "loc":{"source":null,"start":{"line":1,"column":4},"end":{"line":1,"column":13}},
-          "range":[4,13],
-          "id":{
-            "type":"Identifier",
-            "loc":{"source":null,"start":{"line":1,"column":4},"end":{"line":1,"column":7}},
-            "range":[4,7],
-            "name":"get",
-            "typeAnnotation":null,
-            "optional":false
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 5,
+            "end": 14,
+            "ctxt": 0
           },
-          "init":{
-            "type":"Literal",
-            "loc":{"source":null,"start":{"line":1,"column":10},"end":{"line":1,"column":13}},
-            "range":[10,13],
-            "value":123,
-            "raw":"123"
-          }
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 5,
+              "end": 8,
+              "ctxt": 0
+            },
+            "value": "get",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 11,
+              "end": 14,
+              "ctxt": 0
+            },
+            "value": 123.0,
+            "raw": "123"
+          },
+          "definite": false
         }
-      ],
-      "kind":"let"
+      ]
     },
     {
-      "type":"VariableDeclaration",
-      "loc":{"source":null,"start":{"line":1,"column":15},"end":{"line":1,"column":31}},
-      "range":[15,31],
-      "declarations":[
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 16,
+        "end": 32,
+        "ctxt": 0
+      },
+      "kind": "let",
+      "declare": false,
+      "declarations": [
         {
-          "type":"VariableDeclarator",
-          "loc":{"source":null,"start":{"line":1,"column":19},"end":{"line":1,"column":30}},
-          "range":[19,30],
-          "id":{
-            "type":"Identifier",
-            "loc":{"source":null,"start":{"line":1,"column":19},"end":{"line":1,"column":20}},
-            "range":[19,20],
-            "name":"x",
-            "typeAnnotation":null,
-            "optional":false
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 20,
+            "end": 31,
+            "ctxt": 0
           },
-          "init":{
-            "type":"ObjectExpression",
-            "loc":{"source":null,"start":{"line":1,"column":23},"end":{"line":1,"column":30}},
-            "range":[23,30],
-            "properties":[
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 20,
+              "end": 21,
+              "ctxt": 0
+            },
+            "value": "x",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "ObjectExpression",
+            "span": {
+              "start": 24,
+              "end": 31,
+              "ctxt": 0
+            },
+            "properties": [
               {
-                "type":"Property",
-                "loc":{"source":null,"start":{"line":1,"column":25},"end":{"line":1,"column":28}},
-                "range":[25,28],
-                "key":{
-                  "type":"Identifier",
-                  "loc":{"source":null,"start":{"line":1,"column":25},"end":{"line":1,"column":28}},
-                  "range":[25,28],
-                  "name":"get",
-                  "typeAnnotation":null,
-                  "optional":false
+                "type": "Identifier",
+                "span": {
+                  "start": 26,
+                  "end": 29,
+                  "ctxt": 0
                 },
-                "value":{
-                  "type":"Identifier",
-                  "loc":{"source":null,"start":{"line":1,"column":25},"end":{"line":1,"column":28}},
-                  "range":[25,28],
-                  "name":"get",
-                  "typeAnnotation":null,
-                  "optional":false
-                },
-                "kind":"init",
-                "method":false,
-                "shorthand":true,
-                "computed":false
+                "value": "get",
+                "optional": false
               }
             ]
-          }
+          },
+          "definite": false
         }
-      ],
-      "kind":"let"
+      ]
     }
   ],
-  "comments":[]
+  "interpreter": null
 }

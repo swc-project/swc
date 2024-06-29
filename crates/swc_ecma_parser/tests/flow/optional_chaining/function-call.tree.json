@@ -1,506 +1,562 @@
 {
-  "type":"Program",
-  "loc":{
-    "source":null,
-    "start":{"line":1,"column":0},
-    "end":{"line":17,"column":11}
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 116,
+    "ctxt": 0
   },
-  "range":[0,115],
-  "body":[
+  "body": [
     {
-      "type":"ExpressionStatement",
-      "loc":{
-        "source":null,
-        "start":{"line":1,"column":0},
-        "end":{"line":1,"column":8}
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 1,
+        "end": 9,
+        "ctxt": 0
       },
-      "range":[0,8],
-      "expression":{
-        "type":"OptionalCallExpression",
-        "loc":{
-          "source":null,
-          "start":{"line":1,"column":0},
-          "end":{"line":1,"column":8}
+      "expression": {
+        "type": "OptionalChainingExpression",
+        "span": {
+          "start": 1,
+          "end": 9,
+          "ctxt": 0
         },
-        "range":[0,8],
-        "callee":{
-          "type":"Identifier",
-          "loc":{
-            "source":null,
-            "start":{"line":1,"column":0},
-            "end":{"line":1,"column":4}
+        "optional": true,
+        "base": {
+          "type": "CallExpression",
+          "span": {
+            "start": 1,
+            "end": 9,
+            "ctxt": 0
           },
-          "range":[0,4],
-          "name":"func",
-          "typeAnnotation":null,
-          "optional":false
-        },
-        "typeArguments":null,
-        "arguments":[],
-        "optional":true
-      },
-      "directive":null
+          "callee": {
+            "type": "Identifier",
+            "span": {
+              "start": 1,
+              "end": 5,
+              "ctxt": 0
+            },
+            "value": "func",
+            "optional": false
+          },
+          "arguments": [],
+          "typeArguments": null
+        }
+      }
     },
     {
-      "type":"ExpressionStatement",
-      "loc":{
-        "source":null,
-        "start":{"line":3,"column":0},
-        "end":{"line":3,"column":12}
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 11,
+        "end": 23,
+        "ctxt": 0
       },
-      "range":[10,22],
-      "expression":{
-        "type":"OptionalCallExpression",
-        "loc":{
-          "source":null,
-          "start":{"line":3,"column":0},
-          "end":{"line":3,"column":12}
+      "expression": {
+        "type": "OptionalChainingExpression",
+        "span": {
+          "start": 11,
+          "end": 23,
+          "ctxt": 0
         },
-        "range":[10,22],
-        "callee":{
-          "type":"Identifier",
-          "loc":{
-            "source":null,
-            "start":{"line":3,"column":0},
-            "end":{"line":3,"column":4}
+        "optional": true,
+        "base": {
+          "type": "CallExpression",
+          "span": {
+            "start": 11,
+            "end": 23,
+            "ctxt": 0
           },
-          "range":[10,14],
-          "name":"func",
-          "typeAnnotation":null,
-          "optional":false
+          "callee": {
+            "type": "Identifier",
+            "span": {
+              "start": 11,
+              "end": 15,
+              "ctxt": 0
+            },
+            "value": "func",
+            "optional": false
+          },
+          "arguments": [
+            {
+              "spread": null,
+              "expression": {
+                "type": "Identifier",
+                "span": {
+                  "start": 18,
+                  "end": 19,
+                  "ctxt": 0
+                },
+                "value": "a",
+                "optional": false
+              }
+            },
+            {
+              "spread": null,
+              "expression": {
+                "type": "Identifier",
+                "span": {
+                  "start": 21,
+                  "end": 22,
+                  "ctxt": 0
+                },
+                "value": "b",
+                "optional": false
+              }
+            }
+          ],
+          "typeArguments": null
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 25,
+        "end": 36,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "OptionalChainingExpression",
+        "span": {
+          "start": 25,
+          "end": 36,
+          "ctxt": 0
         },
-        "typeArguments":null,
-        "arguments":[
-          {
-            "type":"Identifier",
-            "loc":{
-              "source":null,
-              "start":{"line":3,"column":7},
-              "end":{"line":3,"column":8}
-            },
-            "range":[17,18],
-            "name":"a",
-            "typeAnnotation":null,
-            "optional":false
+        "optional": true,
+        "base": {
+          "type": "CallExpression",
+          "span": {
+            "start": 25,
+            "end": 36,
+            "ctxt": 0
           },
-          {
-            "type":"Identifier",
-            "loc":{
-              "source":null,
-              "start":{"line":3,"column":10},
-              "end":{"line":3,"column":11}
+          "callee": {
+            "type": "OptionalChainingExpression",
+            "span": {
+              "start": 25,
+              "end": 32,
+              "ctxt": 0
             },
-            "range":[20,21],
-            "name":"b",
-            "typeAnnotation":null,
-            "optional":false
+            "optional": true,
+            "base": {
+              "type": "MemberExpression",
+              "span": {
+                "start": 25,
+                "end": 32,
+                "ctxt": 0
+              },
+              "object": {
+                "type": "Identifier",
+                "span": {
+                  "start": 25,
+                  "end": 26,
+                  "ctxt": 0
+                },
+                "value": "a",
+                "optional": false
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 28,
+                  "end": 32,
+                  "ctxt": 0
+                },
+                "value": "func",
+                "optional": false
+              }
+            }
+          },
+          "arguments": [],
+          "typeArguments": null
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 38,
+        "end": 53,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "OptionalChainingExpression",
+        "span": {
+          "start": 38,
+          "end": 53,
+          "ctxt": 0
+        },
+        "optional": true,
+        "base": {
+          "type": "CallExpression",
+          "span": {
+            "start": 38,
+            "end": 53,
+            "ctxt": 0
+          },
+          "callee": {
+            "type": "OptionalChainingExpression",
+            "span": {
+              "start": 38,
+              "end": 45,
+              "ctxt": 0
+            },
+            "optional": true,
+            "base": {
+              "type": "MemberExpression",
+              "span": {
+                "start": 38,
+                "end": 45,
+                "ctxt": 0
+              },
+              "object": {
+                "type": "Identifier",
+                "span": {
+                  "start": 38,
+                  "end": 39,
+                  "ctxt": 0
+                },
+                "value": "a",
+                "optional": false
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 41,
+                  "end": 45,
+                  "ctxt": 0
+                },
+                "value": "func",
+                "optional": false
+              }
+            }
+          },
+          "arguments": [
+            {
+              "spread": null,
+              "expression": {
+                "type": "Identifier",
+                "span": {
+                  "start": 48,
+                  "end": 49,
+                  "ctxt": 0
+                },
+                "value": "a",
+                "optional": false
+              }
+            },
+            {
+              "spread": null,
+              "expression": {
+                "type": "Identifier",
+                "span": {
+                  "start": 51,
+                  "end": 52,
+                  "ctxt": 0
+                },
+                "value": "b",
+                "optional": false
+              }
+            }
+          ],
+          "typeArguments": null
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 55,
+        "end": 65,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "OptionalChainingExpression",
+        "span": {
+          "start": 55,
+          "end": 65,
+          "ctxt": 0
+        },
+        "optional": true,
+        "base": {
+          "type": "CallExpression",
+          "span": {
+            "start": 55,
+            "end": 65,
+            "ctxt": 0
+          },
+          "callee": {
+            "type": "MemberExpression",
+            "span": {
+              "start": 55,
+              "end": 61,
+              "ctxt": 0
+            },
+            "object": {
+              "type": "Identifier",
+              "span": {
+                "start": 55,
+                "end": 56,
+                "ctxt": 0
+              },
+              "value": "a",
+              "optional": false
+            },
+            "property": {
+              "type": "Identifier",
+              "span": {
+                "start": 57,
+                "end": 61,
+                "ctxt": 0
+              },
+              "value": "func",
+              "optional": false
+            }
+          },
+          "arguments": [],
+          "typeArguments": null
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 67,
+        "end": 77,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "OptionalChainingExpression",
+        "span": {
+          "start": 67,
+          "end": 77,
+          "ctxt": 0
+        },
+        "optional": false,
+        "base": {
+          "type": "CallExpression",
+          "span": {
+            "start": 67,
+            "end": 77,
+            "ctxt": 0
+          },
+          "callee": {
+            "type": "OptionalChainingExpression",
+            "span": {
+              "start": 67,
+              "end": 75,
+              "ctxt": 0
+            },
+            "optional": true,
+            "base": {
+              "type": "CallExpression",
+              "span": {
+                "start": 67,
+                "end": 75,
+                "ctxt": 0
+              },
+              "callee": {
+                "type": "Identifier",
+                "span": {
+                  "start": 67,
+                  "end": 71,
+                  "ctxt": 0
+                },
+                "value": "func",
+                "optional": false
+              },
+              "arguments": [],
+              "typeArguments": null
+            }
+          },
+          "arguments": [],
+          "typeArguments": null
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 79,
+        "end": 89,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "OptionalChainingExpression",
+        "span": {
+          "start": 79,
+          "end": 89,
+          "ctxt": 0
+        },
+        "optional": false,
+        "base": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 79,
+            "end": 89,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "OptionalChainingExpression",
+            "span": {
+              "start": 79,
+              "end": 87,
+              "ctxt": 0
+            },
+            "optional": true,
+            "base": {
+              "type": "CallExpression",
+              "span": {
+                "start": 79,
+                "end": 87,
+                "ctxt": 0
+              },
+              "callee": {
+                "type": "Identifier",
+                "span": {
+                  "start": 79,
+                  "end": 83,
+                  "ctxt": 0
+                },
+                "value": "func",
+                "optional": false
+              },
+              "arguments": [],
+              "typeArguments": null
+            }
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 88,
+              "end": 89,
+              "ctxt": 0
+            },
+            "value": "a",
+            "optional": false
           }
-        ],
-        "optional":true
-      },
-      "directive":null
+        }
+      }
     },
     {
-      "type":"ExpressionStatement",
-      "loc":{
-        "source":null,
-        "start":{"line":5,"column":0},
-        "end":{"line":5,"column":11}
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 91,
+        "end": 103,
+        "ctxt": 0
       },
-      "range":[24,35],
-      "expression":{
-        "type":"OptionalCallExpression",
-        "loc":{
-          "source":null,
-          "start":{"line":5,"column":0},
-          "end":{"line":5,"column":11}
+      "expression": {
+        "type": "OptionalChainingExpression",
+        "span": {
+          "start": 91,
+          "end": 103,
+          "ctxt": 0
         },
-        "range":[24,35],
-        "callee":{
-          "type":"OptionalMemberExpression",
-          "loc":{
-            "source":null,
-            "start":{"line":5,"column":0},
-            "end":{"line":5,"column":7}
+        "optional": true,
+        "base": {
+          "type": "CallExpression",
+          "span": {
+            "start": 91,
+            "end": 103,
+            "ctxt": 0
           },
-          "range":[24,31],
-          "object":{
-            "type":"Identifier",
-            "loc":{
-              "source":null,
-              "start":{"line":5,"column":0},
-              "end":{"line":5,"column":1}
+          "callee": {
+            "type": "OptionalChainingExpression",
+            "span": {
+              "start": 91,
+              "end": 99,
+              "ctxt": 0
             },
-            "range":[24,25],
-            "name":"a",
-            "typeAnnotation":null,
-            "optional":false
+            "optional": true,
+            "base": {
+              "type": "CallExpression",
+              "span": {
+                "start": 91,
+                "end": 99,
+                "ctxt": 0
+              },
+              "callee": {
+                "type": "Identifier",
+                "span": {
+                  "start": 91,
+                  "end": 95,
+                  "ctxt": 0
+                },
+                "value": "func",
+                "optional": false
+              },
+              "arguments": [],
+              "typeArguments": null
+            }
           },
-          "property":{
-            "type":"Identifier",
-            "loc":{
-              "source":null,
-              "start":{"line":5,"column":3},
-              "end":{"line":5,"column":7}
-            },
-            "range":[27,31],
-            "name":"func",
-            "typeAnnotation":null,
-            "optional":false
-          },
-          "computed":false,
-          "optional":true
-        },
-        "typeArguments":null,
-        "arguments":[],
-        "optional":true
-      },
-      "directive":null
+          "arguments": [],
+          "typeArguments": null
+        }
+      }
     },
     {
-      "type":"ExpressionStatement",
-      "loc":{
-        "source":null,
-        "start":{"line":7,"column":0},
-        "end":{"line":7,"column":15}
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 105,
+        "end": 116,
+        "ctxt": 0
       },
-      "range":[37,52],
-      "expression":{
-        "type":"OptionalCallExpression",
-        "loc":{
-          "source":null,
-          "start":{"line":7,"column":0},
-          "end":{"line":7,"column":15}
+      "expression": {
+        "type": "OptionalChainingExpression",
+        "span": {
+          "start": 105,
+          "end": 116,
+          "ctxt": 0
         },
-        "range":[37,52],
-        "callee":{
-          "type":"OptionalMemberExpression",
-          "loc":{
-            "source":null,
-            "start":{"line":7,"column":0},
-            "end":{"line":7,"column":7}
+        "optional": true,
+        "base": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 105,
+            "end": 116,
+            "ctxt": 0
           },
-          "range":[37,44],
-          "object":{
-            "type":"Identifier",
-            "loc":{
-              "source":null,
-              "start":{"line":7,"column":0},
-              "end":{"line":7,"column":1}
+          "object": {
+            "type": "OptionalChainingExpression",
+            "span": {
+              "start": 105,
+              "end": 113,
+              "ctxt": 0
             },
-            "range":[37,38],
-            "name":"a",
-            "typeAnnotation":null,
-            "optional":false
+            "optional": true,
+            "base": {
+              "type": "CallExpression",
+              "span": {
+                "start": 105,
+                "end": 113,
+                "ctxt": 0
+              },
+              "callee": {
+                "type": "Identifier",
+                "span": {
+                  "start": 105,
+                  "end": 109,
+                  "ctxt": 0
+                },
+                "value": "func",
+                "optional": false
+              },
+              "arguments": [],
+              "typeArguments": null
+            }
           },
-          "property":{
-            "type":"Identifier",
-            "loc":{
-              "source":null,
-              "start":{"line":7,"column":3},
-              "end":{"line":7,"column":7}
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 115,
+              "end": 116,
+              "ctxt": 0
             },
-            "range":[40,44],
-            "name":"func",
-            "typeAnnotation":null,
-            "optional":false
-          },
-          "computed":false,
-          "optional":true
-        },
-        "typeArguments":null,
-        "arguments":[
-          {
-            "type":"Identifier",
-            "loc":{
-              "source":null,
-              "start":{"line":7,"column":10},
-              "end":{"line":7,"column":11}
-            },
-            "range":[47,48],
-            "name":"a",
-            "typeAnnotation":null,
-            "optional":false
-          },
-          {
-            "type":"Identifier",
-            "loc":{
-              "source":null,
-              "start":{"line":7,"column":13},
-              "end":{"line":7,"column":14}
-            },
-            "range":[50,51],
-            "name":"b",
-            "typeAnnotation":null,
-            "optional":false
+            "value": "a",
+            "optional": false
           }
-        ],
-        "optional":true
-      },
-      "directive":null
-    },
-    {
-      "type":"ExpressionStatement",
-      "loc":{
-        "source":null,
-        "start":{"line":9,"column":0},
-        "end":{"line":9,"column":10}
-      },
-      "range":[54,64],
-      "expression":{
-        "type":"OptionalCallExpression",
-        "loc":{
-          "source":null,
-          "start":{"line":9,"column":0},
-          "end":{"line":9,"column":10}
-        },
-        "range":[54,64],
-        "callee":{
-          "type":"MemberExpression",
-          "loc":{
-            "source":null,
-            "start":{"line":9,"column":0},
-            "end":{"line":9,"column":6}
-          },
-          "range":[54,60],
-          "object":{
-            "type":"Identifier",
-            "loc":{
-              "source":null,
-              "start":{"line":9,"column":0},
-              "end":{"line":9,"column":1}
-            },
-            "range":[54,55],
-            "name":"a",
-            "typeAnnotation":null,
-            "optional":false
-          },
-          "property":{
-            "type":"Identifier",
-            "loc":{
-              "source":null,
-              "start":{"line":9,"column":2},
-              "end":{"line":9,"column":6}
-            },
-            "range":[56,60],
-            "name":"func",
-            "typeAnnotation":null,
-            "optional":false
-          },
-          "computed":false
-        },
-        "typeArguments":null,
-        "arguments":[],
-        "optional":true
-      },
-      "directive":null
-    },
-    {
-      "type":"ExpressionStatement",
-      "loc":{
-        "source":null,
-        "start":{"line":11,"column":0},
-        "end":{"line":11,"column":10}
-      },
-      "range":[66,76],
-      "expression":{
-        "type":"OptionalCallExpression",
-        "loc":{
-          "source":null,
-          "start":{"line":11,"column":0},
-          "end":{"line":11,"column":10}
-        },
-        "range":[66,76],
-        "callee":{
-          "type":"OptionalCallExpression",
-          "loc":{
-            "source":null,
-            "start":{"line":11,"column":0},
-            "end":{"line":11,"column":8}
-          },
-          "range":[66,74],
-          "callee":{
-            "type":"Identifier",
-            "loc":{
-              "source":null,
-              "start":{"line":11,"column":0},
-              "end":{"line":11,"column":4}
-            },
-            "range":[66,70],
-            "name":"func",
-            "typeAnnotation":null,
-            "optional":false
-          },
-          "typeArguments":null,
-          "arguments":[],
-          "optional":true
-        },
-        "typeArguments":null,
-        "arguments":[],
-        "optional":false
-      },
-      "directive":null
-    },
-    {
-      "type":"ExpressionStatement",
-      "loc":{
-        "source":null,
-        "start":{"line":13,"column":0},
-        "end":{"line":13,"column":10}
-      },
-      "range":[78,88],
-      "expression":{
-        "type":"OptionalMemberExpression",
-        "loc":{
-          "source":null,
-          "start":{"line":13,"column":0},
-          "end":{"line":13,"column":10}
-        },
-        "range":[78,88],
-        "object":{
-          "type":"OptionalCallExpression",
-          "loc":{
-            "source":null,
-            "start":{"line":13,"column":0},
-            "end":{"line":13,"column":8}
-          },
-          "range":[78,86],
-          "callee":{
-            "type":"Identifier",
-            "loc":{
-              "source":null,
-              "start":{"line":13,"column":0},
-              "end":{"line":13,"column":4}
-            },
-            "range":[78,82],
-            "name":"func",
-            "typeAnnotation":null,
-            "optional":false
-          },
-          "typeArguments":null,
-          "arguments":[],
-          "optional":true
-        },
-        "property":{
-          "type":"Identifier",
-          "loc":{
-            "source":null,
-            "start":{"line":13,"column":9},
-            "end":{"line":13,"column":10}
-          },
-          "range":[87,88],
-          "name":"a",
-          "typeAnnotation":null,
-          "optional":false
-        },
-        "computed":false,
-        "optional":false
-      },
-      "directive":null
-    },
-    {
-      "type":"ExpressionStatement",
-      "loc":{
-        "source":null,
-        "start":{"line":15,"column":0},
-        "end":{"line":15,"column":12}
-      },
-      "range":[90,102],
-      "expression":{
-        "type":"OptionalCallExpression",
-        "loc":{
-          "source":null,
-          "start":{"line":15,"column":0},
-          "end":{"line":15,"column":12}
-        },
-        "range":[90,102],
-        "callee":{
-          "type":"OptionalCallExpression",
-          "loc":{
-            "source":null,
-            "start":{"line":15,"column":0},
-            "end":{"line":15,"column":8}
-          },
-          "range":[90,98],
-          "callee":{
-            "type":"Identifier",
-            "loc":{
-              "source":null,
-              "start":{"line":15,"column":0},
-              "end":{"line":15,"column":4}
-            },
-            "range":[90,94],
-            "name":"func",
-            "typeAnnotation":null,
-            "optional":false
-          },
-          "typeArguments":null,
-          "arguments":[],
-          "optional":true
-        },
-        "typeArguments":null,
-        "arguments":[],
-        "optional":true
-      },
-      "directive":null
-    },
-    {
-      "type":"ExpressionStatement",
-      "loc":{
-        "source":null,
-        "start":{"line":17,"column":0},
-        "end":{"line":17,"column":11}
-      },
-      "range":[104,115],
-      "expression":{
-        "type":"OptionalMemberExpression",
-        "loc":{
-          "source":null,
-          "start":{"line":17,"column":0},
-          "end":{"line":17,"column":11}
-        },
-        "range":[104,115],
-        "object":{
-          "type":"OptionalCallExpression",
-          "loc":{
-            "source":null,
-            "start":{"line":17,"column":0},
-            "end":{"line":17,"column":8}
-          },
-          "range":[104,112],
-          "callee":{
-            "type":"Identifier",
-            "loc":{
-              "source":null,
-              "start":{"line":17,"column":0},
-              "end":{"line":17,"column":4}
-            },
-            "range":[104,108],
-            "name":"func",
-            "typeAnnotation":null,
-            "optional":false
-          },
-          "typeArguments":null,
-          "arguments":[],
-          "optional":true
-        },
-        "property":{
-          "type":"Identifier",
-          "loc":{
-            "source":null,
-            "start":{"line":17,"column":10},
-            "end":{"line":17,"column":11}
-          },
-          "range":[114,115],
-          "name":"a",
-          "typeAnnotation":null,
-          "optional":false
-        },
-        "computed":false,
-        "optional":true
-      },
-      "directive":null
+        }
+      }
     }
   ],
-  "comments":[]
+  "interpreter": null
 }

@@ -1,78 +1,105 @@
 {
-  "type":"Program",
-  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":33}},
-  "range":[0,33],
-  "body":[
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 34,
+    "ctxt": 0
+  },
+  "body": [
     {
-      "type":"ClassDeclaration",
-      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":33}},
-      "range":[0,33],
-      "id":{
-        "type":"Identifier",
-        "loc":{"source":null,"start":{"line":1,"column":6},"end":{"line":1,"column":7}},
-        "range":[6,7],
-        "name":"C",
-        "typeAnnotation":null,
-        "optional":false
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 7,
+          "end": 8,
+          "ctxt": 0
+        },
+        "value": "C",
+        "optional": false
       },
-      "body":{
-        "type":"ClassBody",
-        "loc":{"source":null,"start":{"line":1,"column":8},"end":{"line":1,"column":33}},
-        "range":[8,33],
-        "body":[
-          {
-            "type":"MethodDefinition",
-            "loc":{"source":null,"start":{"line":1,"column":10},"end":{"line":1,"column":31}},
-            "range":[10,31],
-            "key":{
-              "type":"Identifier",
-              "loc":{"source":null,"start":{"line":1,"column":24},"end":{"line":1,"column":25}},
-              "range":[24,25],
-              "name":"m",
-              "typeAnnotation":null,
-              "optional":false
+      "declare": false,
+      "span": {
+        "start": 1,
+        "end": 34,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [
+        {
+          "type": "ClassMethod",
+          "span": {
+            "start": 11,
+            "end": 32,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 25,
+              "end": 26,
+              "ctxt": 0
             },
-            "value":{
-              "type":"FunctionExpression",
-              "loc":{"source":null,"start":{"line":1,"column":25},"end":{"line":1,"column":31}},
-              "range":[25,31],
-              "id":null,
-              "params":[
-                {
-                  "type":"Identifier",
-                  "loc":{"source":null,"start":{"line":1,"column":26},"end":{"line":1,"column":27}},
-                  "range":[26,27],
-                  "name":"a",
-                  "typeAnnotation":null,
-                  "optional":false
+            "value": "m",
+            "optional": false
+          },
+          "function": {
+            "params": [
+              {
+                "type": "Parameter",
+                "span": {
+                  "start": 27,
+                  "end": 28,
+                  "ctxt": 0
+                },
+                "decorators": [],
+                "pat": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 27,
+                    "end": 28,
+                    "ctxt": 0
+                  },
+                  "value": "a",
+                  "optional": false,
+                  "typeAnnotation": null
                 }
-              ],
-              "body":{
-                "type":"BlockStatement",
-                "loc":{"source":null,"start":{"line":1,"column":29},"end":{"line":1,"column":31}},
-                "range":[29,31],
-                "body":[]
-              },
-              "async":true,
-              "generator":true,
-              "predicate":null,
-              "expression":false,
-              "returnType":null,
-              "typeParameters":null
+              }
+            ],
+            "decorators": [],
+            "span": {
+              "start": 11,
+              "end": 32,
+              "ctxt": 0
             },
-            "kind":"method",
-            "static":true,
-            "computed":false,
-            "decorators":[]
-          }
-        ]
-      },
-      "superClass":null,
-      "typeParameters":null,
-      "superTypeParameters":null,
-      "implements":[],
-      "decorators":[]
+            "body": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 30,
+                "end": 32,
+                "ctxt": 0
+              },
+              "stmts": []
+            },
+            "generator": true,
+            "async": true,
+            "typeParameters": null,
+            "returnType": null
+          },
+          "kind": "method",
+          "isStatic": true,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false
+        }
+      ],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
     }
   ],
-  "comments":[]
+  "interpreter": null
 }

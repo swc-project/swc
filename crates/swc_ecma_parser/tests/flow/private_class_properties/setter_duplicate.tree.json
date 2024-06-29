@@ -1,129 +1,188 @@
 {
-  "errors":[
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 42,
+    "ctxt": 0
+  },
+  "body": [
     {
-      "loc":{"source":null,"start":{"line":3,"column":6},"end":{"line":3,"column":8}},
-      "message":"Private fields may only be declared once. `#m` is declared more than once."
-    }
-  ],
-  "type":"Program",
-  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":4,"column":1}},
-  "range":[0,41],
-  "body":[
-    {
-      "type":"ClassDeclaration",
-      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":4,"column":1}},
-      "range":[0,41],
-      "id":{
-        "type":"Identifier",
-        "loc":{"source":null,"start":{"line":1,"column":6},"end":{"line":1,"column":7}},
-        "range":[6,7],
-        "name":"C",
-        "typeAnnotation":null,
-        "optional":false
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 7,
+          "end": 8,
+          "ctxt": 0
+        },
+        "value": "C",
+        "optional": false
       },
-      "body":{
-        "type":"ClassBody",
-        "loc":{"source":null,"start":{"line":1,"column":8},"end":{"line":4,"column":1}},
-        "range":[8,41],
-        "body":[
-          {
-            "type":"MethodDefinition",
-            "loc":{"source":null,"start":{"line":2,"column":2},"end":{"line":2,"column":14}},
-            "range":[12,24],
-            "key":{
-              "type":"PrivateIdentifier",
-              "loc":{"source":null,"start":{"line":2,"column":6},"end":{"line":2,"column":8}},
-              "range":[16,18],
-              "name":"m",
-              "typeAnnotation":null,
-              "optional":false
-            },
-            "value":{
-              "type":"FunctionExpression",
-              "loc":{"source":null,"start":{"line":2,"column":8},"end":{"line":2,"column":14}},
-              "range":[18,24],
-              "id":null,
-              "params":[
-                {
-                  "type":"Identifier",
-                  "loc":{"source":null,"start":{"line":2,"column":9},"end":{"line":2,"column":10}},
-                  "range":[19,20],
-                  "name":"x",
-                  "typeAnnotation":null,
-                  "optional":false
-                }
-              ],
-              "body":{
-                "type":"BlockStatement",
-                "loc":{"source":null,"start":{"line":2,"column":12},"end":{"line":2,"column":14}},
-                "range":[22,24],
-                "body":[]
-              },
-              "async":false,
-              "generator":false,
-              "predicate":null,
-              "expression":false,
-              "returnType":null,
-              "typeParameters":null
-            },
-            "kind":"set",
-            "static":false,
-            "computed":false,
-            "decorators":[]
+      "declare": false,
+      "span": {
+        "start": 1,
+        "end": 42,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [
+        {
+          "type": "PrivateMethod",
+          "span": {
+            "start": 13,
+            "end": 25,
+            "ctxt": 0
           },
-          {
-            "type":"MethodDefinition",
-            "loc":{"source":null,"start":{"line":3,"column":2},"end":{"line":3,"column":14}},
-            "range":[27,39],
-            "key":{
-              "type":"PrivateIdentifier",
-              "loc":{"source":null,"start":{"line":3,"column":6},"end":{"line":3,"column":8}},
-              "range":[31,33],
-              "name":"m",
-              "typeAnnotation":null,
-              "optional":false
+          "key": {
+            "type": "PrivateName",
+            "span": {
+              "start": 17,
+              "end": 19,
+              "ctxt": 0
             },
-            "value":{
-              "type":"FunctionExpression",
-              "loc":{"source":null,"start":{"line":3,"column":8},"end":{"line":3,"column":14}},
-              "range":[33,39],
-              "id":null,
-              "params":[
-                {
-                  "type":"Identifier",
-                  "loc":{"source":null,"start":{"line":3,"column":9},"end":{"line":3,"column":10}},
-                  "range":[34,35],
-                  "name":"x",
-                  "typeAnnotation":null,
-                  "optional":false
-                }
-              ],
-              "body":{
-                "type":"BlockStatement",
-                "loc":{"source":null,"start":{"line":3,"column":12},"end":{"line":3,"column":14}},
-                "range":[37,39],
-                "body":[]
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 18,
+                "end": 19,
+                "ctxt": 0
               },
-              "async":false,
-              "generator":false,
-              "predicate":null,
-              "expression":false,
-              "returnType":null,
-              "typeParameters":null
+              "value": "m",
+              "optional": false
+            }
+          },
+          "function": {
+            "params": [
+              {
+                "type": "Parameter",
+                "span": {
+                  "start": 20,
+                  "end": 21,
+                  "ctxt": 0
+                },
+                "decorators": [],
+                "pat": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 20,
+                    "end": 21,
+                    "ctxt": 0
+                  },
+                  "value": "x",
+                  "optional": false,
+                  "typeAnnotation": null
+                }
+              }
+            ],
+            "decorators": [],
+            "span": {
+              "start": 13,
+              "end": 25,
+              "ctxt": 0
             },
-            "kind":"set",
-            "static":false,
-            "computed":false,
-            "decorators":[]
-          }
-        ]
-      },
-      "typeParameters":null,
-      "superClass":null,
-      "superTypeParameters":null,
-      "implements":[],
-      "decorators":[]
+            "body": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 23,
+                "end": 25,
+                "ctxt": 0
+              },
+              "stmts": []
+            },
+            "generator": false,
+            "async": false,
+            "typeParameters": null,
+            "returnType": null
+          },
+          "kind": "setter",
+          "isStatic": false,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false
+        },
+        {
+          "type": "PrivateMethod",
+          "span": {
+            "start": 28,
+            "end": 40,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "PrivateName",
+            "span": {
+              "start": 32,
+              "end": 34,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 33,
+                "end": 34,
+                "ctxt": 0
+              },
+              "value": "m",
+              "optional": false
+            }
+          },
+          "function": {
+            "params": [
+              {
+                "type": "Parameter",
+                "span": {
+                  "start": 35,
+                  "end": 36,
+                  "ctxt": 0
+                },
+                "decorators": [],
+                "pat": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 35,
+                    "end": 36,
+                    "ctxt": 0
+                  },
+                  "value": "x",
+                  "optional": false,
+                  "typeAnnotation": null
+                }
+              }
+            ],
+            "decorators": [],
+            "span": {
+              "start": 28,
+              "end": 40,
+              "ctxt": 0
+            },
+            "body": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 38,
+                "end": 40,
+                "ctxt": 0
+              },
+              "stmts": []
+            },
+            "generator": false,
+            "async": false,
+            "typeParameters": null,
+            "returnType": null
+          },
+          "kind": "setter",
+          "isStatic": false,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false
+        }
+      ],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
     }
   ],
-  "comments":[]
+  "interpreter": null
 }

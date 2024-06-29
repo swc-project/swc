@@ -1,61 +1,76 @@
 {
-  "type":"Program",
-  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":27}},
-  "range":[0,27],
-  "body":[
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 28,
+    "ctxt": 0
+  },
+  "body": [
     {
-      "type":"VariableDeclaration",
-      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":27}},
-      "range":[0,27],
-      "declarations":[
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1,
+        "end": 28,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
         {
-          "type":"VariableDeclarator",
-          "loc":{"source":null,"start":{"line":1,"column":4},"end":{"line":1,"column":27}},
-          "range":[4,27],
-          "id":{
-            "type":"Identifier",
-            "loc":{"source":null,"start":{"line":1,"column":4},"end":{"line":1,"column":9}},
-            "range":[4,9],
-            "name":"async",
-            "typeAnnotation":null,
-            "optional":false
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 5,
+            "end": 28,
+            "ctxt": 0
           },
-          "init":{
-            "type":"ObjectExpression",
-            "loc":{"source":null,"start":{"line":1,"column":12},"end":{"line":1,"column":27}},
-            "range":[12,27],
-            "properties":[
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 5,
+              "end": 10,
+              "ctxt": 0
+            },
+            "value": "async",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "ObjectExpression",
+            "span": {
+              "start": 13,
+              "end": 28,
+              "ctxt": 0
+            },
+            "properties": [
               {
-                "type":"Property",
-                "loc":{"source":null,"start":{"line":1,"column":14},"end":{"line":1,"column":25}},
-                "range":[14,25],
-                "key":{
-                  "type":"Identifier",
-                  "loc":{"source":null,"start":{"line":1,"column":14},"end":{"line":1,"column":19}},
-                  "range":[14,19],
-                  "name":"async",
-                  "typeAnnotation":null,
-                  "optional":false
+                "type": "KeyValueProperty",
+                "key": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 15,
+                    "end": 20,
+                    "ctxt": 0
+                  },
+                  "value": "async",
+                  "optional": false
                 },
-                "value":{
-                  "type":"Identifier",
-                  "loc":{"source":null,"start":{"line":1,"column":22},"end":{"line":1,"column":25}},
-                  "range":[22,25],
-                  "name":"foo",
-                  "typeAnnotation":null,
-                  "optional":false
-                },
-                "kind":"init",
-                "method":false,
-                "shorthand":false,
-                "computed":false
+                "value": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 23,
+                    "end": 26,
+                    "ctxt": 0
+                  },
+                  "value": "foo",
+                  "optional": false
+                }
               }
             ]
-          }
+          },
+          "definite": false
         }
-      ],
-      "kind":"var"
+      ]
     }
   ],
-  "comments":[]
+  "interpreter": null
 }

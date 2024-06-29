@@ -1,60 +1,86 @@
 {
-  "type":"Program",
-  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":58}},
-  "range":[0,58],
-  "body":[
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 59,
+    "ctxt": 0
+  },
+  "body": [
     {
-      "type":"FunctionDeclaration",
-      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":58}},
-      "range":[0,58],
-      "id":{
-        "type":"Identifier",
-        "loc":{"source":null,"start":{"line":1,"column":9},"end":{"line":1,"column":12}},
-        "range":[9,12],
-        "name":"foo",
-        "typeAnnotation":null,
-        "optional":false
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 10,
+          "end": 13,
+          "ctxt": 0
+        },
+        "value": "foo",
+        "optional": false
       },
-      "params":[
+      "declare": false,
+      "params": [
         {
-          "type":"Identifier",
-          "loc":{"source":null,"start":{"line":1,"column":13},"end":{"line":1,"column":23}},
-          "range":[13,23],
-          "name":"untypedVal",
-          "typeAnnotation":null,
-          "optional":false
+          "type": "Parameter",
+          "span": {
+            "start": 14,
+            "end": 24,
+            "ctxt": 0
+          },
+          "decorators": [],
+          "pat": {
+            "type": "Identifier",
+            "span": {
+              "start": 14,
+              "end": 24,
+              "ctxt": 0
+            },
+            "value": "untypedVal",
+            "optional": false,
+            "typeAnnotation": null
+          }
         },
         {
-          "type":"Identifier",
-          "loc":{"source":null,"start":{"line":1,"column":25},"end":{"line":1,"column":53}},
-          "range":[25,53],
-          "name":"numVal",
-          "typeAnnotation":{
-            "type":"TypeAnnotation",
-            "loc":{"source":null,"start":{"line":1,"column":45},"end":{"line":1,"column":53}},
-            "range":[45,53],
-            "typeAnnotation":{
-              "type":"NumberTypeAnnotation",
-              "loc":{"source":null,"start":{"line":1,"column":47},"end":{"line":1,"column":53}},
-              "range":[47,53]
-            }
+          "type": "Parameter",
+          "span": {
+            "start": 26,
+            "end": 32,
+            "ctxt": 0
           },
-          "optional":false
+          "decorators": [],
+          "pat": {
+            "type": "Identifier",
+            "span": {
+              "start": 26,
+              "end": 32,
+              "ctxt": 0
+            },
+            "value": "numVal",
+            "optional": false,
+            "typeAnnotation": null
+          }
         }
       ],
-      "body":{
-        "type":"BlockStatement",
-        "loc":{"source":null,"start":{"line":1,"column":56},"end":{"line":1,"column":58}},
-        "range":[56,58],
-        "body":[]
+      "decorators": [],
+      "span": {
+        "start": 1,
+        "end": 59,
+        "ctxt": 0
       },
-      "async":false,
-      "generator":false,
-      "predicate":null,
-      "expression":false,
-      "returnType":null,
-      "typeParameters":null
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 57,
+          "end": 59,
+          "ctxt": 0
+        },
+        "stmts": []
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
     }
   ],
-  "comments":[]
+  "interpreter": null
 }
