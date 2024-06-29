@@ -9,6 +9,10 @@ use crate::{
     Context, PResult, Parser, Tokens,
 };
 
+struct FlowTypeParam {
+    default: bool,
+}
+
 impl<I> Parser<I>
 where
     I: Tokens,
@@ -18,21 +22,27 @@ where
             return Ok(());
         }
 
-        self.consume_flow_type_param_decls()
+        self.consume_flow_type_param_decl()
     }
 
-    pub(super) fn consume_flow_type_param_decls(&mut self) -> PResult<()> {
+    /// Ported from `flowParseTypeParameterDeclaration`
+    pub(super) fn consume_flow_type_param_decl(&mut self) -> PResult<()> {
         self.in_type().parse_with(|p| {
             if !(eat!(p, '<') || eat!(p, JSXTagStart)) {
                 unexpected!(p, "< or JSXTagStart")
             }
 
+            let mut default_required = false;
             while !is!(p, '>') {
                 if is!(p, '>') {
                     break;
                 }
 
-                p.consume_flow_type_param_decl(false)?;
+                let tp = p.consume_flow_type_param(default_required)?;
+
+                if tp.default {
+                    default_required = true;
+                }
 
                 if !is!(p, '>') {
                     expect!(p, ',');
@@ -45,22 +55,30 @@ where
         })
     }
 
-    fn consume_flow_type_param_decl(&mut self, require_default: bool) -> PResult<()> {
+    /// Ported from `flowParseTypeParameter`
+    fn consume_flow_type_param(&mut self, require_default: bool) -> PResult<FlowTypeParam> {
         self.consume_flow_variance()?;
 
         self.consume_flow_type_annotation_identifier(false)?;
 
-        if eat!(self, '=') {
+        let has_default = if eat!(self, '=') {
             self.consume_flow_type()?;
+
+            true
         } else if require_default {
             let got = format!("{:?}", cur!(self, true));
             self.emit_err(
                 self.input.cur_span(),
                 SyntaxError::Expected(&Token::AssignOp(op!("=")), got),
-            )
-        }
+            );
+            false
+        } else {
+            false
+        };
 
-        Ok(())
+        Ok(FlowTypeParam {
+            default: has_default,
+        })
     }
 
     pub(super) fn consume_flow_variance(&mut self) -> PResult<()> {
@@ -200,7 +218,7 @@ where
         // TODO: BraceBarL
 
         if is!(self, '<') {
-            self.consume_flow_type_param_decls()?;
+            self.consume_flow_type_param_decl()?;
             expect!(self, '(');
 
             self.consume_flow_type_params()?;
@@ -486,7 +504,7 @@ where
         let _ident = self.parse_flow_restricted_ident(false, true)?;
 
         if is!(self, '<') {
-            self.consume_flow_type_param_decl(false)?;
+            self.consume_flow_type_param_decl()?;
         }
 
         self.consume_flow_type_init(Some(tok!('=').kind()))?;
