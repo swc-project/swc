@@ -19,7 +19,7 @@ macro_rules! is {
     ($p:expr, BindingIdent) => {{
         let ctx = $p.ctx();
         match $p.input.cur() {
-            Some(&Word(ref w)) => !ctx.is_reserved(w),
+            Some(&crate::token::Word(ref w)) => !ctx.is_reserved(w),
             _ => false,
         }
     }};
@@ -27,14 +27,14 @@ macro_rules! is {
     ($p:expr, IdentRef) => {{
         let ctx = $p.ctx();
         match $p.input.cur() {
-            Some(&Word(ref w)) => !ctx.is_reserved(w),
+            Some(&crate::token::Word(ref w)) => !ctx.is_reserved(w),
             _ => false,
         }
     }};
 
     ($p:expr,IdentName) => {{
         match $p.input.cur() {
-            Some(&Word(..)) => true,
+            Some(&crate::token::Word(..)) => true,
             _ => false,
         }
     }};
@@ -84,7 +84,7 @@ macro_rules! peeked_is {
     ($p:expr, BindingIdent) => {{
         let ctx = $p.ctx();
         match peek!($p) {
-            Some(&Word(ref w)) => !ctx.is_reserved(w),
+            Some(&crate::token::Word(ref w)) => !ctx.is_reserved(w),
             _ => false,
         }
     }};
@@ -92,14 +92,14 @@ macro_rules! peeked_is {
     ($p:expr, IdentRef) => {{
         let ctx = $p.ctx();
         match peek!($p) {
-            Some(&Word(ref w)) => !ctx.is_reserved(w),
+            Some(&crate::token::Word(ref w)) => !ctx.is_reserved(w),
             _ => false,
         }
     }};
 
     ($p:expr,IdentName) => {{
         match peek!($p) {
-            Some(&Word(..)) => true,
+            Some(&crate::token::Word(..)) => true,
             _ => false,
         }
     }};
