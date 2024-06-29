@@ -156,6 +156,11 @@ pub enum Syntax {
     #[cfg_attr(docsrs, doc(cfg(feature = "typescript")))]
     #[serde(rename = "typescript")]
     Typescript(TsSyntax),
+    /// This variant requires the cargo feature `flow` to be enabled.
+    #[cfg(feature = "flow")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "flow")))]
+    #[serde(rename = "flow")]
+    Flow(FlowSyntax),
 }
 
 impl Default for Syntax {
@@ -378,6 +383,10 @@ pub struct EsSyntax {
 
 #[deprecated(note = "Use 'EsSyntax' instead")]
 pub type EsConfig = EsSyntax;
+
+#[cfg(feature = "flow")]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Default, Serialize, Deserialize)]
+pub struct FlowSyntax {}
 
 /// Syntactic context.
 #[derive(Debug, Clone, Copy, Default)]
