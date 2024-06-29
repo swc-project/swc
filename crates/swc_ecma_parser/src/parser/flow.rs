@@ -3,7 +3,11 @@
 use swc_common::{Span, DUMMY_SP};
 use swc_ecma_ast::{Expr, Invalid};
 
-use crate::{error::SyntaxError, token::Token, Context, PResult, Parser, Tokens};
+use crate::{
+    error::SyntaxError,
+    token::{Token, TokenKind},
+    Context, PResult, Parser, Tokens,
+};
 
 impl<I> Parser<I>
 where
@@ -107,7 +111,7 @@ where
 
     fn consume_flow_primary_type(&mut self) -> PResult<()> {
         if is!(self, '{') {
-            return self.consume_flow_object_type()?;
+            return self.consume_flow_object_type(false, false, true, false, true);
         }
 
         if is!(self, '[') {
@@ -146,6 +150,20 @@ where
         }
     }
 
+    fn consume_flow_object_type(
+        &mut self,
+        allow_static: bool,
+        allow_exact: bool,
+        allow_spread: bool,
+        allow_proto: bool,
+        allow_inexact: bool,
+    ) -> PResult<()> {
+        self.in_type().parse_with(|p| {
+            // TODO: 'BraceBarL'
+            todo!("consume_flow_object_type")
+        })
+    }
+
     fn consume_flow_tuple_type(&mut self) -> PResult<()> {
         expect!(self, '[');
 
@@ -158,5 +176,32 @@ where
         expect!(self, ']');
 
         Ok(())
+    }
+
+    fn consume_flow_type_init(&mut self, token: Option<TokenKind>) -> PResult<()> {
+        self.in_type().parse_with(|p| {
+            match token {
+                Some(delim) => {
+                    let token = cur!(p, true);
+                    if token.kind() == delim {
+                        p.input.bump();
+                    } else {
+                        p.emit_err(
+                            p.input.cur_span(),
+                            SyntaxError::Unexpected {
+                                expected: "end delimiter of type annotation",
+                                got: format!("{delim:?}"),
+                            },
+                        );
+                        return Ok(());
+                    }
+                }
+                None => {
+                    expect!(p, ':');
+                }
+            }
+
+            Ok(())
+        })
     }
 }
