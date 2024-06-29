@@ -8,7 +8,7 @@ impl<'a> Lexer<'a> {
         debug_assert!(self.syntax.jsx());
 
         let mut chunk_start = self.input.cur_pos();
-        let mut out = String::new();
+        let mut value = String::new();
 
         loop {
             let cur = match self.input.cur() {
@@ -42,22 +42,30 @@ impl<'a> Lexer<'a> {
                         return self.read_token();
                     }
 
-                    let raw = if out.is_empty() {
-                        // Fast path: We don't need to allocate
+                    let value = if value.is_empty() {
+                        // Fast path: We don't need to allocate extra buffer for value
                         let s = unsafe {
                             // Safety: We already checked for the range
                             self.input.slice(chunk_start, cur_pos)
                         };
                         self.atoms.atom(s)
                     } else {
-                        out.push_str(unsafe {
+                        value.push_str(unsafe {
                             // Safety: We already checked for the range
                             self.input.slice(chunk_start, cur_pos)
                         });
-                        self.atoms.atom(out)
+                        self.atoms.atom(value)
                     };
 
-                    return Ok(Some(Token::JSXText { raw }));
+                    let raw = {
+                        let s = unsafe {
+                            // Safety: We already checked for the range
+                            self.input.slice(chunk_start, cur_pos)
+                        };
+                        self.atoms.atom(s)
+                    };
+
+                    return Ok(Some(Token::JSXText { raw, value }));
                 }
                 '>' => {
                     self.emit_error(
