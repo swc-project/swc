@@ -27,12 +27,12 @@ where
                 unexpected!(p, "< or JSXTagStart")
             }
 
-            while is!(p, '>') {
+            while !is!(p, '>') {
                 if is!(p, '>') {
                     break;
                 }
 
-                p.consume_flow_type_param(false)?;
+                p.consume_flow_type_param_decl(false)?;
 
                 if is!(p, '>') {
                     expect!(p, ',');
@@ -45,7 +45,7 @@ where
         })
     }
 
-    fn consume_flow_type_param(&mut self, require_default: bool) -> PResult<()> {
+    fn consume_flow_type_param_decl(&mut self, require_default: bool) -> PResult<()> {
         self.consume_flow_variance()?;
 
         self.consume_flow_type_annotation_identifier(false)?;
