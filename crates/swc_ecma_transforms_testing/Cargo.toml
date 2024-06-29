@@ -6,7 +6,7 @@ edition       = "2021"
 license       = "Apache-2.0"
 name          = "swc_ecma_transforms_testing"
 repository    = "https://github.com/swc-project/swc.git"
-version       = "0.143.1"
+version       = "0.144.0"
 
 [lib]
 bench = false
@@ -26,10 +26,10 @@ swc_common = { version = "0.34.0", path = "../swc_common", features = [
   "sourcemap",
 ] }
 swc_ecma_ast = { version = "0.115.0", path = "../swc_ecma_ast" }
-swc_ecma_codegen = { version = "0.151.1", path = "../swc_ecma_codegen" }
-swc_ecma_parser = { version = "0.146.6", path = "../swc_ecma_parser" }
+swc_ecma_codegen = { version = "0.152.0", path = "../swc_ecma_codegen" }
+swc_ecma_parser = { version = "0.147.0", path = "../swc_ecma_parser" }
 swc_ecma_testing = { version = "0.23.0", path = "../swc_ecma_testing" }
-swc_ecma_transforms_base = { version = "0.140.1", path = "../swc_ecma_transforms_base" }
-swc_ecma_utils = { version = "0.130.1", path = "../swc_ecma_utils" }
+swc_ecma_transforms_base = { version = "0.141.0", path = "../swc_ecma_transforms_base" }
+swc_ecma_utils = { version = "0.131.0", path = "../swc_ecma_utils" }
 swc_ecma_visit = { version = "0.101.0", path = "../swc_ecma_visit" }
 testing = { version = "0.36.0", path = "../testing" }
