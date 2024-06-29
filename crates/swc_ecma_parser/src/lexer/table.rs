@@ -191,6 +191,7 @@ const L_O: ByteHandler = Some(|lexer| {
     lexer.read_word_with(&|s| match s {
         "of" => Some(Word::Ident(IdentLike::Known(KnownIdent::Of))),
         "object" => Some(Word::Ident(IdentLike::Known(KnownIdent::Object))),
+        "opaque" => Some(Word::Ident(IdentLike::Known(KnownIdent::Opaque))),
         _ => None,
     })
 });
