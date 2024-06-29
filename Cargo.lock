@@ -4497,6 +4497,7 @@ dependencies = [
  "swc_ecma_usage_analyzer",
  "swc_ecma_utils",
  "swc_ecma_visit",
+ "swc_fast_graph",
  "swc_malloc",
  "swc_timer",
  "testing",
