@@ -1,72 +1,105 @@
 {
-  "type":"Program",
-  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":12}},
-  "range":[0,12],
-  "body":[
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 13,
+    "ctxt": 0
+  },
+  "body": [
     {
-      "type":"ExpressionStatement",
-      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":12}},
-      "range":[0,12],
-      "expression":{
-        "type":"BinaryExpression",
-        "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":11}},
-        "range":[0,11],
-        "operator":">",
-        "left":{
-          "type":"BinaryExpression",
-          "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":3}},
-          "range":[0,3],
-          "operator":"<",
-          "left":{
-            "type":"Identifier",
-            "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":1}},
-            "range":[0,1],
-            "name":"f",
-            "typeAnnotation":null,
-            "optional":false
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 1,
+        "end": 13,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 1,
+          "end": 12,
+          "ctxt": 0
+        },
+        "operator": ">",
+        "left": {
+          "type": "BinaryExpression",
+          "span": {
+            "start": 1,
+            "end": 4,
+            "ctxt": 0
           },
-          "right":{
-            "type":"Identifier",
-            "loc":{"source":null,"start":{"line":1,"column":2},"end":{"line":1,"column":3}},
-            "range":[2,3],
-            "name":"T",
-            "typeAnnotation":null,
-            "optional":false
+          "operator": "<",
+          "left": {
+            "type": "Identifier",
+            "span": {
+              "start": 1,
+              "end": 2,
+              "ctxt": 0
+            },
+            "value": "f",
+            "optional": false
+          },
+          "right": {
+            "type": "Identifier",
+            "span": {
+              "start": 3,
+              "end": 4,
+              "ctxt": 0
+            },
+            "value": "T",
+            "optional": false
           }
         },
-        "right":{
-          "type":"JSXElement",
-          "loc":{"source":null,"start":{"line":1,"column":4},"end":{"line":1,"column":11}},
-          "range":[4,11],
-          "openingElement":{
-            "type":"JSXOpeningElement",
-            "loc":{"source":null,"start":{"line":1,"column":4},"end":{"line":1,"column":7}},
-            "range":[4,7],
-            "name":{
-              "type":"JSXIdentifier",
-              "loc":{"source":null,"start":{"line":1,"column":5},"end":{"line":1,"column":6}},
-              "range":[5,6],
-              "name":"U"
+        "right": {
+          "type": "JSXElement",
+          "span": {
+            "start": 5,
+            "end": 12,
+            "ctxt": 0
+          },
+          "opening": {
+            "type": "JSXOpeningElement",
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 6,
+                "end": 7,
+                "ctxt": 0
+              },
+              "value": "U",
+              "optional": false
             },
-            "attributes":[],
-            "selfClosing":false
+            "span": {
+              "start": 5,
+              "end": 8,
+              "ctxt": 0
+            },
+            "attributes": [],
+            "selfClosing": false,
+            "typeArguments": null
           },
-          "closingElement":{
-            "type":"JSXClosingElement",
-            "loc":{"source":null,"start":{"line":1,"column":7},"end":{"line":1,"column":11}},
-            "range":[7,11],
-            "name":{
-              "type":"JSXIdentifier",
-              "loc":{"source":null,"start":{"line":1,"column":9},"end":{"line":1,"column":10}},
-              "range":[9,10],
-              "name":"U"
+          "children": [],
+          "closing": {
+            "type": "JSXClosingElement",
+            "span": {
+              "start": 8,
+              "end": 12,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 10,
+                "end": 11,
+                "ctxt": 0
+              },
+              "value": "U",
+              "optional": false
             }
-          },
-          "children":[]
+          }
         }
-      },
-      "directive":null
+      }
     }
   ],
-  "comments":[]
+  "interpreter": null
 }
