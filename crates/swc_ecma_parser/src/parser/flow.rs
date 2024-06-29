@@ -171,6 +171,8 @@ where
     }
 
     fn consume_flow_primary_type(&mut self) -> PResult<()> {
+        let mut is_grouped_type = false;
+
         if is!(self, '{') {
             return self.consume_flow_object_type(false, false, true, false, true);
         }
@@ -184,6 +186,8 @@ where
             return Ok(());
         }
 
+        // TODO: BraceBarL
+
         if is!(self, '<') {
             self.consume_flow_type_param_decls()?;
             expect!(self, '(');
@@ -196,7 +200,59 @@ where
             return self.consume_flow_type();
         }
 
+        if eat!(self, '(') {
+            // Check to see if this is actually a grouped type
+            if !is!(self, ')') && !is!(self, "...") {
+                // if token_is_identifier(cur!(self, true)) || is!(self, This) {
+                //     is_grouped_type = !peeked_is!(self, '?') &&
+                // !peeked_is!(self, ':'); } else {
+                is_grouped_type = true;
+                // }
+            }
+
+            let mut ty = None;
+
+            if is_grouped_type {
+                let ctx = Context {
+                    flow_no_anon_function_type: false,
+                    ..self.ctx()
+                };
+                ty = Some(self.with_ctx(ctx).consume_flow_type()?);
+
+                // A `,` or a `) =>` means this is an anonymous function type
+
+                if self.ctx().flow_no_anon_function_type
+                    || !(is!(self, ',') || (is!(self, ')') && peeked_is!(self, "=>")))
+                {
+                    expect!(self, ')');
+                    return Ok(());
+                } else {
+                    // Eat a comma if there is one
+                    eat!(self, ',');
+                }
+
+                if ty.is_some() {
+                    // tmp = this.flowParseFunctionTypeParams([
+                    //     this.reinterpretTypeAsFunctionTypeParam(type),
+                    // ]);
+                } else {
+                    self.consume_flow_function_type_parmas()?;
+                }
+            }
+
+            expect!(self, ')');
+            expect!(self, "=>");
+
+            let _return_type = self.consume_flow_type()?;
+
+            return Ok(());
+        }
+
         todo!("consume_flow_primary_type")
+    }
+
+    fn consume_flow_function_type_parmas(&mut self) -> PResult<()> {
+        todo!("consume_flow_function_type_parmas")
     }
 
     fn consume_flow_type_params(&mut self) -> PResult<()> {
