@@ -1,16 +1,22 @@
 use std::{borrow::Cow, fmt, hash::BuildHasherDefault};
 
 use indexmap::IndexSet;
-use petgraph::algo::has_path_connecting;
-use rustc_hash::{FxHashMap, FxHasher};
+use petgraph::algo::{has_path_connecting, kosaraju_scc};
+use rustc_hash::{FxHashMap, FxHashSet, FxHasher};
 use swc_atoms::Atom;
 use swc_common::{util::take::Take, SyntaxContext, DUMMY_SP};
 use swc_ecma_ast::*;
-use swc_ecma_utils::{private_ident, quote_ident};
+use swc_ecma_utils::{find_pat_ids, private_ident, quote_ident};
 
-use self::graph::{Dependency, InternedGraph, Mode};
+use self::{
+    graph::{Dependency, InternedGraph, Mode},
+    util::{
+        collect_top_level_decls, ids_captured_by, ids_used_by, ids_used_by_ignoring_nested, Vars,
+    },
+};
 
 mod graph;
+mod util;
 
 type FxBuildHasher = BuildHasherDefault<FxHasher>;
 
@@ -865,9 +871,7 @@ impl DepGraph {
                             };
 
                             if item.src.is_some() {
-                                local.sym =
-                                    magic_identifier::mangle(&format!("reexport {}", local.sym))
-                                        .into();
+                                local.sym = format!("reexport_{}", local.sym).into();
                                 local = local.into_private();
                             }
 
@@ -924,9 +928,7 @@ impl DepGraph {
                             DefaultDecl::TsInterfaceDecl(_) => unreachable!(),
                         };
 
-                        let default_var = id.unwrap_or_else(|| {
-                            private_ident!(magic_identifier::mangle("default export"))
-                        });
+                        let default_var = id.unwrap_or_else(|| private_ident!("default_export"));
 
                         {
                             let mut used_ids = if export.decl.is_fn_expr() {
@@ -982,8 +984,7 @@ impl DepGraph {
                         ));
                     }
                     ModuleDecl::ExportDefaultExpr(export) => {
-                        let default_var =
-                            private_ident!(magic_identifier::mangle("default export"));
+                        let default_var = private_ident!("default_export");
 
                         {
                             // For
@@ -1237,10 +1238,11 @@ impl DepGraph {
                     }
                 }
 
-                ModuleItem::Stmt(Stmt::Expr(ExprStmt {
-                    expr: box Expr::Assign(assign),
-                    ..
-                })) => {
+                ModuleItem::Stmt(Stmt::Expr(ExprStmt { expr, .. })) if expr.is_assign() => {
+                    let Expr::Assign(assign) = &**expr else {
+                        unreachable!()
+                    };
+
                     let mut used_ids = ids_used_by_ignoring_nested(
                         item,
                         unresolved_ctxt,
