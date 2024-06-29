@@ -1,3 +1,8 @@
-import { foo as o, cat as a } from "stuff";
-console.log(o, a);
-export { o as qux, a as dog };
+import { foo as o } from "stuff";
+import { cat as f } from "stuff";
+"module evaluation";
+import "stuff";
+import { foo as o } from "stuff";
+import { cat as f } from "stuff";
+console.log(o, f);
+export { o as qux, f as dog };

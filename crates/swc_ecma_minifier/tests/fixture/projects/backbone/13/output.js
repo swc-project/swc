@@ -1,4 +1,4 @@
-export const obj = {
+const obj = {
     _validate: function(attrs, options) {
         if (!options.validate || !this.validate) return !0;
         attrs = _.extend({}, this.attributes, attrs);
@@ -8,3 +8,4 @@ export const obj = {
         })), !1);
     }
 };
+export { obj };

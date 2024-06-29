@@ -1,4 +1,4 @@
-export function Nj(a) {
+function Nj(a) {
     a: for(;;){
         for(; null === a.sibling;){
             if (null === a.return || Mj(a.return)) return null;
@@ -11,3 +11,4 @@ export function Nj(a) {
         if (!(2 & a.flags)) return a.stateNode;
     }
 }
+export { Nj };

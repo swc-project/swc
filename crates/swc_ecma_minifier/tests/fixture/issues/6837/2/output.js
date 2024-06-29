@@ -1,4 +1,4 @@
-export class Class2 extends Class1 {
+class Class2 extends Class1 {
     constructor(){
         this.method1 = async ()=>{
             let var1;
@@ -10,3 +10,4 @@ export class Class2 extends Class1 {
     }
     static async method2() {}
 }
+export { Class2 };

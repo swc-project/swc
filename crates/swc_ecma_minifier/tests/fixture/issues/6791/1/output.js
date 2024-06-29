@@ -1,6 +1,7 @@
 var o;
-import { test as l } from "test";
+import "test";
+import { test as t } from "test";
 !function(o) {
     o.Hello = "World!";
 }(o || (o = {}));
-l(o.Hello);
+t(o.Hello);

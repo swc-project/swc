@@ -2,6 +2,8 @@ function go() {
     console.log(42);
 }
 var X = 1;
-export function main() {
+function main() {
     go(X);
 }
+"module evaluation";
+export { main };

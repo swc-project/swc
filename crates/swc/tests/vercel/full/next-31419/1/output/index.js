@@ -1,44 +1,43 @@
-var r;
-import { _ as e } from "@swc/helpers/_/_async_to_generator";
-import { _ as t } from "@swc/helpers/_/_ts_generator";
-import { _ as n } from "@swc/helpers/_/_ts_values";
-Promise.all(assignAll).then((r = e(function(r) {
-    var e, s, i, c, o, a;
-    return t(this, function(u) {
-        switch(u.label){
+import { _ as r } from "@swc/helpers/_/_async_to_generator";
+import { _ as e } from "@swc/helpers/_/_ts_generator";
+import { _ as t } from "@swc/helpers/_/_ts_values";
+Promise.all(assignAll).then((n = r(function(r) {
+    var n, i, o, c, a, u;
+    return e(this, function(l) {
+        switch(l.label){
             case 0:
-                for(c in e = function(e) {
+                for(c in n = function(t) {
                     var n;
-                    return t(this, function(t) {
-                        switch(t.label){
+                    return e(this, function(e) {
+                        switch(e.label){
                             case 0:
-                                return n = r[e], s += "'".concat(n.id, "', "), [
+                                return n = r[t], i += "'".concat(n.id, "', "), [
                                     4,
-                                    listOfUser(n.id)
+                                    s(n.id)
                                 ];
                             case 1:
-                                return t.sent().forEach(function(r) {
+                                return e.sent().forEach(function(r) {
                                     insertQuery += 'INSERT INTO "TABLE"("UUID", id, other_ids_here) VALUES (\''.concat(uuidv4(), "', '").concat(n.id, "', now());");
                                 }), [
                                     2
                                 ];
                         }
                     });
-                }, s = 'DELETE FROM "TABLE" WHERE "UUID" IN ( ', i = [], r)i.push(c);
-                o = 0, u.label = 1;
+                }, i = 'DELETE FROM "TABLE" WHERE "UUID" IN ( ', o = [], r)o.push(c);
+                a = 0, l.label = 1;
             case 1:
-                if (!(o < i.length)) return [
+                if (!(a < o.length)) return [
                     3,
                     4
                 ];
-                return a = i[o], [
+                return u = o[a], [
                     5,
-                    n(e(a))
+                    t(n(u))
                 ];
             case 2:
-                u.sent(), u.label = 3;
+                l.sent(), l.label = 3;
             case 3:
-                return o++, [
+                return a++, [
                     3,
                     1
                 ];
@@ -48,16 +47,16 @@ Promise.all(assignAll).then((r = e(function(r) {
                 ];
         }
     });
-}), function(e) {
-    return r.apply(this, arguments);
+}), function(r) {
+    return n.apply(this, arguments);
 }));
-export var listOfUser = function(r) {
+var n, s = function(t) {
     var n;
-    return new Promise((n = e(function(e, n) {
+    return new Promise((n = r(function(r, n) {
         var s;
-        return t(this, function(t) {
-            return s = 'Select Distinct id from "TABLE" Where id = \''.concat(r, "' And user_id IS not null"), postgreSQL.query(s, null, function(r, t) {
-                r ? n(r) : e(t.rows);
+        return e(this, function(e) {
+            return s = 'Select Distinct id from "TABLE" Where id = \''.concat(t, "' And user_id IS not null"), postgreSQL.query(s, null, function(e, t) {
+                e ? n(e) : r(t.rows);
             }), [
                 2
             ];
@@ -66,3 +65,7 @@ export var listOfUser = function(r) {
         return n.apply(this, arguments);
     }));
 };
+import "@swc/helpers/_/_async_to_generator";
+import "@swc/helpers/_/_ts_generator";
+import "@swc/helpers/_/_ts_values";
+export { s as listOfUser };

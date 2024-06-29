@@ -1,3 +1,4 @@
-export class Foo {
+class Foo {
     foo = 2;
 }
+export { Foo };

@@ -1,1 +1,3 @@
-export function f() {}
+function f() {}
+"module evaluation";
+export { f };

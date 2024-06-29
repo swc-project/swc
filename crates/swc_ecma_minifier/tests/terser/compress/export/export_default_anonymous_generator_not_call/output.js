@@ -1,2 +1,4 @@
-export default function* () { }
-foo
+export default function*() {}
+"module evaluation";
+foo;
+export { default_export as default };

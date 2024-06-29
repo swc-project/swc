@@ -1,4 +1,4 @@
-export function formatNumber(t) {
+function formatNumber(t) {
     var a, n, e, o = (Math.abs(t).toFixed(s.options.decimalPlaces) + "").split(".");
     if (a = o[0], n = o.length > 1 ? s.options.decimal + o[1] : "", s.options.useGrouping) {
         e = "";
@@ -11,3 +11,4 @@ export function formatNumber(t) {
         return s.options.numerals[+t];
     })), (t < 0 ? "-" : "") + s.options.prefix + a + n + s.options.suffix;
 }
+export { formatNumber };

@@ -1,4 +1,4 @@
-export const obj = {
+const obj = {
     flatten: function() {
         for(var array = [], i = 0, l = this.length; i < l; i++){
             var type = typeOf(this[i]);
@@ -7,3 +7,4 @@ export const obj = {
         return array;
     }
 };
+export { obj };

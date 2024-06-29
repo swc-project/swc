@@ -1,5 +1,7 @@
 export default class {
-    constructor() {
+    constructor(){
         foo();
     }
 }
+"module evaluation";
+export { default_export as default };

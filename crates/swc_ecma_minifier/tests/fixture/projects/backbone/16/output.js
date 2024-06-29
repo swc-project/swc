@@ -1,4 +1,4 @@
-export const obj = {
+const obj = {
     remove: function(models, options) {
         var i, l, index, model, singular = !_.isArray(models);
         for(models = singular ? [
@@ -7,3 +7,4 @@ export const obj = {
         return singular ? models[0] : models;
     }
 };
+export { obj };

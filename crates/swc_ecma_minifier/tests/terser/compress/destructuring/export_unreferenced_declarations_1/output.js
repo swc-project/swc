@@ -1,3 +1,5 @@
-export const { keys } = Object;
-export let { L, M } = Object;
-export var { V, W } = Object;
+"module evaluation";
+const { keys } = Object;
+let { L, M } = Object;
+var { V, W } = Object;
+export { keys, L, M, V, W };

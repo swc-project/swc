@@ -1,4 +1,4 @@
-export function foo() {
+function foo() {
     var size = 0, result = !0;
     if ("[object Array]" == className) {
         if (result = (size = a.length) == b.length) for(; size-- && (result = eq(a[size], b[size], aStack, bStack)););
@@ -10,3 +10,4 @@ export function foo() {
         }
     }
 }
+export { foo };

@@ -1,7 +1,12 @@
+"module evaluation";
+import "foo";
 import o from "foo";
-import m, { Food as r } from "lel";
-import { What as f } from "lel";
+import "lel";
+import l from "lel";
+import { Food as m } from "lel";
+import "lel";
+import { What as r } from "lel";
 o();
+l();
 m();
 r();
-f();

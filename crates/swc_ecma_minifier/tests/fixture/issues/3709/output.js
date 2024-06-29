@@ -1,3 +1,3 @@
-var c, d;
-export var a;
-export var b;
+var a, b;
+"module evaluation";
+export { a, b };

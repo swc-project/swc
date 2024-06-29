@@ -1,1 +1,1 @@
-export const exampleCode_0="\0";export const exampleCode_x00="\0";
+let e="\0";let x="\0";export{e as exampleCode_0,x as exampleCode_x00};

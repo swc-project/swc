@@ -1,3 +1,4 @@
+"module evaluation";
 import "x";
 throw "error";
-export { y };
+export { y as y };

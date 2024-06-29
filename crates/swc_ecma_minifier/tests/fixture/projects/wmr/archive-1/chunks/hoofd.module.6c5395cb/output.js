@@ -1,13 +1,47 @@
-import { D, F, y, b as s } from "../index.f66dda46.js";
-var lang, linkQueue, scriptQueue, titleQueue, titleTemplateQueue, metaQueue, currentTitleIndex, currentTitleTemplateIndex, currentMetaIndex, timeout, processQueue, isServerSide = "undefined" == typeof document, applyTitleTemplate = function(title, template) {
-    return template ? template.replace(/%s/g, title || "") : title;
-}, changeOrCreateMetaTag = function(meta) {
+var lang, linkQueue, scriptQueue, titleQueue, titleTemplateQueue, metaQueue, currentTitleIndex, currentTitleTemplateIndex, currentMetaIndex, timeout, processQueue, useTitleTemplate = function(template) {
+    useTitle(template, !0);
+};
+import { F } from "../index.f66dda46.js";
+import { y } from "../index.f66dda46.js";
+import { b as s } from "../index.f66dda46.js";
+var useMeta = function(options) {
+    var dispatcher = F(DispatcherContext), hasMounted = s(!1), keyword = s(), metaObject = s({
+        keyword: keyword.current = options.charset ? "charset" : options.name ? "name" : options.property ? "property" : "http-equiv",
+        name: options.name,
+        charset: options.charset,
+        "http-equiv": options.httpEquiv,
+        property: options.property,
+        content: options.content
+    });
+    isServerSide && !hasMounted.current && dispatcher._addToQueue("M", metaObject.current), y(function() {
+        hasMounted.current && dispatcher._change("M", metaObject.current, metaObject.current = {
+            keyword: keyword.current,
+            name: options.name,
+            charset: options.charset,
+            "http-equiv": options.httpEquiv,
+            property: options.property,
+            content: options.content
+        });
+    }, [
+        options.content
+    ]), y(function() {
+        return dispatcher._addToQueue("M", metaObject.current), hasMounted.current = !0, function() {
+            hasMounted.current = !1, dispatcher._removeFromQueue("M", metaObject.current);
+        };
+    }, []);
+};
+var toStatic = defaultDispatcher.toStatic;
+import "../index.f66dda46.js";
+var isServerSide = "undefined" == typeof document, changeOrCreateMetaTag = function(meta) {
     var result = document.head.querySelectorAll(meta.charset ? "meta[" + meta.keyword + "]" : "meta[" + meta.keyword + '="' + meta[meta.keyword] + '"]');
     if (result[0]) meta.charset ? result[0].setAttribute(meta.keyword, meta.charset) : result[0].setAttribute("content", meta.content);
     else {
         var metaTag = document.createElement("meta");
         meta.charset ? metaTag.setAttribute(meta.keyword, meta.charset) : (metaTag.setAttribute(meta.keyword, meta[meta.keyword]), metaTag.setAttribute("content", meta.content)), document.head.appendChild(metaTag);
     }
+};
+var applyTitleTemplate = function(title, template) {
+    return template ? template.replace(/%s/g, title || "") : title;
 }, defaultDispatcher = (linkQueue = [], scriptQueue = [], titleQueue = [], titleTemplateQueue = [], metaQueue = [], currentTitleIndex = 0, currentTitleTemplateIndex = 0, currentMetaIndex = 0, processQueue = function() {
     clearTimeout(timeout), timeout = setTimeout(function() {
         timeout = null;
@@ -68,14 +102,23 @@ var lang, linkQueue, scriptQueue, titleQueue, titleTemplateQueue, metaQueue, cur
             })
         };
     }
-}), DispatcherContext = D(defaultDispatcher), useLang = function(language) {
+});
+import { D } from "../index.f66dda46.js";
+var DispatcherContext = D(defaultDispatcher);
+import { F } from "../index.f66dda46.js";
+import { y } from "../index.f66dda46.js";
+var useLang = function(language) {
     var dispatcher = F(DispatcherContext);
     isServerSide && dispatcher._setLang(language), y(function() {
         document.getElementsByTagName("html")[0].setAttribute("lang", language);
     }, [
         language
     ]);
-}, useLink = function(options) {
+};
+import { F } from "../index.f66dda46.js";
+import { y } from "../index.f66dda46.js";
+import { b as s } from "../index.f66dda46.js";
+var useLink = function(options) {
     var dispatcher = F(DispatcherContext), hasMounted = s(!1), node = s(), originalOptions = s();
     isServerSide && !hasMounted.current && dispatcher._addToQueue("L", options), y(function() {
         hasMounted.current && Object.keys(options).forEach(function(key) {
@@ -105,32 +148,11 @@ var lang, linkQueue, scriptQueue, titleQueue, titleTemplateQueue, metaQueue, cur
             }) : document.head.removeChild(node.current);
         };
     }, []);
-}, useMeta = function(options) {
-    var dispatcher = F(DispatcherContext), hasMounted = s(!1), keyword = s(), metaObject = s({
-        keyword: keyword.current = options.charset ? "charset" : options.name ? "name" : options.property ? "property" : "http-equiv",
-        name: options.name,
-        charset: options.charset,
-        "http-equiv": options.httpEquiv,
-        property: options.property,
-        content: options.content
-    });
-    isServerSide && !hasMounted.current && dispatcher._addToQueue("M", metaObject.current), y(function() {
-        hasMounted.current && dispatcher._change("M", metaObject.current, metaObject.current = {
-            keyword: keyword.current,
-            name: options.name,
-            charset: options.charset,
-            "http-equiv": options.httpEquiv,
-            property: options.property,
-            content: options.content
-        });
-    }, [
-        options.content
-    ]), y(function() {
-        return dispatcher._addToQueue("M", metaObject.current), hasMounted.current = !0, function() {
-            hasMounted.current = !1, dispatcher._removeFromQueue("M", metaObject.current);
-        };
-    }, []);
-}, useTitle = function(title, template) {
+};
+import { F } from "../index.f66dda46.js";
+import { y } from "../index.f66dda46.js";
+import { b as s } from "../index.f66dda46.js";
+var useTitle = function(title, template) {
     var dispatcher = F(DispatcherContext), hasMounted = s(!1), prevTitle = s();
     isServerSide && !hasMounted.current && dispatcher._addToQueue(template ? "P" : "T", title), y(function() {
         hasMounted.current && dispatcher._change(template ? "P" : "T", prevTitle.current, prevTitle.current = title);
@@ -144,7 +166,5 @@ var lang, linkQueue, scriptQueue, titleQueue, titleTemplateQueue, metaQueue, cur
     }, [
         template
     ]);
-}, useTitleTemplate = function(template) {
-    useTitle(template, !0);
-}, toStatic = defaultDispatcher.toStatic;
+};
 export { useTitleTemplate as a, useTitle as b, useMeta as c, useLink as d, toStatic as t, useLang as u };

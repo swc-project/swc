@@ -1,4 +1,4 @@
-export const exported = {
+const exported = {
     toQueryString: function(object, base) {
         var queryString = [];
         return Object.each(object, function(value, key) {
@@ -19,3 +19,4 @@ export const exported = {
         }), queryString.join("&");
     }
 };
+export { exported };

@@ -1,4 +1,5 @@
-export function foo(cb) {
+foo(()=>!0);
+function foo(cb) {
     cb();
 }
-foo(()=>!0);
+export { foo };

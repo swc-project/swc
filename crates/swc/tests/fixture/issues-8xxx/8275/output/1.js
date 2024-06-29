@@ -1,6 +1,7 @@
-export const c = (function(strings, ...values) {
+let c = (function(strings, ...values) {
     return {
         strings,
         values
     };
 })`<span>cccc</span>`;
+export { c };

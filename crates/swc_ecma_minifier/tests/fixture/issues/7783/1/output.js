@@ -9,3 +9,4 @@ const foo = {
         return "b";
     }
 };
+export { Home as default };

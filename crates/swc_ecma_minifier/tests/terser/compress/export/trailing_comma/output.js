@@ -1,1 +1,3 @@
-export const a = 1;
+const a = 1;
+"module evaluation";
+export { a };

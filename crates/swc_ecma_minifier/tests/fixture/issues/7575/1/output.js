@@ -1,2 +1,3 @@
-export const envKey = "staging";
-export const environment = "staging";
+const envKey = "staging";
+const environment = "staging";
+export { envKey, environment };

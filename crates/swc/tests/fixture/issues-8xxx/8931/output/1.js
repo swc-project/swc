@@ -1,1 +1,1 @@
-export function _jsx(t,s){return s}export const a=_jsx("math","P \\vdash q");export const b=_jsx("math","P \\vdash q");
+let t=a("math","P \\vdash q");let e=a("math","P \\vdash q");function a(t,e){return e}export{a as _jsx,t as a,e as b};

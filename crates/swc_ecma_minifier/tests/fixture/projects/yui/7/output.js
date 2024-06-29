@@ -1,4 +1,4 @@
-export const E = {
+const E = {
     _sort: function() {
         for(var l, a, b, j, k, moved, doneKey, s = YObject.keys(this.required), done = {}, p = 0;;){
             for(l = s.length, moved = !1, j = p; j < l; j++){
@@ -14,3 +14,4 @@ export const E = {
         this.sorted = s;
     }
 };
+export { E };

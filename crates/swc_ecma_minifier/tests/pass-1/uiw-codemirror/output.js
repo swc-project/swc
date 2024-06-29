@@ -1,4 +1,4 @@
-export class TextLeaf extends Text {
+class TextLeaf extends Text {
     constructor(text1, length1 = function(text) {
         let length = -1;
         for (let line of text)length += line.length + 1;
@@ -55,3 +55,4 @@ export class TextLeaf extends Text {
         return len > -1 && target.push(new TextLeaf(part, len)), target;
     }
 }
+export { TextLeaf };

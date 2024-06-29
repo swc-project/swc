@@ -1,3 +1,5 @@
+"module evaluation";
+import 'assert';
 import assert from 'assert';
 let result = 0;
 ({

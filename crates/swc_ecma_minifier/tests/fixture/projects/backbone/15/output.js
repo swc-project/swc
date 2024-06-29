@@ -1,4 +1,4 @@
-export const obj = {
+const obj = {
     changedAttributes: function(diff) {
         if (!diff) return !!this.hasChanged() && _.clone(this.changed);
         var val, changed = !1, old = this._changing ? this._previousAttributes : this.attributes;
@@ -6,3 +6,4 @@ export const obj = {
         return changed;
     }
 };
+export { obj };

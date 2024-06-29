@@ -1,5 +1,4 @@
-const m = 60000, h = 3600000, d = 86400000, w = 604800000, y = 31557600000;
-export default function(value, options) {
+const m = 60000, h = 3600000, d = 86400000, w = 604800000, y = 31557600000, default_export = function(value, options) {
     try {
         if ('string' == typeof value && value.length > 0) return function(str) {
             if (str.length > 100) throw Error('Value exceeds the maximum length of 100 characters.');
@@ -62,7 +61,8 @@ export default function(value, options) {
             return 'object' == typeof value && null !== value && 'message' in value;
         }(error) ? `${error.message}. value=${JSON.stringify(value)}` : 'An unknown error has occurred.');
     }
-}
+};
 function plural(ms, msAbs, n, name) {
     return `${Math.round(ms / n)} ${name}${msAbs >= 1.5 * n ? 's' : ''}`;
 }
+export { default_export as default };

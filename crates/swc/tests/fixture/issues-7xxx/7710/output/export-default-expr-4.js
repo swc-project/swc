@@ -3,6 +3,7 @@ let obj = {
     bar: 2
 };
 console.log(obj.bar);
-export default {
+let default_export = {
     obj
 };
+export { default_export as default };

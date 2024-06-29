@@ -1,4 +1,4 @@
-export function insertRule(rule, index) {
+function insertRule(rule, index) {
     if (invariant(isString(rule), "`insertRule` accepts only strings"), !this._isBrowser) return "number" != typeof index && (index = this._serverSheet.cssRules.length), this._serverSheet.insertRule(rule, index), this._rulesCount++;
     if (this._optimizeForSpeed) {
         var sheet = this.getSheet();
@@ -14,3 +14,4 @@ export function insertRule(rule, index) {
     }
     return this._rulesCount++;
 }
+export { insertRule };

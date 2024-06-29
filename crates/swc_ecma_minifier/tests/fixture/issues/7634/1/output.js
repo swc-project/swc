@@ -1,5 +1,7 @@
 import o from './foo.js';
-export const Bar = o;
-export default function r(o) {
-    return o.map(r);
-}
+const t = o;
+import './foo.js';
+const r = function o(t) {
+    return t.map(o);
+};
+export { t as Bar, r as default };

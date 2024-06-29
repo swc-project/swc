@@ -1,3 +1,6 @@
+function render() {
+    return React.createElement(Blocks.Layout1, null);
+}
 var Blocks = {
     Block1: function() {
         return React.createElement(React.Fragment, null, "'Block1xx'");
@@ -16,6 +19,4 @@ function RenderLayout(Comps, items) {
         return Comps[item];
     });
 }
-export function render() {
-    return React.createElement(Blocks.Layout1, null);
-}
+export { render };

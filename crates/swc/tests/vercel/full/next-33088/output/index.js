@@ -1,58 +1,66 @@
-import { _ as t } from "@swc/helpers/_/_async_to_generator";
-import { _ as e } from "@swc/helpers/_/_sliced_to_array";
-import { _ as r } from "@swc/helpers/_/_ts_generator";
-import { jsx as n, jsxs as s, Fragment as a } from "react/jsx-runtime";
-import * as i from "react";
-export default function c() {
-    var c = e(i.useState({
+import { _ as r } from "@swc/helpers/_/_async_to_generator";
+import { _ as t } from "@swc/helpers/_/_sliced_to_array";
+import { _ as e } from "@swc/helpers/_/_ts_generator";
+import { jsx as s } from "react/jsx-runtime";
+import { jsxs as a } from "react/jsx-runtime";
+import { Fragment as n } from "react/jsx-runtime";
+import * as o from "react";
+export default function i() {
+    var i = t(o.useState({
         hits: []
-    }), 2), o = c[0], u = c[1], l = e(i.useState("react"), 2), h = l[0], f = l[1];
-    return i.useEffect(function() {
-        function e() {
-            return (e = t(function() {
-                return r(this, function(t) {
-                    switch(t.label){
+    }), 2), c = i[0], u = i[1], p = t(o.useState("react"), 2), l = p[0], m = p[1];
+    return o.useEffect(function() {
+        function t() {
+            return (t = r(function() {
+                return e(this, function(r) {
+                    switch(r.label){
                         case 0:
                             return [
                                 4,
-                                fetch("https://hn.algolia.com/api/v1/search?query=" + h)
+                                fetch("https://hn.algolia.com/api/v1/search?query=" + l)
                             ];
                         case 1:
                             return [
                                 4,
-                                t.sent().json()
+                                r.sent().json()
                             ];
                         case 2:
-                            return u(t.sent()), [
+                            return u(r.sent()), [
                                 2
                             ];
                     }
                 });
             })).apply(this, arguments);
         }
-        "" !== h && function() {
-            e.apply(this, arguments);
+        "" !== l && function() {
+            t.apply(this, arguments);
         }();
     }, [
-        h
-    ]), s(a, {
+        l
+    ]), a(n, {
         children: [
-            n("input", {
-                value: h,
-                onChange: function(t) {
-                    return f(t.target.value);
+            s("input", {
+                value: l,
+                onChange: function(r) {
+                    return m(r.target.value);
                 }
             }),
-            n("ul", {
-                children: o.hits.map(function(t) {
-                    return n("li", {
-                        children: n("a", {
-                            href: t.url,
-                            children: t.title
+            s("ul", {
+                children: c.hits.map(function(r) {
+                    return s("li", {
+                        children: s("a", {
+                            href: r.url,
+                            children: r.title
                         })
-                    }, t.objectID);
+                    }, r.objectID);
                 })
             })
         ]
     });
 }
+import "@swc/helpers/_/_async_to_generator";
+import "@swc/helpers/_/_sliced_to_array";
+import "@swc/helpers/_/_ts_generator";
+import "react/jsx-runtime";
+import "react";
+export { i as default };

@@ -7,3 +7,4 @@ export default class Demo {
     }
 }
 console.log(Deno.encode());
+export { Demo as default };

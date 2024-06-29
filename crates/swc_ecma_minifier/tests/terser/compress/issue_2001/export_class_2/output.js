@@ -1,2 +1,4 @@
-export class C {
+class C {
 }
+"module evaluation";
+export { C };

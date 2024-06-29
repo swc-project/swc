@@ -1,4 +1,4 @@
-export function throttleTime(interval) {
+function throttleTime(interval) {
     let currentValue, timeout;
     return (done)=>(value)=>{
             currentValue = value, timeout || (timeout = setTimeout(()=>{
@@ -6,3 +6,4 @@ export function throttleTime(interval) {
             }, interval));
         };
 }
+export { throttleTime };

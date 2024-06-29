@@ -1,4 +1,4 @@
-export function endOf(units) {
+function endOf(units) {
     var time;
     switch(this._isUTC, units){
         case "hour":
@@ -12,3 +12,4 @@ export function endOf(units) {
     }
     return time;
 }
+export { endOf };

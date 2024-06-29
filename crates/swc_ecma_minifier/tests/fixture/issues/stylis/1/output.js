@@ -1,9 +1,13 @@
-import { MS, MOZ, WEBKIT } from "./Enum.js";
-import { strlen, indexof, replace } from "./Utility.js";
+import { MS } from "./Enum.js";
+import { MOZ } from "./Enum.js";
+import { WEBKIT } from "./Enum.js";
+import { strlen } from "./Utility.js";
+import { indexof } from "./Utility.js";
+import { replace } from "./Utility.js";
 function charat(value, index) {
     return 0 | value.charCodeAt(index);
 }
-export function prefix(value, length) {
+function prefix(value, length) {
     switch((((length << 2 ^ charat(value, 0)) << 2 ^ charat(value, 1)) << 2 ^ charat(value, 2)) << 2 ^ charat(value, 3)){
         case 5103:
             return WEBKIT + "print-" + value + value;
@@ -114,3 +118,6 @@ export function prefix(value, length) {
     }
     return value;
 }
+import "./Enum.js";
+import "./Utility.js";
+export { prefix };

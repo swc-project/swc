@@ -4,7 +4,7 @@ function Deferred() {
         deferred.resolve = resolve, deferred.reject = reject;
     });
 }
-export async function bug() {
+async function bug() {
     const s = "next";
     if (!window[s]) for(window[s] = new Deferred();;)if (window.current) await window.current.promise;
     else {
@@ -17,3 +17,5 @@ export async function bug() {
     }
     return await window[s].promise;
 }
+"module evaluation";
+export { bug };

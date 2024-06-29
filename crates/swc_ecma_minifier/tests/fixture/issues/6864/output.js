@@ -1,4 +1,4 @@
-export function removeFromMatrix(matrix, id) {
+function removeFromMatrix(matrix, id) {
     var newMatrix, indexOfIdToRemove, row = _.find(matrix, (entry, index)=>{
         if (_.includes(entry, id)) return indexOfIdToRemove = index, entry;
     });
@@ -20,3 +20,4 @@ export function removeFromMatrix(matrix, id) {
     ])[indexOfIdToRemove] = _.without(row, id);
     return newMatrix || matrix;
 }
+export { removeFromMatrix };

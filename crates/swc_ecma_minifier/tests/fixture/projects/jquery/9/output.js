@@ -1,4 +1,4 @@
-export const obj = {
+const obj = {
     fireWith: function(context, args) {
         return args = [
             context,
@@ -6,3 +6,4 @@ export const obj = {
         ], list && (!fired || stack) && (firing ? stack.push(args) : fire(args)), this;
     }
 };
+export { obj };

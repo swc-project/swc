@@ -1,4 +1,4 @@
-export const obj = {
+const obj = {
     domManip: function(args, table, callback) {
         args = core_concat.apply([], args);
         var first, node, hasScripts, scripts, doc, fragment, i = 0, l = this.length, set = this, iNoClone = l - 1, value = args[0], isFunction = jQuery.isFunction(value);
@@ -21,3 +21,4 @@ export const obj = {
         return this;
     }
 };
+export { obj };

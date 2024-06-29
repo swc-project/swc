@@ -1,2 +1,6 @@
-export default class Car {}
-export class Cab {}
+export default class Car {
+}
+class Cab {
+}
+"module evaluation";
+export { Car as default, Cab };

@@ -1,4 +1,4 @@
-export const obj = {
+const obj = {
     create: function(model, options) {
         if (options = options ? _.clone(options) : {}, !(model = this._prepareModel(model, options))) return !1;
         options.wait || this.add(model, options);
@@ -8,3 +8,4 @@ export const obj = {
         }, model.save(null, options), model;
     }
 };
+export { obj };

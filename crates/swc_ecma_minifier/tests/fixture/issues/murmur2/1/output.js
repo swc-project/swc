@@ -10,3 +10,4 @@ export default function murmur2(str) {
     }
     return h ^= h >>> 13, (((h = (0xffff & h) * 0x5bd1e995 + ((h >>> 16) * 0xe995 << 16)) ^ h >>> 15) >>> 0).toString(36);
 }
+export { murmur2 as default };

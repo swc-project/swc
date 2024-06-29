@@ -1,1 +1,1 @@
-export default function(e,r,t,n,o,a,u){try{var c=e[a](u),l=c.value}catch(e){t(e);return}c.done?r(l):Promise.resolve(l).then(n,o)}
+const e=function(e,t,r,o,a,n,u){try{var c=e[n](u),l=c.value}catch(e){r(e);return}c.done?t(l):Promise.resolve(l).then(o,a)};export{e as default};

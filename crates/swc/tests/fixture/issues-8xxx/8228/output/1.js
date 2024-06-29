@@ -1,2 +1,3 @@
-export const a = "You'll";
-export const b = 'You\'ll';
+let a = "You'll";
+let b = 'You\'ll';
+export { a, b };

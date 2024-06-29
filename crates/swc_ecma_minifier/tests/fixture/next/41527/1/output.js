@@ -1,5 +1,10 @@
+import 'quill-delta';
+import 'parchment';
+import '../core/quill';
+import '../core/logger';
+import '../core/module';
 import Delta from 'quill-delta';
-import { EmbedBlot, Scope } from 'parchment';
+import { EmbedBlot } from 'parchment';
 import Quill from '../core/quill';
 import logger from '../core/logger';
 import Module from '../core/module';
@@ -103,6 +108,8 @@ function addControls(container, groups) {
         }), container.appendChild(group);
     });
 }
+import { Scope } from 'parchment';
+import Quill from '../core/quill';
 Toolbar.DEFAULTS = {}, Toolbar.DEFAULTS = {
     container: null,
     handlers: {
@@ -132,4 +139,4 @@ Toolbar.DEFAULTS = {}, Toolbar.DEFAULTS = {
         }
     }
 };
-export { Toolbar as default, addControls };
+export { Toolbar as default, addControls as addControls };

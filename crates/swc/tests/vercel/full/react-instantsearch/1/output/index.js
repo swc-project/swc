@@ -1,18 +1,19 @@
 export default function t(t) {
-    var n = t, e = [];
+    var e = t, n = [];
     return {
         getState: function() {
-            return n;
+            return e;
         },
         setState: function(t) {
-            n = t, e.forEach(function(t) {
+            e = t, n.forEach(function(t) {
                 return t();
             });
         },
         subscribe: function(t) {
-            return e.push(t), function() {
-                e.splice(e.indexOf(t), 1);
+            return n.push(t), function() {
+                n.splice(n.indexOf(t), 1);
             };
         }
     };
 }
+export { t as default };

@@ -1,4 +1,4 @@
-export const obj = {
+const obj = {
     inArray: function(elem, arr, i) {
         var len;
         if (arr) {
@@ -8,3 +8,4 @@ export const obj = {
         return -1;
     }
 };
+export { obj };

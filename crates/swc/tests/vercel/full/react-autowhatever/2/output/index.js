@@ -1,4 +1,8 @@
-"use strict";
+i._(u, "propTypes", {
+    items: 500
+}), i._(u, "defaultProps", {
+    sectionIndex: null
+}), new u();
 Object.defineProperty(exports, "__esModule", {
     value: !0
 }), Object.defineProperty(exports, "default", {
@@ -7,6 +11,7 @@ Object.defineProperty(exports, "__esModule", {
         return u;
     }
 });
+"use strict";
 var e = require("@swc/helpers/_/_assert_this_initialized"), r = require("@swc/helpers/_/_class_call_check"), t = require("@swc/helpers/_/_create_class"), i = require("@swc/helpers/_/_define_property"), s = require("@swc/helpers/_/_inherits"), n = require("@swc/helpers/_/_interop_require_wildcard"), c = require("@swc/helpers/_/_object_spread"), o = require("@swc/helpers/_/_object_spread_props"), _ = require("@swc/helpers/_/_create_super"), l = require("react/jsx-runtime"), u = function(n) {
     "use strict";
     s._(p, n);
@@ -55,8 +60,3 @@ var e = require("@swc/helpers/_/_assert_this_initialized"), r = require("@swc/he
         }
     ]), p;
 }(n._(require("react")).Component);
-i._(u, "propTypes", {
-    items: 500
-}), i._(u, "defaultProps", {
-    sectionIndex: null
-}), new u();

@@ -1,4 +1,4 @@
-export function HeaderCTA() {
+function HeaderCTA() {
     const varB = function() {
         const [a1, a1_set] = useState({});
         return useEffect(()=>{
@@ -12,3 +12,4 @@ export function HeaderCTA() {
     }();
     return void 0 === varA ? null : varA ? use(varB.field) : pure();
 }
+export { HeaderCTA };

@@ -1,4 +1,17 @@
-import { jsx as _jsx, jsxs as _jsxs, Fragment as _Fragment } from "react/jsx-runtime";
+import "react/jsx-runtime";
+import "react";
+import "invariant";
+import "./utils/injectscript";
+import "./utils/prevent-google-fonts";
+import "./utils/isbrowser";
+import "./utils/make-load-script-url";
+const defaultLoadScriptProps = {
+    id: "script-loader",
+    version: "weekly"
+};
+import { jsx as _jsx } from "react/jsx-runtime";
+import { jsxs as _jsxs } from "react/jsx-runtime";
+import { Fragment as _Fragment } from "react/jsx-runtime";
 import * as React from "react";
 import invariant from "invariant";
 import { injectScript } from "./utils/injectscript";
@@ -6,15 +19,6 @@ import { preventGoogleFonts } from "./utils/prevent-google-fonts";
 import { isBrowser } from "./utils/isbrowser";
 import { makeLoadScriptUrl } from "./utils/make-load-script-url";
 let cleaningUp = !1;
-export function DefaultLoadingElement() {
-    return _jsx("div", {
-        children: "Loading..."
-    });
-}
-export const defaultLoadScriptProps = {
-    id: "script-loader",
-    version: "weekly"
-};
 class LoadScript extends React.PureComponent {
     componentDidMount() {
         if (isBrowser) {
@@ -98,5 +102,12 @@ class LoadScript extends React.PureComponent {
         };
     }
 }
+import { jsx as _jsx } from "react/jsx-runtime";
+function DefaultLoadingElement() {
+    return _jsx("div", {
+        children: "Loading..."
+    });
+}
 LoadScript.defaultProps = defaultLoadScriptProps;
-export default LoadScript;
+const default_export = LoadScript;
+export { DefaultLoadingElement, defaultLoadScriptProps, default_export as default };

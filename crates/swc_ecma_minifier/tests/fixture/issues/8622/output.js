@@ -1,4 +1,4 @@
-export function foo(e) {
+function foo(e) {
     let reserved = 1;
     return e && (reserved = 2), [
         reserved,
@@ -8,3 +8,4 @@ export function foo(e) {
         }(e)
     ];
 }
+export { foo };

@@ -1,4 +1,6 @@
-'use client';
-export var Foo = {
+var Foo = {
     foo () {}
 };
+"module evaluation";
+'use client';
+export { Foo };

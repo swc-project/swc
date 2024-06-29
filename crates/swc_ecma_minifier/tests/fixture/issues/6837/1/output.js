@@ -1,10 +1,8 @@
-class Class1 {
-}
 function isClass2(node) {
     return node instanceof Class2;
 }
 Class1.isClass2 = isClass2;
-export class Class2 extends Class1 {
+class Class2 extends Class1 {
     constructor(){
         super();
         this.method1 = async ()=>{
@@ -17,3 +15,6 @@ export class Class2 extends Class1 {
     }
     static async method2() {}
 }
+class Class1 {
+}
+export { Class2 };

@@ -3,3 +3,5 @@ export default class {
         console.log(3);
     }
 }
+"module evaluation";
+export { default_export as default };

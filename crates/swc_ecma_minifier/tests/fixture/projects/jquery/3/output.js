@@ -1,4 +1,4 @@
-export const obj = {
+const obj = {
     ready: function(wait) {
         if (!(!0 === wait ? --jQuery.readyWait : jQuery.isReady)) {
             if (!document.body) return setTimeout(jQuery.ready);
@@ -8,3 +8,4 @@ export const obj = {
         }
     }
 };
+export { obj };

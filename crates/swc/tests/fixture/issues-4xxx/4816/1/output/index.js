@@ -1,15 +1,16 @@
-export function left() {
+function left() {
     return(// left binop
     check() || action(), foo());
 }
-export function right() {
+function right() {
     return check() || // right binop
     action(), foo();
 }
-export function between() {
+function between() {
     // between
     return check() || action(), foo();
 }
-export function end() {
+function end() {
     return check() || action(), foo();
 } // end
+export { left, right, between, end };

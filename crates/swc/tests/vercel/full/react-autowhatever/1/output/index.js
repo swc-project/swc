@@ -1,4 +1,20 @@
-"use strict";
+i._(p, "propTypes", {
+    items: _.default.array.isRequired,
+    itemProps: _.default.oneOfType([
+        _.default.object,
+        _.default.func
+    ]),
+    renderItem: _.default.func.isRequired,
+    renderItemData: _.default.object.isRequired,
+    sectionIndex: _.default.number,
+    highlightedItemIndex: _.default.number,
+    onHighlightedItemChange: _.default.func.isRequired,
+    getItemId: _.default.func.isRequired,
+    theme: _.default.func.isRequired,
+    keyPrefix: _.default.string.isRequired
+}), i._(p, "defaultProps", {
+    sectionIndex: null
+}), new p();
 Object.defineProperty(exports, "__esModule", {
     value: !0
 }), Object.defineProperty(exports, "default", {
@@ -7,6 +23,7 @@ Object.defineProperty(exports, "__esModule", {
         return p;
     }
 });
+"use strict";
 var e = require("@swc/helpers/_/_assert_this_initialized"), t = require("@swc/helpers/_/_class_call_check"), r = require("@swc/helpers/_/_create_class"), i = require("@swc/helpers/_/_define_property"), n = require("@swc/helpers/_/_inherits"), s = require("@swc/helpers/_/_interop_require_default"), u = require("@swc/helpers/_/_interop_require_wildcard"), d = require("@swc/helpers/_/_object_spread"), c = require("@swc/helpers/_/_object_spread_props"), l = require("@swc/helpers/_/_create_super"), a = require("react/jsx-runtime"), o = u._(require("react")), _ = s._(require("prop-types")), p = function(s) {
     "use strict";
     n._(o, s);
@@ -53,20 +70,3 @@ var e = require("@swc/helpers/_/_assert_this_initialized"), t = require("@swc/he
         }
     ]), o;
 }(o.Component);
-i._(p, "propTypes", {
-    items: _.default.array.isRequired,
-    itemProps: _.default.oneOfType([
-        _.default.object,
-        _.default.func
-    ]),
-    renderItem: _.default.func.isRequired,
-    renderItemData: _.default.object.isRequired,
-    sectionIndex: _.default.number,
-    highlightedItemIndex: _.default.number,
-    onHighlightedItemChange: _.default.func.isRequired,
-    getItemId: _.default.func.isRequired,
-    theme: _.default.func.isRequired,
-    keyPrefix: _.default.string.isRequired
-}), i._(p, "defaultProps", {
-    sectionIndex: null
-}), new p();

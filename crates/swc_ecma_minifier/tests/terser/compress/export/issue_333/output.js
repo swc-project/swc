@@ -1,8 +1,8 @@
-var setToString;
+function baseRest() {
+    return _setToString();
+}
+"module evaluation";
 var _setToString = function shortOut() {
     return function() {};
 }();
-export function baseRest() {
-    return _setToString();
-}
-export { _setToString };
+export { baseRest, _setToString as _setToString };

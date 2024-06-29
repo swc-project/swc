@@ -1,2 +1,4 @@
 export default function Foo() {}
-export function Far() {}
+function Far() {}
+"module evaluation";
+export { Foo as default, Far };

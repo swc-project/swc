@@ -1,7 +1,8 @@
-export function string_create() {
+function string_create() {
     return new StringSchema();
 }
-export class StringSchema extends BaseSchema {
+string_create.prototype = StringSchema.prototype;
+class StringSchema extends BaseSchema {
     matches(regex, options) {
         let message, name, excludeEmptyString = !1;
         return options && ("object" == typeof options ? { excludeEmptyString = !1, message, name } = options : message = options), this.test({
@@ -14,4 +15,4 @@ export class StringSchema extends BaseSchema {
         });
     }
 }
-string_create.prototype = StringSchema.prototype;
+export { string_create, StringSchema };

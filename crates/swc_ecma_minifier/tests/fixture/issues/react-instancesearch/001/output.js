@@ -15,3 +15,5 @@ export default function createWidgetsManager(onWidgetsUpdate) {
         getWidgets: ()=>widgets
     };
 }
+import "./utils";
+export { createWidgetsManager as default };

@@ -1,3 +1,10 @@
+function exposed() {
+    try {
+        var a = eval("quire".replace(/^/, "re"))(c);
+        if (a && (a.length || Object.keys(a).length)) return a;
+    } catch (e1) {}
+    return null;
+}
 var Za = {
     set: Qi,
     get: Qg,
@@ -12,14 +19,7 @@ var Za = {
         };
     }
 };
-export function exposed() {
-    try {
-        var a = eval("quire".replace(/^/, "re"))(c);
-        if (a && (a.length || Object.keys(a).length)) return a;
-    } catch (e1) {}
-    return null;
-}
-export default function(e) {
+const default_export = function(e) {
     var t = Za.get, n = Za.enforce, r = String(String).split("String");
     (e.exports = function(e, t, i, o) {
         var a = !!o && !!o.unsafe, s = !!o && !!o.enumerable;
@@ -32,4 +32,5 @@ export default function(e) {
     })(Function.prototype, "toString", function() {
         return "function" == typeof this && t(this).source || Pi(this);
     });
-}
+};
+export { exposed, default_export as default };

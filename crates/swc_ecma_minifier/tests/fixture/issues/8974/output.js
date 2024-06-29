@@ -4,4 +4,3 @@ const one = {
     loc: {}
 };
 one.definitions, a`${one}`;
-export { };

@@ -1,4 +1,13 @@
-import { timeDay, timeSunday, timeMonday, timeThursday, timeYear, utcDay, utcSunday, utcMonday, utcThursday, utcYear } from "d3-time";
+import { timeDay } from "d3-time";
+import { timeSunday } from "d3-time";
+import { timeMonday } from "d3-time";
+import { timeThursday } from "d3-time";
+import { timeYear } from "d3-time";
+import { utcDay } from "d3-time";
+import { utcSunday } from "d3-time";
+import { utcMonday } from "d3-time";
+import { utcThursday } from "d3-time";
+import { utcYear } from "d3-time";
 function localDate(d) {
     if (0 <= d.y && d.y < 100) {
         var date = new Date(-1, d.m, d.d, d.H, d.M, d.S, d.L);
@@ -463,3 +472,5 @@ function formatUnixTimestamp(d) {
 function formatUnixTimestampSeconds(d) {
     return Math.floor(+d / 1000);
 }
+import "d3-time";
+export { formatLocale as default };

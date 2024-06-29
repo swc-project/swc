@@ -1,4 +1,4 @@
-export function a(module, exports, farmRequire, farmDynamicRequire) {
+function a(module, exports, farmRequire, farmDynamicRequire) {
     "use strict";
     Object.defineProperty(exports, "__esModule", {
         value: !0
@@ -57,3 +57,4 @@ export function a(module, exports, farmRequire, farmDynamicRequire) {
         }, module.exports = _(_dayjs.default);
     });
 }
+export { a };

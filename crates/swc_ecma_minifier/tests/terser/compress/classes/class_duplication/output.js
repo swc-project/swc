@@ -3,4 +3,5 @@ class Foo {
         leak(new Foo());
     }
 }
-export default Foo;
+const default_export = Foo;
+export { default_export as default };

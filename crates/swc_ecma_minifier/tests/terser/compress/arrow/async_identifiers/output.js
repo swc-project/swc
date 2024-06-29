@@ -1,7 +1,8 @@
-var async = (x) => {
+"module evaluation";
+var async = (x)=>{
     console.log("async", x);
 };
-var await = (x) => {
+var await = (x)=>{
     console.log("await", x);
 };
 async(1);

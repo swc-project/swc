@@ -1,4 +1,4 @@
-export default function(r, t, e) {
+const r = function(r, t, e) {
     var n;
     return n = function(r) {
         var t, e, n, o, s, a, i, c, h;
@@ -21,8 +21,8 @@ export default function(r, t, e) {
                         var d = c[_ - 15], v = (d << 25 | d >>> 7) ^ (d << 14 | d >>> 18) ^ d >>> 3, H = c[_ - 2], p = (H << 15 | H >>> 17) ^ (H << 13 | H >>> 19) ^ H >>> 10;
                         c[_] = v + c[_ - 7] + p + c[_ - 16];
                     }
-                    var w = h & u ^ ~h & f, A = n & o ^ n & s ^ o & s, g = (n << 30 | n >>> 2) ^ (n << 19 | n >>> 13) ^ (n << 10 | n >>> 22), y = l + ((h << 26 | h >>> 6) ^ (h << 21 | h >>> 11) ^ (h << 7 | h >>> 25)) + w + i[_] + c[_], B = g + A;
-                    l = f, f = u, u = h, h = a + y | 0, a = s, s = o, o = n, n = y + B | 0;
+                    var w = h & u ^ ~h & f, A = n & o ^ n & s ^ o & s, g = (n << 30 | n >>> 2) ^ (n << 19 | n >>> 13) ^ (n << 10 | n >>> 22), x = l + ((h << 26 | h >>> 6) ^ (h << 21 | h >>> 11) ^ (h << 7 | h >>> 25)) + w + i[_] + c[_], y = g + A;
+                    l = f, f = u, u = h, h = a + x | 0, a = s, s = o, o = n, n = x + y | 0;
                 }
                 e[0] = e[0] + n | 0, e[1] = e[1] + o | 0, e[2] = e[2] + s | 0, e[3] = e[3] + a | 0, e[4] = e[4] + h | 0, e[5] = e[5] + u | 0, e[6] = e[6] + f | 0, e[7] = e[7] + l | 0;
             },
@@ -36,4 +36,5 @@ export default function(r, t, e) {
             }
         }), r.SHA256 = o._createHelper(h), r.HmacSHA256 = o._createHmacHelper(h), r.SHA256;
     }, void (r.exports = n(e(8249)));
-}
+};
+export { r as default };

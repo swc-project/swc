@@ -1,3 +1,4 @@
+import "styled-jsx/style";
 import _JSXStyle from "styled-jsx/style";
 (({ right = !1, top = !1, sidebar, sidebarWidth = 230, hideOnMobile = !1, breakpoint = 730, children })=>(_JSXStyle.dynamic([
         [

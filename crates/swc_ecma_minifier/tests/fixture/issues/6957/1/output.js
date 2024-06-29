@@ -1,4 +1,4 @@
-export function foo() {
+function foo() {
     alert("1.0");
     alert("0");
     alert("0.0");
@@ -17,3 +17,4 @@ export function foo() {
     alert("1110.0000");
     alert("11110.0000");
 }
+export { foo };

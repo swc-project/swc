@@ -338,3 +338,11 @@ export default function createInstantSearchManager(param) {
         }
     };
 }
+import "@swc/helpers";
+import "algoliasearch-helper";
+import "./createWidgetsManager";
+import "./highlight";
+import "./indexUtils";
+import "react";
+import "./version";
+export { createInstantSearchManager as default };

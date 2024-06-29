@@ -1,2 +1,5 @@
+let e = 1;
 var o = 2;
-export let foo = 1, bar = o;
+let t = o;
+"module evaluation";
+export { e as foo, t as bar };

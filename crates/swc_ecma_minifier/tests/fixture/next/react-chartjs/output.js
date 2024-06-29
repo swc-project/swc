@@ -1,5 +1,4 @@
-var _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__ = globalThis._chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__ || {};
-export function generateTicks$1(generationOptions, dataRange) {
+function generateTicks$1(generationOptions, dataRange) {
     let factor, niceMin, niceMax, numSpaces;
     const ticks = [];
     const { bounds, step, min, max, precision, count, maxTicks, maxDigits, includeBounds } = generationOptions;
@@ -68,3 +67,6 @@ export function generateTicks$1(generationOptions, dataRange) {
     });
     return ticks;
 }
+"module evaluation";
+var _chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__ = globalThis._chunks_helpers_segment_mjs__WEBPACK_IMPORTED_MODULE_0__ || {};
+export { generateTicks$1 };

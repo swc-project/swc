@@ -1,8 +1,9 @@
+export default class {
+    foo = obj;
+}
 let obj = {
     foo: 1,
     bar: 2
 };
 console.log(obj.bar);
-export default class {
-    foo = obj;
-}
+export { default_export as default };

@@ -43,7 +43,7 @@ class HttpError extends Error {
         super(message), this.response = response;
     }
 }
-export class FileLoader extends Loader {
+class FileLoader extends Loader {
     constructor(manager){
         super(manager);
     }
@@ -143,3 +143,4 @@ export class FileLoader extends Loader {
         return this.mimeType = value, this;
     }
 }
+export { FileLoader };

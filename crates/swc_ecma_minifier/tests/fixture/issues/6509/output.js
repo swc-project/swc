@@ -1,4 +1,5 @@
-export var modifiers = {
+"module evaluation";
+var modifiers = {
     offset: {
         order: 200,
         enabled: true,
@@ -62,3 +63,4 @@ export var modifiers = {
         offset: 0
     }
 };
+export { modifiers };

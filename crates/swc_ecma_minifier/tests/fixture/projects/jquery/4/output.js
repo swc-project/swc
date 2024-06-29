@@ -1,4 +1,4 @@
-export const obj = {
+const obj = {
     parseXML: function(data) {
         var xml;
         if (!data || "string" != typeof data) return null;
@@ -10,3 +10,4 @@ export const obj = {
         return xml && xml.documentElement && !xml.getElementsByTagName("parsererror").length || jQuery.error("Invalid XML: " + data), xml;
     }
 };
+export { obj };

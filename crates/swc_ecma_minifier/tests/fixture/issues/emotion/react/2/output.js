@@ -1,4 +1,4 @@
-var fn, cache, cursor, hyphenateRegex = /[A-Z]|^ms/g, animationRegex = /_EMO_([^_]+?)_([^]*?)_EMO_/g, unitless_browser_esm = {
+var cursor, fn, cache, animationRegex = /_EMO_([^_]+?)_([^]*?)_EMO_/g, unitless_browser_esm = {
     animationIterationCount: 1,
     borderImageOutset: 1,
     borderImageSlice: 1,
@@ -44,8 +44,6 @@ var fn, cache, cursor, hyphenateRegex = /[A-Z]|^ms/g, animationRegex = /_EMO_([^
     strokeMiterlimit: 1,
     strokeOpacity: 1,
     strokeWidth: 1
-}, isCustomProperty = function(property) {
-    return 45 === property.charCodeAt(1);
 }, labelPattern = /label:\s*([^\s;\n{]+)\s*(;|$)/g;
 function handleInterpolation(mergedProps, registered, interpolation) {
     if (null == interpolation) return "";
@@ -99,7 +97,7 @@ function handleInterpolation(mergedProps, registered, interpolation) {
     var cached = registered[interpolation];
     return void 0 !== cached ? cached : interpolation;
 }
-export function serializeStyles(args, registered, mergedProps) {
+function serializeStyles(args, registered, mergedProps) {
     if (1 === args.length && "object" == typeof args[0] && null !== args[0] && void 0 !== args[0].styles) return args[0];
     var match, stringMode = !0, styles = "";
     cursor = void 0;
@@ -128,11 +126,7 @@ export function serializeStyles(args, registered, mergedProps) {
 function isProcessableValue(value) {
     return null != value && "boolean" != typeof value;
 }
-var processStyleName = (fn = function(styleName) {
-    return isCustomProperty(styleName) ? styleName : styleName.replace(hyphenateRegex, "-$&").toLowerCase();
-}, cache = Object.create(null), function(arg) {
-    return void 0 === cache[arg] && (cache[arg] = fn(arg)), cache[arg];
-}), processStyleValue = function(key, value) {
+var processStyleValue = function(key, value) {
     switch(key){
         case "animation":
         case "animationName":
@@ -146,3 +140,12 @@ var processStyleName = (fn = function(styleName) {
     }
     return 1 === unitless_browser_esm[key] || isCustomProperty(key) || "number" != typeof value || 0 === value ? value : value + "px";
 };
+var isCustomProperty = function(property) {
+    return 45 === property.charCodeAt(1);
+};
+var hyphenateRegex = /[A-Z]|^ms/g, processStyleName = (fn = function(styleName) {
+    return isCustomProperty(styleName) ? styleName : styleName.replace(hyphenateRegex, "-$&").toLowerCase();
+}, cache = Object.create(null), function(arg) {
+    return void 0 === cache[arg] && (cache[arg] = fn(arg)), cache[arg];
+});
+export { serializeStyles };

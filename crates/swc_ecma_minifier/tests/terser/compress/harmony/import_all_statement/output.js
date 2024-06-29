@@ -1,1 +1,2 @@
-import * as Lel from "lel";
+"module evaluation";
+import "lel";

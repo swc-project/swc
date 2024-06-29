@@ -1,2 +1,3 @@
 var x;
-export const k = x;
+const k = x;
+export { k };

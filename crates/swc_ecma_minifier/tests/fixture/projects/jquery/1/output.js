@@ -1,4 +1,4 @@
-export const obj = {
+const obj = {
     init: function(selector, context, rootjQuery) {
         var match, elem;
         if (!selector) return this;
@@ -23,3 +23,4 @@ export const obj = {
         return selector.nodeType ? (this.context = this[0] = selector, this.length = 1, this) : jQuery.isFunction(selector) ? rootjQuery.ready(selector) : (void 0 !== selector.selector && (this.selector = selector.selector, this.context = selector.context), jQuery.makeArray(selector, this));
     }
 };
+export { obj };

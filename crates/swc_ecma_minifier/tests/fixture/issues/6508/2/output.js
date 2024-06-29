@@ -1,4 +1,6 @@
-'use client';
-export class Foo {
+class Foo {
     foo() {}
 }
+"module evaluation";
+'use client';
+export { Foo };

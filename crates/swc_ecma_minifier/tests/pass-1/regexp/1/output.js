@@ -1,1 +1,2 @@
-export const foo = RegExp("");
+const foo = RegExp("");
+export { foo };

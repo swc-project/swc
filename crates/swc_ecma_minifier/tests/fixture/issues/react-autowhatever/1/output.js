@@ -1,6 +1,10 @@
+import "react/jsx-runtime";
+import "react";
+import "prop-types";
+import "./Item";
+import "./compareObjects";
 import { jsx as _jsx } from "react/jsx-runtime";
 import { Component } from "react";
-import PropTypes from "prop-types";
 import Item from "./Item";
 import compareObjects from "./compareObjects";
 function _getPrototypeOf(o) {
@@ -96,6 +100,7 @@ var ItemsList = function(Component) {
         }
     }(ItemsList.prototype, protoProps), ItemsList;
 }(Component);
+import PropTypes from "prop-types";
 ItemsList.propTypes = {
     items: PropTypes.array.isRequired,
     itemProps: PropTypes.oneOfType([

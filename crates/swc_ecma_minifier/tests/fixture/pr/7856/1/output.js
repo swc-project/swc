@@ -1,1 +1,2 @@
-export const c = ()=>"";
+const c = ()=>"";
+export { c };

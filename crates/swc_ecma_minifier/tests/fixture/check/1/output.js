@@ -1,5 +1,6 @@
+const foo = foobar;
 import "module";
-let foobar = "foo";
-export const foo = foobar;
 let foobarCopy = foobar += "bar";
 foobar += "foo", console.log(foobarCopy);
+let foobar = "foo";
+export { foo };

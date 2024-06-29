@@ -1,4 +1,4 @@
-export const obj = {
+const obj = {
     set: function(key, val, options) {
         var attr, attrs, unset, changes, silent, changing, prev, current;
         if (null == key) return this;
@@ -13,3 +13,4 @@ export const obj = {
         return this._pending = !1, this._changing = !1, this;
     }
 };
+export { obj };

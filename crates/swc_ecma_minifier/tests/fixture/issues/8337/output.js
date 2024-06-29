@@ -1,4 +1,4 @@
-export function allowInAnd(callback) {
+function allowInAnd(callback) {
     var flags = this.prodParam.currentFlags();
     var prodParamToSet = ParamKind.PARAM_IN & ~flags;
     if (prodParamToSet) {
@@ -11,3 +11,5 @@ export function allowInAnd(callback) {
     }
     return callback();
 }
+"module evaluation";
+export { allowInAnd };

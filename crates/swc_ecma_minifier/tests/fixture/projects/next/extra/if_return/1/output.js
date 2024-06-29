@@ -1,4 +1,4 @@
-export function foo() {
+function foo() {
     var obj;
     return state.loading || state.error ? _react.default.createElement(opts.loading, {
         isLoading: state.loading,
@@ -8,3 +8,4 @@ export function foo() {
         retry: subscription.retry
     }) : state.loaded ? _react.default.createElement((obj = state.loaded) && obj.__esModule ? obj.default : obj, props) : null;
 }
+export { foo };

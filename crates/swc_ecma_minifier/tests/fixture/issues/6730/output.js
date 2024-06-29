@@ -1,30 +1,31 @@
-function n(n, e, t, r, o, i, u) {
+"module evaluation";
+function n(n, e, t, r, o, u, a) {
     try {
-        var a = n[i](u);
-        var c = a.value;
+        var i = n[u](a);
+        var c = i.value;
     } catch (n) {
         t(n);
         return;
     }
-    if (a.done) e(c);
+    if (i.done) e(c);
     else Promise.resolve(c).then(r, o);
 }
 function e(e) {
     return function() {
         var t = this, r = arguments;
-        return new Promise(function(o, i) {
-            var u = e.apply(t, r);
-            function a(e) {
-                n(u, o, i, a, c, "next", e);
+        return new Promise(function(o, u) {
+            var a = e.apply(t, r);
+            function i(e) {
+                n(a, o, u, i, c, "next", e);
             }
             function c(e) {
-                n(u, o, i, a, c, "throw", e);
+                n(a, o, u, i, c, "throw", e);
             }
-            a(void 0);
+            i(void 0);
         });
     };
 }
-export const styleLoader = ()=>({
+const t = ()=>({
         name: 'style-loader',
         setup (n) {
             n.onLoad({
@@ -38,3 +39,4 @@ export const styleLoader = ()=>({
             }());
         }
     });
+export { t as styleLoader };

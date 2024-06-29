@@ -1,8 +1,9 @@
+class Foo {
+    [obj] = 1;
+}
 let obj = {
     foo: 1,
     bar: 2
 };
 console.log(obj.bar);
-export class Foo {
-    [obj] = 1;
-}
+export { Foo };

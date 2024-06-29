@@ -1,2 +1,4 @@
-export async function Foo() {}
+async function Foo() {}
 Foo.prototype = {};
+"module evaluation";
+export { Foo };

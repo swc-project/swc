@@ -1,3 +1,5 @@
-export default function t(t, e) {
-    return t - e;
-};
+export default function e(e, o) {
+    return e - o;
+}
+"module evaluation";
+export { e as default };

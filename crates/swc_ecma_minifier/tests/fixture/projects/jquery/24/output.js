@@ -1,4 +1,4 @@
-export const obj = {
+const obj = {
     buildFragment: function(elems, context, scripts, selection) {
         for(var j, elem, contains, tmp, tag, tbody, wrap, l = elems.length, safe = createSafeFragment(context), nodes = [], i = 0; i < l; i++)if ((elem = elems[i]) || 0 === elem) {
             if ("object" === jQuery.type(elem)) jQuery.merge(nodes, elem.nodeType ? [
@@ -18,3 +18,4 @@ export const obj = {
         return tmp = null, safe;
     }
 };
+export { obj };

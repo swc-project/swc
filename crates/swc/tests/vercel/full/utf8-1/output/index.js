@@ -1,14 +1,20 @@
+import "@swc/helpers/_/_async_to_generator";
 import { _ as e } from "@swc/helpers/_/_async_to_generator";
+import "@swc/helpers/_/_ts_generator";
 import { _ as t } from "@swc/helpers/_/_ts_generator";
-import { displayContent as a } from './fouc';
-import n from './on-demand-entries-client';
-import { addMessageListener as r, connectHMR as c } from './error-overlay/websocket';
-var o = JSON.parse(document.getElementById('__NEXT_DATA__').textContent);
-window.__NEXT_DATA__ = o;
-var s = o.assetPrefix, i = o.page, _ = null, u = __webpack_hash__, d = (s = s || '') + (s.endsWith('/') ? '' : '/') + '_next/static/webpack/';
-function p() {
-    return (p = e(function() {
-        var e, a;
+import './fouc';
+import { displayContent as r } from './fouc';
+import './on-demand-entries-client';
+import o from './on-demand-entries-client';
+import './error-overlay/websocket';
+import { addMessageListener as a } from './error-overlay/websocket';
+import { connectHMR as n } from './error-overlay/websocket';
+var c = JSON.parse(document.getElementById('__NEXT_DATA__').textContent);
+window.__NEXT_DATA__ = c;
+var s = c.assetPrefix, i = c.page, _ = null, p = __webpack_hash__, u = (s = s || '') + (s.endsWith('/') ? '' : '/') + '_next/static/webpack/';
+function l() {
+    return (l = e(function() {
+        var e, r;
         return t(this, function(t) {
             switch(t.label){
                 case 0:
@@ -24,7 +30,7 @@ function p() {
                         5
                     ]), [
                         4,
-                        fetch('undefined' != typeof __webpack_runtime_id__ ? "".concat(d).concat(u, ".").concat(__webpack_runtime_id__, ".hot-update.json") : "".concat(d).concat(u, ".hot-update.json"))
+                        fetch('undefined' != typeof __webpack_runtime_id__ ? "".concat(u).concat(p, ".").concat(__webpack_runtime_id__, ".hot-update.json") : "".concat(u).concat(p, ".hot-update.json"))
                     ];
                 case 2:
                     return [
@@ -32,9 +38,9 @@ function p() {
                         t.sent().json()
                     ];
                 case 3:
-                    return e = t.sent(), a = '/' === i ? 'index' : i, (Array.isArray(e.c) ? e.c : Object.keys(e.c)).some(function(e) {
-                        return -1 !== e.indexOf("pages".concat(a.startsWith('/') ? a : "/".concat(a))) || -1 !== e.indexOf("pages".concat(a.startsWith('/') ? a : "/".concat(a)).replace(/\//g, '\\'));
-                    }) ? document.location.reload(!0) : u = _, [
+                    return e = t.sent(), r = '/' === i ? 'index' : i, (Array.isArray(e.c) ? e.c : Object.keys(e.c)).some(function(e) {
+                        return -1 !== e.indexOf("pages".concat(r.startsWith('/') ? r : "/".concat(r))) || -1 !== e.indexOf("pages".concat(r.startsWith('/') ? r : "/".concat(r)).replace(/\//g, '\\'));
+                    }) ? document.location.reload(!0) : p = _, [
                         3,
                         5
                     ];
@@ -51,19 +57,19 @@ function p() {
         });
     })).apply(this, arguments);
 }
-r(function(e) {
+a(function(e) {
     if ('\uD83D\uDC93' !== e.data) try {
         var t = JSON.parse(e.data);
         if ('sync' === t.action || 'built' === t.action) {
             if (!t.hash) return;
             _ = t.hash, function() {
-                p.apply(this, arguments);
+                l.apply(this, arguments);
             }();
         } else 'reloadPage' === t.action && document.location.reload(!0);
     } catch (t) {
         console.warn('Invalid HMR message: ' + e.data + '\n' + t);
     }
-}), c({
+}), n({
     assetPrefix: s,
     path: '/_next/webpack-hmr'
-}), a(), n(o.page);
+}), r(), o(c.page);

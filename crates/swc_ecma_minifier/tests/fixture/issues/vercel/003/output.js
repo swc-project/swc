@@ -1,5 +1,10 @@
-import { a, b } from "./utils";
+const { d } = manager;
+const { l } = manager;
+const { q } = manager;
+import "./utils";
 "undefined" != typeof window && require("intersection-observer");
+import { a } from "./utils";
+import { b } from "./utils";
 const manager = function() {
     const c = new Map();
     function j(k) {
@@ -26,8 +31,5 @@ const manager = function() {
             j(r).delete(s), r.unobserve(s);
         }
     };
-}();
-export default manager;
-export const { d } = manager;
-export const { l } = manager;
-export const { q } = manager;
+}(), default_export = manager;
+export { default_export as default, d, l, q };

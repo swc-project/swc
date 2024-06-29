@@ -3,3 +3,5 @@ export default function() {
     var arg;
     arg = (arg = []).slice();
 }
+"module evaluation";
+export { default_export as default };

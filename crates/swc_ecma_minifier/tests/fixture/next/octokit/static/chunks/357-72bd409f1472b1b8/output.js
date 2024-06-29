@@ -1,4 +1,4 @@
-export default function(module, __unused_webpack_exports, __webpack_require__) {
+const default_export = function(module, __unused_webpack_exports, __webpack_require__) {
     var factory;
     factory = function() {
         'use strict';
@@ -722,4 +722,5 @@ export default function(module, __unused_webpack_exports, __webpack_require__) {
         }).call(commonjsGlobal);
         return Bottleneck_1;
     }, module.exports = factory();
-}
+};
+export { default_export as default };

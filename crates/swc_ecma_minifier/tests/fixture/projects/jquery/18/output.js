@@ -1,4 +1,4 @@
-export const obj = {
+const obj = {
     tweener: function(props, callback) {
         jQuery.isFunction(props) ? (callback = props, props = [
             "*"
@@ -6,3 +6,4 @@ export const obj = {
         for(var prop, index = 0, length = props.length; index < length; index++)prop = props[index], tweeners[prop] = tweeners[prop] || [], tweeners[prop].unshift(callback);
     }
 };
+export { obj };

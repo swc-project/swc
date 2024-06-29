@@ -1,4 +1,4 @@
-export const obj = {
+const obj = {
     when: function(subordinate) {
         var progressValues, progressContexts, resolveContexts, i = 0, resolveValues = core_slice.call(arguments), length = resolveValues.length, remaining = 1 !== length || subordinate && jQuery.isFunction(subordinate.promise) ? length : 0, deferred = 1 === remaining ? subordinate : jQuery.Deferred(), updateFunc = function(i, contexts, values) {
             return function(value) {
@@ -9,3 +9,4 @@ export const obj = {
         return remaining || deferred.resolveWith(resolveContexts, resolveValues), deferred.promise();
     }
 };
+export { obj };

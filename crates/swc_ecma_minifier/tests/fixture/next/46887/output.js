@@ -1,4 +1,4 @@
-export var CSL = {};
+var CSL = {};
 CSL.parseXml = function(str) {
     var _obj_children = [], _stack = [
         _obj_children
@@ -56,3 +56,4 @@ CSL.parseXml = function(str) {
     }(lst[i]);
     return _obj_children[0];
 };
+export { CSL };

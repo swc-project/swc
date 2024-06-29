@@ -1,5 +1,7 @@
-export class C {
-    go(r, e) {
-        return r - e + r;
+class e {
+    go(e, o) {
+        return e - o + e;
     }
 }
+"module evaluation";
+export { e as C };

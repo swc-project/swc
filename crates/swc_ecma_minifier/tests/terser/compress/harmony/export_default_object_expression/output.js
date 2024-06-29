@@ -1,9 +1,11 @@
-export default {
+"module evaluation";
+const default_export = {
     foo: 3,
-    bar() {
+    bar () {
         return 4;
     },
-    get baz() {
+    get baz () {
         return this.foo;
-    },
+    }
 };
+export { default_export as default };

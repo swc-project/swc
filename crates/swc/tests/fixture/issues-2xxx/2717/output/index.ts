@@ -1,40 +1,19 @@
 import { _ as e } from "@swc/helpers/_/_ts_generator";
-import { takeLatest as t, select as r } from "redux-saga/effects";
-import { CHANGE_THEME as o, CHANGE_THEME_CUSTOM_PALETTE as s, CHANGE_THEME_SWITCH_MODE as a } from "core/actions/changeTheme";
-export var selectThemeObject = function(e) {
-    return e.theme;
-};
-export function saveTheme(t) {
-    var o, s, n;
-    return e(this, function(e) {
-        switch(e.label){
-            case 0:
-                return o = t.type, [
-                    4,
-                    r(selectThemeObject)
-                ];
-            case 1:
-                return s = e.sent(), window.localStorage.setItem("theme", JSON.stringify({
-                    theme: s.theme,
-                    mode: s.mode,
-                    palette: s.palette
-                })), o === a && (n = window.document.querySelector("body")) && (n.classList.add("light" === s.mode ? "light" : "dark"), n.classList.remove("light" === s.mode ? "dark" : "light")), [
-                    2
-                ];
-        }
-    });
-}
-export default function n() {
+import { takeLatest as t } from "redux-saga/effects";
+import { CHANGE_THEME as r } from "core/actions/changeTheme";
+import { CHANGE_THEME_CUSTOM_PALETTE as o } from "core/actions/changeTheme";
+import { CHANGE_THEME_SWITCH_MODE as a } from "core/actions/changeTheme";
+export default function s() {
     return e(this, function(e) {
         switch(e.label){
             case 0:
                 return [
                     4,
                     t([
+                        r,
                         o,
-                        s,
                         a
-                    ], saveTheme)
+                    ], n)
                 ];
             case 1:
                 return e.sent(), [
@@ -43,3 +22,33 @@ export default function n() {
         }
     });
 }
+import "@swc/helpers/_/_ts_generator";
+import "redux-saga/effects";
+import "core/actions/changeTheme";
+var c = function(e) {
+    return e.theme;
+};
+import { _ as e } from "@swc/helpers/_/_ts_generator";
+import { select as m } from "redux-saga/effects";
+import { CHANGE_THEME_SWITCH_MODE as a } from "core/actions/changeTheme";
+function n(t) {
+    var r, o, s;
+    return e(this, function(e) {
+        switch(e.label){
+            case 0:
+                return r = t.type, [
+                    4,
+                    m(c)
+                ];
+            case 1:
+                return o = e.sent(), window.localStorage.setItem("theme", JSON.stringify({
+                    theme: o.theme,
+                    mode: o.mode,
+                    palette: o.palette
+                })), r === a && (s = window.document.querySelector("body")) && (s.classList.add("light" === o.mode ? "light" : "dark"), s.classList.remove("light" === o.mode ? "dark" : "light")), [
+                    2
+                ];
+        }
+    });
+}
+export { c as selectThemeObject, n as saveTheme, s as default };

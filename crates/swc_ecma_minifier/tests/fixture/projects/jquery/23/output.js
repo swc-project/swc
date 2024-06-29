@@ -1,4 +1,4 @@
-export const obj = {
+const obj = {
     style: function(elem, name, value, extra) {
         if (elem && 3 !== elem.nodeType && 8 !== elem.nodeType && elem.style) {
             var ret, type, hooks, origName = jQuery.camelCase(name), style = elem.style;
@@ -9,3 +9,4 @@ export const obj = {
         }
     }
 };
+export { obj };

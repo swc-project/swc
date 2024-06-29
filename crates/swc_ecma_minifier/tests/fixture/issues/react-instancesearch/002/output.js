@@ -280,3 +280,11 @@ export default function createInstantSearchManager({ indexName, initialState = {
         }
     };
 }
+import "algoliasearch-helper";
+import "./createWidgetsManager";
+import "./createStore";
+import "./highlight";
+import "./indexUtils";
+import "react";
+import "./version";
+export { createInstantSearchManager as default };

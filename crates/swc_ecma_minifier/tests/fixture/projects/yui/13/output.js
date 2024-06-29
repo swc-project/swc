@@ -1,4 +1,4 @@
-export const E = {
+const E = {
     _getTransaction: function(urls, options) {
         var i, len, req, url, requests = [];
         for(Lang.isArray(urls) || (urls = [
@@ -16,3 +16,4 @@ export const E = {
         return new Transaction(requests, options);
     }
 };
+export { E };

@@ -1,7 +1,8 @@
+"module evaluation";
 "use strict";
 function _default(e, t) {
     "use strict";
-    t.vr = function(e, t, r) {
+    t.vr = function(e, t, u) {
         return function() {
             return '123';
         };

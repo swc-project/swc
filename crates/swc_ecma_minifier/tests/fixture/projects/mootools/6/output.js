@@ -1,4 +1,4 @@
-export const obj = {
+const obj = {
     removeEvents: function(events) {
         if ("object" == typeOf(events)) {
             for(type in events)this.removeEvent(type, events[type]);
@@ -16,3 +16,4 @@ export const obj = {
         return this;
     }
 };
+export { obj };

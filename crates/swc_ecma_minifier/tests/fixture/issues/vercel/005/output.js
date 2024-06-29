@@ -1,4 +1,4 @@
-export default function(value, options) {
+const default_export = function(value, options) {
     try {
         if ("string" == typeof value && value.length > 0) return function(str) {
             if ((str = String(str)).length > 100) throw Error("Value exceeds the maximum length of 100 characters.");
@@ -59,7 +59,8 @@ export default function(value, options) {
     } catch (error) {
         throw Error("object" == typeof error && null !== error && "message" in error ? `${error.message}. value=${JSON.stringify(value)}` : "An unknown error has occured.");
     }
-}
+};
 function plural(ms, msAbs, n, name) {
     return `${Math.round(ms / n)} ${name}${msAbs >= 1.5 * n ? "s" : ""}`;
 }
+export { default_export as default };

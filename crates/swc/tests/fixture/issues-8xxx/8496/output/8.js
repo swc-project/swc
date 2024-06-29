@@ -1,1 +1,1 @@
-export const use=`\xffathjax{$login`;
+let use=`\xffathjax{$login`;export{use};

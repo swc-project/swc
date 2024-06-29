@@ -1,5 +1,5 @@
-var _setToString = function () {};
-export function baseRest() {
+function baseRest() {
     return _setToString();
 }
-export { _setToString };
+var _setToString = function() {};
+export { baseRest, _setToString as _setToString };

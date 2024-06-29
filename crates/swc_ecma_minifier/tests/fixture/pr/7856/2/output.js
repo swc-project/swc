@@ -1,4 +1,5 @@
-export const a = 4;
-export const b = 16;
-export const c = 5;
-export const d = ()=>4;
+const a = 4;
+const b = 16;
+const c = 5;
+const d = ()=>4;
+export { a, b, c, d };
