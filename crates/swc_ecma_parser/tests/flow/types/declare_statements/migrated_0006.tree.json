@@ -1,35 +1,29 @@
 {
-  "type":"Program",
-  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":18}},
-  "range":[0,18],
-  "body":[
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 19,
+    "ctxt": 0
+  },
+  "body": [
     {
-      "type":"DeclareClass",
-      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":18}},
-      "range":[0,18],
-      "id":{
-        "type":"Identifier",
-        "loc":{"source":null,"start":{"line":1,"column":14},"end":{"line":1,"column":15}},
-        "range":[14,15],
-        "name":"A",
-        "typeAnnotation":null,
-        "optional":false
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 1,
+        "end": 19,
+        "ctxt": 0
       },
-      "typeParameters":null,
-      "body":{
-        "type":"ObjectTypeAnnotation",
-        "loc":{"source":null,"start":{"line":1,"column":16},"end":{"line":1,"column":18}},
-        "range":[16,18],
-        "exact":false,
-        "properties":[],
-        "indexers":[],
-        "callProperties":[],
-        "internalSlots":[]
-      },
-      "extends":[],
-      "implements":[],
-      "mixins":[]
+      "expression": {
+        "type": "Identifier",
+        "span": {
+          "start": 1,
+          "end": 8,
+          "ctxt": 0
+        },
+        "value": "declare",
+        "optional": false
+      }
     }
   ],
-  "comments":[]
+  "interpreter": null
 }
