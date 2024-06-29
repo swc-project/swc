@@ -133,6 +133,10 @@ where
 
         while !eof!(self) && !is!(self, '}') {
             self.consume_flow_object_property()?;
+
+            if !is!(self, '}') {
+                expect!(self, ',');
+            }
         }
 
         expect!(self, '}');
@@ -141,23 +145,15 @@ where
     }
 
     pub(super) fn consume_flow_object_property(&mut self) -> PResult<()> {
-        if is!(self, "get") || is!(self, "set") {
-            self.input.bump();
+        if eat!(self, IdentName) {
+            if eat!(self, ':') {
+                return self.consume_flow_type();
+            }
+
+            if is!(self, '(') {}
         }
 
-        if is!(self, IdentName) {
-            self.input.bump();
-        } else {
-            syntax_error!(self, self.input.cur_span(), SyntaxError::ExpectedIdent);
-        }
-
-        if is!(self, '(') {
-            self.consume_flow_fn_type()?;
-        } else {
-            self.consume_flow_type()?;
-        }
-
-        Ok(())
+        todo!("consume_flow_object_property")
     }
 
     pub(super) fn consume_flow_fn_type(&mut self) -> PResult<()> {
