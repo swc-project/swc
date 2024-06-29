@@ -1299,7 +1299,7 @@ impl<I: Tokens> Parser<I> {
                     })
                 })?
             } else if p.syntax().flow() {
-                p.consume_flow_type_param_decls()?;
+                p.may_consume_flow_type_param_decls()?;
                 None
             } else {
                 None
