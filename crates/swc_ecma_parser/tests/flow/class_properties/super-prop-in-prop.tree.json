@@ -1,69 +1,92 @@
 {
-  "type":"Program",
-  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":3,"column":1}},
-  "range":[0,25],
-  "body":[
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 26,
+    "ctxt": 0
+  },
+  "body": [
     {
-      "type":"ClassDeclaration",
-      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":3,"column":1}},
-      "range":[0,25],
-      "id":{
-        "type":"Identifier",
-        "loc":{"source":null,"start":{"line":1,"column":6},"end":{"line":1,"column":7}},
-        "range":[6,7],
-        "name":"C",
-        "typeAnnotation":null,
-        "optional":false
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 7,
+          "end": 8,
+          "ctxt": 0
+        },
+        "value": "C",
+        "optional": false
       },
-      "body":{
-        "type":"ClassBody",
-        "loc":{"source":null,"start":{"line":1,"column":8},"end":{"line":3,"column":1}},
-        "range":[8,25],
-        "body":[
-          {
-            "type":"PropertyDefinition",
-            "loc":{"source":null,"start":{"line":2,"column":2},"end":{"line":2,"column":13}},
-            "range":[12,23],
-            "key":{
-              "type":"Identifier",
-              "loc":{"source":null,"start":{"line":2,"column":2},"end":{"line":2,"column":3}},
-              "range":[12,13],
-              "name":"x",
-              "typeAnnotation":null,
-              "optional":false
-            },
-            "value":{
-              "type":"MemberExpression",
-              "loc":{"source":null,"start":{"line":2,"column":6},"end":{"line":2,"column":13}},
-              "range":[16,23],
-              "object":{
-                "type":"Super",
-                "loc":{"source":null,"start":{"line":2,"column":6},"end":{"line":2,"column":11}},
-                "range":[16,21]
-              },
-              "property":{
-                "type":"Identifier",
-                "loc":{"source":null,"start":{"line":2,"column":12},"end":{"line":2,"column":13}},
-                "range":[22,23],
-                "name":"y",
-                "typeAnnotation":null,
-                "optional":false
-              },
-              "computed":false
-            },
-            "typeAnnotation":null,
-            "computed":false,
-            "static":false,
-            "variance":null
-          }
-        ]
+      "declare": false,
+      "span": {
+        "start": 1,
+        "end": 26,
+        "ctxt": 0
       },
-      "superClass":null,
-      "typeParameters":null,
-      "superTypeParameters":null,
-      "implements":[],
-      "decorators":[]
+      "decorators": [],
+      "body": [
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 13,
+            "end": 24,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 13,
+              "end": 14,
+              "ctxt": 0
+            },
+            "value": "x",
+            "optional": false
+          },
+          "value": {
+            "type": "SuperPropExpression",
+            "span": {
+              "start": 17,
+              "end": 24,
+              "ctxt": 0
+            },
+            "obj": {
+              "type": "Super",
+              "span": {
+                "start": 17,
+                "end": 22,
+                "ctxt": 0
+              }
+            },
+            "property": {
+              "type": "Identifier",
+              "span": {
+                "start": 23,
+                "end": 24,
+                "ctxt": 0
+              },
+              "value": "y",
+              "optional": false
+            }
+          },
+          "typeAnnotation": null,
+          "isStatic": false,
+          "decorators": [],
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false,
+          "readonly": false,
+          "declare": false,
+          "definite": false
+        }
+      ],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
     }
   ],
-  "comments":[]
+  "interpreter": null
 }

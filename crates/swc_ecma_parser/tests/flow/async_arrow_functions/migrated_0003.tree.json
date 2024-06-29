@@ -1,72 +1,97 @@
 {
-  "type":"Program",
-  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":27}},
-  "range":[0,27],
-  "body":[
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 28,
+    "ctxt": 0
+  },
+  "body": [
     {
-      "type":"VariableDeclaration",
-      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":27}},
-      "range":[0,27],
-      "declarations":[
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1,
+        "end": 28,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
         {
-          "type":"VariableDeclarator",
-          "loc":{"source":null,"start":{"line":1,"column":4},"end":{"line":1,"column":26}},
-          "range":[4,26],
-          "id":{
-            "type":"Identifier",
-            "loc":{"source":null,"start":{"line":1,"column":4},"end":{"line":1,"column":5}},
-            "range":[4,5],
-            "name":"x",
-            "typeAnnotation":null,
-            "optional":false
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 5,
+            "end": 27,
+            "ctxt": 0
           },
-          "init":{
-            "type":"ArrowFunctionExpression",
-            "loc":{"source":null,"start":{"line":1,"column":8},"end":{"line":1,"column":26}},
-            "range":[8,26],
-            "id":null,
-            "params":[
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 5,
+              "end": 6,
+              "ctxt": 0
+            },
+            "value": "x",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "ArrowFunctionExpression",
+            "span": {
+              "start": 9,
+              "end": 27,
+              "ctxt": 0
+            },
+            "params": [
               {
-                "type":"Identifier",
-                "loc":{"source":null,"start":{"line":1,"column":8},"end":{"line":1,"column":13}},
-                "range":[8,13],
-                "name":"async",
-                "typeAnnotation":null,
-                "optional":false
+                "type": "Identifier",
+                "span": {
+                  "start": 9,
+                  "end": 14,
+                  "ctxt": 0
+                },
+                "value": "async",
+                "optional": false,
+                "typeAnnotation": null
               }
             ],
-            "body":{
-              "type":"BinaryExpression",
-              "loc":{"source":null,"start":{"line":1,"column":17},"end":{"line":1,"column":26}},
-              "range":[17,26],
-              "operator":"+",
-              "left":{
-                "type":"Identifier",
-                "loc":{"source":null,"start":{"line":1,"column":17},"end":{"line":1,"column":22}},
-                "range":[17,22],
-                "name":"async",
-                "typeAnnotation":null,
-                "optional":false
+            "body": {
+              "type": "BinaryExpression",
+              "span": {
+                "start": 18,
+                "end": 27,
+                "ctxt": 0
               },
-              "right":{
-                "type":"Literal",
-                "loc":{"source":null,"start":{"line":1,"column":25},"end":{"line":1,"column":26}},
-                "range":[25,26],
-                "value":1,
-                "raw":"1"
+              "operator": "+",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 18,
+                  "end": 23,
+                  "ctxt": 0
+                },
+                "value": "async",
+                "optional": false
+              },
+              "right": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 26,
+                  "end": 27,
+                  "ctxt": 0
+                },
+                "value": 1.0,
+                "raw": "1"
               }
             },
-            "async":false,
-            "generator":false,
-            "predicate":null,
-            "expression":true,
-            "returnType":null,
-            "typeParameters":null
-          }
+            "async": false,
+            "generator": false,
+            "typeParameters": null,
+            "returnType": null
+          },
+          "definite": false
         }
-      ],
-      "kind":"var"
+      ]
     }
   ],
-  "comments":[]
+  "interpreter": null
 }

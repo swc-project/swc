@@ -1,50 +1,70 @@
 {
-  "type":"Program",
-  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":13}},
-  "range":[0,13],
-  "body":[
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 14,
+    "ctxt": 0
+  },
+  "body": [
     {
-      "type":"ExpressionStatement",
-      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":13}},
-      "range":[0,13],
-      "expression":{
-        "type":"CallExpression",
-        "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":13}},
-        "range":[0,13],
-        "callee":{
-          "type":"Identifier",
-          "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":3}},
-          "range":[0,3],
-          "name":"foo",
-          "typeAnnotation":null,
-          "optional":false
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 1,
+        "end": 14,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 1,
+          "end": 14,
+          "ctxt": 0
         },
-        "arguments":[
+        "callee": {
+          "type": "Identifier",
+          "span": {
+            "start": 1,
+            "end": 4,
+            "ctxt": 0
+          },
+          "value": "foo",
+          "optional": false
+        },
+        "arguments": [
           {
-            "type":"Identifier",
-            "loc":{"source":null,"start":{"line":1,"column":4},"end":{"line":1,"column":5}},
-            "range":[4,5],
-            "name":"a",
-            "typeAnnotation":null,
-            "optional":false
+            "spread": null,
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 5,
+                "end": 6,
+                "ctxt": 0
+              },
+              "value": "a",
+              "optional": false
+            }
           },
           {
-            "type":"SpreadElement",
-            "loc":{"source":null,"start":{"line":1,"column":7},"end":{"line":1,"column":11}},
-            "range":[7,11],
-            "argument":{
-              "type":"Identifier",
-              "loc":{"source":null,"start":{"line":1,"column":10},"end":{"line":1,"column":11}},
-              "range":[10,11],
-              "name":"b",
-              "typeAnnotation":null,
-              "optional":false
+            "spread": {
+              "start": 8,
+              "end": 11,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 11,
+                "end": 12,
+                "ctxt": 0
+              },
+              "value": "b",
+              "optional": false
             }
           }
-        ]
-      },
-      "directive":null
+        ],
+        "typeArguments": null
+      }
     }
   ],
-  "comments":[]
+  "interpreter": null
 }

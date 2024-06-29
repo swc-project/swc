@@ -1,34 +1,46 @@
 {
-  "type":"Program",
-  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":15}},
-  "range":[0,15],
-  "body":[
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 16,
+    "ctxt": 0
+  },
+  "body": [
     {
-      "type":"ExpressionStatement",
-      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":15}},
-      "range":[0,15],
-      "expression":{
-        "type":"LogicalExpression",
-        "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":15}},
-        "range":[0,15],
-        "operator":"??",
-        "left":{
-          "type":"Literal",
-          "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":4}},
-          "range":[0,4],
-          "value":null,
-          "raw":"null"
-        },
-        "right":{
-          "type":"Literal",
-          "loc":{"source":null,"start":{"line":1,"column":8},"end":{"line":1,"column":15}},
-          "range":[8,15],
-          "value":"hello",
-          "raw":"'hello'"
-        }
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 1,
+        "end": 16,
+        "ctxt": 0
       },
-      "directive":null
+      "expression": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 1,
+          "end": 16,
+          "ctxt": 0
+        },
+        "operator": "??",
+        "left": {
+          "type": "NullLiteral",
+          "span": {
+            "start": 1,
+            "end": 5,
+            "ctxt": 0
+          }
+        },
+        "right": {
+          "type": "StringLiteral",
+          "span": {
+            "start": 9,
+            "end": 16,
+            "ctxt": 0
+          },
+          "value": "hello",
+          "raw": "'hello'"
+        }
+      }
     }
   ],
-  "comments":[]
+  "interpreter": null
 }

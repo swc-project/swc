@@ -1,78 +1,89 @@
 {
-  "errors":[
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 32,
+    "ctxt": 0
+  },
+  "body": [
     {
-      "loc":{"source":null,"start":{"line":1,"column":23},"end":{"line":1,"column":24}},
-      "message":"Unexpected token `,`, expected the token `)`"
-    },
-    {
-      "loc":{"source":null,"start":{"line":1,"column":25},"end":{"line":1,"column":29}},
-      "message":"Unexpected identifier, expected the token `;`"
-    },
-    {
-      "loc":{"source":null,"start":{"line":1,"column":29},"end":{"line":1,"column":30}},
-      "message":"Unexpected token `)`, expected the end of an expression statement (`;`)"
-    },
-    {
-      "loc":{"source":null,"start":{"line":1,"column":29},"end":{"line":1,"column":30}},
-      "message":"Unexpected token `)`, expected the start of a statement"
-    }
-  ],
-  "type":"Program",
-  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":31}},
-  "range":[0,31],
-  "body":[
-    {
-      "type":"VariableDeclaration",
-      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":24}},
-      "range":[0,24],
-      "declarations":[
-        {
-          "type":"VariableDeclarator",
-          "loc":{"source":null,"start":{"line":1,"column":6},"end":{"line":1,"column":24}},
-          "range":[6,24],
-          "id":{
-            "type":"Identifier",
-            "loc":{"source":null,"start":{"line":1,"column":6},"end":{"line":1,"column":7}},
-            "range":[6,7],
-            "name":"a",
-            "typeAnnotation":null,
-            "optional":false
-          },
-          "init":{
-            "type":"ImportExpression",
-            "loc":{"source":null,"start":{"line":1,"column":10},"end":{"line":1,"column":24}},
-            "range":[10,24],
-            "source":{
-              "type":"Literal",
-              "loc":{"source":null,"start":{"line":1,"column":17},"end":{"line":1,"column":23}},
-              "range":[17,23],
-              "value":"asdf",
-              "raw":"\"asdf\""
-            }
-          }
-        }
-      ],
-      "kind":"const"
-    },
-    {
-      "type":"ExpressionStatement",
-      "loc":{"source":null,"start":{"line":1,"column":25},"end":{"line":1,"column":29}},
-      "range":[25,29],
-      "expression":{
-        "type":"Identifier",
-        "loc":{"source":null,"start":{"line":1,"column":25},"end":{"line":1,"column":29}},
-        "range":[25,29],
-        "name":"nope",
-        "typeAnnotation":null,
-        "optional":false
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1,
+        "end": 32,
+        "ctxt": 0
       },
-      "directive":null
-    },
-    {
-      "type":"EmptyStatement",
-      "loc":{"source":null,"start":{"line":1,"column":30},"end":{"line":1,"column":31}},
-      "range":[30,31]
+      "kind": "const",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 7,
+            "end": 31,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 7,
+              "end": 8,
+              "ctxt": 0
+            },
+            "value": "a",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "CallExpression",
+            "span": {
+              "start": 11,
+              "end": 31,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "Import",
+              "span": {
+                "start": 11,
+                "end": 17,
+                "ctxt": 0
+              },
+              "phase": "evaluation"
+            },
+            "arguments": [
+              {
+                "spread": null,
+                "expression": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 18,
+                    "end": 24,
+                    "ctxt": 0
+                  },
+                  "value": "asdf",
+                  "raw": "\"asdf\""
+                }
+              },
+              {
+                "spread": null,
+                "expression": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 26,
+                    "end": 30,
+                    "ctxt": 0
+                  },
+                  "value": "nope",
+                  "optional": false
+                }
+              }
+            ],
+            "typeArguments": null
+          },
+          "definite": false
+        }
+      ]
     }
   ],
-  "comments":[]
+  "interpreter": null
 }

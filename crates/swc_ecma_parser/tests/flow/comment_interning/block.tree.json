@@ -1,184 +1,152 @@
 {
-  "type":"Program",
-  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":13,"column":21}},
-  "range":[0,204],
-  "body":[
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 205,
+    "ctxt": 0
+  },
+  "body": [
     {
-      "type":"FunctionDeclaration",
-      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":3,"column":1}},
-      "range":[0,51],
-      "id":{
-        "type":"Identifier",
-        "loc":{"source":null,"start":{"line":1,"column":9},"end":{"line":1,"column":20}},
-        "range":[9,20],
-        "name":"leadingOnly",
-        "typeAnnotation":null,
-        "optional":false
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 10,
+          "end": 21,
+          "ctxt": 0
+        },
+        "value": "leadingOnly",
+        "optional": false
       },
-      "params":[],
-      "body":{
-        "type":"BlockStatement",
-        "loc":{"source":null,"start":{"line":1,"column":23},"end":{"line":3,"column":1}},
-        "range":[23,51],
-        "body":[
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 1,
+        "end": 52,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 24,
+          "end": 52,
+          "ctxt": 0
+        },
+        "stmts": [
           {
-            "type":"BlockStatement",
-            "leadingComments":[
-              {
-                "type":"Block",
-                "loc":{"source":null,"start":{"line":2,"column":4},"end":{"line":2,"column":21}},
-                "range":[29,46],
-                "value":" 1.1 Leading "
-              }
-            ],
-            "loc":{"source":null,"start":{"line":2,"column":22},"end":{"line":2,"column":24}},
-            "range":[47,49],
-            "body":[]
+            "type": "BlockStatement",
+            "span": {
+              "start": 48,
+              "end": 50,
+              "ctxt": 0
+            },
+            "stmts": []
           }
         ]
       },
-      "async":false,
-      "generator":false,
-      "predicate":null,
-      "expression":false,
-      "returnType":null,
-      "typeParameters":null
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
     },
     {
-      "type":"FunctionDeclaration",
-      "loc":{"source":null,"start":{"line":5,"column":0},"end":{"line":7,"column":1}},
-      "range":[53,106],
-      "id":{
-        "type":"Identifier",
-        "loc":{"source":null,"start":{"line":5,"column":9},"end":{"line":5,"column":21}},
-        "range":[62,74],
-        "name":"trailingOnly",
-        "typeAnnotation":null,
-        "optional":false
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 63,
+          "end": 75,
+          "ctxt": 0
+        },
+        "value": "trailingOnly",
+        "optional": false
       },
-      "params":[],
-      "body":{
-        "type":"BlockStatement",
-        "loc":{"source":null,"start":{"line":5,"column":24},"end":{"line":7,"column":1}},
-        "range":[77,106],
-        "body":[
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 54,
+        "end": 107,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 78,
+          "end": 107,
+          "ctxt": 0
+        },
+        "stmts": [
           {
-            "type":"BlockStatement",
-            "trailingComments":[
-              {
-                "type":"Block",
-                "loc":{"source":null,"start":{"line":6,"column":7},"end":{"line":6,"column":25}},
-                "range":[86,104],
-                "value":" 2.1 Trailing "
-              }
-            ],
-            "loc":{"source":null,"start":{"line":6,"column":4},"end":{"line":6,"column":6}},
-            "range":[83,85],
-            "body":[]
+            "type": "BlockStatement",
+            "span": {
+              "start": 84,
+              "end": 86,
+              "ctxt": 0
+            },
+            "stmts": []
           }
         ]
       },
-      "async":false,
-      "generator":false,
-      "predicate":null,
-      "expression":false,
-      "returnType":null,
-      "typeParameters":null
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
     },
     {
-      "type":"FunctionDeclaration",
-      "loc":{"source":null,"start":{"line":9,"column":0},"end":{"line":11,"column":1}},
-      "range":[108,181],
-      "id":{
-        "type":"Identifier",
-        "loc":{"source":null,"start":{"line":9,"column":9},"end":{"line":9,"column":27}},
-        "range":[117,135],
-        "name":"leadingAndTrialing",
-        "typeAnnotation":null,
-        "optional":false
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 118,
+          "end": 136,
+          "ctxt": 0
+        },
+        "value": "leadingAndTrialing",
+        "optional": false
       },
-      "params":[],
-      "body":{
-        "type":"BlockStatement",
-        "loc":{"source":null,"start":{"line":9,"column":30},"end":{"line":11,"column":1}},
-        "range":[138,181],
-        "body":[
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 109,
+        "end": 182,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 139,
+          "end": 182,
+          "ctxt": 0
+        },
+        "stmts": [
           {
-            "type":"BlockStatement",
-            "trailingComments":[
-              {
-                "type":"Block",
-                "loc":{"source":null,"start":{"line":10,"column":25},"end":{"line":10,"column":39}},
-                "range":[165,179],
-                "value":" Trailing "
-              }
-            ],
-            "leadingComments":[
-              {
-                "type":"Block",
-                "loc":{"source":null,"start":{"line":10,"column":4},"end":{"line":10,"column":21}},
-                "range":[144,161],
-                "value":" 3.1 Leading "
-              }
-            ],
-            "loc":{"source":null,"start":{"line":10,"column":22},"end":{"line":10,"column":24}},
-            "range":[162,164],
-            "body":[]
+            "type": "BlockStatement",
+            "span": {
+              "start": 163,
+              "end": 165,
+              "ctxt": 0
+            },
+            "stmts": []
           }
         ]
       },
-      "async":false,
-      "generator":false,
-      "predicate":null,
-      "expression":false,
-      "returnType":null,
-      "typeParameters":null
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
     },
     {
-      "type":"BlockStatement",
-      "trailingComments":[
-        {
-          "type":"Block",
-          "loc":{"source":null,"start":{"line":13,"column":2},"end":{"line":13,"column":19}},
-          "range":[185,202],
-          "value":" 4.1 I block "
-        }
-      ],
-      "loc":{"source":null,"start":{"line":13,"column":0},"end":{"line":13,"column":21}},
-      "range":[183,204],
-      "body":[]
+      "type": "BlockStatement",
+      "span": {
+        "start": 184,
+        "end": 205,
+        "ctxt": 0
+      },
+      "stmts": []
     }
   ],
-  "comments":[
-    {
-      "type":"Block",
-      "loc":{"source":null,"start":{"line":2,"column":4},"end":{"line":2,"column":21}},
-      "range":[29,46],
-      "value":" 1.1 Leading "
-    },
-    {
-      "type":"Block",
-      "loc":{"source":null,"start":{"line":6,"column":7},"end":{"line":6,"column":25}},
-      "range":[86,104],
-      "value":" 2.1 Trailing "
-    },
-    {
-      "type":"Block",
-      "loc":{"source":null,"start":{"line":10,"column":4},"end":{"line":10,"column":21}},
-      "range":[144,161],
-      "value":" 3.1 Leading "
-    },
-    {
-      "type":"Block",
-      "loc":{"source":null,"start":{"line":10,"column":25},"end":{"line":10,"column":39}},
-      "range":[165,179],
-      "value":" Trailing "
-    },
-    {
-      "type":"Block",
-      "loc":{"source":null,"start":{"line":13,"column":2},"end":{"line":13,"column":19}},
-      "range":[185,202],
-      "value":" 4.1 I block "
-    }
-  ]
+  "interpreter": null
 }

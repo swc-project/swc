@@ -1,57 +1,44 @@
 {
-  "type":"Program",
-  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":28}},
-  "range":[0,28],
-  "body":[
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 29,
+    "ctxt": 0
+  },
+  "body": [
     {
-      "type":"VariableDeclaration",
-      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":28}},
-      "range":[0,28],
-      "declarations":[
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1,
+        "end": 29,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
         {
-          "type":"VariableDeclarator",
-          "loc":{"source":null,"start":{"line":1,"column":4},"end":{"line":1,"column":27}},
-          "range":[4,27],
-          "id":{
-            "type":"Identifier",
-            "loc":{"source":null,"start":{"line":1,"column":4},"end":{"line":1,"column":23}},
-            "range":[4,23],
-            "name":"x",
-            "typeAnnotation":{
-              "type":"TypeAnnotation",
-              "loc":{"source":null,"start":{"line":1,"column":6},"end":{"line":1,"column":23}},
-              "range":[6,23],
-              "typeAnnotation":{
-                "type":"IntersectionTypeAnnotation",
-                "loc":{"source":null,"start":{"line":1,"column":8},"end":{"line":1,"column":23}},
-                "range":[8,23],
-                "types":[
-                  {
-                    "type":"NumberTypeAnnotation",
-                    "loc":{"source":null,"start":{"line":1,"column":8},"end":{"line":1,"column":14}},
-                    "range":[8,14]
-                  },
-                  {
-                    "type":"StringTypeAnnotation",
-                    "loc":{"source":null,"start":{"line":1,"column":17},"end":{"line":1,"column":23}},
-                    "range":[17,23]
-                  }
-                ]
-              }
-            },
-            "optional":false
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 5,
+            "end": 6,
+            "ctxt": 0
           },
-          "init":{
-            "type":"Literal",
-            "loc":{"source":null,"start":{"line":1,"column":26},"end":{"line":1,"column":27}},
-            "range":[26,27],
-            "value":4,
-            "raw":"4"
-          }
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 5,
+              "end": 6,
+              "ctxt": 0
+            },
+            "value": "x",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": null,
+          "definite": false
         }
-      ],
-      "kind":"var"
+      ]
     }
   ],
-  "comments":[]
+  "interpreter": null
 }

@@ -1,70 +1,72 @@
 {
-  "type": "Program",
-  "loc": {
-    "source": null,
-    "start": {"line": 1, "column": 0},
-    "end": {"line": 1, "column": 15}
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 16,
+    "ctxt": 0
   },
-  "range": [0, 15],
   "body": [
     {
       "type": "ExpressionStatement",
-      "loc": {
-        "source": null,
-        "start": {"line": 1, "column": 0},
-        "end": {"line": 1, "column": 15}
+      "span": {
+        "start": 1,
+        "end": 16,
+        "ctxt": 0
       },
-      "range": [0, 15],
       "expression": {
-        "type": "ClassExpression",
-        "loc": {
-          "source": null,
-          "start": {"line": 1, "column": 1},
-          "end": {"line": 1, "column": 13}
+        "type": "ParenthesisExpression",
+        "span": {
+          "start": 1,
+          "end": 15,
+          "ctxt": 0
         },
-        "range": [1, 13],
-        "id": null,
-        "body": {
-          "type": "ClassBody",
-          "loc": {
-            "source": null,
-            "start": {"line": 1, "column": 11},
-            "end": {"line": 1, "column": 13}
+        "expression": {
+          "type": "BinaryExpression",
+          "span": {
+            "start": 8,
+            "end": 14,
+            "ctxt": 0
           },
-          "range": [11, 13],
-          "body": []
-        },
-        "typeParameters": {
-          "type": "TypeParameterDeclaration",
-          "loc": {
-            "source": null,
-            "start": {"line": 1, "column": 7},
-            "end": {"line": 1, "column": 10}
-          },
-          "range": [7, 10],
-          "params": [
-            {
-              "type": "TypeParameter",
-              "loc": {
-                "source": null,
-                "start": {"line": 1, "column": 8},
-                "end": {"line": 1, "column": 9}
+          "operator": ">",
+          "left": {
+            "type": "BinaryExpression",
+            "span": {
+              "start": 8,
+              "end": 10,
+              "ctxt": 0
+            },
+            "operator": "<",
+            "left": {
+              "type": "Invalid",
+              "span": {
+                "start": 8,
+                "end": 9,
+                "ctxt": 0
+              }
+            },
+            "right": {
+              "type": "Identifier",
+              "span": {
+                "start": 9,
+                "end": 10,
+                "ctxt": 0
               },
-              "range": [8, 9],
-              "name": "T",
-              "bound": null,
-              "variance": null,
-              "default": null
+              "value": "T",
+              "optional": false
             }
-          ]
-        },
-        "superClass": null,
-        "superTypeParameters": null,
-        "implements": [],
-        "decorators": []
-      },
-      "directive": null
+          },
+          "right": {
+            "type": "ObjectExpression",
+            "span": {
+              "start": 12,
+              "end": 14,
+              "ctxt": 0
+            },
+            "properties": []
+          }
+        }
+      }
     }
   ],
-  "comments": []
+  "interpreter": null
 }

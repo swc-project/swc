@@ -1,45 +1,63 @@
 {
-  "type":"Program",
-  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":36}},
-  "range":[0,36],
-  "body":[
+  "type": "Module",
+  "span": {
+    "start": 1,
+    "end": 37,
+    "ctxt": 0
+  },
+  "body": [
     {
-      "type":"ImportDeclaration",
-      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":36}},
-      "range":[0,36],
-      "specifiers":[
+      "type": "ImportDeclaration",
+      "span": {
+        "start": 1,
+        "end": 37,
+        "ctxt": 0
+      },
+      "specifiers": [
         {
-          "type":"ImportSpecifier",
-          "loc":{"source":null,"start":{"line":1,"column":9},"end":{"line":1,"column":23}},
-          "range":[9,23],
-          "imported":{
-            "type":"Identifier",
-            "loc":{"source":null,"start":{"line":1,"column":9},"end":{"line":1,"column":16}},
-            "range":[9,16],
-            "name":"default",
-            "typeAnnotation":null,
-            "optional":false
+          "type": "ImportSpecifier",
+          "span": {
+            "start": 10,
+            "end": 24,
+            "ctxt": 0
           },
-          "local":{
-            "type":"Identifier",
-            "loc":{"source":null,"start":{"line":1,"column":20},"end":{"line":1,"column":23}},
-            "range":[20,23],
-            "name":"foo",
-            "typeAnnotation":null,
-            "optional":false
+          "local": {
+            "type": "Identifier",
+            "span": {
+              "start": 21,
+              "end": 24,
+              "ctxt": 0
+            },
+            "value": "foo",
+            "optional": false
           },
-          "importKind":null
+          "imported": {
+            "type": "Identifier",
+            "span": {
+              "start": 10,
+              "end": 17,
+              "ctxt": 0
+            },
+            "value": "default",
+            "optional": false
+          },
+          "isTypeOnly": false
         }
       ],
-      "source":{
-        "type":"Literal",
-        "loc":{"source":null,"start":{"line":1,"column":31},"end":{"line":1,"column":36}},
-        "range":[31,36],
-        "value":"foo",
-        "raw":"\"foo\""
+      "source": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 32,
+          "end": 37,
+          "ctxt": 0
+        },
+        "value": "foo",
+        "raw": "\"foo\""
       },
-      "importKind":"value"
+      "typeOnly": false,
+      "with": null,
+      "phase": "evaluation"
     }
   ],
-  "comments":[]
+  "interpreter": null
 }

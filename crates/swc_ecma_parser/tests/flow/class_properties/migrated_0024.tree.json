@@ -1,84 +1,121 @@
 {
-  "type":"Program",
-  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":4,"column":1}},
-  "range":[0,40],
-  "body":[
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 41,
+    "ctxt": 0
+  },
+  "body": [
     {
-      "type":"ClassDeclaration",
-      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":4,"column":1}},
-      "range":[0,40],
-      "id":{
-        "type":"Identifier",
-        "loc":{"source":null,"start":{"line":1,"column":6},"end":{"line":1,"column":7}},
-        "range":[6,7],
-        "name":"X",
-        "typeAnnotation":null,
-        "optional":false
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 7,
+          "end": 8,
+          "ctxt": 0
+        },
+        "value": "X",
+        "optional": false
       },
-      "body":{
-        "type":"ClassBody",
-        "loc":{"source":null,"start":{"line":1,"column":8},"end":{"line":4,"column":1}},
-        "range":[8,40],
-        "body":[
-          {
-            "type":"PropertyDefinition",
-            "loc":{"source":null,"start":{"line":2,"column":2},"end":{"line":3,"column":18}},
-            "range":[12,38],
-            "key":{
-              "type":"Identifier",
-              "loc":{"source":null,"start":{"line":2,"column":2},"end":{"line":2,"column":3}},
-              "range":[12,13],
-              "name":"x",
-              "typeAnnotation":null,
-              "optional":false
+      "declare": false,
+      "span": {
+        "start": 1,
+        "end": 41,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 13,
+            "end": 39,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 13,
+              "end": 14,
+              "ctxt": 0
             },
-            "value":{
-              "type":"AssignmentExpression",
-              "loc":{"source":null,"start":{"line":2,"column":6},"end":{"line":3,"column":18}},
-              "range":[16,38],
-              "operator":"=",
-              "left":{
-                "type":"MemberExpression",
-                "loc":{"source":null,"start":{"line":2,"column":6},"end":{"line":3,"column":12}},
-                "range":[16,32],
-                "object":{
-                  "type":"Literal",
-                  "loc":{"source":null,"start":{"line":2,"column":6},"end":{"line":2,"column":9}},
-                  "range":[16,19],
-                  "value":"y",
-                  "raw":"\"y\""
-                },
-                "property":{
-                  "type":"Identifier",
-                  "loc":{"source":null,"start":{"line":3,"column":3},"end":{"line":3,"column":11}},
-                  "range":[23,31],
-                  "name":"computed",
-                  "typeAnnotation":null,
-                  "optional":false
-                },
-                "computed":true
+            "value": "x",
+            "optional": false
+          },
+          "value": {
+            "type": "AssignmentExpression",
+            "span": {
+              "start": 17,
+              "end": 39,
+              "ctxt": 0
+            },
+            "operator": "=",
+            "left": {
+              "type": "MemberExpression",
+              "span": {
+                "start": 17,
+                "end": 33,
+                "ctxt": 0
               },
-              "right":{
-                "type":"Literal",
-                "loc":{"source":null,"start":{"line":3,"column":15},"end":{"line":3,"column":18}},
-                "range":[35,38],
-                "value":"z",
-                "raw":"\"z\""
+              "object": {
+                "type": "StringLiteral",
+                "span": {
+                  "start": 17,
+                  "end": 20,
+                  "ctxt": 0
+                },
+                "value": "y",
+                "raw": "\"y\""
+              },
+              "property": {
+                "type": "Computed",
+                "span": {
+                  "start": 23,
+                  "end": 33,
+                  "ctxt": 0
+                },
+                "expression": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 24,
+                    "end": 32,
+                    "ctxt": 0
+                  },
+                  "value": "computed",
+                  "optional": false
+                }
               }
             },
-            "typeAnnotation":null,
-            "computed":false,
-            "static":false,
-            "variance":null
-          }
-        ]
-      },
-      "superClass":null,
-      "typeParameters":null,
-      "superTypeParameters":null,
-      "implements":[],
-      "decorators":[]
+            "right": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 36,
+                "end": 39,
+                "ctxt": 0
+              },
+              "value": "z",
+              "raw": "\"z\""
+            }
+          },
+          "typeAnnotation": null,
+          "isStatic": false,
+          "decorators": [],
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false,
+          "readonly": false,
+          "declare": false,
+          "definite": false
+        }
+      ],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
     }
   ],
-  "comments":[]
+  "interpreter": null
 }

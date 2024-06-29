@@ -1,47 +1,44 @@
 {
-  "type":"Program",
-  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":17}},
-  "range":[0,17],
-  "body":[
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 18,
+    "ctxt": 0
+  },
+  "body": [
     {
-      "type":"VariableDeclaration",
-      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":17}},
-      "range":[0,17],
-      "declarations":[
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1,
+        "end": 18,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
         {
-          "type":"VariableDeclarator",
-          "loc":{"source":null,"start":{"line":1,"column":4},"end":{"line":1,"column":17}},
-          "range":[4,17],
-          "id":{
-            "type":"Identifier",
-            "loc":{"source":null,"start":{"line":1,"column":4},"end":{"line":1,"column":17}},
-            "range":[4,17],
-            "name":"a",
-            "typeAnnotation":{
-              "type":"TypeAnnotation",
-              "loc":{"source":null,"start":{"line":1,"column":5},"end":{"line":1,"column":17}},
-              "range":[5,17],
-              "typeAnnotation":{
-                "type":"TypeofTypeAnnotation",
-                "loc":{"source":null,"start":{"line":1,"column":8},"end":{"line":1,"column":16}},
-                "range":[8,16],
-                "argument":{
-                  "type":"Identifier",
-                  "loc":{"source":null,"start":{"line":1,"column":15},"end":{"line":1,"column":16}},
-                  "range":[15,16],
-                  "name":"A",
-                  "typeAnnotation":null,
-                  "optional":false
-                }
-              }
-            },
-            "optional":false
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 5,
+            "end": 6,
+            "ctxt": 0
           },
-          "init":null
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 5,
+              "end": 6,
+              "ctxt": 0
+            },
+            "value": "a",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": null,
+          "definite": false
         }
-      ],
-      "kind":"var"
+      ]
     }
   ],
-  "comments":[]
+  "interpreter": null
 }
