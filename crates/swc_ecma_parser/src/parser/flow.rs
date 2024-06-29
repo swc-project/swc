@@ -1,7 +1,7 @@
 #![warn(unused)]
 
-use swc_common::{Span, DUMMY_SP};
-use swc_ecma_ast::{op, Expr, Invalid};
+use swc_common::{BytePos, Span, DUMMY_SP};
+use swc_ecma_ast::{op, Decorator, Expr, Ident, Invalid};
 
 use crate::{
     error::SyntaxError,
@@ -348,6 +348,45 @@ where
 
             Ok(())
         })
+    }
+
+    pub(super) fn may_consume_flow_expr_stmt(&mut self, ident: Ident) -> PResult<()> {
+        let start = self.input.cur_pos();
+
+        match &*ident.sym {
+            "declare" => {
+                self.consume_flow_declare(start)?;
+            }
+
+            "opaque" => {
+                self.consume_flow_opaque_type(start)?;
+            }
+
+            _ => {}
+        }
+
+        Ok(())
+    }
+
+    fn consume_flow_declare(&mut self, start: BytePos) -> PResult<()> {
+        assert_and_bump!(self, "declare");
+
+        if is!(self, "class") {
+            let class_start = self.input.cur_pos();
+            self.parse_class_decl(start, class_start, vec![], false)?;
+            return Ok(());
+        }
+
+        if is!(self, "function") {
+            self.parse_fn_decl(vec![])?;
+            return Ok(());
+        }
+
+        Ok(())
+    }
+
+    fn consume_flow_opaque_type(&mut self, start: BytePos) -> PResult<()> {
+        Ok(())
     }
 }
 
