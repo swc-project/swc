@@ -36,8 +36,8 @@
               "end": 6,
               "ctxt": 0
             },
-            "value": "\n\n  ",
-            "raw": "\n\n  "
+            "value": "\n  ",
+            "raw": "\n  "
           },
           {
             "type": "JSXElement",
@@ -105,8 +105,8 @@
               "end": 75,
               "ctxt": 0
             },
-            "value": "\n\n   \n\n",
-            "raw": "\n\n   \n\n"
+            "value": "\n   \n",
+            "raw": "\n  &nbsp;\n"
           }
         ],
         "closing": {

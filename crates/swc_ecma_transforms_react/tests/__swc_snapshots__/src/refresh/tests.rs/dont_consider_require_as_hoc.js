@@ -5,17 +5,11 @@ const D = import('D');
 import E = require('E');
 export default function App() {
     return <div>
-
           <A/>
-
           <B/>
-
           <C/>
-
           <D/>
-
           <E/>
-
         </div>;
 }
 _c = App;

@@ -7,8 +7,9 @@ impl<'a> Lexer<'a> {
     pub(super) fn read_jsx_token(&mut self) -> LexResult<Option<Token>> {
         debug_assert!(self.syntax.jsx());
 
+        let start = self.input.cur_pos();
         let mut chunk_start = self.input.cur_pos();
-        let mut out = String::new();
+        let mut value = String::new();
 
         loop {
             let cur = match self.input.cur() {
@@ -42,22 +43,30 @@ impl<'a> Lexer<'a> {
                         return self.read_token();
                     }
 
-                    let raw = if out.is_empty() {
-                        // Fast path: We don't need to allocate
+                    let value = if value.is_empty() {
+                        // Fast path: We don't need to allocate extra buffer for value
                         let s = unsafe {
                             // Safety: We already checked for the range
                             self.input.slice(chunk_start, cur_pos)
                         };
                         self.atoms.atom(s)
                     } else {
-                        out.push_str(unsafe {
+                        value.push_str(unsafe {
                             // Safety: We already checked for the range
                             self.input.slice(chunk_start, cur_pos)
                         });
-                        self.atoms.atom(out)
+                        self.atoms.atom(value)
                     };
 
-                    return Ok(Some(Token::JSXText { raw }));
+                    let raw = {
+                        let s = unsafe {
+                            // Safety: We already checked for the range
+                            self.input.slice(start, cur_pos)
+                        };
+                        self.atoms.atom(s)
+                    };
+
+                    return Ok(Some(Token::JSXText { raw, value }));
                 }
                 '>' => {
                     self.emit_error(
@@ -84,28 +93,28 @@ impl<'a> Lexer<'a> {
                     }
                 }
                 '&' => {
-                    out.push_str(unsafe {
+                    value.push_str(unsafe {
                         // Safety: We already checked for the range
                         self.input.slice(chunk_start, cur_pos)
                     });
 
                     let jsx_entity = self.read_jsx_entity()?;
 
-                    out.push(jsx_entity.0);
+                    value.push(jsx_entity.0);
                     chunk_start = self.input.cur_pos();
                 }
 
                 _ => {
                     if cur.is_line_terminator() {
-                        out.push_str(unsafe {
+                        value.push_str(unsafe {
                             // Safety: We already checked for the range
                             self.input.slice(chunk_start, cur_pos)
                         });
                         match self.read_jsx_new_line(true)? {
-                            Either::Left(s) => out.push_str(s),
-                            Either::Right(c) => out.push(c),
+                            Either::Left(s) => value.push_str(s),
+                            Either::Right(c) => value.push(c),
                         }
-                        chunk_start = cur_pos;
+                        chunk_start = self.input.cur_pos();
                     } else {
                         unsafe {
                             // Safety: cur() was Some(c)

@@ -7,7 +7,7 @@ use std::{
 };
 
 use num_bigint::BigInt as BigIntValue;
-use swc_atoms::{atom, Atom, AtomStore, JsWord};
+use swc_atoms::{atom, Atom, AtomStore};
 use swc_common::{Span, Spanned};
 use swc_ecma_ast::{AssignOp, BinaryOp};
 
@@ -278,7 +278,7 @@ pub enum Token {
 
     /// String literal. Span of this token contains quote.
     Str {
-        value: JsWord,
+        value: Atom,
         raw: Atom,
     },
 
@@ -297,9 +297,10 @@ pub enum Token {
     },
 
     JSXName {
-        name: JsWord,
+        name: Atom,
     },
     JSXText {
+        value: Atom,
         raw: Atom,
     },
     JSXTagStart,
@@ -499,7 +500,7 @@ pub enum Word {
 #[derive(Clone, PartialEq, Eq, Hash)]
 pub enum IdentLike {
     Known(KnownIdent),
-    Other(JsWord),
+    Other(Atom),
 }
 
 impl From<&'_ str> for IdentLike {
@@ -606,7 +607,7 @@ impl From<Keyword> for Word {
     }
 }
 
-impl From<Word> for JsWord {
+impl From<Word> for Atom {
     fn from(w: Word) -> Self {
         match w {
             Word::Keyword(k) => match k {
@@ -687,7 +688,7 @@ impl Debug for Word {
         match *self {
             Word::Ident(ref s) => Display::fmt(s, f),
             _ => {
-                let s: JsWord = self.clone().into();
+                let s: Atom = self.clone().into();
                 Display::fmt(&s, f)
             }
         }
@@ -716,7 +717,7 @@ macro_rules! declare_keyword {
         $name:ident => $value:tt,
     )*) => {
         impl Keyword {
-            pub(crate)  fn into_js_word(self) -> JsWord {
+            pub(crate)  fn into_js_word(self) -> Atom {
                 match self {
                     $(Keyword::$name => atom!($value),)*
                 }
@@ -932,7 +933,7 @@ impl TokenKind {
 }
 
 impl Word {
-    pub(crate) fn cow(&self) -> Cow<JsWord> {
+    pub(crate) fn cow(&self) -> Cow<Atom> {
         match self {
             Word::Keyword(k) => Cow::Owned(k.into_js_word()),
             Word::Ident(IdentLike::Known(w)) => Cow::Owned((*w).into()),
@@ -980,7 +981,7 @@ impl Debug for Token {
             Num { value, raw, .. } => write!(f, "numeric literal ({}, {})", value, raw)?,
             BigInt { value, raw } => write!(f, "bigint literal ({}, {})", value, raw)?,
             JSXName { name } => write!(f, "jsx name ({})", name)?,
-            JSXText { raw } => write!(f, "jsx text ({})", raw)?,
+            JSXText { raw, .. } => write!(f, "jsx text ({})", raw)?,
             JSXTagStart => write!(f, "< (jsx tag start)")?,
             JSXTagEnd => write!(f, "> (jsx tag end)")?,
             Shebang(_) => write!(f, "#!")?,

@@ -222,9 +222,7 @@ export async function renderToHTML__2(req__21, res__21, pathname__21, query__21,
         defaultLocale: renderOpts__21.defaultLocale,
         AppTree: (props__48)=>{
             return <AppContainer__21>
-
                     <App__21 {...props__48} Component__0={Component__21} router__0={router__21}/>
-
                 </AppContainer__21>;
         },
         defaultGetInitialProps: async (docCtx__49)=>{
@@ -254,9 +252,7 @@ export async function renderToHTML__2(req__21, res__21, pathname__21, query__21,
     let scriptLoader__21 = {};
     const nextExport__21 = !isSSG__21 && (renderOpts__21.nextExport || dev__21 && (isAutoExport__21 || isFallback__21));
     const AppContainer__21 = ({ children__52 })=><RouterContext__2.Provider value__0={router__21}>
-
             <AmpStateContext__2.Provider value__0={ampState__21}>
-
                 <HeadManagerContext__2.Provider value__0={{
             updateHead: (state__53)=>{
                 head__21 = state__53;
@@ -267,21 +263,13 @@ export async function renderToHTML__2(req__21, res__21, pathname__21, query__21,
             scripts: {},
             mountedInstances: new Set()
         }}>
-
                     <LoadableContext__2.Provider value__0={(moduleName__55)=>reactLoadableModules__21.push(moduleName__55)}>
-
                         <StyleRegistry__2 registry__0={jsxStyleRegistry__21}>
-
                             {children__52}
-
                         </StyleRegistry__2>
-
                     </LoadableContext__2.Provider>
-
                 </HeadManagerContext__2.Provider>
-
             </AmpStateContext__2.Provider>
-
         </RouterContext__2.Provider>;
     props__21 = await loadGetInitialProps__2(App__21, {
         AppTree: ctx__21.AppTree,
@@ -504,9 +492,7 @@ export async function renderToHTML__2(req__21, res__21, pathname__21, query__21,
                 }
                 const { App: EnhancedApp__112, Component: EnhancedComponent__112 } = enhanceComponents__2(options__112, App__21, Component__21);
                 const html__112 = ReactDOMServer__2.renderToString(<AppContainer__21>
-
                         <EnhancedApp__112 Component__0={EnhancedComponent__112} router__0={router__21} {...props__21}/>
-
                     </AppContainer__21>);
                 return {
                     html__112,
@@ -534,9 +520,7 @@ export async function renderToHTML__2(req__21, res__21, pathname__21, query__21,
             };
         } else {
             const content__117 = ctx__21.err && ErrorDebug__21 ? <ErrorDebug__21 error__0={ctx__21.err}/> : <AppContainer__21>
-
                         <App__21 {...props__21} Component__0={Component__21} router__0={router__21}/>
-
                     </AppContainer__21>;
             const bodyResult__117 = concurrentFeatures__21 ? await renderToStream__2(content__117, generateStaticHTML__21) : piperFromArray__2([
                 ReactDOMServer__2.renderToString(content__117)
@@ -614,13 +598,9 @@ export async function renderToHTML__2(req__21, res__21, pathname__21, query__21,
         useMaybeDeferContent__2
     };
     const documentHTML__21 = ReactDOMServer__2.renderToStaticMarkup(<AmpStateContext__2.Provider value__0={ampState__21}>
-
             <HtmlContext__2.Provider value__0={htmlProps__21}>
-
                 {documentResult__21.documentElement(htmlProps__21)}
-
             </HtmlContext__2.Provider>
-
         </AmpStateContext__2.Provider>);
     if (process.env.NODE_ENV !== "production") {
         const nonRenderedComponents__123 = [];

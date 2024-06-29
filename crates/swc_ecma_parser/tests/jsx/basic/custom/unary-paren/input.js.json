@@ -166,8 +166,8 @@
                       "end": 99,
                       "ctxt": 0
                     },
-                    "value": "\n\n      ",
-                    "raw": "\n\n      "
+                    "value": "\n      ",
+                    "raw": "\n      "
                   },
                   {
                     "type": "JSXElement",
@@ -235,8 +235,8 @@
                       "end": 121,
                       "ctxt": 0
                     },
-                    "value": "\n\n      ",
-                    "raw": "\n\n      "
+                    "value": "\n      ",
+                    "raw": "\n      "
                   },
                   {
                     "type": "JSXExpressionContainer",
@@ -405,8 +405,8 @@
                       "end": 267,
                       "ctxt": 0
                     },
-                    "value": "\n\n    ",
-                    "raw": "\n\n    "
+                    "value": "\n    ",
+                    "raw": "\n    "
                   }
                 ],
                 "closing": {

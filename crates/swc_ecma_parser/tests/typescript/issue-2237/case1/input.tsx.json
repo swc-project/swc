@@ -91,8 +91,8 @@
                         "end": 68,
                         "ctxt": 0
                       },
-                      "value": "\n\n            ",
-                      "raw": "\n\n            "
+                      "value": "\n            ",
+                      "raw": "\n            "
                     },
                     {
                       "type": "JSXExpressionContainer",
@@ -239,8 +239,8 @@
                         "end": 182,
                         "ctxt": 0
                       },
-                      "value": "\n\n        ",
-                      "raw": "\n\n        "
+                      "value": "\n        ",
+                      "raw": "\n        "
                     }
                   ],
                   "closing": {
