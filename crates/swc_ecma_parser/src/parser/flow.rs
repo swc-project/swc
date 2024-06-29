@@ -7,7 +7,15 @@ impl<I> Parser<I>
 where
     I: Tokens,
 {
-    pub(super) fn consume_flow_type(&mut self) -> PResult<()> {
+    pub(super) fn consume_flow_type_ann(&mut self) -> PResult<()> {
+        expect!(self, ':');
+
+        self.consume_flow_type()?;
+
+        Ok(())
+    }
+
+    fn consume_flow_type(&mut self) -> PResult<()> {
         if is!(self, "typeof") {
             return self.parse_flow_type_query();
         }
