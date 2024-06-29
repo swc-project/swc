@@ -1,0 +1,41 @@
+{
+  "errors":[
+    {
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":5}},
+      "message":"Found a decorator in an unsupported position."
+    }
+  ],
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":20}},
+  "range":[6,26],
+  "body":[
+    {
+      "type":"DeclareClass",
+      "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":20}},
+      "range":[6,26],
+      "id":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":2,"column":14},"end":{"line":2,"column":17}},
+        "range":[20,23],
+        "name":"Foo",
+        "typeAnnotation":null,
+        "optional":false
+      },
+      "typeParameters":null,
+      "body":{
+        "type":"ObjectTypeAnnotation",
+        "loc":{"source":null,"start":{"line":2,"column":18},"end":{"line":2,"column":20}},
+        "range":[24,26],
+        "exact":false,
+        "properties":[],
+        "indexers":[],
+        "callProperties":[],
+        "internalSlots":[]
+      },
+      "extends":[],
+      "implements":[],
+      "mixins":[]
+    }
+  ],
+  "comments":[]
+}

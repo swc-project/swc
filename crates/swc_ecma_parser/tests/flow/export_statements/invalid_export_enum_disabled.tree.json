@@ -1,0 +1,60 @@
+{
+  "errors":[
+    {
+      "loc":{"source":null,"start":{"line":1,"column":7},"end":{"line":1,"column":11}},
+      "message":"Unexpected token `enum`, expected a declaration, statement or export specifiers"
+    },
+    {
+      "loc":{"source":null,"start":{"line":1,"column":7},"end":{"line":1,"column":11}},
+      "message":"Unexpected reserved word"
+    },
+    {
+      "loc":{"source":null,"start":{"line":1,"column":12},"end":{"line":1,"column":13}},
+      "message":"Unexpected identifier, expected the end of an expression statement (`;`)"
+    },
+    {
+      "loc":{"source":null,"start":{"line":1,"column":14},"end":{"line":1,"column":15}},
+      "message":"Unexpected token `{`, expected the end of an expression statement (`;`)"
+    }
+  ],
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":7},"end":{"line":1,"column":16}},
+  "range":[7,16],
+  "body":[
+    {
+      "type":"ExpressionStatement",
+      "loc":{"source":null,"start":{"line":1,"column":7},"end":{"line":1,"column":11}},
+      "range":[7,11],
+      "expression":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":1,"column":7},"end":{"line":1,"column":11}},
+        "range":[7,11],
+        "name":"enum",
+        "typeAnnotation":null,
+        "optional":false
+      },
+      "directive":null
+    },
+    {
+      "type":"ExpressionStatement",
+      "loc":{"source":null,"start":{"line":1,"column":12},"end":{"line":1,"column":13}},
+      "range":[12,13],
+      "expression":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":1,"column":12},"end":{"line":1,"column":13}},
+        "range":[12,13],
+        "name":"C",
+        "typeAnnotation":null,
+        "optional":false
+      },
+      "directive":null
+    },
+    {
+      "type":"BlockStatement",
+      "loc":{"source":null,"start":{"line":1,"column":14},"end":{"line":1,"column":16}},
+      "range":[14,16],
+      "body":[]
+    }
+  ],
+  "comments":[]
+}

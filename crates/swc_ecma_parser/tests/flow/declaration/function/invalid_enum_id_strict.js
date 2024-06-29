@@ -1,0 +1,3 @@
+function enum() {
+  "use strict";
+}

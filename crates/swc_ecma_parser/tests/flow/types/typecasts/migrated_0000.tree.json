@@ -1,0 +1,37 @@
+{
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":13}},
+  "range":[0,13],
+  "body":[
+    {
+      "type":"ExpressionStatement",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":13}},
+      "range":[0,13],
+      "expression":{
+        "type":"TypeCastExpression",
+        "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":13}},
+        "range":[0,13],
+        "expression":{
+          "type":"Identifier",
+          "loc":{"source":null,"start":{"line":1,"column":1},"end":{"line":1,"column":4}},
+          "range":[1,4],
+          "name":"xxx",
+          "typeAnnotation":null,
+          "optional":false
+        },
+        "typeAnnotation":{
+          "type":"TypeAnnotation",
+          "loc":{"source":null,"start":{"line":1,"column":4},"end":{"line":1,"column":12}},
+          "range":[4,12],
+          "typeAnnotation":{
+            "type":"NumberTypeAnnotation",
+            "loc":{"source":null,"start":{"line":1,"column":6},"end":{"line":1,"column":12}},
+            "range":[6,12]
+          }
+        }
+      },
+      "directive":null
+    }
+  ],
+  "comments":[]
+}

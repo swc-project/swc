@@ -1,0 +1,35 @@
+{
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":21}},
+  "range":[0,21],
+  "body":[
+    {
+      "type":"TypeAlias",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":21}},
+      "range":[0,21],
+      "id":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":1,"column":5},"end":{"line":1,"column":6}},
+        "range":[5,6],
+        "name":"T",
+        "typeAnnotation":null,
+        "optional":false
+      },
+      "typeParameters":null,
+      "right":{
+        "type":"TypeofTypeAnnotation",
+        "loc":{"source":null,"start":{"line":1,"column":9},"end":{"line":1,"column":20}},
+        "range":[9,20],
+        "argument":{
+          "type":"Identifier",
+          "loc":{"source":null,"start":{"line":1,"column":16},"end":{"line":1,"column":20}},
+          "range":[16,20],
+          "name":"type",
+          "typeAnnotation":null,
+          "optional":false
+        }
+      }
+    }
+  ],
+  "comments":[]
+}

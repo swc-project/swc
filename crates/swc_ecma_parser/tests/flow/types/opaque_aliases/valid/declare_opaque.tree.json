@@ -1,0 +1,34 @@
+{
+  "errors":[
+    {
+      "loc":{"source":null,"start":{"line":1,"column":25},"end":{"line":1,"column":26}},
+      "message":"Unexpected token `=`. Initializers are not allowed in a `declare opaque type`."
+    }
+  ],
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":34}},
+  "range":[0,34],
+  "body":[
+    {
+      "type":"DeclareOpaqueType",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":34}},
+      "range":[0,34],
+      "id":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":1,"column":20},"end":{"line":1,"column":24}},
+        "range":[20,24],
+        "name":"FBID",
+        "typeAnnotation":null,
+        "optional":false
+      },
+      "typeParameters":null,
+      "impltype":{
+        "type":"NumberTypeAnnotation",
+        "loc":{"source":null,"start":{"line":1,"column":27},"end":{"line":1,"column":33}},
+        "range":[27,33]
+      },
+      "supertype":null
+    }
+  ],
+  "comments":[]
+}

@@ -1,0 +1,63 @@
+{
+  "errors":[
+    {
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":1}},
+      "message":"Unexpected token `*`"
+    },
+    {
+      "loc":{"source":null,"start":{"line":1,"column":5},"end":{"line":1,"column":7}},
+      "message":"Unexpected token `=>`, expected the end of an expression statement (`;`)"
+    },
+    {
+      "loc":{"source":null,"start":{"line":1,"column":5},"end":{"line":1,"column":7}},
+      "message":"Unexpected token `=>`, expected the start of a statement"
+    }
+  ],
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":9}},
+  "range":[0,9],
+  "body":[
+    {
+      "type":"ExpressionStatement",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":4}},
+      "range":[0,4],
+      "expression":{
+        "type":"BinaryExpression",
+        "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":4}},
+        "range":[0,4],
+        "operator":"*",
+        "left":{
+          "type":"Literal",
+          "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":1}},
+          "range":[0,1],
+          "value":null,
+          "raw":"null"
+        },
+        "right":{
+          "type":"Identifier",
+          "loc":{"source":null,"start":{"line":1,"column":2},"end":{"line":1,"column":3}},
+          "range":[2,3],
+          "name":"x",
+          "typeAnnotation":null,
+          "optional":false
+        }
+      },
+      "directive":null
+    },
+    {
+      "type":"ExpressionStatement",
+      "loc":{"source":null,"start":{"line":1,"column":8},"end":{"line":1,"column":9}},
+      "range":[8,9],
+      "expression":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":1,"column":8},"end":{"line":1,"column":9}},
+        "range":[8,9],
+        "name":"x",
+        "typeAnnotation":null,
+        "optional":false
+      },
+      "directive":null
+    }
+  ],
+  "comments":[]
+}

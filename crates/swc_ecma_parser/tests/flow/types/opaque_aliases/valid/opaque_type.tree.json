@@ -1,0 +1,28 @@
+{
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":26}},
+  "range":[0,26],
+  "body":[
+    {
+      "type":"OpaqueType",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":26}},
+      "range":[0,26],
+      "id":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":1,"column":12},"end":{"line":1,"column":16}},
+        "range":[12,16],
+        "name":"FBID",
+        "typeAnnotation":null,
+        "optional":false
+      },
+      "typeParameters":null,
+      "impltype":{
+        "type":"NumberTypeAnnotation",
+        "loc":{"source":null,"start":{"line":1,"column":19},"end":{"line":1,"column":25}},
+        "range":[19,25]
+      },
+      "supertype":null
+    }
+  ],
+  "comments":[]
+}

@@ -1,0 +1,41 @@
+{
+  "errors":[
+    {
+      "loc":{"source":null,"start":{"line":1,"column":4},"end":{"line":1,"column":7}},
+      "message":"Unexpected identifier, expected the end of an expression statement (`;`)"
+    }
+  ],
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":7}},
+  "range":[0,7],
+  "body":[
+    {
+      "type":"ExpressionStatement",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":4}},
+      "range":[0,4],
+      "expression":{
+        "type":"Literal",
+        "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":4}},
+        "range":[0,4],
+        "value":123,
+        "raw":"123."
+      },
+      "directive":null
+    },
+    {
+      "type":"ExpressionStatement",
+      "loc":{"source":null,"start":{"line":1,"column":4},"end":{"line":1,"column":7}},
+      "range":[4,7],
+      "expression":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":1,"column":4},"end":{"line":1,"column":7}},
+        "range":[4,7],
+        "name":"_45",
+        "typeAnnotation":null,
+        "optional":false
+      },
+      "directive":null
+    }
+  ],
+  "comments":[]
+}

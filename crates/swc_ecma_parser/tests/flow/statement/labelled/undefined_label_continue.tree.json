@@ -1,0 +1,35 @@
+{
+  "errors":[
+    {
+      "loc":{"source":null,"start":{"line":1,"column":18},"end":{"line":1,"column":21}},
+      "message":"Undefined label 'foo'"
+    }
+  ],
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":22}},
+  "range":[0,22],
+  "body":[
+    {
+      "type":"ForStatement",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":22}},
+      "range":[0,22],
+      "init":null,
+      "test":null,
+      "update":null,
+      "body":{
+        "type":"ContinueStatement",
+        "loc":{"source":null,"start":{"line":1,"column":9},"end":{"line":1,"column":22}},
+        "range":[9,22],
+        "label":{
+          "type":"Identifier",
+          "loc":{"source":null,"start":{"line":1,"column":18},"end":{"line":1,"column":21}},
+          "range":[18,21],
+          "name":"foo",
+          "typeAnnotation":null,
+          "optional":false
+        }
+      }
+    }
+  ],
+  "comments":[]
+}
