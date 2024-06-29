@@ -451,6 +451,8 @@ where
                 }
             }
 
+            p.consume_flow_type()?;
+
             Ok(())
         })
     }
