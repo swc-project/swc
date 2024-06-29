@@ -384,6 +384,26 @@ where
     }
 
     fn consume_flow_opaque_type(&mut self, start: BytePos) -> PResult<()> {
+        if is!(self, "type") {
+            self.consume_flow_type_alias()?;
+            return Ok(());
+        }
+
+        Ok(())
+    }
+
+    fn consume_flow_type_alias(&mut self) -> PResult<()> {
+        assert_and_bump!(self, "type");
+
+        let _ident = self.parse_flow_restricted_ident(false, true)?;
+
+        if is!(self, '<') {
+            self.consume_flow_type_param_decl(false)?;
+        }
+
+        self.consume_flow_type_init(Some(tok!('=').kind()))?;
+        expect!(self, ';');
+
         Ok(())
     }
 }
