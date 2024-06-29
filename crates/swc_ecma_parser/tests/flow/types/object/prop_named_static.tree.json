@@ -10,55 +10,9 @@
       "type": "EmptyStatement",
       "span": {
         "start": 26,
-        "end": 34,
-        "ctxt": 0
-      }
-    },
-    {
-      "type": "BlockStatement",
-      "span": {
-        "start": 35,
         "end": 48,
         "ctxt": 0
-      },
-      "stmts": [
-        {
-          "type": "LabeledStatement",
-          "span": {
-            "start": 37,
-            "end": 46,
-            "ctxt": 0
-          },
-          "label": {
-            "type": "Identifier",
-            "span": {
-              "start": 37,
-              "end": 43,
-              "ctxt": 0
-            },
-            "value": "static",
-            "optional": false
-          },
-          "body": {
-            "type": "ExpressionStatement",
-            "span": {
-              "start": 45,
-              "end": 46,
-              "ctxt": 0
-            },
-            "expression": {
-              "type": "Identifier",
-              "span": {
-                "start": 45,
-                "end": 46,
-                "ctxt": 0
-              },
-              "value": "X",
-              "optional": false
-            }
-          }
-        }
-      ]
+      }
     }
   ],
   "interpreter": null
