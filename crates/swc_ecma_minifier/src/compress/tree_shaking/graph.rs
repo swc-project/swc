@@ -50,7 +50,7 @@ where
 }
 
 #[derive(Debug, Clone, Copy)]
-pub(super) enum Mode {
+pub enum Mode {
     #[allow(dead_code)]
     Development,
     Production,

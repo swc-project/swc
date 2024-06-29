@@ -29,20 +29,10 @@ pub fn optimize(module: &mut Module, marks: Marks) {
     );
 
     dep_graph.handle_weak(Mode::Production);
-}
 
-pub(super) struct TreeShaking {
-    pub top_level_ctxt: SyntaxContext,
-    pub unresolved_ctxt: SyntaxContext,
+    let new_module = dep_graph.combine(&items);
 
-    pub data: Data,
-}
-
-#[derive(Default)]
-pub(super) struct Data {}
-
-impl TreeShaking {
-    pub fn run(&mut self) {}
+    *module = new_module;
 }
 
 pub struct Analyzer<'a> {
@@ -464,158 +454,33 @@ impl DepGraph {
         }
     }
 
-    // pub(super) fn split_module(&self, data: &FxHashMap<ItemId, ItemData>) ->
-    // SplitModuleResult {     let groups = self.finalize(data);
-    //     let mut exports = FxHashMap::default();
-    //     let mut part_deps = FxHashMap::<_, Vec<_>>::default();
+    pub(super) fn combine(&self, data: &FxHashMap<ItemId, ItemData>) -> Module {
+        let groups = self.finalize(data);
+        let mut modules = vec![];
 
-    //     let mut modules = vec![];
+        for (ix, group) in groups.graph_ix.iter().enumerate() {
+            let mut chunk = Module {
+                span: DUMMY_SP,
+                body: vec![],
+                shebang: None,
+            };
 
-    //     if groups.graph_ix.is_empty() {
-    //         // If there's no dependency, all nodes are in the module evaluaiotn
-    // group.         modules.push(Module {
-    //             span: DUMMY_SP,
-    //             body: data.values().map(|v| v.content.clone()).collect(),
-    //             shebang: None,
-    //         });
-    //         exports.insert(Key::ModuleEvaluation, 0);
-    //     }
+            for g in group {
+                chunk.body.push(data[g].content.clone());
+            }
 
-    //     for (ix, group) in groups.graph_ix.iter().enumerate() {
-    //         let mut chunk = Module {
-    //             span: DUMMY_SP,
-    //             body: vec![],
-    //             shebang: None,
-    //         };
+            modules.push(chunk);
+        }
 
-    //         let mut required_vars = group
-    //             .iter()
-    //             .flat_map(|id| {
-    //                 let data = data.get(id).unwrap();
-
-    //                 data.read_vars
-    //                     .iter()
-    //                     .chain(data.write_vars.iter())
-    //                     .chain(data.eventual_read_vars.iter())
-    //                     .chain(data.eventual_write_vars.iter())
-    //             })
-    //             .collect::<FxHashSet<_>>();
-
-    //         for id in group {
-    //             let data = data.get(id).unwrap();
-
-    //             for var in data.var_decls.iter() {
-    //                 required_vars.remove(var);
-    //             }
-    //         }
-
-    //         for item in group {
-    //             match item {
-    //                 ItemId::Group(ItemIdGroupKind::Export(id, _)) => {
-    //                     required_vars.insert(id);
-
-    //                     if let Some(export) = &data[item].export {
-    //                         exports.insert(Key::Export(export.as_str().into()),
-    // ix as u32);                     }
-    //                 }
-    //                 ItemId::Group(ItemIdGroupKind::ModuleEvaluation) => {
-    //                     exports.insert(Key::ModuleEvaluation, ix as u32);
-    //                 }
-
-    //                 _ => {}
-    //             }
-    //         }
-
-    //         for dep in groups
-    //             .idx_graph
-    //             .neighbors_directed(ix as u32, petgraph::Direction::Outgoing)
-    //         {
-    //             let mut specifiers = vec![];
-
-    //             let dep_items = groups.graph_ix.get_index(dep as usize).unwrap();
-
-    //             for dep_item in dep_items {
-    //                 let data = data.get(dep_item).unwrap();
-
-    //                 for var in data.var_decls.iter() {
-    //                     if required_vars.contains(var) {
-    //
-    // specifiers.push(ImportSpecifier::Named(ImportNamedSpecifier {
-    // span: DUMMY_SP,                             local: var.clone().into(),
-    //                             imported: None,
-    //                             is_type_only: false,
-    //                         }));
-    //                     }
-    //                 }
-    //             }
-
-    //             part_deps.entry(ix as u32).or_default().push(dep);
-
-    //             chunk
-    //                 .body
-    //                 .push(ModuleItem::ModuleDecl(ModuleDecl::Import(ImportDecl {
-    //                     span: DUMMY_SP,
-    //                     specifiers,
-    //                     src: Box::new(TURBOPACK_PART_IMPORT_SOURCE.into()),
-    //                     type_only: false,
-    //                     with:
-    // Some(Box::new(create_turbopack_part_id_assert(PartId::Internal(
-    //                         dep,
-    //                     )))),
-    //                     phase: Default::default(),
-    //                 })));
-    //         }
-
-    //         for g in group {
-    //             chunk.body.push(data[g].content.clone());
-    //         }
-
-    //         for g in group {
-    //             let data = data.get(g).unwrap();
-
-    //             // Emit `export { foo }`
-    //             for var in data.var_decls.iter() {
-    //                 let assertion_prop =
-    //                     PropOrSpread::Prop(Box::new(Prop::KeyValue(KeyValueProp {
-    //                         key: quote_ident!("__turbopack_var__").into(),
-    //                         value: Box::new(true.into()),
-    //                     })));
-
-    //                 chunk
-    //                     .body
-    //                     .push(ModuleItem::ModuleDecl(ModuleDecl::ExportNamed(
-    //                         NamedExport {
-    //                             span: DUMMY_SP,
-    //                             specifiers:
-    // vec![ExportSpecifier::Named(ExportNamedSpecifier {
-    // span: DUMMY_SP,                                 orig:
-    // ModuleExportName::Ident(var.clone().into()),
-    // exported: None,                                 is_type_only: false,
-    //                             })],
-    //                             src: if cfg!(test) {
-    //                                 Some(Box::new("__TURBOPACK_VAR__".into()))
-    //                             } else {
-    //                                 None
-    //                             },
-    //                             type_only: false,
-    //                             with: Some(Box::new(ObjectLit {
-    //                                 span: DUMMY_SP,
-    //                                 props: vec![assertion_prop],
-    //                             })),
-    //                         },
-    //                     )));
-    //             }
-    //         }
-
-    //         modules.push(chunk);
-    //     }
-
-    //     SplitModuleResult {
-    //         entrypoints: exports,
-    //         part_deps,
-    //         modules,
-    //     }
-    // }
+        Module {
+            span: DUMMY_SP,
+            body: modules
+                .into_iter()
+                .flat_map(|m| m.body.into_iter())
+                .collect(),
+            shebang: None,
+        }
+    }
 
     /// Merges a dependency group between [ModuleItem]s into a dependency graph
     /// of [Module]s.
