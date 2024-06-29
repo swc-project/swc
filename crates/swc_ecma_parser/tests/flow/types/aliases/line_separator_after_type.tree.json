@@ -1,48 +1,66 @@
 {
-  "type":"Program",
-  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":2,"column":9}},
-  "range":[0,14],
-  "body":[
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 15,
+    "ctxt": 0
+  },
+  "body": [
     {
-      "type":"ExpressionStatement",
-      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":4}},
-      "range":[0,4],
-      "expression":{
-        "type":"Identifier",
-        "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":4}},
-        "range":[0,4],
-        "name":"type",
-        "typeAnnotation":null,
-        "optional":false
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 1,
+        "end": 5,
+        "ctxt": 0
       },
-      "directive":null
+      "expression": {
+        "type": "Identifier",
+        "span": {
+          "start": 1,
+          "end": 5,
+          "ctxt": 0
+        },
+        "value": "type",
+        "optional": false
+      }
     },
     {
-      "type":"ExpressionStatement",
-      "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":9}},
-      "range":[5,14],
-      "expression":{
-        "type":"AssignmentExpression",
-        "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":8}},
-        "range":[5,13],
-        "operator":"=",
-        "left":{
-          "type":"Identifier",
-          "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":3}},
-          "range":[5,8],
-          "name":"Foo",
-          "typeAnnotation":null,
-          "optional":false
-        },
-        "right":{
-          "type":"ObjectExpression",
-          "loc":{"source":null,"start":{"line":2,"column":6},"end":{"line":2,"column":8}},
-          "range":[11,13],
-          "properties":[]
-        }
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 6,
+        "end": 15,
+        "ctxt": 0
       },
-      "directive":null
+      "expression": {
+        "type": "AssignmentExpression",
+        "span": {
+          "start": 6,
+          "end": 14,
+          "ctxt": 0
+        },
+        "operator": "=",
+        "left": {
+          "type": "Identifier",
+          "span": {
+            "start": 6,
+            "end": 9,
+            "ctxt": 0
+          },
+          "value": "Foo",
+          "optional": false,
+          "typeAnnotation": null
+        },
+        "right": {
+          "type": "ObjectExpression",
+          "span": {
+            "start": 12,
+            "end": 14,
+            "ctxt": 0
+          },
+          "properties": []
+        }
+      }
     }
   ],
-  "comments":[]
+  "interpreter": null
 }

@@ -1,44 +1,65 @@
 {
-  "type":"Program",
-  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":16}},
-  "range":[0,16],
-  "body":[
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 17,
+    "ctxt": 0
+  },
+  "body": [
     {
-      "type":"VariableDeclaration",
-      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":16}},
-      "range":[0,16],
-      "declarations":[
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1,
+        "end": 17,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
         {
-          "type":"VariableDeclarator",
-          "loc":{"source":null,"start":{"line":1,"column":4},"end":{"line":1,"column":7}},
-          "range":[4,7],
-          "id":{
-            "type":"Identifier",
-            "loc":{"source":null,"start":{"line":1,"column":4},"end":{"line":1,"column":7}},
-            "range":[4,7],
-            "name":"foo",
-            "typeAnnotation":null,
-            "optional":false
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 5,
+            "end": 8,
+            "ctxt": 0
           },
-          "init":null
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 5,
+              "end": 8,
+              "ctxt": 0
+            },
+            "value": "foo",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": null,
+          "definite": false
         },
         {
-          "type":"VariableDeclarator",
-          "loc":{"source":null,"start":{"line":1,"column":9},"end":{"line":1,"column":16}},
-          "range":[9,16],
-          "id":{
-            "type":"Identifier",
-            "loc":{"source":null,"start":{"line":1,"column":9},"end":{"line":1,"column":16}},
-            "range":[9,16],
-            "name":"declare",
-            "typeAnnotation":null,
-            "optional":false
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 10,
+            "end": 17,
+            "ctxt": 0
           },
-          "init":null
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 10,
+              "end": 17,
+              "ctxt": 0
+            },
+            "value": "declare",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": null,
+          "definite": false
         }
-      ],
-      "kind":"var"
+      ]
     }
   ],
-  "comments":[]
+  "interpreter": null
 }

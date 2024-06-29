@@ -1,45 +1,44 @@
 {
-  "errors":[
+  "type": "Module",
+  "span": {
+    "start": 1,
+    "end": 13,
+    "ctxt": 0
+  },
+  "body": [
     {
-      "loc":{"source":null,"start":{"line":1,"column":8},"end":{"line":1,"column":11}},
-      "message":"Unexpected reserved word"
-    }
-  ],
-  "type":"Program",
-  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":12}},
-  "range":[0,12],
-  "body":[
-    {
-      "type":"ExportNamedDeclaration",
-      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":12}},
-      "range":[0,12],
-      "declaration":null,
-      "specifiers":[
+      "type": "ExportNamedDeclaration",
+      "span": {
+        "start": 1,
+        "end": 13,
+        "ctxt": 0
+      },
+      "specifiers": [
         {
-          "type":"ExportSpecifier",
-          "loc":{"source":null,"start":{"line":1,"column":8},"end":{"line":1,"column":11}},
-          "range":[8,11],
-          "local":{
-            "type":"Identifier",
-            "loc":{"source":null,"start":{"line":1,"column":8},"end":{"line":1,"column":11}},
-            "range":[8,11],
-            "name":"for",
-            "typeAnnotation":null,
-            "optional":false
+          "type": "ExportSpecifier",
+          "span": {
+            "start": 9,
+            "end": 12,
+            "ctxt": 0
           },
-          "exported":{
-            "type":"Identifier",
-            "loc":{"source":null,"start":{"line":1,"column":8},"end":{"line":1,"column":11}},
-            "range":[8,11],
-            "name":"for",
-            "typeAnnotation":null,
-            "optional":false
-          }
+          "orig": {
+            "type": "Identifier",
+            "span": {
+              "start": 9,
+              "end": 12,
+              "ctxt": 0
+            },
+            "value": "for",
+            "optional": false
+          },
+          "exported": null,
+          "isTypeOnly": false
         }
       ],
-      "source":null,
-      "exportKind":"value"
+      "source": null,
+      "typeOnly": false,
+      "with": null
     }
   ],
-  "comments":[]
+  "interpreter": null
 }

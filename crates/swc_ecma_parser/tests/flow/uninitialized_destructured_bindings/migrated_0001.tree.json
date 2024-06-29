@@ -1,82 +1,109 @@
 {
-  "type":"Program",
-  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":28}},
-  "range":[0,28],
-  "body":[
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 29,
+    "ctxt": 0
+  },
+  "body": [
     {
-      "type":"VariableDeclaration",
-      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":28}},
-      "range":[0,28],
-      "declarations":[
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1,
+        "end": 29,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
         {
-          "type":"VariableDeclarator",
-          "loc":{"source":null,"start":{"line":1,"column":4},"end":{"line":1,"column":28}},
-          "range":[4,28],
-          "id":{
-            "type":"Identifier",
-            "loc":{"source":null,"start":{"line":1,"column":4},"end":{"line":1,"column":5}},
-            "range":[4,5],
-            "name":"x",
-            "typeAnnotation":null,
-            "optional":false
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 5,
+            "end": 29,
+            "ctxt": 0
           },
-          "init":{
-            "type":"FunctionExpression",
-            "loc":{"source":null,"start":{"line":1,"column":8},"end":{"line":1,"column":28}},
-            "range":[8,28],
-            "id":null,
-            "params":[
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 5,
+              "end": 6,
+              "ctxt": 0
+            },
+            "value": "x",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "FunctionExpression",
+            "identifier": null,
+            "params": [
               {
-                "type":"ObjectPattern",
-                "loc":{"source":null,"start":{"line":1,"column":17},"end":{"line":1,"column":24}},
-                "range":[17,24],
-                "properties":[
-                  {
-                    "type":"Property",
-                    "loc":{"source":null,"start":{"line":1,"column":19},"end":{"line":1,"column":22}},
-                    "range":[19,22],
-                    "key":{
-                      "type":"Identifier",
-                      "loc":{"source":null,"start":{"line":1,"column":19},"end":{"line":1,"column":22}},
-                      "range":[19,22],
-                      "name":"foo",
-                      "typeAnnotation":null,
-                      "optional":false
-                    },
-                    "value":{
-                      "type":"Identifier",
-                      "loc":{"source":null,"start":{"line":1,"column":19},"end":{"line":1,"column":22}},
-                      "range":[19,22],
-                      "name":"foo",
-                      "typeAnnotation":null,
-                      "optional":false
-                    },
-                    "kind":"init",
-                    "method":false,
-                    "shorthand":true,
-                    "computed":false
-                  }
-                ],
-                "typeAnnotation":null
+                "type": "Parameter",
+                "span": {
+                  "start": 18,
+                  "end": 25,
+                  "ctxt": 0
+                },
+                "decorators": [],
+                "pat": {
+                  "type": "ObjectPattern",
+                  "span": {
+                    "start": 18,
+                    "end": 25,
+                    "ctxt": 0
+                  },
+                  "properties": [
+                    {
+                      "type": "AssignmentPatternProperty",
+                      "span": {
+                        "start": 20,
+                        "end": 23,
+                        "ctxt": 0
+                      },
+                      "key": {
+                        "type": "Identifier",
+                        "span": {
+                          "start": 20,
+                          "end": 23,
+                          "ctxt": 0
+                        },
+                        "value": "foo",
+                        "optional": false,
+                        "typeAnnotation": null
+                      },
+                      "value": null
+                    }
+                  ],
+                  "optional": false,
+                  "typeAnnotation": null
+                }
               }
             ],
-            "body":{
-              "type":"BlockStatement",
-              "loc":{"source":null,"start":{"line":1,"column":26},"end":{"line":1,"column":28}},
-              "range":[26,28],
-              "body":[]
+            "decorators": [],
+            "span": {
+              "start": 9,
+              "end": 29,
+              "ctxt": 0
             },
-            "async":false,
-            "generator":false,
-            "predicate":null,
-            "expression":false,
-            "returnType":null,
-            "typeParameters":null
-          }
+            "body": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 27,
+                "end": 29,
+                "ctxt": 0
+              },
+              "stmts": []
+            },
+            "generator": false,
+            "async": false,
+            "typeParameters": null,
+            "returnType": null
+          },
+          "definite": false
         }
-      ],
-      "kind":"var"
+      ]
     }
   ],
-  "comments":[]
+  "interpreter": null
 }

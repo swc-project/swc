@@ -1,64 +1,53 @@
 {
-  "errors":[
+  "type": "Script",
+  "span": {
+    "start": 33,
+    "end": 55,
+    "ctxt": 0
+  },
+  "body": [
     {
-      "loc":{"source":null,"start":{"line":2,"column":16},"end":{"line":2,"column":22}},
-      "message":"Unexpected identifier, expected the token `;`"
-    }
-  ],
-  "type":"Program",
-  "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":22}},
-  "range":[32,54],
-  "body":[
-    {
-      "type":"VariableDeclaration",
-      "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":16}},
-      "range":[32,48],
-      "declarations":[
-        {
-          "type":"VariableDeclarator",
-          "loc":{"source":null,"start":{"line":2,"column":4},"end":{"line":2,"column":16}},
-          "range":[36,48],
-          "id":{
-            "type":"Identifier",
-            "loc":{"source":null,"start":{"line":2,"column":4},"end":{"line":2,"column":5}},
-            "range":[36,37],
-            "name":"x",
-            "typeAnnotation":null,
-            "optional":false
-          },
-          "init":{
-            "type":"Literal",
-            "loc":{"source":null,"start":{"line":2,"column":8},"end":{"line":2,"column":16}},
-            "range":[40,48],
-            "value":null,
-            "raw":"/[P QR]/",
-            "regex":{"pattern":"[P QR]","flags":""}
-          }
-        }
-      ],
-      "kind":"var"
-    },
-    {
-      "type":"ExpressionStatement",
-      "loc":{"source":null,"start":{"line":2,"column":16},"end":{"line":2,"column":22}},
-      "range":[48,54],
-      "expression":{
-        "type":"Identifier",
-        "loc":{"source":null,"start":{"line":2,"column":16},"end":{"line":2,"column":22}},
-        "range":[48,54],
-        "name":"g",
-        "typeAnnotation":null,
-        "optional":false
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 33,
+        "end": 55,
+        "ctxt": 0
       },
-      "directive":null
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 37,
+            "end": 49,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 37,
+              "end": 38,
+              "ctxt": 0
+            },
+            "value": "x",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "RegExpLiteral",
+            "span": {
+              "start": 41,
+              "end": 49,
+              "ctxt": 0
+            },
+            "pattern": "[P QR]",
+            "flags": ""
+          },
+          "definite": false
+        }
+      ]
     }
   ],
-  "comments":[
-    {
-      "type":"Line",
-      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":31}},
-      "range":[0,31],
-      "value":" 11.8.5.1 no unicode as flags"
-    }
-  ]
+  "interpreter": null
 }

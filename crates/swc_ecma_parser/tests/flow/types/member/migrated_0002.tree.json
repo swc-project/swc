@@ -1,81 +1,44 @@
 {
-  "type":"Program",
-  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":14}},
-  "range":[0,14],
-  "body":[
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 15,
+    "ctxt": 0
+  },
+  "body": [
     {
-      "type":"VariableDeclaration",
-      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":14}},
-      "range":[0,14],
-      "declarations":[
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1,
+        "end": 15,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
         {
-          "type":"VariableDeclarator",
-          "loc":{"source":null,"start":{"line":1,"column":4},"end":{"line":1,"column":14}},
-          "range":[4,14],
-          "id":{
-            "type":"Identifier",
-            "loc":{"source":null,"start":{"line":1,"column":4},"end":{"line":1,"column":14}},
-            "range":[4,14],
-            "name":"a",
-            "typeAnnotation":{
-              "type":"TypeAnnotation",
-              "loc":{"source":null,"start":{"line":1,"column":6},"end":{"line":1,"column":14}},
-              "range":[6,14],
-              "typeAnnotation":{
-                "type":"GenericTypeAnnotation",
-                "loc":{"source":null,"start":{"line":1,"column":8},"end":{"line":1,"column":14}},
-                "range":[8,14],
-                "id":{
-                  "type":"QualifiedTypeIdentifier",
-                  "loc":{"source":null,"start":{"line":1,"column":8},"end":{"line":1,"column":11}},
-                  "range":[8,11],
-                  "qualification":{
-                    "type":"Identifier",
-                    "loc":{"source":null,"start":{"line":1,"column":8},"end":{"line":1,"column":9}},
-                    "range":[8,9],
-                    "name":"A",
-                    "typeAnnotation":null,
-                    "optional":false
-                  },
-                  "id":{
-                    "type":"Identifier",
-                    "loc":{"source":null,"start":{"line":1,"column":10},"end":{"line":1,"column":11}},
-                    "range":[10,11],
-                    "name":"B",
-                    "typeAnnotation":null,
-                    "optional":false
-                  }
-                },
-                "typeParameters":{
-                  "type":"TypeParameterInstantiation",
-                  "loc":{"source":null,"start":{"line":1,"column":11},"end":{"line":1,"column":14}},
-                  "range":[11,14],
-                  "params":[
-                    {
-                      "type":"GenericTypeAnnotation",
-                      "loc":{"source":null,"start":{"line":1,"column":12},"end":{"line":1,"column":13}},
-                      "range":[12,13],
-                      "id":{
-                        "type":"Identifier",
-                        "loc":{"source":null,"start":{"line":1,"column":12},"end":{"line":1,"column":13}},
-                        "range":[12,13],
-                        "name":"T",
-                        "typeAnnotation":null,
-                        "optional":false
-                      },
-                      "typeParameters":null
-                    }
-                  ]
-                }
-              }
-            },
-            "optional":false
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 5,
+            "end": 6,
+            "ctxt": 0
           },
-          "init":null
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 5,
+              "end": 6,
+              "ctxt": 0
+            },
+            "value": "a",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": null,
+          "definite": false
         }
-      ],
-      "kind":"var"
+      ]
     }
   ],
-  "comments":[]
+  "interpreter": null
 }

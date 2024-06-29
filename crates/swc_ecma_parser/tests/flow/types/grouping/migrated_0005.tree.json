@@ -1,46 +1,44 @@
 {
-  "type":"Program",
-  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":16}},
-  "range":[0,16],
-  "body":[
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 17,
+    "ctxt": 0
+  },
+  "body": [
     {
-      "type":"VariableDeclaration",
-      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":16}},
-      "range":[0,16],
-      "declarations":[
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1,
+        "end": 17,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
         {
-          "type":"VariableDeclarator",
-          "loc":{"source":null,"start":{"line":1,"column":4},"end":{"line":1,"column":16}},
-          "range":[4,16],
-          "id":{
-            "type":"Identifier",
-            "loc":{"source":null,"start":{"line":1,"column":4},"end":{"line":1,"column":11}},
-            "range":[4,11],
-            "name":"a",
-            "typeAnnotation":{
-              "type":"TypeAnnotation",
-              "loc":{"source":null,"start":{"line":1,"column":5},"end":{"line":1,"column":11}},
-              "range":[5,11],
-              "typeAnnotation":{
-                "type":"TupleTypeAnnotation",
-                "loc":{"source":null,"start":{"line":1,"column":8},"end":{"line":1,"column":10}},
-                "range":[8,10],
-                "elementTypes":[],
-                "inexact":false
-              }
-            },
-            "optional":false
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 5,
+            "end": 6,
+            "ctxt": 0
           },
-          "init":{
-            "type":"ArrayExpression",
-            "loc":{"source":null,"start":{"line":1,"column":14},"end":{"line":1,"column":16}},
-            "range":[14,16],
-            "elements":[]
-          }
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 5,
+              "end": 6,
+              "ctxt": 0
+            },
+            "value": "a",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": null,
+          "definite": false
         }
-      ],
-      "kind":"var"
+      ]
     }
   ],
-  "comments":[]
+  "interpreter": null
 }

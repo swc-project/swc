@@ -1,35 +1,49 @@
 {
-  "type":"Program",
-  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":12}},
-  "range":[0,12],
-  "body":[
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 13,
+    "ctxt": 0
+  },
+  "body": [
     {
-      "type":"ExpressionStatement",
-      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":12}},
-      "range":[0,12],
-      "expression":{
-        "type":"AssignmentExpression",
-        "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":12}},
-        "range":[0,12],
-        "operator":"=",
-        "left":{
-          "type":"Identifier",
-          "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":7}},
-          "range":[0,7],
-          "name":"declare",
-          "typeAnnotation":null,
-          "optional":false
-        },
-        "right":{
-          "type":"Literal",
-          "loc":{"source":null,"start":{"line":1,"column":10},"end":{"line":1,"column":12}},
-          "range":[10,12],
-          "value":42,
-          "raw":"42"
-        }
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 1,
+        "end": 13,
+        "ctxt": 0
       },
-      "directive":null
+      "expression": {
+        "type": "AssignmentExpression",
+        "span": {
+          "start": 1,
+          "end": 13,
+          "ctxt": 0
+        },
+        "operator": "=",
+        "left": {
+          "type": "Identifier",
+          "span": {
+            "start": 1,
+            "end": 8,
+            "ctxt": 0
+          },
+          "value": "declare",
+          "optional": false,
+          "typeAnnotation": null
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 11,
+            "end": 13,
+            "ctxt": 0
+          },
+          "value": 42.0,
+          "raw": "42"
+        }
+      }
     }
   ],
-  "comments":[]
+  "interpreter": null
 }

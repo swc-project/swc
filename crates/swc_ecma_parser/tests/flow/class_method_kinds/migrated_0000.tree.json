@@ -1,69 +1,84 @@
 {
-  "type":"Program",
-  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":23}},
-  "range":[0,23],
-  "body":[
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 24,
+    "ctxt": 0
+  },
+  "body": [
     {
-      "type":"ClassDeclaration",
-      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":23}},
-      "range":[0,23],
-      "id":{
-        "type":"Identifier",
-        "loc":{"source":null,"start":{"line":1,"column":6},"end":{"line":1,"column":10}},
-        "range":[6,10],
-        "name":"Kind",
-        "typeAnnotation":null,
-        "optional":false
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 7,
+          "end": 11,
+          "ctxt": 0
+        },
+        "value": "Kind",
+        "optional": false
       },
-      "body":{
-        "type":"ClassBody",
-        "loc":{"source":null,"start":{"line":1,"column":11},"end":{"line":1,"column":23}},
-        "range":[11,23],
-        "body":[
-          {
-            "type":"MethodDefinition",
-            "loc":{"source":null,"start":{"line":1,"column":13},"end":{"line":1,"column":21}},
-            "range":[13,21],
-            "key":{
-              "type":"Identifier",
-              "loc":{"source":null,"start":{"line":1,"column":13},"end":{"line":1,"column":16}},
-              "range":[13,16],
-              "name":"foo",
-              "typeAnnotation":null,
-              "optional":false
+      "declare": false,
+      "span": {
+        "start": 1,
+        "end": 24,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [
+        {
+          "type": "ClassMethod",
+          "span": {
+            "start": 14,
+            "end": 22,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 14,
+              "end": 17,
+              "ctxt": 0
             },
-            "value":{
-              "type":"FunctionExpression",
-              "loc":{"source":null,"start":{"line":1,"column":16},"end":{"line":1,"column":21}},
-              "range":[16,21],
-              "id":null,
-              "params":[],
-              "body":{
-                "type":"BlockStatement",
-                "loc":{"source":null,"start":{"line":1,"column":19},"end":{"line":1,"column":21}},
-                "range":[19,21],
-                "body":[]
+            "value": "foo",
+            "optional": false
+          },
+          "function": {
+            "params": [],
+            "decorators": [],
+            "span": {
+              "start": 14,
+              "end": 22,
+              "ctxt": 0
+            },
+            "body": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 20,
+                "end": 22,
+                "ctxt": 0
               },
-              "async":false,
-              "generator":false,
-              "predicate":null,
-              "expression":false,
-              "returnType":null,
-              "typeParameters":null
+              "stmts": []
             },
-            "kind":"method",
-            "static":false,
-            "computed":false,
-            "decorators":[]
-          }
-        ]
-      },
-      "superClass":null,
-      "typeParameters":null,
-      "superTypeParameters":null,
-      "implements":[],
-      "decorators":[]
+            "generator": false,
+            "async": false,
+            "typeParameters": null,
+            "returnType": null
+          },
+          "kind": "method",
+          "isStatic": false,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false
+        }
+      ],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
     }
   ],
-  "comments":[]
+  "interpreter": null
 }

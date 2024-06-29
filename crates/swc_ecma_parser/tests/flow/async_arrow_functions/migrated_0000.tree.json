@@ -1,55 +1,74 @@
 {
-  "type":"Program",
-  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":34}},
-  "range":[0,34],
-  "body":[
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 35,
+    "ctxt": 0
+  },
+  "body": [
     {
-      "type":"VariableDeclaration",
-      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":34}},
-      "range":[0,34],
-      "declarations":[
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1,
+        "end": 35,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
         {
-          "type":"VariableDeclarator",
-          "loc":{"source":null,"start":{"line":1,"column":4},"end":{"line":1,"column":33}},
-          "range":[4,33],
-          "id":{
-            "type":"Identifier",
-            "loc":{"source":null,"start":{"line":1,"column":4},"end":{"line":1,"column":5}},
-            "range":[4,5],
-            "name":"x",
-            "typeAnnotation":null,
-            "optional":false
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 5,
+            "end": 34,
+            "ctxt": 0
           },
-          "init":{
-            "type":"ArrowFunctionExpression",
-            "loc":{"source":null,"start":{"line":1,"column":8},"end":{"line":1,"column":33}},
-            "range":[8,33],
-            "id":null,
-            "params":[],
-            "body":{
-              "type":"AwaitExpression",
-              "loc":{"source":null,"start":{"line":1,"column":20},"end":{"line":1,"column":33}},
-              "range":[20,33],
-              "argument":{
-                "type":"Identifier",
-                "loc":{"source":null,"start":{"line":1,"column":26},"end":{"line":1,"column":33}},
-                "range":[26,33],
-                "name":"promise",
-                "typeAnnotation":null,
-                "optional":false
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 5,
+              "end": 6,
+              "ctxt": 0
+            },
+            "value": "x",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "ArrowFunctionExpression",
+            "span": {
+              "start": 9,
+              "end": 34,
+              "ctxt": 0
+            },
+            "params": [],
+            "body": {
+              "type": "AwaitExpression",
+              "span": {
+                "start": 21,
+                "end": 34,
+                "ctxt": 0
+              },
+              "argument": {
+                "type": "Identifier",
+                "span": {
+                  "start": 27,
+                  "end": 34,
+                  "ctxt": 0
+                },
+                "value": "promise",
+                "optional": false
               }
             },
-            "async":true,
-            "generator":false,
-            "predicate":null,
-            "expression":true,
-            "returnType":null,
-            "typeParameters":null
-          }
+            "async": true,
+            "generator": false,
+            "typeParameters": null,
+            "returnType": null
+          },
+          "definite": false
         }
-      ],
-      "kind":"var"
+      ]
     }
   ],
-  "comments":[]
+  "interpreter": null
 }

@@ -1,34 +1,47 @@
 {
-  "type":"Program",
-  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":6}},
-  "range":[0,6],
-  "body":[
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 7,
+    "ctxt": 0
+  },
+  "body": [
     {
-      "type":"LabeledStatement",
-      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":6}},
-      "range":[0,6],
-      "label":{
-        "type":"Identifier",
-        "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":2}},
-        "range":[0,2],
-        "name":"of",
-        "typeAnnotation":null,
-        "optional":false
+      "type": "LabeledStatement",
+      "span": {
+        "start": 1,
+        "end": 7,
+        "ctxt": 0
       },
-      "body":{
-        "type":"ExpressionStatement",
-        "loc":{"source":null,"start":{"line":1,"column":4},"end":{"line":1,"column":6}},
-        "range":[4,6],
-        "expression":{
-          "type":"Literal",
-          "loc":{"source":null,"start":{"line":1,"column":4},"end":{"line":1,"column":6}},
-          "range":[4,6],
-          "value":52,
-          "raw":"52"
+      "label": {
+        "type": "Identifier",
+        "span": {
+          "start": 1,
+          "end": 3,
+          "ctxt": 0
         },
-        "directive":null
+        "value": "of",
+        "optional": false
+      },
+      "body": {
+        "type": "ExpressionStatement",
+        "span": {
+          "start": 5,
+          "end": 7,
+          "ctxt": 0
+        },
+        "expression": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 5,
+            "end": 7,
+            "ctxt": 0
+          },
+          "value": 52.0,
+          "raw": "52"
+        }
       }
     }
   ],
-  "comments":[]
+  "interpreter": null
 }

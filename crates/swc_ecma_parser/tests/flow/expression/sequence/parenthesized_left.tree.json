@@ -1,35 +1,57 @@
 {
-  "type":"Program",
-  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":6}},
-  "range":[0,6],
-  "body":[
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 7,
+    "ctxt": 0
+  },
+  "body": [
     {
-      "type":"ExpressionStatement",
-      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":6}},
-      "range":[0,6],
-      "expression":{
-        "type":"SequenceExpression",
-        "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":6}},
-        "range":[0,6],
-        "expressions":[
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 1,
+        "end": 7,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "SequenceExpression",
+        "span": {
+          "start": 1,
+          "end": 7,
+          "ctxt": 0
+        },
+        "expressions": [
           {
-            "type":"Literal",
-            "loc":{"source":null,"start":{"line":1,"column":1},"end":{"line":1,"column":2}},
-            "range":[1,2],
-            "value":1,
-            "raw":"1"
+            "type": "ParenthesisExpression",
+            "span": {
+              "start": 1,
+              "end": 4,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 2,
+                "end": 3,
+                "ctxt": 0
+              },
+              "value": 1.0,
+              "raw": "1"
+            }
           },
           {
-            "type":"Literal",
-            "loc":{"source":null,"start":{"line":1,"column":5},"end":{"line":1,"column":6}},
-            "range":[5,6],
-            "value":2,
-            "raw":"2"
+            "type": "NumericLiteral",
+            "span": {
+              "start": 6,
+              "end": 7,
+              "ctxt": 0
+            },
+            "value": 2.0,
+            "raw": "2"
           }
         ]
-      },
-      "directive":null
+      }
     }
   ],
-  "comments":[]
+  "interpreter": null
 }

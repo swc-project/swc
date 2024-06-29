@@ -1,35 +1,56 @@
 {
-  "type":"Program",
-  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":19}},
-  "range":[0,19],
-  "body":[
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 20,
+    "ctxt": 0
+  },
+  "body": [
     {
-      "type":"ForOfStatement",
-      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":19}},
-      "range":[0,19],
-      "left":{
-        "type":"Identifier",
-        "loc":{"source":null,"start":{"line":1,"column":6},"end":{"line":1,"column":11}},
-        "range":[6,11],
-        "name":"async",
-        "typeAnnotation":null,
-        "optional":false
+      "type": "ForOfStatement",
+      "span": {
+        "start": 1,
+        "end": 20,
+        "ctxt": 0
       },
-      "right":{
-        "type":"Identifier",
-        "loc":{"source":null,"start":{"line":1,"column":16},"end":{"line":1,"column":17}},
-        "range":[16,17],
-        "name":"y",
-        "typeAnnotation":null,
-        "optional":false
+      "await": false,
+      "left": {
+        "type": "ParenthesisExpression",
+        "span": {
+          "start": 6,
+          "end": 13,
+          "ctxt": 0
+        },
+        "expression": {
+          "type": "Identifier",
+          "span": {
+            "start": 7,
+            "end": 12,
+            "ctxt": 0
+          },
+          "value": "async",
+          "optional": false
+        }
       },
-      "body":{
-        "type":"EmptyStatement",
-        "loc":{"source":null,"start":{"line":1,"column":18},"end":{"line":1,"column":19}},
-        "range":[18,19]
+      "right": {
+        "type": "Identifier",
+        "span": {
+          "start": 17,
+          "end": 18,
+          "ctxt": 0
+        },
+        "value": "y",
+        "optional": false
       },
-      "await":false
+      "body": {
+        "type": "EmptyStatement",
+        "span": {
+          "start": 19,
+          "end": 20,
+          "ctxt": 0
+        }
+      }
     }
   ],
-  "comments":[]
+  "interpreter": null
 }

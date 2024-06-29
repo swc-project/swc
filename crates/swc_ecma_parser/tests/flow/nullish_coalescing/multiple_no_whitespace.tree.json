@@ -1,84 +1,113 @@
 {
-  "type":"Program",
-  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":56}},
-  "range":[0,56],
-  "body":[
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 57,
+    "ctxt": 0
+  },
+  "body": [
     {
-      "type":"ExpressionStatement",
-      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":56}},
-      "range":[0,56],
-      "expression":{
-        "type":"LogicalExpression",
-        "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":56}},
-        "range":[0,56],
-        "operator":"??",
-        "left":{
-          "type":"LogicalExpression",
-          "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":43}},
-          "range":[0,43],
-          "operator":"??",
-          "left":{
-            "type":"MemberExpression",
-            "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":17}},
-            "range":[0,17],
-            "object":{
-              "type":"Identifier",
-              "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":8}},
-              "range":[0,8],
-              "name":"response",
-              "typeAnnotation":null,
-              "optional":false
-            },
-            "property":{
-              "type":"Identifier",
-              "loc":{"source":null,"start":{"line":1,"column":9},"end":{"line":1,"column":17}},
-              "range":[9,17],
-              "name":"settings",
-              "typeAnnotation":null,
-              "optional":false
-            },
-            "computed":false
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 1,
+        "end": 57,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 1,
+          "end": 57,
+          "ctxt": 0
+        },
+        "operator": "??",
+        "left": {
+          "type": "BinaryExpression",
+          "span": {
+            "start": 1,
+            "end": 44,
+            "ctxt": 0
           },
-          "right":{
-            "type":"MemberExpression",
-            "loc":{"source":null,"start":{"line":1,"column":19},"end":{"line":1,"column":43}},
-            "range":[19,43],
-            "object":{
-              "type":"Identifier",
-              "loc":{"source":null,"start":{"line":1,"column":19},"end":{"line":1,"column":27}},
-              "range":[19,27],
-              "name":"response",
-              "typeAnnotation":null,
-              "optional":false
+          "operator": "??",
+          "left": {
+            "type": "MemberExpression",
+            "span": {
+              "start": 1,
+              "end": 18,
+              "ctxt": 0
             },
-            "property":{
-              "type":"Identifier",
-              "loc":{"source":null,"start":{"line":1,"column":28},"end":{"line":1,"column":43}},
-              "range":[28,43],
-              "name":"defaultSettings",
-              "typeAnnotation":null,
-              "optional":false
+            "object": {
+              "type": "Identifier",
+              "span": {
+                "start": 1,
+                "end": 9,
+                "ctxt": 0
+              },
+              "value": "response",
+              "optional": false
             },
-            "computed":false
+            "property": {
+              "type": "Identifier",
+              "span": {
+                "start": 10,
+                "end": 18,
+                "ctxt": 0
+              },
+              "value": "settings",
+              "optional": false
+            }
+          },
+          "right": {
+            "type": "MemberExpression",
+            "span": {
+              "start": 20,
+              "end": 44,
+              "ctxt": 0
+            },
+            "object": {
+              "type": "Identifier",
+              "span": {
+                "start": 20,
+                "end": 28,
+                "ctxt": 0
+              },
+              "value": "response",
+              "optional": false
+            },
+            "property": {
+              "type": "Identifier",
+              "span": {
+                "start": 29,
+                "end": 44,
+                "ctxt": 0
+              },
+              "value": "defaultSettings",
+              "optional": false
+            }
           }
         },
-        "right":{
-          "type":"CallExpression",
-          "loc":{"source":null,"start":{"line":1,"column":45},"end":{"line":1,"column":56}},
-          "range":[45,56],
-          "callee":{
-            "type":"Identifier",
-            "loc":{"source":null,"start":{"line":1,"column":45},"end":{"line":1,"column":53}},
-            "range":[45,53],
-            "name":"callback",
-            "typeAnnotation":null,
-            "optional":false
+        "right": {
+          "type": "CallExpression",
+          "span": {
+            "start": 46,
+            "end": 57,
+            "ctxt": 0
           },
-          "arguments":[]
+          "callee": {
+            "type": "Identifier",
+            "span": {
+              "start": 46,
+              "end": 54,
+              "ctxt": 0
+            },
+            "value": "callback",
+            "optional": false
+          },
+          "arguments": [],
+          "typeArguments": null
         }
-      },
-      "directive":null
+      }
     }
   ],
-  "comments":[]
+  "interpreter": null
 }

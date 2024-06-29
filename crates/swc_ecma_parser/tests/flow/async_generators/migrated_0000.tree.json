@@ -1,34 +1,45 @@
 {
-  "type":"Program",
-  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":24}},
-  "range":[0,24],
-  "body":[
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 25,
+    "ctxt": 0
+  },
+  "body": [
     {
-      "type":"FunctionDeclaration",
-      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":24}},
-      "range":[0,24],
-      "id":{
-        "type":"Identifier",
-        "loc":{"source":null,"start":{"line":1,"column":16},"end":{"line":1,"column":19}},
-        "range":[16,19],
-        "name":"foo",
-        "typeAnnotation":null,
-        "optional":false
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 17,
+          "end": 20,
+          "ctxt": 0
+        },
+        "value": "foo",
+        "optional": false
       },
-      "params":[],
-      "body":{
-        "type":"BlockStatement",
-        "loc":{"source":null,"start":{"line":1,"column":22},"end":{"line":1,"column":24}},
-        "range":[22,24],
-        "body":[]
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 1,
+        "end": 25,
+        "ctxt": 0
       },
-      "async":true,
-      "generator":true,
-      "predicate":null,
-      "expression":false,
-      "returnType":null,
-      "typeParameters":null
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 23,
+          "end": 25,
+          "ctxt": 0
+        },
+        "stmts": []
+      },
+      "generator": true,
+      "async": true,
+      "typeParameters": null,
+      "returnType": null
     }
   ],
-  "comments":[]
+  "interpreter": null
 }

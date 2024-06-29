@@ -1,56 +1,95 @@
 {
-  "type":"Program",
-  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":24}},
-  "range":[0,24],
-  "body":[
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 25,
+    "ctxt": 0
+  },
+  "body": [
     {
-      "type":"VariableDeclaration",
-      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":24}},
-      "range":[0,24],
-      "declarations":[
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1,
+        "end": 25,
+        "ctxt": 0
+      },
+      "kind": "const",
+      "declare": false,
+      "declarations": [
         {
-          "type":"VariableDeclarator",
-          "loc":{"source":null,"start":{"line":1,"column":6},"end":{"line":1,"column":23}},
-          "range":[6,23],
-          "id":{
-            "type":"Identifier",
-            "loc":{"source":null,"start":{"line":1,"column":6},"end":{"line":1,"column":7}},
-            "range":[6,7],
-            "name":"m",
-            "typeAnnotation":null,
-            "optional":false
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 7,
+            "end": 24,
+            "ctxt": 0
           },
-          "init":{
-            "type":"ImportExpression",
-            "loc":{"source":null,"start":{"line":1,"column":10},"end":{"line":1,"column":23}},
-            "range":[10,23],
-            "source":{
-              "type":"BinaryExpression",
-              "loc":{"source":null,"start":{"line":1,"column":17},"end":{"line":1,"column":22}},
-              "range":[17,22],
-              "operator":"+",
-              "left":{
-                "type":"Identifier",
-                "loc":{"source":null,"start":{"line":1,"column":17},"end":{"line":1,"column":18}},
-                "range":[17,18],
-                "name":"a",
-                "typeAnnotation":null,
-                "optional":false
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 7,
+              "end": 8,
+              "ctxt": 0
+            },
+            "value": "m",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "CallExpression",
+            "span": {
+              "start": 11,
+              "end": 24,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "Import",
+              "span": {
+                "start": 11,
+                "end": 17,
+                "ctxt": 0
               },
-              "right":{
-                "type":"Identifier",
-                "loc":{"source":null,"start":{"line":1,"column":21},"end":{"line":1,"column":22}},
-                "range":[21,22],
-                "name":"b",
-                "typeAnnotation":null,
-                "optional":false
+              "phase": "evaluation"
+            },
+            "arguments": [
+              {
+                "spread": null,
+                "expression": {
+                  "type": "BinaryExpression",
+                  "span": {
+                    "start": 18,
+                    "end": 23,
+                    "ctxt": 0
+                  },
+                  "operator": "+",
+                  "left": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 18,
+                      "end": 19,
+                      "ctxt": 0
+                    },
+                    "value": "a",
+                    "optional": false
+                  },
+                  "right": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 22,
+                      "end": 23,
+                      "ctxt": 0
+                    },
+                    "value": "b",
+                    "optional": false
+                  }
+                }
               }
-            }
-          }
+            ],
+            "typeArguments": null
+          },
+          "definite": false
         }
-      ],
-      "kind":"const"
+      ]
     }
   ],
-  "comments":[]
+  "interpreter": null
 }

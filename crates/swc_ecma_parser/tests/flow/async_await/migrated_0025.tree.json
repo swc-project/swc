@@ -1,78 +1,101 @@
 {
-  "type":"Program",
-  "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":41}},
-  "range":[26,67],
-  "body":[
+  "type": "Module",
+  "span": {
+    "start": 27,
+    "end": 68,
+    "ctxt": 0
+  },
+  "body": [
     {
-      "type":"ExportNamedDeclaration",
-      "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":41}},
-      "range":[26,67],
-      "declaration":{
-        "type":"FunctionDeclaration",
-        "loc":{"source":null,"start":{"line":2,"column":7},"end":{"line":2,"column":41}},
-        "range":[33,67],
-        "id":{
-          "type":"Identifier",
-          "loc":{"source":null,"start":{"line":2,"column":22},"end":{"line":2,"column":25}},
-          "range":[48,51],
-          "name":"foo",
-          "typeAnnotation":null,
-          "optional":false
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 27,
+        "end": 68,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "FunctionDeclaration",
+        "identifier": {
+          "type": "Identifier",
+          "span": {
+            "start": 49,
+            "end": 52,
+            "ctxt": 0
+          },
+          "value": "foo",
+          "optional": false
         },
-        "params":[
+        "declare": false,
+        "params": [
           {
-            "type":"Identifier",
-            "loc":{"source":null,"start":{"line":2,"column":26},"end":{"line":2,"column":27}},
-            "range":[52,53],
-            "name":"x",
-            "typeAnnotation":null,
-            "optional":false
+            "type": "Parameter",
+            "span": {
+              "start": 53,
+              "end": 54,
+              "ctxt": 0
+            },
+            "decorators": [],
+            "pat": {
+              "type": "Identifier",
+              "span": {
+                "start": 53,
+                "end": 54,
+                "ctxt": 0
+              },
+              "value": "x",
+              "optional": false,
+              "typeAnnotation": null
+            }
           }
         ],
-        "body":{
-          "type":"BlockStatement",
-          "loc":{"source":null,"start":{"line":2,"column":29},"end":{"line":2,"column":41}},
-          "range":[55,67],
-          "body":[
+        "decorators": [],
+        "span": {
+          "start": 34,
+          "end": 68,
+          "ctxt": 0
+        },
+        "body": {
+          "type": "BlockStatement",
+          "span": {
+            "start": 56,
+            "end": 68,
+            "ctxt": 0
+          },
+          "stmts": [
             {
-              "type":"ExpressionStatement",
-              "loc":{"source":null,"start":{"line":2,"column":31},"end":{"line":2,"column":39}},
-              "range":[57,65],
-              "expression":{
-                "type":"AwaitExpression",
-                "loc":{"source":null,"start":{"line":2,"column":31},"end":{"line":2,"column":38}},
-                "range":[57,64],
-                "argument":{
-                  "type":"Identifier",
-                  "loc":{"source":null,"start":{"line":2,"column":37},"end":{"line":2,"column":38}},
-                  "range":[63,64],
-                  "name":"x",
-                  "typeAnnotation":null,
-                  "optional":false
-                }
+              "type": "ExpressionStatement",
+              "span": {
+                "start": 58,
+                "end": 66,
+                "ctxt": 0
               },
-              "directive":null
+              "expression": {
+                "type": "AwaitExpression",
+                "span": {
+                  "start": 58,
+                  "end": 65,
+                  "ctxt": 0
+                },
+                "argument": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 64,
+                    "end": 65,
+                    "ctxt": 0
+                  },
+                  "value": "x",
+                  "optional": false
+                }
+              }
             }
           ]
         },
-        "async":true,
-        "generator":false,
-        "predicate":null,
-        "expression":false,
-        "returnType":null,
-        "typeParameters":null
-      },
-      "specifiers":[],
-      "source":null,
-      "exportKind":"value"
+        "generator": false,
+        "async": true,
+        "typeParameters": null,
+        "returnType": null
+      }
     }
   ],
-  "comments":[
-    {
-      "type":"Line",
-      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":25}},
-      "range":[0,25],
-      "value":" esprima chokes on this"
-    }
-  ]
+  "interpreter": null
 }

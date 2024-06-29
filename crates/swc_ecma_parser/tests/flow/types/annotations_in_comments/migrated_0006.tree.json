@@ -1,61 +1,66 @@
 {
-  "type":"Program",
-  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":54}},
-  "range":[0,54],
-  "body":[
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 55,
+    "ctxt": 0
+  },
+  "body": [
     {
-      "type":"FunctionDeclaration",
-      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":54}},
-      "range":[0,54],
-      "id":{
-        "type":"Identifier",
-        "loc":{"source":null,"start":{"line":1,"column":9},"end":{"line":1,"column":12}},
-        "range":[9,12],
-        "name":"foo",
-        "typeAnnotation":null,
-        "optional":false
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 10,
+          "end": 13,
+          "ctxt": 0
+        },
+        "value": "foo",
+        "optional": false
       },
-      "params":[
+      "declare": false,
+      "params": [
         {
-          "type":"Identifier",
-          "loc":{"source":null,"start":{"line":1,"column":13},"end":{"line":1,"column":49}},
-          "range":[13,49],
-          "name":"callback",
-          "typeAnnotation":{
-            "type":"TypeAnnotation",
-            "loc":{"source":null,"start":{"line":1,"column":37},"end":{"line":1,"column":49}},
-            "range":[37,49],
-            "typeAnnotation":{
-              "type":"FunctionTypeAnnotation",
-              "loc":{"source":null,"start":{"line":1,"column":39},"end":{"line":1,"column":49}},
-              "range":[39,49],
-              "params":[],
-              "this":null,
-              "returnType":{
-                "type":"VoidTypeAnnotation",
-                "loc":{"source":null,"start":{"line":1,"column":45},"end":{"line":1,"column":49}},
-                "range":[45,49]
-              },
-              "rest":null,
-              "typeParameters":null
-            }
+          "type": "Parameter",
+          "span": {
+            "start": 14,
+            "end": 22,
+            "ctxt": 0
           },
-          "optional":false
+          "decorators": [],
+          "pat": {
+            "type": "Identifier",
+            "span": {
+              "start": 14,
+              "end": 22,
+              "ctxt": 0
+            },
+            "value": "callback",
+            "optional": false,
+            "typeAnnotation": null
+          }
         }
       ],
-      "body":{
-        "type":"BlockStatement",
-        "loc":{"source":null,"start":{"line":1,"column":52},"end":{"line":1,"column":54}},
-        "range":[52,54],
-        "body":[]
+      "decorators": [],
+      "span": {
+        "start": 1,
+        "end": 55,
+        "ctxt": 0
       },
-      "async":false,
-      "generator":false,
-      "predicate":null,
-      "expression":false,
-      "returnType":null,
-      "typeParameters":null
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 53,
+          "end": 55,
+          "ctxt": 0
+        },
+        "stmts": []
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
     }
   ],
-  "comments":[]
+  "interpreter": null
 }

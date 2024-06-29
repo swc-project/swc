@@ -1,93 +1,111 @@
 {
-  "errors":[
+  "type": "Module",
+  "span": {
+    "start": 47,
+    "end": 88,
+    "ctxt": 0
+  },
+  "body": [
     {
-      "loc":{"source":null,"start":{"line":3,"column":13},"end":{"line":3,"column":16}},
-      "message":"Duplicate export for `foo`"
-    }
-  ],
-  "type":"Program",
-  "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":3,"column":21}},
-  "range":[46,87],
-  "body":[
-    {
-      "type":"ExportNamedDeclaration",
-      "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":19}},
-      "range":[46,65],
-      "declaration":{
-        "type":"VariableDeclaration",
-        "loc":{"source":null,"start":{"line":2,"column":7},"end":{"line":2,"column":19}},
-        "range":[53,65],
-        "declarations":[
-          {
-            "type":"VariableDeclarator",
-            "loc":{"source":null,"start":{"line":2,"column":11},"end":{"line":2,"column":18}},
-            "range":[57,64],
-            "id":{
-              "type":"Identifier",
-              "loc":{"source":null,"start":{"line":2,"column":11},"end":{"line":2,"column":14}},
-              "range":[57,60],
-              "name":"foo",
-              "typeAnnotation":null,
-              "optional":false
-            },
-            "init":{
-              "type":"Literal",
-              "loc":{"source":null,"start":{"line":2,"column":17},"end":{"line":2,"column":18}},
-              "range":[63,64],
-              "value":1,
-              "raw":"1"
-            }
-          }
-        ],
-        "kind":"let"
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 47,
+        "end": 66,
+        "ctxt": 0
       },
-      "specifiers":[],
-      "source":null,
-      "exportKind":"value"
+      "declaration": {
+        "type": "VariableDeclaration",
+        "span": {
+          "start": 54,
+          "end": 66,
+          "ctxt": 0
+        },
+        "kind": "let",
+        "declare": false,
+        "declarations": [
+          {
+            "type": "VariableDeclarator",
+            "span": {
+              "start": 58,
+              "end": 65,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 58,
+                "end": 61,
+                "ctxt": 0
+              },
+              "value": "foo",
+              "optional": false,
+              "typeAnnotation": null
+            },
+            "init": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 64,
+                "end": 65,
+                "ctxt": 0
+              },
+              "value": 1.0,
+              "raw": "1"
+            },
+            "definite": false
+          }
+        ]
+      }
     },
     {
-      "type":"ExportNamedDeclaration",
-      "loc":{"source":null,"start":{"line":3,"column":0},"end":{"line":3,"column":21}},
-      "range":[66,87],
-      "declaration":{
-        "type":"VariableDeclaration",
-        "loc":{"source":null,"start":{"line":3,"column":7},"end":{"line":3,"column":21}},
-        "range":[73,87],
-        "declarations":[
-          {
-            "type":"VariableDeclarator",
-            "loc":{"source":null,"start":{"line":3,"column":13},"end":{"line":3,"column":20}},
-            "range":[79,86],
-            "id":{
-              "type":"Identifier",
-              "loc":{"source":null,"start":{"line":3,"column":13},"end":{"line":3,"column":16}},
-              "range":[79,82],
-              "name":"foo",
-              "typeAnnotation":null,
-              "optional":false
-            },
-            "init":{
-              "type":"Literal",
-              "loc":{"source":null,"start":{"line":3,"column":19},"end":{"line":3,"column":20}},
-              "range":[85,86],
-              "value":2,
-              "raw":"2"
-            }
-          }
-        ],
-        "kind":"const"
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 67,
+        "end": 88,
+        "ctxt": 0
       },
-      "specifiers":[],
-      "source":null,
-      "exportKind":"value"
+      "declaration": {
+        "type": "VariableDeclaration",
+        "span": {
+          "start": 74,
+          "end": 88,
+          "ctxt": 0
+        },
+        "kind": "const",
+        "declare": false,
+        "declarations": [
+          {
+            "type": "VariableDeclarator",
+            "span": {
+              "start": 80,
+              "end": 87,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 80,
+                "end": 83,
+                "ctxt": 0
+              },
+              "value": "foo",
+              "optional": false,
+              "typeAnnotation": null
+            },
+            "init": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 86,
+                "end": 87,
+                "ctxt": 0
+              },
+              "value": 2.0,
+              "raw": "2"
+            },
+            "definite": false
+          }
+        ]
+      }
     }
   ],
-  "comments":[
-    {
-      "type":"Line",
-      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":45}},
-      "range":[0,45],
-      "value":" Duplicate exports are an early/parse error"
-    }
-  ]
+  "interpreter": null
 }

@@ -1,29 +1,46 @@
 {
-  "type":"Program",
-  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":4}},
-  "range":[0,4],
-  "body":[
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 5,
+    "ctxt": 0
+  },
+  "body": [
     {
-      "type":"ExpressionStatement",
-      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":4}},
-      "range":[0,4],
-      "expression":{
-        "type":"UnaryExpression",
-        "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":4}},
-        "range":[0,4],
-        "operator":"!",
-        "prefix":true,
-        "argument":{
-          "type":"Identifier",
-          "loc":{"source":null,"start":{"line":1,"column":2},"end":{"line":1,"column":3}},
-          "range":[2,3],
-          "name":"x",
-          "typeAnnotation":null,
-          "optional":false
-        }
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 1,
+        "end": 5,
+        "ctxt": 0
       },
-      "directive":null
+      "expression": {
+        "type": "UnaryExpression",
+        "span": {
+          "start": 1,
+          "end": 5,
+          "ctxt": 0
+        },
+        "operator": "!",
+        "argument": {
+          "type": "ParenthesisExpression",
+          "span": {
+            "start": 2,
+            "end": 5,
+            "ctxt": 0
+          },
+          "expression": {
+            "type": "Identifier",
+            "span": {
+              "start": 3,
+              "end": 4,
+              "ctxt": 0
+            },
+            "value": "x",
+            "optional": false
+          }
+        }
+      }
     }
   ],
-  "comments":[]
+  "interpreter": null
 }

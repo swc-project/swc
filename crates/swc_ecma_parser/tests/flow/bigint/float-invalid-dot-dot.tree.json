@@ -1,35 +1,47 @@
 {
-  "type":"Program",
-  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":5}},
-  "range":[0,5],
-  "body":[
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 6,
+    "ctxt": 0
+  },
+  "body": [
     {
-      "type":"ExpressionStatement",
-      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":5}},
-      "range":[0,5],
-      "expression":{
-        "type":"MemberExpression",
-        "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":4}},
-        "range":[0,4],
-        "object":{
-          "type":"Literal",
-          "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":2}},
-          "range":[0,2],
-          "value":1,
-          "raw":"1."
-        },
-        "property":{
-          "type":"Identifier",
-          "loc":{"source":null,"start":{"line":1,"column":3},"end":{"line":1,"column":4}},
-          "range":[3,4],
-          "name":"n",
-          "typeAnnotation":null,
-          "optional":false
-        },
-        "computed":false
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 1,
+        "end": 6,
+        "ctxt": 0
       },
-      "directive":null
+      "expression": {
+        "type": "MemberExpression",
+        "span": {
+          "start": 1,
+          "end": 5,
+          "ctxt": 0
+        },
+        "object": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 1,
+            "end": 3,
+            "ctxt": 0
+          },
+          "value": 1.0,
+          "raw": "1."
+        },
+        "property": {
+          "type": "Identifier",
+          "span": {
+            "start": 4,
+            "end": 5,
+            "ctxt": 0
+          },
+          "value": "n",
+          "optional": false
+        }
+      }
     }
   ],
-  "comments":[]
+  "interpreter": null
 }
