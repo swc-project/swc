@@ -267,12 +267,74 @@ where
             if is_contextual!(self, "interface") {
                 return self.consume_flow_inteface_type();
             }
-            let _ident = self.parse_ident(true, true)?;
+            let ident = self.parse_ident(true, true)?;
+
+            self.parse_flow_ident_to_type_ann(ident)?;
 
             return Ok(());
         }
 
         unexpected!(self, "primary flow type")
+    }
+
+    fn parse_flow_ident_to_type_ann(&mut self, ident: Ident) -> PResult<()> {
+        match &*ident.sym {
+            "any" | "bool" | "boolean" | "empty" | "mixed" | "number" | "string" | "symbol" => {
+                Ok(())
+            }
+
+            _ => {
+                self.consume_flow_generic_type()?;
+
+                Ok(())
+            }
+        }
+    }
+
+    fn consume_flow_generic_type(&mut self) -> PResult<()> {
+        self.consume_flow_qualified_type_identifier(None)?;
+
+        if is!(self, '<') {
+            self.consume_flow_type_param_instantiation()?;
+        }
+
+        Ok(())
+    }
+
+    fn consume_flow_type_param_instantiation(&mut self) -> PResult<()> {
+        self.in_type().parse_with(|p| {
+            expect!(p, '<');
+
+            while !is!(p, '>') {
+                p.consume_flow_type()?;
+
+                if !is!(p, '>') {
+                    expect!(p, ',');
+                }
+            }
+
+            expect!(p, '>');
+
+            Ok(())
+        })
+    }
+
+    fn consume_flow_qualified_type_identifier(&mut self, id: Option<Ident>) -> PResult<()> {
+        if id.is_none() {
+            self.consume_flow_restricted_ident()?;
+        }
+
+        while eat!(self, '.') {
+            self.consume_flow_restricted_ident()?;
+        }
+
+        Ok(())
+    }
+
+    fn consume_flow_restricted_ident(&mut self) -> PResult<()> {
+        self.parse_ident(true, true)?;
+
+        Ok(())
     }
 
     fn consume_flow_function_type_parmas(&mut self) -> PResult<()> {
