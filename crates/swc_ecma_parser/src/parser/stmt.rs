@@ -426,6 +426,10 @@ impl<'a, I: Tokens> Parser<I> {
                     return Ok(decl.into());
                 }
             }
+
+            if self.input.syntax().flow() {
+                self.may_consume_flow_expr_stmt(ident.clone())?;
+            }
         }
 
         if let Expr::Ident(Ident { ref sym, span, .. }) = *expr {
