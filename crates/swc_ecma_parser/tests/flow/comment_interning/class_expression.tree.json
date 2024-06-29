@@ -21,30 +21,29 @@
           "ctxt": 0
         },
         "expression": {
-          "type": "BinaryExpression",
+          "type": "ClassExpression",
+          "identifier": {
+            "type": "Identifier",
+            "span": {
+              "start": 54,
+              "end": 63,
+              "ctxt": 0
+            },
+            "value": "ClassName",
+            "optional": false
+          },
           "span": {
-            "start": 86,
+            "start": 33,
             "end": 107,
             "ctxt": 0
           },
-          "operator": ">",
-          "left": {
-            "type": "Invalid",
-            "span": {
-              "start": 86,
-              "end": 87,
-              "ctxt": 0
-            }
-          },
-          "right": {
-            "type": "ObjectExpression",
-            "span": {
-              "start": 105,
-              "end": 107,
-              "ctxt": 0
-            },
-            "properties": []
-          }
+          "decorators": [],
+          "body": [],
+          "superClass": null,
+          "isAbstract": false,
+          "typeParams": null,
+          "superTypeParams": null,
+          "implements": []
         }
       }
     },
@@ -63,30 +62,20 @@
           "ctxt": 0
         },
         "expression": {
-          "type": "BinaryExpression",
+          "type": "ClassExpression",
+          "identifier": null,
           "span": {
-            "start": 197,
+            "start": 169,
             "end": 218,
             "ctxt": 0
           },
-          "operator": ">",
-          "left": {
-            "type": "Invalid",
-            "span": {
-              "start": 197,
-              "end": 198,
-              "ctxt": 0
-            }
-          },
-          "right": {
-            "type": "ObjectExpression",
-            "span": {
-              "start": 216,
-              "end": 218,
-              "ctxt": 0
-            },
-            "properties": []
-          }
+          "decorators": [],
+          "body": [],
+          "superClass": null,
+          "isAbstract": false,
+          "typeParams": null,
+          "superTypeParams": null,
+          "implements": []
         }
       }
     }

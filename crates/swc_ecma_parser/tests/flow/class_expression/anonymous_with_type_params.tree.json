@@ -21,30 +21,20 @@
           "ctxt": 0
         },
         "expression": {
-          "type": "BinaryExpression",
+          "type": "ClassExpression",
+          "identifier": null,
           "span": {
-            "start": 10,
+            "start": 2,
             "end": 14,
             "ctxt": 0
           },
-          "operator": ">",
-          "left": {
-            "type": "Invalid",
-            "span": {
-              "start": 10,
-              "end": 11,
-              "ctxt": 0
-            }
-          },
-          "right": {
-            "type": "ObjectExpression",
-            "span": {
-              "start": 12,
-              "end": 14,
-              "ctxt": 0
-            },
-            "properties": []
-          }
+          "decorators": [],
+          "body": [],
+          "superClass": null,
+          "isAbstract": false,
+          "typeParams": null,
+          "superTypeParams": null,
+          "implements": []
         }
       }
     }

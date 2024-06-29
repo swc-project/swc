@@ -33,30 +33,29 @@
           "typeAnnotation": null
         },
         "right": {
-          "type": "BinaryExpression",
+          "type": "ClassExpression",
+          "identifier": {
+            "type": "Identifier",
+            "span": {
+              "start": 11,
+              "end": 14,
+              "ctxt": 0
+            },
+            "value": "Foo",
+            "optional": false
+          },
           "span": {
-            "start": 16,
+            "start": 5,
             "end": 21,
             "ctxt": 0
           },
-          "operator": ">",
-          "left": {
-            "type": "Invalid",
-            "span": {
-              "start": 16,
-              "end": 17,
-              "ctxt": 0
-            }
-          },
-          "right": {
-            "type": "ObjectExpression",
-            "span": {
-              "start": 18,
-              "end": 21,
-              "ctxt": 0
-            },
-            "properties": []
-          }
+          "decorators": [],
+          "body": [],
+          "superClass": null,
+          "isAbstract": false,
+          "typeParams": null,
+          "superTypeParams": null,
+          "implements": []
         }
       }
     }
