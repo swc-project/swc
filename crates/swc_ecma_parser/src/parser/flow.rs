@@ -88,6 +88,7 @@ where
         Ok(())
     }
 
+    /// Ported from babel
     fn parse_flow_restricted_ident(&mut self, liberal: bool, declaration: bool) -> PResult<()> {
         if declaration {
             // self.check_flow_reserved_type(declaration)?;
@@ -106,12 +107,14 @@ where
         Ok(())
     }
 
+    /// Ported from babel
     pub(super) fn consume_flow_type(&mut self) -> PResult<()> {
         self.in_type().consume_flow_union_type()?;
 
         Ok(())
     }
 
+    /// Ported from babel
     pub(super) fn consume_flow_union_type(&mut self) -> PResult<()> {
         eat!(self, '|');
 
@@ -124,6 +127,7 @@ where
         Ok(())
     }
 
+    /// Ported from babel
     fn consume_intersection_type(&mut self) -> PResult<()> {
         eat!(self, '&');
 
@@ -136,12 +140,14 @@ where
         Ok(())
     }
 
+    /// Ported from babel
     fn consume_flow_anon_function_without_parens(&mut self) -> PResult<()> {
         self.consume_flow_prefix_type()?;
 
         Ok(())
     }
 
+    /// Ported from babel
     fn consume_flow_prefix_type(&mut self) -> PResult<()> {
         if eat!(self, '?') {
             self.consume_flow_prefix_type()?;
@@ -152,6 +158,7 @@ where
         Ok(())
     }
 
+    /// Ported from babel
     fn consume_flow_postfix_type(&mut self) -> PResult<()> {
         let start_pos = self.input.cur_pos();
         self.consume_flow_primary_type()?;
@@ -172,6 +179,7 @@ where
         Ok(())
     }
 
+    /// Ported from babel
     fn consume_flow_primary_type(&mut self) -> PResult<()> {
         let mut is_grouped_type = false;
 
@@ -277,6 +285,7 @@ where
         unexpected!(self, "primary flow type")
     }
 
+    /// Ported from babel
     fn parse_flow_ident_to_type_ann(&mut self, ident: Ident) -> PResult<()> {
         match &*ident.sym {
             "any" | "bool" | "boolean" | "empty" | "mixed" | "number" | "string" | "symbol" => {
@@ -291,6 +300,7 @@ where
         }
     }
 
+    /// Ported from babel
     fn consume_flow_generic_type(&mut self) -> PResult<()> {
         self.consume_flow_qualified_type_identifier(None)?;
 
@@ -301,6 +311,7 @@ where
         Ok(())
     }
 
+    /// Ported from babel
     fn consume_flow_type_param_instantiation(&mut self) -> PResult<()> {
         self.in_type().parse_with(|p| {
             expect!(p, '<');
@@ -319,6 +330,7 @@ where
         })
     }
 
+    /// Ported from babel
     fn consume_flow_qualified_type_identifier(&mut self, id: Option<Ident>) -> PResult<()> {
         if id.is_none() {
             self.consume_flow_restricted_ident()?;
@@ -466,6 +478,7 @@ where
         Ok(())
     }
 
+    /// Ported from babel
     fn consume_flow_type_alias(&mut self) -> PResult<()> {
         assert_and_bump!(self, "type");
 
