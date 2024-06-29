@@ -245,6 +245,18 @@ impl Syntax {
         matches!(self, Syntax::Typescript(..))
     }
 
+    /// Should we parse flow?
+    #[cfg(not(feature = "flow"))]
+    pub const fn flow(self) -> bool {
+        false
+    }
+
+    /// Should we parse flow?
+    #[cfg(feature = "flow")]
+    pub const fn flow(self) -> bool {
+        matches!(self, Syntax::Flow(..))
+    }
+
     pub fn export_default_from(self) -> bool {
         matches!(
             self,
