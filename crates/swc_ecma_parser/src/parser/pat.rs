@@ -316,6 +316,9 @@ impl<I: Tokens> Parser<I> {
                 let type_ann = if self.input.syntax().typescript() && is!(self, ':') {
                     let cur_pos = cur_pos!(self);
                     Some(self.parse_ts_type_ann(/* eat_colon */ true, cur_pos)?)
+                } else if self.syntax().flow() && is!(self, ':') {
+                    self.consume_flow_type_ann()?;
+                    None
                 } else {
                     None
                 };
