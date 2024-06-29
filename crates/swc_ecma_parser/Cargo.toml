@@ -20,6 +20,7 @@ bench = false
 # Used for debugging
 debug         = ["tracing-spans"]
 default       = ["typescript", "stacker"]
+strip-flow    = []
 tracing-spans = []
 typescript    = []
 verify        = ["swc_ecma_visit"]
