@@ -1,49 +1,39 @@
 {
-  "type":"Program",
-  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":14}},
-  "range":[0,14],
-  "body":[
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 15,
+    "ctxt": 0
+  },
+  "body": [
     {
-      "type":"ExpressionStatement",
-      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":14}},
-      "range":[0,14],
-      "expression":{
-        "type":"NewExpression",
-        "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":13}},
-        "range":[0,13],
-        "callee":{
-          "type":"Identifier",
-          "loc":{"source":null,"start":{"line":1,"column":4},"end":{"line":1,"column":8}},
-          "range":[4,8],
-          "name":"test",
-          "typeAnnotation":null,
-          "optional":false
-        },
-        "typeArguments":{
-          "type":"TypeParameterInstantiation",
-          "loc":{"source":null,"start":{"line":1,"column":8},"end":{"line":1,"column":11}},
-          "range":[8,11],
-          "params":[
-            {
-              "type":"GenericTypeAnnotation",
-              "loc":{"source":null,"start":{"line":1,"column":9},"end":{"line":1,"column":10}},
-              "range":[9,10],
-              "id":{
-                "type":"Identifier",
-                "loc":{"source":null,"start":{"line":1,"column":9},"end":{"line":1,"column":10}},
-                "range":[9,10],
-                "name":"_",
-                "typeAnnotation":null,
-                "optional":false
-              },
-              "typeParameters":null
-            }
-          ]
-        },
-        "arguments":[]
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 1,
+        "end": 15,
+        "ctxt": 0
       },
-      "directive":null
+      "expression": {
+        "type": "NewExpression",
+        "span": {
+          "start": 1,
+          "end": 14,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "Identifier",
+          "span": {
+            "start": 5,
+            "end": 9,
+            "ctxt": 0
+          },
+          "value": "test",
+          "optional": false
+        },
+        "arguments": [],
+        "typeArguments": null
+      }
     }
   ],
-  "comments":[]
+  "interpreter": null
 }
