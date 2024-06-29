@@ -34,7 +34,7 @@ where
 
                 p.consume_flow_type_param_decl(false)?;
 
-                if is!(p, '>') {
+                if !is!(p, '>') {
                     expect!(p, ',');
                 }
             }
