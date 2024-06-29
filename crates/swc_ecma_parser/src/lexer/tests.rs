@@ -2214,8 +2214,9 @@ fn issue_9106() {
             Token::JSXName {
                 name: "Page".into()
             },
+            JSXTagEnd,
             JSXText {
-                raw: "\r\n\r".into(),
+                raw: "\r\n\rABC".into(),
                 value: "\n\nABC".into(),
             },
             JSXTagStart,
