@@ -387,6 +387,11 @@ where
             return Ok(());
         }
 
+        if is!(self, "type") {
+            self.consume_flow_type_alias()?;
+            return Ok(());
+        }
+
         Ok(())
     }
 
