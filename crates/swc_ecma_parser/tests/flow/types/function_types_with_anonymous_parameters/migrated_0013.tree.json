@@ -20,7 +20,7 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 79,
-            "end": 86,
+            "end": 111,
             "ctxt": 0
           },
           "id": {
@@ -35,22 +35,39 @@
             "typeAnnotation": null
           },
           "init": {
-            "type": "ParenthesisExpression",
+            "type": "ArrowFunctionExpression",
             "span": {
               "start": 83,
-              "end": 86,
+              "end": 111,
               "ctxt": 0
             },
-            "expression": {
-              "type": "Identifier",
+            "params": [
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 84,
+                  "end": 85,
+                  "ctxt": 0
+                },
+                "value": "x",
+                "optional": false,
+                "typeAnnotation": null
+              }
+            ],
+            "body": {
+              "type": "NumericLiteral",
               "span": {
-                "start": 84,
-                "end": 85,
+                "start": 108,
+                "end": 111,
                 "ctxt": 0
               },
-              "value": "x",
-              "optional": false
-            }
+              "value": 123.0,
+              "raw": "123"
+            },
+            "async": false,
+            "generator": false,
+            "typeParameters": null,
+            "returnType": null
           },
           "definite": false
         }
