@@ -203,11 +203,11 @@ where
         if eat!(self, '(') {
             // Check to see if this is actually a grouped type
             if !is!(self, ')') && !is!(self, "...") {
-                // if token_is_identifier(cur!(self, true)) || is!(self, This) {
-                //     is_grouped_type = !peeked_is!(self, '?') &&
-                // !peeked_is!(self, ':'); } else {
-                is_grouped_type = true;
-                // }
+                if is!(self, "this") || token_is_identifier(cur!(self, true)) {
+                    is_grouped_type = !peeked_is!(self, '?') && !peeked_is!(self, ':');
+                } else {
+                    is_grouped_type = true;
+                }
             }
 
             let mut ty = None;
@@ -247,6 +247,13 @@ where
 
             return Ok(());
         }
+
+        if is_one_of!(self, Str, Num, BigInt, "true", "false", "null") {
+            self.input.bump();
+            return Ok(());
+        }
+
+        if is_one_of!(self, '+', '-') {}
 
         todo!("consume_flow_primary_type")
     }
@@ -313,4 +320,8 @@ where
             Ok(())
         })
     }
+}
+
+fn token_is_identifier(cur: &Token) -> bool {
+    todo!("token_is_identifier")
 }
