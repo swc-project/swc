@@ -33,6 +33,7 @@ use crate::{
 mod hoist_decls;
 mod optimize;
 mod pure;
+mod tree_shaking;
 mod util;
 
 pub(crate) fn compressor<'a, M>(
