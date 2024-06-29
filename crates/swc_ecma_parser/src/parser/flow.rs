@@ -162,7 +162,13 @@ where
         expect!(self, '(');
 
         while !eof!(self) && !is!(self, ')') {
+            if is!(self, IdentName) && peeked_is!(self, ':') {
+                self.input.bump();
+                self.input.bump();
+            }
+
             self.consume_flow_type()?;
+
             if !eof!(self) && !is!(self, ')') {
                 expect!(self, ',');
             }
