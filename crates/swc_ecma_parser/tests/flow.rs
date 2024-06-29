@@ -15,8 +15,8 @@ use testing::StdErr;
 #[testing::fixture("tests/flow/**/*.js")]
 fn spec(file: PathBuf) {
     let output = file.parent().unwrap().join(format!(
-        "{}.json",
-        file.file_name().unwrap().to_string_lossy()
+        "{}.tree.json",
+        file.file_stem().unwrap().to_string_lossy()
     ));
     run_spec(&file, &output);
 }
