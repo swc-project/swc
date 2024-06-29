@@ -7,6 +7,7 @@ impl<'a> Lexer<'a> {
     pub(super) fn read_jsx_token(&mut self) -> LexResult<Option<Token>> {
         debug_assert!(self.syntax.jsx());
 
+        let start = self.input.cur_pos();
         let mut chunk_start = self.input.cur_pos();
         let mut value = String::new();
 
@@ -60,7 +61,7 @@ impl<'a> Lexer<'a> {
                     let raw = {
                         let s = unsafe {
                             // Safety: We already checked for the range
-                            self.input.slice(chunk_start, cur_pos)
+                            self.input.slice(start, cur_pos)
                         };
                         self.atoms.atom(s)
                     };
@@ -113,7 +114,7 @@ impl<'a> Lexer<'a> {
                             Either::Left(s) => value.push_str(s),
                             Either::Right(c) => value.push(c),
                         }
-                        chunk_start = cur_pos;
+                        chunk_start = self.input.cur_pos();
                     } else {
                         unsafe {
                             // Safety: cur() was Some(c)
