@@ -427,6 +427,7 @@ where
         Ok(())
     }
 
+    /// Ported from `flowParseTypeInitialiser`
     fn consume_flow_type_init(&mut self, token: Option<TokenKind>) -> PResult<()> {
         self.in_type().parse_with(|p| {
             match token {
