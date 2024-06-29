@@ -133,4 +133,18 @@ where
 
         todo!("consume_flow_primary_type")
     }
+
+    fn consume_flow_tuple_type(&mut self) -> PResult<()> {
+        expect!(self, '[');
+
+        self.consume_flow_type()?;
+
+        while eat!(self, ',') && !eof!(self) {
+            self.consume_flow_type()?;
+        }
+
+        expect!(self, ']');
+
+        Ok(())
+    }
 }
