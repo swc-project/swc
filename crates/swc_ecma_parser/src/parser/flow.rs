@@ -53,7 +53,7 @@ where
             self.parse_flow_ident_or_member_expr()?;
         }
 
-        Ok(())
+        unexpected!(self, "flow type")
     }
 
     fn parse_flow_ident_or_member_expr(&mut self) -> PResult<()> {
