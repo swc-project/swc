@@ -409,3 +409,10 @@ macro_rules! debug_tracing {
         }
     }};
 }
+
+macro_rules! is_contextual {
+    ($p:expr, $tt:tt) => {
+        // TODO: Check if the current token has an escape.
+        is!($p, $tt)
+    };
+}
