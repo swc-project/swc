@@ -1,7 +1,7 @@
 #![warn(unused)]
 
 use swc_common::{Span, DUMMY_SP};
-use swc_ecma_ast::{Expr, Invalid};
+use swc_ecma_ast::{op, Expr, Invalid};
 
 use crate::{
     error::SyntaxError,
@@ -13,24 +13,85 @@ impl<I> Parser<I>
 where
     I: Tokens,
 {
-    pub(super) fn consume_flow_type_param_decls(&mut self) -> PResult<()> {
-        expect!(self, '<');
-
-        loop {
-            if is!(self, '>') {
-                break;
-            }
-
-            if !eat!(self, IdentName) {
-                syntax_error!(self, self.input.cur_span(), SyntaxError::ExpectedIdent);
-            }
-
-            if !eof!(self) && !is!(self, '>') {
-                expect!(self, ',');
-            }
+    pub(super) fn may_consume_flow_type_param_decls(&mut self) -> PResult<()> {
+        if !eat!(self, '<') && !eat!(self, JSXTagStart) {
+            return Ok(());
         }
 
-        expect!(self, '>');
+        self.consume_flow_type_param_decls()
+    }
+
+    pub(super) fn consume_flow_type_param_decls(&mut self) -> PResult<()> {
+        self.in_type().parse_with(|p| {
+            if !eat!(p, '<') && !eat!(p, JSXTagStart) {
+                unexpected!(p, "< or JSXTagStart")
+            }
+
+            while is!(p, '>') {
+                if is!(p, '>') {
+                    break;
+                }
+
+                p.consume_flow_type_param(false)?;
+
+                if is!(p, '>') {
+                    expect!(p, ',');
+                }
+            }
+
+            expect!(p, '>');
+
+            Ok(())
+        })
+    }
+
+    fn consume_flow_type_param(&mut self, require_default: bool) -> PResult<()> {
+        self.consume_flow_variance()?;
+
+        self.consume_flow_type_annotation_identifier(false)?;
+
+        if eat!(self, '=') {
+            self.consume_flow_type()?;
+        } else if require_default {
+            let got = format!("{:?}", cur!(self, true));
+            self.emit_err(
+                self.input.cur_span(),
+                SyntaxError::Expected(&Token::AssignOp(op!("=")), got),
+            )
+        }
+
+        Ok(())
+    }
+
+    pub(super) fn consume_flow_variance(&mut self) -> PResult<()> {
+        eat!(self, '+') || eat!(self, '-');
+
+        Ok(())
+    }
+
+    pub(super) fn consume_flow_type_annotation_identifier(
+        &mut self,
+        allow_primitive_override: bool,
+    ) -> PResult<()> {
+        if allow_primitive_override {
+            self.parse_ident(true, true)?;
+        } else {
+            self.parse_flow_restricted_ident(false, false)?;
+        }
+
+        if is!(self, ':') {
+            self.consume_flow_type_ann()?;
+        }
+
+        Ok(())
+    }
+
+    fn parse_flow_restricted_ident(&mut self, liberal: bool, declaration: bool) -> PResult<()> {
+        if declaration {
+            // self.check_flow_reserved_type(declaration)?;
+        }
+
+        self.parse_ident(liberal, liberal)?;
 
         Ok(())
     }
@@ -138,16 +199,8 @@ where
         todo!("consume_flow_primary_type")
     }
 
-    fn consume_flow_function_type_param(&mut self, first: bool) -> PResult<()> {
-        if peeked_is!(self, ':') || peeked_is!(self, '?') {
-            let n = self.parse_ident(true, true)?;
-
-            eat!(self, '?');
-
-            self.consume_flow_type_initializer()?
-        } else {
-            self.consume_flow_type()
-        }
+    fn consume_flow_type_params(&mut self) -> PResult<()> {
+        todo!("consume_flow_type_params")
     }
 
     fn consume_flow_object_type(
