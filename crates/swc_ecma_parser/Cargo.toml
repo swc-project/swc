@@ -18,9 +18,10 @@ bench = false
 
 [features]
 # Used for debugging
-debug         = ["tracing-spans"]
-default       = ["typescript", "stacker"]
-strip-flow    = []
+debug   = ["tracing-spans"]
+default = ["typescript", "stacker"]
+# Strip flow types
+flow          = []
 tracing-spans = []
 typescript    = []
 verify        = ["swc_ecma_visit"]
