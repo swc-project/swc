@@ -3,13 +3,13 @@
 use swc_common::{Span, DUMMY_SP};
 use swc_ecma_ast::{Expr, Invalid};
 
-use crate::{error::SyntaxError, token::Token, PResult, Parser, Tokens};
+use crate::{error::SyntaxError, token::Token, Context, PResult, Parser, Tokens};
 
 impl<I> Parser<I>
 where
     I: Tokens,
 {
-    pub(super) fn consume_flow_type_params(&mut self) -> PResult<()> {
+    pub(super) fn consume_flow_type_param_decls(&mut self) -> PResult<()> {
         expect!(self, '<');
 
         loop {
@@ -40,147 +40,97 @@ where
     }
 
     pub(super) fn consume_flow_type(&mut self) -> PResult<()> {
-        if is!(self, "typeof") {
-            return self.parse_flow_type_query();
+        self.in_type().consume_flow_union_type()?;
+
+        Ok(())
+    }
+
+    pub(super) fn consume_flow_union_type(&mut self) -> PResult<()> {
+        eat!(self, '|');
+
+        self.consume_intersection_type()?;
+
+        while eat!(self, '|') && !eof!(self) {
+            self.consume_intersection_type()?;
         }
 
-        if is_one_of!(self, "number", "string") {
-            self.input.bump();
-            return Ok(());
+        Ok(())
+    }
+
+    fn consume_intersection_type(&mut self) -> PResult<()> {
+        eat!(self, '&');
+
+        self.consume_flow_anon_function_without_parens()?;
+
+        while eat!(self, '&') && !eof!(self) {
+            self.consume_flow_anon_function_without_parens()?;
         }
 
-        if is!(self, IdentName) {
-            return self.parse_flow_ident_or_member_expr();
+        Ok(())
+    }
+
+    fn consume_flow_anon_function_without_parens(&mut self) -> PResult<()> {
+        self.consume_flow_prefix_type()?;
+
+        Ok(())
+    }
+
+    fn consume_flow_prefix_type(&mut self) -> PResult<()> {
+        if eat!(self, '?') {
+            self.consume_flow_prefix_type()?;
+        } else {
+            self.consume_flow_postfix_type()?;
         }
 
-        if is!(self, '(') {
-            return self.consume_flow_fn_type();
+        Ok(())
+    }
+
+    fn consume_flow_postfix_type(&mut self) -> PResult<()> {
+        let start_pos = self.input.cur_pos();
+        self.consume_flow_primary_type()?;
+
+        while is_one_of!(self, '[', '?') && !self.input.had_line_break_before_cur() {
+            let optional = eat!(self, '?');
+
+            expect!(self, '[');
+
+            if !optional && eat!(self, ']') {
+            } else {
+                let _index_type = self.consume_flow_type()?;
+
+                expect!(self, ']');
+            }
+        }
+
+        Ok(())
+    }
+
+    fn consume_flow_primary_type(&mut self) -> PResult<()> {
+        if is!(self, '{') {
+            return self.consume_flow_object_type()?;
         }
 
         if is!(self, '[') {
-            return self.consume_flow_tuple_type();
-        }
-
-        if is!(self, '{') {
-            return self.consume_flow_object_type();
-        }
-
-        unexpected!(self, "flow type")
-    }
-
-    fn parse_flow_ident_or_member_expr(&mut self) -> PResult<()> {
-        loop {
-            if !eat!(self, IdentName) {
-                break;
-            }
-
-            if is!(self, '.') {
-                self.input.bump();
-            } else {
-                break;
-            }
-        }
-
-        Ok(())
-    }
-
-    fn parse_flow_type_query(&mut self) -> PResult<()> {
-        assert_and_bump!(self, "typeof");
-
-        self.parse_flow_ident_or_member_expr()?;
-
-        self.may_consume_flow_generic_def()?;
-
-        Ok(())
-    }
-
-    pub(super) fn may_consume_flow_generic_def(&mut self) -> PResult<()> {
-        if !is!(self, '<') {
+            let ctx = Context {
+                flow_no_anon_function_type: false,
+                ..self.ctx()
+            };
+            self.with_ctx(ctx).consume_flow_tuple_type()?;
             return Ok(());
         }
 
-        expect!(self, '<');
+        if is!(self, '<') {
+            self.consume_flow_type_param_decls()?;
+            expect!(self, '(');
 
-        while !eof!(self) && !is!(self, '>') {
-            self.consume_flow_type()?;
-            if !eof!(self) && !is!(self, '>') {
-                expect!(self, ',');
-            }
+            self.consume_flow_type_params()?;
+
+            expect!(self, ')');
+            expect!(self, "=>");
+
+            return self.consume_flow_type();
         }
 
-        expect!(self, '>');
-
-        Ok(())
-    }
-
-    pub(super) fn consume_flow_tuple_type(&mut self) -> PResult<()> {
-        expect!(self, '[');
-
-        while !eof!(self) && !is!(self, ']') {
-            self.consume_flow_type()?;
-            if !eof!(self) && !is!(self, ']') {
-                expect!(self, ',');
-            }
-            // Remove all commas
-            while eat!(self, ',') {}
-        }
-
-        expect!(self, ']');
-
-        Ok(())
-    }
-
-    pub(super) fn consume_flow_object_type(&mut self) -> PResult<()> {
-        expect!(self, '{');
-
-        while !eof!(self) && !is!(self, '}') {
-            self.consume_flow_object_property()?;
-
-            if !is!(self, '}') {
-                expect!(self, ',');
-            }
-        }
-
-        expect!(self, '}');
-
-        Ok(())
-    }
-
-    pub(super) fn consume_flow_object_property(&mut self) -> PResult<()> {
-        if eat!(self, IdentName) {
-            if eat!(self, ':') {
-                return self.consume_flow_type();
-            }
-
-            if is!(self, '(') {}
-        }
-
-        todo!("consume_flow_object_property")
-    }
-
-    pub(super) fn consume_flow_fn_type(&mut self) -> PResult<()> {
-        expect!(self, '(');
-
-        while !eof!(self) && !is!(self, ')') {
-            if is!(self, IdentName) && peeked_is!(self, ':') {
-                self.input.bump();
-                self.input.bump();
-            }
-
-            self.consume_flow_type()?;
-
-            if !eof!(self) && !is!(self, ')') {
-                expect!(self, ',');
-            }
-        }
-
-        expect!(self, ')');
-
-        if is!(self, "=>") {
-            self.input.bump();
-            self.consume_flow_type()?;
-        }
-
-        Ok(())
+        todo!("consume_flow_primary_type")
     }
 }
