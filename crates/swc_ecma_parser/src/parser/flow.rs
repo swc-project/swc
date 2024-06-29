@@ -1,4 +1,4 @@
-use swc_common::DUMMY_SP;
+use swc_common::{Span, DUMMY_SP};
 use swc_ecma_ast::{Expr, Invalid};
 
 use crate::{token::Token, PResult, Parser, Tokens};
@@ -15,7 +15,7 @@ where
         Ok(())
     }
 
-    fn consume_flow_type(&mut self) -> PResult<()> {
+    pub(super) fn consume_flow_type(&mut self) -> PResult<()> {
         if is!(self, "typeof") {
             return self.parse_flow_type_query();
         }
@@ -36,6 +36,27 @@ where
             true,
             true,
         )?;
+
+        self.may_consume_flow_generic_def()?;
+
+        Ok(())
+    }
+
+    pub(super) fn may_consume_flow_generic_def(&mut self) -> PResult<()> {
+        if !is!(self, '<') {
+            return Ok(());
+        }
+
+        expect!(self, '<');
+
+        while !eof!(self) && !is!(self, '>') {
+            self.consume_flow_type()?;
+            if !eof!(self) && !is!(self, '>') {
+                expect!(self, ',');
+            }
+        }
+
+        expect!(self, '>');
 
         Ok(())
     }

@@ -336,6 +336,20 @@ impl<'a, I: Tokens> Parser<I> {
                     bump!(self);
                     return Ok(self.parse_ts_type_alias_decl(start)?.into());
                 }
+
+                if self.input.syntax().flow() && peeked_is!(self, IdentName) {
+                    assert_and_bump!(self, "type");
+                    self.parse_ident_name()?;
+
+                    self.may_consume_flow_generic_def()?;
+
+                    expect!(self, '=');
+
+                    self.consume_flow_type()?;
+                    return Ok(Stmt::Empty(EmptyStmt {
+                        span: span!(self, start),
+                    }));
+                }
             }
 
             tok!("enum") => {
