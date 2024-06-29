@@ -2216,7 +2216,7 @@ fn issue_9106() {
             },
             JSXTagEnd,
             JSXText {
-                raw: "\r\n\rABC".into(),
+                raw: "\n\r\nABC".into(),
                 value: "\n\nABC".into(),
             },
             JSXTagStart,
