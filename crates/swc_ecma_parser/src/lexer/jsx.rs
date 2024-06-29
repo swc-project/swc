@@ -92,26 +92,26 @@ impl<'a> Lexer<'a> {
                     }
                 }
                 '&' => {
-                    out.push_str(unsafe {
+                    value.push_str(unsafe {
                         // Safety: We already checked for the range
                         self.input.slice(chunk_start, cur_pos)
                     });
 
                     let jsx_entity = self.read_jsx_entity()?;
 
-                    out.push(jsx_entity.0);
+                    value.push(jsx_entity.0);
                     chunk_start = self.input.cur_pos();
                 }
 
                 _ => {
                     if cur.is_line_terminator() {
-                        out.push_str(unsafe {
+                        value.push_str(unsafe {
                             // Safety: We already checked for the range
                             self.input.slice(chunk_start, cur_pos)
                         });
                         match self.read_jsx_new_line(true)? {
-                            Either::Left(s) => out.push_str(s),
-                            Either::Right(c) => out.push(c),
+                            Either::Left(s) => value.push_str(s),
+                            Either::Right(c) => value.push(c),
                         }
                         chunk_start = cur_pos;
                     } else {
