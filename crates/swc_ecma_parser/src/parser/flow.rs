@@ -830,21 +830,21 @@ where
         Ok(())
     }
 
-    fn consume_flow_export(&mut self, start: BytePos) -> PResult<()> {
+    pub(super) fn consume_flow_export(&mut self, start: BytePos) -> PResult<Option<()>> {
         if is!(self, "opaque") {
             self.consume_flow_opaque_type(start)?;
-            return Ok(());
+            return Ok(Some(()));
         }
 
         if is!(self, "type") {
             self.consume_flow_type_alias()?;
-            return Ok(());
+            return Ok(Some(()));
         }
 
-        Ok(())
+        Ok(None)
     }
 
-    fn consume_flow_opaque_type(&mut self, start: BytePos) -> PResult<()> {
+    pub(super) fn consume_flow_opaque_type(&mut self, start: BytePos) -> PResult<()> {
         assert_and_bump!(self, "opaque");
 
         if is!(self, "type") {
@@ -856,7 +856,7 @@ where
     }
 
     /// Ported from babel
-    fn consume_flow_type_alias(&mut self) -> PResult<()> {
+    pub(super) fn consume_flow_type_alias(&mut self) -> PResult<()> {
         assert_and_bump!(self, "type");
 
         trace_cur!(self, consume_flow_type_alias);
