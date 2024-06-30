@@ -357,6 +357,7 @@ where
 
         // TODO(kdy1): Check if this is correct
         if eat!(self, "renders") {
+            eat!(self, '*');
             eat!(self, '?');
             self.consume_flow_type()?;
             return Ok(());
