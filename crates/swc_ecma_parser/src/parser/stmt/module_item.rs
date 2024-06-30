@@ -1,3 +1,5 @@
+use swc_common::util::take::Take;
+
 use super::*;
 
 impl<I: Tokens> Parser<I> {
@@ -385,6 +387,13 @@ impl<I: Tokens> Parser<I> {
                     span: span!(self, start),
                     decl,
                 }));
+            }
+        }
+
+        if self.input.syntax().flow() && is!(self, IdentName) {
+            // TODO: remove clone
+            if let Some(()) = self.consume_flow_export(start)? {
+                return Ok(ModuleDecl::dummy());
             }
         }
 
