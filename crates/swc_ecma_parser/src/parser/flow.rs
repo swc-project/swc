@@ -1,7 +1,7 @@
 #![warn(unused)]
 
 use swc_common::{BytePos, Span};
-use swc_ecma_ast::{op, Ident};
+use swc_ecma_ast::{op, Ident, MethodKind};
 
 use crate::{
     error::SyntaxError,
@@ -538,7 +538,7 @@ where
         allow_exact: bool,
         allow_spread: bool,
         allow_proto: bool,
-        allow_inexact: bool,
+        allow_inexact: Option<bool>,
     ) -> PResult<()> {
         self.in_type().parse_with(|p| {
             let mut end_delim;
@@ -602,20 +602,30 @@ where
 
                     p.consume_flow_object_type_call_property((), is_static)?;
                 } else {
-                    // let mut kind = "init";
+                    let mut kind = MethodKind::Method;
 
-                    // if is_contextual!(self, "get") || is_contextual!(self, "set") {
-                    //     if self
-                    //         .input
-                    //         .peek()
-                    //         .map(token_is_literal_property_name)
-                    //         .unwrap_or_default()
-                    //     {
-                    //         kind = bump!(self).value;
-                    //     }
-                    // }
+                    if is_contextual!(p, "get") || is_contextual!(p, "set") {
+                        if p.input
+                            .peek()
+                            .map(token_is_literal_property_name)
+                            .unwrap_or_default()
+                        {}
+                    }
 
-                    todo!("consume_flow_object_type: kind");
+                    let prop_or_inexact = p.consume_flow_object_type_property(
+                        (),
+                        is_static,
+                        proto_start_loc,
+                        variance,
+                        kind,
+                        allow_spread,
+                        allow_inexact.unwrap_or(!exact),
+                    )?;
+
+                    if prop_or_inexact.is_none() {
+                        inexact = true;
+                        inexact_start_loc = Some(p.input.cur_pos());
+                    }
                 }
 
                 p.consume_flow_object_type_semicolon()?;
@@ -634,6 +644,88 @@ where
 
             Ok(())
         })
+    }
+
+    fn consume_flow_object_type_property(
+        &mut self,
+        node: (),
+        is_static: bool,
+        proto_start_loc: Option<BytePos>,
+        variance: Option<()>,
+        kind: MethodKind,
+        allow_spread: bool,
+        allow_inexact: bool,
+    ) -> PResult<Option<()>> {
+        if eat!(self, "...") {
+            // TODO: braceBarR
+            let is_inexact_token = is_one_of!(self, ',', ';', '}');
+
+            if is_inexact_token {
+                if !allow_spread {
+                    syntax_error!(self, SyntaxError::FlowInexactInsideNonObject)
+                } else if !allow_inexact {
+                    syntax_error!(self, SyntaxError::FlowInexactInsideExact)
+                }
+
+                if variance.is_some() {
+                    syntax_error!(self, SyntaxError::FlowInexactVariance)
+                }
+
+                return Ok(None);
+            }
+
+            if !allow_spread {
+                syntax_error!(self, SyntaxError::FlowUnexpectedSpreadType)
+            }
+
+            if proto_start_loc.is_some() {
+                syntax_error!(self, SyntaxError::FlowUnexpectedProtoSpread)
+            }
+
+            if variance.is_some() {
+                syntax_error!(self, SyntaxError::FlowSpreadVariance)
+            }
+
+            let _arguments = self.consume_flow_type()?;
+        } else {
+            let _key = self.consume_flow_object_property_key()?;
+
+            let mut optional = false;
+
+            if is_one_of!(self, '<', '(') {
+                // This is a method property
+
+                if proto_start_loc.is_some() {
+                    syntax_error!(self, SyntaxError::FlowUnexpectedProtoMethod)
+                }
+
+                if variance.is_some() {
+                    syntax_error!(self, SyntaxError::FlowMethodVariance)
+                }
+
+                let _value = self.consume_flow_object_type_methodish(())?;
+
+                // match kind {
+                //     MethodKind::Getter | MethodKind::Setter => {
+                //         self.check_flow_getter_setter_params(())
+                //     }
+
+                //     _ => {}
+                // }
+
+                // Declared classes/interfaces do not allow spread
+            } else {
+                if kind != MethodKind::Method {
+                    syntax_error!(self, SyntaxError::FlowUnexpectedGetterSetter)
+                }
+
+                eat!(self, '?');
+
+                let _value = self.consume_flow_type_init(None)?;
+            }
+
+            Ok(())
+        }
     }
 
     /// Ported from `flowParseObjectTypeIndexer`
