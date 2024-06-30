@@ -1,31 +1,29 @@
 {
-  "type":"Program",
-  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":22}},
-  "range":[0,22],
-  "body":[
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 23,
+    "ctxt": 0
+  },
+  "body": [
     {
-      "type":"DeclareVariable",
-      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":22}},
-      "range":[0,22],
-      "id":{
-        "type":"Identifier",
-        "loc":{"source":null,"start":{"line":1,"column":12},"end":{"line":1,"column":21}},
-        "range":[12,21],
-        "name":"x",
-        "typeAnnotation":{
-          "type":"TypeAnnotation",
-          "loc":{"source":null,"start":{"line":1,"column":13},"end":{"line":1,"column":21}},
-          "range":[13,21],
-          "typeAnnotation":{
-            "type":"SymbolTypeAnnotation",
-            "loc":{"source":null,"start":{"line":1,"column":15},"end":{"line":1,"column":21}},
-            "range":[15,21]
-          }
-        },
-        "optional":false
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 1,
+        "end": 23,
+        "ctxt": 0
       },
-      "kind":"var"
+      "expression": {
+        "type": "Identifier",
+        "span": {
+          "start": 1,
+          "end": 8,
+          "ctxt": 0
+        },
+        "value": "declare",
+        "optional": false
+      }
     }
   ],
-  "comments":[]
+  "interpreter": null
 }
