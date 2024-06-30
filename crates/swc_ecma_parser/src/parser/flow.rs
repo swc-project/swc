@@ -872,6 +872,17 @@ where
 
         Ok(())
     }
+
+    /// Ported from `flowObjectTypeSemicolon`
+    fn consume_flow_object_type_semicolon(&mut self) -> PResult<()> {
+        if !eat!(self, ';') && !eat!(self, ',') && !eat!(self, '}') {
+            // TODO:
+            // !this.match(tt.braceBarR)
+            unexpected!(self, "flow object type semicolon")
+        }
+
+        Ok(())
+    }
 }
 
 fn token_is_identifier(cur: &Token) -> bool {
