@@ -1,80 +1,77 @@
 {
-  "type": "Script",
-  "span": {
-    "start": 1,
-    "end": 44,
-    "ctxt": 0
-  },
-  "body": [
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":43}},
+  "range":[0,43],
+  "body":[
     {
-      "type": "FunctionDeclaration",
-      "identifier": {
-        "type": "Identifier",
-        "span": {
-          "start": 10,
-          "end": 13,
-          "ctxt": 0
-        },
-        "value": "foo",
-        "optional": false
+      "type":"FunctionDeclaration",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":43}},
+      "range":[0,43],
+      "id":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":1,"column":9},"end":{"line":1,"column":12}},
+        "range":[9,12],
+        "name":"foo",
+        "typeAnnotation":null,
+        "optional":false
       },
-      "declare": false,
-      "params": [
+      "params":[
         {
-          "type": "Parameter",
-          "span": {
-            "start": 14,
-            "end": 41,
-            "ctxt": 0
-          },
-          "decorators": [],
-          "pat": {
-            "type": "RestElement",
-            "span": {
-              "start": 14,
-              "end": 41,
-              "ctxt": 0
+          "type":"RestElement",
+          "loc":{"source":null,"start":{"line":1,"column":13},"end":{"line":1,"column":40}},
+          "range":[13,40],
+          "argument":{
+            "type":"Identifier",
+            "loc":{"source":null,"start":{"line":1,"column":16},"end":{"line":1,"column":40}},
+            "range":[16,40],
+            "name":"typedRest",
+            "typeAnnotation":{
+              "type":"TypeAnnotation",
+              "loc":{"source":null,"start":{"line":1,"column":25},"end":{"line":1,"column":40}},
+              "range":[25,40],
+              "typeAnnotation":{
+                "type":"GenericTypeAnnotation",
+                "loc":{"source":null,"start":{"line":1,"column":27},"end":{"line":1,"column":40}},
+                "range":[27,40],
+                "id":{
+                  "type":"Identifier",
+                  "loc":{"source":null,"start":{"line":1,"column":27},"end":{"line":1,"column":32}},
+                  "range":[27,32],
+                  "name":"Array",
+                  "typeAnnotation":null,
+                  "optional":false
+                },
+                "typeParameters":{
+                  "type":"TypeParameterInstantiation",
+                  "loc":{"source":null,"start":{"line":1,"column":32},"end":{"line":1,"column":40}},
+                  "range":[32,40],
+                  "params":[
+                    {
+                      "type":"NumberTypeAnnotation",
+                      "loc":{"source":null,"start":{"line":1,"column":33},"end":{"line":1,"column":39}},
+                      "range":[33,39]
+                    }
+                  ]
+                }
+              }
             },
-            "rest": {
-              "start": 14,
-              "end": 17,
-              "ctxt": 0
-            },
-            "argument": {
-              "type": "Identifier",
-              "span": {
-                "start": 17,
-                "end": 26,
-                "ctxt": 0
-              },
-              "value": "typedRest",
-              "optional": false,
-              "typeAnnotation": null
-            },
-            "typeAnnotation": null
+            "optional":false
           }
         }
       ],
-      "decorators": [],
-      "span": {
-        "start": 1,
-        "end": 44,
-        "ctxt": 0
+      "body":{
+        "type":"BlockStatement",
+        "loc":{"source":null,"start":{"line":1,"column":41},"end":{"line":1,"column":43}},
+        "range":[41,43],
+        "body":[]
       },
-      "body": {
-        "type": "BlockStatement",
-        "span": {
-          "start": 42,
-          "end": 44,
-          "ctxt": 0
-        },
-        "stmts": []
-      },
-      "generator": false,
-      "async": false,
-      "typeParameters": null,
-      "returnType": null
+      "async":false,
+      "generator":false,
+      "predicate":null,
+      "expression":false,
+      "returnType":null,
+      "typeParameters":null
     }
   ],
-  "interpreter": null
+  "comments":[]
 }

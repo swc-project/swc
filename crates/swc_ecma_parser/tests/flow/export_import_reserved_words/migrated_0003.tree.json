@@ -1,53 +1,39 @@
 {
-  "type": "Module",
-  "span": {
-    "start": 1,
-    "end": 26,
-    "ctxt": 0
-  },
-  "body": [
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":25}},
+  "range":[0,25],
+  "body":[
     {
-      "type": "ExportNamedDeclaration",
-      "span": {
-        "start": 1,
-        "end": 26,
-        "ctxt": 0
-      },
-      "specifiers": [
+      "type":"ExportNamedDeclaration",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":25}},
+      "range":[0,25],
+      "declaration":null,
+      "specifiers":[
         {
-          "type": "ExportSpecifier",
-          "span": {
-            "start": 10,
-            "end": 24,
-            "ctxt": 0
+          "type":"ExportSpecifier",
+          "loc":{"source":null,"start":{"line":1,"column":9},"end":{"line":1,"column":23}},
+          "range":[9,23],
+          "local":{
+            "type":"Identifier",
+            "loc":{"source":null,"start":{"line":1,"column":9},"end":{"line":1,"column":12}},
+            "range":[9,12],
+            "name":"foo",
+            "typeAnnotation":null,
+            "optional":false
           },
-          "orig": {
-            "type": "Identifier",
-            "span": {
-              "start": 10,
-              "end": 13,
-              "ctxt": 0
-            },
-            "value": "foo",
-            "optional": false
-          },
-          "exported": {
-            "type": "Identifier",
-            "span": {
-              "start": 17,
-              "end": 24,
-              "ctxt": 0
-            },
-            "value": "default",
-            "optional": false
-          },
-          "isTypeOnly": false
+          "exported":{
+            "type":"Identifier",
+            "loc":{"source":null,"start":{"line":1,"column":16},"end":{"line":1,"column":23}},
+            "range":[16,23],
+            "name":"default",
+            "typeAnnotation":null,
+            "optional":false
+          }
         }
       ],
-      "source": null,
-      "typeOnly": false,
-      "with": null
+      "source":null,
+      "exportKind":"value"
     }
   ],
-  "interpreter": null
+  "comments":[]
 }

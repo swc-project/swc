@@ -1,95 +1,78 @@
 {
-  "type": "Script",
-  "span": {
-    "start": 1,
-    "end": 32,
-    "ctxt": 0
-  },
-  "body": [
+  "errors":[
     {
-      "type": "ExpressionStatement",
-      "span": {
-        "start": 1,
-        "end": 14,
-        "ctxt": 0
-      },
-      "expression": {
-        "type": "StringLiteral",
-        "span": {
-          "start": 1,
-          "end": 13,
-          "ctxt": 0
-        },
-        "value": "use strict",
-        "raw": "\"use strict\""
-      }
-    },
-    {
-      "type": "ExpressionStatement",
-      "span": {
-        "start": 15,
-        "end": 32,
-        "ctxt": 0
-      },
-      "expression": {
-        "type": "ParenthesisExpression",
-        "span": {
-          "start": 15,
-          "end": 31,
-          "ctxt": 0
-        },
-        "expression": {
-          "type": "AssignmentExpression",
-          "span": {
-            "start": 16,
-            "end": 30,
-            "ctxt": 0
-          },
-          "operator": "=",
-          "left": {
-            "type": "ObjectPattern",
-            "span": {
-              "start": 16,
-              "end": 25,
-              "ctxt": 0
-            },
-            "properties": [
-              {
-                "type": "AssignmentPatternProperty",
-                "span": {
-                  "start": 18,
-                  "end": 23,
-                  "ctxt": 0
-                },
-                "key": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 18,
-                    "end": 23,
-                    "ctxt": 0
-                  },
-                  "value": "yield",
-                  "optional": false,
-                  "typeAnnotation": null
-                },
-                "value": null
-              }
-            ],
-            "optional": false,
-            "typeAnnotation": null
-          },
-          "right": {
-            "type": "ObjectExpression",
-            "span": {
-              "start": 28,
-              "end": 30,
-              "ctxt": 0
-            },
-            "properties": []
-          }
-        }
-      }
+      "loc":{"source":null,"start":{"line":2,"column":3},"end":{"line":2,"column":8}},
+      "message":"Use of reserved word in strict mode"
     }
   ],
-  "interpreter": null
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":2,"column":17}},
+  "range":[0,31],
+  "body":[
+    {
+      "type":"ExpressionStatement",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":13}},
+      "range":[0,13],
+      "expression":{
+        "type":"Literal",
+        "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":12}},
+        "range":[0,12],
+        "value":"use strict",
+        "raw":"\"use strict\""
+      },
+      "directive":"use strict"
+    },
+    {
+      "type":"ExpressionStatement",
+      "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":17}},
+      "range":[14,31],
+      "expression":{
+        "type":"AssignmentExpression",
+        "loc":{"source":null,"start":{"line":2,"column":1},"end":{"line":2,"column":15}},
+        "range":[15,29],
+        "operator":"=",
+        "left":{
+          "type":"ObjectPattern",
+          "loc":{"source":null,"start":{"line":2,"column":1},"end":{"line":2,"column":10}},
+          "range":[15,24],
+          "properties":[
+            {
+              "type":"Property",
+              "loc":{"source":null,"start":{"line":2,"column":3},"end":{"line":2,"column":8}},
+              "range":[17,22],
+              "key":{
+                "type":"Identifier",
+                "loc":{"source":null,"start":{"line":2,"column":3},"end":{"line":2,"column":8}},
+                "range":[17,22],
+                "name":"yield",
+                "typeAnnotation":null,
+                "optional":false
+              },
+              "value":{
+                "type":"Identifier",
+                "loc":{"source":null,"start":{"line":2,"column":3},"end":{"line":2,"column":8}},
+                "range":[17,22],
+                "name":"yield",
+                "typeAnnotation":null,
+                "optional":false
+              },
+              "kind":"init",
+              "method":false,
+              "shorthand":true,
+              "computed":false
+            }
+          ],
+          "typeAnnotation":null
+        },
+        "right":{
+          "type":"ObjectExpression",
+          "loc":{"source":null,"start":{"line":2,"column":13},"end":{"line":2,"column":15}},
+          "range":[27,29],
+          "properties":[]
+        }
+      },
+      "directive":null
+    }
+  ],
+  "comments":[]
 }

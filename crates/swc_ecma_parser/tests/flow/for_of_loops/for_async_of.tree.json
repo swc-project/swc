@@ -1,48 +1,39 @@
 {
-  "type": "Script",
-  "span": {
-    "start": 1,
-    "end": 19,
-    "ctxt": 0
-  },
-  "body": [
+  "errors":[
     {
-      "type": "ForOfStatement",
-      "span": {
-        "start": 1,
-        "end": 19,
-        "ctxt": 0
-      },
-      "await": false,
-      "left": {
-        "type": "Identifier",
-        "span": {
-          "start": 6,
-          "end": 11,
-          "ctxt": 0
-        },
-        "value": "async",
-        "optional": false,
-        "typeAnnotation": null
-      },
-      "right": {
-        "type": "ArrayExpression",
-        "span": {
-          "start": 15,
-          "end": 17,
-          "ctxt": 0
-        },
-        "elements": []
-      },
-      "body": {
-        "type": "EmptyStatement",
-        "span": {
-          "start": 18,
-          "end": 19,
-          "ctxt": 0
-        }
-      }
+      "loc":{"source":null,"start":{"line":1,"column":5},"end":{"line":1,"column":10}},
+      "message":"Invalid left-hand side in for-of"
     }
   ],
-  "interpreter": null
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":18}},
+  "range":[0,18],
+  "body":[
+    {
+      "type":"ForOfStatement",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":18}},
+      "range":[0,18],
+      "left":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":1,"column":5},"end":{"line":1,"column":10}},
+        "range":[5,10],
+        "name":"async",
+        "typeAnnotation":null,
+        "optional":false
+      },
+      "right":{
+        "type":"ArrayExpression",
+        "loc":{"source":null,"start":{"line":1,"column":14},"end":{"line":1,"column":16}},
+        "range":[14,16],
+        "elements":[]
+      },
+      "body":{
+        "type":"EmptyStatement",
+        "loc":{"source":null,"start":{"line":1,"column":17},"end":{"line":1,"column":18}},
+        "range":[17,18]
+      },
+      "await":false
+    }
+  ],
+  "comments":[]
 }

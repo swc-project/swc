@@ -1,64 +1,40 @@
 {
-  "type": "Script",
-  "span": {
-    "start": 1,
-    "end": 24,
-    "ctxt": 0
-  },
-  "body": [
+  "errors":[
     {
-      "type": "FunctionDeclaration",
-      "identifier": {
-        "type": "Identifier",
-        "span": {
-          "start": 16,
-          "end": 19,
-          "ctxt": 0
-        },
-        "value": "foo",
-        "optional": false
-      },
-      "declare": false,
-      "params": [],
-      "decorators": [
-        {
-          "type": "Decorator",
-          "span": {
-            "start": 1,
-            "end": 6,
-            "ctxt": 0
-          },
-          "expression": {
-            "type": "Identifier",
-            "span": {
-              "start": 2,
-              "end": 6,
-              "ctxt": 0
-            },
-            "value": "blah",
-            "optional": false
-          }
-        }
-      ],
-      "span": {
-        "start": 7,
-        "end": 24,
-        "ctxt": 0
-      },
-      "body": {
-        "type": "BlockStatement",
-        "span": {
-          "start": 22,
-          "end": 24,
-          "ctxt": 0
-        },
-        "stmts": []
-      },
-      "generator": false,
-      "async": false,
-      "typeParameters": null,
-      "returnType": null
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":5}},
+      "message":"Found a decorator in an unsupported position."
     }
   ],
-  "interpreter": null
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":17}},
+  "range":[6,23],
+  "body":[
+    {
+      "type":"FunctionDeclaration",
+      "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":17}},
+      "range":[6,23],
+      "id":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":2,"column":9},"end":{"line":2,"column":12}},
+        "range":[15,18],
+        "name":"foo",
+        "typeAnnotation":null,
+        "optional":false
+      },
+      "params":[],
+      "body":{
+        "type":"BlockStatement",
+        "loc":{"source":null,"start":{"line":2,"column":15},"end":{"line":2,"column":17}},
+        "range":[21,23],
+        "body":[]
+      },
+      "async":false,
+      "generator":false,
+      "predicate":null,
+      "expression":false,
+      "returnType":null,
+      "typeParameters":null
+    }
+  ],
+  "comments":[]
 }

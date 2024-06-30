@@ -1,29 +1,35 @@
 {
-  "type": "Script",
-  "span": {
-    "start": 1,
-    "end": 34,
-    "ctxt": 0
-  },
-  "body": [
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":33}},
+  "range":[0,33],
+  "body":[
     {
-      "type": "ExpressionStatement",
-      "span": {
-        "start": 1,
-        "end": 34,
-        "ctxt": 0
-      },
-      "expression": {
-        "type": "Identifier",
-        "span": {
-          "start": 1,
-          "end": 8,
-          "ctxt": 0
+      "type":"DeclareExportDeclaration",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":33}},
+      "range":[0,33],
+      "default":false,
+      "declaration":{
+        "type":"TypeAlias",
+        "loc":{"source":null,"start":{"line":1,"column":15},"end":{"line":1,"column":33}},
+        "range":[15,33],
+        "id":{
+          "type":"Identifier",
+          "loc":{"source":null,"start":{"line":1,"column":20},"end":{"line":1,"column":23}},
+          "range":[20,23],
+          "name":"foo",
+          "typeAnnotation":null,
+          "optional":false
         },
-        "value": "declare",
-        "optional": false
-      }
+        "typeParameters":null,
+        "right":{
+          "type":"NumberTypeAnnotation",
+          "loc":{"source":null,"start":{"line":1,"column":26},"end":{"line":1,"column":32}},
+          "range":[26,32]
+        }
+      },
+      "specifiers":[],
+      "source":null
     }
   ],
-  "interpreter": null
+  "comments":[]
 }

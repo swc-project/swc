@@ -1,54 +1,51 @@
 {
-  "type": "Module",
-  "span": {
-    "start": 1,
-    "end": 30,
-    "ctxt": 0
-  },
-  "body": [
+  "errors":[
     {
-      "type": "ImportDeclaration",
-      "span": {
-        "start": 1,
-        "end": 30,
-        "ctxt": 0
-      },
-      "specifiers": [
-        {
-          "type": "ImportSpecifier",
-          "span": {
-            "start": 10,
-            "end": 17,
-            "ctxt": 0
-          },
-          "local": {
-            "type": "Identifier",
-            "span": {
-              "start": 10,
-              "end": 17,
-              "ctxt": 0
-            },
-            "value": "default",
-            "optional": false
-          },
-          "imported": null,
-          "isTypeOnly": false
-        }
-      ],
-      "source": {
-        "type": "StringLiteral",
-        "span": {
-          "start": 25,
-          "end": 30,
-          "ctxt": 0
-        },
-        "value": "foo",
-        "raw": "\"foo\""
-      },
-      "typeOnly": false,
-      "with": null,
-      "phase": "evaluation"
+      "loc":{"source":null,"start":{"line":1,"column":9},"end":{"line":1,"column":16}},
+      "message":"Unexpected reserved word"
     }
   ],
-  "interpreter": null
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":29}},
+  "range":[0,29],
+  "body":[
+    {
+      "type":"ImportDeclaration",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":29}},
+      "range":[0,29],
+      "specifiers":[
+        {
+          "type":"ImportSpecifier",
+          "loc":{"source":null,"start":{"line":1,"column":9},"end":{"line":1,"column":16}},
+          "range":[9,16],
+          "imported":{
+            "type":"Identifier",
+            "loc":{"source":null,"start":{"line":1,"column":9},"end":{"line":1,"column":16}},
+            "range":[9,16],
+            "name":"default",
+            "typeAnnotation":null,
+            "optional":false
+          },
+          "local":{
+            "type":"Identifier",
+            "loc":{"source":null,"start":{"line":1,"column":9},"end":{"line":1,"column":16}},
+            "range":[9,16],
+            "name":"default",
+            "typeAnnotation":null,
+            "optional":false
+          },
+          "importKind":null
+        }
+      ],
+      "source":{
+        "type":"Literal",
+        "loc":{"source":null,"start":{"line":1,"column":24},"end":{"line":1,"column":29}},
+        "range":[24,29],
+        "value":"foo",
+        "raw":"\"foo\""
+      },
+      "importKind":"value"
+    }
+  ],
+  "comments":[]
 }

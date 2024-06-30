@@ -1,77 +1,54 @@
 {
-  "type": "Script",
-  "span": {
-    "start": 1,
-    "end": 34,
-    "ctxt": 0
-  },
-  "body": [
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":33}},
+  "range":[0,33],
+  "body":[
     {
-      "type": "VariableDeclaration",
-      "span": {
-        "start": 1,
-        "end": 34,
-        "ctxt": 0
-      },
-      "kind": "var",
-      "declare": false,
-      "declarations": [
+      "type":"VariableDeclaration",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":33}},
+      "range":[0,33],
+      "declarations":[
         {
-          "type": "VariableDeclarator",
-          "span": {
-            "start": 5,
-            "end": 33,
-            "ctxt": 0
+          "type":"VariableDeclarator",
+          "loc":{"source":null,"start":{"line":1,"column":4},"end":{"line":1,"column":32}},
+          "range":[4,32],
+          "id":{
+            "type":"Identifier",
+            "loc":{"source":null,"start":{"line":1,"column":4},"end":{"line":1,"column":5}},
+            "range":[4,5],
+            "name":"n",
+            "typeAnnotation":null,
+            "optional":false
           },
-          "id": {
-            "type": "Identifier",
-            "span": {
-              "start": 5,
-              "end": 6,
-              "ctxt": 0
-            },
-            "value": "n",
-            "optional": false,
-            "typeAnnotation": null
-          },
-          "init": {
-            "type": "NewExpression",
-            "span": {
-              "start": 9,
-              "end": 33,
-              "ctxt": 0
-            },
-            "callee": {
-              "type": "FunctionExpression",
-              "identifier": null,
-              "params": [],
-              "decorators": [],
-              "span": {
-                "start": 13,
-                "end": 33,
-                "ctxt": 0
+          "init":{
+            "type":"NewExpression",
+            "loc":{"source":null,"start":{"line":1,"column":8},"end":{"line":1,"column":32}},
+            "range":[8,32],
+            "callee":{
+              "type":"FunctionExpression",
+              "loc":{"source":null,"start":{"line":1,"column":12},"end":{"line":1,"column":32}},
+              "range":[12,32],
+              "id":null,
+              "params":[],
+              "body":{
+                "type":"BlockStatement",
+                "loc":{"source":null,"start":{"line":1,"column":30},"end":{"line":1,"column":32}},
+                "range":[30,32],
+                "body":[]
               },
-              "body": {
-                "type": "BlockStatement",
-                "span": {
-                  "start": 31,
-                  "end": 33,
-                  "ctxt": 0
-                },
-                "stmts": []
-              },
-              "generator": true,
-              "async": true,
-              "typeParameters": null,
-              "returnType": null
+              "async":true,
+              "generator":true,
+              "predicate":null,
+              "expression":false,
+              "returnType":null,
+              "typeParameters":null
             },
-            "arguments": null,
-            "typeArguments": null
-          },
-          "definite": false
+            "arguments":[]
+          }
         }
-      ]
+      ],
+      "kind":"var"
     }
   ],
-  "interpreter": null
+  "comments":[]
 }

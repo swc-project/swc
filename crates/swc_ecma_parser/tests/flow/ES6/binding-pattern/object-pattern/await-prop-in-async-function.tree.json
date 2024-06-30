@@ -1,130 +1,112 @@
 {
-  "type": "Script",
-  "span": {
-    "start": 126,
-    "end": 168,
-    "ctxt": 0
-  },
-  "body": [
+  "errors":[
     {
-      "type": "ExpressionStatement",
-      "span": {
-        "start": 126,
-        "end": 168,
-        "ctxt": 0
-      },
-      "expression": {
-        "type": "ParenthesisExpression",
-        "span": {
-          "start": 126,
-          "end": 167,
-          "ctxt": 0
-        },
-        "expression": {
-          "type": "FunctionExpression",
-          "identifier": null,
-          "params": [],
-          "decorators": [],
-          "span": {
-            "start": 127,
-            "end": 166,
-            "ctxt": 0
-          },
-          "body": {
-            "type": "BlockStatement",
-            "span": {
-              "start": 144,
-              "end": 166,
-              "ctxt": 0
-            },
-            "stmts": [
-              {
-                "type": "ExpressionStatement",
-                "span": {
-                  "start": 146,
-                  "end": 164,
-                  "ctxt": 0
-                },
-                "expression": {
-                  "type": "SequenceExpression",
-                  "span": {
-                    "start": 146,
-                    "end": 163,
-                    "ctxt": 0
-                  },
-                  "expressions": [
-                    {
-                      "type": "NumericLiteral",
-                      "span": {
-                        "start": 146,
-                        "end": 147,
-                        "ctxt": 0
-                      },
-                      "value": 0.0,
-                      "raw": "0"
-                    },
-                    {
-                      "type": "AssignmentExpression",
-                      "span": {
-                        "start": 149,
-                        "end": 163,
-                        "ctxt": 0
-                      },
-                      "operator": "=",
-                      "left": {
-                        "type": "ObjectPattern",
-                        "span": {
-                          "start": 149,
-                          "end": 158,
-                          "ctxt": 0
-                        },
-                        "properties": [
-                          {
-                            "type": "AssignmentPatternProperty",
-                            "span": {
-                              "start": 151,
-                              "end": 156,
-                              "ctxt": 0
-                            },
-                            "key": {
-                              "type": "Identifier",
-                              "span": {
-                                "start": 151,
-                                "end": 156,
-                                "ctxt": 0
-                              },
-                              "value": "await",
-                              "optional": false,
-                              "typeAnnotation": null
-                            },
-                            "value": null
-                          }
-                        ],
-                        "optional": false,
-                        "typeAnnotation": null
-                      },
-                      "right": {
-                        "type": "ObjectExpression",
-                        "span": {
-                          "start": 161,
-                          "end": 163,
-                          "ctxt": 0
-                        },
-                        "properties": []
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          },
-          "generator": false,
-          "async": true,
-          "typeParameters": null,
-          "returnType": null
-        }
-      }
+      "loc":{"source":null,"start":{"line":5,"column":25},"end":{"line":5,"column":30}},
+      "message":"`await` is an invalid identifier in async functions"
     }
   ],
-  "interpreter": null
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":5,"column":0},"end":{"line":5,"column":42}},
+  "range":[125,167],
+  "body":[
+    {
+      "type":"ExpressionStatement",
+      "loc":{"source":null,"start":{"line":5,"column":0},"end":{"line":5,"column":42}},
+      "range":[125,167],
+      "expression":{
+        "type":"FunctionExpression",
+        "loc":{"source":null,"start":{"line":5,"column":1},"end":{"line":5,"column":40}},
+        "range":[126,165],
+        "id":null,
+        "params":[],
+        "body":{
+          "type":"BlockStatement",
+          "loc":{"source":null,"start":{"line":5,"column":18},"end":{"line":5,"column":40}},
+          "range":[143,165],
+          "body":[
+            {
+              "type":"ExpressionStatement",
+              "loc":{"source":null,"start":{"line":5,"column":20},"end":{"line":5,"column":38}},
+              "range":[145,163],
+              "expression":{
+                "type":"SequenceExpression",
+                "loc":{"source":null,"start":{"line":5,"column":20},"end":{"line":5,"column":37}},
+                "range":[145,162],
+                "expressions":[
+                  {
+                    "type":"Literal",
+                    "loc":{"source":null,"start":{"line":5,"column":20},"end":{"line":5,"column":21}},
+                    "range":[145,146],
+                    "value":0,
+                    "raw":"0"
+                  },
+                  {
+                    "type":"AssignmentExpression",
+                    "loc":{"source":null,"start":{"line":5,"column":23},"end":{"line":5,"column":37}},
+                    "range":[148,162],
+                    "operator":"=",
+                    "left":{
+                      "type":"ObjectPattern",
+                      "loc":{"source":null,"start":{"line":5,"column":23},"end":{"line":5,"column":32}},
+                      "range":[148,157],
+                      "properties":[
+                        {
+                          "type":"Property",
+                          "loc":{"source":null,"start":{"line":5,"column":25},"end":{"line":5,"column":30}},
+                          "range":[150,155],
+                          "key":{
+                            "type":"Identifier",
+                            "loc":{"source":null,"start":{"line":5,"column":25},"end":{"line":5,"column":30}},
+                            "range":[150,155],
+                            "name":"await",
+                            "typeAnnotation":null,
+                            "optional":false
+                          },
+                          "value":{
+                            "type":"Identifier",
+                            "loc":{"source":null,"start":{"line":5,"column":25},"end":{"line":5,"column":30}},
+                            "range":[150,155],
+                            "name":"await",
+                            "typeAnnotation":null,
+                            "optional":false
+                          },
+                          "kind":"init",
+                          "method":false,
+                          "shorthand":true,
+                          "computed":false
+                        }
+                      ],
+                      "typeAnnotation":null
+                    },
+                    "right":{
+                      "type":"ObjectExpression",
+                      "loc":{"source":null,"start":{"line":5,"column":35},"end":{"line":5,"column":37}},
+                      "range":[160,162],
+                      "properties":[]
+                    }
+                  }
+                ]
+              },
+              "directive":null
+            }
+          ]
+        },
+        "async":true,
+        "generator":false,
+        "predicate":null,
+        "expression":false,
+        "returnType":null,
+        "typeParameters":null
+      },
+      "directive":null
+    }
+  ],
+  "comments":[
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":4,"column":3}},
+      "range":[0,124],
+      "value":"\n * When [+Await], `await` isn't a valid IdentifierReference.\n * #prod-AssignmentProperty -> #prod-IdentifierReference\n "
+    }
+  ]
 }

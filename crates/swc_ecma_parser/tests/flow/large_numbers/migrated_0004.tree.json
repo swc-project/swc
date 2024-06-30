@@ -1,29 +1,21 @@
 {
-  "type": "Script",
-  "span": {
-    "start": 1,
-    "end": 38,
-    "ctxt": 0
-  },
-  "body": [
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":37}},
+  "range":[0,37],
+  "body":[
     {
-      "type": "ExpressionStatement",
-      "span": {
-        "start": 1,
-        "end": 38,
-        "ctxt": 0
+      "type":"ExpressionStatement",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":37}},
+      "range":[0,37],
+      "expression":{
+        "type":"Literal",
+        "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":37}},
+        "range":[0,37],
+        "value":25257156155,
+        "raw":"0b10111100001011100011001111000111011"
       },
-      "expression": {
-        "type": "NumericLiteral",
-        "span": {
-          "start": 1,
-          "end": 38,
-          "ctxt": 0
-        },
-        "value": 25257156155.0,
-        "raw": "0b10111100001011100011001111000111011"
-      }
+      "directive":null
     }
   ],
-  "interpreter": null
+  "comments":[]
 }

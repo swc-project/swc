@@ -1,110 +1,103 @@
 {
-  "type": "Script",
-  "span": {
-    "start": 104,
-    "end": 140,
-    "ctxt": 0
-  },
-  "body": [
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":3,"column":0},"end":{"line":3,"column":36}},
+  "range":[103,139],
+  "body":[
     {
-      "type": "VariableDeclaration",
-      "span": {
-        "start": 104,
-        "end": 140,
-        "ctxt": 0
-      },
-      "kind": "var",
-      "declare": false,
-      "declarations": [
+      "type":"VariableDeclaration",
+      "loc":{"source":null,"start":{"line":3,"column":0},"end":{"line":3,"column":36}},
+      "range":[103,139],
+      "declarations":[
         {
-          "type": "VariableDeclarator",
-          "span": {
-            "start": 108,
-            "end": 132,
-            "ctxt": 0
+          "type":"VariableDeclarator",
+          "loc":{"source":null,"start":{"line":3,"column":4},"end":{"line":3,"column":35}},
+          "range":[107,138],
+          "id":{
+            "type":"Identifier",
+            "loc":{"source":null,"start":{"line":3,"column":4},"end":{"line":3,"column":5}},
+            "range":[107,108],
+            "name":"f",
+            "typeAnnotation":null,
+            "optional":false
           },
-          "id": {
-            "type": "Identifier",
-            "span": {
-              "start": 108,
-              "end": 109,
-              "ctxt": 0
-            },
-            "value": "f",
-            "optional": false,
-            "typeAnnotation": null
-          },
-          "init": {
-            "type": "CallExpression",
-            "span": {
-              "start": 112,
-              "end": 132,
-              "ctxt": 0
-            },
-            "callee": {
-              "type": "ParenthesisExpression",
-              "span": {
-                "start": 112,
-                "end": 116,
-                "ctxt": 0
-              },
-              "expression": {
-                "type": "Identifier",
-                "span": {
-                  "start": 113,
-                  "end": 114,
-                  "ctxt": 0
-                },
-                "value": "x",
-                "optional": false
-              }
-            },
-            "arguments": [
+          "init":{
+            "type":"ArrowFunctionExpression",
+            "loc":{"source":null,"start":{"line":3,"column":8},"end":{"line":3,"column":35}},
+            "range":[111,138],
+            "id":null,
+            "params":[
               {
-                "spread": null,
-                "expression": {
-                  "type": "ArrowFunctionExpression",
-                  "span": {
-                    "start": 118,
-                    "end": 131,
-                    "ctxt": 0
-                  },
-                  "params": [
-                    {
-                      "type": "Identifier",
-                      "span": {
-                        "start": 118,
-                        "end": 124,
-                        "ctxt": 0
-                      },
-                      "value": "number",
-                      "optional": false,
-                      "typeAnnotation": null
-                    }
-                  ],
-                  "body": {
-                    "type": "NumericLiteral",
-                    "span": {
-                      "start": 128,
-                      "end": 131,
-                      "ctxt": 0
-                    },
-                    "value": 123.0,
-                    "raw": "123"
-                  },
-                  "async": false,
-                  "generator": false,
-                  "typeParameters": null,
-                  "returnType": null
-                }
+                "type":"Identifier",
+                "loc":{"source":null,"start":{"line":3,"column":9},"end":{"line":3,"column":10}},
+                "range":[112,113],
+                "name":"x",
+                "typeAnnotation":null,
+                "optional":false
               }
             ],
-            "typeArguments": null
-          },
-          "definite": false
+            "body":{
+              "type":"Literal",
+              "loc":{"source":null,"start":{"line":3,"column":32},"end":{"line":3,"column":35}},
+              "range":[135,138],
+              "value":123,
+              "raw":"123"
+            },
+            "async":false,
+            "generator":false,
+            "predicate":null,
+            "expression":true,
+            "returnType":{
+              "type":"TypeAnnotation",
+              "loc":{"source":null,"start":{"line":3,"column":11},"end":{"line":3,"column":28}},
+              "range":[114,131],
+              "typeAnnotation":{
+                "type":"FunctionTypeAnnotation",
+                "loc":{"source":null,"start":{"line":3,"column":14},"end":{"line":3,"column":27}},
+                "range":[117,130],
+                "params":[
+                  {
+                    "type":"FunctionTypeParam",
+                    "loc":{"source":null,"start":{"line":3,"column":14},"end":{"line":3,"column":20}},
+                    "range":[117,123],
+                    "name":null,
+                    "typeAnnotation":{
+                      "type":"NumberTypeAnnotation",
+                      "loc":{"source":null,"start":{"line":3,"column":14},"end":{"line":3,"column":20}},
+                      "range":[117,123]
+                    },
+                    "optional":false
+                  }
+                ],
+                "returnType":{
+                  "type":"NumberLiteralTypeAnnotation",
+                  "loc":{"source":null,"start":{"line":3,"column":24},"end":{"line":3,"column":27}},
+                  "range":[127,130],
+                  "value":123,
+                  "raw":"123"
+                },
+                "rest":null,
+                "typeParameters":null
+              }
+            },
+            "typeParameters":null
+          }
         }
-      ]
+      ],
+      "kind":"var"
     }
   ],
-  "interpreter": null
+  "comments":[
+    {
+      "type":"Line",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":72}},
+      "range":[0,72],
+      "value":" You can write anonymous function types as arrow function return types"
+    },
+    {
+      "type":"Line",
+      "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":29}},
+      "range":[73,102],
+      "value":" if you wrap them in parens"
+    }
+  ]
 }

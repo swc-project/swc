@@ -1,48 +1,35 @@
 {
-  "type": "Script",
-  "span": {
-    "start": 1,
-    "end": 11,
-    "ctxt": 0
-  },
-  "body": [
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":10}},
+  "range":[0,10],
+  "body":[
     {
-      "type": "ExpressionStatement",
-      "span": {
-        "start": 1,
-        "end": 11,
-        "ctxt": 0
-      },
-      "expression": {
-        "type": "AssignmentExpression",
-        "span": {
-          "start": 1,
-          "end": 11,
-          "ctxt": 0
+      "type":"ExpressionStatement",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":10}},
+      "range":[0,10],
+      "expression":{
+        "type":"AssignmentExpression",
+        "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":10}},
+        "range":[0,10],
+        "operator":"&&=",
+        "left":{
+          "type":"Identifier",
+          "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":1}},
+          "range":[0,1],
+          "name":"b",
+          "typeAnnotation":null,
+          "optional":false
         },
-        "operator": "&&=",
-        "left": {
-          "type": "Identifier",
-          "span": {
-            "start": 1,
-            "end": 2,
-            "ctxt": 0
-          },
-          "value": "b",
-          "optional": false,
-          "typeAnnotation": null
-        },
-        "right": {
-          "type": "BooleanLiteral",
-          "span": {
-            "start": 7,
-            "end": 11,
-            "ctxt": 0
-          },
-          "value": true
+        "right":{
+          "type":"Literal",
+          "loc":{"source":null,"start":{"line":1,"column":6},"end":{"line":1,"column":10}},
+          "range":[6,10],
+          "value":true,
+          "raw":"true"
         }
-      }
+      },
+      "directive":null
     }
   ],
-  "interpreter": null
+  "comments":[]
 }

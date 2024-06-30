@@ -1,97 +1,67 @@
 {
-  "type": "Script",
-  "span": {
-    "start": 1,
-    "end": 19,
-    "ctxt": 0
-  },
-  "body": [
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":18}},
+  "range":[0,18],
+  "body":[
     {
-      "type": "ExpressionStatement",
-      "span": {
-        "start": 1,
-        "end": 19,
-        "ctxt": 0
+      "type":"ExpressionStatement",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":18}},
+      "range":[0,18],
+      "expression":{
+        "type":"CallExpression",
+        "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":18}},
+        "range":[0,18],
+        "callee":{
+          "type":"MemberExpression",
+          "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":8}},
+          "range":[0,8],
+          "object":{
+            "type":"Identifier",
+            "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":4}},
+            "range":[0,4],
+            "name":"Math",
+            "typeAnnotation":null,
+            "optional":false
+          },
+          "property":{
+            "type":"Identifier",
+            "loc":{"source":null,"start":{"line":1,"column":5},"end":{"line":1,"column":8}},
+            "range":[5,8],
+            "name":"max",
+            "typeAnnotation":null,
+            "optional":false
+          },
+          "computed":false
+        },
+        "arguments":[
+          {
+            "type":"Identifier",
+            "loc":{"source":null,"start":{"line":1,"column":9},"end":{"line":1,"column":10}},
+            "range":[9,10],
+            "name":"a",
+            "typeAnnotation":null,
+            "optional":false
+          },
+          {
+            "type":"Identifier",
+            "loc":{"source":null,"start":{"line":1,"column":12},"end":{"line":1,"column":13}},
+            "range":[12,13],
+            "name":"b",
+            "typeAnnotation":null,
+            "optional":false
+          },
+          {
+            "type":"Identifier",
+            "loc":{"source":null,"start":{"line":1,"column":15},"end":{"line":1,"column":16}},
+            "range":[15,16],
+            "name":"c",
+            "typeAnnotation":null,
+            "optional":false
+          }
+        ]
       },
-      "expression": {
-        "type": "CallExpression",
-        "span": {
-          "start": 1,
-          "end": 19,
-          "ctxt": 0
-        },
-        "callee": {
-          "type": "MemberExpression",
-          "span": {
-            "start": 1,
-            "end": 9,
-            "ctxt": 0
-          },
-          "object": {
-            "type": "Identifier",
-            "span": {
-              "start": 1,
-              "end": 5,
-              "ctxt": 0
-            },
-            "value": "Math",
-            "optional": false
-          },
-          "property": {
-            "type": "Identifier",
-            "span": {
-              "start": 6,
-              "end": 9,
-              "ctxt": 0
-            },
-            "value": "max",
-            "optional": false
-          }
-        },
-        "arguments": [
-          {
-            "spread": null,
-            "expression": {
-              "type": "Identifier",
-              "span": {
-                "start": 10,
-                "end": 11,
-                "ctxt": 0
-              },
-              "value": "a",
-              "optional": false
-            }
-          },
-          {
-            "spread": null,
-            "expression": {
-              "type": "Identifier",
-              "span": {
-                "start": 13,
-                "end": 14,
-                "ctxt": 0
-              },
-              "value": "b",
-              "optional": false
-            }
-          },
-          {
-            "spread": null,
-            "expression": {
-              "type": "Identifier",
-              "span": {
-                "start": 16,
-                "end": 17,
-                "ctxt": 0
-              },
-              "value": "c",
-              "optional": false
-            }
-          }
-        ],
-        "typeArguments": null
-      }
+      "directive":null
     }
   ],
-  "interpreter": null
+  "comments":[]
 }

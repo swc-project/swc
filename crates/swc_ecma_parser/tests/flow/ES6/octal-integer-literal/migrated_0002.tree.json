@@ -1,82 +1,61 @@
 {
-  "type": "Script",
-  "span": {
-    "start": 1,
-    "end": 38,
-    "ctxt": 0
-  },
-  "body": [
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":37}},
+  "range":[0,37],
+  "body":[
     {
-      "type": "FunctionDeclaration",
-      "identifier": {
-        "type": "Identifier",
-        "span": {
-          "start": 10,
-          "end": 14,
-          "ctxt": 0
-        },
-        "value": "test",
-        "optional": false
+      "type":"FunctionDeclaration",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":37}},
+      "range":[0,37],
+      "id":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":1,"column":9},"end":{"line":1,"column":13}},
+        "range":[9,13],
+        "name":"test",
+        "typeAnnotation":null,
+        "optional":false
       },
-      "declare": false,
-      "params": [],
-      "decorators": [],
-      "span": {
-        "start": 1,
-        "end": 38,
-        "ctxt": 0
-      },
-      "body": {
-        "type": "BlockStatement",
-        "span": {
-          "start": 17,
-          "end": 38,
-          "ctxt": 0
-        },
-        "stmts": [
+      "params":[],
+      "body":{
+        "type":"BlockStatement",
+        "loc":{"source":null,"start":{"line":1,"column":16},"end":{"line":1,"column":37}},
+        "range":[16,37],
+        "body":[
           {
-            "type": "ExpressionStatement",
-            "span": {
-              "start": 18,
-              "end": 31,
-              "ctxt": 0
+            "type":"ExpressionStatement",
+            "loc":{"source":null,"start":{"line":1,"column":17},"end":{"line":1,"column":30}},
+            "range":[17,30],
+            "expression":{
+              "type":"Literal",
+              "loc":{"source":null,"start":{"line":1,"column":17},"end":{"line":1,"column":29}},
+              "range":[17,29],
+              "value":"use strict",
+              "raw":"'use strict'"
             },
-            "expression": {
-              "type": "StringLiteral",
-              "span": {
-                "start": 18,
-                "end": 30,
-                "ctxt": 0
-              },
-              "value": "use strict",
-              "raw": "'use strict'"
-            }
+            "directive":"use strict"
           },
           {
-            "type": "ExpressionStatement",
-            "span": {
-              "start": 32,
-              "end": 36,
-              "ctxt": 0
+            "type":"ExpressionStatement",
+            "loc":{"source":null,"start":{"line":1,"column":31},"end":{"line":1,"column":35}},
+            "range":[31,35],
+            "expression":{
+              "type":"Literal",
+              "loc":{"source":null,"start":{"line":1,"column":31},"end":{"line":1,"column":34}},
+              "range":[31,34],
+              "value":0,
+              "raw":"0O0"
             },
-            "expression": {
-              "type": "NumericLiteral",
-              "span": {
-                "start": 32,
-                "end": 35,
-                "ctxt": 0
-              },
-              "value": 0.0,
-              "raw": "0O0"
-            }
+            "directive":null
           }
         ]
       },
-      "generator": false,
-      "async": false,
-      "typeParameters": null,
-      "returnType": null
+      "async":false,
+      "generator":false,
+      "predicate":null,
+      "expression":false,
+      "returnType":null,
+      "typeParameters":null
     }
   ],
-  "interpreter": null
+  "comments":[]
 }

@@ -1,409 +1,519 @@
 {
-  "type": "Script",
-  "span": {
-    "start": 23,
-    "end": 397,
-    "ctxt": 0
-  },
-  "body": [
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":3,"column":18},"end":{"line":14,"column":1}},
+  "range":[110,396],
+  "body":[
     {
-      "type": "ClassDeclaration",
-      "identifier": {
-        "type": "Identifier",
-        "span": {
-          "start": 117,
-          "end": 118,
-          "ctxt": 0
-        },
-        "value": "C",
-        "optional": false
-      },
-      "declare": false,
-      "span": {
-        "start": 23,
-        "end": 121,
-        "ctxt": 0
-      },
-      "decorators": [
+      "type":"ClassDeclaration",
+      "leadingComments":[
         {
-          "type": "Decorator",
-          "span": {
-            "start": 23,
-            "end": 29,
-            "ctxt": 0
-          },
-          "expression": {
-            "type": "CallExpression",
-            "span": {
-              "start": 24,
-              "end": 29,
-              "ctxt": 0
-            },
-            "callee": {
-              "type": "Identifier",
-              "span": {
-                "start": 24,
-                "end": 27,
-                "ctxt": 0
-              },
-              "value": "foo",
-              "optional": false
-            },
-            "arguments": [],
-            "typeArguments": null
-          }
-        },
-        {
-          "type": "Decorator",
-          "span": {
-            "start": 69,
-            "end": 75,
-            "ctxt": 0
-          },
-          "expression": {
-            "type": "CallExpression",
-            "span": {
-              "start": 70,
-              "end": 75,
-              "ctxt": 0
-            },
-            "callee": {
-              "type": "Identifier",
-              "span": {
-                "start": 70,
-                "end": 73,
-                "ctxt": 0
-              },
-              "value": "bar",
-              "optional": false
-            },
-            "arguments": [],
-            "typeArguments": null
-          }
+          "type":"Block",
+          "loc":{"source":null,"start":{"line":3,"column":0},"end":{"line":3,"column":17}},
+          "range":[92,109],
+          "value":" 1.5 L class "
         }
       ],
-      "body": [],
-      "superClass": null,
-      "isAbstract": false,
-      "typeParams": null,
-      "superTypeParams": null,
-      "implements": []
-    },
-    {
-      "type": "ClassDeclaration",
-      "identifier": {
-        "type": "Identifier",
-        "span": {
-          "start": 205,
-          "end": 206,
-          "ctxt": 0
-        },
-        "value": "C",
-        "optional": false
+      "loc":{"source":null,"start":{"line":3,"column":18},"end":{"line":3,"column":28}},
+      "range":[110,120],
+      "id":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":3,"column":24},"end":{"line":3,"column":25}},
+        "range":[116,117],
+        "name":"C",
+        "typeAnnotation":null,
+        "optional":false
       },
-      "declare": false,
-      "span": {
-        "start": 145,
-        "end": 209,
-        "ctxt": 0
+      "body":{
+        "type":"ClassBody",
+        "loc":{"source":null,"start":{"line":3,"column":26},"end":{"line":3,"column":28}},
+        "range":[118,120],
+        "body":[]
       },
-      "decorators": [
+      "typeParameters":null,
+      "superClass":null,
+      "superTypeParameters":null,
+      "implements":[],
+      "decorators":[
         {
-          "type": "Decorator",
-          "span": {
-            "start": 145,
-            "end": 151,
-            "ctxt": 0
-          },
-          "expression": {
-            "type": "CallExpression",
-            "span": {
-              "start": 146,
-              "end": 151,
-              "ctxt": 0
-            },
-            "callee": {
-              "type": "Identifier",
-              "span": {
-                "start": 146,
-                "end": 149,
-                "ctxt": 0
-              },
-              "value": "foo",
-              "optional": false
-            },
-            "arguments": [],
-            "typeArguments": null
-          }
-        },
-        {
-          "type": "Decorator",
-          "span": {
-            "start": 174,
-            "end": 180,
-            "ctxt": 0
-          },
-          "expression": {
-            "type": "CallExpression",
-            "span": {
-              "start": 175,
-              "end": 180,
-              "ctxt": 0
-            },
-            "callee": {
-              "type": "Identifier",
-              "span": {
-                "start": 175,
-                "end": 178,
-                "ctxt": 0
-              },
-              "value": "bar",
-              "optional": false
-            },
-            "arguments": [],
-            "typeArguments": null
-          }
-        }
-      ],
-      "body": [],
-      "superClass": null,
-      "isAbstract": false,
-      "typeParams": null,
-      "superTypeParams": null,
-      "implements": []
-    },
-    {
-      "type": "ClassDeclaration",
-      "identifier": {
-        "type": "Identifier",
-        "span": {
-          "start": 217,
-          "end": 218,
-          "ctxt": 0
-        },
-        "value": "C",
-        "optional": false
-      },
-      "declare": false,
-      "span": {
-        "start": 211,
-        "end": 298,
-        "ctxt": 0
-      },
-      "decorators": [],
-      "body": [
-        {
-          "type": "ClassMethod",
-          "span": {
-            "start": 245,
-            "end": 296,
-            "ctxt": 0
-          },
-          "key": {
-            "type": "Identifier",
-            "span": {
-              "start": 286,
-              "end": 292,
-              "ctxt": 0
-            },
-            "value": "method",
-            "optional": false
-          },
-          "function": {
-            "params": [],
-            "decorators": [
+          "type":"Decorator",
+          "leadingComments":[
+            {
+              "type":"Block",
+              "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":21}},
+              "range":[0,21],
+              "value":" 1.1 L decorator "
+            }
+          ],
+          "loc":{"source":null,"start":{"line":1,"column":22},"end":{"line":1,"column":28}},
+          "range":[22,28],
+          "expression":{
+            "type":"CallExpression",
+            "trailingComments":[
               {
-                "type": "Decorator",
-                "span": {
-                  "start": 245,
-                  "end": 251,
-                  "ctxt": 0
-                },
-                "expression": {
-                  "type": "CallExpression",
-                  "span": {
-                    "start": 246,
-                    "end": 251,
-                    "ctxt": 0
-                  },
-                  "callee": {
-                    "type": "Identifier",
-                    "span": {
-                      "start": 246,
-                      "end": 249,
-                      "ctxt": 0
-                    },
-                    "value": "foo",
-                    "optional": false
-                  },
-                  "arguments": [],
-                  "typeArguments": null
-                }
+                "type":"Block",
+                "loc":{"source":null,"start":{"line":1,"column":29},"end":{"line":1,"column":45}},
+                "range":[29,45],
+                "value":" 1.2 T args "
               }
             ],
-            "span": {
-              "start": 245,
-              "end": 296,
-              "ctxt": 0
+            "loc":{"source":null,"start":{"line":1,"column":23},"end":{"line":1,"column":28}},
+            "range":[23,28],
+            "callee":{
+              "type":"Identifier",
+              "loc":{"source":null,"start":{"line":1,"column":23},"end":{"line":1,"column":26}},
+              "range":[23,26],
+              "name":"foo",
+              "typeAnnotation":null,
+              "optional":false
             },
-            "body": {
-              "type": "BlockStatement",
-              "span": {
-                "start": 294,
-                "end": 296,
-                "ctxt": 0
-              },
-              "stmts": []
-            },
-            "generator": false,
-            "async": false,
-            "typeParameters": null,
-            "returnType": null
-          },
-          "kind": "method",
-          "isStatic": false,
-          "accessibility": null,
-          "isAbstract": false,
-          "isOptional": false,
-          "isOverride": false
-        }
-      ],
-      "superClass": null,
-      "isAbstract": false,
-      "typeParams": null,
-      "superTypeParams": null,
-      "implements": []
-    },
-    {
-      "type": "ClassDeclaration",
-      "identifier": {
-        "type": "Identifier",
-        "span": {
-          "start": 306,
-          "end": 307,
-          "ctxt": 0
+            "typeArguments":null,
+            "arguments":[]
+          }
         },
-        "value": "C",
-        "optional": false
-      },
-      "declare": false,
-      "span": {
-        "start": 300,
-        "end": 397,
-        "ctxt": 0
-      },
-      "decorators": [],
-      "body": [
         {
-          "type": "ClassMethod",
-          "span": {
-            "start": 334,
-            "end": 395,
-            "ctxt": 0
-          },
-          "key": {
-            "type": "Identifier",
-            "span": {
-              "start": 385,
-              "end": 391,
-              "ctxt": 0
-            },
-            "value": "method",
-            "optional": false
-          },
-          "function": {
-            "params": [],
-            "decorators": [
+          "type":"Decorator",
+          "leadingComments":[
+            {
+              "type":"Block",
+              "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":21}},
+              "range":[46,67],
+              "value":" 1.3 L decorator "
+            }
+          ],
+          "loc":{"source":null,"start":{"line":2,"column":22},"end":{"line":2,"column":28}},
+          "range":[68,74],
+          "expression":{
+            "type":"CallExpression",
+            "trailingComments":[
               {
-                "type": "Decorator",
-                "span": {
-                  "start": 334,
-                  "end": 340,
-                  "ctxt": 0
-                },
-                "expression": {
-                  "type": "CallExpression",
-                  "span": {
-                    "start": 335,
-                    "end": 340,
-                    "ctxt": 0
-                  },
-                  "callee": {
-                    "type": "Identifier",
-                    "span": {
-                      "start": 335,
-                      "end": 338,
-                      "ctxt": 0
-                    },
-                    "value": "foo",
-                    "optional": false
-                  },
-                  "arguments": [],
-                  "typeArguments": null
-                }
-              },
-              {
-                "type": "Decorator",
-                "span": {
-                  "start": 363,
-                  "end": 369,
-                  "ctxt": 0
-                },
-                "expression": {
-                  "type": "CallExpression",
-                  "span": {
-                    "start": 364,
-                    "end": 369,
-                    "ctxt": 0
-                  },
-                  "callee": {
-                    "type": "Identifier",
-                    "span": {
-                      "start": 364,
-                      "end": 367,
-                      "ctxt": 0
-                    },
-                    "value": "bar",
-                    "optional": false
-                  },
-                  "arguments": [],
-                  "typeArguments": null
-                }
+                "type":"Block",
+                "loc":{"source":null,"start":{"line":2,"column":29},"end":{"line":2,"column":45}},
+                "range":[75,91],
+                "value":" 1.4 T args "
               }
             ],
-            "span": {
-              "start": 334,
-              "end": 395,
-              "ctxt": 0
+            "loc":{"source":null,"start":{"line":2,"column":23},"end":{"line":2,"column":28}},
+            "range":[69,74],
+            "callee":{
+              "type":"Identifier",
+              "loc":{"source":null,"start":{"line":2,"column":23},"end":{"line":2,"column":26}},
+              "range":[69,72],
+              "name":"bar",
+              "typeAnnotation":null,
+              "optional":false
             },
-            "body": {
-              "type": "BlockStatement",
-              "span": {
-                "start": 393,
-                "end": 395,
-                "ctxt": 0
-              },
-              "stmts": []
-            },
-            "generator": false,
-            "async": false,
-            "typeParameters": null,
-            "returnType": null
-          },
-          "kind": "method",
-          "isStatic": false,
-          "accessibility": null,
-          "isAbstract": false,
-          "isOptional": false,
-          "isOverride": false
+            "typeArguments":null,
+            "arguments":[]
+          }
+        }
+      ]
+    },
+    {
+      "type":"ClassDeclaration",
+      "leadingComments":[
+        {
+          "type":"Block",
+          "loc":{"source":null,"start":{"line":5,"column":58},"end":{"line":5,"column":75}},
+          "range":[180,197],
+          "value":" 2.3 L class "
         }
       ],
-      "superClass": null,
-      "isAbstract": false,
-      "typeParams": null,
-      "superTypeParams": null,
-      "implements": []
+      "loc":{"source":null,"start":{"line":5,"column":76},"end":{"line":5,"column":86}},
+      "range":[198,208],
+      "id":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":5,"column":82},"end":{"line":5,"column":83}},
+        "range":[204,205],
+        "name":"C",
+        "typeAnnotation":null,
+        "optional":false
+      },
+      "body":{
+        "type":"ClassBody",
+        "loc":{"source":null,"start":{"line":5,"column":84},"end":{"line":5,"column":86}},
+        "range":[206,208],
+        "body":[]
+      },
+      "typeParameters":null,
+      "superClass":null,
+      "superTypeParameters":null,
+      "implements":[],
+      "decorators":[
+        {
+          "type":"Decorator",
+          "leadingComments":[
+            {
+              "type":"Block",
+              "loc":{"source":null,"start":{"line":5,"column":0},"end":{"line":5,"column":21}},
+              "range":[122,143],
+              "value":" 2.1 L decorator "
+            }
+          ],
+          "loc":{"source":null,"start":{"line":5,"column":22},"end":{"line":5,"column":28}},
+          "range":[144,150],
+          "expression":{
+            "type":"CallExpression",
+            "loc":{"source":null,"start":{"line":5,"column":23},"end":{"line":5,"column":28}},
+            "range":[145,150],
+            "callee":{
+              "type":"Identifier",
+              "loc":{"source":null,"start":{"line":5,"column":23},"end":{"line":5,"column":26}},
+              "range":[145,148],
+              "name":"foo",
+              "typeAnnotation":null,
+              "optional":false
+            },
+            "typeArguments":null,
+            "arguments":[]
+          }
+        },
+        {
+          "type":"Decorator",
+          "leadingComments":[
+            {
+              "type":"Block",
+              "loc":{"source":null,"start":{"line":5,"column":29},"end":{"line":5,"column":50}},
+              "range":[151,172],
+              "value":" 2.2 L decorator "
+            }
+          ],
+          "loc":{"source":null,"start":{"line":5,"column":51},"end":{"line":5,"column":57}},
+          "range":[173,179],
+          "expression":{
+            "type":"CallExpression",
+            "loc":{"source":null,"start":{"line":5,"column":52},"end":{"line":5,"column":57}},
+            "range":[174,179],
+            "callee":{
+              "type":"Identifier",
+              "loc":{"source":null,"start":{"line":5,"column":52},"end":{"line":5,"column":55}},
+              "range":[174,177],
+              "name":"bar",
+              "typeAnnotation":null,
+              "optional":false
+            },
+            "typeArguments":null,
+            "arguments":[]
+          }
+        }
+      ]
+    },
+    {
+      "type":"ClassDeclaration",
+      "loc":{"source":null,"start":{"line":7,"column":0},"end":{"line":10,"column":1}},
+      "range":[210,297],
+      "id":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":7,"column":6},"end":{"line":7,"column":7}},
+        "range":[216,217],
+        "name":"C",
+        "typeAnnotation":null,
+        "optional":false
+      },
+      "body":{
+        "type":"ClassBody",
+        "loc":{"source":null,"start":{"line":7,"column":8},"end":{"line":10,"column":1}},
+        "range":[218,297],
+        "body":[
+          {
+            "type":"MethodDefinition",
+            "loc":{"source":null,"start":{"line":8,"column":24},"end":{"line":9,"column":27}},
+            "range":[244,295],
+            "key":{
+              "type":"Identifier",
+              "leadingComments":[
+                {
+                  "type":"Block",
+                  "loc":{"source":null,"start":{"line":9,"column":2},"end":{"line":9,"column":16}},
+                  "range":[270,284],
+                  "value":" 3.3 L id "
+                }
+              ],
+              "loc":{"source":null,"start":{"line":9,"column":17},"end":{"line":9,"column":23}},
+              "range":[285,291],
+              "name":"method",
+              "typeAnnotation":null,
+              "optional":false
+            },
+            "value":{
+              "type":"FunctionExpression",
+              "loc":{"source":null,"start":{"line":9,"column":23},"end":{"line":9,"column":27}},
+              "range":[291,295],
+              "id":null,
+              "params":[],
+              "body":{
+                "type":"BlockStatement",
+                "loc":{"source":null,"start":{"line":9,"column":25},"end":{"line":9,"column":27}},
+                "range":[293,295],
+                "body":[]
+              },
+              "async":false,
+              "generator":false,
+              "predicate":null,
+              "expression":false,
+              "returnType":null,
+              "typeParameters":null
+            },
+            "kind":"method",
+            "static":false,
+            "computed":false,
+            "decorators":[
+              {
+                "type":"Decorator",
+                "leadingComments":[
+                  {
+                    "type":"Block",
+                    "loc":{"source":null,"start":{"line":8,"column":2},"end":{"line":8,"column":23}},
+                    "range":[222,243],
+                    "value":" 3.1 L decorator "
+                  }
+                ],
+                "loc":{"source":null,"start":{"line":8,"column":24},"end":{"line":8,"column":30}},
+                "range":[244,250],
+                "expression":{
+                  "type":"CallExpression",
+                  "trailingComments":[
+                    {
+                      "type":"Block",
+                      "loc":{"source":null,"start":{"line":8,"column":31},"end":{"line":8,"column":47}},
+                      "range":[251,267],
+                      "value":" 3.2 T args "
+                    }
+                  ],
+                  "loc":{"source":null,"start":{"line":8,"column":25},"end":{"line":8,"column":30}},
+                  "range":[245,250],
+                  "callee":{
+                    "type":"Identifier",
+                    "loc":{"source":null,"start":{"line":8,"column":25},"end":{"line":8,"column":28}},
+                    "range":[245,248],
+                    "name":"foo",
+                    "typeAnnotation":null,
+                    "optional":false
+                  },
+                  "typeArguments":null,
+                  "arguments":[]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "typeParameters":null,
+      "superClass":null,
+      "superTypeParameters":null,
+      "implements":[],
+      "decorators":[]
+    },
+    {
+      "type":"ClassDeclaration",
+      "loc":{"source":null,"start":{"line":12,"column":0},"end":{"line":14,"column":1}},
+      "range":[299,396],
+      "id":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":12,"column":6},"end":{"line":12,"column":7}},
+        "range":[305,306],
+        "name":"C",
+        "typeAnnotation":null,
+        "optional":false
+      },
+      "body":{
+        "type":"ClassBody",
+        "loc":{"source":null,"start":{"line":12,"column":8},"end":{"line":14,"column":1}},
+        "range":[307,396],
+        "body":[
+          {
+            "type":"MethodDefinition",
+            "loc":{"source":null,"start":{"line":13,"column":24},"end":{"line":13,"column":85}},
+            "range":[333,394],
+            "key":{
+              "type":"Identifier",
+              "leadingComments":[
+                {
+                  "type":"Block",
+                  "loc":{"source":null,"start":{"line":13,"column":60},"end":{"line":13,"column":74}},
+                  "range":[369,383],
+                  "value":" 4.3 L id "
+                }
+              ],
+              "loc":{"source":null,"start":{"line":13,"column":75},"end":{"line":13,"column":81}},
+              "range":[384,390],
+              "name":"method",
+              "typeAnnotation":null,
+              "optional":false
+            },
+            "value":{
+              "type":"FunctionExpression",
+              "loc":{"source":null,"start":{"line":13,"column":81},"end":{"line":13,"column":85}},
+              "range":[390,394],
+              "id":null,
+              "params":[],
+              "body":{
+                "type":"BlockStatement",
+                "loc":{"source":null,"start":{"line":13,"column":83},"end":{"line":13,"column":85}},
+                "range":[392,394],
+                "body":[]
+              },
+              "async":false,
+              "generator":false,
+              "predicate":null,
+              "expression":false,
+              "returnType":null,
+              "typeParameters":null
+            },
+            "kind":"method",
+            "static":false,
+            "computed":false,
+            "decorators":[
+              {
+                "type":"Decorator",
+                "leadingComments":[
+                  {
+                    "type":"Block",
+                    "loc":{"source":null,"start":{"line":13,"column":2},"end":{"line":13,"column":23}},
+                    "range":[311,332],
+                    "value":" 4.1 L decorator "
+                  }
+                ],
+                "loc":{"source":null,"start":{"line":13,"column":24},"end":{"line":13,"column":30}},
+                "range":[333,339],
+                "expression":{
+                  "type":"CallExpression",
+                  "loc":{"source":null,"start":{"line":13,"column":25},"end":{"line":13,"column":30}},
+                  "range":[334,339],
+                  "callee":{
+                    "type":"Identifier",
+                    "loc":{"source":null,"start":{"line":13,"column":25},"end":{"line":13,"column":28}},
+                    "range":[334,337],
+                    "name":"foo",
+                    "typeAnnotation":null,
+                    "optional":false
+                  },
+                  "typeArguments":null,
+                  "arguments":[]
+                }
+              },
+              {
+                "type":"Decorator",
+                "leadingComments":[
+                  {
+                    "type":"Block",
+                    "loc":{"source":null,"start":{"line":13,"column":31},"end":{"line":13,"column":52}},
+                    "range":[340,361],
+                    "value":" 4.2 L decorator "
+                  }
+                ],
+                "loc":{"source":null,"start":{"line":13,"column":53},"end":{"line":13,"column":59}},
+                "range":[362,368],
+                "expression":{
+                  "type":"CallExpression",
+                  "loc":{"source":null,"start":{"line":13,"column":54},"end":{"line":13,"column":59}},
+                  "range":[363,368],
+                  "callee":{
+                    "type":"Identifier",
+                    "loc":{"source":null,"start":{"line":13,"column":54},"end":{"line":13,"column":57}},
+                    "range":[363,366],
+                    "name":"bar",
+                    "typeAnnotation":null,
+                    "optional":false
+                  },
+                  "typeArguments":null,
+                  "arguments":[]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "typeParameters":null,
+      "superClass":null,
+      "superTypeParameters":null,
+      "implements":[],
+      "decorators":[]
     }
   ],
-  "interpreter": null
+  "comments":[
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":21}},
+      "range":[0,21],
+      "value":" 1.1 L decorator "
+    },
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":1,"column":29},"end":{"line":1,"column":45}},
+      "range":[29,45],
+      "value":" 1.2 T args "
+    },
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":21}},
+      "range":[46,67],
+      "value":" 1.3 L decorator "
+    },
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":2,"column":29},"end":{"line":2,"column":45}},
+      "range":[75,91],
+      "value":" 1.4 T args "
+    },
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":3,"column":0},"end":{"line":3,"column":17}},
+      "range":[92,109],
+      "value":" 1.5 L class "
+    },
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":5,"column":0},"end":{"line":5,"column":21}},
+      "range":[122,143],
+      "value":" 2.1 L decorator "
+    },
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":5,"column":29},"end":{"line":5,"column":50}},
+      "range":[151,172],
+      "value":" 2.2 L decorator "
+    },
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":5,"column":58},"end":{"line":5,"column":75}},
+      "range":[180,197],
+      "value":" 2.3 L class "
+    },
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":8,"column":2},"end":{"line":8,"column":23}},
+      "range":[222,243],
+      "value":" 3.1 L decorator "
+    },
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":8,"column":31},"end":{"line":8,"column":47}},
+      "range":[251,267],
+      "value":" 3.2 T args "
+    },
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":9,"column":2},"end":{"line":9,"column":16}},
+      "range":[270,284],
+      "value":" 3.3 L id "
+    },
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":13,"column":2},"end":{"line":13,"column":23}},
+      "range":[311,332],
+      "value":" 4.1 L decorator "
+    },
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":13,"column":31},"end":{"line":13,"column":52}},
+      "range":[340,361],
+      "value":" 4.2 L decorator "
+    },
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":13,"column":60},"end":{"line":13,"column":74}},
+      "range":[369,383],
+      "value":" 4.3 L id "
+    }
+  ]
 }

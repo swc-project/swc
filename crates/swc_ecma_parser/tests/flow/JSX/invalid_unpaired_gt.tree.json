@@ -1,86 +1,58 @@
 {
-  "type": "Script",
-  "span": {
-    "start": 1,
-    "end": 15,
-    "ctxt": 0
-  },
-  "body": [
+  "errors":[
     {
-      "type": "ExpressionStatement",
-      "span": {
-        "start": 1,
-        "end": 15,
-        "ctxt": 0
-      },
-      "expression": {
-        "type": "ParenthesisExpression",
-        "span": {
-          "start": 1,
-          "end": 15,
-          "ctxt": 0
-        },
-        "expression": {
-          "type": "JSXElement",
-          "span": {
-            "start": 2,
-            "end": 14,
-            "ctxt": 0
-          },
-          "opening": {
-            "type": "JSXOpeningElement",
-            "name": {
-              "type": "Identifier",
-              "span": {
-                "start": 3,
-                "end": 6,
-                "ctxt": 0
-              },
-              "value": "foo",
-              "optional": false
-            },
-            "span": {
-              "start": 2,
-              "end": 7,
-              "ctxt": 0
-            },
-            "attributes": [],
-            "selfClosing": false,
-            "typeArguments": null
-          },
-          "children": [
-            {
-              "type": "JSXText",
-              "span": {
-                "start": 7,
-                "end": 8,
-                "ctxt": 0
-              },
-              "value": ">",
-              "raw": ">"
-            }
-          ],
-          "closing": {
-            "type": "JSXClosingElement",
-            "span": {
-              "start": 8,
-              "end": 14,
-              "ctxt": 0
-            },
-            "name": {
-              "type": "Identifier",
-              "span": {
-                "start": 10,
-                "end": 13,
-                "ctxt": 0
-              },
-              "value": "foo",
-              "optional": false
-            }
-          }
-        }
-      }
+      "loc":{"source":null,"start":{"line":1,"column":6},"end":{"line":1,"column":7}},
+      "message":"Unexpected token `>`. Did you mean `{'>'}`?"
     }
   ],
-  "interpreter": null
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":14}},
+  "range":[0,14],
+  "body":[
+    {
+      "type":"ExpressionStatement",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":14}},
+      "range":[0,14],
+      "expression":{
+        "type":"JSXElement",
+        "loc":{"source":null,"start":{"line":1,"column":1},"end":{"line":1,"column":13}},
+        "range":[1,13],
+        "openingElement":{
+          "type":"JSXOpeningElement",
+          "loc":{"source":null,"start":{"line":1,"column":1},"end":{"line":1,"column":6}},
+          "range":[1,6],
+          "name":{
+            "type":"JSXIdentifier",
+            "loc":{"source":null,"start":{"line":1,"column":2},"end":{"line":1,"column":5}},
+            "range":[2,5],
+            "name":"foo"
+          },
+          "attributes":[],
+          "selfClosing":false
+        },
+        "closingElement":{
+          "type":"JSXClosingElement",
+          "loc":{"source":null,"start":{"line":1,"column":7},"end":{"line":1,"column":13}},
+          "range":[7,13],
+          "name":{
+            "type":"JSXIdentifier",
+            "loc":{"source":null,"start":{"line":1,"column":9},"end":{"line":1,"column":12}},
+            "range":[9,12],
+            "name":"foo"
+          }
+        },
+        "children":[
+          {
+            "type":"JSXText",
+            "loc":{"source":null,"start":{"line":1,"column":6},"end":{"line":1,"column":7}},
+            "range":[6,7],
+            "value":"",
+            "raw":""
+          }
+        ]
+      },
+      "directive":null
+    }
+  ],
+  "comments":[]
 }

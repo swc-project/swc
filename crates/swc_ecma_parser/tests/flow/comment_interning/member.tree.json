@@ -1,457 +1,652 @@
 {
-  "type": "Script",
-  "span": {
-    "start": 1,
-    "end": 597,
-    "ctxt": 0
-  },
-  "body": [
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":20,"column":1}},
+  "range":[0,596],
+  "body":[
     {
-      "type": "VariableDeclaration",
-      "span": {
-        "start": 1,
-        "end": 18,
-        "ctxt": 0
-      },
-      "kind": "const",
-      "declare": false,
-      "declarations": [
+      "type":"VariableDeclaration",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":17}},
+      "range":[0,17],
+      "declarations":[
         {
-          "type": "VariableDeclarator",
-          "span": {
-            "start": 7,
-            "end": 17,
-            "ctxt": 0
+          "type":"VariableDeclarator",
+          "loc":{"source":null,"start":{"line":1,"column":6},"end":{"line":1,"column":16}},
+          "range":[6,16],
+          "id":{
+            "type":"Identifier",
+            "loc":{"source":null,"start":{"line":1,"column":6},"end":{"line":1,"column":7}},
+            "range":[6,7],
+            "name":"x",
+            "typeAnnotation":null,
+            "optional":false
           },
-          "id": {
-            "type": "Identifier",
-            "span": {
-              "start": 7,
-              "end": 8,
-              "ctxt": 0
-            },
-            "value": "x",
-            "optional": false,
-            "typeAnnotation": null
-          },
-          "init": {
-            "type": "ObjectExpression",
-            "span": {
-              "start": 11,
-              "end": 17,
-              "ctxt": 0
-            },
-            "properties": [
+          "init":{
+            "type":"ObjectExpression",
+            "loc":{"source":null,"start":{"line":1,"column":10},"end":{"line":1,"column":16}},
+            "range":[10,16],
+            "properties":[
               {
-                "type": "KeyValueProperty",
-                "key": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 12,
-                    "end": 13,
-                    "ctxt": 0
-                  },
-                  "value": "y",
-                  "optional": false
+                "type":"Property",
+                "loc":{"source":null,"start":{"line":1,"column":11},"end":{"line":1,"column":15}},
+                "range":[11,15],
+                "key":{
+                  "type":"Identifier",
+                  "loc":{"source":null,"start":{"line":1,"column":11},"end":{"line":1,"column":12}},
+                  "range":[11,12],
+                  "name":"y",
+                  "typeAnnotation":null,
+                  "optional":false
                 },
-                "value": {
-                  "type": "NumericLiteral",
-                  "span": {
-                    "start": 15,
-                    "end": 16,
-                    "ctxt": 0
-                  },
-                  "value": 0.0,
-                  "raw": "0"
-                }
+                "value":{
+                  "type":"Literal",
+                  "loc":{"source":null,"start":{"line":1,"column":14},"end":{"line":1,"column":15}},
+                  "range":[14,15],
+                  "value":0,
+                  "raw":"0"
+                },
+                "kind":"init",
+                "method":false,
+                "shorthand":false,
+                "computed":false
               }
             ]
-          },
-          "definite": false
-        }
-      ]
-    },
-    {
-      "type": "FunctionDeclaration",
-      "identifier": {
-        "type": "Identifier",
-        "span": {
-          "start": 29,
-          "end": 51,
-          "ctxt": 0
-        },
-        "value": "staticMemberExpression",
-        "optional": false
-      },
-      "declare": false,
-      "params": [],
-      "decorators": [],
-      "span": {
-        "start": 20,
-        "end": 204,
-        "ctxt": 0
-      },
-      "body": {
-        "type": "BlockStatement",
-        "span": {
-          "start": 54,
-          "end": 204,
-          "ctxt": 0
-        },
-        "stmts": [
-          {
-            "type": "ExpressionStatement",
-            "span": {
-              "start": 73,
-              "end": 124,
-              "ctxt": 0
-            },
-            "expression": {
-              "type": "MemberExpression",
-              "span": {
-                "start": 73,
-                "end": 108,
-                "ctxt": 0
-              },
-              "object": {
-                "type": "Identifier",
-                "span": {
-                  "start": 73,
-                  "end": 74,
-                  "ctxt": 0
-                },
-                "value": "x",
-                "optional": false
-              },
-              "property": {
-                "type": "Identifier",
-                "span": {
-                  "start": 107,
-                  "end": 108,
-                  "ctxt": 0
-                },
-                "value": "y",
-                "optional": false
-              }
-            }
-          },
-          {
-            "type": "ExpressionStatement",
-            "span": {
-              "start": 147,
-              "end": 202,
-              "ctxt": 0
-            },
-            "expression": {
-              "type": "ParenthesisExpression",
-              "span": {
-                "start": 147,
-                "end": 182,
-                "ctxt": 0
-              },
-              "expression": {
-                "type": "MemberExpression",
-                "span": {
-                  "start": 163,
-                  "end": 166,
-                  "ctxt": 0
-                },
-                "object": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 163,
-                    "end": 164,
-                    "ctxt": 0
-                  },
-                  "value": "x",
-                  "optional": false
-                },
-                "property": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 165,
-                    "end": 166,
-                    "ctxt": 0
-                  },
-                  "value": "y",
-                  "optional": false
-                }
-              }
-            }
           }
-        ]
-      },
-      "generator": false,
-      "async": false,
-      "typeParameters": null,
-      "returnType": null
-    },
-    {
-      "type": "FunctionDeclaration",
-      "identifier": {
-        "type": "Identifier",
-        "span": {
-          "start": 215,
-          "end": 238,
-          "ctxt": 0
-        },
-        "value": "dynamicMemberExpression",
-        "optional": false
-      },
-      "declare": false,
-      "params": [],
-      "decorators": [],
-      "span": {
-        "start": 206,
-        "end": 415,
-        "ctxt": 0
-      },
-      "body": {
-        "type": "BlockStatement",
-        "span": {
-          "start": 241,
-          "end": 415,
-          "ctxt": 0
-        },
-        "stmts": [
-          {
-            "type": "ExpressionStatement",
-            "span": {
-              "start": 260,
-              "end": 330,
-              "ctxt": 0
-            },
-            "expression": {
-              "type": "MemberExpression",
-              "span": {
-                "start": 260,
-                "end": 310,
-                "ctxt": 0
-              },
-              "object": {
-                "type": "Identifier",
-                "span": {
-                  "start": 260,
-                  "end": 261,
-                  "ctxt": 0
-                },
-                "value": "x",
-                "optional": false
-              },
-              "property": {
-                "type": "Computed",
-                "span": {
-                  "start": 277,
-                  "end": 310,
-                  "ctxt": 0
-                },
-                "expression": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 293,
-                    "end": 294,
-                    "ctxt": 0
-                  },
-                  "value": "y",
-                  "optional": false
-                }
-              }
-            }
-          },
-          {
-            "type": "ExpressionStatement",
-            "span": {
-              "start": 353,
-              "end": 413,
-              "ctxt": 0
-            },
-            "expression": {
-              "type": "ParenthesisExpression",
-              "span": {
-                "start": 353,
-                "end": 393,
-                "ctxt": 0
-              },
-              "expression": {
-                "type": "MemberExpression",
-                "span": {
-                  "start": 369,
-                  "end": 373,
-                  "ctxt": 0
-                },
-                "object": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 369,
-                    "end": 370,
-                    "ctxt": 0
-                  },
-                  "value": "x",
-                  "optional": false
-                },
-                "property": {
-                  "type": "Computed",
-                  "span": {
-                    "start": 370,
-                    "end": 373,
-                    "ctxt": 0
-                  },
-                  "expression": {
-                    "type": "Identifier",
-                    "span": {
-                      "start": 371,
-                      "end": 372,
-                      "ctxt": 0
-                    },
-                    "value": "y",
-                    "optional": false
-                  }
-                }
-              }
-            }
-          }
-        ]
-      },
-      "generator": false,
-      "async": false,
-      "typeParameters": null,
-      "returnType": null
-    },
-    {
-      "type": "ClassDeclaration",
-      "identifier": {
-        "type": "Identifier",
-        "span": {
-          "start": 423,
-          "end": 446,
-          "ctxt": 0
-        },
-        "value": "PrivateMemberExpression",
-        "optional": false
-      },
-      "declare": false,
-      "span": {
-        "start": 417,
-        "end": 597,
-        "ctxt": 0
-      },
-      "decorators": [],
-      "body": [
-        {
-          "type": "PrivateProperty",
-          "span": {
-            "start": 471,
-            "end": 489,
-            "ctxt": 0
-          },
-          "key": {
-            "type": "PrivateName",
-            "span": {
-              "start": 471,
-              "end": 473,
-              "ctxt": 0
-            },
-            "id": {
-              "type": "Identifier",
-              "span": {
-                "start": 472,
-                "end": 473,
-                "ctxt": 0
-              },
-              "value": "z",
-              "optional": false
-            }
-          },
-          "value": null,
-          "typeAnnotation": null,
-          "isStatic": false,
-          "decorators": [],
-          "accessibility": null,
-          "isOptional": false,
-          "isOverride": false,
-          "readonly": false,
-          "definite": false
-        },
-        {
-          "type": "Constructor",
-          "span": {
-            "start": 492,
-            "end": 595,
-            "ctxt": 0
-          },
-          "key": {
-            "type": "Identifier",
-            "span": {
-              "start": 492,
-              "end": 503,
-              "ctxt": 0
-            },
-            "value": "constructor",
-            "optional": false
-          },
-          "params": [],
-          "body": {
-            "type": "BlockStatement",
-            "span": {
-              "start": 506,
-              "end": 595,
-              "ctxt": 0
-            },
-            "stmts": [
-              {
-                "type": "ExpressionStatement",
-                "span": {
-                  "start": 529,
-                  "end": 591,
-                  "ctxt": 0
-                },
-                "expression": {
-                  "type": "MemberExpression",
-                  "span": {
-                    "start": 529,
-                    "end": 575,
-                    "ctxt": 0
-                  },
-                  "object": {
-                    "type": "ThisExpression",
-                    "span": {
-                      "start": 529,
-                      "end": 533,
-                      "ctxt": 0
-                    }
-                  },
-                  "property": {
-                    "type": "PrivateName",
-                    "span": {
-                      "start": 573,
-                      "end": 575,
-                      "ctxt": 0
-                    },
-                    "id": {
-                      "type": "Identifier",
-                      "span": {
-                        "start": 574,
-                        "end": 575,
-                        "ctxt": 0
-                      },
-                      "value": "z",
-                      "optional": false
-                    }
-                  }
-                }
-              }
-            ]
-          },
-          "accessibility": null,
-          "isOptional": false
         }
       ],
-      "superClass": null,
-      "isAbstract": false,
-      "typeParams": null,
-      "superTypeParams": null,
-      "implements": []
+      "kind":"const"
+    },
+    {
+      "type":"FunctionDeclaration",
+      "loc":{"source":null,"start":{"line":3,"column":0},"end":{"line":7,"column":1}},
+      "range":[19,203],
+      "id":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":3,"column":9},"end":{"line":3,"column":31}},
+        "range":[28,50],
+        "name":"staticMemberExpression",
+        "typeAnnotation":null,
+        "optional":false
+      },
+      "params":[],
+      "body":{
+        "type":"BlockStatement",
+        "loc":{"source":null,"start":{"line":3,"column":34},"end":{"line":7,"column":1}},
+        "range":[53,203],
+        "body":[
+          {
+            "type":"ExpressionStatement",
+            "loc":{"source":null,"start":{"line":4,"column":17},"end":{"line":4,"column":68}},
+            "range":[72,123],
+            "expression":{
+              "type":"MemberExpression",
+              "loc":{"source":null,"start":{"line":4,"column":17},"end":{"line":4,"column":52}},
+              "range":[72,107],
+              "object":{
+                "type":"Identifier",
+                "trailingComments":[
+                  {
+                    "type":"Block",
+                    "loc":{"source":null,"start":{"line":4,"column":19},"end":{"line":4,"column":33}},
+                    "range":[74,88],
+                    "value":" 1.2 T id "
+                  }
+                ],
+                "leadingComments":[
+                  {
+                    "type":"Block",
+                    "loc":{"source":null,"start":{"line":4,"column":2},"end":{"line":4,"column":16}},
+                    "range":[57,71],
+                    "value":" 1.1 L id "
+                  }
+                ],
+                "loc":{"source":null,"start":{"line":4,"column":17},"end":{"line":4,"column":18}},
+                "range":[72,73],
+                "name":"x",
+                "typeAnnotation":null,
+                "optional":false
+              },
+              "property":{
+                "type":"Identifier",
+                "trailingComments":[
+                  {
+                    "type":"Block",
+                    "loc":{"source":null,"start":{"line":4,"column":53},"end":{"line":4,"column":67}},
+                    "range":[108,122],
+                    "value":" 1.4 T id "
+                  }
+                ],
+                "leadingComments":[
+                  {
+                    "type":"Block",
+                    "loc":{"source":null,"start":{"line":4,"column":36},"end":{"line":4,"column":50}},
+                    "range":[91,105],
+                    "value":" 1.3 L id "
+                  }
+                ],
+                "loc":{"source":null,"start":{"line":4,"column":51},"end":{"line":4,"column":52}},
+                "range":[106,107],
+                "name":"y",
+                "typeAnnotation":null,
+                "optional":false
+              },
+              "computed":false
+            },
+            "directive":null
+          },
+          {
+            "type":"ExpressionStatement",
+            "loc":{"source":null,"start":{"line":6,"column":21},"end":{"line":6,"column":76}},
+            "range":[146,201],
+            "expression":{
+              "type":"MemberExpression",
+              "trailingComments":[
+                {
+                  "type":"Block",
+                  "loc":{"source":null,"start":{"line":6,"column":57},"end":{"line":6,"column":75}},
+                  "range":[182,200],
+                  "value":" 2.4 T member "
+                }
+              ],
+              "leadingComments":[
+                {
+                  "type":"Block",
+                  "loc":{"source":null,"start":{"line":6,"column":2},"end":{"line":6,"column":20}},
+                  "range":[127,145],
+                  "value":" 2.1 L member "
+                }
+              ],
+              "loc":{"source":null,"start":{"line":6,"column":37},"end":{"line":6,"column":40}},
+              "range":[162,165],
+              "object":{
+                "type":"Identifier",
+                "leadingComments":[
+                  {
+                    "type":"Block",
+                    "loc":{"source":null,"start":{"line":6,"column":22},"end":{"line":6,"column":36}},
+                    "range":[147,161],
+                    "value":" 2.2 L id "
+                  }
+                ],
+                "loc":{"source":null,"start":{"line":6,"column":37},"end":{"line":6,"column":38}},
+                "range":[162,163],
+                "name":"x",
+                "typeAnnotation":null,
+                "optional":false
+              },
+              "property":{
+                "type":"Identifier",
+                "trailingComments":[
+                  {
+                    "type":"Block",
+                    "loc":{"source":null,"start":{"line":6,"column":41},"end":{"line":6,"column":55}},
+                    "range":[166,180],
+                    "value":" 2.3 T id "
+                  }
+                ],
+                "loc":{"source":null,"start":{"line":6,"column":39},"end":{"line":6,"column":40}},
+                "range":[164,165],
+                "name":"y",
+                "typeAnnotation":null,
+                "optional":false
+              },
+              "computed":false
+            },
+            "directive":null
+          }
+        ]
+      },
+      "async":false,
+      "generator":false,
+      "predicate":null,
+      "expression":false,
+      "returnType":null,
+      "typeParameters":null
+    },
+    {
+      "type":"FunctionDeclaration",
+      "loc":{"source":null,"start":{"line":9,"column":0},"end":{"line":13,"column":1}},
+      "range":[205,414],
+      "id":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":9,"column":9},"end":{"line":9,"column":32}},
+        "range":[214,237],
+        "name":"dynamicMemberExpression",
+        "typeAnnotation":null,
+        "optional":false
+      },
+      "params":[],
+      "body":{
+        "type":"BlockStatement",
+        "loc":{"source":null,"start":{"line":9,"column":35},"end":{"line":13,"column":1}},
+        "range":[240,414],
+        "body":[
+          {
+            "type":"ExpressionStatement",
+            "loc":{"source":null,"start":{"line":10,"column":17},"end":{"line":10,"column":87}},
+            "range":[259,329],
+            "expression":{
+              "type":"MemberExpression",
+              "trailingComments":[
+                {
+                  "type":"Block",
+                  "loc":{"source":null,"start":{"line":10,"column":68},"end":{"line":10,"column":86}},
+                  "range":[310,328],
+                  "value":" 3.5 T member "
+                }
+              ],
+              "loc":{"source":null,"start":{"line":10,"column":17},"end":{"line":10,"column":67}},
+              "range":[259,309],
+              "object":{
+                "type":"Identifier",
+                "trailingComments":[
+                  {
+                    "type":"Block",
+                    "loc":{"source":null,"start":{"line":10,"column":19},"end":{"line":10,"column":33}},
+                    "range":[261,275],
+                    "value":" 3.2 T id "
+                  }
+                ],
+                "leadingComments":[
+                  {
+                    "type":"Block",
+                    "loc":{"source":null,"start":{"line":10,"column":2},"end":{"line":10,"column":16}},
+                    "range":[244,258],
+                    "value":" 3.1 L id "
+                  }
+                ],
+                "loc":{"source":null,"start":{"line":10,"column":17},"end":{"line":10,"column":18}},
+                "range":[259,260],
+                "name":"x",
+                "typeAnnotation":null,
+                "optional":false
+              },
+              "property":{
+                "type":"Identifier",
+                "trailingComments":[
+                  {
+                    "type":"Block",
+                    "loc":{"source":null,"start":{"line":10,"column":52},"end":{"line":10,"column":66}},
+                    "range":[294,308],
+                    "value":" 3.4 T id "
+                  }
+                ],
+                "leadingComments":[
+                  {
+                    "type":"Block",
+                    "loc":{"source":null,"start":{"line":10,"column":35},"end":{"line":10,"column":49}},
+                    "range":[277,291],
+                    "value":" 3.3 L id "
+                  }
+                ],
+                "loc":{"source":null,"start":{"line":10,"column":50},"end":{"line":10,"column":51}},
+                "range":[292,293],
+                "name":"y",
+                "typeAnnotation":null,
+                "optional":false
+              },
+              "computed":true
+            },
+            "directive":null
+          },
+          {
+            "type":"ExpressionStatement",
+            "loc":{"source":null,"start":{"line":12,"column":21},"end":{"line":12,"column":81}},
+            "range":[352,412],
+            "expression":{
+              "type":"MemberExpression",
+              "trailingComments":[
+                {
+                  "type":"Block",
+                  "loc":{"source":null,"start":{"line":12,"column":42},"end":{"line":12,"column":60}},
+                  "range":[373,391],
+                  "value":" 4.3 T member "
+                },
+                {
+                  "type":"Block",
+                  "loc":{"source":null,"start":{"line":12,"column":62},"end":{"line":12,"column":80}},
+                  "range":[393,411],
+                  "value":" 4.4 T member "
+                }
+              ],
+              "leadingComments":[
+                {
+                  "type":"Block",
+                  "loc":{"source":null,"start":{"line":12,"column":2},"end":{"line":12,"column":20}},
+                  "range":[333,351],
+                  "value":" 4.1 L member "
+                }
+              ],
+              "loc":{"source":null,"start":{"line":12,"column":37},"end":{"line":12,"column":41}},
+              "range":[368,372],
+              "object":{
+                "type":"Identifier",
+                "leadingComments":[
+                  {
+                    "type":"Block",
+                    "loc":{"source":null,"start":{"line":12,"column":22},"end":{"line":12,"column":36}},
+                    "range":[353,367],
+                    "value":" 4.2 L id "
+                  }
+                ],
+                "loc":{"source":null,"start":{"line":12,"column":37},"end":{"line":12,"column":38}},
+                "range":[368,369],
+                "name":"x",
+                "typeAnnotation":null,
+                "optional":false
+              },
+              "property":{
+                "type":"Identifier",
+                "loc":{"source":null,"start":{"line":12,"column":39},"end":{"line":12,"column":40}},
+                "range":[370,371],
+                "name":"y",
+                "typeAnnotation":null,
+                "optional":false
+              },
+              "computed":true
+            },
+            "directive":null
+          }
+        ]
+      },
+      "async":false,
+      "generator":false,
+      "predicate":null,
+      "expression":false,
+      "returnType":null,
+      "typeParameters":null
+    },
+    {
+      "type":"ClassDeclaration",
+      "loc":{"source":null,"start":{"line":15,"column":0},"end":{"line":20,"column":1}},
+      "range":[416,596],
+      "id":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":15,"column":6},"end":{"line":15,"column":29}},
+        "range":[422,445],
+        "name":"PrivateMemberExpression",
+        "typeAnnotation":null,
+        "optional":false
+      },
+      "body":{
+        "type":"ClassBody",
+        "loc":{"source":null,"start":{"line":15,"column":30},"end":{"line":20,"column":1}},
+        "range":[446,596],
+        "body":[
+          {
+            "type":"PropertyDefinition",
+            "loc":{"source":null,"start":{"line":16,"column":22},"end":{"line":16,"column":40}},
+            "range":[470,488],
+            "key":{
+              "type":"PrivateIdentifier",
+              "trailingComments":[
+                {
+                  "type":"Block",
+                  "loc":{"source":null,"start":{"line":16,"column":25},"end":{"line":16,"column":39}},
+                  "range":[473,487],
+                  "value":" 5.2 T id "
+                }
+              ],
+              "leadingComments":[
+                {
+                  "type":"Block",
+                  "loc":{"source":null,"start":{"line":16,"column":2},"end":{"line":16,"column":21}},
+                  "range":[450,469],
+                  "value":" 5.1 L private "
+                }
+              ],
+              "loc":{"source":null,"start":{"line":16,"column":22},"end":{"line":16,"column":24}},
+              "range":[470,472],
+              "name":"z",
+              "typeAnnotation":null,
+              "optional":false
+            },
+            "value":null,
+            "typeAnnotation":null,
+            "computed":false,
+            "static":false,
+            "variance":null
+          },
+          {
+            "type":"MethodDefinition",
+            "loc":{"source":null,"start":{"line":17,"column":2},"end":{"line":19,"column":3}},
+            "range":[491,594],
+            "key":{
+              "type":"Identifier",
+              "loc":{"source":null,"start":{"line":17,"column":2},"end":{"line":17,"column":13}},
+              "range":[491,502],
+              "name":"constructor",
+              "typeAnnotation":null,
+              "optional":false
+            },
+            "value":{
+              "type":"FunctionExpression",
+              "loc":{"source":null,"start":{"line":17,"column":13},"end":{"line":19,"column":3}},
+              "range":[502,594],
+              "id":null,
+              "params":[],
+              "body":{
+                "type":"BlockStatement",
+                "loc":{"source":null,"start":{"line":17,"column":16},"end":{"line":19,"column":3}},
+                "range":[505,594],
+                "body":[
+                  {
+                    "type":"ExpressionStatement",
+                    "loc":{"source":null,"start":{"line":18,"column":21},"end":{"line":18,"column":83}},
+                    "range":[528,590],
+                    "expression":{
+                      "type":"MemberExpression",
+                      "loc":{"source":null,"start":{"line":18,"column":21},"end":{"line":18,"column":67}},
+                      "range":[528,574],
+                      "object":{
+                        "type":"ThisExpression",
+                        "trailingComments":[
+                          {
+                            "type":"Block",
+                            "loc":{"source":null,"start":{"line":18,"column":26},"end":{"line":18,"column":42}},
+                            "range":[533,549],
+                            "value":" 6.2 T this "
+                          }
+                        ],
+                        "leadingComments":[
+                          {
+                            "type":"Block",
+                            "loc":{"source":null,"start":{"line":18,"column":4},"end":{"line":18,"column":20}},
+                            "range":[511,527],
+                            "value":" 6.1 L this "
+                          }
+                        ],
+                        "loc":{"source":null,"start":{"line":18,"column":21},"end":{"line":18,"column":25}},
+                        "range":[528,532]
+                      },
+                      "property":{
+                        "type":"PrivateIdentifier",
+                        "trailingComments":[
+                          {
+                            "type":"Block",
+                            "loc":{"source":null,"start":{"line":18,"column":68},"end":{"line":18,"column":82}},
+                            "range":[575,589],
+                            "value":" 6.4 T id "
+                          }
+                        ],
+                        "leadingComments":[
+                          {
+                            "type":"Block",
+                            "loc":{"source":null,"start":{"line":18,"column":45},"end":{"line":18,"column":64}},
+                            "range":[552,571],
+                            "value":" 6.3 L private "
+                          }
+                        ],
+                        "loc":{"source":null,"start":{"line":18,"column":65},"end":{"line":18,"column":67}},
+                        "range":[572,574],
+                        "name":"z",
+                        "typeAnnotation":null,
+                        "optional":false
+                      },
+                      "computed":false
+                    },
+                    "directive":null
+                  }
+                ]
+              },
+              "async":false,
+              "generator":false,
+              "predicate":null,
+              "expression":false,
+              "returnType":null,
+              "typeParameters":null
+            },
+            "kind":"constructor",
+            "static":false,
+            "computed":false,
+            "decorators":[]
+          }
+        ]
+      },
+      "typeParameters":null,
+      "superClass":null,
+      "superTypeParameters":null,
+      "implements":[],
+      "decorators":[]
     }
   ],
-  "interpreter": null
+  "comments":[
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":4,"column":2},"end":{"line":4,"column":16}},
+      "range":[57,71],
+      "value":" 1.1 L id "
+    },
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":4,"column":19},"end":{"line":4,"column":33}},
+      "range":[74,88],
+      "value":" 1.2 T id "
+    },
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":4,"column":36},"end":{"line":4,"column":50}},
+      "range":[91,105],
+      "value":" 1.3 L id "
+    },
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":4,"column":53},"end":{"line":4,"column":67}},
+      "range":[108,122],
+      "value":" 1.4 T id "
+    },
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":6,"column":2},"end":{"line":6,"column":20}},
+      "range":[127,145],
+      "value":" 2.1 L member "
+    },
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":6,"column":22},"end":{"line":6,"column":36}},
+      "range":[147,161],
+      "value":" 2.2 L id "
+    },
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":6,"column":41},"end":{"line":6,"column":55}},
+      "range":[166,180],
+      "value":" 2.3 T id "
+    },
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":6,"column":57},"end":{"line":6,"column":75}},
+      "range":[182,200],
+      "value":" 2.4 T member "
+    },
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":10,"column":2},"end":{"line":10,"column":16}},
+      "range":[244,258],
+      "value":" 3.1 L id "
+    },
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":10,"column":19},"end":{"line":10,"column":33}},
+      "range":[261,275],
+      "value":" 3.2 T id "
+    },
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":10,"column":35},"end":{"line":10,"column":49}},
+      "range":[277,291],
+      "value":" 3.3 L id "
+    },
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":10,"column":52},"end":{"line":10,"column":66}},
+      "range":[294,308],
+      "value":" 3.4 T id "
+    },
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":10,"column":68},"end":{"line":10,"column":86}},
+      "range":[310,328],
+      "value":" 3.5 T member "
+    },
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":12,"column":2},"end":{"line":12,"column":20}},
+      "range":[333,351],
+      "value":" 4.1 L member "
+    },
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":12,"column":22},"end":{"line":12,"column":36}},
+      "range":[353,367],
+      "value":" 4.2 L id "
+    },
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":12,"column":42},"end":{"line":12,"column":60}},
+      "range":[373,391],
+      "value":" 4.3 T member "
+    },
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":12,"column":62},"end":{"line":12,"column":80}},
+      "range":[393,411],
+      "value":" 4.4 T member "
+    },
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":16,"column":2},"end":{"line":16,"column":21}},
+      "range":[450,469],
+      "value":" 5.1 L private "
+    },
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":16,"column":25},"end":{"line":16,"column":39}},
+      "range":[473,487],
+      "value":" 5.2 T id "
+    },
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":18,"column":4},"end":{"line":18,"column":20}},
+      "range":[511,527],
+      "value":" 6.1 L this "
+    },
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":18,"column":26},"end":{"line":18,"column":42}},
+      "range":[533,549],
+      "value":" 6.2 T this "
+    },
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":18,"column":45},"end":{"line":18,"column":64}},
+      "range":[552,571],
+      "value":" 6.3 L private "
+    },
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":18,"column":68},"end":{"line":18,"column":82}},
+      "range":[575,589],
+      "value":" 6.4 T id "
+    }
+  ]
 }

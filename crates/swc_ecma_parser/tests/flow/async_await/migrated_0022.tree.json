@@ -1,74 +1,65 @@
 {
-  "type": "Module",
-  "span": {
-    "start": 27,
-    "end": 59,
-    "ctxt": 0
-  },
-  "body": [
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":32}},
+  "range":[26,58],
+  "body":[
     {
-      "type": "ExportDeclaration",
-      "span": {
-        "start": 27,
-        "end": 59,
-        "ctxt": 0
-      },
-      "declaration": {
-        "type": "VariableDeclaration",
-        "span": {
-          "start": 34,
-          "end": 59,
-          "ctxt": 0
-        },
-        "kind": "const",
-        "declare": false,
-        "declarations": [
+      "type":"ExportNamedDeclaration",
+      "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":32}},
+      "range":[26,58],
+      "declaration":{
+        "type":"VariableDeclaration",
+        "loc":{"source":null,"start":{"line":2,"column":7},"end":{"line":2,"column":32}},
+        "range":[33,58],
+        "declarations":[
           {
-            "type": "VariableDeclarator",
-            "span": {
-              "start": 40,
-              "end": 59,
-              "ctxt": 0
+            "type":"VariableDeclarator",
+            "loc":{"source":null,"start":{"line":2,"column":13},"end":{"line":2,"column":32}},
+            "range":[39,58],
+            "id":{
+              "type":"Identifier",
+              "loc":{"source":null,"start":{"line":2,"column":13},"end":{"line":2,"column":16}},
+              "range":[39,42],
+              "name":"foo",
+              "typeAnnotation":null,
+              "optional":false
             },
-            "id": {
-              "type": "Identifier",
-              "span": {
-                "start": 40,
-                "end": 43,
-                "ctxt": 0
+            "init":{
+              "type":"ArrowFunctionExpression",
+              "loc":{"source":null,"start":{"line":2,"column":19},"end":{"line":2,"column":32}},
+              "range":[45,58],
+              "id":null,
+              "params":[],
+              "body":{
+                "type":"Identifier",
+                "loc":{"source":null,"start":{"line":2,"column":31},"end":{"line":2,"column":32}},
+                "range":[57,58],
+                "name":"y",
+                "typeAnnotation":null,
+                "optional":false
               },
-              "value": "foo",
-              "optional": false,
-              "typeAnnotation": null
-            },
-            "init": {
-              "type": "ArrowFunctionExpression",
-              "span": {
-                "start": 46,
-                "end": 59,
-                "ctxt": 0
-              },
-              "params": [],
-              "body": {
-                "type": "Identifier",
-                "span": {
-                  "start": 58,
-                  "end": 59,
-                  "ctxt": 0
-                },
-                "value": "y",
-                "optional": false
-              },
-              "async": true,
-              "generator": false,
-              "typeParameters": null,
-              "returnType": null
-            },
-            "definite": false
+              "async":true,
+              "generator":false,
+              "predicate":null,
+              "expression":true,
+              "returnType":null,
+              "typeParameters":null
+            }
           }
-        ]
-      }
+        ],
+        "kind":"const"
+      },
+      "specifiers":[],
+      "source":null,
+      "exportKind":"value"
     }
   ],
-  "interpreter": null
+  "comments":[
+    {
+      "type":"Line",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":25}},
+      "range":[0,25],
+      "value":" esprima chokes on this"
+    }
+  ]
 }

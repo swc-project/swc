@@ -1,64 +1,48 @@
 {
-  "type": "Script",
-  "span": {
-    "start": 1,
-    "end": 31,
-    "ctxt": 0
-  },
-  "body": [
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":30}},
+  "range":[0,30],
+  "body":[
     {
-      "type": "FunctionDeclaration",
-      "identifier": {
-        "type": "Identifier",
-        "span": {
-          "start": 10,
-          "end": 11,
-          "ctxt": 0
-        },
-        "value": "f",
-        "optional": false
+      "type":"FunctionDeclaration",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":30}},
+      "range":[0,30],
+      "id":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":1,"column":9},"end":{"line":1,"column":10}},
+        "range":[9,10],
+        "name":"f",
+        "typeAnnotation":null,
+        "optional":false
       },
-      "declare": false,
-      "params": [],
-      "decorators": [],
-      "span": {
-        "start": 1,
-        "end": 31,
-        "ctxt": 0
-      },
-      "body": {
-        "type": "BlockStatement",
-        "span": {
-          "start": 14,
-          "end": 31,
-          "ctxt": 0
-        },
-        "stmts": [
+      "params":[],
+      "body":{
+        "type":"BlockStatement",
+        "loc":{"source":null,"start":{"line":1,"column":13},"end":{"line":1,"column":30}},
+        "range":[13,30],
+        "body":[
           {
-            "type": "ReturnStatement",
-            "span": {
-              "start": 16,
-              "end": 29,
-              "ctxt": 0
-            },
-            "argument": {
-              "type": "Identifier",
-              "span": {
-                "start": 23,
-                "end": 28,
-                "ctxt": 0
-              },
-              "value": "await",
-              "optional": false
+            "type":"ReturnStatement",
+            "loc":{"source":null,"start":{"line":1,"column":15},"end":{"line":1,"column":28}},
+            "range":[15,28],
+            "argument":{
+              "type":"Identifier",
+              "loc":{"source":null,"start":{"line":1,"column":22},"end":{"line":1,"column":27}},
+              "range":[22,27],
+              "name":"await",
+              "typeAnnotation":null,
+              "optional":false
             }
           }
         ]
       },
-      "generator": false,
-      "async": false,
-      "typeParameters": null,
-      "returnType": null
+      "async":false,
+      "generator":false,
+      "predicate":null,
+      "expression":false,
+      "returnType":null,
+      "typeParameters":null
     }
   ],
-  "interpreter": null
+  "comments":[]
 }

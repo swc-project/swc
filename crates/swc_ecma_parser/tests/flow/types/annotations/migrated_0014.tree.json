@@ -1,45 +1,49 @@
 {
-  "type": "Script",
-  "span": {
-    "start": 1,
-    "end": 21,
-    "ctxt": 0
-  },
-  "body": [
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":20}},
+  "range":[0,20],
+  "body":[
     {
-      "type": "FunctionDeclaration",
-      "identifier": {
-        "type": "Identifier",
-        "span": {
-          "start": 10,
-          "end": 13,
-          "ctxt": 0
-        },
-        "value": "foo",
-        "optional": false
+      "type":"FunctionDeclaration",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":20}},
+      "range":[0,20],
+      "id":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":1,"column":9},"end":{"line":1,"column":12}},
+        "range":[9,12],
+        "name":"foo",
+        "typeAnnotation":null,
+        "optional":false
       },
-      "declare": false,
-      "params": [],
-      "decorators": [],
-      "span": {
-        "start": 1,
-        "end": 21,
-        "ctxt": 0
+      "params":[],
+      "body":{
+        "type":"BlockStatement",
+        "loc":{"source":null,"start":{"line":1,"column":18},"end":{"line":1,"column":20}},
+        "range":[18,20],
+        "body":[]
       },
-      "body": {
-        "type": "BlockStatement",
-        "span": {
-          "start": 19,
-          "end": 21,
-          "ctxt": 0
-        },
-        "stmts": []
-      },
-      "generator": false,
-      "async": false,
-      "typeParameters": null,
-      "returnType": null
+      "async":false,
+      "generator":false,
+      "predicate":null,
+      "expression":false,
+      "returnType":null,
+      "typeParameters":{
+        "type":"TypeParameterDeclaration",
+        "loc":{"source":null,"start":{"line":1,"column":12},"end":{"line":1,"column":15}},
+        "range":[12,15],
+        "params":[
+          {
+            "type":"TypeParameter",
+            "loc":{"source":null,"start":{"line":1,"column":13},"end":{"line":1,"column":14}},
+            "range":[13,14],
+            "name":"T",
+            "bound":null,
+            "variance":null,
+            "default":null
+          }
+        ]
+      }
     }
   ],
-  "interpreter": null
+  "comments":[]
 }

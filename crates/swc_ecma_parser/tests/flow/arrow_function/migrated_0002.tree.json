@@ -1,74 +1,51 @@
 {
-  "type": "Script",
-  "span": {
-    "start": 1,
-    "end": 15,
-    "ctxt": 0
-  },
-  "body": [
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":14}},
+  "range":[0,14],
+  "body":[
     {
-      "type": "ExpressionStatement",
-      "span": {
-        "start": 1,
-        "end": 15,
-        "ctxt": 0
-      },
-      "expression": {
-        "type": "ParenthesisExpression",
-        "span": {
-          "start": 1,
-          "end": 15,
-          "ctxt": 0
+      "type":"ExpressionStatement",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":14}},
+      "range":[0,14],
+      "expression":{
+        "type":"ArrowFunctionExpression",
+        "loc":{"source":null,"start":{"line":1,"column":1},"end":{"line":1,"column":13}},
+        "range":[1,13],
+        "id":null,
+        "params":[
+          {
+            "type":"ArrayPattern",
+            "loc":{"source":null,"start":{"line":1,"column":2},"end":{"line":1,"column":5}},
+            "range":[2,5],
+            "elements":[
+              {
+                "type":"Identifier",
+                "loc":{"source":null,"start":{"line":1,"column":3},"end":{"line":1,"column":4}},
+                "range":[3,4],
+                "name":"x",
+                "typeAnnotation":null,
+                "optional":false
+              }
+            ],
+            "typeAnnotation":null
+          }
+        ],
+        "body":{
+          "type":"Literal",
+          "loc":{"source":null,"start":{"line":1,"column":10},"end":{"line":1,"column":13}},
+          "range":[10,13],
+          "value":123,
+          "raw":"123"
         },
-        "expression": {
-          "type": "ArrowFunctionExpression",
-          "span": {
-            "start": 2,
-            "end": 14,
-            "ctxt": 0
-          },
-          "params": [
-            {
-              "type": "ArrayPattern",
-              "span": {
-                "start": 3,
-                "end": 6,
-                "ctxt": 0
-              },
-              "elements": [
-                {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 4,
-                    "end": 5,
-                    "ctxt": 0
-                  },
-                  "value": "x",
-                  "optional": false,
-                  "typeAnnotation": null
-                }
-              ],
-              "optional": false,
-              "typeAnnotation": null
-            }
-          ],
-          "body": {
-            "type": "NumericLiteral",
-            "span": {
-              "start": 11,
-              "end": 14,
-              "ctxt": 0
-            },
-            "value": 123.0,
-            "raw": "123"
-          },
-          "async": false,
-          "generator": false,
-          "typeParameters": null,
-          "returnType": null
-        }
-      }
+        "async":false,
+        "generator":false,
+        "predicate":null,
+        "expression":true,
+        "returnType":null,
+        "typeParameters":null
+      },
+      "directive":null
     }
   ],
-  "interpreter": null
+  "comments":[]
 }

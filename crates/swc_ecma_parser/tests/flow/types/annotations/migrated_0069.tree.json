@@ -1,53 +1,74 @@
 {
-  "type": "Script",
-  "span": {
-    "start": 1,
-    "end": 42,
-    "ctxt": 0
-  },
-  "body": [
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":41}},
+  "range":[0,41],
+  "body":[
     {
-      "type": "VariableDeclaration",
-      "span": {
-        "start": 1,
-        "end": 42,
-        "ctxt": 0
-      },
-      "kind": "var",
-      "declare": false,
-      "declarations": [
+      "type":"VariableDeclaration",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":41}},
+      "range":[0,41],
+      "declarations":[
         {
-          "type": "VariableDeclarator",
-          "span": {
-            "start": 5,
-            "end": 41,
-            "ctxt": 0
-          },
-          "id": {
-            "type": "Identifier",
-            "span": {
-              "start": 5,
-              "end": 6,
-              "ctxt": 0
+          "type":"VariableDeclarator",
+          "loc":{"source":null,"start":{"line":1,"column":4},"end":{"line":1,"column":40}},
+          "range":[4,40],
+          "id":{
+            "type":"Identifier",
+            "loc":{"source":null,"start":{"line":1,"column":4},"end":{"line":1,"column":35}},
+            "range":[4,35],
+            "name":"x",
+            "typeAnnotation":{
+              "type":"TypeAnnotation",
+              "loc":{"source":null,"start":{"line":1,"column":6},"end":{"line":1,"column":35}},
+              "range":[6,35],
+              "typeAnnotation":{
+                "type":"FunctionTypeAnnotation",
+                "loc":{"source":null,"start":{"line":1,"column":8},"end":{"line":1,"column":35}},
+                "range":[8,35],
+                "params":[],
+                "returnType":{
+                  "type":"IntersectionTypeAnnotation",
+                  "loc":{"source":null,"start":{"line":1,"column":14},"end":{"line":1,"column":35}},
+                  "range":[14,35],
+                  "types":[
+                    {
+                      "type":"NumberTypeAnnotation",
+                      "loc":{"source":null,"start":{"line":1,"column":14},"end":{"line":1,"column":20}},
+                      "range":[14,20]
+                    },
+                    {
+                      "type":"FunctionTypeAnnotation",
+                      "loc":{"source":null,"start":{"line":1,"column":23},"end":{"line":1,"column":35}},
+                      "range":[23,35],
+                      "params":[],
+                      "returnType":{
+                        "type":"StringTypeAnnotation",
+                        "loc":{"source":null,"start":{"line":1,"column":29},"end":{"line":1,"column":35}},
+                        "range":[29,35]
+                      },
+                      "rest":null,
+                      "typeParameters":null
+                    }
+                  ]
+                },
+                "rest":null,
+                "typeParameters":null
+              }
             },
-            "value": "x",
-            "optional": false,
-            "typeAnnotation": null
+            "optional":false
           },
-          "init": {
-            "type": "Identifier",
-            "span": {
-              "start": 39,
-              "end": 41,
-              "ctxt": 0
-            },
-            "value": "fn",
-            "optional": false
-          },
-          "definite": false
+          "init":{
+            "type":"Identifier",
+            "loc":{"source":null,"start":{"line":1,"column":38},"end":{"line":1,"column":40}},
+            "range":[38,40],
+            "name":"fn",
+            "typeAnnotation":null,
+            "optional":false
+          }
         }
-      ]
+      ],
+      "kind":"var"
     }
   ],
-  "interpreter": null
+  "comments":[]
 }

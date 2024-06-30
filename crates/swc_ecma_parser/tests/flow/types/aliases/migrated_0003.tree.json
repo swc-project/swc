@@ -1,19 +1,71 @@
 {
-  "type": "Script",
-  "span": {
-    "start": 1,
-    "end": 25,
-    "ctxt": 0
-  },
-  "body": [
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":24}},
+  "range":[0,24],
+  "body":[
     {
-      "type": "EmptyStatement",
-      "span": {
-        "start": 1,
-        "end": 25,
-        "ctxt": 0
+      "type":"TypeAlias",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":24}},
+      "range":[0,24],
+      "id":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":1,"column":5},"end":{"line":1,"column":10}},
+        "range":[5,10],
+        "name":"union",
+        "typeAnnotation":null,
+        "optional":false
+      },
+      "typeParameters":null,
+      "right":{
+        "type":"UnionTypeAnnotation",
+        "loc":{"source":null,"start":{"line":1,"column":13},"end":{"line":1,"column":24}},
+        "range":[13,24],
+        "types":[
+          {
+            "type":"GenericTypeAnnotation",
+            "loc":{"source":null,"start":{"line":1,"column":15},"end":{"line":1,"column":16}},
+            "range":[15,16],
+            "id":{
+              "type":"Identifier",
+              "loc":{"source":null,"start":{"line":1,"column":15},"end":{"line":1,"column":16}},
+              "range":[15,16],
+              "name":"A",
+              "typeAnnotation":null,
+              "optional":false
+            },
+            "typeParameters":null
+          },
+          {
+            "type":"GenericTypeAnnotation",
+            "loc":{"source":null,"start":{"line":1,"column":19},"end":{"line":1,"column":20}},
+            "range":[19,20],
+            "id":{
+              "type":"Identifier",
+              "loc":{"source":null,"start":{"line":1,"column":19},"end":{"line":1,"column":20}},
+              "range":[19,20],
+              "name":"B",
+              "typeAnnotation":null,
+              "optional":false
+            },
+            "typeParameters":null
+          },
+          {
+            "type":"GenericTypeAnnotation",
+            "loc":{"source":null,"start":{"line":1,"column":23},"end":{"line":1,"column":24}},
+            "range":[23,24],
+            "id":{
+              "type":"Identifier",
+              "loc":{"source":null,"start":{"line":1,"column":23},"end":{"line":1,"column":24}},
+              "range":[23,24],
+              "name":"C",
+              "typeAnnotation":null,
+              "optional":false
+            },
+            "typeParameters":null
+          }
+        ]
       }
     }
   ],
-  "interpreter": null
+  "comments":[]
 }

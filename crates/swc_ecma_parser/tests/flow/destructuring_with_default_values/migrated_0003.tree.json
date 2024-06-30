@@ -1,82 +1,56 @@
 {
-  "type": "Script",
-  "span": {
-    "start": 1,
-    "end": 15,
-    "ctxt": 0
-  },
-  "body": [
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":14}},
+  "range":[0,14],
+  "body":[
     {
-      "type": "VariableDeclaration",
-      "span": {
-        "start": 1,
-        "end": 15,
-        "ctxt": 0
-      },
-      "kind": "let",
-      "declare": false,
-      "declarations": [
+      "type":"VariableDeclaration",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":14}},
+      "range":[0,14],
+      "declarations":[
         {
-          "type": "VariableDeclarator",
-          "span": {
-            "start": 5,
-            "end": 15,
-            "ctxt": 0
-          },
-          "id": {
-            "type": "ArrayPattern",
-            "span": {
-              "start": 5,
-              "end": 10,
-              "ctxt": 0
-            },
-            "elements": [
+          "type":"VariableDeclarator",
+          "loc":{"source":null,"start":{"line":1,"column":4},"end":{"line":1,"column":14}},
+          "range":[4,14],
+          "id":{
+            "type":"ArrayPattern",
+            "loc":{"source":null,"start":{"line":1,"column":4},"end":{"line":1,"column":9}},
+            "range":[4,9],
+            "elements":[
               {
-                "type": "AssignmentPattern",
-                "span": {
-                  "start": 6,
-                  "end": 9,
-                  "ctxt": 0
+                "type":"AssignmentPattern",
+                "loc":{"source":null,"start":{"line":1,"column":5},"end":{"line":1,"column":8}},
+                "range":[5,8],
+                "left":{
+                  "type":"Identifier",
+                  "loc":{"source":null,"start":{"line":1,"column":5},"end":{"line":1,"column":6}},
+                  "range":[5,6],
+                  "name":"x",
+                  "typeAnnotation":null,
+                  "optional":false
                 },
-                "left": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 6,
-                    "end": 7,
-                    "ctxt": 0
-                  },
-                  "value": "x",
-                  "optional": false,
-                  "typeAnnotation": null
-                },
-                "right": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 8,
-                    "end": 9,
-                    "ctxt": 0
-                  },
-                  "value": "y",
-                  "optional": false
+                "right":{
+                  "type":"Identifier",
+                  "loc":{"source":null,"start":{"line":1,"column":7},"end":{"line":1,"column":8}},
+                  "range":[7,8],
+                  "name":"y",
+                  "typeAnnotation":null,
+                  "optional":false
                 }
               }
             ],
-            "optional": false,
-            "typeAnnotation": null
+            "typeAnnotation":null
           },
-          "init": {
-            "type": "ArrayExpression",
-            "span": {
-              "start": 13,
-              "end": 15,
-              "ctxt": 0
-            },
-            "elements": []
-          },
-          "definite": false
+          "init":{
+            "type":"ArrayExpression",
+            "loc":{"source":null,"start":{"line":1,"column":12},"end":{"line":1,"column":14}},
+            "range":[12,14],
+            "elements":[]
+          }
         }
-      ]
+      ],
+      "kind":"let"
     }
   ],
-  "interpreter": null
+  "comments":[]
 }

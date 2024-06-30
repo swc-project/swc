@@ -1,116 +1,86 @@
 {
-  "type": "Script",
-  "span": {
-    "start": 1,
-    "end": 37,
-    "ctxt": 0
-  },
-  "body": [
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":36}},
+  "range":[0,36],
+  "body":[
     {
-      "type": "VariableDeclaration",
-      "span": {
-        "start": 1,
-        "end": 37,
-        "ctxt": 0
-      },
-      "kind": "var",
-      "declare": false,
-      "declarations": [
+      "type":"VariableDeclaration",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":36}},
+      "range":[0,36],
+      "declarations":[
         {
-          "type": "VariableDeclarator",
-          "span": {
-            "start": 5,
-            "end": 36,
-            "ctxt": 0
+          "type":"VariableDeclarator",
+          "loc":{"source":null,"start":{"line":1,"column":4},"end":{"line":1,"column":35}},
+          "range":[4,35],
+          "id":{
+            "type":"Identifier",
+            "loc":{"source":null,"start":{"line":1,"column":4},"end":{"line":1,"column":5}},
+            "range":[4,5],
+            "name":"x",
+            "typeAnnotation":null,
+            "optional":false
           },
-          "id": {
-            "type": "Identifier",
-            "span": {
-              "start": 5,
-              "end": 6,
-              "ctxt": 0
-            },
-            "value": "x",
-            "optional": false,
-            "typeAnnotation": null
-          },
-          "init": {
-            "type": "ArrowFunctionExpression",
-            "span": {
-              "start": 9,
-              "end": 36,
-              "ctxt": 0
-            },
-            "params": [
+          "init":{
+            "type":"ArrowFunctionExpression",
+            "loc":{"source":null,"start":{"line":1,"column":8},"end":{"line":1,"column":35}},
+            "range":[8,35],
+            "id":null,
+            "params":[
               {
-                "type": "Identifier",
-                "span": {
-                  "start": 16,
-                  "end": 17,
-                  "ctxt": 0
-                },
-                "value": "a",
-                "optional": false,
-                "typeAnnotation": null
+                "type":"Identifier",
+                "loc":{"source":null,"start":{"line":1,"column":15},"end":{"line":1,"column":16}},
+                "range":[15,16],
+                "name":"a",
+                "typeAnnotation":null,
+                "optional":false
               },
               {
-                "type": "Identifier",
-                "span": {
-                  "start": 19,
-                  "end": 20,
-                  "ctxt": 0
-                },
-                "value": "b",
-                "optional": false,
-                "typeAnnotation": null
+                "type":"Identifier",
+                "loc":{"source":null,"start":{"line":1,"column":18},"end":{"line":1,"column":19}},
+                "range":[18,19],
+                "name":"b",
+                "typeAnnotation":null,
+                "optional":false
               }
             ],
-            "body": {
-              "type": "BinaryExpression",
-              "span": {
-                "start": 25,
-                "end": 36,
-                "ctxt": 0
-              },
-              "operator": "+",
-              "left": {
-                "type": "AwaitExpression",
-                "span": {
-                  "start": 25,
-                  "end": 32,
-                  "ctxt": 0
-                },
-                "argument": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 31,
-                    "end": 32,
-                    "ctxt": 0
-                  },
-                  "value": "a",
-                  "optional": false
+            "body":{
+              "type":"BinaryExpression",
+              "loc":{"source":null,"start":{"line":1,"column":24},"end":{"line":1,"column":35}},
+              "range":[24,35],
+              "operator":"+",
+              "left":{
+                "type":"AwaitExpression",
+                "loc":{"source":null,"start":{"line":1,"column":24},"end":{"line":1,"column":31}},
+                "range":[24,31],
+                "argument":{
+                  "type":"Identifier",
+                  "loc":{"source":null,"start":{"line":1,"column":30},"end":{"line":1,"column":31}},
+                  "range":[30,31],
+                  "name":"a",
+                  "typeAnnotation":null,
+                  "optional":false
                 }
               },
-              "right": {
-                "type": "Identifier",
-                "span": {
-                  "start": 35,
-                  "end": 36,
-                  "ctxt": 0
-                },
-                "value": "b",
-                "optional": false
+              "right":{
+                "type":"Identifier",
+                "loc":{"source":null,"start":{"line":1,"column":34},"end":{"line":1,"column":35}},
+                "range":[34,35],
+                "name":"b",
+                "typeAnnotation":null,
+                "optional":false
               }
             },
-            "async": true,
-            "generator": false,
-            "typeParameters": null,
-            "returnType": null
-          },
-          "definite": false
+            "async":true,
+            "generator":false,
+            "predicate":null,
+            "expression":true,
+            "returnType":null,
+            "typeParameters":null
+          }
         }
-      ]
+      ],
+      "kind":"var"
     }
   ],
-  "interpreter": null
+  "comments":[]
 }

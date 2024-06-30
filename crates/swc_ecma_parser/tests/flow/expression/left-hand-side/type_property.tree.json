@@ -1,47 +1,36 @@
 {
-  "type": "Script",
-  "span": {
-    "start": 1,
-    "end": 14,
-    "ctxt": 0
-  },
-  "body": [
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":13}},
+  "range":[0,13],
+  "body":[
     {
-      "type": "ExpressionStatement",
-      "span": {
-        "start": 1,
-        "end": 14,
-        "ctxt": 0
+      "type":"ExpressionStatement",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":13}},
+      "range":[0,13],
+      "expression":{
+        "type":"MemberExpression",
+        "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":13}},
+        "range":[0,13],
+        "object":{
+          "type":"Identifier",
+          "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":8}},
+          "range":[0,8],
+          "name":"universe",
+          "typeAnnotation":null,
+          "optional":false
+        },
+        "property":{
+          "type":"Identifier",
+          "loc":{"source":null,"start":{"line":1,"column":9},"end":{"line":1,"column":13}},
+          "range":[9,13],
+          "name":"type",
+          "typeAnnotation":null,
+          "optional":false
+        },
+        "computed":false
       },
-      "expression": {
-        "type": "MemberExpression",
-        "span": {
-          "start": 1,
-          "end": 14,
-          "ctxt": 0
-        },
-        "object": {
-          "type": "Identifier",
-          "span": {
-            "start": 1,
-            "end": 9,
-            "ctxt": 0
-          },
-          "value": "universe",
-          "optional": false
-        },
-        "property": {
-          "type": "Identifier",
-          "span": {
-            "start": 10,
-            "end": 14,
-            "ctxt": 0
-          },
-          "value": "type",
-          "optional": false
-        }
-      }
+      "directive":null
     }
   ],
-  "interpreter": null
+  "comments":[]
 }

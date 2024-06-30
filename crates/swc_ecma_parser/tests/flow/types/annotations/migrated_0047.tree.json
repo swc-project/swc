@@ -1,103 +1,121 @@
 {
-  "type": "Script",
-  "span": {
-    "start": 1,
-    "end": 47,
-    "ctxt": 0
-  },
-  "body": [
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":46}},
+  "range":[0,46],
+  "body":[
     {
-      "type": "ClassDeclaration",
-      "identifier": {
-        "type": "Identifier",
-        "span": {
-          "start": 7,
-          "end": 10,
-          "ctxt": 0
-        },
-        "value": "Foo",
-        "optional": false
+      "type":"ClassDeclaration",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":46}},
+      "range":[0,46],
+      "id":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":1,"column":6},"end":{"line":1,"column":9}},
+        "range":[6,9],
+        "name":"Foo",
+        "typeAnnotation":null,
+        "optional":false
       },
-      "declare": false,
-      "span": {
-        "start": 1,
-        "end": 47,
-        "ctxt": 0
-      },
-      "decorators": [],
-      "body": [
-        {
-          "type": "ClassMethod",
-          "span": {
-            "start": 16,
-            "end": 46,
-            "ctxt": 0
-          },
-          "key": {
-            "type": "Identifier",
-            "span": {
-              "start": 16,
-              "end": 19,
-              "ctxt": 0
+      "body":{
+        "type":"ClassBody",
+        "loc":{"source":null,"start":{"line":1,"column":13},"end":{"line":1,"column":46}},
+        "range":[13,46],
+        "body":[
+          {
+            "type":"MethodDefinition",
+            "loc":{"source":null,"start":{"line":1,"column":15},"end":{"line":1,"column":45}},
+            "range":[15,45],
+            "key":{
+              "type":"Identifier",
+              "loc":{"source":null,"start":{"line":1,"column":15},"end":{"line":1,"column":18}},
+              "range":[15,18],
+              "name":"bar",
+              "typeAnnotation":null,
+              "optional":false
             },
-            "value": "bar",
-            "optional": false
-          },
-          "function": {
-            "params": [],
-            "decorators": [],
-            "span": {
-              "start": 16,
-              "end": 46,
-              "ctxt": 0
-            },
-            "body": {
-              "type": "BlockStatement",
-              "span": {
-                "start": 32,
-                "end": 46,
-                "ctxt": 0
-              },
-              "stmts": [
-                {
-                  "type": "ReturnStatement",
-                  "span": {
-                    "start": 34,
-                    "end": 44,
-                    "ctxt": 0
-                  },
-                  "argument": {
-                    "type": "NumericLiteral",
-                    "span": {
-                      "start": 41,
-                      "end": 43,
-                      "ctxt": 0
-                    },
-                    "value": 42.0,
-                    "raw": "42"
+            "value":{
+              "type":"FunctionExpression",
+              "loc":{"source":null,"start":{"line":1,"column":18},"end":{"line":1,"column":45}},
+              "range":[18,45],
+              "id":null,
+              "params":[],
+              "body":{
+                "type":"BlockStatement",
+                "loc":{"source":null,"start":{"line":1,"column":31},"end":{"line":1,"column":45}},
+                "range":[31,45],
+                "body":[
+                  {
+                    "type":"ReturnStatement",
+                    "loc":{"source":null,"start":{"line":1,"column":33},"end":{"line":1,"column":43}},
+                    "range":[33,43],
+                    "argument":{
+                      "type":"Literal",
+                      "loc":{"source":null,"start":{"line":1,"column":40},"end":{"line":1,"column":42}},
+                      "range":[40,42],
+                      "value":42,
+                      "raw":"42"
+                    }
                   }
+                ]
+              },
+              "async":false,
+              "generator":false,
+              "predicate":null,
+              "expression":false,
+              "returnType":{
+                "type":"TypeAnnotation",
+                "loc":{"source":null,"start":{"line":1,"column":23},"end":{"line":1,"column":30}},
+                "range":[23,30],
+                "typeAnnotation":{
+                  "type":"NumberTypeAnnotation",
+                  "loc":{"source":null,"start":{"line":1,"column":24},"end":{"line":1,"column":30}},
+                  "range":[24,30]
                 }
-              ]
+              },
+              "typeParameters":{
+                "type":"TypeParameterDeclaration",
+                "loc":{"source":null,"start":{"line":1,"column":18},"end":{"line":1,"column":21}},
+                "range":[18,21],
+                "params":[
+                  {
+                    "type":"TypeParameter",
+                    "loc":{"source":null,"start":{"line":1,"column":19},"end":{"line":1,"column":20}},
+                    "range":[19,20],
+                    "name":"U",
+                    "bound":null,
+                    "variance":null,
+                    "default":null
+                  }
+                ]
+              }
             },
-            "generator": false,
-            "async": false,
-            "typeParameters": null,
-            "returnType": null
-          },
-          "kind": "method",
-          "isStatic": false,
-          "accessibility": null,
-          "isAbstract": false,
-          "isOptional": false,
-          "isOverride": false
-        }
-      ],
-      "superClass": null,
-      "isAbstract": false,
-      "typeParams": null,
-      "superTypeParams": null,
-      "implements": []
+            "kind":"method",
+            "static":false,
+            "computed":false,
+            "decorators":[]
+          }
+        ]
+      },
+      "superClass":null,
+      "typeParameters":{
+        "type":"TypeParameterDeclaration",
+        "loc":{"source":null,"start":{"line":1,"column":9},"end":{"line":1,"column":12}},
+        "range":[9,12],
+        "params":[
+          {
+            "type":"TypeParameter",
+            "loc":{"source":null,"start":{"line":1,"column":10},"end":{"line":1,"column":11}},
+            "range":[10,11],
+            "name":"T",
+            "bound":null,
+            "variance":null,
+            "default":null
+          }
+        ]
+      },
+      "superTypeParameters":null,
+      "implements":[],
+      "decorators":[]
     }
   ],
-  "interpreter": null
+  "comments":[]
 }

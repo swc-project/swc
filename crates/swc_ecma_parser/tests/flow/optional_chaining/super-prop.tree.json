@@ -1,181 +1,140 @@
 {
-  "type": "Script",
-  "span": {
-    "start": 1,
-    "end": 68,
-    "ctxt": 0
-  },
-  "body": [
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":6,"column":1}},
+  "range":[0,67],
+  "body":[
     {
-      "type": "ClassDeclaration",
-      "identifier": {
-        "type": "Identifier",
-        "span": {
-          "start": 7,
-          "end": 8,
-          "ctxt": 0
-        },
-        "value": "A",
-        "optional": false
+      "type":"ClassDeclaration",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":10}},
+      "range":[0,10],
+      "id":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":1,"column":6},"end":{"line":1,"column":7}},
+        "range":[6,7],
+        "name":"A",
+        "typeAnnotation":null,
+        "optional":false
       },
-      "declare": false,
-      "span": {
-        "start": 1,
-        "end": 11,
-        "ctxt": 0
+      "body":{
+        "type":"ClassBody",
+        "loc":{"source":null,"start":{"line":1,"column":8},"end":{"line":1,"column":10}},
+        "range":[8,10],
+        "body":[]
       },
-      "decorators": [],
-      "body": [],
-      "superClass": null,
-      "isAbstract": false,
-      "typeParams": null,
-      "superTypeParams": null,
-      "implements": []
+      "typeParameters":null,
+      "superClass":null,
+      "superTypeParameters":null,
+      "implements":[],
+      "decorators":[]
     },
     {
-      "type": "ClassDeclaration",
-      "identifier": {
-        "type": "Identifier",
-        "span": {
-          "start": 18,
-          "end": 19,
-          "ctxt": 0
-        },
-        "value": "B",
-        "optional": false
+      "type":"ClassDeclaration",
+      "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":6,"column":1}},
+      "range":[11,67],
+      "id":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":2,"column":6},"end":{"line":2,"column":7}},
+        "range":[17,18],
+        "name":"B",
+        "typeAnnotation":null,
+        "optional":false
       },
-      "declare": false,
-      "span": {
-        "start": 12,
-        "end": 68,
-        "ctxt": 0
-      },
-      "decorators": [],
-      "body": [
-        {
-          "type": "ClassMethod",
-          "span": {
-            "start": 34,
-            "end": 66,
-            "ctxt": 0
-          },
-          "key": {
-            "type": "Identifier",
-            "span": {
-              "start": 34,
-              "end": 35,
-              "ctxt": 0
+      "body":{
+        "type":"ClassBody",
+        "loc":{"source":null,"start":{"line":2,"column":18},"end":{"line":6,"column":1}},
+        "range":[29,67],
+        "body":[
+          {
+            "type":"MethodDefinition",
+            "loc":{"source":null,"start":{"line":3,"column":2},"end":{"line":5,"column":3}},
+            "range":[33,65],
+            "key":{
+              "type":"Identifier",
+              "loc":{"source":null,"start":{"line":3,"column":2},"end":{"line":3,"column":3}},
+              "range":[33,34],
+              "name":"x",
+              "typeAnnotation":null,
+              "optional":false
             },
-            "value": "x",
-            "optional": false
-          },
-          "function": {
-            "params": [],
-            "decorators": [],
-            "span": {
-              "start": 34,
-              "end": 66,
-              "ctxt": 0
-            },
-            "body": {
-              "type": "BlockStatement",
-              "span": {
-                "start": 38,
-                "end": 66,
-                "ctxt": 0
-              },
-              "stmts": [
-                {
-                  "type": "ReturnStatement",
-                  "span": {
-                    "start": 44,
-                    "end": 62,
-                    "ctxt": 0
-                  },
-                  "argument": {
-                    "type": "OptionalChainingExpression",
-                    "span": {
-                      "start": 51,
-                      "end": 61,
-                      "ctxt": 0
-                    },
-                    "optional": true,
-                    "base": {
-                      "type": "MemberExpression",
-                      "span": {
-                        "start": 51,
-                        "end": 61,
-                        "ctxt": 0
+            "value":{
+              "type":"FunctionExpression",
+              "loc":{"source":null,"start":{"line":3,"column":3},"end":{"line":5,"column":3}},
+              "range":[34,65],
+              "id":null,
+              "params":[],
+              "body":{
+                "type":"BlockStatement",
+                "loc":{"source":null,"start":{"line":3,"column":6},"end":{"line":5,"column":3}},
+                "range":[37,65],
+                "body":[
+                  {
+                    "type":"ReturnStatement",
+                    "loc":{"source":null,"start":{"line":4,"column":4},"end":{"line":4,"column":22}},
+                    "range":[43,61],
+                    "argument":{
+                      "type":"OptionalMemberExpression",
+                      "loc":{"source":null,"start":{"line":4,"column":11},"end":{"line":4,"column":21}},
+                      "range":[50,60],
+                      "object":{
+                        "type":"MemberExpression",
+                        "loc":{"source":null,"start":{"line":4,"column":11},"end":{"line":4,"column":18}},
+                        "range":[50,57],
+                        "object":{
+                          "type":"Super",
+                          "loc":{"source":null,"start":{"line":4,"column":11},"end":{"line":4,"column":16}},
+                          "range":[50,55]
+                        },
+                        "property":{
+                          "type":"Identifier",
+                          "loc":{"source":null,"start":{"line":4,"column":17},"end":{"line":4,"column":18}},
+                          "range":[56,57],
+                          "name":"a",
+                          "typeAnnotation":null,
+                          "optional":false
+                        },
+                        "computed":false
                       },
-                      "object": {
-                        "type": "SuperPropExpression",
-                        "span": {
-                          "start": 51,
-                          "end": 58,
-                          "ctxt": 0
-                        },
-                        "obj": {
-                          "type": "Super",
-                          "span": {
-                            "start": 51,
-                            "end": 56,
-                            "ctxt": 0
-                          }
-                        },
-                        "property": {
-                          "type": "Identifier",
-                          "span": {
-                            "start": 57,
-                            "end": 58,
-                            "ctxt": 0
-                          },
-                          "value": "a",
-                          "optional": false
-                        }
+                      "property":{
+                        "type":"Identifier",
+                        "loc":{"source":null,"start":{"line":4,"column":20},"end":{"line":4,"column":21}},
+                        "range":[59,60],
+                        "name":"c",
+                        "typeAnnotation":null,
+                        "optional":false
                       },
-                      "property": {
-                        "type": "Identifier",
-                        "span": {
-                          "start": 60,
-                          "end": 61,
-                          "ctxt": 0
-                        },
-                        "value": "c",
-                        "optional": false
-                      }
+                      "computed":false,
+                      "optional":true
                     }
                   }
-                }
-              ]
+                ]
+              },
+              "async":false,
+              "generator":false,
+              "predicate":null,
+              "expression":false,
+              "returnType":null,
+              "typeParameters":null
             },
-            "generator": false,
-            "async": false,
-            "typeParameters": null,
-            "returnType": null
-          },
-          "kind": "method",
-          "isStatic": false,
-          "accessibility": null,
-          "isAbstract": false,
-          "isOptional": false,
-          "isOverride": false
-        }
-      ],
-      "superClass": {
-        "type": "Identifier",
-        "span": {
-          "start": 28,
-          "end": 29,
-          "ctxt": 0
-        },
-        "value": "A",
-        "optional": false
+            "kind":"method",
+            "static":false,
+            "computed":false,
+            "decorators":[]
+          }
+        ]
       },
-      "isAbstract": false,
-      "typeParams": null,
-      "superTypeParams": null,
-      "implements": []
+      "typeParameters":null,
+      "superClass":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":2,"column":16},"end":{"line":2,"column":17}},
+        "range":[27,28],
+        "name":"A",
+        "typeAnnotation":null,
+        "optional":false
+      },
+      "superTypeParameters":null,
+      "implements":[],
+      "decorators":[]
     }
   ],
-  "interpreter": null
+  "comments":[]
 }

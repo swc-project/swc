@@ -1,86 +1,79 @@
 {
-  "type": "Script",
-  "span": {
-    "start": 1,
-    "end": 43,
-    "ctxt": 0
-  },
-  "body": [
+  "errors":[
     {
-      "type": "FunctionDeclaration",
-      "identifier": {
-        "type": "Identifier",
-        "span": {
-          "start": 10,
-          "end": 13,
-          "ctxt": 0
-        },
-        "value": "foo",
-        "optional": false
-      },
-      "declare": false,
-      "params": [
-        {
-          "type": "Parameter",
-          "span": {
-            "start": 14,
-            "end": 25,
-            "ctxt": 0
-          },
-          "decorators": [],
-          "pat": {
-            "type": "Identifier",
-            "span": {
-              "start": 14,
-              "end": 17,
-              "ctxt": 0
-            },
-            "value": "bar",
-            "optional": false,
-            "typeAnnotation": null
-          }
-        },
-        {
-          "type": "Parameter",
-          "span": {
-            "start": 27,
-            "end": 39,
-            "ctxt": 0
-          },
-          "decorators": [],
-          "pat": {
-            "type": "Identifier",
-            "span": {
-              "start": 27,
-              "end": 31,
-              "ctxt": 0
-            },
-            "value": "this",
-            "optional": false,
-            "typeAnnotation": null
-          }
-        }
-      ],
-      "decorators": [],
-      "span": {
-        "start": 1,
-        "end": 43,
-        "ctxt": 0
-      },
-      "body": {
-        "type": "BlockStatement",
-        "span": {
-          "start": 41,
-          "end": 43,
-          "ctxt": 0
-        },
-        "stmts": []
-      },
-      "generator": false,
-      "async": false,
-      "typeParameters": null,
-      "returnType": null
+      "loc":{"source":null,"start":{"line":1,"column":26},"end":{"line":1,"column":30}},
+      "message":"The `this` parameter must be the first function parameter."
+    },
+    {
+      "loc":{"source":null,"start":{"line":1,"column":26},"end":{"line":1,"column":30}},
+      "message":"Unexpected reserved word"
     }
   ],
-  "interpreter": null
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":42}},
+  "range":[0,42],
+  "body":[
+    {
+      "type":"FunctionDeclaration",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":42}},
+      "range":[0,42],
+      "id":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":1,"column":9},"end":{"line":1,"column":12}},
+        "range":[9,12],
+        "name":"foo",
+        "typeAnnotation":null,
+        "optional":false
+      },
+      "params":[
+        {
+          "type":"Identifier",
+          "loc":{"source":null,"start":{"line":1,"column":13},"end":{"line":1,"column":24}},
+          "range":[13,24],
+          "name":"bar",
+          "typeAnnotation":{
+            "type":"TypeAnnotation",
+            "loc":{"source":null,"start":{"line":1,"column":16},"end":{"line":1,"column":24}},
+            "range":[16,24],
+            "typeAnnotation":{
+              "type":"NumberTypeAnnotation",
+              "loc":{"source":null,"start":{"line":1,"column":18},"end":{"line":1,"column":24}},
+              "range":[18,24]
+            }
+          },
+          "optional":false
+        },
+        {
+          "type":"Identifier",
+          "loc":{"source":null,"start":{"line":1,"column":26},"end":{"line":1,"column":38}},
+          "range":[26,38],
+          "name":"this",
+          "typeAnnotation":{
+            "type":"TypeAnnotation",
+            "loc":{"source":null,"start":{"line":1,"column":30},"end":{"line":1,"column":38}},
+            "range":[30,38],
+            "typeAnnotation":{
+              "type":"StringTypeAnnotation",
+              "loc":{"source":null,"start":{"line":1,"column":32},"end":{"line":1,"column":38}},
+              "range":[32,38]
+            }
+          },
+          "optional":false
+        }
+      ],
+      "body":{
+        "type":"BlockStatement",
+        "loc":{"source":null,"start":{"line":1,"column":40},"end":{"line":1,"column":42}},
+        "range":[40,42],
+        "body":[]
+      },
+      "async":false,
+      "generator":false,
+      "predicate":null,
+      "expression":false,
+      "returnType":null,
+      "typeParameters":null
+    }
+  ],
+  "comments":[]
 }

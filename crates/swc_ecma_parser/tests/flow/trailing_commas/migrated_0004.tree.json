@@ -1,73 +1,58 @@
 {
-  "type": "Script",
-  "span": {
-    "start": 1,
-    "end": 14,
-    "ctxt": 0
-  },
-  "body": [
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":13}},
+  "range":[0,13],
+  "body":[
     {
-      "type": "ExpressionStatement",
-      "span": {
-        "start": 1,
-        "end": 14,
-        "ctxt": 0
-      },
-      "expression": {
-        "type": "ArrowFunctionExpression",
-        "span": {
-          "start": 1,
-          "end": 14,
-          "ctxt": 0
-        },
-        "params": [
+      "type":"ExpressionStatement",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":13}},
+      "range":[0,13],
+      "expression":{
+        "type":"ArrowFunctionExpression",
+        "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":13}},
+        "range":[0,13],
+        "id":null,
+        "params":[
           {
-            "type": "Identifier",
-            "span": {
-              "start": 2,
-              "end": 3,
-              "ctxt": 0
-            },
-            "value": "x",
-            "optional": false,
-            "typeAnnotation": null
+            "type":"Identifier",
+            "loc":{"source":null,"start":{"line":1,"column":1},"end":{"line":1,"column":2}},
+            "range":[1,2],
+            "name":"x",
+            "typeAnnotation":null,
+            "optional":false
           }
         ],
-        "body": {
-          "type": "BinaryExpression",
-          "span": {
-            "start": 9,
-            "end": 14,
-            "ctxt": 0
+        "body":{
+          "type":"BinaryExpression",
+          "loc":{"source":null,"start":{"line":1,"column":8},"end":{"line":1,"column":13}},
+          "range":[8,13],
+          "operator":"*",
+          "left":{
+            "type":"Identifier",
+            "loc":{"source":null,"start":{"line":1,"column":8},"end":{"line":1,"column":9}},
+            "range":[8,9],
+            "name":"x",
+            "typeAnnotation":null,
+            "optional":false
           },
-          "operator": "*",
-          "left": {
-            "type": "Identifier",
-            "span": {
-              "start": 9,
-              "end": 10,
-              "ctxt": 0
-            },
-            "value": "x",
-            "optional": false
-          },
-          "right": {
-            "type": "Identifier",
-            "span": {
-              "start": 13,
-              "end": 14,
-              "ctxt": 0
-            },
-            "value": "x",
-            "optional": false
+          "right":{
+            "type":"Identifier",
+            "loc":{"source":null,"start":{"line":1,"column":12},"end":{"line":1,"column":13}},
+            "range":[12,13],
+            "name":"x",
+            "typeAnnotation":null,
+            "optional":false
           }
         },
-        "async": false,
-        "generator": false,
-        "typeParameters": null,
-        "returnType": null
-      }
+        "async":false,
+        "generator":false,
+        "predicate":null,
+        "expression":true,
+        "returnType":null,
+        "typeParameters":null
+      },
+      "directive":null
     }
   ],
-  "interpreter": null
+  "comments":[]
 }

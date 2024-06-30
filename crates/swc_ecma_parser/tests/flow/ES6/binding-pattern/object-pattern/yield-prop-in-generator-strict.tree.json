@@ -1,148 +1,125 @@
 {
-  "type": "Script",
-  "span": {
-    "start": 126,
-    "end": 177,
-    "ctxt": 0
-  },
-  "body": [
+  "errors":[
     {
-      "type": "ExpressionStatement",
-      "span": {
-        "start": 126,
-        "end": 139,
-        "ctxt": 0
-      },
-      "expression": {
-        "type": "StringLiteral",
-        "span": {
-          "start": 126,
-          "end": 138,
-          "ctxt": 0
-        },
-        "value": "use strict",
-        "raw": "\"use strict\""
-      }
-    },
-    {
-      "type": "ExpressionStatement",
-      "span": {
-        "start": 140,
-        "end": 177,
-        "ctxt": 0
-      },
-      "expression": {
-        "type": "ParenthesisExpression",
-        "span": {
-          "start": 140,
-          "end": 176,
-          "ctxt": 0
-        },
-        "expression": {
-          "type": "FunctionExpression",
-          "identifier": null,
-          "params": [],
-          "decorators": [],
-          "span": {
-            "start": 141,
-            "end": 175,
-            "ctxt": 0
-          },
-          "body": {
-            "type": "BlockStatement",
-            "span": {
-              "start": 153,
-              "end": 175,
-              "ctxt": 0
-            },
-            "stmts": [
-              {
-                "type": "ExpressionStatement",
-                "span": {
-                  "start": 155,
-                  "end": 173,
-                  "ctxt": 0
-                },
-                "expression": {
-                  "type": "SequenceExpression",
-                  "span": {
-                    "start": 155,
-                    "end": 172,
-                    "ctxt": 0
-                  },
-                  "expressions": [
-                    {
-                      "type": "NumericLiteral",
-                      "span": {
-                        "start": 155,
-                        "end": 156,
-                        "ctxt": 0
-                      },
-                      "value": 0.0,
-                      "raw": "0"
-                    },
-                    {
-                      "type": "AssignmentExpression",
-                      "span": {
-                        "start": 158,
-                        "end": 172,
-                        "ctxt": 0
-                      },
-                      "operator": "=",
-                      "left": {
-                        "type": "ObjectPattern",
-                        "span": {
-                          "start": 158,
-                          "end": 167,
-                          "ctxt": 0
-                        },
-                        "properties": [
-                          {
-                            "type": "AssignmentPatternProperty",
-                            "span": {
-                              "start": 160,
-                              "end": 165,
-                              "ctxt": 0
-                            },
-                            "key": {
-                              "type": "Identifier",
-                              "span": {
-                                "start": 160,
-                                "end": 165,
-                                "ctxt": 0
-                              },
-                              "value": "yield",
-                              "optional": false,
-                              "typeAnnotation": null
-                            },
-                            "value": null
-                          }
-                        ],
-                        "optional": false,
-                        "typeAnnotation": null
-                      },
-                      "right": {
-                        "type": "ObjectExpression",
-                        "span": {
-                          "start": 170,
-                          "end": 172,
-                          "ctxt": 0
-                        },
-                        "properties": []
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          },
-          "generator": true,
-          "async": false,
-          "typeParameters": null,
-          "returnType": null
-        }
-      }
+      "loc":{"source":null,"start":{"line":6,"column":20},"end":{"line":6,"column":25}},
+      "message":"Use of reserved word in strict mode"
     }
   ],
-  "interpreter": null
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":5,"column":0},"end":{"line":6,"column":37}},
+  "range":[125,176],
+  "body":[
+    {
+      "type":"ExpressionStatement",
+      "loc":{"source":null,"start":{"line":5,"column":0},"end":{"line":5,"column":13}},
+      "range":[125,138],
+      "expression":{
+        "type":"Literal",
+        "loc":{"source":null,"start":{"line":5,"column":0},"end":{"line":5,"column":12}},
+        "range":[125,137],
+        "value":"use strict",
+        "raw":"\"use strict\""
+      },
+      "directive":"use strict"
+    },
+    {
+      "type":"ExpressionStatement",
+      "loc":{"source":null,"start":{"line":6,"column":0},"end":{"line":6,"column":37}},
+      "range":[139,176],
+      "expression":{
+        "type":"FunctionExpression",
+        "loc":{"source":null,"start":{"line":6,"column":1},"end":{"line":6,"column":35}},
+        "range":[140,174],
+        "id":null,
+        "params":[],
+        "body":{
+          "type":"BlockStatement",
+          "loc":{"source":null,"start":{"line":6,"column":13},"end":{"line":6,"column":35}},
+          "range":[152,174],
+          "body":[
+            {
+              "type":"ExpressionStatement",
+              "loc":{"source":null,"start":{"line":6,"column":15},"end":{"line":6,"column":33}},
+              "range":[154,172],
+              "expression":{
+                "type":"SequenceExpression",
+                "loc":{"source":null,"start":{"line":6,"column":15},"end":{"line":6,"column":32}},
+                "range":[154,171],
+                "expressions":[
+                  {
+                    "type":"Literal",
+                    "loc":{"source":null,"start":{"line":6,"column":15},"end":{"line":6,"column":16}},
+                    "range":[154,155],
+                    "value":0,
+                    "raw":"0"
+                  },
+                  {
+                    "type":"AssignmentExpression",
+                    "loc":{"source":null,"start":{"line":6,"column":18},"end":{"line":6,"column":32}},
+                    "range":[157,171],
+                    "operator":"=",
+                    "left":{
+                      "type":"ObjectPattern",
+                      "loc":{"source":null,"start":{"line":6,"column":18},"end":{"line":6,"column":27}},
+                      "range":[157,166],
+                      "properties":[
+                        {
+                          "type":"Property",
+                          "loc":{"source":null,"start":{"line":6,"column":20},"end":{"line":6,"column":25}},
+                          "range":[159,164],
+                          "key":{
+                            "type":"Identifier",
+                            "loc":{"source":null,"start":{"line":6,"column":20},"end":{"line":6,"column":25}},
+                            "range":[159,164],
+                            "name":"yield",
+                            "typeAnnotation":null,
+                            "optional":false
+                          },
+                          "value":{
+                            "type":"Identifier",
+                            "loc":{"source":null,"start":{"line":6,"column":20},"end":{"line":6,"column":25}},
+                            "range":[159,164],
+                            "name":"yield",
+                            "typeAnnotation":null,
+                            "optional":false
+                          },
+                          "kind":"init",
+                          "method":false,
+                          "shorthand":true,
+                          "computed":false
+                        }
+                      ],
+                      "typeAnnotation":null
+                    },
+                    "right":{
+                      "type":"ObjectExpression",
+                      "loc":{"source":null,"start":{"line":6,"column":30},"end":{"line":6,"column":32}},
+                      "range":[169,171],
+                      "properties":[]
+                    }
+                  }
+                ]
+              },
+              "directive":null
+            }
+          ]
+        },
+        "async":false,
+        "generator":true,
+        "predicate":null,
+        "expression":false,
+        "returnType":null,
+        "typeParameters":null
+      },
+      "directive":null
+    }
+  ],
+  "comments":[
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":4,"column":3}},
+      "range":[0,124],
+      "value":"\n * When [+Yield], `yield` isn't a valid IdentifierReference.\n * #prod-AssignmentProperty -> #prod-IdentifierReference\n "
+    }
+  ]
 }

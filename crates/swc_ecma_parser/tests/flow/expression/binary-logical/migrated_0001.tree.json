@@ -1,75 +1,50 @@
 {
-  "type": "Script",
-  "span": {
-    "start": 1,
-    "end": 14,
-    "ctxt": 0
-  },
-  "body": [
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":13}},
+  "range":[0,13],
+  "body":[
     {
-      "type": "ExpressionStatement",
-      "span": {
-        "start": 1,
-        "end": 14,
-        "ctxt": 0
-      },
-      "expression": {
-        "type": "BinaryExpression",
-        "span": {
-          "start": 1,
-          "end": 14,
-          "ctxt": 0
+      "type":"ExpressionStatement",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":13}},
+      "range":[0,13],
+      "expression":{
+        "type":"LogicalExpression",
+        "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":13}},
+        "range":[0,13],
+        "operator":"||",
+        "left":{
+          "type":"Identifier",
+          "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":1}},
+          "range":[0,1],
+          "name":"x",
+          "typeAnnotation":null,
+          "optional":false
         },
-        "operator": "||",
-        "left": {
-          "type": "Identifier",
-          "span": {
-            "start": 1,
-            "end": 2,
-            "ctxt": 0
+        "right":{
+          "type":"LogicalExpression",
+          "loc":{"source":null,"start":{"line":1,"column":6},"end":{"line":1,"column":12}},
+          "range":[6,12],
+          "operator":"||",
+          "left":{
+            "type":"Identifier",
+            "loc":{"source":null,"start":{"line":1,"column":6},"end":{"line":1,"column":7}},
+            "range":[6,7],
+            "name":"y",
+            "typeAnnotation":null,
+            "optional":false
           },
-          "value": "x",
-          "optional": false
-        },
-        "right": {
-          "type": "ParenthesisExpression",
-          "span": {
-            "start": 6,
-            "end": 14,
-            "ctxt": 0
-          },
-          "expression": {
-            "type": "BinaryExpression",
-            "span": {
-              "start": 7,
-              "end": 13,
-              "ctxt": 0
-            },
-            "operator": "||",
-            "left": {
-              "type": "Identifier",
-              "span": {
-                "start": 7,
-                "end": 8,
-                "ctxt": 0
-              },
-              "value": "y",
-              "optional": false
-            },
-            "right": {
-              "type": "Identifier",
-              "span": {
-                "start": 12,
-                "end": 13,
-                "ctxt": 0
-              },
-              "value": "z",
-              "optional": false
-            }
+          "right":{
+            "type":"Identifier",
+            "loc":{"source":null,"start":{"line":1,"column":11},"end":{"line":1,"column":12}},
+            "range":[11,12],
+            "name":"z",
+            "typeAnnotation":null,
+            "optional":false
           }
         }
-      }
+      },
+      "directive":null
     }
   ],
-  "interpreter": null
+  "comments":[]
 }

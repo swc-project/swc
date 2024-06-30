@@ -1,76 +1,41 @@
 {
-  "type": "Script",
-  "span": {
-    "start": 1,
-    "end": 26,
-    "ctxt": 0
-  },
-  "body": [
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":25}},
+  "range":[0,25],
+  "body":[
     {
-      "type": "VariableDeclaration",
-      "span": {
-        "start": 1,
-        "end": 26,
-        "ctxt": 0
-      },
-      "kind": "const",
-      "declare": false,
-      "declarations": [
+      "type":"VariableDeclaration",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":25}},
+      "range":[0,25],
+      "declarations":[
         {
-          "type": "VariableDeclarator",
-          "span": {
-            "start": 7,
-            "end": 25,
-            "ctxt": 0
+          "type":"VariableDeclarator",
+          "loc":{"source":null,"start":{"line":1,"column":6},"end":{"line":1,"column":24}},
+          "range":[6,24],
+          "id":{
+            "type":"Identifier",
+            "loc":{"source":null,"start":{"line":1,"column":6},"end":{"line":1,"column":7}},
+            "range":[6,7],
+            "name":"m",
+            "typeAnnotation":null,
+            "optional":false
           },
-          "id": {
-            "type": "Identifier",
-            "span": {
-              "start": 7,
-              "end": 8,
-              "ctxt": 0
-            },
-            "value": "m",
-            "optional": false,
-            "typeAnnotation": null
-          },
-          "init": {
-            "type": "CallExpression",
-            "span": {
-              "start": 11,
-              "end": 25,
-              "ctxt": 0
-            },
-            "callee": {
-              "type": "Import",
-              "span": {
-                "start": 11,
-                "end": 17,
-                "ctxt": 0
-              },
-              "phase": "evaluation"
-            },
-            "arguments": [
-              {
-                "spread": null,
-                "expression": {
-                  "type": "StringLiteral",
-                  "span": {
-                    "start": 18,
-                    "end": 24,
-                    "ctxt": 0
-                  },
-                  "value": "asdf",
-                  "raw": "\"asdf\""
-                }
-              }
-            ],
-            "typeArguments": null
-          },
-          "definite": false
+          "init":{
+            "type":"ImportExpression",
+            "loc":{"source":null,"start":{"line":1,"column":10},"end":{"line":1,"column":24}},
+            "range":[10,24],
+            "source":{
+              "type":"Literal",
+              "loc":{"source":null,"start":{"line":1,"column":17},"end":{"line":1,"column":23}},
+              "range":[17,23],
+              "value":"asdf",
+              "raw":"\"asdf\""
+            }
+          }
         }
-      ]
+      ],
+      "kind":"const"
     }
   ],
-  "interpreter": null
+  "comments":[]
 }

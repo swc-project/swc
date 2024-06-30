@@ -1,89 +1,93 @@
 {
-  "type": "Module",
-  "span": {
-    "start": 1,
-    "end": 37,
-    "ctxt": 0
-  },
-  "body": [
+  "errors":[
     {
-      "type": "ImportDeclaration",
-      "span": {
-        "start": 0,
-        "end": 0,
-        "ctxt": 0
-      },
-      "specifiers": [],
-      "source": {
-        "type": "StringLiteral",
-        "span": {
-          "start": 0,
-          "end": 0,
-          "ctxt": 0
-        },
-        "value": "",
-        "raw": null
-      },
-      "typeOnly": false,
-      "with": null,
-      "phase": "evaluation"
+      "loc":{"source":null,"start":{"line":1,"column":14},"end":{"line":1,"column":20}},
+      "message":"Unexpected identifier, expected the token `type`"
     },
     {
-      "type": "LabeledStatement",
-      "span": {
-        "start": 15,
-        "end": 37,
-        "ctxt": 0
-      },
-      "label": {
-        "type": "Identifier",
-        "span": {
-          "start": 15,
-          "end": 21,
-          "ctxt": 0
-        },
-        "value": "potato",
-        "optional": false
-      },
-      "body": {
-        "type": "ExpressionStatement",
-        "span": {
-          "start": 23,
-          "end": 37,
-          "ctxt": 0
-        },
-        "expression": {
-          "type": "AssignmentExpression",
-          "span": {
-            "start": 23,
-            "end": 36,
-            "ctxt": 0
-          },
-          "operator": "=",
-          "left": {
-            "type": "Identifier",
-            "span": {
-              "start": 23,
-              "end": 27,
-              "ctxt": 0
-            },
-            "value": "FBID",
-            "optional": false,
-            "typeAnnotation": null
-          },
-          "right": {
-            "type": "Identifier",
-            "span": {
-              "start": 30,
-              "end": 36,
-              "ctxt": 0
-            },
-            "value": "number",
-            "optional": false
-          }
-        }
-      }
+      "loc":{"source":null,"start":{"line":1,"column":20},"end":{"line":1,"column":21}},
+      "message":"Unexpected token `:`, expected an identifier"
+    },
+    {
+      "loc":{"source":null,"start":{"line":1,"column":22},"end":{"line":1,"column":26}},
+      "message":"Unexpected identifier, expected the token `=`"
+    },
+    {
+      "loc":{"source":null,"start":{"line":1,"column":27},"end":{"line":1,"column":28}},
+      "message":"Unexpected token `=`, expected a type"
+    },
+    {
+      "loc":{"source":null,"start":{"line":1,"column":27},"end":{"line":1,"column":28}},
+      "message":"Unexpected token `=`, expected the token `;`"
+    },
+    {
+      "loc":{"source":null,"start":{"line":1,"column":27},"end":{"line":1,"column":28}},
+      "message":"Unexpected token `=`"
+    },
+    {
+      "loc":{"source":null,"start":{"line":1,"column":27},"end":{"line":1,"column":28}},
+      "message":"Invalid left-hand side in assignment"
     }
   ],
-  "interpreter": null
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":36}},
+  "range":[0,36],
+  "body":[
+    {
+      "type":"ExportNamedDeclaration",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":26}},
+      "range":[0,26],
+      "declaration":{
+        "type":"OpaqueType",
+        "loc":{"source":null,"start":{"line":1,"column":7},"end":{"line":1,"column":26}},
+        "range":[7,26],
+        "id":{
+          "type":"Identifier",
+          "loc":{"source":null,"start":{"line":1,"column":20},"end":{"line":1,"column":21}},
+          "range":[20,21],
+          "name":"",
+          "typeAnnotation":null,
+          "optional":false
+        },
+        "typeParameters":null,
+        "impltype":{
+          "type":"AnyTypeAnnotation",
+          "loc":{"source":null,"start":{"line":1,"column":27},"end":{"line":1,"column":28}},
+          "range":[27,28]
+        },
+        "supertype":null
+      },
+      "specifiers":[],
+      "source":null,
+      "exportKind":"type"
+    },
+    {
+      "type":"ExpressionStatement",
+      "loc":{"source":null,"start":{"line":1,"column":27},"end":{"line":1,"column":36}},
+      "range":[27,36],
+      "expression":{
+        "type":"AssignmentExpression",
+        "loc":{"source":null,"start":{"line":1,"column":27},"end":{"line":1,"column":35}},
+        "range":[27,35],
+        "operator":"=",
+        "left":{
+          "type":"Literal",
+          "loc":{"source":null,"start":{"line":1,"column":27},"end":{"line":1,"column":28}},
+          "range":[27,28],
+          "value":null,
+          "raw":"null"
+        },
+        "right":{
+          "type":"Identifier",
+          "loc":{"source":null,"start":{"line":1,"column":29},"end":{"line":1,"column":35}},
+          "range":[29,35],
+          "name":"number",
+          "typeAnnotation":null,
+          "optional":false
+        }
+      },
+      "directive":null
+    }
+  ],
+  "comments":[]
 }

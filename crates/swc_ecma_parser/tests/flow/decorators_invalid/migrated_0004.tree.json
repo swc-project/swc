@@ -1,53 +1,42 @@
 {
-  "type": "Script",
-  "span": {
-    "start": 1,
-    "end": 19,
-    "ctxt": 0
-  },
-  "body": [
+  "errors":[
     {
-      "type": "VariableDeclaration",
-      "span": {
-        "start": 7,
-        "end": 19,
-        "ctxt": 0
-      },
-      "kind": "let",
-      "declare": false,
-      "declarations": [
-        {
-          "type": "VariableDeclarator",
-          "span": {
-            "start": 11,
-            "end": 18,
-            "ctxt": 0
-          },
-          "id": {
-            "type": "Identifier",
-            "span": {
-              "start": 11,
-              "end": 12,
-              "ctxt": 0
-            },
-            "value": "x",
-            "optional": false,
-            "typeAnnotation": null
-          },
-          "init": {
-            "type": "NumericLiteral",
-            "span": {
-              "start": 15,
-              "end": 18,
-              "ctxt": 0
-            },
-            "value": 123.0,
-            "raw": "123"
-          },
-          "definite": false
-        }
-      ]
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":5}},
+      "message":"Found a decorator in an unsupported position."
     }
   ],
-  "interpreter": null
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":12}},
+  "range":[6,18],
+  "body":[
+    {
+      "type":"VariableDeclaration",
+      "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":12}},
+      "range":[6,18],
+      "declarations":[
+        {
+          "type":"VariableDeclarator",
+          "loc":{"source":null,"start":{"line":2,"column":4},"end":{"line":2,"column":11}},
+          "range":[10,17],
+          "id":{
+            "type":"Identifier",
+            "loc":{"source":null,"start":{"line":2,"column":4},"end":{"line":2,"column":5}},
+            "range":[10,11],
+            "name":"x",
+            "typeAnnotation":null,
+            "optional":false
+          },
+          "init":{
+            "type":"Literal",
+            "loc":{"source":null,"start":{"line":2,"column":8},"end":{"line":2,"column":11}},
+            "range":[14,17],
+            "value":123,
+            "raw":"123"
+          }
+        }
+      ],
+      "kind":"let"
+    }
+  ],
+  "comments":[]
 }

@@ -1,172 +1,149 @@
 {
-  "type": "Script",
-  "span": {
-    "start": 1,
-    "end": 68,
-    "ctxt": 0
-  },
-  "body": [
+  "errors":[
     {
-      "type": "ClassDeclaration",
-      "identifier": {
-        "type": "Identifier",
-        "span": {
-          "start": 7,
-          "end": 10,
-          "ctxt": 0
-        },
-        "value": "Foo",
-        "optional": false
-      },
-      "declare": false,
-      "span": {
-        "start": 1,
-        "end": 68,
-        "ctxt": 0
-      },
-      "decorators": [],
-      "body": [
-        {
-          "type": "ClassMethod",
-          "span": {
-            "start": 15,
-            "end": 39,
-            "ctxt": 0
-          },
-          "key": {
-            "type": "Identifier",
-            "span": {
-              "start": 19,
-              "end": 22,
-              "ctxt": 0
-            },
-            "value": "foo",
-            "optional": false
-          },
-          "function": {
-            "params": [
-              {
-                "type": "Parameter",
-                "span": {
-                  "start": 23,
-                  "end": 35,
-                  "ctxt": 0
-                },
-                "decorators": [],
-                "pat": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 23,
-                    "end": 27,
-                    "ctxt": 0
-                  },
-                  "value": "this",
-                  "optional": false,
-                  "typeAnnotation": null
-                }
-              }
-            ],
-            "decorators": [],
-            "span": {
-              "start": 15,
-              "end": 39,
-              "ctxt": 0
-            },
-            "body": {
-              "type": "BlockStatement",
-              "span": {
-                "start": 37,
-                "end": 39,
-                "ctxt": 0
-              },
-              "stmts": []
-            },
-            "generator": false,
-            "async": false,
-            "typeParameters": null,
-            "returnType": null
-          },
-          "kind": "getter",
-          "isStatic": false,
-          "accessibility": null,
-          "isAbstract": false,
-          "isOptional": false,
-          "isOverride": false
-        },
-        {
-          "type": "ClassMethod",
-          "span": {
-            "start": 42,
-            "end": 66,
-            "ctxt": 0
-          },
-          "key": {
-            "type": "Identifier",
-            "span": {
-              "start": 46,
-              "end": 49,
-              "ctxt": 0
-            },
-            "value": "foo",
-            "optional": false
-          },
-          "function": {
-            "params": [
-              {
-                "type": "Parameter",
-                "span": {
-                  "start": 50,
-                  "end": 62,
-                  "ctxt": 0
-                },
-                "decorators": [],
-                "pat": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 50,
-                    "end": 54,
-                    "ctxt": 0
-                  },
-                  "value": "this",
-                  "optional": false,
-                  "typeAnnotation": null
-                }
-              }
-            ],
-            "decorators": [],
-            "span": {
-              "start": 42,
-              "end": 66,
-              "ctxt": 0
-            },
-            "body": {
-              "type": "BlockStatement",
-              "span": {
-                "start": 64,
-                "end": 66,
-                "ctxt": 0
-              },
-              "stmts": []
-            },
-            "generator": false,
-            "async": false,
-            "typeParameters": null,
-            "returnType": null
-          },
-          "kind": "setter",
-          "isStatic": false,
-          "accessibility": null,
-          "isAbstract": false,
-          "isOptional": false,
-          "isOverride": false
-        }
-      ],
-      "superClass": null,
-      "isAbstract": false,
-      "typeParams": null,
-      "superTypeParams": null,
-      "implements": []
+      "loc":{"source":null,"start":{"line":2,"column":6},"end":{"line":2,"column":9}},
+      "message":"A getter cannot have a `this` parameter."
+    },
+    {
+      "loc":{"source":null,"start":{"line":3,"column":6},"end":{"line":3,"column":9}},
+      "message":"A setter cannot have a `this` parameter."
     }
   ],
-  "interpreter": null
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":4,"column":1}},
+  "range":[0,67],
+  "body":[
+    {
+      "type":"ClassDeclaration",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":4,"column":1}},
+      "range":[0,67],
+      "id":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":1,"column":6},"end":{"line":1,"column":9}},
+        "range":[6,9],
+        "name":"Foo",
+        "typeAnnotation":null,
+        "optional":false
+      },
+      "body":{
+        "type":"ClassBody",
+        "loc":{"source":null,"start":{"line":1,"column":10},"end":{"line":4,"column":1}},
+        "range":[10,67],
+        "body":[
+          {
+            "type":"MethodDefinition",
+            "loc":{"source":null,"start":{"line":2,"column":2},"end":{"line":2,"column":26}},
+            "range":[14,38],
+            "key":{
+              "type":"Identifier",
+              "loc":{"source":null,"start":{"line":2,"column":6},"end":{"line":2,"column":9}},
+              "range":[18,21],
+              "name":"foo",
+              "typeAnnotation":null,
+              "optional":false
+            },
+            "value":{
+              "type":"FunctionExpression",
+              "loc":{"source":null,"start":{"line":2,"column":9},"end":{"line":2,"column":26}},
+              "range":[21,38],
+              "id":null,
+              "params":[
+                {
+                  "type":"Identifier",
+                  "loc":{"source":null,"start":{"line":2,"column":10},"end":{"line":2,"column":22}},
+                  "range":[22,34],
+                  "name":"this",
+                  "typeAnnotation":{
+                    "type":"TypeAnnotation",
+                    "loc":{"source":null,"start":{"line":2,"column":14},"end":{"line":2,"column":22}},
+                    "range":[26,34],
+                    "typeAnnotation":{
+                      "type":"StringTypeAnnotation",
+                      "loc":{"source":null,"start":{"line":2,"column":16},"end":{"line":2,"column":22}},
+                      "range":[28,34]
+                    }
+                  }
+                }
+              ],
+              "body":{
+                "type":"BlockStatement",
+                "loc":{"source":null,"start":{"line":2,"column":24},"end":{"line":2,"column":26}},
+                "range":[36,38],
+                "body":[]
+              },
+              "async":false,
+              "generator":false,
+              "predicate":null,
+              "expression":false,
+              "returnType":null,
+              "typeParameters":null
+            },
+            "kind":"get",
+            "static":false,
+            "computed":false,
+            "decorators":[]
+          },
+          {
+            "type":"MethodDefinition",
+            "loc":{"source":null,"start":{"line":3,"column":2},"end":{"line":3,"column":26}},
+            "range":[41,65],
+            "key":{
+              "type":"Identifier",
+              "loc":{"source":null,"start":{"line":3,"column":6},"end":{"line":3,"column":9}},
+              "range":[45,48],
+              "name":"foo",
+              "typeAnnotation":null,
+              "optional":false
+            },
+            "value":{
+              "type":"FunctionExpression",
+              "loc":{"source":null,"start":{"line":3,"column":9},"end":{"line":3,"column":26}},
+              "range":[48,65],
+              "id":null,
+              "params":[
+                {
+                  "type":"Identifier",
+                  "loc":{"source":null,"start":{"line":3,"column":10},"end":{"line":3,"column":22}},
+                  "range":[49,61],
+                  "name":"this",
+                  "typeAnnotation":{
+                    "type":"TypeAnnotation",
+                    "loc":{"source":null,"start":{"line":3,"column":14},"end":{"line":3,"column":22}},
+                    "range":[53,61],
+                    "typeAnnotation":{
+                      "type":"StringTypeAnnotation",
+                      "loc":{"source":null,"start":{"line":3,"column":16},"end":{"line":3,"column":22}},
+                      "range":[55,61]
+                    }
+                  }
+                }
+              ],
+              "body":{
+                "type":"BlockStatement",
+                "loc":{"source":null,"start":{"line":3,"column":24},"end":{"line":3,"column":26}},
+                "range":[63,65],
+                "body":[]
+              },
+              "async":false,
+              "generator":false,
+              "predicate":null,
+              "expression":false,
+              "returnType":null,
+              "typeParameters":null
+            },
+            "kind":"set",
+            "static":false,
+            "computed":false,
+            "decorators":[]
+          }
+        ]
+      },
+      "typeParameters":null,
+      "superClass":null,
+      "superTypeParameters":null,
+      "implements":[],
+      "decorators":[]
+    }
+  ],
+  "comments":[]
 }
