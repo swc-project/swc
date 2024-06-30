@@ -290,6 +290,15 @@ where
             return Ok(());
         }
 
+        if is_one_of!(self, '+', '-') {
+            self.input.bump();
+            if is_one_of!(self, Num, BigInt) {
+                self.input.bump();
+                return Ok(());
+            }
+            unexpected!(self, "Numeric literal or BigInt literal");
+        }
+
         if is!(self, "typeof") {
             return self.consume_flow_typeof_type();
         }
