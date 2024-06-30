@@ -27,6 +27,8 @@ where
 
     /// Ported from `flowParseTypeParameterDeclaration`
     pub(super) fn consume_flow_type_param_decl(&mut self) -> PResult<()> {
+        trace_cur!(self, consume_flow_type_param_decl);
+
         self.in_type().parse_with(|p| {
             if !(eat!(p, '<') || eat!(p, JSXTagStart)) {
                 unexpected!(p, "< or JSXTagStart")
@@ -648,6 +650,8 @@ where
     /// Ported from babel
     fn consume_flow_type_alias(&mut self) -> PResult<()> {
         assert_and_bump!(self, "type");
+
+        trace_cur!(self, consume_flow_type_alias);
 
         let _ident = self.parse_flow_restricted_ident(false, true)?;
 
