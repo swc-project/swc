@@ -87,7 +87,9 @@ impl<I: Tokens> Parser<I> {
             if is!(self, BindingIdent) {
                 let mut local = self.parse_imported_default_binding()?;
 
-                if self.input.syntax().typescript() && local.sym == "type" {
+                if (self.input.syntax().typescript() || self.input.syntax().flow())
+                    && local.sym == "type"
+                {
                     if is_one_of!(self, '*', '{') {
                         type_only = true;
                         break 'import_maybe_ident;
