@@ -1171,8 +1171,9 @@ impl<I: Tokens> Parser<I> {
 
     fn is_class_method(&mut self) -> bool {
         is!(self, '(')
-            || (self.input.syntax().typescript() && is!(self, '<'))
-            || (self.input.syntax().typescript() && is!(self, JSXTagStart))
+            || ((self.input.syntax().typescript() || self.input.syntax().flow()) && is!(self, '<'))
+            || ((self.input.syntax().typescript() || self.input.syntax().flow())
+                && is!(self, JSXTagStart))
     }
 
     fn is_class_property(&mut self, asi: bool) -> bool {
