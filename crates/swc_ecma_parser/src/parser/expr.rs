@@ -670,7 +670,7 @@ impl<I: Tokens> Parser<I> {
 
         let type_args = if self.syntax().typescript() && is!(self, '<') {
             self.try_parse_ts_type_args()
-        } else if self.syntax().flow() {
+        } else if self.syntax().flow() && is!(self, '<') {
             self.consume_flow_type_parameter_instantiation_call_or_new()?;
             None
         } else {
