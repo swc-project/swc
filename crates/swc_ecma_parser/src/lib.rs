@@ -218,6 +218,8 @@ impl Syntax {
             Syntax::Typescript(TsSyntax {
                 decorators: true, ..
             }) => true,
+            #[cfg(feature = "flow")]
+            Syntax::Flow(..) => true,
             _ => false,
         }
     }
