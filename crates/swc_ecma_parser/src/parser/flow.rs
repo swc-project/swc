@@ -648,6 +648,17 @@ where
         Ok(())
     }
 
+    /// Ported from `flowParseObjectPropertyKey`
+    fn consume_flow_object_property_key(&mut self) -> PResult<()> {
+        if is_one_of!(self, Str, Num) {
+            self.input.bump();
+        } else {
+            self.parse_ident_name()?
+        }
+
+        Ok(())
+    }
+
     /// Ported from `flowParseTupleType`
     fn consume_flow_tuple_type(&mut self) -> PResult<()> {
         expect!(self, '[');
