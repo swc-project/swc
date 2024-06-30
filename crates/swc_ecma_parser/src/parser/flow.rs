@@ -5,7 +5,7 @@ use swc_ecma_ast::{op, Ident, MethodKind};
 
 use crate::{
     error::SyntaxError,
-    token::{Token, TokenKind, Word},
+    token::{IdentLike, Token, TokenKind, Word},
     Context, PResult, Parser, Tokens,
 };
 
@@ -1000,6 +1000,43 @@ where
         }
 
         Ok(())
+    }
+
+    /// Ported from `flowParseTypeParameterInstantiationCallOrNew`
+    pub(super) fn consume_flow_type_parameter_instantiation_call_or_new(&mut self) -> PResult<()> {
+        self.in_type().parse_with(|p| {
+            expect!(p, '<');
+
+            while !is!(p, '>') {
+                p.consume_flow_type_or_implicit_instantiation()?;
+
+                if !is!(p, '>') {
+                    expect!(p, ',');
+                }
+            }
+
+            expect!(p, '>');
+
+            Ok(())
+        })
+    }
+
+    /// Ported from `flowParseTypeOrImplicitInstantiation`
+    pub(super) fn consume_flow_type_or_implicit_instantiation(&mut self) -> PResult<()> {
+        let is_underscore = match self.input.cur() {
+            Some(Token::Word(Word::Ident(IdentLike::Other(i)))) => &**i == "_",
+
+            _ => false,
+        };
+
+        if is_underscore {
+            let node = self.parse_ident(false, false)?;
+            self.consume_flow_generic_type(node)
+        } else {
+            self.consume_flow_type()?;
+
+            Ok(())
+        }
     }
 }
 
