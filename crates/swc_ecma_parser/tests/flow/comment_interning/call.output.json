@@ -1,0 +1,263 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 16,
+    "end": 500,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 16,
+        "end": 112,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 16,
+          "end": 94,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "Identifier",
+          "span": {
+            "start": 16,
+            "end": 19,
+            "ctxt": 0
+          },
+          "value": "foo",
+          "optional": false
+        },
+        "arguments": [
+          {
+            "spread": null,
+            "expression": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 76,
+                "end": 77,
+                "ctxt": 0
+              },
+              "value": 1.0,
+              "raw": "1"
+            }
+          }
+        ],
+        "typeArguments": null
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 114,
+        "end": 202,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 114,
+          "end": 201,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "Identifier",
+          "span": {
+            "start": 114,
+            "end": 117,
+            "ctxt": 0
+          },
+          "value": "foo",
+          "optional": false
+        },
+        "arguments": [],
+        "typeArguments": null
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 219,
+        "end": 259,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 219,
+          "end": 259,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "Identifier",
+          "span": {
+            "start": 219,
+            "end": 222,
+            "ctxt": 0
+          },
+          "value": "foo",
+          "optional": false
+        },
+        "arguments": [],
+        "typeArguments": null
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 293,
+        "end": 375,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 293,
+          "end": 375,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "Identifier",
+          "span": {
+            "start": 293,
+            "end": 296,
+            "ctxt": 0
+          },
+          "value": "foo",
+          "optional": false
+        },
+        "arguments": [],
+        "typeArguments": null
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 394,
+        "end": 416,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 394,
+          "end": 415,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "Identifier",
+          "span": {
+            "start": 394,
+            "end": 397,
+            "ctxt": 0
+          },
+          "value": "foo",
+          "optional": false
+        },
+        "arguments": [],
+        "typeArguments": null
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 418,
+        "end": 443,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 418,
+          "end": 442,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "Identifier",
+          "span": {
+            "start": 418,
+            "end": 421,
+            "ctxt": 0
+          },
+          "value": "foo",
+          "optional": false
+        },
+        "arguments": [
+          {
+            "spread": null,
+            "expression": {
+              "type": "Identifier",
+              "span": {
+                "start": 422,
+                "end": 423,
+                "ctxt": 0
+              },
+              "value": "a",
+              "optional": false
+            }
+          }
+        ],
+        "typeArguments": null
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 445,
+        "end": 470,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 445,
+          "end": 469,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "Identifier",
+          "span": {
+            "start": 445,
+            "end": 448,
+            "ctxt": 0
+          },
+          "value": "foo",
+          "optional": false
+        },
+        "arguments": [],
+        "typeArguments": null
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 472,
+        "end": 500,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 472,
+          "end": 499,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "Identifier",
+          "span": {
+            "start": 472,
+            "end": 475,
+            "ctxt": 0
+          },
+          "value": "foo",
+          "optional": false
+        },
+        "arguments": [],
+        "typeArguments": null
+      }
+    }
+  ],
+  "interpreter": null
+}
