@@ -253,6 +253,7 @@ where
     }
 
     /// Ported from babel
+    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
     fn consume_flow_primary_type(&mut self) -> PResult<()> {
         trace_cur!(self, consume_flow_primary_type);
 
@@ -320,14 +321,6 @@ where
                 } else {
                     // Eat a comma if there is one
                     eat!(self, ',');
-                }
-
-                if ty.is_some() {
-                    // tmp = this.flowParseFunctionTypeParams([
-                    //     this.reinterpretTypeAsFunctionTypeParam(type),
-                    // ]);
-                } else {
-                    self.consume_flow_function_type_params()?;
                 }
             }
 
@@ -652,6 +645,7 @@ where
     }
 
     /// Ported from `flowParseObjectTypeProperty`
+    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
     fn consume_flow_object_type_property(
         &mut self,
         node: (),
@@ -903,6 +897,10 @@ where
 
             "opaque" => {
                 self.consume_flow_opaque_type(start)?;
+            }
+
+            "type" => {
+                self.consume_flow_type_alias()?;
             }
 
             _ => {}
