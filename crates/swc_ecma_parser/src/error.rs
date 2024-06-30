@@ -292,6 +292,9 @@ pub enum SyntaxError {
 
     ReservedTypeAssertion,
     ReservedArrowTypeParam,
+
+    FlowThisParamMustBeFirst,
+    FlowThisParamCannotBeOptional,
 }
 
 impl SyntaxError {
@@ -758,6 +761,12 @@ impl SyntaxError {
                                                     as in `<T,>() => ...`."
                 .into(),
             SyntaxError::InvalidAssignTarget => "Invalid assignment target".into(),
+            SyntaxError::FlowThisParamMustBeFirst => {
+                "The 'this' parameter must be the first parameter".into()
+            }
+            SyntaxError::FlowThisParamCannotBeOptional => {
+                "The 'this' parameter cannot be optional".into()
+            }
         }
     }
 }
