@@ -433,6 +433,8 @@ where
 
     /// Ported from babel
     fn consume_flow_qualified_type_identifier(&mut self, id: Option<Ident>) -> PResult<()> {
+        trace_cur!(self, consume_flow_qualified_type_identifier);
+
         if id.is_none() {
             self.consume_flow_restricted_ident()?;
         }
@@ -445,6 +447,8 @@ where
     }
 
     fn consume_flow_restricted_ident(&mut self) -> PResult<()> {
+        trace_cur!(self, consume_flow_restricted_ident);
+
         self.parse_ident_name()?;
 
         Ok(())
