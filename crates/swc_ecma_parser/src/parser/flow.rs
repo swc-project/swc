@@ -860,7 +860,7 @@ where
     }
 
     pub(super) fn consume_flow_opaque_type(&mut self, start: BytePos) -> PResult<()> {
-        assert_and_bump!(self, "opaque");
+        eat!(self, "opaque");
 
         if is!(self, "type") {
             self.consume_flow_type_alias()?;
