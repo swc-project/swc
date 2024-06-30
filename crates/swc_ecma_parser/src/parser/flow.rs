@@ -667,6 +667,12 @@ where
         expect!(self, '[');
 
         while !eof!(self) && !is!(self, ']') {
+            if is!(self, IdentName) && peeked_is!(self, ':') {
+                let _label = self.parse_ident_name()?;
+
+                expect!(self, ':');
+            }
+
             self.consume_flow_type()?;
 
             if is!(self, ']') {
