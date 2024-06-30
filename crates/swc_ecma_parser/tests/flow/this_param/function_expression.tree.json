@@ -1,322 +1,399 @@
 {
-  "type":"Program",
-  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":7,"column":58}},
-  "range":[0,214],
-  "body":[
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 215,
+    "ctxt": 0
+  },
+  "body": [
     {
-      "type":"ExpressionStatement",
-      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":33}},
-      "range":[0,33],
-      "expression":{
-        "type":"FunctionExpression",
-        "loc":{"source":null,"start":{"line":1,"column":1},"end":{"line":1,"column":31}},
-        "range":[1,31],
-        "id":{
-          "type":"Identifier",
-          "loc":{"source":null,"start":{"line":1,"column":10},"end":{"line":1,"column":14}},
-          "range":[10,14],
-          "name":"foo1",
-          "typeAnnotation":null,
-          "optional":false
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 1,
+        "end": 34,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "ParenthesisExpression",
+        "span": {
+          "start": 1,
+          "end": 33,
+          "ctxt": 0
         },
-        "params":[
-          {
-            "type":"Identifier",
-            "loc":{"source":null,"start":{"line":1,"column":15},"end":{"line":1,"column":27}},
-            "range":[15,27],
-            "name":"this",
-            "typeAnnotation":{
-              "type":"TypeAnnotation",
-              "loc":{"source":null,"start":{"line":1,"column":19},"end":{"line":1,"column":27}},
-              "range":[19,27],
-              "typeAnnotation":{
-                "type":"StringTypeAnnotation",
-                "loc":{"source":null,"start":{"line":1,"column":21},"end":{"line":1,"column":27}},
-                "range":[21,27]
+        "expression": {
+          "type": "FunctionExpression",
+          "identifier": {
+            "type": "Identifier",
+            "span": {
+              "start": 11,
+              "end": 15,
+              "ctxt": 0
+            },
+            "value": "foo1",
+            "optional": false
+          },
+          "params": [
+            {
+              "type": "Parameter",
+              "span": {
+                "start": 16,
+                "end": 28,
+                "ctxt": 0
+              },
+              "decorators": [],
+              "pat": {
+                "type": "Identifier",
+                "span": {
+                  "start": 16,
+                  "end": 20,
+                  "ctxt": 0
+                },
+                "value": "this",
+                "optional": false,
+                "typeAnnotation": null
               }
             }
-          }
-        ],
-        "body":{
-          "type":"BlockStatement",
-          "loc":{"source":null,"start":{"line":1,"column":29},"end":{"line":1,"column":31}},
-          "range":[29,31],
-          "body":[]
-        },
-        "async":false,
-        "generator":false,
-        "predicate":null,
-        "expression":false,
-        "returnType":null,
-        "typeParameters":null
-      },
-      "directive":null
+          ],
+          "decorators": [],
+          "span": {
+            "start": 2,
+            "end": 32,
+            "ctxt": 0
+          },
+          "body": {
+            "type": "BlockStatement",
+            "span": {
+              "start": 30,
+              "end": 32,
+              "ctxt": 0
+            },
+            "stmts": []
+          },
+          "generator": false,
+          "async": false,
+          "typeParameters": null,
+          "returnType": null
+        }
+      }
     },
     {
-      "type":"ExpressionStatement",
-      "loc":{"source":null,"start":{"line":3,"column":0},"end":{"line":3,"column":46}},
-      "range":[35,81],
-      "expression":{
-        "type":"FunctionExpression",
-        "loc":{"source":null,"start":{"line":3,"column":1},"end":{"line":3,"column":44}},
-        "range":[36,79],
-        "id":{
-          "type":"Identifier",
-          "loc":{"source":null,"start":{"line":3,"column":10},"end":{"line":3,"column":14}},
-          "range":[45,49],
-          "name":"foo2",
-          "typeAnnotation":null,
-          "optional":false
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 36,
+        "end": 82,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "ParenthesisExpression",
+        "span": {
+          "start": 36,
+          "end": 81,
+          "ctxt": 0
         },
-        "params":[
-          {
-            "type":"Identifier",
-            "loc":{"source":null,"start":{"line":3,"column":15},"end":{"line":3,"column":27}},
-            "range":[50,62],
-            "name":"this",
-            "typeAnnotation":{
-              "type":"TypeAnnotation",
-              "loc":{"source":null,"start":{"line":3,"column":19},"end":{"line":3,"column":27}},
-              "range":[54,62],
-              "typeAnnotation":{
-                "type":"StringTypeAnnotation",
-                "loc":{"source":null,"start":{"line":3,"column":21},"end":{"line":3,"column":27}},
-                "range":[56,62]
-              }
-            }
+        "expression": {
+          "type": "FunctionExpression",
+          "identifier": {
+            "type": "Identifier",
+            "span": {
+              "start": 46,
+              "end": 50,
+              "ctxt": 0
+            },
+            "value": "foo2",
+            "optional": false
           },
-          {
-            "type":"Identifier",
-            "loc":{"source":null,"start":{"line":3,"column":29},"end":{"line":3,"column":40}},
-            "range":[64,75],
-            "name":"bar",
-            "typeAnnotation":{
-              "type":"TypeAnnotation",
-              "loc":{"source":null,"start":{"line":3,"column":32},"end":{"line":3,"column":40}},
-              "range":[67,75],
-              "typeAnnotation":{
-                "type":"NumberTypeAnnotation",
-                "loc":{"source":null,"start":{"line":3,"column":34},"end":{"line":3,"column":40}},
-                "range":[69,75]
+          "params": [
+            {
+              "type": "Parameter",
+              "span": {
+                "start": 51,
+                "end": 63,
+                "ctxt": 0
+              },
+              "decorators": [],
+              "pat": {
+                "type": "Identifier",
+                "span": {
+                  "start": 51,
+                  "end": 55,
+                  "ctxt": 0
+                },
+                "value": "this",
+                "optional": false,
+                "typeAnnotation": null
               }
             },
-            "optional":false
-          }
-        ],
-        "body":{
-          "type":"BlockStatement",
-          "loc":{"source":null,"start":{"line":3,"column":42},"end":{"line":3,"column":44}},
-          "range":[77,79],
-          "body":[]
-        },
-        "async":false,
-        "generator":false,
-        "predicate":null,
-        "expression":false,
-        "returnType":null,
-        "typeParameters":null
-      },
-      "directive":null
-    },
-    {
-      "type":"ExpressionStatement",
-      "loc":{"source":null,"start":{"line":5,"column":0},"end":{"line":5,"column":71}},
-      "range":[83,154],
-      "expression":{
-        "type":"FunctionExpression",
-        "loc":{"source":null,"start":{"line":5,"column":1},"end":{"line":5,"column":69}},
-        "range":[84,152],
-        "id":{
-          "type":"Identifier",
-          "loc":{"source":null,"start":{"line":5,"column":10},"end":{"line":5,"column":14}},
-          "range":[93,97],
-          "name":"foo3",
-          "typeAnnotation":null,
-          "optional":false
-        },
-        "params":[
-          {
-            "type":"Identifier",
-            "loc":{"source":null,"start":{"line":5,"column":15},"end":{"line":5,"column":27}},
-            "range":[98,110],
-            "name":"this",
-            "typeAnnotation":{
-              "type":"TypeAnnotation",
-              "loc":{"source":null,"start":{"line":5,"column":19},"end":{"line":5,"column":27}},
-              "range":[102,110],
-              "typeAnnotation":{
-                "type":"StringTypeAnnotation",
-                "loc":{"source":null,"start":{"line":5,"column":21},"end":{"line":5,"column":27}},
-                "range":[104,110]
+            {
+              "type": "Parameter",
+              "span": {
+                "start": 65,
+                "end": 76,
+                "ctxt": 0
+              },
+              "decorators": [],
+              "pat": {
+                "type": "Identifier",
+                "span": {
+                  "start": 65,
+                  "end": 68,
+                  "ctxt": 0
+                },
+                "value": "bar",
+                "optional": false,
+                "typeAnnotation": null
               }
             }
+          ],
+          "decorators": [],
+          "span": {
+            "start": 37,
+            "end": 80,
+            "ctxt": 0
           },
-          {
-            "type":"Identifier",
-            "loc":{"source":null,"start":{"line":5,"column":29},"end":{"line":5,"column":40}},
-            "range":[112,123],
-            "name":"bar",
-            "typeAnnotation":{
-              "type":"TypeAnnotation",
-              "loc":{"source":null,"start":{"line":5,"column":32},"end":{"line":5,"column":40}},
-              "range":[115,123],
-              "typeAnnotation":{
-                "type":"NumberTypeAnnotation",
-                "loc":{"source":null,"start":{"line":5,"column":34},"end":{"line":5,"column":40}},
-                "range":[117,123]
+          "body": {
+            "type": "BlockStatement",
+            "span": {
+              "start": 78,
+              "end": 80,
+              "ctxt": 0
+            },
+            "stmts": []
+          },
+          "generator": false,
+          "async": false,
+          "typeParameters": null,
+          "returnType": null
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 84,
+        "end": 155,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "ParenthesisExpression",
+        "span": {
+          "start": 84,
+          "end": 154,
+          "ctxt": 0
+        },
+        "expression": {
+          "type": "FunctionExpression",
+          "identifier": {
+            "type": "Identifier",
+            "span": {
+              "start": 94,
+              "end": 98,
+              "ctxt": 0
+            },
+            "value": "foo3",
+            "optional": false
+          },
+          "params": [
+            {
+              "type": "Parameter",
+              "span": {
+                "start": 99,
+                "end": 111,
+                "ctxt": 0
+              },
+              "decorators": [],
+              "pat": {
+                "type": "Identifier",
+                "span": {
+                  "start": 99,
+                  "end": 103,
+                  "ctxt": 0
+                },
+                "value": "this",
+                "optional": false,
+                "typeAnnotation": null
               }
             },
-            "optional":false
-          },
-          {
-            "type":"RestElement",
-            "loc":{"source":null,"start":{"line":5,"column":42},"end":{"line":5,"column":65}},
-            "range":[125,148],
-            "argument":{
-              "type":"Identifier",
-              "loc":{"source":null,"start":{"line":5,"column":45},"end":{"line":5,"column":65}},
-              "range":[128,148],
-              "name":"rest",
-              "typeAnnotation":{
-                "type":"TypeAnnotation",
-                "loc":{"source":null,"start":{"line":5,"column":49},"end":{"line":5,"column":65}},
-                "range":[132,148],
-                "typeAnnotation":{
-                  "type":"GenericTypeAnnotation",
-                  "loc":{"source":null,"start":{"line":5,"column":51},"end":{"line":5,"column":65}},
-                  "range":[134,148],
-                  "id":{
-                    "type":"Identifier",
-                    "loc":{"source":null,"start":{"line":5,"column":51},"end":{"line":5,"column":56}},
-                    "range":[134,139],
-                    "name":"Array",
-                    "typeAnnotation":null,
-                    "optional":false
-                  },
-                  "typeParameters":{
-                    "type":"TypeParameterInstantiation",
-                    "loc":{"source":null,"start":{"line":5,"column":56},"end":{"line":5,"column":65}},
-                    "range":[139,148],
-                    "params":[
-                      {
-                        "type":"BooleanTypeAnnotation",
-                        "loc":{"source":null,"start":{"line":5,"column":57},"end":{"line":5,"column":64}},
-                        "range":[140,147]
-                      }
-                    ]
-                  }
-                }
+            {
+              "type": "Parameter",
+              "span": {
+                "start": 113,
+                "end": 124,
+                "ctxt": 0
               },
-              "optional":false
-            }
-          }
-        ],
-        "body":{
-          "type":"BlockStatement",
-          "loc":{"source":null,"start":{"line":5,"column":67},"end":{"line":5,"column":69}},
-          "range":[150,152],
-          "body":[]
-        },
-        "async":false,
-        "generator":false,
-        "predicate":null,
-        "expression":false,
-        "returnType":null,
-        "typeParameters":null
-      },
-      "directive":null
-    },
-    {
-      "type":"ExpressionStatement",
-      "loc":{"source":null,"start":{"line":7,"column":0},"end":{"line":7,"column":58}},
-      "range":[156,214],
-      "expression":{
-        "type":"FunctionExpression",
-        "loc":{"source":null,"start":{"line":7,"column":1},"end":{"line":7,"column":56}},
-        "range":[157,212],
-        "id":{
-          "type":"Identifier",
-          "loc":{"source":null,"start":{"line":7,"column":10},"end":{"line":7,"column":14}},
-          "range":[166,170],
-          "name":"foo4",
-          "typeAnnotation":null,
-          "optional":false
-        },
-        "params":[
-          {
-            "type":"Identifier",
-            "loc":{"source":null,"start":{"line":7,"column":15},"end":{"line":7,"column":27}},
-            "range":[171,183],
-            "name":"this",
-            "typeAnnotation":{
-              "type":"TypeAnnotation",
-              "loc":{"source":null,"start":{"line":7,"column":19},"end":{"line":7,"column":27}},
-              "range":[175,183],
-              "typeAnnotation":{
-                "type":"StringTypeAnnotation",
-                "loc":{"source":null,"start":{"line":7,"column":21},"end":{"line":7,"column":27}},
-                "range":[177,183]
+              "decorators": [],
+              "pat": {
+                "type": "Identifier",
+                "span": {
+                  "start": 113,
+                  "end": 116,
+                  "ctxt": 0
+                },
+                "value": "bar",
+                "optional": false,
+                "typeAnnotation": null
+              }
+            },
+            {
+              "type": "Parameter",
+              "span": {
+                "start": 126,
+                "end": 149,
+                "ctxt": 0
+              },
+              "decorators": [],
+              "pat": {
+                "type": "RestElement",
+                "span": {
+                  "start": 126,
+                  "end": 149,
+                  "ctxt": 0
+                },
+                "rest": {
+                  "start": 126,
+                  "end": 129,
+                  "ctxt": 0
+                },
+                "argument": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 129,
+                    "end": 133,
+                    "ctxt": 0
+                  },
+                  "value": "rest",
+                  "optional": false,
+                  "typeAnnotation": null
+                },
+                "typeAnnotation": null
               }
             }
+          ],
+          "decorators": [],
+          "span": {
+            "start": 85,
+            "end": 153,
+            "ctxt": 0
           },
-          {
-            "type":"RestElement",
-            "loc":{"source":null,"start":{"line":7,"column":29},"end":{"line":7,"column":52}},
-            "range":[185,208],
-            "argument":{
-              "type":"Identifier",
-              "loc":{"source":null,"start":{"line":7,"column":32},"end":{"line":7,"column":52}},
-              "range":[188,208],
-              "name":"rest",
-              "typeAnnotation":{
-                "type":"TypeAnnotation",
-                "loc":{"source":null,"start":{"line":7,"column":36},"end":{"line":7,"column":52}},
-                "range":[192,208],
-                "typeAnnotation":{
-                  "type":"GenericTypeAnnotation",
-                  "loc":{"source":null,"start":{"line":7,"column":38},"end":{"line":7,"column":52}},
-                  "range":[194,208],
-                  "id":{
-                    "type":"Identifier",
-                    "loc":{"source":null,"start":{"line":7,"column":38},"end":{"line":7,"column":43}},
-                    "range":[194,199],
-                    "name":"Array",
-                    "typeAnnotation":null,
-                    "optional":false
-                  },
-                  "typeParameters":{
-                    "type":"TypeParameterInstantiation",
-                    "loc":{"source":null,"start":{"line":7,"column":43},"end":{"line":7,"column":52}},
-                    "range":[199,208],
-                    "params":[
-                      {
-                        "type":"BooleanTypeAnnotation",
-                        "loc":{"source":null,"start":{"line":7,"column":44},"end":{"line":7,"column":51}},
-                        "range":[200,207]
-                      }
-                    ]
-                  }
-                }
-              },
-              "optional":false
-            }
-          }
-        ],
-        "body":{
-          "type":"BlockStatement",
-          "loc":{"source":null,"start":{"line":7,"column":54},"end":{"line":7,"column":56}},
-          "range":[210,212],
-          "body":[]
-        },
-        "async":false,
-        "generator":false,
-        "predicate":null,
-        "expression":false,
-        "returnType":null,
-        "typeParameters":null
+          "body": {
+            "type": "BlockStatement",
+            "span": {
+              "start": 151,
+              "end": 153,
+              "ctxt": 0
+            },
+            "stmts": []
+          },
+          "generator": false,
+          "async": false,
+          "typeParameters": null,
+          "returnType": null
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 157,
+        "end": 215,
+        "ctxt": 0
       },
-      "directive":null
+      "expression": {
+        "type": "ParenthesisExpression",
+        "span": {
+          "start": 157,
+          "end": 214,
+          "ctxt": 0
+        },
+        "expression": {
+          "type": "FunctionExpression",
+          "identifier": {
+            "type": "Identifier",
+            "span": {
+              "start": 167,
+              "end": 171,
+              "ctxt": 0
+            },
+            "value": "foo4",
+            "optional": false
+          },
+          "params": [
+            {
+              "type": "Parameter",
+              "span": {
+                "start": 172,
+                "end": 184,
+                "ctxt": 0
+              },
+              "decorators": [],
+              "pat": {
+                "type": "Identifier",
+                "span": {
+                  "start": 172,
+                  "end": 176,
+                  "ctxt": 0
+                },
+                "value": "this",
+                "optional": false,
+                "typeAnnotation": null
+              }
+            },
+            {
+              "type": "Parameter",
+              "span": {
+                "start": 186,
+                "end": 209,
+                "ctxt": 0
+              },
+              "decorators": [],
+              "pat": {
+                "type": "RestElement",
+                "span": {
+                  "start": 186,
+                  "end": 209,
+                  "ctxt": 0
+                },
+                "rest": {
+                  "start": 186,
+                  "end": 189,
+                  "ctxt": 0
+                },
+                "argument": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 189,
+                    "end": 193,
+                    "ctxt": 0
+                  },
+                  "value": "rest",
+                  "optional": false,
+                  "typeAnnotation": null
+                },
+                "typeAnnotation": null
+              }
+            }
+          ],
+          "decorators": [],
+          "span": {
+            "start": 158,
+            "end": 213,
+            "ctxt": 0
+          },
+          "body": {
+            "type": "BlockStatement",
+            "span": {
+              "start": 211,
+              "end": 213,
+              "ctxt": 0
+            },
+            "stmts": []
+          },
+          "generator": false,
+          "async": false,
+          "typeParameters": null,
+          "returnType": null
+        }
+      }
     }
   ],
-  "comments":[]
+  "interpreter": null
 }
