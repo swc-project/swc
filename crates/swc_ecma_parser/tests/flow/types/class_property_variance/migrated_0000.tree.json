@@ -1,69 +1,67 @@
 {
-  "type":"Program",
-  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":13}},
-  "range":[0,13],
-  "body":[
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 14,
+    "ctxt": 0
+  },
+  "body": [
     {
-      "type":"ClassDeclaration",
-      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":13}},
-      "range":[0,13],
-      "id":{
-        "type":"Identifier",
-        "loc":{"source":null,"start":{"line":1,"column":6},"end":{"line":1,"column":7}},
-        "range":[6,7],
-        "name":"C",
-        "typeAnnotation":null,
-        "optional":false
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 7,
+          "end": 8,
+          "ctxt": 0
+        },
+        "value": "C",
+        "optional": false
       },
-      "body":{
-        "type":"ClassBody",
-        "loc":{"source":null,"start":{"line":1,"column":8},"end":{"line":1,"column":13}},
-        "range":[8,13],
-        "body":[
-          {
-            "type":"PropertyDefinition",
-            "loc":{"source":null,"start":{"line":1,"column":9},"end":{"line":1,"column":12}},
-            "range":[9,12],
-            "key":{
-              "type":"Identifier",
-              "loc":{"source":null,"start":{"line":1,"column":9},"end":{"line":1,"column":10}},
-              "range":[9,10],
-              "name":"p",
-              "typeAnnotation":null,
-              "optional":false
-            },
-            "value":null,
-            "typeAnnotation":{
-              "type":"TypeAnnotation",
-              "loc":{"source":null,"start":{"line":1,"column":10},"end":{"line":1,"column":12}},
-              "range":[10,12],
-              "typeAnnotation":{
-                "type":"GenericTypeAnnotation",
-                "loc":{"source":null,"start":{"line":1,"column":11},"end":{"line":1,"column":12}},
-                "range":[11,12],
-                "id":{
-                  "type":"Identifier",
-                  "loc":{"source":null,"start":{"line":1,"column":11},"end":{"line":1,"column":12}},
-                  "range":[11,12],
-                  "name":"T",
-                  "typeAnnotation":null,
-                  "optional":false
-                },
-                "typeParameters":null
-              }
-            },
-            "computed":false,
-            "static":false,
-            "variance":null
-          }
-        ]
+      "declare": false,
+      "span": {
+        "start": 1,
+        "end": 14,
+        "ctxt": 0
       },
-      "superClass":null,
-      "typeParameters":null,
-      "superTypeParameters":null,
-      "implements":[],
-      "decorators":[]
+      "decorators": [],
+      "body": [
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 10,
+            "end": 13,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 10,
+              "end": 11,
+              "ctxt": 0
+            },
+            "value": "p",
+            "optional": false
+          },
+          "value": null,
+          "typeAnnotation": null,
+          "isStatic": false,
+          "decorators": [],
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false,
+          "readonly": false,
+          "declare": false,
+          "definite": false
+        }
+      ],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
     }
   ],
-  "comments":[]
+  "interpreter": null
 }

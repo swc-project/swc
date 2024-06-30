@@ -1,43 +1,29 @@
 {
-  "errors":[
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 30,
+    "ctxt": 0
+  },
+  "body": [
     {
-      "loc":{"source":null,"start":{"line":1,"column":24},"end":{"line":1,"column":25}},
-      "message":"Unexpected token `=`. Initializers are not allowed in a `declare opaque type`."
-    }
-  ],
-  "type":"Program",
-  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":29}},
-  "range":[0,29],
-  "body":[
-    {
-      "type":"DeclareOpaqueType",
-      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":29}},
-      "range":[0,29],
-      "id":{
-        "type":"Identifier",
-        "loc":{"source":null,"start":{"line":1,"column":20},"end":{"line":1,"column":23}},
-        "range":[20,23],
-        "name":"Foo",
-        "typeAnnotation":null,
-        "optional":false
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 1,
+        "end": 30,
+        "ctxt": 0
       },
-      "typeParameters":null,
-      "impltype":{
-        "type":"GenericTypeAnnotation",
-        "loc":{"source":null,"start":{"line":1,"column":26},"end":{"line":1,"column":29}},
-        "range":[26,29],
-        "id":{
-          "type":"Identifier",
-          "loc":{"source":null,"start":{"line":1,"column":26},"end":{"line":1,"column":29}},
-          "range":[26,29],
-          "name":"Bar",
-          "typeAnnotation":null,
-          "optional":false
+      "expression": {
+        "type": "Identifier",
+        "span": {
+          "start": 1,
+          "end": 8,
+          "ctxt": 0
         },
-        "typeParameters":null
-      },
-      "supertype":null
+        "value": "declare",
+        "optional": false
+      }
     }
   ],
-  "comments":[]
+  "interpreter": null
 }
