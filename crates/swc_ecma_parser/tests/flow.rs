@@ -45,7 +45,7 @@ fn run_spec(file: &Path, output_json: &Path) {
         );
     }
 
-    with_parser(false, file, false, |p, _| {
+    let result = with_parser(file, false, |p, _| {
         let program = p.parse_program()?;
 
         let json =
@@ -56,21 +56,22 @@ fn run_spec(file: &Path, output_json: &Path) {
         }
 
         Ok(())
-    })
-    .map_err(|_| ())
-    .unwrap();
+    });
+
+    if file_name.contains("invalid") {
+        if result.is_ok() {
+            panic!("test passed but it should have failed")
+        }
+    } else {
+        result.expect("failed to parse");
+    }
 }
 
-fn with_parser<F, Ret>(
-    treat_error_as_bug: bool,
-    file_name: &Path,
-    shift: bool,
-    f: F,
-) -> Result<Ret, StdErr>
+fn with_parser<F, Ret>(file_name: &Path, shift: bool, f: F) -> Result<Ret, StdErr>
 where
     F: FnOnce(&mut Parser<Lexer>, &SingleThreadedComments) -> PResult<Ret>,
 {
-    ::testing::run_test(treat_error_as_bug, |cm, handler| {
+    ::testing::run_test(false, |cm, handler| {
         if shift {
             cm.new_source_file(FileName::Anon, "".into());
         }
