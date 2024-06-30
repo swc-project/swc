@@ -32,8 +32,10 @@ where
                 unexpected!(p, "< or JSXTagStart")
             }
 
+            let mut first = true;
             let mut default_required = false;
-            while !is!(p, '>') {
+            while first || !is!(p, '>') {
+                first = false;
                 if is!(p, '>') {
                     break;
                 }
