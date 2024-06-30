@@ -37,6 +37,7 @@ where
             let mut first = true;
             let mut default_required = false;
             while first || !is!(p, '>') {
+                trace_cur!(p, consume_flow_type_param_decl__loop);
                 first = false;
                 if is!(p, '>') {
                     break;
@@ -47,6 +48,8 @@ where
                 if tp.default {
                     default_required = true;
                 }
+
+                trace_cur!(p, consume_flow_type_param_decl__after_type_param);
 
                 if !is!(p, '>') {
                     expect!(p, ',');
