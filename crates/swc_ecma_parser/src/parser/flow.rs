@@ -109,13 +109,44 @@ where
         Ok(())
     }
 
-    /// Ported from babel
+    /// Ported from `flowParseRestrictedIdentifier`
     fn parse_flow_restricted_ident(&mut self, liberal: bool, declaration: bool) -> PResult<()> {
+        let name = self.parse_ident_name()?;
+
         if declaration {
-            // self.check_flow_reserved_type(declaration)?;
+            self.check_flow_reserved_type(&name.sym, declaration)?;
         }
 
-        self.parse_ident_name()?;
+        Ok(())
+    }
+
+    fn check_flow_reserved_type(&mut self, word: &str, declaration: bool) -> PResult<()> {
+        const RESERVED: &[&str] = &[
+            "_",
+            "any",
+            "bool",
+            "boolean",
+            "empty",
+            "extends",
+            "false",
+            "interface",
+            "mixed",
+            "null",
+            "number",
+            "static",
+            "string",
+            "true",
+            "typeof",
+            "void",
+        ];
+
+        if RESERVED.contains(&word) {
+            let span = self.input.cur_span();
+            self.emit_err(
+                span,
+                SyntaxError::FlowReservedWordInType { word: word.into() },
+            );
+        }
 
         Ok(())
     }
