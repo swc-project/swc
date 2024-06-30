@@ -1,0 +1,97 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 41,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1,
+        "end": 41,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 5,
+            "end": 40,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "ObjectPattern",
+            "span": {
+              "start": 5,
+              "end": 8,
+              "ctxt": 0
+            },
+            "properties": [
+              {
+                "type": "AssignmentPatternProperty",
+                "span": {
+                  "start": 6,
+                  "end": 7,
+                  "ctxt": 0
+                },
+                "key": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 6,
+                    "end": 7,
+                    "ctxt": 0
+                  },
+                  "value": "x",
+                  "optional": false,
+                  "typeAnnotation": null
+                },
+                "value": null
+              }
+            ],
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "ObjectExpression",
+            "span": {
+              "start": 26,
+              "end": 40,
+              "ctxt": 0
+            },
+            "properties": [
+              {
+                "type": "KeyValueProperty",
+                "key": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 28,
+                    "end": 29,
+                    "ctxt": 0
+                  },
+                  "value": "x",
+                  "optional": false
+                },
+                "value": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 31,
+                    "end": 38,
+                    "ctxt": 0
+                  },
+                  "value": "hello",
+                  "raw": "\"hello\""
+                }
+              }
+            ]
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}
