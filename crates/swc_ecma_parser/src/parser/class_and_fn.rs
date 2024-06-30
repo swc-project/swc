@@ -396,7 +396,7 @@ impl<I: Tokens> Parser<I> {
 
         let start = cur_pos!(self);
         let decorators = self.parse_decorators(false)?;
-        let declare = self.syntax().typescript() && eat!(self, "declare");
+        let declare = (self.syntax().typescript() || self.syntax().flow()) && eat!(self, "declare");
         let accessibility = if self.input.syntax().typescript() {
             self.parse_access_modifier()?
         } else {
