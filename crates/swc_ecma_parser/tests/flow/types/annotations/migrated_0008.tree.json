@@ -1,81 +1,66 @@
 {
-  "type":"Program",
-  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":47}},
-  "range":[0,47],
-  "body":[
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 48,
+    "ctxt": 0
+  },
+  "body": [
     {
-      "type":"FunctionDeclaration",
-      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":47}},
-      "range":[0,47],
-      "id":{
-        "type":"Identifier",
-        "loc":{"source":null,"start":{"line":1,"column":9},"end":{"line":1,"column":12}},
-        "range":[9,12],
-        "name":"foo",
-        "typeAnnotation":null,
-        "optional":false
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 10,
+          "end": 13,
+          "ctxt": 0
+        },
+        "value": "foo",
+        "optional": false
       },
-      "params":[
+      "declare": false,
+      "params": [
         {
-          "type":"Identifier",
-          "loc":{"source":null,"start":{"line":1,"column":13},"end":{"line":1,"column":44}},
-          "range":[13,44],
-          "name":"callback",
-          "typeAnnotation":{
-            "type":"TypeAnnotation",
-            "loc":{"source":null,"start":{"line":1,"column":21},"end":{"line":1,"column":44}},
-            "range":[21,44],
-            "typeAnnotation":{
-              "type":"FunctionTypeAnnotation",
-              "loc":{"source":null,"start":{"line":1,"column":23},"end":{"line":1,"column":44}},
-              "range":[23,44],
-              "params":[
-                {
-                  "type":"FunctionTypeParam",
-                  "loc":{"source":null,"start":{"line":1,"column":24},"end":{"line":1,"column":33}},
-                  "range":[24,33],
-                  "name":{
-                    "type":"Identifier",
-                    "loc":{"source":null,"start":{"line":1,"column":24},"end":{"line":1,"column":25}},
-                    "range":[24,25],
-                    "name":"_",
-                    "typeAnnotation":null,
-                    "optional":false
-                  },
-                  "typeAnnotation":{
-                    "type":"BooleanTypeAnnotation",
-                    "loc":{"source":null,"start":{"line":1,"column":26},"end":{"line":1,"column":33}},
-                    "range":[26,33]
-                  },
-                  "optional":false
-                }
-              ],
-              "this":null,
-              "returnType":{
-                "type":"NumberTypeAnnotation",
-                "loc":{"source":null,"start":{"line":1,"column":38},"end":{"line":1,"column":44}},
-                "range":[38,44]
-              },
-              "rest":null,
-              "typeParameters":null
-            }
+          "type": "Parameter",
+          "span": {
+            "start": 14,
+            "end": 45,
+            "ctxt": 0
           },
-          "optional":false
+          "decorators": [],
+          "pat": {
+            "type": "Identifier",
+            "span": {
+              "start": 14,
+              "end": 22,
+              "ctxt": 0
+            },
+            "value": "callback",
+            "optional": false,
+            "typeAnnotation": null
+          }
         }
       ],
-      "body":{
-        "type":"BlockStatement",
-        "loc":{"source":null,"start":{"line":1,"column":45},"end":{"line":1,"column":47}},
-        "range":[45,47],
-        "body":[]
+      "decorators": [],
+      "span": {
+        "start": 1,
+        "end": 48,
+        "ctxt": 0
       },
-      "async":false,
-      "generator":false,
-      "predicate":null,
-      "expression":false,
-      "returnType":null,
-      "typeParameters":null
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 46,
+          "end": 48,
+          "ctxt": 0
+        },
+        "stmts": []
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
     }
   ],
-  "comments":[]
+  "interpreter": null
 }
