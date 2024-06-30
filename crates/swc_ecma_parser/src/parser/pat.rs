@@ -22,6 +22,11 @@ impl<I: Tokens> Parser<I> {
 
         if is!(self, BindingIdent) || (self.input.syntax().typescript() && is!(self, "this")) {
             self.parse_binding_ident(disallow_let).map(Some)
+        if is!(self, BindingIdent)
+            || ((self.input.syntax().typescript() || self.input.syntax().flow())
+                && is!(self, "this"))
+        {
+            self.parse_binding_ident().map(Some)
         } else {
             Ok(None)
         }
