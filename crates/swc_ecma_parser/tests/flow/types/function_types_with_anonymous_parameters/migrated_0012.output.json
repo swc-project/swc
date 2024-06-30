@@ -20,7 +20,7 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 79,
-            "end": 112,
+            "end": 119,
             "ctxt": 0
           },
           "id": {
@@ -38,7 +38,7 @@
             "type": "ArrowFunctionExpression",
             "span": {
               "start": 83,
-              "end": 112,
+              "end": 119,
               "ctxt": 0
             },
             "params": [
@@ -57,8 +57,8 @@
             "body": {
               "type": "NumericLiteral",
               "span": {
-                "start": 109,
-                "end": 112,
+                "start": 116,
+                "end": 119,
                 "ctxt": 0
               },
               "value": 123.0,
