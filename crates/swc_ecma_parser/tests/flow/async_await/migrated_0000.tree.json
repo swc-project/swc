@@ -1,69 +1,48 @@
 {
-  "type": "Script",
-  "span": {
-    "start": 1,
-    "end": 41,
-    "ctxt": 0
-  },
-  "body": [
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":40}},
+  "range":[0,40],
+  "body":[
     {
-      "type": "LabeledStatement",
-      "span": {
-        "start": 1,
-        "end": 41,
-        "ctxt": 0
+      "type":"LabeledStatement",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":40}},
+      "range":[0,40],
+      "label":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":5}},
+        "range":[0,5],
+        "name":"async",
+        "typeAnnotation":null,
+        "optional":false
       },
-      "label": {
-        "type": "Identifier",
-        "span": {
-          "start": 1,
-          "end": 6,
-          "ctxt": 0
+      "body":{
+        "type":"WhileStatement",
+        "loc":{"source":null,"start":{"line":1,"column":7},"end":{"line":1,"column":40}},
+        "range":[7,40],
+        "test":{
+          "type":"Identifier",
+          "loc":{"source":null,"start":{"line":1,"column":14},"end":{"line":1,"column":19}},
+          "range":[14,19],
+          "name":"async",
+          "typeAnnotation":null,
+          "optional":false
         },
-        "value": "async",
-        "optional": false
-      },
-      "body": {
-        "type": "WhileStatement",
-        "span": {
-          "start": 8,
-          "end": 41,
-          "ctxt": 0
-        },
-        "test": {
-          "type": "Identifier",
-          "span": {
-            "start": 15,
-            "end": 20,
-            "ctxt": 0
-          },
-          "value": "async",
-          "optional": false
-        },
-        "body": {
-          "type": "BlockStatement",
-          "span": {
-            "start": 22,
-            "end": 41,
-            "ctxt": 0
-          },
-          "stmts": [
+        "body":{
+          "type":"BlockStatement",
+          "loc":{"source":null,"start":{"line":1,"column":21},"end":{"line":1,"column":40}},
+          "range":[21,40],
+          "body":[
             {
-              "type": "ContinueStatement",
-              "span": {
-                "start": 24,
-                "end": 39,
-                "ctxt": 0
-              },
-              "label": {
-                "type": "Identifier",
-                "span": {
-                  "start": 33,
-                  "end": 38,
-                  "ctxt": 0
-                },
-                "value": "async",
-                "optional": false
+              "type":"ContinueStatement",
+              "loc":{"source":null,"start":{"line":1,"column":23},"end":{"line":1,"column":38}},
+              "range":[23,38],
+              "label":{
+                "type":"Identifier",
+                "loc":{"source":null,"start":{"line":1,"column":32},"end":{"line":1,"column":37}},
+                "range":[32,37],
+                "name":"async",
+                "typeAnnotation":null,
+                "optional":false
               }
             }
           ]
@@ -71,5 +50,5 @@
       }
     }
   ],
-  "interpreter": null
+  "comments":[]
 }

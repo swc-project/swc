@@ -1,67 +1,56 @@
 {
-  "type": "Script",
-  "span": {
-    "start": 1,
-    "end": 12,
-    "ctxt": 0
-  },
-  "body": [
+  "errors":[
     {
-      "type": "ExpressionStatement",
-      "span": {
-        "start": 1,
-        "end": 12,
-        "ctxt": 0
-      },
-      "expression": {
-        "type": "BinaryExpression",
-        "span": {
-          "start": 1,
-          "end": 12,
-          "ctxt": 0
-        },
-        "operator": "??",
-        "left": {
-          "type": "BinaryExpression",
-          "span": {
-            "start": 1,
-            "end": 7,
-            "ctxt": 0
-          },
-          "operator": "||",
-          "left": {
-            "type": "Identifier",
-            "span": {
-              "start": 1,
-              "end": 2,
-              "ctxt": 0
-            },
-            "value": "a",
-            "optional": false
-          },
-          "right": {
-            "type": "Identifier",
-            "span": {
-              "start": 6,
-              "end": 7,
-              "ctxt": 0
-            },
-            "value": "b",
-            "optional": false
-          }
-        },
-        "right": {
-          "type": "Identifier",
-          "span": {
-            "start": 11,
-            "end": 12,
-            "ctxt": 0
-          },
-          "value": "c",
-          "optional": false
-        }
-      }
+      "loc":{"source":null,"start":{"line":1,"column":7},"end":{"line":1,"column":9}},
+      "message":"Unexpected token `??`. Parentheses are required to combine `??` with `&&` or `||` expressions."
     }
   ],
-  "interpreter": null
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":11}},
+  "range":[0,11],
+  "body":[
+    {
+      "type":"ExpressionStatement",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":11}},
+      "range":[0,11],
+      "expression":{
+        "type":"LogicalExpression",
+        "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":11}},
+        "range":[0,11],
+        "operator":"??",
+        "left":{
+          "type":"LogicalExpression",
+          "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":6}},
+          "range":[0,6],
+          "operator":"||",
+          "left":{
+            "type":"Identifier",
+            "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":1}},
+            "range":[0,1],
+            "name":"a",
+            "typeAnnotation":null,
+            "optional":false
+          },
+          "right":{
+            "type":"Identifier",
+            "loc":{"source":null,"start":{"line":1,"column":5},"end":{"line":1,"column":6}},
+            "range":[5,6],
+            "name":"b",
+            "typeAnnotation":null,
+            "optional":false
+          }
+        },
+        "right":{
+          "type":"Identifier",
+          "loc":{"source":null,"start":{"line":1,"column":10},"end":{"line":1,"column":11}},
+          "range":[10,11],
+          "name":"c",
+          "typeAnnotation":null,
+          "optional":false
+        }
+      },
+      "directive":null
+    }
+  ],
+  "comments":[]
 }

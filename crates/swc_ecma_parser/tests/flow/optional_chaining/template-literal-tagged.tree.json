@@ -1,121 +1,83 @@
 {
-  "type": "Script",
-  "span": {
-    "start": 1,
-    "end": 32,
-    "ctxt": 0
-  },
-  "body": [
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":2,"column":13}},
+  "range":[0,31],
+  "body":[
     {
-      "type": "FunctionDeclaration",
-      "identifier": {
-        "type": "Identifier",
-        "span": {
-          "start": 10,
-          "end": 13,
-          "ctxt": 0
-        },
-        "value": "tag",
-        "optional": false
+      "type":"FunctionDeclaration",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":17}},
+      "range":[0,17],
+      "id":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":1,"column":9},"end":{"line":1,"column":12}},
+        "range":[9,12],
+        "name":"tag",
+        "typeAnnotation":null,
+        "optional":false
       },
-      "declare": false,
-      "params": [],
-      "decorators": [],
-      "span": {
-        "start": 1,
-        "end": 18,
-        "ctxt": 0
+      "params":[],
+      "body":{
+        "type":"BlockStatement",
+        "loc":{"source":null,"start":{"line":1,"column":15},"end":{"line":1,"column":17}},
+        "range":[15,17],
+        "body":[]
       },
-      "body": {
-        "type": "BlockStatement",
-        "span": {
-          "start": 16,
-          "end": 18,
-          "ctxt": 0
-        },
-        "stmts": []
-      },
-      "generator": false,
-      "async": false,
-      "typeParameters": null,
-      "returnType": null
+      "async":false,
+      "generator":false,
+      "predicate":null,
+      "expression":false,
+      "returnType":null,
+      "typeParameters":null
     },
     {
-      "type": "ExpressionStatement",
-      "span": {
-        "start": 19,
-        "end": 32,
-        "ctxt": 0
-      },
-      "expression": {
-        "type": "OptionalChainingExpression",
-        "span": {
-          "start": 19,
-          "end": 32,
-          "ctxt": 0
-        },
-        "optional": true,
-        "base": {
-          "type": "MemberExpression",
-          "span": {
-            "start": 19,
-            "end": 32,
-            "ctxt": 0
+      "type":"ExpressionStatement",
+      "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":13}},
+      "range":[18,31],
+      "expression":{
+        "type":"OptionalMemberExpression",
+        "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":13}},
+        "range":[18,31],
+        "object":{
+          "type":"TaggedTemplateExpression",
+          "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":10}},
+          "range":[18,28],
+          "tag":{
+            "type":"Identifier",
+            "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":3}},
+            "range":[18,21],
+            "name":"tag",
+            "typeAnnotation":null,
+            "optional":false
           },
-          "object": {
-            "type": "TaggedTemplateExpression",
-            "span": {
-              "start": 19,
-              "end": 29,
-              "ctxt": 0
-            },
-            "tag": {
-              "type": "Identifier",
-              "span": {
-                "start": 19,
-                "end": 22,
-                "ctxt": 0
-              },
-              "value": "tag",
-              "optional": false
-            },
-            "typeParameters": null,
-            "template": {
-              "type": "TemplateLiteral",
-              "span": {
-                "start": 22,
-                "end": 29,
-                "ctxt": 0
-              },
-              "expressions": [],
-              "quasis": [
-                {
-                  "type": "TemplateElement",
-                  "span": {
-                    "start": 23,
-                    "end": 28,
-                    "ctxt": 0
-                  },
-                  "tail": true,
-                  "cooked": "hello",
-                  "raw": "hello"
-                }
-              ]
-            }
-          },
-          "property": {
-            "type": "Identifier",
-            "span": {
-              "start": 31,
-              "end": 32,
-              "ctxt": 0
-            },
-            "value": "a",
-            "optional": false
+          "quasi":{
+            "type":"TemplateLiteral",
+            "loc":{"source":null,"start":{"line":2,"column":3},"end":{"line":2,"column":10}},
+            "range":[21,28],
+            "quasis":[
+              {
+                "type":"TemplateElement",
+                "loc":{"source":null,"start":{"line":2,"column":3},"end":{"line":2,"column":10}},
+                "range":[21,28],
+                "value":{"raw":"hello","cooked":"hello"},
+                "tail":true
+              }
+            ],
+            "expressions":[]
           }
-        }
-      }
+        },
+        "property":{
+          "type":"Identifier",
+          "loc":{"source":null,"start":{"line":2,"column":12},"end":{"line":2,"column":13}},
+          "range":[30,31],
+          "name":"a",
+          "typeAnnotation":null,
+          "optional":false
+        },
+        "computed":false,
+        "optional":true
+      },
+      "directive":null
     }
   ],
-  "interpreter": null
+  "comments":[]
 }

@@ -1,92 +1,55 @@
 {
-  "type": "Script",
-  "span": {
-    "start": 1,
-    "end": 18,
-    "ctxt": 0
-  },
-  "body": [
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":3,"column":8}},
+  "range":[0,17],
+  "body":[
     {
-      "type": "ExpressionStatement",
-      "span": {
-        "start": 1,
-        "end": 18,
-        "ctxt": 0
-      },
-      "expression": {
-        "type": "ParenthesisExpression",
-        "span": {
-          "start": 1,
-          "end": 18,
-          "ctxt": 0
+      "type":"ExpressionStatement",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":3,"column":8}},
+      "range":[0,17],
+      "expression":{
+        "type":"JSXElement",
+        "loc":{"source":null,"start":{"line":1,"column":1},"end":{"line":3,"column":7}},
+        "range":[1,16],
+        "openingElement":{
+          "type":"JSXOpeningElement",
+          "loc":{"source":null,"start":{"line":1,"column":1},"end":{"line":1,"column":6}},
+          "range":[1,6],
+          "name":{
+            "type":"JSXIdentifier",
+            "loc":{"source":null,"start":{"line":1,"column":2},"end":{"line":1,"column":5}},
+            "range":[2,5],
+            "name":"div"
+          },
+          "attributes":[],
+          "selfClosing":false
         },
-        "expression": {
-          "type": "JSXElement",
-          "span": {
-            "start": 2,
-            "end": 17,
-            "ctxt": 0
-          },
-          "opening": {
-            "type": "JSXOpeningElement",
-            "name": {
-              "type": "Identifier",
-              "span": {
-                "start": 3,
-                "end": 6,
-                "ctxt": 0
-              },
-              "value": "div",
-              "optional": false
-            },
-            "span": {
-              "start": 2,
-              "end": 7,
-              "ctxt": 0
-            },
-            "attributes": [],
-            "selfClosing": false,
-            "typeArguments": null
-          },
-          "children": [
-            {
-              "type": "JSXExpressionContainer",
-              "span": {
-                "start": 7,
-                "end": 11,
-                "ctxt": 0
-              },
-              "expression": {
-                "type": "JSXEmptyExpression",
-                "span": {
-                  "start": 10,
-                  "end": 10,
-                  "ctxt": 0
-                }
-              }
-            }
-          ],
-          "closing": {
-            "type": "JSXClosingElement",
-            "span": {
-              "start": 11,
-              "end": 17,
-              "ctxt": 0
-            },
-            "name": {
-              "type": "Identifier",
-              "span": {
-                "start": 13,
-                "end": 16,
-                "ctxt": 0
-              },
-              "value": "div",
-              "optional": false
+        "closingElement":{
+          "type":"JSXClosingElement",
+          "loc":{"source":null,"start":{"line":3,"column":1},"end":{"line":3,"column":7}},
+          "range":[10,16],
+          "name":{
+            "type":"JSXIdentifier",
+            "loc":{"source":null,"start":{"line":3,"column":3},"end":{"line":3,"column":6}},
+            "range":[12,15],
+            "name":"div"
+          }
+        },
+        "children":[
+          {
+            "type":"JSXExpressionContainer",
+            "loc":{"source":null,"start":{"line":1,"column":6},"end":{"line":3,"column":1}},
+            "range":[6,10],
+            "expression":{
+              "type":"JSXEmptyExpression",
+              "loc":{"source":null,"start":{"line":1,"column":7},"end":{"line":3,"column":0}},
+              "range":[7,9]
             }
           }
-        }
-      }
+        ]
+      },
+      "directive":null
     }
   ],
-  "interpreter": null
+  "comments":[]
 }

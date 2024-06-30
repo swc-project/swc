@@ -1,83 +1,74 @@
 {
-  "type": "Script",
-  "span": {
-    "start": 1,
-    "end": 28,
-    "ctxt": 0
-  },
-  "body": [
+  "errors":[
     {
-      "type": "ExpressionStatement",
-      "span": {
-        "start": 1,
-        "end": 14,
-        "ctxt": 0
-      },
-      "expression": {
-        "type": "StringLiteral",
-        "span": {
-          "start": 1,
-          "end": 13,
-          "ctxt": 0
-        },
-        "value": "use strict",
-        "raw": "\"use strict\""
-      }
+      "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":2}},
+      "message":"Number literals with leading zeros are not allowed in strict mode."
     },
     {
-      "type": "ExpressionStatement",
-      "span": {
-        "start": 15,
-        "end": 18,
-        "ctxt": 0
-      },
-      "expression": {
-        "type": "NumericLiteral",
-        "span": {
-          "start": 15,
-          "end": 17,
-          "ctxt": 0
-        },
-        "value": 8.0,
-        "raw": "08"
-      }
+      "loc":{"source":null,"start":{"line":3,"column":0},"end":{"line":3,"column":3}},
+      "message":"Number literals with leading zeros are not allowed in strict mode."
     },
     {
-      "type": "ExpressionStatement",
-      "span": {
-        "start": 19,
-        "end": 23,
-        "ctxt": 0
-      },
-      "expression": {
-        "type": "NumericLiteral",
-        "span": {
-          "start": 19,
-          "end": 22,
-          "ctxt": 0
-        },
-        "value": 18.0,
-        "raw": "018"
-      }
-    },
-    {
-      "type": "ExpressionStatement",
-      "span": {
-        "start": 24,
-        "end": 28,
-        "ctxt": 0
-      },
-      "expression": {
-        "type": "NumericLiteral",
-        "span": {
-          "start": 24,
-          "end": 27,
-          "ctxt": 0
-        },
-        "value": 88.0,
-        "raw": "088"
-      }
+      "loc":{"source":null,"start":{"line":4,"column":0},"end":{"line":4,"column":3}},
+      "message":"Number literals with leading zeros are not allowed in strict mode."
     }
   ],
-  "interpreter": null
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":4,"column":4}},
+  "range":[0,27],
+  "body":[
+    {
+      "type":"ExpressionStatement",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":13}},
+      "range":[0,13],
+      "expression":{
+        "type":"Literal",
+        "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":12}},
+        "range":[0,12],
+        "value":"use strict",
+        "raw":"\"use strict\""
+      },
+      "directive":"use strict"
+    },
+    {
+      "type":"ExpressionStatement",
+      "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":3}},
+      "range":[14,17],
+      "expression":{
+        "type":"Literal",
+        "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":2}},
+        "range":[14,16],
+        "value":8,
+        "raw":"08"
+      },
+      "directive":null
+    },
+    {
+      "type":"ExpressionStatement",
+      "loc":{"source":null,"start":{"line":3,"column":0},"end":{"line":3,"column":4}},
+      "range":[18,22],
+      "expression":{
+        "type":"Literal",
+        "loc":{"source":null,"start":{"line":3,"column":0},"end":{"line":3,"column":3}},
+        "range":[18,21],
+        "value":18,
+        "raw":"018"
+      },
+      "directive":null
+    },
+    {
+      "type":"ExpressionStatement",
+      "loc":{"source":null,"start":{"line":4,"column":0},"end":{"line":4,"column":4}},
+      "range":[23,27],
+      "expression":{
+        "type":"Literal",
+        "loc":{"source":null,"start":{"line":4,"column":0},"end":{"line":4,"column":3}},
+        "range":[23,26],
+        "value":88,
+        "raw":"088"
+      },
+      "directive":null
+    }
+  ],
+  "comments":[]
 }

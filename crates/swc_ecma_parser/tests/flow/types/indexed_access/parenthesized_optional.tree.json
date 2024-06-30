@@ -1,280 +1,141 @@
 {
-  "type": "Script",
-  "span": {
-    "start": 1,
-    "end": 67,
-    "ctxt": 0
-  },
-  "body": [
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":3,"column":39}},
+  "range":[0,66],
+  "body":[
     {
-      "type": "EmptyStatement",
-      "span": {
-        "start": 1,
-        "end": 9,
-        "ctxt": 0
-      }
-    },
-    {
-      "type": "ExpressionStatement",
-      "span": {
-        "start": 10,
-        "end": 26,
-        "ctxt": 0
+      "type":"TypeAlias",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":25}},
+      "range":[0,25],
+      "id":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":1,"column":5},"end":{"line":1,"column":6}},
+        "range":[5,6],
+        "name":"X",
+        "typeAnnotation":null,
+        "optional":false
       },
-      "expression": {
-        "type": "MemberExpression",
-        "span": {
-          "start": 10,
-          "end": 25,
-          "ctxt": 0
-        },
-        "object": {
-          "type": "ParenthesisExpression",
-          "span": {
-            "start": 10,
-            "end": 20,
-            "ctxt": 0
-          },
-          "expression": {
-            "type": "OptionalChainingExpression",
-            "span": {
-              "start": 11,
-              "end": 19,
-              "ctxt": 0
+      "typeParameters":null,
+      "right":{
+        "type":"IndexedAccessType",
+        "loc":{"source":null,"start":{"line":1,"column":9},"end":{"line":1,"column":24}},
+        "range":[9,24],
+        "objectType":{
+          "type":"OptionalIndexedAccessType",
+          "loc":{"source":null,"start":{"line":1,"column":10},"end":{"line":1,"column":18}},
+          "range":[10,18],
+          "objectType":{
+            "type":"GenericTypeAnnotation",
+            "loc":{"source":null,"start":{"line":1,"column":10},"end":{"line":1,"column":11}},
+            "range":[10,11],
+            "id":{
+              "type":"Identifier",
+              "loc":{"source":null,"start":{"line":1,"column":10},"end":{"line":1,"column":11}},
+              "range":[10,11],
+              "name":"a",
+              "typeAnnotation":null,
+              "optional":false
             },
-            "optional": true,
-            "base": {
-              "type": "MemberExpression",
-              "span": {
-                "start": 11,
-                "end": 19,
-                "ctxt": 0
-              },
-              "object": {
-                "type": "Identifier",
-                "span": {
-                  "start": 11,
-                  "end": 12,
-                  "ctxt": 0
-                },
-                "value": "a",
-                "optional": false
-              },
-              "property": {
-                "type": "Computed",
-                "span": {
-                  "start": 14,
-                  "end": 19,
-                  "ctxt": 0
-                },
-                "expression": {
-                  "type": "StringLiteral",
-                  "span": {
-                    "start": 15,
-                    "end": 18,
-                    "ctxt": 0
-                  },
-                  "value": "b",
-                  "raw": "'b'"
-                }
-              }
-            }
-          }
-        },
-        "property": {
-          "type": "Computed",
-          "span": {
-            "start": 20,
-            "end": 25,
-            "ctxt": 0
+            "typeParameters":null
           },
-          "expression": {
-            "type": "StringLiteral",
-            "span": {
-              "start": 21,
-              "end": 24,
-              "ctxt": 0
-            },
-            "value": "c",
-            "raw": "'c'"
-          }
+          "indexType":{
+            "type":"StringLiteralTypeAnnotation",
+            "loc":{"source":null,"start":{"line":1,"column":14},"end":{"line":1,"column":17}},
+            "range":[14,17],
+            "value":"b",
+            "raw":"'b'"
+          },
+          "optional":true
+        },
+        "indexType":{
+          "type":"StringLiteralTypeAnnotation",
+          "loc":{"source":null,"start":{"line":1,"column":20},"end":{"line":1,"column":23}},
+          "range":[20,23],
+          "value":"c",
+          "raw":"'c'"
         }
       }
     },
     {
-      "type": "EmptyStatement",
-      "span": {
-        "start": 28,
-        "end": 36,
-        "ctxt": 0
-      }
-    },
-    {
-      "type": "ExpressionStatement",
-      "span": {
-        "start": 37,
-        "end": 67,
-        "ctxt": 0
+      "type":"TypeAlias",
+      "loc":{"source":null,"start":{"line":3,"column":0},"end":{"line":3,"column":39}},
+      "range":[27,66],
+      "id":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":3,"column":5},"end":{"line":3,"column":6}},
+        "range":[32,33],
+        "name":"Y",
+        "typeAnnotation":null,
+        "optional":false
       },
-      "expression": {
-        "type": "OptionalChainingExpression",
-        "span": {
-          "start": 37,
-          "end": 66,
-          "ctxt": 0
+      "typeParameters":null,
+      "right":{
+        "type":"OptionalIndexedAccessType",
+        "loc":{"source":null,"start":{"line":3,"column":9},"end":{"line":3,"column":38}},
+        "range":[36,65],
+        "objectType":{
+          "type":"OptionalIndexedAccessType",
+          "loc":{"source":null,"start":{"line":3,"column":9},"end":{"line":3,"column":31}},
+          "range":[36,58],
+          "objectType":{
+            "type":"OptionalIndexedAccessType",
+            "loc":{"source":null,"start":{"line":3,"column":9},"end":{"line":3,"column":26}},
+            "range":[36,53],
+            "objectType":{
+              "type":"OptionalIndexedAccessType",
+              "loc":{"source":null,"start":{"line":3,"column":10},"end":{"line":3,"column":18}},
+              "range":[37,45],
+              "objectType":{
+                "type":"GenericTypeAnnotation",
+                "loc":{"source":null,"start":{"line":3,"column":10},"end":{"line":3,"column":11}},
+                "range":[37,38],
+                "id":{
+                  "type":"Identifier",
+                  "loc":{"source":null,"start":{"line":3,"column":10},"end":{"line":3,"column":11}},
+                  "range":[37,38],
+                  "name":"a",
+                  "typeAnnotation":null,
+                  "optional":false
+                },
+                "typeParameters":null
+              },
+              "indexType":{
+                "type":"StringLiteralTypeAnnotation",
+                "loc":{"source":null,"start":{"line":3,"column":14},"end":{"line":3,"column":17}},
+                "range":[41,44],
+                "value":"b",
+                "raw":"'b'"
+              },
+              "optional":true
+            },
+            "indexType":{
+              "type":"StringLiteralTypeAnnotation",
+              "loc":{"source":null,"start":{"line":3,"column":22},"end":{"line":3,"column":25}},
+              "range":[49,52],
+              "value":"c",
+              "raw":"'c'"
+            },
+            "optional":true
+          },
+          "indexType":{
+            "type":"StringLiteralTypeAnnotation",
+            "loc":{"source":null,"start":{"line":3,"column":27},"end":{"line":3,"column":30}},
+            "range":[54,57],
+            "value":"d",
+            "raw":"'d'"
+          },
+          "optional":false
         },
-        "optional": true,
-        "base": {
-          "type": "MemberExpression",
-          "span": {
-            "start": 37,
-            "end": 66,
-            "ctxt": 0
-          },
-          "object": {
-            "type": "OptionalChainingExpression",
-            "span": {
-              "start": 37,
-              "end": 59,
-              "ctxt": 0
-            },
-            "optional": false,
-            "base": {
-              "type": "MemberExpression",
-              "span": {
-                "start": 37,
-                "end": 59,
-                "ctxt": 0
-              },
-              "object": {
-                "type": "OptionalChainingExpression",
-                "span": {
-                  "start": 37,
-                  "end": 54,
-                  "ctxt": 0
-                },
-                "optional": true,
-                "base": {
-                  "type": "MemberExpression",
-                  "span": {
-                    "start": 37,
-                    "end": 54,
-                    "ctxt": 0
-                  },
-                  "object": {
-                    "type": "ParenthesisExpression",
-                    "span": {
-                      "start": 37,
-                      "end": 47,
-                      "ctxt": 0
-                    },
-                    "expression": {
-                      "type": "OptionalChainingExpression",
-                      "span": {
-                        "start": 38,
-                        "end": 46,
-                        "ctxt": 0
-                      },
-                      "optional": true,
-                      "base": {
-                        "type": "MemberExpression",
-                        "span": {
-                          "start": 38,
-                          "end": 46,
-                          "ctxt": 0
-                        },
-                        "object": {
-                          "type": "Identifier",
-                          "span": {
-                            "start": 38,
-                            "end": 39,
-                            "ctxt": 0
-                          },
-                          "value": "a",
-                          "optional": false
-                        },
-                        "property": {
-                          "type": "Computed",
-                          "span": {
-                            "start": 41,
-                            "end": 46,
-                            "ctxt": 0
-                          },
-                          "expression": {
-                            "type": "StringLiteral",
-                            "span": {
-                              "start": 42,
-                              "end": 45,
-                              "ctxt": 0
-                            },
-                            "value": "b",
-                            "raw": "'b'"
-                          }
-                        }
-                      }
-                    }
-                  },
-                  "property": {
-                    "type": "Computed",
-                    "span": {
-                      "start": 49,
-                      "end": 54,
-                      "ctxt": 0
-                    },
-                    "expression": {
-                      "type": "StringLiteral",
-                      "span": {
-                        "start": 50,
-                        "end": 53,
-                        "ctxt": 0
-                      },
-                      "value": "c",
-                      "raw": "'c'"
-                    }
-                  }
-                }
-              },
-              "property": {
-                "type": "Computed",
-                "span": {
-                  "start": 54,
-                  "end": 59,
-                  "ctxt": 0
-                },
-                "expression": {
-                  "type": "StringLiteral",
-                  "span": {
-                    "start": 55,
-                    "end": 58,
-                    "ctxt": 0
-                  },
-                  "value": "d",
-                  "raw": "'d'"
-                }
-              }
-            }
-          },
-          "property": {
-            "type": "Computed",
-            "span": {
-              "start": 61,
-              "end": 66,
-              "ctxt": 0
-            },
-            "expression": {
-              "type": "StringLiteral",
-              "span": {
-                "start": 62,
-                "end": 65,
-                "ctxt": 0
-              },
-              "value": "e",
-              "raw": "'e'"
-            }
-          }
-        }
+        "indexType":{
+          "type":"StringLiteralTypeAnnotation",
+          "loc":{"source":null,"start":{"line":3,"column":34},"end":{"line":3,"column":37}},
+          "range":[61,64],
+          "value":"e",
+          "raw":"'e'"
+        },
+        "optional":true
       }
     }
   ],
-  "interpreter": null
+  "comments":[]
 }

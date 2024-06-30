@@ -1,44 +1,41 @@
 {
-  "type": "Script",
-  "span": {
-    "start": 1,
-    "end": 19,
-    "ctxt": 0
-  },
-  "body": [
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":18}},
+  "range":[0,18],
+  "body":[
     {
-      "type": "VariableDeclaration",
-      "span": {
-        "start": 1,
-        "end": 19,
-        "ctxt": 0
-      },
-      "kind": "var",
-      "declare": false,
-      "declarations": [
+      "type":"VariableDeclaration",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":18}},
+      "range":[0,18],
+      "declarations":[
         {
-          "type": "VariableDeclarator",
-          "span": {
-            "start": 5,
-            "end": 19,
-            "ctxt": 0
-          },
-          "id": {
-            "type": "Identifier",
-            "span": {
-              "start": 5,
-              "end": 6,
-              "ctxt": 0
+          "type":"VariableDeclarator",
+          "loc":{"source":null,"start":{"line":1,"column":4},"end":{"line":1,"column":18}},
+          "range":[4,18],
+          "id":{
+            "type":"Identifier",
+            "loc":{"source":null,"start":{"line":1,"column":4},"end":{"line":1,"column":18}},
+            "range":[4,18],
+            "name":"a",
+            "typeAnnotation":{
+              "type":"TypeAnnotation",
+              "loc":{"source":null,"start":{"line":1,"column":5},"end":{"line":1,"column":18}},
+              "range":[5,18],
+              "typeAnnotation":{
+                "type":"BigIntLiteralTypeAnnotation",
+                "loc":{"source":null,"start":{"line":1,"column":7},"end":{"line":1,"column":18}},
+                "range":[7,18],
+                "value":null,
+                "raw":"-0b1111011n"
+              }
             },
-            "value": "a",
-            "optional": false,
-            "typeAnnotation": null
+            "optional":false
           },
-          "init": null,
-          "definite": false
+          "init":null
         }
-      ]
+      ],
+      "kind":"var"
     }
   ],
-  "interpreter": null
+  "comments":[]
 }

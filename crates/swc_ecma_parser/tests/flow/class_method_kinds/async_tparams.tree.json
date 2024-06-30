@@ -1,84 +1,84 @@
 {
-  "type": "Script",
-  "span": {
-    "start": 1,
-    "end": 30,
-    "ctxt": 0
-  },
-  "body": [
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":3,"column":1}},
+  "range":[0,29],
+  "body":[
     {
-      "type": "ClassDeclaration",
-      "identifier": {
-        "type": "Identifier",
-        "span": {
-          "start": 7,
-          "end": 8,
-          "ctxt": 0
-        },
-        "value": "C",
-        "optional": false
+      "type":"ClassDeclaration",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":3,"column":1}},
+      "range":[0,29],
+      "id":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":1,"column":6},"end":{"line":1,"column":7}},
+        "range":[6,7],
+        "name":"C",
+        "typeAnnotation":null,
+        "optional":false
       },
-      "declare": false,
-      "span": {
-        "start": 1,
-        "end": 30,
-        "ctxt": 0
-      },
-      "decorators": [],
-      "body": [
-        {
-          "type": "ClassMethod",
-          "span": {
-            "start": 13,
-            "end": 28,
-            "ctxt": 0
-          },
-          "key": {
-            "type": "Identifier",
-            "span": {
-              "start": 19,
-              "end": 20,
-              "ctxt": 0
+      "body":{
+        "type":"ClassBody",
+        "loc":{"source":null,"start":{"line":1,"column":8},"end":{"line":3,"column":1}},
+        "range":[8,29],
+        "body":[
+          {
+            "type":"MethodDefinition",
+            "loc":{"source":null,"start":{"line":2,"column":2},"end":{"line":2,"column":17}},
+            "range":[12,27],
+            "key":{
+              "type":"Identifier",
+              "loc":{"source":null,"start":{"line":2,"column":8},"end":{"line":2,"column":9}},
+              "range":[18,19],
+              "name":"m",
+              "typeAnnotation":null,
+              "optional":false
             },
-            "value": "m",
-            "optional": false
-          },
-          "function": {
-            "params": [],
-            "decorators": [],
-            "span": {
-              "start": 13,
-              "end": 28,
-              "ctxt": 0
-            },
-            "body": {
-              "type": "BlockStatement",
-              "span": {
-                "start": 26,
-                "end": 28,
-                "ctxt": 0
+            "value":{
+              "type":"FunctionExpression",
+              "loc":{"source":null,"start":{"line":2,"column":9},"end":{"line":2,"column":17}},
+              "range":[19,27],
+              "id":null,
+              "params":[],
+              "body":{
+                "type":"BlockStatement",
+                "loc":{"source":null,"start":{"line":2,"column":15},"end":{"line":2,"column":17}},
+                "range":[25,27],
+                "body":[]
               },
-              "stmts": []
+              "async":true,
+              "generator":false,
+              "predicate":null,
+              "expression":false,
+              "returnType":null,
+              "typeParameters":{
+                "type":"TypeParameterDeclaration",
+                "loc":{"source":null,"start":{"line":2,"column":9},"end":{"line":2,"column":12}},
+                "range":[19,22],
+                "params":[
+                  {
+                    "type":"TypeParameter",
+                    "loc":{"source":null,"start":{"line":2,"column":10},"end":{"line":2,"column":11}},
+                    "range":[20,21],
+                    "name":"T",
+                    "bound":null,
+                    "variance":null,
+                    "default":null
+                  }
+                ]
+              }
             },
-            "generator": false,
-            "async": true,
-            "typeParameters": null,
-            "returnType": null
-          },
-          "kind": "method",
-          "isStatic": false,
-          "accessibility": null,
-          "isAbstract": false,
-          "isOptional": false,
-          "isOverride": false
-        }
-      ],
-      "superClass": null,
-      "isAbstract": false,
-      "typeParams": null,
-      "superTypeParams": null,
-      "implements": []
+            "kind":"method",
+            "static":false,
+            "computed":false,
+            "decorators":[]
+          }
+        ]
+      },
+      "typeParameters":null,
+      "superClass":null,
+      "superTypeParameters":null,
+      "implements":[],
+      "decorators":[]
     }
   ],
-  "interpreter": null
+  "comments":[]
 }

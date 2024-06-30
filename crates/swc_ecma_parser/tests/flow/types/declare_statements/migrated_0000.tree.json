@@ -1,29 +1,41 @@
 {
-  "type": "Script",
-  "span": {
-    "start": 1,
-    "end": 16,
-    "ctxt": 0
-  },
-  "body": [
+  "errors":[
     {
-      "type": "ExpressionStatement",
-      "span": {
-        "start": 1,
-        "end": 16,
-        "ctxt": 0
-      },
-      "expression": {
-        "type": "Identifier",
-        "span": {
-          "start": 1,
-          "end": 8,
-          "ctxt": 0
-        },
-        "value": "declare",
-        "optional": false
-      }
+      "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":0}},
+      "message":"Unexpected end of input, expected the token `:`"
+    },
+    {
+      "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":0}},
+      "message":"Unexpected end of input, expected a type"
     }
   ],
-  "interpreter": null
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":2,"column":0}},
+  "range":[0,16],
+  "body":[
+    {
+      "type":"DeclareVariable",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":2,"column":0}},
+      "range":[0,16],
+      "id":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":1,"column":12},"end":{"line":2,"column":0}},
+        "range":[12,16],
+        "name":"foo",
+        "typeAnnotation":{
+          "type":"TypeAnnotation",
+          "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":0}},
+          "range":[16,16],
+          "typeAnnotation":{
+            "type":"AnyTypeAnnotation",
+            "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":0}},
+            "range":[16,16]
+          }
+        },
+        "optional":false
+      },
+      "kind":"var"
+    }
+  ],
+  "comments":[]
 }

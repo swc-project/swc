@@ -1,37 +1,76 @@
 {
-  "type": "Script",
-  "span": {
-    "start": 1,
-    "end": 27,
-    "ctxt": 0
-  },
-  "body": [
+  "errors":[
     {
-      "type": "EmptyStatement",
-      "span": {
-        "start": 1,
-        "end": 23,
-        "ctxt": 0
-      }
-    },
+      "loc":{"source":null,"start":{"line":1,"column":25},"end":{"line":1,"column":26}},
+      "message":"Unexpected token `;`, expected a type"
+    }
+  ],
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":26}},
+  "range":[0,26],
+  "body":[
     {
-      "type": "ExpressionStatement",
-      "span": {
-        "start": 24,
-        "end": 27,
-        "ctxt": 0
+      "type":"TypeAlias",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":26}},
+      "range":[0,26],
+      "id":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":1,"column":5},"end":{"line":1,"column":6}},
+        "range":[5,6],
+        "name":"T",
+        "typeAnnotation":null,
+        "optional":false
       },
-      "expression": {
-        "type": "Identifier",
-        "span": {
-          "start": 24,
-          "end": 26,
-          "ctxt": 0
+      "typeParameters":null,
+      "right":{
+        "type":"FunctionTypeAnnotation",
+        "loc":{"source":null,"start":{"line":1,"column":9},"end":{"line":1,"column":25}},
+        "range":[9,25],
+        "params":[
+          {
+            "type":"FunctionTypeParam",
+            "loc":{"source":null,"start":{"line":1,"column":10},"end":{"line":1,"column":16}},
+            "range":[10,16],
+            "name":{
+              "type":"Identifier",
+              "loc":{"source":null,"start":{"line":1,"column":10},"end":{"line":1,"column":11}},
+              "range":[10,11],
+              "name":"x",
+              "typeAnnotation":null,
+              "optional":false
+            },
+            "typeAnnotation":{
+              "type":"AnyTypeAnnotation",
+              "loc":{"source":null,"start":{"line":1,"column":13},"end":{"line":1,"column":16}},
+              "range":[13,16]
+            },
+            "optional":false
+          }
+        ],
+        "returnType":{
+          "type":"TypePredicate",
+          "loc":{"source":null,"start":{"line":1,"column":21},"end":{"line":1,"column":25}},
+          "range":[21,25],
+          "parameterName":{
+            "type":"Identifier",
+            "loc":{"source":null,"start":{"line":1,"column":21},"end":{"line":1,"column":22}},
+            "range":[21,22],
+            "name":"x",
+            "typeAnnotation":null,
+            "optional":false
+          },
+          "typeAnnotation":{
+            "type":"AnyTypeAnnotation",
+            "loc":{"source":null,"start":{"line":1,"column":25},"end":{"line":1,"column":26}},
+            "range":[25,26]
+          },
+          "kind":null
         },
-        "value": "is",
-        "optional": false
+        "rest":null,
+        "typeParameters":null,
+        "this":null
       }
     }
   ],
-  "interpreter": null
+  "comments":[]
 }

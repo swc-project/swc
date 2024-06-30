@@ -1,82 +1,62 @@
 {
-  "type": "Script",
-  "span": {
-    "start": 1,
-    "end": 32,
-    "ctxt": 0
-  },
-  "body": [
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":4,"column":1}},
+  "range":[0,31],
+  "body":[
     {
-      "type": "FunctionDeclaration",
-      "identifier": {
-        "type": "Identifier",
-        "span": {
-          "start": 11,
-          "end": 12,
-          "ctxt": 0
-        },
-        "value": "f",
-        "optional": false
+      "type":"FunctionDeclaration",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":4,"column":1}},
+      "range":[0,31],
+      "id":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":1,"column":10},"end":{"line":1,"column":11}},
+        "range":[10,11],
+        "name":"f",
+        "typeAnnotation":null,
+        "optional":false
       },
-      "declare": false,
-      "params": [],
-      "decorators": [],
-      "span": {
-        "start": 1,
-        "end": 32,
-        "ctxt": 0
-      },
-      "body": {
-        "type": "BlockStatement",
-        "span": {
-          "start": 15,
-          "end": 32,
-          "ctxt": 0
-        },
-        "stmts": [
+      "params":[],
+      "body":{
+        "type":"BlockStatement",
+        "loc":{"source":null,"start":{"line":1,"column":14},"end":{"line":4,"column":1}},
+        "range":[14,31],
+        "body":[
           {
-            "type": "ExpressionStatement",
-            "span": {
-              "start": 19,
-              "end": 24,
-              "ctxt": 0
+            "type":"ExpressionStatement",
+            "loc":{"source":null,"start":{"line":2,"column":2},"end":{"line":2,"column":7}},
+            "range":[18,23],
+            "expression":{
+              "type":"YieldExpression",
+              "loc":{"source":null,"start":{"line":2,"column":2},"end":{"line":2,"column":7}},
+              "range":[18,23],
+              "argument":null,
+              "delegate":false
             },
-            "expression": {
-              "type": "YieldExpression",
-              "span": {
-                "start": 19,
-                "end": 24,
-                "ctxt": 0
-              },
-              "argument": null,
-              "delegate": false
-            }
+            "directive":null
           },
           {
-            "type": "ExpressionStatement",
-            "span": {
-              "start": 27,
-              "end": 30,
-              "ctxt": 0
+            "type":"ExpressionStatement",
+            "loc":{"source":null,"start":{"line":3,"column":2},"end":{"line":3,"column":5}},
+            "range":[26,29],
+            "expression":{
+              "type":"Identifier",
+              "loc":{"source":null,"start":{"line":3,"column":2},"end":{"line":3,"column":5}},
+              "range":[26,29],
+              "name":"foo",
+              "typeAnnotation":null,
+              "optional":false
             },
-            "expression": {
-              "type": "Identifier",
-              "span": {
-                "start": 27,
-                "end": 30,
-                "ctxt": 0
-              },
-              "value": "foo",
-              "optional": false
-            }
+            "directive":null
           }
         ]
       },
-      "generator": true,
-      "async": false,
-      "typeParameters": null,
-      "returnType": null
+      "async":false,
+      "generator":true,
+      "predicate":null,
+      "expression":false,
+      "returnType":null,
+      "typeParameters":null
     }
   ],
-  "interpreter": null
+  "comments":[]
 }
