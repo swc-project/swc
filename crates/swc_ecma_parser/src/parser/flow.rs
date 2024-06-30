@@ -285,8 +285,6 @@ where
             return self.consume_flow_type();
         }
 
-        dbg!(self.input.cur());
-
         if eat!(self, '(') {
             // Check to see if this is actually a grouped type
             if !is!(self, ')') && !is!(self, "...") {
