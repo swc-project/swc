@@ -118,6 +118,14 @@ where
         Ok(())
     }
 
+    pub(super) fn may_consume_flow_type_ann(&mut self) -> PResult<()> {
+        if is!(self, ':') {
+            self.consume_flow_type_ann()?;
+        }
+
+        Ok(())
+    }
+
     pub(super) fn consume_flow_type_ann(&mut self) -> PResult<()> {
         expect!(self, ':');
 

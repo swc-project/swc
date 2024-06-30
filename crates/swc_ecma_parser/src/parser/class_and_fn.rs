@@ -1079,7 +1079,14 @@ impl<I: Tokens> Parser<I> {
         }
         let definite = self.input.syntax().typescript() && !is_optional && eat!(self, '!');
 
-        let type_ann = self.try_parse_ts_type_ann()?;
+        let type_ann = if self.input.syntax().typescript() {
+            self.try_parse_ts_type_ann()?
+        } else if self.input.syntax().flow() {
+            self.may_consume_flow_type_ann()?;
+            None
+        } else {
+            None
+        };
 
         let ctx = Context {
             include_in_expr: true,
