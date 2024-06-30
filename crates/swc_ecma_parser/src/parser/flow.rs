@@ -525,7 +525,7 @@ where
     /// Ported from `flowParseObjectType`
     fn consume_flow_object_type(
         &mut self,
-        allow_static: bool,
+        mut allow_static: bool,
         allow_exact: bool,
         allow_spread: bool,
         allow_proto: bool,
@@ -568,30 +568,30 @@ where
 
                 let variance = p.consume_flow_variance()?;
 
-                if eat!(self, '[') {
+                if eat!(p, '[') {
                     if proto_start_loc.is_some() {
-                        unexpected!(self, "[ after proto")
+                        unexpected!(p, "[ after proto")
                     }
 
-                    if eat!(self, '[') {
+                    if eat!(p, '[') {
                         if variance.is_some() {
-                            unexpected!(self, "[[ after variance")
+                            unexpected!(p, "[[ after variance")
                         }
 
-                        self.consume_flow_object_type_interanl_slot((), is_static)?;
+                        p.consume_flow_object_type_interanl_slot((), is_static)?;
                     } else {
-                        self.parse_flow_object_type_indexer((), is_static, variance)?
+                        p.parse_flow_object_type_indexer((), is_static, variance)?
                     }
-                } else if is_one_of!(self, '(', '<') {
+                } else if is_one_of!(p, '(', '<') {
                     if proto_start_loc.is_some() {
-                        unexpected!(self, "( after proto")
+                        unexpected!(p, "( after proto")
                     }
 
                     if variance.is_some() {
-                        unexpected!(self, "( after variance")
+                        unexpected!(p, "( after variance")
                     }
 
-                    self.consume_flow_object_type_call_property((), is_static)?;
+                    p.consume_flow_object_type_call_property((), is_static)?;
                 } else {
                     // let mut kind = "init";
 
@@ -609,7 +609,7 @@ where
                     todo!("consume_flow_object_type: kind");
                 }
 
-                self.consume_flow_object_type_semicolon()?;
+                p.consume_flow_object_type_semicolon()?;
 
                 // if inexact_start_loc && !is!(self, '}') && !is!(self, "|}") {
                 //     self.emit_err(
@@ -619,8 +619,8 @@ where
                 // }
             }
 
-            if !self.input.eat(&end_delim) {
-                unexpected!(self, "end delimiter of object type")
+            if !p.input.eat(&end_delim) {
+                unexpected!(p, "end delimiter of object type")
             }
 
             Ok(())
