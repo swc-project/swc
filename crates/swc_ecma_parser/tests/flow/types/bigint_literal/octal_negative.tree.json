@@ -20,7 +20,7 @@
           "type": "VariableDeclarator",
           "span": {
             "start": 5,
-            "end": 6,
+            "end": 15,
             "ctxt": 0
           },
           "id": {
