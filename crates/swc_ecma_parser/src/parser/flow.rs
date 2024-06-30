@@ -1012,5 +1012,8 @@ fn token_is_keyword(cur: &Token) -> bool {
 }
 
 fn token_is_literal_property_name(cur: &Token) -> bool {
-    matches!(cur, Token::Str(..) | Token::Num(..) | Token::BigInt(..))
+    matches!(
+        cur,
+        Token::Str { .. } | Token::Num { .. } | Token::BigInt { .. }
+    )
 }
