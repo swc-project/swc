@@ -95,7 +95,7 @@ where
         allow_primitive_override: bool,
     ) -> PResult<()> {
         if allow_primitive_override {
-            self.parse_ident(true, true)?;
+            self.parse_ident_name()?;
         } else {
             self.parse_flow_restricted_ident(false, false)?;
         }
@@ -113,7 +113,7 @@ where
             // self.check_flow_reserved_type(declaration)?;
         }
 
-        self.parse_ident(liberal, liberal)?;
+        self.parse_ident_name()?;
 
         Ok(())
     }
@@ -307,7 +307,7 @@ where
             if is_contextual!(self, "interface") {
                 return self.consume_flow_inteface_type();
             }
-            let ident = self.parse_ident(true, true)?;
+            let ident = self.parse_ident_name()?;
 
             self.parse_flow_ident_to_type_ann(ident)?;
 
@@ -376,7 +376,7 @@ where
     }
 
     fn consume_flow_restricted_ident(&mut self) -> PResult<()> {
-        self.parse_ident(true, true)?;
+        self.parse_ident_name()?;
 
         Ok(())
     }
@@ -415,7 +415,7 @@ where
                 self.emit_err(self.input.cur_span(), SyntaxError::FlowThisParamMustBeFirst);
             }
 
-            let _name = self.parse_ident(is_this, is_this)?;
+            let _name = self.parse_ident_name()?;
 
             if eat!(self, '?') && is_this {
                 self.emit_err(
