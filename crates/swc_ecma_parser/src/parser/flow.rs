@@ -653,7 +653,7 @@ where
         if is_one_of!(self, Str, Num) {
             self.input.bump();
         } else {
-            self.parse_ident_name()?
+            self.parse_ident_name()?;
         }
 
         Ok(())
@@ -674,6 +674,14 @@ where
 
         expect!(self, ']');
 
+        Ok(())
+    }
+
+    /// Ported from `flowParseObjectTypeCallProperty`
+    fn consume_flow_object_type_call_property(&mut self, node: (), is_static: bool) -> PResult<()> {
+        let value_node = ();
+
+        self.consume_flow_object_type_methodish(value_node)?;
         Ok(())
     }
 
