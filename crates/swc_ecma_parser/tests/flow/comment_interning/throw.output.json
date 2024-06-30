@@ -1,0 +1,280 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 426,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 10,
+          "end": 14,
+          "ctxt": 0
+        },
+        "value": "test",
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 1,
+        "end": 223,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 17,
+          "end": 223,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "VariableDeclaration",
+            "span": {
+              "start": 56,
+              "end": 77,
+              "ctxt": 0
+            },
+            "kind": "var",
+            "declare": false,
+            "declarations": [
+              {
+                "type": "VariableDeclarator",
+                "span": {
+                  "start": 60,
+                  "end": 76,
+                  "ctxt": 0
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 60,
+                    "end": 61,
+                    "ctxt": 0
+                  },
+                  "value": "F",
+                  "optional": false,
+                  "typeAnnotation": null
+                },
+                "init": {
+                  "type": "FunctionExpression",
+                  "identifier": null,
+                  "params": [],
+                  "decorators": [],
+                  "span": {
+                    "start": 64,
+                    "end": 76,
+                    "ctxt": 0
+                  },
+                  "body": {
+                    "type": "BlockStatement",
+                    "span": {
+                      "start": 74,
+                      "end": 76,
+                      "ctxt": 0
+                    },
+                    "stmts": []
+                  },
+                  "generator": false,
+                  "async": false,
+                  "typeParameters": null,
+                  "returnType": null
+                },
+                "definite": false
+              }
+            ]
+          },
+          {
+            "type": "ThrowStatement",
+            "span": {
+              "start": 135,
+              "end": 221,
+              "ctxt": 0
+            },
+            "argument": {
+              "type": "NewExpression",
+              "span": {
+                "start": 174,
+                "end": 192,
+                "ctxt": 0
+              },
+              "callee": {
+                "type": "Identifier",
+                "span": {
+                  "start": 178,
+                  "end": 183,
+                  "ctxt": 0
+                },
+                "value": "Error",
+                "optional": false
+              },
+              "arguments": [
+                {
+                  "spread": null,
+                  "expression": {
+                    "type": "StringLiteral",
+                    "span": {
+                      "start": 184,
+                      "end": 191,
+                      "ctxt": 0
+                    },
+                    "value": "Error",
+                    "raw": "'Error'"
+                  }
+                }
+              ],
+              "typeArguments": null
+            }
+          }
+        ]
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    },
+    {
+      "type": "ThrowStatement",
+      "span": {
+        "start": 243,
+        "end": 281,
+        "ctxt": 0
+      },
+      "argument": {
+        "type": "NewExpression",
+        "span": {
+          "start": 249,
+          "end": 262,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "Identifier",
+          "span": {
+            "start": 253,
+            "end": 258,
+            "ctxt": 0
+          },
+          "value": "Error",
+          "optional": false
+        },
+        "arguments": [
+          {
+            "spread": null,
+            "expression": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 259,
+                "end": 261,
+                "ctxt": 0
+              },
+              "value": "",
+              "raw": "''"
+            }
+          }
+        ],
+        "typeArguments": null
+      }
+    },
+    {
+      "type": "BlockStatement",
+      "span": {
+        "start": 301,
+        "end": 426,
+        "ctxt": 0
+      },
+      "stmts": [
+        {
+          "type": "ThrowStatement",
+          "span": {
+            "start": 325,
+            "end": 344,
+            "ctxt": 0
+          },
+          "argument": {
+            "type": "NewExpression",
+            "span": {
+              "start": 331,
+              "end": 344,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "Identifier",
+              "span": {
+                "start": 335,
+                "end": 340,
+                "ctxt": 0
+              },
+              "value": "Error",
+              "optional": false
+            },
+            "arguments": [
+              {
+                "spread": null,
+                "expression": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 341,
+                    "end": 343,
+                    "ctxt": 0
+                  },
+                  "value": "",
+                  "raw": "''"
+                }
+              }
+            ],
+            "typeArguments": null
+          }
+        },
+        {
+          "type": "ThrowStatement",
+          "span": {
+            "start": 384,
+            "end": 403,
+            "ctxt": 0
+          },
+          "argument": {
+            "type": "NewExpression",
+            "span": {
+              "start": 390,
+              "end": 403,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "Identifier",
+              "span": {
+                "start": 394,
+                "end": 399,
+                "ctxt": 0
+              },
+              "value": "Error",
+              "optional": false
+            },
+            "arguments": [
+              {
+                "spread": null,
+                "expression": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 400,
+                    "end": 402,
+                    "ctxt": 0
+                  },
+                  "value": "",
+                  "raw": "''"
+                }
+              }
+            ],
+            "typeArguments": null
+          }
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

@@ -1,0 +1,80 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 22,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 1,
+        "end": 22,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "CallExpression",
+        "span": {
+          "start": 1,
+          "end": 21,
+          "ctxt": 0
+        },
+        "callee": {
+          "type": "MemberExpression",
+          "span": {
+            "start": 1,
+            "end": 19,
+            "ctxt": 0
+          },
+          "object": {
+            "type": "CallExpression",
+            "span": {
+              "start": 1,
+              "end": 14,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "Import",
+              "span": {
+                "start": 1,
+                "end": 7,
+                "ctxt": 0
+              },
+              "phase": "evaluation"
+            },
+            "arguments": [
+              {
+                "spread": null,
+                "expression": {
+                  "type": "StringLiteral",
+                  "span": {
+                    "start": 8,
+                    "end": 13,
+                    "ctxt": 0
+                  },
+                  "value": "dsa",
+                  "raw": "\"dsa\""
+                }
+              }
+            ],
+            "typeArguments": null
+          },
+          "property": {
+            "type": "Identifier",
+            "span": {
+              "start": 15,
+              "end": 19,
+              "ctxt": 0
+            },
+            "value": "then",
+            "optional": false
+          }
+        },
+        "arguments": [],
+        "typeArguments": null
+      }
+    }
+  ],
+  "interpreter": null
+}

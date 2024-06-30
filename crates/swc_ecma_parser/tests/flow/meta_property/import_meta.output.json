@@ -1,0 +1,28 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 1,
+    "end": 13,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 1,
+        "end": 13,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "MetaProperty",
+        "span": {
+          "start": 1,
+          "end": 12,
+          "ctxt": 0
+        },
+        "kind": "import.meta"
+      }
+    }
+  ],
+  "interpreter": null
+}

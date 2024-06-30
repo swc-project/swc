@@ -1,0 +1,584 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 773,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 10,
+          "end": 22,
+          "ctxt": 0
+        },
+        "value": "only_leading",
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 1,
+        "end": 185,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 26,
+          "end": 185,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "VariableDeclaration",
+            "span": {
+              "start": 72,
+              "end": 82,
+              "ctxt": 0
+            },
+            "kind": "var",
+            "declare": false,
+            "declarations": [
+              {
+                "type": "VariableDeclarator",
+                "span": {
+                  "start": 76,
+                  "end": 81,
+                  "ctxt": 0
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 76,
+                    "end": 77,
+                    "ctxt": 0
+                  },
+                  "value": "i",
+                  "optional": false,
+                  "typeAnnotation": null
+                },
+                "init": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 80,
+                    "end": 81,
+                    "ctxt": 0
+                  },
+                  "value": 0.0,
+                  "raw": "0"
+                },
+                "definite": false
+              }
+            ]
+          },
+          {
+            "type": "DoWhileStatement",
+            "span": {
+              "start": 142,
+              "end": 183,
+              "ctxt": 0
+            },
+            "test": {
+              "type": "BinaryExpression",
+              "span": {
+                "start": 176,
+                "end": 181,
+                "ctxt": 0
+              },
+              "operator": "<",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 176,
+                  "end": 177,
+                  "ctxt": 0
+                },
+                "value": "i",
+                "optional": false
+              },
+              "right": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 180,
+                  "end": 181,
+                  "ctxt": 0
+                },
+                "value": 3.0,
+                "raw": "3"
+              }
+            },
+            "body": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 145,
+                "end": 168,
+                "ctxt": 0
+              },
+              "stmts": [
+                {
+                  "type": "ExpressionStatement",
+                  "span": {
+                    "start": 155,
+                    "end": 162,
+                    "ctxt": 0
+                  },
+                  "expression": {
+                    "type": "AssignmentExpression",
+                    "span": {
+                      "start": 155,
+                      "end": 161,
+                      "ctxt": 0
+                    },
+                    "operator": "+=",
+                    "left": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 155,
+                        "end": 156,
+                        "ctxt": 0
+                      },
+                      "value": "i",
+                      "optional": false,
+                      "typeAnnotation": null
+                    },
+                    "right": {
+                      "type": "NumericLiteral",
+                      "span": {
+                        "start": 160,
+                        "end": 161,
+                        "ctxt": 0
+                      },
+                      "value": 1.0,
+                      "raw": "1"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 196,
+          "end": 214,
+          "ctxt": 0
+        },
+        "value": "leading_n_trailing",
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 187,
+        "end": 367,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 217,
+          "end": 367,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "VariableDeclaration",
+            "span": {
+              "start": 223,
+              "end": 233,
+              "ctxt": 0
+            },
+            "kind": "var",
+            "declare": false,
+            "declarations": [
+              {
+                "type": "VariableDeclarator",
+                "span": {
+                  "start": 227,
+                  "end": 232,
+                  "ctxt": 0
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 227,
+                    "end": 228,
+                    "ctxt": 0
+                  },
+                  "value": "i",
+                  "optional": false,
+                  "typeAnnotation": null
+                },
+                "init": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 231,
+                    "end": 232,
+                    "ctxt": 0
+                  },
+                  "value": 0.0,
+                  "raw": "0"
+                },
+                "definite": false
+              }
+            ]
+          },
+          {
+            "type": "DoWhileStatement",
+            "span": {
+              "start": 266,
+              "end": 335,
+              "ctxt": 0
+            },
+            "test": {
+              "type": "BinaryExpression",
+              "span": {
+                "start": 300,
+                "end": 305,
+                "ctxt": 0
+              },
+              "operator": "<",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 300,
+                  "end": 301,
+                  "ctxt": 0
+                },
+                "value": "i",
+                "optional": false
+              },
+              "right": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 304,
+                  "end": 305,
+                  "ctxt": 0
+                },
+                "value": 3.0,
+                "raw": "3"
+              }
+            },
+            "body": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 269,
+                "end": 292,
+                "ctxt": 0
+              },
+              "stmts": [
+                {
+                  "type": "ExpressionStatement",
+                  "span": {
+                    "start": 279,
+                    "end": 286,
+                    "ctxt": 0
+                  },
+                  "expression": {
+                    "type": "AssignmentExpression",
+                    "span": {
+                      "start": 279,
+                      "end": 285,
+                      "ctxt": 0
+                    },
+                    "operator": "+=",
+                    "left": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 279,
+                        "end": 280,
+                        "ctxt": 0
+                      },
+                      "value": "i",
+                      "optional": false,
+                      "typeAnnotation": null
+                    },
+                    "right": {
+                      "type": "NumericLiteral",
+                      "span": {
+                        "start": 284,
+                        "end": 285,
+                        "ctxt": 0
+                      },
+                      "value": 1.0,
+                      "raw": "1"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 378,
+          "end": 391,
+          "ctxt": 0
+        },
+        "value": "only_trailing",
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 369,
+        "end": 636,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 394,
+          "end": 636,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "VariableDeclaration",
+            "span": {
+              "start": 400,
+              "end": 410,
+              "ctxt": 0
+            },
+            "kind": "var",
+            "declare": false,
+            "declarations": [
+              {
+                "type": "VariableDeclarator",
+                "span": {
+                  "start": 404,
+                  "end": 409,
+                  "ctxt": 0
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 404,
+                    "end": 405,
+                    "ctxt": 0
+                  },
+                  "value": "i",
+                  "optional": false,
+                  "typeAnnotation": null
+                },
+                "init": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 408,
+                    "end": 409,
+                    "ctxt": 0
+                  },
+                  "value": 0.0,
+                  "raw": "0"
+                },
+                "definite": false
+              }
+            ]
+          },
+          {
+            "type": "DoWhileStatement",
+            "span": {
+              "start": 415,
+              "end": 570,
+              "ctxt": 0
+            },
+            "test": {
+              "type": "BinaryExpression",
+              "span": {
+                "start": 526,
+                "end": 530,
+                "ctxt": 0
+              },
+              "operator": "<",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 526,
+                  "end": 527,
+                  "ctxt": 0
+                },
+                "value": "i",
+                "optional": false
+              },
+              "right": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 529,
+                  "end": 530,
+                  "ctxt": 0
+                },
+                "value": 3.0,
+                "raw": "3"
+              }
+            },
+            "body": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 418,
+                "end": 441,
+                "ctxt": 0
+              },
+              "stmts": [
+                {
+                  "type": "ExpressionStatement",
+                  "span": {
+                    "start": 428,
+                    "end": 435,
+                    "ctxt": 0
+                  },
+                  "expression": {
+                    "type": "AssignmentExpression",
+                    "span": {
+                      "start": 428,
+                      "end": 434,
+                      "ctxt": 0
+                    },
+                    "operator": "+=",
+                    "left": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 428,
+                        "end": 429,
+                        "ctxt": 0
+                      },
+                      "value": "i",
+                      "optional": false,
+                      "typeAnnotation": null
+                    },
+                    "right": {
+                      "type": "NumericLiteral",
+                      "span": {
+                        "start": 433,
+                        "end": 434,
+                        "ctxt": 0
+                      },
+                      "value": 1.0,
+                      "raw": "1"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 647,
+          "end": 665,
+          "ctxt": 0
+        },
+        "value": "implicit_semicolon",
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 638,
+        "end": 773,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 668,
+          "end": 773,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "DoWhileStatement",
+            "span": {
+              "start": 674,
+              "end": 692,
+              "ctxt": 0
+            },
+            "test": {
+              "type": "BooleanLiteral",
+              "span": {
+                "start": 687,
+                "end": 691,
+                "ctxt": 0
+              },
+              "value": true
+            },
+            "body": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 677,
+                "end": 679,
+                "ctxt": 0
+              },
+              "stmts": []
+            }
+          },
+          {
+            "type": "DoWhileStatement",
+            "span": {
+              "start": 734,
+              "end": 752,
+              "ctxt": 0
+            },
+            "test": {
+              "type": "BooleanLiteral",
+              "span": {
+                "start": 747,
+                "end": 751,
+                "ctxt": 0
+              },
+              "value": true
+            },
+            "body": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 737,
+                "end": 739,
+                "ctxt": 0
+              },
+              "stmts": []
+            }
+          }
+        ]
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    }
+  ],
+  "interpreter": null
+}

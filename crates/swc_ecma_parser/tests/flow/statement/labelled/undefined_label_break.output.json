@@ -1,0 +1,40 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 20,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ForStatement",
+      "span": {
+        "start": 1,
+        "end": 20,
+        "ctxt": 0
+      },
+      "init": null,
+      "test": null,
+      "update": null,
+      "body": {
+        "type": "BreakStatement",
+        "span": {
+          "start": 10,
+          "end": 20,
+          "ctxt": 0
+        },
+        "label": {
+          "type": "Identifier",
+          "span": {
+            "start": 16,
+            "end": 19,
+            "ctxt": 0
+          },
+          "value": "foo",
+          "optional": false
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

@@ -1,0 +1,109 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 18,
+    "end": 210,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 18,
+        "end": 112,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "ConditionalExpression",
+        "span": {
+          "start": 18,
+          "end": 95,
+          "ctxt": 0
+        },
+        "test": {
+          "type": "BooleanLiteral",
+          "span": {
+            "start": 18,
+            "end": 22,
+            "ctxt": 0
+          },
+          "value": true
+        },
+        "consequent": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 58,
+            "end": 59,
+            "ctxt": 0
+          },
+          "value": 1.0,
+          "raw": "1"
+        },
+        "alternate": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 94,
+            "end": 95,
+            "ctxt": 0
+          },
+          "value": 2.0,
+          "raw": "2"
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 138,
+        "end": 210,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "ParenthesisExpression",
+        "span": {
+          "start": 138,
+          "end": 185,
+          "ctxt": 0
+        },
+        "expression": {
+          "type": "ConditionalExpression",
+          "span": {
+            "start": 156,
+            "end": 168,
+            "ctxt": 0
+          },
+          "test": {
+            "type": "BooleanLiteral",
+            "span": {
+              "start": 156,
+              "end": 160,
+              "ctxt": 0
+            },
+            "value": true
+          },
+          "consequent": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 163,
+              "end": 164,
+              "ctxt": 0
+            },
+            "value": 1.0,
+            "raw": "1"
+          },
+          "alternate": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 167,
+              "end": 168,
+              "ctxt": 0
+            },
+            "value": 2.0,
+            "raw": "2"
+          }
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

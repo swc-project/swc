@@ -1,0 +1,97 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 45,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 10,
+          "end": 15,
+          "ctxt": 0
+        },
+        "value": "hello",
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 1,
+        "end": 45,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 18,
+          "end": 45,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ExpressionStatement",
+            "span": {
+              "start": 20,
+              "end": 33,
+              "ctxt": 0
+            },
+            "expression": {
+              "type": "StringLiteral",
+              "span": {
+                "start": 20,
+                "end": 32,
+                "ctxt": 0
+              },
+              "value": "use strict",
+              "raw": "\"use strict\""
+            }
+          },
+          {
+            "type": "VariableDeclaration",
+            "span": {
+              "start": 34,
+              "end": 43,
+              "ctxt": 0
+            },
+            "kind": "var",
+            "declare": false,
+            "declarations": [
+              {
+                "type": "VariableDeclarator",
+                "span": {
+                  "start": 38,
+                  "end": 42,
+                  "ctxt": 0
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 38,
+                    "end": 42,
+                    "ctxt": 0
+                  },
+                  "value": "enum",
+                  "optional": false,
+                  "typeAnnotation": null
+                },
+                "init": null,
+                "definite": false
+              }
+            ]
+          }
+        ]
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    }
+  ],
+  "interpreter": null
+}

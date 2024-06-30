@@ -1,0 +1,89 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 1,
+    "end": 37,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ImportDeclaration",
+      "span": {
+        "start": 0,
+        "end": 0,
+        "ctxt": 0
+      },
+      "specifiers": [],
+      "source": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 0,
+          "end": 0,
+          "ctxt": 0
+        },
+        "value": "",
+        "raw": null
+      },
+      "typeOnly": false,
+      "with": null,
+      "phase": "evaluation"
+    },
+    {
+      "type": "LabeledStatement",
+      "span": {
+        "start": 15,
+        "end": 37,
+        "ctxt": 0
+      },
+      "label": {
+        "type": "Identifier",
+        "span": {
+          "start": 15,
+          "end": 21,
+          "ctxt": 0
+        },
+        "value": "potato",
+        "optional": false
+      },
+      "body": {
+        "type": "ExpressionStatement",
+        "span": {
+          "start": 23,
+          "end": 37,
+          "ctxt": 0
+        },
+        "expression": {
+          "type": "AssignmentExpression",
+          "span": {
+            "start": 23,
+            "end": 36,
+            "ctxt": 0
+          },
+          "operator": "=",
+          "left": {
+            "type": "Identifier",
+            "span": {
+              "start": 23,
+              "end": 27,
+              "ctxt": 0
+            },
+            "value": "FBID",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "right": {
+            "type": "Identifier",
+            "span": {
+              "start": 30,
+              "end": 36,
+              "ctxt": 0
+            },
+            "value": "number",
+            "optional": false
+          }
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

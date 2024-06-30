@@ -1,0 +1,107 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 1,
+    "end": 48,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExportDefaultExpression",
+      "span": {
+        "start": 1,
+        "end": 27,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "ParenthesisExpression",
+        "span": {
+          "start": 16,
+          "end": 26,
+          "ctxt": 0
+        },
+        "expression": {
+          "type": "AssignmentExpression",
+          "span": {
+            "start": 17,
+            "end": 25,
+            "ctxt": 0
+          },
+          "operator": "=",
+          "left": {
+            "type": "Identifier",
+            "span": {
+              "start": 17,
+              "end": 20,
+              "ctxt": 0
+            },
+            "value": "foo",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "right": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 23,
+              "end": 25,
+              "ctxt": 0
+            },
+            "value": 42.0,
+            "raw": "42"
+          }
+        }
+      }
+    },
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 28,
+        "end": 48,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "VariableDeclaration",
+        "span": {
+          "start": 35,
+          "end": 48,
+          "ctxt": 0
+        },
+        "kind": "let",
+        "declare": false,
+        "declarations": [
+          {
+            "type": "VariableDeclarator",
+            "span": {
+              "start": 39,
+              "end": 47,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 39,
+                "end": 42,
+                "ctxt": 0
+              },
+              "value": "foo",
+              "optional": false,
+              "typeAnnotation": null
+            },
+            "init": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 45,
+                "end": 47,
+                "ctxt": 0
+              },
+              "value": 43.0,
+              "raw": "43"
+            },
+            "definite": false
+          }
+        ]
+      }
+    }
+  ],
+  "interpreter": null
+}

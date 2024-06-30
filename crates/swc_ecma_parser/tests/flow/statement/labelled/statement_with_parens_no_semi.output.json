@@ -1,0 +1,55 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 11,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "LabeledStatement",
+      "span": {
+        "start": 1,
+        "end": 11,
+        "ctxt": 0
+      },
+      "label": {
+        "type": "Identifier",
+        "span": {
+          "start": 1,
+          "end": 4,
+          "ctxt": 0
+        },
+        "value": "foo",
+        "optional": false
+      },
+      "body": {
+        "type": "ExpressionStatement",
+        "span": {
+          "start": 6,
+          "end": 11,
+          "ctxt": 0
+        },
+        "expression": {
+          "type": "ParenthesisExpression",
+          "span": {
+            "start": 6,
+            "end": 11,
+            "ctxt": 0
+          },
+          "expression": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 7,
+              "end": 10,
+              "ctxt": 0
+            },
+            "value": 123.0,
+            "raw": "123"
+          }
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

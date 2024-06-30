@@ -1,0 +1,93 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 27,
+    "end": 236,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 27,
+        "end": 115,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 27,
+          "end": 86,
+          "ctxt": 0
+        },
+        "operator": "+",
+        "left": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 27,
+            "end": 28,
+            "ctxt": 0
+          },
+          "value": 1.0,
+          "raw": "1"
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 85,
+            "end": 86,
+            "ctxt": 0
+          },
+          "value": 2.0,
+          "raw": "2"
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 145,
+        "end": 236,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "ParenthesisExpression",
+        "span": {
+          "start": 145,
+          "end": 206,
+          "ctxt": 0
+        },
+        "expression": {
+          "type": "BinaryExpression",
+          "span": {
+            "start": 172,
+            "end": 177,
+            "ctxt": 0
+          },
+          "operator": "+",
+          "left": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 172,
+              "end": 173,
+              "ctxt": 0
+            },
+            "value": 1.0,
+            "raw": "1"
+          },
+          "right": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 176,
+              "end": 177,
+              "ctxt": 0
+            },
+            "value": 2.0,
+            "raw": "2"
+          }
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

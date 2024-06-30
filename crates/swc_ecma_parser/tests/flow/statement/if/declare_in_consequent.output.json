@@ -1,0 +1,67 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 24,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "IfStatement",
+      "span": {
+        "start": 1,
+        "end": 24,
+        "ctxt": 0
+      },
+      "test": {
+        "type": "BooleanLiteral",
+        "span": {
+          "start": 5,
+          "end": 9,
+          "ctxt": 0
+        },
+        "value": true
+      },
+      "consequent": {
+        "type": "ExpressionStatement",
+        "span": {
+          "start": 11,
+          "end": 24,
+          "ctxt": 0
+        },
+        "expression": {
+          "type": "AssignmentExpression",
+          "span": {
+            "start": 11,
+            "end": 23,
+            "ctxt": 0
+          },
+          "operator": "+=",
+          "left": {
+            "type": "Identifier",
+            "span": {
+              "start": 11,
+              "end": 18,
+              "ctxt": 0
+            },
+            "value": "declare",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "right": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 22,
+              "end": 23,
+              "ctxt": 0
+            },
+            "value": 4.0,
+            "raw": "4"
+          }
+        }
+      },
+      "alternate": null
+    }
+  ],
+  "interpreter": null
+}

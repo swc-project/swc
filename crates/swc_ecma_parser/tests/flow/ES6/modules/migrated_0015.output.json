@@ -1,0 +1,103 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 47,
+    "end": 93,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 47,
+        "end": 71,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "FunctionDeclaration",
+        "identifier": {
+          "type": "Identifier",
+          "span": {
+            "start": 63,
+            "end": 66,
+            "ctxt": 0
+          },
+          "value": "foo",
+          "optional": false
+        },
+        "declare": false,
+        "params": [],
+        "decorators": [],
+        "span": {
+          "start": 54,
+          "end": 71,
+          "ctxt": 0
+        },
+        "body": {
+          "type": "BlockStatement",
+          "span": {
+            "start": 69,
+            "end": 71,
+            "ctxt": 0
+          },
+          "stmts": []
+        },
+        "generator": false,
+        "async": false,
+        "typeParameters": null,
+        "returnType": null
+      }
+    },
+    {
+      "type": "EmptyStatement",
+      "span": {
+        "start": 71,
+        "end": 72,
+        "ctxt": 0
+      }
+    },
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 73,
+        "end": 92,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "ClassDeclaration",
+        "identifier": {
+          "type": "Identifier",
+          "span": {
+            "start": 86,
+            "end": 89,
+            "ctxt": 0
+          },
+          "value": "foo",
+          "optional": false
+        },
+        "declare": false,
+        "span": {
+          "start": 80,
+          "end": 92,
+          "ctxt": 0
+        },
+        "decorators": [],
+        "body": [],
+        "superClass": null,
+        "isAbstract": false,
+        "typeParams": null,
+        "superTypeParams": null,
+        "implements": []
+      }
+    },
+    {
+      "type": "EmptyStatement",
+      "span": {
+        "start": 92,
+        "end": 93,
+        "ctxt": 0
+      }
+    }
+  ],
+  "interpreter": null
+}

@@ -1,0 +1,37 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 13,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ThrowStatement",
+      "span": {
+        "start": 1,
+        "end": 13,
+        "ctxt": 0
+      },
+      "argument": {
+        "type": "ParenthesisExpression",
+        "span": {
+          "start": 7,
+          "end": 12,
+          "ctxt": 0
+        },
+        "expression": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 8,
+            "end": 11,
+            "ctxt": 0
+          },
+          "value": 123.0,
+          "raw": "123"
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

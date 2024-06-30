@@ -1,0 +1,47 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 14,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 1,
+        "end": 14,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "MemberExpression",
+        "span": {
+          "start": 1,
+          "end": 14,
+          "ctxt": 0
+        },
+        "object": {
+          "type": "Identifier",
+          "span": {
+            "start": 1,
+            "end": 9,
+            "ctxt": 0
+          },
+          "value": "universe",
+          "optional": false
+        },
+        "property": {
+          "type": "Identifier",
+          "span": {
+            "start": 10,
+            "end": 14,
+            "ctxt": 0
+          },
+          "value": "type",
+          "optional": false
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

@@ -1,0 +1,490 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 965,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "SwitchStatement",
+      "span": {
+        "start": 1,
+        "end": 171,
+        "ctxt": 0
+      },
+      "discriminant": {
+        "type": "NumericLiteral",
+        "span": {
+          "start": 42,
+          "end": 43,
+          "ctxt": 0
+        },
+        "value": 1.0,
+        "raw": "1"
+      },
+      "cases": [
+        {
+          "type": "SwitchCase",
+          "span": {
+            "start": 117,
+            "end": 136,
+            "ctxt": 0
+          },
+          "test": null,
+          "consequent": [
+            {
+              "type": "ExpressionStatement",
+              "span": {
+                "start": 134,
+                "end": 136,
+                "ctxt": 0
+              },
+              "expression": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 134,
+                  "end": 135,
+                  "ctxt": 0
+                },
+                "value": 1.0,
+                "raw": "1"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "SwitchStatement",
+      "span": {
+        "start": 201,
+        "end": 239,
+        "ctxt": 0
+      },
+      "discriminant": {
+        "type": "NumericLiteral",
+        "span": {
+          "start": 209,
+          "end": 210,
+          "ctxt": 0
+        },
+        "value": 1.0,
+        "raw": "1"
+      },
+      "cases": [
+        {
+          "type": "SwitchCase",
+          "span": {
+            "start": 218,
+            "end": 237,
+            "ctxt": 0
+          },
+          "test": null,
+          "consequent": [
+            {
+              "type": "ExpressionStatement",
+              "span": {
+                "start": 235,
+                "end": 237,
+                "ctxt": 0
+              },
+              "expression": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 235,
+                  "end": 236,
+                  "ctxt": 0
+                },
+                "value": 1.0,
+                "raw": "1"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "SwitchStatement",
+      "span": {
+        "start": 241,
+        "end": 279,
+        "ctxt": 0
+      },
+      "discriminant": {
+        "type": "NumericLiteral",
+        "span": {
+          "start": 249,
+          "end": 250,
+          "ctxt": 0
+        },
+        "value": 1.0,
+        "raw": "1"
+      },
+      "cases": [
+        {
+          "type": "SwitchCase",
+          "span": {
+            "start": 258,
+            "end": 277,
+            "ctxt": 0
+          },
+          "test": null,
+          "consequent": [
+            {
+              "type": "ExpressionStatement",
+              "span": {
+                "start": 275,
+                "end": 277,
+                "ctxt": 0
+              },
+              "expression": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 275,
+                  "end": 276,
+                  "ctxt": 0
+                },
+                "value": 1.0,
+                "raw": "1"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "SwitchStatement",
+      "span": {
+        "start": 338,
+        "end": 376,
+        "ctxt": 0
+      },
+      "discriminant": {
+        "type": "NumericLiteral",
+        "span": {
+          "start": 346,
+          "end": 347,
+          "ctxt": 0
+        },
+        "value": 1.0,
+        "raw": "1"
+      },
+      "cases": [
+        {
+          "type": "SwitchCase",
+          "span": {
+            "start": 355,
+            "end": 374,
+            "ctxt": 0
+          },
+          "test": null,
+          "consequent": [
+            {
+              "type": "ExpressionStatement",
+              "span": {
+                "start": 372,
+                "end": 374,
+                "ctxt": 0
+              },
+              "expression": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 372,
+                  "end": 373,
+                  "ctxt": 0
+                },
+                "value": 1.0,
+                "raw": "1"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "SwitchStatement",
+      "span": {
+        "start": 407,
+        "end": 583,
+        "ctxt": 0
+      },
+      "discriminant": {
+        "type": "NumericLiteral",
+        "span": {
+          "start": 415,
+          "end": 416,
+          "ctxt": 0
+        },
+        "value": 1.0,
+        "raw": "1"
+      },
+      "cases": [
+        {
+          "type": "SwitchCase",
+          "span": {
+            "start": 441,
+            "end": 507,
+            "ctxt": 0
+          },
+          "test": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 462,
+              "end": 463,
+              "ctxt": 0
+            },
+            "value": 1.0,
+            "raw": "1"
+          },
+          "consequent": [
+            {
+              "type": "ExpressionStatement",
+              "span": {
+                "start": 505,
+                "end": 507,
+                "ctxt": 0
+              },
+              "expression": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 505,
+                  "end": 506,
+                  "ctxt": 0
+                },
+                "value": 1.0,
+                "raw": "1"
+              }
+            }
+          ]
+        },
+        {
+          "type": "SwitchCase",
+          "span": {
+            "start": 529,
+            "end": 581,
+            "ctxt": 0
+          },
+          "test": null,
+          "consequent": [
+            {
+              "type": "ExpressionStatement",
+              "span": {
+                "start": 579,
+                "end": 581,
+                "ctxt": 0
+              },
+              "expression": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 579,
+                  "end": 580,
+                  "ctxt": 0
+                },
+                "value": 1.0,
+                "raw": "1"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BlockStatement",
+      "span": {
+        "start": 585,
+        "end": 707,
+        "ctxt": 0
+      },
+      "stmts": [
+        {
+          "type": "SwitchStatement",
+          "span": {
+            "start": 591,
+            "end": 617,
+            "ctxt": 0
+          },
+          "discriminant": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 599,
+              "end": 600,
+              "ctxt": 0
+            },
+            "value": 1.0,
+            "raw": "1"
+          },
+          "cases": [
+            {
+              "type": "SwitchCase",
+              "span": {
+                "start": 604,
+                "end": 615,
+                "ctxt": 0
+              },
+              "test": null,
+              "consequent": [
+                {
+                  "type": "ExpressionStatement",
+                  "span": {
+                    "start": 613,
+                    "end": 615,
+                    "ctxt": 0
+                  },
+                  "expression": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 613,
+                      "end": 614,
+                      "ctxt": 0
+                    },
+                    "value": 1.0,
+                    "raw": "1"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "SwitchStatement",
+          "span": {
+            "start": 660,
+            "end": 686,
+            "ctxt": 0
+          },
+          "discriminant": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 668,
+              "end": 669,
+              "ctxt": 0
+            },
+            "value": 1.0,
+            "raw": "1"
+          },
+          "cases": [
+            {
+              "type": "SwitchCase",
+              "span": {
+                "start": 673,
+                "end": 684,
+                "ctxt": 0
+              },
+              "test": null,
+              "consequent": [
+                {
+                  "type": "ExpressionStatement",
+                  "span": {
+                    "start": 682,
+                    "end": 684,
+                    "ctxt": 0
+                  },
+                  "expression": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 682,
+                      "end": 683,
+                      "ctxt": 0
+                    },
+                    "value": 1.0,
+                    "raw": "1"
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "SwitchStatement",
+      "span": {
+        "start": 709,
+        "end": 965,
+        "ctxt": 0
+      },
+      "discriminant": {
+        "type": "NumericLiteral",
+        "span": {
+          "start": 717,
+          "end": 718,
+          "ctxt": 0
+        },
+        "value": 1.0,
+        "raw": "1"
+      },
+      "cases": [
+        {
+          "type": "SwitchCase",
+          "span": {
+            "start": 743,
+            "end": 750,
+            "ctxt": 0
+          },
+          "test": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 748,
+              "end": 749,
+              "ctxt": 0
+            },
+            "value": 0.0,
+            "raw": "0"
+          },
+          "consequent": []
+        },
+        {
+          "type": "SwitchCase",
+          "span": {
+            "start": 789,
+            "end": 846,
+            "ctxt": 0
+          },
+          "test": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 794,
+              "end": 795,
+              "ctxt": 0
+            },
+            "value": 1.0,
+            "raw": "1"
+          },
+          "consequent": [
+            {
+              "type": "BreakStatement",
+              "span": {
+                "start": 840,
+                "end": 846,
+                "ctxt": 0
+              },
+              "label": null
+            }
+          ]
+        },
+        {
+          "type": "SwitchCase",
+          "span": {
+            "start": 886,
+            "end": 944,
+            "ctxt": 0
+          },
+          "test": null,
+          "consequent": [
+            {
+              "type": "BreakStatement",
+              "span": {
+                "start": 938,
+                "end": 944,
+                "ctxt": 0
+              },
+              "label": null
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

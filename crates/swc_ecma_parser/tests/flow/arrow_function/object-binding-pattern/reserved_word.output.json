@@ -1,0 +1,96 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 38,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 1,
+        "end": 14,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 1,
+          "end": 13,
+          "ctxt": 0
+        },
+        "value": "use strict",
+        "raw": "\"use strict\""
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 16,
+        "end": 38,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "ArrowFunctionExpression",
+        "span": {
+          "start": 16,
+          "end": 38,
+          "ctxt": 0
+        },
+        "params": [
+          {
+            "type": "ObjectPattern",
+            "span": {
+              "start": 17,
+              "end": 31,
+              "ctxt": 0
+            },
+            "properties": [
+              {
+                "type": "KeyValuePatternProperty",
+                "key": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 18,
+                    "end": 25,
+                    "ctxt": 0
+                  },
+                  "value": "package",
+                  "optional": false
+                },
+                "value": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 27,
+                    "end": 30,
+                    "ctxt": 0
+                  },
+                  "value": "pkg",
+                  "optional": false,
+                  "typeAnnotation": null
+                }
+              }
+            ],
+            "optional": false,
+            "typeAnnotation": null
+          }
+        ],
+        "body": {
+          "type": "BlockStatement",
+          "span": {
+            "start": 36,
+            "end": 38,
+            "ctxt": 0
+          },
+          "stmts": []
+        },
+        "async": false,
+        "generator": false,
+        "typeParameters": null,
+        "returnType": null
+      }
+    }
+  ],
+  "interpreter": null
+}

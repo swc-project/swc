@@ -1,0 +1,184 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 17,
+    "end": 488,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ForStatement",
+      "span": {
+        "start": 17,
+        "end": 62,
+        "ctxt": 0
+      },
+      "init": null,
+      "test": null,
+      "update": null,
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 60,
+          "end": 62,
+          "ctxt": 0
+        },
+        "stmts": []
+      }
+    },
+    {
+      "type": "ForStatement",
+      "span": {
+        "start": 82,
+        "end": 210,
+        "ctxt": 0
+      },
+      "init": {
+        "type": "VariableDeclaration",
+        "span": {
+          "start": 108,
+          "end": 117,
+          "ctxt": 0
+        },
+        "kind": "var",
+        "declare": false,
+        "declarations": [
+          {
+            "type": "VariableDeclarator",
+            "span": {
+              "start": 112,
+              "end": 117,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 112,
+                "end": 113,
+                "ctxt": 0
+              },
+              "value": "x",
+              "optional": false,
+              "typeAnnotation": null
+            },
+            "init": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 116,
+                "end": 117,
+                "ctxt": 0
+              },
+              "value": 1.0,
+              "raw": "1"
+            },
+            "definite": false
+          }
+        ]
+      },
+      "test": {
+        "type": "BooleanLiteral",
+        "span": {
+          "start": 152,
+          "end": 156,
+          "ctxt": 0
+        },
+        "value": true
+      },
+      "update": {
+        "type": "Identifier",
+        "span": {
+          "start": 190,
+          "end": 191,
+          "ctxt": 0
+        },
+        "value": "x",
+        "optional": false
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 208,
+          "end": 210,
+          "ctxt": 0
+        },
+        "stmts": []
+      }
+    },
+    {
+      "type": "ForOfStatement",
+      "span": {
+        "start": 228,
+        "end": 340,
+        "ctxt": 0
+      },
+      "await": false,
+      "left": {
+        "type": "Identifier",
+        "span": {
+          "start": 264,
+          "end": 265,
+          "ctxt": 0
+        },
+        "value": "x",
+        "optional": false,
+        "typeAnnotation": null
+      },
+      "right": {
+        "type": "ArrayExpression",
+        "span": {
+          "start": 300,
+          "end": 302,
+          "ctxt": 0
+        },
+        "elements": []
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 338,
+          "end": 340,
+          "ctxt": 0
+        },
+        "stmts": []
+      }
+    },
+    {
+      "type": "ForInStatement",
+      "span": {
+        "start": 376,
+        "end": 488,
+        "ctxt": 0
+      },
+      "left": {
+        "type": "Identifier",
+        "span": {
+          "start": 412,
+          "end": 413,
+          "ctxt": 0
+        },
+        "value": "x",
+        "optional": false,
+        "typeAnnotation": null
+      },
+      "right": {
+        "type": "ObjectExpression",
+        "span": {
+          "start": 448,
+          "end": 450,
+          "ctxt": 0
+        },
+        "properties": []
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 486,
+          "end": 488,
+          "ctxt": 0
+        },
+        "stmts": []
+      }
+    }
+  ],
+  "interpreter": null
+}

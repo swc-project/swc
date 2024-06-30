@@ -1,0 +1,84 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 14,
+    "end": 237,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 14,
+        "end": 126,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "ParenthesisExpression",
+        "span": {
+          "start": 14,
+          "end": 125,
+          "ctxt": 0
+        },
+        "expression": {
+          "type": "ClassExpression",
+          "identifier": {
+            "type": "Identifier",
+            "span": {
+              "start": 54,
+              "end": 63,
+              "ctxt": 0
+            },
+            "value": "ClassName",
+            "optional": false
+          },
+          "span": {
+            "start": 33,
+            "end": 107,
+            "ctxt": 0
+          },
+          "decorators": [],
+          "body": [],
+          "superClass": null,
+          "isAbstract": false,
+          "typeParams": null,
+          "superTypeParams": null,
+          "implements": []
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 150,
+        "end": 237,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "ParenthesisExpression",
+        "span": {
+          "start": 150,
+          "end": 236,
+          "ctxt": 0
+        },
+        "expression": {
+          "type": "ClassExpression",
+          "identifier": null,
+          "span": {
+            "start": 169,
+            "end": 218,
+            "ctxt": 0
+          },
+          "decorators": [],
+          "body": [],
+          "superClass": null,
+          "isAbstract": false,
+          "typeParams": null,
+          "superTypeParams": null,
+          "implements": []
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

@@ -1,0 +1,105 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 55,
+    "end": 75,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 55,
+        "end": 75,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 55,
+          "end": 74,
+          "ctxt": 0
+        },
+        "operator": "+",
+        "left": {
+          "type": "BinaryExpression",
+          "span": {
+            "start": 55,
+            "end": 70,
+            "ctxt": 0
+          },
+          "operator": "+",
+          "left": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 55,
+              "end": 56,
+              "ctxt": 0
+            },
+            "value": 1.0,
+            "raw": "1"
+          },
+          "right": {
+            "type": "BinaryExpression",
+            "span": {
+              "start": 59,
+              "end": 70,
+              "ctxt": 0
+            },
+            "operator": "**",
+            "left": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 59,
+                "end": 60,
+                "ctxt": 0
+              },
+              "value": 2.0,
+              "raw": "2"
+            },
+            "right": {
+              "type": "BinaryExpression",
+              "span": {
+                "start": 64,
+                "end": 70,
+                "ctxt": 0
+              },
+              "operator": "**",
+              "left": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 64,
+                  "end": 65,
+                  "ctxt": 0
+                },
+                "value": 3.0,
+                "raw": "3"
+              },
+              "right": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 69,
+                  "end": 70,
+                  "ctxt": 0
+                },
+                "value": 4.0,
+                "raw": "4"
+              }
+            }
+          }
+        },
+        "right": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 73,
+            "end": 74,
+            "ctxt": 0
+          },
+          "value": 5.0,
+          "raw": "5"
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

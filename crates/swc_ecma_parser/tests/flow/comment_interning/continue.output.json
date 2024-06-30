@@ -1,0 +1,316 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 581,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 10,
+          "end": 29,
+          "ctxt": 0
+        },
+        "value": "continue_with_label",
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 1,
+        "end": 178,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 32,
+          "end": 178,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "LabeledStatement",
+            "span": {
+              "start": 36,
+              "end": 176,
+              "ctxt": 0
+            },
+            "label": {
+              "type": "Identifier",
+              "span": {
+                "start": 36,
+                "end": 39,
+                "ctxt": 0
+              },
+              "value": "foo",
+              "optional": false
+            },
+            "body": {
+              "type": "ForStatement",
+              "span": {
+                "start": 41,
+                "end": 176,
+                "ctxt": 0
+              },
+              "init": null,
+              "test": null,
+              "update": null,
+              "body": {
+                "type": "BlockStatement",
+                "span": {
+                  "start": 50,
+                  "end": 176,
+                  "ctxt": 0
+                },
+                "stmts": [
+                  {
+                    "type": "ContinueStatement",
+                    "span": {
+                      "start": 90,
+                      "end": 149,
+                      "ctxt": 0
+                    },
+                    "label": {
+                      "type": "Identifier",
+                      "span": {
+                        "start": 126,
+                        "end": 129,
+                        "ctxt": 0
+                      },
+                      "value": "foo",
+                      "optional": false
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 189,
+          "end": 211,
+          "ctxt": 0
+        },
+        "value": "continue_without_label",
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 180,
+        "end": 312,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 214,
+          "end": 312,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ForStatement",
+            "span": {
+              "start": 218,
+              "end": 310,
+              "ctxt": 0
+            },
+            "init": null,
+            "test": null,
+            "update": null,
+            "body": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 227,
+                "end": 310,
+                "ctxt": 0
+              },
+              "stmts": [
+                {
+                  "type": "ContinueStatement",
+                  "span": {
+                    "start": 255,
+                    "end": 283,
+                    "ctxt": 0
+                  },
+                  "label": null
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 323,
+          "end": 341,
+          "ctxt": 0
+        },
+        "value": "implicit_semicolon",
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 314,
+        "end": 581,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 344,
+          "end": 581,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "LabeledStatement",
+            "span": {
+              "start": 348,
+              "end": 579,
+              "ctxt": 0
+            },
+            "label": {
+              "type": "Identifier",
+              "span": {
+                "start": 348,
+                "end": 353,
+                "ctxt": 0
+              },
+              "value": "label",
+              "optional": false
+            },
+            "body": {
+              "type": "ForStatement",
+              "span": {
+                "start": 355,
+                "end": 579,
+                "ctxt": 0
+              },
+              "init": null,
+              "test": null,
+              "update": null,
+              "body": {
+                "type": "BlockStatement",
+                "span": {
+                  "start": 364,
+                  "end": 579,
+                  "ctxt": 0
+                },
+                "stmts": [
+                  {
+                    "type": "BlockStatement",
+                    "span": {
+                      "start": 370,
+                      "end": 470,
+                      "ctxt": 0
+                    },
+                    "stmts": [
+                      {
+                        "type": "ContinueStatement",
+                        "span": {
+                          "start": 378,
+                          "end": 386,
+                          "ctxt": 0
+                        },
+                        "label": null
+                      },
+                      {
+                        "type": "ContinueStatement",
+                        "span": {
+                          "start": 435,
+                          "end": 443,
+                          "ctxt": 0
+                        },
+                        "label": null
+                      }
+                    ]
+                  },
+                  {
+                    "type": "BlockStatement",
+                    "span": {
+                      "start": 475,
+                      "end": 575,
+                      "ctxt": 0
+                    },
+                    "stmts": [
+                      {
+                        "type": "ContinueStatement",
+                        "span": {
+                          "start": 483,
+                          "end": 497,
+                          "ctxt": 0
+                        },
+                        "label": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 492,
+                            "end": 497,
+                            "ctxt": 0
+                          },
+                          "value": "label",
+                          "optional": false
+                        }
+                      },
+                      {
+                        "type": "ContinueStatement",
+                        "span": {
+                          "start": 540,
+                          "end": 554,
+                          "ctxt": 0
+                        },
+                        "label": {
+                          "type": "Identifier",
+                          "span": {
+                            "start": 549,
+                            "end": 554,
+                            "ctxt": 0
+                          },
+                          "value": "label",
+                          "optional": false
+                        }
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    }
+  ],
+  "interpreter": null
+}

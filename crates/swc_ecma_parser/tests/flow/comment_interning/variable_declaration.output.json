@@ -1,0 +1,1023 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 959,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 10,
+          "end": 21,
+          "ctxt": 0
+        },
+        "value": "leadingOnly",
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 1,
+        "end": 60,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 24,
+          "end": 60,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "VariableDeclaration",
+            "span": {
+              "start": 48,
+              "end": 58,
+              "ctxt": 0
+            },
+            "kind": "var",
+            "declare": false,
+            "declarations": [
+              {
+                "type": "VariableDeclarator",
+                "span": {
+                  "start": 52,
+                  "end": 57,
+                  "ctxt": 0
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 52,
+                    "end": 53,
+                    "ctxt": 0
+                  },
+                  "value": "x",
+                  "optional": false,
+                  "typeAnnotation": null
+                },
+                "init": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 56,
+                    "end": 57,
+                    "ctxt": 0
+                  },
+                  "value": 1.0,
+                  "raw": "1"
+                },
+                "definite": false
+              }
+            ]
+          }
+        ]
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 71,
+          "end": 83,
+          "ctxt": 0
+        },
+        "value": "trailingOnly",
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 62,
+        "end": 123,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 86,
+          "end": 123,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "VariableDeclaration",
+            "span": {
+              "start": 92,
+              "end": 102,
+              "ctxt": 0
+            },
+            "kind": "let",
+            "declare": false,
+            "declarations": [
+              {
+                "type": "VariableDeclarator",
+                "span": {
+                  "start": 96,
+                  "end": 101,
+                  "ctxt": 0
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 96,
+                    "end": 97,
+                    "ctxt": 0
+                  },
+                  "value": "x",
+                  "optional": false,
+                  "typeAnnotation": null
+                },
+                "init": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 100,
+                    "end": 101,
+                    "ctxt": 0
+                  },
+                  "value": 1.0,
+                  "raw": "1"
+                },
+                "definite": false
+              }
+            ]
+          }
+        ]
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 134,
+          "end": 152,
+          "ctxt": 0
+        },
+        "value": "leadingAndTrailing",
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 125,
+        "end": 212,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 155,
+          "end": 212,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "VariableDeclaration",
+            "span": {
+              "start": 179,
+              "end": 191,
+              "ctxt": 0
+            },
+            "kind": "const",
+            "declare": false,
+            "declarations": [
+              {
+                "type": "VariableDeclarator",
+                "span": {
+                  "start": 185,
+                  "end": 190,
+                  "ctxt": 0
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 185,
+                    "end": 186,
+                    "ctxt": 0
+                  },
+                  "value": "x",
+                  "optional": false,
+                  "typeAnnotation": null
+                },
+                "init": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 189,
+                    "end": 190,
+                    "ctxt": 0
+                  },
+                  "value": 1.0,
+                  "raw": "1"
+                },
+                "definite": false
+              }
+            ]
+          }
+        ]
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 223,
+          "end": 236,
+          "ctxt": 0
+        },
+        "value": "innerComments",
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 214,
+        "end": 353,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 239,
+          "end": 353,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "VariableDeclaration",
+            "span": {
+              "start": 262,
+              "end": 334,
+              "ctxt": 0
+            },
+            "kind": "var",
+            "declare": false,
+            "declarations": [
+              {
+                "type": "VariableDeclarator",
+                "span": {
+                  "start": 281,
+                  "end": 317,
+                  "ctxt": 0
+                },
+                "id": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 281,
+                    "end": 282,
+                    "ctxt": 0
+                  },
+                  "value": "x",
+                  "optional": false,
+                  "typeAnnotation": null
+                },
+                "init": {
+                  "type": "NumericLiteral",
+                  "span": {
+                    "start": 316,
+                    "end": 317,
+                    "ctxt": 0
+                  },
+                  "value": 1.0,
+                  "raw": "1"
+                },
+                "definite": false
+              }
+            ]
+          }
+        ]
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 364,
+          "end": 379,
+          "ctxt": 0
+        },
+        "value": "forInitComments",
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 355,
+        "end": 462,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 382,
+          "end": 462,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ForStatement",
+            "span": {
+              "start": 388,
+              "end": 460,
+              "ctxt": 0
+            },
+            "init": {
+              "type": "VariableDeclaration",
+              "span": {
+                "start": 411,
+                "end": 420,
+                "ctxt": 0
+              },
+              "kind": "var",
+              "declare": false,
+              "declarations": [
+                {
+                  "type": "VariableDeclarator",
+                  "span": {
+                    "start": 415,
+                    "end": 420,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 415,
+                      "end": 416,
+                      "ctxt": 0
+                    },
+                    "value": "x",
+                    "optional": false,
+                    "typeAnnotation": null
+                  },
+                  "init": {
+                    "type": "NumericLiteral",
+                    "span": {
+                      "start": 419,
+                      "end": 420,
+                      "ctxt": 0
+                    },
+                    "value": 1.0,
+                    "raw": "1"
+                  },
+                  "definite": false
+                }
+              ]
+            },
+            "test": {
+              "type": "BinaryExpression",
+              "span": {
+                "start": 445,
+                "end": 451,
+                "ctxt": 0
+              },
+              "operator": "<",
+              "left": {
+                "type": "Identifier",
+                "span": {
+                  "start": 445,
+                  "end": 446,
+                  "ctxt": 0
+                },
+                "value": "x",
+                "optional": false
+              },
+              "right": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 449,
+                  "end": 451,
+                  "ctxt": 0
+                },
+                "value": 10.0,
+                "raw": "10"
+              }
+            },
+            "update": {
+              "type": "UpdateExpression",
+              "span": {
+                "start": 453,
+                "end": 456,
+                "ctxt": 0
+              },
+              "operator": "++",
+              "prefix": false,
+              "argument": {
+                "type": "Identifier",
+                "span": {
+                  "start": 453,
+                  "end": 454,
+                  "ctxt": 0
+                },
+                "value": "x",
+                "optional": false
+              }
+            },
+            "body": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 458,
+                "end": 460,
+                "ctxt": 0
+              },
+              "stmts": []
+            }
+          }
+        ]
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 473,
+          "end": 486,
+          "ctxt": 0
+        },
+        "value": "forOfComments",
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 464,
+        "end": 558,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 489,
+          "end": 558,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ForOfStatement",
+            "span": {
+              "start": 495,
+              "end": 556,
+              "ctxt": 0
+            },
+            "await": false,
+            "left": {
+              "type": "VariableDeclaration",
+              "span": {
+                "start": 518,
+                "end": 523,
+                "ctxt": 0
+              },
+              "kind": "let",
+              "declare": false,
+              "declarations": [
+                {
+                  "type": "VariableDeclarator",
+                  "span": {
+                    "start": 522,
+                    "end": 523,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 522,
+                      "end": 523,
+                      "ctxt": 0
+                    },
+                    "value": "x",
+                    "optional": false,
+                    "typeAnnotation": null
+                  },
+                  "init": null,
+                  "definite": false
+                }
+              ]
+            },
+            "right": {
+              "type": "ArrayExpression",
+              "span": {
+                "start": 550,
+                "end": 552,
+                "ctxt": 0
+              },
+              "elements": []
+            },
+            "body": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 554,
+                "end": 556,
+                "ctxt": 0
+              },
+              "stmts": []
+            }
+          }
+        ]
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    },
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 569,
+          "end": 582,
+          "ctxt": 0
+        },
+        "value": "forInComments",
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 560,
+        "end": 654,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 585,
+          "end": 654,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ForInStatement",
+            "span": {
+              "start": 591,
+              "end": 652,
+              "ctxt": 0
+            },
+            "left": {
+              "type": "VariableDeclaration",
+              "span": {
+                "start": 614,
+                "end": 619,
+                "ctxt": 0
+              },
+              "kind": "let",
+              "declare": false,
+              "declarations": [
+                {
+                  "type": "VariableDeclarator",
+                  "span": {
+                    "start": 618,
+                    "end": 619,
+                    "ctxt": 0
+                  },
+                  "id": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 618,
+                      "end": 619,
+                      "ctxt": 0
+                    },
+                    "value": "x",
+                    "optional": false,
+                    "typeAnnotation": null
+                  },
+                  "init": null,
+                  "definite": false
+                }
+              ]
+            },
+            "right": {
+              "type": "ObjectExpression",
+              "span": {
+                "start": 646,
+                "end": 648,
+                "ctxt": 0
+              },
+              "properties": []
+            },
+            "body": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 650,
+                "end": 652,
+                "ctxt": 0
+              },
+              "stmts": []
+            }
+          }
+        ]
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    },
+    {
+      "type": "BlockStatement",
+      "span": {
+        "start": 656,
+        "end": 757,
+        "ctxt": 0
+      },
+      "stmts": [
+        {
+          "type": "VariableDeclaration",
+          "span": {
+            "start": 677,
+            "end": 689,
+            "ctxt": 0
+          },
+          "kind": "var",
+          "declare": false,
+          "declarations": [
+            {
+              "type": "VariableDeclarator",
+              "span": {
+                "start": 681,
+                "end": 682,
+                "ctxt": 0
+              },
+              "id": {
+                "type": "Identifier",
+                "span": {
+                  "start": 681,
+                  "end": 682,
+                  "ctxt": 0
+                },
+                "value": "x",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "init": null,
+              "definite": false
+            },
+            {
+              "type": "VariableDeclarator",
+              "span": {
+                "start": 684,
+                "end": 689,
+                "ctxt": 0
+              },
+              "id": {
+                "type": "Identifier",
+                "span": {
+                  "start": 684,
+                  "end": 685,
+                  "ctxt": 0
+                },
+                "value": "y",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "init": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 688,
+                  "end": 689,
+                  "ctxt": 0
+                },
+                "value": 1.0,
+                "raw": "1"
+              },
+              "definite": false
+            }
+          ]
+        },
+        {
+          "type": "VariableDeclaration",
+          "span": {
+            "start": 725,
+            "end": 737,
+            "ctxt": 0
+          },
+          "kind": "var",
+          "declare": false,
+          "declarations": [
+            {
+              "type": "VariableDeclarator",
+              "span": {
+                "start": 729,
+                "end": 730,
+                "ctxt": 0
+              },
+              "id": {
+                "type": "Identifier",
+                "span": {
+                  "start": 729,
+                  "end": 730,
+                  "ctxt": 0
+                },
+                "value": "x",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "init": null,
+              "definite": false
+            },
+            {
+              "type": "VariableDeclarator",
+              "span": {
+                "start": 732,
+                "end": 737,
+                "ctxt": 0
+              },
+              "id": {
+                "type": "Identifier",
+                "span": {
+                  "start": 732,
+                  "end": 733,
+                  "ctxt": 0
+                },
+                "value": "y",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "init": {
+                "type": "NumericLiteral",
+                "span": {
+                  "start": 736,
+                  "end": 737,
+                  "ctxt": 0
+                },
+                "value": 1.0,
+                "raw": "1"
+              },
+              "definite": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BlockStatement",
+      "span": {
+        "start": 759,
+        "end": 862,
+        "ctxt": 0
+      },
+      "stmts": [
+        {
+          "type": "VariableDeclaration",
+          "span": {
+            "start": 780,
+            "end": 793,
+            "ctxt": 0
+          },
+          "kind": "var",
+          "declare": false,
+          "declarations": [
+            {
+              "type": "VariableDeclarator",
+              "span": {
+                "start": 784,
+                "end": 785,
+                "ctxt": 0
+              },
+              "id": {
+                "type": "Identifier",
+                "span": {
+                  "start": 784,
+                  "end": 785,
+                  "ctxt": 0
+                },
+                "value": "x",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "init": null,
+              "definite": false
+            },
+            {
+              "type": "VariableDeclarator",
+              "span": {
+                "start": 787,
+                "end": 793,
+                "ctxt": 0
+              },
+              "id": {
+                "type": "Identifier",
+                "span": {
+                  "start": 787,
+                  "end": 788,
+                  "ctxt": 0
+                },
+                "value": "y",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "init": null,
+              "definite": false
+            }
+          ]
+        },
+        {
+          "type": "VariableDeclaration",
+          "span": {
+            "start": 829,
+            "end": 842,
+            "ctxt": 0
+          },
+          "kind": "var",
+          "declare": false,
+          "declarations": [
+            {
+              "type": "VariableDeclarator",
+              "span": {
+                "start": 833,
+                "end": 834,
+                "ctxt": 0
+              },
+              "id": {
+                "type": "Identifier",
+                "span": {
+                  "start": 833,
+                  "end": 834,
+                  "ctxt": 0
+                },
+                "value": "x",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "init": null,
+              "definite": false
+            },
+            {
+              "type": "VariableDeclarator",
+              "span": {
+                "start": 836,
+                "end": 842,
+                "ctxt": 0
+              },
+              "id": {
+                "type": "Identifier",
+                "span": {
+                  "start": 836,
+                  "end": 837,
+                  "ctxt": 0
+                },
+                "value": "y",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "init": null,
+              "definite": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "BlockStatement",
+      "span": {
+        "start": 864,
+        "end": 959,
+        "ctxt": 0
+      },
+      "stmts": [
+        {
+          "type": "VariableDeclaration",
+          "span": {
+            "start": 886,
+            "end": 894,
+            "ctxt": 0
+          },
+          "kind": "var",
+          "declare": false,
+          "declarations": [
+            {
+              "type": "VariableDeclarator",
+              "span": {
+                "start": 890,
+                "end": 891,
+                "ctxt": 0
+              },
+              "id": {
+                "type": "Identifier",
+                "span": {
+                  "start": 890,
+                  "end": 891,
+                  "ctxt": 0
+                },
+                "value": "x",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "init": null,
+              "definite": false
+            },
+            {
+              "type": "VariableDeclarator",
+              "span": {
+                "start": 893,
+                "end": 894,
+                "ctxt": 0
+              },
+              "id": {
+                "type": "Identifier",
+                "span": {
+                  "start": 893,
+                  "end": 894,
+                  "ctxt": 0
+                },
+                "value": "y",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "init": null,
+              "definite": false
+            }
+          ]
+        },
+        {
+          "type": "VariableDeclaration",
+          "span": {
+            "start": 931,
+            "end": 939,
+            "ctxt": 0
+          },
+          "kind": "var",
+          "declare": false,
+          "declarations": [
+            {
+              "type": "VariableDeclarator",
+              "span": {
+                "start": 935,
+                "end": 936,
+                "ctxt": 0
+              },
+              "id": {
+                "type": "Identifier",
+                "span": {
+                  "start": 935,
+                  "end": 936,
+                  "ctxt": 0
+                },
+                "value": "x",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "init": null,
+              "definite": false
+            },
+            {
+              "type": "VariableDeclarator",
+              "span": {
+                "start": 938,
+                "end": 939,
+                "ctxt": 0
+              },
+              "id": {
+                "type": "Identifier",
+                "span": {
+                  "start": 938,
+                  "end": 939,
+                  "ctxt": 0
+                },
+                "value": "y",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "init": null,
+              "definite": false
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

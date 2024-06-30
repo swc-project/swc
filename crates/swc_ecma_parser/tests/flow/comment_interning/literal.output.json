@@ -1,0 +1,121 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 17,
+    "end": 243,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 17,
+        "end": 35,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "NumericLiteral",
+        "span": {
+          "start": 17,
+          "end": 18,
+          "ctxt": 0
+        },
+        "value": 1.0,
+        "raw": "1"
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 53,
+        "end": 73,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 53,
+          "end": 56,
+          "ctxt": 0
+        },
+        "value": "a",
+        "raw": "\"a\""
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 92,
+        "end": 114,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "BooleanLiteral",
+        "span": {
+          "start": 92,
+          "end": 96,
+          "ctxt": 0
+        },
+        "value": true
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 133,
+        "end": 155,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "NullLiteral",
+        "span": {
+          "start": 133,
+          "end": 137,
+          "ctxt": 0
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 175,
+        "end": 200,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "RegExpLiteral",
+        "span": {
+          "start": 175,
+          "end": 181,
+          "ctxt": 0
+        },
+        "pattern": "asdf",
+        "flags": ""
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 221,
+        "end": 243,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "BigIntLiteral",
+        "span": {
+          "start": 221,
+          "end": 223,
+          "ctxt": 0
+        },
+        "value": [
+          1,
+          [
+            1
+          ]
+        ],
+        "raw": "1n"
+      }
+    }
+  ],
+  "interpreter": null
+}

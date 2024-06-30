@@ -1,0 +1,75 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 41,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "LabeledStatement",
+      "span": {
+        "start": 1,
+        "end": 41,
+        "ctxt": 0
+      },
+      "label": {
+        "type": "Identifier",
+        "span": {
+          "start": 1,
+          "end": 6,
+          "ctxt": 0
+        },
+        "value": "async",
+        "optional": false
+      },
+      "body": {
+        "type": "WhileStatement",
+        "span": {
+          "start": 8,
+          "end": 41,
+          "ctxt": 0
+        },
+        "test": {
+          "type": "Identifier",
+          "span": {
+            "start": 15,
+            "end": 20,
+            "ctxt": 0
+          },
+          "value": "async",
+          "optional": false
+        },
+        "body": {
+          "type": "BlockStatement",
+          "span": {
+            "start": 22,
+            "end": 41,
+            "ctxt": 0
+          },
+          "stmts": [
+            {
+              "type": "ContinueStatement",
+              "span": {
+                "start": 24,
+                "end": 39,
+                "ctxt": 0
+              },
+              "label": {
+                "type": "Identifier",
+                "span": {
+                  "start": 33,
+                  "end": 38,
+                  "ctxt": 0
+                },
+                "value": "async",
+                "optional": false
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}
