@@ -1,7 +1,7 @@
 #![warn(unused)]
 
-use swc_common::{BytePos, Span, DUMMY_SP};
-use swc_ecma_ast::{op, Decorator, Expr, Ident, Invalid};
+use swc_common::{BytePos, Span};
+use swc_ecma_ast::{op, Ident};
 
 use crate::{
     error::SyntaxError,
@@ -542,6 +542,10 @@ where
                 self.consume_flow_declare(start)?;
             }
 
+            "export" => {
+                self.consume_flow_export(start)?;
+            }
+
             "opaque" => {
                 self.consume_flow_opaque_type(start)?;
             }
@@ -566,6 +570,20 @@ where
             return Ok(());
         }
 
+        if eat!(self, "opaque") {
+            self.consume_flow_opaque_type(start)?;
+            return Ok(());
+        }
+
+        if is!(self, "type") {
+            self.consume_flow_type_alias()?;
+            return Ok(());
+        }
+
+        Ok(())
+    }
+
+    fn consume_flow_export(&mut self, start: BytePos) -> PResult<()> {
         if eat!(self, "opaque") {
             self.consume_flow_opaque_type(start)?;
             return Ok(());
