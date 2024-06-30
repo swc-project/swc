@@ -101,6 +101,8 @@ where
         &mut self,
         allow_primitive_override: bool,
     ) -> PResult<()> {
+        trace_cur!(self, consume_flow_type_annotation_identifier);
+
         if allow_primitive_override {
             self.parse_ident_name()?;
         } else {
