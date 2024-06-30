@@ -311,6 +311,7 @@ where
             return self.consume_flow_typeof_type();
         }
 
+        // TODO(kdy1): Check if this is correct
         if eat!(self, "renders") {
             self.consume_flow_type()?;
             return Ok(());
