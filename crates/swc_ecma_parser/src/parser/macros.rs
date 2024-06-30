@@ -161,9 +161,6 @@ macro_rules! assert_and_bump {
 ///     if token has data like string.
 macro_rules! eat {
     ($p:expr, ';') => {{
-        if cfg!(feature = "debug") {
-            tracing::trace!("eat(';'): cur={:?}", cur!($p, false));
-        }
         match $p.input.cur() {
             Some(&Token::Semi) => {
                 $p.input.bump();
@@ -299,6 +296,9 @@ macro_rules! bump {
             $p.input.knows_cur(),
             "parser should not call bump() without knowing current token"
         );
+        if cfg!(feature = "debug") {
+            tracing::info!("Bump: {:?}", $p.input.cur());
+        }
         $p.input.bump()
     }};
 }
