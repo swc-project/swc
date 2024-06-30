@@ -643,6 +643,25 @@ where
         Ok(())
     }
 
+    /// Ported from `flowParseObjectTypeInternalSlot`
+    fn consume_flow_object_type_interanl_slot(&mut self, node: (), is_static: bool) -> PResult<()> {
+        // Note: both bracketL have already been consumed
+        let id = self.consume_flow_object_property_key()?;
+
+        expect!(self, ']');
+        expect!(self, ']');
+
+        if is_one_of!(self, '<', '(') {
+            self.consume_flow_object_type_methodish(())?;
+        } else {
+            eat!(self, '?');
+
+            let _value = self.consume_flow_type_init(None)?;
+        }
+
+        Ok(())
+    }
+
     /// Ported from `flowParseTypeInitialiser`
     fn consume_flow_type_init(&mut self, token: Option<TokenKind>) -> PResult<()> {
         trace_cur!(self, consume_flow_type_init);
