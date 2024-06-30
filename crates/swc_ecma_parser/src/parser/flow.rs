@@ -255,7 +255,7 @@ where
         let mut is_grouped_type = false;
 
         if is!(self, '{') {
-            return self.consume_flow_object_type(false, false, true, false, true);
+            return self.consume_flow_object_type(false, false, true, false, Some(true));
         }
 
         if is!(self, '[') {
@@ -723,9 +723,9 @@ where
 
                 let _value = self.consume_flow_type_init(None)?;
             }
-
-            Ok(())
         }
+
+        Ok(Some(()))
     }
 
     /// Ported from `flowParseObjectTypeIndexer`
@@ -1009,4 +1009,8 @@ fn token_is_identifier(cur: &Token) -> bool {
 
 fn token_is_keyword(cur: &Token) -> bool {
     matches!(cur, Token::Word(Word::Keyword(..)))
+}
+
+fn token_is_literal_property_name(cur: &Token) -> bool {
+    matches!(cur, Token::Str(..) | Token::Num(..) | Token::BigInt(..))
 }
