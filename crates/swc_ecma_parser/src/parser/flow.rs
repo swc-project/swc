@@ -989,7 +989,16 @@ where
             self.consume_flow_type_param_decl()?;
         }
 
-        self.consume_flow_type_init(Some(tok!('=').kind()))?;
+        let span = self.input.cur_span();
+
+        if self.ctx().in_declare {
+            if is!(self, '=') {
+                self.emit_err(span, SyntaxError::FlowDeclareOpaqueType);
+            }
+        } else {
+            self.consume_flow_type_init(Some(tok!('=').kind()))?;
+        }
+
         expect!(self, ';');
 
         Ok(())
