@@ -885,6 +885,17 @@ where
 
         Ok(())
     }
+
+    /// Ported from `flowParseInterfaceExtends`
+    pub(super) fn consume_flow_interface_extends(&mut self) -> PResult<()> {
+        let _id = self.consume_flow_qualified_type_identifier(None)?;
+
+        if is!(self, '<') {
+            let _type_params = self.consume_flow_type_param_instantiation()?;
+        }
+
+        Ok(())
+    }
 }
 
 fn token_is_identifier(cur: &Token) -> bool {

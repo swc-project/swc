@@ -126,6 +126,9 @@ impl<I: Tokens> Parser<I> {
 
             let implements = if p.input.syntax().typescript() && eat!(p, "implements") {
                 p.parse_ts_heritage_clause()?
+            } else if p.input.syntax().flow() && eat!(p, "implements") {
+                p.consume_flow_interface_extends()?;
+                vec![]
             } else {
                 Vec::new()
             };
