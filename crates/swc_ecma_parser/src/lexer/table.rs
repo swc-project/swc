@@ -213,6 +213,7 @@ const L_R: ByteHandler = Some(|lexer| {
         "return" => Some(Word::Keyword(Keyword::Return)),
         "readonly" => Some(Word::Ident(IdentLike::Known(KnownIdent::Readonly))),
         "require" => Some(Word::Ident(IdentLike::Known(KnownIdent::Require))),
+        "renders" => Some(Word::Ident(IdentLike::Known(KnownIdent::Renders))),
         _ => None,
     })
 });
