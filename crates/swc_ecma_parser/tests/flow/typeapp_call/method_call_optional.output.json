@@ -1,0 +1,102 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 12,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 1,
+        "end": 12,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 1,
+          "end": 11,
+          "ctxt": 0
+        },
+        "operator": ">",
+        "left": {
+          "type": "BinaryExpression",
+          "span": {
+            "start": 1,
+            "end": 7,
+            "ctxt": 0
+          },
+          "operator": "<",
+          "left": {
+            "type": "OptionalChainingExpression",
+            "span": {
+              "start": 1,
+              "end": 5,
+              "ctxt": 0
+            },
+            "optional": true,
+            "base": {
+              "type": "MemberExpression",
+              "span": {
+                "start": 1,
+                "end": 5,
+                "ctxt": 0
+              },
+              "object": {
+                "type": "Identifier",
+                "span": {
+                  "start": 1,
+                  "end": 2,
+                  "ctxt": 0
+                },
+                "value": "o",
+                "optional": false
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 4,
+                  "end": 5,
+                  "ctxt": 0
+                },
+                "value": "m",
+                "optional": false
+              }
+            }
+          },
+          "right": {
+            "type": "Identifier",
+            "span": {
+              "start": 6,
+              "end": 7,
+              "ctxt": 0
+            },
+            "value": "T",
+            "optional": false
+          }
+        },
+        "right": {
+          "type": "ParenthesisExpression",
+          "span": {
+            "start": 8,
+            "end": 11,
+            "ctxt": 0
+          },
+          "expression": {
+            "type": "Identifier",
+            "span": {
+              "start": 9,
+              "end": 10,
+              "ctxt": 0
+            },
+            "value": "e",
+            "optional": false
+          }
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

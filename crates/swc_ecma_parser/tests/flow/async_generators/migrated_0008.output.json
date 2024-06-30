@@ -1,0 +1,77 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 34,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1,
+        "end": 34,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 5,
+            "end": 33,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 5,
+              "end": 6,
+              "ctxt": 0
+            },
+            "value": "n",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "NewExpression",
+            "span": {
+              "start": 9,
+              "end": 33,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "FunctionExpression",
+              "identifier": null,
+              "params": [],
+              "decorators": [],
+              "span": {
+                "start": 13,
+                "end": 33,
+                "ctxt": 0
+              },
+              "body": {
+                "type": "BlockStatement",
+                "span": {
+                  "start": 31,
+                  "end": 33,
+                  "ctxt": 0
+                },
+                "stmts": []
+              },
+              "generator": true,
+              "async": true,
+              "typeParameters": null,
+              "returnType": null
+            },
+            "arguments": null,
+            "typeArguments": null
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

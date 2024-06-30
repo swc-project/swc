@@ -1,0 +1,156 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 75,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "FunctionDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 10,
+          "end": 13,
+          "ctxt": 0
+        },
+        "value": "Bar",
+        "optional": false
+      },
+      "declare": false,
+      "params": [],
+      "decorators": [],
+      "span": {
+        "start": 1,
+        "end": 75,
+        "ctxt": 0
+      },
+      "body": {
+        "type": "BlockStatement",
+        "span": {
+          "start": 16,
+          "end": 75,
+          "ctxt": 0
+        },
+        "stmts": [
+          {
+            "type": "ClassDeclaration",
+            "identifier": {
+              "type": "Identifier",
+              "span": {
+                "start": 52,
+                "end": 55,
+                "ctxt": 0
+              },
+              "value": "Foo",
+              "optional": false
+            },
+            "declare": false,
+            "span": {
+              "start": 18,
+              "end": 73,
+              "ctxt": 0
+            },
+            "decorators": [
+              {
+                "type": "Decorator",
+                "span": {
+                  "start": 18,
+                  "end": 31,
+                  "ctxt": 0
+                },
+                "expression": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 19,
+                    "end": 31,
+                    "ctxt": 0
+                  },
+                  "value": "myDecorator2",
+                  "optional": false
+                }
+              },
+              {
+                "type": "Decorator",
+                "span": {
+                  "start": 32,
+                  "end": 45,
+                  "ctxt": 0
+                },
+                "expression": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 33,
+                    "end": 45,
+                    "ctxt": 0
+                  },
+                  "value": "myDecorator1",
+                  "optional": false
+                }
+              }
+            ],
+            "body": [
+              {
+                "type": "ClassMethod",
+                "span": {
+                  "start": 58,
+                  "end": 71,
+                  "ctxt": 0
+                },
+                "key": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 58,
+                    "end": 66,
+                    "ctxt": 0
+                  },
+                  "value": "myMethod",
+                  "optional": false
+                },
+                "function": {
+                  "params": [],
+                  "decorators": [],
+                  "span": {
+                    "start": 58,
+                    "end": 71,
+                    "ctxt": 0
+                  },
+                  "body": {
+                    "type": "BlockStatement",
+                    "span": {
+                      "start": 69,
+                      "end": 71,
+                      "ctxt": 0
+                    },
+                    "stmts": []
+                  },
+                  "generator": false,
+                  "async": false,
+                  "typeParameters": null,
+                  "returnType": null
+                },
+                "kind": "method",
+                "isStatic": false,
+                "accessibility": null,
+                "isAbstract": false,
+                "isOptional": false,
+                "isOverride": false
+              }
+            ],
+            "superClass": null,
+            "isAbstract": false,
+            "typeParams": null,
+            "superTypeParams": null,
+            "implements": []
+          }
+        ]
+      },
+      "generator": false,
+      "async": false,
+      "typeParameters": null,
+      "returnType": null
+    }
+  ],
+  "interpreter": null
+}

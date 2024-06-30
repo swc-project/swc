@@ -1,0 +1,127 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 54,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 7,
+          "end": 10,
+          "ctxt": 0
+        },
+        "value": "Foo",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 1,
+        "end": 54,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [
+        {
+          "type": "ClassMethod",
+          "span": {
+            "start": 13,
+            "end": 52,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 39,
+              "end": 47,
+              "ctxt": 0
+            },
+            "value": "myMethod",
+            "optional": false
+          },
+          "function": {
+            "params": [],
+            "decorators": [
+              {
+                "type": "Decorator",
+                "span": {
+                  "start": 13,
+                  "end": 38,
+                  "ctxt": 0
+                },
+                "expression": {
+                  "type": "CallExpression",
+                  "span": {
+                    "start": 14,
+                    "end": 38,
+                    "ctxt": 0
+                  },
+                  "callee": {
+                    "type": "Identifier",
+                    "span": {
+                      "start": 14,
+                      "end": 25,
+                      "ctxt": 0
+                    },
+                    "value": "myDecorator",
+                    "optional": false
+                  },
+                  "arguments": [
+                    {
+                      "spread": null,
+                      "expression": {
+                        "type": "StringLiteral",
+                        "span": {
+                          "start": 26,
+                          "end": 37,
+                          "ctxt": 0
+                        },
+                        "value": "someParam",
+                        "raw": "\"someParam\""
+                      }
+                    }
+                  ],
+                  "typeArguments": null
+                }
+              }
+            ],
+            "span": {
+              "start": 13,
+              "end": 52,
+              "ctxt": 0
+            },
+            "body": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 50,
+                "end": 52,
+                "ctxt": 0
+              },
+              "stmts": []
+            },
+            "generator": false,
+            "async": false,
+            "typeParameters": null,
+            "returnType": null
+          },
+          "kind": "method",
+          "isStatic": false,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false
+        }
+      ],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    }
+  ],
+  "interpreter": null
+}

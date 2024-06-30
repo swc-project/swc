@@ -1,0 +1,63 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 37,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 1,
+        "end": 37,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "TemplateLiteral",
+        "span": {
+          "start": 1,
+          "end": 37,
+          "ctxt": 0
+        },
+        "expressions": [
+          {
+            "type": "StringLiteral",
+            "span": {
+              "start": 18,
+              "end": 23,
+              "ctxt": 0
+            },
+            "value": "bar",
+            "raw": "\"bar\""
+          }
+        ],
+        "quasis": [
+          {
+            "type": "TemplateElement",
+            "span": {
+              "start": 2,
+              "end": 6,
+              "ctxt": 0
+            },
+            "tail": false,
+            "cooked": "foo ",
+            "raw": "foo "
+          },
+          {
+            "type": "TemplateElement",
+            "span": {
+              "start": 32,
+              "end": 36,
+              "ctxt": 0
+            },
+            "tail": true,
+            "cooked": " baz",
+            "raw": " baz"
+          }
+        ]
+      }
+    }
+  ],
+  "interpreter": null
+}

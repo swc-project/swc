@@ -1,0 +1,66 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 28,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 1,
+        "end": 22,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "BinaryExpression",
+        "span": {
+          "start": 1,
+          "end": 22,
+          "ctxt": 0
+        },
+        "operator": "*",
+        "left": {
+          "type": "Identifier",
+          "span": {
+            "start": 1,
+            "end": 8,
+            "ctxt": 0
+          },
+          "value": "declare",
+          "optional": false
+        },
+        "right": {
+          "type": "Identifier",
+          "span": {
+            "start": 18,
+            "end": 22,
+            "ctxt": 0
+          },
+          "value": "from",
+          "optional": false
+        }
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 23,
+        "end": 28,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "StringLiteral",
+        "span": {
+          "start": 23,
+          "end": 28,
+          "ctxt": 0
+        },
+        "value": "foo",
+        "raw": "\"foo\""
+      }
+    }
+  ],
+  "interpreter": null
+}

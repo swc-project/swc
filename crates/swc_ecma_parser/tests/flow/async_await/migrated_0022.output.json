@@ -1,0 +1,74 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 27,
+    "end": 59,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 27,
+        "end": 59,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "VariableDeclaration",
+        "span": {
+          "start": 34,
+          "end": 59,
+          "ctxt": 0
+        },
+        "kind": "const",
+        "declare": false,
+        "declarations": [
+          {
+            "type": "VariableDeclarator",
+            "span": {
+              "start": 40,
+              "end": 59,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 40,
+                "end": 43,
+                "ctxt": 0
+              },
+              "value": "foo",
+              "optional": false,
+              "typeAnnotation": null
+            },
+            "init": {
+              "type": "ArrowFunctionExpression",
+              "span": {
+                "start": 46,
+                "end": 59,
+                "ctxt": 0
+              },
+              "params": [],
+              "body": {
+                "type": "Identifier",
+                "span": {
+                  "start": 58,
+                  "end": 59,
+                  "ctxt": 0
+                },
+                "value": "y",
+                "optional": false
+              },
+              "async": true,
+              "generator": false,
+              "typeParameters": null,
+              "returnType": null
+            },
+            "definite": false
+          }
+        ]
+      }
+    }
+  ],
+  "interpreter": null
+}

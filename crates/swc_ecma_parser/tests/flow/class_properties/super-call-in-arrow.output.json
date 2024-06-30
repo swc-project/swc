@@ -1,0 +1,97 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 32,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 7,
+          "end": 8,
+          "ctxt": 0
+        },
+        "value": "C",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 1,
+        "end": 32,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 13,
+            "end": 30,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 13,
+              "end": 14,
+              "ctxt": 0
+            },
+            "value": "x",
+            "optional": false
+          },
+          "value": {
+            "type": "ArrowFunctionExpression",
+            "span": {
+              "start": 17,
+              "end": 30,
+              "ctxt": 0
+            },
+            "params": [],
+            "body": {
+              "type": "CallExpression",
+              "span": {
+                "start": 23,
+                "end": 30,
+                "ctxt": 0
+              },
+              "callee": {
+                "type": "Super",
+                "span": {
+                  "start": 23,
+                  "end": 28,
+                  "ctxt": 0
+                }
+              },
+              "arguments": [],
+              "typeArguments": null
+            },
+            "async": false,
+            "generator": false,
+            "typeParameters": null,
+            "returnType": null
+          },
+          "typeAnnotation": null,
+          "isStatic": false,
+          "decorators": [],
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false,
+          "readonly": false,
+          "declare": false,
+          "definite": false
+        }
+      ],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    }
+  ],
+  "interpreter": null
+}

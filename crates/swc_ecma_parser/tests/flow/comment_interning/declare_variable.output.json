@@ -1,0 +1,121 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 22,
+    "end": 391,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 22,
+        "end": 132,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "Identifier",
+        "span": {
+          "start": 22,
+          "end": 29,
+          "ctxt": 0
+        },
+        "value": "declare",
+        "optional": false
+      }
+    },
+    {
+      "type": "BlockStatement",
+      "span": {
+        "start": 155,
+        "end": 282,
+        "ctxt": 0
+      },
+      "stmts": [
+        {
+          "type": "ExpressionStatement",
+          "span": {
+            "start": 176,
+            "end": 199,
+            "ctxt": 0
+          },
+          "expression": {
+            "type": "Identifier",
+            "span": {
+              "start": 176,
+              "end": 183,
+              "ctxt": 0
+            },
+            "value": "declare",
+            "optional": false
+          }
+        },
+        {
+          "type": "ExpressionStatement",
+          "span": {
+            "start": 237,
+            "end": 260,
+            "ctxt": 0
+          },
+          "expression": {
+            "type": "Identifier",
+            "span": {
+              "start": 237,
+              "end": 244,
+              "ctxt": 0
+            },
+            "value": "declare",
+            "optional": false
+          }
+        }
+      ]
+    },
+    {
+      "type": "BlockStatement",
+      "span": {
+        "start": 284,
+        "end": 391,
+        "ctxt": 0
+      },
+      "stmts": [
+        {
+          "type": "ExpressionStatement",
+          "span": {
+            "start": 305,
+            "end": 321,
+            "ctxt": 0
+          },
+          "expression": {
+            "type": "Identifier",
+            "span": {
+              "start": 305,
+              "end": 312,
+              "ctxt": 0
+            },
+            "value": "declare",
+            "optional": false
+          }
+        },
+        {
+          "type": "ExpressionStatement",
+          "span": {
+            "start": 356,
+            "end": 372,
+            "ctxt": 0
+          },
+          "expression": {
+            "type": "Identifier",
+            "span": {
+              "start": 356,
+              "end": 363,
+              "ctxt": 0
+            },
+            "value": "declare",
+            "optional": false
+          }
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

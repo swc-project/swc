@@ -1,0 +1,76 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 34,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 7,
+          "end": 17,
+          "ctxt": 0
+        },
+        "value": "Properties",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 1,
+        "end": 34,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 20,
+            "end": 32,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 20,
+              "end": 21,
+              "ctxt": 0
+            },
+            "value": "x",
+            "optional": false
+          },
+          "value": {
+            "type": "StringLiteral",
+            "span": {
+              "start": 24,
+              "end": 31,
+              "ctxt": 0
+            },
+            "value": "hello",
+            "raw": "\"hello\""
+          },
+          "typeAnnotation": null,
+          "isStatic": false,
+          "decorators": [],
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false,
+          "readonly": false,
+          "declare": false,
+          "definite": false
+        }
+      ],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    }
+  ],
+  "interpreter": null
+}

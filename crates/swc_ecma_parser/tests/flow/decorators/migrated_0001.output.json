@@ -1,0 +1,121 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 56,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 35,
+          "end": 38,
+          "ctxt": 0
+        },
+        "value": "Foo",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 1,
+        "end": 56,
+        "ctxt": 0
+      },
+      "decorators": [
+        {
+          "type": "Decorator",
+          "span": {
+            "start": 1,
+            "end": 14,
+            "ctxt": 0
+          },
+          "expression": {
+            "type": "Identifier",
+            "span": {
+              "start": 2,
+              "end": 14,
+              "ctxt": 0
+            },
+            "value": "myDecorator2",
+            "optional": false
+          }
+        },
+        {
+          "type": "Decorator",
+          "span": {
+            "start": 15,
+            "end": 28,
+            "ctxt": 0
+          },
+          "expression": {
+            "type": "Identifier",
+            "span": {
+              "start": 16,
+              "end": 28,
+              "ctxt": 0
+            },
+            "value": "myDecorator1",
+            "optional": false
+          }
+        }
+      ],
+      "body": [
+        {
+          "type": "ClassMethod",
+          "span": {
+            "start": 41,
+            "end": 54,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 41,
+              "end": 49,
+              "ctxt": 0
+            },
+            "value": "myMethod",
+            "optional": false
+          },
+          "function": {
+            "params": [],
+            "decorators": [],
+            "span": {
+              "start": 41,
+              "end": 54,
+              "ctxt": 0
+            },
+            "body": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 52,
+                "end": 54,
+                "ctxt": 0
+              },
+              "stmts": []
+            },
+            "generator": false,
+            "async": false,
+            "typeParameters": null,
+            "returnType": null
+          },
+          "kind": "method",
+          "isStatic": false,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false
+        }
+      ],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    }
+  ],
+  "interpreter": null
+}
