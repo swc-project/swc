@@ -580,7 +580,7 @@ where
 
                         self.consume_flow_object_type_interanl_slot((), is_static)?;
                     } else {
-                        self.parse_flow_object_indexer((), is_static, variance)?
+                        self.parse_flow_object_type_indexer((), is_static, variance)?
                     }
                 } else if is_one_of!(self, '(', '<') {
                     if proto_start_loc.is_some() {
@@ -625,6 +625,27 @@ where
 
             Ok(())
         })
+    }
+
+    /// Ported from `flowParseObjectTypeIndexer`
+    fn parse_flow_object_type_indexer(
+        &mut self,
+        node: (),
+        is_static: bool,
+        variance: Option<()>,
+    ) -> PResult<()> {
+        // Note: bracketL has already been consumed
+        if peeked_is!(self, ':') {
+            self.consume_flow_object_property_key()?;
+            self.consume_flow_type_init(None)?;
+        } else {
+            self.consume_flow_type()?;
+        }
+
+        expect!(self, ']');
+        self.consume_flow_type_init(None)?;
+
+        Ok(())
     }
 
     /// Ported from `flowParseTupleType`
