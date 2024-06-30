@@ -484,8 +484,6 @@ where
     fn consume_flow_tuple_type(&mut self) -> PResult<()> {
         expect!(self, '[');
 
-        self.consume_flow_type()?;
-
         while !eof!(self) && !is!(self, ']') {
             self.consume_flow_type()?;
 
