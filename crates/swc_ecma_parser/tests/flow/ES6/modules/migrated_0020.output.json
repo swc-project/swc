@@ -1,0 +1,86 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 1,
+    "end": 35,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExportNamedDeclaration",
+      "span": {
+        "start": 1,
+        "end": 21,
+        "ctxt": 0
+      },
+      "specifiers": [
+        {
+          "type": "ExportSpecifier",
+          "span": {
+            "start": 9,
+            "end": 19,
+            "ctxt": 0
+          },
+          "orig": {
+            "type": "Identifier",
+            "span": {
+              "start": 9,
+              "end": 12,
+              "ctxt": 0
+            },
+            "value": "foo",
+            "optional": false
+          },
+          "exported": {
+            "type": "Identifier",
+            "span": {
+              "start": 16,
+              "end": 19,
+              "ctxt": 0
+            },
+            "value": "bar",
+            "optional": false
+          },
+          "isTypeOnly": false
+        }
+      ],
+      "source": null,
+      "typeOnly": false,
+      "with": null
+    },
+    {
+      "type": "ExportNamedDeclaration",
+      "span": {
+        "start": 22,
+        "end": 35,
+        "ctxt": 0
+      },
+      "specifiers": [
+        {
+          "type": "ExportSpecifier",
+          "span": {
+            "start": 30,
+            "end": 33,
+            "ctxt": 0
+          },
+          "orig": {
+            "type": "Identifier",
+            "span": {
+              "start": 30,
+              "end": 33,
+              "ctxt": 0
+            },
+            "value": "foo",
+            "optional": false
+          },
+          "exported": null,
+          "isTypeOnly": false
+        }
+      ],
+      "source": null,
+      "typeOnly": false,
+      "with": null
+    }
+  ],
+  "interpreter": null
+}

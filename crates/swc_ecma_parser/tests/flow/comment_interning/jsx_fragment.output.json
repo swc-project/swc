@@ -1,0 +1,55 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 26,
+    "end": 61,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 26,
+        "end": 61,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "JSXFragment",
+        "span": {
+          "start": 26,
+          "end": 35,
+          "ctxt": 0
+        },
+        "opening": {
+          "type": "JSXOpeningFragment",
+          "span": {
+            "start": 26,
+            "end": 28,
+            "ctxt": 0
+          }
+        },
+        "children": [
+          {
+            "type": "JSXText",
+            "span": {
+              "start": 28,
+              "end": 32,
+              "ctxt": 0
+            },
+            "value": "test",
+            "raw": "test"
+          }
+        ],
+        "closing": {
+          "type": "JSXClosingFragment",
+          "span": {
+            "start": 32,
+            "end": 35,
+            "ctxt": 0
+          }
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

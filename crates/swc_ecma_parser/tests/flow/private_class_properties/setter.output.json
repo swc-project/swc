@@ -1,0 +1,113 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 27,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 7,
+          "end": 8,
+          "ctxt": 0
+        },
+        "value": "C",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 1,
+        "end": 27,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [
+        {
+          "type": "PrivateMethod",
+          "span": {
+            "start": 13,
+            "end": 25,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "PrivateName",
+            "span": {
+              "start": 17,
+              "end": 19,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 18,
+                "end": 19,
+                "ctxt": 0
+              },
+              "value": "m",
+              "optional": false
+            }
+          },
+          "function": {
+            "params": [
+              {
+                "type": "Parameter",
+                "span": {
+                  "start": 20,
+                  "end": 21,
+                  "ctxt": 0
+                },
+                "decorators": [],
+                "pat": {
+                  "type": "Identifier",
+                  "span": {
+                    "start": 20,
+                    "end": 21,
+                    "ctxt": 0
+                  },
+                  "value": "x",
+                  "optional": false,
+                  "typeAnnotation": null
+                }
+              }
+            ],
+            "decorators": [],
+            "span": {
+              "start": 13,
+              "end": 25,
+              "ctxt": 0
+            },
+            "body": {
+              "type": "BlockStatement",
+              "span": {
+                "start": 23,
+                "end": 25,
+                "ctxt": 0
+              },
+              "stmts": []
+            },
+            "generator": false,
+            "async": false,
+            "typeParameters": null,
+            "returnType": null
+          },
+          "kind": "setter",
+          "isStatic": false,
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false
+        }
+      ],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    }
+  ],
+  "interpreter": null
+}

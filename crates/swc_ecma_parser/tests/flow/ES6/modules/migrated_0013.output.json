@@ -1,0 +1,111 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 47,
+    "end": 92,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 47,
+        "end": 71,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "FunctionDeclaration",
+        "identifier": {
+          "type": "Identifier",
+          "span": {
+            "start": 63,
+            "end": 66,
+            "ctxt": 0
+          },
+          "value": "foo",
+          "optional": false
+        },
+        "declare": false,
+        "params": [],
+        "decorators": [],
+        "span": {
+          "start": 54,
+          "end": 71,
+          "ctxt": 0
+        },
+        "body": {
+          "type": "BlockStatement",
+          "span": {
+            "start": 69,
+            "end": 71,
+            "ctxt": 0
+          },
+          "stmts": []
+        },
+        "generator": false,
+        "async": false,
+        "typeParameters": null,
+        "returnType": null
+      }
+    },
+    {
+      "type": "EmptyStatement",
+      "span": {
+        "start": 71,
+        "end": 72,
+        "ctxt": 0
+      }
+    },
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 73,
+        "end": 92,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "VariableDeclaration",
+        "span": {
+          "start": 80,
+          "end": 92,
+          "ctxt": 0
+        },
+        "kind": "var",
+        "declare": false,
+        "declarations": [
+          {
+            "type": "VariableDeclarator",
+            "span": {
+              "start": 84,
+              "end": 91,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 84,
+                "end": 87,
+                "ctxt": 0
+              },
+              "value": "foo",
+              "optional": false,
+              "typeAnnotation": null
+            },
+            "init": {
+              "type": "NumericLiteral",
+              "span": {
+                "start": 90,
+                "end": 91,
+                "ctxt": 0
+              },
+              "value": 1.0,
+              "raw": "1"
+            },
+            "definite": false
+          }
+        ]
+      }
+    }
+  ],
+  "interpreter": null
+}

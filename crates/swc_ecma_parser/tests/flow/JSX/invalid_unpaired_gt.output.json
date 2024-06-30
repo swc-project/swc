@@ -1,0 +1,86 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 15,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 1,
+        "end": 15,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "ParenthesisExpression",
+        "span": {
+          "start": 1,
+          "end": 15,
+          "ctxt": 0
+        },
+        "expression": {
+          "type": "JSXElement",
+          "span": {
+            "start": 2,
+            "end": 14,
+            "ctxt": 0
+          },
+          "opening": {
+            "type": "JSXOpeningElement",
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 3,
+                "end": 6,
+                "ctxt": 0
+              },
+              "value": "foo",
+              "optional": false
+            },
+            "span": {
+              "start": 2,
+              "end": 7,
+              "ctxt": 0
+            },
+            "attributes": [],
+            "selfClosing": false,
+            "typeArguments": null
+          },
+          "children": [
+            {
+              "type": "JSXText",
+              "span": {
+                "start": 7,
+                "end": 8,
+                "ctxt": 0
+              },
+              "value": ">",
+              "raw": ">"
+            }
+          ],
+          "closing": {
+            "type": "JSXClosingElement",
+            "span": {
+              "start": 8,
+              "end": 14,
+              "ctxt": 0
+            },
+            "name": {
+              "type": "Identifier",
+              "span": {
+                "start": 10,
+                "end": 13,
+                "ctxt": 0
+              },
+              "value": "foo",
+              "optional": false
+            }
+          }
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}
