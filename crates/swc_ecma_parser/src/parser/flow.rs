@@ -169,6 +169,8 @@ where
 
     /// Ported from babel
     pub(super) fn consume_flow_type(&mut self) -> PResult<()> {
+        trace_cur!(self, consume_flow_type);
+
         self.in_type().consume_flow_union_type()?;
 
         Ok(())
@@ -539,6 +541,8 @@ where
 
     /// Ported from `flowParseTypeInitialiser`
     fn consume_flow_type_init(&mut self, token: Option<TokenKind>) -> PResult<()> {
+        trace_cur!(self, consume_flow_type_init);
+
         self.in_type().parse_with(|p| {
             match token {
                 Some(delim) => {
