@@ -1,0 +1,151 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 19,
+    "end": 678,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "EmptyStatement",
+      "span": {
+        "start": 19,
+        "end": 114,
+        "ctxt": 0
+      }
+    },
+    {
+      "type": "EmptyStatement",
+      "span": {
+        "start": 131,
+        "end": 132,
+        "ctxt": 0
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 171,
+        "end": 310,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "Identifier",
+        "span": {
+          "start": 171,
+          "end": 177,
+          "ctxt": 0
+        },
+        "value": "opaque",
+        "optional": false
+      }
+    },
+    {
+      "type": "BlockStatement",
+      "span": {
+        "start": 331,
+        "end": 434,
+        "ctxt": 0
+      },
+      "stmts": [
+        {
+          "type": "EmptyStatement",
+          "span": {
+            "start": 353,
+            "end": 365,
+            "ctxt": 0
+          }
+        },
+        {
+          "type": "EmptyStatement",
+          "span": {
+            "start": 402,
+            "end": 414,
+            "ctxt": 0
+          }
+        }
+      ]
+    },
+    {
+      "type": "BlockStatement",
+      "span": {
+        "start": 436,
+        "end": 555,
+        "ctxt": 0
+      },
+      "stmts": [
+        {
+          "type": "ExpressionStatement",
+          "span": {
+            "start": 459,
+            "end": 478,
+            "ctxt": 0
+          },
+          "expression": {
+            "type": "Identifier",
+            "span": {
+              "start": 459,
+              "end": 465,
+              "ctxt": 0
+            },
+            "value": "opaque",
+            "optional": false
+          }
+        },
+        {
+          "type": "ExpressionStatement",
+          "span": {
+            "start": 516,
+            "end": 535,
+            "ctxt": 0
+          },
+          "expression": {
+            "type": "Identifier",
+            "span": {
+              "start": 516,
+              "end": 522,
+              "ctxt": 0
+            },
+            "value": "opaque",
+            "optional": false
+          }
+        }
+      ]
+    },
+    {
+      "type": "EmptyStatement",
+      "span": {
+        "start": 557,
+        "end": 612,
+        "ctxt": 0
+      }
+    },
+    {
+      "type": "EmptyStatement",
+      "span": {
+        "start": 612,
+        "end": 613,
+        "ctxt": 0
+      }
+    },
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 615,
+        "end": 678,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "Identifier",
+        "span": {
+          "start": 615,
+          "end": 621,
+          "ctxt": 0
+        },
+        "value": "opaque",
+        "optional": false
+      }
+    }
+  ],
+  "interpreter": null
+}
