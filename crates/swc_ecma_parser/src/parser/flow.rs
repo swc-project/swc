@@ -240,12 +240,12 @@ where
         if eat!(self, '(') {
             // Check to see if this is actually a grouped type
             if !is!(self, ')') && !is!(self, "...") {
-                if is!(self, "this")
-                    || self
-                        .input
-                        .cur()
-                        .map(token_is_identifier)
-                        .unwrap_or_default()
+                if self
+                    .input
+                    .cur()
+                    .map(token_is_identifier)
+                    .unwrap_or_default()
+                    || is!(self, "this")
                 {
                     is_grouped_type = !peeked_is!(self, '?') && !peeked_is!(self, ':');
                 } else {
@@ -309,6 +309,11 @@ where
 
         if is!(self, "typeof") {
             return self.consume_flow_typeof_type();
+        }
+
+        if eat!(self, "renders") {
+            self.consume_flow_type()?;
+            return Ok(());
         }
 
         if self.input.cur().map(token_is_keyword).unwrap_or_default() {
