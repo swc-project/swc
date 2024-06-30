@@ -462,13 +462,19 @@ where
         })
     }
 
+    /// Ported from `flowParseTupleType`
     fn consume_flow_tuple_type(&mut self) -> PResult<()> {
         expect!(self, '[');
 
         self.consume_flow_type()?;
 
-        while eat!(self, ',') && !eof!(self) {
+        while !eof!(self) && !is!(self, ']') {
             self.consume_flow_type()?;
+
+            if is!(self, ']') {
+                break;
+            }
+            expect!(self, ',');
         }
 
         expect!(self, ']');
