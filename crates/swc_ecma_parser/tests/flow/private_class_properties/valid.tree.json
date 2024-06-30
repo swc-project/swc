@@ -1,114 +1,137 @@
 {
-  "type":"Program",
-  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":5,"column":1}},
-  "range":[0,49],
-  "body":[
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 50,
+    "ctxt": 0
+  },
+  "body": [
     {
-      "type":"ClassDeclaration",
-      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":5,"column":1}},
-      "range":[0,49],
-      "id":{
-        "type":"Identifier",
-        "loc":{"source":null,"start":{"line":1,"column":6},"end":{"line":1,"column":7}},
-        "range":[6,7],
-        "name":"B",
-        "typeAnnotation":null,
-        "optional":false
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 7,
+          "end": 8,
+          "ctxt": 0
+        },
+        "value": "B",
+        "optional": false
       },
-      "body":{
-        "type":"ClassBody",
-        "loc":{"source":null,"start":{"line":1,"column":8},"end":{"line":5,"column":1}},
-        "range":[8,49],
-        "body":[
-          {
-            "type":"PropertyDefinition",
-            "loc":{"source":null,"start":{"line":2,"column":2},"end":{"line":2,"column":12}},
-            "range":[12,22],
-            "key":{
-              "type":"PrivateIdentifier",
-              "loc":{"source":null,"start":{"line":2,"column":2},"end":{"line":2,"column":4}},
-              "range":[12,14],
-              "name":"p",
-              "typeAnnotation":null,
-              "optional":false
-            },
-            "value":null,
-            "typeAnnotation":{
-              "type":"TypeAnnotation",
-              "loc":{"source":null,"start":{"line":2,"column":4},"end":{"line":2,"column":12}},
-              "range":[14,22],
-              "typeAnnotation":{
-                "type":"NumberTypeAnnotation",
-                "loc":{"source":null,"start":{"line":2,"column":6},"end":{"line":2,"column":12}},
-                "range":[16,22]
-              }
-            },
-            "computed":false,
-            "static":false,
-            "variance":null
-          },
-          {
-            "type":"PropertyDefinition",
-            "loc":{"source":null,"start":{"line":3,"column":2},"end":{"line":3,"column":12}},
-            "range":[25,35],
-            "key":{
-              "type":"PrivateIdentifier",
-              "loc":{"source":null,"start":{"line":3,"column":2},"end":{"line":3,"column":4}},
-              "range":[25,27],
-              "name":"q",
-              "typeAnnotation":null,
-              "optional":false
-            },
-            "value":null,
-            "typeAnnotation":{
-              "type":"TypeAnnotation",
-              "loc":{"source":null,"start":{"line":3,"column":4},"end":{"line":3,"column":12}},
-              "range":[27,35],
-              "typeAnnotation":{
-                "type":"StringTypeAnnotation",
-                "loc":{"source":null,"start":{"line":3,"column":6},"end":{"line":3,"column":12}},
-                "range":[29,35]
-              }
-            },
-            "computed":false,
-            "static":false,
-            "variance":null
-          },
-          {
-            "type":"PropertyDefinition",
-            "loc":{"source":null,"start":{"line":4,"column":2},"end":{"line":4,"column":11}},
-            "range":[38,47],
-            "key":{
-              "type":"Identifier",
-              "loc":{"source":null,"start":{"line":4,"column":2},"end":{"line":4,"column":3}},
-              "range":[38,39],
-              "name":"q",
-              "typeAnnotation":null,
-              "optional":false
-            },
-            "value":null,
-            "typeAnnotation":{
-              "type":"TypeAnnotation",
-              "loc":{"source":null,"start":{"line":4,"column":3},"end":{"line":4,"column":11}},
-              "range":[39,47],
-              "typeAnnotation":{
-                "type":"StringTypeAnnotation",
-                "loc":{"source":null,"start":{"line":4,"column":5},"end":{"line":4,"column":11}},
-                "range":[41,47]
-              }
-            },
-            "computed":false,
-            "static":false,
-            "variance":null
-          }
-        ]
+      "declare": false,
+      "span": {
+        "start": 1,
+        "end": 50,
+        "ctxt": 0
       },
-      "superClass":null,
-      "typeParameters":null,
-      "superTypeParameters":null,
-      "implements":[],
-      "decorators":[]
+      "decorators": [],
+      "body": [
+        {
+          "type": "PrivateProperty",
+          "span": {
+            "start": 13,
+            "end": 23,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "PrivateName",
+            "span": {
+              "start": 13,
+              "end": 15,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 14,
+                "end": 15,
+                "ctxt": 0
+              },
+              "value": "p",
+              "optional": false
+            }
+          },
+          "value": null,
+          "typeAnnotation": null,
+          "isStatic": false,
+          "decorators": [],
+          "accessibility": null,
+          "isOptional": false,
+          "isOverride": false,
+          "readonly": false,
+          "definite": false
+        },
+        {
+          "type": "PrivateProperty",
+          "span": {
+            "start": 26,
+            "end": 36,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "PrivateName",
+            "span": {
+              "start": 26,
+              "end": 28,
+              "ctxt": 0
+            },
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 27,
+                "end": 28,
+                "ctxt": 0
+              },
+              "value": "q",
+              "optional": false
+            }
+          },
+          "value": null,
+          "typeAnnotation": null,
+          "isStatic": false,
+          "decorators": [],
+          "accessibility": null,
+          "isOptional": false,
+          "isOverride": false,
+          "readonly": false,
+          "definite": false
+        },
+        {
+          "type": "ClassProperty",
+          "span": {
+            "start": 39,
+            "end": 48,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "Identifier",
+            "span": {
+              "start": 39,
+              "end": 40,
+              "ctxt": 0
+            },
+            "value": "q",
+            "optional": false
+          },
+          "value": null,
+          "typeAnnotation": null,
+          "isStatic": false,
+          "decorators": [],
+          "accessibility": null,
+          "isAbstract": false,
+          "isOptional": false,
+          "isOverride": false,
+          "readonly": false,
+          "declare": false,
+          "definite": false
+        }
+      ],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
     }
   ],
-  "comments":[]
+  "interpreter": null
 }
