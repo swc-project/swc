@@ -440,6 +440,7 @@ where
         todo!("consume_flow_inteface_type")
     }
 
+    /// Ported from `flowParseTypeofType`
     fn consume_flow_typeof_type(&mut self) -> PResult<()> {
         assert_and_bump!(self, "typeof");
 
