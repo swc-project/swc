@@ -685,6 +685,40 @@ where
         Ok(())
     }
 
+    /// Ported from `flowParseObjectTypeMethodish`
+    fn consume_flow_object_type_methodish(&mut self, node: ()) -> PResult<()> {
+        if is!(self, '<') {
+            self.consume_flow_type_param_decl()?;
+        }
+
+        expect!(self, '(');
+
+        if is!(self, "this") {
+            let _this = self.consume_flow_function_type_param(true)?;
+
+            if !is!(self, ')') {
+                expect!(self, ',');
+            }
+        }
+
+        while !is!(self, ')') && !is!(self, "...") {
+            self.consume_flow_function_type_param(false)?;
+
+            if !is!(self, ')') {
+                expect!(self, ',');
+            }
+        }
+
+        if eat!(self, "...") {
+            let _rest = self.consume_flow_function_type_param(false)?;
+        }
+
+        expect!(self, ')');
+        let _return_type = self.consume_flow_type()?;
+
+        Ok(())
+    }
+
     /// Ported from `flowParseObjectTypeInternalSlot`
     fn consume_flow_object_type_interanl_slot(&mut self, node: (), is_static: bool) -> PResult<()> {
         // Note: both bracketL have already been consumed
