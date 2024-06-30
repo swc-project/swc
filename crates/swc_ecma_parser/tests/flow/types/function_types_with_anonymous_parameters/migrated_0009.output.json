@@ -1,16 +1,16 @@
 {
   "type": "Script",
   "span": {
-    "start": 75,
-    "end": 112,
+    "start": 1,
+    "end": 38,
     "ctxt": 0
   },
   "body": [
     {
       "type": "VariableDeclaration",
       "span": {
-        "start": 75,
-        "end": 112,
+        "start": 1,
+        "end": 38,
         "ctxt": 0
       },
       "kind": "var",
@@ -19,15 +19,15 @@
         {
           "type": "VariableDeclarator",
           "span": {
-            "start": 79,
-            "end": 104,
+            "start": 5,
+            "end": 37,
             "ctxt": 0
           },
           "id": {
             "type": "Identifier",
             "span": {
-              "start": 79,
-              "end": 80,
+              "start": 5,
+              "end": 6,
               "ctxt": 0
             },
             "value": "f",
@@ -37,28 +37,16 @@
           "init": {
             "type": "ArrowFunctionExpression",
             "span": {
-              "start": 83,
-              "end": 104,
+              "start": 9,
+              "end": 37,
               "ctxt": 0
             },
-            "params": [
-              {
-                "type": "Identifier",
-                "span": {
-                  "start": 84,
-                  "end": 85,
-                  "ctxt": 0
-                },
-                "value": "x",
-                "optional": false,
-                "typeAnnotation": null
-              }
-            ],
+            "params": [],
             "body": {
               "type": "NumericLiteral",
               "span": {
-                "start": 101,
-                "end": 104,
+                "start": 34,
+                "end": 37,
                 "ctxt": 0
               },
               "value": 123.0,

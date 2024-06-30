@@ -35,22 +35,39 @@
             "typeAnnotation": null
           },
           "init": {
-            "type": "ParenthesisExpression",
+            "type": "ArrowFunctionExpression",
             "span": {
               "start": 112,
               "end": 141,
               "ctxt": 0
             },
-            "expression": {
-              "type": "Identifier",
+            "params": [
+              {
+                "type": "Identifier",
+                "span": {
+                  "start": 113,
+                  "end": 114,
+                  "ctxt": 0
+                },
+                "value": "x",
+                "optional": false,
+                "typeAnnotation": null
+              }
+            ],
+            "body": {
+              "type": "NumericLiteral",
               "span": {
-                "start": 113,
-                "end": 114,
+                "start": 138,
+                "end": 141,
                 "ctxt": 0
               },
-              "value": "x",
-              "optional": false
-            }
+              "value": 123.0,
+              "raw": "123"
+            },
+            "async": false,
+            "generator": false,
+            "typeParameters": null,
+            "returnType": null
           },
           "definite": false
         }
