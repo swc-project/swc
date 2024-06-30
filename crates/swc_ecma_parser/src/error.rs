@@ -307,6 +307,7 @@ pub enum SyntaxError {
     FlowUnexpectedProtoMethod,
     FlowMethodVariance,
     FlowUnexpectedGetterSetter,
+    FlowDeclareOpaqueType,
 }
 
 impl SyntaxError {
@@ -799,6 +800,7 @@ impl SyntaxError {
             SyntaxError::FlowUnexpectedGetterSetter => {
                 "Unexpected getter or setter in object type".into()
             }
+            SyntaxError::FlowDeclareOpaqueType => "Opaque type cannot be declared".into(),
         }
     }
 }
