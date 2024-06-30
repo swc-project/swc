@@ -418,7 +418,12 @@ where
 
     /// Ported from babel
     fn consume_flow_type_param_instantiation(&mut self) -> PResult<()> {
-        self.in_type().parse_with(|p| {
+        let ctx = Context {
+            flow_no_anon_function_type: false,
+            in_type: true,
+            ..self.ctx()
+        };
+        self.with_ctx(ctx).parse_with(|p| {
             expect!(p, '<');
 
             while !is!(p, '>') {
