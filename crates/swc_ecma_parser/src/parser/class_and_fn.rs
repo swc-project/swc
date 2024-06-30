@@ -1719,7 +1719,10 @@ impl<I: Tokens> FnBodyParser<Option<BlockStmt>> for Parser<I> {
         is_simple_parameter_list: bool,
     ) -> PResult<Option<BlockStmt>> {
         // allow omitting body and allow placing `{` on next line
-        if self.input.syntax().typescript() && !is!(self, '{') && eat!(self, ';') {
+        if (self.input.syntax().typescript() || self.input.syntax().flow())
+            && !is!(self, '{')
+            && eat!(self, ';')
+        {
             return Ok(None);
         }
         let block = self.include_in_expr(true).parse_block(true);
