@@ -66,7 +66,7 @@ where
     fn consume_flow_type_param(&mut self, require_default: bool) -> PResult<FlowTypeParam> {
         self.consume_flow_variance()?;
 
-        self.consume_flow_type_annotation_identifier(false)?;
+        self.consume_flow_type_annotatable_identifier(false)?;
 
         let has_default = if eat!(self, '=') {
             self.consume_flow_type()?;
@@ -96,8 +96,8 @@ where
         Ok(None)
     }
 
-    /// Ported from babel
-    pub(super) fn consume_flow_type_annotation_identifier(
+    /// Ported from `flowParseTypeAnnotatableIdentifier`
+    pub(super) fn consume_flow_type_annotatable_identifier(
         &mut self,
         allow_primitive_override: bool,
     ) -> PResult<()> {
