@@ -392,7 +392,7 @@ where
             }
 
             _ => {
-                self.consume_flow_generic_type()?;
+                self.consume_flow_generic_type(ident)?;
 
                 Ok(())
             }
@@ -400,10 +400,10 @@ where
     }
 
     /// Ported from babel
-    fn consume_flow_generic_type(&mut self) -> PResult<()> {
+    fn consume_flow_generic_type(&mut self, id: Ident) -> PResult<()> {
         trace_cur!(self, consume_flow_generic_type);
 
-        self.consume_flow_qualified_type_identifier(None)?;
+        self.consume_flow_qualified_type_identifier(Some(id))?;
 
         if is!(self, '<') {
             self.consume_flow_type_param_instantiation()?;
@@ -431,7 +431,7 @@ where
         })
     }
 
-    /// Ported from babel
+    /// Ported from `flowParseQualifiedTypeIdentifier`
     fn consume_flow_qualified_type_identifier(&mut self, id: Option<Ident>) -> PResult<()> {
         trace_cur!(self, consume_flow_qualified_type_identifier);
 
