@@ -549,12 +549,14 @@ where
                 let mut proto_start_loc = None;
                 let mut inexact_start_loc: Option<BytePos> = None;
 
-                if allow_proto && is_contextual!(p, "proto") {
-                    if !peeked_is!(p, ':') && !peeked_is!(p, '?') {
-                        bump!(p);
-                        allow_static = false;
-                        proto_start_loc = Some(p.input.cur_pos());
-                    }
+                if allow_proto
+                    && is_contextual!(p, "proto")
+                    && !peeked_is!(p, ':')
+                    && !peeked_is!(p, '?')
+                {
+                    bump!(p);
+                    allow_static = false;
+                    proto_start_loc = Some(p.input.cur_pos());
                 }
 
                 if allow_static && is_contextual!(p, "static") {
@@ -576,9 +578,9 @@ where
                             unexpected!(self, "[[ after variance")
                         }
 
-                        self.consume_flow_object_type_interanl_slot(node, is_static)?;
+                        self.consume_flow_object_type_interanl_slot((), is_static)?;
                     } else {
-                        self.parse_flow_object_indexer(node, is_static, variance)?
+                        self.parse_flow_object_indexer((), is_static, variance)?
                     }
                 } else if is_one_of!(self, '(', '<') {
                     if proto_start_loc.is_some() {
@@ -589,7 +591,7 @@ where
                         unexpected!(self, "( after variance")
                     }
 
-                    self.consume_flow_object_type_call_property(node, is_static)?;
+                    self.consume_flow_object_type_call_property((), is_static)?;
                 } else {
                     // let mut kind = "init";
 
