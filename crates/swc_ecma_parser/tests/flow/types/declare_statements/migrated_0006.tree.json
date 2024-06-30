@@ -1,29 +1,35 @@
 {
-  "type": "Script",
-  "span": {
-    "start": 1,
-    "end": 19,
-    "ctxt": 0
-  },
-  "body": [
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":18}},
+  "range":[0,18],
+  "body":[
     {
-      "type": "ExpressionStatement",
-      "span": {
-        "start": 1,
-        "end": 19,
-        "ctxt": 0
+      "type":"DeclareClass",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":18}},
+      "range":[0,18],
+      "id":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":1,"column":14},"end":{"line":1,"column":15}},
+        "range":[14,15],
+        "name":"A",
+        "typeAnnotation":null,
+        "optional":false
       },
-      "expression": {
-        "type": "Identifier",
-        "span": {
-          "start": 1,
-          "end": 8,
-          "ctxt": 0
-        },
-        "value": "declare",
-        "optional": false
-      }
+      "typeParameters":null,
+      "body":{
+        "type":"ObjectTypeAnnotation",
+        "loc":{"source":null,"start":{"line":1,"column":16},"end":{"line":1,"column":18}},
+        "range":[16,18],
+        "exact":false,
+        "properties":[],
+        "indexers":[],
+        "callProperties":[],
+        "internalSlots":[]
+      },
+      "extends":[],
+      "implements":[],
+      "mixins":[]
     }
   ],
-  "interpreter": null
+  "comments":[]
 }

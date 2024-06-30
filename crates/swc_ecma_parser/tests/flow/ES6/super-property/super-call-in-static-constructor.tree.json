@@ -1,95 +1,96 @@
 {
-  "type": "Script",
-  "span": {
-    "start": 1,
-    "end": 45,
-    "ctxt": 0
-  },
-  "body": [
+  "errors":[
     {
-      "type": "ClassDeclaration",
-      "identifier": {
-        "type": "Identifier",
-        "span": {
-          "start": 7,
-          "end": 8,
-          "ctxt": 0
-        },
-        "value": "C",
-        "optional": false
-      },
-      "declare": false,
-      "span": {
-        "start": 1,
-        "end": 45,
-        "ctxt": 0
-      },
-      "decorators": [],
-      "body": [
-        {
-          "type": "Constructor",
-          "span": {
-            "start": 11,
-            "end": 43,
-            "ctxt": 0
-          },
-          "key": {
-            "type": "Identifier",
-            "span": {
-              "start": 18,
-              "end": 29,
-              "ctxt": 0
-            },
-            "value": "constructor",
-            "optional": false
-          },
-          "params": [],
-          "body": {
-            "type": "BlockStatement",
-            "span": {
-              "start": 32,
-              "end": 43,
-              "ctxt": 0
-            },
-            "stmts": [
-              {
-                "type": "ExpressionStatement",
-                "span": {
-                  "start": 34,
-                  "end": 41,
-                  "ctxt": 0
-                },
-                "expression": {
-                  "type": "CallExpression",
-                  "span": {
-                    "start": 34,
-                    "end": 41,
-                    "ctxt": 0
-                  },
-                  "callee": {
-                    "type": "Super",
-                    "span": {
-                      "start": 34,
-                      "end": 39,
-                      "ctxt": 0
-                    }
-                  },
-                  "arguments": [],
-                  "typeArguments": null
-                }
-              }
-            ]
-          },
-          "accessibility": null,
-          "isOptional": false
-        }
-      ],
-      "superClass": null,
-      "isAbstract": false,
-      "typeParams": null,
-      "superTypeParams": null,
-      "implements": []
+      "loc":{"source":null,"start":{"line":1,"column":33},"end":{"line":1,"column":38}},
+      "message":"`super()` is only valid in a class constructor"
     }
   ],
-  "interpreter": null
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":44}},
+  "range":[0,44],
+  "body":[
+    {
+      "type":"ClassDeclaration",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":44}},
+      "range":[0,44],
+      "id":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":1,"column":6},"end":{"line":1,"column":7}},
+        "range":[6,7],
+        "name":"C",
+        "typeAnnotation":null,
+        "optional":false
+      },
+      "body":{
+        "type":"ClassBody",
+        "loc":{"source":null,"start":{"line":1,"column":8},"end":{"line":1,"column":44}},
+        "range":[8,44],
+        "body":[
+          {
+            "type":"MethodDefinition",
+            "loc":{"source":null,"start":{"line":1,"column":10},"end":{"line":1,"column":42}},
+            "range":[10,42],
+            "key":{
+              "type":"Identifier",
+              "loc":{"source":null,"start":{"line":1,"column":17},"end":{"line":1,"column":28}},
+              "range":[17,28],
+              "name":"constructor",
+              "typeAnnotation":null,
+              "optional":false
+            },
+            "value":{
+              "type":"FunctionExpression",
+              "loc":{"source":null,"start":{"line":1,"column":28},"end":{"line":1,"column":42}},
+              "range":[28,42],
+              "id":null,
+              "params":[],
+              "body":{
+                "type":"BlockStatement",
+                "loc":{"source":null,"start":{"line":1,"column":31},"end":{"line":1,"column":42}},
+                "range":[31,42],
+                "body":[
+                  {
+                    "type":"ExpressionStatement",
+                    "loc":{"source":null,"start":{"line":1,"column":33},"end":{"line":1,"column":40}},
+                    "range":[33,40],
+                    "expression":{
+                      "type":"CallExpression",
+                      "loc":{"source":null,"start":{"line":1,"column":33},"end":{"line":1,"column":40}},
+                      "range":[33,40],
+                      "callee":{
+                        "type":"Identifier",
+                        "loc":{"source":null,"start":{"line":1,"column":33},"end":{"line":1,"column":38}},
+                        "range":[33,38],
+                        "name":"super",
+                        "typeAnnotation":null,
+                        "optional":false
+                      },
+                      "arguments":[]
+                    },
+                    "directive":null
+                  }
+                ]
+              },
+              "async":false,
+              "generator":false,
+              "predicate":null,
+              "expression":false,
+              "returnType":null,
+              "typeParameters":null
+            },
+            "kind":"method",
+            "static":true,
+            "computed":false,
+            "decorators":[]
+          }
+        ]
+      },
+      "superClass":null,
+      "typeParameters":null,
+      "superTypeParameters":null,
+      "implements":[],
+      "decorators":[]
+    }
+  ],
+  "comments":[]
 }

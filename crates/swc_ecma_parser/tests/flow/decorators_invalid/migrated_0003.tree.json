@@ -1,29 +1,49 @@
 {
-  "type": "Script",
-  "span": {
-    "start": 1,
-    "end": 34,
-    "ctxt": 0
-  },
-  "body": [
+  "errors":[
     {
-      "type": "ExpressionStatement",
-      "span": {
-        "start": 1,
-        "end": 34,
-        "ctxt": 0
-      },
-      "expression": {
-        "type": "Identifier",
-        "span": {
-          "start": 7,
-          "end": 14,
-          "ctxt": 0
-        },
-        "value": "declare",
-        "optional": false
-      }
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":5}},
+      "message":"Found a decorator in an unsupported position."
     }
   ],
-  "interpreter": null
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":27}},
+  "range":[6,33],
+  "body":[
+    {
+      "type":"DeclareExportDeclaration",
+      "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":27}},
+      "range":[6,33],
+      "default":false,
+      "declaration":{
+        "type":"DeclareClass",
+        "loc":{"source":null,"start":{"line":2,"column":15},"end":{"line":2,"column":27}},
+        "range":[21,33],
+        "id":{
+          "type":"Identifier",
+          "loc":{"source":null,"start":{"line":2,"column":21},"end":{"line":2,"column":24}},
+          "range":[27,30],
+          "name":"Foo",
+          "typeAnnotation":null,
+          "optional":false
+        },
+        "typeParameters":null,
+        "body":{
+          "type":"ObjectTypeAnnotation",
+          "loc":{"source":null,"start":{"line":2,"column":25},"end":{"line":2,"column":27}},
+          "range":[31,33],
+          "exact":false,
+          "properties":[],
+          "indexers":[],
+          "callProperties":[],
+          "internalSlots":[]
+        },
+        "extends":[],
+        "implements":[],
+        "mixins":[]
+      },
+      "specifiers":[],
+      "source":null
+    }
+  ],
+  "comments":[]
 }

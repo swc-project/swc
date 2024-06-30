@@ -1,146 +1,93 @@
 {
-  "type": "Script",
-  "span": {
-    "start": 1,
-    "end": 45,
-    "ctxt": 0
-  },
-  "body": [
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":44}},
+  "range":[0,44],
+  "body":[
     {
-      "type": "VariableDeclaration",
-      "span": {
-        "start": 1,
-        "end": 45,
-        "ctxt": 0
-      },
-      "kind": "var",
-      "declare": false,
-      "declarations": [
+      "type":"VariableDeclaration",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":44}},
+      "range":[0,44],
+      "declarations":[
         {
-          "type": "VariableDeclarator",
-          "span": {
-            "start": 5,
-            "end": 44,
-            "ctxt": 0
+          "type":"VariableDeclarator",
+          "loc":{"source":null,"start":{"line":1,"column":4},"end":{"line":1,"column":43}},
+          "range":[4,43],
+          "id":{
+            "type":"Identifier",
+            "loc":{"source":null,"start":{"line":1,"column":4},"end":{"line":1,"column":7}},
+            "range":[4,7],
+            "name":"exp",
+            "typeAnnotation":null,
+            "optional":false
           },
-          "id": {
-            "type": "Identifier",
-            "span": {
-              "start": 5,
-              "end": 8,
-              "ctxt": 0
-            },
-            "value": "exp",
-            "optional": false,
-            "typeAnnotation": null
-          },
-          "init": {
-            "type": "FunctionExpression",
-            "identifier": null,
-            "params": [
+          "init":{
+            "type":"FunctionExpression",
+            "loc":{"source":null,"start":{"line":1,"column":10},"end":{"line":1,"column":43}},
+            "range":[10,43],
+            "id":null,
+            "params":[
               {
-                "type": "Parameter",
-                "span": {
-                  "start": 20,
-                  "end": 21,
-                  "ctxt": 0
-                },
-                "decorators": [],
-                "pat": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 20,
-                    "end": 21,
-                    "ctxt": 0
-                  },
-                  "value": "a",
-                  "optional": false,
-                  "typeAnnotation": null
-                }
+                "type":"Identifier",
+                "loc":{"source":null,"start":{"line":1,"column":19},"end":{"line":1,"column":20}},
+                "range":[19,20],
+                "name":"a",
+                "typeAnnotation":null,
+                "optional":false
               },
               {
-                "type": "Parameter",
-                "span": {
-                  "start": 23,
-                  "end": 24,
-                  "ctxt": 0
-                },
-                "decorators": [],
-                "pat": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 23,
-                    "end": 24,
-                    "ctxt": 0
-                  },
-                  "value": "b",
-                  "optional": false,
-                  "typeAnnotation": null
-                }
+                "type":"Identifier",
+                "loc":{"source":null,"start":{"line":1,"column":22},"end":{"line":1,"column":23}},
+                "range":[22,23],
+                "name":"b",
+                "typeAnnotation":null,
+                "optional":false
               }
             ],
-            "decorators": [],
-            "span": {
-              "start": 11,
-              "end": 44,
-              "ctxt": 0
-            },
-            "body": {
-              "type": "BlockStatement",
-              "span": {
-                "start": 27,
-                "end": 44,
-                "ctxt": 0
-              },
-              "stmts": [
+            "body":{
+              "type":"BlockStatement",
+              "loc":{"source":null,"start":{"line":1,"column":26},"end":{"line":1,"column":43}},
+              "range":[26,43],
+              "body":[
                 {
-                  "type": "ReturnStatement",
-                  "span": {
-                    "start": 29,
-                    "end": 42,
-                    "ctxt": 0
-                  },
-                  "argument": {
-                    "type": "BinaryExpression",
-                    "span": {
-                      "start": 36,
-                      "end": 41,
-                      "ctxt": 0
+                  "type":"ReturnStatement",
+                  "loc":{"source":null,"start":{"line":1,"column":28},"end":{"line":1,"column":41}},
+                  "range":[28,41],
+                  "argument":{
+                    "type":"BinaryExpression",
+                    "loc":{"source":null,"start":{"line":1,"column":35},"end":{"line":1,"column":40}},
+                    "range":[35,40],
+                    "operator":"+",
+                    "left":{
+                      "type":"Identifier",
+                      "loc":{"source":null,"start":{"line":1,"column":35},"end":{"line":1,"column":36}},
+                      "range":[35,36],
+                      "name":"a",
+                      "typeAnnotation":null,
+                      "optional":false
                     },
-                    "operator": "+",
-                    "left": {
-                      "type": "Identifier",
-                      "span": {
-                        "start": 36,
-                        "end": 37,
-                        "ctxt": 0
-                      },
-                      "value": "a",
-                      "optional": false
-                    },
-                    "right": {
-                      "type": "Identifier",
-                      "span": {
-                        "start": 40,
-                        "end": 41,
-                        "ctxt": 0
-                      },
-                      "value": "b",
-                      "optional": false
+                    "right":{
+                      "type":"Identifier",
+                      "loc":{"source":null,"start":{"line":1,"column":39},"end":{"line":1,"column":40}},
+                      "range":[39,40],
+                      "name":"b",
+                      "typeAnnotation":null,
+                      "optional":false
                     }
                   }
                 }
               ]
             },
-            "generator": false,
-            "async": false,
-            "typeParameters": null,
-            "returnType": null
-          },
-          "definite": false
+            "async":false,
+            "generator":false,
+            "predicate":null,
+            "expression":false,
+            "returnType":null,
+            "typeParameters":null
+          }
         }
-      ]
+      ],
+      "kind":"var"
     }
   ],
-  "interpreter": null
+  "comments":[]
 }

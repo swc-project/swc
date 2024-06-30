@@ -1,19 +1,44 @@
 {
-  "type": "Script",
-  "span": {
-    "start": 1,
-    "end": 11,
-    "ctxt": 0
-  },
-  "body": [
+  "errors":[
     {
-      "type": "EmptyStatement",
-      "span": {
-        "start": 1,
-        "end": 11,
-        "ctxt": 0
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":4}},
+      "message":"Type aliases are not allowed in untyped mode"
+    },
+    {
+      "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":0}},
+      "message":"Unexpected end of input, expected a type"
+    }
+  ],
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":10}},
+  "range":[0,10],
+  "body":[
+    {
+      "type":"TypeAlias",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":10}},
+      "range":[0,10],
+      "id":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":1,"column":5},"end":{"line":1,"column":8}},
+        "range":[5,8],
+        "name":"Foo",
+        "typeAnnotation":null,
+        "optional":false
+      },
+      "typeParameters":null,
+      "right":{
+        "type":"AnyTypeAnnotation",
+        "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":0}},
+        "range":[26,26]
       }
     }
   ],
-  "interpreter": null
+  "comments":[
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":1,"column":11},"end":{"line":1,"column":25}},
+      "range":[11,25],
+      "value":":: number "
+    }
+  ]
 }

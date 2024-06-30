@@ -1,63 +1,73 @@
 {
-  "type": "Script",
-  "span": {
-    "start": 1,
-    "end": 37,
-    "ctxt": 0
-  },
-  "body": [
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":5,"column":6}},
+  "range":[0,36],
+  "body":[
     {
-      "type": "ExpressionStatement",
-      "span": {
-        "start": 1,
-        "end": 37,
-        "ctxt": 0
-      },
-      "expression": {
-        "type": "TemplateLiteral",
-        "span": {
-          "start": 1,
-          "end": 37,
-          "ctxt": 0
-        },
-        "expressions": [
+      "type":"ExpressionStatement",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":5,"column":6}},
+      "range":[0,36],
+      "expression":{
+        "type":"TemplateLiteral",
+        "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":5,"column":6}},
+        "range":[0,36],
+        "quasis":[
           {
-            "type": "StringLiteral",
-            "span": {
-              "start": 18,
-              "end": 23,
-              "ctxt": 0
-            },
-            "value": "bar",
-            "raw": "\"bar\""
-          }
-        ],
-        "quasis": [
-          {
-            "type": "TemplateElement",
-            "span": {
-              "start": 2,
-              "end": 6,
-              "ctxt": 0
-            },
-            "tail": false,
-            "cooked": "foo ",
-            "raw": "foo "
+            "type":"TemplateElement",
+            "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":7}},
+            "range":[0,7],
+            "value":{"raw":"foo ","cooked":"foo "},
+            "tail":false
           },
           {
-            "type": "TemplateElement",
-            "span": {
-              "start": 32,
-              "end": 36,
-              "ctxt": 0
-            },
-            "tail": true,
-            "cooked": " baz",
-            "raw": " baz"
+            "type":"TemplateElement",
+            "loc":{"source":null,"start":{"line":5,"column":0},"end":{"line":5,"column":6}},
+            "range":[30,36],
+            "value":{"raw":" baz","cooked":" baz"},
+            "tail":true
+          }
+        ],
+        "expressions":[
+          {
+            "type":"Literal",
+            "trailingComments":[
+              {
+                "type":"Line",
+                "loc":{"source":null,"start":{"line":4,"column":2},"end":{"line":4,"column":6}},
+                "range":[25,29],
+                "value":" b"
+              }
+            ],
+            "leadingComments":[
+              {
+                "type":"Line",
+                "loc":{"source":null,"start":{"line":2,"column":2},"end":{"line":2,"column":6}},
+                "range":[10,14],
+                "value":" a"
+              }
+            ],
+            "loc":{"source":null,"start":{"line":3,"column":2},"end":{"line":3,"column":7}},
+            "range":[17,22],
+            "value":"bar",
+            "raw":"\"bar\""
           }
         ]
-      }
+      },
+      "directive":null
     }
   ],
-  "interpreter": null
+  "comments":[
+    {
+      "type":"Line",
+      "loc":{"source":null,"start":{"line":2,"column":2},"end":{"line":2,"column":6}},
+      "range":[10,14],
+      "value":" a"
+    },
+    {
+      "type":"Line",
+      "loc":{"source":null,"start":{"line":4,"column":2},"end":{"line":4,"column":6}},
+      "range":[25,29],
+      "value":" b"
+    }
+  ]
 }

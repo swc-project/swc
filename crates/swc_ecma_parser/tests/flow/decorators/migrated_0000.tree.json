@@ -1,156 +1,123 @@
 {
-  "type": "Script",
-  "span": {
-    "start": 1,
-    "end": 75,
-    "ctxt": 0
-  },
-  "body": [
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":2,"column":29}},
+  "range":[0,74],
+  "body":[
     {
-      "type": "FunctionDeclaration",
-      "identifier": {
-        "type": "Identifier",
-        "span": {
-          "start": 10,
-          "end": 13,
-          "ctxt": 0
-        },
-        "value": "Bar",
-        "optional": false
+      "type":"FunctionDeclaration",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":2,"column":29}},
+      "range":[0,74],
+      "id":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":1,"column":9},"end":{"line":1,"column":12}},
+        "range":[9,12],
+        "name":"Bar",
+        "typeAnnotation":null,
+        "optional":false
       },
-      "declare": false,
-      "params": [],
-      "decorators": [],
-      "span": {
-        "start": 1,
-        "end": 75,
-        "ctxt": 0
-      },
-      "body": {
-        "type": "BlockStatement",
-        "span": {
-          "start": 16,
-          "end": 75,
-          "ctxt": 0
-        },
-        "stmts": [
+      "params":[],
+      "body":{
+        "type":"BlockStatement",
+        "loc":{"source":null,"start":{"line":1,"column":15},"end":{"line":2,"column":29}},
+        "range":[15,74],
+        "body":[
           {
-            "type": "ClassDeclaration",
-            "identifier": {
-              "type": "Identifier",
-              "span": {
-                "start": 52,
-                "end": 55,
-                "ctxt": 0
-              },
-              "value": "Foo",
-              "optional": false
+            "type":"ClassDeclaration",
+            "loc":{"source":null,"start":{"line":1,"column":17},"end":{"line":2,"column":27}},
+            "range":[17,72],
+            "id":{
+              "type":"Identifier",
+              "loc":{"source":null,"start":{"line":2,"column":6},"end":{"line":2,"column":9}},
+              "range":[51,54],
+              "name":"Foo",
+              "typeAnnotation":null,
+              "optional":false
             },
-            "declare": false,
-            "span": {
-              "start": 18,
-              "end": 73,
-              "ctxt": 0
-            },
-            "decorators": [
-              {
-                "type": "Decorator",
-                "span": {
-                  "start": 18,
-                  "end": 31,
-                  "ctxt": 0
-                },
-                "expression": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 19,
-                    "end": 31,
-                    "ctxt": 0
+            "body":{
+              "type":"ClassBody",
+              "loc":{"source":null,"start":{"line":2,"column":10},"end":{"line":2,"column":27}},
+              "range":[55,72],
+              "body":[
+                {
+                  "type":"MethodDefinition",
+                  "loc":{"source":null,"start":{"line":2,"column":12},"end":{"line":2,"column":25}},
+                  "range":[57,70],
+                  "key":{
+                    "type":"Identifier",
+                    "loc":{"source":null,"start":{"line":2,"column":12},"end":{"line":2,"column":20}},
+                    "range":[57,65],
+                    "name":"myMethod",
+                    "typeAnnotation":null,
+                    "optional":false
                   },
-                  "value": "myDecorator2",
-                  "optional": false
-                }
-              },
-              {
-                "type": "Decorator",
-                "span": {
-                  "start": 32,
-                  "end": 45,
-                  "ctxt": 0
-                },
-                "expression": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 33,
-                    "end": 45,
-                    "ctxt": 0
-                  },
-                  "value": "myDecorator1",
-                  "optional": false
-                }
-              }
-            ],
-            "body": [
-              {
-                "type": "ClassMethod",
-                "span": {
-                  "start": 58,
-                  "end": 71,
-                  "ctxt": 0
-                },
-                "key": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 58,
-                    "end": 66,
-                    "ctxt": 0
-                  },
-                  "value": "myMethod",
-                  "optional": false
-                },
-                "function": {
-                  "params": [],
-                  "decorators": [],
-                  "span": {
-                    "start": 58,
-                    "end": 71,
-                    "ctxt": 0
-                  },
-                  "body": {
-                    "type": "BlockStatement",
-                    "span": {
-                      "start": 69,
-                      "end": 71,
-                      "ctxt": 0
+                  "value":{
+                    "type":"FunctionExpression",
+                    "loc":{"source":null,"start":{"line":2,"column":20},"end":{"line":2,"column":25}},
+                    "range":[65,70],
+                    "id":null,
+                    "params":[],
+                    "body":{
+                      "type":"BlockStatement",
+                      "loc":{"source":null,"start":{"line":2,"column":23},"end":{"line":2,"column":25}},
+                      "range":[68,70],
+                      "body":[]
                     },
-                    "stmts": []
+                    "async":false,
+                    "generator":false,
+                    "predicate":null,
+                    "expression":false,
+                    "returnType":null,
+                    "typeParameters":null
                   },
-                  "generator": false,
-                  "async": false,
-                  "typeParameters": null,
-                  "returnType": null
-                },
-                "kind": "method",
-                "isStatic": false,
-                "accessibility": null,
-                "isAbstract": false,
-                "isOptional": false,
-                "isOverride": false
+                  "kind":"method",
+                  "static":false,
+                  "computed":false,
+                  "decorators":[]
+                }
+              ]
+            },
+            "typeParameters":null,
+            "superClass":null,
+            "superTypeParameters":null,
+            "implements":[],
+            "decorators":[
+              {
+                "type":"Decorator",
+                "loc":{"source":null,"start":{"line":1,"column":17},"end":{"line":1,"column":30}},
+                "range":[17,30],
+                "expression":{
+                  "type":"Identifier",
+                  "loc":{"source":null,"start":{"line":1,"column":18},"end":{"line":1,"column":30}},
+                  "range":[18,30],
+                  "name":"myDecorator2",
+                  "typeAnnotation":null,
+                  "optional":false
+                }
+              },
+              {
+                "type":"Decorator",
+                "loc":{"source":null,"start":{"line":1,"column":31},"end":{"line":1,"column":44}},
+                "range":[31,44],
+                "expression":{
+                  "type":"Identifier",
+                  "loc":{"source":null,"start":{"line":1,"column":32},"end":{"line":1,"column":44}},
+                  "range":[32,44],
+                  "name":"myDecorator1",
+                  "typeAnnotation":null,
+                  "optional":false
+                }
               }
-            ],
-            "superClass": null,
-            "isAbstract": false,
-            "typeParams": null,
-            "superTypeParams": null,
-            "implements": []
+            ]
           }
         ]
       },
-      "generator": false,
-      "async": false,
-      "typeParameters": null,
-      "returnType": null
+      "async":false,
+      "generator":false,
+      "predicate":null,
+      "expression":false,
+      "returnType":null,
+      "typeParameters":null
     }
   ],
-  "interpreter": null
+  "comments":[]
 }

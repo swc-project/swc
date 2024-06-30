@@ -1,66 +1,58 @@
 {
-  "type": "Script",
-  "span": {
-    "start": 1,
-    "end": 27,
-    "ctxt": 0
-  },
-  "body": [
+  "errors":[
     {
-      "type": "FunctionDeclaration",
-      "identifier": {
-        "type": "Identifier",
-        "span": {
-          "start": 10,
-          "end": 13,
-          "ctxt": 0
-        },
-        "value": "foo",
-        "optional": false
-      },
-      "declare": false,
-      "params": [
-        {
-          "type": "Parameter",
-          "span": {
-            "start": 14,
-            "end": 23,
-            "ctxt": 0
-          },
-          "decorators": [],
-          "pat": {
-            "type": "Identifier",
-            "span": {
-              "start": 14,
-              "end": 22,
-              "ctxt": 0
-            },
-            "value": "callback",
-            "optional": false,
-            "typeAnnotation": null
-          }
-        }
-      ],
-      "decorators": [],
-      "span": {
-        "start": 1,
-        "end": 27,
-        "ctxt": 0
-      },
-      "body": {
-        "type": "BlockStatement",
-        "span": {
-          "start": 25,
-          "end": 27,
-          "ctxt": 0
-        },
-        "stmts": []
-      },
-      "generator": false,
-      "async": false,
-      "typeParameters": null,
-      "returnType": null
+      "loc":{"source":null,"start":{"line":1,"column":22},"end":{"line":1,"column":23}},
+      "message":"Unexpected token `)`, expected a type"
     }
   ],
-  "interpreter": null
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":26}},
+  "range":[0,26],
+  "body":[
+    {
+      "type":"FunctionDeclaration",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":26}},
+      "range":[0,26],
+      "id":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":1,"column":9},"end":{"line":1,"column":12}},
+        "range":[9,12],
+        "name":"foo",
+        "typeAnnotation":null,
+        "optional":false
+      },
+      "params":[
+        {
+          "type":"Identifier",
+          "loc":{"source":null,"start":{"line":1,"column":13},"end":{"line":1,"column":22}},
+          "range":[13,22],
+          "name":"callback",
+          "typeAnnotation":{
+            "type":"TypeAnnotation",
+            "loc":{"source":null,"start":{"line":1,"column":21},"end":{"line":1,"column":22}},
+            "range":[21,22],
+            "typeAnnotation":{
+              "type":"AnyTypeAnnotation",
+              "loc":{"source":null,"start":{"line":1,"column":22},"end":{"line":1,"column":23}},
+              "range":[22,23]
+            }
+          },
+          "optional":false
+        }
+      ],
+      "body":{
+        "type":"BlockStatement",
+        "loc":{"source":null,"start":{"line":1,"column":24},"end":{"line":1,"column":26}},
+        "range":[24,26],
+        "body":[]
+      },
+      "async":false,
+      "generator":false,
+      "predicate":null,
+      "expression":false,
+      "returnType":null,
+      "typeParameters":null
+    }
+  ],
+  "comments":[]
 }

@@ -1,29 +1,31 @@
 {
-  "type": "Script",
-  "span": {
-    "start": 1,
-    "end": 25,
-    "ctxt": 0
-  },
-  "body": [
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":24}},
+  "range":[0,24],
+  "body":[
     {
-      "type": "ExpressionStatement",
-      "span": {
-        "start": 1,
-        "end": 25,
-        "ctxt": 0
-      },
-      "expression": {
-        "type": "Identifier",
-        "span": {
-          "start": 1,
-          "end": 8,
-          "ctxt": 0
+      "type":"DeclareVariable",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":24}},
+      "range":[0,24],
+      "id":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":1,"column":14},"end":{"line":1,"column":23}},
+        "range":[14,23],
+        "name":"x",
+        "typeAnnotation":{
+          "type":"TypeAnnotation",
+          "loc":{"source":null,"start":{"line":1,"column":15},"end":{"line":1,"column":23}},
+          "range":[15,23],
+          "typeAnnotation":{
+            "type":"StringTypeAnnotation",
+            "loc":{"source":null,"start":{"line":1,"column":17},"end":{"line":1,"column":23}},
+            "range":[17,23]
+          }
         },
-        "value": "declare",
-        "optional": false
-      }
+        "optional":false
+      },
+      "kind":"const"
     }
   ],
-  "interpreter": null
+  "comments":[]
 }

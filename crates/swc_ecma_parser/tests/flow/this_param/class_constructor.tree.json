@@ -1,431 +1,391 @@
 {
-  "type": "Script",
-  "span": {
-    "start": 1,
-    "end": 252,
-    "ctxt": 0
-  },
-  "body": [
+  "errors":[
     {
-      "type": "ClassDeclaration",
-      "identifier": {
-        "type": "Identifier",
-        "span": {
-          "start": 7,
-          "end": 8,
-          "ctxt": 0
-        },
-        "value": "A",
-        "optional": false
-      },
-      "declare": false,
-      "span": {
-        "start": 1,
-        "end": 44,
-        "ctxt": 0
-      },
-      "decorators": [],
-      "body": [
-        {
-          "type": "Constructor",
-          "span": {
-            "start": 13,
-            "end": 42,
-            "ctxt": 0
-          },
-          "key": {
-            "type": "Identifier",
-            "span": {
-              "start": 13,
-              "end": 24,
-              "ctxt": 0
-            },
-            "value": "constructor",
-            "optional": false
-          },
-          "params": [
-            {
-              "type": "Parameter",
-              "span": {
-                "start": 25,
-                "end": 37,
-                "ctxt": 0
-              },
-              "decorators": [],
-              "pat": {
-                "type": "Identifier",
-                "span": {
-                  "start": 25,
-                  "end": 29,
-                  "ctxt": 0
-                },
-                "value": "this",
-                "optional": false,
-                "typeAnnotation": null
-              }
-            }
-          ],
-          "body": {
-            "type": "BlockStatement",
-            "span": {
-              "start": 40,
-              "end": 42,
-              "ctxt": 0
-            },
-            "stmts": []
-          },
-          "accessibility": null,
-          "isOptional": false
-        }
-      ],
-      "superClass": null,
-      "isAbstract": false,
-      "typeParams": null,
-      "superTypeParams": null,
-      "implements": []
+      "loc":{"source":null,"start":{"line":2,"column":14},"end":{"line":2,"column":26}},
+      "message":"Constructors cannot have a `this` parameter; constructors don't bind `this` like other functions."
     },
     {
-      "type": "ClassDeclaration",
-      "identifier": {
-        "type": "Identifier",
-        "span": {
-          "start": 52,
-          "end": 53,
-          "ctxt": 0
-        },
-        "value": "B",
-        "optional": false
-      },
-      "declare": false,
-      "span": {
-        "start": 46,
-        "end": 101,
-        "ctxt": 0
-      },
-      "decorators": [],
-      "body": [
-        {
-          "type": "Constructor",
-          "span": {
-            "start": 58,
-            "end": 99,
-            "ctxt": 0
-          },
-          "key": {
-            "type": "Identifier",
-            "span": {
-              "start": 58,
-              "end": 69,
-              "ctxt": 0
-            },
-            "value": "constructor",
-            "optional": false
-          },
-          "params": [
-            {
-              "type": "Parameter",
-              "span": {
-                "start": 70,
-                "end": 82,
-                "ctxt": 0
-              },
-              "decorators": [],
-              "pat": {
-                "type": "Identifier",
-                "span": {
-                  "start": 70,
-                  "end": 74,
-                  "ctxt": 0
-                },
-                "value": "this",
-                "optional": false,
-                "typeAnnotation": null
-              }
-            },
-            {
-              "type": "Parameter",
-              "span": {
-                "start": 84,
-                "end": 95,
-                "ctxt": 0
-              },
-              "decorators": [],
-              "pat": {
-                "type": "Identifier",
-                "span": {
-                  "start": 84,
-                  "end": 87,
-                  "ctxt": 0
-                },
-                "value": "bar",
-                "optional": false,
-                "typeAnnotation": null
-              }
-            }
-          ],
-          "body": {
-            "type": "BlockStatement",
-            "span": {
-              "start": 97,
-              "end": 99,
-              "ctxt": 0
-            },
-            "stmts": []
-          },
-          "accessibility": null,
-          "isOptional": false
-        }
-      ],
-      "superClass": null,
-      "isAbstract": false,
-      "typeParams": null,
-      "superTypeParams": null,
-      "implements": []
+      "loc":{"source":null,"start":{"line":6,"column":14},"end":{"line":6,"column":26}},
+      "message":"Constructors cannot have a `this` parameter; constructors don't bind `this` like other functions."
     },
     {
-      "type": "ClassDeclaration",
-      "identifier": {
-        "type": "Identifier",
-        "span": {
-          "start": 109,
-          "end": 110,
-          "ctxt": 0
-        },
-        "value": "C",
-        "optional": false
-      },
-      "declare": false,
-      "span": {
-        "start": 103,
-        "end": 183,
-        "ctxt": 0
-      },
-      "decorators": [],
-      "body": [
-        {
-          "type": "Constructor",
-          "span": {
-            "start": 115,
-            "end": 181,
-            "ctxt": 0
-          },
-          "key": {
-            "type": "Identifier",
-            "span": {
-              "start": 115,
-              "end": 126,
-              "ctxt": 0
-            },
-            "value": "constructor",
-            "optional": false
-          },
-          "params": [
-            {
-              "type": "Parameter",
-              "span": {
-                "start": 127,
-                "end": 139,
-                "ctxt": 0
-              },
-              "decorators": [],
-              "pat": {
-                "type": "Identifier",
-                "span": {
-                  "start": 127,
-                  "end": 131,
-                  "ctxt": 0
-                },
-                "value": "this",
-                "optional": false,
-                "typeAnnotation": null
-              }
-            },
-            {
-              "type": "Parameter",
-              "span": {
-                "start": 141,
-                "end": 152,
-                "ctxt": 0
-              },
-              "decorators": [],
-              "pat": {
-                "type": "Identifier",
-                "span": {
-                  "start": 141,
-                  "end": 144,
-                  "ctxt": 0
-                },
-                "value": "bar",
-                "optional": false,
-                "typeAnnotation": null
-              }
-            },
-            {
-              "type": "Parameter",
-              "span": {
-                "start": 154,
-                "end": 177,
-                "ctxt": 0
-              },
-              "decorators": [],
-              "pat": {
-                "type": "RestElement",
-                "span": {
-                  "start": 154,
-                  "end": 177,
-                  "ctxt": 0
-                },
-                "rest": {
-                  "start": 154,
-                  "end": 157,
-                  "ctxt": 0
-                },
-                "argument": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 157,
-                    "end": 161,
-                    "ctxt": 0
-                  },
-                  "value": "rest",
-                  "optional": false,
-                  "typeAnnotation": null
-                },
-                "typeAnnotation": null
-              }
-            }
-          ],
-          "body": {
-            "type": "BlockStatement",
-            "span": {
-              "start": 179,
-              "end": 181,
-              "ctxt": 0
-            },
-            "stmts": []
-          },
-          "accessibility": null,
-          "isOptional": false
-        }
-      ],
-      "superClass": null,
-      "isAbstract": false,
-      "typeParams": null,
-      "superTypeParams": null,
-      "implements": []
+      "loc":{"source":null,"start":{"line":10,"column":14},"end":{"line":10,"column":26}},
+      "message":"Constructors cannot have a `this` parameter; constructors don't bind `this` like other functions."
     },
     {
-      "type": "ClassDeclaration",
-      "identifier": {
-        "type": "Identifier",
-        "span": {
-          "start": 191,
-          "end": 192,
-          "ctxt": 0
-        },
-        "value": "D",
-        "optional": false
-      },
-      "declare": false,
-      "span": {
-        "start": 185,
-        "end": 252,
-        "ctxt": 0
-      },
-      "decorators": [],
-      "body": [
-        {
-          "type": "Constructor",
-          "span": {
-            "start": 197,
-            "end": 250,
-            "ctxt": 0
-          },
-          "key": {
-            "type": "Identifier",
-            "span": {
-              "start": 197,
-              "end": 208,
-              "ctxt": 0
-            },
-            "value": "constructor",
-            "optional": false
-          },
-          "params": [
-            {
-              "type": "Parameter",
-              "span": {
-                "start": 209,
-                "end": 221,
-                "ctxt": 0
-              },
-              "decorators": [],
-              "pat": {
-                "type": "Identifier",
-                "span": {
-                  "start": 209,
-                  "end": 213,
-                  "ctxt": 0
-                },
-                "value": "this",
-                "optional": false,
-                "typeAnnotation": null
-              }
-            },
-            {
-              "type": "Parameter",
-              "span": {
-                "start": 223,
-                "end": 246,
-                "ctxt": 0
-              },
-              "decorators": [],
-              "pat": {
-                "type": "RestElement",
-                "span": {
-                  "start": 223,
-                  "end": 246,
-                  "ctxt": 0
-                },
-                "rest": {
-                  "start": 223,
-                  "end": 226,
-                  "ctxt": 0
-                },
-                "argument": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 226,
-                    "end": 230,
-                    "ctxt": 0
-                  },
-                  "value": "rest",
-                  "optional": false,
-                  "typeAnnotation": null
-                },
-                "typeAnnotation": null
-              }
-            }
-          ],
-          "body": {
-            "type": "BlockStatement",
-            "span": {
-              "start": 248,
-              "end": 250,
-              "ctxt": 0
-            },
-            "stmts": []
-          },
-          "accessibility": null,
-          "isOptional": false
-        }
-      ],
-      "superClass": null,
-      "isAbstract": false,
-      "typeParams": null,
-      "superTypeParams": null,
-      "implements": []
+      "loc":{"source":null,"start":{"line":14,"column":14},"end":{"line":14,"column":26}},
+      "message":"Constructors cannot have a `this` parameter; constructors don't bind `this` like other functions."
     }
   ],
-  "interpreter": null
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":15,"column":1}},
+  "range":[0,251],
+  "body":[
+    {
+      "type":"ClassDeclaration",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":3,"column":1}},
+      "range":[0,43],
+      "id":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":1,"column":6},"end":{"line":1,"column":7}},
+        "range":[6,7],
+        "name":"A",
+        "typeAnnotation":null,
+        "optional":false
+      },
+      "body":{
+        "type":"ClassBody",
+        "loc":{"source":null,"start":{"line":1,"column":8},"end":{"line":3,"column":1}},
+        "range":[8,43],
+        "body":[
+          {
+            "type":"MethodDefinition",
+            "loc":{"source":null,"start":{"line":2,"column":2},"end":{"line":2,"column":31}},
+            "range":[12,41],
+            "key":{
+              "type":"Identifier",
+              "loc":{"source":null,"start":{"line":2,"column":2},"end":{"line":2,"column":13}},
+              "range":[12,23],
+              "name":"constructor",
+              "typeAnnotation":null,
+              "optional":false
+            },
+            "value":{
+              "type":"FunctionExpression",
+              "loc":{"source":null,"start":{"line":2,"column":13},"end":{"line":2,"column":31}},
+              "range":[23,41],
+              "id":null,
+              "params":[],
+              "body":{
+                "type":"BlockStatement",
+                "loc":{"source":null,"start":{"line":2,"column":29},"end":{"line":2,"column":31}},
+                "range":[39,41],
+                "body":[]
+              },
+              "async":false,
+              "generator":false,
+              "predicate":null,
+              "expression":false,
+              "returnType":null,
+              "typeParameters":null
+            },
+            "kind":"constructor",
+            "static":false,
+            "computed":false,
+            "decorators":[]
+          }
+        ]
+      },
+      "typeParameters":null,
+      "superClass":null,
+      "superTypeParameters":null,
+      "implements":[],
+      "decorators":[]
+    },
+    {
+      "type":"ClassDeclaration",
+      "loc":{"source":null,"start":{"line":5,"column":0},"end":{"line":7,"column":1}},
+      "range":[45,100],
+      "id":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":5,"column":6},"end":{"line":5,"column":7}},
+        "range":[51,52],
+        "name":"B",
+        "typeAnnotation":null,
+        "optional":false
+      },
+      "body":{
+        "type":"ClassBody",
+        "loc":{"source":null,"start":{"line":5,"column":8},"end":{"line":7,"column":1}},
+        "range":[53,100],
+        "body":[
+          {
+            "type":"MethodDefinition",
+            "loc":{"source":null,"start":{"line":6,"column":2},"end":{"line":6,"column":43}},
+            "range":[57,98],
+            "key":{
+              "type":"Identifier",
+              "loc":{"source":null,"start":{"line":6,"column":2},"end":{"line":6,"column":13}},
+              "range":[57,68],
+              "name":"constructor",
+              "typeAnnotation":null,
+              "optional":false
+            },
+            "value":{
+              "type":"FunctionExpression",
+              "loc":{"source":null,"start":{"line":6,"column":13},"end":{"line":6,"column":43}},
+              "range":[68,98],
+              "id":null,
+              "params":[
+                {
+                  "type":"Identifier",
+                  "loc":{"source":null,"start":{"line":6,"column":28},"end":{"line":6,"column":39}},
+                  "range":[83,94],
+                  "name":"bar",
+                  "typeAnnotation":{
+                    "type":"TypeAnnotation",
+                    "loc":{"source":null,"start":{"line":6,"column":31},"end":{"line":6,"column":39}},
+                    "range":[86,94],
+                    "typeAnnotation":{
+                      "type":"NumberTypeAnnotation",
+                      "loc":{"source":null,"start":{"line":6,"column":33},"end":{"line":6,"column":39}},
+                      "range":[88,94]
+                    }
+                  },
+                  "optional":false
+                }
+              ],
+              "body":{
+                "type":"BlockStatement",
+                "loc":{"source":null,"start":{"line":6,"column":41},"end":{"line":6,"column":43}},
+                "range":[96,98],
+                "body":[]
+              },
+              "async":false,
+              "generator":false,
+              "predicate":null,
+              "expression":false,
+              "returnType":null,
+              "typeParameters":null
+            },
+            "kind":"constructor",
+            "static":false,
+            "computed":false,
+            "decorators":[]
+          }
+        ]
+      },
+      "typeParameters":null,
+      "superClass":null,
+      "superTypeParameters":null,
+      "implements":[],
+      "decorators":[]
+    },
+    {
+      "type":"ClassDeclaration",
+      "loc":{"source":null,"start":{"line":9,"column":0},"end":{"line":11,"column":1}},
+      "range":[102,182],
+      "id":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":9,"column":6},"end":{"line":9,"column":7}},
+        "range":[108,109],
+        "name":"C",
+        "typeAnnotation":null,
+        "optional":false
+      },
+      "body":{
+        "type":"ClassBody",
+        "loc":{"source":null,"start":{"line":9,"column":8},"end":{"line":11,"column":1}},
+        "range":[110,182],
+        "body":[
+          {
+            "type":"MethodDefinition",
+            "loc":{"source":null,"start":{"line":10,"column":2},"end":{"line":10,"column":68}},
+            "range":[114,180],
+            "key":{
+              "type":"Identifier",
+              "loc":{"source":null,"start":{"line":10,"column":2},"end":{"line":10,"column":13}},
+              "range":[114,125],
+              "name":"constructor",
+              "typeAnnotation":null,
+              "optional":false
+            },
+            "value":{
+              "type":"FunctionExpression",
+              "loc":{"source":null,"start":{"line":10,"column":13},"end":{"line":10,"column":68}},
+              "range":[125,180],
+              "id":null,
+              "params":[
+                {
+                  "type":"Identifier",
+                  "loc":{"source":null,"start":{"line":10,"column":28},"end":{"line":10,"column":39}},
+                  "range":[140,151],
+                  "name":"bar",
+                  "typeAnnotation":{
+                    "type":"TypeAnnotation",
+                    "loc":{"source":null,"start":{"line":10,"column":31},"end":{"line":10,"column":39}},
+                    "range":[143,151],
+                    "typeAnnotation":{
+                      "type":"NumberTypeAnnotation",
+                      "loc":{"source":null,"start":{"line":10,"column":33},"end":{"line":10,"column":39}},
+                      "range":[145,151]
+                    }
+                  },
+                  "optional":false
+                },
+                {
+                  "type":"RestElement",
+                  "loc":{"source":null,"start":{"line":10,"column":41},"end":{"line":10,"column":64}},
+                  "range":[153,176],
+                  "argument":{
+                    "type":"Identifier",
+                    "loc":{"source":null,"start":{"line":10,"column":44},"end":{"line":10,"column":64}},
+                    "range":[156,176],
+                    "name":"rest",
+                    "typeAnnotation":{
+                      "type":"TypeAnnotation",
+                      "loc":{"source":null,"start":{"line":10,"column":48},"end":{"line":10,"column":64}},
+                      "range":[160,176],
+                      "typeAnnotation":{
+                        "type":"GenericTypeAnnotation",
+                        "loc":{"source":null,"start":{"line":10,"column":50},"end":{"line":10,"column":64}},
+                        "range":[162,176],
+                        "id":{
+                          "type":"Identifier",
+                          "loc":{"source":null,"start":{"line":10,"column":50},"end":{"line":10,"column":55}},
+                          "range":[162,167],
+                          "name":"Array",
+                          "typeAnnotation":null,
+                          "optional":false
+                        },
+                        "typeParameters":{
+                          "type":"TypeParameterInstantiation",
+                          "loc":{"source":null,"start":{"line":10,"column":55},"end":{"line":10,"column":64}},
+                          "range":[167,176],
+                          "params":[
+                            {
+                              "type":"BooleanTypeAnnotation",
+                              "loc":{"source":null,"start":{"line":10,"column":56},"end":{"line":10,"column":63}},
+                              "range":[168,175]
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    "optional":false
+                  }
+                }
+              ],
+              "body":{
+                "type":"BlockStatement",
+                "loc":{"source":null,"start":{"line":10,"column":66},"end":{"line":10,"column":68}},
+                "range":[178,180],
+                "body":[]
+              },
+              "async":false,
+              "generator":false,
+              "predicate":null,
+              "expression":false,
+              "returnType":null,
+              "typeParameters":null
+            },
+            "kind":"constructor",
+            "static":false,
+            "computed":false,
+            "decorators":[]
+          }
+        ]
+      },
+      "typeParameters":null,
+      "superClass":null,
+      "superTypeParameters":null,
+      "implements":[],
+      "decorators":[]
+    },
+    {
+      "type":"ClassDeclaration",
+      "loc":{"source":null,"start":{"line":13,"column":0},"end":{"line":15,"column":1}},
+      "range":[184,251],
+      "id":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":13,"column":6},"end":{"line":13,"column":7}},
+        "range":[190,191],
+        "name":"D",
+        "typeAnnotation":null,
+        "optional":false
+      },
+      "body":{
+        "type":"ClassBody",
+        "loc":{"source":null,"start":{"line":13,"column":8},"end":{"line":15,"column":1}},
+        "range":[192,251],
+        "body":[
+          {
+            "type":"MethodDefinition",
+            "loc":{"source":null,"start":{"line":14,"column":2},"end":{"line":14,"column":55}},
+            "range":[196,249],
+            "key":{
+              "type":"Identifier",
+              "loc":{"source":null,"start":{"line":14,"column":2},"end":{"line":14,"column":13}},
+              "range":[196,207],
+              "name":"constructor",
+              "typeAnnotation":null,
+              "optional":false
+            },
+            "value":{
+              "type":"FunctionExpression",
+              "loc":{"source":null,"start":{"line":14,"column":13},"end":{"line":14,"column":55}},
+              "range":[207,249],
+              "id":null,
+              "params":[
+                {
+                  "type":"RestElement",
+                  "loc":{"source":null,"start":{"line":14,"column":28},"end":{"line":14,"column":51}},
+                  "range":[222,245],
+                  "argument":{
+                    "type":"Identifier",
+                    "loc":{"source":null,"start":{"line":14,"column":31},"end":{"line":14,"column":51}},
+                    "range":[225,245],
+                    "name":"rest",
+                    "typeAnnotation":{
+                      "type":"TypeAnnotation",
+                      "loc":{"source":null,"start":{"line":14,"column":35},"end":{"line":14,"column":51}},
+                      "range":[229,245],
+                      "typeAnnotation":{
+                        "type":"GenericTypeAnnotation",
+                        "loc":{"source":null,"start":{"line":14,"column":37},"end":{"line":14,"column":51}},
+                        "range":[231,245],
+                        "id":{
+                          "type":"Identifier",
+                          "loc":{"source":null,"start":{"line":14,"column":37},"end":{"line":14,"column":42}},
+                          "range":[231,236],
+                          "name":"Array",
+                          "typeAnnotation":null,
+                          "optional":false
+                        },
+                        "typeParameters":{
+                          "type":"TypeParameterInstantiation",
+                          "loc":{"source":null,"start":{"line":14,"column":42},"end":{"line":14,"column":51}},
+                          "range":[236,245],
+                          "params":[
+                            {
+                              "type":"BooleanTypeAnnotation",
+                              "loc":{"source":null,"start":{"line":14,"column":43},"end":{"line":14,"column":50}},
+                              "range":[237,244]
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    "optional":false
+                  }
+                }
+              ],
+              "body":{
+                "type":"BlockStatement",
+                "loc":{"source":null,"start":{"line":14,"column":53},"end":{"line":14,"column":55}},
+                "range":[247,249],
+                "body":[]
+              },
+              "async":false,
+              "generator":false,
+              "predicate":null,
+              "expression":false,
+              "returnType":null,
+              "typeParameters":null
+            },
+            "kind":"constructor",
+            "static":false,
+            "computed":false,
+            "decorators":[]
+          }
+        ]
+      },
+      "typeParameters":null,
+      "superClass":null,
+      "superTypeParameters":null,
+      "implements":[],
+      "decorators":[]
+    }
+  ],
+  "comments":[]
 }

@@ -1,67 +1,60 @@
 {
-  "type": "Script",
-  "span": {
-    "start": 1,
-    "end": 35,
-    "ctxt": 0
-  },
-  "body": [
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":34}},
+  "range":[0,34],
+  "body":[
     {
-      "type": "ClassDeclaration",
-      "identifier": {
-        "type": "Identifier",
-        "span": {
-          "start": 7,
-          "end": 10,
-          "ctxt": 0
-        },
-        "value": "Foo",
-        "optional": false
+      "type":"ClassDeclaration",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":34}},
+      "range":[0,34],
+      "id":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":1,"column":6},"end":{"line":1,"column":9}},
+        "range":[6,9],
+        "name":"Foo",
+        "typeAnnotation":null,
+        "optional":false
       },
-      "declare": false,
-      "span": {
-        "start": 1,
-        "end": 35,
-        "ctxt": 0
-      },
-      "decorators": [],
-      "body": [
-        {
-          "type": "ClassProperty",
-          "span": {
-            "start": 13,
-            "end": 33,
-            "ctxt": 0
-          },
-          "key": {
-            "type": "Identifier",
-            "span": {
-              "start": 20,
-              "end": 24,
-              "ctxt": 0
+      "body":{
+        "type":"ClassBody",
+        "loc":{"source":null,"start":{"line":1,"column":10},"end":{"line":1,"column":34}},
+        "range":[10,34],
+        "body":[
+          {
+            "type":"PropertyDefinition",
+            "loc":{"source":null,"start":{"line":1,"column":12},"end":{"line":1,"column":32}},
+            "range":[12,32],
+            "key":{
+              "type":"Identifier",
+              "loc":{"source":null,"start":{"line":1,"column":19},"end":{"line":1,"column":23}},
+              "range":[19,23],
+              "name":"prop",
+              "typeAnnotation":null,
+              "optional":false
             },
-            "value": "prop",
-            "optional": false
-          },
-          "value": null,
-          "typeAnnotation": null,
-          "isStatic": true,
-          "decorators": [],
-          "accessibility": null,
-          "isAbstract": false,
-          "isOptional": false,
-          "isOverride": false,
-          "readonly": false,
-          "declare": false,
-          "definite": false
-        }
-      ],
-      "superClass": null,
-      "isAbstract": false,
-      "typeParams": null,
-      "superTypeParams": null,
-      "implements": []
+            "value":null,
+            "typeAnnotation":{
+              "type":"TypeAnnotation",
+              "loc":{"source":null,"start":{"line":1,"column":23},"end":{"line":1,"column":31}},
+              "range":[23,31],
+              "typeAnnotation":{
+                "type":"NumberTypeAnnotation",
+                "loc":{"source":null,"start":{"line":1,"column":25},"end":{"line":1,"column":31}},
+                "range":[25,31]
+              }
+            },
+            "computed":false,
+            "static":true,
+            "variance":null
+          }
+        ]
+      },
+      "superClass":null,
+      "typeParameters":null,
+      "superTypeParameters":null,
+      "implements":[],
+      "decorators":[]
     }
   ],
-  "interpreter": null
+  "comments":[]
 }

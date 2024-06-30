@@ -1,67 +1,48 @@
 {
-  "type": "Script",
-  "span": {
-    "start": 1,
-    "end": 24,
-    "ctxt": 0
-  },
-  "body": [
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":23}},
+  "range":[0,23],
+  "body":[
     {
-      "type": "IfStatement",
-      "span": {
-        "start": 1,
-        "end": 24,
-        "ctxt": 0
+      "type":"IfStatement",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":23}},
+      "range":[0,23],
+      "test":{
+        "type":"Literal",
+        "loc":{"source":null,"start":{"line":1,"column":4},"end":{"line":1,"column":8}},
+        "range":[4,8],
+        "value":true,
+        "raw":"true"
       },
-      "test": {
-        "type": "BooleanLiteral",
-        "span": {
-          "start": 5,
-          "end": 9,
-          "ctxt": 0
-        },
-        "value": true
-      },
-      "consequent": {
-        "type": "ExpressionStatement",
-        "span": {
-          "start": 11,
-          "end": 24,
-          "ctxt": 0
-        },
-        "expression": {
-          "type": "AssignmentExpression",
-          "span": {
-            "start": 11,
-            "end": 23,
-            "ctxt": 0
+      "consequent":{
+        "type":"ExpressionStatement",
+        "loc":{"source":null,"start":{"line":1,"column":10},"end":{"line":1,"column":23}},
+        "range":[10,23],
+        "expression":{
+          "type":"AssignmentExpression",
+          "loc":{"source":null,"start":{"line":1,"column":10},"end":{"line":1,"column":22}},
+          "range":[10,22],
+          "operator":"+=",
+          "left":{
+            "type":"Identifier",
+            "loc":{"source":null,"start":{"line":1,"column":10},"end":{"line":1,"column":17}},
+            "range":[10,17],
+            "name":"declare",
+            "typeAnnotation":null,
+            "optional":false
           },
-          "operator": "+=",
-          "left": {
-            "type": "Identifier",
-            "span": {
-              "start": 11,
-              "end": 18,
-              "ctxt": 0
-            },
-            "value": "declare",
-            "optional": false,
-            "typeAnnotation": null
-          },
-          "right": {
-            "type": "NumericLiteral",
-            "span": {
-              "start": 22,
-              "end": 23,
-              "ctxt": 0
-            },
-            "value": 4.0,
-            "raw": "4"
+          "right":{
+            "type":"Literal",
+            "loc":{"source":null,"start":{"line":1,"column":21},"end":{"line":1,"column":22}},
+            "range":[21,22],
+            "value":4,
+            "raw":"4"
           }
-        }
+        },
+        "directive":null
       },
-      "alternate": null
+      "alternate":null
     }
   ],
-  "interpreter": null
+  "comments":[]
 }

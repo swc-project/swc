@@ -1,66 +1,47 @@
 {
-  "type": "Script",
-  "span": {
-    "start": 48,
-    "end": 69,
-    "ctxt": 0
-  },
-  "body": [
+  "errors":[
     {
-      "type": "FunctionDeclaration",
-      "identifier": {
-        "type": "Identifier",
-        "span": {
-          "start": 57,
-          "end": 60,
-          "ctxt": 0
-        },
-        "value": "foo",
-        "optional": false
-      },
-      "declare": false,
-      "params": [
-        {
-          "type": "Parameter",
-          "span": {
-            "start": 61,
-            "end": 65,
-            "ctxt": 0
-          },
-          "decorators": [],
-          "pat": {
-            "type": "Identifier",
-            "span": {
-              "start": 61,
-              "end": 65,
-              "ctxt": 0
-            },
-            "value": "this",
-            "optional": false,
-            "typeAnnotation": null
-          }
-        }
-      ],
-      "decorators": [],
-      "span": {
-        "start": 48,
-        "end": 69,
-        "ctxt": 0
-      },
-      "body": {
-        "type": "BlockStatement",
-        "span": {
-          "start": 67,
-          "end": 69,
-          "ctxt": 0
-        },
-        "stmts": []
-      },
-      "generator": false,
-      "async": false,
-      "typeParameters": null,
-      "returnType": null
+      "loc":{"source":null,"start":{"line":2,"column":17},"end":{"line":2,"column":18}},
+      "message":"A type annotation is required for the `this` parameter."
     }
   ],
-  "interpreter": null
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":21}},
+  "range":[47,68],
+  "body":[
+    {
+      "type":"FunctionDeclaration",
+      "loc":{"source":null,"start":{"line":2,"column":0},"end":{"line":2,"column":21}},
+      "range":[47,68],
+      "id":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":2,"column":9},"end":{"line":2,"column":12}},
+        "range":[56,59],
+        "name":"foo",
+        "typeAnnotation":null,
+        "optional":false
+      },
+      "params":[],
+      "body":{
+        "type":"BlockStatement",
+        "loc":{"source":null,"start":{"line":2,"column":19},"end":{"line":2,"column":21}},
+        "range":[66,68],
+        "body":[]
+      },
+      "async":false,
+      "generator":false,
+      "predicate":null,
+      "expression":false,
+      "returnType":null,
+      "typeParameters":null
+    }
+  ],
+  "comments":[
+    {
+      "type":"Line",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":46}},
+      "range":[0,46],
+      "value":" Error - the annotation for this is required"
+    }
+  ]
 }

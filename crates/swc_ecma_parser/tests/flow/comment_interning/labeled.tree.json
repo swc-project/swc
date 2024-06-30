@@ -1,153 +1,140 @@
 {
-  "type": "Script",
-  "span": {
-    "start": 1,
-    "end": 157,
-    "ctxt": 0
-  },
-  "body": [
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":7,"column":1}},
+  "range":[0,156],
+  "body":[
     {
-      "type": "FunctionDeclaration",
-      "identifier": {
-        "type": "Identifier",
-        "span": {
-          "start": 10,
-          "end": 14,
-          "ctxt": 0
-        },
-        "value": "test",
-        "optional": false
+      "type":"FunctionDeclaration",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":7,"column":1}},
+      "range":[0,156],
+      "id":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":1,"column":9},"end":{"line":1,"column":13}},
+        "range":[9,13],
+        "name":"test",
+        "typeAnnotation":null,
+        "optional":false
       },
-      "declare": false,
-      "params": [],
-      "decorators": [],
-      "span": {
-        "start": 1,
-        "end": 157,
-        "ctxt": 0
-      },
-      "body": {
-        "type": "BlockStatement",
-        "span": {
-          "start": 17,
-          "end": 157,
-          "ctxt": 0
-        },
-        "stmts": [
+      "params":[],
+      "body":{
+        "type":"BlockStatement",
+        "loc":{"source":null,"start":{"line":1,"column":16},"end":{"line":7,"column":1}},
+        "range":[16,156],
+        "body":[
           {
-            "type": "VariableDeclaration",
-            "span": {
-              "start": 23,
-              "end": 33,
-              "ctxt": 0
-            },
-            "kind": "var",
-            "declare": false,
-            "declarations": [
+            "type":"VariableDeclaration",
+            "loc":{"source":null,"start":{"line":2,"column":4},"end":{"line":2,"column":14}},
+            "range":[22,32],
+            "declarations":[
               {
-                "type": "VariableDeclarator",
-                "span": {
-                  "start": 27,
-                  "end": 32,
-                  "ctxt": 0
+                "type":"VariableDeclarator",
+                "loc":{"source":null,"start":{"line":2,"column":8},"end":{"line":2,"column":13}},
+                "range":[26,31],
+                "id":{
+                  "type":"Identifier",
+                  "loc":{"source":null,"start":{"line":2,"column":8},"end":{"line":2,"column":9}},
+                  "range":[26,27],
+                  "name":"i",
+                  "typeAnnotation":null,
+                  "optional":false
                 },
-                "id": {
-                  "type": "Identifier",
-                  "span": {
-                    "start": 27,
-                    "end": 28,
-                    "ctxt": 0
-                  },
-                  "value": "i",
-                  "optional": false,
-                  "typeAnnotation": null
-                },
-                "init": {
-                  "type": "NumericLiteral",
-                  "span": {
-                    "start": 31,
-                    "end": 32,
-                    "ctxt": 0
-                  },
-                  "value": 0.0,
-                  "raw": "0"
-                },
-                "definite": false
+                "init":{
+                  "type":"Literal",
+                  "loc":{"source":null,"start":{"line":2,"column":12},"end":{"line":2,"column":13}},
+                  "range":[30,31],
+                  "value":0,
+                  "raw":"0"
+                }
               }
-            ]
+            ],
+            "kind":"var"
           },
           {
-            "type": "LabeledStatement",
-            "span": {
-              "start": 93,
-              "end": 155,
-              "ctxt": 0
-            },
-            "label": {
-              "type": "Identifier",
-              "span": {
-                "start": 93,
-                "end": 96,
-                "ctxt": 0
+            "type":"LabeledStatement",
+            "leadingComments":[
+              {
+                "type":"Line",
+                "loc":{"source":null,"start":{"line":3,"column":4},"end":{"line":3,"column":27}},
+                "range":[37,60],
+                "value":" 1.1 Leading on label"
               },
-              "value": "foo",
-              "optional": false
-            },
-            "body": {
-              "type": "ForStatement",
-              "span": {
-                "start": 123,
-                "end": 155,
-                "ctxt": 0
-              },
-              "init": null,
-              "test": null,
-              "update": null,
-              "body": {
-                "type": "BlockStatement",
-                "span": {
-                  "start": 132,
-                  "end": 155,
-                  "ctxt": 0
+              {
+                "type":"Block",
+                "loc":{"source":null,"start":{"line":4,"column":4},"end":{"line":4,"column":30}},
+                "range":[65,91],
+                "value":" 1.2 Leading on label "
+              }
+            ],
+            "loc":{"source":null,"start":{"line":4,"column":31},"end":{"line":6,"column":5}},
+            "range":[92,154],
+            "label":{
+              "type":"Identifier",
+              "leadingComments":[
+                {
+                  "type":"Line",
+                  "loc":{"source":null,"start":{"line":3,"column":4},"end":{"line":3,"column":27}},
+                  "range":[37,60],
+                  "value":" 1.1 Leading on label"
                 },
-                "stmts": [
+                {
+                  "type":"Block",
+                  "loc":{"source":null,"start":{"line":4,"column":4},"end":{"line":4,"column":30}},
+                  "range":[65,91],
+                  "value":" 1.2 Leading on label "
+                }
+              ],
+              "loc":{"source":null,"start":{"line":4,"column":31},"end":{"line":4,"column":34}},
+              "range":[92,95],
+              "name":"foo",
+              "typeAnnotation":null,
+              "optional":false
+            },
+            "body":{
+              "type":"ForStatement",
+              "leadingComments":[
+                {
+                  "type":"Block",
+                  "loc":{"source":null,"start":{"line":4,"column":36},"end":{"line":4,"column":60}},
+                  "range":[97,121],
+                  "value":" 1.3 Leading on for "
+                }
+              ],
+              "loc":{"source":null,"start":{"line":4,"column":61},"end":{"line":6,"column":5}},
+              "range":[122,154],
+              "init":null,
+              "test":null,
+              "update":null,
+              "body":{
+                "type":"BlockStatement",
+                "loc":{"source":null,"start":{"line":4,"column":70},"end":{"line":6,"column":5}},
+                "range":[131,154],
+                "body":[
                   {
-                    "type": "ExpressionStatement",
-                    "span": {
-                      "start": 142,
-                      "end": 149,
-                      "ctxt": 0
-                    },
-                    "expression": {
-                      "type": "AssignmentExpression",
-                      "span": {
-                        "start": 142,
-                        "end": 148,
-                        "ctxt": 0
+                    "type":"ExpressionStatement",
+                    "loc":{"source":null,"start":{"line":5,"column":8},"end":{"line":5,"column":15}},
+                    "range":[141,148],
+                    "expression":{
+                      "type":"AssignmentExpression",
+                      "loc":{"source":null,"start":{"line":5,"column":8},"end":{"line":5,"column":14}},
+                      "range":[141,147],
+                      "operator":"+=",
+                      "left":{
+                        "type":"Identifier",
+                        "loc":{"source":null,"start":{"line":5,"column":8},"end":{"line":5,"column":9}},
+                        "range":[141,142],
+                        "name":"i",
+                        "typeAnnotation":null,
+                        "optional":false
                       },
-                      "operator": "+=",
-                      "left": {
-                        "type": "Identifier",
-                        "span": {
-                          "start": 142,
-                          "end": 143,
-                          "ctxt": 0
-                        },
-                        "value": "i",
-                        "optional": false,
-                        "typeAnnotation": null
-                      },
-                      "right": {
-                        "type": "NumericLiteral",
-                        "span": {
-                          "start": 147,
-                          "end": 148,
-                          "ctxt": 0
-                        },
-                        "value": 1.0,
-                        "raw": "1"
+                      "right":{
+                        "type":"Literal",
+                        "loc":{"source":null,"start":{"line":5,"column":13},"end":{"line":5,"column":14}},
+                        "range":[146,147],
+                        "value":1,
+                        "raw":"1"
                       }
-                    }
+                    },
+                    "directive":null
                   }
                 ]
               }
@@ -155,11 +142,32 @@
           }
         ]
       },
-      "generator": false,
-      "async": false,
-      "typeParameters": null,
-      "returnType": null
+      "async":false,
+      "generator":false,
+      "predicate":null,
+      "expression":false,
+      "returnType":null,
+      "typeParameters":null
     }
   ],
-  "interpreter": null
+  "comments":[
+    {
+      "type":"Line",
+      "loc":{"source":null,"start":{"line":3,"column":4},"end":{"line":3,"column":27}},
+      "range":[37,60],
+      "value":" 1.1 Leading on label"
+    },
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":4,"column":4},"end":{"line":4,"column":30}},
+      "range":[65,91],
+      "value":" 1.2 Leading on label "
+    },
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":4,"column":36},"end":{"line":4,"column":60}},
+      "range":[97,121],
+      "value":" 1.3 Leading on for "
+    }
+  ]
 }

@@ -1,45 +1,52 @@
 {
-  "type": "Script",
-  "span": {
-    "start": 1,
-    "end": 32,
-    "ctxt": 0
-  },
-  "body": [
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":31}},
+  "range":[0,31],
+  "body":[
     {
-      "type": "FunctionDeclaration",
-      "identifier": {
-        "type": "Identifier",
-        "span": {
-          "start": 10,
-          "end": 13,
-          "ctxt": 0
-        },
-        "value": "foo",
-        "optional": false
+      "type":"FunctionDeclaration",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":31}},
+      "range":[0,31],
+      "id":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":1,"column":9},"end":{"line":1,"column":12}},
+        "range":[9,12],
+        "name":"foo",
+        "typeAnnotation":null,
+        "optional":false
       },
-      "declare": false,
-      "params": [],
-      "decorators": [],
-      "span": {
-        "start": 1,
-        "end": 32,
-        "ctxt": 0
+      "params":[],
+      "body":{
+        "type":"BlockStatement",
+        "loc":{"source":null,"start":{"line":1,"column":29},"end":{"line":1,"column":31}},
+        "range":[29,31],
+        "body":[]
       },
-      "body": {
-        "type": "BlockStatement",
-        "span": {
-          "start": 30,
-          "end": 32,
-          "ctxt": 0
-        },
-        "stmts": []
+      "async":false,
+      "generator":false,
+      "predicate":null,
+      "expression":false,
+      "returnType":{
+        "type":"TypeAnnotation",
+        "loc":{"source":null,"start":{"line":1,"column":14},"end":{"line":1,"column":27}},
+        "range":[14,27],
+        "typeAnnotation":{
+          "type":"FunctionTypeAnnotation",
+          "loc":{"source":null,"start":{"line":1,"column":17},"end":{"line":1,"column":27}},
+          "range":[17,27],
+          "params":[],
+          "this":null,
+          "returnType":{
+            "type":"VoidTypeAnnotation",
+            "loc":{"source":null,"start":{"line":1,"column":23},"end":{"line":1,"column":27}},
+            "range":[23,27]
+          },
+          "rest":null,
+          "typeParameters":null
+        }
       },
-      "generator": false,
-      "async": false,
-      "typeParameters": null,
-      "returnType": null
+      "typeParameters":null
     }
   ],
-  "interpreter": null
+  "comments":[]
 }

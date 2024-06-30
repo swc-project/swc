@@ -1,44 +1,69 @@
 {
-  "type": "Script",
-  "span": {
-    "start": 1,
-    "end": 37,
-    "ctxt": 0
-  },
-  "body": [
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":36}},
+  "range":[0,36],
+  "body":[
     {
-      "type": "VariableDeclaration",
-      "span": {
-        "start": 1,
-        "end": 37,
-        "ctxt": 0
-      },
-      "kind": "var",
-      "declare": false,
-      "declarations": [
+      "type":"VariableDeclaration",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":36}},
+      "range":[0,36],
+      "declarations":[
         {
-          "type": "VariableDeclarator",
-          "span": {
-            "start": 5,
-            "end": 37,
-            "ctxt": 0
-          },
-          "id": {
-            "type": "Identifier",
-            "span": {
-              "start": 5,
-              "end": 6,
-              "ctxt": 0
+          "type":"VariableDeclarator",
+          "loc":{"source":null,"start":{"line":1,"column":4},"end":{"line":1,"column":36}},
+          "range":[4,36],
+          "id":{
+            "type":"Identifier",
+            "loc":{"source":null,"start":{"line":1,"column":4},"end":{"line":1,"column":36}},
+            "range":[4,36],
+            "name":"a",
+            "typeAnnotation":{
+              "type":"TypeAnnotation",
+              "loc":{"source":null,"start":{"line":1,"column":5},"end":{"line":1,"column":36}},
+              "range":[5,36],
+              "typeAnnotation":{
+                "type":"UnionTypeAnnotation",
+                "loc":{"source":null,"start":{"line":1,"column":7},"end":{"line":1,"column":36}},
+                "range":[7,36],
+                "types":[
+                  {
+                    "type":"FunctionTypeAnnotation",
+                    "loc":{"source":null,"start":{"line":1,"column":8},"end":{"line":1,"column":20}},
+                    "range":[8,20],
+                    "params":[],
+                    "this":null,
+                    "returnType":{
+                      "type":"NumberTypeAnnotation",
+                      "loc":{"source":null,"start":{"line":1,"column":14},"end":{"line":1,"column":20}},
+                      "range":[14,20]
+                    },
+                    "rest":null,
+                    "typeParameters":null
+                  },
+                  {
+                    "type":"FunctionTypeAnnotation",
+                    "loc":{"source":null,"start":{"line":1,"column":24},"end":{"line":1,"column":36}},
+                    "range":[24,36],
+                    "params":[],
+                    "this":null,
+                    "returnType":{
+                      "type":"StringTypeAnnotation",
+                      "loc":{"source":null,"start":{"line":1,"column":30},"end":{"line":1,"column":36}},
+                      "range":[30,36]
+                    },
+                    "rest":null,
+                    "typeParameters":null
+                  }
+                ]
+              }
             },
-            "value": "a",
-            "optional": false,
-            "typeAnnotation": null
+            "optional":false
           },
-          "init": null,
-          "definite": false
+          "init":null
         }
-      ]
+      ],
+      "kind":"var"
     }
   ],
-  "interpreter": null
+  "comments":[]
 }

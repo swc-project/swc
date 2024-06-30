@@ -1,44 +1,101 @@
 {
-  "type": "Script",
-  "span": {
-    "start": 1,
-    "end": 34,
-    "ctxt": 0
-  },
-  "body": [
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":33}},
+  "range":[0,33],
+  "body":[
     {
-      "type": "VariableDeclaration",
-      "span": {
-        "start": 1,
-        "end": 34,
-        "ctxt": 0
-      },
-      "kind": "var",
-      "declare": false,
-      "declarations": [
+      "type":"VariableDeclaration",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":33}},
+      "range":[0,33],
+      "declarations":[
         {
-          "type": "VariableDeclarator",
-          "span": {
-            "start": 5,
-            "end": 34,
-            "ctxt": 0
-          },
-          "id": {
-            "type": "Identifier",
-            "span": {
-              "start": 5,
-              "end": 6,
-              "ctxt": 0
+          "type":"VariableDeclarator",
+          "loc":{"source":null,"start":{"line":1,"column":4},"end":{"line":1,"column":33}},
+          "range":[4,33],
+          "id":{
+            "type":"Identifier",
+            "loc":{"source":null,"start":{"line":1,"column":4},"end":{"line":1,"column":33}},
+            "range":[4,33],
+            "name":"a",
+            "typeAnnotation":{
+              "type":"TypeAnnotation",
+              "loc":{"source":null,"start":{"line":1,"column":5},"end":{"line":1,"column":33}},
+              "range":[5,33],
+              "typeAnnotation":{
+                "type":"ObjectTypeAnnotation",
+                "loc":{"source":null,"start":{"line":1,"column":7},"end":{"line":1,"column":33}},
+                "range":[7,33],
+                "exact":false,
+                "inexact":false,
+                "properties":[
+                  {
+                    "type":"ObjectTypeProperty",
+                    "loc":{"source":null,"start":{"line":1,"column":8},"end":{"line":1,"column":32}},
+                    "range":[8,32],
+                    "key":{
+                      "type":"Identifier",
+                      "loc":{"source":null,"start":{"line":1,"column":8},"end":{"line":1,"column":14}},
+                      "range":[8,14],
+                      "name":"subObj",
+                      "typeAnnotation":null,
+                      "optional":false
+                    },
+                    "value":{
+                      "type":"ObjectTypeAnnotation",
+                      "loc":{"source":null,"start":{"line":1,"column":16},"end":{"line":1,"column":32}},
+                      "range":[16,32],
+                      "exact":false,
+                      "inexact":false,
+                      "properties":[
+                        {
+                          "type":"ObjectTypeProperty",
+                          "loc":{"source":null,"start":{"line":1,"column":17},"end":{"line":1,"column":31}},
+                          "range":[17,31],
+                          "key":{
+                            "type":"Identifier",
+                            "loc":{"source":null,"start":{"line":1,"column":17},"end":{"line":1,"column":23}},
+                            "range":[17,23],
+                            "name":"strVal",
+                            "typeAnnotation":null,
+                            "optional":false
+                          },
+                          "value":{
+                            "type":"StringTypeAnnotation",
+                            "loc":{"source":null,"start":{"line":1,"column":25},"end":{"line":1,"column":31}},
+                            "range":[25,31]
+                          },
+                          "method":false,
+                          "optional":false,
+                          "static":false,
+                          "proto":false,
+                          "variance":null,
+                          "kind":"init"
+                        }
+                      ],
+                      "indexers":[],
+                      "callProperties":[],
+                      "internalSlots":[]
+                    },
+                    "method":false,
+                    "optional":false,
+                    "static":false,
+                    "proto":false,
+                    "variance":null,
+                    "kind":"init"
+                  }
+                ],
+                "indexers":[],
+                "callProperties":[],
+                "internalSlots":[]
+              }
             },
-            "value": "a",
-            "optional": false,
-            "typeAnnotation": null
+            "optional":false
           },
-          "init": null,
-          "definite": false
+          "init":null
         }
-      ]
+      ],
+      "kind":"var"
     }
   ],
-  "interpreter": null
+  "comments":[]
 }
