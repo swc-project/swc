@@ -1,0 +1,37 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 65,
+    "end": 95,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 71,
+          "end": 74,
+          "ctxt": 0
+        },
+        "value": "Foo",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 65,
+        "end": 95,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    }
+  ],
+  "interpreter": null
+}

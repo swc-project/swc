@@ -1,0 +1,61 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 64,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 7,
+          "end": 10,
+          "ctxt": 0
+        },
+        "value": "Foo",
+        "optional": false
+      },
+      "declare": false,
+      "span": {
+        "start": 1,
+        "end": 64,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [],
+      "superClass": {
+        "type": "ClassExpression",
+        "identifier": {
+          "type": "Identifier",
+          "span": {
+            "start": 25,
+            "end": 28,
+            "ctxt": 0
+          },
+          "value": "Bar",
+          "optional": false
+        },
+        "span": {
+          "start": 19,
+          "end": 46,
+          "ctxt": 0
+        },
+        "decorators": [],
+        "body": [],
+        "superClass": null,
+        "isAbstract": false,
+        "typeParams": null,
+        "superTypeParams": null,
+        "implements": []
+      },
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
+    }
+  ],
+  "interpreter": null
+}
