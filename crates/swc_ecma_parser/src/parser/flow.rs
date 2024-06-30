@@ -612,13 +612,12 @@ where
                 } else {
                     let mut kind = MethodKind::Method;
 
-                    if is_contextual!(p, "get") || is_contextual!(p, "set") {
-                        if p.input
+                    if (is_contextual!(p, "get") || is_contextual!(p, "set"))
+                        && p.input
                             .peek()
                             .map(token_is_literal_property_name)
                             .unwrap_or_default()
-                        {}
-                    }
+                    {}
 
                     let prop_or_inexact = p.consume_flow_object_type_property(
                         (),
@@ -834,7 +833,7 @@ where
         }
 
         expect!(self, ')');
-        let _return_type = self.consume_flow_type()?;
+        let _return_type = self.consume_flow_type_init(None)?;
 
         Ok(())
     }
