@@ -285,6 +285,8 @@ where
             return self.consume_flow_type();
         }
 
+        dbg!(self.input.cur());
+
         if eat!(self, '(') {
             // Check to see if this is actually a grouped type
             if !is!(self, ')') && !is!(self, "...") {
@@ -421,6 +423,7 @@ where
     }
 
     /// Ported from babel
+    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
     fn consume_flow_type_param_instantiation(&mut self) -> PResult<()> {
         let ctx = Context {
             flow_no_anon_function_type: false,
@@ -651,6 +654,7 @@ where
         })
     }
 
+    /// Ported from `flowParseObjectTypeProperty`
     fn consume_flow_object_type_property(
         &mut self,
         node: (),
@@ -792,6 +796,7 @@ where
     }
 
     /// Ported from `flowParseObjectTypeCallProperty`
+    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
     fn consume_flow_object_type_call_property(&mut self, node: (), is_static: bool) -> PResult<()> {
         let value_node = ();
 
@@ -800,6 +805,7 @@ where
     }
 
     /// Ported from `flowParseObjectTypeMethodish`
+    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
     fn consume_flow_object_type_methodish(&mut self, node: ()) -> PResult<()> {
         if is!(self, '<') {
             self.consume_flow_type_param_decl()?;
@@ -834,6 +840,7 @@ where
     }
 
     /// Ported from `flowParseObjectTypeInternalSlot`
+    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
     fn consume_flow_object_type_interanl_slot(&mut self, node: (), is_static: bool) -> PResult<()> {
         // Note: both bracketL have already been consumed
         let id = self.consume_flow_object_property_key()?;
@@ -884,6 +891,7 @@ where
         })
     }
 
+    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
     pub(super) fn may_consume_flow_expr_stmt(&mut self, ident: Ident) -> PResult<()> {
         let start = self.input.cur_pos();
 
@@ -906,6 +914,7 @@ where
         Ok(())
     }
 
+    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
     fn consume_flow_declare(&mut self, start: BytePos) -> PResult<()> {
         eat!(self, "export");
 
@@ -944,6 +953,7 @@ where
         Ok(())
     }
 
+    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
     pub(super) fn consume_flow_export(&mut self, start: BytePos) -> PResult<Option<()>> {
         if is!(self, "opaque") {
             self.consume_flow_opaque_type(start)?;
@@ -958,6 +968,7 @@ where
         Ok(None)
     }
 
+    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
     pub(super) fn consume_flow_opaque_type(&mut self, start: BytePos) -> PResult<()> {
         eat!(self, "opaque");
 
