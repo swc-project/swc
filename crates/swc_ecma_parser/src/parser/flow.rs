@@ -248,6 +248,8 @@ where
 
     /// Ported from babel
     fn consume_flow_primary_type(&mut self) -> PResult<()> {
+        trace_cur!(self, consume_flow_primary_type);
+
         let mut is_grouped_type = false;
 
         if is!(self, '{') {
@@ -382,6 +384,8 @@ where
 
     /// Ported from babel
     fn parse_flow_ident_to_type_ann(&mut self, ident: Ident) -> PResult<()> {
+        trace_cur!(self, parse_flow_ident_to_type_ann);
+
         match &*ident.sym {
             "any" | "bool" | "boolean" | "empty" | "mixed" | "number" | "string" | "symbol" => {
                 Ok(())
@@ -397,6 +401,8 @@ where
 
     /// Ported from babel
     fn consume_flow_generic_type(&mut self) -> PResult<()> {
+        trace_cur!(self, consume_flow_generic_type);
+
         self.consume_flow_qualified_type_identifier(None)?;
 
         if is!(self, '<') {
