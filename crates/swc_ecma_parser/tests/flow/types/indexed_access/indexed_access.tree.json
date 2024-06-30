@@ -26,56 +26,16 @@
       "type": "EmptyStatement",
       "span": {
         "start": 21,
-        "end": 35,
+        "end": 51,
         "ctxt": 0
       }
     },
     {
-      "type": "ExpressionStatement",
+      "type": "EmptyStatement",
       "span": {
-        "start": 35,
+        "start": 51,
         "end": 52,
         "ctxt": 0
-      },
-      "expression": {
-        "type": "BinaryExpression",
-        "span": {
-          "start": 42,
-          "end": 51,
-          "ctxt": 0
-        },
-        "operator": ">",
-        "left": {
-          "type": "Invalid",
-          "span": {
-            "start": 42,
-            "end": 43,
-            "ctxt": 0
-          }
-        },
-        "right": {
-          "type": "ArrayExpression",
-          "span": {
-            "start": 43,
-            "end": 51,
-            "ctxt": 0
-          },
-          "elements": [
-            {
-              "spread": null,
-              "expression": {
-                "type": "Identifier",
-                "span": {
-                  "start": 44,
-                  "end": 50,
-                  "ctxt": 0
-                },
-                "value": "number",
-                "optional": false
-              }
-            }
-          ]
-        }
       }
     },
     {
