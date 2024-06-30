@@ -611,24 +611,35 @@ where
     fn consume_flow_declare(&mut self, start: BytePos) -> PResult<()> {
         eat!(self, "export");
 
-        if is!(self, "class") {
-            let class_start = self.input.cur_pos();
-            self.parse_class_decl(start, class_start, vec![], false)?;
+        let ctx = Context {
+            in_declare: true,
+            ..self.ctx()
+        };
+        let mut p = self.with_ctx(ctx);
+
+        if is!(p, "class") {
+            let class_start = p.input.cur_pos();
+            p.parse_class_decl(start, class_start, vec![], false)?;
             return Ok(());
         }
 
-        if is!(self, "function") {
-            self.parse_fn_decl(vec![])?;
+        if is!(p, "function") {
+            p.parse_fn_decl(vec![])?;
             return Ok(());
         }
 
-        if is!(self, "opaque") {
-            self.consume_flow_opaque_type(start)?;
+        if is!(p, "opaque") {
+            p.consume_flow_opaque_type(start)?;
             return Ok(());
         }
 
-        if is!(self, "type") {
-            self.consume_flow_type_alias()?;
+        if is!(p, "type") {
+            p.consume_flow_type_alias()?;
+            return Ok(());
+        }
+
+        if is_one_of!(p, "var", "const", "let") {
+            p.parse_var_stmt(false)?;
             return Ok(());
         }
 
