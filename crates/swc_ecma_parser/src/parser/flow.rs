@@ -566,7 +566,7 @@ where
             return Ok(());
         }
 
-        if is!(self, "opaque") {
+        if eat!(self, "opaque") {
             self.consume_flow_opaque_type(start)?;
             return Ok(());
         }
