@@ -298,6 +298,15 @@ pub enum SyntaxError {
     FlowReservedWordInType {
         word: JsWord,
     },
+    FlowInexactInsideNonObject,
+    FlowInexactInsideExact,
+    FlowInexactVariance,
+    FlowUnexpectedSpreadType,
+    FlowUnexpectedProtoSpread,
+    FlowSpreadVariance,
+    FlowUnexpectedProtoMethod,
+    FlowMethodVariance,
+    FlowUnexpectedGetterSetter,
 }
 
 impl SyntaxError {
@@ -772,6 +781,23 @@ impl SyntaxError {
             }
             SyntaxError::FlowReservedWordInType { ref word } => {
                 format!("Cannot use a reserved word as a type name: '{}'", word).into()
+            }
+            SyntaxError::FlowInexactInsideNonObject => {
+                "Inexact type can only be used with object type".into()
+            }
+            SyntaxError::FlowInexactInsideExact => {
+                "Exact type can only be used with object type".into()
+            }
+            SyntaxError::FlowInexactVariance => "Inexact type cannot have variance".into(),
+            SyntaxError::FlowUnexpectedSpreadType => "Unexpected spread type".into(),
+            SyntaxError::FlowUnexpectedProtoSpread => {
+                "Unexpected spread of prototype property".into()
+            }
+            SyntaxError::FlowSpreadVariance => "Spread type cannot have variance".into(),
+            SyntaxError::FlowUnexpectedProtoMethod => "Unexpected prototype method".into(),
+            SyntaxError::FlowMethodVariance => "Method cannot have variance".into(),
+            SyntaxError::FlowUnexpectedGetterSetter => {
+                "Unexpected getter or setter in object type".into()
             }
         }
     }
