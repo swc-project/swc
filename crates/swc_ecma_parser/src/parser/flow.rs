@@ -570,7 +570,7 @@ where
             return Ok(());
         }
 
-        if eat!(self, "opaque") {
+        if is!(self, "opaque") {
             self.consume_flow_opaque_type(start)?;
             return Ok(());
         }
@@ -584,7 +584,7 @@ where
     }
 
     fn consume_flow_export(&mut self, start: BytePos) -> PResult<()> {
-        if eat!(self, "opaque") {
+        if is!(self, "opaque") {
             self.consume_flow_opaque_type(start)?;
             return Ok(());
         }
@@ -598,6 +598,8 @@ where
     }
 
     fn consume_flow_opaque_type(&mut self, start: BytePos) -> PResult<()> {
+        assert_and_bump!(self, "opaque");
+
         if is!(self, "type") {
             self.consume_flow_type_alias()?;
             return Ok(());
