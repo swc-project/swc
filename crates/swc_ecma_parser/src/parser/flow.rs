@@ -88,12 +88,12 @@ where
         })
     }
 
-    pub(super) fn consume_flow_variance(&mut self) -> PResult<()> {
-        if !eat!(self, '+') {
-            eat!(self, '-');
+    pub(super) fn consume_flow_variance(&mut self) -> PResult<Option<()>> {
+        if eat!(self, '+') || eat!(self, '-') {
+            return Ok(Some(()));
         }
 
-        Ok(())
+        Ok(None)
     }
 
     /// Ported from babel
@@ -522,6 +522,7 @@ where
         Ok(())
     }
 
+    /// Ported from `flowParseObjectType`
     fn consume_flow_object_type(
         &mut self,
         allow_static: bool,
@@ -531,8 +532,96 @@ where
         allow_inexact: bool,
     ) -> PResult<()> {
         self.in_type().parse_with(|p| {
-            // TODO: 'BraceBarL'
-            todo!("consume_flow_object_type")
+            let mut end_delim;
+            let mut exact;
+            let mut inexact = false;
+
+            if allow_exact {
+                todo!("consume_flow_object_type: allow_exact");
+            } else {
+                expect!(p, '{');
+                end_delim = tok!('}');
+                exact = false;
+            }
+
+            while !p.input.is(&end_delim) {
+                let mut is_static = false;
+                let mut proto_start_loc = None;
+                let mut inexact_start_loc: Option<BytePos> = None;
+
+                if allow_proto && is_contextual!(p, "proto") {
+                    if !peeked_is!(p, ':') && !peeked_is!(p, '?') {
+                        bump!(p);
+                        allow_static = false;
+                        proto_start_loc = Some(p.input.cur_pos());
+                    }
+                }
+
+                if allow_static && is_contextual!(p, "static") {
+                    if !peeked_is!(p, ':') && !peeked_is!(p, '?') {
+                        bump!(p);
+                    }
+                    is_static = true;
+                }
+
+                let variance = p.consume_flow_variance()?;
+
+                if eat!(self, '[') {
+                    if proto_start_loc.is_some() {
+                        unexpected!(self, "[ after proto")
+                    }
+
+                    if eat!(self, '[') {
+                        if variance.is_some() {
+                            unexpected!(self, "[[ after variance")
+                        }
+
+                        self.consume_flow_object_type_interanl_slot(node, is_static)?;
+                    } else {
+                        self.parse_flow_object_indexer(node, is_static, variance)?
+                    }
+                } else if is_one_of!(self, '(', '<') {
+                    if proto_start_loc.is_some() {
+                        unexpected!(self, "( after proto")
+                    }
+
+                    if variance.is_some() {
+                        unexpected!(self, "( after variance")
+                    }
+
+                    self.consume_flow_object_type_call_property(node, is_static)?;
+                } else {
+                    // let mut kind = "init";
+
+                    // if is_contextual!(self, "get") || is_contextual!(self, "set") {
+                    //     if self
+                    //         .input
+                    //         .peek()
+                    //         .map(token_is_literal_property_name)
+                    //         .unwrap_or_default()
+                    //     {
+                    //         kind = bump!(self).value;
+                    //     }
+                    // }
+
+                    todo!("consume_flow_object_type: kind");
+                }
+
+                self.consume_flow_object_type_semicolon()?;
+
+                // if inexact_start_loc && !is!(self, '}') && !is!(self, "|}") {
+                //     self.emit_err(
+                //         inexact_start_loc,
+                //         SyntaxError::FlowUnexpectedExplicitInexactInObject,
+                //     )
+                // }
+            }
+
+            if !self.input.eat(&end_delim) {
+                unexpected!(self, "end delimiter of object type")
+            }
+
+            Ok(())
         })
     }
 

@@ -136,6 +136,7 @@ define_known_ident!(
     Public => "public",
     Opaque => "opaque",
     Renders => "renders",
+    Proto => "proto",
 );
 
 impl std::str::FromStr for KnownIdent {

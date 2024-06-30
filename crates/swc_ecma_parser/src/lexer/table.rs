@@ -202,6 +202,7 @@ const L_P: ByteHandler = Some(|lexer| {
         "package" => Some(Word::Ident(IdentLike::Known(KnownIdent::Package))),
         "protected" => Some(Word::Ident(IdentLike::Known(KnownIdent::Protected))),
         "private" => Some(Word::Ident(IdentLike::Known(KnownIdent::Private))),
+        "proto" => Some(Word::Ident(IdentLike::Known(KnownIdent::Proto))),
         _ => None,
     })
 });
