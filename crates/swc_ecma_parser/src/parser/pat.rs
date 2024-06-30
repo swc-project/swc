@@ -17,7 +17,10 @@ impl<I: Tokens> Parser<I> {
     pub(super) fn parse_opt_binding_ident(&mut self) -> PResult<Option<BindingIdent>> {
         trace_cur!(self, parse_opt_binding_ident);
 
-        if is!(self, BindingIdent) || (self.input.syntax().typescript() && is!(self, "this")) {
+        if is!(self, BindingIdent)
+            || ((self.input.syntax().typescript() || self.input.syntax().flow())
+                && is!(self, "this"))
+        {
             self.parse_binding_ident().map(Some)
         } else {
             Ok(None)
