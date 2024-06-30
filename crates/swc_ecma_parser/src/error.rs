@@ -295,6 +295,9 @@ pub enum SyntaxError {
 
     FlowThisParamMustBeFirst,
     FlowThisParamCannotBeOptional,
+    FlowReservedWordInType {
+        word: JsWord,
+    },
 }
 
 impl SyntaxError {
@@ -766,6 +769,9 @@ impl SyntaxError {
             }
             SyntaxError::FlowThisParamCannotBeOptional => {
                 "The 'this' parameter cannot be optional".into()
+            }
+            SyntaxError::FlowReservedWordInType { ref word } => {
+                format!("Cannot use a reserved word as a type name: '{}'", word).into()
             }
         }
     }
