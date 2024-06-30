@@ -271,11 +271,11 @@ where
                     //     this.reinterpretTypeAsFunctionTypeParam(type),
                     // ]);
                 } else {
-                    self.consume_flow_function_type_parmas()?;
+                    self.consume_flow_function_type_params()?;
                 }
             }
 
-            self.consume_flow_function_type_parmas()?;
+            self.consume_flow_function_type_params()?;
 
             expect!(self, ')');
             expect!(self, "=>");
@@ -381,8 +381,55 @@ where
         Ok(())
     }
 
-    fn consume_flow_function_type_parmas(&mut self) -> PResult<()> {
-        todo!("consume_flow_function_type_parmas")
+    /// Ported from `flowParseFunctionTypeParams`
+    fn consume_flow_function_type_params(&mut self) -> PResult<()> {
+        if is!(self, "this") {
+            self.consume_flow_function_type_param(true)?;
+
+            if is!(self, ')') {
+                expect!(self, ',');
+            }
+        }
+
+        while !eof!(self) && !is!(self, ')') && !is!(self, "...") {
+            self.consume_flow_function_type_param(false)?;
+
+            if !is!(self, ')') {
+                expect!(self, ',');
+            }
+        }
+
+        if eat!(self, "...") {
+            self.consume_flow_function_type_param(false)?;
+        }
+
+        Ok(())
+    }
+
+    /// Ported from `flowParseFunctionTypeParam`
+    fn consume_flow_function_type_param(&mut self, first: bool) -> PResult<()> {
+        let is_this = is!(self, "this");
+
+        if peeked_is!(self, ':') || peeked_is!(self, '?') {
+            if is_this && !first {
+                self.emit_err(self.input.cur_span(), SyntaxError::FlowThisParamMustBeFirst);
+            }
+
+            let _name = self.parse_ident(is_this, is_this)?;
+
+            if eat!(self, '?') && is_this {
+                self.emit_err(
+                    self.input.cur_span(),
+                    SyntaxError::FlowThisParamCannotBeOptional,
+                );
+            }
+
+            self.consume_flow_type_init(None)?;
+        } else {
+            self.consume_flow_type()?;
+        }
+
+        Ok(())
     }
 
     fn consume_flow_type_params(&mut self) -> PResult<()> {
