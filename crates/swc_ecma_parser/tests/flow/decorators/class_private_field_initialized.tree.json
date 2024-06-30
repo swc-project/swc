@@ -1,72 +1,101 @@
 {
-  "type":"Program",
-  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":3,"column":1}},
-  "range":[0,28],
-  "body":[
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 29,
+    "ctxt": 0
+  },
+  "body": [
     {
-      "type":"ClassDeclaration",
-      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":3,"column":1}},
-      "range":[0,28],
-      "id":{
-        "type":"Identifier",
-        "loc":{"source":null,"start":{"line":1,"column":6},"end":{"line":1,"column":7}},
-        "range":[6,7],
-        "name":"C",
-        "typeAnnotation":null,
-        "optional":false
+      "type": "ClassDeclaration",
+      "identifier": {
+        "type": "Identifier",
+        "span": {
+          "start": 7,
+          "end": 8,
+          "ctxt": 0
+        },
+        "value": "C",
+        "optional": false
       },
-      "body":{
-        "type":"ClassBody",
-        "loc":{"source":null,"start":{"line":1,"column":8},"end":{"line":3,"column":1}},
-        "range":[8,28],
-        "body":[
-          {
-            "type":"PropertyDefinition",
-            "loc":{"source":null,"start":{"line":2,"column":2},"end":{"line":2,"column":16}},
-            "range":[12,26],
-            "key":{
-              "type":"PrivateIdentifier",
-              "loc":{"source":null,"start":{"line":2,"column":7},"end":{"line":2,"column":11}},
-              "range":[17,21],
-              "name":"bar",
-              "typeAnnotation":null,
-              "optional":false
+      "declare": false,
+      "span": {
+        "start": 1,
+        "end": 29,
+        "ctxt": 0
+      },
+      "decorators": [],
+      "body": [
+        {
+          "type": "PrivateProperty",
+          "span": {
+            "start": 13,
+            "end": 27,
+            "ctxt": 0
+          },
+          "key": {
+            "type": "PrivateName",
+            "span": {
+              "start": 18,
+              "end": 22,
+              "ctxt": 0
             },
-            "value":{
-              "type":"Literal",
-              "loc":{"source":null,"start":{"line":2,"column":14},"end":{"line":2,"column":15}},
-              "range":[24,25],
-              "value":1,
-              "raw":"1"
+            "id": {
+              "type": "Identifier",
+              "span": {
+                "start": 19,
+                "end": 22,
+                "ctxt": 0
+              },
+              "value": "bar",
+              "optional": false
+            }
+          },
+          "value": {
+            "type": "NumericLiteral",
+            "span": {
+              "start": 25,
+              "end": 26,
+              "ctxt": 0
             },
-            "typeAnnotation":null,
-            "computed":false,
-            "static":false,
-            "variance":null,
-            "decorators":[
-              {
-                "type":"Decorator",
-                "loc":{"source":null,"start":{"line":2,"column":2},"end":{"line":2,"column":6}},
-                "range":[12,16],
-                "expression":{
-                  "type":"Identifier",
-                  "loc":{"source":null,"start":{"line":2,"column":3},"end":{"line":2,"column":6}},
-                  "range":[13,16],
-                  "name":"foo",
-                  "typeAnnotation":null,
-                  "optional":false
-                }
+            "value": 1.0,
+            "raw": "1"
+          },
+          "typeAnnotation": null,
+          "isStatic": false,
+          "decorators": [
+            {
+              "type": "Decorator",
+              "span": {
+                "start": 13,
+                "end": 17,
+                "ctxt": 0
+              },
+              "expression": {
+                "type": "Identifier",
+                "span": {
+                  "start": 14,
+                  "end": 17,
+                  "ctxt": 0
+                },
+                "value": "foo",
+                "optional": false
               }
-            ]
-          }
-        ]
-      },
-      "typeParameters":null,
-      "superClass":null,
-      "superTypeParameters":null,
-      "implements":[],
-      "decorators":[]
+            }
+          ],
+          "accessibility": null,
+          "isOptional": false,
+          "isOverride": false,
+          "readonly": false,
+          "definite": false
+        }
+      ],
+      "superClass": null,
+      "isAbstract": false,
+      "typeParams": null,
+      "superTypeParams": null,
+      "implements": []
     }
   ],
-  "comments":[]
+  "interpreter": null
 }
