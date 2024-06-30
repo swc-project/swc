@@ -1,4 +1,4 @@
-// #![cfg(feature = "flow")]
+#![cfg(feature = "flow")]
 #![allow(clippy::needless_update)]
 
 use std::{
@@ -92,7 +92,7 @@ fn run_spec(file: &Path) {
         Ok(())
     });
 
-    if spec.errors.is_empty() {
+    if !spec.errors.is_empty() {
         if result.is_ok() {
             panic!("test passed but it should have failed")
         }
