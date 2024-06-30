@@ -1,4 +1,4 @@
-#![cfg(feature = "flow")]
+// #![cfg(feature = "flow")]
 #![allow(clippy::needless_update)]
 
 use std::{
@@ -7,6 +7,7 @@ use std::{
     path::{Path, PathBuf},
 };
 
+use serde::Deserialize;
 use swc_common::{comments::SingleThreadedComments, FileName};
 use swc_ecma_ast::*;
 use swc_ecma_parser::{lexer::Lexer, EsSyntax, FlowSyntax, PResult, Parser, Syntax};
@@ -14,14 +15,47 @@ use testing::StdErr;
 
 #[testing::fixture("tests/flow/**/*.js")]
 fn spec(file: PathBuf) {
-    let output = file.parent().unwrap().join(format!(
+    run_spec(&file);
+}
+
+#[derive(Debug, Deserialize)]
+struct Spec {
+    #[serde(default)]
+    errors: Vec<SpecError>,
+}
+
+#[derive(Debug, Deserialize)]
+struct SpecError {
+    #[serde(default)]
+    start: SpecLoc,
+    #[serde(default)]
+    end: SpecLoc,
+}
+
+#[derive(Debug, Default, Deserialize)]
+struct SpecLoc {}
+
+impl Spec {
+    fn read(file: &Path) -> Self {
+        let mut buf = String::new();
+        File::open(file).unwrap().read_to_string(&mut buf).unwrap();
+
+        serde_json::from_str(&buf).unwrap()
+    }
+}
+
+fn run_spec(file: &Path) {
+    let spec_json = file.parent().unwrap().join(format!(
         "{}.tree.json",
         file.file_stem().unwrap().to_string_lossy()
     ));
-    run_spec(&file, &output);
-}
+    let output_json = file.parent().unwrap().join(format!(
+        "{}.output.json",
+        file.file_stem().unwrap().to_string_lossy()
+    ));
 
-fn run_spec(file: &Path, output_json: &Path) {
+    let spec = Spec::read(&spec_json);
+
     let file_name = file
         .display()
         .to_string()
@@ -58,7 +92,7 @@ fn run_spec(file: &Path, output_json: &Path) {
         Ok(())
     });
 
-    if file_name.contains("invalid") {
+    if spec.errors.is_empty() {
         if result.is_ok() {
             panic!("test passed but it should have failed")
         }
