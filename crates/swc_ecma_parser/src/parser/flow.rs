@@ -26,6 +26,7 @@ where
     }
 
     /// Ported from `flowParseTypeParameterDeclaration`
+    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
     pub(super) fn consume_flow_type_param_decl(&mut self) -> PResult<()> {
         trace_cur!(self, consume_flow_type_param_decl);
 
@@ -63,6 +64,7 @@ where
     }
 
     /// Ported from `flowParseTypeParameter`
+    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
     fn consume_flow_type_param(&mut self, require_default: bool) -> PResult<FlowTypeParam> {
         self.consume_flow_variance()?;
 
@@ -97,6 +99,7 @@ where
     }
 
     /// Ported from `flowParseTypeAnnotatableIdentifier`
+    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
     pub(super) fn consume_flow_type_annotatable_identifier(
         &mut self,
         allow_primitive_override: bool,
@@ -175,6 +178,7 @@ where
     }
 
     /// Ported from babel
+    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
     pub(super) fn consume_flow_type(&mut self) -> PResult<()> {
         trace_cur!(self, consume_flow_type);
 
@@ -184,7 +188,7 @@ where
     }
 
     /// Ported from babel
-    pub(super) fn consume_flow_union_type(&mut self) -> PResult<()> {
+    fn consume_flow_union_type(&mut self) -> PResult<()> {
         eat!(self, '|');
 
         self.consume_intersection_type()?;
@@ -532,6 +536,7 @@ where
     }
 
     /// Ported from `flowParseObjectType`
+    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
     fn consume_flow_object_type(
         &mut self,
         mut allow_static: bool,
@@ -729,6 +734,7 @@ where
     }
 
     /// Ported from `flowParseObjectTypeIndexer`
+    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
     fn parse_flow_object_type_indexer(
         &mut self,
         node: (),
@@ -750,6 +756,7 @@ where
     }
 
     /// Ported from `flowParseObjectPropertyKey`
+    #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
     fn consume_flow_object_property_key(&mut self) -> PResult<()> {
         if is_one_of!(self, Str, Num) {
             self.input.bump();
