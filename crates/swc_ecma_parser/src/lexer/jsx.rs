@@ -27,7 +27,7 @@ impl<'a> Lexer<'a> {
 
                     self.emit_error_span(span, SyntaxError::TS1185);
                     self.skip_line_comment(6);
-                    self.skip_space::<true>()?;
+                    self.skip_space::<true>();
                     return self.read_token();
                 }
                 '<' | '{' => {

@@ -160,7 +160,7 @@ impl<'a> Lexer<'a> {
     ///
     /// See https://tc39.github.io/ecma262/#sec-white-space
     #[inline(never)]
-    pub(super) fn skip_space<const LEX_COMMENTS: bool>(&mut self) -> LexResult<()> {
+    pub(super) fn skip_space<const LEX_COMMENTS: bool>(&mut self) {
         loop {
             let (offset, newline) = {
                 let mut skip = SkipWhitespace {
@@ -184,15 +184,13 @@ impl<'a> Lexer<'a> {
                     self.skip_line_comment(2);
                     continue;
                 } else if self.peek() == Some('*') {
-                    self.skip_block_comment()?;
+                    self.skip_block_comment();
                     continue;
                 }
             }
 
             break;
         }
-
-        Ok(())
     }
 
     #[inline(never)]
@@ -278,7 +276,7 @@ impl<'a> Lexer<'a> {
 
                 let end = self.cur_pos();
 
-                self.skip_space::<false>()?;
+                self.skip_space::<false>();
 
                 if self.input.is_byte(b';') {
                     is_for_next = false;
