@@ -1935,6 +1935,10 @@ impl<I: Tokens> Parser<I> {
 
                 items.push(AssignTargetOrSpread::Pat(pat))
             } else {
+                if self.input.syntax().flow() && is!(self, ':') {
+                    self.may_consume_flow_type_ann()?;
+                }
+
                 if has_modifier {
                     self.emit_err(span!(self, modifier_start), SyntaxError::TS2369);
                 }
