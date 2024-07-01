@@ -974,7 +974,7 @@ impl Fixer<'_> {
 
         let span = e.span();
 
-        let span = if let Some(span) = self.span_map.remove(&span) {
+        let span = if let Some(span) = self.span_map.shift_remove(&span) {
             span
         } else {
             span

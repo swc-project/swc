@@ -304,7 +304,7 @@ where
         } else {
             exist1
         };
-        let weight = self.edges.remove(&Self::edge_key(a, b));
+        let weight = self.edges.shift_remove(&Self::edge_key(a, b));
         debug_assert!(exist1 == exist2 && exist1 == weight.is_some());
         weight
     }
