@@ -1,7 +1,7 @@
 use std::mem::take;
 
 use serde::Deserialize;
-use swc_common::{util::take::Take, Span, Spanned, DUMMY_SP};
+use swc_common::{util::take::Take, Span, DUMMY_SP};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{alias_ident_for_simple_assign_tatget, alias_if_required, StmtLike};
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
@@ -192,7 +192,6 @@ impl VisitMut for NullishCoalescing {
             if let BlockStmtOrExpr::Expr(expr) = n {
                 // expr
                 // { var decl = init; return expr; }
-                let span = expr.span();
                 let stmts = vec![
                     VarDecl {
                         span: DUMMY_SP,
@@ -206,7 +205,10 @@ impl VisitMut for NullishCoalescing {
                         arg: Some(expr.take()),
                     }),
                 ];
-                *n = BlockStmtOrExpr::BlockStmt(BlockStmt { span, stmts });
+                *n = BlockStmtOrExpr::BlockStmt(BlockStmt {
+                    span: DUMMY_SP,
+                    stmts,
+                });
             }
         }
 
