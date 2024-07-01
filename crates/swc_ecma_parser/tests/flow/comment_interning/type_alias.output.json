@@ -23,21 +23,11 @@
       }
     },
     {
-      "type": "ExpressionStatement",
+      "type": "EmptyStatement",
       "span": {
-        "start": 171,
-        "end": 310,
+        "start": 0,
+        "end": 0,
         "ctxt": 0
-      },
-      "expression": {
-        "type": "Identifier",
-        "span": {
-          "start": 171,
-          "end": 177,
-          "ctxt": 0
-        },
-        "value": "opaque",
-        "optional": false
       }
     },
     {
@@ -75,39 +65,19 @@
       },
       "stmts": [
         {
-          "type": "ExpressionStatement",
+          "type": "EmptyStatement",
           "span": {
-            "start": 459,
-            "end": 478,
+            "start": 0,
+            "end": 0,
             "ctxt": 0
-          },
-          "expression": {
-            "type": "Identifier",
-            "span": {
-              "start": 459,
-              "end": 465,
-              "ctxt": 0
-            },
-            "value": "opaque",
-            "optional": false
           }
         },
         {
-          "type": "ExpressionStatement",
+          "type": "EmptyStatement",
           "span": {
-            "start": 516,
-            "end": 535,
+            "start": 0,
+            "end": 0,
             "ctxt": 0
-          },
-          "expression": {
-            "type": "Identifier",
-            "span": {
-              "start": 516,
-              "end": 522,
-              "ctxt": 0
-            },
-            "value": "opaque",
-            "optional": false
           }
         }
       ]
@@ -129,21 +99,11 @@
       }
     },
     {
-      "type": "ExpressionStatement",
+      "type": "EmptyStatement",
       "span": {
-        "start": 615,
-        "end": 678,
+        "start": 0,
+        "end": 0,
         "ctxt": 0
-      },
-      "expression": {
-        "type": "Identifier",
-        "span": {
-          "start": 615,
-          "end": 621,
-          "ctxt": 0
-        },
-        "value": "opaque",
-        "optional": false
       }
     }
   ],

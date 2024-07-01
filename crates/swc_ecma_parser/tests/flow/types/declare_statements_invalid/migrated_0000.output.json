@@ -7,21 +7,11 @@
   },
   "body": [
     {
-      "type": "ExpressionStatement",
+      "type": "EmptyStatement",
       "span": {
-        "start": 35,
-        "end": 58,
+        "start": 0,
+        "end": 0,
         "ctxt": 0
-      },
-      "expression": {
-        "type": "Identifier",
-        "span": {
-          "start": 35,
-          "end": 42,
-          "ctxt": 0
-        },
-        "value": "declare",
-        "optional": false
       }
     }
   ],
