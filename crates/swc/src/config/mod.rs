@@ -41,8 +41,7 @@ pub use swc_ecma_minifier::js::*;
 use swc_ecma_minifier::option::terser::TerserTopLevelOptions;
 #[allow(deprecated)]
 pub use swc_ecma_parser::JscTarget;
-use swc_ecma_parser::{parse_file_as_expr, Syntax, TsSyntax};
-use swc_ecma_parser::{parse_file_as_expr, Syntax, TsConfig};
+use swc_ecma_parser::{parse_file_as_expr, Syntax, TsConfig, TsSyntax};
 pub use swc_ecma_transforms::proposals::DecoratorVersion;
 use swc_ecma_transforms::{
     feature::FeatureFlag,
