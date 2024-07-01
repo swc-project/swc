@@ -410,7 +410,7 @@ where
 
         self.consume_flow_qualified_type_identifier(Some(id))?;
 
-        if is!(self, '<') {
+        if !self.input.had_line_break_before_cur() && is!(self, '<') {
             self.consume_flow_type_param_instantiation()?;
         }
 
