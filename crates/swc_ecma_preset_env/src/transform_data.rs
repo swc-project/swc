@@ -189,6 +189,12 @@ pub enum Feature {
 
     /// `bugfix/transform-v8-spread-parameters-in-optional-chaining`
     BugfixTransformV8SpreadParametersInOptionalChaining, // TODO
+
+    /// `bugfix/transform-v8-static-class-fields-redefine-readonly`
+    BugfixTransformV8StaticClassFieldsRedefineReadonly, // TODO
+
+    /// `bugfix/transform-firefox-class-in-computed-class-key`
+    BugfixTransformFirefoxClassInComputedClassKey, // TODO
 }
 
 pub(crate) static FEATURES: Lazy<AHashMap<Feature, BrowserData<Option<Version>>>> =
