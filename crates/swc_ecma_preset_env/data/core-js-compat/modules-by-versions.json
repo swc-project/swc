@@ -514,5 +514,31 @@
   ],
   "3.33": [
     "esnext.regexp.escape"
+  ],
+  "3.34": [
+    "es.map.group-by",
+    "es.object.group-by",
+    "es.promise.with-resolvers",
+    "esnext.uint8-array.from-base64",
+    "esnext.uint8-array.from-hex",
+    "esnext.uint8-array.to-base64",
+    "esnext.uint8-array.to-hex"
+  ],
+  "3.36": [
+    "es.array-buffer.detached",
+    "es.array-buffer.transfer",
+    "es.array-buffer.transfer-to-fixed-length"
+  ],
+  "3.37": [
+    "es.set.difference.v2",
+    "es.set.intersection.v2",
+    "es.set.is-disjoint-from.v2",
+    "es.set.is-subset-of.v2",
+    "es.set.is-superset-of.v2",
+    "es.set.symmetric-difference.v2",
+    "es.set.union.v2",
+    "esnext.math.sum-precise",
+    "esnext.symbol.custom-matcher",
+    "web.url.parse"
   ]
 }
