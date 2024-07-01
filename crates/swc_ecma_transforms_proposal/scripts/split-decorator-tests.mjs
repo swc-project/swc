@@ -25,6 +25,7 @@ const testVarDecl = testVarStmt.declarationList.declarations[0]
 const properties = testVarDecl.initializer.properties
 // console.log('properties', properties)
 
+fs.rmdirSync(`tests/decorator-evanw-split`, { recursive: true });
 fs.mkdirSync(`tests/decorator-evanw-split`, { recursive: true });
 
 for (const property of properties) {
