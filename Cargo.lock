@@ -4455,7 +4455,6 @@ version = "0.146.7"
 dependencies = [
  "criterion",
  "either",
- "memchr",
  "new_debug_unreachable",
  "num-bigint",
  "num-traits",
