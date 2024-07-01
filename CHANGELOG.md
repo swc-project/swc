@@ -13,6 +13,12 @@
 
 - **(preset-env)** Upgrade `browserslist-rs` ([#9023](https://github.com/swc-project/swc/issues/9023)) ([18d6277](https://github.com/swc-project/swc/commit/18d6277e4c68474333349a5b413ad30e59813483))
 
+### Performance
+
+
+
+- **(es/lexer)** Do not use `memchr::memmem` in parser ([#9118](https://github.com/swc-project/swc/issues/9118)) ([72021de](https://github.com/swc-project/swc/commit/72021def15225c7355f80b72b16ab3bfd99f51ad))
+
 ## [1.6.6] - 2024-06-29
 
 ### Bug Fixes

@@ -3874,7 +3874,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.96.0"
+version = "0.96.1"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -4451,7 +4451,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.146.7"
+version = "0.146.8"
 dependencies = [
  "criterion",
  "either",
