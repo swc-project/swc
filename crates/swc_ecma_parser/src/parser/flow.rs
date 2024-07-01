@@ -213,9 +213,13 @@ where
         Ok(())
     }
 
-    /// Ported from babel
+    /// Ported from `flowParseAnonFunctionWithoutParens`
     fn consume_flow_anon_function_without_parens(&mut self) -> PResult<()> {
         self.consume_flow_prefix_type()?;
+
+        if !self.ctx().flow_no_anon_function_type && eat!(self, "=>") {
+            let _return_type = self.consume_flow_type()?;
+        }
 
         Ok(())
     }
