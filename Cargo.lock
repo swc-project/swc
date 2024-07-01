@@ -3929,7 +3929,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.95.10"
+version = "0.95.11"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -4346,7 +4346,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_compat_es2020"
-version = "0.7.1"
+version = "0.7.2"
 dependencies = [
  "serde",
  "swc_atoms",
