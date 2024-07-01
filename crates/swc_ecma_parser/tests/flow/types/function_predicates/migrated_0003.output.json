@@ -1,0 +1,70 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 44,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "VariableDeclaration",
+      "span": {
+        "start": 1,
+        "end": 44,
+        "ctxt": 0
+      },
+      "kind": "var",
+      "declare": false,
+      "declarations": [
+        {
+          "type": "VariableDeclarator",
+          "span": {
+            "start": 5,
+            "end": 29,
+            "ctxt": 0
+          },
+          "id": {
+            "type": "Identifier",
+            "span": {
+              "start": 5,
+              "end": 7,
+              "ctxt": 0
+            },
+            "value": "a1",
+            "optional": false,
+            "typeAnnotation": null
+          },
+          "init": {
+            "type": "BinaryExpression",
+            "span": {
+              "start": 22,
+              "end": 29,
+              "ctxt": 0
+            },
+            "operator": "%",
+            "left": {
+              "type": "Invalid",
+              "span": {
+                "start": 22,
+                "end": 23,
+                "ctxt": 0
+              }
+            },
+            "right": {
+              "type": "Identifier",
+              "span": {
+                "start": 23,
+                "end": 29,
+                "ctxt": 0
+              },
+              "value": "checks",
+              "optional": false
+            }
+          },
+          "definite": false
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}
