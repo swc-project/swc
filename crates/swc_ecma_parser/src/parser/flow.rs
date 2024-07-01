@@ -883,69 +883,72 @@ where
     }
 
     #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
-    pub(super) fn may_consume_flow_expr_stmt(&mut self, ident: Ident) -> PResult<()> {
+    pub(super) fn may_consume_flow_expr_stmt(&mut self, ident: Ident) -> PResult<Option<()>> {
         let start = self.input.cur_pos();
 
         match &*ident.sym {
             "declare" => {
-                self.consume_flow_declare(start)?;
+                return self.consume_flow_declare(start);
             }
 
             "export" => {
-                self.consume_flow_export(start)?;
+                return self.consume_flow_export(start);
             }
 
             "opaque" => {
-                self.consume_flow_opaque_type(start)?;
+                return self.consume_flow_opaque_type(start);
             }
 
             "type" => {
                 self.consume_flow_type_alias()?;
+                return Ok(Some(()));
             }
 
             _ => {}
         }
 
-        Ok(())
+        Ok(None)
     }
 
     #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
-    fn consume_flow_declare(&mut self, start: BytePos) -> PResult<()> {
-        eat!(self, "export");
-
+    fn consume_flow_declare(&mut self, start: BytePos) -> PResult<Option<()>> {
         let ctx = Context {
             in_declare: true,
             ..self.ctx()
         };
         let mut p = self.with_ctx(ctx);
 
+        if is!(p, "export") {
+            return p.consume_flow_export(start);
+        }
+
         if is!(p, "class") {
             let class_start = p.input.cur_pos();
             p.parse_class_decl(start, class_start, vec![], false)?;
-            return Ok(());
+            return Ok(Some(()));
         }
 
         if is!(p, "function") {
             p.parse_fn_decl(vec![])?;
-            return Ok(());
+            return Ok(Some(()));
         }
 
         if is!(p, "opaque") {
             p.consume_flow_opaque_type(start)?;
-            return Ok(());
+            return Ok(Some(()));
         }
 
         if is!(p, "type") {
             p.consume_flow_type_alias()?;
-            return Ok(());
+            return Ok(Some(()));
         }
 
         if is_one_of!(p, "var", "const", "let") {
             p.parse_var_stmt(false)?;
-            return Ok(());
+            return Ok(Some(()));
         }
 
-        Ok(())
+        Ok(None)
     }
 
     #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
@@ -964,15 +967,15 @@ where
     }
 
     #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
-    pub(super) fn consume_flow_opaque_type(&mut self, start: BytePos) -> PResult<()> {
+    pub(super) fn consume_flow_opaque_type(&mut self, start: BytePos) -> PResult<Option<()>> {
         eat!(self, "opaque");
 
         if is!(self, "type") {
             self.consume_flow_type_alias()?;
-            return Ok(());
+            return Ok(Some(()));
         }
 
-        Ok(())
+        Ok(None)
     }
 
     /// Ported from babel
