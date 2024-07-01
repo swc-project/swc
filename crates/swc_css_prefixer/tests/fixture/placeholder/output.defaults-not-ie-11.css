@@ -1,10 +1,7 @@
-input::-webkit-input-placeholder {
-  color: red;
-}
 input::placeholder {
   color: red;
 }
-input::-webkit-input-placeholder, 
+input::placeholder, 
 #fs-toggle:-webkit-full-screen {
   color: red;
 }
@@ -12,16 +9,9 @@ input::placeholder,
 #fs-toggle:fullscreen {
   color: red;
 }
-input::-webkit-input-placeholder {
-  -webkit-backdrop-filter: blur(2px);
-  backdrop-filter: blur(2px);
-}
 input::placeholder {
   -webkit-backdrop-filter: blur(2px);
   backdrop-filter: blur(2px);
-}
-input.appearance::-webkit-input-placeholder {
-  appearance: none;
 }
 input.appearance::placeholder {
   appearance: none;
