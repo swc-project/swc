@@ -20,17 +20,11 @@
   }
 }
 .test {
-  &.class::-webkit-input-placeholder {
-    color: red;
-  }
   &.class::placeholder {
     color: red;
   }
 }
 .test {
-  &.class::-webkit-input-placeholder {
-    appearance: auto;
-  }
   &.class::placeholder {
     appearance: auto;
   }
@@ -59,9 +53,6 @@
 }
 .test {
   appearance: auto;
-  &.class::-webkit-input-placeholder {
-    appearance: auto;
-  }
   &.class::placeholder {
     appearance: auto;
   }
@@ -71,9 +62,6 @@
 }
 @media (orientation: landscape) {
   .test {
-    &.class::-webkit-input-placeholder {
-      appearance: auto;
-    }
     &.class::placeholder {
       appearance: auto;
     }

@@ -5,13 +5,6 @@
 .b, 
 .c::selection, 
 .d:read-only, 
-.e::-webkit-input-placeholder {
-  color: yellow;
-}
-.a, 
-.b, 
-.c::selection, 
-.d:read-only, 
 .e::placeholder {
   color: yellow;
 }

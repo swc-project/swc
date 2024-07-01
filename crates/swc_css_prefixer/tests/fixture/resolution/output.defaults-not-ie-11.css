@@ -42,9 +42,6 @@
     color: red;
   }
 }
-::-webkit-input-placeholder {
-  color: gray;
-}
 ::placeholder {
   color: gray;
 }
