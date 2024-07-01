@@ -250,7 +250,7 @@ impl<'a> Lexer<'a> {
 
     /// Expects current char to be '/' and next char to be '*'.
     #[inline(never)]
-    pub(super) fn skip_block_comment(&mut self) -> LexResult<()> {
+    pub(super) fn skip_block_comment(&mut self) {
         let start = self.cur_pos();
 
         debug_assert_eq!(self.cur(), Some('/'));
@@ -284,7 +284,7 @@ impl<'a> Lexer<'a> {
 
                 self.store_comment(is_for_next, start, end, slice_start);
 
-                return Ok(());
+                return;
             }
             if c.is_line_terminator() {
                 self.state.had_line_break = true;
@@ -294,7 +294,7 @@ impl<'a> Lexer<'a> {
             self.bump();
         }
 
-        self.error(start, SyntaxError::UnterminatedBlockComment)?
+        self.emit_error(start, SyntaxError::UnterminatedBlockComment)
     }
 
     #[inline(never)]
