@@ -194,50 +194,6 @@ impl Tokens for Lexer<'_> {
 }
 
 impl Lexer<'_> {
-    /// Consume pending comments.
-    ///
-    /// This is called when the input is exhausted.
-    #[cold]
-    #[inline(never)]
-    fn consume_pending_comments(&mut self) {
-        if let Some(comments) = self.comments.as_mut() {
-            let comments_buffer = self.comments_buffer.as_mut().unwrap();
-            let last = self.state.prev_hi;
-
-            // move the pending to the leading or trailing
-            for c in comments_buffer.take_pending_leading() {
-                // if the file had no tokens and no shebang, then treat any
-                // comments in the leading comments buffer as leading.
-                // Otherwise treat them as trailing.
-                if last == self.start_pos {
-                    comments_buffer.push(BufferedComment {
-                        kind: BufferedCommentKind::Leading,
-                        pos: last,
-                        comment: c,
-                    });
-                } else {
-                    comments_buffer.push(BufferedComment {
-                        kind: BufferedCommentKind::Trailing,
-                        pos: last,
-                        comment: c,
-                    });
-                }
-            }
-
-            // now fill the user's passed in comments
-            for comment in comments_buffer.take_comments() {
-                match comment.kind {
-                    BufferedCommentKind::Leading => {
-                        comments.add_leading(comment.pos, comment.comment);
-                    }
-                    BufferedCommentKind::Trailing => {
-                        comments.add_trailing(comment.pos, comment.comment);
-                    }
-                }
-            }
-        }
-    }
-
     fn next_token(&mut self, start: &mut BytePos) -> Result<Option<Token>, Error> {
         if let Some(start) = self.state.next_regexp {
             return Ok(Some(self.read_regexp(start)?));
@@ -254,7 +210,7 @@ impl Lexer<'_> {
 
         // skip spaces before getting next character, if we are allowed to.
         if self.state.can_skip_space() {
-            self.skip_space::<true>();
+            self.skip_space::<true>()?;
             *start = self.input.cur_pos();
         };
 
@@ -262,7 +218,42 @@ impl Lexer<'_> {
             Some(..) => {}
             // End of input.
             None => {
-                self.consume_pending_comments();
+                if let Some(comments) = self.comments.as_mut() {
+                    let comments_buffer = self.comments_buffer.as_mut().unwrap();
+                    let last = self.state.prev_hi;
+
+                    // move the pending to the leading or trailing
+                    for c in comments_buffer.take_pending_leading() {
+                        // if the file had no tokens and no shebang, then treat any
+                        // comments in the leading comments buffer as leading.
+                        // Otherwise treat them as trailing.
+                        if last == self.start_pos {
+                            comments_buffer.push(BufferedComment {
+                                kind: BufferedCommentKind::Leading,
+                                pos: last,
+                                comment: c,
+                            });
+                        } else {
+                            comments_buffer.push(BufferedComment {
+                                kind: BufferedCommentKind::Trailing,
+                                pos: last,
+                                comment: c,
+                            });
+                        }
+                    }
+
+                    // now fill the user's passed in comments
+                    for comment in comments_buffer.take_comments() {
+                        match comment.kind {
+                            BufferedCommentKind::Leading => {
+                                comments.add_leading(comment.pos, comment.comment);
+                            }
+                            BufferedCommentKind::Trailing => {
+                                comments.add_trailing(comment.pos, comment.comment);
+                            }
+                        }
+                    }
+                }
 
                 return Ok(None);
             }
@@ -320,7 +311,7 @@ impl Lexer<'_> {
 
                         self.emit_error_span(span, SyntaxError::TS1185);
                         self.skip_line_comment(6);
-                        self.skip_space::<true>();
+                        self.skip_space::<true>()?;
                         return self.read_token();
                     }
 

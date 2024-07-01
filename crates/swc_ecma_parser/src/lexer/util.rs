@@ -4,7 +4,6 @@
 //! [babylon/util/identifier.js]:https://github.com/babel/babel/blob/master/packages/babylon/src/util/identifier.js
 use std::char;
 
-use ::memchr::memmem;
 use swc_common::{
     comments::{Comment, CommentKind},
     BytePos, Span, SyntaxContext,
@@ -161,7 +160,7 @@ impl<'a> Lexer<'a> {
     ///
     /// See https://tc39.github.io/ecma262/#sec-white-space
     #[inline(never)]
-    pub(super) fn skip_space<const LEX_COMMENTS: bool>(&mut self) {
+    pub(super) fn skip_space<const LEX_COMMENTS: bool>(&mut self) -> LexResult<()> {
         loop {
             let (offset, newline) = {
                 let mut skip = SkipWhitespace {
@@ -185,13 +184,15 @@ impl<'a> Lexer<'a> {
                     self.skip_line_comment(2);
                     continue;
                 } else if self.peek() == Some('*') {
-                    self.skip_block_comment();
+                    self.skip_block_comment()?;
                     continue;
                 }
             }
 
             break;
         }
+
+        Ok(())
     }
 
     #[inline(never)]
@@ -251,7 +252,7 @@ impl<'a> Lexer<'a> {
 
     /// Expects current char to be '/' and next char to be '*'.
     #[inline(never)]
-    pub(super) fn skip_block_comment(&mut self) {
+    pub(super) fn skip_block_comment(&mut self) -> LexResult<()> {
         let start = self.cur_pos();
 
         debug_assert_eq!(self.cur(), Some('/'));
@@ -261,36 +262,41 @@ impl<'a> Lexer<'a> {
 
         // jsdoc
         let slice_start = self.cur_pos();
+        let mut was_star = if self.input.is_byte(b'*') {
+            self.bump();
+            true
+        } else {
+            false
+        };
 
         let mut is_for_next = self.state.had_line_break || !self.state.can_have_trailing_comment();
 
-        if let Some(idx) = memmem::find(self.input.as_str().as_bytes(), b"*/") {
-            if !self.state.had_line_break {
-                self.state.had_line_break = self.input.as_str()[0..idx]
-                    .chars()
-                    .any(|c| c.is_line_terminator());
+        while let Some(c) = self.cur() {
+            if was_star && c == '/' {
+                debug_assert_eq!(self.cur(), Some('/'));
+                self.bump(); // '/'
+
+                let end = self.cur_pos();
+
+                self.skip_space::<false>()?;
+
+                if self.input.is_byte(b';') {
+                    is_for_next = false;
+                }
+
+                self.store_comment(is_for_next, start, end, slice_start);
+
+                return Ok(());
+            }
+            if c.is_line_terminator() {
+                self.state.had_line_break = true;
             }
 
-            self.input.bump_bytes(idx + 2);
-            let end = self.cur_pos();
-
-            self.skip_space::<false>();
-
-            if self.input.is_byte(b';') {
-                is_for_next = false;
-            }
-
-            self.store_comment(is_for_next, start, end, slice_start);
-
-            return;
+            was_star = c == '*';
+            self.bump();
         }
 
-        let len = self.input.as_str().bytes().len();
-        self.input.bump_bytes(len);
-
-        let span = self.span(start);
-
-        self.emit_error_span(span, SyntaxError::UnterminatedBlockComment)
+        self.error(start, SyntaxError::UnterminatedBlockComment)?
     }
 
     #[inline(never)]
