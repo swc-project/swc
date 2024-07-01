@@ -1,4 +1,4 @@
-use swc_common::Spanned;
+use swc_common::{Spanned, DUMMY_SP};
 use typed_arena::Arena;
 
 use super::{pat::PatType, *};
@@ -428,7 +428,9 @@ impl<'a, I: Tokens> Parser<I> {
             }
 
             if self.input.syntax().flow() {
-                self.may_consume_flow_expr_stmt(ident.clone())?;
+                if let Some(()) = self.may_consume_flow_expr_stmt(ident.clone())? {
+                    return Ok(Stmt::Empty(EmptyStmt { span: DUMMY_SP }));
+                }
             }
         }
 
