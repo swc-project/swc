@@ -1,40 +1,40 @@
 {
   "type": "Script",
   "span": {
-    "start": 1,
-    "end": 247,
+    "start": 65,
+    "end": 116,
     "ctxt": 0
   },
   "body": [
     {
       "type": "EmptyStatement",
       "span": {
-        "start": 0,
-        "end": 0,
+        "start": 65,
+        "end": 90,
         "ctxt": 0
       }
     },
     {
       "type": "EmptyStatement",
       "span": {
-        "start": 0,
-        "end": 0,
+        "start": 90,
+        "end": 91,
         "ctxt": 0
       }
     },
     {
       "type": "EmptyStatement",
       "span": {
-        "start": 0,
-        "end": 0,
+        "start": 92,
+        "end": 115,
         "ctxt": 0
       }
     },
     {
       "type": "EmptyStatement",
       "span": {
-        "start": 0,
-        "end": 0,
+        "start": 115,
+        "end": 116,
         "ctxt": 0
       }
     }
