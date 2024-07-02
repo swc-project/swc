@@ -57,54 +57,26 @@
       }
     },
     {
-      "type": "ExportDeclaration",
+      "type": "ImportDeclaration",
       "span": {
-        "start": 73,
-        "end": 92,
+        "start": 0,
+        "end": 0,
         "ctxt": 0
       },
-      "declaration": {
-        "type": "VariableDeclaration",
+      "specifiers": [],
+      "source": {
+        "type": "StringLiteral",
         "span": {
-          "start": 80,
-          "end": 92,
+          "start": 0,
+          "end": 0,
           "ctxt": 0
         },
-        "kind": "var",
-        "declare": false,
-        "declarations": [
-          {
-            "type": "VariableDeclarator",
-            "span": {
-              "start": 84,
-              "end": 91,
-              "ctxt": 0
-            },
-            "id": {
-              "type": "Identifier",
-              "span": {
-                "start": 84,
-                "end": 87,
-                "ctxt": 0
-              },
-              "value": "foo",
-              "optional": false,
-              "typeAnnotation": null
-            },
-            "init": {
-              "type": "NumericLiteral",
-              "span": {
-                "start": 90,
-                "end": 91,
-                "ctxt": 0
-              },
-              "value": 1.0,
-              "raw": "1"
-            },
-            "definite": false
-          }
-        ]
-      }
+        "value": "",
+        "raw": null
+      },
+      "typeOnly": false,
+      "with": null,
+      "phase": "evaluation"
     }
   ],
   "interpreter": null
