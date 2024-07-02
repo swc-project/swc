@@ -992,6 +992,11 @@ where
             return Ok(Some(()));
         }
 
+        if is_one_of!(self, "var", "const", "let") {
+            self.parse_var_stmt(false)?;
+            return Ok(Some(()));
+        }
+
         Ok(None)
     }
 
