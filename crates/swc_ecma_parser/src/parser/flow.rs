@@ -1043,6 +1043,45 @@ where
         Ok(())
     }
 
+    /// Ported from `flowParseInterfaceish`
+    fn consume_flow_interfaceish(&mut self, is_class: bool) -> PResult<()> {
+        let _id = self.consume_flow_restricted_ident()?;
+
+        if is!(self, '<') {
+            let _type_params = self.consume_flow_type_param_decl()?;
+        }
+
+        if eat!(self, "extends") {
+            let mut first = true;
+            while first || (!is_class && eat!(self, ',')) {
+                first = false;
+                self.consume_flow_interface_extends()?;
+            }
+        }
+
+        if is_class {
+            if eat_contextual!(self, "mixins") {
+                let mut first = true;
+                while first || eat!(self, ',') {
+                    first = false;
+                    self.consume_flow_interface_extends()?;
+                }
+            }
+
+            if eat_contextual!(self, "implements") {
+                let mut first = true;
+                while first || eat!(self, ',') {
+                    first = false;
+                    self.consume_flow_interface_extends()?;
+                }
+            }
+        }
+
+        let _body = self.consume_flow_object_type(is_class, false, false, is_class, Some(false))?;
+
+        Ok(())
+    }
+
     /// Ported from `flowObjectTypeSemicolon`
     fn consume_flow_object_type_semicolon(&mut self) -> PResult<()> {
         if !eat!(self, ';') && !eat!(self, ',') && !eat!(self, '}') {
