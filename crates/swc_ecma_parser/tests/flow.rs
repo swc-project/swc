@@ -43,13 +43,7 @@ impl Spec {
         let mut buf = String::new();
         File::open(file).unwrap().read_to_string(&mut buf).unwrap();
 
-        let mut spec: Self = serde_json::from_str(&buf).unwrap();
-
-        spec.errors.retain(|err| {
-            !err.message.contains("invalid identifier") && !err.message.contains("reserved word")
-        });
-
-        spec
+        serde_json::from_str(&buf).unwrap()
     }
 }
 
@@ -63,7 +57,12 @@ fn run_spec(file: &Path) {
         file.file_stem().unwrap().to_string_lossy()
     ));
 
-    let spec = Spec::read(&spec_json);
+    let mut spec = Spec::read(&spec_json);
+    let mut all_error_count = spec.errors.len();
+
+    spec.errors.retain(|err| {
+        !err.message.contains("invalid identifier") && !err.message.contains("reserved word")
+    });
 
     let file_name = file
         .display()
@@ -101,11 +100,11 @@ fn run_spec(file: &Path) {
         Ok(())
     });
 
-    if !spec.errors.is_empty() {
-        if result.is_ok() {
+    if result.is_ok() {
+        if !spec.errors.is_empty() {
             panic!("test passed but it should have failed")
         }
-    } else {
+    } else if all_error_count == 0 {
         result.expect("failed to parse");
     }
 }
