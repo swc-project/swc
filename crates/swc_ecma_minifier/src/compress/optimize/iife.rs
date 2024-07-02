@@ -470,6 +470,13 @@ impl Optimizer<'_> {
             return;
         }
 
+        trace_op!("iife: Checking pure");
+
+        if self.has_pure(call.span) {
+            log_abort!("iife: Has pure mark");
+            return;
+        }
+
         trace_op!("iife: Checking callee");
 
         match callee {

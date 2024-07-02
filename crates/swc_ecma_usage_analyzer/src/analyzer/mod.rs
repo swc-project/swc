@@ -1,4 +1,4 @@
-use swc_common::{collections::AHashMap, SyntaxContext};
+use swc_common::{collections::AHashMap, Spanned, SyntaxContext};
 use swc_ecma_ast::*;
 use swc_ecma_utils::{find_pat_ids, ExprCtx, ExprExt, IsEmpty, StmtExt};
 use swc_ecma_visit::{noop_visit_type, Visit, VisitWith};
@@ -1294,7 +1294,7 @@ where
                 ..self.ctx
             };
 
-            if self.marks.is_some() {
+            if let Some(marks) = self.marks {
                 if let VarDeclarator {
                     name: Pat::Ident(id),
                     init: Some(init),
@@ -1306,7 +1306,8 @@ where
                     self.used_recursively.insert(
                         id.clone(),
                         RecursiveUsage::Var {
-                            can_ignore: !init.may_have_side_effects(&self.expr_ctx),
+                            can_ignore: !init.may_have_side_effects(&self.expr_ctx)
+                                || init.span().has_mark(marks.pure),
                         },
                     );
                     e.init.visit_with(&mut *self.with_ctx(ctx));

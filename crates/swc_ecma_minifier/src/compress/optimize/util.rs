@@ -77,6 +77,11 @@ impl<'b> Optimizer<'b> {
         span.has_mark(self.marks.noinline)
     }
 
+    /// Check for `/*#__PURE__*/`
+    pub(super) fn has_pure(&self, span: Span) -> bool {
+        span.has_mark(self.marks.pure)
+    }
+
     /// RAII guard to change context temporarically
     pub(super) fn with_ctx(&mut self, mut ctx: Ctx) -> WithCtx<'_, 'b> {
         let mut scope_ctxt = ctx.scope;
