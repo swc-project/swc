@@ -957,6 +957,8 @@ where
 
     #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
     pub(super) fn consume_flow_export(&mut self, start: BytePos) -> PResult<Option<()>> {
+        eat!(self, "export");
+
         if is!(self, "opaque") {
             self.consume_flow_opaque_type(start)?;
             return Ok(Some(()));
