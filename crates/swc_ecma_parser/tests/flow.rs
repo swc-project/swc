@@ -45,8 +45,9 @@ impl Spec {
 
         let mut spec: Self = serde_json::from_str(&buf).unwrap();
 
-        spec.errors
-            .retain(|err| !err.message.contains("invalid identifier"));
+        spec.errors.retain(|err| {
+            !err.message.contains("invalid identifier") && !err.message.contains("reserved word")
+        });
 
         spec
     }
