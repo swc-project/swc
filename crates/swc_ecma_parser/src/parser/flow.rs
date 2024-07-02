@@ -962,6 +962,13 @@ where
             return Ok(Some(()));
         }
 
+        let type_only = is!(self, "type");
+
+        if is_one_of!(self, '{') {
+            self.parse_reexports(start, type_only, None, start)?;
+            return Ok(Some(()));
+        }
+
         if is!(self, "type") {
             self.consume_flow_type_alias()?;
             return Ok(Some(()));

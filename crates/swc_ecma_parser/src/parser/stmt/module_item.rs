@@ -777,7 +777,7 @@ impl<I: Tokens> Parser<I> {
     ///
     /// export default
     /// export foo
-    pub(super) fn parse_reexports(
+    pub(crate) fn parse_reexports(
         &mut self,
         start: BytePos,
         type_only: bool,
