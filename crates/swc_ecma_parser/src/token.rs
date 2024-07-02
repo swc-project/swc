@@ -138,6 +138,7 @@ define_known_ident!(
     Opaque => "opaque",
     Renders => "renders",
     Proto => "proto",
+    Mixins => "mixins",
 );
 
 impl std::str::FromStr for KnownIdent {
