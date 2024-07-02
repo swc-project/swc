@@ -172,6 +172,7 @@ const L_L: ByteHandler = Some(|lexer| {
 const L_M: ByteHandler = Some(|lexer| {
     lexer.read_word_with(&|s| match s {
         "meta" => Some(Word::Ident(IdentLike::Known(KnownIdent::Meta))),
+        "mixins" => Some(Word::Ident(IdentLike::Known(KnownIdent::Mixins))),
         "module" => Some(Word::Ident(IdentLike::Known(KnownIdent::Module))),
         _ => None,
     })
