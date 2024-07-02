@@ -78,6 +78,8 @@ bitflags! {
         // Optimization.
         const CanSkipTrailingComma = 1 << 21;
 
+        const SourceMapBeforeClosing = 1 << 22;
+
         // Precomputed Formats
         const Modifiers = Self::SingleLine.bits()
             | Self::SpaceBetweenSiblings.bits()
@@ -118,7 +120,8 @@ bitflags! {
             | Self::CommaDelimited.bits()
             | Self::SpaceBetweenSiblings.bits()
             | Self::Indented.bits()
-            | Self::SquareBrackets.bits();
+            | Self::SquareBrackets.bits()
+            | Self::SourceMapBeforeClosing.bits();
         const CommaListElements = Self::CommaDelimited.bits()
             | Self::SpaceBetweenSiblings.bits()
             | Self::SingleLine.bits();
