@@ -318,6 +318,7 @@ fn illegal_language_mode_directive1() {
         },
     );
 }
+
 #[test]
 fn illegal_language_mode_directive2() {
     test_parser(
@@ -347,4 +348,63 @@ fn illegal_language_mode_directive2() {
 #[test]
 fn parse_non_strict_for_loop() {
     script("for (var v1 = 1 in v3) {}");
+}
+
+#[test]
+fn disallow_assert_keywords1() {
+    test_parser(
+        r#"import foo from "foo.json" assert { type: "json" }"#,
+        Syntax::Es(EsConfig {
+            import_attributes: true,
+            disallow_assert_keywords: true,
+            ..Default::default()
+        }),
+        |p| {
+            let program = p.parse_program()?;
+
+            let errors = p.take_errors();
+            assert_eq!(
+                errors,
+                vec![Error::new(
+                    Span {
+                        lo: BytePos(28),
+                        hi: BytePos(34),
+                        ctxt: swc_common::SyntaxContext::empty()
+                    },
+                    crate::parser::SyntaxError::InvalidAssertKeywords
+                )]
+            );
+
+            Ok(program)
+        },
+    );
+}
+
+#[test]
+fn disallow_assert_keywords2() {
+    test_parser(
+        r#"import foo from "foo.json" assert { type: "json" }"#,
+        Syntax::Typescript(TsConfig {
+            disallow_assert_keywords: true,
+            ..Default::default()
+        }),
+        |p| {
+            let program = p.parse_program()?;
+
+            let errors = p.take_errors();
+            assert_eq!(
+                errors,
+                vec![Error::new(
+                    Span {
+                        lo: BytePos(28),
+                        hi: BytePos(34),
+                        ctxt: swc_common::SyntaxContext::empty()
+                    },
+                    crate::parser::SyntaxError::InvalidAssertKeywords
+                )]
+            );
+
+            Ok(program)
+        },
+    );
 }

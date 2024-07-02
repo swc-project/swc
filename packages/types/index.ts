@@ -680,6 +680,10 @@ export interface TsParserConfig {
      * @deprecated Always true because it's in ecmascript spec.
      */
     dynamicImport?: boolean;
+    /**
+     * Defaults to `false`
+     */
+    disallowAssertKeywords?: boolean;
 }
 
 export interface EsParserConfig {
@@ -768,6 +772,10 @@ export interface EsParserConfig {
      * Defaults to `false`
      */
     explicitResourceManagement?: boolean;
+    /**
+     * Defaults to `false`
+     */
+    disallowAssertKeywords?: boolean;
 }
 
 /**
