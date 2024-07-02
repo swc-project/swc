@@ -977,7 +977,7 @@ where
 
         let type_only = is!(self, "type");
 
-        if is_one_of!(self, '{') {
+        if is_one_of!(self, '{', '*') || (is!(self, "type") && peeked_is!(self, '*')) {
             self.parse_reexports(start, type_only, None, start)?;
             return Ok(Some(()));
         }
