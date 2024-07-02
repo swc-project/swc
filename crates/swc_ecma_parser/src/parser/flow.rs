@@ -1072,6 +1072,18 @@ where
         Ok(())
     }
 
+    /// Ported from `flowParseEnumDeclaration`
+    fn consume_flow_enum_declaration(&mut self) -> PResult<()> {
+        let _id = self.parse_ident(false, false)?;
+
+        let _body = self.consume_flow_enum_body()?;
+
+        Ok(())
+    }
+
+    /// Ported from `flowEnumBody`
+    fn consume_flow_enum_body(&mut self) -> PResult<()> {}
+
     /// Ported from `flowParseInterfaceish`
     fn consume_flow_interfaceish(&mut self, is_class: bool) -> PResult<()> {
         eat!(self, "interface");
