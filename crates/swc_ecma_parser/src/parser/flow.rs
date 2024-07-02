@@ -1056,6 +1056,8 @@ where
 
     /// Ported from `flowParseInterfaceish`
     fn consume_flow_interfaceish(&mut self, is_class: bool) -> PResult<()> {
+        eat!(self, "interface");
+
         let _id = self.consume_flow_restricted_ident()?;
 
         if is!(self, '<') {
