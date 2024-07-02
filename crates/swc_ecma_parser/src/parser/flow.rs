@@ -952,6 +952,11 @@ where
             return Ok(Some(()));
         }
 
+        if is!(p, "module") {
+            p.consume_flow_module_declaration()?;
+            return Ok(Some(()));
+        }
+
         Ok(None)
     }
 
@@ -1014,6 +1019,26 @@ where
         }
 
         expect!(self, ';');
+
+        Ok(())
+    }
+
+    fn consume_flow_module_declaration(&mut self) -> PResult<()> {
+        assert_and_bump!(self, "module");
+
+        if is_one_of!(self, IdentName, Str) {
+            bump!(self);
+        } else {
+            unexpected!(self, "module name")
+        }
+
+        expect!(self, '{');
+
+        while !eof!(self) && !is!(self, '}') {
+            let _item = self.parse_module_item()?;
+        }
+
+        expect!(self, '}');
 
         Ok(())
     }
