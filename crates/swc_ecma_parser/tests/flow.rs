@@ -1,4 +1,4 @@
-// #![cfg(feature = "flow")]
+#![cfg(feature = "flow")]
 #![allow(clippy::needless_update)]
 
 use std::{
@@ -65,7 +65,7 @@ fn run_spec(file: &Path) {
     ));
 
     let mut spec = Spec::read(&spec_json);
-    let mut all_error_count = spec.errors.len();
+    let all_error_count = spec.errors.len();
 
     spec.errors
         .retain(|err| IGNORED.iter().any(|ignored| err.message.contains(ignored)));
