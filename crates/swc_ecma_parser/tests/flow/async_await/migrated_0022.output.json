@@ -7,67 +7,26 @@
   },
   "body": [
     {
-      "type": "ExportDeclaration",
+      "type": "ImportDeclaration",
       "span": {
-        "start": 27,
-        "end": 59,
+        "start": 0,
+        "end": 0,
         "ctxt": 0
       },
-      "declaration": {
-        "type": "VariableDeclaration",
+      "specifiers": [],
+      "source": {
+        "type": "StringLiteral",
         "span": {
-          "start": 34,
-          "end": 59,
+          "start": 0,
+          "end": 0,
           "ctxt": 0
         },
-        "kind": "const",
-        "declare": false,
-        "declarations": [
-          {
-            "type": "VariableDeclarator",
-            "span": {
-              "start": 40,
-              "end": 59,
-              "ctxt": 0
-            },
-            "id": {
-              "type": "Identifier",
-              "span": {
-                "start": 40,
-                "end": 43,
-                "ctxt": 0
-              },
-              "value": "foo",
-              "optional": false,
-              "typeAnnotation": null
-            },
-            "init": {
-              "type": "ArrowFunctionExpression",
-              "span": {
-                "start": 46,
-                "end": 59,
-                "ctxt": 0
-              },
-              "params": [],
-              "body": {
-                "type": "Identifier",
-                "span": {
-                  "start": 58,
-                  "end": 59,
-                  "ctxt": 0
-                },
-                "value": "y",
-                "optional": false
-              },
-              "async": true,
-              "generator": false,
-              "typeParameters": null,
-              "returnType": null
-            },
-            "definite": false
-          }
-        ]
-      }
+        "value": "",
+        "raw": null
+      },
+      "typeOnly": false,
+      "with": null,
+      "phase": "evaluation"
     }
   ],
   "interpreter": null
