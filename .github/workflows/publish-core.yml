@@ -498,11 +498,20 @@ jobs:
         run: |
           ./scripts/cli_upload_gh_release.sh
 
-  publish-node-wasm:
+  publish-wasm:
     if: ${{ startsWith(github.ref, 'refs/tags/v') || startsWith(github.ref, 'refs/heads/ci') }}
-
-    name: Build - wasm for node.js
+    name: Build - wasm (${{ matrix.settings.npm }}) for node.js
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        settings:
+          - crate: "binding_core_wasm"
+            npm: "@swc/wasm"
+            target: nodejs
+          - crate: "binding_core_wasm"
+            npm: "@swc/wasm-web"
+            target: web
     steps:
       - uses: actions/checkout@v4
 
@@ -536,66 +545,15 @@ jobs:
         run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
 
       - name: Build
-        working-directory: bindings/binding_core_wasm
+        working-directory: bindings/${{ matrix.settings.crate }}
         run: |
-          wasm-pack build --out-name wasm --release --scope=swc --target nodejs
-          sed -i -e 's/"name": "@swc\/binding_core_wasm"/"name": "@swc\/wasm"/g' pkg/package.json
+          wasm-pack build --out-name wasm --release --scope=swc --target ${{ matrix.settings.target }}
+          sed -i -e 's/"name": "@swc\/${{ matrix.settings.crate }}"/"name": "${{ matrix.settings.npm }}"/g' pkg/package.json
 
       - name: Publish
         if: ${{ startsWith(github.ref, 'refs/tags/v') }}
         run: |
-          (cd bindings/binding_core_wasm/pkg && yarn npm publish --access public --tag $NPM_TAG)
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-
-  publish-web-wasm:
-    if: ${{ startsWith(github.ref, 'refs/tags/v') || startsWith(github.ref, 'refs/heads/ci') }}
-
-    name: Build - wasm for web
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Corepack
-        run: corepack enable
-
-      - name: Tag npm release (default, latest)
-        run: echo "NPM_TAG=latest" >> $GITHUB_ENV
-
-      - name: Tag npm release (nightly)
-        if: ${{ contains(github.event.release.tag_name, 'nightly') }}
-        run: echo "NPM_TAG=nightly" >> $GITHUB_ENV
-
-      - name: Setup node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-
-      - name: Cache
-        uses: actions/cache@v3
-        with:
-          path: |
-            ~/.cargo/
-            **/target/
-          key: ${{ runner.os }}-publish-integration
-
-      - name: Install node dependencies
-        run: yarn
-
-      - name: Install wasm-pack
-        run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
-
-      - name: Build
-        working-directory: bindings/binding_core_wasm
-        run: |
-          wasm-pack build --out-name wasm-web --release --scope=swc --target web
-          sed -i -e 's/"name": "@swc\/binding_core_wasm"/"name": "@swc\/wasm-web"/g' pkg/package.json
-
-      - name: Publish
-        if: ${{ startsWith(github.ref, 'refs/tags/v') }}
-        run: |
-          (cd bindings/binding_core_wasm/pkg && yarn npm publish --access public --tag $NPM_TAG)
+          (cd bindings/${{ matrix.settings.crate }}/pkg && yarn npm publish --access public --tag $NPM_TAG)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
