@@ -1,4 +1,9 @@
-use swc_core::binding_macros::{build_minify, build_minify_sync};
+use serde::{Deserialize, Serialize};
+use swc_core::{
+    base::HandlerOpts,
+    common::{errors::ColorConfig, sync::Lrc, SourceMap, GLOBALS},
+};
+use swc_error_reporters::handler::try_with_handler;
 use wasm_bindgen::prelude::*;
 use wasm_bindgen_futures::{
     future_to_promise,
@@ -13,8 +18,10 @@ export function transform(src: string, opts?: Options): Promise<TransformOutput>
 export function transformSync(src: string, opts?: Options): TransformOutput;
 "#;
 
+#[derive(Deserialize)]
 pub struct Options {}
 
+#[derive(Serialize)]
 pub struct TransformOutput {
     code: String,
     map: Option<String>,
@@ -26,4 +33,18 @@ pub fn transform(input: JsString, options: JsValue) -> Promise {
 }
 
 #[wasm_bindgen]
-pub fn transform_sync(input: JsString, options: JsValue) -> Result<JsValue, JsValue> {}
+pub fn transform_sync(input: JsString, options: JsValue) -> Result<JsValue, JsValue> {
+    let options: Options = serde_wasm_bindgen::from_value(options)?;
+
+    let cm = Lrc::new(SourceMap::default());
+    GLOBALS.set(&Default::default(), || {
+        try_with_handler(
+            cm.clone(),
+            HandlerOpts {
+                color: ColorConfig::Never,
+                skip_filename: true,
+            },
+            |handler| {},
+        )
+    })
+}
