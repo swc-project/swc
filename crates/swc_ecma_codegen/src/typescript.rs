@@ -688,6 +688,11 @@ where
     fn emit_ts_param_prop(&mut self, n: &TsParamProp) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
+        if n.deferred {
+            keyword!("deferred");
+            space!();
+        }
+
         self.emit_accessibility(n.accessibility)?;
 
         for dec in &n.decorators {
