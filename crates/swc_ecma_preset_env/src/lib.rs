@@ -46,7 +46,8 @@ where
     C: Comments + Clone,
 {
     let loose = c.loose;
-    let targets: Versions = targets_to_versions(c.targets).expect("failed to parse targets");
+    let targets: Versions =
+        targets_to_versions(c.targets, c.path).expect("failed to parse targets");
     let is_any_target = targets.is_any_target();
 
     let (include, included_modules) = FeatureOrModule::split(c.include);
@@ -602,8 +603,8 @@ pub struct Config {
     #[serde(default)]
     pub targets: Option<Targets>,
 
-    #[serde(default = "default_path")]
-    pub path: PathBuf,
+    #[serde(default)]
+    pub path: Option<PathBuf>,
 
     #[serde(default)]
     pub shipped_proposals: bool,
@@ -613,14 +614,6 @@ pub struct Config {
 
     #[serde(default)]
     pub bugfixes: bool,
-}
-
-fn default_path() -> PathBuf {
-    if cfg!(target_arch = "wasm32") {
-        Default::default()
-    } else {
-        std::env::current_dir().unwrap()
-    }
 }
 
 #[derive(Debug, Clone, Deserialize, FromVariant)]
