@@ -10,12 +10,11 @@ use swc_ecma_transforms_base::{
     hygiene::hygiene,
     resolver,
 };
-use swc_ecma_transforms_proposal::decorator_2022_03::decorator_2022_03;
+use swc_ecma_transforms_proposal::decorator_2023_11::decorator_2023_11;
 use swc_ecma_visit::VisitMutWith;
 use testing::find_executable;
 
 #[test]
-#[ignore = "TODO: Fix this test"]
 fn execute() {
     testing::run_test(false, |cm, handler| {
         let node = find_executable("node").expect("node not found");
@@ -56,7 +55,7 @@ fn execute() {
                 let top_level_mark = Mark::new();
                 program.visit_mut_with(&mut resolver(unresolved_mark, top_level_mark, false));
 
-                program.visit_mut_with(&mut decorator_2022_03());
+                program.visit_mut_with(&mut decorator_2023_11());
 
                 program.visit_mut_with(&mut inject_helpers(unresolved_mark));
                 program.visit_mut_with(&mut hygiene());
@@ -66,10 +65,10 @@ fn execute() {
             to_code(&program)
         };
 
-        fs::write("tests/run-decorator-tests.js", code).expect("failed to write file");
+        fs::write("tests/built-decorator-tests.js", code).expect("failed to write file");
 
         let status = Command::new(node)
-            .arg("tests/run-decorator-tests.js")
+            .arg("tests/built-decorator-tests.js")
             .status()
             .expect("failed to execute process");
 
