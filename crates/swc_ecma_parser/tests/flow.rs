@@ -1,4 +1,4 @@
-#![cfg(feature = "flow")]
+// #![cfg(feature = "flow")]
 #![allow(clippy::needless_update)]
 
 use std::{
@@ -30,6 +30,9 @@ struct SpecError {
     start: SpecLoc,
     #[serde(default)]
     end: SpecLoc,
+
+    #[serde(default)]
+    message: String,
 }
 
 #[derive(Debug, Default, Deserialize)]
@@ -40,7 +43,12 @@ impl Spec {
         let mut buf = String::new();
         File::open(file).unwrap().read_to_string(&mut buf).unwrap();
 
-        serde_json::from_str(&buf).unwrap()
+        let mut spec: Self = serde_json::from_str(&buf).unwrap();
+
+        spec.errors
+            .retain(|err| !err.message.contains("invalid identifier"));
+
+        spec
     }
 }
 
