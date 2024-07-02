@@ -12,8 +12,8 @@
   <a href="https://www.npmjs.com/package/@swc/core">
     <img alt="downloads (@swc/core)" src="https://img.shields.io/npm/dm/@swc/core?label=downloads%20%28%40swc%2Fcore%29">
   </a>
-  <a href="https://www.npmjs.com/package/@swc/helpers">
-    <img alt="downloads (3rd party)" src="https://img.shields.io/npm/dm/@swc/helpers?label=downloads%20%283rd%20party%29">
+  <a href="https://www.npmjs.com/package/@swc/counter?activeTab=dependents">
+    <img alt="downloads (3rd party)" src="https://img.shields.io/npm/dm/@swc/counter?label=downloads%20%283rd%20party%29">
   </a>
 </p>
 <p align="center">
