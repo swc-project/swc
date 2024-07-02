@@ -1026,8 +1026,10 @@ where
                 self.emit_err(span, SyntaxError::FlowDeclareOpaqueType);
             }
 
-            expect!(self, ':');
-            self.consume_flow_type()?;
+            if is!(self, ':') {
+                expect!(self, ':');
+                self.consume_flow_type()?;
+            }
         } else {
             self.consume_flow_type_init(Some(tok!('=').kind()))?;
         }
