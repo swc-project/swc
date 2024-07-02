@@ -974,15 +974,15 @@ fn test_fold_comparison4() {
 
 #[test]
 fn test_fold_get_elem1() {
-    fold("x = [,10][0]", "x = (0, void 0)");
-    fold("x = [10, 20][0]", "x = (0, 10)");
-    fold("x = [10, 20][1]", "x = (0, 20)");
+    fold("x = [,10][0]", "x = (0, void 0);");
+    fold("x = [10, 20][0]", "x = (0, 10);");
+    fold("x = [10, 20][1]", "x = (0, 20);");
 
     // fold("x = [10, 20][-1]", "x = void 0;");
     // fold("x = [10, 20][2]", "x = void 0;");
 
     fold("x = [foo(), 0][1]", "x = (foo(), 0);");
-    fold("x = [0, foo()][1]", "x = (0, foo())");
+    fold("x = [0, foo()][1]", "x = (0, foo());");
     // fold("x = [0, foo()][0]", "x = (foo(), 0)");
     fold_same("for([1][0] in {});");
 }
@@ -1008,8 +1008,8 @@ fn test_fold_array_lit_spread_get_elem() {
     fold("x = [...[0    ]][0]", "x = (0, 0);");
     fold("x = [0, 1, ...[2, 3, 4]][3]", "x = (0, 3);");
     fold("x = [...[0, 1], 2, ...[3, 4]][3]", "x = (0, 3);");
-    fold("x = [...[...[0, 1], 2, 3], 4][0]", "x = (0, 0)");
-    fold("x = [...[...[0, 1], 2, 3], 4][3]", "x = (0, 3)");
+    fold("x = [...[...[0, 1], 2, 3], 4][0]", "x = (0, 0);");
+    fold("x = [...[...[0, 1], 2, 3], 4][3]", "x = (0, 3);");
     // fold("x = [...[]][100]", "x = void 0;");
     // fold("x = [...[0]][100]", "x = void 0;");
 }
@@ -1574,4 +1574,54 @@ fn test_export_default_paren_expr() {
     fold_same("import fn from './b'; export default (class fn1 {});");
     fold_same("import fn from './b'; export default (function fn1 () {});");
     fold("export default ((foo));", "export default foo;");
+}
+
+#[test]
+fn test_issue_8747() {
+    // Index with a valid index.
+    fold("'a'[0]", "\"a\";");
+    fold("'a'['0']", "\"a\";");
+
+    // Index with an invalid index.
+    // An invalid index is an out-of-bound index. These are not replaced as
+    // prototype changes could cause undefined behaviour. Refer to
+    // pristine_globals in compress.
+    fold_same("'a'[0.5]");
+    fold_same("'a'[-1]");
+
+    fold_same("[1][0.5]");
+    fold_same("[1][-1]");
+
+    // Index with an expression.
+    fold("'a'[0 + []]", "\"a\";");
+    fold("[1][0 + []]", "0, 1;");
+
+    // Don't replace if side effects exist.
+    fold_same("[f(), f()][0]");
+    fold("[x(), 'x', 5][2]", "x(), 5;");
+    fold_same("({foo: f()}).foo");
+
+    // Index with length, resulting in replacement.
+    // Prototype changes don't affect .length in String and Array,
+    // but it is affected in Object.
+    fold("[].length", "0");
+    fold("[]['length']", "0");
+
+    fold("''.length", "0");
+    fold("''['length']", "0");
+
+    fold_same("({}).length");
+    fold_same("({})['length']");
+    fold("({length: 'foo'}).length", "'foo'");
+    fold("({length: 'foo'})['length']", "'foo'");
+
+    // Indexing objects has a few special cases that were broken that we test here.
+    fold("({0.5: 'a'})[0.5]", "'a';");
+    fold("({'0.5': 'a'})[0.5]", "'a';");
+    fold("({0.5: 'a'})['0.5']", "'a';");
+    // Indexing objects that have a spread operator in `__proto__` can still be
+    // optimized if the key comes before the `__proto__` object.
+    fold("({1: 'bar', __proto__: {...[1]}})[1]", "({...[1]}), 'bar';");
+    // Spread operator comes first, can't be evaluated.
+    fold_same("({...[1], 1: 'bar'})[1]");
 }

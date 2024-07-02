@@ -1,6 +1,6 @@
 use std::{borrow::Cow, iter, iter::once};
 
-use swc_atoms::JsWord;
+use swc_atoms::{Atom, JsWord};
 use swc_common::{
     pass::{CompilerPass, Repeated},
     util::take::Take,
@@ -107,35 +107,54 @@ impl SimplifyExpr {
             return;
         }
 
-        #[derive(Clone, PartialEq, Eq)]
+        #[derive(Clone, PartialEq)]
         enum KnownOp {
             /// [a, b].length
             Len,
 
-            Index(i64),
+            /// [a, b][0]
+            ///
+            /// {0.5: "bar"}[0.5]
+            /// Note: callers need to check `v.fract() == 0.0` in some cases.
+            /// ie non-integer indexes for arrays result in `undefined`
+            /// but not for objects (because indexing an object
+            /// returns the value of the key, ie `0.5` will not
+            /// return `undefined` if a key `0.5` exists
+            /// and its value is not `undefined`).
+            Index(f64),
 
             /// ({}).foo
             IndexStr(JsWord),
         }
         let op = match prop {
-            MemberProp::Ident(Ident { sym, .. }) if &**sym == "length" => KnownOp::Len,
+            MemberProp::Ident(Ident { sym, .. }) if &**sym == "length" && !obj.is_object() => {
+                KnownOp::Len
+            }
             MemberProp::Ident(Ident { sym, .. }) => {
-                if !self.in_callee {
-                    KnownOp::IndexStr(sym.clone())
-                } else {
+                if self.in_callee {
                     return;
                 }
+
+                KnownOp::IndexStr(sym.clone())
             }
             MemberProp::Computed(ComputedPropName { expr, .. }) => {
-                if !self.in_callee {
-                    if let Expr::Lit(Lit::Num(Number { value, .. })) = &**expr {
-                        if value.fract() == 0.0 {
-                            KnownOp::Index(*value as _)
-                        } else {
-                            return;
-                        }
+                if self.in_callee {
+                    return;
+                }
+
+                if let Expr::Lit(Lit::Num(Number { value, .. })) = &**expr {
+                    // x[5]
+                    KnownOp::Index(*value)
+                } else if let Known(s) = expr.as_pure_string(&self.expr_ctx) {
+                    if s == "length" && !obj.is_object() {
+                        // Length of non-object type
+                        KnownOp::Len
+                    } else if let Ok(n) = s.parse::<f64>() {
+                        // x['0'] is treated as x[0]
+                        KnownOp::Index(n)
                     } else {
-                        return;
+                        // x[''] or x[...] where ... is an expression like [], ie x[[]]
+                        KnownOp::IndexStr(s.into())
                     }
                 } else {
                     return;
@@ -144,9 +163,18 @@ impl SimplifyExpr {
             _ => return,
         };
 
+        // Note: pristine_globals refers to the compress config option pristine_globals.
+        // Any potential cases where globals are not pristine are handled in compress,
+        // e.g. x[-1] is not changed as the object's prototype may be modified.
+        // For example, Array.prototype[-1] = "foo" will result in [][-1] returning
+        // "foo".
+
         match &mut **obj {
             Expr::Lit(Lit::Str(Str { value, span, .. })) => match op {
                 // 'foo'.length
+                //
+                // Prototype changes do not affect .length, so we don't need to worry
+                // about pristine_globals here.
                 KnownOp::Len => {
                     self.changed = true;
 
@@ -158,23 +186,35 @@ impl SimplifyExpr {
                 }
 
                 // 'foo'[1]
-                KnownOp::Index(idx) if (idx as usize) < value.len() => {
-                    if idx < 0 {
-                        self.changed = true;
-                        *expr = *Expr::undefined(*span)
-                    } else if let Some(value) = nth_char(value, idx as _) {
-                        self.changed = true;
-                        *expr = Expr::Lit(Lit::Str(Str {
-                            raw: None,
-                            value: value.into(),
-                            span: *span,
-                        }))
+                KnownOp::Index(idx) => {
+                    if idx.fract() != 0.0 || idx < 0.0 || idx as usize >= value.len() {
+                        // Prototype changes affect indexing if the index is out of bounds, so we
+                        // don't replace out-of-bound indexes.
+                        return;
+                    }
+
+                    let Some(value) = nth_char(value, idx as _) else {
+                        return;
                     };
+
+                    self.changed = true;
+
+                    *expr = Expr::Lit(Lit::Str(Str {
+                        raw: None,
+                        value: value.into(),
+                        span: *span,
+                    }))
                 }
-                _ => {}
+
+                // 'foo'['']
+                //
+                // Handled in compress
+                KnownOp::IndexStr(..) => {}
             },
 
             // [1, 2, 3].length
+            //
+            // [1, 2, 3][0]
             Expr::Array(ArrayLit { elems, span }) => {
                 // do nothing if spread exists
                 let has_spread = elems.iter().any(|elem| {
@@ -186,140 +226,136 @@ impl SimplifyExpr {
                 if has_spread {
                     return;
                 }
-                if op == KnownOp::Len
-                    && !elems
-                        .iter()
-                        .filter_map(|e| e.as_ref())
-                        .any(|e| e.expr.may_have_side_effects(&self.expr_ctx))
-                {
-                    self.changed = true;
 
-                    *expr = Expr::Lit(Lit::Num(Number {
-                        value: elems.len() as _,
-                        span: *span,
-                        raw: None,
-                    }));
-                } else if matches!(op, KnownOp::Index(..)) {
-                    let idx = match op {
-                        KnownOp::Index(i) => i,
-                        _ => unreachable!(),
-                    };
+                match op {
+                    KnownOp::Len => {
+                        // do nothing if replacement will have side effects
+                        let may_have_side_effects = elems
+                            .iter()
+                            .filter_map(|e| e.as_ref())
+                            .any(|e| e.expr.may_have_side_effects(&self.expr_ctx));
 
-                    if elems.len() > idx as _ && idx >= 0 {
+                        if may_have_side_effects {
+                            return;
+                        }
+
+                        // Prototype changes do not affect .length
+                        self.changed = true;
+
+                        *expr = Expr::Lit(Lit::Num(Number {
+                            value: elems.len() as _,
+                            span: *span,
+                            raw: None,
+                        }));
+                    }
+
+                    KnownOp::Index(idx) => {
+                        // If the fraction part is non-zero, or if the index is out of bounds,
+                        // then we handle this in compress as Array's prototype may be modified.
+                        if idx.fract() != 0.0 || idx < 0.0 || idx as usize >= elems.len() {
+                            return;
+                        }
+
+                        // Don't change if after has side effects.
                         let after_has_side_effect =
-                            elems.iter().skip((idx + 1) as _).any(|elem| match elem {
-                                Some(elem) => elem.expr.may_have_side_effects(&self.expr_ctx),
-                                None => false,
-                            });
+                            elems
+                                .iter()
+                                .skip((idx as usize + 1) as _)
+                                .any(|elem| match elem {
+                                    Some(elem) => elem.expr.may_have_side_effects(&self.expr_ctx),
+                                    None => false,
+                                });
 
                         if after_has_side_effect {
                             return;
                         }
-                    } else {
-                        return;
-                    }
 
-                    self.changed = true;
+                        self.changed = true;
 
-                    let (before, e, after) = if elems.len() > idx as _ && idx >= 0 {
-                        let before = elems.drain(..(idx as usize)).collect();
+                        // elements before target element
+                        let before: Vec<Option<ExprOrSpread>> =
+                            elems.drain(..(idx as usize)).collect();
                         let mut iter = elems.take().into_iter();
+                        // element at idx
                         let e = iter.next().flatten();
-                        let after = iter.collect();
+                        // elements after target element
+                        let after: Vec<Option<ExprOrSpread>> = iter.collect();
 
-                        (before, e, after)
-                    } else {
-                        let before = elems.take();
+                        // element value
+                        let v = match e {
+                            None => Expr::undefined(*span),
+                            Some(e) => e.expr,
+                        };
 
-                        (before, None, vec![])
-                    };
+                        // Replacement expressions.
+                        let mut exprs = vec![];
 
-                    let v = match e {
-                        None => Expr::undefined(*span),
-                        Some(e) => e.expr,
-                    };
+                        // Add before side effects.
+                        for elem in before.into_iter().flatten() {
+                            self.expr_ctx
+                                .extract_side_effects_to(&mut exprs, *elem.expr);
+                        }
 
-                    let mut exprs = vec![];
-                    for elem in before.into_iter().flatten() {
-                        self.expr_ctx
-                            .extract_side_effects_to(&mut exprs, *elem.expr);
+                        // Element value.
+                        let val = v;
+
+                        // Add after side effects.
+                        for elem in after.into_iter().flatten() {
+                            self.expr_ctx
+                                .extract_side_effects_to(&mut exprs, *elem.expr);
+                        }
+
+                        // Note: we always replace with a SeqExpr so that
+                        // `this` remains undefined in strict mode.
+
+                        if exprs.is_empty() {
+                            // No side effects exist, replace with:
+                            // (0, val)
+                            *expr = Expr::Seq(SeqExpr {
+                                span: val.span(),
+                                exprs: vec![0.into(), val],
+                            });
+                            return;
+                        }
+
+                        // Add value and replace with SeqExpr
+                        exprs.push(val);
+                        *expr = Expr::Seq(SeqExpr { span: *span, exprs });
                     }
 
-                    let val = v;
-
-                    for elem in after.into_iter().flatten() {
-                        self.expr_ctx
-                            .extract_side_effects_to(&mut exprs, *elem.expr);
-                    }
-
-                    if exprs.is_empty() {
-                        *expr = Expr::Seq(SeqExpr {
-                            span: val.span(),
-                            exprs: vec![0.into(), val],
-                        });
-                        return;
-                    }
-
-                    exprs.push(val);
-
-                    *expr = Expr::Seq(SeqExpr { span: *span, exprs });
+                    // Handled in compress
+                    KnownOp::IndexStr(..) => {}
                 }
             }
 
             // { foo: true }['foo']
-            Expr::Object(ObjectLit { props, span }) => match op {
-                KnownOp::IndexStr(key) if is_literal(props) && key != *"yield" => {
-                    // do nothing if spread exists
-                    let has_spread = props
-                        .iter()
-                        .any(|prop| matches!(prop, PropOrSpread::Spread(..)));
+            //
+            // { 0.5: true }[0.5]
+            Expr::Object(ObjectLit { props, span }) => {
+                // get key
+                let key = match op {
+                    KnownOp::Index(i) => Atom::from(i.to_string()),
+                    KnownOp::IndexStr(key) if key != *"yield" && is_literal(props) => key,
+                    _ => return,
+                };
 
-                    if has_spread {
-                        return;
-                    }
+                // Get `key`s value. Non-existent keys are handled in compress.
+                // This also checks if spread exists.
+                let Some(v) = get_key_value(&key, props) else {
+                    return;
+                };
 
-                    let idx = props.iter().rev().position(|p| match p {
-                        PropOrSpread::Prop(p) => match &**p {
-                            Prop::Shorthand(i) => i.sym == key,
-                            Prop::KeyValue(k) => prop_name_eq(&k.key, &key),
-                            Prop::Assign(p) => p.key.sym == key,
-                            Prop::Getter(..) => false,
-                            Prop::Setter(..) => false,
-                            // TODO
-                            Prop::Method(..) => false,
-                        },
-                        _ => unreachable!(),
-                    });
-                    let idx = idx.map(|idx| props.len() - 1 - idx);
-                    //
+                self.changed = true;
 
-                    if let Some(i) = idx {
-                        let v = props.remove(i);
-                        self.changed = true;
-
-                        *expr = self.expr_ctx.preserve_effects(
-                            *span,
-                            match v {
-                                PropOrSpread::Prop(p) => match *p {
-                                    Prop::Shorthand(i) => Expr::Ident(i),
-                                    Prop::KeyValue(p) => *p.value,
-                                    Prop::Assign(p) => *p.value,
-                                    Prop::Getter(..) => unreachable!(),
-                                    Prop::Setter(..) => unreachable!(),
-                                    // TODO
-                                    Prop::Method(..) => unreachable!(),
-                                },
-                                _ => unreachable!(),
-                            },
-                            once(Box::new(Expr::Object(ObjectLit {
-                                props: props.take(),
-                                span: *span,
-                            }))),
-                        );
-                    }
-                }
-                _ => {}
-            },
+                *expr = self.expr_ctx.preserve_effects(
+                    *span,
+                    v,
+                    once(Box::new(Expr::Object(ObjectLit {
+                        props: props.take(),
+                        span: *span,
+                    }))),
+                );
+            }
 
             _ => {}
         }
@@ -1696,4 +1732,71 @@ fn nth_char(s: &str, mut idx: usize) -> Option<Cow<str>> {
 
 fn need_zero_for_this(e: &Expr) -> bool {
     e.directness_maters() || e.is_seq()
+}
+
+/// Gets the value of the given key from the given object properties, if the key
+/// exists. If the key does exist, `Some` is returned and the property is
+/// removed from the given properties.
+fn get_key_value(key: &str, props: &mut Vec<PropOrSpread>) -> Option<Expr> {
+    // It's impossible to know the value for certain if a spread property exists.
+    let has_spread = props.iter().any(|prop| prop.is_spread());
+
+    if has_spread {
+        return None;
+    }
+
+    for (i, prop) in props.iter_mut().enumerate() {
+        let prop = match prop {
+            PropOrSpread::Prop(x) => &mut **x,
+            PropOrSpread::Spread(_) => unreachable!(),
+        };
+
+        match prop {
+            Prop::Shorthand(ident) if ident.sym == key => {
+                let prop = match props.remove(i) {
+                    PropOrSpread::Prop(x) => *x,
+                    _ => unreachable!(),
+                };
+                let ident = match prop {
+                    Prop::Shorthand(x) => x,
+                    _ => unreachable!(),
+                };
+                return Some(Expr::Ident(ident));
+            }
+
+            Prop::KeyValue(prop) => {
+                if key != "__proto__" && prop_name_eq(&prop.key, "__proto__") {
+                    // If __proto__ is defined, we need to check the contents of it,
+                    // as well as any nested __proto__ objects
+                    let Expr::Object(ObjectLit { props, .. }) = &mut *prop.value else {
+                        // __proto__ is not an ObjectLiteral. It's unsafe to keep trying to find
+                        // a value for this key, since __proto__ might also contain the key.
+                        return None;
+                    };
+
+                    // Get key value from __props__ object. Only return if
+                    // the result is Some. If None, we keep searching in the
+                    // parent object.
+                    let v = get_key_value(key, props);
+                    if v.is_some() {
+                        return v;
+                    }
+                } else if prop_name_eq(&prop.key, key) {
+                    let prop = match props.remove(i) {
+                        PropOrSpread::Prop(x) => *x,
+                        _ => unreachable!(),
+                    };
+                    let prop = match prop {
+                        Prop::KeyValue(x) => x,
+                        _ => unreachable!(),
+                    };
+                    return Some(*prop.value);
+                }
+            }
+
+            _ => {}
+        }
+    }
+
+    None
 }

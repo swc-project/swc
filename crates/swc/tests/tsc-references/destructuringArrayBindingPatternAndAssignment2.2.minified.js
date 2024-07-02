@@ -1,7 +1,7 @@
 //// [destructuringArrayBindingPatternAndAssignment2.ts]
 import { _ as _sliced_to_array } from "@swc/helpers/_/_sliced_to_array";
 import { _ as _to_consumable_array } from "@swc/helpers/_/_to_consumable_array";
-var _ref_1 = (_sliced_to_array([][0], 1)[0], _sliced_to_array([][1], 1));
+var _ref_1 = (_sliced_to_array(void 0, 1)[0], _sliced_to_array(void 0, 1));
 _sliced_to_array(_ref_1[0], 1)[0];
 var _undefined = _sliced_to_array(void 0, 2), _undefined_1 = (_sliced_to_array(_undefined[0], 1)[0], _sliced_to_array(_undefined[1], 1));
 _sliced_to_array(_undefined_1[0], 1)[0];

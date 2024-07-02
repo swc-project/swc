@@ -42,4 +42,4 @@ new Class(), d0({
     y: new SubClass()
 }).y, ({
     y: new Class()
-}).y, ({}).y;
+}).y;

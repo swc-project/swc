@@ -1,1 +1,1 @@
-console.log("1234".a + 1, "1234"["a"] + 1, "1234"[3.14] + 1);
+console.log(NaN, NaN, NaN);

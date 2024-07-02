@@ -1885,13 +1885,9 @@ impl Visit for LiteralVisitor {
         match node {
             PropName::Str(ref s) => self.cost += 2 + s.value.len(),
             PropName::Ident(ref id) => self.cost += 2 + id.sym.len(),
-            PropName::Num(n) => {
-                if n.value.fract() < 1e-10 {
-                    // TODO: Count digits
-                    self.cost += 5;
-                } else {
-                    self.is_lit = false
-                }
+            PropName::Num(..) => {
+                // TODO: Count digits
+                self.cost += 5;
             }
             PropName::BigInt(_) => self.is_lit = false,
             PropName::Computed(..) => self.is_lit = false,
@@ -2675,7 +2671,7 @@ pub fn prop_name_eq(p: &PropName, key: &str) -> bool {
     match p {
         PropName::Ident(i) => i.sym == *key,
         PropName::Str(s) => s.value == *key,
-        PropName::Num(_) => false,
+        PropName::Num(n) => n.value.to_string() == *key,
         PropName::BigInt(_) => false,
         PropName::Computed(e) => match &*e.expr {
             Expr::Lit(Lit::Str(Str { value, .. })) => *value == *key,

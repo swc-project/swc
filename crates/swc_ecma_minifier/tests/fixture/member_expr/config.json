@@ -1,0 +1,6 @@
+{
+  "defaults": true,
+  "toplevel": true,
+  "unused": false,
+  "dead_code": false
+}

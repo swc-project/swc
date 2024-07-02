@@ -9,9 +9,9 @@ name          = "swc_ecma_minifier"
 repository    = "https://github.com/swc-project/swc.git"
 version       = "0.197.1"
 
-  [package.metadata.docs.rs]
-  all-features = true
-  rustdoc-args = ["--cfg", "docsrs"]
+[package.metadata.docs.rs]
+all-features = true
+rustdoc-args = ["--cfg", "docsrs"]
 
 [lib]
 bench = false
@@ -49,6 +49,7 @@ ryu-js            = { workspace = true }
 serde             = { workspace = true, features = ["derive"] }
 serde_json        = { workspace = true }
 tracing           = { workspace = true }
+phf               = { workspace = true }
 
 swc_atoms = { version = "0.6.5", path = "../swc_atoms" }
 swc_common = { version = "0.34.0", path = "../swc_common" }
