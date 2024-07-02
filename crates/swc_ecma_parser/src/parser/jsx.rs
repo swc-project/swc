@@ -229,7 +229,7 @@ impl<I: Tokens> Parser<I> {
         let type_args = if self.input.syntax().typescript() && is!(self, '<') {
             self.try_parse_ts(|p| p.parse_ts_type_args().map(Some))
         } else if self.input.syntax().flow() && is!(self, '<') {
-            self.consume_flow_type_param_decl()?;
+            self.consume_flow_type_or_implicit_instantiation()?;
             None
         } else {
             None
