@@ -126,6 +126,7 @@ define_known_ident!(
     Never => "never",
     Assert => "assert",
     Namespace => "namespace",
+    Module => "module",
     Accessor => "accessor",
     Meta => "meta",
     Target => "target",
