@@ -32,7 +32,7 @@ for (const property of properties) {
     let name = property.name.getText(mainFile)
     const value = property.initializer.getText(mainFile)
 
-    name = name.replace(/['\(\)]+/g, '').replace(/[\: ]+/g, '-')
+    name = name.replace(/['\(\)"']+/g, '').replace(/[\:; ]+/g, '-')
 
     // console.log('name', name)
     // console.log('value', value)
