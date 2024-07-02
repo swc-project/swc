@@ -68,7 +68,7 @@ fn run_spec(file: &Path) {
     let all_error_count = spec.errors.len();
 
     spec.errors
-        .retain(|err| IGNORED.iter().any(|ignored| err.message.contains(ignored)));
+        .retain(|err| !IGNORED.iter().any(|ignored| err.message.contains(ignored)));
 
     let file_name = file
         .display()
@@ -108,7 +108,7 @@ fn run_spec(file: &Path) {
 
     if result.is_ok() {
         if !spec.errors.is_empty() {
-            panic!("test passed but it should have failed")
+            panic!("parsing suceeded but it should have failed")
         }
     } else if all_error_count == 0 {
         result.expect("failed to parse");
