@@ -416,3 +416,10 @@ macro_rules! is_contextual {
         is!($p, $tt)
     };
 }
+
+macro_rules! eat_contextual {
+    ($p:expr, $tt:tt) => {
+        // TODO: Check if the current token has an escape.
+        eat!($p, $tt)
+    };
+}
