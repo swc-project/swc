@@ -25,7 +25,6 @@ serde-wasm-bindgen = "0.4.5"
 swc_core = { version = "0.95.10", features = [
   "ecma_ast_serde",
   "ecma_codegen",
-  "binding_macro_wasm",
   "ecma_transforms",
   "ecma_visit",
 ] }
