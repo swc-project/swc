@@ -529,6 +529,14 @@ where
         Ok(())
     }
 
+    pub(super) fn consume_flow_type_args(&mut self) -> PResult<()> {
+        self.in_no_context(|p| {
+            p.in_type().consume_flow_type_param_instantiation()?;
+
+            Ok(())
+        })
+    }
+
     /// Ported from `flowParseObjectType`
     #[cfg_attr(feature = "tracing-spans", tracing::instrument(skip_all))]
     fn consume_flow_object_type(

@@ -453,7 +453,7 @@ impl<I: Tokens> Parser<I> {
         permit_const: bool,
     ) -> PResult<Box<TsTypeParamDecl>> {
         self.in_type().parse_with(|p| {
-            p.ts_in_no_context(|p| {
+            p.in_no_context(|p| {
                 let start = cur_pos!(p);
 
                 if !is!(p, '<') && !is!(p, JSXTagStart) {
@@ -2669,7 +2669,7 @@ impl<I: Tokens> Parser<I> {
         let params = self.in_type().parse_with(|p| {
             // Temporarily remove a JSX parsing context, which makes us scan different
             // tokens.
-            p.ts_in_no_context(|p| {
+            p.in_no_context(|p| {
                 if is!(p, "<<") {
                     p.input.cut_lshift();
                 } else {
@@ -2768,13 +2768,11 @@ impl<I: Tokens> Parser<I> {
 
 impl<I: Tokens> Parser<I> {
     /// In no lexer context
-    fn ts_in_no_context<T, F>(&mut self, op: F) -> PResult<T>
+    pub(crate) fn in_no_context<T, F>(&mut self, op: F) -> PResult<T>
     where
         F: FnOnce(&mut Self) -> PResult<T>,
     {
         debug_assert!(self.input.syntax().typescript());
-
-        trace_cur!(self, ts_in_no_context__before);
 
         let cloned = self.input.token_context().clone();
 
@@ -2782,8 +2780,6 @@ impl<I: Tokens> Parser<I> {
             .set_token_context(TokenContexts(smallvec::smallvec![cloned.0[0]]));
         let res = op(self);
         self.input.set_token_context(cloned);
-
-        trace_cur!(self, ts_in_no_context__after);
 
         res
     }
