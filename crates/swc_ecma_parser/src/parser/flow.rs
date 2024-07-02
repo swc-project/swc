@@ -375,7 +375,7 @@ where
             .unwrap_or_default()
         {
             if is_contextual!(self, "interface") {
-                return self.consume_flow_inteface_type();
+                return self.consume_flow_interfaceish(false);
             }
             let ident = self.parse_ident_name()?;
 
@@ -518,10 +518,6 @@ where
 
     fn consume_flow_type_params(&mut self) -> PResult<()> {
         todo!("consume_flow_type_params")
-    }
-
-    fn consume_flow_inteface_type(&mut self) -> PResult<()> {
-        todo!("consume_flow_inteface_type")
     }
 
     /// Ported from `flowParseTypeofType`
@@ -908,6 +904,11 @@ where
                 return Ok(Some(()));
             }
 
+            "interface" => {
+                self.consume_flow_interfaceish(true)?;
+                return Ok(Some(()));
+            }
+
             _ => {}
         }
 
@@ -957,6 +958,11 @@ where
             return Ok(Some(()));
         }
 
+        if is!(p, "interface") {
+            p.consume_flow_interfaceish(false)?;
+            return Ok(Some(()));
+        }
+
         Ok(None)
     }
 
@@ -978,6 +984,11 @@ where
 
         if is!(self, "type") {
             self.consume_flow_type_alias()?;
+            return Ok(Some(()));
+        }
+
+        if is!(self, "interface") {
+            self.consume_flow_interfaceish(false)?;
             return Ok(Some(()));
         }
 
