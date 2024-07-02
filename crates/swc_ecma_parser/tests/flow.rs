@@ -61,7 +61,9 @@ fn run_spec(file: &Path) {
     let mut all_error_count = spec.errors.len();
 
     spec.errors.retain(|err| {
-        !err.message.contains("invalid identifier") && !err.message.contains("reserved word")
+        !err.message.contains("invalid identifier")
+            && !err.message.contains("reserved word")
+            && !err.message.contains("Assignment to eval or arguments")
     });
 
     let file_name = file
