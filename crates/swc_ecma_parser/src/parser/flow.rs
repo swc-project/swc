@@ -1025,6 +1025,9 @@ where
             if is!(self, '=') {
                 self.emit_err(span, SyntaxError::FlowDeclareOpaqueType);
             }
+
+            expect!(self, ':');
+            self.consume_flow_type()?;
         } else {
             self.consume_flow_type_init(Some(tok!('=').kind()))?;
         }
