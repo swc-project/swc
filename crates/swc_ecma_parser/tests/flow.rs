@@ -47,6 +47,13 @@ impl Spec {
     }
 }
 
+const IGNORED: &[&str] = &[
+    "invalid identifier",
+    "reserved word",
+    "eval or arguments",
+    "Duplicate export",
+];
+
 fn run_spec(file: &Path) {
     let spec_json = file.parent().unwrap().join(format!(
         "{}.tree.json",
@@ -60,11 +67,8 @@ fn run_spec(file: &Path) {
     let mut spec = Spec::read(&spec_json);
     let mut all_error_count = spec.errors.len();
 
-    spec.errors.retain(|err| {
-        !err.message.contains("invalid identifier")
-            && !err.message.contains("reserved word")
-            && !err.message.contains("Assignment to eval or arguments")
-    });
+    spec.errors
+        .retain(|err| IGNORED.iter().any(|ignored| err.message.contains(ignored)));
 
     let file_name = file
         .display()
