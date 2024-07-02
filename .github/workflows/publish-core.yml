@@ -2,6 +2,7 @@ name: Publish (core)
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name != 'push' }}
 
 env:
   DEBUG: napi:*
