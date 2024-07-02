@@ -508,13 +508,13 @@ jobs:
       matrix:
         settings:
           - crate: "binding_core_wasm"
-            npm: "@swc/wasm"
+            npm: "@swc\\/wasm"
             target: nodejs
           - crate: "binding_core_wasm"
-            npm: "@swc/wasm-web"
+            npm: "@swc\\/wasm-web"
             target: web
           - crate: "binding_typescript_wasm"
-            npm: "@swc/wasm-typescript"
+            npm: "@swc\\/wasm-typescript"
             target: no-modules
     steps:
       - uses: actions/checkout@v4
