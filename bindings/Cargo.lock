@@ -313,6 +313,7 @@ dependencies = [
  "swc_core",
  "tracing",
  "wasm-bindgen",
+ "wasm-bindgen-futures",
 ]
 
 [[package]]
