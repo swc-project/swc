@@ -292,6 +292,22 @@ pub enum SyntaxError {
 
     ReservedTypeAssertion,
     ReservedArrowTypeParam,
+
+    FlowThisParamMustBeFirst,
+    FlowThisParamCannotBeOptional,
+    FlowReservedWordInType {
+        word: JsWord,
+    },
+    FlowInexactInsideNonObject,
+    FlowInexactInsideExact,
+    FlowInexactVariance,
+    FlowUnexpectedSpreadType,
+    FlowUnexpectedProtoSpread,
+    FlowSpreadVariance,
+    FlowUnexpectedProtoMethod,
+    FlowMethodVariance,
+    FlowUnexpectedGetterSetter,
+    FlowDeclareOpaqueType,
 }
 
 impl SyntaxError {
@@ -758,6 +774,33 @@ impl SyntaxError {
                                                     as in `<T,>() => ...`."
                 .into(),
             SyntaxError::InvalidAssignTarget => "Invalid assignment target".into(),
+            SyntaxError::FlowThisParamMustBeFirst => {
+                "The 'this' parameter must be the first parameter".into()
+            }
+            SyntaxError::FlowThisParamCannotBeOptional => {
+                "The 'this' parameter cannot be optional".into()
+            }
+            SyntaxError::FlowReservedWordInType { ref word } => {
+                format!("Cannot use a reserved word as a type name: '{}'", word).into()
+            }
+            SyntaxError::FlowInexactInsideNonObject => {
+                "Inexact type can only be used with object type".into()
+            }
+            SyntaxError::FlowInexactInsideExact => {
+                "Exact type can only be used with object type".into()
+            }
+            SyntaxError::FlowInexactVariance => "Inexact type cannot have variance".into(),
+            SyntaxError::FlowUnexpectedSpreadType => "Unexpected spread type".into(),
+            SyntaxError::FlowUnexpectedProtoSpread => {
+                "Unexpected spread of prototype property".into()
+            }
+            SyntaxError::FlowSpreadVariance => "Spread type cannot have variance".into(),
+            SyntaxError::FlowUnexpectedProtoMethod => "Unexpected prototype method".into(),
+            SyntaxError::FlowMethodVariance => "Method cannot have variance".into(),
+            SyntaxError::FlowUnexpectedGetterSetter => {
+                "Unexpected getter or setter in object type".into()
+            }
+            SyntaxError::FlowDeclareOpaqueType => "Opaque type cannot be declared".into(),
         }
     }
 }

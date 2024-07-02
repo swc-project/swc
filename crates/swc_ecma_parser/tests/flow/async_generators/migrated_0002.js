@@ -1,0 +1,1 @@
+class C { async *m() {} }

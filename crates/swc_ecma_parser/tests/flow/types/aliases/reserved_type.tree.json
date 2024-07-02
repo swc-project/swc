@@ -1,0 +1,33 @@
+{
+  "errors":[
+    {
+      "loc":{"source":null,"start":{"line":1,"column":5},"end":{"line":1,"column":14}},
+      "message":"Unexpected reserved type"
+    }
+  ],
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":24}},
+  "range":[0,24],
+  "body":[
+    {
+      "type":"TypeAlias",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":24}},
+      "range":[0,24],
+      "id":{
+        "type":"Identifier",
+        "loc":{"source":null,"start":{"line":1,"column":5},"end":{"line":1,"column":14}},
+        "range":[5,14],
+        "name":"interface",
+        "typeAnnotation":null,
+        "optional":false
+      },
+      "typeParameters":null,
+      "right":{
+        "type":"StringTypeAnnotation",
+        "loc":{"source":null,"start":{"line":1,"column":17},"end":{"line":1,"column":23}},
+        "range":[17,23]
+      }
+    }
+  ],
+  "comments":[]
+}

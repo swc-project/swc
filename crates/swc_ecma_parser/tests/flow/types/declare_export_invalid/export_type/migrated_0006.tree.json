@@ -1,0 +1,45 @@
+{
+  "errors":[
+    {
+      "loc":{"source":null,"start":{"line":1,"column":28},"end":{"line":1,"column":34}},
+      "message":"Unexpected token `number`, expected the token `=`"
+    },
+    {
+      "loc":{"source":null,"start":{"line":1,"column":34},"end":{"line":1,"column":35}},
+      "message":"Unexpected token `;`, expected a type"
+    }
+  ],
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":35}},
+  "range":[0,35],
+  "body":[
+    {
+      "type":"DeclareExportDeclaration",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":35}},
+      "range":[0,35],
+      "default":false,
+      "declaration":{
+        "type":"TypeAlias",
+        "loc":{"source":null,"start":{"line":1,"column":15},"end":{"line":1,"column":35}},
+        "range":[15,35],
+        "id":{
+          "type":"Identifier",
+          "loc":{"source":null,"start":{"line":1,"column":20},"end":{"line":1,"column":27}},
+          "range":[20,27],
+          "name":"default",
+          "typeAnnotation":null,
+          "optional":false
+        },
+        "typeParameters":null,
+        "right":{
+          "type":"AnyTypeAnnotation",
+          "loc":{"source":null,"start":{"line":1,"column":34},"end":{"line":1,"column":35}},
+          "range":[34,35]
+        }
+      },
+      "specifiers":[],
+      "source":null
+    }
+  ],
+  "comments":[]
+}

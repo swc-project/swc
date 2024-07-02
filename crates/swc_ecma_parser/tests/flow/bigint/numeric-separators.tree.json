@@ -1,0 +1,22 @@
+{
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":7}},
+  "range":[0,7],
+  "body":[
+    {
+      "type":"ExpressionStatement",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":7}},
+      "range":[0,7],
+      "expression":{
+        "type":"Literal",
+        "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":6}},
+        "range":[0,6],
+        "value":null,
+        "bigint":"1000",
+        "raw":"1_000n"
+      },
+      "directive":null
+    }
+  ],
+  "comments":[]
+}

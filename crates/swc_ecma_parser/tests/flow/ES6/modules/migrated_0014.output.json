@@ -1,0 +1,111 @@
+{
+  "type": "Module",
+  "span": {
+    "start": 47,
+    "end": 104,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 47,
+        "end": 71,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "FunctionDeclaration",
+        "identifier": {
+          "type": "Identifier",
+          "span": {
+            "start": 63,
+            "end": 66,
+            "ctxt": 0
+          },
+          "value": "foo",
+          "optional": false
+        },
+        "declare": false,
+        "params": [],
+        "decorators": [],
+        "span": {
+          "start": 54,
+          "end": 71,
+          "ctxt": 0
+        },
+        "body": {
+          "type": "BlockStatement",
+          "span": {
+            "start": 69,
+            "end": 71,
+            "ctxt": 0
+          },
+          "stmts": []
+        },
+        "generator": false,
+        "async": false,
+        "typeParameters": null,
+        "returnType": null
+      }
+    },
+    {
+      "type": "EmptyStatement",
+      "span": {
+        "start": 71,
+        "end": 72,
+        "ctxt": 0
+      }
+    },
+    {
+      "type": "ExportDeclaration",
+      "span": {
+        "start": 73,
+        "end": 103,
+        "ctxt": 0
+      },
+      "declaration": {
+        "type": "FunctionDeclaration",
+        "identifier": {
+          "type": "Identifier",
+          "span": {
+            "start": 95,
+            "end": 98,
+            "ctxt": 0
+          },
+          "value": "foo",
+          "optional": false
+        },
+        "declare": false,
+        "params": [],
+        "decorators": [],
+        "span": {
+          "start": 80,
+          "end": 103,
+          "ctxt": 0
+        },
+        "body": {
+          "type": "BlockStatement",
+          "span": {
+            "start": 101,
+            "end": 103,
+            "ctxt": 0
+          },
+          "stmts": []
+        },
+        "generator": false,
+        "async": true,
+        "typeParameters": null,
+        "returnType": null
+      }
+    },
+    {
+      "type": "EmptyStatement",
+      "span": {
+        "start": 103,
+        "end": 104,
+        "ctxt": 0
+      }
+    }
+  ],
+  "interpreter": null
+}

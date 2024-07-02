@@ -1,0 +1,213 @@
+{
+  "type":"Program",
+  "loc":{"source":null,"start":{"line":1,"column":17},"end":{"line":3,"column":96}},
+  "range":[17,209],
+  "body":[
+    {
+      "type":"ExpressionStatement",
+      "loc":{"source":null,"start":{"line":1,"column":17},"end":{"line":1,"column":111}},
+      "range":[17,111],
+      "expression":{
+        "type":"ConditionalExpression",
+        "loc":{"source":null,"start":{"line":1,"column":17},"end":{"line":1,"column":94}},
+        "range":[17,94],
+        "test":{
+          "type":"Literal",
+          "trailingComments":[
+            {
+              "type":"Block",
+              "loc":{"source":null,"start":{"line":1,"column":22},"end":{"line":1,"column":38}},
+              "range":[22,38],
+              "value":" 1.2 T bool "
+            }
+          ],
+          "leadingComments":[
+            {
+              "type":"Block",
+              "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":16}},
+              "range":[0,16],
+              "value":" 1.1 L bool "
+            }
+          ],
+          "loc":{"source":null,"start":{"line":1,"column":17},"end":{"line":1,"column":21}},
+          "range":[17,21],
+          "value":true,
+          "raw":"true"
+        },
+        "consequent":{
+          "type":"Literal",
+          "trailingComments":[
+            {
+              "type":"Block",
+              "loc":{"source":null,"start":{"line":1,"column":59},"end":{"line":1,"column":74}},
+              "range":[59,74],
+              "value":" 1.4 T num "
+            }
+          ],
+          "leadingComments":[
+            {
+              "type":"Block",
+              "loc":{"source":null,"start":{"line":1,"column":41},"end":{"line":1,"column":56}},
+              "range":[41,56],
+              "value":" 1.3 L num "
+            }
+          ],
+          "loc":{"source":null,"start":{"line":1,"column":57},"end":{"line":1,"column":58}},
+          "range":[57,58],
+          "value":1,
+          "raw":"1"
+        },
+        "alternate":{
+          "type":"Literal",
+          "trailingComments":[
+            {
+              "type":"Block",
+              "loc":{"source":null,"start":{"line":1,"column":95},"end":{"line":1,"column":110}},
+              "range":[95,110],
+              "value":" 1.6 T num "
+            }
+          ],
+          "leadingComments":[
+            {
+              "type":"Block",
+              "loc":{"source":null,"start":{"line":1,"column":77},"end":{"line":1,"column":92}},
+              "range":[77,92],
+              "value":" 1.5 L num "
+            }
+          ],
+          "loc":{"source":null,"start":{"line":1,"column":93},"end":{"line":1,"column":94}},
+          "range":[93,94],
+          "value":2,
+          "raw":"2"
+        }
+      },
+      "directive":null
+    },
+    {
+      "type":"ExpressionStatement",
+      "loc":{"source":null,"start":{"line":3,"column":24},"end":{"line":3,"column":96}},
+      "range":[137,209],
+      "expression":{
+        "type":"ConditionalExpression",
+        "trailingComments":[
+          {
+            "type":"Block",
+            "loc":{"source":null,"start":{"line":3,"column":72},"end":{"line":3,"column":95}},
+            "range":[185,208],
+            "value":" 2.4 T conditional "
+          }
+        ],
+        "leadingComments":[
+          {
+            "type":"Block",
+            "loc":{"source":null,"start":{"line":3,"column":0},"end":{"line":3,"column":23}},
+            "range":[113,136],
+            "value":" 2.1 L conditional "
+          }
+        ],
+        "loc":{"source":null,"start":{"line":3,"column":42},"end":{"line":3,"column":54}},
+        "range":[155,167],
+        "test":{
+          "type":"Literal",
+          "leadingComments":[
+            {
+              "type":"Block",
+              "loc":{"source":null,"start":{"line":3,"column":25},"end":{"line":3,"column":41}},
+              "range":[138,154],
+              "value":" 2.2 L bool "
+            }
+          ],
+          "loc":{"source":null,"start":{"line":3,"column":42},"end":{"line":3,"column":46}},
+          "range":[155,159],
+          "value":true,
+          "raw":"true"
+        },
+        "consequent":{
+          "type":"Literal",
+          "loc":{"source":null,"start":{"line":3,"column":49},"end":{"line":3,"column":50}},
+          "range":[162,163],
+          "value":1,
+          "raw":"1"
+        },
+        "alternate":{
+          "type":"Literal",
+          "trailingComments":[
+            {
+              "type":"Block",
+              "loc":{"source":null,"start":{"line":3,"column":55},"end":{"line":3,"column":70}},
+              "range":[168,183],
+              "value":" 2.3 T num "
+            }
+          ],
+          "loc":{"source":null,"start":{"line":3,"column":53},"end":{"line":3,"column":54}},
+          "range":[166,167],
+          "value":2,
+          "raw":"2"
+        }
+      },
+      "directive":null
+    }
+  ],
+  "comments":[
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":1,"column":0},"end":{"line":1,"column":16}},
+      "range":[0,16],
+      "value":" 1.1 L bool "
+    },
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":1,"column":22},"end":{"line":1,"column":38}},
+      "range":[22,38],
+      "value":" 1.2 T bool "
+    },
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":1,"column":41},"end":{"line":1,"column":56}},
+      "range":[41,56],
+      "value":" 1.3 L num "
+    },
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":1,"column":59},"end":{"line":1,"column":74}},
+      "range":[59,74],
+      "value":" 1.4 T num "
+    },
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":1,"column":77},"end":{"line":1,"column":92}},
+      "range":[77,92],
+      "value":" 1.5 L num "
+    },
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":1,"column":95},"end":{"line":1,"column":110}},
+      "range":[95,110],
+      "value":" 1.6 T num "
+    },
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":3,"column":0},"end":{"line":3,"column":23}},
+      "range":[113,136],
+      "value":" 2.1 L conditional "
+    },
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":3,"column":25},"end":{"line":3,"column":41}},
+      "range":[138,154],
+      "value":" 2.2 L bool "
+    },
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":3,"column":55},"end":{"line":3,"column":70}},
+      "range":[168,183],
+      "value":" 2.3 T num "
+    },
+    {
+      "type":"Block",
+      "loc":{"source":null,"start":{"line":3,"column":72},"end":{"line":3,"column":95}},
+      "range":[185,208],
+      "value":" 2.4 T conditional "
+    }
+  ]
+}

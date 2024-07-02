@@ -1,0 +1,47 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 6,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 1,
+        "end": 6,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "MemberExpression",
+        "span": {
+          "start": 1,
+          "end": 5,
+          "ctxt": 0
+        },
+        "object": {
+          "type": "NumericLiteral",
+          "span": {
+            "start": 1,
+            "end": 3,
+            "ctxt": 0
+          },
+          "value": 1.0,
+          "raw": "1."
+        },
+        "property": {
+          "type": "Identifier",
+          "span": {
+            "start": 4,
+            "end": 5,
+            "ctxt": 0
+          },
+          "value": "n",
+          "optional": false
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

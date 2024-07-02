@@ -1,0 +1,90 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 1,
+    "end": 26,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "BlockStatement",
+      "span": {
+        "start": 1,
+        "end": 26,
+        "ctxt": 0
+      },
+      "stmts": [
+        {
+          "type": "ExpressionStatement",
+          "span": {
+            "start": 3,
+            "end": 24,
+            "ctxt": 0
+          },
+          "expression": {
+            "type": "CallExpression",
+            "span": {
+              "start": 3,
+              "end": 23,
+              "ctxt": 0
+            },
+            "callee": {
+              "type": "MemberExpression",
+              "span": {
+                "start": 3,
+                "end": 21,
+                "ctxt": 0
+              },
+              "object": {
+                "type": "CallExpression",
+                "span": {
+                  "start": 3,
+                  "end": 16,
+                  "ctxt": 0
+                },
+                "callee": {
+                  "type": "Import",
+                  "span": {
+                    "start": 3,
+                    "end": 9,
+                    "ctxt": 0
+                  },
+                  "phase": "evaluation"
+                },
+                "arguments": [
+                  {
+                    "spread": null,
+                    "expression": {
+                      "type": "StringLiteral",
+                      "span": {
+                        "start": 10,
+                        "end": 15,
+                        "ctxt": 0
+                      },
+                      "value": "dsa",
+                      "raw": "\"dsa\""
+                    }
+                  }
+                ],
+                "typeArguments": null
+              },
+              "property": {
+                "type": "Identifier",
+                "span": {
+                  "start": 17,
+                  "end": 21,
+                  "ctxt": 0
+                },
+                "value": "then",
+                "optional": false
+              }
+            },
+            "arguments": [],
+            "typeArguments": null
+          }
+        }
+      ]
+    }
+  ],
+  "interpreter": null
+}

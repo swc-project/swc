@@ -172,6 +172,8 @@ const L_L: ByteHandler = Some(|lexer| {
 const L_M: ByteHandler = Some(|lexer| {
     lexer.read_word_with(&|s| match s {
         "meta" => Some(Word::Ident(IdentLike::Known(KnownIdent::Meta))),
+        "mixins" => Some(Word::Ident(IdentLike::Known(KnownIdent::Mixins))),
+        "module" => Some(Word::Ident(IdentLike::Known(KnownIdent::Module))),
         _ => None,
     })
 });
@@ -191,6 +193,7 @@ const L_O: ByteHandler = Some(|lexer| {
     lexer.read_word_with(&|s| match s {
         "of" => Some(Word::Ident(IdentLike::Known(KnownIdent::Of))),
         "object" => Some(Word::Ident(IdentLike::Known(KnownIdent::Object))),
+        "opaque" => Some(Word::Ident(IdentLike::Known(KnownIdent::Opaque))),
         _ => None,
     })
 });
@@ -201,6 +204,7 @@ const L_P: ByteHandler = Some(|lexer| {
         "package" => Some(Word::Ident(IdentLike::Known(KnownIdent::Package))),
         "protected" => Some(Word::Ident(IdentLike::Known(KnownIdent::Protected))),
         "private" => Some(Word::Ident(IdentLike::Known(KnownIdent::Private))),
+        "proto" => Some(Word::Ident(IdentLike::Known(KnownIdent::Proto))),
         _ => None,
     })
 });
@@ -212,6 +216,7 @@ const L_R: ByteHandler = Some(|lexer| {
         "return" => Some(Word::Keyword(Keyword::Return)),
         "readonly" => Some(Word::Ident(IdentLike::Known(KnownIdent::Readonly))),
         "require" => Some(Word::Ident(IdentLike::Known(KnownIdent::Require))),
+        "renders" => Some(Word::Ident(IdentLike::Known(KnownIdent::Renders))),
         _ => None,
     })
 });

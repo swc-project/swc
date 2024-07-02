@@ -1,4 +1,4 @@
-use swc_common::Spanned;
+use swc_common::{Spanned, DUMMY_SP};
 use typed_arena::Arena;
 
 use super::{pat::PatType, *};
@@ -347,6 +347,20 @@ impl<'a, I: Tokens> Parser<I> {
                         self.parse_ts_type_alias_decl(start)?,
                     )));
                 }
+
+                if self.input.syntax().flow() && peeked_is!(self, IdentName) {
+                    assert_and_bump!(self, "type");
+                    self.parse_ident_name()?;
+
+                    self.may_consume_flow_type_param_decls()?;
+
+                    expect!(self, '=');
+
+                    self.consume_flow_type()?;
+                    return Ok(Stmt::Empty(EmptyStmt {
+                        span: span!(self, start),
+                    }));
+                }
             }
 
             tok!("enum") => {
@@ -421,6 +435,12 @@ impl<'a, I: Tokens> Parser<I> {
             if self.input.syntax().typescript() {
                 if let Some(decl) = self.parse_ts_expr_stmt(decorators, ident.clone())? {
                     return Ok(Stmt::Decl(decl));
+                }
+            }
+
+            if self.input.syntax().flow() {
+                if let Some(()) = self.may_consume_flow_expr_stmt(ident.clone())? {
+                    return Ok(Stmt::Empty(EmptyStmt { span: DUMMY_SP }));
                 }
             }
         }
@@ -998,6 +1018,8 @@ impl<'a, I: Tokens> Parser<I> {
                 }
                 _ => unreachable!("invalid syntax: Pat: {:?}", name),
             }
+        } else if self.input.syntax().flow() && is!(self, ':') {
+            self.consume_flow_type_ann()?;
         }
 
         //FIXME: This is wrong. Should check in/of only on first loop.

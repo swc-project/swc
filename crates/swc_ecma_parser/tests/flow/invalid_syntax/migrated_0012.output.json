@@ -1,0 +1,76 @@
+{
+  "type": "Script",
+  "span": {
+    "start": 40,
+    "end": 67,
+    "ctxt": 0
+  },
+  "body": [
+    {
+      "type": "ExpressionStatement",
+      "span": {
+        "start": 40,
+        "end": 67,
+        "ctxt": 0
+      },
+      "expression": {
+        "type": "ParenthesisExpression",
+        "span": {
+          "start": 40,
+          "end": 67,
+          "ctxt": 0
+        },
+        "expression": {
+          "type": "ObjectExpression",
+          "span": {
+            "start": 41,
+            "end": 66,
+            "ctxt": 0
+          },
+          "properties": [
+            {
+              "type": "SetterProperty",
+              "span": {
+                "start": 43,
+                "end": 64,
+                "ctxt": 0
+              },
+              "key": {
+                "type": "Identifier",
+                "span": {
+                  "start": 47,
+                  "end": 50,
+                  "ctxt": 0
+                },
+                "value": "foo",
+                "optional": false
+              },
+              "thisParam": null,
+              "param": {
+                "type": "Identifier",
+                "span": {
+                  "start": 54,
+                  "end": 60,
+                  "ctxt": 0
+                },
+                "value": "newFoo",
+                "optional": false,
+                "typeAnnotation": null
+              },
+              "body": {
+                "type": "BlockStatement",
+                "span": {
+                  "start": 62,
+                  "end": 64,
+                  "ctxt": 0
+                },
+                "stmts": []
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "interpreter": null
+}

@@ -116,7 +116,6 @@
 #![cfg_attr(docsrs, feature(doc_cfg))]
 #![cfg_attr(test, feature(test))]
 #![deny(clippy::all)]
-#![deny(unused)]
 #![allow(clippy::nonminimal_bool)]
 #![allow(clippy::too_many_arguments)]
 #![allow(clippy::unnecessary_unwrap)]
@@ -156,6 +155,11 @@ pub enum Syntax {
     #[cfg_attr(docsrs, doc(cfg(feature = "typescript")))]
     #[serde(rename = "typescript")]
     Typescript(TsSyntax),
+    /// This variant requires the cargo feature `flow` to be enabled.
+    #[cfg(feature = "flow")]
+    #[cfg_attr(docsrs, doc(cfg(feature = "flow")))]
+    #[serde(rename = "flow")]
+    Flow(FlowSyntax),
 }
 
 impl Default for Syntax {
@@ -184,6 +188,8 @@ impl Syntax {
             }) => import_attributes,
             #[cfg(feature = "typescript")]
             Syntax::Typescript(_) => true,
+            #[cfg(feature = "flow")]
+            Syntax::Flow(..) => true,
         }
     }
 
@@ -193,6 +199,8 @@ impl Syntax {
             Syntax::Es(EsSyntax { jsx: true, .. }) => true,
             #[cfg(feature = "typescript")]
             Syntax::Typescript(TsSyntax { tsx: true, .. }) => true,
+            #[cfg(feature = "flow")]
+            Syntax::Flow(..) => true,
             _ => false,
         }
     }
@@ -210,6 +218,8 @@ impl Syntax {
             Syntax::Typescript(TsSyntax {
                 decorators: true, ..
             }) => true,
+            #[cfg(feature = "flow")]
+            Syntax::Flow(..) => true,
             _ => false,
         }
     }
@@ -238,6 +248,18 @@ impl Syntax {
         matches!(self, Syntax::Typescript(..))
     }
 
+    /// Should we parse flow?
+    #[cfg(not(feature = "flow"))]
+    pub const fn flow(self) -> bool {
+        false
+    }
+
+    /// Should we parse flow?
+    #[cfg(feature = "flow")]
+    pub const fn flow(self) -> bool {
+        matches!(self, Syntax::Flow(..))
+    }
+
     pub fn export_default_from(self) -> bool {
         matches!(
             self,
@@ -264,6 +286,8 @@ impl Syntax {
             }) => allow_super_outside_method,
             #[cfg(feature = "typescript")]
             Syntax::Typescript(_) => true,
+            #[cfg(feature = "flow")]
+            Syntax::Flow(..) => false,
         }
     }
 
@@ -275,6 +299,8 @@ impl Syntax {
             }) => allow_return_outside_function,
             #[cfg(feature = "typescript")]
             Syntax::Typescript(_) => false,
+            #[cfg(feature = "flow")]
+            Syntax::Flow(..) => false,
         }
     }
 
@@ -283,6 +309,8 @@ impl Syntax {
             #[cfg(feature = "typescript")]
             Syntax::Typescript(t) => !t.no_early_errors,
             Syntax::Es(..) => true,
+            #[cfg(feature = "flow")]
+            Syntax::Flow(..) => true,
         }
     }
 
@@ -302,6 +330,8 @@ impl Syntax {
             }) => *using_decl,
             #[cfg(feature = "typescript")]
             Syntax::Typescript(_) => true,
+            #[cfg(feature = "flow")]
+            Syntax::Flow(..) => true,
         }
     }
 }
@@ -379,6 +409,10 @@ pub struct EsSyntax {
 #[deprecated(note = "Use 'EsSyntax' instead")]
 pub type EsConfig = EsSyntax;
 
+#[cfg(feature = "flow")]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Default, Serialize, Deserialize)]
+pub struct FlowSyntax {}
+
 /// Syntactic context.
 #[derive(Debug, Clone, Copy, Default)]
 pub struct Context {
@@ -442,6 +476,8 @@ pub struct Context {
     disallow_conditional_types: bool,
 
     allow_using_decl: bool,
+
+    flow_no_anon_function_type: bool,
 }
 
 #[derive(Debug, Clone, Copy, Default)]
