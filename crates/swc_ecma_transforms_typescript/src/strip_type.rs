@@ -5,6 +5,10 @@ use swc_ecma_visit::{VisitMut, VisitMutWith};
 
 use crate::{type_to_none, unreachable_visit_mut_type};
 
+pub fn strip_type() -> impl VisitMut {
+    StripType::default()
+}
+
 /// This Module will strip all types/generics/interface/declares
 /// and type import/export
 #[derive(Default)]

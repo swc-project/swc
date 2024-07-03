@@ -2,7 +2,7 @@
 #![allow(clippy::vec_box)]
 #![allow(clippy::mutable_key_type)]
 
-pub use self::typescript::*;
+pub use self::{strip_type::*, typescript::*};
 mod config;
 mod macros;
 mod strip_import_export;
