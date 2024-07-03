@@ -72,7 +72,7 @@ pub fn transform(input: JsString, options: JsValue) -> Promise {
     future_to_promise(async move { transform_sync(input, options) })
 }
 
-#[wasm_bindgen]
+#[wasm_bindgen(js_name = "transformSync")]
 pub fn transform_sync(input: JsString, options: JsValue) -> Result<JsValue, JsValue> {
     let options: Options = serde_wasm_bindgen::from_value(options)?;
 
