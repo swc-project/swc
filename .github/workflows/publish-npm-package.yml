@@ -514,3 +514,65 @@ jobs:
           RELEASE_VERSION: ${{ env.RELEASE_VERSION }}
         run: |
           ./scripts/cli_upload_gh_release.sh
+
+  publish-wasm:
+    name: Build - wasm (${{ matrix.settings.npm }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        settings:
+          - crate: "binding_core_wasm"
+            npm: "@swc\\/wasm"
+            target: nodejs
+          - crate: "binding_core_wasm"
+            npm: "@swc\\/wasm-web"
+            target: web
+          - crate: "binding_typescript_wasm"
+            npm: "@swc\\/wasm-typescript"
+            target: no-modules
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Corepack
+        run: corepack enable
+
+      - name: Tag npm release (default, latest)
+        run: echo "NPM_TAG=latest" >> $GITHUB_ENV
+
+      - name: Tag npm release (nightly)
+        if: ${{ contains(github.event.release.tag_name, 'nightly') }}
+        run: echo "NPM_TAG=nightly" >> $GITHUB_ENV
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cargo/
+            **/target/
+          key: ${{ runner.os }}-publish-integration
+
+      - name: Install node dependencies
+        run: yarn
+
+      - name: Install wasm-pack
+        run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+
+      - name: Build
+        working-directory: bindings/${{ matrix.settings.crate }}
+        run: |
+          wasm-pack build --out-name wasm --release --scope=swc --target ${{ matrix.settings.target }}
+          sed -i -e 's/"name": "@swc\/${{ matrix.settings.crate }}"/"name": "${{ matrix.settings.npm }}"/g' pkg/package.json
+
+      - name: Publish
+        if: ${{ !inputs.skipPublishing }}
+        run: |
+          (cd bindings/${{ matrix.settings.crate }}/pkg && yarn npm publish --access public --tag $NPM_TAG)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
