@@ -26,6 +26,7 @@ swc_core = { version = "0.95.10", features = [
   "ecma_ast_serde",
   "ecma_codegen",
   "ecma_transforms",
+  "ecma_transforms_typescript",
   "ecma_visit",
 ] }
 swc_error_reporters = "0.18.0"
