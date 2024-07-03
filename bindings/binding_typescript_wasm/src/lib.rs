@@ -1,7 +1,6 @@
 use anyhow::{Context, Error};
 use serde::{Deserialize, Serialize};
 use swc_core::{
-    base::{config::ErrorFormat, HandlerOpts},
     common::{
         comments::SingleThreadedComments, errors::ColorConfig, source_map::SourceMapGenConfig,
         sync::Lrc, FileName, Mark, SourceMap, GLOBALS,
@@ -21,7 +20,7 @@ use swc_core::{
         visit::VisitMutWith,
     },
 };
-use swc_error_reporters::handler::try_with_handler;
+use swc_error_reporters::handler::{try_with_handler, HandlerOpts};
 use wasm_bindgen::prelude::*;
 use wasm_bindgen_futures::{
     future_to_promise,
@@ -79,7 +78,7 @@ pub fn transform_sync(input: JsString, options: JsValue) -> Result<JsValue, JsVa
 
     let result = GLOBALS
         .set(&Default::default(), || operate(input, options))
-        .map_err(|err| convert_err(err, None))?;
+        .map_err(convert_err)?;
 
     Ok(serde_wasm_bindgen::to_value(&result)?)
 }
@@ -208,14 +207,8 @@ fn operate(input: String, options: Options) -> Result<TransformOutput, Error> {
     )
 }
 
-pub fn convert_err(
-    err: Error,
-    error_format: Option<ErrorFormat>,
-) -> wasm_bindgen::prelude::JsValue {
-    error_format
-        .unwrap_or(ErrorFormat::Normal)
-        .format(&err)
-        .into()
+pub fn convert_err(err: Error) -> wasm_bindgen::prelude::JsValue {
+    format!("{:?}", err).into()
 }
 
 struct TsSourceMapGenConfig;
