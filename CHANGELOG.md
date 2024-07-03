@@ -1,5 +1,5 @@
 # Changelog
-## [unreleased]
+## [1.6.7] - 2024-07-03
 
 ### Bug Fixes
 
@@ -1304,9 +1304,6 @@
 
 
 - **(es/fixer)** Preserve parenthesis for optional chaining ([#8399](https://github.com/swc-project/swc/issues/8399)) ([a69f172](https://github.com/swc-project/swc/commit/a69f172aacb29caafef2c2af0659faf1b9154f2c))
-
-
-- **(es/lints)** Ignore ambient context binding  ([#8368](https://github.com/swc-project/swc/issues/8368)) ([83c8fe5](https://github.com/swc-project/swc/commit/83c8fe56f06eec5f84b87d945262b8be119b827b))
 
 
 - **(es/resolver)** Handle `TsInterfaceDecl` and `UsingDecl` correctly ([#8403](https://github.com/swc-project/swc/issues/8403)) ([f8ce316](https://github.com/swc-project/swc/commit/f8ce31627bf4a6cf5896470b415c0cbb6c84855f))
