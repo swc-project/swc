@@ -455,14 +455,12 @@ jobs:
 
       - uses: ./.github/actions/setup-node
 
-      - name: Set release name
-        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
-
       - name: Tag npm release (default, latest)
+        if: ${{ !contains(inputs.version, 'nightly') }}
         run: echo "NPM_TAG=latest" >> $GITHUB_ENV
 
       - name: Tag npm release (nightly)
-        if: ${{ contains(github.event.release.tag_name, 'nightly') }}
+        if: ${{ contains(inputs.version, 'nightly') }}
         run: echo "NPM_TAG=nightly" >> $GITHUB_ENV
 
       - name: Install dependencies
@@ -511,7 +509,7 @@ jobs:
         shell: bash
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          RELEASE_VERSION: ${{ env.RELEASE_VERSION }}
+          RELEASE_VERSION: ${{ inputs.version }}
         run: |
           ./scripts/cli_upload_gh_release.sh
 
@@ -538,12 +536,12 @@ jobs:
         run: corepack enable
 
       - name: Tag npm release (default, latest)
+        if: ${{ !contains(inputs.version, 'nightly') }}
         run: echo "NPM_TAG=latest" >> $GITHUB_ENV
 
       - name: Tag npm release (nightly)
-        if: ${{ contains(github.event.release.tag_name, 'nightly') }}
+        if: ${{ contains(inputs.version, 'nightly') }}
         run: echo "NPM_TAG=nightly" >> $GITHUB_ENV
-
       - name: Setup node
         uses: actions/setup-node@v4
         with:
