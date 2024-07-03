@@ -232,7 +232,7 @@ jobs:
             target: x86_64-apple-darwin
         node:
           - "18"
-          # - "20"
+          - "20"
     runs-on: ${{ matrix.settings.host }}
     steps:
       - uses: actions/checkout@v4
@@ -305,7 +305,7 @@ jobs:
       matrix:
         node:
           - "18"
-          # - "20"
+          - "20"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
