@@ -4,6 +4,7 @@ members = [
   "binding_core_wasm",
   "binding_minifier_node",
   "binding_minifier_wasm",
+  "binding_typescript_wasm",
   "swc_cli",
 ]
 resolver = "2"

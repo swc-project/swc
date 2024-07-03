@@ -7,8 +7,7 @@ use napi::{
 };
 use serde::Deserialize;
 use swc_compiler_base::{
-    minify_file_comments, parse_js, IdentCollector, IsModule, PrintArgs, SourceMapsConfig,
-    TransformOutput,
+    minify_file_comments, parse_js, IdentCollector, PrintArgs, SourceMapsConfig, TransformOutput,
 };
 use swc_config::config_types::BoolOr;
 use swc_core::{
@@ -23,7 +22,7 @@ use swc_core::{
             js::{JsMinifyCommentOption, JsMinifyOptions},
             option::{MinifyOptions, TopLevelOptions},
         },
-        parser::{EsConfig, Syntax},
+        parser::{EsSyntax, Syntax},
         transforms::base::{fixer::fixer, hygiene::hygiene, resolver},
         visit::{FoldWith, VisitMutWith, VisitWith},
     },
@@ -109,11 +108,30 @@ fn do_work(input: MinifyTarget, options: JsMinifyOptions) -> napi::Result<Transf
             ..Default::default()
         };
 
+        let comments = SingleThreadedComments::default();
+
+        let module = parse_js(
+            cm.clone(),
+            fm.clone(),
+            handler,
+            target,
+            Syntax::Es(EsSyntax {
+                jsx: true,
+                decorators: true,
+                decorators_before_export: true,
+                import_attributes: true,
+                ..Default::default()
+            }),
+            options.module,
+            Some(&comments),
+        )
+        .context("failed to parse input file")?;
+
         // top_level defaults to true if module is true
 
         // https://github.com/swc-project/swc/issues/2254
 
-        if options.module {
+        if module.is_module() {
             if let Some(opts) = &mut min_opts.compress {
                 if opts.top_level.is_none() {
                     opts.top_level = Some(TopLevelOptions { functions: true });
@@ -136,25 +154,6 @@ fn do_work(input: MinifyTarget, options: JsMinifyOptions) -> napi::Result<Transf
             }
         }
 
-        let comments = SingleThreadedComments::default();
-
-        let module = parse_js(
-            cm.clone(),
-            fm.clone(),
-            handler,
-            target,
-            Syntax::Es(EsConfig {
-                jsx: true,
-                decorators: true,
-                decorators_before_export: true,
-                import_attributes: true,
-                ..Default::default()
-            }),
-            IsModule::Bool(options.module),
-            Some(&comments),
-        )
-        .context("failed to parse input file")?;
-
         let source_map_names = if source_map.enabled() {
             let mut v = IdentCollector {
                 names: Default::default(),
@@ -172,7 +171,7 @@ fn do_work(input: MinifyTarget, options: JsMinifyOptions) -> napi::Result<Transf
 
         let is_mangler_enabled = min_opts.mangle.is_some();
 
-        let module = (|| {
+        let module = {
             let module = module.fold_with(&mut resolver(unresolved_mark, top_level_mark, false));
 
             let mut module = swc_core::ecma::minifier::optimize(
@@ -192,7 +191,7 @@ fn do_work(input: MinifyTarget, options: JsMinifyOptions) -> napi::Result<Transf
             }
             module.visit_mut_with(&mut fixer(Some(&comments as &dyn Comments)));
             module
-        })();
+        };
 
         let preserve_comments = options
             .format
@@ -211,7 +210,7 @@ fn do_work(input: MinifyTarget, options: JsMinifyOptions) -> napi::Result<Transf
                 inline_sources_content: options.inline_sources_content,
                 source_map,
                 source_map_names: &source_map_names,
-                orig: orig.as_ref(),
+                orig,
                 comments: Some(&comments),
                 emit_source_map_columns: options.emit_source_map_columns,
                 preamble: &options.format.preamble,

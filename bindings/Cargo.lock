@@ -303,6 +303,23 @@ dependencies = [
 ]
 
 [[package]]
+name = "binding_typescript_wasm"
+version = "1.6.6"
+dependencies = [
+ "anyhow",
+ "getrandom",
+ "serde",
+ "serde-wasm-bindgen",
+ "serde_json",
+ "swc_core",
+ "swc_ecma_codegen",
+ "swc_error_reporters",
+ "tracing",
+ "wasm-bindgen",
+ "wasm-bindgen-futures",
+]
+
+[[package]]
 name = "bitflags"
 version = "1.3.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2653,9 +2670,9 @@ dependencies = [
 
 [[package]]
 name = "serde_json"
-version = "1.0.115"
+version = "1.0.120"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "12dc5c46daa8e9fdf4f5e71b6cf9a53f2487da0e86e55808e2d35539666497dd"
+checksum = "4e0d21c9a8cae1235ad58a00c11cb40d4b1e5c784f1ef2c537876ed6ffd8b7c5"
 dependencies = [
  "itoa",
  "ryu",
@@ -3208,6 +3225,7 @@ dependencies = [
  "swc_ecma_minifier",
  "swc_ecma_parser",
  "swc_ecma_transforms_base",
+ "swc_ecma_transforms_typescript",
  "swc_ecma_visit",
  "swc_malloc",
  "swc_node_bundler",
