@@ -1321,9 +1321,6 @@
 
 
 
-- **(deps)** Update `base64` to `v0.21` ([#8369](https://github.com/swc-project/swc/issues/8369)) ([c2d1a6c](https://github.com/swc-project/swc/commit/c2d1a6c9fee715d72594389360b47ed2395d8745))
-
-
 - **(deps)** Update `indexmap` to `v2` ([#8370](https://github.com/swc-project/swc/issues/8370)) ([91e0fc7](https://github.com/swc-project/swc/commit/91e0fc7250bed3ccf7078938e67e8ed23a539b56))
 
 ### Performance
