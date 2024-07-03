@@ -75,7 +75,7 @@ pub fn transform(input: JsString, options: JsValue) -> Promise {
 pub fn transform_sync(input: JsString, options: JsValue) -> Result<JsValue, JsValue> {
     let options: Options = serde_wasm_bindgen::from_value(options)?;
 
-    let input = input.as_string().unwrap().into();
+    let input = input.as_string().unwrap();
 
     let result = GLOBALS
         .set(&Default::default(), || operate(input, options))
@@ -106,7 +106,7 @@ fn operate(input: String, options: Options) -> Result<TransformOutput, Error> {
             let comments = SingleThreadedComments::default();
             let mut errors = vec![];
 
-            let mut program = match options.module {
+            let program = match options.module {
                 Some(true) => {
                     parse_file_as_module(&fm, syntax, target, Some(&comments), &mut errors)
                         .map(Program::Module)
@@ -121,10 +121,10 @@ fn operate(input: String, options: Options) -> Result<TransformOutput, Error> {
             let mut program = match program {
                 Ok(program) => program,
                 Err(err) => {
-                    err.into_diagnostic(&handler).emit();
+                    err.into_diagnostic(handler).emit();
 
                     for e in errors {
-                        e.into_diagnostic(&handler).emit();
+                        e.into_diagnostic(handler).emit();
                     }
 
                     return Err(anyhow::anyhow!("failed to parse"));
@@ -133,13 +133,13 @@ fn operate(input: String, options: Options) -> Result<TransformOutput, Error> {
 
             if !errors.is_empty() {
                 for e in errors {
-                    e.into_diagnostic(&handler).emit();
+                    e.into_diagnostic(handler).emit();
                 }
 
                 return Err(anyhow::anyhow!("failed to parse"));
             }
 
-            let mut unresolved_mark = Mark::new();
+            let unresolved_mark = Mark::new();
             let top_level_mark = Mark::new();
 
             HELPERS.set(&Helpers::new(options.external_helpers), || {

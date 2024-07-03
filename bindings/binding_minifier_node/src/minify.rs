@@ -7,8 +7,7 @@ use napi::{
 };
 use serde::Deserialize;
 use swc_compiler_base::{
-    minify_file_comments, parse_js, IdentCollector, IsModule, PrintArgs, SourceMapsConfig,
-    TransformOutput,
+    minify_file_comments, parse_js, IdentCollector, PrintArgs, SourceMapsConfig, TransformOutput,
 };
 use swc_config::config_types::BoolOr;
 use swc_core::{
@@ -23,7 +22,7 @@ use swc_core::{
             js::{JsMinifyCommentOption, JsMinifyOptions},
             option::{MinifyOptions, TopLevelOptions},
         },
-        parser::{EsConfig, EsSyntax, Syntax},
+        parser::{EsSyntax, Syntax},
         transforms::base::{fixer::fixer, hygiene::hygiene, resolver},
         visit::{FoldWith, VisitMutWith, VisitWith},
     },
@@ -172,7 +171,7 @@ fn do_work(input: MinifyTarget, options: JsMinifyOptions) -> napi::Result<Transf
 
         let is_mangler_enabled = min_opts.mangle.is_some();
 
-        let module = (|| {
+        let module = {
             let module = module.fold_with(&mut resolver(unresolved_mark, top_level_mark, false));
 
             let mut module = swc_core::ecma::minifier::optimize(
@@ -192,7 +191,7 @@ fn do_work(input: MinifyTarget, options: JsMinifyOptions) -> napi::Result<Transf
             }
             module.visit_mut_with(&mut fixer(Some(&comments as &dyn Comments)));
             module
-        })();
+        };
 
         let preserve_comments = options
             .format
