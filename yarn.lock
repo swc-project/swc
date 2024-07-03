@@ -6323,6 +6323,14 @@ __metadata:
   languageName: unknown
   linkType: soft
 
+"binding_typescript_wasm-2142ce@workspace:bindings/binding_typescript_wasm":
+  version: 0.0.0-use.local
+  resolution: "binding_typescript_wasm-2142ce@workspace:bindings/binding_typescript_wasm"
+  dependencies:
+    jest: "npm:^25.1.0"
+  languageName: unknown
+  linkType: soft
+
 "bindings@npm:^1.5.0":
   version: 1.5.0
   resolution: "bindings@npm:1.5.0"
