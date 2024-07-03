@@ -40,7 +40,7 @@ on:
 
 concurrency:
   group: ${{ github.workflow }}
-  cancel-in-progress: ${{ github.event_name != 'workflow_dispatch'}}
+  cancel-in-progress: true
 
 jobs:
   publish-cargo:
