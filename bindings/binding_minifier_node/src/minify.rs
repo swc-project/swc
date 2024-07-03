@@ -23,7 +23,7 @@ use swc_core::{
             js::{JsMinifyCommentOption, JsMinifyOptions},
             option::{MinifyOptions, TopLevelOptions},
         },
-        parser::{EsConfig, Syntax},
+        parser::{EsConfig, EsSyntax, Syntax},
         transforms::base::{fixer::fixer, hygiene::hygiene, resolver},
         visit::{FoldWith, VisitMutWith, VisitWith},
     },
@@ -109,11 +109,30 @@ fn do_work(input: MinifyTarget, options: JsMinifyOptions) -> napi::Result<Transf
             ..Default::default()
         };
 
+        let comments = SingleThreadedComments::default();
+
+        let module = parse_js(
+            cm.clone(),
+            fm.clone(),
+            handler,
+            target,
+            Syntax::Es(EsSyntax {
+                jsx: true,
+                decorators: true,
+                decorators_before_export: true,
+                import_attributes: true,
+                ..Default::default()
+            }),
+            options.module,
+            Some(&comments),
+        )
+        .context("failed to parse input file")?;
+
         // top_level defaults to true if module is true
 
         // https://github.com/swc-project/swc/issues/2254
 
-        if options.module {
+        if module.is_module() {
             if let Some(opts) = &mut min_opts.compress {
                 if opts.top_level.is_none() {
                     opts.top_level = Some(TopLevelOptions { functions: true });
@@ -135,25 +154,6 @@ fn do_work(input: MinifyTarget, options: JsMinifyOptions) -> napi::Result<Transf
                 opts.keep_fn_names = true;
             }
         }
-
-        let comments = SingleThreadedComments::default();
-
-        let module = parse_js(
-            cm.clone(),
-            fm.clone(),
-            handler,
-            target,
-            Syntax::Es(EsConfig {
-                jsx: true,
-                decorators: true,
-                decorators_before_export: true,
-                import_attributes: true,
-                ..Default::default()
-            }),
-            IsModule::Bool(options.module),
-            Some(&comments),
-        )
-        .context("failed to parse input file")?;
 
         let source_map_names = if source_map.enabled() {
             let mut v = IdentCollector {
@@ -211,7 +211,7 @@ fn do_work(input: MinifyTarget, options: JsMinifyOptions) -> napi::Result<Transf
                 inline_sources_content: options.inline_sources_content,
                 source_map,
                 source_map_names: &source_map_names,
-                orig: orig.as_ref(),
+                orig,
                 comments: Some(&comments),
                 emit_source_map_columns: options.emit_source_map_columns,
                 preamble: &options.format.preamble,
