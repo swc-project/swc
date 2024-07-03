@@ -1,13 +1,14 @@
-use anyhow::Error;
+use anyhow::{Context, Error};
 use serde::{Deserialize, Serialize};
 use swc_core::{
     base::{config::ErrorFormat, HandlerOpts},
     common::{
-        comments::SingleThreadedComments, errors::ColorConfig, sync::Lrc, FileName, Mark,
-        SourceMap, GLOBALS,
+        comments::SingleThreadedComments, errors::ColorConfig, source_map::SourceMapGenConfig,
+        sync::Lrc, FileName, Mark, SourceMap, GLOBALS,
     },
     ecma::{
         ast::{EsVersion, Program},
+        codegen::text_writer::JsWriter,
         parser::{
             parse_file_as_module, parse_file_as_program, parse_file_as_script, Syntax, TsSyntax,
         },
@@ -50,10 +51,13 @@ pub struct Options {
     pub external_helpers: bool,
 
     #[serde(default)]
+    pub source_maps: bool,
+
+    #[serde(default)]
     pub transform: swc_core::ecma::transforms::typescript::Config,
 
     #[serde(default)]
-    pub source_maps: bool,
+    pub codegen: swc_core::ecma::codegen::Config,
 }
 
 #[derive(Serialize)]
@@ -73,9 +77,11 @@ pub fn transform_sync(input: JsString, options: JsValue) -> Result<JsValue, JsVa
 
     let input = input.as_string().unwrap().into();
 
-    let result = GLOBALS.set(&Default::default(), || operate(input, options));
+    let result = GLOBALS
+        .set(&Default::default(), || operate(input, options))
+        .map_err(|err| convert_err(err, None))?;
 
-    Ok(())
+    Ok(serde_wasm_bindgen::to_value(&result)?)
 }
 
 fn operate(input: String, options: Options) -> Result<TransformOutput, Error> {
@@ -88,7 +94,7 @@ fn operate(input: String, options: Options) -> Result<TransformOutput, Error> {
             skip_filename: true,
         },
         |handler| {
-            let fileame = options
+            let filename = options
                 .filename
                 .map_or(FileName::Anon, |f| FileName::Real(f.into()));
 
@@ -163,7 +169,41 @@ fn operate(input: String, options: Options) -> Result<TransformOutput, Error> {
 
             // Generate code
 
-            Ok(TransformOutput {})
+            let mut buf = vec![];
+            let mut src_map_buf = if options.source_maps {
+                Some(vec![])
+            } else {
+                None
+            };
+
+            {
+                let wr = JsWriter::new(cm.clone(), "\n", &mut buf, src_map_buf.as_mut());
+                let mut emitter = swc_core::ecma::codegen::Emitter {
+                    cfg: options.codegen,
+                    cm: cm.clone(),
+                    comments: Some(&comments),
+                    wr,
+                };
+
+                emitter.emit_program(&program).unwrap();
+            }
+
+            let code = String::from_utf8(buf).context("generated code is not utf-8")?;
+
+            let map = if let Some(src_map_buf) = src_map_buf {
+                let mut wr = vec![];
+                let map = cm.build_source_map_with_config(&src_map_buf, None, TsSourceMapGenConfig);
+
+                map.to_writer(&mut wr)
+                    .context("failed to write source map")?;
+
+                let map = String::from_utf8(wr).context("source map is not utf-8")?;
+                Some(map)
+            } else {
+                None
+            };
+
+            Ok(TransformOutput { code, map })
         },
     )
 }
@@ -176,4 +216,12 @@ pub fn convert_err(
         .unwrap_or(ErrorFormat::Normal)
         .format(&err)
         .into()
+}
+
+struct TsSourceMapGenConfig;
+
+impl SourceMapGenConfig for TsSourceMapGenConfig {
+    fn file_name_to_source(&self, f: &FileName) -> String {
+        f.to_string()
+    }
 }
