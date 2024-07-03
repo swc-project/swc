@@ -3874,7 +3874,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.96.1"
+version = "0.96.2"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -4793,7 +4793,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_typescript"
-version = "0.191.1"
+version = "0.191.2"
 dependencies = [
  "criterion",
  "ryu-js",
