@@ -917,6 +917,11 @@ where
                 return Ok(Some(()));
             }
 
+            "enum" => {
+                self.consume_flow_enum_declaration()?;
+                return Ok(Some(()));
+            }
+
             _ => {}
         }
 
@@ -968,6 +973,11 @@ where
 
         if is!(p, "interface") {
             p.consume_flow_interfaceish(false)?;
+            return Ok(Some(()));
+        }
+
+        if eat!(p, "enum") {
+            p.consume_flow_enum_declaration()?;
             return Ok(Some(()));
         }
 
@@ -1082,7 +1092,23 @@ where
     }
 
     /// Ported from `flowEnumBody`
-    fn consume_flow_enum_body(&mut self) -> PResult<()> {}
+    fn consume_flow_enum_body(&mut self) -> PResult<()> {
+        let _explicit_type = self.consume_flow_enum_explicit_type()?;
+
+        expect!(self, '{');
+
+        self.consume_flow_enum_members()?;
+
+        expect!(self, '}');
+
+        Ok(())
+    }
+
+    /// Ported from `flowEnumParseExplicitType`
+    fn consume_flow_enum_explicit_type(&mut self) -> PResult<Option<()>> {}
+
+    /// Ported from `flowEnumMembers`
+    fn consume_flow_enum_members(&mut self) -> PResult<()> {}
 
     /// Ported from `flowParseInterfaceish`
     fn consume_flow_interfaceish(&mut self, is_class: bool) -> PResult<()> {
