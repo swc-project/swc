@@ -11,12 +11,15 @@ use swc_core::{
         parser::{
             parse_file_as_module, parse_file_as_program, parse_file_as_script, Syntax, TsSyntax,
         },
-        transforms::{base::{
-            fixer::fixer,
-            helpers::{inject_helpers, Helpers, HELPERS},
-            hygiene::hygiene,
-            resolver,
-        }, typescript::typescript},
+        transforms::{
+            base::{
+                fixer::fixer,
+                helpers::{inject_helpers, Helpers, HELPERS},
+                hygiene::hygiene,
+                resolver,
+            },
+            typescript::typescript,
+        },
         visit::VisitMutWith,
     },
 };
@@ -148,10 +151,7 @@ fn operate(input: String, options: Options) -> Result<TransformOutput, Error> {
 
                 // Strip typescript types
 
-                program.visit_mut_with(&mut typescript(
-                    options.transform,
-                    top_level_mark,
-                ));
+                program.visit_mut_with(&mut typescript(options.transform, top_level_mark));
 
                 // Apply external helpers
 
