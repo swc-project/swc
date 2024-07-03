@@ -11,11 +11,14 @@ use swc_core::{
         parser::{
             parse_file_as_module, parse_file_as_program, parse_file_as_script, Syntax, TsSyntax,
         },
-        transforms::base::{
-            fixer::fixer,
-            helpers::{inject_helpers, Helpers, HELPERS},
-            hygiene::hygiene,
-            resolver,
+        transforms::{
+            base::{
+                fixer::fixer,
+                helpers::{inject_helpers, Helpers, HELPERS},
+                hygiene::hygiene,
+                resolver,
+            },
+            typescript::strip_type,
         },
         visit::VisitMutWith,
     },
@@ -52,9 +55,8 @@ pub struct Options {
     #[serde(default)]
     pub source_maps: bool,
 
-    #[serde(default)]
-    pub transform: swc_core::ecma::transforms::typescript::Config,
-
+    // #[serde(default)]
+    // pub transform: swc_core::ecma::transforms::typescript::Config,
     #[serde(default)]
     pub codegen: swc_core::ecma::codegen::Config,
 }
@@ -148,10 +150,7 @@ fn operate(input: String, options: Options) -> Result<TransformOutput, Error> {
 
                 // Strip typescript types
 
-                program.visit_mut_with(&mut swc_core::ecma::transforms::typescript::typescript(
-                    options.transform,
-                    top_level_mark,
-                ));
+                program.visit_mut_with(&mut strip_type());
 
                 // Apply external helpers
 
