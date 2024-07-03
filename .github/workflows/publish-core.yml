@@ -202,7 +202,7 @@ jobs:
           options: -v ${{ env.HOME }}/.cargo/git:/root/.cargo/git -v ${{ env.HOME }}/.cargo/registry:/root/.cargo/registry -v ${{ github.workspace }}:/build -w /build
           run: >-
             cd ./packages/core &&
-            npm install -g yarn@1.22.19 && 
+            npm install -f -g yarn@1.22.19 && 
             corepack enable &&
             npm i -g wasm-pack &&
             ${{ matrix.settings.build }}
@@ -372,7 +372,7 @@ jobs:
           options: "--platform linux/arm64 -v ${{ github.workspace }}:/build -w /build"
           run: >-
             set -e &&
-            npm install -g yarn@1.22.19 && 
+            npm install -f -g yarn@1.22.19 && 
             DISABLE_PLUGIN_E2E_TESTS=true yarn test
 
   test-linux-arm-gnueabihf-binding:
@@ -418,7 +418,7 @@ jobs:
           options: "--platform linux/arm/v7 -v ${{ github.workspace }}:/build -w /build"
           run: >-
             set -e &&
-            npm install -g yarn@1.22.19 && 
+            npm install -f -g yarn@1.22.19 && 
             DISABLE_PLUGIN_E2E_TESTS=true yarn test &&
             ls -la
   publish:
