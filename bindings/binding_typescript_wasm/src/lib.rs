@@ -18,7 +18,7 @@ use swc_core::{
                 hygiene::hygiene,
                 resolver,
             },
-            typescript::typescript,
+            typescript::strip_type,
         },
         visit::VisitMutWith,
     },
@@ -55,9 +55,8 @@ pub struct Options {
     #[serde(default)]
     pub source_maps: bool,
 
-    #[serde(default)]
-    pub transform: swc_core::ecma::transforms::typescript::Config,
-
+    // #[serde(default)]
+    // pub transform: swc_core::ecma::transforms::typescript::Config,
     #[serde(default)]
     pub codegen: swc_core::ecma::codegen::Config,
 }
@@ -151,7 +150,7 @@ fn operate(input: String, options: Options) -> Result<TransformOutput, Error> {
 
                 // Strip typescript types
 
-                program.visit_mut_with(&mut typescript(options.transform, top_level_mark));
+                program.visit_mut_with(&mut strip_type());
 
                 // Apply external helpers
 
