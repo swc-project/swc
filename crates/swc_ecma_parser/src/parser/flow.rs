@@ -1133,6 +1133,7 @@ where
     /// Ported from `flowEnumMembers`
     fn consume_flow_enum_members(&mut self) -> PResult<()> {
         let mut has_unknown_members = false;
+        let mut has_members = false;
 
         while !is!(self, '}') {
             if eat!(self, "...") {
@@ -1141,10 +1142,15 @@ where
             }
 
             self.consume_flow_enum_member_raw()?;
+            has_members = true;
 
             if !is!(self, '}') {
                 expect!(self, ',');
             }
+        }
+
+        if !has_members {
+            self.emit_err(self.input.cur_span(), SyntaxError::FlowEnumShouldHaveMember);
         }
 
         Ok(())
