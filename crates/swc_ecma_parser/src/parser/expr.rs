@@ -82,7 +82,7 @@ impl<I: Tokens> Parser<I> {
         let start = self.input.cur_span();
 
         if self.input.syntax().typescript()
-            && (is!(self, '<', JSXTagStart))
+            && (is!(self, '<' | JSXTagStart))
             && (peeked_is!(self, IdentName) || peeked_is!(self, JSXName))
         {
             let ctx = Context {
@@ -2171,8 +2171,18 @@ impl<I: Tokens> Parser<I> {
     pub(super) fn is_start_of_expr(&mut self) -> PResult<bool> {
         Ok(self.is_start_of_left_hand_side_expr()?
             || is!(
-                self, '+', '-', '~', '!', "delete", "typeof", "void", "++", "--", '<', "await",
-                "yield"
+                self,
+                '+' | '-'
+                    | '~'
+                    | '!'
+                    | "delete"
+                    | "typeof"
+                    | "void"
+                    | "++"
+                    | "--"
+                    | '<'
+                    | "await"
+                    | "yield"
             )
             || (is!(self, '#') && peeked_is!(self, IdentName)))
     }

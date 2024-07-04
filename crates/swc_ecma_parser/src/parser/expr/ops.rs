@@ -281,7 +281,7 @@ impl<I: Tokens> Parser<I> {
         }
 
         // Parse unary expression
-        if is!(self, "delete", "void", "typeof", '+', '-', '~', '!') {
+        if is!(self, "delete" | "void" | "typeof" | '+' | '-' | '~' | '!') {
             let op = match bump!(self) {
                 tok!("delete") => op!("delete"),
                 tok!("void") => op!("void"),
@@ -341,7 +341,7 @@ impl<I: Tokens> Parser<I> {
             return Ok(expr);
         }
 
-        if is!(self, "++", "--") {
+        if is!(self, "++" | "--") {
             self.check_assign_target(&expr, false);
 
             let op = if bump!(self) == tok!("++") {
