@@ -109,7 +109,7 @@ pub struct NodeModulesResolver {
     ignore_node_modules: bool,
 }
 
-static EXTENSIONS: &[&str] = &["ts", "tsx", "js", "jsx", "json", "node"];
+static EXTENSIONS: &[&str] = &["ts", "tsx", "js", "jsx", "node"];
 
 impl NodeModulesResolver {
     /// Create a node modules resolver for the target runtime environment.
