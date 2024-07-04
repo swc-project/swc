@@ -84,7 +84,7 @@ fn fixture_inner(input: PathBuf) {
 }
 
 #[derive(Debug, Deserialize)]
-#[serde(deny_unknown_fields, rename_all = "camelCase")]
+#[serde(rename_all = "camelCase")]
 struct BabelTestOptions {
     #[serde(default)]
     assumptions: Assumptions,
