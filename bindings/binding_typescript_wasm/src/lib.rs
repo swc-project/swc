@@ -1,3 +1,5 @@
+use std::default;
+
 use anyhow::{Context, Error};
 use serde::{Deserialize, Serialize};
 use swc_core::{
@@ -18,7 +20,7 @@ use swc_core::{
                 hygiene::hygiene,
                 resolver,
             },
-            typescript::strip_type,
+            typescript::{strip_type, typescript},
         },
         visit::VisitMutWith,
     },
@@ -55,10 +57,22 @@ pub struct Options {
     #[serde(default)]
     pub source_maps: bool,
 
-    // #[serde(default)]
-    // pub transform: swc_core::ecma::transforms::typescript::Config,
+    #[serde(default)]
+    pub mode: Mode,
+
+    #[serde(default)]
+    pub transform: Option<swc_core::ecma::transforms::typescript::Config>,
+
     #[serde(default)]
     pub codegen: swc_core::ecma::codegen::Config,
+}
+
+#[derive(Default, Deserialize)]
+#[serde(rename_all = "kebab-case")]
+pub enum Mode {
+    #[default]
+    StripOnly,
+    Transform,
 }
 
 #[derive(Serialize)]
@@ -150,7 +164,17 @@ fn operate(input: String, options: Options) -> Result<TransformOutput, Error> {
 
                 // Strip typescript types
 
-                program.visit_mut_with(&mut strip_type());
+                match options.mode {
+                    Mode::StripOnly => {
+                        program.visit_mut_with(&mut strip_type());
+                    }
+                    Mode::Transform => {
+                        program.visit_mut_with(&mut typescript(
+                            options.transform.unwrap_or_default(),
+                            top_level_mark,
+                        ));
+                    }
+                }
 
                 // Apply external helpers
 
