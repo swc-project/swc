@@ -519,7 +519,7 @@ impl<'a, I: Tokens> Parser<I> {
 
         let cons = {
             // Prevent stack overflow
-            crate::maybe_grow(128 * 1024, 512 * 1024, || {
+            crate::maybe_grow(256 * 1024, 1024 * 1024, || {
                 // Annex B
                 if !self.ctx().strict && is!(self, "function") {
                     // TODO: report error?
