@@ -1015,7 +1015,7 @@ where
             return Ok(Some(()));
         }
 
-        if is!(self, "enum") {
+        if eat!(self, "enum") {
             self.consume_flow_enum_declaration()?;
             return Ok(Some(()));
         }
