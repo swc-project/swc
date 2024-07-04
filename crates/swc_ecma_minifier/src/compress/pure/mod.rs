@@ -29,7 +29,6 @@ mod drop_console;
 mod evaluate;
 mod if_return;
 mod loops;
-mod member_expr;
 mod misc;
 mod numbers;
 mod properties;
@@ -306,20 +305,6 @@ impl VisitMut for Pure<'_> {
         self.drop_arguments_of_symbol_call(e);
     }
 
-    fn visit_mut_opt_call(&mut self, opt_call: &mut OptCall) {
-        {
-            let ctx = Ctx {
-                is_callee: true,
-                ..self.ctx
-            };
-            opt_call.callee.visit_mut_with(&mut *self.with_ctx(ctx));
-        }
-
-        opt_call.args.visit_mut_with(self);
-
-        self.eval_spread_array(&mut opt_call.args);
-    }
-
     fn visit_mut_class_member(&mut self, m: &mut ClassMember) {
         m.visit_mut_children_with(self);
 
@@ -593,12 +578,6 @@ impl VisitMut for Pure<'_> {
         if e.is_seq() {
             debug_assert_valid(e);
         }
-
-        self.eval_member_expr(e);
-    }
-
-    fn visit_mut_expr_or_spreads(&mut self, nodes: &mut Vec<ExprOrSpread>) {
-        self.visit_par(nodes);
     }
 
     fn visit_mut_expr_stmt(&mut self, s: &mut ExprStmt) {
@@ -702,7 +681,6 @@ impl VisitMut for Pure<'_> {
 
     fn visit_mut_member_expr(&mut self, e: &mut MemberExpr) {
         e.obj.visit_mut_with(self);
-
         if let MemberProp::Computed(c) = &mut e.prop {
             c.visit_mut_with(self);
 
@@ -755,10 +733,6 @@ impl VisitMut for Pure<'_> {
                 }
             }
         }
-    }
-
-    fn visit_mut_opt_vec_expr_or_spreads(&mut self, nodes: &mut Vec<Option<ExprOrSpread>>) {
-        self.visit_par(nodes);
     }
 
     fn visit_mut_prop(&mut self, p: &mut Prop) {
@@ -1057,10 +1031,6 @@ impl VisitMut for Pure<'_> {
         if v.kind == VarDeclKind::Var {
             self.remove_duplicate_vars(&mut v.decls);
         }
-    }
-
-    fn visit_mut_var_declarators(&mut self, nodes: &mut Vec<VarDeclarator>) {
-        self.visit_par(nodes);
     }
 
     fn visit_mut_while_stmt(&mut self, s: &mut WhileStmt) {
