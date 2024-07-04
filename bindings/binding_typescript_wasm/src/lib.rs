@@ -9,7 +9,7 @@ use swc_core::{
         FileName, Mark, SourceMap, Spanned, GLOBALS,
     },
     ecma::{
-        ast::{EsVersion, Program, TsEnumDecl, TsParamPropParam},
+        ast::{Decorator, EsVersion, Program, TsEnumDecl, TsParamPropParam},
         codegen::text_writer::JsWriter,
         parser::{
             parse_file_as_module, parse_file_as_program, parse_file_as_script, Syntax, TsSyntax,
@@ -49,7 +49,7 @@ pub struct Options {
     #[serde(default)]
     pub filename: Option<String>,
 
-    #[serde(default)]
+    #[serde(default = "default_ts_syntax")]
     pub parser: TsSyntax,
 
     #[serde(default)]
@@ -68,7 +68,14 @@ pub struct Options {
     pub codegen: swc_core::ecma::codegen::Config,
 }
 
-#[derive(Default, Deserialize)]
+fn default_ts_syntax() -> TsSyntax {
+    TsSyntax {
+        decorators: true,
+        ..Default::default()
+    }
+}
+
+#[derive(Clone, Copy, Default, Deserialize)]
 #[serde(rename_all = "kebab-case")]
 pub enum Mode {
     #[default]
@@ -164,10 +171,10 @@ fn operate(input: String, options: Options) -> Result<TransformOutput, Error> {
 
                 // Strip typescript types
 
+                program.visit_with(&mut Validator { mode: options.mode });
+
                 match options.mode {
                     Mode::StripOnly => {
-                        program.visit_with(&mut ThrowOnCodegen);
-
                         program.visit_mut_with(&mut strip_type());
                     }
                     Mode::Transform => {
@@ -244,24 +251,42 @@ impl SourceMapGenConfig for TsSourceMapGenConfig {
     }
 }
 
-struct ThrowOnCodegen;
+struct Validator {
+    mode: Mode,
+}
 
-impl Visit for ThrowOnCodegen {
-    fn visit_ts_enum_decl(&mut self, e: &TsEnumDecl) {
+impl Visit for Validator {
+    fn visit_decorator(&mut self, n: &Decorator) {
         HANDLER.with(|handler| {
-            handler.span_err(
-                e.span,
-                "TypeScript enum is not supported in strip-only mode",
-            );
+            handler.span_err(n.span, "Decorators are not supported");
         });
     }
 
+    fn visit_ts_enum_decl(&mut self, e: &TsEnumDecl) {
+        if matches!(self.mode, Mode::StripOnly) {
+            HANDLER.with(|handler| {
+                handler.span_err(
+                    e.span,
+                    "TypeScript enum is not supported in strip-only mode",
+                );
+            });
+            return;
+        }
+
+        e.visit_children_with(self);
+    }
+
     fn visit_ts_param_prop_param(&mut self, n: &TsParamPropParam) {
-        HANDLER.with(|handler| {
-            handler.span_err(
-                n.span(),
-                "TypeScript parameter property is not supported in strip-only mode",
-            );
-        });
+        if matches!(self.mode, Mode::StripOnly) {
+            HANDLER.with(|handler| {
+                handler.span_err(
+                    n.span(),
+                    "TypeScript parameter property is not supported in strip-only mode",
+                );
+            });
+            return;
+        }
+
+        n.visit_children_with(self);
     }
 }
