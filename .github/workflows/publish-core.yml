@@ -506,6 +506,8 @@ jobs:
     if: ${{ startsWith(github.ref, 'refs/tags/v') || startsWith(github.ref, 'refs/heads/ci') }}
     name: Build - wasm (${{ matrix.settings.npm }}) for node.js
     runs-on: ubuntu-latest
+    env:
+      CARGO_PROFILE_RELEASE_LTO: "fat"
     strategy:
       fail-fast: false
       matrix:
@@ -554,13 +556,13 @@ jobs:
       - name: Build
         working-directory: bindings/${{ matrix.settings.crate }}
         run: |
-          wasm-pack build --out-name wasm --release --scope=swc --target ${{ matrix.settings.target }}
-          sed -i -e 's/"name": "@swc\/${{ matrix.settings.crate }}"/"name": "${{ matrix.settings.npm }}"/g' pkg/package.json
-
-          # If scripts/patch.mjs exists, apply it
-          if [ -f scripts/patch.mjs ]; then
-            node scripts/patch.mjs
+          # If scripts/build.sh exists, apply it
+          if [ -f scripts/build.sh ]; then
+            scripts/build.sh
+          else
+            wasm-pack build --out-name wasm --release --scope=swc --target ${{ matrix.settings.target }}
           fi
+          sed -i -e 's/"name": "@swc\/${{ matrix.settings.crate }}"/"name": "${{ matrix.settings.npm }}"/g' pkg/package.json
 
       - name: Publish
         if: ${{ startsWith(github.ref, 'refs/tags/v') }}
