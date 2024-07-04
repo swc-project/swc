@@ -18,7 +18,7 @@ function assertEq(callback, expected) {
         details = `  Throws: ${error}`;
     }
     const code = callback.toString().replace(/^\(\) => /, '').replace(/\s+/g, ' ');
-    console.log(`❌ ${testName}\n  Code: ${code}\n${details}\n`);
+    console.log(`❌\n  Code: ${code}\n${details}\n`);
     return false;
 }
 function assertThrows(callback, expected) {
@@ -33,7 +33,7 @@ function assertThrows(callback, expected) {
         details = `  Expected: throws instanceof ${expected.name}\n  Observed: throws ${error}`;
     }
     const code = callback.toString().replace(/^\(\) => /, '').replace(/\s+/g, ' ');
-    console.log(`❌ ${testName}\n  Code: ${code}\n${details}\n`);
+    console.log(`❌\n  Code: ${code}\n${details}\n`);
     return false;
 }
 "###;
