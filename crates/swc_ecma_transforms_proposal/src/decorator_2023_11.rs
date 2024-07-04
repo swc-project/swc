@@ -573,6 +573,13 @@ impl Decorator202311 {
                             p.is_static = false;
                         }
                     }
+
+                    ClassMember::AutoAccessor(p) => {
+                        if p.is_static {
+                            should_move = true;
+                            p.is_static = false;
+                        }
+                    }
                     _ => (),
                 }
 
