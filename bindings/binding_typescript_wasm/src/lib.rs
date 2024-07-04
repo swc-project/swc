@@ -1,14 +1,15 @@
-use std::default;
-
 use anyhow::{Context, Error};
 use serde::{Deserialize, Serialize};
 use swc_core::{
     common::{
-        comments::SingleThreadedComments, errors::ColorConfig, source_map::SourceMapGenConfig,
-        sync::Lrc, FileName, Mark, SourceMap, GLOBALS,
+        comments::SingleThreadedComments,
+        errors::{ColorConfig, HANDLER},
+        source_map::SourceMapGenConfig,
+        sync::Lrc,
+        FileName, Mark, SourceMap, Spanned, GLOBALS,
     },
     ecma::{
-        ast::{EsVersion, Program},
+        ast::{EsVersion, Program, TsEnumDecl, TsParamPropParam},
         codegen::text_writer::JsWriter,
         parser::{
             parse_file_as_module, parse_file_as_program, parse_file_as_script, Syntax, TsSyntax,
@@ -22,7 +23,7 @@ use swc_core::{
             },
             typescript::{strip_type, typescript},
         },
-        visit::VisitMutWith,
+        visit::{Visit, VisitMutWith, VisitWith},
     },
 };
 use swc_error_reporters::handler::{try_with_handler, HandlerOpts};
@@ -156,7 +157,6 @@ fn operate(input: String, options: Options) -> Result<TransformOutput, Error> {
 
             let unresolved_mark = Mark::new();
             let top_level_mark = Mark::new();
-
             HELPERS.set(&Helpers::new(options.external_helpers), || {
                 // Apply resolver
 
@@ -166,6 +166,8 @@ fn operate(input: String, options: Options) -> Result<TransformOutput, Error> {
 
                 match options.mode {
                     Mode::StripOnly => {
+                        program.visit_with(&mut ThrowOnCodegen);
+
                         program.visit_mut_with(&mut strip_type());
                     }
                     Mode::Transform => {
@@ -239,5 +241,27 @@ struct TsSourceMapGenConfig;
 impl SourceMapGenConfig for TsSourceMapGenConfig {
     fn file_name_to_source(&self, f: &FileName) -> String {
         f.to_string()
+    }
+}
+
+struct ThrowOnCodegen;
+
+impl Visit for ThrowOnCodegen {
+    fn visit_ts_enum_decl(&mut self, e: &TsEnumDecl) {
+        HANDLER.with(|handler| {
+            handler.span_err(
+                e.span,
+                "TypeScript enum is not supported in strip-only mode",
+            );
+        });
+    }
+
+    fn visit_ts_param_prop_param(&mut self, n: &TsParamPropParam) {
+        HANDLER.with(|handler| {
+            handler.span_err(
+                n.span(),
+                "TypeScript parameter property is not supported in strip-only mode",
+            );
+        });
     }
 }
