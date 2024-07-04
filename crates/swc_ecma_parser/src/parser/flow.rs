@@ -1116,23 +1116,53 @@ where
             .as_deref()
             .map_or(false, token_is_identifier)
         {
-            syntax_error!(
-                self,
-                SyntaxError::FlowEnumInvalidExplicitTypeUnknownSupplied
-            );
+            syntax_error!(self, SyntaxError::FlowEnumExplicitTypeMustBeIdent);
         }
 
         let value = self.input.bump();
 
         match &value {
             tok!("boolean") | tok!("number") | tok!("string") | tok!("symbol") => {}
+
+            _ => {}
         }
 
         Ok(Some(()))
     }
 
     /// Ported from `flowEnumMembers`
-    fn consume_flow_enum_members(&mut self) -> PResult<()> {}
+    fn consume_flow_enum_members(&mut self) -> PResult<()> {
+        let mut has_unknown_members = false;
+
+        while !is!(self, '}') {
+            if eat!(self, "...") {
+                has_unknown_members = true;
+                break;
+            }
+
+            self.consume_flow_enum_member_raw()?;
+        }
+
+        Ok(())
+    }
+
+    /// Ported from `flowEnumMemberRaw`
+    fn consume_flow_enum_member_raw(&mut self) -> PResult<()> {
+        let _id = self.parse_ident(false, false)?;
+
+        let _init = if eat!(self, '=') {
+            self.consume_flow_enum_member_init()?;
+
+            Some(())
+        } else {
+            None
+        };
+
+        Ok(())
+    }
+
+    /// Ported from `flowEnumMemberInit`
+    fn consume_flow_enum_member_init(&mut self) -> PResult<()> {}
 
     /// Ported from `flowParseInterfaceish`
     fn consume_flow_interfaceish(&mut self, is_class: bool) -> PResult<()> {

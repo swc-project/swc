@@ -308,6 +308,7 @@ pub enum SyntaxError {
     FlowMethodVariance,
     FlowUnexpectedGetterSetter,
     FlowDeclareOpaqueType,
+    FlowEnumExplicitTypeMustBeIdent,
 }
 
 impl SyntaxError {
@@ -801,6 +802,9 @@ impl SyntaxError {
                 "Unexpected getter or setter in object type".into()
             }
             SyntaxError::FlowDeclareOpaqueType => "Opaque type cannot be declared".into(),
+            SyntaxError::FlowEnumExplicitTypeMustBeIdent => {
+                "Explicit type for enum must be an identifier".into()
+            }
         }
     }
 }
