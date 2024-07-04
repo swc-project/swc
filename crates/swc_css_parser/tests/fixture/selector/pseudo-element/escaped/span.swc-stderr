@@ -1,6 +1,7 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/selector/pseudo-element/escaped/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/selector/pseudo-element/escaped/input.css:1:1]
+ 1 | div::bef\ore {}
+   : ^^^^^^^^^^^^^^^^
    `----
   x Rule
    ,-[$DIR/tests/fixture/selector/pseudo-element/escaped/input.css:1:1]

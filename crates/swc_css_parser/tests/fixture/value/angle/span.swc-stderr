@@ -1,6 +1,11 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/value/angle/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/value/angle/input.css:1:1]
+ 1 | ,-> div {
+ 2 | |       transform: rotate(45deg);
+ 3 | |       transform: rotate(-50grad);
+ 4 | |       transform: rotate(3.1416rad);
+ 5 | |       transform: rotate(1.75turn);
+ 6 | `-> }
    `----
   x Rule
    ,-[$DIR/tests/fixture/value/angle/input.css:1:1]
@@ -76,7 +81,6 @@
  1 | div {
    :     ^
  2 |     transform: rotate(45deg);
- 3 |     transform: rotate(-50grad);
    `----
   x ComponentValue
    ,-[$DIR/tests/fixture/value/angle/input.css:2:1]

@@ -1,30 +1,37 @@
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/math_dat.2.fragment_thead.html:1:2]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/math_dat.2.fragment_thead.html:1:1]
+ 1 | <math><thead><mo><tbody>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Child
   x Element
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/math_dat.2.fragment_thead.html:1:2]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/math_dat.2.fragment_thead.html:1:1]
+ 1 | <math><thead><mo><tbody>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/math_dat.2.fragment_thead.html:1:2]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/math_dat.2.fragment_thead.html:1:1]
+ 1 | <math><thead><mo><tbody>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/math_dat.2.fragment_thead.html:1:8]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/math_dat.2.fragment_thead.html:1:1]
+ 1 | <math><thead><mo><tbody>
+   :       ^^^^^^^^^^^^^^^^^^
    `----
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/math_dat.2.fragment_thead.html:1:8]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/math_dat.2.fragment_thead.html:1:1]
+ 1 | <math><thead><mo><tbody>
+   :       ^^^^^^^^^^^^^^^^^^
    `----
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/math_dat.2.fragment_thead.html:1:15]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/math_dat.2.fragment_thead.html:1:1]
+ 1 | <math><thead><mo><tbody>
+   :              ^^^^^^^^^^^
    `----
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/math_dat.2.fragment_thead.html:1:15]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/math_dat.2.fragment_thead.html:1:1]
+ 1 | <math><thead><mo><tbody>
+   :              ^^^^^^^^^^^
    `----

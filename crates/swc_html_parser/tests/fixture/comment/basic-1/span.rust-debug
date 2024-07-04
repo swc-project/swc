@@ -1,48 +1,106 @@
   x Document
-   ,-[$DIR/tests/fixture/comment/basic-1/input.html:1:2]
- 1 | |    
-   `----
+    ,-[$DIR/tests/fixture/comment/basic-1/input.html:1:1]
+  1 | ,-> <!DOCTYPE html>
+  2 | |   <html>
+  3 | |   <body>
+  4 | |   
+  5 | |   <!--This is a comment-->
+  6 | |   <!-- This is a comment -->
+  7 | |   <p>This is a paragraph.</p>
+  8 | |   <!-- Comments are not displayed in the browser -->
+  9 | |   
+ 10 | |   </body>
+ 11 | |     </html>
+ 12 | |   
+ 13 | `-> 
+    `----
   x Child
    ,-[$DIR/tests/fixture/comment/basic-1/input.html:1:1]
  1 | <!DOCTYPE html>
    : ^^^^^^^^^^^^^^^
  2 | <html>
- 3 | <body>
    `----
   x DocumentType
    ,-[$DIR/tests/fixture/comment/basic-1/input.html:1:1]
  1 | <!DOCTYPE html>
    : ^^^^^^^^^^^^^^^
  2 | <html>
- 3 | <body>
    `----
   x Child
-   ,-[$DIR/tests/fixture/comment/basic-1/input.html:2:2]
- 2 | |    
-   `----
+    ,-[$DIR/tests/fixture/comment/basic-1/input.html:2:1]
+  1 |     <!DOCTYPE html>
+  2 | ,-> <html>
+  3 | |   <body>
+  4 | |   
+  5 | |   <!--This is a comment-->
+  6 | |   <!-- This is a comment -->
+  7 | |   <p>This is a paragraph.</p>
+  8 | |   <!-- Comments are not displayed in the browser -->
+  9 | |   
+ 10 | |   </body>
+ 11 | |     </html>
+ 12 | |   
+ 13 | `-> 
+    `----
   x Element
-   ,-[$DIR/tests/fixture/comment/basic-1/input.html:2:2]
- 2 | |    
-   `----
+    ,-[$DIR/tests/fixture/comment/basic-1/input.html:2:1]
+  1 |     <!DOCTYPE html>
+  2 | ,-> <html>
+  3 | |   <body>
+  4 | |   
+  5 | |   <!--This is a comment-->
+  6 | |   <!-- This is a comment -->
+  7 | |   <p>This is a paragraph.</p>
+  8 | |   <!-- Comments are not displayed in the browser -->
+  9 | |   
+ 10 | |   </body>
+ 11 | |     </html>
+ 12 | |   
+ 13 | `-> 
+    `----
   x Child
   x Element
   x Child
-   ,-[$DIR/tests/fixture/comment/basic-1/input.html:3:2]
- 3 | |    
-   `----
+    ,-[$DIR/tests/fixture/comment/basic-1/input.html:3:1]
+  2 |     <html>
+  3 | ,-> <body>
+  4 | |   
+  5 | |   <!--This is a comment-->
+  6 | |   <!-- This is a comment -->
+  7 | |   <p>This is a paragraph.</p>
+  8 | |   <!-- Comments are not displayed in the browser -->
+  9 | |   
+ 10 | |   </body>
+ 11 | |     </html>
+ 12 | |   
+ 13 | `-> 
+    `----
   x Element
-   ,-[$DIR/tests/fixture/comment/basic-1/input.html:3:2]
- 3 | |    
-   `----
+    ,-[$DIR/tests/fixture/comment/basic-1/input.html:3:1]
+  2 |     <html>
+  3 | ,-> <body>
+  4 | |   
+  5 | |   <!--This is a comment-->
+  6 | |   <!-- This is a comment -->
+  7 | |   <p>This is a paragraph.</p>
+  8 | |   <!-- Comments are not displayed in the browser -->
+  9 | |   
+ 10 | |   </body>
+ 11 | |     </html>
+ 12 | |   
+ 13 | `-> 
+    `----
   x Child
-   ,-[$DIR/tests/fixture/comment/basic-1/input.html:4:1]
+   ,-[$DIR/tests/fixture/comment/basic-1/input.html:3:1]
+ 2 |     <html>
  3 | ,-> <body>
  4 | `-> 
  5 |     <!--This is a comment-->
  6 |     <!-- This is a comment -->
    `----
   x Text
-   ,-[$DIR/tests/fixture/comment/basic-1/input.html:4:1]
+   ,-[$DIR/tests/fixture/comment/basic-1/input.html:3:1]
+ 2 |     <html>
  3 | ,-> <body>
  4 | `-> 
  5 |     <!--This is a comment-->
@@ -54,7 +112,6 @@
  5 | <!--This is a comment-->
    : ^^^^^^^^^^^^^^^^^^^^^^^^
  6 | <!-- This is a comment -->
- 7 | <p>This is a paragraph.</p>
    `----
   x Comment
    ,-[$DIR/tests/fixture/comment/basic-1/input.html:5:1]
@@ -62,17 +119,18 @@
  5 | <!--This is a comment-->
    : ^^^^^^^^^^^^^^^^^^^^^^^^
  6 | <!-- This is a comment -->
- 7 | <p>This is a paragraph.</p>
    `----
   x Child
-   ,-[$DIR/tests/fixture/comment/basic-1/input.html:6:1]
+   ,-[$DIR/tests/fixture/comment/basic-1/input.html:5:1]
+ 4 | 
  5 | <!--This is a comment-->
    :                         ^
  6 | <!-- This is a comment -->
  7 | <p>This is a paragraph.</p>
    `----
   x Text
-   ,-[$DIR/tests/fixture/comment/basic-1/input.html:6:1]
+   ,-[$DIR/tests/fixture/comment/basic-1/input.html:5:1]
+ 4 | 
  5 | <!--This is a comment-->
    :                         ^
  6 | <!-- This is a comment -->
@@ -84,7 +142,6 @@
  6 | <!-- This is a comment -->
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
  7 | <p>This is a paragraph.</p>
- 8 | <!-- Comments are not displayed in the browser -->
    `----
   x Comment
    ,-[$DIR/tests/fixture/comment/basic-1/input.html:6:1]
@@ -92,17 +149,18 @@
  6 | <!-- This is a comment -->
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
  7 | <p>This is a paragraph.</p>
- 8 | <!-- Comments are not displayed in the browser -->
    `----
   x Child
-   ,-[$DIR/tests/fixture/comment/basic-1/input.html:7:1]
+   ,-[$DIR/tests/fixture/comment/basic-1/input.html:6:1]
+ 5 | <!--This is a comment-->
  6 | <!-- This is a comment -->
    :                           ^
  7 | <p>This is a paragraph.</p>
  8 | <!-- Comments are not displayed in the browser -->
    `----
   x Text
-   ,-[$DIR/tests/fixture/comment/basic-1/input.html:7:1]
+   ,-[$DIR/tests/fixture/comment/basic-1/input.html:6:1]
+ 5 | <!--This is a comment-->
  6 | <!-- This is a comment -->
    :                           ^
  7 | <p>This is a paragraph.</p>
@@ -137,38 +195,48 @@
  8 | <!-- Comments are not displayed in the browser -->
    `----
   x Child
-   ,-[$DIR/tests/fixture/comment/basic-1/input.html:8:1]
+   ,-[$DIR/tests/fixture/comment/basic-1/input.html:7:1]
+ 6 | <!-- This is a comment -->
  7 | <p>This is a paragraph.</p>
    :                            ^
  8 | <!-- Comments are not displayed in the browser -->
    `----
   x Text
-   ,-[$DIR/tests/fixture/comment/basic-1/input.html:8:1]
+   ,-[$DIR/tests/fixture/comment/basic-1/input.html:7:1]
+ 6 | <!-- This is a comment -->
  7 | <p>This is a paragraph.</p>
    :                            ^
  8 | <!-- Comments are not displayed in the browser -->
    `----
   x Child
-    ,-[$DIR/tests/fixture/comment/basic-1/input.html:8:1]
-  7 | <p>This is a paragraph.</p>
-  8 | <!-- Comments are not displayed in the browser -->
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  9 | 
- 10 | </body>
-    `----
+   ,-[$DIR/tests/fixture/comment/basic-1/input.html:8:1]
+ 7 | <p>This is a paragraph.</p>
+ 8 | <!-- Comments are not displayed in the browser -->
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
   x Comment
-    ,-[$DIR/tests/fixture/comment/basic-1/input.html:8:1]
-  7 | <p>This is a paragraph.</p>
-  8 | <!-- Comments are not displayed in the browser -->
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  9 | 
- 10 | </body>
-    `----
+   ,-[$DIR/tests/fixture/comment/basic-1/input.html:8:1]
+ 7 | <p>This is a paragraph.</p>
+ 8 | <!-- Comments are not displayed in the browser -->
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
   x Child
-   ,-[$DIR/tests/fixture/comment/basic-1/input.html:9:1]
- 9 | |    
-   `----
+    ,-[$DIR/tests/fixture/comment/basic-1/input.html:8:1]
+  7 |     <p>This is a paragraph.</p>
+  8 | ,-> <!-- Comments are not displayed in the browser -->
+  9 | |   
+ 10 | |   </body>
+ 11 | |     </html>
+ 12 | |   
+ 13 | `-> 
+    `----
   x Text
-   ,-[$DIR/tests/fixture/comment/basic-1/input.html:9:1]
- 9 | |    
-   `----
+    ,-[$DIR/tests/fixture/comment/basic-1/input.html:8:1]
+  7 |     <p>This is a paragraph.</p>
+  8 | ,-> <!-- Comments are not displayed in the browser -->
+  9 | |   
+ 10 | |   </body>
+ 11 | |     </html>
+ 12 | |   
+ 13 | `-> 
+    `----

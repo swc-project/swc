@@ -1,6 +1,7 @@
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/tests24_dat.3.html:1:2]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests24_dat.3.html:1:1]
+ 1 | <!DOCTYPE html>&ThickSpace;A
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests24_dat.3.html:1:1]
@@ -15,10 +16,12 @@
   x Child
   x Element
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests24_dat.3.html:1:17]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests24_dat.3.html:1:1]
+ 1 | <!DOCTYPE html>&ThickSpace;A
+   :                ^^^^^^^^^^^^^
    `----
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/tests24_dat.3.html:1:17]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests24_dat.3.html:1:1]
+ 1 | <!DOCTYPE html>&ThickSpace;A
+   :                ^^^^^^^^^^^^^
    `----

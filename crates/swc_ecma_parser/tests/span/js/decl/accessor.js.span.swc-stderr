@@ -1,59 +1,63 @@
   x Module
-   ,-[$DIR/tests/span/js/decl/accessor.js:1:2]
- 1 | |    
-   `----
+    ,-[$DIR/tests/span/js/decl/accessor.js:1:1]
+  1 | ,-> class Foo {
+  2 | |       get a() {
+  3 | |   
+  4 | |       }
+  5 | |       set a(v) {
+  6 | |   
+  7 | |       }
+  8 | |   }
+  9 | |   
+ 10 | |   let obj = {
+ 11 | |       get a() { },
+ 12 | |       set a(v) { },
+ 13 | `-> }
+    `----
   x ModuleItem
-    ,-[$DIR/tests/span/js/decl/accessor.js:1:1]
-  1 | ,-> class Foo {
-  2 | |       get a() {
-  3 | |   
-  4 | |       }
-  5 | |       set a(v) {
-  6 | |   
-  7 | |       }
-  8 | `-> }
-  9 |     
- 10 |     let obj = {
-    `----
+   ,-[$DIR/tests/span/js/decl/accessor.js:1:1]
+ 1 | ,-> class Foo {
+ 2 | |       get a() {
+ 3 | |   
+ 4 | |       }
+ 5 | |       set a(v) {
+ 6 | |   
+ 7 | |       }
+ 8 | `-> }
+   `----
   x Stmt
-    ,-[$DIR/tests/span/js/decl/accessor.js:1:1]
-  1 | ,-> class Foo {
-  2 | |       get a() {
-  3 | |   
-  4 | |       }
-  5 | |       set a(v) {
-  6 | |   
-  7 | |       }
-  8 | `-> }
-  9 |     
- 10 |     let obj = {
-    `----
+   ,-[$DIR/tests/span/js/decl/accessor.js:1:1]
+ 1 | ,-> class Foo {
+ 2 | |       get a() {
+ 3 | |   
+ 4 | |       }
+ 5 | |       set a(v) {
+ 6 | |   
+ 7 | |       }
+ 8 | `-> }
+   `----
   x Decl
-    ,-[$DIR/tests/span/js/decl/accessor.js:1:1]
-  1 | ,-> class Foo {
-  2 | |       get a() {
-  3 | |   
-  4 | |       }
-  5 | |       set a(v) {
-  6 | |   
-  7 | |       }
-  8 | `-> }
-  9 |     
- 10 |     let obj = {
-    `----
+   ,-[$DIR/tests/span/js/decl/accessor.js:1:1]
+ 1 | ,-> class Foo {
+ 2 | |       get a() {
+ 3 | |   
+ 4 | |       }
+ 5 | |       set a(v) {
+ 6 | |   
+ 7 | |       }
+ 8 | `-> }
+   `----
   x ClassDecl
-    ,-[$DIR/tests/span/js/decl/accessor.js:1:1]
-  1 | ,-> class Foo {
-  2 | |       get a() {
-  3 | |   
-  4 | |       }
-  5 | |       set a(v) {
-  6 | |   
-  7 | |       }
-  8 | `-> }
-  9 |     
- 10 |     let obj = {
-    `----
+   ,-[$DIR/tests/span/js/decl/accessor.js:1:1]
+ 1 | ,-> class Foo {
+ 2 | |       get a() {
+ 3 | |   
+ 4 | |       }
+ 5 | |       set a(v) {
+ 6 | |   
+ 7 | |       }
+ 8 | `-> }
+   `----
   x Ident
    ,-[$DIR/tests/span/js/decl/accessor.js:1:1]
  1 | class Foo {
@@ -61,18 +65,16 @@
  2 |     get a() {
    `----
   x Class
-    ,-[$DIR/tests/span/js/decl/accessor.js:1:1]
-  1 | ,-> class Foo {
-  2 | |       get a() {
-  3 | |   
-  4 | |       }
-  5 | |       set a(v) {
-  6 | |   
-  7 | |       }
-  8 | `-> }
-  9 |     
- 10 |     let obj = {
-    `----
+   ,-[$DIR/tests/span/js/decl/accessor.js:1:1]
+ 1 | ,-> class Foo {
+ 2 | |       get a() {
+ 3 | |   
+ 4 | |       }
+ 5 | |       set a(v) {
+ 6 | |   
+ 7 | |       }
+ 8 | `-> }
+   `----
   x ClassMember
    ,-[$DIR/tests/span/js/decl/accessor.js:2:1]
  1 |     class Foo {
@@ -180,24 +182,44 @@
  8 |     }
    `----
   x ModuleItem
-    ,-[$DIR/tests/span/js/decl/accessor.js:10:2]
- 10 | |    
+    ,-[$DIR/tests/span/js/decl/accessor.js:10:1]
+  9 |     
+ 10 | ,-> let obj = {
+ 11 | |       get a() { },
+ 12 | |       set a(v) { },
+ 13 | `-> }
     `----
   x Stmt
-    ,-[$DIR/tests/span/js/decl/accessor.js:10:2]
- 10 | |    
+    ,-[$DIR/tests/span/js/decl/accessor.js:10:1]
+  9 |     
+ 10 | ,-> let obj = {
+ 11 | |       get a() { },
+ 12 | |       set a(v) { },
+ 13 | `-> }
     `----
   x Decl
-    ,-[$DIR/tests/span/js/decl/accessor.js:10:2]
- 10 | |    
+    ,-[$DIR/tests/span/js/decl/accessor.js:10:1]
+  9 |     
+ 10 | ,-> let obj = {
+ 11 | |       get a() { },
+ 12 | |       set a(v) { },
+ 13 | `-> }
     `----
   x VarDecl
-    ,-[$DIR/tests/span/js/decl/accessor.js:10:2]
- 10 | |    
+    ,-[$DIR/tests/span/js/decl/accessor.js:10:1]
+  9 |     
+ 10 | ,-> let obj = {
+ 11 | |       get a() { },
+ 12 | |       set a(v) { },
+ 13 | `-> }
     `----
   x VarDeclarator
-    ,-[$DIR/tests/span/js/decl/accessor.js:10:6]
- 10 | |    
+    ,-[$DIR/tests/span/js/decl/accessor.js:10:1]
+  9 |     
+ 10 | ,-> let obj = {
+ 11 | |       get a() { },
+ 12 | |       set a(v) { },
+ 13 | `-> }
     `----
   x Pat
     ,-[$DIR/tests/span/js/decl/accessor.js:10:1]
@@ -214,12 +236,20 @@
  11 |     get a() { },
     `----
   x Expr
-    ,-[$DIR/tests/span/js/decl/accessor.js:10:12]
- 10 | |    
+    ,-[$DIR/tests/span/js/decl/accessor.js:10:1]
+  9 |     
+ 10 | ,-> let obj = {
+ 11 | |       get a() { },
+ 12 | |       set a(v) { },
+ 13 | `-> }
     `----
   x ObjectLit
-    ,-[$DIR/tests/span/js/decl/accessor.js:10:12]
- 10 | |    
+    ,-[$DIR/tests/span/js/decl/accessor.js:10:1]
+  9 |     
+ 10 | ,-> let obj = {
+ 11 | |       get a() { },
+ 12 | |       set a(v) { },
+ 13 | `-> }
     `----
   x PropOrSpread
     ,-[$DIR/tests/span/js/decl/accessor.js:11:1]

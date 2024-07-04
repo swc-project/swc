@@ -1,14 +1,17 @@
   x Stylesheet
-   ,-[$DIR/tests/recovery/value/hash/invalid-character-2/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/value/hash/invalid-character-2/input.css:1:1]
+ 1 | a { value: #0h\61sh }
+   : ^^^^^^^^^^^^^^^^^^^^^
    `----
   x Rule
-   ,-[$DIR/tests/recovery/value/hash/invalid-character-2/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/value/hash/invalid-character-2/input.css:1:1]
+ 1 | a { value: #0h\61sh }
+   : ^^^^^^^^^^^^^^^^^^^^^
    `----
   x QualifiedRule
-   ,-[$DIR/tests/recovery/value/hash/invalid-character-2/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/value/hash/invalid-character-2/input.css:1:1]
+ 1 | a { value: #0h\61sh }
+   : ^^^^^^^^^^^^^^^^^^^^^
    `----
   x SelectorList
    ,-[$DIR/tests/recovery/value/hash/invalid-character-2/input.css:1:1]
@@ -46,8 +49,9 @@
    : ^
    `----
   x SimpleBlock
-   ,-[$DIR/tests/recovery/value/hash/invalid-character-2/input.css:1:4]
- 1 | |    
+   ,-[$DIR/tests/recovery/value/hash/invalid-character-2/input.css:1:1]
+ 1 | a { value: #0h\61sh }
+   :   ^^^^^^^^^^^^^^^^^^^
    `----
   x LBrace
    ,-[$DIR/tests/recovery/value/hash/invalid-character-2/input.css:1:1]

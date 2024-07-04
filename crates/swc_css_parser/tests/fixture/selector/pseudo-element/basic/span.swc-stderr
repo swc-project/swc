@@ -1,20 +1,52 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:1:2]
- 1 | |    
-   `----
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:1:1]
+  1 | ,-> a::after {}
+  2 | |   
+  3 | |   dialog::backdrop {}
+  4 | |   
+  5 | |   a::before {}
+  6 | |   
+  7 | |   video::cue {}
+  8 | |   video::cue(b) {}
+  9 | |   
+ 10 | |   video::cue-region {}
+ 11 | |   video::cue-region(#scroll) {}
+ 12 | |   
+ 13 | |   ::grammar-error {}
+ 14 | |   
+ 15 | |   ::marker {}
+ 16 | |   
+ 17 | |   tabbed-custom-element::part(tab) {}
+ 18 | |   
+ 19 | |   ::placeholder {}
+ 20 | |   
+ 21 | |   ::selection {}
+ 22 | |   
+ 23 | |   ::slotted(*) {}
+ 24 | |   ::slotted(span) {}
+ 25 | |   
+ 26 | |   ::spelling-error {}
+ 27 | |   
+ 28 | |   ::target-text {}
+ 29 | |   
+ 30 | |   .form-range::-webkit-slider-thumb:active {}
+ 31 | |   
+ 32 | |   a::bEfOrE {}
+ 33 | |   
+ 34 | |   a:hover::before {}
+ 35 | |   a:hover::-moz-placeholder {}
+ 36 | |   a, b > .foo::before {}
+ 37 | `-> *:hover.class {}
+    `----
   x Rule
    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:1:1]
  1 | a::after {}
    : ^^^^^^^^^^^
- 2 | 
- 3 | dialog::backdrop {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:1:1]
  1 | a::after {}
    : ^^^^^^^^^^^
- 2 | 
- 3 | dialog::backdrop {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:1:1]
@@ -70,8 +102,6 @@
    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:1:1]
  1 | a::after {}
    :          ^^
- 2 | 
- 3 | dialog::backdrop {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:1:1]
@@ -83,16 +113,12 @@
  2 | 
  3 | dialog::backdrop {}
    : ^^^^^^^^^^^^^^^^^^^
- 4 | 
- 5 | a::before {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:3:1]
  2 | 
  3 | dialog::backdrop {}
    : ^^^^^^^^^^^^^^^^^^^
- 4 | 
- 5 | a::before {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:3:1]
@@ -159,8 +185,6 @@
  2 | 
  3 | dialog::backdrop {}
    :                  ^^
- 4 | 
- 5 | a::before {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:3:1]
@@ -173,16 +197,12 @@
  4 | 
  5 | a::before {}
    : ^^^^^^^^^^^^
- 6 | 
- 7 | video::cue {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:5:1]
  4 | 
  5 | a::before {}
    : ^^^^^^^^^^^^
- 6 | 
- 7 | video::cue {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:5:1]
@@ -249,8 +269,6 @@
  4 | 
  5 | a::before {}
    :           ^^
- 6 | 
- 7 | video::cue {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:5:1]
@@ -357,21 +375,17 @@
  8 | video::cue(b) {}
    `----
   x Rule
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:8:1]
-  7 | video::cue {}
-  8 | video::cue(b) {}
-    : ^^^^^^^^^^^^^^^^
-  9 | 
- 10 | video::cue-region {}
-    `----
+   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:8:1]
+ 7 | video::cue {}
+ 8 | video::cue(b) {}
+   : ^^^^^^^^^^^^^^^^
+   `----
   x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:8:1]
-  7 | video::cue {}
-  8 | video::cue(b) {}
-    : ^^^^^^^^^^^^^^^^
-  9 | 
- 10 | video::cue-region {}
-    `----
+   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:8:1]
+ 7 | video::cue {}
+ 8 | video::cue(b) {}
+   : ^^^^^^^^^^^^^^^^
+   `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:8:1]
  7 | video::cue {}
@@ -469,13 +483,11 @@
    :            ^
    `----
   x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:8:1]
-  7 | video::cue {}
-  8 | video::cue(b) {}
-    :               ^^
-  9 | 
- 10 | video::cue-region {}
-    `----
+   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:8:1]
+ 7 | video::cue {}
+ 8 | video::cue(b) {}
+   :               ^^
+   `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:8:1]
  7 | video::cue {}
@@ -585,16 +597,12 @@
  10 | video::cue-region {}
  11 | video::cue-region(#scroll) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 12 | 
- 13 | ::grammar-error {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:11:1]
  10 | video::cue-region {}
  11 | video::cue-region(#scroll) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 12 | 
- 13 | ::grammar-error {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:11:1]
@@ -691,8 +699,6 @@
  10 | video::cue-region {}
  11 | video::cue-region(#scroll) {}
     :                            ^^
- 12 | 
- 13 | ::grammar-error {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:11:1]
@@ -705,16 +711,12 @@
  12 | 
  13 | ::grammar-error {}
     : ^^^^^^^^^^^^^^^^^^
- 14 | 
- 15 | ::marker {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:13:1]
  12 | 
  13 | ::grammar-error {}
     : ^^^^^^^^^^^^^^^^^^
- 14 | 
- 15 | ::marker {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:13:1]
@@ -757,8 +759,6 @@
  12 | 
  13 | ::grammar-error {}
     :                 ^^
- 14 | 
- 15 | ::marker {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:13:1]
@@ -771,16 +771,12 @@
  14 | 
  15 | ::marker {}
     : ^^^^^^^^^^^
- 16 | 
- 17 | tabbed-custom-element::part(tab) {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:15:1]
  14 | 
  15 | ::marker {}
     : ^^^^^^^^^^^
- 16 | 
- 17 | tabbed-custom-element::part(tab) {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:15:1]
@@ -823,8 +819,6 @@
  14 | 
  15 | ::marker {}
     :          ^^
- 16 | 
- 17 | tabbed-custom-element::part(tab) {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:15:1]
@@ -837,16 +831,12 @@
  16 | 
  17 | tabbed-custom-element::part(tab) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 18 | 
- 19 | ::placeholder {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:17:1]
  16 | 
  17 | tabbed-custom-element::part(tab) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 18 | 
- 19 | ::placeholder {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:17:1]
@@ -925,8 +915,6 @@
  16 | 
  17 | tabbed-custom-element::part(tab) {}
     :                                  ^^
- 18 | 
- 19 | ::placeholder {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:17:1]
@@ -939,16 +927,12 @@
  18 | 
  19 | ::placeholder {}
     : ^^^^^^^^^^^^^^^^
- 20 | 
- 21 | ::selection {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:19:1]
  18 | 
  19 | ::placeholder {}
     : ^^^^^^^^^^^^^^^^
- 20 | 
- 21 | ::selection {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:19:1]
@@ -991,8 +975,6 @@
  18 | 
  19 | ::placeholder {}
     :               ^^
- 20 | 
- 21 | ::selection {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:19:1]
@@ -1005,16 +987,12 @@
  20 | 
  21 | ::selection {}
     : ^^^^^^^^^^^^^^
- 22 | 
- 23 | ::slotted(*) {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:21:1]
  20 | 
  21 | ::selection {}
     : ^^^^^^^^^^^^^^
- 22 | 
- 23 | ::slotted(*) {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:21:1]
@@ -1057,8 +1035,6 @@
  20 | 
  21 | ::selection {}
     :             ^^
- 22 | 
- 23 | ::slotted(*) {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:21:1]
@@ -1169,16 +1145,12 @@
  23 | ::slotted(*) {}
  24 | ::slotted(span) {}
     : ^^^^^^^^^^^^^^^^^^
- 25 | 
- 26 | ::spelling-error {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:24:1]
  23 | ::slotted(*) {}
  24 | ::slotted(span) {}
     : ^^^^^^^^^^^^^^^^^^
- 25 | 
- 26 | ::spelling-error {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:24:1]
@@ -1257,8 +1229,6 @@
  23 | ::slotted(*) {}
  24 | ::slotted(span) {}
     :                 ^^
- 25 | 
- 26 | ::spelling-error {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:24:1]
@@ -1271,16 +1241,12 @@
  25 | 
  26 | ::spelling-error {}
     : ^^^^^^^^^^^^^^^^^^^
- 27 | 
- 28 | ::target-text {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:26:1]
  25 | 
  26 | ::spelling-error {}
     : ^^^^^^^^^^^^^^^^^^^
- 27 | 
- 28 | ::target-text {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:26:1]
@@ -1323,8 +1289,6 @@
  25 | 
  26 | ::spelling-error {}
     :                  ^^
- 27 | 
- 28 | ::target-text {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:26:1]
@@ -1337,16 +1301,12 @@
  27 | 
  28 | ::target-text {}
     : ^^^^^^^^^^^^^^^^
- 29 | 
- 30 | .form-range::-webkit-slider-thumb:active {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:28:1]
  27 | 
  28 | ::target-text {}
     : ^^^^^^^^^^^^^^^^
- 29 | 
- 30 | .form-range::-webkit-slider-thumb:active {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:28:1]
@@ -1389,8 +1349,6 @@
  27 | 
  28 | ::target-text {}
     :               ^^
- 29 | 
- 30 | .form-range::-webkit-slider-thumb:active {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:28:1]
@@ -1403,16 +1361,12 @@
  29 | 
  30 | .form-range::-webkit-slider-thumb:active {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 31 | 
- 32 | a::bEfOrE {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:30:1]
  29 | 
  30 | .form-range::-webkit-slider-thumb:active {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 31 | 
- 32 | a::bEfOrE {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:30:1]
@@ -1491,8 +1445,6 @@
  29 | 
  30 | .form-range::-webkit-slider-thumb:active {}
     :                                          ^^
- 31 | 
- 32 | a::bEfOrE {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:30:1]
@@ -1505,16 +1457,12 @@
  31 | 
  32 | a::bEfOrE {}
     : ^^^^^^^^^^^^
- 33 | 
- 34 | a:hover::before {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:32:1]
  31 | 
  32 | a::bEfOrE {}
     : ^^^^^^^^^^^^
- 33 | 
- 34 | a:hover::before {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:32:1]
@@ -1581,8 +1529,6 @@
  31 | 
  32 | a::bEfOrE {}
     :           ^^
- 33 | 
- 34 | a:hover::before {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:32:1]
@@ -1596,7 +1542,6 @@
  34 | a:hover::before {}
     : ^^^^^^^^^^^^^^^^^^
  35 | a:hover::-moz-placeholder {}
- 36 | a, b > .foo::before {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:34:1]
@@ -1604,7 +1549,6 @@
  34 | a:hover::before {}
     : ^^^^^^^^^^^^^^^^^^
  35 | a:hover::-moz-placeholder {}
- 36 | a, b > .foo::before {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:34:1]
@@ -1703,7 +1647,6 @@
  34 | a:hover::before {}
     :                 ^^
  35 | a:hover::-moz-placeholder {}
- 36 | a, b > .foo::before {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:34:1]
@@ -1718,7 +1661,6 @@
  35 | a:hover::-moz-placeholder {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  36 | a, b > .foo::before {}
- 37 | *:hover.class {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:35:1]
@@ -1726,7 +1668,6 @@
  35 | a:hover::-moz-placeholder {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  36 | a, b > .foo::before {}
- 37 | *:hover.class {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:35:1]
@@ -1825,7 +1766,6 @@
  35 | a:hover::-moz-placeholder {}
     :                           ^^
  36 | a, b > .foo::before {}
- 37 | *:hover.class {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:35:1]

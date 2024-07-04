@@ -1,6 +1,9 @@
   x Stylesheet
-   ,-[$DIR/tests/recovery/value/quotes/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/value/quotes/input.css:1:1]
+ 1 | ,-> p::before {
+ 2 | |       content: "tes
+ 3 | |       t";
+ 4 | `-> }
    `----
   x Rule
    ,-[$DIR/tests/recovery/value/quotes/input.css:1:1]
@@ -88,7 +91,6 @@
  1 | p::before {
    :           ^
  2 |     content: "tes
- 3 |     t";
    `----
   x ComponentValue
    ,-[$DIR/tests/recovery/value/quotes/input.css:2:1]
@@ -124,7 +126,6 @@
  2 |     content: "tes
    :              ^^^^
  3 |     t";
- 4 | }
    `----
   x BadString { raw: "\"tes" }
    ,-[$DIR/tests/recovery/value/quotes/input.css:2:1]
@@ -132,16 +133,17 @@
  2 |     content: "tes
    :              ^^^^
  3 |     t";
- 4 | }
    `----
   x ComponentValue
-   ,-[$DIR/tests/recovery/value/quotes/input.css:3:1]
+   ,-[$DIR/tests/recovery/value/quotes/input.css:2:1]
+ 1 |     p::before {
  2 | ,->     content: "tes
  3 | `->     t";
  4 |     }
    `----
   x WhiteSpace { value: "\n    " }
-   ,-[$DIR/tests/recovery/value/quotes/input.css:3:1]
+   ,-[$DIR/tests/recovery/value/quotes/input.css:2:1]
+ 1 |     p::before {
  2 | ,->     content: "tes
  3 | `->     t";
  4 |     }

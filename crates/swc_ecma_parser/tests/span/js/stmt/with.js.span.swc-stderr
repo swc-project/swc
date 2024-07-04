@@ -1,18 +1,26 @@
   x Module
-   ,-[$DIR/tests/span/js/stmt/with.js:1:2]
- 1 | |    
+   ,-[$DIR/tests/span/js/stmt/with.js:1:1]
+ 1 | ,-> with (foo) {
+ 2 | |   
+ 3 | `-> }
    `----
   x ModuleItem
-   ,-[$DIR/tests/span/js/stmt/with.js:1:2]
- 1 | |    
+   ,-[$DIR/tests/span/js/stmt/with.js:1:1]
+ 1 | ,-> with (foo) {
+ 2 | |   
+ 3 | `-> }
    `----
   x Stmt
-   ,-[$DIR/tests/span/js/stmt/with.js:1:2]
- 1 | |    
+   ,-[$DIR/tests/span/js/stmt/with.js:1:1]
+ 1 | ,-> with (foo) {
+ 2 | |   
+ 3 | `-> }
    `----
   x WithStmt
-   ,-[$DIR/tests/span/js/stmt/with.js:1:2]
- 1 | |    
+   ,-[$DIR/tests/span/js/stmt/with.js:1:1]
+ 1 | ,-> with (foo) {
+ 2 | |   
+ 3 | `-> }
    `----
   x Expr
    ,-[$DIR/tests/span/js/stmt/with.js:1:1]
@@ -25,10 +33,14 @@
    :       ^^^
    `----
   x Stmt
-   ,-[$DIR/tests/span/js/stmt/with.js:1:13]
- 1 | |    
+   ,-[$DIR/tests/span/js/stmt/with.js:1:1]
+ 1 | ,-> with (foo) {
+ 2 | |   
+ 3 | `-> }
    `----
   x BlockStmt
-   ,-[$DIR/tests/span/js/stmt/with.js:1:13]
- 1 | |    
+   ,-[$DIR/tests/span/js/stmt/with.js:1:1]
+ 1 | ,-> with (foo) {
+ 2 | |   
+ 3 | `-> }
    `----

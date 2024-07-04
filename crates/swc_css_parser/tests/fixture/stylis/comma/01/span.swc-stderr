@@ -1,6 +1,8 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/stylis/comma/01/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/stylis/comma/01/input.css:1:1]
+ 1 | ,-> a {
+ 2 | |       cursor: image-set(url(foo.jpg) 2x), pointer;
+ 3 | `-> }
    `----
   x Rule
    ,-[$DIR/tests/fixture/stylis/comma/01/input.css:1:1]
@@ -67,7 +69,6 @@
  1 | a {
    :   ^
  2 |     cursor: image-set(url(foo.jpg) 2x), pointer;
- 3 | }
    `----
   x ComponentValue
    ,-[$DIR/tests/fixture/stylis/comma/01/input.css:2:1]

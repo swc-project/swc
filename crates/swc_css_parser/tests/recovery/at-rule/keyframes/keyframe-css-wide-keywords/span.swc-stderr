@@ -1,20 +1,22 @@
   x Stylesheet
-   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-css-wide-keywords/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-css-wide-keywords/input.css:1:1]
+ 1 | ,-> @keyframes initial {}
+ 2 | |   @keyframes inherit {}
+ 3 | |   @keyframes unset {}
+ 4 | |   @keyframes none {}
+ 5 | `-> @keyframes iNiTiAl {}
    `----
   x Rule
    ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-css-wide-keywords/input.css:1:1]
  1 | @keyframes initial {}
    : ^^^^^^^^^^^^^^^^^^^^^
  2 | @keyframes inherit {}
- 3 | @keyframes unset {}
    `----
   x AtRule
    ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-css-wide-keywords/input.css:1:1]
  1 | @keyframes initial {}
    : ^^^^^^^^^^^^^^^^^^^^^
  2 | @keyframes inherit {}
- 3 | @keyframes unset {}
    `----
   x AtRuleName
    ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-css-wide-keywords/input.css:1:1]
@@ -69,7 +71,6 @@
  1 | @keyframes initial {}
    :                    ^^
  2 | @keyframes inherit {}
- 3 | @keyframes unset {}
    `----
   x LBrace
    ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-css-wide-keywords/input.css:1:1]
@@ -83,7 +84,6 @@
  2 | @keyframes inherit {}
    : ^^^^^^^^^^^^^^^^^^^^^
  3 | @keyframes unset {}
- 4 | @keyframes none {}
    `----
   x AtRule
    ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-css-wide-keywords/input.css:2:1]
@@ -91,7 +91,6 @@
  2 | @keyframes inherit {}
    : ^^^^^^^^^^^^^^^^^^^^^
  3 | @keyframes unset {}
- 4 | @keyframes none {}
    `----
   x AtRuleName
    ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-css-wide-keywords/input.css:2:1]
@@ -155,7 +154,6 @@
  2 | @keyframes inherit {}
    :                    ^^
  3 | @keyframes unset {}
- 4 | @keyframes none {}
    `----
   x LBrace
    ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-css-wide-keywords/input.css:2:1]
@@ -170,7 +168,6 @@
  3 | @keyframes unset {}
    : ^^^^^^^^^^^^^^^^^^^
  4 | @keyframes none {}
- 5 | @keyframes iNiTiAl {}
    `----
   x AtRule
    ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-css-wide-keywords/input.css:3:1]
@@ -178,7 +175,6 @@
  3 | @keyframes unset {}
    : ^^^^^^^^^^^^^^^^^^^
  4 | @keyframes none {}
- 5 | @keyframes iNiTiAl {}
    `----
   x AtRuleName
    ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-css-wide-keywords/input.css:3:1]
@@ -242,7 +238,6 @@
  3 | @keyframes unset {}
    :                  ^^
  4 | @keyframes none {}
- 5 | @keyframes iNiTiAl {}
    `----
   x LBrace
    ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-css-wide-keywords/input.css:3:1]

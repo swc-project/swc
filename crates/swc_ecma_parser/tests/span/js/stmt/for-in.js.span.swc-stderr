@@ -1,18 +1,38 @@
   x Module
-   ,-[$DIR/tests/span/js/stmt/for-in.js:1:2]
- 1 | |    
+   ,-[$DIR/tests/span/js/stmt/for-in.js:1:1]
+ 1 | ,-> for (const a in [1, 2, 3]) {
+ 2 | |   
+ 3 | |       if (a === 2) {
+ 4 | |           continue
+ 5 | |       }
+ 6 | `-> }
    `----
   x ModuleItem
-   ,-[$DIR/tests/span/js/stmt/for-in.js:1:2]
- 1 | |    
+   ,-[$DIR/tests/span/js/stmt/for-in.js:1:1]
+ 1 | ,-> for (const a in [1, 2, 3]) {
+ 2 | |   
+ 3 | |       if (a === 2) {
+ 4 | |           continue
+ 5 | |       }
+ 6 | `-> }
    `----
   x Stmt
-   ,-[$DIR/tests/span/js/stmt/for-in.js:1:2]
- 1 | |    
+   ,-[$DIR/tests/span/js/stmt/for-in.js:1:1]
+ 1 | ,-> for (const a in [1, 2, 3]) {
+ 2 | |   
+ 3 | |       if (a === 2) {
+ 4 | |           continue
+ 5 | |       }
+ 6 | `-> }
    `----
   x ForInStmt
-   ,-[$DIR/tests/span/js/stmt/for-in.js:1:2]
- 1 | |    
+   ,-[$DIR/tests/span/js/stmt/for-in.js:1:1]
+ 1 | ,-> for (const a in [1, 2, 3]) {
+ 2 | |   
+ 3 | |       if (a === 2) {
+ 4 | |           continue
+ 5 | |       }
+ 6 | `-> }
    `----
   x ForHead
    ,-[$DIR/tests/span/js/stmt/for-in.js:1:1]
@@ -110,12 +130,22 @@
    :                        ^
    `----
   x Stmt
-   ,-[$DIR/tests/span/js/stmt/for-in.js:1:29]
- 1 | |    
+   ,-[$DIR/tests/span/js/stmt/for-in.js:1:1]
+ 1 | ,-> for (const a in [1, 2, 3]) {
+ 2 | |   
+ 3 | |       if (a === 2) {
+ 4 | |           continue
+ 5 | |       }
+ 6 | `-> }
    `----
   x BlockStmt
-   ,-[$DIR/tests/span/js/stmt/for-in.js:1:29]
- 1 | |    
+   ,-[$DIR/tests/span/js/stmt/for-in.js:1:1]
+ 1 | ,-> for (const a in [1, 2, 3]) {
+ 2 | |   
+ 3 | |       if (a === 2) {
+ 4 | |           continue
+ 5 | |       }
+ 6 | `-> }
    `----
   x Stmt
    ,-[$DIR/tests/span/js/stmt/for-in.js:3:1]
@@ -204,7 +234,6 @@
  4 |         continue
    :         ^^^^^^^^
  5 |     }
- 6 | }
    `----
   x ContinueStmt
    ,-[$DIR/tests/span/js/stmt/for-in.js:4:1]
@@ -212,5 +241,4 @@
  4 |         continue
    :         ^^^^^^^^
  5 |     }
- 6 | }
    `----

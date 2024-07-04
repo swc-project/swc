@@ -7,5 +7,4 @@
 //!  3 | 
 //!  4 | function EmptySFC1() {
 //!  5 |     return <div>hello</div>;
-//!  6 | }
 //!    `----

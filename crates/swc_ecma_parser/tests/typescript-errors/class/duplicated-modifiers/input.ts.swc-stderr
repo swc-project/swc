@@ -18,7 +18,6 @@
  3 |   abstract abstract t() {}
    :   ^^^^^^^^^^^^^^^^^^^^^^^^
  4 |   override override e() {}
- 5 | }
    `----
   x 'override' modifier already seen.
    ,-[$DIR/tests/typescript-errors/class/duplicated-modifiers/input.ts:4:1]
@@ -33,5 +32,4 @@
  3 |   abstract abstract t() {}
    :   ^^^^^^^^^^^^^^^^^^^^^^^^
  4 |   override override e() {}
- 5 | }
    `----

@@ -1,6 +1,7 @@
   x Module
-   ,-[$DIR/tests/span/js/expr/member.js:1:2]
- 1 | |    
+   ,-[$DIR/tests/span/js/expr/member.js:1:1]
+ 1 | ,-> a.b
+ 2 | `-> c[d]
    `----
   x ModuleItem
    ,-[$DIR/tests/span/js/expr/member.js:1:1]
@@ -51,24 +52,34 @@
  2 | c[d]
    `----
   x ModuleItem
-   ,-[$DIR/tests/span/js/expr/member.js:2:2]
- 2 | |    
+   ,-[$DIR/tests/span/js/expr/member.js:2:1]
+ 1 | a.b
+ 2 | c[d]
+   : ^^^^
    `----
   x Stmt
-   ,-[$DIR/tests/span/js/expr/member.js:2:2]
- 2 | |    
+   ,-[$DIR/tests/span/js/expr/member.js:2:1]
+ 1 | a.b
+ 2 | c[d]
+   : ^^^^
    `----
   x ExprStmt
-   ,-[$DIR/tests/span/js/expr/member.js:2:2]
- 2 | |    
+   ,-[$DIR/tests/span/js/expr/member.js:2:1]
+ 1 | a.b
+ 2 | c[d]
+   : ^^^^
    `----
   x Expr
-   ,-[$DIR/tests/span/js/expr/member.js:2:2]
- 2 | |    
+   ,-[$DIR/tests/span/js/expr/member.js:2:1]
+ 1 | a.b
+ 2 | c[d]
+   : ^^^^
    `----
   x MemberExpr
-   ,-[$DIR/tests/span/js/expr/member.js:2:2]
- 2 | |    
+   ,-[$DIR/tests/span/js/expr/member.js:2:1]
+ 1 | a.b
+ 2 | c[d]
+   : ^^^^
    `----
   x Expr
    ,-[$DIR/tests/span/js/expr/member.js:2:1]
@@ -83,8 +94,10 @@
    : ^
    `----
   x ComputedPropName
-   ,-[$DIR/tests/span/js/expr/member.js:2:3]
- 2 | |    
+   ,-[$DIR/tests/span/js/expr/member.js:2:1]
+ 1 | a.b
+ 2 | c[d]
+   :  ^^^
    `----
   x Expr
    ,-[$DIR/tests/span/js/expr/member.js:2:1]

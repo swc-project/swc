@@ -1,20 +1,20 @@
   x Stylesheet
-   ,-[$DIR/tests/recovery/selector/pseudo-class/invalid/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/selector/pseudo-class/invalid/input.css:1:1]
+ 1 | ,-> a: b {}
+ 2 | |   
+ 3 | |   a: b {
+ 4 | |       color: red;
+ 5 | `-> }
    `----
   x Rule
    ,-[$DIR/tests/recovery/selector/pseudo-class/invalid/input.css:1:1]
  1 | a: b {}
    : ^^^^^^^
- 2 | 
- 3 | a: b {
    `----
   x QualifiedRule
    ,-[$DIR/tests/recovery/selector/pseudo-class/invalid/input.css:1:1]
  1 | a: b {}
    : ^^^^^^^
- 2 | 
- 3 | a: b {
    `----
   x ComponentValue
    ,-[$DIR/tests/recovery/selector/pseudo-class/invalid/input.css:1:1]
@@ -70,8 +70,6 @@
    ,-[$DIR/tests/recovery/selector/pseudo-class/invalid/input.css:1:1]
  1 | a: b {}
    :      ^^
- 2 | 
- 3 | a: b {
    `----
   x LBrace
    ,-[$DIR/tests/recovery/selector/pseudo-class/invalid/input.css:1:1]
@@ -175,7 +173,6 @@
  3 | a: b {
    :      ^
  4 |     color: red;
- 5 | }
    `----
   x ComponentValue
    ,-[$DIR/tests/recovery/selector/pseudo-class/invalid/input.css:4:1]

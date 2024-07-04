@@ -1,6 +1,7 @@
   x Document
-   ,-[$DIR/tests/recovery/text/after-body-1/input.html:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/text/after-body-1/input.html:1:1]
+ 1 | <!doctype html> <html lang="en"> <head> <title>Document</title> </head><body> A B </body> C
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Child
    ,-[$DIR/tests/recovery/text/after-body-1/input.html:1:1]
@@ -13,12 +14,14 @@
    : ^^^^^^^^^^^^^^^
    `----
   x Child
-   ,-[$DIR/tests/recovery/text/after-body-1/input.html:1:18]
- 1 | |    
+   ,-[$DIR/tests/recovery/text/after-body-1/input.html:1:1]
+ 1 | <!doctype html> <html lang="en"> <head> <title>Document</title> </head><body> A B </body> C
+   :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Element
-   ,-[$DIR/tests/recovery/text/after-body-1/input.html:1:18]
- 1 | |    
+   ,-[$DIR/tests/recovery/text/after-body-1/input.html:1:1]
+ 1 | <!doctype html> <html lang="en"> <head> <title>Document</title> </head><body> A B </body> C
+   :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Attribute
    ,-[$DIR/tests/recovery/text/after-body-1/input.html:1:1]
@@ -76,18 +79,22 @@
    :                                                                ^
    `----
   x Child
-   ,-[$DIR/tests/recovery/text/after-body-1/input.html:1:73]
- 1 | |    
+   ,-[$DIR/tests/recovery/text/after-body-1/input.html:1:1]
+ 1 | <!doctype html> <html lang="en"> <head> <title>Document</title> </head><body> A B </body> C
+   :                                                                        ^^^^^^^^^^^^^^^^^^^^
    `----
   x Element
-   ,-[$DIR/tests/recovery/text/after-body-1/input.html:1:73]
- 1 | |    
+   ,-[$DIR/tests/recovery/text/after-body-1/input.html:1:1]
+ 1 | <!doctype html> <html lang="en"> <head> <title>Document</title> </head><body> A B </body> C
+   :                                                                        ^^^^^^^^^^^^^^^^^^^^
    `----
   x Child
-   ,-[$DIR/tests/recovery/text/after-body-1/input.html:1:79]
- 1 | |    
+   ,-[$DIR/tests/recovery/text/after-body-1/input.html:1:1]
+ 1 | <!doctype html> <html lang="en"> <head> <title>Document</title> </head><body> A B </body> C
+   :                                                                              ^^^^^^^^^^^^^^
    `----
   x Text
-   ,-[$DIR/tests/recovery/text/after-body-1/input.html:1:79]
- 1 | |    
+   ,-[$DIR/tests/recovery/text/after-body-1/input.html:1:1]
+ 1 | <!doctype html> <html lang="en"> <head> <title>Document</title> </head><body> A B </body> C
+   :                                                                              ^^^^^^^^^^^^^^
    `----

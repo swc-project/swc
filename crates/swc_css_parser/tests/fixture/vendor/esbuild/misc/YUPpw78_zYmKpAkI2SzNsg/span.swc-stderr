@@ -1,14 +1,17 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/YUPpw78_zYmKpAkI2SzNsg/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/YUPpw78_zYmKpAkI2SzNsg/input.css:1:1]
+ 1 | :pseudo\2c class {}
+   : ^^^^^^^^^^^^^^^^^^^
    `----
   x Rule
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/YUPpw78_zYmKpAkI2SzNsg/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/YUPpw78_zYmKpAkI2SzNsg/input.css:1:1]
+ 1 | :pseudo\2c class {}
+   : ^^^^^^^^^^^^^^^^^^^
    `----
   x QualifiedRule
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/YUPpw78_zYmKpAkI2SzNsg/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/YUPpw78_zYmKpAkI2SzNsg/input.css:1:1]
+ 1 | :pseudo\2c class {}
+   : ^^^^^^^^^^^^^^^^^^^
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/YUPpw78_zYmKpAkI2SzNsg/input.css:1:1]
@@ -41,8 +44,9 @@
    :  ^^^^^^^^^^^^^^^
    `----
   x SimpleBlock
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/YUPpw78_zYmKpAkI2SzNsg/input.css:1:19]
- 1 | `->  
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/YUPpw78_zYmKpAkI2SzNsg/input.css:1:1]
+ 1 | :pseudo\2c class {}
+   :                  ^^
    `----
   x LBrace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/YUPpw78_zYmKpAkI2SzNsg/input.css:1:1]

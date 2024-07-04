@@ -3,5 +3,4 @@
  1 | const Methods {
    :               ^
  2 |     f: (x, y) => x + y,
- 3 | };
    `----

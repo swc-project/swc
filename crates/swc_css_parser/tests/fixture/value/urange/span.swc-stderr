@@ -1,7 +1,25 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/value/urange/input.css:1:2]
- 1 | |    
-   `----
+    ,-[$DIR/tests/fixture/value/urange/input.css:1:1]
+  1 | ,-> @font-face {
+  2 | |       font-family: 'Ampersand';
+  3 | |       src: local('Times New Roman');
+  4 | |       unicode-range: U+26;               /* single codepoint */
+  5 | |       unicode-range: u+26;
+  6 | |       unicode-range: U+0-7F;
+  7 | |       unicode-range: U+0025-00FF;        /* codepoint range */
+  8 | |       unicode-range: U+4??;              /* wildcard range */
+  9 | |       unicode-range: U+0025-00FF, U+4??; /* multiple values */
+ 10 | |       unicode-range: U+A5, U+4E00-9FFF, U+30??, U+FF00-FF9F; /* multiple values */
+ 11 | |       unicode-range: U+????;
+ 12 | |       unicode-range: U+??????;
+ 13 | |       unicode-range: U+12;
+ 14 | |       unicode-range: U+12e112;
+ 15 | |       unicode-range: U+1e1ee1;
+ 16 | |       unicode-range: U+1e1ee1-FFFFFF;
+ 17 | |       unicode-range: U+1e1ee?;
+ 18 | |       unicode-range: U+12-13;
+ 19 | `-> }
+    `----
   x Rule
     ,-[$DIR/tests/fixture/value/urange/input.css:1:1]
   1 | ,-> @font-face {
@@ -85,7 +103,6 @@
  1 | @font-face {
    :            ^
  2 |     font-family: 'Ampersand';
- 3 |     src: local('Times New Roman');
    `----
   x ComponentValue
    ,-[$DIR/tests/fixture/value/urange/input.css:2:1]

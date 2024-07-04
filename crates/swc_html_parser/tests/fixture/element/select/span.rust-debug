@@ -1,20 +1,23 @@
   x Document
-   ,-[$DIR/tests/fixture/element/select/input.html:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/element/select/input.html:1:1]
+ 1 | ,-> <!doctype html>
+ 2 | |   <select><option>foo</option><option>bar</option></select>
+ 3 | |   <select><option>foo<option>bar</select>
+ 4 | |   <select><option>foo</select>
+ 5 | |   <select> <option>foo</option> <option>bar</option><option>foo</select>
+ 6 | `-> <select><optgroup label="Group 1"><option>Option 1.1</option></optgroup> <optgroup label="Group 2"><option>Option 2.1</option><option>Option 2.2</option></optgroup></select>
    `----
   x Child
    ,-[$DIR/tests/fixture/element/select/input.html:1:1]
  1 | <!doctype html>
    : ^^^^^^^^^^^^^^^
  2 | <select><option>foo</option><option>bar</option></select>
- 3 | <select><option>foo<option>bar</select>
    `----
   x DocumentType
    ,-[$DIR/tests/fixture/element/select/input.html:1:1]
  1 | <!doctype html>
    : ^^^^^^^^^^^^^^^
  2 | <select><option>foo</option><option>bar</option></select>
- 3 | <select><option>foo<option>bar</select>
    `----
   x Child
   x Element
@@ -24,7 +27,6 @@
  2 | <select><option>foo</option><option>bar</option></select>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  3 | <select><option>foo<option>bar</select>
- 4 | <select><option>foo</select>
    `----
   x Element
    ,-[$DIR/tests/fixture/element/select/input.html:2:1]
@@ -32,7 +34,6 @@
  2 | <select><option>foo</option><option>bar</option></select>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  3 | <select><option>foo<option>bar</select>
- 4 | <select><option>foo</select>
    `----
   x Child
    ,-[$DIR/tests/fixture/element/select/input.html:2:1]
@@ -91,14 +92,16 @@
  3 | <select><option>foo<option>bar</select>
    `----
   x Child
-   ,-[$DIR/tests/fixture/element/select/input.html:3:1]
+   ,-[$DIR/tests/fixture/element/select/input.html:2:1]
+ 1 | <!doctype html>
  2 | <select><option>foo</option><option>bar</option></select>
    :                                                          ^
  3 | <select><option>foo<option>bar</select>
  4 | <select><option>foo</select>
    `----
   x Text
-   ,-[$DIR/tests/fixture/element/select/input.html:3:1]
+   ,-[$DIR/tests/fixture/element/select/input.html:2:1]
+ 1 | <!doctype html>
  2 | <select><option>foo</option><option>bar</option></select>
    :                                                          ^
  3 | <select><option>foo<option>bar</select>
@@ -110,7 +113,6 @@
  3 | <select><option>foo<option>bar</select>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  4 | <select><option>foo</select>
- 5 | <select> <option>foo</option> <option>bar</option><option>foo</select>
    `----
   x Element
    ,-[$DIR/tests/fixture/element/select/input.html:3:1]
@@ -118,7 +120,6 @@
  3 | <select><option>foo<option>bar</select>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  4 | <select><option>foo</select>
- 5 | <select> <option>foo</option> <option>bar</option><option>foo</select>
    `----
   x Child
    ,-[$DIR/tests/fixture/element/select/input.html:3:1]
@@ -177,14 +178,16 @@
  4 | <select><option>foo</select>
    `----
   x Child
-   ,-[$DIR/tests/fixture/element/select/input.html:4:1]
+   ,-[$DIR/tests/fixture/element/select/input.html:3:1]
+ 2 | <select><option>foo</option><option>bar</option></select>
  3 | <select><option>foo<option>bar</select>
    :                                        ^
  4 | <select><option>foo</select>
  5 | <select> <option>foo</option> <option>bar</option><option>foo</select>
    `----
   x Text
-   ,-[$DIR/tests/fixture/element/select/input.html:4:1]
+   ,-[$DIR/tests/fixture/element/select/input.html:3:1]
+ 2 | <select><option>foo</option><option>bar</option></select>
  3 | <select><option>foo<option>bar</select>
    :                                        ^
  4 | <select><option>foo</select>
@@ -196,7 +199,6 @@
  4 | <select><option>foo</select>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  5 | <select> <option>foo</option> <option>bar</option><option>foo</select>
- 6 | <select><optgroup label="Group 1"><option>Option 1.1</option></optgroup> <optgroup label="Group 2"><option>Option 2.1</option><option>Option 2.2</option></optgroup></select>
    `----
   x Element
    ,-[$DIR/tests/fixture/element/select/input.html:4:1]
@@ -204,7 +206,6 @@
  4 | <select><option>foo</select>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  5 | <select> <option>foo</option> <option>bar</option><option>foo</select>
- 6 | <select><optgroup label="Group 1"><option>Option 1.1</option></optgroup> <optgroup label="Group 2"><option>Option 2.1</option><option>Option 2.2</option></optgroup></select>
    `----
   x Child
    ,-[$DIR/tests/fixture/element/select/input.html:4:1]
@@ -235,14 +236,16 @@
  5 | <select> <option>foo</option> <option>bar</option><option>foo</select>
    `----
   x Child
-   ,-[$DIR/tests/fixture/element/select/input.html:5:1]
+   ,-[$DIR/tests/fixture/element/select/input.html:4:1]
+ 3 | <select><option>foo<option>bar</select>
  4 | <select><option>foo</select>
    :                             ^
  5 | <select> <option>foo</option> <option>bar</option><option>foo</select>
  6 | <select><optgroup label="Group 1"><option>Option 1.1</option></optgroup> <optgroup label="Group 2"><option>Option 2.1</option><option>Option 2.2</option></optgroup></select>
    `----
   x Text
-   ,-[$DIR/tests/fixture/element/select/input.html:5:1]
+   ,-[$DIR/tests/fixture/element/select/input.html:4:1]
+ 3 | <select><option>foo<option>bar</select>
  4 | <select><option>foo</select>
    :                             ^
  5 | <select> <option>foo</option> <option>bar</option><option>foo</select>
@@ -375,24 +378,30 @@
  6 | <select><optgroup label="Group 1"><option>Option 1.1</option></optgroup> <optgroup label="Group 2"><option>Option 2.1</option><option>Option 2.2</option></optgroup></select>
    `----
   x Child
-   ,-[$DIR/tests/fixture/element/select/input.html:6:1]
+   ,-[$DIR/tests/fixture/element/select/input.html:5:1]
+ 4 | <select><option>foo</select>
  5 | <select> <option>foo</option> <option>bar</option><option>foo</select>
    :                                                                       ^
  6 | <select><optgroup label="Group 1"><option>Option 1.1</option></optgroup> <optgroup label="Group 2"><option>Option 2.1</option><option>Option 2.2</option></optgroup></select>
    `----
   x Text
-   ,-[$DIR/tests/fixture/element/select/input.html:6:1]
+   ,-[$DIR/tests/fixture/element/select/input.html:5:1]
+ 4 | <select><option>foo</select>
  5 | <select> <option>foo</option> <option>bar</option><option>foo</select>
    :                                                                       ^
  6 | <select><optgroup label="Group 1"><option>Option 1.1</option></optgroup> <optgroup label="Group 2"><option>Option 2.1</option><option>Option 2.2</option></optgroup></select>
    `----
   x Child
-   ,-[$DIR/tests/fixture/element/select/input.html:6:2]
- 6 | |    
+   ,-[$DIR/tests/fixture/element/select/input.html:6:1]
+ 5 | <select> <option>foo</option> <option>bar</option><option>foo</select>
+ 6 | <select><optgroup label="Group 1"><option>Option 1.1</option></optgroup> <optgroup label="Group 2"><option>Option 2.1</option><option>Option 2.2</option></optgroup></select>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Element
-   ,-[$DIR/tests/fixture/element/select/input.html:6:2]
- 6 | |    
+   ,-[$DIR/tests/fixture/element/select/input.html:6:1]
+ 5 | <select> <option>foo</option> <option>bar</option><option>foo</select>
+ 6 | <select><optgroup label="Group 1"><option>Option 1.1</option></optgroup> <optgroup label="Group 2"><option>Option 2.1</option><option>Option 2.2</option></optgroup></select>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Child
    ,-[$DIR/tests/fixture/element/select/input.html:6:1]

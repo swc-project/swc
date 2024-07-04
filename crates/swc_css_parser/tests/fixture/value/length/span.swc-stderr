@@ -1,6 +1,12 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/value/length/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/value/length/input.css:1:1]
+ 1 | ,-> div {
+ 2 | |       width: 100e\x;
+ 3 | |       width: 100ex;
+ 4 | |       width: 100px;
+ 5 | |       width: 100PX;
+ 6 | |       width: 100pX;
+ 7 | `-> }
    `----
   x Rule
    ,-[$DIR/tests/fixture/value/length/input.css:1:1]
@@ -79,7 +85,6 @@
  1 | div {
    :     ^
  2 |     width: 100e\x;
- 3 |     width: 100ex;
    `----
   x ComponentValue
    ,-[$DIR/tests/fixture/value/length/input.css:2:1]

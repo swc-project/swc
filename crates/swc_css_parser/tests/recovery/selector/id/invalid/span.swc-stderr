@@ -1,6 +1,8 @@
   x Stylesheet
-   ,-[$DIR/tests/recovery/selector/id/invalid/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/selector/id/invalid/input.css:1:1]
+ 1 | ,-> #1234 {
+ 2 | |   
+ 3 | `-> }
    `----
   x Rule
    ,-[$DIR/tests/recovery/selector/id/invalid/input.css:1:1]
@@ -44,6 +46,4 @@
    ,-[$DIR/tests/recovery/selector/id/invalid/input.css:1:1]
  1 | #1234 {
    :       ^
- 2 | 
- 3 | }
    `----

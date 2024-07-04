@@ -1,6 +1,7 @@
   x Document
-   ,-[$DIR/tests/fixture/element/template-2/input.html:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/element/template-2/input.html:1:1]
+ 1 | <!DOCTYPE HTML><template> <tr> <td>cell</td> </tr> </template>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Child
    ,-[$DIR/tests/fixture/element/template-2/input.html:1:1]
@@ -15,16 +16,19 @@
   x Child
   x Element
   x Child
-   ,-[$DIR/tests/fixture/element/template-2/input.html:1:17]
- 1 | |    
+   ,-[$DIR/tests/fixture/element/template-2/input.html:1:1]
+ 1 | <!DOCTYPE HTML><template> <tr> <td>cell</td> </tr> </template>
+   :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Element
-   ,-[$DIR/tests/fixture/element/template-2/input.html:1:17]
- 1 | |    
+   ,-[$DIR/tests/fixture/element/template-2/input.html:1:1]
+ 1 | <!DOCTYPE HTML><template> <tr> <td>cell</td> </tr> </template>
+   :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x DocumentFragment
-   ,-[$DIR/tests/fixture/element/template-2/input.html:1:17]
- 1 | |    
+   ,-[$DIR/tests/fixture/element/template-2/input.html:1:1]
+ 1 | <!DOCTYPE HTML><template> <tr> <td>cell</td> </tr> </template>
+   :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Child
    ,-[$DIR/tests/fixture/element/template-2/input.html:1:1]

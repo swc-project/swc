@@ -1,6 +1,7 @@
   x Document
-   ,-[$DIR/tests/fixture/element/ruby-2/input.html:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/element/ruby-2/input.html:1:1]
+ 1 | <!doctype html><html><ruby>a<rb>b<rtc></ruby></html>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Child
    ,-[$DIR/tests/fixture/element/ruby-2/input.html:1:1]
@@ -13,12 +14,14 @@
    : ^^^^^^^^^^^^^^^
    `----
   x Child
-   ,-[$DIR/tests/fixture/element/ruby-2/input.html:1:17]
- 1 | |    
+   ,-[$DIR/tests/fixture/element/ruby-2/input.html:1:1]
+ 1 | <!doctype html><html><ruby>a<rb>b<rtc></ruby></html>
+   :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Element
-   ,-[$DIR/tests/fixture/element/ruby-2/input.html:1:17]
- 1 | |    
+   ,-[$DIR/tests/fixture/element/ruby-2/input.html:1:1]
+ 1 | <!doctype html><html><ruby>a<rb>b<rtc></ruby></html>
+   :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Child
   x Element
@@ -73,10 +76,12 @@
    :                                  ^^^^^
    `----
   x Child
-   ,-[$DIR/tests/fixture/element/ruby-2/input.html:1:54]
- 1 |  
+   ,-[$DIR/tests/fixture/element/ruby-2/input.html:1:1]
+ 1 | <!doctype html><html><ruby>a<rb>b<rtc></ruby></html>
+   :                                                     ^
    `----
   x Text
-   ,-[$DIR/tests/fixture/element/ruby-2/input.html:1:54]
- 1 |  
+   ,-[$DIR/tests/fixture/element/ruby-2/input.html:1:1]
+ 1 | <!doctype html><html><ruby>a<rb>b<rtc></ruby></html>
+   :                                                     ^
    `----

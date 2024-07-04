@@ -7,5 +7,4 @@
 //!  3 | 
 //!  4 | interface ButtonProp {
 //!  5 |     a: number,
-//!  6 |     b: string,
 //!    `----

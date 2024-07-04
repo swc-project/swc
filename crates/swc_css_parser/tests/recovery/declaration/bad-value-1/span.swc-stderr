@@ -1,14 +1,20 @@
   x Stylesheet
-   ,-[$DIR/tests/recovery/declaration/bad-value-1/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/declaration/bad-value-1/input.css:1:1]
+ 1 | ,-> a {
+ 2 | |       --var: [;
+ 3 | `-> }
    `----
   x Rule
-   ,-[$DIR/tests/recovery/declaration/bad-value-1/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/declaration/bad-value-1/input.css:1:1]
+ 1 | ,-> a {
+ 2 | |       --var: [;
+ 3 | `-> }
    `----
   x QualifiedRule
-   ,-[$DIR/tests/recovery/declaration/bad-value-1/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/declaration/bad-value-1/input.css:1:1]
+ 1 | ,-> a {
+ 2 | |       --var: [;
+ 3 | `-> }
    `----
   x SelectorList
    ,-[$DIR/tests/recovery/declaration/bad-value-1/input.css:1:1]
@@ -53,23 +59,28 @@
  2 |     --var: [;
    `----
   x SimpleBlock
-   ,-[$DIR/tests/recovery/declaration/bad-value-1/input.css:1:4]
- 1 | |    
+   ,-[$DIR/tests/recovery/declaration/bad-value-1/input.css:1:1]
+ 1 | ,-> a {
+ 2 | |       --var: [;
+ 3 | `-> }
    `----
   x LBrace
    ,-[$DIR/tests/recovery/declaration/bad-value-1/input.css:1:1]
  1 | a {
    :   ^
  2 |     --var: [;
- 3 | }
    `----
   x ComponentValue
-   ,-[$DIR/tests/recovery/declaration/bad-value-1/input.css:2:6]
- 2 | |    
+   ,-[$DIR/tests/recovery/declaration/bad-value-1/input.css:2:1]
+ 1 |     a {
+ 2 | ,->     --var: [;
+ 3 | `-> }
    `----
   x Declaration
-   ,-[$DIR/tests/recovery/declaration/bad-value-1/input.css:2:6]
- 2 | |    
+   ,-[$DIR/tests/recovery/declaration/bad-value-1/input.css:2:1]
+ 1 |     a {
+ 2 | ,->     --var: [;
+ 3 | `-> }
    `----
   x DeclarationName
    ,-[$DIR/tests/recovery/declaration/bad-value-1/input.css:2:1]
@@ -86,12 +97,16 @@
  3 | }
    `----
   x ComponentValue
-   ,-[$DIR/tests/recovery/declaration/bad-value-1/input.css:2:13]
- 2 | |    
+   ,-[$DIR/tests/recovery/declaration/bad-value-1/input.css:2:1]
+ 1 |     a {
+ 2 | ,->     --var: [;
+ 3 | `-> }
    `----
   x SimpleBlock
-   ,-[$DIR/tests/recovery/declaration/bad-value-1/input.css:2:13]
- 2 | |    
+   ,-[$DIR/tests/recovery/declaration/bad-value-1/input.css:2:1]
+ 1 |     a {
+ 2 | ,->     --var: [;
+ 3 | `-> }
    `----
   x LBracket
    ,-[$DIR/tests/recovery/declaration/bad-value-1/input.css:2:1]
@@ -115,22 +130,28 @@
  3 | }
    `----
   x ComponentValue
-   ,-[$DIR/tests/recovery/declaration/bad-value-1/input.css:3:1]
+   ,-[$DIR/tests/recovery/declaration/bad-value-1/input.css:2:1]
+ 1 | a {
  2 |     --var: [;
    :              ^
  3 | }
    `----
   x WhiteSpace { value: "\n" }
-   ,-[$DIR/tests/recovery/declaration/bad-value-1/input.css:3:1]
+   ,-[$DIR/tests/recovery/declaration/bad-value-1/input.css:2:1]
+ 1 | a {
  2 |     --var: [;
    :              ^
  3 | }
    `----
   x ComponentValue
-   ,-[$DIR/tests/recovery/declaration/bad-value-1/input.css:3:2]
- 3 |  
+   ,-[$DIR/tests/recovery/declaration/bad-value-1/input.css:3:1]
+ 2 |     --var: [;
+ 3 | }
+   : ^
    `----
   x RBrace
-   ,-[$DIR/tests/recovery/declaration/bad-value-1/input.css:3:2]
- 3 |  
+   ,-[$DIR/tests/recovery/declaration/bad-value-1/input.css:3:1]
+ 2 |     --var: [;
+ 3 | }
+   : ^
    `----

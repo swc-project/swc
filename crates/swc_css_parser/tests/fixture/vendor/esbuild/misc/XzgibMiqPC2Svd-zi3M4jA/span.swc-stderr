@@ -1,14 +1,17 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/XzgibMiqPC2Svd-zi3M4jA/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/XzgibMiqPC2Svd-zi3M4jA/input.css:1:1]
+ 1 | @u\6eknown;
+   : ^^^^^^^^^^^
    `----
   x Rule
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/XzgibMiqPC2Svd-zi3M4jA/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/XzgibMiqPC2Svd-zi3M4jA/input.css:1:1]
+ 1 | @u\6eknown;
+   : ^^^^^^^^^^^
    `----
   x AtRule
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/XzgibMiqPC2Svd-zi3M4jA/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/XzgibMiqPC2Svd-zi3M4jA/input.css:1:1]
+ 1 | @u\6eknown;
+   : ^^^^^^^^^^^
    `----
   x AtRuleName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/XzgibMiqPC2Svd-zi3M4jA/input.css:1:1]

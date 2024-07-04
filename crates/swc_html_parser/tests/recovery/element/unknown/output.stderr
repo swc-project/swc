@@ -3,8 +3,6 @@
  10 | <body>
  11 |     </unknown>
     :     ^^^^^^^^^^
- 12 | 
- 13 |     <unknown>Test</test>Test</unknown>
     `----
   x Stray end tag "test"
     ,-[$DIR/tests/recovery/element/unknown/input.html:13:1]

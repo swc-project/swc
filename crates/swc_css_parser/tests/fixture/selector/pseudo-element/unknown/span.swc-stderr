@@ -1,20 +1,36 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:1:2]
- 1 | |    
-   `----
+    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:1:1]
+  1 | ,-> ::unknown {}
+  2 | |   ::unknown() {}
+  3 | |   ::unknown(foo) {}
+  4 | |   ::unknown(foo bar) {}
+  5 | |   ::unknown(foo, bar) {}
+  6 | |   ::unknown([foo]) {}
+  7 | |   ::unknown((foo bar)) {}
+  8 | |   ::unknown(((foo bar))) {}
+  9 | |   ::unknown({foo: bar}) {}
+ 10 | |   ::unknown({{foo: bar}}) {}
+ 11 | |   ::unknown({foo: bar !important}) {}
+ 12 | |   ::unknown("string") {}
+ 13 | |   ::unknown("string", foo) {}
+ 14 | |   ::unknown('string') {}
+ 15 | |   ::unknown(url(foo.png)) {}
+ 16 | |   ::unknown({!}) {}
+ 17 | |   ::unknown(!) {}
+ 18 | |   ::unknown({;}) {}
+ 19 | `-> ::unknown(;) {}
+    `----
   x Rule
    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:1:1]
  1 | ::unknown {}
    : ^^^^^^^^^^^^
  2 | ::unknown() {}
- 3 | ::unknown(foo) {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:1:1]
  1 | ::unknown {}
    : ^^^^^^^^^^^^
  2 | ::unknown() {}
- 3 | ::unknown(foo) {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:1:1]
@@ -57,7 +73,6 @@
  1 | ::unknown {}
    :           ^^
  2 | ::unknown() {}
- 3 | ::unknown(foo) {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:1:1]
@@ -71,7 +86,6 @@
  2 | ::unknown() {}
    : ^^^^^^^^^^^^^^
  3 | ::unknown(foo) {}
- 4 | ::unknown(foo bar) {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:2:1]
@@ -79,7 +93,6 @@
  2 | ::unknown() {}
    : ^^^^^^^^^^^^^^
  3 | ::unknown(foo) {}
- 4 | ::unknown(foo bar) {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:2:1]
@@ -129,7 +142,6 @@
  2 | ::unknown() {}
    :             ^^
  3 | ::unknown(foo) {}
- 4 | ::unknown(foo bar) {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:2:1]
@@ -144,7 +156,6 @@
  3 | ::unknown(foo) {}
    : ^^^^^^^^^^^^^^^^^
  4 | ::unknown(foo bar) {}
- 5 | ::unknown(foo, bar) {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:3:1]
@@ -152,7 +163,6 @@
  3 | ::unknown(foo) {}
    : ^^^^^^^^^^^^^^^^^
  4 | ::unknown(foo bar) {}
- 5 | ::unknown(foo, bar) {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:3:1]
@@ -216,7 +226,6 @@
  3 | ::unknown(foo) {}
    :                ^^
  4 | ::unknown(foo bar) {}
- 5 | ::unknown(foo, bar) {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:3:1]
@@ -231,7 +240,6 @@
  4 | ::unknown(foo bar) {}
    : ^^^^^^^^^^^^^^^^^^^^^
  5 | ::unknown(foo, bar) {}
- 6 | ::unknown([foo]) {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:4:1]
@@ -239,7 +247,6 @@
  4 | ::unknown(foo bar) {}
    : ^^^^^^^^^^^^^^^^^^^^^
  5 | ::unknown(foo, bar) {}
- 6 | ::unknown([foo]) {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:4:1]
@@ -331,7 +338,6 @@
  4 | ::unknown(foo bar) {}
    :                    ^^
  5 | ::unknown(foo, bar) {}
- 6 | ::unknown([foo]) {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:4:1]
@@ -346,7 +352,6 @@
  5 | ::unknown(foo, bar) {}
    : ^^^^^^^^^^^^^^^^^^^^^^
  6 | ::unknown([foo]) {}
- 7 | ::unknown((foo bar)) {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:5:1]
@@ -354,7 +359,6 @@
  5 | ::unknown(foo, bar) {}
    : ^^^^^^^^^^^^^^^^^^^^^^
  6 | ::unknown([foo]) {}
- 7 | ::unknown((foo bar)) {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:5:1]
@@ -460,7 +464,6 @@
  5 | ::unknown(foo, bar) {}
    :                     ^^
  6 | ::unknown([foo]) {}
- 7 | ::unknown((foo bar)) {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:5:1]
@@ -475,7 +478,6 @@
  6 | ::unknown([foo]) {}
    : ^^^^^^^^^^^^^^^^^^^
  7 | ::unknown((foo bar)) {}
- 8 | ::unknown(((foo bar))) {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:6:1]
@@ -483,7 +485,6 @@
  6 | ::unknown([foo]) {}
    : ^^^^^^^^^^^^^^^^^^^
  7 | ::unknown((foo bar)) {}
- 8 | ::unknown(((foo bar))) {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:6:1]
@@ -575,7 +576,6 @@
  6 | ::unknown([foo]) {}
    :                  ^^
  7 | ::unknown((foo bar)) {}
- 8 | ::unknown(((foo bar))) {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:6:1]
@@ -590,7 +590,6 @@
  7 | ::unknown((foo bar)) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^
  8 | ::unknown(((foo bar))) {}
- 9 | ::unknown({foo: bar}) {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:7:1]
@@ -598,7 +597,6 @@
  7 | ::unknown((foo bar)) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^
  8 | ::unknown(((foo bar))) {}
- 9 | ::unknown({foo: bar}) {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:7:1]
@@ -718,7 +716,6 @@
  7 | ::unknown((foo bar)) {}
    :                      ^^
  8 | ::unknown(((foo bar))) {}
- 9 | ::unknown({foo: bar}) {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:7:1]
@@ -728,21 +725,19 @@
  8 | ::unknown(((foo bar))) {}
    `----
   x Rule
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:8:1]
-  7 | ::unknown((foo bar)) {}
-  8 | ::unknown(((foo bar))) {}
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^
-  9 | ::unknown({foo: bar}) {}
- 10 | ::unknown({{foo: bar}}) {}
-    `----
+   ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:8:1]
+ 7 | ::unknown((foo bar)) {}
+ 8 | ::unknown(((foo bar))) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^
+ 9 | ::unknown({foo: bar}) {}
+   `----
   x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:8:1]
-  7 | ::unknown((foo bar)) {}
-  8 | ::unknown(((foo bar))) {}
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^
-  9 | ::unknown({foo: bar}) {}
- 10 | ::unknown({{foo: bar}}) {}
-    `----
+   ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:8:1]
+ 7 | ::unknown((foo bar)) {}
+ 8 | ::unknown(((foo bar))) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^
+ 9 | ::unknown({foo: bar}) {}
+   `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:8:1]
  7 | ::unknown((foo bar)) {}
@@ -884,13 +879,12 @@
  9 | ::unknown({foo: bar}) {}
    `----
   x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:8:1]
-  7 | ::unknown((foo bar)) {}
-  8 | ::unknown(((foo bar))) {}
-    :                        ^^
-  9 | ::unknown({foo: bar}) {}
- 10 | ::unknown({{foo: bar}}) {}
-    `----
+   ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:8:1]
+ 7 | ::unknown((foo bar)) {}
+ 8 | ::unknown(((foo bar))) {}
+   :                        ^^
+ 9 | ::unknown({foo: bar}) {}
+   `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:8:1]
  7 | ::unknown((foo bar)) {}
@@ -904,7 +898,6 @@
   9 | ::unknown({foo: bar}) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^
  10 | ::unknown({{foo: bar}}) {}
- 11 | ::unknown({foo: bar !important}) {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:9:1]
@@ -912,7 +905,6 @@
   9 | ::unknown({foo: bar}) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^
  10 | ::unknown({{foo: bar}}) {}
- 11 | ::unknown({foo: bar !important}) {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:9:1]
@@ -1046,7 +1038,6 @@
   9 | ::unknown({foo: bar}) {}
     :                       ^^
  10 | ::unknown({{foo: bar}}) {}
- 11 | ::unknown({foo: bar !important}) {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:9:1]
@@ -1061,7 +1052,6 @@
  10 | ::unknown({{foo: bar}}) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^
  11 | ::unknown({foo: bar !important}) {}
- 12 | ::unknown("string") {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:10:1]
@@ -1069,7 +1059,6 @@
  10 | ::unknown({{foo: bar}}) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^
  11 | ::unknown({foo: bar !important}) {}
- 12 | ::unknown("string") {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:10:1]
@@ -1231,7 +1220,6 @@
  10 | ::unknown({{foo: bar}}) {}
     :                         ^^
  11 | ::unknown({foo: bar !important}) {}
- 12 | ::unknown("string") {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:10:1]
@@ -1246,7 +1234,6 @@
  11 | ::unknown({foo: bar !important}) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  12 | ::unknown("string") {}
- 13 | ::unknown("string", foo) {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:11:1]
@@ -1254,7 +1241,6 @@
  11 | ::unknown({foo: bar !important}) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  12 | ::unknown("string") {}
- 13 | ::unknown("string", foo) {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:11:1]
@@ -1430,7 +1416,6 @@
  11 | ::unknown({foo: bar !important}) {}
     :                                  ^^
  12 | ::unknown("string") {}
- 13 | ::unknown("string", foo) {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:11:1]
@@ -1445,7 +1430,6 @@
  12 | ::unknown("string") {}
     : ^^^^^^^^^^^^^^^^^^^^^^
  13 | ::unknown("string", foo) {}
- 14 | ::unknown('string') {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:12:1]
@@ -1453,7 +1437,6 @@
  12 | ::unknown("string") {}
     : ^^^^^^^^^^^^^^^^^^^^^^
  13 | ::unknown("string", foo) {}
- 14 | ::unknown('string') {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:12:1]
@@ -1517,7 +1500,6 @@
  12 | ::unknown("string") {}
     :                     ^^
  13 | ::unknown("string", foo) {}
- 14 | ::unknown('string') {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:12:1]
@@ -1532,7 +1514,6 @@
  13 | ::unknown("string", foo) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
  14 | ::unknown('string') {}
- 15 | ::unknown(url(foo.png)) {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:13:1]
@@ -1540,7 +1521,6 @@
  13 | ::unknown("string", foo) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
  14 | ::unknown('string') {}
- 15 | ::unknown(url(foo.png)) {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:13:1]
@@ -1646,7 +1626,6 @@
  13 | ::unknown("string", foo) {}
     :                          ^^
  14 | ::unknown('string') {}
- 15 | ::unknown(url(foo.png)) {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:13:1]
@@ -1661,7 +1640,6 @@
  14 | ::unknown('string') {}
     : ^^^^^^^^^^^^^^^^^^^^^^
  15 | ::unknown(url(foo.png)) {}
- 16 | ::unknown({!}) {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:14:1]
@@ -1669,7 +1647,6 @@
  14 | ::unknown('string') {}
     : ^^^^^^^^^^^^^^^^^^^^^^
  15 | ::unknown(url(foo.png)) {}
- 16 | ::unknown({!}) {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:14:1]
@@ -1733,7 +1710,6 @@
  14 | ::unknown('string') {}
     :                     ^^
  15 | ::unknown(url(foo.png)) {}
- 16 | ::unknown({!}) {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:14:1]
@@ -1748,7 +1724,6 @@
  15 | ::unknown(url(foo.png)) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^
  16 | ::unknown({!}) {}
- 17 | ::unknown(!) {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:15:1]
@@ -1756,7 +1731,6 @@
  15 | ::unknown(url(foo.png)) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^
  16 | ::unknown({!}) {}
- 17 | ::unknown(!) {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:15:1]
@@ -1820,7 +1794,6 @@
  15 | ::unknown(url(foo.png)) {}
     :                         ^^
  16 | ::unknown({!}) {}
- 17 | ::unknown(!) {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:15:1]
@@ -1835,7 +1808,6 @@
  16 | ::unknown({!}) {}
     : ^^^^^^^^^^^^^^^^^
  17 | ::unknown(!) {}
- 18 | ::unknown({;}) {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:16:1]
@@ -1843,7 +1815,6 @@
  16 | ::unknown({!}) {}
     : ^^^^^^^^^^^^^^^^^
  17 | ::unknown(!) {}
- 18 | ::unknown({;}) {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:16:1]
@@ -1935,7 +1906,6 @@
  16 | ::unknown({!}) {}
     :                ^^
  17 | ::unknown(!) {}
- 18 | ::unknown({;}) {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:16:1]
@@ -1950,7 +1920,6 @@
  17 | ::unknown(!) {}
     : ^^^^^^^^^^^^^^^
  18 | ::unknown({;}) {}
- 19 | ::unknown(;) {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:17:1]
@@ -1958,7 +1927,6 @@
  17 | ::unknown(!) {}
     : ^^^^^^^^^^^^^^^
  18 | ::unknown({;}) {}
- 19 | ::unknown(;) {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:17:1]
@@ -2022,7 +1990,6 @@
  17 | ::unknown(!) {}
     :              ^^
  18 | ::unknown({;}) {}
- 19 | ::unknown(;) {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/pseudo-element/unknown/input.css:17:1]

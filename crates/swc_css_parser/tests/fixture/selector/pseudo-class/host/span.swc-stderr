@@ -1,20 +1,21 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:1:1]
+ 1 | ,-> :host(.special-custom-element) {}
+ 2 | |   :host(   .special-custom-element   ) {}
+ 3 | |   :host(.footer) {}
+ 4 | `-> :host {}
    `----
   x Rule
    ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:1:1]
  1 | :host(.special-custom-element) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  2 | :host(   .special-custom-element   ) {}
- 3 | :host(.footer) {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:1:1]
  1 | :host(.special-custom-element) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  2 | :host(   .special-custom-element   ) {}
- 3 | :host(.footer) {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:1:1]
@@ -87,7 +88,6 @@
  1 | :host(.special-custom-element) {}
    :                                ^^
  2 | :host(   .special-custom-element   ) {}
- 3 | :host(.footer) {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:1:1]
@@ -101,7 +101,6 @@
  2 | :host(   .special-custom-element   ) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  3 | :host(.footer) {}
- 4 | :host {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:2:1]
@@ -109,7 +108,6 @@
  2 | :host(   .special-custom-element   ) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  3 | :host(.footer) {}
- 4 | :host {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:2:1]
@@ -194,7 +192,6 @@
  2 | :host(   .special-custom-element   ) {}
    :                                      ^^
  3 | :host(.footer) {}
- 4 | :host {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:2:1]

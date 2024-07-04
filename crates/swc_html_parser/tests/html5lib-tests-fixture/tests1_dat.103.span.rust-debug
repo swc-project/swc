@@ -1,6 +1,7 @@
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.103.html:1:2]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.103.html:1:1]
+ 1 | <a><table><td><a><table></table><a></tr><a></table><a>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Child
   x Element
@@ -75,10 +76,12 @@
    :                                 ^^^
    `----
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.103.html:1:53]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.103.html:1:1]
+ 1 | <a><table><td><a><table></table><a></tr><a></table><a>
+   :                                                    ^^^
    `----
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.103.html:1:53]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.103.html:1:1]
+ 1 | <a><table><td><a><table></table><a></tr><a></table><a>
+   :                                                    ^^^
    `----

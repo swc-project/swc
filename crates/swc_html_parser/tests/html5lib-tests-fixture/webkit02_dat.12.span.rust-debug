@@ -1,6 +1,7 @@
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat.12.html:1:2]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat.12.html:1:1]
+ 1 | <b><em><foo><foo><aside></b></em>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Child
   x Element
@@ -55,20 +56,24 @@
    :    ^^^^
    `----
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat.12.html:1:19]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat.12.html:1:1]
+ 1 | <b><em><foo><foo><aside></b></em>
+   :                  ^^^^^^^^^^^^^^^^
    `----
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat.12.html:1:19]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat.12.html:1:1]
+ 1 | <b><em><foo><foo><aside></b></em>
+   :                  ^^^^^^^^^^^^^^^^
    `----
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat.12.html:1:26]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat.12.html:1:1]
+ 1 | <b><em><foo><foo><aside></b></em>
+   :                         ^^^^^^^^^
    `----
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat.12.html:1:26]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat.12.html:1:1]
+ 1 | <b><em><foo><foo><aside></b></em>
+   :                         ^^^^^^^^^
    `----
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat.12.html:1:1]

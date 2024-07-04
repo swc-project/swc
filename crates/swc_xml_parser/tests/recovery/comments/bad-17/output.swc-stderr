@@ -6,10 +6,10 @@
  4 | </root>
    `----
   x Eof in comment
-   ,-[$DIR/tests/recovery/comments/bad-17/input.xml:5:3]
- 5 |  
+   ,-[$DIR/tests/recovery/comments/bad-17/input.xml:5:2]
+ 5 | 
    `----
   x Unexpected end of file in main phase
-   ,-[$DIR/tests/recovery/comments/bad-17/input.xml:5:3]
- 5 |  
+   ,-[$DIR/tests/recovery/comments/bad-17/input.xml:5:2]
+ 5 | 
    `----

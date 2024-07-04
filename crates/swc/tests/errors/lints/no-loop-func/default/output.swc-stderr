@@ -42,8 +42,6 @@
  11 | `->     }
  12 |         x();
  13 |     }
- 14 |     
- 15 |     // it's safe
     `----
   x Function declared in a loop contains unsafe references to variable(s) z, zz
     ,-[29:1]
@@ -55,8 +53,6 @@
  31 | `->     }
  32 |         x();
  33 |     }
- 34 |     
- 35 |     // Not ok
     `----
   x Function declared in a loop contains unsafe references to variable a
     ,-[36:1]

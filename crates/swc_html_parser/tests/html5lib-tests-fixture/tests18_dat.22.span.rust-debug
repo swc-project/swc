@@ -1,6 +1,7 @@
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.22.html:1:2]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.22.html:1:1]
+ 1 | <!doctype html><svg><title><plaintext>a</plaintext>b
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.22.html:1:1]
@@ -15,34 +16,42 @@
   x Child
   x Element
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.22.html:1:17]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.22.html:1:1]
+ 1 | <!doctype html><svg><title><plaintext>a</plaintext>b
+   :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.22.html:1:17]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.22.html:1:1]
+ 1 | <!doctype html><svg><title><plaintext>a</plaintext>b
+   :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.22.html:1:22]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.22.html:1:1]
+ 1 | <!doctype html><svg><title><plaintext>a</plaintext>b
+   :                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.22.html:1:22]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.22.html:1:1]
+ 1 | <!doctype html><svg><title><plaintext>a</plaintext>b
+   :                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.22.html:1:29]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.22.html:1:1]
+ 1 | <!doctype html><svg><title><plaintext>a</plaintext>b
+   :                            ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.22.html:1:29]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.22.html:1:1]
+ 1 | <!doctype html><svg><title><plaintext>a</plaintext>b
+   :                            ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.22.html:1:40]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.22.html:1:1]
+ 1 | <!doctype html><svg><title><plaintext>a</plaintext>b
+   :                                       ^^^^^^^^^^^^^^
    `----
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.22.html:1:40]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.22.html:1:1]
+ 1 | <!doctype html><svg><title><plaintext>a</plaintext>b
+   :                                       ^^^^^^^^^^^^^^
    `----

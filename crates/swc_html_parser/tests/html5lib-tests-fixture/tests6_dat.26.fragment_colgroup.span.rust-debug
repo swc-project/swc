@@ -1,6 +1,7 @@
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/tests6_dat.26.fragment_colgroup.html:1:2]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests6_dat.26.fragment_colgroup.html:1:1]
+ 1 | foo<col>
+   : ^^^^^^^^
    `----
   x Child
   x Element

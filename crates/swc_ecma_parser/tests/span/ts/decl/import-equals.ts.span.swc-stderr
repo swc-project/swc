@@ -1,18 +1,22 @@
   x Module
-   ,-[$DIR/tests/span/ts/decl/import-equals.ts:1:2]
- 1 | |    
+   ,-[$DIR/tests/span/ts/decl/import-equals.ts:1:1]
+ 1 | import A = B
+   : ^^^^^^^^^^^^
    `----
   x ModuleItem
-   ,-[$DIR/tests/span/ts/decl/import-equals.ts:1:2]
- 1 | |    
+   ,-[$DIR/tests/span/ts/decl/import-equals.ts:1:1]
+ 1 | import A = B
+   : ^^^^^^^^^^^^
    `----
   x ModuleDecl
-   ,-[$DIR/tests/span/ts/decl/import-equals.ts:1:2]
- 1 | |    
+   ,-[$DIR/tests/span/ts/decl/import-equals.ts:1:1]
+ 1 | import A = B
+   : ^^^^^^^^^^^^
    `----
   x TsImportEqualsDecl
-   ,-[$DIR/tests/span/ts/decl/import-equals.ts:1:2]
- 1 | |    
+   ,-[$DIR/tests/span/ts/decl/import-equals.ts:1:1]
+ 1 | import A = B
+   : ^^^^^^^^^^^^
    `----
   x Ident
    ,-[$DIR/tests/span/ts/decl/import-equals.ts:1:1]
@@ -20,14 +24,17 @@
    :        ^
    `----
   x TsModuleRef
-   ,-[$DIR/tests/span/ts/decl/import-equals.ts:1:13]
- 1 |  
+   ,-[$DIR/tests/span/ts/decl/import-equals.ts:1:1]
+ 1 | import A = B
+   :            ^
    `----
   x TsEntityName
-   ,-[$DIR/tests/span/ts/decl/import-equals.ts:1:13]
- 1 |  
+   ,-[$DIR/tests/span/ts/decl/import-equals.ts:1:1]
+ 1 | import A = B
+   :            ^
    `----
   x Ident
-   ,-[$DIR/tests/span/ts/decl/import-equals.ts:1:13]
- 1 |  
+   ,-[$DIR/tests/span/ts/decl/import-equals.ts:1:1]
+ 1 | import A = B
+   :            ^
    `----

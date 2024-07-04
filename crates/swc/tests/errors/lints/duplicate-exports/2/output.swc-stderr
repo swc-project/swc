@@ -1,6 +1,15 @@
   x the name `default` is exported multiple times
-   ,----
- 3 | |    
+   ,-[3:1]
+ 1 |     const { a } = 1;
+ 2 |     
+ 3 |     export { a as default };
+   :                   ^^^|^^^
+   :                      `-- previous exported here
+ 4 |     
+ 5 | ,-> export default () => {
+ 6 | |       let b = 2;
+ 7 | |-> }
+   : `---- exported more than once
    `----
 
 Advice:   > Exported identifiers must be unique

@@ -1,14 +1,33 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:2:1]
- 2 | |    
-   `----
+    ,-[$DIR/tests/fixture/vendor/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:1:1]
+  1 | ,-> 
+  2 | |           @page :first { margin: 0 }
+  3 | |           @page {
+  4 | |               @top-left-corner { content: 'tlc' }
+  5 | |               @top-left { content: 'tl' }
+  6 | |               @top-center { content: 'tc' }
+  7 | |               @top-right { content: 'tr' }
+  8 | |               @top-right-corner { content: 'trc' }
+  9 | |               @bottom-left-corner { content: 'blc' }
+ 10 | |               @bottom-left { content: 'bl' }
+ 11 | |               @bottom-center { content: 'bc' }
+ 12 | |               @bottom-right { content: 'br' }
+ 13 | |               @bottom-right-corner { content: 'brc' }
+ 14 | |               @left-top { content: 'lt' }
+ 15 | |               @left-middle { content: 'lm' }
+ 16 | |               @left-bottom { content: 'lb' }
+ 17 | |               @right-top { content: 'rt' }
+ 18 | |               @right-middle { content: 'rm' }
+ 19 | |               @right-bottom { content: 'rb' }
+ 20 | |           }
+ 21 | `->     
+    `----
   x Rule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:2:1]
  1 | 
  2 |         @page :first { margin: 0 }
    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^
  3 |         @page {
- 4 |             @top-left-corner { content: 'tlc' }
    `----
   x AtRule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:2:1]
@@ -16,7 +35,6 @@
  2 |         @page :first { margin: 0 }
    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^
  3 |         @page {
- 4 |             @top-left-corner { content: 'tlc' }
    `----
   x AtRuleName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:2:1]
@@ -66,7 +84,6 @@
  2 |         @page :first { margin: 0 }
    :                      ^^^^^^^^^^^^^
  3 |         @page {
- 4 |             @top-left-corner { content: 'tlc' }
    `----
   x LBrace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:2:1]
@@ -206,7 +223,6 @@
  3 |         @page {
    :               ^
  4 |             @top-left-corner { content: 'tlc' }
- 5 |             @top-left { content: 'tl' }
    `----
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:4:1]
@@ -214,7 +230,6 @@
  4 |             @top-left-corner { content: 'tlc' }
    :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  5 |             @top-left { content: 'tl' }
- 6 |             @top-center { content: 'tc' }
    `----
   x AtRule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:4:1]
@@ -222,7 +237,6 @@
  4 |             @top-left-corner { content: 'tlc' }
    :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  5 |             @top-left { content: 'tl' }
- 6 |             @top-center { content: 'tc' }
    `----
   x AtRuleName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:4:1]
@@ -244,7 +258,6 @@
  4 |             @top-left-corner { content: 'tlc' }
    :                              ^^^^^^^^^^^^^^^^^^
  5 |             @top-left { content: 'tl' }
- 6 |             @top-center { content: 'tc' }
    `----
   x LBrace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:4:1]
@@ -301,7 +314,6 @@
  5 |             @top-left { content: 'tl' }
    :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
  6 |             @top-center { content: 'tc' }
- 7 |             @top-right { content: 'tr' }
    `----
   x AtRule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:5:1]
@@ -309,7 +321,6 @@
  5 |             @top-left { content: 'tl' }
    :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
  6 |             @top-center { content: 'tc' }
- 7 |             @top-right { content: 'tr' }
    `----
   x AtRuleName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:5:1]
@@ -331,7 +342,6 @@
  5 |             @top-left { content: 'tl' }
    :                       ^^^^^^^^^^^^^^^^^
  6 |             @top-center { content: 'tc' }
- 7 |             @top-right { content: 'tr' }
    `----
   x LBrace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:5:1]
@@ -388,7 +398,6 @@
  6 |             @top-center { content: 'tc' }
    :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  7 |             @top-right { content: 'tr' }
- 8 |             @top-right-corner { content: 'trc' }
    `----
   x AtRule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:6:1]
@@ -396,7 +405,6 @@
  6 |             @top-center { content: 'tc' }
    :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  7 |             @top-right { content: 'tr' }
- 8 |             @top-right-corner { content: 'trc' }
    `----
   x AtRuleName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:6:1]
@@ -418,7 +426,6 @@
  6 |             @top-center { content: 'tc' }
    :                         ^^^^^^^^^^^^^^^^^
  7 |             @top-right { content: 'tr' }
- 8 |             @top-right-corner { content: 'trc' }
    `----
   x LBrace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:6:1]
@@ -475,7 +482,6 @@
  7 |             @top-right { content: 'tr' }
    :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  8 |             @top-right-corner { content: 'trc' }
- 9 |             @bottom-left-corner { content: 'blc' }
    `----
   x AtRule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:7:1]
@@ -483,7 +489,6 @@
  7 |             @top-right { content: 'tr' }
    :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  8 |             @top-right-corner { content: 'trc' }
- 9 |             @bottom-left-corner { content: 'blc' }
    `----
   x AtRuleName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:7:1]
@@ -505,7 +510,6 @@
  7 |             @top-right { content: 'tr' }
    :                        ^^^^^^^^^^^^^^^^^
  8 |             @top-right-corner { content: 'trc' }
- 9 |             @bottom-left-corner { content: 'blc' }
    `----
   x LBrace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:7:1]
@@ -557,21 +561,19 @@
  8 |             @top-right-corner { content: 'trc' }
    `----
   x ComponentValue
-    ,-[$DIR/tests/fixture/vendor/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:8:1]
-  7 |             @top-right { content: 'tr' }
-  8 |             @top-right-corner { content: 'trc' }
-    :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  9 |             @bottom-left-corner { content: 'blc' }
- 10 |             @bottom-left { content: 'bl' }
-    `----
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:8:1]
+ 7 |             @top-right { content: 'tr' }
+ 8 |             @top-right-corner { content: 'trc' }
+   :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 9 |             @bottom-left-corner { content: 'blc' }
+   `----
   x AtRule
-    ,-[$DIR/tests/fixture/vendor/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:8:1]
-  7 |             @top-right { content: 'tr' }
-  8 |             @top-right-corner { content: 'trc' }
-    :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  9 |             @bottom-left-corner { content: 'blc' }
- 10 |             @bottom-left { content: 'bl' }
-    `----
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:8:1]
+ 7 |             @top-right { content: 'tr' }
+ 8 |             @top-right-corner { content: 'trc' }
+   :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 9 |             @bottom-left-corner { content: 'blc' }
+   `----
   x AtRuleName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:8:1]
  7 |             @top-right { content: 'tr' }
@@ -587,13 +589,12 @@
  9 |             @bottom-left-corner { content: 'blc' }
    `----
   x SimpleBlock
-    ,-[$DIR/tests/fixture/vendor/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:8:1]
-  7 |             @top-right { content: 'tr' }
-  8 |             @top-right-corner { content: 'trc' }
-    :                               ^^^^^^^^^^^^^^^^^^
-  9 |             @bottom-left-corner { content: 'blc' }
- 10 |             @bottom-left { content: 'bl' }
-    `----
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:8:1]
+ 7 |             @top-right { content: 'tr' }
+ 8 |             @top-right-corner { content: 'trc' }
+   :                               ^^^^^^^^^^^^^^^^^^
+ 9 |             @bottom-left-corner { content: 'blc' }
+   `----
   x LBrace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:8:1]
  7 |             @top-right { content: 'tr' }
@@ -649,7 +650,6 @@
   9 |             @bottom-left-corner { content: 'blc' }
     :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  10 |             @bottom-left { content: 'bl' }
- 11 |             @bottom-center { content: 'bc' }
     `----
   x AtRule
     ,-[$DIR/tests/fixture/vendor/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:9:1]
@@ -657,7 +657,6 @@
   9 |             @bottom-left-corner { content: 'blc' }
     :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  10 |             @bottom-left { content: 'bl' }
- 11 |             @bottom-center { content: 'bc' }
     `----
   x AtRuleName
     ,-[$DIR/tests/fixture/vendor/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:9:1]
@@ -679,7 +678,6 @@
   9 |             @bottom-left-corner { content: 'blc' }
     :                                 ^^^^^^^^^^^^^^^^^^
  10 |             @bottom-left { content: 'bl' }
- 11 |             @bottom-center { content: 'bc' }
     `----
   x LBrace
     ,-[$DIR/tests/fixture/vendor/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:9:1]
@@ -736,7 +734,6 @@
  10 |             @bottom-left { content: 'bl' }
     :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  11 |             @bottom-center { content: 'bc' }
- 12 |             @bottom-right { content: 'br' }
     `----
   x AtRule
     ,-[$DIR/tests/fixture/vendor/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:10:1]
@@ -744,7 +741,6 @@
  10 |             @bottom-left { content: 'bl' }
     :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  11 |             @bottom-center { content: 'bc' }
- 12 |             @bottom-right { content: 'br' }
     `----
   x AtRuleName
     ,-[$DIR/tests/fixture/vendor/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:10:1]
@@ -766,7 +762,6 @@
  10 |             @bottom-left { content: 'bl' }
     :                          ^^^^^^^^^^^^^^^^^
  11 |             @bottom-center { content: 'bc' }
- 12 |             @bottom-right { content: 'br' }
     `----
   x LBrace
     ,-[$DIR/tests/fixture/vendor/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:10:1]
@@ -823,7 +818,6 @@
  11 |             @bottom-center { content: 'bc' }
     :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  12 |             @bottom-right { content: 'br' }
- 13 |             @bottom-right-corner { content: 'brc' }
     `----
   x AtRule
     ,-[$DIR/tests/fixture/vendor/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:11:1]
@@ -831,7 +825,6 @@
  11 |             @bottom-center { content: 'bc' }
     :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  12 |             @bottom-right { content: 'br' }
- 13 |             @bottom-right-corner { content: 'brc' }
     `----
   x AtRuleName
     ,-[$DIR/tests/fixture/vendor/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:11:1]
@@ -853,7 +846,6 @@
  11 |             @bottom-center { content: 'bc' }
     :                            ^^^^^^^^^^^^^^^^^
  12 |             @bottom-right { content: 'br' }
- 13 |             @bottom-right-corner { content: 'brc' }
     `----
   x LBrace
     ,-[$DIR/tests/fixture/vendor/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:11:1]
@@ -910,7 +902,6 @@
  12 |             @bottom-right { content: 'br' }
     :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  13 |             @bottom-right-corner { content: 'brc' }
- 14 |             @left-top { content: 'lt' }
     `----
   x AtRule
     ,-[$DIR/tests/fixture/vendor/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:12:1]
@@ -918,7 +909,6 @@
  12 |             @bottom-right { content: 'br' }
     :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  13 |             @bottom-right-corner { content: 'brc' }
- 14 |             @left-top { content: 'lt' }
     `----
   x AtRuleName
     ,-[$DIR/tests/fixture/vendor/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:12:1]
@@ -940,7 +930,6 @@
  12 |             @bottom-right { content: 'br' }
     :                           ^^^^^^^^^^^^^^^^^
  13 |             @bottom-right-corner { content: 'brc' }
- 14 |             @left-top { content: 'lt' }
     `----
   x LBrace
     ,-[$DIR/tests/fixture/vendor/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:12:1]
@@ -997,7 +986,6 @@
  13 |             @bottom-right-corner { content: 'brc' }
     :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  14 |             @left-top { content: 'lt' }
- 15 |             @left-middle { content: 'lm' }
     `----
   x AtRule
     ,-[$DIR/tests/fixture/vendor/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:13:1]
@@ -1005,7 +993,6 @@
  13 |             @bottom-right-corner { content: 'brc' }
     :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  14 |             @left-top { content: 'lt' }
- 15 |             @left-middle { content: 'lm' }
     `----
   x AtRuleName
     ,-[$DIR/tests/fixture/vendor/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:13:1]
@@ -1027,7 +1014,6 @@
  13 |             @bottom-right-corner { content: 'brc' }
     :                                  ^^^^^^^^^^^^^^^^^^
  14 |             @left-top { content: 'lt' }
- 15 |             @left-middle { content: 'lm' }
     `----
   x LBrace
     ,-[$DIR/tests/fixture/vendor/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:13:1]
@@ -1084,7 +1070,6 @@
  14 |             @left-top { content: 'lt' }
     :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
  15 |             @left-middle { content: 'lm' }
- 16 |             @left-bottom { content: 'lb' }
     `----
   x AtRule
     ,-[$DIR/tests/fixture/vendor/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:14:1]
@@ -1092,7 +1077,6 @@
  14 |             @left-top { content: 'lt' }
     :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^
  15 |             @left-middle { content: 'lm' }
- 16 |             @left-bottom { content: 'lb' }
     `----
   x AtRuleName
     ,-[$DIR/tests/fixture/vendor/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:14:1]
@@ -1114,7 +1098,6 @@
  14 |             @left-top { content: 'lt' }
     :                       ^^^^^^^^^^^^^^^^^
  15 |             @left-middle { content: 'lm' }
- 16 |             @left-bottom { content: 'lb' }
     `----
   x LBrace
     ,-[$DIR/tests/fixture/vendor/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:14:1]
@@ -1171,7 +1154,6 @@
  15 |             @left-middle { content: 'lm' }
     :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  16 |             @left-bottom { content: 'lb' }
- 17 |             @right-top { content: 'rt' }
     `----
   x AtRule
     ,-[$DIR/tests/fixture/vendor/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:15:1]
@@ -1179,7 +1161,6 @@
  15 |             @left-middle { content: 'lm' }
     :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  16 |             @left-bottom { content: 'lb' }
- 17 |             @right-top { content: 'rt' }
     `----
   x AtRuleName
     ,-[$DIR/tests/fixture/vendor/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:15:1]
@@ -1201,7 +1182,6 @@
  15 |             @left-middle { content: 'lm' }
     :                          ^^^^^^^^^^^^^^^^^
  16 |             @left-bottom { content: 'lb' }
- 17 |             @right-top { content: 'rt' }
     `----
   x LBrace
     ,-[$DIR/tests/fixture/vendor/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:15:1]
@@ -1258,7 +1238,6 @@
  16 |             @left-bottom { content: 'lb' }
     :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  17 |             @right-top { content: 'rt' }
- 18 |             @right-middle { content: 'rm' }
     `----
   x AtRule
     ,-[$DIR/tests/fixture/vendor/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:16:1]
@@ -1266,7 +1245,6 @@
  16 |             @left-bottom { content: 'lb' }
     :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  17 |             @right-top { content: 'rt' }
- 18 |             @right-middle { content: 'rm' }
     `----
   x AtRuleName
     ,-[$DIR/tests/fixture/vendor/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:16:1]
@@ -1288,7 +1266,6 @@
  16 |             @left-bottom { content: 'lb' }
     :                          ^^^^^^^^^^^^^^^^^
  17 |             @right-top { content: 'rt' }
- 18 |             @right-middle { content: 'rm' }
     `----
   x LBrace
     ,-[$DIR/tests/fixture/vendor/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:16:1]
@@ -1345,7 +1322,6 @@
  17 |             @right-top { content: 'rt' }
     :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  18 |             @right-middle { content: 'rm' }
- 19 |             @right-bottom { content: 'rb' }
     `----
   x AtRule
     ,-[$DIR/tests/fixture/vendor/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:17:1]
@@ -1353,7 +1329,6 @@
  17 |             @right-top { content: 'rt' }
     :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  18 |             @right-middle { content: 'rm' }
- 19 |             @right-bottom { content: 'rb' }
     `----
   x AtRuleName
     ,-[$DIR/tests/fixture/vendor/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:17:1]
@@ -1375,7 +1350,6 @@
  17 |             @right-top { content: 'rt' }
     :                        ^^^^^^^^^^^^^^^^^
  18 |             @right-middle { content: 'rm' }
- 19 |             @right-bottom { content: 'rb' }
     `----
   x LBrace
     ,-[$DIR/tests/fixture/vendor/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:17:1]
@@ -1432,7 +1406,6 @@
  18 |             @right-middle { content: 'rm' }
     :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  19 |             @right-bottom { content: 'rb' }
- 20 |         }
     `----
   x AtRule
     ,-[$DIR/tests/fixture/vendor/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:18:1]
@@ -1440,7 +1413,6 @@
  18 |             @right-middle { content: 'rm' }
     :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  19 |             @right-bottom { content: 'rb' }
- 20 |         }
     `----
   x AtRuleName
     ,-[$DIR/tests/fixture/vendor/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:18:1]
@@ -1462,7 +1434,6 @@
  18 |             @right-middle { content: 'rm' }
     :                           ^^^^^^^^^^^^^^^^^
  19 |             @right-bottom { content: 'rb' }
- 20 |         }
     `----
   x LBrace
     ,-[$DIR/tests/fixture/vendor/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:18:1]
@@ -1519,7 +1490,6 @@
  19 |             @right-bottom { content: 'rb' }
     :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  20 |         }
- 21 |     
     `----
   x AtRule
     ,-[$DIR/tests/fixture/vendor/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:19:1]
@@ -1527,7 +1497,6 @@
  19 |             @right-bottom { content: 'rb' }
     :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  20 |         }
- 21 |     
     `----
   x AtRuleName
     ,-[$DIR/tests/fixture/vendor/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:19:1]
@@ -1549,7 +1518,6 @@
  19 |             @right-bottom { content: 'rb' }
     :                           ^^^^^^^^^^^^^^^^^
  20 |         }
- 21 |     
     `----
   x LBrace
     ,-[$DIR/tests/fixture/vendor/esbuild/misc/VOQJsreB5pi_yJysozWgcA/input.css:19:1]

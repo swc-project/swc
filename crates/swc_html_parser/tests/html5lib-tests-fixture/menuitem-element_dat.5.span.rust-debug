@@ -1,6 +1,7 @@
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/menuitem-element_dat.5.html:1:2]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/menuitem-element_dat.5.html:1:1]
+ 1 | <!DOCTYPE html><body><menuitem>A<hr>B
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/menuitem-element_dat.5.html:1:1]
@@ -15,20 +16,24 @@
   x Child
   x Element
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/menuitem-element_dat.5.html:1:17]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/menuitem-element_dat.5.html:1:1]
+ 1 | <!DOCTYPE html><body><menuitem>A<hr>B
+   :                ^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/menuitem-element_dat.5.html:1:17]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/menuitem-element_dat.5.html:1:1]
+ 1 | <!DOCTYPE html><body><menuitem>A<hr>B
+   :                ^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/menuitem-element_dat.5.html:1:23]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/menuitem-element_dat.5.html:1:1]
+ 1 | <!DOCTYPE html><body><menuitem>A<hr>B
+   :                      ^^^^^^^^^^^^^^^^
    `----
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/menuitem-element_dat.5.html:1:23]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/menuitem-element_dat.5.html:1:1]
+ 1 | <!DOCTYPE html><body><menuitem>A<hr>B
+   :                      ^^^^^^^^^^^^^^^^
    `----
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/menuitem-element_dat.5.html:1:1]
@@ -51,10 +56,12 @@
    :                                 ^^^^
    `----
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/menuitem-element_dat.5.html:1:38]
- 1 |  
+   ,-[$DIR/tests/html5lib-tests-fixture/menuitem-element_dat.5.html:1:1]
+ 1 | <!DOCTYPE html><body><menuitem>A<hr>B
+   :                                     ^
    `----
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/menuitem-element_dat.5.html:1:38]
- 1 |  
+   ,-[$DIR/tests/html5lib-tests-fixture/menuitem-element_dat.5.html:1:1]
+ 1 | <!DOCTYPE html><body><menuitem>A<hr>B
+   :                                     ^
    `----

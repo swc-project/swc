@@ -1,6 +1,12 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/hacks/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/hacks/input.css:1:1]
+ 1 | ,-> html > /**/ body .selector {}
+ 2 | |   head ~ /**/ body .selector {}
+ 3 | |   
+ 4 | |   .selector { _property: value; }
+ 5 | |   .selector { -property: value; }
+ 6 | |   .selector { property: value\9; }
+ 7 | `-> .selector { property/*\**/: value\9; }
    `----
   x Rule
    ,-[$DIR/tests/fixture/hacks/input.css:1:1]
@@ -139,16 +145,12 @@
  1 | html > /**/ body .selector {}
  2 | head ~ /**/ body .selector {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 3 | 
- 4 | .selector { _property: value; }
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/hacks/input.css:2:1]
  1 | html > /**/ body .selector {}
  2 | head ~ /**/ body .selector {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 3 | 
- 4 | .selector { _property: value; }
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/hacks/input.css:2:1]
@@ -263,8 +265,6 @@
  1 | html > /**/ body .selector {}
  2 | head ~ /**/ body .selector {}
    :                            ^^
- 3 | 
- 4 | .selector { _property: value; }
    `----
   x LBrace
    ,-[$DIR/tests/fixture/hacks/input.css:2:1]
@@ -278,7 +278,6 @@
  4 | .selector { _property: value; }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  5 | .selector { -property: value; }
- 6 | .selector { property: value\9; }
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/hacks/input.css:4:1]
@@ -286,7 +285,6 @@
  4 | .selector { _property: value; }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  5 | .selector { -property: value; }
- 6 | .selector { property: value\9; }
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/hacks/input.css:4:1]
@@ -336,7 +334,6 @@
  4 | .selector { _property: value; }
    :           ^^^^^^^^^^^^^^^^^^^^^
  5 | .selector { -property: value; }
- 6 | .selector { property: value\9; }
    `----
   x LBrace
    ,-[$DIR/tests/fixture/hacks/input.css:4:1]
@@ -393,7 +390,6 @@
  5 | .selector { -property: value; }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  6 | .selector { property: value\9; }
- 7 | .selector { property/*\**/: value\9; }
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/hacks/input.css:5:1]
@@ -401,7 +397,6 @@
  5 | .selector { -property: value; }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  6 | .selector { property: value\9; }
- 7 | .selector { property/*\**/: value\9; }
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/hacks/input.css:5:1]
@@ -451,7 +446,6 @@
  5 | .selector { -property: value; }
    :           ^^^^^^^^^^^^^^^^^^^^^
  6 | .selector { property: value\9; }
- 7 | .selector { property/*\**/: value\9; }
    `----
   x LBrace
    ,-[$DIR/tests/fixture/hacks/input.css:5:1]

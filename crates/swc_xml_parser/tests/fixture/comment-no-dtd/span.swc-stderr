@@ -1,6 +1,7 @@
   x Document
-   ,-[$DIR/tests/fixture/comment-no-dtd/input.xml:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/comment-no-dtd/input.xml:1:1]
+ 1 | ,-> <!-- My Comment -->
+ 2 | `-> <DocumentElement/>
    `----
   x Child
    ,-[$DIR/tests/fixture/comment-no-dtd/input.xml:1:1]
@@ -15,10 +16,14 @@
  2 | <DocumentElement/>
    `----
   x Child
-   ,-[$DIR/tests/fixture/comment-no-dtd/input.xml:2:2]
- 2 | |    
+   ,-[$DIR/tests/fixture/comment-no-dtd/input.xml:2:1]
+ 1 | <!-- My Comment -->
+ 2 | <DocumentElement/>
+   : ^^^^^^^^^^^^^^^^^^
    `----
   x Element
-   ,-[$DIR/tests/fixture/comment-no-dtd/input.xml:2:2]
- 2 | |    
+   ,-[$DIR/tests/fixture/comment-no-dtd/input.xml:2:1]
+ 1 | <!-- My Comment -->
+ 2 | <DocumentElement/>
+   : ^^^^^^^^^^^^^^^^^^
    `----

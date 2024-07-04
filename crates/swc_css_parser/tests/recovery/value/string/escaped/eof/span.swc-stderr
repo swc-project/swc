@@ -1,14 +1,23 @@
   x Stylesheet
-   ,-[$DIR/tests/recovery/value/string/escaped/eof/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/value/string/escaped/eof/input.css:1:1]
+ 1 | ,-> a {
+ 2 | |       color: \
+ 3 | |       ;
+ 4 | `-> }
    `----
   x Rule
-   ,-[$DIR/tests/recovery/value/string/escaped/eof/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/value/string/escaped/eof/input.css:1:1]
+ 1 | ,-> a {
+ 2 | |       color: \
+ 3 | |       ;
+ 4 | `-> }
    `----
   x QualifiedRule
-   ,-[$DIR/tests/recovery/value/string/escaped/eof/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/value/string/escaped/eof/input.css:1:1]
+ 1 | ,-> a {
+ 2 | |       color: \
+ 3 | |       ;
+ 4 | `-> }
    `----
   x SelectorList
    ,-[$DIR/tests/recovery/value/string/escaped/eof/input.css:1:1]
@@ -53,15 +62,17 @@
  2 |     color: \
    `----
   x SimpleBlock
-   ,-[$DIR/tests/recovery/value/string/escaped/eof/input.css:1:4]
- 1 | |    
+   ,-[$DIR/tests/recovery/value/string/escaped/eof/input.css:1:1]
+ 1 | ,-> a {
+ 2 | |       color: \
+ 3 | |       ;
+ 4 | `-> }
    `----
   x LBrace
    ,-[$DIR/tests/recovery/value/string/escaped/eof/input.css:1:1]
  1 | a {
    :   ^
  2 |     color: \
- 3 |     ;
    `----
   x ComponentValue
    ,-[$DIR/tests/recovery/value/string/escaped/eof/input.css:2:1]
@@ -97,7 +108,6 @@
  2 |     color: \
    :            ^
  3 |     ;
- 4 | }
    `----
   x Delim { value: '\\' }
    ,-[$DIR/tests/recovery/value/string/escaped/eof/input.css:2:1]
@@ -105,5 +115,4 @@
  2 |     color: \
    :            ^
  3 |     ;
- 4 | }
    `----

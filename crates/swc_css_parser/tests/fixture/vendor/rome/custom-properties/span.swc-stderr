@@ -1,7 +1,29 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:1:2]
- 1 | |    
-   `----
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:1:1]
+  1 | ,-> .style {
+  2 | |       --foo: 'bar';
+  3 | |       --lore-ipsum: "foo";
+  4 | |       --FANCY: "abort";
+  5 | |       --test: 1987;
+  6 | |       --percentage: 25%;
+  7 | |       --number: 37;
+  8 | |       --length: 12em;
+  9 | |       --time: 75ms;
+ 10 | |       --function: foo();
+ 11 | |       --nested-function: foo(bar());
+ 12 | |       --parentheses: ( );
+ 13 | |       --braces: { };
+ 14 | |       --brackets: [ ];
+ 15 | |       --at-keyword-unknown: @foobar;
+ 16 | |       --at-keyword-known: @media;
+ 17 | |       --at-keyword-unknown-block: @foobar {};
+ 18 | |       --at-keyword-known-block: @media {};
+ 19 | |       --cdo-at-top-level: <!--;
+ 20 | |       --cdc-at-top-level: -->;
+ 21 | |       --cdo-not-top-level: (<!--);
+ 22 | |       --cdc-not-top-level: (-->);
+ 23 | `-> }
+    `----
   x Rule
     ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:1:1]
   1 | ,-> .style {
@@ -121,7 +143,6 @@
  1 | .style {
    :        ^
  2 |     --foo: 'bar';
- 3 |     --lore-ipsum: "foo";
    `----
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:2:1]

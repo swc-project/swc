@@ -1,30 +1,37 @@
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/tables01_dat.10.html:1:2]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tables01_dat.10.html:1:1]
+ 1 | <table><td></body></caption></col></colgroup></html>foo
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Child
   x Element
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tables01_dat.10.html:1:2]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tables01_dat.10.html:1:1]
+ 1 | <table><td></body></caption></col></colgroup></html>foo
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tables01_dat.10.html:1:2]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tables01_dat.10.html:1:1]
+ 1 | <table><td></body></caption></col></colgroup></html>foo
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tables01_dat.10.html:1:9]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tables01_dat.10.html:1:1]
+ 1 | <table><td></body></caption></col></colgroup></html>foo
+   :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tables01_dat.10.html:1:9]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tables01_dat.10.html:1:1]
+ 1 | <table><td></body></caption></col></colgroup></html>foo
+   :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tables01_dat.10.html:1:54]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tables01_dat.10.html:1:1]
+ 1 | <table><td></body></caption></col></colgroup></html>foo
+   :                                                     ^^^
    `----
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/tables01_dat.10.html:1:54]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tables01_dat.10.html:1:1]
+ 1 | <table><td></body></caption></col></colgroup></html>foo
+   :                                                     ^^^
    `----

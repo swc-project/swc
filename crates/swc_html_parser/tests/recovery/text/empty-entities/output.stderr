@@ -9,6 +9,7 @@
    : ^^
    `----
   x Absence of digits in numeric character reference
-   ,-[$DIR/tests/recovery/text/empty-entities/input.html:1:7]
- 1 |  
+   ,-[$DIR/tests/recovery/text/empty-entities/input.html:1:1]
+ 1 | &# &#;
+   :      ^
    `----

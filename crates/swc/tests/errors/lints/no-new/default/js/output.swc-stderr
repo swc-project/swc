@@ -35,7 +35,6 @@
  10 |     },
  11 |     y: {
  12 |         z = () => {
- 13 |             new A()
     `----
   x Do not use 'new' for side effects
     ,-[13:1]
@@ -155,8 +154,6 @@
     :         ^^^^^^^
  45 |     })
  46 | }
- 47 | 
- 48 | function foo(arg = () => { new A() }) {}
     `----
   x Do not use 'new' for side effects
     ,-[48:1]

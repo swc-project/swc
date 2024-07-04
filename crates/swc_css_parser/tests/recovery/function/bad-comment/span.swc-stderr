@@ -1,14 +1,29 @@
   x Stylesheet
-   ,-[$DIR/tests/recovery/function/bad-comment/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/function/bad-comment/input.css:1:1]
+ 1 | ,-> a {
+ 2 | |       background: url(
+ 3 | |           /* test */
+ 4 | |           test.png
+ 5 | |       );
+ 6 | `-> }
    `----
   x Rule
-   ,-[$DIR/tests/recovery/function/bad-comment/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/function/bad-comment/input.css:1:1]
+ 1 | ,-> a {
+ 2 | |       background: url(
+ 3 | |           /* test */
+ 4 | |           test.png
+ 5 | |       );
+ 6 | `-> }
    `----
   x QualifiedRule
-   ,-[$DIR/tests/recovery/function/bad-comment/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/function/bad-comment/input.css:1:1]
+ 1 | ,-> a {
+ 2 | |       background: url(
+ 3 | |           /* test */
+ 4 | |           test.png
+ 5 | |       );
+ 6 | `-> }
    `----
   x SelectorList
    ,-[$DIR/tests/recovery/function/bad-comment/input.css:1:1]
@@ -53,15 +68,19 @@
  2 |     background: url(
    `----
   x SimpleBlock
-   ,-[$DIR/tests/recovery/function/bad-comment/input.css:1:4]
- 1 | |    
+   ,-[$DIR/tests/recovery/function/bad-comment/input.css:1:1]
+ 1 | ,-> a {
+ 2 | |       background: url(
+ 3 | |           /* test */
+ 4 | |           test.png
+ 5 | |       );
+ 6 | `-> }
    `----
   x LBrace
    ,-[$DIR/tests/recovery/function/bad-comment/input.css:1:1]
  1 | a {
    :   ^
  2 |     background: url(
- 3 |         /* test */
    `----
   x ComponentValue
    ,-[$DIR/tests/recovery/function/bad-comment/input.css:2:1]

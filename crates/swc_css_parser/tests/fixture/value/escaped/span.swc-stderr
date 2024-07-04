@@ -1,22 +1,46 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/value/escaped/input.css:1:2]
- 1 | |    
-   `----
+    ,-[$DIR/tests/fixture/value/escaped/input.css:1:1]
+  1 | ,-> table {
+  2 | |       color: \red;
+  3 | |   }
+  4 | |   
+  5 | |   a {
+  6 | |       background: url("a).png");
+  7 | |       background: url(a;a);
+  8 | |       background: url(a/*);
+  9 | |       background: \;a;
+ 10 | |   }
+ 11 | |   :not([foo=")"]) { }
+ 12 | |   :not(div/*)*/) { }
+ 13 | |   :not(:nth-child(2n of [foo=")"])) { }
+ 14 | |   [foo=\"] { }
+ 15 | |   [foo=\{] { }
+ 16 | |   [foo=\(] { }
+ 17 | |   [foo=yes\:\(it\'s\ work\)] { }
+ 18 | |   
+ 19 | |   \@noat { }
+ 20 | |   
+ 21 | |   h1\\{
+ 22 | |       color: \\;
+ 23 | |   }
+ 24 | |   
+ 25 | |   [attr="\;"] { }
+ 26 | |   
+ 27 | |   .prop {
+ 28 | |       \62 olor: red
+ 29 | `-> }
+    `----
   x Rule
    ,-[$DIR/tests/fixture/value/escaped/input.css:1:1]
  1 | ,-> table {
  2 | |       color: \red;
  3 | `-> }
- 4 |     
- 5 |     a {
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/value/escaped/input.css:1:1]
  1 | ,-> table {
  2 | |       color: \red;
  3 | `-> }
- 4 |     
- 5 |     a {
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/value/escaped/input.css:1:1]
@@ -65,15 +89,12 @@
  1 | ,-> table {
  2 | |       color: \red;
  3 | `-> }
- 4 |     
- 5 |     a {
    `----
   x LBrace
    ,-[$DIR/tests/fixture/value/escaped/input.css:1:1]
  1 | table {
    :       ^
  2 |     color: \red;
- 3 | }
    `----
   x ComponentValue
    ,-[$DIR/tests/fixture/value/escaped/input.css:2:1]
@@ -127,7 +148,6 @@
   9 | |       background: \;a;
  10 | `-> }
  11 |     :not([foo=")"]) { }
- 12 |     :not(div/*)*/) { }
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/value/escaped/input.css:5:1]
@@ -139,7 +159,6 @@
   9 | |       background: \;a;
  10 | `-> }
  11 |     :not([foo=")"]) { }
- 12 |     :not(div/*)*/) { }
     `----
   x SelectorList
    ,-[$DIR/tests/fixture/value/escaped/input.css:5:1]
@@ -200,7 +219,6 @@
   9 | |       background: \;a;
  10 | `-> }
  11 |     :not([foo=")"]) { }
- 12 |     :not(div/*)*/) { }
     `----
   x LBrace
    ,-[$DIR/tests/fixture/value/escaped/input.css:5:1]
@@ -208,7 +226,6 @@
  5 | a {
    :   ^
  6 |     background: url("a).png");
- 7 |     background: url(a;a);
    `----
   x ComponentValue
    ,-[$DIR/tests/fixture/value/escaped/input.css:6:1]
@@ -447,7 +464,6 @@
  11 | :not([foo=")"]) { }
     : ^^^^^^^^^^^^^^^^^^^
  12 | :not(div/*)*/) { }
- 13 | :not(:nth-child(2n of [foo=")"])) { }
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/value/escaped/input.css:11:1]
@@ -455,7 +471,6 @@
  11 | :not([foo=")"]) { }
     : ^^^^^^^^^^^^^^^^^^^
  12 | :not(div/*)*/) { }
- 13 | :not(:nth-child(2n of [foo=")"])) { }
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/value/escaped/input.css:11:1]
@@ -582,7 +597,6 @@
  11 | :not([foo=")"]) { }
     :                 ^^^
  12 | :not(div/*)*/) { }
- 13 | :not(:nth-child(2n of [foo=")"])) { }
     `----
   x LBrace
     ,-[$DIR/tests/fixture/value/escaped/input.css:11:1]
@@ -597,7 +611,6 @@
  12 | :not(div/*)*/) { }
     : ^^^^^^^^^^^^^^^^^^
  13 | :not(:nth-child(2n of [foo=")"])) { }
- 14 | [foo=\"] { }
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/value/escaped/input.css:12:1]
@@ -605,7 +618,6 @@
  12 | :not(div/*)*/) { }
     : ^^^^^^^^^^^^^^^^^^
  13 | :not(:nth-child(2n of [foo=")"])) { }
- 14 | [foo=\"] { }
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/value/escaped/input.css:12:1]
@@ -711,7 +723,6 @@
  12 | :not(div/*)*/) { }
     :                ^^^
  13 | :not(:nth-child(2n of [foo=")"])) { }
- 14 | [foo=\"] { }
     `----
   x LBrace
     ,-[$DIR/tests/fixture/value/escaped/input.css:12:1]
@@ -726,7 +737,6 @@
  13 | :not(:nth-child(2n of [foo=")"])) { }
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  14 | [foo=\"] { }
- 15 | [foo=\{] { }
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/value/escaped/input.css:13:1]
@@ -734,7 +744,6 @@
  13 | :not(:nth-child(2n of [foo=")"])) { }
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  14 | [foo=\"] { }
- 15 | [foo=\{] { }
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/value/escaped/input.css:13:1]
@@ -945,7 +954,6 @@
  13 | :not(:nth-child(2n of [foo=")"])) { }
     :                                   ^^^
  14 | [foo=\"] { }
- 15 | [foo=\{] { }
     `----
   x LBrace
     ,-[$DIR/tests/fixture/value/escaped/input.css:13:1]
@@ -960,7 +968,6 @@
  14 | [foo=\"] { }
     : ^^^^^^^^^^^^
  15 | [foo=\{] { }
- 16 | [foo=\(] { }
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/value/escaped/input.css:14:1]
@@ -968,7 +975,6 @@
  14 | [foo=\"] { }
     : ^^^^^^^^^^^^
  15 | [foo=\{] { }
- 16 | [foo=\(] { }
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/value/escaped/input.css:14:1]
@@ -1046,7 +1052,6 @@
  14 | [foo=\"] { }
     :          ^^^
  15 | [foo=\{] { }
- 16 | [foo=\(] { }
     `----
   x LBrace
     ,-[$DIR/tests/fixture/value/escaped/input.css:14:1]
@@ -1061,7 +1066,6 @@
  15 | [foo=\{] { }
     : ^^^^^^^^^^^^
  16 | [foo=\(] { }
- 17 | [foo=yes\:\(it\'s\ work\)] { }
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/value/escaped/input.css:15:1]
@@ -1069,7 +1073,6 @@
  15 | [foo=\{] { }
     : ^^^^^^^^^^^^
  16 | [foo=\(] { }
- 17 | [foo=yes\:\(it\'s\ work\)] { }
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/value/escaped/input.css:15:1]
@@ -1147,7 +1150,6 @@
  15 | [foo=\{] { }
     :          ^^^
  16 | [foo=\(] { }
- 17 | [foo=yes\:\(it\'s\ work\)] { }
     `----
   x LBrace
     ,-[$DIR/tests/fixture/value/escaped/input.css:15:1]
@@ -1259,16 +1261,12 @@
  16 | [foo=\(] { }
  17 | [foo=yes\:\(it\'s\ work\)] { }
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 18 | 
- 19 | \@noat { }
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/value/escaped/input.css:17:1]
  16 | [foo=\(] { }
  17 | [foo=yes\:\(it\'s\ work\)] { }
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 18 | 
- 19 | \@noat { }
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/value/escaped/input.css:17:1]
@@ -1335,8 +1333,6 @@
  16 | [foo=\(] { }
  17 | [foo=yes\:\(it\'s\ work\)] { }
     :                            ^^^
- 18 | 
- 19 | \@noat { }
     `----
   x LBrace
     ,-[$DIR/tests/fixture/value/escaped/input.css:17:1]
@@ -1349,16 +1345,12 @@
  18 | 
  19 | \@noat { }
     : ^^^^^^^^^^
- 20 | 
- 21 | h1\\{
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/value/escaped/input.css:19:1]
  18 | 
  19 | \@noat { }
     : ^^^^^^^^^^
- 20 | 
- 21 | h1\\{
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/value/escaped/input.css:19:1]
@@ -1407,8 +1399,6 @@
  18 | 
  19 | \@noat { }
     :        ^^^
- 20 | 
- 21 | h1\\{
     `----
   x LBrace
     ,-[$DIR/tests/fixture/value/escaped/input.css:19:1]
@@ -1422,8 +1412,6 @@
  21 | ,-> h1\\{
  22 | |       color: \\;
  23 | `-> }
- 24 |     
- 25 |     [attr="\;"] { }
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/value/escaped/input.css:21:1]
@@ -1431,8 +1419,6 @@
  21 | ,-> h1\\{
  22 | |       color: \\;
  23 | `-> }
- 24 |     
- 25 |     [attr="\;"] { }
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/value/escaped/input.css:21:1]
@@ -1489,8 +1475,6 @@
  21 | ,-> h1\\{
  22 | |       color: \\;
  23 | `-> }
- 24 |     
- 25 |     [attr="\;"] { }
     `----
   x LBrace
     ,-[$DIR/tests/fixture/value/escaped/input.css:21:1]
@@ -1498,7 +1482,6 @@
  21 | h1\\{
     :     ^
  22 |     color: \\;
- 23 | }
     `----
   x ComponentValue
     ,-[$DIR/tests/fixture/value/escaped/input.css:22:1]
@@ -1547,16 +1530,12 @@
  24 | 
  25 | [attr="\;"] { }
     : ^^^^^^^^^^^^^^^
- 26 | 
- 27 | .prop {
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/value/escaped/input.css:25:1]
  24 | 
  25 | [attr="\;"] { }
     : ^^^^^^^^^^^^^^^
- 26 | 
- 27 | .prop {
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/value/escaped/input.css:25:1]
@@ -1623,8 +1602,6 @@
  24 | 
  25 | [attr="\;"] { }
     :             ^^^
- 26 | 
- 27 | .prop {
     `----
   x LBrace
     ,-[$DIR/tests/fixture/value/escaped/input.css:25:1]
@@ -1701,7 +1678,6 @@
  27 | .prop {
     :       ^
  28 |     \62 olor: red
- 29 | }
     `----
   x ComponentValue
     ,-[$DIR/tests/fixture/value/escaped/input.css:28:1]

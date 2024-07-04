@@ -1,22 +1,32 @@
   x Module
-   ,-[$DIR/tests/span/js/decl/fn.js:1:2]
- 1 | |    
+   ,-[$DIR/tests/span/js/decl/fn.js:1:1]
+ 1 | ,-> function foo(a, b = c) {
+ 2 | |   
+ 3 | `-> }
    `----
   x ModuleItem
-   ,-[$DIR/tests/span/js/decl/fn.js:1:2]
- 1 | |    
+   ,-[$DIR/tests/span/js/decl/fn.js:1:1]
+ 1 | ,-> function foo(a, b = c) {
+ 2 | |   
+ 3 | `-> }
    `----
   x Stmt
-   ,-[$DIR/tests/span/js/decl/fn.js:1:2]
- 1 | |    
+   ,-[$DIR/tests/span/js/decl/fn.js:1:1]
+ 1 | ,-> function foo(a, b = c) {
+ 2 | |   
+ 3 | `-> }
    `----
   x Decl
-   ,-[$DIR/tests/span/js/decl/fn.js:1:2]
- 1 | |    
+   ,-[$DIR/tests/span/js/decl/fn.js:1:1]
+ 1 | ,-> function foo(a, b = c) {
+ 2 | |   
+ 3 | `-> }
    `----
   x FnDecl
-   ,-[$DIR/tests/span/js/decl/fn.js:1:2]
- 1 | |    
+   ,-[$DIR/tests/span/js/decl/fn.js:1:1]
+ 1 | ,-> function foo(a, b = c) {
+ 2 | |   
+ 3 | `-> }
    `----
   x Ident
    ,-[$DIR/tests/span/js/decl/fn.js:1:1]
@@ -24,8 +34,10 @@
    :          ^^^
    `----
   x Function
-   ,-[$DIR/tests/span/js/decl/fn.js:1:2]
- 1 | |    
+   ,-[$DIR/tests/span/js/decl/fn.js:1:1]
+ 1 | ,-> function foo(a, b = c) {
+ 2 | |   
+ 3 | `-> }
    `----
   x Param
    ,-[$DIR/tests/span/js/decl/fn.js:1:1]
@@ -78,6 +90,8 @@
    :                     ^
    `----
   x BlockStmt
-   ,-[$DIR/tests/span/js/decl/fn.js:1:25]
- 1 | |    
+   ,-[$DIR/tests/span/js/decl/fn.js:1:1]
+ 1 | ,-> function foo(a, b = c) {
+ 2 | |   
+ 3 | `-> }
    `----

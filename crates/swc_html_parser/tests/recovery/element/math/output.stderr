@@ -4,7 +4,6 @@
  36 |             <html xmlns="http://www.w3.org/1999/xhtml">
     :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  37 |             <head><title>INNER HTML TITLE</title></head>
- 38 |             <body>
     `----
   x Stray start tag "head"
     ,-[$DIR/tests/recovery/element/math/input.html:37:1]
@@ -19,7 +18,6 @@
  37 |             <head><title>INNER HTML TITLE</title></head>
     :                                                  ^^^^^^^
  38 |             <body>
- 39 |             <p>The base of the natural logarithms, approximately 2.71828.</p>
     `----
   x Stray end tag "head"
     ,-[$DIR/tests/recovery/element/math/input.html:37:1]
@@ -27,7 +25,6 @@
  37 |             <head><title>INNER HTML TITLE</title></head>
     :                                                  ^^^^^^^
  38 |             <body>
- 39 |             <p>The base of the natural logarithms, approximately 2.71828.</p>
     `----
   x Start tag "body" seen but an element of the same type was already open
     ,-[$DIR/tests/recovery/element/math/input.html:38:1]
@@ -35,7 +32,6 @@
  38 |             <body>
     :             ^^^^^^
  39 |             <p>The base of the natural logarithms, approximately 2.71828.</p>
- 40 |             </body>
     `----
   x End tag "body" did not match the name of the current open element ("annotation-xml")
     ,-[$DIR/tests/recovery/element/math/input.html:40:1]
@@ -43,7 +39,6 @@
  40 |             </body>
     :             ^^^^^^^
  41 |             </html>
- 42 |         </annotation-xml>
     `----
   x Stray end tag "body"
     ,-[$DIR/tests/recovery/element/math/input.html:40:1]
@@ -51,7 +46,6 @@
  40 |             </body>
     :             ^^^^^^^
  41 |             </html>
- 42 |         </annotation-xml>
     `----
   x End tag "html" did not match the name of the current open element ("annotation-xml")
     ,-[$DIR/tests/recovery/element/math/input.html:41:1]

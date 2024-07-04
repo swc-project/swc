@@ -1,6 +1,7 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/vendor/rome/import/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/vendor/rome/import/input.css:1:1]
+ 1 | ,-> @import "something.css";
+ 2 | `-> @import url("something.css");
    `----
   x Rule
    ,-[$DIR/tests/fixture/vendor/rome/import/input.css:1:1]

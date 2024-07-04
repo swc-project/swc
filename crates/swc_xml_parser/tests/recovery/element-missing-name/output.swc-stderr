@@ -4,7 +4,6 @@
  2 |     <>
    :      ^
  3 |     </>
- 4 |     < aa >
    `----
   x Missing end tag name
    ,-[$DIR/tests/recovery/element-missing-name/input.xml:3:1]
@@ -12,7 +11,6 @@
  3 |     </>
    :       ^
  4 |     < aa >
- 5 | </root>
    `----
   x Invalid first character of tag name
    ,-[$DIR/tests/recovery/element-missing-name/input.xml:4:1]

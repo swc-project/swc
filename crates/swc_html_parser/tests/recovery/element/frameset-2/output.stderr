@@ -19,6 +19,7 @@
    :                                                     ^^^^^
    `----
   x Stray end tag "div"
-   ,-[$DIR/tests/recovery/element/frameset-2/input.html:1:59]
- 1 | |    
+   ,-[$DIR/tests/recovery/element/frameset-2/input.html:1:1]
+ 1 | <!doctype html><html><frameset></frameset></html>abc<div></div>
+   :                                                          ^^^^^^
    `----

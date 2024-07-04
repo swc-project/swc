@@ -1,15 +1,42 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:1:2]
- 1 | |    
-   `----
+    ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:1:1]
+  1 | ,-> @starting-style {
+  2 | |       h1 {
+  3 | |           background-color: transparent;
+  4 | |       }
+  5 | |       @layer foo {
+  6 | |           div {
+  7 | |               height: 100px;
+  8 | |           }
+  9 | |       }
+ 10 | `-> }
+    `----
   x Rule
-   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:1:2]
- 1 | |    
-   `----
+    ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:1:1]
+  1 | ,-> @starting-style {
+  2 | |       h1 {
+  3 | |           background-color: transparent;
+  4 | |       }
+  5 | |       @layer foo {
+  6 | |           div {
+  7 | |               height: 100px;
+  8 | |           }
+  9 | |       }
+ 10 | `-> }
+    `----
   x AtRule
-   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:1:2]
- 1 | |    
-   `----
+    ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:1:1]
+  1 | ,-> @starting-style {
+  2 | |       h1 {
+  3 | |           background-color: transparent;
+  4 | |       }
+  5 | |       @layer foo {
+  6 | |           div {
+  7 | |               height: 100px;
+  8 | |           }
+  9 | |       }
+ 10 | `-> }
+    `----
   x AtRuleName
    ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:1:1]
  1 | @starting-style {
@@ -23,15 +50,23 @@
  2 |     h1 {
    `----
   x SimpleBlock
-   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:1:18]
- 1 | |    
-   `----
+    ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:1:1]
+  1 | ,-> @starting-style {
+  2 | |       h1 {
+  3 | |           background-color: transparent;
+  4 | |       }
+  5 | |       @layer foo {
+  6 | |           div {
+  7 | |               height: 100px;
+  8 | |           }
+  9 | |       }
+ 10 | `-> }
+    `----
   x LBrace
    ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:1:1]
  1 | @starting-style {
    :                 ^
  2 |     h1 {
- 3 |         background-color: transparent;
    `----
   x ComponentValue
    ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:2:1]
@@ -40,7 +75,6 @@
  3 | |           background-color: transparent;
  4 | `->     }
  5 |         @layer foo {
- 6 |             div {
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:2:1]
@@ -49,7 +83,6 @@
  3 | |           background-color: transparent;
  4 | `->     }
  5 |         @layer foo {
- 6 |             div {
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:2:1]
@@ -107,7 +140,6 @@
  3 | |           background-color: transparent;
  4 | `->     }
  5 |         @layer foo {
- 6 |             div {
    `----
   x LBrace
    ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:2:1]
@@ -115,7 +147,6 @@
  2 |     h1 {
    :        ^
  3 |         background-color: transparent;
- 4 |     }
    `----
   x ComponentValue
    ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:3:1]
@@ -230,26 +261,23 @@
  5 |     @layer foo {
    :                ^
  6 |         div {
- 7 |             height: 100px;
    `----
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:6:1]
-  5 |         @layer foo {
-  6 | ,->         div {
-  7 | |               height: 100px;
-  8 | `->         }
-  9 |         }
- 10 |     }
-    `----
+   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:6:1]
+ 5 |         @layer foo {
+ 6 | ,->         div {
+ 7 | |               height: 100px;
+ 8 | `->         }
+ 9 |         }
+   `----
   x QualifiedRule
-    ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:6:1]
-  5 |         @layer foo {
-  6 | ,->         div {
-  7 | |               height: 100px;
-  8 | `->         }
-  9 |         }
- 10 |     }
-    `----
+   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:6:1]
+ 5 |         @layer foo {
+ 6 | ,->         div {
+ 7 | |               height: 100px;
+ 8 | `->         }
+ 9 |         }
+   `----
   x SelectorList
    ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:6:1]
  5 |     @layer foo {
@@ -300,21 +328,19 @@
  7 |             height: 100px;
    `----
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:6:1]
-  5 |         @layer foo {
-  6 | ,->         div {
-  7 | |               height: 100px;
-  8 | `->         }
-  9 |         }
- 10 |     }
-    `----
+   ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:6:1]
+ 5 |         @layer foo {
+ 6 | ,->         div {
+ 7 | |               height: 100px;
+ 8 | `->         }
+ 9 |         }
+   `----
   x LBrace
    ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:6:1]
  5 |     @layer foo {
  6 |         div {
    :             ^
  7 |             height: 100px;
- 8 |         }
    `----
   x ComponentValue
    ,-[$DIR/tests/fixture/at-rule/starting-style/input.css:7:1]

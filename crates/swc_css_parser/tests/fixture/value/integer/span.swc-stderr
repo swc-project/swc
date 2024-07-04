@@ -1,6 +1,13 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/value/integer/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/value/integer/input.css:1:1]
+ 1 | ,-> div {
+ 2 | |       z-index: 12;
+ 3 | |       z-index: +123;
+ 4 | |       z-index: -456;
+ 5 | |       z-index: 0;
+ 6 | |       z-index: +0;
+ 7 | |       z-index: -0;
+ 8 | `-> }
    `----
   x Rule
    ,-[$DIR/tests/fixture/value/integer/input.css:1:1]
@@ -82,7 +89,6 @@
  1 | div {
    :     ^
  2 |     z-index: 12;
- 3 |     z-index: +123;
    `----
   x ComponentValue
    ,-[$DIR/tests/fixture/value/integer/input.css:2:1]

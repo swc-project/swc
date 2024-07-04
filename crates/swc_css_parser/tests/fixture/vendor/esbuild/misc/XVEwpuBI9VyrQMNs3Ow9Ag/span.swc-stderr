@@ -1,14 +1,17 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/XVEwpuBI9VyrQMNs3Ow9Ag/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/XVEwpuBI9VyrQMNs3Ow9Ag/input.css:1:1]
+ 1 | @media screen {}
+   : ^^^^^^^^^^^^^^^^
    `----
   x Rule
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/XVEwpuBI9VyrQMNs3Ow9Ag/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/XVEwpuBI9VyrQMNs3Ow9Ag/input.css:1:1]
+ 1 | @media screen {}
+   : ^^^^^^^^^^^^^^^^
    `----
   x AtRule
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/XVEwpuBI9VyrQMNs3Ow9Ag/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/XVEwpuBI9VyrQMNs3Ow9Ag/input.css:1:1]
+ 1 | @media screen {}
+   : ^^^^^^^^^^^^^^^^
    `----
   x AtRuleName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/XVEwpuBI9VyrQMNs3Ow9Ag/input.css:1:1]
@@ -41,8 +44,9 @@
    :        ^^^^^^
    `----
   x SimpleBlock
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/XVEwpuBI9VyrQMNs3Ow9Ag/input.css:1:16]
- 1 | `->  
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/XVEwpuBI9VyrQMNs3Ow9Ag/input.css:1:1]
+ 1 | @media screen {}
+   :               ^^
    `----
   x LBrace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/XVEwpuBI9VyrQMNs3Ow9Ag/input.css:1:1]

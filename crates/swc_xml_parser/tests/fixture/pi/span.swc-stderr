@@ -1,37 +1,112 @@
   x Document
-   ,-[$DIR/tests/fixture/pi/input.xml:1:2]
- 1 | |    
-   `----
+    ,-[$DIR/tests/fixture/pi/input.xml:1:1]
+  1 | ,-> <?xml-stylesheet type="text/xsl" href="/Content/Glossary/main.xsl"?>
+  2 | |   <root>
+  3 | |       <?xslt ma?>
+  4 | |       <?xslt
+  5 | |               m?>
+  6 | |       <?xslt?>
+  7 | |       <?xslt ?>
+  8 | |       <?xml-stylesheet?>
+  9 | |       <?foo version="1.0"?>
+ 10 | |       <?foo version='1.0'?>
+ 11 | |       <?foo version='1.0' encoding="UTF-8"?>
+ 12 | |       <?foo version='1.0' encoding='UTF-8'?>
+ 13 | |       <?foo version='1.0' encoding='utf-8'?>
+ 14 | |       <?foo version='1.0' encoding='EUC-JP'?>
+ 15 | |       <?foo version='1.0' encoding='UTF-8' standalone='yes'?>
+ 16 | |       <?foo version='1.0' encoding='UTF-8' standalone='no'?>
+ 17 | |       <?foo version='1.0' standalone='no'?>
+ 18 | |       <?foo version='1.0' standalone='no' ?>
+ 19 | |       <?foo?>
+ 20 | |       <?f ?oo?>
+ 21 | |       <?f ?oo??>
+ 22 | |       <?f ??????>
+ 23 | |       <?test aaa ?>
+ 24 | |       <?test ? ?>
+ 25 | |       <?test a a a ?>
+ 26 | `-> </root>
+    `----
   x Child
    ,-[$DIR/tests/fixture/pi/input.xml:1:1]
  1 | <?xml-stylesheet type="text/xsl" href="/Content/Glossary/main.xsl"?>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  2 | <root>
- 3 |     <?xslt ma?>
    `----
   x ProcessingInstruction
    ,-[$DIR/tests/fixture/pi/input.xml:1:1]
  1 | <?xml-stylesheet type="text/xsl" href="/Content/Glossary/main.xsl"?>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  2 | <root>
- 3 |     <?xslt ma?>
    `----
   x Child
-   ,-[$DIR/tests/fixture/pi/input.xml:2:2]
- 2 | |    
-   `----
+    ,-[$DIR/tests/fixture/pi/input.xml:2:1]
+  1 |     <?xml-stylesheet type="text/xsl" href="/Content/Glossary/main.xsl"?>
+  2 | ,-> <root>
+  3 | |       <?xslt ma?>
+  4 | |       <?xslt
+  5 | |               m?>
+  6 | |       <?xslt?>
+  7 | |       <?xslt ?>
+  8 | |       <?xml-stylesheet?>
+  9 | |       <?foo version="1.0"?>
+ 10 | |       <?foo version='1.0'?>
+ 11 | |       <?foo version='1.0' encoding="UTF-8"?>
+ 12 | |       <?foo version='1.0' encoding='UTF-8'?>
+ 13 | |       <?foo version='1.0' encoding='utf-8'?>
+ 14 | |       <?foo version='1.0' encoding='EUC-JP'?>
+ 15 | |       <?foo version='1.0' encoding='UTF-8' standalone='yes'?>
+ 16 | |       <?foo version='1.0' encoding='UTF-8' standalone='no'?>
+ 17 | |       <?foo version='1.0' standalone='no'?>
+ 18 | |       <?foo version='1.0' standalone='no' ?>
+ 19 | |       <?foo?>
+ 20 | |       <?f ?oo?>
+ 21 | |       <?f ?oo??>
+ 22 | |       <?f ??????>
+ 23 | |       <?test aaa ?>
+ 24 | |       <?test ? ?>
+ 25 | |       <?test a a a ?>
+ 26 | `-> </root>
+    `----
   x Element
-   ,-[$DIR/tests/fixture/pi/input.xml:2:2]
- 2 | |    
-   `----
+    ,-[$DIR/tests/fixture/pi/input.xml:2:1]
+  1 |     <?xml-stylesheet type="text/xsl" href="/Content/Glossary/main.xsl"?>
+  2 | ,-> <root>
+  3 | |       <?xslt ma?>
+  4 | |       <?xslt
+  5 | |               m?>
+  6 | |       <?xslt?>
+  7 | |       <?xslt ?>
+  8 | |       <?xml-stylesheet?>
+  9 | |       <?foo version="1.0"?>
+ 10 | |       <?foo version='1.0'?>
+ 11 | |       <?foo version='1.0' encoding="UTF-8"?>
+ 12 | |       <?foo version='1.0' encoding='UTF-8'?>
+ 13 | |       <?foo version='1.0' encoding='utf-8'?>
+ 14 | |       <?foo version='1.0' encoding='EUC-JP'?>
+ 15 | |       <?foo version='1.0' encoding='UTF-8' standalone='yes'?>
+ 16 | |       <?foo version='1.0' encoding='UTF-8' standalone='no'?>
+ 17 | |       <?foo version='1.0' standalone='no'?>
+ 18 | |       <?foo version='1.0' standalone='no' ?>
+ 19 | |       <?foo?>
+ 20 | |       <?f ?oo?>
+ 21 | |       <?f ?oo??>
+ 22 | |       <?f ??????>
+ 23 | |       <?test aaa ?>
+ 24 | |       <?test ? ?>
+ 25 | |       <?test a a a ?>
+ 26 | `-> </root>
+    `----
   x Child
-   ,-[$DIR/tests/fixture/pi/input.xml:3:1]
+   ,-[$DIR/tests/fixture/pi/input.xml:2:1]
+ 1 |     <?xml-stylesheet type="text/xsl" href="/Content/Glossary/main.xsl"?>
  2 | ,-> <root>
  3 | `->     <?xslt ma?>
  4 |         <?xslt
    `----
   x Text
-   ,-[$DIR/tests/fixture/pi/input.xml:3:1]
+   ,-[$DIR/tests/fixture/pi/input.xml:2:1]
+ 1 |     <?xml-stylesheet type="text/xsl" href="/Content/Glossary/main.xsl"?>
  2 | ,-> <root>
  3 | `->     <?xslt ma?>
  4 |         <?xslt
@@ -42,7 +117,6 @@
  3 |     <?xslt ma?>
    :     ^^^^^^^^^^^
  4 |     <?xslt
- 5 |             m?>
    `----
   x ProcessingInstruction
    ,-[$DIR/tests/fixture/pi/input.xml:3:1]
@@ -50,16 +124,17 @@
  3 |     <?xslt ma?>
    :     ^^^^^^^^^^^
  4 |     <?xslt
- 5 |             m?>
    `----
   x Child
-   ,-[$DIR/tests/fixture/pi/input.xml:4:1]
+   ,-[$DIR/tests/fixture/pi/input.xml:3:1]
+ 2 |     <root>
  3 | ,->     <?xslt ma?>
  4 | `->     <?xslt
  5 |                 m?>
    `----
   x Text
-   ,-[$DIR/tests/fixture/pi/input.xml:4:1]
+   ,-[$DIR/tests/fixture/pi/input.xml:3:1]
+ 2 |     <root>
  3 | ,->     <?xslt ma?>
  4 | `->     <?xslt
  5 |                 m?>
@@ -70,7 +145,6 @@
  4 | ,->     <?xslt
  5 | `->             m?>
  6 |         <?xslt?>
- 7 |         <?xslt ?>
    `----
   x ProcessingInstruction
    ,-[$DIR/tests/fixture/pi/input.xml:4:1]
@@ -78,16 +152,17 @@
  4 | ,->     <?xslt
  5 | `->             m?>
  6 |         <?xslt?>
- 7 |         <?xslt ?>
    `----
   x Child
-   ,-[$DIR/tests/fixture/pi/input.xml:6:1]
+   ,-[$DIR/tests/fixture/pi/input.xml:5:1]
+ 4 |         <?xslt
  5 | ,->             m?>
  6 | `->     <?xslt?>
  7 |         <?xslt ?>
    `----
   x Text
-   ,-[$DIR/tests/fixture/pi/input.xml:6:1]
+   ,-[$DIR/tests/fixture/pi/input.xml:5:1]
+ 4 |         <?xslt
  5 | ,->             m?>
  6 | `->     <?xslt?>
  7 |         <?xslt ?>
@@ -98,7 +173,6 @@
  6 |     <?xslt?>
    :     ^^^^^^^^
  7 |     <?xslt ?>
- 8 |     <?xml-stylesheet?>
    `----
   x ProcessingInstruction
    ,-[$DIR/tests/fixture/pi/input.xml:6:1]
@@ -106,16 +180,17 @@
  6 |     <?xslt?>
    :     ^^^^^^^^
  7 |     <?xslt ?>
- 8 |     <?xml-stylesheet?>
    `----
   x Child
-   ,-[$DIR/tests/fixture/pi/input.xml:7:1]
+   ,-[$DIR/tests/fixture/pi/input.xml:6:1]
+ 5 |                 m?>
  6 | ,->     <?xslt?>
  7 | `->     <?xslt ?>
  8 |         <?xml-stylesheet?>
    `----
   x Text
-   ,-[$DIR/tests/fixture/pi/input.xml:7:1]
+   ,-[$DIR/tests/fixture/pi/input.xml:6:1]
+ 5 |                 m?>
  6 | ,->     <?xslt?>
  7 | `->     <?xslt ?>
  8 |         <?xml-stylesheet?>
@@ -126,7 +201,6 @@
  7 |     <?xslt ?>
    :     ^^^^^^^^^
  8 |     <?xml-stylesheet?>
- 9 |     <?foo version="1.0"?>
    `----
   x ProcessingInstruction
    ,-[$DIR/tests/fixture/pi/input.xml:7:1]
@@ -134,44 +208,45 @@
  7 |     <?xslt ?>
    :     ^^^^^^^^^
  8 |     <?xml-stylesheet?>
+   `----
+  x Child
+   ,-[$DIR/tests/fixture/pi/input.xml:7:1]
+ 6 |         <?xslt?>
+ 7 | ,->     <?xslt ?>
+ 8 | `->     <?xml-stylesheet?>
+ 9 |         <?foo version="1.0"?>
+   `----
+  x Text
+   ,-[$DIR/tests/fixture/pi/input.xml:7:1]
+ 6 |         <?xslt?>
+ 7 | ,->     <?xslt ?>
+ 8 | `->     <?xml-stylesheet?>
+ 9 |         <?foo version="1.0"?>
+   `----
+  x Child
+   ,-[$DIR/tests/fixture/pi/input.xml:8:1]
+ 7 |     <?xslt ?>
+ 8 |     <?xml-stylesheet?>
+   :     ^^^^^^^^^^^^^^^^^^
+ 9 |     <?foo version="1.0"?>
+   `----
+  x ProcessingInstruction
+   ,-[$DIR/tests/fixture/pi/input.xml:8:1]
+ 7 |     <?xslt ?>
+ 8 |     <?xml-stylesheet?>
+   :     ^^^^^^^^^^^^^^^^^^
  9 |     <?foo version="1.0"?>
    `----
   x Child
-   ,-[$DIR/tests/fixture/pi/input.xml:8:1]
- 7 | ,->     <?xslt ?>
- 8 | `->     <?xml-stylesheet?>
- 9 |         <?foo version="1.0"?>
-   `----
-  x Text
-   ,-[$DIR/tests/fixture/pi/input.xml:8:1]
- 7 | ,->     <?xslt ?>
- 8 | `->     <?xml-stylesheet?>
- 9 |         <?foo version="1.0"?>
-   `----
-  x Child
     ,-[$DIR/tests/fixture/pi/input.xml:8:1]
-  7 |     <?xslt ?>
-  8 |     <?xml-stylesheet?>
-    :     ^^^^^^^^^^^^^^^^^^
-  9 |     <?foo version="1.0"?>
- 10 |     <?foo version='1.0'?>
-    `----
-  x ProcessingInstruction
-    ,-[$DIR/tests/fixture/pi/input.xml:8:1]
-  7 |     <?xslt ?>
-  8 |     <?xml-stylesheet?>
-    :     ^^^^^^^^^^^^^^^^^^
-  9 |     <?foo version="1.0"?>
- 10 |     <?foo version='1.0'?>
-    `----
-  x Child
-    ,-[$DIR/tests/fixture/pi/input.xml:9:1]
+  7 |         <?xslt ?>
   8 | ,->     <?xml-stylesheet?>
   9 | `->     <?foo version="1.0"?>
  10 |         <?foo version='1.0'?>
     `----
   x Text
-    ,-[$DIR/tests/fixture/pi/input.xml:9:1]
+    ,-[$DIR/tests/fixture/pi/input.xml:8:1]
+  7 |         <?xslt ?>
   8 | ,->     <?xml-stylesheet?>
   9 | `->     <?foo version="1.0"?>
  10 |         <?foo version='1.0'?>
@@ -182,7 +257,6 @@
   9 |     <?foo version="1.0"?>
     :     ^^^^^^^^^^^^^^^^^^^^^
  10 |     <?foo version='1.0'?>
- 11 |     <?foo version='1.0' encoding="UTF-8"?>
     `----
   x ProcessingInstruction
     ,-[$DIR/tests/fixture/pi/input.xml:9:1]
@@ -190,16 +264,17 @@
   9 |     <?foo version="1.0"?>
     :     ^^^^^^^^^^^^^^^^^^^^^
  10 |     <?foo version='1.0'?>
- 11 |     <?foo version='1.0' encoding="UTF-8"?>
     `----
   x Child
-    ,-[$DIR/tests/fixture/pi/input.xml:10:1]
+    ,-[$DIR/tests/fixture/pi/input.xml:9:1]
+  8 |         <?xml-stylesheet?>
   9 | ,->     <?foo version="1.0"?>
  10 | `->     <?foo version='1.0'?>
  11 |         <?foo version='1.0' encoding="UTF-8"?>
     `----
   x Text
-    ,-[$DIR/tests/fixture/pi/input.xml:10:1]
+    ,-[$DIR/tests/fixture/pi/input.xml:9:1]
+  8 |         <?xml-stylesheet?>
   9 | ,->     <?foo version="1.0"?>
  10 | `->     <?foo version='1.0'?>
  11 |         <?foo version='1.0' encoding="UTF-8"?>
@@ -210,7 +285,6 @@
  10 |     <?foo version='1.0'?>
     :     ^^^^^^^^^^^^^^^^^^^^^
  11 |     <?foo version='1.0' encoding="UTF-8"?>
- 12 |     <?foo version='1.0' encoding='UTF-8'?>
     `----
   x ProcessingInstruction
     ,-[$DIR/tests/fixture/pi/input.xml:10:1]
@@ -218,16 +292,17 @@
  10 |     <?foo version='1.0'?>
     :     ^^^^^^^^^^^^^^^^^^^^^
  11 |     <?foo version='1.0' encoding="UTF-8"?>
- 12 |     <?foo version='1.0' encoding='UTF-8'?>
     `----
   x Child
-    ,-[$DIR/tests/fixture/pi/input.xml:11:1]
+    ,-[$DIR/tests/fixture/pi/input.xml:10:1]
+  9 |         <?foo version="1.0"?>
  10 | ,->     <?foo version='1.0'?>
  11 | `->     <?foo version='1.0' encoding="UTF-8"?>
  12 |         <?foo version='1.0' encoding='UTF-8'?>
     `----
   x Text
-    ,-[$DIR/tests/fixture/pi/input.xml:11:1]
+    ,-[$DIR/tests/fixture/pi/input.xml:10:1]
+  9 |         <?foo version="1.0"?>
  10 | ,->     <?foo version='1.0'?>
  11 | `->     <?foo version='1.0' encoding="UTF-8"?>
  12 |         <?foo version='1.0' encoding='UTF-8'?>
@@ -238,7 +313,6 @@
  11 |     <?foo version='1.0' encoding="UTF-8"?>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  12 |     <?foo version='1.0' encoding='UTF-8'?>
- 13 |     <?foo version='1.0' encoding='utf-8'?>
     `----
   x ProcessingInstruction
     ,-[$DIR/tests/fixture/pi/input.xml:11:1]
@@ -246,16 +320,17 @@
  11 |     <?foo version='1.0' encoding="UTF-8"?>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  12 |     <?foo version='1.0' encoding='UTF-8'?>
- 13 |     <?foo version='1.0' encoding='utf-8'?>
     `----
   x Child
-    ,-[$DIR/tests/fixture/pi/input.xml:12:1]
+    ,-[$DIR/tests/fixture/pi/input.xml:11:1]
+ 10 |         <?foo version='1.0'?>
  11 | ,->     <?foo version='1.0' encoding="UTF-8"?>
  12 | `->     <?foo version='1.0' encoding='UTF-8'?>
  13 |         <?foo version='1.0' encoding='utf-8'?>
     `----
   x Text
-    ,-[$DIR/tests/fixture/pi/input.xml:12:1]
+    ,-[$DIR/tests/fixture/pi/input.xml:11:1]
+ 10 |         <?foo version='1.0'?>
  11 | ,->     <?foo version='1.0' encoding="UTF-8"?>
  12 | `->     <?foo version='1.0' encoding='UTF-8'?>
  13 |         <?foo version='1.0' encoding='utf-8'?>
@@ -266,7 +341,6 @@
  12 |     <?foo version='1.0' encoding='UTF-8'?>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  13 |     <?foo version='1.0' encoding='utf-8'?>
- 14 |     <?foo version='1.0' encoding='EUC-JP'?>
     `----
   x ProcessingInstruction
     ,-[$DIR/tests/fixture/pi/input.xml:12:1]
@@ -274,16 +348,17 @@
  12 |     <?foo version='1.0' encoding='UTF-8'?>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  13 |     <?foo version='1.0' encoding='utf-8'?>
- 14 |     <?foo version='1.0' encoding='EUC-JP'?>
     `----
   x Child
-    ,-[$DIR/tests/fixture/pi/input.xml:13:1]
+    ,-[$DIR/tests/fixture/pi/input.xml:12:1]
+ 11 |         <?foo version='1.0' encoding="UTF-8"?>
  12 | ,->     <?foo version='1.0' encoding='UTF-8'?>
  13 | `->     <?foo version='1.0' encoding='utf-8'?>
  14 |         <?foo version='1.0' encoding='EUC-JP'?>
     `----
   x Text
-    ,-[$DIR/tests/fixture/pi/input.xml:13:1]
+    ,-[$DIR/tests/fixture/pi/input.xml:12:1]
+ 11 |         <?foo version='1.0' encoding="UTF-8"?>
  12 | ,->     <?foo version='1.0' encoding='UTF-8'?>
  13 | `->     <?foo version='1.0' encoding='utf-8'?>
  14 |         <?foo version='1.0' encoding='EUC-JP'?>
@@ -294,7 +369,6 @@
  13 |     <?foo version='1.0' encoding='utf-8'?>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  14 |     <?foo version='1.0' encoding='EUC-JP'?>
- 15 |     <?foo version='1.0' encoding='UTF-8' standalone='yes'?>
     `----
   x ProcessingInstruction
     ,-[$DIR/tests/fixture/pi/input.xml:13:1]
@@ -302,16 +376,17 @@
  13 |     <?foo version='1.0' encoding='utf-8'?>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  14 |     <?foo version='1.0' encoding='EUC-JP'?>
- 15 |     <?foo version='1.0' encoding='UTF-8' standalone='yes'?>
     `----
   x Child
-    ,-[$DIR/tests/fixture/pi/input.xml:14:1]
+    ,-[$DIR/tests/fixture/pi/input.xml:13:1]
+ 12 |         <?foo version='1.0' encoding='UTF-8'?>
  13 | ,->     <?foo version='1.0' encoding='utf-8'?>
  14 | `->     <?foo version='1.0' encoding='EUC-JP'?>
  15 |         <?foo version='1.0' encoding='UTF-8' standalone='yes'?>
     `----
   x Text
-    ,-[$DIR/tests/fixture/pi/input.xml:14:1]
+    ,-[$DIR/tests/fixture/pi/input.xml:13:1]
+ 12 |         <?foo version='1.0' encoding='UTF-8'?>
  13 | ,->     <?foo version='1.0' encoding='utf-8'?>
  14 | `->     <?foo version='1.0' encoding='EUC-JP'?>
  15 |         <?foo version='1.0' encoding='UTF-8' standalone='yes'?>
@@ -322,7 +397,6 @@
  14 |     <?foo version='1.0' encoding='EUC-JP'?>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  15 |     <?foo version='1.0' encoding='UTF-8' standalone='yes'?>
- 16 |     <?foo version='1.0' encoding='UTF-8' standalone='no'?>
     `----
   x ProcessingInstruction
     ,-[$DIR/tests/fixture/pi/input.xml:14:1]
@@ -330,16 +404,17 @@
  14 |     <?foo version='1.0' encoding='EUC-JP'?>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  15 |     <?foo version='1.0' encoding='UTF-8' standalone='yes'?>
- 16 |     <?foo version='1.0' encoding='UTF-8' standalone='no'?>
     `----
   x Child
-    ,-[$DIR/tests/fixture/pi/input.xml:15:1]
+    ,-[$DIR/tests/fixture/pi/input.xml:14:1]
+ 13 |         <?foo version='1.0' encoding='utf-8'?>
  14 | ,->     <?foo version='1.0' encoding='EUC-JP'?>
  15 | `->     <?foo version='1.0' encoding='UTF-8' standalone='yes'?>
  16 |         <?foo version='1.0' encoding='UTF-8' standalone='no'?>
     `----
   x Text
-    ,-[$DIR/tests/fixture/pi/input.xml:15:1]
+    ,-[$DIR/tests/fixture/pi/input.xml:14:1]
+ 13 |         <?foo version='1.0' encoding='utf-8'?>
  14 | ,->     <?foo version='1.0' encoding='EUC-JP'?>
  15 | `->     <?foo version='1.0' encoding='UTF-8' standalone='yes'?>
  16 |         <?foo version='1.0' encoding='UTF-8' standalone='no'?>
@@ -350,7 +425,6 @@
  15 |     <?foo version='1.0' encoding='UTF-8' standalone='yes'?>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  16 |     <?foo version='1.0' encoding='UTF-8' standalone='no'?>
- 17 |     <?foo version='1.0' standalone='no'?>
     `----
   x ProcessingInstruction
     ,-[$DIR/tests/fixture/pi/input.xml:15:1]
@@ -358,16 +432,17 @@
  15 |     <?foo version='1.0' encoding='UTF-8' standalone='yes'?>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  16 |     <?foo version='1.0' encoding='UTF-8' standalone='no'?>
- 17 |     <?foo version='1.0' standalone='no'?>
     `----
   x Child
-    ,-[$DIR/tests/fixture/pi/input.xml:16:1]
+    ,-[$DIR/tests/fixture/pi/input.xml:15:1]
+ 14 |         <?foo version='1.0' encoding='EUC-JP'?>
  15 | ,->     <?foo version='1.0' encoding='UTF-8' standalone='yes'?>
  16 | `->     <?foo version='1.0' encoding='UTF-8' standalone='no'?>
  17 |         <?foo version='1.0' standalone='no'?>
     `----
   x Text
-    ,-[$DIR/tests/fixture/pi/input.xml:16:1]
+    ,-[$DIR/tests/fixture/pi/input.xml:15:1]
+ 14 |         <?foo version='1.0' encoding='EUC-JP'?>
  15 | ,->     <?foo version='1.0' encoding='UTF-8' standalone='yes'?>
  16 | `->     <?foo version='1.0' encoding='UTF-8' standalone='no'?>
  17 |         <?foo version='1.0' standalone='no'?>
@@ -378,7 +453,6 @@
  16 |     <?foo version='1.0' encoding='UTF-8' standalone='no'?>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  17 |     <?foo version='1.0' standalone='no'?>
- 18 |     <?foo version='1.0' standalone='no' ?>
     `----
   x ProcessingInstruction
     ,-[$DIR/tests/fixture/pi/input.xml:16:1]
@@ -386,16 +460,17 @@
  16 |     <?foo version='1.0' encoding='UTF-8' standalone='no'?>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  17 |     <?foo version='1.0' standalone='no'?>
- 18 |     <?foo version='1.0' standalone='no' ?>
     `----
   x Child
-    ,-[$DIR/tests/fixture/pi/input.xml:17:1]
+    ,-[$DIR/tests/fixture/pi/input.xml:16:1]
+ 15 |         <?foo version='1.0' encoding='UTF-8' standalone='yes'?>
  16 | ,->     <?foo version='1.0' encoding='UTF-8' standalone='no'?>
  17 | `->     <?foo version='1.0' standalone='no'?>
  18 |         <?foo version='1.0' standalone='no' ?>
     `----
   x Text
-    ,-[$DIR/tests/fixture/pi/input.xml:17:1]
+    ,-[$DIR/tests/fixture/pi/input.xml:16:1]
+ 15 |         <?foo version='1.0' encoding='UTF-8' standalone='yes'?>
  16 | ,->     <?foo version='1.0' encoding='UTF-8' standalone='no'?>
  17 | `->     <?foo version='1.0' standalone='no'?>
  18 |         <?foo version='1.0' standalone='no' ?>
@@ -406,7 +481,6 @@
  17 |     <?foo version='1.0' standalone='no'?>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  18 |     <?foo version='1.0' standalone='no' ?>
- 19 |     <?foo?>
     `----
   x ProcessingInstruction
     ,-[$DIR/tests/fixture/pi/input.xml:17:1]
@@ -414,16 +488,17 @@
  17 |     <?foo version='1.0' standalone='no'?>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  18 |     <?foo version='1.0' standalone='no' ?>
- 19 |     <?foo?>
     `----
   x Child
-    ,-[$DIR/tests/fixture/pi/input.xml:18:1]
+    ,-[$DIR/tests/fixture/pi/input.xml:17:1]
+ 16 |         <?foo version='1.0' encoding='UTF-8' standalone='no'?>
  17 | ,->     <?foo version='1.0' standalone='no'?>
  18 | `->     <?foo version='1.0' standalone='no' ?>
  19 |         <?foo?>
     `----
   x Text
-    ,-[$DIR/tests/fixture/pi/input.xml:18:1]
+    ,-[$DIR/tests/fixture/pi/input.xml:17:1]
+ 16 |         <?foo version='1.0' encoding='UTF-8' standalone='no'?>
  17 | ,->     <?foo version='1.0' standalone='no'?>
  18 | `->     <?foo version='1.0' standalone='no' ?>
  19 |         <?foo?>
@@ -434,7 +509,6 @@
  18 |     <?foo version='1.0' standalone='no' ?>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  19 |     <?foo?>
- 20 |     <?f ?oo?>
     `----
   x ProcessingInstruction
     ,-[$DIR/tests/fixture/pi/input.xml:18:1]
@@ -442,16 +516,17 @@
  18 |     <?foo version='1.0' standalone='no' ?>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  19 |     <?foo?>
- 20 |     <?f ?oo?>
     `----
   x Child
-    ,-[$DIR/tests/fixture/pi/input.xml:19:1]
+    ,-[$DIR/tests/fixture/pi/input.xml:18:1]
+ 17 |         <?foo version='1.0' standalone='no'?>
  18 | ,->     <?foo version='1.0' standalone='no' ?>
  19 | `->     <?foo?>
  20 |         <?f ?oo?>
     `----
   x Text
-    ,-[$DIR/tests/fixture/pi/input.xml:19:1]
+    ,-[$DIR/tests/fixture/pi/input.xml:18:1]
+ 17 |         <?foo version='1.0' standalone='no'?>
  18 | ,->     <?foo version='1.0' standalone='no' ?>
  19 | `->     <?foo?>
  20 |         <?f ?oo?>
@@ -462,7 +537,6 @@
  19 |     <?foo?>
     :     ^^^^^^^
  20 |     <?f ?oo?>
- 21 |     <?f ?oo??>
     `----
   x ProcessingInstruction
     ,-[$DIR/tests/fixture/pi/input.xml:19:1]
@@ -470,16 +544,17 @@
  19 |     <?foo?>
     :     ^^^^^^^
  20 |     <?f ?oo?>
- 21 |     <?f ?oo??>
     `----
   x Child
-    ,-[$DIR/tests/fixture/pi/input.xml:20:1]
+    ,-[$DIR/tests/fixture/pi/input.xml:19:1]
+ 18 |         <?foo version='1.0' standalone='no' ?>
  19 | ,->     <?foo?>
  20 | `->     <?f ?oo?>
  21 |         <?f ?oo??>
     `----
   x Text
-    ,-[$DIR/tests/fixture/pi/input.xml:20:1]
+    ,-[$DIR/tests/fixture/pi/input.xml:19:1]
+ 18 |         <?foo version='1.0' standalone='no' ?>
  19 | ,->     <?foo?>
  20 | `->     <?f ?oo?>
  21 |         <?f ?oo??>
@@ -490,7 +565,6 @@
  20 |     <?f ?oo?>
     :     ^^^^^^^^^
  21 |     <?f ?oo??>
- 22 |     <?f ??????>
     `----
   x ProcessingInstruction
     ,-[$DIR/tests/fixture/pi/input.xml:20:1]
@@ -498,16 +572,17 @@
  20 |     <?f ?oo?>
     :     ^^^^^^^^^
  21 |     <?f ?oo??>
- 22 |     <?f ??????>
     `----
   x Child
-    ,-[$DIR/tests/fixture/pi/input.xml:21:1]
+    ,-[$DIR/tests/fixture/pi/input.xml:20:1]
+ 19 |         <?foo?>
  20 | ,->     <?f ?oo?>
  21 | `->     <?f ?oo??>
  22 |         <?f ??????>
     `----
   x Text
-    ,-[$DIR/tests/fixture/pi/input.xml:21:1]
+    ,-[$DIR/tests/fixture/pi/input.xml:20:1]
+ 19 |         <?foo?>
  20 | ,->     <?f ?oo?>
  21 | `->     <?f ?oo??>
  22 |         <?f ??????>
@@ -518,7 +593,6 @@
  21 |     <?f ?oo??>
     :     ^^^^^^^^^^
  22 |     <?f ??????>
- 23 |     <?test aaa ?>
     `----
   x ProcessingInstruction
     ,-[$DIR/tests/fixture/pi/input.xml:21:1]
@@ -526,16 +600,17 @@
  21 |     <?f ?oo??>
     :     ^^^^^^^^^^
  22 |     <?f ??????>
- 23 |     <?test aaa ?>
     `----
   x Child
-    ,-[$DIR/tests/fixture/pi/input.xml:22:1]
+    ,-[$DIR/tests/fixture/pi/input.xml:21:1]
+ 20 |         <?f ?oo?>
  21 | ,->     <?f ?oo??>
  22 | `->     <?f ??????>
  23 |         <?test aaa ?>
     `----
   x Text
-    ,-[$DIR/tests/fixture/pi/input.xml:22:1]
+    ,-[$DIR/tests/fixture/pi/input.xml:21:1]
+ 20 |         <?f ?oo?>
  21 | ,->     <?f ?oo??>
  22 | `->     <?f ??????>
  23 |         <?test aaa ?>
@@ -546,7 +621,6 @@
  22 |     <?f ??????>
     :     ^^^^^^^^^^^
  23 |     <?test aaa ?>
- 24 |     <?test ? ?>
     `----
   x ProcessingInstruction
     ,-[$DIR/tests/fixture/pi/input.xml:22:1]
@@ -554,16 +628,17 @@
  22 |     <?f ??????>
     :     ^^^^^^^^^^^
  23 |     <?test aaa ?>
- 24 |     <?test ? ?>
     `----
   x Child
-    ,-[$DIR/tests/fixture/pi/input.xml:23:1]
+    ,-[$DIR/tests/fixture/pi/input.xml:22:1]
+ 21 |         <?f ?oo??>
  22 | ,->     <?f ??????>
  23 | `->     <?test aaa ?>
  24 |         <?test ? ?>
     `----
   x Text
-    ,-[$DIR/tests/fixture/pi/input.xml:23:1]
+    ,-[$DIR/tests/fixture/pi/input.xml:22:1]
+ 21 |         <?f ?oo??>
  22 | ,->     <?f ??????>
  23 | `->     <?test aaa ?>
  24 |         <?test ? ?>
@@ -574,7 +649,6 @@
  23 |     <?test aaa ?>
     :     ^^^^^^^^^^^^^
  24 |     <?test ? ?>
- 25 |     <?test a a a ?>
     `----
   x ProcessingInstruction
     ,-[$DIR/tests/fixture/pi/input.xml:23:1]
@@ -582,16 +656,17 @@
  23 |     <?test aaa ?>
     :     ^^^^^^^^^^^^^
  24 |     <?test ? ?>
- 25 |     <?test a a a ?>
     `----
   x Child
-    ,-[$DIR/tests/fixture/pi/input.xml:24:1]
+    ,-[$DIR/tests/fixture/pi/input.xml:23:1]
+ 22 |         <?f ??????>
  23 | ,->     <?test aaa ?>
  24 | `->     <?test ? ?>
  25 |         <?test a a a ?>
     `----
   x Text
-    ,-[$DIR/tests/fixture/pi/input.xml:24:1]
+    ,-[$DIR/tests/fixture/pi/input.xml:23:1]
+ 22 |         <?f ??????>
  23 | ,->     <?test aaa ?>
  24 | `->     <?test ? ?>
  25 |         <?test a a a ?>
@@ -602,7 +677,6 @@
  24 |     <?test ? ?>
     :     ^^^^^^^^^^^
  25 |     <?test a a a ?>
- 26 | </root>
     `----
   x ProcessingInstruction
     ,-[$DIR/tests/fixture/pi/input.xml:24:1]
@@ -610,16 +684,17 @@
  24 |     <?test ? ?>
     :     ^^^^^^^^^^^
  25 |     <?test a a a ?>
- 26 | </root>
     `----
   x Child
-    ,-[$DIR/tests/fixture/pi/input.xml:25:1]
+    ,-[$DIR/tests/fixture/pi/input.xml:24:1]
+ 23 |         <?test aaa ?>
  24 | ,->     <?test ? ?>
  25 | `->     <?test a a a ?>
  26 |     </root>
     `----
   x Text
-    ,-[$DIR/tests/fixture/pi/input.xml:25:1]
+    ,-[$DIR/tests/fixture/pi/input.xml:24:1]
+ 23 |         <?test aaa ?>
  24 | ,->     <?test ? ?>
  25 | `->     <?test a a a ?>
  26 |     </root>
@@ -639,13 +714,15 @@
  26 | </root>
     `----
   x Child
-    ,-[$DIR/tests/fixture/pi/input.xml:26:1]
+    ,-[$DIR/tests/fixture/pi/input.xml:25:1]
+ 24 |     <?test ? ?>
  25 |     <?test a a a ?>
     :                    ^
  26 | </root>
     `----
   x Text
-    ,-[$DIR/tests/fixture/pi/input.xml:26:1]
+    ,-[$DIR/tests/fixture/pi/input.xml:25:1]
+ 24 |     <?test ? ?>
  25 |     <?test a a a ?>
     :                    ^
  26 | </root>

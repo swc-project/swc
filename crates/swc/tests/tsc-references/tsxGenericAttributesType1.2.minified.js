@@ -7,5 +7,4 @@
 //!  3 | 
 //!  4 | const decorator = function <T>(Component: React.StatelessComponent<T>): React.StatelessComponent<T> {
 //!  5 |     return (props) => <Component {...props}></Component>
-//!  6 | };
 //!    `----

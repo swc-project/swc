@@ -1,6 +1,7 @@
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/scripted_adoption01_dat.0.script_on.html:1:2]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/scripted_adoption01_dat.0.script_on.html:1:1]
+ 1 | <p><b id="A"><script>document.getElementById("A").id = "B"</script></p>TEXT</b>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Child
   x Element
@@ -50,12 +51,14 @@
    :                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/scripted_adoption01_dat.0.script_on.html:1:5]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/scripted_adoption01_dat.0.script_on.html:1:1]
+ 1 | <p><b id="A"><script>document.getElementById("A").id = "B"</script></p>TEXT</b>
+   :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/scripted_adoption01_dat.0.script_on.html:1:5]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/scripted_adoption01_dat.0.script_on.html:1:1]
+ 1 | <p><b id="A"><script>document.getElementById("A").id = "B"</script></p>TEXT</b>
+   :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/scripted_adoption01_dat.0.script_on.html:1:1]

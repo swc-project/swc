@@ -1,7 +1,30 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/at-rule/document/input.css:1:2]
- 1 | |    
-   `----
+    ,-[$DIR/tests/fixture/at-rule/document/input.css:1:1]
+  1 | ,-> @document url("https://www.example.com/") {
+  2 | |       h1 {
+  3 | |           color: green;
+  4 | |       }
+  5 | |   }
+  6 | |   
+  7 | |   @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
+  8 | |       body {
+  9 | |           color: purple;
+ 10 | |           background: yellow;
+ 11 | |       }
+ 12 | |   }
+ 13 | |   
+ 14 | |   @document url(https://www.example.com/) {}
+ 15 | |   @-moz-document url("https://www.example.com/") {}
+ 16 | |   @-moz-document/* near */ /* filter */ url("example.com/{") /* a */ {}
+ 17 | |   
+ 18 | |   @document url("https://www.example.com/") {
+ 19 | |       @media screen and (min-width: 900px) {
+ 20 | |           article {
+ 21 | |               padding: 1rem 3rem;
+ 22 | |           }
+ 23 | |       }
+ 24 | `-> }
+    `----
   x Rule
    ,-[$DIR/tests/fixture/at-rule/document/input.css:1:1]
  1 | ,-> @document url("https://www.example.com/") {
@@ -9,8 +32,6 @@
  3 | |           color: green;
  4 | |       }
  5 | `-> }
- 6 |     
- 7 |     @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
    `----
   x AtRule
    ,-[$DIR/tests/fixture/at-rule/document/input.css:1:1]
@@ -19,8 +40,6 @@
  3 | |           color: green;
  4 | |       }
  5 | `-> }
- 6 |     
- 7 |     @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
    `----
   x AtRuleName
    ,-[$DIR/tests/fixture/at-rule/document/input.css:1:1]
@@ -65,15 +84,12 @@
  3 | |           color: green;
  4 | |       }
  5 | `-> }
- 6 |     
- 7 |     @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
    `----
   x LBrace
    ,-[$DIR/tests/fixture/at-rule/document/input.css:1:1]
  1 | @document url("https://www.example.com/") {
    :                                           ^
  2 |     h1 {
- 3 |         color: green;
    `----
   x ComponentValue
    ,-[$DIR/tests/fixture/at-rule/document/input.css:2:1]
@@ -154,7 +170,6 @@
  2 |     h1 {
    :        ^
  3 |         color: green;
- 4 |     }
    `----
   x ComponentValue
    ,-[$DIR/tests/fixture/at-rule/document/input.css:3:1]
@@ -207,8 +222,6 @@
  10 | |           background: yellow;
  11 | |       }
  12 | `-> }
- 13 |     
- 14 |     @document url(https://www.example.com/) {}
     `----
   x AtRule
     ,-[$DIR/tests/fixture/at-rule/document/input.css:7:1]
@@ -219,8 +232,6 @@
  10 | |           background: yellow;
  11 | |       }
  12 | `-> }
- 13 |     
- 14 |     @document url(https://www.example.com/) {}
     `----
   x AtRuleName
    ,-[$DIR/tests/fixture/at-rule/document/input.css:7:1]
@@ -385,8 +396,6 @@
  10 | |           background: yellow;
  11 | |       }
  12 | `-> }
- 13 |     
- 14 |     @document url(https://www.example.com/) {}
     `----
   x LBrace
    ,-[$DIR/tests/fixture/at-rule/document/input.css:7:1]
@@ -394,7 +403,6 @@
  7 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
    :                                                                                                                                                 ^
  8 |     body {
- 9 |         color: purple;
    `----
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/document/input.css:8:1]
@@ -473,13 +481,12 @@
  12 |     }
     `----
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/document/input.css:8:1]
-  7 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
-  8 |     body {
-    :          ^
-  9 |         color: purple;
- 10 |         background: yellow;
-    `----
+   ,-[$DIR/tests/fixture/at-rule/document/input.css:8:1]
+ 7 | @document url("http://www.w3.org/"), url-prefix("http://www.w3.org/Style/"), domain("mozilla.org"), media-document("video"), regexp("https:.*") {
+ 8 |     body {
+   :          ^
+ 9 |         color: purple;
+   `----
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/document/input.css:9:1]
   8 |     body {
@@ -570,7 +577,6 @@
  14 | @document url(https://www.example.com/) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  15 | @-moz-document url("https://www.example.com/") {}
- 16 | @-moz-document/* near */ /* filter */ url("example.com/{") /* a */ {}
     `----
   x AtRule
     ,-[$DIR/tests/fixture/at-rule/document/input.css:14:1]
@@ -578,7 +584,6 @@
  14 | @document url(https://www.example.com/) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  15 | @-moz-document url("https://www.example.com/") {}
- 16 | @-moz-document/* near */ /* filter */ url("example.com/{") /* a */ {}
     `----
   x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/document/input.css:14:1]
@@ -628,7 +633,6 @@
  14 | @document url(https://www.example.com/) {}
     :                                         ^^
  15 | @-moz-document url("https://www.example.com/") {}
- 16 | @-moz-document/* near */ /* filter */ url("example.com/{") /* a */ {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/at-rule/document/input.css:14:1]
@@ -712,16 +716,12 @@
  15 | @-moz-document url("https://www.example.com/") {}
  16 | @-moz-document/* near */ /* filter */ url("example.com/{") /* a */ {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 17 | 
- 18 | @document url("https://www.example.com/") {
     `----
   x AtRule
     ,-[$DIR/tests/fixture/at-rule/document/input.css:16:1]
  15 | @-moz-document url("https://www.example.com/") {}
  16 | @-moz-document/* near */ /* filter */ url("example.com/{") /* a */ {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 17 | 
- 18 | @document url("https://www.example.com/") {
     `----
   x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/document/input.css:16:1]
@@ -764,8 +764,6 @@
  15 | @-moz-document url("https://www.example.com/") {}
  16 | @-moz-document/* near */ /* filter */ url("example.com/{") /* a */ {}
     :                                                                    ^^
- 17 | 
- 18 | @document url("https://www.example.com/") {
     `----
   x LBrace
     ,-[$DIR/tests/fixture/at-rule/document/input.css:16:1]
@@ -854,7 +852,6 @@
  18 | @document url("https://www.example.com/") {
     :                                           ^
  19 |     @media screen and (min-width: 900px) {
- 20 |         article {
     `----
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/document/input.css:19:1]
@@ -1025,7 +1022,6 @@
  19 |     @media screen and (min-width: 900px) {
     :                                          ^
  20 |         article {
- 21 |             padding: 1rem 3rem;
     `----
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/document/input.css:20:1]
@@ -1034,7 +1030,6 @@
  21 | |               padding: 1rem 3rem;
  22 | `->         }
  23 |         }
- 24 |     }
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/at-rule/document/input.css:20:1]
@@ -1043,7 +1038,6 @@
  21 | |               padding: 1rem 3rem;
  22 | `->         }
  23 |         }
- 24 |     }
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/at-rule/document/input.css:20:1]
@@ -1101,7 +1095,6 @@
  21 | |               padding: 1rem 3rem;
  22 | `->         }
  23 |         }
- 24 |     }
     `----
   x LBrace
     ,-[$DIR/tests/fixture/at-rule/document/input.css:20:1]
@@ -1109,7 +1102,6 @@
  20 |         article {
     :                 ^
  21 |             padding: 1rem 3rem;
- 22 |         }
     `----
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/document/input.css:21:1]

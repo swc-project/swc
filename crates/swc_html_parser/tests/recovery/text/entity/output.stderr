@@ -240,7 +240,6 @@
  48 | FOO&#xBAR
     :         ^
  49 | FOO&#x41BAR
- 50 | FOO&#x41ZOO
     `----
   x Missing semicolon after character reference
     ,-[$DIR/tests/recovery/text/entity/input.html:49:1]

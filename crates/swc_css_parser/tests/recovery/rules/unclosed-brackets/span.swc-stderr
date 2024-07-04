@@ -1,10 +1,22 @@
   x Stylesheet
-   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:1:1]
+ 1 | ,-> .class[attr= {
+ 2 | |   
+ 3 | |   }
+ 4 | |   
+ 5 | |   .class { color: red }
+ 6 | |   
+ 7 | `-> .class { color: blue }
    `----
   x Rule
-   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:1:1]
+ 1 | ,-> .class[attr= {
+ 2 | |   
+ 3 | |   }
+ 4 | |   
+ 5 | |   .class { color: red }
+ 6 | |   
+ 7 | `-> .class { color: blue }
    `----
   x ComponentValue
    ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:1:1]
@@ -27,12 +39,24 @@
    :  ^^^^^
    `----
   x ComponentValue
-   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:1:8]
- 1 | |    
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:1:1]
+ 1 | ,-> .class[attr= {
+ 2 | |   
+ 3 | |   }
+ 4 | |   
+ 5 | |   .class { color: red }
+ 6 | |   
+ 7 | `-> .class { color: blue }
    `----
   x SimpleBlock
-   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:1:8]
- 1 | |    
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:1:1]
+ 1 | ,-> .class[attr= {
+ 2 | |   
+ 3 | |   }
+ 4 | |   
+ 5 | |   .class { color: red }
+ 6 | |   
+ 7 | `-> .class { color: blue }
    `----
   x LBracket
    ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:1:1]
@@ -74,44 +98,40 @@
  1 | ,-> .class[attr= {
  2 | |   
  3 | `-> }
- 4 |     
- 5 |     .class { color: red }
    `----
   x SimpleBlock
    ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:1:1]
  1 | ,-> .class[attr= {
  2 | |   
  3 | `-> }
- 4 |     
- 5 |     .class { color: red }
    `----
   x LBrace
    ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:1:1]
  1 | .class[attr= {
    :              ^
- 2 | 
- 3 | }
    `----
   x ComponentValue
-   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:2:1]
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:1:1]
  1 | ,-> .class[attr= {
  2 | `-> 
  3 |     }
    `----
   x WhiteSpace { value: "\n\n" }
-   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:2:1]
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:1:1]
  1 | ,-> .class[attr= {
  2 | `-> 
  3 |     }
    `----
   x ComponentValue
-   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:4:1]
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:3:1]
+ 2 |     
  3 | ,-> }
  4 | `-> 
  5 |     .class { color: red }
    `----
   x WhiteSpace { value: "\n\n" }
-   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:4:1]
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:3:1]
+ 2 |     
  3 | ,-> }
  4 | `-> 
  5 |     .class { color: red }
@@ -157,16 +177,12 @@
  4 | 
  5 | .class { color: red }
    :        ^^^^^^^^^^^^^^
- 6 | 
- 7 | .class { color: blue }
    `----
   x SimpleBlock
    ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:5:1]
  4 | 
  5 | .class { color: red }
    :        ^^^^^^^^^^^^^^
- 6 | 
- 7 | .class { color: blue }
    `----
   x LBrace
    ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:5:1]
@@ -247,13 +263,15 @@
    :                    ^
    `----
   x ComponentValue
-   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:6:1]
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:5:1]
+ 4 |     
  5 | ,-> .class { color: red }
  6 | `-> 
  7 |     .class { color: blue }
    `----
   x WhiteSpace { value: "\n\n" }
-   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:6:1]
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:5:1]
+ 4 |     
  5 | ,-> .class { color: red }
  6 | `-> 
  7 |     .class { color: blue }
@@ -295,12 +313,16 @@
    :       ^
    `----
   x ComponentValue
-   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:7:9]
- 7 | |    
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:7:1]
+ 6 | 
+ 7 | .class { color: blue }
+   :        ^^^^^^^^^^^^^^^
    `----
   x SimpleBlock
-   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:7:9]
- 7 | |    
+   ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:7:1]
+ 6 | 
+ 7 | .class { color: blue }
+   :        ^^^^^^^^^^^^^^^
    `----
   x LBrace
    ,-[$DIR/tests/recovery/rules/unclosed-brackets/input.css:7:1]

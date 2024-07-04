@@ -11,7 +11,6 @@
  4 | =======
    : ^^^^^^^
  5 |     v = 2;
- 6 | >>>>>>> Branch-a
    `----
   x Merge conflict marker encountered.
    ,-[$DIR/tests/errors/conflict_marker_trivia_1/input.ts:6:1]

@@ -1,14 +1,17 @@
   x Stylesheet
-   ,-[$DIR/tests/recovery/at-rule/keyframes/custom-ident-2/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/at-rule/keyframes/custom-ident-2/input.css:1:1]
+ 1 | @keyframes inherit {}
+   : ^^^^^^^^^^^^^^^^^^^^^
    `----
   x Rule
-   ,-[$DIR/tests/recovery/at-rule/keyframes/custom-ident-2/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/at-rule/keyframes/custom-ident-2/input.css:1:1]
+ 1 | @keyframes inherit {}
+   : ^^^^^^^^^^^^^^^^^^^^^
    `----
   x AtRule
-   ,-[$DIR/tests/recovery/at-rule/keyframes/custom-ident-2/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/at-rule/keyframes/custom-ident-2/input.css:1:1]
+ 1 | @keyframes inherit {}
+   : ^^^^^^^^^^^^^^^^^^^^^
    `----
   x AtRuleName
    ,-[$DIR/tests/recovery/at-rule/keyframes/custom-ident-2/input.css:1:1]
@@ -51,8 +54,9 @@
    :                   ^
    `----
   x SimpleBlock
-   ,-[$DIR/tests/recovery/at-rule/keyframes/custom-ident-2/input.css:1:21]
- 1 | `->  
+   ,-[$DIR/tests/recovery/at-rule/keyframes/custom-ident-2/input.css:1:1]
+ 1 | @keyframes inherit {}
+   :                    ^^
    `----
   x LBrace
    ,-[$DIR/tests/recovery/at-rule/keyframes/custom-ident-2/input.css:1:1]

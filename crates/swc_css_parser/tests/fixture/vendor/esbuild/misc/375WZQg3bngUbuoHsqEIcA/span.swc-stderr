@@ -1,14 +1,17 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/375WZQg3bngUbuoHsqEIcA/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/375WZQg3bngUbuoHsqEIcA/input.css:1:1]
+ 1 | @keyframes test { from { color: red } to {} }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Rule
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/375WZQg3bngUbuoHsqEIcA/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/375WZQg3bngUbuoHsqEIcA/input.css:1:1]
+ 1 | @keyframes test { from { color: red } to {} }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x AtRule
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/375WZQg3bngUbuoHsqEIcA/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/375WZQg3bngUbuoHsqEIcA/input.css:1:1]
+ 1 | @keyframes test { from { color: red } to {} }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x AtRuleName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/375WZQg3bngUbuoHsqEIcA/input.css:1:1]
@@ -26,8 +29,9 @@
    :            ^^^^
    `----
   x SimpleBlock
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/375WZQg3bngUbuoHsqEIcA/input.css:1:18]
- 1 | |    
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/375WZQg3bngUbuoHsqEIcA/input.css:1:1]
+ 1 | @keyframes test { from { color: red } to {} }
+   :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x LBrace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/375WZQg3bngUbuoHsqEIcA/input.css:1:1]

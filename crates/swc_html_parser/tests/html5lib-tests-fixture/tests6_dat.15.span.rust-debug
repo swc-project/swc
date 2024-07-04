@@ -1,16 +1,19 @@
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/tests6_dat.15.html:1:2]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests6_dat.15.html:1:1]
+ 1 | <table><caption><td>
+   : ^^^^^^^^^^^^^^^^^^^^
    `----
   x Child
   x Element
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests6_dat.15.html:1:2]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests6_dat.15.html:1:1]
+ 1 | <table><caption><td>
+   : ^^^^^^^^^^^^^^^^^^^^
    `----
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tests6_dat.15.html:1:2]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests6_dat.15.html:1:1]
+ 1 | <table><caption><td>
+   : ^^^^^^^^^^^^^^^^^^^^
    `----
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests6_dat.15.html:1:1]
@@ -23,10 +26,12 @@
    :        ^^^^^^^^^
    `----
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests6_dat.15.html:1:18]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests6_dat.15.html:1:1]
+ 1 | <table><caption><td>
+   :                 ^^^^
    `----
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tests6_dat.15.html:1:18]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests6_dat.15.html:1:1]
+ 1 | <table><caption><td>
+   :                 ^^^^
    `----

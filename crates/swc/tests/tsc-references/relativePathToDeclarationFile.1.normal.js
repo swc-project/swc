@@ -19,8 +19,6 @@ export { };
 //!    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 //!  2 | import other = require('./other');
 //!  3 | import relMod = require('./sub/relMod');
-//!  4 | 
-//!  5 | if(foo.M2.x){
 //!    `----
 //!   x Import assignment cannot be used when targeting ECMAScript modules. Consider using `import * as ns from "mod"`, `import {a} from "mod"`, `import d from "mod"`, or another module format instead.
 //!    ,-[2:1]
@@ -30,7 +28,6 @@ export { };
 //!  3 | import relMod = require('./sub/relMod');
 //!  4 | 
 //!  5 | if(foo.M2.x){
-//!  6 |     var x = new relMod(other.M2.x.charCodeAt(0));
 //!    `----
 //!   x Import assignment cannot be used when targeting ECMAScript modules. Consider using `import * as ns from "mod"`, `import {a} from "mod"`, `import d from "mod"`, or another module format instead.
 //!    ,-[3:1]
@@ -41,5 +38,4 @@ export { };
 //!  4 | 
 //!  5 | if(foo.M2.x){
 //!  6 |     var x = new relMod(other.M2.x.charCodeAt(0));
-//!  7 | }
 //!    `----

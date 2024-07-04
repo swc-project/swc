@@ -9,10 +9,11 @@
    :        ^^^^
    `----
   x Misplaced non-space characters inside a table
-   ,-[$DIR/tests/recovery/element/table-1/input.html:1:21]
- 1 |  
+   ,-[$DIR/tests/recovery/element/table-1/input.html:1:1]
+ 1 | <table><td></tbody>A
+   :                    ^
    `----
   x End of file seen and there were open elements
-   ,-[$DIR/tests/recovery/element/table-1/input.html:1:22]
- 1 |  
+   ,-[$DIR/tests/recovery/element/table-1/input.html:1:1]
+ 1 | <table><td></tbody>A
    `----

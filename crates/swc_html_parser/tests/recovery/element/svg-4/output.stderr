@@ -11,7 +11,6 @@
  11 | <svg><p>test</p></svg>
     :                 ^^^^^^
  12 | <svg><p>test</svg>
- 13 | <svg>test</p></svg>
     `----
   x HTML start tag "p" in a foreign namespace context
     ,-[$DIR/tests/recovery/element/svg-4/input.html:12:1]
@@ -26,7 +25,6 @@
  12 | <svg><p>test</svg>
     :             ^^^^^^
  13 | <svg>test</p></svg>
- 14 | </body>
     `----
   x End tag "p" did not match the name of the current open element ("svg")
     ,-[$DIR/tests/recovery/element/svg-4/input.html:13:1]
@@ -41,5 +39,4 @@
  13 | <svg>test</p></svg>
     :              ^^^^^^
  14 | </body>
- 15 | </html>
     `----

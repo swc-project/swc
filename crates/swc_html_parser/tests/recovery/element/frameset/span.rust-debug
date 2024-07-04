@@ -1,28 +1,50 @@
   x Document
-   ,-[$DIR/tests/recovery/element/frameset/input.html:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/element/frameset/input.html:1:1]
+ 1 | ,-> <!doctype html>
+ 2 | |   <html lang="en">
+ 3 | |   <head>
+ 4 | |       <title>Document</title>
+ 5 | |   </head>
+ 6 | |   <body>
+ 7 | |   <frameset></frameset>
+ 8 | |   </body>
+ 9 | `-> </html>
    `----
   x Child
    ,-[$DIR/tests/recovery/element/frameset/input.html:1:1]
  1 | <!doctype html>
    : ^^^^^^^^^^^^^^^
  2 | <html lang="en">
- 3 | <head>
    `----
   x DocumentType
    ,-[$DIR/tests/recovery/element/frameset/input.html:1:1]
  1 | <!doctype html>
    : ^^^^^^^^^^^^^^^
  2 | <html lang="en">
- 3 | <head>
    `----
   x Child
-   ,-[$DIR/tests/recovery/element/frameset/input.html:2:2]
- 2 | |    
+   ,-[$DIR/tests/recovery/element/frameset/input.html:2:1]
+ 1 |     <!doctype html>
+ 2 | ,-> <html lang="en">
+ 3 | |   <head>
+ 4 | |       <title>Document</title>
+ 5 | |   </head>
+ 6 | |   <body>
+ 7 | |   <frameset></frameset>
+ 8 | |   </body>
+ 9 | `-> </html>
    `----
   x Element
-   ,-[$DIR/tests/recovery/element/frameset/input.html:2:2]
- 2 | |    
+   ,-[$DIR/tests/recovery/element/frameset/input.html:2:1]
+ 1 |     <!doctype html>
+ 2 | ,-> <html lang="en">
+ 3 | |   <head>
+ 4 | |       <title>Document</title>
+ 5 | |   </head>
+ 6 | |   <body>
+ 7 | |   <frameset></frameset>
+ 8 | |   </body>
+ 9 | `-> </html>
    `----
   x Attribute
    ,-[$DIR/tests/recovery/element/frameset/input.html:2:1]
@@ -38,7 +60,6 @@
  4 | |       <title>Document</title>
  5 | `-> </head>
  6 |     <body>
- 7 |     <frameset></frameset>
    `----
   x Element
    ,-[$DIR/tests/recovery/element/frameset/input.html:3:1]
@@ -47,16 +68,17 @@
  4 | |       <title>Document</title>
  5 | `-> </head>
  6 |     <body>
- 7 |     <frameset></frameset>
    `----
   x Child
-   ,-[$DIR/tests/recovery/element/frameset/input.html:4:1]
+   ,-[$DIR/tests/recovery/element/frameset/input.html:3:1]
+ 2 |     <html lang="en">
  3 | ,-> <head>
  4 | `->     <title>Document</title>
  5 |     </head>
    `----
   x Text
-   ,-[$DIR/tests/recovery/element/frameset/input.html:4:1]
+   ,-[$DIR/tests/recovery/element/frameset/input.html:3:1]
+ 2 |     <html lang="en">
  3 | ,-> <head>
  4 | `->     <title>Document</title>
  5 |     </head>
@@ -67,7 +89,6 @@
  4 |     <title>Document</title>
    :     ^^^^^^^^^^^^^^^^^^^^^^^
  5 | </head>
- 6 | <body>
    `----
   x Element
    ,-[$DIR/tests/recovery/element/frameset/input.html:4:1]
@@ -75,7 +96,6 @@
  4 |     <title>Document</title>
    :     ^^^^^^^^^^^^^^^^^^^^^^^
  5 | </head>
- 6 | <body>
    `----
   x Child
    ,-[$DIR/tests/recovery/element/frameset/input.html:4:1]
@@ -92,28 +112,32 @@
  5 | </head>
    `----
   x Child
-   ,-[$DIR/tests/recovery/element/frameset/input.html:5:1]
+   ,-[$DIR/tests/recovery/element/frameset/input.html:4:1]
+ 3 | <head>
  4 |     <title>Document</title>
    :                            ^
  5 | </head>
  6 | <body>
    `----
   x Text
-   ,-[$DIR/tests/recovery/element/frameset/input.html:5:1]
+   ,-[$DIR/tests/recovery/element/frameset/input.html:4:1]
+ 3 | <head>
  4 |     <title>Document</title>
    :                            ^
  5 | </head>
  6 | <body>
    `----
   x Child
-   ,-[$DIR/tests/recovery/element/frameset/input.html:6:1]
+   ,-[$DIR/tests/recovery/element/frameset/input.html:5:1]
+ 4 |     <title>Document</title>
  5 | </head>
    :        ^
  6 | <body>
  7 | <frameset></frameset>
    `----
   x Text
-   ,-[$DIR/tests/recovery/element/frameset/input.html:6:1]
+   ,-[$DIR/tests/recovery/element/frameset/input.html:5:1]
+ 4 |     <title>Document</title>
  5 | </head>
    :        ^
  6 | <body>
@@ -136,14 +160,16 @@
  9 |     </html>
    `----
   x Child
-   ,-[$DIR/tests/recovery/element/frameset/input.html:7:1]
+   ,-[$DIR/tests/recovery/element/frameset/input.html:6:1]
+ 5 |     </head>
  6 | ,-> <body>
  7 | |   <frameset></frameset>
  8 | `-> </body>
  9 |     </html>
    `----
   x Text
-   ,-[$DIR/tests/recovery/element/frameset/input.html:7:1]
+   ,-[$DIR/tests/recovery/element/frameset/input.html:6:1]
+ 5 |     </head>
  6 | ,-> <body>
  7 | |   <frameset></frameset>
  8 | `-> </body>

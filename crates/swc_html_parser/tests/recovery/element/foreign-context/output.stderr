@@ -25,7 +25,6 @@
  11 | <div><svg></p></svg</div>
     :                         ^
  12 | <div><svg></br></svg</div>
- 13 | <div><svg><b></svg</div>
     `----
   x Stray end tag "svg<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:11:1]
@@ -33,7 +32,6 @@
  11 | <div><svg></p></svg</div>
     :               ^^^^^^^^^^^
  12 | <div><svg></br></svg</div>
- 13 | <div><svg><b></svg</div>
     `----
   x End tag "br" did not match the name of the current open element ("svg")
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:12:1]
@@ -62,7 +60,6 @@
  12 | <div><svg></br></svg</div>
     :                          ^
  13 | <div><svg><b></svg</div>
- 14 | <div><svg><big></svg</div>
     `----
   x Stray end tag "svg<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:12:1]
@@ -70,7 +67,6 @@
  12 | <div><svg></br></svg</div>
     :                ^^^^^^^^^^^
  13 | <div><svg><b></svg</div>
- 14 | <div><svg><big></svg</div>
     `----
   x HTML start tag "b" in a foreign namespace context
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:13:1]
@@ -92,7 +88,6 @@
  13 | <div><svg><b></svg</div>
     :                        ^
  14 | <div><svg><big></svg</div>
- 15 | <div><svg><blockquote></svg</div>
     `----
   x Stray end tag "svg<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:13:1]
@@ -100,7 +95,6 @@
  13 | <div><svg><b></svg</div>
     :              ^^^^^^^^^^^
  14 | <div><svg><big></svg</div>
- 15 | <div><svg><blockquote></svg</div>
     `----
   x HTML start tag "big" in a foreign namespace context
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:14:1]
@@ -122,7 +116,6 @@
  14 | <div><svg><big></svg</div>
     :                          ^
  15 | <div><svg><blockquote></svg</div>
- 16 | <div><svg><br></svg</div>
     `----
   x Stray end tag "svg<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:14:1]
@@ -130,7 +123,6 @@
  14 | <div><svg><big></svg</div>
     :                ^^^^^^^^^^^
  15 | <div><svg><blockquote></svg</div>
- 16 | <div><svg><br></svg</div>
     `----
   x HTML start tag "blockquote" in a foreign namespace context
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:15:1]
@@ -152,7 +144,6 @@
  15 | <div><svg><blockquote></svg</div>
     :                                 ^
  16 | <div><svg><br></svg</div>
- 17 | <div><svg><center></svg</div>
     `----
   x Stray end tag "svg<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:15:1]
@@ -160,7 +151,6 @@
  15 | <div><svg><blockquote></svg</div>
     :                       ^^^^^^^^^^^
  16 | <div><svg><br></svg</div>
- 17 | <div><svg><center></svg</div>
     `----
   x HTML start tag "br" in a foreign namespace context
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:16:1]
@@ -182,7 +172,6 @@
  16 | <div><svg><br></svg</div>
     :                         ^
  17 | <div><svg><center></svg</div>
- 18 | <div><svg><code></svg</div>
     `----
   x Stray end tag "svg<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:16:1]
@@ -190,7 +179,6 @@
  16 | <div><svg><br></svg</div>
     :               ^^^^^^^^^^^
  17 | <div><svg><center></svg</div>
- 18 | <div><svg><code></svg</div>
     `----
   x HTML start tag "center" in a foreign namespace context
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:17:1]
@@ -212,7 +200,6 @@
  17 | <div><svg><center></svg</div>
     :                             ^
  18 | <div><svg><code></svg</div>
- 19 | <div><svg><dd></svg</div>
     `----
   x Stray end tag "svg<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:17:1]
@@ -220,7 +207,6 @@
  17 | <div><svg><center></svg</div>
     :                   ^^^^^^^^^^^
  18 | <div><svg><code></svg</div>
- 19 | <div><svg><dd></svg</div>
     `----
   x HTML start tag "code" in a foreign namespace context
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:18:1]
@@ -242,7 +228,6 @@
  18 | <div><svg><code></svg</div>
     :                           ^
  19 | <div><svg><dd></svg</div>
- 20 | <div><svg><div></svg</div>
     `----
   x Stray end tag "svg<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:18:1]
@@ -250,7 +235,6 @@
  18 | <div><svg><code></svg</div>
     :                 ^^^^^^^^^^^
  19 | <div><svg><dd></svg</div>
- 20 | <div><svg><div></svg</div>
     `----
   x HTML start tag "dd" in a foreign namespace context
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:19:1]
@@ -272,7 +256,6 @@
  19 | <div><svg><dd></svg</div>
     :                         ^
  20 | <div><svg><div></svg</div>
- 21 | <div><svg><dl></svg</div>
     `----
   x Stray end tag "svg<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:19:1]
@@ -280,7 +263,6 @@
  19 | <div><svg><dd></svg</div>
     :               ^^^^^^^^^^^
  20 | <div><svg><div></svg</div>
- 21 | <div><svg><dl></svg</div>
     `----
   x HTML start tag "div" in a foreign namespace context
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:20:1]
@@ -302,7 +284,6 @@
  20 | <div><svg><div></svg</div>
     :                          ^
  21 | <div><svg><dl></svg</div>
- 22 | <div><svg><dt></svg</div>
     `----
   x Stray end tag "svg<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:20:1]
@@ -310,7 +291,6 @@
  20 | <div><svg><div></svg</div>
     :                ^^^^^^^^^^^
  21 | <div><svg><dl></svg</div>
- 22 | <div><svg><dt></svg</div>
     `----
   x HTML start tag "dl" in a foreign namespace context
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:21:1]
@@ -332,7 +312,6 @@
  21 | <div><svg><dl></svg</div>
     :                         ^
  22 | <div><svg><dt></svg</div>
- 23 | <div><svg><em></svg</div>
     `----
   x Stray end tag "svg<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:21:1]
@@ -340,7 +319,6 @@
  21 | <div><svg><dl></svg</div>
     :               ^^^^^^^^^^^
  22 | <div><svg><dt></svg</div>
- 23 | <div><svg><em></svg</div>
     `----
   x HTML start tag "dt" in a foreign namespace context
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:22:1]
@@ -362,7 +340,6 @@
  22 | <div><svg><dt></svg</div>
     :                         ^
  23 | <div><svg><em></svg</div>
- 24 | <div><svg><embed></svg</div>
     `----
   x Stray end tag "svg<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:22:1]
@@ -370,7 +347,6 @@
  22 | <div><svg><dt></svg</div>
     :               ^^^^^^^^^^^
  23 | <div><svg><em></svg</div>
- 24 | <div><svg><embed></svg</div>
     `----
   x HTML start tag "em" in a foreign namespace context
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:23:1]
@@ -392,7 +368,6 @@
  23 | <div><svg><em></svg</div>
     :                         ^
  24 | <div><svg><embed></svg</div>
- 25 | <div><svg><h1></svg</div>
     `----
   x Stray end tag "svg<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:23:1]
@@ -400,7 +375,6 @@
  23 | <div><svg><em></svg</div>
     :               ^^^^^^^^^^^
  24 | <div><svg><embed></svg</div>
- 25 | <div><svg><h1></svg</div>
     `----
   x HTML start tag "embed" in a foreign namespace context
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:24:1]
@@ -422,7 +396,6 @@
  24 | <div><svg><embed></svg</div>
     :                            ^
  25 | <div><svg><h1></svg</div>
- 26 | <div><svg><h2></svg</div>
     `----
   x Stray end tag "svg<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:24:1]
@@ -430,7 +403,6 @@
  24 | <div><svg><embed></svg</div>
     :                  ^^^^^^^^^^^
  25 | <div><svg><h1></svg</div>
- 26 | <div><svg><h2></svg</div>
     `----
   x HTML start tag "h1" in a foreign namespace context
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:25:1]
@@ -452,7 +424,6 @@
  25 | <div><svg><h1></svg</div>
     :                         ^
  26 | <div><svg><h2></svg</div>
- 27 | <div><svg><h3></svg</div>
     `----
   x Stray end tag "svg<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:25:1]
@@ -460,7 +431,6 @@
  25 | <div><svg><h1></svg</div>
     :               ^^^^^^^^^^^
  26 | <div><svg><h2></svg</div>
- 27 | <div><svg><h3></svg</div>
     `----
   x HTML start tag "h2" in a foreign namespace context
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:26:1]
@@ -482,7 +452,6 @@
  26 | <div><svg><h2></svg</div>
     :                         ^
  27 | <div><svg><h3></svg</div>
- 28 | <div><svg><h4></svg</div>
     `----
   x Stray end tag "svg<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:26:1]
@@ -490,7 +459,6 @@
  26 | <div><svg><h2></svg</div>
     :               ^^^^^^^^^^^
  27 | <div><svg><h3></svg</div>
- 28 | <div><svg><h4></svg</div>
     `----
   x HTML start tag "h3" in a foreign namespace context
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:27:1]
@@ -512,7 +480,6 @@
  27 | <div><svg><h3></svg</div>
     :                         ^
  28 | <div><svg><h4></svg</div>
- 29 | <div><svg><h5></svg</div>
     `----
   x Stray end tag "svg<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:27:1]
@@ -520,7 +487,6 @@
  27 | <div><svg><h3></svg</div>
     :               ^^^^^^^^^^^
  28 | <div><svg><h4></svg</div>
- 29 | <div><svg><h5></svg</div>
     `----
   x HTML start tag "h4" in a foreign namespace context
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:28:1]
@@ -542,7 +508,6 @@
  28 | <div><svg><h4></svg</div>
     :                         ^
  29 | <div><svg><h5></svg</div>
- 30 | <div><svg><h6></svg</div>
     `----
   x Stray end tag "svg<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:28:1]
@@ -550,7 +515,6 @@
  28 | <div><svg><h4></svg</div>
     :               ^^^^^^^^^^^
  29 | <div><svg><h5></svg</div>
- 30 | <div><svg><h6></svg</div>
     `----
   x HTML start tag "h5" in a foreign namespace context
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:29:1]
@@ -572,7 +536,6 @@
  29 | <div><svg><h5></svg</div>
     :                         ^
  30 | <div><svg><h6></svg</div>
- 31 | <div><svg><hr></svg</div>
     `----
   x Stray end tag "svg<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:29:1]
@@ -580,7 +543,6 @@
  29 | <div><svg><h5></svg</div>
     :               ^^^^^^^^^^^
  30 | <div><svg><h6></svg</div>
- 31 | <div><svg><hr></svg</div>
     `----
   x HTML start tag "h6" in a foreign namespace context
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:30:1]
@@ -602,7 +564,6 @@
  30 | <div><svg><h6></svg</div>
     :                         ^
  31 | <div><svg><hr></svg</div>
- 32 | <div><svg><i></svg</div>
     `----
   x Stray end tag "svg<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:30:1]
@@ -610,7 +571,6 @@
  30 | <div><svg><h6></svg</div>
     :               ^^^^^^^^^^^
  31 | <div><svg><hr></svg</div>
- 32 | <div><svg><i></svg</div>
     `----
   x HTML start tag "hr" in a foreign namespace context
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:31:1]
@@ -632,7 +592,6 @@
  31 | <div><svg><hr></svg</div>
     :                         ^
  32 | <div><svg><i></svg</div>
- 33 | <div><svg><img></svg</div>
     `----
   x Stray end tag "svg<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:31:1]
@@ -640,7 +599,6 @@
  31 | <div><svg><hr></svg</div>
     :               ^^^^^^^^^^^
  32 | <div><svg><i></svg</div>
- 33 | <div><svg><img></svg</div>
     `----
   x HTML start tag "i" in a foreign namespace context
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:32:1]
@@ -662,7 +620,6 @@
  32 | <div><svg><i></svg</div>
     :                        ^
  33 | <div><svg><img></svg</div>
- 34 | <div><svg><li></svg</div>
     `----
   x Stray end tag "svg<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:32:1]
@@ -670,7 +627,6 @@
  32 | <div><svg><i></svg</div>
     :              ^^^^^^^^^^^
  33 | <div><svg><img></svg</div>
- 34 | <div><svg><li></svg</div>
     `----
   x HTML start tag "img" in a foreign namespace context
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:33:1]
@@ -692,7 +648,6 @@
  33 | <div><svg><img></svg</div>
     :                          ^
  34 | <div><svg><li></svg</div>
- 35 | <div><svg><listing></svg</div>
     `----
   x Stray end tag "svg<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:33:1]
@@ -700,7 +655,6 @@
  33 | <div><svg><img></svg</div>
     :                ^^^^^^^^^^^
  34 | <div><svg><li></svg</div>
- 35 | <div><svg><listing></svg</div>
     `----
   x HTML start tag "li" in a foreign namespace context
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:34:1]
@@ -722,7 +676,6 @@
  34 | <div><svg><li></svg</div>
     :                         ^
  35 | <div><svg><listing></svg</div>
- 36 | <div><svg><menu></svg</div>
     `----
   x Stray end tag "svg<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:34:1]
@@ -730,7 +683,6 @@
  34 | <div><svg><li></svg</div>
     :               ^^^^^^^^^^^
  35 | <div><svg><listing></svg</div>
- 36 | <div><svg><menu></svg</div>
     `----
   x HTML start tag "listing" in a foreign namespace context
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:35:1]
@@ -752,7 +704,6 @@
  35 | <div><svg><listing></svg</div>
     :                              ^
  36 | <div><svg><menu></svg</div>
- 37 | <div><svg><meta></svg</div>
     `----
   x Stray end tag "svg<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:35:1]
@@ -760,7 +711,6 @@
  35 | <div><svg><listing></svg</div>
     :                    ^^^^^^^^^^^
  36 | <div><svg><menu></svg</div>
- 37 | <div><svg><meta></svg</div>
     `----
   x HTML start tag "menu" in a foreign namespace context
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:36:1]
@@ -782,7 +732,6 @@
  36 | <div><svg><menu></svg</div>
     :                           ^
  37 | <div><svg><meta></svg</div>
- 38 | <div><svg><nobr></svg</div>
     `----
   x Stray end tag "svg<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:36:1]
@@ -790,7 +739,6 @@
  36 | <div><svg><menu></svg</div>
     :                 ^^^^^^^^^^^
  37 | <div><svg><meta></svg</div>
- 38 | <div><svg><nobr></svg</div>
     `----
   x HTML start tag "meta" in a foreign namespace context
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:37:1]
@@ -812,7 +760,6 @@
  37 | <div><svg><meta></svg</div>
     :                           ^
  38 | <div><svg><nobr></svg</div>
- 39 | <div><svg><ol></svg</div>
     `----
   x Stray end tag "svg<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:37:1]
@@ -820,7 +767,6 @@
  37 | <div><svg><meta></svg</div>
     :                 ^^^^^^^^^^^
  38 | <div><svg><nobr></svg</div>
- 39 | <div><svg><ol></svg</div>
     `----
   x HTML start tag "nobr" in a foreign namespace context
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:38:1]
@@ -842,7 +788,6 @@
  38 | <div><svg><nobr></svg</div>
     :                           ^
  39 | <div><svg><ol></svg</div>
- 40 | <div><svg><p></svg</div>
     `----
   x Stray end tag "svg<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:38:1]
@@ -850,7 +795,6 @@
  38 | <div><svg><nobr></svg</div>
     :                 ^^^^^^^^^^^
  39 | <div><svg><ol></svg</div>
- 40 | <div><svg><p></svg</div>
     `----
   x HTML start tag "ol" in a foreign namespace context
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:39:1]
@@ -872,7 +816,6 @@
  39 | <div><svg><ol></svg</div>
     :                         ^
  40 | <div><svg><p></svg</div>
- 41 | <div><svg><pre></svg</div>
     `----
   x Stray end tag "svg<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:39:1]
@@ -880,7 +823,6 @@
  39 | <div><svg><ol></svg</div>
     :               ^^^^^^^^^^^
  40 | <div><svg><p></svg</div>
- 41 | <div><svg><pre></svg</div>
     `----
   x HTML start tag "p" in a foreign namespace context
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:40:1]
@@ -902,7 +844,6 @@
  40 | <div><svg><p></svg</div>
     :                        ^
  41 | <div><svg><pre></svg</div>
- 42 | <div><svg><ruby></svg</div>
     `----
   x Stray end tag "svg<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:40:1]
@@ -910,7 +851,6 @@
  40 | <div><svg><p></svg</div>
     :              ^^^^^^^^^^^
  41 | <div><svg><pre></svg</div>
- 42 | <div><svg><ruby></svg</div>
     `----
   x HTML start tag "pre" in a foreign namespace context
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:41:1]
@@ -932,7 +872,6 @@
  41 | <div><svg><pre></svg</div>
     :                          ^
  42 | <div><svg><ruby></svg</div>
- 43 | <div><svg><s></svg</div>
     `----
   x Stray end tag "svg<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:41:1]
@@ -940,7 +879,6 @@
  41 | <div><svg><pre></svg</div>
     :                ^^^^^^^^^^^
  42 | <div><svg><ruby></svg</div>
- 43 | <div><svg><s></svg</div>
     `----
   x HTML start tag "ruby" in a foreign namespace context
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:42:1]
@@ -962,7 +900,6 @@
  42 | <div><svg><ruby></svg</div>
     :                           ^
  43 | <div><svg><s></svg</div>
- 44 | <div><svg><small></svg</div>
     `----
   x Stray end tag "svg<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:42:1]
@@ -970,7 +907,6 @@
  42 | <div><svg><ruby></svg</div>
     :                 ^^^^^^^^^^^
  43 | <div><svg><s></svg</div>
- 44 | <div><svg><small></svg</div>
     `----
   x HTML start tag "s" in a foreign namespace context
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:43:1]
@@ -992,7 +928,6 @@
  43 | <div><svg><s></svg</div>
     :                        ^
  44 | <div><svg><small></svg</div>
- 45 | <div><svg><span></svg</div>
     `----
   x Stray end tag "svg<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:43:1]
@@ -1000,7 +935,6 @@
  43 | <div><svg><s></svg</div>
     :              ^^^^^^^^^^^
  44 | <div><svg><small></svg</div>
- 45 | <div><svg><span></svg</div>
     `----
   x HTML start tag "small" in a foreign namespace context
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:44:1]
@@ -1022,7 +956,6 @@
  44 | <div><svg><small></svg</div>
     :                            ^
  45 | <div><svg><span></svg</div>
- 46 | <div><svg><strong></svg</div>
     `----
   x Stray end tag "svg<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:44:1]
@@ -1030,7 +963,6 @@
  44 | <div><svg><small></svg</div>
     :                  ^^^^^^^^^^^
  45 | <div><svg><span></svg</div>
- 46 | <div><svg><strong></svg</div>
     `----
   x HTML start tag "span" in a foreign namespace context
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:45:1]
@@ -1052,7 +984,6 @@
  45 | <div><svg><span></svg</div>
     :                           ^
  46 | <div><svg><strong></svg</div>
- 47 | <div><svg><strike></svg</div>
     `----
   x Stray end tag "svg<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:45:1]
@@ -1060,7 +991,6 @@
  45 | <div><svg><span></svg</div>
     :                 ^^^^^^^^^^^
  46 | <div><svg><strong></svg</div>
- 47 | <div><svg><strike></svg</div>
     `----
   x HTML start tag "strong" in a foreign namespace context
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:46:1]
@@ -1082,7 +1012,6 @@
  46 | <div><svg><strong></svg</div>
     :                             ^
  47 | <div><svg><strike></svg</div>
- 48 | <div><svg><sub></svg</div>
     `----
   x Stray end tag "svg<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:46:1]
@@ -1090,7 +1019,6 @@
  46 | <div><svg><strong></svg</div>
     :                   ^^^^^^^^^^^
  47 | <div><svg><strike></svg</div>
- 48 | <div><svg><sub></svg</div>
     `----
   x HTML start tag "strike" in a foreign namespace context
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:47:1]
@@ -1112,7 +1040,6 @@
  47 | <div><svg><strike></svg</div>
     :                             ^
  48 | <div><svg><sub></svg</div>
- 49 | <div><svg><sup></svg</div>
     `----
   x Stray end tag "svg<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:47:1]
@@ -1120,7 +1047,6 @@
  47 | <div><svg><strike></svg</div>
     :                   ^^^^^^^^^^^
  48 | <div><svg><sub></svg</div>
- 49 | <div><svg><sup></svg</div>
     `----
   x HTML start tag "sub" in a foreign namespace context
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:48:1]
@@ -1142,7 +1068,6 @@
  48 | <div><svg><sub></svg</div>
     :                          ^
  49 | <div><svg><sup></svg</div>
- 50 | <div><svg><table></svg</div>
     `----
   x Stray end tag "svg<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:48:1]
@@ -1150,7 +1075,6 @@
  48 | <div><svg><sub></svg</div>
     :                ^^^^^^^^^^^
  49 | <div><svg><sup></svg</div>
- 50 | <div><svg><table></svg</div>
     `----
   x HTML start tag "sup" in a foreign namespace context
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:49:1]
@@ -1172,7 +1096,6 @@
  49 | <div><svg><sup></svg</div>
     :                          ^
  50 | <div><svg><table></svg</div>
- 51 | <div><svg><tt></svg</div>
     `----
   x Stray end tag "svg<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:49:1]
@@ -1180,7 +1103,6 @@
  49 | <div><svg><sup></svg</div>
     :                ^^^^^^^^^^^
  50 | <div><svg><table></svg</div>
- 51 | <div><svg><tt></svg</div>
     `----
   x HTML start tag "table" in a foreign namespace context
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:50:1]
@@ -1202,7 +1124,6 @@
  50 | <div><svg><table></svg</div>
     :                            ^
  51 | <div><svg><tt></svg</div>
- 52 | <div><svg><u></svg</div>
     `----
   x Stray end tag "svg<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:50:1]
@@ -1210,7 +1131,6 @@
  50 | <div><svg><table></svg</div>
     :                  ^^^^^^^^^^^
  51 | <div><svg><tt></svg</div>
- 52 | <div><svg><u></svg</div>
     `----
   x Start tag "div" seen in "table"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:51:1]
@@ -1253,7 +1173,6 @@
  51 | <div><svg><tt></svg</div>
     :                         ^
  52 | <div><svg><u></svg</div>
- 53 | <div><svg><ul></svg</div>
     `----
   x Stray end tag "svg<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:51:1]
@@ -1261,10 +1180,10 @@
  51 | <div><svg><tt></svg</div>
     :               ^^^^^^^^^^^
  52 | <div><svg><u></svg</div>
- 53 | <div><svg><ul></svg</div>
     `----
   x Misplaced non-space characters inside a table
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:52:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:51:1]
+ 50 | <div><svg><table></svg</div>
  51 | <div><svg><tt></svg</div>
     :                          ^
  52 | <div><svg><u></svg</div>
@@ -1311,7 +1230,6 @@
  52 | <div><svg><u></svg</div>
     :                        ^
  53 | <div><svg><ul></svg</div>
- 54 | <div><svg><var></svg</div>
     `----
   x Stray end tag "svg<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:52:1]
@@ -1319,10 +1237,10 @@
  52 | <div><svg><u></svg</div>
     :              ^^^^^^^^^^^
  53 | <div><svg><ul></svg</div>
- 54 | <div><svg><var></svg</div>
     `----
   x Misplaced non-space characters inside a table
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:53:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:52:1]
+ 51 | <div><svg><tt></svg</div>
  52 | <div><svg><u></svg</div>
     :                         ^
  53 | <div><svg><ul></svg</div>
@@ -1369,7 +1287,6 @@
  53 | <div><svg><ul></svg</div>
     :                         ^
  54 | <div><svg><var></svg</div>
- 55 | <div><math></p></math</div>
     `----
   x Stray end tag "svg<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:53:1]
@@ -1377,10 +1294,10 @@
  53 | <div><svg><ul></svg</div>
     :               ^^^^^^^^^^^
  54 | <div><svg><var></svg</div>
- 55 | <div><math></p></math</div>
     `----
   x Misplaced non-space characters inside a table
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:54:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:53:1]
+ 52 | <div><svg><u></svg</div>
  53 | <div><svg><ul></svg</div>
     :                          ^
  54 | <div><svg><var></svg</div>
@@ -1427,7 +1344,6 @@
  54 | <div><svg><var></svg</div>
     :                          ^
  55 | <div><math></p></math</div>
- 56 | <div><math></br></math</div>
     `----
   x Stray end tag "svg<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:54:1]
@@ -1435,10 +1351,10 @@
  54 | <div><svg><var></svg</div>
     :                ^^^^^^^^^^^
  55 | <div><math></p></math</div>
- 56 | <div><math></br></math</div>
     `----
   x Misplaced non-space characters inside a table
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:55:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:54:1]
+ 53 | <div><svg><ul></svg</div>
  54 | <div><svg><var></svg</div>
     :                           ^
  55 | <div><math></p></math</div>
@@ -1492,7 +1408,6 @@
  55 | <div><math></p></math</div>
     :                           ^
  56 | <div><math></br></math</div>
- 57 | <div><math><b></math</div>
     `----
   x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:55:1]
@@ -1500,10 +1415,10 @@
  55 | <div><math></p></math</div>
     :                ^^^^^^^^^^^^
  56 | <div><math></br></math</div>
- 57 | <div><math><b></math</div>
     `----
   x Misplaced non-space characters inside a table
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:56:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:55:1]
+ 54 | <div><svg><var></svg</div>
  55 | <div><math></p></math</div>
     :                            ^
  56 | <div><math></br></math</div>
@@ -1557,7 +1472,6 @@
  56 | <div><math></br></math</div>
     :                            ^
  57 | <div><math><b></math</div>
- 58 | <div><math><big></math</div>
     `----
   x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:56:1]
@@ -1565,10 +1479,10 @@
  56 | <div><math></br></math</div>
     :                 ^^^^^^^^^^^^
  57 | <div><math><b></math</div>
- 58 | <div><math><big></math</div>
     `----
   x Misplaced non-space characters inside a table
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:57:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:56:1]
+ 55 | <div><math></p></math</div>
  56 | <div><math></br></math</div>
     :                             ^
  57 | <div><math><b></math</div>
@@ -1615,7 +1529,6 @@
  57 | <div><math><b></math</div>
     :                          ^
  58 | <div><math><big></math</div>
- 59 | <div><math><blockquote></math</div>
     `----
   x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:57:1]
@@ -1623,10 +1536,10 @@
  57 | <div><math><b></math</div>
     :               ^^^^^^^^^^^^
  58 | <div><math><big></math</div>
- 59 | <div><math><blockquote></math</div>
     `----
   x Misplaced non-space characters inside a table
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:58:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:57:1]
+ 56 | <div><math></br></math</div>
  57 | <div><math><b></math</div>
     :                           ^
  58 | <div><math><big></math</div>
@@ -1673,7 +1586,6 @@
  58 | <div><math><big></math</div>
     :                            ^
  59 | <div><math><blockquote></math</div>
- 60 | <div><math><br></math</div>
     `----
   x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:58:1]
@@ -1681,10 +1593,10 @@
  58 | <div><math><big></math</div>
     :                 ^^^^^^^^^^^^
  59 | <div><math><blockquote></math</div>
- 60 | <div><math><br></math</div>
     `----
   x Misplaced non-space characters inside a table
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:59:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:58:1]
+ 57 | <div><math><b></math</div>
  58 | <div><math><big></math</div>
     :                             ^
  59 | <div><math><blockquote></math</div>
@@ -1731,7 +1643,6 @@
  59 | <div><math><blockquote></math</div>
     :                                   ^
  60 | <div><math><br></math</div>
- 61 | <div><math><center></math</div>
     `----
   x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:59:1]
@@ -1739,10 +1650,10 @@
  59 | <div><math><blockquote></math</div>
     :                        ^^^^^^^^^^^^
  60 | <div><math><br></math</div>
- 61 | <div><math><center></math</div>
     `----
   x Misplaced non-space characters inside a table
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:60:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:59:1]
+ 58 | <div><math><big></math</div>
  59 | <div><math><blockquote></math</div>
     :                                    ^
  60 | <div><math><br></math</div>
@@ -1789,7 +1700,6 @@
  60 | <div><math><br></math</div>
     :                           ^
  61 | <div><math><center></math</div>
- 62 | <div><math><code></math</div>
     `----
   x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:60:1]
@@ -1797,10 +1707,10 @@
  60 | <div><math><br></math</div>
     :                ^^^^^^^^^^^^
  61 | <div><math><center></math</div>
- 62 | <div><math><code></math</div>
     `----
   x Misplaced non-space characters inside a table
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:61:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:60:1]
+ 59 | <div><math><blockquote></math</div>
  60 | <div><math><br></math</div>
     :                            ^
  61 | <div><math><center></math</div>
@@ -1847,7 +1757,6 @@
  61 | <div><math><center></math</div>
     :                               ^
  62 | <div><math><code></math</div>
- 63 | <div><math><dd></math</div>
     `----
   x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:61:1]
@@ -1855,10 +1764,10 @@
  61 | <div><math><center></math</div>
     :                    ^^^^^^^^^^^^
  62 | <div><math><code></math</div>
- 63 | <div><math><dd></math</div>
     `----
   x Misplaced non-space characters inside a table
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:62:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:61:1]
+ 60 | <div><math><br></math</div>
  61 | <div><math><center></math</div>
     :                                ^
  62 | <div><math><code></math</div>
@@ -1905,7 +1814,6 @@
  62 | <div><math><code></math</div>
     :                             ^
  63 | <div><math><dd></math</div>
- 64 | <div><math><div></math</div>
     `----
   x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:62:1]
@@ -1913,10 +1821,10 @@
  62 | <div><math><code></math</div>
     :                  ^^^^^^^^^^^^
  63 | <div><math><dd></math</div>
- 64 | <div><math><div></math</div>
     `----
   x Misplaced non-space characters inside a table
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:63:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:62:1]
+ 61 | <div><math><center></math</div>
  62 | <div><math><code></math</div>
     :                              ^
  63 | <div><math><dd></math</div>
@@ -1963,7 +1871,6 @@
  63 | <div><math><dd></math</div>
     :                           ^
  64 | <div><math><div></math</div>
- 65 | <div><math><dl></math</div>
     `----
   x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:63:1]
@@ -1971,10 +1878,10 @@
  63 | <div><math><dd></math</div>
     :                ^^^^^^^^^^^^
  64 | <div><math><div></math</div>
- 65 | <div><math><dl></math</div>
     `----
   x Misplaced non-space characters inside a table
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:64:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:63:1]
+ 62 | <div><math><code></math</div>
  63 | <div><math><dd></math</div>
     :                            ^
  64 | <div><math><div></math</div>
@@ -2021,7 +1928,6 @@
  64 | <div><math><div></math</div>
     :                            ^
  65 | <div><math><dl></math</div>
- 66 | <div><math><dt></math</div>
     `----
   x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:64:1]
@@ -2029,10 +1935,10 @@
  64 | <div><math><div></math</div>
     :                 ^^^^^^^^^^^^
  65 | <div><math><dl></math</div>
- 66 | <div><math><dt></math</div>
     `----
   x Misplaced non-space characters inside a table
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:65:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:64:1]
+ 63 | <div><math><dd></math</div>
  64 | <div><math><div></math</div>
     :                             ^
  65 | <div><math><dl></math</div>
@@ -2079,7 +1985,6 @@
  65 | <div><math><dl></math</div>
     :                           ^
  66 | <div><math><dt></math</div>
- 67 | <div><math><em></math</div>
     `----
   x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:65:1]
@@ -2087,10 +1992,10 @@
  65 | <div><math><dl></math</div>
     :                ^^^^^^^^^^^^
  66 | <div><math><dt></math</div>
- 67 | <div><math><em></math</div>
     `----
   x Misplaced non-space characters inside a table
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:66:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:65:1]
+ 64 | <div><math><div></math</div>
  65 | <div><math><dl></math</div>
     :                            ^
  66 | <div><math><dt></math</div>
@@ -2137,7 +2042,6 @@
  66 | <div><math><dt></math</div>
     :                           ^
  67 | <div><math><em></math</div>
- 68 | <div><math><embed></math</div>
     `----
   x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:66:1]
@@ -2145,10 +2049,10 @@
  66 | <div><math><dt></math</div>
     :                ^^^^^^^^^^^^
  67 | <div><math><em></math</div>
- 68 | <div><math><embed></math</div>
     `----
   x Misplaced non-space characters inside a table
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:67:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:66:1]
+ 65 | <div><math><dl></math</div>
  66 | <div><math><dt></math</div>
     :                            ^
  67 | <div><math><em></math</div>
@@ -2195,7 +2099,6 @@
  67 | <div><math><em></math</div>
     :                           ^
  68 | <div><math><embed></math</div>
- 69 | <div><math><h1></math</div>
     `----
   x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:67:1]
@@ -2203,10 +2106,10 @@
  67 | <div><math><em></math</div>
     :                ^^^^^^^^^^^^
  68 | <div><math><embed></math</div>
- 69 | <div><math><h1></math</div>
     `----
   x Misplaced non-space characters inside a table
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:68:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:67:1]
+ 66 | <div><math><dt></math</div>
  67 | <div><math><em></math</div>
     :                            ^
  68 | <div><math><embed></math</div>
@@ -2253,7 +2156,6 @@
  68 | <div><math><embed></math</div>
     :                              ^
  69 | <div><math><h1></math</div>
- 70 | <div><math><h2></math</div>
     `----
   x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:68:1]
@@ -2261,10 +2163,10 @@
  68 | <div><math><embed></math</div>
     :                   ^^^^^^^^^^^^
  69 | <div><math><h1></math</div>
- 70 | <div><math><h2></math</div>
     `----
   x Misplaced non-space characters inside a table
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:69:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:68:1]
+ 67 | <div><math><em></math</div>
  68 | <div><math><embed></math</div>
     :                               ^
  69 | <div><math><h1></math</div>
@@ -2311,7 +2213,6 @@
  69 | <div><math><h1></math</div>
     :                           ^
  70 | <div><math><h2></math</div>
- 71 | <div><math><h3></math</div>
     `----
   x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:69:1]
@@ -2319,10 +2220,10 @@
  69 | <div><math><h1></math</div>
     :                ^^^^^^^^^^^^
  70 | <div><math><h2></math</div>
- 71 | <div><math><h3></math</div>
     `----
   x Misplaced non-space characters inside a table
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:70:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:69:1]
+ 68 | <div><math><embed></math</div>
  69 | <div><math><h1></math</div>
     :                            ^
  70 | <div><math><h2></math</div>
@@ -2369,7 +2270,6 @@
  70 | <div><math><h2></math</div>
     :                           ^
  71 | <div><math><h3></math</div>
- 72 | <div><math><h4></math</div>
     `----
   x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:70:1]
@@ -2377,10 +2277,10 @@
  70 | <div><math><h2></math</div>
     :                ^^^^^^^^^^^^
  71 | <div><math><h3></math</div>
- 72 | <div><math><h4></math</div>
     `----
   x Misplaced non-space characters inside a table
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:71:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:70:1]
+ 69 | <div><math><h1></math</div>
  70 | <div><math><h2></math</div>
     :                            ^
  71 | <div><math><h3></math</div>
@@ -2427,7 +2327,6 @@
  71 | <div><math><h3></math</div>
     :                           ^
  72 | <div><math><h4></math</div>
- 73 | <div><math><h5></math</div>
     `----
   x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:71:1]
@@ -2435,10 +2334,10 @@
  71 | <div><math><h3></math</div>
     :                ^^^^^^^^^^^^
  72 | <div><math><h4></math</div>
- 73 | <div><math><h5></math</div>
     `----
   x Misplaced non-space characters inside a table
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:72:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:71:1]
+ 70 | <div><math><h2></math</div>
  71 | <div><math><h3></math</div>
     :                            ^
  72 | <div><math><h4></math</div>
@@ -2485,7 +2384,6 @@
  72 | <div><math><h4></math</div>
     :                           ^
  73 | <div><math><h5></math</div>
- 74 | <div><math><h6></math</div>
     `----
   x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:72:1]
@@ -2493,10 +2391,10 @@
  72 | <div><math><h4></math</div>
     :                ^^^^^^^^^^^^
  73 | <div><math><h5></math</div>
- 74 | <div><math><h6></math</div>
     `----
   x Misplaced non-space characters inside a table
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:73:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:72:1]
+ 71 | <div><math><h3></math</div>
  72 | <div><math><h4></math</div>
     :                            ^
  73 | <div><math><h5></math</div>
@@ -2543,7 +2441,6 @@
  73 | <div><math><h5></math</div>
     :                           ^
  74 | <div><math><h6></math</div>
- 75 | <div><math><hr></math</div>
     `----
   x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:73:1]
@@ -2551,10 +2448,10 @@
  73 | <div><math><h5></math</div>
     :                ^^^^^^^^^^^^
  74 | <div><math><h6></math</div>
- 75 | <div><math><hr></math</div>
     `----
   x Misplaced non-space characters inside a table
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:74:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:73:1]
+ 72 | <div><math><h4></math</div>
  73 | <div><math><h5></math</div>
     :                            ^
  74 | <div><math><h6></math</div>
@@ -2601,7 +2498,6 @@
  74 | <div><math><h6></math</div>
     :                           ^
  75 | <div><math><hr></math</div>
- 76 | <div><math><i></math</div>
     `----
   x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:74:1]
@@ -2609,10 +2505,10 @@
  74 | <div><math><h6></math</div>
     :                ^^^^^^^^^^^^
  75 | <div><math><hr></math</div>
- 76 | <div><math><i></math</div>
     `----
   x Misplaced non-space characters inside a table
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:75:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:74:1]
+ 73 | <div><math><h5></math</div>
  74 | <div><math><h6></math</div>
     :                            ^
  75 | <div><math><hr></math</div>
@@ -2659,7 +2555,6 @@
  75 | <div><math><hr></math</div>
     :                           ^
  76 | <div><math><i></math</div>
- 77 | <div><math><img></math</div>
     `----
   x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:75:1]
@@ -2667,10 +2562,10 @@
  75 | <div><math><hr></math</div>
     :                ^^^^^^^^^^^^
  76 | <div><math><i></math</div>
- 77 | <div><math><img></math</div>
     `----
   x Misplaced non-space characters inside a table
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:76:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:75:1]
+ 74 | <div><math><h6></math</div>
  75 | <div><math><hr></math</div>
     :                            ^
  76 | <div><math><i></math</div>
@@ -2717,7 +2612,6 @@
  76 | <div><math><i></math</div>
     :                          ^
  77 | <div><math><img></math</div>
- 78 | <div><math><li></math</div>
     `----
   x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:76:1]
@@ -2725,10 +2619,10 @@
  76 | <div><math><i></math</div>
     :               ^^^^^^^^^^^^
  77 | <div><math><img></math</div>
- 78 | <div><math><li></math</div>
     `----
   x Misplaced non-space characters inside a table
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:77:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:76:1]
+ 75 | <div><math><hr></math</div>
  76 | <div><math><i></math</div>
     :                           ^
  77 | <div><math><img></math</div>
@@ -2775,7 +2669,6 @@
  77 | <div><math><img></math</div>
     :                            ^
  78 | <div><math><li></math</div>
- 79 | <div><math><listing></math</div>
     `----
   x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:77:1]
@@ -2783,10 +2676,10 @@
  77 | <div><math><img></math</div>
     :                 ^^^^^^^^^^^^
  78 | <div><math><li></math</div>
- 79 | <div><math><listing></math</div>
     `----
   x Misplaced non-space characters inside a table
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:78:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:77:1]
+ 76 | <div><math><i></math</div>
  77 | <div><math><img></math</div>
     :                             ^
  78 | <div><math><li></math</div>
@@ -2833,7 +2726,6 @@
  78 | <div><math><li></math</div>
     :                           ^
  79 | <div><math><listing></math</div>
- 80 | <div><math><menu></math</div>
     `----
   x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:78:1]
@@ -2841,10 +2733,10 @@
  78 | <div><math><li></math</div>
     :                ^^^^^^^^^^^^
  79 | <div><math><listing></math</div>
- 80 | <div><math><menu></math</div>
     `----
   x Misplaced non-space characters inside a table
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:79:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:78:1]
+ 77 | <div><math><img></math</div>
  78 | <div><math><li></math</div>
     :                            ^
  79 | <div><math><listing></math</div>
@@ -2891,7 +2783,6 @@
  79 | <div><math><listing></math</div>
     :                                ^
  80 | <div><math><menu></math</div>
- 81 | <div><math><meta></math</div>
     `----
   x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:79:1]
@@ -2899,10 +2790,10 @@
  79 | <div><math><listing></math</div>
     :                     ^^^^^^^^^^^^
  80 | <div><math><menu></math</div>
- 81 | <div><math><meta></math</div>
     `----
   x Misplaced non-space characters inside a table
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:80:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:79:1]
+ 78 | <div><math><li></math</div>
  79 | <div><math><listing></math</div>
     :                                 ^
  80 | <div><math><menu></math</div>
@@ -2949,7 +2840,6 @@
  80 | <div><math><menu></math</div>
     :                             ^
  81 | <div><math><meta></math</div>
- 82 | <div><math><nobr></math</div>
     `----
   x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:80:1]
@@ -2957,10 +2847,10 @@
  80 | <div><math><menu></math</div>
     :                  ^^^^^^^^^^^^
  81 | <div><math><meta></math</div>
- 82 | <div><math><nobr></math</div>
     `----
   x Misplaced non-space characters inside a table
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:81:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:80:1]
+ 79 | <div><math><listing></math</div>
  80 | <div><math><menu></math</div>
     :                              ^
  81 | <div><math><meta></math</div>
@@ -3007,7 +2897,6 @@
  81 | <div><math><meta></math</div>
     :                             ^
  82 | <div><math><nobr></math</div>
- 83 | <div><math><ol></math</div>
     `----
   x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:81:1]
@@ -3015,10 +2904,10 @@
  81 | <div><math><meta></math</div>
     :                  ^^^^^^^^^^^^
  82 | <div><math><nobr></math</div>
- 83 | <div><math><ol></math</div>
     `----
   x Misplaced non-space characters inside a table
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:82:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:81:1]
+ 80 | <div><math><menu></math</div>
  81 | <div><math><meta></math</div>
     :                              ^
  82 | <div><math><nobr></math</div>
@@ -3065,7 +2954,6 @@
  82 | <div><math><nobr></math</div>
     :                             ^
  83 | <div><math><ol></math</div>
- 84 | <div><math><p></math</div>
     `----
   x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:82:1]
@@ -3073,10 +2961,10 @@
  82 | <div><math><nobr></math</div>
     :                  ^^^^^^^^^^^^
  83 | <div><math><ol></math</div>
- 84 | <div><math><p></math</div>
     `----
   x Misplaced non-space characters inside a table
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:83:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:82:1]
+ 81 | <div><math><meta></math</div>
  82 | <div><math><nobr></math</div>
     :                              ^
  83 | <div><math><ol></math</div>
@@ -3123,7 +3011,6 @@
  83 | <div><math><ol></math</div>
     :                           ^
  84 | <div><math><p></math</div>
- 85 | <div><math><pre></math</div>
     `----
   x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:83:1]
@@ -3131,10 +3018,10 @@
  83 | <div><math><ol></math</div>
     :                ^^^^^^^^^^^^
  84 | <div><math><p></math</div>
- 85 | <div><math><pre></math</div>
     `----
   x Misplaced non-space characters inside a table
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:84:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:83:1]
+ 82 | <div><math><nobr></math</div>
  83 | <div><math><ol></math</div>
     :                            ^
  84 | <div><math><p></math</div>
@@ -3181,7 +3068,6 @@
  84 | <div><math><p></math</div>
     :                          ^
  85 | <div><math><pre></math</div>
- 86 | <div><math><ruby></math</div>
     `----
   x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:84:1]
@@ -3189,10 +3075,10 @@
  84 | <div><math><p></math</div>
     :               ^^^^^^^^^^^^
  85 | <div><math><pre></math</div>
- 86 | <div><math><ruby></math</div>
     `----
   x Misplaced non-space characters inside a table
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:85:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:84:1]
+ 83 | <div><math><ol></math</div>
  84 | <div><math><p></math</div>
     :                           ^
  85 | <div><math><pre></math</div>
@@ -3239,7 +3125,6 @@
  85 | <div><math><pre></math</div>
     :                            ^
  86 | <div><math><ruby></math</div>
- 87 | <div><math><s></math</div>
     `----
   x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:85:1]
@@ -3247,10 +3132,10 @@
  85 | <div><math><pre></math</div>
     :                 ^^^^^^^^^^^^
  86 | <div><math><ruby></math</div>
- 87 | <div><math><s></math</div>
     `----
   x Misplaced non-space characters inside a table
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:86:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:85:1]
+ 84 | <div><math><p></math</div>
  85 | <div><math><pre></math</div>
     :                             ^
  86 | <div><math><ruby></math</div>
@@ -3297,7 +3182,6 @@
  86 | <div><math><ruby></math</div>
     :                             ^
  87 | <div><math><s></math</div>
- 88 | <div><math><small></math</div>
     `----
   x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:86:1]
@@ -3305,10 +3189,10 @@
  86 | <div><math><ruby></math</div>
     :                  ^^^^^^^^^^^^
  87 | <div><math><s></math</div>
- 88 | <div><math><small></math</div>
     `----
   x Misplaced non-space characters inside a table
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:87:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:86:1]
+ 85 | <div><math><pre></math</div>
  86 | <div><math><ruby></math</div>
     :                              ^
  87 | <div><math><s></math</div>
@@ -3355,7 +3239,6 @@
  87 | <div><math><s></math</div>
     :                          ^
  88 | <div><math><small></math</div>
- 89 | <div><math><span></math</div>
     `----
   x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:87:1]
@@ -3363,10 +3246,10 @@
  87 | <div><math><s></math</div>
     :               ^^^^^^^^^^^^
  88 | <div><math><small></math</div>
- 89 | <div><math><span></math</div>
     `----
   x Misplaced non-space characters inside a table
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:88:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:87:1]
+ 86 | <div><math><ruby></math</div>
  87 | <div><math><s></math</div>
     :                           ^
  88 | <div><math><small></math</div>
@@ -3413,7 +3296,6 @@
  88 | <div><math><small></math</div>
     :                              ^
  89 | <div><math><span></math</div>
- 90 | <div><math><strong></math</div>
     `----
   x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:88:1]
@@ -3421,10 +3303,10 @@
  88 | <div><math><small></math</div>
     :                   ^^^^^^^^^^^^
  89 | <div><math><span></math</div>
- 90 | <div><math><strong></math</div>
     `----
   x Misplaced non-space characters inside a table
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:89:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:88:1]
+ 87 | <div><math><s></math</div>
  88 | <div><math><small></math</div>
     :                               ^
  89 | <div><math><span></math</div>
@@ -3471,7 +3353,6 @@
  89 | <div><math><span></math</div>
     :                             ^
  90 | <div><math><strong></math</div>
- 91 | <div><math><strike></math</div>
     `----
   x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:89:1]
@@ -3479,10 +3360,10 @@
  89 | <div><math><span></math</div>
     :                  ^^^^^^^^^^^^
  90 | <div><math><strong></math</div>
- 91 | <div><math><strike></math</div>
     `----
   x Misplaced non-space characters inside a table
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:90:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:89:1]
+ 88 | <div><math><small></math</div>
  89 | <div><math><span></math</div>
     :                              ^
  90 | <div><math><strong></math</div>
@@ -3529,7 +3410,6 @@
  90 | <div><math><strong></math</div>
     :                               ^
  91 | <div><math><strike></math</div>
- 92 | <div><math><sub></math</div>
     `----
   x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:90:1]
@@ -3537,10 +3417,10 @@
  90 | <div><math><strong></math</div>
     :                    ^^^^^^^^^^^^
  91 | <div><math><strike></math</div>
- 92 | <div><math><sub></math</div>
     `----
   x Misplaced non-space characters inside a table
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:91:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:90:1]
+ 89 | <div><math><span></math</div>
  90 | <div><math><strong></math</div>
     :                                ^
  91 | <div><math><strike></math</div>
@@ -3587,7 +3467,6 @@
  91 | <div><math><strike></math</div>
     :                               ^
  92 | <div><math><sub></math</div>
- 93 | <div><math><sup></math</div>
     `----
   x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:91:1]
@@ -3595,10 +3474,10 @@
  91 | <div><math><strike></math</div>
     :                    ^^^^^^^^^^^^
  92 | <div><math><sub></math</div>
- 93 | <div><math><sup></math</div>
     `----
   x Misplaced non-space characters inside a table
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:92:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:91:1]
+ 90 | <div><math><strong></math</div>
  91 | <div><math><strike></math</div>
     :                                ^
  92 | <div><math><sub></math</div>
@@ -3645,7 +3524,6 @@
  92 | <div><math><sub></math</div>
     :                            ^
  93 | <div><math><sup></math</div>
- 94 | <div><math><table></math</div>
     `----
   x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:92:1]
@@ -3653,10 +3531,10 @@
  92 | <div><math><sub></math</div>
     :                 ^^^^^^^^^^^^
  93 | <div><math><sup></math</div>
- 94 | <div><math><table></math</div>
     `----
   x Misplaced non-space characters inside a table
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:93:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:92:1]
+ 91 | <div><math><strike></math</div>
  92 | <div><math><sub></math</div>
     :                             ^
  93 | <div><math><sup></math</div>
@@ -3703,7 +3581,6 @@
  93 | <div><math><sup></math</div>
     :                            ^
  94 | <div><math><table></math</div>
- 95 | <div><math><tt></math</div>
     `----
   x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:93:1]
@@ -3711,10 +3588,10 @@
  93 | <div><math><sup></math</div>
     :                 ^^^^^^^^^^^^
  94 | <div><math><table></math</div>
- 95 | <div><math><tt></math</div>
     `----
   x Misplaced non-space characters inside a table
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:94:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:93:1]
+ 92 | <div><math><sub></math</div>
  93 | <div><math><sup></math</div>
     :                             ^
  94 | <div><math><table></math</div>
@@ -3761,7 +3638,6 @@
  94 | <div><math><table></math</div>
     :                              ^
  95 | <div><math><tt></math</div>
- 96 | <div><math><u></math</div>
     `----
   x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:94:1]
@@ -3769,7 +3645,6 @@
  94 | <div><math><table></math</div>
     :                   ^^^^^^^^^^^^
  95 | <div><math><tt></math</div>
- 96 | <div><math><u></math</div>
     `----
   x Start tag "div" seen in "table"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:95:1]
@@ -3812,7 +3687,6 @@
  95 | <div><math><tt></math</div>
     :                           ^
  96 | <div><math><u></math</div>
- 97 | <div><math><ul></math</div>
     `----
   x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:95:1]
@@ -3820,10 +3694,10 @@
  95 | <div><math><tt></math</div>
     :                ^^^^^^^^^^^^
  96 | <div><math><u></math</div>
- 97 | <div><math><ul></math</div>
     `----
   x Misplaced non-space characters inside a table
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:96:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:95:1]
+ 94 | <div><math><table></math</div>
  95 | <div><math><tt></math</div>
     :                            ^
  96 | <div><math><u></math</div>
@@ -3870,7 +3744,6 @@
  96 | <div><math><u></math</div>
     :                          ^
  97 | <div><math><ul></math</div>
- 98 | <div><math><var></math</div>
     `----
   x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:96:1]
@@ -3878,10 +3751,10 @@
  96 | <div><math><u></math</div>
     :               ^^^^^^^^^^^^
  97 | <div><math><ul></math</div>
- 98 | <div><math><var></math</div>
     `----
   x Misplaced non-space characters inside a table
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:97:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:96:1]
+ 95 | <div><math><tt></math</div>
  96 | <div><math><u></math</div>
     :                           ^
  97 | <div><math><ul></math</div>
@@ -3928,7 +3801,6 @@
  97 | <div><math><ul></math</div>
     :                           ^
  98 | <div><math><var></math</div>
- 99 | </body>
     `----
   x Stray end tag "math<"
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:97:1]
@@ -3936,10 +3808,10 @@
  97 | <div><math><ul></math</div>
     :                ^^^^^^^^^^^^
  98 | <div><math><var></math</div>
- 99 | </body>
     `----
   x Misplaced non-space characters inside a table
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:98:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:97:1]
+ 96 | <div><math><u></math</div>
  97 | <div><math><ul></math</div>
     :                            ^
  98 | <div><math><var></math</div>
@@ -3981,23 +3853,22 @@
  99 | </body>
     `----
   x End tag with attributes
-     ,-[$DIR/tests/recovery/element/foreign-context/input.html:98:1]
-  97 | <div><math><ul></math</div>
-  98 | <div><math><var></math</div>
-     :                            ^
-  99 | </body>
- 100 | </html>
-     `----
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:98:1]
+ 97 | <div><math><ul></math</div>
+ 98 | <div><math><var></math</div>
+    :                            ^
+ 99 | </body>
+    `----
   x Stray end tag "math<"
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:98:1]
+ 97 | <div><math><ul></math</div>
+ 98 | <div><math><var></math</div>
+    :                 ^^^^^^^^^^^^
+ 99 | </body>
+    `----
+  x Misplaced non-space characters inside a table
      ,-[$DIR/tests/recovery/element/foreign-context/input.html:98:1]
   97 | <div><math><ul></math</div>
-  98 | <div><math><var></math</div>
-     :                 ^^^^^^^^^^^^
-  99 | </body>
- 100 | </html>
-     `----
-  x Misplaced non-space characters inside a table
-     ,-[$DIR/tests/recovery/element/foreign-context/input.html:99:1]
   98 | <div><math><var></math</div>
      :                             ^
   99 | </body>
@@ -4011,16 +3882,20 @@
  100 | </html>
      `----
   x Misplaced non-space characters inside a table
-     ,-[$DIR/tests/recovery/element/foreign-context/input.html:100:1]
+     ,-[$DIR/tests/recovery/element/foreign-context/input.html:99:1]
+  98 | <div><math><var></math</div>
   99 | </body>
      :        ^
  100 | </html>
      `----
   x Stray end tag "html"
-     ,-[$DIR/tests/recovery/element/foreign-context/input.html:100:2]
- 100 | |    
+     ,-[$DIR/tests/recovery/element/foreign-context/input.html:100:1]
+  99 | </body>
+ 100 | </html>
+     : ^^^^^^^
      `----
   x End of file seen and there were open elements
-     ,-[$DIR/tests/recovery/element/foreign-context/input.html:100:9]
- 100 |  
+     ,-[$DIR/tests/recovery/element/foreign-context/input.html:100:1]
+  99 | </body>
+ 100 | </html>
      `----

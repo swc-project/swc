@@ -1,6 +1,8 @@
   x Stylesheet
-   ,-[$DIR/tests/recovery/at-rule/media/invalid-nesting/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/at-rule/media/invalid-nesting/input.css:1:1]
+ 1 | ,-> @media (min-width: 480px) {
+ 2 | |       max-inline-size: 1024px;
+ 3 | `-> }
    `----
   x Rule
    ,-[$DIR/tests/recovery/at-rule/media/invalid-nesting/input.css:1:1]
@@ -121,7 +123,6 @@
  1 | @media (min-width: 480px) {
    :                           ^
  2 |     max-inline-size: 1024px;
- 3 | }
    `----
   x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/media/invalid-nesting/input.css:2:1]
@@ -201,13 +202,15 @@
  3 | }
    `----
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/media/invalid-nesting/input.css:3:1]
+   ,-[$DIR/tests/recovery/at-rule/media/invalid-nesting/input.css:2:1]
+ 1 | @media (min-width: 480px) {
  2 |     max-inline-size: 1024px;
    :                             ^
  3 | }
    `----
   x WhiteSpace { value: "\n" }
-   ,-[$DIR/tests/recovery/at-rule/media/invalid-nesting/input.css:3:1]
+   ,-[$DIR/tests/recovery/at-rule/media/invalid-nesting/input.css:2:1]
+ 1 | @media (min-width: 480px) {
  2 |     max-inline-size: 1024px;
    :                             ^
  3 | }

@@ -1,6 +1,7 @@
   x Document
-   ,-[$DIR/tests/recovery/element/svg/input.html:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/element/svg/input.html:1:1]
+ 1 | <!DOCTYPE html>xxx<svg><x><g><a><main><b>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Child
    ,-[$DIR/tests/recovery/element/svg/input.html:1:1]
@@ -75,10 +76,12 @@
    :                                 ^^^^^^
    `----
   x Child
-   ,-[$DIR/tests/recovery/element/svg/input.html:1:40]
- 1 | |    
+   ,-[$DIR/tests/recovery/element/svg/input.html:1:1]
+ 1 | <!DOCTYPE html>xxx<svg><x><g><a><main><b>
+   :                                       ^^^
    `----
   x Element
-   ,-[$DIR/tests/recovery/element/svg/input.html:1:40]
- 1 | |    
+   ,-[$DIR/tests/recovery/element/svg/input.html:1:1]
+ 1 | <!DOCTYPE html>xxx<svg><x><g><a><main><b>
+   :                                       ^^^
    `----

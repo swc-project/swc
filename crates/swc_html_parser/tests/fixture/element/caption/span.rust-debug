@@ -1,29 +1,93 @@
   x Document
-   ,-[$DIR/tests/fixture/element/caption/input.html:1:2]
- 1 | |    
-   `----
+    ,-[$DIR/tests/fixture/element/caption/input.html:1:1]
+  1 | ,-> <!doctype html>
+  2 | |   <html lang="en">
+  3 | |   <head>
+  4 | |       <title>Document</title>
+  5 | |   </head>
+  6 | |   <body>
+  7 | |   <table>
+  8 | |       <caption>Example Caption</caption>
+  9 | |       <tr>
+ 10 | |           <th>Login</th>
+ 11 | |           <th>Email</th>
+ 12 | |       </tr>
+ 13 | |       <tr>
+ 14 | |           <td>user1</td>
+ 15 | |           <td>user1@sample.com</td>
+ 16 | |       </tr>
+ 17 | |       <tr>
+ 18 | |           <td>user2</td>
+ 19 | |           <td>user2@sample.com</td>
+ 20 | |       </tr>
+ 21 | |   </table>
+ 22 | |   </body>
+ 23 | `-> </html>
+    `----
   x Child
    ,-[$DIR/tests/fixture/element/caption/input.html:1:1]
  1 | <!doctype html>
    : ^^^^^^^^^^^^^^^
  2 | <html lang="en">
- 3 | <head>
    `----
   x DocumentType
    ,-[$DIR/tests/fixture/element/caption/input.html:1:1]
  1 | <!doctype html>
    : ^^^^^^^^^^^^^^^
  2 | <html lang="en">
- 3 | <head>
    `----
   x Child
-   ,-[$DIR/tests/fixture/element/caption/input.html:2:2]
- 2 | |    
-   `----
+    ,-[$DIR/tests/fixture/element/caption/input.html:2:1]
+  1 |     <!doctype html>
+  2 | ,-> <html lang="en">
+  3 | |   <head>
+  4 | |       <title>Document</title>
+  5 | |   </head>
+  6 | |   <body>
+  7 | |   <table>
+  8 | |       <caption>Example Caption</caption>
+  9 | |       <tr>
+ 10 | |           <th>Login</th>
+ 11 | |           <th>Email</th>
+ 12 | |       </tr>
+ 13 | |       <tr>
+ 14 | |           <td>user1</td>
+ 15 | |           <td>user1@sample.com</td>
+ 16 | |       </tr>
+ 17 | |       <tr>
+ 18 | |           <td>user2</td>
+ 19 | |           <td>user2@sample.com</td>
+ 20 | |       </tr>
+ 21 | |   </table>
+ 22 | |   </body>
+ 23 | `-> </html>
+    `----
   x Element
-   ,-[$DIR/tests/fixture/element/caption/input.html:2:2]
- 2 | |    
-   `----
+    ,-[$DIR/tests/fixture/element/caption/input.html:2:1]
+  1 |     <!doctype html>
+  2 | ,-> <html lang="en">
+  3 | |   <head>
+  4 | |       <title>Document</title>
+  5 | |   </head>
+  6 | |   <body>
+  7 | |   <table>
+  8 | |       <caption>Example Caption</caption>
+  9 | |       <tr>
+ 10 | |           <th>Login</th>
+ 11 | |           <th>Email</th>
+ 12 | |       </tr>
+ 13 | |       <tr>
+ 14 | |           <td>user1</td>
+ 15 | |           <td>user1@sample.com</td>
+ 16 | |       </tr>
+ 17 | |       <tr>
+ 18 | |           <td>user2</td>
+ 19 | |           <td>user2@sample.com</td>
+ 20 | |       </tr>
+ 21 | |   </table>
+ 22 | |   </body>
+ 23 | `-> </html>
+    `----
   x Attribute
    ,-[$DIR/tests/fixture/element/caption/input.html:2:1]
  1 | <!doctype html>
@@ -38,7 +102,6 @@
  4 | |       <title>Document</title>
  5 | `-> </head>
  6 |     <body>
- 7 |     <table>
    `----
   x Element
    ,-[$DIR/tests/fixture/element/caption/input.html:3:1]
@@ -47,16 +110,17 @@
  4 | |       <title>Document</title>
  5 | `-> </head>
  6 |     <body>
- 7 |     <table>
    `----
   x Child
-   ,-[$DIR/tests/fixture/element/caption/input.html:4:1]
+   ,-[$DIR/tests/fixture/element/caption/input.html:3:1]
+ 2 |     <html lang="en">
  3 | ,-> <head>
  4 | `->     <title>Document</title>
  5 |     </head>
    `----
   x Text
-   ,-[$DIR/tests/fixture/element/caption/input.html:4:1]
+   ,-[$DIR/tests/fixture/element/caption/input.html:3:1]
+ 2 |     <html lang="en">
  3 | ,-> <head>
  4 | `->     <title>Document</title>
  5 |     </head>
@@ -67,7 +131,6 @@
  4 |     <title>Document</title>
    :     ^^^^^^^^^^^^^^^^^^^^^^^
  5 | </head>
- 6 | <body>
    `----
   x Element
    ,-[$DIR/tests/fixture/element/caption/input.html:4:1]
@@ -75,7 +138,6 @@
  4 |     <title>Document</title>
    :     ^^^^^^^^^^^^^^^^^^^^^^^
  5 | </head>
- 6 | <body>
    `----
   x Child
    ,-[$DIR/tests/fixture/element/caption/input.html:4:1]
@@ -92,28 +154,32 @@
  5 | </head>
    `----
   x Child
-   ,-[$DIR/tests/fixture/element/caption/input.html:5:1]
+   ,-[$DIR/tests/fixture/element/caption/input.html:4:1]
+ 3 | <head>
  4 |     <title>Document</title>
    :                            ^
  5 | </head>
  6 | <body>
    `----
   x Text
-   ,-[$DIR/tests/fixture/element/caption/input.html:5:1]
+   ,-[$DIR/tests/fixture/element/caption/input.html:4:1]
+ 3 | <head>
  4 |     <title>Document</title>
    :                            ^
  5 | </head>
  6 | <body>
    `----
   x Child
-   ,-[$DIR/tests/fixture/element/caption/input.html:6:1]
+   ,-[$DIR/tests/fixture/element/caption/input.html:5:1]
+ 4 |     <title>Document</title>
  5 | </head>
    :        ^
  6 | <body>
  7 | <table>
    `----
   x Text
-   ,-[$DIR/tests/fixture/element/caption/input.html:6:1]
+   ,-[$DIR/tests/fixture/element/caption/input.html:5:1]
+ 4 |     <title>Document</title>
  5 | </head>
    :        ^
  6 | <body>
@@ -164,14 +230,16 @@
  23 |     </html>
     `----
   x Child
-   ,-[$DIR/tests/fixture/element/caption/input.html:7:1]
+   ,-[$DIR/tests/fixture/element/caption/input.html:6:1]
+ 5 | </head>
  6 | <body>
    :       ^
  7 | <table>
  8 |     <caption>Example Caption</caption>
    `----
   x Text
-   ,-[$DIR/tests/fixture/element/caption/input.html:7:1]
+   ,-[$DIR/tests/fixture/element/caption/input.html:6:1]
+ 5 | </head>
  6 | <body>
    :       ^
  7 | <table>
@@ -196,7 +264,6 @@
  20 | |       </tr>
  21 | `-> </table>
  22 |     </body>
- 23 |     </html>
     `----
   x Element
     ,-[$DIR/tests/fixture/element/caption/input.html:7:1]
@@ -217,36 +284,35 @@
  20 | |       </tr>
  21 | `-> </table>
  22 |     </body>
- 23 |     </html>
     `----
   x Child
-   ,-[$DIR/tests/fixture/element/caption/input.html:8:1]
+   ,-[$DIR/tests/fixture/element/caption/input.html:7:1]
+ 6 |     <body>
  7 | ,-> <table>
  8 | `->     <caption>Example Caption</caption>
  9 |         <tr>
    `----
   x Text
-   ,-[$DIR/tests/fixture/element/caption/input.html:8:1]
+   ,-[$DIR/tests/fixture/element/caption/input.html:7:1]
+ 6 |     <body>
  7 | ,-> <table>
  8 | `->     <caption>Example Caption</caption>
  9 |         <tr>
    `----
   x Child
-    ,-[$DIR/tests/fixture/element/caption/input.html:8:1]
-  7 | <table>
-  8 |     <caption>Example Caption</caption>
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  9 |     <tr>
- 10 |         <th>Login</th>
-    `----
+   ,-[$DIR/tests/fixture/element/caption/input.html:8:1]
+ 7 | <table>
+ 8 |     <caption>Example Caption</caption>
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 9 |     <tr>
+   `----
   x Element
-    ,-[$DIR/tests/fixture/element/caption/input.html:8:1]
-  7 | <table>
-  8 |     <caption>Example Caption</caption>
-    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  9 |     <tr>
- 10 |         <th>Login</th>
-    `----
+   ,-[$DIR/tests/fixture/element/caption/input.html:8:1]
+ 7 | <table>
+ 8 |     <caption>Example Caption</caption>
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 9 |     <tr>
+   `----
   x Child
    ,-[$DIR/tests/fixture/element/caption/input.html:8:1]
  7 | <table>
@@ -262,13 +328,15 @@
  9 |     <tr>
    `----
   x Child
-    ,-[$DIR/tests/fixture/element/caption/input.html:9:1]
+    ,-[$DIR/tests/fixture/element/caption/input.html:8:1]
+  7 |     <table>
   8 | ,->     <caption>Example Caption</caption>
   9 | `->     <tr>
  10 |             <th>Login</th>
     `----
   x Text
-    ,-[$DIR/tests/fixture/element/caption/input.html:9:1]
+    ,-[$DIR/tests/fixture/element/caption/input.html:8:1]
+  7 |     <table>
   8 | ,->     <caption>Example Caption</caption>
   9 | `->     <tr>
  10 |             <th>Login</th>
@@ -283,7 +351,6 @@
  11 | |           <th>Email</th>
  12 | `->     </tr>
  13 |         <tr>
- 14 |             <td>user1</td>
     `----
   x Element
     ,-[$DIR/tests/fixture/element/caption/input.html:9:1]
@@ -293,16 +360,17 @@
  11 | |           <th>Email</th>
  12 | `->     </tr>
  13 |         <tr>
- 14 |             <td>user1</td>
     `----
   x Child
-    ,-[$DIR/tests/fixture/element/caption/input.html:10:1]
+    ,-[$DIR/tests/fixture/element/caption/input.html:9:1]
+  8 |         <caption>Example Caption</caption>
   9 | ,->     <tr>
  10 | `->         <th>Login</th>
  11 |             <th>Email</th>
     `----
   x Text
-    ,-[$DIR/tests/fixture/element/caption/input.html:10:1]
+    ,-[$DIR/tests/fixture/element/caption/input.html:9:1]
+  8 |         <caption>Example Caption</caption>
   9 | ,->     <tr>
  10 | `->         <th>Login</th>
  11 |             <th>Email</th>
@@ -313,7 +381,6 @@
  10 |         <th>Login</th>
     :         ^^^^^^^^^^^^^^
  11 |         <th>Email</th>
- 12 |     </tr>
     `----
   x Element
     ,-[$DIR/tests/fixture/element/caption/input.html:10:1]
@@ -321,7 +388,6 @@
  10 |         <th>Login</th>
     :         ^^^^^^^^^^^^^^
  11 |         <th>Email</th>
- 12 |     </tr>
     `----
   x Child
     ,-[$DIR/tests/fixture/element/caption/input.html:10:1]
@@ -338,13 +404,15 @@
  11 |         <th>Email</th>
     `----
   x Child
-    ,-[$DIR/tests/fixture/element/caption/input.html:11:1]
+    ,-[$DIR/tests/fixture/element/caption/input.html:10:1]
+  9 |         <tr>
  10 | ,->         <th>Login</th>
  11 | `->         <th>Email</th>
  12 |         </tr>
     `----
   x Text
-    ,-[$DIR/tests/fixture/element/caption/input.html:11:1]
+    ,-[$DIR/tests/fixture/element/caption/input.html:10:1]
+  9 |         <tr>
  10 | ,->         <th>Login</th>
  11 | `->         <th>Email</th>
  12 |         </tr>
@@ -355,7 +423,6 @@
  11 |         <th>Email</th>
     :         ^^^^^^^^^^^^^^
  12 |     </tr>
- 13 |     <tr>
     `----
   x Element
     ,-[$DIR/tests/fixture/element/caption/input.html:11:1]
@@ -363,7 +430,6 @@
  11 |         <th>Email</th>
     :         ^^^^^^^^^^^^^^
  12 |     </tr>
- 13 |     <tr>
     `----
   x Child
     ,-[$DIR/tests/fixture/element/caption/input.html:11:1]
@@ -380,25 +446,29 @@
  12 |     </tr>
     `----
   x Child
-    ,-[$DIR/tests/fixture/element/caption/input.html:12:1]
+    ,-[$DIR/tests/fixture/element/caption/input.html:11:1]
+ 10 |             <th>Login</th>
  11 | ,->         <th>Email</th>
  12 | `->     </tr>
  13 |         <tr>
     `----
   x Text
-    ,-[$DIR/tests/fixture/element/caption/input.html:12:1]
+    ,-[$DIR/tests/fixture/element/caption/input.html:11:1]
+ 10 |             <th>Login</th>
  11 | ,->         <th>Email</th>
  12 | `->     </tr>
  13 |         <tr>
     `----
   x Child
-    ,-[$DIR/tests/fixture/element/caption/input.html:13:1]
+    ,-[$DIR/tests/fixture/element/caption/input.html:12:1]
+ 11 |             <th>Email</th>
  12 | ,->     </tr>
  13 | `->     <tr>
  14 |             <td>user1</td>
     `----
   x Text
-    ,-[$DIR/tests/fixture/element/caption/input.html:13:1]
+    ,-[$DIR/tests/fixture/element/caption/input.html:12:1]
+ 11 |             <th>Email</th>
  12 | ,->     </tr>
  13 | `->     <tr>
  14 |             <td>user1</td>
@@ -411,7 +481,6 @@
  15 | |           <td>user1@sample.com</td>
  16 | `->     </tr>
  17 |         <tr>
- 18 |             <td>user2</td>
     `----
   x Element
     ,-[$DIR/tests/fixture/element/caption/input.html:13:1]
@@ -421,16 +490,17 @@
  15 | |           <td>user1@sample.com</td>
  16 | `->     </tr>
  17 |         <tr>
- 18 |             <td>user2</td>
     `----
   x Child
-    ,-[$DIR/tests/fixture/element/caption/input.html:14:1]
+    ,-[$DIR/tests/fixture/element/caption/input.html:13:1]
+ 12 |         </tr>
  13 | ,->     <tr>
  14 | `->         <td>user1</td>
  15 |             <td>user1@sample.com</td>
     `----
   x Text
-    ,-[$DIR/tests/fixture/element/caption/input.html:14:1]
+    ,-[$DIR/tests/fixture/element/caption/input.html:13:1]
+ 12 |         </tr>
  13 | ,->     <tr>
  14 | `->         <td>user1</td>
  15 |             <td>user1@sample.com</td>
@@ -441,7 +511,6 @@
  14 |         <td>user1</td>
     :         ^^^^^^^^^^^^^^
  15 |         <td>user1@sample.com</td>
- 16 |     </tr>
     `----
   x Element
     ,-[$DIR/tests/fixture/element/caption/input.html:14:1]
@@ -449,7 +518,6 @@
  14 |         <td>user1</td>
     :         ^^^^^^^^^^^^^^
  15 |         <td>user1@sample.com</td>
- 16 |     </tr>
     `----
   x Child
     ,-[$DIR/tests/fixture/element/caption/input.html:14:1]
@@ -466,13 +534,15 @@
  15 |         <td>user1@sample.com</td>
     `----
   x Child
-    ,-[$DIR/tests/fixture/element/caption/input.html:15:1]
+    ,-[$DIR/tests/fixture/element/caption/input.html:14:1]
+ 13 |         <tr>
  14 | ,->         <td>user1</td>
  15 | `->         <td>user1@sample.com</td>
  16 |         </tr>
     `----
   x Text
-    ,-[$DIR/tests/fixture/element/caption/input.html:15:1]
+    ,-[$DIR/tests/fixture/element/caption/input.html:14:1]
+ 13 |         <tr>
  14 | ,->         <td>user1</td>
  15 | `->         <td>user1@sample.com</td>
  16 |         </tr>
@@ -483,7 +553,6 @@
  15 |         <td>user1@sample.com</td>
     :         ^^^^^^^^^^^^^^^^^^^^^^^^^
  16 |     </tr>
- 17 |     <tr>
     `----
   x Element
     ,-[$DIR/tests/fixture/element/caption/input.html:15:1]
@@ -491,7 +560,6 @@
  15 |         <td>user1@sample.com</td>
     :         ^^^^^^^^^^^^^^^^^^^^^^^^^
  16 |     </tr>
- 17 |     <tr>
     `----
   x Child
     ,-[$DIR/tests/fixture/element/caption/input.html:15:1]
@@ -508,25 +576,29 @@
  16 |     </tr>
     `----
   x Child
-    ,-[$DIR/tests/fixture/element/caption/input.html:16:1]
+    ,-[$DIR/tests/fixture/element/caption/input.html:15:1]
+ 14 |             <td>user1</td>
  15 | ,->         <td>user1@sample.com</td>
  16 | `->     </tr>
  17 |         <tr>
     `----
   x Text
-    ,-[$DIR/tests/fixture/element/caption/input.html:16:1]
+    ,-[$DIR/tests/fixture/element/caption/input.html:15:1]
+ 14 |             <td>user1</td>
  15 | ,->         <td>user1@sample.com</td>
  16 | `->     </tr>
  17 |         <tr>
     `----
   x Child
-    ,-[$DIR/tests/fixture/element/caption/input.html:17:1]
+    ,-[$DIR/tests/fixture/element/caption/input.html:16:1]
+ 15 |             <td>user1@sample.com</td>
  16 | ,->     </tr>
  17 | `->     <tr>
  18 |             <td>user2</td>
     `----
   x Text
-    ,-[$DIR/tests/fixture/element/caption/input.html:17:1]
+    ,-[$DIR/tests/fixture/element/caption/input.html:16:1]
+ 15 |             <td>user1@sample.com</td>
  16 | ,->     </tr>
  17 | `->     <tr>
  18 |             <td>user2</td>
@@ -539,7 +611,6 @@
  19 | |           <td>user2@sample.com</td>
  20 | `->     </tr>
  21 |     </table>
- 22 |     </body>
     `----
   x Element
     ,-[$DIR/tests/fixture/element/caption/input.html:17:1]
@@ -549,16 +620,17 @@
  19 | |           <td>user2@sample.com</td>
  20 | `->     </tr>
  21 |     </table>
- 22 |     </body>
     `----
   x Child
-    ,-[$DIR/tests/fixture/element/caption/input.html:18:1]
+    ,-[$DIR/tests/fixture/element/caption/input.html:17:1]
+ 16 |         </tr>
  17 | ,->     <tr>
  18 | `->         <td>user2</td>
  19 |             <td>user2@sample.com</td>
     `----
   x Text
-    ,-[$DIR/tests/fixture/element/caption/input.html:18:1]
+    ,-[$DIR/tests/fixture/element/caption/input.html:17:1]
+ 16 |         </tr>
  17 | ,->     <tr>
  18 | `->         <td>user2</td>
  19 |             <td>user2@sample.com</td>
@@ -569,7 +641,6 @@
  18 |         <td>user2</td>
     :         ^^^^^^^^^^^^^^
  19 |         <td>user2@sample.com</td>
- 20 |     </tr>
     `----
   x Element
     ,-[$DIR/tests/fixture/element/caption/input.html:18:1]
@@ -577,7 +648,6 @@
  18 |         <td>user2</td>
     :         ^^^^^^^^^^^^^^
  19 |         <td>user2@sample.com</td>
- 20 |     </tr>
     `----
   x Child
     ,-[$DIR/tests/fixture/element/caption/input.html:18:1]
@@ -594,13 +664,15 @@
  19 |         <td>user2@sample.com</td>
     `----
   x Child
-    ,-[$DIR/tests/fixture/element/caption/input.html:19:1]
+    ,-[$DIR/tests/fixture/element/caption/input.html:18:1]
+ 17 |         <tr>
  18 | ,->         <td>user2</td>
  19 | `->         <td>user2@sample.com</td>
  20 |         </tr>
     `----
   x Text
-    ,-[$DIR/tests/fixture/element/caption/input.html:19:1]
+    ,-[$DIR/tests/fixture/element/caption/input.html:18:1]
+ 17 |         <tr>
  18 | ,->         <td>user2</td>
  19 | `->         <td>user2@sample.com</td>
  20 |         </tr>
@@ -611,7 +683,6 @@
  19 |         <td>user2@sample.com</td>
     :         ^^^^^^^^^^^^^^^^^^^^^^^^^
  20 |     </tr>
- 21 | </table>
     `----
   x Element
     ,-[$DIR/tests/fixture/element/caption/input.html:19:1]
@@ -619,7 +690,6 @@
  19 |         <td>user2@sample.com</td>
     :         ^^^^^^^^^^^^^^^^^^^^^^^^^
  20 |     </tr>
- 21 | </table>
     `----
   x Child
     ,-[$DIR/tests/fixture/element/caption/input.html:19:1]
@@ -636,39 +706,45 @@
  20 |     </tr>
     `----
   x Child
-    ,-[$DIR/tests/fixture/element/caption/input.html:20:1]
+    ,-[$DIR/tests/fixture/element/caption/input.html:19:1]
+ 18 |             <td>user2</td>
  19 | ,->         <td>user2@sample.com</td>
  20 | `->     </tr>
  21 |     </table>
     `----
   x Text
-    ,-[$DIR/tests/fixture/element/caption/input.html:20:1]
+    ,-[$DIR/tests/fixture/element/caption/input.html:19:1]
+ 18 |             <td>user2</td>
  19 | ,->         <td>user2@sample.com</td>
  20 | `->     </tr>
  21 |     </table>
     `----
   x Child
-    ,-[$DIR/tests/fixture/element/caption/input.html:21:1]
+    ,-[$DIR/tests/fixture/element/caption/input.html:20:1]
+ 19 |         <td>user2@sample.com</td>
  20 |     </tr>
     :          ^
  21 | </table>
  22 | </body>
     `----
   x Text
-    ,-[$DIR/tests/fixture/element/caption/input.html:21:1]
+    ,-[$DIR/tests/fixture/element/caption/input.html:20:1]
+ 19 |         <td>user2@sample.com</td>
  20 |     </tr>
     :          ^
  21 | </table>
  22 | </body>
     `----
   x Child
-    ,-[$DIR/tests/fixture/element/caption/input.html:22:1]
+    ,-[$DIR/tests/fixture/element/caption/input.html:21:1]
+ 20 |         </tr>
  21 | ,-> </table>
  22 | `-> </body>
  23 |     </html>
     `----
   x Text
-    ,-[$DIR/tests/fixture/element/caption/input.html:22:1]
+    ,-[$DIR/tests/fixture/element/caption/input.html:21:1]
+ 20 |         </tr>
  21 | ,-> </table>
  22 | `-> </body>
  23 |     </html>

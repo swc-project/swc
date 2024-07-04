@@ -1,22 +1,24 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/stylesheet/cdo-and-cdc/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/stylesheet/cdo-and-cdc/input.css:1:1]
+ 1 | ,-> <!-- a {
+ 2 | |       color: red;
+ 3 | |   }
+ 4 | |   
+ 5 | |   --> a {
+ 6 | |       color: red;
+ 7 | `-> }
    `----
   x Rule
    ,-[$DIR/tests/fixture/stylesheet/cdo-and-cdc/input.css:1:1]
  1 | ,-> <!-- a {
  2 | |       color: red;
  3 | `-> }
- 4 |     
- 5 |     --> a {
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/stylesheet/cdo-and-cdc/input.css:1:1]
  1 | ,-> <!-- a {
  2 | |       color: red;
  3 | `-> }
- 4 |     
- 5 |     --> a {
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/stylesheet/cdo-and-cdc/input.css:1:1]
@@ -65,15 +67,12 @@
  1 | ,-> <!-- a {
  2 | |       color: red;
  3 | `-> }
- 4 |     
- 5 |     --> a {
    `----
   x LBrace
    ,-[$DIR/tests/fixture/stylesheet/cdo-and-cdc/input.css:1:1]
  1 | <!-- a {
    :        ^
  2 |     color: red;
- 3 | }
    `----
   x ComponentValue
    ,-[$DIR/tests/fixture/stylesheet/cdo-and-cdc/input.css:2:1]
@@ -193,7 +192,6 @@
  5 | --> a {
    :       ^
  6 |     color: red;
- 7 | }
    `----
   x ComponentValue
    ,-[$DIR/tests/fixture/stylesheet/cdo-and-cdc/input.css:6:1]

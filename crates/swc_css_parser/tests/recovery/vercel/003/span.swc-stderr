@@ -1,7 +1,18 @@
   x Stylesheet
-   ,-[$DIR/tests/recovery/vercel/003/input.css:1:2]
- 1 | |    
-   `----
+    ,-[$DIR/tests/recovery/vercel/003/input.css:1:1]
+  1 | ,-> .geist-list {
+  2 | |       display: flex;
+  3 | |       flex-wrap: wrap;
+  4 | |       margin: __ident__;
+  5 | |       box-sizing: border-box;
+  6 | |   }
+  7 | |   .geist-list :global(> .geist-list-item) {
+  8 | |       padding: __ident__;
+  9 | |       flex-grow: 0;
+ 10 | |       flex-basis: __ident__%;
+ 11 | |       min-width: 0;
+ 12 | `-> }
+    `----
   x Rule
    ,-[$DIR/tests/recovery/vercel/003/input.css:1:1]
  1 | ,-> .geist-list {
@@ -11,7 +22,6 @@
  5 | |       box-sizing: border-box;
  6 | `-> }
  7 |     .geist-list :global(> .geist-list-item) {
- 8 |         padding: __ident__;
    `----
   x QualifiedRule
    ,-[$DIR/tests/recovery/vercel/003/input.css:1:1]
@@ -22,7 +32,6 @@
  5 | |       box-sizing: border-box;
  6 | `-> }
  7 |     .geist-list :global(> .geist-list-item) {
- 8 |         padding: __ident__;
    `----
   x SelectorList
    ,-[$DIR/tests/recovery/vercel/003/input.css:1:1]
@@ -69,14 +78,12 @@
  5 | |       box-sizing: border-box;
  6 | `-> }
  7 |     .geist-list :global(> .geist-list-item) {
- 8 |         padding: __ident__;
    `----
   x LBrace
    ,-[$DIR/tests/recovery/vercel/003/input.css:1:1]
  1 | .geist-list {
    :             ^
  2 |     display: flex;
- 3 |     flex-wrap: wrap;
    `----
   x ComponentValue
    ,-[$DIR/tests/recovery/vercel/003/input.css:2:1]
@@ -415,7 +422,6 @@
  7 | .geist-list :global(> .geist-list-item) {
    :                                         ^
  8 |     padding: __ident__;
- 9 |     flex-grow: 0;
    `----
   x ComponentValue
    ,-[$DIR/tests/recovery/vercel/003/input.css:8:1]

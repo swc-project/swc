@@ -1,6 +1,10 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/at-rule/property/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/at-rule/property/input.css:1:1]
+ 1 | ,-> @property --my-color {
+ 2 | |       syntax: '<color>';
+ 3 | |       inherits: false;
+ 4 | |       initial-value: #c0ffee;
+ 5 | `-> }
    `----
   x Rule
    ,-[$DIR/tests/fixture/at-rule/property/input.css:1:1]
@@ -43,7 +47,6 @@
  1 | @property --my-color {
    :                      ^
  2 |     syntax: '<color>';
- 3 |     inherits: false;
    `----
   x ComponentValue
    ,-[$DIR/tests/fixture/at-rule/property/input.css:2:1]

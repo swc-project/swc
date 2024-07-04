@@ -1,6 +1,7 @@
   x Stylesheet
-   ,-[$DIR/tests/recovery/at-rule/import/unknown/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/at-rule/import/unknown/input.css:1:1]
+ 1 | @import url("./test.css") unknown(default) unknown(display: flex) unknown;
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Rule
    ,-[$DIR/tests/recovery/at-rule/import/unknown/input.css:1:1]

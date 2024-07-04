@@ -1,4 +1,5 @@
   x Legacy comments cannot be used in module code
-   ,-[$DIR/tests/jsx/errors/html-comment/input.js:1:2]
- 1 | |    
+   ,-[$DIR/tests/jsx/errors/html-comment/input.js:1:1]
+ 1 | <!--a
+   : ^^^^^^
    `----

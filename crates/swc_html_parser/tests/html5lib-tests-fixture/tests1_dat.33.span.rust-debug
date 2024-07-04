@@ -1,6 +1,7 @@
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.33.html:1:2]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.33.html:1:1]
+ 1 | <!DOCTYPE html><li>hello<li>world<ul>how<li>do</ul>you</body><!--do-->
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.33.html:1:1]
@@ -35,12 +36,14 @@
    :                    ^^^^^
    `----
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.33.html:1:26]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.33.html:1:1]
+ 1 | <!DOCTYPE html><li>hello<li>world<ul>how<li>do</ul>you</body><!--do-->
+   :                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.33.html:1:26]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.33.html:1:1]
+ 1 | <!DOCTYPE html><li>hello<li>world<ul>how<li>do</ul>you</body><!--do-->
+   :                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.33.html:1:1]
@@ -103,10 +106,12 @@
    :                                                    ^^^
    `----
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.33.html:1:63]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.33.html:1:1]
+ 1 | <!DOCTYPE html><li>hello<li>world<ul>how<li>do</ul>you</body><!--do-->
+   :                                                              ^^^^^^^^^
    `----
   x Comment
-   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.33.html:1:63]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.33.html:1:1]
+ 1 | <!DOCTYPE html><li>hello<li>world<ul>how<li>do</ul>you</body><!--do-->
+   :                                                              ^^^^^^^^^
    `----

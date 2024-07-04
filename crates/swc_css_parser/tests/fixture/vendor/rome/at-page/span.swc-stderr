@@ -1,15 +1,31 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/vendor/rome/at-page/input.css:1:2]
- 1 | |    
-   `----
+    ,-[$DIR/tests/fixture/vendor/rome/at-page/input.css:1:1]
+  1 | ,-> @page MyPage:blank {
+  2 | |       @top-center { content: none }
+  3 | |       margin-left: 4cm;
+  4 | |   }
+  5 | |   
+  6 | |   @page :blank {
+  7 | |       @top-center { content: none }
+  8 | |       margin-left: 4cm;
+  9 | |   }
+ 10 | |   
+ 11 | |   @page {
+ 12 | |       @top-center { content: none }
+ 13 | |       margin-left: 4cm;
+ 14 | |   }
+ 15 | |   
+ 16 | |   @page {
+ 17 | |       @top-center { CONTENT: none }
+ 18 | |       MARGIN-LEFT: 4cm;
+ 19 | `-> }
+    `----
   x Rule
    ,-[$DIR/tests/fixture/vendor/rome/at-page/input.css:1:1]
  1 | ,-> @page MyPage:blank {
  2 | |       @top-center { content: none }
  3 | |       margin-left: 4cm;
  4 | `-> }
- 5 |     
- 6 |     @page :blank {
    `----
   x AtRule
    ,-[$DIR/tests/fixture/vendor/rome/at-page/input.css:1:1]
@@ -17,8 +33,6 @@
  2 | |       @top-center { content: none }
  3 | |       margin-left: 4cm;
  4 | `-> }
- 5 |     
- 6 |     @page :blank {
    `----
   x AtRuleName
    ,-[$DIR/tests/fixture/vendor/rome/at-page/input.css:1:1]
@@ -74,15 +88,12 @@
  2 | |       @top-center { content: none }
  3 | |       margin-left: 4cm;
  4 | `-> }
- 5 |     
- 6 |     @page :blank {
    `----
   x LBrace
    ,-[$DIR/tests/fixture/vendor/rome/at-page/input.css:1:1]
  1 | @page MyPage:blank {
    :                    ^
  2 |     @top-center { content: none }
- 3 |     margin-left: 4cm;
    `----
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/rome/at-page/input.css:2:1]
@@ -90,7 +101,6 @@
  2 |     @top-center { content: none }
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  3 |     margin-left: 4cm;
- 4 | }
    `----
   x AtRule
    ,-[$DIR/tests/fixture/vendor/rome/at-page/input.css:2:1]
@@ -98,7 +108,6 @@
  2 |     @top-center { content: none }
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  3 |     margin-left: 4cm;
- 4 | }
    `----
   x AtRuleName
    ,-[$DIR/tests/fixture/vendor/rome/at-page/input.css:2:1]
@@ -120,7 +129,6 @@
  2 |     @top-center { content: none }
    :                 ^^^^^^^^^^^^^^^^^
  3 |     margin-left: 4cm;
- 4 | }
    `----
   x LBrace
    ,-[$DIR/tests/fixture/vendor/rome/at-page/input.css:2:1]
@@ -235,25 +243,21 @@
  4 | }
    `----
   x Rule
-    ,-[$DIR/tests/fixture/vendor/rome/at-page/input.css:6:1]
-  5 |     
-  6 | ,-> @page :blank {
-  7 | |       @top-center { content: none }
-  8 | |       margin-left: 4cm;
-  9 | `-> }
- 10 |     
- 11 |     @page {
-    `----
+   ,-[$DIR/tests/fixture/vendor/rome/at-page/input.css:6:1]
+ 5 |     
+ 6 | ,-> @page :blank {
+ 7 | |       @top-center { content: none }
+ 8 | |       margin-left: 4cm;
+ 9 | `-> }
+   `----
   x AtRule
-    ,-[$DIR/tests/fixture/vendor/rome/at-page/input.css:6:1]
-  5 |     
-  6 | ,-> @page :blank {
-  7 | |       @top-center { content: none }
-  8 | |       margin-left: 4cm;
-  9 | `-> }
- 10 |     
- 11 |     @page {
-    `----
+   ,-[$DIR/tests/fixture/vendor/rome/at-page/input.css:6:1]
+ 5 |     
+ 6 | ,-> @page :blank {
+ 7 | |       @top-center { content: none }
+ 8 | |       margin-left: 4cm;
+ 9 | `-> }
+   `----
   x AtRuleName
    ,-[$DIR/tests/fixture/vendor/rome/at-page/input.css:6:1]
  5 | 
@@ -297,22 +301,19 @@
  7 |     @top-center { content: none }
    `----
   x SimpleBlock
-    ,-[$DIR/tests/fixture/vendor/rome/at-page/input.css:6:1]
-  5 |     
-  6 | ,-> @page :blank {
-  7 | |       @top-center { content: none }
-  8 | |       margin-left: 4cm;
-  9 | `-> }
- 10 |     
- 11 |     @page {
-    `----
+   ,-[$DIR/tests/fixture/vendor/rome/at-page/input.css:6:1]
+ 5 |     
+ 6 | ,-> @page :blank {
+ 7 | |       @top-center { content: none }
+ 8 | |       margin-left: 4cm;
+ 9 | `-> }
+   `----
   x LBrace
    ,-[$DIR/tests/fixture/vendor/rome/at-page/input.css:6:1]
  5 | 
  6 | @page :blank {
    :              ^
  7 |     @top-center { content: none }
- 8 |     margin-left: 4cm;
    `----
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/rome/at-page/input.css:7:1]
@@ -320,7 +321,6 @@
  7 |     @top-center { content: none }
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  8 |     margin-left: 4cm;
- 9 | }
    `----
   x AtRule
    ,-[$DIR/tests/fixture/vendor/rome/at-page/input.css:7:1]
@@ -328,7 +328,6 @@
  7 |     @top-center { content: none }
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  8 |     margin-left: 4cm;
- 9 | }
    `----
   x AtRuleName
    ,-[$DIR/tests/fixture/vendor/rome/at-page/input.css:7:1]
@@ -350,7 +349,6 @@
  7 |     @top-center { content: none }
    :                 ^^^^^^^^^^^^^^^^^
  8 |     margin-left: 4cm;
- 9 | }
    `----
   x LBrace
    ,-[$DIR/tests/fixture/vendor/rome/at-page/input.css:7:1]
@@ -471,8 +469,6 @@
  12 | |       @top-center { content: none }
  13 | |       margin-left: 4cm;
  14 | `-> }
- 15 |     
- 16 |     @page {
     `----
   x AtRule
     ,-[$DIR/tests/fixture/vendor/rome/at-page/input.css:11:1]
@@ -481,8 +477,6 @@
  12 | |       @top-center { content: none }
  13 | |       margin-left: 4cm;
  14 | `-> }
- 15 |     
- 16 |     @page {
     `----
   x AtRuleName
     ,-[$DIR/tests/fixture/vendor/rome/at-page/input.css:11:1]
@@ -505,8 +499,6 @@
  12 | |       @top-center { content: none }
  13 | |       margin-left: 4cm;
  14 | `-> }
- 15 |     
- 16 |     @page {
     `----
   x LBrace
     ,-[$DIR/tests/fixture/vendor/rome/at-page/input.css:11:1]
@@ -514,7 +506,6 @@
  11 | @page {
     :       ^
  12 |     @top-center { content: none }
- 13 |     margin-left: 4cm;
     `----
   x ComponentValue
     ,-[$DIR/tests/fixture/vendor/rome/at-page/input.css:12:1]
@@ -522,7 +513,6 @@
  12 |     @top-center { content: none }
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  13 |     margin-left: 4cm;
- 14 | }
     `----
   x AtRule
     ,-[$DIR/tests/fixture/vendor/rome/at-page/input.css:12:1]
@@ -530,7 +520,6 @@
  12 |     @top-center { content: none }
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  13 |     margin-left: 4cm;
- 14 | }
     `----
   x AtRuleName
     ,-[$DIR/tests/fixture/vendor/rome/at-page/input.css:12:1]
@@ -552,7 +541,6 @@
  12 |     @top-center { content: none }
     :                 ^^^^^^^^^^^^^^^^^
  13 |     margin-left: 4cm;
- 14 | }
     `----
   x LBrace
     ,-[$DIR/tests/fixture/vendor/rome/at-page/input.css:12:1]
@@ -710,7 +698,6 @@
  16 | @page {
     :       ^
  17 |     @top-center { CONTENT: none }
- 18 |     MARGIN-LEFT: 4cm;
     `----
   x ComponentValue
     ,-[$DIR/tests/fixture/vendor/rome/at-page/input.css:17:1]
@@ -718,7 +705,6 @@
  17 |     @top-center { CONTENT: none }
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  18 |     MARGIN-LEFT: 4cm;
- 19 | }
     `----
   x AtRule
     ,-[$DIR/tests/fixture/vendor/rome/at-page/input.css:17:1]
@@ -726,7 +712,6 @@
  17 |     @top-center { CONTENT: none }
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  18 |     MARGIN-LEFT: 4cm;
- 19 | }
     `----
   x AtRuleName
     ,-[$DIR/tests/fixture/vendor/rome/at-page/input.css:17:1]
@@ -748,7 +733,6 @@
  17 |     @top-center { CONTENT: none }
     :                 ^^^^^^^^^^^^^^^^^
  18 |     MARGIN-LEFT: 4cm;
- 19 | }
     `----
   x LBrace
     ,-[$DIR/tests/fixture/vendor/rome/at-page/input.css:17:1]

@@ -1,6 +1,8 @@
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/doctype01_dat.30.html:1:2]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/doctype01_dat.30.html:1:1]
+ 1 | ,-> <!DOCTYPE root-element [SYSTEM OR PUBLIC FPI] "uri" [ 
+ 2 | |   <!-- internal declarations -->
+ 3 | `-> ]>
    `----
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/doctype01_dat.30.html:1:1]
@@ -17,10 +19,14 @@
   x Child
   x Element
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/doctype01_dat.30.html:3:2]
- 3 | `->  
+   ,-[$DIR/tests/html5lib-tests-fixture/doctype01_dat.30.html:3:1]
+ 2 | <!-- internal declarations -->
+ 3 | ]>
+   : ^^
    `----
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/doctype01_dat.30.html:3:2]
- 3 | `->  
+   ,-[$DIR/tests/html5lib-tests-fixture/doctype01_dat.30.html:3:1]
+ 2 | <!-- internal declarations -->
+ 3 | ]>
+   : ^^
    `----

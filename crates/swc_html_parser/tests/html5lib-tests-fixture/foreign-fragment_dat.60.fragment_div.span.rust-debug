@@ -1,6 +1,7 @@
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.60.fragment_div.html:1:2]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.60.fragment_div.html:1:1]
+ 1 | <svg></p><foo>
+   : ^^^^^^^^^^^^^^
    `----
   x Child
   x Element
@@ -25,10 +26,12 @@
    :      ^^^^
    `----
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.60.fragment_div.html:1:11]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.60.fragment_div.html:1:1]
+ 1 | <svg></p><foo>
+   :          ^^^^^
    `----
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.60.fragment_div.html:1:11]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.60.fragment_div.html:1:1]
+ 1 | <svg></p><foo>
+   :          ^^^^^
    `----

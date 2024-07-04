@@ -1,22 +1,27 @@
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/tests21_dat.23.html:1:2]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests21_dat.23.html:1:1]
+ 1 | <svg><![CDATA[<svg>]]>path
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Child
   x Element
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests21_dat.23.html:1:2]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests21_dat.23.html:1:1]
+ 1 | <svg><![CDATA[<svg>]]>path
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tests21_dat.23.html:1:2]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests21_dat.23.html:1:1]
+ 1 | <svg><![CDATA[<svg>]]>path
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests21_dat.23.html:1:7]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests21_dat.23.html:1:1]
+ 1 | <svg><![CDATA[<svg>]]>path
+   :      ^^^^^^^^^^^^^^^^^^^^^
    `----
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/tests21_dat.23.html:1:7]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests21_dat.23.html:1:1]
+ 1 | <svg><![CDATA[<svg>]]>path
+   :      ^^^^^^^^^^^^^^^^^^^^^
    `----

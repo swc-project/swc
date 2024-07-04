@@ -1,7 +1,24 @@
   x Stylesheet
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:1:2]
- 1 | |    
-   `----
+    ,-[$DIR/tests/recovery/value/url/basic/input.css:1:1]
+  1 | ,-> div {
+  2 | |       --foo: "http://www.example.com/pinkish.gif";
+  3 | |       background: url(var(--foo));
+  4 | |       background: url(image.png\999999);
+  5 | |       background: url(image.png\0);
+  6 | |       background: url(image.png\D800);
+  7 | |       background: url(image.png\DFFF);
+  8 | |       background: url(image.png\11FFFF);
+  9 | |       color: red;
+ 10 | |   }
+ 11 | |   
+ 12 | |   .foo {
+ 13 | |       background: url(image.png param(var(--url)));
+ 14 | |   }
+ 15 | |   
+ 16 | |   .style {
+ 17 | |       background: url("foo", "bar");
+ 18 | `-> }
+    `----
   x Rule
     ,-[$DIR/tests/recovery/value/url/basic/input.css:1:1]
   1 | ,-> div {
@@ -14,8 +31,6 @@
   8 | |       background: url(image.png\11FFFF);
   9 | |       color: red;
  10 | `-> }
- 11 |     
- 12 |     .foo {
     `----
   x QualifiedRule
     ,-[$DIR/tests/recovery/value/url/basic/input.css:1:1]
@@ -29,8 +44,6 @@
   8 | |       background: url(image.png\11FFFF);
   9 | |       color: red;
  10 | `-> }
- 11 |     
- 12 |     .foo {
     `----
   x SelectorList
    ,-[$DIR/tests/recovery/value/url/basic/input.css:1:1]
@@ -86,15 +99,12 @@
   8 | |       background: url(image.png\11FFFF);
   9 | |       color: red;
  10 | `-> }
- 11 |     
- 12 |     .foo {
     `----
   x LBrace
    ,-[$DIR/tests/recovery/value/url/basic/input.css:1:1]
  1 | div {
    :     ^
  2 |     --foo: "http://www.example.com/pinkish.gif";
- 3 |     background: url(var(--foo));
    `----
   x ComponentValue
    ,-[$DIR/tests/recovery/value/url/basic/input.css:2:1]
@@ -557,8 +567,6 @@
  12 | ,-> .foo {
  13 | |       background: url(image.png param(var(--url)));
  14 | `-> }
- 15 |     
- 16 |     .style {
     `----
   x QualifiedRule
     ,-[$DIR/tests/recovery/value/url/basic/input.css:12:1]
@@ -566,8 +574,6 @@
  12 | ,-> .foo {
  13 | |       background: url(image.png param(var(--url)));
  14 | `-> }
- 15 |     
- 16 |     .style {
     `----
   x SelectorList
     ,-[$DIR/tests/recovery/value/url/basic/input.css:12:1]
@@ -617,8 +623,6 @@
  12 | ,-> .foo {
  13 | |       background: url(image.png param(var(--url)));
  14 | `-> }
- 15 |     
- 16 |     .style {
     `----
   x LBrace
     ,-[$DIR/tests/recovery/value/url/basic/input.css:12:1]
@@ -626,7 +630,6 @@
  12 | .foo {
     :      ^
  13 |     background: url(image.png param(var(--url)));
- 14 | }
     `----
   x ComponentValue
     ,-[$DIR/tests/recovery/value/url/basic/input.css:13:1]
@@ -767,7 +770,6 @@
  16 | .style {
     :        ^
  17 |     background: url("foo", "bar");
- 18 | }
     `----
   x ComponentValue
     ,-[$DIR/tests/recovery/value/url/basic/input.css:17:1]

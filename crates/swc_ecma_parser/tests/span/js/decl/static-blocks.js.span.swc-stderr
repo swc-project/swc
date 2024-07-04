@@ -74,7 +74,6 @@
  3 |         1 + 1;
    :         ^^^^^^
  4 |     }
- 5 | }
    `----
   x ExprStmt
    ,-[$DIR/tests/span/js/decl/static-blocks.js:3:1]
@@ -82,7 +81,6 @@
  3 |         1 + 1;
    :         ^^^^^^
  4 |     }
- 5 | }
    `----
   x Expr
    ,-[$DIR/tests/span/js/decl/static-blocks.js:3:1]

@@ -1,6 +1,9 @@
   x Stylesheet
-   ,-[$DIR/tests/line-comment/css-in-js/2/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/line-comment/css-in-js/2/input.css:1:1]
+ 1 | ,-> foo {
+ 2 | |       // Line comment
+ 3 | |       color: red;
+ 4 | `-> }
    `----
   x Rule
    ,-[$DIR/tests/line-comment/css-in-js/2/input.css:1:1]
@@ -70,7 +73,6 @@
  1 | foo {
    :     ^
  2 |     // Line comment
- 3 |     color: red;
    `----
   x ComponentValue
    ,-[$DIR/tests/line-comment/css-in-js/2/input.css:3:1]

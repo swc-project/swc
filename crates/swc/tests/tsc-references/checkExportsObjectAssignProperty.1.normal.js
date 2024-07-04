@@ -65,7 +65,6 @@ Object.defineProperty(module.exports, "setonlyAccessor", {
 //!  4 | 
 //!  5 | m1.thing;
 //!  6 | m1.readonlyProp;
-//!  7 | m1.rwAccessors;
 //!    `----
 //!   x Import assignment cannot be used when targeting ECMAScript modules. Consider using `import * as ns from "mod"`, `import {a} from "mod"`, `import d from "mod"`, or another module format instead.
 //!     ,-[23:1]
@@ -77,5 +76,4 @@ Object.defineProperty(module.exports, "setonlyAccessor", {
 //!  24 | 
 //!  25 | m2.thing;
 //!  26 | m2.readonlyProp;
-//!  27 | m2.rwAccessors;
 //!     `----

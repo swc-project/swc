@@ -7,5 +7,4 @@
 //!  3 | 
 //!  4 | class BigGreeter extends React.Component<{ }, {}> {
 //!  5 |     render() {
-//!  6 |         return <div>Default hi</div>;
 //!    `----

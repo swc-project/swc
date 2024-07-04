@@ -1,7 +1,25 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/important/basic/input.css:1:2]
- 1 | |    
-   `----
+    ,-[$DIR/tests/fixture/important/basic/input.css:1:1]
+  1 | ,-> .a {
+  2 | |       prop: important;
+  3 | |       color: red important;
+  4 | |       width: 1px!important;
+  5 | |       color: red!important;
+  6 | |       color: red !important;
+  7 | |       color: red  !important;
+  8 | |       color: red !   important   ;
+  9 | |       color: blue !IMPORTANT;
+ 10 | |       color: white !   IMPORTANT   ;
+ 11 | |       margin: 10px      !      important;
+ 12 | |       padding: 20px     !  /* test */   important;
+ 13 | |       width: 100px ! /*! test */ important;
+ 14 | |       height: 100px /*! test */ important;
+ 15 | |       z-index: 1 ""! important;
+ 16 | |       padding: 1px/* sep */!important;
+ 17 | |       prop: red !iMpOrTaNt;
+ 18 | |       color: red !imp\ortant;
+ 19 | `-> }
+    `----
   x Rule
     ,-[$DIR/tests/fixture/important/basic/input.css:1:1]
   1 | ,-> .a {
@@ -109,7 +127,6 @@
  1 | .a {
    :    ^
  2 |     prop: important;
- 3 |     color: red important;
    `----
   x ComponentValue
    ,-[$DIR/tests/fixture/important/basic/input.css:2:1]

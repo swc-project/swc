@@ -1,6 +1,8 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:1:1]
+ 1 | ,-> :global(.foo + a) {
+ 2 | |       color: red;
+ 3 | `-> }
    `----
   x Rule
    ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:1:1]
@@ -133,7 +135,6 @@
  1 | :global(.foo + a) {
    :                   ^
  2 |     color: red;
- 3 | }
    `----
   x ComponentValue
    ,-[$DIR/tests/fixture/styled-jsx/selector/1/input.css:2:1]

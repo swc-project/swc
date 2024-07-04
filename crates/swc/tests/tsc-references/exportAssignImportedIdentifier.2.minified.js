@@ -9,7 +9,6 @@ export function x() {
 //!    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 //!  2 | var x = foo1.x;
 //!  3 | export = x;
-//!  4 | 
 //!    `----
 //!   x Export assignment cannot be used when targeting ECMAScript modules. Consider using `export default` or another module format instead.
 //!    ,-[3:1]

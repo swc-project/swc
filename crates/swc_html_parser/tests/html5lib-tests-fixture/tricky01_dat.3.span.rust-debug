@@ -1,14 +1,29 @@
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.3.html:1:2]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.3.html:1:1]
+ 1 | ,-> <html>
+ 2 | |   <dl>
+ 3 | |   <dt><b>Boo
+ 4 | |   <dd>Goo?
+ 5 | |   </dl>
+ 6 | `-> </html>
    `----
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.3.html:1:2]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.3.html:1:1]
+ 1 | ,-> <html>
+ 2 | |   <dl>
+ 3 | |   <dt><b>Boo
+ 4 | |   <dd>Goo?
+ 5 | |   </dl>
+ 6 | `-> </html>
    `----
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.3.html:1:2]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.3.html:1:1]
+ 1 | ,-> <html>
+ 2 | |   <dl>
+ 3 | |   <dt><b>Boo
+ 4 | |   <dd>Goo?
+ 5 | |   </dl>
+ 6 | `-> </html>
    `----
   x Child
   x Element
@@ -31,14 +46,16 @@
  6 |     </html>
    `----
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.3.html:3:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.3.html:2:1]
+ 1 | <html>
  2 | <dl>
    :     ^
  3 | <dt><b>Boo
  4 | <dd>Goo?
    `----
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.3.html:3:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.3.html:2:1]
+ 1 | <html>
  2 | <dl>
    :     ^
  3 | <dt><b>Boo
@@ -157,13 +174,15 @@
  6 |     </html>
    `----
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.3.html:6:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.3.html:5:1]
+ 4 | <dd>Goo?
  5 | </dl>
    :      ^
  6 | </html>
    `----
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.3.html:6:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.3.html:5:1]
+ 4 | <dd>Goo?
  5 | </dl>
    :      ^
  6 | </html>

@@ -1,6 +1,7 @@
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/doctype01_dat.26.html:1:2]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/doctype01_dat.26.html:1:1]
+ 1 | ,-> <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+ 2 | `->    "http://www.w3.org/TR/html4/strict.dtd">Hello
    `----
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/doctype01_dat.26.html:1:1]
@@ -15,10 +16,14 @@
   x Child
   x Element
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/doctype01_dat.26.html:2:45]
- 2 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/doctype01_dat.26.html:2:1]
+ 1 | <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+ 2 |    "http://www.w3.org/TR/html4/strict.dtd">Hello
+   :                                            ^^^^^
    `----
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/doctype01_dat.26.html:2:45]
- 2 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/doctype01_dat.26.html:2:1]
+ 1 | <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+ 2 |    "http://www.w3.org/TR/html4/strict.dtd">Hello
+   :                                            ^^^^^
    `----

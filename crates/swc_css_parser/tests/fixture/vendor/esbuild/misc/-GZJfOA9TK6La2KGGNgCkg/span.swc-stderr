@@ -1,14 +1,17 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:1:1]
+ 1 | div::before::after::selection::first-line::first-letter {color:red}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Rule
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:1:1]
+ 1 | div::before::after::selection::first-line::first-letter {color:red}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x QualifiedRule
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:1:1]
+ 1 | div::before::after::selection::first-line::first-letter {color:red}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:1:1]
@@ -121,8 +124,9 @@
    :                                            ^^^^^^^^^^^^
    `----
   x SimpleBlock
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:1:58]
- 1 | |    
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:1:1]
+ 1 | div::before::after::selection::first-line::first-letter {color:red}
+   :                                                         ^^^^^^^^^^^
    `----
   x LBrace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/-GZJfOA9TK6La2KGGNgCkg/input.css:1:1]

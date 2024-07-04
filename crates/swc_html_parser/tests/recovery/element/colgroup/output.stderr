@@ -4,5 +4,4 @@
  10 |         </div>
     :         ^^^^^^
  11 |         <col>
- 12 |         <col span="2" class="batman">
     `----

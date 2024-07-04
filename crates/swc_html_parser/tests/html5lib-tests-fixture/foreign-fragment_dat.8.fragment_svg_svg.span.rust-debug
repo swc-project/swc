@@ -1,14 +1,17 @@
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.8.fragment_svg_svg.html:1:2]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.8.fragment_svg_svg.html:1:1]
+ 1 | </svg>X
+   : ^^^^^^^
    `----
   x Child
   x Element
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.8.fragment_svg_svg.html:1:8]
- 1 |  
+   ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.8.fragment_svg_svg.html:1:1]
+ 1 | </svg>X
+   :       ^
    `----
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.8.fragment_svg_svg.html:1:8]
- 1 |  
+   ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.8.fragment_svg_svg.html:1:1]
+ 1 | </svg>X
+   :       ^
    `----

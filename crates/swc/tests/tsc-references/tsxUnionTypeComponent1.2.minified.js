@@ -7,5 +7,4 @@
 //!  3 | 
 //!  4 | interface ComponentProps {
 //!  5 |     AnyComponent: React.StatelessComponent<any> | React.ComponentClass<any>;
-//!  6 | }
 //!    `----

@@ -6,10 +6,8 @@
  9 | </table>
    `----
   x Stray end tag "table"
-    ,-[$DIR/tests/recovery/element/table-3/input.html:9:1]
-  8 |     <caption></table></caption>
-  9 | </table>
-    : ^^^^^^^^
- 10 | 
- 11 | </body>
-    `----
+   ,-[$DIR/tests/recovery/element/table-3/input.html:9:1]
+ 8 |     <caption></table></caption>
+ 9 | </table>
+   : ^^^^^^^^
+   `----

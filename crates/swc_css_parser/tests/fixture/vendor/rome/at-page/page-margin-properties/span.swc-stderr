@@ -1,6 +1,11 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/vendor/rome/at-page/page-margin-properties/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/vendor/rome/at-page/page-margin-properties/input.css:1:1]
+ 1 | ,-> @page {
+ 2 | |       @top-center {
+ 3 | |           display: none;
+ 4 | |       }
+ 5 | |   }
+ 6 | `-> 
    `----
   x Rule
    ,-[$DIR/tests/fixture/vendor/rome/at-page/page-margin-properties/input.css:1:1]
@@ -9,7 +14,6 @@
  3 | |           display: none;
  4 | |       }
  5 | `-> }
- 6 |     
    `----
   x AtRule
    ,-[$DIR/tests/fixture/vendor/rome/at-page/page-margin-properties/input.css:1:1]
@@ -18,7 +22,6 @@
  3 | |           display: none;
  4 | |       }
  5 | `-> }
- 6 |     
    `----
   x AtRuleName
    ,-[$DIR/tests/fixture/vendor/rome/at-page/page-margin-properties/input.css:1:1]
@@ -39,14 +42,12 @@
  3 | |           display: none;
  4 | |       }
  5 | `-> }
- 6 |     
    `----
   x LBrace
    ,-[$DIR/tests/fixture/vendor/rome/at-page/page-margin-properties/input.css:1:1]
  1 | @page {
    :       ^
  2 |     @top-center {
- 3 |         display: none;
    `----
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/rome/at-page/page-margin-properties/input.css:2:1]
@@ -92,7 +93,6 @@
  2 |     @top-center {
    :                 ^
  3 |         display: none;
- 4 |     }
    `----
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/rome/at-page/page-margin-properties/input.css:3:1]

@@ -1,16 +1,19 @@
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.24.html:1:2]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.24.html:1:1]
+ 1 | <select><option></option><template>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Child
   x Element
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.24.html:1:2]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.24.html:1:1]
+ 1 | <select><option></option><template>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.24.html:1:2]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.24.html:1:1]
+ 1 | <select><option></option><template>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.24.html:1:1]
@@ -23,14 +26,17 @@
    :         ^^^^^^^^^^^^^^^^^
    `----
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.24.html:1:27]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.24.html:1:1]
+ 1 | <select><option></option><template>
+   :                          ^^^^^^^^^^
    `----
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.24.html:1:27]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.24.html:1:1]
+ 1 | <select><option></option><template>
+   :                          ^^^^^^^^^^
    `----
   x DocumentFragment
-   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.24.html:1:27]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.24.html:1:1]
+ 1 | <select><option></option><template>
+   :                          ^^^^^^^^^^
    `----

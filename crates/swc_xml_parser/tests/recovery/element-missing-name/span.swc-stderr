@@ -1,17 +1,29 @@
   x Document
-   ,-[$DIR/tests/recovery/element-missing-name/input.xml:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/element-missing-name/input.xml:1:1]
+ 1 | ,-> <root>
+ 2 | |       <>
+ 3 | |       </>
+ 4 | |       < aa >
+ 5 | `-> </root>
    `----
   x Child
-   ,-[$DIR/tests/recovery/element-missing-name/input.xml:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/element-missing-name/input.xml:1:1]
+ 1 | ,-> <root>
+ 2 | |       <>
+ 3 | |       </>
+ 4 | |       < aa >
+ 5 | `-> </root>
    `----
   x Element
-   ,-[$DIR/tests/recovery/element-missing-name/input.xml:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/element-missing-name/input.xml:1:1]
+ 1 | ,-> <root>
+ 2 | |       <>
+ 3 | |       </>
+ 4 | |       < aa >
+ 5 | `-> </root>
    `----
   x Child
-   ,-[$DIR/tests/recovery/element-missing-name/input.xml:2:1]
+   ,-[$DIR/tests/recovery/element-missing-name/input.xml:1:1]
  1 | ,-> <root>
  2 | |       <>
  3 | |       </>
@@ -19,7 +31,7 @@
  5 |     </root>
    `----
   x Text
-   ,-[$DIR/tests/recovery/element-missing-name/input.xml:2:1]
+   ,-[$DIR/tests/recovery/element-missing-name/input.xml:1:1]
  1 | ,-> <root>
  2 | |       <>
  3 | |       </>

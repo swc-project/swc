@@ -1,22 +1,36 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/vendor/rome/values/input.css:1:2]
- 1 | |    
-   `----
+    ,-[$DIR/tests/fixture/vendor/rome/values/input.css:1:1]
+  1 | ,-> p::before {
+  2 | |       content: ' content ';
+  3 | |   }
+  4 | |   
+  5 | |   .number {
+  6 | |       opacity: 1e-3;
+  7 | |       line-height: 0.2;
+  8 | |       width: 20%;
+  9 | |       margin-top: -5%;
+ 10 | |   }
+ 11 | |   
+ 12 | |   foo {
+ 13 | |       color: yellow
+ 14 | |   }
+ 15 | |   
+ 16 | |   bar {
+ 17 | |       color: yellow;
+ 18 | |       background: none
+ 19 | `-> }
+    `----
   x Rule
    ,-[$DIR/tests/fixture/vendor/rome/values/input.css:1:1]
  1 | ,-> p::before {
  2 | |       content: ' content ';
  3 | `-> }
- 4 |     
- 5 |     .number {
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/vendor/rome/values/input.css:1:1]
  1 | ,-> p::before {
  2 | |       content: ' content ';
  3 | `-> }
- 4 |     
- 5 |     .number {
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/vendor/rome/values/input.css:1:1]
@@ -83,15 +97,12 @@
  1 | ,-> p::before {
  2 | |       content: ' content ';
  3 | `-> }
- 4 |     
- 5 |     .number {
    `----
   x LBrace
    ,-[$DIR/tests/fixture/vendor/rome/values/input.css:1:1]
  1 | p::before {
    :           ^
  2 |     content: ' content ';
- 3 | }
    `----
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/rome/values/input.css:2:1]
@@ -144,8 +155,6 @@
   8 | |       width: 20%;
   9 | |       margin-top: -5%;
  10 | `-> }
- 11 |     
- 12 |     foo {
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/vendor/rome/values/input.css:5:1]
@@ -156,8 +165,6 @@
   8 | |       width: 20%;
   9 | |       margin-top: -5%;
  10 | `-> }
- 11 |     
- 12 |     foo {
     `----
   x SelectorList
    ,-[$DIR/tests/fixture/vendor/rome/values/input.css:5:1]
@@ -210,8 +217,6 @@
   8 | |       width: 20%;
   9 | |       margin-top: -5%;
  10 | `-> }
- 11 |     
- 12 |     foo {
     `----
   x LBrace
    ,-[$DIR/tests/fixture/vendor/rome/values/input.css:5:1]
@@ -219,7 +224,6 @@
  5 | .number {
    :         ^
  6 |     opacity: 1e-3;
- 7 |     line-height: 0.2;
    `----
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/rome/values/input.css:6:1]
@@ -409,8 +413,6 @@
  12 | ,-> foo {
  13 | |       color: yellow
  14 | `-> }
- 15 |     
- 16 |     bar {
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/vendor/rome/values/input.css:12:1]
@@ -418,8 +420,6 @@
  12 | ,-> foo {
  13 | |       color: yellow
  14 | `-> }
- 15 |     
- 16 |     bar {
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/vendor/rome/values/input.css:12:1]
@@ -476,8 +476,6 @@
  12 | ,-> foo {
  13 | |       color: yellow
  14 | `-> }
- 15 |     
- 16 |     bar {
     `----
   x LBrace
     ,-[$DIR/tests/fixture/vendor/rome/values/input.css:12:1]
@@ -485,7 +483,6 @@
  12 | foo {
     :     ^
  13 |     color: yellow
- 14 | }
     `----
   x ComponentValue
     ,-[$DIR/tests/fixture/vendor/rome/values/input.css:13:1]
@@ -608,7 +605,6 @@
  16 | bar {
     :     ^
  17 |     color: yellow;
- 18 |     background: none
     `----
   x ComponentValue
     ,-[$DIR/tests/fixture/vendor/rome/values/input.css:17:1]

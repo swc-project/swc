@@ -7,5 +7,4 @@
 //!  3 | 
 //!  4 | interface Props {
 //!  5 |     a: number;
-//!  6 |     b: number;
 //!    `----

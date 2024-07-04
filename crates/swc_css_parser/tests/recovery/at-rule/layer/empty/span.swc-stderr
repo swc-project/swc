@@ -1,6 +1,7 @@
   x Stylesheet
-   ,-[$DIR/tests/recovery/at-rule/layer/empty/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/at-rule/layer/empty/input.css:1:1]
+ 1 | @layer ;
+   : ^^^^^^^^^
    `----
   x Rule
    ,-[$DIR/tests/recovery/at-rule/layer/empty/input.css:1:1]

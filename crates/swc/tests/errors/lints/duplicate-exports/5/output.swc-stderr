@@ -8,6 +8,11 @@
  3 | export = 3;
    `----
   x multiple `export =` found
-   ,----
- 2 | |    
+   ,-[2:1]
+ 1 | export = 1;
+ 2 | export = 2;
+   : ^^^^^|^^^^^
+   :      `-- previous `export =` declared here
+ 3 | export = 3;
+   : ^^^^^^^^^^^
    `----

@@ -1,7 +1,20 @@
   x Stylesheet
-   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:1:2]
- 1 | |    
-   `----
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:1:1]
+  1 | ,-> a {
+  2 | |       value: );
+  3 | |       value: ];
+  4 | |       value: url(test test);
+  5 | |       --foo: !;
+  6 | |       --foo: );
+  7 | |       --foo: ];
+  8 | |       --foo: !;
+  9 | |       value: !!;
+ 10 | |       value: ! !important;
+ 11 | |       value: ! !important unknown;
+ 12 | |       value: ! unknown;
+ 13 | |       value: ! ! !;
+ 14 | `-> }
+    `----
   x Rule
     ,-[$DIR/tests/recovery/declaration/bad-value/input.css:1:1]
   1 | ,-> a {
@@ -100,7 +113,6 @@
  1 | a {
    :   ^
  2 |     value: );
- 3 |     value: ];
    `----
   x ComponentValue
    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:2:1]

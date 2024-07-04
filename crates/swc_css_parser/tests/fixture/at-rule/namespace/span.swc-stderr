@@ -1,20 +1,25 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/at-rule/namespace/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/at-rule/namespace/input.css:1:1]
+ 1 | ,-> @namespace empty "";
+ 2 | |   @namespace "";
+ 3 | |   @namespace url(http://www.w3.org/1999/xhtml);
+ 4 | |   @namespace url("http://www.w3.org/1999/xhtml");
+ 5 | |   @namespace svg url(http://www.w3.org/2000/svg);
+ 6 | |   @namespace svg url("http://www.w3.org/2000/svg");
+ 7 | |   @namespace "http://www.w3.org/1999/xhtml";
+ 8 | `-> @namespace svg "http://www.w3.org/2000/svg";
    `----
   x Rule
    ,-[$DIR/tests/fixture/at-rule/namespace/input.css:1:1]
  1 | @namespace empty "";
    : ^^^^^^^^^^^^^^^^^^^^
  2 | @namespace "";
- 3 | @namespace url(http://www.w3.org/1999/xhtml);
    `----
   x AtRule
    ,-[$DIR/tests/fixture/at-rule/namespace/input.css:1:1]
  1 | @namespace empty "";
    : ^^^^^^^^^^^^^^^^^^^^
  2 | @namespace "";
- 3 | @namespace url(http://www.w3.org/1999/xhtml);
    `----
   x AtRuleName
    ,-[$DIR/tests/fixture/at-rule/namespace/input.css:1:1]
@@ -46,7 +51,6 @@
  2 | @namespace "";
    : ^^^^^^^^^^^^^^
  3 | @namespace url(http://www.w3.org/1999/xhtml);
- 4 | @namespace url("http://www.w3.org/1999/xhtml");
    `----
   x AtRule
    ,-[$DIR/tests/fixture/at-rule/namespace/input.css:2:1]
@@ -54,7 +58,6 @@
  2 | @namespace "";
    : ^^^^^^^^^^^^^^
  3 | @namespace url(http://www.w3.org/1999/xhtml);
- 4 | @namespace url("http://www.w3.org/1999/xhtml");
    `----
   x AtRuleName
    ,-[$DIR/tests/fixture/at-rule/namespace/input.css:2:1]
@@ -83,7 +86,6 @@
  3 | @namespace url(http://www.w3.org/1999/xhtml);
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  4 | @namespace url("http://www.w3.org/1999/xhtml");
- 5 | @namespace svg url(http://www.w3.org/2000/svg);
    `----
   x AtRule
    ,-[$DIR/tests/fixture/at-rule/namespace/input.css:3:1]
@@ -91,7 +93,6 @@
  3 | @namespace url(http://www.w3.org/1999/xhtml);
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  4 | @namespace url("http://www.w3.org/1999/xhtml");
- 5 | @namespace svg url(http://www.w3.org/2000/svg);
    `----
   x AtRuleName
    ,-[$DIR/tests/fixture/at-rule/namespace/input.css:3:1]
@@ -141,7 +142,6 @@
  4 | @namespace url("http://www.w3.org/1999/xhtml");
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  5 | @namespace svg url(http://www.w3.org/2000/svg);
- 6 | @namespace svg url("http://www.w3.org/2000/svg");
    `----
   x AtRule
    ,-[$DIR/tests/fixture/at-rule/namespace/input.css:4:1]
@@ -149,7 +149,6 @@
  4 | @namespace url("http://www.w3.org/1999/xhtml");
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  5 | @namespace svg url(http://www.w3.org/2000/svg);
- 6 | @namespace svg url("http://www.w3.org/2000/svg");
    `----
   x AtRuleName
    ,-[$DIR/tests/fixture/at-rule/namespace/input.css:4:1]
@@ -199,7 +198,6 @@
  5 | @namespace svg url(http://www.w3.org/2000/svg);
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  6 | @namespace svg url("http://www.w3.org/2000/svg");
- 7 | @namespace "http://www.w3.org/1999/xhtml";
    `----
   x AtRule
    ,-[$DIR/tests/fixture/at-rule/namespace/input.css:5:1]
@@ -207,7 +205,6 @@
  5 | @namespace svg url(http://www.w3.org/2000/svg);
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  6 | @namespace svg url("http://www.w3.org/2000/svg");
- 7 | @namespace "http://www.w3.org/1999/xhtml";
    `----
   x AtRuleName
    ,-[$DIR/tests/fixture/at-rule/namespace/input.css:5:1]
@@ -264,7 +261,6 @@
  6 | @namespace svg url("http://www.w3.org/2000/svg");
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  7 | @namespace "http://www.w3.org/1999/xhtml";
- 8 | @namespace svg "http://www.w3.org/2000/svg";
    `----
   x AtRule
    ,-[$DIR/tests/fixture/at-rule/namespace/input.css:6:1]
@@ -272,7 +268,6 @@
  6 | @namespace svg url("http://www.w3.org/2000/svg");
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  7 | @namespace "http://www.w3.org/1999/xhtml";
- 8 | @namespace svg "http://www.w3.org/2000/svg";
    `----
   x AtRuleName
    ,-[$DIR/tests/fixture/at-rule/namespace/input.css:6:1]

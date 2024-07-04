@@ -1,4 +1,3 @@
-
   x Unexpected character '\u{200d}'
    ,-[$DIR/tests/test262-parser/fail/c0a136a959991f46.js:1:1]
  1 | ‍ = []

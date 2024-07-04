@@ -1,7 +1,46 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/value/url/input.css:1:2]
- 1 | |    
-   `----
+    ,-[$DIR/tests/fixture/value/url/input.css:1:1]
+  1 | ,-> div {
+  2 | |       background: url(https://example.com/image.png);
+  3 | |       background: URL(https://example.com/image.png);
+  4 | |       background: \URL(https://example.com/image.png);
+  5 | |       background: url("https://example.com/image.png");
+  6 | |       background: url('https://example.com/image.png');
+  7 | |       background: URL('https://example.com/image.png');
+  8 | |       background: \URL('https://example.com/image.png');
+  9 | |       background: url(data:image/png;base64,iRxVB0);
+ 10 | |       background: url(#IDofSVGpath);
+ 11 | |   
+ 12 | |       /* A <url-modifier> is either an <ident> or a functional notation. */
+ 13 | |       background: url("//aa.com/img.svg" prefetch);
+ 14 | |       background: url("//aa.com/img.svg" foo bar baz func(test));
+ 15 | |       background: url("http://example.com/image.svg" param(--color var(--primary-color)));
+ 16 | |   
+ 17 | |       background: url();
+ 18 | |       background: url("");
+ 19 | |       background: url('');
+ 20 | |   
+ 21 | |       --foo: "http://www.example.com/pinkish.gif";
+ 22 | |   
+ 23 | |       background: src("http://www.example.com/pinkish.gif");
+ 24 | |       background: SRC("http://www.example.com/pinkish.gif");
+ 25 | |       background: src(var(--foo));
+ 26 | |       background: url(   https://example.com/image.png   );
+ 27 | |       background: u\rl(   https://example.com/image.png   );
+ 28 | |       background: url(   
+ 29 | |                       https://example.com/image.png   
+ 30 | |       );
+ 31 | |       background: url(
+ 32 | |   
+ 33 | |   
+ 34 | |   https://example.com/image.png
+ 35 | |   
+ 36 | |   
+ 37 | |   );
+ 38 | |       background: URL(https://example.com/ima\)ge.png);
+ 39 | |       background: url(   "https://example.com/image.png"   );
+ 40 | `-> }
+    `----
   x Rule
     ,-[$DIR/tests/fixture/value/url/input.css:1:1]
   1 | ,-> div {
@@ -178,7 +217,6 @@
  1 | div {
    :     ^
  2 |     background: url(https://example.com/image.png);
- 3 |     background: URL(https://example.com/image.png);
    `----
   x ComponentValue
    ,-[$DIR/tests/fixture/value/url/input.css:2:1]
@@ -1757,7 +1795,8 @@
     :                 ^^^
     `----
   x UrlValue
-    ,-[$DIR/tests/fixture/value/url/input.css:32:1]
+    ,-[$DIR/tests/fixture/value/url/input.css:31:1]
+ 30 |         );
  31 | ,->     background: url(
  32 | |   
  33 | |   
@@ -1768,7 +1807,8 @@
  38 |         background: URL(https://example.com/ima\)ge.png);
     `----
   x UrlValueRaw
-    ,-[$DIR/tests/fixture/value/url/input.css:32:1]
+    ,-[$DIR/tests/fixture/value/url/input.css:31:1]
+ 30 |         );
  31 | ,->     background: url(
  32 | |   
  33 | |   

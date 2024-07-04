@@ -1,6 +1,10 @@
   x Stylesheet
-   ,-[$DIR/tests/recovery/qualified-rule/basic/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/qualified-rule/basic/input.css:1:1]
+ 1 | ,-> // test
+ 2 | |   
+ 3 | |   a {
+ 4 | |       color: red;
+ 5 | `-> }
    `----
   x Rule
    ,-[$DIR/tests/recovery/qualified-rule/basic/input.css:1:1]
@@ -52,25 +56,21 @@
    ,-[$DIR/tests/recovery/qualified-rule/basic/input.css:1:1]
  1 | // test
    :    ^^^^
- 2 | 
- 3 | a {
    `----
   x Ident { value: "test", raw: "test" }
    ,-[$DIR/tests/recovery/qualified-rule/basic/input.css:1:1]
  1 | // test
    :    ^^^^
- 2 | 
- 3 | a {
    `----
   x ComponentValue
-   ,-[$DIR/tests/recovery/qualified-rule/basic/input.css:2:1]
+   ,-[$DIR/tests/recovery/qualified-rule/basic/input.css:1:1]
  1 | ,-> // test
  2 | `-> 
  3 |     a {
  4 |         color: red;
    `----
   x WhiteSpace { value: "\n\n" }
-   ,-[$DIR/tests/recovery/qualified-rule/basic/input.css:2:1]
+   ,-[$DIR/tests/recovery/qualified-rule/basic/input.css:1:1]
  1 | ,-> // test
  2 | `-> 
  3 |     a {
@@ -117,7 +117,6 @@
  3 | a {
    :   ^
  4 |     color: red;
- 5 | }
    `----
   x ComponentValue
    ,-[$DIR/tests/recovery/qualified-rule/basic/input.css:4:1]

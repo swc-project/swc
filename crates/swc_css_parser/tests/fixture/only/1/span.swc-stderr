@@ -1,14 +1,26 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/only/1/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/only/1/input.css:1:1]
+ 1 | ,-> @media screen and (-webkit-min-device-pixel-ratio:0) {
+ 2 | |       .gradientWrapper {
+ 3 | |         -chrome-: only(; z-index: 10;);
+ 4 | |       }
+ 5 | `-> }
    `----
   x Rule
-   ,-[$DIR/tests/fixture/only/1/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/only/1/input.css:1:1]
+ 1 | ,-> @media screen and (-webkit-min-device-pixel-ratio:0) {
+ 2 | |       .gradientWrapper {
+ 3 | |         -chrome-: only(; z-index: 10;);
+ 4 | |       }
+ 5 | `-> }
    `----
   x AtRule
-   ,-[$DIR/tests/fixture/only/1/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/only/1/input.css:1:1]
+ 1 | ,-> @media screen and (-webkit-min-device-pixel-ratio:0) {
+ 2 | |       .gradientWrapper {
+ 3 | |         -chrome-: only(; z-index: 10;);
+ 4 | |       }
+ 5 | `-> }
    `----
   x AtRuleName
    ,-[$DIR/tests/fixture/only/1/input.css:1:1]
@@ -107,15 +119,18 @@
  2 |     .gradientWrapper {
    `----
   x SimpleBlock
-   ,-[$DIR/tests/fixture/only/1/input.css:1:55]
- 1 | |    
+   ,-[$DIR/tests/fixture/only/1/input.css:1:1]
+ 1 | ,-> @media screen and (-webkit-min-device-pixel-ratio:0) {
+ 2 | |       .gradientWrapper {
+ 3 | |         -chrome-: only(; z-index: 10;);
+ 4 | |       }
+ 5 | `-> }
    `----
   x LBrace
    ,-[$DIR/tests/fixture/only/1/input.css:1:1]
  1 | @media screen and (-webkit-min-device-pixel-ratio:0) {
    :                                                      ^
  2 |     .gradientWrapper {
- 3 |       -chrome-: only(; z-index: 10;);
    `----
   x ComponentValue
    ,-[$DIR/tests/fixture/only/1/input.css:2:1]
@@ -189,7 +204,6 @@
  2 |     .gradientWrapper {
    :                      ^
  3 |       -chrome-: only(; z-index: 10;);
- 4 |     }
    `----
   x ComponentValue
    ,-[$DIR/tests/fixture/only/1/input.css:3:1]

@@ -1,7 +1,22 @@
   x Stylesheet
-   ,-[$DIR/tests/recovery/function/rgb/input.css:1:2]
- 1 | |    
-   `----
+    ,-[$DIR/tests/recovery/function/rgb/input.css:1:1]
+  1 | ,-> .div {
+  2 | |       color: rgb("test");
+  3 | |   
+  4 | |       color: rgb("test", 100, 100);
+  5 | |       color: rgb(100, "test", 100);
+  6 | |       color: rgb(100, 100, "test");
+  7 | |       color: rgb(100, 100, 100, "test");
+  8 | |   
+  9 | |       color: rgb("test" 100 100);
+ 10 | |       color: rgb(100 "test" 100);
+ 11 | |       color: rgb(100 100 "test");
+ 12 | |       color: rgb(100 100 100 / "test");
+ 13 | |   
+ 14 | |       color: rgb(var(--red));
+ 15 | |       color: rgb(var(--red) var(--green));
+ 16 | `-> }
+    `----
   x Rule
     ,-[$DIR/tests/recovery/function/rgb/input.css:1:1]
   1 | ,-> .div {

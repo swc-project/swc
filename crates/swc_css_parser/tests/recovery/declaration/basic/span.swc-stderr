@@ -1,15 +1,26 @@
   x Stylesheet
-   ,-[$DIR/tests/recovery/declaration/basic/input.css:1:2]
- 1 | |    
-   `----
+    ,-[$DIR/tests/recovery/declaration/basic/input.css:1:1]
+  1 | ,-> .class {
+  2 | |       prop: ;
+  3 | |       color: red;
+  4 | |   }
+  5 | |   
+  6 | |   .class {
+  7 | |       prop: !!;
+  8 | |       color: red;
+  9 | |   }
+ 10 | |   
+ 11 | |   a {
+ 12 | |       test;
+ 13 | |       color: red;
+ 14 | `-> }
+    `----
   x Rule
    ,-[$DIR/tests/recovery/declaration/basic/input.css:1:1]
  1 | ,-> .class {
  2 | |       prop: ;
  3 | |       color: red;
  4 | `-> }
- 5 |     
- 6 |     .class {
    `----
   x QualifiedRule
    ,-[$DIR/tests/recovery/declaration/basic/input.css:1:1]
@@ -17,8 +28,6 @@
  2 | |       prop: ;
  3 | |       color: red;
  4 | `-> }
- 5 |     
- 6 |     .class {
    `----
   x SelectorList
    ,-[$DIR/tests/recovery/declaration/basic/input.css:1:1]
@@ -62,15 +71,12 @@
  2 | |       prop: ;
  3 | |       color: red;
  4 | `-> }
- 5 |     
- 6 |     .class {
    `----
   x LBrace
    ,-[$DIR/tests/recovery/declaration/basic/input.css:1:1]
  1 | .class {
    :        ^
  2 |     prop: ;
- 3 |     color: red;
    `----
   x ComponentValue
    ,-[$DIR/tests/recovery/declaration/basic/input.css:2:1]
@@ -143,25 +149,21 @@
  4 | }
    `----
   x Rule
-    ,-[$DIR/tests/recovery/declaration/basic/input.css:6:1]
-  5 |     
-  6 | ,-> .class {
-  7 | |       prop: !!;
-  8 | |       color: red;
-  9 | `-> }
- 10 |     
- 11 |     a {
-    `----
+   ,-[$DIR/tests/recovery/declaration/basic/input.css:6:1]
+ 5 |     
+ 6 | ,-> .class {
+ 7 | |       prop: !!;
+ 8 | |       color: red;
+ 9 | `-> }
+   `----
   x QualifiedRule
-    ,-[$DIR/tests/recovery/declaration/basic/input.css:6:1]
-  5 |     
-  6 | ,-> .class {
-  7 | |       prop: !!;
-  8 | |       color: red;
-  9 | `-> }
- 10 |     
- 11 |     a {
-    `----
+   ,-[$DIR/tests/recovery/declaration/basic/input.css:6:1]
+ 5 |     
+ 6 | ,-> .class {
+ 7 | |       prop: !!;
+ 8 | |       color: red;
+ 9 | `-> }
+   `----
   x SelectorList
    ,-[$DIR/tests/recovery/declaration/basic/input.css:6:1]
  5 | 
@@ -205,22 +207,19 @@
  7 |     prop: !!;
    `----
   x SimpleBlock
-    ,-[$DIR/tests/recovery/declaration/basic/input.css:6:1]
-  5 |     
-  6 | ,-> .class {
-  7 | |       prop: !!;
-  8 | |       color: red;
-  9 | `-> }
- 10 |     
- 11 |     a {
-    `----
+   ,-[$DIR/tests/recovery/declaration/basic/input.css:6:1]
+ 5 |     
+ 6 | ,-> .class {
+ 7 | |       prop: !!;
+ 8 | |       color: red;
+ 9 | `-> }
+   `----
   x LBrace
    ,-[$DIR/tests/recovery/declaration/basic/input.css:6:1]
  5 | 
  6 | .class {
    :        ^
  7 |     prop: !!;
- 8 |     color: red;
    `----
   x ComponentValue
    ,-[$DIR/tests/recovery/declaration/basic/input.css:7:1]
@@ -399,7 +398,6 @@
  11 | a {
     :   ^
  12 |     test;
- 13 |     color: red;
     `----
   x ComponentValue
     ,-[$DIR/tests/recovery/declaration/basic/input.css:12:1]
@@ -407,7 +405,6 @@
  12 |     test;
     :     ^^^^^
  13 |     color: red;
- 14 | }
     `----
   x ComponentValue
     ,-[$DIR/tests/recovery/declaration/basic/input.css:12:1]
@@ -429,7 +426,6 @@
  12 |     test;
     :         ^
  13 |     color: red;
- 14 | }
     `----
   x Semi
     ,-[$DIR/tests/recovery/declaration/basic/input.css:12:1]
@@ -437,7 +433,6 @@
  12 |     test;
     :         ^
  13 |     color: red;
- 14 | }
     `----
   x ComponentValue
     ,-[$DIR/tests/recovery/declaration/basic/input.css:13:1]

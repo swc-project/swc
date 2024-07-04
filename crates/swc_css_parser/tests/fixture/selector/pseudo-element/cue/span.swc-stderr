@@ -1,20 +1,24 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/selector/pseudo-element/cue/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/selector/pseudo-element/cue/input.css:1:1]
+ 1 | ,-> ::cue {}
+ 2 | |   ::cue(v[voice="Esme"]) {}
+ 3 | |   ::cue(   v[voice="Esme"]   ) {}
+ 4 | |   video::cue {}
+ 5 | |   video::cue(b) {}
+ 6 | |   video::cue(#cue1) {}
+ 7 | `-> video::cue(:lang(en)) {}
    `----
   x Rule
    ,-[$DIR/tests/fixture/selector/pseudo-element/cue/input.css:1:1]
  1 | ::cue {}
    : ^^^^^^^^
  2 | ::cue(v[voice="Esme"]) {}
- 3 | ::cue(   v[voice="Esme"]   ) {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/pseudo-element/cue/input.css:1:1]
  1 | ::cue {}
    : ^^^^^^^^
  2 | ::cue(v[voice="Esme"]) {}
- 3 | ::cue(   v[voice="Esme"]   ) {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-element/cue/input.css:1:1]
@@ -57,7 +61,6 @@
  1 | ::cue {}
    :       ^^
  2 | ::cue(v[voice="Esme"]) {}
- 3 | ::cue(   v[voice="Esme"]   ) {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/pseudo-element/cue/input.css:1:1]
@@ -71,7 +74,6 @@
  2 | ::cue(v[voice="Esme"]) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^
  3 | ::cue(   v[voice="Esme"]   ) {}
- 4 | video::cue {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/pseudo-element/cue/input.css:2:1]
@@ -79,7 +81,6 @@
  2 | ::cue(v[voice="Esme"]) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^
  3 | ::cue(   v[voice="Esme"]   ) {}
- 4 | video::cue {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-element/cue/input.css:2:1]
@@ -220,7 +221,6 @@
  2 | ::cue(v[voice="Esme"]) {}
    :                        ^^
  3 | ::cue(   v[voice="Esme"]   ) {}
- 4 | video::cue {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/pseudo-element/cue/input.css:2:1]
@@ -235,7 +235,6 @@
  3 | ::cue(   v[voice="Esme"]   ) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  4 | video::cue {}
- 5 | video::cue(b) {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/pseudo-element/cue/input.css:3:1]
@@ -243,7 +242,6 @@
  3 | ::cue(   v[voice="Esme"]   ) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  4 | video::cue {}
- 5 | video::cue(b) {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-element/cue/input.css:3:1]
@@ -384,7 +382,6 @@
  3 | ::cue(   v[voice="Esme"]   ) {}
    :                              ^^
  4 | video::cue {}
- 5 | video::cue(b) {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/pseudo-element/cue/input.css:3:1]
@@ -399,7 +396,6 @@
  4 | video::cue {}
    : ^^^^^^^^^^^^^
  5 | video::cue(b) {}
- 6 | video::cue(#cue1) {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/pseudo-element/cue/input.css:4:1]
@@ -407,7 +403,6 @@
  4 | video::cue {}
    : ^^^^^^^^^^^^^
  5 | video::cue(b) {}
- 6 | video::cue(#cue1) {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-element/cue/input.css:4:1]
@@ -485,7 +480,6 @@
  4 | video::cue {}
    :            ^^
  5 | video::cue(b) {}
- 6 | video::cue(#cue1) {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/pseudo-element/cue/input.css:4:1]
@@ -500,7 +494,6 @@
  5 | video::cue(b) {}
    : ^^^^^^^^^^^^^^^^
  6 | video::cue(#cue1) {}
- 7 | video::cue(:lang(en)) {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/pseudo-element/cue/input.css:5:1]
@@ -508,7 +501,6 @@
  5 | video::cue(b) {}
    : ^^^^^^^^^^^^^^^^
  6 | video::cue(#cue1) {}
- 7 | video::cue(:lang(en)) {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-element/cue/input.css:5:1]
@@ -628,7 +620,6 @@
  5 | video::cue(b) {}
    :               ^^
  6 | video::cue(#cue1) {}
- 7 | video::cue(:lang(en)) {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/pseudo-element/cue/input.css:5:1]
@@ -771,12 +762,16 @@
  7 | video::cue(:lang(en)) {}
    `----
   x Rule
-   ,-[$DIR/tests/fixture/selector/pseudo-element/cue/input.css:7:2]
- 7 | |    
+   ,-[$DIR/tests/fixture/selector/pseudo-element/cue/input.css:7:1]
+ 6 | video::cue(#cue1) {}
+ 7 | video::cue(:lang(en)) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x QualifiedRule
-   ,-[$DIR/tests/fixture/selector/pseudo-element/cue/input.css:7:2]
- 7 | |    
+   ,-[$DIR/tests/fixture/selector/pseudo-element/cue/input.css:7:1]
+ 6 | video::cue(#cue1) {}
+ 7 | video::cue(:lang(en)) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-element/cue/input.css:7:1]
@@ -881,8 +876,10 @@
    :                  ^^
    `----
   x SimpleBlock
-   ,-[$DIR/tests/fixture/selector/pseudo-element/cue/input.css:7:24]
- 7 | `->  
+   ,-[$DIR/tests/fixture/selector/pseudo-element/cue/input.css:7:1]
+ 6 | video::cue(#cue1) {}
+ 7 | video::cue(:lang(en)) {}
+   :                       ^^
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/pseudo-element/cue/input.css:7:1]

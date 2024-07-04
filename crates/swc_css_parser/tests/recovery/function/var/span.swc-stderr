@@ -1,6 +1,10 @@
   x Stylesheet
-   ,-[$DIR/tests/recovery/function/var/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/function/var/input.css:1:1]
+ 1 | ,-> .style {
+ 2 | |       border: var(#fff);
+ 3 | |       border: var(calc(10px + 10px));
+ 4 | |       border: var(90rem);
+ 5 | `-> }
    `----
   x Rule
    ,-[$DIR/tests/recovery/function/var/input.css:1:1]
@@ -67,7 +71,6 @@
  1 | .style {
    :        ^
  2 |     border: var(#fff);
- 3 |     border: var(calc(10px + 10px));
    `----
   x ComponentValue
    ,-[$DIR/tests/recovery/function/var/input.css:2:1]

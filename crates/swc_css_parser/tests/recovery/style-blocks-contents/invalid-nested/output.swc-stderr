@@ -4,7 +4,6 @@
  3 |     & test;
    :           ^
  4 |     background: red;
- 5 | }
    `----
   x Unexpected token
    ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested/input.css:3:1]

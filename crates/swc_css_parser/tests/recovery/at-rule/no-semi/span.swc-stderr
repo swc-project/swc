@@ -1,20 +1,18 @@
   x Stylesheet
-   ,-[$DIR/tests/recovery/at-rule/no-semi/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/at-rule/no-semi/input.css:1:1]
+ 1 | ,-> @media screen {@content}
+ 2 | |   
+ 3 | `-> @charset "UTF-8"
    `----
   x Rule
    ,-[$DIR/tests/recovery/at-rule/no-semi/input.css:1:1]
  1 | @media screen {@content}
    : ^^^^^^^^^^^^^^^^^^^^^^^^
- 2 | 
- 3 | @charset "UTF-8"
    `----
   x AtRule
    ,-[$DIR/tests/recovery/at-rule/no-semi/input.css:1:1]
  1 | @media screen {@content}
    : ^^^^^^^^^^^^^^^^^^^^^^^^
- 2 | 
- 3 | @charset "UTF-8"
    `----
   x AtRuleName
    ,-[$DIR/tests/recovery/at-rule/no-semi/input.css:1:1]
@@ -50,8 +48,6 @@
    ,-[$DIR/tests/recovery/at-rule/no-semi/input.css:1:1]
  1 | @media screen {@content}
    :               ^^^^^^^^^^
- 2 | 
- 3 | @charset "UTF-8"
    `----
   x LBrace
    ,-[$DIR/tests/recovery/at-rule/no-semi/input.css:1:1]
@@ -79,12 +75,16 @@
    :                 ^^^^^^^
    `----
   x Rule
-   ,-[$DIR/tests/recovery/at-rule/no-semi/input.css:3:2]
- 3 | |    
+   ,-[$DIR/tests/recovery/at-rule/no-semi/input.css:3:1]
+ 2 | 
+ 3 | @charset "UTF-8"
+   : ^^^^^^^^^^^^^^^^^
    `----
   x AtRule
-   ,-[$DIR/tests/recovery/at-rule/no-semi/input.css:3:2]
- 3 | |    
+   ,-[$DIR/tests/recovery/at-rule/no-semi/input.css:3:1]
+ 2 | 
+ 3 | @charset "UTF-8"
+   : ^^^^^^^^^^^^^^^^^
    `----
   x AtRuleName
    ,-[$DIR/tests/recovery/at-rule/no-semi/input.css:3:1]

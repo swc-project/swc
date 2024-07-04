@@ -1,7 +1,24 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/hex-colors/input.css:1:2]
- 1 | |    
-   `----
+    ,-[$DIR/tests/fixture/hex-colors/input.css:1:1]
+  1 | ,-> a {
+  2 | |     color: #000000;
+  3 | |     color: #ffffff;
+  4 | |     color: #FFFFFF;
+  5 | |     color: #0000ffcc;
+  6 | |     color: #0000FFCC;
+  7 | |     color: #000;
+  8 | |     color: #fff;
+  9 | |     color: #FFF;
+ 10 | |     color: #0000;
+ 11 | |     color: #ffff;
+ 12 | |     color: #FFFF;
+ 13 | |     color: #1;
+ 14 | |     color: #FF;
+ 15 | |     color: #123456789;
+ 16 | |     color: #abc;
+ 17 | |     color: #aa\61;
+ 18 | `-> }
+    `----
   x Rule
     ,-[$DIR/tests/fixture/hex-colors/input.css:1:1]
   1 | ,-> a {
@@ -112,7 +129,6 @@
  1 | a {
    :   ^
  2 |   color: #000000;
- 3 |   color: #ffffff;
    `----
   x ComponentValue
    ,-[$DIR/tests/fixture/hex-colors/input.css:2:1]

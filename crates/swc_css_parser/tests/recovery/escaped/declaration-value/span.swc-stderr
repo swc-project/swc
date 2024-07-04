@@ -1,14 +1,17 @@
   x Stylesheet
-   ,-[$DIR/tests/recovery/escaped/declaration-value/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/escaped/declaration-value/input.css:1:1]
+ 1 | a { value: x }
+   : ^^^^^^^^^^^^^^
    `----
   x Rule
-   ,-[$DIR/tests/recovery/escaped/declaration-value/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/escaped/declaration-value/input.css:1:1]
+ 1 | a { value: x }
+   : ^^^^^^^^^^^^^^
    `----
   x QualifiedRule
-   ,-[$DIR/tests/recovery/escaped/declaration-value/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/escaped/declaration-value/input.css:1:1]
+ 1 | a { value: x }
+   : ^^^^^^^^^^^^^^
    `----
   x SelectorList
    ,-[$DIR/tests/recovery/escaped/declaration-value/input.css:1:1]
@@ -46,8 +49,9 @@
    : ^
    `----
   x SimpleBlock
-   ,-[$DIR/tests/recovery/escaped/declaration-value/input.css:1:4]
- 1 | |    
+   ,-[$DIR/tests/recovery/escaped/declaration-value/input.css:1:1]
+ 1 | a { value: x }
+   :   ^^^^^^^^^^^^
    `----
   x LBrace
    ,-[$DIR/tests/recovery/escaped/declaration-value/input.css:1:1]

@@ -1,6 +1,9 @@
   x Stylesheet
-   ,-[$DIR/tests/recovery/unicode-range/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/unicode-range/input.css:1:1]
+ 1 | ,-> .class {
+ 2 | |       unicode-range: U+1Z1ee1-FFFFFF;
+ 3 | |       unicode-range: U+1e1ee1-FFZFFF;
+ 4 | `-> }
    `----
   x Rule
    ,-[$DIR/tests/recovery/unicode-range/input.css:1:1]
@@ -64,7 +67,6 @@
  1 | .class {
    :        ^
  2 |     unicode-range: U+1Z1ee1-FFFFFF;
- 3 |     unicode-range: U+1e1ee1-FFZFFF;
    `----
   x ComponentValue
    ,-[$DIR/tests/recovery/unicode-range/input.css:2:1]

@@ -3,7 +3,6 @@
  1 | <body>
    : ^^^^^^
  2 | <template><col><colgroup></template>
- 3 | <template><col><colgroup></div></template>
    `----
   x Garbage in "colgroup" element
    ,-[$DIR/tests/recovery/element/colgroup-1/input.html:2:1]

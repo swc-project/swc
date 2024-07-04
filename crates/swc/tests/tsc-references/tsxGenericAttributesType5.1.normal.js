@@ -7,5 +7,4 @@
 //!  3 | 
 //!  4 | class B1<T extends { x: string }> extends React.Component<T, {}> {
 //!  5 |     render() {
-//!  6 |         return <div>hi</div>; 
 //!    `----

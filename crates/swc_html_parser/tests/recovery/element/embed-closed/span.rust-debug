@@ -1,29 +1,63 @@
   x Document
-   ,-[$DIR/tests/recovery/element/embed-closed/input.html:1:2]
- 1 | |    
-   `----
+    ,-[$DIR/tests/recovery/element/embed-closed/input.html:1:1]
+  1 | ,-> <!doctype html>
+  2 | |   <html lang="en">
+  3 | |   <head>
+  4 | |       <title>Document</title>
+  5 | |   </head>
+  6 | |   <body>
+  7 | |       <embed type="vide/webm" src="/media/examples/flower.mp4" width="200" height="200">
+  8 | |       <noembed>
+  9 | |           <h1>Alternative content</h1>
+ 10 | |       </noembed>
+ 11 | |   </embed>
+ 12 | |   </body>
+ 13 | `-> </html>
+    `----
   x Child
    ,-[$DIR/tests/recovery/element/embed-closed/input.html:1:1]
  1 | <!doctype html>
    : ^^^^^^^^^^^^^^^
  2 | <html lang="en">
- 3 | <head>
    `----
   x DocumentType
    ,-[$DIR/tests/recovery/element/embed-closed/input.html:1:1]
  1 | <!doctype html>
    : ^^^^^^^^^^^^^^^
  2 | <html lang="en">
- 3 | <head>
    `----
   x Child
-   ,-[$DIR/tests/recovery/element/embed-closed/input.html:2:2]
- 2 | |    
-   `----
+    ,-[$DIR/tests/recovery/element/embed-closed/input.html:2:1]
+  1 |     <!doctype html>
+  2 | ,-> <html lang="en">
+  3 | |   <head>
+  4 | |       <title>Document</title>
+  5 | |   </head>
+  6 | |   <body>
+  7 | |       <embed type="vide/webm" src="/media/examples/flower.mp4" width="200" height="200">
+  8 | |       <noembed>
+  9 | |           <h1>Alternative content</h1>
+ 10 | |       </noembed>
+ 11 | |   </embed>
+ 12 | |   </body>
+ 13 | `-> </html>
+    `----
   x Element
-   ,-[$DIR/tests/recovery/element/embed-closed/input.html:2:2]
- 2 | |    
-   `----
+    ,-[$DIR/tests/recovery/element/embed-closed/input.html:2:1]
+  1 |     <!doctype html>
+  2 | ,-> <html lang="en">
+  3 | |   <head>
+  4 | |       <title>Document</title>
+  5 | |   </head>
+  6 | |   <body>
+  7 | |       <embed type="vide/webm" src="/media/examples/flower.mp4" width="200" height="200">
+  8 | |       <noembed>
+  9 | |           <h1>Alternative content</h1>
+ 10 | |       </noembed>
+ 11 | |   </embed>
+ 12 | |   </body>
+ 13 | `-> </html>
+    `----
   x Attribute
    ,-[$DIR/tests/recovery/element/embed-closed/input.html:2:1]
  1 | <!doctype html>
@@ -38,7 +72,6 @@
  4 | |       <title>Document</title>
  5 | `-> </head>
  6 |     <body>
- 7 |         <embed type="vide/webm" src="/media/examples/flower.mp4" width="200" height="200">
    `----
   x Element
    ,-[$DIR/tests/recovery/element/embed-closed/input.html:3:1]
@@ -47,16 +80,17 @@
  4 | |       <title>Document</title>
  5 | `-> </head>
  6 |     <body>
- 7 |         <embed type="vide/webm" src="/media/examples/flower.mp4" width="200" height="200">
    `----
   x Child
-   ,-[$DIR/tests/recovery/element/embed-closed/input.html:4:1]
+   ,-[$DIR/tests/recovery/element/embed-closed/input.html:3:1]
+ 2 |     <html lang="en">
  3 | ,-> <head>
  4 | `->     <title>Document</title>
  5 |     </head>
    `----
   x Text
-   ,-[$DIR/tests/recovery/element/embed-closed/input.html:4:1]
+   ,-[$DIR/tests/recovery/element/embed-closed/input.html:3:1]
+ 2 |     <html lang="en">
  3 | ,-> <head>
  4 | `->     <title>Document</title>
  5 |     </head>
@@ -67,7 +101,6 @@
  4 |     <title>Document</title>
    :     ^^^^^^^^^^^^^^^^^^^^^^^
  5 | </head>
- 6 | <body>
    `----
   x Element
    ,-[$DIR/tests/recovery/element/embed-closed/input.html:4:1]
@@ -75,7 +108,6 @@
  4 |     <title>Document</title>
    :     ^^^^^^^^^^^^^^^^^^^^^^^
  5 | </head>
- 6 | <body>
    `----
   x Child
    ,-[$DIR/tests/recovery/element/embed-closed/input.html:4:1]
@@ -92,28 +124,32 @@
  5 | </head>
    `----
   x Child
-   ,-[$DIR/tests/recovery/element/embed-closed/input.html:5:1]
+   ,-[$DIR/tests/recovery/element/embed-closed/input.html:4:1]
+ 3 | <head>
  4 |     <title>Document</title>
    :                            ^
  5 | </head>
  6 | <body>
    `----
   x Text
-   ,-[$DIR/tests/recovery/element/embed-closed/input.html:5:1]
+   ,-[$DIR/tests/recovery/element/embed-closed/input.html:4:1]
+ 3 | <head>
  4 |     <title>Document</title>
    :                            ^
  5 | </head>
  6 | <body>
    `----
   x Child
-   ,-[$DIR/tests/recovery/element/embed-closed/input.html:6:1]
+   ,-[$DIR/tests/recovery/element/embed-closed/input.html:5:1]
+ 4 |     <title>Document</title>
  5 | </head>
    :        ^
  6 | <body>
  7 |     <embed type="vide/webm" src="/media/examples/flower.mp4" width="200" height="200">
    `----
   x Text
-   ,-[$DIR/tests/recovery/element/embed-closed/input.html:6:1]
+   ,-[$DIR/tests/recovery/element/embed-closed/input.html:5:1]
+ 4 |     <title>Document</title>
  5 | </head>
    :        ^
  6 | <body>
@@ -144,13 +180,15 @@
  13 |     </html>
     `----
   x Child
-   ,-[$DIR/tests/recovery/element/embed-closed/input.html:7:1]
+   ,-[$DIR/tests/recovery/element/embed-closed/input.html:6:1]
+ 5 |     </head>
  6 | ,-> <body>
  7 | `->     <embed type="vide/webm" src="/media/examples/flower.mp4" width="200" height="200">
  8 |         <noembed>
    `----
   x Text
-   ,-[$DIR/tests/recovery/element/embed-closed/input.html:7:1]
+   ,-[$DIR/tests/recovery/element/embed-closed/input.html:6:1]
+ 5 |     </head>
  6 | ,-> <body>
  7 | `->     <embed type="vide/webm" src="/media/examples/flower.mp4" width="200" height="200">
  8 |         <noembed>
@@ -161,7 +199,6 @@
  7 |     <embed type="vide/webm" src="/media/examples/flower.mp4" width="200" height="200">
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  8 |     <noembed>
- 9 |         <h1>Alternative content</h1>
    `----
   x Element
    ,-[$DIR/tests/recovery/element/embed-closed/input.html:7:1]
@@ -169,7 +206,6 @@
  7 |     <embed type="vide/webm" src="/media/examples/flower.mp4" width="200" height="200">
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  8 |     <noembed>
- 9 |         <h1>Alternative content</h1>
    `----
   x Attribute
    ,-[$DIR/tests/recovery/element/embed-closed/input.html:7:1]
@@ -200,13 +236,15 @@
  8 |     <noembed>
    `----
   x Child
-   ,-[$DIR/tests/recovery/element/embed-closed/input.html:8:1]
+   ,-[$DIR/tests/recovery/element/embed-closed/input.html:7:1]
+ 6 |     <body>
  7 | ,->     <embed type="vide/webm" src="/media/examples/flower.mp4" width="200" height="200">
  8 | `->     <noembed>
  9 |             <h1>Alternative content</h1>
    `----
   x Text
-   ,-[$DIR/tests/recovery/element/embed-closed/input.html:8:1]
+   ,-[$DIR/tests/recovery/element/embed-closed/input.html:7:1]
+ 6 |     <body>
  7 | ,->     <embed type="vide/webm" src="/media/examples/flower.mp4" width="200" height="200">
  8 | `->     <noembed>
  9 |             <h1>Alternative content</h1>
@@ -218,7 +256,6 @@
   9 | |           <h1>Alternative content</h1>
  10 | `->     </noembed>
  11 |     </embed>
- 12 |     </body>
     `----
   x Element
     ,-[$DIR/tests/recovery/element/embed-closed/input.html:8:1]
@@ -227,31 +264,34 @@
   9 | |           <h1>Alternative content</h1>
  10 | `->     </noembed>
  11 |     </embed>
- 12 |     </body>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/embed-closed/input.html:9:1]
+    ,-[$DIR/tests/recovery/element/embed-closed/input.html:8:1]
+  7 |         <embed type="vide/webm" src="/media/examples/flower.mp4" width="200" height="200">
   8 | ,->     <noembed>
   9 | |           <h1>Alternative content</h1>
  10 | `->     </noembed>
  11 |     </embed>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/embed-closed/input.html:9:1]
+    ,-[$DIR/tests/recovery/element/embed-closed/input.html:8:1]
+  7 |         <embed type="vide/webm" src="/media/examples/flower.mp4" width="200" height="200">
   8 | ,->     <noembed>
   9 | |           <h1>Alternative content</h1>
  10 | `->     </noembed>
  11 |     </embed>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/embed-closed/input.html:11:1]
+    ,-[$DIR/tests/recovery/element/embed-closed/input.html:10:1]
+  9 |             <h1>Alternative content</h1>
  10 | ,->     </noembed>
  11 | |   </embed>
  12 | `-> </body>
  13 |     </html>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/embed-closed/input.html:11:1]
+    ,-[$DIR/tests/recovery/element/embed-closed/input.html:10:1]
+  9 |             <h1>Alternative content</h1>
  10 | ,->     </noembed>
  11 | |   </embed>
  12 | `-> </body>

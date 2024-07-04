@@ -1,6 +1,7 @@
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/tests16_dat.187.html:1:2]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests16_dat.187.html:1:1]
+ 1 | <noframes><body><script><!--...</script></body></noframes></html>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Child
   x Element

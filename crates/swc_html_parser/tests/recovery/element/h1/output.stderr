@@ -11,7 +11,6 @@
  7 |     <h1>test<h1>test</h1></h1>
    :                          ^^^^^
  8 |     <h2>test<h1>test</h1></h2>
- 9 |     <h3>test<h1>test</h1></h3>
    `----
   x Heading cannot be a child of another heading
    ,-[$DIR/tests/recovery/element/h1/input.html:8:1]
@@ -21,13 +20,12 @@
  9 |     <h3>test<h1>test</h1></h3>
    `----
   x Stray end tag "h2"
-    ,-[$DIR/tests/recovery/element/h1/input.html:8:1]
-  7 |     <h1>test<h1>test</h1></h1>
-  8 |     <h2>test<h1>test</h1></h2>
-    :                          ^^^^^
-  9 |     <h3>test<h1>test</h1></h3>
- 10 |     <h4>test<h1>test</h1></h4>
-    `----
+   ,-[$DIR/tests/recovery/element/h1/input.html:8:1]
+ 7 |     <h1>test<h1>test</h1></h1>
+ 8 |     <h2>test<h1>test</h1></h2>
+   :                          ^^^^^
+ 9 |     <h3>test<h1>test</h1></h3>
+   `----
   x Heading cannot be a child of another heading
     ,-[$DIR/tests/recovery/element/h1/input.html:9:1]
   8 |     <h2>test<h1>test</h1></h2>
@@ -41,7 +39,6 @@
   9 |     <h3>test<h1>test</h1></h3>
     :                          ^^^^^
  10 |     <h4>test<h1>test</h1></h4>
- 11 |     <h5>test<h1>test</h1></h5>
     `----
   x Heading cannot be a child of another heading
     ,-[$DIR/tests/recovery/element/h1/input.html:10:1]
@@ -56,7 +53,6 @@
  10 |     <h4>test<h1>test</h1></h4>
     :                          ^^^^^
  11 |     <h5>test<h1>test</h1></h5>
- 12 |     <h6>test<h1>test</h1></h6>
     `----
   x Heading cannot be a child of another heading
     ,-[$DIR/tests/recovery/element/h1/input.html:11:1]
@@ -71,7 +67,6 @@
  11 |     <h5>test<h1>test</h1></h5>
     :                          ^^^^^
  12 |     <h6>test<h1>test</h1></h6>
- 13 |     <h1>test<h2>test</h2></h1>
     `----
   x Heading cannot be a child of another heading
     ,-[$DIR/tests/recovery/element/h1/input.html:12:1]
@@ -86,7 +81,6 @@
  12 |     <h6>test<h1>test</h1></h6>
     :                          ^^^^^
  13 |     <h1>test<h2>test</h2></h1>
- 14 | </body>
     `----
   x Heading cannot be a child of another heading
     ,-[$DIR/tests/recovery/element/h1/input.html:13:1]
@@ -101,5 +95,4 @@
  13 |     <h1>test<h2>test</h2></h1>
     :                          ^^^^^
  14 | </body>
- 15 | </html>
     `----

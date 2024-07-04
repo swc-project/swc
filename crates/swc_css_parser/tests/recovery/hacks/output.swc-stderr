@@ -17,7 +17,6 @@
  104 |     !property: value;
      :                     ^
  105 |     color: red;
- 106 | }
      `----
   x Expected '{'
      ,-[$DIR/tests/recovery/hacks/input.css:108:1]
@@ -25,7 +24,6 @@
  108 |     $property: value;
      :                     ^
  109 |     color: red;
- 110 | }
      `----
   x Expected '{'
      ,-[$DIR/tests/recovery/hacks/input.css:112:1]
@@ -33,7 +31,6 @@
  112 |     &property: value;
      :                     ^
  113 |     color: red;
- 114 | }
      `----
   x Expected '{'
      ,-[$DIR/tests/recovery/hacks/input.css:116:1]
@@ -41,7 +38,6 @@
  116 |     *property: value;
      :                     ^
  117 |     color: red;
- 118 | }
      `----
   x Expected '{'
      ,-[$DIR/tests/recovery/hacks/input.css:120:1]
@@ -49,7 +45,6 @@
  120 |     )property: value;
      :                     ^
  121 |     color: red;
- 122 | }
      `----
   x Expected '{'
      ,-[$DIR/tests/recovery/hacks/input.css:124:1]
@@ -57,7 +52,6 @@
  124 |     =property: value;
      :                     ^
  125 |     color: red;
- 126 | }
      `----
   x Expected '{'
      ,-[$DIR/tests/recovery/hacks/input.css:128:1]
@@ -65,7 +59,6 @@
  128 |     %property: value;
      :                     ^
  129 |     color: red;
- 130 | }
      `----
   x Expected '{'
      ,-[$DIR/tests/recovery/hacks/input.css:132:1]
@@ -73,7 +66,6 @@
  132 |     +property: value;
      :                     ^
  133 |     color: red;
- 134 | }
      `----
   x Expected '{'
      ,-[$DIR/tests/recovery/hacks/input.css:140:1]
@@ -81,7 +73,6 @@
  140 |     ,property: value;
      :                     ^
  141 |     color: red;
- 142 | }
      `----
   x Expected '{'
      ,-[$DIR/tests/recovery/hacks/input.css:144:1]
@@ -89,7 +80,6 @@
  144 |     .property: value;
      :                     ^
  145 |     color: red;
- 146 | }
      `----
   x Expected '{'
      ,-[$DIR/tests/recovery/hacks/input.css:148:1]
@@ -97,7 +87,6 @@
  148 |     /property: value;
      :                     ^
  149 |     color: red;
- 150 | }
      `----
   x Expected '{'
      ,-[$DIR/tests/recovery/hacks/input.css:152:1]
@@ -105,7 +94,6 @@
  152 |     `property: value;
      :                     ^
  153 |     color: red;
- 154 | }
      `----
   x Expected '{'
      ,-[$DIR/tests/recovery/hacks/input.css:156:1]
@@ -113,7 +101,6 @@
  156 |     ]property: value;
      :                     ^
  157 |     color: red;
- 158 | }
      `----
   x Expected '{'
      ,-[$DIR/tests/recovery/hacks/input.css:160:1]
@@ -121,7 +108,6 @@
  160 |     #property: value;
      :                     ^
  161 |     color: red;
- 162 | }
      `----
   x Expected '{'
      ,-[$DIR/tests/recovery/hacks/input.css:164:1]
@@ -129,7 +115,6 @@
  164 |     ~property: value;
      :                     ^
  165 |     color: red;
- 166 | }
      `----
   x Expected '{'
      ,-[$DIR/tests/recovery/hacks/input.css:168:1]
@@ -137,7 +122,6 @@
  168 |     ?property: value;
      :                     ^
  169 |     color: red;
- 170 | }
      `----
   x Expected '{'
      ,-[$DIR/tests/recovery/hacks/input.css:172:1]
@@ -145,7 +129,6 @@
  172 |     :property: value;
      :                     ^
  173 |     color: red;
- 174 | }
      `----
   x Expected '{'
      ,-[$DIR/tests/recovery/hacks/input.css:176:1]
@@ -153,7 +136,6 @@
  176 |     |property: value;
      :                     ^
  177 |     color: red;
- 178 | }
      `----
   x Expected '{'
      ,-[$DIR/tests/recovery/hacks/input.css:204:1]
@@ -187,7 +169,6 @@
  244 |     *color : black;
      :                   ^
  245 |     _background: white;
- 246 |     font-size/**/: big;
      `----
   x Expected '{'
      ,-[$DIR/tests/recovery/hacks/input.css:247:1]

@@ -1,6 +1,7 @@
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.31.html:1:2]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.31.html:1:1]
+ 1 | <a X>0<b>1<a Y>2
+   : ^^^^^^^^^^^^^^^^
    `----
   x Child
   x Element
@@ -50,20 +51,24 @@
    :          ^
    `----
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.31.html:1:8]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.31.html:1:1]
+ 1 | <a X>0<b>1<a Y>2
+   :       ^^^^^^^^^^
    `----
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.31.html:1:8]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.31.html:1:1]
+ 1 | <a X>0<b>1<a Y>2
+   :       ^^^^^^^^^^
    `----
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.31.html:1:12]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.31.html:1:1]
+ 1 | <a X>0<b>1<a Y>2
+   :           ^^^^^^
    `----
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.31.html:1:12]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.31.html:1:1]
+ 1 | <a X>0<b>1<a Y>2
+   :           ^^^^^^
    `----
   x Attribute
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.31.html:1:1]
@@ -71,10 +76,12 @@
    :              ^
    `----
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.31.html:1:17]
- 1 |  
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.31.html:1:1]
+ 1 | <a X>0<b>1<a Y>2
+   :                ^
    `----
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.31.html:1:17]
- 1 |  
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.31.html:1:1]
+ 1 | <a X>0<b>1<a Y>2
+   :                ^
    `----

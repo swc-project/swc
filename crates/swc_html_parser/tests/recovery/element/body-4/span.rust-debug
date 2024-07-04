@@ -1,6 +1,7 @@
   x Document
-   ,-[$DIR/tests/recovery/element/body-4/input.html:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/element/body-4/input.html:1:1]
+ 1 | <!DOCTYPE html>X</body></div>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Child
    ,-[$DIR/tests/recovery/element/body-4/input.html:1:1]

@@ -1,6 +1,8 @@
   x Stylesheet
-   ,-[$DIR/tests/recovery/function/calc/division/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/function/calc/division/input.css:1:1]
+ 1 | ,-> .style {
+ 2 | |       width: calc(2px/1px);
+ 3 | `-> }
    `----
   x Rule
    ,-[$DIR/tests/recovery/function/calc/division/input.css:1:1]
@@ -61,7 +63,6 @@
  1 | .style {
    :        ^
  2 |     width: calc(2px/1px);
- 3 | }
    `----
   x ComponentValue
    ,-[$DIR/tests/recovery/function/calc/division/input.css:2:1]

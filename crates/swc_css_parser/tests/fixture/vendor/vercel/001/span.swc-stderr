@@ -1,6 +1,8 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/vendor/vercel/001/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/vendor/vercel/001/input.css:1:1]
+ 1 | ,-> :nth-child(4n) {
+ 2 | |       margin-right: 0;
+ 3 | `-> }
    `----
   x Rule
    ,-[$DIR/tests/fixture/vendor/vercel/001/input.css:1:1]
@@ -79,7 +81,6 @@
  1 | :nth-child(4n) {
    :                ^
  2 |     margin-right: 0;
- 3 | }
    `----
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/vercel/001/input.css:2:1]

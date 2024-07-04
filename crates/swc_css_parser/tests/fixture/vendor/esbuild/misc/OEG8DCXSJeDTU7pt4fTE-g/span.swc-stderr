@@ -1,14 +1,17 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:1:1]
+ 1 | @import url("foo.css") screen and (orientation:landscape);
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Rule
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:1:1]
+ 1 | @import url("foo.css") screen and (orientation:landscape);
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x AtRule
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:1:1]
+ 1 | @import url("foo.css") screen and (orientation:landscape);
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x AtRuleName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/OEG8DCXSJeDTU7pt4fTE-g/input.css:1:1]

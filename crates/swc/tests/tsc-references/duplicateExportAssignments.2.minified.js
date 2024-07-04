@@ -86,7 +86,6 @@
 //!  2 | function x(){
 //!  3 |     return 42;
 //!  4 | }
-//!  5 | function y(){
 //!    `----
 //// [foo5.ts]
 //!   x multiple `export =` found

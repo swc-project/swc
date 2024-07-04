@@ -1,6 +1,10 @@
   x Stylesheet
-   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:1:1]
+ 1 | ,-> @import "x.css";;
+ 2 | |   
+ 3 | |   .color {
+ 4 | |       color: red;
+ 5 | `-> }
    `----
   x Rule
    ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:1:1]
@@ -47,25 +51,21 @@
    ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:1:1]
  1 | @import "x.css";;
    :                 ^
- 2 | 
- 3 | .color {
    `----
   x Semi
    ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:1:1]
  1 | @import "x.css";;
    :                 ^
- 2 | 
- 3 | .color {
    `----
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:2:1]
+   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:1:1]
  1 | ,-> @import "x.css";;
  2 | `-> 
  3 |     .color {
  4 |         color: red;
    `----
   x WhiteSpace { value: "\n\n" }
-   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:2:1]
+   ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:1:1]
  1 | ,-> @import "x.css";;
  2 | `-> 
  3 |     .color {
@@ -126,7 +126,6 @@
  3 | .color {
    :        ^
  4 |     color: red;
- 5 | }
    `----
   x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/extra-semi/input.css:4:1]

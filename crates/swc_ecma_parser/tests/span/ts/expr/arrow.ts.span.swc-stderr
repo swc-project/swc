@@ -1,22 +1,32 @@
   x Module
-   ,-[$DIR/tests/span/ts/expr/arrow.ts:1:2]
- 1 | |    
+   ,-[$DIR/tests/span/ts/expr/arrow.ts:1:1]
+ 1 | ,-> const a: () => any = () => {
+ 2 | |       return 'foo'
+ 3 | `-> };
    `----
   x ModuleItem
-   ,-[$DIR/tests/span/ts/expr/arrow.ts:1:2]
- 1 | |    
+   ,-[$DIR/tests/span/ts/expr/arrow.ts:1:1]
+ 1 | ,-> const a: () => any = () => {
+ 2 | |       return 'foo'
+ 3 | `-> };
    `----
   x Stmt
-   ,-[$DIR/tests/span/ts/expr/arrow.ts:1:2]
- 1 | |    
+   ,-[$DIR/tests/span/ts/expr/arrow.ts:1:1]
+ 1 | ,-> const a: () => any = () => {
+ 2 | |       return 'foo'
+ 3 | `-> };
    `----
   x Decl
-   ,-[$DIR/tests/span/ts/expr/arrow.ts:1:2]
- 1 | |    
+   ,-[$DIR/tests/span/ts/expr/arrow.ts:1:1]
+ 1 | ,-> const a: () => any = () => {
+ 2 | |       return 'foo'
+ 3 | `-> };
    `----
   x VarDecl
-   ,-[$DIR/tests/span/ts/expr/arrow.ts:1:2]
- 1 | |    
+   ,-[$DIR/tests/span/ts/expr/arrow.ts:1:1]
+ 1 | ,-> const a: () => any = () => {
+ 2 | |       return 'foo'
+ 3 | `-> };
    `----
   x VarDeclarator
    ,-[$DIR/tests/span/ts/expr/arrow.ts:1:1]

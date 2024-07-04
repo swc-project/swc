@@ -1,14 +1,17 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/BIDuS3X-CUq54w1iGLX2ig/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/BIDuS3X-CUq54w1iGLX2ig/input.css:1:1]
+ 1 | @import url("foo.css") print;
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Rule
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/BIDuS3X-CUq54w1iGLX2ig/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/BIDuS3X-CUq54w1iGLX2ig/input.css:1:1]
+ 1 | @import url("foo.css") print;
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x AtRule
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/BIDuS3X-CUq54w1iGLX2ig/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/BIDuS3X-CUq54w1iGLX2ig/input.css:1:1]
+ 1 | @import url("foo.css") print;
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x AtRuleName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/BIDuS3X-CUq54w1iGLX2ig/input.css:1:1]

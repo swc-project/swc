@@ -1,18 +1,42 @@
   x Module
-   ,-[$DIR/tests/span/js/stmt/try-catch-finally.js:1:2]
- 1 | |    
+   ,-[$DIR/tests/span/js/stmt/try-catch-finally.js:1:1]
+ 1 | ,-> try {
+ 2 | |   
+ 3 | |   } catch (e) {
+ 4 | |   
+ 5 | |   } finally {
+ 6 | |   
+ 7 | `-> }
    `----
   x ModuleItem
-   ,-[$DIR/tests/span/js/stmt/try-catch-finally.js:1:2]
- 1 | |    
+   ,-[$DIR/tests/span/js/stmt/try-catch-finally.js:1:1]
+ 1 | ,-> try {
+ 2 | |   
+ 3 | |   } catch (e) {
+ 4 | |   
+ 5 | |   } finally {
+ 6 | |   
+ 7 | `-> }
    `----
   x Stmt
-   ,-[$DIR/tests/span/js/stmt/try-catch-finally.js:1:2]
- 1 | |    
+   ,-[$DIR/tests/span/js/stmt/try-catch-finally.js:1:1]
+ 1 | ,-> try {
+ 2 | |   
+ 3 | |   } catch (e) {
+ 4 | |   
+ 5 | |   } finally {
+ 6 | |   
+ 7 | `-> }
    `----
   x TryStmt
-   ,-[$DIR/tests/span/js/stmt/try-catch-finally.js:1:2]
- 1 | |    
+   ,-[$DIR/tests/span/js/stmt/try-catch-finally.js:1:1]
+ 1 | ,-> try {
+ 2 | |   
+ 3 | |   } catch (e) {
+ 4 | |   
+ 5 | |   } finally {
+ 6 | |   
+ 7 | `-> }
    `----
   x BlockStmt
    ,-[$DIR/tests/span/js/stmt/try-catch-finally.js:1:1]
@@ -47,6 +71,9 @@
  5 | `-> } finally {
    `----
   x BlockStmt
-   ,-[$DIR/tests/span/js/stmt/try-catch-finally.js:5:12]
- 5 | |    
+   ,-[$DIR/tests/span/js/stmt/try-catch-finally.js:5:1]
+ 4 |     
+ 5 | ,-> } finally {
+ 6 | |   
+ 7 | `-> }
    `----

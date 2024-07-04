@@ -1,7 +1,55 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/function/url/input.css:1:2]
- 1 | |    
-   `----
+    ,-[$DIR/tests/fixture/function/url/input.css:1:1]
+  1 | ,-> a {
+  2 | |       background-image: url(data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7);
+  3 | |       background-image: url("./image (1).jpg");
+  4 | |       background-image: url('./image (1).jpg');
+  5 | |       background-image: URL('./image (1).jpg');
+  6 | |       background-image: url(   './image (1).jpg');
+  7 | |       background-image: url('./image (1).jpg'   );
+  8 | |       background-image: url(   './image (1).jpg'   );
+  9 | |       background-image: url(   
+ 10 | |       './image (1).jpg'   
+ 11 | |       );
+ 12 | |       background-image: url();
+ 13 | |       background-image: url(   );
+ 14 | |       background-image: url("");
+ 15 | |       background-image: url(   ""   );
+ 16 | |       background-image: url('');
+ 17 | |       background-image: url(   ''   );
+ 18 | |       background-image: url(   ' '   );
+ 19 | |       background-image: url(./image.png);
+ 20 | |       background-image: url(   ./image.png   );
+ 21 | |       background-image: url(   ./image\32.png   );
+ 22 | |       background-image: url(   
+ 23 | |       ./image\32.png   
+ 24 | |       );
+ 25 | |       background-image: url(
+ 26 | |       
+ 27 | |       
+ 28 | |       
+ 29 | |          ./image\32.png
+ 30 | |       
+ 31 | |       
+ 32 | |       
+ 33 | |       );
+ 34 | |       background-image: url(   
+ 35 | |   
+ 36 | |   
+ 37 | |   
+ 38 | |       ./image\32.png
+ 39 | |   
+ 40 | |   
+ 41 | |   
+ 42 | |          );
+ 43 | |       background: url(image.png\0001);
+ 44 | |       background: url(image.png\1);
+ 45 | |       background: url(image.png\D799);
+ 46 | |       background: url(image.png\E000);
+ 47 | |       background: url(image.png\10FFFF);
+ 48 | |       background: url(18);
+ 49 | `-> }
+    `----
   x Rule
     ,-[$DIR/tests/fixture/function/url/input.css:1:1]
   1 | ,-> a {
@@ -205,7 +253,6 @@
  1 | a {
    :   ^
  2 |     background-image: url(data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7);
- 3 |     background-image: url("./image (1).jpg");
    `----
   x ComponentValue
    ,-[$DIR/tests/fixture/function/url/input.css:2:1]
@@ -1492,7 +1539,8 @@
  26 |     
     `----
   x UrlValue
-    ,-[$DIR/tests/fixture/function/url/input.css:26:1]
+    ,-[$DIR/tests/fixture/function/url/input.css:25:1]
+ 24 |         );
  25 | ,->     background-image: url(
  26 | |       
  27 | |       
@@ -1505,7 +1553,8 @@
  34 |         background-image: url(   
     `----
   x UrlValueRaw
-    ,-[$DIR/tests/fixture/function/url/input.css:26:1]
+    ,-[$DIR/tests/fixture/function/url/input.css:25:1]
+ 24 |         );
  25 | ,->     background-image: url(
  26 | |       
  27 | |       

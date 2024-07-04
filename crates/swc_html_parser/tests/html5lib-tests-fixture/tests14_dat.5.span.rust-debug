@@ -1,6 +1,7 @@
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/tests14_dat.5.html:1:2]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests14_dat.5.html:1:1]
+ 1 | <!DOCTYPE html><html 123=456><html 789=012>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests14_dat.5.html:1:1]

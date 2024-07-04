@@ -1,6 +1,7 @@
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/comments01_dat.14.html:1:2]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/comments01_dat.14.html:1:1]
+ 1 | FOO<!----->BAZ
+   : ^^^^^^^^^^^^^^
    `----
   x Child
   x Element
@@ -25,10 +26,12 @@
    :    ^^^^^^^^
    `----
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/comments01_dat.14.html:1:13]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/comments01_dat.14.html:1:1]
+ 1 | FOO<!----->BAZ
+   :            ^^^
    `----
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/comments01_dat.14.html:1:13]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/comments01_dat.14.html:1:1]
+ 1 | FOO<!----->BAZ
+   :            ^^^
    `----

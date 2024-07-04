@@ -4,13 +4,10 @@
   9 |     <table>
     :     ^^^^^^^
  10 |         <tr>
- 11 |             <td>
     `----
   x Stray end tag "table"
     ,-[$DIR/tests/recovery/element/table/broken-3/input.html:16:1]
  15 |     </table>
  16 | </table>
     : ^^^^^^^^
- 17 | 
- 18 | </body>
     `----

@@ -1,18 +1,26 @@
   x Module
-   ,-[$DIR/tests/comments/exprs/array/blockStmt/input.js:1:2]
- 1 | |    
+   ,-[$DIR/tests/comments/exprs/array/blockStmt/input.js:1:1]
+ 1 | ,-> React.useEffect(() => {
+ 2 | |       // @refresh reset
+ 3 | `-> });
    `----
   x ModuleItem
-   ,-[$DIR/tests/comments/exprs/array/blockStmt/input.js:1:2]
- 1 | |    
+   ,-[$DIR/tests/comments/exprs/array/blockStmt/input.js:1:1]
+ 1 | ,-> React.useEffect(() => {
+ 2 | |       // @refresh reset
+ 3 | `-> });
    `----
   x Stmt
-   ,-[$DIR/tests/comments/exprs/array/blockStmt/input.js:1:2]
- 1 | |    
+   ,-[$DIR/tests/comments/exprs/array/blockStmt/input.js:1:1]
+ 1 | ,-> React.useEffect(() => {
+ 2 | |       // @refresh reset
+ 3 | `-> });
    `----
   x ExprStmt
-   ,-[$DIR/tests/comments/exprs/array/blockStmt/input.js:1:2]
- 1 | |    
+   ,-[$DIR/tests/comments/exprs/array/blockStmt/input.js:1:1]
+ 1 | ,-> React.useEffect(() => {
+ 2 | |       // @refresh reset
+ 3 | `-> });
    `----
   x Expr
    ,-[$DIR/tests/comments/exprs/array/blockStmt/input.js:1:1]

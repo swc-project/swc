@@ -1,14 +1,17 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/issue-8461/1/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/issue-8461/1/input.css:1:1]
+ 1 | .foo:global(.bar).baz {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Rule
-   ,-[$DIR/tests/fixture/issue-8461/1/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/issue-8461/1/input.css:1:1]
+ 1 | .foo:global(.bar).baz {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x QualifiedRule
-   ,-[$DIR/tests/fixture/issue-8461/1/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/issue-8461/1/input.css:1:1]
+ 1 | .foo:global(.bar).baz {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/issue-8461/1/input.css:1:1]
@@ -91,8 +94,9 @@
    :                   ^^^
    `----
   x SimpleBlock
-   ,-[$DIR/tests/fixture/issue-8461/1/input.css:1:24]
- 1 | `->  
+   ,-[$DIR/tests/fixture/issue-8461/1/input.css:1:1]
+ 1 | .foo:global(.bar).baz {}
+   :                       ^^
    `----
   x LBrace
    ,-[$DIR/tests/fixture/issue-8461/1/input.css:1:1]

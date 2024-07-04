@@ -19,7 +19,6 @@
  6 | =======
    : ^^^^^^^
  7 |      b();
- 8 |   }
    `----
   x Merge conflict marker encountered.
    ,-[$DIR/tests/errors/conflict_marker_trivia_2/input.ts:9:1]

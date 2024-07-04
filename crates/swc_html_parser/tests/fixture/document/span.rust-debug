@@ -1,47 +1,90 @@
   x Document
-   ,-[$DIR/tests/fixture/document/input.html:1:2]
- 1 | |    
-   `----
+    ,-[$DIR/tests/fixture/document/input.html:1:1]
+  1 | ,-> <!DOCTYPE html>
+  2 | |   <html>
+  3 | |   <body>
+  4 | |   
+  5 | |   <h1>My First Heading</h1>
+  6 | |   
+  7 | |   <p>My first paragraph.</p>
+  8 | |   
+  9 | |   </body>
+ 10 | `-> </html>
+    `----
   x Child
    ,-[$DIR/tests/fixture/document/input.html:1:1]
  1 | <!DOCTYPE html>
    : ^^^^^^^^^^^^^^^
  2 | <html>
- 3 | <body>
    `----
   x DocumentType
    ,-[$DIR/tests/fixture/document/input.html:1:1]
  1 | <!DOCTYPE html>
    : ^^^^^^^^^^^^^^^
  2 | <html>
- 3 | <body>
    `----
   x Child
-   ,-[$DIR/tests/fixture/document/input.html:2:2]
- 2 | |    
-   `----
+    ,-[$DIR/tests/fixture/document/input.html:2:1]
+  1 |     <!DOCTYPE html>
+  2 | ,-> <html>
+  3 | |   <body>
+  4 | |   
+  5 | |   <h1>My First Heading</h1>
+  6 | |   
+  7 | |   <p>My first paragraph.</p>
+  8 | |   
+  9 | |   </body>
+ 10 | `-> </html>
+    `----
   x Element
-   ,-[$DIR/tests/fixture/document/input.html:2:2]
- 2 | |    
-   `----
+    ,-[$DIR/tests/fixture/document/input.html:2:1]
+  1 |     <!DOCTYPE html>
+  2 | ,-> <html>
+  3 | |   <body>
+  4 | |   
+  5 | |   <h1>My First Heading</h1>
+  6 | |   
+  7 | |   <p>My first paragraph.</p>
+  8 | |   
+  9 | |   </body>
+ 10 | `-> </html>
+    `----
   x Child
   x Element
   x Child
-   ,-[$DIR/tests/fixture/document/input.html:3:2]
- 3 | |    
-   `----
+    ,-[$DIR/tests/fixture/document/input.html:3:1]
+  2 |     <html>
+  3 | ,-> <body>
+  4 | |   
+  5 | |   <h1>My First Heading</h1>
+  6 | |   
+  7 | |   <p>My first paragraph.</p>
+  8 | |   
+  9 | |   </body>
+ 10 | `-> </html>
+    `----
   x Element
-   ,-[$DIR/tests/fixture/document/input.html:3:2]
- 3 | |    
-   `----
+    ,-[$DIR/tests/fixture/document/input.html:3:1]
+  2 |     <html>
+  3 | ,-> <body>
+  4 | |   
+  5 | |   <h1>My First Heading</h1>
+  6 | |   
+  7 | |   <p>My first paragraph.</p>
+  8 | |   
+  9 | |   </body>
+ 10 | `-> </html>
+    `----
   x Child
-   ,-[$DIR/tests/fixture/document/input.html:4:1]
+   ,-[$DIR/tests/fixture/document/input.html:3:1]
+ 2 |     <html>
  3 | ,-> <body>
  4 | `-> 
  5 |     <h1>My First Heading</h1>
    `----
   x Text
-   ,-[$DIR/tests/fixture/document/input.html:4:1]
+   ,-[$DIR/tests/fixture/document/input.html:3:1]
+ 2 |     <html>
  3 | ,-> <body>
  4 | `-> 
  5 |     <h1>My First Heading</h1>
@@ -51,16 +94,12 @@
  4 | 
  5 | <h1>My First Heading</h1>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^
- 6 | 
- 7 | <p>My first paragraph.</p>
    `----
   x Element
    ,-[$DIR/tests/fixture/document/input.html:5:1]
  4 | 
  5 | <h1>My First Heading</h1>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^
- 6 | 
- 7 | <p>My first paragraph.</p>
    `----
   x Child
    ,-[$DIR/tests/fixture/document/input.html:5:1]
@@ -75,13 +114,15 @@
    :     ^^^^^^^^^^^^^^^^
    `----
   x Child
-   ,-[$DIR/tests/fixture/document/input.html:6:1]
+   ,-[$DIR/tests/fixture/document/input.html:5:1]
+ 4 |     
  5 | ,-> <h1>My First Heading</h1>
  6 | `-> 
  7 |     <p>My first paragraph.</p>
    `----
   x Text
-   ,-[$DIR/tests/fixture/document/input.html:6:1]
+   ,-[$DIR/tests/fixture/document/input.html:5:1]
+ 4 |     
  5 | ,-> <h1>My First Heading</h1>
  6 | `-> 
  7 |     <p>My first paragraph.</p>
@@ -91,16 +132,12 @@
  6 | 
  7 | <p>My first paragraph.</p>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
- 8 | 
- 9 | </body>
    `----
   x Element
    ,-[$DIR/tests/fixture/document/input.html:7:1]
  6 | 
  7 | <p>My first paragraph.</p>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
- 8 | 
- 9 | </body>
    `----
   x Child
    ,-[$DIR/tests/fixture/document/input.html:7:1]
@@ -115,10 +152,18 @@
    :    ^^^^^^^^^^^^^^^^^^^
    `----
   x Child
-   ,-[$DIR/tests/fixture/document/input.html:8:1]
- 8 | |    
-   `----
+    ,-[$DIR/tests/fixture/document/input.html:7:1]
+  6 |     
+  7 | ,-> <p>My first paragraph.</p>
+  8 | |   
+  9 | |   </body>
+ 10 | `-> </html>
+    `----
   x Text
-   ,-[$DIR/tests/fixture/document/input.html:8:1]
- 8 | |    
-   `----
+    ,-[$DIR/tests/fixture/document/input.html:7:1]
+  6 |     
+  7 | ,-> <p>My first paragraph.</p>
+  8 | |   
+  9 | |   </body>
+ 10 | `-> </html>
+    `----

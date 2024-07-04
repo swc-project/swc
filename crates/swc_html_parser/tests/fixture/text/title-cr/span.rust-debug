@@ -1,6 +1,7 @@
   x Document
-   ,-[$DIR/tests/fixture/text/title-cr/input.html:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/text/title-cr/input.html:1:1]
+ 0 | <!DOCTYPE html><html><head>    <title>        Test    </title></head><body><p>This is a paragraph.</p><p>This is another paragraph.</p></body></html>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Child
    ,-[$DIR/tests/fixture/text/title-cr/input.html:1:1]
@@ -13,12 +14,14 @@
    : ^^^^^^^^^^^^^^^
    `----
   x Child
-   ,-[$DIR/tests/fixture/text/title-cr/input.html:2:2]
- 2 | |    
+   ,-[$DIR/tests/fixture/text/title-cr/input.html:1:1]
+ 0 | <!DOCTYPE html><html><head>    <title>        Test    </title></head><body><p>This is a paragraph.</p><p>This is another paragraph.</p></body></html>
+   :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Element
-   ,-[$DIR/tests/fixture/text/title-cr/input.html:2:2]
- 2 | |    
+   ,-[$DIR/tests/fixture/text/title-cr/input.html:1:1]
+ 0 | <!DOCTYPE html><html><head>    <title>        Test    </title></head><body><p>This is a paragraph.</p><p>This is another paragraph.</p></body></html>
+   :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Child
    ,-[$DIR/tests/fixture/text/title-cr/input.html:1:1]
@@ -81,13 +84,15 @@
    :                                                                      ^
    `----
   x Child
-    ,-[$DIR/tests/fixture/text/title-cr/input.html:10:2]
- 10 | |    
-    `----
+   ,-[$DIR/tests/fixture/text/title-cr/input.html:1:1]
+ 0 | <!DOCTYPE html><html><head>    <title>        Test    </title></head><body><p>This is a paragraph.</p><p>This is another paragraph.</p></body></html>
+   :                                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
   x Element
-    ,-[$DIR/tests/fixture/text/title-cr/input.html:10:2]
- 10 | |    
-    `----
+   ,-[$DIR/tests/fixture/text/title-cr/input.html:1:1]
+ 0 | <!DOCTYPE html><html><head>    <title>        Test    </title></head><body><p>This is a paragraph.</p><p>This is another paragraph.</p></body></html>
+   :                                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
   x Child
    ,-[$DIR/tests/fixture/text/title-cr/input.html:1:1]
  0 | <!DOCTYPE html><html><head>    <title>        Test    </title></head><body><p>This is a paragraph.</p><p>This is another paragraph.</p></body></html>
@@ -149,10 +154,12 @@
    :                                                                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Child
-    ,-[$DIR/tests/fixture/text/title-cr/input.html:14:1]
- 14 | |    
-    `----
+   ,-[$DIR/tests/fixture/text/title-cr/input.html:1:1]
+ 0 | <!DOCTYPE html><html><head>    <title>        Test    </title></head><body><p>This is a paragraph.</p><p>This is another paragraph.</p></body></html>
+   :                                                                                                                                        ^^^^^^^^^^^^^^
+   `----
   x Text
-    ,-[$DIR/tests/fixture/text/title-cr/input.html:14:1]
- 14 | |    
-    `----
+   ,-[$DIR/tests/fixture/text/title-cr/input.html:1:1]
+ 0 | <!DOCTYPE html><html><head>    <title>        Test    </title></head><body><p>This is a paragraph.</p><p>This is another paragraph.</p></body></html>
+   :                                                                                                                                        ^^^^^^^^^^^^^^
+   `----

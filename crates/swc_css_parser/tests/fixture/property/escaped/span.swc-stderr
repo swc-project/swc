@@ -1,6 +1,8 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/property/escaped/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/property/escaped/input.css:1:1]
+ 1 | ,-> table {
+ 2 | |       colo\r: \red;
+ 3 | `-> }
    `----
   x Rule
    ,-[$DIR/tests/fixture/property/escaped/input.css:1:1]
@@ -67,7 +69,6 @@
  1 | table {
    :       ^
  2 |     colo\r: \red;
- 3 | }
    `----
   x ComponentValue
    ,-[$DIR/tests/fixture/property/escaped/input.css:2:1]

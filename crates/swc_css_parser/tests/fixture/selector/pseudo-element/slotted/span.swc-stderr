@@ -1,20 +1,23 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/selector/pseudo-element/slotted/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/selector/pseudo-element/slotted/input.css:1:1]
+ 1 | ,-> ::slotted(*) {}
+ 2 | |   ::slotted(span) {}
+ 3 | |   ::slotted(   span   ) {}
+ 4 | |   ::SLOTTED(SPAN) {
+ 5 | |       font-weight: bold;
+ 6 | `-> }
    `----
   x Rule
    ,-[$DIR/tests/fixture/selector/pseudo-element/slotted/input.css:1:1]
  1 | ::slotted(*) {}
    : ^^^^^^^^^^^^^^^
  2 | ::slotted(span) {}
- 3 | ::slotted(   span   ) {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/pseudo-element/slotted/input.css:1:1]
  1 | ::slotted(*) {}
    : ^^^^^^^^^^^^^^^
  2 | ::slotted(span) {}
- 3 | ::slotted(   span   ) {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-element/slotted/input.css:1:1]
@@ -81,7 +84,6 @@
  1 | ::slotted(*) {}
    :              ^^
  2 | ::slotted(span) {}
- 3 | ::slotted(   span   ) {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/pseudo-element/slotted/input.css:1:1]
@@ -95,7 +97,6 @@
  2 | ::slotted(span) {}
    : ^^^^^^^^^^^^^^^^^^
  3 | ::slotted(   span   ) {}
- 4 | ::SLOTTED(SPAN) {
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/pseudo-element/slotted/input.css:2:1]
@@ -103,7 +104,6 @@
  2 | ::slotted(span) {}
    : ^^^^^^^^^^^^^^^^^^
  3 | ::slotted(   span   ) {}
- 4 | ::SLOTTED(SPAN) {
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-element/slotted/input.css:2:1]
@@ -195,7 +195,6 @@
  2 | ::slotted(span) {}
    :                 ^^
  3 | ::slotted(   span   ) {}
- 4 | ::SLOTTED(SPAN) {
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/pseudo-element/slotted/input.css:2:1]
@@ -210,7 +209,6 @@
  3 | ::slotted(   span   ) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^
  4 | ::SLOTTED(SPAN) {
- 5 |     font-weight: bold;
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/pseudo-element/slotted/input.css:3:1]
@@ -218,7 +216,6 @@
  3 | ::slotted(   span   ) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^
  4 | ::SLOTTED(SPAN) {
- 5 |     font-weight: bold;
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-element/slotted/input.css:3:1]
@@ -310,7 +307,6 @@
  3 | ::slotted(   span   ) {}
    :                       ^^
  4 | ::SLOTTED(SPAN) {
- 5 |     font-weight: bold;
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/pseudo-element/slotted/input.css:3:1]
@@ -430,7 +426,6 @@
  4 | ::SLOTTED(SPAN) {
    :                 ^
  5 |     font-weight: bold;
- 6 | }
    `----
   x ComponentValue
    ,-[$DIR/tests/fixture/selector/pseudo-element/slotted/input.css:5:1]

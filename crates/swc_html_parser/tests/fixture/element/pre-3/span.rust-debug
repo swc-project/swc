@@ -1,29 +1,93 @@
   x Document
-   ,-[$DIR/tests/fixture/element/pre-3/input.html:1:2]
- 1 | |    
-   `----
+    ,-[$DIR/tests/fixture/element/pre-3/input.html:1:1]
+  1 | ,-> <!doctype html>
+  2 | |   <html>
+  3 | |   <body>
+  4 | |   
+  5 | |   <pre>
+  6 | |   
+  7 | |   
+  8 | |   
+  9 | |      <code>
+ 10 | |   
+ 11 | |   
+ 12 | |   
+ 13 | |          Text
+ 14 | |   
+ 15 | |   
+ 16 | |   
+ 17 | |      </code>
+ 18 | |   
+ 19 | |   
+ 20 | |   </pre>
+ 21 | |   
+ 22 | |   </body>
+ 23 | `-> </html>
+    `----
   x Child
    ,-[$DIR/tests/fixture/element/pre-3/input.html:1:1]
  1 | <!doctype html>
    : ^^^^^^^^^^^^^^^
  2 | <html>
- 3 | <body>
    `----
   x DocumentType
    ,-[$DIR/tests/fixture/element/pre-3/input.html:1:1]
  1 | <!doctype html>
    : ^^^^^^^^^^^^^^^
  2 | <html>
- 3 | <body>
    `----
   x Child
-   ,-[$DIR/tests/fixture/element/pre-3/input.html:2:2]
- 2 | |    
-   `----
+    ,-[$DIR/tests/fixture/element/pre-3/input.html:2:1]
+  1 |     <!doctype html>
+  2 | ,-> <html>
+  3 | |   <body>
+  4 | |   
+  5 | |   <pre>
+  6 | |   
+  7 | |   
+  8 | |   
+  9 | |      <code>
+ 10 | |   
+ 11 | |   
+ 12 | |   
+ 13 | |          Text
+ 14 | |   
+ 15 | |   
+ 16 | |   
+ 17 | |      </code>
+ 18 | |   
+ 19 | |   
+ 20 | |   </pre>
+ 21 | |   
+ 22 | |   </body>
+ 23 | `-> </html>
+    `----
   x Element
-   ,-[$DIR/tests/fixture/element/pre-3/input.html:2:2]
- 2 | |    
-   `----
+    ,-[$DIR/tests/fixture/element/pre-3/input.html:2:1]
+  1 |     <!doctype html>
+  2 | ,-> <html>
+  3 | |   <body>
+  4 | |   
+  5 | |   <pre>
+  6 | |   
+  7 | |   
+  8 | |   
+  9 | |      <code>
+ 10 | |   
+ 11 | |   
+ 12 | |   
+ 13 | |          Text
+ 14 | |   
+ 15 | |   
+ 16 | |   
+ 17 | |      </code>
+ 18 | |   
+ 19 | |   
+ 20 | |   </pre>
+ 21 | |   
+ 22 | |   </body>
+ 23 | `-> </html>
+    `----
   x Child
   x Element
   x Child
@@ -77,13 +141,15 @@
  23 |     </html>
     `----
   x Child
-   ,-[$DIR/tests/fixture/element/pre-3/input.html:4:1]
+   ,-[$DIR/tests/fixture/element/pre-3/input.html:3:1]
+ 2 |     <html>
  3 | ,-> <body>
  4 | `-> 
  5 |     <pre>
    `----
   x Text
-   ,-[$DIR/tests/fixture/element/pre-3/input.html:4:1]
+   ,-[$DIR/tests/fixture/element/pre-3/input.html:3:1]
+ 2 |     <html>
  3 | ,-> <body>
  4 | `-> 
  5 |     <pre>
@@ -107,8 +173,6 @@
  18 | |   
  19 | |   
  20 | `-> </pre>
- 21 |     
- 22 |     </body>
     `----
   x Element
     ,-[$DIR/tests/fixture/element/pre-3/input.html:5:1]
@@ -129,18 +193,18 @@
  18 | |   
  19 | |   
  20 | `-> </pre>
- 21 |     
- 22 |     </body>
     `----
   x Child
-   ,-[$DIR/tests/fixture/element/pre-3/input.html:7:1]
+   ,-[$DIR/tests/fixture/element/pre-3/input.html:6:1]
+ 5 |     <pre>
  6 | ,-> 
  7 | |   
  8 | |   
  9 | `->    <code>
    `----
   x Text
-   ,-[$DIR/tests/fixture/element/pre-3/input.html:7:1]
+   ,-[$DIR/tests/fixture/element/pre-3/input.html:6:1]
+ 5 |     <pre>
  6 | ,-> 
  7 | |   
  8 | |   
@@ -158,7 +222,6 @@
  15 | |   
  16 | |   
  17 | `->    </code>
- 18 |     
     `----
   x Element
     ,-[$DIR/tests/fixture/element/pre-3/input.html:9:1]
@@ -172,10 +235,10 @@
  15 | |   
  16 | |   
  17 | `->    </code>
- 18 |     
     `----
   x Child
-    ,-[$DIR/tests/fixture/element/pre-3/input.html:10:1]
+    ,-[$DIR/tests/fixture/element/pre-3/input.html:9:1]
+  8 |     
   9 | ,->    <code>
  10 | |   
  11 | |   
@@ -187,7 +250,8 @@
  17 | `->    </code>
     `----
   x Text
-    ,-[$DIR/tests/fixture/element/pre-3/input.html:10:1]
+    ,-[$DIR/tests/fixture/element/pre-3/input.html:9:1]
+  8 |     
   9 | ,->    <code>
  10 | |   
  11 | |   
@@ -199,28 +263,32 @@
  17 | `->    </code>
     `----
   x Child
-    ,-[$DIR/tests/fixture/element/pre-3/input.html:18:1]
+    ,-[$DIR/tests/fixture/element/pre-3/input.html:17:1]
+ 16 |     
  17 | ,->    </code>
  18 | |   
  19 | `-> 
  20 |     </pre>
     `----
   x Text
-    ,-[$DIR/tests/fixture/element/pre-3/input.html:18:1]
+    ,-[$DIR/tests/fixture/element/pre-3/input.html:17:1]
+ 16 |     
  17 | ,->    </code>
  18 | |   
  19 | `-> 
  20 |     </pre>
     `----
   x Child
-    ,-[$DIR/tests/fixture/element/pre-3/input.html:21:1]
+    ,-[$DIR/tests/fixture/element/pre-3/input.html:20:1]
+ 19 |     
  20 | ,-> </pre>
  21 | |   
  22 | `-> </body>
  23 |     </html>
     `----
   x Text
-    ,-[$DIR/tests/fixture/element/pre-3/input.html:21:1]
+    ,-[$DIR/tests/fixture/element/pre-3/input.html:20:1]
+ 19 |     
  20 | ,-> </pre>
  21 | |   
  22 | `-> </body>

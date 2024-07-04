@@ -1,6 +1,10 @@
   x Document
-   ,-[$DIR/tests/fixture/document_type/internal_subset-1/input.xml:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/document_type/internal_subset-1/input.xml:1:1]
+ 1 | ,-> <!DOCTYPE svg [
+ 2 | |           <!ENTITY Pub-Status "This is a pre-release of the
+ 3 | |   specification.">
+ 4 | |   ]>
+ 5 | `-> <root>test</root>
    `----
   x Child
    ,-[$DIR/tests/fixture/document_type/internal_subset-1/input.xml:1:1]
@@ -19,12 +23,16 @@
  5 |     <root>test</root>
    `----
   x Child
-   ,-[$DIR/tests/fixture/document_type/internal_subset-1/input.xml:5:2]
- 5 | |    
+   ,-[$DIR/tests/fixture/document_type/internal_subset-1/input.xml:5:1]
+ 4 | ]>
+ 5 | <root>test</root>
+   : ^^^^^^^^^^^^^^^^^
    `----
   x Element
-   ,-[$DIR/tests/fixture/document_type/internal_subset-1/input.xml:5:2]
- 5 | |    
+   ,-[$DIR/tests/fixture/document_type/internal_subset-1/input.xml:5:1]
+ 4 | ]>
+ 5 | <root>test</root>
+   : ^^^^^^^^^^^^^^^^^
    `----
   x Child
    ,-[$DIR/tests/fixture/document_type/internal_subset-1/input.xml:5:1]

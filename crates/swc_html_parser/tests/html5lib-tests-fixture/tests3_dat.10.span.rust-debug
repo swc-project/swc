@@ -1,6 +1,7 @@
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat.10.html:1:2]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat.10.html:1:1]
+ 1 | ,-> <!DOCTYPE html><html><head></head><body><pre>x<div>
+ 2 | `-> y</pre></body></html>
    `----
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat.10.html:1:1]
@@ -15,12 +16,14 @@
  2 | y</pre></body></html>
    `----
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat.10.html:1:17]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat.10.html:1:1]
+ 1 | ,-> <!DOCTYPE html><html><head></head><body><pre>x<div>
+ 2 | `-> y</pre></body></html>
    `----
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat.10.html:1:17]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat.10.html:1:1]
+ 1 | ,-> <!DOCTYPE html><html><head></head><body><pre>x<div>
+ 2 | `-> y</pre></body></html>
    `----
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat.10.html:1:1]
@@ -77,12 +80,12 @@
  2 | `-> y</pre></body></html>
    `----
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat.10.html:2:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat.10.html:1:1]
  1 | ,-> <!DOCTYPE html><html><head></head><body><pre>x<div>
  2 | `-> y</pre></body></html>
    `----
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat.10.html:2:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat.10.html:1:1]
  1 | ,-> <!DOCTYPE html><html><head></head><body><pre>x<div>
  2 | `-> y</pre></body></html>
    `----

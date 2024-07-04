@@ -4,6 +4,6 @@
    : ^^^
    `----
   x End of file seen and there were open elements
-   ,-[$DIR/tests/recovery/element/applet-2/input.html:1:18]
- 1 |  
+   ,-[$DIR/tests/recovery/element/applet-2/input.html:1:17]
+ 1 | <a><applet><a>x
    `----

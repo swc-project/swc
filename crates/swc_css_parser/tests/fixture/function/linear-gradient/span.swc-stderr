@@ -1,15 +1,57 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:1:2]
- 1 | |    
-   `----
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:1:1]
+  1 | ,-> a {
+  2 | |       background: linear-gradient(white, gray);
+  3 | |       background: linear-gradient(yellow, blue);
+  4 | |       background: linear-gradient(to bottom, yellow, blue);
+  5 | |       background: linear-gradient(180deg, yellow, blue);
+  6 | |       background: linear-gradient(to top, blue, yellow);
+  7 | |       background: linear-gradient(to bottom, yellow 0%, blue 100%);
+  8 | |       background: linear-gradient(135deg, yellow, blue);
+  9 | |       background: linear-gradient(-45deg, blue, yellow);
+ 10 | |       background: linear-gradient(yellow, blue 20%, #0f0);
+ 11 | |       background: linear-gradient(to top right, red, white, blue);
+ 12 | |       background: linear-gradient(0deg, blue, green 40%, red);
+ 13 | |       background: linear-gradient(.25turn, red 10%, blue);
+ 14 | |       background: linear-gradient(45deg, red 0 50%, blue 50% 100%);
+ 15 | `-> }
+    `----
   x Rule
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:1:2]
- 1 | |    
-   `----
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:1:1]
+  1 | ,-> a {
+  2 | |       background: linear-gradient(white, gray);
+  3 | |       background: linear-gradient(yellow, blue);
+  4 | |       background: linear-gradient(to bottom, yellow, blue);
+  5 | |       background: linear-gradient(180deg, yellow, blue);
+  6 | |       background: linear-gradient(to top, blue, yellow);
+  7 | |       background: linear-gradient(to bottom, yellow 0%, blue 100%);
+  8 | |       background: linear-gradient(135deg, yellow, blue);
+  9 | |       background: linear-gradient(-45deg, blue, yellow);
+ 10 | |       background: linear-gradient(yellow, blue 20%, #0f0);
+ 11 | |       background: linear-gradient(to top right, red, white, blue);
+ 12 | |       background: linear-gradient(0deg, blue, green 40%, red);
+ 13 | |       background: linear-gradient(.25turn, red 10%, blue);
+ 14 | |       background: linear-gradient(45deg, red 0 50%, blue 50% 100%);
+ 15 | `-> }
+    `----
   x QualifiedRule
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:1:2]
- 1 | |    
-   `----
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:1:1]
+  1 | ,-> a {
+  2 | |       background: linear-gradient(white, gray);
+  3 | |       background: linear-gradient(yellow, blue);
+  4 | |       background: linear-gradient(to bottom, yellow, blue);
+  5 | |       background: linear-gradient(180deg, yellow, blue);
+  6 | |       background: linear-gradient(to top, blue, yellow);
+  7 | |       background: linear-gradient(to bottom, yellow 0%, blue 100%);
+  8 | |       background: linear-gradient(135deg, yellow, blue);
+  9 | |       background: linear-gradient(-45deg, blue, yellow);
+ 10 | |       background: linear-gradient(yellow, blue 20%, #0f0);
+ 11 | |       background: linear-gradient(to top right, red, white, blue);
+ 12 | |       background: linear-gradient(0deg, blue, green 40%, red);
+ 13 | |       background: linear-gradient(.25turn, red 10%, blue);
+ 14 | |       background: linear-gradient(45deg, red 0 50%, blue 50% 100%);
+ 15 | `-> }
+    `----
   x SelectorList
    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:1:1]
  1 | a {
@@ -53,15 +95,28 @@
  2 |     background: linear-gradient(white, gray);
    `----
   x SimpleBlock
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:1:4]
- 1 | |    
-   `----
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:1:1]
+  1 | ,-> a {
+  2 | |       background: linear-gradient(white, gray);
+  3 | |       background: linear-gradient(yellow, blue);
+  4 | |       background: linear-gradient(to bottom, yellow, blue);
+  5 | |       background: linear-gradient(180deg, yellow, blue);
+  6 | |       background: linear-gradient(to top, blue, yellow);
+  7 | |       background: linear-gradient(to bottom, yellow 0%, blue 100%);
+  8 | |       background: linear-gradient(135deg, yellow, blue);
+  9 | |       background: linear-gradient(-45deg, blue, yellow);
+ 10 | |       background: linear-gradient(yellow, blue 20%, #0f0);
+ 11 | |       background: linear-gradient(to top right, red, white, blue);
+ 12 | |       background: linear-gradient(0deg, blue, green 40%, red);
+ 13 | |       background: linear-gradient(.25turn, red 10%, blue);
+ 14 | |       background: linear-gradient(45deg, red 0 50%, blue 50% 100%);
+ 15 | `-> }
+    `----
   x LBrace
    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:1:1]
  1 | a {
    :   ^
  2 |     background: linear-gradient(white, gray);
- 3 |     background: linear-gradient(yellow, blue);
    `----
   x ComponentValue
    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:2:1]

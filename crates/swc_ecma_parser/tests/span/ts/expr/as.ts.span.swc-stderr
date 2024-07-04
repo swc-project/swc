@@ -1,26 +1,32 @@
   x Module
-   ,-[$DIR/tests/span/ts/expr/as.ts:1:2]
- 1 | |    
+   ,-[$DIR/tests/span/ts/expr/as.ts:1:1]
+ 1 | 'WTF' as any as number
+   : ^^^^^^^^^^^^^^^^^^^^^^
    `----
   x ModuleItem
-   ,-[$DIR/tests/span/ts/expr/as.ts:1:2]
- 1 | |    
+   ,-[$DIR/tests/span/ts/expr/as.ts:1:1]
+ 1 | 'WTF' as any as number
+   : ^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Stmt
-   ,-[$DIR/tests/span/ts/expr/as.ts:1:2]
- 1 | |    
+   ,-[$DIR/tests/span/ts/expr/as.ts:1:1]
+ 1 | 'WTF' as any as number
+   : ^^^^^^^^^^^^^^^^^^^^^^
    `----
   x ExprStmt
-   ,-[$DIR/tests/span/ts/expr/as.ts:1:2]
- 1 | |    
+   ,-[$DIR/tests/span/ts/expr/as.ts:1:1]
+ 1 | 'WTF' as any as number
+   : ^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Expr
-   ,-[$DIR/tests/span/ts/expr/as.ts:1:2]
- 1 | |    
+   ,-[$DIR/tests/span/ts/expr/as.ts:1:1]
+ 1 | 'WTF' as any as number
+   : ^^^^^^^^^^^^^^^^^^^^^^
    `----
   x TsAsExpr
-   ,-[$DIR/tests/span/ts/expr/as.ts:1:2]
- 1 | |    
+   ,-[$DIR/tests/span/ts/expr/as.ts:1:1]
+ 1 | 'WTF' as any as number
+   : ^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Expr
    ,-[$DIR/tests/span/ts/expr/as.ts:1:1]
@@ -58,10 +64,12 @@
    :          ^^^
    `----
   x TsType
-   ,-[$DIR/tests/span/ts/expr/as.ts:1:18]
- 1 | |    
+   ,-[$DIR/tests/span/ts/expr/as.ts:1:1]
+ 1 | 'WTF' as any as number
+   :                 ^^^^^^
    `----
   x TsKeywordType
-   ,-[$DIR/tests/span/ts/expr/as.ts:1:18]
- 1 | |    
+   ,-[$DIR/tests/span/ts/expr/as.ts:1:1]
+ 1 | 'WTF' as any as number
+   :                 ^^^^^^
    `----

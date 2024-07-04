@@ -18,7 +18,6 @@
  5 | ']]&gt;'</rhs>
    :         ^^^^^^
  6 | <com>CDATA sections</com>
- 7 | <rhs>| '&lt;!DOCTYPE'
    `----
   x Invalid entity character
     ,-[$DIR/tests/recovery/comments/bad-40/input.xml:14:1]

@@ -1,6 +1,7 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/at-rule/charset/valid/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/at-rule/charset/valid/input.css:1:1]
+ 1 | @charset "utf-8";
+   : ^^^^^^^^^^^^^^^^^^
    `----
   x Rule
    ,-[$DIR/tests/fixture/at-rule/charset/valid/input.css:1:1]

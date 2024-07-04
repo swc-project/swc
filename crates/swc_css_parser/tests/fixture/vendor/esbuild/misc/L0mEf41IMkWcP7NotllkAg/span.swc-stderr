@@ -1,14 +1,23 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:1:1]
+ 1 | ,-> @unknown{
+ 2 | |   a: b;
+ 3 | |   c: d;
+ 4 | `-> }
    `----
   x Rule
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:1:1]
+ 1 | ,-> @unknown{
+ 2 | |   a: b;
+ 3 | |   c: d;
+ 4 | `-> }
    `----
   x AtRule
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:1:1]
+ 1 | ,-> @unknown{
+ 2 | |   a: b;
+ 3 | |   c: d;
+ 4 | `-> }
    `----
   x AtRuleName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:1:1]
@@ -23,25 +32,27 @@
  2 | a: b;
    `----
   x SimpleBlock
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:1:10]
- 1 | |    
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:1:1]
+ 1 | ,-> @unknown{
+ 2 | |   a: b;
+ 3 | |   c: d;
+ 4 | `-> }
    `----
   x LBrace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:1:1]
  1 | @unknown{
    :         ^
  2 | a: b;
- 3 | c: d;
    `----
   x ComponentValue
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:2:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:1:1]
  1 | @unknown{
    :          ^
  2 | a: b;
  3 | c: d;
    `----
   x WhiteSpace { value: "\n" }
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:2:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:1:1]
  1 | @unknown{
    :          ^
  2 | a: b;
@@ -109,7 +120,6 @@
  2 | a: b;
    :     ^
  3 | c: d;
- 4 | }
    `----
   x Semi
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:2:1]
@@ -117,17 +127,18 @@
  2 | a: b;
    :     ^
  3 | c: d;
- 4 | }
    `----
   x ComponentValue
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:3:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:2:1]
+ 1 | @unknown{
  2 | a: b;
    :      ^
  3 | c: d;
  4 | }
    `----
   x WhiteSpace { value: "\n" }
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:3:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:2:1]
+ 1 | @unknown{
  2 | a: b;
    :      ^
  3 | c: d;
@@ -204,13 +215,15 @@
  4 | }
    `----
   x ComponentValue
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:3:1]
+ 2 | a: b;
  3 | c: d;
    :      ^
  4 | }
    `----
   x WhiteSpace { value: "\n" }
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/L0mEf41IMkWcP7NotllkAg/input.css:3:1]
+ 2 | a: b;
  3 | c: d;
    :      ^
  4 | }

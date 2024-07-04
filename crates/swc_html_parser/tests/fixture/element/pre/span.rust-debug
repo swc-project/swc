@@ -1,29 +1,120 @@
   x Document
-   ,-[$DIR/tests/fixture/element/pre/input.html:1:2]
- 1 | |    
-   `----
+    ,-[$DIR/tests/fixture/element/pre/input.html:1:1]
+  1 | ,-> <!doctype html>
+  2 | |   <html lang="en">
+  3 | |   <head>
+  4 | |       <meta charset="UTF-8">
+  5 | |       <meta name="viewport"
+  6 | |             content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  7 | |       <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  8 | |       <title>Document</title>
+  9 | |   </head>
+ 10 | |   <body>
+ 11 | |   <pre>
+ 12 | |     L          TE
+ 13 | |       A       A
+ 14 | |         C    V
+ 15 | |          R A
+ 16 | |          DOU
+ 17 | |          LOU
+ 18 | |         REUSE
+ 19 | |         QUE TU
+ 20 | |         PORTES
+ 21 | |       ET QUI T'
+ 22 | |       ORNE O CI
+ 23 | |        VILISÉ
+ 24 | |       OTE-  TU VEUX
+ 25 | |        LA    BIEN
+ 26 | |       SI      RESPI
+ 27 | |               RER       - Apollinaire
+ 28 | |                   test
+ 29 | |   
+ 30 | |   </pre>
+ 31 | |   </body>
+ 32 | `-> </html>
+    `----
   x Child
    ,-[$DIR/tests/fixture/element/pre/input.html:1:1]
  1 | <!doctype html>
    : ^^^^^^^^^^^^^^^
  2 | <html lang="en">
- 3 | <head>
    `----
   x DocumentType
    ,-[$DIR/tests/fixture/element/pre/input.html:1:1]
  1 | <!doctype html>
    : ^^^^^^^^^^^^^^^
  2 | <html lang="en">
- 3 | <head>
    `----
   x Child
-   ,-[$DIR/tests/fixture/element/pre/input.html:2:2]
- 2 | |    
-   `----
+    ,-[$DIR/tests/fixture/element/pre/input.html:2:1]
+  1 |     <!doctype html>
+  2 | ,-> <html lang="en">
+  3 | |   <head>
+  4 | |       <meta charset="UTF-8">
+  5 | |       <meta name="viewport"
+  6 | |             content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  7 | |       <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  8 | |       <title>Document</title>
+  9 | |   </head>
+ 10 | |   <body>
+ 11 | |   <pre>
+ 12 | |     L          TE
+ 13 | |       A       A
+ 14 | |         C    V
+ 15 | |          R A
+ 16 | |          DOU
+ 17 | |          LOU
+ 18 | |         REUSE
+ 19 | |         QUE TU
+ 20 | |         PORTES
+ 21 | |       ET QUI T'
+ 22 | |       ORNE O CI
+ 23 | |        VILISÉ
+ 24 | |       OTE-  TU VEUX
+ 25 | |        LA    BIEN
+ 26 | |       SI      RESPI
+ 27 | |               RER       - Apollinaire
+ 28 | |                   test
+ 29 | |   
+ 30 | |   </pre>
+ 31 | |   </body>
+ 32 | `-> </html>
+    `----
   x Element
-   ,-[$DIR/tests/fixture/element/pre/input.html:2:2]
- 2 | |    
-   `----
+    ,-[$DIR/tests/fixture/element/pre/input.html:2:1]
+  1 |     <!doctype html>
+  2 | ,-> <html lang="en">
+  3 | |   <head>
+  4 | |       <meta charset="UTF-8">
+  5 | |       <meta name="viewport"
+  6 | |             content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  7 | |       <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  8 | |       <title>Document</title>
+  9 | |   </head>
+ 10 | |   <body>
+ 11 | |   <pre>
+ 12 | |     L          TE
+ 13 | |       A       A
+ 14 | |         C    V
+ 15 | |          R A
+ 16 | |          DOU
+ 17 | |          LOU
+ 18 | |         REUSE
+ 19 | |         QUE TU
+ 20 | |         PORTES
+ 21 | |       ET QUI T'
+ 22 | |       ORNE O CI
+ 23 | |        VILISÉ
+ 24 | |       OTE-  TU VEUX
+ 25 | |        LA    BIEN
+ 26 | |       SI      RESPI
+ 27 | |               RER       - Apollinaire
+ 28 | |                   test
+ 29 | |   
+ 30 | |   </pre>
+ 31 | |   </body>
+ 32 | `-> </html>
+    `----
   x Attribute
    ,-[$DIR/tests/fixture/element/pre/input.html:2:1]
  1 | <!doctype html>
@@ -42,7 +133,6 @@
   8 | |       <title>Document</title>
   9 | `-> </head>
  10 |     <body>
- 11 |     <pre>
     `----
   x Element
     ,-[$DIR/tests/fixture/element/pre/input.html:3:1]
@@ -55,16 +145,17 @@
   8 | |       <title>Document</title>
   9 | `-> </head>
  10 |     <body>
- 11 |     <pre>
     `----
   x Child
-   ,-[$DIR/tests/fixture/element/pre/input.html:4:1]
+   ,-[$DIR/tests/fixture/element/pre/input.html:3:1]
+ 2 |     <html lang="en">
  3 | ,-> <head>
  4 | `->     <meta charset="UTF-8">
  5 |         <meta name="viewport"
    `----
   x Text
-   ,-[$DIR/tests/fixture/element/pre/input.html:4:1]
+   ,-[$DIR/tests/fixture/element/pre/input.html:3:1]
+ 2 |     <html lang="en">
  3 | ,-> <head>
  4 | `->     <meta charset="UTF-8">
  5 |         <meta name="viewport"
@@ -75,7 +166,6 @@
  4 |     <meta charset="UTF-8">
    :     ^^^^^^^^^^^^^^^^^^^^^^
  5 |     <meta name="viewport"
- 6 |           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
    `----
   x Element
    ,-[$DIR/tests/fixture/element/pre/input.html:4:1]
@@ -83,7 +173,6 @@
  4 |     <meta charset="UTF-8">
    :     ^^^^^^^^^^^^^^^^^^^^^^
  5 |     <meta name="viewport"
- 6 |           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
    `----
   x Attribute
    ,-[$DIR/tests/fixture/element/pre/input.html:4:1]
@@ -93,13 +182,15 @@
  5 |     <meta name="viewport"
    `----
   x Child
-   ,-[$DIR/tests/fixture/element/pre/input.html:5:1]
+   ,-[$DIR/tests/fixture/element/pre/input.html:4:1]
+ 3 |     <head>
  4 | ,->     <meta charset="UTF-8">
  5 | `->     <meta name="viewport"
  6 |               content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
    `----
   x Text
-   ,-[$DIR/tests/fixture/element/pre/input.html:5:1]
+   ,-[$DIR/tests/fixture/element/pre/input.html:4:1]
+ 3 |     <head>
  4 | ,->     <meta charset="UTF-8">
  5 | `->     <meta name="viewport"
  6 |               content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -110,7 +201,6 @@
  5 | ,->     <meta name="viewport"
  6 | `->           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
  7 |         <meta http-equiv="X-UA-Compatible" content="ie=edge">
- 8 |         <title>Document</title>
    `----
   x Element
    ,-[$DIR/tests/fixture/element/pre/input.html:5:1]
@@ -118,7 +208,6 @@
  5 | ,->     <meta name="viewport"
  6 | `->           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
  7 |         <meta http-equiv="X-UA-Compatible" content="ie=edge">
- 8 |         <title>Document</title>
    `----
   x Attribute
    ,-[$DIR/tests/fixture/element/pre/input.html:5:1]
@@ -126,7 +215,6 @@
  5 |     <meta name="viewport"
    :           ^^^^^^^^^^^^^^^
  6 |           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
- 7 |     <meta http-equiv="X-UA-Compatible" content="ie=edge">
    `----
   x Attribute
    ,-[$DIR/tests/fixture/element/pre/input.html:6:1]
@@ -136,13 +224,15 @@
  7 |     <meta http-equiv="X-UA-Compatible" content="ie=edge">
    `----
   x Child
-   ,-[$DIR/tests/fixture/element/pre/input.html:7:1]
+   ,-[$DIR/tests/fixture/element/pre/input.html:6:1]
+ 5 |         <meta name="viewport"
  6 | ,->           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
  7 | `->     <meta http-equiv="X-UA-Compatible" content="ie=edge">
  8 |         <title>Document</title>
    `----
   x Text
-   ,-[$DIR/tests/fixture/element/pre/input.html:7:1]
+   ,-[$DIR/tests/fixture/element/pre/input.html:6:1]
+ 5 |         <meta name="viewport"
  6 | ,->           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
  7 | `->     <meta http-equiv="X-UA-Compatible" content="ie=edge">
  8 |         <title>Document</title>
@@ -153,7 +243,6 @@
  7 |     <meta http-equiv="X-UA-Compatible" content="ie=edge">
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  8 |     <title>Document</title>
- 9 | </head>
    `----
   x Element
    ,-[$DIR/tests/fixture/element/pre/input.html:7:1]
@@ -161,7 +250,6 @@
  7 |     <meta http-equiv="X-UA-Compatible" content="ie=edge">
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  8 |     <title>Document</title>
- 9 | </head>
    `----
   x Attribute
    ,-[$DIR/tests/fixture/element/pre/input.html:7:1]
@@ -178,70 +266,74 @@
  8 |     <title>Document</title>
    `----
   x Child
-   ,-[$DIR/tests/fixture/element/pre/input.html:8:1]
+   ,-[$DIR/tests/fixture/element/pre/input.html:7:1]
+ 6 |               content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
  7 | ,->     <meta http-equiv="X-UA-Compatible" content="ie=edge">
  8 | `->     <title>Document</title>
  9 |     </head>
    `----
   x Text
-   ,-[$DIR/tests/fixture/element/pre/input.html:8:1]
+   ,-[$DIR/tests/fixture/element/pre/input.html:7:1]
+ 6 |               content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
  7 | ,->     <meta http-equiv="X-UA-Compatible" content="ie=edge">
  8 | `->     <title>Document</title>
  9 |     </head>
    `----
   x Child
-    ,-[$DIR/tests/fixture/element/pre/input.html:8:1]
-  7 |     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  8 |     <title>Document</title>
-    :     ^^^^^^^^^^^^^^^^^^^^^^^
-  9 | </head>
- 10 | <body>
-    `----
+   ,-[$DIR/tests/fixture/element/pre/input.html:8:1]
+ 7 |     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+ 8 |     <title>Document</title>
+   :     ^^^^^^^^^^^^^^^^^^^^^^^
+ 9 | </head>
+   `----
   x Element
+   ,-[$DIR/tests/fixture/element/pre/input.html:8:1]
+ 7 |     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+ 8 |     <title>Document</title>
+   :     ^^^^^^^^^^^^^^^^^^^^^^^
+ 9 | </head>
+   `----
+  x Child
+   ,-[$DIR/tests/fixture/element/pre/input.html:8:1]
+ 7 |     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+ 8 |     <title>Document</title>
+   :            ^^^^^^^^
+ 9 | </head>
+   `----
+  x Text
+   ,-[$DIR/tests/fixture/element/pre/input.html:8:1]
+ 7 |     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+ 8 |     <title>Document</title>
+   :            ^^^^^^^^
+ 9 | </head>
+   `----
+  x Child
     ,-[$DIR/tests/fixture/element/pre/input.html:8:1]
   7 |     <meta http-equiv="X-UA-Compatible" content="ie=edge">
   8 |     <title>Document</title>
-    :     ^^^^^^^^^^^^^^^^^^^^^^^
-  9 | </head>
- 10 | <body>
-    `----
-  x Child
-   ,-[$DIR/tests/fixture/element/pre/input.html:8:1]
- 7 |     <meta http-equiv="X-UA-Compatible" content="ie=edge">
- 8 |     <title>Document</title>
-   :            ^^^^^^^^
- 9 | </head>
-   `----
-  x Text
-   ,-[$DIR/tests/fixture/element/pre/input.html:8:1]
- 7 |     <meta http-equiv="X-UA-Compatible" content="ie=edge">
- 8 |     <title>Document</title>
-   :            ^^^^^^^^
- 9 | </head>
-   `----
-  x Child
-    ,-[$DIR/tests/fixture/element/pre/input.html:9:1]
-  8 |     <title>Document</title>
     :                            ^
   9 | </head>
  10 | <body>
     `----
   x Text
-    ,-[$DIR/tests/fixture/element/pre/input.html:9:1]
+    ,-[$DIR/tests/fixture/element/pre/input.html:8:1]
+  7 |     <meta http-equiv="X-UA-Compatible" content="ie=edge">
   8 |     <title>Document</title>
     :                            ^
   9 | </head>
  10 | <body>
     `----
   x Child
-    ,-[$DIR/tests/fixture/element/pre/input.html:10:1]
+    ,-[$DIR/tests/fixture/element/pre/input.html:9:1]
+  8 |     <title>Document</title>
   9 | </head>
     :        ^
  10 | <body>
  11 | <pre>
     `----
   x Text
-    ,-[$DIR/tests/fixture/element/pre/input.html:10:1]
+    ,-[$DIR/tests/fixture/element/pre/input.html:9:1]
+  8 |     <title>Document</title>
   9 | </head>
     :        ^
  10 | <body>
@@ -302,14 +394,16 @@
  32 |     </html>
     `----
   x Child
-    ,-[$DIR/tests/fixture/element/pre/input.html:11:1]
+    ,-[$DIR/tests/fixture/element/pre/input.html:10:1]
+  9 | </head>
  10 | <body>
     :       ^
  11 | <pre>
  12 |   L          TE
     `----
   x Text
-    ,-[$DIR/tests/fixture/element/pre/input.html:11:1]
+    ,-[$DIR/tests/fixture/element/pre/input.html:10:1]
+  9 | </head>
  10 | <body>
     :       ^
  11 | <pre>
@@ -339,7 +433,6 @@
  29 | |   
  30 | `-> </pre>
  31 |     </body>
- 32 |     </html>
     `----
   x Element
     ,-[$DIR/tests/fixture/element/pre/input.html:11:1]
@@ -365,7 +458,6 @@
  29 | |   
  30 | `-> </pre>
  31 |     </body>
- 32 |     </html>
     `----
   x Child
     ,-[$DIR/tests/fixture/element/pre/input.html:12:1]
@@ -416,13 +508,15 @@
  31 |     </body>
     `----
   x Child
-    ,-[$DIR/tests/fixture/element/pre/input.html:31:1]
+    ,-[$DIR/tests/fixture/element/pre/input.html:30:1]
+ 29 |     
  30 | ,-> </pre>
  31 | `-> </body>
  32 |     </html>
     `----
   x Text
-    ,-[$DIR/tests/fixture/element/pre/input.html:31:1]
+    ,-[$DIR/tests/fixture/element/pre/input.html:30:1]
+ 29 |     
  30 | ,-> </pre>
  31 | `-> </body>
  32 |     </html>

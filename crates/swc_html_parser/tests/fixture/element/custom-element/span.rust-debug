@@ -1,29 +1,120 @@
   x Document
-   ,-[$DIR/tests/fixture/element/custom-element/input.html:1:2]
- 1 | |    
-   `----
+    ,-[$DIR/tests/fixture/element/custom-element/input.html:1:1]
+  1 | ,-> <!doctype html>
+  2 | |   <html lang="en">
+  3 | |   <head>
+  4 | |       <title>Document</title>
+  5 | |   </head>
+  6 | |   <body>
+  7 | |   <popup-info img="img/alt.png" data-text="Your card validation code (CVC)
+  8 | |     is an extra security feature — it is the last 3 or 4 numbers on the
+  9 | |     back of your card."></popup-info>
+ 10 | |   
+ 11 | |   <custom-square l="100" c="red"></custom-square>
+ 12 | |   
+ 13 | |   <app-drawer open disabled></app-drawer>
+ 14 | |   
+ 15 | |   <share-buttons>
+ 16 | |       <social-button type="twitter"><a href="...">Twitter</a></social-button>
+ 17 | |       <social-button type="fb"><a href="...">Facebook</a></social-button>
+ 18 | |       <social-button type="plus"><a href="...">G+</a></social-button>
+ 19 | |   </share-buttons>
+ 20 | |   
+ 21 | |   <x-foo-with-markup>
+ 22 | |       <b>I'm an x-foo-with-markup!</b>
+ 23 | |   </x-foo-with-markup>
+ 24 | |   
+ 25 | |   <template id="x-foo-from-template">
+ 26 | |       <style>
+ 27 | |           p { color: green; }
+ 28 | |       </style>
+ 29 | |       <p>I'm in Shadow DOM. My markup was stamped from a &lt;template&gt;.</p>
+ 30 | |   </template>
+ 31 | |   </body>
+ 32 | `-> </html>
+    `----
   x Child
    ,-[$DIR/tests/fixture/element/custom-element/input.html:1:1]
  1 | <!doctype html>
    : ^^^^^^^^^^^^^^^
  2 | <html lang="en">
- 3 | <head>
    `----
   x DocumentType
    ,-[$DIR/tests/fixture/element/custom-element/input.html:1:1]
  1 | <!doctype html>
    : ^^^^^^^^^^^^^^^
  2 | <html lang="en">
- 3 | <head>
    `----
   x Child
-   ,-[$DIR/tests/fixture/element/custom-element/input.html:2:2]
- 2 | |    
-   `----
+    ,-[$DIR/tests/fixture/element/custom-element/input.html:2:1]
+  1 |     <!doctype html>
+  2 | ,-> <html lang="en">
+  3 | |   <head>
+  4 | |       <title>Document</title>
+  5 | |   </head>
+  6 | |   <body>
+  7 | |   <popup-info img="img/alt.png" data-text="Your card validation code (CVC)
+  8 | |     is an extra security feature — it is the last 3 or 4 numbers on the
+  9 | |     back of your card."></popup-info>
+ 10 | |   
+ 11 | |   <custom-square l="100" c="red"></custom-square>
+ 12 | |   
+ 13 | |   <app-drawer open disabled></app-drawer>
+ 14 | |   
+ 15 | |   <share-buttons>
+ 16 | |       <social-button type="twitter"><a href="...">Twitter</a></social-button>
+ 17 | |       <social-button type="fb"><a href="...">Facebook</a></social-button>
+ 18 | |       <social-button type="plus"><a href="...">G+</a></social-button>
+ 19 | |   </share-buttons>
+ 20 | |   
+ 21 | |   <x-foo-with-markup>
+ 22 | |       <b>I'm an x-foo-with-markup!</b>
+ 23 | |   </x-foo-with-markup>
+ 24 | |   
+ 25 | |   <template id="x-foo-from-template">
+ 26 | |       <style>
+ 27 | |           p { color: green; }
+ 28 | |       </style>
+ 29 | |       <p>I'm in Shadow DOM. My markup was stamped from a &lt;template&gt;.</p>
+ 30 | |   </template>
+ 31 | |   </body>
+ 32 | `-> </html>
+    `----
   x Element
-   ,-[$DIR/tests/fixture/element/custom-element/input.html:2:2]
- 2 | |    
-   `----
+    ,-[$DIR/tests/fixture/element/custom-element/input.html:2:1]
+  1 |     <!doctype html>
+  2 | ,-> <html lang="en">
+  3 | |   <head>
+  4 | |       <title>Document</title>
+  5 | |   </head>
+  6 | |   <body>
+  7 | |   <popup-info img="img/alt.png" data-text="Your card validation code (CVC)
+  8 | |     is an extra security feature — it is the last 3 or 4 numbers on the
+  9 | |     back of your card."></popup-info>
+ 10 | |   
+ 11 | |   <custom-square l="100" c="red"></custom-square>
+ 12 | |   
+ 13 | |   <app-drawer open disabled></app-drawer>
+ 14 | |   
+ 15 | |   <share-buttons>
+ 16 | |       <social-button type="twitter"><a href="...">Twitter</a></social-button>
+ 17 | |       <social-button type="fb"><a href="...">Facebook</a></social-button>
+ 18 | |       <social-button type="plus"><a href="...">G+</a></social-button>
+ 19 | |   </share-buttons>
+ 20 | |   
+ 21 | |   <x-foo-with-markup>
+ 22 | |       <b>I'm an x-foo-with-markup!</b>
+ 23 | |   </x-foo-with-markup>
+ 24 | |   
+ 25 | |   <template id="x-foo-from-template">
+ 26 | |       <style>
+ 27 | |           p { color: green; }
+ 28 | |       </style>
+ 29 | |       <p>I'm in Shadow DOM. My markup was stamped from a &lt;template&gt;.</p>
+ 30 | |   </template>
+ 31 | |   </body>
+ 32 | `-> </html>
+    `----
   x Attribute
    ,-[$DIR/tests/fixture/element/custom-element/input.html:2:1]
  1 | <!doctype html>
@@ -38,7 +129,6 @@
  4 | |       <title>Document</title>
  5 | `-> </head>
  6 |     <body>
- 7 |     <popup-info img="img/alt.png" data-text="Your card validation code (CVC)
    `----
   x Element
    ,-[$DIR/tests/fixture/element/custom-element/input.html:3:1]
@@ -47,16 +137,17 @@
  4 | |       <title>Document</title>
  5 | `-> </head>
  6 |     <body>
- 7 |     <popup-info img="img/alt.png" data-text="Your card validation code (CVC)
    `----
   x Child
-   ,-[$DIR/tests/fixture/element/custom-element/input.html:4:1]
+   ,-[$DIR/tests/fixture/element/custom-element/input.html:3:1]
+ 2 |     <html lang="en">
  3 | ,-> <head>
  4 | `->     <title>Document</title>
  5 |     </head>
    `----
   x Text
-   ,-[$DIR/tests/fixture/element/custom-element/input.html:4:1]
+   ,-[$DIR/tests/fixture/element/custom-element/input.html:3:1]
+ 2 |     <html lang="en">
  3 | ,-> <head>
  4 | `->     <title>Document</title>
  5 |     </head>
@@ -67,7 +158,6 @@
  4 |     <title>Document</title>
    :     ^^^^^^^^^^^^^^^^^^^^^^^
  5 | </head>
- 6 | <body>
    `----
   x Element
    ,-[$DIR/tests/fixture/element/custom-element/input.html:4:1]
@@ -75,7 +165,6 @@
  4 |     <title>Document</title>
    :     ^^^^^^^^^^^^^^^^^^^^^^^
  5 | </head>
- 6 | <body>
    `----
   x Child
    ,-[$DIR/tests/fixture/element/custom-element/input.html:4:1]
@@ -92,28 +181,32 @@
  5 | </head>
    `----
   x Child
-   ,-[$DIR/tests/fixture/element/custom-element/input.html:5:1]
+   ,-[$DIR/tests/fixture/element/custom-element/input.html:4:1]
+ 3 | <head>
  4 |     <title>Document</title>
    :                            ^
  5 | </head>
  6 | <body>
    `----
   x Text
-   ,-[$DIR/tests/fixture/element/custom-element/input.html:5:1]
+   ,-[$DIR/tests/fixture/element/custom-element/input.html:4:1]
+ 3 | <head>
  4 |     <title>Document</title>
    :                            ^
  5 | </head>
  6 | <body>
    `----
   x Child
-   ,-[$DIR/tests/fixture/element/custom-element/input.html:6:1]
+   ,-[$DIR/tests/fixture/element/custom-element/input.html:5:1]
+ 4 |     <title>Document</title>
  5 | </head>
    :        ^
  6 | <body>
  7 | <popup-info img="img/alt.png" data-text="Your card validation code (CVC)
    `----
   x Text
-   ,-[$DIR/tests/fixture/element/custom-element/input.html:6:1]
+   ,-[$DIR/tests/fixture/element/custom-element/input.html:5:1]
+ 4 |     <title>Document</title>
  5 | </head>
    :        ^
  6 | <body>
@@ -182,37 +275,35 @@
  32 |     </html>
     `----
   x Child
-   ,-[$DIR/tests/fixture/element/custom-element/input.html:7:1]
+   ,-[$DIR/tests/fixture/element/custom-element/input.html:6:1]
+ 5 | </head>
  6 | <body>
    :       ^
  7 | <popup-info img="img/alt.png" data-text="Your card validation code (CVC)
  8 |   is an extra security feature — it is the last 3 or 4 numbers on the
    `----
   x Text
-   ,-[$DIR/tests/fixture/element/custom-element/input.html:7:1]
+   ,-[$DIR/tests/fixture/element/custom-element/input.html:6:1]
+ 5 | </head>
  6 | <body>
    :       ^
  7 | <popup-info img="img/alt.png" data-text="Your card validation code (CVC)
  8 |   is an extra security feature — it is the last 3 or 4 numbers on the
    `----
   x Child
-    ,-[$DIR/tests/fixture/element/custom-element/input.html:7:1]
-  6 |     <body>
-  7 | ,-> <popup-info img="img/alt.png" data-text="Your card validation code (CVC)
-  8 | |     is an extra security feature — it is the last 3 or 4 numbers on the
-  9 | `->   back of your card."></popup-info>
- 10 |     
- 11 |     <custom-square l="100" c="red"></custom-square>
-    `----
+   ,-[$DIR/tests/fixture/element/custom-element/input.html:7:1]
+ 6 |     <body>
+ 7 | ,-> <popup-info img="img/alt.png" data-text="Your card validation code (CVC)
+ 8 | |     is an extra security feature — it is the last 3 or 4 numbers on the
+ 9 | `->   back of your card."></popup-info>
+   `----
   x Element
-    ,-[$DIR/tests/fixture/element/custom-element/input.html:7:1]
-  6 |     <body>
-  7 | ,-> <popup-info img="img/alt.png" data-text="Your card validation code (CVC)
-  8 | |     is an extra security feature — it is the last 3 or 4 numbers on the
-  9 | `->   back of your card."></popup-info>
- 10 |     
- 11 |     <custom-square l="100" c="red"></custom-square>
-    `----
+   ,-[$DIR/tests/fixture/element/custom-element/input.html:7:1]
+ 6 |     <body>
+ 7 | ,-> <popup-info img="img/alt.png" data-text="Your card validation code (CVC)
+ 8 | |     is an extra security feature — it is the last 3 or 4 numbers on the
+ 9 | `->   back of your card."></popup-info>
+   `----
   x Attribute
    ,-[$DIR/tests/fixture/element/custom-element/input.html:7:1]
  6 | <body>
@@ -228,13 +319,15 @@
  9 | `->   back of your card."></popup-info>
    `----
   x Child
-    ,-[$DIR/tests/fixture/element/custom-element/input.html:10:1]
+    ,-[$DIR/tests/fixture/element/custom-element/input.html:9:1]
+  8 |       is an extra security feature — it is the last 3 or 4 numbers on the
   9 | ,->   back of your card."></popup-info>
  10 | `-> 
  11 |     <custom-square l="100" c="red"></custom-square>
     `----
   x Text
-    ,-[$DIR/tests/fixture/element/custom-element/input.html:10:1]
+    ,-[$DIR/tests/fixture/element/custom-element/input.html:9:1]
+  8 |       is an extra security feature — it is the last 3 or 4 numbers on the
   9 | ,->   back of your card."></popup-info>
  10 | `-> 
  11 |     <custom-square l="100" c="red"></custom-square>
@@ -244,16 +337,12 @@
  10 | 
  11 | <custom-square l="100" c="red"></custom-square>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 12 | 
- 13 | <app-drawer open disabled></app-drawer>
     `----
   x Element
     ,-[$DIR/tests/fixture/element/custom-element/input.html:11:1]
  10 | 
  11 | <custom-square l="100" c="red"></custom-square>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 12 | 
- 13 | <app-drawer open disabled></app-drawer>
     `----
   x Attribute
     ,-[$DIR/tests/fixture/element/custom-element/input.html:11:1]
@@ -268,13 +357,15 @@
     :                        ^^^^^^^
     `----
   x Child
-    ,-[$DIR/tests/fixture/element/custom-element/input.html:12:1]
+    ,-[$DIR/tests/fixture/element/custom-element/input.html:11:1]
+ 10 |     
  11 | ,-> <custom-square l="100" c="red"></custom-square>
  12 | `-> 
  13 |     <app-drawer open disabled></app-drawer>
     `----
   x Text
-    ,-[$DIR/tests/fixture/element/custom-element/input.html:12:1]
+    ,-[$DIR/tests/fixture/element/custom-element/input.html:11:1]
+ 10 |     
  11 | ,-> <custom-square l="100" c="red"></custom-square>
  12 | `-> 
  13 |     <app-drawer open disabled></app-drawer>
@@ -284,16 +375,12 @@
  12 | 
  13 | <app-drawer open disabled></app-drawer>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 14 | 
- 15 | <share-buttons>
     `----
   x Element
     ,-[$DIR/tests/fixture/element/custom-element/input.html:13:1]
  12 | 
  13 | <app-drawer open disabled></app-drawer>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 14 | 
- 15 | <share-buttons>
     `----
   x Attribute
     ,-[$DIR/tests/fixture/element/custom-element/input.html:13:1]
@@ -308,14 +395,16 @@
     :                  ^^^^^^^^
     `----
   x Child
-    ,-[$DIR/tests/fixture/element/custom-element/input.html:14:1]
+    ,-[$DIR/tests/fixture/element/custom-element/input.html:13:1]
+ 12 |     
  13 | ,-> <app-drawer open disabled></app-drawer>
  14 | `-> 
  15 |     <share-buttons>
  16 |         <social-button type="twitter"><a href="...">Twitter</a></social-button>
     `----
   x Text
-    ,-[$DIR/tests/fixture/element/custom-element/input.html:14:1]
+    ,-[$DIR/tests/fixture/element/custom-element/input.html:13:1]
+ 12 |     
  13 | ,-> <app-drawer open disabled></app-drawer>
  14 | `-> 
  15 |     <share-buttons>
@@ -329,8 +418,6 @@
  17 | |       <social-button type="fb"><a href="...">Facebook</a></social-button>
  18 | |       <social-button type="plus"><a href="...">G+</a></social-button>
  19 | `-> </share-buttons>
- 20 |     
- 21 |     <x-foo-with-markup>
     `----
   x Element
     ,-[$DIR/tests/fixture/element/custom-element/input.html:15:1]
@@ -340,17 +427,17 @@
  17 | |       <social-button type="fb"><a href="...">Facebook</a></social-button>
  18 | |       <social-button type="plus"><a href="...">G+</a></social-button>
  19 | `-> </share-buttons>
- 20 |     
- 21 |     <x-foo-with-markup>
     `----
   x Child
-    ,-[$DIR/tests/fixture/element/custom-element/input.html:16:1]
+    ,-[$DIR/tests/fixture/element/custom-element/input.html:15:1]
+ 14 |     
  15 | ,-> <share-buttons>
  16 | `->     <social-button type="twitter"><a href="...">Twitter</a></social-button>
  17 |         <social-button type="fb"><a href="...">Facebook</a></social-button>
     `----
   x Text
-    ,-[$DIR/tests/fixture/element/custom-element/input.html:16:1]
+    ,-[$DIR/tests/fixture/element/custom-element/input.html:15:1]
+ 14 |     
  15 | ,-> <share-buttons>
  16 | `->     <social-button type="twitter"><a href="...">Twitter</a></social-button>
  17 |         <social-button type="fb"><a href="...">Facebook</a></social-button>
@@ -361,7 +448,6 @@
  16 |     <social-button type="twitter"><a href="...">Twitter</a></social-button>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  17 |     <social-button type="fb"><a href="...">Facebook</a></social-button>
- 18 |     <social-button type="plus"><a href="...">G+</a></social-button>
     `----
   x Element
     ,-[$DIR/tests/fixture/element/custom-element/input.html:16:1]
@@ -369,7 +455,6 @@
  16 |     <social-button type="twitter"><a href="...">Twitter</a></social-button>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  17 |     <social-button type="fb"><a href="...">Facebook</a></social-button>
- 18 |     <social-button type="plus"><a href="...">G+</a></social-button>
     `----
   x Attribute
     ,-[$DIR/tests/fixture/element/custom-element/input.html:16:1]
@@ -414,13 +499,15 @@
  17 |     <social-button type="fb"><a href="...">Facebook</a></social-button>
     `----
   x Child
-    ,-[$DIR/tests/fixture/element/custom-element/input.html:17:1]
+    ,-[$DIR/tests/fixture/element/custom-element/input.html:16:1]
+ 15 |     <share-buttons>
  16 | ,->     <social-button type="twitter"><a href="...">Twitter</a></social-button>
  17 | `->     <social-button type="fb"><a href="...">Facebook</a></social-button>
  18 |         <social-button type="plus"><a href="...">G+</a></social-button>
     `----
   x Text
-    ,-[$DIR/tests/fixture/element/custom-element/input.html:17:1]
+    ,-[$DIR/tests/fixture/element/custom-element/input.html:16:1]
+ 15 |     <share-buttons>
  16 | ,->     <social-button type="twitter"><a href="...">Twitter</a></social-button>
  17 | `->     <social-button type="fb"><a href="...">Facebook</a></social-button>
  18 |         <social-button type="plus"><a href="...">G+</a></social-button>
@@ -431,7 +518,6 @@
  17 |     <social-button type="fb"><a href="...">Facebook</a></social-button>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  18 |     <social-button type="plus"><a href="...">G+</a></social-button>
- 19 | </share-buttons>
     `----
   x Element
     ,-[$DIR/tests/fixture/element/custom-element/input.html:17:1]
@@ -439,7 +525,6 @@
  17 |     <social-button type="fb"><a href="...">Facebook</a></social-button>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  18 |     <social-button type="plus"><a href="...">G+</a></social-button>
- 19 | </share-buttons>
     `----
   x Attribute
     ,-[$DIR/tests/fixture/element/custom-element/input.html:17:1]
@@ -484,13 +569,15 @@
  18 |     <social-button type="plus"><a href="...">G+</a></social-button>
     `----
   x Child
-    ,-[$DIR/tests/fixture/element/custom-element/input.html:18:1]
+    ,-[$DIR/tests/fixture/element/custom-element/input.html:17:1]
+ 16 |         <social-button type="twitter"><a href="...">Twitter</a></social-button>
  17 | ,->     <social-button type="fb"><a href="...">Facebook</a></social-button>
  18 | `->     <social-button type="plus"><a href="...">G+</a></social-button>
  19 |     </share-buttons>
     `----
   x Text
-    ,-[$DIR/tests/fixture/element/custom-element/input.html:18:1]
+    ,-[$DIR/tests/fixture/element/custom-element/input.html:17:1]
+ 16 |         <social-button type="twitter"><a href="...">Twitter</a></social-button>
  17 | ,->     <social-button type="fb"><a href="...">Facebook</a></social-button>
  18 | `->     <social-button type="plus"><a href="...">G+</a></social-button>
  19 |     </share-buttons>
@@ -552,26 +639,30 @@
  19 | </share-buttons>
     `----
   x Child
-    ,-[$DIR/tests/fixture/element/custom-element/input.html:19:1]
+    ,-[$DIR/tests/fixture/element/custom-element/input.html:18:1]
+ 17 |     <social-button type="fb"><a href="...">Facebook</a></social-button>
  18 |     <social-button type="plus"><a href="...">G+</a></social-button>
     :                                                                    ^
  19 | </share-buttons>
     `----
   x Text
-    ,-[$DIR/tests/fixture/element/custom-element/input.html:19:1]
+    ,-[$DIR/tests/fixture/element/custom-element/input.html:18:1]
+ 17 |     <social-button type="fb"><a href="...">Facebook</a></social-button>
  18 |     <social-button type="plus"><a href="...">G+</a></social-button>
     :                                                                    ^
  19 | </share-buttons>
     `----
   x Child
-    ,-[$DIR/tests/fixture/element/custom-element/input.html:20:1]
+    ,-[$DIR/tests/fixture/element/custom-element/input.html:19:1]
+ 18 |         <social-button type="plus"><a href="...">G+</a></social-button>
  19 | ,-> </share-buttons>
  20 | `-> 
  21 |     <x-foo-with-markup>
  22 |         <b>I'm an x-foo-with-markup!</b>
     `----
   x Text
-    ,-[$DIR/tests/fixture/element/custom-element/input.html:20:1]
+    ,-[$DIR/tests/fixture/element/custom-element/input.html:19:1]
+ 18 |         <social-button type="plus"><a href="...">G+</a></social-button>
  19 | ,-> </share-buttons>
  20 | `-> 
  21 |     <x-foo-with-markup>
@@ -583,8 +674,6 @@
  21 | ,-> <x-foo-with-markup>
  22 | |       <b>I'm an x-foo-with-markup!</b>
  23 | `-> </x-foo-with-markup>
- 24 |     
- 25 |     <template id="x-foo-from-template">
     `----
   x Element
     ,-[$DIR/tests/fixture/element/custom-element/input.html:21:1]
@@ -592,17 +681,17 @@
  21 | ,-> <x-foo-with-markup>
  22 | |       <b>I'm an x-foo-with-markup!</b>
  23 | `-> </x-foo-with-markup>
- 24 |     
- 25 |     <template id="x-foo-from-template">
     `----
   x Child
-    ,-[$DIR/tests/fixture/element/custom-element/input.html:22:1]
+    ,-[$DIR/tests/fixture/element/custom-element/input.html:21:1]
+ 20 |     
  21 | ,-> <x-foo-with-markup>
  22 | `->     <b>I'm an x-foo-with-markup!</b>
  23 |     </x-foo-with-markup>
     `----
   x Text
-    ,-[$DIR/tests/fixture/element/custom-element/input.html:22:1]
+    ,-[$DIR/tests/fixture/element/custom-element/input.html:21:1]
+ 20 |     
  21 | ,-> <x-foo-with-markup>
  22 | `->     <b>I'm an x-foo-with-markup!</b>
  23 |     </x-foo-with-markup>
@@ -636,26 +725,30 @@
  23 | </x-foo-with-markup>
     `----
   x Child
-    ,-[$DIR/tests/fixture/element/custom-element/input.html:23:1]
+    ,-[$DIR/tests/fixture/element/custom-element/input.html:22:1]
+ 21 | <x-foo-with-markup>
  22 |     <b>I'm an x-foo-with-markup!</b>
     :                                     ^
  23 | </x-foo-with-markup>
     `----
   x Text
-    ,-[$DIR/tests/fixture/element/custom-element/input.html:23:1]
+    ,-[$DIR/tests/fixture/element/custom-element/input.html:22:1]
+ 21 | <x-foo-with-markup>
  22 |     <b>I'm an x-foo-with-markup!</b>
     :                                     ^
  23 | </x-foo-with-markup>
     `----
   x Child
-    ,-[$DIR/tests/fixture/element/custom-element/input.html:24:1]
+    ,-[$DIR/tests/fixture/element/custom-element/input.html:23:1]
+ 22 |         <b>I'm an x-foo-with-markup!</b>
  23 | ,-> </x-foo-with-markup>
  24 | `-> 
  25 |     <template id="x-foo-from-template">
  26 |         <style>
     `----
   x Text
-    ,-[$DIR/tests/fixture/element/custom-element/input.html:24:1]
+    ,-[$DIR/tests/fixture/element/custom-element/input.html:23:1]
+ 22 |         <b>I'm an x-foo-with-markup!</b>
  23 | ,-> </x-foo-with-markup>
  24 | `-> 
  25 |     <template id="x-foo-from-template">
@@ -671,7 +764,6 @@
  29 | |       <p>I'm in Shadow DOM. My markup was stamped from a &lt;template&gt;.</p>
  30 | `-> </template>
  31 |     </body>
- 32 |     </html>
     `----
   x Element
     ,-[$DIR/tests/fixture/element/custom-element/input.html:25:1]
@@ -683,7 +775,6 @@
  29 | |       <p>I'm in Shadow DOM. My markup was stamped from a &lt;template&gt;.</p>
  30 | `-> </template>
  31 |     </body>
- 32 |     </html>
     `----
   x Attribute
     ,-[$DIR/tests/fixture/element/custom-element/input.html:25:1]
@@ -702,16 +793,17 @@
  29 | |       <p>I'm in Shadow DOM. My markup was stamped from a &lt;template&gt;.</p>
  30 | `-> </template>
  31 |     </body>
- 32 |     </html>
     `----
   x Child
-    ,-[$DIR/tests/fixture/element/custom-element/input.html:26:1]
+    ,-[$DIR/tests/fixture/element/custom-element/input.html:25:1]
+ 24 |     
  25 | ,-> <template id="x-foo-from-template">
  26 | `->     <style>
  27 |             p { color: green; }
     `----
   x Text
-    ,-[$DIR/tests/fixture/element/custom-element/input.html:26:1]
+    ,-[$DIR/tests/fixture/element/custom-element/input.html:25:1]
+ 24 |     
  25 | ,-> <template id="x-foo-from-template">
  26 | `->     <style>
  27 |             p { color: green; }
@@ -723,7 +815,6 @@
  27 | |           p { color: green; }
  28 | `->     </style>
  29 |         <p>I'm in Shadow DOM. My markup was stamped from a &lt;template&gt;.</p>
- 30 |     </template>
     `----
   x Element
     ,-[$DIR/tests/fixture/element/custom-element/input.html:26:1]
@@ -732,30 +823,33 @@
  27 | |           p { color: green; }
  28 | `->     </style>
  29 |         <p>I'm in Shadow DOM. My markup was stamped from a &lt;template&gt;.</p>
- 30 |     </template>
     `----
   x Child
-    ,-[$DIR/tests/fixture/element/custom-element/input.html:27:1]
+    ,-[$DIR/tests/fixture/element/custom-element/input.html:26:1]
+ 25 |     <template id="x-foo-from-template">
  26 | ,->     <style>
  27 | |           p { color: green; }
  28 | `->     </style>
  29 |         <p>I'm in Shadow DOM. My markup was stamped from a &lt;template&gt;.</p>
     `----
   x Text
-    ,-[$DIR/tests/fixture/element/custom-element/input.html:27:1]
+    ,-[$DIR/tests/fixture/element/custom-element/input.html:26:1]
+ 25 |     <template id="x-foo-from-template">
  26 | ,->     <style>
  27 | |           p { color: green; }
  28 | `->     </style>
  29 |         <p>I'm in Shadow DOM. My markup was stamped from a &lt;template&gt;.</p>
     `----
   x Child
-    ,-[$DIR/tests/fixture/element/custom-element/input.html:29:1]
+    ,-[$DIR/tests/fixture/element/custom-element/input.html:28:1]
+ 27 |             p { color: green; }
  28 | ,->     </style>
  29 | `->     <p>I'm in Shadow DOM. My markup was stamped from a &lt;template&gt;.</p>
  30 |     </template>
     `----
   x Text
-    ,-[$DIR/tests/fixture/element/custom-element/input.html:29:1]
+    ,-[$DIR/tests/fixture/element/custom-element/input.html:28:1]
+ 27 |             p { color: green; }
  28 | ,->     </style>
  29 | `->     <p>I'm in Shadow DOM. My markup was stamped from a &lt;template&gt;.</p>
  30 |     </template>
@@ -766,7 +860,6 @@
  29 |     <p>I'm in Shadow DOM. My markup was stamped from a &lt;template&gt;.</p>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  30 | </template>
- 31 | </body>
     `----
   x Element
     ,-[$DIR/tests/fixture/element/custom-element/input.html:29:1]
@@ -774,7 +867,6 @@
  29 |     <p>I'm in Shadow DOM. My markup was stamped from a &lt;template&gt;.</p>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  30 | </template>
- 31 | </body>
     `----
   x Child
     ,-[$DIR/tests/fixture/element/custom-element/input.html:29:1]
@@ -791,27 +883,31 @@
  30 | </template>
     `----
   x Child
-    ,-[$DIR/tests/fixture/element/custom-element/input.html:30:1]
+    ,-[$DIR/tests/fixture/element/custom-element/input.html:29:1]
+ 28 |     </style>
  29 |     <p>I'm in Shadow DOM. My markup was stamped from a &lt;template&gt;.</p>
     :                                                                             ^
  30 | </template>
  31 | </body>
     `----
   x Text
-    ,-[$DIR/tests/fixture/element/custom-element/input.html:30:1]
+    ,-[$DIR/tests/fixture/element/custom-element/input.html:29:1]
+ 28 |     </style>
  29 |     <p>I'm in Shadow DOM. My markup was stamped from a &lt;template&gt;.</p>
     :                                                                             ^
  30 | </template>
  31 | </body>
     `----
   x Child
-    ,-[$DIR/tests/fixture/element/custom-element/input.html:31:1]
+    ,-[$DIR/tests/fixture/element/custom-element/input.html:30:1]
+ 29 |         <p>I'm in Shadow DOM. My markup was stamped from a &lt;template&gt;.</p>
  30 | ,-> </template>
  31 | `-> </body>
  32 |     </html>
     `----
   x Text
-    ,-[$DIR/tests/fixture/element/custom-element/input.html:31:1]
+    ,-[$DIR/tests/fixture/element/custom-element/input.html:30:1]
+ 29 |         <p>I'm in Shadow DOM. My markup was stamped from a &lt;template&gt;.</p>
  30 | ,-> </template>
  31 | `-> </body>
  32 |     </html>

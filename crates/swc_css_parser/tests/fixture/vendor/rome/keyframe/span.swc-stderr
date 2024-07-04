@@ -1,33 +1,52 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/vendor/rome/keyframe/input.css:1:2]
- 1 | |    
-   `----
+    ,-[$DIR/tests/fixture/vendor/rome/keyframe/input.css:1:1]
+  1 | ,-> @keyframes important1 {
+  2 | |       from {
+  3 | |           margin-top: 50px !important;
+  4 | |       }
+  5 | |       to {
+  6 | |           margin-top: 100px !important;
+  7 | |       }
+  8 | |   }
+  9 | |   
+ 10 | |   @keyframes foo {
+ 11 | |       from {
+ 12 | |       }
+ 13 | |       to {
+ 14 | |       }
+ 15 | |       15% {
+ 16 | |       }
+ 17 | |       0% {
+ 18 | |       }
+ 19 | |       100% {
+ 20 | |       }
+ 21 | |   }
+ 22 | |   
+ 23 | |   @keyframes FOO {
+ 24 | `-> }
+    `----
   x Rule
-    ,-[$DIR/tests/fixture/vendor/rome/keyframe/input.css:1:1]
-  1 | ,-> @keyframes important1 {
-  2 | |       from {
-  3 | |           margin-top: 50px !important;
-  4 | |       }
-  5 | |       to {
-  6 | |           margin-top: 100px !important;
-  7 | |       }
-  8 | `-> }
-  9 |     
- 10 |     @keyframes foo {
-    `----
+   ,-[$DIR/tests/fixture/vendor/rome/keyframe/input.css:1:1]
+ 1 | ,-> @keyframes important1 {
+ 2 | |       from {
+ 3 | |           margin-top: 50px !important;
+ 4 | |       }
+ 5 | |       to {
+ 6 | |           margin-top: 100px !important;
+ 7 | |       }
+ 8 | `-> }
+   `----
   x AtRule
-    ,-[$DIR/tests/fixture/vendor/rome/keyframe/input.css:1:1]
-  1 | ,-> @keyframes important1 {
-  2 | |       from {
-  3 | |           margin-top: 50px !important;
-  4 | |       }
-  5 | |       to {
-  6 | |           margin-top: 100px !important;
-  7 | |       }
-  8 | `-> }
-  9 |     
- 10 |     @keyframes foo {
-    `----
+   ,-[$DIR/tests/fixture/vendor/rome/keyframe/input.css:1:1]
+ 1 | ,-> @keyframes important1 {
+ 2 | |       from {
+ 3 | |           margin-top: 50px !important;
+ 4 | |       }
+ 5 | |       to {
+ 6 | |           margin-top: 100px !important;
+ 7 | |       }
+ 8 | `-> }
+   `----
   x AtRuleName
    ,-[$DIR/tests/fixture/vendor/rome/keyframe/input.css:1:1]
  1 | @keyframes important1 {
@@ -47,24 +66,21 @@
  2 |     from {
    `----
   x SimpleBlock
-    ,-[$DIR/tests/fixture/vendor/rome/keyframe/input.css:1:1]
-  1 | ,-> @keyframes important1 {
-  2 | |       from {
-  3 | |           margin-top: 50px !important;
-  4 | |       }
-  5 | |       to {
-  6 | |           margin-top: 100px !important;
-  7 | |       }
-  8 | `-> }
-  9 |     
- 10 |     @keyframes foo {
-    `----
+   ,-[$DIR/tests/fixture/vendor/rome/keyframe/input.css:1:1]
+ 1 | ,-> @keyframes important1 {
+ 2 | |       from {
+ 3 | |           margin-top: 50px !important;
+ 4 | |       }
+ 5 | |       to {
+ 6 | |           margin-top: 100px !important;
+ 7 | |       }
+ 8 | `-> }
+   `----
   x LBrace
    ,-[$DIR/tests/fixture/vendor/rome/keyframe/input.css:1:1]
  1 | @keyframes important1 {
    :                       ^
  2 |     from {
- 3 |         margin-top: 50px !important;
    `----
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/rome/keyframe/input.css:2:1]
@@ -73,7 +89,6 @@
  3 | |           margin-top: 50px !important;
  4 | `->     }
  5 |         to {
- 6 |             margin-top: 100px !important;
    `----
   x Ident
    ,-[$DIR/tests/fixture/vendor/rome/keyframe/input.css:2:1]
@@ -89,7 +104,6 @@
  3 | |           margin-top: 50px !important;
  4 | `->     }
  5 |         to {
- 6 |             margin-top: 100px !important;
    `----
   x LBrace
    ,-[$DIR/tests/fixture/vendor/rome/keyframe/input.css:2:1]
@@ -97,7 +111,6 @@
  2 |     from {
    :          ^
  3 |         margin-top: 50px !important;
- 4 |     }
    `----
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/rome/keyframe/input.css:3:1]
@@ -205,7 +218,6 @@
  5 |     to {
    :        ^
  6 |         margin-top: 100px !important;
- 7 |     }
    `----
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/rome/keyframe/input.css:6:1]
@@ -299,8 +311,6 @@
  19 | |       100% {
  20 | |       }
  21 | `-> }
- 22 |     
- 23 |     @keyframes FOO {
     `----
   x AtRule
     ,-[$DIR/tests/fixture/vendor/rome/keyframe/input.css:10:1]
@@ -317,8 +327,6 @@
  19 | |       100% {
  20 | |       }
  21 | `-> }
- 22 |     
- 23 |     @keyframes FOO {
     `----
   x AtRuleName
     ,-[$DIR/tests/fixture/vendor/rome/keyframe/input.css:10:1]
@@ -356,8 +364,6 @@
  19 | |       100% {
  20 | |       }
  21 | `-> }
- 22 |     
- 23 |     @keyframes FOO {
     `----
   x LBrace
     ,-[$DIR/tests/fixture/vendor/rome/keyframe/input.css:10:1]
@@ -365,7 +371,6 @@
  10 | @keyframes foo {
     :                ^
  11 |     from {
- 12 |     }
     `----
   x ComponentValue
     ,-[$DIR/tests/fixture/vendor/rome/keyframe/input.css:11:1]
@@ -373,7 +378,6 @@
  11 | ,->     from {
  12 | `->     }
  13 |         to {
- 14 |         }
     `----
   x Ident
     ,-[$DIR/tests/fixture/vendor/rome/keyframe/input.css:11:1]
@@ -388,7 +392,6 @@
  11 | ,->     from {
  12 | `->     }
  13 |         to {
- 14 |         }
     `----
   x LBrace
     ,-[$DIR/tests/fixture/vendor/rome/keyframe/input.css:11:1]
@@ -396,7 +399,6 @@
  11 |     from {
     :          ^
  12 |     }
- 13 |     to {
     `----
   x ComponentValue
     ,-[$DIR/tests/fixture/vendor/rome/keyframe/input.css:13:1]
@@ -404,7 +406,6 @@
  13 | ,->     to {
  14 | `->     }
  15 |         15% {
- 16 |         }
     `----
   x Ident
     ,-[$DIR/tests/fixture/vendor/rome/keyframe/input.css:13:1]
@@ -419,7 +420,6 @@
  13 | ,->     to {
  14 | `->     }
  15 |         15% {
- 16 |         }
     `----
   x LBrace
     ,-[$DIR/tests/fixture/vendor/rome/keyframe/input.css:13:1]
@@ -427,7 +427,6 @@
  13 |     to {
     :        ^
  14 |     }
- 15 |     15% {
     `----
   x ComponentValue
     ,-[$DIR/tests/fixture/vendor/rome/keyframe/input.css:15:1]
@@ -435,7 +434,6 @@
  15 | ,->     15% {
  16 | `->     }
  17 |         0% {
- 18 |         }
     `----
   x Percentage
     ,-[$DIR/tests/fixture/vendor/rome/keyframe/input.css:15:1]
@@ -457,7 +455,6 @@
  15 | ,->     15% {
  16 | `->     }
  17 |         0% {
- 18 |         }
     `----
   x LBrace
     ,-[$DIR/tests/fixture/vendor/rome/keyframe/input.css:15:1]
@@ -465,7 +462,6 @@
  15 |     15% {
     :         ^
  16 |     }
- 17 |     0% {
     `----
   x ComponentValue
     ,-[$DIR/tests/fixture/vendor/rome/keyframe/input.css:17:1]
@@ -473,7 +469,6 @@
  17 | ,->     0% {
  18 | `->     }
  19 |         100% {
- 20 |         }
     `----
   x Percentage
     ,-[$DIR/tests/fixture/vendor/rome/keyframe/input.css:17:1]
@@ -495,7 +490,6 @@
  17 | ,->     0% {
  18 | `->     }
  19 |         100% {
- 20 |         }
     `----
   x LBrace
     ,-[$DIR/tests/fixture/vendor/rome/keyframe/input.css:17:1]
@@ -503,7 +497,6 @@
  17 |     0% {
     :        ^
  18 |     }
- 19 |     100% {
     `----
   x ComponentValue
     ,-[$DIR/tests/fixture/vendor/rome/keyframe/input.css:19:1]
@@ -539,7 +532,6 @@
  19 |     100% {
     :          ^
  20 |     }
- 21 | }
     `----
   x Rule
     ,-[$DIR/tests/fixture/vendor/rome/keyframe/input.css:23:1]

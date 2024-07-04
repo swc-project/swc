@@ -1,6 +1,7 @@
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.24.html:1:2]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.24.html:1:1]
+ 1 | <!doctype html><table><tr><script></style></script>abc
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.24.html:1:1]
@@ -15,28 +16,34 @@
   x Child
   x Element
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.24.html:1:53]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.24.html:1:1]
+ 1 | <!doctype html><table><tr><script></style></script>abc
+   :                                                    ^^^
    `----
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.24.html:1:53]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.24.html:1:1]
+ 1 | <!doctype html><table><tr><script></style></script>abc
+   :                                                    ^^^
    `----
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.24.html:1:17]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.24.html:1:1]
+ 1 | <!doctype html><table><tr><script></style></script>abc
+   :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.24.html:1:17]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.24.html:1:1]
+ 1 | <!doctype html><table><tr><script></style></script>abc
+   :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.24.html:1:24]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.24.html:1:1]
+ 1 | <!doctype html><table><tr><script></style></script>abc
+   :                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.24.html:1:24]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.24.html:1:1]
+ 1 | <!doctype html><table><tr><script></style></script>abc
+   :                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.24.html:1:1]

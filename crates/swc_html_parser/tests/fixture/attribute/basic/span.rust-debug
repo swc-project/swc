@@ -1,29 +1,138 @@
   x Document
-   ,-[$DIR/tests/fixture/attribute/basic/input.html:1:2]
- 1 | |    
-   `----
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:1:1]
+  1 | ,-> <!doctype html>
+  2 | |   <html lang="en">
+  3 | |   <head>
+  4 | |       <title>Document</title>
+  5 | |   </head>
+  6 | |   <body>
+  7 | |   
+  8 | |   <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
+  9 | |   <p title=" <![CDATA[ \n\n foobar baz ]]> ">x</p>
+ 10 | |   <p title=" <!-- hello world --> ">x</p>
+ 11 | |   <tag v-ref:vm_pv :imgs=" objpicsurl_ "></tag>
+ 12 | |   <br a=\u00A0 b="&nbsp;" c="\u00A0">
+ 13 | |   <img
+ 14 | |           src
+ 15 | |                   =
+ 16 | |                   "test"
+ 17 | |   />
+ 18 | |   
+ 19 | |   <img src=test.jpg>
+ 20 | |   <img src=test.jpg data-src=test.jpg>
+ 21 | |   
+ 22 | |   <button disabled></button>
+ 23 | |   
+ 24 | |   <div CLASS="TEST"></div>
+ 25 | |   <div CLASS='TEST'></div>
+ 26 | |   <div CLASS=TEST></div>
+ 27 | |   
+ 28 | |   <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
+ 29 | |       <text y="20" xml:space="default">Default   spacing</text>
+ 30 | |       <text y="20" XML:SPACE="default">Default   spacing</text>
+ 31 | |       <text y="40" xml:space="preserve">Preserved   spacing</text>
+ 32 | |   </svg>
+ 33 | |   
+ 34 | |   <div id = "John &quot; &amp; Harry "></div>
+ 35 | |   <a href="http://host/?x=1&#38;y=2">test</a>
+ 36 | |   
+ 37 | |   </body>
+ 38 | `-> </html>
+    `----
   x Child
    ,-[$DIR/tests/fixture/attribute/basic/input.html:1:1]
  1 | <!doctype html>
    : ^^^^^^^^^^^^^^^
  2 | <html lang="en">
- 3 | <head>
    `----
   x DocumentType
    ,-[$DIR/tests/fixture/attribute/basic/input.html:1:1]
  1 | <!doctype html>
    : ^^^^^^^^^^^^^^^
  2 | <html lang="en">
- 3 | <head>
    `----
   x Child
-   ,-[$DIR/tests/fixture/attribute/basic/input.html:2:2]
- 2 | |    
-   `----
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:2:1]
+  1 |     <!doctype html>
+  2 | ,-> <html lang="en">
+  3 | |   <head>
+  4 | |       <title>Document</title>
+  5 | |   </head>
+  6 | |   <body>
+  7 | |   
+  8 | |   <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
+  9 | |   <p title=" <![CDATA[ \n\n foobar baz ]]> ">x</p>
+ 10 | |   <p title=" <!-- hello world --> ">x</p>
+ 11 | |   <tag v-ref:vm_pv :imgs=" objpicsurl_ "></tag>
+ 12 | |   <br a=\u00A0 b="&nbsp;" c="\u00A0">
+ 13 | |   <img
+ 14 | |           src
+ 15 | |                   =
+ 16 | |                   "test"
+ 17 | |   />
+ 18 | |   
+ 19 | |   <img src=test.jpg>
+ 20 | |   <img src=test.jpg data-src=test.jpg>
+ 21 | |   
+ 22 | |   <button disabled></button>
+ 23 | |   
+ 24 | |   <div CLASS="TEST"></div>
+ 25 | |   <div CLASS='TEST'></div>
+ 26 | |   <div CLASS=TEST></div>
+ 27 | |   
+ 28 | |   <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
+ 29 | |       <text y="20" xml:space="default">Default   spacing</text>
+ 30 | |       <text y="20" XML:SPACE="default">Default   spacing</text>
+ 31 | |       <text y="40" xml:space="preserve">Preserved   spacing</text>
+ 32 | |   </svg>
+ 33 | |   
+ 34 | |   <div id = "John &quot; &amp; Harry "></div>
+ 35 | |   <a href="http://host/?x=1&#38;y=2">test</a>
+ 36 | |   
+ 37 | |   </body>
+ 38 | `-> </html>
+    `----
   x Element
-   ,-[$DIR/tests/fixture/attribute/basic/input.html:2:2]
- 2 | |    
-   `----
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:2:1]
+  1 |     <!doctype html>
+  2 | ,-> <html lang="en">
+  3 | |   <head>
+  4 | |       <title>Document</title>
+  5 | |   </head>
+  6 | |   <body>
+  7 | |   
+  8 | |   <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
+  9 | |   <p title=" <![CDATA[ \n\n foobar baz ]]> ">x</p>
+ 10 | |   <p title=" <!-- hello world --> ">x</p>
+ 11 | |   <tag v-ref:vm_pv :imgs=" objpicsurl_ "></tag>
+ 12 | |   <br a=\u00A0 b="&nbsp;" c="\u00A0">
+ 13 | |   <img
+ 14 | |           src
+ 15 | |                   =
+ 16 | |                   "test"
+ 17 | |   />
+ 18 | |   
+ 19 | |   <img src=test.jpg>
+ 20 | |   <img src=test.jpg data-src=test.jpg>
+ 21 | |   
+ 22 | |   <button disabled></button>
+ 23 | |   
+ 24 | |   <div CLASS="TEST"></div>
+ 25 | |   <div CLASS='TEST'></div>
+ 26 | |   <div CLASS=TEST></div>
+ 27 | |   
+ 28 | |   <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
+ 29 | |       <text y="20" xml:space="default">Default   spacing</text>
+ 30 | |       <text y="20" XML:SPACE="default">Default   spacing</text>
+ 31 | |       <text y="40" xml:space="preserve">Preserved   spacing</text>
+ 32 | |   </svg>
+ 33 | |   
+ 34 | |   <div id = "John &quot; &amp; Harry "></div>
+ 35 | |   <a href="http://host/?x=1&#38;y=2">test</a>
+ 36 | |   
+ 37 | |   </body>
+ 38 | `-> </html>
+    `----
   x Attribute
    ,-[$DIR/tests/fixture/attribute/basic/input.html:2:1]
  1 | <!doctype html>
@@ -48,13 +157,15 @@
  6 |     <body>
    `----
   x Child
-   ,-[$DIR/tests/fixture/attribute/basic/input.html:4:1]
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:3:1]
+ 2 |     <html lang="en">
  3 | ,-> <head>
  4 | `->     <title>Document</title>
  5 |     </head>
    `----
   x Text
-   ,-[$DIR/tests/fixture/attribute/basic/input.html:4:1]
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:3:1]
+ 2 |     <html lang="en">
  3 | ,-> <head>
  4 | `->     <title>Document</title>
  5 |     </head>
@@ -65,7 +176,6 @@
  4 |     <title>Document</title>
    :     ^^^^^^^^^^^^^^^^^^^^^^^
  5 | </head>
- 6 | <body>
    `----
   x Element
    ,-[$DIR/tests/fixture/attribute/basic/input.html:4:1]
@@ -73,7 +183,6 @@
  4 |     <title>Document</title>
    :     ^^^^^^^^^^^^^^^^^^^^^^^
  5 | </head>
- 6 | <body>
    `----
   x Child
    ,-[$DIR/tests/fixture/attribute/basic/input.html:4:1]
@@ -90,69 +199,139 @@
  5 | </head>
    `----
   x Child
-   ,-[$DIR/tests/fixture/attribute/basic/input.html:5:1]
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:4:1]
+ 3 | <head>
  4 |     <title>Document</title>
    :                            ^
  5 | </head>
  6 | <body>
    `----
   x Text
-   ,-[$DIR/tests/fixture/attribute/basic/input.html:5:1]
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:4:1]
+ 3 | <head>
  4 |     <title>Document</title>
    :                            ^
  5 | </head>
  6 | <body>
    `----
   x Child
-   ,-[$DIR/tests/fixture/attribute/basic/input.html:6:1]
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:5:1]
+ 4 |     <title>Document</title>
  5 | </head>
    :        ^
  6 | <body>
    `----
   x Text
-   ,-[$DIR/tests/fixture/attribute/basic/input.html:6:1]
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:5:1]
+ 4 |     <title>Document</title>
  5 | </head>
    :        ^
  6 | <body>
    `----
   x Child
-   ,-[$DIR/tests/fixture/attribute/basic/input.html:6:2]
- 6 | |    
-   `----
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:6:1]
+  5 |     </head>
+  6 | ,-> <body>
+  7 | |   
+  8 | |   <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
+  9 | |   <p title=" <![CDATA[ \n\n foobar baz ]]> ">x</p>
+ 10 | |   <p title=" <!-- hello world --> ">x</p>
+ 11 | |   <tag v-ref:vm_pv :imgs=" objpicsurl_ "></tag>
+ 12 | |   <br a=\u00A0 b="&nbsp;" c="\u00A0">
+ 13 | |   <img
+ 14 | |           src
+ 15 | |                   =
+ 16 | |                   "test"
+ 17 | |   />
+ 18 | |   
+ 19 | |   <img src=test.jpg>
+ 20 | |   <img src=test.jpg data-src=test.jpg>
+ 21 | |   
+ 22 | |   <button disabled></button>
+ 23 | |   
+ 24 | |   <div CLASS="TEST"></div>
+ 25 | |   <div CLASS='TEST'></div>
+ 26 | |   <div CLASS=TEST></div>
+ 27 | |   
+ 28 | |   <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
+ 29 | |       <text y="20" xml:space="default">Default   spacing</text>
+ 30 | |       <text y="20" XML:SPACE="default">Default   spacing</text>
+ 31 | |       <text y="40" xml:space="preserve">Preserved   spacing</text>
+ 32 | |   </svg>
+ 33 | |   
+ 34 | |   <div id = "John &quot; &amp; Harry "></div>
+ 35 | |   <a href="http://host/?x=1&#38;y=2">test</a>
+ 36 | |   
+ 37 | |   </body>
+ 38 | `-> </html>
+    `----
   x Element
-   ,-[$DIR/tests/fixture/attribute/basic/input.html:6:2]
- 6 | |    
-   `----
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:6:1]
+  5 |     </head>
+  6 | ,-> <body>
+  7 | |   
+  8 | |   <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
+  9 | |   <p title=" <![CDATA[ \n\n foobar baz ]]> ">x</p>
+ 10 | |   <p title=" <!-- hello world --> ">x</p>
+ 11 | |   <tag v-ref:vm_pv :imgs=" objpicsurl_ "></tag>
+ 12 | |   <br a=\u00A0 b="&nbsp;" c="\u00A0">
+ 13 | |   <img
+ 14 | |           src
+ 15 | |                   =
+ 16 | |                   "test"
+ 17 | |   />
+ 18 | |   
+ 19 | |   <img src=test.jpg>
+ 20 | |   <img src=test.jpg data-src=test.jpg>
+ 21 | |   
+ 22 | |   <button disabled></button>
+ 23 | |   
+ 24 | |   <div CLASS="TEST"></div>
+ 25 | |   <div CLASS='TEST'></div>
+ 26 | |   <div CLASS=TEST></div>
+ 27 | |   
+ 28 | |   <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
+ 29 | |       <text y="20" xml:space="default">Default   spacing</text>
+ 30 | |       <text y="20" XML:SPACE="default">Default   spacing</text>
+ 31 | |       <text y="40" xml:space="preserve">Preserved   spacing</text>
+ 32 | |   </svg>
+ 33 | |   
+ 34 | |   <div id = "John &quot; &amp; Harry "></div>
+ 35 | |   <a href="http://host/?x=1&#38;y=2">test</a>
+ 36 | |   
+ 37 | |   </body>
+ 38 | `-> </html>
+    `----
   x Child
-   ,-[$DIR/tests/fixture/attribute/basic/input.html:7:1]
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:6:1]
+ 5 |     </head>
  6 | ,-> <body>
  7 | `-> 
  8 |     <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
  9 |     <p title=" <![CDATA[ \n\n foobar baz ]]> ">x</p>
    `----
   x Text
-   ,-[$DIR/tests/fixture/attribute/basic/input.html:7:1]
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:6:1]
+ 5 |     </head>
  6 | ,-> <body>
  7 | `-> 
  8 |     <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
  9 |     <p title=" <![CDATA[ \n\n foobar baz ]]> ">x</p>
    `----
   x Child
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
-  7 | 
-  8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  9 | <p title=" <![CDATA[ \n\n foobar baz ]]> ">x</p>
- 10 | <p title=" <!-- hello world --> ">x</p>
-    `----
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+ 7 | 
+ 8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 9 | <p title=" <![CDATA[ \n\n foobar baz ]]> ">x</p>
+   `----
   x Element
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
-  7 | 
-  8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  9 | <p title=" <![CDATA[ \n\n foobar baz ]]> ">x</p>
- 10 | <p title=" <!-- hello world --> ">x</p>
-    `----
+   ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+ 7 | 
+ 8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 9 | <p title=" <![CDATA[ \n\n foobar baz ]]> ">x</p>
+   `----
   x Attribute
    ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
  7 | 
@@ -406,14 +585,16 @@
  9 | <p title=" <![CDATA[ \n\n foobar baz ]]> ">x</p>
    `----
   x Child
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:9:1]
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+  7 | 
   8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
     :                                                                                ^
   9 | <p title=" <![CDATA[ \n\n foobar baz ]]> ">x</p>
  10 | <p title=" <!-- hello world --> ">x</p>
     `----
   x Text
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:9:1]
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:8:1]
+  7 | 
   8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
     :                                                                                ^
   9 | <p title=" <![CDATA[ \n\n foobar baz ]]> ">x</p>
@@ -425,7 +606,6 @@
   9 | <p title=" <![CDATA[ \n\n foobar baz ]]> ">x</p>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  10 | <p title=" <!-- hello world --> ">x</p>
- 11 | <tag v-ref:vm_pv :imgs=" objpicsurl_ "></tag>
     `----
   x Element
     ,-[$DIR/tests/fixture/attribute/basic/input.html:9:1]
@@ -433,7 +613,6 @@
   9 | <p title=" <![CDATA[ \n\n foobar baz ]]> ">x</p>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  10 | <p title=" <!-- hello world --> ">x</p>
- 11 | <tag v-ref:vm_pv :imgs=" objpicsurl_ "></tag>
     `----
   x Attribute
     ,-[$DIR/tests/fixture/attribute/basic/input.html:9:1]
@@ -457,14 +636,16 @@
  10 | <p title=" <!-- hello world --> ">x</p>
     `----
   x Child
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:10:1]
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:9:1]
+  8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
   9 | <p title=" <![CDATA[ \n\n foobar baz ]]> ">x</p>
     :                                                 ^
  10 | <p title=" <!-- hello world --> ">x</p>
  11 | <tag v-ref:vm_pv :imgs=" objpicsurl_ "></tag>
     `----
   x Text
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:10:1]
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:9:1]
+  8 | <a 0 1 2 3 4 5 6 7 8 9 a b c d e f g h i j k l m n o p q r s t u v w x y z></a>
   9 | <p title=" <![CDATA[ \n\n foobar baz ]]> ">x</p>
     :                                                 ^
  10 | <p title=" <!-- hello world --> ">x</p>
@@ -476,7 +657,6 @@
  10 | <p title=" <!-- hello world --> ">x</p>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  11 | <tag v-ref:vm_pv :imgs=" objpicsurl_ "></tag>
- 12 | <br a=\u00A0 b="&nbsp;" c="\u00A0">
     `----
   x Element
     ,-[$DIR/tests/fixture/attribute/basic/input.html:10:1]
@@ -484,7 +664,6 @@
  10 | <p title=" <!-- hello world --> ">x</p>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  11 | <tag v-ref:vm_pv :imgs=" objpicsurl_ "></tag>
- 12 | <br a=\u00A0 b="&nbsp;" c="\u00A0">
     `----
   x Attribute
     ,-[$DIR/tests/fixture/attribute/basic/input.html:10:1]
@@ -508,14 +687,16 @@
  11 | <tag v-ref:vm_pv :imgs=" objpicsurl_ "></tag>
     `----
   x Child
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:11:1]
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:10:1]
+  9 | <p title=" <![CDATA[ \n\n foobar baz ]]> ">x</p>
  10 | <p title=" <!-- hello world --> ">x</p>
     :                                        ^
  11 | <tag v-ref:vm_pv :imgs=" objpicsurl_ "></tag>
  12 | <br a=\u00A0 b="&nbsp;" c="\u00A0">
     `----
   x Text
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:11:1]
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:10:1]
+  9 | <p title=" <![CDATA[ \n\n foobar baz ]]> ">x</p>
  10 | <p title=" <!-- hello world --> ">x</p>
     :                                        ^
  11 | <tag v-ref:vm_pv :imgs=" objpicsurl_ "></tag>
@@ -527,7 +708,6 @@
  11 | <tag v-ref:vm_pv :imgs=" objpicsurl_ "></tag>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  12 | <br a=\u00A0 b="&nbsp;" c="\u00A0">
- 13 | <img
     `----
   x Element
     ,-[$DIR/tests/fixture/attribute/basic/input.html:11:1]
@@ -535,7 +715,6 @@
  11 | <tag v-ref:vm_pv :imgs=" objpicsurl_ "></tag>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  12 | <br a=\u00A0 b="&nbsp;" c="\u00A0">
- 13 | <img
     `----
   x Attribute
     ,-[$DIR/tests/fixture/attribute/basic/input.html:11:1]
@@ -552,14 +731,16 @@
  12 | <br a=\u00A0 b="&nbsp;" c="\u00A0">
     `----
   x Child
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:12:1]
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:11:1]
+ 10 | <p title=" <!-- hello world --> ">x</p>
  11 | <tag v-ref:vm_pv :imgs=" objpicsurl_ "></tag>
     :                                              ^
  12 | <br a=\u00A0 b="&nbsp;" c="\u00A0">
  13 | <img
     `----
   x Text
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:12:1]
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:11:1]
+ 10 | <p title=" <!-- hello world --> ">x</p>
  11 | <tag v-ref:vm_pv :imgs=" objpicsurl_ "></tag>
     :                                              ^
  12 | <br a=\u00A0 b="&nbsp;" c="\u00A0">
@@ -571,7 +752,6 @@
  12 | <br a=\u00A0 b="&nbsp;" c="\u00A0">
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  13 | <img
- 14 |         src
     `----
   x Element
     ,-[$DIR/tests/fixture/attribute/basic/input.html:12:1]
@@ -579,7 +759,6 @@
  12 | <br a=\u00A0 b="&nbsp;" c="\u00A0">
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  13 | <img
- 14 |         src
     `----
   x Attribute
     ,-[$DIR/tests/fixture/attribute/basic/input.html:12:1]
@@ -603,14 +782,16 @@
  13 | <img
     `----
   x Child
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:13:1]
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:12:1]
+ 11 | <tag v-ref:vm_pv :imgs=" objpicsurl_ "></tag>
  12 | <br a=\u00A0 b="&nbsp;" c="\u00A0">
     :                                    ^
  13 | <img
  14 |         src
     `----
   x Text
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:13:1]
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:12:1]
+ 11 | <tag v-ref:vm_pv :imgs=" objpicsurl_ "></tag>
  12 | <br a=\u00A0 b="&nbsp;" c="\u00A0">
     :                                    ^
  13 | <img
@@ -624,8 +805,6 @@
  15 | |                   =
  16 | |                   "test"
  17 | `-> />
- 18 |     
- 19 |     <img src=test.jpg>
     `----
   x Element
     ,-[$DIR/tests/fixture/attribute/basic/input.html:13:1]
@@ -635,8 +814,6 @@
  15 | |                   =
  16 | |                   "test"
  17 | `-> />
- 18 |     
- 19 |     <img src=test.jpg>
     `----
   x Attribute
     ,-[$DIR/tests/fixture/attribute/basic/input.html:14:1]
@@ -647,14 +824,16 @@
  17 |     />
     `----
   x Child
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:18:1]
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:17:1]
+ 16 |                     "test"
  17 | ,-> />
  18 | `-> 
  19 |     <img src=test.jpg>
  20 |     <img src=test.jpg data-src=test.jpg>
     `----
   x Text
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:18:1]
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:17:1]
+ 16 |                     "test"
  17 | ,-> />
  18 | `-> 
  19 |     <img src=test.jpg>
@@ -682,13 +861,15 @@
  20 | <img src=test.jpg data-src=test.jpg>
     `----
   x Child
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:20:1]
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:19:1]
+ 18 | 
  19 | <img src=test.jpg>
     :                   ^
  20 | <img src=test.jpg data-src=test.jpg>
     `----
   x Text
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:20:1]
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:19:1]
+ 18 | 
  19 | <img src=test.jpg>
     :                   ^
  20 | <img src=test.jpg data-src=test.jpg>
@@ -698,16 +879,12 @@
  19 | <img src=test.jpg>
  20 | <img src=test.jpg data-src=test.jpg>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 21 | 
- 22 | <button disabled></button>
     `----
   x Element
     ,-[$DIR/tests/fixture/attribute/basic/input.html:20:1]
  19 | <img src=test.jpg>
  20 | <img src=test.jpg data-src=test.jpg>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 21 | 
- 22 | <button disabled></button>
     `----
   x Attribute
     ,-[$DIR/tests/fixture/attribute/basic/input.html:20:1]
@@ -722,13 +899,15 @@
     :                   ^^^^^^^^^^^^^^^^^
     `----
   x Child
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:21:1]
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:20:1]
+ 19 |     <img src=test.jpg>
  20 | ,-> <img src=test.jpg data-src=test.jpg>
  21 | `-> 
  22 |     <button disabled></button>
     `----
   x Text
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:21:1]
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:20:1]
+ 19 |     <img src=test.jpg>
  20 | ,-> <img src=test.jpg data-src=test.jpg>
  21 | `-> 
  22 |     <button disabled></button>
@@ -738,16 +917,12 @@
  21 | 
  22 | <button disabled></button>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^
- 23 | 
- 24 | <div CLASS="TEST"></div>
     `----
   x Element
     ,-[$DIR/tests/fixture/attribute/basic/input.html:22:1]
  21 | 
  22 | <button disabled></button>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^
- 23 | 
- 24 | <div CLASS="TEST"></div>
     `----
   x Attribute
     ,-[$DIR/tests/fixture/attribute/basic/input.html:22:1]
@@ -756,14 +931,16 @@
     :         ^^^^^^^^
     `----
   x Child
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:23:1]
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:22:1]
+ 21 |     
  22 | ,-> <button disabled></button>
  23 | `-> 
  24 |     <div CLASS="TEST"></div>
  25 |     <div CLASS='TEST'></div>
     `----
   x Text
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:23:1]
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:22:1]
+ 21 |     
  22 | ,-> <button disabled></button>
  23 | `-> 
  24 |     <div CLASS="TEST"></div>
@@ -775,7 +952,6 @@
  24 | <div CLASS="TEST"></div>
     : ^^^^^^^^^^^^^^^^^^^^^^^^
  25 | <div CLASS='TEST'></div>
- 26 | <div CLASS=TEST></div>
     `----
   x Element
     ,-[$DIR/tests/fixture/attribute/basic/input.html:24:1]
@@ -783,7 +959,6 @@
  24 | <div CLASS="TEST"></div>
     : ^^^^^^^^^^^^^^^^^^^^^^^^
  25 | <div CLASS='TEST'></div>
- 26 | <div CLASS=TEST></div>
     `----
   x Attribute
     ,-[$DIR/tests/fixture/attribute/basic/input.html:24:1]
@@ -793,14 +968,16 @@
  25 | <div CLASS='TEST'></div>
     `----
   x Child
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:25:1]
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:24:1]
+ 23 | 
  24 | <div CLASS="TEST"></div>
     :                         ^
  25 | <div CLASS='TEST'></div>
  26 | <div CLASS=TEST></div>
     `----
   x Text
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:25:1]
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:24:1]
+ 23 | 
  24 | <div CLASS="TEST"></div>
     :                         ^
  25 | <div CLASS='TEST'></div>
@@ -828,13 +1005,15 @@
  26 | <div CLASS=TEST></div>
     `----
   x Child
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:26:1]
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:25:1]
+ 24 | <div CLASS="TEST"></div>
  25 | <div CLASS='TEST'></div>
     :                         ^
  26 | <div CLASS=TEST></div>
     `----
   x Text
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:26:1]
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:25:1]
+ 24 | <div CLASS="TEST"></div>
  25 | <div CLASS='TEST'></div>
     :                         ^
  26 | <div CLASS=TEST></div>
@@ -844,16 +1023,12 @@
  25 | <div CLASS='TEST'></div>
  26 | <div CLASS=TEST></div>
     : ^^^^^^^^^^^^^^^^^^^^^^
- 27 | 
- 28 | <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
     `----
   x Element
     ,-[$DIR/tests/fixture/attribute/basic/input.html:26:1]
  25 | <div CLASS='TEST'></div>
  26 | <div CLASS=TEST></div>
     : ^^^^^^^^^^^^^^^^^^^^^^
- 27 | 
- 28 | <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
     `----
   x Attribute
     ,-[$DIR/tests/fixture/attribute/basic/input.html:26:1]
@@ -862,14 +1037,16 @@
     :      ^^^^^^^^^^
     `----
   x Child
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:27:1]
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:26:1]
+ 25 |     <div CLASS='TEST'></div>
  26 | ,-> <div CLASS=TEST></div>
  27 | `-> 
  28 |     <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
  29 |         <text y="20" xml:space="default">Default   spacing</text>
     `----
   x Text
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:27:1]
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:26:1]
+ 25 |     <div CLASS='TEST'></div>
  26 | ,-> <div CLASS=TEST></div>
  27 | `-> 
  28 |     <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
@@ -883,8 +1060,6 @@
  30 | |       <text y="20" XML:SPACE="default">Default   spacing</text>
  31 | |       <text y="40" xml:space="preserve">Preserved   spacing</text>
  32 | `-> </svg>
- 33 |     
- 34 |     <div id = "John &quot; &amp; Harry "></div>
     `----
   x Element
     ,-[$DIR/tests/fixture/attribute/basic/input.html:28:1]
@@ -894,8 +1069,6 @@
  30 | |       <text y="20" XML:SPACE="default">Default   spacing</text>
  31 | |       <text y="40" xml:space="preserve">Preserved   spacing</text>
  32 | `-> </svg>
- 33 |     
- 34 |     <div id = "John &quot; &amp; Harry "></div>
     `----
   x Attribute
     ,-[$DIR/tests/fixture/attribute/basic/input.html:28:1]
@@ -912,13 +1085,15 @@
  29 |     <text y="20" xml:space="default">Default   spacing</text>
     `----
   x Child
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:29:1]
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:28:1]
+ 27 |     
  28 | ,-> <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
  29 | `->     <text y="20" xml:space="default">Default   spacing</text>
  30 |         <text y="20" XML:SPACE="default">Default   spacing</text>
     `----
   x Text
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:29:1]
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:28:1]
+ 27 |     
  28 | ,-> <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
  29 | `->     <text y="20" xml:space="default">Default   spacing</text>
  30 |         <text y="20" XML:SPACE="default">Default   spacing</text>
@@ -929,7 +1104,6 @@
  29 |     <text y="20" xml:space="default">Default   spacing</text>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  30 |     <text y="20" XML:SPACE="default">Default   spacing</text>
- 31 |     <text y="40" xml:space="preserve">Preserved   spacing</text>
     `----
   x Element
     ,-[$DIR/tests/fixture/attribute/basic/input.html:29:1]
@@ -937,7 +1111,6 @@
  29 |     <text y="20" xml:space="default">Default   spacing</text>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  30 |     <text y="20" XML:SPACE="default">Default   spacing</text>
- 31 |     <text y="40" xml:space="preserve">Preserved   spacing</text>
     `----
   x Attribute
     ,-[$DIR/tests/fixture/attribute/basic/input.html:29:1]
@@ -968,13 +1141,15 @@
  30 |     <text y="20" XML:SPACE="default">Default   spacing</text>
     `----
   x Child
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:30:1]
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:29:1]
+ 28 |     <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
  29 | ,->     <text y="20" xml:space="default">Default   spacing</text>
  30 | `->     <text y="20" XML:SPACE="default">Default   spacing</text>
  31 |         <text y="40" xml:space="preserve">Preserved   spacing</text>
     `----
   x Text
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:30:1]
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:29:1]
+ 28 |     <svg viewBox="0 0 140 50" xmlns="http://www.w3.org/2000/svg">
  29 | ,->     <text y="20" xml:space="default">Default   spacing</text>
  30 | `->     <text y="20" XML:SPACE="default">Default   spacing</text>
  31 |         <text y="40" xml:space="preserve">Preserved   spacing</text>
@@ -985,7 +1160,6 @@
  30 |     <text y="20" XML:SPACE="default">Default   spacing</text>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  31 |     <text y="40" xml:space="preserve">Preserved   spacing</text>
- 32 | </svg>
     `----
   x Element
     ,-[$DIR/tests/fixture/attribute/basic/input.html:30:1]
@@ -993,7 +1167,6 @@
  30 |     <text y="20" XML:SPACE="default">Default   spacing</text>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  31 |     <text y="40" xml:space="preserve">Preserved   spacing</text>
- 32 | </svg>
     `----
   x Attribute
     ,-[$DIR/tests/fixture/attribute/basic/input.html:30:1]
@@ -1024,13 +1197,15 @@
  31 |     <text y="40" xml:space="preserve">Preserved   spacing</text>
     `----
   x Child
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:31:1]
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:30:1]
+ 29 |         <text y="20" xml:space="default">Default   spacing</text>
  30 | ,->     <text y="20" XML:SPACE="default">Default   spacing</text>
  31 | `->     <text y="40" xml:space="preserve">Preserved   spacing</text>
  32 |     </svg>
     `----
   x Text
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:31:1]
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:30:1]
+ 29 |         <text y="20" xml:space="default">Default   spacing</text>
  30 | ,->     <text y="20" XML:SPACE="default">Default   spacing</text>
  31 | `->     <text y="40" xml:space="preserve">Preserved   spacing</text>
  32 |     </svg>
@@ -1078,26 +1253,30 @@
  32 | </svg>
     `----
   x Child
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:32:1]
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:31:1]
+ 30 |     <text y="20" XML:SPACE="default">Default   spacing</text>
  31 |     <text y="40" xml:space="preserve">Preserved   spacing</text>
     :                                                                 ^
  32 | </svg>
     `----
   x Text
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:32:1]
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:31:1]
+ 30 |     <text y="20" XML:SPACE="default">Default   spacing</text>
  31 |     <text y="40" xml:space="preserve">Preserved   spacing</text>
     :                                                                 ^
  32 | </svg>
     `----
   x Child
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:33:1]
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:32:1]
+ 31 |         <text y="40" xml:space="preserve">Preserved   spacing</text>
  32 | ,-> </svg>
  33 | `-> 
  34 |     <div id = "John &quot; &amp; Harry "></div>
  35 |     <a href="http://host/?x=1&#38;y=2">test</a>
     `----
   x Text
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:33:1]
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:32:1]
+ 31 |         <text y="40" xml:space="preserve">Preserved   spacing</text>
  32 | ,-> </svg>
  33 | `-> 
  34 |     <div id = "John &quot; &amp; Harry "></div>
@@ -1125,13 +1304,15 @@
  35 | <a href="http://host/?x=1&#38;y=2">test</a>
     `----
   x Child
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:35:1]
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:34:1]
+ 33 | 
  34 | <div id = "John &quot; &amp; Harry "></div>
     :                                            ^
  35 | <a href="http://host/?x=1&#38;y=2">test</a>
     `----
   x Text
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:35:1]
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:34:1]
+ 33 | 
  34 | <div id = "John &quot; &amp; Harry "></div>
     :                                            ^
  35 | <a href="http://host/?x=1&#38;y=2">test</a>
@@ -1141,16 +1322,12 @@
  34 | <div id = "John &quot; &amp; Harry "></div>
  35 | <a href="http://host/?x=1&#38;y=2">test</a>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 36 | 
- 37 | </body>
     `----
   x Element
     ,-[$DIR/tests/fixture/attribute/basic/input.html:35:1]
  34 | <div id = "John &quot; &amp; Harry "></div>
  35 | <a href="http://host/?x=1&#38;y=2">test</a>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 36 | 
- 37 | </body>
     `----
   x Attribute
     ,-[$DIR/tests/fixture/attribute/basic/input.html:35:1]
@@ -1171,10 +1348,18 @@
     :                                    ^^^^
     `----
   x Child
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:36:1]
- 36 | |    
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:35:1]
+ 34 |     <div id = "John &quot; &amp; Harry "></div>
+ 35 | ,-> <a href="http://host/?x=1&#38;y=2">test</a>
+ 36 | |   
+ 37 | |   </body>
+ 38 | `-> </html>
     `----
   x Text
-    ,-[$DIR/tests/fixture/attribute/basic/input.html:36:1]
- 36 | |    
+    ,-[$DIR/tests/fixture/attribute/basic/input.html:35:1]
+ 34 |     <div id = "John &quot; &amp; Harry "></div>
+ 35 | ,-> <a href="http://host/?x=1&#38;y=2">test</a>
+ 36 | |   
+ 37 | |   </body>
+ 38 | `-> </html>
     `----

@@ -1,20 +1,20 @@
   x Stylesheet
-   ,-[$DIR/tests/recovery/rules/at-rule-in-middle/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/rules/at-rule-in-middle/input.css:1:1]
+ 1 | ,-> a { color: red }
+ 2 | |   
+ 3 | |   @media {};
+ 4 | |   
+ 5 | `-> a { color: blue }
    `----
   x Rule
    ,-[$DIR/tests/recovery/rules/at-rule-in-middle/input.css:1:1]
  1 | a { color: red }
    : ^^^^^^^^^^^^^^^^
- 2 | 
- 3 | @media {};
    `----
   x QualifiedRule
    ,-[$DIR/tests/recovery/rules/at-rule-in-middle/input.css:1:1]
  1 | a { color: red }
    : ^^^^^^^^^^^^^^^^
- 2 | 
- 3 | @media {};
    `----
   x SelectorList
    ,-[$DIR/tests/recovery/rules/at-rule-in-middle/input.css:1:1]
@@ -55,8 +55,6 @@
    ,-[$DIR/tests/recovery/rules/at-rule-in-middle/input.css:1:1]
  1 | a { color: red }
    :   ^^^^^^^^^^^^^^
- 2 | 
- 3 | @media {};
    `----
   x LBrace
    ,-[$DIR/tests/recovery/rules/at-rule-in-middle/input.css:1:1]
@@ -148,25 +146,23 @@
  2 | 
  3 | @media {};
    :          ^
- 4 | 
- 5 | a { color: blue }
    `----
   x Semi
    ,-[$DIR/tests/recovery/rules/at-rule-in-middle/input.css:3:1]
  2 | 
  3 | @media {};
    :          ^
- 4 | 
- 5 | a { color: blue }
    `----
   x ComponentValue
-   ,-[$DIR/tests/recovery/rules/at-rule-in-middle/input.css:4:1]
+   ,-[$DIR/tests/recovery/rules/at-rule-in-middle/input.css:3:1]
+ 2 |     
  3 | ,-> @media {};
  4 | `-> 
  5 |     a { color: blue }
    `----
   x WhiteSpace { value: "\n\n" }
-   ,-[$DIR/tests/recovery/rules/at-rule-in-middle/input.css:4:1]
+   ,-[$DIR/tests/recovery/rules/at-rule-in-middle/input.css:3:1]
+ 2 |     
  3 | ,-> @media {};
  4 | `-> 
  5 |     a { color: blue }

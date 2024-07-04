@@ -1,20 +1,38 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:1:2]
- 1 | |    
-   `----
+    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:1:1]
+  1 | ,-> :-webkit-any(textarea) {}
+  2 | |   :-moz-any(textarea) {}
+  3 | |   :-webkit-any(header, main, footer) p:hover {}
+  4 | |   :-moz-any(header, main, footer) p:hover {}
+  5 | |   :-webkit-any(.class[test]) {}
+  6 | |   :-moz-any(.class[test]) {}
+  7 | |   :-webkit-any(.class[test], .class) {}
+  8 | |   :-moz-any(.class[test], .class) {}
+  9 | |   :-webkit-any(h1),
+ 10 | |   :-webkit-any( #div1, b ),
+ 11 | |   :-webkit-any(.foo, #bar),
+ 12 | |   :-webkit-any(i,p,:link,span:focus) {
+ 13 | |       background-color: blue;
+ 14 | |   }
+ 15 | |   
+ 16 | |   #test-last-child :-webkit-any(:last-child),
+ 17 | |   :-webkit-any(:link:focus),
+ 18 | |   #container-div :-webkit-any(:link, :not(a)),
+ 19 | |   h1:-webkit-any(.h1class, #bar) {
+ 20 | |       background-color: green;
+ 21 | `-> }
+    `----
   x Rule
    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:1:1]
  1 | :-webkit-any(textarea) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^
  2 | :-moz-any(textarea) {}
- 3 | :-webkit-any(header, main, footer) p:hover {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:1:1]
  1 | :-webkit-any(textarea) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^
  2 | :-moz-any(textarea) {}
- 3 | :-webkit-any(header, main, footer) p:hover {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:1:1]
@@ -99,7 +117,6 @@
  1 | :-webkit-any(textarea) {}
    :                        ^^
  2 | :-moz-any(textarea) {}
- 3 | :-webkit-any(header, main, footer) p:hover {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:1:1]
@@ -113,7 +130,6 @@
  2 | :-moz-any(textarea) {}
    : ^^^^^^^^^^^^^^^^^^^^^^
  3 | :-webkit-any(header, main, footer) p:hover {}
- 4 | :-moz-any(header, main, footer) p:hover {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:2:1]
@@ -121,7 +137,6 @@
  2 | :-moz-any(textarea) {}
    : ^^^^^^^^^^^^^^^^^^^^^^
  3 | :-webkit-any(header, main, footer) p:hover {}
- 4 | :-moz-any(header, main, footer) p:hover {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:2:1]
@@ -220,7 +235,6 @@
  2 | :-moz-any(textarea) {}
    :                     ^^
  3 | :-webkit-any(header, main, footer) p:hover {}
- 4 | :-moz-any(header, main, footer) p:hover {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:2:1]
@@ -235,7 +249,6 @@
  3 | :-webkit-any(header, main, footer) p:hover {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  4 | :-moz-any(header, main, footer) p:hover {}
- 5 | :-webkit-any(.class[test]) {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:3:1]
@@ -243,7 +256,6 @@
  3 | :-webkit-any(header, main, footer) p:hover {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  4 | :-moz-any(header, main, footer) p:hover {}
- 5 | :-webkit-any(.class[test]) {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:3:1]
@@ -475,7 +487,6 @@
  3 | :-webkit-any(header, main, footer) p:hover {}
    :                                            ^^
  4 | :-moz-any(header, main, footer) p:hover {}
- 5 | :-webkit-any(.class[test]) {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:3:1]
@@ -490,7 +501,6 @@
  4 | :-moz-any(header, main, footer) p:hover {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  5 | :-webkit-any(.class[test]) {}
- 6 | :-moz-any(.class[test]) {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:4:1]
@@ -498,7 +508,6 @@
  4 | :-moz-any(header, main, footer) p:hover {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  5 | :-webkit-any(.class[test]) {}
- 6 | :-moz-any(.class[test]) {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:4:1]
@@ -730,7 +739,6 @@
  4 | :-moz-any(header, main, footer) p:hover {}
    :                                         ^^
  5 | :-webkit-any(.class[test]) {}
- 6 | :-moz-any(.class[test]) {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:4:1]
@@ -745,7 +753,6 @@
  5 | :-webkit-any(.class[test]) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  6 | :-moz-any(.class[test]) {}
- 7 | :-webkit-any(.class[test], .class) {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:5:1]
@@ -753,7 +760,6 @@
  5 | :-webkit-any(.class[test]) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  6 | :-moz-any(.class[test]) {}
- 7 | :-webkit-any(.class[test], .class) {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:5:1]
@@ -873,7 +879,6 @@
  5 | :-webkit-any(.class[test]) {}
    :                            ^^
  6 | :-moz-any(.class[test]) {}
- 7 | :-webkit-any(.class[test], .class) {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:5:1]
@@ -888,7 +893,6 @@
  6 | :-moz-any(.class[test]) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
  7 | :-webkit-any(.class[test], .class) {}
- 8 | :-moz-any(.class[test], .class) {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:6:1]
@@ -896,7 +900,6 @@
  6 | :-moz-any(.class[test]) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
  7 | :-webkit-any(.class[test], .class) {}
- 8 | :-moz-any(.class[test], .class) {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:6:1]
@@ -1016,7 +1019,6 @@
  6 | :-moz-any(.class[test]) {}
    :                         ^^
  7 | :-webkit-any(.class[test], .class) {}
- 8 | :-moz-any(.class[test], .class) {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:6:1]
@@ -1031,7 +1033,6 @@
  7 | :-webkit-any(.class[test], .class) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  8 | :-moz-any(.class[test], .class) {}
- 9 | :-webkit-any(h1),
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:7:1]
@@ -1039,7 +1040,6 @@
  7 | :-webkit-any(.class[test], .class) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  8 | :-moz-any(.class[test], .class) {}
- 9 | :-webkit-any(h1),
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:7:1]
@@ -1187,7 +1187,6 @@
  7 | :-webkit-any(.class[test], .class) {}
    :                                    ^^
  8 | :-moz-any(.class[test], .class) {}
- 9 | :-webkit-any(h1),
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:7:1]
@@ -1197,21 +1196,19 @@
  8 | :-moz-any(.class[test], .class) {}
    `----
   x Rule
-    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:8:1]
-  7 | :-webkit-any(.class[test], .class) {}
-  8 | :-moz-any(.class[test], .class) {}
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  9 | :-webkit-any(h1),
- 10 | :-webkit-any( #div1, b ),
-    `----
+   ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:8:1]
+ 7 | :-webkit-any(.class[test], .class) {}
+ 8 | :-moz-any(.class[test], .class) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 9 | :-webkit-any(h1),
+   `----
   x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:8:1]
-  7 | :-webkit-any(.class[test], .class) {}
-  8 | :-moz-any(.class[test], .class) {}
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  9 | :-webkit-any(h1),
- 10 | :-webkit-any( #div1, b ),
-    `----
+   ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:8:1]
+ 7 | :-webkit-any(.class[test], .class) {}
+ 8 | :-moz-any(.class[test], .class) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 9 | :-webkit-any(h1),
+   `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:8:1]
  7 | :-webkit-any(.class[test], .class) {}
@@ -1353,13 +1350,12 @@
  9 | :-webkit-any(h1),
    `----
   x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:8:1]
-  7 | :-webkit-any(.class[test], .class) {}
-  8 | :-moz-any(.class[test], .class) {}
-    :                                 ^^
-  9 | :-webkit-any(h1),
- 10 | :-webkit-any( #div1, b ),
-    `----
+   ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:8:1]
+ 7 | :-webkit-any(.class[test], .class) {}
+ 8 | :-moz-any(.class[test], .class) {}
+   :                                 ^^
+ 9 | :-webkit-any(h1),
+   `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:8:1]
  7 | :-webkit-any(.class[test], .class) {}
@@ -1376,8 +1372,6 @@
  12 | |   :-webkit-any(i,p,:link,span:focus) {
  13 | |       background-color: blue;
  14 | `-> }
- 15 |     
- 16 |     #test-last-child :-webkit-any(:last-child),
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:9:1]
@@ -1388,8 +1382,6 @@
  12 | |   :-webkit-any(i,p,:link,span:focus) {
  13 | |       background-color: blue;
  14 | `-> }
- 15 |     
- 16 |     #test-last-child :-webkit-any(:last-child),
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:9:1]
@@ -1910,8 +1902,6 @@
  12 | ,-> :-webkit-any(i,p,:link,span:focus) {
  13 | |       background-color: blue;
  14 | `-> }
- 15 |     
- 16 |     #test-last-child :-webkit-any(:last-child),
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:12:1]
@@ -1919,7 +1909,6 @@
  12 | :-webkit-any(i,p,:link,span:focus) {
     :                                    ^
  13 |     background-color: blue;
- 14 | }
     `----
   x ComponentValue
     ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:13:1]
@@ -2544,7 +2533,6 @@
  19 | h1:-webkit-any(.h1class, #bar) {
     :                                ^
  20 |     background-color: green;
- 21 | }
     `----
   x ComponentValue
     ,-[$DIR/tests/fixture/selector/pseudo-class/any/input.css:20:1]

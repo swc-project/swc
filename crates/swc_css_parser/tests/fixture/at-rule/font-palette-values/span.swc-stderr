@@ -1,6 +1,9 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/at-rule/font-palette-values/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/at-rule/font-palette-values/input.css:1:1]
+ 1 | ,-> @font-palette-values --SelectedPalette {
+ 2 | |       font-family: MyVectorColorFont;
+ 3 | |       base-palette: 3;
+ 4 | `-> }
    `----
   x Rule
    ,-[$DIR/tests/fixture/at-rule/font-palette-values/input.css:1:1]
@@ -46,7 +49,6 @@
  1 | @font-palette-values --SelectedPalette {
    :                                        ^
  2 |     font-family: MyVectorColorFont;
- 3 |     base-palette: 3;
    `----
   x ComponentValue
    ,-[$DIR/tests/fixture/at-rule/font-palette-values/input.css:2:1]

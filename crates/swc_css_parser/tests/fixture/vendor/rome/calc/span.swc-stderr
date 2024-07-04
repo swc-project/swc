@@ -1,7 +1,16 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/vendor/rome/calc/input.css:1:2]
- 1 | |    
-   `----
+    ,-[$DIR/tests/fixture/vendor/rome/calc/input.css:1:1]
+  1 | ,-> .style {
+  2 | |       width: calc(2px);
+  3 | |       width: calc(2px + 1px);
+  4 | |       width: calc(2em + 1%);
+  5 | |       width: calc(2em * 2% * 3px);
+  6 | |       width: calc(2em / 2 / 3);
+  7 | |       width: calc(2em / (2 - 3) / (2 - 6));
+  8 | |       width: calc(2em * 2 + 3);
+  9 | |       width: calc(2em * 2 - 3 + 3em / 5);
+ 10 | `-> }
+    `----
   x Rule
     ,-[$DIR/tests/fixture/vendor/rome/calc/input.css:1:1]
   1 | ,-> .style {
@@ -82,7 +91,6 @@
  1 | .style {
    :        ^
  2 |     width: calc(2px);
- 3 |     width: calc(2px + 1px);
    `----
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/rome/calc/input.css:2:1]

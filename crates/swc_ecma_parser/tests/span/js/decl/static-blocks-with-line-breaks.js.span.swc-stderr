@@ -81,7 +81,6 @@
  4 |         1 + 1;
    :         ^^^^^^
  5 |     }
- 6 | }
    `----
   x ExprStmt
    ,-[$DIR/tests/span/js/decl/static-blocks-with-line-breaks.js:4:1]
@@ -89,7 +88,6 @@
  4 |         1 + 1;
    :         ^^^^^^
  5 |     }
- 6 | }
    `----
   x Expr
    ,-[$DIR/tests/span/js/decl/static-blocks-with-line-breaks.js:4:1]

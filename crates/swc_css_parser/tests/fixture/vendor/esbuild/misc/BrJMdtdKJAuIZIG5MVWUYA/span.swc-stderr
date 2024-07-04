@@ -1,14 +1,17 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/BrJMdtdKJAuIZIG5MVWUYA/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/BrJMdtdKJAuIZIG5MVWUYA/input.css:1:1]
+ 1 | .selector { property: value\9; }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Rule
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/BrJMdtdKJAuIZIG5MVWUYA/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/BrJMdtdKJAuIZIG5MVWUYA/input.css:1:1]
+ 1 | .selector { property: value\9; }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x QualifiedRule
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/BrJMdtdKJAuIZIG5MVWUYA/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/BrJMdtdKJAuIZIG5MVWUYA/input.css:1:1]
+ 1 | .selector { property: value\9; }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/BrJMdtdKJAuIZIG5MVWUYA/input.css:1:1]
@@ -41,8 +44,9 @@
    :  ^^^^^^^^
    `----
   x SimpleBlock
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/BrJMdtdKJAuIZIG5MVWUYA/input.css:1:12]
- 1 | |    
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/BrJMdtdKJAuIZIG5MVWUYA/input.css:1:1]
+ 1 | .selector { property: value\9; }
+   :           ^^^^^^^^^^^^^^^^^^^^^^
    `----
   x LBrace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/BrJMdtdKJAuIZIG5MVWUYA/input.css:1:1]

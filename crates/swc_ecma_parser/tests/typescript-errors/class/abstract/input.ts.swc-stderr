@@ -4,7 +4,6 @@
  2 |     abstract a = 123;
    :     ^^^^^^^^^^^^^^^^^
  3 |     abstract foo() {};
- 4 | }
    `----
   x Abstract method cannot have an implementation.
    ,-[$DIR/tests/typescript-errors/class/abstract/input.ts:3:1]
@@ -19,7 +18,6 @@
  2 |     abstract a = 123;
    :     ^^^^^^^^^^^^^^^^^
  3 |     abstract foo() {};
- 4 | }
    `----
   x Abstract methods can only appear within an abstract class.
    ,-[$DIR/tests/typescript-errors/class/abstract/input.ts:3:1]

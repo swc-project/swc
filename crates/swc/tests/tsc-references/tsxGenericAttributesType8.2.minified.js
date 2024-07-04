@@ -7,5 +7,4 @@
 //!  3 | 
 //!  4 | declare function Component<T>(props: T) : JSX.Element;
 //!  5 | const decorator = function <U>(props: U) {
-//!  6 |     return <Component {...props} />;
 //!    `----

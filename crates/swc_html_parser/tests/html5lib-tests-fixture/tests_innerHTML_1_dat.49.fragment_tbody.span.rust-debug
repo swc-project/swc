@@ -1,6 +1,7 @@
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/tests_innerHTML_1_dat.49.fragment_tbody.html:1:2]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests_innerHTML_1_dat.49.fragment_tbody.html:1:1]
+ 1 | <td><table><tbody><a><tr>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Child
   x Element
@@ -15,26 +16,32 @@
    :                   ^^^
    `----
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests_innerHTML_1_dat.49.fragment_tbody.html:1:6]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests_innerHTML_1_dat.49.fragment_tbody.html:1:1]
+ 1 | <td><table><tbody><a><tr>
+   :     ^^^^^^^^^^^^^^^^^^^^^
    `----
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tests_innerHTML_1_dat.49.fragment_tbody.html:1:6]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests_innerHTML_1_dat.49.fragment_tbody.html:1:1]
+ 1 | <td><table><tbody><a><tr>
+   :     ^^^^^^^^^^^^^^^^^^^^^
    `----
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests_innerHTML_1_dat.49.fragment_tbody.html:1:13]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests_innerHTML_1_dat.49.fragment_tbody.html:1:1]
+ 1 | <td><table><tbody><a><tr>
+   :            ^^^^^^^^^^^^^^
    `----
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tests_innerHTML_1_dat.49.fragment_tbody.html:1:13]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests_innerHTML_1_dat.49.fragment_tbody.html:1:1]
+ 1 | <td><table><tbody><a><tr>
+   :            ^^^^^^^^^^^^^^
    `----
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests_innerHTML_1_dat.49.fragment_tbody.html:1:23]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests_innerHTML_1_dat.49.fragment_tbody.html:1:1]
+ 1 | <td><table><tbody><a><tr>
+   :                      ^^^^
    `----
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tests_innerHTML_1_dat.49.fragment_tbody.html:1:23]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests_innerHTML_1_dat.49.fragment_tbody.html:1:1]
+ 1 | <td><table><tbody><a><tr>
+   :                      ^^^^
    `----

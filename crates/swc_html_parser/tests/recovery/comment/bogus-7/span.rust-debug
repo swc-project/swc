@@ -1,6 +1,7 @@
   x Document
-   ,-[$DIR/tests/recovery/comment/bogus-7/input.html:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/comment/bogus-7/input.html:1:1]
+ 1 | ,-> <!doctype html>
+ 2 | `-> <! -->
    `----
   x Child
    ,-[$DIR/tests/recovery/comment/bogus-7/input.html:1:1]
@@ -15,12 +16,16 @@
  2 | <! -->
    `----
   x Child
-   ,-[$DIR/tests/recovery/comment/bogus-7/input.html:2:2]
- 2 | |    
+   ,-[$DIR/tests/recovery/comment/bogus-7/input.html:2:1]
+ 1 | <!doctype html>
+ 2 | <! -->
+   : ^^^^^^
    `----
   x Comment
-   ,-[$DIR/tests/recovery/comment/bogus-7/input.html:2:2]
- 2 | |    
+   ,-[$DIR/tests/recovery/comment/bogus-7/input.html:2:1]
+ 1 | <!doctype html>
+ 2 | <! -->
+   : ^^^^^^
    `----
   x Child
   x Element

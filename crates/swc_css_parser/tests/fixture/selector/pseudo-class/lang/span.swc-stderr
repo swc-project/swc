@@ -1,20 +1,24 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/selector/pseudo-class/lang/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/selector/pseudo-class/lang/input.css:1:1]
+ 1 | ,-> :lang(\*-Latn) {}
+ 2 | |   :lang("*-Latn") {}
+ 3 | |   html:lang(fr-be) {}
+ 4 | |   html:lang(de) {}
+ 5 | |   html:lang(de, fr) {}
+ 6 | |   :lang(fr-be) > q {}
+ 7 | `-> :lang(de) > q {}
    `----
   x Rule
    ,-[$DIR/tests/fixture/selector/pseudo-class/lang/input.css:1:1]
  1 | :lang(\*-Latn) {}
    : ^^^^^^^^^^^^^^^^^
  2 | :lang("*-Latn") {}
- 3 | html:lang(fr-be) {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/pseudo-class/lang/input.css:1:1]
  1 | :lang(\*-Latn) {}
    : ^^^^^^^^^^^^^^^^^
  2 | :lang("*-Latn") {}
- 3 | html:lang(fr-be) {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-class/lang/input.css:1:1]
@@ -69,7 +73,6 @@
  1 | :lang(\*-Latn) {}
    :                ^^
  2 | :lang("*-Latn") {}
- 3 | html:lang(fr-be) {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/pseudo-class/lang/input.css:1:1]
@@ -83,7 +86,6 @@
  2 | :lang("*-Latn") {}
    : ^^^^^^^^^^^^^^^^^^
  3 | html:lang(fr-be) {}
- 4 | html:lang(de) {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/pseudo-class/lang/input.css:2:1]
@@ -91,7 +93,6 @@
  2 | :lang("*-Latn") {}
    : ^^^^^^^^^^^^^^^^^^
  3 | html:lang(fr-be) {}
- 4 | html:lang(de) {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-class/lang/input.css:2:1]
@@ -155,7 +156,6 @@
  2 | :lang("*-Latn") {}
    :                 ^^
  3 | html:lang(fr-be) {}
- 4 | html:lang(de) {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/pseudo-class/lang/input.css:2:1]
@@ -170,7 +170,6 @@
  3 | html:lang(fr-be) {}
    : ^^^^^^^^^^^^^^^^^^^
  4 | html:lang(de) {}
- 5 | html:lang(de, fr) {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/pseudo-class/lang/input.css:3:1]
@@ -178,7 +177,6 @@
  3 | html:lang(fr-be) {}
    : ^^^^^^^^^^^^^^^^^^^
  4 | html:lang(de) {}
- 5 | html:lang(de, fr) {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-class/lang/input.css:3:1]
@@ -270,7 +268,6 @@
  3 | html:lang(fr-be) {}
    :                  ^^
  4 | html:lang(de) {}
- 5 | html:lang(de, fr) {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/pseudo-class/lang/input.css:3:1]
@@ -285,7 +282,6 @@
  4 | html:lang(de) {}
    : ^^^^^^^^^^^^^^^^
  5 | html:lang(de, fr) {}
- 6 | :lang(fr-be) > q {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/pseudo-class/lang/input.css:4:1]
@@ -293,7 +289,6 @@
  4 | html:lang(de) {}
    : ^^^^^^^^^^^^^^^^
  5 | html:lang(de, fr) {}
- 6 | :lang(fr-be) > q {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-class/lang/input.css:4:1]
@@ -385,7 +380,6 @@
  4 | html:lang(de) {}
    :               ^^
  5 | html:lang(de, fr) {}
- 6 | :lang(fr-be) > q {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/pseudo-class/lang/input.css:4:1]
@@ -400,7 +394,6 @@
  5 | html:lang(de, fr) {}
    : ^^^^^^^^^^^^^^^^^^^^
  6 | :lang(fr-be) > q {}
- 7 | :lang(de) > q {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/pseudo-class/lang/input.css:5:1]
@@ -408,7 +401,6 @@
  5 | html:lang(de, fr) {}
    : ^^^^^^^^^^^^^^^^^^^^
  6 | :lang(fr-be) > q {}
- 7 | :lang(de) > q {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-class/lang/input.css:5:1]
@@ -528,7 +520,6 @@
  5 | html:lang(de, fr) {}
    :                   ^^
  6 | :lang(fr-be) > q {}
- 7 | :lang(de) > q {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/pseudo-class/lang/input.css:5:1]

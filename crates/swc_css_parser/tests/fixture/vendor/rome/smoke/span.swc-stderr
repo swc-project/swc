@@ -1,7 +1,18 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:2:1]
- 2 | |    
-   `----
+    ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:1:1]
+  1 | ,-> /*This is a comment*/
+  2 | |   body {
+  3 | |       background: red;
+  4 | |       width: calc(1px + 2%);
+  5 | |   }
+  6 | |   
+  7 | |   /*@media screen and (min-width: 1337px) {*/
+  8 | |   /*    body {*/
+  9 | |   /*        background: blue;*/
+ 10 | |   /*        width: calc(2px + 3%);*/
+ 11 | |   /*    }*/
+ 12 | `-> /*}*/
+    `----
   x Rule
    ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:2:1]
  1 |     /*This is a comment*/
@@ -9,8 +20,6 @@
  3 | |       background: red;
  4 | |       width: calc(1px + 2%);
  5 | `-> }
- 6 |     
- 7 |     /*@media screen and (min-width: 1337px) {*/
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:2:1]
@@ -19,8 +28,6 @@
  3 | |       background: red;
  4 | |       width: calc(1px + 2%);
  5 | `-> }
- 6 |     
- 7 |     /*@media screen and (min-width: 1337px) {*/
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:2:1]
@@ -78,8 +85,6 @@
  3 | |       background: red;
  4 | |       width: calc(1px + 2%);
  5 | `-> }
- 6 |     
- 7 |     /*@media screen and (min-width: 1337px) {*/
    `----
   x LBrace
    ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:2:1]
@@ -87,7 +92,6 @@
  2 | body {
    :      ^
  3 |     background: red;
- 4 |     width: calc(1px + 2%);
    `----
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:3:1]

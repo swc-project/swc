@@ -1,14 +1,17 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/qmXSF9N8euK5gfPoFGmV_Q/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/qmXSF9N8euK5gfPoFGmV_Q/input.css:1:1]
+ 1 | a { color: #AABBCC }
+   : ^^^^^^^^^^^^^^^^^^^^
    `----
   x Rule
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/qmXSF9N8euK5gfPoFGmV_Q/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/qmXSF9N8euK5gfPoFGmV_Q/input.css:1:1]
+ 1 | a { color: #AABBCC }
+   : ^^^^^^^^^^^^^^^^^^^^
    `----
   x QualifiedRule
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/qmXSF9N8euK5gfPoFGmV_Q/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/qmXSF9N8euK5gfPoFGmV_Q/input.css:1:1]
+ 1 | a { color: #AABBCC }
+   : ^^^^^^^^^^^^^^^^^^^^
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/qmXSF9N8euK5gfPoFGmV_Q/input.css:1:1]
@@ -46,8 +49,9 @@
    : ^
    `----
   x SimpleBlock
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/qmXSF9N8euK5gfPoFGmV_Q/input.css:1:4]
- 1 | |    
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/qmXSF9N8euK5gfPoFGmV_Q/input.css:1:1]
+ 1 | a { color: #AABBCC }
+   :   ^^^^^^^^^^^^^^^^^^
    `----
   x LBrace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/qmXSF9N8euK5gfPoFGmV_Q/input.css:1:1]

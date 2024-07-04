@@ -1,6 +1,7 @@
   x Document
-   ,-[$DIR/tests/recovery/element/b-2/input.html:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/element/b-2/input.html:1:1]
+ 1 | ,-> <b><p>Bold </b> Not bold</p>
+ 2 | `-> Also not bold.
    `----
   x Child
   x Element
@@ -65,10 +66,12 @@
  2 | Also not bold.
    `----
   x Child
-   ,-[$DIR/tests/recovery/element/b-2/input.html:2:1]
- 2 | |    
+   ,-[$DIR/tests/recovery/element/b-2/input.html:1:1]
+ 1 | ,-> <b><p>Bold </b> Not bold</p>
+ 2 | `-> Also not bold.
    `----
   x Text
-   ,-[$DIR/tests/recovery/element/b-2/input.html:2:1]
- 2 | |    
+   ,-[$DIR/tests/recovery/element/b-2/input.html:1:1]
+ 1 | ,-> <b><p>Bold </b> Not bold</p>
+ 2 | `-> Also not bold.
    `----

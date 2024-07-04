@@ -1,6 +1,7 @@
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/tests7_dat.20.html:1:2]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests7_dat.20.html:1:1]
+ 1 | <!doctype html><table><select>X<tr>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests7_dat.20.html:1:1]
@@ -35,18 +36,22 @@
    :                               ^
    `----
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests7_dat.20.html:1:17]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests7_dat.20.html:1:1]
+ 1 | <!doctype html><table><select>X<tr>
+   :                ^^^^^^^^^^^^^^^^^^^^
    `----
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tests7_dat.20.html:1:17]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests7_dat.20.html:1:1]
+ 1 | <!doctype html><table><select>X<tr>
+   :                ^^^^^^^^^^^^^^^^^^^^
    `----
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests7_dat.20.html:1:33]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests7_dat.20.html:1:1]
+ 1 | <!doctype html><table><select>X<tr>
+   :                                ^^^^
    `----
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tests7_dat.20.html:1:33]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests7_dat.20.html:1:1]
+ 1 | <!doctype html><table><select>X<tr>
+   :                                ^^^^
    `----

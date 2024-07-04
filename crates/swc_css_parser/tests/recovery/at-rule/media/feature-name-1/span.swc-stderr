@@ -1,6 +1,7 @@
   x Stylesheet
-   ,-[$DIR/tests/recovery/at-rule/media/feature-name-1/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/at-rule/media/feature-name-1/input.css:1:1]
+ 1 | @media (20px: 20px) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Rule
    ,-[$DIR/tests/recovery/at-rule/media/feature-name-1/input.css:1:1]

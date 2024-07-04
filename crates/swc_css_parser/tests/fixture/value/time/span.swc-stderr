@@ -1,7 +1,21 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/value/time/input.css:1:2]
- 1 | |    
-   `----
+    ,-[$DIR/tests/fixture/value/time/input.css:1:1]
+  1 | ,-> #delay {
+  2 | |       font-size: 14px;
+  3 | |       transition-property: font-size;
+  4 | |       transition-duration: 4s;
+  5 | |       transition-delay: 2s;
+  6 | |   }
+  7 | |   
+  8 | |   .box {
+  9 | |       transition: width 2s, height 2s, background-color 2s, transform 2s;
+ 10 | |   }
+ 11 | |   
+ 12 | |   .time {
+ 13 | |       transition-duration: 4s;
+ 14 | |       transition-duration: 4000ms;
+ 15 | `-> }
+    `----
   x Rule
    ,-[$DIR/tests/fixture/value/time/input.css:1:1]
  1 | ,-> #delay {
@@ -10,8 +24,6 @@
  4 | |       transition-duration: 4s;
  5 | |       transition-delay: 2s;
  6 | `-> }
- 7 |     
- 8 |     .box {
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/value/time/input.css:1:1]
@@ -21,8 +33,6 @@
  4 | |       transition-duration: 4s;
  5 | |       transition-delay: 2s;
  6 | `-> }
- 7 |     
- 8 |     .box {
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/value/time/input.css:1:1]
@@ -68,15 +78,12 @@
  4 | |       transition-duration: 4s;
  5 | |       transition-delay: 2s;
  6 | `-> }
- 7 |     
- 8 |     .box {
    `----
   x LBrace
    ,-[$DIR/tests/fixture/value/time/input.css:1:1]
  1 | #delay {
    :        ^
  2 |     font-size: 14px;
- 3 |     transition-property: font-size;
    `----
   x ComponentValue
    ,-[$DIR/tests/fixture/value/time/input.css:2:1]
@@ -315,8 +322,6 @@
   8 | ,-> .box {
   9 | |       transition: width 2s, height 2s, background-color 2s, transform 2s;
  10 | `-> }
- 11 |     
- 12 |     .time {
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/value/time/input.css:8:1]
@@ -324,8 +329,6 @@
   8 | ,-> .box {
   9 | |       transition: width 2s, height 2s, background-color 2s, transform 2s;
  10 | `-> }
- 11 |     
- 12 |     .time {
     `----
   x SelectorList
    ,-[$DIR/tests/fixture/value/time/input.css:8:1]
@@ -375,17 +378,14 @@
   8 | ,-> .box {
   9 | |       transition: width 2s, height 2s, background-color 2s, transform 2s;
  10 | `-> }
- 11 |     
- 12 |     .time {
     `----
   x LBrace
-    ,-[$DIR/tests/fixture/value/time/input.css:8:1]
-  7 | 
-  8 | .box {
-    :      ^
-  9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
- 10 | }
-    `----
+   ,-[$DIR/tests/fixture/value/time/input.css:8:1]
+ 7 | 
+ 8 | .box {
+   :      ^
+ 9 |     transition: width 2s, height 2s, background-color 2s, transform 2s;
+   `----
   x ComponentValue
     ,-[$DIR/tests/fixture/value/time/input.css:9:1]
   8 | .box {
@@ -724,7 +724,6 @@
  12 | .time {
     :       ^
  13 |     transition-duration: 4s;
- 14 |     transition-duration: 4000ms;
     `----
   x ComponentValue
     ,-[$DIR/tests/fixture/value/time/input.css:13:1]

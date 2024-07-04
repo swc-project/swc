@@ -4,7 +4,6 @@
  3 |     <a href="/foo">foo</a>
    :                        ^^^
  4 |   </section>
- 5 | );
    `----
   x Expression expected
    ,-[$DIR/tests/errors/jsx_in_js/input.js:2:1]

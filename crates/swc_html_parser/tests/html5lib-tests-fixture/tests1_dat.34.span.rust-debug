@@ -1,6 +1,7 @@
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.34.html:1:2]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.34.html:1:1]
+ 1 | <!DOCTYPE html>A<option>B<optgroup>C<select>D</option>E
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.34.html:1:1]
@@ -45,12 +46,14 @@
    :                         ^
    `----
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.34.html:1:27]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.34.html:1:1]
+ 1 | <!DOCTYPE html>A<option>B<optgroup>C<select>D</option>E
+   :                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.34.html:1:27]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.34.html:1:1]
+ 1 | <!DOCTYPE html>A<option>B<optgroup>C<select>D</option>E
+   :                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.34.html:1:1]
@@ -63,18 +66,22 @@
    :                                    ^
    `----
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.34.html:1:38]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.34.html:1:1]
+ 1 | <!DOCTYPE html>A<option>B<optgroup>C<select>D</option>E
+   :                                     ^^^^^^^^^^^^^^^^^^^
    `----
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.34.html:1:38]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.34.html:1:1]
+ 1 | <!DOCTYPE html>A<option>B<optgroup>C<select>D</option>E
+   :                                     ^^^^^^^^^^^^^^^^^^^
    `----
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.34.html:1:46]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.34.html:1:1]
+ 1 | <!DOCTYPE html>A<option>B<optgroup>C<select>D</option>E
+   :                                             ^^^^^^^^^^^
    `----
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.34.html:1:46]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.34.html:1:1]
+ 1 | <!DOCTYPE html>A<option>B<optgroup>C<select>D</option>E
+   :                                             ^^^^^^^^^^^
    `----

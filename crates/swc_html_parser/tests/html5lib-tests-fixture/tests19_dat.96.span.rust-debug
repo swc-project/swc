@@ -1,6 +1,7 @@
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.96.html:1:2]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.96.html:1:1]
+ 1 | <!doctype html><table><td><table><i>a<div>b<b>c</i>d
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.96.html:1:1]
@@ -55,12 +56,14 @@
    :                                     ^
    `----
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.96.html:1:39]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.96.html:1:1]
+ 1 | <!doctype html><table><td><table><i>a<div>b<b>c</i>d
+   :                                      ^^^^^^^^^^^^^^^
    `----
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.96.html:1:39]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.96.html:1:1]
+ 1 | <!doctype html><table><td><table><i>a<div>b<b>c</i>d
+   :                                      ^^^^^^^^^^^^^^^
    `----
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.96.html:1:1]
@@ -103,20 +106,24 @@
    :                                               ^
    `----
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.96.html:1:45]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.96.html:1:1]
+ 1 | <!doctype html><table><td><table><i>a<div>b<b>c</i>d
+   :                                            ^^^^^^^^^
    `----
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.96.html:1:45]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.96.html:1:1]
+ 1 | <!doctype html><table><td><table><i>a<div>b<b>c</i>d
+   :                                            ^^^^^^^^^
    `----
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.96.html:1:53]
- 1 |  
+   ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.96.html:1:1]
+ 1 | <!doctype html><table><td><table><i>a<div>b<b>c</i>d
+   :                                                    ^
    `----
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.96.html:1:53]
- 1 |  
+   ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.96.html:1:1]
+ 1 | <!doctype html><table><td><table><i>a<div>b<b>c</i>d
+   :                                                    ^
    `----
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.96.html:1:1]

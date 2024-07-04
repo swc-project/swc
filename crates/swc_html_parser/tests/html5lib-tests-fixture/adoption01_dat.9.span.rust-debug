@@ -1,6 +1,7 @@
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.9.html:1:2]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.9.html:1:1]
+ 1 | <p>1<s id="A">2<b id="B">3</p>4</s>5</b>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Child
   x Element
@@ -105,12 +106,14 @@
    :                               ^
    `----
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.9.html:1:17]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.9.html:1:1]
+ 1 | <p>1<s id="A">2<b id="B">3</p>4</s>5</b>
+   :                ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.9.html:1:17]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.9.html:1:1]
+ 1 | <p>1<s id="A">2<b id="B">3</p>4</s>5</b>
+   :                ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.9.html:1:1]

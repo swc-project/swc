@@ -1,14 +1,17 @@
   x Stylesheet
-   ,-[$DIR/tests/recovery/function/unclosed-3/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/function/unclosed-3/input.css:1:1]
+ 1 | ,-> .style {
+ 2 | `->     grid-template-columns: rgb(255, 255, 255
    `----
   x Rule
-   ,-[$DIR/tests/recovery/function/unclosed-3/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/function/unclosed-3/input.css:1:1]
+ 1 | ,-> .style {
+ 2 | `->     grid-template-columns: rgb(255, 255, 255
    `----
   x QualifiedRule
-   ,-[$DIR/tests/recovery/function/unclosed-3/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/function/unclosed-3/input.css:1:1]
+ 1 | ,-> .style {
+ 2 | `->     grid-template-columns: rgb(255, 255, 255
    `----
   x SelectorList
    ,-[$DIR/tests/recovery/function/unclosed-3/input.css:1:1]
@@ -47,8 +50,9 @@
  2 |     grid-template-columns: rgb(255, 255, 255
    `----
   x SimpleBlock
-   ,-[$DIR/tests/recovery/function/unclosed-3/input.css:1:9]
- 1 | |    
+   ,-[$DIR/tests/recovery/function/unclosed-3/input.css:1:1]
+ 1 | ,-> .style {
+ 2 | `->     grid-template-columns: rgb(255, 255, 255
    `----
   x LBrace
    ,-[$DIR/tests/recovery/function/unclosed-3/input.css:1:1]
@@ -57,12 +61,16 @@
  2 |     grid-template-columns: rgb(255, 255, 255
    `----
   x ComponentValue
-   ,-[$DIR/tests/recovery/function/unclosed-3/input.css:2:6]
- 2 | |    
+   ,-[$DIR/tests/recovery/function/unclosed-3/input.css:2:1]
+ 1 | .style {
+ 2 |     grid-template-columns: rgb(255, 255, 255
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Declaration
-   ,-[$DIR/tests/recovery/function/unclosed-3/input.css:2:6]
- 2 | |    
+   ,-[$DIR/tests/recovery/function/unclosed-3/input.css:2:1]
+ 1 | .style {
+ 2 |     grid-template-columns: rgb(255, 255, 255
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x DeclarationName
    ,-[$DIR/tests/recovery/function/unclosed-3/input.css:2:1]
@@ -77,16 +85,22 @@
    :     ^^^^^^^^^^^^^^^^^^^^^
    `----
   x ComponentValue
-   ,-[$DIR/tests/recovery/function/unclosed-3/input.css:2:29]
- 2 | |    
+   ,-[$DIR/tests/recovery/function/unclosed-3/input.css:2:1]
+ 1 | .style {
+ 2 |     grid-template-columns: rgb(255, 255, 255
+   :                            ^^^^^^^^^^^^^^^^^
    `----
   x Color
-   ,-[$DIR/tests/recovery/function/unclosed-3/input.css:2:29]
- 2 | |    
+   ,-[$DIR/tests/recovery/function/unclosed-3/input.css:2:1]
+ 1 | .style {
+ 2 |     grid-template-columns: rgb(255, 255, 255
+   :                            ^^^^^^^^^^^^^^^^^
    `----
   x Function
-   ,-[$DIR/tests/recovery/function/unclosed-3/input.css:2:29]
- 2 | |    
+   ,-[$DIR/tests/recovery/function/unclosed-3/input.css:2:1]
+ 1 | .style {
+ 2 |     grid-template-columns: rgb(255, 255, 255
+   :                            ^^^^^^^^^^^^^^^^^
    `----
   x Ident
    ,-[$DIR/tests/recovery/function/unclosed-3/input.css:2:1]
@@ -143,10 +157,14 @@
    :                                        ^
    `----
   x ComponentValue
-   ,-[$DIR/tests/recovery/function/unclosed-3/input.css:2:43]
- 2 | |    
+   ,-[$DIR/tests/recovery/function/unclosed-3/input.css:2:1]
+ 1 | .style {
+ 2 |     grid-template-columns: rgb(255, 255, 255
+   :                                          ^^^
    `----
   x Number
-   ,-[$DIR/tests/recovery/function/unclosed-3/input.css:2:43]
- 2 | |    
+   ,-[$DIR/tests/recovery/function/unclosed-3/input.css:2:1]
+ 1 | .style {
+ 2 |     grid-template-columns: rgb(255, 255, 255
+   :                                          ^^^
    `----

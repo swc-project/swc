@@ -1,7 +1,65 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/number/input.css:1:2]
- 1 | |    
-   `----
+    ,-[$DIR/tests/fixture/number/input.css:1:1]
+  1 | ,-> div {
+  2 | |       property: 10;
+  3 | |       property: +10;
+  4 | |       property: -10;
+  5 | |       property: 0.1;
+  6 | |       property: +0.1;
+  7 | |       property: -0.1;
+  8 | |       property: -.1;
+  9 | |       property: +.1;
+ 10 | |       property: 0;
+ 11 | |       property: 10;
+ 12 | |       property: .10;
+ 13 | |       property: 12.34;
+ 14 | |       property: 0.1;
+ 15 | |       property: 1.0;
+ 16 | |       property: 0.0;
+ 17 | |       property: +0.0;
+ 18 | |       property: -0.0;
+ 19 | |       property: .0;
+ 20 | |       property: 1.200000;
+ 21 | |       property: 1.2e2;
+ 22 | |       property: 1e2;
+ 23 | |       property: .2e2;
+ 24 | |       property: 1.2E2;
+ 25 | |       property: 1.2e+2;
+ 26 | |       property: 1.2e-2;
+ 27 | |       property: -1;
+ 28 | |       property: -1.2;
+ 29 | |       property: .2;
+ 30 | |       property: -.2;
+ 31 | |       property: +.2;
+ 32 | |       property: -1.2e3;
+ 33 | |       property: 1.75;
+ 34 | |       property: +1.75;
+ 35 | |       property: 1e0;
+ 36 | |       property: 1e1;
+ 37 | |       property: 1e+1;
+ 38 | |       property: 1e-1;
+ 39 | |       property: 1e-10;
+ 40 | |       property: 1+2;
+ 41 | |       property: 1-2;
+ 42 | |       property: 4.01;
+ 43 | |       property: -456.8;
+ 44 | |       property: .60;
+ 45 | |       property: .0060;
+ 46 | |       property: 10e3;
+ 47 | |       property: -3.4e-2;
+ 48 | |       property: 0.5600000000;
+ 49 | |       property: 10e6;
+ 50 | |       property: 10000000;
+ 51 | |       property: 0.0;
+ 52 | |       property: -0.0;
+ 53 | |       property: +0.0;
+ 54 | |       property: 1e1;
+ 55 | |       property: 1e2;
+ 56 | |       property: 1e3;
+ 57 | |       property: 1e4;
+ 58 | |       property: 100.1e-6;
+ 59 | `-> }
+    `----
   x Rule
     ,-[$DIR/tests/fixture/number/input.css:1:1]
   1 | ,-> div {
@@ -235,7 +293,6 @@
  1 | div {
    :     ^
  2 |     property: 10;
- 3 |     property: +10;
    `----
   x ComponentValue
    ,-[$DIR/tests/fixture/number/input.css:2:1]

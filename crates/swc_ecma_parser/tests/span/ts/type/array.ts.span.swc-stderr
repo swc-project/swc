@@ -1,26 +1,32 @@
   x Module
-   ,-[$DIR/tests/span/ts/type/array.ts:1:2]
- 1 | |    
+   ,-[$DIR/tests/span/ts/type/array.ts:1:1]
+ 1 | let a: string[] = foo
+   : ^^^^^^^^^^^^^^^^^^^^^
    `----
   x ModuleItem
-   ,-[$DIR/tests/span/ts/type/array.ts:1:2]
- 1 | |    
+   ,-[$DIR/tests/span/ts/type/array.ts:1:1]
+ 1 | let a: string[] = foo
+   : ^^^^^^^^^^^^^^^^^^^^^
    `----
   x Stmt
-   ,-[$DIR/tests/span/ts/type/array.ts:1:2]
- 1 | |    
+   ,-[$DIR/tests/span/ts/type/array.ts:1:1]
+ 1 | let a: string[] = foo
+   : ^^^^^^^^^^^^^^^^^^^^^
    `----
   x Decl
-   ,-[$DIR/tests/span/ts/type/array.ts:1:2]
- 1 | |    
+   ,-[$DIR/tests/span/ts/type/array.ts:1:1]
+ 1 | let a: string[] = foo
+   : ^^^^^^^^^^^^^^^^^^^^^
    `----
   x VarDecl
-   ,-[$DIR/tests/span/ts/type/array.ts:1:2]
- 1 | |    
+   ,-[$DIR/tests/span/ts/type/array.ts:1:1]
+ 1 | let a: string[] = foo
+   : ^^^^^^^^^^^^^^^^^^^^^
    `----
   x VarDeclarator
-   ,-[$DIR/tests/span/ts/type/array.ts:1:6]
- 1 | |    
+   ,-[$DIR/tests/span/ts/type/array.ts:1:1]
+ 1 | let a: string[] = foo
+   :     ^^^^^^^^^^^^^^^^^
    `----
   x Pat
    ,-[$DIR/tests/span/ts/type/array.ts:1:1]
@@ -58,10 +64,12 @@
    :        ^^^^^^
    `----
   x Expr
-   ,-[$DIR/tests/span/ts/type/array.ts:1:20]
- 1 | |    
+   ,-[$DIR/tests/span/ts/type/array.ts:1:1]
+ 1 | let a: string[] = foo
+   :                   ^^^
    `----
   x Ident
-   ,-[$DIR/tests/span/ts/type/array.ts:1:20]
- 1 | |    
+   ,-[$DIR/tests/span/ts/type/array.ts:1:1]
+ 1 | let a: string[] = foo
+   :                   ^^^
    `----

@@ -1,14 +1,20 @@
   x Stylesheet
-   ,-[$DIR/tests/recovery/simple-block/unclosed-2/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/simple-block/unclosed-2/input.css:1:1]
+ 1 | ,-> @media screen {
+ 2 | |       a {
+ 3 | `->         color: red;
    `----
   x Rule
-   ,-[$DIR/tests/recovery/simple-block/unclosed-2/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/simple-block/unclosed-2/input.css:1:1]
+ 1 | ,-> @media screen {
+ 2 | |       a {
+ 3 | `->         color: red;
    `----
   x AtRule
-   ,-[$DIR/tests/recovery/simple-block/unclosed-2/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/simple-block/unclosed-2/input.css:1:1]
+ 1 | ,-> @media screen {
+ 2 | |       a {
+ 3 | `->         color: red;
    `----
   x AtRuleName
    ,-[$DIR/tests/recovery/simple-block/unclosed-2/input.css:1:1]
@@ -47,23 +53,28 @@
  2 |     a {
    `----
   x SimpleBlock
-   ,-[$DIR/tests/recovery/simple-block/unclosed-2/input.css:1:16]
- 1 | |    
+   ,-[$DIR/tests/recovery/simple-block/unclosed-2/input.css:1:1]
+ 1 | ,-> @media screen {
+ 2 | |       a {
+ 3 | `->         color: red;
    `----
   x LBrace
    ,-[$DIR/tests/recovery/simple-block/unclosed-2/input.css:1:1]
  1 | @media screen {
    :               ^
  2 |     a {
- 3 |         color: red;
    `----
   x ComponentValue
-   ,-[$DIR/tests/recovery/simple-block/unclosed-2/input.css:2:6]
- 2 | |    
+   ,-[$DIR/tests/recovery/simple-block/unclosed-2/input.css:2:1]
+ 1 |     @media screen {
+ 2 | ,->     a {
+ 3 | `->         color: red;
    `----
   x QualifiedRule
-   ,-[$DIR/tests/recovery/simple-block/unclosed-2/input.css:2:6]
- 2 | |    
+   ,-[$DIR/tests/recovery/simple-block/unclosed-2/input.css:2:1]
+ 1 |     @media screen {
+ 2 | ,->     a {
+ 3 | `->         color: red;
    `----
   x SelectorList
    ,-[$DIR/tests/recovery/simple-block/unclosed-2/input.css:2:1]
@@ -115,8 +126,10 @@
  3 |         color: red;
    `----
   x SimpleBlock
-   ,-[$DIR/tests/recovery/simple-block/unclosed-2/input.css:2:8]
- 2 | |    
+   ,-[$DIR/tests/recovery/simple-block/unclosed-2/input.css:2:1]
+ 1 |     @media screen {
+ 2 | ,->     a {
+ 3 | `->         color: red;
    `----
   x LBrace
    ,-[$DIR/tests/recovery/simple-block/unclosed-2/input.css:2:1]

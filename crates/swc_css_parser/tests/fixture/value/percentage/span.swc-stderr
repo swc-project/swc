@@ -1,7 +1,24 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/value/percentage/input.css:1:2]
- 1 | |    
-   `----
+    ,-[$DIR/tests/fixture/value/percentage/input.css:1:1]
+  1 | ,-> div {
+  2 | |       width: 0%;
+  3 | |       width: 0.1%;
+  4 | |       width: 100%;
+  5 | |       width: 100.5%;
+  6 | |       width: 100.1000%;
+  7 | |       width: 1e0%;
+  8 | |       width: 1e1%;
+  9 | |       width: 1e2%;
+ 10 | |       width: 10e-1%;
+ 11 | |       width: 10e-5%;
+ 12 | |       width: 10e+2%;
+ 13 | |   }
+ 14 | |   
+ 15 | |   div {
+ 16 | |       margin: -5%;
+ 17 | |       margin: -5.5%;
+ 18 | `-> }
+    `----
   x Rule
     ,-[$DIR/tests/fixture/value/percentage/input.css:1:1]
   1 | ,-> div {
@@ -17,8 +34,6 @@
  11 | |       width: 10e-5%;
  12 | |       width: 10e+2%;
  13 | `-> }
- 14 |     
- 15 |     div {
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/value/percentage/input.css:1:1]
@@ -35,8 +50,6 @@
  11 | |       width: 10e-5%;
  12 | |       width: 10e+2%;
  13 | `-> }
- 14 |     
- 15 |     div {
     `----
   x SelectorList
    ,-[$DIR/tests/fixture/value/percentage/input.css:1:1]
@@ -95,15 +108,12 @@
  11 | |       width: 10e-5%;
  12 | |       width: 10e+2%;
  13 | `-> }
- 14 |     
- 15 |     div {
     `----
   x LBrace
    ,-[$DIR/tests/fixture/value/percentage/input.css:1:1]
  1 | div {
    :     ^
  2 |     width: 0%;
- 3 |     width: 0.1%;
    `----
   x ComponentValue
    ,-[$DIR/tests/fixture/value/percentage/input.css:2:1]
@@ -723,7 +733,6 @@
  15 | div {
     :     ^
  16 |     margin: -5%;
- 17 |     margin: -5.5%;
     `----
   x ComponentValue
     ,-[$DIR/tests/fixture/value/percentage/input.css:16:1]

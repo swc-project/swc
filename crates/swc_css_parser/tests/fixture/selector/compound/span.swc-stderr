@@ -1,20 +1,33 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/selector/compound/input.css:1:2]
- 1 | |    
-   `----
+    ,-[$DIR/tests/fixture/selector/compound/input.css:1:1]
+  1 | ,-> .one {}
+  2 | |   .foo.bar {}
+  3 | |   .foo#id {}
+  4 | |   .class[target] {}
+  5 | |   .class#id[target] {}
+  6 | |   #id.class {}
+  7 | |   #id.class[target] {}
+  8 | |   div#thing:hover {}
+  9 | |   div#thing::before {}
+ 10 | |   a[href='place']:hover {}
+ 11 | |   a[href='place']::before {}
+ 12 | |   .one.two.three {}
+ 13 | |   button.btn-primary {}
+ 14 | |   *#z98y {}
+ 15 | |   #one#two {}
+ 16 | `-> #one.two.three {}
+    `----
   x Rule
    ,-[$DIR/tests/fixture/selector/compound/input.css:1:1]
  1 | .one {}
    : ^^^^^^^
  2 | .foo.bar {}
- 3 | .foo#id {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/compound/input.css:1:1]
  1 | .one {}
    : ^^^^^^^
  2 | .foo.bar {}
- 3 | .foo#id {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/compound/input.css:1:1]
@@ -57,7 +70,6 @@
  1 | .one {}
    :      ^^
  2 | .foo.bar {}
- 3 | .foo#id {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/compound/input.css:1:1]
@@ -71,7 +83,6 @@
  2 | .foo.bar {}
    : ^^^^^^^^^^^
  3 | .foo#id {}
- 4 | .class[target] {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/compound/input.css:2:1]
@@ -79,7 +90,6 @@
  2 | .foo.bar {}
    : ^^^^^^^^^^^
  3 | .foo#id {}
- 4 | .class[target] {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/compound/input.css:2:1]
@@ -150,7 +160,6 @@
  2 | .foo.bar {}
    :          ^^
  3 | .foo#id {}
- 4 | .class[target] {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/compound/input.css:2:1]
@@ -165,7 +174,6 @@
  3 | .foo#id {}
    : ^^^^^^^^^^
  4 | .class[target] {}
- 5 | .class#id[target] {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/compound/input.css:3:1]
@@ -173,7 +181,6 @@
  3 | .foo#id {}
    : ^^^^^^^^^^
  4 | .class[target] {}
- 5 | .class#id[target] {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/compound/input.css:3:1]
@@ -244,7 +251,6 @@
  3 | .foo#id {}
    :         ^^
  4 | .class[target] {}
- 5 | .class#id[target] {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/compound/input.css:3:1]
@@ -259,7 +265,6 @@
  4 | .class[target] {}
    : ^^^^^^^^^^^^^^^^^
  5 | .class#id[target] {}
- 6 | #id.class {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/compound/input.css:4:1]
@@ -267,7 +272,6 @@
  4 | .class[target] {}
    : ^^^^^^^^^^^^^^^^^
  5 | .class#id[target] {}
- 6 | #id.class {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/compound/input.css:4:1]
@@ -345,7 +349,6 @@
  4 | .class[target] {}
    :                ^^
  5 | .class#id[target] {}
- 6 | #id.class {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/compound/input.css:4:1]
@@ -360,7 +363,6 @@
  5 | .class#id[target] {}
    : ^^^^^^^^^^^^^^^^^^^^
  6 | #id.class {}
- 7 | #id.class[target] {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/compound/input.css:5:1]
@@ -368,7 +370,6 @@
  5 | .class#id[target] {}
    : ^^^^^^^^^^^^^^^^^^^^
  6 | #id.class {}
- 7 | #id.class[target] {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/compound/input.css:5:1]
@@ -467,7 +468,6 @@
  5 | .class#id[target] {}
    :                   ^^
  6 | #id.class {}
- 7 | #id.class[target] {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/compound/input.css:5:1]
@@ -482,7 +482,6 @@
  6 | #id.class {}
    : ^^^^^^^^^^^^
  7 | #id.class[target] {}
- 8 | div#thing:hover {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/compound/input.css:6:1]
@@ -490,7 +489,6 @@
  6 | #id.class {}
    : ^^^^^^^^^^^^
  7 | #id.class[target] {}
- 8 | div#thing:hover {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/compound/input.css:6:1]
@@ -561,7 +559,6 @@
  6 | #id.class {}
    :           ^^
  7 | #id.class[target] {}
- 8 | div#thing:hover {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/compound/input.css:6:1]
@@ -576,7 +573,6 @@
  7 | #id.class[target] {}
    : ^^^^^^^^^^^^^^^^^^^^
  8 | div#thing:hover {}
- 9 | div#thing::before {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/compound/input.css:7:1]
@@ -584,7 +580,6 @@
  7 | #id.class[target] {}
    : ^^^^^^^^^^^^^^^^^^^^
  8 | div#thing:hover {}
- 9 | div#thing::before {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/compound/input.css:7:1]
@@ -683,7 +678,6 @@
  7 | #id.class[target] {}
    :                   ^^
  8 | div#thing:hover {}
- 9 | div#thing::before {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/compound/input.css:7:1]
@@ -693,21 +687,19 @@
  8 | div#thing:hover {}
    `----
   x Rule
-    ,-[$DIR/tests/fixture/selector/compound/input.css:8:1]
-  7 | #id.class[target] {}
-  8 | div#thing:hover {}
-    : ^^^^^^^^^^^^^^^^^^
-  9 | div#thing::before {}
- 10 | a[href='place']:hover {}
-    `----
+   ,-[$DIR/tests/fixture/selector/compound/input.css:8:1]
+ 7 | #id.class[target] {}
+ 8 | div#thing:hover {}
+   : ^^^^^^^^^^^^^^^^^^
+ 9 | div#thing::before {}
+   `----
   x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/compound/input.css:8:1]
-  7 | #id.class[target] {}
-  8 | div#thing:hover {}
-    : ^^^^^^^^^^^^^^^^^^
-  9 | div#thing::before {}
- 10 | a[href='place']:hover {}
-    `----
+   ,-[$DIR/tests/fixture/selector/compound/input.css:8:1]
+ 7 | #id.class[target] {}
+ 8 | div#thing:hover {}
+   : ^^^^^^^^^^^^^^^^^^
+ 9 | div#thing::before {}
+   `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/compound/input.css:8:1]
  7 | #id.class[target] {}
@@ -800,13 +792,12 @@
  9 | div#thing::before {}
    `----
   x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/compound/input.css:8:1]
-  7 | #id.class[target] {}
-  8 | div#thing:hover {}
-    :                 ^^
-  9 | div#thing::before {}
- 10 | a[href='place']:hover {}
-    `----
+   ,-[$DIR/tests/fixture/selector/compound/input.css:8:1]
+ 7 | #id.class[target] {}
+ 8 | div#thing:hover {}
+   :                 ^^
+ 9 | div#thing::before {}
+   `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/compound/input.css:8:1]
  7 | #id.class[target] {}
@@ -820,7 +811,6 @@
   9 | div#thing::before {}
     : ^^^^^^^^^^^^^^^^^^^^
  10 | a[href='place']:hover {}
- 11 | a[href='place']::before {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/compound/input.css:9:1]
@@ -828,7 +818,6 @@
   9 | div#thing::before {}
     : ^^^^^^^^^^^^^^^^^^^^
  10 | a[href='place']:hover {}
- 11 | a[href='place']::before {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/compound/input.css:9:1]
@@ -927,7 +916,6 @@
   9 | div#thing::before {}
     :                   ^^
  10 | a[href='place']:hover {}
- 11 | a[href='place']::before {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/compound/input.css:9:1]
@@ -942,7 +930,6 @@
  10 | a[href='place']:hover {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^
  11 | a[href='place']::before {}
- 12 | .one.two.three {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/compound/input.css:10:1]
@@ -950,7 +937,6 @@
  10 | a[href='place']:hover {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^
  11 | a[href='place']::before {}
- 12 | .one.two.three {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/compound/input.css:10:1]
@@ -1077,7 +1063,6 @@
  10 | a[href='place']:hover {}
     :                       ^^
  11 | a[href='place']::before {}
- 12 | .one.two.three {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/compound/input.css:10:1]
@@ -1092,7 +1077,6 @@
  11 | a[href='place']::before {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^
  12 | .one.two.three {}
- 13 | button.btn-primary {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/compound/input.css:11:1]
@@ -1100,7 +1084,6 @@
  11 | a[href='place']::before {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^
  12 | .one.two.three {}
- 13 | button.btn-primary {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/compound/input.css:11:1]
@@ -1227,7 +1210,6 @@
  11 | a[href='place']::before {}
     :                         ^^
  12 | .one.two.three {}
- 13 | button.btn-primary {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/compound/input.css:11:1]
@@ -1242,7 +1224,6 @@
  12 | .one.two.three {}
     : ^^^^^^^^^^^^^^^^^
  13 | button.btn-primary {}
- 14 | *#z98y {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/compound/input.css:12:1]
@@ -1250,7 +1231,6 @@
  12 | .one.two.three {}
     : ^^^^^^^^^^^^^^^^^
  13 | button.btn-primary {}
- 14 | *#z98y {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/compound/input.css:12:1]
@@ -1342,7 +1322,6 @@
  12 | .one.two.three {}
     :                ^^
  13 | button.btn-primary {}
- 14 | *#z98y {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/compound/input.css:12:1]
@@ -1357,7 +1336,6 @@
  13 | button.btn-primary {}
     : ^^^^^^^^^^^^^^^^^^^^^
  14 | *#z98y {}
- 15 | #one#two {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/compound/input.css:13:1]
@@ -1365,7 +1343,6 @@
  13 | button.btn-primary {}
     : ^^^^^^^^^^^^^^^^^^^^^
  14 | *#z98y {}
- 15 | #one#two {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/compound/input.css:13:1]
@@ -1443,7 +1420,6 @@
  13 | button.btn-primary {}
     :                    ^^
  14 | *#z98y {}
- 15 | #one#two {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/compound/input.css:13:1]
@@ -1458,7 +1434,6 @@
  14 | *#z98y {}
     : ^^^^^^^^^
  15 | #one#two {}
- 16 | #one.two.three {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/compound/input.css:14:1]
@@ -1466,7 +1441,6 @@
  14 | *#z98y {}
     : ^^^^^^^^^
  15 | #one#two {}
- 16 | #one.two.three {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/compound/input.css:14:1]
@@ -1530,7 +1504,6 @@
  14 | *#z98y {}
     :        ^^
  15 | #one#two {}
- 16 | #one.two.three {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/compound/input.css:14:1]

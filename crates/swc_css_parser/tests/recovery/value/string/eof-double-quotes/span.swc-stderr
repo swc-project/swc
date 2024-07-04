@@ -1,14 +1,17 @@
   x Stylesheet
-   ,-[$DIR/tests/recovery/value/string/eof-double-quotes/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/value/string/eof-double-quotes/input.css:1:1]
+ 1 | ,-> div {
+ 2 | `->   prop: "string
    `----
   x Rule
-   ,-[$DIR/tests/recovery/value/string/eof-double-quotes/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/value/string/eof-double-quotes/input.css:1:1]
+ 1 | ,-> div {
+ 2 | `->   prop: "string
    `----
   x QualifiedRule
-   ,-[$DIR/tests/recovery/value/string/eof-double-quotes/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/value/string/eof-double-quotes/input.css:1:1]
+ 1 | ,-> div {
+ 2 | `->   prop: "string
    `----
   x SelectorList
    ,-[$DIR/tests/recovery/value/string/eof-double-quotes/input.css:1:1]
@@ -53,8 +56,9 @@
  2 |   prop: "string
    `----
   x SimpleBlock
-   ,-[$DIR/tests/recovery/value/string/eof-double-quotes/input.css:1:6]
- 1 | |    
+   ,-[$DIR/tests/recovery/value/string/eof-double-quotes/input.css:1:1]
+ 1 | ,-> div {
+ 2 | `->   prop: "string
    `----
   x LBrace
    ,-[$DIR/tests/recovery/value/string/eof-double-quotes/input.css:1:1]
@@ -63,12 +67,16 @@
  2 |   prop: "string
    `----
   x ComponentValue
-   ,-[$DIR/tests/recovery/value/string/eof-double-quotes/input.css:2:4]
- 2 | |    
+   ,-[$DIR/tests/recovery/value/string/eof-double-quotes/input.css:2:1]
+ 1 | div {
+ 2 |   prop: "string
+   :   ^^^^^^^^^^^^^
    `----
   x Declaration
-   ,-[$DIR/tests/recovery/value/string/eof-double-quotes/input.css:2:4]
- 2 | |    
+   ,-[$DIR/tests/recovery/value/string/eof-double-quotes/input.css:2:1]
+ 1 | div {
+ 2 |   prop: "string
+   :   ^^^^^^^^^^^^^
    `----
   x DeclarationName
    ,-[$DIR/tests/recovery/value/string/eof-double-quotes/input.css:2:1]
@@ -83,10 +91,14 @@
    :   ^^^^
    `----
   x ComponentValue
-   ,-[$DIR/tests/recovery/value/string/eof-double-quotes/input.css:2:10]
- 2 | |    
+   ,-[$DIR/tests/recovery/value/string/eof-double-quotes/input.css:2:1]
+ 1 | div {
+ 2 |   prop: "string
+   :         ^^^^^^^
    `----
   x Str
-   ,-[$DIR/tests/recovery/value/string/eof-double-quotes/input.css:2:10]
- 2 | |    
+   ,-[$DIR/tests/recovery/value/string/eof-double-quotes/input.css:2:1]
+ 1 | div {
+ 2 |   prop: "string
+   :         ^^^^^^^
    `----

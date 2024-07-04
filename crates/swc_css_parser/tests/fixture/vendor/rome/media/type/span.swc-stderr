@@ -1,20 +1,24 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:1:1]
+ 1 | ,-> @media screen {}
+ 2 | |   @media not screen {}
+ 3 | |   @media only screen {}
+ 4 | |   @media print, screen {}
+ 5 | |   @media screen, all, print {}
+ 6 | |   @media only screen, not all, only print {}
+ 7 | `-> 
    `----
   x Rule
    ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:1:1]
  1 | @media screen {}
    : ^^^^^^^^^^^^^^^^
  2 | @media not screen {}
- 3 | @media only screen {}
    `----
   x AtRule
    ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:1:1]
  1 | @media screen {}
    : ^^^^^^^^^^^^^^^^
  2 | @media not screen {}
- 3 | @media only screen {}
    `----
   x AtRuleName
    ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:1:1]
@@ -57,7 +61,6 @@
  1 | @media screen {}
    :               ^^
  2 | @media not screen {}
- 3 | @media only screen {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:1:1]
@@ -71,7 +74,6 @@
  2 | @media not screen {}
    : ^^^^^^^^^^^^^^^^^^^^
  3 | @media only screen {}
- 4 | @media print, screen {}
    `----
   x AtRule
    ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:2:1]
@@ -79,7 +81,6 @@
  2 | @media not screen {}
    : ^^^^^^^^^^^^^^^^^^^^
  3 | @media only screen {}
- 4 | @media print, screen {}
    `----
   x AtRuleName
    ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:2:1]
@@ -136,7 +137,6 @@
  2 | @media not screen {}
    :                   ^^
  3 | @media only screen {}
- 4 | @media print, screen {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:2:1]
@@ -151,7 +151,6 @@
  3 | @media only screen {}
    : ^^^^^^^^^^^^^^^^^^^^^
  4 | @media print, screen {}
- 5 | @media screen, all, print {}
    `----
   x AtRule
    ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:3:1]
@@ -159,7 +158,6 @@
  3 | @media only screen {}
    : ^^^^^^^^^^^^^^^^^^^^^
  4 | @media print, screen {}
- 5 | @media screen, all, print {}
    `----
   x AtRuleName
    ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:3:1]
@@ -216,7 +214,6 @@
  3 | @media only screen {}
    :                    ^^
  4 | @media print, screen {}
- 5 | @media screen, all, print {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:3:1]
@@ -231,7 +228,6 @@
  4 | @media print, screen {}
    : ^^^^^^^^^^^^^^^^^^^^^^^
  5 | @media screen, all, print {}
- 6 | @media only screen, not all, only print {}
    `----
   x AtRule
    ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:4:1]
@@ -239,7 +235,6 @@
  4 | @media print, screen {}
    : ^^^^^^^^^^^^^^^^^^^^^^^
  5 | @media screen, all, print {}
- 6 | @media only screen, not all, only print {}
    `----
   x AtRuleName
    ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:4:1]
@@ -310,7 +305,6 @@
  4 | @media print, screen {}
    :                      ^^
  5 | @media screen, all, print {}
- 6 | @media only screen, not all, only print {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:4:1]
@@ -436,14 +430,12 @@
  5 | @media screen, all, print {}
  6 | @media only screen, not all, only print {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 7 | 
    `----
   x AtRule
    ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:6:1]
  5 | @media screen, all, print {}
  6 | @media only screen, not all, only print {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 7 | 
    `----
   x AtRuleName
    ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:6:1]
@@ -540,7 +532,6 @@
  5 | @media screen, all, print {}
  6 | @media only screen, not all, only print {}
    :                                         ^^
- 7 | 
    `----
   x LBrace
    ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:6:1]

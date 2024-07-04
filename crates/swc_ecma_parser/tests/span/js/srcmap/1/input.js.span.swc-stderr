@@ -1,18 +1,22 @@
   x Module
-   ,-[$DIR/tests/span/js/srcmap/1/input.js:1:2]
- 1 | |    
+   ,-[$DIR/tests/span/js/srcmap/1/input.js:1:1]
+ 1 | switch (a) { case 1: b(); break; }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x ModuleItem
-   ,-[$DIR/tests/span/js/srcmap/1/input.js:1:2]
- 1 | |    
+   ,-[$DIR/tests/span/js/srcmap/1/input.js:1:1]
+ 1 | switch (a) { case 1: b(); break; }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Stmt
-   ,-[$DIR/tests/span/js/srcmap/1/input.js:1:2]
- 1 | |    
+   ,-[$DIR/tests/span/js/srcmap/1/input.js:1:1]
+ 1 | switch (a) { case 1: b(); break; }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x SwitchStmt
-   ,-[$DIR/tests/span/js/srcmap/1/input.js:1:2]
- 1 | |    
+   ,-[$DIR/tests/span/js/srcmap/1/input.js:1:1]
+ 1 | switch (a) { case 1: b(); break; }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Expr
    ,-[$DIR/tests/span/js/srcmap/1/input.js:1:1]

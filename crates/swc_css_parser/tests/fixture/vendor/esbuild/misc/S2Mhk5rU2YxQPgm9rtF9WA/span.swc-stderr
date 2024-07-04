@@ -1,14 +1,17 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/S2Mhk5rU2YxQPgm9rtF9WA/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/S2Mhk5rU2YxQPgm9rtF9WA/input.css:1:1]
+ 1 | @document url("https://www.example.com/") { h1 { color: green } }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Rule
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/S2Mhk5rU2YxQPgm9rtF9WA/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/S2Mhk5rU2YxQPgm9rtF9WA/input.css:1:1]
+ 1 | @document url("https://www.example.com/") { h1 { color: green } }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x AtRule
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/S2Mhk5rU2YxQPgm9rtF9WA/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/S2Mhk5rU2YxQPgm9rtF9WA/input.css:1:1]
+ 1 | @document url("https://www.example.com/") { h1 { color: green } }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x AtRuleName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/S2Mhk5rU2YxQPgm9rtF9WA/input.css:1:1]
@@ -41,8 +44,9 @@
    :               ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x SimpleBlock
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/S2Mhk5rU2YxQPgm9rtF9WA/input.css:1:44]
- 1 | |    
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/S2Mhk5rU2YxQPgm9rtF9WA/input.css:1:1]
+ 1 | @document url("https://www.example.com/") { h1 { color: green } }
+   :                                           ^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x LBrace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/S2Mhk5rU2YxQPgm9rtF9WA/input.css:1:1]

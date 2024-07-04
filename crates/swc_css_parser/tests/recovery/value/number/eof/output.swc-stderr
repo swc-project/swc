@@ -1,4 +1,5 @@
   x Unexpected end of file, but expected '}'
-   ,-[$DIR/tests/recovery/value/number/eof/input.css:1:4]
- 1 | |    
+   ,-[$DIR/tests/recovery/value/number/eof/input.css:1:1]
+ 1 | ,-> a {
+ 2 | `->   prop: 12
    `----

@@ -1,7 +1,53 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/value/quotes/input.css:1:2]
- 1 | |    
-   `----
+    ,-[$DIR/tests/fixture/value/quotes/input.css:1:1]
+  1 | ,-> a::before {
+  2 | |       content: "This string is demarcated by double quotes.";
+  3 | |       content: 'This string is demarcated by single quotes.';
+  4 | |       content: "This is a string with \" an escaped double quote.";
+  5 | |       content: "This string also has \22 an escaped double quote.";
+  6 | |       content: 'This is a string with \' an escaped single quote.';
+  7 | |       content: 'This string also has \27 an escaped single quote.';
+  8 | |       content: "This is a string with \\ an escaped backslash.";
+  9 | |       content: "This string also has \22an escaped double quote.";
+ 10 | |       content: "This string also has \22  an escaped double quote.";
+ 11 | |       content: "This string has a \Aline break in it.";
+ 12 | |       content: "A really long \
+ 13 | |   awesome string";
+ 14 | |       content: ";'@ /**/\"";
+ 15 | |       content: '\'"\\';
+ 16 | |       content: "a\
+ 17 | |   b";
+ 18 | |       content: "a\
+ 19 | |   b";
+ 20 | |       content: "a\
+ 21 | |   b";
+ 22 | |       content: "a\b";
+ 23 | |       content: "a\
+ 24 | |   \
+ 25 | |   \
+ 26 | |   \\
+ 27 | |   b";
+ 28 | |       content: 'a\62 c';
+ 29 | |   }
+ 30 | |   
+ 31 | |   a[title="a not s\
+ 32 | |   o very long title"] {
+ 33 | |       color: red;
+ 34 | |   }
+ 35 | |   a[title="a not so very long title"] {
+ 36 | |       color: red;
+ 37 | |   }
+ 38 | |   
+ 39 | |   div {
+ 40 | |       family-name: "A;' /**/";
+ 41 | |   }
+ 42 | |   
+ 43 | |   
+ 44 | |   .foo {
+ 45 | |       content: ";'@ /**/\"";
+ 46 | |       content: '\'"\\';
+ 47 | `-> }
+    `----
   x Rule
     ,-[$DIR/tests/fixture/value/quotes/input.css:1:1]
   1 | ,-> a::before {
@@ -33,8 +79,6 @@
  27 | |   b";
  28 | |       content: 'a\62 c';
  29 | `-> }
- 30 |     
- 31 |     a[title="a not s\
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/value/quotes/input.css:1:1]
@@ -67,8 +111,6 @@
  27 | |   b";
  28 | |       content: 'a\62 c';
  29 | `-> }
- 30 |     
- 31 |     a[title="a not s\
     `----
   x SelectorList
    ,-[$DIR/tests/fixture/value/quotes/input.css:1:1]
@@ -161,15 +203,12 @@
  27 | |   b";
  28 | |       content: 'a\62 c';
  29 | `-> }
- 30 |     
- 31 |     a[title="a not s\
     `----
   x LBrace
    ,-[$DIR/tests/fixture/value/quotes/input.css:1:1]
  1 | a::before {
    :           ^
  2 |     content: "This string is demarcated by double quotes.";
- 3 |     content: 'This string is demarcated by single quotes.';
    `----
   x ComponentValue
    ,-[$DIR/tests/fixture/value/quotes/input.css:2:1]
@@ -989,7 +1028,6 @@
  33 | |       color: red;
  34 | `-> }
  35 |     a[title="a not so very long title"] {
- 36 |         color: red;
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/value/quotes/input.css:31:1]
@@ -999,7 +1037,6 @@
  33 | |       color: red;
  34 | `-> }
  35 |     a[title="a not so very long title"] {
- 36 |         color: red;
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/value/quotes/input.css:31:1]
@@ -1106,7 +1143,6 @@
  33 | |       color: red;
  34 | `-> }
  35 |     a[title="a not so very long title"] {
- 36 |         color: red;
     `----
   x LBrace
     ,-[$DIR/tests/fixture/value/quotes/input.css:32:1]
@@ -1114,7 +1150,6 @@
  32 | o very long title"] {
     :                     ^
  33 |     color: red;
- 34 | }
     `----
   x ComponentValue
     ,-[$DIR/tests/fixture/value/quotes/input.css:33:1]
@@ -1164,8 +1199,6 @@
  35 | ,-> a[title="a not so very long title"] {
  36 | |       color: red;
  37 | `-> }
- 38 |     
- 39 |     div {
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/value/quotes/input.css:35:1]
@@ -1173,8 +1206,6 @@
  35 | ,-> a[title="a not so very long title"] {
  36 | |       color: red;
  37 | `-> }
- 38 |     
- 39 |     div {
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/value/quotes/input.css:35:1]
@@ -1280,8 +1311,6 @@
  35 | ,-> a[title="a not so very long title"] {
  36 | |       color: red;
  37 | `-> }
- 38 |     
- 39 |     div {
     `----
   x LBrace
     ,-[$DIR/tests/fixture/value/quotes/input.css:35:1]
@@ -1289,7 +1318,6 @@
  35 | a[title="a not so very long title"] {
     :                                     ^
  36 |     color: red;
- 37 | }
     `----
   x ComponentValue
     ,-[$DIR/tests/fixture/value/quotes/input.css:36:1]
@@ -1339,7 +1367,6 @@
  39 | ,-> div {
  40 | |       family-name: "A;' /**/";
  41 | `-> }
- 42 |     
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/value/quotes/input.css:39:1]
@@ -1347,7 +1374,6 @@
  39 | ,-> div {
  40 | |       family-name: "A;' /**/";
  41 | `-> }
- 42 |     
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/value/quotes/input.css:39:1]
@@ -1404,7 +1430,6 @@
  39 | ,-> div {
  40 | |       family-name: "A;' /**/";
  41 | `-> }
- 42 |     
     `----
   x LBrace
     ,-[$DIR/tests/fixture/value/quotes/input.css:39:1]
@@ -1412,7 +1437,6 @@
  39 | div {
     :     ^
  40 |     family-name: "A;' /**/";
- 41 | }
     `----
   x ComponentValue
     ,-[$DIR/tests/fixture/value/quotes/input.css:40:1]
@@ -1528,7 +1552,6 @@
  44 | .foo {
     :      ^
  45 |     content: ";'@ /**/\"";
- 46 |     content: '\'"\\';
     `----
   x ComponentValue
     ,-[$DIR/tests/fixture/value/quotes/input.css:45:1]

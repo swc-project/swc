@@ -1,6 +1,7 @@
   x Document
-   ,-[$DIR/tests/recovery/document_type/unknown/input.html:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/document_type/unknown/input.html:1:1]
+ 1 | <!DOCTYPE >Hello
+   : ^^^^^^^^^^^^^^^^
    `----
   x Child
    ,-[$DIR/tests/recovery/document_type/unknown/input.html:1:1]
@@ -15,10 +16,12 @@
   x Child
   x Element
   x Child
-   ,-[$DIR/tests/recovery/document_type/unknown/input.html:1:13]
- 1 | |    
+   ,-[$DIR/tests/recovery/document_type/unknown/input.html:1:1]
+ 1 | <!DOCTYPE >Hello
+   :            ^^^^^
    `----
   x Text
-   ,-[$DIR/tests/recovery/document_type/unknown/input.html:1:13]
- 1 | |    
+   ,-[$DIR/tests/recovery/document_type/unknown/input.html:1:1]
+ 1 | <!DOCTYPE >Hello
+   :            ^^^^^
    `----

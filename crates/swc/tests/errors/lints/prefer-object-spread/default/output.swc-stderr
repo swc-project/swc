@@ -43,8 +43,6 @@
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  10 | 
  11 | Object.assign({});
- 12 | 
- 13 | Object['assign']({});
     `----
   x "Use an object spread instead of `Object.assign` eg: `{ ...foo }`"
     ,-[9:1]

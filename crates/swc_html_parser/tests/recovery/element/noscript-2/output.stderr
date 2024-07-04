@@ -9,6 +9,7 @@
    :                 ^
    `----
   x Stray end tag "noscript"
-   ,-[$DIR/tests/recovery/element/noscript-2/input.html:1:31]
- 1 | |    
+   ,-[$DIR/tests/recovery/element/noscript-2/input.html:1:1]
+ 1 | <head><noscript>ABC<!--foo--></noscript>
+   :                              ^^^^^^^^^^^
    `----

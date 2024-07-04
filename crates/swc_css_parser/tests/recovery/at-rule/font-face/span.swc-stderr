@@ -1,22 +1,38 @@
   x Stylesheet
-   ,-[$DIR/tests/recovery/at-rule/font-face/input.css:1:2]
- 1 | |    
-   `----
+    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:1:1]
+  1 | ,-> @font-face {
+  2 | |       invalid
+  3 | |   }
+  4 | |   
+  5 | |   @font-face {
+  6 | |       invalid;
+  7 | |   }
+  8 | |   
+  9 | |   @font-face {
+ 10 | |       123
+ 11 | |   }
+ 12 | |   
+ 13 | |   @font-face {
+ 14 | |       123;
+ 15 | |   }
+ 16 | |   
+ 17 | |   @font-face foo {}
+ 18 | |   
+ 19 | |   @font-face foo;
+ 20 | |   
+ 21 | `-> @font-face ;
+    `----
   x Rule
    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:1:1]
  1 | ,-> @font-face {
  2 | |       invalid
  3 | `-> }
- 4 |     
- 5 |     @font-face {
    `----
   x AtRule
    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:1:1]
  1 | ,-> @font-face {
  2 | |       invalid
  3 | `-> }
- 4 |     
- 5 |     @font-face {
    `----
   x AtRuleName
    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:1:1]
@@ -35,15 +51,12 @@
  1 | ,-> @font-face {
  2 | |       invalid
  3 | `-> }
- 4 |     
- 5 |     @font-face {
    `----
   x LBrace
    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:1:1]
  1 | @font-face {
    :            ^
  2 |     invalid
- 3 | }
    `----
   x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:2:1]
@@ -67,13 +80,15 @@
  3 | }
    `----
   x ComponentValue
-   ,-[$DIR/tests/recovery/at-rule/font-face/input.css:3:1]
+   ,-[$DIR/tests/recovery/at-rule/font-face/input.css:2:1]
+ 1 | @font-face {
  2 |     invalid
    :            ^
  3 | }
    `----
   x WhiteSpace { value: "\n" }
-   ,-[$DIR/tests/recovery/at-rule/font-face/input.css:3:1]
+   ,-[$DIR/tests/recovery/at-rule/font-face/input.css:2:1]
+ 1 | @font-face {
  2 |     invalid
    :            ^
  3 | }
@@ -84,8 +99,6 @@
  5 | ,-> @font-face {
  6 | |       invalid;
  7 | `-> }
- 8 |     
- 9 |     @font-face {
    `----
   x AtRule
    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:5:1]
@@ -93,8 +106,6 @@
  5 | ,-> @font-face {
  6 | |       invalid;
  7 | `-> }
- 8 |     
- 9 |     @font-face {
    `----
   x AtRuleName
    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:5:1]
@@ -116,8 +127,6 @@
  5 | ,-> @font-face {
  6 | |       invalid;
  7 | `-> }
- 8 |     
- 9 |     @font-face {
    `----
   x LBrace
    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:5:1]
@@ -125,7 +134,6 @@
  5 | @font-face {
    :            ^
  6 |     invalid;
- 7 | }
    `----
   x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:6:1]
@@ -168,8 +176,6 @@
   9 | ,-> @font-face {
  10 | |       123
  11 | `-> }
- 12 |     
- 13 |     @font-face {
     `----
   x AtRule
     ,-[$DIR/tests/recovery/at-rule/font-face/input.css:9:1]
@@ -177,8 +183,6 @@
   9 | ,-> @font-face {
  10 | |       123
  11 | `-> }
- 12 |     
- 13 |     @font-face {
     `----
   x AtRuleName
     ,-[$DIR/tests/recovery/at-rule/font-face/input.css:9:1]
@@ -200,8 +204,6 @@
   9 | ,-> @font-face {
  10 | |       123
  11 | `-> }
- 12 |     
- 13 |     @font-face {
     `----
   x LBrace
     ,-[$DIR/tests/recovery/at-rule/font-face/input.css:9:1]
@@ -209,7 +211,6 @@
   9 | @font-face {
     :            ^
  10 |     123
- 11 | }
     `----
   x ComponentValue
     ,-[$DIR/tests/recovery/at-rule/font-face/input.css:10:1]
@@ -233,13 +234,15 @@
  11 | }
     `----
   x ComponentValue
-    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:11:1]
+    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:10:1]
+  9 | @font-face {
  10 |     123
     :        ^
  11 | }
     `----
   x WhiteSpace { value: "\n" }
-    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:11:1]
+    ,-[$DIR/tests/recovery/at-rule/font-face/input.css:10:1]
+  9 | @font-face {
  10 |     123
     :        ^
  11 | }
@@ -250,8 +253,6 @@
  13 | ,-> @font-face {
  14 | |       123;
  15 | `-> }
- 16 |     
- 17 |     @font-face foo {}
     `----
   x AtRule
     ,-[$DIR/tests/recovery/at-rule/font-face/input.css:13:1]
@@ -259,8 +260,6 @@
  13 | ,-> @font-face {
  14 | |       123;
  15 | `-> }
- 16 |     
- 17 |     @font-face foo {}
     `----
   x AtRuleName
     ,-[$DIR/tests/recovery/at-rule/font-face/input.css:13:1]
@@ -282,8 +281,6 @@
  13 | ,-> @font-face {
  14 | |       123;
  15 | `-> }
- 16 |     
- 17 |     @font-face foo {}
     `----
   x LBrace
     ,-[$DIR/tests/recovery/at-rule/font-face/input.css:13:1]
@@ -291,7 +288,6 @@
  13 | @font-face {
     :            ^
  14 |     123;
- 15 | }
     `----
   x ComponentValue
     ,-[$DIR/tests/recovery/at-rule/font-face/input.css:14:1]
@@ -333,16 +329,12 @@
  16 | 
  17 | @font-face foo {}
     : ^^^^^^^^^^^^^^^^^
- 18 | 
- 19 | @font-face foo;
     `----
   x AtRule
     ,-[$DIR/tests/recovery/at-rule/font-face/input.css:17:1]
  16 | 
  17 | @font-face foo {}
     : ^^^^^^^^^^^^^^^^^
- 18 | 
- 19 | @font-face foo;
     `----
   x AtRuleName
     ,-[$DIR/tests/recovery/at-rule/font-face/input.css:17:1]
@@ -397,8 +389,6 @@
  16 | 
  17 | @font-face foo {}
     :                ^^
- 18 | 
- 19 | @font-face foo;
     `----
   x LBrace
     ,-[$DIR/tests/recovery/at-rule/font-face/input.css:17:1]
@@ -411,16 +401,12 @@
  18 | 
  19 | @font-face foo;
     : ^^^^^^^^^^^^^^^
- 20 | 
- 21 | @font-face ;
     `----
   x AtRule
     ,-[$DIR/tests/recovery/at-rule/font-face/input.css:19:1]
  18 | 
  19 | @font-face foo;
     : ^^^^^^^^^^^^^^^
- 20 | 
- 21 | @font-face ;
     `----
   x AtRuleName
     ,-[$DIR/tests/recovery/at-rule/font-face/input.css:19:1]

@@ -3,7 +3,6 @@
  1 | <![CDATA[
    :         ^
  2 | Within this Character Data block I can
- 3 | use double dashes as much as I want (along with <, &, ', and ")
    `----
   x Start tag seen without seeing a doctype first, expected "<!DOCTYPE html>"
     ,-[$DIR/tests/recovery/comment/cdata-1/input.html:9:1]

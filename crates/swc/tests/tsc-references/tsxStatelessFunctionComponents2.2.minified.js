@@ -7,5 +7,4 @@
 //!  3 | 
 //!  4 | function Greet(x: {name?: string}) {
 //!  5 |     return <div>Hello, {x}</div>;
-//!  6 | }
 //!    `----

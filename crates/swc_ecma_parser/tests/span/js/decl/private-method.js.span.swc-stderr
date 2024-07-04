@@ -1,22 +1,42 @@
   x Module
-   ,-[$DIR/tests/span/js/decl/private-method.js:1:2]
- 1 | |    
+   ,-[$DIR/tests/span/js/decl/private-method.js:1:1]
+ 1 | ,-> class Foo {
+ 2 | |       #foo() {
+ 3 | |   
+ 4 | |       }
+ 5 | `-> }
    `----
   x ModuleItem
-   ,-[$DIR/tests/span/js/decl/private-method.js:1:2]
- 1 | |    
+   ,-[$DIR/tests/span/js/decl/private-method.js:1:1]
+ 1 | ,-> class Foo {
+ 2 | |       #foo() {
+ 3 | |   
+ 4 | |       }
+ 5 | `-> }
    `----
   x Stmt
-   ,-[$DIR/tests/span/js/decl/private-method.js:1:2]
- 1 | |    
+   ,-[$DIR/tests/span/js/decl/private-method.js:1:1]
+ 1 | ,-> class Foo {
+ 2 | |       #foo() {
+ 3 | |   
+ 4 | |       }
+ 5 | `-> }
    `----
   x Decl
-   ,-[$DIR/tests/span/js/decl/private-method.js:1:2]
- 1 | |    
+   ,-[$DIR/tests/span/js/decl/private-method.js:1:1]
+ 1 | ,-> class Foo {
+ 2 | |       #foo() {
+ 3 | |   
+ 4 | |       }
+ 5 | `-> }
    `----
   x ClassDecl
-   ,-[$DIR/tests/span/js/decl/private-method.js:1:2]
- 1 | |    
+   ,-[$DIR/tests/span/js/decl/private-method.js:1:1]
+ 1 | ,-> class Foo {
+ 2 | |       #foo() {
+ 3 | |   
+ 4 | |       }
+ 5 | `-> }
    `----
   x Ident
    ,-[$DIR/tests/span/js/decl/private-method.js:1:1]
@@ -25,8 +45,12 @@
  2 |     #foo() {
    `----
   x Class
-   ,-[$DIR/tests/span/js/decl/private-method.js:1:2]
- 1 | |    
+   ,-[$DIR/tests/span/js/decl/private-method.js:1:1]
+ 1 | ,-> class Foo {
+ 2 | |       #foo() {
+ 3 | |   
+ 4 | |       }
+ 5 | `-> }
    `----
   x ClassMember
    ,-[$DIR/tests/span/js/decl/private-method.js:2:1]

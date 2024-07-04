@@ -1,20 +1,121 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/selector/complex/input.css:1:2]
- 1 | |    
-   `----
+     ,-[$DIR/tests/fixture/selector/complex/input.css:1:1]
+   1 | ,-> article p {}
+   2 | |   article
+   3 | |   p {}
+   4 | |   article   p   {}
+   5 | |   article > p {}
+   6 | |   article
+   7 | |   > 
+   8 | |   p {}
+   9 | |   article    >    p    {}
+  10 | |   p + img {}
+  11 | |   p 
+  12 | |   + 
+  13 | |   img {}
+  14 | |   p   +   img {}
+  15 | |   p ~ img {}
+  16 | |   p 
+  17 | |   ~ 
+  18 | |   img {}
+  19 | |   p    ~    img {}
+  20 | |   article > p > a {}
+  21 | |   article
+  22 | |   >
+  23 | |   p
+  24 | |   >
+  25 | |   a {}
+  26 | |   div p {}
+  27 | |   .class p {}
+  28 | |   div .class {}
+  29 | |   .class .class {}
+  30 | |   #id p {}
+  31 | |   div #id {}
+  32 | |   #id #id {}
+  33 | |   [attribute] p {}
+  34 | |   div [attribute] {}
+  35 | |   [attribute] [src] {}
+  36 | |   div > p {}
+  37 | |   .class > p {}
+  38 | |   div > .class {}
+  39 | |   .class > .class {}
+  40 | |   #id > p {}
+  41 | |   div > #id {}
+  42 | |   #id > #id {}
+  43 | |   [attribute] > p {}
+  44 | |   div > [attribute] {}
+  45 | |   [attribute] > [src] {}
+  46 | |   div + p {}
+  47 | |   .class + p {}
+  48 | |   div + .class {}
+  49 | |   .class + .class {}
+  50 | |   #id + p {}
+  51 | |   div + #id {}
+  52 | |   #id + #id {}
+  53 | |   [attribute] + p {}
+  54 | |   div + [attribute] {}
+  55 | |   [attribute] + [src] {}
+  56 | |   div ~ p {}
+  57 | |   .class ~ p {}
+  58 | |   div ~ .class {}
+  59 | |   .class ~ .class {}
+  60 | |   #id ~ p {}
+  61 | |   div ~ #id {}
+  62 | |   #id ~ #id {}
+  63 | |   [attribute] ~ p {}
+  64 | |   div ~ [attribute] {}
+  65 | |   [attribute] ~ [src] {}
+  66 | |   a:hover [attribute] {}
+  67 | |   a:hover #id {}
+  68 | |   a:hover .class {}
+  69 | |   a:hover div#thing {}
+  70 | |   a + a[href='place'] {}
+  71 | |   ul.list + a {}
+  72 | |   .foo ~ a + bar {}
+  73 | |   a+ a {}
+  74 | |   a> a {}
+  75 | |   a~ a {}
+  76 | |   a +a {}
+  77 | |   a >a {}
+  78 | |   a ~a {}
+  79 | |   a+a {}
+  80 | |   a>a {}
+  81 | |   a~a {}
+  82 | |   a [type='button'] {}
+  83 | |   a 
+  84 | |   [type='button'] {}
+  85 | |   a   a {}
+  86 | |   namespace|type#id > .foo {}
+  87 | |   #id > .cl + .cl2 {}
+  88 | |   a c, d + e h {}
+  89 | |   a ~ h + d {}
+  90 | |   div div div div div div div div div div div {}
+  91 | |   [href][class][name] h1 > h2 {}
+  92 | |   [href*="test.com"][rel='external'][id][class~="test"] > [name] {}
+  93 | |   [data-weird-attr*="Something=weird"], [data-weird-attr^="Something=weird"], [data-weird-attr$="Something=weird"], [data-weird-attr|="Something=weird"] {}
+  94 | |   * + * {}
+  95 | |   * * {}
+  96 | |   *         * {}
+  97 | |   *[href] *:not(*.green) {}
+  98 | |   *::-webkit-media-controls-play-button {}
+  99 | |   col.selected || td {}
+ 100 | |   col.selected
+ 101 | |   || 
+ 102 | |   td
+ 103 | |   {}
+ 104 | `-> col.selected||td {}
+     `----
   x Rule
    ,-[$DIR/tests/fixture/selector/complex/input.css:1:1]
  1 | article p {}
    : ^^^^^^^^^^^^
  2 | article
- 3 | p {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/complex/input.css:1:1]
  1 | article p {}
    : ^^^^^^^^^^^^
  2 | article
- 3 | p {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/complex/input.css:1:1]
@@ -99,7 +200,6 @@
  1 | article p {}
    :           ^^
  2 | article
- 3 | p {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/complex/input.css:1:1]
@@ -113,7 +213,6 @@
  2 | ,-> article
  3 | `-> p {}
  4 |     article   p   {}
- 5 |     article > p {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/complex/input.css:2:1]
@@ -121,7 +220,6 @@
  2 | ,-> article
  3 | `-> p {}
  4 |     article   p   {}
- 5 |     article > p {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/complex/input.css:2:1]
@@ -143,7 +241,6 @@
  2 | article
    : ^^^^^^^
  3 | p {}
- 4 | article   p   {}
    `----
   x TypeSelector
    ,-[$DIR/tests/fixture/selector/complex/input.css:2:1]
@@ -151,7 +248,6 @@
  2 | article
    : ^^^^^^^
  3 | p {}
- 4 | article   p   {}
    `----
   x TagNameSelector
    ,-[$DIR/tests/fixture/selector/complex/input.css:2:1]
@@ -159,7 +255,6 @@
  2 | article
    : ^^^^^^^
  3 | p {}
- 4 | article   p   {}
    `----
   x WqName
    ,-[$DIR/tests/fixture/selector/complex/input.css:2:1]
@@ -167,7 +262,6 @@
  2 | article
    : ^^^^^^^
  3 | p {}
- 4 | article   p   {}
    `----
   x Ident
    ,-[$DIR/tests/fixture/selector/complex/input.css:2:1]
@@ -175,10 +269,10 @@
  2 | article
    : ^^^^^^^
  3 | p {}
- 4 | article   p   {}
    `----
   x Combinator
-   ,-[$DIR/tests/fixture/selector/complex/input.css:3:1]
+   ,-[$DIR/tests/fixture/selector/complex/input.css:2:1]
+ 1 | article p {}
  2 | article
    :        ^
  3 | p {}
@@ -225,7 +319,6 @@
  3 | p {}
    :   ^^
  4 | article   p   {}
- 5 | article > p {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/complex/input.css:3:1]
@@ -240,7 +333,6 @@
  4 | article   p   {}
    : ^^^^^^^^^^^^^^^^
  5 | article > p {}
- 6 | article
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/complex/input.css:4:1]
@@ -248,7 +340,6 @@
  4 | article   p   {}
    : ^^^^^^^^^^^^^^^^
  5 | article > p {}
- 6 | article
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/complex/input.css:4:1]
@@ -347,7 +438,6 @@
  4 | article   p   {}
    :               ^^
  5 | article > p {}
- 6 | article
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/complex/input.css:4:1]
@@ -362,7 +452,6 @@
  5 | article > p {}
    : ^^^^^^^^^^^^^^
  6 | article
- 7 | > 
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/complex/input.css:5:1]
@@ -370,7 +459,6 @@
  5 | article > p {}
    : ^^^^^^^^^^^^^^
  6 | article
- 7 | > 
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/complex/input.css:5:1]
@@ -469,7 +557,6 @@
  5 | article > p {}
    :             ^^
  6 | article
- 7 | > 
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/complex/input.css:5:1]
@@ -479,23 +566,21 @@
  6 | article
    `----
   x Rule
-    ,-[$DIR/tests/fixture/selector/complex/input.css:6:1]
-  5 |     article > p {}
-  6 | ,-> article
-  7 | |   > 
-  8 | `-> p {}
-  9 |     article    >    p    {}
- 10 |     p + img {}
-    `----
+   ,-[$DIR/tests/fixture/selector/complex/input.css:6:1]
+ 5 |     article > p {}
+ 6 | ,-> article
+ 7 | |   > 
+ 8 | `-> p {}
+ 9 |     article    >    p    {}
+   `----
   x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/complex/input.css:6:1]
-  5 |     article > p {}
-  6 | ,-> article
-  7 | |   > 
-  8 | `-> p {}
-  9 |     article    >    p    {}
- 10 |     p + img {}
-    `----
+   ,-[$DIR/tests/fixture/selector/complex/input.css:6:1]
+ 5 |     article > p {}
+ 6 | ,-> article
+ 7 | |   > 
+ 8 | `-> p {}
+ 9 |     article    >    p    {}
+   `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/complex/input.css:6:1]
  5 |     article > p {}
@@ -518,7 +603,6 @@
  6 | article
    : ^^^^^^^
  7 | > 
- 8 | p {}
    `----
   x TypeSelector
    ,-[$DIR/tests/fixture/selector/complex/input.css:6:1]
@@ -526,7 +610,6 @@
  6 | article
    : ^^^^^^^
  7 | > 
- 8 | p {}
    `----
   x TagNameSelector
    ,-[$DIR/tests/fixture/selector/complex/input.css:6:1]
@@ -534,7 +617,6 @@
  6 | article
    : ^^^^^^^
  7 | > 
- 8 | p {}
    `----
   x WqName
    ,-[$DIR/tests/fixture/selector/complex/input.css:6:1]
@@ -542,7 +624,6 @@
  6 | article
    : ^^^^^^^
  7 | > 
- 8 | p {}
    `----
   x Ident
    ,-[$DIR/tests/fixture/selector/complex/input.css:6:1]
@@ -550,7 +631,6 @@
  6 | article
    : ^^^^^^^
  7 | > 
- 8 | p {}
    `----
   x Combinator
    ,-[$DIR/tests/fixture/selector/complex/input.css:7:1]
@@ -595,13 +675,12 @@
  9 | article    >    p    {}
    `----
   x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/complex/input.css:8:1]
-  7 | > 
-  8 | p {}
-    :   ^^
-  9 | article    >    p    {}
- 10 | p + img {}
-    `----
+   ,-[$DIR/tests/fixture/selector/complex/input.css:8:1]
+ 7 | > 
+ 8 | p {}
+   :   ^^
+ 9 | article    >    p    {}
+   `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/complex/input.css:8:1]
  7 | > 
@@ -615,7 +694,6 @@
   9 | article    >    p    {}
     : ^^^^^^^^^^^^^^^^^^^^^^^
  10 | p + img {}
- 11 | p 
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:9:1]
@@ -623,7 +701,6 @@
   9 | article    >    p    {}
     : ^^^^^^^^^^^^^^^^^^^^^^^
  10 | p + img {}
- 11 | p 
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:9:1]
@@ -722,7 +799,6 @@
   9 | article    >    p    {}
     :                      ^^
  10 | p + img {}
- 11 | p 
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:9:1]
@@ -737,7 +813,6 @@
  10 | p + img {}
     : ^^^^^^^^^^
  11 | p 
- 12 | + 
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:10:1]
@@ -745,7 +820,6 @@
  10 | p + img {}
     : ^^^^^^^^^^
  11 | p 
- 12 | + 
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:10:1]
@@ -844,7 +918,6 @@
  10 | p + img {}
     :         ^^
  11 | p 
- 12 | + 
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:10:1]
@@ -860,7 +933,6 @@
  12 | |   + 
  13 | `-> img {}
  14 |     p   +   img {}
- 15 |     p ~ img {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:11:1]
@@ -869,7 +941,6 @@
  12 | |   + 
  13 | `-> img {}
  14 |     p   +   img {}
- 15 |     p ~ img {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:11:1]
@@ -970,7 +1041,6 @@
  13 | img {}
     :     ^^
  14 | p   +   img {}
- 15 | p ~ img {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:13:1]
@@ -985,7 +1055,6 @@
  14 | p   +   img {}
     : ^^^^^^^^^^^^^^
  15 | p ~ img {}
- 16 | p 
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:14:1]
@@ -993,7 +1062,6 @@
  14 | p   +   img {}
     : ^^^^^^^^^^^^^^
  15 | p ~ img {}
- 16 | p 
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:14:1]
@@ -1092,7 +1160,6 @@
  14 | p   +   img {}
     :             ^^
  15 | p ~ img {}
- 16 | p 
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:14:1]
@@ -1107,7 +1174,6 @@
  15 | p ~ img {}
     : ^^^^^^^^^^
  16 | p 
- 17 | ~ 
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:15:1]
@@ -1115,7 +1181,6 @@
  15 | p ~ img {}
     : ^^^^^^^^^^
  16 | p 
- 17 | ~ 
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:15:1]
@@ -1214,7 +1279,6 @@
  15 | p ~ img {}
     :         ^^
  16 | p 
- 17 | ~ 
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:15:1]
@@ -1230,7 +1294,6 @@
  17 | |   ~ 
  18 | `-> img {}
  19 |     p    ~    img {}
- 20 |     article > p > a {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:16:1]
@@ -1239,7 +1302,6 @@
  17 | |   ~ 
  18 | `-> img {}
  19 |     p    ~    img {}
- 20 |     article > p > a {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:16:1]
@@ -1340,7 +1402,6 @@
  18 | img {}
     :     ^^
  19 | p    ~    img {}
- 20 | article > p > a {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:18:1]
@@ -1355,7 +1416,6 @@
  19 | p    ~    img {}
     : ^^^^^^^^^^^^^^^^
  20 | article > p > a {}
- 21 | article
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:19:1]
@@ -1363,7 +1423,6 @@
  19 | p    ~    img {}
     : ^^^^^^^^^^^^^^^^
  20 | article > p > a {}
- 21 | article
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:19:1]
@@ -1462,7 +1521,6 @@
  19 | p    ~    img {}
     :               ^^
  20 | article > p > a {}
- 21 | article
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:19:1]
@@ -1477,7 +1535,6 @@
  20 | article > p > a {}
     : ^^^^^^^^^^^^^^^^^^
  21 | article
- 22 | >
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:20:1]
@@ -1485,7 +1542,6 @@
  20 | article > p > a {}
     : ^^^^^^^^^^^^^^^^^^
  21 | article
- 22 | >
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:20:1]
@@ -1626,7 +1682,6 @@
  20 | article > p > a {}
     :                 ^^
  21 | article
- 22 | >
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:20:1]
@@ -1644,7 +1699,6 @@
  24 | |   >
  25 | `-> a {}
  26 |     div p {}
- 27 |     .class p {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:21:1]
@@ -1655,7 +1709,6 @@
  24 | |   >
  25 | `-> a {}
  26 |     div p {}
- 27 |     .class p {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:21:1]
@@ -1683,7 +1736,6 @@
  21 | article
     : ^^^^^^^
  22 | >
- 23 | p
     `----
   x TypeSelector
     ,-[$DIR/tests/fixture/selector/complex/input.css:21:1]
@@ -1691,7 +1743,6 @@
  21 | article
     : ^^^^^^^
  22 | >
- 23 | p
     `----
   x TagNameSelector
     ,-[$DIR/tests/fixture/selector/complex/input.css:21:1]
@@ -1699,7 +1750,6 @@
  21 | article
     : ^^^^^^^
  22 | >
- 23 | p
     `----
   x WqName
     ,-[$DIR/tests/fixture/selector/complex/input.css:21:1]
@@ -1707,7 +1757,6 @@
  21 | article
     : ^^^^^^^
  22 | >
- 23 | p
     `----
   x Ident
     ,-[$DIR/tests/fixture/selector/complex/input.css:21:1]
@@ -1715,7 +1764,6 @@
  21 | article
     : ^^^^^^^
  22 | >
- 23 | p
     `----
   x Combinator
     ,-[$DIR/tests/fixture/selector/complex/input.css:22:1]
@@ -1723,7 +1771,6 @@
  22 | >
     : ^
  23 | p
- 24 | >
     `----
   x CompoundSelector
     ,-[$DIR/tests/fixture/selector/complex/input.css:23:1]
@@ -1731,7 +1778,6 @@
  23 | p
     : ^
  24 | >
- 25 | a {}
     `----
   x TypeSelector
     ,-[$DIR/tests/fixture/selector/complex/input.css:23:1]
@@ -1739,7 +1785,6 @@
  23 | p
     : ^
  24 | >
- 25 | a {}
     `----
   x TagNameSelector
     ,-[$DIR/tests/fixture/selector/complex/input.css:23:1]
@@ -1747,7 +1792,6 @@
  23 | p
     : ^
  24 | >
- 25 | a {}
     `----
   x WqName
     ,-[$DIR/tests/fixture/selector/complex/input.css:23:1]
@@ -1755,7 +1799,6 @@
  23 | p
     : ^
  24 | >
- 25 | a {}
     `----
   x Ident
     ,-[$DIR/tests/fixture/selector/complex/input.css:23:1]
@@ -1763,7 +1806,6 @@
  23 | p
     : ^
  24 | >
- 25 | a {}
     `----
   x Combinator
     ,-[$DIR/tests/fixture/selector/complex/input.css:24:1]
@@ -1771,7 +1813,6 @@
  24 | >
     : ^
  25 | a {}
- 26 | div p {}
     `----
   x CompoundSelector
     ,-[$DIR/tests/fixture/selector/complex/input.css:25:1]
@@ -1814,7 +1855,6 @@
  25 | a {}
     :   ^^
  26 | div p {}
- 27 | .class p {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:25:1]
@@ -1829,7 +1869,6 @@
  26 | div p {}
     : ^^^^^^^^
  27 | .class p {}
- 28 | div .class {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:26:1]
@@ -1837,7 +1876,6 @@
  26 | div p {}
     : ^^^^^^^^
  27 | .class p {}
- 28 | div .class {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:26:1]
@@ -1936,7 +1974,6 @@
  26 | div p {}
     :       ^^
  27 | .class p {}
- 28 | div .class {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:26:1]
@@ -1951,7 +1988,6 @@
  27 | .class p {}
     : ^^^^^^^^^^^
  28 | div .class {}
- 29 | .class .class {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:27:1]
@@ -1959,7 +1995,6 @@
  27 | .class p {}
     : ^^^^^^^^^^^
  28 | div .class {}
- 29 | .class .class {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:27:1]
@@ -2051,7 +2086,6 @@
  27 | .class p {}
     :          ^^
  28 | div .class {}
- 29 | .class .class {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:27:1]
@@ -2066,7 +2100,6 @@
  28 | div .class {}
     : ^^^^^^^^^^^^^
  29 | .class .class {}
- 30 | #id p {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:28:1]
@@ -2074,7 +2107,6 @@
  28 | div .class {}
     : ^^^^^^^^^^^^^
  29 | .class .class {}
- 30 | #id p {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:28:1]
@@ -2166,7 +2198,6 @@
  28 | div .class {}
     :            ^^
  29 | .class .class {}
- 30 | #id p {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:28:1]
@@ -2181,7 +2212,6 @@
  29 | .class .class {}
     : ^^^^^^^^^^^^^^^^
  30 | #id p {}
- 31 | div #id {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:29:1]
@@ -2189,7 +2219,6 @@
  29 | .class .class {}
     : ^^^^^^^^^^^^^^^^
  30 | #id p {}
- 31 | div #id {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:29:1]
@@ -2274,7 +2303,6 @@
  29 | .class .class {}
     :               ^^
  30 | #id p {}
- 31 | div #id {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:29:1]
@@ -2289,7 +2317,6 @@
  30 | #id p {}
     : ^^^^^^^^
  31 | div #id {}
- 32 | #id #id {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:30:1]
@@ -2297,7 +2324,6 @@
  30 | #id p {}
     : ^^^^^^^^
  31 | div #id {}
- 32 | #id #id {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:30:1]
@@ -2389,7 +2415,6 @@
  30 | #id p {}
     :       ^^
  31 | div #id {}
- 32 | #id #id {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:30:1]
@@ -2404,7 +2429,6 @@
  31 | div #id {}
     : ^^^^^^^^^^
  32 | #id #id {}
- 33 | [attribute] p {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:31:1]
@@ -2412,7 +2436,6 @@
  31 | div #id {}
     : ^^^^^^^^^^
  32 | #id #id {}
- 33 | [attribute] p {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:31:1]
@@ -2504,7 +2527,6 @@
  31 | div #id {}
     :         ^^
  32 | #id #id {}
- 33 | [attribute] p {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:31:1]
@@ -2519,7 +2541,6 @@
  32 | #id #id {}
     : ^^^^^^^^^^
  33 | [attribute] p {}
- 34 | div [attribute] {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:32:1]
@@ -2527,7 +2548,6 @@
  32 | #id #id {}
     : ^^^^^^^^^^
  33 | [attribute] p {}
- 34 | div [attribute] {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:32:1]
@@ -2612,7 +2632,6 @@
  32 | #id #id {}
     :         ^^
  33 | [attribute] p {}
- 34 | div [attribute] {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:32:1]
@@ -2627,7 +2646,6 @@
  33 | [attribute] p {}
     : ^^^^^^^^^^^^^^^^
  34 | div [attribute] {}
- 35 | [attribute] [src] {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:33:1]
@@ -2635,7 +2653,6 @@
  33 | [attribute] p {}
     : ^^^^^^^^^^^^^^^^
  34 | div [attribute] {}
- 35 | [attribute] [src] {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:33:1]
@@ -2734,7 +2751,6 @@
  33 | [attribute] p {}
     :               ^^
  34 | div [attribute] {}
- 35 | [attribute] [src] {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:33:1]
@@ -2749,7 +2765,6 @@
  34 | div [attribute] {}
     : ^^^^^^^^^^^^^^^^^^
  35 | [attribute] [src] {}
- 36 | div > p {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:34:1]
@@ -2757,7 +2772,6 @@
  34 | div [attribute] {}
     : ^^^^^^^^^^^^^^^^^^
  35 | [attribute] [src] {}
- 36 | div > p {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:34:1]
@@ -2856,7 +2870,6 @@
  34 | div [attribute] {}
     :                 ^^
  35 | [attribute] [src] {}
- 36 | div > p {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:34:1]
@@ -2871,7 +2884,6 @@
  35 | [attribute] [src] {}
     : ^^^^^^^^^^^^^^^^^^^^
  36 | div > p {}
- 37 | .class > p {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:35:1]
@@ -2879,7 +2891,6 @@
  35 | [attribute] [src] {}
     : ^^^^^^^^^^^^^^^^^^^^
  36 | div > p {}
- 37 | .class > p {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:35:1]
@@ -2978,7 +2989,6 @@
  35 | [attribute] [src] {}
     :                   ^^
  36 | div > p {}
- 37 | .class > p {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:35:1]
@@ -2993,7 +3003,6 @@
  36 | div > p {}
     : ^^^^^^^^^^
  37 | .class > p {}
- 38 | div > .class {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:36:1]
@@ -3001,7 +3010,6 @@
  36 | div > p {}
     : ^^^^^^^^^^
  37 | .class > p {}
- 38 | div > .class {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:36:1]
@@ -3100,7 +3108,6 @@
  36 | div > p {}
     :         ^^
  37 | .class > p {}
- 38 | div > .class {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:36:1]
@@ -3115,7 +3122,6 @@
  37 | .class > p {}
     : ^^^^^^^^^^^^^
  38 | div > .class {}
- 39 | .class > .class {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:37:1]
@@ -3123,7 +3129,6 @@
  37 | .class > p {}
     : ^^^^^^^^^^^^^
  38 | div > .class {}
- 39 | .class > .class {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:37:1]
@@ -3215,7 +3220,6 @@
  37 | .class > p {}
     :            ^^
  38 | div > .class {}
- 39 | .class > .class {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:37:1]
@@ -3230,7 +3234,6 @@
  38 | div > .class {}
     : ^^^^^^^^^^^^^^^
  39 | .class > .class {}
- 40 | #id > p {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:38:1]
@@ -3238,7 +3241,6 @@
  38 | div > .class {}
     : ^^^^^^^^^^^^^^^
  39 | .class > .class {}
- 40 | #id > p {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:38:1]
@@ -3330,7 +3332,6 @@
  38 | div > .class {}
     :              ^^
  39 | .class > .class {}
- 40 | #id > p {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:38:1]
@@ -3345,7 +3346,6 @@
  39 | .class > .class {}
     : ^^^^^^^^^^^^^^^^^^
  40 | #id > p {}
- 41 | div > #id {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:39:1]
@@ -3353,7 +3353,6 @@
  39 | .class > .class {}
     : ^^^^^^^^^^^^^^^^^^
  40 | #id > p {}
- 41 | div > #id {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:39:1]
@@ -3438,7 +3437,6 @@
  39 | .class > .class {}
     :                 ^^
  40 | #id > p {}
- 41 | div > #id {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:39:1]
@@ -3453,7 +3451,6 @@
  40 | #id > p {}
     : ^^^^^^^^^^
  41 | div > #id {}
- 42 | #id > #id {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:40:1]
@@ -3461,7 +3458,6 @@
  40 | #id > p {}
     : ^^^^^^^^^^
  41 | div > #id {}
- 42 | #id > #id {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:40:1]
@@ -3553,7 +3549,6 @@
  40 | #id > p {}
     :         ^^
  41 | div > #id {}
- 42 | #id > #id {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:40:1]
@@ -3568,7 +3563,6 @@
  41 | div > #id {}
     : ^^^^^^^^^^^^
  42 | #id > #id {}
- 43 | [attribute] > p {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:41:1]
@@ -3576,7 +3570,6 @@
  41 | div > #id {}
     : ^^^^^^^^^^^^
  42 | #id > #id {}
- 43 | [attribute] > p {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:41:1]
@@ -3668,7 +3661,6 @@
  41 | div > #id {}
     :           ^^
  42 | #id > #id {}
- 43 | [attribute] > p {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:41:1]
@@ -3683,7 +3675,6 @@
  42 | #id > #id {}
     : ^^^^^^^^^^^^
  43 | [attribute] > p {}
- 44 | div > [attribute] {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:42:1]
@@ -3691,7 +3682,6 @@
  42 | #id > #id {}
     : ^^^^^^^^^^^^
  43 | [attribute] > p {}
- 44 | div > [attribute] {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:42:1]
@@ -3776,7 +3766,6 @@
  42 | #id > #id {}
     :           ^^
  43 | [attribute] > p {}
- 44 | div > [attribute] {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:42:1]
@@ -3791,7 +3780,6 @@
  43 | [attribute] > p {}
     : ^^^^^^^^^^^^^^^^^^
  44 | div > [attribute] {}
- 45 | [attribute] > [src] {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:43:1]
@@ -3799,7 +3787,6 @@
  43 | [attribute] > p {}
     : ^^^^^^^^^^^^^^^^^^
  44 | div > [attribute] {}
- 45 | [attribute] > [src] {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:43:1]
@@ -3898,7 +3885,6 @@
  43 | [attribute] > p {}
     :                 ^^
  44 | div > [attribute] {}
- 45 | [attribute] > [src] {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:43:1]
@@ -3913,7 +3899,6 @@
  44 | div > [attribute] {}
     : ^^^^^^^^^^^^^^^^^^^^
  45 | [attribute] > [src] {}
- 46 | div + p {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:44:1]
@@ -3921,7 +3906,6 @@
  44 | div > [attribute] {}
     : ^^^^^^^^^^^^^^^^^^^^
  45 | [attribute] > [src] {}
- 46 | div + p {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:44:1]
@@ -4020,7 +4004,6 @@
  44 | div > [attribute] {}
     :                   ^^
  45 | [attribute] > [src] {}
- 46 | div + p {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:44:1]
@@ -4035,7 +4018,6 @@
  45 | [attribute] > [src] {}
     : ^^^^^^^^^^^^^^^^^^^^^^
  46 | div + p {}
- 47 | .class + p {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:45:1]
@@ -4043,7 +4025,6 @@
  45 | [attribute] > [src] {}
     : ^^^^^^^^^^^^^^^^^^^^^^
  46 | div + p {}
- 47 | .class + p {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:45:1]
@@ -4142,7 +4123,6 @@
  45 | [attribute] > [src] {}
     :                     ^^
  46 | div + p {}
- 47 | .class + p {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:45:1]
@@ -4157,7 +4137,6 @@
  46 | div + p {}
     : ^^^^^^^^^^
  47 | .class + p {}
- 48 | div + .class {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:46:1]
@@ -4165,7 +4144,6 @@
  46 | div + p {}
     : ^^^^^^^^^^
  47 | .class + p {}
- 48 | div + .class {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:46:1]
@@ -4264,7 +4242,6 @@
  46 | div + p {}
     :         ^^
  47 | .class + p {}
- 48 | div + .class {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:46:1]
@@ -4279,7 +4256,6 @@
  47 | .class + p {}
     : ^^^^^^^^^^^^^
  48 | div + .class {}
- 49 | .class + .class {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:47:1]
@@ -4287,7 +4263,6 @@
  47 | .class + p {}
     : ^^^^^^^^^^^^^
  48 | div + .class {}
- 49 | .class + .class {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:47:1]
@@ -4379,7 +4354,6 @@
  47 | .class + p {}
     :            ^^
  48 | div + .class {}
- 49 | .class + .class {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:47:1]
@@ -4394,7 +4368,6 @@
  48 | div + .class {}
     : ^^^^^^^^^^^^^^^
  49 | .class + .class {}
- 50 | #id + p {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:48:1]
@@ -4402,7 +4375,6 @@
  48 | div + .class {}
     : ^^^^^^^^^^^^^^^
  49 | .class + .class {}
- 50 | #id + p {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:48:1]
@@ -4494,7 +4466,6 @@
  48 | div + .class {}
     :              ^^
  49 | .class + .class {}
- 50 | #id + p {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:48:1]
@@ -4509,7 +4480,6 @@
  49 | .class + .class {}
     : ^^^^^^^^^^^^^^^^^^
  50 | #id + p {}
- 51 | div + #id {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:49:1]
@@ -4517,7 +4487,6 @@
  49 | .class + .class {}
     : ^^^^^^^^^^^^^^^^^^
  50 | #id + p {}
- 51 | div + #id {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:49:1]
@@ -4602,7 +4571,6 @@
  49 | .class + .class {}
     :                 ^^
  50 | #id + p {}
- 51 | div + #id {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:49:1]
@@ -4617,7 +4585,6 @@
  50 | #id + p {}
     : ^^^^^^^^^^
  51 | div + #id {}
- 52 | #id + #id {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:50:1]
@@ -4625,7 +4592,6 @@
  50 | #id + p {}
     : ^^^^^^^^^^
  51 | div + #id {}
- 52 | #id + #id {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:50:1]
@@ -4717,7 +4683,6 @@
  50 | #id + p {}
     :         ^^
  51 | div + #id {}
- 52 | #id + #id {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:50:1]
@@ -4732,7 +4697,6 @@
  51 | div + #id {}
     : ^^^^^^^^^^^^
  52 | #id + #id {}
- 53 | [attribute] + p {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:51:1]
@@ -4740,7 +4704,6 @@
  51 | div + #id {}
     : ^^^^^^^^^^^^
  52 | #id + #id {}
- 53 | [attribute] + p {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:51:1]
@@ -4832,7 +4795,6 @@
  51 | div + #id {}
     :           ^^
  52 | #id + #id {}
- 53 | [attribute] + p {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:51:1]
@@ -4847,7 +4809,6 @@
  52 | #id + #id {}
     : ^^^^^^^^^^^^
  53 | [attribute] + p {}
- 54 | div + [attribute] {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:52:1]
@@ -4855,7 +4816,6 @@
  52 | #id + #id {}
     : ^^^^^^^^^^^^
  53 | [attribute] + p {}
- 54 | div + [attribute] {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:52:1]
@@ -4940,7 +4900,6 @@
  52 | #id + #id {}
     :           ^^
  53 | [attribute] + p {}
- 54 | div + [attribute] {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:52:1]
@@ -4955,7 +4914,6 @@
  53 | [attribute] + p {}
     : ^^^^^^^^^^^^^^^^^^
  54 | div + [attribute] {}
- 55 | [attribute] + [src] {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:53:1]
@@ -4963,7 +4921,6 @@
  53 | [attribute] + p {}
     : ^^^^^^^^^^^^^^^^^^
  54 | div + [attribute] {}
- 55 | [attribute] + [src] {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:53:1]
@@ -5062,7 +5019,6 @@
  53 | [attribute] + p {}
     :                 ^^
  54 | div + [attribute] {}
- 55 | [attribute] + [src] {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:53:1]
@@ -5077,7 +5033,6 @@
  54 | div + [attribute] {}
     : ^^^^^^^^^^^^^^^^^^^^
  55 | [attribute] + [src] {}
- 56 | div ~ p {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:54:1]
@@ -5085,7 +5040,6 @@
  54 | div + [attribute] {}
     : ^^^^^^^^^^^^^^^^^^^^
  55 | [attribute] + [src] {}
- 56 | div ~ p {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:54:1]
@@ -5184,7 +5138,6 @@
  54 | div + [attribute] {}
     :                   ^^
  55 | [attribute] + [src] {}
- 56 | div ~ p {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:54:1]
@@ -5199,7 +5152,6 @@
  55 | [attribute] + [src] {}
     : ^^^^^^^^^^^^^^^^^^^^^^
  56 | div ~ p {}
- 57 | .class ~ p {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:55:1]
@@ -5207,7 +5159,6 @@
  55 | [attribute] + [src] {}
     : ^^^^^^^^^^^^^^^^^^^^^^
  56 | div ~ p {}
- 57 | .class ~ p {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:55:1]
@@ -5306,7 +5257,6 @@
  55 | [attribute] + [src] {}
     :                     ^^
  56 | div ~ p {}
- 57 | .class ~ p {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:55:1]
@@ -5321,7 +5271,6 @@
  56 | div ~ p {}
     : ^^^^^^^^^^
  57 | .class ~ p {}
- 58 | div ~ .class {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:56:1]
@@ -5329,7 +5278,6 @@
  56 | div ~ p {}
     : ^^^^^^^^^^
  57 | .class ~ p {}
- 58 | div ~ .class {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:56:1]
@@ -5428,7 +5376,6 @@
  56 | div ~ p {}
     :         ^^
  57 | .class ~ p {}
- 58 | div ~ .class {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:56:1]
@@ -5443,7 +5390,6 @@
  57 | .class ~ p {}
     : ^^^^^^^^^^^^^
  58 | div ~ .class {}
- 59 | .class ~ .class {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:57:1]
@@ -5451,7 +5397,6 @@
  57 | .class ~ p {}
     : ^^^^^^^^^^^^^
  58 | div ~ .class {}
- 59 | .class ~ .class {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:57:1]
@@ -5543,7 +5488,6 @@
  57 | .class ~ p {}
     :            ^^
  58 | div ~ .class {}
- 59 | .class ~ .class {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:57:1]
@@ -5558,7 +5502,6 @@
  58 | div ~ .class {}
     : ^^^^^^^^^^^^^^^
  59 | .class ~ .class {}
- 60 | #id ~ p {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:58:1]
@@ -5566,7 +5509,6 @@
  58 | div ~ .class {}
     : ^^^^^^^^^^^^^^^
  59 | .class ~ .class {}
- 60 | #id ~ p {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:58:1]
@@ -5658,7 +5600,6 @@
  58 | div ~ .class {}
     :              ^^
  59 | .class ~ .class {}
- 60 | #id ~ p {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:58:1]
@@ -5673,7 +5614,6 @@
  59 | .class ~ .class {}
     : ^^^^^^^^^^^^^^^^^^
  60 | #id ~ p {}
- 61 | div ~ #id {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:59:1]
@@ -5681,7 +5621,6 @@
  59 | .class ~ .class {}
     : ^^^^^^^^^^^^^^^^^^
  60 | #id ~ p {}
- 61 | div ~ #id {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:59:1]
@@ -5766,7 +5705,6 @@
  59 | .class ~ .class {}
     :                 ^^
  60 | #id ~ p {}
- 61 | div ~ #id {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:59:1]
@@ -5781,7 +5719,6 @@
  60 | #id ~ p {}
     : ^^^^^^^^^^
  61 | div ~ #id {}
- 62 | #id ~ #id {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:60:1]
@@ -5789,7 +5726,6 @@
  60 | #id ~ p {}
     : ^^^^^^^^^^
  61 | div ~ #id {}
- 62 | #id ~ #id {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:60:1]
@@ -5881,7 +5817,6 @@
  60 | #id ~ p {}
     :         ^^
  61 | div ~ #id {}
- 62 | #id ~ #id {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:60:1]
@@ -5896,7 +5831,6 @@
  61 | div ~ #id {}
     : ^^^^^^^^^^^^
  62 | #id ~ #id {}
- 63 | [attribute] ~ p {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:61:1]
@@ -5904,7 +5838,6 @@
  61 | div ~ #id {}
     : ^^^^^^^^^^^^
  62 | #id ~ #id {}
- 63 | [attribute] ~ p {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:61:1]
@@ -5996,7 +5929,6 @@
  61 | div ~ #id {}
     :           ^^
  62 | #id ~ #id {}
- 63 | [attribute] ~ p {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:61:1]
@@ -6011,7 +5943,6 @@
  62 | #id ~ #id {}
     : ^^^^^^^^^^^^
  63 | [attribute] ~ p {}
- 64 | div ~ [attribute] {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:62:1]
@@ -6019,7 +5950,6 @@
  62 | #id ~ #id {}
     : ^^^^^^^^^^^^
  63 | [attribute] ~ p {}
- 64 | div ~ [attribute] {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:62:1]
@@ -6104,7 +6034,6 @@
  62 | #id ~ #id {}
     :           ^^
  63 | [attribute] ~ p {}
- 64 | div ~ [attribute] {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:62:1]
@@ -6119,7 +6048,6 @@
  63 | [attribute] ~ p {}
     : ^^^^^^^^^^^^^^^^^^
  64 | div ~ [attribute] {}
- 65 | [attribute] ~ [src] {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:63:1]
@@ -6127,7 +6055,6 @@
  63 | [attribute] ~ p {}
     : ^^^^^^^^^^^^^^^^^^
  64 | div ~ [attribute] {}
- 65 | [attribute] ~ [src] {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:63:1]
@@ -6226,7 +6153,6 @@
  63 | [attribute] ~ p {}
     :                 ^^
  64 | div ~ [attribute] {}
- 65 | [attribute] ~ [src] {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:63:1]
@@ -6241,7 +6167,6 @@
  64 | div ~ [attribute] {}
     : ^^^^^^^^^^^^^^^^^^^^
  65 | [attribute] ~ [src] {}
- 66 | a:hover [attribute] {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:64:1]
@@ -6249,7 +6174,6 @@
  64 | div ~ [attribute] {}
     : ^^^^^^^^^^^^^^^^^^^^
  65 | [attribute] ~ [src] {}
- 66 | a:hover [attribute] {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:64:1]
@@ -6348,7 +6272,6 @@
  64 | div ~ [attribute] {}
     :                   ^^
  65 | [attribute] ~ [src] {}
- 66 | a:hover [attribute] {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:64:1]
@@ -6363,7 +6286,6 @@
  65 | [attribute] ~ [src] {}
     : ^^^^^^^^^^^^^^^^^^^^^^
  66 | a:hover [attribute] {}
- 67 | a:hover #id {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:65:1]
@@ -6371,7 +6293,6 @@
  65 | [attribute] ~ [src] {}
     : ^^^^^^^^^^^^^^^^^^^^^^
  66 | a:hover [attribute] {}
- 67 | a:hover #id {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:65:1]
@@ -6470,7 +6391,6 @@
  65 | [attribute] ~ [src] {}
     :                     ^^
  66 | a:hover [attribute] {}
- 67 | a:hover #id {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:65:1]
@@ -6485,7 +6405,6 @@
  66 | a:hover [attribute] {}
     : ^^^^^^^^^^^^^^^^^^^^^^
  67 | a:hover #id {}
- 68 | a:hover .class {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:66:1]
@@ -6493,7 +6412,6 @@
  66 | a:hover [attribute] {}
     : ^^^^^^^^^^^^^^^^^^^^^^
  67 | a:hover #id {}
- 68 | a:hover .class {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:66:1]
@@ -6613,7 +6531,6 @@
  66 | a:hover [attribute] {}
     :                     ^^
  67 | a:hover #id {}
- 68 | a:hover .class {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:66:1]
@@ -6628,7 +6545,6 @@
  67 | a:hover #id {}
     : ^^^^^^^^^^^^^^
  68 | a:hover .class {}
- 69 | a:hover div#thing {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:67:1]
@@ -6636,7 +6552,6 @@
  67 | a:hover #id {}
     : ^^^^^^^^^^^^^^
  68 | a:hover .class {}
- 69 | a:hover div#thing {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:67:1]
@@ -6749,7 +6664,6 @@
  67 | a:hover #id {}
     :             ^^
  68 | a:hover .class {}
- 69 | a:hover div#thing {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:67:1]
@@ -6764,7 +6678,6 @@
  68 | a:hover .class {}
     : ^^^^^^^^^^^^^^^^^
  69 | a:hover div#thing {}
- 70 | a + a[href='place'] {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:68:1]
@@ -6772,7 +6685,6 @@
  68 | a:hover .class {}
     : ^^^^^^^^^^^^^^^^^
  69 | a:hover div#thing {}
- 70 | a + a[href='place'] {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:68:1]
@@ -6885,7 +6797,6 @@
  68 | a:hover .class {}
     :                ^^
  69 | a:hover div#thing {}
- 70 | a + a[href='place'] {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:68:1]
@@ -6900,7 +6811,6 @@
  69 | a:hover div#thing {}
     : ^^^^^^^^^^^^^^^^^^^^
  70 | a + a[href='place'] {}
- 71 | ul.list + a {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:69:1]
@@ -6908,7 +6818,6 @@
  69 | a:hover div#thing {}
     : ^^^^^^^^^^^^^^^^^^^^
  70 | a + a[href='place'] {}
- 71 | ul.list + a {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:69:1]
@@ -7049,7 +6958,6 @@
  69 | a:hover div#thing {}
     :                   ^^
  70 | a + a[href='place'] {}
- 71 | ul.list + a {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:69:1]
@@ -7064,7 +6972,6 @@
  70 | a + a[href='place'] {}
     : ^^^^^^^^^^^^^^^^^^^^^^
  71 | ul.list + a {}
- 72 | .foo ~ a + bar {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:70:1]
@@ -7072,7 +6979,6 @@
  70 | a + a[href='place'] {}
     : ^^^^^^^^^^^^^^^^^^^^^^
  71 | ul.list + a {}
- 72 | .foo ~ a + bar {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:70:1]
@@ -7220,7 +7126,6 @@
  70 | a + a[href='place'] {}
     :                     ^^
  71 | ul.list + a {}
- 72 | .foo ~ a + bar {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:70:1]
@@ -7235,7 +7140,6 @@
  71 | ul.list + a {}
     : ^^^^^^^^^^^^^^
  72 | .foo ~ a + bar {}
- 73 | a+ a {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:71:1]
@@ -7243,7 +7147,6 @@
  71 | ul.list + a {}
     : ^^^^^^^^^^^^^^
  72 | .foo ~ a + bar {}
- 73 | a+ a {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:71:1]
@@ -7363,7 +7266,6 @@
  71 | ul.list + a {}
     :             ^^
  72 | .foo ~ a + bar {}
- 73 | a+ a {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:71:1]
@@ -7378,7 +7280,6 @@
  72 | .foo ~ a + bar {}
     : ^^^^^^^^^^^^^^^^^
  73 | a+ a {}
- 74 | a> a {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:72:1]
@@ -7386,7 +7287,6 @@
  72 | .foo ~ a + bar {}
     : ^^^^^^^^^^^^^^^^^
  73 | a+ a {}
- 74 | a> a {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:72:1]
@@ -7520,7 +7420,6 @@
  72 | .foo ~ a + bar {}
     :                ^^
  73 | a+ a {}
- 74 | a> a {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:72:1]
@@ -7535,7 +7434,6 @@
  73 | a+ a {}
     : ^^^^^^^
  74 | a> a {}
- 75 | a~ a {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:73:1]
@@ -7543,7 +7441,6 @@
  73 | a+ a {}
     : ^^^^^^^
  74 | a> a {}
- 75 | a~ a {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:73:1]
@@ -7642,7 +7539,6 @@
  73 | a+ a {}
     :      ^^
  74 | a> a {}
- 75 | a~ a {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:73:1]
@@ -7657,7 +7553,6 @@
  74 | a> a {}
     : ^^^^^^^
  75 | a~ a {}
- 76 | a +a {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:74:1]
@@ -7665,7 +7560,6 @@
  74 | a> a {}
     : ^^^^^^^
  75 | a~ a {}
- 76 | a +a {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:74:1]
@@ -7764,7 +7658,6 @@
  74 | a> a {}
     :      ^^
  75 | a~ a {}
- 76 | a +a {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:74:1]
@@ -7779,7 +7672,6 @@
  75 | a~ a {}
     : ^^^^^^^
  76 | a +a {}
- 77 | a >a {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:75:1]
@@ -7787,7 +7679,6 @@
  75 | a~ a {}
     : ^^^^^^^
  76 | a +a {}
- 77 | a >a {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:75:1]
@@ -7886,7 +7777,6 @@
  75 | a~ a {}
     :      ^^
  76 | a +a {}
- 77 | a >a {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:75:1]
@@ -7901,7 +7791,6 @@
  76 | a +a {}
     : ^^^^^^^
  77 | a >a {}
- 78 | a ~a {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:76:1]
@@ -7909,7 +7798,6 @@
  76 | a +a {}
     : ^^^^^^^
  77 | a >a {}
- 78 | a ~a {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:76:1]
@@ -8008,7 +7896,6 @@
  76 | a +a {}
     :      ^^
  77 | a >a {}
- 78 | a ~a {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:76:1]
@@ -8023,7 +7910,6 @@
  77 | a >a {}
     : ^^^^^^^
  78 | a ~a {}
- 79 | a+a {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:77:1]
@@ -8031,7 +7917,6 @@
  77 | a >a {}
     : ^^^^^^^
  78 | a ~a {}
- 79 | a+a {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:77:1]
@@ -8130,7 +8015,6 @@
  77 | a >a {}
     :      ^^
  78 | a ~a {}
- 79 | a+a {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:77:1]
@@ -8145,7 +8029,6 @@
  78 | a ~a {}
     : ^^^^^^^
  79 | a+a {}
- 80 | a>a {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:78:1]
@@ -8153,7 +8036,6 @@
  78 | a ~a {}
     : ^^^^^^^
  79 | a+a {}
- 80 | a>a {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:78:1]
@@ -8252,7 +8134,6 @@
  78 | a ~a {}
     :      ^^
  79 | a+a {}
- 80 | a>a {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:78:1]
@@ -8267,7 +8148,6 @@
  79 | a+a {}
     : ^^^^^^
  80 | a>a {}
- 81 | a~a {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:79:1]
@@ -8275,7 +8155,6 @@
  79 | a+a {}
     : ^^^^^^
  80 | a>a {}
- 81 | a~a {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:79:1]
@@ -8374,7 +8253,6 @@
  79 | a+a {}
     :     ^^
  80 | a>a {}
- 81 | a~a {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:79:1]
@@ -8389,7 +8267,6 @@
  80 | a>a {}
     : ^^^^^^
  81 | a~a {}
- 82 | a [type='button'] {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:80:1]
@@ -8397,7 +8274,6 @@
  80 | a>a {}
     : ^^^^^^
  81 | a~a {}
- 82 | a [type='button'] {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:80:1]
@@ -8496,7 +8372,6 @@
  80 | a>a {}
     :     ^^
  81 | a~a {}
- 82 | a [type='button'] {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:80:1]
@@ -8511,7 +8386,6 @@
  81 | a~a {}
     : ^^^^^^
  82 | a [type='button'] {}
- 83 | a 
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:81:1]
@@ -8519,7 +8393,6 @@
  81 | a~a {}
     : ^^^^^^
  82 | a [type='button'] {}
- 83 | a 
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:81:1]
@@ -8618,7 +8491,6 @@
  81 | a~a {}
     :     ^^
  82 | a [type='button'] {}
- 83 | a 
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:81:1]
@@ -8633,7 +8505,6 @@
  82 | a [type='button'] {}
     : ^^^^^^^^^^^^^^^^^^^^
  83 | a 
- 84 | [type='button'] {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:82:1]
@@ -8641,7 +8512,6 @@
  82 | a [type='button'] {}
     : ^^^^^^^^^^^^^^^^^^^^
  83 | a 
- 84 | [type='button'] {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:82:1]
@@ -8761,7 +8631,6 @@
  82 | a [type='button'] {}
     :                   ^^
  83 | a 
- 84 | [type='button'] {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:82:1]
@@ -8776,7 +8645,6 @@
  83 | ,-> a 
  84 | `-> [type='button'] {}
  85 |     a   a {}
- 86 |     namespace|type#id > .foo {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:83:1]
@@ -8784,7 +8652,6 @@
  83 | ,-> a 
  84 | `-> [type='button'] {}
  85 |     a   a {}
- 86 |     namespace|type#id > .foo {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:83:1]
@@ -8905,7 +8772,6 @@
  84 | [type='button'] {}
     :                 ^^
  85 | a   a {}
- 86 | namespace|type#id > .foo {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:84:1]
@@ -8920,7 +8786,6 @@
  85 | a   a {}
     : ^^^^^^^^
  86 | namespace|type#id > .foo {}
- 87 | #id > .cl + .cl2 {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:85:1]
@@ -8928,7 +8793,6 @@
  85 | a   a {}
     : ^^^^^^^^
  86 | namespace|type#id > .foo {}
- 87 | #id > .cl + .cl2 {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:85:1]
@@ -9027,7 +8891,6 @@
  85 | a   a {}
     :       ^^
  86 | namespace|type#id > .foo {}
- 87 | #id > .cl + .cl2 {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:85:1]
@@ -9042,7 +8905,6 @@
  86 | namespace|type#id > .foo {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
  87 | #id > .cl + .cl2 {}
- 88 | a c, d + e h {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:86:1]
@@ -9050,7 +8912,6 @@
  86 | namespace|type#id > .foo {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
  87 | #id > .cl + .cl2 {}
- 88 | a c, d + e h {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:86:1]
@@ -9191,7 +9052,6 @@
  86 | namespace|type#id > .foo {}
     :                          ^^
  87 | #id > .cl + .cl2 {}
- 88 | a c, d + e h {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:86:1]
@@ -9206,7 +9066,6 @@
  87 | #id > .cl + .cl2 {}
     : ^^^^^^^^^^^^^^^^^^^
  88 | a c, d + e h {}
- 89 | a ~ h + d {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:87:1]
@@ -9214,7 +9073,6 @@
  87 | #id > .cl + .cl2 {}
     : ^^^^^^^^^^^^^^^^^^^
  88 | a c, d + e h {}
- 89 | a ~ h + d {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:87:1]
@@ -9334,7 +9192,6 @@
  87 | #id > .cl + .cl2 {}
     :                  ^^
  88 | a c, d + e h {}
- 89 | a ~ h + d {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:87:1]
@@ -9349,7 +9206,6 @@
  88 | a c, d + e h {}
     : ^^^^^^^^^^^^^^^
  89 | a ~ h + d {}
- 90 | div div div div div div div div div div div {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:88:1]
@@ -9357,7 +9213,6 @@
  88 | a c, d + e h {}
     : ^^^^^^^^^^^^^^^
  89 | a ~ h + d {}
- 90 | div div div div div div div div div div div {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:88:1]
@@ -9582,7 +9437,6 @@
  88 | a c, d + e h {}
     :              ^^
  89 | a ~ h + d {}
- 90 | div div div div div div div div div div div {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:88:1]
@@ -9597,7 +9451,6 @@
  89 | a ~ h + d {}
     : ^^^^^^^^^^^^
  90 | div div div div div div div div div div div {}
- 91 | [href][class][name] h1 > h2 {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:89:1]
@@ -9605,7 +9458,6 @@
  89 | a ~ h + d {}
     : ^^^^^^^^^^^^
  90 | div div div div div div div div div div div {}
- 91 | [href][class][name] h1 > h2 {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:89:1]
@@ -9746,7 +9598,6 @@
  89 | a ~ h + d {}
     :           ^^
  90 | div div div div div div div div div div div {}
- 91 | [href][class][name] h1 > h2 {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:89:1]
@@ -9761,7 +9612,6 @@
  90 | div div div div div div div div div div div {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  91 | [href][class][name] h1 > h2 {}
- 92 | [href*="test.com"][rel='external'][id][class~="test"] > [name] {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:90:1]
@@ -9769,7 +9619,6 @@
  90 | div div div div div div div div div div div {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  91 | [href][class][name] h1 > h2 {}
- 92 | [href*="test.com"][rel='external'][id][class~="test"] > [name] {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:90:1]
@@ -10246,7 +10095,6 @@
  90 | div div div div div div div div div div div {}
     :                                             ^^
  91 | [href][class][name] h1 > h2 {}
- 92 | [href*="test.com"][rel='external'][id][class~="test"] > [name] {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:90:1]
@@ -10261,7 +10109,6 @@
  91 | [href][class][name] h1 > h2 {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  92 | [href*="test.com"][rel='external'][id][class~="test"] > [name] {}
- 93 | [data-weird-attr*="Something=weird"], [data-weird-attr^="Something=weird"], [data-weird-attr$="Something=weird"], [data-weird-attr|="Something=weird"] {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:91:1]
@@ -10269,7 +10116,6 @@
  91 | [href][class][name] h1 > h2 {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  92 | [href*="test.com"][rel='external'][id][class~="test"] > [name] {}
- 93 | [data-weird-attr*="Something=weird"], [data-weird-attr^="Something=weird"], [data-weird-attr$="Something=weird"], [data-weird-attr|="Something=weird"] {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:91:1]
@@ -10466,7 +10312,6 @@
  91 | [href][class][name] h1 > h2 {}
     :                             ^^
  92 | [href*="test.com"][rel='external'][id][class~="test"] > [name] {}
- 93 | [data-weird-attr*="Something=weird"], [data-weird-attr^="Something=weird"], [data-weird-attr$="Something=weird"], [data-weird-attr|="Something=weird"] {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:91:1]
@@ -10481,7 +10326,6 @@
  92 | [href*="test.com"][rel='external'][id][class~="test"] > [name] {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  93 | [data-weird-attr*="Something=weird"], [data-weird-attr^="Something=weird"], [data-weird-attr$="Something=weird"], [data-weird-attr|="Something=weird"] {}
- 94 | * + * {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:92:1]
@@ -10489,7 +10333,6 @@
  92 | [href*="test.com"][rel='external'][id][class~="test"] > [name] {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  93 | [data-weird-attr*="Something=weird"], [data-weird-attr^="Something=weird"], [data-weird-attr$="Something=weird"], [data-weird-attr|="Something=weird"] {}
- 94 | * + * {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:92:1]
@@ -10735,7 +10578,6 @@
  92 | [href*="test.com"][rel='external'][id][class~="test"] > [name] {}
     :                                                                ^^
  93 | [data-weird-attr*="Something=weird"], [data-weird-attr^="Something=weird"], [data-weird-attr$="Something=weird"], [data-weird-attr|="Something=weird"] {}
- 94 | * + * {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:92:1]
@@ -10750,7 +10592,6 @@
  93 | [data-weird-attr*="Something=weird"], [data-weird-attr^="Something=weird"], [data-weird-attr$="Something=weird"], [data-weird-attr|="Something=weird"] {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  94 | * + * {}
- 95 | * * {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:93:1]
@@ -10758,7 +10599,6 @@
  93 | [data-weird-attr*="Something=weird"], [data-weird-attr^="Something=weird"], [data-weird-attr$="Something=weird"], [data-weird-attr|="Something=weird"] {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  94 | * + * {}
- 95 | * * {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:93:1]
@@ -11025,7 +10865,6 @@
  93 | [data-weird-attr*="Something=weird"], [data-weird-attr^="Something=weird"], [data-weird-attr$="Something=weird"], [data-weird-attr|="Something=weird"] {}
     :                                                                                                                                                        ^^
  94 | * + * {}
- 95 | * * {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:93:1]
@@ -11040,7 +10879,6 @@
  94 | * + * {}
     : ^^^^^^^^
  95 | * * {}
- 96 | *         * {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:94:1]
@@ -11048,7 +10886,6 @@
  94 | * + * {}
     : ^^^^^^^^
  95 | * * {}
- 96 | *         * {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:94:1]
@@ -11119,7 +10956,6 @@
  94 | * + * {}
     :       ^^
  95 | * * {}
- 96 | *         * {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:94:1]
@@ -11134,7 +10970,6 @@
  95 | * * {}
     : ^^^^^^
  96 | *         * {}
- 97 | *[href] *:not(*.green) {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:95:1]
@@ -11142,7 +10977,6 @@
  95 | * * {}
     : ^^^^^^
  96 | *         * {}
- 97 | *[href] *:not(*.green) {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:95:1]
@@ -11213,7 +11047,6 @@
  95 | * * {}
     :     ^^
  96 | *         * {}
- 97 | *[href] *:not(*.green) {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:95:1]
@@ -11228,7 +11061,6 @@
  96 | *         * {}
     : ^^^^^^^^^^^^^^
  97 | *[href] *:not(*.green) {}
- 98 | *::-webkit-media-controls-play-button {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:96:1]
@@ -11236,7 +11068,6 @@
  96 | *         * {}
     : ^^^^^^^^^^^^^^
  97 | *[href] *:not(*.green) {}
- 98 | *::-webkit-media-controls-play-button {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:96:1]
@@ -11307,7 +11138,6 @@
  96 | *         * {}
     :             ^^
  97 | *[href] *:not(*.green) {}
- 98 | *::-webkit-media-controls-play-button {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:96:1]
@@ -11322,7 +11152,6 @@
  97 | *[href] *:not(*.green) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^
  98 | *::-webkit-media-controls-play-button {}
- 99 | col.selected || td {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/complex/input.css:97:1]
@@ -11330,7 +11159,6 @@
  97 | *[href] *:not(*.green) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^
  98 | *::-webkit-media-controls-play-button {}
- 99 | col.selected || td {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:97:1]
@@ -11513,7 +11341,6 @@
  97 | *[href] *:not(*.green) {}
     :                        ^^
  98 | *::-webkit-media-controls-play-button {}
- 99 | col.selected || td {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:97:1]
@@ -11523,21 +11350,19 @@
  98 | *::-webkit-media-controls-play-button {}
     `----
   x Rule
-     ,-[$DIR/tests/fixture/selector/complex/input.css:98:1]
-  97 | *[href] *:not(*.green) {}
-  98 | *::-webkit-media-controls-play-button {}
-     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  99 | col.selected || td {}
- 100 | col.selected
-     `----
+    ,-[$DIR/tests/fixture/selector/complex/input.css:98:1]
+ 97 | *[href] *:not(*.green) {}
+ 98 | *::-webkit-media-controls-play-button {}
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 99 | col.selected || td {}
+    `----
   x QualifiedRule
-     ,-[$DIR/tests/fixture/selector/complex/input.css:98:1]
-  97 | *[href] *:not(*.green) {}
-  98 | *::-webkit-media-controls-play-button {}
-     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  99 | col.selected || td {}
- 100 | col.selected
-     `----
+    ,-[$DIR/tests/fixture/selector/complex/input.css:98:1]
+ 97 | *[href] *:not(*.green) {}
+ 98 | *::-webkit-media-controls-play-button {}
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 99 | col.selected || td {}
+    `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/complex/input.css:98:1]
  97 | *[href] *:not(*.green) {}
@@ -11595,13 +11420,12 @@
  99 | col.selected || td {}
     `----
   x SimpleBlock
-     ,-[$DIR/tests/fixture/selector/complex/input.css:98:1]
-  97 | *[href] *:not(*.green) {}
-  98 | *::-webkit-media-controls-play-button {}
-     :                                       ^^
-  99 | col.selected || td {}
- 100 | col.selected
-     `----
+    ,-[$DIR/tests/fixture/selector/complex/input.css:98:1]
+ 97 | *[href] *:not(*.green) {}
+ 98 | *::-webkit-media-controls-play-button {}
+    :                                       ^^
+ 99 | col.selected || td {}
+    `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/complex/input.css:98:1]
  97 | *[href] *:not(*.green) {}
@@ -11615,7 +11439,6 @@
   99 | col.selected || td {}
      : ^^^^^^^^^^^^^^^^^^^^^
  100 | col.selected
- 101 | || 
      `----
   x QualifiedRule
      ,-[$DIR/tests/fixture/selector/complex/input.css:99:1]
@@ -11623,7 +11446,6 @@
   99 | col.selected || td {}
      : ^^^^^^^^^^^^^^^^^^^^^
  100 | col.selected
- 101 | || 
      `----
   x SelectorList
      ,-[$DIR/tests/fixture/selector/complex/input.css:99:1]
@@ -11743,7 +11565,6 @@
   99 | col.selected || td {}
      :                    ^^
  100 | col.selected
- 101 | || 
      `----
   x LBrace
      ,-[$DIR/tests/fixture/selector/complex/input.css:99:1]
@@ -11777,7 +11598,6 @@
  101 | |   || 
  102 | `-> td
  103 |     {}
- 104 |     col.selected||td {}
      `----
   x ComplexSelector
      ,-[$DIR/tests/fixture/selector/complex/input.css:100:1]
@@ -11786,7 +11606,6 @@
  101 | |   || 
  102 | `-> td
  103 |     {}
- 104 |     col.selected||td {}
      `----
   x CompoundSelector
      ,-[$DIR/tests/fixture/selector/complex/input.css:100:1]
@@ -11794,7 +11613,6 @@
  100 | col.selected
      : ^^^^^^^^^^^^
  101 | || 
- 102 | td
      `----
   x TypeSelector
      ,-[$DIR/tests/fixture/selector/complex/input.css:100:1]
@@ -11830,7 +11648,6 @@
  100 | col.selected
      :    ^^^^^^^^^
  101 | || 
- 102 | td
      `----
   x ClassSelector
      ,-[$DIR/tests/fixture/selector/complex/input.css:100:1]
@@ -11838,7 +11655,6 @@
  100 | col.selected
      :    ^^^^^^^^^
  101 | || 
- 102 | td
      `----
   x Ident
      ,-[$DIR/tests/fixture/selector/complex/input.css:100:1]
@@ -11846,7 +11662,6 @@
  100 | col.selected
      :     ^^^^^^^^
  101 | || 
- 102 | td
      `----
   x Combinator
      ,-[$DIR/tests/fixture/selector/complex/input.css:101:1]
@@ -11861,7 +11676,6 @@
  102 | td
      : ^^
  103 | {}
- 104 | col.selected||td {}
      `----
   x TypeSelector
      ,-[$DIR/tests/fixture/selector/complex/input.css:102:1]
@@ -11869,7 +11683,6 @@
  102 | td
      : ^^
  103 | {}
- 104 | col.selected||td {}
      `----
   x TagNameSelector
      ,-[$DIR/tests/fixture/selector/complex/input.css:102:1]
@@ -11877,7 +11690,6 @@
  102 | td
      : ^^
  103 | {}
- 104 | col.selected||td {}
      `----
   x WqName
      ,-[$DIR/tests/fixture/selector/complex/input.css:102:1]
@@ -11885,7 +11697,6 @@
  102 | td
      : ^^
  103 | {}
- 104 | col.selected||td {}
      `----
   x Ident
      ,-[$DIR/tests/fixture/selector/complex/input.css:102:1]
@@ -11893,7 +11704,6 @@
  102 | td
      : ^^
  103 | {}
- 104 | col.selected||td {}
      `----
   x SimpleBlock
      ,-[$DIR/tests/fixture/selector/complex/input.css:103:1]

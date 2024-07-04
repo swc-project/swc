@@ -31,5 +31,4 @@ Object.defineProperty(x, "name", {
 //!  3 | x.name;
 //!  4 | x.middleInit;
 //!  5 | x.lastName;
-//!  6 | x.zip;
 //!    `----

@@ -1,4 +1,5 @@
   x Expected '{', got ';'
-   ,-[$DIR/tests/test262-parser/fail/6775a7f39c6b90fa.js:1:9]
- 1 |  
+   ,-[$DIR/tests/test262-parser/fail/6775a7f39c6b90fa.js:1:1]
+ 1 | class A;
+   :        ^
    `----

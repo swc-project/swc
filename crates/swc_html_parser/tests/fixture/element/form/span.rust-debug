@@ -1,29 +1,114 @@
   x Document
-   ,-[$DIR/tests/fixture/element/form/input.html:1:2]
- 1 | |    
-   `----
+    ,-[$DIR/tests/fixture/element/form/input.html:1:1]
+  1 | ,-> <!doctype html>
+  2 | |   <html lang="en">
+  3 | |   <head>
+  4 | |       <title>Document</title>
+  5 | |   </head>
+  6 | |   <body>
+  7 | |   
+  8 | |   <form action="" method="get" class="form-example">
+  9 | |       <div class="form-example">
+ 10 | |           <label for="name">Enter your name: </label>
+ 11 | |           <input type="text" name="name" id="name" required>
+ 12 | |       </div>
+ 13 | |       <div class="form-example">
+ 14 | |           <label for="email">Enter your email: </label>
+ 15 | |           <input type="email" name="email" id="email" required>
+ 16 | |       </div>
+ 17 | |       <div class="form-example">
+ 18 | |           <input type="submit" value="Subscribe!">
+ 19 | |       </div>
+ 20 | |   </form>
+ 21 | |   
+ 22 | |   <form method="post">
+ 23 | |       <fieldset>
+ 24 | |           <legend>Title</legend>
+ 25 | |           <label><input type="radio" name="radio"> Select me</label>
+ 26 | |       </fieldset>
+ 27 | |   </form>
+ 28 | |   
+ 29 | |   </body>
+ 30 | `-> </html>
+    `----
   x Child
    ,-[$DIR/tests/fixture/element/form/input.html:1:1]
  1 | <!doctype html>
    : ^^^^^^^^^^^^^^^
  2 | <html lang="en">
- 3 | <head>
    `----
   x DocumentType
    ,-[$DIR/tests/fixture/element/form/input.html:1:1]
  1 | <!doctype html>
    : ^^^^^^^^^^^^^^^
  2 | <html lang="en">
- 3 | <head>
    `----
   x Child
-   ,-[$DIR/tests/fixture/element/form/input.html:2:2]
- 2 | |    
-   `----
+    ,-[$DIR/tests/fixture/element/form/input.html:2:1]
+  1 |     <!doctype html>
+  2 | ,-> <html lang="en">
+  3 | |   <head>
+  4 | |       <title>Document</title>
+  5 | |   </head>
+  6 | |   <body>
+  7 | |   
+  8 | |   <form action="" method="get" class="form-example">
+  9 | |       <div class="form-example">
+ 10 | |           <label for="name">Enter your name: </label>
+ 11 | |           <input type="text" name="name" id="name" required>
+ 12 | |       </div>
+ 13 | |       <div class="form-example">
+ 14 | |           <label for="email">Enter your email: </label>
+ 15 | |           <input type="email" name="email" id="email" required>
+ 16 | |       </div>
+ 17 | |       <div class="form-example">
+ 18 | |           <input type="submit" value="Subscribe!">
+ 19 | |       </div>
+ 20 | |   </form>
+ 21 | |   
+ 22 | |   <form method="post">
+ 23 | |       <fieldset>
+ 24 | |           <legend>Title</legend>
+ 25 | |           <label><input type="radio" name="radio"> Select me</label>
+ 26 | |       </fieldset>
+ 27 | |   </form>
+ 28 | |   
+ 29 | |   </body>
+ 30 | `-> </html>
+    `----
   x Element
-   ,-[$DIR/tests/fixture/element/form/input.html:2:2]
- 2 | |    
-   `----
+    ,-[$DIR/tests/fixture/element/form/input.html:2:1]
+  1 |     <!doctype html>
+  2 | ,-> <html lang="en">
+  3 | |   <head>
+  4 | |       <title>Document</title>
+  5 | |   </head>
+  6 | |   <body>
+  7 | |   
+  8 | |   <form action="" method="get" class="form-example">
+  9 | |       <div class="form-example">
+ 10 | |           <label for="name">Enter your name: </label>
+ 11 | |           <input type="text" name="name" id="name" required>
+ 12 | |       </div>
+ 13 | |       <div class="form-example">
+ 14 | |           <label for="email">Enter your email: </label>
+ 15 | |           <input type="email" name="email" id="email" required>
+ 16 | |       </div>
+ 17 | |       <div class="form-example">
+ 18 | |           <input type="submit" value="Subscribe!">
+ 19 | |       </div>
+ 20 | |   </form>
+ 21 | |   
+ 22 | |   <form method="post">
+ 23 | |       <fieldset>
+ 24 | |           <legend>Title</legend>
+ 25 | |           <label><input type="radio" name="radio"> Select me</label>
+ 26 | |       </fieldset>
+ 27 | |   </form>
+ 28 | |   
+ 29 | |   </body>
+ 30 | `-> </html>
+    `----
   x Attribute
    ,-[$DIR/tests/fixture/element/form/input.html:2:1]
  1 | <!doctype html>
@@ -48,13 +133,15 @@
  6 |     <body>
    `----
   x Child
-   ,-[$DIR/tests/fixture/element/form/input.html:4:1]
+   ,-[$DIR/tests/fixture/element/form/input.html:3:1]
+ 2 |     <html lang="en">
  3 | ,-> <head>
  4 | `->     <title>Document</title>
  5 |     </head>
    `----
   x Text
-   ,-[$DIR/tests/fixture/element/form/input.html:4:1]
+   ,-[$DIR/tests/fixture/element/form/input.html:3:1]
+ 2 |     <html lang="en">
  3 | ,-> <head>
  4 | `->     <title>Document</title>
  5 |     </head>
@@ -65,7 +152,6 @@
  4 |     <title>Document</title>
    :     ^^^^^^^^^^^^^^^^^^^^^^^
  5 | </head>
- 6 | <body>
    `----
   x Element
    ,-[$DIR/tests/fixture/element/form/input.html:4:1]
@@ -73,7 +159,6 @@
  4 |     <title>Document</title>
    :     ^^^^^^^^^^^^^^^^^^^^^^^
  5 | </head>
- 6 | <body>
    `----
   x Child
    ,-[$DIR/tests/fixture/element/form/input.html:4:1]
@@ -90,27 +175,31 @@
  5 | </head>
    `----
   x Child
-   ,-[$DIR/tests/fixture/element/form/input.html:5:1]
+   ,-[$DIR/tests/fixture/element/form/input.html:4:1]
+ 3 | <head>
  4 |     <title>Document</title>
    :                            ^
  5 | </head>
  6 | <body>
    `----
   x Text
-   ,-[$DIR/tests/fixture/element/form/input.html:5:1]
+   ,-[$DIR/tests/fixture/element/form/input.html:4:1]
+ 3 | <head>
  4 |     <title>Document</title>
    :                            ^
  5 | </head>
  6 | <body>
    `----
   x Child
-   ,-[$DIR/tests/fixture/element/form/input.html:6:1]
+   ,-[$DIR/tests/fixture/element/form/input.html:5:1]
+ 4 |     <title>Document</title>
  5 | </head>
    :        ^
  6 | <body>
    `----
   x Text
-   ,-[$DIR/tests/fixture/element/form/input.html:6:1]
+   ,-[$DIR/tests/fixture/element/form/input.html:5:1]
+ 4 |     <title>Document</title>
  5 | </head>
    :        ^
  6 | <body>
@@ -174,14 +263,16 @@
  30 |     </html>
     `----
   x Child
-   ,-[$DIR/tests/fixture/element/form/input.html:7:1]
+   ,-[$DIR/tests/fixture/element/form/input.html:6:1]
+ 5 |     </head>
  6 | ,-> <body>
  7 | `-> 
  8 |     <form action="" method="get" class="form-example">
  9 |         <div class="form-example">
    `----
   x Text
-   ,-[$DIR/tests/fixture/element/form/input.html:7:1]
+   ,-[$DIR/tests/fixture/element/form/input.html:6:1]
+ 5 |     </head>
  6 | ,-> <body>
  7 | `-> 
  8 |     <form action="" method="get" class="form-example">
@@ -203,8 +294,6 @@
  18 | |           <input type="submit" value="Subscribe!">
  19 | |       </div>
  20 | `-> </form>
- 21 |     
- 22 |     <form method="post">
     `----
   x Element
     ,-[$DIR/tests/fixture/element/form/input.html:8:1]
@@ -222,8 +311,6 @@
  18 | |           <input type="submit" value="Subscribe!">
  19 | |       </div>
  20 | `-> </form>
- 21 |     
- 22 |     <form method="post">
     `----
   x Attribute
    ,-[$DIR/tests/fixture/element/form/input.html:8:1]
@@ -247,13 +334,15 @@
  9 |     <div class="form-example">
    `----
   x Child
-    ,-[$DIR/tests/fixture/element/form/input.html:9:1]
+    ,-[$DIR/tests/fixture/element/form/input.html:8:1]
+  7 |     
   8 | ,-> <form action="" method="get" class="form-example">
   9 | `->     <div class="form-example">
  10 |             <label for="name">Enter your name: </label>
     `----
   x Text
-    ,-[$DIR/tests/fixture/element/form/input.html:9:1]
+    ,-[$DIR/tests/fixture/element/form/input.html:8:1]
+  7 |     
   8 | ,-> <form action="" method="get" class="form-example">
   9 | `->     <div class="form-example">
  10 |             <label for="name">Enter your name: </label>
@@ -266,7 +355,6 @@
  11 | |           <input type="text" name="name" id="name" required>
  12 | `->     </div>
  13 |         <div class="form-example">
- 14 |             <label for="email">Enter your email: </label>
     `----
   x Element
     ,-[$DIR/tests/fixture/element/form/input.html:9:1]
@@ -276,7 +364,6 @@
  11 | |           <input type="text" name="name" id="name" required>
  12 | `->     </div>
  13 |         <div class="form-example">
- 14 |             <label for="email">Enter your email: </label>
     `----
   x Attribute
     ,-[$DIR/tests/fixture/element/form/input.html:9:1]
@@ -286,13 +373,15 @@
  10 |         <label for="name">Enter your name: </label>
     `----
   x Child
-    ,-[$DIR/tests/fixture/element/form/input.html:10:1]
+    ,-[$DIR/tests/fixture/element/form/input.html:9:1]
+  8 |     <form action="" method="get" class="form-example">
   9 | ,->     <div class="form-example">
  10 | `->         <label for="name">Enter your name: </label>
  11 |             <input type="text" name="name" id="name" required>
     `----
   x Text
-    ,-[$DIR/tests/fixture/element/form/input.html:10:1]
+    ,-[$DIR/tests/fixture/element/form/input.html:9:1]
+  8 |     <form action="" method="get" class="form-example">
   9 | ,->     <div class="form-example">
  10 | `->         <label for="name">Enter your name: </label>
  11 |             <input type="text" name="name" id="name" required>
@@ -303,7 +392,6 @@
  10 |         <label for="name">Enter your name: </label>
     :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  11 |         <input type="text" name="name" id="name" required>
- 12 |     </div>
     `----
   x Element
     ,-[$DIR/tests/fixture/element/form/input.html:10:1]
@@ -311,7 +399,6 @@
  10 |         <label for="name">Enter your name: </label>
     :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  11 |         <input type="text" name="name" id="name" required>
- 12 |     </div>
     `----
   x Attribute
     ,-[$DIR/tests/fixture/element/form/input.html:10:1]
@@ -335,13 +422,15 @@
  11 |         <input type="text" name="name" id="name" required>
     `----
   x Child
-    ,-[$DIR/tests/fixture/element/form/input.html:11:1]
+    ,-[$DIR/tests/fixture/element/form/input.html:10:1]
+  9 |         <div class="form-example">
  10 | ,->         <label for="name">Enter your name: </label>
  11 | `->         <input type="text" name="name" id="name" required>
  12 |         </div>
     `----
   x Text
-    ,-[$DIR/tests/fixture/element/form/input.html:11:1]
+    ,-[$DIR/tests/fixture/element/form/input.html:10:1]
+  9 |         <div class="form-example">
  10 | ,->         <label for="name">Enter your name: </label>
  11 | `->         <input type="text" name="name" id="name" required>
  12 |         </div>
@@ -352,7 +441,6 @@
  11 |         <input type="text" name="name" id="name" required>
     :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  12 |     </div>
- 13 |     <div class="form-example">
     `----
   x Element
     ,-[$DIR/tests/fixture/element/form/input.html:11:1]
@@ -360,7 +448,6 @@
  11 |         <input type="text" name="name" id="name" required>
     :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  12 |     </div>
- 13 |     <div class="form-example">
     `----
   x Attribute
     ,-[$DIR/tests/fixture/element/form/input.html:11:1]
@@ -391,25 +478,29 @@
  12 |     </div>
     `----
   x Child
-    ,-[$DIR/tests/fixture/element/form/input.html:12:1]
+    ,-[$DIR/tests/fixture/element/form/input.html:11:1]
+ 10 |             <label for="name">Enter your name: </label>
  11 | ,->         <input type="text" name="name" id="name" required>
  12 | `->     </div>
  13 |         <div class="form-example">
     `----
   x Text
-    ,-[$DIR/tests/fixture/element/form/input.html:12:1]
+    ,-[$DIR/tests/fixture/element/form/input.html:11:1]
+ 10 |             <label for="name">Enter your name: </label>
  11 | ,->         <input type="text" name="name" id="name" required>
  12 | `->     </div>
  13 |         <div class="form-example">
     `----
   x Child
-    ,-[$DIR/tests/fixture/element/form/input.html:13:1]
+    ,-[$DIR/tests/fixture/element/form/input.html:12:1]
+ 11 |             <input type="text" name="name" id="name" required>
  12 | ,->     </div>
  13 | `->     <div class="form-example">
  14 |             <label for="email">Enter your email: </label>
     `----
   x Text
-    ,-[$DIR/tests/fixture/element/form/input.html:13:1]
+    ,-[$DIR/tests/fixture/element/form/input.html:12:1]
+ 11 |             <input type="text" name="name" id="name" required>
  12 | ,->     </div>
  13 | `->     <div class="form-example">
  14 |             <label for="email">Enter your email: </label>
@@ -422,7 +513,6 @@
  15 | |           <input type="email" name="email" id="email" required>
  16 | `->     </div>
  17 |         <div class="form-example">
- 18 |             <input type="submit" value="Subscribe!">
     `----
   x Element
     ,-[$DIR/tests/fixture/element/form/input.html:13:1]
@@ -432,7 +522,6 @@
  15 | |           <input type="email" name="email" id="email" required>
  16 | `->     </div>
  17 |         <div class="form-example">
- 18 |             <input type="submit" value="Subscribe!">
     `----
   x Attribute
     ,-[$DIR/tests/fixture/element/form/input.html:13:1]
@@ -442,13 +531,15 @@
  14 |         <label for="email">Enter your email: </label>
     `----
   x Child
-    ,-[$DIR/tests/fixture/element/form/input.html:14:1]
+    ,-[$DIR/tests/fixture/element/form/input.html:13:1]
+ 12 |         </div>
  13 | ,->     <div class="form-example">
  14 | `->         <label for="email">Enter your email: </label>
  15 |             <input type="email" name="email" id="email" required>
     `----
   x Text
-    ,-[$DIR/tests/fixture/element/form/input.html:14:1]
+    ,-[$DIR/tests/fixture/element/form/input.html:13:1]
+ 12 |         </div>
  13 | ,->     <div class="form-example">
  14 | `->         <label for="email">Enter your email: </label>
  15 |             <input type="email" name="email" id="email" required>
@@ -459,7 +550,6 @@
  14 |         <label for="email">Enter your email: </label>
     :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  15 |         <input type="email" name="email" id="email" required>
- 16 |     </div>
     `----
   x Element
     ,-[$DIR/tests/fixture/element/form/input.html:14:1]
@@ -467,7 +557,6 @@
  14 |         <label for="email">Enter your email: </label>
     :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  15 |         <input type="email" name="email" id="email" required>
- 16 |     </div>
     `----
   x Attribute
     ,-[$DIR/tests/fixture/element/form/input.html:14:1]
@@ -491,13 +580,15 @@
  15 |         <input type="email" name="email" id="email" required>
     `----
   x Child
-    ,-[$DIR/tests/fixture/element/form/input.html:15:1]
+    ,-[$DIR/tests/fixture/element/form/input.html:14:1]
+ 13 |         <div class="form-example">
  14 | ,->         <label for="email">Enter your email: </label>
  15 | `->         <input type="email" name="email" id="email" required>
  16 |         </div>
     `----
   x Text
-    ,-[$DIR/tests/fixture/element/form/input.html:15:1]
+    ,-[$DIR/tests/fixture/element/form/input.html:14:1]
+ 13 |         <div class="form-example">
  14 | ,->         <label for="email">Enter your email: </label>
  15 | `->         <input type="email" name="email" id="email" required>
  16 |         </div>
@@ -508,7 +599,6 @@
  15 |         <input type="email" name="email" id="email" required>
     :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  16 |     </div>
- 17 |     <div class="form-example">
     `----
   x Element
     ,-[$DIR/tests/fixture/element/form/input.html:15:1]
@@ -516,7 +606,6 @@
  15 |         <input type="email" name="email" id="email" required>
     :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  16 |     </div>
- 17 |     <div class="form-example">
     `----
   x Attribute
     ,-[$DIR/tests/fixture/element/form/input.html:15:1]
@@ -547,25 +636,29 @@
  16 |     </div>
     `----
   x Child
-    ,-[$DIR/tests/fixture/element/form/input.html:16:1]
+    ,-[$DIR/tests/fixture/element/form/input.html:15:1]
+ 14 |             <label for="email">Enter your email: </label>
  15 | ,->         <input type="email" name="email" id="email" required>
  16 | `->     </div>
  17 |         <div class="form-example">
     `----
   x Text
-    ,-[$DIR/tests/fixture/element/form/input.html:16:1]
+    ,-[$DIR/tests/fixture/element/form/input.html:15:1]
+ 14 |             <label for="email">Enter your email: </label>
  15 | ,->         <input type="email" name="email" id="email" required>
  16 | `->     </div>
  17 |         <div class="form-example">
     `----
   x Child
-    ,-[$DIR/tests/fixture/element/form/input.html:17:1]
+    ,-[$DIR/tests/fixture/element/form/input.html:16:1]
+ 15 |             <input type="email" name="email" id="email" required>
  16 | ,->     </div>
  17 | `->     <div class="form-example">
  18 |             <input type="submit" value="Subscribe!">
     `----
   x Text
-    ,-[$DIR/tests/fixture/element/form/input.html:17:1]
+    ,-[$DIR/tests/fixture/element/form/input.html:16:1]
+ 15 |             <input type="email" name="email" id="email" required>
  16 | ,->     </div>
  17 | `->     <div class="form-example">
  18 |             <input type="submit" value="Subscribe!">
@@ -594,13 +687,15 @@
  18 |         <input type="submit" value="Subscribe!">
     `----
   x Child
-    ,-[$DIR/tests/fixture/element/form/input.html:18:1]
+    ,-[$DIR/tests/fixture/element/form/input.html:17:1]
+ 16 |         </div>
  17 | ,->     <div class="form-example">
  18 | `->         <input type="submit" value="Subscribe!">
  19 |         </div>
     `----
   x Text
-    ,-[$DIR/tests/fixture/element/form/input.html:18:1]
+    ,-[$DIR/tests/fixture/element/form/input.html:17:1]
+ 16 |         </div>
  17 | ,->     <div class="form-example">
  18 | `->         <input type="submit" value="Subscribe!">
  19 |         </div>
@@ -611,7 +706,6 @@
  18 |         <input type="submit" value="Subscribe!">
     :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  19 |     </div>
- 20 | </form>
     `----
   x Element
     ,-[$DIR/tests/fixture/element/form/input.html:18:1]
@@ -619,7 +713,6 @@
  18 |         <input type="submit" value="Subscribe!">
     :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  19 |     </div>
- 20 | </form>
     `----
   x Attribute
     ,-[$DIR/tests/fixture/element/form/input.html:18:1]
@@ -636,38 +729,44 @@
  19 |     </div>
     `----
   x Child
-    ,-[$DIR/tests/fixture/element/form/input.html:19:1]
+    ,-[$DIR/tests/fixture/element/form/input.html:18:1]
+ 17 |         <div class="form-example">
  18 | ,->         <input type="submit" value="Subscribe!">
  19 | `->     </div>
  20 |     </form>
     `----
   x Text
-    ,-[$DIR/tests/fixture/element/form/input.html:19:1]
+    ,-[$DIR/tests/fixture/element/form/input.html:18:1]
+ 17 |         <div class="form-example">
  18 | ,->         <input type="submit" value="Subscribe!">
  19 | `->     </div>
  20 |     </form>
     `----
   x Child
-    ,-[$DIR/tests/fixture/element/form/input.html:20:1]
+    ,-[$DIR/tests/fixture/element/form/input.html:19:1]
+ 18 |         <input type="submit" value="Subscribe!">
  19 |     </div>
     :           ^
  20 | </form>
     `----
   x Text
-    ,-[$DIR/tests/fixture/element/form/input.html:20:1]
+    ,-[$DIR/tests/fixture/element/form/input.html:19:1]
+ 18 |         <input type="submit" value="Subscribe!">
  19 |     </div>
     :           ^
  20 | </form>
     `----
   x Child
-    ,-[$DIR/tests/fixture/element/form/input.html:21:1]
+    ,-[$DIR/tests/fixture/element/form/input.html:20:1]
+ 19 |         </div>
  20 | ,-> </form>
  21 | `-> 
  22 |     <form method="post">
  23 |         <fieldset>
     `----
   x Text
-    ,-[$DIR/tests/fixture/element/form/input.html:21:1]
+    ,-[$DIR/tests/fixture/element/form/input.html:20:1]
+ 19 |         </div>
  20 | ,-> </form>
  21 | `-> 
  22 |     <form method="post">
@@ -682,8 +781,6 @@
  25 | |           <label><input type="radio" name="radio"> Select me</label>
  26 | |       </fieldset>
  27 | `-> </form>
- 28 |     
- 29 |     </body>
     `----
   x Element
     ,-[$DIR/tests/fixture/element/form/input.html:22:1]
@@ -694,8 +791,6 @@
  25 | |           <label><input type="radio" name="radio"> Select me</label>
  26 | |       </fieldset>
  27 | `-> </form>
- 28 |     
- 29 |     </body>
     `----
   x Attribute
     ,-[$DIR/tests/fixture/element/form/input.html:22:1]
@@ -705,13 +800,15 @@
  23 |     <fieldset>
     `----
   x Child
-    ,-[$DIR/tests/fixture/element/form/input.html:23:1]
+    ,-[$DIR/tests/fixture/element/form/input.html:22:1]
+ 21 |     
  22 | ,-> <form method="post">
  23 | `->     <fieldset>
  24 |             <legend>Title</legend>
     `----
   x Text
-    ,-[$DIR/tests/fixture/element/form/input.html:23:1]
+    ,-[$DIR/tests/fixture/element/form/input.html:22:1]
+ 21 |     
  22 | ,-> <form method="post">
  23 | `->     <fieldset>
  24 |             <legend>Title</legend>
@@ -735,13 +832,15 @@
  27 |     </form>
     `----
   x Child
-    ,-[$DIR/tests/fixture/element/form/input.html:24:1]
+    ,-[$DIR/tests/fixture/element/form/input.html:23:1]
+ 22 |     <form method="post">
  23 | ,->     <fieldset>
  24 | `->         <legend>Title</legend>
  25 |             <label><input type="radio" name="radio"> Select me</label>
     `----
   x Text
-    ,-[$DIR/tests/fixture/element/form/input.html:24:1]
+    ,-[$DIR/tests/fixture/element/form/input.html:23:1]
+ 22 |     <form method="post">
  23 | ,->     <fieldset>
  24 | `->         <legend>Title</legend>
  25 |             <label><input type="radio" name="radio"> Select me</label>
@@ -752,7 +851,6 @@
  24 |         <legend>Title</legend>
     :         ^^^^^^^^^^^^^^^^^^^^^^
  25 |         <label><input type="radio" name="radio"> Select me</label>
- 26 |     </fieldset>
     `----
   x Element
     ,-[$DIR/tests/fixture/element/form/input.html:24:1]
@@ -760,7 +858,6 @@
  24 |         <legend>Title</legend>
     :         ^^^^^^^^^^^^^^^^^^^^^^
  25 |         <label><input type="radio" name="radio"> Select me</label>
- 26 |     </fieldset>
     `----
   x Child
     ,-[$DIR/tests/fixture/element/form/input.html:24:1]
@@ -777,13 +874,15 @@
  25 |         <label><input type="radio" name="radio"> Select me</label>
     `----
   x Child
-    ,-[$DIR/tests/fixture/element/form/input.html:25:1]
+    ,-[$DIR/tests/fixture/element/form/input.html:24:1]
+ 23 |         <fieldset>
  24 | ,->         <legend>Title</legend>
  25 | `->         <label><input type="radio" name="radio"> Select me</label>
  26 |         </fieldset>
     `----
   x Text
-    ,-[$DIR/tests/fixture/element/form/input.html:25:1]
+    ,-[$DIR/tests/fixture/element/form/input.html:24:1]
+ 23 |         <fieldset>
  24 | ,->         <legend>Title</legend>
  25 | `->         <label><input type="radio" name="radio"> Select me</label>
  26 |         </fieldset>
@@ -794,7 +893,6 @@
  25 |         <label><input type="radio" name="radio"> Select me</label>
     :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  26 |     </fieldset>
- 27 | </form>
     `----
   x Element
     ,-[$DIR/tests/fixture/element/form/input.html:25:1]
@@ -802,7 +900,6 @@
  25 |         <label><input type="radio" name="radio"> Select me</label>
     :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  26 |     </fieldset>
- 27 | </form>
     `----
   x Child
     ,-[$DIR/tests/fixture/element/form/input.html:25:1]
@@ -847,38 +944,44 @@
  26 |     </fieldset>
     `----
   x Child
-    ,-[$DIR/tests/fixture/element/form/input.html:26:1]
+    ,-[$DIR/tests/fixture/element/form/input.html:25:1]
+ 24 |             <legend>Title</legend>
  25 | ,->         <label><input type="radio" name="radio"> Select me</label>
  26 | `->     </fieldset>
  27 |     </form>
     `----
   x Text
-    ,-[$DIR/tests/fixture/element/form/input.html:26:1]
+    ,-[$DIR/tests/fixture/element/form/input.html:25:1]
+ 24 |             <legend>Title</legend>
  25 | ,->         <label><input type="radio" name="radio"> Select me</label>
  26 | `->     </fieldset>
  27 |     </form>
     `----
   x Child
-    ,-[$DIR/tests/fixture/element/form/input.html:27:1]
+    ,-[$DIR/tests/fixture/element/form/input.html:26:1]
+ 25 |         <label><input type="radio" name="radio"> Select me</label>
  26 |     </fieldset>
     :                ^
  27 | </form>
     `----
   x Text
-    ,-[$DIR/tests/fixture/element/form/input.html:27:1]
+    ,-[$DIR/tests/fixture/element/form/input.html:26:1]
+ 25 |         <label><input type="radio" name="radio"> Select me</label>
  26 |     </fieldset>
     :                ^
  27 | </form>
     `----
   x Child
-    ,-[$DIR/tests/fixture/element/form/input.html:28:1]
+    ,-[$DIR/tests/fixture/element/form/input.html:27:1]
+ 26 |         </fieldset>
  27 | ,-> </form>
  28 | |   
  29 | `-> </body>
  30 |     </html>
     `----
   x Text
-    ,-[$DIR/tests/fixture/element/form/input.html:28:1]
+    ,-[$DIR/tests/fixture/element/form/input.html:27:1]
+ 26 |         </fieldset>
  27 | ,-> </form>
  28 | |   
  29 | `-> </body>

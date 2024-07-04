@@ -1,18 +1,34 @@
   x Module
-   ,-[$DIR/tests/span/js/stmt/try-catch.js:1:2]
- 1 | |    
+   ,-[$DIR/tests/span/js/stmt/try-catch.js:1:1]
+ 1 | ,-> try {
+ 2 | |   
+ 3 | |   } catch (e) {
+ 4 | |   
+ 5 | `-> }
    `----
   x ModuleItem
-   ,-[$DIR/tests/span/js/stmt/try-catch.js:1:2]
- 1 | |    
+   ,-[$DIR/tests/span/js/stmt/try-catch.js:1:1]
+ 1 | ,-> try {
+ 2 | |   
+ 3 | |   } catch (e) {
+ 4 | |   
+ 5 | `-> }
    `----
   x Stmt
-   ,-[$DIR/tests/span/js/stmt/try-catch.js:1:2]
- 1 | |    
+   ,-[$DIR/tests/span/js/stmt/try-catch.js:1:1]
+ 1 | ,-> try {
+ 2 | |   
+ 3 | |   } catch (e) {
+ 4 | |   
+ 5 | `-> }
    `----
   x TryStmt
-   ,-[$DIR/tests/span/js/stmt/try-catch.js:1:2]
- 1 | |    
+   ,-[$DIR/tests/span/js/stmt/try-catch.js:1:1]
+ 1 | ,-> try {
+ 2 | |   
+ 3 | |   } catch (e) {
+ 4 | |   
+ 5 | `-> }
    `----
   x BlockStmt
    ,-[$DIR/tests/span/js/stmt/try-catch.js:1:1]
@@ -21,8 +37,11 @@
  3 | `-> } catch (e) {
    `----
   x CatchClause
-   ,-[$DIR/tests/span/js/stmt/try-catch.js:3:4]
- 3 | |    
+   ,-[$DIR/tests/span/js/stmt/try-catch.js:3:1]
+ 2 |     
+ 3 | ,-> } catch (e) {
+ 4 | |   
+ 5 | `-> }
    `----
   x Pat
    ,-[$DIR/tests/span/js/stmt/try-catch.js:3:1]
@@ -37,6 +56,9 @@
    :          ^
    `----
   x BlockStmt
-   ,-[$DIR/tests/span/js/stmt/try-catch.js:3:14]
- 3 | |    
+   ,-[$DIR/tests/span/js/stmt/try-catch.js:3:1]
+ 2 |     
+ 3 | ,-> } catch (e) {
+ 4 | |   
+ 5 | `-> }
    `----

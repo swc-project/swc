@@ -1,20 +1,35 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:1:2]
- 1 | |    
-   `----
+    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:1:1]
+  1 | ,-> a:has(> img) {}
+  2 | |   a:has(   > img   ) {}
+  3 | |   a:has(   >   img   ) {}
+  4 | |   a:has(   >   img   ,   >   img   ) {}
+  5 | |   a:has(   img   ) {}
+  6 | |   dt:has(+ dt) {}
+  7 | |   section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+  8 | |   section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+  9 | |   div:has(p) {}
+ 10 | |   .header-group:has(h2):has(.subtitle) h2 {}
+ 11 | |   
+ 12 | |   /* Forgiving */
+ 13 | |   a:has(<>  img, > img) {}
+ 14 | |   a:has(   <>  img, > img) {}
+ 15 | |   a:has(> img, <>  img) {}
+ 16 | |   a:has(> img, <>  img   ) {}
+ 17 | |   
+ 18 | `-> a:has(> img,    <>  img   , > img) {}
+    `----
   x Rule
    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:1:1]
  1 | a:has(> img) {}
    : ^^^^^^^^^^^^^^^
  2 | a:has(   > img   ) {}
- 3 | a:has(   >   img   ) {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:1:1]
  1 | a:has(> img) {}
    : ^^^^^^^^^^^^^^^
  2 | a:has(   > img   ) {}
- 3 | a:has(   >   img   ) {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:1:1]
@@ -141,7 +156,6 @@
  1 | a:has(> img) {}
    :              ^^
  2 | a:has(   > img   ) {}
- 3 | a:has(   >   img   ) {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:1:1]
@@ -155,7 +169,6 @@
  2 | a:has(   > img   ) {}
    : ^^^^^^^^^^^^^^^^^^^^^
  3 | a:has(   >   img   ) {}
- 4 | a:has(   >   img   ,   >   img   ) {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:2:1]
@@ -163,7 +176,6 @@
  2 | a:has(   > img   ) {}
    : ^^^^^^^^^^^^^^^^^^^^^
  3 | a:has(   >   img   ) {}
- 4 | a:has(   >   img   ,   >   img   ) {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:2:1]
@@ -311,7 +323,6 @@
  2 | a:has(   > img   ) {}
    :                    ^^
  3 | a:has(   >   img   ) {}
- 4 | a:has(   >   img   ,   >   img   ) {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:2:1]
@@ -326,7 +337,6 @@
  3 | a:has(   >   img   ) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^
  4 | a:has(   >   img   ,   >   img   ) {}
- 5 | a:has(   img   ) {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:3:1]
@@ -334,7 +344,6 @@
  3 | a:has(   >   img   ) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^
  4 | a:has(   >   img   ,   >   img   ) {}
- 5 | a:has(   img   ) {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:3:1]
@@ -482,7 +491,6 @@
  3 | a:has(   >   img   ) {}
    :                      ^^
  4 | a:has(   >   img   ,   >   img   ) {}
- 5 | a:has(   img   ) {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:3:1]
@@ -497,7 +505,6 @@
  4 | a:has(   >   img   ,   >   img   ) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  5 | a:has(   img   ) {}
- 6 | dt:has(+ dt) {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:4:1]
@@ -505,7 +512,6 @@
  4 | a:has(   >   img   ,   >   img   ) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  5 | a:has(   img   ) {}
- 6 | dt:has(+ dt) {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:4:1]
@@ -709,7 +715,6 @@
  4 | a:has(   >   img   ,   >   img   ) {}
    :                                    ^^
  5 | a:has(   img   ) {}
- 6 | dt:has(+ dt) {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:4:1]
@@ -724,7 +729,6 @@
  5 | a:has(   img   ) {}
    : ^^^^^^^^^^^^^^^^^^^
  6 | dt:has(+ dt) {}
- 7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:5:1]
@@ -732,7 +736,6 @@
  5 | a:has(   img   ) {}
    : ^^^^^^^^^^^^^^^^^^^
  6 | dt:has(+ dt) {}
- 7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:5:1]
@@ -873,7 +876,6 @@
  5 | a:has(   img   ) {}
    :                  ^^
  6 | dt:has(+ dt) {}
- 7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:5:1]
@@ -888,7 +890,6 @@
  6 | dt:has(+ dt) {}
    : ^^^^^^^^^^^^^^^
  7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
- 8 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:6:1]
@@ -896,7 +897,6 @@
  6 | dt:has(+ dt) {}
    : ^^^^^^^^^^^^^^^
  7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
- 8 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:6:1]
@@ -1044,7 +1044,6 @@
  6 | dt:has(+ dt) {}
    :              ^^
  7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
- 8 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:6:1]
@@ -1059,7 +1058,6 @@
  7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  8 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
- 9 | div:has(p) {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:7:1]
@@ -1067,7 +1065,6 @@
  7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  8 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
- 9 | div:has(p) {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:7:1]
@@ -1502,7 +1499,6 @@
  7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
    :                                           ^^
  8 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
- 9 | div:has(p) {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:7:1]
@@ -1512,21 +1508,19 @@
  8 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
    `----
   x Rule
-    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1]
-  7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
-  8 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  9 | div:has(p) {}
- 10 | .header-group:has(h2):has(.subtitle) h2 {}
-    `----
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1]
+ 7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+ 8 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 9 | div:has(p) {}
+   `----
   x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1]
-  7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
-  8 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  9 | div:has(p) {}
- 10 | .header-group:has(h2):has(.subtitle) h2 {}
-    `----
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1]
+ 7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+ 8 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 9 | div:has(p) {}
+   `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1]
  7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
@@ -1920,13 +1914,12 @@
  9 | div:has(p) {}
    `----
   x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1]
-  7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
-  8 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
-    :                                           ^^
-  9 | div:has(p) {}
- 10 | .header-group:has(h2):has(.subtitle) h2 {}
-    `----
+   ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1]
+ 7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
+ 8 | section:has(:not(h1, h2, h3, h4, h5, h6)) {}
+   :                                           ^^
+ 9 | div:has(p) {}
+   `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:8:1]
  7 | section:not(:has(h1, h2, h3, h4, h5, h6)) {}
@@ -2100,16 +2093,12 @@
   9 | div:has(p) {}
  10 | .header-group:has(h2):has(.subtitle) h2 {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 11 | 
- 12 | /* Forgiving */
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:10:1]
   9 | div:has(p) {}
  10 | .header-group:has(h2):has(.subtitle) h2 {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 11 | 
- 12 | /* Forgiving */
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:10:1]
@@ -2326,8 +2315,6 @@
   9 | div:has(p) {}
  10 | .header-group:has(h2):has(.subtitle) h2 {}
     :                                         ^^
- 11 | 
- 12 | /* Forgiving */
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:10:1]
@@ -2341,7 +2328,6 @@
  13 | a:has(<>  img, > img) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^
  14 | a:has(   <>  img, > img) {}
- 15 | a:has(> img, <>  img) {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:13:1]
@@ -2349,7 +2335,6 @@
  13 | a:has(<>  img, > img) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^
  14 | a:has(   <>  img, > img) {}
- 15 | a:has(> img, <>  img) {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:13:1]
@@ -2553,7 +2538,6 @@
  13 | a:has(<>  img, > img) {}
     :                       ^^
  14 | a:has(   <>  img, > img) {}
- 15 | a:has(> img, <>  img) {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:13:1]
@@ -2568,7 +2552,6 @@
  14 | a:has(   <>  img, > img) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
  15 | a:has(> img, <>  img) {}
- 16 | a:has(> img, <>  img   ) {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:14:1]
@@ -2576,7 +2559,6 @@
  14 | a:has(   <>  img, > img) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
  15 | a:has(> img, <>  img) {}
- 16 | a:has(> img, <>  img   ) {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:14:1]
@@ -2794,7 +2776,6 @@
  14 | a:has(   <>  img, > img) {}
     :                          ^^
  15 | a:has(> img, <>  img) {}
- 16 | a:has(> img, <>  img   ) {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:14:1]
@@ -3046,16 +3027,12 @@
  15 | a:has(> img, <>  img) {}
  16 | a:has(> img, <>  img   ) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 17 | 
- 18 | a:has(> img,    <>  img   , > img) {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:16:1]
  15 | a:has(> img, <>  img) {}
  16 | a:has(> img, <>  img   ) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 17 | 
- 18 | a:has(> img,    <>  img   , > img) {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:16:1]
@@ -3254,8 +3231,6 @@
  15 | a:has(> img, <>  img) {}
  16 | a:has(> img, <>  img   ) {}
     :                          ^^
- 17 | 
- 18 | a:has(> img,    <>  img   , > img) {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:16:1]
@@ -3264,12 +3239,16 @@
     :                          ^
     `----
   x Rule
-    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:18:2]
- 18 | |    
+    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:18:1]
+ 17 | 
+ 18 | a:has(> img,    <>  img   , > img) {}
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
   x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:18:2]
- 18 | |    
+    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:18:1]
+ 17 | 
+ 18 | a:has(> img,    <>  img   , > img) {}
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:18:1]
@@ -3512,8 +3491,10 @@
     :                               ^^^
     `----
   x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:18:37]
- 18 | `->  
+    ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:18:1]
+ 17 | 
+ 18 | a:has(> img,    <>  img   , > img) {}
+    :                                    ^^
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/pseudo-class/has/input.css:18:1]

@@ -1,6 +1,7 @@
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/tests9_dat.20.html:1:2]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests9_dat.20.html:1:1]
+ 1 | <!DOCTYPE html><body></body><math><mi>foo</mi><mi>bar</mi><p>baz
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests9_dat.20.html:1:1]
@@ -15,12 +16,14 @@
   x Child
   x Element
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests9_dat.20.html:1:17]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests9_dat.20.html:1:1]
+ 1 | <!DOCTYPE html><body></body><math><mi>foo</mi><mi>bar</mi><p>baz
+   :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tests9_dat.20.html:1:17]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests9_dat.20.html:1:1]
+ 1 | <!DOCTYPE html><body></body><math><mi>foo</mi><mi>bar</mi><p>baz
+   :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests9_dat.20.html:1:1]
@@ -73,18 +76,22 @@
    :                                                   ^^^
    `----
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests9_dat.20.html:1:60]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests9_dat.20.html:1:1]
+ 1 | <!DOCTYPE html><body></body><math><mi>foo</mi><mi>bar</mi><p>baz
+   :                                                           ^^^^^^
    `----
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tests9_dat.20.html:1:60]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests9_dat.20.html:1:1]
+ 1 | <!DOCTYPE html><body></body><math><mi>foo</mi><mi>bar</mi><p>baz
+   :                                                           ^^^^^^
    `----
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests9_dat.20.html:1:63]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests9_dat.20.html:1:1]
+ 1 | <!DOCTYPE html><body></body><math><mi>foo</mi><mi>bar</mi><p>baz
+   :                                                              ^^^
    `----
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/tests9_dat.20.html:1:63]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests9_dat.20.html:1:1]
+ 1 | <!DOCTYPE html><body></body><math><mi>foo</mi><mi>bar</mi><p>baz
+   :                                                              ^^^
    `----

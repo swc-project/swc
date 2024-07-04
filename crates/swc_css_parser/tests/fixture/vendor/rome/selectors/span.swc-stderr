@@ -1,22 +1,56 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/vendor/rome/selectors/input.css:1:2]
- 1 | |    
-   `----
+    ,-[$DIR/tests/fixture/vendor/rome/selectors/input.css:1:1]
+  1 | ,-> div, div + #id, div ~ #id, div > #id {
+  2 | |   
+  3 | |   }
+  4 | |   
+  5 | |   .escaped\.class\.name {
+  6 | |   
+  7 | |   }
+  8 | |   
+  9 | |   .class + * {
+ 10 | |   
+ 11 | |   }
+ 12 | |   
+ 13 | |   a[title] {
+ 14 | |     color: purple;
+ 15 | |   }
+ 16 | |   
+ 17 | |   a[title = "title"] {
+ 18 | |     color: purple;
+ 19 | |   }
+ 20 | |   
+ 21 | |   a[title~="title" i] {
+ 22 | |     color: purple;
+ 23 | |   }
+ 24 | |   
+ 25 | |   a[title = "title"][href*="image/*" S] {
+ 26 | |       color: purple;
+ 27 | |   }
+ 28 | |   
+ 29 | |   p:nth-last-of-type(2) {
+ 30 | |   }
+ 31 | |   
+ 32 | |   :lang(en, ko) {
+ 33 | |   }
+ 34 | |   
+ 35 | |   ::pseudo-elem() {
+ 36 | |   }
+ 37 | |   
+ 38 | |   ::pseudo-elem(a, b) {
+ 39 | `-> }
+    `----
   x Rule
    ,-[$DIR/tests/fixture/vendor/rome/selectors/input.css:1:1]
  1 | ,-> div, div + #id, div ~ #id, div > #id {
  2 | |   
  3 | `-> }
- 4 |     
- 5 |     .escaped\.class\.name {
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/vendor/rome/selectors/input.css:1:1]
  1 | ,-> div, div + #id, div ~ #id, div > #id {
  2 | |   
  3 | `-> }
- 4 |     
- 5 |     .escaped\.class\.name {
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/vendor/rome/selectors/input.css:1:1]
@@ -223,15 +257,11 @@
  1 | ,-> div, div + #id, div ~ #id, div > #id {
  2 | |   
  3 | `-> }
- 4 |     
- 5 |     .escaped\.class\.name {
    `----
   x LBrace
    ,-[$DIR/tests/fixture/vendor/rome/selectors/input.css:1:1]
  1 | div, div + #id, div ~ #id, div > #id {
    :                                      ^
- 2 | 
- 3 | }
    `----
   x Rule
    ,-[$DIR/tests/fixture/vendor/rome/selectors/input.css:5:1]
@@ -239,8 +269,6 @@
  5 | ,-> .escaped\.class\.name {
  6 | |   
  7 | `-> }
- 8 |     
- 9 |     .class + * {
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/vendor/rome/selectors/input.css:5:1]
@@ -248,8 +276,6 @@
  5 | ,-> .escaped\.class\.name {
  6 | |   
  7 | `-> }
- 8 |     
- 9 |     .class + * {
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/vendor/rome/selectors/input.css:5:1]
@@ -293,16 +319,12 @@
  5 | ,-> .escaped\.class\.name {
  6 | |   
  7 | `-> }
- 8 |     
- 9 |     .class + * {
    `----
   x LBrace
    ,-[$DIR/tests/fixture/vendor/rome/selectors/input.css:5:1]
  4 | 
  5 | .escaped\.class\.name {
    :                       ^
- 6 | 
- 7 | }
    `----
   x Rule
     ,-[$DIR/tests/fixture/vendor/rome/selectors/input.css:9:1]
@@ -310,8 +332,6 @@
   9 | ,-> .class + * {
  10 | |   
  11 | `-> }
- 12 |     
- 13 |     a[title] {
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/vendor/rome/selectors/input.css:9:1]
@@ -319,8 +339,6 @@
   9 | ,-> .class + * {
  10 | |   
  11 | `-> }
- 12 |     
- 13 |     a[title] {
     `----
   x SelectorList
    ,-[$DIR/tests/fixture/vendor/rome/selectors/input.css:9:1]
@@ -388,25 +406,19 @@
   9 | ,-> .class + * {
  10 | |   
  11 | `-> }
- 12 |     
- 13 |     a[title] {
     `----
   x LBrace
-    ,-[$DIR/tests/fixture/vendor/rome/selectors/input.css:9:1]
-  8 | 
-  9 | .class + * {
-    :            ^
- 10 | 
- 11 | }
-    `----
+   ,-[$DIR/tests/fixture/vendor/rome/selectors/input.css:9:1]
+ 8 | 
+ 9 | .class + * {
+   :            ^
+   `----
   x Rule
     ,-[$DIR/tests/fixture/vendor/rome/selectors/input.css:13:1]
  12 |     
  13 | ,-> a[title] {
  14 | |     color: purple;
  15 | `-> }
- 16 |     
- 17 |     a[title = "title"] {
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/vendor/rome/selectors/input.css:13:1]
@@ -414,8 +426,6 @@
  13 | ,-> a[title] {
  14 | |     color: purple;
  15 | `-> }
- 16 |     
- 17 |     a[title = "title"] {
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/vendor/rome/selectors/input.css:13:1]
@@ -500,8 +510,6 @@
  13 | ,-> a[title] {
  14 | |     color: purple;
  15 | `-> }
- 16 |     
- 17 |     a[title = "title"] {
     `----
   x LBrace
     ,-[$DIR/tests/fixture/vendor/rome/selectors/input.css:13:1]
@@ -509,7 +517,6 @@
  13 | a[title] {
     :          ^
  14 |   color: purple;
- 15 | }
     `----
   x ComponentValue
     ,-[$DIR/tests/fixture/vendor/rome/selectors/input.css:14:1]
@@ -559,8 +566,6 @@
  17 | ,-> a[title = "title"] {
  18 | |     color: purple;
  19 | `-> }
- 20 |     
- 21 |     a[title~="title" i] {
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/vendor/rome/selectors/input.css:17:1]
@@ -568,8 +573,6 @@
  17 | ,-> a[title = "title"] {
  18 | |     color: purple;
  19 | `-> }
- 20 |     
- 21 |     a[title~="title" i] {
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/vendor/rome/selectors/input.css:17:1]
@@ -675,8 +678,6 @@
  17 | ,-> a[title = "title"] {
  18 | |     color: purple;
  19 | `-> }
- 20 |     
- 21 |     a[title~="title" i] {
     `----
   x LBrace
     ,-[$DIR/tests/fixture/vendor/rome/selectors/input.css:17:1]
@@ -684,7 +685,6 @@
  17 | a[title = "title"] {
     :                    ^
  18 |   color: purple;
- 19 | }
     `----
   x ComponentValue
     ,-[$DIR/tests/fixture/vendor/rome/selectors/input.css:18:1]
@@ -734,8 +734,6 @@
  21 | ,-> a[title~="title" i] {
  22 | |     color: purple;
  23 | `-> }
- 24 |     
- 25 |     a[title = "title"][href*="image/*" S] {
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/vendor/rome/selectors/input.css:21:1]
@@ -743,8 +741,6 @@
  21 | ,-> a[title~="title" i] {
  22 | |     color: purple;
  23 | `-> }
- 24 |     
- 25 |     a[title = "title"][href*="image/*" S] {
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/vendor/rome/selectors/input.css:21:1]
@@ -864,8 +860,6 @@
  21 | ,-> a[title~="title" i] {
  22 | |     color: purple;
  23 | `-> }
- 24 |     
- 25 |     a[title = "title"][href*="image/*" S] {
     `----
   x LBrace
     ,-[$DIR/tests/fixture/vendor/rome/selectors/input.css:21:1]
@@ -873,7 +867,6 @@
  21 | a[title~="title" i] {
     :                     ^
  22 |   color: purple;
- 23 | }
     `----
   x ComponentValue
     ,-[$DIR/tests/fixture/vendor/rome/selectors/input.css:22:1]
@@ -923,8 +916,6 @@
  25 | ,-> a[title = "title"][href*="image/*" S] {
  26 | |       color: purple;
  27 | `-> }
- 28 |     
- 29 |     p:nth-last-of-type(2) {
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/vendor/rome/selectors/input.css:25:1]
@@ -932,8 +923,6 @@
  25 | ,-> a[title = "title"][href*="image/*" S] {
  26 | |       color: purple;
  27 | `-> }
- 28 |     
- 29 |     p:nth-last-of-type(2) {
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/vendor/rome/selectors/input.css:25:1]
@@ -1102,8 +1091,6 @@
  25 | ,-> a[title = "title"][href*="image/*" S] {
  26 | |       color: purple;
  27 | `-> }
- 28 |     
- 29 |     p:nth-last-of-type(2) {
     `----
   x LBrace
     ,-[$DIR/tests/fixture/vendor/rome/selectors/input.css:25:1]
@@ -1111,7 +1098,6 @@
  25 | a[title = "title"][href*="image/*" S] {
     :                                       ^
  26 |     color: purple;
- 27 | }
     `----
   x ComponentValue
     ,-[$DIR/tests/fixture/vendor/rome/selectors/input.css:26:1]
@@ -1160,16 +1146,12 @@
  28 |     
  29 | ,-> p:nth-last-of-type(2) {
  30 | `-> }
- 31 |     
- 32 |     :lang(en, ko) {
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/vendor/rome/selectors/input.css:29:1]
  28 |     
  29 | ,-> p:nth-last-of-type(2) {
  30 | `-> }
- 31 |     
- 32 |     :lang(en, ko) {
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/vendor/rome/selectors/input.css:29:1]
@@ -1267,8 +1249,6 @@
  28 |     
  29 | ,-> p:nth-last-of-type(2) {
  30 | `-> }
- 31 |     
- 32 |     :lang(en, ko) {
     `----
   x LBrace
     ,-[$DIR/tests/fixture/vendor/rome/selectors/input.css:29:1]
@@ -1282,16 +1262,12 @@
  31 |     
  32 | ,-> :lang(en, ko) {
  33 | `-> }
- 34 |     
- 35 |     ::pseudo-elem() {
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/vendor/rome/selectors/input.css:32:1]
  31 |     
  32 | ,-> :lang(en, ko) {
  33 | `-> }
- 34 |     
- 35 |     ::pseudo-elem() {
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/vendor/rome/selectors/input.css:32:1]
@@ -1382,8 +1358,6 @@
  31 |     
  32 | ,-> :lang(en, ko) {
  33 | `-> }
- 34 |     
- 35 |     ::pseudo-elem() {
     `----
   x LBrace
     ,-[$DIR/tests/fixture/vendor/rome/selectors/input.css:32:1]
@@ -1397,16 +1371,12 @@
  34 |     
  35 | ,-> ::pseudo-elem() {
  36 | `-> }
- 37 |     
- 38 |     ::pseudo-elem(a, b) {
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/vendor/rome/selectors/input.css:35:1]
  34 |     
  35 | ,-> ::pseudo-elem() {
  36 | `-> }
- 37 |     
- 38 |     ::pseudo-elem(a, b) {
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/vendor/rome/selectors/input.css:35:1]
@@ -1455,8 +1425,6 @@
  34 |     
  35 | ,-> ::pseudo-elem() {
  36 | `-> }
- 37 |     
- 38 |     ::pseudo-elem(a, b) {
     `----
   x LBrace
     ,-[$DIR/tests/fixture/vendor/rome/selectors/input.css:35:1]

@@ -1,20 +1,46 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:1:2]
- 1 | |    
-   `----
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:1:1]
+  1 | ,-> :is(ul) li {}
+  2 | |   :is(ul, ol) li {}
+  3 | |   :is(header, main, footer) p:hover {}
+  4 | |   div:is(.cool, .fun) {}
+  5 | |   :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
+  6 | |   *|*:is(:hover, :focus) {}
+  7 | |   *|*:is(*:hover, *:focus) {}
+  8 | |   :is(ul, ol, .list) > [hidden] {}
+  9 | |   :is(p, p:unsupported) {}
+ 10 | |   :is(:valid, :unsupported) {}
+ 11 | |   a:is(:not(:hover)) {}
+ 12 | |   /*:is(:valid, foo < bar) {}*/
+ 13 | |   /*:is(foo < bar) {}*/
+ 14 | |   :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
+ 15 | |   :is(:nth-child(6),
+ 16 | |       :nth-last-child(6),
+ 17 | |       :nth-of-type(6),
+ 18 | |       :nth-last-of-type(6)) {}
+ 19 | |   :-webkit-any(header, main, footer) p:hover {}
+ 20 | |   :-moz-any(header, main, footer) p:hover {}
+ 21 | |   :matches(header, main, footer) p:hover {}
+ 22 | |   :is(header, main, footer) p:hover {}
+ 23 | |   
+ 24 | |   /* Forgiving */
+ 25 | |   :is(a >< b, a > b, d > c) {}
+ 26 | |   :is(   a >< b, a > b, d > c) {}
+ 27 | |   :is(a > b, d > c, a >< b) {}
+ 28 | |   :is(a > b, d > c, a >< b   ) {}
+ 29 | `-> :is(a > b,   a >< b   ,  d > c) {}
+    `----
   x Rule
    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:1:1]
  1 | :is(ul) li {}
    : ^^^^^^^^^^^^^
  2 | :is(ul, ol) li {}
- 3 | :is(header, main, footer) p:hover {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:1:1]
  1 | :is(ul) li {}
    : ^^^^^^^^^^^^^
  2 | :is(ul, ol) li {}
- 3 | :is(header, main, footer) p:hover {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:1:1]
@@ -141,7 +167,6 @@
  1 | :is(ul) li {}
    :            ^^
  2 | :is(ul, ol) li {}
- 3 | :is(header, main, footer) p:hover {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:1:1]
@@ -155,7 +180,6 @@
  2 | :is(ul, ol) li {}
    : ^^^^^^^^^^^^^^^^^
  3 | :is(header, main, footer) p:hover {}
- 4 | div:is(.cool, .fun) {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:2:1]
@@ -163,7 +187,6 @@
  2 | :is(ul, ol) li {}
    : ^^^^^^^^^^^^^^^^^
  3 | :is(header, main, footer) p:hover {}
- 4 | div:is(.cool, .fun) {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:2:1]
@@ -353,7 +376,6 @@
  2 | :is(ul, ol) li {}
    :                ^^
  3 | :is(header, main, footer) p:hover {}
- 4 | div:is(.cool, .fun) {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:2:1]
@@ -368,7 +390,6 @@
  3 | :is(header, main, footer) p:hover {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  4 | div:is(.cool, .fun) {}
- 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:3:1]
@@ -376,7 +397,6 @@
  3 | :is(header, main, footer) p:hover {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  4 | div:is(.cool, .fun) {}
- 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:3:1]
@@ -629,7 +649,6 @@
  3 | :is(header, main, footer) p:hover {}
    :                                   ^^
  4 | div:is(.cool, .fun) {}
- 5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:3:1]
@@ -644,7 +663,6 @@
  4 | div:is(.cool, .fun) {}
    : ^^^^^^^^^^^^^^^^^^^^^^
  5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
- 6 | *|*:is(:hover, :focus) {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:4:1]
@@ -652,7 +670,6 @@
  4 | div:is(.cool, .fun) {}
    : ^^^^^^^^^^^^^^^^^^^^^^
  5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
- 6 | *|*:is(:hover, :focus) {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:4:1]
@@ -814,7 +831,6 @@
  4 | div:is(.cool, .fun) {}
    :                     ^^
  5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
- 6 | *|*:is(:hover, :focus) {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:4:1]
@@ -829,7 +845,6 @@
  5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  6 | *|*:is(:hover, :focus) {}
- 7 | *|*:is(*:hover, *:focus) {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
@@ -837,7 +852,6 @@
  5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  6 | *|*:is(:hover, :focus) {}
- 7 | *|*:is(*:hover, *:focus) {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
@@ -1461,7 +1475,6 @@
  5 | :is(ol, ul, menu, dir) :is(ol, ul, menu, dir) :is(ul, menu, dir) {}
    :                                                                  ^^
  6 | *|*:is(:hover, :focus) {}
- 7 | *|*:is(*:hover, *:focus) {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:5:1]
@@ -1476,7 +1489,6 @@
  6 | *|*:is(:hover, :focus) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^
  7 | *|*:is(*:hover, *:focus) {}
- 8 | :is(ul, ol, .list) > [hidden] {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
@@ -1484,7 +1496,6 @@
  6 | *|*:is(:hover, :focus) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^
  7 | *|*:is(*:hover, *:focus) {}
- 8 | :is(ul, ol, .list) > [hidden] {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
@@ -1653,7 +1664,6 @@
  6 | *|*:is(:hover, :focus) {}
    :                        ^^
  7 | *|*:is(*:hover, *:focus) {}
- 8 | :is(ul, ol, .list) > [hidden] {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:6:1]
@@ -1668,7 +1678,6 @@
  7 | *|*:is(*:hover, *:focus) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
  8 | :is(ul, ol, .list) > [hidden] {}
- 9 | :is(p, p:unsupported) {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:7:1]
@@ -1676,7 +1685,6 @@
  7 | *|*:is(*:hover, *:focus) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
  8 | :is(ul, ol, .list) > [hidden] {}
- 9 | :is(p, p:unsupported) {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:7:1]
@@ -1873,7 +1881,6 @@
  7 | *|*:is(*:hover, *:focus) {}
    :                          ^^
  8 | :is(ul, ol, .list) > [hidden] {}
- 9 | :is(p, p:unsupported) {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:7:1]
@@ -1883,21 +1890,19 @@
  8 | :is(ul, ol, .list) > [hidden] {}
    `----
   x Rule
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:8:1]
-  7 | *|*:is(*:hover, *:focus) {}
-  8 | :is(ul, ol, .list) > [hidden] {}
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  9 | :is(p, p:unsupported) {}
- 10 | :is(:valid, :unsupported) {}
-    `----
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:8:1]
+ 7 | *|*:is(*:hover, *:focus) {}
+ 8 | :is(ul, ol, .list) > [hidden] {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 9 | :is(p, p:unsupported) {}
+   `----
   x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:8:1]
-  7 | *|*:is(*:hover, *:focus) {}
-  8 | :is(ul, ol, .list) > [hidden] {}
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  9 | :is(p, p:unsupported) {}
- 10 | :is(:valid, :unsupported) {}
-    `----
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:8:1]
+ 7 | *|*:is(*:hover, *:focus) {}
+ 8 | :is(ul, ol, .list) > [hidden] {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 9 | :is(p, p:unsupported) {}
+   `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:8:1]
  7 | *|*:is(*:hover, *:focus) {}
@@ -2116,13 +2121,12 @@
  9 | :is(p, p:unsupported) {}
    `----
   x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:8:1]
-  7 | *|*:is(*:hover, *:focus) {}
-  8 | :is(ul, ol, .list) > [hidden] {}
-    :                               ^^
-  9 | :is(p, p:unsupported) {}
- 10 | :is(:valid, :unsupported) {}
-    `----
+   ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:8:1]
+ 7 | *|*:is(*:hover, *:focus) {}
+ 8 | :is(ul, ol, .list) > [hidden] {}
+   :                               ^^
+ 9 | :is(p, p:unsupported) {}
+   `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:8:1]
  7 | *|*:is(*:hover, *:focus) {}
@@ -2136,7 +2140,6 @@
   9 | :is(p, p:unsupported) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^
  10 | :is(:valid, :unsupported) {}
- 11 | a:is(:not(:hover)) {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:9:1]
@@ -2144,7 +2147,6 @@
   9 | :is(p, p:unsupported) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^
  10 | :is(:valid, :unsupported) {}
- 11 | a:is(:not(:hover)) {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:9:1]
@@ -2313,7 +2315,6 @@
   9 | :is(p, p:unsupported) {}
     :                       ^^
  10 | :is(:valid, :unsupported) {}
- 11 | a:is(:not(:hover)) {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:9:1]
@@ -2328,7 +2329,6 @@
  10 | :is(:valid, :unsupported) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  11 | a:is(:not(:hover)) {}
- 12 | /*:is(:valid, foo < bar) {}*/
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:10:1]
@@ -2336,7 +2336,6 @@
  10 | :is(:valid, :unsupported) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  11 | a:is(:not(:hover)) {}
- 12 | /*:is(:valid, foo < bar) {}*/
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:10:1]
@@ -2470,7 +2469,6 @@
  10 | :is(:valid, :unsupported) {}
     :                           ^^
  11 | a:is(:not(:hover)) {}
- 12 | /*:is(:valid, foo < bar) {}*/
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:10:1]
@@ -2485,7 +2483,6 @@
  11 | a:is(:not(:hover)) {}
     : ^^^^^^^^^^^^^^^^^^^^^
  12 | /*:is(:valid, foo < bar) {}*/
- 13 | /*:is(foo < bar) {}*/
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:11:1]
@@ -2493,7 +2490,6 @@
  11 | a:is(:not(:hover)) {}
     : ^^^^^^^^^^^^^^^^^^^^^
  12 | /*:is(:valid, foo < bar) {}*/
- 13 | /*:is(foo < bar) {}*/
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:11:1]
@@ -2669,7 +2665,6 @@
  11 | a:is(:not(:hover)) {}
     :                    ^^
  12 | /*:is(:valid, foo < bar) {}*/
- 13 | /*:is(foo < bar) {}*/
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:11:1]
@@ -2684,7 +2679,6 @@
  14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  15 | :is(:nth-child(6),
- 16 |     :nth-last-child(6),
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
@@ -2692,7 +2686,6 @@
  14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  15 | :is(:nth-child(6),
- 16 |     :nth-last-child(6),
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
@@ -3225,7 +3218,6 @@
  14 | :is(section, article, aside, nav) :is(h1, h2, h3, h4, h5, h6) {}
     :                                                               ^^
  15 | :is(:nth-child(6),
- 16 |     :nth-last-child(6),
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:14:1]
@@ -3242,7 +3234,6 @@
  17 | |       :nth-of-type(6),
  18 | `->     :nth-last-of-type(6)) {}
  19 |     :-webkit-any(header, main, footer) p:hover {}
- 20 |     :-moz-any(header, main, footer) p:hover {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
@@ -3252,7 +3243,6 @@
  17 | |       :nth-of-type(6),
  18 | `->     :nth-last-of-type(6)) {}
  19 |     :-webkit-any(header, main, footer) p:hover {}
- 20 |     :-moz-any(header, main, footer) p:hover {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:15:1]
@@ -3554,7 +3544,6 @@
  18 |     :nth-last-of-type(6)) {}
     :                           ^^
  19 | :-webkit-any(header, main, footer) p:hover {}
- 20 | :-moz-any(header, main, footer) p:hover {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:18:1]
@@ -3569,7 +3558,6 @@
  19 | :-webkit-any(header, main, footer) p:hover {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  20 | :-moz-any(header, main, footer) p:hover {}
- 21 | :matches(header, main, footer) p:hover {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:19:1]
@@ -3577,7 +3565,6 @@
  19 | :-webkit-any(header, main, footer) p:hover {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  20 | :-moz-any(header, main, footer) p:hover {}
- 21 | :matches(header, main, footer) p:hover {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:19:1]
@@ -3809,7 +3796,6 @@
  19 | :-webkit-any(header, main, footer) p:hover {}
     :                                            ^^
  20 | :-moz-any(header, main, footer) p:hover {}
- 21 | :matches(header, main, footer) p:hover {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:19:1]
@@ -3824,7 +3810,6 @@
  20 | :-moz-any(header, main, footer) p:hover {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  21 | :matches(header, main, footer) p:hover {}
- 22 | :is(header, main, footer) p:hover {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:20:1]
@@ -3832,7 +3817,6 @@
  20 | :-moz-any(header, main, footer) p:hover {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  21 | :matches(header, main, footer) p:hover {}
- 22 | :is(header, main, footer) p:hover {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:20:1]
@@ -4064,7 +4048,6 @@
  20 | :-moz-any(header, main, footer) p:hover {}
     :                                         ^^
  21 | :matches(header, main, footer) p:hover {}
- 22 | :is(header, main, footer) p:hover {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:20:1]
@@ -4351,16 +4334,12 @@
  21 | :matches(header, main, footer) p:hover {}
  22 | :is(header, main, footer) p:hover {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 23 | 
- 24 | /* Forgiving */
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:22:1]
  21 | :matches(header, main, footer) p:hover {}
  22 | :is(header, main, footer) p:hover {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 23 | 
- 24 | /* Forgiving */
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:22:1]
@@ -4577,8 +4556,6 @@
  21 | :matches(header, main, footer) p:hover {}
  22 | :is(header, main, footer) p:hover {}
     :                                   ^^
- 23 | 
- 24 | /* Forgiving */
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:22:1]
@@ -4592,7 +4569,6 @@
  25 | :is(a >< b, a > b, d > c) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  26 | :is(   a >< b, a > b, d > c) {}
- 27 | :is(a > b, d > c, a >< b) {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:25:1]
@@ -4600,7 +4576,6 @@
  25 | :is(a >< b, a > b, d > c) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  26 | :is(   a >< b, a > b, d > c) {}
- 27 | :is(a > b, d > c, a >< b) {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:25:1]
@@ -4916,7 +4891,6 @@
  25 | :is(a >< b, a > b, d > c) {}
     :                           ^^
  26 | :is(   a >< b, a > b, d > c) {}
- 27 | :is(a > b, d > c, a >< b) {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:25:1]
@@ -4931,7 +4905,6 @@
  26 | :is(   a >< b, a > b, d > c) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  27 | :is(a > b, d > c, a >< b) {}
- 28 | :is(a > b, d > c, a >< b   ) {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:26:1]
@@ -4939,7 +4912,6 @@
  26 | :is(   a >< b, a > b, d > c) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  27 | :is(a > b, d > c, a >< b) {}
- 28 | :is(a > b, d > c, a >< b   ) {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:26:1]
@@ -5269,7 +5241,6 @@
  26 | :is(   a >< b, a > b, d > c) {}
     :                              ^^
  27 | :is(a > b, d > c, a >< b) {}
- 28 | :is(a > b, d > c, a >< b   ) {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:26:1]
@@ -5284,7 +5255,6 @@
  27 | :is(a > b, d > c, a >< b) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  28 | :is(a > b, d > c, a >< b   ) {}
- 29 | :is(a > b,   a >< b   ,  d > c) {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:27:1]
@@ -5292,7 +5262,6 @@
  27 | :is(a > b, d > c, a >< b) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  28 | :is(a > b, d > c, a >< b   ) {}
- 29 | :is(a > b,   a >< b   ,  d > c) {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:27:1]
@@ -5622,7 +5591,6 @@
  27 | :is(a > b, d > c, a >< b) {}
     :                           ^^
  28 | :is(a > b, d > c, a >< b   ) {}
- 29 | :is(a > b,   a >< b   ,  d > c) {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:27:1]
@@ -5996,12 +5964,16 @@
  29 | :is(a > b,   a >< b   ,  d > c) {}
     `----
   x Rule
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:29:2]
- 29 | |    
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:29:1]
+ 28 | :is(a > b, d > c, a >< b   ) {}
+ 29 | :is(a > b,   a >< b   ,  d > c) {}
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
   x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:29:2]
- 29 | |    
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:29:1]
+ 28 | :is(a > b, d > c, a >< b   ) {}
+ 29 | :is(a > b,   a >< b   ,  d > c) {}
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:29:1]
@@ -6292,8 +6264,10 @@
     :                              ^
     `----
   x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:29:34]
- 29 | `->  
+    ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:29:1]
+ 28 | :is(a > b, d > c, a >< b   ) {}
+ 29 | :is(a > b,   a >< b   ,  d > c) {}
+    :                                 ^^
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/pseudo-class/is/input.css:29:1]

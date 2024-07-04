@@ -1,18 +1,26 @@
   x Module
-   ,-[$DIR/tests/span/js/stmt/for-of.js:1:2]
- 1 | |    
+   ,-[$DIR/tests/span/js/stmt/for-of.js:1:1]
+ 1 | ,-> for await (const a of foo) {
+ 2 | |   
+ 3 | `-> }
    `----
   x ModuleItem
-   ,-[$DIR/tests/span/js/stmt/for-of.js:1:2]
- 1 | |    
+   ,-[$DIR/tests/span/js/stmt/for-of.js:1:1]
+ 1 | ,-> for await (const a of foo) {
+ 2 | |   
+ 3 | `-> }
    `----
   x Stmt
-   ,-[$DIR/tests/span/js/stmt/for-of.js:1:2]
- 1 | |    
+   ,-[$DIR/tests/span/js/stmt/for-of.js:1:1]
+ 1 | ,-> for await (const a of foo) {
+ 2 | |   
+ 3 | `-> }
    `----
   x ForOfStmt
-   ,-[$DIR/tests/span/js/stmt/for-of.js:1:2]
- 1 | |    
+   ,-[$DIR/tests/span/js/stmt/for-of.js:1:1]
+ 1 | ,-> for await (const a of foo) {
+ 2 | |   
+ 3 | `-> }
    `----
   x ForHead
    ,-[$DIR/tests/span/js/stmt/for-of.js:1:1]
@@ -50,10 +58,14 @@
    :                       ^^^
    `----
   x Stmt
-   ,-[$DIR/tests/span/js/stmt/for-of.js:1:29]
- 1 | |    
+   ,-[$DIR/tests/span/js/stmt/for-of.js:1:1]
+ 1 | ,-> for await (const a of foo) {
+ 2 | |   
+ 3 | `-> }
    `----
   x BlockStmt
-   ,-[$DIR/tests/span/js/stmt/for-of.js:1:29]
- 1 | |    
+   ,-[$DIR/tests/span/js/stmt/for-of.js:1:1]
+ 1 | ,-> for await (const a of foo) {
+ 2 | |   
+ 3 | `-> }
    `----

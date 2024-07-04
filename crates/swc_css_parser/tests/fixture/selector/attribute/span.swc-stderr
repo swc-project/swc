@@ -1,20 +1,66 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/selector/attribute/input.css:1:2]
- 1 | |    
-   `----
+    ,-[$DIR/tests/fixture/selector/attribute/input.css:1:1]
+  1 | ,-> [title] {}
+  2 | |   [title=foo] {}
+  3 | |   [title="foo"] {}
+  4 | |   [ title = "foo" ] {}
+  5 | |   [   title   =   "foo"   ] {}
+  6 | |   [lang~="en-us"] {}
+  7 | |   [lang|="zh"] {}
+  8 | |   [href^="#"] {}
+  9 | |   [href$=".org"] {}
+ 10 | |   [href*="example"] {}
+ 11 | |   [href*="insensitive" i] {}
+ 12 | |   [href*="insensitive" I] {}
+ 13 | |   [href*="cAsE" s] {}
+ 14 | |   [href*="cAsE" S] {}
+ 15 | |   [foo|att=val] {}
+ 16 | |   [*|att] {}
+ 17 | |   [   *|att   ] {}
+ 18 | |   [|att] {}
+ 19 | |   [ |att ] {}
+ 20 | |   [   |att   ] {}
+ 21 | |   [att] {}
+ 22 | |   [ att ] {}
+ 23 | |   [   att   ] {}
+ 24 | |   a[ class = "test" ] {}
+ 25 | |   a[   class   =   "test"   ] {}
+ 26 | |   [href*="insensitive"   i] {}
+ 27 | |   [   href*="insensitive"   i   ] {}
+ 28 | |   [   href   *=   "insensitive"   i   ] {}
+ 29 | |   [   href   ] {}
+ 30 | |   [frame=hsides i] {}
+ 31 | |   #id.class[target] {}
+ 32 | |   #id[target] {}
+ 33 | |   [target].class {}
+ 34 | |   [title='foo'] {}
+ 35 | |   [data-style='value'][data-loading] {}
+ 36 | |   a[href="te's't"] {}
+ 37 | |   a[href='te"s"t'] {}
+ 38 | |   [ng\:cloak] {}
+ 39 | |   [ng\3a cloak] {}
+ 40 | |   [ng\00003acloak] {}
+ 41 | |   :not([foo=")"]) {}
+ 42 | |   :not(div/*)*/) { }
+ 43 | |   [foo=\"] {}
+ 44 | |   [foo=\{] {}
+ 45 | |   [foo=\(] {}
+ 46 | |   [foo=yes\:\(it\'s\ work\)] {}
+ 47 | |   [attr=\;] { }
+ 48 | |   [*|attr|="test"] {}
+ 49 | `-> [foo|attr|="test"] {}
+    `----
   x Rule
    ,-[$DIR/tests/fixture/selector/attribute/input.css:1:1]
  1 | [title] {}
    : ^^^^^^^^^^
  2 | [title=foo] {}
- 3 | [title="foo"] {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/attribute/input.css:1:1]
  1 | [title] {}
    : ^^^^^^^^^^
  2 | [title=foo] {}
- 3 | [title="foo"] {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/attribute/input.css:1:1]
@@ -63,7 +109,6 @@
  1 | [title] {}
    :         ^^
  2 | [title=foo] {}
- 3 | [title="foo"] {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/attribute/input.css:1:1]
@@ -77,7 +122,6 @@
  2 | [title=foo] {}
    : ^^^^^^^^^^^^^^
  3 | [title="foo"] {}
- 4 | [ title = "foo" ] {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/attribute/input.css:2:1]
@@ -85,7 +129,6 @@
  2 | [title=foo] {}
    : ^^^^^^^^^^^^^^
  3 | [title="foo"] {}
- 4 | [ title = "foo" ] {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/attribute/input.css:2:1]
@@ -163,7 +206,6 @@
  2 | [title=foo] {}
    :             ^^
  3 | [title="foo"] {}
- 4 | [ title = "foo" ] {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/attribute/input.css:2:1]
@@ -178,7 +220,6 @@
  3 | [title="foo"] {}
    : ^^^^^^^^^^^^^^^^
  4 | [ title = "foo" ] {}
- 5 | [   title   =   "foo"   ] {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/attribute/input.css:3:1]
@@ -186,7 +227,6 @@
  3 | [title="foo"] {}
    : ^^^^^^^^^^^^^^^^
  4 | [ title = "foo" ] {}
- 5 | [   title   =   "foo"   ] {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/attribute/input.css:3:1]
@@ -264,7 +304,6 @@
  3 | [title="foo"] {}
    :               ^^
  4 | [ title = "foo" ] {}
- 5 | [   title   =   "foo"   ] {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/attribute/input.css:3:1]
@@ -279,7 +318,6 @@
  4 | [ title = "foo" ] {}
    : ^^^^^^^^^^^^^^^^^^^^
  5 | [   title   =   "foo"   ] {}
- 6 | [lang~="en-us"] {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/attribute/input.css:4:1]
@@ -287,7 +325,6 @@
  4 | [ title = "foo" ] {}
    : ^^^^^^^^^^^^^^^^^^^^
  5 | [   title   =   "foo"   ] {}
- 6 | [lang~="en-us"] {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/attribute/input.css:4:1]
@@ -365,7 +402,6 @@
  4 | [ title = "foo" ] {}
    :                   ^^
  5 | [   title   =   "foo"   ] {}
- 6 | [lang~="en-us"] {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/attribute/input.css:4:1]
@@ -380,7 +416,6 @@
  5 | [   title   =   "foo"   ] {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  6 | [lang~="en-us"] {}
- 7 | [lang|="zh"] {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/attribute/input.css:5:1]
@@ -388,7 +423,6 @@
  5 | [   title   =   "foo"   ] {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  6 | [lang~="en-us"] {}
- 7 | [lang|="zh"] {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/attribute/input.css:5:1]
@@ -466,7 +500,6 @@
  5 | [   title   =   "foo"   ] {}
    :                           ^^
  6 | [lang~="en-us"] {}
- 7 | [lang|="zh"] {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/attribute/input.css:5:1]
@@ -481,7 +514,6 @@
  6 | [lang~="en-us"] {}
    : ^^^^^^^^^^^^^^^^^^
  7 | [lang|="zh"] {}
- 8 | [href^="#"] {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/attribute/input.css:6:1]
@@ -489,7 +521,6 @@
  6 | [lang~="en-us"] {}
    : ^^^^^^^^^^^^^^^^^^
  7 | [lang|="zh"] {}
- 8 | [href^="#"] {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/attribute/input.css:6:1]
@@ -567,7 +598,6 @@
  6 | [lang~="en-us"] {}
    :                 ^^
  7 | [lang|="zh"] {}
- 8 | [href^="#"] {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/attribute/input.css:6:1]
@@ -582,7 +612,6 @@
  7 | [lang|="zh"] {}
    : ^^^^^^^^^^^^^^^
  8 | [href^="#"] {}
- 9 | [href$=".org"] {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/attribute/input.css:7:1]
@@ -590,7 +619,6 @@
  7 | [lang|="zh"] {}
    : ^^^^^^^^^^^^^^^
  8 | [href^="#"] {}
- 9 | [href$=".org"] {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/attribute/input.css:7:1]
@@ -668,7 +696,6 @@
  7 | [lang|="zh"] {}
    :              ^^
  8 | [href^="#"] {}
- 9 | [href$=".org"] {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/attribute/input.css:7:1]
@@ -678,21 +705,19 @@
  8 | [href^="#"] {}
    `----
   x Rule
-    ,-[$DIR/tests/fixture/selector/attribute/input.css:8:1]
-  7 | [lang|="zh"] {}
-  8 | [href^="#"] {}
-    : ^^^^^^^^^^^^^^
-  9 | [href$=".org"] {}
- 10 | [href*="example"] {}
-    `----
+   ,-[$DIR/tests/fixture/selector/attribute/input.css:8:1]
+ 7 | [lang|="zh"] {}
+ 8 | [href^="#"] {}
+   : ^^^^^^^^^^^^^^
+ 9 | [href$=".org"] {}
+   `----
   x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/attribute/input.css:8:1]
-  7 | [lang|="zh"] {}
-  8 | [href^="#"] {}
-    : ^^^^^^^^^^^^^^
-  9 | [href$=".org"] {}
- 10 | [href*="example"] {}
-    `----
+   ,-[$DIR/tests/fixture/selector/attribute/input.css:8:1]
+ 7 | [lang|="zh"] {}
+ 8 | [href^="#"] {}
+   : ^^^^^^^^^^^^^^
+ 9 | [href$=".org"] {}
+   `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/attribute/input.css:8:1]
  7 | [lang|="zh"] {}
@@ -764,13 +789,12 @@
  9 | [href$=".org"] {}
    `----
   x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/attribute/input.css:8:1]
-  7 | [lang|="zh"] {}
-  8 | [href^="#"] {}
-    :             ^^
-  9 | [href$=".org"] {}
- 10 | [href*="example"] {}
-    `----
+   ,-[$DIR/tests/fixture/selector/attribute/input.css:8:1]
+ 7 | [lang|="zh"] {}
+ 8 | [href^="#"] {}
+   :             ^^
+ 9 | [href$=".org"] {}
+   `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/attribute/input.css:8:1]
  7 | [lang|="zh"] {}
@@ -784,7 +808,6 @@
   9 | [href$=".org"] {}
     : ^^^^^^^^^^^^^^^^^
  10 | [href*="example"] {}
- 11 | [href*="insensitive" i] {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/attribute/input.css:9:1]
@@ -792,7 +815,6 @@
   9 | [href$=".org"] {}
     : ^^^^^^^^^^^^^^^^^
  10 | [href*="example"] {}
- 11 | [href*="insensitive" i] {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/attribute/input.css:9:1]
@@ -870,7 +892,6 @@
   9 | [href$=".org"] {}
     :                ^^
  10 | [href*="example"] {}
- 11 | [href*="insensitive" i] {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/attribute/input.css:9:1]
@@ -885,7 +906,6 @@
  10 | [href*="example"] {}
     : ^^^^^^^^^^^^^^^^^^^^
  11 | [href*="insensitive" i] {}
- 12 | [href*="insensitive" I] {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/attribute/input.css:10:1]
@@ -893,7 +913,6 @@
  10 | [href*="example"] {}
     : ^^^^^^^^^^^^^^^^^^^^
  11 | [href*="insensitive" i] {}
- 12 | [href*="insensitive" I] {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/attribute/input.css:10:1]
@@ -971,7 +990,6 @@
  10 | [href*="example"] {}
     :                   ^^
  11 | [href*="insensitive" i] {}
- 12 | [href*="insensitive" I] {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/attribute/input.css:10:1]
@@ -986,7 +1004,6 @@
  11 | [href*="insensitive" i] {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^
  12 | [href*="insensitive" I] {}
- 13 | [href*="cAsE" s] {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/attribute/input.css:11:1]
@@ -994,7 +1011,6 @@
  11 | [href*="insensitive" i] {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^
  12 | [href*="insensitive" I] {}
- 13 | [href*="cAsE" s] {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/attribute/input.css:11:1]
@@ -1086,7 +1102,6 @@
  11 | [href*="insensitive" i] {}
     :                         ^^
  12 | [href*="insensitive" I] {}
- 13 | [href*="cAsE" s] {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/attribute/input.css:11:1]
@@ -1101,7 +1116,6 @@
  12 | [href*="insensitive" I] {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^
  13 | [href*="cAsE" s] {}
- 14 | [href*="cAsE" S] {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/attribute/input.css:12:1]
@@ -1109,7 +1123,6 @@
  12 | [href*="insensitive" I] {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^
  13 | [href*="cAsE" s] {}
- 14 | [href*="cAsE" S] {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/attribute/input.css:12:1]
@@ -1201,7 +1214,6 @@
  12 | [href*="insensitive" I] {}
     :                         ^^
  13 | [href*="cAsE" s] {}
- 14 | [href*="cAsE" S] {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/attribute/input.css:12:1]
@@ -1216,7 +1228,6 @@
  13 | [href*="cAsE" s] {}
     : ^^^^^^^^^^^^^^^^^^^
  14 | [href*="cAsE" S] {}
- 15 | [foo|att=val] {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/attribute/input.css:13:1]
@@ -1224,7 +1235,6 @@
  13 | [href*="cAsE" s] {}
     : ^^^^^^^^^^^^^^^^^^^
  14 | [href*="cAsE" S] {}
- 15 | [foo|att=val] {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/attribute/input.css:13:1]
@@ -1316,7 +1326,6 @@
  13 | [href*="cAsE" s] {}
     :                  ^^
  14 | [href*="cAsE" S] {}
- 15 | [foo|att=val] {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/attribute/input.css:13:1]
@@ -1331,7 +1340,6 @@
  14 | [href*="cAsE" S] {}
     : ^^^^^^^^^^^^^^^^^^^
  15 | [foo|att=val] {}
- 16 | [*|att] {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/attribute/input.css:14:1]
@@ -1339,7 +1347,6 @@
  14 | [href*="cAsE" S] {}
     : ^^^^^^^^^^^^^^^^^^^
  15 | [foo|att=val] {}
- 16 | [*|att] {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/attribute/input.css:14:1]
@@ -1431,7 +1438,6 @@
  14 | [href*="cAsE" S] {}
     :                  ^^
  15 | [foo|att=val] {}
- 16 | [*|att] {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/attribute/input.css:14:1]
@@ -1446,7 +1452,6 @@
  15 | [foo|att=val] {}
     : ^^^^^^^^^^^^^^^^
  16 | [*|att] {}
- 17 | [   *|att   ] {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/attribute/input.css:15:1]
@@ -1454,7 +1459,6 @@
  15 | [foo|att=val] {}
     : ^^^^^^^^^^^^^^^^
  16 | [*|att] {}
- 17 | [   *|att   ] {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/attribute/input.css:15:1]
@@ -1560,7 +1564,6 @@
  15 | [foo|att=val] {}
     :               ^^
  16 | [*|att] {}
- 17 | [   *|att   ] {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/attribute/input.css:15:1]
@@ -1575,7 +1578,6 @@
  16 | [*|att] {}
     : ^^^^^^^^^^
  17 | [   *|att   ] {}
- 18 | [|att] {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/attribute/input.css:16:1]
@@ -1583,7 +1585,6 @@
  16 | [*|att] {}
     : ^^^^^^^^^^
  17 | [   *|att   ] {}
- 18 | [|att] {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/attribute/input.css:16:1]
@@ -1661,7 +1662,6 @@
  16 | [*|att] {}
     :         ^^
  17 | [   *|att   ] {}
- 18 | [|att] {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/attribute/input.css:16:1]
@@ -1676,7 +1676,6 @@
  17 | [   *|att   ] {}
     : ^^^^^^^^^^^^^^^^
  18 | [|att] {}
- 19 | [ |att ] {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/attribute/input.css:17:1]
@@ -1684,7 +1683,6 @@
  17 | [   *|att   ] {}
     : ^^^^^^^^^^^^^^^^
  18 | [|att] {}
- 19 | [ |att ] {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/attribute/input.css:17:1]
@@ -1762,7 +1760,6 @@
  17 | [   *|att   ] {}
     :               ^^
  18 | [|att] {}
- 19 | [ |att ] {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/attribute/input.css:17:1]
@@ -1777,7 +1774,6 @@
  18 | [|att] {}
     : ^^^^^^^^^
  19 | [ |att ] {}
- 20 | [   |att   ] {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/attribute/input.css:18:1]
@@ -1785,7 +1781,6 @@
  18 | [|att] {}
     : ^^^^^^^^^
  19 | [ |att ] {}
- 20 | [   |att   ] {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/attribute/input.css:18:1]
@@ -1849,7 +1844,6 @@
  18 | [|att] {}
     :        ^^
  19 | [ |att ] {}
- 20 | [   |att   ] {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/attribute/input.css:18:1]
@@ -1864,7 +1858,6 @@
  19 | [ |att ] {}
     : ^^^^^^^^^^^
  20 | [   |att   ] {}
- 21 | [att] {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/attribute/input.css:19:1]
@@ -1872,7 +1865,6 @@
  19 | [ |att ] {}
     : ^^^^^^^^^^^
  20 | [   |att   ] {}
- 21 | [att] {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/attribute/input.css:19:1]
@@ -1936,7 +1928,6 @@
  19 | [ |att ] {}
     :          ^^
  20 | [   |att   ] {}
- 21 | [att] {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/attribute/input.css:19:1]
@@ -1951,7 +1942,6 @@
  20 | [   |att   ] {}
     : ^^^^^^^^^^^^^^^
  21 | [att] {}
- 22 | [ att ] {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/attribute/input.css:20:1]
@@ -1959,7 +1949,6 @@
  20 | [   |att   ] {}
     : ^^^^^^^^^^^^^^^
  21 | [att] {}
- 22 | [ att ] {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/attribute/input.css:20:1]
@@ -2023,7 +2012,6 @@
  20 | [   |att   ] {}
     :              ^^
  21 | [att] {}
- 22 | [ att ] {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/attribute/input.css:20:1]
@@ -2038,7 +2026,6 @@
  21 | [att] {}
     : ^^^^^^^^
  22 | [ att ] {}
- 23 | [   att   ] {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/attribute/input.css:21:1]
@@ -2046,7 +2033,6 @@
  21 | [att] {}
     : ^^^^^^^^
  22 | [ att ] {}
- 23 | [   att   ] {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/attribute/input.css:21:1]
@@ -2103,7 +2089,6 @@
  21 | [att] {}
     :       ^^
  22 | [ att ] {}
- 23 | [   att   ] {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/attribute/input.css:21:1]
@@ -2118,7 +2103,6 @@
  22 | [ att ] {}
     : ^^^^^^^^^^
  23 | [   att   ] {}
- 24 | a[ class = "test" ] {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/attribute/input.css:22:1]
@@ -2126,7 +2110,6 @@
  22 | [ att ] {}
     : ^^^^^^^^^^
  23 | [   att   ] {}
- 24 | a[ class = "test" ] {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/attribute/input.css:22:1]
@@ -2183,7 +2166,6 @@
  22 | [ att ] {}
     :         ^^
  23 | [   att   ] {}
- 24 | a[ class = "test" ] {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/attribute/input.css:22:1]
@@ -2198,7 +2180,6 @@
  23 | [   att   ] {}
     : ^^^^^^^^^^^^^^
  24 | a[ class = "test" ] {}
- 25 | a[   class   =   "test"   ] {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/attribute/input.css:23:1]
@@ -2206,7 +2187,6 @@
  23 | [   att   ] {}
     : ^^^^^^^^^^^^^^
  24 | a[ class = "test" ] {}
- 25 | a[   class   =   "test"   ] {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/attribute/input.css:23:1]
@@ -2263,7 +2243,6 @@
  23 | [   att   ] {}
     :             ^^
  24 | a[ class = "test" ] {}
- 25 | a[   class   =   "test"   ] {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/attribute/input.css:23:1]
@@ -2278,7 +2257,6 @@
  24 | a[ class = "test" ] {}
     : ^^^^^^^^^^^^^^^^^^^^^^
  25 | a[   class   =   "test"   ] {}
- 26 | [href*="insensitive"   i] {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/attribute/input.css:24:1]
@@ -2286,7 +2264,6 @@
  24 | a[ class = "test" ] {}
     : ^^^^^^^^^^^^^^^^^^^^^^
  25 | a[   class   =   "test"   ] {}
- 26 | [href*="insensitive"   i] {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/attribute/input.css:24:1]
@@ -2392,7 +2369,6 @@
  24 | a[ class = "test" ] {}
     :                     ^^
  25 | a[   class   =   "test"   ] {}
- 26 | [href*="insensitive"   i] {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/attribute/input.css:24:1]
@@ -2407,7 +2383,6 @@
  25 | a[   class   =   "test"   ] {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  26 | [href*="insensitive"   i] {}
- 27 | [   href*="insensitive"   i   ] {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/attribute/input.css:25:1]
@@ -2415,7 +2390,6 @@
  25 | a[   class   =   "test"   ] {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  26 | [href*="insensitive"   i] {}
- 27 | [   href*="insensitive"   i   ] {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/attribute/input.css:25:1]
@@ -2521,7 +2495,6 @@
  25 | a[   class   =   "test"   ] {}
     :                             ^^
  26 | [href*="insensitive"   i] {}
- 27 | [   href*="insensitive"   i   ] {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/attribute/input.css:25:1]
@@ -2536,7 +2509,6 @@
  26 | [href*="insensitive"   i] {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  27 | [   href*="insensitive"   i   ] {}
- 28 | [   href   *=   "insensitive"   i   ] {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/attribute/input.css:26:1]
@@ -2544,7 +2516,6 @@
  26 | [href*="insensitive"   i] {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  27 | [   href*="insensitive"   i   ] {}
- 28 | [   href   *=   "insensitive"   i   ] {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/attribute/input.css:26:1]
@@ -2636,7 +2607,6 @@
  26 | [href*="insensitive"   i] {}
     :                           ^^
  27 | [   href*="insensitive"   i   ] {}
- 28 | [   href   *=   "insensitive"   i   ] {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/attribute/input.css:26:1]
@@ -2651,7 +2621,6 @@
  27 | [   href*="insensitive"   i   ] {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  28 | [   href   *=   "insensitive"   i   ] {}
- 29 | [   href   ] {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/attribute/input.css:27:1]
@@ -2659,7 +2628,6 @@
  27 | [   href*="insensitive"   i   ] {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  28 | [   href   *=   "insensitive"   i   ] {}
- 29 | [   href   ] {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/attribute/input.css:27:1]
@@ -2751,7 +2719,6 @@
  27 | [   href*="insensitive"   i   ] {}
     :                                 ^^
  28 | [   href   *=   "insensitive"   i   ] {}
- 29 | [   href   ] {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/attribute/input.css:27:1]
@@ -2766,7 +2733,6 @@
  28 | [   href   *=   "insensitive"   i   ] {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  29 | [   href   ] {}
- 30 | [frame=hsides i] {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/attribute/input.css:28:1]
@@ -2774,7 +2740,6 @@
  28 | [   href   *=   "insensitive"   i   ] {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  29 | [   href   ] {}
- 30 | [frame=hsides i] {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/attribute/input.css:28:1]
@@ -2866,7 +2831,6 @@
  28 | [   href   *=   "insensitive"   i   ] {}
     :                                       ^^
  29 | [   href   ] {}
- 30 | [frame=hsides i] {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/attribute/input.css:28:1]
@@ -2881,7 +2845,6 @@
  29 | [   href   ] {}
     : ^^^^^^^^^^^^^^^
  30 | [frame=hsides i] {}
- 31 | #id.class[target] {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/attribute/input.css:29:1]
@@ -2889,7 +2852,6 @@
  29 | [   href   ] {}
     : ^^^^^^^^^^^^^^^
  30 | [frame=hsides i] {}
- 31 | #id.class[target] {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/attribute/input.css:29:1]
@@ -2946,7 +2908,6 @@
  29 | [   href   ] {}
     :              ^^
  30 | [frame=hsides i] {}
- 31 | #id.class[target] {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/attribute/input.css:29:1]
@@ -2961,7 +2922,6 @@
  30 | [frame=hsides i] {}
     : ^^^^^^^^^^^^^^^^^^^
  31 | #id.class[target] {}
- 32 | #id[target] {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/attribute/input.css:30:1]
@@ -2969,7 +2929,6 @@
  30 | [frame=hsides i] {}
     : ^^^^^^^^^^^^^^^^^^^
  31 | #id.class[target] {}
- 32 | #id[target] {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/attribute/input.css:30:1]
@@ -3061,7 +3020,6 @@
  30 | [frame=hsides i] {}
     :                  ^^
  31 | #id.class[target] {}
- 32 | #id[target] {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/attribute/input.css:30:1]
@@ -3076,7 +3034,6 @@
  31 | #id.class[target] {}
     : ^^^^^^^^^^^^^^^^^^^^
  32 | #id[target] {}
- 33 | [target].class {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/attribute/input.css:31:1]
@@ -3084,7 +3041,6 @@
  31 | #id.class[target] {}
     : ^^^^^^^^^^^^^^^^^^^^
  32 | #id[target] {}
- 33 | [target].class {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/attribute/input.css:31:1]
@@ -3183,7 +3139,6 @@
  31 | #id.class[target] {}
     :                   ^^
  32 | #id[target] {}
- 33 | [target].class {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/attribute/input.css:31:1]
@@ -3198,7 +3153,6 @@
  32 | #id[target] {}
     : ^^^^^^^^^^^^^^
  33 | [target].class {}
- 34 | [title='foo'] {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/attribute/input.css:32:1]
@@ -3206,7 +3160,6 @@
  32 | #id[target] {}
     : ^^^^^^^^^^^^^^
  33 | [target].class {}
- 34 | [title='foo'] {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/attribute/input.css:32:1]
@@ -3284,7 +3237,6 @@
  32 | #id[target] {}
     :             ^^
  33 | [target].class {}
- 34 | [title='foo'] {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/attribute/input.css:32:1]
@@ -3299,7 +3251,6 @@
  33 | [target].class {}
     : ^^^^^^^^^^^^^^^^^
  34 | [title='foo'] {}
- 35 | [data-style='value'][data-loading] {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/attribute/input.css:33:1]
@@ -3307,7 +3258,6 @@
  33 | [target].class {}
     : ^^^^^^^^^^^^^^^^^
  34 | [title='foo'] {}
- 35 | [data-style='value'][data-loading] {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/attribute/input.css:33:1]
@@ -3385,7 +3335,6 @@
  33 | [target].class {}
     :                ^^
  34 | [title='foo'] {}
- 35 | [data-style='value'][data-loading] {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/attribute/input.css:33:1]
@@ -3400,7 +3349,6 @@
  34 | [title='foo'] {}
     : ^^^^^^^^^^^^^^^^
  35 | [data-style='value'][data-loading] {}
- 36 | a[href="te's't"] {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/attribute/input.css:34:1]
@@ -3408,7 +3356,6 @@
  34 | [title='foo'] {}
     : ^^^^^^^^^^^^^^^^
  35 | [data-style='value'][data-loading] {}
- 36 | a[href="te's't"] {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/attribute/input.css:34:1]
@@ -3486,7 +3433,6 @@
  34 | [title='foo'] {}
     :               ^^
  35 | [data-style='value'][data-loading] {}
- 36 | a[href="te's't"] {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/attribute/input.css:34:1]
@@ -3501,7 +3447,6 @@
  35 | [data-style='value'][data-loading] {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  36 | a[href="te's't"] {}
- 37 | a[href='te"s"t'] {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/attribute/input.css:35:1]
@@ -3509,7 +3454,6 @@
  35 | [data-style='value'][data-loading] {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  36 | a[href="te's't"] {}
- 37 | a[href='te"s"t'] {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/attribute/input.css:35:1]
@@ -3615,7 +3559,6 @@
  35 | [data-style='value'][data-loading] {}
     :                                    ^^
  36 | a[href="te's't"] {}
- 37 | a[href='te"s"t'] {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/attribute/input.css:35:1]
@@ -3630,7 +3573,6 @@
  36 | a[href="te's't"] {}
     : ^^^^^^^^^^^^^^^^^^^
  37 | a[href='te"s"t'] {}
- 38 | [ng\:cloak] {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/attribute/input.css:36:1]
@@ -3638,7 +3580,6 @@
  36 | a[href="te's't"] {}
     : ^^^^^^^^^^^^^^^^^^^
  37 | a[href='te"s"t'] {}
- 38 | [ng\:cloak] {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/attribute/input.css:36:1]
@@ -3744,7 +3685,6 @@
  36 | a[href="te's't"] {}
     :                  ^^
  37 | a[href='te"s"t'] {}
- 38 | [ng\:cloak] {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/attribute/input.css:36:1]
@@ -3759,7 +3699,6 @@
  37 | a[href='te"s"t'] {}
     : ^^^^^^^^^^^^^^^^^^^
  38 | [ng\:cloak] {}
- 39 | [ng\3a cloak] {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/attribute/input.css:37:1]
@@ -3767,7 +3706,6 @@
  37 | a[href='te"s"t'] {}
     : ^^^^^^^^^^^^^^^^^^^
  38 | [ng\:cloak] {}
- 39 | [ng\3a cloak] {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/attribute/input.css:37:1]
@@ -3873,7 +3811,6 @@
  37 | a[href='te"s"t'] {}
     :                  ^^
  38 | [ng\:cloak] {}
- 39 | [ng\3a cloak] {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/attribute/input.css:37:1]
@@ -3888,7 +3825,6 @@
  38 | [ng\:cloak] {}
     : ^^^^^^^^^^^^^^
  39 | [ng\3a cloak] {}
- 40 | [ng\00003acloak] {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/attribute/input.css:38:1]
@@ -3896,7 +3832,6 @@
  38 | [ng\:cloak] {}
     : ^^^^^^^^^^^^^^
  39 | [ng\3a cloak] {}
- 40 | [ng\00003acloak] {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/attribute/input.css:38:1]
@@ -3953,7 +3888,6 @@
  38 | [ng\:cloak] {}
     :             ^^
  39 | [ng\3a cloak] {}
- 40 | [ng\00003acloak] {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/attribute/input.css:38:1]
@@ -3968,7 +3902,6 @@
  39 | [ng\3a cloak] {}
     : ^^^^^^^^^^^^^^^^
  40 | [ng\00003acloak] {}
- 41 | :not([foo=")"]) {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/attribute/input.css:39:1]
@@ -3976,7 +3909,6 @@
  39 | [ng\3a cloak] {}
     : ^^^^^^^^^^^^^^^^
  40 | [ng\00003acloak] {}
- 41 | :not([foo=")"]) {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/attribute/input.css:39:1]
@@ -4033,7 +3965,6 @@
  39 | [ng\3a cloak] {}
     :               ^^
  40 | [ng\00003acloak] {}
- 41 | :not([foo=")"]) {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/attribute/input.css:39:1]
@@ -4048,7 +3979,6 @@
  40 | [ng\00003acloak] {}
     : ^^^^^^^^^^^^^^^^^^^
  41 | :not([foo=")"]) {}
- 42 | :not(div/*)*/) { }
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/attribute/input.css:40:1]
@@ -4056,7 +3986,6 @@
  40 | [ng\00003acloak] {}
     : ^^^^^^^^^^^^^^^^^^^
  41 | :not([foo=")"]) {}
- 42 | :not(div/*)*/) { }
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/attribute/input.css:40:1]
@@ -4113,7 +4042,6 @@
  40 | [ng\00003acloak] {}
     :                  ^^
  41 | :not([foo=")"]) {}
- 42 | :not(div/*)*/) { }
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/attribute/input.css:40:1]
@@ -4128,7 +4056,6 @@
  41 | :not([foo=")"]) {}
     : ^^^^^^^^^^^^^^^^^^
  42 | :not(div/*)*/) { }
- 43 | [foo=\"] {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/attribute/input.css:41:1]
@@ -4136,7 +4063,6 @@
  41 | :not([foo=")"]) {}
     : ^^^^^^^^^^^^^^^^^^
  42 | :not(div/*)*/) { }
- 43 | [foo=\"] {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/attribute/input.css:41:1]
@@ -4263,7 +4189,6 @@
  41 | :not([foo=")"]) {}
     :                 ^^
  42 | :not(div/*)*/) { }
- 43 | [foo=\"] {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/attribute/input.css:41:1]
@@ -4278,7 +4203,6 @@
  42 | :not(div/*)*/) { }
     : ^^^^^^^^^^^^^^^^^^
  43 | [foo=\"] {}
- 44 | [foo=\{] {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/attribute/input.css:42:1]
@@ -4286,7 +4210,6 @@
  42 | :not(div/*)*/) { }
     : ^^^^^^^^^^^^^^^^^^
  43 | [foo=\"] {}
- 44 | [foo=\{] {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/attribute/input.css:42:1]
@@ -4392,7 +4315,6 @@
  42 | :not(div/*)*/) { }
     :                ^^^
  43 | [foo=\"] {}
- 44 | [foo=\{] {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/attribute/input.css:42:1]
@@ -4407,7 +4329,6 @@
  43 | [foo=\"] {}
     : ^^^^^^^^^^^
  44 | [foo=\{] {}
- 45 | [foo=\(] {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/attribute/input.css:43:1]
@@ -4415,7 +4336,6 @@
  43 | [foo=\"] {}
     : ^^^^^^^^^^^
  44 | [foo=\{] {}
- 45 | [foo=\(] {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/attribute/input.css:43:1]
@@ -4493,7 +4413,6 @@
  43 | [foo=\"] {}
     :          ^^
  44 | [foo=\{] {}
- 45 | [foo=\(] {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/attribute/input.css:43:1]
@@ -4508,7 +4427,6 @@
  44 | [foo=\{] {}
     : ^^^^^^^^^^^
  45 | [foo=\(] {}
- 46 | [foo=yes\:\(it\'s\ work\)] {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/attribute/input.css:44:1]
@@ -4516,7 +4434,6 @@
  44 | [foo=\{] {}
     : ^^^^^^^^^^^
  45 | [foo=\(] {}
- 46 | [foo=yes\:\(it\'s\ work\)] {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/attribute/input.css:44:1]
@@ -4594,7 +4511,6 @@
  44 | [foo=\{] {}
     :          ^^
  45 | [foo=\(] {}
- 46 | [foo=yes\:\(it\'s\ work\)] {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/attribute/input.css:44:1]
@@ -4609,7 +4525,6 @@
  45 | [foo=\(] {}
     : ^^^^^^^^^^^
  46 | [foo=yes\:\(it\'s\ work\)] {}
- 47 | [attr=\;] { }
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/attribute/input.css:45:1]
@@ -4617,7 +4532,6 @@
  45 | [foo=\(] {}
     : ^^^^^^^^^^^
  46 | [foo=yes\:\(it\'s\ work\)] {}
- 47 | [attr=\;] { }
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/attribute/input.css:45:1]
@@ -4695,7 +4609,6 @@
  45 | [foo=\(] {}
     :          ^^
  46 | [foo=yes\:\(it\'s\ work\)] {}
- 47 | [attr=\;] { }
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/attribute/input.css:45:1]
@@ -4710,7 +4623,6 @@
  46 | [foo=yes\:\(it\'s\ work\)] {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  47 | [attr=\;] { }
- 48 | [*|attr|="test"] {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/attribute/input.css:46:1]
@@ -4718,7 +4630,6 @@
  46 | [foo=yes\:\(it\'s\ work\)] {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  47 | [attr=\;] { }
- 48 | [*|attr|="test"] {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/attribute/input.css:46:1]
@@ -4796,7 +4707,6 @@
  46 | [foo=yes\:\(it\'s\ work\)] {}
     :                            ^^
  47 | [attr=\;] { }
- 48 | [*|attr|="test"] {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/attribute/input.css:46:1]
@@ -4811,7 +4721,6 @@
  47 | [attr=\;] { }
     : ^^^^^^^^^^^^^
  48 | [*|attr|="test"] {}
- 49 | [foo|attr|="test"] {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/attribute/input.css:47:1]
@@ -4819,7 +4728,6 @@
  47 | [attr=\;] { }
     : ^^^^^^^^^^^^^
  48 | [*|attr|="test"] {}
- 49 | [foo|attr|="test"] {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/attribute/input.css:47:1]
@@ -4897,7 +4805,6 @@
  47 | [attr=\;] { }
     :           ^^^
  48 | [*|attr|="test"] {}
- 49 | [foo|attr|="test"] {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/attribute/input.css:47:1]

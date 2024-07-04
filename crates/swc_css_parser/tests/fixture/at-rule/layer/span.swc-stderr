@@ -1,20 +1,66 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/at-rule/layer/input.css:1:2]
- 1 | |    
-   `----
+    ,-[$DIR/tests/fixture/at-rule/layer/input.css:1:1]
+  1 | ,-> @layer framework, override   ,    foo   , bar.baz  ;
+  2 | |   
+  3 | |   @layer override {
+  4 | |       @keyframes slide-left {
+  5 | |           from { translate: 0; }
+  6 | |           to { translate: -100% 0; }
+  7 | |       }
+  8 | |   }
+  9 | |   
+ 10 | |   @layer framework {
+ 11 | |       @keyframes slide-left {
+ 12 | |           from { margin-left: 0; }
+ 13 | |           to { margin-left: -100%; }
+ 14 | |       }
+ 15 | |   }
+ 16 | |   
+ 17 | |   .sidebar { animation: slide-left 300ms; }
+ 18 | |   
+ 19 | |   @layer { /* layer 1 */ }
+ 20 | |   @layer { /* layer 2 */ }
+ 21 | |   
+ 22 | |   @layer reset.type {
+ 23 | |       strong { font-weight: bold; }
+ 24 | |   }
+ 25 | |   
+ 26 | |   @layer framework {
+ 27 | |       .title { font-weight: 100; }
+ 28 | |   
+ 29 | |       @layer theme {
+ 30 | |           h1, h2 { color: maroon; }
+ 31 | |       }
+ 32 | |   }
+ 33 | |   
+ 34 | |   @layer reset {
+ 35 | |       [hidden] { display: none; }
+ 36 | |   }
+ 37 | |   
+ 38 | |   @layer framework {
+ 39 | |       @layer default {
+ 40 | |           p { margin-block: 0.75em; }
+ 41 | |       }
+ 42 | |   
+ 43 | |       @layer theme {
+ 44 | |           p { color: #222; }
+ 45 | |       }
+ 46 | |   }
+ 47 | |   
+ 48 | |   @layer framework.theme {
+ 49 | |       /* These styles will be added to the theme layer inside the framework layer */
+ 50 | |       blockquote { color: rebeccapurple; }
+ 51 | `-> }
+    `----
   x Rule
    ,-[$DIR/tests/fixture/at-rule/layer/input.css:1:1]
  1 | @layer framework, override   ,    foo   , bar.baz  ;
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 2 | 
- 3 | @layer override {
    `----
   x AtRule
    ,-[$DIR/tests/fixture/at-rule/layer/input.css:1:1]
  1 | @layer framework, override   ,    foo   , bar.baz  ;
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 2 | 
- 3 | @layer override {
    `----
   x AtRuleName
    ,-[$DIR/tests/fixture/at-rule/layer/input.css:1:1]
@@ -82,29 +128,25 @@
    :                                               ^^^
    `----
   x Rule
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:3:1]
-  2 |     
-  3 | ,-> @layer override {
-  4 | |       @keyframes slide-left {
-  5 | |           from { translate: 0; }
-  6 | |           to { translate: -100% 0; }
-  7 | |       }
-  8 | `-> }
-  9 |     
- 10 |     @layer framework {
-    `----
+   ,-[$DIR/tests/fixture/at-rule/layer/input.css:3:1]
+ 2 |     
+ 3 | ,-> @layer override {
+ 4 | |       @keyframes slide-left {
+ 5 | |           from { translate: 0; }
+ 6 | |           to { translate: -100% 0; }
+ 7 | |       }
+ 8 | `-> }
+   `----
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:3:1]
-  2 |     
-  3 | ,-> @layer override {
-  4 | |       @keyframes slide-left {
-  5 | |           from { translate: 0; }
-  6 | |           to { translate: -100% 0; }
-  7 | |       }
-  8 | `-> }
-  9 |     
- 10 |     @layer framework {
-    `----
+   ,-[$DIR/tests/fixture/at-rule/layer/input.css:3:1]
+ 2 |     
+ 3 | ,-> @layer override {
+ 4 | |       @keyframes slide-left {
+ 5 | |           from { translate: 0; }
+ 6 | |           to { translate: -100% 0; }
+ 7 | |       }
+ 8 | `-> }
+   `----
   x AtRuleName
    ,-[$DIR/tests/fixture/at-rule/layer/input.css:3:1]
  2 | 
@@ -141,24 +183,21 @@
  4 |     @keyframes slide-left {
    `----
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/layer/input.css:3:1]
-  2 |     
-  3 | ,-> @layer override {
-  4 | |       @keyframes slide-left {
-  5 | |           from { translate: 0; }
-  6 | |           to { translate: -100% 0; }
-  7 | |       }
-  8 | `-> }
-  9 |     
- 10 |     @layer framework {
-    `----
+   ,-[$DIR/tests/fixture/at-rule/layer/input.css:3:1]
+ 2 |     
+ 3 | ,-> @layer override {
+ 4 | |       @keyframes slide-left {
+ 5 | |           from { translate: 0; }
+ 6 | |           to { translate: -100% 0; }
+ 7 | |       }
+ 8 | `-> }
+   `----
   x LBrace
    ,-[$DIR/tests/fixture/at-rule/layer/input.css:3:1]
  2 | 
  3 | @layer override {
    :                 ^
  4 |     @keyframes slide-left {
- 5 |         from { translate: 0; }
    `----
   x ComponentValue
    ,-[$DIR/tests/fixture/at-rule/layer/input.css:4:1]
@@ -214,7 +253,6 @@
  4 |     @keyframes slide-left {
    :                           ^
  5 |         from { translate: 0; }
- 6 |         to { translate: -100% 0; }
    `----
   x ComponentValue
    ,-[$DIR/tests/fixture/at-rule/layer/input.css:5:1]
@@ -222,7 +260,6 @@
  5 |         from { translate: 0; }
    :         ^^^^^^^^^^^^^^^^^^^^^^
  6 |         to { translate: -100% 0; }
- 7 |     }
    `----
   x Ident
    ,-[$DIR/tests/fixture/at-rule/layer/input.css:5:1]
@@ -237,7 +274,6 @@
  5 |         from { translate: 0; }
    :              ^^^^^^^^^^^^^^^^^
  6 |         to { translate: -100% 0; }
- 7 |     }
    `----
   x LBrace
    ,-[$DIR/tests/fixture/at-rule/layer/input.css:5:1]
@@ -294,7 +330,6 @@
  6 |         to { translate: -100% 0; }
    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^
  7 |     }
- 8 | }
    `----
   x Ident
    ,-[$DIR/tests/fixture/at-rule/layer/input.css:6:1]
@@ -309,7 +344,6 @@
  6 |         to { translate: -100% 0; }
    :            ^^^^^^^^^^^^^^^^^^^^^^^
  7 |     }
- 8 | }
    `----
   x LBrace
    ,-[$DIR/tests/fixture/at-rule/layer/input.css:6:1]
@@ -390,8 +424,6 @@
  13 | |           to { margin-left: -100%; }
  14 | |       }
  15 | `-> }
- 16 |     
- 17 |     .sidebar { animation: slide-left 300ms; }
     `----
   x AtRule
     ,-[$DIR/tests/fixture/at-rule/layer/input.css:10:1]
@@ -402,8 +434,6 @@
  13 | |           to { margin-left: -100%; }
  14 | |       }
  15 | `-> }
- 16 |     
- 17 |     .sidebar { animation: slide-left 300ms; }
     `----
   x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/layer/input.css:10:1]
@@ -449,8 +479,6 @@
  13 | |           to { margin-left: -100%; }
  14 | |       }
  15 | `-> }
- 16 |     
- 17 |     .sidebar { animation: slide-left 300ms; }
     `----
   x LBrace
     ,-[$DIR/tests/fixture/at-rule/layer/input.css:10:1]
@@ -458,7 +486,6 @@
  10 | @layer framework {
     :                  ^
  11 |     @keyframes slide-left {
- 12 |         from { margin-left: 0; }
     `----
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/layer/input.css:11:1]
@@ -514,7 +541,6 @@
  11 |     @keyframes slide-left {
     :                           ^
  12 |         from { margin-left: 0; }
- 13 |         to { margin-left: -100%; }
     `----
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/layer/input.css:12:1]
@@ -522,7 +548,6 @@
  12 |         from { margin-left: 0; }
     :         ^^^^^^^^^^^^^^^^^^^^^^^^
  13 |         to { margin-left: -100%; }
- 14 |     }
     `----
   x Ident
     ,-[$DIR/tests/fixture/at-rule/layer/input.css:12:1]
@@ -537,7 +562,6 @@
  12 |         from { margin-left: 0; }
     :              ^^^^^^^^^^^^^^^^^^^
  13 |         to { margin-left: -100%; }
- 14 |     }
     `----
   x LBrace
     ,-[$DIR/tests/fixture/at-rule/layer/input.css:12:1]
@@ -594,7 +618,6 @@
  13 |         to { margin-left: -100%; }
     :         ^^^^^^^^^^^^^^^^^^^^^^^^^^
  14 |     }
- 15 | }
     `----
   x Ident
     ,-[$DIR/tests/fixture/at-rule/layer/input.css:13:1]
@@ -609,7 +632,6 @@
  13 |         to { margin-left: -100%; }
     :            ^^^^^^^^^^^^^^^^^^^^^^^
  14 |     }
- 15 | }
     `----
   x LBrace
     ,-[$DIR/tests/fixture/at-rule/layer/input.css:13:1]
@@ -672,16 +694,12 @@
  16 | 
  17 | .sidebar { animation: slide-left 300ms; }
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 18 | 
- 19 | @layer { /* layer 1 */ }
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/at-rule/layer/input.css:17:1]
  16 | 
  17 | .sidebar { animation: slide-left 300ms; }
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 18 | 
- 19 | @layer { /* layer 1 */ }
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/at-rule/layer/input.css:17:1]
@@ -724,8 +742,6 @@
  16 | 
  17 | .sidebar { animation: slide-left 300ms; }
     :          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 18 | 
- 19 | @layer { /* layer 1 */ }
     `----
   x LBrace
     ,-[$DIR/tests/fixture/at-rule/layer/input.css:17:1]
@@ -846,16 +862,12 @@
  19 | @layer { /* layer 1 */ }
  20 | @layer { /* layer 2 */ }
     : ^^^^^^^^^^^^^^^^^^^^^^^^
- 21 | 
- 22 | @layer reset.type {
     `----
   x AtRule
     ,-[$DIR/tests/fixture/at-rule/layer/input.css:20:1]
  19 | @layer { /* layer 1 */ }
  20 | @layer { /* layer 2 */ }
     : ^^^^^^^^^^^^^^^^^^^^^^^^
- 21 | 
- 22 | @layer reset.type {
     `----
   x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/layer/input.css:20:1]
@@ -874,8 +886,6 @@
  19 | @layer { /* layer 1 */ }
  20 | @layer { /* layer 2 */ }
     :        ^^^^^^^^^^^^^^^^^
- 21 | 
- 22 | @layer reset.type {
     `----
   x LBrace
     ,-[$DIR/tests/fixture/at-rule/layer/input.css:20:1]
@@ -889,8 +899,6 @@
  22 | ,-> @layer reset.type {
  23 | |       strong { font-weight: bold; }
  24 | `-> }
- 25 |     
- 26 |     @layer framework {
     `----
   x AtRule
     ,-[$DIR/tests/fixture/at-rule/layer/input.css:22:1]
@@ -898,8 +906,6 @@
  22 | ,-> @layer reset.type {
  23 | |       strong { font-weight: bold; }
  24 | `-> }
- 25 |     
- 26 |     @layer framework {
     `----
   x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/layer/input.css:22:1]
@@ -949,8 +955,6 @@
  22 | ,-> @layer reset.type {
  23 | |       strong { font-weight: bold; }
  24 | `-> }
- 25 |     
- 26 |     @layer framework {
     `----
   x LBrace
     ,-[$DIR/tests/fixture/at-rule/layer/input.css:22:1]
@@ -958,7 +962,6 @@
  22 | @layer reset.type {
     :                   ^
  23 |     strong { font-weight: bold; }
- 24 | }
     `----
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/layer/input.css:23:1]
@@ -1089,8 +1092,6 @@
  30 | |           h1, h2 { color: maroon; }
  31 | |       }
  32 | `-> }
- 33 |     
- 34 |     @layer reset {
     `----
   x AtRule
     ,-[$DIR/tests/fixture/at-rule/layer/input.css:26:1]
@@ -1102,8 +1103,6 @@
  30 | |           h1, h2 { color: maroon; }
  31 | |       }
  32 | `-> }
- 33 |     
- 34 |     @layer reset {
     `----
   x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/layer/input.css:26:1]
@@ -1150,8 +1149,6 @@
  30 | |           h1, h2 { color: maroon; }
  31 | |       }
  32 | `-> }
- 33 |     
- 34 |     @layer reset {
     `----
   x LBrace
     ,-[$DIR/tests/fixture/at-rule/layer/input.css:26:1]
@@ -1165,16 +1162,12 @@
  26 | @layer framework {
  27 |     .title { font-weight: 100; }
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 28 | 
- 29 |     @layer theme {
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/at-rule/layer/input.css:27:1]
  26 | @layer framework {
  27 |     .title { font-weight: 100; }
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 28 | 
- 29 |     @layer theme {
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/at-rule/layer/input.css:27:1]
@@ -1217,8 +1210,6 @@
  26 | @layer framework {
  27 |     .title { font-weight: 100; }
     :            ^^^^^^^^^^^^^^^^^^^^^
- 28 | 
- 29 |     @layer theme {
     `----
   x LBrace
     ,-[$DIR/tests/fixture/at-rule/layer/input.css:27:1]
@@ -1327,7 +1318,6 @@
  29 |     @layer theme {
     :                  ^
  30 |         h1, h2 { color: maroon; }
- 31 |     }
     `----
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/layer/input.css:30:1]
@@ -1335,7 +1325,6 @@
  30 |         h1, h2 { color: maroon; }
     :         ^^^^^^^^^^^^^^^^^^^^^^^^^
  31 |     }
- 32 | }
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/at-rule/layer/input.css:30:1]
@@ -1343,7 +1332,6 @@
  30 |         h1, h2 { color: maroon; }
     :         ^^^^^^^^^^^^^^^^^^^^^^^^^
  31 |     }
- 32 | }
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/at-rule/layer/input.css:30:1]
@@ -1442,7 +1430,6 @@
  30 |         h1, h2 { color: maroon; }
     :                ^^^^^^^^^^^^^^^^^^
  31 |     }
- 32 | }
     `----
   x LBrace
     ,-[$DIR/tests/fixture/at-rule/layer/input.css:30:1]
@@ -1499,8 +1486,6 @@
  34 | ,-> @layer reset {
  35 | |       [hidden] { display: none; }
  36 | `-> }
- 37 |     
- 38 |     @layer framework {
     `----
   x AtRule
     ,-[$DIR/tests/fixture/at-rule/layer/input.css:34:1]
@@ -1508,8 +1493,6 @@
  34 | ,-> @layer reset {
  35 | |       [hidden] { display: none; }
  36 | `-> }
- 37 |     
- 38 |     @layer framework {
     `----
   x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/layer/input.css:34:1]
@@ -1552,8 +1535,6 @@
  34 | ,-> @layer reset {
  35 | |       [hidden] { display: none; }
  36 | `-> }
- 37 |     
- 38 |     @layer framework {
     `----
   x LBrace
     ,-[$DIR/tests/fixture/at-rule/layer/input.css:34:1]
@@ -1561,7 +1542,6 @@
  34 | @layer reset {
     :              ^
  35 |     [hidden] { display: none; }
- 36 | }
     `----
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/layer/input.css:35:1]
@@ -1694,8 +1674,6 @@
  44 | |           p { color: #222; }
  45 | |       }
  46 | `-> }
- 47 |     
- 48 |     @layer framework.theme {
     `----
   x AtRule
     ,-[$DIR/tests/fixture/at-rule/layer/input.css:38:1]
@@ -1709,8 +1687,6 @@
  44 | |           p { color: #222; }
  45 | |       }
  46 | `-> }
- 47 |     
- 48 |     @layer framework.theme {
     `----
   x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/layer/input.css:38:1]
@@ -1759,8 +1735,6 @@
  44 | |           p { color: #222; }
  45 | |       }
  46 | `-> }
- 47 |     
- 48 |     @layer framework.theme {
     `----
   x LBrace
     ,-[$DIR/tests/fixture/at-rule/layer/input.css:38:1]
@@ -1768,7 +1742,6 @@
  38 | @layer framework {
     :                  ^
  39 |     @layer default {
- 40 |         p { margin-block: 0.75em; }
     `----
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/layer/input.css:39:1]
@@ -1776,8 +1749,6 @@
  39 | ,->     @layer default {
  40 | |           p { margin-block: 0.75em; }
  41 | `->     }
- 42 |     
- 43 |         @layer theme {
     `----
   x AtRule
     ,-[$DIR/tests/fixture/at-rule/layer/input.css:39:1]
@@ -1785,8 +1756,6 @@
  39 | ,->     @layer default {
  40 | |           p { margin-block: 0.75em; }
  41 | `->     }
- 42 |     
- 43 |         @layer theme {
     `----
   x AtRuleName
     ,-[$DIR/tests/fixture/at-rule/layer/input.css:39:1]
@@ -1829,8 +1798,6 @@
  39 | ,->     @layer default {
  40 | |           p { margin-block: 0.75em; }
  41 | `->     }
- 42 |     
- 43 |         @layer theme {
     `----
   x LBrace
     ,-[$DIR/tests/fixture/at-rule/layer/input.css:39:1]
@@ -1838,7 +1805,6 @@
  39 |     @layer default {
     :                    ^
  40 |         p { margin-block: 0.75em; }
- 41 |     }
     `----
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/layer/input.css:40:1]
@@ -2045,7 +2011,6 @@
  43 |     @layer theme {
     :                  ^
  44 |         p { color: #222; }
- 45 |     }
     `----
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/layer/input.css:44:1]
@@ -2053,7 +2018,6 @@
  44 |         p { color: #222; }
     :         ^^^^^^^^^^^^^^^^^^
  45 |     }
- 46 | }
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/at-rule/layer/input.css:44:1]
@@ -2061,7 +2025,6 @@
  44 |         p { color: #222; }
     :         ^^^^^^^^^^^^^^^^^^
  45 |     }
- 46 | }
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/at-rule/layer/input.css:44:1]
@@ -2118,7 +2081,6 @@
  44 |         p { color: #222; }
     :           ^^^^^^^^^^^^^^^^
  45 |     }
- 46 | }
     `----
   x LBrace
     ,-[$DIR/tests/fixture/at-rule/layer/input.css:44:1]
@@ -2248,7 +2210,6 @@
  48 | @layer framework.theme {
     :                        ^
  49 |     /* These styles will be added to the theme layer inside the framework layer */
- 50 |     blockquote { color: rebeccapurple; }
     `----
   x ComponentValue
     ,-[$DIR/tests/fixture/at-rule/layer/input.css:50:1]

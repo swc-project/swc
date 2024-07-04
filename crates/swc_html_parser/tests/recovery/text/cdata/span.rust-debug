@@ -1,29 +1,96 @@
   x Document
-   ,-[$DIR/tests/recovery/text/cdata/input.html:1:2]
- 1 | |    
-   `----
+    ,-[$DIR/tests/recovery/text/cdata/input.html:1:1]
+  1 | ,-> <!doctype html>
+  2 | |   <html lang="en">
+  3 | |   <head>
+  4 | |       <title>Document</title>
+  5 | |   </head>
+  6 | |   <body>
+  7 | |   <p><![CDATA[content]]></p>
+  8 | |   <p><![CDATA[&amping]]></p>
+  9 | |   <p><![CDATA[&amping ]]]></p>
+ 10 | |   <p><![CDATA[&amping]] ]]></p>
+ 11 | |   <p><![CDATA[<message>text</message>]]></p>
+ 12 | |   <p><![CDATA[</this is malformed!</malformed</malformed & worse>]]></p>
+ 13 | |   <p><![CDATA[1]]><![CDATA[2]]></p>
+ 14 | |   <p>
+ 15 | |       <![CDATA[data]]>
+ 16 | |   </p>
+ 17 | |   <p><![CDATA[bracket ]after]]></p>
+ 18 | |   <svg viewBox="0 0 100 100">
+ 19 | |       <foreignObject width="100px" height="100px"><![CDATA[content]]>a</foreignObject>
+ 20 | |       <desc><![CDATA[content]]></desc>
+ 21 | |       <title><![CDATA[content]]></title>
+ 22 | |   </svg>
+ 23 | |   </body>
+ 24 | `-> </html>
+    `----
   x Child
    ,-[$DIR/tests/recovery/text/cdata/input.html:1:1]
  1 | <!doctype html>
    : ^^^^^^^^^^^^^^^
  2 | <html lang="en">
- 3 | <head>
    `----
   x DocumentType
    ,-[$DIR/tests/recovery/text/cdata/input.html:1:1]
  1 | <!doctype html>
    : ^^^^^^^^^^^^^^^
  2 | <html lang="en">
- 3 | <head>
    `----
   x Child
-   ,-[$DIR/tests/recovery/text/cdata/input.html:2:2]
- 2 | |    
-   `----
+    ,-[$DIR/tests/recovery/text/cdata/input.html:2:1]
+  1 |     <!doctype html>
+  2 | ,-> <html lang="en">
+  3 | |   <head>
+  4 | |       <title>Document</title>
+  5 | |   </head>
+  6 | |   <body>
+  7 | |   <p><![CDATA[content]]></p>
+  8 | |   <p><![CDATA[&amping]]></p>
+  9 | |   <p><![CDATA[&amping ]]]></p>
+ 10 | |   <p><![CDATA[&amping]] ]]></p>
+ 11 | |   <p><![CDATA[<message>text</message>]]></p>
+ 12 | |   <p><![CDATA[</this is malformed!</malformed</malformed & worse>]]></p>
+ 13 | |   <p><![CDATA[1]]><![CDATA[2]]></p>
+ 14 | |   <p>
+ 15 | |       <![CDATA[data]]>
+ 16 | |   </p>
+ 17 | |   <p><![CDATA[bracket ]after]]></p>
+ 18 | |   <svg viewBox="0 0 100 100">
+ 19 | |       <foreignObject width="100px" height="100px"><![CDATA[content]]>a</foreignObject>
+ 20 | |       <desc><![CDATA[content]]></desc>
+ 21 | |       <title><![CDATA[content]]></title>
+ 22 | |   </svg>
+ 23 | |   </body>
+ 24 | `-> </html>
+    `----
   x Element
-   ,-[$DIR/tests/recovery/text/cdata/input.html:2:2]
- 2 | |    
-   `----
+    ,-[$DIR/tests/recovery/text/cdata/input.html:2:1]
+  1 |     <!doctype html>
+  2 | ,-> <html lang="en">
+  3 | |   <head>
+  4 | |       <title>Document</title>
+  5 | |   </head>
+  6 | |   <body>
+  7 | |   <p><![CDATA[content]]></p>
+  8 | |   <p><![CDATA[&amping]]></p>
+  9 | |   <p><![CDATA[&amping ]]]></p>
+ 10 | |   <p><![CDATA[&amping]] ]]></p>
+ 11 | |   <p><![CDATA[<message>text</message>]]></p>
+ 12 | |   <p><![CDATA[</this is malformed!</malformed</malformed & worse>]]></p>
+ 13 | |   <p><![CDATA[1]]><![CDATA[2]]></p>
+ 14 | |   <p>
+ 15 | |       <![CDATA[data]]>
+ 16 | |   </p>
+ 17 | |   <p><![CDATA[bracket ]after]]></p>
+ 18 | |   <svg viewBox="0 0 100 100">
+ 19 | |       <foreignObject width="100px" height="100px"><![CDATA[content]]>a</foreignObject>
+ 20 | |       <desc><![CDATA[content]]></desc>
+ 21 | |       <title><![CDATA[content]]></title>
+ 22 | |   </svg>
+ 23 | |   </body>
+ 24 | `-> </html>
+    `----
   x Attribute
    ,-[$DIR/tests/recovery/text/cdata/input.html:2:1]
  1 | <!doctype html>
@@ -38,7 +105,6 @@
  4 | |       <title>Document</title>
  5 | `-> </head>
  6 |     <body>
- 7 |     <p><![CDATA[content]]></p>
    `----
   x Element
    ,-[$DIR/tests/recovery/text/cdata/input.html:3:1]
@@ -47,16 +113,17 @@
  4 | |       <title>Document</title>
  5 | `-> </head>
  6 |     <body>
- 7 |     <p><![CDATA[content]]></p>
    `----
   x Child
-   ,-[$DIR/tests/recovery/text/cdata/input.html:4:1]
+   ,-[$DIR/tests/recovery/text/cdata/input.html:3:1]
+ 2 |     <html lang="en">
  3 | ,-> <head>
  4 | `->     <title>Document</title>
  5 |     </head>
    `----
   x Text
-   ,-[$DIR/tests/recovery/text/cdata/input.html:4:1]
+   ,-[$DIR/tests/recovery/text/cdata/input.html:3:1]
+ 2 |     <html lang="en">
  3 | ,-> <head>
  4 | `->     <title>Document</title>
  5 |     </head>
@@ -67,7 +134,6 @@
  4 |     <title>Document</title>
    :     ^^^^^^^^^^^^^^^^^^^^^^^
  5 | </head>
- 6 | <body>
    `----
   x Element
    ,-[$DIR/tests/recovery/text/cdata/input.html:4:1]
@@ -75,7 +141,6 @@
  4 |     <title>Document</title>
    :     ^^^^^^^^^^^^^^^^^^^^^^^
  5 | </head>
- 6 | <body>
    `----
   x Child
    ,-[$DIR/tests/recovery/text/cdata/input.html:4:1]
@@ -92,28 +157,32 @@
  5 | </head>
    `----
   x Child
-   ,-[$DIR/tests/recovery/text/cdata/input.html:5:1]
+   ,-[$DIR/tests/recovery/text/cdata/input.html:4:1]
+ 3 | <head>
  4 |     <title>Document</title>
    :                            ^
  5 | </head>
  6 | <body>
    `----
   x Text
-   ,-[$DIR/tests/recovery/text/cdata/input.html:5:1]
+   ,-[$DIR/tests/recovery/text/cdata/input.html:4:1]
+ 3 | <head>
  4 |     <title>Document</title>
    :                            ^
  5 | </head>
  6 | <body>
    `----
   x Child
-   ,-[$DIR/tests/recovery/text/cdata/input.html:6:1]
+   ,-[$DIR/tests/recovery/text/cdata/input.html:5:1]
+ 4 |     <title>Document</title>
  5 | </head>
    :        ^
  6 | <body>
  7 | <p><![CDATA[content]]></p>
    `----
   x Text
-   ,-[$DIR/tests/recovery/text/cdata/input.html:6:1]
+   ,-[$DIR/tests/recovery/text/cdata/input.html:5:1]
+ 4 |     <title>Document</title>
  5 | </head>
    :        ^
  6 | <body>
@@ -166,14 +235,16 @@
  24 |     </html>
     `----
   x Child
-   ,-[$DIR/tests/recovery/text/cdata/input.html:7:1]
+   ,-[$DIR/tests/recovery/text/cdata/input.html:6:1]
+ 5 | </head>
  6 | <body>
    :       ^
  7 | <p><![CDATA[content]]></p>
  8 | <p><![CDATA[&amping]]></p>
    `----
   x Text
-   ,-[$DIR/tests/recovery/text/cdata/input.html:7:1]
+   ,-[$DIR/tests/recovery/text/cdata/input.html:6:1]
+ 5 | </head>
  6 | <body>
    :       ^
  7 | <p><![CDATA[content]]></p>
@@ -185,7 +256,6 @@
  7 | <p><![CDATA[content]]></p>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
  8 | <p><![CDATA[&amping]]></p>
- 9 | <p><![CDATA[&amping ]]]></p>
    `----
   x Element
    ,-[$DIR/tests/recovery/text/cdata/input.html:7:1]
@@ -193,7 +263,6 @@
  7 | <p><![CDATA[content]]></p>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
  8 | <p><![CDATA[&amping]]></p>
- 9 | <p><![CDATA[&amping ]]]></p>
    `----
   x Child
    ,-[$DIR/tests/recovery/text/cdata/input.html:7:1]
@@ -210,35 +279,35 @@
  8 | <p><![CDATA[&amping]]></p>
    `----
   x Child
-   ,-[$DIR/tests/recovery/text/cdata/input.html:8:1]
+   ,-[$DIR/tests/recovery/text/cdata/input.html:7:1]
+ 6 | <body>
  7 | <p><![CDATA[content]]></p>
    :                           ^
  8 | <p><![CDATA[&amping]]></p>
  9 | <p><![CDATA[&amping ]]]></p>
    `----
   x Text
-   ,-[$DIR/tests/recovery/text/cdata/input.html:8:1]
+   ,-[$DIR/tests/recovery/text/cdata/input.html:7:1]
+ 6 | <body>
  7 | <p><![CDATA[content]]></p>
    :                           ^
  8 | <p><![CDATA[&amping]]></p>
  9 | <p><![CDATA[&amping ]]]></p>
    `----
   x Child
-    ,-[$DIR/tests/recovery/text/cdata/input.html:8:1]
-  7 | <p><![CDATA[content]]></p>
-  8 | <p><![CDATA[&amping]]></p>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
-  9 | <p><![CDATA[&amping ]]]></p>
- 10 | <p><![CDATA[&amping]] ]]></p>
-    `----
+   ,-[$DIR/tests/recovery/text/cdata/input.html:8:1]
+ 7 | <p><![CDATA[content]]></p>
+ 8 | <p><![CDATA[&amping]]></p>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 9 | <p><![CDATA[&amping ]]]></p>
+   `----
   x Element
-    ,-[$DIR/tests/recovery/text/cdata/input.html:8:1]
-  7 | <p><![CDATA[content]]></p>
-  8 | <p><![CDATA[&amping]]></p>
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
-  9 | <p><![CDATA[&amping ]]]></p>
- 10 | <p><![CDATA[&amping]] ]]></p>
-    `----
+   ,-[$DIR/tests/recovery/text/cdata/input.html:8:1]
+ 7 | <p><![CDATA[content]]></p>
+ 8 | <p><![CDATA[&amping]]></p>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 9 | <p><![CDATA[&amping ]]]></p>
+   `----
   x Child
    ,-[$DIR/tests/recovery/text/cdata/input.html:8:1]
  7 | <p><![CDATA[content]]></p>
@@ -254,14 +323,16 @@
  9 | <p><![CDATA[&amping ]]]></p>
    `----
   x Child
-    ,-[$DIR/tests/recovery/text/cdata/input.html:9:1]
+    ,-[$DIR/tests/recovery/text/cdata/input.html:8:1]
+  7 | <p><![CDATA[content]]></p>
   8 | <p><![CDATA[&amping]]></p>
     :                           ^
   9 | <p><![CDATA[&amping ]]]></p>
  10 | <p><![CDATA[&amping]] ]]></p>
     `----
   x Text
-    ,-[$DIR/tests/recovery/text/cdata/input.html:9:1]
+    ,-[$DIR/tests/recovery/text/cdata/input.html:8:1]
+  7 | <p><![CDATA[content]]></p>
   8 | <p><![CDATA[&amping]]></p>
     :                           ^
   9 | <p><![CDATA[&amping ]]]></p>
@@ -273,7 +344,6 @@
   9 | <p><![CDATA[&amping ]]]></p>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  10 | <p><![CDATA[&amping]] ]]></p>
- 11 | <p><![CDATA[<message>text</message>]]></p>
     `----
   x Element
     ,-[$DIR/tests/recovery/text/cdata/input.html:9:1]
@@ -281,7 +351,6 @@
   9 | <p><![CDATA[&amping ]]]></p>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  10 | <p><![CDATA[&amping]] ]]></p>
- 11 | <p><![CDATA[<message>text</message>]]></p>
     `----
   x Child
     ,-[$DIR/tests/recovery/text/cdata/input.html:9:1]
@@ -298,14 +367,16 @@
  10 | <p><![CDATA[&amping]] ]]></p>
     `----
   x Child
-    ,-[$DIR/tests/recovery/text/cdata/input.html:10:1]
+    ,-[$DIR/tests/recovery/text/cdata/input.html:9:1]
+  8 | <p><![CDATA[&amping]]></p>
   9 | <p><![CDATA[&amping ]]]></p>
     :                             ^
  10 | <p><![CDATA[&amping]] ]]></p>
  11 | <p><![CDATA[<message>text</message>]]></p>
     `----
   x Text
-    ,-[$DIR/tests/recovery/text/cdata/input.html:10:1]
+    ,-[$DIR/tests/recovery/text/cdata/input.html:9:1]
+  8 | <p><![CDATA[&amping]]></p>
   9 | <p><![CDATA[&amping ]]]></p>
     :                             ^
  10 | <p><![CDATA[&amping]] ]]></p>
@@ -317,7 +388,6 @@
  10 | <p><![CDATA[&amping]] ]]></p>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  11 | <p><![CDATA[<message>text</message>]]></p>
- 12 | <p><![CDATA[</this is malformed!</malformed</malformed & worse>]]></p>
     `----
   x Element
     ,-[$DIR/tests/recovery/text/cdata/input.html:10:1]
@@ -325,7 +395,6 @@
  10 | <p><![CDATA[&amping]] ]]></p>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  11 | <p><![CDATA[<message>text</message>]]></p>
- 12 | <p><![CDATA[</this is malformed!</malformed</malformed & worse>]]></p>
     `----
   x Child
     ,-[$DIR/tests/recovery/text/cdata/input.html:10:1]
@@ -342,14 +411,16 @@
  11 | <p><![CDATA[<message>text</message>]]></p>
     `----
   x Child
-    ,-[$DIR/tests/recovery/text/cdata/input.html:11:1]
+    ,-[$DIR/tests/recovery/text/cdata/input.html:10:1]
+  9 | <p><![CDATA[&amping ]]]></p>
  10 | <p><![CDATA[&amping]] ]]></p>
     :                              ^
  11 | <p><![CDATA[<message>text</message>]]></p>
  12 | <p><![CDATA[</this is malformed!</malformed</malformed & worse>]]></p>
     `----
   x Text
-    ,-[$DIR/tests/recovery/text/cdata/input.html:11:1]
+    ,-[$DIR/tests/recovery/text/cdata/input.html:10:1]
+  9 | <p><![CDATA[&amping ]]]></p>
  10 | <p><![CDATA[&amping]] ]]></p>
     :                              ^
  11 | <p><![CDATA[<message>text</message>]]></p>
@@ -361,7 +432,6 @@
  11 | <p><![CDATA[<message>text</message>]]></p>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  12 | <p><![CDATA[</this is malformed!</malformed</malformed & worse>]]></p>
- 13 | <p><![CDATA[1]]><![CDATA[2]]></p>
     `----
   x Element
     ,-[$DIR/tests/recovery/text/cdata/input.html:11:1]
@@ -369,7 +439,6 @@
  11 | <p><![CDATA[<message>text</message>]]></p>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  12 | <p><![CDATA[</this is malformed!</malformed</malformed & worse>]]></p>
- 13 | <p><![CDATA[1]]><![CDATA[2]]></p>
     `----
   x Child
     ,-[$DIR/tests/recovery/text/cdata/input.html:11:1]
@@ -400,14 +469,16 @@
  12 | <p><![CDATA[</this is malformed!</malformed</malformed & worse>]]></p>
     `----
   x Child
-    ,-[$DIR/tests/recovery/text/cdata/input.html:12:1]
+    ,-[$DIR/tests/recovery/text/cdata/input.html:11:1]
+ 10 | <p><![CDATA[&amping]] ]]></p>
  11 | <p><![CDATA[<message>text</message>]]></p>
     :                                           ^
  12 | <p><![CDATA[</this is malformed!</malformed</malformed & worse>]]></p>
  13 | <p><![CDATA[1]]><![CDATA[2]]></p>
     `----
   x Text
-    ,-[$DIR/tests/recovery/text/cdata/input.html:12:1]
+    ,-[$DIR/tests/recovery/text/cdata/input.html:11:1]
+ 10 | <p><![CDATA[&amping]] ]]></p>
  11 | <p><![CDATA[<message>text</message>]]></p>
     :                                           ^
  12 | <p><![CDATA[</this is malformed!</malformed</malformed & worse>]]></p>
@@ -419,7 +490,6 @@
  12 | <p><![CDATA[</this is malformed!</malformed</malformed & worse>]]></p>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  13 | <p><![CDATA[1]]><![CDATA[2]]></p>
- 14 | <p>
     `----
   x Element
     ,-[$DIR/tests/recovery/text/cdata/input.html:12:1]
@@ -427,7 +497,6 @@
  12 | <p><![CDATA[</this is malformed!</malformed</malformed & worse>]]></p>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  13 | <p><![CDATA[1]]><![CDATA[2]]></p>
- 14 | <p>
     `----
   x Child
     ,-[$DIR/tests/recovery/text/cdata/input.html:12:1]
@@ -458,14 +527,16 @@
  13 | <p><![CDATA[1]]><![CDATA[2]]></p>
     `----
   x Child
-    ,-[$DIR/tests/recovery/text/cdata/input.html:13:1]
+    ,-[$DIR/tests/recovery/text/cdata/input.html:12:1]
+ 11 | <p><![CDATA[<message>text</message>]]></p>
  12 | <p><![CDATA[</this is malformed!</malformed</malformed & worse>]]></p>
     :                                                                       ^
  13 | <p><![CDATA[1]]><![CDATA[2]]></p>
  14 | <p>
     `----
   x Text
-    ,-[$DIR/tests/recovery/text/cdata/input.html:13:1]
+    ,-[$DIR/tests/recovery/text/cdata/input.html:12:1]
+ 11 | <p><![CDATA[<message>text</message>]]></p>
  12 | <p><![CDATA[</this is malformed!</malformed</malformed & worse>]]></p>
     :                                                                       ^
  13 | <p><![CDATA[1]]><![CDATA[2]]></p>
@@ -477,7 +548,6 @@
  13 | <p><![CDATA[1]]><![CDATA[2]]></p>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  14 | <p>
- 15 |     <![CDATA[data]]>
     `----
   x Element
     ,-[$DIR/tests/recovery/text/cdata/input.html:13:1]
@@ -485,7 +555,6 @@
  13 | <p><![CDATA[1]]><![CDATA[2]]></p>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  14 | <p>
- 15 |     <![CDATA[data]]>
     `----
   x Child
     ,-[$DIR/tests/recovery/text/cdata/input.html:13:1]
@@ -516,14 +585,16 @@
  14 | <p>
     `----
   x Child
-    ,-[$DIR/tests/recovery/text/cdata/input.html:14:1]
+    ,-[$DIR/tests/recovery/text/cdata/input.html:13:1]
+ 12 | <p><![CDATA[</this is malformed!</malformed</malformed & worse>]]></p>
  13 | <p><![CDATA[1]]><![CDATA[2]]></p>
     :                                  ^
  14 | <p>
  15 |     <![CDATA[data]]>
     `----
   x Text
-    ,-[$DIR/tests/recovery/text/cdata/input.html:14:1]
+    ,-[$DIR/tests/recovery/text/cdata/input.html:13:1]
+ 12 | <p><![CDATA[</this is malformed!</malformed</malformed & worse>]]></p>
  13 | <p><![CDATA[1]]><![CDATA[2]]></p>
     :                                  ^
  14 | <p>
@@ -536,7 +607,6 @@
  15 | |       <![CDATA[data]]>
  16 | `-> </p>
  17 |     <p><![CDATA[bracket ]after]]></p>
- 18 |     <svg viewBox="0 0 100 100">
     `----
   x Element
     ,-[$DIR/tests/recovery/text/cdata/input.html:14:1]
@@ -545,16 +615,17 @@
  15 | |       <![CDATA[data]]>
  16 | `-> </p>
  17 |     <p><![CDATA[bracket ]after]]></p>
- 18 |     <svg viewBox="0 0 100 100">
     `----
   x Child
-    ,-[$DIR/tests/recovery/text/cdata/input.html:15:1]
+    ,-[$DIR/tests/recovery/text/cdata/input.html:14:1]
+ 13 |     <p><![CDATA[1]]><![CDATA[2]]></p>
  14 | ,-> <p>
  15 | `->     <![CDATA[data]]>
  16 |     </p>
     `----
   x Text
-    ,-[$DIR/tests/recovery/text/cdata/input.html:15:1]
+    ,-[$DIR/tests/recovery/text/cdata/input.html:14:1]
+ 13 |     <p><![CDATA[1]]><![CDATA[2]]></p>
  14 | ,-> <p>
  15 | `->     <![CDATA[data]]>
  16 |     </p>
@@ -565,7 +636,6 @@
  15 |     <![CDATA[data]]>
     :     ^^^^^^^^^^^^^^^^
  16 | </p>
- 17 | <p><![CDATA[bracket ]after]]></p>
     `----
   x Comment
     ,-[$DIR/tests/recovery/text/cdata/input.html:15:1]
@@ -573,31 +643,34 @@
  15 |     <![CDATA[data]]>
     :     ^^^^^^^^^^^^^^^^
  16 | </p>
- 17 | <p><![CDATA[bracket ]after]]></p>
     `----
   x Child
-    ,-[$DIR/tests/recovery/text/cdata/input.html:16:1]
+    ,-[$DIR/tests/recovery/text/cdata/input.html:15:1]
+ 14 | <p>
  15 |     <![CDATA[data]]>
     :                     ^
  16 | </p>
  17 | <p><![CDATA[bracket ]after]]></p>
     `----
   x Text
-    ,-[$DIR/tests/recovery/text/cdata/input.html:16:1]
+    ,-[$DIR/tests/recovery/text/cdata/input.html:15:1]
+ 14 | <p>
  15 |     <![CDATA[data]]>
     :                     ^
  16 | </p>
  17 | <p><![CDATA[bracket ]after]]></p>
     `----
   x Child
-    ,-[$DIR/tests/recovery/text/cdata/input.html:17:1]
+    ,-[$DIR/tests/recovery/text/cdata/input.html:16:1]
+ 15 |     <![CDATA[data]]>
  16 | </p>
     :     ^
  17 | <p><![CDATA[bracket ]after]]></p>
  18 | <svg viewBox="0 0 100 100">
     `----
   x Text
-    ,-[$DIR/tests/recovery/text/cdata/input.html:17:1]
+    ,-[$DIR/tests/recovery/text/cdata/input.html:16:1]
+ 15 |     <![CDATA[data]]>
  16 | </p>
     :     ^
  17 | <p><![CDATA[bracket ]after]]></p>
@@ -609,7 +682,6 @@
  17 | <p><![CDATA[bracket ]after]]></p>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  18 | <svg viewBox="0 0 100 100">
- 19 |     <foreignObject width="100px" height="100px"><![CDATA[content]]>a</foreignObject>
     `----
   x Element
     ,-[$DIR/tests/recovery/text/cdata/input.html:17:1]
@@ -617,7 +689,6 @@
  17 | <p><![CDATA[bracket ]after]]></p>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  18 | <svg viewBox="0 0 100 100">
- 19 |     <foreignObject width="100px" height="100px"><![CDATA[content]]>a</foreignObject>
     `----
   x Child
     ,-[$DIR/tests/recovery/text/cdata/input.html:17:1]
@@ -634,14 +705,16 @@
  18 | <svg viewBox="0 0 100 100">
     `----
   x Child
-    ,-[$DIR/tests/recovery/text/cdata/input.html:18:1]
+    ,-[$DIR/tests/recovery/text/cdata/input.html:17:1]
+ 16 | </p>
  17 | <p><![CDATA[bracket ]after]]></p>
     :                                  ^
  18 | <svg viewBox="0 0 100 100">
  19 |     <foreignObject width="100px" height="100px"><![CDATA[content]]>a</foreignObject>
     `----
   x Text
-    ,-[$DIR/tests/recovery/text/cdata/input.html:18:1]
+    ,-[$DIR/tests/recovery/text/cdata/input.html:17:1]
+ 16 | </p>
  17 | <p><![CDATA[bracket ]after]]></p>
     :                                  ^
  18 | <svg viewBox="0 0 100 100">
@@ -656,7 +729,6 @@
  21 | |       <title><![CDATA[content]]></title>
  22 | `-> </svg>
  23 |     </body>
- 24 |     </html>
     `----
   x Element
     ,-[$DIR/tests/recovery/text/cdata/input.html:18:1]
@@ -667,7 +739,6 @@
  21 | |       <title><![CDATA[content]]></title>
  22 | `-> </svg>
  23 |     </body>
- 24 |     </html>
     `----
   x Attribute
     ,-[$DIR/tests/recovery/text/cdata/input.html:18:1]
@@ -677,13 +748,15 @@
  19 |     <foreignObject width="100px" height="100px"><![CDATA[content]]>a</foreignObject>
     `----
   x Child
-    ,-[$DIR/tests/recovery/text/cdata/input.html:19:1]
+    ,-[$DIR/tests/recovery/text/cdata/input.html:18:1]
+ 17 |     <p><![CDATA[bracket ]after]]></p>
  18 | ,-> <svg viewBox="0 0 100 100">
  19 | `->     <foreignObject width="100px" height="100px"><![CDATA[content]]>a</foreignObject>
  20 |         <desc><![CDATA[content]]></desc>
     `----
   x Text
-    ,-[$DIR/tests/recovery/text/cdata/input.html:19:1]
+    ,-[$DIR/tests/recovery/text/cdata/input.html:18:1]
+ 17 |     <p><![CDATA[bracket ]after]]></p>
  18 | ,-> <svg viewBox="0 0 100 100">
  19 | `->     <foreignObject width="100px" height="100px"><![CDATA[content]]>a</foreignObject>
  20 |         <desc><![CDATA[content]]></desc>
@@ -694,7 +767,6 @@
  19 |     <foreignObject width="100px" height="100px"><![CDATA[content]]>a</foreignObject>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  20 |     <desc><![CDATA[content]]></desc>
- 21 |     <title><![CDATA[content]]></title>
     `----
   x Element
     ,-[$DIR/tests/recovery/text/cdata/input.html:19:1]
@@ -702,7 +774,6 @@
  19 |     <foreignObject width="100px" height="100px"><![CDATA[content]]>a</foreignObject>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  20 |     <desc><![CDATA[content]]></desc>
- 21 |     <title><![CDATA[content]]></title>
     `----
   x Attribute
     ,-[$DIR/tests/recovery/text/cdata/input.html:19:1]
@@ -733,13 +804,15 @@
  20 |     <desc><![CDATA[content]]></desc>
     `----
   x Child
-    ,-[$DIR/tests/recovery/text/cdata/input.html:20:1]
+    ,-[$DIR/tests/recovery/text/cdata/input.html:19:1]
+ 18 |     <svg viewBox="0 0 100 100">
  19 | ,->     <foreignObject width="100px" height="100px"><![CDATA[content]]>a</foreignObject>
  20 | `->     <desc><![CDATA[content]]></desc>
  21 |         <title><![CDATA[content]]></title>
     `----
   x Text
-    ,-[$DIR/tests/recovery/text/cdata/input.html:20:1]
+    ,-[$DIR/tests/recovery/text/cdata/input.html:19:1]
+ 18 |     <svg viewBox="0 0 100 100">
  19 | ,->     <foreignObject width="100px" height="100px"><![CDATA[content]]>a</foreignObject>
  20 | `->     <desc><![CDATA[content]]></desc>
  21 |         <title><![CDATA[content]]></title>
@@ -750,7 +823,6 @@
  20 |     <desc><![CDATA[content]]></desc>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  21 |     <title><![CDATA[content]]></title>
- 22 | </svg>
     `----
   x Element
     ,-[$DIR/tests/recovery/text/cdata/input.html:20:1]
@@ -758,7 +830,6 @@
  20 |     <desc><![CDATA[content]]></desc>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  21 |     <title><![CDATA[content]]></title>
- 22 | </svg>
     `----
   x Child
     ,-[$DIR/tests/recovery/text/cdata/input.html:20:1]
@@ -775,13 +846,15 @@
  21 |     <title><![CDATA[content]]></title>
     `----
   x Child
-    ,-[$DIR/tests/recovery/text/cdata/input.html:21:1]
+    ,-[$DIR/tests/recovery/text/cdata/input.html:20:1]
+ 19 |         <foreignObject width="100px" height="100px"><![CDATA[content]]>a</foreignObject>
  20 | ,->     <desc><![CDATA[content]]></desc>
  21 | `->     <title><![CDATA[content]]></title>
  22 |     </svg>
     `----
   x Text
-    ,-[$DIR/tests/recovery/text/cdata/input.html:21:1]
+    ,-[$DIR/tests/recovery/text/cdata/input.html:20:1]
+ 19 |         <foreignObject width="100px" height="100px"><![CDATA[content]]>a</foreignObject>
  20 | ,->     <desc><![CDATA[content]]></desc>
  21 | `->     <title><![CDATA[content]]></title>
  22 |     </svg>
@@ -792,7 +865,6 @@
  21 |     <title><![CDATA[content]]></title>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  22 | </svg>
- 23 | </body>
     `----
   x Element
     ,-[$DIR/tests/recovery/text/cdata/input.html:21:1]
@@ -800,7 +872,6 @@
  21 |     <title><![CDATA[content]]></title>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  22 | </svg>
- 23 | </body>
     `----
   x Child
     ,-[$DIR/tests/recovery/text/cdata/input.html:21:1]
@@ -817,27 +888,31 @@
  22 | </svg>
     `----
   x Child
-    ,-[$DIR/tests/recovery/text/cdata/input.html:22:1]
+    ,-[$DIR/tests/recovery/text/cdata/input.html:21:1]
+ 20 |     <desc><![CDATA[content]]></desc>
  21 |     <title><![CDATA[content]]></title>
     :                                       ^
  22 | </svg>
  23 | </body>
     `----
   x Text
-    ,-[$DIR/tests/recovery/text/cdata/input.html:22:1]
+    ,-[$DIR/tests/recovery/text/cdata/input.html:21:1]
+ 20 |     <desc><![CDATA[content]]></desc>
  21 |     <title><![CDATA[content]]></title>
     :                                       ^
  22 | </svg>
  23 | </body>
     `----
   x Child
-    ,-[$DIR/tests/recovery/text/cdata/input.html:23:1]
+    ,-[$DIR/tests/recovery/text/cdata/input.html:22:1]
+ 21 |         <title><![CDATA[content]]></title>
  22 | ,-> </svg>
  23 | `-> </body>
  24 |     </html>
     `----
   x Text
-    ,-[$DIR/tests/recovery/text/cdata/input.html:23:1]
+    ,-[$DIR/tests/recovery/text/cdata/input.html:22:1]
+ 21 |         <title><![CDATA[content]]></title>
  22 | ,-> </svg>
  23 | `-> </body>
  24 |     </html>

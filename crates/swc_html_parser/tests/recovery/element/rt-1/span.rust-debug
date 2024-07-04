@@ -1,6 +1,7 @@
   x Document
-   ,-[$DIR/tests/recovery/element/rt-1/input.html:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/element/rt-1/input.html:1:1]
+ 1 | <!doctype html><div><p><rt>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Child
    ,-[$DIR/tests/recovery/element/rt-1/input.html:1:1]
@@ -15,26 +16,32 @@
   x Child
   x Element
   x Child
-   ,-[$DIR/tests/recovery/element/rt-1/input.html:1:17]
- 1 | |    
+   ,-[$DIR/tests/recovery/element/rt-1/input.html:1:1]
+ 1 | <!doctype html><div><p><rt>
+   :                ^^^^^^^^^^^^
    `----
   x Element
-   ,-[$DIR/tests/recovery/element/rt-1/input.html:1:17]
- 1 | |    
+   ,-[$DIR/tests/recovery/element/rt-1/input.html:1:1]
+ 1 | <!doctype html><div><p><rt>
+   :                ^^^^^^^^^^^^
    `----
   x Child
-   ,-[$DIR/tests/recovery/element/rt-1/input.html:1:22]
- 1 | |    
+   ,-[$DIR/tests/recovery/element/rt-1/input.html:1:1]
+ 1 | <!doctype html><div><p><rt>
+   :                     ^^^^^^^
    `----
   x Element
-   ,-[$DIR/tests/recovery/element/rt-1/input.html:1:22]
- 1 | |    
+   ,-[$DIR/tests/recovery/element/rt-1/input.html:1:1]
+ 1 | <!doctype html><div><p><rt>
+   :                     ^^^^^^^
    `----
   x Child
-   ,-[$DIR/tests/recovery/element/rt-1/input.html:1:25]
- 1 | |    
+   ,-[$DIR/tests/recovery/element/rt-1/input.html:1:1]
+ 1 | <!doctype html><div><p><rt>
+   :                        ^^^^
    `----
   x Element
-   ,-[$DIR/tests/recovery/element/rt-1/input.html:1:25]
- 1 | |    
+   ,-[$DIR/tests/recovery/element/rt-1/input.html:1:1]
+ 1 | <!doctype html><div><p><rt>
+   :                        ^^^^
    `----

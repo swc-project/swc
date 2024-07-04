@@ -1,6 +1,7 @@
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.49.html:1:2]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.49.html:1:1]
+ 1 | <!doctype html><input type="button"><frameset>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.49.html:1:1]

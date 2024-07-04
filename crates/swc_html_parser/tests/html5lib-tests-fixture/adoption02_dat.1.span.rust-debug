@@ -1,6 +1,7 @@
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/adoption02_dat.1.html:1:2]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/adoption02_dat.1.html:1:1]
+ 1 | <a><div><style></style><address><a>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Child
   x Element
@@ -15,12 +16,14 @@
    : ^^^
    `----
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/adoption02_dat.1.html:1:5]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/adoption02_dat.1.html:1:1]
+ 1 | <a><div><style></style><address><a>
+   :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/adoption02_dat.1.html:1:5]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/adoption02_dat.1.html:1:1]
+ 1 | <a><div><style></style><address><a>
+   :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/adoption02_dat.1.html:1:1]
@@ -33,18 +36,22 @@
    :         ^^^^^^^^^^^^^^^
    `----
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/adoption02_dat.1.html:1:25]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/adoption02_dat.1.html:1:1]
+ 1 | <a><div><style></style><address><a>
+   :                        ^^^^^^^^^^^^
    `----
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/adoption02_dat.1.html:1:25]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/adoption02_dat.1.html:1:1]
+ 1 | <a><div><style></style><address><a>
+   :                        ^^^^^^^^^^^^
    `----
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/adoption02_dat.1.html:1:34]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/adoption02_dat.1.html:1:1]
+ 1 | <a><div><style></style><address><a>
+   :                                 ^^^
    `----
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/adoption02_dat.1.html:1:34]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/adoption02_dat.1.html:1:1]
+ 1 | <a><div><style></style><address><a>
+   :                                 ^^^
    `----

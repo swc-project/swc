@@ -1,23 +1,44 @@
   x Document
-   ,-[$DIR/tests/recovery/attribute-no-equal/input.xml:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/attribute-no-equal/input.xml:1:1]
+ 1 | ,-> <root>
+ 2 | |       <c a></c>
+ 3 | |       <c a/>
+ 4 | |       <c a='b' q/>
+ 5 | |       <c q a='b'/>
+ 6 | |       <c a='b' q></c>
+ 7 | |       <c q a='b'></c>
+ 8 | `-> </root>
    `----
   x Child
-   ,-[$DIR/tests/recovery/attribute-no-equal/input.xml:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/attribute-no-equal/input.xml:1:1]
+ 1 | ,-> <root>
+ 2 | |       <c a></c>
+ 3 | |       <c a/>
+ 4 | |       <c a='b' q/>
+ 5 | |       <c q a='b'/>
+ 6 | |       <c a='b' q></c>
+ 7 | |       <c q a='b'></c>
+ 8 | `-> </root>
    `----
   x Element
-   ,-[$DIR/tests/recovery/attribute-no-equal/input.xml:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/attribute-no-equal/input.xml:1:1]
+ 1 | ,-> <root>
+ 2 | |       <c a></c>
+ 3 | |       <c a/>
+ 4 | |       <c a='b' q/>
+ 5 | |       <c q a='b'/>
+ 6 | |       <c a='b' q></c>
+ 7 | |       <c q a='b'></c>
+ 8 | `-> </root>
    `----
   x Child
-   ,-[$DIR/tests/recovery/attribute-no-equal/input.xml:2:1]
+   ,-[$DIR/tests/recovery/attribute-no-equal/input.xml:1:1]
  1 | ,-> <root>
  2 | `->     <c a></c>
  3 |         <c a/>
    `----
   x Text
-   ,-[$DIR/tests/recovery/attribute-no-equal/input.xml:2:1]
+   ,-[$DIR/tests/recovery/attribute-no-equal/input.xml:1:1]
  1 | ,-> <root>
  2 | `->     <c a></c>
  3 |         <c a/>
@@ -28,7 +49,6 @@
  2 |     <c a></c>
    :     ^^^^^^^^^
  3 |     <c a/>
- 4 |     <c a='b' q/>
    `----
   x Element
    ,-[$DIR/tests/recovery/attribute-no-equal/input.xml:2:1]
@@ -36,17 +56,18 @@
  2 |     <c a></c>
    :     ^^^^^^^^^
  3 |     <c a/>
- 4 |     <c a='b' q/>
    `----
   x Attribute
   x Child
-   ,-[$DIR/tests/recovery/attribute-no-equal/input.xml:3:1]
+   ,-[$DIR/tests/recovery/attribute-no-equal/input.xml:2:1]
+ 1 |     <root>
  2 | ,->     <c a></c>
  3 | `->     <c a/>
  4 |         <c a='b' q/>
    `----
   x Text
-   ,-[$DIR/tests/recovery/attribute-no-equal/input.xml:3:1]
+   ,-[$DIR/tests/recovery/attribute-no-equal/input.xml:2:1]
+ 1 |     <root>
  2 | ,->     <c a></c>
  3 | `->     <c a/>
  4 |         <c a='b' q/>
@@ -57,7 +78,6 @@
  3 |     <c a/>
    :     ^^^^^^
  4 |     <c a='b' q/>
- 5 |     <c q a='b'/>
    `----
   x Element
    ,-[$DIR/tests/recovery/attribute-no-equal/input.xml:3:1]
@@ -65,16 +85,17 @@
  3 |     <c a/>
    :     ^^^^^^
  4 |     <c a='b' q/>
- 5 |     <c q a='b'/>
    `----
   x Child
-   ,-[$DIR/tests/recovery/attribute-no-equal/input.xml:4:1]
+   ,-[$DIR/tests/recovery/attribute-no-equal/input.xml:3:1]
+ 2 |         <c a></c>
  3 | ,->     <c a/>
  4 | `->     <c a='b' q/>
  5 |         <c q a='b'/>
    `----
   x Text
-   ,-[$DIR/tests/recovery/attribute-no-equal/input.xml:4:1]
+   ,-[$DIR/tests/recovery/attribute-no-equal/input.xml:3:1]
+ 2 |         <c a></c>
  3 | ,->     <c a/>
  4 | `->     <c a='b' q/>
  5 |         <c q a='b'/>
@@ -85,7 +106,6 @@
  4 |     <c a='b' q/>
    :     ^^^^^^^^^^^^
  5 |     <c q a='b'/>
- 6 |     <c a='b' q></c>
    `----
   x Element
    ,-[$DIR/tests/recovery/attribute-no-equal/input.xml:4:1]
@@ -93,16 +113,17 @@
  4 |     <c a='b' q/>
    :     ^^^^^^^^^^^^
  5 |     <c q a='b'/>
- 6 |     <c a='b' q></c>
    `----
   x Child
-   ,-[$DIR/tests/recovery/attribute-no-equal/input.xml:5:1]
+   ,-[$DIR/tests/recovery/attribute-no-equal/input.xml:4:1]
+ 3 |         <c a/>
  4 | ,->     <c a='b' q/>
  5 | `->     <c q a='b'/>
  6 |         <c a='b' q></c>
    `----
   x Text
-   ,-[$DIR/tests/recovery/attribute-no-equal/input.xml:5:1]
+   ,-[$DIR/tests/recovery/attribute-no-equal/input.xml:4:1]
+ 3 |         <c a/>
  4 | ,->     <c a='b' q/>
  5 | `->     <c q a='b'/>
  6 |         <c a='b' q></c>
@@ -113,7 +134,6 @@
  5 |     <c q a='b'/>
    :     ^^^^^^^^^^^^
  6 |     <c a='b' q></c>
- 7 |     <c q a='b'></c>
    `----
   x Element
    ,-[$DIR/tests/recovery/attribute-no-equal/input.xml:5:1]
@@ -121,7 +141,6 @@
  5 |     <c q a='b'/>
    :     ^^^^^^^^^^^^
  6 |     <c a='b' q></c>
- 7 |     <c q a='b'></c>
    `----
   x Attribute
    ,-[$DIR/tests/recovery/attribute-no-equal/input.xml:5:1]
@@ -131,13 +150,15 @@
  6 |     <c a='b' q></c>
    `----
   x Child
-   ,-[$DIR/tests/recovery/attribute-no-equal/input.xml:6:1]
+   ,-[$DIR/tests/recovery/attribute-no-equal/input.xml:5:1]
+ 4 |         <c a='b' q/>
  5 | ,->     <c q a='b'/>
  6 | `->     <c a='b' q></c>
  7 |         <c q a='b'></c>
    `----
   x Text
-   ,-[$DIR/tests/recovery/attribute-no-equal/input.xml:6:1]
+   ,-[$DIR/tests/recovery/attribute-no-equal/input.xml:5:1]
+ 4 |         <c a='b' q/>
  5 | ,->     <c q a='b'/>
  6 | `->     <c a='b' q></c>
  7 |         <c q a='b'></c>
@@ -148,7 +169,6 @@
  6 |     <c a='b' q></c>
    :     ^^^^^^^^^^^^^^^
  7 |     <c q a='b'></c>
- 8 | </root>
    `----
   x Element
    ,-[$DIR/tests/recovery/attribute-no-equal/input.xml:6:1]
@@ -156,16 +176,17 @@
  6 |     <c a='b' q></c>
    :     ^^^^^^^^^^^^^^^
  7 |     <c q a='b'></c>
- 8 | </root>
    `----
   x Child
-   ,-[$DIR/tests/recovery/attribute-no-equal/input.xml:7:1]
+   ,-[$DIR/tests/recovery/attribute-no-equal/input.xml:6:1]
+ 5 |         <c q a='b'/>
  6 | ,->     <c a='b' q></c>
  7 | `->     <c q a='b'></c>
  8 |     </root>
    `----
   x Text
-   ,-[$DIR/tests/recovery/attribute-no-equal/input.xml:7:1]
+   ,-[$DIR/tests/recovery/attribute-no-equal/input.xml:6:1]
+ 5 |         <c q a='b'/>
  6 | ,->     <c a='b' q></c>
  7 | `->     <c q a='b'></c>
  8 |     </root>
@@ -192,13 +213,15 @@
  8 | </root>
    `----
   x Child
-   ,-[$DIR/tests/recovery/attribute-no-equal/input.xml:8:1]
+   ,-[$DIR/tests/recovery/attribute-no-equal/input.xml:7:1]
+ 6 |     <c a='b' q></c>
  7 |     <c q a='b'></c>
    :                    ^
  8 | </root>
    `----
   x Text
-   ,-[$DIR/tests/recovery/attribute-no-equal/input.xml:8:1]
+   ,-[$DIR/tests/recovery/attribute-no-equal/input.xml:7:1]
+ 6 |     <c a='b' q></c>
  7 |     <c q a='b'></c>
    :                    ^
  8 | </root>

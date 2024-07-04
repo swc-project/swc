@@ -1,14 +1,17 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/ElFW4lY06Cb-VFYtK0WX4A/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/ElFW4lY06Cb-VFYtK0WX4A/input.css:1:1]
+ 1 | @-moz-document url-prefix() { h1 { color: green } }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Rule
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/ElFW4lY06Cb-VFYtK0WX4A/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/ElFW4lY06Cb-VFYtK0WX4A/input.css:1:1]
+ 1 | @-moz-document url-prefix() { h1 { color: green } }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x AtRule
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/ElFW4lY06Cb-VFYtK0WX4A/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/ElFW4lY06Cb-VFYtK0WX4A/input.css:1:1]
+ 1 | @-moz-document url-prefix() { h1 { color: green } }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x AtRuleName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/ElFW4lY06Cb-VFYtK0WX4A/input.css:1:1]
@@ -31,8 +34,9 @@
    :                ^^^^^^^^^^
    `----
   x SimpleBlock
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/ElFW4lY06Cb-VFYtK0WX4A/input.css:1:30]
- 1 | |    
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/ElFW4lY06Cb-VFYtK0WX4A/input.css:1:1]
+ 1 | @-moz-document url-prefix() { h1 { color: green } }
+   :                             ^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x LBrace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/ElFW4lY06Cb-VFYtK0WX4A/input.css:1:1]

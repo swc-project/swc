@@ -1,7 +1,42 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/declaration/input.css:1:2]
- 1 | |    
-   `----
+    ,-[$DIR/tests/fixture/declaration/input.css:1:1]
+  1 | ,-> div {
+  2 | |       prop: value;
+  3 | |       prop: (value);
+  4 | |       prop: {value};
+  5 | |       prop: [value];
+  6 | |       prop: fn(value);
+  7 | |       prop: fn(value)fn(value);
+  8 | |       prop: value, value;
+  9 | |       prop: value ,value;
+ 10 | |       prop: value,value;
+ 11 | |       prop: value , value;
+ 12 | |       prop: 100%100%;
+ 13 | |       prop: "string""string";
+ 14 | |       prop: #ccc#ccc;
+ 15 | |       prop: url(value)url(value);
+ 16 | |       prop: (value)(value);
+ 17 | |       prop: {value}{value};
+ 18 | |       prop: [value][value];
+ 19 | |       prop: center/1em;
+ 20 | |       prop: center/ 1em;
+ 21 | |       prop: center /1em;
+ 22 | |       prop: center / 1em;
+ 23 | |       c\olor: red;
+ 24 | |       prop/**/: big;
+ 25 | |       prop: (;);
+ 26 | |       prop: [;];
+ 27 | |       prop: {;};
+ 28 | |   }
+ 29 | |   
+ 30 | |   a { color: a/* ; */ b  ; }
+ 31 | |   a{color:black}
+ 32 | |   
+ 33 | |   a {;;
+ 34 | |       color: black;
+ 35 | |       ; ;
+ 36 | `-> }
+    `----
   x Rule
     ,-[$DIR/tests/fixture/declaration/input.css:1:1]
   1 | ,-> div {
@@ -32,8 +67,6 @@
  26 | |       prop: [;];
  27 | |       prop: {;};
  28 | `-> }
- 29 |     
- 30 |     a { color: a/* ; */ b  ; }
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/declaration/input.css:1:1]
@@ -65,8 +98,6 @@
  26 | |       prop: [;];
  27 | |       prop: {;};
  28 | `-> }
- 29 |     
- 30 |     a { color: a/* ; */ b  ; }
     `----
   x SelectorList
    ,-[$DIR/tests/fixture/declaration/input.css:1:1]
@@ -140,15 +171,12 @@
  26 | |       prop: [;];
  27 | |       prop: {;};
  28 | `-> }
- 29 |     
- 30 |     a { color: a/* ; */ b  ; }
     `----
   x LBrace
    ,-[$DIR/tests/fixture/declaration/input.css:1:1]
  1 | div {
    :     ^
  2 |     prop: value;
- 3 |     prop: (value);
    `----
   x ComponentValue
    ,-[$DIR/tests/fixture/declaration/input.css:2:1]
@@ -2185,16 +2213,12 @@
  30 | a { color: a/* ; */ b  ; }
  31 | a{color:black}
     : ^^^^^^^^^^^^^^
- 32 | 
- 33 | a {;;
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/declaration/input.css:31:1]
  30 | a { color: a/* ; */ b  ; }
  31 | a{color:black}
     : ^^^^^^^^^^^^^^
- 32 | 
- 33 | a {;;
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/declaration/input.css:31:1]
@@ -2243,8 +2267,6 @@
  30 | a { color: a/* ; */ b  ; }
  31 | a{color:black}
     :  ^^^^^^^^^^^^^
- 32 | 
- 33 | a {;;
     `----
   x LBrace
     ,-[$DIR/tests/fixture/declaration/input.css:31:1]

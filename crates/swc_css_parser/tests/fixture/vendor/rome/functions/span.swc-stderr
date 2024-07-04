@@ -1,6 +1,13 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/vendor/rome/functions/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/vendor/rome/functions/input.css:1:1]
+ 1 | ,-> .style {
+ 2 | |       --fancy: 2px;
+ 3 | |       border: var(--fancy);
+ 4 | |       font-size: calc(10px + 5rem);
+ 5 | |       background: url("");
+ 6 | |       background: url("something");
+ 7 | |       background: url("./something");
+ 8 | `-> }
    `----
   x Rule
    ,-[$DIR/tests/fixture/vendor/rome/functions/input.css:1:1]
@@ -76,7 +83,6 @@
  1 | .style {
    :        ^
  2 |     --fancy: 2px;
- 3 |     border: var(--fancy);
    `----
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/rome/functions/input.css:2:1]

@@ -6,6 +6,4 @@
 //!    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 //!  3 | 
 //!  4 | type Invalid1 = React.ComponentClass<any> | number;
-//!  5 | 
-//!  6 | const X: Invalid1 = 1;
 //!    `----

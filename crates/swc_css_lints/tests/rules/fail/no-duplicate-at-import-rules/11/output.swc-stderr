@@ -4,7 +4,6 @@
  2 | @import 'a.css' layer();
    : ^^^^^^^^^^^^^^^^^^^^^^^^
  3 | @import 'a.css' layer(default);
- 4 | @import 'a.css' layer(other);
    `----
   x Unexpected duplicate '@import' rule 'a.css'.
    ,-[$DIR/tests/rules/fail/no-duplicate-at-import-rules/11/input.css:3:1]

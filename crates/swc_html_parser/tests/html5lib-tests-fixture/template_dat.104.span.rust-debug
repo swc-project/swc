@@ -1,6 +1,7 @@
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.104.html:1:2]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.104.html:1:1]
+ 1 | <head></head><template>
+   : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Child
   x Element
@@ -15,14 +16,17 @@
    : ^^^^^^^^^^^^^
    `----
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.104.html:1:15]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.104.html:1:1]
+ 1 | <head></head><template>
+   :              ^^^^^^^^^^
    `----
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.104.html:1:15]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.104.html:1:1]
+ 1 | <head></head><template>
+   :              ^^^^^^^^^^
    `----
   x DocumentFragment
-   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.104.html:1:15]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.104.html:1:1]
+ 1 | <head></head><template>
+   :              ^^^^^^^^^^
    `----

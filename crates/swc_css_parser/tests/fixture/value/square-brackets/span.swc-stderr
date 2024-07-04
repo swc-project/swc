@@ -1,6 +1,13 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/value/square-brackets/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/value/square-brackets/input.css:1:1]
+ 1 | ,-> div {
+ 2 | |       prop:  [];
+ 3 | |       prop:  [ ];
+ 4 | |       prop:  [row1-start];
+ 5 | |       prop:  [   row1-start-with-spaces-around   ];
+ 6 | |       prop:  [red #fff 12px];
+ 7 | |       prop: [row1-start] 25% [row1-end row2-start] 25% [row2-end];
+ 8 | `-> }
    `----
   x Rule
    ,-[$DIR/tests/fixture/value/square-brackets/input.css:1:1]
@@ -82,7 +89,6 @@
  1 | div {
    :     ^
  2 |     prop:  [];
- 3 |     prop:  [ ];
    `----
   x ComponentValue
    ,-[$DIR/tests/fixture/value/square-brackets/input.css:2:1]

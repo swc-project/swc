@@ -1,20 +1,33 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/selector/comments/input.css:1:11]
- 1 | |    
-   `----
+    ,-[$DIR/tests/fixture/selector/comments/input.css:1:1]
+  1 | ,-> /* { } */a b {}
+  2 | |   /* test */a b {}
+  3 | |   /* { } */ a b {}
+  4 | |   /* test */ a b {}
+  5 | |   a/* { } */b {}
+  6 | |   a/* test */b {}
+  7 | |   a /* { } */ b {}
+  8 | |   a /* test */ b {}
+  9 | |   a b/* { } */ {}
+ 10 | |   a b/* test */ {}
+ 11 | |   a b /* { } */ {}
+ 12 | |   a b /* test */ {}
+ 13 | |   a b/* { } */{}
+ 14 | |   a b/* test */{}
+ 15 | |   a/* test */,/* test */b{}
+ 16 | `-> a /* test */ , /* test */ b {}
+    `----
   x Rule
    ,-[$DIR/tests/fixture/selector/comments/input.css:1:1]
  1 | /* { } */a b {}
    :          ^^^^^^
  2 | /* test */a b {}
- 3 | /* { } */ a b {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/comments/input.css:1:1]
  1 | /* { } */a b {}
    :          ^^^^^^
  2 | /* test */a b {}
- 3 | /* { } */ a b {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/comments/input.css:1:1]
@@ -99,7 +112,6 @@
  1 | /* { } */a b {}
    :              ^^
  2 | /* test */a b {}
- 3 | /* { } */ a b {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/comments/input.css:1:1]
@@ -113,7 +125,6 @@
  2 | /* test */a b {}
    :           ^^^^^^
  3 | /* { } */ a b {}
- 4 | /* test */ a b {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/comments/input.css:2:1]
@@ -121,7 +132,6 @@
  2 | /* test */a b {}
    :           ^^^^^^
  3 | /* { } */ a b {}
- 4 | /* test */ a b {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/comments/input.css:2:1]
@@ -220,7 +230,6 @@
  2 | /* test */a b {}
    :               ^^
  3 | /* { } */ a b {}
- 4 | /* test */ a b {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/comments/input.css:2:1]
@@ -235,7 +244,6 @@
  3 | /* { } */ a b {}
    :           ^^^^^^
  4 | /* test */ a b {}
- 5 | a/* { } */b {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/comments/input.css:3:1]
@@ -243,7 +251,6 @@
  3 | /* { } */ a b {}
    :           ^^^^^^
  4 | /* test */ a b {}
- 5 | a/* { } */b {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/comments/input.css:3:1]
@@ -342,7 +349,6 @@
  3 | /* { } */ a b {}
    :               ^^
  4 | /* test */ a b {}
- 5 | a/* { } */b {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/comments/input.css:3:1]
@@ -357,7 +363,6 @@
  4 | /* test */ a b {}
    :            ^^^^^^
  5 | a/* { } */b {}
- 6 | a/* test */b {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/comments/input.css:4:1]
@@ -365,7 +370,6 @@
  4 | /* test */ a b {}
    :            ^^^^^^
  5 | a/* { } */b {}
- 6 | a/* test */b {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/comments/input.css:4:1]
@@ -464,7 +468,6 @@
  4 | /* test */ a b {}
    :                ^^
  5 | a/* { } */b {}
- 6 | a/* test */b {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/comments/input.css:4:1]
@@ -479,7 +482,6 @@
  5 | a/* { } */b {}
    : ^^^^^^^^^^^^^^
  6 | a/* test */b {}
- 7 | a /* { } */ b {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/comments/input.css:5:1]
@@ -487,7 +489,6 @@
  5 | a/* { } */b {}
    : ^^^^^^^^^^^^^^
  6 | a/* test */b {}
- 7 | a /* { } */ b {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/comments/input.css:5:1]
@@ -586,7 +587,6 @@
  5 | a/* { } */b {}
    :             ^^
  6 | a/* test */b {}
- 7 | a /* { } */ b {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/comments/input.css:5:1]
@@ -601,7 +601,6 @@
  6 | a/* test */b {}
    : ^^^^^^^^^^^^^^^
  7 | a /* { } */ b {}
- 8 | a /* test */ b {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/comments/input.css:6:1]
@@ -609,7 +608,6 @@
  6 | a/* test */b {}
    : ^^^^^^^^^^^^^^^
  7 | a /* { } */ b {}
- 8 | a /* test */ b {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/comments/input.css:6:1]
@@ -708,7 +706,6 @@
  6 | a/* test */b {}
    :              ^^
  7 | a /* { } */ b {}
- 8 | a /* test */ b {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/comments/input.css:6:1]
@@ -723,7 +720,6 @@
  7 | a /* { } */ b {}
    : ^^^^^^^^^^^^^^^^
  8 | a /* test */ b {}
- 9 | a b/* { } */ {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/comments/input.css:7:1]
@@ -731,7 +727,6 @@
  7 | a /* { } */ b {}
    : ^^^^^^^^^^^^^^^^
  8 | a /* test */ b {}
- 9 | a b/* { } */ {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/comments/input.css:7:1]
@@ -830,7 +825,6 @@
  7 | a /* { } */ b {}
    :               ^^
  8 | a /* test */ b {}
- 9 | a b/* { } */ {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/comments/input.css:7:1]
@@ -840,21 +834,19 @@
  8 | a /* test */ b {}
    `----
   x Rule
-    ,-[$DIR/tests/fixture/selector/comments/input.css:8:1]
-  7 | a /* { } */ b {}
-  8 | a /* test */ b {}
-    : ^^^^^^^^^^^^^^^^^
-  9 | a b/* { } */ {}
- 10 | a b/* test */ {}
-    `----
+   ,-[$DIR/tests/fixture/selector/comments/input.css:8:1]
+ 7 | a /* { } */ b {}
+ 8 | a /* test */ b {}
+   : ^^^^^^^^^^^^^^^^^
+ 9 | a b/* { } */ {}
+   `----
   x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/comments/input.css:8:1]
-  7 | a /* { } */ b {}
-  8 | a /* test */ b {}
-    : ^^^^^^^^^^^^^^^^^
-  9 | a b/* { } */ {}
- 10 | a b/* test */ {}
-    `----
+   ,-[$DIR/tests/fixture/selector/comments/input.css:8:1]
+ 7 | a /* { } */ b {}
+ 8 | a /* test */ b {}
+   : ^^^^^^^^^^^^^^^^^
+ 9 | a b/* { } */ {}
+   `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/comments/input.css:8:1]
  7 | a /* { } */ b {}
@@ -947,13 +939,12 @@
  9 | a b/* { } */ {}
    `----
   x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/comments/input.css:8:1]
-  7 | a /* { } */ b {}
-  8 | a /* test */ b {}
-    :                ^^
-  9 | a b/* { } */ {}
- 10 | a b/* test */ {}
-    `----
+   ,-[$DIR/tests/fixture/selector/comments/input.css:8:1]
+ 7 | a /* { } */ b {}
+ 8 | a /* test */ b {}
+   :                ^^
+ 9 | a b/* { } */ {}
+   `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/comments/input.css:8:1]
  7 | a /* { } */ b {}
@@ -967,7 +958,6 @@
   9 | a b/* { } */ {}
     : ^^^^^^^^^^^^^^^
  10 | a b/* test */ {}
- 11 | a b /* { } */ {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/comments/input.css:9:1]
@@ -975,7 +965,6 @@
   9 | a b/* { } */ {}
     : ^^^^^^^^^^^^^^^
  10 | a b/* test */ {}
- 11 | a b /* { } */ {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/comments/input.css:9:1]
@@ -1074,7 +1063,6 @@
   9 | a b/* { } */ {}
     :              ^^
  10 | a b/* test */ {}
- 11 | a b /* { } */ {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/comments/input.css:9:1]
@@ -1089,7 +1077,6 @@
  10 | a b/* test */ {}
     : ^^^^^^^^^^^^^^^^
  11 | a b /* { } */ {}
- 12 | a b /* test */ {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/comments/input.css:10:1]
@@ -1097,7 +1084,6 @@
  10 | a b/* test */ {}
     : ^^^^^^^^^^^^^^^^
  11 | a b /* { } */ {}
- 12 | a b /* test */ {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/comments/input.css:10:1]
@@ -1196,7 +1182,6 @@
  10 | a b/* test */ {}
     :               ^^
  11 | a b /* { } */ {}
- 12 | a b /* test */ {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/comments/input.css:10:1]
@@ -1211,7 +1196,6 @@
  11 | a b /* { } */ {}
     : ^^^^^^^^^^^^^^^^
  12 | a b /* test */ {}
- 13 | a b/* { } */{}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/comments/input.css:11:1]
@@ -1219,7 +1203,6 @@
  11 | a b /* { } */ {}
     : ^^^^^^^^^^^^^^^^
  12 | a b /* test */ {}
- 13 | a b/* { } */{}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/comments/input.css:11:1]
@@ -1318,7 +1301,6 @@
  11 | a b /* { } */ {}
     :               ^^
  12 | a b /* test */ {}
- 13 | a b/* { } */{}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/comments/input.css:11:1]
@@ -1333,7 +1315,6 @@
  12 | a b /* test */ {}
     : ^^^^^^^^^^^^^^^^^
  13 | a b/* { } */{}
- 14 | a b/* test */{}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/comments/input.css:12:1]
@@ -1341,7 +1322,6 @@
  12 | a b /* test */ {}
     : ^^^^^^^^^^^^^^^^^
  13 | a b/* { } */{}
- 14 | a b/* test */{}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/comments/input.css:12:1]
@@ -1440,7 +1420,6 @@
  12 | a b /* test */ {}
     :                ^^
  13 | a b/* { } */{}
- 14 | a b/* test */{}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/comments/input.css:12:1]
@@ -1455,7 +1434,6 @@
  13 | a b/* { } */{}
     : ^^^^^^^^^^^^^^
  14 | a b/* test */{}
- 15 | a/* test */,/* test */b{}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/comments/input.css:13:1]
@@ -1463,7 +1441,6 @@
  13 | a b/* { } */{}
     : ^^^^^^^^^^^^^^
  14 | a b/* test */{}
- 15 | a/* test */,/* test */b{}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/comments/input.css:13:1]
@@ -1562,7 +1539,6 @@
  13 | a b/* { } */{}
     :             ^^
  14 | a b/* test */{}
- 15 | a/* test */,/* test */b{}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/comments/input.css:13:1]
@@ -1577,7 +1553,6 @@
  14 | a b/* test */{}
     : ^^^^^^^^^^^^^^^
  15 | a/* test */,/* test */b{}
- 16 | a /* test */ , /* test */ b {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/comments/input.css:14:1]
@@ -1585,7 +1560,6 @@
  14 | a b/* test */{}
     : ^^^^^^^^^^^^^^^
  15 | a/* test */,/* test */b{}
- 16 | a /* test */ , /* test */ b {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/comments/input.css:14:1]
@@ -1684,7 +1658,6 @@
  14 | a b/* test */{}
     :              ^^
  15 | a/* test */,/* test */b{}
- 16 | a /* test */ , /* test */ b {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/comments/input.css:14:1]

@@ -1,6 +1,12 @@
   x Stylesheet
-   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-1/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-1/input.css:1:1]
+ 1 | ,-> div {
+ 2 | |       color: red;
+ 3 | |   
+ 4 | |       input {
+ 5 | |           margin: 1em;
+ 6 | |       }
+ 7 | `-> }
    `----
   x Rule
    ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-1/input.css:1:1]
@@ -174,16 +180,17 @@
  4 |     input {
    :           ^
  5 |         margin: 1em;
- 6 |     }
    `----
   x ComponentValue
-   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-1/input.css:5:1]
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-1/input.css:4:1]
+ 3 |     
  4 | ,->     input {
  5 | `->         margin: 1em;
  6 |         }
    `----
   x WhiteSpace { value: "\n        " }
-   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-1/input.css:5:1]
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-1/input.css:4:1]
+ 3 |     
  4 | ,->     input {
  5 | `->         margin: 1em;
  6 |         }
@@ -250,7 +257,6 @@
  5 |         margin: 1em;
    :                    ^
  6 |     }
- 7 | }
    `----
   x Semi
    ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-1/input.css:5:1]
@@ -258,28 +264,31 @@
  5 |         margin: 1em;
    :                    ^
  6 |     }
- 7 | }
    `----
   x ComponentValue
-   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-1/input.css:6:1]
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-1/input.css:5:1]
+ 4 |         input {
  5 | ,->         margin: 1em;
  6 | `->     }
  7 |     }
    `----
   x WhiteSpace { value: "\n    " }
-   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-1/input.css:6:1]
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-1/input.css:5:1]
+ 4 |         input {
  5 | ,->         margin: 1em;
  6 | `->     }
  7 |     }
    `----
   x ComponentValue
-   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-1/input.css:7:1]
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-1/input.css:6:1]
+ 5 |         margin: 1em;
  6 |     }
    :      ^
  7 | }
    `----
   x WhiteSpace { value: "\n" }
-   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-1/input.css:7:1]
+   ,-[$DIR/tests/recovery/style-blocks-contents/invalid-nested-1/input.css:6:1]
+ 5 |         margin: 1em;
  6 |     }
    :      ^
  7 | }

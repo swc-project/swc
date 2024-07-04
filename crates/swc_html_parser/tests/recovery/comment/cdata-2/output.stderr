@@ -9,6 +9,6 @@
    :              ^
    `----
   x End of file seen and there were open elements
-   ,-[$DIR/tests/recovery/comment/cdata-2/input.html:1:22]
- 1 |  
+   ,-[$DIR/tests/recovery/comment/cdata-2/input.html:1:1]
+ 1 | <div><![CDATA[foo]]>
    `----

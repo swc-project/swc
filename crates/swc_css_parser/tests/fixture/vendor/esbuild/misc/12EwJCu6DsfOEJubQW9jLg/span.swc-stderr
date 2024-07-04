@@ -1,14 +1,17 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/12EwJCu6DsfOEJubQW9jLg/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/12EwJCu6DsfOEJubQW9jLg/input.css:1:1]
+ 1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5 6; }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Rule
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/12EwJCu6DsfOEJubQW9jLg/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/12EwJCu6DsfOEJubQW9jLg/input.css:1:1]
+ 1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5 6; }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x QualifiedRule
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/12EwJCu6DsfOEJubQW9jLg/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/12EwJCu6DsfOEJubQW9jLg/input.css:1:1]
+ 1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5 6; }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/12EwJCu6DsfOEJubQW9jLg/input.css:1:1]
@@ -46,8 +49,9 @@
    : ^
    `----
   x SimpleBlock
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/12EwJCu6DsfOEJubQW9jLg/input.css:1:4]
- 1 | |    
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/12EwJCu6DsfOEJubQW9jLg/input.css:1:1]
+ 1 | a { border-radius: 1 2 3 4; border-top-right-radius: 5 6; }
+   :   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x LBrace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/12EwJCu6DsfOEJubQW9jLg/input.css:1:1]

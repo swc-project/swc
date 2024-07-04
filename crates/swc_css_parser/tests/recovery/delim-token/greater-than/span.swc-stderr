@@ -1,6 +1,8 @@
   x Stylesheet
-   ,-[$DIR/tests/recovery/delim-token/greater-than/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/delim-token/greater-than/input.css:1:1]
+ 1 | ,-> a {
+ 2 | |       prop: >;
+ 3 | `-> }
    `----
   x Rule
    ,-[$DIR/tests/recovery/delim-token/greater-than/input.css:1:1]
@@ -67,7 +69,6 @@
  1 | a {
    :   ^
  2 |     prop: >;
- 3 | }
    `----
   x ComponentValue
    ,-[$DIR/tests/recovery/delim-token/greater-than/input.css:2:1]

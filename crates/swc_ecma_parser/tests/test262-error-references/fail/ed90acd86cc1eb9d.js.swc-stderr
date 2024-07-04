@@ -1,4 +1,6 @@
   x Expression expected
-   ,-[$DIR/tests/test262-parser/fail/ed90acd86cc1eb9d.js:4:2]
- 4 |  
+   ,-[$DIR/tests/test262-parser/fail/ed90acd86cc1eb9d.js:4:1]
+ 3 | comment */
+ 4 | )
+   : ^
    `----

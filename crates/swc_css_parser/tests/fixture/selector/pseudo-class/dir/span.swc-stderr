@@ -1,20 +1,22 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:1:1]
+ 1 | ,-> :dir(ltr) {}
+ 2 | |   :dir(   ltr   ) {}
+ 3 | |   :dir(rtl) {}
+ 4 | |   :dir(   rtl   ) {}
+ 5 | `-> :dir(   RTL   ) {}
    `----
   x Rule
    ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:1:1]
  1 | :dir(ltr) {}
    : ^^^^^^^^^^^^
  2 | :dir(   ltr   ) {}
- 3 | :dir(rtl) {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:1:1]
  1 | :dir(ltr) {}
    : ^^^^^^^^^^^^
  2 | :dir(   ltr   ) {}
- 3 | :dir(rtl) {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:1:1]
@@ -69,7 +71,6 @@
  1 | :dir(ltr) {}
    :           ^^
  2 | :dir(   ltr   ) {}
- 3 | :dir(rtl) {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:1:1]
@@ -83,7 +84,6 @@
  2 | :dir(   ltr   ) {}
    : ^^^^^^^^^^^^^^^^^^
  3 | :dir(rtl) {}
- 4 | :dir(   rtl   ) {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:2:1]
@@ -91,7 +91,6 @@
  2 | :dir(   ltr   ) {}
    : ^^^^^^^^^^^^^^^^^^
  3 | :dir(rtl) {}
- 4 | :dir(   rtl   ) {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:2:1]
@@ -155,7 +154,6 @@
  2 | :dir(   ltr   ) {}
    :                 ^^
  3 | :dir(rtl) {}
- 4 | :dir(   rtl   ) {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:2:1]
@@ -170,7 +168,6 @@
  3 | :dir(rtl) {}
    : ^^^^^^^^^^^^
  4 | :dir(   rtl   ) {}
- 5 | :dir(   RTL   ) {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:3:1]
@@ -178,7 +175,6 @@
  3 | :dir(rtl) {}
    : ^^^^^^^^^^^^
  4 | :dir(   rtl   ) {}
- 5 | :dir(   RTL   ) {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:3:1]
@@ -242,7 +238,6 @@
  3 | :dir(rtl) {}
    :           ^^
  4 | :dir(   rtl   ) {}
- 5 | :dir(   RTL   ) {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:3:1]

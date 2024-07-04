@@ -1,14 +1,26 @@
   x Stylesheet
-   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:1:1]
+ 1 | ,-> @media only layer {
+ 2 | |       a {
+ 3 | |           color: red;
+ 4 | |       }
+ 5 | `-> }
    `----
   x Rule
-   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:1:1]
+ 1 | ,-> @media only layer {
+ 2 | |       a {
+ 3 | |           color: red;
+ 4 | |       }
+ 5 | `-> }
    `----
   x AtRule
-   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:1:1]
+ 1 | ,-> @media only layer {
+ 2 | |       a {
+ 3 | |           color: red;
+ 4 | |       }
+ 5 | `-> }
    `----
   x AtRuleName
    ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:1:1]
@@ -83,15 +95,18 @@
  2 |     a {
    `----
   x SimpleBlock
-   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:1:20]
- 1 | |    
+   ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:1:1]
+ 1 | ,-> @media only layer {
+ 2 | |       a {
+ 3 | |           color: red;
+ 4 | |       }
+ 5 | `-> }
    `----
   x LBrace
    ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:1:1]
  1 | @media only layer {
    :                   ^
  2 |     a {
- 3 |         color: red;
    `----
   x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:2:1]
@@ -172,7 +187,6 @@
  2 |     a {
    :       ^
  3 |         color: red;
- 4 |     }
    `----
   x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/media/media-type/input.css:3:1]

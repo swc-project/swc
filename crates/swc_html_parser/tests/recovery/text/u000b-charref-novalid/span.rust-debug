@@ -1,6 +1,7 @@
   x Document
-   ,-[$DIR/tests/recovery/text/u000b-charref-novalid/input.html:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/text/u000b-charref-novalid/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x000B;</title><p>There should be an error.&#x000B;
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Child
    ,-[$DIR/tests/recovery/text/u000b-charref-novalid/input.html:1:1]
@@ -50,18 +51,22 @@
    :                                           ^^^^^^^^^^^^
    `----
   x Child
-   ,-[$DIR/tests/recovery/text/u000b-charref-novalid/input.html:1:64]
- 1 | |    
+   ,-[$DIR/tests/recovery/text/u000b-charref-novalid/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x000B;</title><p>There should be an error.&#x000B;
+   :                                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Element
-   ,-[$DIR/tests/recovery/text/u000b-charref-novalid/input.html:1:64]
- 1 | |    
+   ,-[$DIR/tests/recovery/text/u000b-charref-novalid/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x000B;</title><p>There should be an error.&#x000B;
+   :                                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Child
-   ,-[$DIR/tests/recovery/text/u000b-charref-novalid/input.html:1:67]
- 1 | |    
+   ,-[$DIR/tests/recovery/text/u000b-charref-novalid/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x000B;</title><p>There should be an error.&#x000B;
+   :                                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Text
-   ,-[$DIR/tests/recovery/text/u000b-charref-novalid/input.html:1:67]
- 1 | |    
+   ,-[$DIR/tests/recovery/text/u000b-charref-novalid/input.html:1:1]
+ 1 | <!doctype html><meta charset=utf-8><title>&amp;#x000B;</title><p>There should be an error.&#x000B;
+   :                                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----

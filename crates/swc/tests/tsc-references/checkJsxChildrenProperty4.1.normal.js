@@ -7,5 +7,4 @@
 //!  3 | 
 //!  4 | interface IUser {
 //!  5 |     Name: string;
-//!  6 | }
 //!    `----

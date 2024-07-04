@@ -1,20 +1,33 @@
   x Document
-   ,-[$DIR/tests/recovery/comments/bad-40/input.xml:1:2]
- 1 | |    
-   `----
+    ,-[$DIR/tests/recovery/comments/bad-40/input.xml:1:1]
+  1 | ,-> <?xml version="1.0" encoding="UTF-8"?>
+  2 | |   
+  3 | |   <foo>
+  4 | |       <!-- def='NT-Char'--><!-->Char</nt>* ']]&gt;' <nt def='NT-Char'>Char</nt>*))
+  5 | |   ']]&gt;'</rhs>
+  6 | |   <com>CDATA sections</com>
+  7 | |   <rhs>| '&lt;!DOCTYPE'
+  8 | |   (<nt def="NT-Char">Char</nt> - ('[' | ']'))+
+  9 | |   ('['
+ 10 | |   <nt def="NT-simpleDTD">simpleDTD</nt>*
+ 11 | |   ']')? '&gt;'</rhs>
+ 12 | |   <com>doc type declaration</com>
+ 13 | |   <prod id="NT-simpleDTD"><lhs>simpleDTD</lhs>
+ 14 | |   <rhs>'&lt;!&como;'
+ 15 | |   (<nt def='NT-Char'>Char</nt>* -
+ 16 | |   (<nt def='NT-Char'>Char</nt>* '&comc;' <nt def='NT-Char'>Char</nt>*))
+ 17 | |   '&comc;&gt;'</rhs>-->
+ 18 | `-> </foo>
+    `----
   x Child
    ,-[$DIR/tests/recovery/comments/bad-40/input.xml:1:1]
  1 | <?xml version="1.0" encoding="UTF-8"?>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 2 | 
- 3 | <foo>
    `----
   x ProcessingInstruction
    ,-[$DIR/tests/recovery/comments/bad-40/input.xml:1:1]
  1 | <?xml version="1.0" encoding="UTF-8"?>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 2 | 
- 3 | <foo>
    `----
   x Child
     ,-[$DIR/tests/recovery/comments/bad-40/input.xml:3:1]
@@ -57,13 +70,15 @@
  18 | `-> </foo>
     `----
   x Child
-   ,-[$DIR/tests/recovery/comments/bad-40/input.xml:4:1]
+   ,-[$DIR/tests/recovery/comments/bad-40/input.xml:3:1]
+ 2 |     
  3 | ,-> <foo>
  4 | `->     <!-- def='NT-Char'--><!-->Char</nt>* ']]&gt;' <nt def='NT-Char'>Char</nt>*))
  5 |     ']]&gt;'</rhs>
    `----
   x Text
-   ,-[$DIR/tests/recovery/comments/bad-40/input.xml:4:1]
+   ,-[$DIR/tests/recovery/comments/bad-40/input.xml:3:1]
+ 2 |     
  3 | ,-> <foo>
  4 | `->     <!-- def='NT-Char'--><!-->Char</nt>* ']]&gt;' <nt def='NT-Char'>Char</nt>*))
  5 |     ']]&gt;'</rhs>
@@ -161,7 +176,6 @@
  6 | <com>CDATA sections</com>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^
  7 | <rhs>| '&lt;!DOCTYPE'
- 8 | (<nt def="NT-Char">Char</nt> - ('[' | ']'))+
    `----
   x Element
    ,-[$DIR/tests/recovery/comments/bad-40/input.xml:6:1]
@@ -169,7 +183,6 @@
  6 | <com>CDATA sections</com>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^
  7 | <rhs>| '&lt;!DOCTYPE'
- 8 | (<nt def="NT-Char">Char</nt> - ('[' | ']'))+
    `----
   x Child
    ,-[$DIR/tests/recovery/comments/bad-40/input.xml:6:1]
@@ -186,14 +199,16 @@
  7 | <rhs>| '&lt;!DOCTYPE'
    `----
   x Child
-   ,-[$DIR/tests/recovery/comments/bad-40/input.xml:7:1]
+   ,-[$DIR/tests/recovery/comments/bad-40/input.xml:6:1]
+ 5 | ']]&gt;'</rhs>
  6 | <com>CDATA sections</com>
    :                          ^
  7 | <rhs>| '&lt;!DOCTYPE'
  8 | (<nt def="NT-Char">Char</nt> - ('[' | ']'))+
    `----
   x Text
-   ,-[$DIR/tests/recovery/comments/bad-40/input.xml:7:1]
+   ,-[$DIR/tests/recovery/comments/bad-40/input.xml:6:1]
+ 5 | ']]&gt;'</rhs>
  6 | <com>CDATA sections</com>
    :                          ^
  7 | <rhs>| '&lt;!DOCTYPE'
@@ -208,7 +223,6 @@
  10 | |   <nt def="NT-simpleDTD">simpleDTD</nt>*
  11 | `-> ']')? '&gt;'</rhs>
  12 |     <com>doc type declaration</com>
- 13 |     <prod id="NT-simpleDTD"><lhs>simpleDTD</lhs>
     `----
   x Element
     ,-[$DIR/tests/recovery/comments/bad-40/input.xml:7:1]
@@ -219,7 +233,6 @@
  10 | |   <nt def="NT-simpleDTD">simpleDTD</nt>*
  11 | `-> ']')? '&gt;'</rhs>
  12 |     <com>doc type declaration</com>
- 13 |     <prod id="NT-simpleDTD"><lhs>simpleDTD</lhs>
     `----
   x Child
    ,-[$DIR/tests/recovery/comments/bad-40/input.xml:7:1]
@@ -322,14 +335,16 @@
  12 |     <com>doc type declaration</com>
     `----
   x Child
-    ,-[$DIR/tests/recovery/comments/bad-40/input.xml:12:1]
+    ,-[$DIR/tests/recovery/comments/bad-40/input.xml:11:1]
+ 10 | <nt def="NT-simpleDTD">simpleDTD</nt>*
  11 | ']')? '&gt;'</rhs>
     :                   ^
  12 | <com>doc type declaration</com>
  13 | <prod id="NT-simpleDTD"><lhs>simpleDTD</lhs>
     `----
   x Text
-    ,-[$DIR/tests/recovery/comments/bad-40/input.xml:12:1]
+    ,-[$DIR/tests/recovery/comments/bad-40/input.xml:11:1]
+ 10 | <nt def="NT-simpleDTD">simpleDTD</nt>*
  11 | ']')? '&gt;'</rhs>
     :                   ^
  12 | <com>doc type declaration</com>
@@ -341,7 +356,6 @@
  12 | <com>doc type declaration</com>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  13 | <prod id="NT-simpleDTD"><lhs>simpleDTD</lhs>
- 14 | <rhs>'&lt;!&como;'
     `----
   x Element
     ,-[$DIR/tests/recovery/comments/bad-40/input.xml:12:1]
@@ -349,7 +363,6 @@
  12 | <com>doc type declaration</com>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  13 | <prod id="NT-simpleDTD"><lhs>simpleDTD</lhs>
- 14 | <rhs>'&lt;!&como;'
     `----
   x Child
     ,-[$DIR/tests/recovery/comments/bad-40/input.xml:12:1]
@@ -366,14 +379,16 @@
  13 | <prod id="NT-simpleDTD"><lhs>simpleDTD</lhs>
     `----
   x Child
-    ,-[$DIR/tests/recovery/comments/bad-40/input.xml:13:1]
+    ,-[$DIR/tests/recovery/comments/bad-40/input.xml:12:1]
+ 11 | ']')? '&gt;'</rhs>
  12 | <com>doc type declaration</com>
     :                                ^
  13 | <prod id="NT-simpleDTD"><lhs>simpleDTD</lhs>
  14 | <rhs>'&lt;!&como;'
     `----
   x Text
-    ,-[$DIR/tests/recovery/comments/bad-40/input.xml:13:1]
+    ,-[$DIR/tests/recovery/comments/bad-40/input.xml:12:1]
+ 11 | ']')? '&gt;'</rhs>
  12 | <com>doc type declaration</com>
     :                                ^
  13 | <prod id="NT-simpleDTD"><lhs>simpleDTD</lhs>
@@ -405,7 +420,6 @@
  13 | <prod id="NT-simpleDTD"><lhs>simpleDTD</lhs>
     :                         ^^^^^^^^^^^^^^^^^^^^
  14 | <rhs>'&lt;!&como;'
- 15 | (<nt def='NT-Char'>Char</nt>* -
     `----
   x Element
     ,-[$DIR/tests/recovery/comments/bad-40/input.xml:13:1]
@@ -413,7 +427,6 @@
  13 | <prod id="NT-simpleDTD"><lhs>simpleDTD</lhs>
     :                         ^^^^^^^^^^^^^^^^^^^^
  14 | <rhs>'&lt;!&como;'
- 15 | (<nt def='NT-Char'>Char</nt>* -
     `----
   x Child
     ,-[$DIR/tests/recovery/comments/bad-40/input.xml:13:1]
@@ -430,14 +443,16 @@
  14 | <rhs>'&lt;!&como;'
     `----
   x Child
-    ,-[$DIR/tests/recovery/comments/bad-40/input.xml:14:1]
+    ,-[$DIR/tests/recovery/comments/bad-40/input.xml:13:1]
+ 12 | <com>doc type declaration</com>
  13 | <prod id="NT-simpleDTD"><lhs>simpleDTD</lhs>
     :                                             ^
  14 | <rhs>'&lt;!&como;'
  15 | (<nt def='NT-Char'>Char</nt>* -
     `----
   x Text
-    ,-[$DIR/tests/recovery/comments/bad-40/input.xml:14:1]
+    ,-[$DIR/tests/recovery/comments/bad-40/input.xml:13:1]
+ 12 | <com>doc type declaration</com>
  13 | <prod id="NT-simpleDTD"><lhs>simpleDTD</lhs>
     :                                             ^
  14 | <rhs>'&lt;!&como;'

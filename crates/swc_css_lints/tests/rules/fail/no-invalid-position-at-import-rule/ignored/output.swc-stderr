@@ -10,6 +10,4 @@
  4 | @import "kumiko.css";
  5 | @import "reina.css";
    : ^^^^^^^^^^^^^^^^^^^^
- 6 | 
- 7 | a {
    `----

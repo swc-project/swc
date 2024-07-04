@@ -1,6 +1,9 @@
   x Stylesheet
-   ,-[$DIR/tests/recovery/ie-progid/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/ie-progid/input.css:1:1]
+ 1 | ,-> a {
+ 2 | |       filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#4f4f4f',endColorstr='#292929',GradientType=0);
+ 3 | |       filter: progid:DXImageTransform.Microsoft.Blur(pixelradius=2) progid:DXImageTransform.Microsoft.Wheel(duration=3);
+ 4 | `-> }
    `----
   x Rule
    ,-[$DIR/tests/recovery/ie-progid/input.css:1:1]
@@ -70,7 +73,6 @@
  1 | a {
    :   ^
  2 |     filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#4f4f4f',endColorstr='#292929',GradientType=0);
- 3 |     filter: progid:DXImageTransform.Microsoft.Blur(pixelradius=2) progid:DXImageTransform.Microsoft.Wheel(duration=3);
    `----
   x ComponentValue
    ,-[$DIR/tests/recovery/ie-progid/input.css:2:1]

@@ -1,67 +1,64 @@
   x Stylesheet
-   ,-[$DIR/tests/recovery/qualified-rule/broken/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/qualified-rule/broken/input.css:1:1]
+ 1 | ,-> foo
+ 2 | |   
+ 3 | |   {
+ 4 | `->     color: red;
    `----
   x Rule
-   ,-[$DIR/tests/recovery/qualified-rule/broken/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/qualified-rule/broken/input.css:1:1]
+ 1 | ,-> foo
+ 2 | |   
+ 3 | |   {
+ 4 | `->     color: red;
    `----
   x QualifiedRule
-   ,-[$DIR/tests/recovery/qualified-rule/broken/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/qualified-rule/broken/input.css:1:1]
+ 1 | ,-> foo
+ 2 | |   
+ 3 | |   {
+ 4 | `->     color: red;
    `----
   x SelectorList
    ,-[$DIR/tests/recovery/qualified-rule/broken/input.css:1:1]
  1 | foo
    : ^^^
- 2 | 
- 3 | {
    `----
   x ComplexSelector
    ,-[$DIR/tests/recovery/qualified-rule/broken/input.css:1:1]
  1 | foo
    : ^^^
- 2 | 
- 3 | {
    `----
   x CompoundSelector
    ,-[$DIR/tests/recovery/qualified-rule/broken/input.css:1:1]
  1 | foo
    : ^^^
- 2 | 
- 3 | {
    `----
   x TypeSelector
    ,-[$DIR/tests/recovery/qualified-rule/broken/input.css:1:1]
  1 | foo
    : ^^^
- 2 | 
- 3 | {
    `----
   x TagNameSelector
    ,-[$DIR/tests/recovery/qualified-rule/broken/input.css:1:1]
  1 | foo
    : ^^^
- 2 | 
- 3 | {
    `----
   x WqName
    ,-[$DIR/tests/recovery/qualified-rule/broken/input.css:1:1]
  1 | foo
    : ^^^
- 2 | 
- 3 | {
    `----
   x Ident
    ,-[$DIR/tests/recovery/qualified-rule/broken/input.css:1:1]
  1 | foo
    : ^^^
- 2 | 
- 3 | {
    `----
   x SimpleBlock
-   ,-[$DIR/tests/recovery/qualified-rule/broken/input.css:3:2]
- 3 | |    
+   ,-[$DIR/tests/recovery/qualified-rule/broken/input.css:3:1]
+ 2 |     
+ 3 | ,-> {
+ 4 | `->     color: red;
    `----
   x LBrace
    ,-[$DIR/tests/recovery/qualified-rule/broken/input.css:3:1]

@@ -1,20 +1,117 @@
   x Document
-   ,-[$DIR/tests/recovery/element/foreign-context/input.html:1:2]
- 1 | |    
-   `----
+     ,-[$DIR/tests/recovery/element/foreign-context/input.html:1:1]
+   1 | ,-> <!doctype html>
+   2 | |   <html lang="en">
+   3 | |   <head>
+   4 | |       <meta charset="UTF-8">
+   5 | |       <meta name="viewport"
+   6 | |             content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+   7 | |       <meta http-equiv="X-UA-Compatible" content="ie=edge">
+   8 | |       <title>Document</title>
+   9 | |   </head>
+  10 | |   <body>
+  11 | |   <div><svg></p></svg</div>
+  12 | |   <div><svg></br></svg</div>
+  13 | |   <div><svg><b></svg</div>
+  14 | |   <div><svg><big></svg</div>
+  15 | |   <div><svg><blockquote></svg</div>
+  16 | |   <div><svg><br></svg</div>
+  17 | |   <div><svg><center></svg</div>
+  18 | |   <div><svg><code></svg</div>
+  19 | |   <div><svg><dd></svg</div>
+  20 | |   <div><svg><div></svg</div>
+  21 | |   <div><svg><dl></svg</div>
+  22 | |   <div><svg><dt></svg</div>
+  23 | |   <div><svg><em></svg</div>
+  24 | |   <div><svg><embed></svg</div>
+  25 | |   <div><svg><h1></svg</div>
+  26 | |   <div><svg><h2></svg</div>
+  27 | |   <div><svg><h3></svg</div>
+  28 | |   <div><svg><h4></svg</div>
+  29 | |   <div><svg><h5></svg</div>
+  30 | |   <div><svg><h6></svg</div>
+  31 | |   <div><svg><hr></svg</div>
+  32 | |   <div><svg><i></svg</div>
+  33 | |   <div><svg><img></svg</div>
+  34 | |   <div><svg><li></svg</div>
+  35 | |   <div><svg><listing></svg</div>
+  36 | |   <div><svg><menu></svg</div>
+  37 | |   <div><svg><meta></svg</div>
+  38 | |   <div><svg><nobr></svg</div>
+  39 | |   <div><svg><ol></svg</div>
+  40 | |   <div><svg><p></svg</div>
+  41 | |   <div><svg><pre></svg</div>
+  42 | |   <div><svg><ruby></svg</div>
+  43 | |   <div><svg><s></svg</div>
+  44 | |   <div><svg><small></svg</div>
+  45 | |   <div><svg><span></svg</div>
+  46 | |   <div><svg><strong></svg</div>
+  47 | |   <div><svg><strike></svg</div>
+  48 | |   <div><svg><sub></svg</div>
+  49 | |   <div><svg><sup></svg</div>
+  50 | |   <div><svg><table></svg</div>
+  51 | |   <div><svg><tt></svg</div>
+  52 | |   <div><svg><u></svg</div>
+  53 | |   <div><svg><ul></svg</div>
+  54 | |   <div><svg><var></svg</div>
+  55 | |   <div><math></p></math</div>
+  56 | |   <div><math></br></math</div>
+  57 | |   <div><math><b></math</div>
+  58 | |   <div><math><big></math</div>
+  59 | |   <div><math><blockquote></math</div>
+  60 | |   <div><math><br></math</div>
+  61 | |   <div><math><center></math</div>
+  62 | |   <div><math><code></math</div>
+  63 | |   <div><math><dd></math</div>
+  64 | |   <div><math><div></math</div>
+  65 | |   <div><math><dl></math</div>
+  66 | |   <div><math><dt></math</div>
+  67 | |   <div><math><em></math</div>
+  68 | |   <div><math><embed></math</div>
+  69 | |   <div><math><h1></math</div>
+  70 | |   <div><math><h2></math</div>
+  71 | |   <div><math><h3></math</div>
+  72 | |   <div><math><h4></math</div>
+  73 | |   <div><math><h5></math</div>
+  74 | |   <div><math><h6></math</div>
+  75 | |   <div><math><hr></math</div>
+  76 | |   <div><math><i></math</div>
+  77 | |   <div><math><img></math</div>
+  78 | |   <div><math><li></math</div>
+  79 | |   <div><math><listing></math</div>
+  80 | |   <div><math><menu></math</div>
+  81 | |   <div><math><meta></math</div>
+  82 | |   <div><math><nobr></math</div>
+  83 | |   <div><math><ol></math</div>
+  84 | |   <div><math><p></math</div>
+  85 | |   <div><math><pre></math</div>
+  86 | |   <div><math><ruby></math</div>
+  87 | |   <div><math><s></math</div>
+  88 | |   <div><math><small></math</div>
+  89 | |   <div><math><span></math</div>
+  90 | |   <div><math><strong></math</div>
+  91 | |   <div><math><strike></math</div>
+  92 | |   <div><math><sub></math</div>
+  93 | |   <div><math><sup></math</div>
+  94 | |   <div><math><table></math</div>
+  95 | |   <div><math><tt></math</div>
+  96 | |   <div><math><u></math</div>
+  97 | |   <div><math><ul></math</div>
+  98 | |   <div><math><var></math</div>
+  99 | |   </body>
+ 100 | `-> </html>
+     `----
   x Child
    ,-[$DIR/tests/recovery/element/foreign-context/input.html:1:1]
  1 | <!doctype html>
    : ^^^^^^^^^^^^^^^
  2 | <html lang="en">
- 3 | <head>
    `----
   x DocumentType
    ,-[$DIR/tests/recovery/element/foreign-context/input.html:1:1]
  1 | <!doctype html>
    : ^^^^^^^^^^^^^^^
  2 | <html lang="en">
- 3 | <head>
    `----
   x Child
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:2:1]
@@ -232,7 +329,6 @@
   8 | |       <title>Document</title>
   9 | `-> </head>
  10 |     <body>
- 11 |     <div><svg></p></svg</div>
     `----
   x Element
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:3:1]
@@ -245,16 +341,17 @@
   8 | |       <title>Document</title>
   9 | `-> </head>
  10 |     <body>
- 11 |     <div><svg></p></svg</div>
     `----
   x Child
-   ,-[$DIR/tests/recovery/element/foreign-context/input.html:4:1]
+   ,-[$DIR/tests/recovery/element/foreign-context/input.html:3:1]
+ 2 |     <html lang="en">
  3 | ,-> <head>
  4 | `->     <meta charset="UTF-8">
  5 |         <meta name="viewport"
    `----
   x Text
-   ,-[$DIR/tests/recovery/element/foreign-context/input.html:4:1]
+   ,-[$DIR/tests/recovery/element/foreign-context/input.html:3:1]
+ 2 |     <html lang="en">
  3 | ,-> <head>
  4 | `->     <meta charset="UTF-8">
  5 |         <meta name="viewport"
@@ -265,7 +362,6 @@
  4 |     <meta charset="UTF-8">
    :     ^^^^^^^^^^^^^^^^^^^^^^
  5 |     <meta name="viewport"
- 6 |           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
    `----
   x Element
    ,-[$DIR/tests/recovery/element/foreign-context/input.html:4:1]
@@ -273,7 +369,6 @@
  4 |     <meta charset="UTF-8">
    :     ^^^^^^^^^^^^^^^^^^^^^^
  5 |     <meta name="viewport"
- 6 |           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
    `----
   x Attribute
    ,-[$DIR/tests/recovery/element/foreign-context/input.html:4:1]
@@ -283,13 +378,15 @@
  5 |     <meta name="viewport"
    `----
   x Child
-   ,-[$DIR/tests/recovery/element/foreign-context/input.html:5:1]
+   ,-[$DIR/tests/recovery/element/foreign-context/input.html:4:1]
+ 3 |     <head>
  4 | ,->     <meta charset="UTF-8">
  5 | `->     <meta name="viewport"
  6 |               content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
    `----
   x Text
-   ,-[$DIR/tests/recovery/element/foreign-context/input.html:5:1]
+   ,-[$DIR/tests/recovery/element/foreign-context/input.html:4:1]
+ 3 |     <head>
  4 | ,->     <meta charset="UTF-8">
  5 | `->     <meta name="viewport"
  6 |               content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -300,7 +397,6 @@
  5 | ,->     <meta name="viewport"
  6 | `->           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
  7 |         <meta http-equiv="X-UA-Compatible" content="ie=edge">
- 8 |         <title>Document</title>
    `----
   x Element
    ,-[$DIR/tests/recovery/element/foreign-context/input.html:5:1]
@@ -308,7 +404,6 @@
  5 | ,->     <meta name="viewport"
  6 | `->           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
  7 |         <meta http-equiv="X-UA-Compatible" content="ie=edge">
- 8 |         <title>Document</title>
    `----
   x Attribute
    ,-[$DIR/tests/recovery/element/foreign-context/input.html:5:1]
@@ -316,7 +411,6 @@
  5 |     <meta name="viewport"
    :           ^^^^^^^^^^^^^^^
  6 |           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
- 7 |     <meta http-equiv="X-UA-Compatible" content="ie=edge">
    `----
   x Attribute
    ,-[$DIR/tests/recovery/element/foreign-context/input.html:6:1]
@@ -326,13 +420,15 @@
  7 |     <meta http-equiv="X-UA-Compatible" content="ie=edge">
    `----
   x Child
-   ,-[$DIR/tests/recovery/element/foreign-context/input.html:7:1]
+   ,-[$DIR/tests/recovery/element/foreign-context/input.html:6:1]
+ 5 |         <meta name="viewport"
  6 | ,->           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
  7 | `->     <meta http-equiv="X-UA-Compatible" content="ie=edge">
  8 |         <title>Document</title>
    `----
   x Text
-   ,-[$DIR/tests/recovery/element/foreign-context/input.html:7:1]
+   ,-[$DIR/tests/recovery/element/foreign-context/input.html:6:1]
+ 5 |         <meta name="viewport"
  6 | ,->           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
  7 | `->     <meta http-equiv="X-UA-Compatible" content="ie=edge">
  8 |         <title>Document</title>
@@ -343,7 +439,6 @@
  7 |     <meta http-equiv="X-UA-Compatible" content="ie=edge">
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  8 |     <title>Document</title>
- 9 | </head>
    `----
   x Element
    ,-[$DIR/tests/recovery/element/foreign-context/input.html:7:1]
@@ -351,7 +446,6 @@
  7 |     <meta http-equiv="X-UA-Compatible" content="ie=edge">
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  8 |     <title>Document</title>
- 9 | </head>
    `----
   x Attribute
    ,-[$DIR/tests/recovery/element/foreign-context/input.html:7:1]
@@ -368,70 +462,74 @@
  8 |     <title>Document</title>
    `----
   x Child
-   ,-[$DIR/tests/recovery/element/foreign-context/input.html:8:1]
+   ,-[$DIR/tests/recovery/element/foreign-context/input.html:7:1]
+ 6 |               content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
  7 | ,->     <meta http-equiv="X-UA-Compatible" content="ie=edge">
  8 | `->     <title>Document</title>
  9 |     </head>
    `----
   x Text
-   ,-[$DIR/tests/recovery/element/foreign-context/input.html:8:1]
+   ,-[$DIR/tests/recovery/element/foreign-context/input.html:7:1]
+ 6 |               content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
  7 | ,->     <meta http-equiv="X-UA-Compatible" content="ie=edge">
  8 | `->     <title>Document</title>
  9 |     </head>
    `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:8:1]
-  7 |     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  8 |     <title>Document</title>
-    :     ^^^^^^^^^^^^^^^^^^^^^^^
-  9 | </head>
- 10 | <body>
-    `----
+   ,-[$DIR/tests/recovery/element/foreign-context/input.html:8:1]
+ 7 |     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+ 8 |     <title>Document</title>
+   :     ^^^^^^^^^^^^^^^^^^^^^^^
+ 9 | </head>
+   `----
   x Element
+   ,-[$DIR/tests/recovery/element/foreign-context/input.html:8:1]
+ 7 |     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+ 8 |     <title>Document</title>
+   :     ^^^^^^^^^^^^^^^^^^^^^^^
+ 9 | </head>
+   `----
+  x Child
+   ,-[$DIR/tests/recovery/element/foreign-context/input.html:8:1]
+ 7 |     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+ 8 |     <title>Document</title>
+   :            ^^^^^^^^
+ 9 | </head>
+   `----
+  x Text
+   ,-[$DIR/tests/recovery/element/foreign-context/input.html:8:1]
+ 7 |     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+ 8 |     <title>Document</title>
+   :            ^^^^^^^^
+ 9 | </head>
+   `----
+  x Child
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:8:1]
   7 |     <meta http-equiv="X-UA-Compatible" content="ie=edge">
   8 |     <title>Document</title>
-    :     ^^^^^^^^^^^^^^^^^^^^^^^
-  9 | </head>
- 10 | <body>
-    `----
-  x Child
-   ,-[$DIR/tests/recovery/element/foreign-context/input.html:8:1]
- 7 |     <meta http-equiv="X-UA-Compatible" content="ie=edge">
- 8 |     <title>Document</title>
-   :            ^^^^^^^^
- 9 | </head>
-   `----
-  x Text
-   ,-[$DIR/tests/recovery/element/foreign-context/input.html:8:1]
- 7 |     <meta http-equiv="X-UA-Compatible" content="ie=edge">
- 8 |     <title>Document</title>
-   :            ^^^^^^^^
- 9 | </head>
-   `----
-  x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:9:1]
-  8 |     <title>Document</title>
     :                            ^
   9 | </head>
  10 | <body>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:9:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:8:1]
+  7 |     <meta http-equiv="X-UA-Compatible" content="ie=edge">
   8 |     <title>Document</title>
     :                            ^
   9 | </head>
  10 | <body>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:10:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:9:1]
+  8 |     <title>Document</title>
   9 | </head>
     :        ^
  10 | <body>
  11 | <div><svg></p></svg</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:10:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:9:1]
+  8 |     <title>Document</title>
   9 | </head>
     :        ^
  10 | <body>
@@ -620,14 +718,16 @@
  96 |     <div><math><u></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:11:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:10:1]
+  9 | </head>
  10 | <body>
     :       ^
  11 | <div><svg></p></svg</div>
  12 | <div><svg></br></svg</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:11:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:10:1]
+  9 | </head>
  10 | <body>
     :       ^
  11 | <div><svg></p></svg</div>
@@ -842,14 +942,16 @@
  12 | <div><svg></br></svg</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:12:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:11:1]
+ 10 | <body>
  11 | <div><svg></p></svg</div>
     :                          ^
  12 | <div><svg></br></svg</div>
  13 | <div><svg><b></svg</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:12:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:11:1]
+ 10 | <body>
  11 | <div><svg></p></svg</div>
     :                          ^
  12 | <div><svg></br></svg</div>
@@ -1062,14 +1164,16 @@
  13 | <div><svg><b></svg</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:13:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:12:1]
+ 11 | <div><svg></p></svg</div>
  12 | <div><svg></br></svg</div>
     :                           ^
  13 | <div><svg><b></svg</div>
  14 | <div><svg><big></svg</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:13:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:12:1]
+ 11 | <div><svg></p></svg</div>
  12 | <div><svg></br></svg</div>
     :                           ^
  13 | <div><svg><b></svg</div>
@@ -1442,14 +1546,16 @@
  96 |     <div><math><u></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:14:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:13:1]
+ 12 | <div><svg></br></svg</div>
  13 | <div><svg><b></svg</div>
     :                         ^
  14 | <div><svg><big></svg</div>
  15 | <div><svg><blockquote></svg</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:14:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:13:1]
+ 12 | <div><svg></br></svg</div>
  13 | <div><svg><b></svg</div>
     :                         ^
  14 | <div><svg><big></svg</div>
@@ -1818,14 +1924,16 @@
  96 |     <div><math><u></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:15:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:14:1]
+ 13 | <div><svg><b></svg</div>
  14 | <div><svg><big></svg</div>
     :                           ^
  15 | <div><svg><blockquote></svg</div>
  16 | <div><svg><br></svg</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:15:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:14:1]
+ 13 | <div><svg><b></svg</div>
  14 | <div><svg><big></svg</div>
     :                           ^
  15 | <div><svg><blockquote></svg</div>
@@ -2190,14 +2298,16 @@
  96 |     <div><math><u></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:16:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:15:1]
+ 14 | <div><svg><big></svg</div>
  15 | <div><svg><blockquote></svg</div>
     :                                  ^
  16 | <div><svg><br></svg</div>
  17 | <div><svg><center></svg</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:16:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:15:1]
+ 14 | <div><svg><big></svg</div>
  15 | <div><svg><blockquote></svg</div>
     :                                  ^
  16 | <div><svg><br></svg</div>
@@ -2402,14 +2512,16 @@
  17 | <div><svg><center></svg</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:17:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:16:1]
+ 15 | <div><svg><blockquote></svg</div>
  16 | <div><svg><br></svg</div>
     :                          ^
  17 | <div><svg><center></svg</div>
  18 | <div><svg><code></svg</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:17:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:16:1]
+ 15 | <div><svg><blockquote></svg</div>
  16 | <div><svg><br></svg</div>
     :                          ^
  17 | <div><svg><center></svg</div>
@@ -2766,14 +2878,16 @@
  96 |     <div><math><u></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:18:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:17:1]
+ 16 | <div><svg><br></svg</div>
  17 | <div><svg><center></svg</div>
     :                              ^
  18 | <div><svg><code></svg</div>
  19 | <div><svg><dd></svg</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:18:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:17:1]
+ 16 | <div><svg><br></svg</div>
  17 | <div><svg><center></svg</div>
     :                              ^
  18 | <div><svg><code></svg</div>
@@ -3126,14 +3240,16 @@
  96 |     <div><math><u></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:19:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:18:1]
+ 17 | <div><svg><center></svg</div>
  18 | <div><svg><code></svg</div>
     :                            ^
  19 | <div><svg><dd></svg</div>
  20 | <div><svg><div></svg</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:19:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:18:1]
+ 17 | <div><svg><center></svg</div>
  18 | <div><svg><code></svg</div>
     :                            ^
  19 | <div><svg><dd></svg</div>
@@ -3482,14 +3598,16 @@
  96 |     <div><math><u></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:20:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:19:1]
+ 18 | <div><svg><code></svg</div>
  19 | <div><svg><dd></svg</div>
     :                          ^
  20 | <div><svg><div></svg</div>
  21 | <div><svg><dl></svg</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:20:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:19:1]
+ 18 | <div><svg><code></svg</div>
  19 | <div><svg><dd></svg</div>
     :                          ^
  20 | <div><svg><div></svg</div>
@@ -3834,14 +3952,16 @@
  96 |     <div><math><u></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:21:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:20:1]
+ 19 | <div><svg><dd></svg</div>
  20 | <div><svg><div></svg</div>
     :                           ^
  21 | <div><svg><dl></svg</div>
  22 | <div><svg><dt></svg</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:21:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:20:1]
+ 19 | <div><svg><dd></svg</div>
  20 | <div><svg><div></svg</div>
     :                           ^
  21 | <div><svg><dl></svg</div>
@@ -4182,14 +4302,16 @@
  96 |     <div><math><u></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:22:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:21:1]
+ 20 | <div><svg><div></svg</div>
  21 | <div><svg><dl></svg</div>
     :                          ^
  22 | <div><svg><dt></svg</div>
  23 | <div><svg><em></svg</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:22:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:21:1]
+ 20 | <div><svg><div></svg</div>
  21 | <div><svg><dl></svg</div>
     :                          ^
  22 | <div><svg><dt></svg</div>
@@ -4526,14 +4648,16 @@
  96 |     <div><math><u></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:23:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:22:1]
+ 21 | <div><svg><dl></svg</div>
  22 | <div><svg><dt></svg</div>
     :                          ^
  23 | <div><svg><em></svg</div>
  24 | <div><svg><embed></svg</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:23:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:22:1]
+ 21 | <div><svg><dl></svg</div>
  22 | <div><svg><dt></svg</div>
     :                          ^
  23 | <div><svg><em></svg</div>
@@ -4866,14 +4990,16 @@
  96 |     <div><math><u></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:24:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:23:1]
+ 22 | <div><svg><dt></svg</div>
  23 | <div><svg><em></svg</div>
     :                          ^
  24 | <div><svg><embed></svg</div>
  25 | <div><svg><h1></svg</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:24:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:23:1]
+ 22 | <div><svg><dt></svg</div>
  23 | <div><svg><em></svg</div>
     :                          ^
  24 | <div><svg><embed></svg</div>
@@ -5062,14 +5188,16 @@
  25 | <div><svg><h1></svg</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:25:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:24:1]
+ 23 | <div><svg><em></svg</div>
  24 | <div><svg><embed></svg</div>
     :                             ^
  25 | <div><svg><h1></svg</div>
  26 | <div><svg><h2></svg</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:25:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:24:1]
+ 23 | <div><svg><em></svg</div>
  24 | <div><svg><embed></svg</div>
     :                             ^
  25 | <div><svg><h1></svg</div>
@@ -5394,14 +5522,16 @@
  96 |     <div><math><u></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:26:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:25:1]
+ 24 | <div><svg><embed></svg</div>
  25 | <div><svg><h1></svg</div>
     :                          ^
  26 | <div><svg><h2></svg</div>
  27 | <div><svg><h3></svg</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:26:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:25:1]
+ 24 | <div><svg><embed></svg</div>
  25 | <div><svg><h1></svg</div>
     :                          ^
  26 | <div><svg><h2></svg</div>
@@ -5722,14 +5852,16 @@
  96 |     <div><math><u></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:27:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:26:1]
+ 25 | <div><svg><h1></svg</div>
  26 | <div><svg><h2></svg</div>
     :                          ^
  27 | <div><svg><h3></svg</div>
  28 | <div><svg><h4></svg</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:27:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:26:1]
+ 25 | <div><svg><h1></svg</div>
  26 | <div><svg><h2></svg</div>
     :                          ^
  27 | <div><svg><h3></svg</div>
@@ -6046,14 +6178,16 @@
  96 |     <div><math><u></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:28:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:27:1]
+ 26 | <div><svg><h2></svg</div>
  27 | <div><svg><h3></svg</div>
     :                          ^
  28 | <div><svg><h4></svg</div>
  29 | <div><svg><h5></svg</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:28:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:27:1]
+ 26 | <div><svg><h2></svg</div>
  27 | <div><svg><h3></svg</div>
     :                          ^
  28 | <div><svg><h4></svg</div>
@@ -6366,14 +6500,16 @@
  96 |     <div><math><u></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:29:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:28:1]
+ 27 | <div><svg><h3></svg</div>
  28 | <div><svg><h4></svg</div>
     :                          ^
  29 | <div><svg><h5></svg</div>
  30 | <div><svg><h6></svg</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:29:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:28:1]
+ 27 | <div><svg><h3></svg</div>
  28 | <div><svg><h4></svg</div>
     :                          ^
  29 | <div><svg><h5></svg</div>
@@ -6682,14 +6818,16 @@
  96 |     <div><math><u></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:30:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:29:1]
+ 28 | <div><svg><h4></svg</div>
  29 | <div><svg><h5></svg</div>
     :                          ^
  30 | <div><svg><h6></svg</div>
  31 | <div><svg><hr></svg</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:30:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:29:1]
+ 28 | <div><svg><h4></svg</div>
  29 | <div><svg><h5></svg</div>
     :                          ^
  30 | <div><svg><h6></svg</div>
@@ -6994,14 +7132,16 @@
  96 |     <div><math><u></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:31:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:30:1]
+ 29 | <div><svg><h5></svg</div>
  30 | <div><svg><h6></svg</div>
     :                          ^
  31 | <div><svg><hr></svg</div>
  32 | <div><svg><i></svg</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:31:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:30:1]
+ 29 | <div><svg><h5></svg</div>
  30 | <div><svg><h6></svg</div>
     :                          ^
  31 | <div><svg><hr></svg</div>
@@ -7176,14 +7316,16 @@
  32 | <div><svg><i></svg</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:32:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:31:1]
+ 30 | <div><svg><h6></svg</div>
  31 | <div><svg><hr></svg</div>
     :                          ^
  32 | <div><svg><i></svg</div>
  33 | <div><svg><img></svg</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:32:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:31:1]
+ 30 | <div><svg><h6></svg</div>
  31 | <div><svg><hr></svg</div>
     :                          ^
  32 | <div><svg><i></svg</div>
@@ -7480,14 +7622,16 @@
  96 |     <div><math><u></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:33:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:32:1]
+ 31 | <div><svg><hr></svg</div>
  32 | <div><svg><i></svg</div>
     :                         ^
  33 | <div><svg><img></svg</div>
  34 | <div><svg><li></svg</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:33:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:32:1]
+ 31 | <div><svg><hr></svg</div>
  32 | <div><svg><i></svg</div>
     :                         ^
  33 | <div><svg><img></svg</div>
@@ -7658,14 +7802,16 @@
  34 | <div><svg><li></svg</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:34:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:33:1]
+ 32 | <div><svg><i></svg</div>
  33 | <div><svg><img></svg</div>
     :                           ^
  34 | <div><svg><li></svg</div>
  35 | <div><svg><listing></svg</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:34:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:33:1]
+ 32 | <div><svg><i></svg</div>
  33 | <div><svg><img></svg</div>
     :                           ^
  34 | <div><svg><li></svg</div>
@@ -7954,14 +8100,16 @@
  96 |     <div><math><u></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:35:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:34:1]
+ 33 | <div><svg><img></svg</div>
  34 | <div><svg><li></svg</div>
     :                          ^
  35 | <div><svg><listing></svg</div>
  36 | <div><svg><menu></svg</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:35:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:34:1]
+ 33 | <div><svg><img></svg</div>
  34 | <div><svg><li></svg</div>
     :                          ^
  35 | <div><svg><listing></svg</div>
@@ -8246,14 +8394,16 @@
  96 |     <div><math><u></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:36:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:35:1]
+ 34 | <div><svg><li></svg</div>
  35 | <div><svg><listing></svg</div>
     :                               ^
  36 | <div><svg><menu></svg</div>
  37 | <div><svg><meta></svg</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:36:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:35:1]
+ 34 | <div><svg><li></svg</div>
  35 | <div><svg><listing></svg</div>
     :                               ^
  36 | <div><svg><menu></svg</div>
@@ -8534,14 +8684,16 @@
  96 |     <div><math><u></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:37:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:36:1]
+ 35 | <div><svg><listing></svg</div>
  36 | <div><svg><menu></svg</div>
     :                            ^
  37 | <div><svg><meta></svg</div>
  38 | <div><svg><nobr></svg</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:37:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:36:1]
+ 35 | <div><svg><listing></svg</div>
  36 | <div><svg><menu></svg</div>
     :                            ^
  37 | <div><svg><meta></svg</div>
@@ -8704,14 +8856,16 @@
  38 | <div><svg><nobr></svg</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:38:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:37:1]
+ 36 | <div><svg><menu></svg</div>
  37 | <div><svg><meta></svg</div>
     :                            ^
  38 | <div><svg><nobr></svg</div>
  39 | <div><svg><ol></svg</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:38:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:37:1]
+ 36 | <div><svg><menu></svg</div>
  37 | <div><svg><meta></svg</div>
     :                            ^
  38 | <div><svg><nobr></svg</div>
@@ -8984,14 +9138,16 @@
  96 |     <div><math><u></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:39:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:38:1]
+ 37 | <div><svg><meta></svg</div>
  38 | <div><svg><nobr></svg</div>
     :                            ^
  39 | <div><svg><ol></svg</div>
  40 | <div><svg><p></svg</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:39:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:38:1]
+ 37 | <div><svg><meta></svg</div>
  38 | <div><svg><nobr></svg</div>
     :                            ^
  39 | <div><svg><ol></svg</div>
@@ -9260,14 +9416,16 @@
  96 |     <div><math><u></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:40:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:39:1]
+ 38 | <div><svg><nobr></svg</div>
  39 | <div><svg><ol></svg</div>
     :                          ^
  40 | <div><svg><p></svg</div>
  41 | <div><svg><pre></svg</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:40:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:39:1]
+ 38 | <div><svg><nobr></svg</div>
  39 | <div><svg><ol></svg</div>
     :                          ^
  40 | <div><svg><p></svg</div>
@@ -9426,14 +9584,16 @@
  42 | <div><svg><ruby></svg</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:41:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:40:1]
+ 39 | <div><svg><ol></svg</div>
  40 | <div><svg><p></svg</div>
     :                         ^
  41 | <div><svg><pre></svg</div>
  42 | <div><svg><ruby></svg</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:41:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:40:1]
+ 39 | <div><svg><ol></svg</div>
  40 | <div><svg><p></svg</div>
     :                         ^
  41 | <div><svg><pre></svg</div>
@@ -9694,14 +9854,16 @@
  96 |     <div><math><u></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:42:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:41:1]
+ 40 | <div><svg><p></svg</div>
  41 | <div><svg><pre></svg</div>
     :                           ^
  42 | <div><svg><ruby></svg</div>
  43 | <div><svg><s></svg</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:42:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:41:1]
+ 40 | <div><svg><p></svg</div>
  41 | <div><svg><pre></svg</div>
     :                           ^
  42 | <div><svg><ruby></svg</div>
@@ -9958,14 +10120,16 @@
  96 |     <div><math><u></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:43:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:42:1]
+ 41 | <div><svg><pre></svg</div>
  42 | <div><svg><ruby></svg</div>
     :                            ^
  43 | <div><svg><s></svg</div>
  44 | <div><svg><small></svg</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:43:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:42:1]
+ 41 | <div><svg><pre></svg</div>
  42 | <div><svg><ruby></svg</div>
     :                            ^
  43 | <div><svg><s></svg</div>
@@ -10218,14 +10382,16 @@
  96 |     <div><math><u></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:44:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:43:1]
+ 42 | <div><svg><ruby></svg</div>
  43 | <div><svg><s></svg</div>
     :                         ^
  44 | <div><svg><small></svg</div>
  45 | <div><svg><span></svg</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:44:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:43:1]
+ 42 | <div><svg><ruby></svg</div>
  43 | <div><svg><s></svg</div>
     :                         ^
  44 | <div><svg><small></svg</div>
@@ -10474,14 +10640,16 @@
  96 |     <div><math><u></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:45:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:44:1]
+ 43 | <div><svg><s></svg</div>
  44 | <div><svg><small></svg</div>
     :                             ^
  45 | <div><svg><span></svg</div>
  46 | <div><svg><strong></svg</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:45:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:44:1]
+ 43 | <div><svg><s></svg</div>
  44 | <div><svg><small></svg</div>
     :                             ^
  45 | <div><svg><span></svg</div>
@@ -10726,14 +10894,16 @@
  96 |     <div><math><u></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:46:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:45:1]
+ 44 | <div><svg><small></svg</div>
  45 | <div><svg><span></svg</div>
     :                            ^
  46 | <div><svg><strong></svg</div>
  47 | <div><svg><strike></svg</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:46:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:45:1]
+ 44 | <div><svg><small></svg</div>
  45 | <div><svg><span></svg</div>
     :                            ^
  46 | <div><svg><strong></svg</div>
@@ -10974,14 +11144,16 @@
  96 |     <div><math><u></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:47:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:46:1]
+ 45 | <div><svg><span></svg</div>
  46 | <div><svg><strong></svg</div>
     :                              ^
  47 | <div><svg><strike></svg</div>
  48 | <div><svg><sub></svg</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:47:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:46:1]
+ 45 | <div><svg><span></svg</div>
  46 | <div><svg><strong></svg</div>
     :                              ^
  47 | <div><svg><strike></svg</div>
@@ -11218,14 +11390,16 @@
  96 |     <div><math><u></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:48:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:47:1]
+ 46 | <div><svg><strong></svg</div>
  47 | <div><svg><strike></svg</div>
     :                              ^
  48 | <div><svg><sub></svg</div>
  49 | <div><svg><sup></svg</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:48:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:47:1]
+ 46 | <div><svg><strong></svg</div>
  47 | <div><svg><strike></svg</div>
     :                              ^
  48 | <div><svg><sub></svg</div>
@@ -11458,14 +11632,16 @@
  96 |     <div><math><u></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:49:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:48:1]
+ 47 | <div><svg><strike></svg</div>
  48 | <div><svg><sub></svg</div>
     :                           ^
  49 | <div><svg><sup></svg</div>
  50 | <div><svg><table></svg</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:49:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:48:1]
+ 47 | <div><svg><strike></svg</div>
  48 | <div><svg><sub></svg</div>
     :                           ^
  49 | <div><svg><sup></svg</div>
@@ -11694,14 +11870,16 @@
  96 |     <div><math><u></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:50:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:49:1]
+ 48 | <div><svg><sub></svg</div>
  49 | <div><svg><sup></svg</div>
     :                           ^
  50 | <div><svg><table></svg</div>
  51 | <div><svg><tt></svg</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:50:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:49:1]
+ 48 | <div><svg><sub></svg</div>
  49 | <div><svg><sup></svg</div>
     :                           ^
  50 | <div><svg><table></svg</div>
@@ -12034,14 +12212,16 @@
  95 |     <div><math><tt></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:52:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:51:1]
+ 50 | <div><svg><table></svg</div>
  51 | <div><svg><tt></svg</div>
     :                          ^
  52 | <div><svg><u></svg</div>
  53 | <div><svg><ul></svg</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:52:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:51:1]
+ 50 | <div><svg><table></svg</div>
  51 | <div><svg><tt></svg</div>
     :                          ^
  52 | <div><svg><u></svg</div>
@@ -12254,14 +12434,16 @@
  95 |     <div><math><tt></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:53:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:52:1]
+ 51 | <div><svg><tt></svg</div>
  52 | <div><svg><u></svg</div>
     :                         ^
  53 | <div><svg><ul></svg</div>
  54 | <div><svg><var></svg</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:53:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:52:1]
+ 51 | <div><svg><tt></svg</div>
  52 | <div><svg><u></svg</div>
     :                         ^
  53 | <div><svg><ul></svg</div>
@@ -12470,14 +12652,16 @@
  95 |     <div><math><tt></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:54:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:53:1]
+ 52 | <div><svg><u></svg</div>
  53 | <div><svg><ul></svg</div>
     :                          ^
  54 | <div><svg><var></svg</div>
  55 | <div><math></p></math</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:54:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:53:1]
+ 52 | <div><svg><u></svg</div>
  53 | <div><svg><ul></svg</div>
     :                          ^
  54 | <div><svg><var></svg</div>
@@ -12682,14 +12866,16 @@
  95 |     <div><math><tt></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:55:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:54:1]
+ 53 | <div><svg><ul></svg</div>
  54 | <div><svg><var></svg</div>
     :                           ^
  55 | <div><math></p></math</div>
  56 | <div><math></br></math</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:55:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:54:1]
+ 53 | <div><svg><ul></svg</div>
  54 | <div><svg><var></svg</div>
     :                           ^
  55 | <div><math></p></math</div>
@@ -12814,14 +13000,16 @@
  56 | <div><math></br></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:56:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:55:1]
+ 54 | <div><svg><var></svg</div>
  55 | <div><math></p></math</div>
     :                            ^
  56 | <div><math></br></math</div>
  57 | <div><math><b></math</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:56:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:55:1]
+ 54 | <div><svg><var></svg</div>
  55 | <div><math></p></math</div>
     :                            ^
  56 | <div><math></br></math</div>
@@ -12944,14 +13132,16 @@
  57 | <div><math><b></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:57:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:56:1]
+ 55 | <div><math></p></math</div>
  56 | <div><math></br></math</div>
     :                             ^
  57 | <div><math><b></math</div>
  58 | <div><math><big></math</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:57:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:56:1]
+ 55 | <div><math></p></math</div>
  56 | <div><math></br></math</div>
     :                             ^
  57 | <div><math><b></math</div>
@@ -13144,14 +13334,16 @@
  95 |     <div><math><tt></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:58:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:57:1]
+ 56 | <div><math></br></math</div>
  57 | <div><math><b></math</div>
     :                           ^
  58 | <div><math><big></math</div>
  59 | <div><math><blockquote></math</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:58:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:57:1]
+ 56 | <div><math></br></math</div>
  57 | <div><math><b></math</div>
     :                           ^
  58 | <div><math><big></math</div>
@@ -13340,14 +13532,16 @@
  95 |     <div><math><tt></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:59:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:58:1]
+ 57 | <div><math><b></math</div>
  58 | <div><math><big></math</div>
     :                             ^
  59 | <div><math><blockquote></math</div>
  60 | <div><math><br></math</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:59:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:58:1]
+ 57 | <div><math><b></math</div>
  58 | <div><math><big></math</div>
     :                             ^
  59 | <div><math><blockquote></math</div>
@@ -13532,14 +13726,16 @@
  95 |     <div><math><tt></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:60:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:59:1]
+ 58 | <div><math><big></math</div>
  59 | <div><math><blockquote></math</div>
     :                                    ^
  60 | <div><math><br></math</div>
  61 | <div><math><center></math</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:60:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:59:1]
+ 58 | <div><math><big></math</div>
  59 | <div><math><blockquote></math</div>
     :                                    ^
  60 | <div><math><br></math</div>
@@ -13654,14 +13850,16 @@
  61 | <div><math><center></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:61:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:60:1]
+ 59 | <div><math><blockquote></math</div>
  60 | <div><math><br></math</div>
     :                            ^
  61 | <div><math><center></math</div>
  62 | <div><math><code></math</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:61:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:60:1]
+ 59 | <div><math><blockquote></math</div>
  60 | <div><math><br></math</div>
     :                            ^
  61 | <div><math><center></math</div>
@@ -13838,14 +14036,16 @@
  95 |     <div><math><tt></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:62:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:61:1]
+ 60 | <div><math><br></math</div>
  61 | <div><math><center></math</div>
     :                                ^
  62 | <div><math><code></math</div>
  63 | <div><math><dd></math</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:62:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:61:1]
+ 60 | <div><math><br></math</div>
  61 | <div><math><center></math</div>
     :                                ^
  62 | <div><math><code></math</div>
@@ -14018,14 +14218,16 @@
  95 |     <div><math><tt></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:63:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:62:1]
+ 61 | <div><math><center></math</div>
  62 | <div><math><code></math</div>
     :                              ^
  63 | <div><math><dd></math</div>
  64 | <div><math><div></math</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:63:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:62:1]
+ 61 | <div><math><center></math</div>
  62 | <div><math><code></math</div>
     :                              ^
  63 | <div><math><dd></math</div>
@@ -14194,14 +14396,16 @@
  95 |     <div><math><tt></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:64:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:63:1]
+ 62 | <div><math><code></math</div>
  63 | <div><math><dd></math</div>
     :                            ^
  64 | <div><math><div></math</div>
  65 | <div><math><dl></math</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:64:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:63:1]
+ 62 | <div><math><code></math</div>
  63 | <div><math><dd></math</div>
     :                            ^
  64 | <div><math><div></math</div>
@@ -14366,14 +14570,16 @@
  95 |     <div><math><tt></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:65:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:64:1]
+ 63 | <div><math><dd></math</div>
  64 | <div><math><div></math</div>
     :                             ^
  65 | <div><math><dl></math</div>
  66 | <div><math><dt></math</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:65:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:64:1]
+ 63 | <div><math><dd></math</div>
  64 | <div><math><div></math</div>
     :                             ^
  65 | <div><math><dl></math</div>
@@ -14534,14 +14740,16 @@
  95 |     <div><math><tt></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:66:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:65:1]
+ 64 | <div><math><div></math</div>
  65 | <div><math><dl></math</div>
     :                            ^
  66 | <div><math><dt></math</div>
  67 | <div><math><em></math</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:66:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:65:1]
+ 64 | <div><math><div></math</div>
  65 | <div><math><dl></math</div>
     :                            ^
  66 | <div><math><dt></math</div>
@@ -14698,14 +14906,16 @@
  95 |     <div><math><tt></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:67:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:66:1]
+ 65 | <div><math><dl></math</div>
  66 | <div><math><dt></math</div>
     :                            ^
  67 | <div><math><em></math</div>
  68 | <div><math><embed></math</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:67:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:66:1]
+ 65 | <div><math><dl></math</div>
  66 | <div><math><dt></math</div>
     :                            ^
  67 | <div><math><em></math</div>
@@ -14858,14 +15068,16 @@
  95 |     <div><math><tt></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:68:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:67:1]
+ 66 | <div><math><dt></math</div>
  67 | <div><math><em></math</div>
     :                            ^
  68 | <div><math><embed></math</div>
  69 | <div><math><h1></math</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:68:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:67:1]
+ 66 | <div><math><dt></math</div>
  67 | <div><math><em></math</div>
     :                            ^
  68 | <div><math><embed></math</div>
@@ -14964,14 +15176,16 @@
  69 | <div><math><h1></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:69:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:68:1]
+ 67 | <div><math><em></math</div>
  68 | <div><math><embed></math</div>
     :                               ^
  69 | <div><math><h1></math</div>
  70 | <div><math><h2></math</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:69:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:68:1]
+ 67 | <div><math><em></math</div>
  68 | <div><math><embed></math</div>
     :                               ^
  69 | <div><math><h1></math</div>
@@ -15116,14 +15330,16 @@
  95 |     <div><math><tt></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:70:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:69:1]
+ 68 | <div><math><embed></math</div>
  69 | <div><math><h1></math</div>
     :                            ^
  70 | <div><math><h2></math</div>
  71 | <div><math><h3></math</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:70:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:69:1]
+ 68 | <div><math><embed></math</div>
  69 | <div><math><h1></math</div>
     :                            ^
  70 | <div><math><h2></math</div>
@@ -15264,14 +15480,16 @@
  95 |     <div><math><tt></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:71:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:70:1]
+ 69 | <div><math><h1></math</div>
  70 | <div><math><h2></math</div>
     :                            ^
  71 | <div><math><h3></math</div>
  72 | <div><math><h4></math</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:71:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:70:1]
+ 69 | <div><math><h1></math</div>
  70 | <div><math><h2></math</div>
     :                            ^
  71 | <div><math><h3></math</div>
@@ -15408,14 +15626,16 @@
  95 |     <div><math><tt></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:72:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:71:1]
+ 70 | <div><math><h2></math</div>
  71 | <div><math><h3></math</div>
     :                            ^
  72 | <div><math><h4></math</div>
  73 | <div><math><h5></math</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:72:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:71:1]
+ 70 | <div><math><h2></math</div>
  71 | <div><math><h3></math</div>
     :                            ^
  72 | <div><math><h4></math</div>
@@ -15548,14 +15768,16 @@
  95 |     <div><math><tt></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:73:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:72:1]
+ 71 | <div><math><h3></math</div>
  72 | <div><math><h4></math</div>
     :                            ^
  73 | <div><math><h5></math</div>
  74 | <div><math><h6></math</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:73:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:72:1]
+ 71 | <div><math><h3></math</div>
  72 | <div><math><h4></math</div>
     :                            ^
  73 | <div><math><h5></math</div>
@@ -15684,14 +15906,16 @@
  95 |     <div><math><tt></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:74:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:73:1]
+ 72 | <div><math><h4></math</div>
  73 | <div><math><h5></math</div>
     :                            ^
  74 | <div><math><h6></math</div>
  75 | <div><math><hr></math</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:74:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:73:1]
+ 72 | <div><math><h4></math</div>
  73 | <div><math><h5></math</div>
     :                            ^
  74 | <div><math><h6></math</div>
@@ -15816,14 +16040,16 @@
  95 |     <div><math><tt></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:75:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:74:1]
+ 73 | <div><math><h5></math</div>
  74 | <div><math><h6></math</div>
     :                            ^
  75 | <div><math><hr></math</div>
  76 | <div><math><i></math</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:75:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:74:1]
+ 73 | <div><math><h5></math</div>
  74 | <div><math><h6></math</div>
     :                            ^
  75 | <div><math><hr></math</div>
@@ -15908,14 +16134,16 @@
  76 | <div><math><i></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:76:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:75:1]
+ 74 | <div><math><h6></math</div>
  75 | <div><math><hr></math</div>
     :                            ^
  76 | <div><math><i></math</div>
  77 | <div><math><img></math</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:76:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:75:1]
+ 74 | <div><math><h6></math</div>
  75 | <div><math><hr></math</div>
     :                            ^
  76 | <div><math><i></math</div>
@@ -16032,14 +16260,16 @@
  95 |     <div><math><tt></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:77:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:76:1]
+ 75 | <div><math><hr></math</div>
  76 | <div><math><i></math</div>
     :                           ^
  77 | <div><math><img></math</div>
  78 | <div><math><li></math</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:77:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:76:1]
+ 75 | <div><math><hr></math</div>
  76 | <div><math><i></math</div>
     :                           ^
  77 | <div><math><img></math</div>
@@ -16120,14 +16350,16 @@
  78 | <div><math><li></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:78:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:77:1]
+ 76 | <div><math><i></math</div>
  77 | <div><math><img></math</div>
     :                             ^
  78 | <div><math><li></math</div>
  79 | <div><math><listing></math</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:78:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:77:1]
+ 76 | <div><math><i></math</div>
  77 | <div><math><img></math</div>
     :                             ^
  78 | <div><math><li></math</div>
@@ -16236,14 +16468,16 @@
  95 |     <div><math><tt></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:79:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:78:1]
+ 77 | <div><math><img></math</div>
  78 | <div><math><li></math</div>
     :                            ^
  79 | <div><math><listing></math</div>
  80 | <div><math><menu></math</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:79:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:78:1]
+ 77 | <div><math><img></math</div>
  78 | <div><math><li></math</div>
     :                            ^
  79 | <div><math><listing></math</div>
@@ -16348,14 +16582,16 @@
  95 |     <div><math><tt></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:80:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:79:1]
+ 78 | <div><math><li></math</div>
  79 | <div><math><listing></math</div>
     :                                 ^
  80 | <div><math><menu></math</div>
  81 | <div><math><meta></math</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:80:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:79:1]
+ 78 | <div><math><li></math</div>
  79 | <div><math><listing></math</div>
     :                                 ^
  80 | <div><math><menu></math</div>
@@ -16456,14 +16692,16 @@
  95 |     <div><math><tt></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:81:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:80:1]
+ 79 | <div><math><listing></math</div>
  80 | <div><math><menu></math</div>
     :                              ^
  81 | <div><math><meta></math</div>
  82 | <div><math><nobr></math</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:81:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:80:1]
+ 79 | <div><math><listing></math</div>
  80 | <div><math><menu></math</div>
     :                              ^
  81 | <div><math><meta></math</div>
@@ -16536,14 +16774,16 @@
  82 | <div><math><nobr></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:82:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:81:1]
+ 80 | <div><math><menu></math</div>
  81 | <div><math><meta></math</div>
     :                              ^
  82 | <div><math><nobr></math</div>
  83 | <div><math><ol></math</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:82:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:81:1]
+ 80 | <div><math><menu></math</div>
  81 | <div><math><meta></math</div>
     :                              ^
  82 | <div><math><nobr></math</div>
@@ -16636,14 +16876,16 @@
  95 |     <div><math><tt></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:83:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:82:1]
+ 81 | <div><math><meta></math</div>
  82 | <div><math><nobr></math</div>
     :                              ^
  83 | <div><math><ol></math</div>
  84 | <div><math><p></math</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:83:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:82:1]
+ 81 | <div><math><meta></math</div>
  82 | <div><math><nobr></math</div>
     :                              ^
  83 | <div><math><ol></math</div>
@@ -16732,14 +16974,16 @@
  95 |     <div><math><tt></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:84:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:83:1]
+ 82 | <div><math><nobr></math</div>
  83 | <div><math><ol></math</div>
     :                            ^
  84 | <div><math><p></math</div>
  85 | <div><math><pre></math</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:84:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:83:1]
+ 82 | <div><math><nobr></math</div>
  83 | <div><math><ol></math</div>
     :                            ^
  84 | <div><math><p></math</div>
@@ -16808,14 +17052,16 @@
  86 | <div><math><ruby></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:85:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:84:1]
+ 83 | <div><math><ol></math</div>
  84 | <div><math><p></math</div>
     :                           ^
  85 | <div><math><pre></math</div>
  86 | <div><math><ruby></math</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:85:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:84:1]
+ 83 | <div><math><ol></math</div>
  84 | <div><math><p></math</div>
     :                           ^
  85 | <div><math><pre></math</div>
@@ -16896,14 +17142,16 @@
  95 |     <div><math><tt></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:86:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:85:1]
+ 84 | <div><math><p></math</div>
  85 | <div><math><pre></math</div>
     :                             ^
  86 | <div><math><ruby></math</div>
  87 | <div><math><s></math</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:86:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:85:1]
+ 84 | <div><math><p></math</div>
  85 | <div><math><pre></math</div>
     :                             ^
  86 | <div><math><ruby></math</div>
@@ -16980,14 +17228,16 @@
  95 |     <div><math><tt></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:87:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:86:1]
+ 85 | <div><math><pre></math</div>
  86 | <div><math><ruby></math</div>
     :                              ^
  87 | <div><math><s></math</div>
  88 | <div><math><small></math</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:87:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:86:1]
+ 85 | <div><math><pre></math</div>
  86 | <div><math><ruby></math</div>
     :                              ^
  87 | <div><math><s></math</div>
@@ -17060,14 +17310,16 @@
  95 |     <div><math><tt></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:88:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:87:1]
+ 86 | <div><math><ruby></math</div>
  87 | <div><math><s></math</div>
     :                           ^
  88 | <div><math><small></math</div>
  89 | <div><math><span></math</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:88:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:87:1]
+ 86 | <div><math><ruby></math</div>
  87 | <div><math><s></math</div>
     :                           ^
  88 | <div><math><small></math</div>
@@ -17136,14 +17388,16 @@
  95 |     <div><math><tt></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:89:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:88:1]
+ 87 | <div><math><s></math</div>
  88 | <div><math><small></math</div>
     :                               ^
  89 | <div><math><span></math</div>
  90 | <div><math><strong></math</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:89:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:88:1]
+ 87 | <div><math><s></math</div>
  88 | <div><math><small></math</div>
     :                               ^
  89 | <div><math><span></math</div>
@@ -17208,14 +17462,16 @@
  95 |     <div><math><tt></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:90:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:89:1]
+ 88 | <div><math><small></math</div>
  89 | <div><math><span></math</div>
     :                              ^
  90 | <div><math><strong></math</div>
  91 | <div><math><strike></math</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:90:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:89:1]
+ 88 | <div><math><small></math</div>
  89 | <div><math><span></math</div>
     :                              ^
  90 | <div><math><strong></math</div>
@@ -17276,14 +17532,16 @@
  95 |     <div><math><tt></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:91:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:90:1]
+ 89 | <div><math><span></math</div>
  90 | <div><math><strong></math</div>
     :                                ^
  91 | <div><math><strike></math</div>
  92 | <div><math><sub></math</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:91:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:90:1]
+ 89 | <div><math><span></math</div>
  90 | <div><math><strong></math</div>
     :                                ^
  91 | <div><math><strike></math</div>
@@ -17340,14 +17598,16 @@
  95 |     <div><math><tt></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:92:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:91:1]
+ 90 | <div><math><strong></math</div>
  91 | <div><math><strike></math</div>
     :                                ^
  92 | <div><math><sub></math</div>
  93 | <div><math><sup></math</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:92:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:91:1]
+ 90 | <div><math><strong></math</div>
  91 | <div><math><strike></math</div>
     :                                ^
  92 | <div><math><sub></math</div>
@@ -17400,14 +17660,16 @@
  95 |     <div><math><tt></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:93:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:92:1]
+ 91 | <div><math><strike></math</div>
  92 | <div><math><sub></math</div>
     :                             ^
  93 | <div><math><sup></math</div>
  94 | <div><math><table></math</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:93:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:92:1]
+ 91 | <div><math><strike></math</div>
  92 | <div><math><sub></math</div>
     :                             ^
  93 | <div><math><sup></math</div>
@@ -17456,14 +17718,16 @@
  95 |     <div><math><tt></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:94:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:93:1]
+ 92 | <div><math><sub></math</div>
  93 | <div><math><sup></math</div>
     :                             ^
  94 | <div><math><table></math</div>
  95 | <div><math><tt></math</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:94:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:93:1]
+ 92 | <div><math><sub></math</div>
  93 | <div><math><sup></math</div>
     :                             ^
  94 | <div><math><table></math</div>
@@ -17514,123 +17778,839 @@
  52 | <div><svg><u></svg</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:51:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:50:1]
+ 49 | <div><svg><sup></svg</div>
  50 | <div><svg><table></svg</div>
     :                             ^
  51 | <div><svg><tt></svg</div>
  52 | <div><svg><u></svg</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:51:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:50:1]
+ 49 | <div><svg><sup></svg</div>
  50 | <div><svg><table></svg</div>
     :                             ^
  51 | <div><svg><tt></svg</div>
  52 | <div><svg><u></svg</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:95:2]
- 95 | |    
-    `----
+     ,-[$DIR/tests/recovery/element/foreign-context/input.html:95:1]
+  94 |     <div><math><table></math</div>
+  95 | ,-> <div><math><tt></math</div>
+  96 | |   <div><math><u></math</div>
+  97 | |   <div><math><ul></math</div>
+  98 | |   <div><math><var></math</div>
+  99 | |   </body>
+ 100 | `-> </html>
+     `----
   x Element
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:95:2]
- 95 | |    
-    `----
+     ,-[$DIR/tests/recovery/element/foreign-context/input.html:95:1]
+  94 |     <div><math><table></math</div>
+  95 | ,-> <div><math><tt></math</div>
+  96 | |   <div><math><u></math</div>
+  97 | |   <div><math><ul></math</div>
+  98 | |   <div><math><var></math</div>
+  99 | |   </body>
+ 100 | `-> </html>
+     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:51:12]
- 51 | |    
-    `----
+     ,-[$DIR/tests/recovery/element/foreign-context/input.html:51:1]
+  50 |     <div><svg><table></svg</div>
+  51 | ,-> <div><svg><tt></svg</div>
+  52 | |   <div><svg><u></svg</div>
+  53 | |   <div><svg><ul></svg</div>
+  54 | |   <div><svg><var></svg</div>
+  55 | |   <div><math></p></math</div>
+  56 | |   <div><math></br></math</div>
+  57 | |   <div><math><b></math</div>
+  58 | |   <div><math><big></math</div>
+  59 | |   <div><math><blockquote></math</div>
+  60 | |   <div><math><br></math</div>
+  61 | |   <div><math><center></math</div>
+  62 | |   <div><math><code></math</div>
+  63 | |   <div><math><dd></math</div>
+  64 | |   <div><math><div></math</div>
+  65 | |   <div><math><dl></math</div>
+  66 | |   <div><math><dt></math</div>
+  67 | |   <div><math><em></math</div>
+  68 | |   <div><math><embed></math</div>
+  69 | |   <div><math><h1></math</div>
+  70 | |   <div><math><h2></math</div>
+  71 | |   <div><math><h3></math</div>
+  72 | |   <div><math><h4></math</div>
+  73 | |   <div><math><h5></math</div>
+  74 | |   <div><math><h6></math</div>
+  75 | |   <div><math><hr></math</div>
+  76 | |   <div><math><i></math</div>
+  77 | |   <div><math><img></math</div>
+  78 | |   <div><math><li></math</div>
+  79 | |   <div><math><listing></math</div>
+  80 | |   <div><math><menu></math</div>
+  81 | |   <div><math><meta></math</div>
+  82 | |   <div><math><nobr></math</div>
+  83 | |   <div><math><ol></math</div>
+  84 | |   <div><math><p></math</div>
+  85 | |   <div><math><pre></math</div>
+  86 | |   <div><math><ruby></math</div>
+  87 | |   <div><math><s></math</div>
+  88 | |   <div><math><small></math</div>
+  89 | |   <div><math><span></math</div>
+  90 | |   <div><math><strong></math</div>
+  91 | |   <div><math><strike></math</div>
+  92 | |   <div><math><sub></math</div>
+  93 | |   <div><math><sup></math</div>
+  94 | |   <div><math><table></math</div>
+  95 | |   <div><math><tt></math</div>
+  96 | |   <div><math><u></math</div>
+  97 | |   <div><math><ul></math</div>
+  98 | |   <div><math><var></math</div>
+  99 | |   </body>
+ 100 | `-> </html>
+     `----
   x Element
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:51:12]
- 51 | |    
-    `----
+     ,-[$DIR/tests/recovery/element/foreign-context/input.html:51:1]
+  50 |     <div><svg><table></svg</div>
+  51 | ,-> <div><svg><tt></svg</div>
+  52 | |   <div><svg><u></svg</div>
+  53 | |   <div><svg><ul></svg</div>
+  54 | |   <div><svg><var></svg</div>
+  55 | |   <div><math></p></math</div>
+  56 | |   <div><math></br></math</div>
+  57 | |   <div><math><b></math</div>
+  58 | |   <div><math><big></math</div>
+  59 | |   <div><math><blockquote></math</div>
+  60 | |   <div><math><br></math</div>
+  61 | |   <div><math><center></math</div>
+  62 | |   <div><math><code></math</div>
+  63 | |   <div><math><dd></math</div>
+  64 | |   <div><math><div></math</div>
+  65 | |   <div><math><dl></math</div>
+  66 | |   <div><math><dt></math</div>
+  67 | |   <div><math><em></math</div>
+  68 | |   <div><math><embed></math</div>
+  69 | |   <div><math><h1></math</div>
+  70 | |   <div><math><h2></math</div>
+  71 | |   <div><math><h3></math</div>
+  72 | |   <div><math><h4></math</div>
+  73 | |   <div><math><h5></math</div>
+  74 | |   <div><math><h6></math</div>
+  75 | |   <div><math><hr></math</div>
+  76 | |   <div><math><i></math</div>
+  77 | |   <div><math><img></math</div>
+  78 | |   <div><math><li></math</div>
+  79 | |   <div><math><listing></math</div>
+  80 | |   <div><math><menu></math</div>
+  81 | |   <div><math><meta></math</div>
+  82 | |   <div><math><nobr></math</div>
+  83 | |   <div><math><ol></math</div>
+  84 | |   <div><math><p></math</div>
+  85 | |   <div><math><pre></math</div>
+  86 | |   <div><math><ruby></math</div>
+  87 | |   <div><math><s></math</div>
+  88 | |   <div><math><small></math</div>
+  89 | |   <div><math><span></math</div>
+  90 | |   <div><math><strong></math</div>
+  91 | |   <div><math><strike></math</div>
+  92 | |   <div><math><sub></math</div>
+  93 | |   <div><math><sup></math</div>
+  94 | |   <div><math><table></math</div>
+  95 | |   <div><math><tt></math</div>
+  96 | |   <div><math><u></math</div>
+  97 | |   <div><math><ul></math</div>
+  98 | |   <div><math><var></math</div>
+  99 | |   </body>
+ 100 | `-> </html>
+     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:52:12]
- 52 | |    
-    `----
+     ,-[$DIR/tests/recovery/element/foreign-context/input.html:52:1]
+  51 |     <div><svg><tt></svg</div>
+  52 | ,-> <div><svg><u></svg</div>
+  53 | |   <div><svg><ul></svg</div>
+  54 | |   <div><svg><var></svg</div>
+  55 | |   <div><math></p></math</div>
+  56 | |   <div><math></br></math</div>
+  57 | |   <div><math><b></math</div>
+  58 | |   <div><math><big></math</div>
+  59 | |   <div><math><blockquote></math</div>
+  60 | |   <div><math><br></math</div>
+  61 | |   <div><math><center></math</div>
+  62 | |   <div><math><code></math</div>
+  63 | |   <div><math><dd></math</div>
+  64 | |   <div><math><div></math</div>
+  65 | |   <div><math><dl></math</div>
+  66 | |   <div><math><dt></math</div>
+  67 | |   <div><math><em></math</div>
+  68 | |   <div><math><embed></math</div>
+  69 | |   <div><math><h1></math</div>
+  70 | |   <div><math><h2></math</div>
+  71 | |   <div><math><h3></math</div>
+  72 | |   <div><math><h4></math</div>
+  73 | |   <div><math><h5></math</div>
+  74 | |   <div><math><h6></math</div>
+  75 | |   <div><math><hr></math</div>
+  76 | |   <div><math><i></math</div>
+  77 | |   <div><math><img></math</div>
+  78 | |   <div><math><li></math</div>
+  79 | |   <div><math><listing></math</div>
+  80 | |   <div><math><menu></math</div>
+  81 | |   <div><math><meta></math</div>
+  82 | |   <div><math><nobr></math</div>
+  83 | |   <div><math><ol></math</div>
+  84 | |   <div><math><p></math</div>
+  85 | |   <div><math><pre></math</div>
+  86 | |   <div><math><ruby></math</div>
+  87 | |   <div><math><s></math</div>
+  88 | |   <div><math><small></math</div>
+  89 | |   <div><math><span></math</div>
+  90 | |   <div><math><strong></math</div>
+  91 | |   <div><math><strike></math</div>
+  92 | |   <div><math><sub></math</div>
+  93 | |   <div><math><sup></math</div>
+  94 | |   <div><math><table></math</div>
+  95 | |   <div><math><tt></math</div>
+  96 | |   <div><math><u></math</div>
+  97 | |   <div><math><ul></math</div>
+  98 | |   <div><math><var></math</div>
+  99 | |   </body>
+ 100 | `-> </html>
+     `----
   x Element
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:52:12]
- 52 | |    
-    `----
+     ,-[$DIR/tests/recovery/element/foreign-context/input.html:52:1]
+  51 |     <div><svg><tt></svg</div>
+  52 | ,-> <div><svg><u></svg</div>
+  53 | |   <div><svg><ul></svg</div>
+  54 | |   <div><svg><var></svg</div>
+  55 | |   <div><math></p></math</div>
+  56 | |   <div><math></br></math</div>
+  57 | |   <div><math><b></math</div>
+  58 | |   <div><math><big></math</div>
+  59 | |   <div><math><blockquote></math</div>
+  60 | |   <div><math><br></math</div>
+  61 | |   <div><math><center></math</div>
+  62 | |   <div><math><code></math</div>
+  63 | |   <div><math><dd></math</div>
+  64 | |   <div><math><div></math</div>
+  65 | |   <div><math><dl></math</div>
+  66 | |   <div><math><dt></math</div>
+  67 | |   <div><math><em></math</div>
+  68 | |   <div><math><embed></math</div>
+  69 | |   <div><math><h1></math</div>
+  70 | |   <div><math><h2></math</div>
+  71 | |   <div><math><h3></math</div>
+  72 | |   <div><math><h4></math</div>
+  73 | |   <div><math><h5></math</div>
+  74 | |   <div><math><h6></math</div>
+  75 | |   <div><math><hr></math</div>
+  76 | |   <div><math><i></math</div>
+  77 | |   <div><math><img></math</div>
+  78 | |   <div><math><li></math</div>
+  79 | |   <div><math><listing></math</div>
+  80 | |   <div><math><menu></math</div>
+  81 | |   <div><math><meta></math</div>
+  82 | |   <div><math><nobr></math</div>
+  83 | |   <div><math><ol></math</div>
+  84 | |   <div><math><p></math</div>
+  85 | |   <div><math><pre></math</div>
+  86 | |   <div><math><ruby></math</div>
+  87 | |   <div><math><s></math</div>
+  88 | |   <div><math><small></math</div>
+  89 | |   <div><math><span></math</div>
+  90 | |   <div><math><strong></math</div>
+  91 | |   <div><math><strike></math</div>
+  92 | |   <div><math><sub></math</div>
+  93 | |   <div><math><sup></math</div>
+  94 | |   <div><math><table></math</div>
+  95 | |   <div><math><tt></math</div>
+  96 | |   <div><math><u></math</div>
+  97 | |   <div><math><ul></math</div>
+  98 | |   <div><math><var></math</div>
+  99 | |   </body>
+ 100 | `-> </html>
+     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:57:13]
- 57 | |    
-    `----
+     ,-[$DIR/tests/recovery/element/foreign-context/input.html:57:1]
+  56 |     <div><math></br></math</div>
+  57 | ,-> <div><math><b></math</div>
+  58 | |   <div><math><big></math</div>
+  59 | |   <div><math><blockquote></math</div>
+  60 | |   <div><math><br></math</div>
+  61 | |   <div><math><center></math</div>
+  62 | |   <div><math><code></math</div>
+  63 | |   <div><math><dd></math</div>
+  64 | |   <div><math><div></math</div>
+  65 | |   <div><math><dl></math</div>
+  66 | |   <div><math><dt></math</div>
+  67 | |   <div><math><em></math</div>
+  68 | |   <div><math><embed></math</div>
+  69 | |   <div><math><h1></math</div>
+  70 | |   <div><math><h2></math</div>
+  71 | |   <div><math><h3></math</div>
+  72 | |   <div><math><h4></math</div>
+  73 | |   <div><math><h5></math</div>
+  74 | |   <div><math><h6></math</div>
+  75 | |   <div><math><hr></math</div>
+  76 | |   <div><math><i></math</div>
+  77 | |   <div><math><img></math</div>
+  78 | |   <div><math><li></math</div>
+  79 | |   <div><math><listing></math</div>
+  80 | |   <div><math><menu></math</div>
+  81 | |   <div><math><meta></math</div>
+  82 | |   <div><math><nobr></math</div>
+  83 | |   <div><math><ol></math</div>
+  84 | |   <div><math><p></math</div>
+  85 | |   <div><math><pre></math</div>
+  86 | |   <div><math><ruby></math</div>
+  87 | |   <div><math><s></math</div>
+  88 | |   <div><math><small></math</div>
+  89 | |   <div><math><span></math</div>
+  90 | |   <div><math><strong></math</div>
+  91 | |   <div><math><strike></math</div>
+  92 | |   <div><math><sub></math</div>
+  93 | |   <div><math><sup></math</div>
+  94 | |   <div><math><table></math</div>
+  95 | |   <div><math><tt></math</div>
+  96 | |   <div><math><u></math</div>
+  97 | |   <div><math><ul></math</div>
+  98 | |   <div><math><var></math</div>
+  99 | |   </body>
+ 100 | `-> </html>
+     `----
   x Element
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:57:13]
- 57 | |    
-    `----
+     ,-[$DIR/tests/recovery/element/foreign-context/input.html:57:1]
+  56 |     <div><math></br></math</div>
+  57 | ,-> <div><math><b></math</div>
+  58 | |   <div><math><big></math</div>
+  59 | |   <div><math><blockquote></math</div>
+  60 | |   <div><math><br></math</div>
+  61 | |   <div><math><center></math</div>
+  62 | |   <div><math><code></math</div>
+  63 | |   <div><math><dd></math</div>
+  64 | |   <div><math><div></math</div>
+  65 | |   <div><math><dl></math</div>
+  66 | |   <div><math><dt></math</div>
+  67 | |   <div><math><em></math</div>
+  68 | |   <div><math><embed></math</div>
+  69 | |   <div><math><h1></math</div>
+  70 | |   <div><math><h2></math</div>
+  71 | |   <div><math><h3></math</div>
+  72 | |   <div><math><h4></math</div>
+  73 | |   <div><math><h5></math</div>
+  74 | |   <div><math><h6></math</div>
+  75 | |   <div><math><hr></math</div>
+  76 | |   <div><math><i></math</div>
+  77 | |   <div><math><img></math</div>
+  78 | |   <div><math><li></math</div>
+  79 | |   <div><math><listing></math</div>
+  80 | |   <div><math><menu></math</div>
+  81 | |   <div><math><meta></math</div>
+  82 | |   <div><math><nobr></math</div>
+  83 | |   <div><math><ol></math</div>
+  84 | |   <div><math><p></math</div>
+  85 | |   <div><math><pre></math</div>
+  86 | |   <div><math><ruby></math</div>
+  87 | |   <div><math><s></math</div>
+  88 | |   <div><math><small></math</div>
+  89 | |   <div><math><span></math</div>
+  90 | |   <div><math><strong></math</div>
+  91 | |   <div><math><strike></math</div>
+  92 | |   <div><math><sub></math</div>
+  93 | |   <div><math><sup></math</div>
+  94 | |   <div><math><table></math</div>
+  95 | |   <div><math><tt></math</div>
+  96 | |   <div><math><u></math</div>
+  97 | |   <div><math><ul></math</div>
+  98 | |   <div><math><var></math</div>
+  99 | |   </body>
+ 100 | `-> </html>
+     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:58:13]
- 58 | |    
-    `----
+     ,-[$DIR/tests/recovery/element/foreign-context/input.html:58:1]
+  57 |     <div><math><b></math</div>
+  58 | ,-> <div><math><big></math</div>
+  59 | |   <div><math><blockquote></math</div>
+  60 | |   <div><math><br></math</div>
+  61 | |   <div><math><center></math</div>
+  62 | |   <div><math><code></math</div>
+  63 | |   <div><math><dd></math</div>
+  64 | |   <div><math><div></math</div>
+  65 | |   <div><math><dl></math</div>
+  66 | |   <div><math><dt></math</div>
+  67 | |   <div><math><em></math</div>
+  68 | |   <div><math><embed></math</div>
+  69 | |   <div><math><h1></math</div>
+  70 | |   <div><math><h2></math</div>
+  71 | |   <div><math><h3></math</div>
+  72 | |   <div><math><h4></math</div>
+  73 | |   <div><math><h5></math</div>
+  74 | |   <div><math><h6></math</div>
+  75 | |   <div><math><hr></math</div>
+  76 | |   <div><math><i></math</div>
+  77 | |   <div><math><img></math</div>
+  78 | |   <div><math><li></math</div>
+  79 | |   <div><math><listing></math</div>
+  80 | |   <div><math><menu></math</div>
+  81 | |   <div><math><meta></math</div>
+  82 | |   <div><math><nobr></math</div>
+  83 | |   <div><math><ol></math</div>
+  84 | |   <div><math><p></math</div>
+  85 | |   <div><math><pre></math</div>
+  86 | |   <div><math><ruby></math</div>
+  87 | |   <div><math><s></math</div>
+  88 | |   <div><math><small></math</div>
+  89 | |   <div><math><span></math</div>
+  90 | |   <div><math><strong></math</div>
+  91 | |   <div><math><strike></math</div>
+  92 | |   <div><math><sub></math</div>
+  93 | |   <div><math><sup></math</div>
+  94 | |   <div><math><table></math</div>
+  95 | |   <div><math><tt></math</div>
+  96 | |   <div><math><u></math</div>
+  97 | |   <div><math><ul></math</div>
+  98 | |   <div><math><var></math</div>
+  99 | |   </body>
+ 100 | `-> </html>
+     `----
   x Element
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:58:13]
- 58 | |    
-    `----
+     ,-[$DIR/tests/recovery/element/foreign-context/input.html:58:1]
+  57 |     <div><math><b></math</div>
+  58 | ,-> <div><math><big></math</div>
+  59 | |   <div><math><blockquote></math</div>
+  60 | |   <div><math><br></math</div>
+  61 | |   <div><math><center></math</div>
+  62 | |   <div><math><code></math</div>
+  63 | |   <div><math><dd></math</div>
+  64 | |   <div><math><div></math</div>
+  65 | |   <div><math><dl></math</div>
+  66 | |   <div><math><dt></math</div>
+  67 | |   <div><math><em></math</div>
+  68 | |   <div><math><embed></math</div>
+  69 | |   <div><math><h1></math</div>
+  70 | |   <div><math><h2></math</div>
+  71 | |   <div><math><h3></math</div>
+  72 | |   <div><math><h4></math</div>
+  73 | |   <div><math><h5></math</div>
+  74 | |   <div><math><h6></math</div>
+  75 | |   <div><math><hr></math</div>
+  76 | |   <div><math><i></math</div>
+  77 | |   <div><math><img></math</div>
+  78 | |   <div><math><li></math</div>
+  79 | |   <div><math><listing></math</div>
+  80 | |   <div><math><menu></math</div>
+  81 | |   <div><math><meta></math</div>
+  82 | |   <div><math><nobr></math</div>
+  83 | |   <div><math><ol></math</div>
+  84 | |   <div><math><p></math</div>
+  85 | |   <div><math><pre></math</div>
+  86 | |   <div><math><ruby></math</div>
+  87 | |   <div><math><s></math</div>
+  88 | |   <div><math><small></math</div>
+  89 | |   <div><math><span></math</div>
+  90 | |   <div><math><strong></math</div>
+  91 | |   <div><math><strike></math</div>
+  92 | |   <div><math><sub></math</div>
+  93 | |   <div><math><sup></math</div>
+  94 | |   <div><math><table></math</div>
+  95 | |   <div><math><tt></math</div>
+  96 | |   <div><math><u></math</div>
+  97 | |   <div><math><ul></math</div>
+  98 | |   <div><math><var></math</div>
+  99 | |   </body>
+ 100 | `-> </html>
+     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:62:13]
- 62 | |    
-    `----
+     ,-[$DIR/tests/recovery/element/foreign-context/input.html:62:1]
+  61 |     <div><math><center></math</div>
+  62 | ,-> <div><math><code></math</div>
+  63 | |   <div><math><dd></math</div>
+  64 | |   <div><math><div></math</div>
+  65 | |   <div><math><dl></math</div>
+  66 | |   <div><math><dt></math</div>
+  67 | |   <div><math><em></math</div>
+  68 | |   <div><math><embed></math</div>
+  69 | |   <div><math><h1></math</div>
+  70 | |   <div><math><h2></math</div>
+  71 | |   <div><math><h3></math</div>
+  72 | |   <div><math><h4></math</div>
+  73 | |   <div><math><h5></math</div>
+  74 | |   <div><math><h6></math</div>
+  75 | |   <div><math><hr></math</div>
+  76 | |   <div><math><i></math</div>
+  77 | |   <div><math><img></math</div>
+  78 | |   <div><math><li></math</div>
+  79 | |   <div><math><listing></math</div>
+  80 | |   <div><math><menu></math</div>
+  81 | |   <div><math><meta></math</div>
+  82 | |   <div><math><nobr></math</div>
+  83 | |   <div><math><ol></math</div>
+  84 | |   <div><math><p></math</div>
+  85 | |   <div><math><pre></math</div>
+  86 | |   <div><math><ruby></math</div>
+  87 | |   <div><math><s></math</div>
+  88 | |   <div><math><small></math</div>
+  89 | |   <div><math><span></math</div>
+  90 | |   <div><math><strong></math</div>
+  91 | |   <div><math><strike></math</div>
+  92 | |   <div><math><sub></math</div>
+  93 | |   <div><math><sup></math</div>
+  94 | |   <div><math><table></math</div>
+  95 | |   <div><math><tt></math</div>
+  96 | |   <div><math><u></math</div>
+  97 | |   <div><math><ul></math</div>
+  98 | |   <div><math><var></math</div>
+  99 | |   </body>
+ 100 | `-> </html>
+     `----
   x Element
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:62:13]
- 62 | |    
-    `----
+     ,-[$DIR/tests/recovery/element/foreign-context/input.html:62:1]
+  61 |     <div><math><center></math</div>
+  62 | ,-> <div><math><code></math</div>
+  63 | |   <div><math><dd></math</div>
+  64 | |   <div><math><div></math</div>
+  65 | |   <div><math><dl></math</div>
+  66 | |   <div><math><dt></math</div>
+  67 | |   <div><math><em></math</div>
+  68 | |   <div><math><embed></math</div>
+  69 | |   <div><math><h1></math</div>
+  70 | |   <div><math><h2></math</div>
+  71 | |   <div><math><h3></math</div>
+  72 | |   <div><math><h4></math</div>
+  73 | |   <div><math><h5></math</div>
+  74 | |   <div><math><h6></math</div>
+  75 | |   <div><math><hr></math</div>
+  76 | |   <div><math><i></math</div>
+  77 | |   <div><math><img></math</div>
+  78 | |   <div><math><li></math</div>
+  79 | |   <div><math><listing></math</div>
+  80 | |   <div><math><menu></math</div>
+  81 | |   <div><math><meta></math</div>
+  82 | |   <div><math><nobr></math</div>
+  83 | |   <div><math><ol></math</div>
+  84 | |   <div><math><p></math</div>
+  85 | |   <div><math><pre></math</div>
+  86 | |   <div><math><ruby></math</div>
+  87 | |   <div><math><s></math</div>
+  88 | |   <div><math><small></math</div>
+  89 | |   <div><math><span></math</div>
+  90 | |   <div><math><strong></math</div>
+  91 | |   <div><math><strike></math</div>
+  92 | |   <div><math><sub></math</div>
+  93 | |   <div><math><sup></math</div>
+  94 | |   <div><math><table></math</div>
+  95 | |   <div><math><tt></math</div>
+  96 | |   <div><math><u></math</div>
+  97 | |   <div><math><ul></math</div>
+  98 | |   <div><math><var></math</div>
+  99 | |   </body>
+ 100 | `-> </html>
+     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:67:13]
- 67 | |    
-    `----
+     ,-[$DIR/tests/recovery/element/foreign-context/input.html:67:1]
+  66 |     <div><math><dt></math</div>
+  67 | ,-> <div><math><em></math</div>
+  68 | |   <div><math><embed></math</div>
+  69 | |   <div><math><h1></math</div>
+  70 | |   <div><math><h2></math</div>
+  71 | |   <div><math><h3></math</div>
+  72 | |   <div><math><h4></math</div>
+  73 | |   <div><math><h5></math</div>
+  74 | |   <div><math><h6></math</div>
+  75 | |   <div><math><hr></math</div>
+  76 | |   <div><math><i></math</div>
+  77 | |   <div><math><img></math</div>
+  78 | |   <div><math><li></math</div>
+  79 | |   <div><math><listing></math</div>
+  80 | |   <div><math><menu></math</div>
+  81 | |   <div><math><meta></math</div>
+  82 | |   <div><math><nobr></math</div>
+  83 | |   <div><math><ol></math</div>
+  84 | |   <div><math><p></math</div>
+  85 | |   <div><math><pre></math</div>
+  86 | |   <div><math><ruby></math</div>
+  87 | |   <div><math><s></math</div>
+  88 | |   <div><math><small></math</div>
+  89 | |   <div><math><span></math</div>
+  90 | |   <div><math><strong></math</div>
+  91 | |   <div><math><strike></math</div>
+  92 | |   <div><math><sub></math</div>
+  93 | |   <div><math><sup></math</div>
+  94 | |   <div><math><table></math</div>
+  95 | |   <div><math><tt></math</div>
+  96 | |   <div><math><u></math</div>
+  97 | |   <div><math><ul></math</div>
+  98 | |   <div><math><var></math</div>
+  99 | |   </body>
+ 100 | `-> </html>
+     `----
   x Element
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:67:13]
- 67 | |    
-    `----
+     ,-[$DIR/tests/recovery/element/foreign-context/input.html:67:1]
+  66 |     <div><math><dt></math</div>
+  67 | ,-> <div><math><em></math</div>
+  68 | |   <div><math><embed></math</div>
+  69 | |   <div><math><h1></math</div>
+  70 | |   <div><math><h2></math</div>
+  71 | |   <div><math><h3></math</div>
+  72 | |   <div><math><h4></math</div>
+  73 | |   <div><math><h5></math</div>
+  74 | |   <div><math><h6></math</div>
+  75 | |   <div><math><hr></math</div>
+  76 | |   <div><math><i></math</div>
+  77 | |   <div><math><img></math</div>
+  78 | |   <div><math><li></math</div>
+  79 | |   <div><math><listing></math</div>
+  80 | |   <div><math><menu></math</div>
+  81 | |   <div><math><meta></math</div>
+  82 | |   <div><math><nobr></math</div>
+  83 | |   <div><math><ol></math</div>
+  84 | |   <div><math><p></math</div>
+  85 | |   <div><math><pre></math</div>
+  86 | |   <div><math><ruby></math</div>
+  87 | |   <div><math><s></math</div>
+  88 | |   <div><math><small></math</div>
+  89 | |   <div><math><span></math</div>
+  90 | |   <div><math><strong></math</div>
+  91 | |   <div><math><strike></math</div>
+  92 | |   <div><math><sub></math</div>
+  93 | |   <div><math><sup></math</div>
+  94 | |   <div><math><table></math</div>
+  95 | |   <div><math><tt></math</div>
+  96 | |   <div><math><u></math</div>
+  97 | |   <div><math><ul></math</div>
+  98 | |   <div><math><var></math</div>
+  99 | |   </body>
+ 100 | `-> </html>
+     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:76:13]
- 76 | |    
-    `----
+     ,-[$DIR/tests/recovery/element/foreign-context/input.html:76:1]
+  75 |     <div><math><hr></math</div>
+  76 | ,-> <div><math><i></math</div>
+  77 | |   <div><math><img></math</div>
+  78 | |   <div><math><li></math</div>
+  79 | |   <div><math><listing></math</div>
+  80 | |   <div><math><menu></math</div>
+  81 | |   <div><math><meta></math</div>
+  82 | |   <div><math><nobr></math</div>
+  83 | |   <div><math><ol></math</div>
+  84 | |   <div><math><p></math</div>
+  85 | |   <div><math><pre></math</div>
+  86 | |   <div><math><ruby></math</div>
+  87 | |   <div><math><s></math</div>
+  88 | |   <div><math><small></math</div>
+  89 | |   <div><math><span></math</div>
+  90 | |   <div><math><strong></math</div>
+  91 | |   <div><math><strike></math</div>
+  92 | |   <div><math><sub></math</div>
+  93 | |   <div><math><sup></math</div>
+  94 | |   <div><math><table></math</div>
+  95 | |   <div><math><tt></math</div>
+  96 | |   <div><math><u></math</div>
+  97 | |   <div><math><ul></math</div>
+  98 | |   <div><math><var></math</div>
+  99 | |   </body>
+ 100 | `-> </html>
+     `----
   x Element
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:76:13]
- 76 | |    
-    `----
+     ,-[$DIR/tests/recovery/element/foreign-context/input.html:76:1]
+  75 |     <div><math><hr></math</div>
+  76 | ,-> <div><math><i></math</div>
+  77 | |   <div><math><img></math</div>
+  78 | |   <div><math><li></math</div>
+  79 | |   <div><math><listing></math</div>
+  80 | |   <div><math><menu></math</div>
+  81 | |   <div><math><meta></math</div>
+  82 | |   <div><math><nobr></math</div>
+  83 | |   <div><math><ol></math</div>
+  84 | |   <div><math><p></math</div>
+  85 | |   <div><math><pre></math</div>
+  86 | |   <div><math><ruby></math</div>
+  87 | |   <div><math><s></math</div>
+  88 | |   <div><math><small></math</div>
+  89 | |   <div><math><span></math</div>
+  90 | |   <div><math><strong></math</div>
+  91 | |   <div><math><strike></math</div>
+  92 | |   <div><math><sub></math</div>
+  93 | |   <div><math><sup></math</div>
+  94 | |   <div><math><table></math</div>
+  95 | |   <div><math><tt></math</div>
+  96 | |   <div><math><u></math</div>
+  97 | |   <div><math><ul></math</div>
+  98 | |   <div><math><var></math</div>
+  99 | |   </body>
+ 100 | `-> </html>
+     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:82:13]
- 82 | |    
-    `----
+     ,-[$DIR/tests/recovery/element/foreign-context/input.html:82:1]
+  81 |     <div><math><meta></math</div>
+  82 | ,-> <div><math><nobr></math</div>
+  83 | |   <div><math><ol></math</div>
+  84 | |   <div><math><p></math</div>
+  85 | |   <div><math><pre></math</div>
+  86 | |   <div><math><ruby></math</div>
+  87 | |   <div><math><s></math</div>
+  88 | |   <div><math><small></math</div>
+  89 | |   <div><math><span></math</div>
+  90 | |   <div><math><strong></math</div>
+  91 | |   <div><math><strike></math</div>
+  92 | |   <div><math><sub></math</div>
+  93 | |   <div><math><sup></math</div>
+  94 | |   <div><math><table></math</div>
+  95 | |   <div><math><tt></math</div>
+  96 | |   <div><math><u></math</div>
+  97 | |   <div><math><ul></math</div>
+  98 | |   <div><math><var></math</div>
+  99 | |   </body>
+ 100 | `-> </html>
+     `----
   x Element
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:82:13]
- 82 | |    
-    `----
+     ,-[$DIR/tests/recovery/element/foreign-context/input.html:82:1]
+  81 |     <div><math><meta></math</div>
+  82 | ,-> <div><math><nobr></math</div>
+  83 | |   <div><math><ol></math</div>
+  84 | |   <div><math><p></math</div>
+  85 | |   <div><math><pre></math</div>
+  86 | |   <div><math><ruby></math</div>
+  87 | |   <div><math><s></math</div>
+  88 | |   <div><math><small></math</div>
+  89 | |   <div><math><span></math</div>
+  90 | |   <div><math><strong></math</div>
+  91 | |   <div><math><strike></math</div>
+  92 | |   <div><math><sub></math</div>
+  93 | |   <div><math><sup></math</div>
+  94 | |   <div><math><table></math</div>
+  95 | |   <div><math><tt></math</div>
+  96 | |   <div><math><u></math</div>
+  97 | |   <div><math><ul></math</div>
+  98 | |   <div><math><var></math</div>
+  99 | |   </body>
+ 100 | `-> </html>
+     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:87:13]
- 87 | |    
-    `----
+     ,-[$DIR/tests/recovery/element/foreign-context/input.html:87:1]
+  86 |     <div><math><ruby></math</div>
+  87 | ,-> <div><math><s></math</div>
+  88 | |   <div><math><small></math</div>
+  89 | |   <div><math><span></math</div>
+  90 | |   <div><math><strong></math</div>
+  91 | |   <div><math><strike></math</div>
+  92 | |   <div><math><sub></math</div>
+  93 | |   <div><math><sup></math</div>
+  94 | |   <div><math><table></math</div>
+  95 | |   <div><math><tt></math</div>
+  96 | |   <div><math><u></math</div>
+  97 | |   <div><math><ul></math</div>
+  98 | |   <div><math><var></math</div>
+  99 | |   </body>
+ 100 | `-> </html>
+     `----
   x Element
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:87:13]
- 87 | |    
-    `----
+     ,-[$DIR/tests/recovery/element/foreign-context/input.html:87:1]
+  86 |     <div><math><ruby></math</div>
+  87 | ,-> <div><math><s></math</div>
+  88 | |   <div><math><small></math</div>
+  89 | |   <div><math><span></math</div>
+  90 | |   <div><math><strong></math</div>
+  91 | |   <div><math><strike></math</div>
+  92 | |   <div><math><sub></math</div>
+  93 | |   <div><math><sup></math</div>
+  94 | |   <div><math><table></math</div>
+  95 | |   <div><math><tt></math</div>
+  96 | |   <div><math><u></math</div>
+  97 | |   <div><math><ul></math</div>
+  98 | |   <div><math><var></math</div>
+  99 | |   </body>
+ 100 | `-> </html>
+     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:88:13]
- 88 | |    
-    `----
+     ,-[$DIR/tests/recovery/element/foreign-context/input.html:88:1]
+  87 |     <div><math><s></math</div>
+  88 | ,-> <div><math><small></math</div>
+  89 | |   <div><math><span></math</div>
+  90 | |   <div><math><strong></math</div>
+  91 | |   <div><math><strike></math</div>
+  92 | |   <div><math><sub></math</div>
+  93 | |   <div><math><sup></math</div>
+  94 | |   <div><math><table></math</div>
+  95 | |   <div><math><tt></math</div>
+  96 | |   <div><math><u></math</div>
+  97 | |   <div><math><ul></math</div>
+  98 | |   <div><math><var></math</div>
+  99 | |   </body>
+ 100 | `-> </html>
+     `----
   x Element
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:88:13]
- 88 | |    
-    `----
+     ,-[$DIR/tests/recovery/element/foreign-context/input.html:88:1]
+  87 |     <div><math><s></math</div>
+  88 | ,-> <div><math><small></math</div>
+  89 | |   <div><math><span></math</div>
+  90 | |   <div><math><strong></math</div>
+  91 | |   <div><math><strike></math</div>
+  92 | |   <div><math><sub></math</div>
+  93 | |   <div><math><sup></math</div>
+  94 | |   <div><math><table></math</div>
+  95 | |   <div><math><tt></math</div>
+  96 | |   <div><math><u></math</div>
+  97 | |   <div><math><ul></math</div>
+  98 | |   <div><math><var></math</div>
+  99 | |   </body>
+ 100 | `-> </html>
+     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:90:13]
- 90 | |    
-    `----
+     ,-[$DIR/tests/recovery/element/foreign-context/input.html:90:1]
+  89 |     <div><math><span></math</div>
+  90 | ,-> <div><math><strong></math</div>
+  91 | |   <div><math><strike></math</div>
+  92 | |   <div><math><sub></math</div>
+  93 | |   <div><math><sup></math</div>
+  94 | |   <div><math><table></math</div>
+  95 | |   <div><math><tt></math</div>
+  96 | |   <div><math><u></math</div>
+  97 | |   <div><math><ul></math</div>
+  98 | |   <div><math><var></math</div>
+  99 | |   </body>
+ 100 | `-> </html>
+     `----
   x Element
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:90:13]
- 90 | |    
-    `----
+     ,-[$DIR/tests/recovery/element/foreign-context/input.html:90:1]
+  89 |     <div><math><span></math</div>
+  90 | ,-> <div><math><strong></math</div>
+  91 | |   <div><math><strike></math</div>
+  92 | |   <div><math><sub></math</div>
+  93 | |   <div><math><sup></math</div>
+  94 | |   <div><math><table></math</div>
+  95 | |   <div><math><tt></math</div>
+  96 | |   <div><math><u></math</div>
+  97 | |   <div><math><ul></math</div>
+  98 | |   <div><math><var></math</div>
+  99 | |   </body>
+ 100 | `-> </html>
+     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:91:13]
- 91 | |    
-    `----
+     ,-[$DIR/tests/recovery/element/foreign-context/input.html:91:1]
+  90 |     <div><math><strong></math</div>
+  91 | ,-> <div><math><strike></math</div>
+  92 | |   <div><math><sub></math</div>
+  93 | |   <div><math><sup></math</div>
+  94 | |   <div><math><table></math</div>
+  95 | |   <div><math><tt></math</div>
+  96 | |   <div><math><u></math</div>
+  97 | |   <div><math><ul></math</div>
+  98 | |   <div><math><var></math</div>
+  99 | |   </body>
+ 100 | `-> </html>
+     `----
   x Element
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:91:13]
- 91 | |    
-    `----
+     ,-[$DIR/tests/recovery/element/foreign-context/input.html:91:1]
+  90 |     <div><math><strong></math</div>
+  91 | ,-> <div><math><strike></math</div>
+  92 | |   <div><math><sub></math</div>
+  93 | |   <div><math><sup></math</div>
+  94 | |   <div><math><table></math</div>
+  95 | |   <div><math><tt></math</div>
+  96 | |   <div><math><u></math</div>
+  97 | |   <div><math><ul></math</div>
+  98 | |   <div><math><var></math</div>
+  99 | |   </body>
+ 100 | `-> </html>
+     `----
   x Child
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:95:1]
  94 | <div><math><table></math</div>
@@ -17646,35 +18626,59 @@
  96 | <div><math><u></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:95:13]
- 95 | |    
-    `----
+     ,-[$DIR/tests/recovery/element/foreign-context/input.html:95:1]
+  94 |     <div><math><table></math</div>
+  95 | ,-> <div><math><tt></math</div>
+  96 | |   <div><math><u></math</div>
+  97 | |   <div><math><ul></math</div>
+  98 | |   <div><math><var></math</div>
+  99 | |   </body>
+ 100 | `-> </html>
+     `----
   x Element
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:95:13]
- 95 | |    
-    `----
+     ,-[$DIR/tests/recovery/element/foreign-context/input.html:95:1]
+  94 |     <div><math><table></math</div>
+  95 | ,-> <div><math><tt></math</div>
+  96 | |   <div><math><u></math</div>
+  97 | |   <div><math><ul></math</div>
+  98 | |   <div><math><var></math</div>
+  99 | |   </body>
+ 100 | `-> </html>
+     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:96:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:95:1]
+ 94 | <div><math><table></math</div>
  95 | <div><math><tt></math</div>
     :                            ^
  96 | <div><math><u></math</div>
  97 | <div><math><ul></math</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:96:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:95:1]
+ 94 | <div><math><table></math</div>
  95 | <div><math><tt></math</div>
     :                            ^
  96 | <div><math><u></math</div>
  97 | <div><math><ul></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:96:2]
- 96 | |    
-    `----
+     ,-[$DIR/tests/recovery/element/foreign-context/input.html:96:1]
+  95 |     <div><math><tt></math</div>
+  96 | ,-> <div><math><u></math</div>
+  97 | |   <div><math><ul></math</div>
+  98 | |   <div><math><var></math</div>
+  99 | |   </body>
+ 100 | `-> </html>
+     `----
   x Element
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:96:2]
- 96 | |    
-    `----
+     ,-[$DIR/tests/recovery/element/foreign-context/input.html:96:1]
+  95 |     <div><math><tt></math</div>
+  96 | ,-> <div><math><u></math</div>
+  97 | |   <div><math><ul></math</div>
+  98 | |   <div><math><var></math</div>
+  99 | |   </body>
+ 100 | `-> </html>
+     `----
   x Child
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:96:1]
  95 | <div><math><tt></math</div>
@@ -17690,35 +18694,55 @@
  97 | <div><math><ul></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:96:13]
- 96 | |    
-    `----
+     ,-[$DIR/tests/recovery/element/foreign-context/input.html:96:1]
+  95 |     <div><math><tt></math</div>
+  96 | ,-> <div><math><u></math</div>
+  97 | |   <div><math><ul></math</div>
+  98 | |   <div><math><var></math</div>
+  99 | |   </body>
+ 100 | `-> </html>
+     `----
   x Element
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:96:13]
- 96 | |    
-    `----
+     ,-[$DIR/tests/recovery/element/foreign-context/input.html:96:1]
+  95 |     <div><math><tt></math</div>
+  96 | ,-> <div><math><u></math</div>
+  97 | |   <div><math><ul></math</div>
+  98 | |   <div><math><var></math</div>
+  99 | |   </body>
+ 100 | `-> </html>
+     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:97:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:96:1]
+ 95 | <div><math><tt></math</div>
  96 | <div><math><u></math</div>
     :                           ^
  97 | <div><math><ul></math</div>
  98 | <div><math><var></math</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:97:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:96:1]
+ 95 | <div><math><tt></math</div>
  96 | <div><math><u></math</div>
     :                           ^
  97 | <div><math><ul></math</div>
  98 | <div><math><var></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:97:2]
- 97 | |    
-    `----
+     ,-[$DIR/tests/recovery/element/foreign-context/input.html:97:1]
+  96 |     <div><math><u></math</div>
+  97 | ,-> <div><math><ul></math</div>
+  98 | |   <div><math><var></math</div>
+  99 | |   </body>
+ 100 | `-> </html>
+     `----
   x Element
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:97:2]
- 97 | |    
-    `----
+     ,-[$DIR/tests/recovery/element/foreign-context/input.html:97:1]
+  96 |     <div><math><u></math</div>
+  97 | ,-> <div><math><ul></math</div>
+  98 | |   <div><math><var></math</div>
+  99 | |   </body>
+ 100 | `-> </html>
+     `----
   x Child
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:97:1]
  96 | <div><math><u></math</div>
@@ -17734,35 +18758,51 @@
  98 | <div><math><var></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:97:13]
- 97 | |    
-    `----
+     ,-[$DIR/tests/recovery/element/foreign-context/input.html:97:1]
+  96 |     <div><math><u></math</div>
+  97 | ,-> <div><math><ul></math</div>
+  98 | |   <div><math><var></math</div>
+  99 | |   </body>
+ 100 | `-> </html>
+     `----
   x Element
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:97:13]
- 97 | |    
-    `----
+     ,-[$DIR/tests/recovery/element/foreign-context/input.html:97:1]
+  96 |     <div><math><u></math</div>
+  97 | ,-> <div><math><ul></math</div>
+  98 | |   <div><math><var></math</div>
+  99 | |   </body>
+ 100 | `-> </html>
+     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:98:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:97:1]
+ 96 | <div><math><u></math</div>
  97 | <div><math><ul></math</div>
     :                            ^
  98 | <div><math><var></math</div>
  99 | </body>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:98:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:97:1]
+ 96 | <div><math><u></math</div>
  97 | <div><math><ul></math</div>
     :                            ^
  98 | <div><math><var></math</div>
  99 | </body>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:98:2]
- 98 | |    
-    `----
+     ,-[$DIR/tests/recovery/element/foreign-context/input.html:98:1]
+  97 |     <div><math><ul></math</div>
+  98 | ,-> <div><math><var></math</div>
+  99 | |   </body>
+ 100 | `-> </html>
+     `----
   x Element
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:98:2]
- 98 | |    
-    `----
+     ,-[$DIR/tests/recovery/element/foreign-context/input.html:98:1]
+  97 |     <div><math><ul></math</div>
+  98 | ,-> <div><math><var></math</div>
+  99 | |   </body>
+ 100 | `-> </html>
+     `----
   x Child
     ,-[$DIR/tests/recovery/element/foreign-context/input.html:98:1]
  97 | <div><math><ul></math</div>
@@ -17778,21 +18818,29 @@
  99 | </body>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:98:13]
- 98 | |    
-    `----
+     ,-[$DIR/tests/recovery/element/foreign-context/input.html:98:1]
+  97 |     <div><math><ul></math</div>
+  98 | ,-> <div><math><var></math</div>
+  99 | |   </body>
+ 100 | `-> </html>
+     `----
   x Element
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:98:13]
- 98 | |    
-    `----
+     ,-[$DIR/tests/recovery/element/foreign-context/input.html:98:1]
+  97 |     <div><math><ul></math</div>
+  98 | ,-> <div><math><var></math</div>
+  99 | |   </body>
+ 100 | `-> </html>
+     `----
   x Child
-     ,-[$DIR/tests/recovery/element/foreign-context/input.html:99:1]
+     ,-[$DIR/tests/recovery/element/foreign-context/input.html:98:1]
+  97 |     <div><math><ul></math</div>
   98 | ,-> <div><math><var></math</div>
   99 | `-> </body>
  100 |     </html>
      `----
   x Text
-     ,-[$DIR/tests/recovery/element/foreign-context/input.html:99:1]
+     ,-[$DIR/tests/recovery/element/foreign-context/input.html:98:1]
+  97 |     <div><math><ul></math</div>
   98 | ,-> <div><math><var></math</div>
   99 | `-> </body>
  100 |     </html>
@@ -17814,14 +18862,16 @@
  96 | <div><math><u></math</div>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:95:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:94:1]
+ 93 | <div><math><sup></math</div>
  94 | <div><math><table></math</div>
     :                               ^
  95 | <div><math><tt></math</div>
  96 | <div><math><u></math</div>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/foreign-context/input.html:95:1]
+    ,-[$DIR/tests/recovery/element/foreign-context/input.html:94:1]
+ 93 | <div><math><sup></math</div>
  94 | <div><math><table></math</div>
     :                               ^
  95 | <div><math><tt></math</div>

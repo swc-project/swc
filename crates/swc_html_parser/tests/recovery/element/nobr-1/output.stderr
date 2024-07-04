@@ -4,10 +4,11 @@
    :                      ^^^^^^
    `----
   x Start tag "nobr" seen but an element of the same type was already open
-   ,-[$DIR/tests/recovery/element/nobr-1/input.html:1:29]
- 1 | |    
+   ,-[$DIR/tests/recovery/element/nobr-1/input.html:1:1]
+ 1 | <!doctype html><nobr><nobr><nobr>
+   :                            ^^^^^^
    `----
   x End of file seen and there were open elements
-   ,-[$DIR/tests/recovery/element/nobr-1/input.html:1:35]
- 1 |  
+   ,-[$DIR/tests/recovery/element/nobr-1/input.html:1:1]
+ 1 | <!doctype html><nobr><nobr><nobr>
    `----

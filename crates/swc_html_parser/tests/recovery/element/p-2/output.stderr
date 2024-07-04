@@ -4,6 +4,6 @@
    : ^^^
    `----
   x End of file seen and there were open elements
-   ,-[$DIR/tests/recovery/element/p-2/input.html:1:13]
- 1 |  
+   ,-[$DIR/tests/recovery/element/p-2/input.html:1:12]
+ 1 | <p><table>
    `----

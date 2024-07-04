@@ -7,5 +7,4 @@
 //!  3 | 
 //!  4 | function SFC1(prop: { x: number }) {
 //!  5 |     return <div>hello</div>;
-//!  6 | };
 //!    `----

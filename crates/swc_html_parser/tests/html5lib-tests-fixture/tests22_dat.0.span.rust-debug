@@ -1,6 +1,7 @@
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/tests22_dat.0.html:1:2]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests22_dat.0.html:1:1]
+ 1 | <a><b><big><em><strong><div>X</a>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Child
   x Element
@@ -55,44 +56,54 @@
    :                ^^^^^^^^
    `----
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests22_dat.0.html:1:8]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests22_dat.0.html:1:1]
+ 1 | <a><b><big><em><strong><div>X</a>
+   :       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tests22_dat.0.html:1:8]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests22_dat.0.html:1:1]
+ 1 | <a><b><big><em><strong><div>X</a>
+   :       ^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests22_dat.0.html:1:13]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests22_dat.0.html:1:1]
+ 1 | <a><b><big><em><strong><div>X</a>
+   :            ^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tests22_dat.0.html:1:13]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests22_dat.0.html:1:1]
+ 1 | <a><b><big><em><strong><div>X</a>
+   :            ^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests22_dat.0.html:1:17]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests22_dat.0.html:1:1]
+ 1 | <a><b><big><em><strong><div>X</a>
+   :                ^^^^^^^^^^^^^^^^^^
    `----
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tests22_dat.0.html:1:17]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests22_dat.0.html:1:1]
+ 1 | <a><b><big><em><strong><div>X</a>
+   :                ^^^^^^^^^^^^^^^^^^
    `----
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests22_dat.0.html:1:25]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests22_dat.0.html:1:1]
+ 1 | <a><b><big><em><strong><div>X</a>
+   :                        ^^^^^^^^^^
    `----
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tests22_dat.0.html:1:25]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests22_dat.0.html:1:1]
+ 1 | <a><b><big><em><strong><div>X</a>
+   :                        ^^^^^^^^^^
    `----
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests22_dat.0.html:1:30]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests22_dat.0.html:1:1]
+ 1 | <a><b><big><em><strong><div>X</a>
+   :                             ^^^^^
    `----
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tests22_dat.0.html:1:30]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests22_dat.0.html:1:1]
+ 1 | <a><b><big><em><strong><div>X</a>
+   :                             ^^^^^
    `----
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests22_dat.0.html:1:1]

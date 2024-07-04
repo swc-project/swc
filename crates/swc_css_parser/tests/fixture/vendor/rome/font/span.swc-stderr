@@ -1,6 +1,8 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/vendor/rome/font/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/vendor/rome/font/input.css:1:1]
+ 1 | ,-> @font-face {
+ 2 | |       src: url("");
+ 3 | `-> }
    `----
   x Rule
    ,-[$DIR/tests/fixture/vendor/rome/font/input.css:1:1]
@@ -37,7 +39,6 @@
  1 | @font-face {
    :            ^
  2 |     src: url("");
- 3 | }
    `----
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/rome/font/input.css:2:1]

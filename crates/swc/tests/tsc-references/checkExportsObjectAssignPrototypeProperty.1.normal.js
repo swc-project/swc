@@ -42,6 +42,4 @@ module.exports = Person;
 //!    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 //!  4 | 
 //!  5 | const m1 = new Person("Name")
-//!  6 | 
-//!  7 | m1.thing;
 //!    `----

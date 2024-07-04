@@ -1,6 +1,8 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/at-rule/charset/invalid/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/at-rule/charset/invalid/input.css:1:1]
+ 1 | ,-> @charset 'iso-8859-15'; /* Invalid, wrong quoting style used */
+ 2 | |   @charset  "UTF-8";      /* Invalid, more than one space */
+ 3 | `-> @charset "UTF-8";      /* Invalid, there is a character (a space) before the at-rule */
    `----
   x Rule
    ,-[$DIR/tests/fixture/at-rule/charset/invalid/input.css:1:1]

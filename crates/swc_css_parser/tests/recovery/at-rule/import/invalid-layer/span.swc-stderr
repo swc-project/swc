@@ -1,20 +1,20 @@
   x Stylesheet
-   ,-[$DIR/tests/recovery/at-rule/import/invalid-layer/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/at-rule/import/invalid-layer/input.css:1:1]
+ 1 | ,-> @import "foo.css" layer();
+ 2 | |   @import "foo.css" layer("invalid");
+ 3 | `-> @import "foo.css" layer(foo, bar);
    `----
   x Rule
    ,-[$DIR/tests/recovery/at-rule/import/invalid-layer/input.css:1:1]
  1 | @import "foo.css" layer();
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
  2 | @import "foo.css" layer("invalid");
- 3 | @import "foo.css" layer(foo, bar);
    `----
   x AtRule
    ,-[$DIR/tests/recovery/at-rule/import/invalid-layer/input.css:1:1]
  1 | @import "foo.css" layer();
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
  2 | @import "foo.css" layer("invalid");
- 3 | @import "foo.css" layer(foo, bar);
    `----
   x AtRuleName
    ,-[$DIR/tests/recovery/at-rule/import/invalid-layer/input.css:1:1]
@@ -110,12 +110,16 @@
  3 | @import "foo.css" layer(foo, bar);
    `----
   x Rule
-   ,-[$DIR/tests/recovery/at-rule/import/invalid-layer/input.css:3:2]
- 3 | |    
+   ,-[$DIR/tests/recovery/at-rule/import/invalid-layer/input.css:3:1]
+ 2 | @import "foo.css" layer("invalid");
+ 3 | @import "foo.css" layer(foo, bar);
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x AtRule
-   ,-[$DIR/tests/recovery/at-rule/import/invalid-layer/input.css:3:2]
- 3 | |    
+   ,-[$DIR/tests/recovery/at-rule/import/invalid-layer/input.css:3:1]
+ 2 | @import "foo.css" layer("invalid");
+ 3 | @import "foo.css" layer(foo, bar);
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x AtRuleName
    ,-[$DIR/tests/recovery/at-rule/import/invalid-layer/input.css:3:1]

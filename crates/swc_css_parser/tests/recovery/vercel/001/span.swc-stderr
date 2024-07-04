@@ -1,7 +1,21 @@
   x Stylesheet
-   ,-[$DIR/tests/recovery/vercel/001/input.css:1:2]
- 1 | |    
-   `----
+    ,-[$DIR/tests/recovery/vercel/001/input.css:1:1]
+  1 | ,-> @media (min-width: 935px) {
+  2 | |       .video:nth-child(4n) {
+  3 | |           margin-right: 0;
+  4 | |       }
+  5 | |       .video:last-child {
+  6 | |           margin-right: 0;
+  7 | |       }
+  8 | |       .video:first-child,
+  9 | |       .video:nth-child(5),
+ 10 | |       .video:nth-child(9),
+ 11 | |       .video:nth-child(13) {
+ 12 | |           margin-left: 0;
+ 13 | |       }
+ 14 | |       __styled-jsx-placeholder__7
+ 15 | `-> }
+    `----
   x Rule
     ,-[$DIR/tests/recovery/vercel/001/input.css:1:1]
   1 | ,-> @media (min-width: 935px) {
@@ -157,7 +171,6 @@
  1 | @media (min-width: 935px) {
    :                           ^
  2 |     .video:nth-child(4n) {
- 3 |         margin-right: 0;
    `----
   x ComponentValue
    ,-[$DIR/tests/recovery/vercel/001/input.css:2:1]
@@ -166,7 +179,6 @@
  3 | |           margin-right: 0;
  4 | `->     }
  5 |         .video:last-child {
- 6 |             margin-right: 0;
    `----
   x QualifiedRule
    ,-[$DIR/tests/recovery/vercel/001/input.css:2:1]
@@ -175,7 +187,6 @@
  3 | |           margin-right: 0;
  4 | `->     }
  5 |         .video:last-child {
- 6 |             margin-right: 0;
    `----
   x SelectorList
    ,-[$DIR/tests/recovery/vercel/001/input.css:2:1]
@@ -268,7 +279,6 @@
  3 | |           margin-right: 0;
  4 | `->     }
  5 |         .video:last-child {
- 6 |             margin-right: 0;
    `----
   x LBrace
    ,-[$DIR/tests/recovery/vercel/001/input.css:2:1]
@@ -276,7 +286,6 @@
  2 |     .video:nth-child(4n) {
    :                          ^
  3 |         margin-right: 0;
- 4 |     }
    `----
   x ComponentValue
    ,-[$DIR/tests/recovery/vercel/001/input.css:3:1]
@@ -327,7 +336,6 @@
  6 | |           margin-right: 0;
  7 | `->     }
  8 |         .video:first-child,
- 9 |         .video:nth-child(5),
    `----
   x QualifiedRule
    ,-[$DIR/tests/recovery/vercel/001/input.css:5:1]
@@ -336,7 +344,6 @@
  6 | |           margin-right: 0;
  7 | `->     }
  8 |         .video:first-child,
- 9 |         .video:nth-child(5),
    `----
   x SelectorList
    ,-[$DIR/tests/recovery/vercel/001/input.css:5:1]
@@ -408,7 +415,6 @@
  6 | |           margin-right: 0;
  7 | `->     }
  8 |         .video:first-child,
- 9 |         .video:nth-child(5),
    `----
   x LBrace
    ,-[$DIR/tests/recovery/vercel/001/input.css:5:1]
@@ -416,7 +422,6 @@
  5 |     .video:last-child {
    :                       ^
  6 |         margin-right: 0;
- 7 |     }
    `----
   x ComponentValue
    ,-[$DIR/tests/recovery/vercel/001/input.css:6:1]
@@ -470,7 +475,6 @@
  12 | |           margin-left: 0;
  13 | `->     }
  14 |         __styled-jsx-placeholder__7
- 15 |     }
     `----
   x QualifiedRule
     ,-[$DIR/tests/recovery/vercel/001/input.css:8:1]
@@ -482,7 +486,6 @@
  12 | |           margin-left: 0;
  13 | `->     }
  14 |         __styled-jsx-placeholder__7
- 15 |     }
     `----
   x SelectorList
     ,-[$DIR/tests/recovery/vercel/001/input.css:8:1]
@@ -787,7 +790,6 @@
  12 | |           margin-left: 0;
  13 | `->     }
  14 |         __styled-jsx-placeholder__7
- 15 |     }
     `----
   x LBrace
     ,-[$DIR/tests/recovery/vercel/001/input.css:11:1]
@@ -795,7 +797,6 @@
  11 |     .video:nth-child(13) {
     :                          ^
  12 |         margin-left: 0;
- 13 |     }
     `----
   x ComponentValue
     ,-[$DIR/tests/recovery/vercel/001/input.css:12:1]
@@ -861,13 +862,15 @@
  15 | }
     `----
   x ComponentValue
-    ,-[$DIR/tests/recovery/vercel/001/input.css:15:1]
+    ,-[$DIR/tests/recovery/vercel/001/input.css:14:1]
+ 13 |     }
  14 |     __styled-jsx-placeholder__7
     :                                ^
  15 | }
     `----
   x WhiteSpace { value: "\n" }
-    ,-[$DIR/tests/recovery/vercel/001/input.css:15:1]
+    ,-[$DIR/tests/recovery/vercel/001/input.css:14:1]
+ 13 |     }
  14 |     __styled-jsx-placeholder__7
     :                                ^
  15 | }

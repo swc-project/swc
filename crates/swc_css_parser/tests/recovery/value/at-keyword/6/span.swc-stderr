@@ -1,14 +1,17 @@
   x Stylesheet
-   ,-[$DIR/tests/recovery/value/at-keyword/6/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/value/at-keyword/6/input.css:1:1]
+ 1 | a { value: @\6beyword }
+   : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Rule
-   ,-[$DIR/tests/recovery/value/at-keyword/6/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/value/at-keyword/6/input.css:1:1]
+ 1 | a { value: @\6beyword }
+   : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x QualifiedRule
-   ,-[$DIR/tests/recovery/value/at-keyword/6/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/value/at-keyword/6/input.css:1:1]
+ 1 | a { value: @\6beyword }
+   : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x SelectorList
    ,-[$DIR/tests/recovery/value/at-keyword/6/input.css:1:1]
@@ -46,8 +49,9 @@
    : ^
    `----
   x SimpleBlock
-   ,-[$DIR/tests/recovery/value/at-keyword/6/input.css:1:4]
- 1 | |    
+   ,-[$DIR/tests/recovery/value/at-keyword/6/input.css:1:1]
+ 1 | a { value: @\6beyword }
+   :   ^^^^^^^^^^^^^^^^^^^^^
    `----
   x LBrace
    ,-[$DIR/tests/recovery/value/at-keyword/6/input.css:1:1]

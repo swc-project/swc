@@ -1,6 +1,14 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/dimension/basic/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/dimension/basic/input.css:1:1]
+ 1 | ,-> a {
+ 2 | |       prop: 10px;
+ 3 | |       prop: .10px;
+ 4 | |       prop: 12.34px;
+ 5 | |       prop: 0000.000px;
+ 6 | |       prop: 1px\\9;
+ 7 | |       prop: 1e;
+ 8 | |       prop: 1unknown;
+ 9 | `-> }
    `----
   x Rule
    ,-[$DIR/tests/fixture/dimension/basic/input.css:1:1]
@@ -85,7 +93,6 @@
  1 | a {
    :   ^
  2 |     prop: 10px;
- 3 |     prop: .10px;
    `----
   x ComponentValue
    ,-[$DIR/tests/fixture/dimension/basic/input.css:2:1]

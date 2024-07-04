@@ -1,20 +1,27 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/vendor/rome/supports/input.css:1:2]
- 1 | |    
-   `----
+    ,-[$DIR/tests/fixture/vendor/rome/supports/input.css:1:1]
+  1 | ,-> @supports not (display: flex) {
+  2 | |   }
+  3 | |   
+  4 | |   @supports ( box-shadow: 0 0 2px black inset ) or
+  5 | |             ( -moz-box-shadow: 0 0 2px black inset ) or
+  6 | |             ( -webkit-box-shadow: 0 0 2px black inset ) or
+  7 | |             ( -o-box-shadow: 0 0 2px black inset ) {}
+  8 | |   
+  9 | |   
+ 10 | |   @supports ((transition-property: color) or
+ 11 | |              (animation-name: foo)) and
+ 12 | `->           (transform: rotate(10deg)) {}
+    `----
   x Rule
    ,-[$DIR/tests/fixture/vendor/rome/supports/input.css:1:1]
  1 | ,-> @supports not (display: flex) {
  2 | `-> }
- 3 |     
- 4 |     @supports ( box-shadow: 0 0 2px black inset ) or
    `----
   x AtRule
    ,-[$DIR/tests/fixture/vendor/rome/supports/input.css:1:1]
  1 | ,-> @supports not (display: flex) {
  2 | `-> }
- 3 |     
- 4 |     @supports ( box-shadow: 0 0 2px black inset ) or
    `----
   x AtRuleName
    ,-[$DIR/tests/fixture/vendor/rome/supports/input.css:1:1]
@@ -98,8 +105,6 @@
    ,-[$DIR/tests/fixture/vendor/rome/supports/input.css:1:1]
  1 | ,-> @supports not (display: flex) {
  2 | `-> }
- 3 |     
- 4 |     @supports ( box-shadow: 0 0 2px black inset ) or
    `----
   x LBrace
    ,-[$DIR/tests/fixture/vendor/rome/supports/input.css:1:1]
@@ -114,7 +119,6 @@
  5 | |             ( -moz-box-shadow: 0 0 2px black inset ) or
  6 | |             ( -webkit-box-shadow: 0 0 2px black inset ) or
  7 | `->           ( -o-box-shadow: 0 0 2px black inset ) {}
- 8 |     
    `----
   x AtRule
    ,-[$DIR/tests/fixture/vendor/rome/supports/input.css:4:1]
@@ -123,7 +127,6 @@
  5 | |             ( -moz-box-shadow: 0 0 2px black inset ) or
  6 | |             ( -webkit-box-shadow: 0 0 2px black inset ) or
  7 | `->           ( -o-box-shadow: 0 0 2px black inset ) {}
- 8 |     
    `----
   x AtRuleName
    ,-[$DIR/tests/fixture/vendor/rome/supports/input.css:4:1]
@@ -300,7 +303,6 @@
  4 | @supports ( box-shadow: 0 0 2px black inset ) or
    :                                               ^^
  5 |           ( -moz-box-shadow: 0 0 2px black inset ) or
- 6 |           ( -webkit-box-shadow: 0 0 2px black inset ) or
    `----
   x SupportsInParens
    ,-[$DIR/tests/fixture/vendor/rome/supports/input.css:5:1]
@@ -448,7 +450,6 @@
  5 |           ( -moz-box-shadow: 0 0 2px black inset ) or
    :                                                    ^^
  6 |           ( -webkit-box-shadow: 0 0 2px black inset ) or
- 7 |           ( -o-box-shadow: 0 0 2px black inset ) {}
    `----
   x SupportsInParens
    ,-[$DIR/tests/fixture/vendor/rome/supports/input.css:6:1]
@@ -708,7 +709,6 @@
  6 |           ( -webkit-box-shadow: 0 0 2px black inset ) or
  7 |           ( -o-box-shadow: 0 0 2px black inset ) {}
    :                                                  ^^
- 8 | 
    `----
   x LBrace
    ,-[$DIR/tests/fixture/vendor/rome/supports/input.css:7:1]
@@ -848,7 +848,6 @@
  10 | @supports ((transition-property: color) or
     :                                         ^^
  11 |            (animation-name: foo)) and
- 12 |           (transform: rotate(10deg)) {}
     `----
   x SupportsInParens
     ,-[$DIR/tests/fixture/vendor/rome/supports/input.css:11:1]

@@ -1,6 +1,9 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/value/frequency/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/value/frequency/input.css:1:1]
+ 1 | ,-> div {
+ 2 | |       prop: 1Hz;
+ 3 | |       prop: 1kHz;
+ 4 | `-> }
    `----
   x Rule
    ,-[$DIR/tests/fixture/value/frequency/input.css:1:1]
@@ -70,7 +73,6 @@
  1 | div {
    :     ^
  2 |     prop: 1Hz;
- 3 |     prop: 1kHz;
    `----
   x ComponentValue
    ,-[$DIR/tests/fixture/value/frequency/input.css:2:1]

@@ -1,20 +1,36 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:1:2]
- 1 | |    
-   `----
+    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:1:1]
+  1 | ,-> :root {}
+  2 | |   :any-link {}
+  3 | |   button:hover {}
+  4 | |   div\:before {}
+  5 | |   div\::before {}
+  6 | |   iNpUt {}
+  7 | |   :matches(section, article, aside, nav) h1 {}
+  8 | |   input:not([type='submit']) {}
+  9 | |   div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
+ 10 | |   ::-webkit-scrollbar-thumb:window-inactive {}
+ 11 | |   ::-webkit-scrollbar-button:horizontal:decrement {}
+ 12 | |   .test::-webkit-scrollbar-button:horizontal:decrement {}
+ 13 | |   *:is(*) {}
+ 14 | |   :--heading {}
+ 15 | |   a:-moz-placeholder {}
+ 16 | |   a:hover::before {}
+ 17 | |   div :nth-child(2) {}
+ 18 | |   a:hOvEr {}
+ 19 | `-> :-webkit-full-screen a {}
+    `----
   x Rule
    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:1:1]
  1 | :root {}
    : ^^^^^^^^
  2 | :any-link {}
- 3 | button:hover {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:1:1]
  1 | :root {}
    : ^^^^^^^^
  2 | :any-link {}
- 3 | button:hover {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:1:1]
@@ -57,7 +73,6 @@
  1 | :root {}
    :       ^^
  2 | :any-link {}
- 3 | button:hover {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:1:1]
@@ -71,7 +86,6 @@
  2 | :any-link {}
    : ^^^^^^^^^^^^
  3 | button:hover {}
- 4 | div\:before {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:2:1]
@@ -79,7 +93,6 @@
  2 | :any-link {}
    : ^^^^^^^^^^^^
  3 | button:hover {}
- 4 | div\:before {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:2:1]
@@ -129,7 +142,6 @@
  2 | :any-link {}
    :           ^^
  3 | button:hover {}
- 4 | div\:before {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:2:1]
@@ -144,7 +156,6 @@
  3 | button:hover {}
    : ^^^^^^^^^^^^^^^
  4 | div\:before {}
- 5 | div\::before {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:3:1]
@@ -152,7 +163,6 @@
  3 | button:hover {}
    : ^^^^^^^^^^^^^^^
  4 | div\:before {}
- 5 | div\::before {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:3:1]
@@ -230,7 +240,6 @@
  3 | button:hover {}
    :              ^^
  4 | div\:before {}
- 5 | div\::before {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:3:1]
@@ -245,7 +254,6 @@
  4 | div\:before {}
    : ^^^^^^^^^^^^^^
  5 | div\::before {}
- 6 | iNpUt {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:4:1]
@@ -253,7 +261,6 @@
  4 | div\:before {}
    : ^^^^^^^^^^^^^^
  5 | div\::before {}
- 6 | iNpUt {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:4:1]
@@ -310,7 +317,6 @@
  4 | div\:before {}
    :             ^^
  5 | div\::before {}
- 6 | iNpUt {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:4:1]
@@ -325,7 +331,6 @@
  5 | div\::before {}
    : ^^^^^^^^^^^^^^^
  6 | iNpUt {}
- 7 | :matches(section, article, aside, nav) h1 {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:5:1]
@@ -333,7 +338,6 @@
  5 | div\::before {}
    : ^^^^^^^^^^^^^^^
  6 | iNpUt {}
- 7 | :matches(section, article, aside, nav) h1 {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:5:1]
@@ -411,7 +415,6 @@
  5 | div\::before {}
    :              ^^
  6 | iNpUt {}
- 7 | :matches(section, article, aside, nav) h1 {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:5:1]
@@ -426,7 +429,6 @@
  6 | iNpUt {}
    : ^^^^^^^^
  7 | :matches(section, article, aside, nav) h1 {}
- 8 | input:not([type='submit']) {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:6:1]
@@ -434,7 +436,6 @@
  6 | iNpUt {}
    : ^^^^^^^^
  7 | :matches(section, article, aside, nav) h1 {}
- 8 | input:not([type='submit']) {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:6:1]
@@ -491,7 +492,6 @@
  6 | iNpUt {}
    :       ^^
  7 | :matches(section, article, aside, nav) h1 {}
- 8 | input:not([type='submit']) {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:6:1]
@@ -506,7 +506,6 @@
  7 | :matches(section, article, aside, nav) h1 {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  8 | input:not([type='submit']) {}
- 9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:1]
@@ -514,7 +513,6 @@
  7 | :matches(section, article, aside, nav) h1 {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  8 | input:not([type='submit']) {}
- 9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:1]
@@ -788,7 +786,6 @@
  7 | :matches(section, article, aside, nav) h1 {}
    :                                           ^^
  8 | input:not([type='submit']) {}
- 9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:7:1]
@@ -798,21 +795,19 @@
  8 | input:not([type='submit']) {}
    `----
   x Rule
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
-  7 | :matches(section, article, aside, nav) h1 {}
-  8 | input:not([type='submit']) {}
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
- 10 | ::-webkit-scrollbar-thumb:window-inactive {}
-    `----
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
+ 7 | :matches(section, article, aside, nav) h1 {}
+ 8 | input:not([type='submit']) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
+   `----
   x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
-  7 | :matches(section, article, aside, nav) h1 {}
-  8 | input:not([type='submit']) {}
-    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
- 10 | ::-webkit-scrollbar-thumb:window-inactive {}
-    `----
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
+ 7 | :matches(section, article, aside, nav) h1 {}
+ 8 | input:not([type='submit']) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
+   `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
  7 | :matches(section, article, aside, nav) h1 {}
@@ -961,13 +956,12 @@
  9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
    `----
   x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
-  7 | :matches(section, article, aside, nav) h1 {}
-  8 | input:not([type='submit']) {}
-    :                            ^^
-  9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
- 10 | ::-webkit-scrollbar-thumb:window-inactive {}
-    `----
+   ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
+ 7 | :matches(section, article, aside, nav) h1 {}
+ 8 | input:not([type='submit']) {}
+   :                            ^^
+ 9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
+   `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:8:1]
  7 | :matches(section, article, aside, nav) h1 {}
@@ -981,7 +975,6 @@
   9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
- 11 | ::-webkit-scrollbar-button:horizontal:decrement {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:1]
@@ -989,7 +982,6 @@
   9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
- 11 | ::-webkit-scrollbar-button:horizontal:decrement {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:1]
@@ -1340,7 +1332,6 @@
   9 | div.sidebar:has(*:nth-child(5)):not(:has(*:nth-child(6))) {}
     :                                                           ^^
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
- 11 | ::-webkit-scrollbar-button:horizontal:decrement {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:9:1]
@@ -1355,7 +1346,6 @@
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  11 | ::-webkit-scrollbar-button:horizontal:decrement {}
- 12 | .test::-webkit-scrollbar-button:horizontal:decrement {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:10:1]
@@ -1363,7 +1353,6 @@
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  11 | ::-webkit-scrollbar-button:horizontal:decrement {}
- 12 | .test::-webkit-scrollbar-button:horizontal:decrement {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:10:1]
@@ -1434,7 +1423,6 @@
  10 | ::-webkit-scrollbar-thumb:window-inactive {}
     :                                           ^^
  11 | ::-webkit-scrollbar-button:horizontal:decrement {}
- 12 | .test::-webkit-scrollbar-button:horizontal:decrement {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:10:1]
@@ -1449,7 +1437,6 @@
  11 | ::-webkit-scrollbar-button:horizontal:decrement {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  12 | .test::-webkit-scrollbar-button:horizontal:decrement {}
- 13 | *:is(*) {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:11:1]
@@ -1457,7 +1444,6 @@
  11 | ::-webkit-scrollbar-button:horizontal:decrement {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  12 | .test::-webkit-scrollbar-button:horizontal:decrement {}
- 13 | *:is(*) {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:11:1]
@@ -1549,7 +1535,6 @@
  11 | ::-webkit-scrollbar-button:horizontal:decrement {}
     :                                                 ^^
  12 | .test::-webkit-scrollbar-button:horizontal:decrement {}
- 13 | *:is(*) {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:11:1]
@@ -1564,7 +1549,6 @@
  12 | .test::-webkit-scrollbar-button:horizontal:decrement {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  13 | *:is(*) {}
- 14 | :--heading {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:12:1]
@@ -1572,7 +1556,6 @@
  12 | .test::-webkit-scrollbar-button:horizontal:decrement {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  13 | *:is(*) {}
- 14 | :--heading {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:12:1]
@@ -1685,7 +1668,6 @@
  12 | .test::-webkit-scrollbar-button:horizontal:decrement {}
     :                                                      ^^
  13 | *:is(*) {}
- 14 | :--heading {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:12:1]
@@ -1700,7 +1682,6 @@
  13 | *:is(*) {}
     : ^^^^^^^^^^
  14 | :--heading {}
- 15 | a:-moz-placeholder {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:13:1]
@@ -1708,7 +1689,6 @@
  13 | *:is(*) {}
     : ^^^^^^^^^^
  14 | :--heading {}
- 15 | a:-moz-placeholder {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:13:1]
@@ -1814,7 +1794,6 @@
  13 | *:is(*) {}
     :         ^^
  14 | :--heading {}
- 15 | a:-moz-placeholder {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:13:1]
@@ -1829,7 +1808,6 @@
  14 | :--heading {}
     : ^^^^^^^^^^^^^
  15 | a:-moz-placeholder {}
- 16 | a:hover::before {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:14:1]
@@ -1837,7 +1815,6 @@
  14 | :--heading {}
     : ^^^^^^^^^^^^^
  15 | a:-moz-placeholder {}
- 16 | a:hover::before {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:14:1]
@@ -1887,7 +1864,6 @@
  14 | :--heading {}
     :            ^^
  15 | a:-moz-placeholder {}
- 16 | a:hover::before {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:14:1]
@@ -1902,7 +1878,6 @@
  15 | a:-moz-placeholder {}
     : ^^^^^^^^^^^^^^^^^^^^^
  16 | a:hover::before {}
- 17 | div :nth-child(2) {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:15:1]
@@ -1910,7 +1885,6 @@
  15 | a:-moz-placeholder {}
     : ^^^^^^^^^^^^^^^^^^^^^
  16 | a:hover::before {}
- 17 | div :nth-child(2) {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:15:1]
@@ -1988,7 +1962,6 @@
  15 | a:-moz-placeholder {}
     :                    ^^
  16 | a:hover::before {}
- 17 | div :nth-child(2) {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:15:1]
@@ -2003,7 +1976,6 @@
  16 | a:hover::before {}
     : ^^^^^^^^^^^^^^^^^^
  17 | div :nth-child(2) {}
- 18 | a:hOvEr {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:16:1]
@@ -2011,7 +1983,6 @@
  16 | a:hover::before {}
     : ^^^^^^^^^^^^^^^^^^
  17 | div :nth-child(2) {}
- 18 | a:hOvEr {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:16:1]
@@ -2110,7 +2081,6 @@
  16 | a:hover::before {}
     :                 ^^
  17 | div :nth-child(2) {}
- 18 | a:hOvEr {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:16:1]
@@ -2125,7 +2095,6 @@
  17 | div :nth-child(2) {}
     : ^^^^^^^^^^^^^^^^^^^^
  18 | a:hOvEr {}
- 19 | :-webkit-full-screen a {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:17:1]
@@ -2133,7 +2102,6 @@
  17 | div :nth-child(2) {}
     : ^^^^^^^^^^^^^^^^^^^^
  18 | a:hOvEr {}
- 19 | :-webkit-full-screen a {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:17:1]
@@ -2246,7 +2214,6 @@
  17 | div :nth-child(2) {}
     :                   ^^
  18 | a:hOvEr {}
- 19 | :-webkit-full-screen a {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/pseudo-class/basic/input.css:17:1]

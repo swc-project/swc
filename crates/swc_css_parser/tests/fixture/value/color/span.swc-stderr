@@ -1,7 +1,295 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/value/color/input.css:1:2]
- 1 | |    
-   `----
+     ,-[$DIR/tests/fixture/value/color/input.css:1:1]
+   1 | ,-> .hex-color {
+   2 | |       color: #00ff00;
+   3 | |       color: #0000ffcc;
+   4 | |       color: #123;
+   5 | |       color: #123c;
+   6 | |   }
+   7 | |   
+   8 | |   .rgb {
+   9 | |       color: rgb(255, 165, 0);
+  10 | |       color: rgb(255,165,0);
+  11 | |       color: rGb(255,165,0);
+  12 | |       color: rgb(0 255 0);
+  13 | |       color: rgb(0%100%0%);
+  14 | |       color: rgb(29 164 192 / 95%);
+  15 | |       color: rgb(123 255 255 / .5);
+  16 | |       color: rgb(123 255 255 / 50%);
+  17 | |       color: rgb(48% 100% 100% / 50%);
+  18 | |       color: rgb(48% none 100% / 50%);
+  19 | |       color: rgb(48% 100% 100% / none);
+  20 | |       color: rgb(var(--red), var(--green), var(--blue));
+  21 | |       color: rgb(var(--red) var(--green) var(--blue));
+  22 | |       color: rgb(var(--red) var(--green) var(--blue) / var(--alpha));
+  23 | |   }
+  24 | |   
+  25 | |   .rgba {
+  26 | |       color: rgba(255, 0, 0, 100%);
+  27 | |       color: rgba(255, 255, 0, 1);
+  28 | |       color: rgba(255, 255, 0, 0.8);
+  29 | |       color: rgba(255, 165, 0);
+  30 | |       color: rgba(255,165,0);
+  31 | |       color: rGbA(255,165,0);
+  32 | |       color: rgba(0 255 0);
+  33 | |       color: rgba(0%100%0%);
+  34 | |       color: rgba(29 164 192 / 95%);
+  35 | |       color: rgba(123 255 255 / .5);
+  36 | |       color: rgba(123 255 255 / 50%);
+  37 | |       color: rgba(48% 100% 100% / 50%);
+  38 | |       color: rgba(48% none 100% / 50%);
+  39 | |       color: rgba(48% 100% 100% / none);
+  40 | |       color: rgba(123 none 123 / 50%);
+  41 | |       color: rgba(123 123 123 / none);
+  42 | |       color: rgb(var(--red), var(--green), var(--blue), var(--alpha));
+  43 | |   }
+  44 | |   
+  45 | |   .hsl {
+  46 | |       color: hsl(38.824 100% 50%);
+  47 | |       color: HsL(39 100% 50%);
+  48 | |       color: hsl(100deg, 100%, 50%);
+  49 | |       color: hsl(100, 100%, 50%);
+  50 | |       color: hsl(100 100% 50%);
+  51 | |       color: hsl(100, 100%, 50%, .8);
+  52 | |       color: hsl(100 100% 50% / .8);
+  53 | |       color: hsl(var(--a), var(--b), var(--c));
+  54 | |       color: hsl(var(--a), var(--b), var(--c), var(--d));
+  55 | |       color: hsl(var(--a) var(--b) var(--c));
+  56 | |       color: hsl(var(--a) var(--b) var(--c) / var(--d));
+  57 | |   }
+  58 | |   
+  59 | |   .hsla {
+  60 | |       color: hsla(100, 100%, 50%, .8);
+  61 | |       color: hsla(100 100% 50% / .8);
+  62 | |       color: hsla(var(--a), var(--b), var(--c), var(--d));
+  63 | |   }
+  64 | |   
+  65 | |   .hwb {
+  66 | |       color: hwb(194 0% 0%);
+  67 | |       color: hwb(194 0% 0% / 50%);
+  68 | |       color: hwb(194 0% 50%);
+  69 | |       color: hwb(194 50% 0%);
+  70 | |       color: hwb(194 50% 50%);
+  71 | |       color: hwb(var(--a) var(--b) var(--c));
+  72 | |       color: hwb(var(--a) var(--b) var(--c) / var(--d));
+  73 | |   }
+  74 | |   
+  75 | |   .lab {
+  76 | |       color: lab(29.2345% 39.3825 20.0664);
+  77 | |       color: lab(29.2345% 39.3825 20.0664 / 100%);
+  78 | |       color: lab(29.2345% 39.3825 20.0664 / 50%);
+  79 | |       color: lab(var(--a) var(--b) var(--c));
+  80 | |       color: lab(var(--a) var(--b) var(--c) / var(--d));
+  81 | |   }
+  82 | |   
+  83 | |   .lch {
+  84 | |       color: lch(52.2345% 72.2 56.2 / 1);
+  85 | |       color: lch(29.2345% 44.2 27);
+  86 | |       color: lch(29.2345% 44.2 45deg);
+  87 | |       color: lch(29.2345% 44.2 .5turn);
+  88 | |       color: lch(29.2345% 44.2 27 / 100%);
+  89 | |       color: lch(29.2345% 44.2 27 / 50%);
+  90 | |       color: lch(var(--a) var(--b) var(--c));
+  91 | |       color: lch(var(--a) var(--b) var(--c) / var(--d));
+  92 | |   }
+  93 | |   
+  94 | |   .oklab {
+  95 | |       color: oklab(40.101% 0.1147 0.0453);
+  96 | |       color: oklab(var(--a) var(--b) var(--c));
+  97 | |   }
+  98 | |   
+  99 | |   .oklch {
+ 100 | |       color: oklch(42.1% 0.192 328.6 / 1);
+ 101 | |       color: oklch(42.1% 0.192 328.6);
+ 102 | |       color: oklch(var(--a) var(--b) var(--c));
+ 103 | |       color: oklch(var(--a) var(--b) var(--c) / var(--d));
+ 104 | |   }
+ 105 | |   
+ 106 | |   .color {
+ 107 | |       color: color(sRGB 0 1 0);
+ 108 | |       color: color(srgb-linear 0 1 0);
+ 109 | |       color: color(display-p3 0 1 0);
+ 110 | |       color: color(a98-rgb 0 1 0);
+ 111 | |       color: color(prophoto-rgb 0 1 0);
+ 112 | |       color: color(rec2020 0 1 0);
+ 113 | |       color: color(sRGB 0 none 0);
+ 114 | |       color: color(display-p3 0.823 0.6554 0.2537 /1);
+ 115 | |       color: color(display-p3 0.823 0.6554 0.2537 / 1);
+ 116 | |       color: color(display-p3 0.823 0.6554 0.2537/1);
+ 117 | |       color: color(display-p3 0.823 0.6554 0.2537);
+ 118 | |       color: color(xyz 0.472 0.372 0.131);
+ 119 | |       color: color(xyz-d50 0.472 0.372 0.131);
+ 120 | |       color: color(xyz-d65 0.472 0.372 0.131);
+ 121 | |       color: color(display-p3 -0.6112 1.0079 -0.2192);
+ 122 | |       color: color(sRGB 0.41587 0.503670 0.36664);
+ 123 | |       color: color(display-p3 0.43313 0.50108 0.37950);
+ 124 | |       color: color(a98-rgb 0.44091 0.49971 0.37408);
+ 125 | |       color: color(prophoto-rgb 0.36589 0.41717 0.31333);
+ 126 | |       color: color(rec2020 0.42210 0.47580 0.35605);
+ 127 | |       color: color(profoto-rgb 0.4835 0.9167 0.2188);
+ 128 | |       color: color(var(--a) var(--b) var(--c) var(--d));
+ 129 | |       color: color(var(--a) var(--b) var(--c) var(--d) / var(--e));
+ 130 | |   }
+ 131 | |   
+ 132 | |   @color-profile --fogra55beta {
+ 133 | |       src: url('https://example.org/2020_13.003_FOGRA55beta_CL_Profile.icc');
+ 134 | |   }
+ 135 | |   
+ 136 | |   .dark_skin {
+ 137 | |       background-color: color(--fogra55beta 0.183596 0.464444 0.461729 0.612490 0.156903 0.000000 0.000000);
+ 138 | |       background-color: color(--fogra55beta 0.070804 0.334971 0.321802 0.215606 0.103107 0.000000 0.000000);
+ 139 | |       background-color: color(--fogra55beta 0.572088 0.229346 0.081708 0.282044 0.000000 0.000000 0.168260);
+ 140 | |       background-color: color(--fogra55beta 0.314566 0.145687 0.661941 0.582879 0.000000 0.234362 0.000000);
+ 141 | |       background-color: color(--fogra55beta 0.375515 0.259934 0.034849 0.107161 0.000000 0.000000 0.308200);
+ 142 | |       background-color: color(--fogra55beta 0.397575 0.010047 0.223682 0.031140 0.000000 0.317066 0.000000);
+ 143 | |   }
+ 144 | |   
+ 145 | |   .device-cmyk {
+ 146 | |       color: device-cmyk(0 81% 81% 30%);
+ 147 | |       color: device-cmyk(0% 70% 20% 0%);
+ 148 | |       color: device-cmyk(0% 70% 20% 0%);
+ 149 | |       color: device-cmyk(0 0.7 0.2 0);
+ 150 | |       color: device-cmyk(var(--a) var(--b) var(--c) var(--d));
+ 151 | |   }
+ 152 | |   
+ 153 | |   .color-mix {
+ 154 | |       color: color-mix(in lch, purple 50%, plum 50%);
+ 155 | |       color: color-mix(in lch, purple 50%, plum);
+ 156 | |       color: color-mix(in lch, purple, plum 50%);
+ 157 | |       color: color-mix(in lch, purple, plum);
+ 158 | |       color: color-mix(in lch, plum, purple);
+ 159 | |       color: color-mix(in lch, purple 80%, plum 80%);
+ 160 | |   }
+ 161 | |   
+ 162 | |   .color-contrast {
+ 163 | |       color: color-contrast(currentColor vs hsl(200 83% 23%), purple to AA);
+ 164 | |       color: color-contrast(currentColor vs rgb(10 75 107), rgb(128 0 128) to 4.5);
+ 165 | |   }
+ 166 | |   
+ 167 | |   .foo {
+ 168 | |       color: device-cmyk(0 81% 81% 30%);
+ 169 | |       color: rgb(178 34 34);
+ 170 | |       color: firebrick;
+ 171 | |   }
+ 172 | |   
+ 173 | |   .bar {
+ 174 | |       color: device-cmyk(0 81% 81% 30%);
+ 175 | |       color: lab(45.060% 45.477 35.459);
+ 176 | |       color: rgb(70.690% 26.851% 19.724%);
+ 177 | |   }
+ 178 | |   
+ 179 | |   .calc {
+ 180 | |       color: rgba(calc(255 - 1), 255, 255, 1);
+ 181 | |       color: rgba(255, calc(255 - 1), 255, 1);
+ 182 | |       color: rgba(255, 255, calc(255 - 1), 1);
+ 183 | |       color: rgba(255, 255, 255, calc(1 - 1));
+ 184 | |       color: hsla(calc(120deg + 16deg) 100% 50%);
+ 185 | |       color: hsla(120deg calc(20% + 10%) 50%);
+ 186 | |       color: hsla(120deg 40% calc(20% + 10%));
+ 187 | |       color: hsl(120deg 40% 20% / calc(20% + 10%));
+ 188 | |       color: hwb(194 calc(20% + 10%) 0% / .5);
+ 189 | |       color: device-cmyk(0 calc(20%) 81% 30%);
+ 190 | |       color: color(display-p3 calc(1 + 2) 0.5 0);
+ 191 | |   }
+ 192 | |   
+ 193 | |   .relative {
+ 194 | |       color: rgb(from indianred 255 255 255);
+ 195 | |       color: rgb(from transparent 255 255 255);
+ 196 | |       color: lch(from var(--mygray) 62% 30 -34);
+ 197 | |       color: rgb(from Canvas 255 255 255);
+ 198 | |       color: rgb(from canvas 255 255 255);
+ 199 | |       color: rgb(from ActiveBorder 255 255 255);
+ 200 | |       color: rgb(from -moz-buttondefault 255 255 255);
+ 201 | |       color: rgb(from -moz-activehyperlinktext 255 255 255);
+ 202 | |       color: rgb(from currentColor 255 255 255);
+ 203 | |   }
+ 204 | |   
+ 205 | |   
+ 206 | |   .var {
+ 207 | |       color: rgb(var(--red) var(--green) var(--blue));
+ 208 | |       color: rgb(var(--red) var(--green) var(--blue) / var(--alpha));
+ 209 | |   
+ 210 | |       color: rgb(env(--red) env(--green) env(--blue));
+ 211 | |       color: rgb(env(--red) env(--green) env(--blue) / env(--alpha));
+ 212 | |   
+ 213 | |       color: rgb(constant(--red) constant(--green) constant(--blue));
+ 214 | |       color: rgb(constant(--red) constant(--green) constant(--blue) / constant(--alpha));
+ 215 | |   }
+ 216 | |   
+ 217 | |   div {
+ 218 | |       color: hsl(var(--b2, var(--b1)) / var(--tw-bg-opacity));
+ 219 | |       color: lab(var(--mycolor));
+ 220 | |       color: rgba(var(--bg-color) 1);
+ 221 | |       color: rgba(var(--bg-color) / 1);
+ 222 | |       color: lab(var(--mycolor) 0);
+ 223 | |       color: lab(var(--mycolor) var(--mycolor));
+ 224 | |       color: lab(from var(--mycolor) 0 0 0);
+ 225 | |       color: lab(from var(--mycolor) var(--color));
+ 226 | |       color: rgb(var(--bg-color));
+ 227 | |       color: rgb(var(--bg-color), var(--bg-color-a));
+ 228 | |       color: rgb(var(--bg-color) var(--bg-color-a));
+ 229 | |       color: rgba(var(--bg-color) 1);
+ 230 | |       color: rgb(var(--mycolor) var(--mycolor) var(--mycolor));
+ 231 | |       color: lab(var(--mycolor) var(--mycolor) var(--mycolor));
+ 232 | |       color: color(from var(--bg-color) var(--bg-color));
+ 233 | |       color: color(from var(--bg-color) var(--bg-color) var(--bg-color));
+ 234 | |       color: color(var(--bg-color) var(--bg-color));
+ 235 | |       color: color(var(--bg-color));
+ 236 | |       color: color(from var(--base) mi calc(pi * 2) calc(pi / 2));
+ 237 | |       color: color(var(--bg-color));
+ 238 | |       color: color(--unwise 35% 20% 8%);
+ 239 | |       color: color(--unwise var(--bg-color));
+ 240 | |       color: color(--unwise var(--bg-color) var(--bg-color));
+ 241 | |       color: device-cmyk(var(--bg-color));
+ 242 | |       color: device-cmyk(var(--bg-color) var(--bg-color));
+ 243 | |       color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color));
+ 244 | |       color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color));
+ 245 | |       color: device-cmyk(var(--bg-color) var(--bg-color) var(--bg-color) var(--bg-color) / var(--bg-color));
+ 246 | |       color: device-cmyk(var(--bg-color) var(--bg-color) / var(--bg-color));
+ 247 | |       color: device-cmyk(var(--bg-color) / var(--bg-color));
+ 248 | |       color: device-cmyk(var(--bg-color) var(--bg-color));
+ 249 | |       color: rgb(var(--bg-color));
+ 250 | |       color: rgb(var(--bg-color) var(--bg-color));
+ 251 | |       color: rgb(var(--bg-color) var(--bg-color) var(--bg-color));
+ 252 | |       color: rgb(var(--bg-color) var(--bg-color) var(--bg-color) / var(--bg-color));
+ 253 | |       color: rgb(var(--bg-color) var(--bg-color) / var(--bg-color));
+ 254 | |       color: rgb(var(--bg-color) / var(--bg-color));
+ 255 | |       color: rgb(var(--bg-color) var(--bg-color));
+ 256 | |       color: rgb(var(--bg-color));
+ 257 | |       color: rgb(var(--bg-color), var(--bg-color));
+ 258 | |       color: rgb(var(--bg-color), var(--bg-color), var(--bg-color));
+ 259 | |       color: rgb(var(--bg-color), var(--bg-color), var(--bg-color), var(--bg-color));
+ 260 | |       color: rgb(var(--bg-color), var(--bg-color), var(--bg-color));
+ 261 | |       color: hwb(var(--bg-color));
+ 262 | |       color: hwb(var(--bg-color) var(--bg-color));
+ 263 | |       color: hwb(var(--bg-color) var(--bg-color) var(--bg-color));
+ 264 | |       color: hwb(var(--bg-color) var(--bg-color) var(--bg-color) / var(--bg-color));
+ 265 | |       color: hwb(var(--bg-color) var(--bg-color) / var(--bg-color));
+ 266 | |       color: hwb(var(--bg-color) / var(--bg-color));
+ 267 | |       color: hwb(var(--bg-color) var(--bg-color));
+ 268 | |       color: hwb(var(--bg-color));
+ 269 | |       color: hwb(120 0% 49.8039%);
+ 270 | |       color: hwb(120 var(--bg-color) 49.8039%);
+ 271 | |       color: hwb(120 var(--bg-color) 49.8039% / 1);
+ 272 | |       color: hwb(120 var(--bg-color) 49.8039% / 100);
+ 273 | |       color: hwb(120 var(--bg-color) var(--bg-color));
+ 274 | |       color: hwb(var(--bg-color) var(--bg-color) var(--bg-color));
+ 275 | |       color: color(rec2020 0.42053 0.979780 0.00579);
+ 276 | |       color: color(rec2020 0.42053 0.979780 0.00579 / var(--color));
+ 277 | |       color: color(rec2020 0.42053 var(--color));
+ 278 | |       color: color(rec2020 0.42053 var(--color) / 100%);
+ 279 | |       color: color(rec2020 var(--color));
+ 280 | |       color: color(rec2020 var(--color) / var(--color));
+ 281 | |       color: color(var(--color) var(--color));
+ 282 | |       color: color(var(--color));
+ 283 | |       color: color(xyz-d50 0.2005 0.14089 0.4472);
+ 284 | |       color: color(sRGB 0.41587 0.503670 0.36664);
+ 285 | |       color: color(display-p3 0.43313 0.50108 0.37950);
+ 286 | |       color: color(a98-rgb 0.44091 0.49971 0.37408);
+ 287 | |       color: color(prophoto-rgb 0.36589 0.41717 0.31333);
+ 288 | |       color: color(rec2020 0.42210 0.47580 0.35605);
+ 289 | `-> }
+     `----
   x Rule
    ,-[$DIR/tests/fixture/value/color/input.css:1:1]
  1 | ,-> .hex-color {
@@ -10,8 +298,6 @@
  4 | |       color: #123;
  5 | |       color: #123c;
  6 | `-> }
- 7 |     
- 8 |     .rgb {
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/value/color/input.css:1:1]
@@ -21,8 +307,6 @@
  4 | |       color: #123;
  5 | |       color: #123c;
  6 | `-> }
- 7 |     
- 8 |     .rgb {
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/value/color/input.css:1:1]
@@ -68,15 +352,12 @@
  4 | |       color: #123;
  5 | |       color: #123c;
  6 | `-> }
- 7 |     
- 8 |     .rgb {
    `----
   x LBrace
    ,-[$DIR/tests/fixture/value/color/input.css:1:1]
  1 | .hex-color {
    :            ^
  2 |     color: #00ff00;
- 3 |     color: #0000ffcc;
    `----
   x ComponentValue
    ,-[$DIR/tests/fixture/value/color/input.css:2:1]
@@ -293,8 +574,6 @@
  21 | |       color: rgb(var(--red) var(--green) var(--blue));
  22 | |       color: rgb(var(--red) var(--green) var(--blue) / var(--alpha));
  23 | `-> }
- 24 |     
- 25 |     .rgba {
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/value/color/input.css:8:1]
@@ -315,8 +594,6 @@
  21 | |       color: rgb(var(--red) var(--green) var(--blue));
  22 | |       color: rgb(var(--red) var(--green) var(--blue) / var(--alpha));
  23 | `-> }
- 24 |     
- 25 |     .rgba {
     `----
   x SelectorList
    ,-[$DIR/tests/fixture/value/color/input.css:8:1]
@@ -379,17 +656,14 @@
  21 | |       color: rgb(var(--red) var(--green) var(--blue));
  22 | |       color: rgb(var(--red) var(--green) var(--blue) / var(--alpha));
  23 | `-> }
- 24 |     
- 25 |     .rgba {
     `----
   x LBrace
-    ,-[$DIR/tests/fixture/value/color/input.css:8:1]
-  7 | 
-  8 | .rgb {
-    :      ^
-  9 |     color: rgb(255, 165, 0);
- 10 |     color: rgb(255,165,0);
-    `----
+   ,-[$DIR/tests/fixture/value/color/input.css:8:1]
+ 7 | 
+ 8 | .rgb {
+   :      ^
+ 9 |     color: rgb(255, 165, 0);
+   `----
   x ComponentValue
     ,-[$DIR/tests/fixture/value/color/input.css:9:1]
   8 | .rgb {
@@ -2442,8 +2716,6 @@
  41 | |       color: rgba(123 123 123 / none);
  42 | |       color: rgb(var(--red), var(--green), var(--blue), var(--alpha));
  43 | `-> }
- 44 |     
- 45 |     .hsl {
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/value/color/input.css:25:1]
@@ -2467,8 +2739,6 @@
  41 | |       color: rgba(123 123 123 / none);
  42 | |       color: rgb(var(--red), var(--green), var(--blue), var(--alpha));
  43 | `-> }
- 44 |     
- 45 |     .hsl {
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/value/color/input.css:25:1]
@@ -2534,8 +2804,6 @@
  41 | |       color: rgba(123 123 123 / none);
  42 | |       color: rgb(var(--red), var(--green), var(--blue), var(--alpha));
  43 | `-> }
- 44 |     
- 45 |     .hsl {
     `----
   x LBrace
     ,-[$DIR/tests/fixture/value/color/input.css:25:1]
@@ -2543,7 +2811,6 @@
  25 | .rgba {
     :       ^
  26 |     color: rgba(255, 0, 0, 100%);
- 27 |     color: rgba(255, 255, 0, 1);
     `----
   x ComponentValue
     ,-[$DIR/tests/fixture/value/color/input.css:26:1]
@@ -5025,8 +5292,6 @@
  55 | |       color: hsl(var(--a) var(--b) var(--c));
  56 | |       color: hsl(var(--a) var(--b) var(--c) / var(--d));
  57 | `-> }
- 58 |     
- 59 |     .hsla {
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/value/color/input.css:45:1]
@@ -5044,8 +5309,6 @@
  55 | |       color: hsl(var(--a) var(--b) var(--c));
  56 | |       color: hsl(var(--a) var(--b) var(--c) / var(--d));
  57 | `-> }
- 58 |     
- 59 |     .hsla {
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/value/color/input.css:45:1]
@@ -5105,8 +5368,6 @@
  55 | |       color: hsl(var(--a) var(--b) var(--c));
  56 | |       color: hsl(var(--a) var(--b) var(--c) / var(--d));
  57 | `-> }
- 58 |     
- 59 |     .hsla {
     `----
   x LBrace
     ,-[$DIR/tests/fixture/value/color/input.css:45:1]
@@ -5114,7 +5375,6 @@
  45 | .hsl {
     :      ^
  46 |     color: hsl(38.824 100% 50%);
- 47 |     color: HsL(39 100% 50%);
     `----
   x ComponentValue
     ,-[$DIR/tests/fixture/value/color/input.css:46:1]
@@ -6923,8 +7183,6 @@
  61 | |       color: hsla(100 100% 50% / .8);
  62 | |       color: hsla(var(--a), var(--b), var(--c), var(--d));
  63 | `-> }
- 64 |     
- 65 |     .hwb {
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/value/color/input.css:59:1]
@@ -6934,8 +7192,6 @@
  61 | |       color: hsla(100 100% 50% / .8);
  62 | |       color: hsla(var(--a), var(--b), var(--c), var(--d));
  63 | `-> }
- 64 |     
- 65 |     .hwb {
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/value/color/input.css:59:1]
@@ -6987,8 +7243,6 @@
  61 | |       color: hsla(100 100% 50% / .8);
  62 | |       color: hsla(var(--a), var(--b), var(--c), var(--d));
  63 | `-> }
- 64 |     
- 65 |     .hwb {
     `----
   x LBrace
     ,-[$DIR/tests/fixture/value/color/input.css:59:1]
@@ -6996,7 +7250,6 @@
  59 | .hsla {
     :       ^
  60 |     color: hsla(100, 100%, 50%, .8);
- 61 |     color: hsla(100 100% 50% / .8);
     `----
   x ComponentValue
     ,-[$DIR/tests/fixture/value/color/input.css:60:1]
@@ -7584,8 +7837,6 @@
  71 | |       color: hwb(var(--a) var(--b) var(--c));
  72 | |       color: hwb(var(--a) var(--b) var(--c) / var(--d));
  73 | `-> }
- 74 |     
- 75 |     .lab {
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/value/color/input.css:65:1]
@@ -7599,8 +7850,6 @@
  71 | |       color: hwb(var(--a) var(--b) var(--c));
  72 | |       color: hwb(var(--a) var(--b) var(--c) / var(--d));
  73 | `-> }
- 74 |     
- 75 |     .lab {
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/value/color/input.css:65:1]
@@ -7656,8 +7905,6 @@
  71 | |       color: hwb(var(--a) var(--b) var(--c));
  72 | |       color: hwb(var(--a) var(--b) var(--c) / var(--d));
  73 | `-> }
- 74 |     
- 75 |     .lab {
     `----
   x LBrace
     ,-[$DIR/tests/fixture/value/color/input.css:65:1]
@@ -7665,7 +7912,6 @@
  65 | .hwb {
     :      ^
  66 |     color: hwb(194 0% 0%);
- 67 |     color: hwb(194 0% 0% / 50%);
     `----
   x ComponentValue
     ,-[$DIR/tests/fixture/value/color/input.css:66:1]
@@ -8685,8 +8931,6 @@
  79 | |       color: lab(var(--a) var(--b) var(--c));
  80 | |       color: lab(var(--a) var(--b) var(--c) / var(--d));
  81 | `-> }
- 82 |     
- 83 |     .lch {
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/value/color/input.css:75:1]
@@ -8698,8 +8942,6 @@
  79 | |       color: lab(var(--a) var(--b) var(--c));
  80 | |       color: lab(var(--a) var(--b) var(--c) / var(--d));
  81 | `-> }
- 82 |     
- 83 |     .lch {
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/value/color/input.css:75:1]
@@ -8753,8 +8995,6 @@
  79 | |       color: lab(var(--a) var(--b) var(--c));
  80 | |       color: lab(var(--a) var(--b) var(--c) / var(--d));
  81 | `-> }
- 82 |     
- 83 |     .lch {
     `----
   x LBrace
     ,-[$DIR/tests/fixture/value/color/input.css:75:1]
@@ -8762,7 +9002,6 @@
  75 | .lab {
     :      ^
  76 |     color: lab(29.2345% 39.3825 20.0664);
- 77 |     color: lab(29.2345% 39.3825 20.0664 / 100%);
     `----
   x ComponentValue
     ,-[$DIR/tests/fixture/value/color/input.css:76:1]
@@ -9547,8 +9786,6 @@
  90 | |       color: lch(var(--a) var(--b) var(--c));
  91 | |       color: lch(var(--a) var(--b) var(--c) / var(--d));
  92 | `-> }
- 93 |     
- 94 |     .oklab {
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/value/color/input.css:83:1]
@@ -9563,8 +9800,6 @@
  90 | |       color: lch(var(--a) var(--b) var(--c));
  91 | |       color: lch(var(--a) var(--b) var(--c) / var(--d));
  92 | `-> }
- 93 |     
- 94 |     .oklab {
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/value/color/input.css:83:1]
@@ -9621,8 +9856,6 @@
  90 | |       color: lch(var(--a) var(--b) var(--c));
  91 | |       color: lch(var(--a) var(--b) var(--c) / var(--d));
  92 | `-> }
- 93 |     
- 94 |     .oklab {
     `----
   x LBrace
     ,-[$DIR/tests/fixture/value/color/input.css:83:1]
@@ -9630,7 +9863,6 @@
  83 | .lch {
     :      ^
  84 |     color: lch(52.2345% 72.2 56.2 / 1);
- 85 |     color: lch(29.2345% 44.2 27);
     `----
   x ComponentValue
     ,-[$DIR/tests/fixture/value/color/input.css:84:1]
@@ -10829,8 +11061,6 @@
  95 | |       color: oklab(40.101% 0.1147 0.0453);
  96 | |       color: oklab(var(--a) var(--b) var(--c));
  97 | `-> }
- 98 |     
- 99 |     .oklch {
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/value/color/input.css:94:1]
@@ -10839,8 +11069,6 @@
  95 | |       color: oklab(40.101% 0.1147 0.0453);
  96 | |       color: oklab(var(--a) var(--b) var(--c));
  97 | `-> }
- 98 |     
- 99 |     .oklch {
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/value/color/input.css:94:1]
@@ -10891,8 +11119,6 @@
  95 | |       color: oklab(40.101% 0.1147 0.0453);
  96 | |       color: oklab(var(--a) var(--b) var(--c));
  97 | `-> }
- 98 |     
- 99 |     .oklch {
     `----
   x LBrace
     ,-[$DIR/tests/fixture/value/color/input.css:94:1]
@@ -10900,7 +11126,6 @@
  94 | .oklab {
     :        ^
  95 |     color: oklab(40.101% 0.1147 0.0453);
- 96 |     color: oklab(var(--a) var(--b) var(--c));
     `----
   x ComponentValue
     ,-[$DIR/tests/fixture/value/color/input.css:95:1]
@@ -11177,8 +11402,6 @@
  102 | |       color: oklch(var(--a) var(--b) var(--c));
  103 | |       color: oklch(var(--a) var(--b) var(--c) / var(--d));
  104 | `-> }
- 105 |     
- 106 |     .color {
      `----
   x QualifiedRule
      ,-[$DIR/tests/fixture/value/color/input.css:99:1]
@@ -11189,8 +11412,6 @@
  102 | |       color: oklch(var(--a) var(--b) var(--c));
  103 | |       color: oklch(var(--a) var(--b) var(--c) / var(--d));
  104 | `-> }
- 105 |     
- 106 |     .color {
      `----
   x SelectorList
      ,-[$DIR/tests/fixture/value/color/input.css:99:1]
@@ -11243,8 +11464,6 @@
  102 | |       color: oklch(var(--a) var(--b) var(--c));
  103 | |       color: oklch(var(--a) var(--b) var(--c) / var(--d));
  104 | `-> }
- 105 |     
- 106 |     .color {
      `----
   x LBrace
      ,-[$DIR/tests/fixture/value/color/input.css:99:1]
@@ -11252,7 +11471,6 @@
   99 | .oklch {
      :        ^
  100 |     color: oklch(42.1% 0.192 328.6 / 1);
- 101 |     color: oklch(42.1% 0.192 328.6);
      `----
   x ComponentValue
      ,-[$DIR/tests/fixture/value/color/input.css:100:1]
@@ -11912,8 +12130,6 @@
  128 | |       color: color(var(--a) var(--b) var(--c) var(--d));
  129 | |       color: color(var(--a) var(--b) var(--c) var(--d) / var(--e));
  130 | `-> }
- 131 |     
- 132 |     @color-profile --fogra55beta {
      `----
   x QualifiedRule
      ,-[$DIR/tests/fixture/value/color/input.css:106:1]
@@ -11943,8 +12159,6 @@
  128 | |       color: color(var(--a) var(--b) var(--c) var(--d));
  129 | |       color: color(var(--a) var(--b) var(--c) var(--d) / var(--e));
  130 | `-> }
- 131 |     
- 132 |     @color-profile --fogra55beta {
      `----
   x SelectorList
      ,-[$DIR/tests/fixture/value/color/input.css:106:1]
@@ -12016,8 +12230,6 @@
  128 | |       color: color(var(--a) var(--b) var(--c) var(--d));
  129 | |       color: color(var(--a) var(--b) var(--c) var(--d) / var(--e));
  130 | `-> }
- 131 |     
- 132 |     @color-profile --fogra55beta {
      `----
   x LBrace
      ,-[$DIR/tests/fixture/value/color/input.css:106:1]
@@ -12025,7 +12237,6 @@
  106 | .color {
      :        ^
  107 |     color: color(sRGB 0 1 0);
- 108 |     color: color(srgb-linear 0 1 0);
      `----
   x ComponentValue
      ,-[$DIR/tests/fixture/value/color/input.css:107:1]
@@ -14931,8 +15142,6 @@
  132 | ,-> @color-profile --fogra55beta {
  133 | |       src: url('https://example.org/2020_13.003_FOGRA55beta_CL_Profile.icc');
  134 | `-> }
- 135 |     
- 136 |     .dark_skin {
      `----
   x AtRule
      ,-[$DIR/tests/fixture/value/color/input.css:132:1]
@@ -14940,8 +15149,6 @@
  132 | ,-> @color-profile --fogra55beta {
  133 | |       src: url('https://example.org/2020_13.003_FOGRA55beta_CL_Profile.icc');
  134 | `-> }
- 135 |     
- 136 |     .dark_skin {
      `----
   x AtRuleName
      ,-[$DIR/tests/fixture/value/color/input.css:132:1]
@@ -14970,8 +15177,6 @@
  132 | ,-> @color-profile --fogra55beta {
  133 | |       src: url('https://example.org/2020_13.003_FOGRA55beta_CL_Profile.icc');
  134 | `-> }
- 135 |     
- 136 |     .dark_skin {
      `----
   x LBrace
      ,-[$DIR/tests/fixture/value/color/input.css:132:1]
@@ -14979,7 +15184,6 @@
  132 | @color-profile --fogra55beta {
      :                              ^
  133 |     src: url('https://example.org/2020_13.003_FOGRA55beta_CL_Profile.icc');
- 134 | }
      `----
   x ComponentValue
      ,-[$DIR/tests/fixture/value/color/input.css:133:1]
@@ -15055,8 +15259,6 @@
  141 | |       background-color: color(--fogra55beta 0.375515 0.259934 0.034849 0.107161 0.000000 0.000000 0.308200);
  142 | |       background-color: color(--fogra55beta 0.397575 0.010047 0.223682 0.031140 0.000000 0.317066 0.000000);
  143 | `-> }
- 144 |     
- 145 |     .device-cmyk {
      `----
   x QualifiedRule
      ,-[$DIR/tests/fixture/value/color/input.css:136:1]
@@ -15069,8 +15271,6 @@
  141 | |       background-color: color(--fogra55beta 0.375515 0.259934 0.034849 0.107161 0.000000 0.000000 0.308200);
  142 | |       background-color: color(--fogra55beta 0.397575 0.010047 0.223682 0.031140 0.000000 0.317066 0.000000);
  143 | `-> }
- 144 |     
- 145 |     .device-cmyk {
      `----
   x SelectorList
      ,-[$DIR/tests/fixture/value/color/input.css:136:1]
@@ -15125,8 +15325,6 @@
  141 | |       background-color: color(--fogra55beta 0.375515 0.259934 0.034849 0.107161 0.000000 0.000000 0.308200);
  142 | |       background-color: color(--fogra55beta 0.397575 0.010047 0.223682 0.031140 0.000000 0.317066 0.000000);
  143 | `-> }
- 144 |     
- 145 |     .device-cmyk {
      `----
   x LBrace
      ,-[$DIR/tests/fixture/value/color/input.css:136:1]
@@ -15134,7 +15332,6 @@
  136 | .dark_skin {
      :            ^
  137 |     background-color: color(--fogra55beta 0.183596 0.464444 0.461729 0.612490 0.156903 0.000000 0.000000);
- 138 |     background-color: color(--fogra55beta 0.070804 0.334971 0.321802 0.215606 0.103107 0.000000 0.000000);
      `----
   x ComponentValue
      ,-[$DIR/tests/fixture/value/color/input.css:137:1]
@@ -16154,8 +16351,6 @@
  149 | |       color: device-cmyk(0 0.7 0.2 0);
  150 | |       color: device-cmyk(var(--a) var(--b) var(--c) var(--d));
  151 | `-> }
- 152 |     
- 153 |     .color-mix {
      `----
   x QualifiedRule
      ,-[$DIR/tests/fixture/value/color/input.css:145:1]
@@ -16167,8 +16362,6 @@
  149 | |       color: device-cmyk(0 0.7 0.2 0);
  150 | |       color: device-cmyk(var(--a) var(--b) var(--c) var(--d));
  151 | `-> }
- 152 |     
- 153 |     .color-mix {
      `----
   x SelectorList
      ,-[$DIR/tests/fixture/value/color/input.css:145:1]
@@ -16222,8 +16415,6 @@
  149 | |       color: device-cmyk(0 0.7 0.2 0);
  150 | |       color: device-cmyk(var(--a) var(--b) var(--c) var(--d));
  151 | `-> }
- 152 |     
- 153 |     .color-mix {
      `----
   x LBrace
      ,-[$DIR/tests/fixture/value/color/input.css:145:1]
@@ -16231,7 +16422,6 @@
  145 | .device-cmyk {
      :              ^
  146 |     color: device-cmyk(0 81% 81% 30%);
- 147 |     color: device-cmyk(0% 70% 20% 0%);
      `----
   x ComponentValue
      ,-[$DIR/tests/fixture/value/color/input.css:146:1]
@@ -17077,8 +17267,6 @@
  158 | |       color: color-mix(in lch, plum, purple);
  159 | |       color: color-mix(in lch, purple 80%, plum 80%);
  160 | `-> }
- 161 |     
- 162 |     .color-contrast {
      `----
   x QualifiedRule
      ,-[$DIR/tests/fixture/value/color/input.css:153:1]
@@ -17091,8 +17279,6 @@
  158 | |       color: color-mix(in lch, plum, purple);
  159 | |       color: color-mix(in lch, purple 80%, plum 80%);
  160 | `-> }
- 161 |     
- 162 |     .color-contrast {
      `----
   x SelectorList
      ,-[$DIR/tests/fixture/value/color/input.css:153:1]
@@ -17147,8 +17333,6 @@
  158 | |       color: color-mix(in lch, plum, purple);
  159 | |       color: color-mix(in lch, purple 80%, plum 80%);
  160 | `-> }
- 161 |     
- 162 |     .color-contrast {
      `----
   x LBrace
      ,-[$DIR/tests/fixture/value/color/input.css:153:1]
@@ -17156,7 +17340,6 @@
  153 | .color-mix {
      :            ^
  154 |     color: color-mix(in lch, purple 50%, plum 50%);
- 155 |     color: color-mix(in lch, purple 50%, plum);
      `----
   x ComponentValue
      ,-[$DIR/tests/fixture/value/color/input.css:154:1]
@@ -18131,8 +18314,6 @@
  163 | |       color: color-contrast(currentColor vs hsl(200 83% 23%), purple to AA);
  164 | |       color: color-contrast(currentColor vs rgb(10 75 107), rgb(128 0 128) to 4.5);
  165 | `-> }
- 166 |     
- 167 |     .foo {
      `----
   x QualifiedRule
      ,-[$DIR/tests/fixture/value/color/input.css:162:1]
@@ -18141,8 +18322,6 @@
  163 | |       color: color-contrast(currentColor vs hsl(200 83% 23%), purple to AA);
  164 | |       color: color-contrast(currentColor vs rgb(10 75 107), rgb(128 0 128) to 4.5);
  165 | `-> }
- 166 |     
- 167 |     .foo {
      `----
   x SelectorList
      ,-[$DIR/tests/fixture/value/color/input.css:162:1]
@@ -18193,8 +18372,6 @@
  163 | |       color: color-contrast(currentColor vs hsl(200 83% 23%), purple to AA);
  164 | |       color: color-contrast(currentColor vs rgb(10 75 107), rgb(128 0 128) to 4.5);
  165 | `-> }
- 166 |     
- 167 |     .foo {
      `----
   x LBrace
      ,-[$DIR/tests/fixture/value/color/input.css:162:1]
@@ -18202,7 +18379,6 @@
  162 | .color-contrast {
      :                 ^
  163 |     color: color-contrast(currentColor vs hsl(200 83% 23%), purple to AA);
- 164 |     color: color-contrast(currentColor vs rgb(10 75 107), rgb(128 0 128) to 4.5);
      `----
   x ComponentValue
      ,-[$DIR/tests/fixture/value/color/input.css:163:1]
@@ -18709,8 +18885,6 @@
  169 | |       color: rgb(178 34 34);
  170 | |       color: firebrick;
  171 | `-> }
- 172 |     
- 173 |     .bar {
      `----
   x QualifiedRule
      ,-[$DIR/tests/fixture/value/color/input.css:167:1]
@@ -18720,8 +18894,6 @@
  169 | |       color: rgb(178 34 34);
  170 | |       color: firebrick;
  171 | `-> }
- 172 |     
- 173 |     .bar {
      `----
   x SelectorList
      ,-[$DIR/tests/fixture/value/color/input.css:167:1]
@@ -18773,8 +18945,6 @@
  169 | |       color: rgb(178 34 34);
  170 | |       color: firebrick;
  171 | `-> }
- 172 |     
- 173 |     .bar {
      `----
   x LBrace
      ,-[$DIR/tests/fixture/value/color/input.css:167:1]
@@ -18782,7 +18952,6 @@
  167 | .foo {
      :      ^
  168 |     color: device-cmyk(0 81% 81% 30%);
- 169 |     color: rgb(178 34 34);
      `----
   x ComponentValue
      ,-[$DIR/tests/fixture/value/color/input.css:168:1]
@@ -19093,8 +19262,6 @@
  175 | |       color: lab(45.060% 45.477 35.459);
  176 | |       color: rgb(70.690% 26.851% 19.724%);
  177 | `-> }
- 178 |     
- 179 |     .calc {
      `----
   x QualifiedRule
      ,-[$DIR/tests/fixture/value/color/input.css:173:1]
@@ -19104,8 +19271,6 @@
  175 | |       color: lab(45.060% 45.477 35.459);
  176 | |       color: rgb(70.690% 26.851% 19.724%);
  177 | `-> }
- 178 |     
- 179 |     .calc {
      `----
   x SelectorList
      ,-[$DIR/tests/fixture/value/color/input.css:173:1]
@@ -19157,8 +19322,6 @@
  175 | |       color: lab(45.060% 45.477 35.459);
  176 | |       color: rgb(70.690% 26.851% 19.724%);
  177 | `-> }
- 178 |     
- 179 |     .calc {
      `----
   x LBrace
      ,-[$DIR/tests/fixture/value/color/input.css:173:1]
@@ -19166,7 +19329,6 @@
  173 | .bar {
      :      ^
  174 |     color: device-cmyk(0 81% 81% 30%);
- 175 |     color: lab(45.060% 45.477 35.459);
      `----
   x ComponentValue
      ,-[$DIR/tests/fixture/value/color/input.css:174:1]
@@ -19569,8 +19731,6 @@
  189 | |       color: device-cmyk(0 calc(20%) 81% 30%);
  190 | |       color: color(display-p3 calc(1 + 2) 0.5 0);
  191 | `-> }
- 192 |     
- 193 |     .relative {
      `----
   x QualifiedRule
      ,-[$DIR/tests/fixture/value/color/input.css:179:1]
@@ -19588,8 +19748,6 @@
  189 | |       color: device-cmyk(0 calc(20%) 81% 30%);
  190 | |       color: color(display-p3 calc(1 + 2) 0.5 0);
  191 | `-> }
- 192 |     
- 193 |     .relative {
      `----
   x SelectorList
      ,-[$DIR/tests/fixture/value/color/input.css:179:1]
@@ -19649,8 +19807,6 @@
  189 | |       color: device-cmyk(0 calc(20%) 81% 30%);
  190 | |       color: color(display-p3 calc(1 + 2) 0.5 0);
  191 | `-> }
- 192 |     
- 193 |     .relative {
      `----
   x LBrace
      ,-[$DIR/tests/fixture/value/color/input.css:179:1]
@@ -19658,7 +19814,6 @@
  179 | .calc {
      :       ^
  180 |     color: rgba(calc(255 - 1), 255, 255, 1);
- 181 |     color: rgba(255, calc(255 - 1), 255, 1);
      `----
   x ComponentValue
      ,-[$DIR/tests/fixture/value/color/input.css:180:1]
@@ -22460,7 +22615,6 @@
  201 | |       color: rgb(from -moz-activehyperlinktext 255 255 255);
  202 | |       color: rgb(from currentColor 255 255 255);
  203 | `-> }
- 204 |     
      `----
   x QualifiedRule
      ,-[$DIR/tests/fixture/value/color/input.css:193:1]
@@ -22476,7 +22630,6 @@
  201 | |       color: rgb(from -moz-activehyperlinktext 255 255 255);
  202 | |       color: rgb(from currentColor 255 255 255);
  203 | `-> }
- 204 |     
      `----
   x SelectorList
      ,-[$DIR/tests/fixture/value/color/input.css:193:1]
@@ -22534,7 +22687,6 @@
  201 | |       color: rgb(from -moz-activehyperlinktext 255 255 255);
  202 | |       color: rgb(from currentColor 255 255 255);
  203 | `-> }
- 204 |     
      `----
   x LBrace
      ,-[$DIR/tests/fixture/value/color/input.css:193:1]
@@ -22542,7 +22694,6 @@
  193 | .relative {
      :           ^
  194 |     color: rgb(from indianred 255 255 255);
- 195 |     color: rgb(from transparent 255 255 255);
      `----
   x ComponentValue
      ,-[$DIR/tests/fixture/value/color/input.css:194:1]
@@ -23782,8 +23933,6 @@
  213 | |       color: rgb(constant(--red) constant(--green) constant(--blue));
  214 | |       color: rgb(constant(--red) constant(--green) constant(--blue) / constant(--alpha));
  215 | `-> }
- 216 |     
- 217 |     div {
      `----
   x QualifiedRule
      ,-[$DIR/tests/fixture/value/color/input.css:206:1]
@@ -23798,8 +23947,6 @@
  213 | |       color: rgb(constant(--red) constant(--green) constant(--blue));
  214 | |       color: rgb(constant(--red) constant(--green) constant(--blue) / constant(--alpha));
  215 | `-> }
- 216 |     
- 217 |     div {
      `----
   x SelectorList
      ,-[$DIR/tests/fixture/value/color/input.css:206:1]
@@ -23856,8 +24003,6 @@
  213 | |       color: rgb(constant(--red) constant(--green) constant(--blue));
  214 | |       color: rgb(constant(--red) constant(--green) constant(--blue) / constant(--alpha));
  215 | `-> }
- 216 |     
- 217 |     div {
      `----
   x LBrace
      ,-[$DIR/tests/fixture/value/color/input.css:206:1]
@@ -23865,7 +24010,6 @@
  206 | .var {
      :      ^
  207 |     color: rgb(var(--red) var(--green) var(--blue));
- 208 |     color: rgb(var(--red) var(--green) var(--blue) / var(--alpha));
      `----
   x ComponentValue
      ,-[$DIR/tests/fixture/value/color/input.css:207:1]
@@ -25206,7 +25350,6 @@
  217 | div {
      :     ^
  218 |     color: hsl(var(--b2, var(--b1)) / var(--tw-bg-opacity));
- 219 |     color: lab(var(--mycolor));
      `----
   x ComponentValue
      ,-[$DIR/tests/fixture/value/color/input.css:218:1]

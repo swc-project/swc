@@ -1,20 +1,47 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/selector/type/input.css:1:2]
- 1 | |    
-   `----
+    ,-[$DIR/tests/fixture/selector/type/input.css:1:1]
+  1 | ,-> *|* {}
+  2 | |   foo|h1 {}
+  3 | |   foo|* {}
+  4 | |   |h1 {}
+  5 | |   *|h1 {}
+  6 | |   h1 {}
+  7 | |   \2d {}
+  8 | |   \2d a {}
+  9 | |   div\:before {}
+ 10 | |   d\iv {}
+ 11 | |   foreignObject {}
+ 12 | |   html textPath {}
+ 13 | |   div#thing {}
+ 14 | |   * {}
+ 15 | |   * #foo {}
+ 16 | |   *#foo {}
+ 17 | |   #foo * {}
+ 18 | |   .bar * {}
+ 19 | |   *.bar {}
+ 20 | |   *[lang^=en] {}
+ 21 | |   *:hover {}
+ 22 | |   *::before {}
+ 23 | |   * *:not(*) {}
+ 24 | |   a/**/{}
+ 25 | |   a/**/
+ 26 | |   {}
+ 27 | |   \@noat { }
+ 28 | |   h1\\{
+ 29 | |       color: \\;
+ 30 | `-> }
+    `----
   x Rule
    ,-[$DIR/tests/fixture/selector/type/input.css:1:1]
  1 | *|* {}
    : ^^^^^^
  2 | foo|h1 {}
- 3 | foo|* {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/type/input.css:1:1]
  1 | *|* {}
    : ^^^^^^
  2 | foo|h1 {}
- 3 | foo|* {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/type/input.css:1:1]
@@ -69,7 +96,6 @@
  1 | *|* {}
    :     ^^
  2 | foo|h1 {}
- 3 | foo|* {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/type/input.css:1:1]
@@ -83,7 +109,6 @@
  2 | foo|h1 {}
    : ^^^^^^^^^
  3 | foo|* {}
- 4 | |h1 {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/type/input.css:2:1]
@@ -91,7 +116,6 @@
  2 | foo|h1 {}
    : ^^^^^^^^^
  3 | foo|* {}
- 4 | |h1 {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/type/input.css:2:1]
@@ -176,7 +200,6 @@
  2 | foo|h1 {}
    :        ^^
  3 | foo|* {}
- 4 | |h1 {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/type/input.css:2:1]
@@ -191,7 +214,6 @@
  3 | foo|* {}
    : ^^^^^^^^
  4 | |h1 {}
- 5 | *|h1 {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/type/input.css:3:1]
@@ -199,7 +221,6 @@
  3 | foo|* {}
    : ^^^^^^^^
  4 | |h1 {}
- 5 | *|h1 {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/type/input.css:3:1]
@@ -270,7 +291,6 @@
  3 | foo|* {}
    :       ^^
  4 | |h1 {}
- 5 | *|h1 {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/type/input.css:3:1]
@@ -285,7 +305,6 @@
  4 | |h1 {}
    : ^^^^^^
  5 | *|h1 {}
- 6 | h1 {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/type/input.css:4:1]
@@ -293,7 +312,6 @@
  4 | |h1 {}
    : ^^^^^^
  5 | *|h1 {}
- 6 | h1 {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/type/input.css:4:1]
@@ -357,7 +375,6 @@
  4 | |h1 {}
    :     ^^
  5 | *|h1 {}
- 6 | h1 {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/type/input.css:4:1]
@@ -372,7 +389,6 @@
  5 | *|h1 {}
    : ^^^^^^^
  6 | h1 {}
- 7 | \2d {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/type/input.css:5:1]
@@ -380,7 +396,6 @@
  5 | *|h1 {}
    : ^^^^^^^
  6 | h1 {}
- 7 | \2d {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/type/input.css:5:1]
@@ -458,7 +473,6 @@
  5 | *|h1 {}
    :      ^^
  6 | h1 {}
- 7 | \2d {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/type/input.css:5:1]
@@ -473,7 +487,6 @@
  6 | h1 {}
    : ^^^^^
  7 | \2d {}
- 8 | \2d a {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/type/input.css:6:1]
@@ -481,7 +494,6 @@
  6 | h1 {}
    : ^^^^^
  7 | \2d {}
- 8 | \2d a {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/type/input.css:6:1]
@@ -538,7 +550,6 @@
  6 | h1 {}
    :    ^^
  7 | \2d {}
- 8 | \2d a {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/type/input.css:6:1]
@@ -553,7 +564,6 @@
  7 | \2d {}
    : ^^^^^^
  8 | \2d a {}
- 9 | div\:before {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/type/input.css:7:1]
@@ -561,7 +571,6 @@
  7 | \2d {}
    : ^^^^^^
  8 | \2d a {}
- 9 | div\:before {}
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/type/input.css:7:1]
@@ -618,7 +627,6 @@
  7 | \2d {}
    :     ^^
  8 | \2d a {}
- 9 | div\:before {}
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/type/input.css:7:1]
@@ -628,21 +636,19 @@
  8 | \2d a {}
    `----
   x Rule
-    ,-[$DIR/tests/fixture/selector/type/input.css:8:1]
-  7 | \2d {}
-  8 | \2d a {}
-    : ^^^^^^^^
-  9 | div\:before {}
- 10 | d\iv {}
-    `----
+   ,-[$DIR/tests/fixture/selector/type/input.css:8:1]
+ 7 | \2d {}
+ 8 | \2d a {}
+   : ^^^^^^^^
+ 9 | div\:before {}
+   `----
   x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/type/input.css:8:1]
-  7 | \2d {}
-  8 | \2d a {}
-    : ^^^^^^^^
-  9 | div\:before {}
- 10 | d\iv {}
-    `----
+   ,-[$DIR/tests/fixture/selector/type/input.css:8:1]
+ 7 | \2d {}
+ 8 | \2d a {}
+   : ^^^^^^^^
+ 9 | div\:before {}
+   `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/type/input.css:8:1]
  7 | \2d {}
@@ -693,13 +699,12 @@
  9 | div\:before {}
    `----
   x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/type/input.css:8:1]
-  7 | \2d {}
-  8 | \2d a {}
-    :       ^^
-  9 | div\:before {}
- 10 | d\iv {}
-    `----
+   ,-[$DIR/tests/fixture/selector/type/input.css:8:1]
+ 7 | \2d {}
+ 8 | \2d a {}
+   :       ^^
+ 9 | div\:before {}
+   `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/type/input.css:8:1]
  7 | \2d {}
@@ -713,7 +718,6 @@
   9 | div\:before {}
     : ^^^^^^^^^^^^^^
  10 | d\iv {}
- 11 | foreignObject {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/type/input.css:9:1]
@@ -721,7 +725,6 @@
   9 | div\:before {}
     : ^^^^^^^^^^^^^^
  10 | d\iv {}
- 11 | foreignObject {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/type/input.css:9:1]
@@ -778,7 +781,6 @@
   9 | div\:before {}
     :             ^^
  10 | d\iv {}
- 11 | foreignObject {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/type/input.css:9:1]
@@ -793,7 +795,6 @@
  10 | d\iv {}
     : ^^^^^^^
  11 | foreignObject {}
- 12 | html textPath {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/type/input.css:10:1]
@@ -801,7 +802,6 @@
  10 | d\iv {}
     : ^^^^^^^
  11 | foreignObject {}
- 12 | html textPath {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/type/input.css:10:1]
@@ -858,7 +858,6 @@
  10 | d\iv {}
     :      ^^
  11 | foreignObject {}
- 12 | html textPath {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/type/input.css:10:1]
@@ -873,7 +872,6 @@
  11 | foreignObject {}
     : ^^^^^^^^^^^^^^^^
  12 | html textPath {}
- 13 | div#thing {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/type/input.css:11:1]
@@ -881,7 +879,6 @@
  11 | foreignObject {}
     : ^^^^^^^^^^^^^^^^
  12 | html textPath {}
- 13 | div#thing {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/type/input.css:11:1]
@@ -938,7 +935,6 @@
  11 | foreignObject {}
     :               ^^
  12 | html textPath {}
- 13 | div#thing {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/type/input.css:11:1]
@@ -953,7 +949,6 @@
  12 | html textPath {}
     : ^^^^^^^^^^^^^^^^
  13 | div#thing {}
- 14 | * {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/type/input.css:12:1]
@@ -961,7 +956,6 @@
  12 | html textPath {}
     : ^^^^^^^^^^^^^^^^
  13 | div#thing {}
- 14 | * {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/type/input.css:12:1]
@@ -1060,7 +1054,6 @@
  12 | html textPath {}
     :               ^^
  13 | div#thing {}
- 14 | * {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/type/input.css:12:1]
@@ -1075,7 +1068,6 @@
  13 | div#thing {}
     : ^^^^^^^^^^^^
  14 | * {}
- 15 | * #foo {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/type/input.css:13:1]
@@ -1083,7 +1075,6 @@
  13 | div#thing {}
     : ^^^^^^^^^^^^
  14 | * {}
- 15 | * #foo {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/type/input.css:13:1]
@@ -1161,7 +1152,6 @@
  13 | div#thing {}
     :           ^^
  14 | * {}
- 15 | * #foo {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/type/input.css:13:1]
@@ -1176,7 +1166,6 @@
  14 | * {}
     : ^^^^
  15 | * #foo {}
- 16 | *#foo {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/type/input.css:14:1]
@@ -1184,7 +1173,6 @@
  14 | * {}
     : ^^^^
  15 | * #foo {}
- 16 | *#foo {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/type/input.css:14:1]
@@ -1227,7 +1215,6 @@
  14 | * {}
     :   ^^
  15 | * #foo {}
- 16 | *#foo {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/type/input.css:14:1]
@@ -1242,7 +1229,6 @@
  15 | * #foo {}
     : ^^^^^^^^^
  16 | *#foo {}
- 17 | #foo * {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/type/input.css:15:1]
@@ -1250,7 +1236,6 @@
  15 | * #foo {}
     : ^^^^^^^^^
  16 | *#foo {}
- 17 | #foo * {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/type/input.css:15:1]
@@ -1328,7 +1313,6 @@
  15 | * #foo {}
     :        ^^
  16 | *#foo {}
- 17 | #foo * {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/type/input.css:15:1]
@@ -1343,7 +1327,6 @@
  16 | *#foo {}
     : ^^^^^^^^
  17 | #foo * {}
- 18 | .bar * {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/type/input.css:16:1]
@@ -1351,7 +1334,6 @@
  16 | *#foo {}
     : ^^^^^^^^
  17 | #foo * {}
- 18 | .bar * {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/type/input.css:16:1]
@@ -1415,7 +1397,6 @@
  16 | *#foo {}
     :       ^^
  17 | #foo * {}
- 18 | .bar * {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/type/input.css:16:1]
@@ -1430,7 +1411,6 @@
  17 | #foo * {}
     : ^^^^^^^^^
  18 | .bar * {}
- 19 | *.bar {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/type/input.css:17:1]
@@ -1438,7 +1418,6 @@
  17 | #foo * {}
     : ^^^^^^^^^
  18 | .bar * {}
- 19 | *.bar {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/type/input.css:17:1]
@@ -1516,7 +1495,6 @@
  17 | #foo * {}
     :        ^^
  18 | .bar * {}
- 19 | *.bar {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/type/input.css:17:1]
@@ -1531,7 +1509,6 @@
  18 | .bar * {}
     : ^^^^^^^^^
  19 | *.bar {}
- 20 | *[lang^=en] {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/type/input.css:18:1]
@@ -1539,7 +1516,6 @@
  18 | .bar * {}
     : ^^^^^^^^^
  19 | *.bar {}
- 20 | *[lang^=en] {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/type/input.css:18:1]
@@ -1617,7 +1593,6 @@
  18 | .bar * {}
     :        ^^
  19 | *.bar {}
- 20 | *[lang^=en] {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/type/input.css:18:1]
@@ -1632,7 +1607,6 @@
  19 | *.bar {}
     : ^^^^^^^^
  20 | *[lang^=en] {}
- 21 | *:hover {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/type/input.css:19:1]
@@ -1640,7 +1614,6 @@
  19 | *.bar {}
     : ^^^^^^^^
  20 | *[lang^=en] {}
- 21 | *:hover {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/type/input.css:19:1]
@@ -1704,7 +1677,6 @@
  19 | *.bar {}
     :       ^^
  20 | *[lang^=en] {}
- 21 | *:hover {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/type/input.css:19:1]
@@ -1719,7 +1691,6 @@
  20 | *[lang^=en] {}
     : ^^^^^^^^^^^^^^
  21 | *:hover {}
- 22 | *::before {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/type/input.css:20:1]
@@ -1727,7 +1698,6 @@
  20 | *[lang^=en] {}
     : ^^^^^^^^^^^^^^
  21 | *:hover {}
- 22 | *::before {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/type/input.css:20:1]
@@ -1819,7 +1789,6 @@
  20 | *[lang^=en] {}
     :             ^^
  21 | *:hover {}
- 22 | *::before {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/type/input.css:20:1]
@@ -1834,7 +1803,6 @@
  21 | *:hover {}
     : ^^^^^^^^^^
  22 | *::before {}
- 23 | * *:not(*) {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/type/input.css:21:1]
@@ -1842,7 +1810,6 @@
  21 | *:hover {}
     : ^^^^^^^^^^
  22 | *::before {}
- 23 | * *:not(*) {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/type/input.css:21:1]
@@ -1906,7 +1873,6 @@
  21 | *:hover {}
     :         ^^
  22 | *::before {}
- 23 | * *:not(*) {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/type/input.css:21:1]
@@ -1921,7 +1887,6 @@
  22 | *::before {}
     : ^^^^^^^^^^^^
  23 | * *:not(*) {}
- 24 | a/**/{}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/type/input.css:22:1]
@@ -1929,7 +1894,6 @@
  22 | *::before {}
     : ^^^^^^^^^^^^
  23 | * *:not(*) {}
- 24 | a/**/{}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/type/input.css:22:1]
@@ -1993,7 +1957,6 @@
  22 | *::before {}
     :           ^^
  23 | * *:not(*) {}
- 24 | a/**/{}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/type/input.css:22:1]
@@ -2008,7 +1971,6 @@
  23 | * *:not(*) {}
     : ^^^^^^^^^^^^^
  24 | a/**/{}
- 25 | a/**/
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/type/input.css:23:1]
@@ -2016,7 +1978,6 @@
  23 | * *:not(*) {}
     : ^^^^^^^^^^^^^
  24 | a/**/{}
- 25 | a/**/
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/type/input.css:23:1]
@@ -2150,7 +2111,6 @@
  23 | * *:not(*) {}
     :            ^^
  24 | a/**/{}
- 25 | a/**/
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/type/input.css:23:1]
@@ -2165,7 +2125,6 @@
  24 | a/**/{}
     : ^^^^^^^
  25 | a/**/
- 26 | {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/type/input.css:24:1]
@@ -2173,7 +2132,6 @@
  24 | a/**/{}
     : ^^^^^^^
  25 | a/**/
- 26 | {}
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/type/input.css:24:1]
@@ -2230,7 +2188,6 @@
  24 | a/**/{}
     :      ^^
  25 | a/**/
- 26 | {}
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/type/input.css:24:1]
@@ -2245,7 +2202,6 @@
  25 | ,-> a/**/
  26 | `-> {}
  27 |     \@noat { }
- 28 |     h1\\{
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/type/input.css:25:1]
@@ -2253,7 +2209,6 @@
  25 | ,-> a/**/
  26 | `-> {}
  27 |     \@noat { }
- 28 |     h1\\{
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/type/input.css:25:1]
@@ -2310,7 +2265,6 @@
  26 | {}
     : ^^
  27 | \@noat { }
- 28 | h1\\{
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/type/input.css:26:1]
@@ -2325,7 +2279,6 @@
  27 | \@noat { }
     : ^^^^^^^^^^
  28 | h1\\{
- 29 |     color: \\;
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/selector/type/input.css:27:1]
@@ -2333,7 +2286,6 @@
  27 | \@noat { }
     : ^^^^^^^^^^
  28 | h1\\{
- 29 |     color: \\;
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/selector/type/input.css:27:1]
@@ -2390,7 +2342,6 @@
  27 | \@noat { }
     :        ^^^
  28 | h1\\{
- 29 |     color: \\;
     `----
   x LBrace
     ,-[$DIR/tests/fixture/selector/type/input.css:27:1]
@@ -2475,7 +2426,6 @@
  28 | h1\\{
     :     ^
  29 |     color: \\;
- 30 | }
     `----
   x ComponentValue
     ,-[$DIR/tests/fixture/selector/type/input.css:29:1]

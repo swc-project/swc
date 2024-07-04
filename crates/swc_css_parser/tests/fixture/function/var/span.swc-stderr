@@ -1,6 +1,10 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/function/var/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/function/var/input.css:1:1]
+ 1 | ,-> div {
+ 2 | |       color: var(--a);
+ 3 | |       color: var(--a,);
+ 4 | |       color: var(--a, blue);
+ 5 | `-> }
    `----
   x Rule
    ,-[$DIR/tests/fixture/function/var/input.css:1:1]
@@ -73,7 +77,6 @@
  1 | div {
    :     ^
  2 |     color: var(--a);
- 3 |     color: var(--a,);
    `----
   x ComponentValue
    ,-[$DIR/tests/fixture/function/var/input.css:2:1]

@@ -7,5 +7,4 @@
 //!  3 | 
 //!  4 | class RC1 extends React.Component<{x : number}, {}> {
 //!  5 |     render() {
-//!  6 |         return null;
 //!    `----

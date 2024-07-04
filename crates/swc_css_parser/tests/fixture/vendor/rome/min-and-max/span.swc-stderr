@@ -1,7 +1,18 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/vendor/rome/min-and-max/input.css:1:2]
- 1 | |    
-   `----
+    ,-[$DIR/tests/fixture/vendor/rome/min-and-max/input.css:1:1]
+  1 | ,-> .style {
+  2 | |       width: max(500px);
+  3 | |       width: max(500px, 6 / 4);
+  4 | |       width: max(500px, 40px + 5%);
+  5 | |       width: max(500px, 5% * 400px + 2px);
+  6 | |       width: max(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+  7 | |       width: min(500px);
+  8 | |       width: min(500px, 6 / 4);
+  9 | |       width: min(500px, 40px + 5%);
+ 10 | |       width: min(500px, 5% * 400px + 2px);
+ 11 | |       width: min(500px, 5% * 400px + 2px, 5% * 400px + 2px, 5% * 400px + 2px);
+ 12 | `-> }
+    `----
   x Rule
     ,-[$DIR/tests/fixture/vendor/rome/min-and-max/input.css:1:1]
   1 | ,-> .style {
@@ -88,7 +99,6 @@
  1 | .style {
    :        ^
  2 |     width: max(500px);
- 3 |     width: max(500px, 6 / 4);
    `----
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/rome/min-and-max/input.css:2:1]

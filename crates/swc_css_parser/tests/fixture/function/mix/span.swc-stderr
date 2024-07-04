@@ -1,6 +1,10 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/function/mix/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/function/mix/input.css:1:1]
+ 1 | ,-> div {
+ 2 | |       /*   mix( [ <timeline> && [ by <easing-function> ]? ] ; <start-value> ; <end-value>) */
+ 3 | |       opacity: mix( 70% by ease ; 0% ; 100% );
+ 4 | |       opacity: mix(70%;0%;100%);
+ 5 | `-> }
    `----
   x Rule
    ,-[$DIR/tests/fixture/function/mix/input.css:1:1]
@@ -73,7 +77,6 @@
  1 | div {
    :     ^
  2 |     /*   mix( [ <timeline> && [ by <easing-function> ]? ] ; <start-value> ; <end-value>) */
- 3 |     opacity: mix( 70% by ease ; 0% ; 100% );
    `----
   x ComponentValue
    ,-[$DIR/tests/fixture/function/mix/input.css:3:1]

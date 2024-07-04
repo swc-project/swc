@@ -7,5 +7,4 @@
 //!  3 | 
 //!  4 | interface ComponentProps {
 //!  5 |     property1: string;
-//!  6 |     property2: number;
 //!    `----

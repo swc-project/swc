@@ -1,6 +1,7 @@
   x Document
-   ,-[$DIR/tests/fixture/element/no-head/input.html:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/element/no-head/input.html:1:1]
+ 1 | <!doctype html><body><p>Test</p></body>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Child
    ,-[$DIR/tests/fixture/element/no-head/input.html:1:1]
@@ -15,12 +16,14 @@
   x Child
   x Element
   x Child
-   ,-[$DIR/tests/fixture/element/no-head/input.html:1:17]
- 1 | |    
+   ,-[$DIR/tests/fixture/element/no-head/input.html:1:1]
+ 1 | <!doctype html><body><p>Test</p></body>
+   :                ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Element
-   ,-[$DIR/tests/fixture/element/no-head/input.html:1:17]
- 1 | |    
+   ,-[$DIR/tests/fixture/element/no-head/input.html:1:1]
+ 1 | <!doctype html><body><p>Test</p></body>
+   :                ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Child
    ,-[$DIR/tests/fixture/element/no-head/input.html:1:1]

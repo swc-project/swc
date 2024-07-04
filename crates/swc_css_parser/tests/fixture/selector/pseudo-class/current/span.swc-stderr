@@ -1,14 +1,17 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/selector/pseudo-class/current/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/selector/pseudo-class/current/input.css:1:1]
+ 1 | :current(p, li, dt, dd) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Rule
-   ,-[$DIR/tests/fixture/selector/pseudo-class/current/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/selector/pseudo-class/current/input.css:1:1]
+ 1 | :current(p, li, dt, dd) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x QualifiedRule
-   ,-[$DIR/tests/fixture/selector/pseudo-class/current/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/selector/pseudo-class/current/input.css:1:1]
+ 1 | :current(p, li, dt, dd) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-class/current/input.css:1:1]
@@ -151,8 +154,9 @@
    :                     ^^
    `----
   x SimpleBlock
-   ,-[$DIR/tests/fixture/selector/pseudo-class/current/input.css:1:26]
- 1 | `->  
+   ,-[$DIR/tests/fixture/selector/pseudo-class/current/input.css:1:1]
+ 1 | :current(p, li, dt, dd) {}
+   :                         ^^
    `----
   x LBrace
    ,-[$DIR/tests/fixture/selector/pseudo-class/current/input.css:1:1]

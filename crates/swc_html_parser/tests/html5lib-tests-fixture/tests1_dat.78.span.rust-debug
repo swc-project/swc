@@ -1,16 +1,19 @@
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.78.html:1:2]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.78.html:1:1]
+ 1 | <a href="blah">aba<table><tr><td><a href="foo">br</td></tr>x</table>aoe
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Child
   x Element
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.78.html:1:2]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.78.html:1:1]
+ 1 | <a href="blah">aba<table><tr><td><a href="foo">br</td></tr>x</table>aoe
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.78.html:1:2]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.78.html:1:1]
+ 1 | <a href="blah">aba<table><tr><td><a href="foo">br</td></tr>x</table>aoe
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Attribute
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.78.html:1:1]
@@ -83,10 +86,12 @@
    :                                                ^^
    `----
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.78.html:1:70]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.78.html:1:1]
+ 1 | <a href="blah">aba<table><tr><td><a href="foo">br</td></tr>x</table>aoe
+   :                                                                     ^^^
    `----
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.78.html:1:70]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.78.html:1:1]
+ 1 | <a href="blah">aba<table><tr><td><a href="foo">br</td></tr>x</table>aoe
+   :                                                                     ^^^
    `----

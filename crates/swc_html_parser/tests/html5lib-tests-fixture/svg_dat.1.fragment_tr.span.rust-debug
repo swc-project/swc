@@ -1,38 +1,47 @@
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/svg_dat.1.fragment_tr.html:1:2]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/svg_dat.1.fragment_tr.html:1:1]
+ 1 | <svg><tr><td><title><tr>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Child
   x Element
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/svg_dat.1.fragment_tr.html:1:2]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/svg_dat.1.fragment_tr.html:1:1]
+ 1 | <svg><tr><td><title><tr>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/svg_dat.1.fragment_tr.html:1:2]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/svg_dat.1.fragment_tr.html:1:1]
+ 1 | <svg><tr><td><title><tr>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/svg_dat.1.fragment_tr.html:1:7]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/svg_dat.1.fragment_tr.html:1:1]
+ 1 | <svg><tr><td><title><tr>
+   :      ^^^^^^^^^^^^^^^^^^^
    `----
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/svg_dat.1.fragment_tr.html:1:7]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/svg_dat.1.fragment_tr.html:1:1]
+ 1 | <svg><tr><td><title><tr>
+   :      ^^^^^^^^^^^^^^^^^^^
    `----
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/svg_dat.1.fragment_tr.html:1:11]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/svg_dat.1.fragment_tr.html:1:1]
+ 1 | <svg><tr><td><title><tr>
+   :          ^^^^^^^^^^^^^^^
    `----
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/svg_dat.1.fragment_tr.html:1:11]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/svg_dat.1.fragment_tr.html:1:1]
+ 1 | <svg><tr><td><title><tr>
+   :          ^^^^^^^^^^^^^^^
    `----
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/svg_dat.1.fragment_tr.html:1:15]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/svg_dat.1.fragment_tr.html:1:1]
+ 1 | <svg><tr><td><title><tr>
+   :              ^^^^^^^^^^^
    `----
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/svg_dat.1.fragment_tr.html:1:15]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/svg_dat.1.fragment_tr.html:1:1]
+ 1 | <svg><tr><td><title><tr>
+   :              ^^^^^^^^^^^
    `----

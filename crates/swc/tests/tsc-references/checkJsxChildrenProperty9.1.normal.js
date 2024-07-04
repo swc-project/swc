@@ -7,5 +7,4 @@
 //!  3 | 
 //!  4 | // OK
 //!  5 | let k1 = <div> <h2> Hello </h2> <h1> world </h1></div>;
-//!  6 | let k2 = <div> <h2> Hello </h2> {(user: any) => <h2>{user.name}</h2>}</div>;
 //!    `----

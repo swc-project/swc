@@ -1,14 +1,17 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/JRVJhNKhBZ5OsLVFkRfqxw/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/JRVJhNKhBZ5OsLVFkRfqxw/input.css:1:1]
+ 1 | @keyframes a\2c c { \66rom {} }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Rule
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/JRVJhNKhBZ5OsLVFkRfqxw/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/JRVJhNKhBZ5OsLVFkRfqxw/input.css:1:1]
+ 1 | @keyframes a\2c c { \66rom {} }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x AtRule
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/JRVJhNKhBZ5OsLVFkRfqxw/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/JRVJhNKhBZ5OsLVFkRfqxw/input.css:1:1]
+ 1 | @keyframes a\2c c { \66rom {} }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x AtRuleName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/JRVJhNKhBZ5OsLVFkRfqxw/input.css:1:1]
@@ -26,8 +29,9 @@
    :            ^^^^^^
    `----
   x SimpleBlock
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/JRVJhNKhBZ5OsLVFkRfqxw/input.css:1:20]
- 1 | |    
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/JRVJhNKhBZ5OsLVFkRfqxw/input.css:1:1]
+ 1 | @keyframes a\2c c { \66rom {} }
+   :                   ^^^^^^^^^^^^^
    `----
   x LBrace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/JRVJhNKhBZ5OsLVFkRfqxw/input.css:1:1]

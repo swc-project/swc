@@ -7,5 +7,4 @@
 //!  3 | 
 //!  4 | interface Address {
 //!  5 |   street: string;
-//!  6 |   country: string;
 //!    `----

@@ -17,6 +17,8 @@
  2 | <select><keygen>
    `----
   x "keygen" start tag with "select" open
-   ,-[$DIR/tests/recovery/element/select/input.html:2:10]
- 2 | |    
+   ,-[$DIR/tests/recovery/element/select/input.html:2:1]
+ 1 | <select><div>foo</div>bar</select>
+ 2 | <select><keygen>
+   :         ^^^^^^^^
    `----

@@ -64,7 +64,6 @@
 //!  2 | var v1: string = iString;
 //!  3 | 
 //!  4 | import iNumber = require('./expNumber');
-//!  5 | var v2: number = iNumber;
 //!    `----
 //!   x Import assignment cannot be used when targeting ECMAScript modules. Consider using `import * as ns from "mod"`, `import {a} from "mod"`, `import d from "mod"`, or another module format instead.
 //!    ,-[4:1]
@@ -76,7 +75,6 @@
 //!  5 | var v2: number = iNumber;
 //!  6 | 
 //!  7 | import iBoolean = require('./expBoolean');
-//!  8 | var v3: boolean = iBoolean;
 //!    `----
 //!   x Import assignment cannot be used when targeting ECMAScript modules. Consider using `import * as ns from "mod"`, `import {a} from "mod"`, `import d from "mod"`, or another module format instead.
 //!     ,-[7:1]
@@ -88,7 +86,6 @@
 //!   8 | var v3: boolean = iBoolean;
 //!   9 | 
 //!  10 | import iArray = require('./expArray');
-//!  11 | var v4: Array<number> = iArray;
 //!     `----
 //!   x Import assignment cannot be used when targeting ECMAScript modules. Consider using `import * as ns from "mod"`, `import {a} from "mod"`, `import d from "mod"`, or another module format instead.
 //!     ,-[10:1]
@@ -100,7 +97,6 @@
 //!  11 | var v4: Array<number> = iArray;
 //!  12 | 
 //!  13 | import iObject = require('./expObject');
-//!  14 | var v5: Object = iObject;
 //!     `----
 //!   x Import assignment cannot be used when targeting ECMAScript modules. Consider using `import * as ns from "mod"`, `import {a} from "mod"`, `import d from "mod"`, or another module format instead.
 //!     ,-[13:1]
@@ -112,7 +108,6 @@
 //!  14 | var v5: Object = iObject;
 //!  15 | 
 //!  16 | import iAny = require('./expAny');
-//!  17 | var v6 = iAny;
 //!     `----
 //!   x Import assignment cannot be used when targeting ECMAScript modules. Consider using `import * as ns from "mod"`, `import {a} from "mod"`, `import d from "mod"`, or another module format instead.
 //!     ,-[16:1]
@@ -124,7 +119,6 @@
 //!  17 | var v6 = iAny;
 //!  18 | 
 //!  19 | import iGeneric = require('./expGeneric');
-//!  20 | var v7: {<x>(p1: x): x} = iGeneric;
 //!     `----
 //!   x Import assignment cannot be used when targeting ECMAScript modules. Consider using `import * as ns from "mod"`, `import {a} from "mod"`, `import d from "mod"`, or another module format instead.
 //!     ,-[19:1]

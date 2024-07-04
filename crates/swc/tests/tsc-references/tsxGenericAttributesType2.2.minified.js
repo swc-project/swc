@@ -7,5 +7,4 @@
 //!  3 | 
 //!  4 | const decorator4 = function <T extends { x: number }>(Component: React.StatelessComponent<T>): React.StatelessComponent<T> {
 //!  5 |     return (props) => <Component {...props} y={"blah"} ></Component>
-//!  6 | };
 //!    `----

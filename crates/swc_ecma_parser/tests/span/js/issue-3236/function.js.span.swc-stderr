@@ -1,22 +1,32 @@
   x Module
-   ,-[$DIR/tests/span/js/issue-3236/function.js:1:2]
- 1 | |    
+   ,-[$DIR/tests/span/js/issue-3236/function.js:1:1]
+ 1 | ,-> function f(a = 0) {
+ 2 | |       "use strict";
+ 3 | `-> }
    `----
   x ModuleItem
-   ,-[$DIR/tests/span/js/issue-3236/function.js:1:2]
- 1 | |    
+   ,-[$DIR/tests/span/js/issue-3236/function.js:1:1]
+ 1 | ,-> function f(a = 0) {
+ 2 | |       "use strict";
+ 3 | `-> }
    `----
   x Stmt
-   ,-[$DIR/tests/span/js/issue-3236/function.js:1:2]
- 1 | |    
+   ,-[$DIR/tests/span/js/issue-3236/function.js:1:1]
+ 1 | ,-> function f(a = 0) {
+ 2 | |       "use strict";
+ 3 | `-> }
    `----
   x Decl
-   ,-[$DIR/tests/span/js/issue-3236/function.js:1:2]
- 1 | |    
+   ,-[$DIR/tests/span/js/issue-3236/function.js:1:1]
+ 1 | ,-> function f(a = 0) {
+ 2 | |       "use strict";
+ 3 | `-> }
    `----
   x FnDecl
-   ,-[$DIR/tests/span/js/issue-3236/function.js:1:2]
- 1 | |    
+   ,-[$DIR/tests/span/js/issue-3236/function.js:1:1]
+ 1 | ,-> function f(a = 0) {
+ 2 | |       "use strict";
+ 3 | `-> }
    `----
   x Ident
    ,-[$DIR/tests/span/js/issue-3236/function.js:1:1]
@@ -25,8 +35,10 @@
  2 |     "use strict";
    `----
   x Function
-   ,-[$DIR/tests/span/js/issue-3236/function.js:1:2]
- 1 | |    
+   ,-[$DIR/tests/span/js/issue-3236/function.js:1:1]
+ 1 | ,-> function f(a = 0) {
+ 2 | |       "use strict";
+ 3 | `-> }
    `----
   x Param
    ,-[$DIR/tests/span/js/issue-3236/function.js:1:1]
@@ -77,8 +89,10 @@
  2 |     "use strict";
    `----
   x BlockStmt
-   ,-[$DIR/tests/span/js/issue-3236/function.js:1:20]
- 1 | |    
+   ,-[$DIR/tests/span/js/issue-3236/function.js:1:1]
+ 1 | ,-> function f(a = 0) {
+ 2 | |       "use strict";
+ 3 | `-> }
    `----
   x Stmt
    ,-[$DIR/tests/span/js/issue-3236/function.js:2:1]

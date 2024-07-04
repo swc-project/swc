@@ -1,6 +1,7 @@
   x Document
-   ,-[$DIR/tests/iframe_srcdoc/template/input.html:1:2]
- 1 | |    
+   ,-[$DIR/tests/iframe_srcdoc/template/input.html:1:1]
+ 1 | <template>Test <span>Test</span></template>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Child
   x Element
@@ -50,10 +51,12 @@
    :                      ^^^^
    `----
   x Child
-   ,-[$DIR/tests/iframe_srcdoc/template/input.html:1:45]
- 1 |  
+   ,-[$DIR/tests/iframe_srcdoc/template/input.html:1:1]
+ 1 | <template>Test <span>Test</span></template>
+   :                                            ^
    `----
   x Text
-   ,-[$DIR/tests/iframe_srcdoc/template/input.html:1:45]
- 1 |  
+   ,-[$DIR/tests/iframe_srcdoc/template/input.html:1:1]
+ 1 | <template>Test <span>Test</span></template>
+   :                                            ^
    `----

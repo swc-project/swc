@@ -1,6 +1,7 @@
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/tests15_dat.2.html:1:2]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests15_dat.2.html:1:1]
+ 1 | <!doctype html></html> <head>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests15_dat.2.html:1:1]

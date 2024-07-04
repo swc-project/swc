@@ -7,5 +7,4 @@
 //!  3 | 
 //!  4 | export function makeP<P>(Ctor: React.ComponentClass<P>) {
 //!  5 |     return class extends React.PureComponent<P, void> {
-//!  6 |         public render(): JSX.Element {
 //!    `----

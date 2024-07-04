@@ -1,4 +1,4 @@
   x Unexpected eof
-   ,-[$DIR/tests/jsx/errors/nested-fragment-unclosed/input.js:1:10]
- 1 |  
+   ,-[$DIR/tests/jsx/errors/nested-fragment-unclosed/input.js:1:9]
+ 1 | <><></>
    `----

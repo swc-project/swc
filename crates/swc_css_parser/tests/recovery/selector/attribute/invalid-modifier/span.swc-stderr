@@ -1,14 +1,17 @@
   x Stylesheet
-   ,-[$DIR/tests/recovery/selector/attribute/invalid-modifier/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/selector/attribute/invalid-modifier/input.css:1:1]
+ 1 | [href="test" "z"] {}
+   : ^^^^^^^^^^^^^^^^^^^^
    `----
   x Rule
-   ,-[$DIR/tests/recovery/selector/attribute/invalid-modifier/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/selector/attribute/invalid-modifier/input.css:1:1]
+ 1 | [href="test" "z"] {}
+   : ^^^^^^^^^^^^^^^^^^^^
    `----
   x QualifiedRule
-   ,-[$DIR/tests/recovery/selector/attribute/invalid-modifier/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/selector/attribute/invalid-modifier/input.css:1:1]
+ 1 | [href="test" "z"] {}
+   : ^^^^^^^^^^^^^^^^^^^^
    `----
   x ComponentValue
    ,-[$DIR/tests/recovery/selector/attribute/invalid-modifier/input.css:1:1]
@@ -86,8 +89,9 @@
    :                  ^
    `----
   x SimpleBlock
-   ,-[$DIR/tests/recovery/selector/attribute/invalid-modifier/input.css:1:20]
- 1 | `->  
+   ,-[$DIR/tests/recovery/selector/attribute/invalid-modifier/input.css:1:1]
+ 1 | [href="test" "z"] {}
+   :                   ^^
    `----
   x LBrace
    ,-[$DIR/tests/recovery/selector/attribute/invalid-modifier/input.css:1:1]

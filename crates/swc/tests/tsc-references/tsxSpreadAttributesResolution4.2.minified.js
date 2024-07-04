@@ -7,5 +7,4 @@
 //!  3 | 
 //!  4 | interface PoisonedProp {
 //!  5 |     x: string;
-//!  6 |     y: 2;
 //!    `----

@@ -1,6 +1,14 @@
   x Stylesheet
-   ,-[$DIR/tests/recovery/function/base/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/function/base/input.css:1:1]
+ 1 | ,-> div {
+ 2 | |       prop: func(1 + 2);
+ 3 | |       prop: func(ident.ident);
+ 4 | |       prop: func3(   ident.ident   );
+ 5 | |       prop: func([foo bar]);
+ 6 | |       prop: func((foo, bar));
+ 7 | |       prop: func({ foo: bar });
+ 8 | |       prop: func(1, 2);
+ 9 | `-> }
    `----
   x Rule
    ,-[$DIR/tests/recovery/function/base/input.css:1:1]
@@ -85,7 +93,6 @@
  1 | div {
    :     ^
  2 |     prop: func(1 + 2);
- 3 |     prop: func(ident.ident);
    `----
   x ComponentValue
    ,-[$DIR/tests/recovery/function/base/input.css:2:1]

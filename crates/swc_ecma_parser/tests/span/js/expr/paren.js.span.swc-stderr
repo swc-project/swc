@@ -1,26 +1,32 @@
   x Module
-   ,-[$DIR/tests/span/js/expr/paren.js:1:2]
- 1 | |    
+   ,-[$DIR/tests/span/js/expr/paren.js:1:1]
+ 1 | console.log(((((((a)))))))
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x ModuleItem
-   ,-[$DIR/tests/span/js/expr/paren.js:1:2]
- 1 | |    
+   ,-[$DIR/tests/span/js/expr/paren.js:1:1]
+ 1 | console.log(((((((a)))))))
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Stmt
-   ,-[$DIR/tests/span/js/expr/paren.js:1:2]
- 1 | |    
+   ,-[$DIR/tests/span/js/expr/paren.js:1:1]
+ 1 | console.log(((((((a)))))))
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x ExprStmt
-   ,-[$DIR/tests/span/js/expr/paren.js:1:2]
- 1 | |    
+   ,-[$DIR/tests/span/js/expr/paren.js:1:1]
+ 1 | console.log(((((((a)))))))
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Expr
-   ,-[$DIR/tests/span/js/expr/paren.js:1:2]
- 1 | |    
+   ,-[$DIR/tests/span/js/expr/paren.js:1:1]
+ 1 | console.log(((((((a)))))))
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x CallExpr
-   ,-[$DIR/tests/span/js/expr/paren.js:1:2]
- 1 | |    
+   ,-[$DIR/tests/span/js/expr/paren.js:1:1]
+ 1 | console.log(((((((a)))))))
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Callee
    ,-[$DIR/tests/span/js/expr/paren.js:1:1]

@@ -1,22 +1,279 @@
   x Stylesheet
-   ,-[$DIR/tests/recovery/hacks/input.css:2:1]
- 2 | |    
-   `----
+     ,-[$DIR/tests/recovery/hacks/input.css:1:1]
+   1 | ,-> /* Android */
+   2 | |   
+   3 | |   .selector:not(*:root) {}
+   4 | |   
+   5 | |   @media screen and (min-width:0\0) {}
+   6 | |   
+   7 | |   /* Chrome */
+   8 | |   
+   9 | |   .selector:not(*:root) {}
+  10 | |   
+  11 | |   @supports (-webkit-appearance:none) {}
+  12 | |   
+  13 | |   .selector { (;property: value;); }
+  14 | |   .selector { [;property: value;]; }
+  15 | |   
+  16 | |   @media \\0 screen {}
+  17 | |   
+  18 | |   @media all and (-webkit-min-device-pixel-ratio:0) and (min-resolution: .001dpcm) { .selector {} }
+  19 | |   
+  20 | |   /* Firefox */
+  21 | |   
+  22 | |   body:empty .selector {}
+  23 | |   
+  24 | |   body:last-child .selector, x:-moz-any-link {}
+  25 | |   
+  26 | |   @media \0 all {}
+  27 | |   
+  28 | |   body:last-child .selector, x:-moz-any-link, x:default {}
+  29 | |   
+  30 | |   body:not(:-moz-handler-blocked) .selector {}
+  31 | |   
+  32 | |   @media screen and (-moz-images-in-menus:0) {}
+  33 | |   
+  34 | |   @media screen and (min--moz-device-pixel-ratio:0) {}
+  35 | |   
+  36 | |   _::-moz-progress-bar, body:last-child .selector {}
+  37 | |   
+  38 | |   @media all and (min--moz-device-pixel-ratio:0) and (min-resolution: .001dpcm) {}
+  39 | |   @media all and (-moz-images-in-menus:0) and (min-resolution: .001dpcm) {}
+  40 | |   
+  41 | |   @media all and (min--moz-device-pixel-ratio:0) { @media (min-width: 0px) {} }
+  42 | |   @media all and (-moz-images-in-menus:0) { @media (min-width: 0px) {} }
+  43 | |   
+  44 | |   @supports (-moz-appearance:meterbar) {}
+  45 | |   
+  46 | |   _::-moz-range-track, body:last-child .selector {}
+  47 | |   
+  48 | |   @supports (-moz-appearance:meterbar) and (display:flex) {}
+  49 | |   
+  50 | |   @supports (-moz-appearance:meterbar) and (cursor:zoom-in) {}
+  51 | |   
+  52 | |   @supports (-moz-appearance:meterbar) and (background-attachment:local) {}
+  53 | |   
+  54 | |   @supports (-moz-appearance:meterbar) and (image-orientation:90deg) {}
+  55 | |   
+  56 | |   @supports (-moz-appearance:meterbar) and (all:initial) {}
+  57 | |   
+  58 | |   @supports (-moz-appearance:meterbar) and (list-style-type:japanese-formal) {}
+  59 | |   
+  60 | |   @media all and (min--moz-device-pixel-ratio:0) and (min-resolution: 3e1dpcm) {}
+  61 | |   
+  62 | |   @supports (-moz-appearance:meterbar) and (background-blend-mode:difference,normal) {}
+  63 | |   
+  64 | |   _:-moz-tree-row(hover), .selector {}
+  65 | |   
+  66 | |   _::selection, .selector:not([attr*='']) {}
+  67 | |   
+  68 | |   /* Internet explorer/edge */
+  69 | |   
+  70 | |   @supports (-webkit-appearance:none) {}
+  71 | |   
+  72 | |   * html .selector  {}
+  73 | |   .unused-class.selector {}
+  74 | |   
+  75 | |   html > body .selector {}
+  76 | |   
+  77 | |   /*.selector, {}*/
+  78 | |   
+  79 | |   *:first-child+html .selector {}
+  80 | |   .selector, x:-IE7 {}
+  81 | |   *+html .selector {}
+  82 | |   body*.selector {}
+  83 | |   
+  84 | |   .selector\ {}
+  85 | |   
+  86 | |   html > /**/ body .selector {}
+  87 | |   head ~ /**/ body .selector {}
+  88 | |   
+  89 | |   _::selection, .selector:not([attr*='']) {}
+  90 | |   
+  91 | |   :root .selector {}
+  92 | |   body:last-child .selector {}
+  93 | |   body:nth-of-type(1) .selector {}
+  94 | |   body:first-of-type .selector {}
+  95 | |   .selector:not([attr*='']) {}
+  96 | |   
+  97 | |   .selector { _property: value; }
+  98 | |   .selector { -property: value; }
+  99 | |   
+ 100 | |   .selector { property: value\9; }
+ 101 | |   .selector { property/*\**/: value\9; }
+ 102 | |   
+ 103 | |   .selector {
+ 104 | |       !property: value;
+ 105 | |       color: red;
+ 106 | |   }
+ 107 | |   .selector { 
+ 108 | |       $property: value;
+ 109 | |       color: red;
+ 110 | |   }
+ 111 | |   .selector { 
+ 112 | |       &property: value;
+ 113 | |       color: red;
+ 114 | |   }
+ 115 | |   .selector { 
+ 116 | |       *property: value;
+ 117 | |       color: red;
+ 118 | |   }
+ 119 | |   .selector { 
+ 120 | |       )property: value;
+ 121 | |       color: red;
+ 122 | |   }
+ 123 | |   .selector { 
+ 124 | |       =property: value;
+ 125 | |       color: red;
+ 126 | |   }
+ 127 | |   .selector { 
+ 128 | |       %property: value;
+ 129 | |       color: red;
+ 130 | |   }
+ 131 | |   .selector { 
+ 132 | |       +property: value;
+ 133 | |       color: red;
+ 134 | |   }
+ 135 | |   .selector { 
+ 136 | |       @property: value;
+ 137 | |       color: red;
+ 138 | |   }
+ 139 | |   .selector { 
+ 140 | |       ,property: value;
+ 141 | |       color: red;
+ 142 | |   }
+ 143 | |   .selector { 
+ 144 | |       .property: value;
+ 145 | |       color: red;
+ 146 | |   }
+ 147 | |   .selector { 
+ 148 | |       /property: value;
+ 149 | |       color: red;
+ 150 | |   }
+ 151 | |   .selector { 
+ 152 | |       `property: value;
+ 153 | |       color: red;
+ 154 | |   }
+ 155 | |   .selector { 
+ 156 | |       ]property: value;
+ 157 | |       color: red;
+ 158 | |   }
+ 159 | |   .selector { 
+ 160 | |       #property: value;
+ 161 | |       color: red;
+ 162 | |   }
+ 163 | |   .selector { 
+ 164 | |       ~property: value;
+ 165 | |       color: red;
+ 166 | |   }
+ 167 | |   .selector { 
+ 168 | |       ?property: value;
+ 169 | |       color: red;
+ 170 | |   }
+ 171 | |   .selector { 
+ 172 | |       :property: value;
+ 173 | |       color: red;
+ 174 | |   }
+ 175 | |   .selector { 
+ 176 | |       |property: value;
+ 177 | |       color: red;
+ 178 | |   }
+ 179 | |   
+ 180 | |   .selector { property: value !ie; }
+ 181 | |   
+ 182 | |   @media screen\9 {}
+ 183 | |   
+ 184 | |   @media \0screen\,screen\9 {}
+ 185 | |   
+ 186 | |   @media \0screen {}
+ 187 | |   
+ 188 | |   @media screen and (min-width:0\0) {}
+ 189 | |   
+ 190 | |   _:-ms-input-placeholder, :root .selector {}
+ 191 | |   
+ 192 | |   _:-ms-fullscreen, :root .selector {}
+ 193 | |   
+ 194 | |   @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {}
+ 195 | |   
+ 196 | |   @media screen { @media (min-width: 0px) {} }
+ 197 | |   
+ 198 | |   /* Opera */
+ 199 | |   
+ 200 | |   .selector:not(*:root) {}
+ 201 | |   
+ 202 | |   @supports (-webkit-appearance:none) {}
+ 203 | |   
+ 204 | |   .selector { (;property: value;); }
+ 205 | |   .selector { [;property: value;]; }
+ 206 | |   
+ 207 | |   html:first-child .selector {}
+ 208 | |   
+ 209 | |   _:-o-prefocus, body:last-child .selector {}
+ 210 | |   
+ 211 | |   @media all and (-webkit-min-device-pixel-ratio:10000), not all and (-webkit-min-device-pixel-ratio:0) {}
+ 212 | |   
+ 213 | |   @media (min-resolution: .001dpcm) { _:-o-prefocus, .selector {} }
+ 214 | |   
+ 215 | |   *|html[xmlns*=""] .selector {}
+ 216 | |   
+ 217 | |   @media all and (-webkit-min-device-pixel-ratio:0) and (min-resolution: .001dpcm) { .selector {} }
+ 218 | |   
+ 219 | |   /* Safari */
+ 220 | |   
+ 221 | |   .selector:not(*:root) {}
+ 222 | |   
+ 223 | |   @supports (-webkit-appearance:none) {}
+ 224 | |   
+ 225 | |   .selector { (;property: value;); }
+ 226 | |   .selector { [;property: value;]; }
+ 227 | |   
+ 228 | |   @media screen and (min-width:0\0) {}
+ 229 | |   
+ 230 | |   @media screen { @media (min-width: 0px) {} }
+ 231 | |   
+ 232 | |   html:first-child .selector {}
+ 233 | |   
+ 234 | |   html[xmlns*=""] body:last-child .selector {}
+ 235 | |   html[xmlns*=""]:root .selector  {}
+ 236 | |   
+ 237 | |   *|html[xmlns*=""] .selector {}
+ 238 | |   
+ 239 | |   _::-moz-svg-foreign-content, :root .selector {}
+ 240 | |   
+ 241 | |   @media \\0 screen {}
+ 242 | |   
+ 243 | |   a {
+ 244 | |       *color : black;
+ 245 | |       _background: white;
+ 246 | |       font-size/**/: big;
+ 247 | |       $(var)-size: 100%;
+ 248 | |   }
+ 249 | |   
+ 250 | |   a{*b:c}
+ 251 | |   
+ 252 | |   div {
+ 253 | |       color: red;
+ 254 | |   }
+ 255 | |   
+ 256 | |   /*\*//*/ selector { property:value; } /**/
+ 257 | |   selector { property:value; p\roperty: normal-value; }
+ 258 | |   
+ 259 | |   
+ 260 | |   div {
+ 261 | |       color: red;
+ 262 | `-> }
+     `----
   x Rule
    ,-[$DIR/tests/recovery/hacks/input.css:3:1]
  2 | 
  3 | .selector:not(*:root) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^
- 4 | 
- 5 | @media screen and (min-width:0\0) {}
    `----
   x QualifiedRule
    ,-[$DIR/tests/recovery/hacks/input.css:3:1]
  2 | 
  3 | .selector:not(*:root) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^
- 4 | 
- 5 | @media screen and (min-width:0\0) {}
    `----
   x SelectorList
    ,-[$DIR/tests/recovery/hacks/input.css:3:1]
@@ -131,8 +388,6 @@
  2 | 
  3 | .selector:not(*:root) {}
    :                       ^^
- 4 | 
- 5 | @media screen and (min-width:0\0) {}
    `----
   x LBrace
    ,-[$DIR/tests/recovery/hacks/input.css:3:1]
@@ -145,16 +400,12 @@
  4 | 
  5 | @media screen and (min-width:0\0) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 6 | 
- 7 | /* Chrome */
    `----
   x AtRule
    ,-[$DIR/tests/recovery/hacks/input.css:5:1]
  4 | 
  5 | @media screen and (min-width:0\0) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 6 | 
- 7 | /* Chrome */
    `----
   x AtRuleName
    ,-[$DIR/tests/recovery/hacks/input.css:5:1]
@@ -275,8 +526,6 @@
  4 | 
  5 | @media screen and (min-width:0\0) {}
    :                                   ^^
- 6 | 
- 7 | /* Chrome */
    `----
   x LBrace
    ,-[$DIR/tests/recovery/hacks/input.css:5:1]
@@ -285,21 +534,17 @@
    :                                   ^
    `----
   x Rule
-    ,-[$DIR/tests/recovery/hacks/input.css:9:1]
-  8 | 
-  9 | .selector:not(*:root) {}
-    : ^^^^^^^^^^^^^^^^^^^^^^^^
- 10 | 
- 11 | @supports (-webkit-appearance:none) {}
-    `----
+   ,-[$DIR/tests/recovery/hacks/input.css:9:1]
+ 8 | 
+ 9 | .selector:not(*:root) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
   x QualifiedRule
-    ,-[$DIR/tests/recovery/hacks/input.css:9:1]
-  8 | 
-  9 | .selector:not(*:root) {}
-    : ^^^^^^^^^^^^^^^^^^^^^^^^
- 10 | 
- 11 | @supports (-webkit-appearance:none) {}
-    `----
+   ,-[$DIR/tests/recovery/hacks/input.css:9:1]
+ 8 | 
+ 9 | .selector:not(*:root) {}
+   : ^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
   x SelectorList
    ,-[$DIR/tests/recovery/hacks/input.css:9:1]
  8 | 
@@ -409,13 +654,11 @@
    :                 ^^^^
    `----
   x SimpleBlock
-    ,-[$DIR/tests/recovery/hacks/input.css:9:1]
-  8 | 
-  9 | .selector:not(*:root) {}
-    :                       ^^
- 10 | 
- 11 | @supports (-webkit-appearance:none) {}
-    `----
+   ,-[$DIR/tests/recovery/hacks/input.css:9:1]
+ 8 | 
+ 9 | .selector:not(*:root) {}
+   :                       ^^
+   `----
   x LBrace
    ,-[$DIR/tests/recovery/hacks/input.css:9:1]
  8 | 
@@ -427,16 +670,12 @@
  10 | 
  11 | @supports (-webkit-appearance:none) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 12 | 
- 13 | .selector { (;property: value;); }
     `----
   x AtRule
     ,-[$DIR/tests/recovery/hacks/input.css:11:1]
  10 | 
  11 | @supports (-webkit-appearance:none) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 12 | 
- 13 | .selector { (;property: value;); }
     `----
   x AtRuleName
     ,-[$DIR/tests/recovery/hacks/input.css:11:1]
@@ -509,8 +748,6 @@
  10 | 
  11 | @supports (-webkit-appearance:none) {}
     :                                     ^^
- 12 | 
- 13 | .selector { (;property: value;); }
     `----
   x LBrace
     ,-[$DIR/tests/recovery/hacks/input.css:11:1]
@@ -719,16 +956,12 @@
  13 | .selector { (;property: value;); }
  14 | .selector { [;property: value;]; }
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 15 | 
- 16 | @media \\0 screen {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/recovery/hacks/input.css:14:1]
  13 | .selector { (;property: value;); }
  14 | .selector { [;property: value;]; }
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 15 | 
- 16 | @media \\0 screen {}
     `----
   x SelectorList
     ,-[$DIR/tests/recovery/hacks/input.css:14:1]
@@ -771,8 +1004,6 @@
  13 | .selector { (;property: value;); }
  14 | .selector { [;property: value;]; }
     :           ^^^^^^^^^^^^^^^^^^^^^^^^
- 15 | 
- 16 | @media \\0 screen {}
     `----
   x LBrace
     ,-[$DIR/tests/recovery/hacks/input.css:14:1]
@@ -893,16 +1124,12 @@
  15 | 
  16 | @media \\0 screen {}
     : ^^^^^^^^^^^^^^^^^^^^
- 17 | 
- 18 | @media all and (-webkit-min-device-pixel-ratio:0) and (min-resolution: .001dpcm) { .selector {} }
     `----
   x AtRule
     ,-[$DIR/tests/recovery/hacks/input.css:16:1]
  15 | 
  16 | @media \\0 screen {}
     : ^^^^^^^^^^^^^^^^^^^^
- 17 | 
- 18 | @media all and (-webkit-min-device-pixel-ratio:0) and (min-resolution: .001dpcm) { .selector {} }
     `----
   x AtRuleName
     ,-[$DIR/tests/recovery/hacks/input.css:16:1]
@@ -981,8 +1208,6 @@
  15 | 
  16 | @media \\0 screen {}
     :                   ^^
- 17 | 
- 18 | @media all and (-webkit-min-device-pixel-ratio:0) and (min-resolution: .001dpcm) { .selector {} }
     `----
   x LBrace
     ,-[$DIR/tests/recovery/hacks/input.css:16:1]
@@ -995,16 +1220,12 @@
  17 | 
  18 | @media all and (-webkit-min-device-pixel-ratio:0) and (min-resolution: .001dpcm) { .selector {} }
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 19 | 
- 20 | /* Firefox */
     `----
   x AtRule
     ,-[$DIR/tests/recovery/hacks/input.css:18:1]
  17 | 
  18 | @media all and (-webkit-min-device-pixel-ratio:0) and (min-resolution: .001dpcm) { .selector {} }
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 19 | 
- 20 | /* Firefox */
     `----
   x AtRuleName
     ,-[$DIR/tests/recovery/hacks/input.css:18:1]
@@ -1185,8 +1406,6 @@
  17 | 
  18 | @media all and (-webkit-min-device-pixel-ratio:0) and (min-resolution: .001dpcm) { .selector {} }
     :                                                                                  ^^^^^^^^^^^^^^^^
- 19 | 
- 20 | /* Firefox */
     `----
   x LBrace
     ,-[$DIR/tests/recovery/hacks/input.css:18:1]
@@ -1259,16 +1478,12 @@
  21 | 
  22 | body:empty .selector {}
     : ^^^^^^^^^^^^^^^^^^^^^^^
- 23 | 
- 24 | body:last-child .selector, x:-moz-any-link {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/recovery/hacks/input.css:22:1]
  21 | 
  22 | body:empty .selector {}
     : ^^^^^^^^^^^^^^^^^^^^^^^
- 23 | 
- 24 | body:last-child .selector, x:-moz-any-link {}
     `----
   x SelectorList
     ,-[$DIR/tests/recovery/hacks/input.css:22:1]
@@ -1365,8 +1580,6 @@
  21 | 
  22 | body:empty .selector {}
     :                      ^^
- 23 | 
- 24 | body:last-child .selector, x:-moz-any-link {}
     `----
   x LBrace
     ,-[$DIR/tests/recovery/hacks/input.css:22:1]
@@ -1379,16 +1592,12 @@
  23 | 
  24 | body:last-child .selector, x:-moz-any-link {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 25 | 
- 26 | @media \0 all {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/recovery/hacks/input.css:24:1]
  23 | 
  24 | body:last-child .selector, x:-moz-any-link {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 25 | 
- 26 | @media \0 all {}
     `----
   x SelectorList
     ,-[$DIR/tests/recovery/hacks/input.css:24:1]
@@ -1539,8 +1748,6 @@
  23 | 
  24 | body:last-child .selector, x:-moz-any-link {}
     :                                            ^^
- 25 | 
- 26 | @media \0 all {}
     `----
   x LBrace
     ,-[$DIR/tests/recovery/hacks/input.css:24:1]
@@ -1553,16 +1760,12 @@
  25 | 
  26 | @media \0 all {}
     : ^^^^^^^^^^^^^^^^
- 27 | 
- 28 | body:last-child .selector, x:-moz-any-link, x:default {}
     `----
   x AtRule
     ,-[$DIR/tests/recovery/hacks/input.css:26:1]
  25 | 
  26 | @media \0 all {}
     : ^^^^^^^^^^^^^^^^
- 27 | 
- 28 | body:last-child .selector, x:-moz-any-link, x:default {}
     `----
   x AtRuleName
     ,-[$DIR/tests/recovery/hacks/input.css:26:1]
@@ -1605,8 +1808,6 @@
  25 | 
  26 | @media \0 all {}
     :               ^^
- 27 | 
- 28 | body:last-child .selector, x:-moz-any-link, x:default {}
     `----
   x LBrace
     ,-[$DIR/tests/recovery/hacks/input.css:26:1]
@@ -1619,16 +1820,12 @@
  27 | 
  28 | body:last-child .selector, x:-moz-any-link, x:default {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 29 | 
- 30 | body:not(:-moz-handler-blocked) .selector {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/recovery/hacks/input.css:28:1]
  27 | 
  28 | body:last-child .selector, x:-moz-any-link, x:default {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 29 | 
- 30 | body:not(:-moz-handler-blocked) .selector {}
     `----
   x SelectorList
     ,-[$DIR/tests/recovery/hacks/input.css:28:1]
@@ -1833,8 +2030,6 @@
  27 | 
  28 | body:last-child .selector, x:-moz-any-link, x:default {}
     :                                                       ^^
- 29 | 
- 30 | body:not(:-moz-handler-blocked) .selector {}
     `----
   x LBrace
     ,-[$DIR/tests/recovery/hacks/input.css:28:1]
@@ -1847,16 +2042,12 @@
  29 | 
  30 | body:not(:-moz-handler-blocked) .selector {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 31 | 
- 32 | @media screen and (-moz-images-in-menus:0) {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/recovery/hacks/input.css:30:1]
  29 | 
  30 | body:not(:-moz-handler-blocked) .selector {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 31 | 
- 32 | @media screen and (-moz-images-in-menus:0) {}
     `----
   x SelectorList
     ,-[$DIR/tests/recovery/hacks/input.css:30:1]
@@ -1995,8 +2186,6 @@
  29 | 
  30 | body:not(:-moz-handler-blocked) .selector {}
     :                                           ^^
- 31 | 
- 32 | @media screen and (-moz-images-in-menus:0) {}
     `----
   x LBrace
     ,-[$DIR/tests/recovery/hacks/input.css:30:1]
@@ -2009,16 +2198,12 @@
  31 | 
  32 | @media screen and (-moz-images-in-menus:0) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 33 | 
- 34 | @media screen and (min--moz-device-pixel-ratio:0) {}
     `----
   x AtRule
     ,-[$DIR/tests/recovery/hacks/input.css:32:1]
  31 | 
  32 | @media screen and (-moz-images-in-menus:0) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 33 | 
- 34 | @media screen and (min--moz-device-pixel-ratio:0) {}
     `----
   x AtRuleName
     ,-[$DIR/tests/recovery/hacks/input.css:32:1]
@@ -2121,8 +2306,6 @@
  31 | 
  32 | @media screen and (-moz-images-in-menus:0) {}
     :                                            ^^
- 33 | 
- 34 | @media screen and (min--moz-device-pixel-ratio:0) {}
     `----
   x LBrace
     ,-[$DIR/tests/recovery/hacks/input.css:32:1]
@@ -2135,16 +2318,12 @@
  33 | 
  34 | @media screen and (min--moz-device-pixel-ratio:0) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 35 | 
- 36 | _::-moz-progress-bar, body:last-child .selector {}
     `----
   x AtRule
     ,-[$DIR/tests/recovery/hacks/input.css:34:1]
  33 | 
  34 | @media screen and (min--moz-device-pixel-ratio:0) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 35 | 
- 36 | _::-moz-progress-bar, body:last-child .selector {}
     `----
   x AtRuleName
     ,-[$DIR/tests/recovery/hacks/input.css:34:1]
@@ -2247,8 +2426,6 @@
  33 | 
  34 | @media screen and (min--moz-device-pixel-ratio:0) {}
     :                                                   ^^
- 35 | 
- 36 | _::-moz-progress-bar, body:last-child .selector {}
     `----
   x LBrace
     ,-[$DIR/tests/recovery/hacks/input.css:34:1]
@@ -2261,16 +2438,12 @@
  35 | 
  36 | _::-moz-progress-bar, body:last-child .selector {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 37 | 
- 38 | @media all and (min--moz-device-pixel-ratio:0) and (min-resolution: .001dpcm) {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/recovery/hacks/input.css:36:1]
  35 | 
  36 | _::-moz-progress-bar, body:last-child .selector {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 37 | 
- 38 | @media all and (min--moz-device-pixel-ratio:0) and (min-resolution: .001dpcm) {}
     `----
   x SelectorList
     ,-[$DIR/tests/recovery/hacks/input.css:36:1]
@@ -2421,8 +2594,6 @@
  35 | 
  36 | _::-moz-progress-bar, body:last-child .selector {}
     :                                                 ^^
- 37 | 
- 38 | @media all and (min--moz-device-pixel-ratio:0) and (min-resolution: .001dpcm) {}
     `----
   x LBrace
     ,-[$DIR/tests/recovery/hacks/input.css:36:1]
@@ -2666,16 +2837,12 @@
  38 | @media all and (min--moz-device-pixel-ratio:0) and (min-resolution: .001dpcm) {}
  39 | @media all and (-moz-images-in-menus:0) and (min-resolution: .001dpcm) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 40 | 
- 41 | @media all and (min--moz-device-pixel-ratio:0) { @media (min-width: 0px) {} }
     `----
   x AtRule
     ,-[$DIR/tests/recovery/hacks/input.css:39:1]
  38 | @media all and (min--moz-device-pixel-ratio:0) and (min-resolution: .001dpcm) {}
  39 | @media all and (-moz-images-in-menus:0) and (min-resolution: .001dpcm) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 40 | 
- 41 | @media all and (min--moz-device-pixel-ratio:0) { @media (min-width: 0px) {} }
     `----
   x AtRuleName
     ,-[$DIR/tests/recovery/hacks/input.css:39:1]
@@ -2856,8 +3023,6 @@
  38 | @media all and (min--moz-device-pixel-ratio:0) and (min-resolution: .001dpcm) {}
  39 | @media all and (-moz-images-in-menus:0) and (min-resolution: .001dpcm) {}
     :                                                                        ^^
- 40 | 
- 41 | @media all and (min--moz-device-pixel-ratio:0) { @media (min-width: 0px) {} }
     `----
   x LBrace
     ,-[$DIR/tests/recovery/hacks/input.css:39:1]
@@ -3150,16 +3315,12 @@
  41 | @media all and (min--moz-device-pixel-ratio:0) { @media (min-width: 0px) {} }
  42 | @media all and (-moz-images-in-menus:0) { @media (min-width: 0px) {} }
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 43 | 
- 44 | @supports (-moz-appearance:meterbar) {}
     `----
   x AtRule
     ,-[$DIR/tests/recovery/hacks/input.css:42:1]
  41 | @media all and (min--moz-device-pixel-ratio:0) { @media (min-width: 0px) {} }
  42 | @media all and (-moz-images-in-menus:0) { @media (min-width: 0px) {} }
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 43 | 
- 44 | @supports (-moz-appearance:meterbar) {}
     `----
   x AtRuleName
     ,-[$DIR/tests/recovery/hacks/input.css:42:1]
@@ -3262,8 +3423,6 @@
  41 | @media all and (min--moz-device-pixel-ratio:0) { @media (min-width: 0px) {} }
  42 | @media all and (-moz-images-in-menus:0) { @media (min-width: 0px) {} }
     :                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 43 | 
- 44 | @supports (-moz-appearance:meterbar) {}
     `----
   x LBrace
     ,-[$DIR/tests/recovery/hacks/input.css:42:1]
@@ -3396,16 +3555,12 @@
  43 | 
  44 | @supports (-moz-appearance:meterbar) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 45 | 
- 46 | _::-moz-range-track, body:last-child .selector {}
     `----
   x AtRule
     ,-[$DIR/tests/recovery/hacks/input.css:44:1]
  43 | 
  44 | @supports (-moz-appearance:meterbar) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 45 | 
- 46 | _::-moz-range-track, body:last-child .selector {}
     `----
   x AtRuleName
     ,-[$DIR/tests/recovery/hacks/input.css:44:1]
@@ -3478,8 +3633,6 @@
  43 | 
  44 | @supports (-moz-appearance:meterbar) {}
     :                                      ^^
- 45 | 
- 46 | _::-moz-range-track, body:last-child .selector {}
     `----
   x LBrace
     ,-[$DIR/tests/recovery/hacks/input.css:44:1]
@@ -3492,16 +3645,12 @@
  45 | 
  46 | _::-moz-range-track, body:last-child .selector {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 47 | 
- 48 | @supports (-moz-appearance:meterbar) and (display:flex) {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/recovery/hacks/input.css:46:1]
  45 | 
  46 | _::-moz-range-track, body:last-child .selector {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 47 | 
- 48 | @supports (-moz-appearance:meterbar) and (display:flex) {}
     `----
   x SelectorList
     ,-[$DIR/tests/recovery/hacks/input.css:46:1]
@@ -3652,8 +3801,6 @@
  45 | 
  46 | _::-moz-range-track, body:last-child .selector {}
     :                                                ^^
- 47 | 
- 48 | @supports (-moz-appearance:meterbar) and (display:flex) {}
     `----
   x LBrace
     ,-[$DIR/tests/recovery/hacks/input.css:46:1]
@@ -3666,16 +3813,12 @@
  47 | 
  48 | @supports (-moz-appearance:meterbar) and (display:flex) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 49 | 
- 50 | @supports (-moz-appearance:meterbar) and (cursor:zoom-in) {}
     `----
   x AtRule
     ,-[$DIR/tests/recovery/hacks/input.css:48:1]
  47 | 
  48 | @supports (-moz-appearance:meterbar) and (display:flex) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 49 | 
- 50 | @supports (-moz-appearance:meterbar) and (cursor:zoom-in) {}
     `----
   x AtRuleName
     ,-[$DIR/tests/recovery/hacks/input.css:48:1]
@@ -3808,8 +3951,6 @@
  47 | 
  48 | @supports (-moz-appearance:meterbar) and (display:flex) {}
     :                                                         ^^
- 49 | 
- 50 | @supports (-moz-appearance:meterbar) and (cursor:zoom-in) {}
     `----
   x LBrace
     ,-[$DIR/tests/recovery/hacks/input.css:48:1]
@@ -3822,16 +3963,12 @@
  49 | 
  50 | @supports (-moz-appearance:meterbar) and (cursor:zoom-in) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 51 | 
- 52 | @supports (-moz-appearance:meterbar) and (background-attachment:local) {}
     `----
   x AtRule
     ,-[$DIR/tests/recovery/hacks/input.css:50:1]
  49 | 
  50 | @supports (-moz-appearance:meterbar) and (cursor:zoom-in) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 51 | 
- 52 | @supports (-moz-appearance:meterbar) and (background-attachment:local) {}
     `----
   x AtRuleName
     ,-[$DIR/tests/recovery/hacks/input.css:50:1]
@@ -3964,8 +4101,6 @@
  49 | 
  50 | @supports (-moz-appearance:meterbar) and (cursor:zoom-in) {}
     :                                                           ^^
- 51 | 
- 52 | @supports (-moz-appearance:meterbar) and (background-attachment:local) {}
     `----
   x LBrace
     ,-[$DIR/tests/recovery/hacks/input.css:50:1]
@@ -3978,16 +4113,12 @@
  51 | 
  52 | @supports (-moz-appearance:meterbar) and (background-attachment:local) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 53 | 
- 54 | @supports (-moz-appearance:meterbar) and (image-orientation:90deg) {}
     `----
   x AtRule
     ,-[$DIR/tests/recovery/hacks/input.css:52:1]
  51 | 
  52 | @supports (-moz-appearance:meterbar) and (background-attachment:local) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 53 | 
- 54 | @supports (-moz-appearance:meterbar) and (image-orientation:90deg) {}
     `----
   x AtRuleName
     ,-[$DIR/tests/recovery/hacks/input.css:52:1]
@@ -4120,8 +4251,6 @@
  51 | 
  52 | @supports (-moz-appearance:meterbar) and (background-attachment:local) {}
     :                                                                        ^^
- 53 | 
- 54 | @supports (-moz-appearance:meterbar) and (image-orientation:90deg) {}
     `----
   x LBrace
     ,-[$DIR/tests/recovery/hacks/input.css:52:1]
@@ -4134,16 +4263,12 @@
  53 | 
  54 | @supports (-moz-appearance:meterbar) and (image-orientation:90deg) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 55 | 
- 56 | @supports (-moz-appearance:meterbar) and (all:initial) {}
     `----
   x AtRule
     ,-[$DIR/tests/recovery/hacks/input.css:54:1]
  53 | 
  54 | @supports (-moz-appearance:meterbar) and (image-orientation:90deg) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 55 | 
- 56 | @supports (-moz-appearance:meterbar) and (all:initial) {}
     `----
   x AtRuleName
     ,-[$DIR/tests/recovery/hacks/input.css:54:1]
@@ -4294,8 +4419,6 @@
  53 | 
  54 | @supports (-moz-appearance:meterbar) and (image-orientation:90deg) {}
     :                                                                    ^^
- 55 | 
- 56 | @supports (-moz-appearance:meterbar) and (all:initial) {}
     `----
   x LBrace
     ,-[$DIR/tests/recovery/hacks/input.css:54:1]
@@ -4308,16 +4431,12 @@
  55 | 
  56 | @supports (-moz-appearance:meterbar) and (all:initial) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 57 | 
- 58 | @supports (-moz-appearance:meterbar) and (list-style-type:japanese-formal) {}
     `----
   x AtRule
     ,-[$DIR/tests/recovery/hacks/input.css:56:1]
  55 | 
  56 | @supports (-moz-appearance:meterbar) and (all:initial) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 57 | 
- 58 | @supports (-moz-appearance:meterbar) and (list-style-type:japanese-formal) {}
     `----
   x AtRuleName
     ,-[$DIR/tests/recovery/hacks/input.css:56:1]
@@ -4450,8 +4569,6 @@
  55 | 
  56 | @supports (-moz-appearance:meterbar) and (all:initial) {}
     :                                                        ^^
- 57 | 
- 58 | @supports (-moz-appearance:meterbar) and (list-style-type:japanese-formal) {}
     `----
   x LBrace
     ,-[$DIR/tests/recovery/hacks/input.css:56:1]
@@ -4464,16 +4581,12 @@
  57 | 
  58 | @supports (-moz-appearance:meterbar) and (list-style-type:japanese-formal) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 59 | 
- 60 | @media all and (min--moz-device-pixel-ratio:0) and (min-resolution: 3e1dpcm) {}
     `----
   x AtRule
     ,-[$DIR/tests/recovery/hacks/input.css:58:1]
  57 | 
  58 | @supports (-moz-appearance:meterbar) and (list-style-type:japanese-formal) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 59 | 
- 60 | @media all and (min--moz-device-pixel-ratio:0) and (min-resolution: 3e1dpcm) {}
     `----
   x AtRuleName
     ,-[$DIR/tests/recovery/hacks/input.css:58:1]
@@ -4606,8 +4719,6 @@
  57 | 
  58 | @supports (-moz-appearance:meterbar) and (list-style-type:japanese-formal) {}
     :                                                                            ^^
- 59 | 
- 60 | @media all and (min--moz-device-pixel-ratio:0) and (min-resolution: 3e1dpcm) {}
     `----
   x LBrace
     ,-[$DIR/tests/recovery/hacks/input.css:58:1]
@@ -4620,16 +4731,12 @@
  59 | 
  60 | @media all and (min--moz-device-pixel-ratio:0) and (min-resolution: 3e1dpcm) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 61 | 
- 62 | @supports (-moz-appearance:meterbar) and (background-blend-mode:difference,normal) {}
     `----
   x AtRule
     ,-[$DIR/tests/recovery/hacks/input.css:60:1]
  59 | 
  60 | @media all and (min--moz-device-pixel-ratio:0) and (min-resolution: 3e1dpcm) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 61 | 
- 62 | @supports (-moz-appearance:meterbar) and (background-blend-mode:difference,normal) {}
     `----
   x AtRuleName
     ,-[$DIR/tests/recovery/hacks/input.css:60:1]
@@ -4810,8 +4917,6 @@
  59 | 
  60 | @media all and (min--moz-device-pixel-ratio:0) and (min-resolution: 3e1dpcm) {}
     :                                                                              ^^
- 61 | 
- 62 | @supports (-moz-appearance:meterbar) and (background-blend-mode:difference,normal) {}
     `----
   x LBrace
     ,-[$DIR/tests/recovery/hacks/input.css:60:1]
@@ -4824,16 +4929,12 @@
  61 | 
  62 | @supports (-moz-appearance:meterbar) and (background-blend-mode:difference,normal) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 63 | 
- 64 | _:-moz-tree-row(hover), .selector {}
     `----
   x AtRule
     ,-[$DIR/tests/recovery/hacks/input.css:62:1]
  61 | 
  62 | @supports (-moz-appearance:meterbar) and (background-blend-mode:difference,normal) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 63 | 
- 64 | _:-moz-tree-row(hover), .selector {}
     `----
   x AtRuleName
     ,-[$DIR/tests/recovery/hacks/input.css:62:1]
@@ -4990,8 +5091,6 @@
  61 | 
  62 | @supports (-moz-appearance:meterbar) and (background-blend-mode:difference,normal) {}
     :                                                                                    ^^
- 63 | 
- 64 | _:-moz-tree-row(hover), .selector {}
     `----
   x LBrace
     ,-[$DIR/tests/recovery/hacks/input.css:62:1]
@@ -5004,16 +5103,12 @@
  63 | 
  64 | _:-moz-tree-row(hover), .selector {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 65 | 
- 66 | _::selection, .selector:not([attr*='']) {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/recovery/hacks/input.css:64:1]
  63 | 
  64 | _:-moz-tree-row(hover), .selector {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 65 | 
- 66 | _::selection, .selector:not([attr*='']) {}
     `----
   x SelectorList
     ,-[$DIR/tests/recovery/hacks/input.css:64:1]
@@ -5122,8 +5217,6 @@
  63 | 
  64 | _:-moz-tree-row(hover), .selector {}
     :                                   ^^
- 65 | 
- 66 | _::selection, .selector:not([attr*='']) {}
     `----
   x LBrace
     ,-[$DIR/tests/recovery/hacks/input.css:64:1]
@@ -5136,16 +5229,12 @@
  65 | 
  66 | _::selection, .selector:not([attr*='']) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 67 | 
- 68 | /* Internet explorer/edge */
     `----
   x QualifiedRule
     ,-[$DIR/tests/recovery/hacks/input.css:66:1]
  65 | 
  66 | _::selection, .selector:not([attr*='']) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 67 | 
- 68 | /* Internet explorer/edge */
     `----
   x SelectorList
     ,-[$DIR/tests/recovery/hacks/input.css:66:1]
@@ -5326,8 +5415,6 @@
  65 | 
  66 | _::selection, .selector:not([attr*='']) {}
     :                                         ^^
- 67 | 
- 68 | /* Internet explorer/edge */
     `----
   x LBrace
     ,-[$DIR/tests/recovery/hacks/input.css:66:1]
@@ -5340,16 +5427,12 @@
  69 | 
  70 | @supports (-webkit-appearance:none) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 71 | 
- 72 | * html .selector  {}
     `----
   x AtRule
     ,-[$DIR/tests/recovery/hacks/input.css:70:1]
  69 | 
  70 | @supports (-webkit-appearance:none) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 71 | 
- 72 | * html .selector  {}
     `----
   x AtRuleName
     ,-[$DIR/tests/recovery/hacks/input.css:70:1]
@@ -5422,8 +5505,6 @@
  69 | 
  70 | @supports (-webkit-appearance:none) {}
     :                                     ^^
- 71 | 
- 72 | * html .selector  {}
     `----
   x LBrace
     ,-[$DIR/tests/recovery/hacks/input.css:70:1]
@@ -5576,16 +5657,12 @@
  72 | * html .selector  {}
  73 | .unused-class.selector {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^
- 74 | 
- 75 | html > body .selector {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/recovery/hacks/input.css:73:1]
  72 | * html .selector  {}
  73 | .unused-class.selector {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^
- 74 | 
- 75 | html > body .selector {}
     `----
   x SelectorList
     ,-[$DIR/tests/recovery/hacks/input.css:73:1]
@@ -5646,8 +5723,6 @@
  72 | * html .selector  {}
  73 | .unused-class.selector {}
     :                        ^^
- 74 | 
- 75 | html > body .selector {}
     `----
   x LBrace
     ,-[$DIR/tests/recovery/hacks/input.css:73:1]
@@ -5660,16 +5735,12 @@
  74 | 
  75 | html > body .selector {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^
- 76 | 
- 77 | /*.selector, {}*/
     `----
   x QualifiedRule
     ,-[$DIR/tests/recovery/hacks/input.css:75:1]
  74 | 
  75 | html > body .selector {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^
- 76 | 
- 77 | /*.selector, {}*/
     `----
   x SelectorList
     ,-[$DIR/tests/recovery/hacks/input.css:75:1]
@@ -5784,8 +5855,6 @@
  74 | 
  75 | html > body .selector {}
     :                       ^^
- 76 | 
- 77 | /*.selector, {}*/
     `----
   x LBrace
     ,-[$DIR/tests/recovery/hacks/input.css:75:1]
@@ -5799,7 +5868,6 @@
  79 | *:first-child+html .selector {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  80 | .selector, x:-IE7 {}
- 81 | *+html .selector {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/recovery/hacks/input.css:79:1]
@@ -5807,7 +5875,6 @@
  79 | *:first-child+html .selector {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  80 | .selector, x:-IE7 {}
- 81 | *+html .selector {}
     `----
   x SelectorList
     ,-[$DIR/tests/recovery/hacks/input.css:79:1]
@@ -5948,7 +6015,6 @@
  79 | *:first-child+html .selector {}
     :                              ^^
  80 | .selector, x:-IE7 {}
- 81 | *+html .selector {}
     `----
   x LBrace
     ,-[$DIR/tests/recovery/hacks/input.css:79:1]
@@ -5963,7 +6029,6 @@
  80 | .selector, x:-IE7 {}
     : ^^^^^^^^^^^^^^^^^^^^
  81 | *+html .selector {}
- 82 | body*.selector {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/recovery/hacks/input.css:80:1]
@@ -5971,7 +6036,6 @@
  80 | .selector, x:-IE7 {}
     : ^^^^^^^^^^^^^^^^^^^^
  81 | *+html .selector {}
- 82 | body*.selector {}
     `----
   x SelectorList
     ,-[$DIR/tests/recovery/hacks/input.css:80:1]
@@ -6084,7 +6148,6 @@
  80 | .selector, x:-IE7 {}
     :                   ^^
  81 | *+html .selector {}
- 82 | body*.selector {}
     `----
   x LBrace
     ,-[$DIR/tests/recovery/hacks/input.css:80:1]
@@ -6238,16 +6301,12 @@
  81 | *+html .selector {}
  82 | body*.selector {}
     : ^^^^^^^^^^^^^^^^^
- 83 | 
- 84 | .selector\ {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/recovery/hacks/input.css:82:1]
  81 | *+html .selector {}
  82 | body*.selector {}
     : ^^^^^^^^^^^^^^^^^
- 83 | 
- 84 | .selector\ {}
     `----
   x SelectorList
     ,-[$DIR/tests/recovery/hacks/input.css:82:1]
@@ -6338,8 +6397,6 @@
  81 | *+html .selector {}
  82 | body*.selector {}
     :                ^^
- 83 | 
- 84 | .selector\ {}
     `----
   x LBrace
     ,-[$DIR/tests/recovery/hacks/input.css:82:1]
@@ -6352,16 +6409,12 @@
  83 | 
  84 | .selector\ {}
     : ^^^^^^^^^^^^^
- 85 | 
- 86 | html > /**/ body .selector {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/recovery/hacks/input.css:84:1]
  83 | 
  84 | .selector\ {}
     : ^^^^^^^^^^^^^
- 85 | 
- 86 | html > /**/ body .selector {}
     `----
   x SelectorList
     ,-[$DIR/tests/recovery/hacks/input.css:84:1]
@@ -6404,8 +6457,6 @@
  83 | 
  84 | .selector\ {}
     :            ^^
- 85 | 
- 86 | html > /**/ body .selector {}
     `----
   x LBrace
     ,-[$DIR/tests/recovery/hacks/input.css:84:1]
@@ -6572,16 +6623,12 @@
  86 | html > /**/ body .selector {}
  87 | head ~ /**/ body .selector {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 88 | 
- 89 | _::selection, .selector:not([attr*='']) {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/recovery/hacks/input.css:87:1]
  86 | html > /**/ body .selector {}
  87 | head ~ /**/ body .selector {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 88 | 
- 89 | _::selection, .selector:not([attr*='']) {}
     `----
   x SelectorList
     ,-[$DIR/tests/recovery/hacks/input.css:87:1]
@@ -6696,8 +6743,6 @@
  86 | html > /**/ body .selector {}
  87 | head ~ /**/ body .selector {}
     :                            ^^
- 88 | 
- 89 | _::selection, .selector:not([attr*='']) {}
     `----
   x LBrace
     ,-[$DIR/tests/recovery/hacks/input.css:87:1]
@@ -6710,16 +6755,12 @@
  88 | 
  89 | _::selection, .selector:not([attr*='']) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 90 | 
- 91 | :root .selector {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/recovery/hacks/input.css:89:1]
  88 | 
  89 | _::selection, .selector:not([attr*='']) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 90 | 
- 91 | :root .selector {}
     `----
   x SelectorList
     ,-[$DIR/tests/recovery/hacks/input.css:89:1]
@@ -6900,8 +6941,6 @@
  88 | 
  89 | _::selection, .selector:not([attr*='']) {}
     :                                         ^^
- 90 | 
- 91 | :root .selector {}
     `----
   x LBrace
     ,-[$DIR/tests/recovery/hacks/input.css:89:1]
@@ -6915,7 +6954,6 @@
  91 | :root .selector {}
     : ^^^^^^^^^^^^^^^^^^
  92 | body:last-child .selector {}
- 93 | body:nth-of-type(1) .selector {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/recovery/hacks/input.css:91:1]
@@ -6923,7 +6961,6 @@
  91 | :root .selector {}
     : ^^^^^^^^^^^^^^^^^^
  92 | body:last-child .selector {}
- 93 | body:nth-of-type(1) .selector {}
     `----
   x SelectorList
     ,-[$DIR/tests/recovery/hacks/input.css:91:1]
@@ -7008,7 +7045,6 @@
  91 | :root .selector {}
     :                 ^^
  92 | body:last-child .selector {}
- 93 | body:nth-of-type(1) .selector {}
     `----
   x LBrace
     ,-[$DIR/tests/recovery/hacks/input.css:91:1]
@@ -7023,7 +7059,6 @@
  92 | body:last-child .selector {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  93 | body:nth-of-type(1) .selector {}
- 94 | body:first-of-type .selector {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/recovery/hacks/input.css:92:1]
@@ -7031,7 +7066,6 @@
  92 | body:last-child .selector {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  93 | body:nth-of-type(1) .selector {}
- 94 | body:first-of-type .selector {}
     `----
   x SelectorList
     ,-[$DIR/tests/recovery/hacks/input.css:92:1]
@@ -7144,7 +7178,6 @@
  92 | body:last-child .selector {}
     :                           ^^
  93 | body:nth-of-type(1) .selector {}
- 94 | body:first-of-type .selector {}
     `----
   x LBrace
     ,-[$DIR/tests/recovery/hacks/input.css:92:1]
@@ -7159,7 +7192,6 @@
  93 | body:nth-of-type(1) .selector {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  94 | body:first-of-type .selector {}
- 95 | .selector:not([attr*='']) {}
     `----
   x QualifiedRule
     ,-[$DIR/tests/recovery/hacks/input.css:93:1]
@@ -7167,7 +7199,6 @@
  93 | body:nth-of-type(1) .selector {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  94 | body:first-of-type .selector {}
- 95 | .selector:not([attr*='']) {}
     `----
   x SelectorList
     ,-[$DIR/tests/recovery/hacks/input.css:93:1]
@@ -7301,7 +7332,6 @@
  93 | body:nth-of-type(1) .selector {}
     :                               ^^
  94 | body:first-of-type .selector {}
- 95 | .selector:not([attr*='']) {}
     `----
   x LBrace
     ,-[$DIR/tests/recovery/hacks/input.css:93:1]
@@ -7448,16 +7478,12 @@
  94 | body:first-of-type .selector {}
  95 | .selector:not([attr*='']) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 96 | 
- 97 | .selector { _property: value; }
     `----
   x QualifiedRule
     ,-[$DIR/tests/recovery/hacks/input.css:95:1]
  94 | body:first-of-type .selector {}
  95 | .selector:not([attr*='']) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 96 | 
- 97 | .selector { _property: value; }
     `----
   x SelectorList
     ,-[$DIR/tests/recovery/hacks/input.css:95:1]
@@ -7584,8 +7610,6 @@
  94 | body:first-of-type .selector {}
  95 | .selector:not([attr*='']) {}
     :                           ^^
- 96 | 
- 97 | .selector { _property: value; }
     `----
   x LBrace
     ,-[$DIR/tests/recovery/hacks/input.css:95:1]
@@ -7706,21 +7730,17 @@
  98 | .selector { -property: value; }
     `----
   x Rule
-     ,-[$DIR/tests/recovery/hacks/input.css:98:1]
-  97 | .selector { _property: value; }
-  98 | .selector { -property: value; }
-     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  99 | 
- 100 | .selector { property: value\9; }
-     `----
+    ,-[$DIR/tests/recovery/hacks/input.css:98:1]
+ 97 | .selector { _property: value; }
+ 98 | .selector { -property: value; }
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
   x QualifiedRule
-     ,-[$DIR/tests/recovery/hacks/input.css:98:1]
-  97 | .selector { _property: value; }
-  98 | .selector { -property: value; }
-     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  99 | 
- 100 | .selector { property: value\9; }
-     `----
+    ,-[$DIR/tests/recovery/hacks/input.css:98:1]
+ 97 | .selector { _property: value; }
+ 98 | .selector { -property: value; }
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    `----
   x SelectorList
     ,-[$DIR/tests/recovery/hacks/input.css:98:1]
  97 | .selector { _property: value; }
@@ -7758,13 +7778,11 @@
     :  ^^^^^^^^
     `----
   x SimpleBlock
-     ,-[$DIR/tests/recovery/hacks/input.css:98:1]
-  97 | .selector { _property: value; }
-  98 | .selector { -property: value; }
-     :           ^^^^^^^^^^^^^^^^^^^^^
-  99 | 
- 100 | .selector { property: value\9; }
-     `----
+    ,-[$DIR/tests/recovery/hacks/input.css:98:1]
+ 97 | .selector { _property: value; }
+ 98 | .selector { -property: value; }
+    :           ^^^^^^^^^^^^^^^^^^^^^
+    `----
   x LBrace
     ,-[$DIR/tests/recovery/hacks/input.css:98:1]
  97 | .selector { _property: value; }
@@ -7924,16 +7942,12 @@
  100 | .selector { property: value\9; }
  101 | .selector { property/*\**/: value\9; }
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 102 | 
- 103 | .selector {
      `----
   x QualifiedRule
      ,-[$DIR/tests/recovery/hacks/input.css:101:1]
  100 | .selector { property: value\9; }
  101 | .selector { property/*\**/: value\9; }
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 102 | 
- 103 | .selector {
      `----
   x SelectorList
      ,-[$DIR/tests/recovery/hacks/input.css:101:1]
@@ -7976,8 +7990,6 @@
  100 | .selector { property: value\9; }
  101 | .selector { property/*\**/: value\9; }
      :           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 102 | 
- 103 | .selector {
      `----
   x LBrace
      ,-[$DIR/tests/recovery/hacks/input.css:101:1]
@@ -8029,7 +8041,6 @@
  105 | |       color: red;
  106 | `-> }
  107 |     .selector { 
- 108 |         $property: value;
      `----
   x QualifiedRule
      ,-[$DIR/tests/recovery/hacks/input.css:103:1]
@@ -8039,7 +8050,6 @@
  105 | |       color: red;
  106 | `-> }
  107 |     .selector { 
- 108 |         $property: value;
      `----
   x SelectorList
      ,-[$DIR/tests/recovery/hacks/input.css:103:1]
@@ -8091,7 +8101,6 @@
  105 | |       color: red;
  106 | `-> }
  107 |     .selector { 
- 108 |         $property: value;
      `----
   x LBrace
      ,-[$DIR/tests/recovery/hacks/input.css:103:1]
@@ -8099,7 +8108,6 @@
  103 | .selector {
      :           ^
  104 |     !property: value;
- 105 |     color: red;
      `----
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:104:1]
@@ -8107,7 +8115,6 @@
  104 |     !property: value;
      :     ^^^^^^^^^^^^^^^^^
  105 |     color: red;
- 106 | }
      `----
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:104:1]
@@ -8185,7 +8192,6 @@
  104 |     !property: value;
      :                     ^
  105 |     color: red;
- 106 | }
      `----
   x Semi
      ,-[$DIR/tests/recovery/hacks/input.css:104:1]
@@ -8193,7 +8199,6 @@
  104 |     !property: value;
      :                     ^
  105 |     color: red;
- 106 | }
      `----
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:105:1]
@@ -8245,7 +8250,6 @@
  109 | |       color: red;
  110 | `-> }
  111 |     .selector { 
- 112 |         &property: value;
      `----
   x QualifiedRule
      ,-[$DIR/tests/recovery/hacks/input.css:107:1]
@@ -8255,7 +8259,6 @@
  109 | |       color: red;
  110 | `-> }
  111 |     .selector { 
- 112 |         &property: value;
      `----
   x SelectorList
      ,-[$DIR/tests/recovery/hacks/input.css:107:1]
@@ -8307,7 +8310,6 @@
  109 | |       color: red;
  110 | `-> }
  111 |     .selector { 
- 112 |         &property: value;
      `----
   x LBrace
      ,-[$DIR/tests/recovery/hacks/input.css:107:1]
@@ -8322,7 +8324,6 @@
  108 |     $property: value;
      :     ^^^^^^^^^^^^^^^^^
  109 |     color: red;
- 110 | }
      `----
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:108:1]
@@ -8400,7 +8401,6 @@
  108 |     $property: value;
      :                     ^
  109 |     color: red;
- 110 | }
      `----
   x Semi
      ,-[$DIR/tests/recovery/hacks/input.css:108:1]
@@ -8408,7 +8408,6 @@
  108 |     $property: value;
      :                     ^
  109 |     color: red;
- 110 | }
      `----
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:109:1]
@@ -8460,7 +8459,6 @@
  113 | |       color: red;
  114 | `-> }
  115 |     .selector { 
- 116 |         *property: value;
      `----
   x QualifiedRule
      ,-[$DIR/tests/recovery/hacks/input.css:111:1]
@@ -8470,7 +8468,6 @@
  113 | |       color: red;
  114 | `-> }
  115 |     .selector { 
- 116 |         *property: value;
      `----
   x SelectorList
      ,-[$DIR/tests/recovery/hacks/input.css:111:1]
@@ -8522,7 +8519,6 @@
  113 | |       color: red;
  114 | `-> }
  115 |     .selector { 
- 116 |         *property: value;
      `----
   x LBrace
      ,-[$DIR/tests/recovery/hacks/input.css:111:1]
@@ -8537,7 +8533,6 @@
  112 |     &property: value;
      :     ^^^^^^^^^^^^^^^^^
  113 |     color: red;
- 114 | }
      `----
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:112:1]
@@ -8615,7 +8610,6 @@
  112 |     &property: value;
      :                     ^
  113 |     color: red;
- 114 | }
      `----
   x Semi
      ,-[$DIR/tests/recovery/hacks/input.css:112:1]
@@ -8623,7 +8617,6 @@
  112 |     &property: value;
      :                     ^
  113 |     color: red;
- 114 | }
      `----
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:113:1]
@@ -8675,7 +8668,6 @@
  117 | |       color: red;
  118 | `-> }
  119 |     .selector { 
- 120 |         )property: value;
      `----
   x QualifiedRule
      ,-[$DIR/tests/recovery/hacks/input.css:115:1]
@@ -8685,7 +8677,6 @@
  117 | |       color: red;
  118 | `-> }
  119 |     .selector { 
- 120 |         )property: value;
      `----
   x SelectorList
      ,-[$DIR/tests/recovery/hacks/input.css:115:1]
@@ -8737,7 +8728,6 @@
  117 | |       color: red;
  118 | `-> }
  119 |     .selector { 
- 120 |         )property: value;
      `----
   x LBrace
      ,-[$DIR/tests/recovery/hacks/input.css:115:1]
@@ -8752,7 +8742,6 @@
  116 |     *property: value;
      :     ^^^^^^^^^^^^^^^^^
  117 |     color: red;
- 118 | }
      `----
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:116:1]
@@ -8830,7 +8819,6 @@
  116 |     *property: value;
      :                     ^
  117 |     color: red;
- 118 | }
      `----
   x Semi
      ,-[$DIR/tests/recovery/hacks/input.css:116:1]
@@ -8838,7 +8826,6 @@
  116 |     *property: value;
      :                     ^
  117 |     color: red;
- 118 | }
      `----
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:117:1]
@@ -8890,7 +8877,6 @@
  121 | |       color: red;
  122 | `-> }
  123 |     .selector { 
- 124 |         =property: value;
      `----
   x QualifiedRule
      ,-[$DIR/tests/recovery/hacks/input.css:119:1]
@@ -8900,7 +8886,6 @@
  121 | |       color: red;
  122 | `-> }
  123 |     .selector { 
- 124 |         =property: value;
      `----
   x SelectorList
      ,-[$DIR/tests/recovery/hacks/input.css:119:1]
@@ -8952,7 +8937,6 @@
  121 | |       color: red;
  122 | `-> }
  123 |     .selector { 
- 124 |         =property: value;
      `----
   x LBrace
      ,-[$DIR/tests/recovery/hacks/input.css:119:1]
@@ -8967,7 +8951,6 @@
  120 |     )property: value;
      :     ^^^^^^^^^^^^^^^^^
  121 |     color: red;
- 122 | }
      `----
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:120:1]
@@ -9045,7 +9028,6 @@
  120 |     )property: value;
      :                     ^
  121 |     color: red;
- 122 | }
      `----
   x Semi
      ,-[$DIR/tests/recovery/hacks/input.css:120:1]
@@ -9053,7 +9035,6 @@
  120 |     )property: value;
      :                     ^
  121 |     color: red;
- 122 | }
      `----
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:121:1]
@@ -9105,7 +9086,6 @@
  125 | |       color: red;
  126 | `-> }
  127 |     .selector { 
- 128 |         %property: value;
      `----
   x QualifiedRule
      ,-[$DIR/tests/recovery/hacks/input.css:123:1]
@@ -9115,7 +9095,6 @@
  125 | |       color: red;
  126 | `-> }
  127 |     .selector { 
- 128 |         %property: value;
      `----
   x SelectorList
      ,-[$DIR/tests/recovery/hacks/input.css:123:1]
@@ -9167,7 +9146,6 @@
  125 | |       color: red;
  126 | `-> }
  127 |     .selector { 
- 128 |         %property: value;
      `----
   x LBrace
      ,-[$DIR/tests/recovery/hacks/input.css:123:1]
@@ -9182,7 +9160,6 @@
  124 |     =property: value;
      :     ^^^^^^^^^^^^^^^^^
  125 |     color: red;
- 126 | }
      `----
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:124:1]
@@ -9260,7 +9237,6 @@
  124 |     =property: value;
      :                     ^
  125 |     color: red;
- 126 | }
      `----
   x Semi
      ,-[$DIR/tests/recovery/hacks/input.css:124:1]
@@ -9268,7 +9244,6 @@
  124 |     =property: value;
      :                     ^
  125 |     color: red;
- 126 | }
      `----
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:125:1]
@@ -9320,7 +9295,6 @@
  129 | |       color: red;
  130 | `-> }
  131 |     .selector { 
- 132 |         +property: value;
      `----
   x QualifiedRule
      ,-[$DIR/tests/recovery/hacks/input.css:127:1]
@@ -9330,7 +9304,6 @@
  129 | |       color: red;
  130 | `-> }
  131 |     .selector { 
- 132 |         +property: value;
      `----
   x SelectorList
      ,-[$DIR/tests/recovery/hacks/input.css:127:1]
@@ -9382,7 +9355,6 @@
  129 | |       color: red;
  130 | `-> }
  131 |     .selector { 
- 132 |         +property: value;
      `----
   x LBrace
      ,-[$DIR/tests/recovery/hacks/input.css:127:1]
@@ -9397,7 +9369,6 @@
  128 |     %property: value;
      :     ^^^^^^^^^^^^^^^^^
  129 |     color: red;
- 130 | }
      `----
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:128:1]
@@ -9475,7 +9446,6 @@
  128 |     %property: value;
      :                     ^
  129 |     color: red;
- 130 | }
      `----
   x Semi
      ,-[$DIR/tests/recovery/hacks/input.css:128:1]
@@ -9483,7 +9453,6 @@
  128 |     %property: value;
      :                     ^
  129 |     color: red;
- 130 | }
      `----
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:129:1]
@@ -9535,7 +9504,6 @@
  133 | |       color: red;
  134 | `-> }
  135 |     .selector { 
- 136 |         @property: value;
      `----
   x QualifiedRule
      ,-[$DIR/tests/recovery/hacks/input.css:131:1]
@@ -9545,7 +9513,6 @@
  133 | |       color: red;
  134 | `-> }
  135 |     .selector { 
- 136 |         @property: value;
      `----
   x SelectorList
      ,-[$DIR/tests/recovery/hacks/input.css:131:1]
@@ -9597,7 +9564,6 @@
  133 | |       color: red;
  134 | `-> }
  135 |     .selector { 
- 136 |         @property: value;
      `----
   x LBrace
      ,-[$DIR/tests/recovery/hacks/input.css:131:1]
@@ -9612,7 +9578,6 @@
  132 |     +property: value;
      :     ^^^^^^^^^^^^^^^^^
  133 |     color: red;
- 134 | }
      `----
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:132:1]
@@ -9690,7 +9655,6 @@
  132 |     +property: value;
      :                     ^
  133 |     color: red;
- 134 | }
      `----
   x Semi
      ,-[$DIR/tests/recovery/hacks/input.css:132:1]
@@ -9698,7 +9662,6 @@
  132 |     +property: value;
      :                     ^
  133 |     color: red;
- 134 | }
      `----
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:133:1]
@@ -9750,7 +9713,6 @@
  137 | |       color: red;
  138 | `-> }
  139 |     .selector { 
- 140 |         ,property: value;
      `----
   x QualifiedRule
      ,-[$DIR/tests/recovery/hacks/input.css:135:1]
@@ -9760,7 +9722,6 @@
  137 | |       color: red;
  138 | `-> }
  139 |     .selector { 
- 140 |         ,property: value;
      `----
   x SelectorList
      ,-[$DIR/tests/recovery/hacks/input.css:135:1]
@@ -9812,7 +9773,6 @@
  137 | |       color: red;
  138 | `-> }
  139 |     .selector { 
- 140 |         ,property: value;
      `----
   x LBrace
      ,-[$DIR/tests/recovery/hacks/input.css:135:1]
@@ -9869,7 +9829,6 @@
  136 |     @property: value;
      :     ^^^^^^^^^^^^^^^^^
  137 |     color: red;
- 138 | }
      `----
   x AtRule
      ,-[$DIR/tests/recovery/hacks/input.css:136:1]
@@ -9877,7 +9836,6 @@
  136 |     @property: value;
      :     ^^^^^^^^^^^^^^^^^
  137 |     color: red;
- 138 | }
      `----
   x AtRuleName
      ,-[$DIR/tests/recovery/hacks/input.css:136:1]
@@ -9943,7 +9901,6 @@
  141 | |       color: red;
  142 | `-> }
  143 |     .selector { 
- 144 |         .property: value;
      `----
   x QualifiedRule
      ,-[$DIR/tests/recovery/hacks/input.css:139:1]
@@ -9953,7 +9910,6 @@
  141 | |       color: red;
  142 | `-> }
  143 |     .selector { 
- 144 |         .property: value;
      `----
   x SelectorList
      ,-[$DIR/tests/recovery/hacks/input.css:139:1]
@@ -10005,7 +9961,6 @@
  141 | |       color: red;
  142 | `-> }
  143 |     .selector { 
- 144 |         .property: value;
      `----
   x LBrace
      ,-[$DIR/tests/recovery/hacks/input.css:139:1]
@@ -10020,7 +9975,6 @@
  140 |     ,property: value;
      :     ^^^^^^^^^^^^^^^^^
  141 |     color: red;
- 142 | }
      `----
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:140:1]
@@ -10098,7 +10052,6 @@
  140 |     ,property: value;
      :                     ^
  141 |     color: red;
- 142 | }
      `----
   x Semi
      ,-[$DIR/tests/recovery/hacks/input.css:140:1]
@@ -10106,7 +10059,6 @@
  140 |     ,property: value;
      :                     ^
  141 |     color: red;
- 142 | }
      `----
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:141:1]
@@ -10158,7 +10110,6 @@
  145 | |       color: red;
  146 | `-> }
  147 |     .selector { 
- 148 |         /property: value;
      `----
   x QualifiedRule
      ,-[$DIR/tests/recovery/hacks/input.css:143:1]
@@ -10168,7 +10119,6 @@
  145 | |       color: red;
  146 | `-> }
  147 |     .selector { 
- 148 |         /property: value;
      `----
   x SelectorList
      ,-[$DIR/tests/recovery/hacks/input.css:143:1]
@@ -10220,7 +10170,6 @@
  145 | |       color: red;
  146 | `-> }
  147 |     .selector { 
- 148 |         /property: value;
      `----
   x LBrace
      ,-[$DIR/tests/recovery/hacks/input.css:143:1]
@@ -10235,7 +10184,6 @@
  144 |     .property: value;
      :     ^^^^^^^^^^^^^^^^^
  145 |     color: red;
- 146 | }
      `----
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:144:1]
@@ -10313,7 +10261,6 @@
  144 |     .property: value;
      :                     ^
  145 |     color: red;
- 146 | }
      `----
   x Semi
      ,-[$DIR/tests/recovery/hacks/input.css:144:1]
@@ -10321,7 +10268,6 @@
  144 |     .property: value;
      :                     ^
  145 |     color: red;
- 146 | }
      `----
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:145:1]
@@ -10373,7 +10319,6 @@
  149 | |       color: red;
  150 | `-> }
  151 |     .selector { 
- 152 |         `property: value;
      `----
   x QualifiedRule
      ,-[$DIR/tests/recovery/hacks/input.css:147:1]
@@ -10383,7 +10328,6 @@
  149 | |       color: red;
  150 | `-> }
  151 |     .selector { 
- 152 |         `property: value;
      `----
   x SelectorList
      ,-[$DIR/tests/recovery/hacks/input.css:147:1]
@@ -10435,7 +10379,6 @@
  149 | |       color: red;
  150 | `-> }
  151 |     .selector { 
- 152 |         `property: value;
      `----
   x LBrace
      ,-[$DIR/tests/recovery/hacks/input.css:147:1]
@@ -10450,7 +10393,6 @@
  148 |     /property: value;
      :     ^^^^^^^^^^^^^^^^^
  149 |     color: red;
- 150 | }
      `----
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:148:1]
@@ -10528,7 +10470,6 @@
  148 |     /property: value;
      :                     ^
  149 |     color: red;
- 150 | }
      `----
   x Semi
      ,-[$DIR/tests/recovery/hacks/input.css:148:1]
@@ -10536,7 +10477,6 @@
  148 |     /property: value;
      :                     ^
  149 |     color: red;
- 150 | }
      `----
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:149:1]
@@ -10588,7 +10528,6 @@
  153 | |       color: red;
  154 | `-> }
  155 |     .selector { 
- 156 |         ]property: value;
      `----
   x QualifiedRule
      ,-[$DIR/tests/recovery/hacks/input.css:151:1]
@@ -10598,7 +10537,6 @@
  153 | |       color: red;
  154 | `-> }
  155 |     .selector { 
- 156 |         ]property: value;
      `----
   x SelectorList
      ,-[$DIR/tests/recovery/hacks/input.css:151:1]
@@ -10650,7 +10588,6 @@
  153 | |       color: red;
  154 | `-> }
  155 |     .selector { 
- 156 |         ]property: value;
      `----
   x LBrace
      ,-[$DIR/tests/recovery/hacks/input.css:151:1]
@@ -10665,7 +10602,6 @@
  152 |     `property: value;
      :     ^^^^^^^^^^^^^^^^^
  153 |     color: red;
- 154 | }
      `----
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:152:1]
@@ -10743,7 +10679,6 @@
  152 |     `property: value;
      :                     ^
  153 |     color: red;
- 154 | }
      `----
   x Semi
      ,-[$DIR/tests/recovery/hacks/input.css:152:1]
@@ -10751,7 +10686,6 @@
  152 |     `property: value;
      :                     ^
  153 |     color: red;
- 154 | }
      `----
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:153:1]
@@ -10803,7 +10737,6 @@
  157 | |       color: red;
  158 | `-> }
  159 |     .selector { 
- 160 |         #property: value;
      `----
   x QualifiedRule
      ,-[$DIR/tests/recovery/hacks/input.css:155:1]
@@ -10813,7 +10746,6 @@
  157 | |       color: red;
  158 | `-> }
  159 |     .selector { 
- 160 |         #property: value;
      `----
   x SelectorList
      ,-[$DIR/tests/recovery/hacks/input.css:155:1]
@@ -10865,7 +10797,6 @@
  157 | |       color: red;
  158 | `-> }
  159 |     .selector { 
- 160 |         #property: value;
      `----
   x LBrace
      ,-[$DIR/tests/recovery/hacks/input.css:155:1]
@@ -10880,7 +10811,6 @@
  156 |     ]property: value;
      :     ^^^^^^^^^^^^^^^^^
  157 |     color: red;
- 158 | }
      `----
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:156:1]
@@ -10958,7 +10888,6 @@
  156 |     ]property: value;
      :                     ^
  157 |     color: red;
- 158 | }
      `----
   x Semi
      ,-[$DIR/tests/recovery/hacks/input.css:156:1]
@@ -10966,7 +10895,6 @@
  156 |     ]property: value;
      :                     ^
  157 |     color: red;
- 158 | }
      `----
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:157:1]
@@ -11018,7 +10946,6 @@
  161 | |       color: red;
  162 | `-> }
  163 |     .selector { 
- 164 |         ~property: value;
      `----
   x QualifiedRule
      ,-[$DIR/tests/recovery/hacks/input.css:159:1]
@@ -11028,7 +10955,6 @@
  161 | |       color: red;
  162 | `-> }
  163 |     .selector { 
- 164 |         ~property: value;
      `----
   x SelectorList
      ,-[$DIR/tests/recovery/hacks/input.css:159:1]
@@ -11080,7 +11006,6 @@
  161 | |       color: red;
  162 | `-> }
  163 |     .selector { 
- 164 |         ~property: value;
      `----
   x LBrace
      ,-[$DIR/tests/recovery/hacks/input.css:159:1]
@@ -11095,7 +11020,6 @@
  160 |     #property: value;
      :     ^^^^^^^^^^^^^^^^^
  161 |     color: red;
- 162 | }
      `----
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:160:1]
@@ -11159,7 +11083,6 @@
  160 |     #property: value;
      :                     ^
  161 |     color: red;
- 162 | }
      `----
   x Semi
      ,-[$DIR/tests/recovery/hacks/input.css:160:1]
@@ -11167,7 +11090,6 @@
  160 |     #property: value;
      :                     ^
  161 |     color: red;
- 162 | }
      `----
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:161:1]
@@ -11219,7 +11141,6 @@
  165 | |       color: red;
  166 | `-> }
  167 |     .selector { 
- 168 |         ?property: value;
      `----
   x QualifiedRule
      ,-[$DIR/tests/recovery/hacks/input.css:163:1]
@@ -11229,7 +11150,6 @@
  165 | |       color: red;
  166 | `-> }
  167 |     .selector { 
- 168 |         ?property: value;
      `----
   x SelectorList
      ,-[$DIR/tests/recovery/hacks/input.css:163:1]
@@ -11281,7 +11201,6 @@
  165 | |       color: red;
  166 | `-> }
  167 |     .selector { 
- 168 |         ?property: value;
      `----
   x LBrace
      ,-[$DIR/tests/recovery/hacks/input.css:163:1]
@@ -11296,7 +11215,6 @@
  164 |     ~property: value;
      :     ^^^^^^^^^^^^^^^^^
  165 |     color: red;
- 166 | }
      `----
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:164:1]
@@ -11374,7 +11292,6 @@
  164 |     ~property: value;
      :                     ^
  165 |     color: red;
- 166 | }
      `----
   x Semi
      ,-[$DIR/tests/recovery/hacks/input.css:164:1]
@@ -11382,7 +11299,6 @@
  164 |     ~property: value;
      :                     ^
  165 |     color: red;
- 166 | }
      `----
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:165:1]
@@ -11434,7 +11350,6 @@
  169 | |       color: red;
  170 | `-> }
  171 |     .selector { 
- 172 |         :property: value;
      `----
   x QualifiedRule
      ,-[$DIR/tests/recovery/hacks/input.css:167:1]
@@ -11444,7 +11359,6 @@
  169 | |       color: red;
  170 | `-> }
  171 |     .selector { 
- 172 |         :property: value;
      `----
   x SelectorList
      ,-[$DIR/tests/recovery/hacks/input.css:167:1]
@@ -11496,7 +11410,6 @@
  169 | |       color: red;
  170 | `-> }
  171 |     .selector { 
- 172 |         :property: value;
      `----
   x LBrace
      ,-[$DIR/tests/recovery/hacks/input.css:167:1]
@@ -11511,7 +11424,6 @@
  168 |     ?property: value;
      :     ^^^^^^^^^^^^^^^^^
  169 |     color: red;
- 170 | }
      `----
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:168:1]
@@ -11589,7 +11501,6 @@
  168 |     ?property: value;
      :                     ^
  169 |     color: red;
- 170 | }
      `----
   x Semi
      ,-[$DIR/tests/recovery/hacks/input.css:168:1]
@@ -11597,7 +11508,6 @@
  168 |     ?property: value;
      :                     ^
  169 |     color: red;
- 170 | }
      `----
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:169:1]
@@ -11649,7 +11559,6 @@
  173 | |       color: red;
  174 | `-> }
  175 |     .selector { 
- 176 |         |property: value;
      `----
   x QualifiedRule
      ,-[$DIR/tests/recovery/hacks/input.css:171:1]
@@ -11659,7 +11568,6 @@
  173 | |       color: red;
  174 | `-> }
  175 |     .selector { 
- 176 |         |property: value;
      `----
   x SelectorList
      ,-[$DIR/tests/recovery/hacks/input.css:171:1]
@@ -11711,7 +11619,6 @@
  173 | |       color: red;
  174 | `-> }
  175 |     .selector { 
- 176 |         |property: value;
      `----
   x LBrace
      ,-[$DIR/tests/recovery/hacks/input.css:171:1]
@@ -11726,7 +11633,6 @@
  172 |     :property: value;
      :     ^^^^^^^^^^^^^^^^^
  173 |     color: red;
- 174 | }
      `----
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:172:1]
@@ -11804,7 +11710,6 @@
  172 |     :property: value;
      :                     ^
  173 |     color: red;
- 174 | }
      `----
   x Semi
      ,-[$DIR/tests/recovery/hacks/input.css:172:1]
@@ -11812,7 +11717,6 @@
  172 |     :property: value;
      :                     ^
  173 |     color: red;
- 174 | }
      `----
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:173:1]
@@ -11863,8 +11767,6 @@
  176 | |       |property: value;
  177 | |       color: red;
  178 | `-> }
- 179 |     
- 180 |     .selector { property: value !ie; }
      `----
   x QualifiedRule
      ,-[$DIR/tests/recovery/hacks/input.css:175:1]
@@ -11873,8 +11775,6 @@
  176 | |       |property: value;
  177 | |       color: red;
  178 | `-> }
- 179 |     
- 180 |     .selector { property: value !ie; }
      `----
   x SelectorList
      ,-[$DIR/tests/recovery/hacks/input.css:175:1]
@@ -11925,8 +11825,6 @@
  176 | |       |property: value;
  177 | |       color: red;
  178 | `-> }
- 179 |     
- 180 |     .selector { property: value !ie; }
      `----
   x LBrace
      ,-[$DIR/tests/recovery/hacks/input.css:175:1]
@@ -11941,7 +11839,6 @@
  176 |     |property: value;
      :     ^^^^^^^^^^^^^^^^^
  177 |     color: red;
- 178 | }
      `----
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:176:1]
@@ -12019,7 +11916,6 @@
  176 |     |property: value;
      :                     ^
  177 |     color: red;
- 178 | }
      `----
   x Semi
      ,-[$DIR/tests/recovery/hacks/input.css:176:1]
@@ -12027,7 +11923,6 @@
  176 |     |property: value;
      :                     ^
  177 |     color: red;
- 178 | }
      `----
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:177:1]
@@ -12076,16 +11971,12 @@
  179 | 
  180 | .selector { property: value !ie; }
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 181 | 
- 182 | @media screen\9 {}
      `----
   x QualifiedRule
      ,-[$DIR/tests/recovery/hacks/input.css:180:1]
  179 | 
  180 | .selector { property: value !ie; }
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 181 | 
- 182 | @media screen\9 {}
      `----
   x SelectorList
      ,-[$DIR/tests/recovery/hacks/input.css:180:1]
@@ -12128,8 +12019,6 @@
  179 | 
  180 | .selector { property: value !ie; }
      :           ^^^^^^^^^^^^^^^^^^^^^^^^
- 181 | 
- 182 | @media screen\9 {}
      `----
   x LBrace
      ,-[$DIR/tests/recovery/hacks/input.css:180:1]
@@ -12214,16 +12103,12 @@
  181 | 
  182 | @media screen\9 {}
      : ^^^^^^^^^^^^^^^^^^
- 183 | 
- 184 | @media \0screen\,screen\9 {}
      `----
   x AtRule
      ,-[$DIR/tests/recovery/hacks/input.css:182:1]
  181 | 
  182 | @media screen\9 {}
      : ^^^^^^^^^^^^^^^^^^
- 183 | 
- 184 | @media \0screen\,screen\9 {}
      `----
   x AtRuleName
      ,-[$DIR/tests/recovery/hacks/input.css:182:1]
@@ -12266,8 +12151,6 @@
  181 | 
  182 | @media screen\9 {}
      :                 ^^
- 183 | 
- 184 | @media \0screen\,screen\9 {}
      `----
   x LBrace
      ,-[$DIR/tests/recovery/hacks/input.css:182:1]
@@ -12280,16 +12163,12 @@
  183 | 
  184 | @media \0screen\,screen\9 {}
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 185 | 
- 186 | @media \0screen {}
      `----
   x AtRule
      ,-[$DIR/tests/recovery/hacks/input.css:184:1]
  183 | 
  184 | @media \0screen\,screen\9 {}
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 185 | 
- 186 | @media \0screen {}
      `----
   x AtRuleName
      ,-[$DIR/tests/recovery/hacks/input.css:184:1]
@@ -12332,8 +12211,6 @@
  183 | 
  184 | @media \0screen\,screen\9 {}
      :                           ^^
- 185 | 
- 186 | @media \0screen {}
      `----
   x LBrace
      ,-[$DIR/tests/recovery/hacks/input.css:184:1]
@@ -12346,16 +12223,12 @@
  185 | 
  186 | @media \0screen {}
      : ^^^^^^^^^^^^^^^^^^
- 187 | 
- 188 | @media screen and (min-width:0\0) {}
      `----
   x AtRule
      ,-[$DIR/tests/recovery/hacks/input.css:186:1]
  185 | 
  186 | @media \0screen {}
      : ^^^^^^^^^^^^^^^^^^
- 187 | 
- 188 | @media screen and (min-width:0\0) {}
      `----
   x AtRuleName
      ,-[$DIR/tests/recovery/hacks/input.css:186:1]
@@ -12398,8 +12271,6 @@
  185 | 
  186 | @media \0screen {}
      :                 ^^
- 187 | 
- 188 | @media screen and (min-width:0\0) {}
      `----
   x LBrace
      ,-[$DIR/tests/recovery/hacks/input.css:186:1]
@@ -12412,16 +12283,12 @@
  187 | 
  188 | @media screen and (min-width:0\0) {}
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 189 | 
- 190 | _:-ms-input-placeholder, :root .selector {}
      `----
   x AtRule
      ,-[$DIR/tests/recovery/hacks/input.css:188:1]
  187 | 
  188 | @media screen and (min-width:0\0) {}
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 189 | 
- 190 | _:-ms-input-placeholder, :root .selector {}
      `----
   x AtRuleName
      ,-[$DIR/tests/recovery/hacks/input.css:188:1]
@@ -12542,8 +12409,6 @@
  187 | 
  188 | @media screen and (min-width:0\0) {}
      :                                   ^^
- 189 | 
- 190 | _:-ms-input-placeholder, :root .selector {}
      `----
   x LBrace
      ,-[$DIR/tests/recovery/hacks/input.css:188:1]
@@ -12556,16 +12421,12 @@
  189 | 
  190 | _:-ms-input-placeholder, :root .selector {}
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 191 | 
- 192 | _:-ms-fullscreen, :root .selector {}
      `----
   x QualifiedRule
      ,-[$DIR/tests/recovery/hacks/input.css:190:1]
  189 | 
  190 | _:-ms-input-placeholder, :root .selector {}
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 191 | 
- 192 | _:-ms-fullscreen, :root .selector {}
      `----
   x SelectorList
      ,-[$DIR/tests/recovery/hacks/input.css:190:1]
@@ -12692,8 +12553,6 @@
  189 | 
  190 | _:-ms-input-placeholder, :root .selector {}
      :                                          ^^
- 191 | 
- 192 | _:-ms-fullscreen, :root .selector {}
      `----
   x LBrace
      ,-[$DIR/tests/recovery/hacks/input.css:190:1]
@@ -12706,16 +12565,12 @@
  191 | 
  192 | _:-ms-fullscreen, :root .selector {}
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 193 | 
- 194 | @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {}
      `----
   x QualifiedRule
      ,-[$DIR/tests/recovery/hacks/input.css:192:1]
  191 | 
  192 | _:-ms-fullscreen, :root .selector {}
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 193 | 
- 194 | @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {}
      `----
   x SelectorList
      ,-[$DIR/tests/recovery/hacks/input.css:192:1]
@@ -12842,8 +12697,6 @@
  191 | 
  192 | _:-ms-fullscreen, :root .selector {}
      :                                   ^^
- 193 | 
- 194 | @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {}
      `----
   x LBrace
      ,-[$DIR/tests/recovery/hacks/input.css:192:1]
@@ -12856,16 +12709,12 @@
  193 | 
  194 | @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {}
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 195 | 
- 196 | @media screen { @media (min-width: 0px) {} }
      `----
   x AtRule
      ,-[$DIR/tests/recovery/hacks/input.css:194:1]
  193 | 
  194 | @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {}
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 195 | 
- 196 | @media screen { @media (min-width: 0px) {} }
      `----
   x AtRuleName
      ,-[$DIR/tests/recovery/hacks/input.css:194:1]
@@ -13028,8 +12877,6 @@
  193 | 
  194 | @media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {}
      :                                                                          ^^
- 195 | 
- 196 | @media screen { @media (min-width: 0px) {} }
      `----
   x LBrace
      ,-[$DIR/tests/recovery/hacks/input.css:194:1]
@@ -13042,16 +12889,12 @@
  195 | 
  196 | @media screen { @media (min-width: 0px) {} }
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 197 | 
- 198 | /* Opera */
      `----
   x AtRule
      ,-[$DIR/tests/recovery/hacks/input.css:196:1]
  195 | 
  196 | @media screen { @media (min-width: 0px) {} }
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 197 | 
- 198 | /* Opera */
      `----
   x AtRuleName
      ,-[$DIR/tests/recovery/hacks/input.css:196:1]
@@ -13094,8 +12937,6 @@
  195 | 
  196 | @media screen { @media (min-width: 0px) {} }
      :               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 197 | 
- 198 | /* Opera */
      `----
   x LBrace
      ,-[$DIR/tests/recovery/hacks/input.css:196:1]
@@ -13228,16 +13069,12 @@
  199 | 
  200 | .selector:not(*:root) {}
      : ^^^^^^^^^^^^^^^^^^^^^^^^
- 201 | 
- 202 | @supports (-webkit-appearance:none) {}
      `----
   x QualifiedRule
      ,-[$DIR/tests/recovery/hacks/input.css:200:1]
  199 | 
  200 | .selector:not(*:root) {}
      : ^^^^^^^^^^^^^^^^^^^^^^^^
- 201 | 
- 202 | @supports (-webkit-appearance:none) {}
      `----
   x SelectorList
      ,-[$DIR/tests/recovery/hacks/input.css:200:1]
@@ -13352,8 +13189,6 @@
  199 | 
  200 | .selector:not(*:root) {}
      :                       ^^
- 201 | 
- 202 | @supports (-webkit-appearance:none) {}
      `----
   x LBrace
      ,-[$DIR/tests/recovery/hacks/input.css:200:1]
@@ -13366,16 +13201,12 @@
  201 | 
  202 | @supports (-webkit-appearance:none) {}
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 203 | 
- 204 | .selector { (;property: value;); }
      `----
   x AtRule
      ,-[$DIR/tests/recovery/hacks/input.css:202:1]
  201 | 
  202 | @supports (-webkit-appearance:none) {}
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 203 | 
- 204 | .selector { (;property: value;); }
      `----
   x AtRuleName
      ,-[$DIR/tests/recovery/hacks/input.css:202:1]
@@ -13448,8 +13279,6 @@
  201 | 
  202 | @supports (-webkit-appearance:none) {}
      :                                     ^^
- 203 | 
- 204 | .selector { (;property: value;); }
      `----
   x LBrace
      ,-[$DIR/tests/recovery/hacks/input.css:202:1]
@@ -13658,16 +13487,12 @@
  204 | .selector { (;property: value;); }
  205 | .selector { [;property: value;]; }
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 206 | 
- 207 | html:first-child .selector {}
      `----
   x QualifiedRule
      ,-[$DIR/tests/recovery/hacks/input.css:205:1]
  204 | .selector { (;property: value;); }
  205 | .selector { [;property: value;]; }
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 206 | 
- 207 | html:first-child .selector {}
      `----
   x SelectorList
      ,-[$DIR/tests/recovery/hacks/input.css:205:1]
@@ -13710,8 +13535,6 @@
  204 | .selector { (;property: value;); }
  205 | .selector { [;property: value;]; }
      :           ^^^^^^^^^^^^^^^^^^^^^^^^
- 206 | 
- 207 | html:first-child .selector {}
      `----
   x LBrace
      ,-[$DIR/tests/recovery/hacks/input.css:205:1]
@@ -13832,16 +13655,12 @@
  206 | 
  207 | html:first-child .selector {}
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 208 | 
- 209 | _:-o-prefocus, body:last-child .selector {}
      `----
   x QualifiedRule
      ,-[$DIR/tests/recovery/hacks/input.css:207:1]
  206 | 
  207 | html:first-child .selector {}
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 208 | 
- 209 | _:-o-prefocus, body:last-child .selector {}
      `----
   x SelectorList
      ,-[$DIR/tests/recovery/hacks/input.css:207:1]
@@ -13938,8 +13757,6 @@
  206 | 
  207 | html:first-child .selector {}
      :                            ^^
- 208 | 
- 209 | _:-o-prefocus, body:last-child .selector {}
      `----
   x LBrace
      ,-[$DIR/tests/recovery/hacks/input.css:207:1]
@@ -13952,16 +13769,12 @@
  208 | 
  209 | _:-o-prefocus, body:last-child .selector {}
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 210 | 
- 211 | @media all and (-webkit-min-device-pixel-ratio:10000), not all and (-webkit-min-device-pixel-ratio:0) {}
      `----
   x QualifiedRule
      ,-[$DIR/tests/recovery/hacks/input.css:209:1]
  208 | 
  209 | _:-o-prefocus, body:last-child .selector {}
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 210 | 
- 211 | @media all and (-webkit-min-device-pixel-ratio:10000), not all and (-webkit-min-device-pixel-ratio:0) {}
      `----
   x SelectorList
      ,-[$DIR/tests/recovery/hacks/input.css:209:1]
@@ -14112,8 +13925,6 @@
  208 | 
  209 | _:-o-prefocus, body:last-child .selector {}
      :                                          ^^
- 210 | 
- 211 | @media all and (-webkit-min-device-pixel-ratio:10000), not all and (-webkit-min-device-pixel-ratio:0) {}
      `----
   x LBrace
      ,-[$DIR/tests/recovery/hacks/input.css:209:1]
@@ -14126,16 +13937,12 @@
  210 | 
  211 | @media all and (-webkit-min-device-pixel-ratio:10000), not all and (-webkit-min-device-pixel-ratio:0) {}
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 212 | 
- 213 | @media (min-resolution: .001dpcm) { _:-o-prefocus, .selector {} }
      `----
   x AtRule
      ,-[$DIR/tests/recovery/hacks/input.css:211:1]
  210 | 
  211 | @media all and (-webkit-min-device-pixel-ratio:10000), not all and (-webkit-min-device-pixel-ratio:0) {}
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 212 | 
- 213 | @media (min-resolution: .001dpcm) { _:-o-prefocus, .selector {} }
      `----
   x AtRuleName
      ,-[$DIR/tests/recovery/hacks/input.css:211:1]
@@ -14322,8 +14129,6 @@
  210 | 
  211 | @media all and (-webkit-min-device-pixel-ratio:10000), not all and (-webkit-min-device-pixel-ratio:0) {}
      :                                                                                                       ^^
- 212 | 
- 213 | @media (min-resolution: .001dpcm) { _:-o-prefocus, .selector {} }
      `----
   x LBrace
      ,-[$DIR/tests/recovery/hacks/input.css:211:1]
@@ -14336,16 +14141,12 @@
  212 | 
  213 | @media (min-resolution: .001dpcm) { _:-o-prefocus, .selector {} }
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 214 | 
- 215 | *|html[xmlns*=""] .selector {}
      `----
   x AtRule
      ,-[$DIR/tests/recovery/hacks/input.css:213:1]
  212 | 
  213 | @media (min-resolution: .001dpcm) { _:-o-prefocus, .selector {} }
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 214 | 
- 215 | *|html[xmlns*=""] .selector {}
      `----
   x AtRuleName
      ,-[$DIR/tests/recovery/hacks/input.css:213:1]
@@ -14448,8 +14249,6 @@
  212 | 
  213 | @media (min-resolution: .001dpcm) { _:-o-prefocus, .selector {} }
      :                                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 214 | 
- 215 | *|html[xmlns*=""] .selector {}
      `----
   x LBrace
      ,-[$DIR/tests/recovery/hacks/input.css:213:1]
@@ -14576,16 +14375,12 @@
  214 | 
  215 | *|html[xmlns*=""] .selector {}
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 216 | 
- 217 | @media all and (-webkit-min-device-pixel-ratio:0) and (min-resolution: .001dpcm) { .selector {} }
      `----
   x QualifiedRule
      ,-[$DIR/tests/recovery/hacks/input.css:215:1]
  214 | 
  215 | *|html[xmlns*=""] .selector {}
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 216 | 
- 217 | @media all and (-webkit-min-device-pixel-ratio:0) and (min-resolution: .001dpcm) { .selector {} }
      `----
   x SelectorList
      ,-[$DIR/tests/recovery/hacks/input.css:215:1]
@@ -14724,8 +14519,6 @@
  214 | 
  215 | *|html[xmlns*=""] .selector {}
      :                             ^^
- 216 | 
- 217 | @media all and (-webkit-min-device-pixel-ratio:0) and (min-resolution: .001dpcm) { .selector {} }
      `----
   x LBrace
      ,-[$DIR/tests/recovery/hacks/input.css:215:1]
@@ -14738,16 +14531,12 @@
  216 | 
  217 | @media all and (-webkit-min-device-pixel-ratio:0) and (min-resolution: .001dpcm) { .selector {} }
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 218 | 
- 219 | /* Safari */
      `----
   x AtRule
      ,-[$DIR/tests/recovery/hacks/input.css:217:1]
  216 | 
  217 | @media all and (-webkit-min-device-pixel-ratio:0) and (min-resolution: .001dpcm) { .selector {} }
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 218 | 
- 219 | /* Safari */
      `----
   x AtRuleName
      ,-[$DIR/tests/recovery/hacks/input.css:217:1]
@@ -14928,8 +14717,6 @@
  216 | 
  217 | @media all and (-webkit-min-device-pixel-ratio:0) and (min-resolution: .001dpcm) { .selector {} }
      :                                                                                  ^^^^^^^^^^^^^^^^
- 218 | 
- 219 | /* Safari */
      `----
   x LBrace
      ,-[$DIR/tests/recovery/hacks/input.css:217:1]
@@ -15002,16 +14789,12 @@
  220 | 
  221 | .selector:not(*:root) {}
      : ^^^^^^^^^^^^^^^^^^^^^^^^
- 222 | 
- 223 | @supports (-webkit-appearance:none) {}
      `----
   x QualifiedRule
      ,-[$DIR/tests/recovery/hacks/input.css:221:1]
  220 | 
  221 | .selector:not(*:root) {}
      : ^^^^^^^^^^^^^^^^^^^^^^^^
- 222 | 
- 223 | @supports (-webkit-appearance:none) {}
      `----
   x SelectorList
      ,-[$DIR/tests/recovery/hacks/input.css:221:1]
@@ -15126,8 +14909,6 @@
  220 | 
  221 | .selector:not(*:root) {}
      :                       ^^
- 222 | 
- 223 | @supports (-webkit-appearance:none) {}
      `----
   x LBrace
      ,-[$DIR/tests/recovery/hacks/input.css:221:1]
@@ -15140,16 +14921,12 @@
  222 | 
  223 | @supports (-webkit-appearance:none) {}
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 224 | 
- 225 | .selector { (;property: value;); }
      `----
   x AtRule
      ,-[$DIR/tests/recovery/hacks/input.css:223:1]
  222 | 
  223 | @supports (-webkit-appearance:none) {}
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 224 | 
- 225 | .selector { (;property: value;); }
      `----
   x AtRuleName
      ,-[$DIR/tests/recovery/hacks/input.css:223:1]
@@ -15222,8 +14999,6 @@
  222 | 
  223 | @supports (-webkit-appearance:none) {}
      :                                     ^^
- 224 | 
- 225 | .selector { (;property: value;); }
      `----
   x LBrace
      ,-[$DIR/tests/recovery/hacks/input.css:223:1]
@@ -15432,16 +15207,12 @@
  225 | .selector { (;property: value;); }
  226 | .selector { [;property: value;]; }
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 227 | 
- 228 | @media screen and (min-width:0\0) {}
      `----
   x QualifiedRule
      ,-[$DIR/tests/recovery/hacks/input.css:226:1]
  225 | .selector { (;property: value;); }
  226 | .selector { [;property: value;]; }
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 227 | 
- 228 | @media screen and (min-width:0\0) {}
      `----
   x SelectorList
      ,-[$DIR/tests/recovery/hacks/input.css:226:1]
@@ -15484,8 +15255,6 @@
  225 | .selector { (;property: value;); }
  226 | .selector { [;property: value;]; }
      :           ^^^^^^^^^^^^^^^^^^^^^^^^
- 227 | 
- 228 | @media screen and (min-width:0\0) {}
      `----
   x LBrace
      ,-[$DIR/tests/recovery/hacks/input.css:226:1]
@@ -15606,16 +15375,12 @@
  227 | 
  228 | @media screen and (min-width:0\0) {}
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 229 | 
- 230 | @media screen { @media (min-width: 0px) {} }
      `----
   x AtRule
      ,-[$DIR/tests/recovery/hacks/input.css:228:1]
  227 | 
  228 | @media screen and (min-width:0\0) {}
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 229 | 
- 230 | @media screen { @media (min-width: 0px) {} }
      `----
   x AtRuleName
      ,-[$DIR/tests/recovery/hacks/input.css:228:1]
@@ -15736,8 +15501,6 @@
  227 | 
  228 | @media screen and (min-width:0\0) {}
      :                                   ^^
- 229 | 
- 230 | @media screen { @media (min-width: 0px) {} }
      `----
   x LBrace
      ,-[$DIR/tests/recovery/hacks/input.css:228:1]
@@ -15750,16 +15513,12 @@
  229 | 
  230 | @media screen { @media (min-width: 0px) {} }
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 231 | 
- 232 | html:first-child .selector {}
      `----
   x AtRule
      ,-[$DIR/tests/recovery/hacks/input.css:230:1]
  229 | 
  230 | @media screen { @media (min-width: 0px) {} }
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 231 | 
- 232 | html:first-child .selector {}
      `----
   x AtRuleName
      ,-[$DIR/tests/recovery/hacks/input.css:230:1]
@@ -15802,8 +15561,6 @@
  229 | 
  230 | @media screen { @media (min-width: 0px) {} }
      :               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 231 | 
- 232 | html:first-child .selector {}
      `----
   x LBrace
      ,-[$DIR/tests/recovery/hacks/input.css:230:1]
@@ -15936,16 +15693,12 @@
  231 | 
  232 | html:first-child .selector {}
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 233 | 
- 234 | html[xmlns*=""] body:last-child .selector {}
      `----
   x QualifiedRule
      ,-[$DIR/tests/recovery/hacks/input.css:232:1]
  231 | 
  232 | html:first-child .selector {}
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 233 | 
- 234 | html[xmlns*=""] body:last-child .selector {}
      `----
   x SelectorList
      ,-[$DIR/tests/recovery/hacks/input.css:232:1]
@@ -16042,8 +15795,6 @@
  231 | 
  232 | html:first-child .selector {}
      :                            ^^
- 233 | 
- 234 | html[xmlns*=""] body:last-child .selector {}
      `----
   x LBrace
      ,-[$DIR/tests/recovery/hacks/input.css:232:1]
@@ -16280,16 +16031,12 @@
  234 | html[xmlns*=""] body:last-child .selector {}
  235 | html[xmlns*=""]:root .selector  {}
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 236 | 
- 237 | *|html[xmlns*=""] .selector {}
      `----
   x QualifiedRule
      ,-[$DIR/tests/recovery/hacks/input.css:235:1]
  234 | html[xmlns*=""] body:last-child .selector {}
  235 | html[xmlns*=""]:root .selector  {}
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 236 | 
- 237 | *|html[xmlns*=""] .selector {}
      `----
   x SelectorList
      ,-[$DIR/tests/recovery/hacks/input.css:235:1]
@@ -16428,8 +16175,6 @@
  234 | html[xmlns*=""] body:last-child .selector {}
  235 | html[xmlns*=""]:root .selector  {}
      :                                 ^^
- 236 | 
- 237 | *|html[xmlns*=""] .selector {}
      `----
   x LBrace
      ,-[$DIR/tests/recovery/hacks/input.css:235:1]
@@ -16442,16 +16187,12 @@
  236 | 
  237 | *|html[xmlns*=""] .selector {}
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 238 | 
- 239 | _::-moz-svg-foreign-content, :root .selector {}
      `----
   x QualifiedRule
      ,-[$DIR/tests/recovery/hacks/input.css:237:1]
  236 | 
  237 | *|html[xmlns*=""] .selector {}
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 238 | 
- 239 | _::-moz-svg-foreign-content, :root .selector {}
      `----
   x SelectorList
      ,-[$DIR/tests/recovery/hacks/input.css:237:1]
@@ -16590,8 +16331,6 @@
  236 | 
  237 | *|html[xmlns*=""] .selector {}
      :                             ^^
- 238 | 
- 239 | _::-moz-svg-foreign-content, :root .selector {}
      `----
   x LBrace
      ,-[$DIR/tests/recovery/hacks/input.css:237:1]
@@ -16604,16 +16343,12 @@
  238 | 
  239 | _::-moz-svg-foreign-content, :root .selector {}
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 240 | 
- 241 | @media \\0 screen {}
      `----
   x QualifiedRule
      ,-[$DIR/tests/recovery/hacks/input.css:239:1]
  238 | 
  239 | _::-moz-svg-foreign-content, :root .selector {}
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 240 | 
- 241 | @media \\0 screen {}
      `----
   x SelectorList
      ,-[$DIR/tests/recovery/hacks/input.css:239:1]
@@ -16740,8 +16475,6 @@
  238 | 
  239 | _::-moz-svg-foreign-content, :root .selector {}
      :                                              ^^
- 240 | 
- 241 | @media \\0 screen {}
      `----
   x LBrace
      ,-[$DIR/tests/recovery/hacks/input.css:239:1]
@@ -16754,16 +16487,12 @@
  240 | 
  241 | @media \\0 screen {}
      : ^^^^^^^^^^^^^^^^^^^^
- 242 | 
- 243 | a {
      `----
   x AtRule
      ,-[$DIR/tests/recovery/hacks/input.css:241:1]
  240 | 
  241 | @media \\0 screen {}
      : ^^^^^^^^^^^^^^^^^^^^
- 242 | 
- 243 | a {
      `----
   x AtRuleName
      ,-[$DIR/tests/recovery/hacks/input.css:241:1]
@@ -16842,8 +16571,6 @@
  240 | 
  241 | @media \\0 screen {}
      :                   ^^
- 242 | 
- 243 | a {
      `----
   x LBrace
      ,-[$DIR/tests/recovery/hacks/input.css:241:1]
@@ -16860,8 +16587,6 @@
  246 | |       font-size/**/: big;
  247 | |       $(var)-size: 100%;
  248 | `-> }
- 249 |     
- 250 |     a{*b:c}
      `----
   x QualifiedRule
      ,-[$DIR/tests/recovery/hacks/input.css:243:1]
@@ -16872,8 +16597,6 @@
  246 | |       font-size/**/: big;
  247 | |       $(var)-size: 100%;
  248 | `-> }
- 249 |     
- 250 |     a{*b:c}
      `----
   x SelectorList
      ,-[$DIR/tests/recovery/hacks/input.css:243:1]
@@ -16933,8 +16656,6 @@
  246 | |       font-size/**/: big;
  247 | |       $(var)-size: 100%;
  248 | `-> }
- 249 |     
- 250 |     a{*b:c}
      `----
   x LBrace
      ,-[$DIR/tests/recovery/hacks/input.css:243:1]
@@ -16942,7 +16663,6 @@
  243 | a {
      :   ^
  244 |     *color : black;
- 245 |     _background: white;
      `----
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:244:1]
@@ -16950,7 +16670,6 @@
  244 |     *color : black;
      :     ^^^^^^^^^^^^^^^
  245 |     _background: white;
- 246 |     font-size/**/: big;
      `----
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:244:1]
@@ -17042,7 +16761,6 @@
  244 |     *color : black;
      :                   ^
  245 |     _background: white;
- 246 |     font-size/**/: big;
      `----
   x Semi
      ,-[$DIR/tests/recovery/hacks/input.css:244:1]
@@ -17050,7 +16768,6 @@
  244 |     *color : black;
      :                   ^
  245 |     _background: white;
- 246 |     font-size/**/: big;
      `----
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:245:1]
@@ -17267,16 +16984,12 @@
  249 | 
  250 | a{*b:c}
      : ^^^^^^^
- 251 | 
- 252 | div {
      `----
   x QualifiedRule
      ,-[$DIR/tests/recovery/hacks/input.css:250:1]
  249 | 
  250 | a{*b:c}
      : ^^^^^^^
- 251 | 
- 252 | div {
      `----
   x SelectorList
      ,-[$DIR/tests/recovery/hacks/input.css:250:1]
@@ -17325,8 +17038,6 @@
  249 | 
  250 | a{*b:c}
      :  ^^^^^^
- 251 | 
- 252 | div {
      `----
   x LBrace
      ,-[$DIR/tests/recovery/hacks/input.css:250:1]
@@ -17394,8 +17105,6 @@
  252 | ,-> div {
  253 | |       color: red;
  254 | `-> }
- 255 |     
- 256 |     /*\*//*/ selector { property:value; } /**/
      `----
   x QualifiedRule
      ,-[$DIR/tests/recovery/hacks/input.css:252:1]
@@ -17403,8 +17112,6 @@
  252 | ,-> div {
  253 | |       color: red;
  254 | `-> }
- 255 |     
- 256 |     /*\*//*/ selector { property:value; } /**/
      `----
   x SelectorList
      ,-[$DIR/tests/recovery/hacks/input.css:252:1]
@@ -17461,8 +17168,6 @@
  252 | ,-> div {
  253 | |       color: red;
  254 | `-> }
- 255 |     
- 256 |     /*\*//*/ selector { property:value; } /**/
      `----
   x LBrace
      ,-[$DIR/tests/recovery/hacks/input.css:252:1]
@@ -17470,7 +17175,6 @@
  252 | div {
      :     ^
  253 |     color: red;
- 254 | }
      `----
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:253:1]
@@ -17519,14 +17223,12 @@
  256 | /*\*//*/ selector { property:value; } /**/
  257 | selector { property:value; p\roperty: normal-value; }
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 258 | 
      `----
   x QualifiedRule
      ,-[$DIR/tests/recovery/hacks/input.css:257:1]
  256 | /*\*//*/ selector { property:value; } /**/
  257 | selector { property:value; p\roperty: normal-value; }
      : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 258 | 
      `----
   x SelectorList
      ,-[$DIR/tests/recovery/hacks/input.css:257:1]
@@ -17575,7 +17277,6 @@
  256 | /*\*//*/ selector { property:value; } /**/
  257 | selector { property:value; p\roperty: normal-value; }
      :          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 258 | 
      `----
   x LBrace
      ,-[$DIR/tests/recovery/hacks/input.css:257:1]
@@ -17731,7 +17432,6 @@
  260 | div {
      :     ^
  261 |     color: red;
- 262 | }
      `----
   x ComponentValue
      ,-[$DIR/tests/recovery/hacks/input.css:261:1]

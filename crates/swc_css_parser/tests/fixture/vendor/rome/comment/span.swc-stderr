@@ -1,15 +1,26 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/vendor/rome/comment/input.css:4:1]
- 4 | |    
-   `----
+    ,-[$DIR/tests/fixture/vendor/rome/comment/input.css:3:1]
+  2 |      * comments
+  3 | ,->  */
+  4 | |   
+  5 | |   a {
+  6 | |       color: white; /* comment */
+  7 | |   }
+  8 | |   
+  9 | |   a {
+ 10 | |       color: /* comment */ white;
+ 11 | |   }
+ 12 | |   
+ 13 | |   a /* comment */ {
+ 14 | |       color: white;
+ 15 | `-> }
+    `----
   x Rule
    ,-[$DIR/tests/fixture/vendor/rome/comment/input.css:5:1]
  4 |     
  5 | ,-> a {
  6 | |       color: white; /* comment */
  7 | `-> }
- 8 |     
- 9 |     a {
    `----
   x QualifiedRule
    ,-[$DIR/tests/fixture/vendor/rome/comment/input.css:5:1]
@@ -17,8 +28,6 @@
  5 | ,-> a {
  6 | |       color: white; /* comment */
  7 | `-> }
- 8 |     
- 9 |     a {
    `----
   x SelectorList
    ,-[$DIR/tests/fixture/vendor/rome/comment/input.css:5:1]
@@ -75,8 +84,6 @@
  5 | ,-> a {
  6 | |       color: white; /* comment */
  7 | `-> }
- 8 |     
- 9 |     a {
    `----
   x LBrace
    ,-[$DIR/tests/fixture/vendor/rome/comment/input.css:5:1]
@@ -84,7 +91,6 @@
  5 | a {
    :   ^
  6 |     color: white; /* comment */
- 7 | }
    `----
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/rome/comment/input.css:6:1]
@@ -134,8 +140,6 @@
   9 | ,-> a {
  10 | |       color: /* comment */ white;
  11 | `-> }
- 12 |     
- 13 |     a /* comment */ {
     `----
   x QualifiedRule
     ,-[$DIR/tests/fixture/vendor/rome/comment/input.css:9:1]
@@ -143,8 +147,6 @@
   9 | ,-> a {
  10 | |       color: /* comment */ white;
  11 | `-> }
- 12 |     
- 13 |     a /* comment */ {
     `----
   x SelectorList
     ,-[$DIR/tests/fixture/vendor/rome/comment/input.css:9:1]
@@ -201,8 +203,6 @@
   9 | ,-> a {
  10 | |       color: /* comment */ white;
  11 | `-> }
- 12 |     
- 13 |     a /* comment */ {
     `----
   x LBrace
     ,-[$DIR/tests/fixture/vendor/rome/comment/input.css:9:1]
@@ -210,7 +210,6 @@
   9 | a {
     :   ^
  10 |     color: /* comment */ white;
- 11 | }
     `----
   x ComponentValue
     ,-[$DIR/tests/fixture/vendor/rome/comment/input.css:10:1]
@@ -330,7 +329,6 @@
  13 | a /* comment */ {
     :                 ^
  14 |     color: white;
- 15 | }
     `----
   x ComponentValue
     ,-[$DIR/tests/fixture/vendor/rome/comment/input.css:14:1]

@@ -1,22 +1,27 @@
   x Module
-   ,-[$DIR/tests/span/ts/type/fn.ts:1:2]
- 1 | |    
+   ,-[$DIR/tests/span/ts/type/fn.ts:1:1]
+ 1 | type A = () => void;
+   : ^^^^^^^^^^^^^^^^^^^^
    `----
   x ModuleItem
-   ,-[$DIR/tests/span/ts/type/fn.ts:1:2]
- 1 | |    
+   ,-[$DIR/tests/span/ts/type/fn.ts:1:1]
+ 1 | type A = () => void;
+   : ^^^^^^^^^^^^^^^^^^^^
    `----
   x Stmt
-   ,-[$DIR/tests/span/ts/type/fn.ts:1:2]
- 1 | |    
+   ,-[$DIR/tests/span/ts/type/fn.ts:1:1]
+ 1 | type A = () => void;
+   : ^^^^^^^^^^^^^^^^^^^^
    `----
   x Decl
-   ,-[$DIR/tests/span/ts/type/fn.ts:1:2]
- 1 | |    
+   ,-[$DIR/tests/span/ts/type/fn.ts:1:1]
+ 1 | type A = () => void;
+   : ^^^^^^^^^^^^^^^^^^^^
    `----
   x TsTypeAliasDecl
-   ,-[$DIR/tests/span/ts/type/fn.ts:1:2]
- 1 | |    
+   ,-[$DIR/tests/span/ts/type/fn.ts:1:1]
+ 1 | type A = () => void;
+   : ^^^^^^^^^^^^^^^^^^^^
    `----
   x Ident
    ,-[$DIR/tests/span/ts/type/fn.ts:1:1]

@@ -1,28 +1,50 @@
   x Document
-   ,-[$DIR/tests/fixture/element/ul/input.html:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/element/ul/input.html:1:1]
+ 1 | ,-> <!doctype html>
+ 2 | |   <html lang="en">
+ 3 | |   <head>
+ 4 | |       <title>Document</title>
+ 5 | |   </head>
+ 6 | |   <body>
+ 7 | |   <ul><li>test</li> <li>test</li><li>Test</ul>
+ 8 | |   </body>
+ 9 | `-> </html>
    `----
   x Child
    ,-[$DIR/tests/fixture/element/ul/input.html:1:1]
  1 | <!doctype html>
    : ^^^^^^^^^^^^^^^
  2 | <html lang="en">
- 3 | <head>
    `----
   x DocumentType
    ,-[$DIR/tests/fixture/element/ul/input.html:1:1]
  1 | <!doctype html>
    : ^^^^^^^^^^^^^^^
  2 | <html lang="en">
- 3 | <head>
    `----
   x Child
-   ,-[$DIR/tests/fixture/element/ul/input.html:2:2]
- 2 | |    
+   ,-[$DIR/tests/fixture/element/ul/input.html:2:1]
+ 1 |     <!doctype html>
+ 2 | ,-> <html lang="en">
+ 3 | |   <head>
+ 4 | |       <title>Document</title>
+ 5 | |   </head>
+ 6 | |   <body>
+ 7 | |   <ul><li>test</li> <li>test</li><li>Test</ul>
+ 8 | |   </body>
+ 9 | `-> </html>
    `----
   x Element
-   ,-[$DIR/tests/fixture/element/ul/input.html:2:2]
- 2 | |    
+   ,-[$DIR/tests/fixture/element/ul/input.html:2:1]
+ 1 |     <!doctype html>
+ 2 | ,-> <html lang="en">
+ 3 | |   <head>
+ 4 | |       <title>Document</title>
+ 5 | |   </head>
+ 6 | |   <body>
+ 7 | |   <ul><li>test</li> <li>test</li><li>Test</ul>
+ 8 | |   </body>
+ 9 | `-> </html>
    `----
   x Attribute
    ,-[$DIR/tests/fixture/element/ul/input.html:2:1]
@@ -38,7 +60,6 @@
  4 | |       <title>Document</title>
  5 | `-> </head>
  6 |     <body>
- 7 |     <ul><li>test</li> <li>test</li><li>Test</ul>
    `----
   x Element
    ,-[$DIR/tests/fixture/element/ul/input.html:3:1]
@@ -47,16 +68,17 @@
  4 | |       <title>Document</title>
  5 | `-> </head>
  6 |     <body>
- 7 |     <ul><li>test</li> <li>test</li><li>Test</ul>
    `----
   x Child
-   ,-[$DIR/tests/fixture/element/ul/input.html:4:1]
+   ,-[$DIR/tests/fixture/element/ul/input.html:3:1]
+ 2 |     <html lang="en">
  3 | ,-> <head>
  4 | `->     <title>Document</title>
  5 |     </head>
    `----
   x Text
-   ,-[$DIR/tests/fixture/element/ul/input.html:4:1]
+   ,-[$DIR/tests/fixture/element/ul/input.html:3:1]
+ 2 |     <html lang="en">
  3 | ,-> <head>
  4 | `->     <title>Document</title>
  5 |     </head>
@@ -67,7 +89,6 @@
  4 |     <title>Document</title>
    :     ^^^^^^^^^^^^^^^^^^^^^^^
  5 | </head>
- 6 | <body>
    `----
   x Element
    ,-[$DIR/tests/fixture/element/ul/input.html:4:1]
@@ -75,7 +96,6 @@
  4 |     <title>Document</title>
    :     ^^^^^^^^^^^^^^^^^^^^^^^
  5 | </head>
- 6 | <body>
    `----
   x Child
    ,-[$DIR/tests/fixture/element/ul/input.html:4:1]
@@ -92,28 +112,32 @@
  5 | </head>
    `----
   x Child
-   ,-[$DIR/tests/fixture/element/ul/input.html:5:1]
+   ,-[$DIR/tests/fixture/element/ul/input.html:4:1]
+ 3 | <head>
  4 |     <title>Document</title>
    :                            ^
  5 | </head>
  6 | <body>
    `----
   x Text
-   ,-[$DIR/tests/fixture/element/ul/input.html:5:1]
+   ,-[$DIR/tests/fixture/element/ul/input.html:4:1]
+ 3 | <head>
  4 |     <title>Document</title>
    :                            ^
  5 | </head>
  6 | <body>
    `----
   x Child
-   ,-[$DIR/tests/fixture/element/ul/input.html:6:1]
+   ,-[$DIR/tests/fixture/element/ul/input.html:5:1]
+ 4 |     <title>Document</title>
  5 | </head>
    :        ^
  6 | <body>
  7 | <ul><li>test</li> <li>test</li><li>Test</ul>
    `----
   x Text
-   ,-[$DIR/tests/fixture/element/ul/input.html:6:1]
+   ,-[$DIR/tests/fixture/element/ul/input.html:5:1]
+ 4 |     <title>Document</title>
  5 | </head>
    :        ^
  6 | <body>
@@ -136,14 +160,16 @@
  9 |     </html>
    `----
   x Child
-   ,-[$DIR/tests/fixture/element/ul/input.html:7:1]
+   ,-[$DIR/tests/fixture/element/ul/input.html:6:1]
+ 5 | </head>
  6 | <body>
    :       ^
  7 | <ul><li>test</li> <li>test</li><li>Test</ul>
  8 | </body>
    `----
   x Text
-   ,-[$DIR/tests/fixture/element/ul/input.html:7:1]
+   ,-[$DIR/tests/fixture/element/ul/input.html:6:1]
+ 5 | </head>
  6 | <body>
    :       ^
  7 | <ul><li>test</li> <li>test</li><li>Test</ul>
@@ -155,7 +181,6 @@
  7 | <ul><li>test</li> <li>test</li><li>Test</ul>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  8 | </body>
- 9 | </html>
    `----
   x Element
    ,-[$DIR/tests/fixture/element/ul/input.html:7:1]
@@ -163,7 +188,6 @@
  7 | <ul><li>test</li> <li>test</li><li>Test</ul>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  8 | </body>
- 9 | </html>
    `----
   x Child
    ,-[$DIR/tests/fixture/element/ul/input.html:7:1]
@@ -264,13 +288,15 @@
  8 | </body>
    `----
   x Child
-   ,-[$DIR/tests/fixture/element/ul/input.html:8:1]
+   ,-[$DIR/tests/fixture/element/ul/input.html:7:1]
+ 6 |     <body>
  7 | ,-> <ul><li>test</li> <li>test</li><li>Test</ul>
  8 | `-> </body>
  9 |     </html>
    `----
   x Text
-   ,-[$DIR/tests/fixture/element/ul/input.html:8:1]
+   ,-[$DIR/tests/fixture/element/ul/input.html:7:1]
+ 6 |     <body>
  7 | ,-> <ul><li>test</li> <li>test</li><li>Test</ul>
  8 | `-> </body>
  9 |     </html>

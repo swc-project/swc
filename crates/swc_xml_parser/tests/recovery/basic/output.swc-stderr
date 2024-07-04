@@ -4,9 +4,10 @@
  5 |     <heading>Reminder</pheading>
    :                      ^^^^^^^^^^^
  6 |     <body>Don't forget me this weekend!</body>
- 7 | </note>
    `----
   x Opening and ending tag mismatch
-   ,-[$DIR/tests/recovery/basic/input.xml:7:2]
- 7 | |    
+   ,-[$DIR/tests/recovery/basic/input.xml:7:1]
+ 6 |     <body>Don't forget me this weekend!</body>
+ 7 | </note>
+   : ^^^^^^^
    `----

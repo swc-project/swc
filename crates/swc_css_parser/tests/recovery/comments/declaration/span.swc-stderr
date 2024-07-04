@@ -1,14 +1,23 @@
   x Stylesheet
-   ,-[$DIR/tests/recovery/comments/declaration/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/comments/declaration/input.css:1:1]
+ 1 | ,-> a {
+ 2 | |       prop: url("test") /* comment */   /* comment */
+ 3 | |           /* comment */:
+ 4 | `-> }
    `----
   x Rule
-   ,-[$DIR/tests/recovery/comments/declaration/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/comments/declaration/input.css:1:1]
+ 1 | ,-> a {
+ 2 | |       prop: url("test") /* comment */   /* comment */
+ 3 | |           /* comment */:
+ 4 | `-> }
    `----
   x QualifiedRule
-   ,-[$DIR/tests/recovery/comments/declaration/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/comments/declaration/input.css:1:1]
+ 1 | ,-> a {
+ 2 | |       prop: url("test") /* comment */   /* comment */
+ 3 | |           /* comment */:
+ 4 | `-> }
    `----
   x SelectorList
    ,-[$DIR/tests/recovery/comments/declaration/input.css:1:1]
@@ -53,15 +62,17 @@
  2 |     prop: url("test") /* comment */   /* comment */
    `----
   x SimpleBlock
-   ,-[$DIR/tests/recovery/comments/declaration/input.css:1:4]
- 1 | |    
+   ,-[$DIR/tests/recovery/comments/declaration/input.css:1:1]
+ 1 | ,-> a {
+ 2 | |       prop: url("test") /* comment */   /* comment */
+ 3 | |           /* comment */:
+ 4 | `-> }
    `----
   x LBrace
    ,-[$DIR/tests/recovery/comments/declaration/input.css:1:1]
  1 | a {
    :   ^
  2 |     prop: url("test") /* comment */   /* comment */
- 3 |         /* comment */:
    `----
   x ComponentValue
    ,-[$DIR/tests/recovery/comments/declaration/input.css:2:1]
@@ -155,13 +166,15 @@
  3 |         /* comment */:
    `----
   x ComponentValue
-   ,-[$DIR/tests/recovery/comments/declaration/input.css:3:1]
+   ,-[$DIR/tests/recovery/comments/declaration/input.css:2:1]
+ 1 |     a {
  2 | ,->     prop: url("test") /* comment */   /* comment */
  3 | `->         /* comment */:
  4 |     }
    `----
   x WhiteSpace { value: "\n        " }
-   ,-[$DIR/tests/recovery/comments/declaration/input.css:3:1]
+   ,-[$DIR/tests/recovery/comments/declaration/input.css:2:1]
+ 1 |     a {
  2 | ,->     prop: url("test") /* comment */   /* comment */
  3 | `->         /* comment */:
  4 |     }

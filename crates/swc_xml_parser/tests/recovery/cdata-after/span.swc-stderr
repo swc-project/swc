@@ -1,6 +1,9 @@
   x Document
-   ,-[$DIR/tests/recovery/cdata-after/input.xml:1:2]
- 1 | |    
+   ,-[$DIR/tests/recovery/cdata-after/input.xml:1:1]
+ 1 | ,-> <root>
+ 2 | |       <p>Test</p>
+ 3 | |   </root>
+ 4 | `-> <![CDATA[content]]>
    `----
   x Child
    ,-[$DIR/tests/recovery/cdata-after/input.xml:1:1]
@@ -17,13 +20,13 @@
  4 |     <![CDATA[content]]>
    `----
   x Child
-   ,-[$DIR/tests/recovery/cdata-after/input.xml:2:1]
+   ,-[$DIR/tests/recovery/cdata-after/input.xml:1:1]
  1 | ,-> <root>
  2 | `->     <p>Test</p>
  3 |     </root>
    `----
   x Text
-   ,-[$DIR/tests/recovery/cdata-after/input.xml:2:1]
+   ,-[$DIR/tests/recovery/cdata-after/input.xml:1:1]
  1 | ,-> <root>
  2 | `->     <p>Test</p>
  3 |     </root>
@@ -34,7 +37,6 @@
  2 |     <p>Test</p>
    :     ^^^^^^^^^^^
  3 | </root>
- 4 | <![CDATA[content]]>
    `----
   x Element
    ,-[$DIR/tests/recovery/cdata-after/input.xml:2:1]
@@ -42,7 +44,6 @@
  2 |     <p>Test</p>
    :     ^^^^^^^^^^^
  3 | </root>
- 4 | <![CDATA[content]]>
    `----
   x Child
    ,-[$DIR/tests/recovery/cdata-after/input.xml:2:1]
@@ -59,14 +60,16 @@
  3 | </root>
    `----
   x Child
-   ,-[$DIR/tests/recovery/cdata-after/input.xml:3:1]
+   ,-[$DIR/tests/recovery/cdata-after/input.xml:2:1]
+ 1 | <root>
  2 |     <p>Test</p>
    :                ^
  3 | </root>
  4 | <![CDATA[content]]>
    `----
   x Text
-   ,-[$DIR/tests/recovery/cdata-after/input.xml:3:1]
+   ,-[$DIR/tests/recovery/cdata-after/input.xml:2:1]
+ 1 | <root>
  2 |     <p>Test</p>
    :                ^
  3 | </root>

@@ -1,29 +1,90 @@
   x Document
-   ,-[$DIR/tests/recovery/element/td/input.html:1:2]
- 1 | |    
-   `----
+    ,-[$DIR/tests/recovery/element/td/input.html:1:1]
+  1 | ,-> <!doctype html>
+  2 | |   <html lang="en">
+  3 | |   <head>
+  4 | |       <meta charset="UTF-8">
+  5 | |       <meta name="viewport"
+  6 | |             content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  7 | |       <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  8 | |       <title>Document</title>
+  9 | |   </head>
+ 10 | |   <body>
+ 11 | |   <table>
+ 12 | |       <tr>
+ 13 | |           <td>
+ 14 | |               <tr>
+ 15 | |               <svg>
+ 16 | |                   <td></td>
+ 17 | |               </svg>
+ 18 | |               <td>
+ 19 | |       </tr>
+ 20 | |   </table>
+ 21 | |   </body>
+ 22 | `-> </html>
+    `----
   x Child
    ,-[$DIR/tests/recovery/element/td/input.html:1:1]
  1 | <!doctype html>
    : ^^^^^^^^^^^^^^^
  2 | <html lang="en">
- 3 | <head>
    `----
   x DocumentType
    ,-[$DIR/tests/recovery/element/td/input.html:1:1]
  1 | <!doctype html>
    : ^^^^^^^^^^^^^^^
  2 | <html lang="en">
- 3 | <head>
    `----
   x Child
-   ,-[$DIR/tests/recovery/element/td/input.html:2:2]
- 2 | |    
-   `----
+    ,-[$DIR/tests/recovery/element/td/input.html:2:1]
+  1 |     <!doctype html>
+  2 | ,-> <html lang="en">
+  3 | |   <head>
+  4 | |       <meta charset="UTF-8">
+  5 | |       <meta name="viewport"
+  6 | |             content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  7 | |       <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  8 | |       <title>Document</title>
+  9 | |   </head>
+ 10 | |   <body>
+ 11 | |   <table>
+ 12 | |       <tr>
+ 13 | |           <td>
+ 14 | |               <tr>
+ 15 | |               <svg>
+ 16 | |                   <td></td>
+ 17 | |               </svg>
+ 18 | |               <td>
+ 19 | |       </tr>
+ 20 | |   </table>
+ 21 | |   </body>
+ 22 | `-> </html>
+    `----
   x Element
-   ,-[$DIR/tests/recovery/element/td/input.html:2:2]
- 2 | |    
-   `----
+    ,-[$DIR/tests/recovery/element/td/input.html:2:1]
+  1 |     <!doctype html>
+  2 | ,-> <html lang="en">
+  3 | |   <head>
+  4 | |       <meta charset="UTF-8">
+  5 | |       <meta name="viewport"
+  6 | |             content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  7 | |       <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  8 | |       <title>Document</title>
+  9 | |   </head>
+ 10 | |   <body>
+ 11 | |   <table>
+ 12 | |       <tr>
+ 13 | |           <td>
+ 14 | |               <tr>
+ 15 | |               <svg>
+ 16 | |                   <td></td>
+ 17 | |               </svg>
+ 18 | |               <td>
+ 19 | |       </tr>
+ 20 | |   </table>
+ 21 | |   </body>
+ 22 | `-> </html>
+    `----
   x Attribute
    ,-[$DIR/tests/recovery/element/td/input.html:2:1]
  1 | <!doctype html>
@@ -42,7 +103,6 @@
   8 | |       <title>Document</title>
   9 | `-> </head>
  10 |     <body>
- 11 |     <table>
     `----
   x Element
     ,-[$DIR/tests/recovery/element/td/input.html:3:1]
@@ -55,16 +115,17 @@
   8 | |       <title>Document</title>
   9 | `-> </head>
  10 |     <body>
- 11 |     <table>
     `----
   x Child
-   ,-[$DIR/tests/recovery/element/td/input.html:4:1]
+   ,-[$DIR/tests/recovery/element/td/input.html:3:1]
+ 2 |     <html lang="en">
  3 | ,-> <head>
  4 | `->     <meta charset="UTF-8">
  5 |         <meta name="viewport"
    `----
   x Text
-   ,-[$DIR/tests/recovery/element/td/input.html:4:1]
+   ,-[$DIR/tests/recovery/element/td/input.html:3:1]
+ 2 |     <html lang="en">
  3 | ,-> <head>
  4 | `->     <meta charset="UTF-8">
  5 |         <meta name="viewport"
@@ -75,7 +136,6 @@
  4 |     <meta charset="UTF-8">
    :     ^^^^^^^^^^^^^^^^^^^^^^
  5 |     <meta name="viewport"
- 6 |           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
    `----
   x Element
    ,-[$DIR/tests/recovery/element/td/input.html:4:1]
@@ -83,7 +143,6 @@
  4 |     <meta charset="UTF-8">
    :     ^^^^^^^^^^^^^^^^^^^^^^
  5 |     <meta name="viewport"
- 6 |           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
    `----
   x Attribute
    ,-[$DIR/tests/recovery/element/td/input.html:4:1]
@@ -93,13 +152,15 @@
  5 |     <meta name="viewport"
    `----
   x Child
-   ,-[$DIR/tests/recovery/element/td/input.html:5:1]
+   ,-[$DIR/tests/recovery/element/td/input.html:4:1]
+ 3 |     <head>
  4 | ,->     <meta charset="UTF-8">
  5 | `->     <meta name="viewport"
  6 |               content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
    `----
   x Text
-   ,-[$DIR/tests/recovery/element/td/input.html:5:1]
+   ,-[$DIR/tests/recovery/element/td/input.html:4:1]
+ 3 |     <head>
  4 | ,->     <meta charset="UTF-8">
  5 | `->     <meta name="viewport"
  6 |               content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
@@ -110,7 +171,6 @@
  5 | ,->     <meta name="viewport"
  6 | `->           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
  7 |         <meta http-equiv="X-UA-Compatible" content="ie=edge">
- 8 |         <title>Document</title>
    `----
   x Element
    ,-[$DIR/tests/recovery/element/td/input.html:5:1]
@@ -118,7 +178,6 @@
  5 | ,->     <meta name="viewport"
  6 | `->           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
  7 |         <meta http-equiv="X-UA-Compatible" content="ie=edge">
- 8 |         <title>Document</title>
    `----
   x Attribute
    ,-[$DIR/tests/recovery/element/td/input.html:5:1]
@@ -126,7 +185,6 @@
  5 |     <meta name="viewport"
    :           ^^^^^^^^^^^^^^^
  6 |           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
- 7 |     <meta http-equiv="X-UA-Compatible" content="ie=edge">
    `----
   x Attribute
    ,-[$DIR/tests/recovery/element/td/input.html:6:1]
@@ -136,13 +194,15 @@
  7 |     <meta http-equiv="X-UA-Compatible" content="ie=edge">
    `----
   x Child
-   ,-[$DIR/tests/recovery/element/td/input.html:7:1]
+   ,-[$DIR/tests/recovery/element/td/input.html:6:1]
+ 5 |         <meta name="viewport"
  6 | ,->           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
  7 | `->     <meta http-equiv="X-UA-Compatible" content="ie=edge">
  8 |         <title>Document</title>
    `----
   x Text
-   ,-[$DIR/tests/recovery/element/td/input.html:7:1]
+   ,-[$DIR/tests/recovery/element/td/input.html:6:1]
+ 5 |         <meta name="viewport"
  6 | ,->           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
  7 | `->     <meta http-equiv="X-UA-Compatible" content="ie=edge">
  8 |         <title>Document</title>
@@ -153,7 +213,6 @@
  7 |     <meta http-equiv="X-UA-Compatible" content="ie=edge">
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  8 |     <title>Document</title>
- 9 | </head>
    `----
   x Element
    ,-[$DIR/tests/recovery/element/td/input.html:7:1]
@@ -161,7 +220,6 @@
  7 |     <meta http-equiv="X-UA-Compatible" content="ie=edge">
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  8 |     <title>Document</title>
- 9 | </head>
    `----
   x Attribute
    ,-[$DIR/tests/recovery/element/td/input.html:7:1]
@@ -178,70 +236,74 @@
  8 |     <title>Document</title>
    `----
   x Child
-   ,-[$DIR/tests/recovery/element/td/input.html:8:1]
+   ,-[$DIR/tests/recovery/element/td/input.html:7:1]
+ 6 |               content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
  7 | ,->     <meta http-equiv="X-UA-Compatible" content="ie=edge">
  8 | `->     <title>Document</title>
  9 |     </head>
    `----
   x Text
-   ,-[$DIR/tests/recovery/element/td/input.html:8:1]
+   ,-[$DIR/tests/recovery/element/td/input.html:7:1]
+ 6 |               content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
  7 | ,->     <meta http-equiv="X-UA-Compatible" content="ie=edge">
  8 | `->     <title>Document</title>
  9 |     </head>
    `----
   x Child
-    ,-[$DIR/tests/recovery/element/td/input.html:8:1]
-  7 |     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  8 |     <title>Document</title>
-    :     ^^^^^^^^^^^^^^^^^^^^^^^
-  9 | </head>
- 10 | <body>
-    `----
+   ,-[$DIR/tests/recovery/element/td/input.html:8:1]
+ 7 |     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+ 8 |     <title>Document</title>
+   :     ^^^^^^^^^^^^^^^^^^^^^^^
+ 9 | </head>
+   `----
   x Element
+   ,-[$DIR/tests/recovery/element/td/input.html:8:1]
+ 7 |     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+ 8 |     <title>Document</title>
+   :     ^^^^^^^^^^^^^^^^^^^^^^^
+ 9 | </head>
+   `----
+  x Child
+   ,-[$DIR/tests/recovery/element/td/input.html:8:1]
+ 7 |     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+ 8 |     <title>Document</title>
+   :            ^^^^^^^^
+ 9 | </head>
+   `----
+  x Text
+   ,-[$DIR/tests/recovery/element/td/input.html:8:1]
+ 7 |     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+ 8 |     <title>Document</title>
+   :            ^^^^^^^^
+ 9 | </head>
+   `----
+  x Child
     ,-[$DIR/tests/recovery/element/td/input.html:8:1]
   7 |     <meta http-equiv="X-UA-Compatible" content="ie=edge">
   8 |     <title>Document</title>
-    :     ^^^^^^^^^^^^^^^^^^^^^^^
-  9 | </head>
- 10 | <body>
-    `----
-  x Child
-   ,-[$DIR/tests/recovery/element/td/input.html:8:1]
- 7 |     <meta http-equiv="X-UA-Compatible" content="ie=edge">
- 8 |     <title>Document</title>
-   :            ^^^^^^^^
- 9 | </head>
-   `----
-  x Text
-   ,-[$DIR/tests/recovery/element/td/input.html:8:1]
- 7 |     <meta http-equiv="X-UA-Compatible" content="ie=edge">
- 8 |     <title>Document</title>
-   :            ^^^^^^^^
- 9 | </head>
-   `----
-  x Child
-    ,-[$DIR/tests/recovery/element/td/input.html:9:1]
-  8 |     <title>Document</title>
     :                            ^
   9 | </head>
  10 | <body>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/td/input.html:9:1]
+    ,-[$DIR/tests/recovery/element/td/input.html:8:1]
+  7 |     <meta http-equiv="X-UA-Compatible" content="ie=edge">
   8 |     <title>Document</title>
     :                            ^
   9 | </head>
  10 | <body>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/td/input.html:10:1]
+    ,-[$DIR/tests/recovery/element/td/input.html:9:1]
+  8 |     <title>Document</title>
   9 | </head>
     :        ^
  10 | <body>
  11 | <table>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/td/input.html:10:1]
+    ,-[$DIR/tests/recovery/element/td/input.html:9:1]
+  8 |     <title>Document</title>
   9 | </head>
     :        ^
  10 | <body>
@@ -282,14 +344,16 @@
  22 |     </html>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/td/input.html:11:1]
+    ,-[$DIR/tests/recovery/element/td/input.html:10:1]
+  9 | </head>
  10 | <body>
     :       ^
  11 | <table>
  12 |     <tr>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/td/input.html:11:1]
+    ,-[$DIR/tests/recovery/element/td/input.html:10:1]
+  9 | </head>
  10 | <body>
     :       ^
  11 | <table>
@@ -302,7 +366,6 @@
  16 | |                   <td></td>
  17 | `->             </svg>
  18 |                 <td>
- 19 |         </tr>
     `----
   x Element
     ,-[$DIR/tests/recovery/element/td/input.html:15:1]
@@ -311,16 +374,17 @@
  16 | |                   <td></td>
  17 | `->             </svg>
  18 |                 <td>
- 19 |         </tr>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/td/input.html:16:1]
+    ,-[$DIR/tests/recovery/element/td/input.html:15:1]
+ 14 |                 <tr>
  15 | ,->             <svg>
  16 | `->                 <td></td>
  17 |                 </svg>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/td/input.html:16:1]
+    ,-[$DIR/tests/recovery/element/td/input.html:15:1]
+ 14 |                 <tr>
  15 | ,->             <svg>
  16 | `->                 <td></td>
  17 |                 </svg>
@@ -331,7 +395,6 @@
  16 |                 <td></td>
     :                 ^^^^^^^^^
  17 |             </svg>
- 18 |             <td>
     `----
   x Element
     ,-[$DIR/tests/recovery/element/td/input.html:16:1]
@@ -339,16 +402,17 @@
  16 |                 <td></td>
     :                 ^^^^^^^^^
  17 |             </svg>
- 18 |             <td>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/td/input.html:17:1]
+    ,-[$DIR/tests/recovery/element/td/input.html:16:1]
+ 15 |                 <svg>
  16 | ,->                 <td></td>
  17 | `->             </svg>
  18 |                 <td>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/td/input.html:17:1]
+    ,-[$DIR/tests/recovery/element/td/input.html:16:1]
+ 15 |                 <svg>
  16 | ,->                 <td></td>
  17 | `->             </svg>
  18 |                 <td>
@@ -367,7 +431,6 @@
  19 | |       </tr>
  20 | `-> </table>
  21 |     </body>
- 22 |     </html>
     `----
   x Element
     ,-[$DIR/tests/recovery/element/td/input.html:11:1]
@@ -383,16 +446,17 @@
  19 | |       </tr>
  20 | `-> </table>
  21 |     </body>
- 22 |     </html>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/td/input.html:12:1]
+    ,-[$DIR/tests/recovery/element/td/input.html:11:1]
+ 10 |     <body>
  11 | ,-> <table>
  12 | `->     <tr>
  13 |             <td>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/td/input.html:12:1]
+    ,-[$DIR/tests/recovery/element/td/input.html:11:1]
+ 10 |     <body>
  11 | ,-> <table>
  12 | `->     <tr>
  13 |             <td>
@@ -416,13 +480,15 @@
  15 |                 <svg>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/td/input.html:13:1]
+    ,-[$DIR/tests/recovery/element/td/input.html:12:1]
+ 11 |     <table>
  12 | ,->     <tr>
  13 | `->         <td>
  14 |                 <tr>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/td/input.html:13:1]
+    ,-[$DIR/tests/recovery/element/td/input.html:12:1]
+ 11 |     <table>
  12 | ,->     <tr>
  13 | `->         <td>
  14 |                 <tr>
@@ -442,13 +508,15 @@
  15 |                 <svg>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/td/input.html:14:1]
+    ,-[$DIR/tests/recovery/element/td/input.html:13:1]
+ 12 |         <tr>
  13 | ,->         <td>
  14 | `->             <tr>
  15 |                 <svg>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/td/input.html:14:1]
+    ,-[$DIR/tests/recovery/element/td/input.html:13:1]
+ 12 |         <tr>
  13 | ,->         <td>
  14 | `->             <tr>
  15 |                 <svg>
@@ -463,7 +531,6 @@
  18 | |               <td>
  19 | `->     </tr>
  20 |     </table>
- 21 |     </body>
     `----
   x Element
     ,-[$DIR/tests/recovery/element/td/input.html:14:1]
@@ -475,10 +542,10 @@
  18 | |               <td>
  19 | `->     </tr>
  20 |     </table>
- 21 |     </body>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/td/input.html:15:1]
+    ,-[$DIR/tests/recovery/element/td/input.html:14:1]
+ 13 |             <td>
  14 | ,->             <tr>
  15 | |               <svg>
  16 | |                   <td></td>
@@ -487,7 +554,8 @@
  19 |         </tr>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/td/input.html:15:1]
+    ,-[$DIR/tests/recovery/element/td/input.html:14:1]
+ 13 |             <td>
  14 | ,->             <tr>
  15 | |               <svg>
  16 | |                   <td></td>
@@ -510,39 +578,45 @@
  20 |     </table>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/td/input.html:19:1]
+    ,-[$DIR/tests/recovery/element/td/input.html:18:1]
+ 17 |                 </svg>
  18 | ,->             <td>
  19 | `->     </tr>
  20 |     </table>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/td/input.html:19:1]
+    ,-[$DIR/tests/recovery/element/td/input.html:18:1]
+ 17 |                 </svg>
  18 | ,->             <td>
  19 | `->     </tr>
  20 |     </table>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/td/input.html:20:1]
+    ,-[$DIR/tests/recovery/element/td/input.html:19:1]
+ 18 |             <td>
  19 |     </tr>
     :          ^
  20 | </table>
  21 | </body>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/td/input.html:20:1]
+    ,-[$DIR/tests/recovery/element/td/input.html:19:1]
+ 18 |             <td>
  19 |     </tr>
     :          ^
  20 | </table>
  21 | </body>
     `----
   x Child
-    ,-[$DIR/tests/recovery/element/td/input.html:21:1]
+    ,-[$DIR/tests/recovery/element/td/input.html:20:1]
+ 19 |         </tr>
  20 | ,-> </table>
  21 | `-> </body>
  22 |     </html>
     `----
   x Text
-    ,-[$DIR/tests/recovery/element/td/input.html:21:1]
+    ,-[$DIR/tests/recovery/element/td/input.html:20:1]
+ 19 |         </tr>
  20 | ,-> </table>
  21 | `-> </body>
  22 |     </html>

@@ -1,14 +1,17 @@
   x Stylesheet
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:1]
+ 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Rule
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:1]
+ 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x AtRule
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:2]
- 1 | |    
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:1]
+ 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x AtRuleName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:1]
@@ -26,8 +29,9 @@
    :            ^^^^
    `----
   x SimpleBlock
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:18]
- 1 | |    
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:1]
+ 1 | @keyframes name { 0%, 50% { color: red } 25%, 75% { color: blue } }
+   :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x LBrace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/ATZbhYBr7fOFJoZ4E2dwkA/input.css:1:1]

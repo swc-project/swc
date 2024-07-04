@@ -1,16 +1,19 @@
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.67.html:1:2]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.67.html:1:1]
+ 1 | <DIV> abc <B> def <I> ghi
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Child
   x Element
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.67.html:1:2]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.67.html:1:1]
+ 1 | <DIV> abc <B> def <I> ghi
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.67.html:1:2]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.67.html:1:1]
+ 1 | <DIV> abc <B> def <I> ghi
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.67.html:1:1]
@@ -23,12 +26,14 @@
    :      ^^^^^
    `----
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.67.html:1:12]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.67.html:1:1]
+ 1 | <DIV> abc <B> def <I> ghi
+   :           ^^^^^^^^^^^^^^^
    `----
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.67.html:1:12]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.67.html:1:1]
+ 1 | <DIV> abc <B> def <I> ghi
+   :           ^^^^^^^^^^^^^^^
    `----
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.67.html:1:1]
@@ -41,18 +46,22 @@
    :              ^^^^^
    `----
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.67.html:1:20]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.67.html:1:1]
+ 1 | <DIV> abc <B> def <I> ghi
+   :                   ^^^^^^^
    `----
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.67.html:1:20]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.67.html:1:1]
+ 1 | <DIV> abc <B> def <I> ghi
+   :                   ^^^^^^^
    `----
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.67.html:1:23]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.67.html:1:1]
+ 1 | <DIV> abc <B> def <I> ghi
+   :                      ^^^^
    `----
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.67.html:1:23]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.67.html:1:1]
+ 1 | <DIV> abc <B> def <I> ghi
+   :                      ^^^^
    `----

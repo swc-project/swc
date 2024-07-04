@@ -1,16 +1,19 @@
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/tests8_dat.4.html:1:2]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests8_dat.4.html:1:1]
+ 1 | <table><div>x<div></div>x</span>x
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Child
   x Element
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests8_dat.4.html:1:9]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests8_dat.4.html:1:1]
+ 1 | <table><div>x<div></div>x</span>x
+   :        ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tests8_dat.4.html:1:9]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests8_dat.4.html:1:1]
+ 1 | <table><div>x<div></div>x</span>x
+   :        ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests8_dat.4.html:1:1]
@@ -33,12 +36,14 @@
    :              ^^^^^^^^^^^
    `----
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests8_dat.4.html:1:26]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests8_dat.4.html:1:1]
+ 1 | <table><div>x<div></div>x</span>x
+   :                         ^^^^^^^^^
    `----
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/tests8_dat.4.html:1:26]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/tests8_dat.4.html:1:1]
+ 1 | <table><div>x<div></div>x</span>x
+   :                         ^^^^^^^^^
    `----
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests8_dat.4.html:1:1]

@@ -10,21 +10,18 @@
  1 | export * from "./a.js";
    : ^^^^^^^^^^^^^^^^^^^^^^^
  2 | export * as a from "./a.js";
- 3 | export {};
    `----
   x ModuleDecl
    ,-[$DIR/tests/span/js/decl/export-decl.js:1:1]
  1 | export * from "./a.js";
    : ^^^^^^^^^^^^^^^^^^^^^^^
  2 | export * as a from "./a.js";
- 3 | export {};
    `----
   x ExportAll
    ,-[$DIR/tests/span/js/decl/export-decl.js:1:1]
  1 | export * from "./a.js";
    : ^^^^^^^^^^^^^^^^^^^^^^^
  2 | export * as a from "./a.js";
- 3 | export {};
    `----
   x Str
    ,-[$DIR/tests/span/js/decl/export-decl.js:1:1]
@@ -38,7 +35,6 @@
  2 | export * as a from "./a.js";
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  3 | export {};
- 4 | export { b } from "./b.js";
    `----
   x ModuleDecl
    ,-[$DIR/tests/span/js/decl/export-decl.js:2:1]
@@ -46,7 +42,6 @@
  2 | export * as a from "./a.js";
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  3 | export {};
- 4 | export { b } from "./b.js";
    `----
   x NamedExport
    ,-[$DIR/tests/span/js/decl/export-decl.js:2:1]
@@ -54,7 +49,6 @@
  2 | export * as a from "./a.js";
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  3 | export {};
- 4 | export { b } from "./b.js";
    `----
   x ExportSpecifier
    ,-[$DIR/tests/span/js/decl/export-decl.js:2:1]

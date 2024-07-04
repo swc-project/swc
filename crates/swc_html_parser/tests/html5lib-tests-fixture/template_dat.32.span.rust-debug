@@ -1,42 +1,52 @@
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.32.html:1:2]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.32.html:1:1]
+ 1 | <table><tr><template><td>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Child
   x Element
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.32.html:1:2]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.32.html:1:1]
+ 1 | <table><tr><template><td>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.32.html:1:2]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.32.html:1:1]
+ 1 | <table><tr><template><td>
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.32.html:1:9]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.32.html:1:1]
+ 1 | <table><tr><template><td>
+   :        ^^^^^^^^^^^^^^^^^^
    `----
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.32.html:1:9]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.32.html:1:1]
+ 1 | <table><tr><template><td>
+   :        ^^^^^^^^^^^^^^^^^^
    `----
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.32.html:1:13]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.32.html:1:1]
+ 1 | <table><tr><template><td>
+   :            ^^^^^^^^^^^^^^
    `----
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.32.html:1:13]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.32.html:1:1]
+ 1 | <table><tr><template><td>
+   :            ^^^^^^^^^^^^^^
    `----
   x DocumentFragment
-   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.32.html:1:13]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.32.html:1:1]
+ 1 | <table><tr><template><td>
+   :            ^^^^^^^^^^^^^^
    `----
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.32.html:1:23]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.32.html:1:1]
+ 1 | <table><tr><template><td>
+   :                      ^^^^
    `----
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.32.html:1:23]
- 1 | |    
+   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.32.html:1:1]
+ 1 | <table><tr><template><td>
+   :                      ^^^^
    `----
