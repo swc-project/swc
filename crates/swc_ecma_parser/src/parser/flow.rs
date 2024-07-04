@@ -1110,12 +1110,7 @@ where
             return Ok(None);
         }
 
-        if self
-            .input
-            .cur()
-            .as_deref()
-            .map_or(false, token_is_identifier)
-        {
+        if self.input.cur().map_or(false, token_is_identifier) {
             syntax_error!(self, SyntaxError::FlowEnumExplicitTypeMustBeIdent);
         }
 
