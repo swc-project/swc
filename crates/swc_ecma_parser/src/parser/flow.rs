@@ -1105,7 +1105,31 @@ where
     }
 
     /// Ported from `flowEnumParseExplicitType`
-    fn consume_flow_enum_explicit_type(&mut self) -> PResult<Option<()>> {}
+    fn consume_flow_enum_explicit_type(&mut self) -> PResult<Option<()>> {
+        if !eat!(self, "of") {
+            return Ok(None);
+        }
+
+        if self
+            .input
+            .cur()
+            .as_deref()
+            .map_or(false, token_is_identifier)
+        {
+            syntax_error!(
+                self,
+                SyntaxError::FlowEnumInvalidExplicitTypeUnknownSupplied
+            );
+        }
+
+        let value = self.input.bump();
+
+        match &value {
+            tok!("boolean") | tok!("number") | tok!("string") | tok!("symbol") => {}
+        }
+
+        Ok(Some(()))
+    }
 
     /// Ported from `flowEnumMembers`
     fn consume_flow_enum_members(&mut self) -> PResult<()> {}
