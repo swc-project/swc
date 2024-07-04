@@ -309,6 +309,7 @@ pub enum SyntaxError {
     FlowUnexpectedGetterSetter,
     FlowDeclareOpaqueType,
     FlowEnumExplicitTypeMustBeIdent,
+    FlowEnumInitMustBeLiteral,
 }
 
 impl SyntaxError {
@@ -805,6 +806,7 @@ impl SyntaxError {
             SyntaxError::FlowEnumExplicitTypeMustBeIdent => {
                 "Explicit type for enum must be an identifier".into()
             }
+            SyntaxError::FlowEnumInitMustBeLiteral => "Enum initializer must be a literal".into(),
         }
     }
 }
