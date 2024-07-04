@@ -29,6 +29,7 @@ mod drop_console;
 mod evaluate;
 mod if_return;
 mod loops;
+mod member_expr;
 mod misc;
 mod numbers;
 mod properties;
