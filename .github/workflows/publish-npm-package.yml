@@ -455,13 +455,13 @@ jobs:
 
       - uses: ./.github/actions/setup-node
 
-      - name: Tag npm release (default, latest)
-        if: ${{ !contains(inputs.version, 'nightly') }}
-        run: echo "NPM_TAG=latest" >> $GITHUB_ENV
-
-      - name: Tag npm release (nightly)
-        if: ${{ contains(inputs.version, 'nightly') }}
-        run: echo "NPM_TAG=nightly" >> $GITHUB_ENV
+      - name: Tag npm release
+        run: |
+          if [[ '${{ inputs.version }}' != *"nightly"* ]]; then
+            echo "NPM_TAG=latest" >> $GITHUB_ENV
+          else
+            echo "NPM_TAG=nightly" >> $GITHUB_ENV
+          fi
 
       - name: Install dependencies
         run: corepack enable && yarn install
@@ -535,10 +535,11 @@ jobs:
       - name: Corepack
         run: corepack enable
 
-      - name: Tag npm release (default, latest)
+      - name: Tag npm release
         run: |
-          echo "NPM_TAG=latest" >> $GITHUB_ENV
-          if [[ $GITHUB_REF == *"nightly"* ]]; then
+          if [[ '${{ inputs.version }}' != *"nightly"* ]]; then
+            echo "NPM_TAG=latest" >> $GITHUB_ENV
+          else
             echo "NPM_TAG=nightly" >> $GITHUB_ENV
           fi
 
