@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`transform in strip-only mode should throw an error when it encounters an enum 1`] = `
+"
+  x TypeScript enum is not supported in strip-only mode
+   ,----
+ 1 | enum Foo {}
+   : ^^^^^^^^^^^
+   \`----
+"
+`;
+
+exports[`transform in transform mode should transpile enum 1`] = `
+"var Foo;
+(function(Foo) {})(Foo || (Foo = {}));
+"
+`;
+
+exports[`transform should strip types 1`] = `
+"export const foo = 1;
+"
+`;
