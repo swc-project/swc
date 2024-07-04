@@ -1335,7 +1335,9 @@ impl VisitMut for Decorator202311 {
 
         for mut m in new.take() {
             match m {
-                ClassMember::Method(..) | ClassMember::PrivateMethod(..) => {}
+                ClassMember::Method(..)
+                | ClassMember::PrivateMethod(..)
+                | ClassMember::AutoAccessor(..) => {}
 
                 _ => {
                     if !m.span().is_dummy() {
