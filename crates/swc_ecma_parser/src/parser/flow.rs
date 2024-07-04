@@ -1162,7 +1162,20 @@ where
     }
 
     /// Ported from `flowEnumMemberInit`
-    fn consume_flow_enum_member_init(&mut self) -> PResult<()> {}
+    fn consume_flow_enum_member_init(&mut self) -> PResult<()> {
+        match cur!(self, true) {
+            Token::Num { .. } | Token::Str { .. } | tok!("true") | tok!("false") => {
+                bump!(self);
+            }
+
+            _ => self.emit_err(
+                self.input.cur_span(),
+                SyntaxError::FlowEnumInitMustBeLiteral,
+            ),
+        }
+
+        Ok(())
+    }
 
     /// Ported from `flowParseInterfaceish`
     fn consume_flow_interfaceish(&mut self, is_class: bool) -> PResult<()> {
