@@ -78,7 +78,7 @@ macro_rules! is {
         is_exact!($p, $t)
     };
 
-    ($p:expr, $t:tt | $(*rest:tt)*) => {
+    ($p:expr, $t:tt, $(*rest:tt)*) => {
         is!($p, $t) || is!($p, $($rest)*)
     };
 }
@@ -126,7 +126,7 @@ macro_rules! peeked_is {
         }
     };
 
-    ($p:expr, $t:tt | $(*rest:tt)*) => {
+    ($p:expr, $t:tt, $(*rest:tt)*) => {
         peeked_is!($p, $t) || peeked_is!($p, $($rest)*)
     };
 }
