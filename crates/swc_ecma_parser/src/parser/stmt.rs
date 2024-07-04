@@ -325,6 +325,12 @@ impl<'a, I: Tokens> Parser<I> {
                     bump!(self);
                     return Ok(self.parse_ts_interface_decl(start)?.into());
                 }
+
+                if self.input.syntax().flow() && peeked_is!(self, IdentName) {
+                    expect!(self, "interface");
+                    self.consume_flow_interfaceish(false)?;
+                    return Ok(Stmt::Empty(EmptyStmt { span: DUMMY_SP }));
+                }
             }
 
             tok!("type") => {
