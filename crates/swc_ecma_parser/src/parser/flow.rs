@@ -1015,6 +1015,11 @@ where
             return Ok(Some(()));
         }
 
+        if is!(self, "enum") {
+            self.consume_flow_enum_declaration()?;
+            return Ok(Some(()));
+        }
+
         Ok(None)
     }
 
