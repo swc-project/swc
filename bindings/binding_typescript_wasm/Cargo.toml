@@ -36,5 +36,3 @@ tracing = { version = "0.1.37", features = ["max_level_off"] }
 wasm-bindgen = { version = "0.2.82", features = ["enable-interning"] }
 wasm-bindgen-futures = { version = "0.4.41" }
 
-[package.metadata.wasm-pack.profile.release]
-wasm-opt = false
