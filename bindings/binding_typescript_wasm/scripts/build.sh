@@ -1,1 +1,5 @@
-wasm-pack build --debug --scope swc -t nodejs --features getrandom/js $@
+#!/usr/bin/env bash
+set -eux
+
+wasm-pack build --out-name wasm --release --scope=swc --target nodejs
+node ./scripts/patch.js
