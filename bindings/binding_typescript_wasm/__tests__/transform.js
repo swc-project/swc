@@ -26,6 +26,14 @@ describe("transform", () => {
                 })
             ).rejects.toMatchSnapshot();
         });
+
+        it('should throw an error with a descriptive message when it encounters a decorator', async () => {
+            await expect(
+                swc.transform("class Foo { @decorator foo() {} }", {
+                    mode: "strip-only",
+                })
+            ).rejects.toMatchSnapshot();
+        })
     });
 
     describe("in transform mode", () => {
