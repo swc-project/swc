@@ -74,7 +74,7 @@ resolver = "2"
   lexical                  = "6.1.0"
   lru                      = "0.10.0"
   memchr                   = "2.6.1"
-  miette                   = "4.2.1"
+  miette                   = "7.2.0"
   napi                     = { version = "2.0.0", default-features = false }
   napi-derive              = { version = "2.0.0", default-features = false }
   new_debug_unreachable    = "1.0.6"
