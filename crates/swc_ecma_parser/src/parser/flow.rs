@@ -1136,6 +1136,10 @@ where
             }
 
             self.consume_flow_enum_member_raw()?;
+
+            if !is!(self, '}') {
+                expect!(self, ',');
+            }
         }
 
         Ok(())
