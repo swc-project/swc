@@ -16,7 +16,7 @@ async function main() {
 
   // Bump patch version
 
-  const [major, minor, patch] = latest.split(".").map(Number);
+  const [major, minor, patch] = latest.split("-")[0].split(".").map(Number);
 
   // Nightly version after 1.2.3 is 1.2.4-nightly-20211020.1
   // Nightly version after 1.2.3-nightly-20211020.1 is 1.2.3-nightly-20211020.2
