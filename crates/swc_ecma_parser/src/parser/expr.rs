@@ -395,7 +395,7 @@ impl<I: Tokens> Parser<I> {
         }
 
         if is!(self, "let")
-            || (self.input.syntax().typescript() && is!(self, IdentRef, "await"))
+            || (self.input.syntax().typescript() && is!(self, IdentRef | "await"))
             || is!(self, IdentRef)
         {
             let ctx = self.ctx();
@@ -1226,7 +1226,7 @@ impl<I: Tokens> Parser<I> {
                         )
                         .map(|expr| (Box::new(Expr::TaggedTpl(expr)), true))
                         .map(Some)
-                    } else if is!(p, '=', "as") {
+                    } else if is!(p, '=' | "as") {
                         Ok(Some((
                             Box::new(Expr::TsInstantiation(TsInstantiation {
                                 span: span!(p, start),
@@ -1258,7 +1258,7 @@ impl<I: Tokens> Parser<I> {
             None
         };
 
-        if obj.is_import() && !is!(self, '.', '(') {
+        if obj.is_import() && !is!(self, '.' | '(') {
             unexpected!(self, "`.` or `(`")
         }
 
@@ -1597,7 +1597,7 @@ impl<I: Tokens> Parser<I> {
         let callee = self.parse_new_expr()?;
         return_if_arrow!(self, callee);
 
-        let type_args = if self.input.syntax().typescript() && is!(self, '<', "<<") {
+        let type_args = if self.input.syntax().typescript() && is!(self, '<' | "<<") {
             self.try_parse_ts(|p| {
                 let type_args = p.parse_ts_type_args()?;
                 if is!(p, '(') {

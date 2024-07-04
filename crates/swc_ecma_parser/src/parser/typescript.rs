@@ -1648,7 +1648,7 @@ impl<I: Tokens> Parser<I> {
         expect!(self, ']');
 
         let mut optional = None;
-        if is!(self, '+', '-') {
+        if is!(self, '+' | '-') {
             optional = Some(if is!(self, '+') {
                 TruePlusMinus::Plus
             } else {
@@ -2443,7 +2443,7 @@ impl<I: Tokens> Parser<I> {
                     .map(From::from)
                     .map(Some);
             }
-            if is!(p, "const", "var", "let") {
+            if is!(p, "const" | "var" | "let") {
                 return p
                     .parse_var_stmt(false)
                     .map(|decl| VarDecl {
