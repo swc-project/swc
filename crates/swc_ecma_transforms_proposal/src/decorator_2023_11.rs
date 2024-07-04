@@ -932,6 +932,8 @@ impl VisitMut for Decorator202311 {
         for mut m in members.take() {
             match m {
                 ClassMember::AutoAccessor(mut accessor) => {
+                    accessor.value.visit_mut_with(self);
+
                     let name;
                     let init;
                     let field_name_like: JsWord;
