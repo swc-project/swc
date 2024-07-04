@@ -1,21 +1,18 @@
-
   x @value at-rule is deprecated
    ,-[$DIR/tests/recovery-cssmodules/value/input.css:1:1]
  1 | @value blue: #0c77f8;
    :       ^
  2 | @value red: #ff0000;
    `----
-
   x @value at-rule is deprecated
-   ,-[$DIR/tests/recovery-cssmodules/value/input.css:1:1]
+   ,-[$DIR/tests/recovery-cssmodules/value/input.css:2:1]
  1 | @value blue: #0c77f8;
  2 | @value red: #ff0000;
    :       ^
  3 | @value green: #aaf200;
    `----
-
   x @value at-rule is deprecated
-   ,-[$DIR/tests/recovery-cssmodules/value/input.css:2:1]
+   ,-[$DIR/tests/recovery-cssmodules/value/input.css:3:1]
  2 | @value red: #ff0000;
  3 | @value green: #aaf200;
    :       ^

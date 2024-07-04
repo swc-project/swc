@@ -1,70 +1,52 @@
-
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/tests26_dat.9.html:1:1]
- 1 | <p><code x</code></p>
-   : ^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests26_dat.9.html:1:2]
+ 1 | |    
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests26_dat.9.html:1:1]
  1 | <p><code x</code></p>
    : ^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests26_dat.9.html:1:1]
  1 | <p><code x</code></p>
    : ^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests26_dat.9.html:1:1]
  1 | <p><code x</code></p>
    :    ^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests26_dat.9.html:1:1]
  1 | <p><code x</code></p>
    :    ^^^^^^^^^^^^^^
    `----
-
   x Attribute
    ,-[$DIR/tests/html5lib-tests-fixture/tests26_dat.9.html:1:1]
  1 | <p><code x</code></p>
    :          ^^
    `----
-
   x Attribute
    ,-[$DIR/tests/html5lib-tests-fixture/tests26_dat.9.html:1:1]
  1 | <p><code x</code></p>
    :             ^^^^
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests26_dat.9.html:1:1]
- 1 | <p><code x</code></p>
-   :    ^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests26_dat.9.html:1:5]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tests26_dat.9.html:1:1]
- 1 | <p><code x</code></p>
-   :    ^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests26_dat.9.html:1:5]
+ 1 | |    
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests26_dat.9.html:1:1]
- 1 | <p><code x</code></p>
-   :                      ^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests26_dat.9.html:1:23]
+ 1 |  
    `----
-
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/tests26_dat.9.html:1:1]
- 1 | <p><code x</code></p>
-   :                      ^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests26_dat.9.html:1:23]
+ 1 |  
    `----

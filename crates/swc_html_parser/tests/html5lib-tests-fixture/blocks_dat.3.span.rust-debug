@@ -1,70 +1,54 @@
-
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/blocks_dat.3.html:1:1]
- 1 | <!doctype html><article><p>foo</article>bar
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/blocks_dat.3.html:1:2]
+ 1 | |    
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/blocks_dat.3.html:1:1]
  1 | <!doctype html><article><p>foo</article>bar
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/html5lib-tests-fixture/blocks_dat.3.html:1:1]
  1 | <!doctype html><article><p>foo</article>bar
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/blocks_dat.3.html:1:1]
  1 | <!doctype html><article><p>foo</article>bar
    :                ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/blocks_dat.3.html:1:1]
  1 | <!doctype html><article><p>foo</article>bar
    :                ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/blocks_dat.3.html:1:1]
  1 | <!doctype html><article><p>foo</article>bar
    :                         ^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/blocks_dat.3.html:1:1]
  1 | <!doctype html><article><p>foo</article>bar
    :                         ^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/blocks_dat.3.html:1:1]
  1 | <!doctype html><article><p>foo</article>bar
    :                            ^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/blocks_dat.3.html:1:1]
  1 | <!doctype html><article><p>foo</article>bar
    :                            ^^^
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/blocks_dat.3.html:1:1]
- 1 | <!doctype html><article><p>foo</article>bar
-   :                                         ^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/blocks_dat.3.html:1:42]
+ 1 | |    
    `----
-
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/blocks_dat.3.html:1:1]
- 1 | <!doctype html><article><p>foo</article>bar
-   :                                         ^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/blocks_dat.3.html:1:42]
+ 1 | |    
    `----

@@ -1,6 +1,5 @@
-
   x Unexpected alert
-   ,-[2:1]
+   ,-[5:1]
  2 | 
  3 | const alert = () => {};
  4 | 

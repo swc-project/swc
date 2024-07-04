@@ -1,7 +1,6 @@
 //// [main.ts]
-//! 
 //!   x Unexpected token `@`. Expected identifier, string literal, numeric literal or [ for the computed key
-//!     ,-[5:1]
+//!     ,-[8:1]
 //!   5 | 
 //!   6 | // needs: __esDecorate, __runInitializers, __propKey
 //!   7 | class C {

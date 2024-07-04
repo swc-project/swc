@@ -1,261 +1,214 @@
-
   x Module
-   ,-[$DIR/tests/span/js/expr/yield.js:1:1]
- 1 | ,-> function* foo() {
- 2 | |       yield 1
- 3 | |       yield* [1, 2, 3]
- 4 | `-> }
+   ,-[$DIR/tests/span/js/expr/yield.js:1:2]
+ 1 | |    
    `----
-
   x ModuleItem
-   ,-[$DIR/tests/span/js/expr/yield.js:1:1]
- 1 | ,-> function* foo() {
- 2 | |       yield 1
- 3 | |       yield* [1, 2, 3]
- 4 | `-> }
+   ,-[$DIR/tests/span/js/expr/yield.js:1:2]
+ 1 | |    
    `----
-
   x Stmt
-   ,-[$DIR/tests/span/js/expr/yield.js:1:1]
- 1 | ,-> function* foo() {
- 2 | |       yield 1
- 3 | |       yield* [1, 2, 3]
- 4 | `-> }
+   ,-[$DIR/tests/span/js/expr/yield.js:1:2]
+ 1 | |    
    `----
-
   x Decl
-   ,-[$DIR/tests/span/js/expr/yield.js:1:1]
- 1 | ,-> function* foo() {
- 2 | |       yield 1
- 3 | |       yield* [1, 2, 3]
- 4 | `-> }
+   ,-[$DIR/tests/span/js/expr/yield.js:1:2]
+ 1 | |    
    `----
-
   x FnDecl
-   ,-[$DIR/tests/span/js/expr/yield.js:1:1]
- 1 | ,-> function* foo() {
- 2 | |       yield 1
- 3 | |       yield* [1, 2, 3]
- 4 | `-> }
+   ,-[$DIR/tests/span/js/expr/yield.js:1:2]
+ 1 | |    
    `----
-
   x Ident
    ,-[$DIR/tests/span/js/expr/yield.js:1:1]
  1 | function* foo() {
    :           ^^^
  2 |     yield 1
    `----
-
   x Function
-   ,-[$DIR/tests/span/js/expr/yield.js:1:1]
- 1 | ,-> function* foo() {
- 2 | |       yield 1
- 3 | |       yield* [1, 2, 3]
- 4 | `-> }
+   ,-[$DIR/tests/span/js/expr/yield.js:1:2]
+ 1 | |    
    `----
-
   x BlockStmt
-   ,-[$DIR/tests/span/js/expr/yield.js:1:1]
- 1 | ,-> function* foo() {
- 2 | |       yield 1
- 3 | |       yield* [1, 2, 3]
- 4 | `-> }
+   ,-[$DIR/tests/span/js/expr/yield.js:1:18]
+ 1 | |    
    `----
-
   x Stmt
-   ,-[$DIR/tests/span/js/expr/yield.js:1:1]
+   ,-[$DIR/tests/span/js/expr/yield.js:2:1]
  1 | function* foo() {
  2 |     yield 1
    :     ^^^^^^^
  3 |     yield* [1, 2, 3]
+ 4 | }
    `----
-
   x ExprStmt
-   ,-[$DIR/tests/span/js/expr/yield.js:1:1]
+   ,-[$DIR/tests/span/js/expr/yield.js:2:1]
  1 | function* foo() {
  2 |     yield 1
    :     ^^^^^^^
  3 |     yield* [1, 2, 3]
+ 4 | }
    `----
-
   x Expr
-   ,-[$DIR/tests/span/js/expr/yield.js:1:1]
+   ,-[$DIR/tests/span/js/expr/yield.js:2:1]
  1 | function* foo() {
  2 |     yield 1
    :     ^^^^^^^
  3 |     yield* [1, 2, 3]
+ 4 | }
    `----
-
   x YieldExpr
-   ,-[$DIR/tests/span/js/expr/yield.js:1:1]
+   ,-[$DIR/tests/span/js/expr/yield.js:2:1]
  1 | function* foo() {
  2 |     yield 1
    :     ^^^^^^^
  3 |     yield* [1, 2, 3]
+ 4 | }
    `----
-
   x Expr
-   ,-[$DIR/tests/span/js/expr/yield.js:1:1]
+   ,-[$DIR/tests/span/js/expr/yield.js:2:1]
  1 | function* foo() {
  2 |     yield 1
    :           ^
  3 |     yield* [1, 2, 3]
+ 4 | }
    `----
-
   x Lit
-   ,-[$DIR/tests/span/js/expr/yield.js:1:1]
+   ,-[$DIR/tests/span/js/expr/yield.js:2:1]
  1 | function* foo() {
  2 |     yield 1
    :           ^
  3 |     yield* [1, 2, 3]
+ 4 | }
    `----
-
   x Number
-   ,-[$DIR/tests/span/js/expr/yield.js:1:1]
+   ,-[$DIR/tests/span/js/expr/yield.js:2:1]
  1 | function* foo() {
  2 |     yield 1
    :           ^
  3 |     yield* [1, 2, 3]
+ 4 | }
    `----
-
   x Stmt
-   ,-[$DIR/tests/span/js/expr/yield.js:2:1]
+   ,-[$DIR/tests/span/js/expr/yield.js:3:1]
  2 |     yield 1
  3 |     yield* [1, 2, 3]
    :     ^^^^^^^^^^^^^^^^
  4 | }
    `----
-
   x ExprStmt
-   ,-[$DIR/tests/span/js/expr/yield.js:2:1]
+   ,-[$DIR/tests/span/js/expr/yield.js:3:1]
  2 |     yield 1
  3 |     yield* [1, 2, 3]
    :     ^^^^^^^^^^^^^^^^
  4 | }
    `----
-
   x Expr
-   ,-[$DIR/tests/span/js/expr/yield.js:2:1]
+   ,-[$DIR/tests/span/js/expr/yield.js:3:1]
  2 |     yield 1
  3 |     yield* [1, 2, 3]
    :     ^^^^^^^^^^^^^^^^
  4 | }
    `----
-
   x YieldExpr
-   ,-[$DIR/tests/span/js/expr/yield.js:2:1]
+   ,-[$DIR/tests/span/js/expr/yield.js:3:1]
  2 |     yield 1
  3 |     yield* [1, 2, 3]
    :     ^^^^^^^^^^^^^^^^
  4 | }
    `----
-
   x Expr
-   ,-[$DIR/tests/span/js/expr/yield.js:2:1]
+   ,-[$DIR/tests/span/js/expr/yield.js:3:1]
  2 |     yield 1
  3 |     yield* [1, 2, 3]
    :            ^^^^^^^^^
  4 | }
    `----
-
   x ArrayLit
-   ,-[$DIR/tests/span/js/expr/yield.js:2:1]
+   ,-[$DIR/tests/span/js/expr/yield.js:3:1]
  2 |     yield 1
  3 |     yield* [1, 2, 3]
    :            ^^^^^^^^^
  4 | }
    `----
-
   x ExprOrSpread
-   ,-[$DIR/tests/span/js/expr/yield.js:2:1]
+   ,-[$DIR/tests/span/js/expr/yield.js:3:1]
  2 |     yield 1
  3 |     yield* [1, 2, 3]
    :             ^
  4 | }
    `----
-
   x Expr
-   ,-[$DIR/tests/span/js/expr/yield.js:2:1]
+   ,-[$DIR/tests/span/js/expr/yield.js:3:1]
  2 |     yield 1
  3 |     yield* [1, 2, 3]
    :             ^
  4 | }
    `----
-
   x Lit
-   ,-[$DIR/tests/span/js/expr/yield.js:2:1]
+   ,-[$DIR/tests/span/js/expr/yield.js:3:1]
  2 |     yield 1
  3 |     yield* [1, 2, 3]
    :             ^
  4 | }
    `----
-
   x Number
-   ,-[$DIR/tests/span/js/expr/yield.js:2:1]
+   ,-[$DIR/tests/span/js/expr/yield.js:3:1]
  2 |     yield 1
  3 |     yield* [1, 2, 3]
    :             ^
  4 | }
    `----
-
   x ExprOrSpread
-   ,-[$DIR/tests/span/js/expr/yield.js:2:1]
+   ,-[$DIR/tests/span/js/expr/yield.js:3:1]
  2 |     yield 1
  3 |     yield* [1, 2, 3]
    :                ^
  4 | }
    `----
-
   x Expr
-   ,-[$DIR/tests/span/js/expr/yield.js:2:1]
+   ,-[$DIR/tests/span/js/expr/yield.js:3:1]
  2 |     yield 1
  3 |     yield* [1, 2, 3]
    :                ^
  4 | }
    `----
-
   x Lit
-   ,-[$DIR/tests/span/js/expr/yield.js:2:1]
+   ,-[$DIR/tests/span/js/expr/yield.js:3:1]
  2 |     yield 1
  3 |     yield* [1, 2, 3]
    :                ^
  4 | }
    `----
-
   x Number
-   ,-[$DIR/tests/span/js/expr/yield.js:2:1]
+   ,-[$DIR/tests/span/js/expr/yield.js:3:1]
  2 |     yield 1
  3 |     yield* [1, 2, 3]
    :                ^
  4 | }
    `----
-
   x ExprOrSpread
-   ,-[$DIR/tests/span/js/expr/yield.js:2:1]
+   ,-[$DIR/tests/span/js/expr/yield.js:3:1]
  2 |     yield 1
  3 |     yield* [1, 2, 3]
    :                   ^
  4 | }
    `----
-
   x Expr
-   ,-[$DIR/tests/span/js/expr/yield.js:2:1]
+   ,-[$DIR/tests/span/js/expr/yield.js:3:1]
  2 |     yield 1
  3 |     yield* [1, 2, 3]
    :                   ^
  4 | }
    `----
-
   x Lit
-   ,-[$DIR/tests/span/js/expr/yield.js:2:1]
+   ,-[$DIR/tests/span/js/expr/yield.js:3:1]
  2 |     yield 1
  3 |     yield* [1, 2, 3]
    :                   ^
  4 | }
    `----
-
   x Number
-   ,-[$DIR/tests/span/js/expr/yield.js:2:1]
+   ,-[$DIR/tests/span/js/expr/yield.js:3:1]
  2 |     yield 1
  3 |     yield* [1, 2, 3]
    :                   ^

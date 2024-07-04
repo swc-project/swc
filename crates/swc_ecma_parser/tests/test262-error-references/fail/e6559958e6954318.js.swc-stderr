@@ -1,4 +1,3 @@
-
   x Unexpected initializer in for in/of loop
    ,-[$DIR/tests/test262-parser/fail/e6559958e6954318.js:1:1]
  1 | for (let x = 1 of y);

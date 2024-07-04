@@ -1,5 +1,4 @@
 //// [classAndVariableWithSameName.ts]
-//! 
 //!   x the name `C` is defined multiple times
 //!    ,-[1:1]
 //!  1 | class C { foo: string; } // error
@@ -12,9 +11,8 @@
 //!  4 | module M {
 //!  5 |     class D { // error
 //!    `----
-//! 
 //!   x the name `D` is defined multiple times
-//!     ,-[2:1]
+//!     ,-[5:1]
 //!   2 | var C = ''; // error
 //!   3 | 
 //!   4 | module M {

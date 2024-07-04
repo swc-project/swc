@@ -1,56 +1,40 @@
-
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/inbody01_dat.1.html:1:1]
- 1 | <foo>1<p>2</foo>
-   : ^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/inbody01_dat.1.html:1:2]
+ 1 | |    
    `----
-
   x Child
-
   x Element
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/inbody01_dat.1.html:1:1]
- 1 | <foo>1<p>2</foo>
-   : ^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/inbody01_dat.1.html:1:2]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/inbody01_dat.1.html:1:1]
- 1 | <foo>1<p>2</foo>
-   : ^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/inbody01_dat.1.html:1:2]
+ 1 | |    
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/inbody01_dat.1.html:1:1]
  1 | <foo>1<p>2</foo>
    :      ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/inbody01_dat.1.html:1:1]
  1 | <foo>1<p>2</foo>
    :      ^
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/inbody01_dat.1.html:1:1]
- 1 | <foo>1<p>2</foo>
-   :       ^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/inbody01_dat.1.html:1:8]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/inbody01_dat.1.html:1:1]
- 1 | <foo>1<p>2</foo>
-   :       ^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/inbody01_dat.1.html:1:8]
+ 1 | |    
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/inbody01_dat.1.html:1:1]
  1 | <foo>1<p>2</foo>
    :          ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/inbody01_dat.1.html:1:1]
  1 | <foo>1<p>2</foo>

@@ -1,22 +1,14 @@
-
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.16.fragment_math_mn.html:1:1]
- 1 | </mn>X
-   : ^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.16.fragment_math_mn.html:1:2]
+ 1 | |    
    `----
-
   x Child
-
   x Element
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.16.fragment_math_mn.html:1:1]
- 1 | </mn>X
-   :      ^
+   ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.16.fragment_math_mn.html:1:7]
+ 1 |  
    `----
-
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.16.fragment_math_mn.html:1:1]
- 1 | </mn>X
-   :      ^
+   ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.16.fragment_math_mn.html:1:7]
+ 1 |  
    `----

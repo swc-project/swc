@@ -1,6 +1,5 @@
-
   x Unexpected console statement
-   ,-[4:1]
+   ,-[7:1]
  4 |     console.log("message");
  5 | };
  6 | 

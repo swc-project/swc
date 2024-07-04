@@ -1,4 +1,3 @@
-
   x Expected ident
    ,-[$DIR/tests/test262-parser/fail/d087c23530163f2e.js:1:1]
  1 | "use strict"; const const = 1;

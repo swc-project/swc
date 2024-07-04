@@ -1,34 +1,22 @@
-
   x Document
-   ,-[$DIR/tests/recovery/element/nobr/input.html:1:1]
- 1 | <nobr>X
-   : ^^^^^^^
+   ,-[$DIR/tests/recovery/element/nobr/input.html:1:2]
+ 1 | |    
    `----
-
   x Child
-
   x Element
-
   x Child
-   ,-[$DIR/tests/recovery/element/nobr/input.html:1:1]
- 1 | <nobr>X
-   : ^^^^^^^
+   ,-[$DIR/tests/recovery/element/nobr/input.html:1:2]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/recovery/element/nobr/input.html:1:1]
- 1 | <nobr>X
-   : ^^^^^^^
+   ,-[$DIR/tests/recovery/element/nobr/input.html:1:2]
+ 1 | |    
    `----
-
   x Child
-   ,-[$DIR/tests/recovery/element/nobr/input.html:1:1]
- 1 | <nobr>X
-   :       ^
+   ,-[$DIR/tests/recovery/element/nobr/input.html:1:8]
+ 1 |  
    `----
-
   x Text
-   ,-[$DIR/tests/recovery/element/nobr/input.html:1:1]
- 1 | <nobr>X
-   :       ^
+   ,-[$DIR/tests/recovery/element/nobr/input.html:1:8]
+ 1 |  
    `----

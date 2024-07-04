@@ -1,7 +1,6 @@
 //// [esDecorators-classExpression-namedEvaluation.2.ts]
-//! 
 //!   x Expression expected
-//!     ,-[5:1]
+//!     ,-[8:1]
 //!   5 | // 13.2.5.5 RS: PropertyDefinitionEvaluation
 //!   6 | //  PropertyAssignment : PropertyName `:` AssignmentExpression
 //!   7 | 

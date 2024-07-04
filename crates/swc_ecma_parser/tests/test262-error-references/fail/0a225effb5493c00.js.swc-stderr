@@ -1,4 +1,3 @@
-
   x Expected ';', got 'numeric literal (42, 42)'
    ,-[$DIR/tests/test262-parser/fail/0a225effb5493c00.js:1:1]
  1 | for (const of 42);

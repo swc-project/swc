@@ -1,82 +1,60 @@
-
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/tests15_dat.12.html:1:1]
- 1 | <frame></frame></frame><frameset><frame><frameset><frame></frameset><noframes></frameset><noframes>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests15_dat.12.html:1:2]
+ 1 | |    
    `----
-
   x Child
-
   x Element
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests15_dat.12.html:1:1]
- 1 | <frame></frame></frame><frameset><frame><frameset><frame></frameset><noframes></frameset><noframes>
-   :                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests15_dat.12.html:1:25]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tests15_dat.12.html:1:1]
- 1 | <frame></frame></frame><frameset><frame><frameset><frame></frameset><noframes></frameset><noframes>
-   :                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests15_dat.12.html:1:25]
+ 1 | |    
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests15_dat.12.html:1:1]
  1 | <frame></frame></frame><frameset><frame><frameset><frame></frameset><noframes></frameset><noframes>
    :                                  ^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests15_dat.12.html:1:1]
  1 | <frame></frame></frame><frameset><frame><frameset><frame></frameset><noframes></frameset><noframes>
    :                                  ^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests15_dat.12.html:1:1]
  1 | <frame></frame></frame><frameset><frame><frameset><frame></frameset><noframes></frameset><noframes>
    :                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests15_dat.12.html:1:1]
  1 | <frame></frame></frame><frameset><frame><frameset><frame></frameset><noframes></frameset><noframes>
    :                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests15_dat.12.html:1:1]
  1 | <frame></frame></frame><frameset><frame><frameset><frame></frameset><noframes></frameset><noframes>
    :                                                   ^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests15_dat.12.html:1:1]
  1 | <frame></frame></frame><frameset><frame><frameset><frame></frameset><noframes></frameset><noframes>
    :                                                   ^^^^^^^
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests15_dat.12.html:1:1]
- 1 | <frame></frame></frame><frameset><frame><frameset><frame></frameset><noframes></frameset><noframes>
-   :                                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests15_dat.12.html:1:70]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tests15_dat.12.html:1:1]
- 1 | <frame></frame></frame><frameset><frame><frameset><frame></frameset><noframes></frameset><noframes>
-   :                                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests15_dat.12.html:1:70]
+ 1 | |    
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests15_dat.12.html:1:1]
- 1 | <frame></frame></frame><frameset><frame><frameset><frame></frameset><noframes></frameset><noframes>
-   :                                                                               ^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests15_dat.12.html:1:80]
+ 1 | |    
    `----
-
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/tests15_dat.12.html:1:1]
- 1 | <frame></frame></frame><frameset><frame><frameset><frame></frameset><noframes></frameset><noframes>
-   :                                                                               ^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests15_dat.12.html:1:80]
+ 1 | |    
    `----

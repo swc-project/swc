@@ -1,34 +1,24 @@
-
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/doctype01_dat.1.html:1:1]
- 1 | <!dOctYpE HtMl>Hello
-   : ^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/doctype01_dat.1.html:1:2]
+ 1 | |    
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/doctype01_dat.1.html:1:1]
  1 | <!dOctYpE HtMl>Hello
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/html5lib-tests-fixture/doctype01_dat.1.html:1:1]
  1 | <!dOctYpE HtMl>Hello
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/doctype01_dat.1.html:1:1]
- 1 | <!dOctYpE HtMl>Hello
-   :                ^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/doctype01_dat.1.html:1:17]
+ 1 | |    
    `----
-
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/doctype01_dat.1.html:1:1]
- 1 | <!dOctYpE HtMl>Hello
-   :                ^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/doctype01_dat.1.html:1:17]
+ 1 | |    
    `----

@@ -1,142 +1,104 @@
-
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.14.html:1:1]
- 1 | <div><a><b><u><i><code><div></a>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.14.html:1:2]
+ 1 | |    
    `----
-
   x Child
-
   x Element
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.14.html:1:1]
- 1 | <div><a><b><u><i><code><div></a>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.14.html:1:2]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.14.html:1:1]
- 1 | <div><a><b><u><i><code><div></a>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.14.html:1:2]
+ 1 | |    
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.14.html:1:1]
  1 | <div><a><b><u><i><code><div></a>
    :      ^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.14.html:1:1]
  1 | <div><a><b><u><i><code><div></a>
    :      ^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.14.html:1:1]
  1 | <div><a><b><u><i><code><div></a>
    :         ^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.14.html:1:1]
  1 | <div><a><b><u><i><code><div></a>
    :         ^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.14.html:1:1]
  1 | <div><a><b><u><i><code><div></a>
    :            ^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.14.html:1:1]
  1 | <div><a><b><u><i><code><div></a>
    :            ^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.14.html:1:1]
  1 | <div><a><b><u><i><code><div></a>
    :               ^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.14.html:1:1]
  1 | <div><a><b><u><i><code><div></a>
    :               ^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.14.html:1:1]
  1 | <div><a><b><u><i><code><div></a>
    :                  ^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.14.html:1:1]
  1 | <div><a><b><u><i><code><div></a>
    :                  ^^^^^^
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.14.html:1:1]
- 1 | <div><a><b><u><i><code><div></a>
-   :            ^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.14.html:1:13]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.14.html:1:1]
- 1 | <div><a><b><u><i><code><div></a>
-   :            ^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.14.html:1:13]
+ 1 | |    
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.14.html:1:1]
- 1 | <div><a><b><u><i><code><div></a>
-   :               ^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.14.html:1:16]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.14.html:1:1]
- 1 | <div><a><b><u><i><code><div></a>
-   :               ^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.14.html:1:16]
+ 1 | |    
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.14.html:1:1]
- 1 | <div><a><b><u><i><code><div></a>
-   :                  ^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.14.html:1:19]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.14.html:1:1]
- 1 | <div><a><b><u><i><code><div></a>
-   :                  ^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.14.html:1:19]
+ 1 | |    
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.14.html:1:1]
- 1 | <div><a><b><u><i><code><div></a>
-   :                        ^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.14.html:1:25]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.14.html:1:1]
- 1 | <div><a><b><u><i><code><div></a>
-   :                        ^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.14.html:1:25]
+ 1 | |    
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.14.html:1:1]
- 1 | <div><a><b><u><i><code><div></a>
-   :                             ^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.14.html:1:30]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.14.html:1:1]
- 1 | <div><a><b><u><i><code><div></a>
-   :                             ^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/adoption01_dat.14.html:1:30]
+ 1 | |    
    `----

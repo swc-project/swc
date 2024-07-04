@@ -1,92 +1,74 @@
-
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.0.html:1:1]
- 1 | ,-> <b><p>Bold </b> Not bold</p>
- 2 | `-> Also not bold.
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.0.html:1:2]
+ 1 | |    
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.0.html:1:1]
  1 | <b><p>Bold </b> Not bold</p>
    : ^^^
  2 | Also not bold.
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.0.html:1:1]
  1 | <b><p>Bold </b> Not bold</p>
    : ^^^
  2 | Also not bold.
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.0.html:1:1]
  1 | <b><p>Bold </b> Not bold</p>
    :    ^^^^^^^^^^^^^^^^^^^^^^^^^
  2 | Also not bold.
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.0.html:1:1]
  1 | <b><p>Bold </b> Not bold</p>
    :    ^^^^^^^^^^^^^^^^^^^^^^^^^
  2 | Also not bold.
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.0.html:1:1]
  1 | <b><p>Bold </b> Not bold</p>
    :       ^^^^^^^^^
  2 | Also not bold.
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.0.html:1:1]
  1 | <b><p>Bold </b> Not bold</p>
    :       ^^^^^^^^^
  2 | Also not bold.
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.0.html:1:1]
  1 | <b><p>Bold </b> Not bold</p>
    :       ^^^^^
  2 | Also not bold.
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.0.html:1:1]
  1 | <b><p>Bold </b> Not bold</p>
    :       ^^^^^
  2 | Also not bold.
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.0.html:1:1]
  1 | <b><p>Bold </b> Not bold</p>
    :                ^^^^^^^^^
  2 | Also not bold.
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.0.html:1:1]
  1 | <b><p>Bold </b> Not bold</p>
    :                ^^^^^^^^^
  2 | Also not bold.
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.0.html:1:1]
- 1 | ,-> <b><p>Bold </b> Not bold</p>
- 2 | `-> Also not bold.
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.0.html:2:1]
+ 2 | |    
    `----
-
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.0.html:1:1]
- 1 | ,-> <b><p>Bold </b> Not bold</p>
- 2 | `-> Also not bold.
+   ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.0.html:2:1]
+ 2 | |    
    `----

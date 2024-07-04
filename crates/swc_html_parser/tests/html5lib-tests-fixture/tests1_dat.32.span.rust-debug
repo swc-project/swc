@@ -1,142 +1,108 @@
-
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.32.html:1:1]
- 1 | <!-----><font><div>hello<table>excite!<b>me!<th><i>please!</tr><!--X-->
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.32.html:1:2]
+ 1 | |    
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.32.html:1:1]
  1 | <!-----><font><div>hello<table>excite!<b>me!<th><i>please!</tr><!--X-->
    : ^^^^^^^^
    `----
-
   x Comment
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.32.html:1:1]
  1 | <!-----><font><div>hello<table>excite!<b>me!<th><i>please!</tr><!--X-->
    : ^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.32.html:1:1]
- 1 | <!-----><font><div>hello<table>excite!<b>me!<th><i>please!</tr><!--X-->
-   :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.32.html:1:10]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.32.html:1:1]
- 1 | <!-----><font><div>hello<table>excite!<b>me!<th><i>please!</tr><!--X-->
-   :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.32.html:1:10]
+ 1 | |    
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.32.html:1:1]
- 1 | <!-----><font><div>hello<table>excite!<b>me!<th><i>please!</tr><!--X-->
-   :               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.32.html:1:16]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.32.html:1:1]
- 1 | <!-----><font><div>hello<table>excite!<b>me!<th><i>please!</tr><!--X-->
-   :               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.32.html:1:16]
+ 1 | |    
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.32.html:1:1]
  1 | <!-----><font><div>hello<table>excite!<b>me!<th><i>please!</tr><!--X-->
    :                    ^^^^^^^^^^^^^^^^^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.32.html:1:1]
  1 | <!-----><font><div>hello<table>excite!<b>me!<th><i>please!</tr><!--X-->
    :                    ^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.32.html:1:1]
  1 | <!-----><font><div>hello<table>excite!<b>me!<th><i>please!</tr><!--X-->
    :                                       ^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.32.html:1:1]
  1 | <!-----><font><div>hello<table>excite!<b>me!<th><i>please!</tr><!--X-->
    :                                       ^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.32.html:1:1]
  1 | <!-----><font><div>hello<table>excite!<b>me!<th><i>please!</tr><!--X-->
    :                                          ^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.32.html:1:1]
  1 | <!-----><font><div>hello<table>excite!<b>me!<th><i>please!</tr><!--X-->
    :                                          ^^^
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.32.html:1:1]
- 1 | <!-----><font><div>hello<table>excite!<b>me!<th><i>please!</tr><!--X-->
-   :                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.32.html:1:26]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.32.html:1:1]
- 1 | <!-----><font><div>hello<table>excite!<b>me!<th><i>please!</tr><!--X-->
-   :                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.32.html:1:26]
+ 1 | |    
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.32.html:1:1]
  1 | <!-----><font><div>hello<table>excite!<b>me!<th><i>please!</tr><!--X-->
    :                                             ^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.32.html:1:1]
  1 | <!-----><font><div>hello<table>excite!<b>me!<th><i>please!</tr><!--X-->
    :                                             ^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.32.html:1:1]
  1 | <!-----><font><div>hello<table>excite!<b>me!<th><i>please!</tr><!--X-->
    :                                                 ^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.32.html:1:1]
  1 | <!-----><font><div>hello<table>excite!<b>me!<th><i>please!</tr><!--X-->
    :                                                 ^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.32.html:1:1]
  1 | <!-----><font><div>hello<table>excite!<b>me!<th><i>please!</tr><!--X-->
    :                                                    ^^^^^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.32.html:1:1]
  1 | <!-----><font><div>hello<table>excite!<b>me!<th><i>please!</tr><!--X-->
    :                                                    ^^^^^^^
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.32.html:1:1]
- 1 | <!-----><font><div>hello<table>excite!<b>me!<th><i>please!</tr><!--X-->
-   :                                                                ^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.32.html:1:65]
+ 1 | |    
    `----
-
   x Comment
-   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.32.html:1:1]
- 1 | <!-----><font><div>hello<table>excite!<b>me!<th><i>please!</tr><!--X-->
-   :                                                                ^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.32.html:1:65]
+ 1 | |    
    `----

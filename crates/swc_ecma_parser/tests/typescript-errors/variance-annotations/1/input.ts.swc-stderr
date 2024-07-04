@@ -1,60 +1,52 @@
-
   x 'public' modifier cannot appear on a type parameter
-    ,-[$DIR/tests/typescript-errors/variance-annotations/1/input.ts:94:1]
+    ,-[$DIR/tests/typescript-errors/variance-annotations/1/input.ts:95:1]
  94 | 
  95 | type T20<public T> = T;  // Error
     :          ^^^^^^
  96 | type T21<in out in T> = T;  // Error
     `----
-
   x 'in' modifier already seen.
-    ,-[$DIR/tests/typescript-errors/variance-annotations/1/input.ts:95:1]
+    ,-[$DIR/tests/typescript-errors/variance-annotations/1/input.ts:96:1]
  95 | type T20<public T> = T;  // Error
  96 | type T21<in out in T> = T;  // Error
     :                 ^^
  97 | type T22<in out out T> = T;  // Error
     `----
-
   x 'out' modifier already seen.
-    ,-[$DIR/tests/typescript-errors/variance-annotations/1/input.ts:96:1]
+    ,-[$DIR/tests/typescript-errors/variance-annotations/1/input.ts:97:1]
  96 | type T21<in out in T> = T;  // Error
  97 | type T22<in out out T> = T;  // Error
     :                 ^^^
  98 | type T23<out in T> = T;  // Error
     `----
-
   x 'in' modifier must precede 'out' modifier.
-    ,-[$DIR/tests/typescript-errors/variance-annotations/1/input.ts:97:1]
+    ,-[$DIR/tests/typescript-errors/variance-annotations/1/input.ts:98:1]
  97 | type T22<in out out T> = T;  // Error
  98 | type T23<out in T> = T;  // Error
     :              ^^
     `----
-
   x 'in' modifier can only appear on a type parameter of a class, interface or type alias
-     ,-[$DIR/tests/typescript-errors/variance-annotations/1/input.ts:99:1]
+     ,-[$DIR/tests/typescript-errors/variance-annotations/1/input.ts:100:1]
   99 | 
  100 | declare function f1<in T>(x: T): void;  // Error
      :                     ^^
  101 | declare function f2<out T>(): T;  // Error
      `----
-
   x 'out' modifier can only appear on a type parameter of a class, interface or type alias
-     ,-[$DIR/tests/typescript-errors/variance-annotations/1/input.ts:100:1]
+     ,-[$DIR/tests/typescript-errors/variance-annotations/1/input.ts:101:1]
  100 | declare function f1<in T>(x: T): void;  // Error
  101 | declare function f2<out T>(): T;  // Error
      :                     ^^^
      `----
-
   x 'in' modifier can only appear on a type parameter of a class, interface or type alias
-     ,-[$DIR/tests/typescript-errors/variance-annotations/1/input.ts:103:1]
+     ,-[$DIR/tests/typescript-errors/variance-annotations/1/input.ts:104:1]
  103 | class C {
  104 |     in a = 0;  // Error
      :     ^^
  105 |     out b = 0;  // Error
      `----
-
   x 'out' modifier can only appear on a type parameter of a class, interface or type alias
-     ,-[$DIR/tests/typescript-errors/variance-annotations/1/input.ts:104:1]
+     ,-[$DIR/tests/typescript-errors/variance-annotations/1/input.ts:105:1]
  104 |     in a = 0;  // Error
  105 |     out b = 0;  // Error
      :     ^^^

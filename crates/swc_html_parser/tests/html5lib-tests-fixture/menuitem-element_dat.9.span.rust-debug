@@ -1,58 +1,44 @@
-
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/menuitem-element_dat.9.html:1:1]
- 1 | <!DOCTYPE html><menuitem><asdf></menuitem>x
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/menuitem-element_dat.9.html:1:2]
+ 1 | |    
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/menuitem-element_dat.9.html:1:1]
  1 | <!DOCTYPE html><menuitem><asdf></menuitem>x
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/html5lib-tests-fixture/menuitem-element_dat.9.html:1:1]
  1 | <!DOCTYPE html><menuitem><asdf></menuitem>x
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/menuitem-element_dat.9.html:1:1]
  1 | <!DOCTYPE html><menuitem><asdf></menuitem>x
    :                ^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/menuitem-element_dat.9.html:1:1]
  1 | <!DOCTYPE html><menuitem><asdf></menuitem>x
    :                ^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/menuitem-element_dat.9.html:1:1]
  1 | <!DOCTYPE html><menuitem><asdf></menuitem>x
    :                          ^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/menuitem-element_dat.9.html:1:1]
  1 | <!DOCTYPE html><menuitem><asdf></menuitem>x
    :                          ^^^^^^
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/menuitem-element_dat.9.html:1:1]
- 1 | <!DOCTYPE html><menuitem><asdf></menuitem>x
-   :                                           ^
+   ,-[$DIR/tests/html5lib-tests-fixture/menuitem-element_dat.9.html:1:44]
+ 1 |  
    `----
-
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/menuitem-element_dat.9.html:1:1]
- 1 | <!DOCTYPE html><menuitem><asdf></menuitem>x
-   :                                           ^
+   ,-[$DIR/tests/html5lib-tests-fixture/menuitem-element_dat.9.html:1:44]
+ 1 |  
    `----

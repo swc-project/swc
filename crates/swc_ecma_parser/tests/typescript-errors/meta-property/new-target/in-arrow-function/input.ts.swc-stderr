@@ -1,6 +1,5 @@
-
   x 'new.target' is only allowed in the body of a function declaration, function expression, or class.
-   ,-[$DIR/tests/typescript-errors/meta-property/new-target/in-arrow-function/input.ts:1:1]
+   ,-[$DIR/tests/typescript-errors/meta-property/new-target/in-arrow-function/input.ts:2:1]
  1 | const f = () => {
  2 |     new.target;
    :     ^^^^^^^^^^

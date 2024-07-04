@@ -1,22 +1,14 @@
-
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/html5test-com_dat.11.html:1:1]
- 1 | <?import namespace="foo" implementation="#bar">
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/html5test-com_dat.11.html:1:2]
+ 1 | |    
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/html5test-com_dat.11.html:1:1]
- 1 | <?import namespace="foo" implementation="#bar">
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/html5test-com_dat.11.html:1:2]
+ 1 | |    
    `----
-
   x Comment
-   ,-[$DIR/tests/html5lib-tests-fixture/html5test-com_dat.11.html:1:1]
- 1 | <?import namespace="foo" implementation="#bar">
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/html5test-com_dat.11.html:1:2]
+ 1 | |    
    `----
-
   x Child
-
   x Element

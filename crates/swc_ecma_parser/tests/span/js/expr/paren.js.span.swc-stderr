@@ -1,160 +1,127 @@
-
   x Module
-   ,-[$DIR/tests/span/js/expr/paren.js:1:1]
- 1 | console.log(((((((a)))))))
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/span/js/expr/paren.js:1:2]
+ 1 | |    
    `----
-
   x ModuleItem
-   ,-[$DIR/tests/span/js/expr/paren.js:1:1]
- 1 | console.log(((((((a)))))))
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/span/js/expr/paren.js:1:2]
+ 1 | |    
    `----
-
   x Stmt
-   ,-[$DIR/tests/span/js/expr/paren.js:1:1]
- 1 | console.log(((((((a)))))))
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/span/js/expr/paren.js:1:2]
+ 1 | |    
    `----
-
   x ExprStmt
-   ,-[$DIR/tests/span/js/expr/paren.js:1:1]
- 1 | console.log(((((((a)))))))
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/span/js/expr/paren.js:1:2]
+ 1 | |    
    `----
-
   x Expr
-   ,-[$DIR/tests/span/js/expr/paren.js:1:1]
- 1 | console.log(((((((a)))))))
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/span/js/expr/paren.js:1:2]
+ 1 | |    
    `----
-
   x CallExpr
-   ,-[$DIR/tests/span/js/expr/paren.js:1:1]
- 1 | console.log(((((((a)))))))
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/span/js/expr/paren.js:1:2]
+ 1 | |    
    `----
-
   x Callee
    ,-[$DIR/tests/span/js/expr/paren.js:1:1]
  1 | console.log(((((((a)))))))
    : ^^^^^^^^^^^
    `----
-
   x Expr
    ,-[$DIR/tests/span/js/expr/paren.js:1:1]
  1 | console.log(((((((a)))))))
    : ^^^^^^^^^^^
    `----
-
   x MemberExpr
    ,-[$DIR/tests/span/js/expr/paren.js:1:1]
  1 | console.log(((((((a)))))))
    : ^^^^^^^^^^^
    `----
-
   x Expr
    ,-[$DIR/tests/span/js/expr/paren.js:1:1]
  1 | console.log(((((((a)))))))
    : ^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/span/js/expr/paren.js:1:1]
  1 | console.log(((((((a)))))))
    : ^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/span/js/expr/paren.js:1:1]
  1 | console.log(((((((a)))))))
    :         ^^^
    `----
-
   x ExprOrSpread
    ,-[$DIR/tests/span/js/expr/paren.js:1:1]
  1 | console.log(((((((a)))))))
    :             ^^^^^^^^^^^^^
    `----
-
   x Expr
    ,-[$DIR/tests/span/js/expr/paren.js:1:1]
  1 | console.log(((((((a)))))))
    :             ^^^^^^^^^^^^^
    `----
-
   x ParenExpr
    ,-[$DIR/tests/span/js/expr/paren.js:1:1]
  1 | console.log(((((((a)))))))
    :             ^^^^^^^^^^^^^
    `----
-
   x Expr
    ,-[$DIR/tests/span/js/expr/paren.js:1:1]
  1 | console.log(((((((a)))))))
    :              ^^^^^^^^^^^
    `----
-
   x ParenExpr
    ,-[$DIR/tests/span/js/expr/paren.js:1:1]
  1 | console.log(((((((a)))))))
    :              ^^^^^^^^^^^
    `----
-
   x Expr
    ,-[$DIR/tests/span/js/expr/paren.js:1:1]
  1 | console.log(((((((a)))))))
    :               ^^^^^^^^^
    `----
-
   x ParenExpr
    ,-[$DIR/tests/span/js/expr/paren.js:1:1]
  1 | console.log(((((((a)))))))
    :               ^^^^^^^^^
    `----
-
   x Expr
    ,-[$DIR/tests/span/js/expr/paren.js:1:1]
  1 | console.log(((((((a)))))))
    :                ^^^^^^^
    `----
-
   x ParenExpr
    ,-[$DIR/tests/span/js/expr/paren.js:1:1]
  1 | console.log(((((((a)))))))
    :                ^^^^^^^
    `----
-
   x Expr
    ,-[$DIR/tests/span/js/expr/paren.js:1:1]
  1 | console.log(((((((a)))))))
    :                 ^^^^^
    `----
-
   x ParenExpr
    ,-[$DIR/tests/span/js/expr/paren.js:1:1]
  1 | console.log(((((((a)))))))
    :                 ^^^^^
    `----
-
   x Expr
    ,-[$DIR/tests/span/js/expr/paren.js:1:1]
  1 | console.log(((((((a)))))))
    :                  ^^^
    `----
-
   x ParenExpr
    ,-[$DIR/tests/span/js/expr/paren.js:1:1]
  1 | console.log(((((((a)))))))
    :                  ^^^
    `----
-
   x Expr
    ,-[$DIR/tests/span/js/expr/paren.js:1:1]
  1 | console.log(((((((a)))))))
    :                   ^
    `----
-
   x Ident
    ,-[$DIR/tests/span/js/expr/paren.js:1:1]
  1 | console.log(((((((a)))))))

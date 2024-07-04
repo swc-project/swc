@@ -1,6 +1,7 @@
-
   x Invalid selector
    ,-[$DIR/tests/recovery/rules/at-rule-with-semi/input.css:1:1]
  1 | @media {};
    :          ^
+ 2 | 
+ 3 | a { color: red }
    `----

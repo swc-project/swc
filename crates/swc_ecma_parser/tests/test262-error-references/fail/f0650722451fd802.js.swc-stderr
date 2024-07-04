@@ -1,6 +1,4 @@
-
   x Unterminated string constant
-   ,-[$DIR/tests/test262-parser/fail/f0650722451fd802.js:1:1]
- 1 | '\03
-   : ^^^^
+   ,-[$DIR/tests/test262-parser/fail/f0650722451fd802.js:1:2]
+ 1 | |    
    `----

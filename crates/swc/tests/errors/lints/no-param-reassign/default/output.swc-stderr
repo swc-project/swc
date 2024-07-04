@@ -1,6 +1,5 @@
-
   x Assignment to function parameter 'a'
-   ,-[1:1]
+   ,-[2:1]
  1 | function f(a) {
  2 |     a = 1;
    :     ^
@@ -8,9 +7,8 @@
  4 | 
  5 | function f(a) {
    `----
-
   x Assignment to function parameter 'a'
-   ,-[4:1]
+   ,-[7:1]
  4 | 
  5 | function f(a) {
  6 |     function f3() {
@@ -19,9 +17,8 @@
  8 |     }
  9 | }
    `----
-
   x Assignment to function parameter 'a'
-    ,-[9:1]
+    ,-[12:1]
   9 | }
  10 | 
  11 | function f(a) {
@@ -31,9 +28,8 @@
  14 |     (((((((a))))))).prop = 1;
  15 |     (void 0, a).prop = 1;
     `----
-
   x Assignment to function parameter 'a'
-    ,-[10:1]
+    ,-[13:1]
  10 | 
  11 | function f(a) {
  12 |     a.prop = 1;
@@ -43,9 +39,8 @@
  15 |     (void 0, a).prop = 1;
  16 |     (a.prop = 1);
     `----
-
   x Assignment to function parameter 'a'
-    ,-[11:1]
+    ,-[14:1]
  11 | function f(a) {
  12 |     a.prop = 1;
  13 |     (a).prop = 1;
@@ -55,9 +50,8 @@
  16 |     (a.prop = 1);
  17 |     (void 0, a.prop = 1, void 0)
     `----
-
   x Assignment to function parameter 'a'
-    ,-[12:1]
+    ,-[15:1]
  12 |     a.prop = 1;
  13 |     (a).prop = 1;
  14 |     (((((((a))))))).prop = 1;
@@ -67,9 +61,8 @@
  17 |     (void 0, a.prop = 1, void 0)
  18 |     a.prop.b = 1;
     `----
-
   x Assignment to function parameter 'a'
-    ,-[13:1]
+    ,-[16:1]
  13 |     (a).prop = 1;
  14 |     (((((((a))))))).prop = 1;
  15 |     (void 0, a).prop = 1;
@@ -79,9 +72,8 @@
  18 |     a.prop.b = 1;
  19 | }
     `----
-
   x Assignment to function parameter 'a'
-    ,-[14:1]
+    ,-[17:1]
  14 |     (((((((a))))))).prop = 1;
  15 |     (void 0, a).prop = 1;
  16 |     (a.prop = 1);
@@ -90,9 +82,8 @@
  18 |     a.prop.b = 1;
  19 | }
     `----
-
   x Assignment to function parameter 'a'
-    ,-[15:1]
+    ,-[18:1]
  15 |     (void 0, a).prop = 1;
  16 |     (a.prop = 1);
  17 |     (void 0, a.prop = 1, void 0)
@@ -102,9 +93,8 @@
  20 | 
  21 | function f(a) {
     `----
-
   x Assignment to function parameter 'a'
-    ,-[19:1]
+    ,-[22:1]
  19 | }
  20 | 
  21 | function f(a) {
@@ -114,9 +104,8 @@
  24 |     a.prop++;
  25 |     ++a.prop;
     `----
-
   x Assignment to function parameter 'a'
-    ,-[20:1]
+    ,-[23:1]
  20 | 
  21 | function f(a) {
  22 |     a++;
@@ -126,9 +115,8 @@
  25 |     ++a.prop;
  26 | }
     `----
-
   x Assignment to function parameter 'a'
-    ,-[21:1]
+    ,-[24:1]
  21 | function f(a) {
  22 |     a++;
  23 |     ++a;
@@ -137,9 +125,8 @@
  25 |     ++a.prop;
  26 | }
     `----
-
   x Assignment to function parameter 'a'
-    ,-[22:1]
+    ,-[25:1]
  22 |     a++;
  23 |     ++a;
  24 |     a.prop++;
@@ -149,9 +136,8 @@
  27 | 
  28 | function f(a) {
     `----
-
   x Assignment to function parameter 'a'
-    ,-[26:1]
+    ,-[29:1]
  26 | }
  27 | 
  28 | function f(a) {
@@ -161,9 +147,8 @@
  31 | 
  32 |     for (a in []) {}
     `----
-
   x Assignment to function parameter 'a'
-    ,-[29:1]
+    ,-[32:1]
  29 |     for (a of []) {}
  30 |     for (const a of []) {}
  31 | 
@@ -172,9 +157,8 @@
  33 |     for (const a in []) {}
  34 | }
     `----
-
   x Assignment to function parameter 'a'
-    ,-[34:1]
+    ,-[37:1]
  34 | }
  35 | 
  36 | function f(a) {
@@ -184,9 +168,8 @@
  39 | 
  40 | function f(a, b, c) {
     `----
-
   x Assignment to function parameter 'a'
-    ,-[38:1]
+    ,-[41:1]
  38 | }
  39 | 
  40 | function f(a, b, c) {
@@ -196,9 +179,8 @@
  43 |     ({ a, b, k: { c } } = {});
  44 |     ([a] = []);
     `----
-
   x Assignment to function parameter 'a'
-    ,-[39:1]
+    ,-[42:1]
  39 | 
  40 | function f(a, b, c) {
  41 |     ({ a } = {});
@@ -208,9 +190,8 @@
  44 |     ([a] = []);
  45 |     ([{a}, [b]] = [])
     `----
-
   x Assignment to function parameter 'b'
-    ,-[39:1]
+    ,-[42:1]
  39 | 
  40 | function f(a, b, c) {
  41 |     ({ a } = {});
@@ -220,9 +201,8 @@
  44 |     ([a] = []);
  45 |     ([{a}, [b]] = [])
     `----
-
   x Assignment to function parameter 'a'
-    ,-[40:1]
+    ,-[43:1]
  40 | function f(a, b, c) {
  41 |     ({ a } = {});
  42 |     ({ a, b } = {});
@@ -232,9 +212,8 @@
  45 |     ([{a}, [b]] = [])
  46 | }
     `----
-
   x Assignment to function parameter 'b'
-    ,-[40:1]
+    ,-[43:1]
  40 | function f(a, b, c) {
  41 |     ({ a } = {});
  42 |     ({ a, b } = {});
@@ -244,9 +223,8 @@
  45 |     ([{a}, [b]] = [])
  46 | }
     `----
-
   x Assignment to function parameter 'c'
-    ,-[40:1]
+    ,-[43:1]
  40 | function f(a, b, c) {
  41 |     ({ a } = {});
  42 |     ({ a, b } = {});
@@ -256,9 +234,8 @@
  45 |     ([{a}, [b]] = [])
  46 | }
     `----
-
   x Assignment to function parameter 'a'
-    ,-[41:1]
+    ,-[44:1]
  41 |     ({ a } = {});
  42 |     ({ a, b } = {});
  43 |     ({ a, b, k: { c } } = {});
@@ -267,9 +244,8 @@
  45 |     ([{a}, [b]] = [])
  46 | }
     `----
-
   x Assignment to function parameter 'a'
-    ,-[42:1]
+    ,-[45:1]
  42 |     ({ a, b } = {});
  43 |     ({ a, b, k: { c } } = {});
  44 |     ([a] = []);
@@ -279,9 +255,8 @@
  47 | 
  48 | function f(a, { b, k: { c }, k2: [ d ] }, [e, [f], { g }]) {
     `----
-
   x Assignment to function parameter 'b'
-    ,-[42:1]
+    ,-[45:1]
  42 |     ({ a, b } = {});
  43 |     ({ a, b, k: { c } } = {});
  44 |     ([a] = []);
@@ -291,9 +266,8 @@
  47 | 
  48 | function f(a, { b, k: { c }, k2: [ d ] }, [e, [f], { g }]) {
     `----
-
   x Assignment to function parameter 'a'
-    ,-[46:1]
+    ,-[49:1]
  46 | }
  47 | 
  48 | function f(a, { b, k: { c }, k2: [ d ] }, [e, [f], { g }]) {
@@ -303,9 +277,8 @@
  51 |     c = 1;
  52 |     d = 1;
     `----
-
   x Assignment to function parameter 'b'
-    ,-[47:1]
+    ,-[50:1]
  47 | 
  48 | function f(a, { b, k: { c }, k2: [ d ] }, [e, [f], { g }]) {
  49 |     a = 1;
@@ -315,9 +288,8 @@
  52 |     d = 1;
  53 |     e = 1;
     `----
-
   x Assignment to function parameter 'c'
-    ,-[48:1]
+    ,-[51:1]
  48 | function f(a, { b, k: { c }, k2: [ d ] }, [e, [f], { g }]) {
  49 |     a = 1;
  50 |     b = 1;
@@ -327,9 +299,8 @@
  53 |     e = 1;
  54 |     f = 1;
     `----
-
   x Assignment to function parameter 'd'
-    ,-[49:1]
+    ,-[52:1]
  49 |     a = 1;
  50 |     b = 1;
  51 |     c = 1;
@@ -339,9 +310,8 @@
  54 |     f = 1;
  55 |     g = 1;
     `----
-
   x Assignment to function parameter 'e'
-    ,-[50:1]
+    ,-[53:1]
  50 |     b = 1;
  51 |     c = 1;
  52 |     d = 1;
@@ -351,9 +321,8 @@
  55 |     g = 1;
  56 | }
     `----
-
   x Assignment to function parameter 'f'
-    ,-[51:1]
+    ,-[54:1]
  51 |     c = 1;
  52 |     d = 1;
  53 |     e = 1;
@@ -362,9 +331,8 @@
  55 |     g = 1;
  56 | }
     `----
-
   x Assignment to function parameter 'g'
-    ,-[52:1]
+    ,-[55:1]
  52 |     d = 1;
  53 |     e = 1;
  54 |     f = 1;

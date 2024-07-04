@@ -1,106 +1,80 @@
-
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.56.html:1:1]
- 1 | <font><p>hello<b>cruel</font>world
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.56.html:1:2]
+ 1 | |    
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.56.html:1:1]
  1 | <font><p>hello<b>cruel</font>world
    : ^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.56.html:1:1]
  1 | <font><p>hello<b>cruel</font>world
    : ^^^^^^
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.56.html:1:1]
- 1 | <font><p>hello<b>cruel</font>world
-   :       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.56.html:1:8]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.56.html:1:1]
- 1 | <font><p>hello<b>cruel</font>world
-   :       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.56.html:1:8]
+ 1 | |    
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.56.html:1:1]
  1 | <font><p>hello<b>cruel</font>world
    :          ^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.56.html:1:1]
  1 | <font><p>hello<b>cruel</font>world
    :          ^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.56.html:1:1]
  1 | <font><p>hello<b>cruel</font>world
    :          ^^^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.56.html:1:1]
  1 | <font><p>hello<b>cruel</font>world
    :          ^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.56.html:1:1]
  1 | <font><p>hello<b>cruel</font>world
    :               ^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.56.html:1:1]
  1 | <font><p>hello<b>cruel</font>world
    :               ^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.56.html:1:1]
  1 | <font><p>hello<b>cruel</font>world
    :                  ^^^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.56.html:1:1]
  1 | <font><p>hello<b>cruel</font>world
    :                  ^^^^^
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.56.html:1:1]
- 1 | <font><p>hello<b>cruel</font>world
-   :               ^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.56.html:1:16]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.56.html:1:1]
- 1 | <font><p>hello<b>cruel</font>world
-   :               ^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.56.html:1:16]
+ 1 | |    
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.56.html:1:1]
- 1 | <font><p>hello<b>cruel</font>world
-   :                              ^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.56.html:1:31]
+ 1 | |    
    `----
-
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.56.html:1:1]
- 1 | <font><p>hello<b>cruel</font>world
-   :                              ^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.56.html:1:31]
+ 1 | |    
    `----

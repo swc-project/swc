@@ -1,90 +1,67 @@
-
   x Module
-   ,-[$DIR/tests/span/ts/expr/as.ts:1:1]
- 1 | 'WTF' as any as number
-   : ^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/span/ts/expr/as.ts:1:2]
+ 1 | |    
    `----
-
   x ModuleItem
-   ,-[$DIR/tests/span/ts/expr/as.ts:1:1]
- 1 | 'WTF' as any as number
-   : ^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/span/ts/expr/as.ts:1:2]
+ 1 | |    
    `----
-
   x Stmt
-   ,-[$DIR/tests/span/ts/expr/as.ts:1:1]
- 1 | 'WTF' as any as number
-   : ^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/span/ts/expr/as.ts:1:2]
+ 1 | |    
    `----
-
   x ExprStmt
-   ,-[$DIR/tests/span/ts/expr/as.ts:1:1]
- 1 | 'WTF' as any as number
-   : ^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/span/ts/expr/as.ts:1:2]
+ 1 | |    
    `----
-
   x Expr
-   ,-[$DIR/tests/span/ts/expr/as.ts:1:1]
- 1 | 'WTF' as any as number
-   : ^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/span/ts/expr/as.ts:1:2]
+ 1 | |    
    `----
-
   x TsAsExpr
-   ,-[$DIR/tests/span/ts/expr/as.ts:1:1]
- 1 | 'WTF' as any as number
-   : ^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/span/ts/expr/as.ts:1:2]
+ 1 | |    
    `----
-
   x Expr
    ,-[$DIR/tests/span/ts/expr/as.ts:1:1]
  1 | 'WTF' as any as number
    : ^^^^^^^^^^^^
    `----
-
   x TsAsExpr
    ,-[$DIR/tests/span/ts/expr/as.ts:1:1]
  1 | 'WTF' as any as number
    : ^^^^^^^^^^^^
    `----
-
   x Expr
    ,-[$DIR/tests/span/ts/expr/as.ts:1:1]
  1 | 'WTF' as any as number
    : ^^^^^
    `----
-
   x Lit
    ,-[$DIR/tests/span/ts/expr/as.ts:1:1]
  1 | 'WTF' as any as number
    : ^^^^^
    `----
-
   x Str
    ,-[$DIR/tests/span/ts/expr/as.ts:1:1]
  1 | 'WTF' as any as number
    : ^^^^^
    `----
-
   x TsType
    ,-[$DIR/tests/span/ts/expr/as.ts:1:1]
  1 | 'WTF' as any as number
    :          ^^^
    `----
-
   x TsKeywordType
    ,-[$DIR/tests/span/ts/expr/as.ts:1:1]
  1 | 'WTF' as any as number
    :          ^^^
    `----
-
   x TsType
-   ,-[$DIR/tests/span/ts/expr/as.ts:1:1]
- 1 | 'WTF' as any as number
-   :                 ^^^^^^
+   ,-[$DIR/tests/span/ts/expr/as.ts:1:18]
+ 1 | |    
    `----
-
   x TsKeywordType
-   ,-[$DIR/tests/span/ts/expr/as.ts:1:1]
- 1 | 'WTF' as any as number
-   :                 ^^^^^^
+   ,-[$DIR/tests/span/ts/expr/as.ts:1:18]
+ 1 | |    
    `----

@@ -1,175 +1,126 @@
-
   x Document
-    ,-[$DIR/tests/recovery/element/form/input.html:1:1]
-  1 | ,-> <!doctype html>
-  2 | |   <html lang="en">
-  3 | |   <head>
-  4 | |       <title>Document</title>
-  5 | |   </head>
-  6 | |   <body>
-  7 | |   <form action="test">
-  8 | |       <form action="test"></form>
-  9 | |   </form>
- 10 | |   </body>
- 11 | `-> </html>
-    `----
-
+   ,-[$DIR/tests/recovery/element/form/input.html:1:2]
+ 1 | |    
+   `----
   x Child
    ,-[$DIR/tests/recovery/element/form/input.html:1:1]
  1 | <!doctype html>
    : ^^^^^^^^^^^^^^^
  2 | <html lang="en">
+ 3 | <head>
    `----
-
   x DocumentType
    ,-[$DIR/tests/recovery/element/form/input.html:1:1]
  1 | <!doctype html>
    : ^^^^^^^^^^^^^^^
  2 | <html lang="en">
+ 3 | <head>
    `----
-
   x Child
-    ,-[$DIR/tests/recovery/element/form/input.html:1:1]
-  1 |     <!doctype html>
-  2 | ,-> <html lang="en">
-  3 | |   <head>
-  4 | |       <title>Document</title>
-  5 | |   </head>
-  6 | |   <body>
-  7 | |   <form action="test">
-  8 | |       <form action="test"></form>
-  9 | |   </form>
- 10 | |   </body>
- 11 | `-> </html>
-    `----
-
+   ,-[$DIR/tests/recovery/element/form/input.html:2:2]
+ 2 | |    
+   `----
   x Element
-    ,-[$DIR/tests/recovery/element/form/input.html:1:1]
-  1 |     <!doctype html>
-  2 | ,-> <html lang="en">
-  3 | |   <head>
-  4 | |       <title>Document</title>
-  5 | |   </head>
-  6 | |   <body>
-  7 | |   <form action="test">
-  8 | |       <form action="test"></form>
-  9 | |   </form>
- 10 | |   </body>
- 11 | `-> </html>
-    `----
-
+   ,-[$DIR/tests/recovery/element/form/input.html:2:2]
+ 2 | |    
+   `----
   x Attribute
-   ,-[$DIR/tests/recovery/element/form/input.html:1:1]
+   ,-[$DIR/tests/recovery/element/form/input.html:2:1]
  1 | <!doctype html>
  2 | <html lang="en">
    :       ^^^^^^^^^
  3 | <head>
    `----
-
   x Child
-   ,-[$DIR/tests/recovery/element/form/input.html:2:1]
+   ,-[$DIR/tests/recovery/element/form/input.html:3:1]
  2 |     <html lang="en">
  3 | ,-> <head>
  4 | |       <title>Document</title>
  5 | `-> </head>
  6 |     <body>
+ 7 |     <form action="test">
    `----
-
   x Element
-   ,-[$DIR/tests/recovery/element/form/input.html:2:1]
+   ,-[$DIR/tests/recovery/element/form/input.html:3:1]
  2 |     <html lang="en">
  3 | ,-> <head>
  4 | |       <title>Document</title>
  5 | `-> </head>
  6 |     <body>
+ 7 |     <form action="test">
    `----
-
   x Child
-   ,-[$DIR/tests/recovery/element/form/input.html:2:1]
- 2 |     <html lang="en">
+   ,-[$DIR/tests/recovery/element/form/input.html:4:1]
  3 | ,-> <head>
  4 | `->     <title>Document</title>
  5 |     </head>
    `----
-
   x Text
-   ,-[$DIR/tests/recovery/element/form/input.html:2:1]
- 2 |     <html lang="en">
+   ,-[$DIR/tests/recovery/element/form/input.html:4:1]
  3 | ,-> <head>
  4 | `->     <title>Document</title>
  5 |     </head>
    `----
-
   x Child
-   ,-[$DIR/tests/recovery/element/form/input.html:3:1]
+   ,-[$DIR/tests/recovery/element/form/input.html:4:1]
  3 | <head>
  4 |     <title>Document</title>
    :     ^^^^^^^^^^^^^^^^^^^^^^^
  5 | </head>
+ 6 | <body>
    `----
-
   x Element
-   ,-[$DIR/tests/recovery/element/form/input.html:3:1]
+   ,-[$DIR/tests/recovery/element/form/input.html:4:1]
  3 | <head>
  4 |     <title>Document</title>
    :     ^^^^^^^^^^^^^^^^^^^^^^^
  5 | </head>
+ 6 | <body>
    `----
-
   x Child
-   ,-[$DIR/tests/recovery/element/form/input.html:3:1]
+   ,-[$DIR/tests/recovery/element/form/input.html:4:1]
  3 | <head>
  4 |     <title>Document</title>
    :            ^^^^^^^^
  5 | </head>
    `----
-
   x Text
-   ,-[$DIR/tests/recovery/element/form/input.html:3:1]
+   ,-[$DIR/tests/recovery/element/form/input.html:4:1]
  3 | <head>
  4 |     <title>Document</title>
    :            ^^^^^^^^
  5 | </head>
    `----
-
   x Child
-   ,-[$DIR/tests/recovery/element/form/input.html:3:1]
- 3 | <head>
+   ,-[$DIR/tests/recovery/element/form/input.html:5:1]
  4 |     <title>Document</title>
    :                            ^
  5 | </head>
  6 | <body>
    `----
-
   x Text
-   ,-[$DIR/tests/recovery/element/form/input.html:3:1]
- 3 | <head>
+   ,-[$DIR/tests/recovery/element/form/input.html:5:1]
  4 |     <title>Document</title>
    :                            ^
  5 | </head>
  6 | <body>
    `----
-
   x Child
-   ,-[$DIR/tests/recovery/element/form/input.html:4:1]
- 4 |     <title>Document</title>
+   ,-[$DIR/tests/recovery/element/form/input.html:6:1]
  5 | </head>
    :        ^
  6 | <body>
  7 | <form action="test">
    `----
-
   x Text
-   ,-[$DIR/tests/recovery/element/form/input.html:4:1]
- 4 |     <title>Document</title>
+   ,-[$DIR/tests/recovery/element/form/input.html:6:1]
  5 | </head>
    :        ^
  6 | <body>
  7 | <form action="test">
    `----
-
   x Child
-    ,-[$DIR/tests/recovery/element/form/input.html:5:1]
+    ,-[$DIR/tests/recovery/element/form/input.html:6:1]
   5 |     </head>
   6 | ,-> <body>
   7 | |   <form action="test">
@@ -178,9 +129,8 @@
  10 | `-> </body>
  11 |     </html>
     `----
-
   x Element
-    ,-[$DIR/tests/recovery/element/form/input.html:5:1]
+    ,-[$DIR/tests/recovery/element/form/input.html:6:1]
   5 |     </head>
   6 | ,-> <body>
   7 | |   <form action="test">
@@ -189,77 +139,64 @@
  10 | `-> </body>
  11 |     </html>
     `----
-
   x Child
-   ,-[$DIR/tests/recovery/element/form/input.html:5:1]
- 5 | </head>
+   ,-[$DIR/tests/recovery/element/form/input.html:7:1]
  6 | <body>
    :       ^
  7 | <form action="test">
  8 |     <form action="test"></form>
    `----
-
   x Text
-   ,-[$DIR/tests/recovery/element/form/input.html:5:1]
- 5 | </head>
+   ,-[$DIR/tests/recovery/element/form/input.html:7:1]
  6 | <body>
    :       ^
  7 | <form action="test">
  8 |     <form action="test"></form>
    `----
-
   x Child
-   ,-[$DIR/tests/recovery/element/form/input.html:6:1]
- 6 |     <body>
- 7 | ,-> <form action="test">
- 8 | `->     <form action="test"></form>
- 9 |     </form>
-   `----
-
+    ,-[$DIR/tests/recovery/element/form/input.html:7:1]
+  6 |     <body>
+  7 | ,-> <form action="test">
+  8 | `->     <form action="test"></form>
+  9 |     </form>
+ 10 |     </body>
+    `----
   x Element
-   ,-[$DIR/tests/recovery/element/form/input.html:6:1]
- 6 |     <body>
- 7 | ,-> <form action="test">
- 8 | `->     <form action="test"></form>
- 9 |     </form>
-   `----
-
+    ,-[$DIR/tests/recovery/element/form/input.html:7:1]
+  6 |     <body>
+  7 | ,-> <form action="test">
+  8 | `->     <form action="test"></form>
+  9 |     </form>
+ 10 |     </body>
+    `----
   x Attribute
-   ,-[$DIR/tests/recovery/element/form/input.html:6:1]
+   ,-[$DIR/tests/recovery/element/form/input.html:7:1]
  6 | <body>
  7 | <form action="test">
    :       ^^^^^^^^^^^^^
  8 |     <form action="test"></form>
    `----
-
   x Child
-   ,-[$DIR/tests/recovery/element/form/input.html:6:1]
- 6 |     <body>
+   ,-[$DIR/tests/recovery/element/form/input.html:8:1]
  7 | ,-> <form action="test">
  8 | `->     <form action="test"></form>
  9 |     </form>
    `----
-
   x Text
-   ,-[$DIR/tests/recovery/element/form/input.html:6:1]
- 6 |     <body>
+   ,-[$DIR/tests/recovery/element/form/input.html:8:1]
  7 | ,-> <form action="test">
  8 | `->     <form action="test"></form>
  9 |     </form>
    `----
-
   x Child
-    ,-[$DIR/tests/recovery/element/form/input.html:7:1]
-  7 |     <form action="test">
+    ,-[$DIR/tests/recovery/element/form/input.html:9:1]
   8 | ,->     <form action="test"></form>
   9 | |   </form>
  10 | `-> </body>
  11 |     </html>
     `----
-
   x Text
-    ,-[$DIR/tests/recovery/element/form/input.html:7:1]
-  7 |     <form action="test">
+    ,-[$DIR/tests/recovery/element/form/input.html:9:1]
   8 | ,->     <form action="test"></form>
   9 | |   </form>
  10 | `-> </body>

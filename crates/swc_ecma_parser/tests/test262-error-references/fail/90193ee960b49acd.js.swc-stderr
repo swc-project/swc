@@ -1,4 +1,3 @@
-
   x Expected an octal digit
    ,-[$DIR/tests/test262-parser/fail/90193ee960b49acd.js:1:1]
  1 | 0o9

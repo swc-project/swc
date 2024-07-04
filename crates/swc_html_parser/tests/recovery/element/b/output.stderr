@@ -1,10 +1,8 @@
-
   x Start tag seen without seeing a doctype first, expected "<!DOCTYPE html>"
    ,-[$DIR/tests/recovery/element/b/input.html:1:1]
  1 | <b>1<p>2</b>3</p>
    : ^^^
    `----
-
   x End tag "b" violates nesting rules
    ,-[$DIR/tests/recovery/element/b/input.html:1:1]
  1 | <b>1<p>2</b>3</p>

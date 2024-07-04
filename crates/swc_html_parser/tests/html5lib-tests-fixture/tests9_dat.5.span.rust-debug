@@ -1,56 +1,40 @@
-
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/tests9_dat.5.html:1:1]
- 1 | <!DOCTYPE html><body><select><option><math></math></option></select>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests9_dat.5.html:1:2]
+ 1 | |    
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests9_dat.5.html:1:1]
  1 | <!DOCTYPE html><body><select><option><math></math></option></select>
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/html5lib-tests-fixture/tests9_dat.5.html:1:1]
  1 | <!DOCTYPE html><body><select><option><math></math></option></select>
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests9_dat.5.html:1:1]
- 1 | <!DOCTYPE html><body><select><option><math></math></option></select>
-   :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests9_dat.5.html:1:17]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tests9_dat.5.html:1:1]
- 1 | <!DOCTYPE html><body><select><option><math></math></option></select>
-   :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests9_dat.5.html:1:17]
+ 1 | |    
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests9_dat.5.html:1:1]
- 1 | <!DOCTYPE html><body><select><option><math></math></option></select>
-   :                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests9_dat.5.html:1:23]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tests9_dat.5.html:1:1]
- 1 | <!DOCTYPE html><body><select><option><math></math></option></select>
-   :                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests9_dat.5.html:1:23]
+ 1 | |    
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests9_dat.5.html:1:1]
  1 | <!DOCTYPE html><body><select><option><math></math></option></select>
    :                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests9_dat.5.html:1:1]
  1 | <!DOCTYPE html><body><select><option><math></math></option></select>

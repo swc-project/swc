@@ -1,34 +1,24 @@
-
   x Document
-   ,-[$DIR/tests/recovery/element/body-2/input.html:1:1]
- 1 | <!DOCTYPE html>X</body>A
-   : ^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/element/body-2/input.html:1:2]
+ 1 | |    
    `----
-
   x Child
    ,-[$DIR/tests/recovery/element/body-2/input.html:1:1]
  1 | <!DOCTYPE html>X</body>A
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/recovery/element/body-2/input.html:1:1]
  1 | <!DOCTYPE html>X</body>A
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
-   ,-[$DIR/tests/recovery/element/body-2/input.html:1:1]
- 1 | <!DOCTYPE html>X</body>A
-   :                ^^^^^^^^^
+   ,-[$DIR/tests/recovery/element/body-2/input.html:1:17]
+ 1 | |    
    `----
-
   x Text
-   ,-[$DIR/tests/recovery/element/body-2/input.html:1:1]
- 1 | <!DOCTYPE html>X</body>A
-   :                ^^^^^^^^^
+   ,-[$DIR/tests/recovery/element/body-2/input.html:1:17]
+ 1 | |    
    `----

@@ -1,69 +1,49 @@
-
   x Document
-   ,-[$DIR/tests/recovery/pi/bad-pi-1/input.xml:1:1]
- 1 | ,-> <root>
- 2 | |       <??xml
- 3 | |       m?>
- 4 | `-> </root>
+   ,-[$DIR/tests/recovery/pi/bad-pi-1/input.xml:1:2]
+ 1 | |    
    `----
-
   x Child
-   ,-[$DIR/tests/recovery/pi/bad-pi-1/input.xml:1:1]
- 1 | ,-> <root>
- 2 | |       <??xml
- 3 | |       m?>
- 4 | `-> </root>
+   ,-[$DIR/tests/recovery/pi/bad-pi-1/input.xml:1:2]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/recovery/pi/bad-pi-1/input.xml:1:1]
- 1 | ,-> <root>
- 2 | |       <??xml
- 3 | |       m?>
- 4 | `-> </root>
+   ,-[$DIR/tests/recovery/pi/bad-pi-1/input.xml:1:2]
+ 1 | |    
    `----
-
-  x Child
-   ,-[$DIR/tests/recovery/pi/bad-pi-1/input.xml:1:1]
- 1 | ,-> <root>
- 2 | `->     <??xml
- 3 |         m?>
-   `----
-
-  x Text
-   ,-[$DIR/tests/recovery/pi/bad-pi-1/input.xml:1:1]
- 1 | ,-> <root>
- 2 | `->     <??xml
- 3 |         m?>
-   `----
-
-  x Child
-   ,-[$DIR/tests/recovery/pi/bad-pi-1/input.xml:1:1]
- 1 |     <root>
- 2 | ,->     <??xml
- 3 | `->     m?>
- 4 |     </root>
-   `----
-
-  x ProcessingInstruction
-   ,-[$DIR/tests/recovery/pi/bad-pi-1/input.xml:1:1]
- 1 |     <root>
- 2 | ,->     <??xml
- 3 | `->     m?>
- 4 |     </root>
-   `----
-
   x Child
    ,-[$DIR/tests/recovery/pi/bad-pi-1/input.xml:2:1]
- 2 |     <??xml
+ 1 | ,-> <root>
+ 2 | `->     <??xml
+ 3 |         m?>
+   `----
+  x Text
+   ,-[$DIR/tests/recovery/pi/bad-pi-1/input.xml:2:1]
+ 1 | ,-> <root>
+ 2 | `->     <??xml
+ 3 |         m?>
+   `----
+  x Child
+   ,-[$DIR/tests/recovery/pi/bad-pi-1/input.xml:2:1]
+ 1 |     <root>
+ 2 | ,->     <??xml
+ 3 | `->     m?>
+ 4 |     </root>
+   `----
+  x ProcessingInstruction
+   ,-[$DIR/tests/recovery/pi/bad-pi-1/input.xml:2:1]
+ 1 |     <root>
+ 2 | ,->     <??xml
+ 3 | `->     m?>
+ 4 |     </root>
+   `----
+  x Child
+   ,-[$DIR/tests/recovery/pi/bad-pi-1/input.xml:4:1]
  3 |     m?>
    :        ^
  4 | </root>
    `----
-
   x Text
-   ,-[$DIR/tests/recovery/pi/bad-pi-1/input.xml:2:1]
- 2 |     <??xml
+   ,-[$DIR/tests/recovery/pi/bad-pi-1/input.xml:4:1]
  3 |     m?>
    :        ^
  4 | </root>

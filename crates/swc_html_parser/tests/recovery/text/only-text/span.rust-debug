@@ -1,22 +1,14 @@
-
   x Document
-   ,-[$DIR/tests/recovery/text/only-text/input.html:1:1]
- 1 | Text
-   : ^^^^
+   ,-[$DIR/tests/recovery/text/only-text/input.html:1:2]
+ 1 | |    
    `----
-
   x Child
-
   x Element
-
   x Child
-   ,-[$DIR/tests/recovery/text/only-text/input.html:1:1]
- 1 | Text
-   : ^^^^
+   ,-[$DIR/tests/recovery/text/only-text/input.html:1:2]
+ 1 | |    
    `----
-
   x Text
-   ,-[$DIR/tests/recovery/text/only-text/input.html:1:1]
- 1 | Text
-   : ^^^^
+   ,-[$DIR/tests/recovery/text/only-text/input.html:1:2]
+ 1 | |    
    `----

@@ -1,58 +1,40 @@
-
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat.49.html:1:1]
- 1 | <!doctype html><svg><foreignObject><p>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat.49.html:1:2]
+ 1 | |    
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat.49.html:1:1]
  1 | <!doctype html><svg><foreignObject><p>
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat.49.html:1:1]
  1 | <!doctype html><svg><foreignObject><p>
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat.49.html:1:1]
- 1 | <!doctype html><svg><foreignObject><p>
-   :                ^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat.49.html:1:17]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat.49.html:1:1]
- 1 | <!doctype html><svg><foreignObject><p>
-   :                ^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat.49.html:1:17]
+ 1 | |    
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat.49.html:1:1]
- 1 | <!doctype html><svg><foreignObject><p>
-   :                     ^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat.49.html:1:22]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat.49.html:1:1]
- 1 | <!doctype html><svg><foreignObject><p>
-   :                     ^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat.49.html:1:22]
+ 1 | |    
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat.49.html:1:1]
- 1 | <!doctype html><svg><foreignObject><p>
-   :                                    ^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat.49.html:1:37]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat.49.html:1:1]
- 1 | <!doctype html><svg><foreignObject><p>
-   :                                    ^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat.49.html:1:37]
+ 1 | |    
    `----

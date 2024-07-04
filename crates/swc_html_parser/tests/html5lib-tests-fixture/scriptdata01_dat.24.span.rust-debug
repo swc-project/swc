@@ -1,64 +1,49 @@
-
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/scriptdata01_dat.24.html:1:1]
- 1 | FOO<script type="text/plain">'<!-- <sCrIpt\'</script>BAR
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/scriptdata01_dat.24.html:1:2]
+ 1 | |    
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/scriptdata01_dat.24.html:1:1]
  1 | FOO<script type="text/plain">'<!-- <sCrIpt\'</script>BAR
    : ^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/scriptdata01_dat.24.html:1:1]
  1 | FOO<script type="text/plain">'<!-- <sCrIpt\'</script>BAR
    : ^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/scriptdata01_dat.24.html:1:1]
  1 | FOO<script type="text/plain">'<!-- <sCrIpt\'</script>BAR
    :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/scriptdata01_dat.24.html:1:1]
  1 | FOO<script type="text/plain">'<!-- <sCrIpt\'</script>BAR
    :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Attribute
    ,-[$DIR/tests/html5lib-tests-fixture/scriptdata01_dat.24.html:1:1]
  1 | FOO<script type="text/plain">'<!-- <sCrIpt\'</script>BAR
    :            ^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/scriptdata01_dat.24.html:1:1]
  1 | FOO<script type="text/plain">'<!-- <sCrIpt\'</script>BAR
    :                              ^^^^^^^^^^^^^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/scriptdata01_dat.24.html:1:1]
  1 | FOO<script type="text/plain">'<!-- <sCrIpt\'</script>BAR
    :                              ^^^^^^^^^^^^^^^
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/scriptdata01_dat.24.html:1:1]
- 1 | FOO<script type="text/plain">'<!-- <sCrIpt\'</script>BAR
-   :                                                      ^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/scriptdata01_dat.24.html:1:55]
+ 1 | |    
    `----
-
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/scriptdata01_dat.24.html:1:1]
- 1 | FOO<script type="text/plain">'<!-- <sCrIpt\'</script>BAR
-   :                                                      ^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/scriptdata01_dat.24.html:1:55]
+ 1 | |    
    `----

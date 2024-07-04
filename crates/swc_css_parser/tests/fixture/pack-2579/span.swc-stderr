@@ -1,36 +1,26 @@
-
   x Stylesheet
-   ,-[$DIR/tests/fixture/pack-2579/input.css:1:1]
- 1 | @import'nprogress/nprogress.css'
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/pack-2579/input.css:1:2]
+ 1 | |    
    `----
-
   x Rule
-   ,-[$DIR/tests/fixture/pack-2579/input.css:1:1]
- 1 | @import'nprogress/nprogress.css'
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/pack-2579/input.css:1:2]
+ 1 | |    
    `----
-
   x AtRule
-   ,-[$DIR/tests/fixture/pack-2579/input.css:1:1]
- 1 | @import'nprogress/nprogress.css'
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/pack-2579/input.css:1:2]
+ 1 | |    
    `----
-
   x AtRuleName
    ,-[$DIR/tests/fixture/pack-2579/input.css:1:1]
  1 | @import'nprogress/nprogress.css'
    :  ^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/pack-2579/input.css:1:1]
  1 | @import'nprogress/nprogress.css'
    :  ^^^^^^
    `----
-
   x Str
-   ,-[$DIR/tests/fixture/pack-2579/input.css:1:1]
- 1 | @import'nprogress/nprogress.css'
-   :        ^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/pack-2579/input.css:1:9]
+ 1 | |    
    `----

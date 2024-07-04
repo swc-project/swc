@@ -1,4 +1,3 @@
-
   x Use a regular expression literal instead of the 'RegExp' constructor
    ,-[1:1]
  1 | new RegExp("abc");
@@ -7,9 +6,8 @@
  3 | RegExp("abc");
  4 | RegExp("abc", "u");
    `----
-
   x Use a regular expression literal instead of the 'RegExp' constructor
-   ,-[1:1]
+   ,-[2:1]
  1 | new RegExp("abc");
  2 | new RegExp("abc", "u");
    : ^^^^^^^^^^^^^^^^^^^^^^
@@ -17,9 +15,8 @@
  4 | RegExp("abc", "u");
  5 | new RegExp("\\d\\d\\.\\d\\d\\.\\d\\d\\d\\d");
    `----
-
   x Use a regular expression literal instead of the 'RegExp' constructor
-   ,-[1:1]
+   ,-[3:1]
  1 | new RegExp("abc");
  2 | new RegExp("abc", "u");
  3 | RegExp("abc");
@@ -28,9 +25,8 @@
  5 | new RegExp("\\d\\d\\.\\d\\d\\.\\d\\d\\d\\d");
  6 | RegExp(`^\\d\\.$`);
    `----
-
   x Use a regular expression literal instead of the 'RegExp' constructor
-   ,-[1:1]
+   ,-[4:1]
  1 | new RegExp("abc");
  2 | new RegExp("abc", "u");
  3 | RegExp("abc");
@@ -40,9 +36,8 @@
  6 | RegExp(`^\\d\\.$`);
  7 | new RegExp(String.raw`^\d\.$`);
    `----
-
   x Use a regular expression literal instead of the 'RegExp' constructor
-   ,-[2:1]
+   ,-[5:1]
  2 | new RegExp("abc", "u");
  3 | RegExp("abc");
  4 | RegExp("abc", "u");
@@ -52,9 +47,8 @@
  7 | new RegExp(String.raw`^\d\.$`);
  8 | /abc/;
    `----
-
   x Use a regular expression literal instead of the 'RegExp' constructor
-   ,-[3:1]
+   ,-[6:1]
  3 | RegExp("abc");
  4 | RegExp("abc", "u");
  5 | new RegExp("\\d\\d\\.\\d\\d\\.\\d\\d\\d\\d");
@@ -64,9 +58,8 @@
  8 | /abc/;
  9 | /abc/u;
    `----
-
   x Use a regular expression literal instead of the 'RegExp' constructor
-    ,-[4:1]
+    ,-[7:1]
   4 | RegExp("abc", "u");
   5 | new RegExp("\\d\\d\\.\\d\\d\\.\\d\\d\\d\\d");
   6 | RegExp(`^\\d\\.$`);
@@ -76,9 +69,8 @@
   9 | /abc/u;
  10 | /\d\d\.\d\d\.\d\d\d\d/;
     `----
-
   x Use a regular expression literal instead of the 'RegExp' constructor
-    ,-[35:1]
+    ,-[38:1]
  35 | })("a", "b");
  36 | 
  37 | foo(() => {

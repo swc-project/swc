@@ -1,154 +1,124 @@
-
   x Stylesheet
-   ,-[$DIR/tests/fixture/vendor/esbuild/value/mixed-separator-01/input.css:1:1]
- 1 | a { box-shadow: rebeccapurple , yellow , black }
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/vendor/esbuild/value/mixed-separator-01/input.css:1:2]
+ 1 | |    
    `----
-
   x Rule
-   ,-[$DIR/tests/fixture/vendor/esbuild/value/mixed-separator-01/input.css:1:1]
- 1 | a { box-shadow: rebeccapurple , yellow , black }
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/vendor/esbuild/value/mixed-separator-01/input.css:1:2]
+ 1 | |    
    `----
-
   x QualifiedRule
-   ,-[$DIR/tests/fixture/vendor/esbuild/value/mixed-separator-01/input.css:1:1]
- 1 | a { box-shadow: rebeccapurple , yellow , black }
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/vendor/esbuild/value/mixed-separator-01/input.css:1:2]
+ 1 | |    
    `----
-
   x SelectorList
    ,-[$DIR/tests/fixture/vendor/esbuild/value/mixed-separator-01/input.css:1:1]
  1 | a { box-shadow: rebeccapurple , yellow , black }
    : ^
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/value/mixed-separator-01/input.css:1:1]
  1 | a { box-shadow: rebeccapurple , yellow , black }
    : ^
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/value/mixed-separator-01/input.css:1:1]
  1 | a { box-shadow: rebeccapurple , yellow , black }
    : ^
    `----
-
   x TypeSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/value/mixed-separator-01/input.css:1:1]
  1 | a { box-shadow: rebeccapurple , yellow , black }
    : ^
    `----
-
   x TagNameSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/value/mixed-separator-01/input.css:1:1]
  1 | a { box-shadow: rebeccapurple , yellow , black }
    : ^
    `----
-
   x WqName
    ,-[$DIR/tests/fixture/vendor/esbuild/value/mixed-separator-01/input.css:1:1]
  1 | a { box-shadow: rebeccapurple , yellow , black }
    : ^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/value/mixed-separator-01/input.css:1:1]
  1 | a { box-shadow: rebeccapurple , yellow , black }
    : ^
    `----
-
   x SimpleBlock
-   ,-[$DIR/tests/fixture/vendor/esbuild/value/mixed-separator-01/input.css:1:1]
- 1 | a { box-shadow: rebeccapurple , yellow , black }
-   :   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/vendor/esbuild/value/mixed-separator-01/input.css:1:4]
+ 1 | |    
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/vendor/esbuild/value/mixed-separator-01/input.css:1:1]
  1 | a { box-shadow: rebeccapurple , yellow , black }
    :   ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/value/mixed-separator-01/input.css:1:1]
  1 | a { box-shadow: rebeccapurple , yellow , black }
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Declaration
    ,-[$DIR/tests/fixture/vendor/esbuild/value/mixed-separator-01/input.css:1:1]
  1 | a { box-shadow: rebeccapurple , yellow , black }
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x DeclarationName
    ,-[$DIR/tests/fixture/vendor/esbuild/value/mixed-separator-01/input.css:1:1]
  1 | a { box-shadow: rebeccapurple , yellow , black }
    :     ^^^^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/value/mixed-separator-01/input.css:1:1]
  1 | a { box-shadow: rebeccapurple , yellow , black }
    :     ^^^^^^^^^^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/value/mixed-separator-01/input.css:1:1]
  1 | a { box-shadow: rebeccapurple , yellow , black }
    :                 ^^^^^^^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/value/mixed-separator-01/input.css:1:1]
  1 | a { box-shadow: rebeccapurple , yellow , black }
    :                 ^^^^^^^^^^^^^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/value/mixed-separator-01/input.css:1:1]
  1 | a { box-shadow: rebeccapurple , yellow , black }
    :                               ^
    `----
-
   x Delimiter
    ,-[$DIR/tests/fixture/vendor/esbuild/value/mixed-separator-01/input.css:1:1]
  1 | a { box-shadow: rebeccapurple , yellow , black }
    :                               ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/value/mixed-separator-01/input.css:1:1]
  1 | a { box-shadow: rebeccapurple , yellow , black }
    :                                 ^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/value/mixed-separator-01/input.css:1:1]
  1 | a { box-shadow: rebeccapurple , yellow , black }
    :                                 ^^^^^^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/value/mixed-separator-01/input.css:1:1]
  1 | a { box-shadow: rebeccapurple , yellow , black }
    :                                        ^
    `----
-
   x Delimiter
    ,-[$DIR/tests/fixture/vendor/esbuild/value/mixed-separator-01/input.css:1:1]
  1 | a { box-shadow: rebeccapurple , yellow , black }
    :                                        ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/value/mixed-separator-01/input.css:1:1]
  1 | a { box-shadow: rebeccapurple , yellow , black }
    :                                          ^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/value/mixed-separator-01/input.css:1:1]
  1 | a { box-shadow: rebeccapurple , yellow , black }

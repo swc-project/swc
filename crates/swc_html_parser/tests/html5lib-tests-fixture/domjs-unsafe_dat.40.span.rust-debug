@@ -1,20 +1,14 @@
-
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/domjs-unsafe_dat.40.html:1:1]
- 1 | <frameset></frameset><html>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/domjs-unsafe_dat.40.html:1:2]
+ 1 | |    
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/domjs-unsafe_dat.40.html:1:1]
  1 | <frameset></frameset><html>
    : ^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/domjs-unsafe_dat.40.html:1:1]
  1 | <frameset></frameset><html>

@@ -1,115 +1,94 @@
-
   x Module
-   ,-[$DIR/tests/span/js/stmt/empty.js:1:1]
- 1 | ,-> ;;;
- 2 | |   ;
- 3 | `-> ;
+   ,-[$DIR/tests/span/js/stmt/empty.js:1:2]
+ 1 | |    
    `----
-
   x ModuleItem
    ,-[$DIR/tests/span/js/stmt/empty.js:1:1]
  1 | ;;;
    : ^
  2 | ;
    `----
-
   x Stmt
    ,-[$DIR/tests/span/js/stmt/empty.js:1:1]
  1 | ;;;
    : ^
  2 | ;
    `----
-
   x EmptyStmt
    ,-[$DIR/tests/span/js/stmt/empty.js:1:1]
  1 | ;;;
    : ^
  2 | ;
    `----
-
   x ModuleItem
    ,-[$DIR/tests/span/js/stmt/empty.js:1:1]
  1 | ;;;
    :  ^
  2 | ;
    `----
-
   x Stmt
    ,-[$DIR/tests/span/js/stmt/empty.js:1:1]
  1 | ;;;
    :  ^
  2 | ;
    `----
-
   x EmptyStmt
    ,-[$DIR/tests/span/js/stmt/empty.js:1:1]
  1 | ;;;
    :  ^
  2 | ;
    `----
-
   x ModuleItem
    ,-[$DIR/tests/span/js/stmt/empty.js:1:1]
  1 | ;;;
    :   ^
  2 | ;
+ 3 | ;
    `----
-
   x Stmt
    ,-[$DIR/tests/span/js/stmt/empty.js:1:1]
  1 | ;;;
    :   ^
  2 | ;
+ 3 | ;
    `----
-
   x EmptyStmt
    ,-[$DIR/tests/span/js/stmt/empty.js:1:1]
  1 | ;;;
    :   ^
  2 | ;
-   `----
-
-  x ModuleItem
-   ,-[$DIR/tests/span/js/stmt/empty.js:1:1]
- 1 | ;;;
- 2 | ;
-   : ^
  3 | ;
    `----
-
-  x Stmt
-   ,-[$DIR/tests/span/js/stmt/empty.js:1:1]
- 1 | ;;;
- 2 | ;
-   : ^
- 3 | ;
-   `----
-
-  x EmptyStmt
-   ,-[$DIR/tests/span/js/stmt/empty.js:1:1]
- 1 | ;;;
- 2 | ;
-   : ^
- 3 | ;
-   `----
-
   x ModuleItem
    ,-[$DIR/tests/span/js/stmt/empty.js:2:1]
+ 1 | ;;;
  2 | ;
- 3 | ;
    : ^
+ 3 | ;
    `----
-
   x Stmt
    ,-[$DIR/tests/span/js/stmt/empty.js:2:1]
+ 1 | ;;;
  2 | ;
- 3 | ;
    : ^
+ 3 | ;
    `----
-
   x EmptyStmt
    ,-[$DIR/tests/span/js/stmt/empty.js:2:1]
+ 1 | ;;;
  2 | ;
- 3 | ;
    : ^
+ 3 | ;
+   `----
+  x ModuleItem
+   ,-[$DIR/tests/span/js/stmt/empty.js:3:2]
+ 3 |  
+   `----
+  x Stmt
+   ,-[$DIR/tests/span/js/stmt/empty.js:3:2]
+ 3 |  
+   `----
+  x EmptyStmt
+   ,-[$DIR/tests/span/js/stmt/empty.js:3:2]
+ 3 |  
    `----

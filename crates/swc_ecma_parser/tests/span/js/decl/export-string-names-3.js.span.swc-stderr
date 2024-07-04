@@ -1,52 +1,43 @@
-
   x Module
    ,-[$DIR/tests/span/js/decl/export-string-names-3.js:1:1]
  1 | export { "str1" as "str2" } from "mod";
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x ModuleItem
    ,-[$DIR/tests/span/js/decl/export-string-names-3.js:1:1]
  1 | export { "str1" as "str2" } from "mod";
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x ModuleDecl
    ,-[$DIR/tests/span/js/decl/export-string-names-3.js:1:1]
  1 | export { "str1" as "str2" } from "mod";
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x NamedExport
    ,-[$DIR/tests/span/js/decl/export-string-names-3.js:1:1]
  1 | export { "str1" as "str2" } from "mod";
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x ExportSpecifier
    ,-[$DIR/tests/span/js/decl/export-string-names-3.js:1:1]
  1 | export { "str1" as "str2" } from "mod";
    :          ^^^^^^^^^^^^^^^^
    `----
-
   x ExportNamedSpecifier
    ,-[$DIR/tests/span/js/decl/export-string-names-3.js:1:1]
  1 | export { "str1" as "str2" } from "mod";
    :          ^^^^^^^^^^^^^^^^
    `----
-
   x Str
    ,-[$DIR/tests/span/js/decl/export-string-names-3.js:1:1]
  1 | export { "str1" as "str2" } from "mod";
    :          ^^^^^^
    `----
-
   x Str
    ,-[$DIR/tests/span/js/decl/export-string-names-3.js:1:1]
  1 | export { "str1" as "str2" } from "mod";
    :                    ^^^^^^
    `----
-
   x Str
    ,-[$DIR/tests/span/js/decl/export-string-names-3.js:1:1]
  1 | export { "str1" as "str2" } from "mod";

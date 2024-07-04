@@ -1,6 +1,5 @@
-
   x Expected ';', '}' or <eof>
-   ,-[$DIR/tests/errors/explicit-resource-management/invalid-using-binding-await-script/input.js:1:1]
+   ,-[$DIR/tests/errors/explicit-resource-management/invalid-using-binding-await-script/input.js:2:1]
  1 | {
  2 |   using await = h();
    :   ^^|^^ ^^^^^

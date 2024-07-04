@@ -1,58 +1,44 @@
-
   x Document
-   ,-[$DIR/tests/recovery/element/menuitem/input.html:1:1]
- 1 | <!DOCTYPE html><li><menuitem><li>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/element/menuitem/input.html:1:2]
+ 1 | |    
    `----
-
   x Child
    ,-[$DIR/tests/recovery/element/menuitem/input.html:1:1]
  1 | <!DOCTYPE html><li><menuitem><li>
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/recovery/element/menuitem/input.html:1:1]
  1 | <!DOCTYPE html><li><menuitem><li>
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/recovery/element/menuitem/input.html:1:1]
  1 | <!DOCTYPE html><li><menuitem><li>
    :                ^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/recovery/element/menuitem/input.html:1:1]
  1 | <!DOCTYPE html><li><menuitem><li>
    :                ^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/recovery/element/menuitem/input.html:1:1]
  1 | <!DOCTYPE html><li><menuitem><li>
    :                    ^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/recovery/element/menuitem/input.html:1:1]
  1 | <!DOCTYPE html><li><menuitem><li>
    :                    ^^^^^^^^^^
    `----
-
   x Child
-   ,-[$DIR/tests/recovery/element/menuitem/input.html:1:1]
- 1 | <!DOCTYPE html><li><menuitem><li>
-   :                              ^^^^
+   ,-[$DIR/tests/recovery/element/menuitem/input.html:1:31]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/recovery/element/menuitem/input.html:1:1]
- 1 | <!DOCTYPE html><li><menuitem><li>
-   :                              ^^^^
+   ,-[$DIR/tests/recovery/element/menuitem/input.html:1:31]
+ 1 | |    
    `----

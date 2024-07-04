@@ -1,68 +1,48 @@
-
   x Document
-   ,-[$DIR/tests/iframe_srcdoc/basic/input.html:1:1]
- 1 | <html> <body> <p>Test.</p>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/iframe_srcdoc/basic/input.html:1:2]
+ 1 | |    
    `----
-
   x Child
-   ,-[$DIR/tests/iframe_srcdoc/basic/input.html:1:1]
- 1 | <html> <body> <p>Test.</p>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/iframe_srcdoc/basic/input.html:1:2]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/iframe_srcdoc/basic/input.html:1:1]
- 1 | <html> <body> <p>Test.</p>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/iframe_srcdoc/basic/input.html:1:2]
+ 1 | |    
    `----
-
   x Child
-
   x Element
-
   x Child
-   ,-[$DIR/tests/iframe_srcdoc/basic/input.html:1:1]
- 1 | <html> <body> <p>Test.</p>
-   :        ^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/iframe_srcdoc/basic/input.html:1:9]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/iframe_srcdoc/basic/input.html:1:1]
- 1 | <html> <body> <p>Test.</p>
-   :        ^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/iframe_srcdoc/basic/input.html:1:9]
+ 1 | |    
    `----
-
   x Child
    ,-[$DIR/tests/iframe_srcdoc/basic/input.html:1:1]
  1 | <html> <body> <p>Test.</p>
    :              ^
    `----
-
   x Text
    ,-[$DIR/tests/iframe_srcdoc/basic/input.html:1:1]
  1 | <html> <body> <p>Test.</p>
    :              ^
    `----
-
   x Child
-   ,-[$DIR/tests/iframe_srcdoc/basic/input.html:1:1]
- 1 | <html> <body> <p>Test.</p>
-   :               ^^^^^^^^^^^^
+   ,-[$DIR/tests/iframe_srcdoc/basic/input.html:1:16]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/iframe_srcdoc/basic/input.html:1:1]
- 1 | <html> <body> <p>Test.</p>
-   :               ^^^^^^^^^^^^
+   ,-[$DIR/tests/iframe_srcdoc/basic/input.html:1:16]
+ 1 | |    
    `----
-
   x Child
    ,-[$DIR/tests/iframe_srcdoc/basic/input.html:1:1]
  1 | <html> <body> <p>Test.</p>
    :                  ^^^^^
    `----
-
   x Text
    ,-[$DIR/tests/iframe_srcdoc/basic/input.html:1:1]
  1 | <html> <body> <p>Test.</p>

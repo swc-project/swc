@@ -1,34 +1,24 @@
-
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/tests_innerHTML_1_dat.79.fragment_select.html:1:1]
- 1 | <input><option>
-   : ^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests_innerHTML_1_dat.79.fragment_select.html:1:2]
+ 1 | |    
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests_innerHTML_1_dat.79.fragment_select.html:1:1]
  1 | <input><option>
    : ^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests_innerHTML_1_dat.79.fragment_select.html:1:1]
  1 | <input><option>
    : ^^^^^^^
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests_innerHTML_1_dat.79.fragment_select.html:1:1]
- 1 | <input><option>
-   :        ^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests_innerHTML_1_dat.79.fragment_select.html:1:9]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tests_innerHTML_1_dat.79.fragment_select.html:1:1]
- 1 | <input><option>
-   :        ^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests_innerHTML_1_dat.79.fragment_select.html:1:9]
+ 1 | |    
    `----

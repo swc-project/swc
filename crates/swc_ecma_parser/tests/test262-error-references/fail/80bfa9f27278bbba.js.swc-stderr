@@ -1,4 +1,3 @@
-
   x Legacy octal escape is not permitted in strict mode
    ,-[$DIR/tests/test262-parser/fail/80bfa9f27278bbba.js:1:1]
  1 | "use strict";function foo(){"use strict";}function bar(){var v = 015}

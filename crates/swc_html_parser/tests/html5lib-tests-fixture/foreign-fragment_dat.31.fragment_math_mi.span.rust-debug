@@ -1,22 +1,14 @@
-
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.31.fragment_math_mi.html:1:1]
- 1 | <malignmark></malignmark>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.31.fragment_math_mi.html:1:2]
+ 1 | |    
    `----
-
   x Child
-
   x Element
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.31.fragment_math_mi.html:1:1]
- 1 | <malignmark></malignmark>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.31.fragment_math_mi.html:1:2]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.31.fragment_math_mi.html:1:1]
- 1 | <malignmark></malignmark>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.31.fragment_math_mi.html:1:2]
+ 1 | |    
    `----

@@ -1,88 +1,67 @@
-
   x Document
-   ,-[$DIR/tests/recovery/text/unassigned-charref-novalid/input.html:1:1]
- 1 | <!doctype html><meta charset=utf-8><title>&amp;#xfdd0;</title><p>There should be an error.&#xfdd0;
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/text/unassigned-charref-novalid/input.html:1:2]
+ 1 | |    
    `----
-
   x Child
    ,-[$DIR/tests/recovery/text/unassigned-charref-novalid/input.html:1:1]
  1 | <!doctype html><meta charset=utf-8><title>&amp;#xfdd0;</title><p>There should be an error.&#xfdd0;
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/recovery/text/unassigned-charref-novalid/input.html:1:1]
  1 | <!doctype html><meta charset=utf-8><title>&amp;#xfdd0;</title><p>There should be an error.&#xfdd0;
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/recovery/text/unassigned-charref-novalid/input.html:1:1]
  1 | <!doctype html><meta charset=utf-8><title>&amp;#xfdd0;</title><p>There should be an error.&#xfdd0;
    :                ^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/recovery/text/unassigned-charref-novalid/input.html:1:1]
  1 | <!doctype html><meta charset=utf-8><title>&amp;#xfdd0;</title><p>There should be an error.&#xfdd0;
    :                ^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Attribute
    ,-[$DIR/tests/recovery/text/unassigned-charref-novalid/input.html:1:1]
  1 | <!doctype html><meta charset=utf-8><title>&amp;#xfdd0;</title><p>There should be an error.&#xfdd0;
    :                      ^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/recovery/text/unassigned-charref-novalid/input.html:1:1]
  1 | <!doctype html><meta charset=utf-8><title>&amp;#xfdd0;</title><p>There should be an error.&#xfdd0;
    :                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/recovery/text/unassigned-charref-novalid/input.html:1:1]
  1 | <!doctype html><meta charset=utf-8><title>&amp;#xfdd0;</title><p>There should be an error.&#xfdd0;
    :                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/recovery/text/unassigned-charref-novalid/input.html:1:1]
  1 | <!doctype html><meta charset=utf-8><title>&amp;#xfdd0;</title><p>There should be an error.&#xfdd0;
    :                                           ^^^^^^^^^^^^
    `----
-
   x Text
    ,-[$DIR/tests/recovery/text/unassigned-charref-novalid/input.html:1:1]
  1 | <!doctype html><meta charset=utf-8><title>&amp;#xfdd0;</title><p>There should be an error.&#xfdd0;
    :                                           ^^^^^^^^^^^^
    `----
-
   x Child
-   ,-[$DIR/tests/recovery/text/unassigned-charref-novalid/input.html:1:1]
- 1 | <!doctype html><meta charset=utf-8><title>&amp;#xfdd0;</title><p>There should be an error.&#xfdd0;
-   :                                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/text/unassigned-charref-novalid/input.html:1:64]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/recovery/text/unassigned-charref-novalid/input.html:1:1]
- 1 | <!doctype html><meta charset=utf-8><title>&amp;#xfdd0;</title><p>There should be an error.&#xfdd0;
-   :                                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/text/unassigned-charref-novalid/input.html:1:64]
+ 1 | |    
    `----
-
   x Child
-   ,-[$DIR/tests/recovery/text/unassigned-charref-novalid/input.html:1:1]
- 1 | <!doctype html><meta charset=utf-8><title>&amp;#xfdd0;</title><p>There should be an error.&#xfdd0;
-   :                                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/text/unassigned-charref-novalid/input.html:1:67]
+ 1 | |    
    `----
-
   x Text
-   ,-[$DIR/tests/recovery/text/unassigned-charref-novalid/input.html:1:1]
- 1 | <!doctype html><meta charset=utf-8><title>&amp;#xfdd0;</title><p>There should be an error.&#xfdd0;
-   :                                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/text/unassigned-charref-novalid/input.html:1:67]
+ 1 | |    
    `----

@@ -1,6 +1,5 @@
-
   x Expected Declaration value
-   ,-[$DIR/tests/recovery/styled-jsx/2/input.css:1:1]
+   ,-[$DIR/tests/recovery/styled-jsx/2/input.css:2:1]
  1 | .a :global(> .b) {
  2 |     flex-basis: __styled-jsx-placeholder__0%;
    :                                            ^

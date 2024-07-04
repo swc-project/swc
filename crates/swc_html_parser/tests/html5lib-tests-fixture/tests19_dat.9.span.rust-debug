@@ -1,70 +1,48 @@
-
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.9.html:1:1]
- 1 | <!doctype html><ruby><div><span><rp>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.9.html:1:2]
+ 1 | |    
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.9.html:1:1]
  1 | <!doctype html><ruby><div><span><rp>
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.9.html:1:1]
  1 | <!doctype html><ruby><div><span><rp>
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.9.html:1:1]
- 1 | <!doctype html><ruby><div><span><rp>
-   :                ^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.9.html:1:17]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.9.html:1:1]
- 1 | <!doctype html><ruby><div><span><rp>
-   :                ^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.9.html:1:17]
+ 1 | |    
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.9.html:1:1]
- 1 | <!doctype html><ruby><div><span><rp>
-   :                      ^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.9.html:1:23]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.9.html:1:1]
- 1 | <!doctype html><ruby><div><span><rp>
-   :                      ^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.9.html:1:23]
+ 1 | |    
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.9.html:1:1]
- 1 | <!doctype html><ruby><div><span><rp>
-   :                           ^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.9.html:1:28]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.9.html:1:1]
- 1 | <!doctype html><ruby><div><span><rp>
-   :                           ^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.9.html:1:28]
+ 1 | |    
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.9.html:1:1]
- 1 | <!doctype html><ruby><div><span><rp>
-   :                                 ^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.9.html:1:34]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.9.html:1:1]
- 1 | <!doctype html><ruby><div><span><rp>
-   :                                 ^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.9.html:1:34]
+ 1 | |    
    `----

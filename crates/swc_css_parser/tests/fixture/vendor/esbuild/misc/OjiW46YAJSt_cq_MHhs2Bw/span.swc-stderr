@@ -1,70 +1,54 @@
-
   x Stylesheet
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/OjiW46YAJSt_cq_MHhs2Bw/input.css:1:1]
- 1 | \2d- {}
-   : ^^^^^^^
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/OjiW46YAJSt_cq_MHhs2Bw/input.css:1:2]
+ 1 | |    
    `----
-
   x Rule
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/OjiW46YAJSt_cq_MHhs2Bw/input.css:1:1]
- 1 | \2d- {}
-   : ^^^^^^^
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/OjiW46YAJSt_cq_MHhs2Bw/input.css:1:2]
+ 1 | |    
    `----
-
   x QualifiedRule
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/OjiW46YAJSt_cq_MHhs2Bw/input.css:1:1]
- 1 | \2d- {}
-   : ^^^^^^^
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/OjiW46YAJSt_cq_MHhs2Bw/input.css:1:2]
+ 1 | |    
    `----
-
   x SelectorList
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/OjiW46YAJSt_cq_MHhs2Bw/input.css:1:1]
  1 | \2d- {}
    : ^^^^
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/OjiW46YAJSt_cq_MHhs2Bw/input.css:1:1]
  1 | \2d- {}
    : ^^^^
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/OjiW46YAJSt_cq_MHhs2Bw/input.css:1:1]
  1 | \2d- {}
    : ^^^^
    `----
-
   x TypeSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/OjiW46YAJSt_cq_MHhs2Bw/input.css:1:1]
  1 | \2d- {}
    : ^^^^
    `----
-
   x TagNameSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/OjiW46YAJSt_cq_MHhs2Bw/input.css:1:1]
  1 | \2d- {}
    : ^^^^
    `----
-
   x WqName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/OjiW46YAJSt_cq_MHhs2Bw/input.css:1:1]
  1 | \2d- {}
    : ^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/OjiW46YAJSt_cq_MHhs2Bw/input.css:1:1]
  1 | \2d- {}
    : ^^^^
    `----
-
   x SimpleBlock
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/OjiW46YAJSt_cq_MHhs2Bw/input.css:1:1]
- 1 | \2d- {}
-   :      ^^
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/OjiW46YAJSt_cq_MHhs2Bw/input.css:1:7]
+ 1 | `->  
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/OjiW46YAJSt_cq_MHhs2Bw/input.css:1:1]
  1 | \2d- {}

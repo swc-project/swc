@@ -1,5 +1,4 @@
-
   x Expected an octal digit
-   ,-[$DIR/tests/test262-parser/fail/dcb304c591564c68.js:1:1]
- 1 | 0O
+   ,-[$DIR/tests/test262-parser/fail/dcb304c591564c68.js:1:4]
+ 1 |  
    `----

@@ -13,9 +13,8 @@ export var prerendered2 = /*#__PURE__*/ otherdom("h", null);
 import React from "./renderer";
 export var prerendered3 = /*#__PURE__*/ React.createElement("h", null);
 //// [index.tsx]
-//! 
 //!   x Expression expected
-//!    ,-[1:1]
+//!    ,-[3:1]
 //!  1 | /** @jsx dom */
 //!  2 | import { dom } from "./renderer"
 //!  3 | <h></h>
@@ -24,9 +23,8 @@ export var prerendered3 = /*#__PURE__*/ React.createElement("h", null);
 //!  5 | export * from "./othernoalias";
 //!  6 | export * from "./reacty";
 //!    `----
-//! 
 //!   x Unexpected token `/`. Expected jsx identifier
-//!    ,-[1:1]
+//!    ,-[3:1]
 //!  1 | /** @jsx dom */
 //!  2 | import { dom } from "./renderer"
 //!  3 | <h></h>

@@ -1,10 +1,8 @@
-
   x Expected a semicolon
    ,-[$DIR/tests/typescript-errors/issue-1170-1/input.ts:1:1]
  1 | const toString: (local)(this: Function) => string) = undefined;
    :                        ^
    `----
-
   x Not a pattern
    ,-[$DIR/tests/typescript-errors/issue-1170-1/input.ts:1:1]
  1 | const toString: (local)(this: Function) => string) = undefined;

@@ -1,34 +1,22 @@
-
   x Document
-   ,-[$DIR/tests/recovery/comment/cdata-2/input.html:1:1]
- 1 | <div><![CDATA[foo]]>
-   : ^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/comment/cdata-2/input.html:1:2]
+ 1 | |    
    `----
-
   x Child
-
   x Element
-
   x Child
-   ,-[$DIR/tests/recovery/comment/cdata-2/input.html:1:1]
- 1 | <div><![CDATA[foo]]>
-   : ^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/comment/cdata-2/input.html:1:2]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/recovery/comment/cdata-2/input.html:1:1]
- 1 | <div><![CDATA[foo]]>
-   : ^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/comment/cdata-2/input.html:1:2]
+ 1 | |    
    `----
-
   x Child
-   ,-[$DIR/tests/recovery/comment/cdata-2/input.html:1:1]
- 1 | <div><![CDATA[foo]]>
-   :      ^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/comment/cdata-2/input.html:1:7]
+ 1 | |    
    `----
-
   x Comment
-   ,-[$DIR/tests/recovery/comment/cdata-2/input.html:1:1]
- 1 | <div><![CDATA[foo]]>
-   :      ^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/comment/cdata-2/input.html:1:7]
+ 1 | |    
    `----

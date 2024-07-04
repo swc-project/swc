@@ -1,46 +1,34 @@
-
   x Document
-   ,-[$DIR/tests/recovery/element/svg-3/input.html:1:1]
- 1 | <svg></p><foo>
-   : ^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/element/svg-3/input.html:1:2]
+ 1 | |    
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/recovery/element/svg-3/input.html:1:1]
  1 | <svg></p><foo>
    : ^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/recovery/element/svg-3/input.html:1:1]
  1 | <svg></p><foo>
    : ^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/recovery/element/svg-3/input.html:1:1]
  1 | <svg></p><foo>
    :      ^^^^
    `----
-
   x Element
    ,-[$DIR/tests/recovery/element/svg-3/input.html:1:1]
  1 | <svg></p><foo>
    :      ^^^^
    `----
-
   x Child
-   ,-[$DIR/tests/recovery/element/svg-3/input.html:1:1]
- 1 | <svg></p><foo>
-   :          ^^^^^
+   ,-[$DIR/tests/recovery/element/svg-3/input.html:1:11]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/recovery/element/svg-3/input.html:1:1]
- 1 | <svg></p><foo>
-   :          ^^^^^
+   ,-[$DIR/tests/recovery/element/svg-3/input.html:1:11]
+ 1 | |    
    `----

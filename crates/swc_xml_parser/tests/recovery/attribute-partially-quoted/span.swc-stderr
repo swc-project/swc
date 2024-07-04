@@ -1,51 +1,33 @@
-
   x Document
-   ,-[$DIR/tests/recovery/attribute-partially-quoted/input.xml:1:1]
- 1 | ,-> <root>
- 2 | |       <c foo='test></c>
- 3 | `-> </root>
+   ,-[$DIR/tests/recovery/attribute-partially-quoted/input.xml:1:2]
+ 1 | |    
    `----
-
   x Child
-   ,-[$DIR/tests/recovery/attribute-partially-quoted/input.xml:1:1]
- 1 | ,-> <root>
- 2 | |       <c foo='test></c>
- 3 | `-> </root>
+   ,-[$DIR/tests/recovery/attribute-partially-quoted/input.xml:1:2]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/recovery/attribute-partially-quoted/input.xml:1:1]
- 1 | ,-> <root>
- 2 | |       <c foo='test></c>
- 3 | `-> </root>
+   ,-[$DIR/tests/recovery/attribute-partially-quoted/input.xml:1:2]
+ 1 | |    
    `----
-
   x Child
-   ,-[$DIR/tests/recovery/attribute-partially-quoted/input.xml:1:1]
+   ,-[$DIR/tests/recovery/attribute-partially-quoted/input.xml:2:1]
  1 | ,-> <root>
  2 | `->     <c foo='test></c>
  3 |     </root>
    `----
-
   x Text
-   ,-[$DIR/tests/recovery/attribute-partially-quoted/input.xml:1:1]
+   ,-[$DIR/tests/recovery/attribute-partially-quoted/input.xml:2:1]
  1 | ,-> <root>
  2 | `->     <c foo='test></c>
  3 |     </root>
    `----
-
   x Child
-   ,-[$DIR/tests/recovery/attribute-partially-quoted/input.xml:1:1]
- 1 |     <root>
- 2 | ,->     <c foo='test></c>
- 3 | `-> </root>
+   ,-[$DIR/tests/recovery/attribute-partially-quoted/input.xml:2:6]
+ 2 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/recovery/attribute-partially-quoted/input.xml:1:1]
- 1 |     <root>
- 2 | ,->     <c foo='test></c>
- 3 | `-> </root>
+   ,-[$DIR/tests/recovery/attribute-partially-quoted/input.xml:2:6]
+ 2 | |    
    `----
-
   x Attribute

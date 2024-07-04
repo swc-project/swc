@@ -1,70 +1,52 @@
-
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.53.html:1:1]
- 1 | <b id=a><p><b id=b></p></b>TEST
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.53.html:1:2]
+ 1 | |    
    `----
-
   x Child
-
   x Element
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.53.html:1:1]
- 1 | <b id=a><p><b id=b></p></b>TEST
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.53.html:1:2]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.53.html:1:1]
- 1 | <b id=a><p><b id=b></p></b>TEST
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.53.html:1:2]
+ 1 | |    
    `----
-
   x Attribute
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.53.html:1:1]
  1 | <b id=a><p><b id=b></p></b>TEST
    :    ^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.53.html:1:1]
  1 | <b id=a><p><b id=b></p></b>TEST
    :         ^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.53.html:1:1]
  1 | <b id=a><p><b id=b></p></b>TEST
    :         ^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.53.html:1:1]
  1 | <b id=a><p><b id=b></p></b>TEST
    :            ^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.53.html:1:1]
  1 | <b id=a><p><b id=b></p></b>TEST
    :            ^^^^^^^^
    `----
-
   x Attribute
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.53.html:1:1]
  1 | <b id=a><p><b id=b></p></b>TEST
    :               ^^^^
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.53.html:1:1]
- 1 | <b id=a><p><b id=b></p></b>TEST
-   :                            ^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.53.html:1:29]
+ 1 | |    
    `----
-
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.53.html:1:1]
- 1 | <b id=a><p><b id=b></p></b>TEST
-   :                            ^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.53.html:1:29]
+ 1 | |    
    `----

@@ -1,46 +1,34 @@
-
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/tests25_dat.14.html:1:1]
- 1 | <!DOCTYPE html><keygen>A</keygen>B
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests25_dat.14.html:1:2]
+ 1 | |    
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests25_dat.14.html:1:1]
  1 | <!DOCTYPE html><keygen>A</keygen>B
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/html5lib-tests-fixture/tests25_dat.14.html:1:1]
  1 | <!DOCTYPE html><keygen>A</keygen>B
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests25_dat.14.html:1:1]
  1 | <!DOCTYPE html><keygen>A</keygen>B
    :                ^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests25_dat.14.html:1:1]
  1 | <!DOCTYPE html><keygen>A</keygen>B
    :                ^^^^^^^^
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests25_dat.14.html:1:1]
- 1 | <!DOCTYPE html><keygen>A</keygen>B
-   :                        ^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests25_dat.14.html:1:25]
+ 1 | |    
    `----
-
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/tests25_dat.14.html:1:1]
- 1 | <!DOCTYPE html><keygen>A</keygen>B
-   :                        ^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests25_dat.14.html:1:25]
+ 1 | |    
    `----

@@ -1,114 +1,87 @@
-
   x Module
-   ,-[$DIR/tests/span/js/pat/assign-pat.js:1:1]
- 1 | let [a, b = 'default'] = foo
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/span/js/pat/assign-pat.js:1:2]
+ 1 | |    
    `----
-
   x ModuleItem
-   ,-[$DIR/tests/span/js/pat/assign-pat.js:1:1]
- 1 | let [a, b = 'default'] = foo
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/span/js/pat/assign-pat.js:1:2]
+ 1 | |    
    `----
-
   x Stmt
-   ,-[$DIR/tests/span/js/pat/assign-pat.js:1:1]
- 1 | let [a, b = 'default'] = foo
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/span/js/pat/assign-pat.js:1:2]
+ 1 | |    
    `----
-
   x Decl
-   ,-[$DIR/tests/span/js/pat/assign-pat.js:1:1]
- 1 | let [a, b = 'default'] = foo
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/span/js/pat/assign-pat.js:1:2]
+ 1 | |    
    `----
-
   x VarDecl
-   ,-[$DIR/tests/span/js/pat/assign-pat.js:1:1]
- 1 | let [a, b = 'default'] = foo
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/span/js/pat/assign-pat.js:1:2]
+ 1 | |    
    `----
-
   x VarDeclarator
-   ,-[$DIR/tests/span/js/pat/assign-pat.js:1:1]
- 1 | let [a, b = 'default'] = foo
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/span/js/pat/assign-pat.js:1:6]
+ 1 | |    
    `----
-
   x Pat
    ,-[$DIR/tests/span/js/pat/assign-pat.js:1:1]
  1 | let [a, b = 'default'] = foo
    :     ^^^^^^^^^^^^^^^^^^
    `----
-
   x ArrayPat
    ,-[$DIR/tests/span/js/pat/assign-pat.js:1:1]
  1 | let [a, b = 'default'] = foo
    :     ^^^^^^^^^^^^^^^^^^
    `----
-
   x Pat
    ,-[$DIR/tests/span/js/pat/assign-pat.js:1:1]
  1 | let [a, b = 'default'] = foo
    :      ^
    `----
-
   x Ident
    ,-[$DIR/tests/span/js/pat/assign-pat.js:1:1]
  1 | let [a, b = 'default'] = foo
    :      ^
    `----
-
   x Pat
    ,-[$DIR/tests/span/js/pat/assign-pat.js:1:1]
  1 | let [a, b = 'default'] = foo
    :         ^^^^^^^^^^^^^
    `----
-
   x AssignPat
    ,-[$DIR/tests/span/js/pat/assign-pat.js:1:1]
  1 | let [a, b = 'default'] = foo
    :         ^^^^^^^^^^^^^
    `----
-
   x Pat
    ,-[$DIR/tests/span/js/pat/assign-pat.js:1:1]
  1 | let [a, b = 'default'] = foo
    :         ^
    `----
-
   x Ident
    ,-[$DIR/tests/span/js/pat/assign-pat.js:1:1]
  1 | let [a, b = 'default'] = foo
    :         ^
    `----
-
   x Expr
    ,-[$DIR/tests/span/js/pat/assign-pat.js:1:1]
  1 | let [a, b = 'default'] = foo
    :             ^^^^^^^^^
    `----
-
   x Lit
    ,-[$DIR/tests/span/js/pat/assign-pat.js:1:1]
  1 | let [a, b = 'default'] = foo
    :             ^^^^^^^^^
    `----
-
   x Str
    ,-[$DIR/tests/span/js/pat/assign-pat.js:1:1]
  1 | let [a, b = 'default'] = foo
    :             ^^^^^^^^^
    `----
-
   x Expr
-   ,-[$DIR/tests/span/js/pat/assign-pat.js:1:1]
- 1 | let [a, b = 'default'] = foo
-   :                          ^^^
+   ,-[$DIR/tests/span/js/pat/assign-pat.js:1:27]
+ 1 | |    
    `----
-
   x Ident
-   ,-[$DIR/tests/span/js/pat/assign-pat.js:1:1]
- 1 | let [a, b = 'default'] = foo
-   :                          ^^^
+   ,-[$DIR/tests/span/js/pat/assign-pat.js:1:27]
+ 1 | |    
    `----

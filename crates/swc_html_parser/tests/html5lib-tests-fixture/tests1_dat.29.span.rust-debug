@@ -1,58 +1,42 @@
-
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.29.html:1:1]
- 1 | <select><b><option><select><option></b></select>X
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.29.html:1:2]
+ 1 | |    
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.29.html:1:1]
  1 | <select><b><option><select><option></b></select>X
    : ^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.29.html:1:1]
  1 | <select><b><option><select><option></b></select>X
    : ^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.29.html:1:1]
  1 | <select><b><option><select><option></b></select>X
    :            ^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.29.html:1:1]
  1 | <select><b><option><select><option></b></select>X
    :            ^^^^^^^^
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.29.html:1:1]
- 1 | <select><b><option><select><option></b></select>X
-   :                            ^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.29.html:1:29]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.29.html:1:1]
- 1 | <select><b><option><select><option></b></select>X
-   :                            ^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.29.html:1:29]
+ 1 | |    
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.29.html:1:1]
- 1 | <select><b><option><select><option></b></select>X
-   :                                                 ^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.29.html:1:50]
+ 1 |  
    `----
-
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.29.html:1:1]
- 1 | <select><b><option><select><option></b></select>X
-   :                                                 ^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.29.html:1:50]
+ 1 |  
    `----

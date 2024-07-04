@@ -1,100 +1,77 @@
-
   x Module
-   ,-[$DIR/tests/span/js/expr/arrow-with-paren.js:1:1]
- 1 | use((a) => a)
-   : ^^^^^^^^^^^^^
+   ,-[$DIR/tests/span/js/expr/arrow-with-paren.js:1:2]
+ 1 | |    
    `----
-
   x ModuleItem
-   ,-[$DIR/tests/span/js/expr/arrow-with-paren.js:1:1]
- 1 | use((a) => a)
-   : ^^^^^^^^^^^^^
+   ,-[$DIR/tests/span/js/expr/arrow-with-paren.js:1:2]
+ 1 | |    
    `----
-
   x Stmt
-   ,-[$DIR/tests/span/js/expr/arrow-with-paren.js:1:1]
- 1 | use((a) => a)
-   : ^^^^^^^^^^^^^
+   ,-[$DIR/tests/span/js/expr/arrow-with-paren.js:1:2]
+ 1 | |    
    `----
-
   x ExprStmt
-   ,-[$DIR/tests/span/js/expr/arrow-with-paren.js:1:1]
- 1 | use((a) => a)
-   : ^^^^^^^^^^^^^
+   ,-[$DIR/tests/span/js/expr/arrow-with-paren.js:1:2]
+ 1 | |    
    `----
-
   x Expr
-   ,-[$DIR/tests/span/js/expr/arrow-with-paren.js:1:1]
- 1 | use((a) => a)
-   : ^^^^^^^^^^^^^
+   ,-[$DIR/tests/span/js/expr/arrow-with-paren.js:1:2]
+ 1 | |    
    `----
-
   x CallExpr
-   ,-[$DIR/tests/span/js/expr/arrow-with-paren.js:1:1]
- 1 | use((a) => a)
-   : ^^^^^^^^^^^^^
+   ,-[$DIR/tests/span/js/expr/arrow-with-paren.js:1:2]
+ 1 | |    
    `----
-
   x Callee
    ,-[$DIR/tests/span/js/expr/arrow-with-paren.js:1:1]
  1 | use((a) => a)
    : ^^^
    `----
-
   x Expr
    ,-[$DIR/tests/span/js/expr/arrow-with-paren.js:1:1]
  1 | use((a) => a)
    : ^^^
    `----
-
   x Ident
    ,-[$DIR/tests/span/js/expr/arrow-with-paren.js:1:1]
  1 | use((a) => a)
    : ^^^
    `----
-
   x ExprOrSpread
    ,-[$DIR/tests/span/js/expr/arrow-with-paren.js:1:1]
  1 | use((a) => a)
    :     ^^^^^^^^
    `----
-
   x Expr
    ,-[$DIR/tests/span/js/expr/arrow-with-paren.js:1:1]
  1 | use((a) => a)
    :     ^^^^^^^^
    `----
-
   x ArrowExpr
    ,-[$DIR/tests/span/js/expr/arrow-with-paren.js:1:1]
  1 | use((a) => a)
    :     ^^^^^^^^
    `----
-
   x Pat
    ,-[$DIR/tests/span/js/expr/arrow-with-paren.js:1:1]
  1 | use((a) => a)
    :      ^
    `----
-
   x Ident
    ,-[$DIR/tests/span/js/expr/arrow-with-paren.js:1:1]
  1 | use((a) => a)
    :      ^
    `----
-
   x BlockStmtOrExpr
    ,-[$DIR/tests/span/js/expr/arrow-with-paren.js:1:1]
  1 | use((a) => a)
    :            ^
    `----
-
   x Expr
    ,-[$DIR/tests/span/js/expr/arrow-with-paren.js:1:1]
  1 | use((a) => a)
    :            ^
    `----
-
   x Ident
    ,-[$DIR/tests/span/js/expr/arrow-with-paren.js:1:1]
  1 | use((a) => a)

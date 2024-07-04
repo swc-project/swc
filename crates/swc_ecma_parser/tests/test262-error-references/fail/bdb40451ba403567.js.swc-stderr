@@ -1,5 +1,4 @@
-
   x Bad character escape sequence, expected 4 hex characters
-   ,-[$DIR/tests/test262-parser/fail/bdb40451ba403567.js:1:1]
- 1 | a\u1
+   ,-[$DIR/tests/test262-parser/fail/bdb40451ba403567.js:1:6]
+ 1 |  
    `----

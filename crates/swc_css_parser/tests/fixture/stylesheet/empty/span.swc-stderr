@@ -1,6 +1,4 @@
-
   x Stylesheet
-   ,-[$DIR/tests/fixture/stylesheet/empty/input.css:1:1]
+   ,-[$DIR/tests/fixture/stylesheet/empty/input.css:1:2]
  1 |  
-   : ^
    `----

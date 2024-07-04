@@ -1,38 +1,25 @@
-
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.20.html:1:1]
- 1 | <bdy></body><br foo="bar">
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.20.html:1:2]
+ 1 | |    
    `----
-
   x Child
-
   x Element
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.20.html:1:1]
- 1 | <bdy></body><br foo="bar">
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.20.html:1:2]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.20.html:1:1]
- 1 | <bdy></body><br foo="bar">
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.20.html:1:2]
+ 1 | |    
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.20.html:1:1]
- 1 | <bdy></body><br foo="bar">
-   :             ^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.20.html:1:14]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.20.html:1:1]
- 1 | <bdy></body><br foo="bar">
-   :             ^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.20.html:1:14]
+ 1 | |    
    `----
-
   x Attribute
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.20.html:1:1]
  1 | <bdy></body><br foo="bar">

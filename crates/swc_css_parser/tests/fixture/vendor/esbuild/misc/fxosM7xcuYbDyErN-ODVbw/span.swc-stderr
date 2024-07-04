@@ -1,88 +1,69 @@
-
   x Stylesheet
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/fxosM7xcuYbDyErN-ODVbw/input.css:1:1]
- 1 | [b|="c"] {}
-   : ^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/fxosM7xcuYbDyErN-ODVbw/input.css:1:2]
+ 1 | |    
    `----
-
   x Rule
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/fxosM7xcuYbDyErN-ODVbw/input.css:1:1]
- 1 | [b|="c"] {}
-   : ^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/fxosM7xcuYbDyErN-ODVbw/input.css:1:2]
+ 1 | |    
    `----
-
   x QualifiedRule
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/fxosM7xcuYbDyErN-ODVbw/input.css:1:1]
- 1 | [b|="c"] {}
-   : ^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/fxosM7xcuYbDyErN-ODVbw/input.css:1:2]
+ 1 | |    
    `----
-
   x SelectorList
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/fxosM7xcuYbDyErN-ODVbw/input.css:1:1]
  1 | [b|="c"] {}
    : ^^^^^^^^
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/fxosM7xcuYbDyErN-ODVbw/input.css:1:1]
  1 | [b|="c"] {}
    : ^^^^^^^^
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/fxosM7xcuYbDyErN-ODVbw/input.css:1:1]
  1 | [b|="c"] {}
    : ^^^^^^^^
    `----
-
   x SubclassSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/fxosM7xcuYbDyErN-ODVbw/input.css:1:1]
  1 | [b|="c"] {}
    : ^^^^^^^^
    `----
-
   x AttributeSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/fxosM7xcuYbDyErN-ODVbw/input.css:1:1]
  1 | [b|="c"] {}
    : ^^^^^^^^
    `----
-
   x WqName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/fxosM7xcuYbDyErN-ODVbw/input.css:1:1]
  1 | [b|="c"] {}
    :  ^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/fxosM7xcuYbDyErN-ODVbw/input.css:1:1]
  1 | [b|="c"] {}
    :  ^
    `----
-
   x AttributeSelectorMatcher
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/fxosM7xcuYbDyErN-ODVbw/input.css:1:1]
  1 | [b|="c"] {}
    :   ^^
    `----
-
   x AttributeSelectorValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/fxosM7xcuYbDyErN-ODVbw/input.css:1:1]
  1 | [b|="c"] {}
    :     ^^^
    `----
-
   x Str
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/fxosM7xcuYbDyErN-ODVbw/input.css:1:1]
  1 | [b|="c"] {}
    :     ^^^
    `----
-
   x SimpleBlock
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/fxosM7xcuYbDyErN-ODVbw/input.css:1:1]
- 1 | [b|="c"] {}
-   :          ^^
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/fxosM7xcuYbDyErN-ODVbw/input.css:1:11]
+ 1 | `->  
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/fxosM7xcuYbDyErN-ODVbw/input.css:1:1]
  1 | [b|="c"] {}

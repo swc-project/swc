@@ -1,16 +1,13 @@
-
   x Invalid character of processing instruction
    ,-[$DIR/tests/recovery/pi/bad-pi-6/input.xml:1:1]
  1 | <? xml version='1.0'
    :   ^
    `----
-
   x Eof in processing instruction
-   ,-[$DIR/tests/recovery/pi/bad-pi-6/input.xml:1:1]
- 1 | <? xml version='1.0'
+   ,-[$DIR/tests/recovery/pi/bad-pi-6/input.xml:1:22]
+ 1 |  
    `----
-
   x Unexpected end of file in start phase
-   ,-[$DIR/tests/recovery/pi/bad-pi-6/input.xml:1:1]
- 1 | <? xml version='1.0'
+   ,-[$DIR/tests/recovery/pi/bad-pi-6/input.xml:1:22]
+ 1 |  
    `----

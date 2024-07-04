@@ -1,176 +1,142 @@
-
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat.15.fragment_div.html:1:1]
- 1 | <b><em><foo><foo><foo><foo><foo><foo><foo><foo><foo><foo><aside></b></em>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat.15.fragment_div.html:1:2]
+ 1 | |    
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat.15.fragment_div.html:1:1]
  1 | <b><em><foo><foo><foo><foo><foo><foo><foo><foo><foo><foo><aside></b></em>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat.15.fragment_div.html:1:1]
  1 | <b><em><foo><foo><foo><foo><foo><foo><foo><foo><foo><foo><aside></b></em>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat.15.fragment_div.html:1:1]
  1 | <b><em><foo><foo><foo><foo><foo><foo><foo><foo><foo><foo><aside></b></em>
    :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat.15.fragment_div.html:1:1]
  1 | <b><em><foo><foo><foo><foo><foo><foo><foo><foo><foo><foo><aside></b></em>
    :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat.15.fragment_div.html:1:1]
  1 | <b><em><foo><foo><foo><foo><foo><foo><foo><foo><foo><foo><aside></b></em>
    :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat.15.fragment_div.html:1:1]
  1 | <b><em><foo><foo><foo><foo><foo><foo><foo><foo><foo><foo><aside></b></em>
    :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat.15.fragment_div.html:1:1]
  1 | <b><em><foo><foo><foo><foo><foo><foo><foo><foo><foo><foo><aside></b></em>
    :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat.15.fragment_div.html:1:1]
  1 | <b><em><foo><foo><foo><foo><foo><foo><foo><foo><foo><foo><aside></b></em>
    :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat.15.fragment_div.html:1:1]
  1 | <b><em><foo><foo><foo><foo><foo><foo><foo><foo><foo><foo><aside></b></em>
    :                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat.15.fragment_div.html:1:1]
  1 | <b><em><foo><foo><foo><foo><foo><foo><foo><foo><foo><foo><aside></b></em>
    :                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat.15.fragment_div.html:1:1]
  1 | <b><em><foo><foo><foo><foo><foo><foo><foo><foo><foo><foo><aside></b></em>
    :                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat.15.fragment_div.html:1:1]
  1 | <b><em><foo><foo><foo><foo><foo><foo><foo><foo><foo><foo><aside></b></em>
    :                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat.15.fragment_div.html:1:1]
  1 | <b><em><foo><foo><foo><foo><foo><foo><foo><foo><foo><foo><aside></b></em>
    :                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat.15.fragment_div.html:1:1]
  1 | <b><em><foo><foo><foo><foo><foo><foo><foo><foo><foo><foo><aside></b></em>
    :                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat.15.fragment_div.html:1:1]
  1 | <b><em><foo><foo><foo><foo><foo><foo><foo><foo><foo><foo><aside></b></em>
    :                                 ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat.15.fragment_div.html:1:1]
  1 | <b><em><foo><foo><foo><foo><foo><foo><foo><foo><foo><foo><aside></b></em>
    :                                 ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat.15.fragment_div.html:1:1]
  1 | <b><em><foo><foo><foo><foo><foo><foo><foo><foo><foo><foo><aside></b></em>
    :                                      ^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat.15.fragment_div.html:1:1]
  1 | <b><em><foo><foo><foo><foo><foo><foo><foo><foo><foo><foo><aside></b></em>
    :                                      ^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat.15.fragment_div.html:1:1]
  1 | <b><em><foo><foo><foo><foo><foo><foo><foo><foo><foo><foo><aside></b></em>
    :                                           ^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat.15.fragment_div.html:1:1]
  1 | <b><em><foo><foo><foo><foo><foo><foo><foo><foo><foo><foo><aside></b></em>
    :                                           ^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat.15.fragment_div.html:1:1]
  1 | <b><em><foo><foo><foo><foo><foo><foo><foo><foo><foo><foo><aside></b></em>
    :                                                ^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat.15.fragment_div.html:1:1]
  1 | <b><em><foo><foo><foo><foo><foo><foo><foo><foo><foo><foo><aside></b></em>
    :                                                ^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat.15.fragment_div.html:1:1]
  1 | <b><em><foo><foo><foo><foo><foo><foo><foo><foo><foo><foo><aside></b></em>
    :                                                     ^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat.15.fragment_div.html:1:1]
  1 | <b><em><foo><foo><foo><foo><foo><foo><foo><foo><foo><foo><aside></b></em>
    :                                                     ^^^^^
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat.15.fragment_div.html:1:1]
- 1 | <b><em><foo><foo><foo><foo><foo><foo><foo><foo><foo><foo><aside></b></em>
-   :                                                          ^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat.15.fragment_div.html:1:59]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat.15.fragment_div.html:1:1]
- 1 | <b><em><foo><foo><foo><foo><foo><foo><foo><foo><foo><foo><aside></b></em>
-   :                                                          ^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat.15.fragment_div.html:1:59]
+ 1 | |    
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat.15.fragment_div.html:1:1]
  1 | <b><em><foo><foo><foo><foo><foo><foo><foo><foo><foo><foo><aside></b></em>
    :                                                                 ^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat.15.fragment_div.html:1:1]
  1 | <b><em><foo><foo><foo><foo><foo><foo><foo><foo><foo><foo><aside></b></em>

@@ -1,80 +1,62 @@
-
   x Document
-   ,-[$DIR/tests/fixture/element/no-body/input.html:1:1]
- 1 | <!doctype html><head><title>Document</title></head><p>Test</p>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/element/no-body/input.html:1:2]
+ 1 | |    
    `----
-
   x Child
    ,-[$DIR/tests/fixture/element/no-body/input.html:1:1]
  1 | <!doctype html><head><title>Document</title></head><p>Test</p>
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/fixture/element/no-body/input.html:1:1]
  1 | <!doctype html><head><title>Document</title></head><p>Test</p>
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/fixture/element/no-body/input.html:1:1]
  1 | <!doctype html><head><title>Document</title></head><p>Test</p>
    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/fixture/element/no-body/input.html:1:1]
  1 | <!doctype html><head><title>Document</title></head><p>Test</p>
    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/fixture/element/no-body/input.html:1:1]
  1 | <!doctype html><head><title>Document</title></head><p>Test</p>
    :                      ^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/fixture/element/no-body/input.html:1:1]
  1 | <!doctype html><head><title>Document</title></head><p>Test</p>
    :                      ^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/fixture/element/no-body/input.html:1:1]
  1 | <!doctype html><head><title>Document</title></head><p>Test</p>
    :                             ^^^^^^^^
    `----
-
   x Text
    ,-[$DIR/tests/fixture/element/no-body/input.html:1:1]
  1 | <!doctype html><head><title>Document</title></head><p>Test</p>
    :                             ^^^^^^^^
    `----
-
   x Child
-   ,-[$DIR/tests/fixture/element/no-body/input.html:1:1]
- 1 | <!doctype html><head><title>Document</title></head><p>Test</p>
-   :                                                    ^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/element/no-body/input.html:1:53]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/fixture/element/no-body/input.html:1:1]
- 1 | <!doctype html><head><title>Document</title></head><p>Test</p>
-   :                                                    ^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/element/no-body/input.html:1:53]
+ 1 | |    
    `----
-
   x Child
    ,-[$DIR/tests/fixture/element/no-body/input.html:1:1]
  1 | <!doctype html><head><title>Document</title></head><p>Test</p>
    :                                                       ^^^^
    `----
-
   x Text
    ,-[$DIR/tests/fixture/element/no-body/input.html:1:1]
  1 | <!doctype html><head><title>Document</title></head><p>Test</p>

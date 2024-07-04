@@ -1,124 +1,99 @@
-
   x Stylesheet
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/Uuvi9sS4YR_ILpKl0xpfOg/input.css:1:1]
- 1 | a { value: url(a\62 c) }
-   : ^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/Uuvi9sS4YR_ILpKl0xpfOg/input.css:1:2]
+ 1 | |    
    `----
-
   x Rule
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/Uuvi9sS4YR_ILpKl0xpfOg/input.css:1:1]
- 1 | a { value: url(a\62 c) }
-   : ^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/Uuvi9sS4YR_ILpKl0xpfOg/input.css:1:2]
+ 1 | |    
    `----
-
   x QualifiedRule
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/Uuvi9sS4YR_ILpKl0xpfOg/input.css:1:1]
- 1 | a { value: url(a\62 c) }
-   : ^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/Uuvi9sS4YR_ILpKl0xpfOg/input.css:1:2]
+ 1 | |    
    `----
-
   x SelectorList
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Uuvi9sS4YR_ILpKl0xpfOg/input.css:1:1]
  1 | a { value: url(a\62 c) }
    : ^
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Uuvi9sS4YR_ILpKl0xpfOg/input.css:1:1]
  1 | a { value: url(a\62 c) }
    : ^
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Uuvi9sS4YR_ILpKl0xpfOg/input.css:1:1]
  1 | a { value: url(a\62 c) }
    : ^
    `----
-
   x TypeSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Uuvi9sS4YR_ILpKl0xpfOg/input.css:1:1]
  1 | a { value: url(a\62 c) }
    : ^
    `----
-
   x TagNameSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Uuvi9sS4YR_ILpKl0xpfOg/input.css:1:1]
  1 | a { value: url(a\62 c) }
    : ^
    `----
-
   x WqName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Uuvi9sS4YR_ILpKl0xpfOg/input.css:1:1]
  1 | a { value: url(a\62 c) }
    : ^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Uuvi9sS4YR_ILpKl0xpfOg/input.css:1:1]
  1 | a { value: url(a\62 c) }
    : ^
    `----
-
   x SimpleBlock
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/Uuvi9sS4YR_ILpKl0xpfOg/input.css:1:1]
- 1 | a { value: url(a\62 c) }
-   :   ^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/Uuvi9sS4YR_ILpKl0xpfOg/input.css:1:4]
+ 1 | |    
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Uuvi9sS4YR_ILpKl0xpfOg/input.css:1:1]
  1 | a { value: url(a\62 c) }
    :   ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Uuvi9sS4YR_ILpKl0xpfOg/input.css:1:1]
  1 | a { value: url(a\62 c) }
    :     ^^^^^^^^^^^^^^^^^^^
    `----
-
   x Declaration
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Uuvi9sS4YR_ILpKl0xpfOg/input.css:1:1]
  1 | a { value: url(a\62 c) }
    :     ^^^^^^^^^^^^^^^^^^^
    `----
-
   x DeclarationName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Uuvi9sS4YR_ILpKl0xpfOg/input.css:1:1]
  1 | a { value: url(a\62 c) }
    :     ^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Uuvi9sS4YR_ILpKl0xpfOg/input.css:1:1]
  1 | a { value: url(a\62 c) }
    :     ^^^^^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Uuvi9sS4YR_ILpKl0xpfOg/input.css:1:1]
  1 | a { value: url(a\62 c) }
    :            ^^^^^^^^^^^
    `----
-
   x Url
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Uuvi9sS4YR_ILpKl0xpfOg/input.css:1:1]
  1 | a { value: url(a\62 c) }
    :            ^^^^^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Uuvi9sS4YR_ILpKl0xpfOg/input.css:1:1]
  1 | a { value: url(a\62 c) }
    :            ^^^
    `----
-
   x UrlValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Uuvi9sS4YR_ILpKl0xpfOg/input.css:1:1]
  1 | a { value: url(a\62 c) }
    :                ^^^^^^
    `----
-
   x UrlValueRaw
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Uuvi9sS4YR_ILpKl0xpfOg/input.css:1:1]
  1 | a { value: url(a\62 c) }

@@ -1,4 +1,3 @@
-
   x the name `Button` is defined multiple times
    ,-[$DIR/tests/fixture/issues-8xxx/8935/input/src/button.jsx:1:1]
  1 | export function Button(props) {

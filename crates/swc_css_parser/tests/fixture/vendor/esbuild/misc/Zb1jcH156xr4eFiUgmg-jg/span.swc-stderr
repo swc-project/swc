@@ -1,40 +1,30 @@
-
   x Stylesheet
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/Zb1jcH156xr4eFiUgmg-jg/input.css:1:1]
- 1 | @n\61mespace ns 'path';
-   : ^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/Zb1jcH156xr4eFiUgmg-jg/input.css:1:2]
+ 1 | |    
    `----
-
   x Rule
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/Zb1jcH156xr4eFiUgmg-jg/input.css:1:1]
- 1 | @n\61mespace ns 'path';
-   : ^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/Zb1jcH156xr4eFiUgmg-jg/input.css:1:2]
+ 1 | |    
    `----
-
   x AtRule
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/Zb1jcH156xr4eFiUgmg-jg/input.css:1:1]
- 1 | @n\61mespace ns 'path';
-   : ^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/Zb1jcH156xr4eFiUgmg-jg/input.css:1:2]
+ 1 | |    
    `----
-
   x AtRuleName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Zb1jcH156xr4eFiUgmg-jg/input.css:1:1]
  1 | @n\61mespace ns 'path';
    :  ^^^^^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Zb1jcH156xr4eFiUgmg-jg/input.css:1:1]
  1 | @n\61mespace ns 'path';
    :  ^^^^^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Zb1jcH156xr4eFiUgmg-jg/input.css:1:1]
  1 | @n\61mespace ns 'path';
    :              ^^
    `----
-
   x Str
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Zb1jcH156xr4eFiUgmg-jg/input.css:1:1]
  1 | @n\61mespace ns 'path';

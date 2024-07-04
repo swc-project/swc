@@ -1,56 +1,42 @@
-
   x Document
-   ,-[$DIR/tests/fixture/element/no-head/input.html:1:1]
- 1 | <!doctype html><body><p>Test</p></body>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/element/no-head/input.html:1:2]
+ 1 | |    
    `----
-
   x Child
    ,-[$DIR/tests/fixture/element/no-head/input.html:1:1]
  1 | <!doctype html><body><p>Test</p></body>
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/fixture/element/no-head/input.html:1:1]
  1 | <!doctype html><body><p>Test</p></body>
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
-   ,-[$DIR/tests/fixture/element/no-head/input.html:1:1]
- 1 | <!doctype html><body><p>Test</p></body>
-   :                ^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/element/no-head/input.html:1:17]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/fixture/element/no-head/input.html:1:1]
- 1 | <!doctype html><body><p>Test</p></body>
-   :                ^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/element/no-head/input.html:1:17]
+ 1 | |    
    `----
-
   x Child
    ,-[$DIR/tests/fixture/element/no-head/input.html:1:1]
  1 | <!doctype html><body><p>Test</p></body>
    :                      ^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/fixture/element/no-head/input.html:1:1]
  1 | <!doctype html><body><p>Test</p></body>
    :                      ^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/fixture/element/no-head/input.html:1:1]
  1 | <!doctype html><body><p>Test</p></body>
    :                         ^^^^
    `----
-
   x Text
    ,-[$DIR/tests/fixture/element/no-head/input.html:1:1]
  1 | <!doctype html><body><p>Test</p></body>

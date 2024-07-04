@@ -1,32 +1,22 @@
-
   x Document
-   ,-[$DIR/tests/recovery/element/svg-1/input.html:1:1]
- 1 | ,-> <svg><![CDATA[foo
- 2 | `-> bar]]>
+   ,-[$DIR/tests/recovery/element/svg-1/input.html:1:2]
+ 1 | |    
    `----
-
   x Child
-
   x Element
-
   x Child
-   ,-[$DIR/tests/recovery/element/svg-1/input.html:1:1]
- 1 | ,-> <svg><![CDATA[foo
- 2 | `-> bar]]>
+   ,-[$DIR/tests/recovery/element/svg-1/input.html:1:2]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/recovery/element/svg-1/input.html:1:1]
- 1 | ,-> <svg><![CDATA[foo
- 2 | `-> bar]]>
+   ,-[$DIR/tests/recovery/element/svg-1/input.html:1:2]
+ 1 | |    
    `----
-
   x Child
    ,-[$DIR/tests/recovery/element/svg-1/input.html:1:1]
  1 | ,-> <svg><![CDATA[foo
  2 | `-> bar]]>
    `----
-
   x Text
    ,-[$DIR/tests/recovery/element/svg-1/input.html:1:1]
  1 | ,-> <svg><![CDATA[foo

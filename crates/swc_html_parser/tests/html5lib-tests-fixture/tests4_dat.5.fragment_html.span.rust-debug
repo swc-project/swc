@@ -1,22 +1,14 @@
-
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/tests4_dat.5.fragment_html.html:1:1]
- 1 | setting html's innerHTML
-   : ^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests4_dat.5.fragment_html.html:1:2]
+ 1 | |    
    `----
-
   x Child
-
   x Element
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests4_dat.5.fragment_html.html:1:1]
- 1 | setting html's innerHTML
-   : ^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests4_dat.5.fragment_html.html:1:2]
+ 1 | |    
    `----
-
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/tests4_dat.5.fragment_html.html:1:1]
- 1 | setting html's innerHTML
-   : ^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests4_dat.5.fragment_html.html:1:2]
+ 1 | |    
    `----

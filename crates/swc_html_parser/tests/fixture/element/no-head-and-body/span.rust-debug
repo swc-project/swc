@@ -1,62 +1,47 @@
-
   x Document
-   ,-[$DIR/tests/fixture/element/no-head-and-body/input.html:1:1]
- 1 | <!doctype html><html lang="en"><p>test</p></html>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/element/no-head-and-body/input.html:1:2]
+ 1 | |    
    `----
-
   x Child
    ,-[$DIR/tests/fixture/element/no-head-and-body/input.html:1:1]
  1 | <!doctype html><html lang="en"><p>test</p></html>
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/fixture/element/no-head-and-body/input.html:1:1]
  1 | <!doctype html><html lang="en"><p>test</p></html>
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-   ,-[$DIR/tests/fixture/element/no-head-and-body/input.html:1:1]
- 1 | <!doctype html><html lang="en"><p>test</p></html>
-   :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/element/no-head-and-body/input.html:1:17]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/fixture/element/no-head-and-body/input.html:1:1]
- 1 | <!doctype html><html lang="en"><p>test</p></html>
-   :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/element/no-head-and-body/input.html:1:17]
+ 1 | |    
    `----
-
   x Attribute
    ,-[$DIR/tests/fixture/element/no-head-and-body/input.html:1:1]
  1 | <!doctype html><html lang="en"><p>test</p></html>
    :                      ^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/fixture/element/no-head-and-body/input.html:1:1]
  1 | <!doctype html><html lang="en"><p>test</p></html>
    :                                ^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/fixture/element/no-head-and-body/input.html:1:1]
  1 | <!doctype html><html lang="en"><p>test</p></html>
    :                                ^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/fixture/element/no-head-and-body/input.html:1:1]
  1 | <!doctype html><html lang="en"><p>test</p></html>
    :                                   ^^^^
    `----
-
   x Text
    ,-[$DIR/tests/fixture/element/no-head-and-body/input.html:1:1]
  1 | <!doctype html><html lang="en"><p>test</p></html>

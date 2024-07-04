@@ -1,36 +1,31 @@
-
   x Unexpected '!' in declaration value
    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:1:1]
  1 | .class {--foo:!; }
    :               ^
    `----
-
   x Unexpected '!' in declaration value
-   ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:3:1]
+   ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:4:1]
  3 | .class-1 {
  4 |     --foo:!; 
    :           ^
  5 |     color: red;
    `----
-
   x Unexpected '!' in declaration value
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:9:1]
+    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:10:1]
   9 |     color: red;
  10 |     --foo:!;
     :           ^
  11 | }
     `----
-
   x Unexpected '!' in declaration value
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:13:1]
+    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:14:1]
  13 | .class-3 {
  14 |     --foo: !;
     :            ^
  15 |     --foo: bar;
     `----
-
   x Unexpected '!' in declaration value
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:19:1]
+    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:20:1]
  19 |     --foo: bar;
  20 |     --foo: !;
     :            ^

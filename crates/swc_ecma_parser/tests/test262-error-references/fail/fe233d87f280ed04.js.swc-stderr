@@ -1,10 +1,7 @@
-
   x Expression expected
-   ,-[$DIR/tests/test262-parser/fail/fe233d87f280ed04.js:1:1]
- 1 | p = { q/ }
-   :          ^
+   ,-[$DIR/tests/test262-parser/fail/fe233d87f280ed04.js:1:11]
+ 1 |  
    `----
-
   x Expression expected
    ,-[$DIR/tests/test262-parser/fail/fe233d87f280ed04.js:1:1]
  1 | p = { q/ }

@@ -1,6 +1,5 @@
-
   x Nested comment
-   ,-[$DIR/tests/recovery/comments/bad-26/input.xml:2:1]
+   ,-[$DIR/tests/recovery/comments/bad-26/input.xml:3:1]
  2 | <root>
  3 |     <!--<<!--x-->
    :              ^

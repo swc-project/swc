@@ -1,10 +1,6 @@
-
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/tests6_dat.36.fragment_tbody.html:1:1]
- 1 | <caption><col><colgroup><tbody><tfoot><thead><tr>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests6_dat.36.fragment_tbody.html:1:2]
+ 1 | |    
    `----
-
   x Child
-
   x Element

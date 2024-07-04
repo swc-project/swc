@@ -1,14 +1,14 @@
-
   x Unexpected empty function pattern
    ,-[1:1]
  1 | function foo1() {}
    : ^^^^^^^^^^^^^^^^^^
  2 | 
  3 | var foo2 = function() {};
+ 4 | 
+ 5 | var foo3 = () => {
    `----
-
   x Unexpected empty function pattern
-   ,-[1:1]
+   ,-[3:1]
  1 | function foo1() {}
  2 | 
  3 | var foo2 = function() {};
@@ -17,9 +17,8 @@
  5 | var foo3 = () => {
  6 |     bar();
    `----
-
   x Unexpected empty generator function pattern
-    ,-[6:1]
+    ,-[9:1]
   6 |     bar();
   7 | };
   8 | 
@@ -27,10 +26,11 @@
     : ^^^^^^^^^^^^^^^^^^^
  10 | 
  11 | var foo5 = function*() {};
+ 12 | 
+ 13 | var foo6 = () => {};
     `----
-
   x Unexpected empty generator function pattern
-    ,-[8:1]
+    ,-[11:1]
   8 | 
   9 | function* foo4() {}
  10 | 
@@ -39,9 +39,8 @@
  12 | 
  13 | var foo6 = () => {};
     `----
-
   x Unexpected empty arrow function pattern
-    ,-[10:1]
+    ,-[13:1]
  10 | 
  11 | var foo5 = function*() {};
  12 | 
@@ -50,9 +49,8 @@
  14 | 
  15 | async function foo7() {}
     `----
-
   x Unexpected empty async function pattern
-    ,-[12:1]
+    ,-[15:1]
  12 | 
  13 | var foo6 = () => {};
  14 | 
@@ -62,9 +60,8 @@
  17 | class A {
  18 |     constructor() {}
     `----
-
   x Unexpected empty constructor pattern
-    ,-[15:1]
+    ,-[18:1]
  15 | async function foo7() {}
  16 | 
  17 | class A {
@@ -72,10 +69,11 @@
     :     ^^^^^^^^^^^^^^^^
  19 | 
  20 |     foo() {}
+ 21 | 
+ 22 |     *foo() {}
     `----
-
   x Unexpected empty method pattern
-    ,-[17:1]
+    ,-[20:1]
  17 | class A {
  18 |     constructor() {}
  19 | 
@@ -83,10 +81,11 @@
     :     ^^^^^^^^
  21 | 
  22 |     *foo() {}
+ 23 | 
+ 24 |     get foo() {}
     `----
-
   x Unexpected empty generator method pattern
-    ,-[19:1]
+    ,-[22:1]
  19 | 
  20 |     foo() {}
  21 | 
@@ -94,10 +93,11 @@
     :     ^^^^^^^^^
  23 | 
  24 |     get foo() {}
+ 25 | 
+ 26 |     set foo(value) {}
     `----
-
   x Unexpected empty getter method pattern
-    ,-[21:1]
+    ,-[24:1]
  21 | 
  22 |     *foo() {}
  23 | 
@@ -105,10 +105,11 @@
     :     ^^^^^^^^^^^^
  25 | 
  26 |     set foo(value) {}
+ 27 | 
+ 28 |     static foo() {}
     `----
-
   x Unexpected empty setter method pattern
-    ,-[23:1]
+    ,-[26:1]
  23 | 
  24 |     get foo() {}
  25 | 
@@ -116,10 +117,11 @@
     :     ^^^^^^^^^^^^^^^^^
  27 | 
  28 |     static foo() {}
+ 29 | 
+ 30 |     static *foo() {}
     `----
-
   x Unexpected empty method pattern
-    ,-[25:1]
+    ,-[28:1]
  25 | 
  26 |     set foo(value) {}
  27 | 
@@ -127,10 +129,11 @@
     :     ^^^^^^^^^^^^^^^
  29 | 
  30 |     static *foo() {}
+ 31 | 
+ 32 |     static get foo() {}
     `----
-
   x Unexpected empty generator method pattern
-    ,-[27:1]
+    ,-[30:1]
  27 | 
  28 |     static foo() {}
  29 | 
@@ -138,10 +141,11 @@
     :     ^^^^^^^^^^^^^^^^
  31 | 
  32 |     static get foo() {}
+ 33 | 
+ 34 |     static set foo(value) {}
     `----
-
   x Unexpected empty getter method pattern
-    ,-[29:1]
+    ,-[32:1]
  29 | 
  30 |     static *foo() {}
  31 | 
@@ -151,9 +155,8 @@
  34 |     static set foo(value) {}
  35 | }
     `----
-
   x Unexpected empty setter method pattern
-    ,-[31:1]
+    ,-[34:1]
  31 | 
  32 |     static get foo() {}
  33 | 
@@ -162,10 +165,10 @@
  35 | }
  36 | 
  37 | var obj = {
+ 38 |     foo: function() {},
     `----
-
   x Unexpected empty function pattern
-    ,-[35:1]
+    ,-[38:1]
  35 | }
  36 | 
  37 | var obj = {
@@ -174,9 +177,8 @@
  39 | 
  40 |     foo: function*() {},
     `----
-
   x Unexpected empty generator function pattern
-    ,-[37:1]
+    ,-[40:1]
  37 | var obj = {
  38 |     foo: function() {},
  39 | 
@@ -185,9 +187,8 @@
  41 | 
  42 |     foo() {},
     `----
-
   x Unexpected empty function pattern
-    ,-[39:1]
+    ,-[42:1]
  39 | 
  40 |     foo: function*() {},
  41 | 
@@ -196,9 +197,8 @@
  43 | 
  44 |     *foo() {},
     `----
-
   x Unexpected empty generator function pattern
-    ,-[41:1]
+    ,-[44:1]
  41 | 
  42 |     foo() {},
  43 | 
@@ -207,9 +207,8 @@
  45 | 
  46 |     get foo() {},
     `----
-
   x Unexpected empty getter method pattern
-    ,-[43:1]
+    ,-[46:1]
  43 | 
  44 |     *foo() {},
  45 | 
@@ -219,9 +218,8 @@
  48 |     set foo(value) {}
  49 | };
     `----
-
   x Unexpected empty setter method pattern
-    ,-[45:1]
+    ,-[48:1]
  45 | 
  46 |     get foo() {},
  47 | 
@@ -230,4 +228,5 @@
  49 | };
  50 | 
  51 | function foo_with_comment() {
+ 52 |     // comment
     `----

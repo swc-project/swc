@@ -1,4 +1,3 @@
-
   x Trailing comma isn't permitted after a rest element
    ,-[$DIR/tests/typescript-errors/arrow-function/comma-after-rest/input.ts:1:1]
  1 | (...a: any,) => {};

@@ -1,40 +1,26 @@
-
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.103.html:1:1]
- 1 | <body></body><template>
-   : ^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.103.html:1:2]
+ 1 | |    
    `----
-
   x Child
-
   x Element
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.103.html:1:1]
- 1 | <body></body><template>
-   : ^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.103.html:1:2]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.103.html:1:1]
- 1 | <body></body><template>
-   : ^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.103.html:1:2]
+ 1 | |    
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.103.html:1:1]
- 1 | <body></body><template>
-   :              ^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.103.html:1:15]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.103.html:1:1]
- 1 | <body></body><template>
-   :              ^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.103.html:1:15]
+ 1 | |    
    `----
-
   x DocumentFragment
-   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.103.html:1:1]
- 1 | <body></body><template>
-   :              ^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.103.html:1:15]
+ 1 | |    
    `----

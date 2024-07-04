@@ -1,130 +1,104 @@
-
   x Stylesheet
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/375WZQg3bngUbuoHsqEIcA/input.css:1:1]
- 1 | @keyframes test { from { color: red } to {} }
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/375WZQg3bngUbuoHsqEIcA/input.css:1:2]
+ 1 | |    
    `----
-
   x Rule
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/375WZQg3bngUbuoHsqEIcA/input.css:1:1]
- 1 | @keyframes test { from { color: red } to {} }
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/375WZQg3bngUbuoHsqEIcA/input.css:1:2]
+ 1 | |    
    `----
-
   x AtRule
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/375WZQg3bngUbuoHsqEIcA/input.css:1:1]
- 1 | @keyframes test { from { color: red } to {} }
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/375WZQg3bngUbuoHsqEIcA/input.css:1:2]
+ 1 | |    
    `----
-
   x AtRuleName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/375WZQg3bngUbuoHsqEIcA/input.css:1:1]
  1 | @keyframes test { from { color: red } to {} }
    :  ^^^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/375WZQg3bngUbuoHsqEIcA/input.css:1:1]
  1 | @keyframes test { from { color: red } to {} }
    :  ^^^^^^^^^
    `----
-
   x CustomIdent
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/375WZQg3bngUbuoHsqEIcA/input.css:1:1]
  1 | @keyframes test { from { color: red } to {} }
    :            ^^^^
    `----
-
   x SimpleBlock
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/375WZQg3bngUbuoHsqEIcA/input.css:1:1]
- 1 | @keyframes test { from { color: red } to {} }
-   :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/375WZQg3bngUbuoHsqEIcA/input.css:1:18]
+ 1 | |    
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/375WZQg3bngUbuoHsqEIcA/input.css:1:1]
  1 | @keyframes test { from { color: red } to {} }
    :                 ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/375WZQg3bngUbuoHsqEIcA/input.css:1:1]
  1 | @keyframes test { from { color: red } to {} }
    :                   ^^^^^^^^^^^^^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/375WZQg3bngUbuoHsqEIcA/input.css:1:1]
  1 | @keyframes test { from { color: red } to {} }
    :                   ^^^^
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/375WZQg3bngUbuoHsqEIcA/input.css:1:1]
  1 | @keyframes test { from { color: red } to {} }
    :                        ^^^^^^^^^^^^^^
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/375WZQg3bngUbuoHsqEIcA/input.css:1:1]
  1 | @keyframes test { from { color: red } to {} }
    :                        ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/375WZQg3bngUbuoHsqEIcA/input.css:1:1]
  1 | @keyframes test { from { color: red } to {} }
    :                          ^^^^^^^^^^^
    `----
-
   x Declaration
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/375WZQg3bngUbuoHsqEIcA/input.css:1:1]
  1 | @keyframes test { from { color: red } to {} }
    :                          ^^^^^^^^^^^
    `----
-
   x DeclarationName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/375WZQg3bngUbuoHsqEIcA/input.css:1:1]
  1 | @keyframes test { from { color: red } to {} }
    :                          ^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/375WZQg3bngUbuoHsqEIcA/input.css:1:1]
  1 | @keyframes test { from { color: red } to {} }
    :                          ^^^^^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/375WZQg3bngUbuoHsqEIcA/input.css:1:1]
  1 | @keyframes test { from { color: red } to {} }
    :                                 ^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/375WZQg3bngUbuoHsqEIcA/input.css:1:1]
  1 | @keyframes test { from { color: red } to {} }
    :                                 ^^^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/375WZQg3bngUbuoHsqEIcA/input.css:1:1]
  1 | @keyframes test { from { color: red } to {} }
    :                                       ^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/375WZQg3bngUbuoHsqEIcA/input.css:1:1]
  1 | @keyframes test { from { color: red } to {} }
    :                                       ^^
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/375WZQg3bngUbuoHsqEIcA/input.css:1:1]
  1 | @keyframes test { from { color: red } to {} }
    :                                          ^^
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/375WZQg3bngUbuoHsqEIcA/input.css:1:1]
  1 | @keyframes test { from { color: red } to {} }

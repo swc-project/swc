@@ -1,51 +1,34 @@
-
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat.18.html:1:1]
- 1 | ,-> <!DOCTYPE html><textarea>
- 2 | |   
- 3 | `-> foo</textarea>
+   ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat.18.html:1:2]
+ 1 | |    
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat.18.html:1:1]
  1 | <!DOCTYPE html><textarea>
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat.18.html:1:1]
  1 | <!DOCTYPE html><textarea>
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat.18.html:1:1]
- 1 | ,-> <!DOCTYPE html><textarea>
- 2 | |   
- 3 | `-> foo</textarea>
+   ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat.18.html:1:17]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat.18.html:1:1]
- 1 | ,-> <!DOCTYPE html><textarea>
- 2 | |   
- 3 | `-> foo</textarea>
+   ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat.18.html:1:17]
+ 1 | |    
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat.18.html:1:1]
- 1 |     <!DOCTYPE html><textarea>
+   ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat.18.html:3:1]
  2 | ,-> 
  3 | `-> foo</textarea>
    `----
-
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat.18.html:1:1]
- 1 |     <!DOCTYPE html><textarea>
+   ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat.18.html:3:1]
  2 | ,-> 
  3 | `-> foo</textarea>
    `----

@@ -1,70 +1,50 @@
-
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.66.html:1:1]
- 1 | <DIV> abc <B> def <I>
-   : ^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.66.html:1:2]
+ 1 | |    
    `----
-
   x Child
-
   x Element
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.66.html:1:1]
- 1 | <DIV> abc <B> def <I>
-   : ^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.66.html:1:2]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.66.html:1:1]
- 1 | <DIV> abc <B> def <I>
-   : ^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.66.html:1:2]
+ 1 | |    
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.66.html:1:1]
  1 | <DIV> abc <B> def <I>
    :      ^^^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.66.html:1:1]
  1 | <DIV> abc <B> def <I>
    :      ^^^^^
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.66.html:1:1]
- 1 | <DIV> abc <B> def <I>
-   :           ^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.66.html:1:12]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.66.html:1:1]
- 1 | <DIV> abc <B> def <I>
-   :           ^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.66.html:1:12]
+ 1 | |    
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.66.html:1:1]
  1 | <DIV> abc <B> def <I>
    :              ^^^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.66.html:1:1]
  1 | <DIV> abc <B> def <I>
    :              ^^^^^
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.66.html:1:1]
- 1 | <DIV> abc <B> def <I>
-   :                   ^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.66.html:1:20]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.66.html:1:1]
- 1 | <DIV> abc <B> def <I>
-   :                   ^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.66.html:1:20]
+ 1 | |    
    `----

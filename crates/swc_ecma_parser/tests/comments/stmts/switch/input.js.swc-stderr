@@ -1,9 +1,7 @@
-
   > Leading (hi)
 
-Advice: 
-  >  4
-   ,-[$DIR/tests/comments/stmts/switch/input.js:4:1]
+Advice:   >  4
+   ,-[$DIR/tests/comments/stmts/switch/input.js:5:1]
  4 |     // 4
  5 | }
    : ^

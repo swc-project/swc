@@ -1,90 +1,67 @@
-
   x Module
-   ,-[$DIR/tests/span/ts/type/array.ts:1:1]
- 1 | let a: string[] = foo
-   : ^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/span/ts/type/array.ts:1:2]
+ 1 | |    
    `----
-
   x ModuleItem
-   ,-[$DIR/tests/span/ts/type/array.ts:1:1]
- 1 | let a: string[] = foo
-   : ^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/span/ts/type/array.ts:1:2]
+ 1 | |    
    `----
-
   x Stmt
-   ,-[$DIR/tests/span/ts/type/array.ts:1:1]
- 1 | let a: string[] = foo
-   : ^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/span/ts/type/array.ts:1:2]
+ 1 | |    
    `----
-
   x Decl
-   ,-[$DIR/tests/span/ts/type/array.ts:1:1]
- 1 | let a: string[] = foo
-   : ^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/span/ts/type/array.ts:1:2]
+ 1 | |    
    `----
-
   x VarDecl
-   ,-[$DIR/tests/span/ts/type/array.ts:1:1]
- 1 | let a: string[] = foo
-   : ^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/span/ts/type/array.ts:1:2]
+ 1 | |    
    `----
-
   x VarDeclarator
-   ,-[$DIR/tests/span/ts/type/array.ts:1:1]
- 1 | let a: string[] = foo
-   :     ^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/span/ts/type/array.ts:1:6]
+ 1 | |    
    `----
-
   x Pat
    ,-[$DIR/tests/span/ts/type/array.ts:1:1]
  1 | let a: string[] = foo
    :     ^
    `----
-
   x Ident
    ,-[$DIR/tests/span/ts/type/array.ts:1:1]
  1 | let a: string[] = foo
    :     ^
    `----
-
   x TsTypeAnn
    ,-[$DIR/tests/span/ts/type/array.ts:1:1]
  1 | let a: string[] = foo
    :      ^^^^^^^^^^
    `----
-
   x TsType
    ,-[$DIR/tests/span/ts/type/array.ts:1:1]
  1 | let a: string[] = foo
    :        ^^^^^^^^
    `----
-
   x TsArrayType
    ,-[$DIR/tests/span/ts/type/array.ts:1:1]
  1 | let a: string[] = foo
    :        ^^^^^^^^
    `----
-
   x TsType
    ,-[$DIR/tests/span/ts/type/array.ts:1:1]
  1 | let a: string[] = foo
    :        ^^^^^^
    `----
-
   x TsKeywordType
    ,-[$DIR/tests/span/ts/type/array.ts:1:1]
  1 | let a: string[] = foo
    :        ^^^^^^
    `----
-
   x Expr
-   ,-[$DIR/tests/span/ts/type/array.ts:1:1]
- 1 | let a: string[] = foo
-   :                   ^^^
+   ,-[$DIR/tests/span/ts/type/array.ts:1:20]
+ 1 | |    
    `----
-
   x Ident
-   ,-[$DIR/tests/span/ts/type/array.ts:1:1]
- 1 | let a: string[] = foo
-   :                   ^^^
+   ,-[$DIR/tests/span/ts/type/array.ts:1:20]
+ 1 | |    
    `----

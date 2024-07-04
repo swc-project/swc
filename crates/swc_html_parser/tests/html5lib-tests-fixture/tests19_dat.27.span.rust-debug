@@ -1,58 +1,42 @@
-
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.27.html:1:1]
- 1 | <!doctype html><select><option><option>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.27.html:1:2]
+ 1 | |    
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.27.html:1:1]
  1 | <!doctype html><select><option><option>
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.27.html:1:1]
  1 | <!doctype html><select><option><option>
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.27.html:1:1]
- 1 | <!doctype html><select><option><option>
-   :                ^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.27.html:1:17]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.27.html:1:1]
- 1 | <!doctype html><select><option><option>
-   :                ^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.27.html:1:17]
+ 1 | |    
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.27.html:1:1]
  1 | <!doctype html><select><option><option>
    :                        ^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.27.html:1:1]
  1 | <!doctype html><select><option><option>
    :                        ^^^^^^^^
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.27.html:1:1]
- 1 | <!doctype html><select><option><option>
-   :                                ^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.27.html:1:33]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.27.html:1:1]
- 1 | <!doctype html><select><option><option>
-   :                                ^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.27.html:1:33]
+ 1 | |    
    `----

@@ -1,58 +1,40 @@
-
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.41.html:1:1]
- 1 | <svg><title><svg><div>
-   : ^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.41.html:1:2]
+ 1 | |    
    `----
-
   x Child
-
   x Element
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.41.html:1:1]
- 1 | <svg><title><svg><div>
-   : ^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.41.html:1:2]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.41.html:1:1]
- 1 | <svg><title><svg><div>
-   : ^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.41.html:1:2]
+ 1 | |    
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.41.html:1:1]
- 1 | <svg><title><svg><div>
-   :      ^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.41.html:1:7]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.41.html:1:1]
- 1 | <svg><title><svg><div>
-   :      ^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.41.html:1:7]
+ 1 | |    
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.41.html:1:1]
  1 | <svg><title><svg><div>
    :             ^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.41.html:1:1]
  1 | <svg><title><svg><div>
    :             ^^^^^
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.41.html:1:1]
- 1 | <svg><title><svg><div>
-   :                  ^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.41.html:1:19]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.41.html:1:1]
- 1 | <svg><title><svg><div>
-   :                  ^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.41.html:1:19]
+ 1 | |    
    `----

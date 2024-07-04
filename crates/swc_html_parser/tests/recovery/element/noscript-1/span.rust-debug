@@ -1,56 +1,44 @@
-
   x Document
-   ,-[$DIR/tests/recovery/element/noscript-1/input.html:1:1]
- 1 | <head><noscript></br><!--foo--></noscript>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/element/noscript-1/input.html:1:2]
+ 1 | |    
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/recovery/element/noscript-1/input.html:1:1]
  1 | <head><noscript></br><!--foo--></noscript>
    : ^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/recovery/element/noscript-1/input.html:1:1]
  1 | <head><noscript></br><!--foo--></noscript>
    : ^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/recovery/element/noscript-1/input.html:1:1]
  1 | <head><noscript></br><!--foo--></noscript>
    :       ^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/recovery/element/noscript-1/input.html:1:1]
  1 | <head><noscript></br><!--foo--></noscript>
    :       ^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/recovery/element/noscript-1/input.html:1:1]
  1 | <head><noscript></br><!--foo--></noscript>
    :                 ^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/recovery/element/noscript-1/input.html:1:1]
  1 | <head><noscript></br><!--foo--></noscript>
    :                 ^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/recovery/element/noscript-1/input.html:1:1]
  1 | <head><noscript></br><!--foo--></noscript>
    :                      ^^^^^^^^^^
    `----
-
   x Comment
    ,-[$DIR/tests/recovery/element/noscript-1/input.html:1:1]
  1 | <head><noscript></br><!--foo--></noscript>

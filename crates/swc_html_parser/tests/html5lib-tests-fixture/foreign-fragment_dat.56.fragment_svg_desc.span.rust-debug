@@ -1,40 +1,27 @@
-
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.56.fragment_svg_desc.html:1:1]
- 1 | <html class="foo">X
-   : ^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.56.fragment_svg_desc.html:1:2]
+ 1 | |    
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.56.fragment_svg_desc.html:1:1]
- 1 | <html class="foo">X
-   : ^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.56.fragment_svg_desc.html:1:2]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.56.fragment_svg_desc.html:1:1]
- 1 | <html class="foo">X
-   : ^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.56.fragment_svg_desc.html:1:2]
+ 1 | |    
    `----
-
   x Attribute
    ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.56.fragment_svg_desc.html:1:1]
  1 | <html class="foo">X
    :       ^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.56.fragment_svg_desc.html:1:1]
- 1 | <html class="foo">X
-   :                   ^
+   ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.56.fragment_svg_desc.html:1:20]
+ 1 |  
    `----
-
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.56.fragment_svg_desc.html:1:1]
- 1 | <html class="foo">X
-   :                   ^
+   ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.56.fragment_svg_desc.html:1:20]
+ 1 |  
    `----

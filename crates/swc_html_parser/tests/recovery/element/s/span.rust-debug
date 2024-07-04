@@ -1,92 +1,72 @@
-
   x Document
-   ,-[$DIR/tests/recovery/element/s/input.html:1:1]
- 1 | <div><table><svg><foreignObject><select><table><s>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/element/s/input.html:1:2]
+ 1 | |    
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/recovery/element/s/input.html:1:1]
  1 | <div><table><svg><foreignObject><select><table><s>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/recovery/element/s/input.html:1:1]
  1 | <div><table><svg><foreignObject><select><table><s>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/recovery/element/s/input.html:1:1]
  1 | <div><table><svg><foreignObject><select><table><s>
    :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/recovery/element/s/input.html:1:1]
  1 | <div><table><svg><foreignObject><select><table><s>
    :             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/recovery/element/s/input.html:1:1]
  1 | <div><table><svg><foreignObject><select><table><s>
    :                  ^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/recovery/element/s/input.html:1:1]
  1 | <div><table><svg><foreignObject><select><table><s>
    :                  ^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/recovery/element/s/input.html:1:1]
  1 | <div><table><svg><foreignObject><select><table><s>
    :                                 ^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/recovery/element/s/input.html:1:1]
  1 | <div><table><svg><foreignObject><select><table><s>
    :                                 ^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/recovery/element/s/input.html:1:1]
  1 | <div><table><svg><foreignObject><select><table><s>
    :      ^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/recovery/element/s/input.html:1:1]
  1 | <div><table><svg><foreignObject><select><table><s>
    :      ^^^^^^^
    `----
-
   x Child
-   ,-[$DIR/tests/recovery/element/s/input.html:1:1]
- 1 | <div><table><svg><foreignObject><select><table><s>
-   :                                                ^^^
+   ,-[$DIR/tests/recovery/element/s/input.html:1:49]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/recovery/element/s/input.html:1:1]
- 1 | <div><table><svg><foreignObject><select><table><s>
-   :                                                ^^^
+   ,-[$DIR/tests/recovery/element/s/input.html:1:49]
+ 1 | |    
    `----
-
   x Child
    ,-[$DIR/tests/recovery/element/s/input.html:1:1]
  1 | <div><table><svg><foreignObject><select><table><s>
    :                                         ^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/recovery/element/s/input.html:1:1]
  1 | <div><table><svg><foreignObject><select><table><s>

@@ -1,94 +1,72 @@
-
   x Document
-   ,-[$DIR/tests/recovery/element/a-4/input.html:1:1]
- 1 | <table><a>1<p>2</a>3</p>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/element/a-4/input.html:1:2]
+ 1 | |    
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/recovery/element/a-4/input.html:1:1]
  1 | <table><a>1<p>2</a>3</p>
    :        ^^^^
    `----
-
   x Element
    ,-[$DIR/tests/recovery/element/a-4/input.html:1:1]
  1 | <table><a>1<p>2</a>3</p>
    :        ^^^^
    `----
-
   x Child
    ,-[$DIR/tests/recovery/element/a-4/input.html:1:1]
  1 | <table><a>1<p>2</a>3</p>
    :           ^
    `----
-
   x Text
    ,-[$DIR/tests/recovery/element/a-4/input.html:1:1]
  1 | <table><a>1<p>2</a>3</p>
    :           ^
    `----
-
   x Child
-   ,-[$DIR/tests/recovery/element/a-4/input.html:1:1]
- 1 | <table><a>1<p>2</a>3</p>
-   :            ^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/element/a-4/input.html:1:13]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/recovery/element/a-4/input.html:1:1]
- 1 | <table><a>1<p>2</a>3</p>
-   :            ^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/element/a-4/input.html:1:13]
+ 1 | |    
    `----
-
   x Child
    ,-[$DIR/tests/recovery/element/a-4/input.html:1:1]
  1 | <table><a>1<p>2</a>3</p>
    :               ^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/recovery/element/a-4/input.html:1:1]
  1 | <table><a>1<p>2</a>3</p>
    :               ^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/recovery/element/a-4/input.html:1:1]
  1 | <table><a>1<p>2</a>3</p>
    :               ^
    `----
-
   x Text
    ,-[$DIR/tests/recovery/element/a-4/input.html:1:1]
  1 | <table><a>1<p>2</a>3</p>
    :               ^
    `----
-
   x Child
    ,-[$DIR/tests/recovery/element/a-4/input.html:1:1]
  1 | <table><a>1<p>2</a>3</p>
    :                    ^
    `----
-
   x Text
    ,-[$DIR/tests/recovery/element/a-4/input.html:1:1]
  1 | <table><a>1<p>2</a>3</p>
    :                    ^
    `----
-
   x Child
-   ,-[$DIR/tests/recovery/element/a-4/input.html:1:1]
- 1 | <table><a>1<p>2</a>3</p>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/element/a-4/input.html:1:2]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/recovery/element/a-4/input.html:1:1]
- 1 | <table><a>1<p>2</a>3</p>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/element/a-4/input.html:1:2]
+ 1 | |    
    `----

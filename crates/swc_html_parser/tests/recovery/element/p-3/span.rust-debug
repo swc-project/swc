@@ -1,70 +1,52 @@
-
   x Document
-   ,-[$DIR/tests/recovery/element/p-3/input.html:1:1]
- 1 | <p id=a><b><p id=b></b>TEST
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/element/p-3/input.html:1:2]
+ 1 | |    
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/recovery/element/p-3/input.html:1:1]
  1 | <p id=a><b><p id=b></b>TEST
    : ^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/recovery/element/p-3/input.html:1:1]
  1 | <p id=a><b><p id=b></b>TEST
    : ^^^^^^^^^^^
    `----
-
   x Attribute
    ,-[$DIR/tests/recovery/element/p-3/input.html:1:1]
  1 | <p id=a><b><p id=b></b>TEST
    :    ^^^^
    `----
-
   x Child
    ,-[$DIR/tests/recovery/element/p-3/input.html:1:1]
  1 | <p id=a><b><p id=b></b>TEST
    :         ^^^
    `----
-
   x Element
    ,-[$DIR/tests/recovery/element/p-3/input.html:1:1]
  1 | <p id=a><b><p id=b></b>TEST
    :         ^^^
    `----
-
   x Child
-   ,-[$DIR/tests/recovery/element/p-3/input.html:1:1]
- 1 | <p id=a><b><p id=b></b>TEST
-   :            ^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/element/p-3/input.html:1:13]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/recovery/element/p-3/input.html:1:1]
- 1 | <p id=a><b><p id=b></b>TEST
-   :            ^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/element/p-3/input.html:1:13]
+ 1 | |    
    `----
-
   x Attribute
    ,-[$DIR/tests/recovery/element/p-3/input.html:1:1]
  1 | <p id=a><b><p id=b></b>TEST
    :               ^^^^
    `----
-
   x Child
-   ,-[$DIR/tests/recovery/element/p-3/input.html:1:1]
- 1 | <p id=a><b><p id=b></b>TEST
-   :                        ^^^^
+   ,-[$DIR/tests/recovery/element/p-3/input.html:1:25]
+ 1 | |    
    `----
-
   x Text
-   ,-[$DIR/tests/recovery/element/p-3/input.html:1:1]
- 1 | <p id=a><b><p id=b></b>TEST
-   :                        ^^^^
+   ,-[$DIR/tests/recovery/element/p-3/input.html:1:25]
+ 1 | |    
    `----

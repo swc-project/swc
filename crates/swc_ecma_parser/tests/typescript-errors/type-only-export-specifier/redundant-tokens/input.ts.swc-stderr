@@ -1,4 +1,3 @@
-
   x Expected ',', got 'baz'
    ,-[$DIR/tests/typescript-errors/type-only-export-specifier/redundant-tokens/input.ts:1:1]
  1 | export { type foo as bar baz }

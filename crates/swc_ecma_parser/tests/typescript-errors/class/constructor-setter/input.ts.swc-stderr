@@ -1,6 +1,5 @@
-
   x Class constructor can't be an accessor.
-   ,-[$DIR/tests/typescript-errors/class/constructor-setter/input.ts:1:1]
+   ,-[$DIR/tests/typescript-errors/class/constructor-setter/input.ts:2:1]
  1 | class Foo {
  2 |     set constructor(value) {}
    :     ^^^

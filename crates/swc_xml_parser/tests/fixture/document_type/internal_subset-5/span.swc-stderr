@@ -1,15 +1,7 @@
-
   x Document
-   ,-[$DIR/tests/fixture/document_type/internal_subset-5/input.xml:1:1]
- 1 | ,-> <!DOCTYPE svg [
- 2 | |       <!ELEMENT sgml ANY>
- 3 | |       <!ENTITY ns_extend "http://ns.adobe.com/Extensibility/1.0/">
- 4 | |       <!NOTATION example1SVG-rdf SYSTEM "example1.svg.rdf">
- 5 | |       <!ATTLIST img data ENTITY #IMPLIED>
- 6 | |   ]>
- 7 | `-> <root>test</root>
+   ,-[$DIR/tests/fixture/document_type/internal_subset-5/input.xml:1:2]
+ 1 | |    
    `----
-
   x Child
    ,-[$DIR/tests/fixture/document_type/internal_subset-5/input.xml:1:1]
  1 | ,-> <!DOCTYPE svg [
@@ -20,7 +12,6 @@
  6 | `-> ]>
  7 |     <root>test</root>
    `----
-
   x DocumentType
    ,-[$DIR/tests/fixture/document_type/internal_subset-5/input.xml:1:1]
  1 | ,-> <!DOCTYPE svg [
@@ -31,30 +22,22 @@
  6 | `-> ]>
  7 |     <root>test</root>
    `----
-
   x Child
-   ,-[$DIR/tests/fixture/document_type/internal_subset-5/input.xml:6:1]
- 6 | ]>
- 7 | <root>test</root>
-   : ^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/document_type/internal_subset-5/input.xml:7:2]
+ 7 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/fixture/document_type/internal_subset-5/input.xml:6:1]
- 6 | ]>
- 7 | <root>test</root>
-   : ^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/document_type/internal_subset-5/input.xml:7:2]
+ 7 | |    
    `----
-
   x Child
-   ,-[$DIR/tests/fixture/document_type/internal_subset-5/input.xml:6:1]
+   ,-[$DIR/tests/fixture/document_type/internal_subset-5/input.xml:7:1]
  6 | ]>
  7 | <root>test</root>
    :       ^^^^
    `----
-
   x Text
-   ,-[$DIR/tests/fixture/document_type/internal_subset-5/input.xml:6:1]
+   ,-[$DIR/tests/fixture/document_type/internal_subset-5/input.xml:7:1]
  6 | ]>
  7 | <root>test</root>
    :       ^^^^

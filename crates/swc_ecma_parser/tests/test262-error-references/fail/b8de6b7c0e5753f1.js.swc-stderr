@@ -1,4 +1,3 @@
-
   x Unexpected token `}`. Expected identifier
    ,-[$DIR/tests/test262-parser/fail/b8de6b7c0e5753f1.js:1:1]
  1 | ({[x]})

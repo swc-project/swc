@@ -1,58 +1,48 @@
-
   x Module
    ,-[$DIR/tests/span/ts/declare/function.ts:1:1]
  1 | declare function example(): undefined;
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x ModuleItem
    ,-[$DIR/tests/span/ts/declare/function.ts:1:1]
  1 | declare function example(): undefined;
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Stmt
    ,-[$DIR/tests/span/ts/declare/function.ts:1:1]
  1 | declare function example(): undefined;
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Decl
    ,-[$DIR/tests/span/ts/declare/function.ts:1:1]
  1 | declare function example(): undefined;
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x FnDecl
    ,-[$DIR/tests/span/ts/declare/function.ts:1:1]
  1 | declare function example(): undefined;
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/span/ts/declare/function.ts:1:1]
  1 | declare function example(): undefined;
    :                  ^^^^^^^
    `----
-
   x Function
    ,-[$DIR/tests/span/ts/declare/function.ts:1:1]
  1 | declare function example(): undefined;
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x TsTypeAnn
    ,-[$DIR/tests/span/ts/declare/function.ts:1:1]
  1 | declare function example(): undefined;
    :                           ^^^^^^^^^^^
    `----
-
   x TsType
    ,-[$DIR/tests/span/ts/declare/function.ts:1:1]
  1 | declare function example(): undefined;
    :                             ^^^^^^^^^
    `----
-
   x TsKeywordType
    ,-[$DIR/tests/span/ts/declare/function.ts:1:1]
  1 | declare function example(): undefined;

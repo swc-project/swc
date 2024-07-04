@@ -1,5 +1,4 @@
-
   x Unexpected eof
-   ,-[$DIR/tests/jsx/errors/unclosed-tag/input.js:1:1]
- 1 | <foo>yes
+   ,-[$DIR/tests/jsx/errors/unclosed-tag/input.js:1:11]
+ 1 |  
    `----

@@ -1,8 +1,8 @@
-
   x Expected ')', got '{'
-   ,-[$DIR/tests/typescript-errors/issue-7104/case2/input.ts:1:1]
+   ,-[$DIR/tests/typescript-errors/issue-7104/case2/input.ts:2:1]
  1 | const foo = () => {
  2 |     if (bar() {
    :               ^
  3 |         console.log(1);
+ 4 |     }
    `----

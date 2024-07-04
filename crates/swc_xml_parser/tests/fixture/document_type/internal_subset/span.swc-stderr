@@ -1,40 +1,23 @@
-
   x Document
-    ,-[$DIR/tests/fixture/document_type/internal_subset/input.xml:1:1]
-  1 | ,-> <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-  2 | |   <!DOCTYPE people_list [
-  3 | |   <!ELEMENT people_list (person*)>
-  4 | |   <!ELEMENT person (name, birthdate?, gender?, socialsecuritynumber?)>
-  5 | |   <!ELEMENT name (#PCDATA)>
-  6 | |   <!ELEMENT birthdate (#PCDATA)>
-  7 | |   <!ELEMENT gender (#PCDATA)>
-  8 | |   <!ELEMENT socialsecuritynumber (#PCDATA)>
-  9 | |   ]>
- 10 | |   <people_list>
- 11 | |       <person>
- 12 | |           <name>Fred Bloggs</name>
- 13 | |           <birthdate>2008-11-27</birthdate>
- 14 | |           <gender>Male</gender>
- 15 | |       </person>
- 16 | `-> </people_list>
-    `----
-
+   ,-[$DIR/tests/fixture/document_type/internal_subset/input.xml:1:2]
+ 1 | |    
+   `----
   x Child
    ,-[$DIR/tests/fixture/document_type/internal_subset/input.xml:1:1]
  1 | <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  2 | <!DOCTYPE people_list [
+ 3 | <!ELEMENT people_list (person*)>
    `----
-
   x ProcessingInstruction
    ,-[$DIR/tests/fixture/document_type/internal_subset/input.xml:1:1]
  1 | <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  2 | <!DOCTYPE people_list [
+ 3 | <!ELEMENT people_list (person*)>
    `----
-
   x Child
-    ,-[$DIR/tests/fixture/document_type/internal_subset/input.xml:1:1]
+    ,-[$DIR/tests/fixture/document_type/internal_subset/input.xml:2:1]
   1 |     <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
   2 | ,-> <!DOCTYPE people_list [
   3 | |   <!ELEMENT people_list (person*)>
@@ -45,10 +28,10 @@
   8 | |   <!ELEMENT socialsecuritynumber (#PCDATA)>
   9 | `-> ]>
  10 |     <people_list>
+ 11 |         <person>
     `----
-
   x DocumentType
-    ,-[$DIR/tests/fixture/document_type/internal_subset/input.xml:1:1]
+    ,-[$DIR/tests/fixture/document_type/internal_subset/input.xml:2:1]
   1 |     <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
   2 | ,-> <!DOCTYPE people_list [
   3 | |   <!ELEMENT people_list (person*)>
@@ -59,50 +42,30 @@
   8 | |   <!ELEMENT socialsecuritynumber (#PCDATA)>
   9 | `-> ]>
  10 |     <people_list>
+ 11 |         <person>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/document_type/internal_subset/input.xml:9:1]
-  9 |     ]>
- 10 | ,-> <people_list>
- 11 | |       <person>
- 12 | |           <name>Fred Bloggs</name>
- 13 | |           <birthdate>2008-11-27</birthdate>
- 14 | |           <gender>Male</gender>
- 15 | |       </person>
- 16 | `-> </people_list>
+    ,-[$DIR/tests/fixture/document_type/internal_subset/input.xml:10:2]
+ 10 | |    
     `----
-
   x Element
-    ,-[$DIR/tests/fixture/document_type/internal_subset/input.xml:9:1]
-  9 |     ]>
- 10 | ,-> <people_list>
- 11 | |       <person>
- 12 | |           <name>Fred Bloggs</name>
- 13 | |           <birthdate>2008-11-27</birthdate>
- 14 | |           <gender>Male</gender>
- 15 | |       </person>
- 16 | `-> </people_list>
+    ,-[$DIR/tests/fixture/document_type/internal_subset/input.xml:10:2]
+ 10 | |    
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/document_type/internal_subset/input.xml:9:1]
-  9 |     ]>
+    ,-[$DIR/tests/fixture/document_type/internal_subset/input.xml:11:1]
  10 | ,-> <people_list>
  11 | `->     <person>
  12 |             <name>Fred Bloggs</name>
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/document_type/internal_subset/input.xml:9:1]
-  9 |     ]>
+    ,-[$DIR/tests/fixture/document_type/internal_subset/input.xml:11:1]
  10 | ,-> <people_list>
  11 | `->     <person>
  12 |             <name>Fred Bloggs</name>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/document_type/internal_subset/input.xml:10:1]
+    ,-[$DIR/tests/fixture/document_type/internal_subset/input.xml:11:1]
  10 |     <people_list>
  11 | ,->     <person>
  12 | |           <name>Fred Bloggs</name>
@@ -111,9 +74,8 @@
  15 | `->     </person>
  16 |     </people_list>
     `----
-
   x Element
-    ,-[$DIR/tests/fixture/document_type/internal_subset/input.xml:10:1]
+    ,-[$DIR/tests/fixture/document_type/internal_subset/input.xml:11:1]
  10 |     <people_list>
  11 | ,->     <person>
  12 | |           <name>Fred Bloggs</name>
@@ -122,178 +84,152 @@
  15 | `->     </person>
  16 |     </people_list>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/document_type/internal_subset/input.xml:10:1]
- 10 |     <people_list>
+    ,-[$DIR/tests/fixture/document_type/internal_subset/input.xml:12:1]
  11 | ,->     <person>
  12 | `->         <name>Fred Bloggs</name>
  13 |             <birthdate>2008-11-27</birthdate>
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/document_type/internal_subset/input.xml:10:1]
- 10 |     <people_list>
+    ,-[$DIR/tests/fixture/document_type/internal_subset/input.xml:12:1]
  11 | ,->     <person>
  12 | `->         <name>Fred Bloggs</name>
  13 |             <birthdate>2008-11-27</birthdate>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/document_type/internal_subset/input.xml:11:1]
+    ,-[$DIR/tests/fixture/document_type/internal_subset/input.xml:12:1]
  11 |     <person>
  12 |         <name>Fred Bloggs</name>
     :         ^^^^^^^^^^^^^^^^^^^^^^^^
  13 |         <birthdate>2008-11-27</birthdate>
+ 14 |         <gender>Male</gender>
     `----
-
   x Element
-    ,-[$DIR/tests/fixture/document_type/internal_subset/input.xml:11:1]
+    ,-[$DIR/tests/fixture/document_type/internal_subset/input.xml:12:1]
  11 |     <person>
  12 |         <name>Fred Bloggs</name>
     :         ^^^^^^^^^^^^^^^^^^^^^^^^
  13 |         <birthdate>2008-11-27</birthdate>
+ 14 |         <gender>Male</gender>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/document_type/internal_subset/input.xml:11:1]
+    ,-[$DIR/tests/fixture/document_type/internal_subset/input.xml:12:1]
  11 |     <person>
  12 |         <name>Fred Bloggs</name>
     :               ^^^^^^^^^^^
  13 |         <birthdate>2008-11-27</birthdate>
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/document_type/internal_subset/input.xml:11:1]
+    ,-[$DIR/tests/fixture/document_type/internal_subset/input.xml:12:1]
  11 |     <person>
  12 |         <name>Fred Bloggs</name>
     :               ^^^^^^^^^^^
  13 |         <birthdate>2008-11-27</birthdate>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/document_type/internal_subset/input.xml:11:1]
- 11 |         <person>
+    ,-[$DIR/tests/fixture/document_type/internal_subset/input.xml:13:1]
  12 | ,->         <name>Fred Bloggs</name>
  13 | `->         <birthdate>2008-11-27</birthdate>
  14 |             <gender>Male</gender>
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/document_type/internal_subset/input.xml:11:1]
- 11 |         <person>
+    ,-[$DIR/tests/fixture/document_type/internal_subset/input.xml:13:1]
  12 | ,->         <name>Fred Bloggs</name>
  13 | `->         <birthdate>2008-11-27</birthdate>
  14 |             <gender>Male</gender>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/document_type/internal_subset/input.xml:12:1]
+    ,-[$DIR/tests/fixture/document_type/internal_subset/input.xml:13:1]
  12 |         <name>Fred Bloggs</name>
  13 |         <birthdate>2008-11-27</birthdate>
     :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  14 |         <gender>Male</gender>
+ 15 |     </person>
     `----
-
   x Element
-    ,-[$DIR/tests/fixture/document_type/internal_subset/input.xml:12:1]
+    ,-[$DIR/tests/fixture/document_type/internal_subset/input.xml:13:1]
  12 |         <name>Fred Bloggs</name>
  13 |         <birthdate>2008-11-27</birthdate>
     :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  14 |         <gender>Male</gender>
+ 15 |     </person>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/document_type/internal_subset/input.xml:12:1]
+    ,-[$DIR/tests/fixture/document_type/internal_subset/input.xml:13:1]
  12 |         <name>Fred Bloggs</name>
  13 |         <birthdate>2008-11-27</birthdate>
     :                    ^^^^^^^^^^
  14 |         <gender>Male</gender>
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/document_type/internal_subset/input.xml:12:1]
+    ,-[$DIR/tests/fixture/document_type/internal_subset/input.xml:13:1]
  12 |         <name>Fred Bloggs</name>
  13 |         <birthdate>2008-11-27</birthdate>
     :                    ^^^^^^^^^^
  14 |         <gender>Male</gender>
     `----
-
-  x Child
-    ,-[$DIR/tests/fixture/document_type/internal_subset/input.xml:12:1]
- 12 |             <name>Fred Bloggs</name>
- 13 | ,->         <birthdate>2008-11-27</birthdate>
- 14 | `->         <gender>Male</gender>
- 15 |         </person>
-    `----
-
-  x Text
-    ,-[$DIR/tests/fixture/document_type/internal_subset/input.xml:12:1]
- 12 |             <name>Fred Bloggs</name>
- 13 | ,->         <birthdate>2008-11-27</birthdate>
- 14 | `->         <gender>Male</gender>
- 15 |         </person>
-    `----
-
-  x Child
-    ,-[$DIR/tests/fixture/document_type/internal_subset/input.xml:13:1]
- 13 |         <birthdate>2008-11-27</birthdate>
- 14 |         <gender>Male</gender>
-    :         ^^^^^^^^^^^^^^^^^^^^^
- 15 |     </person>
-    `----
-
-  x Element
-    ,-[$DIR/tests/fixture/document_type/internal_subset/input.xml:13:1]
- 13 |         <birthdate>2008-11-27</birthdate>
- 14 |         <gender>Male</gender>
-    :         ^^^^^^^^^^^^^^^^^^^^^
- 15 |     </person>
-    `----
-
-  x Child
-    ,-[$DIR/tests/fixture/document_type/internal_subset/input.xml:13:1]
- 13 |         <birthdate>2008-11-27</birthdate>
- 14 |         <gender>Male</gender>
-    :                 ^^^^
- 15 |     </person>
-    `----
-
-  x Text
-    ,-[$DIR/tests/fixture/document_type/internal_subset/input.xml:13:1]
- 13 |         <birthdate>2008-11-27</birthdate>
- 14 |         <gender>Male</gender>
-    :                 ^^^^
- 15 |     </person>
-    `----
-
-  x Child
-    ,-[$DIR/tests/fixture/document_type/internal_subset/input.xml:13:1]
- 13 |             <birthdate>2008-11-27</birthdate>
- 14 | ,->         <gender>Male</gender>
- 15 | `->     </person>
- 16 |     </people_list>
-    `----
-
-  x Text
-    ,-[$DIR/tests/fixture/document_type/internal_subset/input.xml:13:1]
- 13 |             <birthdate>2008-11-27</birthdate>
- 14 | ,->         <gender>Male</gender>
- 15 | `->     </person>
- 16 |     </people_list>
-    `----
-
   x Child
     ,-[$DIR/tests/fixture/document_type/internal_subset/input.xml:14:1]
+ 13 | ,->         <birthdate>2008-11-27</birthdate>
+ 14 | `->         <gender>Male</gender>
+ 15 |         </person>
+    `----
+  x Text
+    ,-[$DIR/tests/fixture/document_type/internal_subset/input.xml:14:1]
+ 13 | ,->         <birthdate>2008-11-27</birthdate>
+ 14 | `->         <gender>Male</gender>
+ 15 |         </person>
+    `----
+  x Child
+    ,-[$DIR/tests/fixture/document_type/internal_subset/input.xml:14:1]
+ 13 |         <birthdate>2008-11-27</birthdate>
  14 |         <gender>Male</gender>
+    :         ^^^^^^^^^^^^^^^^^^^^^
+ 15 |     </person>
+ 16 | </people_list>
+    `----
+  x Element
+    ,-[$DIR/tests/fixture/document_type/internal_subset/input.xml:14:1]
+ 13 |         <birthdate>2008-11-27</birthdate>
+ 14 |         <gender>Male</gender>
+    :         ^^^^^^^^^^^^^^^^^^^^^
+ 15 |     </person>
+ 16 | </people_list>
+    `----
+  x Child
+    ,-[$DIR/tests/fixture/document_type/internal_subset/input.xml:14:1]
+ 13 |         <birthdate>2008-11-27</birthdate>
+ 14 |         <gender>Male</gender>
+    :                 ^^^^
+ 15 |     </person>
+    `----
+  x Text
+    ,-[$DIR/tests/fixture/document_type/internal_subset/input.xml:14:1]
+ 13 |         <birthdate>2008-11-27</birthdate>
+ 14 |         <gender>Male</gender>
+    :                 ^^^^
+ 15 |     </person>
+    `----
+  x Child
+    ,-[$DIR/tests/fixture/document_type/internal_subset/input.xml:15:1]
+ 14 | ,->         <gender>Male</gender>
+ 15 | `->     </person>
+ 16 |     </people_list>
+    `----
+  x Text
+    ,-[$DIR/tests/fixture/document_type/internal_subset/input.xml:15:1]
+ 14 | ,->         <gender>Male</gender>
+ 15 | `->     </person>
+ 16 |     </people_list>
+    `----
+  x Child
+    ,-[$DIR/tests/fixture/document_type/internal_subset/input.xml:16:1]
  15 |     </person>
     :              ^
  16 | </people_list>
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/document_type/internal_subset/input.xml:14:1]
- 14 |         <gender>Male</gender>
+    ,-[$DIR/tests/fixture/document_type/internal_subset/input.xml:16:1]
  15 |     </person>
     :              ^
  16 | </people_list>

@@ -1,70 +1,50 @@
-
   x Document
-   ,-[$DIR/tests/recovery/element/rb/input.html:1:1]
- 1 | <!doctype html><ruby><div><p><rb>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/element/rb/input.html:1:2]
+ 1 | |    
    `----
-
   x Child
    ,-[$DIR/tests/recovery/element/rb/input.html:1:1]
  1 | <!doctype html><ruby><div><p><rb>
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/recovery/element/rb/input.html:1:1]
  1 | <!doctype html><ruby><div><p><rb>
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
-   ,-[$DIR/tests/recovery/element/rb/input.html:1:1]
- 1 | <!doctype html><ruby><div><p><rb>
-   :                ^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/element/rb/input.html:1:17]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/recovery/element/rb/input.html:1:1]
- 1 | <!doctype html><ruby><div><p><rb>
-   :                ^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/element/rb/input.html:1:17]
+ 1 | |    
    `----
-
   x Child
-   ,-[$DIR/tests/recovery/element/rb/input.html:1:1]
- 1 | <!doctype html><ruby><div><p><rb>
-   :                      ^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/element/rb/input.html:1:23]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/recovery/element/rb/input.html:1:1]
- 1 | <!doctype html><ruby><div><p><rb>
-   :                      ^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/element/rb/input.html:1:23]
+ 1 | |    
    `----
-
   x Child
    ,-[$DIR/tests/recovery/element/rb/input.html:1:1]
  1 | <!doctype html><ruby><div><p><rb>
    :                           ^^^
    `----
-
   x Element
    ,-[$DIR/tests/recovery/element/rb/input.html:1:1]
  1 | <!doctype html><ruby><div><p><rb>
    :                           ^^^
    `----
-
   x Child
-   ,-[$DIR/tests/recovery/element/rb/input.html:1:1]
- 1 | <!doctype html><ruby><div><p><rb>
-   :                              ^^^^
+   ,-[$DIR/tests/recovery/element/rb/input.html:1:31]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/recovery/element/rb/input.html:1:1]
- 1 | <!doctype html><ruby><div><p><rb>
-   :                              ^^^^
+   ,-[$DIR/tests/recovery/element/rb/input.html:1:31]
+ 1 | |    
    `----

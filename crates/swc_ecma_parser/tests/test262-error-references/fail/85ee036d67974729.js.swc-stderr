@@ -1,10 +1,8 @@
-
   x Expression expected
    ,-[$DIR/tests/test262-parser/fail/85ee036d67974729.js:1:1]
  1 | ({get +:3})
    :        ^
    `----
-
   x Expression expected
    ,-[$DIR/tests/test262-parser/fail/85ee036d67974729.js:1:1]
  1 | ({get +:3})

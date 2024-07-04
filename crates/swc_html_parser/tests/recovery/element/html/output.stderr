@@ -1,7 +1,4 @@
-
   x Unexpected end tag for "html", but there were unclosed elements
-   ,-[$DIR/tests/recovery/element/html/input.html:8:1]
- 8 |     <li>
- 9 | </html>
-   : ^^^^^^^
+   ,-[$DIR/tests/recovery/element/html/input.html:9:2]
+ 9 | |    
    `----

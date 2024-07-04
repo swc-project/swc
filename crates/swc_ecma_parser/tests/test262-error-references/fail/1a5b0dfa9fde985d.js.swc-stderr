@@ -1,4 +1,3 @@
-
   x assignment property is invalid syntax
    ,-[$DIR/tests/test262-parser/fail/1a5b0dfa9fde985d.js:1:1]
  1 | function* f() { [yield {a = 0}]; }

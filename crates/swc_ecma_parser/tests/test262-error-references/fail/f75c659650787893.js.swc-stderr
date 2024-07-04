@@ -1,5 +1,4 @@
-
   x Trailing comma is not allowed
-   ,-[$DIR/tests/test262-parser/fail/f75c659650787893.js:1:1]
- 1 | const
+   ,-[$DIR/tests/test262-parser/fail/f75c659650787893.js:1:7]
+ 1 |  
    `----

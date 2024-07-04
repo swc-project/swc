@@ -1,58 +1,42 @@
-
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/tests25_dat.12.html:1:1]
- 1 | <!DOCTYPE html><body><input>A
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests25_dat.12.html:1:2]
+ 1 | |    
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests25_dat.12.html:1:1]
  1 | <!DOCTYPE html><body><input>A
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/html5lib-tests-fixture/tests25_dat.12.html:1:1]
  1 | <!DOCTYPE html><body><input>A
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests25_dat.12.html:1:1]
- 1 | <!DOCTYPE html><body><input>A
-   :                ^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests25_dat.12.html:1:17]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tests25_dat.12.html:1:1]
- 1 | <!DOCTYPE html><body><input>A
-   :                ^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests25_dat.12.html:1:17]
+ 1 | |    
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests25_dat.12.html:1:1]
  1 | <!DOCTYPE html><body><input>A
    :                      ^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests25_dat.12.html:1:1]
  1 | <!DOCTYPE html><body><input>A
    :                      ^^^^^^^
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests25_dat.12.html:1:1]
- 1 | <!DOCTYPE html><body><input>A
-   :                             ^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests25_dat.12.html:1:30]
+ 1 |  
    `----
-
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/tests25_dat.12.html:1:1]
- 1 | <!DOCTYPE html><body><input>A
-   :                             ^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests25_dat.12.html:1:30]
+ 1 |  
    `----

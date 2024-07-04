@@ -1,4 +1,3 @@
-
   x Expected ident
    ,-[$DIR/tests/test262-parser/fail/862fa3d5f7a928be.js:1:1]
  1 | var if = 0

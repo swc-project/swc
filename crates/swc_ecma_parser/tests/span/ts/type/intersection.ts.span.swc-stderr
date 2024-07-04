@@ -1,160 +1,123 @@
-
   x Module
-   ,-[$DIR/tests/span/ts/type/intersection.ts:1:1]
- 1 | type A = { foo: string } & { bar: boolean }
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/span/ts/type/intersection.ts:1:2]
+ 1 | |    
    `----
-
   x ModuleItem
-   ,-[$DIR/tests/span/ts/type/intersection.ts:1:1]
- 1 | type A = { foo: string } & { bar: boolean }
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/span/ts/type/intersection.ts:1:2]
+ 1 | |    
    `----
-
   x Stmt
-   ,-[$DIR/tests/span/ts/type/intersection.ts:1:1]
- 1 | type A = { foo: string } & { bar: boolean }
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/span/ts/type/intersection.ts:1:2]
+ 1 | |    
    `----
-
   x Decl
-   ,-[$DIR/tests/span/ts/type/intersection.ts:1:1]
- 1 | type A = { foo: string } & { bar: boolean }
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/span/ts/type/intersection.ts:1:2]
+ 1 | |    
    `----
-
   x TsTypeAliasDecl
-   ,-[$DIR/tests/span/ts/type/intersection.ts:1:1]
- 1 | type A = { foo: string } & { bar: boolean }
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/span/ts/type/intersection.ts:1:2]
+ 1 | |    
    `----
-
   x Ident
    ,-[$DIR/tests/span/ts/type/intersection.ts:1:1]
  1 | type A = { foo: string } & { bar: boolean }
    :      ^
    `----
-
   x TsType
-   ,-[$DIR/tests/span/ts/type/intersection.ts:1:1]
- 1 | type A = { foo: string } & { bar: boolean }
-   :          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/span/ts/type/intersection.ts:1:11]
+ 1 | |    
    `----
-
   x TsUnionOrIntersectionType
-   ,-[$DIR/tests/span/ts/type/intersection.ts:1:1]
- 1 | type A = { foo: string } & { bar: boolean }
-   :          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/span/ts/type/intersection.ts:1:11]
+ 1 | |    
    `----
-
   x TsIntersectionType
-   ,-[$DIR/tests/span/ts/type/intersection.ts:1:1]
- 1 | type A = { foo: string } & { bar: boolean }
-   :          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/span/ts/type/intersection.ts:1:11]
+ 1 | |    
    `----
-
   x TsType
    ,-[$DIR/tests/span/ts/type/intersection.ts:1:1]
  1 | type A = { foo: string } & { bar: boolean }
    :          ^^^^^^^^^^^^^^^
    `----
-
   x TsTypeLit
    ,-[$DIR/tests/span/ts/type/intersection.ts:1:1]
  1 | type A = { foo: string } & { bar: boolean }
    :          ^^^^^^^^^^^^^^^
    `----
-
   x TsTypeElement
    ,-[$DIR/tests/span/ts/type/intersection.ts:1:1]
  1 | type A = { foo: string } & { bar: boolean }
    :            ^^^^^^^^^^^
    `----
-
   x TsPropertySignature
    ,-[$DIR/tests/span/ts/type/intersection.ts:1:1]
  1 | type A = { foo: string } & { bar: boolean }
    :            ^^^^^^^^^^^
    `----
-
   x Expr
    ,-[$DIR/tests/span/ts/type/intersection.ts:1:1]
  1 | type A = { foo: string } & { bar: boolean }
    :            ^^^
    `----
-
   x Ident
    ,-[$DIR/tests/span/ts/type/intersection.ts:1:1]
  1 | type A = { foo: string } & { bar: boolean }
    :            ^^^
    `----
-
   x TsTypeAnn
    ,-[$DIR/tests/span/ts/type/intersection.ts:1:1]
  1 | type A = { foo: string } & { bar: boolean }
    :               ^^^^^^^^
    `----
-
   x TsType
    ,-[$DIR/tests/span/ts/type/intersection.ts:1:1]
  1 | type A = { foo: string } & { bar: boolean }
    :                 ^^^^^^
    `----
-
   x TsKeywordType
    ,-[$DIR/tests/span/ts/type/intersection.ts:1:1]
  1 | type A = { foo: string } & { bar: boolean }
    :                 ^^^^^^
    `----
-
   x TsType
-   ,-[$DIR/tests/span/ts/type/intersection.ts:1:1]
- 1 | type A = { foo: string } & { bar: boolean }
-   :                            ^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/span/ts/type/intersection.ts:1:29]
+ 1 | |    
    `----
-
   x TsTypeLit
-   ,-[$DIR/tests/span/ts/type/intersection.ts:1:1]
- 1 | type A = { foo: string } & { bar: boolean }
-   :                            ^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/span/ts/type/intersection.ts:1:29]
+ 1 | |    
    `----
-
   x TsTypeElement
    ,-[$DIR/tests/span/ts/type/intersection.ts:1:1]
  1 | type A = { foo: string } & { bar: boolean }
    :                              ^^^^^^^^^^^^
    `----
-
   x TsPropertySignature
    ,-[$DIR/tests/span/ts/type/intersection.ts:1:1]
  1 | type A = { foo: string } & { bar: boolean }
    :                              ^^^^^^^^^^^^
    `----
-
   x Expr
    ,-[$DIR/tests/span/ts/type/intersection.ts:1:1]
  1 | type A = { foo: string } & { bar: boolean }
    :                              ^^^
    `----
-
   x Ident
    ,-[$DIR/tests/span/ts/type/intersection.ts:1:1]
  1 | type A = { foo: string } & { bar: boolean }
    :                              ^^^
    `----
-
   x TsTypeAnn
    ,-[$DIR/tests/span/ts/type/intersection.ts:1:1]
  1 | type A = { foo: string } & { bar: boolean }
    :                                 ^^^^^^^^^
    `----
-
   x TsType
    ,-[$DIR/tests/span/ts/type/intersection.ts:1:1]
  1 | type A = { foo: string } & { bar: boolean }
    :                                   ^^^^^^^
    `----
-
   x TsKeywordType
    ,-[$DIR/tests/span/ts/type/intersection.ts:1:1]
  1 | type A = { foo: string } & { bar: boolean }

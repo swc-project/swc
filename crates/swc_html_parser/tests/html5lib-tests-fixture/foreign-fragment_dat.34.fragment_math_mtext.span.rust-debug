@@ -1,94 +1,68 @@
-
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.34.fragment_math_mtext.html:1:1]
- 1 | <b></b><mglyph/><i></i><malignmark/><u></u><mtext/>X
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.34.fragment_math_mtext.html:1:2]
+ 1 | |    
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.34.fragment_math_mtext.html:1:1]
  1 | <b></b><mglyph/><i></i><malignmark/><u></u><mtext/>X
    : ^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.34.fragment_math_mtext.html:1:1]
  1 | <b></b><mglyph/><i></i><malignmark/><u></u><mtext/>X
    : ^^^^^^^
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.34.fragment_math_mtext.html:1:1]
- 1 | <b></b><mglyph/><i></i><malignmark/><u></u><mtext/>X
-   :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.34.fragment_math_mtext.html:1:9]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.34.fragment_math_mtext.html:1:1]
- 1 | <b></b><mglyph/><i></i><malignmark/><u></u><mtext/>X
-   :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.34.fragment_math_mtext.html:1:9]
+ 1 | |    
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.34.fragment_math_mtext.html:1:1]
  1 | <b></b><mglyph/><i></i><malignmark/><u></u><mtext/>X
    :                 ^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.34.fragment_math_mtext.html:1:1]
  1 | <b></b><mglyph/><i></i><malignmark/><u></u><mtext/>X
    :                 ^^^^^^^
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.34.fragment_math_mtext.html:1:1]
- 1 | <b></b><mglyph/><i></i><malignmark/><u></u><mtext/>X
-   :                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.34.fragment_math_mtext.html:1:25]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.34.fragment_math_mtext.html:1:1]
- 1 | <b></b><mglyph/><i></i><malignmark/><u></u><mtext/>X
-   :                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.34.fragment_math_mtext.html:1:25]
+ 1 | |    
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.34.fragment_math_mtext.html:1:1]
  1 | <b></b><mglyph/><i></i><malignmark/><u></u><mtext/>X
    :                                     ^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.34.fragment_math_mtext.html:1:1]
  1 | <b></b><mglyph/><i></i><malignmark/><u></u><mtext/>X
    :                                     ^^^^^^^
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.34.fragment_math_mtext.html:1:1]
- 1 | <b></b><mglyph/><i></i><malignmark/><u></u><mtext/>X
-   :                                            ^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.34.fragment_math_mtext.html:1:45]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.34.fragment_math_mtext.html:1:1]
- 1 | <b></b><mglyph/><i></i><malignmark/><u></u><mtext/>X
-   :                                            ^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.34.fragment_math_mtext.html:1:45]
+ 1 | |    
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.34.fragment_math_mtext.html:1:1]
- 1 | <b></b><mglyph/><i></i><malignmark/><u></u><mtext/>X
-   :                                                    ^
+   ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.34.fragment_math_mtext.html:1:53]
+ 1 |  
    `----
-
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.34.fragment_math_mtext.html:1:1]
- 1 | <b></b><mglyph/><i></i><malignmark/><u></u><mtext/>X
-   :                                                    ^
+   ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.34.fragment_math_mtext.html:1:53]
+ 1 |  
    `----

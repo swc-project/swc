@@ -1,86 +1,60 @@
-
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.77.html:1:1]
- 1 | <body><template><i><menu>Foo</i>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.77.html:1:2]
+ 1 | |    
    `----
-
   x Child
-
   x Element
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.77.html:1:1]
- 1 | <body><template><i><menu>Foo</i>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.77.html:1:2]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.77.html:1:1]
- 1 | <body><template><i><menu>Foo</i>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.77.html:1:2]
+ 1 | |    
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.77.html:1:1]
- 1 | <body><template><i><menu>Foo</i>
-   :       ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.77.html:1:8]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.77.html:1:1]
- 1 | <body><template><i><menu>Foo</i>
-   :       ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.77.html:1:8]
+ 1 | |    
    `----
-
   x DocumentFragment
-   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.77.html:1:1]
- 1 | <body><template><i><menu>Foo</i>
-   :       ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.77.html:1:8]
+ 1 | |    
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.77.html:1:1]
  1 | <body><template><i><menu>Foo</i>
    :                 ^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.77.html:1:1]
  1 | <body><template><i><menu>Foo</i>
    :                 ^^^
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.77.html:1:1]
- 1 | <body><template><i><menu>Foo</i>
-   :                    ^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.77.html:1:21]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.77.html:1:1]
- 1 | <body><template><i><menu>Foo</i>
-   :                    ^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.77.html:1:21]
+ 1 | |    
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.77.html:1:1]
- 1 | <body><template><i><menu>Foo</i>
-   :                          ^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.77.html:1:27]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.77.html:1:1]
- 1 | <body><template><i><menu>Foo</i>
-   :                          ^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.77.html:1:27]
+ 1 | |    
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.77.html:1:1]
  1 | <body><template><i><menu>Foo</i>
    :                          ^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.77.html:1:1]
  1 | <body><template><i><menu>Foo</i>

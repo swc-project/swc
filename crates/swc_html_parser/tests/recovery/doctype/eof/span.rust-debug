@@ -1,22 +1,14 @@
-
   x Document
-   ,-[$DIR/tests/recovery/doctype/eof/input.html:1:1]
- 1 | <!DOCTYPE
-   : ^^^^^^^^^
+   ,-[$DIR/tests/recovery/doctype/eof/input.html:1:2]
+ 1 | |    
    `----
-
   x Child
-   ,-[$DIR/tests/recovery/doctype/eof/input.html:1:1]
- 1 | <!DOCTYPE
-   : ^^^^^^^^^
+   ,-[$DIR/tests/recovery/doctype/eof/input.html:1:2]
+ 1 | |    
    `----
-
   x DocumentType
-   ,-[$DIR/tests/recovery/doctype/eof/input.html:1:1]
- 1 | <!DOCTYPE
-   : ^^^^^^^^^
+   ,-[$DIR/tests/recovery/doctype/eof/input.html:1:2]
+ 1 | |    
    `----
-
   x Child
-
   x Element

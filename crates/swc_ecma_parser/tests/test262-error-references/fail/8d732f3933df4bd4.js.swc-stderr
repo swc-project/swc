@@ -1,6 +1,4 @@
-
   x Expected ident
-   ,-[$DIR/tests/test262-parser/fail/8d732f3933df4bd4.js:1:1]
- 1 | var this
-   :     ^^^^
+   ,-[$DIR/tests/test262-parser/fail/8d732f3933df4bd4.js:1:6]
+ 1 | |    
    `----

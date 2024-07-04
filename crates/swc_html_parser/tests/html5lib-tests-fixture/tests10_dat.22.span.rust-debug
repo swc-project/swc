@@ -1,56 +1,40 @@
-
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.22.html:1:1]
- 1 | <!DOCTYPE html><body xlink:href=foo><svg xlink:href=foo></svg>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.22.html:1:2]
+ 1 | |    
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.22.html:1:1]
  1 | <!DOCTYPE html><body xlink:href=foo><svg xlink:href=foo></svg>
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.22.html:1:1]
  1 | <!DOCTYPE html><body xlink:href=foo><svg xlink:href=foo></svg>
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.22.html:1:1]
- 1 | <!DOCTYPE html><body xlink:href=foo><svg xlink:href=foo></svg>
-   :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.22.html:1:17]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.22.html:1:1]
- 1 | <!DOCTYPE html><body xlink:href=foo><svg xlink:href=foo></svg>
-   :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.22.html:1:17]
+ 1 | |    
    `----
-
   x Attribute
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.22.html:1:1]
  1 | <!DOCTYPE html><body xlink:href=foo><svg xlink:href=foo></svg>
    :                      ^^^^^^^^^^^^^^
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.22.html:1:1]
- 1 | <!DOCTYPE html><body xlink:href=foo><svg xlink:href=foo></svg>
-   :                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.22.html:1:38]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.22.html:1:1]
- 1 | <!DOCTYPE html><body xlink:href=foo><svg xlink:href=foo></svg>
-   :                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.22.html:1:38]
+ 1 | |    
    `----
-
   x Attribute
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.22.html:1:1]
  1 | <!DOCTYPE html><body xlink:href=foo><svg xlink:href=foo></svg>

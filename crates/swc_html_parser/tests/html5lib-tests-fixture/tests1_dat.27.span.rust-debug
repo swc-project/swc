@@ -1,58 +1,42 @@
-
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.27.html:1:1]
- 1 | <!--><div>--<!-->
-   : ^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.27.html:1:2]
+ 1 | |    
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.27.html:1:1]
  1 | <!--><div>--<!-->
    : ^^^^^
    `----
-
   x Comment
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.27.html:1:1]
  1 | <!--><div>--<!-->
    : ^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.27.html:1:1]
- 1 | <!--><div>--<!-->
-   :      ^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.27.html:1:7]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.27.html:1:1]
- 1 | <!--><div>--<!-->
-   :      ^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.27.html:1:7]
+ 1 | |    
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.27.html:1:1]
  1 | <!--><div>--<!-->
    :           ^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.27.html:1:1]
  1 | <!--><div>--<!-->
    :           ^^
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.27.html:1:1]
- 1 | <!--><div>--<!-->
-   :             ^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.27.html:1:14]
+ 1 | |    
    `----
-
   x Comment
-   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.27.html:1:1]
- 1 | <!--><div>--<!-->
-   :             ^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.27.html:1:14]
+ 1 | |    
    `----

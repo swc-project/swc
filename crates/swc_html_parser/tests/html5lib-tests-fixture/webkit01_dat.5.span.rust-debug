@@ -1,38 +1,27 @@
-
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.5.html:1:1]
- 1 | <div foo="bar">Hello</div>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.5.html:1:2]
+ 1 | |    
    `----
-
   x Child
-
   x Element
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.5.html:1:1]
- 1 | <div foo="bar">Hello</div>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.5.html:1:2]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.5.html:1:1]
- 1 | <div foo="bar">Hello</div>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.5.html:1:2]
+ 1 | |    
    `----
-
   x Attribute
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.5.html:1:1]
  1 | <div foo="bar">Hello</div>
    :      ^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.5.html:1:1]
  1 | <div foo="bar">Hello</div>
    :                ^^^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.5.html:1:1]
  1 | <div foo="bar">Hello</div>

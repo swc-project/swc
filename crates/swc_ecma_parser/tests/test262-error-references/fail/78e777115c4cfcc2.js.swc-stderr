@@ -1,6 +1,4 @@
-
   x Expected 'while', got '*'
-   ,-[$DIR/tests/test262-parser/fail/78e777115c4cfcc2.js:1:1]
- 1 | do { x } *
-   :          ^
+   ,-[$DIR/tests/test262-parser/fail/78e777115c4cfcc2.js:1:11]
+ 1 |  
    `----

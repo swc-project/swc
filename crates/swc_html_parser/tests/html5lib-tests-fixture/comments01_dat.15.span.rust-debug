@@ -1,56 +1,42 @@
-
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/comments01_dat.15.html:1:1]
- 1 | <html><!-- comment --><title>Comment before head</title>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/comments01_dat.15.html:1:2]
+ 1 | |    
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/comments01_dat.15.html:1:1]
  1 | <html><!-- comment --><title>Comment before head</title>
    : ^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/comments01_dat.15.html:1:1]
  1 | <html><!-- comment --><title>Comment before head</title>
    : ^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/comments01_dat.15.html:1:1]
  1 | <html><!-- comment --><title>Comment before head</title>
    :       ^^^^^^^^^^^^^^^^
    `----
-
   x Comment
    ,-[$DIR/tests/html5lib-tests-fixture/comments01_dat.15.html:1:1]
  1 | <html><!-- comment --><title>Comment before head</title>
    :       ^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/comments01_dat.15.html:1:1]
- 1 | <html><!-- comment --><title>Comment before head</title>
-   :                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/comments01_dat.15.html:1:24]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/comments01_dat.15.html:1:1]
- 1 | <html><!-- comment --><title>Comment before head</title>
-   :                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/comments01_dat.15.html:1:24]
+ 1 | |    
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/comments01_dat.15.html:1:1]
  1 | <html><!-- comment --><title>Comment before head</title>
    :                              ^^^^^^^^^^^^^^^^^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/comments01_dat.15.html:1:1]
  1 | <html><!-- comment --><title>Comment before head</title>

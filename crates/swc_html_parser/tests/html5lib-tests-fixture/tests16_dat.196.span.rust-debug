@@ -1,56 +1,42 @@
-
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/tests16_dat.196.html:1:1]
- 1 | <!doctype html><form><table></form><form></table></form>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests16_dat.196.html:1:2]
+ 1 | |    
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests16_dat.196.html:1:1]
  1 | <!doctype html><form><table></form><form></table></form>
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/html5lib-tests-fixture/tests16_dat.196.html:1:1]
  1 | <!doctype html><form><table></form><form></table></form>
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests16_dat.196.html:1:1]
- 1 | <!doctype html><form><table></form><form></table></form>
-   :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests16_dat.196.html:1:17]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tests16_dat.196.html:1:1]
- 1 | <!doctype html><form><table></form><form></table></form>
-   :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests16_dat.196.html:1:17]
+ 1 | |    
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests16_dat.196.html:1:1]
  1 | <!doctype html><form><table></form><form></table></form>
    :                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests16_dat.196.html:1:1]
  1 | <!doctype html><form><table></form><form></table></form>
    :                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests16_dat.196.html:1:1]
  1 | <!doctype html><form><table></form><form></table></form>
    :                                    ^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests16_dat.196.html:1:1]
  1 | <!doctype html><form><table></form><form></table></form>

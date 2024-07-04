@@ -1,7 +1,6 @@
 //// [esDecorators-classExpression-namedEvaluation.5.ts]
-//! 
 //!   x Expression expected
-//!    ,-[3:1]
+//!    ,-[6:1]
 //!  3 | // 13.15.5.3 RS: PropertyDestructuringAssignmentEvaluation
 //!  4 | //   AssignmentProperty : IdentifierReference Initializer?
 //!  5 | 

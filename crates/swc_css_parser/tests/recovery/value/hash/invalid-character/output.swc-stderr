@@ -1,4 +1,3 @@
-
   x Expected hash, ident (with named color, system color, 'transparent' or 'currentColor' value) or function (with color function name) token
    ,-[$DIR/tests/recovery/value/hash/invalid-character/input.css:1:1]
  1 | a { value: #\30hash }

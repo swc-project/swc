@@ -1,5 +1,4 @@
-
   x Unexpected eof
-   ,-[$DIR/tests/test262-parser/fail/95c10472e36270b6.js:1:1]
- 1 | (a,...a)
+   ,-[$DIR/tests/test262-parser/fail/95c10472e36270b6.js:1:10]
+ 1 |  
    `----

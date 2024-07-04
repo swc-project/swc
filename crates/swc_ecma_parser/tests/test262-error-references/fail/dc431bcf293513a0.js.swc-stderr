@@ -1,11 +1,8 @@
-
   x Unexpected eof
-   ,-[$DIR/tests/test262-parser/fail/dc431bcf293513a0.js:1:1]
- 1 | (')
+   ,-[$DIR/tests/test262-parser/fail/dc431bcf293513a0.js:1:5]
+ 1 |  
    `----
-
   x Unterminated string constant
-   ,-[$DIR/tests/test262-parser/fail/dc431bcf293513a0.js:1:1]
- 1 | (')
-   :  ^^
+   ,-[$DIR/tests/test262-parser/fail/dc431bcf293513a0.js:1:3]
+ 1 | `->  
    `----

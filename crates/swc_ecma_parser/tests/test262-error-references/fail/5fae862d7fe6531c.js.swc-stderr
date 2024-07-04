@@ -1,4 +1,3 @@
-
   x Not a pattern
    ,-[$DIR/tests/test262-parser/fail/5fae862d7fe6531c.js:1:1]
  1 | ({a = 0}, {a = 0}, 0) => 0

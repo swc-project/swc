@@ -1,10 +1,8 @@
-
   x Eof in tag
-   ,-[$DIR/tests/recovery/attribute/bogus/input.html:1:1]
- 1 | <div test="test'></div>
+   ,-[$DIR/tests/recovery/attribute/bogus/input.html:1:25]
+ 1 |  
    `----
-
   x End of file seen without seeing a doctype first, expected "<!DOCTYPE html>"
-   ,-[$DIR/tests/recovery/attribute/bogus/input.html:1:1]
- 1 | <div test="test'></div>
+   ,-[$DIR/tests/recovery/attribute/bogus/input.html:1:25]
+ 1 |  
    `----

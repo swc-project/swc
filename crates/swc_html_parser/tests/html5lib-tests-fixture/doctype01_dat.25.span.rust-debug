@@ -1,34 +1,24 @@
-
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/doctype01_dat.25.html:1:1]
- 1 | <!DOCTYPE potato PUBLIC "W3C-//dfdf" SYSTEM ggg>Hello
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/doctype01_dat.25.html:1:2]
+ 1 | |    
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/doctype01_dat.25.html:1:1]
  1 | <!DOCTYPE potato PUBLIC "W3C-//dfdf" SYSTEM ggg>Hello
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/html5lib-tests-fixture/doctype01_dat.25.html:1:1]
  1 | <!DOCTYPE potato PUBLIC "W3C-//dfdf" SYSTEM ggg>Hello
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/doctype01_dat.25.html:1:1]
- 1 | <!DOCTYPE potato PUBLIC "W3C-//dfdf" SYSTEM ggg>Hello
-   :                                                 ^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/doctype01_dat.25.html:1:50]
+ 1 | |    
    `----
-
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/doctype01_dat.25.html:1:1]
- 1 | <!DOCTYPE potato PUBLIC "W3C-//dfdf" SYSTEM ggg>Hello
-   :                                                 ^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/doctype01_dat.25.html:1:50]
+ 1 | |    
    `----

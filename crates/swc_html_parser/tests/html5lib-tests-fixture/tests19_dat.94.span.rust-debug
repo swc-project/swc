@@ -1,212 +1,168 @@
-
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.94.html:1:1]
- 1 | <!doctype html><table><i>a<b>b<div>c<a>d</i>e</b>f
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.94.html:1:2]
+ 1 | |    
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.94.html:1:1]
  1 | <!doctype html><table><i>a<b>b<div>c<a>d</i>e</b>f
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.94.html:1:1]
  1 | <!doctype html><table><i>a<b>b<div>c<a>d</i>e</b>f
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.94.html:1:1]
  1 | <!doctype html><table><i>a<b>b<div>c<a>d</i>e</b>f
    :                       ^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.94.html:1:1]
  1 | <!doctype html><table><i>a<b>b<div>c<a>d</i>e</b>f
    :                       ^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.94.html:1:1]
  1 | <!doctype html><table><i>a<b>b<div>c<a>d</i>e</b>f
    :                          ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.94.html:1:1]
  1 | <!doctype html><table><i>a<b>b<div>c<a>d</i>e</b>f
    :                          ^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.94.html:1:1]
  1 | <!doctype html><table><i>a<b>b<div>c<a>d</i>e</b>f
    :                           ^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.94.html:1:1]
  1 | <!doctype html><table><i>a<b>b<div>c<a>d</i>e</b>f
    :                           ^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.94.html:1:1]
  1 | <!doctype html><table><i>a<b>b<div>c<a>d</i>e</b>f
    :                              ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.94.html:1:1]
  1 | <!doctype html><table><i>a<b>b<div>c<a>d</i>e</b>f
    :                              ^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.94.html:1:1]
  1 | <!doctype html><table><i>a<b>b<div>c<a>d</i>e</b>f
    :                           ^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.94.html:1:1]
  1 | <!doctype html><table><i>a<b>b<div>c<a>d</i>e</b>f
    :                           ^^^
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.94.html:1:1]
- 1 | <!doctype html><table><i>a<b>b<div>c<a>d</i>e</b>f
-   :                               ^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.94.html:1:32]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.94.html:1:1]
- 1 | <!doctype html><table><i>a<b>b<div>c<a>d</i>e</b>f
-   :                               ^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.94.html:1:32]
+ 1 | |    
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.94.html:1:1]
  1 | <!doctype html><table><i>a<b>b<div>c<a>d</i>e</b>f
    :                                    ^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.94.html:1:1]
  1 | <!doctype html><table><i>a<b>b<div>c<a>d</i>e</b>f
    :                                    ^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.94.html:1:1]
  1 | <!doctype html><table><i>a<b>b<div>c<a>d</i>e</b>f
    :                                    ^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.94.html:1:1]
  1 | <!doctype html><table><i>a<b>b<div>c<a>d</i>e</b>f
    :                                    ^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.94.html:1:1]
  1 | <!doctype html><table><i>a<b>b<div>c<a>d</i>e</b>f
    :                                    ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.94.html:1:1]
  1 | <!doctype html><table><i>a<b>b<div>c<a>d</i>e</b>f
    :                                    ^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.94.html:1:1]
  1 | <!doctype html><table><i>a<b>b<div>c<a>d</i>e</b>f
    :                                     ^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.94.html:1:1]
  1 | <!doctype html><table><i>a<b>b<div>c<a>d</i>e</b>f
    :                                     ^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.94.html:1:1]
  1 | <!doctype html><table><i>a<b>b<div>c<a>d</i>e</b>f
    :                                        ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.94.html:1:1]
  1 | <!doctype html><table><i>a<b>b<div>c<a>d</i>e</b>f
    :                                        ^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.94.html:1:1]
  1 | <!doctype html><table><i>a<b>b<div>c<a>d</i>e</b>f
    :                                     ^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.94.html:1:1]
  1 | <!doctype html><table><i>a<b>b<div>c<a>d</i>e</b>f
    :                                     ^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.94.html:1:1]
  1 | <!doctype html><table><i>a<b>b<div>c<a>d</i>e</b>f
    :                                             ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.94.html:1:1]
  1 | <!doctype html><table><i>a<b>b<div>c<a>d</i>e</b>f
    :                                             ^
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.94.html:1:1]
- 1 | <!doctype html><table><i>a<b>b<div>c<a>d</i>e</b>f
-   :                                     ^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.94.html:1:38]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.94.html:1:1]
- 1 | <!doctype html><table><i>a<b>b<div>c<a>d</i>e</b>f
-   :                                     ^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.94.html:1:38]
+ 1 | |    
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.94.html:1:1]
- 1 | <!doctype html><table><i>a<b>b<div>c<a>d</i>e</b>f
-   :                                                  ^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.94.html:1:51]
+ 1 |  
    `----
-
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.94.html:1:1]
- 1 | <!doctype html><table><i>a<b>b<div>c<a>d</i>e</b>f
-   :                                                  ^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.94.html:1:51]
+ 1 |  
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.94.html:1:1]
  1 | <!doctype html><table><i>a<b>b<div>c<a>d</i>e</b>f
    :                ^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.94.html:1:1]
  1 | <!doctype html><table><i>a<b>b<div>c<a>d</i>e</b>f

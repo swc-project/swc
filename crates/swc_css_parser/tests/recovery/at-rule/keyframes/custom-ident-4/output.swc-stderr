@@ -1,4 +1,3 @@
-
   x The CSS-wide keywords are not valid custom ident, found 'default'
    ,-[$DIR/tests/recovery/at-rule/keyframes/custom-ident-4/input.css:1:1]
  1 | @keyframes default {}

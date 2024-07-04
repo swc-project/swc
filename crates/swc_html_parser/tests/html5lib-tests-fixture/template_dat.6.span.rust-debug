@@ -1,52 +1,34 @@
-
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.6.html:1:1]
- 1 | <div><template></div>Hello
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.6.html:1:2]
+ 1 | |    
    `----
-
   x Child
-
   x Element
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.6.html:1:1]
- 1 | <div><template></div>Hello
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.6.html:1:2]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.6.html:1:1]
- 1 | <div><template></div>Hello
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.6.html:1:2]
+ 1 | |    
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.6.html:1:1]
- 1 | <div><template></div>Hello
-   :      ^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.6.html:1:7]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.6.html:1:1]
- 1 | <div><template></div>Hello
-   :      ^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.6.html:1:7]
+ 1 | |    
    `----
-
   x DocumentFragment
-   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.6.html:1:1]
- 1 | <div><template></div>Hello
-   :      ^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.6.html:1:7]
+ 1 | |    
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.6.html:1:1]
- 1 | <div><template></div>Hello
-   :                      ^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.6.html:1:23]
+ 1 | |    
    `----
-
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.6.html:1:1]
- 1 | <div><template></div>Hello
-   :                      ^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.6.html:1:23]
+ 1 | |    
    `----

@@ -1,4 +1,3 @@
-
   x This syntax is reserved in files with the .mts or .cts extension. Add a trailing comma, as in `<T,>() => ...`.
    ,-[$DIR/tests/typescript-errors/disallow-ambiguous-jsx-like/cts-case2/input.cts:1:1]
  1 | <T>() => 1;

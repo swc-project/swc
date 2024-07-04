@@ -1,80 +1,62 @@
-
   x Document
-   ,-[$DIR/tests/recovery/element/b/input.html:1:1]
- 1 | <b>1<p>2</b>3</p>
-   : ^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/element/b/input.html:1:2]
+ 1 | |    
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/recovery/element/b/input.html:1:1]
  1 | <b>1<p>2</b>3</p>
    : ^^^^
    `----
-
   x Element
    ,-[$DIR/tests/recovery/element/b/input.html:1:1]
  1 | <b>1<p>2</b>3</p>
    : ^^^^
    `----
-
   x Child
    ,-[$DIR/tests/recovery/element/b/input.html:1:1]
  1 | <b>1<p>2</b>3</p>
    :    ^
    `----
-
   x Text
    ,-[$DIR/tests/recovery/element/b/input.html:1:1]
  1 | <b>1<p>2</b>3</p>
    :    ^
    `----
-
   x Child
-   ,-[$DIR/tests/recovery/element/b/input.html:1:1]
- 1 | <b>1<p>2</b>3</p>
-   :     ^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/element/b/input.html:1:6]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/recovery/element/b/input.html:1:1]
- 1 | <b>1<p>2</b>3</p>
-   :     ^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/element/b/input.html:1:6]
+ 1 | |    
    `----
-
   x Child
    ,-[$DIR/tests/recovery/element/b/input.html:1:1]
  1 | <b>1<p>2</b>3</p>
    :        ^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/recovery/element/b/input.html:1:1]
  1 | <b>1<p>2</b>3</p>
    :        ^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/recovery/element/b/input.html:1:1]
  1 | <b>1<p>2</b>3</p>
    :        ^
    `----
-
   x Text
    ,-[$DIR/tests/recovery/element/b/input.html:1:1]
  1 | <b>1<p>2</b>3</p>
    :        ^
    `----
-
   x Child
    ,-[$DIR/tests/recovery/element/b/input.html:1:1]
  1 | <b>1<p>2</b>3</p>
    :             ^
    `----
-
   x Text
    ,-[$DIR/tests/recovery/element/b/input.html:1:1]
  1 | <b>1<p>2</b>3</p>

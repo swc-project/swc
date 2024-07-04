@@ -1,6 +1,5 @@
-
   x Expected ';', '}' or <eof>
-   ,-[$DIR/tests/errors/explicit-resource-management/invalid-in-single-statement-context/input.js:1:1]
+   ,-[$DIR/tests/errors/explicit-resource-management/invalid-in-single-statement-context/input.js:2:1]
  1 | {
  2 |   while (1) using a;
    :             ^^|^^ ^

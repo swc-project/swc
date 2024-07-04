@@ -1,6 +1,4 @@
-
   x Expected ident
-   ,-[$DIR/tests/test262-parser/fail/7615ff9f43ea0dde.js:1:1]
- 1 | class default
-   :       ^^^^^^^
+   ,-[$DIR/tests/test262-parser/fail/7615ff9f43ea0dde.js:1:8]
+ 1 | |    
    `----

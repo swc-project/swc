@@ -1,4 +1,3 @@
-
   x 'new.target' is only allowed in the body of a function declaration, function expression, or class.
    ,-[$DIR/tests/typescript-errors/meta-property/new-target/out-of-function-or-class/input.ts:1:1]
  1 | new.target;

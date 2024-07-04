@@ -1,6 +1,4 @@
-
   x Generator or async function cannot be labelled
-   ,-[$DIR/tests/test262-parser/fail/944ea2478d838026.js:1:1]
- 1 | label: function* a(){}
-   :        ^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/test262-parser/fail/944ea2478d838026.js:1:9]
+ 1 | |    
    `----

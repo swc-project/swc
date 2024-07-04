@@ -1,6 +1,5 @@
-
   x private names are not allowed in interface
-   ,-[$DIR/tests/typescript-errors/issue-1211-1/input.ts:1:1]
+   ,-[$DIR/tests/typescript-errors/issue-1211-1/input.ts:2:1]
  1 | interface Foo {
  2 |     #bar()
    :     ^^^^

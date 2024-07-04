@@ -1,34 +1,24 @@
-
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.53.fragment_svg_desc.html:1:1]
- 1 | <head>X
-   : ^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.53.fragment_svg_desc.html:1:2]
+ 1 | |    
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.53.fragment_svg_desc.html:1:1]
  1 | <head>X
    : ^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.53.fragment_svg_desc.html:1:1]
  1 | <head>X
    : ^^^^^^
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.53.fragment_svg_desc.html:1:1]
- 1 | <head>X
-   :       ^
+   ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.53.fragment_svg_desc.html:1:8]
+ 1 |  
    `----
-
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.53.fragment_svg_desc.html:1:1]
- 1 | <head>X
-   :       ^
+   ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.53.fragment_svg_desc.html:1:8]
+ 1 |  
    `----

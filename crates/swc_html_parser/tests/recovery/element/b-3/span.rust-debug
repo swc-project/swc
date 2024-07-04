@@ -1,82 +1,58 @@
-
   x Document
-   ,-[$DIR/tests/recovery/element/b-3/input.html:1:1]
- 1 | <b><a><b><p></a>
-   : ^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/element/b-3/input.html:1:2]
+ 1 | |    
    `----
-
   x Child
-
   x Element
-
   x Child
-   ,-[$DIR/tests/recovery/element/b-3/input.html:1:1]
- 1 | <b><a><b><p></a>
-   : ^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/element/b-3/input.html:1:2]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/recovery/element/b-3/input.html:1:1]
- 1 | <b><a><b><p></a>
-   : ^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/element/b-3/input.html:1:2]
+ 1 | |    
    `----
-
   x Child
    ,-[$DIR/tests/recovery/element/b-3/input.html:1:1]
  1 | <b><a><b><p></a>
    :    ^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/recovery/element/b-3/input.html:1:1]
  1 | <b><a><b><p></a>
    :    ^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/recovery/element/b-3/input.html:1:1]
  1 | <b><a><b><p></a>
    :       ^^^
    `----
-
   x Element
    ,-[$DIR/tests/recovery/element/b-3/input.html:1:1]
  1 | <b><a><b><p></a>
    :       ^^^
    `----
-
   x Child
-   ,-[$DIR/tests/recovery/element/b-3/input.html:1:1]
- 1 | <b><a><b><p></a>
-   :       ^^^^^^^^^^
+   ,-[$DIR/tests/recovery/element/b-3/input.html:1:8]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/recovery/element/b-3/input.html:1:1]
- 1 | <b><a><b><p></a>
-   :       ^^^^^^^^^^
+   ,-[$DIR/tests/recovery/element/b-3/input.html:1:8]
+ 1 | |    
    `----
-
   x Child
-   ,-[$DIR/tests/recovery/element/b-3/input.html:1:1]
- 1 | <b><a><b><p></a>
-   :          ^^^^^^^
+   ,-[$DIR/tests/recovery/element/b-3/input.html:1:11]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/recovery/element/b-3/input.html:1:1]
- 1 | <b><a><b><p></a>
-   :          ^^^^^^^
+   ,-[$DIR/tests/recovery/element/b-3/input.html:1:11]
+ 1 | |    
    `----
-
   x Child
-   ,-[$DIR/tests/recovery/element/b-3/input.html:1:1]
- 1 | <b><a><b><p></a>
-   :             ^^^^
+   ,-[$DIR/tests/recovery/element/b-3/input.html:1:14]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/recovery/element/b-3/input.html:1:1]
- 1 | <b><a><b><p></a>
-   :             ^^^^
+   ,-[$DIR/tests/recovery/element/b-3/input.html:1:14]
+ 1 | |    
    `----

@@ -1,7 +1,6 @@
 //// [esDecorators-classExpression-commentPreservation.ts]
-//! 
 //!   x Expression expected
-//!     ,-[4:1]
+//!     ,-[7:1]
 //!   4 | /*1*/
 //!   5 | (
 //!   6 | /*2*/

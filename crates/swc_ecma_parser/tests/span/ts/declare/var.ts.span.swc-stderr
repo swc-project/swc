@@ -1,64 +1,53 @@
-
   x Module
    ,-[$DIR/tests/span/ts/declare/var.ts:1:1]
  1 | declare const a = 1;
    : ^^^^^^^^^^^^^^^^^^^^
    `----
-
   x ModuleItem
    ,-[$DIR/tests/span/ts/declare/var.ts:1:1]
  1 | declare const a = 1;
    : ^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Stmt
    ,-[$DIR/tests/span/ts/declare/var.ts:1:1]
  1 | declare const a = 1;
    : ^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Decl
    ,-[$DIR/tests/span/ts/declare/var.ts:1:1]
  1 | declare const a = 1;
    : ^^^^^^^^^^^^^^^^^^^^
    `----
-
   x VarDecl
    ,-[$DIR/tests/span/ts/declare/var.ts:1:1]
  1 | declare const a = 1;
    : ^^^^^^^^^^^^^^^^^^^^
    `----
-
   x VarDeclarator
    ,-[$DIR/tests/span/ts/declare/var.ts:1:1]
  1 | declare const a = 1;
    :               ^^^^^
    `----
-
   x Pat
    ,-[$DIR/tests/span/ts/declare/var.ts:1:1]
  1 | declare const a = 1;
    :               ^
    `----
-
   x Ident
    ,-[$DIR/tests/span/ts/declare/var.ts:1:1]
  1 | declare const a = 1;
    :               ^
    `----
-
   x Expr
    ,-[$DIR/tests/span/ts/declare/var.ts:1:1]
  1 | declare const a = 1;
    :                   ^
    `----
-
   x Lit
    ,-[$DIR/tests/span/ts/declare/var.ts:1:1]
  1 | declare const a = 1;
    :                   ^
    `----
-
   x Number
    ,-[$DIR/tests/span/ts/declare/var.ts:1:1]
  1 | declare const a = 1;

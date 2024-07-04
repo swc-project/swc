@@ -1,11 +1,8 @@
-
   x Unexpected eof
-   ,-[$DIR/tests/jsx/errors/unterminated-string/input.js:1:1]
- 1 | <foo bar="
+   ,-[$DIR/tests/jsx/errors/unterminated-string/input.js:1:13]
+ 1 |  
    `----
-
   x Unterminated string constant
-   ,-[$DIR/tests/jsx/errors/unterminated-string/input.js:1:1]
- 1 | <foo bar="
-   :          ^^
+   ,-[$DIR/tests/jsx/errors/unterminated-string/input.js:1:11]
+ 1 | `->  
    `----

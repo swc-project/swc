@@ -1,4 +1,3 @@
-
   x Unexpected initializer in for in/of loop
    ,-[$DIR/tests/test262-parser/fail/317c81f05510f4ad.js:1:1]
  1 | for (var {x} = y of z);

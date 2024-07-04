@@ -1,58 +1,48 @@
-
   x Module
    ,-[$DIR/tests/span/ts/declare/class.ts:1:1]
  1 | declare class Example { };
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x ModuleItem
    ,-[$DIR/tests/span/ts/declare/class.ts:1:1]
  1 | declare class Example { };
    : ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Stmt
    ,-[$DIR/tests/span/ts/declare/class.ts:1:1]
  1 | declare class Example { };
    : ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Decl
    ,-[$DIR/tests/span/ts/declare/class.ts:1:1]
  1 | declare class Example { };
    : ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x ClassDecl
    ,-[$DIR/tests/span/ts/declare/class.ts:1:1]
  1 | declare class Example { };
    : ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/span/ts/declare/class.ts:1:1]
  1 | declare class Example { };
    :               ^^^^^^^
    `----
-
   x Class
    ,-[$DIR/tests/span/ts/declare/class.ts:1:1]
  1 | declare class Example { };
    : ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x ModuleItem
    ,-[$DIR/tests/span/ts/declare/class.ts:1:1]
  1 | declare class Example { };
    :                          ^
    `----
-
   x Stmt
    ,-[$DIR/tests/span/ts/declare/class.ts:1:1]
  1 | declare class Example { };
    :                          ^
    `----
-
   x EmptyStmt
    ,-[$DIR/tests/span/ts/declare/class.ts:1:1]
  1 | declare class Example { };

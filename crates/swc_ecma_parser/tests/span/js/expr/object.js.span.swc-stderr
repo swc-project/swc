@@ -1,196 +1,157 @@
-
   x Module
-   ,-[$DIR/tests/span/js/expr/object.js:1:1]
- 1 | ({ a, b, c: d, ...rest, afterRest: true })
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/span/js/expr/object.js:1:2]
+ 1 | |    
    `----
-
   x ModuleItem
-   ,-[$DIR/tests/span/js/expr/object.js:1:1]
- 1 | ({ a, b, c: d, ...rest, afterRest: true })
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/span/js/expr/object.js:1:2]
+ 1 | |    
    `----
-
   x Stmt
-   ,-[$DIR/tests/span/js/expr/object.js:1:1]
- 1 | ({ a, b, c: d, ...rest, afterRest: true })
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/span/js/expr/object.js:1:2]
+ 1 | |    
    `----
-
   x ExprStmt
-   ,-[$DIR/tests/span/js/expr/object.js:1:1]
- 1 | ({ a, b, c: d, ...rest, afterRest: true })
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/span/js/expr/object.js:1:2]
+ 1 | |    
    `----
-
   x Expr
-   ,-[$DIR/tests/span/js/expr/object.js:1:1]
- 1 | ({ a, b, c: d, ...rest, afterRest: true })
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/span/js/expr/object.js:1:2]
+ 1 | |    
    `----
-
   x ParenExpr
-   ,-[$DIR/tests/span/js/expr/object.js:1:1]
- 1 | ({ a, b, c: d, ...rest, afterRest: true })
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/span/js/expr/object.js:1:2]
+ 1 | |    
    `----
-
   x Expr
    ,-[$DIR/tests/span/js/expr/object.js:1:1]
  1 | ({ a, b, c: d, ...rest, afterRest: true })
    :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x ObjectLit
    ,-[$DIR/tests/span/js/expr/object.js:1:1]
  1 | ({ a, b, c: d, ...rest, afterRest: true })
    :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x PropOrSpread
    ,-[$DIR/tests/span/js/expr/object.js:1:1]
  1 | ({ a, b, c: d, ...rest, afterRest: true })
    :    ^
    `----
-
   x Prop
    ,-[$DIR/tests/span/js/expr/object.js:1:1]
  1 | ({ a, b, c: d, ...rest, afterRest: true })
    :    ^
    `----
-
   x Ident
    ,-[$DIR/tests/span/js/expr/object.js:1:1]
  1 | ({ a, b, c: d, ...rest, afterRest: true })
    :    ^
    `----
-
   x PropOrSpread
    ,-[$DIR/tests/span/js/expr/object.js:1:1]
  1 | ({ a, b, c: d, ...rest, afterRest: true })
    :       ^
    `----
-
   x Prop
    ,-[$DIR/tests/span/js/expr/object.js:1:1]
  1 | ({ a, b, c: d, ...rest, afterRest: true })
    :       ^
    `----
-
   x Ident
    ,-[$DIR/tests/span/js/expr/object.js:1:1]
  1 | ({ a, b, c: d, ...rest, afterRest: true })
    :       ^
    `----
-
   x PropOrSpread
    ,-[$DIR/tests/span/js/expr/object.js:1:1]
  1 | ({ a, b, c: d, ...rest, afterRest: true })
    :          ^^^^
    `----
-
   x Prop
    ,-[$DIR/tests/span/js/expr/object.js:1:1]
  1 | ({ a, b, c: d, ...rest, afterRest: true })
    :          ^^^^
    `----
-
   x KeyValueProp
    ,-[$DIR/tests/span/js/expr/object.js:1:1]
  1 | ({ a, b, c: d, ...rest, afterRest: true })
    :          ^^^^
    `----
-
   x PropName
    ,-[$DIR/tests/span/js/expr/object.js:1:1]
  1 | ({ a, b, c: d, ...rest, afterRest: true })
    :          ^
    `----
-
   x Ident
    ,-[$DIR/tests/span/js/expr/object.js:1:1]
  1 | ({ a, b, c: d, ...rest, afterRest: true })
    :          ^
    `----
-
   x Expr
    ,-[$DIR/tests/span/js/expr/object.js:1:1]
  1 | ({ a, b, c: d, ...rest, afterRest: true })
    :             ^
    `----
-
   x Ident
    ,-[$DIR/tests/span/js/expr/object.js:1:1]
  1 | ({ a, b, c: d, ...rest, afterRest: true })
    :             ^
    `----
-
   x PropOrSpread
    ,-[$DIR/tests/span/js/expr/object.js:1:1]
  1 | ({ a, b, c: d, ...rest, afterRest: true })
    :                ^^^^^^^
    `----
-
   x SpreadElement
    ,-[$DIR/tests/span/js/expr/object.js:1:1]
  1 | ({ a, b, c: d, ...rest, afterRest: true })
    :                ^^^^^^^
    `----
-
   x Expr
    ,-[$DIR/tests/span/js/expr/object.js:1:1]
  1 | ({ a, b, c: d, ...rest, afterRest: true })
    :                   ^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/span/js/expr/object.js:1:1]
  1 | ({ a, b, c: d, ...rest, afterRest: true })
    :                   ^^^^
    `----
-
   x PropOrSpread
    ,-[$DIR/tests/span/js/expr/object.js:1:1]
  1 | ({ a, b, c: d, ...rest, afterRest: true })
    :                         ^^^^^^^^^^^^^^^
    `----
-
   x Prop
    ,-[$DIR/tests/span/js/expr/object.js:1:1]
  1 | ({ a, b, c: d, ...rest, afterRest: true })
    :                         ^^^^^^^^^^^^^^^
    `----
-
   x KeyValueProp
    ,-[$DIR/tests/span/js/expr/object.js:1:1]
  1 | ({ a, b, c: d, ...rest, afterRest: true })
    :                         ^^^^^^^^^^^^^^^
    `----
-
   x PropName
    ,-[$DIR/tests/span/js/expr/object.js:1:1]
  1 | ({ a, b, c: d, ...rest, afterRest: true })
    :                         ^^^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/span/js/expr/object.js:1:1]
  1 | ({ a, b, c: d, ...rest, afterRest: true })
    :                         ^^^^^^^^^
    `----
-
   x Expr
    ,-[$DIR/tests/span/js/expr/object.js:1:1]
  1 | ({ a, b, c: d, ...rest, afterRest: true })
    :                                    ^^^^
    `----
-
   x Lit
    ,-[$DIR/tests/span/js/expr/object.js:1:1]
  1 | ({ a, b, c: d, ...rest, afterRest: true })
    :                                    ^^^^
    `----
-
   x Bool
    ,-[$DIR/tests/span/js/expr/object.js:1:1]
  1 | ({ a, b, c: d, ...rest, afterRest: true })

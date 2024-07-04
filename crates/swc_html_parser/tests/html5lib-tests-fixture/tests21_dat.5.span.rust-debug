@@ -1,22 +1,14 @@
-
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/tests21_dat.5.html:1:1]
- 1 | <svg><![CDATA[
-   : ^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests21_dat.5.html:1:2]
+ 1 | |    
    `----
-
   x Child
-
   x Element
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests21_dat.5.html:1:1]
- 1 | <svg><![CDATA[
-   : ^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests21_dat.5.html:1:2]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tests21_dat.5.html:1:1]
- 1 | <svg><![CDATA[
-   : ^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests21_dat.5.html:1:2]
+ 1 | |    
    `----

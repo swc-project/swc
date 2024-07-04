@@ -1,13 +1,11 @@
-
   x Expected selector to have no more than 3 combinators, but 4 actually.
    ,-[$DIR/tests/rules/fail/selector-max-combinators/default/input.css:1:1]
  1 | .a ~ .b + .c .d > .e {}
    : ^^^^^^^^^^^^^^^^^^^^
  2 | .a .b .c .d .e {}
    `----
-
   x Expected selector to have no more than 3 combinators, but 4 actually.
-   ,-[$DIR/tests/rules/fail/selector-max-combinators/default/input.css:1:1]
+   ,-[$DIR/tests/rules/fail/selector-max-combinators/default/input.css:2:1]
  1 | .a ~ .b + .c .d > .e {}
  2 | .a .b .c .d .e {}
    : ^^^^^^^^^^^^^^

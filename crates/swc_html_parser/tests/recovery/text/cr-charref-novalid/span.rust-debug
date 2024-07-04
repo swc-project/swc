@@ -1,88 +1,67 @@
-
   x Document
-   ,-[$DIR/tests/recovery/text/cr-charref-novalid/input.html:1:1]
- 1 | <!doctype html><meta charset=utf-8><title>&amp;#x0d;</title><p>There should be an error.&#x0d;
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/text/cr-charref-novalid/input.html:1:2]
+ 1 | |    
    `----
-
   x Child
    ,-[$DIR/tests/recovery/text/cr-charref-novalid/input.html:1:1]
  1 | <!doctype html><meta charset=utf-8><title>&amp;#x0d;</title><p>There should be an error.&#x0d;
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/recovery/text/cr-charref-novalid/input.html:1:1]
  1 | <!doctype html><meta charset=utf-8><title>&amp;#x0d;</title><p>There should be an error.&#x0d;
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/recovery/text/cr-charref-novalid/input.html:1:1]
  1 | <!doctype html><meta charset=utf-8><title>&amp;#x0d;</title><p>There should be an error.&#x0d;
    :                ^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/recovery/text/cr-charref-novalid/input.html:1:1]
  1 | <!doctype html><meta charset=utf-8><title>&amp;#x0d;</title><p>There should be an error.&#x0d;
    :                ^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Attribute
    ,-[$DIR/tests/recovery/text/cr-charref-novalid/input.html:1:1]
  1 | <!doctype html><meta charset=utf-8><title>&amp;#x0d;</title><p>There should be an error.&#x0d;
    :                      ^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/recovery/text/cr-charref-novalid/input.html:1:1]
  1 | <!doctype html><meta charset=utf-8><title>&amp;#x0d;</title><p>There should be an error.&#x0d;
    :                                    ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/recovery/text/cr-charref-novalid/input.html:1:1]
  1 | <!doctype html><meta charset=utf-8><title>&amp;#x0d;</title><p>There should be an error.&#x0d;
    :                                    ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/recovery/text/cr-charref-novalid/input.html:1:1]
  1 | <!doctype html><meta charset=utf-8><title>&amp;#x0d;</title><p>There should be an error.&#x0d;
    :                                           ^^^^^^^^^^
    `----
-
   x Text
    ,-[$DIR/tests/recovery/text/cr-charref-novalid/input.html:1:1]
  1 | <!doctype html><meta charset=utf-8><title>&amp;#x0d;</title><p>There should be an error.&#x0d;
    :                                           ^^^^^^^^^^
    `----
-
   x Child
-   ,-[$DIR/tests/recovery/text/cr-charref-novalid/input.html:1:1]
- 1 | <!doctype html><meta charset=utf-8><title>&amp;#x0d;</title><p>There should be an error.&#x0d;
-   :                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/text/cr-charref-novalid/input.html:1:62]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/recovery/text/cr-charref-novalid/input.html:1:1]
- 1 | <!doctype html><meta charset=utf-8><title>&amp;#x0d;</title><p>There should be an error.&#x0d;
-   :                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/text/cr-charref-novalid/input.html:1:62]
+ 1 | |    
    `----
-
   x Child
-   ,-[$DIR/tests/recovery/text/cr-charref-novalid/input.html:1:1]
- 1 | <!doctype html><meta charset=utf-8><title>&amp;#x0d;</title><p>There should be an error.&#x0d;
-   :                                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/text/cr-charref-novalid/input.html:1:65]
+ 1 | |    
    `----
-
   x Text
-   ,-[$DIR/tests/recovery/text/cr-charref-novalid/input.html:1:1]
- 1 | <!doctype html><meta charset=utf-8><title>&amp;#x0d;</title><p>There should be an error.&#x0d;
-   :                                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/text/cr-charref-novalid/input.html:1:65]
+ 1 | |    
    `----

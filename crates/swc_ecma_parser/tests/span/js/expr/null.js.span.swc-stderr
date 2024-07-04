@@ -1,66 +1,46 @@
-
   x Module
-   ,-[$DIR/tests/span/js/expr/null.js:1:1]
- 1 | let a = null
-   : ^^^^^^^^^^^^
+   ,-[$DIR/tests/span/js/expr/null.js:1:2]
+ 1 | |    
    `----
-
   x ModuleItem
-   ,-[$DIR/tests/span/js/expr/null.js:1:1]
- 1 | let a = null
-   : ^^^^^^^^^^^^
+   ,-[$DIR/tests/span/js/expr/null.js:1:2]
+ 1 | |    
    `----
-
   x Stmt
-   ,-[$DIR/tests/span/js/expr/null.js:1:1]
- 1 | let a = null
-   : ^^^^^^^^^^^^
+   ,-[$DIR/tests/span/js/expr/null.js:1:2]
+ 1 | |    
    `----
-
   x Decl
-   ,-[$DIR/tests/span/js/expr/null.js:1:1]
- 1 | let a = null
-   : ^^^^^^^^^^^^
+   ,-[$DIR/tests/span/js/expr/null.js:1:2]
+ 1 | |    
    `----
-
   x VarDecl
-   ,-[$DIR/tests/span/js/expr/null.js:1:1]
- 1 | let a = null
-   : ^^^^^^^^^^^^
+   ,-[$DIR/tests/span/js/expr/null.js:1:2]
+ 1 | |    
    `----
-
   x VarDeclarator
-   ,-[$DIR/tests/span/js/expr/null.js:1:1]
- 1 | let a = null
-   :     ^^^^^^^^
+   ,-[$DIR/tests/span/js/expr/null.js:1:6]
+ 1 | |    
    `----
-
   x Pat
    ,-[$DIR/tests/span/js/expr/null.js:1:1]
  1 | let a = null
    :     ^
    `----
-
   x Ident
    ,-[$DIR/tests/span/js/expr/null.js:1:1]
  1 | let a = null
    :     ^
    `----
-
   x Expr
-   ,-[$DIR/tests/span/js/expr/null.js:1:1]
- 1 | let a = null
-   :         ^^^^
+   ,-[$DIR/tests/span/js/expr/null.js:1:10]
+ 1 | |    
    `----
-
   x Lit
-   ,-[$DIR/tests/span/js/expr/null.js:1:1]
- 1 | let a = null
-   :         ^^^^
+   ,-[$DIR/tests/span/js/expr/null.js:1:10]
+ 1 | |    
    `----
-
   x Null
-   ,-[$DIR/tests/span/js/expr/null.js:1:1]
- 1 | let a = null
-   :         ^^^^
+   ,-[$DIR/tests/span/js/expr/null.js:1:10]
+ 1 | |    
    `----

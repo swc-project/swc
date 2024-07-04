@@ -1,64 +1,44 @@
-
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.25.html:1:1]
- 1 | <select><option></option><template><option>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.25.html:1:2]
+ 1 | |    
    `----
-
   x Child
-
   x Element
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.25.html:1:1]
- 1 | <select><option></option><template><option>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.25.html:1:2]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.25.html:1:1]
- 1 | <select><option></option><template><option>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.25.html:1:2]
+ 1 | |    
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.25.html:1:1]
  1 | <select><option></option><template><option>
    :         ^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.25.html:1:1]
  1 | <select><option></option><template><option>
    :         ^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.25.html:1:1]
- 1 | <select><option></option><template><option>
-   :                          ^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.25.html:1:27]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.25.html:1:1]
- 1 | <select><option></option><template><option>
-   :                          ^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.25.html:1:27]
+ 1 | |    
    `----
-
   x DocumentFragment
-   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.25.html:1:1]
- 1 | <select><option></option><template><option>
-   :                          ^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.25.html:1:27]
+ 1 | |    
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.25.html:1:1]
- 1 | <select><option></option><template><option>
-   :                                    ^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.25.html:1:37]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.25.html:1:1]
- 1 | <select><option></option><template><option>
-   :                                    ^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/template_dat.25.html:1:37]
+ 1 | |    
    `----

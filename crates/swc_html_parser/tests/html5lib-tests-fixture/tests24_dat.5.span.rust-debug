@@ -1,34 +1,24 @@
-
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/tests24_dat.5.html:1:1]
- 1 | <!DOCTYPE html>&NotSubset;A
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests24_dat.5.html:1:2]
+ 1 | |    
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests24_dat.5.html:1:1]
  1 | <!DOCTYPE html>&NotSubset;A
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/html5lib-tests-fixture/tests24_dat.5.html:1:1]
  1 | <!DOCTYPE html>&NotSubset;A
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests24_dat.5.html:1:1]
- 1 | <!DOCTYPE html>&NotSubset;A
-   :                ^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests24_dat.5.html:1:17]
+ 1 | |    
    `----
-
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/tests24_dat.5.html:1:1]
- 1 | <!DOCTYPE html>&NotSubset;A
-   :                ^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests24_dat.5.html:1:17]
+ 1 | |    
    `----

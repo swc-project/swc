@@ -1,22 +1,14 @@
-
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/domjs-unsafe_dat.32.html:1:1]
- 1 | <select><!DOCTYPE html></select>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/domjs-unsafe_dat.32.html:1:2]
+ 1 | |    
    `----
-
   x Child
-
   x Element
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/domjs-unsafe_dat.32.html:1:1]
- 1 | <select><!DOCTYPE html></select>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/domjs-unsafe_dat.32.html:1:2]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/domjs-unsafe_dat.32.html:1:1]
- 1 | <select><!DOCTYPE html></select>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/domjs-unsafe_dat.32.html:1:2]
+ 1 | |    
    `----

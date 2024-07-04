@@ -1,48 +1,33 @@
-
   x Module
-   ,-[$DIR/tests/span/js/decl/default-export.js:1:1]
- 1 | export default class Foo { }
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/span/js/decl/default-export.js:1:2]
+ 1 | |    
    `----
-
   x ModuleItem
-   ,-[$DIR/tests/span/js/decl/default-export.js:1:1]
- 1 | export default class Foo { }
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/span/js/decl/default-export.js:1:2]
+ 1 | |    
    `----
-
   x ModuleDecl
-   ,-[$DIR/tests/span/js/decl/default-export.js:1:1]
- 1 | export default class Foo { }
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/span/js/decl/default-export.js:1:2]
+ 1 | |    
    `----
-
   x ExportDefaultDecl
-   ,-[$DIR/tests/span/js/decl/default-export.js:1:1]
- 1 | export default class Foo { }
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/span/js/decl/default-export.js:1:2]
+ 1 | |    
    `----
-
   x DefaultDecl
-   ,-[$DIR/tests/span/js/decl/default-export.js:1:1]
- 1 | export default class Foo { }
-   :                ^^^^^^^^^^^^^
+   ,-[$DIR/tests/span/js/decl/default-export.js:1:17]
+ 1 | |    
    `----
-
   x ClassExpr
-   ,-[$DIR/tests/span/js/decl/default-export.js:1:1]
- 1 | export default class Foo { }
-   :                ^^^^^^^^^^^^^
+   ,-[$DIR/tests/span/js/decl/default-export.js:1:17]
+ 1 | |    
    `----
-
   x Ident
    ,-[$DIR/tests/span/js/decl/default-export.js:1:1]
  1 | export default class Foo { }
    :                      ^^^
    `----
-
   x Class
-   ,-[$DIR/tests/span/js/decl/default-export.js:1:1]
- 1 | export default class Foo { }
-   :                ^^^^^^^^^^^^^
+   ,-[$DIR/tests/span/js/decl/default-export.js:1:17]
+ 1 | |    
    `----

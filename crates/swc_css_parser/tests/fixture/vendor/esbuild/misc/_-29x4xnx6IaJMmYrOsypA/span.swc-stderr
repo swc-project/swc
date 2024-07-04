@@ -1,40 +1,29 @@
-
   x Stylesheet
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/_-29x4xnx6IaJMmYrOsypA/input.css:1:1]
- 1 | @unknown{}
-   : ^^^^^^^^^^
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/_-29x4xnx6IaJMmYrOsypA/input.css:1:2]
+ 1 | |    
    `----
-
   x Rule
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/_-29x4xnx6IaJMmYrOsypA/input.css:1:1]
- 1 | @unknown{}
-   : ^^^^^^^^^^
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/_-29x4xnx6IaJMmYrOsypA/input.css:1:2]
+ 1 | |    
    `----
-
   x AtRule
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/_-29x4xnx6IaJMmYrOsypA/input.css:1:1]
- 1 | @unknown{}
-   : ^^^^^^^^^^
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/_-29x4xnx6IaJMmYrOsypA/input.css:1:2]
+ 1 | |    
    `----
-
   x AtRuleName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/_-29x4xnx6IaJMmYrOsypA/input.css:1:1]
  1 | @unknown{}
    :  ^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/_-29x4xnx6IaJMmYrOsypA/input.css:1:1]
  1 | @unknown{}
    :  ^^^^^^^
    `----
-
   x SimpleBlock
-   ,-[$DIR/tests/fixture/vendor/esbuild/misc/_-29x4xnx6IaJMmYrOsypA/input.css:1:1]
- 1 | @unknown{}
-   :         ^^
+   ,-[$DIR/tests/fixture/vendor/esbuild/misc/_-29x4xnx6IaJMmYrOsypA/input.css:1:10]
+ 1 | `->  
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/_-29x4xnx6IaJMmYrOsypA/input.css:1:1]
  1 | @unknown{}

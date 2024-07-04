@@ -1,172 +1,126 @@
-
   x Document
-    ,-[$DIR/tests/fixture/element/noscript/input.html:1:1]
-  1 | ,-> <!doctype html>
-  2 | |   <html lang="en">
-  3 | |   <head>
-  4 | |       <title>Document</title>
-  5 | |   </head>
-  6 | |   <body>
-  7 | |   <noscript> <!-- anchor linking to external file --> <a href="https://www.mozilla.org/">External Link</a> </noscript>
-  8 | |   <a href="https://www.mozilla.org/">External Link</a>
-  9 | |   </body>
- 10 | `-> </html>
-    `----
-
+   ,-[$DIR/tests/fixture/element/noscript/input.html:1:2]
+ 1 | |    
+   `----
   x Child
    ,-[$DIR/tests/fixture/element/noscript/input.html:1:1]
  1 | <!doctype html>
    : ^^^^^^^^^^^^^^^
  2 | <html lang="en">
+ 3 | <head>
    `----
-
   x DocumentType
    ,-[$DIR/tests/fixture/element/noscript/input.html:1:1]
  1 | <!doctype html>
    : ^^^^^^^^^^^^^^^
  2 | <html lang="en">
+ 3 | <head>
    `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/noscript/input.html:1:1]
-  1 |     <!doctype html>
-  2 | ,-> <html lang="en">
-  3 | |   <head>
-  4 | |       <title>Document</title>
-  5 | |   </head>
-  6 | |   <body>
-  7 | |   <noscript> <!-- anchor linking to external file --> <a href="https://www.mozilla.org/">External Link</a> </noscript>
-  8 | |   <a href="https://www.mozilla.org/">External Link</a>
-  9 | |   </body>
- 10 | `-> </html>
-    `----
-
+   ,-[$DIR/tests/fixture/element/noscript/input.html:2:2]
+ 2 | |    
+   `----
   x Element
-    ,-[$DIR/tests/fixture/element/noscript/input.html:1:1]
-  1 |     <!doctype html>
-  2 | ,-> <html lang="en">
-  3 | |   <head>
-  4 | |       <title>Document</title>
-  5 | |   </head>
-  6 | |   <body>
-  7 | |   <noscript> <!-- anchor linking to external file --> <a href="https://www.mozilla.org/">External Link</a> </noscript>
-  8 | |   <a href="https://www.mozilla.org/">External Link</a>
-  9 | |   </body>
- 10 | `-> </html>
-    `----
-
+   ,-[$DIR/tests/fixture/element/noscript/input.html:2:2]
+ 2 | |    
+   `----
   x Attribute
-   ,-[$DIR/tests/fixture/element/noscript/input.html:1:1]
+   ,-[$DIR/tests/fixture/element/noscript/input.html:2:1]
  1 | <!doctype html>
  2 | <html lang="en">
    :       ^^^^^^^^^
  3 | <head>
    `----
-
   x Child
-   ,-[$DIR/tests/fixture/element/noscript/input.html:2:1]
+   ,-[$DIR/tests/fixture/element/noscript/input.html:3:1]
  2 |     <html lang="en">
  3 | ,-> <head>
  4 | |       <title>Document</title>
  5 | `-> </head>
  6 |     <body>
+ 7 |     <noscript> <!-- anchor linking to external file --> <a href="https://www.mozilla.org/">External Link</a> </noscript>
    `----
-
   x Element
-   ,-[$DIR/tests/fixture/element/noscript/input.html:2:1]
+   ,-[$DIR/tests/fixture/element/noscript/input.html:3:1]
  2 |     <html lang="en">
  3 | ,-> <head>
  4 | |       <title>Document</title>
  5 | `-> </head>
  6 |     <body>
+ 7 |     <noscript> <!-- anchor linking to external file --> <a href="https://www.mozilla.org/">External Link</a> </noscript>
    `----
-
   x Child
-   ,-[$DIR/tests/fixture/element/noscript/input.html:2:1]
- 2 |     <html lang="en">
+   ,-[$DIR/tests/fixture/element/noscript/input.html:4:1]
  3 | ,-> <head>
  4 | `->     <title>Document</title>
  5 |     </head>
    `----
-
   x Text
-   ,-[$DIR/tests/fixture/element/noscript/input.html:2:1]
- 2 |     <html lang="en">
+   ,-[$DIR/tests/fixture/element/noscript/input.html:4:1]
  3 | ,-> <head>
  4 | `->     <title>Document</title>
  5 |     </head>
    `----
-
   x Child
-   ,-[$DIR/tests/fixture/element/noscript/input.html:3:1]
+   ,-[$DIR/tests/fixture/element/noscript/input.html:4:1]
  3 | <head>
  4 |     <title>Document</title>
    :     ^^^^^^^^^^^^^^^^^^^^^^^
  5 | </head>
+ 6 | <body>
    `----
-
   x Element
-   ,-[$DIR/tests/fixture/element/noscript/input.html:3:1]
+   ,-[$DIR/tests/fixture/element/noscript/input.html:4:1]
  3 | <head>
  4 |     <title>Document</title>
    :     ^^^^^^^^^^^^^^^^^^^^^^^
  5 | </head>
+ 6 | <body>
    `----
-
   x Child
-   ,-[$DIR/tests/fixture/element/noscript/input.html:3:1]
+   ,-[$DIR/tests/fixture/element/noscript/input.html:4:1]
  3 | <head>
  4 |     <title>Document</title>
    :            ^^^^^^^^
  5 | </head>
    `----
-
   x Text
-   ,-[$DIR/tests/fixture/element/noscript/input.html:3:1]
+   ,-[$DIR/tests/fixture/element/noscript/input.html:4:1]
  3 | <head>
  4 |     <title>Document</title>
    :            ^^^^^^^^
  5 | </head>
    `----
-
   x Child
-   ,-[$DIR/tests/fixture/element/noscript/input.html:3:1]
- 3 | <head>
+   ,-[$DIR/tests/fixture/element/noscript/input.html:5:1]
  4 |     <title>Document</title>
    :                            ^
  5 | </head>
  6 | <body>
    `----
-
   x Text
-   ,-[$DIR/tests/fixture/element/noscript/input.html:3:1]
- 3 | <head>
+   ,-[$DIR/tests/fixture/element/noscript/input.html:5:1]
  4 |     <title>Document</title>
    :                            ^
  5 | </head>
  6 | <body>
    `----
-
   x Child
-   ,-[$DIR/tests/fixture/element/noscript/input.html:4:1]
- 4 |     <title>Document</title>
+   ,-[$DIR/tests/fixture/element/noscript/input.html:6:1]
  5 | </head>
    :        ^
  6 | <body>
  7 | <noscript> <!-- anchor linking to external file --> <a href="https://www.mozilla.org/">External Link</a> </noscript>
    `----
-
   x Text
-   ,-[$DIR/tests/fixture/element/noscript/input.html:4:1]
- 4 |     <title>Document</title>
+   ,-[$DIR/tests/fixture/element/noscript/input.html:6:1]
  5 | </head>
    :        ^
  6 | <body>
  7 | <noscript> <!-- anchor linking to external file --> <a href="https://www.mozilla.org/">External Link</a> </noscript>
    `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/noscript/input.html:5:1]
+    ,-[$DIR/tests/fixture/element/noscript/input.html:6:1]
   5 |     </head>
   6 | ,-> <body>
   7 | |   <noscript> <!-- anchor linking to external file --> <a href="https://www.mozilla.org/">External Link</a> </noscript>
@@ -174,9 +128,8 @@
   9 | `-> </body>
  10 |     </html>
     `----
-
   x Element
-    ,-[$DIR/tests/fixture/element/noscript/input.html:5:1]
+    ,-[$DIR/tests/fixture/element/noscript/input.html:6:1]
   5 |     </head>
   6 | ,-> <body>
   7 | |   <noscript> <!-- anchor linking to external file --> <a href="https://www.mozilla.org/">External Link</a> </noscript>
@@ -184,214 +137,186 @@
   9 | `-> </body>
  10 |     </html>
     `----
-
   x Child
-   ,-[$DIR/tests/fixture/element/noscript/input.html:5:1]
- 5 | </head>
+   ,-[$DIR/tests/fixture/element/noscript/input.html:7:1]
  6 | <body>
    :       ^
  7 | <noscript> <!-- anchor linking to external file --> <a href="https://www.mozilla.org/">External Link</a> </noscript>
  8 | <a href="https://www.mozilla.org/">External Link</a>
    `----
-
   x Text
-   ,-[$DIR/tests/fixture/element/noscript/input.html:5:1]
- 5 | </head>
+   ,-[$DIR/tests/fixture/element/noscript/input.html:7:1]
  6 | <body>
    :       ^
  7 | <noscript> <!-- anchor linking to external file --> <a href="https://www.mozilla.org/">External Link</a> </noscript>
  8 | <a href="https://www.mozilla.org/">External Link</a>
    `----
-
   x Child
-   ,-[$DIR/tests/fixture/element/noscript/input.html:6:1]
+   ,-[$DIR/tests/fixture/element/noscript/input.html:7:1]
  6 | <body>
  7 | <noscript> <!-- anchor linking to external file --> <a href="https://www.mozilla.org/">External Link</a> </noscript>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  8 | <a href="https://www.mozilla.org/">External Link</a>
+ 9 | </body>
    `----
-
   x Element
-   ,-[$DIR/tests/fixture/element/noscript/input.html:6:1]
+   ,-[$DIR/tests/fixture/element/noscript/input.html:7:1]
  6 | <body>
  7 | <noscript> <!-- anchor linking to external file --> <a href="https://www.mozilla.org/">External Link</a> </noscript>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  8 | <a href="https://www.mozilla.org/">External Link</a>
+ 9 | </body>
    `----
-
   x Child
-   ,-[$DIR/tests/fixture/element/noscript/input.html:6:1]
+   ,-[$DIR/tests/fixture/element/noscript/input.html:7:1]
  6 | <body>
  7 | <noscript> <!-- anchor linking to external file --> <a href="https://www.mozilla.org/">External Link</a> </noscript>
    :           ^
  8 | <a href="https://www.mozilla.org/">External Link</a>
    `----
-
   x Text
-   ,-[$DIR/tests/fixture/element/noscript/input.html:6:1]
+   ,-[$DIR/tests/fixture/element/noscript/input.html:7:1]
  6 | <body>
  7 | <noscript> <!-- anchor linking to external file --> <a href="https://www.mozilla.org/">External Link</a> </noscript>
    :           ^
  8 | <a href="https://www.mozilla.org/">External Link</a>
    `----
-
   x Child
-   ,-[$DIR/tests/fixture/element/noscript/input.html:6:1]
+   ,-[$DIR/tests/fixture/element/noscript/input.html:7:1]
  6 | <body>
  7 | <noscript> <!-- anchor linking to external file --> <a href="https://www.mozilla.org/">External Link</a> </noscript>
    :            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  8 | <a href="https://www.mozilla.org/">External Link</a>
    `----
-
   x Comment
-   ,-[$DIR/tests/fixture/element/noscript/input.html:6:1]
+   ,-[$DIR/tests/fixture/element/noscript/input.html:7:1]
  6 | <body>
  7 | <noscript> <!-- anchor linking to external file --> <a href="https://www.mozilla.org/">External Link</a> </noscript>
    :            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  8 | <a href="https://www.mozilla.org/">External Link</a>
    `----
-
   x Child
-   ,-[$DIR/tests/fixture/element/noscript/input.html:6:1]
+   ,-[$DIR/tests/fixture/element/noscript/input.html:7:1]
  6 | <body>
  7 | <noscript> <!-- anchor linking to external file --> <a href="https://www.mozilla.org/">External Link</a> </noscript>
    :                                                    ^
  8 | <a href="https://www.mozilla.org/">External Link</a>
    `----
-
   x Text
-   ,-[$DIR/tests/fixture/element/noscript/input.html:6:1]
+   ,-[$DIR/tests/fixture/element/noscript/input.html:7:1]
  6 | <body>
  7 | <noscript> <!-- anchor linking to external file --> <a href="https://www.mozilla.org/">External Link</a> </noscript>
    :                                                    ^
  8 | <a href="https://www.mozilla.org/">External Link</a>
    `----
-
   x Child
-   ,-[$DIR/tests/fixture/element/noscript/input.html:6:1]
+   ,-[$DIR/tests/fixture/element/noscript/input.html:7:1]
  6 | <body>
  7 | <noscript> <!-- anchor linking to external file --> <a href="https://www.mozilla.org/">External Link</a> </noscript>
    :                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  8 | <a href="https://www.mozilla.org/">External Link</a>
    `----
-
   x Element
-   ,-[$DIR/tests/fixture/element/noscript/input.html:6:1]
+   ,-[$DIR/tests/fixture/element/noscript/input.html:7:1]
  6 | <body>
  7 | <noscript> <!-- anchor linking to external file --> <a href="https://www.mozilla.org/">External Link</a> </noscript>
    :                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  8 | <a href="https://www.mozilla.org/">External Link</a>
    `----
-
   x Attribute
-   ,-[$DIR/tests/fixture/element/noscript/input.html:6:1]
+   ,-[$DIR/tests/fixture/element/noscript/input.html:7:1]
  6 | <body>
  7 | <noscript> <!-- anchor linking to external file --> <a href="https://www.mozilla.org/">External Link</a> </noscript>
    :                                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  8 | <a href="https://www.mozilla.org/">External Link</a>
    `----
-
-  x Child
-   ,-[$DIR/tests/fixture/element/noscript/input.html:6:1]
- 6 | <body>
- 7 | <noscript> <!-- anchor linking to external file --> <a href="https://www.mozilla.org/">External Link</a> </noscript>
-   :                                                                                        ^^^^^^^^^^^^^
- 8 | <a href="https://www.mozilla.org/">External Link</a>
-   `----
-
-  x Text
-   ,-[$DIR/tests/fixture/element/noscript/input.html:6:1]
- 6 | <body>
- 7 | <noscript> <!-- anchor linking to external file --> <a href="https://www.mozilla.org/">External Link</a> </noscript>
-   :                                                                                        ^^^^^^^^^^^^^
- 8 | <a href="https://www.mozilla.org/">External Link</a>
-   `----
-
-  x Child
-   ,-[$DIR/tests/fixture/element/noscript/input.html:6:1]
- 6 | <body>
- 7 | <noscript> <!-- anchor linking to external file --> <a href="https://www.mozilla.org/">External Link</a> </noscript>
-   :                                                                                                         ^
- 8 | <a href="https://www.mozilla.org/">External Link</a>
-   `----
-
-  x Text
-   ,-[$DIR/tests/fixture/element/noscript/input.html:6:1]
- 6 | <body>
- 7 | <noscript> <!-- anchor linking to external file --> <a href="https://www.mozilla.org/">External Link</a> </noscript>
-   :                                                                                                         ^
- 8 | <a href="https://www.mozilla.org/">External Link</a>
-   `----
-
-  x Child
-   ,-[$DIR/tests/fixture/element/noscript/input.html:6:1]
- 6 | <body>
- 7 | <noscript> <!-- anchor linking to external file --> <a href="https://www.mozilla.org/">External Link</a> </noscript>
-   :                                                                                                                     ^
- 8 | <a href="https://www.mozilla.org/">External Link</a>
- 9 | </body>
-   `----
-
-  x Text
-   ,-[$DIR/tests/fixture/element/noscript/input.html:6:1]
- 6 | <body>
- 7 | <noscript> <!-- anchor linking to external file --> <a href="https://www.mozilla.org/">External Link</a> </noscript>
-   :                                                                                                                     ^
- 8 | <a href="https://www.mozilla.org/">External Link</a>
- 9 | </body>
-   `----
-
   x Child
    ,-[$DIR/tests/fixture/element/noscript/input.html:7:1]
+ 6 | <body>
  7 | <noscript> <!-- anchor linking to external file --> <a href="https://www.mozilla.org/">External Link</a> </noscript>
+   :                                                                                        ^^^^^^^^^^^^^
  8 | <a href="https://www.mozilla.org/">External Link</a>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   `----
+  x Text
+   ,-[$DIR/tests/fixture/element/noscript/input.html:7:1]
+ 6 | <body>
+ 7 | <noscript> <!-- anchor linking to external file --> <a href="https://www.mozilla.org/">External Link</a> </noscript>
+   :                                                                                        ^^^^^^^^^^^^^
+ 8 | <a href="https://www.mozilla.org/">External Link</a>
+   `----
+  x Child
+   ,-[$DIR/tests/fixture/element/noscript/input.html:7:1]
+ 6 | <body>
+ 7 | <noscript> <!-- anchor linking to external file --> <a href="https://www.mozilla.org/">External Link</a> </noscript>
+   :                                                                                                         ^
+ 8 | <a href="https://www.mozilla.org/">External Link</a>
+   `----
+  x Text
+   ,-[$DIR/tests/fixture/element/noscript/input.html:7:1]
+ 6 | <body>
+ 7 | <noscript> <!-- anchor linking to external file --> <a href="https://www.mozilla.org/">External Link</a> </noscript>
+   :                                                                                                         ^
+ 8 | <a href="https://www.mozilla.org/">External Link</a>
+   `----
+  x Child
+   ,-[$DIR/tests/fixture/element/noscript/input.html:8:1]
+ 7 | <noscript> <!-- anchor linking to external file --> <a href="https://www.mozilla.org/">External Link</a> </noscript>
+   :                                                                                                                     ^
+ 8 | <a href="https://www.mozilla.org/">External Link</a>
  9 | </body>
    `----
-
+  x Text
+   ,-[$DIR/tests/fixture/element/noscript/input.html:8:1]
+ 7 | <noscript> <!-- anchor linking to external file --> <a href="https://www.mozilla.org/">External Link</a> </noscript>
+   :                                                                                                                     ^
+ 8 | <a href="https://www.mozilla.org/">External Link</a>
+ 9 | </body>
+   `----
+  x Child
+    ,-[$DIR/tests/fixture/element/noscript/input.html:8:1]
+  7 | <noscript> <!-- anchor linking to external file --> <a href="https://www.mozilla.org/">External Link</a> </noscript>
+  8 | <a href="https://www.mozilla.org/">External Link</a>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  9 | </body>
+ 10 | </html>
+    `----
   x Element
-   ,-[$DIR/tests/fixture/element/noscript/input.html:7:1]
- 7 | <noscript> <!-- anchor linking to external file --> <a href="https://www.mozilla.org/">External Link</a> </noscript>
- 8 | <a href="https://www.mozilla.org/">External Link</a>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 9 | </body>
-   `----
-
+    ,-[$DIR/tests/fixture/element/noscript/input.html:8:1]
+  7 | <noscript> <!-- anchor linking to external file --> <a href="https://www.mozilla.org/">External Link</a> </noscript>
+  8 | <a href="https://www.mozilla.org/">External Link</a>
+    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  9 | </body>
+ 10 | </html>
+    `----
   x Attribute
-   ,-[$DIR/tests/fixture/element/noscript/input.html:7:1]
+   ,-[$DIR/tests/fixture/element/noscript/input.html:8:1]
  7 | <noscript> <!-- anchor linking to external file --> <a href="https://www.mozilla.org/">External Link</a> </noscript>
  8 | <a href="https://www.mozilla.org/">External Link</a>
    :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  9 | </body>
    `----
-
   x Child
-   ,-[$DIR/tests/fixture/element/noscript/input.html:7:1]
+   ,-[$DIR/tests/fixture/element/noscript/input.html:8:1]
  7 | <noscript> <!-- anchor linking to external file --> <a href="https://www.mozilla.org/">External Link</a> </noscript>
  8 | <a href="https://www.mozilla.org/">External Link</a>
    :                                    ^^^^^^^^^^^^^
  9 | </body>
    `----
-
   x Text
-   ,-[$DIR/tests/fixture/element/noscript/input.html:7:1]
+   ,-[$DIR/tests/fixture/element/noscript/input.html:8:1]
  7 | <noscript> <!-- anchor linking to external file --> <a href="https://www.mozilla.org/">External Link</a> </noscript>
  8 | <a href="https://www.mozilla.org/">External Link</a>
    :                                    ^^^^^^^^^^^^^
  9 | </body>
    `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/noscript/input.html:7:1]
-  7 |     <noscript> <!-- anchor linking to external file --> <a href="https://www.mozilla.org/">External Link</a> </noscript>
+    ,-[$DIR/tests/fixture/element/noscript/input.html:9:1]
   8 | ,-> <a href="https://www.mozilla.org/">External Link</a>
   9 | `-> </body>
  10 |     </html>
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/element/noscript/input.html:7:1]
-  7 |     <noscript> <!-- anchor linking to external file --> <a href="https://www.mozilla.org/">External Link</a> </noscript>
+    ,-[$DIR/tests/fixture/element/noscript/input.html:9:1]
   8 | ,-> <a href="https://www.mozilla.org/">External Link</a>
   9 | `-> </body>
  10 |     </html>

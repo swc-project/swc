@@ -1,58 +1,42 @@
-
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.24.html:1:1]
- 1 | <!doctype html><table>abc<!--foo-->
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.24.html:1:2]
+ 1 | |    
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.24.html:1:1]
  1 | <!doctype html><table>abc<!--foo-->
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.24.html:1:1]
  1 | <!doctype html><table>abc<!--foo-->
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.24.html:1:1]
  1 | <!doctype html><table>abc<!--foo-->
    :                       ^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.24.html:1:1]
  1 | <!doctype html><table>abc<!--foo-->
    :                       ^^^
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.24.html:1:1]
- 1 | <!doctype html><table>abc<!--foo-->
-   :                ^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.24.html:1:17]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.24.html:1:1]
- 1 | <!doctype html><table>abc<!--foo-->
-   :                ^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.24.html:1:17]
+ 1 | |    
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.24.html:1:1]
- 1 | <!doctype html><table>abc<!--foo-->
-   :                          ^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.24.html:1:27]
+ 1 | |    
    `----
-
   x Comment
-   ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.24.html:1:1]
- 1 | <!doctype html><table>abc<!--foo-->
-   :                          ^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.24.html:1:27]
+ 1 | |    
    `----

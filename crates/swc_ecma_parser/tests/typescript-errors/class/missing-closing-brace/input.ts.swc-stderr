@@ -1,7 +1,4 @@
-
   x Expected '}', got '<eof>'
-   ,-[$DIR/tests/typescript-errors/class/missing-closing-brace/input.ts:1:1]
- 1 | class Class {
- 2 |   prop: string;
-   :               ^
+   ,-[$DIR/tests/typescript-errors/class/missing-closing-brace/input.ts:2:16]
+ 2 |  
    `----

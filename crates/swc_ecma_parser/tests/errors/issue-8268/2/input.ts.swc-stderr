@@ -1,13 +1,11 @@
-
   x `export` cannot be used without `from` clause
    ,-[$DIR/tests/errors/issue-8268/2/input.ts:1:1]
  1 | export { type export }
    :               ^^^^^^
  2 | export { type if }
    `----
-
   x `if` cannot be used without `from` clause
-   ,-[$DIR/tests/errors/issue-8268/2/input.ts:1:1]
+   ,-[$DIR/tests/errors/issue-8268/2/input.ts:2:1]
  1 | export { type export }
  2 | export { type if }
    :               ^^

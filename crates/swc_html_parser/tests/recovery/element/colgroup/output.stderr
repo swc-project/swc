@@ -1,8 +1,8 @@
-
   x Stray end tag "div"
-    ,-[$DIR/tests/recovery/element/colgroup/input.html:9:1]
+    ,-[$DIR/tests/recovery/element/colgroup/input.html:10:1]
   9 |     <colgroup>
  10 |         </div>
     :         ^^^^^^
  11 |         <col>
+ 12 |         <col span="2" class="batman">
     `----

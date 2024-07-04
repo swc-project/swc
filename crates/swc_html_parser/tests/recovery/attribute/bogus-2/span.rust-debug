@@ -1,26 +1,17 @@
-
   x Document
-   ,-[$DIR/tests/recovery/attribute/bogus-2/input.html:1:1]
- 1 | <h a=&not=>
-   : ^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/attribute/bogus-2/input.html:1:2]
+ 1 | |    
    `----
-
   x Child
-
   x Element
-
   x Child
-   ,-[$DIR/tests/recovery/attribute/bogus-2/input.html:1:1]
- 1 | <h a=&not=>
-   : ^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/attribute/bogus-2/input.html:1:2]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/recovery/attribute/bogus-2/input.html:1:1]
- 1 | <h a=&not=>
-   : ^^^^^^^^^^^
+   ,-[$DIR/tests/recovery/attribute/bogus-2/input.html:1:2]
+ 1 | |    
    `----
-
   x Attribute
    ,-[$DIR/tests/recovery/attribute/bogus-2/input.html:1:1]
  1 | <h a=&not=>

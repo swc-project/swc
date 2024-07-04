@@ -1,44 +1,34 @@
-
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/tests16_dat.193.html:1:1]
- 1 | <noembed><!--<noembed></noembed>--></noembed>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/tests16_dat.193.html:1:2]
+ 1 | |    
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests16_dat.193.html:1:1]
  1 | <noembed><!--<noembed></noembed>--></noembed>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests16_dat.193.html:1:1]
  1 | <noembed><!--<noembed></noembed>--></noembed>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests16_dat.193.html:1:1]
  1 | <noembed><!--<noembed></noembed>--></noembed>
    :          ^^^^^^^^^^^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests16_dat.193.html:1:1]
  1 | <noembed><!--<noembed></noembed>--></noembed>
    :          ^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests16_dat.193.html:1:1]
  1 | <noembed><!--<noembed></noembed>--></noembed>
    :                                 ^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests16_dat.193.html:1:1]
  1 | <noembed><!--<noembed></noembed>--></noembed>

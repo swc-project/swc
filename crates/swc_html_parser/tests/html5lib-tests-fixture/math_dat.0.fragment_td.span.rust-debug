@@ -1,58 +1,38 @@
-
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/math_dat.0.fragment_td.html:1:1]
- 1 | <math><tr><td><mo><tr>
-   : ^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/math_dat.0.fragment_td.html:1:2]
+ 1 | |    
    `----
-
   x Child
-
   x Element
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/math_dat.0.fragment_td.html:1:1]
- 1 | <math><tr><td><mo><tr>
-   : ^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/math_dat.0.fragment_td.html:1:2]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/math_dat.0.fragment_td.html:1:1]
- 1 | <math><tr><td><mo><tr>
-   : ^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/math_dat.0.fragment_td.html:1:2]
+ 1 | |    
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/math_dat.0.fragment_td.html:1:1]
- 1 | <math><tr><td><mo><tr>
-   :       ^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/math_dat.0.fragment_td.html:1:8]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/math_dat.0.fragment_td.html:1:1]
- 1 | <math><tr><td><mo><tr>
-   :       ^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/math_dat.0.fragment_td.html:1:8]
+ 1 | |    
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/math_dat.0.fragment_td.html:1:1]
- 1 | <math><tr><td><mo><tr>
-   :           ^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/math_dat.0.fragment_td.html:1:12]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/math_dat.0.fragment_td.html:1:1]
- 1 | <math><tr><td><mo><tr>
-   :           ^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/math_dat.0.fragment_td.html:1:12]
+ 1 | |    
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/math_dat.0.fragment_td.html:1:1]
- 1 | <math><tr><td><mo><tr>
-   :               ^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/math_dat.0.fragment_td.html:1:16]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/math_dat.0.fragment_td.html:1:1]
- 1 | <math><tr><td><mo><tr>
-   :               ^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/math_dat.0.fragment_td.html:1:16]
+ 1 | |    
    `----

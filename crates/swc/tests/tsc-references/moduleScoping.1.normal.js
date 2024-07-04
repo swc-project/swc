@@ -13,7 +13,6 @@ var v2 = [
     3
 ]; // Module scope. Should not appear in global scope
 //// [file4.ts]
-//! 
 //!   x Import assignment cannot be used when targeting ECMAScript modules. Consider using `import * as ns from "mod"`, `import {a} from "mod"`, `import d from "mod"`, or another module format instead.
 //!    ,-[1:1]
 //!  1 | import file3 = require('./file3');
@@ -21,6 +20,7 @@ var v2 = [
 //!  2 | var t1 = v1;
 //!  3 | var t2 = v2;
 //!  4 | var t3 = file3.v3;
+//!  5 | var v4 = {a: true, b: NaN};  // Should shadow global v2 in this module
 //!    `----
 //// [file5.ts]
 var x = v2; // Should be global v2 of type number again

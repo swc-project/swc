@@ -1,543 +1,481 @@
-
   x Stylesheet
-    ,-[$DIR/tests/recovery/declaration/basic/input.css:1:1]
-  1 | ,-> .class {
-  2 | |       prop: ;
-  3 | |       color: red;
-  4 | |   }
-  5 | |   
-  6 | |   .class {
+   ,-[$DIR/tests/recovery/declaration/basic/input.css:1:2]
+ 1 | |    
+   `----
+  x Rule
+   ,-[$DIR/tests/recovery/declaration/basic/input.css:1:1]
+ 1 | ,-> .class {
+ 2 | |       prop: ;
+ 3 | |       color: red;
+ 4 | `-> }
+ 5 |     
+ 6 |     .class {
+   `----
+  x QualifiedRule
+   ,-[$DIR/tests/recovery/declaration/basic/input.css:1:1]
+ 1 | ,-> .class {
+ 2 | |       prop: ;
+ 3 | |       color: red;
+ 4 | `-> }
+ 5 |     
+ 6 |     .class {
+   `----
+  x SelectorList
+   ,-[$DIR/tests/recovery/declaration/basic/input.css:1:1]
+ 1 | .class {
+   : ^^^^^^
+ 2 |     prop: ;
+   `----
+  x ComplexSelector
+   ,-[$DIR/tests/recovery/declaration/basic/input.css:1:1]
+ 1 | .class {
+   : ^^^^^^
+ 2 |     prop: ;
+   `----
+  x CompoundSelector
+   ,-[$DIR/tests/recovery/declaration/basic/input.css:1:1]
+ 1 | .class {
+   : ^^^^^^
+ 2 |     prop: ;
+   `----
+  x SubclassSelector
+   ,-[$DIR/tests/recovery/declaration/basic/input.css:1:1]
+ 1 | .class {
+   : ^^^^^^
+ 2 |     prop: ;
+   `----
+  x ClassSelector
+   ,-[$DIR/tests/recovery/declaration/basic/input.css:1:1]
+ 1 | .class {
+   : ^^^^^^
+ 2 |     prop: ;
+   `----
+  x Ident
+   ,-[$DIR/tests/recovery/declaration/basic/input.css:1:1]
+ 1 | .class {
+   :  ^^^^^
+ 2 |     prop: ;
+   `----
+  x SimpleBlock
+   ,-[$DIR/tests/recovery/declaration/basic/input.css:1:1]
+ 1 | ,-> .class {
+ 2 | |       prop: ;
+ 3 | |       color: red;
+ 4 | `-> }
+ 5 |     
+ 6 |     .class {
+   `----
+  x LBrace
+   ,-[$DIR/tests/recovery/declaration/basic/input.css:1:1]
+ 1 | .class {
+   :        ^
+ 2 |     prop: ;
+ 3 |     color: red;
+   `----
+  x ComponentValue
+   ,-[$DIR/tests/recovery/declaration/basic/input.css:2:1]
+ 1 | .class {
+ 2 |     prop: ;
+   :     ^^^^^^
+ 3 |     color: red;
+   `----
+  x Declaration
+   ,-[$DIR/tests/recovery/declaration/basic/input.css:2:1]
+ 1 | .class {
+ 2 |     prop: ;
+   :     ^^^^^^
+ 3 |     color: red;
+   `----
+  x DeclarationName
+   ,-[$DIR/tests/recovery/declaration/basic/input.css:2:1]
+ 1 | .class {
+ 2 |     prop: ;
+   :     ^^^^
+ 3 |     color: red;
+   `----
+  x Ident
+   ,-[$DIR/tests/recovery/declaration/basic/input.css:2:1]
+ 1 | .class {
+ 2 |     prop: ;
+   :     ^^^^
+ 3 |     color: red;
+   `----
+  x ComponentValue
+   ,-[$DIR/tests/recovery/declaration/basic/input.css:3:1]
+ 2 |     prop: ;
+ 3 |     color: red;
+   :     ^^^^^^^^^^
+ 4 | }
+   `----
+  x Declaration
+   ,-[$DIR/tests/recovery/declaration/basic/input.css:3:1]
+ 2 |     prop: ;
+ 3 |     color: red;
+   :     ^^^^^^^^^^
+ 4 | }
+   `----
+  x DeclarationName
+   ,-[$DIR/tests/recovery/declaration/basic/input.css:3:1]
+ 2 |     prop: ;
+ 3 |     color: red;
+   :     ^^^^^
+ 4 | }
+   `----
+  x Ident
+   ,-[$DIR/tests/recovery/declaration/basic/input.css:3:1]
+ 2 |     prop: ;
+ 3 |     color: red;
+   :     ^^^^^
+ 4 | }
+   `----
+  x ComponentValue
+   ,-[$DIR/tests/recovery/declaration/basic/input.css:3:1]
+ 2 |     prop: ;
+ 3 |     color: red;
+   :            ^^^
+ 4 | }
+   `----
+  x Ident
+   ,-[$DIR/tests/recovery/declaration/basic/input.css:3:1]
+ 2 |     prop: ;
+ 3 |     color: red;
+   :            ^^^
+ 4 | }
+   `----
+  x Rule
+    ,-[$DIR/tests/recovery/declaration/basic/input.css:6:1]
+  5 |     
+  6 | ,-> .class {
   7 | |       prop: !!;
   8 | |       color: red;
-  9 | |   }
- 10 | |   
- 11 | |   a {
- 12 | |       test;
- 13 | |       color: red;
- 14 | `-> }
+  9 | `-> }
+ 10 |     
+ 11 |     a {
     `----
-
-  x Rule
-   ,-[$DIR/tests/recovery/declaration/basic/input.css:1:1]
- 1 | ,-> .class {
- 2 | |       prop: ;
- 3 | |       color: red;
- 4 | `-> }
-   `----
-
   x QualifiedRule
-   ,-[$DIR/tests/recovery/declaration/basic/input.css:1:1]
- 1 | ,-> .class {
- 2 | |       prop: ;
- 3 | |       color: red;
- 4 | `-> }
-   `----
-
+    ,-[$DIR/tests/recovery/declaration/basic/input.css:6:1]
+  5 |     
+  6 | ,-> .class {
+  7 | |       prop: !!;
+  8 | |       color: red;
+  9 | `-> }
+ 10 |     
+ 11 |     a {
+    `----
   x SelectorList
-   ,-[$DIR/tests/recovery/declaration/basic/input.css:1:1]
- 1 | .class {
+   ,-[$DIR/tests/recovery/declaration/basic/input.css:6:1]
+ 5 | 
+ 6 | .class {
    : ^^^^^^
- 2 |     prop: ;
+ 7 |     prop: !!;
    `----
-
   x ComplexSelector
-   ,-[$DIR/tests/recovery/declaration/basic/input.css:1:1]
- 1 | .class {
+   ,-[$DIR/tests/recovery/declaration/basic/input.css:6:1]
+ 5 | 
+ 6 | .class {
    : ^^^^^^
- 2 |     prop: ;
+ 7 |     prop: !!;
    `----
-
   x CompoundSelector
-   ,-[$DIR/tests/recovery/declaration/basic/input.css:1:1]
- 1 | .class {
+   ,-[$DIR/tests/recovery/declaration/basic/input.css:6:1]
+ 5 | 
+ 6 | .class {
    : ^^^^^^
- 2 |     prop: ;
+ 7 |     prop: !!;
    `----
-
   x SubclassSelector
-   ,-[$DIR/tests/recovery/declaration/basic/input.css:1:1]
- 1 | .class {
+   ,-[$DIR/tests/recovery/declaration/basic/input.css:6:1]
+ 5 | 
+ 6 | .class {
    : ^^^^^^
- 2 |     prop: ;
+ 7 |     prop: !!;
    `----
-
   x ClassSelector
-   ,-[$DIR/tests/recovery/declaration/basic/input.css:1:1]
- 1 | .class {
-   : ^^^^^^
- 2 |     prop: ;
-   `----
-
-  x Ident
-   ,-[$DIR/tests/recovery/declaration/basic/input.css:1:1]
- 1 | .class {
-   :  ^^^^^
- 2 |     prop: ;
-   `----
-
-  x SimpleBlock
-   ,-[$DIR/tests/recovery/declaration/basic/input.css:1:1]
- 1 | ,-> .class {
- 2 | |       prop: ;
- 3 | |       color: red;
- 4 | `-> }
-   `----
-
-  x LBrace
-   ,-[$DIR/tests/recovery/declaration/basic/input.css:1:1]
- 1 | .class {
-   :        ^
- 2 |     prop: ;
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/recovery/declaration/basic/input.css:1:1]
- 1 | .class {
- 2 |     prop: ;
-   :     ^^^^^^
- 3 |     color: red;
-   `----
-
-  x Declaration
-   ,-[$DIR/tests/recovery/declaration/basic/input.css:1:1]
- 1 | .class {
- 2 |     prop: ;
-   :     ^^^^^^
- 3 |     color: red;
-   `----
-
-  x DeclarationName
-   ,-[$DIR/tests/recovery/declaration/basic/input.css:1:1]
- 1 | .class {
- 2 |     prop: ;
-   :     ^^^^
- 3 |     color: red;
-   `----
-
-  x Ident
-   ,-[$DIR/tests/recovery/declaration/basic/input.css:1:1]
- 1 | .class {
- 2 |     prop: ;
-   :     ^^^^
- 3 |     color: red;
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/recovery/declaration/basic/input.css:2:1]
- 2 |     prop: ;
- 3 |     color: red;
-   :     ^^^^^^^^^^
- 4 | }
-   `----
-
-  x Declaration
-   ,-[$DIR/tests/recovery/declaration/basic/input.css:2:1]
- 2 |     prop: ;
- 3 |     color: red;
-   :     ^^^^^^^^^^
- 4 | }
-   `----
-
-  x DeclarationName
-   ,-[$DIR/tests/recovery/declaration/basic/input.css:2:1]
- 2 |     prop: ;
- 3 |     color: red;
-   :     ^^^^^
- 4 | }
-   `----
-
-  x Ident
-   ,-[$DIR/tests/recovery/declaration/basic/input.css:2:1]
- 2 |     prop: ;
- 3 |     color: red;
-   :     ^^^^^
- 4 | }
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/recovery/declaration/basic/input.css:2:1]
- 2 |     prop: ;
- 3 |     color: red;
-   :            ^^^
- 4 | }
-   `----
-
-  x Ident
-   ,-[$DIR/tests/recovery/declaration/basic/input.css:2:1]
- 2 |     prop: ;
- 3 |     color: red;
-   :            ^^^
- 4 | }
-   `----
-
-  x Rule
-   ,-[$DIR/tests/recovery/declaration/basic/input.css:5:1]
- 5 |     
- 6 | ,-> .class {
- 7 | |       prop: !!;
- 8 | |       color: red;
- 9 | `-> }
-   `----
-
-  x QualifiedRule
-   ,-[$DIR/tests/recovery/declaration/basic/input.css:5:1]
- 5 |     
- 6 | ,-> .class {
- 7 | |       prop: !!;
- 8 | |       color: red;
- 9 | `-> }
-   `----
-
-  x SelectorList
-   ,-[$DIR/tests/recovery/declaration/basic/input.css:5:1]
+   ,-[$DIR/tests/recovery/declaration/basic/input.css:6:1]
  5 | 
  6 | .class {
    : ^^^^^^
  7 |     prop: !!;
    `----
-
-  x ComplexSelector
-   ,-[$DIR/tests/recovery/declaration/basic/input.css:5:1]
- 5 | 
- 6 | .class {
-   : ^^^^^^
- 7 |     prop: !!;
-   `----
-
-  x CompoundSelector
-   ,-[$DIR/tests/recovery/declaration/basic/input.css:5:1]
- 5 | 
- 6 | .class {
-   : ^^^^^^
- 7 |     prop: !!;
-   `----
-
-  x SubclassSelector
-   ,-[$DIR/tests/recovery/declaration/basic/input.css:5:1]
- 5 | 
- 6 | .class {
-   : ^^^^^^
- 7 |     prop: !!;
-   `----
-
-  x ClassSelector
-   ,-[$DIR/tests/recovery/declaration/basic/input.css:5:1]
- 5 | 
- 6 | .class {
-   : ^^^^^^
- 7 |     prop: !!;
-   `----
-
   x Ident
-   ,-[$DIR/tests/recovery/declaration/basic/input.css:5:1]
+   ,-[$DIR/tests/recovery/declaration/basic/input.css:6:1]
  5 | 
  6 | .class {
    :  ^^^^^
  7 |     prop: !!;
    `----
-
   x SimpleBlock
-   ,-[$DIR/tests/recovery/declaration/basic/input.css:5:1]
- 5 |     
- 6 | ,-> .class {
- 7 | |       prop: !!;
- 8 | |       color: red;
- 9 | `-> }
-   `----
-
+    ,-[$DIR/tests/recovery/declaration/basic/input.css:6:1]
+  5 |     
+  6 | ,-> .class {
+  7 | |       prop: !!;
+  8 | |       color: red;
+  9 | `-> }
+ 10 |     
+ 11 |     a {
+    `----
   x LBrace
-   ,-[$DIR/tests/recovery/declaration/basic/input.css:5:1]
+   ,-[$DIR/tests/recovery/declaration/basic/input.css:6:1]
  5 | 
  6 | .class {
    :        ^
  7 |     prop: !!;
+ 8 |     color: red;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/declaration/basic/input.css:6:1]
+   ,-[$DIR/tests/recovery/declaration/basic/input.css:7:1]
  6 | .class {
  7 |     prop: !!;
    :     ^^^^^^^^
  8 |     color: red;
    `----
-
   x Declaration
-   ,-[$DIR/tests/recovery/declaration/basic/input.css:6:1]
+   ,-[$DIR/tests/recovery/declaration/basic/input.css:7:1]
  6 | .class {
  7 |     prop: !!;
    :     ^^^^^^^^
  8 |     color: red;
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/recovery/declaration/basic/input.css:6:1]
+   ,-[$DIR/tests/recovery/declaration/basic/input.css:7:1]
  6 | .class {
  7 |     prop: !!;
    :     ^^^^
  8 |     color: red;
    `----
-
   x Ident
-   ,-[$DIR/tests/recovery/declaration/basic/input.css:6:1]
+   ,-[$DIR/tests/recovery/declaration/basic/input.css:7:1]
  6 | .class {
  7 |     prop: !!;
    :     ^^^^
  8 |     color: red;
    `----
-
-  x ComponentValue
-   ,-[$DIR/tests/recovery/declaration/basic/input.css:6:1]
- 6 | .class {
- 7 |     prop: !!;
-   :           ^
- 8 |     color: red;
-   `----
-
-  x Delim { value: '!' }
-   ,-[$DIR/tests/recovery/declaration/basic/input.css:6:1]
- 6 | .class {
- 7 |     prop: !!;
-   :           ^
- 8 |     color: red;
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/recovery/declaration/basic/input.css:6:1]
- 6 | .class {
- 7 |     prop: !!;
-   :            ^
- 8 |     color: red;
-   `----
-
-  x Delim { value: '!' }
-   ,-[$DIR/tests/recovery/declaration/basic/input.css:6:1]
- 6 | .class {
- 7 |     prop: !!;
-   :            ^
- 8 |     color: red;
-   `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/declaration/basic/input.css:7:1]
+ 6 | .class {
+ 7 |     prop: !!;
+   :           ^
+ 8 |     color: red;
+   `----
+  x Delim { value: '!' }
+   ,-[$DIR/tests/recovery/declaration/basic/input.css:7:1]
+ 6 | .class {
+ 7 |     prop: !!;
+   :           ^
+ 8 |     color: red;
+   `----
+  x ComponentValue
+   ,-[$DIR/tests/recovery/declaration/basic/input.css:7:1]
+ 6 | .class {
+ 7 |     prop: !!;
+   :            ^
+ 8 |     color: red;
+   `----
+  x Delim { value: '!' }
+   ,-[$DIR/tests/recovery/declaration/basic/input.css:7:1]
+ 6 | .class {
+ 7 |     prop: !!;
+   :            ^
+ 8 |     color: red;
+   `----
+  x ComponentValue
+   ,-[$DIR/tests/recovery/declaration/basic/input.css:8:1]
  7 |     prop: !!;
  8 |     color: red;
    :     ^^^^^^^^^^
  9 | }
    `----
-
   x Declaration
-   ,-[$DIR/tests/recovery/declaration/basic/input.css:7:1]
+   ,-[$DIR/tests/recovery/declaration/basic/input.css:8:1]
  7 |     prop: !!;
  8 |     color: red;
    :     ^^^^^^^^^^
  9 | }
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/recovery/declaration/basic/input.css:7:1]
+   ,-[$DIR/tests/recovery/declaration/basic/input.css:8:1]
  7 |     prop: !!;
  8 |     color: red;
    :     ^^^^^
  9 | }
    `----
-
   x Ident
-   ,-[$DIR/tests/recovery/declaration/basic/input.css:7:1]
+   ,-[$DIR/tests/recovery/declaration/basic/input.css:8:1]
  7 |     prop: !!;
  8 |     color: red;
    :     ^^^^^
  9 | }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/declaration/basic/input.css:7:1]
+   ,-[$DIR/tests/recovery/declaration/basic/input.css:8:1]
  7 |     prop: !!;
  8 |     color: red;
    :            ^^^
  9 | }
    `----
-
   x Ident
-   ,-[$DIR/tests/recovery/declaration/basic/input.css:7:1]
+   ,-[$DIR/tests/recovery/declaration/basic/input.css:8:1]
  7 |     prop: !!;
  8 |     color: red;
    :            ^^^
  9 | }
    `----
-
   x Rule
-    ,-[$DIR/tests/recovery/declaration/basic/input.css:10:1]
+    ,-[$DIR/tests/recovery/declaration/basic/input.css:11:1]
  10 |     
  11 | ,-> a {
  12 | |       test;
  13 | |       color: red;
  14 | `-> }
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/recovery/declaration/basic/input.css:10:1]
+    ,-[$DIR/tests/recovery/declaration/basic/input.css:11:1]
  10 |     
  11 | ,-> a {
  12 | |       test;
  13 | |       color: red;
  14 | `-> }
     `----
-
   x SelectorList
-    ,-[$DIR/tests/recovery/declaration/basic/input.css:10:1]
+    ,-[$DIR/tests/recovery/declaration/basic/input.css:11:1]
  10 | 
  11 | a {
     : ^
  12 |     test;
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/recovery/declaration/basic/input.css:10:1]
+    ,-[$DIR/tests/recovery/declaration/basic/input.css:11:1]
  10 | 
  11 | a {
     : ^
  12 |     test;
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/recovery/declaration/basic/input.css:10:1]
+    ,-[$DIR/tests/recovery/declaration/basic/input.css:11:1]
  10 | 
  11 | a {
     : ^
  12 |     test;
     `----
-
   x TypeSelector
-    ,-[$DIR/tests/recovery/declaration/basic/input.css:10:1]
+    ,-[$DIR/tests/recovery/declaration/basic/input.css:11:1]
  10 | 
  11 | a {
     : ^
  12 |     test;
     `----
-
   x TagNameSelector
-    ,-[$DIR/tests/recovery/declaration/basic/input.css:10:1]
+    ,-[$DIR/tests/recovery/declaration/basic/input.css:11:1]
  10 | 
  11 | a {
     : ^
  12 |     test;
     `----
-
   x WqName
-    ,-[$DIR/tests/recovery/declaration/basic/input.css:10:1]
+    ,-[$DIR/tests/recovery/declaration/basic/input.css:11:1]
  10 | 
  11 | a {
     : ^
  12 |     test;
     `----
-
   x Ident
-    ,-[$DIR/tests/recovery/declaration/basic/input.css:10:1]
+    ,-[$DIR/tests/recovery/declaration/basic/input.css:11:1]
  10 | 
  11 | a {
     : ^
  12 |     test;
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/recovery/declaration/basic/input.css:10:1]
+    ,-[$DIR/tests/recovery/declaration/basic/input.css:11:1]
  10 |     
  11 | ,-> a {
  12 | |       test;
  13 | |       color: red;
  14 | `-> }
     `----
-
   x LBrace
-    ,-[$DIR/tests/recovery/declaration/basic/input.css:10:1]
+    ,-[$DIR/tests/recovery/declaration/basic/input.css:11:1]
  10 | 
  11 | a {
     :   ^
  12 |     test;
+ 13 |     color: red;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/declaration/basic/input.css:11:1]
+    ,-[$DIR/tests/recovery/declaration/basic/input.css:12:1]
  11 | a {
  12 |     test;
     :     ^^^^^
  13 |     color: red;
+ 14 | }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/declaration/basic/input.css:11:1]
+    ,-[$DIR/tests/recovery/declaration/basic/input.css:12:1]
  11 | a {
  12 |     test;
     :     ^^^^
  13 |     color: red;
     `----
-
   x Ident { value: "test", raw: "test" }
-    ,-[$DIR/tests/recovery/declaration/basic/input.css:11:1]
+    ,-[$DIR/tests/recovery/declaration/basic/input.css:12:1]
  11 | a {
  12 |     test;
     :     ^^^^
  13 |     color: red;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/declaration/basic/input.css:11:1]
+    ,-[$DIR/tests/recovery/declaration/basic/input.css:12:1]
  11 | a {
  12 |     test;
     :         ^
  13 |     color: red;
+ 14 | }
     `----
-
   x Semi
-    ,-[$DIR/tests/recovery/declaration/basic/input.css:11:1]
+    ,-[$DIR/tests/recovery/declaration/basic/input.css:12:1]
  11 | a {
  12 |     test;
     :         ^
  13 |     color: red;
+ 14 | }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/declaration/basic/input.css:12:1]
+    ,-[$DIR/tests/recovery/declaration/basic/input.css:13:1]
  12 |     test;
  13 |     color: red;
     :     ^^^^^^^^^^
  14 | }
     `----
-
   x Declaration
-    ,-[$DIR/tests/recovery/declaration/basic/input.css:12:1]
+    ,-[$DIR/tests/recovery/declaration/basic/input.css:13:1]
  12 |     test;
  13 |     color: red;
     :     ^^^^^^^^^^
  14 | }
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/recovery/declaration/basic/input.css:12:1]
+    ,-[$DIR/tests/recovery/declaration/basic/input.css:13:1]
  12 |     test;
  13 |     color: red;
     :     ^^^^^
  14 | }
     `----
-
   x Ident
-    ,-[$DIR/tests/recovery/declaration/basic/input.css:12:1]
+    ,-[$DIR/tests/recovery/declaration/basic/input.css:13:1]
  12 |     test;
  13 |     color: red;
     :     ^^^^^
  14 | }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/declaration/basic/input.css:12:1]
+    ,-[$DIR/tests/recovery/declaration/basic/input.css:13:1]
  12 |     test;
  13 |     color: red;
     :            ^^^
  14 | }
     `----
-
   x Ident
-    ,-[$DIR/tests/recovery/declaration/basic/input.css:12:1]
+    ,-[$DIR/tests/recovery/declaration/basic/input.css:13:1]
  12 |     test;
  13 |     color: red;
     :            ^^^

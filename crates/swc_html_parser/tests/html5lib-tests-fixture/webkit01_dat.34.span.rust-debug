@@ -1,70 +1,50 @@
-
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.34.html:1:1]
- 1 | <kbd><table></kbd><col><select><tr>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.34.html:1:2]
+ 1 | |    
    `----
-
   x Child
-
   x Element
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.34.html:1:1]
- 1 | <kbd><table></kbd><col><select><tr>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.34.html:1:2]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.34.html:1:1]
- 1 | <kbd><table></kbd><col><select><tr>
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.34.html:1:2]
+ 1 | |    
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.34.html:1:1]
  1 | <kbd><table></kbd><col><select><tr>
    :                        ^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.34.html:1:1]
  1 | <kbd><table></kbd><col><select><tr>
    :                        ^^^^^^^^
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.34.html:1:1]
- 1 | <kbd><table></kbd><col><select><tr>
-   :      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.34.html:1:7]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.34.html:1:1]
- 1 | <kbd><table></kbd><col><select><tr>
-   :      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.34.html:1:7]
+ 1 | |    
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.34.html:1:1]
  1 | <kbd><table></kbd><col><select><tr>
    :                   ^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.34.html:1:1]
  1 | <kbd><table></kbd><col><select><tr>
    :                   ^^^^^
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.34.html:1:1]
- 1 | <kbd><table></kbd><col><select><tr>
-   :                                ^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.34.html:1:33]
+ 1 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.34.html:1:1]
- 1 | <kbd><table></kbd><col><select><tr>
-   :                                ^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.34.html:1:33]
+ 1 | |    
    `----

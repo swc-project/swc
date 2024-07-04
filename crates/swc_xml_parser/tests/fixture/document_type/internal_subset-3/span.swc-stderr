@@ -1,14 +1,7 @@
-
   x Document
-   ,-[$DIR/tests/fixture/document_type/internal_subset-3/input.xml:1:1]
- 1 | ,-> <!DOCTYPE svg [
- 2 | |       <!ENTITY open-hatch
- 3 | |               PUBLIC "-//Textuality//TEXT Standard open-hatch boilerplate//EN"
- 4 | |               "http://www.textuality.com/boilerplate/OpenHatch.xml">
- 5 | |   ]>
- 6 | `-> <root>test</root>
+   ,-[$DIR/tests/fixture/document_type/internal_subset-3/input.xml:1:2]
+ 1 | |    
    `----
-
   x Child
    ,-[$DIR/tests/fixture/document_type/internal_subset-3/input.xml:1:1]
  1 | ,-> <!DOCTYPE svg [
@@ -18,7 +11,6 @@
  5 | `-> ]>
  6 |     <root>test</root>
    `----
-
   x DocumentType
    ,-[$DIR/tests/fixture/document_type/internal_subset-3/input.xml:1:1]
  1 | ,-> <!DOCTYPE svg [
@@ -28,30 +20,22 @@
  5 | `-> ]>
  6 |     <root>test</root>
    `----
-
   x Child
-   ,-[$DIR/tests/fixture/document_type/internal_subset-3/input.xml:5:1]
- 5 | ]>
- 6 | <root>test</root>
-   : ^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/document_type/internal_subset-3/input.xml:6:2]
+ 6 | |    
    `----
-
   x Element
-   ,-[$DIR/tests/fixture/document_type/internal_subset-3/input.xml:5:1]
- 5 | ]>
- 6 | <root>test</root>
-   : ^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/fixture/document_type/internal_subset-3/input.xml:6:2]
+ 6 | |    
    `----
-
   x Child
-   ,-[$DIR/tests/fixture/document_type/internal_subset-3/input.xml:5:1]
+   ,-[$DIR/tests/fixture/document_type/internal_subset-3/input.xml:6:1]
  5 | ]>
  6 | <root>test</root>
    :       ^^^^
    `----
-
   x Text
-   ,-[$DIR/tests/fixture/document_type/internal_subset-3/input.xml:5:1]
+   ,-[$DIR/tests/fixture/document_type/internal_subset-3/input.xml:6:1]
  5 | ]>
  6 | <root>test</root>
    :       ^^^^

@@ -1,58 +1,44 @@
-
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/scriptdata01_dat.26.html:1:1]
- 1 | FOO<script><!--<script>-></script>--></script>QUX
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/scriptdata01_dat.26.html:1:2]
+ 1 | |    
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/scriptdata01_dat.26.html:1:1]
  1 | FOO<script><!--<script>-></script>--></script>QUX
    : ^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/scriptdata01_dat.26.html:1:1]
  1 | FOO<script><!--<script>-></script>--></script>QUX
    : ^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/scriptdata01_dat.26.html:1:1]
  1 | FOO<script><!--<script>-></script>--></script>QUX
    :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/scriptdata01_dat.26.html:1:1]
  1 | FOO<script><!--<script>-></script>--></script>QUX
    :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/scriptdata01_dat.26.html:1:1]
  1 | FOO<script><!--<script>-></script>--></script>QUX
    :            ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/scriptdata01_dat.26.html:1:1]
  1 | FOO<script><!--<script>-></script>--></script>QUX
    :            ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/scriptdata01_dat.26.html:1:1]
- 1 | FOO<script><!--<script>-></script>--></script>QUX
-   :                                               ^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/scriptdata01_dat.26.html:1:48]
+ 1 | |    
    `----
-
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/scriptdata01_dat.26.html:1:1]
- 1 | FOO<script><!--<script>-></script>--></script>QUX
-   :                                               ^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/scriptdata01_dat.26.html:1:48]
+ 1 | |    
    `----

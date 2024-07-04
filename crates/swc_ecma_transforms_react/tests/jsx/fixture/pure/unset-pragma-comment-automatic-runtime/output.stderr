@@ -1,6 +1,7 @@
-
   x pragma cannot be set when runtime is automatic
    ,-[input.js:1:1]
  1 | /* @jsx h */
    : ^^^^^^^^^^^^
+ 2 | 
+ 3 | <div />;
    `----

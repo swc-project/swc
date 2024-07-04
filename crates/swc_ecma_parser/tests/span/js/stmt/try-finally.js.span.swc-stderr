@@ -1,51 +1,26 @@
-
   x Module
-   ,-[$DIR/tests/span/js/stmt/try-finally.js:1:1]
- 1 | ,-> try {
- 2 | |   
- 3 | |   } finally {
- 4 | |   
- 5 | `-> }
+   ,-[$DIR/tests/span/js/stmt/try-finally.js:1:2]
+ 1 | |    
    `----
-
   x ModuleItem
-   ,-[$DIR/tests/span/js/stmt/try-finally.js:1:1]
- 1 | ,-> try {
- 2 | |   
- 3 | |   } finally {
- 4 | |   
- 5 | `-> }
+   ,-[$DIR/tests/span/js/stmt/try-finally.js:1:2]
+ 1 | |    
    `----
-
   x Stmt
-   ,-[$DIR/tests/span/js/stmt/try-finally.js:1:1]
- 1 | ,-> try {
- 2 | |   
- 3 | |   } finally {
- 4 | |   
- 5 | `-> }
+   ,-[$DIR/tests/span/js/stmt/try-finally.js:1:2]
+ 1 | |    
    `----
-
   x TryStmt
-   ,-[$DIR/tests/span/js/stmt/try-finally.js:1:1]
- 1 | ,-> try {
- 2 | |   
- 3 | |   } finally {
- 4 | |   
- 5 | `-> }
+   ,-[$DIR/tests/span/js/stmt/try-finally.js:1:2]
+ 1 | |    
    `----
-
   x BlockStmt
    ,-[$DIR/tests/span/js/stmt/try-finally.js:1:1]
  1 | ,-> try {
  2 | |   
  3 | `-> } finally {
    `----
-
   x BlockStmt
-   ,-[$DIR/tests/span/js/stmt/try-finally.js:2:1]
- 2 |     
- 3 | ,-> } finally {
- 4 | |   
- 5 | `-> }
+   ,-[$DIR/tests/span/js/stmt/try-finally.js:3:12]
+ 3 | |    
    `----

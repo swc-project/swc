@@ -1,15 +1,15 @@
-
   x Unexpected empty private constructor pattern
-   ,-[1:1]
+   ,-[2:1]
  1 | class A {
  2 |   private constructor() {}
    :   ^^^^^^^^^^^^^^^^^^^^^^^^
  3 | 
  4 |   private method1() {}
+ 5 | 
+ 6 |   protected method2() {}
    `----
-
   x Unexpected empty private method pattern
-   ,-[1:1]
+   ,-[4:1]
  1 | class A {
  2 |   private constructor() {}
  3 | 
@@ -17,21 +17,23 @@
    :   ^^^^^^^^^^^^^^^^^^^^
  5 | 
  6 |   protected method2() {}
-   `----
-
-  x Unexpected empty protected method pattern
-   ,-[3:1]
- 3 | 
- 4 |   private method1() {}
- 5 | 
- 6 |   protected method2() {}
-   :   ^^^^^^^^^^^^^^^^^^^^^^
  7 | 
  8 |   public method3() {}
    `----
-
+  x Unexpected empty protected method pattern
+    ,-[6:1]
+  3 | 
+  4 |   private method1() {}
+  5 | 
+  6 |   protected method2() {}
+    :   ^^^^^^^^^^^^^^^^^^^^^^
+  7 | 
+  8 |   public method3() {}
+  9 | 
+ 10 |   // max markers count
+    `----
   x Unexpected empty public method pattern
-    ,-[5:1]
+    ,-[8:1]
   5 | 
   6 |   protected method2() {}
   7 | 
@@ -40,10 +42,10 @@
   9 | 
  10 |   // max markers count
  11 |   public async *method4() {}
+ 12 | }
     `----
-
   x Unexpected empty public method pattern
-    ,-[8:1]
+    ,-[11:1]
   8 |   public method3() {}
   9 | 
  10 |   // max markers count
@@ -52,10 +54,10 @@
  12 | }
  13 | 
  14 | class B {
+ 15 |   constructor(params: number) {
     `----
-
   x Unexpected empty method pattern
-    ,-[14:1]
+    ,-[17:1]
  14 | class B {
  15 |   constructor(params: number) {
  16 |     class Nested {

@@ -1,22 +1,14 @@
-
   x Document
-   ,-[$DIR/tests/html5lib-tests-fixture/html5test-com_dat.5.html:1:1]
- 1 | <!DOCTYPE html>
-   : ^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/html5test-com_dat.5.html:1:2]
+ 1 | |    
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/html5test-com_dat.5.html:1:1]
- 1 | <!DOCTYPE html>
-   : ^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/html5test-com_dat.5.html:1:2]
+ 1 | |    
    `----
-
   x DocumentType
-   ,-[$DIR/tests/html5lib-tests-fixture/html5test-com_dat.5.html:1:1]
- 1 | <!DOCTYPE html>
-   : ^^^^^^^^^^^^^^^
+   ,-[$DIR/tests/html5lib-tests-fixture/html5test-com_dat.5.html:1:2]
+ 1 | |    
    `----
-
   x Child
-
   x Element

@@ -1,4 +1,3 @@
-
   x Expected ',', got 'b'
    ,-[$DIR/tests/test262-parser/fail/26c0710a6449872a.module.js:1:1]
  1 | export {as b} from a
