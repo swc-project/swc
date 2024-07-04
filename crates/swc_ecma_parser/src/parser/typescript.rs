@@ -2606,7 +2606,7 @@ impl<I: Tokens> Parser<I> {
             return Ok(Default::default());
         }
 
-        let res = if is!(self, '<', JSXTagStart) {
+        let res = if is!(self, '<' | JSXTagStart) {
             self.try_parse_ts(|p| {
                 let type_params = p.parse_ts_type_params(false, false)?;
                 // Don't use overloaded parseFunctionParams which would look for "<" again.

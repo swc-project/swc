@@ -1155,7 +1155,7 @@ impl<I: Tokens> Parser<I> {
     }
 
     fn is_class_property(&mut self, asi: bool) -> bool {
-        (self.input.syntax().typescript() && is!(self, '!', ':'))
+        (self.input.syntax().typescript() && is!(self, '!' | ':'))
             || is!(self, '=' | '}')
             || if asi {
                 is!(self, ';')
