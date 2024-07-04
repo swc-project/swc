@@ -1344,7 +1344,7 @@ impl<'a, I: Tokens> Parser<I> {
         }
 
         // for (a of b)
-        if is!(self, "of", "in") {
+        if is!(self, "of" | "in") {
             let is_in = is!(self, "in");
 
             let pat = self.reparse_expr_as_pat(PatType::AssignPat, init)?;
