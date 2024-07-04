@@ -445,10 +445,11 @@ jobs:
       - name: Set release name
         run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
 
-      - name: Tag npm release (default, latest)
+      - name: Tag npm release
         run: |
-          echo "NPM_TAG=latest" >> $GITHUB_ENV
-          if [[ $GITHUB_REF == *"nightly"* ]]; then
+          if [[ $GITHUB_REF != *"nightly"* ]]; then
+            echo "NPM_TAG=latest" >> $GITHUB_ENV
+          else
             echo "NPM_TAG=nightly" >> $GITHUB_ENV
           fi
 
@@ -527,10 +528,11 @@ jobs:
       - name: Corepack
         run: corepack enable
 
-      - name: Tag npm release (default, latest)
+      - name: Tag npm release
         run: |
-          echo "NPM_TAG=latest" >> $GITHUB_ENV
-          if [[ $GITHUB_REF == *"nightly"* ]]; then
+          if [[ $GITHUB_REF != *"nightly"* ]]; then
+            echo "NPM_TAG=latest" >> $GITHUB_ENV
+          else
             echo "NPM_TAG=nightly" >> $GITHUB_ENV
           fi
 
