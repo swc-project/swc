@@ -13,9 +13,6 @@ bench      = false
 crate-type = ["cdylib"]
 
 [features]
-default = ["swc_v1"]
-swc_v1  = []
-swc_v2  = []
 
 [dependencies]
 anyhow = "1.0.66"
