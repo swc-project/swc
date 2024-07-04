@@ -5,9 +5,49 @@ use swc_ecma_transforms_proposal::decorator_2023_11::decorator_2023_11;
 use swc_ecma_transforms_testing::exec_tr;
 use swc_ecma_visit::as_folder;
 
+const HELPERS: &str = r###"
+function assertEq(callback, expected) {
+    let details;
+    try {
+        let x = callback();
+        if (x === expected)
+            return true;
+        details = `  Expected: ${prettyPrint(expected)}\n  Observed: ${prettyPrint(x)}`;
+    }
+    catch (error) {
+        details = `  Throws: ${error}`;
+    }
+    const code = callback.toString().replace(/^\(\) => /, '').replace(/\s+/g, ' ');
+    console.log(`❌ ${testName}\n  Code: ${code}\n${details}\n`);
+    return false;
+}
+function assertThrows(callback, expected) {
+    let details;
+    try {
+        let x = callback();
+        details = `  Expected: throws instanceof ${expected.name}\n  Observed: returns ${prettyPrint(x)}`;
+    }
+    catch (error) {
+        if (error instanceof expected)
+            return true;
+        details = `  Expected: throws instanceof ${expected.name}\n  Observed: throws ${error}`;
+    }
+    const code = callback.toString().replace(/^\(\) => /, '').replace(/\s+/g, ' ');
+    console.log(`❌ ${testName}\n  Code: ${code}\n${details}\n`);
+    return false;
+}
+"###;
+
 #[testing::fixture("tests/decorator-evanw-split/*.js")]
 fn fixture(input: PathBuf) {
-    let input_code = fs::read_to_string(&input).unwrap();
+    let code = fs::read_to_string(&input).unwrap();
+
+    let code = format!(
+        "{HELPERS}
+    
+    
+    {code}"
+    );
 
     exec_tr(
         &input.file_name().unwrap().to_string_lossy(),
@@ -17,6 +57,6 @@ fn fixture(input: PathBuf) {
             ..Default::default()
         }),
         |_| as_folder(decorator_2023_11()),
-        &input_code,
+        &code,
     );
 }
