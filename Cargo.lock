@@ -3874,7 +3874,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.96.2"
+version = "0.96.3"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -4389,7 +4389,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_loader"
-version = "0.46.0"
+version = "0.46.1"
 dependencies = [
  "anyhow",
  "dashmap",
