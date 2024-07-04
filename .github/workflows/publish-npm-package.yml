@@ -442,7 +442,7 @@ jobs:
   #           DISABLE_PLUGIN_E2E_TESTS=true yarn test &&
   #           ls -la
   publish:
-    name: Publish ${{ inputs.version }} to npm
+    name: Publish ${{ inputs.version }}
     runs-on: ubuntu-latest
     needs:
       - test-linux-x64-gnu-binding
@@ -528,7 +528,7 @@ jobs:
             target: web
           - crate: "binding_typescript_wasm"
             npm: "@swc\\/wasm-typescript"
-            target: no-modules
+            target: nodejs
     steps:
       - uses: actions/checkout@v4
 
@@ -536,12 +536,11 @@ jobs:
         run: corepack enable
 
       - name: Tag npm release (default, latest)
-        if: ${{ !contains(inputs.version, 'nightly') }}
-        run: echo "NPM_TAG=latest" >> $GITHUB_ENV
-
-      - name: Tag npm release (nightly)
-        if: ${{ contains(inputs.version, 'nightly') }}
-        run: echo "NPM_TAG=nightly" >> $GITHUB_ENV
+        run: |
+          echo "NPM_TAG=latest" >> $GITHUB_ENV
+          if [[ $GITHUB_REF == *"nightly"* ]]; then
+            echo "NPM_TAG=nightly" >> $GITHUB_ENV
+          fi
 
       - name: Setup node
         uses: actions/setup-node@v4
