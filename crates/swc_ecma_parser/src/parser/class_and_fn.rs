@@ -745,7 +745,7 @@ impl<I: Tokens> Parser<I> {
         }
 
         trace_cur!(self, parse_class_member_with_is_static__normal_class_member);
-        let mut key = if readonly.is_some() && is_one_of!(self, '!', ':') {
+        let mut key = if readonly.is_some() && is!(self, '!', ':') {
             Key::Public(PropName::Ident(Ident::new(
                 "readonly".into(),
                 readonly.unwrap(),
@@ -1155,8 +1155,8 @@ impl<I: Tokens> Parser<I> {
     }
 
     fn is_class_property(&mut self, asi: bool) -> bool {
-        (self.input.syntax().typescript() && is_one_of!(self, '!', ':'))
-            || is_one_of!(self, '=', '}')
+        (self.input.syntax().typescript() && is!(self, '!', ':'))
+            || is!(self, '=', '}')
             || if asi {
                 is!(self, ';')
             } else {

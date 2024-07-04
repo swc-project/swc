@@ -85,7 +85,7 @@ impl<I: Tokens> Parser<I> {
                 let mut local = self.parse_imported_default_binding()?;
 
                 if self.input.syntax().typescript() && local.sym == "type" {
-                    if is_one_of!(self, '*', '{') {
+                    if is!(self, '*', '{') {
                         type_only = true;
                         break 'import_maybe_ident;
                     }
@@ -115,7 +115,7 @@ impl<I: Tokens> Parser<I> {
                         _ => unreachable!(),
                     };
 
-                    if is_one_of!(self, '*', '{') {
+                    if is!(self, '*', '{') {
                         phase = new_phase;
                         break 'import_maybe_ident;
                     }
