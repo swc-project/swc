@@ -551,15 +551,13 @@ impl<'a, I: Tokens> Parser<I> {
                 }
 
                 if !is!(self, "if") {
-                    // As we eat `else` above, we need to parse statement once.
-                    let last = crate::maybe_grow_default(|| {
-                        let ctx = Context {
-                            ignore_else_clause: false,
-                            ..self.ctx()
-                        };
+                    let ctx = Context {
+                        ignore_else_clause: false,
+                        ..self.ctx()
+                    };
 
-                        self.with_ctx(ctx).parse_stmt(false)
-                    })?;
+                    // As we eat `else` above, we need to parse statement once.
+                    let last = self.with_ctx(ctx).parse_stmt(false)?;
                     break Some(last);
                 }
 

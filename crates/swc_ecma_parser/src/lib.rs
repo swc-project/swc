@@ -534,10 +534,3 @@ fn maybe_grow<R, F: FnOnce() -> R>(_red_zone: usize, _stack_size: usize, callbac
 fn maybe_grow<R, F: FnOnce() -> R>(red_zone: usize, stack_size: usize, callback: F) -> R {
     stacker::maybe_grow(red_zone, stack_size, callback)
 }
-
-/// Calls `callback` with a larger stack size.
-///
-/// `maybe_grow` with default values.
-fn maybe_grow_default<R, F: FnOnce() -> R>(callback: F) -> R {
-    maybe_grow(1024, 4 * 1024, callback)
-}
