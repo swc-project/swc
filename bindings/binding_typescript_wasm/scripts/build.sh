@@ -2,4 +2,4 @@
 set -eux
 
 wasm-pack build --out-name wasm --release --scope=swc --target nodejs
-node ./scripts/patch.js
+node ./scripts/patch.mjs
