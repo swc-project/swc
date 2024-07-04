@@ -2146,8 +2146,24 @@ impl<I: Tokens> Parser<I> {
 
     fn is_start_of_left_hand_side_expr(&mut self) -> PResult<bool> {
         Ok(is!(
-            self, "this", "super", "null", "true", "false", Num, BigInt, Str, '`', '(', '[', '{',
-            "function", "class", "new", Regex, IdentRef
+            self,
+            "this"
+                | "super"
+                | "null"
+                | "true"
+                | "false"
+                | Num
+                | BigInt
+                | Str
+                | '`'
+                | '('
+                | '['
+                | '{'
+                | "function"
+                | "class"
+                | "new"
+                | Regex
+                | IdentRef
         ) || (is!(self, "import")
             && (peeked_is!(self, '(') || peeked_is!(self, '<') || peeked_is!(self, '.'))))
     }

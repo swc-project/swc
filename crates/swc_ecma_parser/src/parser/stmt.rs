@@ -96,7 +96,7 @@ impl<'a, I: Tokens> Parser<I> {
         let start = cur_pos!(self);
         let decorators = self.parse_decorators(true)?;
 
-        if is_one_of!(self, "import", "export") {
+        if is!(self, "import", "export") {
             return self.handle_import_export(top_level, decorators);
         }
 
@@ -642,7 +642,7 @@ impl<'a, I: Tokens> Parser<I> {
         };
 
         self.with_ctx(ctx).parse_with(|p| {
-            while is_one_of!(p, "case", "default") {
+            while is!(p, "case", "default") {
                 let mut cons = vec![];
                 let is_case = is!(p, "case");
                 let case_start = cur_pos!(p);
@@ -659,7 +659,7 @@ impl<'a, I: Tokens> Parser<I> {
                 };
                 expect!(p, ':');
 
-                while !eof!(p) && !is_one_of!(p, "case", "default", '}') {
+                while !eof!(p) && !is!(p, "case", "default", '}') {
                     cons.push(p.parse_stmt_list_item(false)?);
                 }
 
@@ -870,7 +870,7 @@ impl<'a, I: Tokens> Parser<I> {
         let should_include_in = kind != VarDeclKind::Var || !for_loop;
 
         if self.syntax().typescript() && for_loop {
-            let res = if is_one_of!(self, "in", "of") {
+            let res = if is!(self, "in", "of") {
                 self.ts_look_ahead(|p| {
                     //
                     if !eat!(p, "of") && !eat!(p, "in") {
@@ -1001,7 +1001,7 @@ impl<'a, I: Tokens> Parser<I> {
         }
 
         //FIXME: This is wrong. Should check in/of only on first loop.
-        let init = if !for_loop || !is_one_of!(self, "in", "of") {
+        let init = if !for_loop || !is!(self, "in", "of") {
             if eat!(self, '=') {
                 let expr = self.parse_assignment_expr()?;
                 let expr = self.verify_expr(expr)?;
@@ -1245,13 +1245,13 @@ impl<'a, I: Tokens> Parser<I> {
     fn parse_for_head(&mut self) -> PResult<TempForHead> {
         let strict = self.ctx().strict;
 
-        if is_one_of!(self, "const", "var")
+        if is!(self, "const", "var")
             || (is!(self, "let")
                 && peek!(self).map_or(false, |v| v.kind().follows_keyword_let(strict)))
         {
             let decl = self.parse_var_stmt(true)?;
 
-            if is_one_of!(self, "of", "in") {
+            if is!(self, "of", "in") {
                 if decl.decls.len() != 1 {
                     for d in decl.decls.iter().skip(1) {
                         self.emit_err(d.name.span(), SyntaxError::TooManyVarInForInHead);
@@ -1344,7 +1344,7 @@ impl<'a, I: Tokens> Parser<I> {
         }
 
         // for (a of b)
-        if is_one_of!(self, "of", "in") {
+        if is!(self, "of", "in") {
             let is_in = is!(self, "in");
 
             let pat = self.reparse_expr_as_pat(PatType::AssignPat, init)?;
