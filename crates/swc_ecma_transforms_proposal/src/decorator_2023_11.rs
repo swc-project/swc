@@ -465,6 +465,7 @@ impl Decorator202311 {
         let has_static_member = body.iter().any(|m| match m {
             ClassMember::Method(m) => m.is_static,
             ClassMember::PrivateMethod(m) => m.is_static,
+            ClassMember::AutoAccessor(m) => m.is_static,
             ClassMember::ClassProp(ClassProp { is_static, .. })
             | ClassMember::PrivateProp(PrivateProp { is_static, .. }) => *is_static,
             ClassMember::StaticBlock(_) => true,
