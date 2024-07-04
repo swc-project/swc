@@ -77,6 +77,10 @@ macro_rules! is {
     ($p:expr, $t:tt) => {
         is_exact!($p, $t)
     };
+
+    ($p:expr, $t:tt | $(*rest:tt)*) => {
+        is!($p, $t) || is!($p, $($rest)*)
+    };
 }
 
 #[allow(unused)]
@@ -121,6 +125,10 @@ macro_rules! peeked_is {
             _ => false,
         }
     };
+
+    ($p:expr, $t:tt | $(*rest:tt)*) => {
+        peeked_is!($p, $t) || peeked_is!($p, $($rest)*)
+    };
 }
 
 /// Returns true on eof.
@@ -128,15 +136,6 @@ macro_rules! eof {
     ($p:expr) => {
         cur!($p, false).is_err()
     };
-}
-
-macro_rules! is_one_of {
-    ($p:expr, $($t:tt),+) => {{
-        false
-        $(
-            || is!($p, $t)
-        )*
-    }};
 }
 
 // This will panic if current != token
@@ -408,18 +407,4 @@ macro_rules! debug_tracing {
             .entered()
         }
     }};
-}
-
-macro_rules! is_contextual {
-    ($p:expr, $tt:tt) => {
-        // TODO: Check if the current token has an escape.
-        is!($p, $tt)
-    };
-}
-
-macro_rules! eat_contextual {
-    ($p:expr, $tt:tt) => {
-        // TODO: Check if the current token has an escape.
-        eat!($p, $tt)
-    };
 }
