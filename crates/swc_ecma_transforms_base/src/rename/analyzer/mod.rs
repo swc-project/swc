@@ -218,7 +218,7 @@ impl Visit for Analyzer {
                     self.add_decl(id.to_id(), true);
                 }
 
-                f.function.visit_with(self)
+                f.visit_with(self);
             }
             DefaultDecl::TsInterfaceDecl(_) => {}
         }
@@ -240,7 +240,7 @@ impl Visit for Analyzer {
         maybe_grow_default(|| e.visit_children_with(self));
 
         if let Expr::Ident(i) = e {
-            self.add_usage(i.to_id())
+            self.add_usage(i.to_id());
         }
 
         self.is_pat_decl = old_is_pat_decl;
