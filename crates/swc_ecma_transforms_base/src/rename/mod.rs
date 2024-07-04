@@ -284,7 +284,9 @@ where
             m.visit_mut_children_with(self);
         }
 
-        m.visit_mut_with(&mut rename_with_config(&map, self.config.clone()));
+        if !map.is_empty() {
+            m.visit_mut_with(&mut rename_with_config(&map, self.config.clone()));
+        }
     }
 
     fn visit_mut_script(&mut self, m: &mut Script) {
@@ -300,7 +302,9 @@ where
             m.visit_mut_children_with(self);
         }
 
-        m.visit_mut_with(&mut rename_with_config(&map, self.config.clone()));
+        if !map.is_empty() {
+            m.visit_mut_with(&mut rename_with_config(&map, self.config.clone()));
+        }
     }
 }
 
