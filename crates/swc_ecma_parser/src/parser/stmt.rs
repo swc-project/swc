@@ -374,6 +374,13 @@ impl<'a, I: Tokens> Parser<I> {
                         self.parse_ts_enum_decl(start, false)?,
                     )));
                 }
+
+                if self.input.syntax().flow() && peeked_is!(self, IdentName) {
+                    expect!(self, "enum");
+                    self.consume_flow_enum_declaration()?;
+
+                    return Ok(Stmt::Empty(EmptyStmt { span: DUMMY_SP }));
+                }
             }
 
             tok!('{') => {
