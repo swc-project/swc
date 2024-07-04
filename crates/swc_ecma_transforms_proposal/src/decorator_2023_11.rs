@@ -529,7 +529,9 @@ impl Decorator202311 {
 
             for m in body.iter_mut() {
                 match m {
-                    ClassMember::ClassProp(..) | ClassMember::PrivateProp(..) => {
+                    ClassMember::ClassProp(..)
+                    | ClassMember::PrivateProp(..)
+                    | ClassMember::AutoAccessor(..) => {
                         replace_ident(m, c.ident.to_id(), &new_class_name);
                     }
 
