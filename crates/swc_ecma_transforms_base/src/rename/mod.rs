@@ -184,9 +184,7 @@ where
             );
         }
 
-        map.into_iter()
-            .map(|((s, ctxt), v)| ((s.into_inner(), ctxt), v))
-            .collect()
+        map
     }
 }
 
