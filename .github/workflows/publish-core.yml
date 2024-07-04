@@ -446,11 +446,11 @@ jobs:
         run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
 
       - name: Tag npm release (default, latest)
-        run: echo "NPM_TAG=latest" >> $GITHUB_ENV
-
-      - name: Tag npm release (nightly)
-        if: ${{ contains(github.event.release.tag_name, 'nightly') }}
-        run: echo "NPM_TAG=nightly" >> $GITHUB_ENV
+        run: |
+          echo "NPM_TAG=latest" >> $GITHUB_ENV
+          if [[ $GITHUB_REF == *"nightly"* ]]; then
+            echo "NPM_TAG=nightly" >> $GITHUB_ENV
+          fi
 
       - name: Install dependencies
         run: corepack enable && yarn install
@@ -518,7 +518,7 @@ jobs:
             target: web
           - crate: "binding_typescript_wasm"
             npm: "@swc\\/wasm-typescript"
-            target: no-modules
+            target: nodejs
     steps:
       - uses: actions/checkout@v4
 
@@ -526,11 +526,11 @@ jobs:
         run: corepack enable
 
       - name: Tag npm release (default, latest)
-        run: echo "NPM_TAG=latest" >> $GITHUB_ENV
-
-      - name: Tag npm release (nightly)
-        if: ${{ contains(github.event.release.tag_name, 'nightly') }}
-        run: echo "NPM_TAG=nightly" >> $GITHUB_ENV
+        run: |
+          echo "NPM_TAG=latest" >> $GITHUB_ENV
+          if [[ $GITHUB_REF == *"nightly"* ]]; then
+            echo "NPM_TAG=nightly" >> $GITHUB_ENV
+          fi
 
       - name: Setup node
         uses: actions/setup-node@v4
