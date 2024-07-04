@@ -2,5 +2,5 @@
 
 set -eu
 
-./scripts/build.sh
+wasm-pack build --out-name wasm --release --scope=swc --target nodejs
 npx jest $@
