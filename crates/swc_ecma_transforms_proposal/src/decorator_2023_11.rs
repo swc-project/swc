@@ -35,6 +35,8 @@ struct Decorator202311 {
 
 #[derive(Default)]
 struct ClassState {
+    private_id_index: u32,
+
     static_lhs: Vec<Ident>,
     proto_lhs: Vec<Ident>,
 
@@ -949,9 +951,14 @@ impl VisitMut for Decorator202311 {
                                 init = private_ident!(format!("_init_{}", k.id.sym));
                                 field_name_like = format!("__{}", k.id.sym).into();
 
+                                self.state.private_id_index += 1;
                                 PrivateName {
                                     span: k.span,
-                                    id: Ident::new(format!("__{}", k.id.sym).into(), k.id.span),
+                                    id: Ident::new(
+                                        format!("__{}_{}", k.id.sym, self.state.private_id_index)
+                                            .into(),
+                                        k.id.span,
+                                    ),
                                 }
                             }
                             Key::Public(k) => {
@@ -960,10 +967,16 @@ impl VisitMut for Decorator202311 {
                                     .replacen("init", "private", 1)
                                     .into();
 
+                                self.state.private_id_index += 1;
+
                                 PrivateName {
                                     span: init.span.with_ctxt(SyntaxContext::empty()),
                                     id: Ident::new(
-                                        field_name_like.clone(),
+                                        format!(
+                                            "{field_name_like}_{}",
+                                            self.state.private_id_index
+                                        )
+                                        .into(),
                                         init.span.with_ctxt(SyntaxContext::empty()),
                                     ),
                                 }
