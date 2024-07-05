@@ -37,6 +37,9 @@ fn opts() -> Options {
     Options {
         module: None,
         filename: None,
-        parser: TsSyntax::default(),
+        parser: TsSyntax {
+            decorators: true,
+            ..Default::default()
+        },
     }
 }
