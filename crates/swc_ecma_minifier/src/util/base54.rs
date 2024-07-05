@@ -189,7 +189,7 @@ impl WriteJs for CharFreq {
         0
     }
 
-    fn force_write_line(&mut self, n: usize) -> swc_ecma_codegen::Result {
+    fn force_write_line(&mut self, _: usize) -> swc_ecma_codegen::Result {
         Ok(())
     }
 }
