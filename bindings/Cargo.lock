@@ -3170,7 +3170,6 @@ dependencies = [
  "swc_ecma_minifier",
  "swc_ecma_parser",
  "swc_ecma_transforms_base",
- "swc_ecma_transforms_typescript",
  "swc_ecma_visit",
  "swc_malloc",
  "swc_node_bundler",
