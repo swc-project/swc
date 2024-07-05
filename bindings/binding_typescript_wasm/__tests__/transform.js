@@ -61,10 +61,7 @@ describe("transform", () => {
                     const bar: Bar = "bar";`,
                     {}
                 )
-            ).resolves.toMatchInlineSnapshot(`
-                "const foo = 1;
-                                    const bar = "bar";"
-            `);
+            ).resolves.toMatchSnapshot();
         });
 
         it("should strip type assertions", async () => {
@@ -74,10 +71,7 @@ describe("transform", () => {
                     const bar = "bar";`,
                     {}
                 )
-            ).resolves.toMatchInlineSnapshot(`
-                "const foo = 1;
-                                    const bar = "bar";"
-            `);
+            ).resolves.toMatchSnapshot();
         });
 
         it("should strip nonnull assertions", async () => {
@@ -87,10 +81,7 @@ describe("transform", () => {
                     const bar = "bar";`,
                     {}
                 )
-            ).resolves.toMatchInlineSnapshot(`
-                "const foo = 1;
-                                    const bar = "bar";"
-            `);
+            ).resolves.toMatchSnapshot();
         });
 
         it("should strip satisfies", async () => {
@@ -100,10 +91,7 @@ describe("transform", () => {
                     const bar = "bar";`,
                     {}
                 )
-            ).resolves.toMatchInlineSnapshot(`
-                "const foo = 1;
-                                    const bar = "bar";"
-            `);
+            ).resolves.toMatchSnapshot();
         });
 
         it("should throw an error when it encounters an enum", async () => {

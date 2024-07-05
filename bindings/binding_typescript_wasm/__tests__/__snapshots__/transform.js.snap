@@ -6,6 +6,26 @@ exports[`transform in strip-only mode should remove declare enum 2`] = `""`;
 
 exports[`transform in strip-only mode should remove declare enum 3`] = `""`;
 
+exports[`transform in strip-only mode should strip nonnull assertions 1`] = `
+"const foo = 1;
+                    const bar = "bar";"
+`;
+
+exports[`transform in strip-only mode should strip satisfies 1`] = `
+"const foo = 1;
+                    const bar = "bar";"
+`;
+
+exports[`transform in strip-only mode should strip type annotations 1`] = `
+"const foo = 1;
+                    const bar = "bar";"
+`;
+
+exports[`transform in strip-only mode should strip type assertions 1`] = `
+"const foo = 1;
+                    const bar = "bar";"
+`;
+
 exports[`transform in strip-only mode should strip type declarations 1`] = `
 "const foo = 1;
                     
