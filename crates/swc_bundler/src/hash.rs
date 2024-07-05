@@ -130,4 +130,9 @@ impl WriteJs for &mut Hasher<'_> {
     fn can_ignore_invalid_unicodes(&mut self) -> bool {
         true
     }
+
+    #[inline(always)]
+    fn cur_line(&self) -> usize {
+        0
+    }
 }
