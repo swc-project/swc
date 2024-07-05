@@ -64,7 +64,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Create git tag commit
-        if: needs.check-if-build-required.outputs.need-build == 'true'
+        if: needs.check-if-build-required.outputs.need-build == 'true' && !inputs.skipPublishing
         run: |
           ./scripts/publish.sh ${{ inputs.version }}
 
