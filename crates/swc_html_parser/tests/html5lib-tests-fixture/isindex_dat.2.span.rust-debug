@@ -1,32 +1,25 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/isindex_dat.2.html:1:1]
  1 | <form><isindex>
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/isindex_dat.2.html:1:1]
  1 | <form><isindex>
    : ^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/isindex_dat.2.html:1:1]
  1 | <form><isindex>
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/isindex_dat.2.html:1:1]
  1 | <form><isindex>
    :       ^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/isindex_dat.2.html:1:1]
  1 | <form><isindex>

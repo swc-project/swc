@@ -1,14 +1,12 @@
-
   x Nested comment
-   ,-[$DIR/tests/recovery/comments/bad-14/input.xml:2:1]
+   ,-[$DIR/tests/recovery/comments/bad-14/input.xml:3:1]
  2 | <root>
  3 |     <!--<!--!>
    :             ^
  4 | </root>
    `----
-
   x Incorrectly closed comment
-   ,-[$DIR/tests/recovery/comments/bad-14/input.xml:2:1]
+   ,-[$DIR/tests/recovery/comments/bad-14/input.xml:3:1]
  2 | <root>
  3 |     <!--<!--!>
    :              ^

@@ -1,4 +1,3 @@
-
   x Stylesheet
     ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:1:1]
   1 | ,-> /*This is a comment*/
@@ -14,340 +13,298 @@
  11 | |   /*    }*/
  12 | `-> /*}*/
     `----
-
   x Rule
-   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:2:1]
  1 |     /*This is a comment*/
  2 | ,-> body {
  3 | |       background: red;
  4 | |       width: calc(1px + 2%);
  5 | `-> }
    `----
-
   x QualifiedRule
-   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:2:1]
  1 |     /*This is a comment*/
  2 | ,-> body {
  3 | |       background: red;
  4 | |       width: calc(1px + 2%);
  5 | `-> }
    `----
-
   x SelectorList
-   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:2:1]
  1 | /*This is a comment*/
  2 | body {
    : ^^^^
  3 |     background: red;
    `----
-
   x ComplexSelector
-   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:2:1]
  1 | /*This is a comment*/
  2 | body {
    : ^^^^
  3 |     background: red;
    `----
-
   x CompoundSelector
-   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:2:1]
  1 | /*This is a comment*/
  2 | body {
    : ^^^^
  3 |     background: red;
    `----
-
   x TypeSelector
-   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:2:1]
  1 | /*This is a comment*/
  2 | body {
    : ^^^^
  3 |     background: red;
    `----
-
   x TagNameSelector
-   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:2:1]
  1 | /*This is a comment*/
  2 | body {
    : ^^^^
  3 |     background: red;
    `----
-
   x WqName
-   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:2:1]
  1 | /*This is a comment*/
  2 | body {
    : ^^^^
  3 |     background: red;
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:2:1]
  1 | /*This is a comment*/
  2 | body {
    : ^^^^
  3 |     background: red;
    `----
-
   x SimpleBlock
-   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:2:1]
  1 |     /*This is a comment*/
  2 | ,-> body {
  3 | |       background: red;
  4 | |       width: calc(1px + 2%);
  5 | `-> }
    `----
-
   x LBrace
-   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:2:1]
  1 | /*This is a comment*/
  2 | body {
    :      ^
  3 |     background: red;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:2:1]
+   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:3:1]
  2 | body {
  3 |     background: red;
    :     ^^^^^^^^^^^^^^^
  4 |     width: calc(1px + 2%);
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:2:1]
+   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:3:1]
  2 | body {
  3 |     background: red;
    :     ^^^^^^^^^^^^^^^
  4 |     width: calc(1px + 2%);
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:2:1]
+   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:3:1]
  2 | body {
  3 |     background: red;
    :     ^^^^^^^^^^
  4 |     width: calc(1px + 2%);
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:2:1]
+   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:3:1]
  2 | body {
  3 |     background: red;
    :     ^^^^^^^^^^
  4 |     width: calc(1px + 2%);
    `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:2:1]
- 2 | body {
- 3 |     background: red;
-   :                 ^^^
- 4 |     width: calc(1px + 2%);
-   `----
-
-  x Ident
-   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:2:1]
- 2 | body {
- 3 |     background: red;
-   :                 ^^^
- 4 |     width: calc(1px + 2%);
-   `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:3:1]
+ 2 | body {
+ 3 |     background: red;
+   :                 ^^^
+ 4 |     width: calc(1px + 2%);
+   `----
+  x Ident
+   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:3:1]
+ 2 | body {
+ 3 |     background: red;
+   :                 ^^^
+ 4 |     width: calc(1px + 2%);
+   `----
+  x ComponentValue
+   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:4:1]
  3 |     background: red;
  4 |     width: calc(1px + 2%);
    :     ^^^^^^^^^^^^^^^^^^^^^
  5 | }
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:3:1]
+   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:4:1]
  3 |     background: red;
  4 |     width: calc(1px + 2%);
    :     ^^^^^^^^^^^^^^^^^^^^^
  5 | }
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:3:1]
+   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:4:1]
  3 |     background: red;
  4 |     width: calc(1px + 2%);
    :     ^^^^^
  5 | }
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:3:1]
+   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:4:1]
  3 |     background: red;
  4 |     width: calc(1px + 2%);
    :     ^^^^^
  5 | }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:3:1]
+   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:4:1]
  3 |     background: red;
  4 |     width: calc(1px + 2%);
    :            ^^^^^^^^^^^^^^
  5 | }
    `----
-
   x Function
-   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:3:1]
+   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:4:1]
  3 |     background: red;
  4 |     width: calc(1px + 2%);
    :            ^^^^^^^^^^^^^^
  5 | }
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:3:1]
+   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:4:1]
  3 |     background: red;
  4 |     width: calc(1px + 2%);
    :            ^^^^
  5 | }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:3:1]
+   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:4:1]
  3 |     background: red;
  4 |     width: calc(1px + 2%);
    :                 ^^^^^^^^
  5 | }
    `----
-
   x CalcSum
-   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:3:1]
+   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:4:1]
  3 |     background: red;
  4 |     width: calc(1px + 2%);
    :                 ^^^^^^^^
  5 | }
    `----
-
   x CalcProductOrOperator
-   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:3:1]
+   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:4:1]
  3 |     background: red;
  4 |     width: calc(1px + 2%);
    :                 ^^^
  5 | }
    `----
-
   x CalcProduct
-   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:3:1]
+   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:4:1]
  3 |     background: red;
  4 |     width: calc(1px + 2%);
    :                 ^^^
  5 | }
    `----
-
   x CalcValueOrOperator
-   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:3:1]
+   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:4:1]
  3 |     background: red;
  4 |     width: calc(1px + 2%);
    :                 ^^^
  5 | }
    `----
-
   x CalcValue
-   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:3:1]
+   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:4:1]
  3 |     background: red;
  4 |     width: calc(1px + 2%);
    :                 ^^^
  5 | }
    `----
-
   x Dimension
-   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:3:1]
+   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:4:1]
  3 |     background: red;
  4 |     width: calc(1px + 2%);
    :                 ^^^
  5 | }
    `----
-
   x Length
-   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:3:1]
+   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:4:1]
  3 |     background: red;
  4 |     width: calc(1px + 2%);
    :                 ^^^
  5 | }
    `----
-
   x Number
-   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:3:1]
+   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:4:1]
  3 |     background: red;
  4 |     width: calc(1px + 2%);
    :                 ^
  5 | }
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:3:1]
+   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:4:1]
  3 |     background: red;
  4 |     width: calc(1px + 2%);
    :                  ^^
  5 | }
    `----
-
   x CalcProductOrOperator
-   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:3:1]
+   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:4:1]
  3 |     background: red;
  4 |     width: calc(1px + 2%);
    :                     ^
  5 | }
    `----
-
   x CalcOperator
-   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:3:1]
+   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:4:1]
  3 |     background: red;
  4 |     width: calc(1px + 2%);
    :                     ^
  5 | }
    `----
-
   x CalcProductOrOperator
-   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:3:1]
+   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:4:1]
  3 |     background: red;
  4 |     width: calc(1px + 2%);
    :                       ^^
  5 | }
    `----
-
   x CalcProduct
-   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:3:1]
+   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:4:1]
  3 |     background: red;
  4 |     width: calc(1px + 2%);
    :                       ^^
  5 | }
    `----
-
   x CalcValueOrOperator
-   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:3:1]
+   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:4:1]
  3 |     background: red;
  4 |     width: calc(1px + 2%);
    :                       ^^
  5 | }
    `----
-
   x CalcValue
-   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:3:1]
+   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:4:1]
  3 |     background: red;
  4 |     width: calc(1px + 2%);
    :                       ^^
  5 | }
    `----
-
   x Percentage
-   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:3:1]
+   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:4:1]
  3 |     background: red;
  4 |     width: calc(1px + 2%);
    :                       ^^
  5 | }
    `----
-
   x Number
-   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:3:1]
+   ,-[$DIR/tests/fixture/vendor/rome/smoke/input.css:4:1]
  3 |     background: red;
  4 |     width: calc(1px + 2%);
    :                       ^

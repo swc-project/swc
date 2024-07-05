@@ -1,40 +1,33 @@
-
   x Stylesheet
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/IX2tz8hkGmrHq2cazP46_A/input.css:1:1]
  1 | @namespace \6es 'path';
    : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Rule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/IX2tz8hkGmrHq2cazP46_A/input.css:1:1]
  1 | @namespace \6es 'path';
    : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x AtRule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/IX2tz8hkGmrHq2cazP46_A/input.css:1:1]
  1 | @namespace \6es 'path';
    : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x AtRuleName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/IX2tz8hkGmrHq2cazP46_A/input.css:1:1]
  1 | @namespace \6es 'path';
    :  ^^^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/IX2tz8hkGmrHq2cazP46_A/input.css:1:1]
  1 | @namespace \6es 'path';
    :  ^^^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/IX2tz8hkGmrHq2cazP46_A/input.css:1:1]
  1 | @namespace \6es 'path';
    :            ^^^^
    `----
-
   x Str
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/IX2tz8hkGmrHq2cazP46_A/input.css:1:1]
  1 | @namespace \6es 'path';

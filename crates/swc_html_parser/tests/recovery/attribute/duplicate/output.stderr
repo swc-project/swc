@@ -1,54 +1,47 @@
-
   x Duplicate attribute
-   ,-[$DIR/tests/recovery/attribute/duplicate/input.html:6:1]
+   ,-[$DIR/tests/recovery/attribute/duplicate/input.html:7:1]
  6 | <body>
  7 | <div class="test" class="test-1" class="test-2"></div>
    :                   ^^^^^
  8 | <div></div class="test" class="test-1" class="test-2">
    `----
-
   x Duplicate attribute
-   ,-[$DIR/tests/recovery/attribute/duplicate/input.html:6:1]
+   ,-[$DIR/tests/recovery/attribute/duplicate/input.html:7:1]
  6 | <body>
  7 | <div class="test" class="test-1" class="test-2"></div>
    :                                  ^^^^^
  8 | <div></div class="test" class="test-1" class="test-2">
    `----
-
   x Duplicate attribute
-   ,-[$DIR/tests/recovery/attribute/duplicate/input.html:7:1]
+   ,-[$DIR/tests/recovery/attribute/duplicate/input.html:8:1]
  7 | <div class="test" class="test-1" class="test-2"></div>
  8 | <div></div class="test" class="test-1" class="test-2">
    :                         ^^^^^
  9 | </div/>
    `----
-
   x Duplicate attribute
-   ,-[$DIR/tests/recovery/attribute/duplicate/input.html:7:1]
+   ,-[$DIR/tests/recovery/attribute/duplicate/input.html:8:1]
  7 | <div class="test" class="test-1" class="test-2"></div>
  8 | <div></div class="test" class="test-1" class="test-2">
    :                                        ^^^^^
  9 | </div/>
    `----
-
   x End tag with attributes
-   ,-[$DIR/tests/recovery/attribute/duplicate/input.html:7:1]
+   ,-[$DIR/tests/recovery/attribute/duplicate/input.html:8:1]
  7 | <div class="test" class="test-1" class="test-2"></div>
  8 | <div></div class="test" class="test-1" class="test-2">
    :                                                      ^
  9 | </div/>
    `----
-
   x End tag with trailing solidus
-    ,-[$DIR/tests/recovery/attribute/duplicate/input.html:8:1]
+    ,-[$DIR/tests/recovery/attribute/duplicate/input.html:9:1]
   8 | <div></div class="test" class="test-1" class="test-2">
   9 | </div/>
     :       ^
  10 | </body>
     `----
-
   x Stray end tag "div"
-    ,-[$DIR/tests/recovery/attribute/duplicate/input.html:8:1]
+    ,-[$DIR/tests/recovery/attribute/duplicate/input.html:9:1]
   8 | <div></div class="test" class="test-1" class="test-2">
   9 | </div/>
     : ^^^^^^^

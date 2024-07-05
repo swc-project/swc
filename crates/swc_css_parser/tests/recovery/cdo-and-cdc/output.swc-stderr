@@ -1,43 +1,37 @@
-
   x Expected 'from', 'to' or percentage
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:40:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:41:1]
  40 | @keyframes box {
  41 |     <!-- -->
     :     ^^^^
  42 |     50% { left: 0; }
     `----
-
   x Expected '{'
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:19:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:20:1]
  19 | 
  20 |     color: blue;
     :                ^
  21 | }
     `----
-
   x Expected '{'
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:28:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:29:1]
  28 | 
  29 | -->;
     :    ^
     `----
-
   x Invalid selector
    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:1:1]
  1 | <!-- 123 -->
    :      ^^^
    `----
-
   x Invalid selector
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:34:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:35:1]
  34 | a {
  35 |     <!-- .class {
     :     ^^^^
  36 |          color: red;
     `----
-
   x Unexpected end of file, but expected '{'
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:4:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:5:1]
   4 |         color: red;
   5 | ,-> <!--
   6 | |   
@@ -46,23 +40,20 @@
   9 | `-> -->
  10 |     }
     `----
-
   x Unexpected token
-   ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:4:1]
+   ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:5:1]
  4 |     color: red;
  5 | <!--
    : ^^^^
    `----
-
   x Unexpected token
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:13:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:14:1]
  13 |     color: red;
  14 | <!--
     : ^^^^
     `----
-
   x Unexpected token
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:24:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:25:1]
  24 |     color: red;
  25 | <!--
     : ^^^^

@@ -1,17 +1,14 @@
-
   x Start tag seen without seeing a doctype first, expected "<!DOCTYPE html>"
    ,-[$DIR/tests/recovery/element/applet/input.html:1:1]
  1 | <b><applet></b>x
    : ^^^
    `----
-
   x No "b" element in scope but a "b" end tag seen
    ,-[$DIR/tests/recovery/element/applet/input.html:1:1]
  1 | <b><applet></b>x
    :            ^^^^
    `----
-
   x End of file seen and there were open elements
-   ,-[$DIR/tests/recovery/element/applet/input.html:1:1]
+   ,-[$DIR/tests/recovery/element/applet/input.html:1:18]
  1 | <b><applet></b>x
    `----

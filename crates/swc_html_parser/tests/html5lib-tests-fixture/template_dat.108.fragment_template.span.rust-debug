@@ -1,80 +1,65 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.108.fragment_template.html:1:1]
  1 | <template><form><input name="q"></form><div>second</div></template>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.108.fragment_template.html:1:1]
  1 | <template><form><input name="q"></form><div>second</div></template>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.108.fragment_template.html:1:1]
  1 | <template><form><input name="q"></form><div>second</div></template>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x DocumentFragment
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.108.fragment_template.html:1:1]
  1 | <template><form><input name="q"></form><div>second</div></template>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.108.fragment_template.html:1:1]
  1 | <template><form><input name="q"></form><div>second</div></template>
    :           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.108.fragment_template.html:1:1]
  1 | <template><form><input name="q"></form><div>second</div></template>
    :           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.108.fragment_template.html:1:1]
  1 | <template><form><input name="q"></form><div>second</div></template>
    :                 ^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.108.fragment_template.html:1:1]
  1 | <template><form><input name="q"></form><div>second</div></template>
    :                 ^^^^^^^^^^^^^^^^
    `----
-
   x Attribute
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.108.fragment_template.html:1:1]
  1 | <template><form><input name="q"></form><div>second</div></template>
    :                        ^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.108.fragment_template.html:1:1]
  1 | <template><form><input name="q"></form><div>second</div></template>
    :                                        ^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.108.fragment_template.html:1:1]
  1 | <template><form><input name="q"></form><div>second</div></template>
    :                                        ^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.108.fragment_template.html:1:1]
  1 | <template><form><input name="q"></form><div>second</div></template>
    :                                             ^^^^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.108.fragment_template.html:1:1]
  1 | <template><form><input name="q"></form><div>second</div></template>

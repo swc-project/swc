@@ -1,4 +1,3 @@
-
   x Unexpected token `=`. Expected jsx identifier
    ,-[$DIR/tests/jsx/errors/attributes-in-fragment/input.js:1:1]
  1 | < key="nope"></>

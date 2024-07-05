@@ -1,44 +1,35 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/svg_dat.4.fragment_tbody.html:1:1]
  1 | <svg><tbody><title><tfoot>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/svg_dat.4.fragment_tbody.html:1:1]
  1 | <svg><tbody><title><tfoot>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/svg_dat.4.fragment_tbody.html:1:1]
  1 | <svg><tbody><title><tfoot>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/svg_dat.4.fragment_tbody.html:1:1]
  1 | <svg><tbody><title><tfoot>
    :      ^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/svg_dat.4.fragment_tbody.html:1:1]
  1 | <svg><tbody><title><tfoot>
    :      ^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/svg_dat.4.fragment_tbody.html:1:1]
  1 | <svg><tbody><title><tfoot>
    :             ^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/svg_dat.4.fragment_tbody.html:1:1]
  1 | <svg><tbody><title><tfoot>

@@ -1,6 +1,5 @@
-
   x Classes can't have a private field named '#constructor'.
-   ,-[$DIR/tests/typescript-errors/class/private-constructor/property/input.ts:1:1]
+   ,-[$DIR/tests/typescript-errors/class/private-constructor/property/input.ts:2:1]
  1 | class C {
  2 |     #constructor;
    :     ^^^^^^^^^^^^

@@ -1,8 +1,6 @@
-
   > Leading (lo)
 
-Advice: 
-  > !
+Advice:   > !
   | 
   |  something v5.1.0
   | 
@@ -10,29 +8,25 @@ Advice:
   | 
   | else
   | 
-    ,-[$DIR/tests/comments/issue-4876/input.js:9:1]
+    ,-[$DIR/tests/comments/issue-4876/input.js:10:1]
   9 | // a
  10 | console.log(1);
     : ^
  11 | // b
     `----
-
   > Leading (lo)
 
-Advice: 
-  >  a
-    ,-[$DIR/tests/comments/issue-4876/input.js:9:1]
+Advice:   >  a
+    ,-[$DIR/tests/comments/issue-4876/input.js:10:1]
   9 | // a
  10 | console.log(1);
     : ^
  11 | // b
     `----
-
   > Trailing (hi)
 
-Advice: 
-  >  b
-    ,-[$DIR/tests/comments/issue-4876/input.js:9:1]
+Advice:   >  b
+    ,-[$DIR/tests/comments/issue-4876/input.js:10:1]
   9 | // a
  10 | console.log(1);
     :                ^

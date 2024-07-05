@@ -1,44 +1,35 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests16_dat.85.script_on.html:1:1]
  1 | <!doctype html><noscript><!--</noscript>X<noscript>--></noscript>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests16_dat.85.script_on.html:1:1]
  1 | <!doctype html><noscript><!--</noscript>X<noscript>--></noscript>
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/html5lib-tests-fixture/tests16_dat.85.script_on.html:1:1]
  1 | <!doctype html><noscript><!--</noscript>X<noscript>--></noscript>
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests16_dat.85.script_on.html:1:1]
  1 | <!doctype html><noscript><!--</noscript>X<noscript>--></noscript>
    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests16_dat.85.script_on.html:1:1]
  1 | <!doctype html><noscript><!--</noscript>X<noscript>--></noscript>
    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests16_dat.85.script_on.html:1:1]
  1 | <!doctype html><noscript><!--</noscript>X<noscript>--></noscript>
    :                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Comment
    ,-[$DIR/tests/html5lib-tests-fixture/tests16_dat.85.script_on.html:1:1]
  1 | <!doctype html><noscript><!--</noscript>X<noscript>--></noscript>

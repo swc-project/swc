@@ -1,121 +1,103 @@
-
   x Stylesheet
    ,-[$DIR/tests/recovery/value/string/newline/input.css:1:1]
  1 | ,-> a {
  2 | `->     prop: "
    `----
-
   x Rule
    ,-[$DIR/tests/recovery/value/string/newline/input.css:1:1]
  1 | ,-> a {
  2 | `->     prop: "
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/recovery/value/string/newline/input.css:1:1]
  1 | ,-> a {
  2 | `->     prop: "
    `----
-
   x SelectorList
    ,-[$DIR/tests/recovery/value/string/newline/input.css:1:1]
  1 | a {
    : ^
  2 |     prop: "
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/recovery/value/string/newline/input.css:1:1]
  1 | a {
    : ^
  2 |     prop: "
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/recovery/value/string/newline/input.css:1:1]
  1 | a {
    : ^
  2 |     prop: "
    `----
-
   x TypeSelector
    ,-[$DIR/tests/recovery/value/string/newline/input.css:1:1]
  1 | a {
    : ^
  2 |     prop: "
    `----
-
   x TagNameSelector
    ,-[$DIR/tests/recovery/value/string/newline/input.css:1:1]
  1 | a {
    : ^
  2 |     prop: "
    `----
-
   x WqName
    ,-[$DIR/tests/recovery/value/string/newline/input.css:1:1]
  1 | a {
    : ^
  2 |     prop: "
    `----
-
   x Ident
    ,-[$DIR/tests/recovery/value/string/newline/input.css:1:1]
  1 | a {
    : ^
  2 |     prop: "
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/recovery/value/string/newline/input.css:1:1]
  1 | ,-> a {
  2 | `->     prop: "
    `----
-
   x LBrace
    ,-[$DIR/tests/recovery/value/string/newline/input.css:1:1]
  1 | a {
    :   ^
  2 |     prop: "
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/value/string/newline/input.css:1:1]
+   ,-[$DIR/tests/recovery/value/string/newline/input.css:2:1]
  1 | a {
  2 |     prop: "
    :     ^^^^^^^^
    `----
-
   x Declaration
-   ,-[$DIR/tests/recovery/value/string/newline/input.css:1:1]
+   ,-[$DIR/tests/recovery/value/string/newline/input.css:2:1]
  1 | a {
  2 |     prop: "
    :     ^^^^^^^^
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/recovery/value/string/newline/input.css:1:1]
+   ,-[$DIR/tests/recovery/value/string/newline/input.css:2:1]
  1 | a {
  2 |     prop: "
    :     ^^^^
    `----
-
   x Ident
-   ,-[$DIR/tests/recovery/value/string/newline/input.css:1:1]
+   ,-[$DIR/tests/recovery/value/string/newline/input.css:2:1]
  1 | a {
  2 |     prop: "
    :     ^^^^
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/value/string/newline/input.css:1:1]
+   ,-[$DIR/tests/recovery/value/string/newline/input.css:2:1]
  1 | a {
  2 |     prop: "
    :           ^
    `----
-
   x BadString { raw: "\"" }
-   ,-[$DIR/tests/recovery/value/string/newline/input.css:1:1]
+   ,-[$DIR/tests/recovery/value/string/newline/input.css:2:1]
  1 | a {
  2 |     prop: "
    :           ^

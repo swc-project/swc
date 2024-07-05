@@ -1,158 +1,138 @@
-
   x Start tag "div" seen in "table"
-   ,-[$DIR/tests/recovery/element/template/input.html:6:1]
+   ,-[$DIR/tests/recovery/element/template/input.html:7:1]
  6 | <body>
  7 | <div id="tmplParent"><template id="tmpl1"><table id="tbl"><tr><td>Cell 1</td></tr><div id="orphanDiv">Orphan div content</div><tr><td>Cell 2</td></tr></table></template></div>
    :                                                                                   ^^^^^^^^^^^^^^^^^^^^
  8 | </body>
    `----
-
   x Misplaced non-space characters inside a table
-   ,-[$DIR/tests/recovery/element/template/input.html:6:1]
+   ,-[$DIR/tests/recovery/element/template/input.html:7:1]
  6 | <body>
  7 | <div id="tmplParent"><template id="tmpl1"><table id="tbl"><tr><td>Cell 1</td></tr><div id="orphanDiv">Orphan div content</div><tr><td>Cell 2</td></tr></table></template></div>
    :                                                                                                       ^
  8 | </body>
    `----
-
   x Misplaced non-space characters inside a table
-   ,-[$DIR/tests/recovery/element/template/input.html:6:1]
+   ,-[$DIR/tests/recovery/element/template/input.html:7:1]
  6 | <body>
  7 | <div id="tmplParent"><template id="tmpl1"><table id="tbl"><tr><td>Cell 1</td></tr><div id="orphanDiv">Orphan div content</div><tr><td>Cell 2</td></tr></table></template></div>
    :                                                                                                        ^
  8 | </body>
    `----
-
   x Misplaced non-space characters inside a table
-   ,-[$DIR/tests/recovery/element/template/input.html:6:1]
+   ,-[$DIR/tests/recovery/element/template/input.html:7:1]
  6 | <body>
  7 | <div id="tmplParent"><template id="tmpl1"><table id="tbl"><tr><td>Cell 1</td></tr><div id="orphanDiv">Orphan div content</div><tr><td>Cell 2</td></tr></table></template></div>
    :                                                                                                         ^
  8 | </body>
    `----
-
   x Misplaced non-space characters inside a table
-   ,-[$DIR/tests/recovery/element/template/input.html:6:1]
+   ,-[$DIR/tests/recovery/element/template/input.html:7:1]
  6 | <body>
  7 | <div id="tmplParent"><template id="tmpl1"><table id="tbl"><tr><td>Cell 1</td></tr><div id="orphanDiv">Orphan div content</div><tr><td>Cell 2</td></tr></table></template></div>
    :                                                                                                          ^
  8 | </body>
    `----
-
   x Misplaced non-space characters inside a table
-   ,-[$DIR/tests/recovery/element/template/input.html:6:1]
+   ,-[$DIR/tests/recovery/element/template/input.html:7:1]
  6 | <body>
  7 | <div id="tmplParent"><template id="tmpl1"><table id="tbl"><tr><td>Cell 1</td></tr><div id="orphanDiv">Orphan div content</div><tr><td>Cell 2</td></tr></table></template></div>
    :                                                                                                           ^
  8 | </body>
    `----
-
   x Misplaced non-space characters inside a table
-   ,-[$DIR/tests/recovery/element/template/input.html:6:1]
+   ,-[$DIR/tests/recovery/element/template/input.html:7:1]
  6 | <body>
  7 | <div id="tmplParent"><template id="tmpl1"><table id="tbl"><tr><td>Cell 1</td></tr><div id="orphanDiv">Orphan div content</div><tr><td>Cell 2</td></tr></table></template></div>
    :                                                                                                            ^
  8 | </body>
    `----
-
   x Misplaced non-space characters inside a table
-   ,-[$DIR/tests/recovery/element/template/input.html:6:1]
+   ,-[$DIR/tests/recovery/element/template/input.html:7:1]
  6 | <body>
  7 | <div id="tmplParent"><template id="tmpl1"><table id="tbl"><tr><td>Cell 1</td></tr><div id="orphanDiv">Orphan div content</div><tr><td>Cell 2</td></tr></table></template></div>
    :                                                                                                             ^
  8 | </body>
    `----
-
   x Misplaced non-space characters inside a table
-   ,-[$DIR/tests/recovery/element/template/input.html:6:1]
+   ,-[$DIR/tests/recovery/element/template/input.html:7:1]
  6 | <body>
  7 | <div id="tmplParent"><template id="tmpl1"><table id="tbl"><tr><td>Cell 1</td></tr><div id="orphanDiv">Orphan div content</div><tr><td>Cell 2</td></tr></table></template></div>
    :                                                                                                              ^
  8 | </body>
    `----
-
   x Misplaced non-space characters inside a table
-   ,-[$DIR/tests/recovery/element/template/input.html:6:1]
+   ,-[$DIR/tests/recovery/element/template/input.html:7:1]
  6 | <body>
  7 | <div id="tmplParent"><template id="tmpl1"><table id="tbl"><tr><td>Cell 1</td></tr><div id="orphanDiv">Orphan div content</div><tr><td>Cell 2</td></tr></table></template></div>
    :                                                                                                               ^
  8 | </body>
    `----
-
   x Misplaced non-space characters inside a table
-   ,-[$DIR/tests/recovery/element/template/input.html:6:1]
+   ,-[$DIR/tests/recovery/element/template/input.html:7:1]
  6 | <body>
  7 | <div id="tmplParent"><template id="tmpl1"><table id="tbl"><tr><td>Cell 1</td></tr><div id="orphanDiv">Orphan div content</div><tr><td>Cell 2</td></tr></table></template></div>
    :                                                                                                                ^
  8 | </body>
    `----
-
   x Misplaced non-space characters inside a table
-   ,-[$DIR/tests/recovery/element/template/input.html:6:1]
+   ,-[$DIR/tests/recovery/element/template/input.html:7:1]
  6 | <body>
  7 | <div id="tmplParent"><template id="tmpl1"><table id="tbl"><tr><td>Cell 1</td></tr><div id="orphanDiv">Orphan div content</div><tr><td>Cell 2</td></tr></table></template></div>
    :                                                                                                                 ^
  8 | </body>
    `----
-
   x Misplaced non-space characters inside a table
-   ,-[$DIR/tests/recovery/element/template/input.html:6:1]
+   ,-[$DIR/tests/recovery/element/template/input.html:7:1]
  6 | <body>
  7 | <div id="tmplParent"><template id="tmpl1"><table id="tbl"><tr><td>Cell 1</td></tr><div id="orphanDiv">Orphan div content</div><tr><td>Cell 2</td></tr></table></template></div>
    :                                                                                                                  ^
  8 | </body>
    `----
-
   x Misplaced non-space characters inside a table
-   ,-[$DIR/tests/recovery/element/template/input.html:6:1]
+   ,-[$DIR/tests/recovery/element/template/input.html:7:1]
  6 | <body>
  7 | <div id="tmplParent"><template id="tmpl1"><table id="tbl"><tr><td>Cell 1</td></tr><div id="orphanDiv">Orphan div content</div><tr><td>Cell 2</td></tr></table></template></div>
    :                                                                                                                   ^
  8 | </body>
    `----
-
   x Misplaced non-space characters inside a table
-   ,-[$DIR/tests/recovery/element/template/input.html:6:1]
+   ,-[$DIR/tests/recovery/element/template/input.html:7:1]
  6 | <body>
  7 | <div id="tmplParent"><template id="tmpl1"><table id="tbl"><tr><td>Cell 1</td></tr><div id="orphanDiv">Orphan div content</div><tr><td>Cell 2</td></tr></table></template></div>
    :                                                                                                                    ^
  8 | </body>
    `----
-
   x Misplaced non-space characters inside a table
-   ,-[$DIR/tests/recovery/element/template/input.html:6:1]
+   ,-[$DIR/tests/recovery/element/template/input.html:7:1]
  6 | <body>
  7 | <div id="tmplParent"><template id="tmpl1"><table id="tbl"><tr><td>Cell 1</td></tr><div id="orphanDiv">Orphan div content</div><tr><td>Cell 2</td></tr></table></template></div>
    :                                                                                                                     ^
  8 | </body>
    `----
-
   x Misplaced non-space characters inside a table
-   ,-[$DIR/tests/recovery/element/template/input.html:6:1]
+   ,-[$DIR/tests/recovery/element/template/input.html:7:1]
  6 | <body>
  7 | <div id="tmplParent"><template id="tmpl1"><table id="tbl"><tr><td>Cell 1</td></tr><div id="orphanDiv">Orphan div content</div><tr><td>Cell 2</td></tr></table></template></div>
    :                                                                                                                      ^
  8 | </body>
    `----
-
   x Misplaced non-space characters inside a table
-   ,-[$DIR/tests/recovery/element/template/input.html:6:1]
+   ,-[$DIR/tests/recovery/element/template/input.html:7:1]
  6 | <body>
  7 | <div id="tmplParent"><template id="tmpl1"><table id="tbl"><tr><td>Cell 1</td></tr><div id="orphanDiv">Orphan div content</div><tr><td>Cell 2</td></tr></table></template></div>
    :                                                                                                                       ^
  8 | </body>
    `----
-
   x Misplaced non-space characters inside a table
-   ,-[$DIR/tests/recovery/element/template/input.html:6:1]
+   ,-[$DIR/tests/recovery/element/template/input.html:7:1]
  6 | <body>
  7 | <div id="tmplParent"><template id="tmpl1"><table id="tbl"><tr><td>Cell 1</td></tr><div id="orphanDiv">Orphan div content</div><tr><td>Cell 2</td></tr></table></template></div>
    :                                                                                                                        ^
  8 | </body>
    `----
-
   x Stray end tag "div"
-   ,-[$DIR/tests/recovery/element/template/input.html:6:1]
+   ,-[$DIR/tests/recovery/element/template/input.html:7:1]
  6 | <body>
  7 | <div id="tmplParent"><template id="tmpl1"><table id="tbl"><tr><td>Cell 1</td></tr><div id="orphanDiv">Orphan div content</div><tr><td>Cell 2</td></tr></table></template></div>
    :                                                                                                                         ^^^^^^

@@ -1,4 +1,3 @@
-
   x Stylesheet
     ,-[$DIR/tests/fixture/value/escaped/input.css:1:1]
   1 | ,-> table {
@@ -31,134 +30,116 @@
  28 | |       \62 olor: red
  29 | `-> }
     `----
-
   x Rule
    ,-[$DIR/tests/fixture/value/escaped/input.css:1:1]
  1 | ,-> table {
  2 | |       color: \red;
  3 | `-> }
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/fixture/value/escaped/input.css:1:1]
  1 | ,-> table {
  2 | |       color: \red;
  3 | `-> }
    `----
-
   x SelectorList
    ,-[$DIR/tests/fixture/value/escaped/input.css:1:1]
  1 | table {
    : ^^^^^
  2 |     color: \red;
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/fixture/value/escaped/input.css:1:1]
  1 | table {
    : ^^^^^
  2 |     color: \red;
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/value/escaped/input.css:1:1]
  1 | table {
    : ^^^^^
  2 |     color: \red;
    `----
-
   x TypeSelector
    ,-[$DIR/tests/fixture/value/escaped/input.css:1:1]
  1 | table {
    : ^^^^^
  2 |     color: \red;
    `----
-
   x TagNameSelector
    ,-[$DIR/tests/fixture/value/escaped/input.css:1:1]
  1 | table {
    : ^^^^^
  2 |     color: \red;
    `----
-
   x WqName
    ,-[$DIR/tests/fixture/value/escaped/input.css:1:1]
  1 | table {
    : ^^^^^
  2 |     color: \red;
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/value/escaped/input.css:1:1]
  1 | table {
    : ^^^^^
  2 |     color: \red;
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/value/escaped/input.css:1:1]
  1 | ,-> table {
  2 | |       color: \red;
  3 | `-> }
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/value/escaped/input.css:1:1]
  1 | table {
    :       ^
  2 |     color: \red;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/escaped/input.css:1:1]
+   ,-[$DIR/tests/fixture/value/escaped/input.css:2:1]
  1 | table {
  2 |     color: \red;
    :     ^^^^^^^^^^^
  3 | }
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/value/escaped/input.css:1:1]
+   ,-[$DIR/tests/fixture/value/escaped/input.css:2:1]
  1 | table {
  2 |     color: \red;
    :     ^^^^^^^^^^^
  3 | }
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/value/escaped/input.css:1:1]
+   ,-[$DIR/tests/fixture/value/escaped/input.css:2:1]
  1 | table {
  2 |     color: \red;
    :     ^^^^^
  3 | }
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/value/escaped/input.css:1:1]
+   ,-[$DIR/tests/fixture/value/escaped/input.css:2:1]
  1 | table {
  2 |     color: \red;
    :     ^^^^^
  3 | }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/escaped/input.css:1:1]
+   ,-[$DIR/tests/fixture/value/escaped/input.css:2:1]
  1 | table {
  2 |     color: \red;
    :            ^^^^
  3 | }
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/value/escaped/input.css:1:1]
+   ,-[$DIR/tests/fixture/value/escaped/input.css:2:1]
  1 | table {
  2 |     color: \red;
    :            ^^^^
  3 | }
    `----
-
   x Rule
-    ,-[$DIR/tests/fixture/value/escaped/input.css:4:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:5:1]
   4 |     
   5 | ,-> a {
   6 | |       background: url("a).png");
@@ -168,9 +149,8 @@
  10 | `-> }
  11 |     :not([foo=")"]) { }
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/fixture/value/escaped/input.css:4:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:5:1]
   4 |     
   5 | ,-> a {
   6 | |       background: url("a).png");
@@ -180,65 +160,57 @@
  10 | `-> }
  11 |     :not([foo=")"]) { }
     `----
-
   x SelectorList
-   ,-[$DIR/tests/fixture/value/escaped/input.css:4:1]
+   ,-[$DIR/tests/fixture/value/escaped/input.css:5:1]
  4 | 
  5 | a {
    : ^
  6 |     background: url("a).png");
    `----
-
   x ComplexSelector
-   ,-[$DIR/tests/fixture/value/escaped/input.css:4:1]
+   ,-[$DIR/tests/fixture/value/escaped/input.css:5:1]
  4 | 
  5 | a {
    : ^
  6 |     background: url("a).png");
    `----
-
   x CompoundSelector
-   ,-[$DIR/tests/fixture/value/escaped/input.css:4:1]
+   ,-[$DIR/tests/fixture/value/escaped/input.css:5:1]
  4 | 
  5 | a {
    : ^
  6 |     background: url("a).png");
    `----
-
   x TypeSelector
-   ,-[$DIR/tests/fixture/value/escaped/input.css:4:1]
+   ,-[$DIR/tests/fixture/value/escaped/input.css:5:1]
  4 | 
  5 | a {
    : ^
  6 |     background: url("a).png");
    `----
-
   x TagNameSelector
-   ,-[$DIR/tests/fixture/value/escaped/input.css:4:1]
+   ,-[$DIR/tests/fixture/value/escaped/input.css:5:1]
  4 | 
  5 | a {
    : ^
  6 |     background: url("a).png");
    `----
-
   x WqName
-   ,-[$DIR/tests/fixture/value/escaped/input.css:4:1]
+   ,-[$DIR/tests/fixture/value/escaped/input.css:5:1]
  4 | 
  5 | a {
    : ^
  6 |     background: url("a).png");
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/value/escaped/input.css:4:1]
+   ,-[$DIR/tests/fixture/value/escaped/input.css:5:1]
  4 | 
  5 | a {
    : ^
  6 |     background: url("a).png");
    `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/value/escaped/input.css:4:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:5:1]
   4 |     
   5 | ,-> a {
   6 | |       background: url("a).png");
@@ -248,1722 +220,1502 @@
  10 | `-> }
  11 |     :not([foo=")"]) { }
     `----
-
   x LBrace
-   ,-[$DIR/tests/fixture/value/escaped/input.css:4:1]
+   ,-[$DIR/tests/fixture/value/escaped/input.css:5:1]
  4 | 
  5 | a {
    :   ^
  6 |     background: url("a).png");
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/escaped/input.css:5:1]
+   ,-[$DIR/tests/fixture/value/escaped/input.css:6:1]
  5 | a {
  6 |     background: url("a).png");
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^
  7 |     background: url(a;a);
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/value/escaped/input.css:5:1]
+   ,-[$DIR/tests/fixture/value/escaped/input.css:6:1]
  5 | a {
  6 |     background: url("a).png");
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^
  7 |     background: url(a;a);
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/value/escaped/input.css:5:1]
+   ,-[$DIR/tests/fixture/value/escaped/input.css:6:1]
  5 | a {
  6 |     background: url("a).png");
    :     ^^^^^^^^^^
  7 |     background: url(a;a);
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/value/escaped/input.css:5:1]
+   ,-[$DIR/tests/fixture/value/escaped/input.css:6:1]
  5 | a {
  6 |     background: url("a).png");
    :     ^^^^^^^^^^
  7 |     background: url(a;a);
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/escaped/input.css:5:1]
+   ,-[$DIR/tests/fixture/value/escaped/input.css:6:1]
  5 | a {
  6 |     background: url("a).png");
    :                 ^^^^^^^^^^^^^
  7 |     background: url(a;a);
    `----
-
   x Url
-   ,-[$DIR/tests/fixture/value/escaped/input.css:5:1]
+   ,-[$DIR/tests/fixture/value/escaped/input.css:6:1]
  5 | a {
  6 |     background: url("a).png");
    :                 ^^^^^^^^^^^^^
  7 |     background: url(a;a);
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/value/escaped/input.css:5:1]
+   ,-[$DIR/tests/fixture/value/escaped/input.css:6:1]
  5 | a {
  6 |     background: url("a).png");
    :                 ^^^
  7 |     background: url(a;a);
    `----
-
   x UrlValue
-   ,-[$DIR/tests/fixture/value/escaped/input.css:5:1]
+   ,-[$DIR/tests/fixture/value/escaped/input.css:6:1]
  5 | a {
  6 |     background: url("a).png");
    :                     ^^^^^^^^
  7 |     background: url(a;a);
    `----
-
   x Str
-   ,-[$DIR/tests/fixture/value/escaped/input.css:5:1]
+   ,-[$DIR/tests/fixture/value/escaped/input.css:6:1]
  5 | a {
  6 |     background: url("a).png");
    :                     ^^^^^^^^
  7 |     background: url(a;a);
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/escaped/input.css:6:1]
+   ,-[$DIR/tests/fixture/value/escaped/input.css:7:1]
  6 |     background: url("a).png");
  7 |     background: url(a;a);
    :     ^^^^^^^^^^^^^^^^^^^^
  8 |     background: url(a/*);
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/value/escaped/input.css:6:1]
+   ,-[$DIR/tests/fixture/value/escaped/input.css:7:1]
  6 |     background: url("a).png");
  7 |     background: url(a;a);
    :     ^^^^^^^^^^^^^^^^^^^^
  8 |     background: url(a/*);
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/value/escaped/input.css:6:1]
+   ,-[$DIR/tests/fixture/value/escaped/input.css:7:1]
  6 |     background: url("a).png");
  7 |     background: url(a;a);
    :     ^^^^^^^^^^
  8 |     background: url(a/*);
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/value/escaped/input.css:6:1]
+   ,-[$DIR/tests/fixture/value/escaped/input.css:7:1]
  6 |     background: url("a).png");
  7 |     background: url(a;a);
    :     ^^^^^^^^^^
  8 |     background: url(a/*);
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/escaped/input.css:6:1]
+   ,-[$DIR/tests/fixture/value/escaped/input.css:7:1]
  6 |     background: url("a).png");
  7 |     background: url(a;a);
    :                 ^^^^^^^^
  8 |     background: url(a/*);
    `----
-
   x Url
-   ,-[$DIR/tests/fixture/value/escaped/input.css:6:1]
+   ,-[$DIR/tests/fixture/value/escaped/input.css:7:1]
  6 |     background: url("a).png");
  7 |     background: url(a;a);
    :                 ^^^^^^^^
  8 |     background: url(a/*);
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/value/escaped/input.css:6:1]
+   ,-[$DIR/tests/fixture/value/escaped/input.css:7:1]
  6 |     background: url("a).png");
  7 |     background: url(a;a);
    :                 ^^^
  8 |     background: url(a/*);
    `----
-
   x UrlValue
-   ,-[$DIR/tests/fixture/value/escaped/input.css:6:1]
+   ,-[$DIR/tests/fixture/value/escaped/input.css:7:1]
  6 |     background: url("a).png");
  7 |     background: url(a;a);
    :                     ^^^
  8 |     background: url(a/*);
    `----
-
   x UrlValueRaw
-   ,-[$DIR/tests/fixture/value/escaped/input.css:6:1]
+   ,-[$DIR/tests/fixture/value/escaped/input.css:7:1]
  6 |     background: url("a).png");
  7 |     background: url(a;a);
    :                     ^^^
  8 |     background: url(a/*);
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/escaped/input.css:7:1]
+   ,-[$DIR/tests/fixture/value/escaped/input.css:8:1]
  7 |     background: url(a;a);
  8 |     background: url(a/*);
    :     ^^^^^^^^^^^^^^^^^^^^
  9 |     background: \;a;
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/value/escaped/input.css:7:1]
+   ,-[$DIR/tests/fixture/value/escaped/input.css:8:1]
  7 |     background: url(a;a);
  8 |     background: url(a/*);
    :     ^^^^^^^^^^^^^^^^^^^^
  9 |     background: \;a;
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/value/escaped/input.css:7:1]
+   ,-[$DIR/tests/fixture/value/escaped/input.css:8:1]
  7 |     background: url(a;a);
  8 |     background: url(a/*);
    :     ^^^^^^^^^^
  9 |     background: \;a;
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/value/escaped/input.css:7:1]
+   ,-[$DIR/tests/fixture/value/escaped/input.css:8:1]
  7 |     background: url(a;a);
  8 |     background: url(a/*);
    :     ^^^^^^^^^^
  9 |     background: \;a;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/value/escaped/input.css:7:1]
+   ,-[$DIR/tests/fixture/value/escaped/input.css:8:1]
  7 |     background: url(a;a);
  8 |     background: url(a/*);
    :                 ^^^^^^^^
  9 |     background: \;a;
    `----
-
   x Url
-   ,-[$DIR/tests/fixture/value/escaped/input.css:7:1]
+   ,-[$DIR/tests/fixture/value/escaped/input.css:8:1]
  7 |     background: url(a;a);
  8 |     background: url(a/*);
    :                 ^^^^^^^^
  9 |     background: \;a;
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/value/escaped/input.css:7:1]
+   ,-[$DIR/tests/fixture/value/escaped/input.css:8:1]
  7 |     background: url(a;a);
  8 |     background: url(a/*);
    :                 ^^^
  9 |     background: \;a;
    `----
-
   x UrlValue
-   ,-[$DIR/tests/fixture/value/escaped/input.css:7:1]
+   ,-[$DIR/tests/fixture/value/escaped/input.css:8:1]
  7 |     background: url(a;a);
  8 |     background: url(a/*);
    :                     ^^^
  9 |     background: \;a;
    `----
-
   x UrlValueRaw
-   ,-[$DIR/tests/fixture/value/escaped/input.css:7:1]
+   ,-[$DIR/tests/fixture/value/escaped/input.css:8:1]
  7 |     background: url(a;a);
  8 |     background: url(a/*);
    :                     ^^^
  9 |     background: \;a;
    `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/escaped/input.css:8:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:9:1]
   8 |     background: url(a/*);
   9 |     background: \;a;
     :     ^^^^^^^^^^^^^^^
  10 | }
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/value/escaped/input.css:8:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:9:1]
   8 |     background: url(a/*);
   9 |     background: \;a;
     :     ^^^^^^^^^^^^^^^
  10 | }
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/value/escaped/input.css:8:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:9:1]
   8 |     background: url(a/*);
   9 |     background: \;a;
     :     ^^^^^^^^^^
  10 | }
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/value/escaped/input.css:8:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:9:1]
   8 |     background: url(a/*);
   9 |     background: \;a;
     :     ^^^^^^^^^^
  10 | }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/escaped/input.css:8:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:9:1]
   8 |     background: url(a/*);
   9 |     background: \;a;
     :                 ^^^
  10 | }
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/value/escaped/input.css:8:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:9:1]
   8 |     background: url(a/*);
   9 |     background: \;a;
     :                 ^^^
  10 | }
     `----
-
   x Rule
-    ,-[$DIR/tests/fixture/value/escaped/input.css:10:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:11:1]
  10 | }
  11 | :not([foo=")"]) { }
     : ^^^^^^^^^^^^^^^^^^^
  12 | :not(div/*)*/) { }
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/fixture/value/escaped/input.css:10:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:11:1]
  10 | }
  11 | :not([foo=")"]) { }
     : ^^^^^^^^^^^^^^^^^^^
  12 | :not(div/*)*/) { }
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/value/escaped/input.css:10:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:11:1]
  10 | }
  11 | :not([foo=")"]) { }
     : ^^^^^^^^^^^^^^^
  12 | :not(div/*)*/) { }
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/value/escaped/input.css:10:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:11:1]
  10 | }
  11 | :not([foo=")"]) { }
     : ^^^^^^^^^^^^^^^
  12 | :not(div/*)*/) { }
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/value/escaped/input.css:10:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:11:1]
  10 | }
  11 | :not([foo=")"]) { }
     : ^^^^^^^^^^^^^^^
  12 | :not(div/*)*/) { }
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/value/escaped/input.css:10:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:11:1]
  10 | }
  11 | :not([foo=")"]) { }
     : ^^^^^^^^^^^^^^^
  12 | :not(div/*)*/) { }
     `----
-
   x PseudoClassSelector
-    ,-[$DIR/tests/fixture/value/escaped/input.css:10:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:11:1]
  10 | }
  11 | :not([foo=")"]) { }
     : ^^^^^^^^^^^^^^^
  12 | :not(div/*)*/) { }
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/value/escaped/input.css:10:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:11:1]
  10 | }
  11 | :not([foo=")"]) { }
     :  ^^^
  12 | :not(div/*)*/) { }
     `----
-
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/value/escaped/input.css:10:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:11:1]
  10 | }
  11 | :not([foo=")"]) { }
     :      ^^^^^^^^^
  12 | :not(div/*)*/) { }
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/value/escaped/input.css:10:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:11:1]
  10 | }
  11 | :not([foo=")"]) { }
     :      ^^^^^^^^^
  12 | :not(div/*)*/) { }
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/value/escaped/input.css:10:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:11:1]
  10 | }
  11 | :not([foo=")"]) { }
     :      ^^^^^^^^^
  12 | :not(div/*)*/) { }
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/value/escaped/input.css:10:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:11:1]
  10 | }
  11 | :not([foo=")"]) { }
     :      ^^^^^^^^^
  12 | :not(div/*)*/) { }
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/value/escaped/input.css:10:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:11:1]
  10 | }
  11 | :not([foo=")"]) { }
     :      ^^^^^^^^^
  12 | :not(div/*)*/) { }
     `----
-
   x AttributeSelector
-    ,-[$DIR/tests/fixture/value/escaped/input.css:10:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:11:1]
  10 | }
  11 | :not([foo=")"]) { }
     :      ^^^^^^^^^
  12 | :not(div/*)*/) { }
     `----
-
   x WqName
-    ,-[$DIR/tests/fixture/value/escaped/input.css:10:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:11:1]
  10 | }
  11 | :not([foo=")"]) { }
     :       ^^^
  12 | :not(div/*)*/) { }
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/value/escaped/input.css:10:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:11:1]
  10 | }
  11 | :not([foo=")"]) { }
     :       ^^^
  12 | :not(div/*)*/) { }
     `----
-
   x AttributeSelectorMatcher
-    ,-[$DIR/tests/fixture/value/escaped/input.css:10:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:11:1]
  10 | }
  11 | :not([foo=")"]) { }
     :          ^
  12 | :not(div/*)*/) { }
     `----
-
   x AttributeSelectorValue
-    ,-[$DIR/tests/fixture/value/escaped/input.css:10:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:11:1]
  10 | }
  11 | :not([foo=")"]) { }
     :           ^^^
  12 | :not(div/*)*/) { }
     `----
-
   x Str
-    ,-[$DIR/tests/fixture/value/escaped/input.css:10:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:11:1]
  10 | }
  11 | :not([foo=")"]) { }
     :           ^^^
  12 | :not(div/*)*/) { }
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/value/escaped/input.css:10:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:11:1]
  10 | }
  11 | :not([foo=")"]) { }
     :                 ^^^
  12 | :not(div/*)*/) { }
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/value/escaped/input.css:10:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:11:1]
  10 | }
  11 | :not([foo=")"]) { }
     :                 ^
  12 | :not(div/*)*/) { }
     `----
-
   x Rule
-    ,-[$DIR/tests/fixture/value/escaped/input.css:11:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:12:1]
  11 | :not([foo=")"]) { }
  12 | :not(div/*)*/) { }
     : ^^^^^^^^^^^^^^^^^^
  13 | :not(:nth-child(2n of [foo=")"])) { }
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/fixture/value/escaped/input.css:11:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:12:1]
  11 | :not([foo=")"]) { }
  12 | :not(div/*)*/) { }
     : ^^^^^^^^^^^^^^^^^^
  13 | :not(:nth-child(2n of [foo=")"])) { }
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/value/escaped/input.css:11:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:12:1]
  11 | :not([foo=")"]) { }
  12 | :not(div/*)*/) { }
     : ^^^^^^^^^^^^^^
  13 | :not(:nth-child(2n of [foo=")"])) { }
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/value/escaped/input.css:11:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:12:1]
  11 | :not([foo=")"]) { }
  12 | :not(div/*)*/) { }
     : ^^^^^^^^^^^^^^
  13 | :not(:nth-child(2n of [foo=")"])) { }
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/value/escaped/input.css:11:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:12:1]
  11 | :not([foo=")"]) { }
  12 | :not(div/*)*/) { }
     : ^^^^^^^^^^^^^^
  13 | :not(:nth-child(2n of [foo=")"])) { }
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/value/escaped/input.css:11:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:12:1]
  11 | :not([foo=")"]) { }
  12 | :not(div/*)*/) { }
     : ^^^^^^^^^^^^^^
  13 | :not(:nth-child(2n of [foo=")"])) { }
     `----
-
   x PseudoClassSelector
-    ,-[$DIR/tests/fixture/value/escaped/input.css:11:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:12:1]
  11 | :not([foo=")"]) { }
  12 | :not(div/*)*/) { }
     : ^^^^^^^^^^^^^^
  13 | :not(:nth-child(2n of [foo=")"])) { }
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/value/escaped/input.css:11:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:12:1]
  11 | :not([foo=")"]) { }
  12 | :not(div/*)*/) { }
     :  ^^^
  13 | :not(:nth-child(2n of [foo=")"])) { }
     `----
-
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/value/escaped/input.css:11:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:12:1]
  11 | :not([foo=")"]) { }
  12 | :not(div/*)*/) { }
     :      ^^^
  13 | :not(:nth-child(2n of [foo=")"])) { }
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/value/escaped/input.css:11:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:12:1]
  11 | :not([foo=")"]) { }
  12 | :not(div/*)*/) { }
     :      ^^^
  13 | :not(:nth-child(2n of [foo=")"])) { }
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/value/escaped/input.css:11:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:12:1]
  11 | :not([foo=")"]) { }
  12 | :not(div/*)*/) { }
     :      ^^^
  13 | :not(:nth-child(2n of [foo=")"])) { }
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/value/escaped/input.css:11:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:12:1]
  11 | :not([foo=")"]) { }
  12 | :not(div/*)*/) { }
     :      ^^^
  13 | :not(:nth-child(2n of [foo=")"])) { }
     `----
-
   x TypeSelector
-    ,-[$DIR/tests/fixture/value/escaped/input.css:11:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:12:1]
  11 | :not([foo=")"]) { }
  12 | :not(div/*)*/) { }
     :      ^^^
  13 | :not(:nth-child(2n of [foo=")"])) { }
     `----
-
   x TagNameSelector
-    ,-[$DIR/tests/fixture/value/escaped/input.css:11:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:12:1]
  11 | :not([foo=")"]) { }
  12 | :not(div/*)*/) { }
     :      ^^^
  13 | :not(:nth-child(2n of [foo=")"])) { }
     `----
-
   x WqName
-    ,-[$DIR/tests/fixture/value/escaped/input.css:11:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:12:1]
  11 | :not([foo=")"]) { }
  12 | :not(div/*)*/) { }
     :      ^^^
  13 | :not(:nth-child(2n of [foo=")"])) { }
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/value/escaped/input.css:11:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:12:1]
  11 | :not([foo=")"]) { }
  12 | :not(div/*)*/) { }
     :      ^^^
  13 | :not(:nth-child(2n of [foo=")"])) { }
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/value/escaped/input.css:11:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:12:1]
  11 | :not([foo=")"]) { }
  12 | :not(div/*)*/) { }
     :                ^^^
  13 | :not(:nth-child(2n of [foo=")"])) { }
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/value/escaped/input.css:11:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:12:1]
  11 | :not([foo=")"]) { }
  12 | :not(div/*)*/) { }
     :                ^
  13 | :not(:nth-child(2n of [foo=")"])) { }
     `----
-
   x Rule
-    ,-[$DIR/tests/fixture/value/escaped/input.css:12:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:13:1]
  12 | :not(div/*)*/) { }
  13 | :not(:nth-child(2n of [foo=")"])) { }
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  14 | [foo=\"] { }
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/fixture/value/escaped/input.css:12:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:13:1]
  12 | :not(div/*)*/) { }
  13 | :not(:nth-child(2n of [foo=")"])) { }
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  14 | [foo=\"] { }
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/value/escaped/input.css:12:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:13:1]
  12 | :not(div/*)*/) { }
  13 | :not(:nth-child(2n of [foo=")"])) { }
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  14 | [foo=\"] { }
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/value/escaped/input.css:12:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:13:1]
  12 | :not(div/*)*/) { }
  13 | :not(:nth-child(2n of [foo=")"])) { }
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  14 | [foo=\"] { }
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/value/escaped/input.css:12:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:13:1]
  12 | :not(div/*)*/) { }
  13 | :not(:nth-child(2n of [foo=")"])) { }
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  14 | [foo=\"] { }
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/value/escaped/input.css:12:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:13:1]
  12 | :not(div/*)*/) { }
  13 | :not(:nth-child(2n of [foo=")"])) { }
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  14 | [foo=\"] { }
     `----
-
   x PseudoClassSelector
-    ,-[$DIR/tests/fixture/value/escaped/input.css:12:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:13:1]
  12 | :not(div/*)*/) { }
  13 | :not(:nth-child(2n of [foo=")"])) { }
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  14 | [foo=\"] { }
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/value/escaped/input.css:12:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:13:1]
  12 | :not(div/*)*/) { }
  13 | :not(:nth-child(2n of [foo=")"])) { }
     :  ^^^
  14 | [foo=\"] { }
     `----
-
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/value/escaped/input.css:12:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:13:1]
  12 | :not(div/*)*/) { }
  13 | :not(:nth-child(2n of [foo=")"])) { }
     :      ^^^^^^^^^^^^^^^^^^^^^^^^^^^
  14 | [foo=\"] { }
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/value/escaped/input.css:12:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:13:1]
  12 | :not(div/*)*/) { }
  13 | :not(:nth-child(2n of [foo=")"])) { }
     :      ^^^^^^^^^^^^^^^^^^^^^^^^^^^
  14 | [foo=\"] { }
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/value/escaped/input.css:12:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:13:1]
  12 | :not(div/*)*/) { }
  13 | :not(:nth-child(2n of [foo=")"])) { }
     :      ^^^^^^^^^^^^^^^^^^^^^^^^^^^
  14 | [foo=\"] { }
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/value/escaped/input.css:12:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:13:1]
  12 | :not(div/*)*/) { }
  13 | :not(:nth-child(2n of [foo=")"])) { }
     :      ^^^^^^^^^^^^^^^^^^^^^^^^^^^
  14 | [foo=\"] { }
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/value/escaped/input.css:12:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:13:1]
  12 | :not(div/*)*/) { }
  13 | :not(:nth-child(2n of [foo=")"])) { }
     :      ^^^^^^^^^^^^^^^^^^^^^^^^^^^
  14 | [foo=\"] { }
     `----
-
   x PseudoClassSelector
-    ,-[$DIR/tests/fixture/value/escaped/input.css:12:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:13:1]
  12 | :not(div/*)*/) { }
  13 | :not(:nth-child(2n of [foo=")"])) { }
     :      ^^^^^^^^^^^^^^^^^^^^^^^^^^^
  14 | [foo=\"] { }
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/value/escaped/input.css:12:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:13:1]
  12 | :not(div/*)*/) { }
  13 | :not(:nth-child(2n of [foo=")"])) { }
     :       ^^^^^^^^^
  14 | [foo=\"] { }
     `----
-
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/value/escaped/input.css:12:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:13:1]
  12 | :not(div/*)*/) { }
  13 | :not(:nth-child(2n of [foo=")"])) { }
     :                 ^^^
  14 | [foo=\"] { }
     `----
-
   x AnPlusB
-    ,-[$DIR/tests/fixture/value/escaped/input.css:12:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:13:1]
  12 | :not(div/*)*/) { }
  13 | :not(:nth-child(2n of [foo=")"])) { }
     :                 ^^^
  14 | [foo=\"] { }
     `----
-
   x AnPlusBNotation
-    ,-[$DIR/tests/fixture/value/escaped/input.css:12:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:13:1]
  12 | :not(div/*)*/) { }
  13 | :not(:nth-child(2n of [foo=")"])) { }
     :                 ^^^
  14 | [foo=\"] { }
     `----
-
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/value/escaped/input.css:12:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:13:1]
  12 | :not(div/*)*/) { }
  13 | :not(:nth-child(2n of [foo=")"])) { }
     :                    ^^
  14 | [foo=\"] { }
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/value/escaped/input.css:12:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:13:1]
  12 | :not(div/*)*/) { }
  13 | :not(:nth-child(2n of [foo=")"])) { }
     :                    ^^
  14 | [foo=\"] { }
     `----
-
   x PseudoClassSelectorChildren
-    ,-[$DIR/tests/fixture/value/escaped/input.css:12:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:13:1]
  12 | :not(div/*)*/) { }
  13 | :not(:nth-child(2n of [foo=")"])) { }
     :                       ^^^^^^^^^
  14 | [foo=\"] { }
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/value/escaped/input.css:12:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:13:1]
  12 | :not(div/*)*/) { }
  13 | :not(:nth-child(2n of [foo=")"])) { }
     :                       ^^^^^^^^^
  14 | [foo=\"] { }
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/value/escaped/input.css:12:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:13:1]
  12 | :not(div/*)*/) { }
  13 | :not(:nth-child(2n of [foo=")"])) { }
     :                       ^^^^^^^^^
  14 | [foo=\"] { }
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/value/escaped/input.css:12:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:13:1]
  12 | :not(div/*)*/) { }
  13 | :not(:nth-child(2n of [foo=")"])) { }
     :                       ^^^^^^^^^
  14 | [foo=\"] { }
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/value/escaped/input.css:12:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:13:1]
  12 | :not(div/*)*/) { }
  13 | :not(:nth-child(2n of [foo=")"])) { }
     :                       ^^^^^^^^^
  14 | [foo=\"] { }
     `----
-
   x AttributeSelector
-    ,-[$DIR/tests/fixture/value/escaped/input.css:12:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:13:1]
  12 | :not(div/*)*/) { }
  13 | :not(:nth-child(2n of [foo=")"])) { }
     :                       ^^^^^^^^^
  14 | [foo=\"] { }
     `----
-
   x WqName
-    ,-[$DIR/tests/fixture/value/escaped/input.css:12:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:13:1]
  12 | :not(div/*)*/) { }
  13 | :not(:nth-child(2n of [foo=")"])) { }
     :                        ^^^
  14 | [foo=\"] { }
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/value/escaped/input.css:12:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:13:1]
  12 | :not(div/*)*/) { }
  13 | :not(:nth-child(2n of [foo=")"])) { }
     :                        ^^^
  14 | [foo=\"] { }
     `----
-
   x AttributeSelectorMatcher
-    ,-[$DIR/tests/fixture/value/escaped/input.css:12:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:13:1]
  12 | :not(div/*)*/) { }
  13 | :not(:nth-child(2n of [foo=")"])) { }
     :                           ^
  14 | [foo=\"] { }
     `----
-
   x AttributeSelectorValue
-    ,-[$DIR/tests/fixture/value/escaped/input.css:12:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:13:1]
  12 | :not(div/*)*/) { }
  13 | :not(:nth-child(2n of [foo=")"])) { }
     :                            ^^^
  14 | [foo=\"] { }
     `----
-
   x Str
-    ,-[$DIR/tests/fixture/value/escaped/input.css:12:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:13:1]
  12 | :not(div/*)*/) { }
  13 | :not(:nth-child(2n of [foo=")"])) { }
     :                            ^^^
  14 | [foo=\"] { }
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/value/escaped/input.css:12:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:13:1]
  12 | :not(div/*)*/) { }
  13 | :not(:nth-child(2n of [foo=")"])) { }
     :                                   ^^^
  14 | [foo=\"] { }
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/value/escaped/input.css:12:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:13:1]
  12 | :not(div/*)*/) { }
  13 | :not(:nth-child(2n of [foo=")"])) { }
     :                                   ^
  14 | [foo=\"] { }
     `----
-
   x Rule
-    ,-[$DIR/tests/fixture/value/escaped/input.css:13:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:14:1]
  13 | :not(:nth-child(2n of [foo=")"])) { }
  14 | [foo=\"] { }
     : ^^^^^^^^^^^^
  15 | [foo=\{] { }
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/fixture/value/escaped/input.css:13:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:14:1]
  13 | :not(:nth-child(2n of [foo=")"])) { }
  14 | [foo=\"] { }
     : ^^^^^^^^^^^^
  15 | [foo=\{] { }
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/value/escaped/input.css:13:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:14:1]
  13 | :not(:nth-child(2n of [foo=")"])) { }
  14 | [foo=\"] { }
     : ^^^^^^^^
  15 | [foo=\{] { }
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/value/escaped/input.css:13:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:14:1]
  13 | :not(:nth-child(2n of [foo=")"])) { }
  14 | [foo=\"] { }
     : ^^^^^^^^
  15 | [foo=\{] { }
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/value/escaped/input.css:13:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:14:1]
  13 | :not(:nth-child(2n of [foo=")"])) { }
  14 | [foo=\"] { }
     : ^^^^^^^^
  15 | [foo=\{] { }
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/value/escaped/input.css:13:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:14:1]
  13 | :not(:nth-child(2n of [foo=")"])) { }
  14 | [foo=\"] { }
     : ^^^^^^^^
  15 | [foo=\{] { }
     `----
-
   x AttributeSelector
-    ,-[$DIR/tests/fixture/value/escaped/input.css:13:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:14:1]
  13 | :not(:nth-child(2n of [foo=")"])) { }
  14 | [foo=\"] { }
     : ^^^^^^^^
  15 | [foo=\{] { }
     `----
-
   x WqName
-    ,-[$DIR/tests/fixture/value/escaped/input.css:13:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:14:1]
  13 | :not(:nth-child(2n of [foo=")"])) { }
  14 | [foo=\"] { }
     :  ^^^
  15 | [foo=\{] { }
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/value/escaped/input.css:13:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:14:1]
  13 | :not(:nth-child(2n of [foo=")"])) { }
  14 | [foo=\"] { }
     :  ^^^
  15 | [foo=\{] { }
     `----
-
   x AttributeSelectorMatcher
-    ,-[$DIR/tests/fixture/value/escaped/input.css:13:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:14:1]
  13 | :not(:nth-child(2n of [foo=")"])) { }
  14 | [foo=\"] { }
     :     ^
  15 | [foo=\{] { }
     `----
-
   x AttributeSelectorValue
-    ,-[$DIR/tests/fixture/value/escaped/input.css:13:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:14:1]
  13 | :not(:nth-child(2n of [foo=")"])) { }
  14 | [foo=\"] { }
     :      ^^
  15 | [foo=\{] { }
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/value/escaped/input.css:13:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:14:1]
  13 | :not(:nth-child(2n of [foo=")"])) { }
  14 | [foo=\"] { }
     :      ^^
  15 | [foo=\{] { }
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/value/escaped/input.css:13:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:14:1]
  13 | :not(:nth-child(2n of [foo=")"])) { }
  14 | [foo=\"] { }
     :          ^^^
  15 | [foo=\{] { }
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/value/escaped/input.css:13:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:14:1]
  13 | :not(:nth-child(2n of [foo=")"])) { }
  14 | [foo=\"] { }
     :          ^
  15 | [foo=\{] { }
     `----
-
   x Rule
-    ,-[$DIR/tests/fixture/value/escaped/input.css:14:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:15:1]
  14 | [foo=\"] { }
  15 | [foo=\{] { }
     : ^^^^^^^^^^^^
  16 | [foo=\(] { }
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/fixture/value/escaped/input.css:14:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:15:1]
  14 | [foo=\"] { }
  15 | [foo=\{] { }
     : ^^^^^^^^^^^^
  16 | [foo=\(] { }
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/value/escaped/input.css:14:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:15:1]
  14 | [foo=\"] { }
  15 | [foo=\{] { }
     : ^^^^^^^^
  16 | [foo=\(] { }
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/value/escaped/input.css:14:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:15:1]
  14 | [foo=\"] { }
  15 | [foo=\{] { }
     : ^^^^^^^^
  16 | [foo=\(] { }
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/value/escaped/input.css:14:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:15:1]
  14 | [foo=\"] { }
  15 | [foo=\{] { }
     : ^^^^^^^^
  16 | [foo=\(] { }
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/value/escaped/input.css:14:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:15:1]
  14 | [foo=\"] { }
  15 | [foo=\{] { }
     : ^^^^^^^^
  16 | [foo=\(] { }
     `----
-
   x AttributeSelector
-    ,-[$DIR/tests/fixture/value/escaped/input.css:14:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:15:1]
  14 | [foo=\"] { }
  15 | [foo=\{] { }
     : ^^^^^^^^
  16 | [foo=\(] { }
     `----
-
   x WqName
-    ,-[$DIR/tests/fixture/value/escaped/input.css:14:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:15:1]
  14 | [foo=\"] { }
  15 | [foo=\{] { }
     :  ^^^
  16 | [foo=\(] { }
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/value/escaped/input.css:14:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:15:1]
  14 | [foo=\"] { }
  15 | [foo=\{] { }
     :  ^^^
  16 | [foo=\(] { }
     `----
-
   x AttributeSelectorMatcher
-    ,-[$DIR/tests/fixture/value/escaped/input.css:14:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:15:1]
  14 | [foo=\"] { }
  15 | [foo=\{] { }
     :     ^
  16 | [foo=\(] { }
     `----
-
   x AttributeSelectorValue
-    ,-[$DIR/tests/fixture/value/escaped/input.css:14:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:15:1]
  14 | [foo=\"] { }
  15 | [foo=\{] { }
     :      ^^
  16 | [foo=\(] { }
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/value/escaped/input.css:14:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:15:1]
  14 | [foo=\"] { }
  15 | [foo=\{] { }
     :      ^^
  16 | [foo=\(] { }
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/value/escaped/input.css:14:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:15:1]
  14 | [foo=\"] { }
  15 | [foo=\{] { }
     :          ^^^
  16 | [foo=\(] { }
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/value/escaped/input.css:14:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:15:1]
  14 | [foo=\"] { }
  15 | [foo=\{] { }
     :          ^
  16 | [foo=\(] { }
     `----
-
-  x Rule
-    ,-[$DIR/tests/fixture/value/escaped/input.css:15:1]
- 15 | [foo=\{] { }
- 16 | [foo=\(] { }
-    : ^^^^^^^^^^^^
- 17 | [foo=yes\:\(it\'s\ work\)] { }
-    `----
-
-  x QualifiedRule
-    ,-[$DIR/tests/fixture/value/escaped/input.css:15:1]
- 15 | [foo=\{] { }
- 16 | [foo=\(] { }
-    : ^^^^^^^^^^^^
- 17 | [foo=yes\:\(it\'s\ work\)] { }
-    `----
-
-  x SelectorList
-    ,-[$DIR/tests/fixture/value/escaped/input.css:15:1]
- 15 | [foo=\{] { }
- 16 | [foo=\(] { }
-    : ^^^^^^^^
- 17 | [foo=yes\:\(it\'s\ work\)] { }
-    `----
-
-  x ComplexSelector
-    ,-[$DIR/tests/fixture/value/escaped/input.css:15:1]
- 15 | [foo=\{] { }
- 16 | [foo=\(] { }
-    : ^^^^^^^^
- 17 | [foo=yes\:\(it\'s\ work\)] { }
-    `----
-
-  x CompoundSelector
-    ,-[$DIR/tests/fixture/value/escaped/input.css:15:1]
- 15 | [foo=\{] { }
- 16 | [foo=\(] { }
-    : ^^^^^^^^
- 17 | [foo=yes\:\(it\'s\ work\)] { }
-    `----
-
-  x SubclassSelector
-    ,-[$DIR/tests/fixture/value/escaped/input.css:15:1]
- 15 | [foo=\{] { }
- 16 | [foo=\(] { }
-    : ^^^^^^^^
- 17 | [foo=yes\:\(it\'s\ work\)] { }
-    `----
-
-  x AttributeSelector
-    ,-[$DIR/tests/fixture/value/escaped/input.css:15:1]
- 15 | [foo=\{] { }
- 16 | [foo=\(] { }
-    : ^^^^^^^^
- 17 | [foo=yes\:\(it\'s\ work\)] { }
-    `----
-
-  x WqName
-    ,-[$DIR/tests/fixture/value/escaped/input.css:15:1]
- 15 | [foo=\{] { }
- 16 | [foo=\(] { }
-    :  ^^^
- 17 | [foo=yes\:\(it\'s\ work\)] { }
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/value/escaped/input.css:15:1]
- 15 | [foo=\{] { }
- 16 | [foo=\(] { }
-    :  ^^^
- 17 | [foo=yes\:\(it\'s\ work\)] { }
-    `----
-
-  x AttributeSelectorMatcher
-    ,-[$DIR/tests/fixture/value/escaped/input.css:15:1]
- 15 | [foo=\{] { }
- 16 | [foo=\(] { }
-    :     ^
- 17 | [foo=yes\:\(it\'s\ work\)] { }
-    `----
-
-  x AttributeSelectorValue
-    ,-[$DIR/tests/fixture/value/escaped/input.css:15:1]
- 15 | [foo=\{] { }
- 16 | [foo=\(] { }
-    :      ^^
- 17 | [foo=yes\:\(it\'s\ work\)] { }
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/value/escaped/input.css:15:1]
- 15 | [foo=\{] { }
- 16 | [foo=\(] { }
-    :      ^^
- 17 | [foo=yes\:\(it\'s\ work\)] { }
-    `----
-
-  x SimpleBlock
-    ,-[$DIR/tests/fixture/value/escaped/input.css:15:1]
- 15 | [foo=\{] { }
- 16 | [foo=\(] { }
-    :          ^^^
- 17 | [foo=yes\:\(it\'s\ work\)] { }
-    `----
-
-  x LBrace
-    ,-[$DIR/tests/fixture/value/escaped/input.css:15:1]
- 15 | [foo=\{] { }
- 16 | [foo=\(] { }
-    :          ^
- 17 | [foo=yes\:\(it\'s\ work\)] { }
-    `----
-
   x Rule
     ,-[$DIR/tests/fixture/value/escaped/input.css:16:1]
+ 15 | [foo=\{] { }
+ 16 | [foo=\(] { }
+    : ^^^^^^^^^^^^
+ 17 | [foo=yes\:\(it\'s\ work\)] { }
+    `----
+  x QualifiedRule
+    ,-[$DIR/tests/fixture/value/escaped/input.css:16:1]
+ 15 | [foo=\{] { }
+ 16 | [foo=\(] { }
+    : ^^^^^^^^^^^^
+ 17 | [foo=yes\:\(it\'s\ work\)] { }
+    `----
+  x SelectorList
+    ,-[$DIR/tests/fixture/value/escaped/input.css:16:1]
+ 15 | [foo=\{] { }
+ 16 | [foo=\(] { }
+    : ^^^^^^^^
+ 17 | [foo=yes\:\(it\'s\ work\)] { }
+    `----
+  x ComplexSelector
+    ,-[$DIR/tests/fixture/value/escaped/input.css:16:1]
+ 15 | [foo=\{] { }
+ 16 | [foo=\(] { }
+    : ^^^^^^^^
+ 17 | [foo=yes\:\(it\'s\ work\)] { }
+    `----
+  x CompoundSelector
+    ,-[$DIR/tests/fixture/value/escaped/input.css:16:1]
+ 15 | [foo=\{] { }
+ 16 | [foo=\(] { }
+    : ^^^^^^^^
+ 17 | [foo=yes\:\(it\'s\ work\)] { }
+    `----
+  x SubclassSelector
+    ,-[$DIR/tests/fixture/value/escaped/input.css:16:1]
+ 15 | [foo=\{] { }
+ 16 | [foo=\(] { }
+    : ^^^^^^^^
+ 17 | [foo=yes\:\(it\'s\ work\)] { }
+    `----
+  x AttributeSelector
+    ,-[$DIR/tests/fixture/value/escaped/input.css:16:1]
+ 15 | [foo=\{] { }
+ 16 | [foo=\(] { }
+    : ^^^^^^^^
+ 17 | [foo=yes\:\(it\'s\ work\)] { }
+    `----
+  x WqName
+    ,-[$DIR/tests/fixture/value/escaped/input.css:16:1]
+ 15 | [foo=\{] { }
+ 16 | [foo=\(] { }
+    :  ^^^
+ 17 | [foo=yes\:\(it\'s\ work\)] { }
+    `----
+  x Ident
+    ,-[$DIR/tests/fixture/value/escaped/input.css:16:1]
+ 15 | [foo=\{] { }
+ 16 | [foo=\(] { }
+    :  ^^^
+ 17 | [foo=yes\:\(it\'s\ work\)] { }
+    `----
+  x AttributeSelectorMatcher
+    ,-[$DIR/tests/fixture/value/escaped/input.css:16:1]
+ 15 | [foo=\{] { }
+ 16 | [foo=\(] { }
+    :     ^
+ 17 | [foo=yes\:\(it\'s\ work\)] { }
+    `----
+  x AttributeSelectorValue
+    ,-[$DIR/tests/fixture/value/escaped/input.css:16:1]
+ 15 | [foo=\{] { }
+ 16 | [foo=\(] { }
+    :      ^^
+ 17 | [foo=yes\:\(it\'s\ work\)] { }
+    `----
+  x Ident
+    ,-[$DIR/tests/fixture/value/escaped/input.css:16:1]
+ 15 | [foo=\{] { }
+ 16 | [foo=\(] { }
+    :      ^^
+ 17 | [foo=yes\:\(it\'s\ work\)] { }
+    `----
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/value/escaped/input.css:16:1]
+ 15 | [foo=\{] { }
+ 16 | [foo=\(] { }
+    :          ^^^
+ 17 | [foo=yes\:\(it\'s\ work\)] { }
+    `----
+  x LBrace
+    ,-[$DIR/tests/fixture/value/escaped/input.css:16:1]
+ 15 | [foo=\{] { }
+ 16 | [foo=\(] { }
+    :          ^
+ 17 | [foo=yes\:\(it\'s\ work\)] { }
+    `----
+  x Rule
+    ,-[$DIR/tests/fixture/value/escaped/input.css:17:1]
  16 | [foo=\(] { }
  17 | [foo=yes\:\(it\'s\ work\)] { }
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/fixture/value/escaped/input.css:16:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:17:1]
  16 | [foo=\(] { }
  17 | [foo=yes\:\(it\'s\ work\)] { }
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/value/escaped/input.css:16:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:17:1]
  16 | [foo=\(] { }
  17 | [foo=yes\:\(it\'s\ work\)] { }
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/value/escaped/input.css:16:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:17:1]
  16 | [foo=\(] { }
  17 | [foo=yes\:\(it\'s\ work\)] { }
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/value/escaped/input.css:16:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:17:1]
  16 | [foo=\(] { }
  17 | [foo=yes\:\(it\'s\ work\)] { }
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/value/escaped/input.css:16:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:17:1]
  16 | [foo=\(] { }
  17 | [foo=yes\:\(it\'s\ work\)] { }
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
-
   x AttributeSelector
-    ,-[$DIR/tests/fixture/value/escaped/input.css:16:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:17:1]
  16 | [foo=\(] { }
  17 | [foo=yes\:\(it\'s\ work\)] { }
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
-
   x WqName
-    ,-[$DIR/tests/fixture/value/escaped/input.css:16:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:17:1]
  16 | [foo=\(] { }
  17 | [foo=yes\:\(it\'s\ work\)] { }
     :  ^^^
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/value/escaped/input.css:16:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:17:1]
  16 | [foo=\(] { }
  17 | [foo=yes\:\(it\'s\ work\)] { }
     :  ^^^
     `----
-
   x AttributeSelectorMatcher
-    ,-[$DIR/tests/fixture/value/escaped/input.css:16:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:17:1]
  16 | [foo=\(] { }
  17 | [foo=yes\:\(it\'s\ work\)] { }
     :     ^
     `----
-
   x AttributeSelectorValue
-    ,-[$DIR/tests/fixture/value/escaped/input.css:16:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:17:1]
  16 | [foo=\(] { }
  17 | [foo=yes\:\(it\'s\ work\)] { }
     :      ^^^^^^^^^^^^^^^^^^^^
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/value/escaped/input.css:16:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:17:1]
  16 | [foo=\(] { }
  17 | [foo=yes\:\(it\'s\ work\)] { }
     :      ^^^^^^^^^^^^^^^^^^^^
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/value/escaped/input.css:16:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:17:1]
  16 | [foo=\(] { }
  17 | [foo=yes\:\(it\'s\ work\)] { }
     :                            ^^^
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/value/escaped/input.css:16:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:17:1]
  16 | [foo=\(] { }
  17 | [foo=yes\:\(it\'s\ work\)] { }
     :                            ^
     `----
-
   x Rule
-    ,-[$DIR/tests/fixture/value/escaped/input.css:18:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:19:1]
  18 | 
  19 | \@noat { }
     : ^^^^^^^^^^
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/fixture/value/escaped/input.css:18:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:19:1]
  18 | 
  19 | \@noat { }
     : ^^^^^^^^^^
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/value/escaped/input.css:18:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:19:1]
  18 | 
  19 | \@noat { }
     : ^^^^^^
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/value/escaped/input.css:18:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:19:1]
  18 | 
  19 | \@noat { }
     : ^^^^^^
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/value/escaped/input.css:18:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:19:1]
  18 | 
  19 | \@noat { }
     : ^^^^^^
     `----
-
   x TypeSelector
-    ,-[$DIR/tests/fixture/value/escaped/input.css:18:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:19:1]
  18 | 
  19 | \@noat { }
     : ^^^^^^
     `----
-
   x TagNameSelector
-    ,-[$DIR/tests/fixture/value/escaped/input.css:18:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:19:1]
  18 | 
  19 | \@noat { }
     : ^^^^^^
     `----
-
   x WqName
-    ,-[$DIR/tests/fixture/value/escaped/input.css:18:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:19:1]
  18 | 
  19 | \@noat { }
     : ^^^^^^
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/value/escaped/input.css:18:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:19:1]
  18 | 
  19 | \@noat { }
     : ^^^^^^
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/value/escaped/input.css:18:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:19:1]
  18 | 
  19 | \@noat { }
     :        ^^^
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/value/escaped/input.css:18:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:19:1]
  18 | 
  19 | \@noat { }
     :        ^
     `----
-
   x Rule
-    ,-[$DIR/tests/fixture/value/escaped/input.css:20:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:21:1]
  20 |     
  21 | ,-> h1\\{
  22 | |       color: \\;
  23 | `-> }
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/fixture/value/escaped/input.css:20:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:21:1]
  20 |     
  21 | ,-> h1\\{
  22 | |       color: \\;
  23 | `-> }
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/value/escaped/input.css:20:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:21:1]
  20 | 
  21 | h1\\{
     : ^^^^
  22 |     color: \\;
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/value/escaped/input.css:20:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:21:1]
  20 | 
  21 | h1\\{
     : ^^^^
  22 |     color: \\;
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/value/escaped/input.css:20:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:21:1]
  20 | 
  21 | h1\\{
     : ^^^^
  22 |     color: \\;
     `----
-
   x TypeSelector
-    ,-[$DIR/tests/fixture/value/escaped/input.css:20:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:21:1]
  20 | 
  21 | h1\\{
     : ^^^^
  22 |     color: \\;
     `----
-
   x TagNameSelector
-    ,-[$DIR/tests/fixture/value/escaped/input.css:20:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:21:1]
  20 | 
  21 | h1\\{
     : ^^^^
  22 |     color: \\;
     `----
-
   x WqName
-    ,-[$DIR/tests/fixture/value/escaped/input.css:20:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:21:1]
  20 | 
  21 | h1\\{
     : ^^^^
  22 |     color: \\;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/value/escaped/input.css:20:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:21:1]
  20 | 
  21 | h1\\{
     : ^^^^
  22 |     color: \\;
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/value/escaped/input.css:20:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:21:1]
  20 |     
  21 | ,-> h1\\{
  22 | |       color: \\;
  23 | `-> }
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/value/escaped/input.css:20:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:21:1]
  20 | 
  21 | h1\\{
     :     ^
  22 |     color: \\;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/escaped/input.css:21:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:22:1]
  21 | h1\\{
  22 |     color: \\;
     :     ^^^^^^^^^
  23 | }
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/value/escaped/input.css:21:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:22:1]
  21 | h1\\{
  22 |     color: \\;
     :     ^^^^^^^^^
  23 | }
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/value/escaped/input.css:21:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:22:1]
  21 | h1\\{
  22 |     color: \\;
     :     ^^^^^
  23 | }
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/value/escaped/input.css:21:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:22:1]
  21 | h1\\{
  22 |     color: \\;
     :     ^^^^^
  23 | }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/escaped/input.css:21:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:22:1]
  21 | h1\\{
  22 |     color: \\;
     :            ^^
  23 | }
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/value/escaped/input.css:21:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:22:1]
  21 | h1\\{
  22 |     color: \\;
     :            ^^
  23 | }
     `----
-
   x Rule
-    ,-[$DIR/tests/fixture/value/escaped/input.css:24:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:25:1]
  24 | 
  25 | [attr="\;"] { }
     : ^^^^^^^^^^^^^^^
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/fixture/value/escaped/input.css:24:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:25:1]
  24 | 
  25 | [attr="\;"] { }
     : ^^^^^^^^^^^^^^^
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/value/escaped/input.css:24:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:25:1]
  24 | 
  25 | [attr="\;"] { }
     : ^^^^^^^^^^^
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/value/escaped/input.css:24:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:25:1]
  24 | 
  25 | [attr="\;"] { }
     : ^^^^^^^^^^^
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/value/escaped/input.css:24:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:25:1]
  24 | 
  25 | [attr="\;"] { }
     : ^^^^^^^^^^^
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/value/escaped/input.css:24:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:25:1]
  24 | 
  25 | [attr="\;"] { }
     : ^^^^^^^^^^^
     `----
-
   x AttributeSelector
-    ,-[$DIR/tests/fixture/value/escaped/input.css:24:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:25:1]
  24 | 
  25 | [attr="\;"] { }
     : ^^^^^^^^^^^
     `----
-
   x WqName
-    ,-[$DIR/tests/fixture/value/escaped/input.css:24:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:25:1]
  24 | 
  25 | [attr="\;"] { }
     :  ^^^^
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/value/escaped/input.css:24:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:25:1]
  24 | 
  25 | [attr="\;"] { }
     :  ^^^^
     `----
-
   x AttributeSelectorMatcher
-    ,-[$DIR/tests/fixture/value/escaped/input.css:24:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:25:1]
  24 | 
  25 | [attr="\;"] { }
     :      ^
     `----
-
   x AttributeSelectorValue
-    ,-[$DIR/tests/fixture/value/escaped/input.css:24:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:25:1]
  24 | 
  25 | [attr="\;"] { }
     :       ^^^^
     `----
-
   x Str
-    ,-[$DIR/tests/fixture/value/escaped/input.css:24:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:25:1]
  24 | 
  25 | [attr="\;"] { }
     :       ^^^^
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/value/escaped/input.css:24:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:25:1]
  24 | 
  25 | [attr="\;"] { }
     :             ^^^
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/value/escaped/input.css:24:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:25:1]
  24 | 
  25 | [attr="\;"] { }
     :             ^
     `----
-
   x Rule
-    ,-[$DIR/tests/fixture/value/escaped/input.css:26:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:27:1]
  26 |     
  27 | ,-> .prop {
  28 | |       \62 olor: red
  29 | `-> }
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/fixture/value/escaped/input.css:26:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:27:1]
  26 |     
  27 | ,-> .prop {
  28 | |       \62 olor: red
  29 | `-> }
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/value/escaped/input.css:26:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:27:1]
  26 | 
  27 | .prop {
     : ^^^^^
  28 |     \62 olor: red
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/value/escaped/input.css:26:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:27:1]
  26 | 
  27 | .prop {
     : ^^^^^
  28 |     \62 olor: red
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/value/escaped/input.css:26:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:27:1]
  26 | 
  27 | .prop {
     : ^^^^^
  28 |     \62 olor: red
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/value/escaped/input.css:26:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:27:1]
  26 | 
  27 | .prop {
     : ^^^^^
  28 |     \62 olor: red
     `----
-
   x ClassSelector
-    ,-[$DIR/tests/fixture/value/escaped/input.css:26:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:27:1]
  26 | 
  27 | .prop {
     : ^^^^^
  28 |     \62 olor: red
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/value/escaped/input.css:26:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:27:1]
  26 | 
  27 | .prop {
     :  ^^^^
  28 |     \62 olor: red
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/value/escaped/input.css:26:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:27:1]
  26 |     
  27 | ,-> .prop {
  28 | |       \62 olor: red
  29 | `-> }
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/value/escaped/input.css:26:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:27:1]
  26 | 
  27 | .prop {
     :       ^
  28 |     \62 olor: red
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/escaped/input.css:27:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:28:1]
  27 | .prop {
  28 |     \62 olor: red
     :     ^^^^^^^^^^^^^^
  29 | }
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/value/escaped/input.css:27:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:28:1]
  27 | .prop {
  28 |     \62 olor: red
     :     ^^^^^^^^^^^^^^
  29 | }
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/value/escaped/input.css:27:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:28:1]
  27 | .prop {
  28 |     \62 olor: red
     :     ^^^^^^^^
  29 | }
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/value/escaped/input.css:27:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:28:1]
  27 | .prop {
  28 |     \62 olor: red
     :     ^^^^^^^^
  29 | }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/value/escaped/input.css:27:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:28:1]
  27 | .prop {
  28 |     \62 olor: red
     :               ^^^
  29 | }
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/value/escaped/input.css:27:1]
+    ,-[$DIR/tests/fixture/value/escaped/input.css:28:1]
  27 | .prop {
  28 |     \62 olor: red
     :               ^^^

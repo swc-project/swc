@@ -1,4 +1,3 @@
-
   x Non-space characters found without seeing a doctype first, expected "<!DOCTYPE html>"
    ,-[$DIR/tests/recovery/text/only-text/input.html:1:1]
  1 | Text

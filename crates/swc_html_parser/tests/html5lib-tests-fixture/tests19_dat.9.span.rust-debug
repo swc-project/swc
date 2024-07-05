@@ -1,68 +1,55 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.9.html:1:1]
  1 | <!doctype html><ruby><div><span><rp>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.9.html:1:1]
  1 | <!doctype html><ruby><div><span><rp>
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.9.html:1:1]
  1 | <!doctype html><ruby><div><span><rp>
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.9.html:1:1]
  1 | <!doctype html><ruby><div><span><rp>
    :                ^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.9.html:1:1]
  1 | <!doctype html><ruby><div><span><rp>
    :                ^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.9.html:1:1]
  1 | <!doctype html><ruby><div><span><rp>
    :                      ^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.9.html:1:1]
  1 | <!doctype html><ruby><div><span><rp>
    :                      ^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.9.html:1:1]
  1 | <!doctype html><ruby><div><span><rp>
    :                           ^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.9.html:1:1]
  1 | <!doctype html><ruby><div><span><rp>
    :                           ^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.9.html:1:1]
  1 | <!doctype html><ruby><div><span><rp>
    :                                 ^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.9.html:1:1]
  1 | <!doctype html><ruby><div><span><rp>

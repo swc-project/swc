@@ -1,56 +1,45 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/noscript01_dat.10.html:1:1]
  1 | <head><noscript><style>XXX</style></noscript>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/noscript01_dat.10.html:1:1]
  1 | <head><noscript><style>XXX</style></noscript>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/noscript01_dat.10.html:1:1]
  1 | <head><noscript><style>XXX</style></noscript>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/noscript01_dat.10.html:1:1]
  1 | <head><noscript><style>XXX</style></noscript>
    :       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/noscript01_dat.10.html:1:1]
  1 | <head><noscript><style>XXX</style></noscript>
    :       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/noscript01_dat.10.html:1:1]
  1 | <head><noscript><style>XXX</style></noscript>
    :                 ^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/noscript01_dat.10.html:1:1]
  1 | <head><noscript><style>XXX</style></noscript>
    :                 ^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/noscript01_dat.10.html:1:1]
  1 | <head><noscript><style>XXX</style></noscript>
    :                        ^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/noscript01_dat.10.html:1:1]
  1 | <head><noscript><style>XXX</style></noscript>

@@ -1,7 +1,6 @@
 //// [esDecorators-classExpression-namedEvaluation.10.ts]
-//! 
 //!   x Expression expected
-//!     ,-[4:1]
+//!     ,-[7:1]
 //!   4 | // 10.2.1.3 RS: EvaluateBody
 //!   5 | //   Initializer : `=` AssignmentExpression
 //!   6 | 

@@ -10,6 +10,9 @@
 
 - **(es/loader)** Exclude `.json` from default extension list ([#9134](https://github.com/swc-project/swc/issues/9134)) ([e94e5e7](https://github.com/swc-project/swc/commit/e94e5e70c377fae13cd5575f7d4ce84d9d5f10f7))
 
+
+- **(es/renamer)** Fix renaming of default-exported declarations ([#9135](https://github.com/swc-project/swc/issues/9135)) ([45f671d](https://github.com/swc-project/swc/commit/45f671d8d85b0c3955c88ec3cf3d68d8fa6134c5))
+
 ### Features
 
 
@@ -21,6 +24,9 @@
 
 
 - **(bindings/ts)** Inline Wasm file into `wasm.js` ([#9139](https://github.com/swc-project/swc/issues/9139)) ([307b6f2](https://github.com/swc-project/swc/commit/307b6f27a6860c65f835776549e96cd658cfc817))
+
+
+- **(es/parser)** Improve readability ([#9141](https://github.com/swc-project/swc/issues/9141)) ([9d9fe66](https://github.com/swc-project/swc/commit/9d9fe6625bd4a7e05e9f29971e8f1a5c5e2470a8))
 
 ## [1.6.7] - 2024-07-03
 
@@ -1347,13 +1353,7 @@
 
 
 
-- **(css/compat)** Support stable rust ([#8386](https://github.com/swc-project/swc/issues/8386)) ([bc1e328](https://github.com/swc-project/swc/commit/bc1e32829deb4ebe91ebea5ce08b5c6bc95292a3))
-
-
 - **(css/lints)** Support stable rust ([#8384](https://github.com/swc-project/swc/issues/8384)) ([19d1d01](https://github.com/swc-project/swc/commit/19d1d013b2e0567a301bd7593db6e16b713e7490))
-
-
-- **(css/minifier)** Support stable rust ([#8389](https://github.com/swc-project/swc/issues/8389)) ([305e72e](https://github.com/swc-project/swc/commit/305e72e67297fabefb5124922e52b15522496467))
 
 
 - **(css/prefixer)** Support stable rust ([#8385](https://github.com/swc-project/swc/issues/8385)) ([f93f2b8](https://github.com/swc-project/swc/commit/f93f2b8334e82255c21d4abf23d474ee8c6fff73))

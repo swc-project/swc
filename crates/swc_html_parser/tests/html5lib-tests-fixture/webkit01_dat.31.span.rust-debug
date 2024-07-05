@@ -1,92 +1,75 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.31.html:1:1]
  1 | <div><b></div><div><nobr>a<nobr>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.31.html:1:1]
  1 | <div><b></div><div><nobr>a<nobr>
    : ^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.31.html:1:1]
  1 | <div><b></div><div><nobr>a<nobr>
    : ^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.31.html:1:1]
  1 | <div><b></div><div><nobr>a<nobr>
    :      ^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.31.html:1:1]
  1 | <div><b></div><div><nobr>a<nobr>
    :      ^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.31.html:1:1]
  1 | <div><b></div><div><nobr>a<nobr>
    :               ^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.31.html:1:1]
  1 | <div><b></div><div><nobr>a<nobr>
    :               ^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.31.html:1:1]
  1 | <div><b></div><div><nobr>a<nobr>
    :      ^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.31.html:1:1]
  1 | <div><b></div><div><nobr>a<nobr>
    :      ^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.31.html:1:1]
  1 | <div><b></div><div><nobr>a<nobr>
    :                    ^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.31.html:1:1]
  1 | <div><b></div><div><nobr>a<nobr>
    :                    ^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.31.html:1:1]
  1 | <div><b></div><div><nobr>a<nobr>
    :                          ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.31.html:1:1]
  1 | <div><b></div><div><nobr>a<nobr>
    :                          ^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.31.html:1:1]
  1 | <div><b></div><div><nobr>a<nobr>
    :                           ^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.31.html:1:1]
  1 | <div><b></div><div><nobr>a<nobr>

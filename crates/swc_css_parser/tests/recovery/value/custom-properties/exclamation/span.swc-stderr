@@ -1,4 +1,3 @@
-
   x Stylesheet
     ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:1:1]
   1 | ,-> .class {--foo:!; }
@@ -23,813 +22,709 @@
  20 | |       --foo: !;
  21 | `-> }
     `----
-
   x Rule
    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:1:1]
  1 | .class {--foo:!; }
    : ^^^^^^^^^^^^^^^^^^
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:1:1]
  1 | .class {--foo:!; }
    : ^^^^^^^^^^^^^^^^^^
    `----
-
   x SelectorList
    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:1:1]
  1 | .class {--foo:!; }
    : ^^^^^^
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:1:1]
  1 | .class {--foo:!; }
    : ^^^^^^
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:1:1]
  1 | .class {--foo:!; }
    : ^^^^^^
    `----
-
   x SubclassSelector
    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:1:1]
  1 | .class {--foo:!; }
    : ^^^^^^
    `----
-
   x ClassSelector
    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:1:1]
  1 | .class {--foo:!; }
    : ^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:1:1]
  1 | .class {--foo:!; }
    :  ^^^^^
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:1:1]
  1 | .class {--foo:!; }
    :        ^^^^^^^^^^^
    `----
-
   x LBrace
    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:1:1]
  1 | .class {--foo:!; }
    :        ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:1:1]
  1 | .class {--foo:!; }
    :         ^^^^^^^
    `----
-
   x Declaration
    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:1:1]
  1 | .class {--foo:!; }
    :         ^^^^^^^
    `----
-
   x DeclarationName
    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:1:1]
  1 | .class {--foo:!; }
    :         ^^^^^
    `----
-
   x DashedIdent
    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:1:1]
  1 | .class {--foo:!; }
    :         ^^^^^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:1:1]
  1 | .class {--foo:!; }
    :               ^
    `----
-
   x Delim { value: '!' }
    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:1:1]
  1 | .class {--foo:!; }
    :               ^
    `----
-
   x Rule
-   ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:2:1]
+   ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:3:1]
  2 |     
  3 | ,-> .class-1 {
  4 | |       --foo:!; 
  5 | |       color: red;
  6 | `-> }
    `----
-
   x QualifiedRule
-   ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:2:1]
+   ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:3:1]
  2 |     
  3 | ,-> .class-1 {
  4 | |       --foo:!; 
  5 | |       color: red;
  6 | `-> }
    `----
-
   x SelectorList
-   ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:2:1]
+   ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:3:1]
  2 | 
  3 | .class-1 {
    : ^^^^^^^^
  4 |     --foo:!; 
    `----
-
   x ComplexSelector
-   ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:2:1]
+   ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:3:1]
  2 | 
  3 | .class-1 {
    : ^^^^^^^^
  4 |     --foo:!; 
    `----
-
   x CompoundSelector
-   ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:2:1]
+   ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:3:1]
  2 | 
  3 | .class-1 {
    : ^^^^^^^^
  4 |     --foo:!; 
    `----
-
   x SubclassSelector
-   ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:2:1]
+   ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:3:1]
  2 | 
  3 | .class-1 {
    : ^^^^^^^^
  4 |     --foo:!; 
    `----
-
   x ClassSelector
-   ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:2:1]
+   ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:3:1]
  2 | 
  3 | .class-1 {
    : ^^^^^^^^
  4 |     --foo:!; 
    `----
-
   x Ident
-   ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:2:1]
+   ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:3:1]
  2 | 
  3 | .class-1 {
    :  ^^^^^^^
  4 |     --foo:!; 
    `----
-
   x SimpleBlock
-   ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:2:1]
+   ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:3:1]
  2 |     
  3 | ,-> .class-1 {
  4 | |       --foo:!; 
  5 | |       color: red;
  6 | `-> }
    `----
-
   x LBrace
-   ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:2:1]
+   ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:3:1]
  2 | 
  3 | .class-1 {
    :          ^
  4 |     --foo:!; 
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:3:1]
+   ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:4:1]
  3 | .class-1 {
  4 |     --foo:!; 
    :     ^^^^^^^
  5 |     color: red;
    `----
-
   x Declaration
-   ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:3:1]
+   ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:4:1]
  3 | .class-1 {
  4 |     --foo:!; 
    :     ^^^^^^^
  5 |     color: red;
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:3:1]
+   ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:4:1]
  3 | .class-1 {
  4 |     --foo:!; 
    :     ^^^^^
  5 |     color: red;
    `----
-
   x DashedIdent
-   ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:3:1]
+   ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:4:1]
  3 | .class-1 {
  4 |     --foo:!; 
    :     ^^^^^
  5 |     color: red;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:3:1]
+   ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:4:1]
  3 | .class-1 {
  4 |     --foo:!; 
    :           ^
  5 |     color: red;
    `----
-
   x Delim { value: '!' }
-   ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:3:1]
+   ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:4:1]
  3 | .class-1 {
  4 |     --foo:!; 
    :           ^
  5 |     color: red;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:4:1]
+   ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:5:1]
  4 |     --foo:!; 
  5 |     color: red;
    :     ^^^^^^^^^^
  6 | }
    `----
-
   x Declaration
-   ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:4:1]
+   ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:5:1]
  4 |     --foo:!; 
  5 |     color: red;
    :     ^^^^^^^^^^
  6 | }
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:4:1]
+   ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:5:1]
  4 |     --foo:!; 
  5 |     color: red;
    :     ^^^^^
  6 | }
    `----
-
   x Ident
-   ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:4:1]
+   ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:5:1]
  4 |     --foo:!; 
  5 |     color: red;
    :     ^^^^^
  6 | }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:4:1]
+   ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:5:1]
  4 |     --foo:!; 
  5 |     color: red;
    :            ^^^
  6 | }
    `----
-
   x Ident
-   ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:4:1]
+   ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:5:1]
  4 |     --foo:!; 
  5 |     color: red;
    :            ^^^
  6 | }
    `----
-
   x Rule
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:7:1]
+    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:8:1]
   7 |     
   8 | ,-> .class-2 {
   9 | |       color: red;
  10 | |       --foo:!;
  11 | `-> }
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:7:1]
+    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:8:1]
   7 |     
   8 | ,-> .class-2 {
   9 | |       color: red;
  10 | |       --foo:!;
  11 | `-> }
     `----
-
   x SelectorList
-   ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:7:1]
+   ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:8:1]
  7 | 
  8 | .class-2 {
    : ^^^^^^^^
  9 |     color: red;
    `----
-
   x ComplexSelector
-   ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:7:1]
+   ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:8:1]
  7 | 
  8 | .class-2 {
    : ^^^^^^^^
  9 |     color: red;
    `----
-
   x CompoundSelector
-   ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:7:1]
+   ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:8:1]
  7 | 
  8 | .class-2 {
    : ^^^^^^^^
  9 |     color: red;
    `----
-
   x SubclassSelector
-   ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:7:1]
+   ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:8:1]
  7 | 
  8 | .class-2 {
    : ^^^^^^^^
  9 |     color: red;
    `----
-
   x ClassSelector
-   ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:7:1]
+   ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:8:1]
  7 | 
  8 | .class-2 {
    : ^^^^^^^^
  9 |     color: red;
    `----
-
   x Ident
-   ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:7:1]
+   ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:8:1]
  7 | 
  8 | .class-2 {
    :  ^^^^^^^
  9 |     color: red;
    `----
-
   x SimpleBlock
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:7:1]
+    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:8:1]
   7 |     
   8 | ,-> .class-2 {
   9 | |       color: red;
  10 | |       --foo:!;
  11 | `-> }
     `----
-
   x LBrace
-   ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:7:1]
+   ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:8:1]
  7 | 
  8 | .class-2 {
    :          ^
  9 |     color: red;
    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:8:1]
-  8 | .class-2 {
-  9 |     color: red;
-    :     ^^^^^^^^^^
- 10 |     --foo:!;
-    `----
-
-  x Declaration
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:8:1]
-  8 | .class-2 {
-  9 |     color: red;
-    :     ^^^^^^^^^^
- 10 |     --foo:!;
-    `----
-
-  x DeclarationName
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:8:1]
-  8 | .class-2 {
-  9 |     color: red;
-    :     ^^^^^
- 10 |     --foo:!;
-    `----
-
-  x Ident
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:8:1]
-  8 | .class-2 {
-  9 |     color: red;
-    :     ^^^^^
- 10 |     --foo:!;
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:8:1]
-  8 | .class-2 {
-  9 |     color: red;
-    :            ^^^
- 10 |     --foo:!;
-    `----
-
-  x Ident
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:8:1]
-  8 | .class-2 {
-  9 |     color: red;
-    :            ^^^
- 10 |     --foo:!;
-    `----
-
   x ComponentValue
     ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:9:1]
+  8 | .class-2 {
+  9 |     color: red;
+    :     ^^^^^^^^^^
+ 10 |     --foo:!;
+    `----
+  x Declaration
+    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:9:1]
+  8 | .class-2 {
+  9 |     color: red;
+    :     ^^^^^^^^^^
+ 10 |     --foo:!;
+    `----
+  x DeclarationName
+    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:9:1]
+  8 | .class-2 {
+  9 |     color: red;
+    :     ^^^^^
+ 10 |     --foo:!;
+    `----
+  x Ident
+    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:9:1]
+  8 | .class-2 {
+  9 |     color: red;
+    :     ^^^^^
+ 10 |     --foo:!;
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:9:1]
+  8 | .class-2 {
+  9 |     color: red;
+    :            ^^^
+ 10 |     --foo:!;
+    `----
+  x Ident
+    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:9:1]
+  8 | .class-2 {
+  9 |     color: red;
+    :            ^^^
+ 10 |     --foo:!;
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:10:1]
   9 |     color: red;
  10 |     --foo:!;
     :     ^^^^^^^
  11 | }
     `----
-
   x Declaration
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:9:1]
+    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:10:1]
   9 |     color: red;
  10 |     --foo:!;
     :     ^^^^^^^
  11 | }
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:9:1]
+    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:10:1]
   9 |     color: red;
  10 |     --foo:!;
     :     ^^^^^
  11 | }
     `----
-
   x DashedIdent
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:9:1]
+    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:10:1]
   9 |     color: red;
  10 |     --foo:!;
     :     ^^^^^
  11 | }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:9:1]
+    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:10:1]
   9 |     color: red;
  10 |     --foo:!;
     :           ^
  11 | }
     `----
-
   x Delim { value: '!' }
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:9:1]
+    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:10:1]
   9 |     color: red;
  10 |     --foo:!;
     :           ^
  11 | }
     `----
-
   x Rule
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:12:1]
+    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:13:1]
  12 |     
  13 | ,-> .class-3 {
  14 | |       --foo: !;
  15 | |       --foo: bar;
  16 | `-> }
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:12:1]
+    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:13:1]
  12 |     
  13 | ,-> .class-3 {
  14 | |       --foo: !;
  15 | |       --foo: bar;
  16 | `-> }
     `----
-
   x SelectorList
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:12:1]
+    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:13:1]
  12 | 
  13 | .class-3 {
     : ^^^^^^^^
  14 |     --foo: !;
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:12:1]
+    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:13:1]
  12 | 
  13 | .class-3 {
     : ^^^^^^^^
  14 |     --foo: !;
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:12:1]
+    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:13:1]
  12 | 
  13 | .class-3 {
     : ^^^^^^^^
  14 |     --foo: !;
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:12:1]
+    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:13:1]
  12 | 
  13 | .class-3 {
     : ^^^^^^^^
  14 |     --foo: !;
     `----
-
   x ClassSelector
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:12:1]
+    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:13:1]
  12 | 
  13 | .class-3 {
     : ^^^^^^^^
  14 |     --foo: !;
     `----
-
   x Ident
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:12:1]
+    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:13:1]
  12 | 
  13 | .class-3 {
     :  ^^^^^^^
  14 |     --foo: !;
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:12:1]
+    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:13:1]
  12 |     
  13 | ,-> .class-3 {
  14 | |       --foo: !;
  15 | |       --foo: bar;
  16 | `-> }
     `----
-
   x LBrace
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:12:1]
+    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:13:1]
  12 | 
  13 | .class-3 {
     :          ^
  14 |     --foo: !;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:13:1]
+    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:14:1]
  13 | .class-3 {
  14 |     --foo: !;
     :     ^^^^^^^^
  15 |     --foo: bar;
     `----
-
   x Declaration
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:13:1]
+    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:14:1]
  13 | .class-3 {
  14 |     --foo: !;
     :     ^^^^^^^^
  15 |     --foo: bar;
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:13:1]
+    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:14:1]
  13 | .class-3 {
  14 |     --foo: !;
     :     ^^^^^
  15 |     --foo: bar;
     `----
-
   x DashedIdent
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:13:1]
+    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:14:1]
  13 | .class-3 {
  14 |     --foo: !;
     :     ^^^^^
  15 |     --foo: bar;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:13:1]
+    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:14:1]
  13 | .class-3 {
  14 |     --foo: !;
     :            ^
  15 |     --foo: bar;
     `----
-
   x Delim { value: '!' }
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:13:1]
+    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:14:1]
  13 | .class-3 {
  14 |     --foo: !;
     :            ^
  15 |     --foo: bar;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:14:1]
+    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:15:1]
  14 |     --foo: !;
  15 |     --foo: bar;
     :     ^^^^^^^^^^
  16 | }
     `----
-
   x Declaration
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:14:1]
+    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:15:1]
  14 |     --foo: !;
  15 |     --foo: bar;
     :     ^^^^^^^^^^
  16 | }
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:14:1]
+    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:15:1]
  14 |     --foo: !;
  15 |     --foo: bar;
     :     ^^^^^
  16 | }
     `----
-
   x DashedIdent
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:14:1]
+    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:15:1]
  14 |     --foo: !;
  15 |     --foo: bar;
     :     ^^^^^
  16 | }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:14:1]
+    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:15:1]
  14 |     --foo: !;
  15 |     --foo: bar;
     :            ^^^
  16 | }
     `----
-
   x Ident { value: "bar", raw: "bar" }
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:14:1]
+    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:15:1]
  14 |     --foo: !;
  15 |     --foo: bar;
     :            ^^^
  16 | }
     `----
-
   x Rule
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:17:1]
+    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:18:1]
  17 |     
  18 | ,-> .class-4 {
  19 | |       --foo: bar;
  20 | |       --foo: !;
  21 | `-> }
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:17:1]
+    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:18:1]
  17 |     
  18 | ,-> .class-4 {
  19 | |       --foo: bar;
  20 | |       --foo: !;
  21 | `-> }
     `----
-
   x SelectorList
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:17:1]
+    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:18:1]
  17 | 
  18 | .class-4 {
     : ^^^^^^^^
  19 |     --foo: bar;
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:17:1]
+    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:18:1]
  17 | 
  18 | .class-4 {
     : ^^^^^^^^
  19 |     --foo: bar;
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:17:1]
+    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:18:1]
  17 | 
  18 | .class-4 {
     : ^^^^^^^^
  19 |     --foo: bar;
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:17:1]
+    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:18:1]
  17 | 
  18 | .class-4 {
     : ^^^^^^^^
  19 |     --foo: bar;
     `----
-
   x ClassSelector
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:17:1]
+    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:18:1]
  17 | 
  18 | .class-4 {
     : ^^^^^^^^
  19 |     --foo: bar;
     `----
-
   x Ident
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:17:1]
+    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:18:1]
  17 | 
  18 | .class-4 {
     :  ^^^^^^^
  19 |     --foo: bar;
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:17:1]
+    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:18:1]
  17 |     
  18 | ,-> .class-4 {
  19 | |       --foo: bar;
  20 | |       --foo: !;
  21 | `-> }
     `----
-
   x LBrace
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:17:1]
+    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:18:1]
  17 | 
  18 | .class-4 {
     :          ^
  19 |     --foo: bar;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:18:1]
+    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:19:1]
  18 | .class-4 {
  19 |     --foo: bar;
     :     ^^^^^^^^^^
  20 |     --foo: !;
     `----
-
   x Declaration
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:18:1]
+    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:19:1]
  18 | .class-4 {
  19 |     --foo: bar;
     :     ^^^^^^^^^^
  20 |     --foo: !;
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:18:1]
+    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:19:1]
  18 | .class-4 {
  19 |     --foo: bar;
     :     ^^^^^
  20 |     --foo: !;
     `----
-
   x DashedIdent
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:18:1]
+    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:19:1]
  18 | .class-4 {
  19 |     --foo: bar;
     :     ^^^^^
  20 |     --foo: !;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:18:1]
+    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:19:1]
  18 | .class-4 {
  19 |     --foo: bar;
     :            ^^^
  20 |     --foo: !;
     `----
-
   x Ident { value: "bar", raw: "bar" }
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:18:1]
+    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:19:1]
  18 | .class-4 {
  19 |     --foo: bar;
     :            ^^^
  20 |     --foo: !;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:19:1]
+    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:20:1]
  19 |     --foo: bar;
  20 |     --foo: !;
     :     ^^^^^^^^
  21 | }
     `----
-
   x Declaration
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:19:1]
+    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:20:1]
  19 |     --foo: bar;
  20 |     --foo: !;
     :     ^^^^^^^^
  21 | }
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:19:1]
+    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:20:1]
  19 |     --foo: bar;
  20 |     --foo: !;
     :     ^^^^^
  21 | }
     `----
-
   x DashedIdent
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:19:1]
+    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:20:1]
  19 |     --foo: bar;
  20 |     --foo: !;
     :     ^^^^^
  21 | }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:19:1]
+    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:20:1]
  19 |     --foo: bar;
  20 |     --foo: !;
     :            ^
  21 | }
     `----
-
   x Delim { value: '!' }
-    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:19:1]
+    ,-[$DIR/tests/recovery/value/custom-properties/exclamation/input.css:20:1]
  19 |     --foo: bar;
  20 |     --foo: !;
     :            ^

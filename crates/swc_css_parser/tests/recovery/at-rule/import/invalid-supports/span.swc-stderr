@@ -1,76 +1,63 @@
-
   x Stylesheet
    ,-[$DIR/tests/recovery/at-rule/import/invalid-supports/input.css:1:1]
  1 | @import url("./test.css") supports(unknown);
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Rule
    ,-[$DIR/tests/recovery/at-rule/import/invalid-supports/input.css:1:1]
  1 | @import url("./test.css") supports(unknown);
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x AtRule
    ,-[$DIR/tests/recovery/at-rule/import/invalid-supports/input.css:1:1]
  1 | @import url("./test.css") supports(unknown);
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x AtRuleName
    ,-[$DIR/tests/recovery/at-rule/import/invalid-supports/input.css:1:1]
  1 | @import url("./test.css") supports(unknown);
    :  ^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/recovery/at-rule/import/invalid-supports/input.css:1:1]
  1 | @import url("./test.css") supports(unknown);
    :  ^^^^^^
    `----
-
   x Url
    ,-[$DIR/tests/recovery/at-rule/import/invalid-supports/input.css:1:1]
  1 | @import url("./test.css") supports(unknown);
    :         ^^^^^^^^^^^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/recovery/at-rule/import/invalid-supports/input.css:1:1]
  1 | @import url("./test.css") supports(unknown);
    :         ^^^
    `----
-
   x UrlValue
    ,-[$DIR/tests/recovery/at-rule/import/invalid-supports/input.css:1:1]
  1 | @import url("./test.css") supports(unknown);
    :             ^^^^^^^^^^^^
    `----
-
   x Str
    ,-[$DIR/tests/recovery/at-rule/import/invalid-supports/input.css:1:1]
  1 | @import url("./test.css") supports(unknown);
    :             ^^^^^^^^^^^^
    `----
-
   x Function
    ,-[$DIR/tests/recovery/at-rule/import/invalid-supports/input.css:1:1]
  1 | @import url("./test.css") supports(unknown);
    :                           ^^^^^^^^^^^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/recovery/at-rule/import/invalid-supports/input.css:1:1]
  1 | @import url("./test.css") supports(unknown);
    :                           ^^^^^^^^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/at-rule/import/invalid-supports/input.css:1:1]
  1 | @import url("./test.css") supports(unknown);
    :                                    ^^^^^^^
    `----
-
   x Ident { value: "unknown", raw: "unknown" }
    ,-[$DIR/tests/recovery/at-rule/import/invalid-supports/input.css:1:1]
  1 | @import url("./test.css") supports(unknown);

@@ -1,4 +1,3 @@
-
   x Expected +, - or decimal digit after e
    ,-[$DIR/tests/test262-parser/fail/5e60832af79173e3.js:1:1]
  1 | 3e

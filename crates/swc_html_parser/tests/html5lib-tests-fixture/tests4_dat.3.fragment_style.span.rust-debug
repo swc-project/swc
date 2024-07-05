@@ -1,44 +1,35 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests4_dat.3.fragment_style.html:1:1]
  1 | this is &#x0043;DATA inside a <style> element
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests4_dat.3.fragment_style.html:1:1]
  1 | this is &#x0043;DATA inside a <style> element
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests4_dat.3.fragment_style.html:1:1]
  1 | this is &#x0043;DATA inside a <style> element
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests4_dat.3.fragment_style.html:1:1]
  1 | this is &#x0043;DATA inside a <style> element
    :                               ^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests4_dat.3.fragment_style.html:1:1]
  1 | this is &#x0043;DATA inside a <style> element
    :                               ^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests4_dat.3.fragment_style.html:1:1]
  1 | this is &#x0043;DATA inside a <style> element
    :                                      ^^^^^^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests4_dat.3.fragment_style.html:1:1]
  1 | this is &#x0043;DATA inside a <style> element

@@ -1,6 +1,5 @@
-
   x the name `a0` is bound more than once in this parameter list
-   ,-[1:1]
+   ,-[2:1]
  1 | function foo(
  2 |     [a0, a1, a2, a3, a4, a5, a6, a7, a8, a9], [b0, b1, b2, b3, b4, b5, b6, b7, b8, b9],
    :      ^|
@@ -14,9 +13,8 @@
  7 |     [i0, i1, i2, i3, i4, i5, i6, i7, i8, i9], [j0, j1, j2, j3, j4, j5, j6, j7, j8, j9],
  8 |     [a0, a1, a2, a3, a4, a5, a6, a7, a8, a9], [b0, b1, b2, b3, b4, b5, b6, b7, b8, b9],) {
    `----
-
   x the name `a1` is bound more than once in this parameter list
-   ,-[1:1]
+   ,-[2:1]
  1 | function foo(
  2 |     [a0, a1, a2, a3, a4, a5, a6, a7, a8, a9], [b0, b1, b2, b3, b4, b5, b6, b7, b8, b9],
    :          ^|
@@ -30,9 +28,8 @@
  7 |     [i0, i1, i2, i3, i4, i5, i6, i7, i8, i9], [j0, j1, j2, j3, j4, j5, j6, j7, j8, j9],
  8 |     [a0, a1, a2, a3, a4, a5, a6, a7, a8, a9], [b0, b1, b2, b3, b4, b5, b6, b7, b8, b9],) {
    `----
-
   x the name `a2` is bound more than once in this parameter list
-   ,-[1:1]
+   ,-[2:1]
  1 | function foo(
  2 |     [a0, a1, a2, a3, a4, a5, a6, a7, a8, a9], [b0, b1, b2, b3, b4, b5, b6, b7, b8, b9],
    :              ^|
@@ -46,9 +43,8 @@
  7 |     [i0, i1, i2, i3, i4, i5, i6, i7, i8, i9], [j0, j1, j2, j3, j4, j5, j6, j7, j8, j9],
  8 |     [a0, a1, a2, a3, a4, a5, a6, a7, a8, a9], [b0, b1, b2, b3, b4, b5, b6, b7, b8, b9],) {
    `----
-
   x the name `a3` is bound more than once in this parameter list
-   ,-[1:1]
+   ,-[2:1]
  1 | function foo(
  2 |     [a0, a1, a2, a3, a4, a5, a6, a7, a8, a9], [b0, b1, b2, b3, b4, b5, b6, b7, b8, b9],
    :                  ^|
@@ -62,9 +58,8 @@
  7 |     [i0, i1, i2, i3, i4, i5, i6, i7, i8, i9], [j0, j1, j2, j3, j4, j5, j6, j7, j8, j9],
  8 |     [a0, a1, a2, a3, a4, a5, a6, a7, a8, a9], [b0, b1, b2, b3, b4, b5, b6, b7, b8, b9],) {
    `----
-
   x the name `a4` is bound more than once in this parameter list
-   ,-[1:1]
+   ,-[2:1]
  1 | function foo(
  2 |     [a0, a1, a2, a3, a4, a5, a6, a7, a8, a9], [b0, b1, b2, b3, b4, b5, b6, b7, b8, b9],
    :                      ^|
@@ -78,9 +73,8 @@
  7 |     [i0, i1, i2, i3, i4, i5, i6, i7, i8, i9], [j0, j1, j2, j3, j4, j5, j6, j7, j8, j9],
  8 |     [a0, a1, a2, a3, a4, a5, a6, a7, a8, a9], [b0, b1, b2, b3, b4, b5, b6, b7, b8, b9],) {
    `----
-
   x the name `a5` is bound more than once in this parameter list
-   ,-[1:1]
+   ,-[2:1]
  1 | function foo(
  2 |     [a0, a1, a2, a3, a4, a5, a6, a7, a8, a9], [b0, b1, b2, b3, b4, b5, b6, b7, b8, b9],
    :                          ^|
@@ -94,9 +88,8 @@
  7 |     [i0, i1, i2, i3, i4, i5, i6, i7, i8, i9], [j0, j1, j2, j3, j4, j5, j6, j7, j8, j9],
  8 |     [a0, a1, a2, a3, a4, a5, a6, a7, a8, a9], [b0, b1, b2, b3, b4, b5, b6, b7, b8, b9],) {
    `----
-
   x the name `a6` is bound more than once in this parameter list
-   ,-[1:1]
+   ,-[2:1]
  1 | function foo(
  2 |     [a0, a1, a2, a3, a4, a5, a6, a7, a8, a9], [b0, b1, b2, b3, b4, b5, b6, b7, b8, b9],
    :                              ^|
@@ -110,9 +103,8 @@
  7 |     [i0, i1, i2, i3, i4, i5, i6, i7, i8, i9], [j0, j1, j2, j3, j4, j5, j6, j7, j8, j9],
  8 |     [a0, a1, a2, a3, a4, a5, a6, a7, a8, a9], [b0, b1, b2, b3, b4, b5, b6, b7, b8, b9],) {
    `----
-
   x the name `a7` is bound more than once in this parameter list
-   ,-[1:1]
+   ,-[2:1]
  1 | function foo(
  2 |     [a0, a1, a2, a3, a4, a5, a6, a7, a8, a9], [b0, b1, b2, b3, b4, b5, b6, b7, b8, b9],
    :                                  ^|
@@ -126,9 +118,8 @@
  7 |     [i0, i1, i2, i3, i4, i5, i6, i7, i8, i9], [j0, j1, j2, j3, j4, j5, j6, j7, j8, j9],
  8 |     [a0, a1, a2, a3, a4, a5, a6, a7, a8, a9], [b0, b1, b2, b3, b4, b5, b6, b7, b8, b9],) {
    `----
-
   x the name `a8` is bound more than once in this parameter list
-   ,-[1:1]
+   ,-[2:1]
  1 | function foo(
  2 |     [a0, a1, a2, a3, a4, a5, a6, a7, a8, a9], [b0, b1, b2, b3, b4, b5, b6, b7, b8, b9],
    :                                      ^|
@@ -142,9 +133,8 @@
  7 |     [i0, i1, i2, i3, i4, i5, i6, i7, i8, i9], [j0, j1, j2, j3, j4, j5, j6, j7, j8, j9],
  8 |     [a0, a1, a2, a3, a4, a5, a6, a7, a8, a9], [b0, b1, b2, b3, b4, b5, b6, b7, b8, b9],) {
    `----
-
   x the name `a9` is bound more than once in this parameter list
-   ,-[1:1]
+   ,-[2:1]
  1 | function foo(
  2 |     [a0, a1, a2, a3, a4, a5, a6, a7, a8, a9], [b0, b1, b2, b3, b4, b5, b6, b7, b8, b9],
    :                                          ^|
@@ -158,9 +148,8 @@
  7 |     [i0, i1, i2, i3, i4, i5, i6, i7, i8, i9], [j0, j1, j2, j3, j4, j5, j6, j7, j8, j9],
  8 |     [a0, a1, a2, a3, a4, a5, a6, a7, a8, a9], [b0, b1, b2, b3, b4, b5, b6, b7, b8, b9],) {
    `----
-
   x the name `b0` is bound more than once in this parameter list
-   ,-[1:1]
+   ,-[2:1]
  1 | function foo(
  2 |     [a0, a1, a2, a3, a4, a5, a6, a7, a8, a9], [b0, b1, b2, b3, b4, b5, b6, b7, b8, b9],
    :                                                ^|
@@ -174,9 +163,8 @@
  7 |     [i0, i1, i2, i3, i4, i5, i6, i7, i8, i9], [j0, j1, j2, j3, j4, j5, j6, j7, j8, j9],
  8 |     [a0, a1, a2, a3, a4, a5, a6, a7, a8, a9], [b0, b1, b2, b3, b4, b5, b6, b7, b8, b9],) {
    `----
-
   x the name `b1` is bound more than once in this parameter list
-   ,-[1:1]
+   ,-[2:1]
  1 | function foo(
  2 |     [a0, a1, a2, a3, a4, a5, a6, a7, a8, a9], [b0, b1, b2, b3, b4, b5, b6, b7, b8, b9],
    :                                                    ^|
@@ -190,9 +178,8 @@
  7 |     [i0, i1, i2, i3, i4, i5, i6, i7, i8, i9], [j0, j1, j2, j3, j4, j5, j6, j7, j8, j9],
  8 |     [a0, a1, a2, a3, a4, a5, a6, a7, a8, a9], [b0, b1, b2, b3, b4, b5, b6, b7, b8, b9],) {
    `----
-
   x the name `b2` is bound more than once in this parameter list
-   ,-[1:1]
+   ,-[2:1]
  1 | function foo(
  2 |     [a0, a1, a2, a3, a4, a5, a6, a7, a8, a9], [b0, b1, b2, b3, b4, b5, b6, b7, b8, b9],
    :                                                        ^|
@@ -206,9 +193,8 @@
  7 |     [i0, i1, i2, i3, i4, i5, i6, i7, i8, i9], [j0, j1, j2, j3, j4, j5, j6, j7, j8, j9],
  8 |     [a0, a1, a2, a3, a4, a5, a6, a7, a8, a9], [b0, b1, b2, b3, b4, b5, b6, b7, b8, b9],) {
    `----
-
   x the name `b3` is bound more than once in this parameter list
-   ,-[1:1]
+   ,-[2:1]
  1 | function foo(
  2 |     [a0, a1, a2, a3, a4, a5, a6, a7, a8, a9], [b0, b1, b2, b3, b4, b5, b6, b7, b8, b9],
    :                                                            ^|
@@ -222,9 +208,8 @@
  7 |     [i0, i1, i2, i3, i4, i5, i6, i7, i8, i9], [j0, j1, j2, j3, j4, j5, j6, j7, j8, j9],
  8 |     [a0, a1, a2, a3, a4, a5, a6, a7, a8, a9], [b0, b1, b2, b3, b4, b5, b6, b7, b8, b9],) {
    `----
-
   x the name `b4` is bound more than once in this parameter list
-   ,-[1:1]
+   ,-[2:1]
  1 | function foo(
  2 |     [a0, a1, a2, a3, a4, a5, a6, a7, a8, a9], [b0, b1, b2, b3, b4, b5, b6, b7, b8, b9],
    :                                                                ^|
@@ -238,9 +223,8 @@
  7 |     [i0, i1, i2, i3, i4, i5, i6, i7, i8, i9], [j0, j1, j2, j3, j4, j5, j6, j7, j8, j9],
  8 |     [a0, a1, a2, a3, a4, a5, a6, a7, a8, a9], [b0, b1, b2, b3, b4, b5, b6, b7, b8, b9],) {
    `----
-
   x the name `b5` is bound more than once in this parameter list
-   ,-[1:1]
+   ,-[2:1]
  1 | function foo(
  2 |     [a0, a1, a2, a3, a4, a5, a6, a7, a8, a9], [b0, b1, b2, b3, b4, b5, b6, b7, b8, b9],
    :                                                                    ^|
@@ -254,9 +238,8 @@
  7 |     [i0, i1, i2, i3, i4, i5, i6, i7, i8, i9], [j0, j1, j2, j3, j4, j5, j6, j7, j8, j9],
  8 |     [a0, a1, a2, a3, a4, a5, a6, a7, a8, a9], [b0, b1, b2, b3, b4, b5, b6, b7, b8, b9],) {
    `----
-
   x the name `b6` is bound more than once in this parameter list
-   ,-[1:1]
+   ,-[2:1]
  1 | function foo(
  2 |     [a0, a1, a2, a3, a4, a5, a6, a7, a8, a9], [b0, b1, b2, b3, b4, b5, b6, b7, b8, b9],
    :                                                                        ^|
@@ -270,9 +253,8 @@
  7 |     [i0, i1, i2, i3, i4, i5, i6, i7, i8, i9], [j0, j1, j2, j3, j4, j5, j6, j7, j8, j9],
  8 |     [a0, a1, a2, a3, a4, a5, a6, a7, a8, a9], [b0, b1, b2, b3, b4, b5, b6, b7, b8, b9],) {
    `----
-
   x the name `b7` is bound more than once in this parameter list
-   ,-[1:1]
+   ,-[2:1]
  1 | function foo(
  2 |     [a0, a1, a2, a3, a4, a5, a6, a7, a8, a9], [b0, b1, b2, b3, b4, b5, b6, b7, b8, b9],
    :                                                                            ^|
@@ -286,9 +268,8 @@
  7 |     [i0, i1, i2, i3, i4, i5, i6, i7, i8, i9], [j0, j1, j2, j3, j4, j5, j6, j7, j8, j9],
  8 |     [a0, a1, a2, a3, a4, a5, a6, a7, a8, a9], [b0, b1, b2, b3, b4, b5, b6, b7, b8, b9],) {
    `----
-
   x the name `b8` is bound more than once in this parameter list
-   ,-[1:1]
+   ,-[2:1]
  1 | function foo(
  2 |     [a0, a1, a2, a3, a4, a5, a6, a7, a8, a9], [b0, b1, b2, b3, b4, b5, b6, b7, b8, b9],
    :                                                                                ^|
@@ -302,9 +283,8 @@
  7 |     [i0, i1, i2, i3, i4, i5, i6, i7, i8, i9], [j0, j1, j2, j3, j4, j5, j6, j7, j8, j9],
  8 |     [a0, a1, a2, a3, a4, a5, a6, a7, a8, a9], [b0, b1, b2, b3, b4, b5, b6, b7, b8, b9],) {
    `----
-
   x the name `b9` is bound more than once in this parameter list
-   ,-[1:1]
+   ,-[2:1]
  1 | function foo(
  2 |     [a0, a1, a2, a3, a4, a5, a6, a7, a8, a9], [b0, b1, b2, b3, b4, b5, b6, b7, b8, b9],
    :                                                                                    ^|
@@ -318,9 +298,8 @@
  7 |     [i0, i1, i2, i3, i4, i5, i6, i7, i8, i9], [j0, j1, j2, j3, j4, j5, j6, j7, j8, j9],
  8 |     [a0, a1, a2, a3, a4, a5, a6, a7, a8, a9], [b0, b1, b2, b3, b4, b5, b6, b7, b8, b9],) {
    `----
-
   x the name `a0` is bound more than once in this parameter list
-    ,-[1:1]
+    ,-[2:1]
   1 | function foo(
   2 |     [a0, a1, a2, a3, a4, a5, a6, a7, a8, a9], [b0, b1, b2, b3, b4, b5, b6, b7, b8, b9],
     :      ^|
@@ -336,9 +315,8 @@
   9 | 
  10 | }
     `----
-
   x the name `a1` is bound more than once in this parameter list
-    ,-[1:1]
+    ,-[2:1]
   1 | function foo(
   2 |     [a0, a1, a2, a3, a4, a5, a6, a7, a8, a9], [b0, b1, b2, b3, b4, b5, b6, b7, b8, b9],
     :          ^|
@@ -354,9 +332,8 @@
   9 | 
  10 | }
     `----
-
   x the name `a2` is bound more than once in this parameter list
-    ,-[1:1]
+    ,-[2:1]
   1 | function foo(
   2 |     [a0, a1, a2, a3, a4, a5, a6, a7, a8, a9], [b0, b1, b2, b3, b4, b5, b6, b7, b8, b9],
     :              ^|
@@ -372,9 +349,8 @@
   9 | 
  10 | }
     `----
-
   x the name `a3` is bound more than once in this parameter list
-    ,-[1:1]
+    ,-[2:1]
   1 | function foo(
   2 |     [a0, a1, a2, a3, a4, a5, a6, a7, a8, a9], [b0, b1, b2, b3, b4, b5, b6, b7, b8, b9],
     :                  ^|
@@ -390,9 +366,8 @@
   9 | 
  10 | }
     `----
-
   x the name `a4` is bound more than once in this parameter list
-    ,-[1:1]
+    ,-[2:1]
   1 | function foo(
   2 |     [a0, a1, a2, a3, a4, a5, a6, a7, a8, a9], [b0, b1, b2, b3, b4, b5, b6, b7, b8, b9],
     :                      ^|
@@ -408,9 +383,8 @@
   9 | 
  10 | }
     `----
-
   x the name `a5` is bound more than once in this parameter list
-    ,-[1:1]
+    ,-[2:1]
   1 | function foo(
   2 |     [a0, a1, a2, a3, a4, a5, a6, a7, a8, a9], [b0, b1, b2, b3, b4, b5, b6, b7, b8, b9],
     :                          ^|
@@ -426,9 +400,8 @@
   9 | 
  10 | }
     `----
-
   x the name `a6` is bound more than once in this parameter list
-    ,-[1:1]
+    ,-[2:1]
   1 | function foo(
   2 |     [a0, a1, a2, a3, a4, a5, a6, a7, a8, a9], [b0, b1, b2, b3, b4, b5, b6, b7, b8, b9],
     :                              ^|
@@ -444,9 +417,8 @@
   9 | 
  10 | }
     `----
-
   x the name `a7` is bound more than once in this parameter list
-    ,-[1:1]
+    ,-[2:1]
   1 | function foo(
   2 |     [a0, a1, a2, a3, a4, a5, a6, a7, a8, a9], [b0, b1, b2, b3, b4, b5, b6, b7, b8, b9],
     :                                  ^|
@@ -462,9 +434,8 @@
   9 | 
  10 | }
     `----
-
   x the name `a8` is bound more than once in this parameter list
-    ,-[1:1]
+    ,-[2:1]
   1 | function foo(
   2 |     [a0, a1, a2, a3, a4, a5, a6, a7, a8, a9], [b0, b1, b2, b3, b4, b5, b6, b7, b8, b9],
     :                                      ^|
@@ -480,9 +451,8 @@
   9 | 
  10 | }
     `----
-
   x the name `a9` is bound more than once in this parameter list
-    ,-[1:1]
+    ,-[2:1]
   1 | function foo(
   2 |     [a0, a1, a2, a3, a4, a5, a6, a7, a8, a9], [b0, b1, b2, b3, b4, b5, b6, b7, b8, b9],
     :                                          ^|
@@ -498,9 +468,8 @@
   9 | 
  10 | }
     `----
-
   x the name `b0` is bound more than once in this parameter list
-    ,-[1:1]
+    ,-[2:1]
   1 | function foo(
   2 |     [a0, a1, a2, a3, a4, a5, a6, a7, a8, a9], [b0, b1, b2, b3, b4, b5, b6, b7, b8, b9],
     :                                                ^|
@@ -516,9 +485,8 @@
   9 | 
  10 | }
     `----
-
   x the name `b1` is bound more than once in this parameter list
-    ,-[1:1]
+    ,-[2:1]
   1 | function foo(
   2 |     [a0, a1, a2, a3, a4, a5, a6, a7, a8, a9], [b0, b1, b2, b3, b4, b5, b6, b7, b8, b9],
     :                                                    ^|
@@ -534,9 +502,8 @@
   9 | 
  10 | }
     `----
-
   x the name `b2` is bound more than once in this parameter list
-    ,-[1:1]
+    ,-[2:1]
   1 | function foo(
   2 |     [a0, a1, a2, a3, a4, a5, a6, a7, a8, a9], [b0, b1, b2, b3, b4, b5, b6, b7, b8, b9],
     :                                                        ^|
@@ -552,9 +519,8 @@
   9 | 
  10 | }
     `----
-
   x the name `b3` is bound more than once in this parameter list
-    ,-[1:1]
+    ,-[2:1]
   1 | function foo(
   2 |     [a0, a1, a2, a3, a4, a5, a6, a7, a8, a9], [b0, b1, b2, b3, b4, b5, b6, b7, b8, b9],
     :                                                            ^|
@@ -570,9 +536,8 @@
   9 | 
  10 | }
     `----
-
   x the name `b4` is bound more than once in this parameter list
-    ,-[1:1]
+    ,-[2:1]
   1 | function foo(
   2 |     [a0, a1, a2, a3, a4, a5, a6, a7, a8, a9], [b0, b1, b2, b3, b4, b5, b6, b7, b8, b9],
     :                                                                ^|
@@ -588,9 +553,8 @@
   9 | 
  10 | }
     `----
-
   x the name `b5` is bound more than once in this parameter list
-    ,-[1:1]
+    ,-[2:1]
   1 | function foo(
   2 |     [a0, a1, a2, a3, a4, a5, a6, a7, a8, a9], [b0, b1, b2, b3, b4, b5, b6, b7, b8, b9],
     :                                                                    ^|
@@ -606,9 +570,8 @@
   9 | 
  10 | }
     `----
-
   x the name `b6` is bound more than once in this parameter list
-    ,-[1:1]
+    ,-[2:1]
   1 | function foo(
   2 |     [a0, a1, a2, a3, a4, a5, a6, a7, a8, a9], [b0, b1, b2, b3, b4, b5, b6, b7, b8, b9],
     :                                                                        ^|
@@ -624,9 +587,8 @@
   9 | 
  10 | }
     `----
-
   x the name `b7` is bound more than once in this parameter list
-    ,-[1:1]
+    ,-[2:1]
   1 | function foo(
   2 |     [a0, a1, a2, a3, a4, a5, a6, a7, a8, a9], [b0, b1, b2, b3, b4, b5, b6, b7, b8, b9],
     :                                                                            ^|
@@ -642,9 +604,8 @@
   9 | 
  10 | }
     `----
-
   x the name `b8` is bound more than once in this parameter list
-    ,-[1:1]
+    ,-[2:1]
   1 | function foo(
   2 |     [a0, a1, a2, a3, a4, a5, a6, a7, a8, a9], [b0, b1, b2, b3, b4, b5, b6, b7, b8, b9],
     :                                                                                ^|
@@ -660,9 +621,8 @@
   9 | 
  10 | }
     `----
-
   x the name `b9` is bound more than once in this parameter list
-    ,-[1:1]
+    ,-[2:1]
   1 | function foo(
   2 |     [a0, a1, a2, a3, a4, a5, a6, a7, a8, a9], [b0, b1, b2, b3, b4, b5, b6, b7, b8, b9],
     :                                                                                    ^|

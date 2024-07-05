@@ -1,6 +1,5 @@
-
   x Stray start tag "html"
-   ,-[$DIR/tests/recovery/element/body/broken/input.html:5:1]
+   ,-[$DIR/tests/recovery/element/body/broken/input.html:6:1]
  5 | <body>
  6 | <html test="test">
    : ^^^^^^^^^^^^^^^^^^

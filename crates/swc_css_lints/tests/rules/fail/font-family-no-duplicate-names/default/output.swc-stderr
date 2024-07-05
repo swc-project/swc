@@ -1,69 +1,60 @@
-
   x Unexpected duplicate name 'sans-serif'.
    ,-[$DIR/tests/rules/fail/font-family-no-duplicate-names/default/input.css:1:1]
  1 | a { font-family: "Lucida Grande", 'Arial', sans-serif, sans-serif; }
    :                                                        ^^^^^^^^^^
  2 | a { font-family: 'Arial', "Lucida Grande", Arial, sans-serif; }
    `----
-
   x Unexpected duplicate name 'Arial'.
-   ,-[$DIR/tests/rules/fail/font-family-no-duplicate-names/default/input.css:1:1]
+   ,-[$DIR/tests/rules/fail/font-family-no-duplicate-names/default/input.css:2:1]
  1 | a { font-family: "Lucida Grande", 'Arial', sans-serif, sans-serif; }
  2 | a { font-family: 'Arial', "Lucida Grande", Arial, sans-serif; }
    :                                            ^^^^^
  3 | a { fOnT-fAmIlY: '  Lucida Grande ', "Lucida Grande", sans-serif; }
    `----
-
   x Unexpected duplicate name 'Lucida Grande'.
-   ,-[$DIR/tests/rules/fail/font-family-no-duplicate-names/default/input.css:2:1]
+   ,-[$DIR/tests/rules/fail/font-family-no-duplicate-names/default/input.css:3:1]
  2 | a { font-family: 'Arial', "Lucida Grande", Arial, sans-serif; }
  3 | a { fOnT-fAmIlY: '  Lucida Grande ', "Lucida Grande", sans-serif; }
    :                                      ^^^^^^^^^^^^^^^
  4 | a { font-family: 'Times', Times, "serif", serif; }
    `----
-
   x Unexpected duplicate name 'Times'.
-   ,-[$DIR/tests/rules/fail/font-family-no-duplicate-names/default/input.css:3:1]
+   ,-[$DIR/tests/rules/fail/font-family-no-duplicate-names/default/input.css:4:1]
  3 | a { fOnT-fAmIlY: '  Lucida Grande ', "Lucida Grande", sans-serif; }
  4 | a { font-family: 'Times', Times, "serif", serif; }
    :                           ^^^^^
  5 | a { font-family: Times New Roman, Times, Times New Roman; }
    `----
-
   x Unexpected duplicate name 'Times New Roman'.
-   ,-[$DIR/tests/rules/fail/font-family-no-duplicate-names/default/input.css:4:1]
+   ,-[$DIR/tests/rules/fail/font-family-no-duplicate-names/default/input.css:5:1]
  4 | a { font-family: 'Times', Times, "serif", serif; }
  5 | a { font-family: Times New Roman, Times, Times New Roman; }
    :                                          ^^^^^^^^^^^^^^^
  6 | a { FONT: italic 300 16px/30px Arial, " Arial", serif; }
    `----
-
   x Unexpected duplicate name 'Arial'.
-   ,-[$DIR/tests/rules/fail/font-family-no-duplicate-names/default/input.css:5:1]
+   ,-[$DIR/tests/rules/fail/font-family-no-duplicate-names/default/input.css:6:1]
  5 | a { font-family: Times New Roman, Times, Times New Roman; }
  6 | a { FONT: italic 300 16px/30px Arial, " Arial", serif; }
    :                                       ^^^^^^^^
  7 | b { font: normal 14px/32px -apple-system, BlinkMacSystemFont, sans-serif, sans-serif; }
    `----
-
   x Unexpected duplicate name 'sans-serif'.
-   ,-[$DIR/tests/rules/fail/font-family-no-duplicate-names/default/input.css:6:1]
+   ,-[$DIR/tests/rules/fail/font-family-no-duplicate-names/default/input.css:7:1]
  6 | a { FONT: italic 300 16px/30px Arial, " Arial", serif; }
  7 | b { font: normal 14px/32px -apple-system, BlinkMacSystemFont, sans-serif, sans-serif; }
    :                                                                           ^^^^^^^^^^
  8 | b { font: bold 12px/14px Times New Roman, Times, Times New Roman; }
    `----
-
   x Unexpected duplicate name 'Times New Roman'.
-   ,-[$DIR/tests/rules/fail/font-family-no-duplicate-names/default/input.css:7:1]
+   ,-[$DIR/tests/rules/fail/font-family-no-duplicate-names/default/input.css:8:1]
  7 | b { font: normal 14px/32px -apple-system, BlinkMacSystemFont, sans-serif, sans-serif; }
  8 | b { font: bold 12px/14px Times New Roman, Times, Times New Roman; }
    :                                                  ^^^^^^^^^^^^^^^
  9 | b { font: 80% Times New Roman, Times, Times New Roman; }
    `----
-
   x Unexpected duplicate name 'Times New Roman'.
-   ,-[$DIR/tests/rules/fail/font-family-no-duplicate-names/default/input.css:8:1]
+   ,-[$DIR/tests/rules/fail/font-family-no-duplicate-names/default/input.css:9:1]
  8 | b { font: bold 12px/14px Times New Roman, Times, Times New Roman; }
  9 | b { font: 80% Times New Roman, Times, Times New Roman; }
    :                                       ^^^^^^^^^^^^^^^

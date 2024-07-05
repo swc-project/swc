@@ -1,4 +1,3 @@
-
   x Unexpected use of '&'
    ,-[1:1]
  1 | a & b;

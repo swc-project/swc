@@ -1,4 +1,3 @@
-
   x Non conforming doctype
    ,-[$DIR/tests/recovery/document_type/unknown-name/input.html:1:1]
  1 | <!DOCTYPE potato>Hello

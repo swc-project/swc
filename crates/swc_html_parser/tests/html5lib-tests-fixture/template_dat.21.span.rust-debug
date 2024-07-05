@@ -1,50 +1,40 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.21.html:1:1]
  1 | <select><template></template><option></select>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.21.html:1:1]
  1 | <select><template></template><option></select>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.21.html:1:1]
  1 | <select><template></template><option></select>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.21.html:1:1]
  1 | <select><template></template><option></select>
    :         ^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.21.html:1:1]
  1 | <select><template></template><option></select>
    :         ^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x DocumentFragment
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.21.html:1:1]
  1 | <select><template></template><option></select>
    :         ^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.21.html:1:1]
  1 | <select><template></template><option></select>
    :                              ^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.21.html:1:1]
  1 | <select><template></template><option></select>

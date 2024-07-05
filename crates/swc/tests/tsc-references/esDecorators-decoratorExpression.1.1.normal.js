@@ -1,7 +1,6 @@
 //// [esDecorators-decoratorExpression.1.ts]
-//! 
 //!   x Expression expected
-//!    ,-[1:1]
+//!    ,-[4:1]
 //!  1 | 
 //!  2 | declare let x: any;
 //!  3 | 

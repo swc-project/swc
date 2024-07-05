@@ -1,178 +1,154 @@
-
   x Stylesheet
    ,-[$DIR/tests/recovery/declaration/important-1/input.css:1:1]
  1 | ,-> a {
  2 | |       color: red !importan;
  3 | `-> }
    `----
-
   x Rule
    ,-[$DIR/tests/recovery/declaration/important-1/input.css:1:1]
  1 | ,-> a {
  2 | |       color: red !importan;
  3 | `-> }
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/recovery/declaration/important-1/input.css:1:1]
  1 | ,-> a {
  2 | |       color: red !importan;
  3 | `-> }
    `----
-
   x SelectorList
    ,-[$DIR/tests/recovery/declaration/important-1/input.css:1:1]
  1 | a {
    : ^
  2 |     color: red !importan;
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/recovery/declaration/important-1/input.css:1:1]
  1 | a {
    : ^
  2 |     color: red !importan;
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/recovery/declaration/important-1/input.css:1:1]
  1 | a {
    : ^
  2 |     color: red !importan;
    `----
-
   x TypeSelector
    ,-[$DIR/tests/recovery/declaration/important-1/input.css:1:1]
  1 | a {
    : ^
  2 |     color: red !importan;
    `----
-
   x TagNameSelector
    ,-[$DIR/tests/recovery/declaration/important-1/input.css:1:1]
  1 | a {
    : ^
  2 |     color: red !importan;
    `----
-
   x WqName
    ,-[$DIR/tests/recovery/declaration/important-1/input.css:1:1]
  1 | a {
    : ^
  2 |     color: red !importan;
    `----
-
   x Ident
    ,-[$DIR/tests/recovery/declaration/important-1/input.css:1:1]
  1 | a {
    : ^
  2 |     color: red !importan;
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/recovery/declaration/important-1/input.css:1:1]
  1 | ,-> a {
  2 | |       color: red !importan;
  3 | `-> }
    `----
-
   x LBrace
    ,-[$DIR/tests/recovery/declaration/important-1/input.css:1:1]
  1 | a {
    :   ^
  2 |     color: red !importan;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/declaration/important-1/input.css:1:1]
+   ,-[$DIR/tests/recovery/declaration/important-1/input.css:2:1]
  1 | a {
  2 |     color: red !importan;
    :     ^^^^^^^^^^^^^^^^^^^^
  3 | }
    `----
-
   x Declaration
-   ,-[$DIR/tests/recovery/declaration/important-1/input.css:1:1]
+   ,-[$DIR/tests/recovery/declaration/important-1/input.css:2:1]
  1 | a {
  2 |     color: red !importan;
    :     ^^^^^^^^^^^^^^^^^^^^
  3 | }
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/recovery/declaration/important-1/input.css:1:1]
+   ,-[$DIR/tests/recovery/declaration/important-1/input.css:2:1]
  1 | a {
  2 |     color: red !importan;
    :     ^^^^^
  3 | }
    `----
-
   x Ident
-   ,-[$DIR/tests/recovery/declaration/important-1/input.css:1:1]
+   ,-[$DIR/tests/recovery/declaration/important-1/input.css:2:1]
  1 | a {
  2 |     color: red !importan;
    :     ^^^^^
  3 | }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/declaration/important-1/input.css:1:1]
+   ,-[$DIR/tests/recovery/declaration/important-1/input.css:2:1]
  1 | a {
  2 |     color: red !importan;
    :            ^^^
  3 | }
    `----
-
   x Ident { value: "red", raw: "red" }
-   ,-[$DIR/tests/recovery/declaration/important-1/input.css:1:1]
+   ,-[$DIR/tests/recovery/declaration/important-1/input.css:2:1]
  1 | a {
  2 |     color: red !importan;
    :            ^^^
  3 | }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/declaration/important-1/input.css:1:1]
+   ,-[$DIR/tests/recovery/declaration/important-1/input.css:2:1]
  1 | a {
  2 |     color: red !importan;
    :               ^
  3 | }
    `----
-
   x WhiteSpace { value: " " }
-   ,-[$DIR/tests/recovery/declaration/important-1/input.css:1:1]
+   ,-[$DIR/tests/recovery/declaration/important-1/input.css:2:1]
  1 | a {
  2 |     color: red !importan;
    :               ^
  3 | }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/declaration/important-1/input.css:1:1]
+   ,-[$DIR/tests/recovery/declaration/important-1/input.css:2:1]
  1 | a {
  2 |     color: red !importan;
    :                ^
  3 | }
    `----
-
   x Delim { value: '!' }
-   ,-[$DIR/tests/recovery/declaration/important-1/input.css:1:1]
+   ,-[$DIR/tests/recovery/declaration/important-1/input.css:2:1]
  1 | a {
  2 |     color: red !importan;
    :                ^
  3 | }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/declaration/important-1/input.css:1:1]
+   ,-[$DIR/tests/recovery/declaration/important-1/input.css:2:1]
  1 | a {
  2 |     color: red !importan;
    :                 ^^^^^^^^
  3 | }
    `----
-
   x Ident { value: "importan", raw: "importan" }
-   ,-[$DIR/tests/recovery/declaration/important-1/input.css:1:1]
+   ,-[$DIR/tests/recovery/declaration/important-1/input.css:2:1]
  1 | a {
  2 |     color: red !importan;
    :                 ^^^^^^^^

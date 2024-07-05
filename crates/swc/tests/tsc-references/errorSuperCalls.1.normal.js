@@ -1,7 +1,6 @@
 //// [errorSuperCalls.ts]
-//! 
 //!   x Expression expected
-//!     ,-[43:1]
+//!     ,-[46:1]
 //!  43 | class Derived<T> extends Base<T> {
 //!  44 |     //super call with type arguments 
 //!  45 |     constructor() {
@@ -11,9 +10,8 @@
 //!  48 |     }
 //!  49 | }
 //!     `----
-//! 
 //!   x Parenthesized expression cannot be empty
-//!     ,-[43:1]
+//!     ,-[46:1]
 //!  43 | class Derived<T> extends Base<T> {
 //!  44 |     //super call with type arguments 
 //!  45 |     constructor() {

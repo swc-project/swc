@@ -1,92 +1,75 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.38.html:1:1]
  1 | <math><mi><svg><foreignObject><div><div></div></div></foreignObject></svg></mi><mi>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.38.html:1:1]
  1 | <math><mi><svg><foreignObject><div><div></div></div></foreignObject></svg></mi><mi>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.38.html:1:1]
  1 | <math><mi><svg><foreignObject><div><div></div></div></foreignObject></svg></mi><mi>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.38.html:1:1]
  1 | <math><mi><svg><foreignObject><div><div></div></div></foreignObject></svg></mi><mi>
    :       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.38.html:1:1]
  1 | <math><mi><svg><foreignObject><div><div></div></div></foreignObject></svg></mi><mi>
    :       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.38.html:1:1]
  1 | <math><mi><svg><foreignObject><div><div></div></div></foreignObject></svg></mi><mi>
    :           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.38.html:1:1]
  1 | <math><mi><svg><foreignObject><div><div></div></div></foreignObject></svg></mi><mi>
    :           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.38.html:1:1]
  1 | <math><mi><svg><foreignObject><div><div></div></div></foreignObject></svg></mi><mi>
    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.38.html:1:1]
  1 | <math><mi><svg><foreignObject><div><div></div></div></foreignObject></svg></mi><mi>
    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.38.html:1:1]
  1 | <math><mi><svg><foreignObject><div><div></div></div></foreignObject></svg></mi><mi>
    :                               ^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.38.html:1:1]
  1 | <math><mi><svg><foreignObject><div><div></div></div></foreignObject></svg></mi><mi>
    :                               ^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.38.html:1:1]
  1 | <math><mi><svg><foreignObject><div><div></div></div></foreignObject></svg></mi><mi>
    :                                    ^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.38.html:1:1]
  1 | <math><mi><svg><foreignObject><div><div></div></div></foreignObject></svg></mi><mi>
    :                                    ^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.38.html:1:1]
  1 | <math><mi><svg><foreignObject><div><div></div></div></foreignObject></svg></mi><mi>
    :                                                                                ^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.38.html:1:1]
  1 | <math><mi><svg><foreignObject><div><div></div></div></foreignObject></svg></mi><mi>

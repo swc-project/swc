@@ -1,32 +1,25 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.48.html:1:1]
  1 | <!doctype html><input type="hidden"><frameset>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.48.html:1:1]
  1 | <!doctype html><input type="hidden"><frameset>
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.48.html:1:1]
  1 | <!doctype html><input type="hidden"><frameset>
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.48.html:1:1]
  1 | <!doctype html><input type="hidden"><frameset>
    :                                     ^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.48.html:1:1]
  1 | <!doctype html><input type="hidden"><frameset>

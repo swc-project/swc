@@ -1,92 +1,75 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.32.html:1:1]
  1 | <!DOCTYPE html><svg><desc><div><svg><ul>a
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.32.html:1:1]
  1 | <!DOCTYPE html><svg><desc><div><svg><ul>a
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.32.html:1:1]
  1 | <!DOCTYPE html><svg><desc><div><svg><ul>a
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.32.html:1:1]
  1 | <!DOCTYPE html><svg><desc><div><svg><ul>a
    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.32.html:1:1]
  1 | <!DOCTYPE html><svg><desc><div><svg><ul>a
    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.32.html:1:1]
  1 | <!DOCTYPE html><svg><desc><div><svg><ul>a
    :                     ^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.32.html:1:1]
  1 | <!DOCTYPE html><svg><desc><div><svg><ul>a
    :                     ^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.32.html:1:1]
  1 | <!DOCTYPE html><svg><desc><div><svg><ul>a
    :                           ^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.32.html:1:1]
  1 | <!DOCTYPE html><svg><desc><div><svg><ul>a
    :                           ^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.32.html:1:1]
  1 | <!DOCTYPE html><svg><desc><div><svg><ul>a
    :                                ^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.32.html:1:1]
  1 | <!DOCTYPE html><svg><desc><div><svg><ul>a
    :                                ^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.32.html:1:1]
  1 | <!DOCTYPE html><svg><desc><div><svg><ul>a
    :                                     ^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.32.html:1:1]
  1 | <!DOCTYPE html><svg><desc><div><svg><ul>a
    :                                     ^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.32.html:1:1]
  1 | <!DOCTYPE html><svg><desc><div><svg><ul>a
    :                                         ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.32.html:1:1]
  1 | <!DOCTYPE html><svg><desc><div><svg><ul>a

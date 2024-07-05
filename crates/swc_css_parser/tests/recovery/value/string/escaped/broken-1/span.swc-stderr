@@ -1,127 +1,109 @@
-
   x Stylesheet
    ,-[$DIR/tests/recovery/value/string/escaped/broken-1/input.css:1:1]
  1 | ,-> a {
  2 | |       prop: "\a
  3 | `-> }
    `----
-
   x Rule
    ,-[$DIR/tests/recovery/value/string/escaped/broken-1/input.css:1:1]
  1 | ,-> a {
  2 | |       prop: "\a
  3 | `-> }
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/recovery/value/string/escaped/broken-1/input.css:1:1]
  1 | ,-> a {
  2 | |       prop: "\a
  3 | `-> }
    `----
-
   x SelectorList
    ,-[$DIR/tests/recovery/value/string/escaped/broken-1/input.css:1:1]
  1 | a {
    : ^
  2 |     prop: "\a
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/recovery/value/string/escaped/broken-1/input.css:1:1]
  1 | a {
    : ^
  2 |     prop: "\a
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/recovery/value/string/escaped/broken-1/input.css:1:1]
  1 | a {
    : ^
  2 |     prop: "\a
    `----
-
   x TypeSelector
    ,-[$DIR/tests/recovery/value/string/escaped/broken-1/input.css:1:1]
  1 | a {
    : ^
  2 |     prop: "\a
    `----
-
   x TagNameSelector
    ,-[$DIR/tests/recovery/value/string/escaped/broken-1/input.css:1:1]
  1 | a {
    : ^
  2 |     prop: "\a
    `----
-
   x WqName
    ,-[$DIR/tests/recovery/value/string/escaped/broken-1/input.css:1:1]
  1 | a {
    : ^
  2 |     prop: "\a
    `----
-
   x Ident
    ,-[$DIR/tests/recovery/value/string/escaped/broken-1/input.css:1:1]
  1 | a {
    : ^
  2 |     prop: "\a
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/recovery/value/string/escaped/broken-1/input.css:1:1]
  1 | ,-> a {
  2 | |       prop: "\a
  3 | `-> }
    `----
-
   x LBrace
    ,-[$DIR/tests/recovery/value/string/escaped/broken-1/input.css:1:1]
  1 | a {
    :   ^
  2 |     prop: "\a
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/value/string/escaped/broken-1/input.css:1:1]
+   ,-[$DIR/tests/recovery/value/string/escaped/broken-1/input.css:2:1]
  1 |     a {
  2 | ,->     prop: "\a
  3 | `-> }
    `----
-
   x Declaration
-   ,-[$DIR/tests/recovery/value/string/escaped/broken-1/input.css:1:1]
+   ,-[$DIR/tests/recovery/value/string/escaped/broken-1/input.css:2:1]
  1 |     a {
  2 | ,->     prop: "\a
  3 | `-> }
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/recovery/value/string/escaped/broken-1/input.css:1:1]
+   ,-[$DIR/tests/recovery/value/string/escaped/broken-1/input.css:2:1]
  1 | a {
  2 |     prop: "\a
    :     ^^^^
  3 | }
    `----
-
   x Ident
-   ,-[$DIR/tests/recovery/value/string/escaped/broken-1/input.css:1:1]
+   ,-[$DIR/tests/recovery/value/string/escaped/broken-1/input.css:2:1]
  1 | a {
  2 |     prop: "\a
    :     ^^^^
  3 | }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/value/string/escaped/broken-1/input.css:1:1]
+   ,-[$DIR/tests/recovery/value/string/escaped/broken-1/input.css:2:1]
  1 |     a {
  2 | ,->     prop: "\a
  3 | `-> }
    `----
-
   x Str
-   ,-[$DIR/tests/recovery/value/string/escaped/broken-1/input.css:1:1]
+   ,-[$DIR/tests/recovery/value/string/escaped/broken-1/input.css:2:1]
  1 |     a {
  2 | ,->     prop: "\a
  3 | `-> }

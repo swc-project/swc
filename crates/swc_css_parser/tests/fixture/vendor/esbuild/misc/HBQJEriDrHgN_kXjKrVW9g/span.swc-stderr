@@ -1,94 +1,78 @@
-
   x Stylesheet
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/HBQJEriDrHgN_kXjKrVW9g/input.css:1:1]
  1 | [ns|\61ttr] {}
    : ^^^^^^^^^^^^^^
    `----
-
   x Rule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/HBQJEriDrHgN_kXjKrVW9g/input.css:1:1]
  1 | [ns|\61ttr] {}
    : ^^^^^^^^^^^^^^
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/HBQJEriDrHgN_kXjKrVW9g/input.css:1:1]
  1 | [ns|\61ttr] {}
    : ^^^^^^^^^^^^^^
    `----
-
   x SelectorList
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/HBQJEriDrHgN_kXjKrVW9g/input.css:1:1]
  1 | [ns|\61ttr] {}
    : ^^^^^^^^^^^
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/HBQJEriDrHgN_kXjKrVW9g/input.css:1:1]
  1 | [ns|\61ttr] {}
    : ^^^^^^^^^^^
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/HBQJEriDrHgN_kXjKrVW9g/input.css:1:1]
  1 | [ns|\61ttr] {}
    : ^^^^^^^^^^^
    `----
-
   x SubclassSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/HBQJEriDrHgN_kXjKrVW9g/input.css:1:1]
  1 | [ns|\61ttr] {}
    : ^^^^^^^^^^^
    `----
-
   x AttributeSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/HBQJEriDrHgN_kXjKrVW9g/input.css:1:1]
  1 | [ns|\61ttr] {}
    : ^^^^^^^^^^^
    `----
-
   x WqName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/HBQJEriDrHgN_kXjKrVW9g/input.css:1:1]
  1 | [ns|\61ttr] {}
    :  ^^^^^^^^^
    `----
-
   x NamespacePrefix
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/HBQJEriDrHgN_kXjKrVW9g/input.css:1:1]
  1 | [ns|\61ttr] {}
    :  ^^^
    `----
-
   x Namespace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/HBQJEriDrHgN_kXjKrVW9g/input.css:1:1]
  1 | [ns|\61ttr] {}
    :  ^^
    `----
-
   x NamedNamespace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/HBQJEriDrHgN_kXjKrVW9g/input.css:1:1]
  1 | [ns|\61ttr] {}
    :  ^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/HBQJEriDrHgN_kXjKrVW9g/input.css:1:1]
  1 | [ns|\61ttr] {}
    :  ^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/HBQJEriDrHgN_kXjKrVW9g/input.css:1:1]
  1 | [ns|\61ttr] {}
    :     ^^^^^^
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/HBQJEriDrHgN_kXjKrVW9g/input.css:1:1]
  1 | [ns|\61ttr] {}
    :             ^^
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/HBQJEriDrHgN_kXjKrVW9g/input.css:1:1]
  1 | [ns|\61ttr] {}

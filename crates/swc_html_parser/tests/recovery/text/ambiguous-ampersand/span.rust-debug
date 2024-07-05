@@ -1,86 +1,70 @@
-
   x Document
    ,-[$DIR/tests/recovery/text/ambiguous-ampersand/input.html:1:1]
  1 | <div><a href='?a=b&c=d&a0b=c&copy=1&noti=n&not=in&notin=&notin;&not;&;& &'>Link</a><p>Text: ?a=b&c=d&a0b=c&copy=1&noti=n&not=in&notin=&notin;&not;&;& &</p></div>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/recovery/text/ambiguous-ampersand/input.html:1:1]
  1 | <div><a href='?a=b&c=d&a0b=c&copy=1&noti=n&not=in&notin=&notin;&not;&;& &'>Link</a><p>Text: ?a=b&c=d&a0b=c&copy=1&noti=n&not=in&notin=&notin;&not;&;& &</p></div>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/recovery/text/ambiguous-ampersand/input.html:1:1]
  1 | <div><a href='?a=b&c=d&a0b=c&copy=1&noti=n&not=in&notin=&notin;&not;&;& &'>Link</a><p>Text: ?a=b&c=d&a0b=c&copy=1&noti=n&not=in&notin=&notin;&not;&;& &</p></div>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/recovery/text/ambiguous-ampersand/input.html:1:1]
  1 | <div><a href='?a=b&c=d&a0b=c&copy=1&noti=n&not=in&notin=&notin;&not;&;& &'>Link</a><p>Text: ?a=b&c=d&a0b=c&copy=1&noti=n&not=in&notin=&notin;&not;&;& &</p></div>
    :      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/recovery/text/ambiguous-ampersand/input.html:1:1]
  1 | <div><a href='?a=b&c=d&a0b=c&copy=1&noti=n&not=in&notin=&notin;&not;&;& &'>Link</a><p>Text: ?a=b&c=d&a0b=c&copy=1&noti=n&not=in&notin=&notin;&not;&;& &</p></div>
    :      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Attribute
    ,-[$DIR/tests/recovery/text/ambiguous-ampersand/input.html:1:1]
  1 | <div><a href='?a=b&c=d&a0b=c&copy=1&noti=n&not=in&notin=&notin;&not;&;& &'>Link</a><p>Text: ?a=b&c=d&a0b=c&copy=1&noti=n&not=in&notin=&notin;&not;&;& &</p></div>
    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/recovery/text/ambiguous-ampersand/input.html:1:1]
  1 | <div><a href='?a=b&c=d&a0b=c&copy=1&noti=n&not=in&notin=&notin;&not;&;& &'>Link</a><p>Text: ?a=b&c=d&a0b=c&copy=1&noti=n&not=in&notin=&notin;&not;&;& &</p></div>
    :                                                                            ^^^^
    `----
-
   x Text
    ,-[$DIR/tests/recovery/text/ambiguous-ampersand/input.html:1:1]
  1 | <div><a href='?a=b&c=d&a0b=c&copy=1&noti=n&not=in&notin=&notin;&not;&;& &'>Link</a><p>Text: ?a=b&c=d&a0b=c&copy=1&noti=n&not=in&notin=&notin;&not;&;& &</p></div>
    :                                                                            ^^^^
    `----
-
   x Child
    ,-[$DIR/tests/recovery/text/ambiguous-ampersand/input.html:1:1]
  1 | <div><a href='?a=b&c=d&a0b=c&copy=1&noti=n&not=in&notin=&notin;&not;&;& &'>Link</a><p>Text: ?a=b&c=d&a0b=c&copy=1&noti=n&not=in&notin=&notin;&not;&;& &</p></div>
    :                                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/recovery/text/ambiguous-ampersand/input.html:1:1]
  1 | <div><a href='?a=b&c=d&a0b=c&copy=1&noti=n&not=in&notin=&notin;&not;&;& &'>Link</a><p>Text: ?a=b&c=d&a0b=c&copy=1&noti=n&not=in&notin=&notin;&not;&;& &</p></div>
    :                                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/recovery/text/ambiguous-ampersand/input.html:1:1]
  1 | <div><a href='?a=b&c=d&a0b=c&copy=1&noti=n&not=in&notin=&notin;&not;&;& &'>Link</a><p>Text: ?a=b&c=d&a0b=c&copy=1&noti=n&not=in&notin=&notin;&not;&;& &</p></div>
    :                                                                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Text
    ,-[$DIR/tests/recovery/text/ambiguous-ampersand/input.html:1:1]
  1 | <div><a href='?a=b&c=d&a0b=c&copy=1&noti=n&not=in&notin=&notin;&not;&;& &'>Link</a><p>Text: ?a=b&c=d&a0b=c&copy=1&noti=n&not=in&notin=&notin;&not;&;& &</p></div>
    :                                                                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/recovery/text/ambiguous-ampersand/input.html:1:1]
  1 | <div><a href='?a=b&c=d&a0b=c&copy=1&noti=n&not=in&notin=&notin;&not;&;& &'>Link</a><p>Text: ?a=b&c=d&a0b=c&copy=1&noti=n&not=in&notin=&notin;&not;&;& &</p></div>
    :                                                                                                                                                                  ^
    `----
-
   x Text
    ,-[$DIR/tests/recovery/text/ambiguous-ampersand/input.html:1:1]
  1 | <div><a href='?a=b&c=d&a0b=c&copy=1&noti=n&not=in&notin=&notin;&not;&;& &'>Link</a><p>Text: ?a=b&c=d&a0b=c&copy=1&noti=n&not=in&notin=&notin;&not;&;& &</p></div>

@@ -1,4 +1,3 @@
-
   x A `set` accessor must have exactly one parameter
    ,-[$DIR/tests/test262-parser/fail/9cbce7d794e8d679.js:1:1]
  1 | class A { set prop() {} }

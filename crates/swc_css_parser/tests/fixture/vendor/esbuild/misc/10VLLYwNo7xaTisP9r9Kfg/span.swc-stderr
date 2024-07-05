@@ -1,88 +1,73 @@
-
   x Stylesheet
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/10VLLYwNo7xaTisP9r9Kfg/input.css:1:1]
  1 | div#id {}
    : ^^^^^^^^^
    `----
-
   x Rule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/10VLLYwNo7xaTisP9r9Kfg/input.css:1:1]
  1 | div#id {}
    : ^^^^^^^^^
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/10VLLYwNo7xaTisP9r9Kfg/input.css:1:1]
  1 | div#id {}
    : ^^^^^^^^^
    `----
-
   x SelectorList
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/10VLLYwNo7xaTisP9r9Kfg/input.css:1:1]
  1 | div#id {}
    : ^^^^^^
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/10VLLYwNo7xaTisP9r9Kfg/input.css:1:1]
  1 | div#id {}
    : ^^^^^^
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/10VLLYwNo7xaTisP9r9Kfg/input.css:1:1]
  1 | div#id {}
    : ^^^^^^
    `----
-
   x TypeSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/10VLLYwNo7xaTisP9r9Kfg/input.css:1:1]
  1 | div#id {}
    : ^^^
    `----
-
   x TagNameSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/10VLLYwNo7xaTisP9r9Kfg/input.css:1:1]
  1 | div#id {}
    : ^^^
    `----
-
   x WqName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/10VLLYwNo7xaTisP9r9Kfg/input.css:1:1]
  1 | div#id {}
    : ^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/10VLLYwNo7xaTisP9r9Kfg/input.css:1:1]
  1 | div#id {}
    : ^^^
    `----
-
   x SubclassSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/10VLLYwNo7xaTisP9r9Kfg/input.css:1:1]
  1 | div#id {}
    :    ^^^
    `----
-
   x IdSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/10VLLYwNo7xaTisP9r9Kfg/input.css:1:1]
  1 | div#id {}
    :    ^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/10VLLYwNo7xaTisP9r9Kfg/input.css:1:1]
  1 | div#id {}
    :    ^^^
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/10VLLYwNo7xaTisP9r9Kfg/input.css:1:1]
  1 | div#id {}
    :        ^^
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/10VLLYwNo7xaTisP9r9Kfg/input.css:1:1]
  1 | div#id {}

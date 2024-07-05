@@ -1,4 +1,3 @@
-
   x Expected ',', got 'baz'
    ,-[$DIR/tests/typescript-errors/type-only-import-specifier/redundant-tokens/input.ts:1:1]
  1 | import { type foo as bar baz } from 'mod'

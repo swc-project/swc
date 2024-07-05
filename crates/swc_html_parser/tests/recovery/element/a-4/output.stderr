@@ -1,58 +1,48 @@
-
   x Start tag seen without seeing a doctype first, expected "<!DOCTYPE html>"
    ,-[$DIR/tests/recovery/element/a-4/input.html:1:1]
  1 | <table><a>1<p>2</a>3</p>
    : ^^^^^^^
    `----
-
   x Start tag "a" seen in "table"
    ,-[$DIR/tests/recovery/element/a-4/input.html:1:1]
  1 | <table><a>1<p>2</a>3</p>
    :        ^^^
    `----
-
   x Misplaced non-space characters inside a table
    ,-[$DIR/tests/recovery/element/a-4/input.html:1:1]
  1 | <table><a>1<p>2</a>3</p>
    :           ^
    `----
-
   x Start tag "p" seen in "table"
    ,-[$DIR/tests/recovery/element/a-4/input.html:1:1]
  1 | <table><a>1<p>2</a>3</p>
    :            ^^^
    `----
-
   x Misplaced non-space characters inside a table
    ,-[$DIR/tests/recovery/element/a-4/input.html:1:1]
  1 | <table><a>1<p>2</a>3</p>
    :               ^
    `----
-
   x Stray end tag "a"
    ,-[$DIR/tests/recovery/element/a-4/input.html:1:1]
  1 | <table><a>1<p>2</a>3</p>
    :                ^^^^
    `----
-
   x End tag "a" violates nesting rules
    ,-[$DIR/tests/recovery/element/a-4/input.html:1:1]
  1 | <table><a>1<p>2</a>3</p>
    :                ^^^^
    `----
-
   x Misplaced non-space characters inside a table
    ,-[$DIR/tests/recovery/element/a-4/input.html:1:1]
  1 | <table><a>1<p>2</a>3</p>
    :                    ^
    `----
-
   x Stray end tag "p"
    ,-[$DIR/tests/recovery/element/a-4/input.html:1:1]
  1 | <table><a>1<p>2</a>3</p>
    :                     ^^^^
    `----
-
   x End of file seen and there were open elements
    ,-[$DIR/tests/recovery/element/a-4/input.html:1:1]
  1 | <table><a>1<p>2</a>3</p>

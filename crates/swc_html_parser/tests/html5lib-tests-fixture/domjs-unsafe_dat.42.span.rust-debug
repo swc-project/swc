@@ -1,32 +1,25 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/domjs-unsafe_dat.42.html:1:1]
  1 | <html><body></body></html><!DOCTYPE html>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/domjs-unsafe_dat.42.html:1:1]
  1 | <html><body></body></html><!DOCTYPE html>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/domjs-unsafe_dat.42.html:1:1]
  1 | <html><body></body></html><!DOCTYPE html>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/domjs-unsafe_dat.42.html:1:1]
  1 | <html><body></body></html><!DOCTYPE html>
    :       ^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/domjs-unsafe_dat.42.html:1:1]
  1 | <html><body></body></html><!DOCTYPE html>

@@ -1,4 +1,3 @@
-
   x Stylesheet
    ,-[$DIR/tests/fixture/dimension/basic/input.css:1:1]
  1 | ,-> a {
@@ -11,7 +10,6 @@
  8 | |       prop: 1unknown;
  9 | `-> }
    `----
-
   x Rule
    ,-[$DIR/tests/fixture/dimension/basic/input.css:1:1]
  1 | ,-> a {
@@ -24,7 +22,6 @@
  8 | |       prop: 1unknown;
  9 | `-> }
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/fixture/dimension/basic/input.css:1:1]
  1 | ,-> a {
@@ -37,56 +34,48 @@
  8 | |       prop: 1unknown;
  9 | `-> }
    `----
-
   x SelectorList
    ,-[$DIR/tests/fixture/dimension/basic/input.css:1:1]
  1 | a {
    : ^
  2 |     prop: 10px;
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/fixture/dimension/basic/input.css:1:1]
  1 | a {
    : ^
  2 |     prop: 10px;
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/dimension/basic/input.css:1:1]
  1 | a {
    : ^
  2 |     prop: 10px;
    `----
-
   x TypeSelector
    ,-[$DIR/tests/fixture/dimension/basic/input.css:1:1]
  1 | a {
    : ^
  2 |     prop: 10px;
    `----
-
   x TagNameSelector
    ,-[$DIR/tests/fixture/dimension/basic/input.css:1:1]
  1 | a {
    : ^
  2 |     prop: 10px;
    `----
-
   x WqName
    ,-[$DIR/tests/fixture/dimension/basic/input.css:1:1]
  1 | a {
    : ^
  2 |     prop: 10px;
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/dimension/basic/input.css:1:1]
  1 | a {
    : ^
  2 |     prop: 10px;
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/dimension/basic/input.css:1:1]
  1 | ,-> a {
@@ -99,512 +88,448 @@
  8 | |       prop: 1unknown;
  9 | `-> }
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/dimension/basic/input.css:1:1]
  1 | a {
    :   ^
  2 |     prop: 10px;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/dimension/basic/input.css:1:1]
+   ,-[$DIR/tests/fixture/dimension/basic/input.css:2:1]
  1 | a {
  2 |     prop: 10px;
    :     ^^^^^^^^^^
  3 |     prop: .10px;
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/dimension/basic/input.css:1:1]
+   ,-[$DIR/tests/fixture/dimension/basic/input.css:2:1]
  1 | a {
  2 |     prop: 10px;
    :     ^^^^^^^^^^
  3 |     prop: .10px;
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/dimension/basic/input.css:1:1]
+   ,-[$DIR/tests/fixture/dimension/basic/input.css:2:1]
  1 | a {
  2 |     prop: 10px;
    :     ^^^^
  3 |     prop: .10px;
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/dimension/basic/input.css:1:1]
+   ,-[$DIR/tests/fixture/dimension/basic/input.css:2:1]
  1 | a {
  2 |     prop: 10px;
    :     ^^^^
  3 |     prop: .10px;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/dimension/basic/input.css:1:1]
+   ,-[$DIR/tests/fixture/dimension/basic/input.css:2:1]
  1 | a {
  2 |     prop: 10px;
    :           ^^^^
  3 |     prop: .10px;
    `----
-
   x Dimension
-   ,-[$DIR/tests/fixture/dimension/basic/input.css:1:1]
+   ,-[$DIR/tests/fixture/dimension/basic/input.css:2:1]
  1 | a {
  2 |     prop: 10px;
    :           ^^^^
  3 |     prop: .10px;
    `----
-
   x Length
-   ,-[$DIR/tests/fixture/dimension/basic/input.css:1:1]
+   ,-[$DIR/tests/fixture/dimension/basic/input.css:2:1]
  1 | a {
  2 |     prop: 10px;
    :           ^^^^
  3 |     prop: .10px;
    `----
-
   x Number
-   ,-[$DIR/tests/fixture/dimension/basic/input.css:1:1]
+   ,-[$DIR/tests/fixture/dimension/basic/input.css:2:1]
  1 | a {
  2 |     prop: 10px;
    :           ^^
  3 |     prop: .10px;
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/dimension/basic/input.css:1:1]
+   ,-[$DIR/tests/fixture/dimension/basic/input.css:2:1]
  1 | a {
  2 |     prop: 10px;
    :             ^^
  3 |     prop: .10px;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/dimension/basic/input.css:2:1]
+   ,-[$DIR/tests/fixture/dimension/basic/input.css:3:1]
  2 |     prop: 10px;
  3 |     prop: .10px;
    :     ^^^^^^^^^^^
  4 |     prop: 12.34px;
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/dimension/basic/input.css:2:1]
+   ,-[$DIR/tests/fixture/dimension/basic/input.css:3:1]
  2 |     prop: 10px;
  3 |     prop: .10px;
    :     ^^^^^^^^^^^
  4 |     prop: 12.34px;
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/dimension/basic/input.css:2:1]
+   ,-[$DIR/tests/fixture/dimension/basic/input.css:3:1]
  2 |     prop: 10px;
  3 |     prop: .10px;
    :     ^^^^
  4 |     prop: 12.34px;
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/dimension/basic/input.css:2:1]
+   ,-[$DIR/tests/fixture/dimension/basic/input.css:3:1]
  2 |     prop: 10px;
  3 |     prop: .10px;
    :     ^^^^
  4 |     prop: 12.34px;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/dimension/basic/input.css:2:1]
+   ,-[$DIR/tests/fixture/dimension/basic/input.css:3:1]
  2 |     prop: 10px;
  3 |     prop: .10px;
    :           ^^^^^
  4 |     prop: 12.34px;
    `----
-
   x Dimension
-   ,-[$DIR/tests/fixture/dimension/basic/input.css:2:1]
+   ,-[$DIR/tests/fixture/dimension/basic/input.css:3:1]
  2 |     prop: 10px;
  3 |     prop: .10px;
    :           ^^^^^
  4 |     prop: 12.34px;
    `----
-
   x Length
-   ,-[$DIR/tests/fixture/dimension/basic/input.css:2:1]
+   ,-[$DIR/tests/fixture/dimension/basic/input.css:3:1]
  2 |     prop: 10px;
  3 |     prop: .10px;
    :           ^^^^^
  4 |     prop: 12.34px;
    `----
-
   x Number
-   ,-[$DIR/tests/fixture/dimension/basic/input.css:2:1]
+   ,-[$DIR/tests/fixture/dimension/basic/input.css:3:1]
  2 |     prop: 10px;
  3 |     prop: .10px;
    :           ^^^
  4 |     prop: 12.34px;
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/dimension/basic/input.css:2:1]
+   ,-[$DIR/tests/fixture/dimension/basic/input.css:3:1]
  2 |     prop: 10px;
  3 |     prop: .10px;
    :              ^^
  4 |     prop: 12.34px;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/dimension/basic/input.css:3:1]
+   ,-[$DIR/tests/fixture/dimension/basic/input.css:4:1]
  3 |     prop: .10px;
  4 |     prop: 12.34px;
    :     ^^^^^^^^^^^^^
  5 |     prop: 0000.000px;
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/dimension/basic/input.css:3:1]
+   ,-[$DIR/tests/fixture/dimension/basic/input.css:4:1]
  3 |     prop: .10px;
  4 |     prop: 12.34px;
    :     ^^^^^^^^^^^^^
  5 |     prop: 0000.000px;
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/dimension/basic/input.css:3:1]
+   ,-[$DIR/tests/fixture/dimension/basic/input.css:4:1]
  3 |     prop: .10px;
  4 |     prop: 12.34px;
    :     ^^^^
  5 |     prop: 0000.000px;
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/dimension/basic/input.css:3:1]
+   ,-[$DIR/tests/fixture/dimension/basic/input.css:4:1]
  3 |     prop: .10px;
  4 |     prop: 12.34px;
    :     ^^^^
  5 |     prop: 0000.000px;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/dimension/basic/input.css:3:1]
+   ,-[$DIR/tests/fixture/dimension/basic/input.css:4:1]
  3 |     prop: .10px;
  4 |     prop: 12.34px;
    :           ^^^^^^^
  5 |     prop: 0000.000px;
    `----
-
   x Dimension
-   ,-[$DIR/tests/fixture/dimension/basic/input.css:3:1]
+   ,-[$DIR/tests/fixture/dimension/basic/input.css:4:1]
  3 |     prop: .10px;
  4 |     prop: 12.34px;
    :           ^^^^^^^
  5 |     prop: 0000.000px;
    `----
-
   x Length
-   ,-[$DIR/tests/fixture/dimension/basic/input.css:3:1]
+   ,-[$DIR/tests/fixture/dimension/basic/input.css:4:1]
  3 |     prop: .10px;
  4 |     prop: 12.34px;
    :           ^^^^^^^
  5 |     prop: 0000.000px;
    `----
-
   x Number
-   ,-[$DIR/tests/fixture/dimension/basic/input.css:3:1]
+   ,-[$DIR/tests/fixture/dimension/basic/input.css:4:1]
  3 |     prop: .10px;
  4 |     prop: 12.34px;
    :           ^^^^^
  5 |     prop: 0000.000px;
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/dimension/basic/input.css:3:1]
+   ,-[$DIR/tests/fixture/dimension/basic/input.css:4:1]
  3 |     prop: .10px;
  4 |     prop: 12.34px;
    :                ^^
  5 |     prop: 0000.000px;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/dimension/basic/input.css:4:1]
+   ,-[$DIR/tests/fixture/dimension/basic/input.css:5:1]
  4 |     prop: 12.34px;
  5 |     prop: 0000.000px;
    :     ^^^^^^^^^^^^^^^^
  6 |     prop: 1px\\9;
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/dimension/basic/input.css:4:1]
+   ,-[$DIR/tests/fixture/dimension/basic/input.css:5:1]
  4 |     prop: 12.34px;
  5 |     prop: 0000.000px;
    :     ^^^^^^^^^^^^^^^^
  6 |     prop: 1px\\9;
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/dimension/basic/input.css:4:1]
+   ,-[$DIR/tests/fixture/dimension/basic/input.css:5:1]
  4 |     prop: 12.34px;
  5 |     prop: 0000.000px;
    :     ^^^^
  6 |     prop: 1px\\9;
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/dimension/basic/input.css:4:1]
+   ,-[$DIR/tests/fixture/dimension/basic/input.css:5:1]
  4 |     prop: 12.34px;
  5 |     prop: 0000.000px;
    :     ^^^^
  6 |     prop: 1px\\9;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/dimension/basic/input.css:4:1]
+   ,-[$DIR/tests/fixture/dimension/basic/input.css:5:1]
  4 |     prop: 12.34px;
  5 |     prop: 0000.000px;
    :           ^^^^^^^^^^
  6 |     prop: 1px\\9;
    `----
-
   x Dimension
-   ,-[$DIR/tests/fixture/dimension/basic/input.css:4:1]
+   ,-[$DIR/tests/fixture/dimension/basic/input.css:5:1]
  4 |     prop: 12.34px;
  5 |     prop: 0000.000px;
    :           ^^^^^^^^^^
  6 |     prop: 1px\\9;
    `----
-
   x Length
-   ,-[$DIR/tests/fixture/dimension/basic/input.css:4:1]
+   ,-[$DIR/tests/fixture/dimension/basic/input.css:5:1]
  4 |     prop: 12.34px;
  5 |     prop: 0000.000px;
    :           ^^^^^^^^^^
  6 |     prop: 1px\\9;
    `----
-
   x Number
-   ,-[$DIR/tests/fixture/dimension/basic/input.css:4:1]
+   ,-[$DIR/tests/fixture/dimension/basic/input.css:5:1]
  4 |     prop: 12.34px;
  5 |     prop: 0000.000px;
    :           ^^^^^^^^
  6 |     prop: 1px\\9;
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/dimension/basic/input.css:4:1]
+   ,-[$DIR/tests/fixture/dimension/basic/input.css:5:1]
  4 |     prop: 12.34px;
  5 |     prop: 0000.000px;
    :                   ^^
  6 |     prop: 1px\\9;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/dimension/basic/input.css:5:1]
+   ,-[$DIR/tests/fixture/dimension/basic/input.css:6:1]
  5 |     prop: 0000.000px;
  6 |     prop: 1px\\9;
    :     ^^^^^^^^^^^^
  7 |     prop: 1e;
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/dimension/basic/input.css:5:1]
+   ,-[$DIR/tests/fixture/dimension/basic/input.css:6:1]
  5 |     prop: 0000.000px;
  6 |     prop: 1px\\9;
    :     ^^^^^^^^^^^^
  7 |     prop: 1e;
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/dimension/basic/input.css:5:1]
+   ,-[$DIR/tests/fixture/dimension/basic/input.css:6:1]
  5 |     prop: 0000.000px;
  6 |     prop: 1px\\9;
    :     ^^^^
  7 |     prop: 1e;
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/dimension/basic/input.css:5:1]
+   ,-[$DIR/tests/fixture/dimension/basic/input.css:6:1]
  5 |     prop: 0000.000px;
  6 |     prop: 1px\\9;
    :     ^^^^
  7 |     prop: 1e;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/dimension/basic/input.css:5:1]
+   ,-[$DIR/tests/fixture/dimension/basic/input.css:6:1]
  5 |     prop: 0000.000px;
  6 |     prop: 1px\\9;
    :           ^^^^^^
  7 |     prop: 1e;
    `----
-
   x Dimension
-   ,-[$DIR/tests/fixture/dimension/basic/input.css:5:1]
+   ,-[$DIR/tests/fixture/dimension/basic/input.css:6:1]
  5 |     prop: 0000.000px;
  6 |     prop: 1px\\9;
    :           ^^^^^^
  7 |     prop: 1e;
    `----
-
   x UnknownDimension
-   ,-[$DIR/tests/fixture/dimension/basic/input.css:5:1]
+   ,-[$DIR/tests/fixture/dimension/basic/input.css:6:1]
  5 |     prop: 0000.000px;
  6 |     prop: 1px\\9;
    :           ^^^^^^
  7 |     prop: 1e;
    `----
-
   x Number
-   ,-[$DIR/tests/fixture/dimension/basic/input.css:5:1]
+   ,-[$DIR/tests/fixture/dimension/basic/input.css:6:1]
  5 |     prop: 0000.000px;
  6 |     prop: 1px\\9;
    :           ^
  7 |     prop: 1e;
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/dimension/basic/input.css:5:1]
+   ,-[$DIR/tests/fixture/dimension/basic/input.css:6:1]
  5 |     prop: 0000.000px;
  6 |     prop: 1px\\9;
    :            ^^^^^
  7 |     prop: 1e;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/dimension/basic/input.css:6:1]
+   ,-[$DIR/tests/fixture/dimension/basic/input.css:7:1]
  6 |     prop: 1px\\9;
  7 |     prop: 1e;
    :     ^^^^^^^^
  8 |     prop: 1unknown;
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/dimension/basic/input.css:6:1]
+   ,-[$DIR/tests/fixture/dimension/basic/input.css:7:1]
  6 |     prop: 1px\\9;
  7 |     prop: 1e;
    :     ^^^^^^^^
  8 |     prop: 1unknown;
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/dimension/basic/input.css:6:1]
+   ,-[$DIR/tests/fixture/dimension/basic/input.css:7:1]
  6 |     prop: 1px\\9;
  7 |     prop: 1e;
    :     ^^^^
  8 |     prop: 1unknown;
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/dimension/basic/input.css:6:1]
+   ,-[$DIR/tests/fixture/dimension/basic/input.css:7:1]
  6 |     prop: 1px\\9;
  7 |     prop: 1e;
    :     ^^^^
  8 |     prop: 1unknown;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/dimension/basic/input.css:6:1]
+   ,-[$DIR/tests/fixture/dimension/basic/input.css:7:1]
  6 |     prop: 1px\\9;
  7 |     prop: 1e;
    :           ^^
  8 |     prop: 1unknown;
    `----
-
   x Dimension
-   ,-[$DIR/tests/fixture/dimension/basic/input.css:6:1]
+   ,-[$DIR/tests/fixture/dimension/basic/input.css:7:1]
  6 |     prop: 1px\\9;
  7 |     prop: 1e;
    :           ^^
  8 |     prop: 1unknown;
    `----
-
   x UnknownDimension
-   ,-[$DIR/tests/fixture/dimension/basic/input.css:6:1]
+   ,-[$DIR/tests/fixture/dimension/basic/input.css:7:1]
  6 |     prop: 1px\\9;
  7 |     prop: 1e;
    :           ^^
  8 |     prop: 1unknown;
    `----
-
   x Number
-   ,-[$DIR/tests/fixture/dimension/basic/input.css:6:1]
+   ,-[$DIR/tests/fixture/dimension/basic/input.css:7:1]
  6 |     prop: 1px\\9;
  7 |     prop: 1e;
    :           ^
  8 |     prop: 1unknown;
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/dimension/basic/input.css:6:1]
+   ,-[$DIR/tests/fixture/dimension/basic/input.css:7:1]
  6 |     prop: 1px\\9;
  7 |     prop: 1e;
    :            ^
  8 |     prop: 1unknown;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/dimension/basic/input.css:7:1]
+   ,-[$DIR/tests/fixture/dimension/basic/input.css:8:1]
  7 |     prop: 1e;
  8 |     prop: 1unknown;
    :     ^^^^^^^^^^^^^^
  9 | }
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/dimension/basic/input.css:7:1]
+   ,-[$DIR/tests/fixture/dimension/basic/input.css:8:1]
  7 |     prop: 1e;
  8 |     prop: 1unknown;
    :     ^^^^^^^^^^^^^^
  9 | }
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/dimension/basic/input.css:7:1]
+   ,-[$DIR/tests/fixture/dimension/basic/input.css:8:1]
  7 |     prop: 1e;
  8 |     prop: 1unknown;
    :     ^^^^
  9 | }
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/dimension/basic/input.css:7:1]
+   ,-[$DIR/tests/fixture/dimension/basic/input.css:8:1]
  7 |     prop: 1e;
  8 |     prop: 1unknown;
    :     ^^^^
  9 | }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/dimension/basic/input.css:7:1]
+   ,-[$DIR/tests/fixture/dimension/basic/input.css:8:1]
  7 |     prop: 1e;
  8 |     prop: 1unknown;
    :           ^^^^^^^^
  9 | }
    `----
-
   x Dimension
-   ,-[$DIR/tests/fixture/dimension/basic/input.css:7:1]
+   ,-[$DIR/tests/fixture/dimension/basic/input.css:8:1]
  7 |     prop: 1e;
  8 |     prop: 1unknown;
    :           ^^^^^^^^
  9 | }
    `----
-
   x UnknownDimension
-   ,-[$DIR/tests/fixture/dimension/basic/input.css:7:1]
+   ,-[$DIR/tests/fixture/dimension/basic/input.css:8:1]
  7 |     prop: 1e;
  8 |     prop: 1unknown;
    :           ^^^^^^^^
  9 | }
    `----
-
   x Number
-   ,-[$DIR/tests/fixture/dimension/basic/input.css:7:1]
+   ,-[$DIR/tests/fixture/dimension/basic/input.css:8:1]
  7 |     prop: 1e;
  8 |     prop: 1unknown;
    :           ^
  9 | }
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/dimension/basic/input.css:7:1]
+   ,-[$DIR/tests/fixture/dimension/basic/input.css:8:1]
  7 |     prop: 1e;
  8 |     prop: 1unknown;
    :            ^^^^^^^

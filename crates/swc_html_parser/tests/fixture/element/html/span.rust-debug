@@ -1,130 +1,108 @@
-
   x Document
    ,-[$DIR/tests/fixture/element/html/input.html:1:1]
  1 | <!doctype html> <html lang="en"> <head> <title>Document</title> </head> <body> </body> </html>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/fixture/element/html/input.html:1:1]
  1 | <!doctype html> <html lang="en"> <head> <title>Document</title> </head> <body> </body> </html>
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/fixture/element/html/input.html:1:1]
  1 | <!doctype html> <html lang="en"> <head> <title>Document</title> </head> <body> </body> </html>
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/fixture/element/html/input.html:1:1]
  1 | <!doctype html> <html lang="en"> <head> <title>Document</title> </head> <body> </body> </html>
    :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/fixture/element/html/input.html:1:1]
  1 | <!doctype html> <html lang="en"> <head> <title>Document</title> </head> <body> </body> </html>
    :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Attribute
    ,-[$DIR/tests/fixture/element/html/input.html:1:1]
  1 | <!doctype html> <html lang="en"> <head> <title>Document</title> </head> <body> </body> </html>
    :                       ^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/fixture/element/html/input.html:1:1]
  1 | <!doctype html> <html lang="en"> <head> <title>Document</title> </head> <body> </body> </html>
    :                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/fixture/element/html/input.html:1:1]
  1 | <!doctype html> <html lang="en"> <head> <title>Document</title> </head> <body> </body> </html>
    :                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/fixture/element/html/input.html:1:1]
  1 | <!doctype html> <html lang="en"> <head> <title>Document</title> </head> <body> </body> </html>
    :                                        ^
    `----
-
   x Text
    ,-[$DIR/tests/fixture/element/html/input.html:1:1]
  1 | <!doctype html> <html lang="en"> <head> <title>Document</title> </head> <body> </body> </html>
    :                                        ^
    `----
-
   x Child
    ,-[$DIR/tests/fixture/element/html/input.html:1:1]
  1 | <!doctype html> <html lang="en"> <head> <title>Document</title> </head> <body> </body> </html>
    :                                         ^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/fixture/element/html/input.html:1:1]
  1 | <!doctype html> <html lang="en"> <head> <title>Document</title> </head> <body> </body> </html>
    :                                         ^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/fixture/element/html/input.html:1:1]
  1 | <!doctype html> <html lang="en"> <head> <title>Document</title> </head> <body> </body> </html>
    :                                                ^^^^^^^^
    `----
-
   x Text
    ,-[$DIR/tests/fixture/element/html/input.html:1:1]
  1 | <!doctype html> <html lang="en"> <head> <title>Document</title> </head> <body> </body> </html>
    :                                                ^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/fixture/element/html/input.html:1:1]
  1 | <!doctype html> <html lang="en"> <head> <title>Document</title> </head> <body> </body> </html>
    :                                                                ^
    `----
-
   x Text
    ,-[$DIR/tests/fixture/element/html/input.html:1:1]
  1 | <!doctype html> <html lang="en"> <head> <title>Document</title> </head> <body> </body> </html>
    :                                                                ^
    `----
-
   x Child
    ,-[$DIR/tests/fixture/element/html/input.html:1:1]
  1 | <!doctype html> <html lang="en"> <head> <title>Document</title> </head> <body> </body> </html>
    :                                                                        ^
    `----
-
   x Text
    ,-[$DIR/tests/fixture/element/html/input.html:1:1]
  1 | <!doctype html> <html lang="en"> <head> <title>Document</title> </head> <body> </body> </html>
    :                                                                        ^
    `----
-
   x Child
    ,-[$DIR/tests/fixture/element/html/input.html:1:1]
  1 | <!doctype html> <html lang="en"> <head> <title>Document</title> </head> <body> </body> </html>
    :                                                                         ^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/fixture/element/html/input.html:1:1]
  1 | <!doctype html> <html lang="en"> <head> <title>Document</title> </head> <body> </body> </html>
    :                                                                         ^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/fixture/element/html/input.html:1:1]
  1 | <!doctype html> <html lang="en"> <head> <title>Document</title> </head> <body> </body> </html>
    :                                                                               ^^^^^^^^^
    `----
-
   x Text
    ,-[$DIR/tests/fixture/element/html/input.html:1:1]
  1 | <!doctype html> <html lang="en"> <head> <title>Document</title> </head> <body> </body> </html>

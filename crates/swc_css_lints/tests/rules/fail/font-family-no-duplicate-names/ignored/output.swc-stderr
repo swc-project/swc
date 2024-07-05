@@ -1,13 +1,11 @@
-
   x Unexpected duplicate name 'Roberto Mono'.
    ,-[$DIR/tests/rules/fail/font-family-no-duplicate-names/ignored/input.css:1:1]
  1 | pre { font-family: "Roberto Mono", "Roberto Mono", monospace; }
    :                                    ^^^^^^^^^^^^^^
  2 | pre { font-family: My-font, "My-font", sans-serif; }
    `----
-
   x Unexpected duplicate name 'My-font'.
-   ,-[$DIR/tests/rules/fail/font-family-no-duplicate-names/ignored/input.css:1:1]
+   ,-[$DIR/tests/rules/fail/font-family-no-duplicate-names/ignored/input.css:2:1]
  1 | pre { font-family: "Roberto Mono", "Roberto Mono", monospace; }
  2 | pre { font-family: My-font, "My-font", sans-serif; }
    :                             ^^^^^^^^^

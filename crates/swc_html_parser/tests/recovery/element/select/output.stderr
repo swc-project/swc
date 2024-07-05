@@ -1,27 +1,23 @@
-
   x Start tag seen without seeing a doctype first, expected "<!DOCTYPE html>"
    ,-[$DIR/tests/recovery/element/select/input.html:1:1]
  1 | <select><div>foo</div>bar</select>
    : ^^^^^^^^
  2 | <select><keygen>
    `----
-
   x Stray start tag "div"
    ,-[$DIR/tests/recovery/element/select/input.html:1:1]
  1 | <select><div>foo</div>bar</select>
    :         ^^^^^
  2 | <select><keygen>
    `----
-
   x Stray end tag "div"
    ,-[$DIR/tests/recovery/element/select/input.html:1:1]
  1 | <select><div>foo</div>bar</select>
    :                 ^^^^^^
  2 | <select><keygen>
    `----
-
   x "keygen" start tag with "select" open
-   ,-[$DIR/tests/recovery/element/select/input.html:1:1]
+   ,-[$DIR/tests/recovery/element/select/input.html:2:1]
  1 | <select><div>foo</div>bar</select>
  2 | <select><keygen>
    :         ^^^^^^^^

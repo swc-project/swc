@@ -1,4 +1,3 @@
-
   x Trailing comma is not allowed
    ,-[$DIR/tests/test262-parser/fail/de74c4e7bb0fce51.js:1:1]
  1 | const x = 0,

@@ -1,94 +1,78 @@
-
   x Stylesheet
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/MCJc58-6bYzpgizSxt8jQg/input.css:1:1]
  1 | [\2cns|attr] {}
    : ^^^^^^^^^^^^^^^
    `----
-
   x Rule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/MCJc58-6bYzpgizSxt8jQg/input.css:1:1]
  1 | [\2cns|attr] {}
    : ^^^^^^^^^^^^^^^
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/MCJc58-6bYzpgizSxt8jQg/input.css:1:1]
  1 | [\2cns|attr] {}
    : ^^^^^^^^^^^^^^^
    `----
-
   x SelectorList
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/MCJc58-6bYzpgizSxt8jQg/input.css:1:1]
  1 | [\2cns|attr] {}
    : ^^^^^^^^^^^^
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/MCJc58-6bYzpgizSxt8jQg/input.css:1:1]
  1 | [\2cns|attr] {}
    : ^^^^^^^^^^^^
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/MCJc58-6bYzpgizSxt8jQg/input.css:1:1]
  1 | [\2cns|attr] {}
    : ^^^^^^^^^^^^
    `----
-
   x SubclassSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/MCJc58-6bYzpgizSxt8jQg/input.css:1:1]
  1 | [\2cns|attr] {}
    : ^^^^^^^^^^^^
    `----
-
   x AttributeSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/MCJc58-6bYzpgizSxt8jQg/input.css:1:1]
  1 | [\2cns|attr] {}
    : ^^^^^^^^^^^^
    `----
-
   x WqName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/MCJc58-6bYzpgizSxt8jQg/input.css:1:1]
  1 | [\2cns|attr] {}
    :  ^^^^^^^^^^
    `----
-
   x NamespacePrefix
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/MCJc58-6bYzpgizSxt8jQg/input.css:1:1]
  1 | [\2cns|attr] {}
    :  ^^^^^^
    `----
-
   x Namespace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/MCJc58-6bYzpgizSxt8jQg/input.css:1:1]
  1 | [\2cns|attr] {}
    :  ^^^^^
    `----
-
   x NamedNamespace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/MCJc58-6bYzpgizSxt8jQg/input.css:1:1]
  1 | [\2cns|attr] {}
    :  ^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/MCJc58-6bYzpgizSxt8jQg/input.css:1:1]
  1 | [\2cns|attr] {}
    :  ^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/MCJc58-6bYzpgizSxt8jQg/input.css:1:1]
  1 | [\2cns|attr] {}
    :        ^^^^
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/MCJc58-6bYzpgizSxt8jQg/input.css:1:1]
  1 | [\2cns|attr] {}
    :              ^^
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/MCJc58-6bYzpgizSxt8jQg/input.css:1:1]
  1 | [\2cns|attr] {}

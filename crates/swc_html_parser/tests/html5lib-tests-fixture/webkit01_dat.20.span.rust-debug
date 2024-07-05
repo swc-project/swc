@@ -1,38 +1,30 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.20.html:1:1]
  1 | <bdy></body><br foo="bar">
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.20.html:1:1]
  1 | <bdy></body><br foo="bar">
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.20.html:1:1]
  1 | <bdy></body><br foo="bar">
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.20.html:1:1]
  1 | <bdy></body><br foo="bar">
    :             ^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.20.html:1:1]
  1 | <bdy></body><br foo="bar">
    :             ^^^^^^^^^^^^^^
    `----
-
   x Attribute
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.20.html:1:1]
  1 | <bdy></body><br foo="bar">

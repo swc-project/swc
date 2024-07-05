@@ -1,118 +1,98 @@
-
   x Stylesheet
    ,-[$DIR/tests/recovery/selector/attribute/invalid-modifier/input.css:1:1]
  1 | [href="test" "z"] {}
    : ^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Rule
    ,-[$DIR/tests/recovery/selector/attribute/invalid-modifier/input.css:1:1]
  1 | [href="test" "z"] {}
    : ^^^^^^^^^^^^^^^^^^^^
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/recovery/selector/attribute/invalid-modifier/input.css:1:1]
  1 | [href="test" "z"] {}
    : ^^^^^^^^^^^^^^^^^^^^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/selector/attribute/invalid-modifier/input.css:1:1]
  1 | [href="test" "z"] {}
    : ^^^^^^^^^^^^^^^^^
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/recovery/selector/attribute/invalid-modifier/input.css:1:1]
  1 | [href="test" "z"] {}
    : ^^^^^^^^^^^^^^^^^
    `----
-
   x LBracket
    ,-[$DIR/tests/recovery/selector/attribute/invalid-modifier/input.css:1:1]
  1 | [href="test" "z"] {}
    : ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/selector/attribute/invalid-modifier/input.css:1:1]
  1 | [href="test" "z"] {}
    :  ^^^^
    `----
-
   x Ident { value: "href", raw: "href" }
    ,-[$DIR/tests/recovery/selector/attribute/invalid-modifier/input.css:1:1]
  1 | [href="test" "z"] {}
    :  ^^^^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/selector/attribute/invalid-modifier/input.css:1:1]
  1 | [href="test" "z"] {}
    :      ^
    `----
-
   x Delim { value: '=' }
    ,-[$DIR/tests/recovery/selector/attribute/invalid-modifier/input.css:1:1]
  1 | [href="test" "z"] {}
    :      ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/selector/attribute/invalid-modifier/input.css:1:1]
  1 | [href="test" "z"] {}
    :       ^^^^^^
    `----
-
   x String { value: "test", raw: "\"test\"" }
    ,-[$DIR/tests/recovery/selector/attribute/invalid-modifier/input.css:1:1]
  1 | [href="test" "z"] {}
    :       ^^^^^^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/selector/attribute/invalid-modifier/input.css:1:1]
  1 | [href="test" "z"] {}
    :             ^
    `----
-
   x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/selector/attribute/invalid-modifier/input.css:1:1]
  1 | [href="test" "z"] {}
    :             ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/selector/attribute/invalid-modifier/input.css:1:1]
  1 | [href="test" "z"] {}
    :              ^^^
    `----
-
   x String { value: "z", raw: "\"z\"" }
    ,-[$DIR/tests/recovery/selector/attribute/invalid-modifier/input.css:1:1]
  1 | [href="test" "z"] {}
    :              ^^^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/selector/attribute/invalid-modifier/input.css:1:1]
  1 | [href="test" "z"] {}
    :                  ^
    `----
-
   x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/selector/attribute/invalid-modifier/input.css:1:1]
  1 | [href="test" "z"] {}
    :                  ^
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/recovery/selector/attribute/invalid-modifier/input.css:1:1]
  1 | [href="test" "z"] {}
    :                   ^^
    `----
-
   x LBrace
    ,-[$DIR/tests/recovery/selector/attribute/invalid-modifier/input.css:1:1]
  1 | [href="test" "z"] {}

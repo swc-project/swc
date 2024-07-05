@@ -1,130 +1,112 @@
-
   x Stylesheet
    ,-[$DIR/tests/fixture/property/escaped/input.css:1:1]
  1 | ,-> table {
  2 | |       colo\r: \red;
  3 | `-> }
    `----
-
   x Rule
    ,-[$DIR/tests/fixture/property/escaped/input.css:1:1]
  1 | ,-> table {
  2 | |       colo\r: \red;
  3 | `-> }
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/fixture/property/escaped/input.css:1:1]
  1 | ,-> table {
  2 | |       colo\r: \red;
  3 | `-> }
    `----
-
   x SelectorList
    ,-[$DIR/tests/fixture/property/escaped/input.css:1:1]
  1 | table {
    : ^^^^^
  2 |     colo\r: \red;
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/fixture/property/escaped/input.css:1:1]
  1 | table {
    : ^^^^^
  2 |     colo\r: \red;
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/property/escaped/input.css:1:1]
  1 | table {
    : ^^^^^
  2 |     colo\r: \red;
    `----
-
   x TypeSelector
    ,-[$DIR/tests/fixture/property/escaped/input.css:1:1]
  1 | table {
    : ^^^^^
  2 |     colo\r: \red;
    `----
-
   x TagNameSelector
    ,-[$DIR/tests/fixture/property/escaped/input.css:1:1]
  1 | table {
    : ^^^^^
  2 |     colo\r: \red;
    `----
-
   x WqName
    ,-[$DIR/tests/fixture/property/escaped/input.css:1:1]
  1 | table {
    : ^^^^^
  2 |     colo\r: \red;
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/property/escaped/input.css:1:1]
  1 | table {
    : ^^^^^
  2 |     colo\r: \red;
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/property/escaped/input.css:1:1]
  1 | ,-> table {
  2 | |       colo\r: \red;
  3 | `-> }
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/property/escaped/input.css:1:1]
  1 | table {
    :       ^
  2 |     colo\r: \red;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/property/escaped/input.css:1:1]
+   ,-[$DIR/tests/fixture/property/escaped/input.css:2:1]
  1 | table {
  2 |     colo\r: \red;
    :     ^^^^^^^^^^^^
  3 | }
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/property/escaped/input.css:1:1]
+   ,-[$DIR/tests/fixture/property/escaped/input.css:2:1]
  1 | table {
  2 |     colo\r: \red;
    :     ^^^^^^^^^^^^
  3 | }
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/property/escaped/input.css:1:1]
+   ,-[$DIR/tests/fixture/property/escaped/input.css:2:1]
  1 | table {
  2 |     colo\r: \red;
    :     ^^^^^^
  3 | }
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/property/escaped/input.css:1:1]
+   ,-[$DIR/tests/fixture/property/escaped/input.css:2:1]
  1 | table {
  2 |     colo\r: \red;
    :     ^^^^^^
  3 | }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/property/escaped/input.css:1:1]
+   ,-[$DIR/tests/fixture/property/escaped/input.css:2:1]
  1 | table {
  2 |     colo\r: \red;
    :             ^^^^
  3 | }
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/property/escaped/input.css:1:1]
+   ,-[$DIR/tests/fixture/property/escaped/input.css:2:1]
  1 | table {
  2 |     colo\r: \red;
    :             ^^^^

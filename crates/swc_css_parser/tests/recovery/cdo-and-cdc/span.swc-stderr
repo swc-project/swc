@@ -1,4 +1,3 @@
-
   x Stylesheet
     ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:1:1]
   1 | ,-> <!-- 123 -->
@@ -46,7 +45,6 @@
  43 | |       90% { left: 300px; }
  44 | `-> }
     `----
-
   x Rule
     ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:1:1]
   1 | ,-> <!-- 123 -->
@@ -60,7 +58,6 @@
   9 | |   -->
  10 | `-> }
     `----
-
   x QualifiedRule
     ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:1:1]
   1 | ,-> <!-- 123 -->
@@ -74,43 +71,36 @@
   9 | |   -->
  10 | `-> }
     `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:1:1]
  1 | <!-- 123 -->
    :      ^^^
    `----
-
   x Number { value: 123.0, raw: "123", type_flag: Integer }
    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:1:1]
  1 | <!-- 123 -->
    :      ^^^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:1:1]
  1 | <!-- 123 -->
    :         ^
    `----
-
   x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:1:1]
  1 | <!-- 123 -->
    :         ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:1:1]
  1 | <!-- 123 -->
    :          ^^^
    `----
-
   x CDC
    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:1:1]
  1 | <!-- 123 -->
    :          ^^^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:1:1]
  1 | ,-> <!-- 123 -->
@@ -118,7 +108,6 @@
  3 |     div {
  4 |         color: red;
    `----
-
   x WhiteSpace { value: "\n\n" }
    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:1:1]
  1 | ,-> <!-- 123 -->
@@ -126,41 +115,36 @@
  3 |     div {
  4 |         color: red;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:2:1]
+   ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:3:1]
  2 | 
  3 | div {
    : ^^^
  4 |     color: red;
    `----
-
   x Ident { value: "div", raw: "div" }
-   ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:2:1]
+   ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:3:1]
  2 | 
  3 | div {
    : ^^^
  4 |     color: red;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:2:1]
+   ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:3:1]
  2 | 
  3 | div {
    :    ^
  4 |     color: red;
    `----
-
   x WhiteSpace { value: " " }
-   ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:2:1]
+   ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:3:1]
  2 | 
  3 | div {
    :    ^
  4 |     color: red;
    `----
-
   x SimpleBlock
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:2:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:3:1]
   2 |     
   3 | ,-> div {
   4 | |       color: red;
@@ -171,65 +155,57 @@
   9 | |   -->
  10 | `-> }
     `----
-
   x LBrace
-   ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:2:1]
+   ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:3:1]
  2 | 
  3 | div {
    :     ^
  4 |     color: red;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:3:1]
+   ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:4:1]
  3 | div {
  4 |     color: red;
    :     ^^^^^^^^^^
  5 | <!--
    `----
-
   x Declaration
-   ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:3:1]
+   ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:4:1]
  3 | div {
  4 |     color: red;
    :     ^^^^^^^^^^
  5 | <!--
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:3:1]
+   ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:4:1]
  3 | div {
  4 |     color: red;
    :     ^^^^^
  5 | <!--
    `----
-
   x Ident
-   ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:3:1]
+   ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:4:1]
  3 | div {
  4 |     color: red;
    :     ^^^^^
  5 | <!--
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:3:1]
+   ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:4:1]
  3 | div {
  4 |     color: red;
    :            ^^^
  5 | <!--
    `----
-
   x Ident
-   ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:3:1]
+   ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:4:1]
  3 | div {
  4 |     color: red;
    :            ^^^
  5 | <!--
    `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:4:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:5:1]
   4 |         color: red;
   5 | ,-> <!--
   6 | |   
@@ -238,103 +214,90 @@
   9 | `-> -->
  10 |     }
     `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:4:1]
+   ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:5:1]
  4 |     color: red;
  5 | <!--
    : ^^^^
    `----
-
   x CDO
-   ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:4:1]
+   ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:5:1]
  4 |     color: red;
  5 | <!--
    : ^^^^
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:4:1]
+   ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:5:1]
  4 |         color: red;
  5 | ,-> <!--
  6 | `-> 
  7 |     test
    `----
-
   x WhiteSpace { value: "\n\n" }
-   ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:4:1]
+   ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:5:1]
  4 |         color: red;
  5 | ,-> <!--
  6 | `-> 
  7 |     test
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:6:1]
+   ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:7:1]
  6 | 
  7 | test
    : ^^^^
    `----
-
   x Ident { value: "test", raw: "test" }
-   ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:6:1]
+   ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:7:1]
  6 | 
  7 | test
    : ^^^^
    `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:6:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:7:1]
   6 |     
   7 | ,-> test
   8 | `-> 
   9 |     -->
  10 |     }
     `----
-
   x WhiteSpace { value: "\n\n" }
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:6:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:7:1]
   6 |     
   7 | ,-> test
   8 | `-> 
   9 |     -->
  10 |     }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:8:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:9:1]
   8 | 
   9 | -->
     : ^^^
  10 | }
     `----
-
   x CDC
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:8:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:9:1]
   8 | 
   9 | -->
     : ^^^
  10 | }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:8:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:9:1]
   8 | 
   9 | -->
     :    ^
  10 | }
     `----
-
   x WhiteSpace { value: "\n" }
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:8:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:9:1]
   8 | 
   9 | -->
     :    ^
  10 | }
     `----
-
   x Rule
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:11:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:12:1]
  11 |     
  12 | ,-> div {
  13 | |       color: red;
@@ -347,9 +310,8 @@
  20 | |       color: blue;
  21 | `-> }
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:11:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:12:1]
  11 |     
  12 | ,-> div {
  13 | |       color: red;
@@ -362,65 +324,57 @@
  20 | |       color: blue;
  21 | `-> }
     `----
-
   x SelectorList
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:11:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:12:1]
  11 | 
  12 | div {
     : ^^^
  13 |     color: red;
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:11:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:12:1]
  11 | 
  12 | div {
     : ^^^
  13 |     color: red;
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:11:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:12:1]
  11 | 
  12 | div {
     : ^^^
  13 |     color: red;
     `----
-
   x TypeSelector
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:11:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:12:1]
  11 | 
  12 | div {
     : ^^^
  13 |     color: red;
     `----
-
   x TagNameSelector
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:11:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:12:1]
  11 | 
  12 | div {
     : ^^^
  13 |     color: red;
     `----
-
   x WqName
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:11:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:12:1]
  11 | 
  12 | div {
     : ^^^
  13 |     color: red;
     `----
-
   x Ident
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:11:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:12:1]
  11 | 
  12 | div {
     : ^^^
  13 |     color: red;
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:11:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:12:1]
  11 |     
  12 | ,-> div {
  13 | |       color: red;
@@ -433,65 +387,57 @@
  20 | |       color: blue;
  21 | `-> }
     `----
-
   x LBrace
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:11:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:12:1]
  11 | 
  12 | div {
     :     ^
  13 |     color: red;
     `----
-
-  x ComponentValue
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:12:1]
- 12 | div {
- 13 |     color: red;
-    :     ^^^^^^^^^^
- 14 | <!--
-    `----
-
-  x Declaration
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:12:1]
- 12 | div {
- 13 |     color: red;
-    :     ^^^^^^^^^^
- 14 | <!--
-    `----
-
-  x DeclarationName
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:12:1]
- 12 | div {
- 13 |     color: red;
-    :     ^^^^^
- 14 | <!--
-    `----
-
-  x Ident
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:12:1]
- 12 | div {
- 13 |     color: red;
-    :     ^^^^^
- 14 | <!--
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:12:1]
- 12 | div {
- 13 |     color: red;
-    :            ^^^
- 14 | <!--
-    `----
-
-  x Ident
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:12:1]
- 12 | div {
- 13 |     color: red;
-    :            ^^^
- 14 | <!--
-    `----
-
   x ComponentValue
     ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:13:1]
+ 12 | div {
+ 13 |     color: red;
+    :     ^^^^^^^^^^
+ 14 | <!--
+    `----
+  x Declaration
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:13:1]
+ 12 | div {
+ 13 |     color: red;
+    :     ^^^^^^^^^^
+ 14 | <!--
+    `----
+  x DeclarationName
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:13:1]
+ 12 | div {
+ 13 |     color: red;
+    :     ^^^^^
+ 14 | <!--
+    `----
+  x Ident
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:13:1]
+ 12 | div {
+ 13 |     color: red;
+    :     ^^^^^
+ 14 | <!--
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:13:1]
+ 12 | div {
+ 13 |     color: red;
+    :            ^^^
+ 14 | <!--
+    `----
+  x Ident
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:13:1]
+ 12 | div {
+ 13 |     color: red;
+    :            ^^^
+ 14 | <!--
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:14:1]
  13 |         color: red;
  14 | ,-> <!--
  15 | |   
@@ -502,181 +448,158 @@
  20 | `->     color: blue;
  21 |     }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:13:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:14:1]
  13 |     color: red;
  14 | <!--
     : ^^^^
     `----
-
   x CDO
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:13:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:14:1]
  13 |     color: red;
  14 | <!--
     : ^^^^
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:13:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:14:1]
  13 |         color: red;
  14 | ,-> <!--
  15 | `-> 
  16 |     test
     `----
-
   x WhiteSpace { value: "\n\n" }
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:13:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:14:1]
  13 |         color: red;
  14 | ,-> <!--
  15 | `-> 
  16 |     test
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:15:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:16:1]
  15 | 
  16 | test
     : ^^^^
     `----
-
   x Ident { value: "test", raw: "test" }
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:15:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:16:1]
  15 | 
  16 | test
     : ^^^^
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:15:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:16:1]
  15 |     
  16 | ,-> test
  17 | `-> 
  18 |     -->
     `----
-
   x WhiteSpace { value: "\n\n" }
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:15:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:16:1]
  15 |     
  16 | ,-> test
  17 | `-> 
  18 |     -->
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:17:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:18:1]
  17 | 
  18 | -->
     : ^^^
     `----
-
   x CDC
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:17:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:18:1]
  17 | 
  18 | -->
     : ^^^
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:17:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:18:1]
  17 |     
  18 | ,-> -->
  19 | |   
  20 | `->     color: blue;
  21 |     }
     `----
-
   x WhiteSpace { value: "\n\n    " }
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:17:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:18:1]
  17 |     
  18 | ,-> -->
  19 | |   
  20 | `->     color: blue;
  21 |     }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:19:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:20:1]
  19 | 
  20 |     color: blue;
     :     ^^^^^
  21 | }
     `----
-
   x Ident { value: "color", raw: "color" }
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:19:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:20:1]
  19 | 
  20 |     color: blue;
     :     ^^^^^
  21 | }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:19:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:20:1]
  19 | 
  20 |     color: blue;
     :          ^
  21 | }
     `----
-
   x Colon
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:19:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:20:1]
  19 | 
  20 |     color: blue;
     :          ^
  21 | }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:19:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:20:1]
  19 | 
  20 |     color: blue;
     :           ^
  21 | }
     `----
-
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:19:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:20:1]
  19 | 
  20 |     color: blue;
     :           ^
  21 | }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:19:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:20:1]
  19 | 
  20 |     color: blue;
     :            ^^^^
  21 | }
     `----
-
   x Ident { value: "blue", raw: "blue" }
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:19:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:20:1]
  19 | 
  20 |     color: blue;
     :            ^^^^
  21 | }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:19:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:20:1]
  19 | 
  20 |     color: blue;
     :                ^
  21 | }
     `----
-
   x Semi
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:19:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:20:1]
  19 | 
  20 |     color: blue;
     :                ^
  21 | }
     `----
-
   x Rule
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:22:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:23:1]
  22 |     
  23 | ,-> div {
  24 | |       color: red;
@@ -689,9 +612,8 @@
  31 | |       color: blue;
  32 | `-> }
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:22:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:23:1]
  22 |     
  23 | ,-> div {
  24 | |       color: red;
@@ -704,65 +626,57 @@
  31 | |       color: blue;
  32 | `-> }
     `----
-
   x SelectorList
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:22:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:23:1]
  22 | 
  23 | div {
     : ^^^
  24 |     color: red;
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:22:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:23:1]
  22 | 
  23 | div {
     : ^^^
  24 |     color: red;
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:22:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:23:1]
  22 | 
  23 | div {
     : ^^^
  24 |     color: red;
     `----
-
   x TypeSelector
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:22:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:23:1]
  22 | 
  23 | div {
     : ^^^
  24 |     color: red;
     `----
-
   x TagNameSelector
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:22:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:23:1]
  22 | 
  23 | div {
     : ^^^
  24 |     color: red;
     `----
-
   x WqName
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:22:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:23:1]
  22 | 
  23 | div {
     : ^^^
  24 |     color: red;
     `----
-
   x Ident
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:22:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:23:1]
  22 | 
  23 | div {
     : ^^^
  24 |     color: red;
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:22:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:23:1]
  22 |     
  23 | ,-> div {
  24 | |       color: red;
@@ -775,65 +689,57 @@
  31 | |       color: blue;
  32 | `-> }
     `----
-
   x LBrace
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:22:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:23:1]
  22 | 
  23 | div {
     :     ^
  24 |     color: red;
     `----
-
-  x ComponentValue
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:23:1]
- 23 | div {
- 24 |     color: red;
-    :     ^^^^^^^^^^
- 25 | <!--
-    `----
-
-  x Declaration
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:23:1]
- 23 | div {
- 24 |     color: red;
-    :     ^^^^^^^^^^
- 25 | <!--
-    `----
-
-  x DeclarationName
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:23:1]
- 23 | div {
- 24 |     color: red;
-    :     ^^^^^
- 25 | <!--
-    `----
-
-  x Ident
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:23:1]
- 23 | div {
- 24 |     color: red;
-    :     ^^^^^
- 25 | <!--
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:23:1]
- 23 | div {
- 24 |     color: red;
-    :            ^^^
- 25 | <!--
-    `----
-
-  x Ident
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:23:1]
- 23 | div {
- 24 |     color: red;
-    :            ^^^
- 25 | <!--
-    `----
-
   x ComponentValue
     ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:24:1]
+ 23 | div {
+ 24 |     color: red;
+    :     ^^^^^^^^^^
+ 25 | <!--
+    `----
+  x Declaration
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:24:1]
+ 23 | div {
+ 24 |     color: red;
+    :     ^^^^^^^^^^
+ 25 | <!--
+    `----
+  x DeclarationName
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:24:1]
+ 23 | div {
+ 24 |     color: red;
+    :     ^^^^^
+ 25 | <!--
+    `----
+  x Ident
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:24:1]
+ 23 | div {
+ 24 |     color: red;
+    :     ^^^^^
+ 25 | <!--
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:24:1]
+ 23 | div {
+ 24 |     color: red;
+    :            ^^^
+ 25 | <!--
+    `----
+  x Ident
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:24:1]
+ 23 | div {
+ 24 |     color: red;
+    :            ^^^
+ 25 | <!--
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:25:1]
  24 |         color: red;
  25 | ,-> <!--
  26 | |   
@@ -841,145 +747,126 @@
  28 | |   
  29 | `-> -->;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:24:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:25:1]
  24 |     color: red;
  25 | <!--
     : ^^^^
     `----
-
   x CDO
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:24:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:25:1]
  24 |     color: red;
  25 | <!--
     : ^^^^
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:24:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:25:1]
  24 |         color: red;
  25 | ,-> <!--
  26 | `-> 
  27 |     test
     `----
-
   x WhiteSpace { value: "\n\n" }
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:24:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:25:1]
  24 |         color: red;
  25 | ,-> <!--
  26 | `-> 
  27 |     test
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:26:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:27:1]
  26 | 
  27 | test
     : ^^^^
     `----
-
   x Ident { value: "test", raw: "test" }
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:26:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:27:1]
  26 | 
  27 | test
     : ^^^^
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:26:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:27:1]
  26 |     
  27 | ,-> test
  28 | `-> 
  29 |     -->;
     `----
-
   x WhiteSpace { value: "\n\n" }
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:26:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:27:1]
  26 |     
  27 | ,-> test
  28 | `-> 
  29 |     -->;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:28:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:29:1]
  28 | 
  29 | -->;
     : ^^^
     `----
-
   x CDC
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:28:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:29:1]
  28 | 
  29 | -->;
     : ^^^
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:28:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:29:1]
  28 | 
  29 | -->;
     :    ^
     `----
-
   x Semi
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:28:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:29:1]
  28 | 
  29 | -->;
     :    ^
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:30:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:31:1]
  30 | 
  31 |     color: blue;
     :     ^^^^^^^^^^^
  32 | }
     `----
-
   x Declaration
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:30:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:31:1]
  30 | 
  31 |     color: blue;
     :     ^^^^^^^^^^^
  32 | }
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:30:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:31:1]
  30 | 
  31 |     color: blue;
     :     ^^^^^
  32 | }
     `----
-
   x Ident
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:30:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:31:1]
  30 | 
  31 |     color: blue;
     :     ^^^^^
  32 | }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:30:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:31:1]
  30 | 
  31 |     color: blue;
     :            ^^^^
  32 | }
     `----
-
   x Ident
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:30:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:31:1]
  30 | 
  31 |     color: blue;
     :            ^^^^
  32 | }
     `----
-
   x Rule
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:33:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:34:1]
  33 |     
  34 | ,-> a {
  35 | |       <!-- .class {
@@ -987,9 +874,8 @@
  37 | |        }
  38 | `-> }
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:33:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:34:1]
  33 |     
  34 | ,-> a {
  35 | |       <!-- .class {
@@ -997,65 +883,57 @@
  37 | |        }
  38 | `-> }
     `----
-
   x SelectorList
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:33:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:34:1]
  33 | 
  34 | a {
     : ^
  35 |     <!-- .class {
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:33:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:34:1]
  33 | 
  34 | a {
     : ^
  35 |     <!-- .class {
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:33:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:34:1]
  33 | 
  34 | a {
     : ^
  35 |     <!-- .class {
     `----
-
   x TypeSelector
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:33:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:34:1]
  33 | 
  34 | a {
     : ^
  35 |     <!-- .class {
     `----
-
   x TagNameSelector
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:33:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:34:1]
  33 | 
  34 | a {
     : ^
  35 |     <!-- .class {
     `----
-
   x WqName
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:33:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:34:1]
  33 | 
  34 | a {
     : ^
  35 |     <!-- .class {
     `----
-
   x Ident
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:33:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:34:1]
  33 | 
  34 | a {
     : ^
  35 |     <!-- .class {
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:33:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:34:1]
  33 |     
  34 | ,-> a {
  35 | |       <!-- .class {
@@ -1063,180 +941,158 @@
  37 | |        }
  38 | `-> }
     `----
-
   x LBrace
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:33:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:34:1]
  33 | 
  34 | a {
     :   ^
  35 |     <!-- .class {
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:34:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:35:1]
  34 |     a {
  35 | ,->     <!-- .class {
  36 | |            color: red;
  37 | `->      }
  38 |     }
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:34:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:35:1]
  34 |     a {
  35 | ,->     <!-- .class {
  36 | |            color: red;
  37 | `->      }
  38 |     }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:34:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:35:1]
  34 | a {
  35 |     <!-- .class {
     :     ^^^^
  36 |          color: red;
     `----
-
   x CDO
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:34:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:35:1]
  34 | a {
  35 |     <!-- .class {
     :     ^^^^
  36 |          color: red;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:34:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:35:1]
  34 | a {
  35 |     <!-- .class {
     :         ^
  36 |          color: red;
     `----
-
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:34:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:35:1]
  34 | a {
  35 |     <!-- .class {
     :         ^
  36 |          color: red;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:34:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:35:1]
  34 | a {
  35 |     <!-- .class {
     :          ^
  36 |          color: red;
     `----
-
   x Delim { value: '.' }
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:34:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:35:1]
  34 | a {
  35 |     <!-- .class {
     :          ^
  36 |          color: red;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:34:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:35:1]
  34 | a {
  35 |     <!-- .class {
     :           ^^^^^
  36 |          color: red;
     `----
-
   x Ident { value: "class", raw: "class" }
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:34:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:35:1]
  34 | a {
  35 |     <!-- .class {
     :           ^^^^^
  36 |          color: red;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:34:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:35:1]
  34 | a {
  35 |     <!-- .class {
     :                ^
  36 |          color: red;
     `----
-
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:34:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:35:1]
  34 | a {
  35 |     <!-- .class {
     :                ^
  36 |          color: red;
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:34:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:35:1]
  34 |     a {
  35 | ,->     <!-- .class {
  36 | |            color: red;
  37 | `->      }
  38 |     }
     `----
-
   x LBrace
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:34:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:35:1]
  34 | a {
  35 |     <!-- .class {
     :                 ^
  36 |          color: red;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:35:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:36:1]
  35 |     <!-- .class {
  36 |          color: red;
     :          ^^^^^^^^^^
  37 |      }
     `----
-
   x Declaration
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:35:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:36:1]
  35 |     <!-- .class {
  36 |          color: red;
     :          ^^^^^^^^^^
  37 |      }
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:35:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:36:1]
  35 |     <!-- .class {
  36 |          color: red;
     :          ^^^^^
  37 |      }
     `----
-
   x Ident
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:35:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:36:1]
  35 |     <!-- .class {
  36 |          color: red;
     :          ^^^^^
  37 |      }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:35:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:36:1]
  35 |     <!-- .class {
  36 |          color: red;
     :                 ^^^
  37 |      }
     `----
-
   x Ident
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:35:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:36:1]
  35 |     <!-- .class {
  36 |          color: red;
     :                 ^^^
  37 |      }
     `----
-
   x Rule
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:39:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:40:1]
  39 |     
  40 | ,-> @keyframes box {
  41 | |       <!-- -->
@@ -1244,9 +1100,8 @@
  43 | |       90% { left: 300px; }
  44 | `-> }
     `----
-
   x AtRule
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:39:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:40:1]
  39 |     
  40 | ,-> @keyframes box {
  41 | |       <!-- -->
@@ -1254,33 +1109,29 @@
  43 | |       90% { left: 300px; }
  44 | `-> }
     `----
-
   x AtRuleName
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:39:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:40:1]
  39 | 
  40 | @keyframes box {
     :  ^^^^^^^^^
  41 |     <!-- -->
     `----
-
   x Ident
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:39:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:40:1]
  39 | 
  40 | @keyframes box {
     :  ^^^^^^^^^
  41 |     <!-- -->
     `----
-
   x CustomIdent
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:39:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:40:1]
  39 | 
  40 | @keyframes box {
     :            ^^^
  41 |     <!-- -->
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:39:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:40:1]
  39 |     
  40 | ,-> @keyframes box {
  41 | |       <!-- -->
@@ -1288,225 +1139,197 @@
  43 | |       90% { left: 300px; }
  44 | `-> }
     `----
-
   x LBrace
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:39:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:40:1]
  39 | 
  40 | @keyframes box {
     :                ^
  41 |     <!-- -->
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:40:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:41:1]
  40 |     @keyframes box {
  41 | ,->     <!-- -->
  42 | `->     50% { left: 0; }
  43 |         90% { left: 300px; }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:40:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:41:1]
  40 | @keyframes box {
  41 |     <!-- -->
     :     ^^^^
  42 |     50% { left: 0; }
     `----
-
   x CDO
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:40:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:41:1]
  40 | @keyframes box {
  41 |     <!-- -->
     :     ^^^^
  42 |     50% { left: 0; }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:40:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:41:1]
  40 | @keyframes box {
  41 |     <!-- -->
     :         ^
  42 |     50% { left: 0; }
     `----
-
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:40:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:41:1]
  40 | @keyframes box {
  41 |     <!-- -->
     :         ^
  42 |     50% { left: 0; }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:40:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:41:1]
  40 | @keyframes box {
  41 |     <!-- -->
     :          ^^^
  42 |     50% { left: 0; }
     `----
-
   x CDC
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:40:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:41:1]
  40 | @keyframes box {
  41 |     <!-- -->
     :          ^^^
  42 |     50% { left: 0; }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:40:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:41:1]
  40 |     @keyframes box {
  41 | ,->     <!-- -->
  42 | `->     50% { left: 0; }
  43 |         90% { left: 300px; }
     `----
-
   x WhiteSpace { value: "\n    " }
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:40:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:41:1]
  40 |     @keyframes box {
  41 | ,->     <!-- -->
  42 | `->     50% { left: 0; }
  43 |         90% { left: 300px; }
     `----
-
-  x ComponentValue
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:41:1]
- 41 |     <!-- -->
- 42 |     50% { left: 0; }
-    :     ^^^
- 43 |     90% { left: 300px; }
-    `----
-
-  x Percentage { value: 50.0, raw: "50" }
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:41:1]
- 41 |     <!-- -->
- 42 |     50% { left: 0; }
-    :     ^^^
- 43 |     90% { left: 300px; }
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:41:1]
- 41 |     <!-- -->
- 42 |     50% { left: 0; }
-    :        ^
- 43 |     90% { left: 300px; }
-    `----
-
-  x WhiteSpace { value: " " }
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:41:1]
- 41 |     <!-- -->
- 42 |     50% { left: 0; }
-    :        ^
- 43 |     90% { left: 300px; }
-    `----
-
   x ComponentValue
     ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:42:1]
+ 41 |     <!-- -->
+ 42 |     50% { left: 0; }
+    :     ^^^
+ 43 |     90% { left: 300px; }
+    `----
+  x Percentage { value: 50.0, raw: "50" }
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:42:1]
+ 41 |     <!-- -->
+ 42 |     50% { left: 0; }
+    :     ^^^
+ 43 |     90% { left: 300px; }
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:42:1]
+ 41 |     <!-- -->
+ 42 |     50% { left: 0; }
+    :        ^
+ 43 |     90% { left: 300px; }
+    `----
+  x WhiteSpace { value: " " }
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:42:1]
+ 41 |     <!-- -->
+ 42 |     50% { left: 0; }
+    :        ^
+ 43 |     90% { left: 300px; }
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:43:1]
  42 |     50% { left: 0; }
  43 |     90% { left: 300px; }
     :     ^^^^^^^^^^^^^^^^^^^^
  44 | }
     `----
-
   x Percentage
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:42:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:43:1]
  42 |     50% { left: 0; }
  43 |     90% { left: 300px; }
     :     ^^^
  44 | }
     `----
-
   x Number
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:42:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:43:1]
  42 |     50% { left: 0; }
  43 |     90% { left: 300px; }
     :     ^^
  44 | }
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:42:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:43:1]
  42 |     50% { left: 0; }
  43 |     90% { left: 300px; }
     :         ^^^^^^^^^^^^^^^^
  44 | }
     `----
-
   x LBrace
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:42:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:43:1]
  42 |     50% { left: 0; }
  43 |     90% { left: 300px; }
     :         ^
  44 | }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:42:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:43:1]
  42 |     50% { left: 0; }
  43 |     90% { left: 300px; }
     :           ^^^^^^^^^^^
  44 | }
     `----
-
   x Declaration
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:42:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:43:1]
  42 |     50% { left: 0; }
  43 |     90% { left: 300px; }
     :           ^^^^^^^^^^^
  44 | }
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:42:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:43:1]
  42 |     50% { left: 0; }
  43 |     90% { left: 300px; }
     :           ^^^^
  44 | }
     `----
-
   x Ident
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:42:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:43:1]
  42 |     50% { left: 0; }
  43 |     90% { left: 300px; }
     :           ^^^^
  44 | }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:42:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:43:1]
  42 |     50% { left: 0; }
  43 |     90% { left: 300px; }
     :                 ^^^^^
  44 | }
     `----
-
   x Dimension
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:42:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:43:1]
  42 |     50% { left: 0; }
  43 |     90% { left: 300px; }
     :                 ^^^^^
  44 | }
     `----
-
   x Length
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:42:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:43:1]
  42 |     50% { left: 0; }
  43 |     90% { left: 300px; }
     :                 ^^^^^
  44 | }
     `----
-
   x Number
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:42:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:43:1]
  42 |     50% { left: 0; }
  43 |     90% { left: 300px; }
     :                 ^^^
  44 | }
     `----
-
   x Ident
-    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:42:1]
+    ,-[$DIR/tests/recovery/cdo-and-cdc/input.css:43:1]
  42 |     50% { left: 0; }
  43 |     90% { left: 300px; }
     :                    ^^

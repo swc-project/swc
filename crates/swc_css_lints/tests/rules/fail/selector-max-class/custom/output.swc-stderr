@@ -1,4 +1,3 @@
-
   x Expected selector to have no more than 1 class, but 2 actually.
    ,-[$DIR/tests/rules/fail/selector-max-class/custom/input.css:1:1]
  1 | .a.b {

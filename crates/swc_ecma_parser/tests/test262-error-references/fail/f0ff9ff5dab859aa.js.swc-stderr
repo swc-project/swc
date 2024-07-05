@@ -1,10 +1,8 @@
-
   x Expected '{', got '<eof>'
    ,-[$DIR/tests/test262-parser/fail/f0ff9ff5dab859aa.js:1:1]
  1 | function f(a, ...b, c)
    :                      ^
    `----
-
   x A rest parameter must be last in a parameter list
    ,-[$DIR/tests/test262-parser/fail/f0ff9ff5dab859aa.js:1:1]
  1 | function f(a, ...b, c)

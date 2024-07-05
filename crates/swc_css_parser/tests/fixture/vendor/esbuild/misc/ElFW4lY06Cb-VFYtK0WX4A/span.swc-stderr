@@ -1,154 +1,128 @@
-
   x Stylesheet
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/ElFW4lY06Cb-VFYtK0WX4A/input.css:1:1]
  1 | @-moz-document url-prefix() { h1 { color: green } }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Rule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/ElFW4lY06Cb-VFYtK0WX4A/input.css:1:1]
  1 | @-moz-document url-prefix() { h1 { color: green } }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x AtRule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/ElFW4lY06Cb-VFYtK0WX4A/input.css:1:1]
  1 | @-moz-document url-prefix() { h1 { color: green } }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x AtRuleName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/ElFW4lY06Cb-VFYtK0WX4A/input.css:1:1]
  1 | @-moz-document url-prefix() { h1 { color: green } }
    :  ^^^^^^^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/ElFW4lY06Cb-VFYtK0WX4A/input.css:1:1]
  1 | @-moz-document url-prefix() { h1 { color: green } }
    :  ^^^^^^^^^^^^^
    `----
-
   x Function
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/ElFW4lY06Cb-VFYtK0WX4A/input.css:1:1]
  1 | @-moz-document url-prefix() { h1 { color: green } }
    :                ^^^^^^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/ElFW4lY06Cb-VFYtK0WX4A/input.css:1:1]
  1 | @-moz-document url-prefix() { h1 { color: green } }
    :                ^^^^^^^^^^
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/ElFW4lY06Cb-VFYtK0WX4A/input.css:1:1]
  1 | @-moz-document url-prefix() { h1 { color: green } }
    :                             ^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/ElFW4lY06Cb-VFYtK0WX4A/input.css:1:1]
  1 | @-moz-document url-prefix() { h1 { color: green } }
    :                             ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/ElFW4lY06Cb-VFYtK0WX4A/input.css:1:1]
  1 | @-moz-document url-prefix() { h1 { color: green } }
    :                               ^^^^^^^^^^^^^^^^^^^
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/ElFW4lY06Cb-VFYtK0WX4A/input.css:1:1]
  1 | @-moz-document url-prefix() { h1 { color: green } }
    :                               ^^^^^^^^^^^^^^^^^^^
    `----
-
   x SelectorList
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/ElFW4lY06Cb-VFYtK0WX4A/input.css:1:1]
  1 | @-moz-document url-prefix() { h1 { color: green } }
    :                               ^^
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/ElFW4lY06Cb-VFYtK0WX4A/input.css:1:1]
  1 | @-moz-document url-prefix() { h1 { color: green } }
    :                               ^^
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/ElFW4lY06Cb-VFYtK0WX4A/input.css:1:1]
  1 | @-moz-document url-prefix() { h1 { color: green } }
    :                               ^^
    `----
-
   x TypeSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/ElFW4lY06Cb-VFYtK0WX4A/input.css:1:1]
  1 | @-moz-document url-prefix() { h1 { color: green } }
    :                               ^^
    `----
-
   x TagNameSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/ElFW4lY06Cb-VFYtK0WX4A/input.css:1:1]
  1 | @-moz-document url-prefix() { h1 { color: green } }
    :                               ^^
    `----
-
   x WqName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/ElFW4lY06Cb-VFYtK0WX4A/input.css:1:1]
  1 | @-moz-document url-prefix() { h1 { color: green } }
    :                               ^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/ElFW4lY06Cb-VFYtK0WX4A/input.css:1:1]
  1 | @-moz-document url-prefix() { h1 { color: green } }
    :                               ^^
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/ElFW4lY06Cb-VFYtK0WX4A/input.css:1:1]
  1 | @-moz-document url-prefix() { h1 { color: green } }
    :                                  ^^^^^^^^^^^^^^^^
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/ElFW4lY06Cb-VFYtK0WX4A/input.css:1:1]
  1 | @-moz-document url-prefix() { h1 { color: green } }
    :                                  ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/ElFW4lY06Cb-VFYtK0WX4A/input.css:1:1]
  1 | @-moz-document url-prefix() { h1 { color: green } }
    :                                    ^^^^^^^^^^^^^
    `----
-
   x Declaration
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/ElFW4lY06Cb-VFYtK0WX4A/input.css:1:1]
  1 | @-moz-document url-prefix() { h1 { color: green } }
    :                                    ^^^^^^^^^^^^^
    `----
-
   x DeclarationName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/ElFW4lY06Cb-VFYtK0WX4A/input.css:1:1]
  1 | @-moz-document url-prefix() { h1 { color: green } }
    :                                    ^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/ElFW4lY06Cb-VFYtK0WX4A/input.css:1:1]
  1 | @-moz-document url-prefix() { h1 { color: green } }
    :                                    ^^^^^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/ElFW4lY06Cb-VFYtK0WX4A/input.css:1:1]
  1 | @-moz-document url-prefix() { h1 { color: green } }
    :                                           ^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/ElFW4lY06Cb-VFYtK0WX4A/input.css:1:1]
  1 | @-moz-document url-prefix() { h1 { color: green } }

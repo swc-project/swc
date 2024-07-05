@@ -1,226 +1,188 @@
-
   x Stylesheet
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:1]
  1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Rule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:1]
  1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:1]
  1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x SelectorList
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:1]
  1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
    : ^
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:1]
  1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
    : ^
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:1]
  1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
    : ^
    `----
-
   x TypeSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:1]
  1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
    : ^
    `----
-
   x TagNameSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:1]
  1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
    : ^
    `----
-
   x WqName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:1]
  1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
    : ^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:1]
  1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
    : ^
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:1]
  1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
    :   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:1]
  1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
    :   ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:1]
  1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Declaration
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:1]
  1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x DeclarationName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:1]
  1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
    :     ^^^^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:1]
  1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
    :     ^^^^^^^^^^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:1]
  1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
    :                 ^^^^^^^^^^^^^^^
    `----
-
   x Color
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:1]
  1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
    :                 ^^^^^^^^^^^^^^^
    `----
-
   x Function
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:1]
  1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
    :                 ^^^^^^^^^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:1]
  1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
    :                 ^^^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:1]
  1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
    :                     ^^^
    `----
-
   x Number
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:1]
  1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
    :                     ^^^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:1]
  1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
    :                        ^
    `----
-
   x Delimiter
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:1]
  1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
    :                        ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:1]
  1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
    :                          ^
    `----
-
   x Number
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:1]
  1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
    :                          ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:1]
  1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
    :                           ^
    `----
-
   x Delimiter
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:1]
  1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
    :                           ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:1]
  1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
    :                             ^^
    `----
-
   x Number
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:1]
  1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
    :                             ^^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:1]
  1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
    :                                 ^
    `----
-
   x Integer
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:1]
  1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
    :                                 ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:1]
  1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
    :                                   ^
    `----
-
   x Integer
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:1]
  1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
    :                                   ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:1]
  1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
    :                                     ^
    `----
-
   x Integer
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:1]
  1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
    :                                     ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:1]
  1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }
    :                                       ^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/-gboAEi1zyjFW5mtEM24Rg/input.css:1:1]
  1 | a { box-shadow: rgb(255, 0, 17) 0 0 1 inset }

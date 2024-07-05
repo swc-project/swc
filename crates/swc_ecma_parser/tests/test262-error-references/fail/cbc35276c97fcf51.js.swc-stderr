@@ -1,4 +1,3 @@
-
   x Not a pattern
    ,-[$DIR/tests/test262-parser/fail/cbc35276c97fcf51.js:1:1]
  1 | ((a)) => 1

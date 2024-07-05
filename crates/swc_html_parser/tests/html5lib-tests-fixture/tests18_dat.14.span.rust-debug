@@ -1,80 +1,65 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.14.html:1:1]
  1 | <!doctype html><table><select><plaintext>a<caption>b
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.14.html:1:1]
  1 | <!doctype html><table><select><plaintext>a<caption>b
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.14.html:1:1]
  1 | <!doctype html><table><select><plaintext>a<caption>b
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.14.html:1:1]
  1 | <!doctype html><table><select><plaintext>a<caption>b
    :                       ^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.14.html:1:1]
  1 | <!doctype html><table><select><plaintext>a<caption>b
    :                       ^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.14.html:1:1]
  1 | <!doctype html><table><select><plaintext>a<caption>b
    :                                          ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.14.html:1:1]
  1 | <!doctype html><table><select><plaintext>a<caption>b
    :                                          ^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.14.html:1:1]
  1 | <!doctype html><table><select><plaintext>a<caption>b
    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.14.html:1:1]
  1 | <!doctype html><table><select><plaintext>a<caption>b
    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.14.html:1:1]
  1 | <!doctype html><table><select><plaintext>a<caption>b
    :                                           ^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.14.html:1:1]
  1 | <!doctype html><table><select><plaintext>a<caption>b
    :                                           ^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.14.html:1:1]
  1 | <!doctype html><table><select><plaintext>a<caption>b
    :                                                    ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.14.html:1:1]
  1 | <!doctype html><table><select><plaintext>a<caption>b

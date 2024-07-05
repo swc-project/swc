@@ -1,7 +1,6 @@
 //// [shadowedInternalModule.ts]
-//! 
 //!   x the name `Y` is defined multiple times
-//!     ,-[27:1]
+//!     ,-[30:1]
 //!  27 | }
 //!  28 | 
 //!  29 | module Z {
@@ -16,9 +15,8 @@
 //!  34 | 
 //!  35 | //
 //!     `----
-//! 
 //!   x the name `Q` is defined multiple times
-//!     ,-[59:1]
+//!     ,-[62:1]
 //!  59 | }
 //!  60 | 
 //!  61 | module s {

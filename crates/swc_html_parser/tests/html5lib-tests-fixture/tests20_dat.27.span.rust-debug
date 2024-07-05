@@ -1,56 +1,45 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat.27.html:1:1]
  1 | <!doctype html><p><button><h6>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat.27.html:1:1]
  1 | <!doctype html><p><button><h6>
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat.27.html:1:1]
  1 | <!doctype html><p><button><h6>
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat.27.html:1:1]
  1 | <!doctype html><p><button><h6>
    :                ^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat.27.html:1:1]
  1 | <!doctype html><p><button><h6>
    :                ^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat.27.html:1:1]
  1 | <!doctype html><p><button><h6>
    :                   ^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat.27.html:1:1]
  1 | <!doctype html><p><button><h6>
    :                   ^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat.27.html:1:1]
  1 | <!doctype html><p><button><h6>
    :                           ^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests20_dat.27.html:1:1]
  1 | <!doctype html><p><button><h6>

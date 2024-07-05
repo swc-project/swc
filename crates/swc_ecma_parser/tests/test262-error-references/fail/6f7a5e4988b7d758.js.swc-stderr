@@ -1,4 +1,3 @@
-
   x Expected ';', got 'numeric literal (0, 0)'
    ,-[$DIR/tests/test262-parser/fail/6f7a5e4988b7d758.js:1:1]
  1 | for(let of 0);

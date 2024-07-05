@@ -1,11 +1,9 @@
-
   x Unexpected end of file, but expected ']'
    ,-[$DIR/tests/recovery/selector/attribute/unclosed/input.css:1:1]
  1 | ,-> .class[attr= {
  2 | |   
  3 | `-> }
    `----
-
   x Unexpected end of file, but expected '{'
    ,-[$DIR/tests/recovery/selector/attribute/unclosed/input.css:1:1]
  1 | ,-> .class[attr= {

@@ -1,4 +1,3 @@
-
   x the name `b` is bound more than once in this parameter list
    ,-[1:1]
  1 | function a(a, b, b) {}
@@ -9,9 +8,8 @@
  3 | function c(a, b, a) {}
  4 | function d(a, b, a, b) {}
    `----
-
   x the name `a` is bound more than once in this parameter list
-   ,-[1:1]
+   ,-[2:1]
  1 | function a(a, b, b) {}
  2 | function b(a, a, a) {}
    :            |  |
@@ -21,9 +19,8 @@
  4 | function d(a, b, a, b) {}
  5 | var e = function (a, b, b) {};
    `----
-
   x the name `a` is bound more than once in this parameter list
-   ,-[1:1]
+   ,-[2:1]
  1 | function a(a, b, b) {}
  2 | function b(a, a, a) {}
    :               |  |
@@ -33,9 +30,8 @@
  4 | function d(a, b, a, b) {}
  5 | var e = function (a, b, b) {};
    `----
-
   x the name `a` is bound more than once in this parameter list
-   ,-[1:1]
+   ,-[3:1]
  1 | function a(a, b, b) {}
  2 | function b(a, a, a) {}
  3 | function c(a, b, a) {}
@@ -46,9 +42,8 @@
  5 | var e = function (a, b, b) {};
  6 | var f = function (a, a, a) {};
    `----
-
   x the name `a` is bound more than once in this parameter list
-   ,-[1:1]
+   ,-[4:1]
  1 | function a(a, b, b) {}
  2 | function b(a, a, a) {}
  3 | function c(a, b, a) {}
@@ -60,9 +55,8 @@
  6 | var f = function (a, a, a) {};
  7 | var g = function (a, b, a) {};
    `----
-
   x the name `b` is bound more than once in this parameter list
-   ,-[1:1]
+   ,-[4:1]
  1 | function a(a, b, b) {}
  2 | function b(a, a, a) {}
  3 | function c(a, b, a) {}
@@ -74,9 +68,8 @@
  6 | var f = function (a, a, a) {};
  7 | var g = function (a, b, a) {};
    `----
-
   x the name `b` is bound more than once in this parameter list
-   ,-[2:1]
+   ,-[5:1]
  2 | function b(a, a, a) {}
  3 | function c(a, b, a) {}
  4 | function d(a, b, a, b) {}
@@ -88,9 +81,8 @@
  7 | var g = function (a, b, a) {};
  8 | var h = function (a, b, a, b) {};
    `----
-
   x the name `a` is bound more than once in this parameter list
-   ,-[3:1]
+   ,-[6:1]
  3 | function c(a, b, a) {}
  4 | function d(a, b, a, b) {}
  5 | var e = function (a, b, b) {};
@@ -101,9 +93,8 @@
  7 | var g = function (a, b, a) {};
  8 | var h = function (a, b, a, b) {};
    `----
-
   x the name `a` is bound more than once in this parameter list
-   ,-[3:1]
+   ,-[6:1]
  3 | function c(a, b, a) {}
  4 | function d(a, b, a, b) {}
  5 | var e = function (a, b, b) {};
@@ -114,9 +105,8 @@
  7 | var g = function (a, b, a) {};
  8 | var h = function (a, b, a, b) {};
    `----
-
   x the name `a` is bound more than once in this parameter list
-   ,-[4:1]
+   ,-[7:1]
  4 | function d(a, b, a, b) {}
  5 | var e = function (a, b, b) {};
  6 | var f = function (a, a, a) {};
@@ -126,9 +116,8 @@
    :                   `-- previous definition here
  8 | var h = function (a, b, a, b) {};
    `----
-
   x the name `a` is bound more than once in this parameter list
-   ,-[5:1]
+   ,-[8:1]
  5 | var e = function (a, b, b) {};
  6 | var f = function (a, a, a) {};
  7 | var g = function (a, b, a) {};
@@ -137,9 +126,8 @@
    :                   |     `-- used as parameter more than once
    :                   `-- previous definition here
    `----
-
   x the name `b` is bound more than once in this parameter list
-   ,-[5:1]
+   ,-[8:1]
  5 | var e = function (a, b, b) {};
  6 | var f = function (a, a, a) {};
  7 | var g = function (a, b, a) {};

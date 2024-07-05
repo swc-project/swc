@@ -1,6 +1,5 @@
-
   x Expected '}', got '<eof>'
-   ,-[$DIR/tests/test262-parser/fail/4d579849c75cfef9.js:3:1]
+   ,-[$DIR/tests/test262-parser/fail/4d579849c75cfef9.js:4:1]
  3 | 
  4 | {
    : ^

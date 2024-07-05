@@ -1,54 +1,47 @@
-
   x Expected ident or function
-    ,-[$DIR/tests/recovery/value/url/basic/input.css:16:1]
+    ,-[$DIR/tests/recovery/value/url/basic/input.css:17:1]
  16 | .style {
  17 |     background: url("foo", "bar");
     :                          ^
  18 | }
     `----
-
   x Unexpected ')' in declaration value
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:2:1]
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:3:1]
  2 |     --foo: "http://www.example.com/pinkish.gif";
  3 |     background: url(var(--foo));
    :                               ^
  4 |     background: url(image.png\999999);
    `----
-
   x Unexpected ')' in declaration value
-    ,-[$DIR/tests/recovery/value/url/basic/input.css:12:1]
+    ,-[$DIR/tests/recovery/value/url/basic/input.css:13:1]
  12 | .foo {
  13 |     background: url(image.png param(var(--url)));
     :                                               ^
  14 | }
     `----
-
   x Unexpected ')' in declaration value
-    ,-[$DIR/tests/recovery/value/url/basic/input.css:12:1]
+    ,-[$DIR/tests/recovery/value/url/basic/input.css:13:1]
  12 | .foo {
  13 |     background: url(image.png param(var(--url)));
     :                                                ^
  14 | }
     `----
-
   x Unexpected bad url in declaration value
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:2:1]
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:3:1]
  2 |     --foo: "http://www.example.com/pinkish.gif";
  3 |     background: url(var(--foo));
    :                 ^^^^^^^^^^^^^^
  4 |     background: url(image.png\999999);
    `----
-
   x Unexpected bad url in declaration value
-    ,-[$DIR/tests/recovery/value/url/basic/input.css:12:1]
+    ,-[$DIR/tests/recovery/value/url/basic/input.css:13:1]
  12 | .foo {
  13 |     background: url(image.png param(var(--url)));
     :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  14 | }
     `----
-
   x Unexpected character in url
-   ,-[$DIR/tests/recovery/value/url/basic/input.css:2:1]
+   ,-[$DIR/tests/recovery/value/url/basic/input.css:3:1]
  2 |     --foo: "http://www.example.com/pinkish.gif";
  3 |     background: url(var(--foo));
    :                        ^

@@ -1,76 +1,63 @@
-
   x Module
    ,-[$DIR/tests/span/js/expr/cond.js:1:1]
  1 | a ? b : 'c'
    : ^^^^^^^^^^^
    `----
-
   x ModuleItem
    ,-[$DIR/tests/span/js/expr/cond.js:1:1]
  1 | a ? b : 'c'
    : ^^^^^^^^^^^
    `----
-
   x Stmt
    ,-[$DIR/tests/span/js/expr/cond.js:1:1]
  1 | a ? b : 'c'
    : ^^^^^^^^^^^
    `----
-
   x ExprStmt
    ,-[$DIR/tests/span/js/expr/cond.js:1:1]
  1 | a ? b : 'c'
    : ^^^^^^^^^^^
    `----
-
   x Expr
    ,-[$DIR/tests/span/js/expr/cond.js:1:1]
  1 | a ? b : 'c'
    : ^^^^^^^^^^^
    `----
-
   x CondExpr
    ,-[$DIR/tests/span/js/expr/cond.js:1:1]
  1 | a ? b : 'c'
    : ^^^^^^^^^^^
    `----
-
   x Expr
    ,-[$DIR/tests/span/js/expr/cond.js:1:1]
  1 | a ? b : 'c'
    : ^
    `----
-
   x Ident
    ,-[$DIR/tests/span/js/expr/cond.js:1:1]
  1 | a ? b : 'c'
    : ^
    `----
-
   x Expr
    ,-[$DIR/tests/span/js/expr/cond.js:1:1]
  1 | a ? b : 'c'
    :     ^
    `----
-
   x Ident
    ,-[$DIR/tests/span/js/expr/cond.js:1:1]
  1 | a ? b : 'c'
    :     ^
    `----
-
   x Expr
    ,-[$DIR/tests/span/js/expr/cond.js:1:1]
  1 | a ? b : 'c'
    :         ^^^
    `----
-
   x Lit
    ,-[$DIR/tests/span/js/expr/cond.js:1:1]
  1 | a ? b : 'c'
    :         ^^^
    `----
-
   x Str
    ,-[$DIR/tests/span/js/expr/cond.js:1:1]
  1 | a ? b : 'c'

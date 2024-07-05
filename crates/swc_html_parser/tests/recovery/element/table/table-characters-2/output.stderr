@@ -1,30 +1,26 @@
-
   x Misplaced non-space characters inside a table
-   ,-[$DIR/tests/recovery/element/table/table-characters-2/input.html:6:1]
+   ,-[$DIR/tests/recovery/element/table/table-characters-2/input.html:7:1]
  6 | <body>
  7 |     A<table><tr> B</tr> C</table>
    :                 ^
  8 | </body>
    `----
-
   x Misplaced non-space characters inside a table
-   ,-[$DIR/tests/recovery/element/table/table-characters-2/input.html:6:1]
+   ,-[$DIR/tests/recovery/element/table/table-characters-2/input.html:7:1]
  6 | <body>
  7 |     A<table><tr> B</tr> C</table>
    :                  ^
  8 | </body>
    `----
-
   x Misplaced non-space characters inside a table
-   ,-[$DIR/tests/recovery/element/table/table-characters-2/input.html:6:1]
+   ,-[$DIR/tests/recovery/element/table/table-characters-2/input.html:7:1]
  6 | <body>
  7 |     A<table><tr> B</tr> C</table>
    :                        ^
  8 | </body>
    `----
-
   x Misplaced non-space characters inside a table
-   ,-[$DIR/tests/recovery/element/table/table-characters-2/input.html:6:1]
+   ,-[$DIR/tests/recovery/element/table/table-characters-2/input.html:7:1]
  6 | <body>
  7 |     A<table><tr> B</tr> C</table>
    :                         ^

@@ -1,160 +1,133 @@
-
   x Module
    ,-[$DIR/tests/span/ts/type/tuple/optional.ts:1:1]
  1 | type Foo = [first: number, second?: string, ...rest: any[]];
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x ModuleItem
    ,-[$DIR/tests/span/ts/type/tuple/optional.ts:1:1]
  1 | type Foo = [first: number, second?: string, ...rest: any[]];
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Stmt
    ,-[$DIR/tests/span/ts/type/tuple/optional.ts:1:1]
  1 | type Foo = [first: number, second?: string, ...rest: any[]];
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Decl
    ,-[$DIR/tests/span/ts/type/tuple/optional.ts:1:1]
  1 | type Foo = [first: number, second?: string, ...rest: any[]];
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x TsTypeAliasDecl
    ,-[$DIR/tests/span/ts/type/tuple/optional.ts:1:1]
  1 | type Foo = [first: number, second?: string, ...rest: any[]];
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/span/ts/type/tuple/optional.ts:1:1]
  1 | type Foo = [first: number, second?: string, ...rest: any[]];
    :      ^^^
    `----
-
   x TsType
    ,-[$DIR/tests/span/ts/type/tuple/optional.ts:1:1]
  1 | type Foo = [first: number, second?: string, ...rest: any[]];
    :            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x TsTupleType
    ,-[$DIR/tests/span/ts/type/tuple/optional.ts:1:1]
  1 | type Foo = [first: number, second?: string, ...rest: any[]];
    :            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x TsTupleElement
    ,-[$DIR/tests/span/ts/type/tuple/optional.ts:1:1]
  1 | type Foo = [first: number, second?: string, ...rest: any[]];
    :             ^^^^^^^^^^^^^
    `----
-
   x Pat
    ,-[$DIR/tests/span/ts/type/tuple/optional.ts:1:1]
  1 | type Foo = [first: number, second?: string, ...rest: any[]];
    :             ^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/span/ts/type/tuple/optional.ts:1:1]
  1 | type Foo = [first: number, second?: string, ...rest: any[]];
    :             ^^^^^
    `----
-
   x TsType
    ,-[$DIR/tests/span/ts/type/tuple/optional.ts:1:1]
  1 | type Foo = [first: number, second?: string, ...rest: any[]];
    :                    ^^^^^^
    `----
-
   x TsKeywordType
    ,-[$DIR/tests/span/ts/type/tuple/optional.ts:1:1]
  1 | type Foo = [first: number, second?: string, ...rest: any[]];
    :                    ^^^^^^
    `----
-
   x TsTupleElement
    ,-[$DIR/tests/span/ts/type/tuple/optional.ts:1:1]
  1 | type Foo = [first: number, second?: string, ...rest: any[]];
    :                            ^^^^^^^^^^^^^^^
    `----
-
   x Pat
    ,-[$DIR/tests/span/ts/type/tuple/optional.ts:1:1]
  1 | type Foo = [first: number, second?: string, ...rest: any[]];
    :                            ^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/span/ts/type/tuple/optional.ts:1:1]
  1 | type Foo = [first: number, second?: string, ...rest: any[]];
    :                            ^^^^^^^
    `----
-
   x TsType
    ,-[$DIR/tests/span/ts/type/tuple/optional.ts:1:1]
  1 | type Foo = [first: number, second?: string, ...rest: any[]];
    :                                     ^^^^^^
    `----
-
   x TsKeywordType
    ,-[$DIR/tests/span/ts/type/tuple/optional.ts:1:1]
  1 | type Foo = [first: number, second?: string, ...rest: any[]];
    :                                     ^^^^^^
    `----
-
   x TsTupleElement
    ,-[$DIR/tests/span/ts/type/tuple/optional.ts:1:1]
  1 | type Foo = [first: number, second?: string, ...rest: any[]];
    :                                             ^^^^^^^^^^^^^^
    `----
-
   x Pat
    ,-[$DIR/tests/span/ts/type/tuple/optional.ts:1:1]
  1 | type Foo = [first: number, second?: string, ...rest: any[]];
    :                                             ^^^^^^^^
    `----
-
   x RestPat
    ,-[$DIR/tests/span/ts/type/tuple/optional.ts:1:1]
  1 | type Foo = [first: number, second?: string, ...rest: any[]];
    :                                             ^^^^^^^^
    `----
-
   x Pat
    ,-[$DIR/tests/span/ts/type/tuple/optional.ts:1:1]
  1 | type Foo = [first: number, second?: string, ...rest: any[]];
    :                                                ^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/span/ts/type/tuple/optional.ts:1:1]
  1 | type Foo = [first: number, second?: string, ...rest: any[]];
    :                                                ^^^^
    `----
-
   x TsType
    ,-[$DIR/tests/span/ts/type/tuple/optional.ts:1:1]
  1 | type Foo = [first: number, second?: string, ...rest: any[]];
    :                                                      ^^^^^
    `----
-
   x TsArrayType
    ,-[$DIR/tests/span/ts/type/tuple/optional.ts:1:1]
  1 | type Foo = [first: number, second?: string, ...rest: any[]];
    :                                                      ^^^^^
    `----
-
   x TsType
    ,-[$DIR/tests/span/ts/type/tuple/optional.ts:1:1]
  1 | type Foo = [first: number, second?: string, ...rest: any[]];
    :                                                      ^^^
    `----
-
   x TsKeywordType
    ,-[$DIR/tests/span/ts/type/tuple/optional.ts:1:1]
  1 | type Foo = [first: number, second?: string, ...rest: any[]];

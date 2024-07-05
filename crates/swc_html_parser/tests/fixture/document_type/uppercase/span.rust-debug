@@ -1,4 +1,3 @@
-
   x Document
     ,-[$DIR/tests/fixture/document_type/uppercase/input.html:1:1]
   1 | ,-> <!DOCTYPE html>
@@ -13,23 +12,20 @@
  10 | |   
  11 | `-> </html>
     `----
-
   x Child
    ,-[$DIR/tests/fixture/document_type/uppercase/input.html:1:1]
  1 | <!DOCTYPE html>
    : ^^^^^^^^^^^^^^^
  2 | <html>
    `----
-
   x DocumentType
    ,-[$DIR/tests/fixture/document_type/uppercase/input.html:1:1]
  1 | <!DOCTYPE html>
    : ^^^^^^^^^^^^^^^
  2 | <html>
    `----
-
   x Child
-    ,-[$DIR/tests/fixture/document_type/uppercase/input.html:1:1]
+    ,-[$DIR/tests/fixture/document_type/uppercase/input.html:2:1]
   1 |     <!DOCTYPE html>
   2 | ,-> <html>
   3 | |   <head>
@@ -42,9 +38,8 @@
  10 | |   
  11 | `-> </html>
     `----
-
   x Element
-    ,-[$DIR/tests/fixture/document_type/uppercase/input.html:1:1]
+    ,-[$DIR/tests/fixture/document_type/uppercase/input.html:2:1]
   1 |     <!DOCTYPE html>
   2 | ,-> <html>
   3 | |   <head>
@@ -57,107 +52,94 @@
  10 | |   
  11 | `-> </html>
     `----
-
   x Child
-   ,-[$DIR/tests/fixture/document_type/uppercase/input.html:2:1]
+   ,-[$DIR/tests/fixture/document_type/uppercase/input.html:3:1]
  2 |     <html>
  3 | ,-> <head>
  4 | |       <title>Title of the document</title>
  5 | `-> </head>
    `----
-
   x Element
-   ,-[$DIR/tests/fixture/document_type/uppercase/input.html:2:1]
+   ,-[$DIR/tests/fixture/document_type/uppercase/input.html:3:1]
  2 |     <html>
  3 | ,-> <head>
  4 | |       <title>Title of the document</title>
  5 | `-> </head>
    `----
-
   x Child
-   ,-[$DIR/tests/fixture/document_type/uppercase/input.html:2:1]
+   ,-[$DIR/tests/fixture/document_type/uppercase/input.html:3:1]
  2 |     <html>
  3 | ,-> <head>
  4 | `->     <title>Title of the document</title>
  5 |     </head>
    `----
-
   x Text
-   ,-[$DIR/tests/fixture/document_type/uppercase/input.html:2:1]
+   ,-[$DIR/tests/fixture/document_type/uppercase/input.html:3:1]
  2 |     <html>
  3 | ,-> <head>
  4 | `->     <title>Title of the document</title>
  5 |     </head>
    `----
-
-  x Child
-   ,-[$DIR/tests/fixture/document_type/uppercase/input.html:3:1]
- 3 | <head>
- 4 |     <title>Title of the document</title>
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 5 | </head>
-   `----
-
-  x Element
-   ,-[$DIR/tests/fixture/document_type/uppercase/input.html:3:1]
- 3 | <head>
- 4 |     <title>Title of the document</title>
-   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 5 | </head>
-   `----
-
-  x Child
-   ,-[$DIR/tests/fixture/document_type/uppercase/input.html:3:1]
- 3 | <head>
- 4 |     <title>Title of the document</title>
-   :            ^^^^^^^^^^^^^^^^^^^^^
- 5 | </head>
-   `----
-
-  x Text
-   ,-[$DIR/tests/fixture/document_type/uppercase/input.html:3:1]
- 3 | <head>
- 4 |     <title>Title of the document</title>
-   :            ^^^^^^^^^^^^^^^^^^^^^
- 5 | </head>
-   `----
-
-  x Child
-   ,-[$DIR/tests/fixture/document_type/uppercase/input.html:3:1]
- 3 | <head>
- 4 |     <title>Title of the document</title>
-   :                                         ^
- 5 | </head>
-   `----
-
-  x Text
-   ,-[$DIR/tests/fixture/document_type/uppercase/input.html:3:1]
- 3 | <head>
- 4 |     <title>Title of the document</title>
-   :                                         ^
- 5 | </head>
-   `----
-
   x Child
    ,-[$DIR/tests/fixture/document_type/uppercase/input.html:4:1]
+ 3 | <head>
+ 4 |     <title>Title of the document</title>
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 5 | </head>
+   `----
+  x Element
+   ,-[$DIR/tests/fixture/document_type/uppercase/input.html:4:1]
+ 3 | <head>
+ 4 |     <title>Title of the document</title>
+   :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 5 | </head>
+   `----
+  x Child
+   ,-[$DIR/tests/fixture/document_type/uppercase/input.html:4:1]
+ 3 | <head>
+ 4 |     <title>Title of the document</title>
+   :            ^^^^^^^^^^^^^^^^^^^^^
+ 5 | </head>
+   `----
+  x Text
+   ,-[$DIR/tests/fixture/document_type/uppercase/input.html:4:1]
+ 3 | <head>
+ 4 |     <title>Title of the document</title>
+   :            ^^^^^^^^^^^^^^^^^^^^^
+ 5 | </head>
+   `----
+  x Child
+   ,-[$DIR/tests/fixture/document_type/uppercase/input.html:4:1]
+ 3 | <head>
+ 4 |     <title>Title of the document</title>
+   :                                         ^
+ 5 | </head>
+   `----
+  x Text
+   ,-[$DIR/tests/fixture/document_type/uppercase/input.html:4:1]
+ 3 | <head>
+ 4 |     <title>Title of the document</title>
+   :                                         ^
+ 5 | </head>
+   `----
+  x Child
+   ,-[$DIR/tests/fixture/document_type/uppercase/input.html:5:1]
  4 |         <title>Title of the document</title>
  5 | ,-> </head>
  6 | `-> 
  7 |     <body>
  8 |     The content of the document......
    `----
-
   x Text
-   ,-[$DIR/tests/fixture/document_type/uppercase/input.html:4:1]
+   ,-[$DIR/tests/fixture/document_type/uppercase/input.html:5:1]
  4 |         <title>Title of the document</title>
  5 | ,-> </head>
  6 | `-> 
  7 |     <body>
  8 |     The content of the document......
    `----
-
   x Child
-    ,-[$DIR/tests/fixture/document_type/uppercase/input.html:6:1]
+    ,-[$DIR/tests/fixture/document_type/uppercase/input.html:7:1]
   6 |     
   7 | ,-> <body>
   8 | |   The content of the document......
@@ -165,9 +147,8 @@
  10 | |   
  11 | `-> </html>
     `----
-
   x Element
-    ,-[$DIR/tests/fixture/document_type/uppercase/input.html:6:1]
+    ,-[$DIR/tests/fixture/document_type/uppercase/input.html:7:1]
   6 |     
   7 | ,-> <body>
   8 | |   The content of the document......
@@ -175,9 +156,8 @@
  10 | |   
  11 | `-> </html>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/document_type/uppercase/input.html:6:1]
+    ,-[$DIR/tests/fixture/document_type/uppercase/input.html:7:1]
   6 |     
   7 | ,-> <body>
   8 | |   The content of the document......
@@ -185,9 +165,8 @@
  10 | |   
  11 | `-> </html>
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/document_type/uppercase/input.html:6:1]
+    ,-[$DIR/tests/fixture/document_type/uppercase/input.html:7:1]
   6 |     
   7 | ,-> <body>
   8 | |   The content of the document......

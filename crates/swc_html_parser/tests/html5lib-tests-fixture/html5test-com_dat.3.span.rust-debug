@@ -1,26 +1,20 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/html5test-com_dat.3.html:1:1]
  1 | <div \"foo=''>
    : ^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/html5test-com_dat.3.html:1:1]
  1 | <div \"foo=''>
    : ^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/html5test-com_dat.3.html:1:1]
  1 | <div \"foo=''>
    : ^^^^^^^^^^^^^^
    `----
-
   x Attribute
    ,-[$DIR/tests/html5lib-tests-fixture/html5test-com_dat.3.html:1:1]
  1 | <div \"foo=''>

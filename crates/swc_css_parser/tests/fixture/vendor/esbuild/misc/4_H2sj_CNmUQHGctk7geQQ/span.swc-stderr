@@ -1,70 +1,58 @@
-
   x Stylesheet
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/4_H2sj_CNmUQHGctk7geQQ/input.css:1:1]
  1 | @k\65yframes abc { from {} }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Rule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/4_H2sj_CNmUQHGctk7geQQ/input.css:1:1]
  1 | @k\65yframes abc { from {} }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x AtRule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/4_H2sj_CNmUQHGctk7geQQ/input.css:1:1]
  1 | @k\65yframes abc { from {} }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x AtRuleName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/4_H2sj_CNmUQHGctk7geQQ/input.css:1:1]
  1 | @k\65yframes abc { from {} }
    :  ^^^^^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/4_H2sj_CNmUQHGctk7geQQ/input.css:1:1]
  1 | @k\65yframes abc { from {} }
    :  ^^^^^^^^^^^
    `----
-
   x CustomIdent
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/4_H2sj_CNmUQHGctk7geQQ/input.css:1:1]
  1 | @k\65yframes abc { from {} }
    :              ^^^
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/4_H2sj_CNmUQHGctk7geQQ/input.css:1:1]
  1 | @k\65yframes abc { from {} }
    :                  ^^^^^^^^^^^
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/4_H2sj_CNmUQHGctk7geQQ/input.css:1:1]
  1 | @k\65yframes abc { from {} }
    :                  ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/4_H2sj_CNmUQHGctk7geQQ/input.css:1:1]
  1 | @k\65yframes abc { from {} }
    :                    ^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/4_H2sj_CNmUQHGctk7geQQ/input.css:1:1]
  1 | @k\65yframes abc { from {} }
    :                    ^^^^
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/4_H2sj_CNmUQHGctk7geQQ/input.css:1:1]
  1 | @k\65yframes abc { from {} }
    :                         ^^
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/4_H2sj_CNmUQHGctk7geQQ/input.css:1:1]
  1 | @k\65yframes abc { from {} }

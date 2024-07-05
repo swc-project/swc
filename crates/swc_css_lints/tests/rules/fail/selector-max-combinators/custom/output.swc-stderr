@@ -1,22 +1,19 @@
-
   x Expected selector to have no more than 2 combinators, but 3 actually.
-   ,-[$DIR/tests/rules/fail/selector-max-combinators/custom/input.css:2:1]
+   ,-[$DIR/tests/rules/fail/selector-max-combinators/custom/input.css:3:1]
  2 | .a .b {}
  3 | .a .b .c .d {}
    : ^^^^^^^^^^^
  4 | .a + .b > .c ~ .d {}
    `----
-
   x Expected selector to have no more than 2 combinators, but 3 actually.
-   ,-[$DIR/tests/rules/fail/selector-max-combinators/custom/input.css:3:1]
+   ,-[$DIR/tests/rules/fail/selector-max-combinators/custom/input.css:4:1]
  3 | .a .b .c .d {}
  4 | .a + .b > .c ~ .d {}
    : ^^^^^^^^^^^^^^^^^
  5 | .a ~ .b || .c + .d {}
    `----
-
   x Expected selector to have no more than 2 combinators, but 3 actually.
-   ,-[$DIR/tests/rules/fail/selector-max-combinators/custom/input.css:4:1]
+   ,-[$DIR/tests/rules/fail/selector-max-combinators/custom/input.css:5:1]
  4 | .a + .b > .c ~ .d {}
  5 | .a ~ .b || .c + .d {}
    : ^^^^^^^^^^^^^^^^^^

@@ -1,94 +1,78 @@
-
   x Stylesheet
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/aVoVLZHijXjMsJvx4rbJGQ/input.css:1:1]
  1 | @viewport { width: 100vw }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Rule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/aVoVLZHijXjMsJvx4rbJGQ/input.css:1:1]
  1 | @viewport { width: 100vw }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x AtRule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/aVoVLZHijXjMsJvx4rbJGQ/input.css:1:1]
  1 | @viewport { width: 100vw }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x AtRuleName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/aVoVLZHijXjMsJvx4rbJGQ/input.css:1:1]
  1 | @viewport { width: 100vw }
    :  ^^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/aVoVLZHijXjMsJvx4rbJGQ/input.css:1:1]
  1 | @viewport { width: 100vw }
    :  ^^^^^^^^
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/aVoVLZHijXjMsJvx4rbJGQ/input.css:1:1]
  1 | @viewport { width: 100vw }
    :           ^^^^^^^^^^^^^^^^
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/aVoVLZHijXjMsJvx4rbJGQ/input.css:1:1]
  1 | @viewport { width: 100vw }
    :           ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/aVoVLZHijXjMsJvx4rbJGQ/input.css:1:1]
  1 | @viewport { width: 100vw }
    :             ^^^^^^^^^^^^^
    `----
-
   x Declaration
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/aVoVLZHijXjMsJvx4rbJGQ/input.css:1:1]
  1 | @viewport { width: 100vw }
    :             ^^^^^^^^^^^^^
    `----
-
   x DeclarationName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/aVoVLZHijXjMsJvx4rbJGQ/input.css:1:1]
  1 | @viewport { width: 100vw }
    :             ^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/aVoVLZHijXjMsJvx4rbJGQ/input.css:1:1]
  1 | @viewport { width: 100vw }
    :             ^^^^^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/aVoVLZHijXjMsJvx4rbJGQ/input.css:1:1]
  1 | @viewport { width: 100vw }
    :                    ^^^^^
    `----
-
   x Dimension
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/aVoVLZHijXjMsJvx4rbJGQ/input.css:1:1]
  1 | @viewport { width: 100vw }
    :                    ^^^^^
    `----
-
   x Length
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/aVoVLZHijXjMsJvx4rbJGQ/input.css:1:1]
  1 | @viewport { width: 100vw }
    :                    ^^^^^
    `----
-
   x Number
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/aVoVLZHijXjMsJvx4rbJGQ/input.css:1:1]
  1 | @viewport { width: 100vw }
    :                    ^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/aVoVLZHijXjMsJvx4rbJGQ/input.css:1:1]
  1 | @viewport { width: 100vw }

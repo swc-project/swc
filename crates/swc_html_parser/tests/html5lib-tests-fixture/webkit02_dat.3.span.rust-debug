@@ -1,44 +1,35 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat.3.html:1:1]
  1 | <div><sarcasm><div></div></sarcasm></div>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat.3.html:1:1]
  1 | <div><sarcasm><div></div></sarcasm></div>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat.3.html:1:1]
  1 | <div><sarcasm><div></div></sarcasm></div>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat.3.html:1:1]
  1 | <div><sarcasm><div></div></sarcasm></div>
    :      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat.3.html:1:1]
  1 | <div><sarcasm><div></div></sarcasm></div>
    :      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat.3.html:1:1]
  1 | <div><sarcasm><div></div></sarcasm></div>
    :               ^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat.3.html:1:1]
  1 | <div><sarcasm><div></div></sarcasm></div>

@@ -7,9 +7,8 @@ import("./a");
 var _ = require("./a");
 _.a; // any
 //// [/main.ts]
-//! 
 //!   x Export assignment cannot be used when targeting ECMAScript modules. Consider using `export default` or another module format instead.
-//!    ,-[1:1]
+//!    ,-[3:1]
 //!  1 | import {} from "./a";
 //!  2 | import _ = require("./a"); // Error in esnext
 //!  3 | export = {}; // Error

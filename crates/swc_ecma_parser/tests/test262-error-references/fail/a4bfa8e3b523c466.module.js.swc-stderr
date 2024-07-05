@@ -1,4 +1,3 @@
-
   x 'import', and 'export' cannot be used outside of module code
    ,-[$DIR/tests/test262-parser/fail/a4bfa8e3b523c466.module.js:1:1]
  1 | {export default 3;}

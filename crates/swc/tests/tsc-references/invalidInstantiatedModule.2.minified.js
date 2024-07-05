@@ -1,7 +1,6 @@
 //// [invalidInstantiatedModule.ts]
-//! 
 //!   x the name `Point` is defined multiple times
-//!    ,-[1:1]
+//!    ,-[2:1]
 //!  1 | module M {
 //!  2 |     export class Point { x: number; y: number }
 //!    :                  ^^|^^

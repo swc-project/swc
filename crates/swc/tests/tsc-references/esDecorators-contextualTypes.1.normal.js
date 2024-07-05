@@ -1,7 +1,6 @@
 //// [esDecorators-contextualTypes.ts]
-//! 
 //!   x Expression expected
-//!    ,-[1:1]
+//!    ,-[2:1]
 //!  1 | 
 //!  2 | @((t, c) => { })
 //!    : ^

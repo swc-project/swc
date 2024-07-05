@@ -1,44 +1,35 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.13.html:1:1]
  1 | <!doctype html><select><plaintext></plaintext>X
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.13.html:1:1]
  1 | <!doctype html><select><plaintext></plaintext>X
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.13.html:1:1]
  1 | <!doctype html><select><plaintext></plaintext>X
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.13.html:1:1]
  1 | <!doctype html><select><plaintext></plaintext>X
    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.13.html:1:1]
  1 | <!doctype html><select><plaintext></plaintext>X
    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.13.html:1:1]
  1 | <!doctype html><select><plaintext></plaintext>X
    :                                               ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests18_dat.13.html:1:1]
  1 | <!doctype html><select><plaintext></plaintext>X

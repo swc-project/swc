@@ -1,6 +1,5 @@
-
   x Expression expected
-   ,-[$DIR/tests/test262-parser/fail/679ab0881c66b0cf.js:1:1]
+   ,-[$DIR/tests/test262-parser/fail/679ab0881c66b0cf.js:2:1]
  1 | 
  2 | ]
    : ^

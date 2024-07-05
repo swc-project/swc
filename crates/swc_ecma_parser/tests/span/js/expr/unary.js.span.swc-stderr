@@ -1,4 +1,3 @@
-
   x Module
    ,-[$DIR/tests/span/js/expr/unary.js:1:1]
  1 | ,-> void 0
@@ -8,65 +7,56 @@
  5 | |   +a
  6 | `-> -a
    `----
-
   x ModuleItem
    ,-[$DIR/tests/span/js/expr/unary.js:1:1]
  1 | void 0
    : ^^^^^^
  2 | void i
    `----
-
   x Stmt
    ,-[$DIR/tests/span/js/expr/unary.js:1:1]
  1 | void 0
    : ^^^^^^
  2 | void i
    `----
-
   x ExprStmt
    ,-[$DIR/tests/span/js/expr/unary.js:1:1]
  1 | void 0
    : ^^^^^^
  2 | void i
    `----
-
   x Expr
    ,-[$DIR/tests/span/js/expr/unary.js:1:1]
  1 | void 0
    : ^^^^^^
  2 | void i
    `----
-
   x UnaryExpr
    ,-[$DIR/tests/span/js/expr/unary.js:1:1]
  1 | void 0
    : ^^^^^^
  2 | void i
    `----
-
   x Expr
    ,-[$DIR/tests/span/js/expr/unary.js:1:1]
  1 | void 0
    :      ^
  2 | void i
    `----
-
   x Lit
    ,-[$DIR/tests/span/js/expr/unary.js:1:1]
  1 | void 0
    :      ^
  2 | void i
    `----
-
   x Number
    ,-[$DIR/tests/span/js/expr/unary.js:1:1]
  1 | void 0
    :      ^
  2 | void i
    `----
-
   x ModuleItem
-   ,-[$DIR/tests/span/js/expr/unary.js:1:1]
+   ,-[$DIR/tests/span/js/expr/unary.js:2:1]
  1 |     void 0
  2 | ,-> void i
  3 | |   +1
@@ -74,9 +64,8 @@
  5 | |   +a
  6 | `-> -a
    `----
-
   x Stmt
-   ,-[$DIR/tests/span/js/expr/unary.js:1:1]
+   ,-[$DIR/tests/span/js/expr/unary.js:2:1]
  1 |     void 0
  2 | ,-> void i
  3 | |   +1
@@ -84,9 +73,8 @@
  5 | |   +a
  6 | `-> -a
    `----
-
   x ExprStmt
-   ,-[$DIR/tests/span/js/expr/unary.js:1:1]
+   ,-[$DIR/tests/span/js/expr/unary.js:2:1]
  1 |     void 0
  2 | ,-> void i
  3 | |   +1
@@ -94,9 +82,8 @@
  5 | |   +a
  6 | `-> -a
    `----
-
   x Expr
-   ,-[$DIR/tests/span/js/expr/unary.js:1:1]
+   ,-[$DIR/tests/span/js/expr/unary.js:2:1]
  1 |     void 0
  2 | ,-> void i
  3 | |   +1
@@ -104,9 +91,8 @@
  5 | |   +a
  6 | `-> -a
    `----
-
   x BinExpr
-   ,-[$DIR/tests/span/js/expr/unary.js:1:1]
+   ,-[$DIR/tests/span/js/expr/unary.js:2:1]
  1 |     void 0
  2 | ,-> void i
  3 | |   +1
@@ -114,9 +100,8 @@
  5 | |   +a
  6 | `-> -a
    `----
-
   x Expr
-   ,-[$DIR/tests/span/js/expr/unary.js:1:1]
+   ,-[$DIR/tests/span/js/expr/unary.js:2:1]
  1 |     void 0
  2 | ,-> void i
  3 | |   +1
@@ -124,9 +109,8 @@
  5 | `-> +a
  6 |     -a
    `----
-
   x BinExpr
-   ,-[$DIR/tests/span/js/expr/unary.js:1:1]
+   ,-[$DIR/tests/span/js/expr/unary.js:2:1]
  1 |     void 0
  2 | ,-> void i
  3 | |   +1
@@ -134,146 +118,128 @@
  5 | `-> +a
  6 |     -a
    `----
-
   x Expr
-   ,-[$DIR/tests/span/js/expr/unary.js:1:1]
+   ,-[$DIR/tests/span/js/expr/unary.js:2:1]
  1 |     void 0
  2 | ,-> void i
  3 | |   +1
  4 | `-> -1
  5 |     +a
    `----
-
   x BinExpr
-   ,-[$DIR/tests/span/js/expr/unary.js:1:1]
+   ,-[$DIR/tests/span/js/expr/unary.js:2:1]
  1 |     void 0
  2 | ,-> void i
  3 | |   +1
  4 | `-> -1
  5 |     +a
    `----
-
   x Expr
-   ,-[$DIR/tests/span/js/expr/unary.js:1:1]
+   ,-[$DIR/tests/span/js/expr/unary.js:2:1]
  1 |     void 0
  2 | ,-> void i
  3 | `-> +1
  4 |     -1
    `----
-
   x BinExpr
-   ,-[$DIR/tests/span/js/expr/unary.js:1:1]
+   ,-[$DIR/tests/span/js/expr/unary.js:2:1]
  1 |     void 0
  2 | ,-> void i
  3 | `-> +1
  4 |     -1
    `----
-
   x Expr
-   ,-[$DIR/tests/span/js/expr/unary.js:1:1]
+   ,-[$DIR/tests/span/js/expr/unary.js:2:1]
  1 | void 0
  2 | void i
    : ^^^^^^
  3 | +1
    `----
-
   x UnaryExpr
-   ,-[$DIR/tests/span/js/expr/unary.js:1:1]
+   ,-[$DIR/tests/span/js/expr/unary.js:2:1]
  1 | void 0
  2 | void i
    : ^^^^^^
  3 | +1
    `----
-
   x Expr
-   ,-[$DIR/tests/span/js/expr/unary.js:1:1]
+   ,-[$DIR/tests/span/js/expr/unary.js:2:1]
  1 | void 0
  2 | void i
    :      ^
  3 | +1
    `----
-
   x Ident
-   ,-[$DIR/tests/span/js/expr/unary.js:1:1]
+   ,-[$DIR/tests/span/js/expr/unary.js:2:1]
  1 | void 0
  2 | void i
    :      ^
  3 | +1
    `----
-
-  x Expr
-   ,-[$DIR/tests/span/js/expr/unary.js:2:1]
- 2 | void i
- 3 | +1
-   :  ^
- 4 | -1
-   `----
-
-  x Lit
-   ,-[$DIR/tests/span/js/expr/unary.js:2:1]
- 2 | void i
- 3 | +1
-   :  ^
- 4 | -1
-   `----
-
-  x Number
-   ,-[$DIR/tests/span/js/expr/unary.js:2:1]
- 2 | void i
- 3 | +1
-   :  ^
- 4 | -1
-   `----
-
   x Expr
    ,-[$DIR/tests/span/js/expr/unary.js:3:1]
+ 2 | void i
  3 | +1
- 4 | -1
    :  ^
- 5 | +a
+ 4 | -1
    `----
-
   x Lit
    ,-[$DIR/tests/span/js/expr/unary.js:3:1]
+ 2 | void i
  3 | +1
- 4 | -1
    :  ^
- 5 | +a
+ 4 | -1
    `----
-
   x Number
    ,-[$DIR/tests/span/js/expr/unary.js:3:1]
+ 2 | void i
+ 3 | +1
+   :  ^
+ 4 | -1
+   `----
+  x Expr
+   ,-[$DIR/tests/span/js/expr/unary.js:4:1]
  3 | +1
  4 | -1
    :  ^
  5 | +a
    `----
-
-  x Expr
+  x Lit
    ,-[$DIR/tests/span/js/expr/unary.js:4:1]
+ 3 | +1
+ 4 | -1
+   :  ^
+ 5 | +a
+   `----
+  x Number
+   ,-[$DIR/tests/span/js/expr/unary.js:4:1]
+ 3 | +1
+ 4 | -1
+   :  ^
+ 5 | +a
+   `----
+  x Expr
+   ,-[$DIR/tests/span/js/expr/unary.js:5:1]
  4 | -1
  5 | +a
    :  ^
  6 | -a
    `----
-
   x Ident
-   ,-[$DIR/tests/span/js/expr/unary.js:4:1]
+   ,-[$DIR/tests/span/js/expr/unary.js:5:1]
  4 | -1
  5 | +a
    :  ^
  6 | -a
    `----
-
   x Expr
-   ,-[$DIR/tests/span/js/expr/unary.js:5:1]
+   ,-[$DIR/tests/span/js/expr/unary.js:6:1]
  5 | +a
  6 | -a
    :  ^
    `----
-
   x Ident
-   ,-[$DIR/tests/span/js/expr/unary.js:5:1]
+   ,-[$DIR/tests/span/js/expr/unary.js:6:1]
  5 | +a
  6 | -a
    :  ^

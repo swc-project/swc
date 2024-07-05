@@ -1,34 +1,28 @@
-
   x Stylesheet
    ,-[$DIR/tests/fixture/at-rule/charset/valid/input.css:1:1]
  1 | @charset "utf-8";
    : ^^^^^^^^^^^^^^^^^^
    `----
-
   x Rule
    ,-[$DIR/tests/fixture/at-rule/charset/valid/input.css:1:1]
  1 | @charset "utf-8";
    : ^^^^^^^^^^^^^^^^^
    `----
-
   x AtRule
    ,-[$DIR/tests/fixture/at-rule/charset/valid/input.css:1:1]
  1 | @charset "utf-8";
    : ^^^^^^^^^^^^^^^^^
    `----
-
   x AtRuleName
    ,-[$DIR/tests/fixture/at-rule/charset/valid/input.css:1:1]
  1 | @charset "utf-8";
    :  ^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/at-rule/charset/valid/input.css:1:1]
  1 | @charset "utf-8";
    :  ^^^^^^^
    `----
-
   x Str
    ,-[$DIR/tests/fixture/at-rule/charset/valid/input.css:1:1]
  1 | @charset "utf-8";

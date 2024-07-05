@@ -1,4 +1,3 @@
-
   x assignment property is invalid syntax
    ,-[$DIR/tests/test262-parser/fail/479332b63ff26de1.js:1:1]
  1 | ({a = 0});

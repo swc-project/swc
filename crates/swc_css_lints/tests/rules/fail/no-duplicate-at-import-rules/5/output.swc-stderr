@@ -1,4 +1,3 @@
-
   x Unexpected duplicate '@import' rule 'a.css'.
    ,-[$DIR/tests/rules/fail/no-duplicate-at-import-rules/5/input.css:1:1]
  1 | @import url('a.css') tv; @import 'a.css' tv;

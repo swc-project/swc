@@ -1,26 +1,20 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat.0.html:1:1]
  1 | <foo bar=qux/>
    : ^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat.0.html:1:1]
  1 | <foo bar=qux/>
    : ^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat.0.html:1:1]
  1 | <foo bar=qux/>
    : ^^^^^^^^^^^^^^
    `----
-
   x Attribute
    ,-[$DIR/tests/html5lib-tests-fixture/webkit02_dat.0.html:1:1]
  1 | <foo bar=qux/>

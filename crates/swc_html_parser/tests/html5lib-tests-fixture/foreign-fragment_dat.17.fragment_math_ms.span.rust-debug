@@ -1,20 +1,15 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.17.fragment_math_ms.html:1:1]
  1 | </ms>X
    : ^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.17.fragment_math_ms.html:1:1]
  1 | </ms>X
    :      ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.17.fragment_math_ms.html:1:1]
  1 | </ms>X

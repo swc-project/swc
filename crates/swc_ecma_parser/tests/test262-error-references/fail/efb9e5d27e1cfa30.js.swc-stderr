@@ -1,4 +1,3 @@
-
   x Expected ';', '}' or <eof>
    ,-[$DIR/tests/test262-parser/fail/efb9e5d27e1cfa30.js:1:1]
  1 | (function () { yield 10 })

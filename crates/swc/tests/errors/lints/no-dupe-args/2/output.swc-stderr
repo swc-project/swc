@@ -1,4 +1,3 @@
-
   x the name `b` is bound more than once in this parameter list
    ,-[1:1]
  1 | const foo = (a, b, b) => {};
@@ -8,9 +7,8 @@
  2 | (a, b, b) => {};
  3 | ((a, b, b) => {})();
    `----
-
   x the name `b` is bound more than once in this parameter list
-   ,-[1:1]
+   ,-[2:1]
  1 | const foo = (a, b, b) => {};
  2 | (a, b, b) => {};
    :     |  |
@@ -20,9 +18,8 @@
  4 | 
  5 | class Bar {
    `----
-
   x the name `b` is bound more than once in this parameter list
-   ,-[1:1]
+   ,-[3:1]
  1 | const foo = (a, b, b) => {};
  2 | (a, b, b) => {};
  3 | ((a, b, b) => {})();
@@ -33,9 +30,8 @@
  5 | class Bar {
  6 |     constructor(a, b, b) {}
    `----
-
   x the name `b` is bound more than once in this parameter list
-   ,-[3:1]
+   ,-[6:1]
  3 | ((a, b, b) => {})();
  4 | 
  5 | class Bar {
@@ -46,9 +42,8 @@
  7 | 
  8 |     foo = (a, b, b) => {};
    `----
-
   x the name `b` is bound more than once in this parameter list
-    ,-[5:1]
+    ,-[8:1]
   5 | class Bar {
   6 |     constructor(a, b, b) {}
   7 | 
@@ -60,9 +55,8 @@
  10 |     bar(a, b, b) {}
  11 | }
     `----
-
   x the name `b` is bound more than once in this parameter list
-    ,-[7:1]
+    ,-[10:1]
   7 | 
   8 |     foo = (a, b, b) => {};
   9 | 
@@ -74,9 +68,8 @@
  12 | 
  13 | const baz = {
     `----
-
   x the name `b` is bound more than once in this parameter list
-    ,-[11:1]
+    ,-[14:1]
  11 | }
  12 | 
  13 | const baz = {
@@ -87,9 +80,8 @@
  15 |     bar: function (a, b, b) {},
  16 | };
     `----
-
   x the name `b` is bound more than once in this parameter list
-    ,-[12:1]
+    ,-[15:1]
  12 | 
  13 | const baz = {
  14 |     foo(a, b, b) {},

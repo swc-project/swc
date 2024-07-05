@@ -1,7 +1,6 @@
 //// [esDecorators-contextualTypes.2.ts]
-//! 
 //!   x Unexpected token `@`. Expected identifier, string literal, numeric literal or [ for the computed key
-//!    ,-[1:1]
+//!    ,-[3:1]
 //!  1 | 
 //!  2 | class C {
 //!  3 |     @boundMethodLogger("Yadda", /*bound*/ true)

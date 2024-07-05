@@ -1,4 +1,3 @@
-
   x Unexpected var, use let or const instead
    ,-[1:1]
  1 | var a = 1;

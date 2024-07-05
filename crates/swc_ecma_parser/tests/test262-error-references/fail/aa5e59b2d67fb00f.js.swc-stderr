@@ -1,4 +1,3 @@
-
   x Expected ';', '}' or <eof>
    ,-[$DIR/tests/test262-parser/fail/aa5e59b2d67fb00f.js:1:1]
  1 | let default

@@ -1,4 +1,3 @@
-
   x Invalid character in identifier
    ,-[$DIR/tests/typescript-errors/issue-1272/input.ts:1:1]
  1 | \u{16}

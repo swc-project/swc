@@ -1,4 +1,3 @@
-
   x Unexpected eof
    ,-[$DIR/tests/test262-parser/fail/82b8003b91d8b346.js:1:1]
  1 | (b, ...a)

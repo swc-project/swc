@@ -1,4 +1,3 @@
-
   x Document
     ,-[$DIR/tests/fixture/cdata_section/input.xml:1:1]
   1 | ,-> <root>
@@ -32,7 +31,6 @@
  29 | |       </DocumentElement>"
  30 | `-> </root>
     `----
-
   x Child
     ,-[$DIR/tests/fixture/cdata_section/input.xml:1:1]
   1 | ,-> <root>
@@ -66,7 +64,6 @@
  29 | |       </DocumentElement>"
  30 | `-> </root>
     `----
-
   x Element
     ,-[$DIR/tests/fixture/cdata_section/input.xml:1:1]
   1 | ,-> <root>
@@ -100,177 +97,156 @@
  29 | |       </DocumentElement>"
  30 | `-> </root>
     `----
-
   x Child
    ,-[$DIR/tests/fixture/cdata_section/input.xml:1:1]
  1 | ,-> <root>
  2 | `->     <description>An example of escaped CENDs</description>
  3 |         <!-- This text contains a CEND ]]> -->
    `----
-
   x Text
    ,-[$DIR/tests/fixture/cdata_section/input.xml:1:1]
  1 | ,-> <root>
  2 | `->     <description>An example of escaped CENDs</description>
  3 |         <!-- This text contains a CEND ]]> -->
    `----
-
   x Child
-   ,-[$DIR/tests/fixture/cdata_section/input.xml:1:1]
+   ,-[$DIR/tests/fixture/cdata_section/input.xml:2:1]
  1 | <root>
  2 |     <description>An example of escaped CENDs</description>
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  3 |     <!-- This text contains a CEND ]]> -->
    `----
-
   x Element
-   ,-[$DIR/tests/fixture/cdata_section/input.xml:1:1]
+   ,-[$DIR/tests/fixture/cdata_section/input.xml:2:1]
  1 | <root>
  2 |     <description>An example of escaped CENDs</description>
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  3 |     <!-- This text contains a CEND ]]> -->
    `----
-
   x Child
-   ,-[$DIR/tests/fixture/cdata_section/input.xml:1:1]
+   ,-[$DIR/tests/fixture/cdata_section/input.xml:2:1]
  1 | <root>
  2 |     <description>An example of escaped CENDs</description>
    :                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^
  3 |     <!-- This text contains a CEND ]]> -->
    `----
-
   x Text
-   ,-[$DIR/tests/fixture/cdata_section/input.xml:1:1]
+   ,-[$DIR/tests/fixture/cdata_section/input.xml:2:1]
  1 | <root>
  2 |     <description>An example of escaped CENDs</description>
    :                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^
  3 |     <!-- This text contains a CEND ]]> -->
    `----
-
   x Child
-   ,-[$DIR/tests/fixture/cdata_section/input.xml:1:1]
+   ,-[$DIR/tests/fixture/cdata_section/input.xml:2:1]
  1 |     <root>
  2 | ,->     <description>An example of escaped CENDs</description>
  3 | `->     <!-- This text contains a CEND ]]> -->
  4 |         <!-- In this first case we put the ]] at the end of the first CDATA block
    `----
-
   x Text
-   ,-[$DIR/tests/fixture/cdata_section/input.xml:1:1]
+   ,-[$DIR/tests/fixture/cdata_section/input.xml:2:1]
  1 |     <root>
  2 | ,->     <description>An example of escaped CENDs</description>
  3 | `->     <!-- This text contains a CEND ]]> -->
  4 |         <!-- In this first case we put the ]] at the end of the first CDATA block
    `----
-
   x Child
-   ,-[$DIR/tests/fixture/cdata_section/input.xml:2:1]
+   ,-[$DIR/tests/fixture/cdata_section/input.xml:3:1]
  2 |     <description>An example of escaped CENDs</description>
  3 |     <!-- This text contains a CEND ]]> -->
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  4 |     <!-- In this first case we put the ]] at the end of the first CDATA block
    `----
-
   x Comment
-   ,-[$DIR/tests/fixture/cdata_section/input.xml:2:1]
+   ,-[$DIR/tests/fixture/cdata_section/input.xml:3:1]
  2 |     <description>An example of escaped CENDs</description>
  3 |     <!-- This text contains a CEND ]]> -->
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  4 |     <!-- In this first case we put the ]] at the end of the first CDATA block
    `----
-
-  x Child
-   ,-[$DIR/tests/fixture/cdata_section/input.xml:2:1]
- 2 |         <description>An example of escaped CENDs</description>
- 3 | ,->     <!-- This text contains a CEND ]]> -->
- 4 | `->     <!-- In this first case we put the ]] at the end of the first CDATA block
- 5 |              and the > in the second CDATA block -->
-   `----
-
-  x Text
-   ,-[$DIR/tests/fixture/cdata_section/input.xml:2:1]
- 2 |         <description>An example of escaped CENDs</description>
- 3 | ,->     <!-- This text contains a CEND ]]> -->
- 4 | `->     <!-- In this first case we put the ]] at the end of the first CDATA block
- 5 |              and the > in the second CDATA block -->
-   `----
-
   x Child
    ,-[$DIR/tests/fixture/cdata_section/input.xml:3:1]
+ 2 |         <description>An example of escaped CENDs</description>
+ 3 | ,->     <!-- This text contains a CEND ]]> -->
+ 4 | `->     <!-- In this first case we put the ]] at the end of the first CDATA block
+ 5 |              and the > in the second CDATA block -->
+   `----
+  x Text
+   ,-[$DIR/tests/fixture/cdata_section/input.xml:3:1]
+ 2 |         <description>An example of escaped CENDs</description>
+ 3 | ,->     <!-- This text contains a CEND ]]> -->
+ 4 | `->     <!-- In this first case we put the ]] at the end of the first CDATA block
+ 5 |              and the > in the second CDATA block -->
+   `----
+  x Child
+   ,-[$DIR/tests/fixture/cdata_section/input.xml:4:1]
  3 |         <!-- This text contains a CEND ]]> -->
  4 | ,->     <!-- In this first case we put the ]] at the end of the first CDATA block
  5 | `->          and the > in the second CDATA block -->
  6 |         <exampleOfACDATA>
    `----
-
   x Comment
-   ,-[$DIR/tests/fixture/cdata_section/input.xml:3:1]
+   ,-[$DIR/tests/fixture/cdata_section/input.xml:4:1]
  3 |         <!-- This text contains a CEND ]]> -->
  4 | ,->     <!-- In this first case we put the ]] at the end of the first CDATA block
  5 | `->          and the > in the second CDATA block -->
  6 |         <exampleOfACDATA>
    `----
-
   x Child
-   ,-[$DIR/tests/fixture/cdata_section/input.xml:4:1]
+   ,-[$DIR/tests/fixture/cdata_section/input.xml:5:1]
  4 |         <!-- In this first case we put the ]] at the end of the first CDATA block
  5 | ,->          and the > in the second CDATA block -->
  6 | `->     <exampleOfACDATA>
  7 |         <![CDATA[
    `----
-
   x Text
-   ,-[$DIR/tests/fixture/cdata_section/input.xml:4:1]
+   ,-[$DIR/tests/fixture/cdata_section/input.xml:5:1]
  4 |         <!-- In this first case we put the ]] at the end of the first CDATA block
  5 | ,->          and the > in the second CDATA block -->
  6 | `->     <exampleOfACDATA>
  7 |         <![CDATA[
    `----
-
-  x Child
-    ,-[$DIR/tests/fixture/cdata_section/input.xml:5:1]
-  5 |              and the > in the second CDATA block -->
-  6 | ,->     <exampleOfACDATA>
-  7 | |       <![CDATA[
-  8 | |       Since this is a CDATA section
-  9 | |       I can use all sorts of reserved characters
- 10 | |       but my document is still well formed!
- 11 | |       ]]>
- 12 | `->     </exampleOfACDATA>
- 13 |         <p><![CDATA[<greeting>Hello, world!</greeting>]]></p>
-    `----
-
-  x Element
-    ,-[$DIR/tests/fixture/cdata_section/input.xml:5:1]
-  5 |              and the > in the second CDATA block -->
-  6 | ,->     <exampleOfACDATA>
-  7 | |       <![CDATA[
-  8 | |       Since this is a CDATA section
-  9 | |       I can use all sorts of reserved characters
- 10 | |       but my document is still well formed!
- 11 | |       ]]>
- 12 | `->     </exampleOfACDATA>
- 13 |         <p><![CDATA[<greeting>Hello, world!</greeting>]]></p>
-    `----
-
-  x Child
-   ,-[$DIR/tests/fixture/cdata_section/input.xml:5:1]
- 5 |              and the > in the second CDATA block -->
- 6 | ,->     <exampleOfACDATA>
- 7 | `->     <![CDATA[
- 8 |         Since this is a CDATA section
-   `----
-
-  x Text
-   ,-[$DIR/tests/fixture/cdata_section/input.xml:5:1]
- 5 |              and the > in the second CDATA block -->
- 6 | ,->     <exampleOfACDATA>
- 7 | `->     <![CDATA[
- 8 |         Since this is a CDATA section
-   `----
-
   x Child
     ,-[$DIR/tests/fixture/cdata_section/input.xml:6:1]
+  5 |              and the > in the second CDATA block -->
+  6 | ,->     <exampleOfACDATA>
+  7 | |       <![CDATA[
+  8 | |       Since this is a CDATA section
+  9 | |       I can use all sorts of reserved characters
+ 10 | |       but my document is still well formed!
+ 11 | |       ]]>
+ 12 | `->     </exampleOfACDATA>
+ 13 |         <p><![CDATA[<greeting>Hello, world!</greeting>]]></p>
+    `----
+  x Element
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:6:1]
+  5 |              and the > in the second CDATA block -->
+  6 | ,->     <exampleOfACDATA>
+  7 | |       <![CDATA[
+  8 | |       Since this is a CDATA section
+  9 | |       I can use all sorts of reserved characters
+ 10 | |       but my document is still well formed!
+ 11 | |       ]]>
+ 12 | `->     </exampleOfACDATA>
+ 13 |         <p><![CDATA[<greeting>Hello, world!</greeting>]]></p>
+    `----
+  x Child
+   ,-[$DIR/tests/fixture/cdata_section/input.xml:6:1]
+ 5 |              and the > in the second CDATA block -->
+ 6 | ,->     <exampleOfACDATA>
+ 7 | `->     <![CDATA[
+ 8 |         Since this is a CDATA section
+   `----
+  x Text
+   ,-[$DIR/tests/fixture/cdata_section/input.xml:6:1]
+ 5 |              and the > in the second CDATA block -->
+ 6 | ,->     <exampleOfACDATA>
+ 7 | `->     <![CDATA[
+ 8 |         Since this is a CDATA section
+   `----
+  x Child
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:7:1]
   6 |         <exampleOfACDATA>
   7 | ,->     <![CDATA[
   8 | |       Since this is a CDATA section
@@ -279,521 +255,456 @@
  11 | `->     ]]>
  12 |         </exampleOfACDATA>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/cdata_section/input.xml:10:1]
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:11:1]
  10 |         but my document is still well formed!
  11 | ,->     ]]>
  12 | `->     </exampleOfACDATA>
  13 |         <p><![CDATA[<greeting>Hello, world!</greeting>]]></p>
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/cdata_section/input.xml:10:1]
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:11:1]
  10 |         but my document is still well formed!
  11 | ,->     ]]>
  12 | `->     </exampleOfACDATA>
  13 |         <p><![CDATA[<greeting>Hello, world!</greeting>]]></p>
     `----
-
-  x Child
-    ,-[$DIR/tests/fixture/cdata_section/input.xml:11:1]
- 11 |         ]]>
- 12 | ,->     </exampleOfACDATA>
- 13 | `->     <p><![CDATA[<greeting>Hello, world!</greeting>]]></p>
- 14 |         <p><![CDATA[content]]></p>
-    `----
-
-  x Text
-    ,-[$DIR/tests/fixture/cdata_section/input.xml:11:1]
- 11 |         ]]>
- 12 | ,->     </exampleOfACDATA>
- 13 | `->     <p><![CDATA[<greeting>Hello, world!</greeting>]]></p>
- 14 |         <p><![CDATA[content]]></p>
-    `----
-
   x Child
     ,-[$DIR/tests/fixture/cdata_section/input.xml:12:1]
+ 11 |         ]]>
+ 12 | ,->     </exampleOfACDATA>
+ 13 | `->     <p><![CDATA[<greeting>Hello, world!</greeting>]]></p>
+ 14 |         <p><![CDATA[content]]></p>
+    `----
+  x Text
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:12:1]
+ 11 |         ]]>
+ 12 | ,->     </exampleOfACDATA>
+ 13 | `->     <p><![CDATA[<greeting>Hello, world!</greeting>]]></p>
+ 14 |         <p><![CDATA[content]]></p>
+    `----
+  x Child
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:13:1]
  12 |     </exampleOfACDATA>
  13 |     <p><![CDATA[<greeting>Hello, world!</greeting>]]></p>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  14 |     <p><![CDATA[content]]></p>
     `----
-
   x Element
-    ,-[$DIR/tests/fixture/cdata_section/input.xml:12:1]
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:13:1]
  12 |     </exampleOfACDATA>
  13 |     <p><![CDATA[<greeting>Hello, world!</greeting>]]></p>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  14 |     <p><![CDATA[content]]></p>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/cdata_section/input.xml:12:1]
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:13:1]
  12 |     </exampleOfACDATA>
  13 |     <p><![CDATA[<greeting>Hello, world!</greeting>]]></p>
     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  14 |     <p><![CDATA[content]]></p>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/cdata_section/input.xml:12:1]
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:13:1]
  12 |         </exampleOfACDATA>
  13 | ,->     <p><![CDATA[<greeting>Hello, world!</greeting>]]></p>
  14 | `->     <p><![CDATA[content]]></p>
  15 |         <p><![CDATA[&amping]]></p>
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/cdata_section/input.xml:12:1]
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:13:1]
  12 |         </exampleOfACDATA>
  13 | ,->     <p><![CDATA[<greeting>Hello, world!</greeting>]]></p>
  14 | `->     <p><![CDATA[content]]></p>
  15 |         <p><![CDATA[&amping]]></p>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/cdata_section/input.xml:13:1]
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:14:1]
  13 |     <p><![CDATA[<greeting>Hello, world!</greeting>]]></p>
  14 |     <p><![CDATA[content]]></p>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^
  15 |     <p><![CDATA[&amping]]></p>
     `----
-
   x Element
-    ,-[$DIR/tests/fixture/cdata_section/input.xml:13:1]
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:14:1]
  13 |     <p><![CDATA[<greeting>Hello, world!</greeting>]]></p>
  14 |     <p><![CDATA[content]]></p>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^
  15 |     <p><![CDATA[&amping]]></p>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/cdata_section/input.xml:13:1]
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:14:1]
  13 |     <p><![CDATA[<greeting>Hello, world!</greeting>]]></p>
  14 |     <p><![CDATA[content]]></p>
     :        ^^^^^^^^^^^^^^^^^^^
  15 |     <p><![CDATA[&amping]]></p>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/cdata_section/input.xml:13:1]
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:14:1]
  13 |         <p><![CDATA[<greeting>Hello, world!</greeting>]]></p>
  14 | ,->     <p><![CDATA[content]]></p>
  15 | `->     <p><![CDATA[&amping]]></p>
  16 |         <p><![CDATA[&amping ]]]></p>
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/cdata_section/input.xml:13:1]
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:14:1]
  13 |         <p><![CDATA[<greeting>Hello, world!</greeting>]]></p>
  14 | ,->     <p><![CDATA[content]]></p>
  15 | `->     <p><![CDATA[&amping]]></p>
  16 |         <p><![CDATA[&amping ]]]></p>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/cdata_section/input.xml:14:1]
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:15:1]
  14 |     <p><![CDATA[content]]></p>
  15 |     <p><![CDATA[&amping]]></p>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^
  16 |     <p><![CDATA[&amping ]]]></p>
     `----
-
   x Element
-    ,-[$DIR/tests/fixture/cdata_section/input.xml:14:1]
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:15:1]
  14 |     <p><![CDATA[content]]></p>
  15 |     <p><![CDATA[&amping]]></p>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^
  16 |     <p><![CDATA[&amping ]]]></p>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/cdata_section/input.xml:14:1]
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:15:1]
  14 |     <p><![CDATA[content]]></p>
  15 |     <p><![CDATA[&amping]]></p>
     :        ^^^^^^^^^^^^^^^^^^^
  16 |     <p><![CDATA[&amping ]]]></p>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/cdata_section/input.xml:14:1]
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:15:1]
  14 |         <p><![CDATA[content]]></p>
  15 | ,->     <p><![CDATA[&amping]]></p>
  16 | `->     <p><![CDATA[&amping ]]]></p>
  17 |         <p><![CDATA[&amping]] ]]></p>
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/cdata_section/input.xml:14:1]
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:15:1]
  14 |         <p><![CDATA[content]]></p>
  15 | ,->     <p><![CDATA[&amping]]></p>
  16 | `->     <p><![CDATA[&amping ]]]></p>
  17 |         <p><![CDATA[&amping]] ]]></p>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/cdata_section/input.xml:15:1]
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:16:1]
  15 |     <p><![CDATA[&amping]]></p>
  16 |     <p><![CDATA[&amping ]]]></p>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  17 |     <p><![CDATA[&amping]] ]]></p>
     `----
-
   x Element
-    ,-[$DIR/tests/fixture/cdata_section/input.xml:15:1]
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:16:1]
  15 |     <p><![CDATA[&amping]]></p>
  16 |     <p><![CDATA[&amping ]]]></p>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  17 |     <p><![CDATA[&amping]] ]]></p>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/cdata_section/input.xml:15:1]
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:16:1]
  15 |     <p><![CDATA[&amping]]></p>
  16 |     <p><![CDATA[&amping ]]]></p>
     :        ^^^^^^^^^^^^^^^^^^^^^
  17 |     <p><![CDATA[&amping]] ]]></p>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/cdata_section/input.xml:15:1]
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:16:1]
  15 |         <p><![CDATA[&amping]]></p>
  16 | ,->     <p><![CDATA[&amping ]]]></p>
  17 | `->     <p><![CDATA[&amping]] ]]></p>
  18 |         <p><![CDATA[<message>text</message>]]></p>
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/cdata_section/input.xml:15:1]
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:16:1]
  15 |         <p><![CDATA[&amping]]></p>
  16 | ,->     <p><![CDATA[&amping ]]]></p>
  17 | `->     <p><![CDATA[&amping]] ]]></p>
  18 |         <p><![CDATA[<message>text</message>]]></p>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/cdata_section/input.xml:16:1]
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:17:1]
  16 |     <p><![CDATA[&amping ]]]></p>
  17 |     <p><![CDATA[&amping]] ]]></p>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  18 |     <p><![CDATA[<message>text</message>]]></p>
     `----
-
   x Element
-    ,-[$DIR/tests/fixture/cdata_section/input.xml:16:1]
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:17:1]
  16 |     <p><![CDATA[&amping ]]]></p>
  17 |     <p><![CDATA[&amping]] ]]></p>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  18 |     <p><![CDATA[<message>text</message>]]></p>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/cdata_section/input.xml:16:1]
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:17:1]
  16 |     <p><![CDATA[&amping ]]]></p>
  17 |     <p><![CDATA[&amping]] ]]></p>
     :        ^^^^^^^^^^^^^^^^^^^^^^
  18 |     <p><![CDATA[<message>text</message>]]></p>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/cdata_section/input.xml:16:1]
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:17:1]
  16 |         <p><![CDATA[&amping ]]]></p>
  17 | ,->     <p><![CDATA[&amping]] ]]></p>
  18 | `->     <p><![CDATA[<message>text</message>]]></p>
  19 |         <p><![CDATA[</this is malformed!</malformed</malformed & worse>]]></p>
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/cdata_section/input.xml:16:1]
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:17:1]
  16 |         <p><![CDATA[&amping ]]]></p>
  17 | ,->     <p><![CDATA[&amping]] ]]></p>
  18 | `->     <p><![CDATA[<message>text</message>]]></p>
  19 |         <p><![CDATA[</this is malformed!</malformed</malformed & worse>]]></p>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/cdata_section/input.xml:17:1]
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:18:1]
  17 |     <p><![CDATA[&amping]] ]]></p>
  18 |     <p><![CDATA[<message>text</message>]]></p>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  19 |     <p><![CDATA[</this is malformed!</malformed</malformed & worse>]]></p>
     `----
-
   x Element
-    ,-[$DIR/tests/fixture/cdata_section/input.xml:17:1]
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:18:1]
  17 |     <p><![CDATA[&amping]] ]]></p>
  18 |     <p><![CDATA[<message>text</message>]]></p>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  19 |     <p><![CDATA[</this is malformed!</malformed</malformed & worse>]]></p>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/cdata_section/input.xml:17:1]
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:18:1]
  17 |     <p><![CDATA[&amping]] ]]></p>
  18 |     <p><![CDATA[<message>text</message>]]></p>
     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  19 |     <p><![CDATA[</this is malformed!</malformed</malformed & worse>]]></p>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/cdata_section/input.xml:17:1]
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:18:1]
  17 |         <p><![CDATA[&amping]] ]]></p>
  18 | ,->     <p><![CDATA[<message>text</message>]]></p>
  19 | `->     <p><![CDATA[</this is malformed!</malformed</malformed & worse>]]></p>
  20 |         <p><![CDATA[1]]><![CDATA[2]]></p>
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/cdata_section/input.xml:17:1]
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:18:1]
  17 |         <p><![CDATA[&amping]] ]]></p>
  18 | ,->     <p><![CDATA[<message>text</message>]]></p>
  19 | `->     <p><![CDATA[</this is malformed!</malformed</malformed & worse>]]></p>
  20 |         <p><![CDATA[1]]><![CDATA[2]]></p>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/cdata_section/input.xml:18:1]
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:19:1]
  18 |     <p><![CDATA[<message>text</message>]]></p>
  19 |     <p><![CDATA[</this is malformed!</malformed</malformed & worse>]]></p>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  20 |     <p><![CDATA[1]]><![CDATA[2]]></p>
     `----
-
   x Element
-    ,-[$DIR/tests/fixture/cdata_section/input.xml:18:1]
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:19:1]
  18 |     <p><![CDATA[<message>text</message>]]></p>
  19 |     <p><![CDATA[</this is malformed!</malformed</malformed & worse>]]></p>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  20 |     <p><![CDATA[1]]><![CDATA[2]]></p>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/cdata_section/input.xml:18:1]
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:19:1]
  18 |     <p><![CDATA[<message>text</message>]]></p>
  19 |     <p><![CDATA[</this is malformed!</malformed</malformed & worse>]]></p>
     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  20 |     <p><![CDATA[1]]><![CDATA[2]]></p>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/cdata_section/input.xml:18:1]
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:19:1]
  18 |         <p><![CDATA[<message>text</message>]]></p>
  19 | ,->     <p><![CDATA[</this is malformed!</malformed</malformed & worse>]]></p>
  20 | `->     <p><![CDATA[1]]><![CDATA[2]]></p>
  21 |         <p>
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/cdata_section/input.xml:18:1]
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:19:1]
  18 |         <p><![CDATA[<message>text</message>]]></p>
  19 | ,->     <p><![CDATA[</this is malformed!</malformed</malformed & worse>]]></p>
  20 | `->     <p><![CDATA[1]]><![CDATA[2]]></p>
  21 |         <p>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/cdata_section/input.xml:19:1]
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:20:1]
  19 |     <p><![CDATA[</this is malformed!</malformed</malformed & worse>]]></p>
  20 |     <p><![CDATA[1]]><![CDATA[2]]></p>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  21 |     <p>
     `----
-
   x Element
-    ,-[$DIR/tests/fixture/cdata_section/input.xml:19:1]
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:20:1]
  19 |     <p><![CDATA[</this is malformed!</malformed</malformed & worse>]]></p>
  20 |     <p><![CDATA[1]]><![CDATA[2]]></p>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  21 |     <p>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/cdata_section/input.xml:19:1]
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:20:1]
  19 |     <p><![CDATA[</this is malformed!</malformed</malformed & worse>]]></p>
  20 |     <p><![CDATA[1]]><![CDATA[2]]></p>
     :        ^^^^^^^^^^^^^
  21 |     <p>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/cdata_section/input.xml:19:1]
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:20:1]
  19 |     <p><![CDATA[</this is malformed!</malformed</malformed & worse>]]></p>
  20 |     <p><![CDATA[1]]><![CDATA[2]]></p>
     :                     ^^^^^^^^^^^^^
  21 |     <p>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/cdata_section/input.xml:19:1]
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:20:1]
  19 |         <p><![CDATA[</this is malformed!</malformed</malformed & worse>]]></p>
  20 | ,->     <p><![CDATA[1]]><![CDATA[2]]></p>
  21 | `->     <p>
  22 |             <![CDATA[data]]>  </p>
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/cdata_section/input.xml:19:1]
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:20:1]
  19 |         <p><![CDATA[</this is malformed!</malformed</malformed & worse>]]></p>
  20 | ,->     <p><![CDATA[1]]><![CDATA[2]]></p>
  21 | `->     <p>
  22 |             <![CDATA[data]]>  </p>
     `----
-
-  x Child
-    ,-[$DIR/tests/fixture/cdata_section/input.xml:20:1]
- 20 |         <p><![CDATA[1]]><![CDATA[2]]></p>
- 21 | ,->     <p>
- 22 | `->         <![CDATA[data]]>  </p>
- 23 |         <p><![CDATA[bracket ]after]]></p>
-    `----
-
-  x Element
-    ,-[$DIR/tests/fixture/cdata_section/input.xml:20:1]
- 20 |         <p><![CDATA[1]]><![CDATA[2]]></p>
- 21 | ,->     <p>
- 22 | `->         <![CDATA[data]]>  </p>
- 23 |         <p><![CDATA[bracket ]after]]></p>
-    `----
-
-  x Child
-    ,-[$DIR/tests/fixture/cdata_section/input.xml:20:1]
- 20 |         <p><![CDATA[1]]><![CDATA[2]]></p>
- 21 | ,->     <p>
- 22 | `->         <![CDATA[data]]>  </p>
- 23 |         <p><![CDATA[bracket ]after]]></p>
-    `----
-
-  x Text
-    ,-[$DIR/tests/fixture/cdata_section/input.xml:20:1]
- 20 |         <p><![CDATA[1]]><![CDATA[2]]></p>
- 21 | ,->     <p>
- 22 | `->         <![CDATA[data]]>  </p>
- 23 |         <p><![CDATA[bracket ]after]]></p>
-    `----
-
   x Child
     ,-[$DIR/tests/fixture/cdata_section/input.xml:21:1]
+ 20 |         <p><![CDATA[1]]><![CDATA[2]]></p>
+ 21 | ,->     <p>
+ 22 | `->         <![CDATA[data]]>  </p>
+ 23 |         <p><![CDATA[bracket ]after]]></p>
+    `----
+  x Element
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:21:1]
+ 20 |         <p><![CDATA[1]]><![CDATA[2]]></p>
+ 21 | ,->     <p>
+ 22 | `->         <![CDATA[data]]>  </p>
+ 23 |         <p><![CDATA[bracket ]after]]></p>
+    `----
+  x Child
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:21:1]
+ 20 |         <p><![CDATA[1]]><![CDATA[2]]></p>
+ 21 | ,->     <p>
+ 22 | `->         <![CDATA[data]]>  </p>
+ 23 |         <p><![CDATA[bracket ]after]]></p>
+    `----
+  x Text
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:21:1]
+ 20 |         <p><![CDATA[1]]><![CDATA[2]]></p>
+ 21 | ,->     <p>
+ 22 | `->         <![CDATA[data]]>  </p>
+ 23 |         <p><![CDATA[bracket ]after]]></p>
+    `----
+  x Child
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:22:1]
  21 |     <p>
  22 |         <![CDATA[data]]>  </p>
     :         ^^^^^^^^^^^^^^^^
  23 |     <p><![CDATA[bracket ]after]]></p>
     `----
-
-  x Child
-    ,-[$DIR/tests/fixture/cdata_section/input.xml:21:1]
- 21 |     <p>
- 22 |         <![CDATA[data]]>  </p>
-    :                         ^^
- 23 |     <p><![CDATA[bracket ]after]]></p>
-    `----
-
-  x Text
-    ,-[$DIR/tests/fixture/cdata_section/input.xml:21:1]
- 21 |     <p>
- 22 |         <![CDATA[data]]>  </p>
-    :                         ^^
- 23 |     <p><![CDATA[bracket ]after]]></p>
-    `----
-
-  x Child
-    ,-[$DIR/tests/fixture/cdata_section/input.xml:21:1]
- 21 |         <p>
- 22 | ,->         <![CDATA[data]]>  </p>
- 23 | `->     <p><![CDATA[bracket ]after]]></p>
- 24 |         <p><![CDATA[]]></p>
-    `----
-
-  x Text
-    ,-[$DIR/tests/fixture/cdata_section/input.xml:21:1]
- 21 |         <p>
- 22 | ,->         <![CDATA[data]]>  </p>
- 23 | `->     <p><![CDATA[bracket ]after]]></p>
- 24 |         <p><![CDATA[]]></p>
-    `----
-
   x Child
     ,-[$DIR/tests/fixture/cdata_section/input.xml:22:1]
+ 21 |     <p>
+ 22 |         <![CDATA[data]]>  </p>
+    :                         ^^
+ 23 |     <p><![CDATA[bracket ]after]]></p>
+    `----
+  x Text
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:22:1]
+ 21 |     <p>
+ 22 |         <![CDATA[data]]>  </p>
+    :                         ^^
+ 23 |     <p><![CDATA[bracket ]after]]></p>
+    `----
+  x Child
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:22:1]
+ 21 |         <p>
+ 22 | ,->         <![CDATA[data]]>  </p>
+ 23 | `->     <p><![CDATA[bracket ]after]]></p>
+ 24 |         <p><![CDATA[]]></p>
+    `----
+  x Text
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:22:1]
+ 21 |         <p>
+ 22 | ,->         <![CDATA[data]]>  </p>
+ 23 | `->     <p><![CDATA[bracket ]after]]></p>
+ 24 |         <p><![CDATA[]]></p>
+    `----
+  x Child
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:23:1]
  22 |         <![CDATA[data]]>  </p>
  23 |     <p><![CDATA[bracket ]after]]></p>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  24 |     <p><![CDATA[]]></p>
     `----
-
   x Element
-    ,-[$DIR/tests/fixture/cdata_section/input.xml:22:1]
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:23:1]
  22 |         <![CDATA[data]]>  </p>
  23 |     <p><![CDATA[bracket ]after]]></p>
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  24 |     <p><![CDATA[]]></p>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/cdata_section/input.xml:22:1]
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:23:1]
  22 |         <![CDATA[data]]>  </p>
  23 |     <p><![CDATA[bracket ]after]]></p>
     :        ^^^^^^^^^^^^^^^^^^^^^^^^^^
  24 |     <p><![CDATA[]]></p>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/cdata_section/input.xml:22:1]
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:23:1]
  22 |             <![CDATA[data]]>  </p>
  23 | ,->     <p><![CDATA[bracket ]after]]></p>
  24 | `->     <p><![CDATA[]]></p>
  25 |         <DocumentElement>
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/cdata_section/input.xml:22:1]
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:23:1]
  22 |             <![CDATA[data]]>  </p>
  23 | ,->     <p><![CDATA[bracket ]after]]></p>
  24 | `->     <p><![CDATA[]]></p>
  25 |         <DocumentElement>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/cdata_section/input.xml:23:1]
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:24:1]
  23 |     <p><![CDATA[bracket ]after]]></p>
  24 |     <p><![CDATA[]]></p>
     :     ^^^^^^^^^^^^^^^^^^^
  25 |     <DocumentElement>
     `----
-
   x Element
-    ,-[$DIR/tests/fixture/cdata_section/input.xml:23:1]
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:24:1]
  23 |     <p><![CDATA[bracket ]after]]></p>
  24 |     <p><![CDATA[]]></p>
     :     ^^^^^^^^^^^^^^^^^^^
  25 |     <DocumentElement>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/cdata_section/input.xml:23:1]
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:24:1]
  23 |     <p><![CDATA[bracket ]after]]></p>
  24 |     <p><![CDATA[]]></p>
     :        ^^^^^^^^^^^^
  25 |     <DocumentElement>
     `----
-
-  x Child
-    ,-[$DIR/tests/fixture/cdata_section/input.xml:23:1]
- 23 |         <p><![CDATA[bracket ]after]]></p>
- 24 | ,->     <p><![CDATA[]]></p>
- 25 | `->     <DocumentElement>
- 26 |             <foo>
-    `----
-
-  x Text
-    ,-[$DIR/tests/fixture/cdata_section/input.xml:23:1]
- 23 |         <p><![CDATA[bracket ]after]]></p>
- 24 | ,->     <p><![CDATA[]]></p>
- 25 | `->     <DocumentElement>
- 26 |             <foo>
-    `----
-
   x Child
     ,-[$DIR/tests/fixture/cdata_section/input.xml:24:1]
+ 23 |         <p><![CDATA[bracket ]after]]></p>
+ 24 | ,->     <p><![CDATA[]]></p>
+ 25 | `->     <DocumentElement>
+ 26 |             <foo>
+    `----
+  x Text
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:24:1]
+ 23 |         <p><![CDATA[bracket ]after]]></p>
+ 24 | ,->     <p><![CDATA[]]></p>
+ 25 | `->     <DocumentElement>
+ 26 |             <foo>
+    `----
+  x Child
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:25:1]
  24 |         <p><![CDATA[]]></p>
  25 | ,->     <DocumentElement>
  26 | |           <foo>
@@ -802,9 +713,8 @@
  29 | `->     </DocumentElement>"
  30 |     </root>
     `----
-
   x Element
-    ,-[$DIR/tests/fixture/cdata_section/input.xml:24:1]
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:25:1]
  24 |         <p><![CDATA[]]></p>
  25 | ,->     <DocumentElement>
  26 | |           <foo>
@@ -813,107 +723,94 @@
  29 | `->     </DocumentElement>"
  30 |     </root>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/cdata_section/input.xml:24:1]
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:25:1]
  24 |         <p><![CDATA[]]></p>
  25 | ,->     <DocumentElement>
  26 | `->         <foo>
  27 |                 bar<![CDATA[ Some <!-- My Comment --> Value ]]>foo
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/cdata_section/input.xml:24:1]
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:25:1]
  24 |         <p><![CDATA[]]></p>
  25 | ,->     <DocumentElement>
  26 | `->         <foo>
  27 |                 bar<![CDATA[ Some <!-- My Comment --> Value ]]>foo
     `----
-
-  x Child
-    ,-[$DIR/tests/fixture/cdata_section/input.xml:25:1]
- 25 |         <DocumentElement>
- 26 | ,->         <foo>
- 27 | |               bar<![CDATA[ Some <!-- My Comment --> Value ]]>foo
- 28 | `->         </foo>
- 29 |         </DocumentElement>"
-    `----
-
-  x Element
-    ,-[$DIR/tests/fixture/cdata_section/input.xml:25:1]
- 25 |         <DocumentElement>
- 26 | ,->         <foo>
- 27 | |               bar<![CDATA[ Some <!-- My Comment --> Value ]]>foo
- 28 | `->         </foo>
- 29 |         </DocumentElement>"
-    `----
-
-  x Child
-    ,-[$DIR/tests/fixture/cdata_section/input.xml:25:1]
- 25 |         <DocumentElement>
- 26 | ,->         <foo>
- 27 | `->             bar<![CDATA[ Some <!-- My Comment --> Value ]]>foo
- 28 |             </foo>
-    `----
-
-  x Text
-    ,-[$DIR/tests/fixture/cdata_section/input.xml:25:1]
- 25 |         <DocumentElement>
- 26 | ,->         <foo>
- 27 | `->             bar<![CDATA[ Some <!-- My Comment --> Value ]]>foo
- 28 |             </foo>
-    `----
-
   x Child
     ,-[$DIR/tests/fixture/cdata_section/input.xml:26:1]
+ 25 |         <DocumentElement>
+ 26 | ,->         <foo>
+ 27 | |               bar<![CDATA[ Some <!-- My Comment --> Value ]]>foo
+ 28 | `->         </foo>
+ 29 |         </DocumentElement>"
+    `----
+  x Element
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:26:1]
+ 25 |         <DocumentElement>
+ 26 | ,->         <foo>
+ 27 | |               bar<![CDATA[ Some <!-- My Comment --> Value ]]>foo
+ 28 | `->         </foo>
+ 29 |         </DocumentElement>"
+    `----
+  x Child
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:26:1]
+ 25 |         <DocumentElement>
+ 26 | ,->         <foo>
+ 27 | `->             bar<![CDATA[ Some <!-- My Comment --> Value ]]>foo
+ 28 |             </foo>
+    `----
+  x Text
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:26:1]
+ 25 |         <DocumentElement>
+ 26 | ,->         <foo>
+ 27 | `->             bar<![CDATA[ Some <!-- My Comment --> Value ]]>foo
+ 28 |             </foo>
+    `----
+  x Child
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:27:1]
  26 |         <foo>
  27 |             bar<![CDATA[ Some <!-- My Comment --> Value ]]>foo
     :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  28 |         </foo>
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/cdata_section/input.xml:26:1]
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:27:1]
  26 |             <foo>
  27 | ,->             bar<![CDATA[ Some <!-- My Comment --> Value ]]>foo
  28 | `->         </foo>
  29 |         </DocumentElement>"
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/cdata_section/input.xml:26:1]
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:27:1]
  26 |             <foo>
  27 | ,->             bar<![CDATA[ Some <!-- My Comment --> Value ]]>foo
  28 | `->         </foo>
  29 |         </DocumentElement>"
     `----
-
-  x Child
-    ,-[$DIR/tests/fixture/cdata_section/input.xml:27:1]
- 27 |                 bar<![CDATA[ Some <!-- My Comment --> Value ]]>foo
- 28 | ,->         </foo>
- 29 | `->     </DocumentElement>"
- 30 |     </root>
-    `----
-
-  x Text
-    ,-[$DIR/tests/fixture/cdata_section/input.xml:27:1]
- 27 |                 bar<![CDATA[ Some <!-- My Comment --> Value ]]>foo
- 28 | ,->         </foo>
- 29 | `->     </DocumentElement>"
- 30 |     </root>
-    `----
-
   x Child
     ,-[$DIR/tests/fixture/cdata_section/input.xml:28:1]
+ 27 |                 bar<![CDATA[ Some <!-- My Comment --> Value ]]>foo
+ 28 | ,->         </foo>
+ 29 | `->     </DocumentElement>"
+ 30 |     </root>
+    `----
+  x Text
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:28:1]
+ 27 |                 bar<![CDATA[ Some <!-- My Comment --> Value ]]>foo
+ 28 | ,->         </foo>
+ 29 | `->     </DocumentElement>"
+ 30 |     </root>
+    `----
+  x Child
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:29:1]
  28 |         </foo>
  29 |     </DocumentElement>"
     :                       ^^
  30 | </root>
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/cdata_section/input.xml:28:1]
+    ,-[$DIR/tests/fixture/cdata_section/input.xml:29:1]
  28 |         </foo>
  29 |     </DocumentElement>"
     :                       ^^

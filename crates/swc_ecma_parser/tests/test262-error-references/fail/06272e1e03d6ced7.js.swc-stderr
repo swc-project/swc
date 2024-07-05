@@ -1,4 +1,3 @@
-
   x Rest element must be final element
    ,-[$DIR/tests/test262-parser/fail/06272e1e03d6ced7.js:1:1]
  1 | [...x,,] = 0

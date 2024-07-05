@@ -200,10 +200,6 @@ jobs:
           corepack enable
           yarn
 
-      - name: Build
-        run: |
-          (cd bindings/binding_core_wasm && ./scripts/build.sh --features plugin)
-
       - name: Test
         run: |
           (cd bindings/binding_core_wasm && ./scripts/test.sh)

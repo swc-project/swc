@@ -1,22 +1,19 @@
-
   x Unexpected end of file, but expected ')'
-   ,-[$DIR/tests/recovery/function/unclosed/input.css:1:1]
+   ,-[$DIR/tests/recovery/function/unclosed/input.css:2:1]
  1 |     .style {
- 2 | ,-> 	width: min(500px;
+ 2 | ,->     width: min(500px;
  3 | `-> }
    `----
-
   x Unexpected end of file, but expected '}'
    ,-[$DIR/tests/recovery/function/unclosed/input.css:1:1]
  1 | ,-> .style {
- 2 | |   	width: min(500px;
+ 2 | |       width: min(500px;
  3 | `-> }
    `----
-
   x Unexpected value
-   ,-[$DIR/tests/recovery/function/unclosed/input.css:1:1]
+   ,-[$DIR/tests/recovery/function/unclosed/input.css:2:1]
  1 | .style {
- 2 | 	width: min(500px;
-   :                  ^
+ 2 |     width: min(500px;
+   :                     ^
  3 | }
    `----

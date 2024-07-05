@@ -1,7 +1,6 @@
 //// [esDecorators-classExpression-namedEvaluation.4.ts]
-//! 
 //!   x Expression expected
-//!    ,-[3:1]
+//!    ,-[6:1]
 //!  3 | // 8.6.3 RS: IteratorBindingInitialization
 //!  4 | //  SingleNameBinding : BindingIdentifier Initializer?
 //!  5 | 

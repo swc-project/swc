@@ -1,4 +1,3 @@
-
   x Destructuring bindings require initializers
    ,-[$DIR/tests/test262-parser/fail/f8941121f644c8c0.js:1:1]
  1 | var {a};

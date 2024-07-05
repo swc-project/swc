@@ -1,44 +1,35 @@
-
   x Document
    ,-[$DIR/tests/recovery/comment/bogus-3/input.html:1:1]
  1 | FOO<!-->BAZ
    : ^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/recovery/comment/bogus-3/input.html:1:1]
  1 | FOO<!-->BAZ
    : ^^^
    `----
-
   x Text
    ,-[$DIR/tests/recovery/comment/bogus-3/input.html:1:1]
  1 | FOO<!-->BAZ
    : ^^^
    `----
-
   x Child
    ,-[$DIR/tests/recovery/comment/bogus-3/input.html:1:1]
  1 | FOO<!-->BAZ
    :    ^^^^^
    `----
-
   x Comment
    ,-[$DIR/tests/recovery/comment/bogus-3/input.html:1:1]
  1 | FOO<!-->BAZ
    :    ^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/recovery/comment/bogus-3/input.html:1:1]
  1 | FOO<!-->BAZ
    :         ^^^
    `----
-
   x Text
    ,-[$DIR/tests/recovery/comment/bogus-3/input.html:1:1]
  1 | FOO<!-->BAZ

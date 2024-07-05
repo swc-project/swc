@@ -1,21 +1,17 @@
-
   x Start tag seen without seeing a doctype first, expected "<!DOCTYPE html>"
    ,-[$DIR/tests/recovery/element/table-6/input.html:1:1]
  1 | <table><td><div
    : ^^^^^^^
    `----
-
   x Start tag "td" seen in "table" body
    ,-[$DIR/tests/recovery/element/table-6/input.html:1:1]
  1 | <table><td><div
    :        ^^^^
    `----
-
   x Eof in tag
    ,-[$DIR/tests/recovery/element/table-6/input.html:1:1]
  1 | <table><td><div
    `----
-
   x End of file seen and there were open elements
    ,-[$DIR/tests/recovery/element/table-6/input.html:1:1]
  1 | <table><td><div

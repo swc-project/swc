@@ -1,4 +1,3 @@
-
   x Declaration is not allowed
    ,-[$DIR/tests/test262-parser/fail/665ab370012f20cf.js:1:1]
  1 | with(true) function a(){}

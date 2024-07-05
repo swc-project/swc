@@ -1,166 +1,138 @@
-
   x Stylesheet
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:1]
  1 | @keyframes name { from { color: red } to { color: blue } }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Rule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:1]
  1 | @keyframes name { from { color: red } to { color: blue } }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x AtRule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:1]
  1 | @keyframes name { from { color: red } to { color: blue } }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x AtRuleName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:1]
  1 | @keyframes name { from { color: red } to { color: blue } }
    :  ^^^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:1]
  1 | @keyframes name { from { color: red } to { color: blue } }
    :  ^^^^^^^^^
    `----
-
   x CustomIdent
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:1]
  1 | @keyframes name { from { color: red } to { color: blue } }
    :            ^^^^
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:1]
  1 | @keyframes name { from { color: red } to { color: blue } }
    :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:1]
  1 | @keyframes name { from { color: red } to { color: blue } }
    :                 ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:1]
  1 | @keyframes name { from { color: red } to { color: blue } }
    :                   ^^^^^^^^^^^^^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:1]
  1 | @keyframes name { from { color: red } to { color: blue } }
    :                   ^^^^
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:1]
  1 | @keyframes name { from { color: red } to { color: blue } }
    :                        ^^^^^^^^^^^^^^
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:1]
  1 | @keyframes name { from { color: red } to { color: blue } }
    :                        ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:1]
  1 | @keyframes name { from { color: red } to { color: blue } }
    :                          ^^^^^^^^^^^
    `----
-
   x Declaration
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:1]
  1 | @keyframes name { from { color: red } to { color: blue } }
    :                          ^^^^^^^^^^^
    `----
-
   x DeclarationName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:1]
  1 | @keyframes name { from { color: red } to { color: blue } }
    :                          ^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:1]
  1 | @keyframes name { from { color: red } to { color: blue } }
    :                          ^^^^^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:1]
  1 | @keyframes name { from { color: red } to { color: blue } }
    :                                 ^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:1]
  1 | @keyframes name { from { color: red } to { color: blue } }
    :                                 ^^^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:1]
  1 | @keyframes name { from { color: red } to { color: blue } }
    :                                       ^^^^^^^^^^^^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:1]
  1 | @keyframes name { from { color: red } to { color: blue } }
    :                                       ^^
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:1]
  1 | @keyframes name { from { color: red } to { color: blue } }
    :                                          ^^^^^^^^^^^^^^^
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:1]
  1 | @keyframes name { from { color: red } to { color: blue } }
    :                                          ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:1]
  1 | @keyframes name { from { color: red } to { color: blue } }
    :                                            ^^^^^^^^^^^^
    `----
-
   x Declaration
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:1]
  1 | @keyframes name { from { color: red } to { color: blue } }
    :                                            ^^^^^^^^^^^^
    `----
-
   x DeclarationName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:1]
  1 | @keyframes name { from { color: red } to { color: blue } }
    :                                            ^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:1]
  1 | @keyframes name { from { color: red } to { color: blue } }
    :                                            ^^^^^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:1]
  1 | @keyframes name { from { color: red } to { color: blue } }
    :                                                   ^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/jbIIxHeXTPO0PtiubVziHQ/input.css:1:1]
  1 | @keyframes name { from { color: red } to { color: blue } }

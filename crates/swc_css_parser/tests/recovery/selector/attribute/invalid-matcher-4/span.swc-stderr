@@ -1,186 +1,160 @@
-
   x Stylesheet
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-4/input.css:1:1]
  1 | ,-> a[title%="title"] {
  2 | |     color: purple;
  3 | `-> }
    `----
-
   x Rule
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-4/input.css:1:1]
  1 | ,-> a[title%="title"] {
  2 | |     color: purple;
  3 | `-> }
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-4/input.css:1:1]
  1 | ,-> a[title%="title"] {
  2 | |     color: purple;
  3 | `-> }
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-4/input.css:1:1]
  1 | a[title%="title"] {
    : ^
  2 |   color: purple;
    `----
-
   x Ident { value: "a", raw: "a" }
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-4/input.css:1:1]
  1 | a[title%="title"] {
    : ^
  2 |   color: purple;
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-4/input.css:1:1]
  1 | a[title%="title"] {
    :  ^^^^^^^^^^^^^^^^
  2 |   color: purple;
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-4/input.css:1:1]
  1 | a[title%="title"] {
    :  ^^^^^^^^^^^^^^^^
  2 |   color: purple;
    `----
-
   x LBracket
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-4/input.css:1:1]
  1 | a[title%="title"] {
    :  ^
  2 |   color: purple;
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-4/input.css:1:1]
  1 | a[title%="title"] {
    :   ^^^^^
  2 |   color: purple;
    `----
-
   x Ident { value: "title", raw: "title" }
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-4/input.css:1:1]
  1 | a[title%="title"] {
    :   ^^^^^
  2 |   color: purple;
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-4/input.css:1:1]
  1 | a[title%="title"] {
    :        ^
  2 |   color: purple;
    `----
-
   x Delim { value: '%' }
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-4/input.css:1:1]
  1 | a[title%="title"] {
    :        ^
  2 |   color: purple;
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-4/input.css:1:1]
  1 | a[title%="title"] {
    :         ^
  2 |   color: purple;
    `----
-
   x Delim { value: '=' }
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-4/input.css:1:1]
  1 | a[title%="title"] {
    :         ^
  2 |   color: purple;
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-4/input.css:1:1]
  1 | a[title%="title"] {
    :          ^^^^^^^
  2 |   color: purple;
    `----
-
   x String { value: "title", raw: "\"title\"" }
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-4/input.css:1:1]
  1 | a[title%="title"] {
    :          ^^^^^^^
  2 |   color: purple;
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-4/input.css:1:1]
  1 | a[title%="title"] {
    :                  ^
  2 |   color: purple;
    `----
-
   x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-4/input.css:1:1]
  1 | a[title%="title"] {
    :                  ^
  2 |   color: purple;
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-4/input.css:1:1]
  1 | ,-> a[title%="title"] {
  2 | |     color: purple;
  3 | `-> }
    `----
-
   x LBrace
    ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-4/input.css:1:1]
  1 | a[title%="title"] {
    :                   ^
  2 |   color: purple;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-4/input.css:1:1]
+   ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-4/input.css:2:1]
  1 | a[title%="title"] {
  2 |   color: purple;
    :   ^^^^^^^^^^^^^
  3 | }
    `----
-
   x Declaration
-   ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-4/input.css:1:1]
+   ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-4/input.css:2:1]
  1 | a[title%="title"] {
  2 |   color: purple;
    :   ^^^^^^^^^^^^^
  3 | }
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-4/input.css:1:1]
+   ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-4/input.css:2:1]
  1 | a[title%="title"] {
  2 |   color: purple;
    :   ^^^^^
  3 | }
    `----
-
   x Ident
-   ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-4/input.css:1:1]
+   ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-4/input.css:2:1]
  1 | a[title%="title"] {
  2 |   color: purple;
    :   ^^^^^
  3 | }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-4/input.css:1:1]
+   ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-4/input.css:2:1]
  1 | a[title%="title"] {
  2 |   color: purple;
    :          ^^^^^^
  3 | }
    `----
-
   x Ident
-   ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-4/input.css:1:1]
+   ,-[$DIR/tests/recovery/selector/attribute/invalid-matcher-4/input.css:2:1]
  1 | a[title%="title"] {
  2 |   color: purple;
    :          ^^^^^^

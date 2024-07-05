@@ -1,100 +1,83 @@
-
   x Stylesheet
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/BrJMdtdKJAuIZIG5MVWUYA/input.css:1:1]
  1 | .selector { property: value\9; }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Rule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/BrJMdtdKJAuIZIG5MVWUYA/input.css:1:1]
  1 | .selector { property: value\9; }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/BrJMdtdKJAuIZIG5MVWUYA/input.css:1:1]
  1 | .selector { property: value\9; }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x SelectorList
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/BrJMdtdKJAuIZIG5MVWUYA/input.css:1:1]
  1 | .selector { property: value\9; }
    : ^^^^^^^^^
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/BrJMdtdKJAuIZIG5MVWUYA/input.css:1:1]
  1 | .selector { property: value\9; }
    : ^^^^^^^^^
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/BrJMdtdKJAuIZIG5MVWUYA/input.css:1:1]
  1 | .selector { property: value\9; }
    : ^^^^^^^^^
    `----
-
   x SubclassSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/BrJMdtdKJAuIZIG5MVWUYA/input.css:1:1]
  1 | .selector { property: value\9; }
    : ^^^^^^^^^
    `----
-
   x ClassSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/BrJMdtdKJAuIZIG5MVWUYA/input.css:1:1]
  1 | .selector { property: value\9; }
    : ^^^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/BrJMdtdKJAuIZIG5MVWUYA/input.css:1:1]
  1 | .selector { property: value\9; }
    :  ^^^^^^^^
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/BrJMdtdKJAuIZIG5MVWUYA/input.css:1:1]
  1 | .selector { property: value\9; }
    :           ^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/BrJMdtdKJAuIZIG5MVWUYA/input.css:1:1]
  1 | .selector { property: value\9; }
    :           ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/BrJMdtdKJAuIZIG5MVWUYA/input.css:1:1]
  1 | .selector { property: value\9; }
    :             ^^^^^^^^^^^^^^^^^
    `----
-
   x Declaration
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/BrJMdtdKJAuIZIG5MVWUYA/input.css:1:1]
  1 | .selector { property: value\9; }
    :             ^^^^^^^^^^^^^^^^^
    `----
-
   x DeclarationName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/BrJMdtdKJAuIZIG5MVWUYA/input.css:1:1]
  1 | .selector { property: value\9; }
    :             ^^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/BrJMdtdKJAuIZIG5MVWUYA/input.css:1:1]
  1 | .selector { property: value\9; }
    :             ^^^^^^^^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/BrJMdtdKJAuIZIG5MVWUYA/input.css:1:1]
  1 | .selector { property: value\9; }
    :                       ^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/BrJMdtdKJAuIZIG5MVWUYA/input.css:1:1]
  1 | .selector { property: value\9; }

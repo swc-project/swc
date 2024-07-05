@@ -1,4 +1,3 @@
-
   x Declaration is not allowed
    ,-[$DIR/tests/test262-parser/fail/c7ad2478fd72bffe.js:1:1]
  1 | for(a in b) function c(){}

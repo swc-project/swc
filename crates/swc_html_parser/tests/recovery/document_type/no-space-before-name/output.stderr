@@ -1,4 +1,3 @@
-
   x Missing whitespace before doctype name
    ,-[$DIR/tests/recovery/document_type/no-space-before-name/input.html:1:1]
  1 | <!doctypehtml>  <body> <p>This is a paragraph.</p> <p>This is another paragraph.</p> <div>test</div>
