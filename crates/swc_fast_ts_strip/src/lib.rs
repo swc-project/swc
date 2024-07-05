@@ -7,10 +7,11 @@ use swc_common::{
     BytePos, FileName, SourceMap, Span, Spanned,
 };
 use swc_ecma_ast::{
-    BindingIdent, Class, ClassDecl, Decorator, EsVersion, Ident, ImportDecl, ImportSpecifier,
-    Param, Pat, Program, TsAsExpr, TsConstAssertion, TsEnumDecl, TsInstantiation, TsInterfaceDecl,
-    TsModuleDecl, TsModuleName, TsNamespaceDecl, TsNonNullExpr, TsParamPropParam, TsSatisfiesExpr,
-    TsTypeAliasDecl, TsTypeAnn, TsTypeAssertion, TsTypeParamDecl,
+    BindingIdent, Class, ClassDecl, ClassMethod, ClassProp, Decorator, EsVersion, Ident,
+    ImportDecl, ImportSpecifier, Param, Pat, Program, TsAsExpr, TsConstAssertion, TsEnumDecl,
+    TsInstantiation, TsInterfaceDecl, TsModuleDecl, TsModuleName, TsNamespaceDecl, TsNonNullExpr,
+    TsParamPropParam, TsSatisfiesExpr, TsTypeAliasDecl, TsTypeAnn, TsTypeAssertion,
+    TsTypeParamDecl,
 };
 use swc_ecma_parser::{
     parse_file_as_module, parse_file_as_program, parse_file_as_script, Syntax, TsSyntax,
@@ -84,7 +85,7 @@ pub fn operate(
     }
 
     // Strip typescript types
-    let mut ts_strip = TsStrip::new(fm.src.clone());
+    let mut ts_strip = TsStrip::new(cm.clone(), fm.src.clone());
     program.visit_with(&mut ts_strip);
 
     let replacements = ts_strip.replacements;
@@ -103,13 +104,15 @@ pub fn operate(
 }
 
 struct TsStrip {
+    cm: Lrc<SourceMap>,
     src: Lrc<String>,
     replacements: Vec<(BytePos, BytePos)>,
 }
 
 impl TsStrip {
-    fn new(src: Lrc<String>) -> Self {
+    fn new(cm: Lrc<SourceMap>, src: Lrc<String>) -> Self {
         TsStrip {
+            cm,
             src,
             replacements: Default::default(),
         }
@@ -140,6 +143,34 @@ impl Visit for TsStrip {
         };
         let hi = skip_until(self.src.as_bytes(), lo.0, b'{');
         self.add_replacement(span(lo, BytePos(hi)));
+    }
+
+    fn visit_class_method(&mut self, n: &ClassMethod) {
+        let hi = if n.is_static {
+            self.cm
+                .span_extend_to_next_str(span(n.span.lo, n.span.lo), "static", false)
+                .hi
+        } else {
+            n.key.span().lo
+        };
+
+        self.add_replacement(span(n.span.lo, hi));
+
+        n.visit_children_with(self);
+    }
+
+    fn visit_class_prop(&mut self, n: &ClassProp) {
+        let hi = if n.is_static {
+            self.cm
+                .span_extend_to_next_str(span(n.span.lo, n.span.lo), "static", false)
+                .hi
+        } else {
+            n.key.span().lo
+        };
+
+        self.add_replacement(span(n.span.lo, hi));
+
+        n.visit_children_with(self);
     }
 
     fn visit_decorator(&mut self, n: &Decorator) {
