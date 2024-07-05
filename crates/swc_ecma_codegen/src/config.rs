@@ -39,6 +39,9 @@ pub struct Config {
 
     #[cfg_attr(feature = "serde-impl", serde(default))]
     pub inline_script: bool,
+
+    #[cfg_attr(feature = "serde-impl", serde(default))]
+    pub retain_lines: bool,
 }
 
 impl Default for Config {
@@ -50,6 +53,7 @@ impl Default for Config {
             omit_last_semi: false,
             emit_assert_for_import_attributes: false,
             inline_script: false,
+            retain_lines: false,
         }
     }
 }
