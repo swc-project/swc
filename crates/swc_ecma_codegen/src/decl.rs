@@ -62,6 +62,8 @@ where
     ) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
+        self.adjust_line_for_retain_lines(node.span().lo)?;
+
         srcmap!(self, node, true);
 
         if node.declare {
@@ -74,8 +76,6 @@ where
                 emit!(self, dec);
             }
         }
-
-        self.adjust_line_for_retain_lines(node.span().lo)?;
 
         if node.class.is_abstract {
             keyword!(self, "abstract");
