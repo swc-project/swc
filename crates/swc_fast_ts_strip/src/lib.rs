@@ -11,7 +11,7 @@ use swc_ecma_ast::{
     ImportDecl, ImportSpecifier, MethodKind, Param, Pat, Program, TsAsExpr, TsConstAssertion,
     TsEnumDecl, TsInstantiation, TsInterfaceDecl, TsModuleDecl, TsModuleName, TsNamespaceDecl,
     TsNonNullExpr, TsParamPropParam, TsSatisfiesExpr, TsTypeAliasDecl, TsTypeAnn, TsTypeAssertion,
-    TsTypeParamDecl,
+    TsTypeParamDecl, TsTypeParamInstantiation,
 };
 use swc_ecma_parser::{
     parse_file_as_module, parse_file_as_program, parse_file_as_script, Syntax, TsSyntax,
@@ -208,6 +208,7 @@ impl Visit for TsStrip {
             self.add_replacement(n.function.span);
             return;
         }
+        n.visit_children_with(self);
     }
 
     fn visit_import_decl(&mut self, n: &ImportDecl) {
@@ -365,6 +366,10 @@ impl Visit for TsStrip {
 
     fn visit_ts_type_param_decl(&mut self, n: &TsTypeParamDecl) {
         self.add_replacement(n.span);
+    }
+
+    fn visit_ts_type_param_instantiation(&mut self, n: &TsTypeParamInstantiation) {
+        self.add_replacement(span(n.span.lo, n.span.hi));
     }
 }
 
