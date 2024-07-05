@@ -990,6 +990,10 @@ where
             emit!(type_args);
         }
 
+        if self.cfg.blank_space_mode {
+            self.adjust_space_for_blank(node.callee.span().hi, '(')?;
+        }
+
         punct!("(");
         self.emit_expr_or_spreads(node.span(), &node.args, ListFormat::CallExpressionArguments)?;
         punct!(")");
