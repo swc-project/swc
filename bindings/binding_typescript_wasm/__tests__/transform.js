@@ -21,25 +21,42 @@ describe("transform", () => {
     describe("in strip-only mode", () => {
         it("should remove declare enum", async () => {
             await expect(
-                swc.transform(`declare enum Foo {}`, {
-                    mode: "strip-only",
-                })
-            ).resolves.toBe("")
+                swc.transform(`declare enum Foo {}`, {})
+            ).resolves.toMatchInlineSnapshot(`""`);
             await expect(
-                swc.transform(`declare enum Foo {
+                swc.transform(
+                    `declare enum Foo {
                     A
-                }`, {
-                    mode: "strip-only",
-                })
-            ).resolves.toBe("")
+                }`,
+                    {}
+                )
+            ).resolves.toMatchInlineSnapshot(`""`);
             expect(
-                swc.transform(`declare enum Foo {
+                swc.transform(
+                    `declare enum Foo {
                     a = 2,
                     b,
-                    }`, {
-                    mode: "strip-only",
-                })
-            ).toBe("")
+                    }`,
+                    {}
+                )
+            ).resolves.toMatchInlineSnapshot(`""`);
+        });
+
+        it.only("should strip type declarations", async () => {
+            await expect(
+                swc.transform(
+                    `const foo = 1;
+                    type Foo = number;
+                    type Bar = string;
+                    const bar: Bar = "bar";`,
+                    {}
+                )
+            ).resolves.toMatchInlineSnapshot(`
+                "const foo = 1;
+                                    
+                                    
+                                    const bar: Bar = "bar";"
+            `);
         });
 
         it("should throw an error when it encounters an enum", async () => {
@@ -74,5 +91,4 @@ describe("transform", () => {
             ).rejects.toMatchSnapshot();
         });
     });
-
 });

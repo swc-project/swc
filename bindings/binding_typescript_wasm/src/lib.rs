@@ -10,7 +10,7 @@ use swc_core::{
     ecma::{
         ast::{
             Decorator, EsVersion, Program, TsEnumDecl, TsModuleDecl, TsNamespaceDecl,
-            TsParamPropParam,
+            TsParamPropParam, TsTypeAliasDecl,
         },
         parser::{
             parse_file_as_module, parse_file_as_program, parse_file_as_script, Syntax, TsSyntax,
@@ -143,6 +143,8 @@ fn operate(input: String, options: Options) -> Result<String, Error> {
                 index = (r.1 .0 - 1) as usize;
             }
 
+            code.push_str(&fm.src[index..]);
+
             Ok(code)
         },
     )
@@ -218,5 +220,9 @@ impl Visit for TsStrip<'_> {
                 "TypeScript parameter property is not supported in strip-only mode",
             );
         });
+    }
+
+    fn visit_ts_type_alias_decl(&mut self, n: &TsTypeAliasDecl) {
+        self.add_replacement(n.span);
     }
 }
