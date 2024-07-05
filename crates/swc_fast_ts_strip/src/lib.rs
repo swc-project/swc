@@ -7,9 +7,10 @@ use swc_common::{
     BytePos, FileName, SourceMap, Span, Spanned,
 };
 use swc_ecma_ast::{
-    BindingIdent, Decorator, EsVersion, Ident, ImportDecl, ImportSpecifier, Param, Pat, Program,
-    TsAsExpr, TsConstAssertion, TsEnumDecl, TsInstantiation, TsModuleDecl, TsModuleName,
+    BindingIdent, ClassDecl, Decorator, EsVersion, Ident, ImportDecl, ImportSpecifier, Param, Pat,
+    Program, TsAsExpr, TsConstAssertion, TsEnumDecl, TsInstantiation, TsModuleDecl, TsModuleName,
     TsNamespaceDecl, TsNonNullExpr, TsParamPropParam, TsSatisfiesExpr, TsTypeAliasDecl, TsTypeAnn,
+    TsTypeParamDecl,
 };
 use swc_ecma_parser::{
     parse_file_as_module, parse_file_as_program, parse_file_as_script, Syntax, TsSyntax,
@@ -122,10 +123,72 @@ impl TsStrip {
 }
 
 impl Visit for TsStrip {
+    fn visit_binding_ident(&mut self, n: &BindingIdent) {
+        n.visit_children_with(self);
+
+        if n.optional {
+            self.add_replacement(span(n.id.span.hi, n.id.span.hi + BytePos(1)));
+        }
+    }
+
     fn visit_decorator(&mut self, n: &Decorator) {
         HANDLER.with(|handler| {
             handler.span_err(n.span, "Decorators are not supported");
         });
+    }
+
+    fn visit_import_decl(&mut self, n: &ImportDecl) {
+        if n.type_only {
+            self.add_replacement(n.span);
+            return;
+        }
+
+        n.visit_children_with(self);
+    }
+
+    fn visit_import_specifiers(&mut self, n: &[ImportSpecifier]) {
+        for (i, import) in n.iter().enumerate() {
+            let ImportSpecifier::Named(import) = import else {
+                continue;
+            };
+
+            if import.is_type_only {
+                let mut span = import.span;
+                span.hi.0 = n.get(i + 1).map(|x| x.span_lo().0).unwrap_or_else(|| {
+                    let bytes = self.src.as_bytes();
+                    skip_until(bytes, span.hi.0, b'}')
+                });
+                self.add_replacement(span);
+            }
+        }
+    }
+
+    fn visit_params(&mut self, n: &[Param]) {
+        if let Some(p) = n.first().filter(|param| {
+            matches!(
+                &param.pat,
+                Pat::Ident(BindingIdent {
+                    id: Ident { sym, .. },
+                    ..
+                }) if &**sym == "this"
+            )
+        }) {
+            let mut span = p.span;
+
+            if n.len() == 1 {
+                let bytes = self.src.as_bytes();
+                span.hi.0 = skip_until(bytes, span.hi.0, b')');
+            } else {
+                span.hi = n[1].span.lo;
+                n[1..].visit_children_with(self);
+            }
+
+            self.add_replacement(span);
+
+            return;
+        }
+
+        n.visit_children_with(self);
     }
 
     fn visit_ts_as_expr(&mut self, n: &TsAsExpr) {
@@ -217,66 +280,8 @@ impl Visit for TsStrip {
         self.add_replacement(n.span);
     }
 
-    fn visit_binding_ident(&mut self, n: &BindingIdent) {
-        n.visit_children_with(self);
-
-        if n.optional {
-            self.add_replacement(span(n.id.span.hi, n.id.span.hi + BytePos(1)));
-        }
-    }
-
-    fn visit_params(&mut self, n: &[Param]) {
-        if let Some(p) = n.first().filter(|param| {
-            matches!(
-                &param.pat,
-                Pat::Ident(BindingIdent {
-                    id: Ident { sym, .. },
-                    ..
-                }) if &**sym == "this"
-            )
-        }) {
-            let mut span = p.span;
-
-            if n.len() == 1 {
-                let bytes = self.src.as_bytes();
-                span.hi.0 = skip_until(bytes, span.hi.0, b')');
-            } else {
-                span.hi = n[1].span.lo;
-                n[1..].visit_children_with(self);
-            }
-
-            self.add_replacement(span);
-
-            return;
-        }
-
-        n.visit_children_with(self);
-    }
-
-    fn visit_import_decl(&mut self, n: &ImportDecl) {
-        if n.type_only {
-            self.add_replacement(n.span);
-            return;
-        }
-
-        n.visit_children_with(self);
-    }
-
-    fn visit_import_specifiers(&mut self, n: &[ImportSpecifier]) {
-        for (i, import) in n.iter().enumerate() {
-            let ImportSpecifier::Named(import) = import else {
-                continue;
-            };
-
-            if import.is_type_only {
-                let mut span = import.span;
-                span.hi.0 = n.get(i + 1).map(|x| x.span_lo().0).unwrap_or_else(|| {
-                    let bytes = self.src.as_bytes();
-                    skip_until(bytes, span.hi.0, b'}')
-                });
-                self.add_replacement(span);
-            }
-        }
+    fn visit_ts_type_param_decl(&mut self, n: &TsTypeParamDecl) {
+        self.add_replacement(n.span);
     }
 }
 
