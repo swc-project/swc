@@ -1,4 +1,3 @@
-
   x Expected '}', got '<eof>'
    ,-[$DIR/tests/test262-parser/fail/77fe5a8d6ae33dd1.js:1:1]
  1 | function t() { ;  ;  

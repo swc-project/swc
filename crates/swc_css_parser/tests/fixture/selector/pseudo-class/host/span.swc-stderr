@@ -1,4 +1,3 @@
-
   x Stylesheet
    ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:1:1]
  1 | ,-> :host(.special-custom-element) {}
@@ -6,417 +5,362 @@
  3 | |   :host(.footer) {}
  4 | `-> :host {}
    `----
-
   x Rule
    ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:1:1]
  1 | :host(.special-custom-element) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  2 | :host(   .special-custom-element   ) {}
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:1:1]
  1 | :host(.special-custom-element) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  2 | :host(   .special-custom-element   ) {}
    `----
-
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:1:1]
  1 | :host(.special-custom-element) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  2 | :host(   .special-custom-element   ) {}
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:1:1]
  1 | :host(.special-custom-element) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  2 | :host(   .special-custom-element   ) {}
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:1:1]
  1 | :host(.special-custom-element) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  2 | :host(   .special-custom-element   ) {}
    `----
-
   x SubclassSelector
    ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:1:1]
  1 | :host(.special-custom-element) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  2 | :host(   .special-custom-element   ) {}
    `----
-
   x PseudoClassSelector
    ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:1:1]
  1 | :host(.special-custom-element) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  2 | :host(   .special-custom-element   ) {}
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:1:1]
  1 | :host(.special-custom-element) {}
    :  ^^^^
  2 | :host(   .special-custom-element   ) {}
    `----
-
   x PseudoClassSelectorChildren
    ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:1:1]
  1 | :host(.special-custom-element) {}
    :       ^^^^^^^^^^^^^^^^^^^^^^^
  2 | :host(   .special-custom-element   ) {}
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:1:1]
  1 | :host(.special-custom-element) {}
    :       ^^^^^^^^^^^^^^^^^^^^^^^
  2 | :host(   .special-custom-element   ) {}
    `----
-
   x SubclassSelector
    ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:1:1]
  1 | :host(.special-custom-element) {}
    :       ^^^^^^^^^^^^^^^^^^^^^^^
  2 | :host(   .special-custom-element   ) {}
    `----
-
   x ClassSelector
    ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:1:1]
  1 | :host(.special-custom-element) {}
    :       ^^^^^^^^^^^^^^^^^^^^^^^
  2 | :host(   .special-custom-element   ) {}
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:1:1]
  1 | :host(.special-custom-element) {}
    :        ^^^^^^^^^^^^^^^^^^^^^^
  2 | :host(   .special-custom-element   ) {}
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:1:1]
  1 | :host(.special-custom-element) {}
    :                                ^^
  2 | :host(   .special-custom-element   ) {}
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:1:1]
  1 | :host(.special-custom-element) {}
    :                                ^
  2 | :host(   .special-custom-element   ) {}
    `----
-
   x Rule
-   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:2:1]
  1 | :host(.special-custom-element) {}
  2 | :host(   .special-custom-element   ) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  3 | :host(.footer) {}
    `----
-
   x QualifiedRule
-   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:2:1]
  1 | :host(.special-custom-element) {}
  2 | :host(   .special-custom-element   ) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  3 | :host(.footer) {}
    `----
-
   x SelectorList
-   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:2:1]
  1 | :host(.special-custom-element) {}
  2 | :host(   .special-custom-element   ) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  3 | :host(.footer) {}
    `----
-
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:2:1]
  1 | :host(.special-custom-element) {}
  2 | :host(   .special-custom-element   ) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  3 | :host(.footer) {}
    `----
-
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:2:1]
  1 | :host(.special-custom-element) {}
  2 | :host(   .special-custom-element   ) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  3 | :host(.footer) {}
    `----
-
   x SubclassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:2:1]
  1 | :host(.special-custom-element) {}
  2 | :host(   .special-custom-element   ) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  3 | :host(.footer) {}
    `----
-
   x PseudoClassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:2:1]
  1 | :host(.special-custom-element) {}
  2 | :host(   .special-custom-element   ) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  3 | :host(.footer) {}
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:2:1]
  1 | :host(.special-custom-element) {}
  2 | :host(   .special-custom-element   ) {}
    :  ^^^^
  3 | :host(.footer) {}
    `----
-
   x PseudoClassSelectorChildren
-   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:2:1]
  1 | :host(.special-custom-element) {}
  2 | :host(   .special-custom-element   ) {}
    :          ^^^^^^^^^^^^^^^^^^^^^^^
  3 | :host(.footer) {}
    `----
-
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:2:1]
  1 | :host(.special-custom-element) {}
  2 | :host(   .special-custom-element   ) {}
    :          ^^^^^^^^^^^^^^^^^^^^^^^
  3 | :host(.footer) {}
    `----
-
   x SubclassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:2:1]
  1 | :host(.special-custom-element) {}
  2 | :host(   .special-custom-element   ) {}
    :          ^^^^^^^^^^^^^^^^^^^^^^^
  3 | :host(.footer) {}
    `----
-
   x ClassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:2:1]
  1 | :host(.special-custom-element) {}
  2 | :host(   .special-custom-element   ) {}
    :          ^^^^^^^^^^^^^^^^^^^^^^^
  3 | :host(.footer) {}
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:2:1]
  1 | :host(.special-custom-element) {}
  2 | :host(   .special-custom-element   ) {}
    :           ^^^^^^^^^^^^^^^^^^^^^^
  3 | :host(.footer) {}
    `----
-
   x SimpleBlock
-   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:2:1]
  1 | :host(.special-custom-element) {}
  2 | :host(   .special-custom-element   ) {}
    :                                      ^^
  3 | :host(.footer) {}
    `----
-
   x LBrace
-   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:2:1]
  1 | :host(.special-custom-element) {}
  2 | :host(   .special-custom-element   ) {}
    :                                      ^
  3 | :host(.footer) {}
    `----
-
   x Rule
-   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:3:1]
  2 | :host(   .special-custom-element   ) {}
  3 | :host(.footer) {}
    : ^^^^^^^^^^^^^^^^^
  4 | :host {}
    `----
-
   x QualifiedRule
-   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:3:1]
  2 | :host(   .special-custom-element   ) {}
  3 | :host(.footer) {}
    : ^^^^^^^^^^^^^^^^^
  4 | :host {}
    `----
-
   x SelectorList
-   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:3:1]
  2 | :host(   .special-custom-element   ) {}
  3 | :host(.footer) {}
    : ^^^^^^^^^^^^^^
  4 | :host {}
    `----
-
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:3:1]
  2 | :host(   .special-custom-element   ) {}
  3 | :host(.footer) {}
    : ^^^^^^^^^^^^^^
  4 | :host {}
    `----
-
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:3:1]
  2 | :host(   .special-custom-element   ) {}
  3 | :host(.footer) {}
    : ^^^^^^^^^^^^^^
  4 | :host {}
    `----
-
   x SubclassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:3:1]
  2 | :host(   .special-custom-element   ) {}
  3 | :host(.footer) {}
    : ^^^^^^^^^^^^^^
  4 | :host {}
    `----
-
   x PseudoClassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:3:1]
  2 | :host(   .special-custom-element   ) {}
  3 | :host(.footer) {}
    : ^^^^^^^^^^^^^^
  4 | :host {}
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:3:1]
  2 | :host(   .special-custom-element   ) {}
  3 | :host(.footer) {}
    :  ^^^^
  4 | :host {}
    `----
-
   x PseudoClassSelectorChildren
-   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:3:1]
  2 | :host(   .special-custom-element   ) {}
  3 | :host(.footer) {}
    :       ^^^^^^^
  4 | :host {}
    `----
-
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:3:1]
  2 | :host(   .special-custom-element   ) {}
  3 | :host(.footer) {}
    :       ^^^^^^^
  4 | :host {}
    `----
-
   x SubclassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:3:1]
  2 | :host(   .special-custom-element   ) {}
  3 | :host(.footer) {}
    :       ^^^^^^^
  4 | :host {}
    `----
-
   x ClassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:3:1]
  2 | :host(   .special-custom-element   ) {}
  3 | :host(.footer) {}
    :       ^^^^^^^
  4 | :host {}
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:3:1]
  2 | :host(   .special-custom-element   ) {}
  3 | :host(.footer) {}
    :        ^^^^^^
  4 | :host {}
    `----
-
   x SimpleBlock
-   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:3:1]
  2 | :host(   .special-custom-element   ) {}
  3 | :host(.footer) {}
    :                ^^
  4 | :host {}
    `----
-
   x LBrace
-   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:3:1]
  2 | :host(   .special-custom-element   ) {}
  3 | :host(.footer) {}
    :                ^
  4 | :host {}
    `----
-
   x Rule
-   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:3:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:4:1]
  3 | :host(.footer) {}
  4 | :host {}
    : ^^^^^^^^
    `----
-
   x QualifiedRule
-   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:3:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:4:1]
  3 | :host(.footer) {}
  4 | :host {}
    : ^^^^^^^^
    `----
-
   x SelectorList
-   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:3:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:4:1]
  3 | :host(.footer) {}
  4 | :host {}
    : ^^^^^
    `----
-
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:3:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:4:1]
  3 | :host(.footer) {}
  4 | :host {}
    : ^^^^^
    `----
-
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:3:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:4:1]
  3 | :host(.footer) {}
  4 | :host {}
    : ^^^^^
    `----
-
   x SubclassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:3:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:4:1]
  3 | :host(.footer) {}
  4 | :host {}
    : ^^^^^
    `----
-
   x PseudoClassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:3:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:4:1]
  3 | :host(.footer) {}
  4 | :host {}
    : ^^^^^
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:3:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:4:1]
  3 | :host(.footer) {}
  4 | :host {}
    :  ^^^^
    `----
-
   x SimpleBlock
-   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:3:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:4:1]
  3 | :host(.footer) {}
  4 | :host {}
    :       ^^
    `----
-
   x LBrace
-   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:3:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/host/input.css:4:1]
  3 | :host(.footer) {}
  4 | :host {}
    :       ^

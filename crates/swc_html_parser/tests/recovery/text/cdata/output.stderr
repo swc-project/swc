@@ -1,86 +1,75 @@
-
   x Cdata in html content
-   ,-[$DIR/tests/recovery/text/cdata/input.html:6:1]
+   ,-[$DIR/tests/recovery/text/cdata/input.html:7:1]
  6 | <body>
  7 | <p><![CDATA[content]]></p>
    :            ^
  8 | <p><![CDATA[&amping]]></p>
    `----
-
   x Cdata in html content
-   ,-[$DIR/tests/recovery/text/cdata/input.html:7:1]
+   ,-[$DIR/tests/recovery/text/cdata/input.html:8:1]
  7 | <p><![CDATA[content]]></p>
  8 | <p><![CDATA[&amping]]></p>
    :            ^
  9 | <p><![CDATA[&amping ]]]></p>
    `----
-
   x Cdata in html content
-    ,-[$DIR/tests/recovery/text/cdata/input.html:8:1]
+    ,-[$DIR/tests/recovery/text/cdata/input.html:9:1]
   8 | <p><![CDATA[&amping]]></p>
   9 | <p><![CDATA[&amping ]]]></p>
     :            ^
  10 | <p><![CDATA[&amping]] ]]></p>
     `----
-
   x Cdata in html content
-    ,-[$DIR/tests/recovery/text/cdata/input.html:9:1]
+    ,-[$DIR/tests/recovery/text/cdata/input.html:10:1]
   9 | <p><![CDATA[&amping ]]]></p>
  10 | <p><![CDATA[&amping]] ]]></p>
     :            ^
  11 | <p><![CDATA[<message>text</message>]]></p>
     `----
-
   x Cdata in html content
-    ,-[$DIR/tests/recovery/text/cdata/input.html:10:1]
+    ,-[$DIR/tests/recovery/text/cdata/input.html:11:1]
  10 | <p><![CDATA[&amping]] ]]></p>
  11 | <p><![CDATA[<message>text</message>]]></p>
     :            ^
  12 | <p><![CDATA[</this is malformed!</malformed</malformed & worse>]]></p>
     `----
-
   x Stray end tag "message"
-    ,-[$DIR/tests/recovery/text/cdata/input.html:10:1]
+    ,-[$DIR/tests/recovery/text/cdata/input.html:11:1]
  10 | <p><![CDATA[&amping]] ]]></p>
  11 | <p><![CDATA[<message>text</message>]]></p>
     :                          ^^^^^^^^^^
  12 | <p><![CDATA[</this is malformed!</malformed</malformed & worse>]]></p>
     `----
-
   x Cdata in html content
-    ,-[$DIR/tests/recovery/text/cdata/input.html:11:1]
+    ,-[$DIR/tests/recovery/text/cdata/input.html:12:1]
  11 | <p><![CDATA[<message>text</message>]]></p>
  12 | <p><![CDATA[</this is malformed!</malformed</malformed & worse>]]></p>
     :            ^
  13 | <p><![CDATA[1]]><![CDATA[2]]></p>
     `----
-
   x Cdata in html content
-    ,-[$DIR/tests/recovery/text/cdata/input.html:12:1]
+    ,-[$DIR/tests/recovery/text/cdata/input.html:13:1]
  12 | <p><![CDATA[</this is malformed!</malformed</malformed & worse>]]></p>
  13 | <p><![CDATA[1]]><![CDATA[2]]></p>
     :            ^
  14 | <p>
     `----
-
   x Cdata in html content
-    ,-[$DIR/tests/recovery/text/cdata/input.html:12:1]
+    ,-[$DIR/tests/recovery/text/cdata/input.html:13:1]
  12 | <p><![CDATA[</this is malformed!</malformed</malformed & worse>]]></p>
  13 | <p><![CDATA[1]]><![CDATA[2]]></p>
     :                         ^
  14 | <p>
     `----
-
   x Cdata in html content
-    ,-[$DIR/tests/recovery/text/cdata/input.html:14:1]
+    ,-[$DIR/tests/recovery/text/cdata/input.html:15:1]
  14 | <p>
  15 |     <![CDATA[data]]>
     :             ^
  16 | </p>
     `----
-
   x Cdata in html content
-    ,-[$DIR/tests/recovery/text/cdata/input.html:16:1]
+    ,-[$DIR/tests/recovery/text/cdata/input.html:17:1]
  16 | </p>
  17 | <p><![CDATA[bracket ]after]]></p>
     :            ^

@@ -1,7 +1,6 @@
 //// [functionNameConflicts.ts]
-//! 
 //!   x the name `fn1` is defined multiple times
-//!    ,-[2:1]
+//!    ,-[5:1]
 //!  2 | //Function overload with different name from implementation signature 
 //!  3 | 
 //!  4 | module M {
@@ -15,9 +14,8 @@
 //!  8 |     var fn2;
 //!  9 |     function fn2() { }
 //!    `----
-//! 
 //!   x the name `fn2` is defined multiple times
-//!     ,-[5:1]
+//!     ,-[8:1]
 //!   5 |     function fn1() { }
 //!   6 |     var fn1;
 //!   7 | 
@@ -31,9 +29,8 @@
 //!  11 | 
 //!  12 | function fn3() { }
 //!     `----
-//! 
 //!   x the name `fn3` is defined multiple times
-//!     ,-[9:1]
+//!     ,-[12:1]
 //!   9 |     function fn2() { }
 //!  10 | }
 //!  11 | 

@@ -1,56 +1,45 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests7_dat.29.html:1:1]
  1 | A<table><tr> B</tr> </em>C</table>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests7_dat.29.html:1:1]
  1 | A<table><tr> B</tr> </em>C</table>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests7_dat.29.html:1:1]
  1 | A<table><tr> B</tr> </em>C</table>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests7_dat.29.html:1:1]
  1 | A<table><tr> B</tr> </em>C</table>
    :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests7_dat.29.html:1:1]
  1 | A<table><tr> B</tr> </em>C</table>
    :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests7_dat.29.html:1:1]
  1 | A<table><tr> B</tr> </em>C</table>
    :         ^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests7_dat.29.html:1:1]
  1 | A<table><tr> B</tr> </em>C</table>
    :         ^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests7_dat.29.html:1:1]
  1 | A<table><tr> B</tr> </em>C</table>
    :                    ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests7_dat.29.html:1:1]
  1 | A<table><tr> B</tr> </em>C</table>

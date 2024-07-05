@@ -1,22 +1,19 @@
-
   x Unescaped "<" not allowed in attribute values
-   ,-[$DIR/tests/recovery/attribute-value/input.xml:1:1]
+   ,-[$DIR/tests/recovery/attribute-value/input.xml:2:1]
  1 | <root>
  2 |     <foo bar="<"></foo>
    :               ^
  3 |     <foo bar='<'></foo>
    `----
-
   x Unescaped "<" not allowed in attribute values
-   ,-[$DIR/tests/recovery/attribute-value/input.xml:2:1]
+   ,-[$DIR/tests/recovery/attribute-value/input.xml:3:1]
  2 |     <foo bar="<"></foo>
  3 |     <foo bar='<'></foo>
    :               ^
  4 |     <foo bar=<></foo>
    `----
-
   x Missing quote before attribute value
-   ,-[$DIR/tests/recovery/attribute-value/input.xml:3:1]
+   ,-[$DIR/tests/recovery/attribute-value/input.xml:4:1]
  3 |     <foo bar='<'></foo>
  4 |     <foo bar=<></foo>
    :              ^

@@ -1,44 +1,35 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests5_dat.8.html:1:1]
  1 | <textarea> <!--- </textarea>->x</textarea> --> </textarea>x
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests5_dat.8.html:1:1]
  1 | <textarea> <!--- </textarea>->x</textarea> --> </textarea>x
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests5_dat.8.html:1:1]
  1 | <textarea> <!--- </textarea>->x</textarea> --> </textarea>x
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests5_dat.8.html:1:1]
  1 | <textarea> <!--- </textarea>->x</textarea> --> </textarea>x
    :           ^^^^^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests5_dat.8.html:1:1]
  1 | <textarea> <!--- </textarea>->x</textarea> --> </textarea>x
    :           ^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests5_dat.8.html:1:1]
  1 | <textarea> <!--- </textarea>->x</textarea> --> </textarea>x
    :                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests5_dat.8.html:1:1]
  1 | <textarea> <!--- </textarea>->x</textarea> --> </textarea>x

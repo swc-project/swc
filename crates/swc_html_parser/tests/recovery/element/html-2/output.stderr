@@ -1,4 +1,3 @@
-
   x Stray start tag "div"
    ,-[$DIR/tests/recovery/element/html-2/input.html:1:1]
  1 | <!doctype html><html lang="en"><head><title>Document</title></head><body>test</body><div>test</div></html>

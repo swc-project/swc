@@ -1,4 +1,3 @@
-
   x Stylesheet
    ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:1:1]
  1 | ,-> @media screen {}
@@ -9,613 +8,533 @@
  6 | |   @media only screen, not all, only print {}
  7 | `-> 
    `----
-
   x Rule
    ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:1:1]
  1 | @media screen {}
    : ^^^^^^^^^^^^^^^^
  2 | @media not screen {}
    `----
-
   x AtRule
    ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:1:1]
  1 | @media screen {}
    : ^^^^^^^^^^^^^^^^
  2 | @media not screen {}
    `----
-
   x AtRuleName
    ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:1:1]
  1 | @media screen {}
    :  ^^^^^
  2 | @media not screen {}
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:1:1]
  1 | @media screen {}
    :  ^^^^^
  2 | @media not screen {}
    `----
-
   x MediaQueryList
    ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:1:1]
  1 | @media screen {}
    :        ^^^^^^
  2 | @media not screen {}
    `----
-
   x MediaQuery
    ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:1:1]
  1 | @media screen {}
    :        ^^^^^^
  2 | @media not screen {}
    `----
-
   x MediaType
    ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:1:1]
  1 | @media screen {}
    :        ^^^^^^
  2 | @media not screen {}
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:1:1]
  1 | @media screen {}
    :        ^^^^^^
  2 | @media not screen {}
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:1:1]
  1 | @media screen {}
    :               ^^
  2 | @media not screen {}
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:1:1]
  1 | @media screen {}
    :               ^
  2 | @media not screen {}
    `----
-
   x Rule
-   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:2:1]
  1 | @media screen {}
  2 | @media not screen {}
    : ^^^^^^^^^^^^^^^^^^^^
  3 | @media only screen {}
    `----
-
   x AtRule
-   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:2:1]
  1 | @media screen {}
  2 | @media not screen {}
    : ^^^^^^^^^^^^^^^^^^^^
  3 | @media only screen {}
    `----
-
   x AtRuleName
-   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:2:1]
  1 | @media screen {}
  2 | @media not screen {}
    :  ^^^^^
  3 | @media only screen {}
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:2:1]
  1 | @media screen {}
  2 | @media not screen {}
    :  ^^^^^
  3 | @media only screen {}
    `----
-
   x MediaQueryList
-   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:2:1]
  1 | @media screen {}
  2 | @media not screen {}
    :        ^^^^^^^^^^
  3 | @media only screen {}
    `----
-
   x MediaQuery
-   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:2:1]
  1 | @media screen {}
  2 | @media not screen {}
    :        ^^^^^^^^^^
  3 | @media only screen {}
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:2:1]
  1 | @media screen {}
  2 | @media not screen {}
    :        ^^^
  3 | @media only screen {}
    `----
-
   x MediaType
-   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:2:1]
  1 | @media screen {}
  2 | @media not screen {}
    :            ^^^^^^
  3 | @media only screen {}
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:2:1]
  1 | @media screen {}
  2 | @media not screen {}
    :            ^^^^^^
  3 | @media only screen {}
    `----
-
   x SimpleBlock
-   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:2:1]
  1 | @media screen {}
  2 | @media not screen {}
    :                   ^^
  3 | @media only screen {}
    `----
-
   x LBrace
-   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:2:1]
  1 | @media screen {}
  2 | @media not screen {}
    :                   ^
  3 | @media only screen {}
    `----
-
   x Rule
-   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:2:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:3:1]
  2 | @media not screen {}
  3 | @media only screen {}
    : ^^^^^^^^^^^^^^^^^^^^^
  4 | @media print, screen {}
    `----
-
   x AtRule
-   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:2:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:3:1]
  2 | @media not screen {}
  3 | @media only screen {}
    : ^^^^^^^^^^^^^^^^^^^^^
  4 | @media print, screen {}
    `----
-
   x AtRuleName
-   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:2:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:3:1]
  2 | @media not screen {}
  3 | @media only screen {}
    :  ^^^^^
  4 | @media print, screen {}
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:2:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:3:1]
  2 | @media not screen {}
  3 | @media only screen {}
    :  ^^^^^
  4 | @media print, screen {}
    `----
-
   x MediaQueryList
-   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:2:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:3:1]
  2 | @media not screen {}
  3 | @media only screen {}
    :        ^^^^^^^^^^^
  4 | @media print, screen {}
    `----
-
   x MediaQuery
-   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:2:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:3:1]
  2 | @media not screen {}
  3 | @media only screen {}
    :        ^^^^^^^^^^^
  4 | @media print, screen {}
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:2:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:3:1]
  2 | @media not screen {}
  3 | @media only screen {}
    :        ^^^^
  4 | @media print, screen {}
    `----
-
   x MediaType
-   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:2:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:3:1]
  2 | @media not screen {}
  3 | @media only screen {}
    :             ^^^^^^
  4 | @media print, screen {}
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:2:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:3:1]
  2 | @media not screen {}
  3 | @media only screen {}
    :             ^^^^^^
  4 | @media print, screen {}
    `----
-
   x SimpleBlock
-   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:2:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:3:1]
  2 | @media not screen {}
  3 | @media only screen {}
    :                    ^^
  4 | @media print, screen {}
    `----
-
   x LBrace
-   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:2:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:3:1]
  2 | @media not screen {}
  3 | @media only screen {}
    :                    ^
  4 | @media print, screen {}
    `----
-
   x Rule
-   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:3:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:4:1]
  3 | @media only screen {}
  4 | @media print, screen {}
    : ^^^^^^^^^^^^^^^^^^^^^^^
  5 | @media screen, all, print {}
    `----
-
   x AtRule
-   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:3:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:4:1]
  3 | @media only screen {}
  4 | @media print, screen {}
    : ^^^^^^^^^^^^^^^^^^^^^^^
  5 | @media screen, all, print {}
    `----
-
   x AtRuleName
-   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:3:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:4:1]
  3 | @media only screen {}
  4 | @media print, screen {}
    :  ^^^^^
  5 | @media screen, all, print {}
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:3:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:4:1]
  3 | @media only screen {}
  4 | @media print, screen {}
    :  ^^^^^
  5 | @media screen, all, print {}
    `----
-
   x MediaQueryList
-   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:3:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:4:1]
  3 | @media only screen {}
  4 | @media print, screen {}
    :        ^^^^^^^^^^^^^
  5 | @media screen, all, print {}
    `----
-
   x MediaQuery
-   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:3:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:4:1]
  3 | @media only screen {}
  4 | @media print, screen {}
    :        ^^^^^
  5 | @media screen, all, print {}
    `----
-
   x MediaType
-   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:3:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:4:1]
  3 | @media only screen {}
  4 | @media print, screen {}
    :        ^^^^^
  5 | @media screen, all, print {}
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:3:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:4:1]
  3 | @media only screen {}
  4 | @media print, screen {}
    :        ^^^^^
  5 | @media screen, all, print {}
    `----
-
   x MediaQuery
-   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:3:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:4:1]
  3 | @media only screen {}
  4 | @media print, screen {}
    :               ^^^^^^
  5 | @media screen, all, print {}
    `----
-
   x MediaType
-   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:3:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:4:1]
  3 | @media only screen {}
  4 | @media print, screen {}
    :               ^^^^^^
  5 | @media screen, all, print {}
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:3:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:4:1]
  3 | @media only screen {}
  4 | @media print, screen {}
    :               ^^^^^^
  5 | @media screen, all, print {}
    `----
-
   x SimpleBlock
-   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:3:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:4:1]
  3 | @media only screen {}
  4 | @media print, screen {}
    :                      ^^
  5 | @media screen, all, print {}
    `----
-
   x LBrace
-   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:3:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:4:1]
  3 | @media only screen {}
  4 | @media print, screen {}
    :                      ^
  5 | @media screen, all, print {}
    `----
-
   x Rule
-   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:5:1]
  4 | @media print, screen {}
  5 | @media screen, all, print {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  6 | @media only screen, not all, only print {}
    `----
-
   x AtRule
-   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:5:1]
  4 | @media print, screen {}
  5 | @media screen, all, print {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  6 | @media only screen, not all, only print {}
    `----
-
   x AtRuleName
-   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:5:1]
  4 | @media print, screen {}
  5 | @media screen, all, print {}
    :  ^^^^^
  6 | @media only screen, not all, only print {}
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:5:1]
  4 | @media print, screen {}
  5 | @media screen, all, print {}
    :  ^^^^^
  6 | @media only screen, not all, only print {}
    `----
-
   x MediaQueryList
-   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:5:1]
  4 | @media print, screen {}
  5 | @media screen, all, print {}
    :        ^^^^^^^^^^^^^^^^^^
  6 | @media only screen, not all, only print {}
    `----
-
   x MediaQuery
-   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:5:1]
  4 | @media print, screen {}
  5 | @media screen, all, print {}
    :        ^^^^^^
  6 | @media only screen, not all, only print {}
    `----
-
   x MediaType
-   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:5:1]
  4 | @media print, screen {}
  5 | @media screen, all, print {}
    :        ^^^^^^
  6 | @media only screen, not all, only print {}
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:5:1]
  4 | @media print, screen {}
  5 | @media screen, all, print {}
    :        ^^^^^^
  6 | @media only screen, not all, only print {}
    `----
-
   x MediaQuery
-   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:5:1]
  4 | @media print, screen {}
  5 | @media screen, all, print {}
    :                ^^^
  6 | @media only screen, not all, only print {}
    `----
-
   x MediaType
-   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:5:1]
  4 | @media print, screen {}
  5 | @media screen, all, print {}
    :                ^^^
  6 | @media only screen, not all, only print {}
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:5:1]
  4 | @media print, screen {}
  5 | @media screen, all, print {}
    :                ^^^
  6 | @media only screen, not all, only print {}
    `----
-
   x MediaQuery
-   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:5:1]
  4 | @media print, screen {}
  5 | @media screen, all, print {}
    :                     ^^^^^
  6 | @media only screen, not all, only print {}
    `----
-
   x MediaType
-   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:5:1]
  4 | @media print, screen {}
  5 | @media screen, all, print {}
    :                     ^^^^^
  6 | @media only screen, not all, only print {}
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:5:1]
  4 | @media print, screen {}
  5 | @media screen, all, print {}
    :                     ^^^^^
  6 | @media only screen, not all, only print {}
    `----
-
   x SimpleBlock
-   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:5:1]
  4 | @media print, screen {}
  5 | @media screen, all, print {}
    :                           ^^
  6 | @media only screen, not all, only print {}
    `----
-
   x LBrace
-   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:4:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:5:1]
  4 | @media print, screen {}
  5 | @media screen, all, print {}
    :                           ^
  6 | @media only screen, not all, only print {}
    `----
-
   x Rule
-   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:6:1]
  5 | @media screen, all, print {}
  6 | @media only screen, not all, only print {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x AtRule
-   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:6:1]
  5 | @media screen, all, print {}
  6 | @media only screen, not all, only print {}
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x AtRuleName
-   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:6:1]
  5 | @media screen, all, print {}
  6 | @media only screen, not all, only print {}
    :  ^^^^^
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:6:1]
  5 | @media screen, all, print {}
  6 | @media only screen, not all, only print {}
    :  ^^^^^
    `----
-
   x MediaQueryList
-   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:6:1]
  5 | @media screen, all, print {}
  6 | @media only screen, not all, only print {}
    :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x MediaQuery
-   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:6:1]
  5 | @media screen, all, print {}
  6 | @media only screen, not all, only print {}
    :        ^^^^^^^^^^^
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:6:1]
  5 | @media screen, all, print {}
  6 | @media only screen, not all, only print {}
    :        ^^^^
    `----
-
   x MediaType
-   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:6:1]
  5 | @media screen, all, print {}
  6 | @media only screen, not all, only print {}
    :             ^^^^^^
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:6:1]
  5 | @media screen, all, print {}
  6 | @media only screen, not all, only print {}
    :             ^^^^^^
    `----
-
   x MediaQuery
-   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:6:1]
  5 | @media screen, all, print {}
  6 | @media only screen, not all, only print {}
    :                     ^^^^^^^
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:6:1]
  5 | @media screen, all, print {}
  6 | @media only screen, not all, only print {}
    :                     ^^^
    `----
-
   x MediaType
-   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:6:1]
  5 | @media screen, all, print {}
  6 | @media only screen, not all, only print {}
    :                         ^^^
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:6:1]
  5 | @media screen, all, print {}
  6 | @media only screen, not all, only print {}
    :                         ^^^
    `----
-
   x MediaQuery
-   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:6:1]
  5 | @media screen, all, print {}
  6 | @media only screen, not all, only print {}
    :                              ^^^^^^^^^^
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:6:1]
  5 | @media screen, all, print {}
  6 | @media only screen, not all, only print {}
    :                              ^^^^
    `----
-
   x MediaType
-   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:6:1]
  5 | @media screen, all, print {}
  6 | @media only screen, not all, only print {}
    :                                   ^^^^^
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:6:1]
  5 | @media screen, all, print {}
  6 | @media only screen, not all, only print {}
    :                                   ^^^^^
    `----
-
   x SimpleBlock
-   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:6:1]
  5 | @media screen, all, print {}
  6 | @media only screen, not all, only print {}
    :                                         ^^
    `----
-
   x LBrace
-   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:5:1]
+   ,-[$DIR/tests/fixture/vendor/rome/media/type/input.css:6:1]
  5 | @media screen, all, print {}
  6 | @media only screen, not all, only print {}
    :                                         ^

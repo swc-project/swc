@@ -1,44 +1,35 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.46.html:1:1]
  1 | <math><mn><malignmark>
    : ^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.46.html:1:1]
  1 | <math><mn><malignmark>
    : ^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.46.html:1:1]
  1 | <math><mn><malignmark>
    : ^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.46.html:1:1]
  1 | <math><mn><malignmark>
    :       ^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.46.html:1:1]
  1 | <math><mn><malignmark>
    :       ^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.46.html:1:1]
  1 | <math><mn><malignmark>
    :           ^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.46.html:1:1]
  1 | <math><mn><malignmark>

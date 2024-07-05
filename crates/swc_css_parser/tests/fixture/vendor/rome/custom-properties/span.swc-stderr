@@ -1,1405 +1,1238 @@
-
   x Stylesheet
     ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:1:1]
   1 | ,-> .style {
-  2 | |   	--foo: 'bar';
-  3 | |   	--lore-ipsum: "foo";
-  4 | |   	--FANCY: "abort";
-  5 | |   	--test: 1987;
-  6 | |   	--percentage: 25%;
-  7 | |   	--number: 37;
-  8 | |   	--length: 12em;
-  9 | |   	--time: 75ms;
- 10 | |   	--function: foo();
- 11 | |   	--nested-function: foo(bar());
- 12 | |   	--parentheses: ( );
- 13 | |   	--braces: { };
- 14 | |   	--brackets: [ ];
- 15 | |   	--at-keyword-unknown: @foobar;
- 16 | |   	--at-keyword-known: @media;
- 17 | |   	--at-keyword-unknown-block: @foobar {};
- 18 | |   	--at-keyword-known-block: @media {};
- 19 | |   	--cdo-at-top-level: <!--;
- 20 | |   	--cdc-at-top-level: -->;
- 21 | |   	--cdo-not-top-level: (<!--);
- 22 | |   	--cdc-not-top-level: (-->);
+  2 | |       --foo: 'bar';
+  3 | |       --lore-ipsum: "foo";
+  4 | |       --FANCY: "abort";
+  5 | |       --test: 1987;
+  6 | |       --percentage: 25%;
+  7 | |       --number: 37;
+  8 | |       --length: 12em;
+  9 | |       --time: 75ms;
+ 10 | |       --function: foo();
+ 11 | |       --nested-function: foo(bar());
+ 12 | |       --parentheses: ( );
+ 13 | |       --braces: { };
+ 14 | |       --brackets: [ ];
+ 15 | |       --at-keyword-unknown: @foobar;
+ 16 | |       --at-keyword-known: @media;
+ 17 | |       --at-keyword-unknown-block: @foobar {};
+ 18 | |       --at-keyword-known-block: @media {};
+ 19 | |       --cdo-at-top-level: <!--;
+ 20 | |       --cdc-at-top-level: -->;
+ 21 | |       --cdo-not-top-level: (<!--);
+ 22 | |       --cdc-not-top-level: (-->);
  23 | `-> }
     `----
-
   x Rule
     ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:1:1]
   1 | ,-> .style {
-  2 | |   	--foo: 'bar';
-  3 | |   	--lore-ipsum: "foo";
-  4 | |   	--FANCY: "abort";
-  5 | |   	--test: 1987;
-  6 | |   	--percentage: 25%;
-  7 | |   	--number: 37;
-  8 | |   	--length: 12em;
-  9 | |   	--time: 75ms;
- 10 | |   	--function: foo();
- 11 | |   	--nested-function: foo(bar());
- 12 | |   	--parentheses: ( );
- 13 | |   	--braces: { };
- 14 | |   	--brackets: [ ];
- 15 | |   	--at-keyword-unknown: @foobar;
- 16 | |   	--at-keyword-known: @media;
- 17 | |   	--at-keyword-unknown-block: @foobar {};
- 18 | |   	--at-keyword-known-block: @media {};
- 19 | |   	--cdo-at-top-level: <!--;
- 20 | |   	--cdc-at-top-level: -->;
- 21 | |   	--cdo-not-top-level: (<!--);
- 22 | |   	--cdc-not-top-level: (-->);
+  2 | |       --foo: 'bar';
+  3 | |       --lore-ipsum: "foo";
+  4 | |       --FANCY: "abort";
+  5 | |       --test: 1987;
+  6 | |       --percentage: 25%;
+  7 | |       --number: 37;
+  8 | |       --length: 12em;
+  9 | |       --time: 75ms;
+ 10 | |       --function: foo();
+ 11 | |       --nested-function: foo(bar());
+ 12 | |       --parentheses: ( );
+ 13 | |       --braces: { };
+ 14 | |       --brackets: [ ];
+ 15 | |       --at-keyword-unknown: @foobar;
+ 16 | |       --at-keyword-known: @media;
+ 17 | |       --at-keyword-unknown-block: @foobar {};
+ 18 | |       --at-keyword-known-block: @media {};
+ 19 | |       --cdo-at-top-level: <!--;
+ 20 | |       --cdc-at-top-level: -->;
+ 21 | |       --cdo-not-top-level: (<!--);
+ 22 | |       --cdc-not-top-level: (-->);
  23 | `-> }
     `----
-
   x QualifiedRule
     ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:1:1]
   1 | ,-> .style {
-  2 | |   	--foo: 'bar';
-  3 | |   	--lore-ipsum: "foo";
-  4 | |   	--FANCY: "abort";
-  5 | |   	--test: 1987;
-  6 | |   	--percentage: 25%;
-  7 | |   	--number: 37;
-  8 | |   	--length: 12em;
-  9 | |   	--time: 75ms;
- 10 | |   	--function: foo();
- 11 | |   	--nested-function: foo(bar());
- 12 | |   	--parentheses: ( );
- 13 | |   	--braces: { };
- 14 | |   	--brackets: [ ];
- 15 | |   	--at-keyword-unknown: @foobar;
- 16 | |   	--at-keyword-known: @media;
- 17 | |   	--at-keyword-unknown-block: @foobar {};
- 18 | |   	--at-keyword-known-block: @media {};
- 19 | |   	--cdo-at-top-level: <!--;
- 20 | |   	--cdc-at-top-level: -->;
- 21 | |   	--cdo-not-top-level: (<!--);
- 22 | |   	--cdc-not-top-level: (-->);
+  2 | |       --foo: 'bar';
+  3 | |       --lore-ipsum: "foo";
+  4 | |       --FANCY: "abort";
+  5 | |       --test: 1987;
+  6 | |       --percentage: 25%;
+  7 | |       --number: 37;
+  8 | |       --length: 12em;
+  9 | |       --time: 75ms;
+ 10 | |       --function: foo();
+ 11 | |       --nested-function: foo(bar());
+ 12 | |       --parentheses: ( );
+ 13 | |       --braces: { };
+ 14 | |       --brackets: [ ];
+ 15 | |       --at-keyword-unknown: @foobar;
+ 16 | |       --at-keyword-known: @media;
+ 17 | |       --at-keyword-unknown-block: @foobar {};
+ 18 | |       --at-keyword-known-block: @media {};
+ 19 | |       --cdo-at-top-level: <!--;
+ 20 | |       --cdc-at-top-level: -->;
+ 21 | |       --cdo-not-top-level: (<!--);
+ 22 | |       --cdc-not-top-level: (-->);
  23 | `-> }
     `----
-
   x SelectorList
    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:1:1]
  1 | .style {
    : ^^^^^^
- 2 | 	--foo: 'bar';
+ 2 |     --foo: 'bar';
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:1:1]
  1 | .style {
    : ^^^^^^
- 2 | 	--foo: 'bar';
+ 2 |     --foo: 'bar';
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:1:1]
  1 | .style {
    : ^^^^^^
- 2 | 	--foo: 'bar';
+ 2 |     --foo: 'bar';
    `----
-
   x SubclassSelector
    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:1:1]
  1 | .style {
    : ^^^^^^
- 2 | 	--foo: 'bar';
+ 2 |     --foo: 'bar';
    `----
-
   x ClassSelector
    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:1:1]
  1 | .style {
    : ^^^^^^
- 2 | 	--foo: 'bar';
+ 2 |     --foo: 'bar';
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:1:1]
  1 | .style {
    :  ^^^^^
- 2 | 	--foo: 'bar';
+ 2 |     --foo: 'bar';
    `----
-
   x SimpleBlock
     ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:1:1]
   1 | ,-> .style {
-  2 | |   	--foo: 'bar';
-  3 | |   	--lore-ipsum: "foo";
-  4 | |   	--FANCY: "abort";
-  5 | |   	--test: 1987;
-  6 | |   	--percentage: 25%;
-  7 | |   	--number: 37;
-  8 | |   	--length: 12em;
-  9 | |   	--time: 75ms;
- 10 | |   	--function: foo();
- 11 | |   	--nested-function: foo(bar());
- 12 | |   	--parentheses: ( );
- 13 | |   	--braces: { };
- 14 | |   	--brackets: [ ];
- 15 | |   	--at-keyword-unknown: @foobar;
- 16 | |   	--at-keyword-known: @media;
- 17 | |   	--at-keyword-unknown-block: @foobar {};
- 18 | |   	--at-keyword-known-block: @media {};
- 19 | |   	--cdo-at-top-level: <!--;
- 20 | |   	--cdc-at-top-level: -->;
- 21 | |   	--cdo-not-top-level: (<!--);
- 22 | |   	--cdc-not-top-level: (-->);
+  2 | |       --foo: 'bar';
+  3 | |       --lore-ipsum: "foo";
+  4 | |       --FANCY: "abort";
+  5 | |       --test: 1987;
+  6 | |       --percentage: 25%;
+  7 | |       --number: 37;
+  8 | |       --length: 12em;
+  9 | |       --time: 75ms;
+ 10 | |       --function: foo();
+ 11 | |       --nested-function: foo(bar());
+ 12 | |       --parentheses: ( );
+ 13 | |       --braces: { };
+ 14 | |       --brackets: [ ];
+ 15 | |       --at-keyword-unknown: @foobar;
+ 16 | |       --at-keyword-known: @media;
+ 17 | |       --at-keyword-unknown-block: @foobar {};
+ 18 | |       --at-keyword-known-block: @media {};
+ 19 | |       --cdo-at-top-level: <!--;
+ 20 | |       --cdc-at-top-level: -->;
+ 21 | |       --cdo-not-top-level: (<!--);
+ 22 | |       --cdc-not-top-level: (-->);
  23 | `-> }
     `----
-
   x LBrace
    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:1:1]
  1 | .style {
    :        ^
- 2 | 	--foo: 'bar';
+ 2 |     --foo: 'bar';
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:2:1]
  1 | .style {
- 2 | 	--foo: 'bar';
-   :  ^^^^^^^^^^^^
- 3 | 	--lore-ipsum: "foo";
+ 2 |     --foo: 'bar';
+   :     ^^^^^^^^^^^^
+ 3 |     --lore-ipsum: "foo";
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:2:1]
  1 | .style {
- 2 | 	--foo: 'bar';
-   :  ^^^^^^^^^^^^
- 3 | 	--lore-ipsum: "foo";
+ 2 |     --foo: 'bar';
+   :     ^^^^^^^^^^^^
+ 3 |     --lore-ipsum: "foo";
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:2:1]
  1 | .style {
- 2 | 	--foo: 'bar';
-   :  ^^^^^
- 3 | 	--lore-ipsum: "foo";
+ 2 |     --foo: 'bar';
+   :     ^^^^^
+ 3 |     --lore-ipsum: "foo";
    `----
-
   x DashedIdent
-   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:2:1]
  1 | .style {
- 2 | 	--foo: 'bar';
-   :  ^^^^^
- 3 | 	--lore-ipsum: "foo";
+ 2 |     --foo: 'bar';
+   :     ^^^^^
+ 3 |     --lore-ipsum: "foo";
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:2:1]
  1 | .style {
- 2 | 	--foo: 'bar';
-   :         ^^^^^
- 3 | 	--lore-ipsum: "foo";
+ 2 |     --foo: 'bar';
+   :            ^^^^^
+ 3 |     --lore-ipsum: "foo";
    `----
-
   x String { value: "bar", raw: "'bar'" }
-   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:1:1]
+   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:2:1]
  1 | .style {
- 2 | 	--foo: 'bar';
-   :         ^^^^^
- 3 | 	--lore-ipsum: "foo";
+ 2 |     --foo: 'bar';
+   :            ^^^^^
+ 3 |     --lore-ipsum: "foo";
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:2:1]
- 2 | 	--foo: 'bar';
- 3 | 	--lore-ipsum: "foo";
-   :  ^^^^^^^^^^^^^^^^^^^
- 4 | 	--FANCY: "abort";
+   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:3:1]
+ 2 |     --foo: 'bar';
+ 3 |     --lore-ipsum: "foo";
+   :     ^^^^^^^^^^^^^^^^^^^
+ 4 |     --FANCY: "abort";
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:2:1]
- 2 | 	--foo: 'bar';
- 3 | 	--lore-ipsum: "foo";
-   :  ^^^^^^^^^^^^^^^^^^^
- 4 | 	--FANCY: "abort";
+   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:3:1]
+ 2 |     --foo: 'bar';
+ 3 |     --lore-ipsum: "foo";
+   :     ^^^^^^^^^^^^^^^^^^^
+ 4 |     --FANCY: "abort";
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:2:1]
- 2 | 	--foo: 'bar';
- 3 | 	--lore-ipsum: "foo";
-   :  ^^^^^^^^^^^^
- 4 | 	--FANCY: "abort";
+   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:3:1]
+ 2 |     --foo: 'bar';
+ 3 |     --lore-ipsum: "foo";
+   :     ^^^^^^^^^^^^
+ 4 |     --FANCY: "abort";
    `----
-
   x DashedIdent
-   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:2:1]
- 2 | 	--foo: 'bar';
- 3 | 	--lore-ipsum: "foo";
-   :  ^^^^^^^^^^^^
- 4 | 	--FANCY: "abort";
+   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:3:1]
+ 2 |     --foo: 'bar';
+ 3 |     --lore-ipsum: "foo";
+   :     ^^^^^^^^^^^^
+ 4 |     --FANCY: "abort";
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:2:1]
- 2 | 	--foo: 'bar';
- 3 | 	--lore-ipsum: "foo";
-   :                ^^^^^
- 4 | 	--FANCY: "abort";
+   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:3:1]
+ 2 |     --foo: 'bar';
+ 3 |     --lore-ipsum: "foo";
+   :                   ^^^^^
+ 4 |     --FANCY: "abort";
    `----
-
   x String { value: "foo", raw: "\"foo\"" }
-   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:2:1]
- 2 | 	--foo: 'bar';
- 3 | 	--lore-ipsum: "foo";
-   :                ^^^^^
- 4 | 	--FANCY: "abort";
-   `----
-
-  x ComponentValue
    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:3:1]
- 3 | 	--lore-ipsum: "foo";
- 4 | 	--FANCY: "abort";
-   :  ^^^^^^^^^^^^^^^^
- 5 | 	--test: 1987;
+ 2 |     --foo: 'bar';
+ 3 |     --lore-ipsum: "foo";
+   :                   ^^^^^
+ 4 |     --FANCY: "abort";
    `----
-
+  x ComponentValue
+   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:4:1]
+ 3 |     --lore-ipsum: "foo";
+ 4 |     --FANCY: "abort";
+   :     ^^^^^^^^^^^^^^^^
+ 5 |     --test: 1987;
+   `----
   x Declaration
-   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:3:1]
- 3 | 	--lore-ipsum: "foo";
- 4 | 	--FANCY: "abort";
-   :  ^^^^^^^^^^^^^^^^
- 5 | 	--test: 1987;
+   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:4:1]
+ 3 |     --lore-ipsum: "foo";
+ 4 |     --FANCY: "abort";
+   :     ^^^^^^^^^^^^^^^^
+ 5 |     --test: 1987;
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:3:1]
- 3 | 	--lore-ipsum: "foo";
- 4 | 	--FANCY: "abort";
-   :  ^^^^^^^
- 5 | 	--test: 1987;
+   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:4:1]
+ 3 |     --lore-ipsum: "foo";
+ 4 |     --FANCY: "abort";
+   :     ^^^^^^^
+ 5 |     --test: 1987;
    `----
-
   x DashedIdent
-   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:3:1]
- 3 | 	--lore-ipsum: "foo";
- 4 | 	--FANCY: "abort";
-   :  ^^^^^^^
- 5 | 	--test: 1987;
+   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:4:1]
+ 3 |     --lore-ipsum: "foo";
+ 4 |     --FANCY: "abort";
+   :     ^^^^^^^
+ 5 |     --test: 1987;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:3:1]
- 3 | 	--lore-ipsum: "foo";
- 4 | 	--FANCY: "abort";
-   :           ^^^^^^^
- 5 | 	--test: 1987;
+   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:4:1]
+ 3 |     --lore-ipsum: "foo";
+ 4 |     --FANCY: "abort";
+   :              ^^^^^^^
+ 5 |     --test: 1987;
    `----
-
   x String { value: "abort", raw: "\"abort\"" }
-   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:3:1]
- 3 | 	--lore-ipsum: "foo";
- 4 | 	--FANCY: "abort";
-   :           ^^^^^^^
- 5 | 	--test: 1987;
-   `----
-
-  x ComponentValue
    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:4:1]
- 4 | 	--FANCY: "abort";
- 5 | 	--test: 1987;
-   :  ^^^^^^^^^^^^
- 6 | 	--percentage: 25%;
+ 3 |     --lore-ipsum: "foo";
+ 4 |     --FANCY: "abort";
+   :              ^^^^^^^
+ 5 |     --test: 1987;
    `----
-
+  x ComponentValue
+   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:5:1]
+ 4 |     --FANCY: "abort";
+ 5 |     --test: 1987;
+   :     ^^^^^^^^^^^^
+ 6 |     --percentage: 25%;
+   `----
   x Declaration
-   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:4:1]
- 4 | 	--FANCY: "abort";
- 5 | 	--test: 1987;
-   :  ^^^^^^^^^^^^
- 6 | 	--percentage: 25%;
+   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:5:1]
+ 4 |     --FANCY: "abort";
+ 5 |     --test: 1987;
+   :     ^^^^^^^^^^^^
+ 6 |     --percentage: 25%;
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:4:1]
- 4 | 	--FANCY: "abort";
- 5 | 	--test: 1987;
-   :  ^^^^^^
- 6 | 	--percentage: 25%;
+   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:5:1]
+ 4 |     --FANCY: "abort";
+ 5 |     --test: 1987;
+   :     ^^^^^^
+ 6 |     --percentage: 25%;
    `----
-
   x DashedIdent
-   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:4:1]
- 4 | 	--FANCY: "abort";
- 5 | 	--test: 1987;
-   :  ^^^^^^
- 6 | 	--percentage: 25%;
+   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:5:1]
+ 4 |     --FANCY: "abort";
+ 5 |     --test: 1987;
+   :     ^^^^^^
+ 6 |     --percentage: 25%;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:4:1]
- 4 | 	--FANCY: "abort";
- 5 | 	--test: 1987;
-   :          ^^^^
- 6 | 	--percentage: 25%;
+   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:5:1]
+ 4 |     --FANCY: "abort";
+ 5 |     --test: 1987;
+   :             ^^^^
+ 6 |     --percentage: 25%;
    `----
-
   x Number { value: 1987.0, raw: "1987", type_flag: Integer }
-   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:4:1]
- 4 | 	--FANCY: "abort";
- 5 | 	--test: 1987;
-   :          ^^^^
- 6 | 	--percentage: 25%;
-   `----
-
-  x ComponentValue
    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:5:1]
- 5 | 	--test: 1987;
- 6 | 	--percentage: 25%;
-   :  ^^^^^^^^^^^^^^^^^
- 7 | 	--number: 37;
+ 4 |     --FANCY: "abort";
+ 5 |     --test: 1987;
+   :             ^^^^
+ 6 |     --percentage: 25%;
    `----
-
+  x ComponentValue
+   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:6:1]
+ 5 |     --test: 1987;
+ 6 |     --percentage: 25%;
+   :     ^^^^^^^^^^^^^^^^^
+ 7 |     --number: 37;
+   `----
   x Declaration
-   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:5:1]
- 5 | 	--test: 1987;
- 6 | 	--percentage: 25%;
-   :  ^^^^^^^^^^^^^^^^^
- 7 | 	--number: 37;
+   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:6:1]
+ 5 |     --test: 1987;
+ 6 |     --percentage: 25%;
+   :     ^^^^^^^^^^^^^^^^^
+ 7 |     --number: 37;
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:5:1]
- 5 | 	--test: 1987;
- 6 | 	--percentage: 25%;
-   :  ^^^^^^^^^^^^
- 7 | 	--number: 37;
+   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:6:1]
+ 5 |     --test: 1987;
+ 6 |     --percentage: 25%;
+   :     ^^^^^^^^^^^^
+ 7 |     --number: 37;
    `----
-
   x DashedIdent
-   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:5:1]
- 5 | 	--test: 1987;
- 6 | 	--percentage: 25%;
-   :  ^^^^^^^^^^^^
- 7 | 	--number: 37;
+   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:6:1]
+ 5 |     --test: 1987;
+ 6 |     --percentage: 25%;
+   :     ^^^^^^^^^^^^
+ 7 |     --number: 37;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:5:1]
- 5 | 	--test: 1987;
- 6 | 	--percentage: 25%;
-   :                ^^^
- 7 | 	--number: 37;
+   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:6:1]
+ 5 |     --test: 1987;
+ 6 |     --percentage: 25%;
+   :                   ^^^
+ 7 |     --number: 37;
    `----
-
   x Percentage { value: 25.0, raw: "25" }
-   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:5:1]
- 5 | 	--test: 1987;
- 6 | 	--percentage: 25%;
-   :                ^^^
- 7 | 	--number: 37;
-   `----
-
-  x ComponentValue
    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:6:1]
- 6 | 	--percentage: 25%;
- 7 | 	--number: 37;
-   :  ^^^^^^^^^^^^
- 8 | 	--length: 12em;
+ 5 |     --test: 1987;
+ 6 |     --percentage: 25%;
+   :                   ^^^
+ 7 |     --number: 37;
    `----
-
+  x ComponentValue
+   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:7:1]
+ 6 |     --percentage: 25%;
+ 7 |     --number: 37;
+   :     ^^^^^^^^^^^^
+ 8 |     --length: 12em;
+   `----
   x Declaration
-   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:6:1]
- 6 | 	--percentage: 25%;
- 7 | 	--number: 37;
-   :  ^^^^^^^^^^^^
- 8 | 	--length: 12em;
+   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:7:1]
+ 6 |     --percentage: 25%;
+ 7 |     --number: 37;
+   :     ^^^^^^^^^^^^
+ 8 |     --length: 12em;
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:6:1]
- 6 | 	--percentage: 25%;
- 7 | 	--number: 37;
-   :  ^^^^^^^^
- 8 | 	--length: 12em;
+   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:7:1]
+ 6 |     --percentage: 25%;
+ 7 |     --number: 37;
+   :     ^^^^^^^^
+ 8 |     --length: 12em;
    `----
-
   x DashedIdent
-   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:6:1]
- 6 | 	--percentage: 25%;
- 7 | 	--number: 37;
-   :  ^^^^^^^^
- 8 | 	--length: 12em;
+   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:7:1]
+ 6 |     --percentage: 25%;
+ 7 |     --number: 37;
+   :     ^^^^^^^^
+ 8 |     --length: 12em;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:6:1]
- 6 | 	--percentage: 25%;
- 7 | 	--number: 37;
-   :            ^^
- 8 | 	--length: 12em;
+   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:7:1]
+ 6 |     --percentage: 25%;
+ 7 |     --number: 37;
+   :               ^^
+ 8 |     --length: 12em;
    `----
-
   x Number { value: 37.0, raw: "37", type_flag: Integer }
-   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:6:1]
- 6 | 	--percentage: 25%;
- 7 | 	--number: 37;
-   :            ^^
- 8 | 	--length: 12em;
-   `----
-
-  x ComponentValue
    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:7:1]
- 7 | 	--number: 37;
- 8 | 	--length: 12em;
-   :  ^^^^^^^^^^^^^^
- 9 | 	--time: 75ms;
+ 6 |     --percentage: 25%;
+ 7 |     --number: 37;
+   :               ^^
+ 8 |     --length: 12em;
    `----
-
+  x ComponentValue
+   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:8:1]
+ 7 |     --number: 37;
+ 8 |     --length: 12em;
+   :     ^^^^^^^^^^^^^^
+ 9 |     --time: 75ms;
+   `----
   x Declaration
-   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:7:1]
- 7 | 	--number: 37;
- 8 | 	--length: 12em;
-   :  ^^^^^^^^^^^^^^
- 9 | 	--time: 75ms;
+   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:8:1]
+ 7 |     --number: 37;
+ 8 |     --length: 12em;
+   :     ^^^^^^^^^^^^^^
+ 9 |     --time: 75ms;
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:7:1]
- 7 | 	--number: 37;
- 8 | 	--length: 12em;
-   :  ^^^^^^^^
- 9 | 	--time: 75ms;
+   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:8:1]
+ 7 |     --number: 37;
+ 8 |     --length: 12em;
+   :     ^^^^^^^^
+ 9 |     --time: 75ms;
    `----
-
   x DashedIdent
-   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:7:1]
- 7 | 	--number: 37;
- 8 | 	--length: 12em;
-   :  ^^^^^^^^
- 9 | 	--time: 75ms;
+   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:8:1]
+ 7 |     --number: 37;
+ 8 |     --length: 12em;
+   :     ^^^^^^^^
+ 9 |     --time: 75ms;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:7:1]
- 7 | 	--number: 37;
- 8 | 	--length: 12em;
-   :            ^^^^
- 9 | 	--time: 75ms;
+   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:8:1]
+ 7 |     --number: 37;
+ 8 |     --length: 12em;
+   :               ^^^^
+ 9 |     --time: 75ms;
    `----
-
   x Dimension(DimensionToken { value: 12.0, raw_value: "12", unit: "em", type_flag: Integer, raw_unit: "em" })
-   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:7:1]
- 7 | 	--number: 37;
- 8 | 	--length: 12em;
-   :            ^^^^
- 9 | 	--time: 75ms;
+   ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:8:1]
+ 7 |     --number: 37;
+ 8 |     --length: 12em;
+   :               ^^^^
+ 9 |     --time: 75ms;
    `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:8:1]
-  8 | 	--length: 12em;
-  9 | 	--time: 75ms;
-    :  ^^^^^^^^^^^^
- 10 | 	--function: foo();
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:9:1]
+  8 |     --length: 12em;
+  9 |     --time: 75ms;
+    :     ^^^^^^^^^^^^
+ 10 |     --function: foo();
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:8:1]
-  8 | 	--length: 12em;
-  9 | 	--time: 75ms;
-    :  ^^^^^^^^^^^^
- 10 | 	--function: foo();
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:9:1]
+  8 |     --length: 12em;
+  9 |     --time: 75ms;
+    :     ^^^^^^^^^^^^
+ 10 |     --function: foo();
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:8:1]
-  8 | 	--length: 12em;
-  9 | 	--time: 75ms;
-    :  ^^^^^^
- 10 | 	--function: foo();
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:9:1]
+  8 |     --length: 12em;
+  9 |     --time: 75ms;
+    :     ^^^^^^
+ 10 |     --function: foo();
     `----
-
   x DashedIdent
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:8:1]
-  8 | 	--length: 12em;
-  9 | 	--time: 75ms;
-    :  ^^^^^^
- 10 | 	--function: foo();
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:9:1]
+  8 |     --length: 12em;
+  9 |     --time: 75ms;
+    :     ^^^^^^
+ 10 |     --function: foo();
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:8:1]
-  8 | 	--length: 12em;
-  9 | 	--time: 75ms;
-    :          ^^^^
- 10 | 	--function: foo();
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:9:1]
+  8 |     --length: 12em;
+  9 |     --time: 75ms;
+    :             ^^^^
+ 10 |     --function: foo();
     `----
-
   x Dimension(DimensionToken { value: 75.0, raw_value: "75", unit: "ms", type_flag: Integer, raw_unit: "ms" })
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:8:1]
-  8 | 	--length: 12em;
-  9 | 	--time: 75ms;
-    :          ^^^^
- 10 | 	--function: foo();
-    `----
-
-  x ComponentValue
     ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:9:1]
-  9 | 	--time: 75ms;
- 10 | 	--function: foo();
-    :  ^^^^^^^^^^^^^^^^^
- 11 | 	--nested-function: foo(bar());
+  8 |     --length: 12em;
+  9 |     --time: 75ms;
+    :             ^^^^
+ 10 |     --function: foo();
     `----
-
-  x Declaration
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:9:1]
-  9 | 	--time: 75ms;
- 10 | 	--function: foo();
-    :  ^^^^^^^^^^^^^^^^^
- 11 | 	--nested-function: foo(bar());
-    `----
-
-  x DeclarationName
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:9:1]
-  9 | 	--time: 75ms;
- 10 | 	--function: foo();
-    :  ^^^^^^^^^^
- 11 | 	--nested-function: foo(bar());
-    `----
-
-  x DashedIdent
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:9:1]
-  9 | 	--time: 75ms;
- 10 | 	--function: foo();
-    :  ^^^^^^^^^^
- 11 | 	--nested-function: foo(bar());
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:9:1]
-  9 | 	--time: 75ms;
- 10 | 	--function: foo();
-    :              ^^^^^
- 11 | 	--nested-function: foo(bar());
-    `----
-
-  x Function
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:9:1]
-  9 | 	--time: 75ms;
- 10 | 	--function: foo();
-    :              ^^^^^
- 11 | 	--nested-function: foo(bar());
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:9:1]
-  9 | 	--time: 75ms;
- 10 | 	--function: foo();
-    :              ^^^
- 11 | 	--nested-function: foo(bar());
-    `----
-
   x ComponentValue
     ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:10:1]
- 10 | 	--function: foo();
- 11 | 	--nested-function: foo(bar());
-    :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 12 | 	--parentheses: ( );
+  9 |     --time: 75ms;
+ 10 |     --function: foo();
+    :     ^^^^^^^^^^^^^^^^^
+ 11 |     --nested-function: foo(bar());
     `----
-
   x Declaration
     ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:10:1]
- 10 | 	--function: foo();
- 11 | 	--nested-function: foo(bar());
-    :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 12 | 	--parentheses: ( );
+  9 |     --time: 75ms;
+ 10 |     --function: foo();
+    :     ^^^^^^^^^^^^^^^^^
+ 11 |     --nested-function: foo(bar());
     `----
-
   x DeclarationName
     ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:10:1]
- 10 | 	--function: foo();
- 11 | 	--nested-function: foo(bar());
-    :  ^^^^^^^^^^^^^^^^^
- 12 | 	--parentheses: ( );
+  9 |     --time: 75ms;
+ 10 |     --function: foo();
+    :     ^^^^^^^^^^
+ 11 |     --nested-function: foo(bar());
     `----
-
   x DashedIdent
     ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:10:1]
- 10 | 	--function: foo();
- 11 | 	--nested-function: foo(bar());
-    :  ^^^^^^^^^^^^^^^^^
- 12 | 	--parentheses: ( );
+  9 |     --time: 75ms;
+ 10 |     --function: foo();
+    :     ^^^^^^^^^^
+ 11 |     --nested-function: foo(bar());
     `----
-
   x ComponentValue
     ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:10:1]
- 10 | 	--function: foo();
- 11 | 	--nested-function: foo(bar());
-    :                     ^^^^^^^^^^
- 12 | 	--parentheses: ( );
+  9 |     --time: 75ms;
+ 10 |     --function: foo();
+    :                 ^^^^^
+ 11 |     --nested-function: foo(bar());
     `----
-
   x Function
     ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:10:1]
- 10 | 	--function: foo();
- 11 | 	--nested-function: foo(bar());
-    :                     ^^^^^^^^^^
- 12 | 	--parentheses: ( );
+  9 |     --time: 75ms;
+ 10 |     --function: foo();
+    :                 ^^^^^
+ 11 |     --nested-function: foo(bar());
     `----
-
   x Ident
     ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:10:1]
- 10 | 	--function: foo();
- 11 | 	--nested-function: foo(bar());
-    :                     ^^^
- 12 | 	--parentheses: ( );
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:10:1]
- 10 | 	--function: foo();
- 11 | 	--nested-function: foo(bar());
-    :                         ^^^^^
- 12 | 	--parentheses: ( );
-    `----
-
-  x Function
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:10:1]
- 10 | 	--function: foo();
- 11 | 	--nested-function: foo(bar());
-    :                         ^^^^^
- 12 | 	--parentheses: ( );
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:10:1]
- 10 | 	--function: foo();
- 11 | 	--nested-function: foo(bar());
-    :                         ^^^
- 12 | 	--parentheses: ( );
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:11:1]
- 11 | 	--nested-function: foo(bar());
- 12 | 	--parentheses: ( );
-    :  ^^^^^^^^^^^^^^^^^^
- 13 | 	--braces: { };
-    `----
-
-  x Declaration
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:11:1]
- 11 | 	--nested-function: foo(bar());
- 12 | 	--parentheses: ( );
-    :  ^^^^^^^^^^^^^^^^^^
- 13 | 	--braces: { };
-    `----
-
-  x DeclarationName
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:11:1]
- 11 | 	--nested-function: foo(bar());
- 12 | 	--parentheses: ( );
-    :  ^^^^^^^^^^^^^
- 13 | 	--braces: { };
-    `----
-
-  x DashedIdent
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:11:1]
- 11 | 	--nested-function: foo(bar());
- 12 | 	--parentheses: ( );
-    :  ^^^^^^^^^^^^^
- 13 | 	--braces: { };
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:11:1]
- 11 | 	--nested-function: foo(bar());
- 12 | 	--parentheses: ( );
+  9 |     --time: 75ms;
+ 10 |     --function: foo();
     :                 ^^^
- 13 | 	--braces: { };
+ 11 |     --nested-function: foo(bar());
     `----
-
+  x ComponentValue
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:11:1]
+ 10 |     --function: foo();
+ 11 |     --nested-function: foo(bar());
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 12 |     --parentheses: ( );
+    `----
+  x Declaration
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:11:1]
+ 10 |     --function: foo();
+ 11 |     --nested-function: foo(bar());
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 12 |     --parentheses: ( );
+    `----
+  x DeclarationName
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:11:1]
+ 10 |     --function: foo();
+ 11 |     --nested-function: foo(bar());
+    :     ^^^^^^^^^^^^^^^^^
+ 12 |     --parentheses: ( );
+    `----
+  x DashedIdent
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:11:1]
+ 10 |     --function: foo();
+ 11 |     --nested-function: foo(bar());
+    :     ^^^^^^^^^^^^^^^^^
+ 12 |     --parentheses: ( );
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:11:1]
+ 10 |     --function: foo();
+ 11 |     --nested-function: foo(bar());
+    :                        ^^^^^^^^^^
+ 12 |     --parentheses: ( );
+    `----
+  x Function
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:11:1]
+ 10 |     --function: foo();
+ 11 |     --nested-function: foo(bar());
+    :                        ^^^^^^^^^^
+ 12 |     --parentheses: ( );
+    `----
+  x Ident
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:11:1]
+ 10 |     --function: foo();
+ 11 |     --nested-function: foo(bar());
+    :                        ^^^
+ 12 |     --parentheses: ( );
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:11:1]
+ 10 |     --function: foo();
+ 11 |     --nested-function: foo(bar());
+    :                            ^^^^^
+ 12 |     --parentheses: ( );
+    `----
+  x Function
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:11:1]
+ 10 |     --function: foo();
+ 11 |     --nested-function: foo(bar());
+    :                            ^^^^^
+ 12 |     --parentheses: ( );
+    `----
+  x Ident
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:11:1]
+ 10 |     --function: foo();
+ 11 |     --nested-function: foo(bar());
+    :                            ^^^
+ 12 |     --parentheses: ( );
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:12:1]
+ 11 |     --nested-function: foo(bar());
+ 12 |     --parentheses: ( );
+    :     ^^^^^^^^^^^^^^^^^^
+ 13 |     --braces: { };
+    `----
+  x Declaration
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:12:1]
+ 11 |     --nested-function: foo(bar());
+ 12 |     --parentheses: ( );
+    :     ^^^^^^^^^^^^^^^^^^
+ 13 |     --braces: { };
+    `----
+  x DeclarationName
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:12:1]
+ 11 |     --nested-function: foo(bar());
+ 12 |     --parentheses: ( );
+    :     ^^^^^^^^^^^^^
+ 13 |     --braces: { };
+    `----
+  x DashedIdent
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:12:1]
+ 11 |     --nested-function: foo(bar());
+ 12 |     --parentheses: ( );
+    :     ^^^^^^^^^^^^^
+ 13 |     --braces: { };
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:12:1]
+ 11 |     --nested-function: foo(bar());
+ 12 |     --parentheses: ( );
+    :                    ^^^
+ 13 |     --braces: { };
+    `----
   x SimpleBlock
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:11:1]
- 11 | 	--nested-function: foo(bar());
- 12 | 	--parentheses: ( );
-    :                 ^^^
- 13 | 	--braces: { };
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:12:1]
+ 11 |     --nested-function: foo(bar());
+ 12 |     --parentheses: ( );
+    :                    ^^^
+ 13 |     --braces: { };
     `----
-
   x LParen
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:11:1]
- 11 | 	--nested-function: foo(bar());
- 12 | 	--parentheses: ( );
-    :                 ^
- 13 | 	--braces: { };
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:12:1]
+ 11 |     --nested-function: foo(bar());
+ 12 |     --parentheses: ( );
+    :                    ^
+ 13 |     --braces: { };
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:11:1]
- 11 | 	--nested-function: foo(bar());
- 12 | 	--parentheses: ( );
-    :                  ^
- 13 | 	--braces: { };
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:12:1]
+ 11 |     --nested-function: foo(bar());
+ 12 |     --parentheses: ( );
+    :                     ^
+ 13 |     --braces: { };
     `----
-
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:11:1]
- 11 | 	--nested-function: foo(bar());
- 12 | 	--parentheses: ( );
-    :                  ^
- 13 | 	--braces: { };
-    `----
-
-  x ComponentValue
     ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:12:1]
- 12 | 	--parentheses: ( );
- 13 | 	--braces: { };
-    :  ^^^^^^^^^^^^^
- 14 | 	--brackets: [ ];
+ 11 |     --nested-function: foo(bar());
+ 12 |     --parentheses: ( );
+    :                     ^
+ 13 |     --braces: { };
     `----
-
+  x ComponentValue
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:13:1]
+ 12 |     --parentheses: ( );
+ 13 |     --braces: { };
+    :     ^^^^^^^^^^^^^
+ 14 |     --brackets: [ ];
+    `----
   x Declaration
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:12:1]
- 12 | 	--parentheses: ( );
- 13 | 	--braces: { };
-    :  ^^^^^^^^^^^^^
- 14 | 	--brackets: [ ];
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:13:1]
+ 12 |     --parentheses: ( );
+ 13 |     --braces: { };
+    :     ^^^^^^^^^^^^^
+ 14 |     --brackets: [ ];
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:12:1]
- 12 | 	--parentheses: ( );
- 13 | 	--braces: { };
-    :  ^^^^^^^^
- 14 | 	--brackets: [ ];
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:13:1]
+ 12 |     --parentheses: ( );
+ 13 |     --braces: { };
+    :     ^^^^^^^^
+ 14 |     --brackets: [ ];
     `----
-
   x DashedIdent
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:12:1]
- 12 | 	--parentheses: ( );
- 13 | 	--braces: { };
-    :  ^^^^^^^^
- 14 | 	--brackets: [ ];
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:13:1]
+ 12 |     --parentheses: ( );
+ 13 |     --braces: { };
+    :     ^^^^^^^^
+ 14 |     --brackets: [ ];
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:12:1]
- 12 | 	--parentheses: ( );
- 13 | 	--braces: { };
-    :            ^^^
- 14 | 	--brackets: [ ];
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:13:1]
+ 12 |     --parentheses: ( );
+ 13 |     --braces: { };
+    :               ^^^
+ 14 |     --brackets: [ ];
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:12:1]
- 12 | 	--parentheses: ( );
- 13 | 	--braces: { };
-    :            ^^^
- 14 | 	--brackets: [ ];
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:13:1]
+ 12 |     --parentheses: ( );
+ 13 |     --braces: { };
+    :               ^^^
+ 14 |     --brackets: [ ];
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:12:1]
- 12 | 	--parentheses: ( );
- 13 | 	--braces: { };
-    :            ^
- 14 | 	--brackets: [ ];
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:13:1]
+ 12 |     --parentheses: ( );
+ 13 |     --braces: { };
+    :               ^
+ 14 |     --brackets: [ ];
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:12:1]
- 12 | 	--parentheses: ( );
- 13 | 	--braces: { };
-    :             ^
- 14 | 	--brackets: [ ];
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:13:1]
+ 12 |     --parentheses: ( );
+ 13 |     --braces: { };
+    :                ^
+ 14 |     --brackets: [ ];
     `----
-
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:12:1]
- 12 | 	--parentheses: ( );
- 13 | 	--braces: { };
-    :             ^
- 14 | 	--brackets: [ ];
-    `----
-
-  x ComponentValue
     ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:13:1]
- 13 | 	--braces: { };
- 14 | 	--brackets: [ ];
-    :  ^^^^^^^^^^^^^^^
- 15 | 	--at-keyword-unknown: @foobar;
+ 12 |     --parentheses: ( );
+ 13 |     --braces: { };
+    :                ^
+ 14 |     --brackets: [ ];
     `----
-
+  x ComponentValue
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:14:1]
+ 13 |     --braces: { };
+ 14 |     --brackets: [ ];
+    :     ^^^^^^^^^^^^^^^
+ 15 |     --at-keyword-unknown: @foobar;
+    `----
   x Declaration
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:13:1]
- 13 | 	--braces: { };
- 14 | 	--brackets: [ ];
-    :  ^^^^^^^^^^^^^^^
- 15 | 	--at-keyword-unknown: @foobar;
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:14:1]
+ 13 |     --braces: { };
+ 14 |     --brackets: [ ];
+    :     ^^^^^^^^^^^^^^^
+ 15 |     --at-keyword-unknown: @foobar;
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:13:1]
- 13 | 	--braces: { };
- 14 | 	--brackets: [ ];
-    :  ^^^^^^^^^^
- 15 | 	--at-keyword-unknown: @foobar;
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:14:1]
+ 13 |     --braces: { };
+ 14 |     --brackets: [ ];
+    :     ^^^^^^^^^^
+ 15 |     --at-keyword-unknown: @foobar;
     `----
-
   x DashedIdent
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:13:1]
- 13 | 	--braces: { };
- 14 | 	--brackets: [ ];
-    :  ^^^^^^^^^^
- 15 | 	--at-keyword-unknown: @foobar;
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:14:1]
+ 13 |     --braces: { };
+ 14 |     --brackets: [ ];
+    :     ^^^^^^^^^^
+ 15 |     --at-keyword-unknown: @foobar;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:13:1]
- 13 | 	--braces: { };
- 14 | 	--brackets: [ ];
-    :              ^^^
- 15 | 	--at-keyword-unknown: @foobar;
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:14:1]
+ 13 |     --braces: { };
+ 14 |     --brackets: [ ];
+    :                 ^^^
+ 15 |     --at-keyword-unknown: @foobar;
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:13:1]
- 13 | 	--braces: { };
- 14 | 	--brackets: [ ];
-    :              ^^^
- 15 | 	--at-keyword-unknown: @foobar;
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:14:1]
+ 13 |     --braces: { };
+ 14 |     --brackets: [ ];
+    :                 ^^^
+ 15 |     --at-keyword-unknown: @foobar;
     `----
-
   x LBracket
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:13:1]
- 13 | 	--braces: { };
- 14 | 	--brackets: [ ];
-    :              ^
- 15 | 	--at-keyword-unknown: @foobar;
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:14:1]
+ 13 |     --braces: { };
+ 14 |     --brackets: [ ];
+    :                 ^
+ 15 |     --at-keyword-unknown: @foobar;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:13:1]
- 13 | 	--braces: { };
- 14 | 	--brackets: [ ];
-    :               ^
- 15 | 	--at-keyword-unknown: @foobar;
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:14:1]
+ 13 |     --braces: { };
+ 14 |     --brackets: [ ];
+    :                  ^
+ 15 |     --at-keyword-unknown: @foobar;
     `----
-
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:13:1]
- 13 | 	--braces: { };
- 14 | 	--brackets: [ ];
-    :               ^
- 15 | 	--at-keyword-unknown: @foobar;
-    `----
-
-  x ComponentValue
     ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:14:1]
- 14 | 	--brackets: [ ];
- 15 | 	--at-keyword-unknown: @foobar;
-    :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 16 | 	--at-keyword-known: @media;
+ 13 |     --braces: { };
+ 14 |     --brackets: [ ];
+    :                  ^
+ 15 |     --at-keyword-unknown: @foobar;
     `----
-
+  x ComponentValue
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:15:1]
+ 14 |     --brackets: [ ];
+ 15 |     --at-keyword-unknown: @foobar;
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 16 |     --at-keyword-known: @media;
+    `----
   x Declaration
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:14:1]
- 14 | 	--brackets: [ ];
- 15 | 	--at-keyword-unknown: @foobar;
-    :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 16 | 	--at-keyword-known: @media;
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:15:1]
+ 14 |     --brackets: [ ];
+ 15 |     --at-keyword-unknown: @foobar;
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 16 |     --at-keyword-known: @media;
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:14:1]
- 14 | 	--brackets: [ ];
- 15 | 	--at-keyword-unknown: @foobar;
-    :  ^^^^^^^^^^^^^^^^^^^^
- 16 | 	--at-keyword-known: @media;
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:15:1]
+ 14 |     --brackets: [ ];
+ 15 |     --at-keyword-unknown: @foobar;
+    :     ^^^^^^^^^^^^^^^^^^^^
+ 16 |     --at-keyword-known: @media;
     `----
-
   x DashedIdent
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:14:1]
- 14 | 	--brackets: [ ];
- 15 | 	--at-keyword-unknown: @foobar;
-    :  ^^^^^^^^^^^^^^^^^^^^
- 16 | 	--at-keyword-known: @media;
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:15:1]
+ 14 |     --brackets: [ ];
+ 15 |     --at-keyword-unknown: @foobar;
+    :     ^^^^^^^^^^^^^^^^^^^^
+ 16 |     --at-keyword-known: @media;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:14:1]
- 14 | 	--brackets: [ ];
- 15 | 	--at-keyword-unknown: @foobar;
-    :                        ^^^^^^^
- 16 | 	--at-keyword-known: @media;
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:15:1]
+ 14 |     --brackets: [ ];
+ 15 |     --at-keyword-unknown: @foobar;
+    :                           ^^^^^^^
+ 16 |     --at-keyword-known: @media;
     `----
-
   x AtKeyword { value: "foobar", raw: "foobar" }
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:14:1]
- 14 | 	--brackets: [ ];
- 15 | 	--at-keyword-unknown: @foobar;
-    :                        ^^^^^^^
- 16 | 	--at-keyword-known: @media;
-    `----
-
-  x ComponentValue
     ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:15:1]
- 15 | 	--at-keyword-unknown: @foobar;
- 16 | 	--at-keyword-known: @media;
-    :  ^^^^^^^^^^^^^^^^^^^^^^^^^^
- 17 | 	--at-keyword-unknown-block: @foobar {};
+ 14 |     --brackets: [ ];
+ 15 |     --at-keyword-unknown: @foobar;
+    :                           ^^^^^^^
+ 16 |     --at-keyword-known: @media;
     `----
-
+  x ComponentValue
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:16:1]
+ 15 |     --at-keyword-unknown: @foobar;
+ 16 |     --at-keyword-known: @media;
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 17 |     --at-keyword-unknown-block: @foobar {};
+    `----
   x Declaration
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:15:1]
- 15 | 	--at-keyword-unknown: @foobar;
- 16 | 	--at-keyword-known: @media;
-    :  ^^^^^^^^^^^^^^^^^^^^^^^^^^
- 17 | 	--at-keyword-unknown-block: @foobar {};
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:16:1]
+ 15 |     --at-keyword-unknown: @foobar;
+ 16 |     --at-keyword-known: @media;
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 17 |     --at-keyword-unknown-block: @foobar {};
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:15:1]
- 15 | 	--at-keyword-unknown: @foobar;
- 16 | 	--at-keyword-known: @media;
-    :  ^^^^^^^^^^^^^^^^^^
- 17 | 	--at-keyword-unknown-block: @foobar {};
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:16:1]
+ 15 |     --at-keyword-unknown: @foobar;
+ 16 |     --at-keyword-known: @media;
+    :     ^^^^^^^^^^^^^^^^^^
+ 17 |     --at-keyword-unknown-block: @foobar {};
     `----
-
   x DashedIdent
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:15:1]
- 15 | 	--at-keyword-unknown: @foobar;
- 16 | 	--at-keyword-known: @media;
-    :  ^^^^^^^^^^^^^^^^^^
- 17 | 	--at-keyword-unknown-block: @foobar {};
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:16:1]
+ 15 |     --at-keyword-unknown: @foobar;
+ 16 |     --at-keyword-known: @media;
+    :     ^^^^^^^^^^^^^^^^^^
+ 17 |     --at-keyword-unknown-block: @foobar {};
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:15:1]
- 15 | 	--at-keyword-unknown: @foobar;
- 16 | 	--at-keyword-known: @media;
-    :                      ^^^^^^
- 17 | 	--at-keyword-unknown-block: @foobar {};
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:16:1]
+ 15 |     --at-keyword-unknown: @foobar;
+ 16 |     --at-keyword-known: @media;
+    :                         ^^^^^^
+ 17 |     --at-keyword-unknown-block: @foobar {};
     `----
-
   x AtKeyword { value: "media", raw: "media" }
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:15:1]
- 15 | 	--at-keyword-unknown: @foobar;
- 16 | 	--at-keyword-known: @media;
-    :                      ^^^^^^
- 17 | 	--at-keyword-unknown-block: @foobar {};
-    `----
-
-  x ComponentValue
     ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:16:1]
- 16 | 	--at-keyword-known: @media;
- 17 | 	--at-keyword-unknown-block: @foobar {};
-    :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 18 | 	--at-keyword-known-block: @media {};
+ 15 |     --at-keyword-unknown: @foobar;
+ 16 |     --at-keyword-known: @media;
+    :                         ^^^^^^
+ 17 |     --at-keyword-unknown-block: @foobar {};
     `----
-
+  x ComponentValue
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:17:1]
+ 16 |     --at-keyword-known: @media;
+ 17 |     --at-keyword-unknown-block: @foobar {};
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 18 |     --at-keyword-known-block: @media {};
+    `----
   x Declaration
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:16:1]
- 16 | 	--at-keyword-known: @media;
- 17 | 	--at-keyword-unknown-block: @foobar {};
-    :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 18 | 	--at-keyword-known-block: @media {};
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:17:1]
+ 16 |     --at-keyword-known: @media;
+ 17 |     --at-keyword-unknown-block: @foobar {};
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 18 |     --at-keyword-known-block: @media {};
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:16:1]
- 16 | 	--at-keyword-known: @media;
- 17 | 	--at-keyword-unknown-block: @foobar {};
-    :  ^^^^^^^^^^^^^^^^^^^^^^^^^^
- 18 | 	--at-keyword-known-block: @media {};
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:17:1]
+ 16 |     --at-keyword-known: @media;
+ 17 |     --at-keyword-unknown-block: @foobar {};
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 18 |     --at-keyword-known-block: @media {};
     `----
-
   x DashedIdent
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:16:1]
- 16 | 	--at-keyword-known: @media;
- 17 | 	--at-keyword-unknown-block: @foobar {};
-    :  ^^^^^^^^^^^^^^^^^^^^^^^^^^
- 18 | 	--at-keyword-known-block: @media {};
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:17:1]
+ 16 |     --at-keyword-known: @media;
+ 17 |     --at-keyword-unknown-block: @foobar {};
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 18 |     --at-keyword-known-block: @media {};
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:16:1]
- 16 | 	--at-keyword-known: @media;
- 17 | 	--at-keyword-unknown-block: @foobar {};
-    :                              ^^^^^^^
- 18 | 	--at-keyword-known-block: @media {};
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:17:1]
+ 16 |     --at-keyword-known: @media;
+ 17 |     --at-keyword-unknown-block: @foobar {};
+    :                                 ^^^^^^^
+ 18 |     --at-keyword-known-block: @media {};
     `----
-
   x AtKeyword { value: "foobar", raw: "foobar" }
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:16:1]
- 16 | 	--at-keyword-known: @media;
- 17 | 	--at-keyword-unknown-block: @foobar {};
-    :                              ^^^^^^^
- 18 | 	--at-keyword-known-block: @media {};
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:17:1]
+ 16 |     --at-keyword-known: @media;
+ 17 |     --at-keyword-unknown-block: @foobar {};
+    :                                 ^^^^^^^
+ 18 |     --at-keyword-known-block: @media {};
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:16:1]
- 16 | 	--at-keyword-known: @media;
- 17 | 	--at-keyword-unknown-block: @foobar {};
-    :                                     ^
- 18 | 	--at-keyword-known-block: @media {};
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:17:1]
+ 16 |     --at-keyword-known: @media;
+ 17 |     --at-keyword-unknown-block: @foobar {};
+    :                                        ^
+ 18 |     --at-keyword-known-block: @media {};
     `----
-
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:16:1]
- 16 | 	--at-keyword-known: @media;
- 17 | 	--at-keyword-unknown-block: @foobar {};
-    :                                     ^
- 18 | 	--at-keyword-known-block: @media {};
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:17:1]
+ 16 |     --at-keyword-known: @media;
+ 17 |     --at-keyword-unknown-block: @foobar {};
+    :                                        ^
+ 18 |     --at-keyword-known-block: @media {};
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:16:1]
- 16 | 	--at-keyword-known: @media;
- 17 | 	--at-keyword-unknown-block: @foobar {};
-    :                                      ^^
- 18 | 	--at-keyword-known-block: @media {};
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:17:1]
+ 16 |     --at-keyword-known: @media;
+ 17 |     --at-keyword-unknown-block: @foobar {};
+    :                                         ^^
+ 18 |     --at-keyword-known-block: @media {};
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:16:1]
- 16 | 	--at-keyword-known: @media;
- 17 | 	--at-keyword-unknown-block: @foobar {};
-    :                                      ^^
- 18 | 	--at-keyword-known-block: @media {};
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:17:1]
+ 16 |     --at-keyword-known: @media;
+ 17 |     --at-keyword-unknown-block: @foobar {};
+    :                                         ^^
+ 18 |     --at-keyword-known-block: @media {};
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:16:1]
- 16 | 	--at-keyword-known: @media;
- 17 | 	--at-keyword-unknown-block: @foobar {};
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:17:1]
+ 16 |     --at-keyword-known: @media;
+ 17 |     --at-keyword-unknown-block: @foobar {};
+    :                                         ^
+ 18 |     --at-keyword-known-block: @media {};
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:18:1]
+ 17 |     --at-keyword-unknown-block: @foobar {};
+ 18 |     --at-keyword-known-block: @media {};
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 19 |     --cdo-at-top-level: <!--;
+    `----
+  x Declaration
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:18:1]
+ 17 |     --at-keyword-unknown-block: @foobar {};
+ 18 |     --at-keyword-known-block: @media {};
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 19 |     --cdo-at-top-level: <!--;
+    `----
+  x DeclarationName
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:18:1]
+ 17 |     --at-keyword-unknown-block: @foobar {};
+ 18 |     --at-keyword-known-block: @media {};
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^
+ 19 |     --cdo-at-top-level: <!--;
+    `----
+  x DashedIdent
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:18:1]
+ 17 |     --at-keyword-unknown-block: @foobar {};
+ 18 |     --at-keyword-known-block: @media {};
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^
+ 19 |     --cdo-at-top-level: <!--;
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:18:1]
+ 17 |     --at-keyword-unknown-block: @foobar {};
+ 18 |     --at-keyword-known-block: @media {};
+    :                               ^^^^^^
+ 19 |     --cdo-at-top-level: <!--;
+    `----
+  x AtKeyword { value: "media", raw: "media" }
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:18:1]
+ 17 |     --at-keyword-unknown-block: @foobar {};
+ 18 |     --at-keyword-known-block: @media {};
+    :                               ^^^^^^
+ 19 |     --cdo-at-top-level: <!--;
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:18:1]
+ 17 |     --at-keyword-unknown-block: @foobar {};
+ 18 |     --at-keyword-known-block: @media {};
+    :                                     ^
+ 19 |     --cdo-at-top-level: <!--;
+    `----
+  x WhiteSpace { value: " " }
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:18:1]
+ 17 |     --at-keyword-unknown-block: @foobar {};
+ 18 |     --at-keyword-known-block: @media {};
+    :                                     ^
+ 19 |     --cdo-at-top-level: <!--;
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:18:1]
+ 17 |     --at-keyword-unknown-block: @foobar {};
+ 18 |     --at-keyword-known-block: @media {};
+    :                                      ^^
+ 19 |     --cdo-at-top-level: <!--;
+    `----
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:18:1]
+ 17 |     --at-keyword-unknown-block: @foobar {};
+ 18 |     --at-keyword-known-block: @media {};
+    :                                      ^^
+ 19 |     --cdo-at-top-level: <!--;
+    `----
+  x LBrace
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:18:1]
+ 17 |     --at-keyword-unknown-block: @foobar {};
+ 18 |     --at-keyword-known-block: @media {};
     :                                      ^
- 18 | 	--at-keyword-known-block: @media {};
+ 19 |     --cdo-at-top-level: <!--;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:17:1]
- 17 | 	--at-keyword-unknown-block: @foobar {};
- 18 | 	--at-keyword-known-block: @media {};
-    :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 19 | 	--cdo-at-top-level: <!--;
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:19:1]
+ 18 |     --at-keyword-known-block: @media {};
+ 19 |     --cdo-at-top-level: <!--;
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^
+ 20 |     --cdc-at-top-level: -->;
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:17:1]
- 17 | 	--at-keyword-unknown-block: @foobar {};
- 18 | 	--at-keyword-known-block: @media {};
-    :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 19 | 	--cdo-at-top-level: <!--;
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:19:1]
+ 18 |     --at-keyword-known-block: @media {};
+ 19 |     --cdo-at-top-level: <!--;
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^
+ 20 |     --cdc-at-top-level: -->;
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:17:1]
- 17 | 	--at-keyword-unknown-block: @foobar {};
- 18 | 	--at-keyword-known-block: @media {};
-    :  ^^^^^^^^^^^^^^^^^^^^^^^^
- 19 | 	--cdo-at-top-level: <!--;
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:19:1]
+ 18 |     --at-keyword-known-block: @media {};
+ 19 |     --cdo-at-top-level: <!--;
+    :     ^^^^^^^^^^^^^^^^^^
+ 20 |     --cdc-at-top-level: -->;
     `----
-
   x DashedIdent
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:17:1]
- 17 | 	--at-keyword-unknown-block: @foobar {};
- 18 | 	--at-keyword-known-block: @media {};
-    :  ^^^^^^^^^^^^^^^^^^^^^^^^
- 19 | 	--cdo-at-top-level: <!--;
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:19:1]
+ 18 |     --at-keyword-known-block: @media {};
+ 19 |     --cdo-at-top-level: <!--;
+    :     ^^^^^^^^^^^^^^^^^^
+ 20 |     --cdc-at-top-level: -->;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:17:1]
- 17 | 	--at-keyword-unknown-block: @foobar {};
- 18 | 	--at-keyword-known-block: @media {};
-    :                            ^^^^^^
- 19 | 	--cdo-at-top-level: <!--;
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:19:1]
+ 18 |     --at-keyword-known-block: @media {};
+ 19 |     --cdo-at-top-level: <!--;
+    :                         ^^^^
+ 20 |     --cdc-at-top-level: -->;
     `----
-
-  x AtKeyword { value: "media", raw: "media" }
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:17:1]
- 17 | 	--at-keyword-unknown-block: @foobar {};
- 18 | 	--at-keyword-known-block: @media {};
-    :                            ^^^^^^
- 19 | 	--cdo-at-top-level: <!--;
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:17:1]
- 17 | 	--at-keyword-unknown-block: @foobar {};
- 18 | 	--at-keyword-known-block: @media {};
-    :                                  ^
- 19 | 	--cdo-at-top-level: <!--;
-    `----
-
-  x WhiteSpace { value: " " }
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:17:1]
- 17 | 	--at-keyword-unknown-block: @foobar {};
- 18 | 	--at-keyword-known-block: @media {};
-    :                                  ^
- 19 | 	--cdo-at-top-level: <!--;
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:17:1]
- 17 | 	--at-keyword-unknown-block: @foobar {};
- 18 | 	--at-keyword-known-block: @media {};
-    :                                   ^^
- 19 | 	--cdo-at-top-level: <!--;
-    `----
-
-  x SimpleBlock
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:17:1]
- 17 | 	--at-keyword-unknown-block: @foobar {};
- 18 | 	--at-keyword-known-block: @media {};
-    :                                   ^^
- 19 | 	--cdo-at-top-level: <!--;
-    `----
-
-  x LBrace
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:17:1]
- 17 | 	--at-keyword-unknown-block: @foobar {};
- 18 | 	--at-keyword-known-block: @media {};
-    :                                   ^
- 19 | 	--cdo-at-top-level: <!--;
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:18:1]
- 18 | 	--at-keyword-known-block: @media {};
- 19 | 	--cdo-at-top-level: <!--;
-    :  ^^^^^^^^^^^^^^^^^^^^^^^^
- 20 | 	--cdc-at-top-level: -->;
-    `----
-
-  x Declaration
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:18:1]
- 18 | 	--at-keyword-known-block: @media {};
- 19 | 	--cdo-at-top-level: <!--;
-    :  ^^^^^^^^^^^^^^^^^^^^^^^^
- 20 | 	--cdc-at-top-level: -->;
-    `----
-
-  x DeclarationName
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:18:1]
- 18 | 	--at-keyword-known-block: @media {};
- 19 | 	--cdo-at-top-level: <!--;
-    :  ^^^^^^^^^^^^^^^^^^
- 20 | 	--cdc-at-top-level: -->;
-    `----
-
-  x DashedIdent
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:18:1]
- 18 | 	--at-keyword-known-block: @media {};
- 19 | 	--cdo-at-top-level: <!--;
-    :  ^^^^^^^^^^^^^^^^^^
- 20 | 	--cdc-at-top-level: -->;
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:18:1]
- 18 | 	--at-keyword-known-block: @media {};
- 19 | 	--cdo-at-top-level: <!--;
-    :                      ^^^^
- 20 | 	--cdc-at-top-level: -->;
-    `----
-
   x CDO
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:18:1]
- 18 | 	--at-keyword-known-block: @media {};
- 19 | 	--cdo-at-top-level: <!--;
-    :                      ^^^^
- 20 | 	--cdc-at-top-level: -->;
-    `----
-
-  x ComponentValue
     ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:19:1]
- 19 | 	--cdo-at-top-level: <!--;
- 20 | 	--cdc-at-top-level: -->;
-    :  ^^^^^^^^^^^^^^^^^^^^^^^
- 21 | 	--cdo-not-top-level: (<!--);
+ 18 |     --at-keyword-known-block: @media {};
+ 19 |     --cdo-at-top-level: <!--;
+    :                         ^^^^
+ 20 |     --cdc-at-top-level: -->;
     `----
-
+  x ComponentValue
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:20:1]
+ 19 |     --cdo-at-top-level: <!--;
+ 20 |     --cdc-at-top-level: -->;
+    :     ^^^^^^^^^^^^^^^^^^^^^^^
+ 21 |     --cdo-not-top-level: (<!--);
+    `----
   x Declaration
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:19:1]
- 19 | 	--cdo-at-top-level: <!--;
- 20 | 	--cdc-at-top-level: -->;
-    :  ^^^^^^^^^^^^^^^^^^^^^^^
- 21 | 	--cdo-not-top-level: (<!--);
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:20:1]
+ 19 |     --cdo-at-top-level: <!--;
+ 20 |     --cdc-at-top-level: -->;
+    :     ^^^^^^^^^^^^^^^^^^^^^^^
+ 21 |     --cdo-not-top-level: (<!--);
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:19:1]
- 19 | 	--cdo-at-top-level: <!--;
- 20 | 	--cdc-at-top-level: -->;
-    :  ^^^^^^^^^^^^^^^^^^
- 21 | 	--cdo-not-top-level: (<!--);
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:20:1]
+ 19 |     --cdo-at-top-level: <!--;
+ 20 |     --cdc-at-top-level: -->;
+    :     ^^^^^^^^^^^^^^^^^^
+ 21 |     --cdo-not-top-level: (<!--);
     `----
-
   x DashedIdent
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:19:1]
- 19 | 	--cdo-at-top-level: <!--;
- 20 | 	--cdc-at-top-level: -->;
-    :  ^^^^^^^^^^^^^^^^^^
- 21 | 	--cdo-not-top-level: (<!--);
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:20:1]
+ 19 |     --cdo-at-top-level: <!--;
+ 20 |     --cdc-at-top-level: -->;
+    :     ^^^^^^^^^^^^^^^^^^
+ 21 |     --cdo-not-top-level: (<!--);
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:19:1]
- 19 | 	--cdo-at-top-level: <!--;
- 20 | 	--cdc-at-top-level: -->;
-    :                      ^^^
- 21 | 	--cdo-not-top-level: (<!--);
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:20:1]
+ 19 |     --cdo-at-top-level: <!--;
+ 20 |     --cdc-at-top-level: -->;
+    :                         ^^^
+ 21 |     --cdo-not-top-level: (<!--);
     `----
-
   x CDC
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:19:1]
- 19 | 	--cdo-at-top-level: <!--;
- 20 | 	--cdc-at-top-level: -->;
-    :                      ^^^
- 21 | 	--cdo-not-top-level: (<!--);
-    `----
-
-  x ComponentValue
     ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:20:1]
- 20 | 	--cdc-at-top-level: -->;
- 21 | 	--cdo-not-top-level: (<!--);
-    :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 22 | 	--cdc-not-top-level: (-->);
+ 19 |     --cdo-at-top-level: <!--;
+ 20 |     --cdc-at-top-level: -->;
+    :                         ^^^
+ 21 |     --cdo-not-top-level: (<!--);
     `----
-
-  x Declaration
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:20:1]
- 20 | 	--cdc-at-top-level: -->;
- 21 | 	--cdo-not-top-level: (<!--);
-    :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^
- 22 | 	--cdc-not-top-level: (-->);
-    `----
-
-  x DeclarationName
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:20:1]
- 20 | 	--cdc-at-top-level: -->;
- 21 | 	--cdo-not-top-level: (<!--);
-    :  ^^^^^^^^^^^^^^^^^^^
- 22 | 	--cdc-not-top-level: (-->);
-    `----
-
-  x DashedIdent
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:20:1]
- 20 | 	--cdc-at-top-level: -->;
- 21 | 	--cdo-not-top-level: (<!--);
-    :  ^^^^^^^^^^^^^^^^^^^
- 22 | 	--cdc-not-top-level: (-->);
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:20:1]
- 20 | 	--cdc-at-top-level: -->;
- 21 | 	--cdo-not-top-level: (<!--);
-    :                       ^^^^^^
- 22 | 	--cdc-not-top-level: (-->);
-    `----
-
-  x SimpleBlock
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:20:1]
- 20 | 	--cdc-at-top-level: -->;
- 21 | 	--cdo-not-top-level: (<!--);
-    :                       ^^^^^^
- 22 | 	--cdc-not-top-level: (-->);
-    `----
-
-  x LParen
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:20:1]
- 20 | 	--cdc-at-top-level: -->;
- 21 | 	--cdo-not-top-level: (<!--);
-    :                       ^
- 22 | 	--cdc-not-top-level: (-->);
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:20:1]
- 20 | 	--cdc-at-top-level: -->;
- 21 | 	--cdo-not-top-level: (<!--);
-    :                        ^^^^
- 22 | 	--cdc-not-top-level: (-->);
-    `----
-
-  x CDO
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:20:1]
- 20 | 	--cdc-at-top-level: -->;
- 21 | 	--cdo-not-top-level: (<!--);
-    :                        ^^^^
- 22 | 	--cdc-not-top-level: (-->);
-    `----
-
   x ComponentValue
     ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:21:1]
- 21 | 	--cdo-not-top-level: (<!--);
- 22 | 	--cdc-not-top-level: (-->);
-    :  ^^^^^^^^^^^^^^^^^^^^^^^^^^
- 23 | }
+ 20 |     --cdc-at-top-level: -->;
+ 21 |     --cdo-not-top-level: (<!--);
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 22 |     --cdc-not-top-level: (-->);
     `----
-
   x Declaration
     ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:21:1]
- 21 | 	--cdo-not-top-level: (<!--);
- 22 | 	--cdc-not-top-level: (-->);
-    :  ^^^^^^^^^^^^^^^^^^^^^^^^^^
- 23 | }
+ 20 |     --cdc-at-top-level: -->;
+ 21 |     --cdo-not-top-level: (<!--);
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 22 |     --cdc-not-top-level: (-->);
     `----
-
   x DeclarationName
     ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:21:1]
- 21 | 	--cdo-not-top-level: (<!--);
- 22 | 	--cdc-not-top-level: (-->);
-    :  ^^^^^^^^^^^^^^^^^^^
- 23 | }
+ 20 |     --cdc-at-top-level: -->;
+ 21 |     --cdo-not-top-level: (<!--);
+    :     ^^^^^^^^^^^^^^^^^^^
+ 22 |     --cdc-not-top-level: (-->);
     `----
-
   x DashedIdent
     ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:21:1]
- 21 | 	--cdo-not-top-level: (<!--);
- 22 | 	--cdc-not-top-level: (-->);
-    :  ^^^^^^^^^^^^^^^^^^^
- 23 | }
+ 20 |     --cdc-at-top-level: -->;
+ 21 |     --cdo-not-top-level: (<!--);
+    :     ^^^^^^^^^^^^^^^^^^^
+ 22 |     --cdc-not-top-level: (-->);
     `----
-
   x ComponentValue
     ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:21:1]
- 21 | 	--cdo-not-top-level: (<!--);
- 22 | 	--cdc-not-top-level: (-->);
-    :                       ^^^^^
- 23 | }
+ 20 |     --cdc-at-top-level: -->;
+ 21 |     --cdo-not-top-level: (<!--);
+    :                          ^^^^^^
+ 22 |     --cdc-not-top-level: (-->);
     `----
-
   x SimpleBlock
     ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:21:1]
- 21 | 	--cdo-not-top-level: (<!--);
- 22 | 	--cdc-not-top-level: (-->);
-    :                       ^^^^^
- 23 | }
+ 20 |     --cdc-at-top-level: -->;
+ 21 |     --cdo-not-top-level: (<!--);
+    :                          ^^^^^^
+ 22 |     --cdc-not-top-level: (-->);
     `----
-
   x LParen
     ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:21:1]
- 21 | 	--cdo-not-top-level: (<!--);
- 22 | 	--cdc-not-top-level: (-->);
-    :                       ^
- 23 | }
+ 20 |     --cdc-at-top-level: -->;
+ 21 |     --cdo-not-top-level: (<!--);
+    :                          ^
+ 22 |     --cdc-not-top-level: (-->);
     `----
-
   x ComponentValue
     ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:21:1]
- 21 | 	--cdo-not-top-level: (<!--);
- 22 | 	--cdc-not-top-level: (-->);
-    :                        ^^^
+ 20 |     --cdc-at-top-level: -->;
+ 21 |     --cdo-not-top-level: (<!--);
+    :                           ^^^^
+ 22 |     --cdc-not-top-level: (-->);
+    `----
+  x CDO
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:21:1]
+ 20 |     --cdc-at-top-level: -->;
+ 21 |     --cdo-not-top-level: (<!--);
+    :                           ^^^^
+ 22 |     --cdc-not-top-level: (-->);
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:22:1]
+ 21 |     --cdo-not-top-level: (<!--);
+ 22 |     --cdc-not-top-level: (-->);
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^
  23 | }
     `----
-
+  x Declaration
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:22:1]
+ 21 |     --cdo-not-top-level: (<!--);
+ 22 |     --cdc-not-top-level: (-->);
+    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 23 | }
+    `----
+  x DeclarationName
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:22:1]
+ 21 |     --cdo-not-top-level: (<!--);
+ 22 |     --cdc-not-top-level: (-->);
+    :     ^^^^^^^^^^^^^^^^^^^
+ 23 | }
+    `----
+  x DashedIdent
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:22:1]
+ 21 |     --cdo-not-top-level: (<!--);
+ 22 |     --cdc-not-top-level: (-->);
+    :     ^^^^^^^^^^^^^^^^^^^
+ 23 | }
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:22:1]
+ 21 |     --cdo-not-top-level: (<!--);
+ 22 |     --cdc-not-top-level: (-->);
+    :                          ^^^^^
+ 23 | }
+    `----
+  x SimpleBlock
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:22:1]
+ 21 |     --cdo-not-top-level: (<!--);
+ 22 |     --cdc-not-top-level: (-->);
+    :                          ^^^^^
+ 23 | }
+    `----
+  x LParen
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:22:1]
+ 21 |     --cdo-not-top-level: (<!--);
+ 22 |     --cdc-not-top-level: (-->);
+    :                          ^
+ 23 | }
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:22:1]
+ 21 |     --cdo-not-top-level: (<!--);
+ 22 |     --cdc-not-top-level: (-->);
+    :                           ^^^
+ 23 | }
+    `----
   x CDC
-    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:21:1]
- 21 | 	--cdo-not-top-level: (<!--);
- 22 | 	--cdc-not-top-level: (-->);
-    :                        ^^^
+    ,-[$DIR/tests/fixture/vendor/rome/custom-properties/input.css:22:1]
+ 21 |     --cdo-not-top-level: (<!--);
+ 22 |     --cdc-not-top-level: (-->);
+    :                           ^^^
  23 | }
     `----

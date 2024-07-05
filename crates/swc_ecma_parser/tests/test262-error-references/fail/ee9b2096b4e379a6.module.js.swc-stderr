@@ -1,4 +1,3 @@
-
   x Expected ',', got 'as'
    ,-[$DIR/tests/test262-parser/fail/ee9b2096b4e379a6.module.js:1:1]
  1 | import a as b from 'a'

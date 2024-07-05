@@ -1,250 +1,217 @@
-
   x Stylesheet
    ,-[$DIR/tests/fixture/stylis/comma/01/input.css:1:1]
  1 | ,-> a {
  2 | |       cursor: image-set(url(foo.jpg) 2x), pointer;
  3 | `-> }
    `----
-
   x Rule
    ,-[$DIR/tests/fixture/stylis/comma/01/input.css:1:1]
  1 | ,-> a {
  2 | |       cursor: image-set(url(foo.jpg) 2x), pointer;
  3 | `-> }
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/fixture/stylis/comma/01/input.css:1:1]
  1 | ,-> a {
  2 | |       cursor: image-set(url(foo.jpg) 2x), pointer;
  3 | `-> }
    `----
-
   x SelectorList
    ,-[$DIR/tests/fixture/stylis/comma/01/input.css:1:1]
  1 | a {
    : ^
  2 |     cursor: image-set(url(foo.jpg) 2x), pointer;
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/fixture/stylis/comma/01/input.css:1:1]
  1 | a {
    : ^
  2 |     cursor: image-set(url(foo.jpg) 2x), pointer;
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/stylis/comma/01/input.css:1:1]
  1 | a {
    : ^
  2 |     cursor: image-set(url(foo.jpg) 2x), pointer;
    `----
-
   x TypeSelector
    ,-[$DIR/tests/fixture/stylis/comma/01/input.css:1:1]
  1 | a {
    : ^
  2 |     cursor: image-set(url(foo.jpg) 2x), pointer;
    `----
-
   x TagNameSelector
    ,-[$DIR/tests/fixture/stylis/comma/01/input.css:1:1]
  1 | a {
    : ^
  2 |     cursor: image-set(url(foo.jpg) 2x), pointer;
    `----
-
   x WqName
    ,-[$DIR/tests/fixture/stylis/comma/01/input.css:1:1]
  1 | a {
    : ^
  2 |     cursor: image-set(url(foo.jpg) 2x), pointer;
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/stylis/comma/01/input.css:1:1]
  1 | a {
    : ^
  2 |     cursor: image-set(url(foo.jpg) 2x), pointer;
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/stylis/comma/01/input.css:1:1]
  1 | ,-> a {
  2 | |       cursor: image-set(url(foo.jpg) 2x), pointer;
  3 | `-> }
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/stylis/comma/01/input.css:1:1]
  1 | a {
    :   ^
  2 |     cursor: image-set(url(foo.jpg) 2x), pointer;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/stylis/comma/01/input.css:1:1]
+   ,-[$DIR/tests/fixture/stylis/comma/01/input.css:2:1]
  1 | a {
  2 |     cursor: image-set(url(foo.jpg) 2x), pointer;
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  3 | }
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/stylis/comma/01/input.css:1:1]
+   ,-[$DIR/tests/fixture/stylis/comma/01/input.css:2:1]
  1 | a {
  2 |     cursor: image-set(url(foo.jpg) 2x), pointer;
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  3 | }
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/stylis/comma/01/input.css:1:1]
+   ,-[$DIR/tests/fixture/stylis/comma/01/input.css:2:1]
  1 | a {
  2 |     cursor: image-set(url(foo.jpg) 2x), pointer;
    :     ^^^^^^
  3 | }
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/stylis/comma/01/input.css:1:1]
+   ,-[$DIR/tests/fixture/stylis/comma/01/input.css:2:1]
  1 | a {
  2 |     cursor: image-set(url(foo.jpg) 2x), pointer;
    :     ^^^^^^
  3 | }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/stylis/comma/01/input.css:1:1]
+   ,-[$DIR/tests/fixture/stylis/comma/01/input.css:2:1]
  1 | a {
  2 |     cursor: image-set(url(foo.jpg) 2x), pointer;
    :             ^^^^^^^^^^^^^^^^^^^^^^^^^^
  3 | }
    `----
-
   x Function
-   ,-[$DIR/tests/fixture/stylis/comma/01/input.css:1:1]
+   ,-[$DIR/tests/fixture/stylis/comma/01/input.css:2:1]
  1 | a {
  2 |     cursor: image-set(url(foo.jpg) 2x), pointer;
    :             ^^^^^^^^^^^^^^^^^^^^^^^^^^
  3 | }
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/stylis/comma/01/input.css:1:1]
+   ,-[$DIR/tests/fixture/stylis/comma/01/input.css:2:1]
  1 | a {
  2 |     cursor: image-set(url(foo.jpg) 2x), pointer;
    :             ^^^^^^^^^
  3 | }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/stylis/comma/01/input.css:1:1]
+   ,-[$DIR/tests/fixture/stylis/comma/01/input.css:2:1]
  1 | a {
  2 |     cursor: image-set(url(foo.jpg) 2x), pointer;
    :                       ^^^^^^^^^^^^
  3 | }
    `----
-
   x Url
-   ,-[$DIR/tests/fixture/stylis/comma/01/input.css:1:1]
+   ,-[$DIR/tests/fixture/stylis/comma/01/input.css:2:1]
  1 | a {
  2 |     cursor: image-set(url(foo.jpg) 2x), pointer;
    :                       ^^^^^^^^^^^^
  3 | }
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/stylis/comma/01/input.css:1:1]
+   ,-[$DIR/tests/fixture/stylis/comma/01/input.css:2:1]
  1 | a {
  2 |     cursor: image-set(url(foo.jpg) 2x), pointer;
    :                       ^^^
  3 | }
    `----
-
   x UrlValue
-   ,-[$DIR/tests/fixture/stylis/comma/01/input.css:1:1]
+   ,-[$DIR/tests/fixture/stylis/comma/01/input.css:2:1]
  1 | a {
  2 |     cursor: image-set(url(foo.jpg) 2x), pointer;
    :                           ^^^^^^^
  3 | }
    `----
-
   x UrlValueRaw
-   ,-[$DIR/tests/fixture/stylis/comma/01/input.css:1:1]
+   ,-[$DIR/tests/fixture/stylis/comma/01/input.css:2:1]
  1 | a {
  2 |     cursor: image-set(url(foo.jpg) 2x), pointer;
    :                           ^^^^^^^
  3 | }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/stylis/comma/01/input.css:1:1]
+   ,-[$DIR/tests/fixture/stylis/comma/01/input.css:2:1]
  1 | a {
  2 |     cursor: image-set(url(foo.jpg) 2x), pointer;
    :                                    ^^
  3 | }
    `----
-
   x Dimension
-   ,-[$DIR/tests/fixture/stylis/comma/01/input.css:1:1]
+   ,-[$DIR/tests/fixture/stylis/comma/01/input.css:2:1]
  1 | a {
  2 |     cursor: image-set(url(foo.jpg) 2x), pointer;
    :                                    ^^
  3 | }
    `----
-
   x Resolution
-   ,-[$DIR/tests/fixture/stylis/comma/01/input.css:1:1]
+   ,-[$DIR/tests/fixture/stylis/comma/01/input.css:2:1]
  1 | a {
  2 |     cursor: image-set(url(foo.jpg) 2x), pointer;
    :                                    ^^
  3 | }
    `----
-
   x Number
-   ,-[$DIR/tests/fixture/stylis/comma/01/input.css:1:1]
+   ,-[$DIR/tests/fixture/stylis/comma/01/input.css:2:1]
  1 | a {
  2 |     cursor: image-set(url(foo.jpg) 2x), pointer;
    :                                    ^
  3 | }
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/stylis/comma/01/input.css:1:1]
+   ,-[$DIR/tests/fixture/stylis/comma/01/input.css:2:1]
  1 | a {
  2 |     cursor: image-set(url(foo.jpg) 2x), pointer;
    :                                     ^
  3 | }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/stylis/comma/01/input.css:1:1]
+   ,-[$DIR/tests/fixture/stylis/comma/01/input.css:2:1]
  1 | a {
  2 |     cursor: image-set(url(foo.jpg) 2x), pointer;
    :                                       ^
  3 | }
    `----
-
   x Delimiter
-   ,-[$DIR/tests/fixture/stylis/comma/01/input.css:1:1]
+   ,-[$DIR/tests/fixture/stylis/comma/01/input.css:2:1]
  1 | a {
  2 |     cursor: image-set(url(foo.jpg) 2x), pointer;
    :                                       ^
  3 | }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/stylis/comma/01/input.css:1:1]
+   ,-[$DIR/tests/fixture/stylis/comma/01/input.css:2:1]
  1 | a {
  2 |     cursor: image-set(url(foo.jpg) 2x), pointer;
    :                                         ^^^^^^^
  3 | }
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/stylis/comma/01/input.css:1:1]
+   ,-[$DIR/tests/fixture/stylis/comma/01/input.css:2:1]
  1 | a {
  2 |     cursor: image-set(url(foo.jpg) 2x), pointer;
    :                                         ^^^^^^^

@@ -1,6 +1,5 @@
-
   x Unexpected bad url in declaration value
-   ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:1:1]
+   ,-[$DIR/tests/recovery/bad-url-token/whitespace/input.css:2:1]
  1 |     div {
  2 | ,->     background: url(image.
  3 | `->     png);

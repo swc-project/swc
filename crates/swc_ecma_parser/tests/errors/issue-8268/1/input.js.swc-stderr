@@ -1,29 +1,25 @@
-
   x `default` cannot be used without `from` clause
    ,-[$DIR/tests/errors/issue-8268/1/input.js:1:1]
  1 | export { default }
    :          ^^^^^^^
  2 | export { if }
    `----
-
   x `if` cannot be used without `from` clause
-   ,-[$DIR/tests/errors/issue-8268/1/input.js:1:1]
+   ,-[$DIR/tests/errors/issue-8268/1/input.js:2:1]
  1 | export { default }
  2 | export { if }
    :          ^^
  3 | export { default as foo }
    `----
-
   x `default` cannot be used without `from` clause
-   ,-[$DIR/tests/errors/issue-8268/1/input.js:2:1]
+   ,-[$DIR/tests/errors/issue-8268/1/input.js:3:1]
  2 | export { if }
  3 | export { default as foo }
    :          ^^^^^^^
  4 | export { if as bar }
    `----
-
   x `if` cannot be used without `from` clause
-   ,-[$DIR/tests/errors/issue-8268/1/input.js:3:1]
+   ,-[$DIR/tests/errors/issue-8268/1/input.js:4:1]
  3 | export { default as foo }
  4 | export { if as bar }
    :          ^^

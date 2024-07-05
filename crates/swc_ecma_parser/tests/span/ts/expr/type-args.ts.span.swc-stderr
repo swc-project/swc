@@ -1,82 +1,68 @@
-
   x Module
    ,-[$DIR/tests/span/ts/expr/type-args.ts:1:1]
  1 | foo<string, boolean>();
    : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x ModuleItem
    ,-[$DIR/tests/span/ts/expr/type-args.ts:1:1]
  1 | foo<string, boolean>();
    : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Stmt
    ,-[$DIR/tests/span/ts/expr/type-args.ts:1:1]
  1 | foo<string, boolean>();
    : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x ExprStmt
    ,-[$DIR/tests/span/ts/expr/type-args.ts:1:1]
  1 | foo<string, boolean>();
    : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Expr
    ,-[$DIR/tests/span/ts/expr/type-args.ts:1:1]
  1 | foo<string, boolean>();
    : ^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x CallExpr
    ,-[$DIR/tests/span/ts/expr/type-args.ts:1:1]
  1 | foo<string, boolean>();
    : ^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Callee
    ,-[$DIR/tests/span/ts/expr/type-args.ts:1:1]
  1 | foo<string, boolean>();
    : ^^^
    `----
-
   x Expr
    ,-[$DIR/tests/span/ts/expr/type-args.ts:1:1]
  1 | foo<string, boolean>();
    : ^^^
    `----
-
   x Ident
    ,-[$DIR/tests/span/ts/expr/type-args.ts:1:1]
  1 | foo<string, boolean>();
    : ^^^
    `----
-
   x TsTypeParamInstantiation
    ,-[$DIR/tests/span/ts/expr/type-args.ts:1:1]
  1 | foo<string, boolean>();
    :    ^^^^^^^^^^^^^^^^^
    `----
-
   x TsType
    ,-[$DIR/tests/span/ts/expr/type-args.ts:1:1]
  1 | foo<string, boolean>();
    :     ^^^^^^
    `----
-
   x TsKeywordType
    ,-[$DIR/tests/span/ts/expr/type-args.ts:1:1]
  1 | foo<string, boolean>();
    :     ^^^^^^
    `----
-
   x TsType
    ,-[$DIR/tests/span/ts/expr/type-args.ts:1:1]
  1 | foo<string, boolean>();
    :             ^^^^^^^
    `----
-
   x TsKeywordType
    ,-[$DIR/tests/span/ts/expr/type-args.ts:1:1]
  1 | foo<string, boolean>();

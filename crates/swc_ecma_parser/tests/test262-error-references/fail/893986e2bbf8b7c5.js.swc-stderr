@@ -1,4 +1,3 @@
-
   x Unexpected token `(`. Expected yield, an identifier, [ or {
    ,-[$DIR/tests/test262-parser/fail/893986e2bbf8b7c5.js:1:1]
  1 | var ([x]) = 0

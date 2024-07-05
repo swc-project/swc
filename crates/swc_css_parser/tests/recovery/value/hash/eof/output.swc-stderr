@@ -1,11 +1,9 @@
-
   x Expected Declaration value
-   ,-[$DIR/tests/recovery/value/hash/eof/input.css:1:1]
+   ,-[$DIR/tests/recovery/value/hash/eof/input.css:2:1]
  1 | a {
  2 |     prop: #
    :           ^
    `----
-
   x Unexpected end of file, but expected '}'
    ,-[$DIR/tests/recovery/value/hash/eof/input.css:1:1]
  1 | ,-> a {

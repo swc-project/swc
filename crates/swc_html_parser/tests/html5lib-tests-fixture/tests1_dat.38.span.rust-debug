@@ -1,22 +1,17 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.38.html:1:1]
  1 | </#
    : ^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.38.html:1:1]
  1 | </#
    : ^^^
    `----
-
   x Comment
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.38.html:1:1]
  1 | </#
    : ^^^
    `----
-
   x Child
-
   x Element

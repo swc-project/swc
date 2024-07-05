@@ -1,104 +1,85 @@
-
   x Document
    ,-[$DIR/tests/recovery/element/search-1/input.html:1:1]
  1 | <!DOCTYPE html>xxx<svg><x><g><a><search><b>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/recovery/element/search-1/input.html:1:1]
  1 | <!DOCTYPE html>xxx<svg><x><g><a><search><b>
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/recovery/element/search-1/input.html:1:1]
  1 | <!DOCTYPE html>xxx<svg><x><g><a><search><b>
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/recovery/element/search-1/input.html:1:1]
  1 | <!DOCTYPE html>xxx<svg><x><g><a><search><b>
    :                ^^^
    `----
-
   x Text
    ,-[$DIR/tests/recovery/element/search-1/input.html:1:1]
  1 | <!DOCTYPE html>xxx<svg><x><g><a><search><b>
    :                ^^^
    `----
-
   x Child
    ,-[$DIR/tests/recovery/element/search-1/input.html:1:1]
  1 | <!DOCTYPE html>xxx<svg><x><g><a><search><b>
    :                   ^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/recovery/element/search-1/input.html:1:1]
  1 | <!DOCTYPE html>xxx<svg><x><g><a><search><b>
    :                   ^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/recovery/element/search-1/input.html:1:1]
  1 | <!DOCTYPE html>xxx<svg><x><g><a><search><b>
    :                        ^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/recovery/element/search-1/input.html:1:1]
  1 | <!DOCTYPE html>xxx<svg><x><g><a><search><b>
    :                        ^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/recovery/element/search-1/input.html:1:1]
  1 | <!DOCTYPE html>xxx<svg><x><g><a><search><b>
    :                           ^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/recovery/element/search-1/input.html:1:1]
  1 | <!DOCTYPE html>xxx<svg><x><g><a><search><b>
    :                           ^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/recovery/element/search-1/input.html:1:1]
  1 | <!DOCTYPE html>xxx<svg><x><g><a><search><b>
    :                              ^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/recovery/element/search-1/input.html:1:1]
  1 | <!DOCTYPE html>xxx<svg><x><g><a><search><b>
    :                              ^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/recovery/element/search-1/input.html:1:1]
  1 | <!DOCTYPE html>xxx<svg><x><g><a><search><b>
    :                                 ^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/recovery/element/search-1/input.html:1:1]
  1 | <!DOCTYPE html>xxx<svg><x><g><a><search><b>
    :                                 ^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/recovery/element/search-1/input.html:1:1]
  1 | <!DOCTYPE html>xxx<svg><x><g><a><search><b>
    :                                         ^^^
    `----
-
   x Element
    ,-[$DIR/tests/recovery/element/search-1/input.html:1:1]
  1 | <!DOCTYPE html>xxx<svg><x><g><a><search><b>

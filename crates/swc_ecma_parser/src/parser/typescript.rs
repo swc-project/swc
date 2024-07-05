@@ -19,7 +19,10 @@ impl<I: Tokens> Parser<I> {
         // hasLineBreakUpNext() method...
         bump!(self);
         Ok(!self.input.had_line_break_before_cur()
-            && is_one_of!(self, '[', '{', '*', "...", '#', IdentName, Str, Num, BigInt))
+            && is!(
+                self,
+                '[' | '{' | '*' | "..." | '#' | IdentName | Str | Num | BigInt
+            ))
     }
 
     /// Parses a modifier matching one the given modifier names.
@@ -578,13 +581,10 @@ impl<I: Tokens> Parser<I> {
         self.try_parse_ts(|p| {
             let type_args = p.parse_ts_type_args()?;
 
-            if is_one_of!(
-                p, '<', // invalid syntax
-                '>', '=', ">>", ">=", '+', '-', // becomes relational expression
-                /* these should be type arguments in function call or template,
-                 * not instantiation expression */
-                '(', '`'
-            ) {
+            // becomes relational expression
+            /* these should be type arguments in function call or template,
+             * not instantiation expression */
+            if is!(p, '<' | '>' | '=' | ">>" | ">=" | '+' | '-' | '(' | '`') {
                 Ok(None)
             } else if p.input.had_line_break_before_cur()
                 || matches!(cur!(p, false), Ok(Token::BinOp(..)))
@@ -1216,13 +1216,13 @@ impl<I: Tokens> Parser<I> {
         debug_assert!(self.input.syntax().typescript());
 
         assert_and_bump!(self, '(');
-        if is_one_of!(self, ')', "...") {
+        if is!(self, ')' | "...") {
             // ( )
             // ( ...
             return Ok(true);
         }
         if self.skip_ts_parameter_start()? {
-            if is_one_of!(self, ':', ',', '?', '=') {
+            if is!(self, ':' | ',' | '?' | '=') {
                 // ( xxx :
                 // ( xxx ,
                 // ( xxx ?
@@ -1243,7 +1243,7 @@ impl<I: Tokens> Parser<I> {
 
         let _ = self.eat_any_ts_modifier()?;
 
-        if is_one_of!(self, IdentName, "this") {
+        if is!(self, IdentName | "this") {
             bump!(self);
             return Ok(true);
         }
@@ -1320,7 +1320,7 @@ impl<I: Tokens> Parser<I> {
         assert_and_bump!(self, '['); // Skip '['
 
         // ',' is for error recovery
-        Ok(eat!(self, IdentRef) && is_one_of!(self, ':', ','))
+        Ok(eat!(self, IdentRef) && is!(self, ':' | ','))
     }
 
     /// `tsTryParseIndexSignature`
@@ -1416,7 +1416,7 @@ impl<I: Tokens> Parser<I> {
 
         let optional = eat!(self, '?');
 
-        if is_one_of!(self, '(', '<') {
+        if is!(self, '(' | '<') {
             if readonly {
                 syntax_error!(self, SyntaxError::ReadOnlyMethod)
             }
@@ -1469,7 +1469,7 @@ impl<I: Tokens> Parser<I> {
                 Either::Right(e) => e.into(),
             }
         }
-        if is_one_of!(self, '(', '<') {
+        if is!(self, '(' | '<') {
             return self
                 .parse_ts_signature_member(SignatureParsingMode::TSCallSignatureDeclaration)
                 .map(into_type_elem);
@@ -1626,7 +1626,7 @@ impl<I: Tokens> Parser<I> {
         let start = cur_pos!(self);
         expect!(self, '{');
         let mut readonly = None;
-        if is_one_of!(self, '+', '-') {
+        if is!(self, '+' | '-') {
             readonly = Some(if is!(self, '+') {
                 TruePlusMinus::Plus
             } else {
@@ -1648,7 +1648,7 @@ impl<I: Tokens> Parser<I> {
         expect!(self, ']');
 
         let mut optional = None;
-        if is_one_of!(self, '+', '-') {
+        if is!(self, '+' | '-') {
             optional = Some(if is!(self, '+') {
                 TruePlusMinus::Plus
             } else {
@@ -2443,7 +2443,7 @@ impl<I: Tokens> Parser<I> {
                     .map(From::from)
                     .map(Some);
             }
-            if is_one_of!(p, "const", "var", "let") {
+            if is!(p, "const" | "var" | "let") {
                 return p
                     .parse_var_stmt(false)
                     .map(|decl| VarDecl {
@@ -2606,7 +2606,7 @@ impl<I: Tokens> Parser<I> {
             return Ok(Default::default());
         }
 
-        let res = if is_one_of!(self, '<', JSXTagStart) {
+        let res = if is!(self, '<' | JSXTagStart) {
             self.try_parse_ts(|p| {
                 let type_params = p.parse_ts_type_params(false, false)?;
                 // Don't use overloaded parseFunctionParams which would look for "<" again.

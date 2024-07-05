@@ -1,6 +1,5 @@
-
   x "meta" element between "head" and "body"
-   ,-[$DIR/tests/recovery/element/head/input.html:5:1]
+   ,-[$DIR/tests/recovery/element/head/input.html:6:1]
  5 | </head>
  6 | <meta charset="UTF-8">
    : ^^^^^^^^^^^^^^^^^^^^^^

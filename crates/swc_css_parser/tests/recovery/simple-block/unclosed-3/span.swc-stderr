@@ -1,121 +1,103 @@
-
   x Stylesheet
    ,-[$DIR/tests/recovery/simple-block/unclosed-3/input.css:1:1]
  1 | ,-> a {
  2 | `->     color: red;
    `----
-
   x Rule
    ,-[$DIR/tests/recovery/simple-block/unclosed-3/input.css:1:1]
  1 | ,-> a {
  2 | `->     color: red;
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/recovery/simple-block/unclosed-3/input.css:1:1]
  1 | ,-> a {
  2 | `->     color: red;
    `----
-
   x SelectorList
    ,-[$DIR/tests/recovery/simple-block/unclosed-3/input.css:1:1]
  1 | a {
    : ^
  2 |     color: red;
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/recovery/simple-block/unclosed-3/input.css:1:1]
  1 | a {
    : ^
  2 |     color: red;
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/recovery/simple-block/unclosed-3/input.css:1:1]
  1 | a {
    : ^
  2 |     color: red;
    `----
-
   x TypeSelector
    ,-[$DIR/tests/recovery/simple-block/unclosed-3/input.css:1:1]
  1 | a {
    : ^
  2 |     color: red;
    `----
-
   x TagNameSelector
    ,-[$DIR/tests/recovery/simple-block/unclosed-3/input.css:1:1]
  1 | a {
    : ^
  2 |     color: red;
    `----
-
   x WqName
    ,-[$DIR/tests/recovery/simple-block/unclosed-3/input.css:1:1]
  1 | a {
    : ^
  2 |     color: red;
    `----
-
   x Ident
    ,-[$DIR/tests/recovery/simple-block/unclosed-3/input.css:1:1]
  1 | a {
    : ^
  2 |     color: red;
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/recovery/simple-block/unclosed-3/input.css:1:1]
  1 | ,-> a {
  2 | `->     color: red;
    `----
-
   x LBrace
    ,-[$DIR/tests/recovery/simple-block/unclosed-3/input.css:1:1]
  1 | a {
    :   ^
  2 |     color: red;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/simple-block/unclosed-3/input.css:1:1]
+   ,-[$DIR/tests/recovery/simple-block/unclosed-3/input.css:2:1]
  1 | a {
  2 |     color: red;
    :     ^^^^^^^^^^
    `----
-
   x Declaration
-   ,-[$DIR/tests/recovery/simple-block/unclosed-3/input.css:1:1]
+   ,-[$DIR/tests/recovery/simple-block/unclosed-3/input.css:2:1]
  1 | a {
  2 |     color: red;
    :     ^^^^^^^^^^
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/recovery/simple-block/unclosed-3/input.css:1:1]
+   ,-[$DIR/tests/recovery/simple-block/unclosed-3/input.css:2:1]
  1 | a {
  2 |     color: red;
    :     ^^^^^
    `----
-
   x Ident
-   ,-[$DIR/tests/recovery/simple-block/unclosed-3/input.css:1:1]
+   ,-[$DIR/tests/recovery/simple-block/unclosed-3/input.css:2:1]
  1 | a {
  2 |     color: red;
    :     ^^^^^
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/simple-block/unclosed-3/input.css:1:1]
+   ,-[$DIR/tests/recovery/simple-block/unclosed-3/input.css:2:1]
  1 | a {
  2 |     color: red;
    :            ^^^
    `----
-
   x Ident
-   ,-[$DIR/tests/recovery/simple-block/unclosed-3/input.css:1:1]
+   ,-[$DIR/tests/recovery/simple-block/unclosed-3/input.css:2:1]
  1 | a {
  2 |     color: red;
    :            ^^^

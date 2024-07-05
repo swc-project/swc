@@ -1,4 +1,3 @@
-
   x Stylesheet
    ,-[$DIR/tests/recovery/qualified-rule/only-block/input.css:1:1]
  1 | ,-> {
@@ -11,136 +10,118 @@
  8 | |       color: red;
  9 | `-> }
    `----
-
   x Rule
    ,-[$DIR/tests/recovery/qualified-rule/only-block/input.css:1:1]
  1 | ,-> {
  2 | |   
  3 | `-> }
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/recovery/qualified-rule/only-block/input.css:1:1]
  1 | ,-> {
  2 | |   
  3 | `-> }
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/recovery/qualified-rule/only-block/input.css:1:1]
  1 | ,-> {
  2 | |   
  3 | `-> }
    `----
-
   x LBrace
    ,-[$DIR/tests/recovery/qualified-rule/only-block/input.css:1:1]
  1 | {
    : ^
    `----
-
   x Rule
-   ,-[$DIR/tests/recovery/qualified-rule/only-block/input.css:4:1]
+   ,-[$DIR/tests/recovery/qualified-rule/only-block/input.css:5:1]
  4 | 
  5 | {}
    : ^^
    `----
-
   x QualifiedRule
-   ,-[$DIR/tests/recovery/qualified-rule/only-block/input.css:4:1]
+   ,-[$DIR/tests/recovery/qualified-rule/only-block/input.css:5:1]
  4 | 
  5 | {}
    : ^^
    `----
-
   x SimpleBlock
-   ,-[$DIR/tests/recovery/qualified-rule/only-block/input.css:4:1]
+   ,-[$DIR/tests/recovery/qualified-rule/only-block/input.css:5:1]
  4 | 
  5 | {}
    : ^^
    `----
-
   x LBrace
-   ,-[$DIR/tests/recovery/qualified-rule/only-block/input.css:4:1]
+   ,-[$DIR/tests/recovery/qualified-rule/only-block/input.css:5:1]
  4 | 
  5 | {}
    : ^
    `----
-
   x Rule
-   ,-[$DIR/tests/recovery/qualified-rule/only-block/input.css:6:1]
+   ,-[$DIR/tests/recovery/qualified-rule/only-block/input.css:7:1]
  6 |     
  7 | ,-> {
  8 | |       color: red;
  9 | `-> }
    `----
-
   x QualifiedRule
-   ,-[$DIR/tests/recovery/qualified-rule/only-block/input.css:6:1]
+   ,-[$DIR/tests/recovery/qualified-rule/only-block/input.css:7:1]
  6 |     
  7 | ,-> {
  8 | |       color: red;
  9 | `-> }
    `----
-
   x SimpleBlock
-   ,-[$DIR/tests/recovery/qualified-rule/only-block/input.css:6:1]
+   ,-[$DIR/tests/recovery/qualified-rule/only-block/input.css:7:1]
  6 |     
  7 | ,-> {
  8 | |       color: red;
  9 | `-> }
    `----
-
   x LBrace
-   ,-[$DIR/tests/recovery/qualified-rule/only-block/input.css:6:1]
+   ,-[$DIR/tests/recovery/qualified-rule/only-block/input.css:7:1]
  6 | 
  7 | {
    : ^
  8 |     color: red;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/qualified-rule/only-block/input.css:7:1]
+   ,-[$DIR/tests/recovery/qualified-rule/only-block/input.css:8:1]
  7 | {
  8 |     color: red;
    :     ^^^^^^^^^^
  9 | }
    `----
-
   x Declaration
-   ,-[$DIR/tests/recovery/qualified-rule/only-block/input.css:7:1]
+   ,-[$DIR/tests/recovery/qualified-rule/only-block/input.css:8:1]
  7 | {
  8 |     color: red;
    :     ^^^^^^^^^^
  9 | }
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/recovery/qualified-rule/only-block/input.css:7:1]
+   ,-[$DIR/tests/recovery/qualified-rule/only-block/input.css:8:1]
  7 | {
  8 |     color: red;
    :     ^^^^^
  9 | }
    `----
-
   x Ident
-   ,-[$DIR/tests/recovery/qualified-rule/only-block/input.css:7:1]
+   ,-[$DIR/tests/recovery/qualified-rule/only-block/input.css:8:1]
  7 | {
  8 |     color: red;
    :     ^^^^^
  9 | }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/qualified-rule/only-block/input.css:7:1]
+   ,-[$DIR/tests/recovery/qualified-rule/only-block/input.css:8:1]
  7 | {
  8 |     color: red;
    :            ^^^
  9 | }
    `----
-
   x Ident
-   ,-[$DIR/tests/recovery/qualified-rule/only-block/input.css:7:1]
+   ,-[$DIR/tests/recovery/qualified-rule/only-block/input.css:8:1]
  7 | {
  8 |     color: red;
    :            ^^^

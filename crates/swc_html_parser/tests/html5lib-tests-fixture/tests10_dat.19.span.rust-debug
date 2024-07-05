@@ -1,116 +1,95 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.19.html:1:1]
  1 | <!DOCTYPE html><body></body><svg><g>foo</g><g>bar</g><p>baz
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.19.html:1:1]
  1 | <!DOCTYPE html><body></body><svg><g>foo</g><g>bar</g><p>baz
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.19.html:1:1]
  1 | <!DOCTYPE html><body></body><svg><g>foo</g><g>bar</g><p>baz
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.19.html:1:1]
  1 | <!DOCTYPE html><body></body><svg><g>foo</g><g>bar</g><p>baz
    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.19.html:1:1]
  1 | <!DOCTYPE html><body></body><svg><g>foo</g><g>bar</g><p>baz
    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.19.html:1:1]
  1 | <!DOCTYPE html><body></body><svg><g>foo</g><g>bar</g><p>baz
    :                             ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.19.html:1:1]
  1 | <!DOCTYPE html><body></body><svg><g>foo</g><g>bar</g><p>baz
    :                             ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.19.html:1:1]
  1 | <!DOCTYPE html><body></body><svg><g>foo</g><g>bar</g><p>baz
    :                                  ^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.19.html:1:1]
  1 | <!DOCTYPE html><body></body><svg><g>foo</g><g>bar</g><p>baz
    :                                  ^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.19.html:1:1]
  1 | <!DOCTYPE html><body></body><svg><g>foo</g><g>bar</g><p>baz
    :                                     ^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.19.html:1:1]
  1 | <!DOCTYPE html><body></body><svg><g>foo</g><g>bar</g><p>baz
    :                                     ^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.19.html:1:1]
  1 | <!DOCTYPE html><body></body><svg><g>foo</g><g>bar</g><p>baz
    :                                            ^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.19.html:1:1]
  1 | <!DOCTYPE html><body></body><svg><g>foo</g><g>bar</g><p>baz
    :                                            ^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.19.html:1:1]
  1 | <!DOCTYPE html><body></body><svg><g>foo</g><g>bar</g><p>baz
    :                                               ^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.19.html:1:1]
  1 | <!DOCTYPE html><body></body><svg><g>foo</g><g>bar</g><p>baz
    :                                               ^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.19.html:1:1]
  1 | <!DOCTYPE html><body></body><svg><g>foo</g><g>bar</g><p>baz
    :                                                      ^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.19.html:1:1]
  1 | <!DOCTYPE html><body></body><svg><g>foo</g><g>bar</g><p>baz
    :                                                      ^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.19.html:1:1]
  1 | <!DOCTYPE html><body></body><svg><g>foo</g><g>bar</g><p>baz
    :                                                         ^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.19.html:1:1]
  1 | <!DOCTYPE html><body></body><svg><g>foo</g><g>bar</g><p>baz

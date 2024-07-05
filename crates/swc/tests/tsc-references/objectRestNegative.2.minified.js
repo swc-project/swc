@@ -1,7 +1,6 @@
 //// [objectRestNegative.ts]
-//! 
 //!   x Rest element must be final element
-//!    ,-[1:1]
+//!    ,-[2:1]
 //!  1 | let o = { a: 1, b: 'no' };
 //!  2 | var { ...mustBeLast, a } = o;
 //!    :       ^^^^^^^^^^^^^
@@ -9,9 +8,8 @@
 //!  4 | var b: string;
 //!  5 | let notAssignable: { a: string };
 //!    `----
-//! 
 //!   x Rest element must be final element
-//!     ,-[6:1]
+//!     ,-[9:1]
 //!   6 | ({ b, ...notAssignable } = o);
 //!   7 | 
 //!   8 | 
@@ -21,9 +19,8 @@
 //!  11 | function generic<T extends { x, y }>(t: T) {
 //!  12 |     let { x, ...rest } = t;
 //!     `----
-//! 
 //!   x Not a pattern
-//!     ,-[14:1]
+//!     ,-[17:1]
 //!  14 | }
 //!  15 | 
 //!  16 | let rest: { b: string }

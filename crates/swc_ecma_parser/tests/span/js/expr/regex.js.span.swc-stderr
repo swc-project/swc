@@ -1,173 +1,148 @@
-
   x Module
    ,-[$DIR/tests/span/js/expr/regex.js:1:1]
  1 | ,-> use(/a/g)
  2 | `-> use(/[a-zA-Z0-9]+/g)
    `----
-
   x ModuleItem
    ,-[$DIR/tests/span/js/expr/regex.js:1:1]
  1 | use(/a/g)
    : ^^^^^^^^^
  2 | use(/[a-zA-Z0-9]+/g)
    `----
-
   x Stmt
    ,-[$DIR/tests/span/js/expr/regex.js:1:1]
  1 | use(/a/g)
    : ^^^^^^^^^
  2 | use(/[a-zA-Z0-9]+/g)
    `----
-
   x ExprStmt
    ,-[$DIR/tests/span/js/expr/regex.js:1:1]
  1 | use(/a/g)
    : ^^^^^^^^^
  2 | use(/[a-zA-Z0-9]+/g)
    `----
-
   x Expr
    ,-[$DIR/tests/span/js/expr/regex.js:1:1]
  1 | use(/a/g)
    : ^^^^^^^^^
  2 | use(/[a-zA-Z0-9]+/g)
    `----
-
   x CallExpr
    ,-[$DIR/tests/span/js/expr/regex.js:1:1]
  1 | use(/a/g)
    : ^^^^^^^^^
  2 | use(/[a-zA-Z0-9]+/g)
    `----
-
   x Callee
    ,-[$DIR/tests/span/js/expr/regex.js:1:1]
  1 | use(/a/g)
    : ^^^
  2 | use(/[a-zA-Z0-9]+/g)
    `----
-
   x Expr
    ,-[$DIR/tests/span/js/expr/regex.js:1:1]
  1 | use(/a/g)
    : ^^^
  2 | use(/[a-zA-Z0-9]+/g)
    `----
-
   x Ident
    ,-[$DIR/tests/span/js/expr/regex.js:1:1]
  1 | use(/a/g)
    : ^^^
  2 | use(/[a-zA-Z0-9]+/g)
    `----
-
   x ExprOrSpread
    ,-[$DIR/tests/span/js/expr/regex.js:1:1]
  1 | use(/a/g)
    :     ^^^^
  2 | use(/[a-zA-Z0-9]+/g)
    `----
-
   x Expr
    ,-[$DIR/tests/span/js/expr/regex.js:1:1]
  1 | use(/a/g)
    :     ^^^^
  2 | use(/[a-zA-Z0-9]+/g)
    `----
-
   x Lit
    ,-[$DIR/tests/span/js/expr/regex.js:1:1]
  1 | use(/a/g)
    :     ^^^^
  2 | use(/[a-zA-Z0-9]+/g)
    `----
-
   x Regex
    ,-[$DIR/tests/span/js/expr/regex.js:1:1]
  1 | use(/a/g)
    :     ^^^^
  2 | use(/[a-zA-Z0-9]+/g)
    `----
-
   x ModuleItem
-   ,-[$DIR/tests/span/js/expr/regex.js:1:1]
+   ,-[$DIR/tests/span/js/expr/regex.js:2:1]
  1 | use(/a/g)
  2 | use(/[a-zA-Z0-9]+/g)
    : ^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Stmt
-   ,-[$DIR/tests/span/js/expr/regex.js:1:1]
+   ,-[$DIR/tests/span/js/expr/regex.js:2:1]
  1 | use(/a/g)
  2 | use(/[a-zA-Z0-9]+/g)
    : ^^^^^^^^^^^^^^^^^^^^
    `----
-
   x ExprStmt
-   ,-[$DIR/tests/span/js/expr/regex.js:1:1]
+   ,-[$DIR/tests/span/js/expr/regex.js:2:1]
  1 | use(/a/g)
  2 | use(/[a-zA-Z0-9]+/g)
    : ^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Expr
-   ,-[$DIR/tests/span/js/expr/regex.js:1:1]
+   ,-[$DIR/tests/span/js/expr/regex.js:2:1]
  1 | use(/a/g)
  2 | use(/[a-zA-Z0-9]+/g)
    : ^^^^^^^^^^^^^^^^^^^^
    `----
-
   x CallExpr
-   ,-[$DIR/tests/span/js/expr/regex.js:1:1]
+   ,-[$DIR/tests/span/js/expr/regex.js:2:1]
  1 | use(/a/g)
  2 | use(/[a-zA-Z0-9]+/g)
    : ^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Callee
-   ,-[$DIR/tests/span/js/expr/regex.js:1:1]
+   ,-[$DIR/tests/span/js/expr/regex.js:2:1]
  1 | use(/a/g)
  2 | use(/[a-zA-Z0-9]+/g)
    : ^^^
    `----
-
   x Expr
-   ,-[$DIR/tests/span/js/expr/regex.js:1:1]
+   ,-[$DIR/tests/span/js/expr/regex.js:2:1]
  1 | use(/a/g)
  2 | use(/[a-zA-Z0-9]+/g)
    : ^^^
    `----
-
   x Ident
-   ,-[$DIR/tests/span/js/expr/regex.js:1:1]
+   ,-[$DIR/tests/span/js/expr/regex.js:2:1]
  1 | use(/a/g)
  2 | use(/[a-zA-Z0-9]+/g)
    : ^^^
    `----
-
   x ExprOrSpread
-   ,-[$DIR/tests/span/js/expr/regex.js:1:1]
+   ,-[$DIR/tests/span/js/expr/regex.js:2:1]
  1 | use(/a/g)
  2 | use(/[a-zA-Z0-9]+/g)
    :     ^^^^^^^^^^^^^^^
    `----
-
   x Expr
-   ,-[$DIR/tests/span/js/expr/regex.js:1:1]
+   ,-[$DIR/tests/span/js/expr/regex.js:2:1]
  1 | use(/a/g)
  2 | use(/[a-zA-Z0-9]+/g)
    :     ^^^^^^^^^^^^^^^
    `----
-
   x Lit
-   ,-[$DIR/tests/span/js/expr/regex.js:1:1]
+   ,-[$DIR/tests/span/js/expr/regex.js:2:1]
  1 | use(/a/g)
  2 | use(/[a-zA-Z0-9]+/g)
    :     ^^^^^^^^^^^^^^^
    `----
-
   x Regex
-   ,-[$DIR/tests/span/js/expr/regex.js:1:1]
+   ,-[$DIR/tests/span/js/expr/regex.js:2:1]
  1 | use(/a/g)
  2 | use(/[a-zA-Z0-9]+/g)
    :     ^^^^^^^^^^^^^^^

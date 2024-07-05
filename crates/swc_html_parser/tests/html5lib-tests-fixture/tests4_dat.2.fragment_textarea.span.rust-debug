@@ -1,80 +1,65 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests4_dat.2.fragment_textarea.html:1:1]
  1 | textarea content with <em>pseudo</em> <foo>markup
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests4_dat.2.fragment_textarea.html:1:1]
  1 | textarea content with <em>pseudo</em> <foo>markup
    : ^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests4_dat.2.fragment_textarea.html:1:1]
  1 | textarea content with <em>pseudo</em> <foo>markup
    : ^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests4_dat.2.fragment_textarea.html:1:1]
  1 | textarea content with <em>pseudo</em> <foo>markup
    :                       ^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests4_dat.2.fragment_textarea.html:1:1]
  1 | textarea content with <em>pseudo</em> <foo>markup
    :                       ^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests4_dat.2.fragment_textarea.html:1:1]
  1 | textarea content with <em>pseudo</em> <foo>markup
    :                           ^^^^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests4_dat.2.fragment_textarea.html:1:1]
  1 | textarea content with <em>pseudo</em> <foo>markup
    :                           ^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests4_dat.2.fragment_textarea.html:1:1]
  1 | textarea content with <em>pseudo</em> <foo>markup
    :                                      ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests4_dat.2.fragment_textarea.html:1:1]
  1 | textarea content with <em>pseudo</em> <foo>markup
    :                                      ^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests4_dat.2.fragment_textarea.html:1:1]
  1 | textarea content with <em>pseudo</em> <foo>markup
    :                                       ^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests4_dat.2.fragment_textarea.html:1:1]
  1 | textarea content with <em>pseudo</em> <foo>markup
    :                                       ^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests4_dat.2.fragment_textarea.html:1:1]
  1 | textarea content with <em>pseudo</em> <foo>markup
    :                                            ^^^^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests4_dat.2.fragment_textarea.html:1:1]
  1 | textarea content with <em>pseudo</em> <foo>markup

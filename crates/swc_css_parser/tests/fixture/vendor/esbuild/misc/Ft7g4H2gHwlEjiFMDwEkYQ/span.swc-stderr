@@ -1,64 +1,53 @@
-
   x Stylesheet
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Ft7g4H2gHwlEjiFMDwEkYQ/input.css:1:1]
  1 | :pseudo\,class {}
    : ^^^^^^^^^^^^^^^^^
    `----
-
   x Rule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Ft7g4H2gHwlEjiFMDwEkYQ/input.css:1:1]
  1 | :pseudo\,class {}
    : ^^^^^^^^^^^^^^^^^
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Ft7g4H2gHwlEjiFMDwEkYQ/input.css:1:1]
  1 | :pseudo\,class {}
    : ^^^^^^^^^^^^^^^^^
    `----
-
   x SelectorList
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Ft7g4H2gHwlEjiFMDwEkYQ/input.css:1:1]
  1 | :pseudo\,class {}
    : ^^^^^^^^^^^^^^
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Ft7g4H2gHwlEjiFMDwEkYQ/input.css:1:1]
  1 | :pseudo\,class {}
    : ^^^^^^^^^^^^^^
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Ft7g4H2gHwlEjiFMDwEkYQ/input.css:1:1]
  1 | :pseudo\,class {}
    : ^^^^^^^^^^^^^^
    `----
-
   x SubclassSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Ft7g4H2gHwlEjiFMDwEkYQ/input.css:1:1]
  1 | :pseudo\,class {}
    : ^^^^^^^^^^^^^^
    `----
-
   x PseudoClassSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Ft7g4H2gHwlEjiFMDwEkYQ/input.css:1:1]
  1 | :pseudo\,class {}
    : ^^^^^^^^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Ft7g4H2gHwlEjiFMDwEkYQ/input.css:1:1]
  1 | :pseudo\,class {}
    :  ^^^^^^^^^^^^^
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Ft7g4H2gHwlEjiFMDwEkYQ/input.css:1:1]
  1 | :pseudo\,class {}
    :                ^^
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Ft7g4H2gHwlEjiFMDwEkYQ/input.css:1:1]
  1 | :pseudo\,class {}

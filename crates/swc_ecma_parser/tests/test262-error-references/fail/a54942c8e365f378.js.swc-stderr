@@ -1,4 +1,3 @@
-
   x Expected a hexadecimal digit
    ,-[$DIR/tests/test262-parser/fail/a54942c8e365f378.js:1:1]
  1 | 0x

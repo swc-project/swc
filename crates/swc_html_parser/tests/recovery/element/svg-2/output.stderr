@@ -1,6 +1,5 @@
-
   x Stray doctype
-   ,-[$DIR/tests/recovery/element/svg-2/input.html:6:1]
+   ,-[$DIR/tests/recovery/element/svg-2/input.html:7:1]
  6 | <body>
  7 | <svg><!doctype html></svg>
    :      ^^^^^^^^^^^^^^^

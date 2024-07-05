@@ -1,4 +1,3 @@
-
   x 'import', and 'export' cannot be used outside of module code
    ,-[$DIR/tests/test262-parser/fail/d54b2db4548f1d82.module.js:1:1]
  1 | {import a from 'b';}

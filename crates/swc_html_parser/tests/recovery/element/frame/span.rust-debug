@@ -1,20 +1,15 @@
-
   x Document
    ,-[$DIR/tests/recovery/element/frame/input.html:1:1]
  1 | <frame>test
    : ^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/recovery/element/frame/input.html:1:1]
  1 | <frame>test
    :        ^^^^
    `----
-
   x Text
    ,-[$DIR/tests/recovery/element/frame/input.html:1:1]
  1 | <frame>test

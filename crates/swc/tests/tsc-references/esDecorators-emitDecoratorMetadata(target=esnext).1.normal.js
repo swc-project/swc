@@ -1,7 +1,6 @@
 //// [esDecorators-emitDecoratorMetadata.ts]
-//! 
 //!   x Expression expected
-//!    ,-[1:1]
+//!    ,-[4:1]
 //!  1 | 
 //!  2 | declare let dec: any;
 //!  3 | 

@@ -1,34 +1,27 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.7.html:1:1]
  1 | <html><head></head>
    : ^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.7.html:1:1]
  1 | <html><head></head>
    : ^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.7.html:1:1]
  1 | <html><head></head>
    : ^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.7.html:1:1]
  1 | <html><head></head>
    :       ^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.7.html:1:1]
  1 | <html><head></head>
    :       ^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element

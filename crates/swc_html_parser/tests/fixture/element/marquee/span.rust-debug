@@ -1,4 +1,3 @@
-
   x Document
     ,-[$DIR/tests/fixture/element/marquee/input.html:1:1]
   1 | ,-> <!doctype html>
@@ -19,23 +18,20 @@
  16 | |   </body>
  17 | `-> </html>
     `----
-
   x Child
    ,-[$DIR/tests/fixture/element/marquee/input.html:1:1]
  1 | <!doctype html>
    : ^^^^^^^^^^^^^^^
  2 | <html lang="en">
    `----
-
   x DocumentType
    ,-[$DIR/tests/fixture/element/marquee/input.html:1:1]
  1 | <!doctype html>
    : ^^^^^^^^^^^^^^^
  2 | <html lang="en">
    `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/marquee/input.html:1:1]
+    ,-[$DIR/tests/fixture/element/marquee/input.html:2:1]
   1 |     <!doctype html>
   2 | ,-> <html lang="en">
   3 | |   <head>
@@ -54,9 +50,8 @@
  16 | |   </body>
  17 | `-> </html>
     `----
-
   x Element
-    ,-[$DIR/tests/fixture/element/marquee/input.html:1:1]
+    ,-[$DIR/tests/fixture/element/marquee/input.html:2:1]
   1 |     <!doctype html>
   2 | ,-> <html lang="en">
   3 | |   <head>
@@ -75,119 +70,105 @@
  16 | |   </body>
  17 | `-> </html>
     `----
-
   x Attribute
-   ,-[$DIR/tests/fixture/element/marquee/input.html:1:1]
+   ,-[$DIR/tests/fixture/element/marquee/input.html:2:1]
  1 | <!doctype html>
  2 | <html lang="en">
    :       ^^^^^^^^^
  3 | <head>
    `----
-
   x Child
-   ,-[$DIR/tests/fixture/element/marquee/input.html:2:1]
+   ,-[$DIR/tests/fixture/element/marquee/input.html:3:1]
  2 |     <html lang="en">
  3 | ,-> <head>
  4 | |       <title>Document</title>
  5 | `-> </head>
  6 |     <body>
    `----
-
   x Element
-   ,-[$DIR/tests/fixture/element/marquee/input.html:2:1]
+   ,-[$DIR/tests/fixture/element/marquee/input.html:3:1]
  2 |     <html lang="en">
  3 | ,-> <head>
  4 | |       <title>Document</title>
  5 | `-> </head>
  6 |     <body>
    `----
-
-  x Child
-   ,-[$DIR/tests/fixture/element/marquee/input.html:2:1]
- 2 |     <html lang="en">
- 3 | ,-> <head>
- 4 | `->     <title>Document</title>
- 5 |     </head>
-   `----
-
-  x Text
-   ,-[$DIR/tests/fixture/element/marquee/input.html:2:1]
- 2 |     <html lang="en">
- 3 | ,-> <head>
- 4 | `->     <title>Document</title>
- 5 |     </head>
-   `----
-
   x Child
    ,-[$DIR/tests/fixture/element/marquee/input.html:3:1]
+ 2 |     <html lang="en">
+ 3 | ,-> <head>
+ 4 | `->     <title>Document</title>
+ 5 |     </head>
+   `----
+  x Text
+   ,-[$DIR/tests/fixture/element/marquee/input.html:3:1]
+ 2 |     <html lang="en">
+ 3 | ,-> <head>
+ 4 | `->     <title>Document</title>
+ 5 |     </head>
+   `----
+  x Child
+   ,-[$DIR/tests/fixture/element/marquee/input.html:4:1]
  3 | <head>
  4 |     <title>Document</title>
    :     ^^^^^^^^^^^^^^^^^^^^^^^
  5 | </head>
    `----
-
   x Element
-   ,-[$DIR/tests/fixture/element/marquee/input.html:3:1]
+   ,-[$DIR/tests/fixture/element/marquee/input.html:4:1]
  3 | <head>
  4 |     <title>Document</title>
    :     ^^^^^^^^^^^^^^^^^^^^^^^
  5 | </head>
    `----
-
   x Child
-   ,-[$DIR/tests/fixture/element/marquee/input.html:3:1]
+   ,-[$DIR/tests/fixture/element/marquee/input.html:4:1]
  3 | <head>
  4 |     <title>Document</title>
    :            ^^^^^^^^
  5 | </head>
    `----
-
   x Text
-   ,-[$DIR/tests/fixture/element/marquee/input.html:3:1]
+   ,-[$DIR/tests/fixture/element/marquee/input.html:4:1]
  3 | <head>
  4 |     <title>Document</title>
    :            ^^^^^^^^
  5 | </head>
    `----
-
   x Child
-   ,-[$DIR/tests/fixture/element/marquee/input.html:3:1]
+   ,-[$DIR/tests/fixture/element/marquee/input.html:4:1]
  3 | <head>
  4 |     <title>Document</title>
    :                            ^
  5 | </head>
  6 | <body>
    `----
-
   x Text
-   ,-[$DIR/tests/fixture/element/marquee/input.html:3:1]
+   ,-[$DIR/tests/fixture/element/marquee/input.html:4:1]
  3 | <head>
  4 |     <title>Document</title>
    :                            ^
  5 | </head>
  6 | <body>
    `----
-
   x Child
-   ,-[$DIR/tests/fixture/element/marquee/input.html:4:1]
+   ,-[$DIR/tests/fixture/element/marquee/input.html:5:1]
  4 |     <title>Document</title>
  5 | </head>
    :        ^
  6 | <body>
  7 | <marquee>This text will scroll from right to left</marquee>
    `----
-
   x Text
-   ,-[$DIR/tests/fixture/element/marquee/input.html:4:1]
+   ,-[$DIR/tests/fixture/element/marquee/input.html:5:1]
  4 |     <title>Document</title>
  5 | </head>
    :        ^
  6 | <body>
  7 | <marquee>This text will scroll from right to left</marquee>
    `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/marquee/input.html:5:1]
+    ,-[$DIR/tests/fixture/element/marquee/input.html:6:1]
   5 |     </head>
   6 | ,-> <body>
   7 | |   <marquee>This text will scroll from right to left</marquee>
@@ -202,9 +183,8 @@
  16 | `-> </body>
  17 |     </html>
     `----
-
   x Element
-    ,-[$DIR/tests/fixture/element/marquee/input.html:5:1]
+    ,-[$DIR/tests/fixture/element/marquee/input.html:6:1]
   5 |     </head>
   6 | ,-> <body>
   7 | |   <marquee>This text will scroll from right to left</marquee>
@@ -219,122 +199,106 @@
  16 | `-> </body>
  17 |     </html>
     `----
-
   x Child
-   ,-[$DIR/tests/fixture/element/marquee/input.html:5:1]
+   ,-[$DIR/tests/fixture/element/marquee/input.html:6:1]
  5 | </head>
  6 | <body>
    :       ^
  7 | <marquee>This text will scroll from right to left</marquee>
    `----
-
   x Text
-   ,-[$DIR/tests/fixture/element/marquee/input.html:5:1]
+   ,-[$DIR/tests/fixture/element/marquee/input.html:6:1]
  5 | </head>
  6 | <body>
    :       ^
  7 | <marquee>This text will scroll from right to left</marquee>
    `----
-
   x Child
-   ,-[$DIR/tests/fixture/element/marquee/input.html:6:1]
+   ,-[$DIR/tests/fixture/element/marquee/input.html:7:1]
  6 | <body>
  7 | <marquee>This text will scroll from right to left</marquee>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
-   ,-[$DIR/tests/fixture/element/marquee/input.html:6:1]
+   ,-[$DIR/tests/fixture/element/marquee/input.html:7:1]
  6 | <body>
  7 | <marquee>This text will scroll from right to left</marquee>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-   ,-[$DIR/tests/fixture/element/marquee/input.html:6:1]
+   ,-[$DIR/tests/fixture/element/marquee/input.html:7:1]
  6 | <body>
  7 | <marquee>This text will scroll from right to left</marquee>
    :          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Text
-   ,-[$DIR/tests/fixture/element/marquee/input.html:6:1]
+   ,-[$DIR/tests/fixture/element/marquee/input.html:7:1]
  6 | <body>
  7 | <marquee>This text will scroll from right to left</marquee>
    :          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-   ,-[$DIR/tests/fixture/element/marquee/input.html:6:1]
+   ,-[$DIR/tests/fixture/element/marquee/input.html:7:1]
  6 |     <body>
  7 | ,-> <marquee>This text will scroll from right to left</marquee>
  8 | `-> 
  9 |     <marquee direction="up">This text will scroll from bottom to top</marquee>
    `----
-
   x Text
-   ,-[$DIR/tests/fixture/element/marquee/input.html:6:1]
+   ,-[$DIR/tests/fixture/element/marquee/input.html:7:1]
  6 |     <body>
  7 | ,-> <marquee>This text will scroll from right to left</marquee>
  8 | `-> 
  9 |     <marquee direction="up">This text will scroll from bottom to top</marquee>
    `----
-
   x Child
-   ,-[$DIR/tests/fixture/element/marquee/input.html:8:1]
+   ,-[$DIR/tests/fixture/element/marquee/input.html:9:1]
  8 | 
  9 | <marquee direction="up">This text will scroll from bottom to top</marquee>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
-   ,-[$DIR/tests/fixture/element/marquee/input.html:8:1]
+   ,-[$DIR/tests/fixture/element/marquee/input.html:9:1]
  8 | 
  9 | <marquee direction="up">This text will scroll from bottom to top</marquee>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Attribute
-   ,-[$DIR/tests/fixture/element/marquee/input.html:8:1]
+   ,-[$DIR/tests/fixture/element/marquee/input.html:9:1]
  8 | 
  9 | <marquee direction="up">This text will scroll from bottom to top</marquee>
    :          ^^^^^^^^^^^^^^
    `----
-
   x Child
-   ,-[$DIR/tests/fixture/element/marquee/input.html:8:1]
+   ,-[$DIR/tests/fixture/element/marquee/input.html:9:1]
  8 | 
  9 | <marquee direction="up">This text will scroll from bottom to top</marquee>
    :                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Text
-   ,-[$DIR/tests/fixture/element/marquee/input.html:8:1]
+   ,-[$DIR/tests/fixture/element/marquee/input.html:9:1]
  8 | 
  9 | <marquee direction="up">This text will scroll from bottom to top</marquee>
    :                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/marquee/input.html:8:1]
+    ,-[$DIR/tests/fixture/element/marquee/input.html:9:1]
   8 |     
   9 | ,-> <marquee direction="up">This text will scroll from bottom to top</marquee>
  10 | `-> 
  11 |     <marquee direction="down" width="250" height="200" behavior="alternate" style="border:solid">
  12 |         <marquee behavior="alternate">
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/element/marquee/input.html:8:1]
+    ,-[$DIR/tests/fixture/element/marquee/input.html:9:1]
   8 |     
   9 | ,-> <marquee direction="up">This text will scroll from bottom to top</marquee>
  10 | `-> 
  11 |     <marquee direction="down" width="250" height="200" behavior="alternate" style="border:solid">
  12 |         <marquee behavior="alternate">
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/marquee/input.html:10:1]
+    ,-[$DIR/tests/fixture/element/marquee/input.html:11:1]
  10 |     
  11 | ,-> <marquee direction="down" width="250" height="200" behavior="alternate" style="border:solid">
  12 | |       <marquee behavior="alternate">
@@ -343,9 +307,8 @@
  15 | `-> </marquee>
  16 |     </body>
     `----
-
   x Element
-    ,-[$DIR/tests/fixture/element/marquee/input.html:10:1]
+    ,-[$DIR/tests/fixture/element/marquee/input.html:11:1]
  10 |     
  11 | ,-> <marquee direction="down" width="250" height="200" behavior="alternate" style="border:solid">
  12 | |       <marquee behavior="alternate">
@@ -354,135 +317,119 @@
  15 | `-> </marquee>
  16 |     </body>
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/marquee/input.html:10:1]
+    ,-[$DIR/tests/fixture/element/marquee/input.html:11:1]
  10 | 
  11 | <marquee direction="down" width="250" height="200" behavior="alternate" style="border:solid">
     :          ^^^^^^^^^^^^^^^^
  12 |     <marquee behavior="alternate">
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/marquee/input.html:10:1]
+    ,-[$DIR/tests/fixture/element/marquee/input.html:11:1]
  10 | 
  11 | <marquee direction="down" width="250" height="200" behavior="alternate" style="border:solid">
     :                           ^^^^^^^^^^^
  12 |     <marquee behavior="alternate">
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/marquee/input.html:10:1]
+    ,-[$DIR/tests/fixture/element/marquee/input.html:11:1]
  10 | 
  11 | <marquee direction="down" width="250" height="200" behavior="alternate" style="border:solid">
     :                                       ^^^^^^^^^^^^
  12 |     <marquee behavior="alternate">
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/marquee/input.html:10:1]
+    ,-[$DIR/tests/fixture/element/marquee/input.html:11:1]
  10 | 
  11 | <marquee direction="down" width="250" height="200" behavior="alternate" style="border:solid">
     :                                                    ^^^^^^^^^^^^^^^^^^^^
  12 |     <marquee behavior="alternate">
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/marquee/input.html:10:1]
+    ,-[$DIR/tests/fixture/element/marquee/input.html:11:1]
  10 | 
  11 | <marquee direction="down" width="250" height="200" behavior="alternate" style="border:solid">
     :                                                                         ^^^^^^^^^^^^^^^^^^^^
  12 |     <marquee behavior="alternate">
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/marquee/input.html:10:1]
+    ,-[$DIR/tests/fixture/element/marquee/input.html:11:1]
  10 |     
  11 | ,-> <marquee direction="down" width="250" height="200" behavior="alternate" style="border:solid">
  12 | `->     <marquee behavior="alternate">
  13 |             This text will bounce
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/element/marquee/input.html:10:1]
+    ,-[$DIR/tests/fixture/element/marquee/input.html:11:1]
  10 |     
  11 | ,-> <marquee direction="down" width="250" height="200" behavior="alternate" style="border:solid">
  12 | `->     <marquee behavior="alternate">
  13 |             This text will bounce
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/marquee/input.html:11:1]
+    ,-[$DIR/tests/fixture/element/marquee/input.html:12:1]
  11 |     <marquee direction="down" width="250" height="200" behavior="alternate" style="border:solid">
  12 | ,->     <marquee behavior="alternate">
  13 | |           This text will bounce
  14 | `->     </marquee>
  15 |     </marquee>
     `----
-
   x Element
-    ,-[$DIR/tests/fixture/element/marquee/input.html:11:1]
+    ,-[$DIR/tests/fixture/element/marquee/input.html:12:1]
  11 |     <marquee direction="down" width="250" height="200" behavior="alternate" style="border:solid">
  12 | ,->     <marquee behavior="alternate">
  13 | |           This text will bounce
  14 | `->     </marquee>
  15 |     </marquee>
     `----
-
   x Attribute
-    ,-[$DIR/tests/fixture/element/marquee/input.html:11:1]
+    ,-[$DIR/tests/fixture/element/marquee/input.html:12:1]
  11 | <marquee direction="down" width="250" height="200" behavior="alternate" style="border:solid">
  12 |     <marquee behavior="alternate">
     :              ^^^^^^^^^^^^^^^^^^^^
  13 |         This text will bounce
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/element/marquee/input.html:11:1]
+    ,-[$DIR/tests/fixture/element/marquee/input.html:12:1]
  11 |     <marquee direction="down" width="250" height="200" behavior="alternate" style="border:solid">
  12 | ,->     <marquee behavior="alternate">
  13 | |           This text will bounce
  14 | `->     </marquee>
  15 |     </marquee>
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/element/marquee/input.html:11:1]
+    ,-[$DIR/tests/fixture/element/marquee/input.html:12:1]
  11 |     <marquee direction="down" width="250" height="200" behavior="alternate" style="border:solid">
  12 | ,->     <marquee behavior="alternate">
  13 | |           This text will bounce
  14 | `->     </marquee>
  15 |     </marquee>
     `----
-
-  x Child
-    ,-[$DIR/tests/fixture/element/marquee/input.html:13:1]
- 13 |         This text will bounce
- 14 |     </marquee>
-    :               ^
- 15 | </marquee>
- 16 | </body>
-    `----
-
-  x Text
-    ,-[$DIR/tests/fixture/element/marquee/input.html:13:1]
- 13 |         This text will bounce
- 14 |     </marquee>
-    :               ^
- 15 | </marquee>
- 16 | </body>
-    `----
-
   x Child
     ,-[$DIR/tests/fixture/element/marquee/input.html:14:1]
+ 13 |         This text will bounce
+ 14 |     </marquee>
+    :               ^
+ 15 | </marquee>
+ 16 | </body>
+    `----
+  x Text
+    ,-[$DIR/tests/fixture/element/marquee/input.html:14:1]
+ 13 |         This text will bounce
+ 14 |     </marquee>
+    :               ^
+ 15 | </marquee>
+ 16 | </body>
+    `----
+  x Child
+    ,-[$DIR/tests/fixture/element/marquee/input.html:15:1]
  14 |         </marquee>
  15 | ,-> </marquee>
  16 | `-> </body>
  17 |     </html>
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/element/marquee/input.html:14:1]
+    ,-[$DIR/tests/fixture/element/marquee/input.html:15:1]
  14 |         </marquee>
  15 | ,-> </marquee>
  16 | `-> </body>

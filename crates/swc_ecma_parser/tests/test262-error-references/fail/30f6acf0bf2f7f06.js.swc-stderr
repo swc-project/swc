@@ -1,4 +1,3 @@
-
   x Not a pattern
    ,-[$DIR/tests/test262-parser/fail/30f6acf0bf2f7f06.js:1:1]
  1 | function *g(){ (a, b, c, yield) => 42 }

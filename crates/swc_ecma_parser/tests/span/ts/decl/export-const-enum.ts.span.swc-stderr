@@ -1,40 +1,33 @@
-
   x Module
    ,-[$DIR/tests/span/ts/decl/export-const-enum.ts:1:1]
  1 | export const enum A {}
    : ^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x ModuleItem
    ,-[$DIR/tests/span/ts/decl/export-const-enum.ts:1:1]
  1 | export const enum A {}
    : ^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x ModuleDecl
    ,-[$DIR/tests/span/ts/decl/export-const-enum.ts:1:1]
  1 | export const enum A {}
    : ^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x ExportDecl
    ,-[$DIR/tests/span/ts/decl/export-const-enum.ts:1:1]
  1 | export const enum A {}
    : ^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Decl
    ,-[$DIR/tests/span/ts/decl/export-const-enum.ts:1:1]
  1 | export const enum A {}
    :        ^^^^^^^^^^^^^^^
    `----
-
   x TsEnumDecl
    ,-[$DIR/tests/span/ts/decl/export-const-enum.ts:1:1]
  1 | export const enum A {}
    :        ^^^^^^^^^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/span/ts/decl/export-const-enum.ts:1:1]
  1 | export const enum A {}

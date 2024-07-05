@@ -1,80 +1,65 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.59.html:1:1]
  1 | <b>A<cite>B<div>C</cite>D
    : ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.59.html:1:1]
  1 | <b>A<cite>B<div>C</cite>D
    : ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.59.html:1:1]
  1 | <b>A<cite>B<div>C</cite>D
    : ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.59.html:1:1]
  1 | <b>A<cite>B<div>C</cite>D
    :    ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.59.html:1:1]
  1 | <b>A<cite>B<div>C</cite>D
    :    ^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.59.html:1:1]
  1 | <b>A<cite>B<div>C</cite>D
    :     ^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.59.html:1:1]
  1 | <b>A<cite>B<div>C</cite>D
    :     ^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.59.html:1:1]
  1 | <b>A<cite>B<div>C</cite>D
    :           ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.59.html:1:1]
  1 | <b>A<cite>B<div>C</cite>D
    :           ^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.59.html:1:1]
  1 | <b>A<cite>B<div>C</cite>D
    :            ^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.59.html:1:1]
  1 | <b>A<cite>B<div>C</cite>D
    :            ^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.59.html:1:1]
  1 | <b>A<cite>B<div>C</cite>D
    :                 ^^^^^^^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests1_dat.59.html:1:1]
  1 | <b>A<cite>B<div>C</cite>D

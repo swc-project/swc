@@ -1,38 +1,33 @@
-
   x Expected ident at first position in <general-enclosed>
-   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:6:1]
+   ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:7:1]
  6 | 
  7 | @supports ({"example": 1}) {
    :           ^^^^^^^^^^^^^^^^
  8 |     * { background: red; }
    `----
-
   x Expected ident at first position in <general-enclosed>
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:10:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:11:1]
  10 | 
  11 | @supports (("example": 1)) {
     :           ^^^^^^^^^^^^^^^^
  12 |     * { background: red; }
     `----
-
   x Expected ident at first position in <general-enclosed>
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:14:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:15:1]
  14 | 
  15 | @supports ([]) {
     :           ^^^^
  16 |     * { background: red; }
     `----
-
   x Expected ident at first position in <general-enclosed>
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:18:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:19:1]
  18 | 
  19 | @supports ([color: red]) {
     :           ^^^^^^^^^^^^^^
  20 |     * { background: red; }
     `----
-
   x Expected ident at first position in <general-enclosed>
-    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:22:1]
+    ,-[$DIR/tests/recovery/at-rule/supports/non-standard-prelude/input.css:23:1]
  22 | 
  23 | @supports ([[[[[{ --func(color: { red }) }]]]]]) {
     :           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

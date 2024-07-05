@@ -1,106 +1,88 @@
-
   x Stylesheet
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/DrlXteRB-ppLVxi4_N4dhA/input.css:1:1]
  1 | a { value: \2cx }
    : ^^^^^^^^^^^^^^^^^
    `----
-
   x Rule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/DrlXteRB-ppLVxi4_N4dhA/input.css:1:1]
  1 | a { value: \2cx }
    : ^^^^^^^^^^^^^^^^^
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/DrlXteRB-ppLVxi4_N4dhA/input.css:1:1]
  1 | a { value: \2cx }
    : ^^^^^^^^^^^^^^^^^
    `----
-
   x SelectorList
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/DrlXteRB-ppLVxi4_N4dhA/input.css:1:1]
  1 | a { value: \2cx }
    : ^
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/DrlXteRB-ppLVxi4_N4dhA/input.css:1:1]
  1 | a { value: \2cx }
    : ^
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/DrlXteRB-ppLVxi4_N4dhA/input.css:1:1]
  1 | a { value: \2cx }
    : ^
    `----
-
   x TypeSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/DrlXteRB-ppLVxi4_N4dhA/input.css:1:1]
  1 | a { value: \2cx }
    : ^
    `----
-
   x TagNameSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/DrlXteRB-ppLVxi4_N4dhA/input.css:1:1]
  1 | a { value: \2cx }
    : ^
    `----
-
   x WqName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/DrlXteRB-ppLVxi4_N4dhA/input.css:1:1]
  1 | a { value: \2cx }
    : ^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/DrlXteRB-ppLVxi4_N4dhA/input.css:1:1]
  1 | a { value: \2cx }
    : ^
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/DrlXteRB-ppLVxi4_N4dhA/input.css:1:1]
  1 | a { value: \2cx }
    :   ^^^^^^^^^^^^^^^
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/DrlXteRB-ppLVxi4_N4dhA/input.css:1:1]
  1 | a { value: \2cx }
    :   ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/DrlXteRB-ppLVxi4_N4dhA/input.css:1:1]
  1 | a { value: \2cx }
    :     ^^^^^^^^^^^^
    `----
-
   x Declaration
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/DrlXteRB-ppLVxi4_N4dhA/input.css:1:1]
  1 | a { value: \2cx }
    :     ^^^^^^^^^^^^
    `----
-
   x DeclarationName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/DrlXteRB-ppLVxi4_N4dhA/input.css:1:1]
  1 | a { value: \2cx }
    :     ^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/DrlXteRB-ppLVxi4_N4dhA/input.css:1:1]
  1 | a { value: \2cx }
    :     ^^^^^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/DrlXteRB-ppLVxi4_N4dhA/input.css:1:1]
  1 | a { value: \2cx }
    :            ^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/DrlXteRB-ppLVxi4_N4dhA/input.css:1:1]
  1 | a { value: \2cx }

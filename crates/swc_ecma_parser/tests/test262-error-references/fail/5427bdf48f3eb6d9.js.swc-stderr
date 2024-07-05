@@ -1,10 +1,8 @@
-
   x Invalid unicode escape
    ,-[$DIR/tests/test262-parser/fail/5427bdf48f3eb6d9.js:1:1]
  1 | ('\u{2028')
    :   ^^^^^^^
    `----
-
   x Unterminated string constant
    ,-[$DIR/tests/test262-parser/fail/5427bdf48f3eb6d9.js:1:1]
  1 | ('\u{2028')

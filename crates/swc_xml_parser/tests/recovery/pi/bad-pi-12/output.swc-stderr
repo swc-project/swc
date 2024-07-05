@@ -1,12 +1,10 @@
-
   x Eof in processing instruction
-   ,-[$DIR/tests/recovery/pi/bad-pi-12/input.xml:1:1]
+   ,-[$DIR/tests/recovery/pi/bad-pi-12/input.xml:2:1]
  1 | <root>
  2 |     <?
    `----
-
   x Unexpected end of file in main phase
-   ,-[$DIR/tests/recovery/pi/bad-pi-12/input.xml:1:1]
+   ,-[$DIR/tests/recovery/pi/bad-pi-12/input.xml:2:1]
  1 | <root>
  2 |     <?
    `----

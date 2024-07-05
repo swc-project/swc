@@ -1,7 +1,6 @@
 //// [main.ts]
-//! 
 //!   x Expression expected
-//!    ,-[4:1]
+//!    ,-[7:1]
 //!  4 | var C;
 //!  5 | 
 //!  6 | // uses __esDecorate, __runInitializers, __setFunctionName

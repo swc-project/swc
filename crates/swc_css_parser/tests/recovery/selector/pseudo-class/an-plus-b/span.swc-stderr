@@ -1,76 +1,63 @@
-
   x Stylesheet
    ,-[$DIR/tests/recovery/selector/pseudo-class/an-plus-b/input.css:1:1]
  1 | :nth-child(unknown) {}
    : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Rule
    ,-[$DIR/tests/recovery/selector/pseudo-class/an-plus-b/input.css:1:1]
  1 | :nth-child(unknown) {}
    : ^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/recovery/selector/pseudo-class/an-plus-b/input.css:1:1]
  1 | :nth-child(unknown) {}
    : ^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x SelectorList
    ,-[$DIR/tests/recovery/selector/pseudo-class/an-plus-b/input.css:1:1]
  1 | :nth-child(unknown) {}
    : ^^^^^^^^^^^^^^^^^^^
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/recovery/selector/pseudo-class/an-plus-b/input.css:1:1]
  1 | :nth-child(unknown) {}
    : ^^^^^^^^^^^^^^^^^^^
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/recovery/selector/pseudo-class/an-plus-b/input.css:1:1]
  1 | :nth-child(unknown) {}
    : ^^^^^^^^^^^^^^^^^^^
    `----
-
   x SubclassSelector
    ,-[$DIR/tests/recovery/selector/pseudo-class/an-plus-b/input.css:1:1]
  1 | :nth-child(unknown) {}
    : ^^^^^^^^^^^^^^^^^^^
    `----
-
   x PseudoClassSelector
    ,-[$DIR/tests/recovery/selector/pseudo-class/an-plus-b/input.css:1:1]
  1 | :nth-child(unknown) {}
    : ^^^^^^^^^^^^^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/recovery/selector/pseudo-class/an-plus-b/input.css:1:1]
  1 | :nth-child(unknown) {}
    :  ^^^^^^^^^
    `----
-
   x PseudoClassSelectorChildren
    ,-[$DIR/tests/recovery/selector/pseudo-class/an-plus-b/input.css:1:1]
  1 | :nth-child(unknown) {}
    :            ^^^^^^^
    `----
-
   x Ident { value: "unknown", raw: "unknown" }
    ,-[$DIR/tests/recovery/selector/pseudo-class/an-plus-b/input.css:1:1]
  1 | :nth-child(unknown) {}
    :            ^^^^^^^
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/recovery/selector/pseudo-class/an-plus-b/input.css:1:1]
  1 | :nth-child(unknown) {}
    :                     ^^
    `----
-
   x LBrace
    ,-[$DIR/tests/recovery/selector/pseudo-class/an-plus-b/input.css:1:1]
  1 | :nth-child(unknown) {}

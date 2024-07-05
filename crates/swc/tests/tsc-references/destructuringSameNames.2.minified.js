@@ -1,7 +1,6 @@
 //// [destructuringSameNames.ts]
-//! 
 //!   x the name `foo1` is defined multiple times
-//!     ,-[18:1]
+//!     ,-[21:1]
 //!  18 | 
 //!  19 | // Error cases
 //!  20 | 
@@ -13,9 +12,8 @@
 //!  23 | let { bar3: foo3, foo3 } = { foo3: 30, bar3: 330 };
 //!  24 | const { foo4, foo4 } = { foo4: 40 };
 //!     `----
-//! 
 //!   x the name `foo2` is defined multiple times
-//!     ,-[19:1]
+//!     ,-[22:1]
 //!  19 | // Error cases
 //!  20 | 
 //!  21 | let { foo1, foo1 } = { foo1: 10 };
@@ -27,9 +25,8 @@
 //!  24 | const { foo4, foo4 } = { foo4: 40 };
 //!  25 | const { foo5, bar5: foo5 } = { foo5: 50, bar5: 550 };
 //!     `----
-//! 
 //!   x the name `foo3` is defined multiple times
-//!     ,-[20:1]
+//!     ,-[23:1]
 //!  20 | 
 //!  21 | let { foo1, foo1 } = { foo1: 10 };
 //!  22 | let { foo2, bar2: foo2 } = { foo2: 20, bar2: 220 };
@@ -41,9 +38,8 @@
 //!  25 | const { foo5, bar5: foo5 } = { foo5: 50, bar5: 550 };
 //!  26 | const { bar6: foo6, foo6 } = { foo6: 60, bar6: 660 };
 //!     `----
-//! 
 //!   x the name `foo4` is defined multiple times
-//!     ,-[21:1]
+//!     ,-[24:1]
 //!  21 | let { foo1, foo1 } = { foo1: 10 };
 //!  22 | let { foo2, bar2: foo2 } = { foo2: 20, bar2: 220 };
 //!  23 | let { bar3: foo3, foo3 } = { foo3: 30, bar3: 330 };
@@ -54,9 +50,8 @@
 //!  25 | const { foo5, bar5: foo5 } = { foo5: 50, bar5: 550 };
 //!  26 | const { bar6: foo6, foo6 } = { foo6: 60, bar6: 660 };
 //!     `----
-//! 
 //!   x the name `foo5` is defined multiple times
-//!     ,-[22:1]
+//!     ,-[25:1]
 //!  22 | let { foo2, bar2: foo2 } = { foo2: 20, bar2: 220 };
 //!  23 | let { bar3: foo3, foo3 } = { foo3: 30, bar3: 330 };
 //!  24 | const { foo4, foo4 } = { foo4: 40 };
@@ -68,9 +63,8 @@
 //!  27 | 
 //!  28 | let [blah1, blah1] = [111, 222];
 //!     `----
-//! 
 //!   x the name `foo6` is defined multiple times
-//!     ,-[23:1]
+//!     ,-[26:1]
 //!  23 | let { bar3: foo3, foo3 } = { foo3: 30, bar3: 330 };
 //!  24 | const { foo4, foo4 } = { foo4: 40 };
 //!  25 | const { foo5, bar5: foo5 } = { foo5: 50, bar5: 550 };
@@ -82,9 +76,8 @@
 //!  28 | let [blah1, blah1] = [111, 222];
 //!  29 | const [blah2, blah2] = [333, 444];
 //!     `----
-//! 
 //!   x the name `blah1` is defined multiple times
-//!     ,-[25:1]
+//!     ,-[28:1]
 //!  25 | const { foo5, bar5: foo5 } = { foo5: 50, bar5: 550 };
 //!  26 | const { bar6: foo6, foo6 } = { foo6: 60, bar6: 660 };
 //!  27 | 
@@ -94,9 +87,8 @@
 //!     :        `-- previous definition of `blah1` here
 //!  29 | const [blah2, blah2] = [333, 444];
 //!     `----
-//! 
 //!   x the name `blah2` is defined multiple times
-//!     ,-[26:1]
+//!     ,-[29:1]
 //!  26 | const { bar6: foo6, foo6 } = { foo6: 60, bar6: 660 };
 //!  27 | 
 //!  28 | let [blah1, blah1] = [111, 222];

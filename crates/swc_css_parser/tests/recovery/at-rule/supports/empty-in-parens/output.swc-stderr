@@ -1,4 +1,3 @@
-
   x Expected ident at first position in <general-enclosed>
    ,-[$DIR/tests/recovery/at-rule/supports/empty-in-parens/input.css:1:1]
  1 | @supports (      ) {

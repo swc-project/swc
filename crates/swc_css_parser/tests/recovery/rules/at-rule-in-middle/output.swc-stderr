@@ -1,6 +1,5 @@
-
   x Invalid selector
-   ,-[$DIR/tests/recovery/rules/at-rule-in-middle/input.css:2:1]
+   ,-[$DIR/tests/recovery/rules/at-rule-in-middle/input.css:3:1]
  2 | 
  3 | @media {};
    :          ^

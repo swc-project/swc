@@ -1,32 +1,25 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat.14.html:1:1]
  1 | <textarea>foo<span>bar</span><i>baz
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat.14.html:1:1]
  1 | <textarea>foo<span>bar</span><i>baz
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat.14.html:1:1]
  1 | <textarea>foo<span>bar</span><i>baz
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat.14.html:1:1]
  1 | <textarea>foo<span>bar</span><i>baz
    :           ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests3_dat.14.html:1:1]
  1 | <textarea>foo<span>bar</span><i>baz

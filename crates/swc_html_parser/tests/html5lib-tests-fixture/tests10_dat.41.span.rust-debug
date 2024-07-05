@@ -1,44 +1,35 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.41.html:1:1]
  1 | <math><mi><mglyph>
    : ^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.41.html:1:1]
  1 | <math><mi><mglyph>
    : ^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.41.html:1:1]
  1 | <math><mi><mglyph>
    : ^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.41.html:1:1]
  1 | <math><mi><mglyph>
    :       ^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.41.html:1:1]
  1 | <math><mi><mglyph>
    :       ^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.41.html:1:1]
  1 | <math><mi><mglyph>
    :           ^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.41.html:1:1]
  1 | <math><mi><mglyph>

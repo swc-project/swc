@@ -1,41 +1,35 @@
-
   x Start tag "h1" seen in "table"
-   ,-[$DIR/tests/recovery/element/table/broken/input.html:7:1]
+   ,-[$DIR/tests/recovery/element/table/broken/input.html:8:1]
  7 | 
  8 | <table><h1>test</h1></table>
    :        ^^^^
    `----
-
   x Misplaced non-space characters inside a table
-   ,-[$DIR/tests/recovery/element/table/broken/input.html:7:1]
+   ,-[$DIR/tests/recovery/element/table/broken/input.html:8:1]
  7 | 
  8 | <table><h1>test</h1></table>
    :            ^
    `----
-
   x Misplaced non-space characters inside a table
-   ,-[$DIR/tests/recovery/element/table/broken/input.html:7:1]
+   ,-[$DIR/tests/recovery/element/table/broken/input.html:8:1]
  7 | 
  8 | <table><h1>test</h1></table>
    :             ^
    `----
-
   x Misplaced non-space characters inside a table
-   ,-[$DIR/tests/recovery/element/table/broken/input.html:7:1]
+   ,-[$DIR/tests/recovery/element/table/broken/input.html:8:1]
  7 | 
  8 | <table><h1>test</h1></table>
    :              ^
    `----
-
   x Misplaced non-space characters inside a table
-   ,-[$DIR/tests/recovery/element/table/broken/input.html:7:1]
+   ,-[$DIR/tests/recovery/element/table/broken/input.html:8:1]
  7 | 
  8 | <table><h1>test</h1></table>
    :               ^
    `----
-
   x Stray end tag "h1"
-   ,-[$DIR/tests/recovery/element/table/broken/input.html:7:1]
+   ,-[$DIR/tests/recovery/element/table/broken/input.html:8:1]
  7 | 
  8 | <table><h1>test</h1></table>
    :                ^^^^^

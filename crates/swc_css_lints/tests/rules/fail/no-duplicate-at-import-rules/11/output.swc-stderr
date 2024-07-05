@@ -1,22 +1,19 @@
-
   x Unexpected duplicate '@import' rule 'a.css'.
-   ,-[$DIR/tests/rules/fail/no-duplicate-at-import-rules/11/input.css:1:1]
+   ,-[$DIR/tests/rules/fail/no-duplicate-at-import-rules/11/input.css:2:1]
  1 | @import 'a.css' layer;
  2 | @import 'a.css' layer();
    : ^^^^^^^^^^^^^^^^^^^^^^^^
  3 | @import 'a.css' layer(default);
    `----
-
   x Unexpected duplicate '@import' rule 'a.css'.
-   ,-[$DIR/tests/rules/fail/no-duplicate-at-import-rules/11/input.css:2:1]
+   ,-[$DIR/tests/rules/fail/no-duplicate-at-import-rules/11/input.css:3:1]
  2 | @import 'a.css' layer();
  3 | @import 'a.css' layer(default);
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  4 | @import 'a.css' layer(other);
    `----
-
   x Unexpected duplicate '@import' rule 'a.css'.
-   ,-[$DIR/tests/rules/fail/no-duplicate-at-import-rules/11/input.css:3:1]
+   ,-[$DIR/tests/rules/fail/no-duplicate-at-import-rules/11/input.css:4:1]
  3 | @import 'a.css' layer(default);
  4 | @import 'a.css' layer(other);
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^

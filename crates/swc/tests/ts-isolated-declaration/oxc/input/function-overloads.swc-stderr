@@ -1,6 +1,5 @@
-
   x the name `b` is defined multiple times
-   ,-[$DIR/tests/ts-isolated-declaration/oxc/input/function-overloads.ts:5:1]
+   ,-[$DIR/tests/ts-isolated-declaration/oxc/input/function-overloads.ts:6:1]
  5 | 
  6 | function b(a: number): number {};
    :          |

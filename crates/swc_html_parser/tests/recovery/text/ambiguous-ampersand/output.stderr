@@ -1,28 +1,23 @@
-
   x Start tag seen without seeing a doctype first, expected "<!DOCTYPE html>"
    ,-[$DIR/tests/recovery/text/ambiguous-ampersand/input.html:1:1]
  1 | <div><a href='?a=b&c=d&a0b=c&copy=1&noti=n&not=in&notin=&notin;&not;&;& &'>Link</a><p>Text: ?a=b&c=d&a0b=c&copy=1&noti=n&not=in&notin=&notin;&not;&;& &</p></div>
    : ^^^^^
    `----
-
   x Missing semicolon after character reference
    ,-[$DIR/tests/recovery/text/ambiguous-ampersand/input.html:1:1]
  1 | <div><a href='?a=b&c=d&a0b=c&copy=1&noti=n&not=in&notin=&notin;&not;&;& &'>Link</a><p>Text: ?a=b&c=d&a0b=c&copy=1&noti=n&not=in&notin=&notin;&not;&;& &</p></div>
    :                                                                                                                ^
    `----
-
   x Missing semicolon after character reference
    ,-[$DIR/tests/recovery/text/ambiguous-ampersand/input.html:1:1]
  1 | <div><a href='?a=b&c=d&a0b=c&copy=1&noti=n&not=in&notin=&notin;&not;&;& &'>Link</a><p>Text: ?a=b&c=d&a0b=c&copy=1&noti=n&not=in&notin=&notin;&not;&;& &</p></div>
    :                                                                                                                      ^
    `----
-
   x Missing semicolon after character reference
    ,-[$DIR/tests/recovery/text/ambiguous-ampersand/input.html:1:1]
  1 | <div><a href='?a=b&c=d&a0b=c&copy=1&noti=n&not=in&notin=&notin;&not;&;& &'>Link</a><p>Text: ?a=b&c=d&a0b=c&copy=1&noti=n&not=in&notin=&notin;&not;&;& &</p></div>
    :                                                                                                                             ^
    `----
-
   x Missing semicolon after character reference
    ,-[$DIR/tests/recovery/text/ambiguous-ampersand/input.html:1:1]
  1 | <div><a href='?a=b&c=d&a0b=c&copy=1&noti=n&not=in&notin=&notin;&not;&;& &'>Link</a><p>Text: ?a=b&c=d&a0b=c&copy=1&noti=n&not=in&notin=&notin;&not;&;& &</p></div>

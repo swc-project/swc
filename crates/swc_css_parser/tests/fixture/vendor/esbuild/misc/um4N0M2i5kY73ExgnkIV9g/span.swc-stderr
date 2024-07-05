@@ -1,40 +1,33 @@
-
   x Stylesheet
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/um4N0M2i5kY73ExgnkIV9g/input.css:1:1]
  1 | @namespace ns 'p\61th';
    : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Rule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/um4N0M2i5kY73ExgnkIV9g/input.css:1:1]
  1 | @namespace ns 'p\61th';
    : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x AtRule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/um4N0M2i5kY73ExgnkIV9g/input.css:1:1]
  1 | @namespace ns 'p\61th';
    : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x AtRuleName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/um4N0M2i5kY73ExgnkIV9g/input.css:1:1]
  1 | @namespace ns 'p\61th';
    :  ^^^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/um4N0M2i5kY73ExgnkIV9g/input.css:1:1]
  1 | @namespace ns 'p\61th';
    :  ^^^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/um4N0M2i5kY73ExgnkIV9g/input.css:1:1]
  1 | @namespace ns 'p\61th';
    :            ^^
    `----
-
   x Str
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/um4N0M2i5kY73ExgnkIV9g/input.css:1:1]
  1 | @namespace ns 'p\61th';

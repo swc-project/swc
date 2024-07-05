@@ -1,94 +1,78 @@
-
   x Stylesheet
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/e_FDMPgmGFzIY3W0EbjxHA/input.css:1:1]
  1 | [\6es|attr] {}
    : ^^^^^^^^^^^^^^
    `----
-
   x Rule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/e_FDMPgmGFzIY3W0EbjxHA/input.css:1:1]
  1 | [\6es|attr] {}
    : ^^^^^^^^^^^^^^
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/e_FDMPgmGFzIY3W0EbjxHA/input.css:1:1]
  1 | [\6es|attr] {}
    : ^^^^^^^^^^^^^^
    `----
-
   x SelectorList
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/e_FDMPgmGFzIY3W0EbjxHA/input.css:1:1]
  1 | [\6es|attr] {}
    : ^^^^^^^^^^^
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/e_FDMPgmGFzIY3W0EbjxHA/input.css:1:1]
  1 | [\6es|attr] {}
    : ^^^^^^^^^^^
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/e_FDMPgmGFzIY3W0EbjxHA/input.css:1:1]
  1 | [\6es|attr] {}
    : ^^^^^^^^^^^
    `----
-
   x SubclassSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/e_FDMPgmGFzIY3W0EbjxHA/input.css:1:1]
  1 | [\6es|attr] {}
    : ^^^^^^^^^^^
    `----
-
   x AttributeSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/e_FDMPgmGFzIY3W0EbjxHA/input.css:1:1]
  1 | [\6es|attr] {}
    : ^^^^^^^^^^^
    `----
-
   x WqName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/e_FDMPgmGFzIY3W0EbjxHA/input.css:1:1]
  1 | [\6es|attr] {}
    :  ^^^^^^^^^
    `----
-
   x NamespacePrefix
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/e_FDMPgmGFzIY3W0EbjxHA/input.css:1:1]
  1 | [\6es|attr] {}
    :  ^^^^^
    `----
-
   x Namespace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/e_FDMPgmGFzIY3W0EbjxHA/input.css:1:1]
  1 | [\6es|attr] {}
    :  ^^^^
    `----
-
   x NamedNamespace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/e_FDMPgmGFzIY3W0EbjxHA/input.css:1:1]
  1 | [\6es|attr] {}
    :  ^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/e_FDMPgmGFzIY3W0EbjxHA/input.css:1:1]
  1 | [\6es|attr] {}
    :  ^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/e_FDMPgmGFzIY3W0EbjxHA/input.css:1:1]
  1 | [\6es|attr] {}
    :       ^^^^
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/e_FDMPgmGFzIY3W0EbjxHA/input.css:1:1]
  1 | [\6es|attr] {}
    :             ^^
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/e_FDMPgmGFzIY3W0EbjxHA/input.css:1:1]
  1 | [\6es|attr] {}

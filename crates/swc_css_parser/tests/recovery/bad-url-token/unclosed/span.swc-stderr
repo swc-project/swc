@@ -1,120 +1,103 @@
-
   x Stylesheet
    ,-[$DIR/tests/recovery/bad-url-token/unclosed/input.css:1:1]
  1 | ,-> .foo {
  2 | |       background: url(foo bar;
  3 | `-> }
    `----
-
   x Rule
    ,-[$DIR/tests/recovery/bad-url-token/unclosed/input.css:1:1]
  1 | ,-> .foo {
  2 | |       background: url(foo bar;
  3 | `-> }
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/recovery/bad-url-token/unclosed/input.css:1:1]
  1 | ,-> .foo {
  2 | |       background: url(foo bar;
  3 | `-> }
    `----
-
   x SelectorList
    ,-[$DIR/tests/recovery/bad-url-token/unclosed/input.css:1:1]
  1 | .foo {
    : ^^^^
  2 |     background: url(foo bar;
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/recovery/bad-url-token/unclosed/input.css:1:1]
  1 | .foo {
    : ^^^^
  2 |     background: url(foo bar;
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/recovery/bad-url-token/unclosed/input.css:1:1]
  1 | .foo {
    : ^^^^
  2 |     background: url(foo bar;
    `----
-
   x SubclassSelector
    ,-[$DIR/tests/recovery/bad-url-token/unclosed/input.css:1:1]
  1 | .foo {
    : ^^^^
  2 |     background: url(foo bar;
    `----
-
   x ClassSelector
    ,-[$DIR/tests/recovery/bad-url-token/unclosed/input.css:1:1]
  1 | .foo {
    : ^^^^
  2 |     background: url(foo bar;
    `----
-
   x Ident
    ,-[$DIR/tests/recovery/bad-url-token/unclosed/input.css:1:1]
  1 | .foo {
    :  ^^^
  2 |     background: url(foo bar;
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/recovery/bad-url-token/unclosed/input.css:1:1]
  1 | ,-> .foo {
  2 | |       background: url(foo bar;
  3 | `-> }
    `----
-
   x LBrace
    ,-[$DIR/tests/recovery/bad-url-token/unclosed/input.css:1:1]
  1 | .foo {
    :      ^
  2 |     background: url(foo bar;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/bad-url-token/unclosed/input.css:1:1]
+   ,-[$DIR/tests/recovery/bad-url-token/unclosed/input.css:2:1]
  1 |     .foo {
  2 | ,->     background: url(foo bar;
  3 | `-> }
    `----
-
   x Declaration
-   ,-[$DIR/tests/recovery/bad-url-token/unclosed/input.css:1:1]
+   ,-[$DIR/tests/recovery/bad-url-token/unclosed/input.css:2:1]
  1 |     .foo {
  2 | ,->     background: url(foo bar;
  3 | `-> }
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/recovery/bad-url-token/unclosed/input.css:1:1]
+   ,-[$DIR/tests/recovery/bad-url-token/unclosed/input.css:2:1]
  1 | .foo {
  2 |     background: url(foo bar;
    :     ^^^^^^^^^^
  3 | }
    `----
-
   x Ident
-   ,-[$DIR/tests/recovery/bad-url-token/unclosed/input.css:1:1]
+   ,-[$DIR/tests/recovery/bad-url-token/unclosed/input.css:2:1]
  1 | .foo {
  2 |     background: url(foo bar;
    :     ^^^^^^^^^^
  3 | }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/bad-url-token/unclosed/input.css:1:1]
+   ,-[$DIR/tests/recovery/bad-url-token/unclosed/input.css:2:1]
  1 |     .foo {
  2 | ,->     background: url(foo bar;
  3 | `-> }
    `----
-
   x BadUrl { raw: "url(foo bar;\n}" }
-   ,-[$DIR/tests/recovery/bad-url-token/unclosed/input.css:1:1]
+   ,-[$DIR/tests/recovery/bad-url-token/unclosed/input.css:2:1]
  1 |     .foo {
  2 | ,->     background: url(foo bar;
  3 | `-> }

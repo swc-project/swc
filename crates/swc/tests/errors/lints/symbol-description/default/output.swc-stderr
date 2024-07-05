@@ -1,4 +1,3 @@
-
   x Expected Symbol to have a description
    ,-[1:1]
  1 | Symbol()
@@ -7,18 +6,16 @@
  3 | foo(() => Symbol())
  4 | Symbol('name')
    `----
-
   x Symbol description should be a string
-   ,-[1:1]
+   ,-[2:1]
  1 | Symbol()
  2 | Symbol({})
    : ^^^^^^^^^^
  3 | foo(() => Symbol())
  4 | Symbol('name')
    `----
-
   x Expected Symbol to have a description
-   ,-[1:1]
+   ,-[3:1]
  1 | Symbol()
  2 | Symbol({})
  3 | foo(() => Symbol())

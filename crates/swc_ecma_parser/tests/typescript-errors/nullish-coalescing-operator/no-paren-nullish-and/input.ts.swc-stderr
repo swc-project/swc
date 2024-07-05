@@ -1,4 +1,3 @@
-
   x Nullish coalescing operator(??) requires parens when mixing with logical operators
    ,-[$DIR/tests/typescript-errors/nullish-coalescing-operator/no-paren-nullish-and/input.ts:1:1]
  1 | a ?? b && c;

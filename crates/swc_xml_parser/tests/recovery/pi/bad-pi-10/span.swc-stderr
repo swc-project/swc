@@ -1,65 +1,56 @@
-
   x Document
    ,-[$DIR/tests/recovery/pi/bad-pi-10/input.xml:1:1]
  1 | ,-> <root>
  2 | |       <?foo??>
  3 | `-> </root>
    `----
-
   x Child
    ,-[$DIR/tests/recovery/pi/bad-pi-10/input.xml:1:1]
  1 | ,-> <root>
  2 | |       <?foo??>
  3 | `-> </root>
    `----
-
   x Element
    ,-[$DIR/tests/recovery/pi/bad-pi-10/input.xml:1:1]
  1 | ,-> <root>
  2 | |       <?foo??>
  3 | `-> </root>
    `----
-
   x Child
    ,-[$DIR/tests/recovery/pi/bad-pi-10/input.xml:1:1]
  1 | ,-> <root>
  2 | `->     <?foo??>
  3 |     </root>
    `----
-
   x Text
    ,-[$DIR/tests/recovery/pi/bad-pi-10/input.xml:1:1]
  1 | ,-> <root>
  2 | `->     <?foo??>
  3 |     </root>
    `----
-
   x Child
-   ,-[$DIR/tests/recovery/pi/bad-pi-10/input.xml:1:1]
+   ,-[$DIR/tests/recovery/pi/bad-pi-10/input.xml:2:1]
  1 | <root>
  2 |     <?foo??>
    :     ^^^^^^^^
  3 | </root>
    `----
-
   x ProcessingInstruction
-   ,-[$DIR/tests/recovery/pi/bad-pi-10/input.xml:1:1]
+   ,-[$DIR/tests/recovery/pi/bad-pi-10/input.xml:2:1]
  1 | <root>
  2 |     <?foo??>
    :     ^^^^^^^^
  3 | </root>
    `----
-
   x Child
-   ,-[$DIR/tests/recovery/pi/bad-pi-10/input.xml:1:1]
+   ,-[$DIR/tests/recovery/pi/bad-pi-10/input.xml:2:1]
  1 | <root>
  2 |     <?foo??>
    :             ^
  3 | </root>
    `----
-
   x Text
-   ,-[$DIR/tests/recovery/pi/bad-pi-10/input.xml:1:1]
+   ,-[$DIR/tests/recovery/pi/bad-pi-10/input.xml:2:1]
  1 | <root>
  2 |     <?foo??>
    :             ^

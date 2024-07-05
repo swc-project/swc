@@ -1,64 +1,53 @@
-
   x Stylesheet
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/pqHD3F10M6OunHKOop7-lA/input.css:1:1]
  1 | .decl {}
    : ^^^^^^^^
    `----
-
   x Rule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/pqHD3F10M6OunHKOop7-lA/input.css:1:1]
  1 | .decl {}
    : ^^^^^^^^
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/pqHD3F10M6OunHKOop7-lA/input.css:1:1]
  1 | .decl {}
    : ^^^^^^^^
    `----
-
   x SelectorList
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/pqHD3F10M6OunHKOop7-lA/input.css:1:1]
  1 | .decl {}
    : ^^^^^
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/pqHD3F10M6OunHKOop7-lA/input.css:1:1]
  1 | .decl {}
    : ^^^^^
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/pqHD3F10M6OunHKOop7-lA/input.css:1:1]
  1 | .decl {}
    : ^^^^^
    `----
-
   x SubclassSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/pqHD3F10M6OunHKOop7-lA/input.css:1:1]
  1 | .decl {}
    : ^^^^^
    `----
-
   x ClassSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/pqHD3F10M6OunHKOop7-lA/input.css:1:1]
  1 | .decl {}
    : ^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/pqHD3F10M6OunHKOop7-lA/input.css:1:1]
  1 | .decl {}
    :  ^^^^
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/pqHD3F10M6OunHKOop7-lA/input.css:1:1]
  1 | .decl {}
    :       ^^
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/pqHD3F10M6OunHKOop7-lA/input.css:1:1]
  1 | .decl {}

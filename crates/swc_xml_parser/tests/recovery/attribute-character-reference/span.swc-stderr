@@ -1,67 +1,57 @@
-
   x Document
    ,-[$DIR/tests/recovery/attribute-character-reference/input.xml:1:1]
  1 | ,-> <root>
  2 | |       <foo bar="&"></foo>
  3 | `-> </root>
    `----
-
   x Child
    ,-[$DIR/tests/recovery/attribute-character-reference/input.xml:1:1]
  1 | ,-> <root>
  2 | |       <foo bar="&"></foo>
  3 | `-> </root>
    `----
-
   x Element
    ,-[$DIR/tests/recovery/attribute-character-reference/input.xml:1:1]
  1 | ,-> <root>
  2 | |       <foo bar="&"></foo>
  3 | `-> </root>
    `----
-
   x Child
    ,-[$DIR/tests/recovery/attribute-character-reference/input.xml:1:1]
  1 | ,-> <root>
  2 | `->     <foo bar="&"></foo>
  3 |     </root>
    `----
-
   x Text
    ,-[$DIR/tests/recovery/attribute-character-reference/input.xml:1:1]
  1 | ,-> <root>
  2 | `->     <foo bar="&"></foo>
  3 |     </root>
    `----
-
   x Child
-   ,-[$DIR/tests/recovery/attribute-character-reference/input.xml:1:1]
+   ,-[$DIR/tests/recovery/attribute-character-reference/input.xml:2:1]
  1 | <root>
  2 |     <foo bar="&"></foo>
    :     ^^^^^^^^^^^^^^^^^^^
  3 | </root>
    `----
-
   x Element
-   ,-[$DIR/tests/recovery/attribute-character-reference/input.xml:1:1]
+   ,-[$DIR/tests/recovery/attribute-character-reference/input.xml:2:1]
  1 | <root>
  2 |     <foo bar="&"></foo>
    :     ^^^^^^^^^^^^^^^^^^^
  3 | </root>
    `----
-
   x Attribute
-
   x Child
-   ,-[$DIR/tests/recovery/attribute-character-reference/input.xml:1:1]
+   ,-[$DIR/tests/recovery/attribute-character-reference/input.xml:2:1]
  1 | <root>
  2 |     <foo bar="&"></foo>
    :                        ^
  3 | </root>
    `----
-
   x Text
-   ,-[$DIR/tests/recovery/attribute-character-reference/input.xml:1:1]
+   ,-[$DIR/tests/recovery/attribute-character-reference/input.xml:2:1]
  1 | <root>
  2 |     <foo bar="&"></foo>
    :                        ^

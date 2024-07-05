@@ -1,136 +1,113 @@
-
   x Stylesheet
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/avMO0PRST3qaooxANKWiIw/input.css:1:1]
  1 | .decl { a: b; c: d; }
    : ^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Rule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/avMO0PRST3qaooxANKWiIw/input.css:1:1]
  1 | .decl { a: b; c: d; }
    : ^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/avMO0PRST3qaooxANKWiIw/input.css:1:1]
  1 | .decl { a: b; c: d; }
    : ^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x SelectorList
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/avMO0PRST3qaooxANKWiIw/input.css:1:1]
  1 | .decl { a: b; c: d; }
    : ^^^^^
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/avMO0PRST3qaooxANKWiIw/input.css:1:1]
  1 | .decl { a: b; c: d; }
    : ^^^^^
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/avMO0PRST3qaooxANKWiIw/input.css:1:1]
  1 | .decl { a: b; c: d; }
    : ^^^^^
    `----
-
   x SubclassSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/avMO0PRST3qaooxANKWiIw/input.css:1:1]
  1 | .decl { a: b; c: d; }
    : ^^^^^
    `----
-
   x ClassSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/avMO0PRST3qaooxANKWiIw/input.css:1:1]
  1 | .decl { a: b; c: d; }
    : ^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/avMO0PRST3qaooxANKWiIw/input.css:1:1]
  1 | .decl { a: b; c: d; }
    :  ^^^^
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/avMO0PRST3qaooxANKWiIw/input.css:1:1]
  1 | .decl { a: b; c: d; }
    :       ^^^^^^^^^^^^^^^
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/avMO0PRST3qaooxANKWiIw/input.css:1:1]
  1 | .decl { a: b; c: d; }
    :       ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/avMO0PRST3qaooxANKWiIw/input.css:1:1]
  1 | .decl { a: b; c: d; }
    :         ^^^^
    `----
-
   x Declaration
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/avMO0PRST3qaooxANKWiIw/input.css:1:1]
  1 | .decl { a: b; c: d; }
    :         ^^^^
    `----
-
   x DeclarationName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/avMO0PRST3qaooxANKWiIw/input.css:1:1]
  1 | .decl { a: b; c: d; }
    :         ^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/avMO0PRST3qaooxANKWiIw/input.css:1:1]
  1 | .decl { a: b; c: d; }
    :         ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/avMO0PRST3qaooxANKWiIw/input.css:1:1]
  1 | .decl { a: b; c: d; }
    :            ^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/avMO0PRST3qaooxANKWiIw/input.css:1:1]
  1 | .decl { a: b; c: d; }
    :            ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/avMO0PRST3qaooxANKWiIw/input.css:1:1]
  1 | .decl { a: b; c: d; }
    :               ^^^^
    `----
-
   x Declaration
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/avMO0PRST3qaooxANKWiIw/input.css:1:1]
  1 | .decl { a: b; c: d; }
    :               ^^^^
    `----
-
   x DeclarationName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/avMO0PRST3qaooxANKWiIw/input.css:1:1]
  1 | .decl { a: b; c: d; }
    :               ^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/avMO0PRST3qaooxANKWiIw/input.css:1:1]
  1 | .decl { a: b; c: d; }
    :               ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/avMO0PRST3qaooxANKWiIw/input.css:1:1]
  1 | .decl { a: b; c: d; }
    :                  ^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/avMO0PRST3qaooxANKWiIw/input.css:1:1]
  1 | .decl { a: b; c: d; }

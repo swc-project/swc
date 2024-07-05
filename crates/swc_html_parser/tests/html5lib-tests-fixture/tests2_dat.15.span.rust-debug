@@ -1,56 +1,45 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.15.html:1:1]
  1 | <!DOCTYPE html><body t1=1><body t2=2><body t3=3 t4=4>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.15.html:1:1]
  1 | <!DOCTYPE html><body t1=1><body t2=2><body t3=3 t4=4>
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.15.html:1:1]
  1 | <!DOCTYPE html><body t1=1><body t2=2><body t3=3 t4=4>
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.15.html:1:1]
  1 | <!DOCTYPE html><body t1=1><body t2=2><body t3=3 t4=4>
    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.15.html:1:1]
  1 | <!DOCTYPE html><body t1=1><body t2=2><body t3=3 t4=4>
    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Attribute
    ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.15.html:1:1]
  1 | <!DOCTYPE html><body t1=1><body t2=2><body t3=3 t4=4>
    :                      ^^^^
    `----
-
   x Attribute
    ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.15.html:1:1]
  1 | <!DOCTYPE html><body t1=1><body t2=2><body t3=3 t4=4>
    :                                 ^^^^
    `----
-
   x Attribute
    ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.15.html:1:1]
  1 | <!DOCTYPE html><body t1=1><body t2=2><body t3=3 t4=4>
    :                                            ^^^^
    `----
-
   x Attribute
    ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.15.html:1:1]
  1 | <!DOCTYPE html><body t1=1><body t2=2><body t3=3 t4=4>

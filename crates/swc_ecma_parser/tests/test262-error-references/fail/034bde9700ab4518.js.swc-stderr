@@ -1,4 +1,3 @@
-
   x Expected ident
    ,-[$DIR/tests/test262-parser/fail/034bde9700ab4518.js:1:1]
  1 | var new A = 0;

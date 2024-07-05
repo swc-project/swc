@@ -1,15 +1,13 @@
-
   x 'x1' is never reassigned. Use 'const' insted
-   ,-[1:1]
+   ,-[2:1]
  1 | () => {
  2 |     let x1 = 1;
    :         ^^
  3 |     foo(x1);
  4 | };
    `----
-
   x 'i' is never reassigned. Use 'const' insted
-    ,-[4:1]
+    ,-[7:1]
   4 | };
   5 | 
   6 | () => {
@@ -19,9 +17,8 @@
   9 |     }
  10 | }
     `----
-
   x 'x2' is never reassigned. Use 'const' insted
-    ,-[10:1]
+    ,-[13:1]
  10 | }
  11 | 
  12 | () => {
@@ -30,9 +27,8 @@
  14 |     y2 = 0;
  15 | }
     `----
-
   x 'x3' is never reassigned. Use 'const' insted
-    ,-[15:1]
+    ,-[18:1]
  15 | }
  16 | 
  17 | () => {
@@ -41,9 +37,8 @@
  19 |     y3 = 0;
  20 | }
     `----
-
   x 'x' is never reassigned. Use 'const' insted
-    ,-[19:1]
+    ,-[22:1]
  19 |     y3 = 0;
  20 | }
  21 | 
@@ -52,9 +47,8 @@
  23 | 
  24 | (function () { for (let i in [1, 2, 3]) { foo(i); } })();
     `----
-
   x 'i' is never reassigned. Use 'const' insted
-    ,-[21:1]
+    ,-[24:1]
  21 | 
  22 | (function () { let x = 1; foo(x); })();
  23 | 
@@ -63,9 +57,8 @@
  25 | 
  26 | (function () { for (let x of [1, 2, 3]) { foo(x); } })();
     `----
-
   x 'x' is never reassigned. Use 'const' insted
-    ,-[23:1]
+    ,-[26:1]
  23 | 
  24 | (function () { for (let i in [1, 2, 3]) { foo(i); } })();
  25 | 
@@ -74,9 +67,8 @@
  27 | 
  28 | (function () { let [x = -1, y] = [1, 2]; y = 0; })();
     `----
-
   x 'x' is never reassigned. Use 'const' insted
-    ,-[25:1]
+    ,-[28:1]
  25 | 
  26 | (function () { for (let x of [1, 2, 3]) { foo(x); } })();
  27 | 
@@ -86,9 +78,8 @@
  30 | () => {
  31 |     let f = (function () { let g = x; })();
     `----
-
   x 'g' is never reassigned. Use 'const' insted
-    ,-[28:1]
+    ,-[31:1]
  28 | (function () { let [x = -1, y] = [1, 2]; y = 0; })();
  29 | 
  30 | () => {
@@ -97,9 +88,8 @@
  32 |     f = 1;
  33 | }
     `----
-
   x 'x' is never reassigned. Use 'const' insted
-    ,-[32:1]
+    ,-[35:1]
  32 |     f = 1;
  33 | }
  34 | 
@@ -109,9 +99,8 @@
  37 | () => {
  38 |     let x = 0;
     `----
-
   x 'x' is never reassigned. Use 'const' insted
-    ,-[36:1]
+    ,-[39:1]
  36 | 
  37 | () => {
  38 |     let x = 0;
@@ -120,9 +109,8 @@
  40 |     x = 0;
  41 | }
     `----
-
   x 'x' is never reassigned. Use 'const' insted
-    ,-[41:1]
+    ,-[44:1]
  41 | }
  42 | 
  43 | () => {
@@ -132,9 +120,8 @@
  46 | 
  47 | () => {
     `----
-
   x 'i' is never reassigned. Use 'const' insted
-    ,-[45:1]
+    ,-[48:1]
  45 | }
  46 | 
  47 | () => {
@@ -144,9 +131,8 @@
  50 | 
  51 | () => {
     `----
-
   x 'x' is never reassigned. Use 'const' insted
-    ,-[45:1]
+    ,-[48:1]
  45 | }
  46 | 
  47 | () => {
@@ -156,9 +142,8 @@
  50 | 
  51 | () => {
     `----
-
   x 'l' is never reassigned. Use 'const' insted
-    ,-[51:1]
+    ,-[54:1]
  51 | () => {
  52 |     var foo = function () {
  53 |         for (const b5 of c5) {
@@ -168,9 +153,8 @@
  56 |         }
  57 |     };
     `----
-
   x 'a' is never reassigned. Use 'const' insted
-    ,-[61:1]
+    ,-[64:1]
  61 |     var foo = function () {
  62 |         for (const b of c) {
  63 |             let a;
@@ -180,9 +164,8 @@
  66 |     };
  67 | }
     `----
-
   x 'x' is never reassigned. Use 'const' insted
-    ,-[67:1]
+    ,-[70:1]
  67 | }
  68 | 
  69 | () => {
@@ -191,9 +174,8 @@
  71 |     x = 0;
  72 | }
     `----
-
   x 'x' is never reassigned. Use 'const' insted
-    ,-[72:1]
+    ,-[75:1]
  72 | }
  73 | 
  74 | () => {
@@ -203,9 +185,8 @@
  77 | 
  78 | (function () { let x; x = 1; })();
     `----
-
   x 'x' is never reassigned. Use 'const' insted
-    ,-[75:1]
+    ,-[78:1]
  75 |     switch (a) { case 0: let x; x = 0; }
  76 | }
  77 | 
@@ -215,9 +196,8 @@
  80 | () => {
  81 |     let { a = 0, b } = obj; b = 0; foo(a, b);
     `----
-
   x 'a' is never reassigned. Use 'const' insted
-    ,-[78:1]
+    ,-[81:1]
  78 | (function () { let x; x = 1; })();
  79 | 
  80 | () => {
@@ -227,9 +207,8 @@
  83 | 
  84 | () => {
     `----
-
   x 'c' is never reassigned. Use 'const' insted
-    ,-[82:1]
+    ,-[85:1]
  82 | }
  83 | 
  84 | () => {
@@ -239,9 +218,8 @@
  87 | 
  88 | () => {
     `----
-
   x 'b' is never reassigned. Use 'const' insted
-    ,-[86:1]
+    ,-[89:1]
  86 | }
  87 | 
  88 | () => {
@@ -251,9 +229,8 @@
  91 | 
  92 | () => {
     `----
-
   x 'c' is never reassigned. Use 'const' insted
-    ,-[86:1]
+    ,-[89:1]
  86 | }
  87 | 
  88 | () => {
@@ -263,9 +240,8 @@
  91 | 
  92 | () => {
     `----
-
   x 'a' is never reassigned. Use 'const' insted
-    ,-[90:1]
+    ,-[93:1]
  90 | }
  91 | 
  92 | () => {
@@ -275,9 +251,8 @@
  95 | 
  96 | () => {
     `----
-
   x 'predicate' is never reassigned. Use 'const' insted
-     ,-[95:1]
+     ,-[98:1]
   95 | 
   96 | () => {
   97 |     let predicate;
@@ -287,9 +262,8 @@
  100 | 
  101 | () => {
      `----
-
   x 'x' is never reassigned. Use 'const' insted
-     ,-[99:1]
+     ,-[102:1]
   99 | }
  100 | 
  101 | () => {
@@ -298,9 +272,8 @@
  103 | }
  104 | 
      `----
-
   x 'y' is never reassigned. Use 'const' insted
-     ,-[99:1]
+     ,-[102:1]
   99 | }
  100 | 
  101 | () => {
@@ -309,9 +282,8 @@
  103 | }
  104 | 
      `----
-
   x 'rest' is never reassigned. Use 'const' insted
-     ,-[113:1]
+     ,-[116:1]
  113 | 
  114 | 
  115 | () => {

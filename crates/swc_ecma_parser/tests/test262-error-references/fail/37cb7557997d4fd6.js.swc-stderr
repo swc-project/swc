@@ -1,4 +1,3 @@
-
   x Destructuring bindings require initializers
    ,-[$DIR/tests/test262-parser/fail/37cb7557997d4fd6.js:1:1]
  1 | "use strict"; for (let [a = let];;) {}

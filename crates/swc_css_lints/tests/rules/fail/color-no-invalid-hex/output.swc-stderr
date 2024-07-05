@@ -1,14 +1,12 @@
-
   x Unexpected invalid hex color '#ababa'.
-   ,-[$DIR/tests/rules/fail/color-no-invalid-hex/input.css:1:1]
+   ,-[$DIR/tests/rules/fail/color-no-invalid-hex/input.css:2:1]
  1 | a {
  2 |     color: #ababa;
    :            ^^^^^^
  3 | }
    `----
-
   x Unexpected invalid hex color '#00'.
-   ,-[$DIR/tests/rules/fail/color-no-invalid-hex/input.css:5:1]
+   ,-[$DIR/tests/rules/fail/color-no-invalid-hex/input.css:6:1]
  5 | a {
  6 |     unknown: #00, #fff, #ababab;
    :              ^^^

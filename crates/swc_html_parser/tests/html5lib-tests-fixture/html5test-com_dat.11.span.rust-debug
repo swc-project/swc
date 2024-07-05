@@ -1,22 +1,17 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/html5test-com_dat.11.html:1:1]
  1 | <?import namespace="foo" implementation="#bar">
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/html5test-com_dat.11.html:1:1]
  1 | <?import namespace="foo" implementation="#bar">
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Comment
    ,-[$DIR/tests/html5lib-tests-fixture/html5test-com_dat.11.html:1:1]
  1 | <?import namespace="foo" implementation="#bar">
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element

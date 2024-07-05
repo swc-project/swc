@@ -1,4 +1,3 @@
-
   x Unexpected alert
    ,-[1:1]
  1 | this.alert();
@@ -7,9 +6,8 @@
  3 | class X {
  4 |     constructor(x) {
    `----
-
   x Unexpected alert
-    ,-[30:1]
+    ,-[33:1]
  30 |     },
  31 |     c: () => {
  32 |         // should fail
@@ -19,9 +17,8 @@
  35 |     e: {
  36 |         a() {
     `----
-
   x Unexpected alert
-    ,-[45:1]
+    ,-[48:1]
  45 | function f1() {
  46 |     const x = () => {
  47 |         // should fail

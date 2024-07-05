@@ -1,4 +1,3 @@
-
   x Stylesheet
    ,-[$DIR/tests/fixture/function/unknown/input.css:1:1]
  1 | ,-> div {
@@ -7,7 +6,6 @@
  4 | |       prod: --fn--fn(100px);
  5 | `-> }
    `----
-
   x Rule
    ,-[$DIR/tests/fixture/function/unknown/input.css:1:1]
  1 | ,-> div {
@@ -16,7 +14,6 @@
  4 | |       prod: --fn--fn(100px);
  5 | `-> }
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/fixture/function/unknown/input.css:1:1]
  1 | ,-> div {
@@ -25,56 +22,48 @@
  4 | |       prod: --fn--fn(100px);
  5 | `-> }
    `----
-
   x SelectorList
    ,-[$DIR/tests/fixture/function/unknown/input.css:1:1]
  1 | div {
    : ^^^
  2 |     prod: fn(100px);
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/fixture/function/unknown/input.css:1:1]
  1 | div {
    : ^^^
  2 |     prod: fn(100px);
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/function/unknown/input.css:1:1]
  1 | div {
    : ^^^
  2 |     prod: fn(100px);
    `----
-
   x TypeSelector
    ,-[$DIR/tests/fixture/function/unknown/input.css:1:1]
  1 | div {
    : ^^^
  2 |     prod: fn(100px);
    `----
-
   x TagNameSelector
    ,-[$DIR/tests/fixture/function/unknown/input.css:1:1]
  1 | div {
    : ^^^
  2 |     prod: fn(100px);
    `----
-
   x WqName
    ,-[$DIR/tests/fixture/function/unknown/input.css:1:1]
  1 | div {
    : ^^^
  2 |     prod: fn(100px);
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/function/unknown/input.css:1:1]
  1 | div {
    : ^^^
  2 |     prod: fn(100px);
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/function/unknown/input.css:1:1]
  1 | ,-> div {
@@ -83,248 +72,217 @@
  4 | |       prod: --fn--fn(100px);
  5 | `-> }
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/function/unknown/input.css:1:1]
  1 | div {
    :     ^
  2 |     prod: fn(100px);
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/function/unknown/input.css:1:1]
+   ,-[$DIR/tests/fixture/function/unknown/input.css:2:1]
  1 | div {
  2 |     prod: fn(100px);
    :     ^^^^^^^^^^^^^^^
  3 |     prod: --fn(100px);
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/function/unknown/input.css:1:1]
+   ,-[$DIR/tests/fixture/function/unknown/input.css:2:1]
  1 | div {
  2 |     prod: fn(100px);
    :     ^^^^^^^^^^^^^^^
  3 |     prod: --fn(100px);
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/function/unknown/input.css:1:1]
+   ,-[$DIR/tests/fixture/function/unknown/input.css:2:1]
  1 | div {
  2 |     prod: fn(100px);
    :     ^^^^
  3 |     prod: --fn(100px);
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/function/unknown/input.css:1:1]
+   ,-[$DIR/tests/fixture/function/unknown/input.css:2:1]
  1 | div {
  2 |     prod: fn(100px);
    :     ^^^^
  3 |     prod: --fn(100px);
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/function/unknown/input.css:1:1]
+   ,-[$DIR/tests/fixture/function/unknown/input.css:2:1]
  1 | div {
  2 |     prod: fn(100px);
    :           ^^^^^^^^^
  3 |     prod: --fn(100px);
    `----
-
   x Function
-   ,-[$DIR/tests/fixture/function/unknown/input.css:1:1]
+   ,-[$DIR/tests/fixture/function/unknown/input.css:2:1]
  1 | div {
  2 |     prod: fn(100px);
    :           ^^^^^^^^^
  3 |     prod: --fn(100px);
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/function/unknown/input.css:1:1]
+   ,-[$DIR/tests/fixture/function/unknown/input.css:2:1]
  1 | div {
  2 |     prod: fn(100px);
    :           ^^
  3 |     prod: --fn(100px);
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/function/unknown/input.css:1:1]
+   ,-[$DIR/tests/fixture/function/unknown/input.css:2:1]
  1 | div {
  2 |     prod: fn(100px);
    :              ^^^^^
  3 |     prod: --fn(100px);
    `----
-
   x Dimension
-   ,-[$DIR/tests/fixture/function/unknown/input.css:1:1]
+   ,-[$DIR/tests/fixture/function/unknown/input.css:2:1]
  1 | div {
  2 |     prod: fn(100px);
    :              ^^^^^
  3 |     prod: --fn(100px);
    `----
-
   x Length
-   ,-[$DIR/tests/fixture/function/unknown/input.css:1:1]
+   ,-[$DIR/tests/fixture/function/unknown/input.css:2:1]
  1 | div {
  2 |     prod: fn(100px);
    :              ^^^^^
  3 |     prod: --fn(100px);
    `----
-
   x Number
-   ,-[$DIR/tests/fixture/function/unknown/input.css:1:1]
+   ,-[$DIR/tests/fixture/function/unknown/input.css:2:1]
  1 | div {
  2 |     prod: fn(100px);
    :              ^^^
  3 |     prod: --fn(100px);
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/function/unknown/input.css:1:1]
+   ,-[$DIR/tests/fixture/function/unknown/input.css:2:1]
  1 | div {
  2 |     prod: fn(100px);
    :                 ^^
  3 |     prod: --fn(100px);
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/function/unknown/input.css:2:1]
+   ,-[$DIR/tests/fixture/function/unknown/input.css:3:1]
  2 |     prod: fn(100px);
  3 |     prod: --fn(100px);
    :     ^^^^^^^^^^^^^^^^^
  4 |     prod: --fn--fn(100px);
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/function/unknown/input.css:2:1]
+   ,-[$DIR/tests/fixture/function/unknown/input.css:3:1]
  2 |     prod: fn(100px);
  3 |     prod: --fn(100px);
    :     ^^^^^^^^^^^^^^^^^
  4 |     prod: --fn--fn(100px);
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/function/unknown/input.css:2:1]
+   ,-[$DIR/tests/fixture/function/unknown/input.css:3:1]
  2 |     prod: fn(100px);
  3 |     prod: --fn(100px);
    :     ^^^^
  4 |     prod: --fn--fn(100px);
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/function/unknown/input.css:2:1]
+   ,-[$DIR/tests/fixture/function/unknown/input.css:3:1]
  2 |     prod: fn(100px);
  3 |     prod: --fn(100px);
    :     ^^^^
  4 |     prod: --fn--fn(100px);
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/function/unknown/input.css:2:1]
+   ,-[$DIR/tests/fixture/function/unknown/input.css:3:1]
  2 |     prod: fn(100px);
  3 |     prod: --fn(100px);
    :           ^^^^^^^^^^^
  4 |     prod: --fn--fn(100px);
    `----
-
   x Function
-   ,-[$DIR/tests/fixture/function/unknown/input.css:2:1]
+   ,-[$DIR/tests/fixture/function/unknown/input.css:3:1]
  2 |     prod: fn(100px);
  3 |     prod: --fn(100px);
    :           ^^^^^^^^^^^
  4 |     prod: --fn--fn(100px);
    `----
-
   x DashedIdent
-   ,-[$DIR/tests/fixture/function/unknown/input.css:2:1]
+   ,-[$DIR/tests/fixture/function/unknown/input.css:3:1]
  2 |     prod: fn(100px);
  3 |     prod: --fn(100px);
    :           ^^^^
  4 |     prod: --fn--fn(100px);
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/function/unknown/input.css:2:1]
+   ,-[$DIR/tests/fixture/function/unknown/input.css:3:1]
  2 |     prod: fn(100px);
  3 |     prod: --fn(100px);
    :                ^^^^^
  4 |     prod: --fn--fn(100px);
    `----
-
   x Dimension(DimensionToken { value: 100.0, raw_value: "100", unit: "px", type_flag: Integer, raw_unit: "px" })
-   ,-[$DIR/tests/fixture/function/unknown/input.css:2:1]
+   ,-[$DIR/tests/fixture/function/unknown/input.css:3:1]
  2 |     prod: fn(100px);
  3 |     prod: --fn(100px);
    :                ^^^^^
  4 |     prod: --fn--fn(100px);
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/function/unknown/input.css:3:1]
+   ,-[$DIR/tests/fixture/function/unknown/input.css:4:1]
  3 |     prod: --fn(100px);
  4 |     prod: --fn--fn(100px);
    :     ^^^^^^^^^^^^^^^^^^^^^
  5 | }
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/function/unknown/input.css:3:1]
+   ,-[$DIR/tests/fixture/function/unknown/input.css:4:1]
  3 |     prod: --fn(100px);
  4 |     prod: --fn--fn(100px);
    :     ^^^^^^^^^^^^^^^^^^^^^
  5 | }
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/function/unknown/input.css:3:1]
+   ,-[$DIR/tests/fixture/function/unknown/input.css:4:1]
  3 |     prod: --fn(100px);
  4 |     prod: --fn--fn(100px);
    :     ^^^^
  5 | }
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/function/unknown/input.css:3:1]
+   ,-[$DIR/tests/fixture/function/unknown/input.css:4:1]
  3 |     prod: --fn(100px);
  4 |     prod: --fn--fn(100px);
    :     ^^^^
  5 | }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/function/unknown/input.css:3:1]
+   ,-[$DIR/tests/fixture/function/unknown/input.css:4:1]
  3 |     prod: --fn(100px);
  4 |     prod: --fn--fn(100px);
    :           ^^^^^^^^^^^^^^^
  5 | }
    `----
-
   x Function
-   ,-[$DIR/tests/fixture/function/unknown/input.css:3:1]
+   ,-[$DIR/tests/fixture/function/unknown/input.css:4:1]
  3 |     prod: --fn(100px);
  4 |     prod: --fn--fn(100px);
    :           ^^^^^^^^^^^^^^^
  5 | }
    `----
-
   x DashedIdent
-   ,-[$DIR/tests/fixture/function/unknown/input.css:3:1]
+   ,-[$DIR/tests/fixture/function/unknown/input.css:4:1]
  3 |     prod: --fn(100px);
  4 |     prod: --fn--fn(100px);
    :           ^^^^^^^^
  5 | }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/function/unknown/input.css:3:1]
+   ,-[$DIR/tests/fixture/function/unknown/input.css:4:1]
  3 |     prod: --fn(100px);
  4 |     prod: --fn--fn(100px);
    :                    ^^^^^
  5 | }
    `----
-
   x Dimension(DimensionToken { value: 100.0, raw_value: "100", unit: "px", type_flag: Integer, raw_unit: "px" })
-   ,-[$DIR/tests/fixture/function/unknown/input.css:3:1]
+   ,-[$DIR/tests/fixture/function/unknown/input.css:4:1]
  3 |     prod: --fn(100px);
  4 |     prod: --fn--fn(100px);
    :                    ^^^^^

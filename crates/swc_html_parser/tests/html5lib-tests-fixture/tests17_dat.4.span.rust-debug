@@ -1,68 +1,55 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests17_dat.4.html:1:1]
  1 | <!doctype html><table><caption><select><tr>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests17_dat.4.html:1:1]
  1 | <!doctype html><table><caption><select><tr>
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/html5lib-tests-fixture/tests17_dat.4.html:1:1]
  1 | <!doctype html><table><caption><select><tr>
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests17_dat.4.html:1:1]
  1 | <!doctype html><table><caption><select><tr>
    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests17_dat.4.html:1:1]
  1 | <!doctype html><table><caption><select><tr>
    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests17_dat.4.html:1:1]
  1 | <!doctype html><table><caption><select><tr>
    :                       ^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests17_dat.4.html:1:1]
  1 | <!doctype html><table><caption><select><tr>
    :                       ^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests17_dat.4.html:1:1]
  1 | <!doctype html><table><caption><select><tr>
    :                                ^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests17_dat.4.html:1:1]
  1 | <!doctype html><table><caption><select><tr>
    :                                ^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests17_dat.4.html:1:1]
  1 | <!doctype html><table><caption><select><tr>
    :                                        ^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests17_dat.4.html:1:1]
  1 | <!doctype html><table><caption><select><tr>

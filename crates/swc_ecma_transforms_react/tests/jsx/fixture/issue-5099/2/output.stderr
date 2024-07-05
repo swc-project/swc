@@ -1,4 +1,3 @@
-
   x Runtime must be either `classic` or `automatic`.
    ,-[input.js:1:1]
  1 | /** @jsxRuntime typo */

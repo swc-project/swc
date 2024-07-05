@@ -1,56 +1,45 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/search-element_dat.1.html:1:1]
  1 | <!doctype html><search><p>foo</search>bar
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/search-element_dat.1.html:1:1]
  1 | <!doctype html><search><p>foo</search>bar
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/html5lib-tests-fixture/search-element_dat.1.html:1:1]
  1 | <!doctype html><search><p>foo</search>bar
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/search-element_dat.1.html:1:1]
  1 | <!doctype html><search><p>foo</search>bar
    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/search-element_dat.1.html:1:1]
  1 | <!doctype html><search><p>foo</search>bar
    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/search-element_dat.1.html:1:1]
  1 | <!doctype html><search><p>foo</search>bar
    :                        ^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/search-element_dat.1.html:1:1]
  1 | <!doctype html><search><p>foo</search>bar
    :                        ^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/search-element_dat.1.html:1:1]
  1 | <!doctype html><search><p>foo</search>bar
    :                           ^^^^^^^^^^^^^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/search-element_dat.1.html:1:1]
  1 | <!doctype html><search><p>foo</search>bar

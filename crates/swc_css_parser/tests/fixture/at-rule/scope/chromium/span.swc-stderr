@@ -1,4 +1,3 @@
-
   x Stylesheet
     ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:1:1]
   1 | ,-> /* https: //chromium-review.googlesource.com/c/chromium/src/+/4629290 */
@@ -67,9 +66,8 @@
  64 | |       }
  65 | `-> }
     `----
-
   x Rule
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:1:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:2:1]
   1 |     /* https: //chromium-review.googlesource.com/c/chromium/src/+/4629290 */
   2 | ,-> @scope (.a) {
   3 | |       @container (width > 0px) {
@@ -83,9 +81,8 @@
  11 | |       }
  12 | `-> }
     `----
-
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:1:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:2:1]
   1 |     /* https: //chromium-review.googlesource.com/c/chromium/src/+/4629290 */
   2 | ,-> @scope (.a) {
   3 | |       @container (width > 0px) {
@@ -99,73 +96,64 @@
  11 | |       }
  12 | `-> }
     `----
-
   x AtRuleName
-   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:1:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:2:1]
  1 | /* https: //chromium-review.googlesource.com/c/chromium/src/+/4629290 */
  2 | @scope (.a) {
    :  ^^^^^
  3 |     @container (width > 0px) {
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:1:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:2:1]
  1 | /* https: //chromium-review.googlesource.com/c/chromium/src/+/4629290 */
  2 | @scope (.a) {
    :  ^^^^^
  3 |     @container (width > 0px) {
    `----
-
   x ForgivingSelectorList
-   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:1:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:2:1]
  1 | /* https: //chromium-review.googlesource.com/c/chromium/src/+/4629290 */
  2 | @scope (.a) {
    :         ^^
  3 |     @container (width > 0px) {
    `----
-
   x ComplexSelector
-   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:1:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:2:1]
  1 | /* https: //chromium-review.googlesource.com/c/chromium/src/+/4629290 */
  2 | @scope (.a) {
    :         ^^
  3 |     @container (width > 0px) {
    `----
-
   x CompoundSelector
-   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:1:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:2:1]
  1 | /* https: //chromium-review.googlesource.com/c/chromium/src/+/4629290 */
  2 | @scope (.a) {
    :         ^^
  3 |     @container (width > 0px) {
    `----
-
   x SubclassSelector
-   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:1:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:2:1]
  1 | /* https: //chromium-review.googlesource.com/c/chromium/src/+/4629290 */
  2 | @scope (.a) {
    :         ^^
  3 |     @container (width > 0px) {
    `----
-
   x ClassSelector
-   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:1:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:2:1]
  1 | /* https: //chromium-review.googlesource.com/c/chromium/src/+/4629290 */
  2 | @scope (.a) {
    :         ^^
  3 |     @container (width > 0px) {
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:1:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:2:1]
  1 | /* https: //chromium-review.googlesource.com/c/chromium/src/+/4629290 */
  2 | @scope (.a) {
    :          ^
  3 |     @container (width > 0px) {
    `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:1:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:2:1]
   1 |     /* https: //chromium-review.googlesource.com/c/chromium/src/+/4629290 */
   2 | ,-> @scope (.a) {
   3 | |       @container (width > 0px) {
@@ -179,17 +167,15 @@
  11 | |       }
  12 | `-> }
     `----
-
   x LBrace
-   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:1:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:2:1]
  1 | /* https: //chromium-review.googlesource.com/c/chromium/src/+/4629290 */
  2 | @scope (.a) {
    :             ^
  3 |     @container (width > 0px) {
    `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:2:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:3:1]
   2 |     @scope (.a) {
   3 | ,->     @container (width > 0px) {
   4 | |           :scope {
@@ -202,9 +188,8 @@
  11 | `->     }
  12 |     }
     `----
-
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:2:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:3:1]
   2 |     @scope (.a) {
   3 | ,->     @container (width > 0px) {
   4 | |           :scope {
@@ -217,65 +202,57 @@
  11 | `->     }
  12 |     }
     `----
-
   x AtRuleName
-   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:2:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:3:1]
  2 | @scope (.a) {
  3 |     @container (width > 0px) {
    :      ^^^^^^^^^
  4 |         :scope {
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:2:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:3:1]
  2 | @scope (.a) {
  3 |     @container (width > 0px) {
    :      ^^^^^^^^^
  4 |         :scope {
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:2:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:3:1]
  2 | @scope (.a) {
  3 |     @container (width > 0px) {
    :                 ^^^^^
  4 |         :scope {
    `----
-
   x Dimension
-   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:2:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:3:1]
  2 | @scope (.a) {
  3 |     @container (width > 0px) {
    :                         ^^^
  4 |         :scope {
    `----
-
   x Length
-   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:2:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:3:1]
  2 | @scope (.a) {
  3 |     @container (width > 0px) {
    :                         ^^^
  4 |         :scope {
    `----
-
   x Number
-   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:2:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:3:1]
  2 | @scope (.a) {
  3 |     @container (width > 0px) {
    :                         ^
  4 |         :scope {
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:2:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:3:1]
  2 | @scope (.a) {
  3 |     @container (width > 0px) {
    :                          ^^
  4 |         :scope {
    `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:2:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:3:1]
   2 |     @scope (.a) {
   3 | ,->     @container (width > 0px) {
   4 | |           :scope {
@@ -288,276 +265,242 @@
  11 | `->     }
  12 |     }
     `----
-
   x LBrace
-   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:2:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:3:1]
  2 | @scope (.a) {
  3 |     @container (width > 0px) {
    :                              ^
  4 |         :scope {
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:3:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:4:1]
  3 |         @container (width > 0px) {
  4 | ,->         :scope {
  5 | |               z-index: 1;
  6 | `->         }
    `----
-
   x QualifiedRule
-   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:3:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:4:1]
  3 |         @container (width > 0px) {
  4 | ,->         :scope {
  5 | |               z-index: 1;
  6 | `->         }
    `----
-
   x SelectorList
-   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:3:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:4:1]
  3 |     @container (width > 0px) {
  4 |         :scope {
    :         ^^^^^^
  5 |             z-index: 1;
    `----
-
   x ComplexSelector
-   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:3:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:4:1]
  3 |     @container (width > 0px) {
  4 |         :scope {
    :         ^^^^^^
  5 |             z-index: 1;
    `----
-
   x CompoundSelector
-   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:3:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:4:1]
  3 |     @container (width > 0px) {
  4 |         :scope {
    :         ^^^^^^
  5 |             z-index: 1;
    `----
-
   x SubclassSelector
-   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:3:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:4:1]
  3 |     @container (width > 0px) {
  4 |         :scope {
    :         ^^^^^^
  5 |             z-index: 1;
    `----
-
   x PseudoClassSelector
-   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:3:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:4:1]
  3 |     @container (width > 0px) {
  4 |         :scope {
    :         ^^^^^^
  5 |             z-index: 1;
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:3:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:4:1]
  3 |     @container (width > 0px) {
  4 |         :scope {
    :          ^^^^^
  5 |             z-index: 1;
    `----
-
   x SimpleBlock
-   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:3:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:4:1]
  3 |         @container (width > 0px) {
  4 | ,->         :scope {
  5 | |               z-index: 1;
  6 | `->         }
    `----
-
   x LBrace
-   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:3:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:4:1]
  3 |     @container (width > 0px) {
  4 |         :scope {
    :                ^
  5 |             z-index: 1;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:4:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:5:1]
  4 |         :scope {
  5 |             z-index: 1;
    :             ^^^^^^^^^^
  6 |         }
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:4:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:5:1]
  4 |         :scope {
  5 |             z-index: 1;
    :             ^^^^^^^^^^
  6 |         }
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:4:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:5:1]
  4 |         :scope {
  5 |             z-index: 1;
    :             ^^^^^^^
  6 |         }
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:4:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:5:1]
  4 |         :scope {
  5 |             z-index: 1;
    :             ^^^^^^^
  6 |         }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:4:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:5:1]
  4 |         :scope {
  5 |             z-index: 1;
    :                      ^
  6 |         }
    `----
-
   x Integer
-   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:4:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:5:1]
  4 |         :scope {
  5 |             z-index: 1;
    :                      ^
  6 |         }
    `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:7:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:8:1]
   7 |     
   8 | ,->         .b {
   9 | |               background-color: green;
  10 | `->         }
  11 |         }
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:7:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:8:1]
   7 |     
   8 | ,->         .b {
   9 | |               background-color: green;
  10 | `->         }
  11 |         }
     `----
-
   x SelectorList
-   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:7:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:8:1]
  7 | 
  8 |         .b {
    :         ^^
  9 |             background-color: green;
    `----
-
   x ComplexSelector
-   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:7:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:8:1]
  7 | 
  8 |         .b {
    :         ^^
  9 |             background-color: green;
    `----
-
   x CompoundSelector
-   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:7:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:8:1]
  7 | 
  8 |         .b {
    :         ^^
  9 |             background-color: green;
    `----
-
   x SubclassSelector
-   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:7:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:8:1]
  7 | 
  8 |         .b {
    :         ^^
  9 |             background-color: green;
    `----
-
   x ClassSelector
-   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:7:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:8:1]
  7 | 
  8 |         .b {
    :         ^^
  9 |             background-color: green;
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:7:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:8:1]
  7 | 
  8 |         .b {
    :          ^
  9 |             background-color: green;
    `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:7:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:8:1]
   7 |     
   8 | ,->         .b {
   9 | |               background-color: green;
  10 | `->         }
  11 |         }
     `----
-
   x LBrace
-   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:7:1]
+   ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:8:1]
  7 | 
  8 |         .b {
    :            ^
  9 |             background-color: green;
    `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:8:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:9:1]
   8 |         .b {
   9 |             background-color: green;
     :             ^^^^^^^^^^^^^^^^^^^^^^^
  10 |         }
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:8:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:9:1]
   8 |         .b {
   9 |             background-color: green;
     :             ^^^^^^^^^^^^^^^^^^^^^^^
  10 |         }
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:8:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:9:1]
   8 |         .b {
   9 |             background-color: green;
     :             ^^^^^^^^^^^^^^^^
  10 |         }
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:8:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:9:1]
   8 |         .b {
   9 |             background-color: green;
     :             ^^^^^^^^^^^^^^^^
  10 |         }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:8:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:9:1]
   8 |         .b {
   9 |             background-color: green;
     :                               ^^^^^
  10 |         }
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:8:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:9:1]
   8 |         .b {
   9 |             background-color: green;
     :                               ^^^^^
  10 |         }
     `----
-
   x Rule
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:13:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:14:1]
  13 |     
  14 | ,-> @scope (.a) {
  15 | |       /* The theme layer wins over the base layer. Note that @layer statements
@@ -576,9 +519,8 @@
  28 | |       }
  29 | `-> }
     `----
-
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:13:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:14:1]
  13 |     
  14 | ,-> @scope (.a) {
  15 | |       /* The theme layer wins over the base layer. Note that @layer statements
@@ -597,73 +539,64 @@
  28 | |       }
  29 | `-> }
     `----
-
   x AtRuleName
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:13:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:14:1]
  13 | 
  14 | @scope (.a) {
     :  ^^^^^
  15 |     /* The theme layer wins over the base layer. Note that @layer statements
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:13:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:14:1]
  13 | 
  14 | @scope (.a) {
     :  ^^^^^
  15 |     /* The theme layer wins over the base layer. Note that @layer statements
     `----
-
   x ForgivingSelectorList
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:13:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:14:1]
  13 | 
  14 | @scope (.a) {
     :         ^^
  15 |     /* The theme layer wins over the base layer. Note that @layer statements
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:13:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:14:1]
  13 | 
  14 | @scope (.a) {
     :         ^^
  15 |     /* The theme layer wins over the base layer. Note that @layer statements
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:13:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:14:1]
  13 | 
  14 | @scope (.a) {
     :         ^^
  15 |     /* The theme layer wins over the base layer. Note that @layer statements
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:13:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:14:1]
  13 | 
  14 | @scope (.a) {
     :         ^^
  15 |     /* The theme layer wins over the base layer. Note that @layer statements
     `----
-
   x ClassSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:13:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:14:1]
  13 | 
  14 | @scope (.a) {
     :         ^^
  15 |     /* The theme layer wins over the base layer. Note that @layer statements
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:13:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:14:1]
  13 | 
  14 | @scope (.a) {
     :          ^
  15 |     /* The theme layer wins over the base layer. Note that @layer statements
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:13:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:14:1]
  13 |     
  14 | ,-> @scope (.a) {
  15 | |       /* The theme layer wins over the base layer. Note that @layer statements
@@ -682,91 +615,79 @@
  28 | |       }
  29 | `-> }
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:13:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:14:1]
  13 | 
  14 | @scope (.a) {
     :             ^
  15 |     /* The theme layer wins over the base layer. Note that @layer statements
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:16:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:17:1]
  16 |          are allowed here, but aren't affected by the enclosing @scope. */
  17 | ,->     @layer base,
  18 | `->     theme;
     `----
-
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:16:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:17:1]
  16 |          are allowed here, but aren't affected by the enclosing @scope. */
  17 | ,->     @layer base,
  18 | `->     theme;
     `----
-
   x AtRuleName
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:16:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:17:1]
  16 |      are allowed here, but aren't affected by the enclosing @scope. */
  17 |     @layer base,
     :      ^^^^^
  18 |     theme;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:16:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:17:1]
  16 |      are allowed here, but aren't affected by the enclosing @scope. */
  17 |     @layer base,
     :      ^^^^^
  18 |     theme;
     `----
-
   x LayerPrelude
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:16:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:17:1]
  16 |          are allowed here, but aren't affected by the enclosing @scope. */
  17 | ,->     @layer base,
  18 | `->     theme;
     `----
-
   x LayerNameList
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:16:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:17:1]
  16 |          are allowed here, but aren't affected by the enclosing @scope. */
  17 | ,->     @layer base,
  18 | `->     theme;
     `----
-
   x LayerName
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:16:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:17:1]
  16 |      are allowed here, but aren't affected by the enclosing @scope. */
  17 |     @layer base,
     :            ^^^^
  18 |     theme;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:16:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:17:1]
  16 |      are allowed here, but aren't affected by the enclosing @scope. */
  17 |     @layer base,
     :            ^^^^
  18 |     theme;
     `----
-
   x LayerName
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:17:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:18:1]
  17 |     @layer base,
  18 |     theme;
     :     ^^^^^
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:17:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:18:1]
  17 |     @layer base,
  18 |     theme;
     :     ^^^^^
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:19:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:20:1]
  19 |     
  20 | ,->     @layer theme {
  21 | |           :scope {
@@ -779,9 +700,8 @@
  28 | `->     }
  29 |     }
     `----
-
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:19:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:20:1]
  19 |     
  20 | ,->     @layer theme {
  21 | |           :scope {
@@ -794,49 +714,43 @@
  28 | `->     }
  29 |     }
     `----
-
   x AtRuleName
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:19:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:20:1]
  19 | 
  20 |     @layer theme {
     :      ^^^^^
  21 |         :scope {
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:19:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:20:1]
  19 | 
  20 |     @layer theme {
     :      ^^^^^
  21 |         :scope {
     `----
-
   x LayerPrelude
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:19:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:20:1]
  19 | 
  20 |     @layer theme {
     :            ^^^^^
  21 |         :scope {
     `----
-
   x LayerName
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:19:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:20:1]
  19 | 
  20 |     @layer theme {
     :            ^^^^^
  21 |         :scope {
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:19:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:20:1]
  19 | 
  20 |     @layer theme {
     :            ^^^^^
  21 |         :scope {
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:19:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:20:1]
  19 |     
  20 | ,->     @layer theme {
  21 | |           :scope {
@@ -849,276 +763,242 @@
  28 | `->     }
  29 |     }
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:19:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:20:1]
  19 | 
  20 |     @layer theme {
     :                  ^
  21 |         :scope {
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:20:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:21:1]
  20 |         @layer theme {
  21 | ,->         :scope {
  22 | |               z-index: 1;
  23 | `->         }
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:20:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:21:1]
  20 |         @layer theme {
  21 | ,->         :scope {
  22 | |               z-index: 1;
  23 | `->         }
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:20:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:21:1]
  20 |     @layer theme {
  21 |         :scope {
     :         ^^^^^^
  22 |             z-index: 1;
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:20:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:21:1]
  20 |     @layer theme {
  21 |         :scope {
     :         ^^^^^^
  22 |             z-index: 1;
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:20:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:21:1]
  20 |     @layer theme {
  21 |         :scope {
     :         ^^^^^^
  22 |             z-index: 1;
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:20:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:21:1]
  20 |     @layer theme {
  21 |         :scope {
     :         ^^^^^^
  22 |             z-index: 1;
     `----
-
   x PseudoClassSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:20:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:21:1]
  20 |     @layer theme {
  21 |         :scope {
     :         ^^^^^^
  22 |             z-index: 1;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:20:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:21:1]
  20 |     @layer theme {
  21 |         :scope {
     :          ^^^^^
  22 |             z-index: 1;
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:20:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:21:1]
  20 |         @layer theme {
  21 | ,->         :scope {
  22 | |               z-index: 1;
  23 | `->         }
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:20:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:21:1]
  20 |     @layer theme {
  21 |         :scope {
     :                ^
  22 |             z-index: 1;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:21:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:22:1]
  21 |         :scope {
  22 |             z-index: 1;
     :             ^^^^^^^^^^
  23 |         }
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:21:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:22:1]
  21 |         :scope {
  22 |             z-index: 1;
     :             ^^^^^^^^^^
  23 |         }
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:21:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:22:1]
  21 |         :scope {
  22 |             z-index: 1;
     :             ^^^^^^^
  23 |         }
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:21:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:22:1]
  21 |         :scope {
  22 |             z-index: 1;
     :             ^^^^^^^
  23 |         }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:21:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:22:1]
  21 |         :scope {
  22 |             z-index: 1;
     :                      ^
  23 |         }
     `----
-
   x Integer
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:21:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:22:1]
  21 |         :scope {
  22 |             z-index: 1;
     :                      ^
  23 |         }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:24:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:25:1]
  24 |     
  25 | ,->         .b {
  26 | |               background-color: green;
  27 | `->         }
  28 |         }
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:24:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:25:1]
  24 |     
  25 | ,->         .b {
  26 | |               background-color: green;
  27 | `->         }
  28 |         }
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:24:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:25:1]
  24 | 
  25 |         .b {
     :         ^^
  26 |             background-color: green;
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:24:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:25:1]
  24 | 
  25 |         .b {
     :         ^^
  26 |             background-color: green;
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:24:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:25:1]
  24 | 
  25 |         .b {
     :         ^^
  26 |             background-color: green;
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:24:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:25:1]
  24 | 
  25 |         .b {
     :         ^^
  26 |             background-color: green;
     `----
-
   x ClassSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:24:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:25:1]
  24 | 
  25 |         .b {
     :         ^^
  26 |             background-color: green;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:24:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:25:1]
  24 | 
  25 |         .b {
     :          ^
  26 |             background-color: green;
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:24:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:25:1]
  24 |     
  25 | ,->         .b {
  26 | |               background-color: green;
  27 | `->         }
  28 |         }
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:24:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:25:1]
  24 | 
  25 |         .b {
     :            ^
  26 |             background-color: green;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:25:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:26:1]
  25 |         .b {
  26 |             background-color: green;
     :             ^^^^^^^^^^^^^^^^^^^^^^^
  27 |         }
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:25:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:26:1]
  25 |         .b {
  26 |             background-color: green;
     :             ^^^^^^^^^^^^^^^^^^^^^^^
  27 |         }
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:25:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:26:1]
  25 |         .b {
  26 |             background-color: green;
     :             ^^^^^^^^^^^^^^^^
  27 |         }
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:25:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:26:1]
  25 |         .b {
  26 |             background-color: green;
     :             ^^^^^^^^^^^^^^^^
  27 |         }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:25:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:26:1]
  25 |         .b {
  26 |             background-color: green;
     :                               ^^^^^
  27 |         }
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:25:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:26:1]
  25 |         .b {
  26 |             background-color: green;
     :                               ^^^^^
  27 |         }
     `----
-
   x Rule
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:30:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:31:1]
  30 |     
  31 | ,-> @scope (.a) {
  32 | |       @media (width > 0px) {
@@ -1132,9 +1012,8 @@
  40 | |       }
  41 | `-> }
     `----
-
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:30:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:31:1]
  30 |     
  31 | ,-> @scope (.a) {
  32 | |       @media (width > 0px) {
@@ -1148,73 +1027,64 @@
  40 | |       }
  41 | `-> }
     `----
-
   x AtRuleName
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:30:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:31:1]
  30 | 
  31 | @scope (.a) {
     :  ^^^^^
  32 |     @media (width > 0px) {
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:30:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:31:1]
  30 | 
  31 | @scope (.a) {
     :  ^^^^^
  32 |     @media (width > 0px) {
     `----
-
   x ForgivingSelectorList
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:30:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:31:1]
  30 | 
  31 | @scope (.a) {
     :         ^^
  32 |     @media (width > 0px) {
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:30:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:31:1]
  30 | 
  31 | @scope (.a) {
     :         ^^
  32 |     @media (width > 0px) {
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:30:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:31:1]
  30 | 
  31 | @scope (.a) {
     :         ^^
  32 |     @media (width > 0px) {
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:30:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:31:1]
  30 | 
  31 | @scope (.a) {
     :         ^^
  32 |     @media (width > 0px) {
     `----
-
   x ClassSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:30:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:31:1]
  30 | 
  31 | @scope (.a) {
     :         ^^
  32 |     @media (width > 0px) {
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:30:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:31:1]
  30 | 
  31 | @scope (.a) {
     :          ^
  32 |     @media (width > 0px) {
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:30:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:31:1]
  30 |     
  31 | ,-> @scope (.a) {
  32 | |       @media (width > 0px) {
@@ -1228,17 +1098,15 @@
  40 | |       }
  41 | `-> }
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:30:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:31:1]
  30 | 
  31 | @scope (.a) {
     :             ^
  32 |     @media (width > 0px) {
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:31:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:32:1]
  31 |     @scope (.a) {
  32 | ,->     @media (width > 0px) {
  33 | |           :scope {
@@ -1251,9 +1119,8 @@
  40 | `->     }
  41 |     }
     `----
-
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:31:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:32:1]
  31 |     @scope (.a) {
  32 | ,->     @media (width > 0px) {
  33 | |           :scope {
@@ -1266,137 +1133,120 @@
  40 | `->     }
  41 |     }
     `----
-
   x AtRuleName
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:31:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:32:1]
  31 | @scope (.a) {
  32 |     @media (width > 0px) {
     :      ^^^^^
  33 |         :scope {
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:31:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:32:1]
  31 | @scope (.a) {
  32 |     @media (width > 0px) {
     :      ^^^^^
  33 |         :scope {
     `----
-
   x MediaQueryList
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:31:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:32:1]
  31 | @scope (.a) {
  32 |     @media (width > 0px) {
     :            ^^^^^^^^^^^^^
  33 |         :scope {
     `----
-
   x MediaQuery
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:31:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:32:1]
  31 | @scope (.a) {
  32 |     @media (width > 0px) {
     :            ^^^^^^^^^^^^^
  33 |         :scope {
     `----
-
   x MediaCondition
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:31:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:32:1]
  31 | @scope (.a) {
  32 |     @media (width > 0px) {
     :            ^^^^^^^^^^^^^
  33 |         :scope {
     `----
-
   x MediaConditionAllType
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:31:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:32:1]
  31 | @scope (.a) {
  32 |     @media (width > 0px) {
     :            ^^^^^^^^^^^^^
  33 |         :scope {
     `----
-
   x MediaInParens
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:31:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:32:1]
  31 | @scope (.a) {
  32 |     @media (width > 0px) {
     :            ^^^^^^^^^^^^^
  33 |         :scope {
     `----
-
   x MediaFeature
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:31:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:32:1]
  31 | @scope (.a) {
  32 |     @media (width > 0px) {
     :            ^^^^^^^^^^^^^
  33 |         :scope {
     `----
-
   x MediaFeatureRange
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:31:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:32:1]
  31 | @scope (.a) {
  32 |     @media (width > 0px) {
     :            ^^^^^^^^^^^^^
  33 |         :scope {
     `----
-
   x MediaFeatureValue
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:31:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:32:1]
  31 | @scope (.a) {
  32 |     @media (width > 0px) {
     :             ^^^^^
  33 |         :scope {
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:31:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:32:1]
  31 | @scope (.a) {
  32 |     @media (width > 0px) {
     :             ^^^^^
  33 |         :scope {
     `----
-
   x MediaFeatureValue
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:31:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:32:1]
  31 | @scope (.a) {
  32 |     @media (width > 0px) {
     :                     ^^^
  33 |         :scope {
     `----
-
   x Dimension
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:31:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:32:1]
  31 | @scope (.a) {
  32 |     @media (width > 0px) {
     :                     ^^^
  33 |         :scope {
     `----
-
   x Length
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:31:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:32:1]
  31 | @scope (.a) {
  32 |     @media (width > 0px) {
     :                     ^^^
  33 |         :scope {
     `----
-
   x Number
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:31:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:32:1]
  31 | @scope (.a) {
  32 |     @media (width > 0px) {
     :                     ^
  33 |         :scope {
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:31:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:32:1]
  31 | @scope (.a) {
  32 |     @media (width > 0px) {
     :                      ^^
  33 |         :scope {
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:31:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:32:1]
  31 |     @scope (.a) {
  32 | ,->     @media (width > 0px) {
  33 | |           :scope {
@@ -1409,276 +1259,242 @@
  40 | `->     }
  41 |     }
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:31:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:32:1]
  31 | @scope (.a) {
  32 |     @media (width > 0px) {
     :                          ^
  33 |         :scope {
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:32:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:33:1]
  32 |         @media (width > 0px) {
  33 | ,->         :scope {
  34 | |               z-index: 1;
  35 | `->         }
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:32:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:33:1]
  32 |         @media (width > 0px) {
  33 | ,->         :scope {
  34 | |               z-index: 1;
  35 | `->         }
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:32:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:33:1]
  32 |     @media (width > 0px) {
  33 |         :scope {
     :         ^^^^^^
  34 |             z-index: 1;
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:32:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:33:1]
  32 |     @media (width > 0px) {
  33 |         :scope {
     :         ^^^^^^
  34 |             z-index: 1;
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:32:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:33:1]
  32 |     @media (width > 0px) {
  33 |         :scope {
     :         ^^^^^^
  34 |             z-index: 1;
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:32:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:33:1]
  32 |     @media (width > 0px) {
  33 |         :scope {
     :         ^^^^^^
  34 |             z-index: 1;
     `----
-
   x PseudoClassSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:32:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:33:1]
  32 |     @media (width > 0px) {
  33 |         :scope {
     :         ^^^^^^
  34 |             z-index: 1;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:32:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:33:1]
  32 |     @media (width > 0px) {
  33 |         :scope {
     :          ^^^^^
  34 |             z-index: 1;
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:32:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:33:1]
  32 |         @media (width > 0px) {
  33 | ,->         :scope {
  34 | |               z-index: 1;
  35 | `->         }
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:32:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:33:1]
  32 |     @media (width > 0px) {
  33 |         :scope {
     :                ^
  34 |             z-index: 1;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:33:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:34:1]
  33 |         :scope {
  34 |             z-index: 1;
     :             ^^^^^^^^^^
  35 |         }
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:33:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:34:1]
  33 |         :scope {
  34 |             z-index: 1;
     :             ^^^^^^^^^^
  35 |         }
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:33:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:34:1]
  33 |         :scope {
  34 |             z-index: 1;
     :             ^^^^^^^
  35 |         }
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:33:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:34:1]
  33 |         :scope {
  34 |             z-index: 1;
     :             ^^^^^^^
  35 |         }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:33:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:34:1]
  33 |         :scope {
  34 |             z-index: 1;
     :                      ^
  35 |         }
     `----
-
   x Integer
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:33:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:34:1]
  33 |         :scope {
  34 |             z-index: 1;
     :                      ^
  35 |         }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:36:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:37:1]
  36 |     
  37 | ,->         .b {
  38 | |               background-color: green;
  39 | `->         }
  40 |         }
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:36:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:37:1]
  36 |     
  37 | ,->         .b {
  38 | |               background-color: green;
  39 | `->         }
  40 |         }
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:36:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:37:1]
  36 | 
  37 |         .b {
     :         ^^
  38 |             background-color: green;
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:36:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:37:1]
  36 | 
  37 |         .b {
     :         ^^
  38 |             background-color: green;
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:36:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:37:1]
  36 | 
  37 |         .b {
     :         ^^
  38 |             background-color: green;
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:36:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:37:1]
  36 | 
  37 |         .b {
     :         ^^
  38 |             background-color: green;
     `----
-
   x ClassSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:36:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:37:1]
  36 | 
  37 |         .b {
     :         ^^
  38 |             background-color: green;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:36:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:37:1]
  36 | 
  37 |         .b {
     :          ^
  38 |             background-color: green;
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:36:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:37:1]
  36 |     
  37 | ,->         .b {
  38 | |               background-color: green;
  39 | `->         }
  40 |         }
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:36:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:37:1]
  36 | 
  37 |         .b {
     :            ^
  38 |             background-color: green;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:37:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:38:1]
  37 |         .b {
  38 |             background-color: green;
     :             ^^^^^^^^^^^^^^^^^^^^^^^
  39 |         }
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:37:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:38:1]
  37 |         .b {
  38 |             background-color: green;
     :             ^^^^^^^^^^^^^^^^^^^^^^^
  39 |         }
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:37:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:38:1]
  37 |         .b {
  38 |             background-color: green;
     :             ^^^^^^^^^^^^^^^^
  39 |         }
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:37:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:38:1]
  37 |         .b {
  38 |             background-color: green;
     :             ^^^^^^^^^^^^^^^^
  39 |         }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:37:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:38:1]
  37 |         .b {
  38 |             background-color: green;
     :                               ^^^^^
  39 |         }
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:37:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:38:1]
  37 |         .b {
  38 |             background-color: green;
     :                               ^^^^^
  39 |         }
     `----
-
   x Rule
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:42:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:43:1]
  42 |     
  43 | ,-> @scope (.a) {
  44 | |       @starting-style {
@@ -1692,9 +1508,8 @@
  52 | |       }
  53 | `-> }
     `----
-
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:42:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:43:1]
  42 |     
  43 | ,-> @scope (.a) {
  44 | |       @starting-style {
@@ -1708,73 +1523,64 @@
  52 | |       }
  53 | `-> }
     `----
-
   x AtRuleName
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:42:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:43:1]
  42 | 
  43 | @scope (.a) {
     :  ^^^^^
  44 |     @starting-style {
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:42:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:43:1]
  42 | 
  43 | @scope (.a) {
     :  ^^^^^
  44 |     @starting-style {
     `----
-
   x ForgivingSelectorList
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:42:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:43:1]
  42 | 
  43 | @scope (.a) {
     :         ^^
  44 |     @starting-style {
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:42:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:43:1]
  42 | 
  43 | @scope (.a) {
     :         ^^
  44 |     @starting-style {
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:42:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:43:1]
  42 | 
  43 | @scope (.a) {
     :         ^^
  44 |     @starting-style {
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:42:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:43:1]
  42 | 
  43 | @scope (.a) {
     :         ^^
  44 |     @starting-style {
     `----
-
   x ClassSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:42:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:43:1]
  42 | 
  43 | @scope (.a) {
     :         ^^
  44 |     @starting-style {
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:42:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:43:1]
  42 | 
  43 | @scope (.a) {
     :          ^
  44 |     @starting-style {
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:42:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:43:1]
  42 |     
  43 | ,-> @scope (.a) {
  44 | |       @starting-style {
@@ -1788,17 +1594,15 @@
  52 | |       }
  53 | `-> }
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:42:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:43:1]
  42 | 
  43 | @scope (.a) {
     :             ^
  44 |     @starting-style {
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:43:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:44:1]
  43 |     @scope (.a) {
  44 | ,->     @starting-style {
  45 | |           :scope {
@@ -1811,9 +1615,8 @@
  52 | `->     }
  53 |     }
     `----
-
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:43:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:44:1]
  43 |     @scope (.a) {
  44 | ,->     @starting-style {
  45 | |           :scope {
@@ -1826,25 +1629,22 @@
  52 | `->     }
  53 |     }
     `----
-
   x AtRuleName
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:43:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:44:1]
  43 | @scope (.a) {
  44 |     @starting-style {
     :      ^^^^^^^^^^^^^^
  45 |         :scope {
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:43:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:44:1]
  43 | @scope (.a) {
  44 |     @starting-style {
     :      ^^^^^^^^^^^^^^
  45 |         :scope {
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:43:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:44:1]
  43 |     @scope (.a) {
  44 | ,->     @starting-style {
  45 | |           :scope {
@@ -1857,324 +1657,284 @@
  52 | `->     }
  53 |     }
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:43:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:44:1]
  43 | @scope (.a) {
  44 |     @starting-style {
     :                     ^
  45 |         :scope {
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:44:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:45:1]
  44 |         @starting-style {
  45 | ,->         :scope {
  46 | |               width: 100px;
  47 | `->         }
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:44:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:45:1]
  44 |         @starting-style {
  45 | ,->         :scope {
  46 | |               width: 100px;
  47 | `->         }
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:44:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:45:1]
  44 |     @starting-style {
  45 |         :scope {
     :         ^^^^^^
  46 |             width: 100px;
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:44:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:45:1]
  44 |     @starting-style {
  45 |         :scope {
     :         ^^^^^^
  46 |             width: 100px;
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:44:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:45:1]
  44 |     @starting-style {
  45 |         :scope {
     :         ^^^^^^
  46 |             width: 100px;
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:44:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:45:1]
  44 |     @starting-style {
  45 |         :scope {
     :         ^^^^^^
  46 |             width: 100px;
     `----
-
   x PseudoClassSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:44:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:45:1]
  44 |     @starting-style {
  45 |         :scope {
     :         ^^^^^^
  46 |             width: 100px;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:44:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:45:1]
  44 |     @starting-style {
  45 |         :scope {
     :          ^^^^^
  46 |             width: 100px;
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:44:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:45:1]
  44 |         @starting-style {
  45 | ,->         :scope {
  46 | |               width: 100px;
  47 | `->         }
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:44:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:45:1]
  44 |     @starting-style {
  45 |         :scope {
     :                ^
  46 |             width: 100px;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:45:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:46:1]
  45 |         :scope {
  46 |             width: 100px;
     :             ^^^^^^^^^^^^
  47 |         }
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:45:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:46:1]
  45 |         :scope {
  46 |             width: 100px;
     :             ^^^^^^^^^^^^
  47 |         }
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:45:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:46:1]
  45 |         :scope {
  46 |             width: 100px;
     :             ^^^^^
  47 |         }
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:45:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:46:1]
  45 |         :scope {
  46 |             width: 100px;
     :             ^^^^^
  47 |         }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:45:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:46:1]
  45 |         :scope {
  46 |             width: 100px;
     :                    ^^^^^
  47 |         }
     `----
-
   x Dimension
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:45:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:46:1]
  45 |         :scope {
  46 |             width: 100px;
     :                    ^^^^^
  47 |         }
     `----
-
   x Length
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:45:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:46:1]
  45 |         :scope {
  46 |             width: 100px;
     :                    ^^^^^
  47 |         }
     `----
-
   x Number
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:45:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:46:1]
  45 |         :scope {
  46 |             width: 100px;
     :                    ^^^
  47 |         }
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:45:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:46:1]
  45 |         :scope {
  46 |             width: 100px;
     :                       ^^
  47 |         }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:48:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:49:1]
  48 |     
  49 | ,->         .b {
  50 | |               width: 100px;
  51 | `->         }
  52 |         }
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:48:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:49:1]
  48 |     
  49 | ,->         .b {
  50 | |               width: 100px;
  51 | `->         }
  52 |         }
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:48:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:49:1]
  48 | 
  49 |         .b {
     :         ^^
  50 |             width: 100px;
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:48:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:49:1]
  48 | 
  49 |         .b {
     :         ^^
  50 |             width: 100px;
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:48:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:49:1]
  48 | 
  49 |         .b {
     :         ^^
  50 |             width: 100px;
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:48:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:49:1]
  48 | 
  49 |         .b {
     :         ^^
  50 |             width: 100px;
     `----
-
   x ClassSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:48:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:49:1]
  48 | 
  49 |         .b {
     :         ^^
  50 |             width: 100px;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:48:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:49:1]
  48 | 
  49 |         .b {
     :          ^
  50 |             width: 100px;
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:48:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:49:1]
  48 |     
  49 | ,->         .b {
  50 | |               width: 100px;
  51 | `->         }
  52 |         }
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:48:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:49:1]
  48 | 
  49 |         .b {
     :            ^
  50 |             width: 100px;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:49:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:50:1]
  49 |         .b {
  50 |             width: 100px;
     :             ^^^^^^^^^^^^
  51 |         }
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:49:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:50:1]
  49 |         .b {
  50 |             width: 100px;
     :             ^^^^^^^^^^^^
  51 |         }
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:49:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:50:1]
  49 |         .b {
  50 |             width: 100px;
     :             ^^^^^
  51 |         }
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:49:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:50:1]
  49 |         .b {
  50 |             width: 100px;
     :             ^^^^^
  51 |         }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:49:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:50:1]
  49 |         .b {
  50 |             width: 100px;
     :                    ^^^^^
  51 |         }
     `----
-
   x Dimension
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:49:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:50:1]
  49 |         .b {
  50 |             width: 100px;
     :                    ^^^^^
  51 |         }
     `----
-
   x Length
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:49:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:50:1]
  49 |         .b {
  50 |             width: 100px;
     :                    ^^^^^
  51 |         }
     `----
-
   x Number
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:49:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:50:1]
  49 |         .b {
  50 |             width: 100px;
     :                    ^^^
  51 |         }
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:49:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:50:1]
  49 |         .b {
  50 |             width: 100px;
     :                       ^^
  51 |         }
     `----
-
   x Rule
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:54:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:55:1]
  54 |     
  55 | ,-> @scope (.a) {
  56 | |       @supports (width:0px) {
@@ -2188,9 +1948,8 @@
  64 | |       }
  65 | `-> }
     `----
-
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:54:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:55:1]
  54 |     
  55 | ,-> @scope (.a) {
  56 | |       @supports (width:0px) {
@@ -2204,73 +1963,64 @@
  64 | |       }
  65 | `-> }
     `----
-
   x AtRuleName
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:54:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:55:1]
  54 | 
  55 | @scope (.a) {
     :  ^^^^^
  56 |     @supports (width:0px) {
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:54:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:55:1]
  54 | 
  55 | @scope (.a) {
     :  ^^^^^
  56 |     @supports (width:0px) {
     `----
-
   x ForgivingSelectorList
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:54:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:55:1]
  54 | 
  55 | @scope (.a) {
     :         ^^
  56 |     @supports (width:0px) {
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:54:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:55:1]
  54 | 
  55 | @scope (.a) {
     :         ^^
  56 |     @supports (width:0px) {
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:54:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:55:1]
  54 | 
  55 | @scope (.a) {
     :         ^^
  56 |     @supports (width:0px) {
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:54:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:55:1]
  54 | 
  55 | @scope (.a) {
     :         ^^
  56 |     @supports (width:0px) {
     `----
-
   x ClassSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:54:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:55:1]
  54 | 
  55 | @scope (.a) {
     :         ^^
  56 |     @supports (width:0px) {
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:54:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:55:1]
  54 | 
  55 | @scope (.a) {
     :          ^
  56 |     @supports (width:0px) {
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:54:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:55:1]
  54 |     
  55 | ,-> @scope (.a) {
  56 | |       @supports (width:0px) {
@@ -2284,17 +2034,15 @@
  64 | |       }
  65 | `-> }
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:54:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:55:1]
  54 | 
  55 | @scope (.a) {
     :             ^
  56 |     @supports (width:0px) {
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:55:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:56:1]
  55 |     @scope (.a) {
  56 | ,->     @supports (width:0px) {
  57 | |           :scope {
@@ -2307,9 +2055,8 @@
  64 | `->     }
  65 |     }
     `----
-
   x AtRule
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:55:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:56:1]
  55 |     @scope (.a) {
  56 | ,->     @supports (width:0px) {
  57 | |           :scope {
@@ -2322,121 +2069,106 @@
  64 | `->     }
  65 |     }
     `----
-
   x AtRuleName
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:55:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:56:1]
  55 | @scope (.a) {
  56 |     @supports (width:0px) {
     :      ^^^^^^^^
  57 |         :scope {
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:55:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:56:1]
  55 | @scope (.a) {
  56 |     @supports (width:0px) {
     :      ^^^^^^^^
  57 |         :scope {
     `----
-
   x SupportsCondition
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:55:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:56:1]
  55 | @scope (.a) {
  56 |     @supports (width:0px) {
     :               ^^^^^^^^^^^
  57 |         :scope {
     `----
-
   x SupportsConditionType
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:55:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:56:1]
  55 | @scope (.a) {
  56 |     @supports (width:0px) {
     :                ^^^^^^^^^
  57 |         :scope {
     `----
-
   x SupportsInParens
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:55:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:56:1]
  55 | @scope (.a) {
  56 |     @supports (width:0px) {
     :                ^^^^^^^^^
  57 |         :scope {
     `----
-
   x SupportsFeature
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:55:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:56:1]
  55 | @scope (.a) {
  56 |     @supports (width:0px) {
     :                ^^^^^^^^^
  57 |         :scope {
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:55:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:56:1]
  55 | @scope (.a) {
  56 |     @supports (width:0px) {
     :                ^^^^^^^^^
  57 |         :scope {
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:55:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:56:1]
  55 | @scope (.a) {
  56 |     @supports (width:0px) {
     :                ^^^^^
  57 |         :scope {
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:55:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:56:1]
  55 | @scope (.a) {
  56 |     @supports (width:0px) {
     :                ^^^^^
  57 |         :scope {
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:55:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:56:1]
  55 | @scope (.a) {
  56 |     @supports (width:0px) {
     :                      ^^^
  57 |         :scope {
     `----
-
   x Dimension
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:55:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:56:1]
  55 | @scope (.a) {
  56 |     @supports (width:0px) {
     :                      ^^^
  57 |         :scope {
     `----
-
   x Length
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:55:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:56:1]
  55 | @scope (.a) {
  56 |     @supports (width:0px) {
     :                      ^^^
  57 |         :scope {
     `----
-
   x Number
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:55:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:56:1]
  55 | @scope (.a) {
  56 |     @supports (width:0px) {
     :                      ^
  57 |         :scope {
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:55:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:56:1]
  55 | @scope (.a) {
  56 |     @supports (width:0px) {
     :                       ^^
  57 |         :scope {
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:55:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:56:1]
  55 |     @scope (.a) {
  56 | ,->     @supports (width:0px) {
  57 | |           :scope {
@@ -2449,268 +2181,235 @@
  64 | `->     }
  65 |     }
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:55:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:56:1]
  55 | @scope (.a) {
  56 |     @supports (width:0px) {
     :                           ^
  57 |         :scope {
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:56:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:57:1]
  56 |         @supports (width:0px) {
  57 | ,->         :scope {
  58 | |               z-index: 1;
  59 | `->         }
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:56:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:57:1]
  56 |         @supports (width:0px) {
  57 | ,->         :scope {
  58 | |               z-index: 1;
  59 | `->         }
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:56:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:57:1]
  56 |     @supports (width:0px) {
  57 |         :scope {
     :         ^^^^^^
  58 |             z-index: 1;
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:56:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:57:1]
  56 |     @supports (width:0px) {
  57 |         :scope {
     :         ^^^^^^
  58 |             z-index: 1;
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:56:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:57:1]
  56 |     @supports (width:0px) {
  57 |         :scope {
     :         ^^^^^^
  58 |             z-index: 1;
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:56:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:57:1]
  56 |     @supports (width:0px) {
  57 |         :scope {
     :         ^^^^^^
  58 |             z-index: 1;
     `----
-
   x PseudoClassSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:56:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:57:1]
  56 |     @supports (width:0px) {
  57 |         :scope {
     :         ^^^^^^
  58 |             z-index: 1;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:56:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:57:1]
  56 |     @supports (width:0px) {
  57 |         :scope {
     :          ^^^^^
  58 |             z-index: 1;
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:56:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:57:1]
  56 |         @supports (width:0px) {
  57 | ,->         :scope {
  58 | |               z-index: 1;
  59 | `->         }
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:56:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:57:1]
  56 |     @supports (width:0px) {
  57 |         :scope {
     :                ^
  58 |             z-index: 1;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:57:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:58:1]
  57 |         :scope {
  58 |             z-index: 1;
     :             ^^^^^^^^^^
  59 |         }
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:57:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:58:1]
  57 |         :scope {
  58 |             z-index: 1;
     :             ^^^^^^^^^^
  59 |         }
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:57:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:58:1]
  57 |         :scope {
  58 |             z-index: 1;
     :             ^^^^^^^
  59 |         }
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:57:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:58:1]
  57 |         :scope {
  58 |             z-index: 1;
     :             ^^^^^^^
  59 |         }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:57:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:58:1]
  57 |         :scope {
  58 |             z-index: 1;
     :                      ^
  59 |         }
     `----
-
   x Integer
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:57:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:58:1]
  57 |         :scope {
  58 |             z-index: 1;
     :                      ^
  59 |         }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:60:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:61:1]
  60 |     
  61 | ,->         .b {
  62 | |               background-color: green;
  63 | `->         }
  64 |         }
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:60:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:61:1]
  60 |     
  61 | ,->         .b {
  62 | |               background-color: green;
  63 | `->         }
  64 |         }
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:60:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:61:1]
  60 | 
  61 |         .b {
     :         ^^
  62 |             background-color: green;
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:60:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:61:1]
  60 | 
  61 |         .b {
     :         ^^
  62 |             background-color: green;
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:60:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:61:1]
  60 | 
  61 |         .b {
     :         ^^
  62 |             background-color: green;
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:60:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:61:1]
  60 | 
  61 |         .b {
     :         ^^
  62 |             background-color: green;
     `----
-
   x ClassSelector
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:60:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:61:1]
  60 | 
  61 |         .b {
     :         ^^
  62 |             background-color: green;
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:60:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:61:1]
  60 | 
  61 |         .b {
     :          ^
  62 |             background-color: green;
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:60:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:61:1]
  60 |     
  61 | ,->         .b {
  62 | |               background-color: green;
  63 | `->         }
  64 |         }
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:60:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:61:1]
  60 | 
  61 |         .b {
     :            ^
  62 |             background-color: green;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:61:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:62:1]
  61 |         .b {
  62 |             background-color: green;
     :             ^^^^^^^^^^^^^^^^^^^^^^^
  63 |         }
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:61:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:62:1]
  61 |         .b {
  62 |             background-color: green;
     :             ^^^^^^^^^^^^^^^^^^^^^^^
  63 |         }
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:61:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:62:1]
  61 |         .b {
  62 |             background-color: green;
     :             ^^^^^^^^^^^^^^^^
  63 |         }
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:61:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:62:1]
  61 |         .b {
  62 |             background-color: green;
     :             ^^^^^^^^^^^^^^^^
  63 |         }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:61:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:62:1]
  61 |         .b {
  62 |             background-color: green;
     :                               ^^^^^
  63 |         }
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:61:1]
+    ,-[$DIR/tests/fixture/at-rule/scope/chromium/input.css:62:1]
  61 |         .b {
  62 |             background-color: green;
     :                               ^^^^^

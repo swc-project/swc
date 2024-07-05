@@ -1,4 +1,3 @@
-
   x Bad character escape sequence, expected 4 hex characters
    ,-[$DIR/tests/test262-parser/fail/92dfbd6c58d2c61f.js:1:1]
  1 | a\u

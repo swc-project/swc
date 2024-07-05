@@ -1,153 +1,128 @@
-
   x Document
    ,-[$DIR/tests/recovery/element/table/broken-7/input.html:1:1]
  1 | ,-> <table><tr><td><svg><desc><td></desc><circle>
  2 | `-> A<table><tr> B</tr> </em>C</table>
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/recovery/element/table/broken-7/input.html:1:1]
  1 | ,-> <table><tr><td><svg><desc><td></desc><circle>
  2 | `-> A<table><tr> B</tr> </em>C</table>
    `----
-
   x Element
    ,-[$DIR/tests/recovery/element/table/broken-7/input.html:1:1]
  1 | ,-> <table><tr><td><svg><desc><td></desc><circle>
  2 | `-> A<table><tr> B</tr> </em>C</table>
    `----
-
   x Child
    ,-[$DIR/tests/recovery/element/table/broken-7/input.html:1:1]
  1 | ,-> <table><tr><td><svg><desc><td></desc><circle>
  2 | `-> A<table><tr> B</tr> </em>C</table>
    `----
-
   x Element
    ,-[$DIR/tests/recovery/element/table/broken-7/input.html:1:1]
  1 | ,-> <table><tr><td><svg><desc><td></desc><circle>
  2 | `-> A<table><tr> B</tr> </em>C</table>
    `----
-
   x Child
    ,-[$DIR/tests/recovery/element/table/broken-7/input.html:1:1]
  1 | <table><tr><td><svg><desc><td></desc><circle>
    :            ^^^^^^^^^^^^^^^
  2 | A<table><tr> B</tr> </em>C</table>
    `----
-
   x Element
    ,-[$DIR/tests/recovery/element/table/broken-7/input.html:1:1]
  1 | <table><tr><td><svg><desc><td></desc><circle>
    :            ^^^^^^^^^^^^^^^
  2 | A<table><tr> B</tr> </em>C</table>
    `----
-
   x Child
    ,-[$DIR/tests/recovery/element/table/broken-7/input.html:1:1]
  1 | <table><tr><td><svg><desc><td></desc><circle>
    :                ^^^^^^^^^^^
  2 | A<table><tr> B</tr> </em>C</table>
    `----
-
   x Element
    ,-[$DIR/tests/recovery/element/table/broken-7/input.html:1:1]
  1 | <table><tr><td><svg><desc><td></desc><circle>
    :                ^^^^^^^^^^^
  2 | A<table><tr> B</tr> </em>C</table>
    `----
-
   x Child
    ,-[$DIR/tests/recovery/element/table/broken-7/input.html:1:1]
  1 | <table><tr><td><svg><desc><td></desc><circle>
    :                     ^^^^^^
  2 | A<table><tr> B</tr> </em>C</table>
    `----
-
   x Element
    ,-[$DIR/tests/recovery/element/table/broken-7/input.html:1:1]
  1 | <table><tr><td><svg><desc><td></desc><circle>
    :                     ^^^^^^
  2 | A<table><tr> B</tr> </em>C</table>
    `----
-
   x Child
    ,-[$DIR/tests/recovery/element/table/broken-7/input.html:1:1]
  1 | ,-> <table><tr><td><svg><desc><td></desc><circle>
  2 | `-> A<table><tr> B</tr> </em>C</table>
    `----
-
   x Element
    ,-[$DIR/tests/recovery/element/table/broken-7/input.html:1:1]
  1 | ,-> <table><tr><td><svg><desc><td></desc><circle>
  2 | `-> A<table><tr> B</tr> </em>C</table>
    `----
-
   x Child
    ,-[$DIR/tests/recovery/element/table/broken-7/input.html:1:1]
  1 | ,-> <table><tr><td><svg><desc><td></desc><circle>
  2 | `-> A<table><tr> B</tr> </em>C</table>
    `----
-
   x Element
    ,-[$DIR/tests/recovery/element/table/broken-7/input.html:1:1]
  1 | ,-> <table><tr><td><svg><desc><td></desc><circle>
  2 | `-> A<table><tr> B</tr> </em>C</table>
    `----
-
   x Child
    ,-[$DIR/tests/recovery/element/table/broken-7/input.html:1:1]
  1 | ,-> <table><tr><td><svg><desc><td></desc><circle>
  2 | `-> A<table><tr> B</tr> </em>C</table>
    `----
-
   x Text
    ,-[$DIR/tests/recovery/element/table/broken-7/input.html:1:1]
  1 | ,-> <table><tr><td><svg><desc><td></desc><circle>
  2 | `-> A<table><tr> B</tr> </em>C</table>
    `----
-
   x Child
-   ,-[$DIR/tests/recovery/element/table/broken-7/input.html:1:1]
+   ,-[$DIR/tests/recovery/element/table/broken-7/input.html:2:1]
  1 | <table><tr><td><svg><desc><td></desc><circle>
  2 | A<table><tr> B</tr> </em>C</table>
    :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
-   ,-[$DIR/tests/recovery/element/table/broken-7/input.html:1:1]
+   ,-[$DIR/tests/recovery/element/table/broken-7/input.html:2:1]
  1 | <table><tr><td><svg><desc><td></desc><circle>
  2 | A<table><tr> B</tr> </em>C</table>
    :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-   ,-[$DIR/tests/recovery/element/table/broken-7/input.html:1:1]
+   ,-[$DIR/tests/recovery/element/table/broken-7/input.html:2:1]
  1 | <table><tr><td><svg><desc><td></desc><circle>
  2 | A<table><tr> B</tr> </em>C</table>
    :         ^^^^^^^^^^^
    `----
-
   x Element
-   ,-[$DIR/tests/recovery/element/table/broken-7/input.html:1:1]
+   ,-[$DIR/tests/recovery/element/table/broken-7/input.html:2:1]
  1 | <table><tr><td><svg><desc><td></desc><circle>
  2 | A<table><tr> B</tr> </em>C</table>
    :         ^^^^^^^^^^^
    `----
-
   x Child
-   ,-[$DIR/tests/recovery/element/table/broken-7/input.html:1:1]
+   ,-[$DIR/tests/recovery/element/table/broken-7/input.html:2:1]
  1 | <table><tr><td><svg><desc><td></desc><circle>
  2 | A<table><tr> B</tr> </em>C</table>
    :                    ^
    `----
-
   x Text
-   ,-[$DIR/tests/recovery/element/table/broken-7/input.html:1:1]
+   ,-[$DIR/tests/recovery/element/table/broken-7/input.html:2:1]
  1 | <table><tr><td><svg><desc><td></desc><circle>
  2 | A<table><tr> B</tr> </em>C</table>
    :                    ^

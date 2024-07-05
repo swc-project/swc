@@ -1,4 +1,3 @@
-
   x Expected a semicolon
    ,-[$DIR/tests/typescript-errors/deno-10112/case2/input.ts:1:1]
  1 | try { }

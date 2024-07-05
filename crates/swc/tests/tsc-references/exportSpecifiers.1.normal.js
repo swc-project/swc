@@ -7,9 +7,8 @@ something; // Error (used in emitting position)
 foo; // Error (used in emitting position)
 bar; // Error (used in emitting position)
 //// [/exports.ts]
-//! 
 //!   x The 'type' modifier cannot be used on a named export when 'export type' is used on its export statement.
-//!    ,-[6:1]
+//!    ,-[9:1]
 //!  6 | export { type something };
 //!  7 | export { type type as foo };
 //!  8 | export { type as as bar };

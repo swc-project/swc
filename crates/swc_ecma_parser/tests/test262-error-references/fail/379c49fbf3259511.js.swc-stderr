@@ -1,6 +1,5 @@
-
   x LineBreak cannot follow 'throw'
    ,-[$DIR/tests/test262-parser/fail/379c49fbf3259511.js:1:1]
  1 | throw /*   */ e
-   :                 ^
+   :               ^
    `----

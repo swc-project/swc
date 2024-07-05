@@ -1,13 +1,11 @@
-
   x Non conforming doctype
    ,-[$DIR/tests/recovery/element/plaintext/input.html:1:1]
  1 | ,-> <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
  2 | `->         "http://www.w3.org/TR/html4/strict.dtd">
  3 |     <html>
    `----
-
   x End of file seen and there were open elements
-    ,-[$DIR/tests/recovery/element/plaintext/input.html:32:1]
+    ,-[$DIR/tests/recovery/element/plaintext/input.html:33:1]
  32 | </body>
  33 | </html>
     `----

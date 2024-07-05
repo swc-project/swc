@@ -1,104 +1,85 @@
-
   x Document
    ,-[$DIR/tests/fixture/element/ruby/input.html:1:1]
  1 | <!doctype html><html><ruby>a<rb>b<rb></ruby></html>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/fixture/element/ruby/input.html:1:1]
  1 | <!doctype html><html><ruby>a<rb>b<rb></ruby></html>
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/fixture/element/ruby/input.html:1:1]
  1 | <!doctype html><html><ruby>a<rb>b<rb></ruby></html>
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/fixture/element/ruby/input.html:1:1]
  1 | <!doctype html><html><ruby>a<rb>b<rb></ruby></html>
    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/fixture/element/ruby/input.html:1:1]
  1 | <!doctype html><html><ruby>a<rb>b<rb></ruby></html>
    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/fixture/element/ruby/input.html:1:1]
  1 | <!doctype html><html><ruby>a<rb>b<rb></ruby></html>
    :                      ^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/fixture/element/ruby/input.html:1:1]
  1 | <!doctype html><html><ruby>a<rb>b<rb></ruby></html>
    :                      ^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/fixture/element/ruby/input.html:1:1]
  1 | <!doctype html><html><ruby>a<rb>b<rb></ruby></html>
    :                            ^
    `----
-
   x Text
    ,-[$DIR/tests/fixture/element/ruby/input.html:1:1]
  1 | <!doctype html><html><ruby>a<rb>b<rb></ruby></html>
    :                            ^
    `----
-
   x Child
    ,-[$DIR/tests/fixture/element/ruby/input.html:1:1]
  1 | <!doctype html><html><ruby>a<rb>b<rb></ruby></html>
    :                             ^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/fixture/element/ruby/input.html:1:1]
  1 | <!doctype html><html><ruby>a<rb>b<rb></ruby></html>
    :                             ^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/fixture/element/ruby/input.html:1:1]
  1 | <!doctype html><html><ruby>a<rb>b<rb></ruby></html>
    :                                 ^
    `----
-
   x Text
    ,-[$DIR/tests/fixture/element/ruby/input.html:1:1]
  1 | <!doctype html><html><ruby>a<rb>b<rb></ruby></html>
    :                                 ^
    `----
-
   x Child
    ,-[$DIR/tests/fixture/element/ruby/input.html:1:1]
  1 | <!doctype html><html><ruby>a<rb>b<rb></ruby></html>
    :                                  ^^^^
    `----
-
   x Element
    ,-[$DIR/tests/fixture/element/ruby/input.html:1:1]
  1 | <!doctype html><html><ruby>a<rb>b<rb></ruby></html>
    :                                  ^^^^
    `----
-
   x Child
    ,-[$DIR/tests/fixture/element/ruby/input.html:1:1]
  1 | <!doctype html><html><ruby>a<rb>b<rb></ruby></html>
    :                                                    ^
    `----
-
   x Text
    ,-[$DIR/tests/fixture/element/ruby/input.html:1:1]
  1 | <!doctype html><html><ruby>a<rb>b<rb></ruby></html>

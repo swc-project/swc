@@ -1,31 +1,27 @@
-
   x Expression expected
-    ,-[$DIR/tests/errors/conflict_marker_trivia_2/input.ts:8:1]
+    ,-[$DIR/tests/errors/conflict_marker_trivia_2/input.ts:9:1]
   8 |       }
   9 | ,-> >>>>>>> A
  10 | |   
  11 | `->   public bar() { }
  12 |     }
     `----
-
   x Merge conflict marker encountered.
-   ,-[$DIR/tests/errors/conflict_marker_trivia_2/input.ts:2:1]
+   ,-[$DIR/tests/errors/conflict_marker_trivia_2/input.ts:3:1]
  2 |   foo() {
  3 | <<<<<<< B
    : ^^^^^^^
  4 |      a();
    `----
-
   x Merge conflict marker encountered.
-   ,-[$DIR/tests/errors/conflict_marker_trivia_2/input.ts:5:1]
+   ,-[$DIR/tests/errors/conflict_marker_trivia_2/input.ts:6:1]
  5 |   }
  6 | =======
    : ^^^^^^^
  7 |      b();
    `----
-
   x Merge conflict marker encountered.
-   ,-[$DIR/tests/errors/conflict_marker_trivia_2/input.ts:8:1]
+   ,-[$DIR/tests/errors/conflict_marker_trivia_2/input.ts:9:1]
  8 |   }
  9 | >>>>>>> A
    : ^^^^^^^

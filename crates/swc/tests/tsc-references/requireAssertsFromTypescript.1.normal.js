@@ -2,9 +2,8 @@
 // based on assert in @types/node
 export { };
 //// [ex2.d.ts]
-//! 
 //!   x Export assignment cannot be used when targeting ECMAScript modules. Consider using `export default` or another module format instead.
-//!    ,-[1:1]
+//!    ,-[2:1]
 //!  1 | declare function art(value: any, message?: string | Error): asserts value;
 //!  2 | export = art;
 //!    : ^^^^^^^^^^^^^

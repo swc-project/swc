@@ -1,17 +1,13 @@
-
   > Trailing (hi)
 
-Advice: 
-  > post: 9
+Advice:   > post: 9
    ,-[$DIR/tests/comments/exprs/call/simple/input.js:1:1]
  1 | test(123/*post: 9*/, 456/*post: 10*/);
    :         ^
    `----
-
   > Trailing (hi)
 
-Advice: 
-  > post: 10
+Advice:   > post: 10
    ,-[$DIR/tests/comments/exprs/call/simple/input.js:1:1]
  1 | test(123/*post: 9*/, 456/*post: 10*/);
    :                         ^

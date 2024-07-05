@@ -1,56 +1,47 @@
-
   x Stylesheet
    ,-[$DIR/tests/recovery/selector/id/invalid/input.css:1:1]
  1 | ,-> #1234 {
  2 | |   
  3 | `-> }
    `----
-
   x Rule
    ,-[$DIR/tests/recovery/selector/id/invalid/input.css:1:1]
  1 | ,-> #1234 {
  2 | |   
  3 | `-> }
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/recovery/selector/id/invalid/input.css:1:1]
  1 | ,-> #1234 {
  2 | |   
  3 | `-> }
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/selector/id/invalid/input.css:1:1]
  1 | #1234 {
    : ^^^^^
    `----
-
   x Hash { is_id: false, value: "1234", raw: "1234" }
    ,-[$DIR/tests/recovery/selector/id/invalid/input.css:1:1]
  1 | #1234 {
    : ^^^^^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/selector/id/invalid/input.css:1:1]
  1 | #1234 {
    :      ^
    `----
-
   x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/selector/id/invalid/input.css:1:1]
  1 | #1234 {
    :      ^
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/recovery/selector/id/invalid/input.css:1:1]
  1 | ,-> #1234 {
  2 | |   
  3 | `-> }
    `----
-
   x LBrace
    ,-[$DIR/tests/recovery/selector/id/invalid/input.css:1:1]
  1 | #1234 {

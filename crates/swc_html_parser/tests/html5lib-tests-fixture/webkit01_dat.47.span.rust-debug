@@ -1,92 +1,75 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.47.html:1:1]
  1 | <math><mrow><mrow><mn>1</mn></mrow><mi>a</mi></mrow></math>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.47.html:1:1]
  1 | <math><mrow><mrow><mn>1</mn></mrow><mi>a</mi></mrow></math>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.47.html:1:1]
  1 | <math><mrow><mrow><mn>1</mn></mrow><mi>a</mi></mrow></math>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.47.html:1:1]
  1 | <math><mrow><mrow><mn>1</mn></mrow><mi>a</mi></mrow></math>
    :       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.47.html:1:1]
  1 | <math><mrow><mrow><mn>1</mn></mrow><mi>a</mi></mrow></math>
    :       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.47.html:1:1]
  1 | <math><mrow><mrow><mn>1</mn></mrow><mi>a</mi></mrow></math>
    :             ^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.47.html:1:1]
  1 | <math><mrow><mrow><mn>1</mn></mrow><mi>a</mi></mrow></math>
    :             ^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.47.html:1:1]
  1 | <math><mrow><mrow><mn>1</mn></mrow><mi>a</mi></mrow></math>
    :                   ^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.47.html:1:1]
  1 | <math><mrow><mrow><mn>1</mn></mrow><mi>a</mi></mrow></math>
    :                   ^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.47.html:1:1]
  1 | <math><mrow><mrow><mn>1</mn></mrow><mi>a</mi></mrow></math>
    :                       ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.47.html:1:1]
  1 | <math><mrow><mrow><mn>1</mn></mrow><mi>a</mi></mrow></math>
    :                       ^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.47.html:1:1]
  1 | <math><mrow><mrow><mn>1</mn></mrow><mi>a</mi></mrow></math>
    :                                    ^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.47.html:1:1]
  1 | <math><mrow><mrow><mn>1</mn></mrow><mi>a</mi></mrow></math>
    :                                    ^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.47.html:1:1]
  1 | <math><mrow><mrow><mn>1</mn></mrow><mi>a</mi></mrow></math>
    :                                        ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/webkit01_dat.47.html:1:1]
  1 | <math><mrow><mrow><mn>1</mn></mrow><mi>a</mi></mrow></math>

@@ -1,128 +1,105 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests26_dat.11.html:1:1]
  1 | <!DOCTYPE html><table><tr><td><svg><foreignObject><p><i></p>a
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests26_dat.11.html:1:1]
  1 | <!DOCTYPE html><table><tr><td><svg><foreignObject><p><i></p>a
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/html5lib-tests-fixture/tests26_dat.11.html:1:1]
  1 | <!DOCTYPE html><table><tr><td><svg><foreignObject><p><i></p>a
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests26_dat.11.html:1:1]
  1 | <!DOCTYPE html><table><tr><td><svg><foreignObject><p><i></p>a
    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests26_dat.11.html:1:1]
  1 | <!DOCTYPE html><table><tr><td><svg><foreignObject><p><i></p>a
    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests26_dat.11.html:1:1]
  1 | <!DOCTYPE html><table><tr><td><svg><foreignObject><p><i></p>a
    :                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests26_dat.11.html:1:1]
  1 | <!DOCTYPE html><table><tr><td><svg><foreignObject><p><i></p>a
    :                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests26_dat.11.html:1:1]
  1 | <!DOCTYPE html><table><tr><td><svg><foreignObject><p><i></p>a
    :                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests26_dat.11.html:1:1]
  1 | <!DOCTYPE html><table><tr><td><svg><foreignObject><p><i></p>a
    :                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests26_dat.11.html:1:1]
  1 | <!DOCTYPE html><table><tr><td><svg><foreignObject><p><i></p>a
    :                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests26_dat.11.html:1:1]
  1 | <!DOCTYPE html><table><tr><td><svg><foreignObject><p><i></p>a
    :                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests26_dat.11.html:1:1]
  1 | <!DOCTYPE html><table><tr><td><svg><foreignObject><p><i></p>a
    :                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests26_dat.11.html:1:1]
  1 | <!DOCTYPE html><table><tr><td><svg><foreignObject><p><i></p>a
    :                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests26_dat.11.html:1:1]
  1 | <!DOCTYPE html><table><tr><td><svg><foreignObject><p><i></p>a
    :                                                   ^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests26_dat.11.html:1:1]
  1 | <!DOCTYPE html><table><tr><td><svg><foreignObject><p><i></p>a
    :                                                   ^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests26_dat.11.html:1:1]
  1 | <!DOCTYPE html><table><tr><td><svg><foreignObject><p><i></p>a
    :                                                      ^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests26_dat.11.html:1:1]
  1 | <!DOCTYPE html><table><tr><td><svg><foreignObject><p><i></p>a
    :                                                      ^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests26_dat.11.html:1:1]
  1 | <!DOCTYPE html><table><tr><td><svg><foreignObject><p><i></p>a
    :                                                      ^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests26_dat.11.html:1:1]
  1 | <!DOCTYPE html><table><tr><td><svg><foreignObject><p><i></p>a
    :                                                      ^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests26_dat.11.html:1:1]
  1 | <!DOCTYPE html><table><tr><td><svg><foreignObject><p><i></p>a
    :                                                             ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests26_dat.11.html:1:1]
  1 | <!DOCTYPE html><table><tr><td><svg><foreignObject><p><i></p>a

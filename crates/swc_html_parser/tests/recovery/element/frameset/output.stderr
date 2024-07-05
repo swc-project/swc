@@ -1,14 +1,12 @@
-
   x Stray start tag "frameset"
-   ,-[$DIR/tests/recovery/element/frameset/input.html:6:1]
+   ,-[$DIR/tests/recovery/element/frameset/input.html:7:1]
  6 | <body>
  7 | <frameset></frameset>
    : ^^^^^^^^^^
  8 | </body>
    `----
-
   x Stray end tag "frameset"
-   ,-[$DIR/tests/recovery/element/frameset/input.html:6:1]
+   ,-[$DIR/tests/recovery/element/frameset/input.html:7:1]
  6 | <body>
  7 | <frameset></frameset>
    :           ^^^^^^^^^^^

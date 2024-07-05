@@ -1,10 +1,7 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests6_dat.29.fragment_frameset.html:1:1]
  1 | </frameset><frame>
    : ^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element

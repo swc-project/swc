@@ -1,4 +1,3 @@
-
   x Expression expected
    ,-[$DIR/tests/test262-parser/fail/dc4aa6a1fb2c6317.js:1:1]
  1 | for (;;) const x = 10;

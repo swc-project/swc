@@ -200,7 +200,9 @@ macro_rules! unit {
             } else {
                 let map = self.get_map(n, false, false, false);
 
-                n.visit_mut_with(&mut rename_with_config(&map, self.config.clone()));
+                if !map.is_empty() {
+                    n.visit_mut_with(&mut rename_with_config(&map, self.config.clone()));
+                }
             }
         }
     };
@@ -212,7 +214,9 @@ macro_rules! unit {
             } else {
                 let map = self.get_map(n, true, false, false);
 
-                n.visit_mut_with(&mut rename_with_config(&map, self.config.clone()));
+                if !map.is_empty() {
+                    n.visit_mut_with(&mut rename_with_config(&map, self.config.clone()));
+                }
             }
         }
     };
@@ -243,6 +247,20 @@ where
     unit!(visit_mut_fn_decl, FnDecl, true);
 
     unit!(visit_mut_class_decl, ClassDecl, true);
+
+    fn visit_mut_default_decl(&mut self, n: &mut DefaultDecl) {
+        match n {
+            DefaultDecl::Class(n) => {
+                n.visit_mut_children_with(self);
+            }
+            DefaultDecl::Fn(n) => {
+                n.visit_mut_children_with(self);
+            }
+            DefaultDecl::TsInterfaceDecl(n) => {
+                n.visit_mut_children_with(self);
+            }
+        }
+    }
 
     fn visit_mut_expr(&mut self, n: &mut Expr) {
         maybe_grow_default(|| n.visit_mut_children_with(self));
@@ -282,7 +300,9 @@ where
             m.visit_mut_children_with(self);
         }
 
-        m.visit_mut_with(&mut rename_with_config(&map, self.config.clone()));
+        if !map.is_empty() {
+            m.visit_mut_with(&mut rename_with_config(&map, self.config.clone()));
+        }
     }
 
     fn visit_mut_script(&mut self, m: &mut Script) {
@@ -298,7 +318,9 @@ where
             m.visit_mut_children_with(self);
         }
 
-        m.visit_mut_with(&mut rename_with_config(&map, self.config.clone()));
+        if !map.is_empty() {
+            m.visit_mut_with(&mut rename_with_config(&map, self.config.clone()));
+        }
     }
 }
 

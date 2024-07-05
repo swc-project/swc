@@ -1,20 +1,15 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.31.fragment_math_mi.html:1:1]
  1 | <malignmark></malignmark>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.31.fragment_math_mi.html:1:1]
  1 | <malignmark></malignmark>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.31.fragment_math_mi.html:1:1]
  1 | <malignmark></malignmark>

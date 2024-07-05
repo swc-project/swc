@@ -1,4 +1,3 @@
-
   x cannot reassign to a variable declared with `const`
    ,-[$DIR/tests/fixture/issues-2xxx/2020/case1/input/index.js:1:1]
  1 | const createRegisterItems = (registerType) => async (a, b) => {

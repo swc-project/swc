@@ -1,4 +1,3 @@
-
   x Expected ',', got '.'
    ,-[$DIR/tests/test262-parser/fail/369676814db0cbbf.js:1:1]
  1 | ({set a({e: a.b}){}})

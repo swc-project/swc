@@ -1,80 +1,65 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/menuitem-element_dat.5.html:1:1]
  1 | <!DOCTYPE html><body><menuitem>A<hr>B
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/menuitem-element_dat.5.html:1:1]
  1 | <!DOCTYPE html><body><menuitem>A<hr>B
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/html5lib-tests-fixture/menuitem-element_dat.5.html:1:1]
  1 | <!DOCTYPE html><body><menuitem>A<hr>B
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/menuitem-element_dat.5.html:1:1]
  1 | <!DOCTYPE html><body><menuitem>A<hr>B
    :                ^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/menuitem-element_dat.5.html:1:1]
  1 | <!DOCTYPE html><body><menuitem>A<hr>B
    :                ^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/menuitem-element_dat.5.html:1:1]
  1 | <!DOCTYPE html><body><menuitem>A<hr>B
    :                      ^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/menuitem-element_dat.5.html:1:1]
  1 | <!DOCTYPE html><body><menuitem>A<hr>B
    :                      ^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/menuitem-element_dat.5.html:1:1]
  1 | <!DOCTYPE html><body><menuitem>A<hr>B
    :                                ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/menuitem-element_dat.5.html:1:1]
  1 | <!DOCTYPE html><body><menuitem>A<hr>B
    :                                ^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/menuitem-element_dat.5.html:1:1]
  1 | <!DOCTYPE html><body><menuitem>A<hr>B
    :                                 ^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/menuitem-element_dat.5.html:1:1]
  1 | <!DOCTYPE html><body><menuitem>A<hr>B
    :                                 ^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/menuitem-element_dat.5.html:1:1]
  1 | <!DOCTYPE html><body><menuitem>A<hr>B
    :                                     ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/menuitem-element_dat.5.html:1:1]
  1 | <!DOCTYPE html><body><menuitem>A<hr>B

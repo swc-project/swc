@@ -1,4 +1,3 @@
-
   x no 'for-in' expression
    ,----
  1 | for (var x in {}) {}

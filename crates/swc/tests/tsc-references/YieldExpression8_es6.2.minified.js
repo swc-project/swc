@@ -1,5 +1,4 @@
 //// [YieldExpression8_es6.ts]
-//! 
 //!   x Expression expected
 //!    ,-[1:1]
 //!  1 | yield(foo);

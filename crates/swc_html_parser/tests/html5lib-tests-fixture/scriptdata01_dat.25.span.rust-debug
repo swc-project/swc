@@ -1,62 +1,50 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/scriptdata01_dat.25.html:1:1]
  1 | FOO<script type="text/plain">'<!-- <sCrIpt/'</script>BAR</script>QUX
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/scriptdata01_dat.25.html:1:1]
  1 | FOO<script type="text/plain">'<!-- <sCrIpt/'</script>BAR</script>QUX
    : ^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/scriptdata01_dat.25.html:1:1]
  1 | FOO<script type="text/plain">'<!-- <sCrIpt/'</script>BAR</script>QUX
    : ^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/scriptdata01_dat.25.html:1:1]
  1 | FOO<script type="text/plain">'<!-- <sCrIpt/'</script>BAR</script>QUX
    :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/scriptdata01_dat.25.html:1:1]
  1 | FOO<script type="text/plain">'<!-- <sCrIpt/'</script>BAR</script>QUX
    :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Attribute
    ,-[$DIR/tests/html5lib-tests-fixture/scriptdata01_dat.25.html:1:1]
  1 | FOO<script type="text/plain">'<!-- <sCrIpt/'</script>BAR</script>QUX
    :            ^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/scriptdata01_dat.25.html:1:1]
  1 | FOO<script type="text/plain">'<!-- <sCrIpt/'</script>BAR</script>QUX
    :                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/scriptdata01_dat.25.html:1:1]
  1 | FOO<script type="text/plain">'<!-- <sCrIpt/'</script>BAR</script>QUX
    :                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/scriptdata01_dat.25.html:1:1]
  1 | FOO<script type="text/plain">'<!-- <sCrIpt/'</script>BAR</script>QUX
    :                                                                  ^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/scriptdata01_dat.25.html:1:1]
  1 | FOO<script type="text/plain">'<!-- <sCrIpt/'</script>BAR</script>QUX

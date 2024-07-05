@@ -1,4 +1,3 @@
-
   x Document
     ,-[$DIR/tests/fixture/comment/multiline/input.html:1:1]
   1 | ,-> <!DOCTYPE html>
@@ -15,23 +14,20 @@
  12 | |   </body>
  13 | `-> </html>
     `----
-
   x Child
    ,-[$DIR/tests/fixture/comment/multiline/input.html:1:1]
  1 | <!DOCTYPE html>
    : ^^^^^^^^^^^^^^^
  2 | <html>
    `----
-
   x DocumentType
    ,-[$DIR/tests/fixture/comment/multiline/input.html:1:1]
  1 | <!DOCTYPE html>
    : ^^^^^^^^^^^^^^^
  2 | <html>
    `----
-
   x Child
-    ,-[$DIR/tests/fixture/comment/multiline/input.html:1:1]
+    ,-[$DIR/tests/fixture/comment/multiline/input.html:2:1]
   1 |     <!DOCTYPE html>
   2 | ,-> <html>
   3 | |   <body>
@@ -46,9 +42,8 @@
  12 | |   </body>
  13 | `-> </html>
     `----
-
   x Element
-    ,-[$DIR/tests/fixture/comment/multiline/input.html:1:1]
+    ,-[$DIR/tests/fixture/comment/multiline/input.html:2:1]
   1 |     <!DOCTYPE html>
   2 | ,-> <html>
   3 | |   <body>
@@ -63,13 +58,10 @@
  12 | |   </body>
  13 | `-> </html>
     `----
-
   x Child
-
   x Element
-
   x Child
-    ,-[$DIR/tests/fixture/comment/multiline/input.html:2:1]
+    ,-[$DIR/tests/fixture/comment/multiline/input.html:3:1]
   2 |     <html>
   3 | ,-> <body>
   4 | |   
@@ -83,9 +75,8 @@
  12 | |   </body>
  13 | `-> </html>
     `----
-
   x Element
-    ,-[$DIR/tests/fixture/comment/multiline/input.html:2:1]
+    ,-[$DIR/tests/fixture/comment/multiline/input.html:3:1]
   2 |     <html>
   3 | ,-> <body>
   4 | |   
@@ -99,77 +90,68 @@
  12 | |   </body>
  13 | `-> </html>
     `----
-
   x Child
-   ,-[$DIR/tests/fixture/comment/multiline/input.html:2:1]
+   ,-[$DIR/tests/fixture/comment/multiline/input.html:3:1]
  2 |     <html>
  3 | ,-> <body>
  4 | `-> 
  5 |     <p>This is a paragraph.</p>
  6 |     <!--
    `----
-
   x Text
-   ,-[$DIR/tests/fixture/comment/multiline/input.html:2:1]
+   ,-[$DIR/tests/fixture/comment/multiline/input.html:3:1]
  2 |     <html>
  3 | ,-> <body>
  4 | `-> 
  5 |     <p>This is a paragraph.</p>
  6 |     <!--
    `----
-
   x Child
-   ,-[$DIR/tests/fixture/comment/multiline/input.html:4:1]
+   ,-[$DIR/tests/fixture/comment/multiline/input.html:5:1]
  4 | 
  5 | <p>This is a paragraph.</p>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
  6 | <!--
    `----
-
   x Element
-   ,-[$DIR/tests/fixture/comment/multiline/input.html:4:1]
+   ,-[$DIR/tests/fixture/comment/multiline/input.html:5:1]
  4 | 
  5 | <p>This is a paragraph.</p>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
  6 | <!--
    `----
-
   x Child
-   ,-[$DIR/tests/fixture/comment/multiline/input.html:4:1]
+   ,-[$DIR/tests/fixture/comment/multiline/input.html:5:1]
  4 | 
  5 | <p>This is a paragraph.</p>
    :    ^^^^^^^^^^^^^^^^^^^^
  6 | <!--
    `----
-
   x Text
-   ,-[$DIR/tests/fixture/comment/multiline/input.html:4:1]
+   ,-[$DIR/tests/fixture/comment/multiline/input.html:5:1]
  4 | 
  5 | <p>This is a paragraph.</p>
    :    ^^^^^^^^^^^^^^^^^^^^
  6 | <!--
    `----
-
   x Child
-   ,-[$DIR/tests/fixture/comment/multiline/input.html:4:1]
+   ,-[$DIR/tests/fixture/comment/multiline/input.html:5:1]
  4 | 
  5 | <p>This is a paragraph.</p>
    :                            ^
  6 | <!--
  7 | <p>Look at this cool image:</p>
    `----
-
   x Text
-   ,-[$DIR/tests/fixture/comment/multiline/input.html:4:1]
+   ,-[$DIR/tests/fixture/comment/multiline/input.html:5:1]
  4 | 
  5 | <p>This is a paragraph.</p>
    :                            ^
  6 | <!--
  7 | <p>Look at this cool image:</p>
    `----
-
   x Child
-    ,-[$DIR/tests/fixture/comment/multiline/input.html:5:1]
+    ,-[$DIR/tests/fixture/comment/multiline/input.html:6:1]
   5 |     <p>This is a paragraph.</p>
   6 | ,-> <!--
   7 | |   <p>Look at this cool image:</p>
@@ -177,9 +159,8 @@
   9 | `-> -->
  10 |     <p>This is a paragraph too.</p>
     `----
-
   x Comment
-    ,-[$DIR/tests/fixture/comment/multiline/input.html:5:1]
+    ,-[$DIR/tests/fixture/comment/multiline/input.html:6:1]
   5 |     <p>This is a paragraph.</p>
   6 | ,-> <!--
   7 | |   <p>Look at this cool image:</p>
@@ -187,62 +168,54 @@
   9 | `-> -->
  10 |     <p>This is a paragraph too.</p>
     `----
-
-  x Child
-    ,-[$DIR/tests/fixture/comment/multiline/input.html:8:1]
-  8 | <img border="0" src="pic_trulli.jpg" alt="Trulli">
-  9 | -->
-    :    ^
- 10 | <p>This is a paragraph too.</p>
-    `----
-
-  x Text
-    ,-[$DIR/tests/fixture/comment/multiline/input.html:8:1]
-  8 | <img border="0" src="pic_trulli.jpg" alt="Trulli">
-  9 | -->
-    :    ^
- 10 | <p>This is a paragraph too.</p>
-    `----
-
   x Child
     ,-[$DIR/tests/fixture/comment/multiline/input.html:9:1]
+  8 | <img border="0" src="pic_trulli.jpg" alt="Trulli">
+  9 | -->
+    :    ^
+ 10 | <p>This is a paragraph too.</p>
+    `----
+  x Text
+    ,-[$DIR/tests/fixture/comment/multiline/input.html:9:1]
+  8 | <img border="0" src="pic_trulli.jpg" alt="Trulli">
+  9 | -->
+    :    ^
+ 10 | <p>This is a paragraph too.</p>
+    `----
+  x Child
+    ,-[$DIR/tests/fixture/comment/multiline/input.html:10:1]
   9 | -->
  10 | <p>This is a paragraph too.</p>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
-
   x Element
-    ,-[$DIR/tests/fixture/comment/multiline/input.html:9:1]
+    ,-[$DIR/tests/fixture/comment/multiline/input.html:10:1]
   9 | -->
  10 | <p>This is a paragraph too.</p>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/comment/multiline/input.html:9:1]
+    ,-[$DIR/tests/fixture/comment/multiline/input.html:10:1]
   9 | -->
  10 | <p>This is a paragraph too.</p>
     :    ^^^^^^^^^^^^^^^^^^^^^^^^
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/comment/multiline/input.html:9:1]
+    ,-[$DIR/tests/fixture/comment/multiline/input.html:10:1]
   9 | -->
  10 | <p>This is a paragraph too.</p>
     :    ^^^^^^^^^^^^^^^^^^^^^^^^
     `----
-
   x Child
-    ,-[$DIR/tests/fixture/comment/multiline/input.html:9:1]
+    ,-[$DIR/tests/fixture/comment/multiline/input.html:10:1]
   9 |     -->
  10 | ,-> <p>This is a paragraph too.</p>
  11 | |   
  12 | |   </body>
  13 | `-> </html>
     `----
-
   x Text
-    ,-[$DIR/tests/fixture/comment/multiline/input.html:9:1]
+    ,-[$DIR/tests/fixture/comment/multiline/input.html:10:1]
   9 |     -->
  10 | ,-> <p>This is a paragraph too.</p>
  11 | |   

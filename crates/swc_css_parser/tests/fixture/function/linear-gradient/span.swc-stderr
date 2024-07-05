@@ -1,4 +1,3 @@
-
   x Stylesheet
     ,-[$DIR/tests/fixture/function/linear-gradient/input.css:1:1]
   1 | ,-> a {
@@ -17,7 +16,6 @@
  14 | |       background: linear-gradient(45deg, red 0 50%, blue 50% 100%);
  15 | `-> }
     `----
-
   x Rule
     ,-[$DIR/tests/fixture/function/linear-gradient/input.css:1:1]
   1 | ,-> a {
@@ -36,7 +34,6 @@
  14 | |       background: linear-gradient(45deg, red 0 50%, blue 50% 100%);
  15 | `-> }
     `----
-
   x QualifiedRule
     ,-[$DIR/tests/fixture/function/linear-gradient/input.css:1:1]
   1 | ,-> a {
@@ -55,56 +52,48 @@
  14 | |       background: linear-gradient(45deg, red 0 50%, blue 50% 100%);
  15 | `-> }
     `----
-
   x SelectorList
    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:1:1]
  1 | a {
    : ^
  2 |     background: linear-gradient(white, gray);
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:1:1]
  1 | a {
    : ^
  2 |     background: linear-gradient(white, gray);
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:1:1]
  1 | a {
    : ^
  2 |     background: linear-gradient(white, gray);
    `----
-
   x TypeSelector
    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:1:1]
  1 | a {
    : ^
  2 |     background: linear-gradient(white, gray);
    `----
-
   x TagNameSelector
    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:1:1]
  1 | a {
    : ^
  2 |     background: linear-gradient(white, gray);
    `----
-
   x WqName
    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:1:1]
  1 | a {
    : ^
  2 |     background: linear-gradient(white, gray);
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:1:1]
  1 | a {
    : ^
  2 |     background: linear-gradient(white, gray);
    `----
-
   x SimpleBlock
     ,-[$DIR/tests/fixture/function/linear-gradient/input.css:1:1]
   1 | ,-> a {
@@ -123,2216 +112,1939 @@
  14 | |       background: linear-gradient(45deg, red 0 50%, blue 50% 100%);
  15 | `-> }
     `----
-
   x LBrace
    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:1:1]
  1 | a {
    :   ^
  2 |     background: linear-gradient(white, gray);
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:1:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:2:1]
  1 | a {
  2 |     background: linear-gradient(white, gray);
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  3 |     background: linear-gradient(yellow, blue);
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:1:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:2:1]
  1 | a {
  2 |     background: linear-gradient(white, gray);
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  3 |     background: linear-gradient(yellow, blue);
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:1:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:2:1]
  1 | a {
  2 |     background: linear-gradient(white, gray);
    :     ^^^^^^^^^^
  3 |     background: linear-gradient(yellow, blue);
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:1:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:2:1]
  1 | a {
  2 |     background: linear-gradient(white, gray);
    :     ^^^^^^^^^^
  3 |     background: linear-gradient(yellow, blue);
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:1:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:2:1]
  1 | a {
  2 |     background: linear-gradient(white, gray);
    :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  3 |     background: linear-gradient(yellow, blue);
    `----
-
   x Function
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:1:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:2:1]
  1 | a {
  2 |     background: linear-gradient(white, gray);
    :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  3 |     background: linear-gradient(yellow, blue);
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:1:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:2:1]
  1 | a {
  2 |     background: linear-gradient(white, gray);
    :                 ^^^^^^^^^^^^^^^
  3 |     background: linear-gradient(yellow, blue);
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:1:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:2:1]
  1 | a {
  2 |     background: linear-gradient(white, gray);
    :                                 ^^^^^
  3 |     background: linear-gradient(yellow, blue);
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:1:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:2:1]
  1 | a {
  2 |     background: linear-gradient(white, gray);
    :                                 ^^^^^
  3 |     background: linear-gradient(yellow, blue);
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:1:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:2:1]
  1 | a {
  2 |     background: linear-gradient(white, gray);
    :                                      ^
  3 |     background: linear-gradient(yellow, blue);
    `----
-
   x Delimiter
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:1:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:2:1]
  1 | a {
  2 |     background: linear-gradient(white, gray);
    :                                      ^
  3 |     background: linear-gradient(yellow, blue);
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:1:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:2:1]
  1 | a {
  2 |     background: linear-gradient(white, gray);
    :                                        ^^^^
  3 |     background: linear-gradient(yellow, blue);
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:1:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:2:1]
  1 | a {
  2 |     background: linear-gradient(white, gray);
    :                                        ^^^^
  3 |     background: linear-gradient(yellow, blue);
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:2:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:3:1]
  2 |     background: linear-gradient(white, gray);
  3 |     background: linear-gradient(yellow, blue);
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  4 |     background: linear-gradient(to bottom, yellow, blue);
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:2:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:3:1]
  2 |     background: linear-gradient(white, gray);
  3 |     background: linear-gradient(yellow, blue);
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  4 |     background: linear-gradient(to bottom, yellow, blue);
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:2:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:3:1]
  2 |     background: linear-gradient(white, gray);
  3 |     background: linear-gradient(yellow, blue);
    :     ^^^^^^^^^^
  4 |     background: linear-gradient(to bottom, yellow, blue);
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:2:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:3:1]
  2 |     background: linear-gradient(white, gray);
  3 |     background: linear-gradient(yellow, blue);
    :     ^^^^^^^^^^
  4 |     background: linear-gradient(to bottom, yellow, blue);
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:2:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:3:1]
  2 |     background: linear-gradient(white, gray);
  3 |     background: linear-gradient(yellow, blue);
    :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  4 |     background: linear-gradient(to bottom, yellow, blue);
    `----
-
   x Function
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:2:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:3:1]
  2 |     background: linear-gradient(white, gray);
  3 |     background: linear-gradient(yellow, blue);
    :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  4 |     background: linear-gradient(to bottom, yellow, blue);
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:2:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:3:1]
  2 |     background: linear-gradient(white, gray);
  3 |     background: linear-gradient(yellow, blue);
    :                 ^^^^^^^^^^^^^^^
  4 |     background: linear-gradient(to bottom, yellow, blue);
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:2:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:3:1]
  2 |     background: linear-gradient(white, gray);
  3 |     background: linear-gradient(yellow, blue);
    :                                 ^^^^^^
  4 |     background: linear-gradient(to bottom, yellow, blue);
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:2:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:3:1]
  2 |     background: linear-gradient(white, gray);
  3 |     background: linear-gradient(yellow, blue);
    :                                 ^^^^^^
  4 |     background: linear-gradient(to bottom, yellow, blue);
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:2:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:3:1]
  2 |     background: linear-gradient(white, gray);
  3 |     background: linear-gradient(yellow, blue);
    :                                       ^
  4 |     background: linear-gradient(to bottom, yellow, blue);
    `----
-
   x Delimiter
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:2:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:3:1]
  2 |     background: linear-gradient(white, gray);
  3 |     background: linear-gradient(yellow, blue);
    :                                       ^
  4 |     background: linear-gradient(to bottom, yellow, blue);
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:2:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:3:1]
  2 |     background: linear-gradient(white, gray);
  3 |     background: linear-gradient(yellow, blue);
    :                                         ^^^^
  4 |     background: linear-gradient(to bottom, yellow, blue);
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:2:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:3:1]
  2 |     background: linear-gradient(white, gray);
  3 |     background: linear-gradient(yellow, blue);
    :                                         ^^^^
  4 |     background: linear-gradient(to bottom, yellow, blue);
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:3:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:4:1]
  3 |     background: linear-gradient(yellow, blue);
  4 |     background: linear-gradient(to bottom, yellow, blue);
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  5 |     background: linear-gradient(180deg, yellow, blue);
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:3:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:4:1]
  3 |     background: linear-gradient(yellow, blue);
  4 |     background: linear-gradient(to bottom, yellow, blue);
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  5 |     background: linear-gradient(180deg, yellow, blue);
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:3:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:4:1]
  3 |     background: linear-gradient(yellow, blue);
  4 |     background: linear-gradient(to bottom, yellow, blue);
    :     ^^^^^^^^^^
  5 |     background: linear-gradient(180deg, yellow, blue);
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:3:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:4:1]
  3 |     background: linear-gradient(yellow, blue);
  4 |     background: linear-gradient(to bottom, yellow, blue);
    :     ^^^^^^^^^^
  5 |     background: linear-gradient(180deg, yellow, blue);
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:3:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:4:1]
  3 |     background: linear-gradient(yellow, blue);
  4 |     background: linear-gradient(to bottom, yellow, blue);
    :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  5 |     background: linear-gradient(180deg, yellow, blue);
    `----
-
   x Function
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:3:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:4:1]
  3 |     background: linear-gradient(yellow, blue);
  4 |     background: linear-gradient(to bottom, yellow, blue);
    :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  5 |     background: linear-gradient(180deg, yellow, blue);
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:3:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:4:1]
  3 |     background: linear-gradient(yellow, blue);
  4 |     background: linear-gradient(to bottom, yellow, blue);
    :                 ^^^^^^^^^^^^^^^
  5 |     background: linear-gradient(180deg, yellow, blue);
    `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:3:1]
- 3 |     background: linear-gradient(yellow, blue);
- 4 |     background: linear-gradient(to bottom, yellow, blue);
-   :                                 ^^
- 5 |     background: linear-gradient(180deg, yellow, blue);
-   `----
-
-  x Ident
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:3:1]
- 3 |     background: linear-gradient(yellow, blue);
- 4 |     background: linear-gradient(to bottom, yellow, blue);
-   :                                 ^^
- 5 |     background: linear-gradient(180deg, yellow, blue);
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:3:1]
- 3 |     background: linear-gradient(yellow, blue);
- 4 |     background: linear-gradient(to bottom, yellow, blue);
-   :                                    ^^^^^^
- 5 |     background: linear-gradient(180deg, yellow, blue);
-   `----
-
-  x Ident
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:3:1]
- 3 |     background: linear-gradient(yellow, blue);
- 4 |     background: linear-gradient(to bottom, yellow, blue);
-   :                                    ^^^^^^
- 5 |     background: linear-gradient(180deg, yellow, blue);
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:3:1]
- 3 |     background: linear-gradient(yellow, blue);
- 4 |     background: linear-gradient(to bottom, yellow, blue);
-   :                                          ^
- 5 |     background: linear-gradient(180deg, yellow, blue);
-   `----
-
-  x Delimiter
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:3:1]
- 3 |     background: linear-gradient(yellow, blue);
- 4 |     background: linear-gradient(to bottom, yellow, blue);
-   :                                          ^
- 5 |     background: linear-gradient(180deg, yellow, blue);
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:3:1]
- 3 |     background: linear-gradient(yellow, blue);
- 4 |     background: linear-gradient(to bottom, yellow, blue);
-   :                                            ^^^^^^
- 5 |     background: linear-gradient(180deg, yellow, blue);
-   `----
-
-  x Ident
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:3:1]
- 3 |     background: linear-gradient(yellow, blue);
- 4 |     background: linear-gradient(to bottom, yellow, blue);
-   :                                            ^^^^^^
- 5 |     background: linear-gradient(180deg, yellow, blue);
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:3:1]
- 3 |     background: linear-gradient(yellow, blue);
- 4 |     background: linear-gradient(to bottom, yellow, blue);
-   :                                                  ^
- 5 |     background: linear-gradient(180deg, yellow, blue);
-   `----
-
-  x Delimiter
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:3:1]
- 3 |     background: linear-gradient(yellow, blue);
- 4 |     background: linear-gradient(to bottom, yellow, blue);
-   :                                                  ^
- 5 |     background: linear-gradient(180deg, yellow, blue);
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:3:1]
- 3 |     background: linear-gradient(yellow, blue);
- 4 |     background: linear-gradient(to bottom, yellow, blue);
-   :                                                    ^^^^
- 5 |     background: linear-gradient(180deg, yellow, blue);
-   `----
-
-  x Ident
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:3:1]
- 3 |     background: linear-gradient(yellow, blue);
- 4 |     background: linear-gradient(to bottom, yellow, blue);
-   :                                                    ^^^^
- 5 |     background: linear-gradient(180deg, yellow, blue);
-   `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:4:1]
+ 3 |     background: linear-gradient(yellow, blue);
+ 4 |     background: linear-gradient(to bottom, yellow, blue);
+   :                                 ^^
+ 5 |     background: linear-gradient(180deg, yellow, blue);
+   `----
+  x Ident
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:4:1]
+ 3 |     background: linear-gradient(yellow, blue);
+ 4 |     background: linear-gradient(to bottom, yellow, blue);
+   :                                 ^^
+ 5 |     background: linear-gradient(180deg, yellow, blue);
+   `----
+  x ComponentValue
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:4:1]
+ 3 |     background: linear-gradient(yellow, blue);
+ 4 |     background: linear-gradient(to bottom, yellow, blue);
+   :                                    ^^^^^^
+ 5 |     background: linear-gradient(180deg, yellow, blue);
+   `----
+  x Ident
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:4:1]
+ 3 |     background: linear-gradient(yellow, blue);
+ 4 |     background: linear-gradient(to bottom, yellow, blue);
+   :                                    ^^^^^^
+ 5 |     background: linear-gradient(180deg, yellow, blue);
+   `----
+  x ComponentValue
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:4:1]
+ 3 |     background: linear-gradient(yellow, blue);
+ 4 |     background: linear-gradient(to bottom, yellow, blue);
+   :                                          ^
+ 5 |     background: linear-gradient(180deg, yellow, blue);
+   `----
+  x Delimiter
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:4:1]
+ 3 |     background: linear-gradient(yellow, blue);
+ 4 |     background: linear-gradient(to bottom, yellow, blue);
+   :                                          ^
+ 5 |     background: linear-gradient(180deg, yellow, blue);
+   `----
+  x ComponentValue
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:4:1]
+ 3 |     background: linear-gradient(yellow, blue);
+ 4 |     background: linear-gradient(to bottom, yellow, blue);
+   :                                            ^^^^^^
+ 5 |     background: linear-gradient(180deg, yellow, blue);
+   `----
+  x Ident
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:4:1]
+ 3 |     background: linear-gradient(yellow, blue);
+ 4 |     background: linear-gradient(to bottom, yellow, blue);
+   :                                            ^^^^^^
+ 5 |     background: linear-gradient(180deg, yellow, blue);
+   `----
+  x ComponentValue
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:4:1]
+ 3 |     background: linear-gradient(yellow, blue);
+ 4 |     background: linear-gradient(to bottom, yellow, blue);
+   :                                                  ^
+ 5 |     background: linear-gradient(180deg, yellow, blue);
+   `----
+  x Delimiter
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:4:1]
+ 3 |     background: linear-gradient(yellow, blue);
+ 4 |     background: linear-gradient(to bottom, yellow, blue);
+   :                                                  ^
+ 5 |     background: linear-gradient(180deg, yellow, blue);
+   `----
+  x ComponentValue
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:4:1]
+ 3 |     background: linear-gradient(yellow, blue);
+ 4 |     background: linear-gradient(to bottom, yellow, blue);
+   :                                                    ^^^^
+ 5 |     background: linear-gradient(180deg, yellow, blue);
+   `----
+  x Ident
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:4:1]
+ 3 |     background: linear-gradient(yellow, blue);
+ 4 |     background: linear-gradient(to bottom, yellow, blue);
+   :                                                    ^^^^
+ 5 |     background: linear-gradient(180deg, yellow, blue);
+   `----
+  x ComponentValue
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:5:1]
  4 |     background: linear-gradient(to bottom, yellow, blue);
  5 |     background: linear-gradient(180deg, yellow, blue);
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  6 |     background: linear-gradient(to top, blue, yellow);
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:4:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:5:1]
  4 |     background: linear-gradient(to bottom, yellow, blue);
  5 |     background: linear-gradient(180deg, yellow, blue);
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  6 |     background: linear-gradient(to top, blue, yellow);
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:4:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:5:1]
  4 |     background: linear-gradient(to bottom, yellow, blue);
  5 |     background: linear-gradient(180deg, yellow, blue);
    :     ^^^^^^^^^^
  6 |     background: linear-gradient(to top, blue, yellow);
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:4:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:5:1]
  4 |     background: linear-gradient(to bottom, yellow, blue);
  5 |     background: linear-gradient(180deg, yellow, blue);
    :     ^^^^^^^^^^
  6 |     background: linear-gradient(to top, blue, yellow);
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:4:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:5:1]
  4 |     background: linear-gradient(to bottom, yellow, blue);
  5 |     background: linear-gradient(180deg, yellow, blue);
    :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  6 |     background: linear-gradient(to top, blue, yellow);
    `----
-
   x Function
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:4:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:5:1]
  4 |     background: linear-gradient(to bottom, yellow, blue);
  5 |     background: linear-gradient(180deg, yellow, blue);
    :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  6 |     background: linear-gradient(to top, blue, yellow);
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:4:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:5:1]
  4 |     background: linear-gradient(to bottom, yellow, blue);
  5 |     background: linear-gradient(180deg, yellow, blue);
    :                 ^^^^^^^^^^^^^^^
  6 |     background: linear-gradient(to top, blue, yellow);
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:4:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:5:1]
  4 |     background: linear-gradient(to bottom, yellow, blue);
  5 |     background: linear-gradient(180deg, yellow, blue);
    :                                 ^^^^^^
  6 |     background: linear-gradient(to top, blue, yellow);
    `----
-
   x Dimension
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:4:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:5:1]
  4 |     background: linear-gradient(to bottom, yellow, blue);
  5 |     background: linear-gradient(180deg, yellow, blue);
    :                                 ^^^^^^
  6 |     background: linear-gradient(to top, blue, yellow);
    `----
-
   x Angle
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:4:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:5:1]
  4 |     background: linear-gradient(to bottom, yellow, blue);
  5 |     background: linear-gradient(180deg, yellow, blue);
    :                                 ^^^^^^
  6 |     background: linear-gradient(to top, blue, yellow);
    `----
-
   x Number
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:4:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:5:1]
  4 |     background: linear-gradient(to bottom, yellow, blue);
  5 |     background: linear-gradient(180deg, yellow, blue);
    :                                 ^^^
  6 |     background: linear-gradient(to top, blue, yellow);
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:4:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:5:1]
  4 |     background: linear-gradient(to bottom, yellow, blue);
  5 |     background: linear-gradient(180deg, yellow, blue);
    :                                    ^^^
  6 |     background: linear-gradient(to top, blue, yellow);
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:4:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:5:1]
  4 |     background: linear-gradient(to bottom, yellow, blue);
  5 |     background: linear-gradient(180deg, yellow, blue);
    :                                       ^
  6 |     background: linear-gradient(to top, blue, yellow);
    `----
-
   x Delimiter
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:4:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:5:1]
  4 |     background: linear-gradient(to bottom, yellow, blue);
  5 |     background: linear-gradient(180deg, yellow, blue);
    :                                       ^
  6 |     background: linear-gradient(to top, blue, yellow);
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:4:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:5:1]
  4 |     background: linear-gradient(to bottom, yellow, blue);
  5 |     background: linear-gradient(180deg, yellow, blue);
    :                                         ^^^^^^
  6 |     background: linear-gradient(to top, blue, yellow);
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:4:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:5:1]
  4 |     background: linear-gradient(to bottom, yellow, blue);
  5 |     background: linear-gradient(180deg, yellow, blue);
    :                                         ^^^^^^
  6 |     background: linear-gradient(to top, blue, yellow);
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:4:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:5:1]
  4 |     background: linear-gradient(to bottom, yellow, blue);
  5 |     background: linear-gradient(180deg, yellow, blue);
    :                                               ^
  6 |     background: linear-gradient(to top, blue, yellow);
    `----
-
   x Delimiter
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:4:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:5:1]
  4 |     background: linear-gradient(to bottom, yellow, blue);
  5 |     background: linear-gradient(180deg, yellow, blue);
    :                                               ^
  6 |     background: linear-gradient(to top, blue, yellow);
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:4:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:5:1]
  4 |     background: linear-gradient(to bottom, yellow, blue);
  5 |     background: linear-gradient(180deg, yellow, blue);
    :                                                 ^^^^
  6 |     background: linear-gradient(to top, blue, yellow);
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:4:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:5:1]
  4 |     background: linear-gradient(to bottom, yellow, blue);
  5 |     background: linear-gradient(180deg, yellow, blue);
    :                                                 ^^^^
  6 |     background: linear-gradient(to top, blue, yellow);
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:5:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:6:1]
  5 |     background: linear-gradient(180deg, yellow, blue);
  6 |     background: linear-gradient(to top, blue, yellow);
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  7 |     background: linear-gradient(to bottom, yellow 0%, blue 100%);
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:5:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:6:1]
  5 |     background: linear-gradient(180deg, yellow, blue);
  6 |     background: linear-gradient(to top, blue, yellow);
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  7 |     background: linear-gradient(to bottom, yellow 0%, blue 100%);
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:5:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:6:1]
  5 |     background: linear-gradient(180deg, yellow, blue);
  6 |     background: linear-gradient(to top, blue, yellow);
    :     ^^^^^^^^^^
  7 |     background: linear-gradient(to bottom, yellow 0%, blue 100%);
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:5:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:6:1]
  5 |     background: linear-gradient(180deg, yellow, blue);
  6 |     background: linear-gradient(to top, blue, yellow);
    :     ^^^^^^^^^^
  7 |     background: linear-gradient(to bottom, yellow 0%, blue 100%);
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:5:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:6:1]
  5 |     background: linear-gradient(180deg, yellow, blue);
  6 |     background: linear-gradient(to top, blue, yellow);
    :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  7 |     background: linear-gradient(to bottom, yellow 0%, blue 100%);
    `----
-
   x Function
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:5:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:6:1]
  5 |     background: linear-gradient(180deg, yellow, blue);
  6 |     background: linear-gradient(to top, blue, yellow);
    :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  7 |     background: linear-gradient(to bottom, yellow 0%, blue 100%);
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:5:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:6:1]
  5 |     background: linear-gradient(180deg, yellow, blue);
  6 |     background: linear-gradient(to top, blue, yellow);
    :                 ^^^^^^^^^^^^^^^
  7 |     background: linear-gradient(to bottom, yellow 0%, blue 100%);
    `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:5:1]
- 5 |     background: linear-gradient(180deg, yellow, blue);
- 6 |     background: linear-gradient(to top, blue, yellow);
-   :                                 ^^
- 7 |     background: linear-gradient(to bottom, yellow 0%, blue 100%);
-   `----
-
-  x Ident
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:5:1]
- 5 |     background: linear-gradient(180deg, yellow, blue);
- 6 |     background: linear-gradient(to top, blue, yellow);
-   :                                 ^^
- 7 |     background: linear-gradient(to bottom, yellow 0%, blue 100%);
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:5:1]
- 5 |     background: linear-gradient(180deg, yellow, blue);
- 6 |     background: linear-gradient(to top, blue, yellow);
-   :                                    ^^^
- 7 |     background: linear-gradient(to bottom, yellow 0%, blue 100%);
-   `----
-
-  x Ident
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:5:1]
- 5 |     background: linear-gradient(180deg, yellow, blue);
- 6 |     background: linear-gradient(to top, blue, yellow);
-   :                                    ^^^
- 7 |     background: linear-gradient(to bottom, yellow 0%, blue 100%);
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:5:1]
- 5 |     background: linear-gradient(180deg, yellow, blue);
- 6 |     background: linear-gradient(to top, blue, yellow);
-   :                                       ^
- 7 |     background: linear-gradient(to bottom, yellow 0%, blue 100%);
-   `----
-
-  x Delimiter
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:5:1]
- 5 |     background: linear-gradient(180deg, yellow, blue);
- 6 |     background: linear-gradient(to top, blue, yellow);
-   :                                       ^
- 7 |     background: linear-gradient(to bottom, yellow 0%, blue 100%);
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:5:1]
- 5 |     background: linear-gradient(180deg, yellow, blue);
- 6 |     background: linear-gradient(to top, blue, yellow);
-   :                                         ^^^^
- 7 |     background: linear-gradient(to bottom, yellow 0%, blue 100%);
-   `----
-
-  x Ident
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:5:1]
- 5 |     background: linear-gradient(180deg, yellow, blue);
- 6 |     background: linear-gradient(to top, blue, yellow);
-   :                                         ^^^^
- 7 |     background: linear-gradient(to bottom, yellow 0%, blue 100%);
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:5:1]
- 5 |     background: linear-gradient(180deg, yellow, blue);
- 6 |     background: linear-gradient(to top, blue, yellow);
-   :                                             ^
- 7 |     background: linear-gradient(to bottom, yellow 0%, blue 100%);
-   `----
-
-  x Delimiter
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:5:1]
- 5 |     background: linear-gradient(180deg, yellow, blue);
- 6 |     background: linear-gradient(to top, blue, yellow);
-   :                                             ^
- 7 |     background: linear-gradient(to bottom, yellow 0%, blue 100%);
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:5:1]
- 5 |     background: linear-gradient(180deg, yellow, blue);
- 6 |     background: linear-gradient(to top, blue, yellow);
-   :                                               ^^^^^^
- 7 |     background: linear-gradient(to bottom, yellow 0%, blue 100%);
-   `----
-
-  x Ident
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:5:1]
- 5 |     background: linear-gradient(180deg, yellow, blue);
- 6 |     background: linear-gradient(to top, blue, yellow);
-   :                                               ^^^^^^
- 7 |     background: linear-gradient(to bottom, yellow 0%, blue 100%);
-   `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:6:1]
+ 5 |     background: linear-gradient(180deg, yellow, blue);
+ 6 |     background: linear-gradient(to top, blue, yellow);
+   :                                 ^^
+ 7 |     background: linear-gradient(to bottom, yellow 0%, blue 100%);
+   `----
+  x Ident
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:6:1]
+ 5 |     background: linear-gradient(180deg, yellow, blue);
+ 6 |     background: linear-gradient(to top, blue, yellow);
+   :                                 ^^
+ 7 |     background: linear-gradient(to bottom, yellow 0%, blue 100%);
+   `----
+  x ComponentValue
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:6:1]
+ 5 |     background: linear-gradient(180deg, yellow, blue);
+ 6 |     background: linear-gradient(to top, blue, yellow);
+   :                                    ^^^
+ 7 |     background: linear-gradient(to bottom, yellow 0%, blue 100%);
+   `----
+  x Ident
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:6:1]
+ 5 |     background: linear-gradient(180deg, yellow, blue);
+ 6 |     background: linear-gradient(to top, blue, yellow);
+   :                                    ^^^
+ 7 |     background: linear-gradient(to bottom, yellow 0%, blue 100%);
+   `----
+  x ComponentValue
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:6:1]
+ 5 |     background: linear-gradient(180deg, yellow, blue);
+ 6 |     background: linear-gradient(to top, blue, yellow);
+   :                                       ^
+ 7 |     background: linear-gradient(to bottom, yellow 0%, blue 100%);
+   `----
+  x Delimiter
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:6:1]
+ 5 |     background: linear-gradient(180deg, yellow, blue);
+ 6 |     background: linear-gradient(to top, blue, yellow);
+   :                                       ^
+ 7 |     background: linear-gradient(to bottom, yellow 0%, blue 100%);
+   `----
+  x ComponentValue
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:6:1]
+ 5 |     background: linear-gradient(180deg, yellow, blue);
+ 6 |     background: linear-gradient(to top, blue, yellow);
+   :                                         ^^^^
+ 7 |     background: linear-gradient(to bottom, yellow 0%, blue 100%);
+   `----
+  x Ident
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:6:1]
+ 5 |     background: linear-gradient(180deg, yellow, blue);
+ 6 |     background: linear-gradient(to top, blue, yellow);
+   :                                         ^^^^
+ 7 |     background: linear-gradient(to bottom, yellow 0%, blue 100%);
+   `----
+  x ComponentValue
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:6:1]
+ 5 |     background: linear-gradient(180deg, yellow, blue);
+ 6 |     background: linear-gradient(to top, blue, yellow);
+   :                                             ^
+ 7 |     background: linear-gradient(to bottom, yellow 0%, blue 100%);
+   `----
+  x Delimiter
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:6:1]
+ 5 |     background: linear-gradient(180deg, yellow, blue);
+ 6 |     background: linear-gradient(to top, blue, yellow);
+   :                                             ^
+ 7 |     background: linear-gradient(to bottom, yellow 0%, blue 100%);
+   `----
+  x ComponentValue
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:6:1]
+ 5 |     background: linear-gradient(180deg, yellow, blue);
+ 6 |     background: linear-gradient(to top, blue, yellow);
+   :                                               ^^^^^^
+ 7 |     background: linear-gradient(to bottom, yellow 0%, blue 100%);
+   `----
+  x Ident
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:6:1]
+ 5 |     background: linear-gradient(180deg, yellow, blue);
+ 6 |     background: linear-gradient(to top, blue, yellow);
+   :                                               ^^^^^^
+ 7 |     background: linear-gradient(to bottom, yellow 0%, blue 100%);
+   `----
+  x ComponentValue
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:7:1]
  6 |     background: linear-gradient(to top, blue, yellow);
  7 |     background: linear-gradient(to bottom, yellow 0%, blue 100%);
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  8 |     background: linear-gradient(135deg, yellow, blue);
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:6:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:7:1]
  6 |     background: linear-gradient(to top, blue, yellow);
  7 |     background: linear-gradient(to bottom, yellow 0%, blue 100%);
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  8 |     background: linear-gradient(135deg, yellow, blue);
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:6:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:7:1]
  6 |     background: linear-gradient(to top, blue, yellow);
  7 |     background: linear-gradient(to bottom, yellow 0%, blue 100%);
    :     ^^^^^^^^^^
  8 |     background: linear-gradient(135deg, yellow, blue);
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:6:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:7:1]
  6 |     background: linear-gradient(to top, blue, yellow);
  7 |     background: linear-gradient(to bottom, yellow 0%, blue 100%);
    :     ^^^^^^^^^^
  8 |     background: linear-gradient(135deg, yellow, blue);
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:6:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:7:1]
  6 |     background: linear-gradient(to top, blue, yellow);
  7 |     background: linear-gradient(to bottom, yellow 0%, blue 100%);
    :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  8 |     background: linear-gradient(135deg, yellow, blue);
    `----
-
   x Function
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:6:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:7:1]
  6 |     background: linear-gradient(to top, blue, yellow);
  7 |     background: linear-gradient(to bottom, yellow 0%, blue 100%);
    :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  8 |     background: linear-gradient(135deg, yellow, blue);
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:6:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:7:1]
  6 |     background: linear-gradient(to top, blue, yellow);
  7 |     background: linear-gradient(to bottom, yellow 0%, blue 100%);
    :                 ^^^^^^^^^^^^^^^
  8 |     background: linear-gradient(135deg, yellow, blue);
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:6:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:7:1]
  6 |     background: linear-gradient(to top, blue, yellow);
  7 |     background: linear-gradient(to bottom, yellow 0%, blue 100%);
    :                                 ^^
  8 |     background: linear-gradient(135deg, yellow, blue);
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:6:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:7:1]
  6 |     background: linear-gradient(to top, blue, yellow);
  7 |     background: linear-gradient(to bottom, yellow 0%, blue 100%);
    :                                 ^^
  8 |     background: linear-gradient(135deg, yellow, blue);
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:6:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:7:1]
  6 |     background: linear-gradient(to top, blue, yellow);
  7 |     background: linear-gradient(to bottom, yellow 0%, blue 100%);
    :                                    ^^^^^^
  8 |     background: linear-gradient(135deg, yellow, blue);
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:6:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:7:1]
  6 |     background: linear-gradient(to top, blue, yellow);
  7 |     background: linear-gradient(to bottom, yellow 0%, blue 100%);
    :                                    ^^^^^^
  8 |     background: linear-gradient(135deg, yellow, blue);
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:6:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:7:1]
  6 |     background: linear-gradient(to top, blue, yellow);
  7 |     background: linear-gradient(to bottom, yellow 0%, blue 100%);
    :                                          ^
  8 |     background: linear-gradient(135deg, yellow, blue);
    `----
-
   x Delimiter
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:6:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:7:1]
  6 |     background: linear-gradient(to top, blue, yellow);
  7 |     background: linear-gradient(to bottom, yellow 0%, blue 100%);
    :                                          ^
  8 |     background: linear-gradient(135deg, yellow, blue);
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:6:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:7:1]
  6 |     background: linear-gradient(to top, blue, yellow);
  7 |     background: linear-gradient(to bottom, yellow 0%, blue 100%);
    :                                            ^^^^^^
  8 |     background: linear-gradient(135deg, yellow, blue);
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:6:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:7:1]
  6 |     background: linear-gradient(to top, blue, yellow);
  7 |     background: linear-gradient(to bottom, yellow 0%, blue 100%);
    :                                            ^^^^^^
  8 |     background: linear-gradient(135deg, yellow, blue);
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:6:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:7:1]
  6 |     background: linear-gradient(to top, blue, yellow);
  7 |     background: linear-gradient(to bottom, yellow 0%, blue 100%);
    :                                                   ^^
  8 |     background: linear-gradient(135deg, yellow, blue);
    `----
-
   x Percentage
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:6:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:7:1]
  6 |     background: linear-gradient(to top, blue, yellow);
  7 |     background: linear-gradient(to bottom, yellow 0%, blue 100%);
    :                                                   ^^
  8 |     background: linear-gradient(135deg, yellow, blue);
    `----
-
   x Number
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:6:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:7:1]
  6 |     background: linear-gradient(to top, blue, yellow);
  7 |     background: linear-gradient(to bottom, yellow 0%, blue 100%);
    :                                                   ^
  8 |     background: linear-gradient(135deg, yellow, blue);
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:6:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:7:1]
  6 |     background: linear-gradient(to top, blue, yellow);
  7 |     background: linear-gradient(to bottom, yellow 0%, blue 100%);
    :                                                     ^
  8 |     background: linear-gradient(135deg, yellow, blue);
    `----
-
   x Delimiter
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:6:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:7:1]
  6 |     background: linear-gradient(to top, blue, yellow);
  7 |     background: linear-gradient(to bottom, yellow 0%, blue 100%);
    :                                                     ^
  8 |     background: linear-gradient(135deg, yellow, blue);
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:6:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:7:1]
  6 |     background: linear-gradient(to top, blue, yellow);
  7 |     background: linear-gradient(to bottom, yellow 0%, blue 100%);
    :                                                       ^^^^
  8 |     background: linear-gradient(135deg, yellow, blue);
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:6:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:7:1]
  6 |     background: linear-gradient(to top, blue, yellow);
  7 |     background: linear-gradient(to bottom, yellow 0%, blue 100%);
    :                                                       ^^^^
  8 |     background: linear-gradient(135deg, yellow, blue);
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:6:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:7:1]
  6 |     background: linear-gradient(to top, blue, yellow);
  7 |     background: linear-gradient(to bottom, yellow 0%, blue 100%);
    :                                                            ^^^^
  8 |     background: linear-gradient(135deg, yellow, blue);
    `----
-
   x Percentage
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:6:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:7:1]
  6 |     background: linear-gradient(to top, blue, yellow);
  7 |     background: linear-gradient(to bottom, yellow 0%, blue 100%);
    :                                                            ^^^^
  8 |     background: linear-gradient(135deg, yellow, blue);
    `----
-
   x Number
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:6:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:7:1]
  6 |     background: linear-gradient(to top, blue, yellow);
  7 |     background: linear-gradient(to bottom, yellow 0%, blue 100%);
    :                                                            ^^^
  8 |     background: linear-gradient(135deg, yellow, blue);
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:7:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:8:1]
  7 |     background: linear-gradient(to bottom, yellow 0%, blue 100%);
  8 |     background: linear-gradient(135deg, yellow, blue);
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  9 |     background: linear-gradient(-45deg, blue, yellow);
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:7:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:8:1]
  7 |     background: linear-gradient(to bottom, yellow 0%, blue 100%);
  8 |     background: linear-gradient(135deg, yellow, blue);
    :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  9 |     background: linear-gradient(-45deg, blue, yellow);
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:7:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:8:1]
  7 |     background: linear-gradient(to bottom, yellow 0%, blue 100%);
  8 |     background: linear-gradient(135deg, yellow, blue);
    :     ^^^^^^^^^^
  9 |     background: linear-gradient(-45deg, blue, yellow);
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:7:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:8:1]
  7 |     background: linear-gradient(to bottom, yellow 0%, blue 100%);
  8 |     background: linear-gradient(135deg, yellow, blue);
    :     ^^^^^^^^^^
  9 |     background: linear-gradient(-45deg, blue, yellow);
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:7:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:8:1]
  7 |     background: linear-gradient(to bottom, yellow 0%, blue 100%);
  8 |     background: linear-gradient(135deg, yellow, blue);
    :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  9 |     background: linear-gradient(-45deg, blue, yellow);
    `----
-
   x Function
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:7:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:8:1]
  7 |     background: linear-gradient(to bottom, yellow 0%, blue 100%);
  8 |     background: linear-gradient(135deg, yellow, blue);
    :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  9 |     background: linear-gradient(-45deg, blue, yellow);
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:7:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:8:1]
  7 |     background: linear-gradient(to bottom, yellow 0%, blue 100%);
  8 |     background: linear-gradient(135deg, yellow, blue);
    :                 ^^^^^^^^^^^^^^^
  9 |     background: linear-gradient(-45deg, blue, yellow);
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:7:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:8:1]
  7 |     background: linear-gradient(to bottom, yellow 0%, blue 100%);
  8 |     background: linear-gradient(135deg, yellow, blue);
    :                                 ^^^^^^
  9 |     background: linear-gradient(-45deg, blue, yellow);
    `----
-
   x Dimension
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:7:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:8:1]
  7 |     background: linear-gradient(to bottom, yellow 0%, blue 100%);
  8 |     background: linear-gradient(135deg, yellow, blue);
    :                                 ^^^^^^
  9 |     background: linear-gradient(-45deg, blue, yellow);
    `----
-
   x Angle
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:7:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:8:1]
  7 |     background: linear-gradient(to bottom, yellow 0%, blue 100%);
  8 |     background: linear-gradient(135deg, yellow, blue);
    :                                 ^^^^^^
  9 |     background: linear-gradient(-45deg, blue, yellow);
    `----
-
   x Number
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:7:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:8:1]
  7 |     background: linear-gradient(to bottom, yellow 0%, blue 100%);
  8 |     background: linear-gradient(135deg, yellow, blue);
    :                                 ^^^
  9 |     background: linear-gradient(-45deg, blue, yellow);
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:7:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:8:1]
  7 |     background: linear-gradient(to bottom, yellow 0%, blue 100%);
  8 |     background: linear-gradient(135deg, yellow, blue);
    :                                    ^^^
  9 |     background: linear-gradient(-45deg, blue, yellow);
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:7:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:8:1]
  7 |     background: linear-gradient(to bottom, yellow 0%, blue 100%);
  8 |     background: linear-gradient(135deg, yellow, blue);
    :                                       ^
  9 |     background: linear-gradient(-45deg, blue, yellow);
    `----
-
   x Delimiter
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:7:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:8:1]
  7 |     background: linear-gradient(to bottom, yellow 0%, blue 100%);
  8 |     background: linear-gradient(135deg, yellow, blue);
    :                                       ^
  9 |     background: linear-gradient(-45deg, blue, yellow);
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:7:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:8:1]
  7 |     background: linear-gradient(to bottom, yellow 0%, blue 100%);
  8 |     background: linear-gradient(135deg, yellow, blue);
    :                                         ^^^^^^
  9 |     background: linear-gradient(-45deg, blue, yellow);
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:7:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:8:1]
  7 |     background: linear-gradient(to bottom, yellow 0%, blue 100%);
  8 |     background: linear-gradient(135deg, yellow, blue);
    :                                         ^^^^^^
  9 |     background: linear-gradient(-45deg, blue, yellow);
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:7:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:8:1]
  7 |     background: linear-gradient(to bottom, yellow 0%, blue 100%);
  8 |     background: linear-gradient(135deg, yellow, blue);
    :                                               ^
  9 |     background: linear-gradient(-45deg, blue, yellow);
    `----
-
   x Delimiter
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:7:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:8:1]
  7 |     background: linear-gradient(to bottom, yellow 0%, blue 100%);
  8 |     background: linear-gradient(135deg, yellow, blue);
    :                                               ^
  9 |     background: linear-gradient(-45deg, blue, yellow);
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:7:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:8:1]
  7 |     background: linear-gradient(to bottom, yellow 0%, blue 100%);
  8 |     background: linear-gradient(135deg, yellow, blue);
    :                                                 ^^^^
  9 |     background: linear-gradient(-45deg, blue, yellow);
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:7:1]
+   ,-[$DIR/tests/fixture/function/linear-gradient/input.css:8:1]
  7 |     background: linear-gradient(to bottom, yellow 0%, blue 100%);
  8 |     background: linear-gradient(135deg, yellow, blue);
    :                                                 ^^^^
  9 |     background: linear-gradient(-45deg, blue, yellow);
    `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:8:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:9:1]
   8 |     background: linear-gradient(135deg, yellow, blue);
   9 |     background: linear-gradient(-45deg, blue, yellow);
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  10 |     background: linear-gradient(yellow, blue 20%, #0f0);
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:8:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:9:1]
   8 |     background: linear-gradient(135deg, yellow, blue);
   9 |     background: linear-gradient(-45deg, blue, yellow);
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  10 |     background: linear-gradient(yellow, blue 20%, #0f0);
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:8:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:9:1]
   8 |     background: linear-gradient(135deg, yellow, blue);
   9 |     background: linear-gradient(-45deg, blue, yellow);
     :     ^^^^^^^^^^
  10 |     background: linear-gradient(yellow, blue 20%, #0f0);
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:8:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:9:1]
   8 |     background: linear-gradient(135deg, yellow, blue);
   9 |     background: linear-gradient(-45deg, blue, yellow);
     :     ^^^^^^^^^^
  10 |     background: linear-gradient(yellow, blue 20%, #0f0);
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:8:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:9:1]
   8 |     background: linear-gradient(135deg, yellow, blue);
   9 |     background: linear-gradient(-45deg, blue, yellow);
     :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  10 |     background: linear-gradient(yellow, blue 20%, #0f0);
     `----
-
   x Function
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:8:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:9:1]
   8 |     background: linear-gradient(135deg, yellow, blue);
   9 |     background: linear-gradient(-45deg, blue, yellow);
     :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  10 |     background: linear-gradient(yellow, blue 20%, #0f0);
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:8:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:9:1]
   8 |     background: linear-gradient(135deg, yellow, blue);
   9 |     background: linear-gradient(-45deg, blue, yellow);
     :                 ^^^^^^^^^^^^^^^
  10 |     background: linear-gradient(yellow, blue 20%, #0f0);
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:8:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:9:1]
   8 |     background: linear-gradient(135deg, yellow, blue);
   9 |     background: linear-gradient(-45deg, blue, yellow);
     :                                 ^^^^^^
  10 |     background: linear-gradient(yellow, blue 20%, #0f0);
     `----
-
   x Dimension
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:8:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:9:1]
   8 |     background: linear-gradient(135deg, yellow, blue);
   9 |     background: linear-gradient(-45deg, blue, yellow);
     :                                 ^^^^^^
  10 |     background: linear-gradient(yellow, blue 20%, #0f0);
     `----
-
   x Angle
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:8:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:9:1]
   8 |     background: linear-gradient(135deg, yellow, blue);
   9 |     background: linear-gradient(-45deg, blue, yellow);
     :                                 ^^^^^^
  10 |     background: linear-gradient(yellow, blue 20%, #0f0);
     `----
-
   x Number
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:8:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:9:1]
   8 |     background: linear-gradient(135deg, yellow, blue);
   9 |     background: linear-gradient(-45deg, blue, yellow);
     :                                 ^^^
  10 |     background: linear-gradient(yellow, blue 20%, #0f0);
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:8:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:9:1]
   8 |     background: linear-gradient(135deg, yellow, blue);
   9 |     background: linear-gradient(-45deg, blue, yellow);
     :                                    ^^^
  10 |     background: linear-gradient(yellow, blue 20%, #0f0);
     `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:8:1]
-  8 |     background: linear-gradient(135deg, yellow, blue);
-  9 |     background: linear-gradient(-45deg, blue, yellow);
-    :                                       ^
- 10 |     background: linear-gradient(yellow, blue 20%, #0f0);
-    `----
-
-  x Delimiter
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:8:1]
-  8 |     background: linear-gradient(135deg, yellow, blue);
-  9 |     background: linear-gradient(-45deg, blue, yellow);
-    :                                       ^
- 10 |     background: linear-gradient(yellow, blue 20%, #0f0);
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:8:1]
-  8 |     background: linear-gradient(135deg, yellow, blue);
-  9 |     background: linear-gradient(-45deg, blue, yellow);
-    :                                         ^^^^
- 10 |     background: linear-gradient(yellow, blue 20%, #0f0);
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:8:1]
-  8 |     background: linear-gradient(135deg, yellow, blue);
-  9 |     background: linear-gradient(-45deg, blue, yellow);
-    :                                         ^^^^
- 10 |     background: linear-gradient(yellow, blue 20%, #0f0);
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:8:1]
-  8 |     background: linear-gradient(135deg, yellow, blue);
-  9 |     background: linear-gradient(-45deg, blue, yellow);
-    :                                             ^
- 10 |     background: linear-gradient(yellow, blue 20%, #0f0);
-    `----
-
-  x Delimiter
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:8:1]
-  8 |     background: linear-gradient(135deg, yellow, blue);
-  9 |     background: linear-gradient(-45deg, blue, yellow);
-    :                                             ^
- 10 |     background: linear-gradient(yellow, blue 20%, #0f0);
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:8:1]
-  8 |     background: linear-gradient(135deg, yellow, blue);
-  9 |     background: linear-gradient(-45deg, blue, yellow);
-    :                                               ^^^^^^
- 10 |     background: linear-gradient(yellow, blue 20%, #0f0);
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:8:1]
-  8 |     background: linear-gradient(135deg, yellow, blue);
-  9 |     background: linear-gradient(-45deg, blue, yellow);
-    :                                               ^^^^^^
- 10 |     background: linear-gradient(yellow, blue 20%, #0f0);
-    `----
-
   x ComponentValue
     ,-[$DIR/tests/fixture/function/linear-gradient/input.css:9:1]
+  8 |     background: linear-gradient(135deg, yellow, blue);
+  9 |     background: linear-gradient(-45deg, blue, yellow);
+    :                                       ^
+ 10 |     background: linear-gradient(yellow, blue 20%, #0f0);
+    `----
+  x Delimiter
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:9:1]
+  8 |     background: linear-gradient(135deg, yellow, blue);
+  9 |     background: linear-gradient(-45deg, blue, yellow);
+    :                                       ^
+ 10 |     background: linear-gradient(yellow, blue 20%, #0f0);
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:9:1]
+  8 |     background: linear-gradient(135deg, yellow, blue);
+  9 |     background: linear-gradient(-45deg, blue, yellow);
+    :                                         ^^^^
+ 10 |     background: linear-gradient(yellow, blue 20%, #0f0);
+    `----
+  x Ident
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:9:1]
+  8 |     background: linear-gradient(135deg, yellow, blue);
+  9 |     background: linear-gradient(-45deg, blue, yellow);
+    :                                         ^^^^
+ 10 |     background: linear-gradient(yellow, blue 20%, #0f0);
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:9:1]
+  8 |     background: linear-gradient(135deg, yellow, blue);
+  9 |     background: linear-gradient(-45deg, blue, yellow);
+    :                                             ^
+ 10 |     background: linear-gradient(yellow, blue 20%, #0f0);
+    `----
+  x Delimiter
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:9:1]
+  8 |     background: linear-gradient(135deg, yellow, blue);
+  9 |     background: linear-gradient(-45deg, blue, yellow);
+    :                                             ^
+ 10 |     background: linear-gradient(yellow, blue 20%, #0f0);
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:9:1]
+  8 |     background: linear-gradient(135deg, yellow, blue);
+  9 |     background: linear-gradient(-45deg, blue, yellow);
+    :                                               ^^^^^^
+ 10 |     background: linear-gradient(yellow, blue 20%, #0f0);
+    `----
+  x Ident
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:9:1]
+  8 |     background: linear-gradient(135deg, yellow, blue);
+  9 |     background: linear-gradient(-45deg, blue, yellow);
+    :                                               ^^^^^^
+ 10 |     background: linear-gradient(yellow, blue 20%, #0f0);
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:10:1]
   9 |     background: linear-gradient(-45deg, blue, yellow);
  10 |     background: linear-gradient(yellow, blue 20%, #0f0);
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  11 |     background: linear-gradient(to top right, red, white, blue);
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:9:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:10:1]
   9 |     background: linear-gradient(-45deg, blue, yellow);
  10 |     background: linear-gradient(yellow, blue 20%, #0f0);
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  11 |     background: linear-gradient(to top right, red, white, blue);
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:9:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:10:1]
   9 |     background: linear-gradient(-45deg, blue, yellow);
  10 |     background: linear-gradient(yellow, blue 20%, #0f0);
     :     ^^^^^^^^^^
  11 |     background: linear-gradient(to top right, red, white, blue);
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:9:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:10:1]
   9 |     background: linear-gradient(-45deg, blue, yellow);
  10 |     background: linear-gradient(yellow, blue 20%, #0f0);
     :     ^^^^^^^^^^
  11 |     background: linear-gradient(to top right, red, white, blue);
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:9:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:10:1]
   9 |     background: linear-gradient(-45deg, blue, yellow);
  10 |     background: linear-gradient(yellow, blue 20%, #0f0);
     :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  11 |     background: linear-gradient(to top right, red, white, blue);
     `----
-
   x Function
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:9:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:10:1]
   9 |     background: linear-gradient(-45deg, blue, yellow);
  10 |     background: linear-gradient(yellow, blue 20%, #0f0);
     :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  11 |     background: linear-gradient(to top right, red, white, blue);
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:9:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:10:1]
   9 |     background: linear-gradient(-45deg, blue, yellow);
  10 |     background: linear-gradient(yellow, blue 20%, #0f0);
     :                 ^^^^^^^^^^^^^^^
  11 |     background: linear-gradient(to top right, red, white, blue);
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:9:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:10:1]
   9 |     background: linear-gradient(-45deg, blue, yellow);
  10 |     background: linear-gradient(yellow, blue 20%, #0f0);
     :                                 ^^^^^^
  11 |     background: linear-gradient(to top right, red, white, blue);
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:9:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:10:1]
   9 |     background: linear-gradient(-45deg, blue, yellow);
  10 |     background: linear-gradient(yellow, blue 20%, #0f0);
     :                                 ^^^^^^
  11 |     background: linear-gradient(to top right, red, white, blue);
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:9:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:10:1]
   9 |     background: linear-gradient(-45deg, blue, yellow);
  10 |     background: linear-gradient(yellow, blue 20%, #0f0);
     :                                       ^
  11 |     background: linear-gradient(to top right, red, white, blue);
     `----
-
   x Delimiter
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:9:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:10:1]
   9 |     background: linear-gradient(-45deg, blue, yellow);
  10 |     background: linear-gradient(yellow, blue 20%, #0f0);
     :                                       ^
  11 |     background: linear-gradient(to top right, red, white, blue);
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:9:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:10:1]
   9 |     background: linear-gradient(-45deg, blue, yellow);
  10 |     background: linear-gradient(yellow, blue 20%, #0f0);
     :                                         ^^^^
  11 |     background: linear-gradient(to top right, red, white, blue);
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:9:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:10:1]
   9 |     background: linear-gradient(-45deg, blue, yellow);
  10 |     background: linear-gradient(yellow, blue 20%, #0f0);
     :                                         ^^^^
  11 |     background: linear-gradient(to top right, red, white, blue);
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:9:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:10:1]
   9 |     background: linear-gradient(-45deg, blue, yellow);
  10 |     background: linear-gradient(yellow, blue 20%, #0f0);
     :                                              ^^^
  11 |     background: linear-gradient(to top right, red, white, blue);
     `----
-
   x Percentage
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:9:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:10:1]
   9 |     background: linear-gradient(-45deg, blue, yellow);
  10 |     background: linear-gradient(yellow, blue 20%, #0f0);
     :                                              ^^^
  11 |     background: linear-gradient(to top right, red, white, blue);
     `----
-
   x Number
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:9:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:10:1]
   9 |     background: linear-gradient(-45deg, blue, yellow);
  10 |     background: linear-gradient(yellow, blue 20%, #0f0);
     :                                              ^^
  11 |     background: linear-gradient(to top right, red, white, blue);
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:9:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:10:1]
   9 |     background: linear-gradient(-45deg, blue, yellow);
  10 |     background: linear-gradient(yellow, blue 20%, #0f0);
     :                                                 ^
  11 |     background: linear-gradient(to top right, red, white, blue);
     `----
-
   x Delimiter
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:9:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:10:1]
   9 |     background: linear-gradient(-45deg, blue, yellow);
  10 |     background: linear-gradient(yellow, blue 20%, #0f0);
     :                                                 ^
  11 |     background: linear-gradient(to top right, red, white, blue);
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:9:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:10:1]
   9 |     background: linear-gradient(-45deg, blue, yellow);
  10 |     background: linear-gradient(yellow, blue 20%, #0f0);
     :                                                   ^^^^
  11 |     background: linear-gradient(to top right, red, white, blue);
     `----
-
   x Color
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:9:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:10:1]
   9 |     background: linear-gradient(-45deg, blue, yellow);
  10 |     background: linear-gradient(yellow, blue 20%, #0f0);
     :                                                   ^^^^
  11 |     background: linear-gradient(to top right, red, white, blue);
     `----
-
   x HexColor
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:9:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:10:1]
   9 |     background: linear-gradient(-45deg, blue, yellow);
  10 |     background: linear-gradient(yellow, blue 20%, #0f0);
     :                                                   ^^^^
  11 |     background: linear-gradient(to top right, red, white, blue);
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:10:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:11:1]
  10 |     background: linear-gradient(yellow, blue 20%, #0f0);
  11 |     background: linear-gradient(to top right, red, white, blue);
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  12 |     background: linear-gradient(0deg, blue, green 40%, red);
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:10:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:11:1]
  10 |     background: linear-gradient(yellow, blue 20%, #0f0);
  11 |     background: linear-gradient(to top right, red, white, blue);
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  12 |     background: linear-gradient(0deg, blue, green 40%, red);
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:10:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:11:1]
  10 |     background: linear-gradient(yellow, blue 20%, #0f0);
  11 |     background: linear-gradient(to top right, red, white, blue);
     :     ^^^^^^^^^^
  12 |     background: linear-gradient(0deg, blue, green 40%, red);
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:10:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:11:1]
  10 |     background: linear-gradient(yellow, blue 20%, #0f0);
  11 |     background: linear-gradient(to top right, red, white, blue);
     :     ^^^^^^^^^^
  12 |     background: linear-gradient(0deg, blue, green 40%, red);
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:10:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:11:1]
  10 |     background: linear-gradient(yellow, blue 20%, #0f0);
  11 |     background: linear-gradient(to top right, red, white, blue);
     :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  12 |     background: linear-gradient(0deg, blue, green 40%, red);
     `----
-
   x Function
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:10:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:11:1]
  10 |     background: linear-gradient(yellow, blue 20%, #0f0);
  11 |     background: linear-gradient(to top right, red, white, blue);
     :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  12 |     background: linear-gradient(0deg, blue, green 40%, red);
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:10:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:11:1]
  10 |     background: linear-gradient(yellow, blue 20%, #0f0);
  11 |     background: linear-gradient(to top right, red, white, blue);
     :                 ^^^^^^^^^^^^^^^
  12 |     background: linear-gradient(0deg, blue, green 40%, red);
     `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:10:1]
- 10 |     background: linear-gradient(yellow, blue 20%, #0f0);
- 11 |     background: linear-gradient(to top right, red, white, blue);
-    :                                 ^^
- 12 |     background: linear-gradient(0deg, blue, green 40%, red);
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:10:1]
- 10 |     background: linear-gradient(yellow, blue 20%, #0f0);
- 11 |     background: linear-gradient(to top right, red, white, blue);
-    :                                 ^^
- 12 |     background: linear-gradient(0deg, blue, green 40%, red);
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:10:1]
- 10 |     background: linear-gradient(yellow, blue 20%, #0f0);
- 11 |     background: linear-gradient(to top right, red, white, blue);
-    :                                    ^^^
- 12 |     background: linear-gradient(0deg, blue, green 40%, red);
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:10:1]
- 10 |     background: linear-gradient(yellow, blue 20%, #0f0);
- 11 |     background: linear-gradient(to top right, red, white, blue);
-    :                                    ^^^
- 12 |     background: linear-gradient(0deg, blue, green 40%, red);
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:10:1]
- 10 |     background: linear-gradient(yellow, blue 20%, #0f0);
- 11 |     background: linear-gradient(to top right, red, white, blue);
-    :                                        ^^^^^
- 12 |     background: linear-gradient(0deg, blue, green 40%, red);
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:10:1]
- 10 |     background: linear-gradient(yellow, blue 20%, #0f0);
- 11 |     background: linear-gradient(to top right, red, white, blue);
-    :                                        ^^^^^
- 12 |     background: linear-gradient(0deg, blue, green 40%, red);
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:10:1]
- 10 |     background: linear-gradient(yellow, blue 20%, #0f0);
- 11 |     background: linear-gradient(to top right, red, white, blue);
-    :                                             ^
- 12 |     background: linear-gradient(0deg, blue, green 40%, red);
-    `----
-
-  x Delimiter
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:10:1]
- 10 |     background: linear-gradient(yellow, blue 20%, #0f0);
- 11 |     background: linear-gradient(to top right, red, white, blue);
-    :                                             ^
- 12 |     background: linear-gradient(0deg, blue, green 40%, red);
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:10:1]
- 10 |     background: linear-gradient(yellow, blue 20%, #0f0);
- 11 |     background: linear-gradient(to top right, red, white, blue);
-    :                                               ^^^
- 12 |     background: linear-gradient(0deg, blue, green 40%, red);
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:10:1]
- 10 |     background: linear-gradient(yellow, blue 20%, #0f0);
- 11 |     background: linear-gradient(to top right, red, white, blue);
-    :                                               ^^^
- 12 |     background: linear-gradient(0deg, blue, green 40%, red);
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:10:1]
- 10 |     background: linear-gradient(yellow, blue 20%, #0f0);
- 11 |     background: linear-gradient(to top right, red, white, blue);
-    :                                                  ^
- 12 |     background: linear-gradient(0deg, blue, green 40%, red);
-    `----
-
-  x Delimiter
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:10:1]
- 10 |     background: linear-gradient(yellow, blue 20%, #0f0);
- 11 |     background: linear-gradient(to top right, red, white, blue);
-    :                                                  ^
- 12 |     background: linear-gradient(0deg, blue, green 40%, red);
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:10:1]
- 10 |     background: linear-gradient(yellow, blue 20%, #0f0);
- 11 |     background: linear-gradient(to top right, red, white, blue);
-    :                                                    ^^^^^
- 12 |     background: linear-gradient(0deg, blue, green 40%, red);
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:10:1]
- 10 |     background: linear-gradient(yellow, blue 20%, #0f0);
- 11 |     background: linear-gradient(to top right, red, white, blue);
-    :                                                    ^^^^^
- 12 |     background: linear-gradient(0deg, blue, green 40%, red);
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:10:1]
- 10 |     background: linear-gradient(yellow, blue 20%, #0f0);
- 11 |     background: linear-gradient(to top right, red, white, blue);
-    :                                                         ^
- 12 |     background: linear-gradient(0deg, blue, green 40%, red);
-    `----
-
-  x Delimiter
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:10:1]
- 10 |     background: linear-gradient(yellow, blue 20%, #0f0);
- 11 |     background: linear-gradient(to top right, red, white, blue);
-    :                                                         ^
- 12 |     background: linear-gradient(0deg, blue, green 40%, red);
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:10:1]
- 10 |     background: linear-gradient(yellow, blue 20%, #0f0);
- 11 |     background: linear-gradient(to top right, red, white, blue);
-    :                                                           ^^^^
- 12 |     background: linear-gradient(0deg, blue, green 40%, red);
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:10:1]
- 10 |     background: linear-gradient(yellow, blue 20%, #0f0);
- 11 |     background: linear-gradient(to top right, red, white, blue);
-    :                                                           ^^^^
- 12 |     background: linear-gradient(0deg, blue, green 40%, red);
-    `----
-
   x ComponentValue
     ,-[$DIR/tests/fixture/function/linear-gradient/input.css:11:1]
+ 10 |     background: linear-gradient(yellow, blue 20%, #0f0);
+ 11 |     background: linear-gradient(to top right, red, white, blue);
+    :                                 ^^
+ 12 |     background: linear-gradient(0deg, blue, green 40%, red);
+    `----
+  x Ident
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:11:1]
+ 10 |     background: linear-gradient(yellow, blue 20%, #0f0);
+ 11 |     background: linear-gradient(to top right, red, white, blue);
+    :                                 ^^
+ 12 |     background: linear-gradient(0deg, blue, green 40%, red);
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:11:1]
+ 10 |     background: linear-gradient(yellow, blue 20%, #0f0);
+ 11 |     background: linear-gradient(to top right, red, white, blue);
+    :                                    ^^^
+ 12 |     background: linear-gradient(0deg, blue, green 40%, red);
+    `----
+  x Ident
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:11:1]
+ 10 |     background: linear-gradient(yellow, blue 20%, #0f0);
+ 11 |     background: linear-gradient(to top right, red, white, blue);
+    :                                    ^^^
+ 12 |     background: linear-gradient(0deg, blue, green 40%, red);
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:11:1]
+ 10 |     background: linear-gradient(yellow, blue 20%, #0f0);
+ 11 |     background: linear-gradient(to top right, red, white, blue);
+    :                                        ^^^^^
+ 12 |     background: linear-gradient(0deg, blue, green 40%, red);
+    `----
+  x Ident
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:11:1]
+ 10 |     background: linear-gradient(yellow, blue 20%, #0f0);
+ 11 |     background: linear-gradient(to top right, red, white, blue);
+    :                                        ^^^^^
+ 12 |     background: linear-gradient(0deg, blue, green 40%, red);
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:11:1]
+ 10 |     background: linear-gradient(yellow, blue 20%, #0f0);
+ 11 |     background: linear-gradient(to top right, red, white, blue);
+    :                                             ^
+ 12 |     background: linear-gradient(0deg, blue, green 40%, red);
+    `----
+  x Delimiter
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:11:1]
+ 10 |     background: linear-gradient(yellow, blue 20%, #0f0);
+ 11 |     background: linear-gradient(to top right, red, white, blue);
+    :                                             ^
+ 12 |     background: linear-gradient(0deg, blue, green 40%, red);
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:11:1]
+ 10 |     background: linear-gradient(yellow, blue 20%, #0f0);
+ 11 |     background: linear-gradient(to top right, red, white, blue);
+    :                                               ^^^
+ 12 |     background: linear-gradient(0deg, blue, green 40%, red);
+    `----
+  x Ident
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:11:1]
+ 10 |     background: linear-gradient(yellow, blue 20%, #0f0);
+ 11 |     background: linear-gradient(to top right, red, white, blue);
+    :                                               ^^^
+ 12 |     background: linear-gradient(0deg, blue, green 40%, red);
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:11:1]
+ 10 |     background: linear-gradient(yellow, blue 20%, #0f0);
+ 11 |     background: linear-gradient(to top right, red, white, blue);
+    :                                                  ^
+ 12 |     background: linear-gradient(0deg, blue, green 40%, red);
+    `----
+  x Delimiter
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:11:1]
+ 10 |     background: linear-gradient(yellow, blue 20%, #0f0);
+ 11 |     background: linear-gradient(to top right, red, white, blue);
+    :                                                  ^
+ 12 |     background: linear-gradient(0deg, blue, green 40%, red);
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:11:1]
+ 10 |     background: linear-gradient(yellow, blue 20%, #0f0);
+ 11 |     background: linear-gradient(to top right, red, white, blue);
+    :                                                    ^^^^^
+ 12 |     background: linear-gradient(0deg, blue, green 40%, red);
+    `----
+  x Ident
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:11:1]
+ 10 |     background: linear-gradient(yellow, blue 20%, #0f0);
+ 11 |     background: linear-gradient(to top right, red, white, blue);
+    :                                                    ^^^^^
+ 12 |     background: linear-gradient(0deg, blue, green 40%, red);
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:11:1]
+ 10 |     background: linear-gradient(yellow, blue 20%, #0f0);
+ 11 |     background: linear-gradient(to top right, red, white, blue);
+    :                                                         ^
+ 12 |     background: linear-gradient(0deg, blue, green 40%, red);
+    `----
+  x Delimiter
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:11:1]
+ 10 |     background: linear-gradient(yellow, blue 20%, #0f0);
+ 11 |     background: linear-gradient(to top right, red, white, blue);
+    :                                                         ^
+ 12 |     background: linear-gradient(0deg, blue, green 40%, red);
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:11:1]
+ 10 |     background: linear-gradient(yellow, blue 20%, #0f0);
+ 11 |     background: linear-gradient(to top right, red, white, blue);
+    :                                                           ^^^^
+ 12 |     background: linear-gradient(0deg, blue, green 40%, red);
+    `----
+  x Ident
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:11:1]
+ 10 |     background: linear-gradient(yellow, blue 20%, #0f0);
+ 11 |     background: linear-gradient(to top right, red, white, blue);
+    :                                                           ^^^^
+ 12 |     background: linear-gradient(0deg, blue, green 40%, red);
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:12:1]
  11 |     background: linear-gradient(to top right, red, white, blue);
  12 |     background: linear-gradient(0deg, blue, green 40%, red);
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  13 |     background: linear-gradient(.25turn, red 10%, blue);
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:11:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:12:1]
  11 |     background: linear-gradient(to top right, red, white, blue);
  12 |     background: linear-gradient(0deg, blue, green 40%, red);
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  13 |     background: linear-gradient(.25turn, red 10%, blue);
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:11:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:12:1]
  11 |     background: linear-gradient(to top right, red, white, blue);
  12 |     background: linear-gradient(0deg, blue, green 40%, red);
     :     ^^^^^^^^^^
  13 |     background: linear-gradient(.25turn, red 10%, blue);
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:11:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:12:1]
  11 |     background: linear-gradient(to top right, red, white, blue);
  12 |     background: linear-gradient(0deg, blue, green 40%, red);
     :     ^^^^^^^^^^
  13 |     background: linear-gradient(.25turn, red 10%, blue);
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:11:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:12:1]
  11 |     background: linear-gradient(to top right, red, white, blue);
  12 |     background: linear-gradient(0deg, blue, green 40%, red);
     :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  13 |     background: linear-gradient(.25turn, red 10%, blue);
     `----
-
   x Function
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:11:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:12:1]
  11 |     background: linear-gradient(to top right, red, white, blue);
  12 |     background: linear-gradient(0deg, blue, green 40%, red);
     :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  13 |     background: linear-gradient(.25turn, red 10%, blue);
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:11:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:12:1]
  11 |     background: linear-gradient(to top right, red, white, blue);
  12 |     background: linear-gradient(0deg, blue, green 40%, red);
     :                 ^^^^^^^^^^^^^^^
  13 |     background: linear-gradient(.25turn, red 10%, blue);
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:11:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:12:1]
  11 |     background: linear-gradient(to top right, red, white, blue);
  12 |     background: linear-gradient(0deg, blue, green 40%, red);
     :                                 ^^^^
  13 |     background: linear-gradient(.25turn, red 10%, blue);
     `----
-
   x Dimension
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:11:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:12:1]
  11 |     background: linear-gradient(to top right, red, white, blue);
  12 |     background: linear-gradient(0deg, blue, green 40%, red);
     :                                 ^^^^
  13 |     background: linear-gradient(.25turn, red 10%, blue);
     `----
-
   x Angle
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:11:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:12:1]
  11 |     background: linear-gradient(to top right, red, white, blue);
  12 |     background: linear-gradient(0deg, blue, green 40%, red);
     :                                 ^^^^
  13 |     background: linear-gradient(.25turn, red 10%, blue);
     `----
-
   x Number
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:11:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:12:1]
  11 |     background: linear-gradient(to top right, red, white, blue);
  12 |     background: linear-gradient(0deg, blue, green 40%, red);
     :                                 ^
  13 |     background: linear-gradient(.25turn, red 10%, blue);
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:11:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:12:1]
  11 |     background: linear-gradient(to top right, red, white, blue);
  12 |     background: linear-gradient(0deg, blue, green 40%, red);
     :                                  ^^^
  13 |     background: linear-gradient(.25turn, red 10%, blue);
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:11:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:12:1]
  11 |     background: linear-gradient(to top right, red, white, blue);
  12 |     background: linear-gradient(0deg, blue, green 40%, red);
     :                                     ^
  13 |     background: linear-gradient(.25turn, red 10%, blue);
     `----
-
   x Delimiter
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:11:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:12:1]
  11 |     background: linear-gradient(to top right, red, white, blue);
  12 |     background: linear-gradient(0deg, blue, green 40%, red);
     :                                     ^
  13 |     background: linear-gradient(.25turn, red 10%, blue);
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:11:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:12:1]
  11 |     background: linear-gradient(to top right, red, white, blue);
  12 |     background: linear-gradient(0deg, blue, green 40%, red);
     :                                       ^^^^
  13 |     background: linear-gradient(.25turn, red 10%, blue);
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:11:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:12:1]
  11 |     background: linear-gradient(to top right, red, white, blue);
  12 |     background: linear-gradient(0deg, blue, green 40%, red);
     :                                       ^^^^
  13 |     background: linear-gradient(.25turn, red 10%, blue);
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:11:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:12:1]
  11 |     background: linear-gradient(to top right, red, white, blue);
  12 |     background: linear-gradient(0deg, blue, green 40%, red);
     :                                           ^
  13 |     background: linear-gradient(.25turn, red 10%, blue);
     `----
-
   x Delimiter
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:11:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:12:1]
  11 |     background: linear-gradient(to top right, red, white, blue);
  12 |     background: linear-gradient(0deg, blue, green 40%, red);
     :                                           ^
  13 |     background: linear-gradient(.25turn, red 10%, blue);
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:11:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:12:1]
  11 |     background: linear-gradient(to top right, red, white, blue);
  12 |     background: linear-gradient(0deg, blue, green 40%, red);
     :                                             ^^^^^
  13 |     background: linear-gradient(.25turn, red 10%, blue);
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:11:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:12:1]
  11 |     background: linear-gradient(to top right, red, white, blue);
  12 |     background: linear-gradient(0deg, blue, green 40%, red);
     :                                             ^^^^^
  13 |     background: linear-gradient(.25turn, red 10%, blue);
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:11:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:12:1]
  11 |     background: linear-gradient(to top right, red, white, blue);
  12 |     background: linear-gradient(0deg, blue, green 40%, red);
     :                                                   ^^^
  13 |     background: linear-gradient(.25turn, red 10%, blue);
     `----
-
   x Percentage
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:11:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:12:1]
  11 |     background: linear-gradient(to top right, red, white, blue);
  12 |     background: linear-gradient(0deg, blue, green 40%, red);
     :                                                   ^^^
  13 |     background: linear-gradient(.25turn, red 10%, blue);
     `----
-
   x Number
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:11:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:12:1]
  11 |     background: linear-gradient(to top right, red, white, blue);
  12 |     background: linear-gradient(0deg, blue, green 40%, red);
     :                                                   ^^
  13 |     background: linear-gradient(.25turn, red 10%, blue);
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:11:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:12:1]
  11 |     background: linear-gradient(to top right, red, white, blue);
  12 |     background: linear-gradient(0deg, blue, green 40%, red);
     :                                                      ^
  13 |     background: linear-gradient(.25turn, red 10%, blue);
     `----
-
   x Delimiter
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:11:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:12:1]
  11 |     background: linear-gradient(to top right, red, white, blue);
  12 |     background: linear-gradient(0deg, blue, green 40%, red);
     :                                                      ^
  13 |     background: linear-gradient(.25turn, red 10%, blue);
     `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:11:1]
- 11 |     background: linear-gradient(to top right, red, white, blue);
- 12 |     background: linear-gradient(0deg, blue, green 40%, red);
-    :                                                        ^^^
- 13 |     background: linear-gradient(.25turn, red 10%, blue);
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:11:1]
- 11 |     background: linear-gradient(to top right, red, white, blue);
- 12 |     background: linear-gradient(0deg, blue, green 40%, red);
-    :                                                        ^^^
- 13 |     background: linear-gradient(.25turn, red 10%, blue);
-    `----
-
   x ComponentValue
     ,-[$DIR/tests/fixture/function/linear-gradient/input.css:12:1]
+ 11 |     background: linear-gradient(to top right, red, white, blue);
+ 12 |     background: linear-gradient(0deg, blue, green 40%, red);
+    :                                                        ^^^
+ 13 |     background: linear-gradient(.25turn, red 10%, blue);
+    `----
+  x Ident
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:12:1]
+ 11 |     background: linear-gradient(to top right, red, white, blue);
+ 12 |     background: linear-gradient(0deg, blue, green 40%, red);
+    :                                                        ^^^
+ 13 |     background: linear-gradient(.25turn, red 10%, blue);
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:13:1]
  12 |     background: linear-gradient(0deg, blue, green 40%, red);
  13 |     background: linear-gradient(.25turn, red 10%, blue);
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  14 |     background: linear-gradient(45deg, red 0 50%, blue 50% 100%);
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:12:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:13:1]
  12 |     background: linear-gradient(0deg, blue, green 40%, red);
  13 |     background: linear-gradient(.25turn, red 10%, blue);
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  14 |     background: linear-gradient(45deg, red 0 50%, blue 50% 100%);
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:12:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:13:1]
  12 |     background: linear-gradient(0deg, blue, green 40%, red);
  13 |     background: linear-gradient(.25turn, red 10%, blue);
     :     ^^^^^^^^^^
  14 |     background: linear-gradient(45deg, red 0 50%, blue 50% 100%);
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:12:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:13:1]
  12 |     background: linear-gradient(0deg, blue, green 40%, red);
  13 |     background: linear-gradient(.25turn, red 10%, blue);
     :     ^^^^^^^^^^
  14 |     background: linear-gradient(45deg, red 0 50%, blue 50% 100%);
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:12:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:13:1]
  12 |     background: linear-gradient(0deg, blue, green 40%, red);
  13 |     background: linear-gradient(.25turn, red 10%, blue);
     :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  14 |     background: linear-gradient(45deg, red 0 50%, blue 50% 100%);
     `----
-
   x Function
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:12:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:13:1]
  12 |     background: linear-gradient(0deg, blue, green 40%, red);
  13 |     background: linear-gradient(.25turn, red 10%, blue);
     :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  14 |     background: linear-gradient(45deg, red 0 50%, blue 50% 100%);
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:12:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:13:1]
  12 |     background: linear-gradient(0deg, blue, green 40%, red);
  13 |     background: linear-gradient(.25turn, red 10%, blue);
     :                 ^^^^^^^^^^^^^^^
  14 |     background: linear-gradient(45deg, red 0 50%, blue 50% 100%);
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:12:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:13:1]
  12 |     background: linear-gradient(0deg, blue, green 40%, red);
  13 |     background: linear-gradient(.25turn, red 10%, blue);
     :                                 ^^^^^^^
  14 |     background: linear-gradient(45deg, red 0 50%, blue 50% 100%);
     `----
-
   x Dimension
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:12:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:13:1]
  12 |     background: linear-gradient(0deg, blue, green 40%, red);
  13 |     background: linear-gradient(.25turn, red 10%, blue);
     :                                 ^^^^^^^
  14 |     background: linear-gradient(45deg, red 0 50%, blue 50% 100%);
     `----
-
   x Angle
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:12:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:13:1]
  12 |     background: linear-gradient(0deg, blue, green 40%, red);
  13 |     background: linear-gradient(.25turn, red 10%, blue);
     :                                 ^^^^^^^
  14 |     background: linear-gradient(45deg, red 0 50%, blue 50% 100%);
     `----
-
   x Number
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:12:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:13:1]
  12 |     background: linear-gradient(0deg, blue, green 40%, red);
  13 |     background: linear-gradient(.25turn, red 10%, blue);
     :                                 ^^^
  14 |     background: linear-gradient(45deg, red 0 50%, blue 50% 100%);
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:12:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:13:1]
  12 |     background: linear-gradient(0deg, blue, green 40%, red);
  13 |     background: linear-gradient(.25turn, red 10%, blue);
     :                                    ^^^^
  14 |     background: linear-gradient(45deg, red 0 50%, blue 50% 100%);
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:12:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:13:1]
  12 |     background: linear-gradient(0deg, blue, green 40%, red);
  13 |     background: linear-gradient(.25turn, red 10%, blue);
     :                                        ^
  14 |     background: linear-gradient(45deg, red 0 50%, blue 50% 100%);
     `----
-
   x Delimiter
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:12:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:13:1]
  12 |     background: linear-gradient(0deg, blue, green 40%, red);
  13 |     background: linear-gradient(.25turn, red 10%, blue);
     :                                        ^
  14 |     background: linear-gradient(45deg, red 0 50%, blue 50% 100%);
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:12:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:13:1]
  12 |     background: linear-gradient(0deg, blue, green 40%, red);
  13 |     background: linear-gradient(.25turn, red 10%, blue);
     :                                          ^^^
  14 |     background: linear-gradient(45deg, red 0 50%, blue 50% 100%);
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:12:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:13:1]
  12 |     background: linear-gradient(0deg, blue, green 40%, red);
  13 |     background: linear-gradient(.25turn, red 10%, blue);
     :                                          ^^^
  14 |     background: linear-gradient(45deg, red 0 50%, blue 50% 100%);
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:12:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:13:1]
  12 |     background: linear-gradient(0deg, blue, green 40%, red);
  13 |     background: linear-gradient(.25turn, red 10%, blue);
     :                                              ^^^
  14 |     background: linear-gradient(45deg, red 0 50%, blue 50% 100%);
     `----
-
   x Percentage
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:12:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:13:1]
  12 |     background: linear-gradient(0deg, blue, green 40%, red);
  13 |     background: linear-gradient(.25turn, red 10%, blue);
     :                                              ^^^
  14 |     background: linear-gradient(45deg, red 0 50%, blue 50% 100%);
     `----
-
   x Number
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:12:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:13:1]
  12 |     background: linear-gradient(0deg, blue, green 40%, red);
  13 |     background: linear-gradient(.25turn, red 10%, blue);
     :                                              ^^
  14 |     background: linear-gradient(45deg, red 0 50%, blue 50% 100%);
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:12:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:13:1]
  12 |     background: linear-gradient(0deg, blue, green 40%, red);
  13 |     background: linear-gradient(.25turn, red 10%, blue);
     :                                                 ^
  14 |     background: linear-gradient(45deg, red 0 50%, blue 50% 100%);
     `----
-
   x Delimiter
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:12:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:13:1]
  12 |     background: linear-gradient(0deg, blue, green 40%, red);
  13 |     background: linear-gradient(.25turn, red 10%, blue);
     :                                                 ^
  14 |     background: linear-gradient(45deg, red 0 50%, blue 50% 100%);
     `----
-
-  x ComponentValue
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:12:1]
- 12 |     background: linear-gradient(0deg, blue, green 40%, red);
- 13 |     background: linear-gradient(.25turn, red 10%, blue);
-    :                                                   ^^^^
- 14 |     background: linear-gradient(45deg, red 0 50%, blue 50% 100%);
-    `----
-
-  x Ident
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:12:1]
- 12 |     background: linear-gradient(0deg, blue, green 40%, red);
- 13 |     background: linear-gradient(.25turn, red 10%, blue);
-    :                                                   ^^^^
- 14 |     background: linear-gradient(45deg, red 0 50%, blue 50% 100%);
-    `----
-
   x ComponentValue
     ,-[$DIR/tests/fixture/function/linear-gradient/input.css:13:1]
+ 12 |     background: linear-gradient(0deg, blue, green 40%, red);
+ 13 |     background: linear-gradient(.25turn, red 10%, blue);
+    :                                                   ^^^^
+ 14 |     background: linear-gradient(45deg, red 0 50%, blue 50% 100%);
+    `----
+  x Ident
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:13:1]
+ 12 |     background: linear-gradient(0deg, blue, green 40%, red);
+ 13 |     background: linear-gradient(.25turn, red 10%, blue);
+    :                                                   ^^^^
+ 14 |     background: linear-gradient(45deg, red 0 50%, blue 50% 100%);
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:14:1]
  13 |     background: linear-gradient(.25turn, red 10%, blue);
  14 |     background: linear-gradient(45deg, red 0 50%, blue 50% 100%);
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  15 | }
     `----
-
   x Declaration
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:13:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:14:1]
  13 |     background: linear-gradient(.25turn, red 10%, blue);
  14 |     background: linear-gradient(45deg, red 0 50%, blue 50% 100%);
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  15 | }
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:13:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:14:1]
  13 |     background: linear-gradient(.25turn, red 10%, blue);
  14 |     background: linear-gradient(45deg, red 0 50%, blue 50% 100%);
     :     ^^^^^^^^^^
  15 | }
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:13:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:14:1]
  13 |     background: linear-gradient(.25turn, red 10%, blue);
  14 |     background: linear-gradient(45deg, red 0 50%, blue 50% 100%);
     :     ^^^^^^^^^^
  15 | }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:13:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:14:1]
  13 |     background: linear-gradient(.25turn, red 10%, blue);
  14 |     background: linear-gradient(45deg, red 0 50%, blue 50% 100%);
     :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  15 | }
     `----
-
   x Function
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:13:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:14:1]
  13 |     background: linear-gradient(.25turn, red 10%, blue);
  14 |     background: linear-gradient(45deg, red 0 50%, blue 50% 100%);
     :                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  15 | }
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:13:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:14:1]
  13 |     background: linear-gradient(.25turn, red 10%, blue);
  14 |     background: linear-gradient(45deg, red 0 50%, blue 50% 100%);
     :                 ^^^^^^^^^^^^^^^
  15 | }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:13:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:14:1]
  13 |     background: linear-gradient(.25turn, red 10%, blue);
  14 |     background: linear-gradient(45deg, red 0 50%, blue 50% 100%);
     :                                 ^^^^^
  15 | }
     `----
-
   x Dimension
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:13:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:14:1]
  13 |     background: linear-gradient(.25turn, red 10%, blue);
  14 |     background: linear-gradient(45deg, red 0 50%, blue 50% 100%);
     :                                 ^^^^^
  15 | }
     `----
-
   x Angle
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:13:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:14:1]
  13 |     background: linear-gradient(.25turn, red 10%, blue);
  14 |     background: linear-gradient(45deg, red 0 50%, blue 50% 100%);
     :                                 ^^^^^
  15 | }
     `----
-
   x Number
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:13:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:14:1]
  13 |     background: linear-gradient(.25turn, red 10%, blue);
  14 |     background: linear-gradient(45deg, red 0 50%, blue 50% 100%);
     :                                 ^^
  15 | }
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:13:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:14:1]
  13 |     background: linear-gradient(.25turn, red 10%, blue);
  14 |     background: linear-gradient(45deg, red 0 50%, blue 50% 100%);
     :                                   ^^^
  15 | }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:13:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:14:1]
  13 |     background: linear-gradient(.25turn, red 10%, blue);
  14 |     background: linear-gradient(45deg, red 0 50%, blue 50% 100%);
     :                                      ^
  15 | }
     `----
-
   x Delimiter
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:13:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:14:1]
  13 |     background: linear-gradient(.25turn, red 10%, blue);
  14 |     background: linear-gradient(45deg, red 0 50%, blue 50% 100%);
     :                                      ^
  15 | }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:13:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:14:1]
  13 |     background: linear-gradient(.25turn, red 10%, blue);
  14 |     background: linear-gradient(45deg, red 0 50%, blue 50% 100%);
     :                                        ^^^
  15 | }
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:13:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:14:1]
  13 |     background: linear-gradient(.25turn, red 10%, blue);
  14 |     background: linear-gradient(45deg, red 0 50%, blue 50% 100%);
     :                                        ^^^
  15 | }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:13:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:14:1]
  13 |     background: linear-gradient(.25turn, red 10%, blue);
  14 |     background: linear-gradient(45deg, red 0 50%, blue 50% 100%);
     :                                            ^
  15 | }
     `----
-
   x Integer
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:13:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:14:1]
  13 |     background: linear-gradient(.25turn, red 10%, blue);
  14 |     background: linear-gradient(45deg, red 0 50%, blue 50% 100%);
     :                                            ^
  15 | }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:13:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:14:1]
  13 |     background: linear-gradient(.25turn, red 10%, blue);
  14 |     background: linear-gradient(45deg, red 0 50%, blue 50% 100%);
     :                                              ^^^
  15 | }
     `----
-
   x Percentage
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:13:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:14:1]
  13 |     background: linear-gradient(.25turn, red 10%, blue);
  14 |     background: linear-gradient(45deg, red 0 50%, blue 50% 100%);
     :                                              ^^^
  15 | }
     `----
-
   x Number
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:13:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:14:1]
  13 |     background: linear-gradient(.25turn, red 10%, blue);
  14 |     background: linear-gradient(45deg, red 0 50%, blue 50% 100%);
     :                                              ^^
  15 | }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:13:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:14:1]
  13 |     background: linear-gradient(.25turn, red 10%, blue);
  14 |     background: linear-gradient(45deg, red 0 50%, blue 50% 100%);
     :                                                 ^
  15 | }
     `----
-
   x Delimiter
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:13:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:14:1]
  13 |     background: linear-gradient(.25turn, red 10%, blue);
  14 |     background: linear-gradient(45deg, red 0 50%, blue 50% 100%);
     :                                                 ^
  15 | }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:13:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:14:1]
  13 |     background: linear-gradient(.25turn, red 10%, blue);
  14 |     background: linear-gradient(45deg, red 0 50%, blue 50% 100%);
     :                                                   ^^^^
  15 | }
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:13:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:14:1]
  13 |     background: linear-gradient(.25turn, red 10%, blue);
  14 |     background: linear-gradient(45deg, red 0 50%, blue 50% 100%);
     :                                                   ^^^^
  15 | }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:13:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:14:1]
  13 |     background: linear-gradient(.25turn, red 10%, blue);
  14 |     background: linear-gradient(45deg, red 0 50%, blue 50% 100%);
     :                                                        ^^^
  15 | }
     `----
-
   x Percentage
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:13:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:14:1]
  13 |     background: linear-gradient(.25turn, red 10%, blue);
  14 |     background: linear-gradient(45deg, red 0 50%, blue 50% 100%);
     :                                                        ^^^
  15 | }
     `----
-
   x Number
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:13:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:14:1]
  13 |     background: linear-gradient(.25turn, red 10%, blue);
  14 |     background: linear-gradient(45deg, red 0 50%, blue 50% 100%);
     :                                                        ^^
  15 | }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:13:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:14:1]
  13 |     background: linear-gradient(.25turn, red 10%, blue);
  14 |     background: linear-gradient(45deg, red 0 50%, blue 50% 100%);
     :                                                            ^^^^
  15 | }
     `----
-
   x Percentage
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:13:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:14:1]
  13 |     background: linear-gradient(.25turn, red 10%, blue);
  14 |     background: linear-gradient(45deg, red 0 50%, blue 50% 100%);
     :                                                            ^^^^
  15 | }
     `----
-
   x Number
-    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:13:1]
+    ,-[$DIR/tests/fixture/function/linear-gradient/input.css:14:1]
  13 |     background: linear-gradient(.25turn, red 10%, blue);
  14 |     background: linear-gradient(45deg, red 0 50%, blue 50% 100%);
     :                                                            ^^^

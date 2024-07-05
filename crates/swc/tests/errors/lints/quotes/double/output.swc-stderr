@@ -1,4 +1,3 @@
-
   x String must use doublequotes
    ,-[1:1]
  1 | var s = `template string`;
@@ -7,9 +6,8 @@
  3 | var s = `now is ${new Date()}`;
  4 | // prettier-ignore
    `----
-
   x String must use doublequotes
-   ,-[1:1]
+   ,-[2:1]
  1 | var s = `template string`;
  2 | var s = `template string with "escape"`;
    :         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -17,9 +15,8 @@
  4 | // prettier-ignore
  5 | var s = 'single quotes string';
    `----
-
   x String must use doublequotes
-   ,-[2:1]
+   ,-[5:1]
  2 | var s = `template string with "escape"`;
  3 | var s = `now is ${new Date()}`;
  4 | // prettier-ignore
@@ -29,9 +26,8 @@
  7 | var s = 'single quotes string with "escape"';
  8 | var s = "double quotes string";
    `----
-
   x String must use doublequotes
-   ,-[4:1]
+   ,-[7:1]
  4 | // prettier-ignore
  5 | var s = 'single quotes string';
  6 | // prettier-ignore

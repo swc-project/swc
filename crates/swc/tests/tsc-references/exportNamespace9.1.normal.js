@@ -3,7 +3,6 @@ export { };
 //// [/b.ts]
 export { };
 //// [/c.ts]
-//! 
 //!   x the name `A` is defined multiple times
 //!    ,-[1:1]
 //!  1 | import { A } from "./b";
