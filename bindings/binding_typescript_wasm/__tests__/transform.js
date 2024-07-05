@@ -27,13 +27,29 @@ describe("transform", () => {
             ).rejects.toMatchSnapshot();
         });
 
-        it('should throw an error with a descriptive message when it encounters a decorator', async () => {
+        it("should throw an error with a descriptive message when it encounters a decorator", async () => {
             await expect(
                 swc.transform("class Foo { @decorator foo() {} }", {
                     mode: "strip-only",
                 })
             ).rejects.toMatchSnapshot();
-        })
+        });
+
+        it("should throw an error when it encounters a namespace", async () => {
+            await expect(
+                swc.transform("namespace Foo {}", {
+                    mode: "strip-only",
+                })
+            ).rejects.toMatchSnapshot();
+        });
+
+        it("should throw an error when it encounters a module", async () => {
+            await expect(
+                swc.transform("module 'foo' {}", {
+                    mode: "strip-only",
+                })
+            ).rejects.toMatchSnapshot();
+        });
     });
 
     describe("in transform mode", () => {
@@ -44,7 +60,5 @@ describe("transform", () => {
 
             expect(code).toMatchSnapshot();
         });
-
-
     });
 });

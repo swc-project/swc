@@ -9,7 +9,10 @@ use swc_core::{
         FileName, Mark, SourceMap, Spanned, GLOBALS,
     },
     ecma::{
-        ast::{Decorator, EsVersion, Program, TsEnumDecl, TsParamPropParam},
+        ast::{
+            Decorator, EsVersion, Program, TsEnumDecl, TsModuleDecl, TsNamespaceDecl,
+            TsParamPropParam,
+        },
         codegen::text_writer::JsWriter,
         parser::{
             parse_file_as_module, parse_file_as_program, parse_file_as_script, Syntax, TsSyntax,
@@ -263,6 +266,10 @@ impl Visit for Validator {
     }
 
     fn visit_ts_enum_decl(&mut self, e: &TsEnumDecl) {
+        if e.declare {
+            return;
+        }
+
         if matches!(self.mode, Mode::StripOnly) {
             HANDLER.with(|handler| {
                 handler.span_err(
@@ -274,6 +281,42 @@ impl Visit for Validator {
         }
 
         e.visit_children_with(self);
+    }
+
+    fn visit_ts_module_decl(&mut self, n: &TsModuleDecl) {
+        if n.declare {
+            return;
+        }
+
+        if matches!(self.mode, Mode::StripOnly) {
+            HANDLER.with(|handler| {
+                handler.span_err(
+                    n.span(),
+                    "TypeScript module declaration is not supported in strip-only mode",
+                );
+            });
+            return;
+        }
+
+        n.visit_children_with(self);
+    }
+
+    fn visit_ts_namespace_decl(&mut self, n: &TsNamespaceDecl) {
+        if n.declare {
+            return;
+        }
+
+        if matches!(self.mode, Mode::StripOnly) {
+            HANDLER.with(|handler| {
+                handler.span_err(
+                    n.span(),
+                    "TypeScript namespace declaration is not supported in strip-only mode",
+                );
+            });
+            return;
+        }
+
+        n.visit_children_with(self);
     }
 
     fn visit_ts_param_prop_param(&mut self, n: &TsParamPropParam) {
