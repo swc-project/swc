@@ -302,6 +302,10 @@ impl<'a, W: Write> WriteJs for JsWriter<'a, W> {
     fn can_ignore_invalid_unicodes(&mut self) -> bool {
         false
     }
+
+    fn cur_line(&self) -> usize {
+        self.line_count
+    }
 }
 
 #[derive(Debug)]

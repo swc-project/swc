@@ -102,4 +102,9 @@ impl<W: WriteJs> WriteJs for OmitTrailingSemi<W> {
     fn can_ignore_invalid_unicodes(&mut self) -> bool {
         self.inner.can_ignore_invalid_unicodes()
     }
+
+    #[inline(always)]
+    fn cur_line(&self) -> usize {
+        self.inner.cur_line()
+    }
 }

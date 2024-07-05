@@ -48,6 +48,8 @@ pub trait WriteJs {
     fn can_ignore_invalid_unicodes(&mut self) -> bool {
         false
     }
+
+    fn cur_line(&self) -> usize;
 }
 
 impl<W> WriteJs for Box<W>
@@ -146,6 +148,11 @@ where
     #[inline(always)]
     fn can_ignore_invalid_unicodes(&mut self) -> bool {
         (**self).can_ignore_invalid_unicodes()
+    }
+
+    #[inline(always)]
+    fn cur_line(&self) -> usize {
+        (**self).cur_line()
     }
 }
 
@@ -246,5 +253,10 @@ where
     #[inline(always)]
     fn can_ignore_invalid_unicodes(&mut self) -> bool {
         (**self).can_ignore_invalid_unicodes()
+    }
+
+    #[inline(always)]
+    fn cur_line(&self) -> usize {
+        (**self).cur_line()
     }
 }
