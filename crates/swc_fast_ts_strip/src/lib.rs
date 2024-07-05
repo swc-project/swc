@@ -7,7 +7,7 @@ use swc_common::{
     BytePos, FileName, SourceMap, Span, Spanned,
 };
 use swc_ecma_ast::{
-    BindingIdent, Class, ClassDecl, ClassMethod, ClassProp, Decorator, EsVersion, Ident,
+    BindingIdent, Class, ClassDecl, ClassMethod, ClassProp, Decorator, EsVersion, FnDecl, Ident,
     ImportDecl, ImportSpecifier, Param, Pat, Program, TsAsExpr, TsConstAssertion, TsEnumDecl,
     TsInstantiation, TsInterfaceDecl, TsModuleDecl, TsModuleName, TsNamespaceDecl, TsNonNullExpr,
     TsParamPropParam, TsSatisfiesExpr, TsTypeAliasDecl, TsTypeAnn, TsTypeAssertion,
@@ -187,6 +187,13 @@ impl Visit for TsStrip {
         HANDLER.with(|handler| {
             handler.span_err(n.span, "Decorators are not supported");
         });
+    }
+
+    fn visit_fn_decl(&mut self, n: &FnDecl) {
+        if n.function.body.is_none() {
+            self.add_replacement(n.function.span);
+            return;
+        }
     }
 
     fn visit_import_decl(&mut self, n: &ImportDecl) {
