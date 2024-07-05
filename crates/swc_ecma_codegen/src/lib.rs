@@ -213,6 +213,8 @@ where
     fn emit_module_decl(&mut self, node: &ModuleDecl) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
+        self.adjust_line_for_blank(node.span().lo)?;
+
         match *node {
             ModuleDecl::Import(ref d) => emit!(d),
             ModuleDecl::ExportDecl(ref d) => emit!(d),
@@ -242,16 +244,12 @@ where
                     emit!(dec);
                 }
 
-                self.adjust_line_for_retain_lines(decl.span().lo)?;
-
                 keyword!("export");
 
                 space!();
-                self.emit_class_decl_inner(decl, false, true)?;
+                self.emit_class_decl_inner(decl, true)?;
             }
             _ => {
-                self.adjust_line_for_retain_lines(n.span.lo)?;
-
                 keyword!("export");
 
                 space!();
@@ -1393,8 +1391,12 @@ where
 
     #[emitter]
     #[tracing::instrument(skip_all)]
-    fn emit_class_member(&mut self, node: &ClassMember) -> Result {
-        match *node {
+    fn emit_class_member(&mut self, n: &ClassMember) -> Result {
+        self.emit_leading_comments_of_span(n.span(), false)?;
+
+        self.adjust_line_for_blank(n.span().lo)?;
+
+        match *n {
             ClassMember::Constructor(ref n) => emit!(n),
             ClassMember::ClassProp(ref n) => emit!(n),
             ClassMember::Method(ref n) => emit!(n),
@@ -1410,8 +1412,6 @@ where
     #[emitter]
     fn emit_auto_accessor(&mut self, n: &AutoAccessor) -> Result {
         self.emit_list(n.span, Some(&n.decorators), ListFormat::Decorators)?;
-
-        self.adjust_line_for_retain_lines(n.span().lo)?;
 
         self.emit_accessibility(n.accessibility)?;
 
@@ -1464,10 +1464,6 @@ where
 
     #[emitter]
     fn emit_private_method(&mut self, n: &PrivateMethod) -> Result {
-        self.emit_leading_comments_of_span(n.span(), false)?;
-
-        self.adjust_line_for_retain_lines(n.span().lo)?;
-
         srcmap!(n, true);
 
         if n.is_static {
@@ -1520,7 +1516,7 @@ where
 
         self.emit_leading_comments_of_span(n.key.span(), false)?;
 
-        self.adjust_line_for_retain_lines(n.span().lo)?;
+        self.adjust_line_for_blank(n.span().lo)?;
 
         srcmap!(n, true);
 
@@ -1631,8 +1627,6 @@ where
     fn emit_private_prop(&mut self, n: &PrivateProp) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
 
-        self.adjust_line_for_retain_lines(n.span().lo)?;
-
         srcmap!(n, true);
 
         self.emit_list(n.span, Some(&n.decorators), ListFormat::Decorators)?;
@@ -1691,8 +1685,6 @@ where
     #[emitter]
     fn emit_class_prop(&mut self, n: &ClassProp) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
-
-        self.adjust_line_for_retain_lines(n.span().lo)?;
 
         srcmap!(n, true);
 
@@ -1800,8 +1792,6 @@ where
     #[emitter]
     fn emit_static_block(&mut self, n: &StaticBlock) -> Result {
         self.emit_leading_comments_of_span(n.span(), false)?;
-
-        self.adjust_line_for_retain_lines(n.span().lo)?;
 
         srcmap!(n, true);
 
@@ -2986,7 +2976,7 @@ where
     fn emit_stmt(&mut self, node: &Stmt) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
-        self.adjust_line_for_retain_lines(node.span().lo)?;
+        self.adjust_line_for_blank(node.span().lo)?;
 
         match node {
             Stmt::Expr(ref e) => emit!(e),
@@ -3015,7 +3005,7 @@ where
                 semi!();
             }
             Stmt::Decl(ref e) => {
-                self.emit_decl_inner(e, true)?;
+                self.emit_decl_inner(e)?;
             }
         }
         if self.comments.is_some() {
@@ -3031,8 +3021,6 @@ where
     #[tracing::instrument(skip_all)]
     fn emit_expr_stmt(&mut self, e: &ExprStmt) -> Result {
         self.emit_leading_comments_of_span(e.span, false)?;
-
-        self.adjust_line_for_retain_lines(e.span.lo)?;
 
         emit!(e.expr);
 
@@ -3642,7 +3630,7 @@ where
         }
     }
 
-    fn adjust_line_for_retain_lines(&mut self, lo: BytePos) -> Result {
+    fn adjust_line_for_blank(&mut self, lo: BytePos) -> Result {
         if self.cfg.blank_space_mode {
             let src_line = self.cm.lookup_char_pos(lo).line;
             let cur_line = self.wr.cur_line();

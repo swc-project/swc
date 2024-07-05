@@ -12,20 +12,20 @@ where
 {
     #[emitter]
     fn emit_decl(&mut self, node: &Decl) -> Result {
-        self.emit_decl_inner(node, false)?;
+        self.emit_decl_inner(node)?;
     }
 
-    pub(super) fn emit_decl_inner(&mut self, node: &Decl, is_stmt: bool) -> Result {
+    pub(super) fn emit_decl_inner(&mut self, node: &Decl) -> Result {
         match node {
             Decl::Class(ref n) => {
-                self.emit_class_decl_inner(n, is_stmt, false)?;
+                self.emit_class_decl_inner(n, false)?;
             }
             Decl::Fn(ref n) => {
-                self.emit_fn_decl_inner(n, is_stmt)?;
+                self.emit_fn_decl_inner(n)?;
             }
 
             Decl::Var(ref n) => {
-                self.emit_var_decl_inner(n, is_stmt)?;
+                self.emit_var_decl_inner(n)?;
                 formatting_semi!(self);
                 srcmap!(self, n, false);
             }
@@ -41,14 +41,12 @@ where
 
     #[emitter]
     fn emit_class_decl(&mut self, node: &ClassDecl) -> Result {
-        self.emit_class_decl_inner(node, false, false)?;
+        self.emit_class_decl_inner(node, false)?;
     }
 
     #[emitter]
     fn emit_using_decl(&mut self, node: &UsingDecl) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
-
-        self.adjust_line_for_retain_lines(node.span().lo)?;
 
         if node.is_await {
             keyword!("await");
@@ -68,14 +66,9 @@ where
     pub(super) fn emit_class_decl_inner(
         &mut self,
         node: &ClassDecl,
-        is_stmt: bool,
         skip_decorators: bool,
     ) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
-
-        if is_stmt {
-            self.adjust_line_for_retain_lines(node.span().lo)?;
-        }
 
         srcmap!(self, node, true);
 
@@ -107,15 +100,11 @@ where
 
     #[emitter]
     fn emit_fn_decl(&mut self, node: &FnDecl) -> Result {
-        self.emit_fn_decl_inner(node, false)?;
+        self.emit_fn_decl_inner(node)?;
     }
 
-    fn emit_fn_decl_inner(&mut self, node: &FnDecl, is_stmt: bool) -> Result {
+    fn emit_fn_decl_inner(&mut self, node: &FnDecl) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
-
-        if is_stmt {
-            self.adjust_line_for_retain_lines(node.span().lo)?;
-        }
 
         self.wr.commit_pending_semi()?;
 
@@ -148,19 +137,15 @@ where
 
     #[emitter]
     fn emit_var_decl(&mut self, node: &VarDecl) -> Result {
-        self.emit_var_decl_inner(node, false)?;
+        self.emit_var_decl_inner(node)?;
     }
 
-    fn emit_var_decl_inner(&mut self, node: &VarDecl, is_stmt: bool) -> Result {
+    fn emit_var_decl_inner(&mut self, node: &VarDecl) -> Result {
         self.emit_leading_comments_of_span(node.span, false)?;
 
         self.wr.commit_pending_semi()?;
 
         srcmap!(self, node, true);
-
-        if is_stmt {
-            self.adjust_line_for_retain_lines(node.span().lo)?;
-        }
 
         if node.declare {
             keyword!(self, "declare");
