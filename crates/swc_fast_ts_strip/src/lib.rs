@@ -7,11 +7,12 @@ use swc_common::{
     BytePos, FileName, SourceMap, Span, Spanned,
 };
 use swc_ecma_ast::{
-    BindingIdent, Class, ClassDecl, ClassMethod, ClassProp, Decorator, EsVersion, ExportSpecifier,
-    FnDecl, Ident, ImportDecl, ImportSpecifier, MethodKind, NamedExport, Param, Pat, Program,
-    TsAsExpr, TsConstAssertion, TsEnumDecl, TsInstantiation, TsInterfaceDecl, TsModuleDecl,
-    TsModuleName, TsNamespaceDecl, TsNonNullExpr, TsParamPropParam, TsSatisfiesExpr,
-    TsTypeAliasDecl, TsTypeAnn, TsTypeAssertion, TsTypeParamDecl, TsTypeParamInstantiation,
+    BindingIdent, Class, ClassDecl, ClassMethod, ClassProp, Decorator, EsVersion, ExportAll,
+    ExportDecl, ExportSpecifier, FnDecl, Ident, ImportDecl, ImportSpecifier, MethodKind,
+    NamedExport, Param, Pat, Program, TsAsExpr, TsConstAssertion, TsEnumDecl, TsInstantiation,
+    TsInterfaceDecl, TsModuleDecl, TsModuleName, TsNamespaceDecl, TsNonNullExpr, TsParamPropParam,
+    TsSatisfiesExpr, TsTypeAliasDecl, TsTypeAnn, TsTypeAssertion, TsTypeParamDecl,
+    TsTypeParamInstantiation,
 };
 use swc_ecma_parser::{
     parse_file_as_module, parse_file_as_program, parse_file_as_script, Syntax, TsSyntax,
@@ -203,6 +204,30 @@ impl Visit for TsStrip {
         });
     }
 
+    fn visit_export_all(&mut self, n: &ExportAll) {
+        if n.type_only {
+            self.add_replacement(n.span);
+            return;
+        }
+
+        n.visit_children_with(self);
+    }
+
+    fn visit_export_decl(&mut self, n: &ExportDecl) {
+        match n.decl {
+            swc_ecma_ast::Decl::TsInterface(_)
+            | swc_ecma_ast::Decl::TsTypeAlias(_)
+            | swc_ecma_ast::Decl::TsEnum(_)
+            | swc_ecma_ast::Decl::TsModule(_) => {
+                self.add_replacement(n.span);
+            }
+
+            _ => {
+                n.visit_children_with(self);
+            }
+        }
+    }
+
     fn visit_fn_decl(&mut self, n: &FnDecl) {
         if n.function.body.is_none() {
             self.add_replacement(n.function.span);
@@ -238,15 +263,6 @@ impl Visit for TsStrip {
     }
 
     fn visit_named_export(&mut self, n: &NamedExport) {
-        if n.type_only {
-            self.add_replacement(n.span);
-            return;
-        }
-
-        n.visit_children_with(self);
-    }
-
-    fn visit_export_all(&mut self, n: &swc_ecma_ast::ExportAll) {
         if n.type_only {
             self.add_replacement(n.span);
             return;
