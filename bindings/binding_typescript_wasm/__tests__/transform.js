@@ -94,6 +94,19 @@ describe("transform", () => {
             ).resolves.toMatchSnapshot();
         });
 
+        it("should strip complex expressions", async () => {
+            await expect(
+                swc.transform(
+                    `const foo = {
+                        foo: 1 as number,
+                        bar: "bar" as any as number,
+                    } satisfies number;
+                    const bar = "bar";`,
+                    {}
+                )
+            ).resolves.toMatchInlineSnapshot();
+        });
+
         it("should throw an error when it encounters an enum", async () => {
             await expect(
                 swc.transform("enum Foo {}", {
