@@ -1,0 +1,3 @@
+declare enum Foo {
+    A
+}

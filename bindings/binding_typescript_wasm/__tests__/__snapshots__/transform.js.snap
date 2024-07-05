@@ -1,8 +1,66 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`transform in strip-only mode should throw an error when it encounters an enum 1`] = `
+exports[`transform in strip-only mode should remove declare enum 1`] = `""`;
+
+exports[`transform in strip-only mode should remove declare enum 2`] = `""`;
+
+exports[`transform in strip-only mode should remove declare enum 3`] = `""`;
+
+exports[`transform in strip-only mode should strip complex expressions 1`] = `
+"const foo = {
+                        foo: 1,
+                        bar: "bar",
+                    };
+                    const bar = "bar";"
+`;
+
+exports[`transform in strip-only mode should strip nonnull assertions 1`] = `
+"const foo = 1;
+                    const bar = "bar";"
+`;
+
+exports[`transform in strip-only mode should strip satisfies 1`] = `
+"const foo = 1;
+                    const bar = "bar";"
+`;
+
+exports[`transform in strip-only mode should strip type annotations 1`] = `
+"const foo = 1;
+                    const bar = "bar";"
+`;
+
+exports[`transform in strip-only mode should strip type assertions 1`] = `
+"const foo = 1;
+                    const bar = "bar";"
+`;
+
+exports[`transform in strip-only mode should strip type declarations 1`] = `
+"const foo = 1;
+                    
+                    
+                    const bar = "bar";"
+`;
+
+exports[`transform in strip-only mode should throw an error when it encounters a module 1`] = `
+"  x TypeScript namespace declaration is not supported in strip-only mode
+   ,----
+ 1 | module 'foo' {}
+   : ^^^^^^^^^^^^^^^
+   \`----
 "
-  x TypeScript enum is not supported in strip-only mode
+`;
+
+exports[`transform in strip-only mode should throw an error when it encounters a namespace 1`] = `
+"  x TypeScript namespace declaration is not supported in strip-only mode
+   ,----
+ 1 | namespace Foo {}
+   : ^^^^^^^^^^^^^^^^
+   \`----
+"
+`;
+
+exports[`transform in strip-only mode should throw an error when it encounters an enum 1`] = `
+"  x TypeScript enum is not supported in strip-only mode
    ,----
  1 | enum Foo {}
    : ^^^^^^^^^^^
@@ -11,8 +69,7 @@ exports[`transform in strip-only mode should throw an error when it encounters a
 `;
 
 exports[`transform in strip-only mode should throw an error with a descriptive message when it encounters a decorator 1`] = `
-"
-  x Decorators are not supported
+"  x Decorators are not supported
    ,----
  1 | class Foo { @decorator foo() {} }
    :             ^^^^^^^^^^
@@ -20,13 +77,9 @@ exports[`transform in strip-only mode should throw an error with a descriptive m
 "
 `;
 
-exports[`transform in transform mode should transpile enum 1`] = `
-"var Foo;
-(function(Foo) {})(Foo || (Foo = {}));
-"
-`;
-
 exports[`transform should strip types 1`] = `
-"export const foo = 1;
 "
+        export const foo = 1;
+        
+    "
 `;
