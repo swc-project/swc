@@ -1426,6 +1426,22 @@ impl SourceMapper for SourceMap {
     fn doctest_offset_line(&self, line: usize) -> usize {
         self.doctest_offset_line(line)
     }
+
+    fn span_extend_to_prev_char(&self, sp: Span, c: char) -> Span {
+        self.span_extend_to_prev_char(sp, c)
+    }
+
+    fn span_extend_to_prev_str(&self, sp: Span, pat: &str, accept_newlines: bool) -> Span {
+        self.span_extend_to_prev_str(sp, pat, accept_newlines)
+    }
+
+    fn span_extend_to_next_char(&self, sp: Span, c: char) -> Span {
+        self.span_extend_to_next_char(sp, c)
+    }
+
+    fn span_extend_to_next_str(&self, sp: Span, pat: &str, accept_newlines: bool) -> Span {
+        self.span_extend_to_next_str(sp, pat, accept_newlines)
+    }
 }
 
 #[derive(Clone, Default)]

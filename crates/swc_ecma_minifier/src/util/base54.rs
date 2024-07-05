@@ -59,6 +59,22 @@ impl SourceMapper for DummySourceMap {
     fn span_to_snippet(&self, _: Span) -> Result<String, Box<swc_common::SpanSnippetError>> {
         Ok(String::new())
     }
+
+    fn span_extend_to_prev_char(&self, sp: Span, _: char) -> Span {
+        sp
+    }
+
+    fn span_extend_to_prev_str(&self, sp: Span, _: &str, _: bool) -> Span {
+        sp
+    }
+
+    fn span_extend_to_next_char(&self, sp: Span, _: char) -> Span {
+        sp
+    }
+
+    fn span_extend_to_next_str(&self, sp: Span, _: &str, _: bool) -> Span {
+        sp
+    }
 }
 
 impl SourceMapperExt for DummySourceMap {

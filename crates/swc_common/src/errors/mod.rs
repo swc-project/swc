@@ -154,6 +154,11 @@ pub trait SourceMapper: crate::sync::Send + crate::sync::Sync {
     fn call_span_if_macro(&self, sp: Span) -> Span;
     fn doctest_offset_line(&self, line: usize) -> usize;
     fn span_to_snippet(&self, sp: Span) -> Result<String, Box<SpanSnippetError>>;
+
+    fn span_extend_to_prev_char(&self, sp: Span, c: char) -> Span;
+    fn span_extend_to_prev_str(&self, sp: Span, pat: &str, accept_newlines: bool) -> Span;
+    fn span_extend_to_next_char(&self, sp: Span, c: char) -> Span;
+    fn span_extend_to_next_str(&self, sp: Span, pat: &str, accept_newlines: bool) -> Span;
 }
 
 impl CodeSuggestion {
