@@ -470,6 +470,8 @@ jobs:
             runner: ubuntu-latest
           - crate: swc_fast_graph
             os: ubuntu-latest
+          - crate: swc_fast_ts_strip
+            os: ubuntu-latest
             runner: ubuntu-latest
           - crate: swc_graph_analyzer
             os: ubuntu-latest
