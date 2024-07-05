@@ -24,24 +24,24 @@ describe("transform", () => {
                 swc.transform(`declare enum Foo {}`, {
                     mode: "strip-only",
                 })
-            ).resolves.toMatchSnapshot();
+            ).resolves.toBe("")
             await expect(
                 swc.transform(`declare enum Foo {
                     A
                 }`, {
                     mode: "strip-only",
                 })
-            ).resolves.toMatchSnapshot();
-            await expect(
+            ).resolves.toBe("")
+            expect(
                 swc.transform(`declare enum Foo {
                     a = 2,
                     b,
                     }`, {
                     mode: "strip-only",
                 })
-            ).resolves.toMatchSnapshot();
+            ).toBe("")
         });
-        
+
         it("should throw an error when it encounters an enum", async () => {
             await expect(
                 swc.transform("enum Foo {}", {
