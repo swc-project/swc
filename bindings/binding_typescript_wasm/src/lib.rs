@@ -1,5 +1,5 @@
 use anyhow::Error;
-use swc_core::common::{errors::ColorConfig, sync::Lrc, SourceMap, GLOBALS};
+use swc_common::{errors::ColorConfig, sync::Lrc, SourceMap, GLOBALS};
 use swc_error_reporters::handler::{try_with_handler, HandlerOpts};
 use swc_fast_ts_strip::Options;
 use wasm_bindgen::prelude::*;
