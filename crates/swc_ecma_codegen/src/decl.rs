@@ -38,6 +38,8 @@ where
     fn emit_using_decl(&mut self, node: &UsingDecl) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
 
+        self.adjust_line_for_retain_lines(node.span().lo)?;
+
         if node.is_await {
             keyword!("await");
             space!();
@@ -73,6 +75,8 @@ where
             }
         }
 
+        self.adjust_line_for_retain_lines(node.span().lo)?;
+
         if node.class.is_abstract {
             keyword!(self, "abstract");
             space!(self);
@@ -91,6 +95,8 @@ where
     #[emitter]
     fn emit_fn_decl(&mut self, node: &FnDecl) -> Result {
         self.emit_leading_comments_of_span(node.span(), false)?;
+
+        self.adjust_line_for_retain_lines(node.span().lo)?;
 
         self.wr.commit_pending_semi()?;
 
@@ -126,6 +132,8 @@ where
 
     fn emit_var_decl_inner(&mut self, node: &VarDecl) -> Result {
         self.emit_leading_comments_of_span(node.span, false)?;
+
+        self.adjust_line_for_retain_lines(node.span().lo)?;
 
         self.wr.commit_pending_semi()?;
 

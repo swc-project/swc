@@ -2980,8 +2980,6 @@ where
 {
     #[emitter]
     fn emit_stmt(&mut self, node: &Stmt) -> Result {
-        self.adjust_line_for_retain_lines(node.span().lo)?;
-
         match node {
             Stmt::Expr(ref e) => emit!(e),
             Stmt::Block(ref e) => {
@@ -3023,6 +3021,8 @@ where
     #[tracing::instrument(skip_all)]
     fn emit_expr_stmt(&mut self, e: &ExprStmt) -> Result {
         self.emit_leading_comments_of_span(e.span, false)?;
+
+        self.adjust_line_for_retain_lines(e.span.lo)?;
 
         emit!(e.expr);
 
