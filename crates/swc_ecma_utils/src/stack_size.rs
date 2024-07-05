@@ -25,5 +25,11 @@ pub fn maybe_grow<R, F: FnOnce() -> R>(red_zone: usize, stack_size: usize, callb
 ///
 /// `maybe_grow` with default values.
 pub fn maybe_grow_default<R, F: FnOnce() -> R>(callback: F) -> R {
-    maybe_grow(4 * 1024, 16 * 1024, callback)
+    let (red_zone, stack_size) = if cfg!(target_os = "linux") {
+        (4 * 1024, 16 * 1024)
+    } else {
+        (1024, 4 * 1024)
+    };
+
+    maybe_grow(red_zone, stack_size, callback)
 }

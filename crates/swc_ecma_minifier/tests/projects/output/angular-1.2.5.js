@@ -171,7 +171,7 @@
                     if (!equals(o1[key], o2[key])) return !1;
                     keySet[key] = !0;
                 }
-                for(key in o2)if (!keySet.hasOwnProperty(key) && "$" !== key.charAt(0) && undefined !== o2[key] && !isFunction(o2[key])) return !1;
+                for(key in o2)if (!keySet.hasOwnProperty(key) && "$" !== key.charAt(0) && o2[key] !== undefined && !isFunction(o2[key])) return !1;
                 return !0;
             }
         }
@@ -199,7 +199,7 @@
         return "string" == typeof key && "$" === key.charAt(0) ? val = undefined : isWindow(value) ? val = "$WINDOW" : value && document1 === value ? val = "$DOCUMENT" : isScope(value) && (val = "$SCOPE"), val;
     }
     function toJson(obj, pretty) {
-        if (void 0 !== obj) return JSON.stringify(obj, toJsonReplacer, pretty ? "  " : null);
+        return void 0 === obj ? undefined : JSON.stringify(obj, toJsonReplacer, pretty ? "  " : null);
     }
     function fromJson(json) {
         return isString(json) ? JSON.parse(json) : json;
@@ -440,7 +440,7 @@
         for(var names = isArray(name) ? name : [
             name
         ]; element.length;){
-            for(var i = 0, ii = names.length; i < ii; i++)if (undefined !== (value = element.data(names[i]))) return value;
+            for(var i = 0, ii = names.length; i < ii; i++)if ((value = element.data(names[i])) !== undefined) return value;
             element = element.parent();
         }
     }
@@ -939,7 +939,7 @@
             var cookieLength, cookieArray, cookie, i, index;
             if (name) undefined === value ? rawDocument.cookie = escape(name) + "=;path=" + cookiePath + ";expires=Thu, 01 Jan 1970 00:00:00 GMT" : isString(value) && (cookieLength = (rawDocument.cookie = escape(name) + "=" + escape(value) + ";path=" + cookiePath).length + 1) > 4096 && $log.warn("Cookie '" + name + "' possibly not set or overflowed because it was too large (" + cookieLength + " > 4096 bytes)!");
             else {
-                if (rawDocument.cookie !== lastCookieString) for(i = 0, cookieArray = (lastCookieString = rawDocument.cookie).split("; "), lastCookies = {}; i < cookieArray.length; i++)(index = (cookie = cookieArray[i]).indexOf("=")) > 0 && undefined === lastCookies[name = unescape(cookie.substring(0, index))] && (lastCookies[name] = unescape(cookie.substring(index + 1)));
+                if (rawDocument.cookie !== lastCookieString) for(i = 0, cookieArray = (lastCookieString = rawDocument.cookie).split("; "), lastCookies = {}; i < cookieArray.length; i++)(index = (cookie = cookieArray[i]).indexOf("=")) > 0 && lastCookies[name = unescape(cookie.substring(0, index))] === undefined && (lastCookies[name] = unescape(cookie.substring(index + 1)));
                 return lastCookies;
             }
         }, self.defer = function(fn, delay) {
@@ -1847,7 +1847,7 @@
             this.$$url = encodePath(this.$$path) + (search ? "?" + search : "") + hash, this.$$absUrl = appBaseNoFile + this.$$url.substr(1);
         }, this.$$rewrite = function(url) {
             var appUrl, prevAppUrl;
-            return undefined !== (appUrl = beginsWith(appBase, url)) ? (prevAppUrl = appUrl, undefined !== (appUrl = beginsWith(basePrefix, appUrl))) ? appBaseNoFile + (beginsWith("/", appUrl) || appUrl) : appBase + prevAppUrl : undefined !== (appUrl = beginsWith(appBaseNoFile, url)) ? appBaseNoFile + appUrl : appBaseNoFile == url + "/" ? appBaseNoFile : void 0;
+            return (appUrl = beginsWith(appBase, url)) !== undefined ? (prevAppUrl = appUrl, (appUrl = beginsWith(basePrefix, appUrl)) !== undefined) ? appBaseNoFile + (beginsWith("/", appUrl) || appUrl) : appBase + prevAppUrl : (appUrl = beginsWith(appBaseNoFile, url)) !== undefined ? appBaseNoFile + appUrl : appBaseNoFile == url + "/" ? appBaseNoFile : void 0;
         };
     }
     function LocationHashbangUrl(appBase, hashPrefix) {
@@ -2246,7 +2246,7 @@
                 promise.then(function(val) {
                     promise.$$v = val;
                 });
-            }(obj), undefined === obj.$$v && (obj.$$v = {}), obj = obj.$$v);
+            }(obj), obj.$$v === undefined && (obj.$$v = {}), obj = obj.$$v);
         }
         return obj[key = ensureSafeMemberName(element.shift(), fullExp)] = setValue, setValue;
     }
@@ -2403,9 +2403,9 @@
             var parser = this, indexFn = this.expression();
             return this.consume("]"), extend(function(self, locals) {
                 var v, p, o = obj(self, locals), i = indexFn(self, locals);
-                if (o) return (v = ensureSafeObject(o[i], parser.text)) && v.then && parser.options.unwrapPromises && (p = v, "$$v" in v || (p.$$v = undefined, p.then(function(val) {
+                return o ? ((v = ensureSafeObject(o[i], parser.text)) && v.then && parser.options.unwrapPromises && (p = v, "$$v" in v || (p.$$v = undefined, p.then(function(val) {
                     p.$$v = val;
-                })), v = v.$$v), v;
+                })), v = v.$$v), v) : undefined;
             }, {
                 assign: function(self, value, locals) {
                     var key = indexFn(self, locals);
@@ -3488,44 +3488,38 @@
         number: function(scope, element, attr, ctrl, $sniffer, $browser) {
             if (textInputType(scope, element, attr, ctrl, $sniffer, $browser), ctrl.$parsers.push(function(value) {
                 var empty = ctrl.$isEmpty(value);
-                if (empty || NUMBER_REGEXP.test(value)) return ctrl.$setValidity("number", !0), "" === value ? null : empty ? value : parseFloat(value);
-                ctrl.$setValidity("number", !1);
+                return empty || NUMBER_REGEXP.test(value) ? (ctrl.$setValidity("number", !0), "" === value ? null : empty ? value : parseFloat(value)) : (ctrl.$setValidity("number", !1), undefined);
             }), ctrl.$formatters.push(function(value) {
                 return ctrl.$isEmpty(value) ? "" : "" + value;
             }), attr.min) {
                 var minValidator = function(value) {
                     var min = parseFloat(attr.min);
-                    if (ctrl.$isEmpty(value) || !(value < min)) return ctrl.$setValidity("min", !0), value;
-                    ctrl.$setValidity("min", !1);
+                    return !ctrl.$isEmpty(value) && value < min ? (ctrl.$setValidity("min", !1), undefined) : (ctrl.$setValidity("min", !0), value);
                 };
                 ctrl.$parsers.push(minValidator), ctrl.$formatters.push(minValidator);
             }
             if (attr.max) {
                 var maxValidator = function(value) {
                     var max = parseFloat(attr.max);
-                    if (ctrl.$isEmpty(value) || !(value > max)) return ctrl.$setValidity("max", !0), value;
-                    ctrl.$setValidity("max", !1);
+                    return !ctrl.$isEmpty(value) && value > max ? (ctrl.$setValidity("max", !1), undefined) : (ctrl.$setValidity("max", !0), value);
                 };
                 ctrl.$parsers.push(maxValidator), ctrl.$formatters.push(maxValidator);
             }
             ctrl.$formatters.push(function(value) {
-                if (ctrl.$isEmpty(value) || isNumber(value)) return ctrl.$setValidity("number", !0), value;
-                ctrl.$setValidity("number", !1);
+                return ctrl.$isEmpty(value) || isNumber(value) ? (ctrl.$setValidity("number", !0), value) : (ctrl.$setValidity("number", !1), undefined);
             });
         },
         url: function(scope, element, attr, ctrl, $sniffer, $browser) {
             textInputType(scope, element, attr, ctrl, $sniffer, $browser);
             var urlValidator = function(value) {
-                if (ctrl.$isEmpty(value) || URL_REGEXP.test(value)) return ctrl.$setValidity("url", !0), value;
-                ctrl.$setValidity("url", !1);
+                return ctrl.$isEmpty(value) || URL_REGEXP.test(value) ? (ctrl.$setValidity("url", !0), value) : (ctrl.$setValidity("url", !1), undefined);
             };
             ctrl.$formatters.push(urlValidator), ctrl.$parsers.push(urlValidator);
         },
         email: function(scope, element, attr, ctrl, $sniffer, $browser) {
             textInputType(scope, element, attr, ctrl, $sniffer, $browser);
             var emailValidator = function(value) {
-                if (ctrl.$isEmpty(value) || EMAIL_REGEXP.test(value)) return ctrl.$setValidity("email", !0), value;
-                ctrl.$setValidity("email", !1);
+                return ctrl.$isEmpty(value) || EMAIL_REGEXP.test(value) ? (ctrl.$setValidity("email", !0), value) : (ctrl.$setValidity("email", !1), undefined);
             };
             ctrl.$formatters.push(emailValidator), ctrl.$parsers.push(emailValidator);
         },
@@ -3591,8 +3585,7 @@
             element.val(ctrl.$isEmpty(ctrl.$viewValue) ? "" : ctrl.$viewValue);
         };
         var patternValidator, match, pattern = attr.ngPattern, validate = function(regexp, value) {
-            if (ctrl.$isEmpty(value) || regexp.test(value)) return ctrl.$setValidity("pattern", !0), value;
-            ctrl.$setValidity("pattern", !1);
+            return ctrl.$isEmpty(value) || regexp.test(value) ? (ctrl.$setValidity("pattern", !0), value) : (ctrl.$setValidity("pattern", !1), undefined);
         };
         if (pattern && ((match = pattern.match(/^\/(.*)\/([gim]*)$/)) ? (pattern = new RegExp(match[1], match[2]), patternValidator = function(value) {
             return validate(pattern, value);
@@ -3602,15 +3595,13 @@
             return validate(patternObj, value);
         }, ctrl.$formatters.push(patternValidator), ctrl.$parsers.push(patternValidator)), attr.ngMinlength) {
             var minlength = int(attr.ngMinlength), minLengthValidator = function(value) {
-                if (ctrl.$isEmpty(value) || !(value.length < minlength)) return ctrl.$setValidity("minlength", !0), value;
-                ctrl.$setValidity("minlength", !1);
+                return !ctrl.$isEmpty(value) && value.length < minlength ? (ctrl.$setValidity("minlength", !1), undefined) : (ctrl.$setValidity("minlength", !0), value);
             };
             ctrl.$parsers.push(minLengthValidator), ctrl.$formatters.push(minLengthValidator);
         }
         if (attr.ngMaxlength) {
             var maxlength = int(attr.ngMaxlength), maxLengthValidator = function(value) {
-                if (ctrl.$isEmpty(value) || !(value.length > maxlength)) return ctrl.$setValidity("maxlength", !0), value;
-                ctrl.$setValidity("maxlength", !1);
+                return !ctrl.$isEmpty(value) && value.length > maxlength ? (ctrl.$setValidity("maxlength", !1), undefined) : (ctrl.$setValidity("maxlength", !0), value);
             };
             ctrl.$parsers.push(maxLengthValidator), ctrl.$formatters.push(maxLengthValidator);
         }
@@ -3720,7 +3711,7 @@
                         }), list;
                     }
                 }), ctrl.$formatters.push(function(value) {
-                    if (isArray(value)) return value.join(", ");
+                    return isArray(value) ? value.join(", ") : undefined;
                 }), ctrl.$isEmpty = function(value) {
                     return !value || !value.length;
                 };

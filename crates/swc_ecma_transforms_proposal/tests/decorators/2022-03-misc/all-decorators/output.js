@@ -52,10 +52,10 @@ new class extends _identity {
                         6,
                         "r",
                         function() {
-                            return this.#__r;
+                            return this.#__r_4;
                         },
                         function(_v) {
-                            this.#__r = _v;
+                            this.#__r_4 = _v;
                         }
                     ],
                     [
@@ -117,10 +117,10 @@ new class extends _identity {
                         1,
                         "h",
                         function() {
-                            return this.#__h;
+                            return this.#__h_2;
                         },
                         function(_v) {
-                            this.#__h = _v;
+                            this.#__h_2 = _v;
                         }
                     ],
                     [
@@ -148,12 +148,12 @@ new class extends _identity {
             b() {}
             get c() {}
             set c(v) {}
-            #___private_d = (_initProto(this), _init_d(this));
+            #___private_d_1 = (_initProto(this), _init_d(this));
             get d() {
-                return this.#___private_d;
+                return this.#___private_d_1;
             }
             set d(_v) {
-                this.#___private_d = _v;
+                this.#___private_d_1 = _v;
             }
             #e = _init_e(this);
             get #f() {
@@ -165,7 +165,7 @@ new class extends _identity {
             set #g(v) {
                 return _call_g1(this, v);
             }
-            #__h = _init_h(this);
+            #__h_2 = _init_h(this);
             get #h() {
                 return _get___h(this);
             }
@@ -177,14 +177,14 @@ new class extends _identity {
             static get k() {}
             static set l(v) {}
             static get m() {
-                return this.#___private_m;
+                return this.#___private_m_3;
             }
             static set m(_v) {
-                this.#___private_m = _v;
+                this.#___private_m_3 = _v;
             }
         }
     }
-    #___private_m = _init_m(this);
+    #___private_m_3 = _init_m(this);
     #n = _init_n(this);
     get #o() {
         return _call_o;
@@ -195,7 +195,7 @@ new class extends _identity {
     set #q(v) {
         return _call_q(this, v);
     }
-    #__r = _init_r(this);
+    #__r_4 = _init_r(this);
     get #r() {
         return _get___r(this);
     }

@@ -13,11 +13,11 @@ use swc_ecma_utils::{
 use swc_ecma_visit::{as_folder, noop_visit_mut_type, Fold, VisitMut, VisitMutWith};
 
 pub fn decorator_2022_03() -> impl VisitMut + Fold {
-    as_folder(Decorator202203::default())
+    as_folder(Decorator2022_03::default())
 }
 
 #[derive(Default)]
-struct Decorator202203 {
+struct Decorator2022_03 {
     /// Variables without initializer.
     extra_vars: Vec<VarDeclarator>,
 
@@ -35,6 +35,8 @@ struct Decorator202203 {
 
 #[derive(Default)]
 struct ClassState {
+    private_id_index: u32,
+
     static_lhs: Vec<Ident>,
     proto_lhs: Vec<Ident>,
 
@@ -55,7 +57,7 @@ struct ClassState {
     super_class: Option<Ident>,
 }
 
-impl Decorator202203 {
+impl Decorator2022_03 {
     fn preserve_side_effect_of_decorators(
         &mut self,
         decorators: Vec<Decorator>,
@@ -463,6 +465,7 @@ impl Decorator202203 {
         let has_static_member = body.iter().any(|m| match m {
             ClassMember::Method(m) => m.is_static,
             ClassMember::PrivateMethod(m) => m.is_static,
+            ClassMember::AutoAccessor(m) => m.is_static,
             ClassMember::ClassProp(ClassProp { is_static, .. })
             | ClassMember::PrivateProp(PrivateProp { is_static, .. }) => *is_static,
             ClassMember::StaticBlock(_) => true,
@@ -527,7 +530,9 @@ impl Decorator202203 {
 
             for m in body.iter_mut() {
                 match m {
-                    ClassMember::ClassProp(..) | ClassMember::PrivateProp(..) => {
+                    ClassMember::ClassProp(..)
+                    | ClassMember::PrivateProp(..)
+                    | ClassMember::AutoAccessor(..) => {
                         replace_ident(m, c.ident.to_id(), &new_class_name);
                     }
 
@@ -563,6 +568,13 @@ impl Decorator202203 {
                         }
                     }
                     ClassMember::PrivateMethod(p) => {
+                        if p.is_static {
+                            should_move = true;
+                            p.is_static = false;
+                        }
+                    }
+
+                    ClassMember::AutoAccessor(p) => {
                         if p.is_static {
                             should_move = true;
                             p.is_static = false;
@@ -753,7 +765,7 @@ impl Decorator202203 {
     }
 }
 
-impl VisitMut for Decorator202203 {
+impl VisitMut for Decorator2022_03 {
     noop_visit_mut_type!();
 
     fn visit_mut_class(&mut self, n: &mut Class) {
@@ -932,6 +944,8 @@ impl VisitMut for Decorator202203 {
         for mut m in members.take() {
             match m {
                 ClassMember::AutoAccessor(mut accessor) => {
+                    accessor.value.visit_mut_with(self);
+
                     let name;
                     let init;
                     let field_name_like: JsWord;
@@ -947,9 +961,14 @@ impl VisitMut for Decorator202203 {
                                 init = private_ident!(format!("_init_{}", k.id.sym));
                                 field_name_like = format!("__{}", k.id.sym).into();
 
+                                self.state.private_id_index += 1;
                                 PrivateName {
                                     span: k.span,
-                                    id: Ident::new(format!("__{}", k.id.sym).into(), k.id.span),
+                                    id: Ident::new(
+                                        format!("__{}_{}", k.id.sym, self.state.private_id_index)
+                                            .into(),
+                                        k.id.span,
+                                    ),
                                 }
                             }
                             Key::Public(k) => {
@@ -958,10 +977,16 @@ impl VisitMut for Decorator202203 {
                                     .replacen("init", "private", 1)
                                     .into();
 
+                                self.state.private_id_index += 1;
+
                                 PrivateName {
                                     span: init.span.with_ctxt(SyntaxContext::empty()),
                                     id: Ident::new(
-                                        field_name_like.clone(),
+                                        format!(
+                                            "{field_name_like}_{}",
+                                            self.state.private_id_index
+                                        )
+                                        .into(),
                                         init.span.with_ctxt(SyntaxContext::empty()),
                                     ),
                                 }
@@ -1310,7 +1335,9 @@ impl VisitMut for Decorator202203 {
 
         for mut m in new.take() {
             match m {
-                ClassMember::Method(..) | ClassMember::PrivateMethod(..) => {}
+                ClassMember::Method(..)
+                | ClassMember::PrivateMethod(..)
+                | ClassMember::AutoAccessor(..) => {}
 
                 _ => {
                     if !m.span().is_dummy() {
