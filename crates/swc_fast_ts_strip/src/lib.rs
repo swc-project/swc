@@ -7,9 +7,12 @@ use swc_common::{
     BytePos, FileName, SourceMap, Span, Spanned,
 };
 use swc_ecma_ast::{
-    BindingIdent, Decorator, EsVersion, Ident, ImportDecl, ImportSpecifier, Param, Pat, Program,
-    TsAsExpr, TsConstAssertion, TsEnumDecl, TsInstantiation, TsModuleDecl, TsModuleName,
-    TsNamespaceDecl, TsNonNullExpr, TsParamPropParam, TsSatisfiesExpr, TsTypeAliasDecl, TsTypeAnn,
+    ArrowExpr, BindingIdent, Class, ClassMethod, ClassProp, Decorator, EsVersion, ExportAll,
+    ExportDecl, ExportSpecifier, FnDecl, Ident, ImportDecl, ImportSpecifier, MethodKind,
+    NamedExport, Param, Pat, Program, TsAsExpr, TsConstAssertion, TsEnumDecl, TsInstantiation,
+    TsInterfaceDecl, TsModuleDecl, TsModuleName, TsNamespaceDecl, TsNonNullExpr, TsParamPropParam,
+    TsSatisfiesExpr, TsTypeAliasDecl, TsTypeAnn, TsTypeAssertion, TsTypeParamDecl,
+    TsTypeParamInstantiation, VarDecl,
 };
 use swc_ecma_parser::{
     parse_file_as_module, parse_file_as_program, parse_file_as_script, Syntax, TsSyntax,
@@ -83,7 +86,7 @@ pub fn operate(
     }
 
     // Strip typescript types
-    let mut ts_strip = TsStrip::new(fm.src.clone());
+    let mut ts_strip = TsStrip::new(cm.clone(), fm.src.clone());
     program.visit_with(&mut ts_strip);
 
     let replacements = ts_strip.replacements;
@@ -98,19 +101,48 @@ pub fn operate(
         code[(r.0 .0 - 1) as usize..(r.1 .0 - 1) as usize].fill(b' ');
     }
 
+    // Assert that removal does not overlap with each other
+
+    for removal in ts_strip.removals.iter() {
+        for r in &ts_strip.removals {
+            if removal == r {
+                continue;
+            }
+
+            assert!(
+                r.0 < removal.0 || r.1 < removal.0 || r.0 > removal.1 || r.1 > removal.1,
+                "removal {:?} overlaps with replacement {:?}",
+                removal,
+                r
+            );
+        }
+    }
+
+    for removal in ts_strip.removals.iter().copied().rev() {
+        code.drain((removal.0 .0 - 1) as usize..(removal.1 .0 - 1) as usize);
+    }
+
     String::from_utf8(code).map_err(|_| anyhow::anyhow!("failed to convert to utf-8"))
 }
 
 struct TsStrip {
+    cm: Lrc<SourceMap>,
     src: Lrc<String>,
+
+    /// Replaced with whitespace
     replacements: Vec<(BytePos, BytePos)>,
+
+    /// Applied after replacements. Used for arrow functions.
+    removals: Vec<(BytePos, BytePos)>,
 }
 
 impl TsStrip {
-    fn new(src: Lrc<String>) -> Self {
+    fn new(cm: Lrc<SourceMap>, src: Lrc<String>) -> Self {
         TsStrip {
+            cm,
             src,
             replacements: Default::default(),
+            removals: Default::default(),
         }
     }
 }
@@ -119,13 +151,206 @@ impl TsStrip {
     fn add_replacement(&mut self, span: Span) {
         self.replacements.push((span.lo, span.hi));
     }
+
+    fn add_removal(&mut self, span: Span) {
+        self.removals.push((span.lo, span.hi));
+    }
 }
 
 impl Visit for TsStrip {
+    fn visit_arrow_expr(&mut self, n: &ArrowExpr) {
+        if let Some(ret) = &n.return_type {
+            let mut sp = self.cm.span_extend_to_prev_char(ret.span, ')');
+
+            let pos = self.src[(sp.hi.0 as usize - 1)..].find("=>").unwrap();
+
+            sp.hi.0 += pos as u32;
+
+            self.add_removal(sp);
+        }
+
+        n.type_params.visit_with(self);
+        n.params.visit_with(self);
+        n.body.visit_with(self);
+    }
+
+    fn visit_binding_ident(&mut self, n: &BindingIdent) {
+        n.visit_children_with(self);
+
+        if n.optional {
+            self.add_replacement(span(n.id.span.hi, n.id.span.hi + BytePos(1)));
+        }
+    }
+
+    fn visit_class(&mut self, n: &Class) {
+        n.visit_children_with(self);
+
+        let lo = match &n.super_class {
+            Some(v) => v.span().hi,
+            None => n.span.lo,
+        };
+        let hi = skip_until(self.src.as_bytes(), lo.0, b'{');
+        self.add_replacement(span(lo, BytePos(hi)));
+    }
+
+    fn visit_class_method(&mut self, n: &ClassMethod) {
+        if n.function.body.is_none() {
+            self.add_replacement(n.span);
+            return;
+        }
+
+        let hi = match n.kind {
+            MethodKind::Method => {
+                if n.is_static {
+                    self.cm
+                        .span_extend_to_next_str(span(n.span.lo, n.span.lo), "static", false)
+                        .hi
+                } else {
+                    n.key.span().lo
+                }
+            }
+            MethodKind::Getter => {
+                self.cm
+                    .span_extend_to_next_str(span(n.span.lo, n.span.lo), "get", false)
+                    .hi
+            }
+            MethodKind::Setter => {
+                self.cm
+                    .span_extend_to_next_str(span(n.span.lo, n.span.lo), "set", false)
+                    .hi
+            }
+        };
+
+        self.add_replacement(span(n.span.lo, hi));
+
+        n.visit_children_with(self);
+    }
+
+    fn visit_class_prop(&mut self, n: &ClassProp) {
+        if n.declare {
+            self.add_replacement(n.span);
+            return;
+        }
+
+        let hi = if n.is_static {
+            self.cm
+                .span_extend_to_next_str(span(n.span.lo, n.span.lo), "static", false)
+                .hi
+        } else {
+            n.key.span().lo
+        };
+
+        self.add_replacement(span(n.span.lo, hi));
+
+        n.visit_children_with(self);
+    }
+
     fn visit_decorator(&mut self, n: &Decorator) {
         HANDLER.with(|handler| {
             handler.span_err(n.span, "Decorators are not supported");
         });
+    }
+
+    fn visit_export_all(&mut self, n: &ExportAll) {
+        if n.type_only {
+            self.add_replacement(n.span);
+            return;
+        }
+
+        n.visit_children_with(self);
+    }
+
+    fn visit_export_decl(&mut self, n: &ExportDecl) {
+        match n.decl {
+            swc_ecma_ast::Decl::TsInterface(_)
+            | swc_ecma_ast::Decl::TsTypeAlias(_)
+            | swc_ecma_ast::Decl::TsEnum(_)
+            | swc_ecma_ast::Decl::TsModule(_) => {
+                self.add_replacement(n.span);
+            }
+
+            _ => {
+                n.visit_children_with(self);
+            }
+        }
+    }
+
+    fn visit_fn_decl(&mut self, n: &FnDecl) {
+        if n.function.body.is_none() {
+            self.add_replacement(n.function.span);
+            return;
+        }
+        n.visit_children_with(self);
+    }
+
+    fn visit_import_decl(&mut self, n: &ImportDecl) {
+        if n.type_only {
+            self.add_replacement(n.span);
+            return;
+        }
+
+        n.visit_children_with(self);
+    }
+
+    fn visit_import_specifiers(&mut self, n: &[ImportSpecifier]) {
+        for (i, import) in n.iter().enumerate() {
+            let ImportSpecifier::Named(import) = import else {
+                continue;
+            };
+
+            if import.is_type_only {
+                let mut span = import.span;
+                span.hi.0 = n.get(i + 1).map(|x| x.span_lo().0).unwrap_or_else(|| {
+                    let bytes = self.src.as_bytes();
+                    skip_until(bytes, span.hi.0, b'}')
+                });
+                self.add_replacement(span);
+            }
+        }
+    }
+
+    fn visit_named_export(&mut self, n: &NamedExport) {
+        if n.type_only {
+            self.add_replacement(n.span);
+            return;
+        }
+
+        for export in n.specifiers.iter() {
+            if let ExportSpecifier::Named(e) = export {
+                if e.is_type_only {
+                    let sp = self.cm.span_extend_to_next_char(e.span, ',');
+                    self.add_replacement(span(sp.lo, sp.hi + BytePos(1)));
+                }
+            }
+        }
+    }
+
+    fn visit_params(&mut self, n: &[Param]) {
+        if let Some(p) = n.first().filter(|param| {
+            matches!(
+                &param.pat,
+                Pat::Ident(BindingIdent {
+                    id: Ident { sym, .. },
+                    ..
+                }) if &**sym == "this"
+            )
+        }) {
+            let mut span = p.span;
+
+            if n.len() == 1 {
+                let bytes = self.src.as_bytes();
+                span.hi.0 = skip_until(bytes, span.hi.0, b')');
+            } else {
+                span.hi = n[1].span.lo;
+                n[1..].visit_children_with(self);
+            }
+
+            self.add_replacement(span);
+
+            return;
+        }
+
+        n.visit_children_with(self);
     }
 
     fn visit_ts_as_expr(&mut self, n: &TsAsExpr) {
@@ -158,6 +383,10 @@ impl Visit for TsStrip {
         self.add_replacement(span(n.expr.span().hi, n.span.hi));
 
         n.expr.visit_children_with(self);
+    }
+
+    fn visit_ts_interface_decl(&mut self, n: &TsInterfaceDecl) {
+        self.add_replacement(n.span);
     }
 
     fn visit_ts_module_decl(&mut self, n: &TsModuleDecl) {
@@ -217,66 +446,27 @@ impl Visit for TsStrip {
         self.add_replacement(n.span);
     }
 
-    fn visit_binding_ident(&mut self, n: &BindingIdent) {
-        n.visit_children_with(self);
+    fn visit_ts_type_assertion(&mut self, n: &TsTypeAssertion) {
+        self.add_replacement(span(n.span.lo, n.expr.span().lo));
 
-        if n.optional {
-            self.add_replacement(span(n.id.span.hi, n.id.span.hi + BytePos(1)));
-        }
+        n.expr.visit_children_with(self);
     }
 
-    fn visit_params(&mut self, n: &[Param]) {
-        if let Some(p) = n.first().filter(|param| {
-            matches!(
-                &param.pat,
-                Pat::Ident(BindingIdent {
-                    id: Ident { sym, .. },
-                    ..
-                }) if &**sym == "this"
-            )
-        }) {
-            let mut span = p.span;
-
-            if n.len() == 1 {
-                let bytes = self.src.as_bytes();
-                span.hi.0 = skip_until(bytes, span.hi.0, b')');
-            } else {
-                span.hi = n[1].span.lo;
-                n[1..].visit_children_with(self);
-            }
-
-            self.add_replacement(span);
-
-            return;
-        }
-
-        n.visit_children_with(self);
+    fn visit_ts_type_param_decl(&mut self, n: &TsTypeParamDecl) {
+        self.add_replacement(n.span);
     }
 
-    fn visit_import_decl(&mut self, n: &ImportDecl) {
-        if n.type_only {
+    fn visit_ts_type_param_instantiation(&mut self, n: &TsTypeParamInstantiation) {
+        self.add_replacement(span(n.span.lo, n.span.hi));
+    }
+
+    fn visit_var_decl(&mut self, n: &VarDecl) {
+        if n.declare {
             self.add_replacement(n.span);
             return;
         }
 
         n.visit_children_with(self);
-    }
-
-    fn visit_import_specifiers(&mut self, n: &[ImportSpecifier]) {
-        for (i, import) in n.iter().enumerate() {
-            let ImportSpecifier::Named(import) = import else {
-                continue;
-            };
-
-            if import.is_type_only {
-                let mut span = import.span;
-                span.hi.0 = n.get(i + 1).map(|x| x.span_lo().0).unwrap_or_else(|| {
-                    let bytes = self.src.as_bytes();
-                    skip_until(bytes, span.hi.0, b'}')
-                });
-                self.add_replacement(span);
-            }
-        }
     }
 }
 
