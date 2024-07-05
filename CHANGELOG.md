@@ -37,6 +37,9 @@
 
 - **(es/typescript)** Improve fast TS stripper ([#9153](https://github.com/swc-project/swc/issues/9153)) ([732d748](https://github.com/swc-project/swc/commit/732d748d4eb7c19d11e37b06f5064d4eca5bf4d8))
 
+
+- **(es/typescript)** Improve fast TS strip ([#9154](https://github.com/swc-project/swc/issues/9154)) ([05c7210](https://github.com/swc-project/swc/commit/05c721030a0b419058524bff99367aa80ce29536))
+
 ### Performance
 
 
@@ -1351,9 +1354,6 @@
 
 
 - **(es/compat)** Preserve comment for arrow body ([#8427](https://github.com/swc-project/swc/issues/8427)) ([56992e3](https://github.com/swc-project/swc/commit/56992e3dccad6f9ce37b70bf77363468c310d875))
-
-
-- **(es/fixer)** Preserve parenthesis for optional chaining ([#8399](https://github.com/swc-project/swc/issues/8399)) ([a69f172](https://github.com/swc-project/swc/commit/a69f172aacb29caafef2c2af0659faf1b9154f2c))
 
 ### Features
 
