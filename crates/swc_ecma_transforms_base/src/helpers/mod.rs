@@ -385,6 +385,10 @@ define_helpers!(Helpers {
     dispose: (),
     using: (),
     using_ctx: (),
+
+    check_in_rhs: (),
+    set_function_name: (),
+    apply_decs_2311: (check_in_rhs, set_function_name, to_property_key),
 });
 
 pub fn inject_helpers(global_mark: Mark) -> impl Fold + VisitMut {
