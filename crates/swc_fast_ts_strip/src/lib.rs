@@ -7,9 +7,9 @@ use swc_common::{
     BytePos, FileName, SourceMap, Span, Spanned,
 };
 use swc_ecma_ast::{
-    BindingIdent, Decorator, EsVersion, Ident, Param, Pat, Program, TsAsExpr, TsConstAssertion,
-    TsEnumDecl, TsInstantiation, TsModuleDecl, TsModuleName, TsNamespaceDecl, TsNonNullExpr,
-    TsParamPropParam, TsSatisfiesExpr, TsTypeAliasDecl, TsTypeAnn,
+    BindingIdent, Decorator, EsVersion, Ident, ImportDecl, ImportSpecifier, Param, Pat, Program,
+    TsAsExpr, TsConstAssertion, TsEnumDecl, TsInstantiation, TsModuleDecl, TsModuleName,
+    TsNamespaceDecl, TsNonNullExpr, TsParamPropParam, TsSatisfiesExpr, TsTypeAliasDecl, TsTypeAnn,
 };
 use swc_ecma_parser::{
     parse_file_as_module, parse_file_as_program, parse_file_as_script, Syntax, TsSyntax,
@@ -83,7 +83,7 @@ pub fn operate(
     }
 
     // Strip typescript types
-    let mut ts_strip = TsStrip::default();
+    let mut ts_strip = TsStrip::new(fm.src.clone());
     program.visit_with(&mut ts_strip);
 
     let replacements = ts_strip.replacements;
@@ -92,20 +92,27 @@ pub fn operate(
         return Ok(fm.src.to_string());
     }
 
-    let mut code = <std::string::String as Clone>::clone(&fm.src).into_bytes();
+    let mut code = fm.src.to_string().into_bytes();
 
     for r in replacements {
-        code[(r.0 .0 - 1) as usize..(r.1 .0 - 1) as usize]
-            .iter_mut()
-            .for_each(|b| *b = b' ');
+        code[(r.0 .0 - 1) as usize..(r.1 .0 - 1) as usize].fill(b' ');
     }
 
     String::from_utf8(code).map_err(|_| anyhow::anyhow!("failed to convert to utf-8"))
 }
 
-#[derive(Default)]
 struct TsStrip {
+    src: Lrc<String>,
     replacements: Vec<(BytePos, BytePos)>,
+}
+
+impl TsStrip {
+    fn new(src: Lrc<String>) -> Self {
+        TsStrip {
+            src,
+            replacements: Default::default(),
+        }
+    }
 }
 
 impl TsStrip {
@@ -228,18 +235,59 @@ impl Visit for TsStrip {
                 }) if &**sym == "this"
             )
         }) {
-            let lo = p.span.lo;
-            let hi = n.get(1).map(|x| x.span.lo).unwrap_or(p.span.hi);
-            self.add_replacement(span(lo, hi));
+            let mut span = p.span;
 
-            n[1..].visit_children_with(self);
+            if n.len() == 1 {
+                let bytes = self.src.as_bytes();
+                span.hi.0 = skip_until(bytes, span.hi.0, b')');
+            } else {
+                span.hi = n[1].span.lo;
+                n[1..].visit_children_with(self);
+            }
+
+            self.add_replacement(span);
+
             return;
         }
 
         n.visit_children_with(self);
     }
+
+    fn visit_import_decl(&mut self, n: &ImportDecl) {
+        if n.type_only {
+            self.add_replacement(n.span);
+            return;
+        }
+
+        n.visit_children_with(self);
+    }
+
+    fn visit_import_specifiers(&mut self, n: &[ImportSpecifier]) {
+        for (i, import) in n.iter().enumerate() {
+            let ImportSpecifier::Named(import) = import else {
+                continue;
+            };
+
+            if import.is_type_only {
+                let mut span = import.span;
+                span.hi.0 = n.get(i + 1).map(|x| x.span_lo().0).unwrap_or_else(|| {
+                    let bytes = self.src.as_bytes();
+                    skip_until(bytes, span.hi.0, b'}')
+                });
+                self.add_replacement(span);
+            }
+        }
+    }
 }
 
 fn span(lo: BytePos, hi: BytePos) -> Span {
     Span::new(lo, hi, Default::default())
+}
+
+fn skip_until(bytes: &[u8], mut pos: u32, stop: u8) -> u32 {
+    while bytes[(pos - 1) as usize] != stop {
+        pos += 1;
+    }
+
+    pos
 }
