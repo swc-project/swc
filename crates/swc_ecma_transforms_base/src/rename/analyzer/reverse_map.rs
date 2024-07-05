@@ -1,16 +1,16 @@
 use rustc_hash::FxHashMap;
-
-use super::scope::{FastId, FastJsWord};
+use swc_atoms::Atom;
+use swc_ecma_ast::Id;
 
 #[derive(Debug, Default)]
 pub(crate) struct ReverseMap<'a> {
     prev: Option<&'a ReverseMap<'a>>,
 
-    inner: FxHashMap<FastJsWord, Vec<FastId>>,
+    inner: FxHashMap<Atom, Vec<Id>>,
 }
 
 impl ReverseMap<'_> {
-    pub fn push_entry(&mut self, key: FastJsWord, id: FastId) {
+    pub fn push_entry(&mut self, key: Atom, id: Id) {
         self.inner.entry(key).or_default().push(id);
     }
 
@@ -18,7 +18,7 @@ impl ReverseMap<'_> {
         Iter { cur: Some(self) }
     }
 
-    pub fn get<'a>(&'a self, key: &'a FastJsWord) -> impl Iterator<Item = &'a FastId> + 'a {
+    pub fn get<'a>(&'a self, key: &'a Atom) -> impl Iterator<Item = &'a Id> + 'a {
         self.iter()
             .filter_map(|v| v.inner.get(key))
             .flat_map(|v| v.iter())
