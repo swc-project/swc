@@ -12,21 +12,27 @@ where
 {
     #[emitter]
     fn emit_decl(&mut self, node: &Decl) -> Result {
+        self.emit_decl_inner(node, false)?;
+    }
+
+    pub(super) fn emit_decl_inner(&mut self, node: &Decl, is_stmt: bool) -> Result {
         match node {
-            Decl::Class(ref n) => emit!(n),
-            Decl::Fn(ref n) => emit!(n),
+            Decl::Class(ref n) => emit!(self, n),
+            Decl::Fn(ref n) => emit!(self, n),
 
             Decl::Var(ref n) => {
-                self.emit_var_decl_inner(n)?;
-                formatting_semi!();
-                srcmap!(n, false);
+                self.emit_var_decl_inner(n, is_stmt)?;
+                formatting_semi!(self);
+                srcmap!(self, n, false);
             }
-            Decl::Using(n) => emit!(n),
-            Decl::TsEnum(ref n) => emit!(n),
-            Decl::TsInterface(ref n) => emit!(n),
-            Decl::TsModule(ref n) => emit!(n),
-            Decl::TsTypeAlias(ref n) => emit!(n),
+            Decl::Using(n) => emit!(self, n),
+            Decl::TsEnum(ref n) => emit!(self, n),
+            Decl::TsInterface(ref n) => emit!(self, n),
+            Decl::TsModule(ref n) => emit!(self, n),
+            Decl::TsTypeAlias(ref n) => emit!(self, n),
         }
+
+        Ok(())
     }
 
     #[emitter]
@@ -127,13 +133,15 @@ where
 
     #[emitter]
     fn emit_var_decl(&mut self, node: &VarDecl) -> Result {
-        self.emit_var_decl_inner(node)?;
+        self.emit_var_decl_inner(node, false)?;
     }
 
-    fn emit_var_decl_inner(&mut self, node: &VarDecl) -> Result {
+    fn emit_var_decl_inner(&mut self, node: &VarDecl, is_stmt: bool) -> Result {
         self.emit_leading_comments_of_span(node.span, false)?;
 
-        self.adjust_line_for_retain_lines(node.span().lo)?;
+        if is_stmt {
+            self.adjust_line_for_retain_lines(node.span().lo)?;
+        }
 
         self.wr.commit_pending_semi()?;
 

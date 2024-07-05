@@ -3006,7 +3006,9 @@ where
                 emit!(e);
                 semi!();
             }
-            Stmt::Decl(ref e) => emit!(e),
+            Stmt::Decl(ref e) => {
+                self.emit_decl_inner(e, true)?;
+            }
         }
         if self.comments.is_some() {
             self.emit_trailing_comments_of_pos(node.span().hi(), true, true)?;
