@@ -1060,7 +1060,7 @@ checksum = "7e962a19be5cfc3f3bf6dd8f61eb50107f356ad6270fbb3ed41476571db78be5"
 
 [[package]]
 name = "dbg-swc"
-version = "0.96.3"
+version = "0.96.4"
 dependencies = [
  "anyhow",
  "clap 3.2.25",
@@ -3834,7 +3834,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.96.3"
+version = "0.96.4"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -4412,7 +4412,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.146.8"
+version = "0.146.9"
 dependencies = [
  "criterion",
  "either",
@@ -4529,7 +4529,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_transforms_base"
-version = "0.140.1"
+version = "0.140.2"
 dependencies = [
  "better_scoped_tls",
  "bitflags 2.5.0",
