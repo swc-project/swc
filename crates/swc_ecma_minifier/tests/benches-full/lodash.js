@@ -723,7 +723,7 @@
             return hasOwnProperty.call(data, key) ? data[key] : undefined;
         }, Hash.prototype.has = function(key) {
             var data = this.__data__;
-            return nativeCreate ? undefined !== data[key] : hasOwnProperty.call(data, key);
+            return nativeCreate ? data[key] !== undefined : hasOwnProperty.call(data, key);
         }, Hash.prototype.set = function(key, value) {
             var data = this.__data__;
             return this.size += this.has(key) ? 0 : 1, data[key] = nativeCreate && undefined === value ? HASH_UNDEFINED : value, this;
@@ -1546,7 +1546,7 @@
                     }
                     (value = source[5]) && (partials = data[5], data[5] = partials ? composeArgsRight(partials, value, source[6]) : value, data[6] = partials ? replaceHolders(data[5], PLACEHOLDER) : source[6]), (value = source[7]) && (data[7] = value), 128 & srcBitmask && (data[8] = null == data[8] ? source[8] : nativeMin(data[8], source[8])), null == data[9] && (data[9] = source[9]), data[0] = source[0], data[1] = newBitmask;
                 }
-            }(newData, data), func = newData[0], bitmask = newData[1], thisArg = newData[2], partials = newData[3], holders = newData[4], (arity = newData[9] = undefined === newData[9] ? isBindKey ? 0 : func.length : nativeMax(newData[9] - length, 0)) || !(24 & bitmask) || (bitmask &= -25), bitmask && 1 != bitmask) 8 == bitmask || 16 == bitmask ? (func1 = func, bitmask1 = bitmask, arity1 = arity, Ctor = createCtor(func1), result = function wrapper() {
+            }(newData, data), func = newData[0], bitmask = newData[1], thisArg = newData[2], partials = newData[3], holders = newData[4], (arity = newData[9] = newData[9] === undefined ? isBindKey ? 0 : func.length : nativeMax(newData[9] - length, 0)) || !(24 & bitmask) || (bitmask &= -25), bitmask && 1 != bitmask) 8 == bitmask || 16 == bitmask ? (func1 = func, bitmask1 = bitmask, arity1 = arity, Ctor = createCtor(func1), result = function wrapper() {
                 for(var length = arguments.length, args = Array1(length), index = length, placeholder = getHolder(wrapper); index--;)args[index] = arguments[index];
                 var holders = length < 3 && args[0] !== placeholder && args[length - 1] !== placeholder ? [] : replaceHolders(args, placeholder);
                 return (length -= holders.length) < arity1 ? createRecurry(func1, bitmask1, createHybrid, wrapper.placeholder, undefined, args, holders, undefined, undefined, arity1 - length) : apply(this && this !== root && this instanceof wrapper ? Ctor : func1, this, args);
@@ -3061,7 +3061,7 @@
         }, lodash.prototype.commit = function() {
             return new LodashWrapper(this.value(), this.__chain__);
         }, lodash.prototype.next = function() {
-            undefined === this.__values__ && (this.__values__ = toArray(this.value()));
+            this.__values__ === undefined && (this.__values__ = toArray(this.value()));
             var done = this.__index__ >= this.__values__.length, value = done ? undefined : this.__values__[this.__index__++];
             return {
                 done: done,
