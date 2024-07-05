@@ -112,25 +112,9 @@ enum BabelPluginOption {
     Decorator { version: DecoratorVersion },
 }
 
-fn read_options_json(input: &Path) -> BabelTestOptions {
-    let mut options_path = input.to_path_buf();
-    options_path.set_file_name("options.json");
-
-    if options_path.exists() {
-        let s = std::fs::read_to_string(&options_path).unwrap();
-        println!("Options: {}", s);
-        return serde_json::from_str(&s).expect("failed to read options.json");
-    }
-
-    println!("Reading options from {:?}", options_path);
-
-    // Look for parent directory
-
-    read_options_json(options_path.parent().unwrap())
-}
-
 fn create_pass(comments: Rc<SingleThreadedComments>, input: &Path) -> Box<dyn Fold> {
-    let options_json = read_options_json(input);
+    let options_json: BabelTestOptions =
+        swc_ecma_transforms_testing::parse_options(input.parent().unwrap());
 
     let unresolved_mark = Mark::new();
     let top_level_mark = Mark::new();
