@@ -28,7 +28,7 @@ use swc_common::{
     FileName, Mark, SourceMap, DUMMY_SP,
 };
 use swc_ecma_ast::*;
-use swc_ecma_codegen::{to_code_default, Emitter};
+use swc_ecma_codegen::to_code_default;
 use swc_ecma_parser::{lexer::Lexer, Parser, StringInput, Syntax};
 use swc_ecma_testing::{exec_node_js, JsExecOptions};
 use swc_ecma_transforms_base::{
@@ -896,23 +896,6 @@ fn test_fixture_inner<'a>(
         let actual_src = {
             let module = &actual;
             let comments: &Rc<SingleThreadedComments> = &tester.comments.clone();
-            let mut buf = vec![];
-            {
-                let mut emitter = Emitter {
-                    cfg: Default::default(),
-                    cm: tester.cm.clone(),
-                    wr: Box::new(swc_ecma_codegen::text_writer::JsWriter::new(
-                        tester.cm.clone(),
-                        "\n",
-                        &mut buf,
-                        src_map.as_mut(),
-                    )),
-                    comments: Some(comments),
-                };
-
-                // println!("Emitting: {:?}", module);
-                emitter.emit_module(module).unwrap();
-            }
 
             if let Some(src_map) = &mut src_map {
                 sourcemap = Some(tester.cm.build_source_map_with_config(
@@ -922,8 +905,7 @@ fn test_fixture_inner<'a>(
                 ));
             }
 
-            let s = String::from_utf8_lossy(&buf);
-            s.to_string()
+            to_code_default(tester.cm.clone(), Some(comments), module)
         };
 
         Ok(actual_src)
