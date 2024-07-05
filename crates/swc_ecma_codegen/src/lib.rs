@@ -1390,6 +1390,8 @@ where
     #[emitter]
     #[tracing::instrument(skip_all)]
     fn emit_class_member(&mut self, node: &ClassMember) -> Result {
+        self.adjust_line_for_retain_lines(node.span().lo)?;
+
         match *node {
             ClassMember::Constructor(ref n) => emit!(n),
             ClassMember::ClassProp(ref n) => emit!(n),
@@ -3624,6 +3626,7 @@ where
             let src_line = self.cm.lookup_char_pos(lo).line;
             let cur_line = self.wr.cur_line();
 
+            dbg!(src_line, cur_line);
             self.wr.force_write_line(src_line - cur_line)?;
         }
 
