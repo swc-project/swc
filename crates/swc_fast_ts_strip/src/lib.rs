@@ -82,11 +82,11 @@ pub fn operate(
         return Err(anyhow::anyhow!("failed to parse"));
     }
 
-    let mut replacements = vec![];
     // Strip typescript types
-    program.visit_with(&mut TsStrip {
-        replacements: &mut replacements,
-    });
+    let mut ts_strip = TsStrip::default();
+    program.visit_with(&mut ts_strip);
+
+    let mut replacements = ts_strip.replacements;
 
     if replacements.is_empty() {
         return Ok(fm.src.to_string());
@@ -107,17 +107,18 @@ pub fn operate(
     Ok(code)
 }
 
-struct TsStrip<'a> {
-    replacements: &'a mut Vec<(BytePos, BytePos)>,
+#[derive(Default)]
+struct TsStrip {
+    replacements: Vec<(BytePos, BytePos)>,
 }
 
-impl TsStrip<'_> {
+impl TsStrip {
     fn add_replacement(&mut self, span: Span) {
         self.replacements.push((span.lo, span.hi));
     }
 }
 
-impl Visit for TsStrip<'_> {
+impl Visit for TsStrip {
     fn visit_decorator(&mut self, n: &Decorator) {
         HANDLER.with(|handler| {
             handler.span_err(n.span, "Decorators are not supported");
