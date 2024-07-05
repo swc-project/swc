@@ -3834,7 +3834,7 @@ dependencies = [
 
 [[package]]
 name = "swc_core"
-version = "0.96.4"
+version = "0.96.5"
 dependencies = [
  "anyhow",
  "binding_macros",
@@ -4848,7 +4848,7 @@ dependencies = [
 
 [[package]]
 name = "swc_error_reporters"
-version = "0.18.0"
+version = "0.18.1"
 dependencies = [
  "anyhow",
  "miette",
