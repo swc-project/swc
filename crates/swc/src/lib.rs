@@ -1043,7 +1043,7 @@ impl Compiler {
                         .with_emit_assert_for_import_attributes(
                             config.emit_assert_for_import_attributes,
                         )
-                        .with_retain_lines(config.retain_lines),
+                        .with_blank_space_mode(config.blank_space_mode),
                     output: if output.is_empty() {
                         None
                     } else {

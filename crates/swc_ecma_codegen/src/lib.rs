@@ -3633,7 +3633,7 @@ where
     }
 
     fn adjust_line_for_retain_lines(&mut self, lo: BytePos) -> Result {
-        if self.cfg.retain_lines {
+        if self.cfg.blank_space_mode {
             let src_line = self.cm.lookup_char_pos(lo).line;
             let cur_line = self.wr.cur_line();
 

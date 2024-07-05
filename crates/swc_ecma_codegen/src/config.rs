@@ -40,8 +40,12 @@ pub struct Config {
     #[cfg_attr(feature = "serde-impl", serde(default))]
     pub inline_script: bool,
 
+    /// Preserves line and column so the generated output has same line and
+    /// column without sourcemap.
+    ///
+    /// See https://github.com/swc-project/swc/pull/9144 for details.
     #[cfg_attr(feature = "serde-impl", serde(default))]
-    pub retain_lines: bool,
+    pub blank_space_mode: bool,
 }
 
 impl Default for Config {
@@ -53,7 +57,7 @@ impl Default for Config {
             omit_last_semi: false,
             emit_assert_for_import_attributes: false,
             inline_script: false,
-            retain_lines: false,
+            blank_space_mode: false,
         }
     }
 }
@@ -92,8 +96,8 @@ impl Config {
         self
     }
 
-    pub fn with_retain_lines(mut self, retain_lines: bool) -> Self {
-        self.retain_lines = retain_lines;
+    pub fn with_blank_space_mode(mut self, blank_space_mode: bool) -> Self {
+        self.blank_space_mode = blank_space_mode;
         self
     }
 }
