@@ -91,4 +91,9 @@ impl Config {
         self.inline_script = inline_script;
         self
     }
+
+    pub fn with_retain_lines(mut self, retain_lines: bool) -> Self {
+        self.retain_lines = retain_lines;
+        self
+    }
 }
