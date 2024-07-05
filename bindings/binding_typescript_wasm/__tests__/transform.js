@@ -42,7 +42,7 @@ describe("transform", () => {
             ).resolves.toMatchSnapshot();
         });
 
-        it.only("should strip type declarations", async () => {
+        it("should strip type declarations", async () => {
             await expect(
                 swc.transform(
                     `const foo = 1;
@@ -52,6 +52,58 @@ describe("transform", () => {
                     {}
                 )
             ).resolves.toMatchSnapshot();
+        });
+
+        it("should strip type annotations", async () => {
+            await expect(
+                swc.transform(
+                    `const foo = 1;
+                    const bar: Bar = "bar";`,
+                    {}
+                )
+            ).resolves.toMatchInlineSnapshot(`
+                "const foo = 1;
+                                    const bar = "bar";"
+            `);
+        });
+
+        it("should strip type assertions", async () => {
+            await expect(
+                swc.transform(
+                    `const foo = 1 as number;
+                    const bar = "bar";`,
+                    {}
+                )
+            ).resolves.toMatchInlineSnapshot(`
+                "const foo = 1 as number;
+                                    const bar = "bar";"
+            `);
+        });
+
+        it("should strip nonnull assertions", async () => {
+            await expect(
+                swc.transform(
+                    `const foo = 1!;
+                    const bar = "bar";`,
+                    {}
+                )
+            ).resolves.toMatchInlineSnapshot(`
+                "const foo = 1;
+                                    const bar = "bar";"
+            `);
+        });
+
+        it("should strip satisfies", async () => {
+            await expect(
+                swc.transform(
+                    `const foo = 1 satisfies number;
+                    const bar = "bar";`,
+                    {}
+                )
+            ).resolves.toMatchInlineSnapshot(`
+                "const foo = 1;
+                                    const bar = "bar";"
+            `);
         });
 
         it("should throw an error when it encounters an enum", async () => {
