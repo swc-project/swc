@@ -20,3 +20,6 @@ swc_core = { version = "0.96.3", path = "../swc_core", features = [
     "ecma_parser",
     "ecma_visit",
 ] }
+
+[dev-dependencies]
+testing = { version = "0.36.0", path = "../testing" }
