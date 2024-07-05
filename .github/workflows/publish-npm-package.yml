@@ -533,6 +533,8 @@ jobs:
   publish-wasm:
     name: Build - wasm (${{ matrix.settings.npm }})
     runs-on: ubuntu-latest
+    needs:
+      - build
     strategy:
       fail-fast: false
       matrix:
