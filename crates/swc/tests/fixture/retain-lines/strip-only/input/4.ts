@@ -2,6 +2,9 @@
 
 export const mySet = new Set<string>();
 
+
+export const call2 = call<string>();
+
 const myMap = new Map<string, number>();
 
 export class Foo { }
