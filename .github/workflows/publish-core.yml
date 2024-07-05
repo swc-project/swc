@@ -1,0 +1,577 @@
+name: Publish (core)
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  DEBUG: napi:*
+  APP_NAME: swc
+  MACOSX_DEPLOYMENT_TARGET: "10.13"
+  CARGO_INCREMENTAL: 0
+  CARGO_PROFILE_RELEASE_LTO: "fat"
+  CI: "1"
+  DISABLE_PLUGIN_E2E_TESTS: true
+  # https://github.com/actions/setup-node/issues/899#issuecomment-1819151595
+  SKIP_YARN_COREPACK_CHECK: 1
+
+permissions:
+  contents: write
+  id-token: write
+
+on:
+  push:
+    branches:
+      - ci
+      - ci*
+      - main
+    tags:
+      - v*
+
+jobs:
+  build:
+    if: ${{ startsWith(github.ref, 'refs/tags/v') || startsWith(github.ref, 'refs/heads/ci') }}
+    strategy:
+      fail-fast: false
+      matrix:
+        settings:
+          - host: macos-latest
+            target: x86_64-apple-darwin
+            build: |
+              cargo build --manifest-path ../../bindings/swc_cli/Cargo.toml --release --features plugin --target x86_64-apple-darwin
+              cp ../../bindings/target/x86_64-apple-darwin/release/swc .
+              chmod +x ./swc
+              yarn build --target x86_64-apple-darwin
+              strip -x *.node
+          - host: windows-latest
+            build: |
+              export CARGO_PROFILE_RELEASE_LTO=false
+              yarn build --target x86_64-pc-windows-msvc
+              cargo build --manifest-path ../../bindings/swc_cli/Cargo.toml --release --features plugin --target x86_64-pc-windows-msvc
+              cp ../../bindings/target/x86_64-pc-windows-msvc/release/swc .
+            target: x86_64-pc-windows-msvc
+          - host: windows-latest
+            # use npm to run test, because of corepack link the yarn with x64 Node.js
+            build: |
+              export DISABLE_PLUGIN_E2E_TESTS=true
+              export CARGO_PROFILE_RELEASE_LTO=false
+              cargo build --manifest-path ../../bindings/swc_cli/Cargo.toml --release --target i686-pc-windows-msvc
+              cp ../../bindings/target/i686-pc-windows-msvc/release/swc .
+              yarn build --target i686-pc-windows-msvc --no-default-features --features swc_v1
+              npm run test
+            target: i686-pc-windows-msvc
+          - host: ubuntu-latest
+            target: x86_64-unknown-linux-gnu
+            docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-debian
+            build: >-
+              set -e &&
+              unset CC_x86_64_unknown_linux_gnu && unset CC && RUSTFLAGS='-C target-feature=+sse2' cargo build --manifest-path ../../bindings/swc_cli/Cargo.toml --release --features plugin --target x86_64-unknown-linux-gnu &&
+              rm -rf ../../bindings/target/target/x86_64-unknown-linux-gnu/release/.cargo-lock &&
+              cp ../../bindings/target/x86_64-unknown-linux-gnu/release/swc . && chmod +x ./swc &&
+              yarn build --target x86_64-unknown-linux-gnu
+          - host: ubuntu-latest
+            target: x86_64-unknown-linux-musl
+            # musl build is slow, let's disable the LTO
+            docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine
+            build: >-
+              set -e &&
+              export CARGO_PROFILE_RELEASE_LTO=false &&
+              RUSTFLAGS='-C target-feature=+sse2' cargo build --manifest-path ../../bindings/swc_cli/Cargo.toml --release --features plugin --target x86_64-unknown-linux-musl &&
+              rm -rf target/release/.cargo-lock &&
+              cp ../../bindings/target/x86_64-unknown-linux-musl/release/swc . && chmod +x ./swc &&
+              RUSTFLAGS='-C target-feature=+sse2 -C target-feature=-crt-static' yarn build --target x86_64-unknown-linux-musl
+          - host: macos-latest
+            target: aarch64-apple-darwin
+            build: |
+              sudo rm -Rf /Library/Developer/CommandLineTools/SDKs/*;
+              export CC=$(xcrun -f clang);
+              export CXX=$(xcrun -f clang++);
+              SYSROOT=$(xcrun --sdk macosx --show-sdk-path);
+              export CFLAGS="-isysroot $SYSROOT -isystem $SYSROOT";
+              cargo build --manifest-path ../../bindings/swc_cli/Cargo.toml --release --features plugin --target aarch64-apple-darwin
+              cp ../../bindings/target/aarch64-apple-darwin/release/swc .
+              chmod +x ./swc
+              yarn build --target aarch64-apple-darwin
+          - host: ubuntu-latest
+            target: aarch64-unknown-linux-gnu
+            docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-debian-aarch64
+            build: >-
+              set -e &&
+              export JEMALLOC_SYS_WITH_LG_PAGE=16 &&
+              rustup target add aarch64-unknown-linux-gnu &&
+              RUSTFLAGS='' cargo build --manifest-path ../../bindings/swc_cli/Cargo.toml --release --features plugin --target aarch64-unknown-linux-gnu &&
+              cp ../../bindings/target/aarch64-unknown-linux-gnu/release/swc . && chmod +x ./swc &&
+              export CC_aarch64_unknown_linux_gnu=/usr/aarch64-unknown-linux-gnu/bin/aarch64-unknown-linux-gnu-gcc &&
+              yarn build --target aarch64-unknown-linux-gnu
+          - host: ubuntu-latest
+            target: armv7-unknown-linux-gnueabihf
+            build: |
+              export DISABLE_PLUGIN_E2E_TESTS=true
+              yarn napi build --bin swc --release --target armv7-unknown-linux-gnueabihf --manifest-path ../../bindings/swc_cli/Cargo.toml -x --target-dir ../release -o .
+              chmod +x ./swc
+              yarn build --target armv7-unknown-linux-gnueabihf --no-default-features --features swc_v1 --use-napi-cross
+          - host: ubuntu-latest
+            target: aarch64-unknown-linux-musl
+            downloadTarget: aarch64-unknown-linux-musl
+            docker: ghcr.io/napi-rs/napi-rs/nodejs-rust:lts-alpine
+            build: >-
+              export JEMALLOC_SYS_WITH_LG_PAGE=16 &&
+              rustup toolchain install $(cat ../../rust-toolchain) &&
+              rustup target add aarch64-unknown-linux-musl &&
+              RUSTFLAGS='-C target-feature=+crt-static -C link-arg=-lgcc' cargo build --manifest-path ../../bindings/swc_cli/Cargo.toml --release --features plugin --target aarch64-unknown-linux-musl &&
+              rm -rf target/release/.cargo-lock &&
+              cp ../../bindings/target/aarch64-unknown-linux-musl/release/swc . && chmod +x ./swc &&
+              env RUSTFLAGS='-C target-feature=-crt-static' yarn build --target=aarch64-unknown-linux-musl
+          - host: windows-latest
+            target: aarch64-pc-windows-msvc
+            # Disable `LTO` and increase `codegen-units` to avoid llvm `OOM` on GitHub Actions.
+            build: |
+              export DISABLE_PLUGIN_E2E_TESTS=true
+              export CARGO_PROFILE_RELEASE_CODEGEN_UNITS=256
+              export CARGO_PROFILE_RELEASE_LTO=false
+              cargo build --manifest-path ../../bindings/swc_cli/Cargo.toml --release --target aarch64-pc-windows-msvc
+              cp ../../bindings/target/aarch64-pc-windows-msvc/release/swc.exe .
+              yarn build --target aarch64-pc-windows-msvc --no-default-features --features swc_v1
+    name: stable - ${{ matrix.settings.target }} - node@20
+    runs-on: ${{ matrix.settings.host }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Corepack
+        shell: bash
+        run: corepack enable
+      - name: Setup node x64
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: yarn
+          architecture: x64
+      - name: Output toolchain
+        id: toolchain
+        shell: bash
+        run: echo "version=$(cat ./rust-toolchain)" >> "$GITHUB_OUTPUT"
+      - name: Install
+        uses: dtolnay/rust-toolchain@stable
+        if: ${{ !matrix.settings.docker }}
+        with:
+          targets: ${{ matrix.settings.target }}
+          toolchain: ${{ steps.toolchain.outputs.version }}
+      - uses: goto-bus-stop/setup-zig@v2
+        if: ${{ matrix.settings.target == 'armv7-unknown-linux-gnueabihf' }}
+        with:
+          version: 0.12.0
+      - name: Cache cargo registry
+        uses: actions/cache@v3
+        with:
+          path: ~/.cargo/registry
+          key: ${{ matrix.settings.target }}-node@20-cargo-registry-trimmed
+      - name: Cache cargo index
+        uses: actions/cache@v3
+        with:
+          path: ~/.cargo/git
+          key: ${{ matrix.settings.target }}-node@20-cargo-index-trimmed
+        if: ${{ matrix.settings.docker }}
+      - name: Setup toolchain
+        run: ${{ matrix.settings.setup }}
+        if: ${{ matrix.settings.setup }}
+        shell: bash
+      # use x64 Node.js to install dependencies because of ia32 version will fail with `Error: Couldn't allocate enough memory`
+      - name: Setup install target x86
+        if: matrix.settings.target == 'i686-pc-windows-msvc'
+        run: yarn config set supportedArchitectures.cpu "ia32"
+        shell: bash
+      - name: Install dependencies
+        # run corepack enable again
+        # because on Windows, yarn will use `cmd` to run `yarn install`
+        shell: bash
+        run: |
+          corepack enable
+          yarn install
+          curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+          echo '/usr/local/cargo/bin' >> $GITHUB_PATH
+      - name: Setup node x86
+        uses: actions/setup-node@v4
+        if: matrix.settings.target == 'i686-pc-windows-msvc'
+        with:
+          node-version: 20
+          architecture: x86
+      - name: Build in docker
+        uses: addnab/docker-run-action@v3
+        if: ${{ matrix.settings.docker }}
+        with:
+          image: ${{ matrix.settings.docker }}
+          options: -v ${{ env.HOME }}/.cargo/git:/root/.cargo/git -v ${{ env.HOME }}/.cargo/registry:/root/.cargo/registry -v ${{ github.workspace }}:/build -w /build
+          run: >-
+            cd ./packages/core &&
+            npm install -f -g yarn@1.22.19 && 
+            corepack enable &&
+            npm i -g wasm-pack &&
+            ${{ matrix.settings.build }}
+      - name: Build
+        working-directory: ./packages/core
+        if: ${{ !matrix.settings.docker }}
+        run: ${{ matrix.settings.build }}
+        shell: bash
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: bindings-${{ matrix.settings.target }}
+          path: |
+            packages/core/swc*
+          if-no-files-found: error
+  test-macOS-windows-binding:
+    if: ${{ startsWith(github.ref, 'refs/tags/v') || startsWith(github.ref, 'refs/heads/ci') }}
+    name: Test bindings on ${{ matrix.settings.target }} - node@${{ matrix.node }}
+    needs:
+      - build
+    strategy:
+      fail-fast: false
+      matrix:
+        settings:
+          - host: windows-latest
+            target: x86_64-pc-windows-msvc
+          - host: macos-latest
+            target: x86_64-apple-darwin
+        node:
+          - "18"
+          - "20"
+    runs-on: ${{ matrix.settings.host }}
+    steps:
+      - uses: actions/checkout@v4
+      - run: corepack enable
+        shell: bash
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: yarn
+          architecture: x64
+      - name: Install dependencies
+        run: corepack enable && yarn install --network-timeout 300000
+      - name: Download artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: bindings-${{ matrix.settings.target }}
+          path: ./packages/core
+      - name: List packages
+        run: ls -R .
+        shell: bash
+      - name: Build TypeScript
+        working-directory: ./packages/core
+        run: yarn build:ts
+      - name: Test bindings
+        working-directory: ./packages/core
+        run: yarn test
+  test-linux-x64-gnu-binding:
+    if: ${{ startsWith(github.ref, 'refs/tags/v') || startsWith(github.ref, 'refs/heads/ci') }}
+    name: Test bindings on Linux-x64-gnu - node@${{ matrix.node }}
+    needs:
+      - build
+    strategy:
+      fail-fast: false
+      matrix:
+        node:
+          - "18"
+          - "20"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Corepack
+        run: corepack enable
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: yarn
+      - name: Install dependencies
+        run: corepack enable && yarn install
+      - name: Download artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: bindings-x86_64-unknown-linux-gnu
+          path: ./packages/core
+      - name: List packages
+        run: ls -R .
+        shell: bash
+      - name: Build TypeScript
+        run: yarn build:ts
+      - name: Test bindings
+        run: docker run --rm -v $(pwd):/swc -w /swc node:${{ matrix.node }}-slim sh -c 'npm install -f -g yarn@1.22.19 && env DISABLE_PLUGIN_E2E_TESTS=true yarn test'
+  test-linux-x64-musl-binding:
+    if: ${{ startsWith(github.ref, 'refs/tags/v') || startsWith(github.ref, 'refs/heads/ci') }}
+    name: Test bindings on x86_64-unknown-linux-musl - node@${{ matrix.node }}
+    needs:
+      - build
+    strategy:
+      fail-fast: false
+      matrix:
+        node:
+          - "18"
+          - "20"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: corepack enable
+        shell: bash
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node }}
+          cache: yarn
+      - name: Install dependencies
+        run: |
+          corepack enable
+          yarn config set supportedArchitectures.libc "musl"
+          yarn install
+      - name: Download artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: bindings-x86_64-unknown-linux-musl
+          path: ./packages/core
+      - name: List packages
+        run: ls -R .
+        shell: bash
+      - name: Build TypeScript
+        run: yarn build:ts
+      - name: Test bindings
+        run: docker run --rm -v $(pwd):/swc -w /swc node:${{ matrix.node }}-alpine sh -c 'npm install -f -g yarn@1.22.19 && env DISABLE_PLUGIN_E2E_TESTS=true yarn test'
+  test-linux-aarch64-musl-binding:
+    if: ${{ startsWith(github.ref, 'refs/tags/v') || startsWith(github.ref, 'refs/heads/ci') }}
+    name: Test bindings on aarch64-unknown-linux-musl - node@lts
+    needs:
+      - build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Corepack
+        run: corepack enable
+      - name: Download artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: bindings-aarch64-unknown-linux-musl
+          path: ./packages/core
+      - name: List packages
+        run: ls -R .
+        shell: bash
+      - name: Install dependencies
+        run: |
+          corepack enable
+          yarn config set supportedArchitectures.cpu "arm64"
+          yarn config set supportedArchitectures.libc "musl"
+          yarn install
+      - name: Build TypeScript
+        run: yarn build:ts
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+        with:
+          platforms: arm64
+      - run: docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+      - name: Setup and run tests
+        uses: addnab/docker-run-action@v3
+        with:
+          image: node:lts-alpine
+          options: "--platform linux/arm64 -v ${{ github.workspace }}:/build -w /build"
+          run: >-
+            set -e &&
+            npm install -f -g yarn@1.22.19 && 
+            DISABLE_PLUGIN_E2E_TESTS=true yarn test
+
+  test-linux-arm-gnueabihf-binding:
+    if: ${{ startsWith(github.ref, 'refs/tags/v') || startsWith(github.ref, 'refs/heads/ci') }}
+    name: Test bindings on armv7-unknown-linux-gnueabihf - node@${{ matrix.node }}
+    needs:
+      - build
+    strategy:
+      fail-fast: false
+      matrix:
+        node:
+          - "18"
+          - "20"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Corepack
+        run: corepack enable
+      - name: Download artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: bindings-armv7-unknown-linux-gnueabihf
+          path: ./packages/core
+      - name: List packages
+        run: ls -R .
+        shell: bash
+      - name: Install dependencies
+        run: |
+          corepack enable
+          yarn config set supportedArchitectures.cpu "arm"
+          yarn install
+      - name: Build TypeScript
+        run: yarn build:ts
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+        with:
+          platforms: arm
+      - run: docker run --rm --privileged multiarch/qemu-user-static --reset -p yes
+      - name: Setup and run tests
+        uses: addnab/docker-run-action@v3
+        with:
+          image: node:${{ matrix.node }}-slim
+          options: "--platform linux/arm/v7 -v ${{ github.workspace }}:/build -w /build"
+          run: >-
+            set -e &&
+            npm install -f -g yarn@1.22.19 && 
+            DISABLE_PLUGIN_E2E_TESTS=true yarn test &&
+            ls -la
+  publish:
+    name: npm
+    runs-on: ubuntu-latest
+    needs:
+      - test-linux-x64-gnu-binding
+      - test-linux-x64-musl-binding
+      - test-linux-arm-gnueabihf-binding
+      - test-macOS-windows-binding
+      - test-linux-aarch64-musl-binding
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Corepack
+        run: corepack enable
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: yarn
+
+      - name: Set release name
+        run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
+
+      - name: Tag npm release
+        run: |
+          if [[ $GITHUB_REF != *"nightly"* ]]; then
+            echo "NPM_TAG=latest" >> $GITHUB_ENV
+          else
+            echo "NPM_TAG=nightly" >> $GITHUB_ENV
+          fi
+
+      - name: Install dependencies
+        run: corepack enable && yarn install
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v3
+        with:
+          path: ./packages/core/artifacts
+
+      - name: List binaries
+        run: ls -R ./packages/core/artifacts
+        shell: bash
+
+      - name: Move binaries
+        shell: bash
+        working-directory: ./packages/core
+        run: |
+          ./scripts/cli_artifacts.sh
+          ls -R ./artifacts_cli
+          npm run artifacts
+
+      - name: List npm
+        run: ls -R ./scripts/npm
+        working-directory: ./packages/core
+        shell: bash
+
+      - name: Set fallback dependencies
+        shell: bash
+        run: |
+          node ./scripts/update_fallback_dependencies.js
+
+      - name: Publish
+        if: ${{ startsWith(github.ref, 'refs/tags/v') }}
+        run: |
+          npm config set provenance true
+          echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
+          echo "npmAlwaysAuth:true\n npmAuthToken: '$NPM_TOKEN'\n" >> ~/.yarnrc
+          (cd packages/core && yarn workspaces foreach -Rt npm publish --tolerate-republish)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Upload CLI binaries to gh release
+        if: ${{ startsWith(github.ref, 'refs/tags/v') }}
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          RELEASE_VERSION: ${{ env.RELEASE_VERSION }}
+        run: |
+          ./scripts/cli_upload_gh_release.sh
+
+  publish-wasm:
+    if: ${{ startsWith(github.ref, 'refs/tags/v') || startsWith(github.ref, 'refs/heads/ci') }}
+    name: Build - wasm (${{ matrix.settings.npm }}) for node.js
+    runs-on: ubuntu-latest
+    env:
+      CARGO_PROFILE_RELEASE_LTO: "fat"
+    strategy:
+      fail-fast: false
+      matrix:
+        settings:
+          - crate: "binding_core_wasm"
+            npm: "@swc\\/wasm"
+            target: nodejs
+          - crate: "binding_core_wasm"
+            npm: "@swc\\/wasm-web"
+            target: web
+          - crate: "binding_typescript_wasm"
+            npm: "@swc\\/wasm-typescript"
+            target: nodejs
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Corepack
+        run: corepack enable
+
+      - name: Tag npm release
+        run: |
+          if [[ $GITHUB_REF != *"nightly"* ]]; then
+            echo "NPM_TAG=latest" >> $GITHUB_ENV
+          else
+            echo "NPM_TAG=nightly" >> $GITHUB_ENV
+          fi
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Cache
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.cargo/
+            **/target/
+          key: ${{ runner.os }}-publish-integration
+
+      - name: Install node dependencies
+        run: yarn
+
+      - name: Install wasm-pack
+        run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
+
+      - name: Build
+        working-directory: bindings/${{ matrix.settings.crate }}
+        run: |
+          # If scripts/build.sh exists, apply it
+          if [ -f scripts/build.sh ]; then
+            scripts/build.sh
+          else
+            wasm-pack build --out-name wasm --release --scope=swc --target ${{ matrix.settings.target }}
+          fi
+          sed -i -e 's/"name": "@swc\/${{ matrix.settings.crate }}"/"name": "${{ matrix.settings.npm }}"/g' pkg/package.json
+
+      - name: Publish
+        if: ${{ startsWith(github.ref, 'refs/tags/v') }}
+        run: |
+          npm config set provenance true
+          echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
+          (cd bindings/${{ matrix.settings.crate }}/pkg && npm publish --access public --tag $NPM_TAG)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
