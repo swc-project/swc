@@ -28,6 +28,7 @@ swc_core = { version = "0.96.3", features = [
 ] }
 swc_ecma_codegen = { version = "0.151.1", features = ["serde-impl"] }
 swc_error_reporters = "0.18.0"
+swc_fast_ts_strip = "0.1.1"
 tracing = { version = "0.1.37", features = ["max_level_off"] }
 wasm-bindgen = { version = "0.2.82", features = ["enable-interning"] }
 wasm-bindgen-futures = { version = "0.4.41" }
