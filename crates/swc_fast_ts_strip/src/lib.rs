@@ -8,10 +8,10 @@ use swc_common::{
 };
 use swc_ecma_ast::{
     BindingIdent, Class, ClassDecl, ClassMethod, ClassProp, Decorator, EsVersion, FnDecl, Ident,
-    ImportDecl, ImportSpecifier, MethodKind, Param, Pat, Program, TsAsExpr, TsConstAssertion,
-    TsEnumDecl, TsInstantiation, TsInterfaceDecl, TsModuleDecl, TsModuleName, TsNamespaceDecl,
-    TsNonNullExpr, TsParamPropParam, TsSatisfiesExpr, TsTypeAliasDecl, TsTypeAnn, TsTypeAssertion,
-    TsTypeParamDecl, TsTypeParamInstantiation,
+    ImportDecl, ImportSpecifier, MethodKind, NamedExport, Param, Pat, Program, TsAsExpr,
+    TsConstAssertion, TsEnumDecl, TsInstantiation, TsInterfaceDecl, TsModuleDecl, TsModuleName,
+    TsNamespaceDecl, TsNonNullExpr, TsParamPropParam, TsSatisfiesExpr, TsTypeAliasDecl, TsTypeAnn,
+    TsTypeAssertion, TsTypeParamDecl, TsTypeParamInstantiation,
 };
 use swc_ecma_parser::{
     parse_file_as_module, parse_file_as_program, parse_file_as_script, Syntax, TsSyntax,
@@ -235,6 +235,15 @@ impl Visit for TsStrip {
                 self.add_replacement(span);
             }
         }
+    }
+
+    fn visit_named_export(&mut self, n: &NamedExport) {
+        if n.type_only {
+            self.add_replacement(n.span);
+            return;
+        }
+
+        n.visit_children_with(self);
     }
 
     fn visit_params(&mut self, n: &[Param]) {
