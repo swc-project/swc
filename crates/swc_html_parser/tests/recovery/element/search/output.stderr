@@ -1,4 +1,3 @@
-
   x End tag "p" implied, but there were open elements
    ,-[$DIR/tests/recovery/element/search/input.html:1:1]
  1 | <!doctype html><p>foo<search>bar<p>baz

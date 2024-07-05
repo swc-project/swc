@@ -1,4 +1,3 @@
-
   x Expected ';', '}' or <eof>
    ,-[$DIR/tests/test262-parser/fail/b9b5930aa449a36a.js:1:1]
  1 | a => {}()

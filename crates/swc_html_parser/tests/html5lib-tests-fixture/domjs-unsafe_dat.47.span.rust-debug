@@ -1,38 +1,30 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/domjs-unsafe_dat.47.html:1:1]
  1 | <svg><font color=red></font></svg>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/domjs-unsafe_dat.47.html:1:1]
  1 | <svg><font color=red></font></svg>
    : ^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/domjs-unsafe_dat.47.html:1:1]
  1 | <svg><font color=red></font></svg>
    : ^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/domjs-unsafe_dat.47.html:1:1]
  1 | <svg><font color=red></font></svg>
    :      ^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/domjs-unsafe_dat.47.html:1:1]
  1 | <svg><font color=red></font></svg>
    :      ^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Attribute
    ,-[$DIR/tests/html5lib-tests-fixture/domjs-unsafe_dat.47.html:1:1]
  1 | <svg><font color=red></font></svg>

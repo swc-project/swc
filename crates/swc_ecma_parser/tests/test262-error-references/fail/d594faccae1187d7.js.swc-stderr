@@ -1,4 +1,3 @@
-
   x A `set` accessor must have exactly one parameter
    ,-[$DIR/tests/test262-parser/fail/d594faccae1187d7.js:1:1]
  1 | ({ set s() { } })

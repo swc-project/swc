@@ -1,32 +1,25 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests7_dat.30.html:1:1]
  1 | <select><keygen>
    : ^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests7_dat.30.html:1:1]
  1 | <select><keygen>
    : ^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests7_dat.30.html:1:1]
  1 | <select><keygen>
    : ^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests7_dat.30.html:1:1]
  1 | <select><keygen>
    :         ^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests7_dat.30.html:1:1]
  1 | <select><keygen>

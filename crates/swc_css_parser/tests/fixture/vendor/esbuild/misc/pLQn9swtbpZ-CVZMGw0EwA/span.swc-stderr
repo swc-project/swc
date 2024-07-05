@@ -1,76 +1,63 @@
-
   x Stylesheet
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/pLQn9swtbpZ-CVZMGw0EwA/input.css:1:1]
  1 | :pseudo(cl\2css) {}
    : ^^^^^^^^^^^^^^^^^^^
    `----
-
   x Rule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/pLQn9swtbpZ-CVZMGw0EwA/input.css:1:1]
  1 | :pseudo(cl\2css) {}
    : ^^^^^^^^^^^^^^^^^^^
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/pLQn9swtbpZ-CVZMGw0EwA/input.css:1:1]
  1 | :pseudo(cl\2css) {}
    : ^^^^^^^^^^^^^^^^^^^
    `----
-
   x SelectorList
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/pLQn9swtbpZ-CVZMGw0EwA/input.css:1:1]
  1 | :pseudo(cl\2css) {}
    : ^^^^^^^^^^^^^^^^
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/pLQn9swtbpZ-CVZMGw0EwA/input.css:1:1]
  1 | :pseudo(cl\2css) {}
    : ^^^^^^^^^^^^^^^^
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/pLQn9swtbpZ-CVZMGw0EwA/input.css:1:1]
  1 | :pseudo(cl\2css) {}
    : ^^^^^^^^^^^^^^^^
    `----
-
   x SubclassSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/pLQn9swtbpZ-CVZMGw0EwA/input.css:1:1]
  1 | :pseudo(cl\2css) {}
    : ^^^^^^^^^^^^^^^^
    `----
-
   x PseudoClassSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/pLQn9swtbpZ-CVZMGw0EwA/input.css:1:1]
  1 | :pseudo(cl\2css) {}
    : ^^^^^^^^^^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/pLQn9swtbpZ-CVZMGw0EwA/input.css:1:1]
  1 | :pseudo(cl\2css) {}
    :  ^^^^^^
    `----
-
   x PseudoClassSelectorChildren
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/pLQn9swtbpZ-CVZMGw0EwA/input.css:1:1]
  1 | :pseudo(cl\2css) {}
    :         ^^^^^^^
    `----
-
   x Ident { value: "cl,ss", raw: "cl\\2css" }
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/pLQn9swtbpZ-CVZMGw0EwA/input.css:1:1]
  1 | :pseudo(cl\2css) {}
    :         ^^^^^^^
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/pLQn9swtbpZ-CVZMGw0EwA/input.css:1:1]
  1 | :pseudo(cl\2css) {}
    :                  ^^
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/pLQn9swtbpZ-CVZMGw0EwA/input.css:1:1]
  1 | :pseudo(cl\2css) {}

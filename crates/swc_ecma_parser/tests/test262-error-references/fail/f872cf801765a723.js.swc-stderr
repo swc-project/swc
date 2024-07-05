@@ -1,4 +1,3 @@
-
   x Unexpected token `.`. Expected target
    ,-[$DIR/tests/test262-parser/fail/f872cf801765a723.js:1:1]
  1 | var x = function() { y = new..target; }

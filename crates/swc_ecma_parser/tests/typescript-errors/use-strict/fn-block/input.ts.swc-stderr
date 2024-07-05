@@ -1,4 +1,3 @@
-
   x Illegal 'use strict' directive in function with non-simple parameter list.
    ,-[$DIR/tests/typescript-errors/use-strict/fn-block/input.ts:1:1]
  1 | function f([x]: string) { 'use strict' }

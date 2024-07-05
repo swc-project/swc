@@ -1,10 +1,8 @@
-
   x Invalid character in identifier
    ,-[$DIR/tests/test262-parser/fail/d4cf8ae9018f6a28.js:1:1]
  1 | \uD800\uDC00
    : ^^^^^^
    `----
-
   x Invalid character in identifier
    ,-[$DIR/tests/test262-parser/fail/d4cf8ae9018f6a28.js:1:1]
  1 | \uD800\uDC00

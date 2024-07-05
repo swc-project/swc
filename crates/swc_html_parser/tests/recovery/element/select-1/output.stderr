@@ -1,13 +1,11 @@
-
   x Start tag seen without seeing a doctype first, expected "<!DOCTYPE html>"
    ,-[$DIR/tests/recovery/element/select-1/input.html:1:1]
  1 | <select>
    : ^^^^^^^^
  2 |     <option value="test">
    `----
-
   x Stray end tag "option"
-   ,-[$DIR/tests/recovery/element/select-1/input.html:6:1]
+   ,-[$DIR/tests/recovery/element/select-1/input.html:7:1]
  6 |         </option>
  7 |     </option>
    :     ^^^^^^^^^

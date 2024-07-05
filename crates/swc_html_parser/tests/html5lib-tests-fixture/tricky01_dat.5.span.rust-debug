@@ -1,176 +1,145 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.5.html:1:1]
  1 | <table><center> <font>a</center> <img> <tr><td> </td> </tr> </table>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.5.html:1:1]
  1 | <table><center> <font>a</center> <img> <tr><td> </td> </tr> </table>
    :        ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.5.html:1:1]
  1 | <table><center> <font>a</center> <img> <tr><td> </td> </tr> </table>
    :        ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.5.html:1:1]
  1 | <table><center> <font>a</center> <img> <tr><td> </td> </tr> </table>
    :                ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.5.html:1:1]
  1 | <table><center> <font>a</center> <img> <tr><td> </td> </tr> </table>
    :                ^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.5.html:1:1]
  1 | <table><center> <font>a</center> <img> <tr><td> </td> </tr> </table>
    :                 ^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.5.html:1:1]
  1 | <table><center> <font>a</center> <img> <tr><td> </td> </tr> </table>
    :                 ^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.5.html:1:1]
  1 | <table><center> <font>a</center> <img> <tr><td> </td> </tr> </table>
    :                       ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.5.html:1:1]
  1 | <table><center> <font>a</center> <img> <tr><td> </td> </tr> </table>
    :                       ^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.5.html:1:1]
  1 | <table><center> <font>a</center> <img> <tr><td> </td> </tr> </table>
    :                 ^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.5.html:1:1]
  1 | <table><center> <font>a</center> <img> <tr><td> </td> </tr> </table>
    :                 ^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.5.html:1:1]
  1 | <table><center> <font>a</center> <img> <tr><td> </td> </tr> </table>
    :                                  ^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.5.html:1:1]
  1 | <table><center> <font>a</center> <img> <tr><td> </td> </tr> </table>
    :                                  ^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.5.html:1:1]
  1 | <table><center> <font>a</center> <img> <tr><td> </td> </tr> </table>
    :                                       ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.5.html:1:1]
  1 | <table><center> <font>a</center> <img> <tr><td> </td> </tr> </table>
    :                                       ^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.5.html:1:1]
  1 | <table><center> <font>a</center> <img> <tr><td> </td> </tr> </table>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.5.html:1:1]
  1 | <table><center> <font>a</center> <img> <tr><td> </td> </tr> </table>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.5.html:1:1]
  1 | <table><center> <font>a</center> <img> <tr><td> </td> </tr> </table>
    :                                 ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.5.html:1:1]
  1 | <table><center> <font>a</center> <img> <tr><td> </td> </tr> </table>
    :                                 ^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.5.html:1:1]
  1 | <table><center> <font>a</center> <img> <tr><td> </td> </tr> </table>
    :                                        ^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.5.html:1:1]
  1 | <table><center> <font>a</center> <img> <tr><td> </td> </tr> </table>
    :                                        ^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.5.html:1:1]
  1 | <table><center> <font>a</center> <img> <tr><td> </td> </tr> </table>
    :                                            ^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.5.html:1:1]
  1 | <table><center> <font>a</center> <img> <tr><td> </td> </tr> </table>
    :                                            ^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.5.html:1:1]
  1 | <table><center> <font>a</center> <img> <tr><td> </td> </tr> </table>
    :                                                ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.5.html:1:1]
  1 | <table><center> <font>a</center> <img> <tr><td> </td> </tr> </table>
    :                                                ^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.5.html:1:1]
  1 | <table><center> <font>a</center> <img> <tr><td> </td> </tr> </table>
    :                                                      ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.5.html:1:1]
  1 | <table><center> <font>a</center> <img> <tr><td> </td> </tr> </table>
    :                                                      ^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.5.html:1:1]
  1 | <table><center> <font>a</center> <img> <tr><td> </td> </tr> </table>
    :                                                            ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tricky01_dat.5.html:1:1]
  1 | <table><center> <font>a</center> <img> <tr><td> </td> </tr> </table>

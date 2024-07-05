@@ -1,6 +1,5 @@
-
   x Expected '(', got 'x'
-   ,-[$DIR/tests/typescript-errors/class/get-set-asi-issue-1/input.ts:2:1]
+   ,-[$DIR/tests/typescript-errors/class/get-set-asi-issue-1/input.ts:3:1]
  2 |   get
  3 |   async x() { return 0 }
    :         ^

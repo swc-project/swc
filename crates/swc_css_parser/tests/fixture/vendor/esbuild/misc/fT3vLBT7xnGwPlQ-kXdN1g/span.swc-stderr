@@ -1,64 +1,53 @@
-
   x Stylesheet
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/fT3vLBT7xnGwPlQ-kXdN1g/input.css:1:1]
  1 | #\61hash {}
    : ^^^^^^^^^^^
    `----
-
   x Rule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/fT3vLBT7xnGwPlQ-kXdN1g/input.css:1:1]
  1 | #\61hash {}
    : ^^^^^^^^^^^
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/fT3vLBT7xnGwPlQ-kXdN1g/input.css:1:1]
  1 | #\61hash {}
    : ^^^^^^^^^^^
    `----
-
   x SelectorList
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/fT3vLBT7xnGwPlQ-kXdN1g/input.css:1:1]
  1 | #\61hash {}
    : ^^^^^^^^
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/fT3vLBT7xnGwPlQ-kXdN1g/input.css:1:1]
  1 | #\61hash {}
    : ^^^^^^^^
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/fT3vLBT7xnGwPlQ-kXdN1g/input.css:1:1]
  1 | #\61hash {}
    : ^^^^^^^^
    `----
-
   x SubclassSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/fT3vLBT7xnGwPlQ-kXdN1g/input.css:1:1]
  1 | #\61hash {}
    : ^^^^^^^^
    `----
-
   x IdSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/fT3vLBT7xnGwPlQ-kXdN1g/input.css:1:1]
  1 | #\61hash {}
    : ^^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/fT3vLBT7xnGwPlQ-kXdN1g/input.css:1:1]
  1 | #\61hash {}
    : ^^^^^^^^
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/fT3vLBT7xnGwPlQ-kXdN1g/input.css:1:1]
  1 | #\61hash {}
    :          ^^
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/fT3vLBT7xnGwPlQ-kXdN1g/input.css:1:1]
  1 | #\61hash {}

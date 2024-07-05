@@ -1,20 +1,15 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/domjs-unsafe_dat.43.html:1:1]
  1 | <svg><!DOCTYPE html></svg>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/domjs-unsafe_dat.43.html:1:1]
  1 | <svg><!DOCTYPE html></svg>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/domjs-unsafe_dat.43.html:1:1]
  1 | <svg><!DOCTYPE html></svg>

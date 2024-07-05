@@ -1,16 +1,13 @@
-
   x Start tag seen without seeing a doctype first, expected "<!DOCTYPE html>"
    ,-[$DIR/tests/recovery/element/noscript-2/input.html:1:1]
  1 | <head><noscript>ABC<!--foo--></noscript>
    : ^^^^^^
    `----
-
   x Non-space character inside "noscript" inside "head"
    ,-[$DIR/tests/recovery/element/noscript-2/input.html:1:1]
  1 | <head><noscript>ABC<!--foo--></noscript>
    :                 ^
    `----
-
   x Stray end tag "noscript"
    ,-[$DIR/tests/recovery/element/noscript-2/input.html:1:1]
  1 | <head><noscript>ABC<!--foo--></noscript>

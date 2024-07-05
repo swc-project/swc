@@ -1,45 +1,39 @@
-
   x Start tag seen without seeing a doctype first, expected "<!DOCTYPE html>"
    ,-[$DIR/tests/recovery/element/colgroup-1/input.html:1:1]
  1 | <body>
    : ^^^^^^
  2 | <template><col><colgroup></template>
    `----
-
   x Garbage in "colgroup" element
-   ,-[$DIR/tests/recovery/element/colgroup-1/input.html:1:1]
+   ,-[$DIR/tests/recovery/element/colgroup-1/input.html:2:1]
  1 | <body>
  2 | <template><col><colgroup></template>
    :                ^^^^^^^^^^
  3 | <template><col><colgroup></div></template>
    `----
-
   x Garbage in "colgroup" element
-   ,-[$DIR/tests/recovery/element/colgroup-1/input.html:2:1]
+   ,-[$DIR/tests/recovery/element/colgroup-1/input.html:3:1]
  2 | <template><col><colgroup></template>
  3 | <template><col><colgroup></div></template>
    :                ^^^^^^^^^^
  4 | <template><col><colgroup>A</template>
    `----
-
   x Garbage in "colgroup" element
-   ,-[$DIR/tests/recovery/element/colgroup-1/input.html:2:1]
+   ,-[$DIR/tests/recovery/element/colgroup-1/input.html:3:1]
  2 | <template><col><colgroup></template>
  3 | <template><col><colgroup></div></template>
    :                          ^^^^^^
  4 | <template><col><colgroup>A</template>
    `----
-
   x Garbage in "colgroup" element
-   ,-[$DIR/tests/recovery/element/colgroup-1/input.html:3:1]
+   ,-[$DIR/tests/recovery/element/colgroup-1/input.html:4:1]
  3 | <template><col><colgroup></div></template>
  4 | <template><col><colgroup>A</template>
    :                ^^^^^^^^^^
  5 | </body>
    `----
-
   x Non-space character in "colgroup" element
-   ,-[$DIR/tests/recovery/element/colgroup-1/input.html:3:1]
+   ,-[$DIR/tests/recovery/element/colgroup-1/input.html:4:1]
  3 | <template><col><colgroup></div></template>
  4 | <template><col><colgroup>A</template>
    :                          ^

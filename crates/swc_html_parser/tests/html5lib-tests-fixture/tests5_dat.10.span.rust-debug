@@ -1,32 +1,25 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests5_dat.10.html:1:1]
  1 | <p><xmp></xmp>
    : ^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests5_dat.10.html:1:1]
  1 | <p><xmp></xmp>
    : ^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests5_dat.10.html:1:1]
  1 | <p><xmp></xmp>
    : ^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests5_dat.10.html:1:1]
  1 | <p><xmp></xmp>
    :    ^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests5_dat.10.html:1:1]
  1 | <p><xmp></xmp>

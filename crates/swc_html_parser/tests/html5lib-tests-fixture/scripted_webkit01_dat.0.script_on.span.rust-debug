@@ -1,56 +1,45 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/scripted_webkit01_dat.0.script_on.html:1:1]
  1 | 1<script>document.write("2")</script>3
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/scripted_webkit01_dat.0.script_on.html:1:1]
  1 | 1<script>document.write("2")</script>3
    : ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/scripted_webkit01_dat.0.script_on.html:1:1]
  1 | 1<script>document.write("2")</script>3
    : ^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/scripted_webkit01_dat.0.script_on.html:1:1]
  1 | 1<script>document.write("2")</script>3
    :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/scripted_webkit01_dat.0.script_on.html:1:1]
  1 | 1<script>document.write("2")</script>3
    :  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/scripted_webkit01_dat.0.script_on.html:1:1]
  1 | 1<script>document.write("2")</script>3
    :          ^^^^^^^^^^^^^^^^^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/scripted_webkit01_dat.0.script_on.html:1:1]
  1 | 1<script>document.write("2")</script>3
    :          ^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/scripted_webkit01_dat.0.script_on.html:1:1]
  1 | 1<script>document.write("2")</script>3
    :                                      ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/scripted_webkit01_dat.0.script_on.html:1:1]
  1 | 1<script>document.write("2")</script>3

@@ -1,11 +1,9 @@
-
   x Unexpected end of file, but expected '}'
-   ,-[$DIR/tests/recovery/simple-block/unclosed-2/input.css:1:1]
+   ,-[$DIR/tests/recovery/simple-block/unclosed-2/input.css:2:1]
  1 |     @media screen {
  2 | ,->     a {
  3 | `->         color: red;
    `----
-
   x Unexpected end of file, but expected '}'
    ,-[$DIR/tests/recovery/simple-block/unclosed-2/input.css:1:1]
  1 | ,-> @media screen {

@@ -1,32 +1,25 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/doctype01_dat.11.html:1:1]
  1 | <!DOCTYPE   potato       sYstEM  ggg>Hello
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/doctype01_dat.11.html:1:1]
  1 | <!DOCTYPE   potato       sYstEM  ggg>Hello
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/html5lib-tests-fixture/doctype01_dat.11.html:1:1]
  1 | <!DOCTYPE   potato       sYstEM  ggg>Hello
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/doctype01_dat.11.html:1:1]
  1 | <!DOCTYPE   potato       sYstEM  ggg>Hello
    :                                      ^^^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/doctype01_dat.11.html:1:1]
  1 | <!DOCTYPE   potato       sYstEM  ggg>Hello

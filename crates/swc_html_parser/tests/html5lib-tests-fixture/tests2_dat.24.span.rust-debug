@@ -1,20 +1,15 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.24.html:1:1]
  1 | &x-test
    : ^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.24.html:1:1]
  1 | &x-test
    : ^^^^^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests2_dat.24.html:1:1]
  1 | &x-test

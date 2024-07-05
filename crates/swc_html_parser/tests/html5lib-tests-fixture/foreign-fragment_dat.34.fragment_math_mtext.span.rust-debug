@@ -1,92 +1,75 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.34.fragment_math_mtext.html:1:1]
  1 | <b></b><mglyph/><i></i><malignmark/><u></u><mtext/>X
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.34.fragment_math_mtext.html:1:1]
  1 | <b></b><mglyph/><i></i><malignmark/><u></u><mtext/>X
    : ^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.34.fragment_math_mtext.html:1:1]
  1 | <b></b><mglyph/><i></i><malignmark/><u></u><mtext/>X
    : ^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.34.fragment_math_mtext.html:1:1]
  1 | <b></b><mglyph/><i></i><malignmark/><u></u><mtext/>X
    :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.34.fragment_math_mtext.html:1:1]
  1 | <b></b><mglyph/><i></i><malignmark/><u></u><mtext/>X
    :        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.34.fragment_math_mtext.html:1:1]
  1 | <b></b><mglyph/><i></i><malignmark/><u></u><mtext/>X
    :                 ^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.34.fragment_math_mtext.html:1:1]
  1 | <b></b><mglyph/><i></i><malignmark/><u></u><mtext/>X
    :                 ^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.34.fragment_math_mtext.html:1:1]
  1 | <b></b><mglyph/><i></i><malignmark/><u></u><mtext/>X
    :                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.34.fragment_math_mtext.html:1:1]
  1 | <b></b><mglyph/><i></i><malignmark/><u></u><mtext/>X
    :                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.34.fragment_math_mtext.html:1:1]
  1 | <b></b><mglyph/><i></i><malignmark/><u></u><mtext/>X
    :                                     ^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.34.fragment_math_mtext.html:1:1]
  1 | <b></b><mglyph/><i></i><malignmark/><u></u><mtext/>X
    :                                     ^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.34.fragment_math_mtext.html:1:1]
  1 | <b></b><mglyph/><i></i><malignmark/><u></u><mtext/>X
    :                                            ^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.34.fragment_math_mtext.html:1:1]
  1 | <b></b><mglyph/><i></i><malignmark/><u></u><mtext/>X
    :                                            ^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.34.fragment_math_mtext.html:1:1]
  1 | <b></b><mglyph/><i></i><malignmark/><u></u><mtext/>X
    :                                                    ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.34.fragment_math_mtext.html:1:1]
  1 | <b></b><mglyph/><i></i><malignmark/><u></u><mtext/>X

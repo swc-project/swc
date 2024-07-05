@@ -1,6 +1,5 @@
-
   x Abrupt closing of empty comment
-   ,-[$DIR/tests/recovery/comments/bad-6/input.xml:2:1]
+   ,-[$DIR/tests/recovery/comments/bad-6/input.xml:3:1]
  2 | <root>
  3 |     <!-->
    :         ^

@@ -1,176 +1,145 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests23_dat.3.html:1:1]
  1 | <p><font size=4 id=a><font size=4 id=b><font size=4><font size=4><p>X
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests23_dat.3.html:1:1]
  1 | <p><font size=4 id=a><font size=4 id=b><font size=4><font size=4><p>X
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests23_dat.3.html:1:1]
  1 | <p><font size=4 id=a><font size=4 id=b><font size=4><font size=4><p>X
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests23_dat.3.html:1:1]
  1 | <p><font size=4 id=a><font size=4 id=b><font size=4><font size=4><p>X
    :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests23_dat.3.html:1:1]
  1 | <p><font size=4 id=a><font size=4 id=b><font size=4><font size=4><p>X
    :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Attribute
    ,-[$DIR/tests/html5lib-tests-fixture/tests23_dat.3.html:1:1]
  1 | <p><font size=4 id=a><font size=4 id=b><font size=4><font size=4><p>X
    :          ^^^^^^
    `----
-
   x Attribute
    ,-[$DIR/tests/html5lib-tests-fixture/tests23_dat.3.html:1:1]
  1 | <p><font size=4 id=a><font size=4 id=b><font size=4><font size=4><p>X
    :                 ^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests23_dat.3.html:1:1]
  1 | <p><font size=4 id=a><font size=4 id=b><font size=4><font size=4><p>X
    :                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests23_dat.3.html:1:1]
  1 | <p><font size=4 id=a><font size=4 id=b><font size=4><font size=4><p>X
    :                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Attribute
    ,-[$DIR/tests/html5lib-tests-fixture/tests23_dat.3.html:1:1]
  1 | <p><font size=4 id=a><font size=4 id=b><font size=4><font size=4><p>X
    :                            ^^^^^^
    `----
-
   x Attribute
    ,-[$DIR/tests/html5lib-tests-fixture/tests23_dat.3.html:1:1]
  1 | <p><font size=4 id=a><font size=4 id=b><font size=4><font size=4><p>X
    :                                   ^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests23_dat.3.html:1:1]
  1 | <p><font size=4 id=a><font size=4 id=b><font size=4><font size=4><p>X
    :                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests23_dat.3.html:1:1]
  1 | <p><font size=4 id=a><font size=4 id=b><font size=4><font size=4><p>X
    :                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Attribute
    ,-[$DIR/tests/html5lib-tests-fixture/tests23_dat.3.html:1:1]
  1 | <p><font size=4 id=a><font size=4 id=b><font size=4><font size=4><p>X
    :                                              ^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests23_dat.3.html:1:1]
  1 | <p><font size=4 id=a><font size=4 id=b><font size=4><font size=4><p>X
    :                                                     ^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests23_dat.3.html:1:1]
  1 | <p><font size=4 id=a><font size=4 id=b><font size=4><font size=4><p>X
    :                                                     ^^^^^^^^^^^^^
    `----
-
   x Attribute
    ,-[$DIR/tests/html5lib-tests-fixture/tests23_dat.3.html:1:1]
  1 | <p><font size=4 id=a><font size=4 id=b><font size=4><font size=4><p>X
    :                                                           ^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests23_dat.3.html:1:1]
  1 | <p><font size=4 id=a><font size=4 id=b><font size=4><font size=4><p>X
    :                                                                  ^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests23_dat.3.html:1:1]
  1 | <p><font size=4 id=a><font size=4 id=b><font size=4><font size=4><p>X
    :                                                                  ^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests23_dat.3.html:1:1]
  1 | <p><font size=4 id=a><font size=4 id=b><font size=4><font size=4><p>X
    :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests23_dat.3.html:1:1]
  1 | <p><font size=4 id=a><font size=4 id=b><font size=4><font size=4><p>X
    :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests23_dat.3.html:1:1]
  1 | <p><font size=4 id=a><font size=4 id=b><font size=4><font size=4><p>X
    :                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests23_dat.3.html:1:1]
  1 | <p><font size=4 id=a><font size=4 id=b><font size=4><font size=4><p>X
    :                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests23_dat.3.html:1:1]
  1 | <p><font size=4 id=a><font size=4 id=b><font size=4><font size=4><p>X
    :                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests23_dat.3.html:1:1]
  1 | <p><font size=4 id=a><font size=4 id=b><font size=4><font size=4><p>X
    :                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests23_dat.3.html:1:1]
  1 | <p><font size=4 id=a><font size=4 id=b><font size=4><font size=4><p>X
    :                                                     ^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests23_dat.3.html:1:1]
  1 | <p><font size=4 id=a><font size=4 id=b><font size=4><font size=4><p>X
    :                                                     ^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests23_dat.3.html:1:1]
  1 | <p><font size=4 id=a><font size=4 id=b><font size=4><font size=4><p>X
    :                                                                     ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests23_dat.3.html:1:1]
  1 | <p><font size=4 id=a><font size=4 id=b><font size=4><font size=4><p>X

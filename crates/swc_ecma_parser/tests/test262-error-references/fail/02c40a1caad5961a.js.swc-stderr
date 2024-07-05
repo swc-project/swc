@@ -1,4 +1,3 @@
-
   x Unterminated regexp literal
    ,-[$DIR/tests/test262-parser/fail/02c40a1caad5961a.js:1:1]
  1 | /42

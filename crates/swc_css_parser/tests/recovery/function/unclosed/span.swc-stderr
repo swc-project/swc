@@ -1,205 +1,177 @@
-
   x Stylesheet
    ,-[$DIR/tests/recovery/function/unclosed/input.css:1:1]
  1 | ,-> .style {
- 2 | |   	width: min(500px;
+ 2 | |       width: min(500px;
  3 | `-> }
    `----
-
   x Rule
    ,-[$DIR/tests/recovery/function/unclosed/input.css:1:1]
  1 | ,-> .style {
- 2 | |   	width: min(500px;
+ 2 | |       width: min(500px;
  3 | `-> }
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/recovery/function/unclosed/input.css:1:1]
  1 | ,-> .style {
- 2 | |   	width: min(500px;
+ 2 | |       width: min(500px;
  3 | `-> }
    `----
-
   x SelectorList
    ,-[$DIR/tests/recovery/function/unclosed/input.css:1:1]
  1 | .style {
    : ^^^^^^
- 2 | 	width: min(500px;
+ 2 |     width: min(500px;
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/recovery/function/unclosed/input.css:1:1]
  1 | .style {
    : ^^^^^^
- 2 | 	width: min(500px;
+ 2 |     width: min(500px;
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/recovery/function/unclosed/input.css:1:1]
  1 | .style {
    : ^^^^^^
- 2 | 	width: min(500px;
+ 2 |     width: min(500px;
    `----
-
   x SubclassSelector
    ,-[$DIR/tests/recovery/function/unclosed/input.css:1:1]
  1 | .style {
    : ^^^^^^
- 2 | 	width: min(500px;
+ 2 |     width: min(500px;
    `----
-
   x ClassSelector
    ,-[$DIR/tests/recovery/function/unclosed/input.css:1:1]
  1 | .style {
    : ^^^^^^
- 2 | 	width: min(500px;
+ 2 |     width: min(500px;
    `----
-
   x Ident
    ,-[$DIR/tests/recovery/function/unclosed/input.css:1:1]
  1 | .style {
    :  ^^^^^
- 2 | 	width: min(500px;
+ 2 |     width: min(500px;
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/recovery/function/unclosed/input.css:1:1]
  1 | ,-> .style {
- 2 | |   	width: min(500px;
+ 2 | |       width: min(500px;
  3 | `-> }
    `----
-
   x LBrace
    ,-[$DIR/tests/recovery/function/unclosed/input.css:1:1]
  1 | .style {
    :        ^
- 2 | 	width: min(500px;
+ 2 |     width: min(500px;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/function/unclosed/input.css:1:1]
+   ,-[$DIR/tests/recovery/function/unclosed/input.css:2:1]
  1 |     .style {
- 2 | ,-> 	width: min(500px;
+ 2 | ,->     width: min(500px;
  3 | `-> }
    `----
-
   x Declaration
-   ,-[$DIR/tests/recovery/function/unclosed/input.css:1:1]
+   ,-[$DIR/tests/recovery/function/unclosed/input.css:2:1]
  1 |     .style {
- 2 | ,-> 	width: min(500px;
+ 2 | ,->     width: min(500px;
  3 | `-> }
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/recovery/function/unclosed/input.css:1:1]
+   ,-[$DIR/tests/recovery/function/unclosed/input.css:2:1]
  1 | .style {
- 2 | 	width: min(500px;
-   :  ^^^^^
+ 2 |     width: min(500px;
+   :     ^^^^^
  3 | }
    `----
-
   x Ident
-   ,-[$DIR/tests/recovery/function/unclosed/input.css:1:1]
+   ,-[$DIR/tests/recovery/function/unclosed/input.css:2:1]
  1 | .style {
- 2 | 	width: min(500px;
-   :  ^^^^^
+ 2 |     width: min(500px;
+   :     ^^^^^
  3 | }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/function/unclosed/input.css:1:1]
+   ,-[$DIR/tests/recovery/function/unclosed/input.css:2:1]
  1 |     .style {
- 2 | ,-> 	width: min(500px;
+ 2 | ,->     width: min(500px;
  3 | `-> }
    `----
-
   x Function
-   ,-[$DIR/tests/recovery/function/unclosed/input.css:1:1]
+   ,-[$DIR/tests/recovery/function/unclosed/input.css:2:1]
  1 |     .style {
- 2 | ,-> 	width: min(500px;
+ 2 | ,->     width: min(500px;
  3 | `-> }
    `----
-
   x Ident
-   ,-[$DIR/tests/recovery/function/unclosed/input.css:1:1]
+   ,-[$DIR/tests/recovery/function/unclosed/input.css:2:1]
  1 | .style {
- 2 | 	width: min(500px;
-   :         ^^^
+ 2 |     width: min(500px;
+   :            ^^^
  3 | }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/function/unclosed/input.css:1:1]
+   ,-[$DIR/tests/recovery/function/unclosed/input.css:2:1]
  1 | .style {
- 2 | 	width: min(500px;
-   :             ^^^^^
+ 2 |     width: min(500px;
+   :                ^^^^^
  3 | }
    `----
-
   x Dimension(DimensionToken { value: 500.0, raw_value: "500", unit: "px", type_flag: Integer, raw_unit: "px" })
-   ,-[$DIR/tests/recovery/function/unclosed/input.css:1:1]
+   ,-[$DIR/tests/recovery/function/unclosed/input.css:2:1]
  1 | .style {
- 2 | 	width: min(500px;
-   :             ^^^^^
+ 2 |     width: min(500px;
+   :                ^^^^^
  3 | }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/function/unclosed/input.css:1:1]
+   ,-[$DIR/tests/recovery/function/unclosed/input.css:2:1]
  1 | .style {
- 2 | 	width: min(500px;
-   :                  ^
+ 2 |     width: min(500px;
+   :                     ^
  3 | }
    `----
-
   x Semi
-   ,-[$DIR/tests/recovery/function/unclosed/input.css:1:1]
+   ,-[$DIR/tests/recovery/function/unclosed/input.css:2:1]
  1 | .style {
- 2 | 	width: min(500px;
-   :                  ^
+ 2 |     width: min(500px;
+   :                     ^
  3 | }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/function/unclosed/input.css:1:1]
+   ,-[$DIR/tests/recovery/function/unclosed/input.css:2:1]
  1 | .style {
- 2 | 	width: min(500px;
-   :                   ^
+ 2 |     width: min(500px;
+   :                      ^
  3 | }
    `----
-
   x WhiteSpace { value: "\n" }
-   ,-[$DIR/tests/recovery/function/unclosed/input.css:1:1]
+   ,-[$DIR/tests/recovery/function/unclosed/input.css:2:1]
  1 | .style {
- 2 | 	width: min(500px;
-   :                   ^
+ 2 |     width: min(500px;
+   :                      ^
  3 | }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/function/unclosed/input.css:2:1]
- 2 | 	width: min(500px;
+   ,-[$DIR/tests/recovery/function/unclosed/input.css:3:1]
+ 2 |     width: min(500px;
  3 | }
    : ^
    `----
-
   x RBrace
-   ,-[$DIR/tests/recovery/function/unclosed/input.css:2:1]
- 2 | 	width: min(500px;
+   ,-[$DIR/tests/recovery/function/unclosed/input.css:3:1]
+ 2 |     width: min(500px;
  3 | }
    : ^
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/function/unclosed/input.css:2:1]
- 2 | 	width: min(500px;
+   ,-[$DIR/tests/recovery/function/unclosed/input.css:3:1]
+ 2 |     width: min(500px;
  3 | }
    :  ^
    `----
-
   x WhiteSpace { value: "\n" }
-   ,-[$DIR/tests/recovery/function/unclosed/input.css:2:1]
- 2 | 	width: min(500px;
+   ,-[$DIR/tests/recovery/function/unclosed/input.css:3:1]
+ 2 |     width: min(500px;
  3 | }
    :  ^
    `----

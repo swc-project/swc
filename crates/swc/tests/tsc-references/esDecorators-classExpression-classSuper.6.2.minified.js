@@ -1,7 +1,6 @@
 //// [esDecorators-classExpression-classSuper.6.ts]
-//! 
 //!   x Expression expected
-//!     ,-[7:1]
+//!     ,-[10:1]
 //!   7 | }
 //!   8 | 
 //!   9 | // none of the following should result in caching `super`

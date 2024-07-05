@@ -1,68 +1,55 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests26_dat.14.html:1:1]
  1 | <!DOCTYPE html><body><div><!/div>a
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests26_dat.14.html:1:1]
  1 | <!DOCTYPE html><body><div><!/div>a
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/html5lib-tests-fixture/tests26_dat.14.html:1:1]
  1 | <!DOCTYPE html><body><div><!/div>a
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests26_dat.14.html:1:1]
  1 | <!DOCTYPE html><body><div><!/div>a
    :                ^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests26_dat.14.html:1:1]
  1 | <!DOCTYPE html><body><div><!/div>a
    :                ^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests26_dat.14.html:1:1]
  1 | <!DOCTYPE html><body><div><!/div>a
    :                      ^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests26_dat.14.html:1:1]
  1 | <!DOCTYPE html><body><div><!/div>a
    :                      ^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests26_dat.14.html:1:1]
  1 | <!DOCTYPE html><body><div><!/div>a
    :                           ^^^^^^^
    `----
-
   x Comment
    ,-[$DIR/tests/html5lib-tests-fixture/tests26_dat.14.html:1:1]
  1 | <!DOCTYPE html><body><div><!/div>a
    :                           ^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests26_dat.14.html:1:1]
  1 | <!DOCTYPE html><body><div><!/div>a
    :                                  ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests26_dat.14.html:1:1]
  1 | <!DOCTYPE html><body><div><!/div>a

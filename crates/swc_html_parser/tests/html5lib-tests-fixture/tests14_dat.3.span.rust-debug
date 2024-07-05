@@ -1,40 +1,32 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests14_dat.3.html:1:1]
  1 | <!DOCTYPE html><html xml:lang=bar><html xml:lang=foo>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests14_dat.3.html:1:1]
  1 | <!DOCTYPE html><html xml:lang=bar><html xml:lang=foo>
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/html5lib-tests-fixture/tests14_dat.3.html:1:1]
  1 | <!DOCTYPE html><html xml:lang=bar><html xml:lang=foo>
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests14_dat.3.html:1:1]
  1 | <!DOCTYPE html><html xml:lang=bar><html xml:lang=foo>
    :                ^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests14_dat.3.html:1:1]
  1 | <!DOCTYPE html><html xml:lang=bar><html xml:lang=foo>
    :                ^^^^^^^^^^^^^^^^^^^
    `----
-
   x Attribute
    ,-[$DIR/tests/html5lib-tests-fixture/tests14_dat.3.html:1:1]
  1 | <!DOCTYPE html><html xml:lang=bar><html xml:lang=foo>
    :                      ^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element

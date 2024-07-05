@@ -1,29 +1,23 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests8_dat.0.html:1:1]
  1 | ,-> <div>
  2 | |   <div></div>
  3 | `-> </span>x
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests8_dat.0.html:1:1]
  1 | ,-> <div>
  2 | |   <div></div>
  3 | `-> </span>x
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests8_dat.0.html:1:1]
  1 | ,-> <div>
  2 | |   <div></div>
  3 | `-> </span>x
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests8_dat.0.html:1:1]
  1 | <div>
@@ -31,7 +25,6 @@
  2 | <div></div>
  3 | </span>x
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests8_dat.0.html:1:1]
  1 | <div>
@@ -39,32 +32,28 @@
  2 | <div></div>
  3 | </span>x
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests8_dat.0.html:1:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tests8_dat.0.html:2:1]
  1 | <div>
  2 | <div></div>
    : ^^^^^^^^^^^
  3 | </span>x
    `----
-
   x Element
-   ,-[$DIR/tests/html5lib-tests-fixture/tests8_dat.0.html:1:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tests8_dat.0.html:2:1]
  1 | <div>
  2 | <div></div>
    : ^^^^^^^^^^^
  3 | </span>x
    `----
-
   x Child
-   ,-[$DIR/tests/html5lib-tests-fixture/tests8_dat.0.html:1:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tests8_dat.0.html:2:1]
  1 |     <div>
  2 | ,-> <div></div>
  3 | `-> </span>x
    `----
-
   x Text
-   ,-[$DIR/tests/html5lib-tests-fixture/tests8_dat.0.html:1:1]
+   ,-[$DIR/tests/html5lib-tests-fixture/tests8_dat.0.html:2:1]
  1 |     <div>
  2 | ,-> <div></div>
  3 | `-> </span>x

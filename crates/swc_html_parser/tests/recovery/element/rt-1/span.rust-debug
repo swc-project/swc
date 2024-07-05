@@ -1,56 +1,45 @@
-
   x Document
    ,-[$DIR/tests/recovery/element/rt-1/input.html:1:1]
  1 | <!doctype html><div><p><rt>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/recovery/element/rt-1/input.html:1:1]
  1 | <!doctype html><div><p><rt>
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/recovery/element/rt-1/input.html:1:1]
  1 | <!doctype html><div><p><rt>
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/recovery/element/rt-1/input.html:1:1]
  1 | <!doctype html><div><p><rt>
    :                ^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/recovery/element/rt-1/input.html:1:1]
  1 | <!doctype html><div><p><rt>
    :                ^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/recovery/element/rt-1/input.html:1:1]
  1 | <!doctype html><div><p><rt>
    :                     ^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/recovery/element/rt-1/input.html:1:1]
  1 | <!doctype html><div><p><rt>
    :                     ^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/recovery/element/rt-1/input.html:1:1]
  1 | <!doctype html><div><p><rt>
    :                        ^^^^
    `----
-
   x Element
    ,-[$DIR/tests/recovery/element/rt-1/input.html:1:1]
  1 | <!doctype html><div><p><rt>

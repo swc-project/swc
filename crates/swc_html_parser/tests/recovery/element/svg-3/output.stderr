@@ -1,22 +1,18 @@
-
   x Start tag seen without seeing a doctype first, expected "<!DOCTYPE html>"
    ,-[$DIR/tests/recovery/element/svg-3/input.html:1:1]
  1 | <svg></p><foo>
    : ^^^^^
    `----
-
   x End tag "p" did not match the name of the current open element ("svg")
    ,-[$DIR/tests/recovery/element/svg-3/input.html:1:1]
  1 | <svg></p><foo>
    :      ^^^^
    `----
-
   x No "p" element in scope but a "p" end tag seen
    ,-[$DIR/tests/recovery/element/svg-3/input.html:1:1]
  1 | <svg></p><foo>
    :      ^^^^
    `----
-
   x End of file seen and there were open elements
    ,-[$DIR/tests/recovery/element/svg-3/input.html:1:1]
  1 | <svg></p><foo>

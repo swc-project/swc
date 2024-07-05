@@ -1,7 +1,6 @@
-
   x Expected 'from', 'to' or percentage
-   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-number/input.css:1:1]
+   ,-[$DIR/tests/recovery/at-rule/keyframes/keyframe-number/input.css:2:1]
  1 | @keyframes foo {
- 2 | 	10 {
-   :  ^^
+ 2 |     10 {
+   :     ^^
    `----

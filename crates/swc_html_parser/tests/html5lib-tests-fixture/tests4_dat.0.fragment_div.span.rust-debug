@@ -1,20 +1,15 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests4_dat.0.fragment_div.html:1:1]
  1 | direct div content
    : ^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests4_dat.0.fragment_div.html:1:1]
  1 | direct div content
    : ^^^^^^^^^^^^^^^^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests4_dat.0.fragment_div.html:1:1]
  1 | direct div content

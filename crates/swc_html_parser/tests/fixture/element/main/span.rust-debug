@@ -1,68 +1,55 @@
-
   x Document
    ,-[$DIR/tests/fixture/element/main/input.html:1:1]
  1 | <!doctype html><main><p>foo</main>bar
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/fixture/element/main/input.html:1:1]
  1 | <!doctype html><main><p>foo</main>bar
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/fixture/element/main/input.html:1:1]
  1 | <!doctype html><main><p>foo</main>bar
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/fixture/element/main/input.html:1:1]
  1 | <!doctype html><main><p>foo</main>bar
    :                ^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/fixture/element/main/input.html:1:1]
  1 | <!doctype html><main><p>foo</main>bar
    :                ^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/fixture/element/main/input.html:1:1]
  1 | <!doctype html><main><p>foo</main>bar
    :                      ^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/fixture/element/main/input.html:1:1]
  1 | <!doctype html><main><p>foo</main>bar
    :                      ^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/fixture/element/main/input.html:1:1]
  1 | <!doctype html><main><p>foo</main>bar
    :                         ^^^
    `----
-
   x Text
    ,-[$DIR/tests/fixture/element/main/input.html:1:1]
  1 | <!doctype html><main><p>foo</main>bar
    :                         ^^^
    `----
-
   x Child
    ,-[$DIR/tests/fixture/element/main/input.html:1:1]
  1 | <!doctype html><main><p>foo</main>bar
    :                                   ^^^
    `----
-
   x Text
    ,-[$DIR/tests/fixture/element/main/input.html:1:1]
  1 | <!doctype html><main><p>foo</main>bar

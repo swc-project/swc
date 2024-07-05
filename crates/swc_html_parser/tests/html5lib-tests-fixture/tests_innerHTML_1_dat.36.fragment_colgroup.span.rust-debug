@@ -1,10 +1,7 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests_innerHTML_1_dat.36.fragment_colgroup.html:1:1]
  1 | </colgroup><col>
    : ^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element

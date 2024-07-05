@@ -1,16 +1,13 @@
-
   x Document
    ,-[$DIR/tests/recovery/pi/bad-pi-3/input.xml:1:1]
  1 | <?xml version='1.0'
    : ^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/recovery/pi/bad-pi-3/input.xml:1:1]
  1 | <?xml version='1.0'
    : ^^^^^^^^^^^^^^^^^^^
    `----
-
   x ProcessingInstruction
    ,-[$DIR/tests/recovery/pi/bad-pi-3/input.xml:1:1]
  1 | <?xml version='1.0'

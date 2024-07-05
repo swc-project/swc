@@ -1,70 +1,58 @@
-
   x Stylesheet
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/OHdIPr6lNfq9lBs5RMtbrQ/input.css:1:1]
  1 | @keyframes \61 bc { from {} }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Rule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/OHdIPr6lNfq9lBs5RMtbrQ/input.css:1:1]
  1 | @keyframes \61 bc { from {} }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x AtRule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/OHdIPr6lNfq9lBs5RMtbrQ/input.css:1:1]
  1 | @keyframes \61 bc { from {} }
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x AtRuleName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/OHdIPr6lNfq9lBs5RMtbrQ/input.css:1:1]
  1 | @keyframes \61 bc { from {} }
    :  ^^^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/OHdIPr6lNfq9lBs5RMtbrQ/input.css:1:1]
  1 | @keyframes \61 bc { from {} }
    :  ^^^^^^^^^
    `----
-
   x CustomIdent
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/OHdIPr6lNfq9lBs5RMtbrQ/input.css:1:1]
  1 | @keyframes \61 bc { from {} }
    :            ^^^^^^
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/OHdIPr6lNfq9lBs5RMtbrQ/input.css:1:1]
  1 | @keyframes \61 bc { from {} }
    :                   ^^^^^^^^^^^
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/OHdIPr6lNfq9lBs5RMtbrQ/input.css:1:1]
  1 | @keyframes \61 bc { from {} }
    :                   ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/OHdIPr6lNfq9lBs5RMtbrQ/input.css:1:1]
  1 | @keyframes \61 bc { from {} }
    :                     ^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/OHdIPr6lNfq9lBs5RMtbrQ/input.css:1:1]
  1 | @keyframes \61 bc { from {} }
    :                     ^^^^
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/OHdIPr6lNfq9lBs5RMtbrQ/input.css:1:1]
  1 | @keyframes \61 bc { from {} }
    :                          ^^
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/OHdIPr6lNfq9lBs5RMtbrQ/input.css:1:1]
  1 | @keyframes \61 bc { from {} }

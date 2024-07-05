@@ -1,124 +1,103 @@
-
   x Stylesheet
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Mdtiu_Fpfso6gXZMciRJgw/input.css:1:1]
  1 | a { value: 10\65m }
    : ^^^^^^^^^^^^^^^^^^^
    `----
-
   x Rule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Mdtiu_Fpfso6gXZMciRJgw/input.css:1:1]
  1 | a { value: 10\65m }
    : ^^^^^^^^^^^^^^^^^^^
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Mdtiu_Fpfso6gXZMciRJgw/input.css:1:1]
  1 | a { value: 10\65m }
    : ^^^^^^^^^^^^^^^^^^^
    `----
-
   x SelectorList
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Mdtiu_Fpfso6gXZMciRJgw/input.css:1:1]
  1 | a { value: 10\65m }
    : ^
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Mdtiu_Fpfso6gXZMciRJgw/input.css:1:1]
  1 | a { value: 10\65m }
    : ^
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Mdtiu_Fpfso6gXZMciRJgw/input.css:1:1]
  1 | a { value: 10\65m }
    : ^
    `----
-
   x TypeSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Mdtiu_Fpfso6gXZMciRJgw/input.css:1:1]
  1 | a { value: 10\65m }
    : ^
    `----
-
   x TagNameSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Mdtiu_Fpfso6gXZMciRJgw/input.css:1:1]
  1 | a { value: 10\65m }
    : ^
    `----
-
   x WqName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Mdtiu_Fpfso6gXZMciRJgw/input.css:1:1]
  1 | a { value: 10\65m }
    : ^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Mdtiu_Fpfso6gXZMciRJgw/input.css:1:1]
  1 | a { value: 10\65m }
    : ^
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Mdtiu_Fpfso6gXZMciRJgw/input.css:1:1]
  1 | a { value: 10\65m }
    :   ^^^^^^^^^^^^^^^^^
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Mdtiu_Fpfso6gXZMciRJgw/input.css:1:1]
  1 | a { value: 10\65m }
    :   ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Mdtiu_Fpfso6gXZMciRJgw/input.css:1:1]
  1 | a { value: 10\65m }
    :     ^^^^^^^^^^^^^^
    `----
-
   x Declaration
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Mdtiu_Fpfso6gXZMciRJgw/input.css:1:1]
  1 | a { value: 10\65m }
    :     ^^^^^^^^^^^^^^
    `----
-
   x DeclarationName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Mdtiu_Fpfso6gXZMciRJgw/input.css:1:1]
  1 | a { value: 10\65m }
    :     ^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Mdtiu_Fpfso6gXZMciRJgw/input.css:1:1]
  1 | a { value: 10\65m }
    :     ^^^^^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Mdtiu_Fpfso6gXZMciRJgw/input.css:1:1]
  1 | a { value: 10\65m }
    :            ^^^^^^
    `----
-
   x Dimension
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Mdtiu_Fpfso6gXZMciRJgw/input.css:1:1]
  1 | a { value: 10\65m }
    :            ^^^^^^
    `----
-
   x Length
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Mdtiu_Fpfso6gXZMciRJgw/input.css:1:1]
  1 | a { value: 10\65m }
    :            ^^^^^^
    `----
-
   x Number
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Mdtiu_Fpfso6gXZMciRJgw/input.css:1:1]
  1 | a { value: 10\65m }
    :            ^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/Mdtiu_Fpfso6gXZMciRJgw/input.css:1:1]
  1 | a { value: 10\65m }

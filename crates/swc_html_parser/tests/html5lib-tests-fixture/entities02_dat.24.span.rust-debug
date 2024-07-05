@@ -1,32 +1,25 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/entities02_dat.24.html:1:1]
  1 | <div>ZZ&prod=23</div>
    : ^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/entities02_dat.24.html:1:1]
  1 | <div>ZZ&prod=23</div>
    : ^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/entities02_dat.24.html:1:1]
  1 | <div>ZZ&prod=23</div>
    : ^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/entities02_dat.24.html:1:1]
  1 | <div>ZZ&prod=23</div>
    :      ^^^^^^^^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/entities02_dat.24.html:1:1]
  1 | <div>ZZ&prod=23</div>

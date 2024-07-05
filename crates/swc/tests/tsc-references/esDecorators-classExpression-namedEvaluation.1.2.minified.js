@@ -1,7 +1,6 @@
 //// [esDecorators-classExpression-namedEvaluation.1.ts]
-//! 
 //!   x Expression expected
-//!     ,-[5:1]
+//!     ,-[8:1]
 //!   5 | // 13.15.2 RS: Evaluation
 //!   6 | //  AssignmentExpression : LeftHandSideExpression `=` AssignmentExpression
 //!   7 | 

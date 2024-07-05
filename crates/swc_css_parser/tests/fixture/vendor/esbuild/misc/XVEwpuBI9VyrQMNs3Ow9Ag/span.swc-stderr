@@ -1,64 +1,53 @@
-
   x Stylesheet
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/XVEwpuBI9VyrQMNs3Ow9Ag/input.css:1:1]
  1 | @media screen {}
    : ^^^^^^^^^^^^^^^^
    `----
-
   x Rule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/XVEwpuBI9VyrQMNs3Ow9Ag/input.css:1:1]
  1 | @media screen {}
    : ^^^^^^^^^^^^^^^^
    `----
-
   x AtRule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/XVEwpuBI9VyrQMNs3Ow9Ag/input.css:1:1]
  1 | @media screen {}
    : ^^^^^^^^^^^^^^^^
    `----
-
   x AtRuleName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/XVEwpuBI9VyrQMNs3Ow9Ag/input.css:1:1]
  1 | @media screen {}
    :  ^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/XVEwpuBI9VyrQMNs3Ow9Ag/input.css:1:1]
  1 | @media screen {}
    :  ^^^^^
    `----
-
   x MediaQueryList
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/XVEwpuBI9VyrQMNs3Ow9Ag/input.css:1:1]
  1 | @media screen {}
    :        ^^^^^^
    `----
-
   x MediaQuery
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/XVEwpuBI9VyrQMNs3Ow9Ag/input.css:1:1]
  1 | @media screen {}
    :        ^^^^^^
    `----
-
   x MediaType
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/XVEwpuBI9VyrQMNs3Ow9Ag/input.css:1:1]
  1 | @media screen {}
    :        ^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/XVEwpuBI9VyrQMNs3Ow9Ag/input.css:1:1]
  1 | @media screen {}
    :        ^^^^^^
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/XVEwpuBI9VyrQMNs3Ow9Ag/input.css:1:1]
  1 | @media screen {}
    :               ^^
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/XVEwpuBI9VyrQMNs3Ow9Ag/input.css:1:1]
  1 | @media screen {}

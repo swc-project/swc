@@ -1,52 +1,44 @@
-
   x Module
    ,-[$DIR/tests/span/js/decl/async-fn.js:1:1]
  1 | ,-> async function foo() {
  2 | |   
  3 | `-> }
    `----
-
   x ModuleItem
    ,-[$DIR/tests/span/js/decl/async-fn.js:1:1]
  1 | ,-> async function foo() {
  2 | |   
  3 | `-> }
    `----
-
   x Stmt
    ,-[$DIR/tests/span/js/decl/async-fn.js:1:1]
  1 | ,-> async function foo() {
  2 | |   
  3 | `-> }
    `----
-
   x Decl
    ,-[$DIR/tests/span/js/decl/async-fn.js:1:1]
  1 | ,-> async function foo() {
  2 | |   
  3 | `-> }
    `----
-
   x FnDecl
    ,-[$DIR/tests/span/js/decl/async-fn.js:1:1]
  1 | ,-> async function foo() {
  2 | |   
  3 | `-> }
    `----
-
   x Ident
    ,-[$DIR/tests/span/js/decl/async-fn.js:1:1]
  1 | async function foo() {
    :                ^^^
    `----
-
   x Function
    ,-[$DIR/tests/span/js/decl/async-fn.js:1:1]
  1 | ,-> async function foo() {
  2 | |   
  3 | `-> }
    `----
-
   x BlockStmt
    ,-[$DIR/tests/span/js/decl/async-fn.js:1:1]
  1 | ,-> async function foo() {

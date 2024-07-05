@@ -1,8 +1,6 @@
-
   > Trailing (hi)
 
-Advice: 
-  >  IMPORTANT_DO_NOT_REMOVE
+Advice:   >  IMPORTANT_DO_NOT_REMOVE
    ,-[$DIR/tests/comments/issue-3715/input.js:1:1]
  1 | a() /* IMPORTANT_DO_NOT_REMOVE */;
    :    ^

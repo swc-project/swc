@@ -1,94 +1,78 @@
-
   x Stylesheet
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/btdQp-3m090Q73vMHSpKgw/input.css:1:1]
  1 | \2a|div {}
    : ^^^^^^^^^^
    `----
-
   x Rule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/btdQp-3m090Q73vMHSpKgw/input.css:1:1]
  1 | \2a|div {}
    : ^^^^^^^^^^
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/btdQp-3m090Q73vMHSpKgw/input.css:1:1]
  1 | \2a|div {}
    : ^^^^^^^^^^
    `----
-
   x SelectorList
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/btdQp-3m090Q73vMHSpKgw/input.css:1:1]
  1 | \2a|div {}
    : ^^^^^^^
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/btdQp-3m090Q73vMHSpKgw/input.css:1:1]
  1 | \2a|div {}
    : ^^^^^^^
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/btdQp-3m090Q73vMHSpKgw/input.css:1:1]
  1 | \2a|div {}
    : ^^^^^^^
    `----
-
   x TypeSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/btdQp-3m090Q73vMHSpKgw/input.css:1:1]
  1 | \2a|div {}
    : ^^^^^^^
    `----
-
   x TagNameSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/btdQp-3m090Q73vMHSpKgw/input.css:1:1]
  1 | \2a|div {}
    : ^^^^^^^
    `----
-
   x WqName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/btdQp-3m090Q73vMHSpKgw/input.css:1:1]
  1 | \2a|div {}
    : ^^^^^^^
    `----
-
   x NamespacePrefix
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/btdQp-3m090Q73vMHSpKgw/input.css:1:1]
  1 | \2a|div {}
    : ^^^^
    `----
-
   x Namespace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/btdQp-3m090Q73vMHSpKgw/input.css:1:1]
  1 | \2a|div {}
    : ^^^
    `----
-
   x NamedNamespace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/btdQp-3m090Q73vMHSpKgw/input.css:1:1]
  1 | \2a|div {}
    : ^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/btdQp-3m090Q73vMHSpKgw/input.css:1:1]
  1 | \2a|div {}
    : ^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/btdQp-3m090Q73vMHSpKgw/input.css:1:1]
  1 | \2a|div {}
    :     ^^^
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/btdQp-3m090Q73vMHSpKgw/input.css:1:1]
  1 | \2a|div {}
    :         ^^
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/btdQp-3m090Q73vMHSpKgw/input.css:1:1]
  1 | \2a|div {}

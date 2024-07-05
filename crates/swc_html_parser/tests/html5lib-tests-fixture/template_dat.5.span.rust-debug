@@ -1,74 +1,60 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.5.html:1:1]
  1 | <div><template><div><span></template><b>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.5.html:1:1]
  1 | <div><template><div><span></template><b>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.5.html:1:1]
  1 | <div><template><div><span></template><b>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.5.html:1:1]
  1 | <div><template><div><span></template><b>
    :      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.5.html:1:1]
  1 | <div><template><div><span></template><b>
    :      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x DocumentFragment
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.5.html:1:1]
  1 | <div><template><div><span></template><b>
    :      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.5.html:1:1]
  1 | <div><template><div><span></template><b>
    :                ^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.5.html:1:1]
  1 | <div><template><div><span></template><b>
    :                ^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.5.html:1:1]
  1 | <div><template><div><span></template><b>
    :                     ^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.5.html:1:1]
  1 | <div><template><div><span></template><b>
    :                     ^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.5.html:1:1]
  1 | <div><template><div><span></template><b>
    :                                      ^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.5.html:1:1]
  1 | <div><template><div><span></template><b>

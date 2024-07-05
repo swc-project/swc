@@ -1,10 +1,8 @@
-
   x Saw an end tag after "body" had been closed
    ,-[$DIR/tests/recovery/element/body-4/input.html:1:1]
  1 | <!DOCTYPE html>X</body></div>
    :                        ^^^^^^
    `----
-
   x Stray end tag "div"
    ,-[$DIR/tests/recovery/element/body-4/input.html:1:1]
  1 | <!DOCTYPE html>X</body></div>

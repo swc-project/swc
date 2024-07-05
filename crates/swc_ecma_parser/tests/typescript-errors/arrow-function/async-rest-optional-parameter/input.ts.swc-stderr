@@ -1,4 +1,3 @@
-
   x A rest parameter cannot be optional
    ,-[$DIR/tests/typescript-errors/arrow-function/async-rest-optional-parameter/input.ts:1:1]
  1 | async(...args?: any[]) : any => {}

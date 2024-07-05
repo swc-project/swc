@@ -1,56 +1,45 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.99.html:1:1]
  1 | <!doctype html><a><b></a><basefont>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.99.html:1:1]
  1 | <!doctype html><a><b></a><basefont>
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.99.html:1:1]
  1 | <!doctype html><a><b></a><basefont>
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.99.html:1:1]
  1 | <!doctype html><a><b></a><basefont>
    :                ^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.99.html:1:1]
  1 | <!doctype html><a><b></a><basefont>
    :                ^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.99.html:1:1]
  1 | <!doctype html><a><b></a><basefont>
    :                   ^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.99.html:1:1]
  1 | <!doctype html><a><b></a><basefont>
    :                   ^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.99.html:1:1]
  1 | <!doctype html><a><b></a><basefont>
    :                          ^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests19_dat.99.html:1:1]
  1 | <!doctype html><a><b></a><basefont>

@@ -1,4 +1,3 @@
-
   x Unexpected token. Did you mean `{'>'}` or `&gt;`?
    ,-[$DIR/tests/jsx/errors/unexpected_token_did_you_mean_or_gt/input.js:1:1]
  1 | var x1 = <T>() => {}</T>;

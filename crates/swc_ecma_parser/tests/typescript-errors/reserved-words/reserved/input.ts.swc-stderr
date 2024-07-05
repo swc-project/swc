@@ -1,6 +1,5 @@
-
   x Expression expected
-   ,-[$DIR/tests/typescript-errors/reserved-words/reserved/input.ts:2:1]
+   ,-[$DIR/tests/typescript-errors/reserved-words/reserved/input.ts:3:1]
  2 | 
  3 | let a = interface;
    :         ^^^^^^^^^

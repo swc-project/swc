@@ -1,4 +1,3 @@
-
   x Stylesheet
     ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:1:1]
   1 | ,-> a::after {}
@@ -39,2322 +38,2003 @@
  36 | |   a, b > .foo::before {}
  37 | `-> *:hover.class {}
     `----
-
   x Rule
    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:1:1]
  1 | a::after {}
    : ^^^^^^^^^^^
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:1:1]
  1 | a::after {}
    : ^^^^^^^^^^^
    `----
-
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:1:1]
  1 | a::after {}
    : ^^^^^^^^
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:1:1]
  1 | a::after {}
    : ^^^^^^^^
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:1:1]
  1 | a::after {}
    : ^^^^^^^^
    `----
-
   x TypeSelector
    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:1:1]
  1 | a::after {}
    : ^
    `----
-
   x TagNameSelector
    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:1:1]
  1 | a::after {}
    : ^
    `----
-
   x WqName
    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:1:1]
  1 | a::after {}
    : ^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:1:1]
  1 | a::after {}
    : ^
    `----
-
   x SubclassSelector
    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:1:1]
  1 | a::after {}
    :  ^^^^^^^
    `----
-
   x PseudoElementSelector
    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:1:1]
  1 | a::after {}
    :  ^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:1:1]
  1 | a::after {}
    :    ^^^^^
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:1:1]
  1 | a::after {}
    :          ^^
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:1:1]
  1 | a::after {}
    :          ^
    `----
-
   x Rule
-   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:3:1]
  2 | 
  3 | dialog::backdrop {}
    : ^^^^^^^^^^^^^^^^^^^
    `----
-
   x QualifiedRule
-   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:3:1]
  2 | 
  3 | dialog::backdrop {}
    : ^^^^^^^^^^^^^^^^^^^
    `----
-
   x SelectorList
-   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:3:1]
  2 | 
  3 | dialog::backdrop {}
    : ^^^^^^^^^^^^^^^^
    `----
-
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:3:1]
  2 | 
  3 | dialog::backdrop {}
    : ^^^^^^^^^^^^^^^^
    `----
-
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:3:1]
  2 | 
  3 | dialog::backdrop {}
    : ^^^^^^^^^^^^^^^^
    `----
-
   x TypeSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:3:1]
  2 | 
  3 | dialog::backdrop {}
    : ^^^^^^
    `----
-
   x TagNameSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:3:1]
  2 | 
  3 | dialog::backdrop {}
    : ^^^^^^
    `----
-
   x WqName
-   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:3:1]
  2 | 
  3 | dialog::backdrop {}
    : ^^^^^^
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:3:1]
  2 | 
  3 | dialog::backdrop {}
    : ^^^^^^
    `----
-
   x SubclassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:3:1]
  2 | 
  3 | dialog::backdrop {}
    :       ^^^^^^^^^^
    `----
-
   x PseudoElementSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:3:1]
  2 | 
  3 | dialog::backdrop {}
    :       ^^^^^^^^^^
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:3:1]
  2 | 
  3 | dialog::backdrop {}
    :         ^^^^^^^^
    `----
-
   x SimpleBlock
-   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:3:1]
  2 | 
  3 | dialog::backdrop {}
    :                  ^^
    `----
-
   x LBrace
-   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:3:1]
  2 | 
  3 | dialog::backdrop {}
    :                  ^
    `----
-
   x Rule
-   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:4:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:5:1]
  4 | 
  5 | a::before {}
    : ^^^^^^^^^^^^
    `----
-
   x QualifiedRule
-   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:4:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:5:1]
  4 | 
  5 | a::before {}
    : ^^^^^^^^^^^^
    `----
-
   x SelectorList
-   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:4:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:5:1]
  4 | 
  5 | a::before {}
    : ^^^^^^^^^
    `----
-
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:4:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:5:1]
  4 | 
  5 | a::before {}
    : ^^^^^^^^^
    `----
-
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:4:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:5:1]
  4 | 
  5 | a::before {}
    : ^^^^^^^^^
    `----
-
   x TypeSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:4:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:5:1]
  4 | 
  5 | a::before {}
    : ^
    `----
-
   x TagNameSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:4:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:5:1]
  4 | 
  5 | a::before {}
    : ^
    `----
-
   x WqName
-   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:4:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:5:1]
  4 | 
  5 | a::before {}
    : ^
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:4:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:5:1]
  4 | 
  5 | a::before {}
    : ^
    `----
-
   x SubclassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:4:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:5:1]
  4 | 
  5 | a::before {}
    :  ^^^^^^^^
    `----
-
   x PseudoElementSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:4:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:5:1]
  4 | 
  5 | a::before {}
    :  ^^^^^^^^
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:4:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:5:1]
  4 | 
  5 | a::before {}
    :    ^^^^^^
    `----
-
   x SimpleBlock
-   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:4:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:5:1]
  4 | 
  5 | a::before {}
    :           ^^
    `----
-
   x LBrace
-   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:4:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:5:1]
  4 | 
  5 | a::before {}
    :           ^
    `----
-
   x Rule
-   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:7:1]
  6 | 
  7 | video::cue {}
    : ^^^^^^^^^^^^^
  8 | video::cue(b) {}
    `----
-
   x QualifiedRule
-   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:7:1]
  6 | 
  7 | video::cue {}
    : ^^^^^^^^^^^^^
  8 | video::cue(b) {}
    `----
-
   x SelectorList
-   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:7:1]
  6 | 
  7 | video::cue {}
    : ^^^^^^^^^^
  8 | video::cue(b) {}
    `----
-
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:7:1]
  6 | 
  7 | video::cue {}
    : ^^^^^^^^^^
  8 | video::cue(b) {}
    `----
-
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:7:1]
  6 | 
  7 | video::cue {}
    : ^^^^^^^^^^
  8 | video::cue(b) {}
    `----
-
   x TypeSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:7:1]
  6 | 
  7 | video::cue {}
    : ^^^^^
  8 | video::cue(b) {}
    `----
-
   x TagNameSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:7:1]
  6 | 
  7 | video::cue {}
    : ^^^^^
  8 | video::cue(b) {}
    `----
-
   x WqName
-   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:7:1]
  6 | 
  7 | video::cue {}
    : ^^^^^
  8 | video::cue(b) {}
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:7:1]
  6 | 
  7 | video::cue {}
    : ^^^^^
  8 | video::cue(b) {}
    `----
-
   x SubclassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:7:1]
  6 | 
  7 | video::cue {}
    :      ^^^^^
  8 | video::cue(b) {}
    `----
-
   x PseudoElementSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:7:1]
  6 | 
  7 | video::cue {}
    :      ^^^^^
  8 | video::cue(b) {}
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:7:1]
  6 | 
  7 | video::cue {}
    :        ^^^
  8 | video::cue(b) {}
    `----
-
   x SimpleBlock
-   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:7:1]
  6 | 
  7 | video::cue {}
    :            ^^
  8 | video::cue(b) {}
    `----
-
   x LBrace
-   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:6:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:7:1]
  6 | 
  7 | video::cue {}
    :            ^
  8 | video::cue(b) {}
    `----
-
   x Rule
-   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:7:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:8:1]
  7 | video::cue {}
  8 | video::cue(b) {}
    : ^^^^^^^^^^^^^^^^
    `----
-
   x QualifiedRule
-   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:7:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:8:1]
  7 | video::cue {}
  8 | video::cue(b) {}
    : ^^^^^^^^^^^^^^^^
    `----
-
   x SelectorList
-   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:7:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:8:1]
  7 | video::cue {}
  8 | video::cue(b) {}
    : ^^^^^^^^^^^^^
    `----
-
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:7:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:8:1]
  7 | video::cue {}
  8 | video::cue(b) {}
    : ^^^^^^^^^^^^^
    `----
-
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:7:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:8:1]
  7 | video::cue {}
  8 | video::cue(b) {}
    : ^^^^^^^^^^^^^
    `----
-
   x TypeSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:7:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:8:1]
  7 | video::cue {}
  8 | video::cue(b) {}
    : ^^^^^
    `----
-
   x TagNameSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:7:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:8:1]
  7 | video::cue {}
  8 | video::cue(b) {}
    : ^^^^^
    `----
-
   x WqName
-   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:7:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:8:1]
  7 | video::cue {}
  8 | video::cue(b) {}
    : ^^^^^
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:7:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:8:1]
  7 | video::cue {}
  8 | video::cue(b) {}
    : ^^^^^
    `----
-
   x SubclassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:7:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:8:1]
  7 | video::cue {}
  8 | video::cue(b) {}
    :      ^^^^^^^^
    `----
-
   x PseudoElementSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:7:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:8:1]
  7 | video::cue {}
  8 | video::cue(b) {}
    :      ^^^^^^^^
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:7:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:8:1]
  7 | video::cue {}
  8 | video::cue(b) {}
    :        ^^^
    `----
-
   x PseudoElementSelectorChildren
-   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:7:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:8:1]
  7 | video::cue {}
  8 | video::cue(b) {}
    :            ^
    `----
-
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:7:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:8:1]
  7 | video::cue {}
  8 | video::cue(b) {}
    :            ^
    `----
-
   x TypeSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:7:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:8:1]
  7 | video::cue {}
  8 | video::cue(b) {}
    :            ^
    `----
-
   x TagNameSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:7:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:8:1]
  7 | video::cue {}
  8 | video::cue(b) {}
    :            ^
    `----
-
   x WqName
-   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:7:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:8:1]
  7 | video::cue {}
  8 | video::cue(b) {}
    :            ^
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:7:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:8:1]
  7 | video::cue {}
  8 | video::cue(b) {}
    :            ^
    `----
-
   x SimpleBlock
-   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:7:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:8:1]
  7 | video::cue {}
  8 | video::cue(b) {}
    :               ^^
    `----
-
   x LBrace
-   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:7:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:8:1]
  7 | video::cue {}
  8 | video::cue(b) {}
    :               ^
    `----
-
   x Rule
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:9:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:10:1]
   9 | 
  10 | video::cue-region {}
     : ^^^^^^^^^^^^^^^^^^^^
  11 | video::cue-region(#scroll) {}
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:9:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:10:1]
   9 | 
  10 | video::cue-region {}
     : ^^^^^^^^^^^^^^^^^^^^
  11 | video::cue-region(#scroll) {}
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:9:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:10:1]
   9 | 
  10 | video::cue-region {}
     : ^^^^^^^^^^^^^^^^^
  11 | video::cue-region(#scroll) {}
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:9:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:10:1]
   9 | 
  10 | video::cue-region {}
     : ^^^^^^^^^^^^^^^^^
  11 | video::cue-region(#scroll) {}
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:9:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:10:1]
   9 | 
  10 | video::cue-region {}
     : ^^^^^^^^^^^^^^^^^
  11 | video::cue-region(#scroll) {}
     `----
-
   x TypeSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:9:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:10:1]
   9 | 
  10 | video::cue-region {}
     : ^^^^^
  11 | video::cue-region(#scroll) {}
     `----
-
   x TagNameSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:9:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:10:1]
   9 | 
  10 | video::cue-region {}
     : ^^^^^
  11 | video::cue-region(#scroll) {}
     `----
-
   x WqName
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:9:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:10:1]
   9 | 
  10 | video::cue-region {}
     : ^^^^^
  11 | video::cue-region(#scroll) {}
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:9:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:10:1]
   9 | 
  10 | video::cue-region {}
     : ^^^^^
  11 | video::cue-region(#scroll) {}
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:9:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:10:1]
   9 | 
  10 | video::cue-region {}
     :      ^^^^^^^^^^^^
  11 | video::cue-region(#scroll) {}
     `----
-
   x PseudoElementSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:9:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:10:1]
   9 | 
  10 | video::cue-region {}
     :      ^^^^^^^^^^^^
  11 | video::cue-region(#scroll) {}
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:9:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:10:1]
   9 | 
  10 | video::cue-region {}
     :        ^^^^^^^^^^
  11 | video::cue-region(#scroll) {}
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:9:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:10:1]
   9 | 
  10 | video::cue-region {}
     :                   ^^
  11 | video::cue-region(#scroll) {}
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:9:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:10:1]
   9 | 
  10 | video::cue-region {}
     :                   ^
  11 | video::cue-region(#scroll) {}
     `----
-
   x Rule
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:10:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:11:1]
  10 | video::cue-region {}
  11 | video::cue-region(#scroll) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:10:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:11:1]
  10 | video::cue-region {}
  11 | video::cue-region(#scroll) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:10:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:11:1]
  10 | video::cue-region {}
  11 | video::cue-region(#scroll) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:10:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:11:1]
  10 | video::cue-region {}
  11 | video::cue-region(#scroll) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:10:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:11:1]
  10 | video::cue-region {}
  11 | video::cue-region(#scroll) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
-
   x TypeSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:10:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:11:1]
  10 | video::cue-region {}
  11 | video::cue-region(#scroll) {}
     : ^^^^^
     `----
-
   x TagNameSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:10:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:11:1]
  10 | video::cue-region {}
  11 | video::cue-region(#scroll) {}
     : ^^^^^
     `----
-
   x WqName
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:10:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:11:1]
  10 | video::cue-region {}
  11 | video::cue-region(#scroll) {}
     : ^^^^^
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:10:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:11:1]
  10 | video::cue-region {}
  11 | video::cue-region(#scroll) {}
     : ^^^^^
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:10:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:11:1]
  10 | video::cue-region {}
  11 | video::cue-region(#scroll) {}
     :      ^^^^^^^^^^^^^^^^^^^^^
     `----
-
   x PseudoElementSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:10:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:11:1]
  10 | video::cue-region {}
  11 | video::cue-region(#scroll) {}
     :      ^^^^^^^^^^^^^^^^^^^^^
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:10:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:11:1]
  10 | video::cue-region {}
  11 | video::cue-region(#scroll) {}
     :        ^^^^^^^^^^
     `----
-
   x PseudoElementSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:10:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:11:1]
  10 | video::cue-region {}
  11 | video::cue-region(#scroll) {}
     :                   ^^^^^^^
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:10:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:11:1]
  10 | video::cue-region {}
  11 | video::cue-region(#scroll) {}
     :                   ^^^^^^^
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:10:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:11:1]
  10 | video::cue-region {}
  11 | video::cue-region(#scroll) {}
     :                   ^^^^^^^
     `----
-
   x IdSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:10:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:11:1]
  10 | video::cue-region {}
  11 | video::cue-region(#scroll) {}
     :                   ^^^^^^^
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:10:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:11:1]
  10 | video::cue-region {}
  11 | video::cue-region(#scroll) {}
     :                   ^^^^^^^
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:10:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:11:1]
  10 | video::cue-region {}
  11 | video::cue-region(#scroll) {}
     :                            ^^
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:10:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:11:1]
  10 | video::cue-region {}
  11 | video::cue-region(#scroll) {}
     :                            ^
     `----
-
   x Rule
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:12:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:13:1]
  12 | 
  13 | ::grammar-error {}
     : ^^^^^^^^^^^^^^^^^^
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:12:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:13:1]
  12 | 
  13 | ::grammar-error {}
     : ^^^^^^^^^^^^^^^^^^
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:12:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:13:1]
  12 | 
  13 | ::grammar-error {}
     : ^^^^^^^^^^^^^^^
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:12:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:13:1]
  12 | 
  13 | ::grammar-error {}
     : ^^^^^^^^^^^^^^^
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:12:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:13:1]
  12 | 
  13 | ::grammar-error {}
     : ^^^^^^^^^^^^^^^
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:12:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:13:1]
  12 | 
  13 | ::grammar-error {}
     : ^^^^^^^^^^^^^^^
     `----
-
   x PseudoElementSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:12:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:13:1]
  12 | 
  13 | ::grammar-error {}
     : ^^^^^^^^^^^^^^^
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:12:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:13:1]
  12 | 
  13 | ::grammar-error {}
     :   ^^^^^^^^^^^^^
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:12:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:13:1]
  12 | 
  13 | ::grammar-error {}
     :                 ^^
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:12:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:13:1]
  12 | 
  13 | ::grammar-error {}
     :                 ^
     `----
-
   x Rule
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:14:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:15:1]
  14 | 
  15 | ::marker {}
     : ^^^^^^^^^^^
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:14:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:15:1]
  14 | 
  15 | ::marker {}
     : ^^^^^^^^^^^
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:14:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:15:1]
  14 | 
  15 | ::marker {}
     : ^^^^^^^^
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:14:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:15:1]
  14 | 
  15 | ::marker {}
     : ^^^^^^^^
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:14:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:15:1]
  14 | 
  15 | ::marker {}
     : ^^^^^^^^
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:14:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:15:1]
  14 | 
  15 | ::marker {}
     : ^^^^^^^^
     `----
-
   x PseudoElementSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:14:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:15:1]
  14 | 
  15 | ::marker {}
     : ^^^^^^^^
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:14:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:15:1]
  14 | 
  15 | ::marker {}
     :   ^^^^^^
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:14:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:15:1]
  14 | 
  15 | ::marker {}
     :          ^^
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:14:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:15:1]
  14 | 
  15 | ::marker {}
     :          ^
     `----
-
   x Rule
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:16:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:17:1]
  16 | 
  17 | tabbed-custom-element::part(tab) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:16:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:17:1]
  16 | 
  17 | tabbed-custom-element::part(tab) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:16:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:17:1]
  16 | 
  17 | tabbed-custom-element::part(tab) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:16:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:17:1]
  16 | 
  17 | tabbed-custom-element::part(tab) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:16:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:17:1]
  16 | 
  17 | tabbed-custom-element::part(tab) {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
-
   x TypeSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:16:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:17:1]
  16 | 
  17 | tabbed-custom-element::part(tab) {}
     : ^^^^^^^^^^^^^^^^^^^^^
     `----
-
   x TagNameSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:16:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:17:1]
  16 | 
  17 | tabbed-custom-element::part(tab) {}
     : ^^^^^^^^^^^^^^^^^^^^^
     `----
-
   x WqName
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:16:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:17:1]
  16 | 
  17 | tabbed-custom-element::part(tab) {}
     : ^^^^^^^^^^^^^^^^^^^^^
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:16:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:17:1]
  16 | 
  17 | tabbed-custom-element::part(tab) {}
     : ^^^^^^^^^^^^^^^^^^^^^
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:16:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:17:1]
  16 | 
  17 | tabbed-custom-element::part(tab) {}
     :                      ^^^^^^^^^^^
     `----
-
   x PseudoElementSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:16:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:17:1]
  16 | 
  17 | tabbed-custom-element::part(tab) {}
     :                      ^^^^^^^^^^^
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:16:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:17:1]
  16 | 
  17 | tabbed-custom-element::part(tab) {}
     :                        ^^^^
     `----
-
   x PseudoElementSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:16:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:17:1]
  16 | 
  17 | tabbed-custom-element::part(tab) {}
     :                             ^^^
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:16:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:17:1]
  16 | 
  17 | tabbed-custom-element::part(tab) {}
     :                             ^^^
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:16:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:17:1]
  16 | 
  17 | tabbed-custom-element::part(tab) {}
     :                                  ^^
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:16:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:17:1]
  16 | 
  17 | tabbed-custom-element::part(tab) {}
     :                                  ^
     `----
-
   x Rule
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:18:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:19:1]
  18 | 
  19 | ::placeholder {}
     : ^^^^^^^^^^^^^^^^
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:18:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:19:1]
  18 | 
  19 | ::placeholder {}
     : ^^^^^^^^^^^^^^^^
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:18:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:19:1]
  18 | 
  19 | ::placeholder {}
     : ^^^^^^^^^^^^^
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:18:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:19:1]
  18 | 
  19 | ::placeholder {}
     : ^^^^^^^^^^^^^
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:18:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:19:1]
  18 | 
  19 | ::placeholder {}
     : ^^^^^^^^^^^^^
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:18:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:19:1]
  18 | 
  19 | ::placeholder {}
     : ^^^^^^^^^^^^^
     `----
-
   x PseudoElementSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:18:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:19:1]
  18 | 
  19 | ::placeholder {}
     : ^^^^^^^^^^^^^
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:18:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:19:1]
  18 | 
  19 | ::placeholder {}
     :   ^^^^^^^^^^^
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:18:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:19:1]
  18 | 
  19 | ::placeholder {}
     :               ^^
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:18:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:19:1]
  18 | 
  19 | ::placeholder {}
     :               ^
     `----
-
   x Rule
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:20:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:21:1]
  20 | 
  21 | ::selection {}
     : ^^^^^^^^^^^^^^
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:20:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:21:1]
  20 | 
  21 | ::selection {}
     : ^^^^^^^^^^^^^^
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:20:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:21:1]
  20 | 
  21 | ::selection {}
     : ^^^^^^^^^^^
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:20:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:21:1]
  20 | 
  21 | ::selection {}
     : ^^^^^^^^^^^
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:20:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:21:1]
  20 | 
  21 | ::selection {}
     : ^^^^^^^^^^^
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:20:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:21:1]
  20 | 
  21 | ::selection {}
     : ^^^^^^^^^^^
     `----
-
   x PseudoElementSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:20:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:21:1]
  20 | 
  21 | ::selection {}
     : ^^^^^^^^^^^
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:20:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:21:1]
  20 | 
  21 | ::selection {}
     :   ^^^^^^^^^
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:20:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:21:1]
  20 | 
  21 | ::selection {}
     :             ^^
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:20:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:21:1]
  20 | 
  21 | ::selection {}
     :             ^
     `----
-
   x Rule
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:22:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:23:1]
  22 | 
  23 | ::slotted(*) {}
     : ^^^^^^^^^^^^^^^
  24 | ::slotted(span) {}
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:22:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:23:1]
  22 | 
  23 | ::slotted(*) {}
     : ^^^^^^^^^^^^^^^
  24 | ::slotted(span) {}
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:22:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:23:1]
  22 | 
  23 | ::slotted(*) {}
     : ^^^^^^^^^^^^
  24 | ::slotted(span) {}
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:22:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:23:1]
  22 | 
  23 | ::slotted(*) {}
     : ^^^^^^^^^^^^
  24 | ::slotted(span) {}
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:22:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:23:1]
  22 | 
  23 | ::slotted(*) {}
     : ^^^^^^^^^^^^
  24 | ::slotted(span) {}
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:22:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:23:1]
  22 | 
  23 | ::slotted(*) {}
     : ^^^^^^^^^^^^
  24 | ::slotted(span) {}
     `----
-
   x PseudoElementSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:22:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:23:1]
  22 | 
  23 | ::slotted(*) {}
     : ^^^^^^^^^^^^
  24 | ::slotted(span) {}
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:22:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:23:1]
  22 | 
  23 | ::slotted(*) {}
     :   ^^^^^^^
  24 | ::slotted(span) {}
     `----
-
   x PseudoElementSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:22:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:23:1]
  22 | 
  23 | ::slotted(*) {}
     :           ^
  24 | ::slotted(span) {}
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:22:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:23:1]
  22 | 
  23 | ::slotted(*) {}
     :           ^
  24 | ::slotted(span) {}
     `----
-
   x TypeSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:22:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:23:1]
  22 | 
  23 | ::slotted(*) {}
     :           ^
  24 | ::slotted(span) {}
     `----
-
   x UniversalSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:22:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:23:1]
  22 | 
  23 | ::slotted(*) {}
     :           ^
  24 | ::slotted(span) {}
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:22:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:23:1]
  22 | 
  23 | ::slotted(*) {}
     :              ^^
  24 | ::slotted(span) {}
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:22:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:23:1]
  22 | 
  23 | ::slotted(*) {}
     :              ^
  24 | ::slotted(span) {}
     `----
-
   x Rule
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:23:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:24:1]
  23 | ::slotted(*) {}
  24 | ::slotted(span) {}
     : ^^^^^^^^^^^^^^^^^^
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:23:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:24:1]
  23 | ::slotted(*) {}
  24 | ::slotted(span) {}
     : ^^^^^^^^^^^^^^^^^^
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:23:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:24:1]
  23 | ::slotted(*) {}
  24 | ::slotted(span) {}
     : ^^^^^^^^^^^^^^^
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:23:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:24:1]
  23 | ::slotted(*) {}
  24 | ::slotted(span) {}
     : ^^^^^^^^^^^^^^^
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:23:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:24:1]
  23 | ::slotted(*) {}
  24 | ::slotted(span) {}
     : ^^^^^^^^^^^^^^^
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:23:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:24:1]
  23 | ::slotted(*) {}
  24 | ::slotted(span) {}
     : ^^^^^^^^^^^^^^^
     `----
-
   x PseudoElementSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:23:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:24:1]
  23 | ::slotted(*) {}
  24 | ::slotted(span) {}
     : ^^^^^^^^^^^^^^^
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:23:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:24:1]
  23 | ::slotted(*) {}
  24 | ::slotted(span) {}
     :   ^^^^^^^
     `----
-
   x PseudoElementSelectorChildren
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:23:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:24:1]
  23 | ::slotted(*) {}
  24 | ::slotted(span) {}
     :           ^^^^
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:23:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:24:1]
  23 | ::slotted(*) {}
  24 | ::slotted(span) {}
     :           ^^^^
     `----
-
   x TypeSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:23:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:24:1]
  23 | ::slotted(*) {}
  24 | ::slotted(span) {}
     :           ^^^^
     `----
-
   x TagNameSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:23:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:24:1]
  23 | ::slotted(*) {}
  24 | ::slotted(span) {}
     :           ^^^^
     `----
-
   x WqName
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:23:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:24:1]
  23 | ::slotted(*) {}
  24 | ::slotted(span) {}
     :           ^^^^
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:23:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:24:1]
  23 | ::slotted(*) {}
  24 | ::slotted(span) {}
     :           ^^^^
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:23:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:24:1]
  23 | ::slotted(*) {}
  24 | ::slotted(span) {}
     :                 ^^
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:23:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:24:1]
  23 | ::slotted(*) {}
  24 | ::slotted(span) {}
     :                 ^
     `----
-
   x Rule
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:25:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:26:1]
  25 | 
  26 | ::spelling-error {}
     : ^^^^^^^^^^^^^^^^^^^
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:25:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:26:1]
  25 | 
  26 | ::spelling-error {}
     : ^^^^^^^^^^^^^^^^^^^
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:25:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:26:1]
  25 | 
  26 | ::spelling-error {}
     : ^^^^^^^^^^^^^^^^
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:25:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:26:1]
  25 | 
  26 | ::spelling-error {}
     : ^^^^^^^^^^^^^^^^
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:25:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:26:1]
  25 | 
  26 | ::spelling-error {}
     : ^^^^^^^^^^^^^^^^
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:25:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:26:1]
  25 | 
  26 | ::spelling-error {}
     : ^^^^^^^^^^^^^^^^
     `----
-
   x PseudoElementSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:25:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:26:1]
  25 | 
  26 | ::spelling-error {}
     : ^^^^^^^^^^^^^^^^
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:25:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:26:1]
  25 | 
  26 | ::spelling-error {}
     :   ^^^^^^^^^^^^^^
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:25:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:26:1]
  25 | 
  26 | ::spelling-error {}
     :                  ^^
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:25:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:26:1]
  25 | 
  26 | ::spelling-error {}
     :                  ^
     `----
-
   x Rule
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:27:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:28:1]
  27 | 
  28 | ::target-text {}
     : ^^^^^^^^^^^^^^^^
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:27:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:28:1]
  27 | 
  28 | ::target-text {}
     : ^^^^^^^^^^^^^^^^
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:27:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:28:1]
  27 | 
  28 | ::target-text {}
     : ^^^^^^^^^^^^^
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:27:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:28:1]
  27 | 
  28 | ::target-text {}
     : ^^^^^^^^^^^^^
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:27:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:28:1]
  27 | 
  28 | ::target-text {}
     : ^^^^^^^^^^^^^
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:27:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:28:1]
  27 | 
  28 | ::target-text {}
     : ^^^^^^^^^^^^^
     `----
-
   x PseudoElementSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:27:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:28:1]
  27 | 
  28 | ::target-text {}
     : ^^^^^^^^^^^^^
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:27:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:28:1]
  27 | 
  28 | ::target-text {}
     :   ^^^^^^^^^^^
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:27:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:28:1]
  27 | 
  28 | ::target-text {}
     :               ^^
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:27:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:28:1]
  27 | 
  28 | ::target-text {}
     :               ^
     `----
-
   x Rule
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:29:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:30:1]
  29 | 
  30 | .form-range::-webkit-slider-thumb:active {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:29:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:30:1]
  29 | 
  30 | .form-range::-webkit-slider-thumb:active {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:29:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:30:1]
  29 | 
  30 | .form-range::-webkit-slider-thumb:active {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:29:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:30:1]
  29 | 
  30 | .form-range::-webkit-slider-thumb:active {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:29:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:30:1]
  29 | 
  30 | .form-range::-webkit-slider-thumb:active {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:29:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:30:1]
  29 | 
  30 | .form-range::-webkit-slider-thumb:active {}
     : ^^^^^^^^^^^
     `----
-
   x ClassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:29:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:30:1]
  29 | 
  30 | .form-range::-webkit-slider-thumb:active {}
     : ^^^^^^^^^^^
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:29:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:30:1]
  29 | 
  30 | .form-range::-webkit-slider-thumb:active {}
     :  ^^^^^^^^^^
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:29:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:30:1]
  29 | 
  30 | .form-range::-webkit-slider-thumb:active {}
     :            ^^^^^^^^^^^^^^^^^^^^^^
     `----
-
   x PseudoElementSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:29:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:30:1]
  29 | 
  30 | .form-range::-webkit-slider-thumb:active {}
     :            ^^^^^^^^^^^^^^^^^^^^^^
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:29:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:30:1]
  29 | 
  30 | .form-range::-webkit-slider-thumb:active {}
     :              ^^^^^^^^^^^^^^^^^^^^
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:29:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:30:1]
  29 | 
  30 | .form-range::-webkit-slider-thumb:active {}
     :                                  ^^^^^^^
     `----
-
   x PseudoClassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:29:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:30:1]
  29 | 
  30 | .form-range::-webkit-slider-thumb:active {}
     :                                  ^^^^^^^
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:29:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:30:1]
  29 | 
  30 | .form-range::-webkit-slider-thumb:active {}
     :                                   ^^^^^^
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:29:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:30:1]
  29 | 
  30 | .form-range::-webkit-slider-thumb:active {}
     :                                          ^^
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:29:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:30:1]
  29 | 
  30 | .form-range::-webkit-slider-thumb:active {}
     :                                          ^
     `----
-
   x Rule
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:31:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:32:1]
  31 | 
  32 | a::bEfOrE {}
     : ^^^^^^^^^^^^
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:31:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:32:1]
  31 | 
  32 | a::bEfOrE {}
     : ^^^^^^^^^^^^
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:31:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:32:1]
  31 | 
  32 | a::bEfOrE {}
     : ^^^^^^^^^
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:31:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:32:1]
  31 | 
  32 | a::bEfOrE {}
     : ^^^^^^^^^
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:31:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:32:1]
  31 | 
  32 | a::bEfOrE {}
     : ^^^^^^^^^
     `----
-
   x TypeSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:31:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:32:1]
  31 | 
  32 | a::bEfOrE {}
     : ^
     `----
-
   x TagNameSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:31:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:32:1]
  31 | 
  32 | a::bEfOrE {}
     : ^
     `----
-
   x WqName
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:31:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:32:1]
  31 | 
  32 | a::bEfOrE {}
     : ^
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:31:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:32:1]
  31 | 
  32 | a::bEfOrE {}
     : ^
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:31:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:32:1]
  31 | 
  32 | a::bEfOrE {}
     :  ^^^^^^^^
     `----
-
   x PseudoElementSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:31:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:32:1]
  31 | 
  32 | a::bEfOrE {}
     :  ^^^^^^^^
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:31:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:32:1]
  31 | 
  32 | a::bEfOrE {}
     :    ^^^^^^
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:31:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:32:1]
  31 | 
  32 | a::bEfOrE {}
     :           ^^
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:31:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:32:1]
  31 | 
  32 | a::bEfOrE {}
     :           ^
     `----
-
   x Rule
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:33:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:34:1]
  33 | 
  34 | a:hover::before {}
     : ^^^^^^^^^^^^^^^^^^
  35 | a:hover::-moz-placeholder {}
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:33:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:34:1]
  33 | 
  34 | a:hover::before {}
     : ^^^^^^^^^^^^^^^^^^
  35 | a:hover::-moz-placeholder {}
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:33:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:34:1]
  33 | 
  34 | a:hover::before {}
     : ^^^^^^^^^^^^^^^
  35 | a:hover::-moz-placeholder {}
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:33:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:34:1]
  33 | 
  34 | a:hover::before {}
     : ^^^^^^^^^^^^^^^
  35 | a:hover::-moz-placeholder {}
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:33:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:34:1]
  33 | 
  34 | a:hover::before {}
     : ^^^^^^^^^^^^^^^
  35 | a:hover::-moz-placeholder {}
     `----
-
   x TypeSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:33:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:34:1]
  33 | 
  34 | a:hover::before {}
     : ^
  35 | a:hover::-moz-placeholder {}
     `----
-
   x TagNameSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:33:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:34:1]
  33 | 
  34 | a:hover::before {}
     : ^
  35 | a:hover::-moz-placeholder {}
     `----
-
   x WqName
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:33:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:34:1]
  33 | 
  34 | a:hover::before {}
     : ^
  35 | a:hover::-moz-placeholder {}
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:33:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:34:1]
  33 | 
  34 | a:hover::before {}
     : ^
  35 | a:hover::-moz-placeholder {}
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:33:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:34:1]
  33 | 
  34 | a:hover::before {}
     :  ^^^^^^
  35 | a:hover::-moz-placeholder {}
     `----
-
   x PseudoClassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:33:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:34:1]
  33 | 
  34 | a:hover::before {}
     :  ^^^^^^
  35 | a:hover::-moz-placeholder {}
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:33:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:34:1]
  33 | 
  34 | a:hover::before {}
     :   ^^^^^
  35 | a:hover::-moz-placeholder {}
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:33:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:34:1]
  33 | 
  34 | a:hover::before {}
     :        ^^^^^^^^
  35 | a:hover::-moz-placeholder {}
     `----
-
   x PseudoElementSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:33:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:34:1]
  33 | 
  34 | a:hover::before {}
     :        ^^^^^^^^
  35 | a:hover::-moz-placeholder {}
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:33:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:34:1]
  33 | 
  34 | a:hover::before {}
     :          ^^^^^^
  35 | a:hover::-moz-placeholder {}
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:33:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:34:1]
  33 | 
  34 | a:hover::before {}
     :                 ^^
  35 | a:hover::-moz-placeholder {}
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:33:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:34:1]
  33 | 
  34 | a:hover::before {}
     :                 ^
  35 | a:hover::-moz-placeholder {}
     `----
-
   x Rule
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:34:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:35:1]
  34 | a:hover::before {}
  35 | a:hover::-moz-placeholder {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  36 | a, b > .foo::before {}
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:34:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:35:1]
  34 | a:hover::before {}
  35 | a:hover::-moz-placeholder {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  36 | a, b > .foo::before {}
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:34:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:35:1]
  34 | a:hover::before {}
  35 | a:hover::-moz-placeholder {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^
  36 | a, b > .foo::before {}
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:34:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:35:1]
  34 | a:hover::before {}
  35 | a:hover::-moz-placeholder {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^
  36 | a, b > .foo::before {}
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:34:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:35:1]
  34 | a:hover::before {}
  35 | a:hover::-moz-placeholder {}
     : ^^^^^^^^^^^^^^^^^^^^^^^^^
  36 | a, b > .foo::before {}
     `----
-
   x TypeSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:34:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:35:1]
  34 | a:hover::before {}
  35 | a:hover::-moz-placeholder {}
     : ^
  36 | a, b > .foo::before {}
     `----
-
   x TagNameSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:34:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:35:1]
  34 | a:hover::before {}
  35 | a:hover::-moz-placeholder {}
     : ^
  36 | a, b > .foo::before {}
     `----
-
   x WqName
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:34:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:35:1]
  34 | a:hover::before {}
  35 | a:hover::-moz-placeholder {}
     : ^
  36 | a, b > .foo::before {}
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:34:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:35:1]
  34 | a:hover::before {}
  35 | a:hover::-moz-placeholder {}
     : ^
  36 | a, b > .foo::before {}
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:34:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:35:1]
  34 | a:hover::before {}
  35 | a:hover::-moz-placeholder {}
     :  ^^^^^^
  36 | a, b > .foo::before {}
     `----
-
   x PseudoClassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:34:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:35:1]
  34 | a:hover::before {}
  35 | a:hover::-moz-placeholder {}
     :  ^^^^^^
  36 | a, b > .foo::before {}
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:34:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:35:1]
  34 | a:hover::before {}
  35 | a:hover::-moz-placeholder {}
     :   ^^^^^
  36 | a, b > .foo::before {}
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:34:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:35:1]
  34 | a:hover::before {}
  35 | a:hover::-moz-placeholder {}
     :        ^^^^^^^^^^^^^^^^^^
  36 | a, b > .foo::before {}
     `----
-
   x PseudoElementSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:34:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:35:1]
  34 | a:hover::before {}
  35 | a:hover::-moz-placeholder {}
     :        ^^^^^^^^^^^^^^^^^^
  36 | a, b > .foo::before {}
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:34:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:35:1]
  34 | a:hover::before {}
  35 | a:hover::-moz-placeholder {}
     :          ^^^^^^^^^^^^^^^^
  36 | a, b > .foo::before {}
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:34:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:35:1]
  34 | a:hover::before {}
  35 | a:hover::-moz-placeholder {}
     :                           ^^
  36 | a, b > .foo::before {}
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:34:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:35:1]
  34 | a:hover::before {}
  35 | a:hover::-moz-placeholder {}
     :                           ^
  36 | a, b > .foo::before {}
     `----
-
   x Rule
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:35:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:36:1]
  35 | a:hover::-moz-placeholder {}
  36 | a, b > .foo::before {}
     : ^^^^^^^^^^^^^^^^^^^^^^
  37 | *:hover.class {}
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:35:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:36:1]
  35 | a:hover::-moz-placeholder {}
  36 | a, b > .foo::before {}
     : ^^^^^^^^^^^^^^^^^^^^^^
  37 | *:hover.class {}
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:35:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:36:1]
  35 | a:hover::-moz-placeholder {}
  36 | a, b > .foo::before {}
     : ^^^^^^^^^^^^^^^^^^^
  37 | *:hover.class {}
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:35:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:36:1]
  35 | a:hover::-moz-placeholder {}
  36 | a, b > .foo::before {}
     : ^
  37 | *:hover.class {}
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:35:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:36:1]
  35 | a:hover::-moz-placeholder {}
  36 | a, b > .foo::before {}
     : ^
  37 | *:hover.class {}
     `----
-
   x TypeSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:35:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:36:1]
  35 | a:hover::-moz-placeholder {}
  36 | a, b > .foo::before {}
     : ^
  37 | *:hover.class {}
     `----
-
   x TagNameSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:35:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:36:1]
  35 | a:hover::-moz-placeholder {}
  36 | a, b > .foo::before {}
     : ^
  37 | *:hover.class {}
     `----
-
   x WqName
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:35:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:36:1]
  35 | a:hover::-moz-placeholder {}
  36 | a, b > .foo::before {}
     : ^
  37 | *:hover.class {}
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:35:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:36:1]
  35 | a:hover::-moz-placeholder {}
  36 | a, b > .foo::before {}
     : ^
  37 | *:hover.class {}
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:35:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:36:1]
  35 | a:hover::-moz-placeholder {}
  36 | a, b > .foo::before {}
     :    ^^^^^^^^^^^^^^^^
  37 | *:hover.class {}
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:35:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:36:1]
  35 | a:hover::-moz-placeholder {}
  36 | a, b > .foo::before {}
     :    ^
  37 | *:hover.class {}
     `----
-
   x TypeSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:35:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:36:1]
  35 | a:hover::-moz-placeholder {}
  36 | a, b > .foo::before {}
     :    ^
  37 | *:hover.class {}
     `----
-
   x TagNameSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:35:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:36:1]
  35 | a:hover::-moz-placeholder {}
  36 | a, b > .foo::before {}
     :    ^
  37 | *:hover.class {}
     `----
-
   x WqName
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:35:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:36:1]
  35 | a:hover::-moz-placeholder {}
  36 | a, b > .foo::before {}
     :    ^
  37 | *:hover.class {}
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:35:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:36:1]
  35 | a:hover::-moz-placeholder {}
  36 | a, b > .foo::before {}
     :    ^
  37 | *:hover.class {}
     `----
-
   x Combinator
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:35:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:36:1]
  35 | a:hover::-moz-placeholder {}
  36 | a, b > .foo::before {}
     :      ^
  37 | *:hover.class {}
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:35:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:36:1]
  35 | a:hover::-moz-placeholder {}
  36 | a, b > .foo::before {}
     :        ^^^^^^^^^^^^
  37 | *:hover.class {}
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:35:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:36:1]
  35 | a:hover::-moz-placeholder {}
  36 | a, b > .foo::before {}
     :        ^^^^
  37 | *:hover.class {}
     `----
-
   x ClassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:35:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:36:1]
  35 | a:hover::-moz-placeholder {}
  36 | a, b > .foo::before {}
     :        ^^^^
  37 | *:hover.class {}
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:35:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:36:1]
  35 | a:hover::-moz-placeholder {}
  36 | a, b > .foo::before {}
     :         ^^^
  37 | *:hover.class {}
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:35:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:36:1]
  35 | a:hover::-moz-placeholder {}
  36 | a, b > .foo::before {}
     :            ^^^^^^^^
  37 | *:hover.class {}
     `----
-
   x PseudoElementSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:35:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:36:1]
  35 | a:hover::-moz-placeholder {}
  36 | a, b > .foo::before {}
     :            ^^^^^^^^
  37 | *:hover.class {}
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:35:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:36:1]
  35 | a:hover::-moz-placeholder {}
  36 | a, b > .foo::before {}
     :              ^^^^^^
  37 | *:hover.class {}
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:35:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:36:1]
  35 | a:hover::-moz-placeholder {}
  36 | a, b > .foo::before {}
     :                     ^^
  37 | *:hover.class {}
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:35:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:36:1]
  35 | a:hover::-moz-placeholder {}
  36 | a, b > .foo::before {}
     :                     ^
  37 | *:hover.class {}
     `----
-
   x Rule
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:36:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:37:1]
  36 | a, b > .foo::before {}
  37 | *:hover.class {}
     : ^^^^^^^^^^^^^^^^
     `----
-
   x QualifiedRule
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:36:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:37:1]
  36 | a, b > .foo::before {}
  37 | *:hover.class {}
     : ^^^^^^^^^^^^^^^^
     `----
-
   x SelectorList
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:36:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:37:1]
  36 | a, b > .foo::before {}
  37 | *:hover.class {}
     : ^^^^^^^^^^^^^
     `----
-
   x ComplexSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:36:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:37:1]
  36 | a, b > .foo::before {}
  37 | *:hover.class {}
     : ^^^^^^^^^^^^^
     `----
-
   x CompoundSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:36:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:37:1]
  36 | a, b > .foo::before {}
  37 | *:hover.class {}
     : ^^^^^^^^^^^^^
     `----
-
   x TypeSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:36:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:37:1]
  36 | a, b > .foo::before {}
  37 | *:hover.class {}
     : ^
     `----
-
   x UniversalSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:36:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:37:1]
  36 | a, b > .foo::before {}
  37 | *:hover.class {}
     : ^
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:36:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:37:1]
  36 | a, b > .foo::before {}
  37 | *:hover.class {}
     :  ^^^^^^
     `----
-
   x PseudoClassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:36:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:37:1]
  36 | a, b > .foo::before {}
  37 | *:hover.class {}
     :  ^^^^^^
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:36:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:37:1]
  36 | a, b > .foo::before {}
  37 | *:hover.class {}
     :   ^^^^^
     `----
-
   x SubclassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:36:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:37:1]
  36 | a, b > .foo::before {}
  37 | *:hover.class {}
     :        ^^^^^^
     `----
-
   x ClassSelector
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:36:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:37:1]
  36 | a, b > .foo::before {}
  37 | *:hover.class {}
     :        ^^^^^^
     `----
-
   x Ident
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:36:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:37:1]
  36 | a, b > .foo::before {}
  37 | *:hover.class {}
     :         ^^^^^
     `----
-
   x SimpleBlock
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:36:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:37:1]
  36 | a, b > .foo::before {}
  37 | *:hover.class {}
     :               ^^
     `----
-
   x LBrace
-    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:36:1]
+    ,-[$DIR/tests/fixture/selector/pseudo-element/basic/input.css:37:1]
  36 | a, b > .foo::before {}
  37 | *:hover.class {}
     :               ^

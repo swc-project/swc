@@ -1,14 +1,12 @@
-
   x Start tag for "table" seen but the previous "table" is still open
-    ,-[$DIR/tests/recovery/element/table/broken-3/input.html:8:1]
+    ,-[$DIR/tests/recovery/element/table/broken-3/input.html:9:1]
   8 | <table>
   9 |     <table>
     :     ^^^^^^^
  10 |         <tr>
     `----
-
   x Stray end tag "table"
-    ,-[$DIR/tests/recovery/element/table/broken-3/input.html:15:1]
+    ,-[$DIR/tests/recovery/element/table/broken-3/input.html:16:1]
  15 |     </table>
  16 | </table>
     : ^^^^^^^^

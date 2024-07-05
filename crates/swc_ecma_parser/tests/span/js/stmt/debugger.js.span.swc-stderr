@@ -1,72 +1,62 @@
-
   x Module
    ,-[$DIR/tests/span/js/stmt/debugger.js:1:1]
  1 | ,-> debugger;
  2 | |   ;
  3 | `-> ;
    `----
-
   x ModuleItem
    ,-[$DIR/tests/span/js/stmt/debugger.js:1:1]
  1 | debugger;
    : ^^^^^^^^^
  2 | ;
    `----
-
   x Stmt
    ,-[$DIR/tests/span/js/stmt/debugger.js:1:1]
  1 | debugger;
    : ^^^^^^^^^
  2 | ;
    `----
-
   x DebuggerStmt
    ,-[$DIR/tests/span/js/stmt/debugger.js:1:1]
  1 | debugger;
    : ^^^^^^^^^
  2 | ;
    `----
-
-  x ModuleItem
-   ,-[$DIR/tests/span/js/stmt/debugger.js:1:1]
- 1 | debugger;
- 2 | ;
-   : ^
- 3 | ;
-   `----
-
-  x Stmt
-   ,-[$DIR/tests/span/js/stmt/debugger.js:1:1]
- 1 | debugger;
- 2 | ;
-   : ^
- 3 | ;
-   `----
-
-  x EmptyStmt
-   ,-[$DIR/tests/span/js/stmt/debugger.js:1:1]
- 1 | debugger;
- 2 | ;
-   : ^
- 3 | ;
-   `----
-
   x ModuleItem
    ,-[$DIR/tests/span/js/stmt/debugger.js:2:1]
+ 1 | debugger;
  2 | ;
- 3 | ;
    : ^
+ 3 | ;
    `----
-
   x Stmt
    ,-[$DIR/tests/span/js/stmt/debugger.js:2:1]
+ 1 | debugger;
+ 2 | ;
+   : ^
+ 3 | ;
+   `----
+  x EmptyStmt
+   ,-[$DIR/tests/span/js/stmt/debugger.js:2:1]
+ 1 | debugger;
+ 2 | ;
+   : ^
+ 3 | ;
+   `----
+  x ModuleItem
+   ,-[$DIR/tests/span/js/stmt/debugger.js:3:1]
  2 | ;
  3 | ;
    : ^
    `----
-
+  x Stmt
+   ,-[$DIR/tests/span/js/stmt/debugger.js:3:1]
+ 2 | ;
+ 3 | ;
+   : ^
+   `----
   x EmptyStmt
-   ,-[$DIR/tests/span/js/stmt/debugger.js:2:1]
+   ,-[$DIR/tests/span/js/stmt/debugger.js:3:1]
  2 | ;
  3 | ;
    : ^

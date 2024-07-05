@@ -1,4 +1,3 @@
-
   x Expected ident
    ,-[$DIR/tests/test262-parser/fail/06be4d4082484d98.module.js:1:1]
  1 | import {b as,} from 'a';

@@ -1,148 +1,123 @@
-
   x Module
    ,-[$DIR/tests/span/ts/type/cond.ts:1:1]
  1 | type F<A> = A extends {} ? B : C;
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x ModuleItem
    ,-[$DIR/tests/span/ts/type/cond.ts:1:1]
  1 | type F<A> = A extends {} ? B : C;
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Stmt
    ,-[$DIR/tests/span/ts/type/cond.ts:1:1]
  1 | type F<A> = A extends {} ? B : C;
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Decl
    ,-[$DIR/tests/span/ts/type/cond.ts:1:1]
  1 | type F<A> = A extends {} ? B : C;
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x TsTypeAliasDecl
    ,-[$DIR/tests/span/ts/type/cond.ts:1:1]
  1 | type F<A> = A extends {} ? B : C;
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/span/ts/type/cond.ts:1:1]
  1 | type F<A> = A extends {} ? B : C;
    :      ^
    `----
-
   x TsTypeParamDecl
    ,-[$DIR/tests/span/ts/type/cond.ts:1:1]
  1 | type F<A> = A extends {} ? B : C;
    :       ^^^
    `----
-
   x TsTypeParam
    ,-[$DIR/tests/span/ts/type/cond.ts:1:1]
  1 | type F<A> = A extends {} ? B : C;
    :        ^
    `----
-
   x Ident
    ,-[$DIR/tests/span/ts/type/cond.ts:1:1]
  1 | type F<A> = A extends {} ? B : C;
    :        ^
    `----
-
   x TsType
    ,-[$DIR/tests/span/ts/type/cond.ts:1:1]
  1 | type F<A> = A extends {} ? B : C;
    :             ^^^^^^^^^^^^^^^^^^^^
    `----
-
   x TsConditionalType
    ,-[$DIR/tests/span/ts/type/cond.ts:1:1]
  1 | type F<A> = A extends {} ? B : C;
    :             ^^^^^^^^^^^^^^^^^^^^
    `----
-
   x TsType
    ,-[$DIR/tests/span/ts/type/cond.ts:1:1]
  1 | type F<A> = A extends {} ? B : C;
    :             ^
    `----
-
   x TsTypeRef
    ,-[$DIR/tests/span/ts/type/cond.ts:1:1]
  1 | type F<A> = A extends {} ? B : C;
    :             ^
    `----
-
   x TsEntityName
    ,-[$DIR/tests/span/ts/type/cond.ts:1:1]
  1 | type F<A> = A extends {} ? B : C;
    :             ^
    `----
-
   x Ident
    ,-[$DIR/tests/span/ts/type/cond.ts:1:1]
  1 | type F<A> = A extends {} ? B : C;
    :             ^
    `----
-
   x TsType
    ,-[$DIR/tests/span/ts/type/cond.ts:1:1]
  1 | type F<A> = A extends {} ? B : C;
    :                       ^^
    `----
-
   x TsTypeLit
    ,-[$DIR/tests/span/ts/type/cond.ts:1:1]
  1 | type F<A> = A extends {} ? B : C;
    :                       ^^
    `----
-
   x TsType
    ,-[$DIR/tests/span/ts/type/cond.ts:1:1]
  1 | type F<A> = A extends {} ? B : C;
    :                            ^
    `----
-
   x TsTypeRef
    ,-[$DIR/tests/span/ts/type/cond.ts:1:1]
  1 | type F<A> = A extends {} ? B : C;
    :                            ^
    `----
-
   x TsEntityName
    ,-[$DIR/tests/span/ts/type/cond.ts:1:1]
  1 | type F<A> = A extends {} ? B : C;
    :                            ^
    `----
-
   x Ident
    ,-[$DIR/tests/span/ts/type/cond.ts:1:1]
  1 | type F<A> = A extends {} ? B : C;
    :                            ^
    `----
-
   x TsType
    ,-[$DIR/tests/span/ts/type/cond.ts:1:1]
  1 | type F<A> = A extends {} ? B : C;
    :                                ^
    `----
-
   x TsTypeRef
    ,-[$DIR/tests/span/ts/type/cond.ts:1:1]
  1 | type F<A> = A extends {} ? B : C;
    :                                ^
    `----
-
   x TsEntityName
    ,-[$DIR/tests/span/ts/type/cond.ts:1:1]
  1 | type F<A> = A extends {} ? B : C;
    :                                ^
    `----
-
   x Ident
    ,-[$DIR/tests/span/ts/type/cond.ts:1:1]
  1 | type F<A> = A extends {} ? B : C;

@@ -1,13 +1,11 @@
-
   x Unexpected question mark instead of tag name
    ,-[$DIR/tests/recovery/comment/cdata/input.html:1:1]
  1 | <?xml version="1.0" encoding="UTF-8"?>
    :  ^
  2 | <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
    `----
-
   x Non conforming doctype
-   ,-[$DIR/tests/recovery/comment/cdata/input.html:1:1]
+   ,-[$DIR/tests/recovery/comment/cdata/input.html:2:1]
  1 |     <?xml version="1.0" encoding="UTF-8"?>
  2 | ,-> <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
  3 | `->         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">

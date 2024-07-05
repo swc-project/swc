@@ -1,9 +1,7 @@
-
   > Leading (hi)
 
-Advice: 
-  >  @refresh reset
-   ,-[$DIR/tests/comments/exprs/array/blockStmt/input.js:2:1]
+Advice:   >  @refresh reset
+   ,-[$DIR/tests/comments/exprs/array/blockStmt/input.js:3:1]
  2 |     // @refresh reset
  3 | });
    : ^

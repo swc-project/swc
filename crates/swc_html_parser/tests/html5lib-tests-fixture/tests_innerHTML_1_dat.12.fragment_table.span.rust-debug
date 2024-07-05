@@ -1,32 +1,25 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests_innerHTML_1_dat.12.fragment_table.html:1:1]
  1 | <a><caption>a
    : ^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests_innerHTML_1_dat.12.fragment_table.html:1:1]
  1 | <a><caption>a
    : ^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests_innerHTML_1_dat.12.fragment_table.html:1:1]
  1 | <a><caption>a
    : ^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests_innerHTML_1_dat.12.fragment_table.html:1:1]
  1 | <a><caption>a
    :             ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests_innerHTML_1_dat.12.fragment_table.html:1:1]
  1 | <a><caption>a

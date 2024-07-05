@@ -1,4 +1,3 @@
-
   x Rest element must be final element
    ,-[$DIR/tests/jsx/errors/issue-387-2/input.js:1:1]
  1 | var {...c, ...d} = {};

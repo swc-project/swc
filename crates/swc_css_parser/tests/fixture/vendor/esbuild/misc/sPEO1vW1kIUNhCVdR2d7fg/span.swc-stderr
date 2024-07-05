@@ -1,124 +1,103 @@
-
   x Stylesheet
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/sPEO1vW1kIUNhCVdR2d7fg/input.css:1:1]
  1 | a { value: 10x\, }
    : ^^^^^^^^^^^^^^^^^^
    `----
-
   x Rule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/sPEO1vW1kIUNhCVdR2d7fg/input.css:1:1]
  1 | a { value: 10x\, }
    : ^^^^^^^^^^^^^^^^^^
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/sPEO1vW1kIUNhCVdR2d7fg/input.css:1:1]
  1 | a { value: 10x\, }
    : ^^^^^^^^^^^^^^^^^^
    `----
-
   x SelectorList
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/sPEO1vW1kIUNhCVdR2d7fg/input.css:1:1]
  1 | a { value: 10x\, }
    : ^
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/sPEO1vW1kIUNhCVdR2d7fg/input.css:1:1]
  1 | a { value: 10x\, }
    : ^
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/sPEO1vW1kIUNhCVdR2d7fg/input.css:1:1]
  1 | a { value: 10x\, }
    : ^
    `----
-
   x TypeSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/sPEO1vW1kIUNhCVdR2d7fg/input.css:1:1]
  1 | a { value: 10x\, }
    : ^
    `----
-
   x TagNameSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/sPEO1vW1kIUNhCVdR2d7fg/input.css:1:1]
  1 | a { value: 10x\, }
    : ^
    `----
-
   x WqName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/sPEO1vW1kIUNhCVdR2d7fg/input.css:1:1]
  1 | a { value: 10x\, }
    : ^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/sPEO1vW1kIUNhCVdR2d7fg/input.css:1:1]
  1 | a { value: 10x\, }
    : ^
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/sPEO1vW1kIUNhCVdR2d7fg/input.css:1:1]
  1 | a { value: 10x\, }
    :   ^^^^^^^^^^^^^^^^
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/sPEO1vW1kIUNhCVdR2d7fg/input.css:1:1]
  1 | a { value: 10x\, }
    :   ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/sPEO1vW1kIUNhCVdR2d7fg/input.css:1:1]
  1 | a { value: 10x\, }
    :     ^^^^^^^^^^^^^
    `----
-
   x Declaration
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/sPEO1vW1kIUNhCVdR2d7fg/input.css:1:1]
  1 | a { value: 10x\, }
    :     ^^^^^^^^^^^^^
    `----
-
   x DeclarationName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/sPEO1vW1kIUNhCVdR2d7fg/input.css:1:1]
  1 | a { value: 10x\, }
    :     ^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/sPEO1vW1kIUNhCVdR2d7fg/input.css:1:1]
  1 | a { value: 10x\, }
    :     ^^^^^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/sPEO1vW1kIUNhCVdR2d7fg/input.css:1:1]
  1 | a { value: 10x\, }
    :            ^^^^^
    `----
-
   x Dimension
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/sPEO1vW1kIUNhCVdR2d7fg/input.css:1:1]
  1 | a { value: 10x\, }
    :            ^^^^^
    `----
-
   x UnknownDimension
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/sPEO1vW1kIUNhCVdR2d7fg/input.css:1:1]
  1 | a { value: 10x\, }
    :            ^^^^^
    `----
-
   x Number
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/sPEO1vW1kIUNhCVdR2d7fg/input.css:1:1]
  1 | a { value: 10x\, }
    :            ^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/sPEO1vW1kIUNhCVdR2d7fg/input.css:1:1]
  1 | a { value: 10x\, }

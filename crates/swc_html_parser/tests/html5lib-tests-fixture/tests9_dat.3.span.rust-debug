@@ -1,68 +1,55 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests9_dat.3.html:1:1]
  1 | <!DOCTYPE html><math><annotation-xml><svg><u>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests9_dat.3.html:1:1]
  1 | <!DOCTYPE html><math><annotation-xml><svg><u>
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/html5lib-tests-fixture/tests9_dat.3.html:1:1]
  1 | <!DOCTYPE html><math><annotation-xml><svg><u>
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests9_dat.3.html:1:1]
  1 | <!DOCTYPE html><math><annotation-xml><svg><u>
    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests9_dat.3.html:1:1]
  1 | <!DOCTYPE html><math><annotation-xml><svg><u>
    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests9_dat.3.html:1:1]
  1 | <!DOCTYPE html><math><annotation-xml><svg><u>
    :                      ^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests9_dat.3.html:1:1]
  1 | <!DOCTYPE html><math><annotation-xml><svg><u>
    :                      ^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests9_dat.3.html:1:1]
  1 | <!DOCTYPE html><math><annotation-xml><svg><u>
    :                                      ^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests9_dat.3.html:1:1]
  1 | <!DOCTYPE html><math><annotation-xml><svg><u>
    :                                      ^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests9_dat.3.html:1:1]
  1 | <!DOCTYPE html><math><annotation-xml><svg><u>
    :                                           ^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests9_dat.3.html:1:1]
  1 | <!DOCTYPE html><math><annotation-xml><svg><u>

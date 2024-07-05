@@ -1,11 +1,9 @@
-
   x Unexpected end of file, but expected ')'
-   ,-[$DIR/tests/recovery/declaration/bad-value-2/input.css:1:1]
+   ,-[$DIR/tests/recovery/declaration/bad-value-2/input.css:2:1]
  1 |     a {
  2 | ,->     --var: (;
  3 | `-> }
    `----
-
   x Unexpected end of file, but expected '}'
    ,-[$DIR/tests/recovery/declaration/bad-value-2/input.css:1:1]
  1 | ,-> a {

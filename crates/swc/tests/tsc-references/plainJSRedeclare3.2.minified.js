@@ -1,5 +1,4 @@
 //// [plainJSRedeclare.js]
-//! 
 //!   x the name `orbitol` is defined multiple times
 //!    ,-[1:1]
 //!  1 | const orbitol = 1

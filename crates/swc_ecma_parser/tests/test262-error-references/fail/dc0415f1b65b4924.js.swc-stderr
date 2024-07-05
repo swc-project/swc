@@ -1,4 +1,3 @@
-
   x Unexpected token `}`. Expected identifier
    ,-[$DIR/tests/test262-parser/fail/dc0415f1b65b4924.js:1:1]
  1 | ({ "chance" }) = obj

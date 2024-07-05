@@ -1,142 +1,122 @@
-
   x Module
    ,-[$DIR/tests/span/js/expr/arrow-with-block.js:1:1]
  1 | ,-> use((a) => {
  2 | |       return a;
  3 | `-> })
    `----
-
   x ModuleItem
    ,-[$DIR/tests/span/js/expr/arrow-with-block.js:1:1]
  1 | ,-> use((a) => {
  2 | |       return a;
  3 | `-> })
    `----
-
   x Stmt
    ,-[$DIR/tests/span/js/expr/arrow-with-block.js:1:1]
  1 | ,-> use((a) => {
  2 | |       return a;
  3 | `-> })
    `----
-
   x ExprStmt
    ,-[$DIR/tests/span/js/expr/arrow-with-block.js:1:1]
  1 | ,-> use((a) => {
  2 | |       return a;
  3 | `-> })
    `----
-
   x Expr
    ,-[$DIR/tests/span/js/expr/arrow-with-block.js:1:1]
  1 | ,-> use((a) => {
  2 | |       return a;
  3 | `-> })
    `----
-
   x CallExpr
    ,-[$DIR/tests/span/js/expr/arrow-with-block.js:1:1]
  1 | ,-> use((a) => {
  2 | |       return a;
  3 | `-> })
    `----
-
   x Callee
    ,-[$DIR/tests/span/js/expr/arrow-with-block.js:1:1]
  1 | use((a) => {
    : ^^^
  2 |     return a;
    `----
-
   x Expr
    ,-[$DIR/tests/span/js/expr/arrow-with-block.js:1:1]
  1 | use((a) => {
    : ^^^
  2 |     return a;
    `----
-
   x Ident
    ,-[$DIR/tests/span/js/expr/arrow-with-block.js:1:1]
  1 | use((a) => {
    : ^^^
  2 |     return a;
    `----
-
   x ExprOrSpread
    ,-[$DIR/tests/span/js/expr/arrow-with-block.js:1:1]
  1 | ,-> use((a) => {
  2 | |       return a;
  3 | `-> })
    `----
-
   x Expr
    ,-[$DIR/tests/span/js/expr/arrow-with-block.js:1:1]
  1 | ,-> use((a) => {
  2 | |       return a;
  3 | `-> })
    `----
-
   x ArrowExpr
    ,-[$DIR/tests/span/js/expr/arrow-with-block.js:1:1]
  1 | ,-> use((a) => {
  2 | |       return a;
  3 | `-> })
    `----
-
   x Pat
    ,-[$DIR/tests/span/js/expr/arrow-with-block.js:1:1]
  1 | use((a) => {
    :      ^
  2 |     return a;
    `----
-
   x Ident
    ,-[$DIR/tests/span/js/expr/arrow-with-block.js:1:1]
  1 | use((a) => {
    :      ^
  2 |     return a;
    `----
-
   x BlockStmtOrExpr
    ,-[$DIR/tests/span/js/expr/arrow-with-block.js:1:1]
  1 | ,-> use((a) => {
  2 | |       return a;
  3 | `-> })
    `----
-
   x BlockStmt
    ,-[$DIR/tests/span/js/expr/arrow-with-block.js:1:1]
  1 | ,-> use((a) => {
  2 | |       return a;
  3 | `-> })
    `----
-
   x Stmt
-   ,-[$DIR/tests/span/js/expr/arrow-with-block.js:1:1]
+   ,-[$DIR/tests/span/js/expr/arrow-with-block.js:2:1]
  1 | use((a) => {
  2 |     return a;
    :     ^^^^^^^^^
  3 | })
    `----
-
   x ReturnStmt
-   ,-[$DIR/tests/span/js/expr/arrow-with-block.js:1:1]
+   ,-[$DIR/tests/span/js/expr/arrow-with-block.js:2:1]
  1 | use((a) => {
  2 |     return a;
    :     ^^^^^^^^^
  3 | })
    `----
-
   x Expr
-   ,-[$DIR/tests/span/js/expr/arrow-with-block.js:1:1]
+   ,-[$DIR/tests/span/js/expr/arrow-with-block.js:2:1]
  1 | use((a) => {
  2 |     return a;
    :            ^
  3 | })
    `----
-
   x Ident
-   ,-[$DIR/tests/span/js/expr/arrow-with-block.js:1:1]
+   ,-[$DIR/tests/span/js/expr/arrow-with-block.js:2:1]
  1 | use((a) => {
  2 |     return a;
    :            ^

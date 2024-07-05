@@ -1,7 +1,6 @@
 //// [foo.ts]
-//! 
 //!   x Export assignment cannot be used when targeting ECMAScript modules. Consider using `export default` or another module format instead.
-//!    ,-[2:1]
+//!    ,-[5:1]
 //!  2 |     x: number;
 //!  3 |     y: number;
 //!  4 | }

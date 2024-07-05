@@ -1,22 +1,17 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/html5test-com_dat.13.html:1:1]
  1 | <![CDATA[x]]>
    : ^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/html5test-com_dat.13.html:1:1]
  1 | <![CDATA[x]]>
    : ^^^^^^^^^^^^^
    `----
-
   x Comment
    ,-[$DIR/tests/html5lib-tests-fixture/html5test-com_dat.13.html:1:1]
  1 | <![CDATA[x]]>
    : ^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element

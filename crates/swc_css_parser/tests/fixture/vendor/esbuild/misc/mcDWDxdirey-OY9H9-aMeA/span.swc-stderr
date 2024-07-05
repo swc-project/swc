@@ -1,34 +1,28 @@
-
   x Stylesheet
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/mcDWDxdirey-OY9H9-aMeA/input.css:1:1]
  1 | @import "foo.css";
    : ^^^^^^^^^^^^^^^^^^
    `----
-
   x Rule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/mcDWDxdirey-OY9H9-aMeA/input.css:1:1]
  1 | @import "foo.css";
    : ^^^^^^^^^^^^^^^^^^
    `----
-
   x AtRule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/mcDWDxdirey-OY9H9-aMeA/input.css:1:1]
  1 | @import "foo.css";
    : ^^^^^^^^^^^^^^^^^^
    `----
-
   x AtRuleName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/mcDWDxdirey-OY9H9-aMeA/input.css:1:1]
  1 | @import "foo.css";
    :  ^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/mcDWDxdirey-OY9H9-aMeA/input.css:1:1]
  1 | @import "foo.css";
    :  ^^^^^^
    `----
-
   x Str
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/mcDWDxdirey-OY9H9-aMeA/input.css:1:1]
  1 | @import "foo.css";

@@ -1,38 +1,30 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.82.html:1:1]
  1 | <template><div>
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.82.html:1:1]
  1 | <template><div>
    : ^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.82.html:1:1]
  1 | <template><div>
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentFragment
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.82.html:1:1]
  1 | <template><div>
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.82.html:1:1]
  1 | <template><div>
    :           ^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/template_dat.82.html:1:1]
  1 | <template><div>

@@ -1,4 +1,3 @@
-
   x Document
     ,-[$DIR/tests/recovery/text/entity/input.html:1:1]
   1 | ,-> <!DOCTYPE html>
@@ -63,23 +62,20 @@
  60 | |   </html>
  61 | `-> 
     `----
-
   x Child
    ,-[$DIR/tests/recovery/text/entity/input.html:1:1]
  1 | <!DOCTYPE html>
    : ^^^^^^^^^^^^^^^
  2 | <html>
    `----
-
   x DocumentType
    ,-[$DIR/tests/recovery/text/entity/input.html:1:1]
  1 | <!DOCTYPE html>
    : ^^^^^^^^^^^^^^^
  2 | <html>
    `----
-
   x Child
-    ,-[$DIR/tests/recovery/text/entity/input.html:1:1]
+    ,-[$DIR/tests/recovery/text/entity/input.html:2:1]
   1 |     <!DOCTYPE html>
   2 | ,-> <html>
   3 | |   <body>
@@ -142,9 +138,8 @@
  60 | |   </html>
  61 | `-> 
     `----
-
   x Element
-    ,-[$DIR/tests/recovery/text/entity/input.html:1:1]
+    ,-[$DIR/tests/recovery/text/entity/input.html:2:1]
   1 |     <!DOCTYPE html>
   2 | ,-> <html>
   3 | |   <body>
@@ -207,13 +202,10 @@
  60 | |   </html>
  61 | `-> 
     `----
-
   x Child
-
   x Element
-
   x Child
-    ,-[$DIR/tests/recovery/text/entity/input.html:2:1]
+    ,-[$DIR/tests/recovery/text/entity/input.html:3:1]
   2 |     <html>
   3 | ,-> <body>
   4 | |   
@@ -275,9 +267,8 @@
  60 | |   </html>
  61 | `-> 
     `----
-
   x Element
-    ,-[$DIR/tests/recovery/text/entity/input.html:2:1]
+    ,-[$DIR/tests/recovery/text/entity/input.html:3:1]
   2 |     <html>
   3 | ,-> <body>
   4 | |   
@@ -339,453 +330,396 @@
  60 | |   </html>
  61 | `-> 
     `----
-
   x Child
-   ,-[$DIR/tests/recovery/text/entity/input.html:2:1]
+   ,-[$DIR/tests/recovery/text/entity/input.html:3:1]
  2 |     <html>
  3 | ,-> <body>
  4 | `-> 
  5 |     <h1>HTML Entity Example</h1>
    `----
-
   x Text
-   ,-[$DIR/tests/recovery/text/entity/input.html:2:1]
+   ,-[$DIR/tests/recovery/text/entity/input.html:3:1]
  2 |     <html>
  3 | ,-> <body>
  4 | `-> 
  5 |     <h1>HTML Entity Example</h1>
    `----
-
   x Child
-   ,-[$DIR/tests/recovery/text/entity/input.html:4:1]
+   ,-[$DIR/tests/recovery/text/entity/input.html:5:1]
  4 | 
  5 | <h1>HTML Entity Example</h1>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
-   ,-[$DIR/tests/recovery/text/entity/input.html:4:1]
+   ,-[$DIR/tests/recovery/text/entity/input.html:5:1]
  4 | 
  5 | <h1>HTML Entity Example</h1>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-   ,-[$DIR/tests/recovery/text/entity/input.html:4:1]
+   ,-[$DIR/tests/recovery/text/entity/input.html:5:1]
  4 | 
  5 | <h1>HTML Entity Example</h1>
    :     ^^^^^^^^^^^^^^^^^^^
    `----
-
   x Text
-   ,-[$DIR/tests/recovery/text/entity/input.html:4:1]
+   ,-[$DIR/tests/recovery/text/entity/input.html:5:1]
  4 | 
  5 | <h1>HTML Entity Example</h1>
    :     ^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-   ,-[$DIR/tests/recovery/text/entity/input.html:4:1]
+   ,-[$DIR/tests/recovery/text/entity/input.html:5:1]
  4 |     
  5 | ,-> <h1>HTML Entity Example</h1>
  6 | `-> 
  7 |     <div>&reg</div>
  8 |     <div>reg</div>
    `----
-
   x Text
-   ,-[$DIR/tests/recovery/text/entity/input.html:4:1]
+   ,-[$DIR/tests/recovery/text/entity/input.html:5:1]
  4 |     
  5 | ,-> <h1>HTML Entity Example</h1>
  6 | `-> 
  7 |     <div>&reg</div>
  8 |     <div>reg</div>
    `----
-
   x Child
-   ,-[$DIR/tests/recovery/text/entity/input.html:6:1]
+   ,-[$DIR/tests/recovery/text/entity/input.html:7:1]
  6 | 
  7 | <div>&reg</div>
    : ^^^^^^^^^^^^^^^
  8 | <div>reg</div>
    `----
-
   x Element
-   ,-[$DIR/tests/recovery/text/entity/input.html:6:1]
+   ,-[$DIR/tests/recovery/text/entity/input.html:7:1]
  6 | 
  7 | <div>&reg</div>
    : ^^^^^^^^^^^^^^^
  8 | <div>reg</div>
    `----
-
-  x Child
-   ,-[$DIR/tests/recovery/text/entity/input.html:6:1]
- 6 | 
- 7 | <div>&reg</div>
-   :      ^^^^
- 8 | <div>reg</div>
-   `----
-
-  x Text
-   ,-[$DIR/tests/recovery/text/entity/input.html:6:1]
- 6 | 
- 7 | <div>&reg</div>
-   :      ^^^^
- 8 | <div>reg</div>
-   `----
-
-  x Child
-   ,-[$DIR/tests/recovery/text/entity/input.html:6:1]
- 6 | 
- 7 | <div>&reg</div>
-   :                ^
- 8 | <div>reg</div>
-   `----
-
-  x Text
-   ,-[$DIR/tests/recovery/text/entity/input.html:6:1]
- 6 | 
- 7 | <div>&reg</div>
-   :                ^
- 8 | <div>reg</div>
-   `----
-
   x Child
    ,-[$DIR/tests/recovery/text/entity/input.html:7:1]
+ 6 | 
+ 7 | <div>&reg</div>
+   :      ^^^^
+ 8 | <div>reg</div>
+   `----
+  x Text
+   ,-[$DIR/tests/recovery/text/entity/input.html:7:1]
+ 6 | 
+ 7 | <div>&reg</div>
+   :      ^^^^
+ 8 | <div>reg</div>
+   `----
+  x Child
+   ,-[$DIR/tests/recovery/text/entity/input.html:7:1]
+ 6 | 
+ 7 | <div>&reg</div>
+   :                ^
+ 8 | <div>reg</div>
+   `----
+  x Text
+   ,-[$DIR/tests/recovery/text/entity/input.html:7:1]
+ 6 | 
+ 7 | <div>&reg</div>
+   :                ^
+ 8 | <div>reg</div>
+   `----
+  x Child
+   ,-[$DIR/tests/recovery/text/entity/input.html:8:1]
  7 | <div>&reg</div>
  8 | <div>reg</div>
    : ^^^^^^^^^^^^^^
    `----
-
   x Element
-   ,-[$DIR/tests/recovery/text/entity/input.html:7:1]
+   ,-[$DIR/tests/recovery/text/entity/input.html:8:1]
  7 | <div>&reg</div>
  8 | <div>reg</div>
    : ^^^^^^^^^^^^^^
    `----
-
   x Child
-   ,-[$DIR/tests/recovery/text/entity/input.html:7:1]
+   ,-[$DIR/tests/recovery/text/entity/input.html:8:1]
  7 | <div>&reg</div>
  8 | <div>reg</div>
    :      ^^^
    `----
-
   x Text
-   ,-[$DIR/tests/recovery/text/entity/input.html:7:1]
+   ,-[$DIR/tests/recovery/text/entity/input.html:8:1]
  7 | <div>&reg</div>
  8 | <div>reg</div>
    :      ^^^
    `----
-
   x Child
-    ,-[$DIR/tests/recovery/text/entity/input.html:7:1]
+    ,-[$DIR/tests/recovery/text/entity/input.html:8:1]
   7 |     <div>&reg</div>
   8 | ,-> <div>reg</div>
   9 | `-> 
  10 |     <div>&#q;</div>
  11 |     <div>&#qq;</div>
     `----
-
   x Text
-    ,-[$DIR/tests/recovery/text/entity/input.html:7:1]
+    ,-[$DIR/tests/recovery/text/entity/input.html:8:1]
   7 |     <div>&reg</div>
   8 | ,-> <div>reg</div>
   9 | `-> 
  10 |     <div>&#q;</div>
  11 |     <div>&#qq;</div>
     `----
-
   x Child
-    ,-[$DIR/tests/recovery/text/entity/input.html:9:1]
+    ,-[$DIR/tests/recovery/text/entity/input.html:10:1]
   9 | 
  10 | <div>&#q;</div>
     : ^^^^^^^^^^^^^^^
  11 | <div>&#qq;</div>
     `----
-
   x Element
-    ,-[$DIR/tests/recovery/text/entity/input.html:9:1]
+    ,-[$DIR/tests/recovery/text/entity/input.html:10:1]
   9 | 
  10 | <div>&#q;</div>
     : ^^^^^^^^^^^^^^^
  11 | <div>&#qq;</div>
     `----
-
   x Child
-    ,-[$DIR/tests/recovery/text/entity/input.html:9:1]
+    ,-[$DIR/tests/recovery/text/entity/input.html:10:1]
   9 | 
  10 | <div>&#q;</div>
     :      ^^^^
  11 | <div>&#qq;</div>
     `----
-
   x Text
-    ,-[$DIR/tests/recovery/text/entity/input.html:9:1]
+    ,-[$DIR/tests/recovery/text/entity/input.html:10:1]
   9 | 
  10 | <div>&#q;</div>
     :      ^^^^
  11 | <div>&#qq;</div>
     `----
-
   x Child
-    ,-[$DIR/tests/recovery/text/entity/input.html:9:1]
+    ,-[$DIR/tests/recovery/text/entity/input.html:10:1]
   9 | 
  10 | <div>&#q;</div>
     :                ^
  11 | <div>&#qq;</div>
  12 | <div>&#qqq;</div>
     `----
-
   x Text
-    ,-[$DIR/tests/recovery/text/entity/input.html:9:1]
+    ,-[$DIR/tests/recovery/text/entity/input.html:10:1]
   9 | 
  10 | <div>&#q;</div>
     :                ^
  11 | <div>&#qq;</div>
  12 | <div>&#qqq;</div>
     `----
-
   x Child
-    ,-[$DIR/tests/recovery/text/entity/input.html:10:1]
+    ,-[$DIR/tests/recovery/text/entity/input.html:11:1]
  10 | <div>&#q;</div>
  11 | <div>&#qq;</div>
     : ^^^^^^^^^^^^^^^^
  12 | <div>&#qqq;</div>
     `----
-
   x Element
-    ,-[$DIR/tests/recovery/text/entity/input.html:10:1]
+    ,-[$DIR/tests/recovery/text/entity/input.html:11:1]
  10 | <div>&#q;</div>
  11 | <div>&#qq;</div>
     : ^^^^^^^^^^^^^^^^
  12 | <div>&#qqq;</div>
     `----
-
-  x Child
-    ,-[$DIR/tests/recovery/text/entity/input.html:10:1]
- 10 | <div>&#q;</div>
- 11 | <div>&#qq;</div>
-    :      ^^^^^
- 12 | <div>&#qqq;</div>
-    `----
-
-  x Text
-    ,-[$DIR/tests/recovery/text/entity/input.html:10:1]
- 10 | <div>&#q;</div>
- 11 | <div>&#qq;</div>
-    :      ^^^^^
- 12 | <div>&#qqq;</div>
-    `----
-
-  x Child
-    ,-[$DIR/tests/recovery/text/entity/input.html:10:1]
- 10 | <div>&#q;</div>
- 11 | <div>&#qq;</div>
-    :                 ^
- 12 | <div>&#qqq;</div>
-    `----
-
-  x Text
-    ,-[$DIR/tests/recovery/text/entity/input.html:10:1]
- 10 | <div>&#q;</div>
- 11 | <div>&#qq;</div>
-    :                 ^
- 12 | <div>&#qqq;</div>
-    `----
-
   x Child
     ,-[$DIR/tests/recovery/text/entity/input.html:11:1]
+ 10 | <div>&#q;</div>
+ 11 | <div>&#qq;</div>
+    :      ^^^^^
+ 12 | <div>&#qqq;</div>
+    `----
+  x Text
+    ,-[$DIR/tests/recovery/text/entity/input.html:11:1]
+ 10 | <div>&#q;</div>
+ 11 | <div>&#qq;</div>
+    :      ^^^^^
+ 12 | <div>&#qqq;</div>
+    `----
+  x Child
+    ,-[$DIR/tests/recovery/text/entity/input.html:11:1]
+ 10 | <div>&#q;</div>
+ 11 | <div>&#qq;</div>
+    :                 ^
+ 12 | <div>&#qqq;</div>
+    `----
+  x Text
+    ,-[$DIR/tests/recovery/text/entity/input.html:11:1]
+ 10 | <div>&#q;</div>
+ 11 | <div>&#qq;</div>
+    :                 ^
+ 12 | <div>&#qqq;</div>
+    `----
+  x Child
+    ,-[$DIR/tests/recovery/text/entity/input.html:12:1]
  11 | <div>&#qq;</div>
  12 | <div>&#qqq;</div>
     : ^^^^^^^^^^^^^^^^^
     `----
-
   x Element
-    ,-[$DIR/tests/recovery/text/entity/input.html:11:1]
+    ,-[$DIR/tests/recovery/text/entity/input.html:12:1]
  11 | <div>&#qq;</div>
  12 | <div>&#qqq;</div>
     : ^^^^^^^^^^^^^^^^^
     `----
-
   x Child
-    ,-[$DIR/tests/recovery/text/entity/input.html:11:1]
+    ,-[$DIR/tests/recovery/text/entity/input.html:12:1]
  11 | <div>&#qq;</div>
  12 | <div>&#qqq;</div>
     :      ^^^^^^
     `----
-
   x Text
-    ,-[$DIR/tests/recovery/text/entity/input.html:11:1]
+    ,-[$DIR/tests/recovery/text/entity/input.html:12:1]
  11 | <div>&#qq;</div>
  12 | <div>&#qqq;</div>
     :      ^^^^^^
     `----
-
   x Child
-    ,-[$DIR/tests/recovery/text/entity/input.html:11:1]
+    ,-[$DIR/tests/recovery/text/entity/input.html:12:1]
  11 |     <div>&#qq;</div>
  12 | ,-> <div>&#qqq;</div>
  13 | `-> 
  14 |     <div>&#xq;</div>
  15 |     <div>&#xqq;</div>
     `----
-
   x Text
-    ,-[$DIR/tests/recovery/text/entity/input.html:11:1]
+    ,-[$DIR/tests/recovery/text/entity/input.html:12:1]
  11 |     <div>&#qq;</div>
  12 | ,-> <div>&#qqq;</div>
  13 | `-> 
  14 |     <div>&#xq;</div>
  15 |     <div>&#xqq;</div>
     `----
-
   x Child
-    ,-[$DIR/tests/recovery/text/entity/input.html:13:1]
+    ,-[$DIR/tests/recovery/text/entity/input.html:14:1]
  13 | 
  14 | <div>&#xq;</div>
     : ^^^^^^^^^^^^^^^^
  15 | <div>&#xqq;</div>
     `----
-
   x Element
-    ,-[$DIR/tests/recovery/text/entity/input.html:13:1]
+    ,-[$DIR/tests/recovery/text/entity/input.html:14:1]
  13 | 
  14 | <div>&#xq;</div>
     : ^^^^^^^^^^^^^^^^
  15 | <div>&#xqq;</div>
     `----
-
   x Child
-    ,-[$DIR/tests/recovery/text/entity/input.html:13:1]
+    ,-[$DIR/tests/recovery/text/entity/input.html:14:1]
  13 | 
  14 | <div>&#xq;</div>
     :      ^^^^^
  15 | <div>&#xqq;</div>
     `----
-
   x Text
-    ,-[$DIR/tests/recovery/text/entity/input.html:13:1]
+    ,-[$DIR/tests/recovery/text/entity/input.html:14:1]
  13 | 
  14 | <div>&#xq;</div>
     :      ^^^^^
  15 | <div>&#xqq;</div>
     `----
-
   x Child
-    ,-[$DIR/tests/recovery/text/entity/input.html:13:1]
+    ,-[$DIR/tests/recovery/text/entity/input.html:14:1]
  13 | 
  14 | <div>&#xq;</div>
     :                 ^
  15 | <div>&#xqq;</div>
  16 | <div>&#xqqq;</div>
     `----
-
   x Text
-    ,-[$DIR/tests/recovery/text/entity/input.html:13:1]
+    ,-[$DIR/tests/recovery/text/entity/input.html:14:1]
  13 | 
  14 | <div>&#xq;</div>
     :                 ^
  15 | <div>&#xqq;</div>
  16 | <div>&#xqqq;</div>
     `----
-
   x Child
-    ,-[$DIR/tests/recovery/text/entity/input.html:14:1]
+    ,-[$DIR/tests/recovery/text/entity/input.html:15:1]
  14 | <div>&#xq;</div>
  15 | <div>&#xqq;</div>
     : ^^^^^^^^^^^^^^^^^
  16 | <div>&#xqqq;</div>
     `----
-
   x Element
-    ,-[$DIR/tests/recovery/text/entity/input.html:14:1]
+    ,-[$DIR/tests/recovery/text/entity/input.html:15:1]
  14 | <div>&#xq;</div>
  15 | <div>&#xqq;</div>
     : ^^^^^^^^^^^^^^^^^
  16 | <div>&#xqqq;</div>
     `----
-
-  x Child
-    ,-[$DIR/tests/recovery/text/entity/input.html:14:1]
- 14 | <div>&#xq;</div>
- 15 | <div>&#xqq;</div>
-    :      ^^^^^^
- 16 | <div>&#xqqq;</div>
-    `----
-
-  x Text
-    ,-[$DIR/tests/recovery/text/entity/input.html:14:1]
- 14 | <div>&#xq;</div>
- 15 | <div>&#xqq;</div>
-    :      ^^^^^^
- 16 | <div>&#xqqq;</div>
-    `----
-
-  x Child
-    ,-[$DIR/tests/recovery/text/entity/input.html:14:1]
- 14 | <div>&#xq;</div>
- 15 | <div>&#xqq;</div>
-    :                  ^
- 16 | <div>&#xqqq;</div>
-    `----
-
-  x Text
-    ,-[$DIR/tests/recovery/text/entity/input.html:14:1]
- 14 | <div>&#xq;</div>
- 15 | <div>&#xqq;</div>
-    :                  ^
- 16 | <div>&#xqqq;</div>
-    `----
-
   x Child
     ,-[$DIR/tests/recovery/text/entity/input.html:15:1]
+ 14 | <div>&#xq;</div>
+ 15 | <div>&#xqq;</div>
+    :      ^^^^^^
+ 16 | <div>&#xqqq;</div>
+    `----
+  x Text
+    ,-[$DIR/tests/recovery/text/entity/input.html:15:1]
+ 14 | <div>&#xq;</div>
+ 15 | <div>&#xqq;</div>
+    :      ^^^^^^
+ 16 | <div>&#xqqq;</div>
+    `----
+  x Child
+    ,-[$DIR/tests/recovery/text/entity/input.html:15:1]
+ 14 | <div>&#xq;</div>
+ 15 | <div>&#xqq;</div>
+    :                  ^
+ 16 | <div>&#xqqq;</div>
+    `----
+  x Text
+    ,-[$DIR/tests/recovery/text/entity/input.html:15:1]
+ 14 | <div>&#xq;</div>
+ 15 | <div>&#xqq;</div>
+    :                  ^
+ 16 | <div>&#xqqq;</div>
+    `----
+  x Child
+    ,-[$DIR/tests/recovery/text/entity/input.html:16:1]
  15 | <div>&#xqq;</div>
  16 | <div>&#xqqq;</div>
     : ^^^^^^^^^^^^^^^^^^
     `----
-
   x Element
-    ,-[$DIR/tests/recovery/text/entity/input.html:15:1]
+    ,-[$DIR/tests/recovery/text/entity/input.html:16:1]
  15 | <div>&#xqq;</div>
  16 | <div>&#xqqq;</div>
     : ^^^^^^^^^^^^^^^^^^
     `----
-
   x Child
-    ,-[$DIR/tests/recovery/text/entity/input.html:15:1]
+    ,-[$DIR/tests/recovery/text/entity/input.html:16:1]
  15 | <div>&#xqq;</div>
  16 | <div>&#xqqq;</div>
     :      ^^^^^^^
     `----
-
   x Text
-    ,-[$DIR/tests/recovery/text/entity/input.html:15:1]
+    ,-[$DIR/tests/recovery/text/entity/input.html:16:1]
  15 | <div>&#xqq;</div>
  16 | <div>&#xqqq;</div>
     :      ^^^^^^^
     `----
-
   x Child
-    ,-[$DIR/tests/recovery/text/entity/input.html:15:1]
+    ,-[$DIR/tests/recovery/text/entity/input.html:16:1]
  15 |     <div>&#xqq;</div>
  16 | ,-> <div>&#xqqq;</div>
  17 | `-> 
  18 |     <div>
  19 |         &#x80;  0x20AC  EURO SIGN (€)
     `----
-
   x Text
-    ,-[$DIR/tests/recovery/text/entity/input.html:15:1]
+    ,-[$DIR/tests/recovery/text/entity/input.html:16:1]
  15 |     <div>&#xqq;</div>
  16 | ,-> <div>&#xqqq;</div>
  17 | `-> 
  18 |     <div>
  19 |         &#x80;  0x20AC  EURO SIGN (€)
     `----
-
   x Child
-    ,-[$DIR/tests/recovery/text/entity/input.html:17:1]
+    ,-[$DIR/tests/recovery/text/entity/input.html:18:1]
  17 |     
  18 | ,-> <div>
  19 | |       &#x80;  0x20AC  EURO SIGN (€)
@@ -817,9 +751,8 @@
  45 | |       &#x9F;  0x0178  LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
  46 | `-> </div>
     `----
-
   x Element
-    ,-[$DIR/tests/recovery/text/entity/input.html:17:1]
+    ,-[$DIR/tests/recovery/text/entity/input.html:18:1]
  17 |     
  18 | ,-> <div>
  19 | |       &#x80;  0x20AC  EURO SIGN (€)
@@ -851,9 +784,8 @@
  45 | |       &#x9F;  0x0178  LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
  46 | `-> </div>
     `----
-
   x Child
-    ,-[$DIR/tests/recovery/text/entity/input.html:17:1]
+    ,-[$DIR/tests/recovery/text/entity/input.html:18:1]
  17 |     
  18 | ,-> <div>
  19 | |       &#x80;  0x20AC  EURO SIGN (€)
@@ -885,9 +817,8 @@
  45 | `->     &#x9F;  0x0178  LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
  46 |     </div>
     `----
-
   x Text
-    ,-[$DIR/tests/recovery/text/entity/input.html:17:1]
+    ,-[$DIR/tests/recovery/text/entity/input.html:18:1]
  17 |     
  18 | ,-> <div>
  19 | |       &#x80;  0x20AC  EURO SIGN (€)
@@ -919,9 +850,8 @@
  45 | `->     &#x9F;  0x0178  LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
  46 |     </div>
     `----
-
   x Child
-    ,-[$DIR/tests/recovery/text/entity/input.html:45:1]
+    ,-[$DIR/tests/recovery/text/entity/input.html:46:1]
  45 |         &#x9F;  0x0178  LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
  46 | ,-> </div>
  47 | |   
@@ -932,9 +862,8 @@
  52 |     <div data-test="&ampamp;"></div>
  53 |     <div data-test="&ampamp"></div>
     `----
-
   x Text
-    ,-[$DIR/tests/recovery/text/entity/input.html:45:1]
+    ,-[$DIR/tests/recovery/text/entity/input.html:46:1]
  45 |         &#x9F;  0x0178  LATIN CAPITAL LETTER Y WITH DIAERESIS (Ÿ)
  46 | ,-> </div>
  47 | |   
@@ -945,294 +874,259 @@
  52 |     <div data-test="&ampamp;"></div>
  53 |     <div data-test="&ampamp"></div>
     `----
-
   x Child
-    ,-[$DIR/tests/recovery/text/entity/input.html:51:1]
+    ,-[$DIR/tests/recovery/text/entity/input.html:52:1]
  51 | 
  52 | <div data-test="&ampamp;"></div>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  53 | <div data-test="&ampamp"></div>
     `----
-
   x Element
-    ,-[$DIR/tests/recovery/text/entity/input.html:51:1]
+    ,-[$DIR/tests/recovery/text/entity/input.html:52:1]
  51 | 
  52 | <div data-test="&ampamp;"></div>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  53 | <div data-test="&ampamp"></div>
     `----
-
   x Attribute
-    ,-[$DIR/tests/recovery/text/entity/input.html:51:1]
+    ,-[$DIR/tests/recovery/text/entity/input.html:52:1]
  51 | 
  52 | <div data-test="&ampamp;"></div>
     :      ^^^^^^^^^^^^^^^^^^^^
  53 | <div data-test="&ampamp"></div>
     `----
-
   x Child
-    ,-[$DIR/tests/recovery/text/entity/input.html:51:1]
+    ,-[$DIR/tests/recovery/text/entity/input.html:52:1]
  51 | 
  52 | <div data-test="&ampamp;"></div>
     :                                 ^
  53 | <div data-test="&ampamp"></div>
  54 | <div data-test="&amp;amp;"></div>
     `----
-
   x Text
-    ,-[$DIR/tests/recovery/text/entity/input.html:51:1]
+    ,-[$DIR/tests/recovery/text/entity/input.html:52:1]
  51 | 
  52 | <div data-test="&ampamp;"></div>
     :                                 ^
  53 | <div data-test="&ampamp"></div>
  54 | <div data-test="&amp;amp;"></div>
     `----
-
   x Child
-    ,-[$DIR/tests/recovery/text/entity/input.html:52:1]
+    ,-[$DIR/tests/recovery/text/entity/input.html:53:1]
  52 | <div data-test="&ampamp;"></div>
  53 | <div data-test="&ampamp"></div>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  54 | <div data-test="&amp;amp;"></div>
     `----
-
   x Element
-    ,-[$DIR/tests/recovery/text/entity/input.html:52:1]
+    ,-[$DIR/tests/recovery/text/entity/input.html:53:1]
  52 | <div data-test="&ampamp;"></div>
  53 | <div data-test="&ampamp"></div>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  54 | <div data-test="&amp;amp;"></div>
     `----
-
   x Attribute
-    ,-[$DIR/tests/recovery/text/entity/input.html:52:1]
+    ,-[$DIR/tests/recovery/text/entity/input.html:53:1]
  52 | <div data-test="&ampamp;"></div>
  53 | <div data-test="&ampamp"></div>
     :      ^^^^^^^^^^^^^^^^^^^
  54 | <div data-test="&amp;amp;"></div>
     `----
-
   x Child
-    ,-[$DIR/tests/recovery/text/entity/input.html:52:1]
+    ,-[$DIR/tests/recovery/text/entity/input.html:53:1]
  52 | <div data-test="&ampamp;"></div>
  53 | <div data-test="&ampamp"></div>
     :                                ^
  54 | <div data-test="&amp;amp;"></div>
  55 | <div data-test="&amp;amp"></div>
     `----
-
   x Text
-    ,-[$DIR/tests/recovery/text/entity/input.html:52:1]
+    ,-[$DIR/tests/recovery/text/entity/input.html:53:1]
  52 | <div data-test="&ampamp;"></div>
  53 | <div data-test="&ampamp"></div>
     :                                ^
  54 | <div data-test="&amp;amp;"></div>
  55 | <div data-test="&amp;amp"></div>
     `----
-
   x Child
-    ,-[$DIR/tests/recovery/text/entity/input.html:53:1]
+    ,-[$DIR/tests/recovery/text/entity/input.html:54:1]
  53 | <div data-test="&ampamp"></div>
  54 | <div data-test="&amp;amp;"></div>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  55 | <div data-test="&amp;amp"></div>
     `----
-
   x Element
-    ,-[$DIR/tests/recovery/text/entity/input.html:53:1]
+    ,-[$DIR/tests/recovery/text/entity/input.html:54:1]
  53 | <div data-test="&ampamp"></div>
  54 | <div data-test="&amp;amp;"></div>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  55 | <div data-test="&amp;amp"></div>
     `----
-
   x Attribute
-    ,-[$DIR/tests/recovery/text/entity/input.html:53:1]
+    ,-[$DIR/tests/recovery/text/entity/input.html:54:1]
  53 | <div data-test="&ampamp"></div>
  54 | <div data-test="&amp;amp;"></div>
     :      ^^^^^^^^^^^^^^^^^^^^^
  55 | <div data-test="&amp;amp"></div>
     `----
-
   x Child
-    ,-[$DIR/tests/recovery/text/entity/input.html:53:1]
+    ,-[$DIR/tests/recovery/text/entity/input.html:54:1]
  53 | <div data-test="&ampamp"></div>
  54 | <div data-test="&amp;amp;"></div>
     :                                  ^
  55 | <div data-test="&amp;amp"></div>
  56 | <div data-test="&amp;#36"></div>
     `----
-
   x Text
-    ,-[$DIR/tests/recovery/text/entity/input.html:53:1]
+    ,-[$DIR/tests/recovery/text/entity/input.html:54:1]
  53 | <div data-test="&ampamp"></div>
  54 | <div data-test="&amp;amp;"></div>
     :                                  ^
  55 | <div data-test="&amp;amp"></div>
  56 | <div data-test="&amp;#36"></div>
     `----
-
   x Child
-    ,-[$DIR/tests/recovery/text/entity/input.html:54:1]
+    ,-[$DIR/tests/recovery/text/entity/input.html:55:1]
  54 | <div data-test="&amp;amp;"></div>
  55 | <div data-test="&amp;amp"></div>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  56 | <div data-test="&amp;#36"></div>
     `----
-
   x Element
-    ,-[$DIR/tests/recovery/text/entity/input.html:54:1]
+    ,-[$DIR/tests/recovery/text/entity/input.html:55:1]
  54 | <div data-test="&amp;amp;"></div>
  55 | <div data-test="&amp;amp"></div>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  56 | <div data-test="&amp;#36"></div>
     `----
-
   x Attribute
-    ,-[$DIR/tests/recovery/text/entity/input.html:54:1]
+    ,-[$DIR/tests/recovery/text/entity/input.html:55:1]
  54 | <div data-test="&amp;amp;"></div>
  55 | <div data-test="&amp;amp"></div>
     :      ^^^^^^^^^^^^^^^^^^^^
  56 | <div data-test="&amp;#36"></div>
     `----
-
   x Child
-    ,-[$DIR/tests/recovery/text/entity/input.html:54:1]
+    ,-[$DIR/tests/recovery/text/entity/input.html:55:1]
  54 | <div data-test="&amp;amp;"></div>
  55 | <div data-test="&amp;amp"></div>
     :                                 ^
  56 | <div data-test="&amp;#36"></div>
  57 | <div data-test="&amp;#x36"></div>
     `----
-
   x Text
-    ,-[$DIR/tests/recovery/text/entity/input.html:54:1]
+    ,-[$DIR/tests/recovery/text/entity/input.html:55:1]
  54 | <div data-test="&amp;amp;"></div>
  55 | <div data-test="&amp;amp"></div>
     :                                 ^
  56 | <div data-test="&amp;#36"></div>
  57 | <div data-test="&amp;#x36"></div>
     `----
-
   x Child
-    ,-[$DIR/tests/recovery/text/entity/input.html:55:1]
+    ,-[$DIR/tests/recovery/text/entity/input.html:56:1]
  55 | <div data-test="&amp;amp"></div>
  56 | <div data-test="&amp;#36"></div>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  57 | <div data-test="&amp;#x36"></div>
     `----
-
   x Element
-    ,-[$DIR/tests/recovery/text/entity/input.html:55:1]
+    ,-[$DIR/tests/recovery/text/entity/input.html:56:1]
  55 | <div data-test="&amp;amp"></div>
  56 | <div data-test="&amp;#36"></div>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  57 | <div data-test="&amp;#x36"></div>
     `----
-
   x Attribute
-    ,-[$DIR/tests/recovery/text/entity/input.html:55:1]
+    ,-[$DIR/tests/recovery/text/entity/input.html:56:1]
  55 | <div data-test="&amp;amp"></div>
  56 | <div data-test="&amp;#36"></div>
     :      ^^^^^^^^^^^^^^^^^^^^
  57 | <div data-test="&amp;#x36"></div>
     `----
-
   x Child
-    ,-[$DIR/tests/recovery/text/entity/input.html:55:1]
+    ,-[$DIR/tests/recovery/text/entity/input.html:56:1]
  55 | <div data-test="&amp;amp"></div>
  56 | <div data-test="&amp;#36"></div>
     :                                 ^
  57 | <div data-test="&amp;#x36"></div>
  58 | <div data-test="&#x36"></div>
     `----
-
   x Text
-    ,-[$DIR/tests/recovery/text/entity/input.html:55:1]
+    ,-[$DIR/tests/recovery/text/entity/input.html:56:1]
  55 | <div data-test="&amp;amp"></div>
  56 | <div data-test="&amp;#36"></div>
     :                                 ^
  57 | <div data-test="&amp;#x36"></div>
  58 | <div data-test="&#x36"></div>
     `----
-
   x Child
-    ,-[$DIR/tests/recovery/text/entity/input.html:56:1]
+    ,-[$DIR/tests/recovery/text/entity/input.html:57:1]
  56 | <div data-test="&amp;#36"></div>
  57 | <div data-test="&amp;#x36"></div>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  58 | <div data-test="&#x36"></div>
     `----
-
   x Element
-    ,-[$DIR/tests/recovery/text/entity/input.html:56:1]
+    ,-[$DIR/tests/recovery/text/entity/input.html:57:1]
  56 | <div data-test="&amp;#36"></div>
  57 | <div data-test="&amp;#x36"></div>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  58 | <div data-test="&#x36"></div>
     `----
-
   x Attribute
-    ,-[$DIR/tests/recovery/text/entity/input.html:56:1]
+    ,-[$DIR/tests/recovery/text/entity/input.html:57:1]
  56 | <div data-test="&amp;#36"></div>
  57 | <div data-test="&amp;#x36"></div>
     :      ^^^^^^^^^^^^^^^^^^^^^
  58 | <div data-test="&#x36"></div>
     `----
-
   x Child
-    ,-[$DIR/tests/recovery/text/entity/input.html:56:1]
+    ,-[$DIR/tests/recovery/text/entity/input.html:57:1]
  56 | <div data-test="&amp;#36"></div>
  57 | <div data-test="&amp;#x36"></div>
     :                                  ^
  58 | <div data-test="&#x36"></div>
  59 | </body>
     `----
-
   x Text
-    ,-[$DIR/tests/recovery/text/entity/input.html:56:1]
+    ,-[$DIR/tests/recovery/text/entity/input.html:57:1]
  56 | <div data-test="&amp;#36"></div>
  57 | <div data-test="&amp;#x36"></div>
     :                                  ^
  58 | <div data-test="&#x36"></div>
  59 | </body>
     `----
-
   x Child
-    ,-[$DIR/tests/recovery/text/entity/input.html:57:1]
+    ,-[$DIR/tests/recovery/text/entity/input.html:58:1]
  57 | <div data-test="&amp;#x36"></div>
  58 | <div data-test="&#x36"></div>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  59 | </body>
     `----
-
   x Element
-    ,-[$DIR/tests/recovery/text/entity/input.html:57:1]
+    ,-[$DIR/tests/recovery/text/entity/input.html:58:1]
  57 | <div data-test="&amp;#x36"></div>
  58 | <div data-test="&#x36"></div>
     : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
  59 | </body>
     `----
-
   x Attribute
-    ,-[$DIR/tests/recovery/text/entity/input.html:57:1]
+    ,-[$DIR/tests/recovery/text/entity/input.html:58:1]
  57 | <div data-test="&amp;#x36"></div>
  58 | <div data-test="&#x36"></div>
     :      ^^^^^^^^^^^^^^^^^
  59 | </body>
     `----
-
   x Child
-    ,-[$DIR/tests/recovery/text/entity/input.html:57:1]
+    ,-[$DIR/tests/recovery/text/entity/input.html:58:1]
  57 |     <div data-test="&amp;#x36"></div>
  58 | ,-> <div data-test="&#x36"></div>
  59 | |   </body>
  60 | |   </html>
  61 | `-> 
     `----
-
   x Text
-    ,-[$DIR/tests/recovery/text/entity/input.html:57:1]
+    ,-[$DIR/tests/recovery/text/entity/input.html:58:1]
  57 |     <div data-test="&amp;#x36"></div>
  58 | ,-> <div data-test="&#x36"></div>
  59 | |   </body>

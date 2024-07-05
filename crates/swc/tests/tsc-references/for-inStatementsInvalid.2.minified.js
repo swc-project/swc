@@ -1,7 +1,6 @@
 //// [for-inStatementsInvalid.ts]
-//! 
 //!   x The left-hand side of a 'for...of' statement cannot use a type annotation
-//!     ,-[7:1]
+//!     ,-[10:1]
 //!   7 | var aRegExp: RegExp;
 //!   8 | for (aRegExp in {}) { }
 //!   9 | 

@@ -1,121 +1,103 @@
-
   x Stylesheet
    ,-[$DIR/tests/recovery/value/number/eof/input.css:1:1]
  1 | ,-> a {
  2 | `->   prop: 12
    `----
-
   x Rule
    ,-[$DIR/tests/recovery/value/number/eof/input.css:1:1]
  1 | ,-> a {
  2 | `->   prop: 12
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/recovery/value/number/eof/input.css:1:1]
  1 | ,-> a {
  2 | `->   prop: 12
    `----
-
   x SelectorList
    ,-[$DIR/tests/recovery/value/number/eof/input.css:1:1]
  1 | a {
    : ^
  2 |   prop: 12
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/recovery/value/number/eof/input.css:1:1]
  1 | a {
    : ^
  2 |   prop: 12
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/recovery/value/number/eof/input.css:1:1]
  1 | a {
    : ^
  2 |   prop: 12
    `----
-
   x TypeSelector
    ,-[$DIR/tests/recovery/value/number/eof/input.css:1:1]
  1 | a {
    : ^
  2 |   prop: 12
    `----
-
   x TagNameSelector
    ,-[$DIR/tests/recovery/value/number/eof/input.css:1:1]
  1 | a {
    : ^
  2 |   prop: 12
    `----
-
   x WqName
    ,-[$DIR/tests/recovery/value/number/eof/input.css:1:1]
  1 | a {
    : ^
  2 |   prop: 12
    `----
-
   x Ident
    ,-[$DIR/tests/recovery/value/number/eof/input.css:1:1]
  1 | a {
    : ^
  2 |   prop: 12
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/recovery/value/number/eof/input.css:1:1]
  1 | ,-> a {
  2 | `->   prop: 12
    `----
-
   x LBrace
    ,-[$DIR/tests/recovery/value/number/eof/input.css:1:1]
  1 | a {
    :   ^
  2 |   prop: 12
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/value/number/eof/input.css:1:1]
+   ,-[$DIR/tests/recovery/value/number/eof/input.css:2:1]
  1 | a {
  2 |   prop: 12
    :   ^^^^^^^^
    `----
-
   x Declaration
-   ,-[$DIR/tests/recovery/value/number/eof/input.css:1:1]
+   ,-[$DIR/tests/recovery/value/number/eof/input.css:2:1]
  1 | a {
  2 |   prop: 12
    :   ^^^^^^^^
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/recovery/value/number/eof/input.css:1:1]
+   ,-[$DIR/tests/recovery/value/number/eof/input.css:2:1]
  1 | a {
  2 |   prop: 12
    :   ^^^^
    `----
-
   x Ident
-   ,-[$DIR/tests/recovery/value/number/eof/input.css:1:1]
+   ,-[$DIR/tests/recovery/value/number/eof/input.css:2:1]
  1 | a {
  2 |   prop: 12
    :   ^^^^
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/value/number/eof/input.css:1:1]
+   ,-[$DIR/tests/recovery/value/number/eof/input.css:2:1]
  1 | a {
  2 |   prop: 12
    :         ^^
    `----
-
   x Integer
-   ,-[$DIR/tests/recovery/value/number/eof/input.css:1:1]
+   ,-[$DIR/tests/recovery/value/number/eof/input.css:2:1]
  1 | a {
  2 |   prop: 12
    :         ^^

@@ -1,141 +1,119 @@
-
   x Stylesheet
    ,-[$DIR/tests/recovery/selector/attribute/unclosed/input.css:1:1]
  1 | ,-> .class[attr= {
  2 | |   
  3 | `-> }
    `----
-
   x Rule
    ,-[$DIR/tests/recovery/selector/attribute/unclosed/input.css:1:1]
  1 | ,-> .class[attr= {
  2 | |   
  3 | `-> }
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/selector/attribute/unclosed/input.css:1:1]
  1 | .class[attr= {
    : ^
    `----
-
   x Delim { value: '.' }
    ,-[$DIR/tests/recovery/selector/attribute/unclosed/input.css:1:1]
  1 | .class[attr= {
    : ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/selector/attribute/unclosed/input.css:1:1]
  1 | .class[attr= {
    :  ^^^^^
    `----
-
   x Ident { value: "class", raw: "class" }
    ,-[$DIR/tests/recovery/selector/attribute/unclosed/input.css:1:1]
  1 | .class[attr= {
    :  ^^^^^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/selector/attribute/unclosed/input.css:1:1]
  1 | ,-> .class[attr= {
  2 | |   
  3 | `-> }
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/recovery/selector/attribute/unclosed/input.css:1:1]
  1 | ,-> .class[attr= {
  2 | |   
  3 | `-> }
    `----
-
   x LBracket
    ,-[$DIR/tests/recovery/selector/attribute/unclosed/input.css:1:1]
  1 | .class[attr= {
    :       ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/selector/attribute/unclosed/input.css:1:1]
  1 | .class[attr= {
    :        ^^^^
    `----
-
   x Ident { value: "attr", raw: "attr" }
    ,-[$DIR/tests/recovery/selector/attribute/unclosed/input.css:1:1]
  1 | .class[attr= {
    :        ^^^^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/selector/attribute/unclosed/input.css:1:1]
  1 | .class[attr= {
    :            ^
    `----
-
   x Delim { value: '=' }
    ,-[$DIR/tests/recovery/selector/attribute/unclosed/input.css:1:1]
  1 | .class[attr= {
    :            ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/selector/attribute/unclosed/input.css:1:1]
  1 | .class[attr= {
    :             ^
    `----
-
   x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/selector/attribute/unclosed/input.css:1:1]
  1 | .class[attr= {
    :             ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/selector/attribute/unclosed/input.css:1:1]
  1 | ,-> .class[attr= {
  2 | |   
  3 | `-> }
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/recovery/selector/attribute/unclosed/input.css:1:1]
  1 | ,-> .class[attr= {
  2 | |   
  3 | `-> }
    `----
-
   x LBrace
    ,-[$DIR/tests/recovery/selector/attribute/unclosed/input.css:1:1]
  1 | .class[attr= {
    :              ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/selector/attribute/unclosed/input.css:1:1]
  1 | ,-> .class[attr= {
  2 | `-> 
  3 |     }
    `----
-
   x WhiteSpace { value: "\n\n" }
    ,-[$DIR/tests/recovery/selector/attribute/unclosed/input.css:1:1]
  1 | ,-> .class[attr= {
  2 | `-> 
  3 |     }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/selector/attribute/unclosed/input.css:2:1]
+   ,-[$DIR/tests/recovery/selector/attribute/unclosed/input.css:3:1]
  2 | 
  3 | }
    :  ^
    `----
-
   x WhiteSpace { value: "\n" }
-   ,-[$DIR/tests/recovery/selector/attribute/unclosed/input.css:2:1]
+   ,-[$DIR/tests/recovery/selector/attribute/unclosed/input.css:3:1]
  2 | 
  3 | }
    :  ^

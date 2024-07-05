@@ -1,218 +1,180 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests23_dat.4.html:1:1]
  1 | <p><b id=a><b id=a><b id=a><b><object><b id=a><b id=a>X</object><p>Y
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests23_dat.4.html:1:1]
  1 | <p><b id=a><b id=a><b id=a><b><object><b id=a><b id=a>X</object><p>Y
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests23_dat.4.html:1:1]
  1 | <p><b id=a><b id=a><b id=a><b><object><b id=a><b id=a>X</object><p>Y
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests23_dat.4.html:1:1]
  1 | <p><b id=a><b id=a><b id=a><b><object><b id=a><b id=a>X</object><p>Y
    :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests23_dat.4.html:1:1]
  1 | <p><b id=a><b id=a><b id=a><b><object><b id=a><b id=a>X</object><p>Y
    :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Attribute
    ,-[$DIR/tests/html5lib-tests-fixture/tests23_dat.4.html:1:1]
  1 | <p><b id=a><b id=a><b id=a><b><object><b id=a><b id=a>X</object><p>Y
    :       ^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests23_dat.4.html:1:1]
  1 | <p><b id=a><b id=a><b id=a><b><object><b id=a><b id=a>X</object><p>Y
    :            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests23_dat.4.html:1:1]
  1 | <p><b id=a><b id=a><b id=a><b><object><b id=a><b id=a>X</object><p>Y
    :            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Attribute
    ,-[$DIR/tests/html5lib-tests-fixture/tests23_dat.4.html:1:1]
  1 | <p><b id=a><b id=a><b id=a><b><object><b id=a><b id=a>X</object><p>Y
    :               ^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests23_dat.4.html:1:1]
  1 | <p><b id=a><b id=a><b id=a><b><object><b id=a><b id=a>X</object><p>Y
    :                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests23_dat.4.html:1:1]
  1 | <p><b id=a><b id=a><b id=a><b><object><b id=a><b id=a>X</object><p>Y
    :                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Attribute
    ,-[$DIR/tests/html5lib-tests-fixture/tests23_dat.4.html:1:1]
  1 | <p><b id=a><b id=a><b id=a><b><object><b id=a><b id=a>X</object><p>Y
    :                       ^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests23_dat.4.html:1:1]
  1 | <p><b id=a><b id=a><b id=a><b><object><b id=a><b id=a>X</object><p>Y
    :                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests23_dat.4.html:1:1]
  1 | <p><b id=a><b id=a><b id=a><b><object><b id=a><b id=a>X</object><p>Y
    :                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests23_dat.4.html:1:1]
  1 | <p><b id=a><b id=a><b id=a><b><object><b id=a><b id=a>X</object><p>Y
    :                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests23_dat.4.html:1:1]
  1 | <p><b id=a><b id=a><b id=a><b><object><b id=a><b id=a>X</object><p>Y
    :                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests23_dat.4.html:1:1]
  1 | <p><b id=a><b id=a><b id=a><b><object><b id=a><b id=a>X</object><p>Y
    :                                       ^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests23_dat.4.html:1:1]
  1 | <p><b id=a><b id=a><b id=a><b><object><b id=a><b id=a>X</object><p>Y
    :                                       ^^^^^^^^^^^^^^^^^
    `----
-
   x Attribute
    ,-[$DIR/tests/html5lib-tests-fixture/tests23_dat.4.html:1:1]
  1 | <p><b id=a><b id=a><b id=a><b><object><b id=a><b id=a>X</object><p>Y
    :                                          ^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests23_dat.4.html:1:1]
  1 | <p><b id=a><b id=a><b id=a><b><object><b id=a><b id=a>X</object><p>Y
    :                                               ^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests23_dat.4.html:1:1]
  1 | <p><b id=a><b id=a><b id=a><b><object><b id=a><b id=a>X</object><p>Y
    :                                               ^^^^^^^^^
    `----
-
   x Attribute
    ,-[$DIR/tests/html5lib-tests-fixture/tests23_dat.4.html:1:1]
  1 | <p><b id=a><b id=a><b id=a><b><object><b id=a><b id=a>X</object><p>Y
    :                                                  ^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests23_dat.4.html:1:1]
  1 | <p><b id=a><b id=a><b id=a><b><object><b id=a><b id=a>X</object><p>Y
    :                                                       ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests23_dat.4.html:1:1]
  1 | <p><b id=a><b id=a><b id=a><b><object><b id=a><b id=a>X</object><p>Y
    :                                                       ^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests23_dat.4.html:1:1]
  1 | <p><b id=a><b id=a><b id=a><b><object><b id=a><b id=a>X</object><p>Y
    :                                                                 ^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests23_dat.4.html:1:1]
  1 | <p><b id=a><b id=a><b id=a><b><object><b id=a><b id=a>X</object><p>Y
    :                                                                 ^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests23_dat.4.html:1:1]
  1 | <p><b id=a><b id=a><b id=a><b><object><b id=a><b id=a>X</object><p>Y
    :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests23_dat.4.html:1:1]
  1 | <p><b id=a><b id=a><b id=a><b><object><b id=a><b id=a>X</object><p>Y
    :    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests23_dat.4.html:1:1]
  1 | <p><b id=a><b id=a><b id=a><b><object><b id=a><b id=a>X</object><p>Y
    :            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests23_dat.4.html:1:1]
  1 | <p><b id=a><b id=a><b id=a><b><object><b id=a><b id=a>X</object><p>Y
    :            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests23_dat.4.html:1:1]
  1 | <p><b id=a><b id=a><b id=a><b><object><b id=a><b id=a>X</object><p>Y
    :                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests23_dat.4.html:1:1]
  1 | <p><b id=a><b id=a><b id=a><b><object><b id=a><b id=a>X</object><p>Y
    :                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests23_dat.4.html:1:1]
  1 | <p><b id=a><b id=a><b id=a><b><object><b id=a><b id=a>X</object><p>Y
    :                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests23_dat.4.html:1:1]
  1 | <p><b id=a><b id=a><b id=a><b><object><b id=a><b id=a>X</object><p>Y
    :                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests23_dat.4.html:1:1]
  1 | <p><b id=a><b id=a><b id=a><b><object><b id=a><b id=a>X</object><p>Y
    :                                                                    ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests23_dat.4.html:1:1]
  1 | <p><b id=a><b id=a><b id=a><b><object><b id=a><b id=a>X</object><p>Y

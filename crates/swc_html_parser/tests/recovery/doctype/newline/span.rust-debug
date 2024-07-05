@@ -1,25 +1,20 @@
-
   x Document
    ,-[$DIR/tests/recovery/doctype/newline/input.html:1:1]
  1 | ,-> <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01
  2 | |   
  3 | `-> Transitional//EN">
    `----
-
   x Child
    ,-[$DIR/tests/recovery/doctype/newline/input.html:1:1]
  1 | ,-> <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01
  2 | |   
  3 | `-> Transitional//EN">
    `----
-
   x DocumentType
    ,-[$DIR/tests/recovery/doctype/newline/input.html:1:1]
  1 | ,-> <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01
  2 | |   
  3 | `-> Transitional//EN">
    `----
-
   x Child
-
   x Element

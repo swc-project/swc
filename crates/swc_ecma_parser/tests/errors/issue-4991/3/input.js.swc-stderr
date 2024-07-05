@@ -1,4 +1,3 @@
-
   x Unexpected token `?`. Expected `.` or `(`
    ,-[$DIR/tests/errors/issue-4991/3/input.js:1:1]
  1 | console.log(import?.meta);

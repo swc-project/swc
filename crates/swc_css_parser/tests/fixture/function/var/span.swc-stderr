@@ -1,4 +1,3 @@
-
   x Stylesheet
    ,-[$DIR/tests/fixture/function/var/input.css:1:1]
  1 | ,-> div {
@@ -7,7 +6,6 @@
  4 | |       color: var(--a, blue);
  5 | `-> }
    `----
-
   x Rule
    ,-[$DIR/tests/fixture/function/var/input.css:1:1]
  1 | ,-> div {
@@ -16,7 +14,6 @@
  4 | |       color: var(--a, blue);
  5 | `-> }
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/fixture/function/var/input.css:1:1]
  1 | ,-> div {
@@ -25,56 +22,48 @@
  4 | |       color: var(--a, blue);
  5 | `-> }
    `----
-
   x SelectorList
    ,-[$DIR/tests/fixture/function/var/input.css:1:1]
  1 | div {
    : ^^^
  2 |     color: var(--a);
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/fixture/function/var/input.css:1:1]
  1 | div {
    : ^^^
  2 |     color: var(--a);
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/function/var/input.css:1:1]
  1 | div {
    : ^^^
  2 |     color: var(--a);
    `----
-
   x TypeSelector
    ,-[$DIR/tests/fixture/function/var/input.css:1:1]
  1 | div {
    : ^^^
  2 |     color: var(--a);
    `----
-
   x TagNameSelector
    ,-[$DIR/tests/fixture/function/var/input.css:1:1]
  1 | div {
    : ^^^
  2 |     color: var(--a);
    `----
-
   x WqName
    ,-[$DIR/tests/fixture/function/var/input.css:1:1]
  1 | div {
    : ^^^
  2 |     color: var(--a);
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/function/var/input.css:1:1]
  1 | div {
    : ^^^
  2 |     color: var(--a);
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/function/var/input.css:1:1]
  1 | ,-> div {
@@ -83,272 +72,238 @@
  4 | |       color: var(--a, blue);
  5 | `-> }
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/function/var/input.css:1:1]
  1 | div {
    :     ^
  2 |     color: var(--a);
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/function/var/input.css:1:1]
+   ,-[$DIR/tests/fixture/function/var/input.css:2:1]
  1 | div {
  2 |     color: var(--a);
    :     ^^^^^^^^^^^^^^^
  3 |     color: var(--a,);
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/function/var/input.css:1:1]
+   ,-[$DIR/tests/fixture/function/var/input.css:2:1]
  1 | div {
  2 |     color: var(--a);
    :     ^^^^^^^^^^^^^^^
  3 |     color: var(--a,);
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/function/var/input.css:1:1]
+   ,-[$DIR/tests/fixture/function/var/input.css:2:1]
  1 | div {
  2 |     color: var(--a);
    :     ^^^^^
  3 |     color: var(--a,);
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/function/var/input.css:1:1]
+   ,-[$DIR/tests/fixture/function/var/input.css:2:1]
  1 | div {
  2 |     color: var(--a);
    :     ^^^^^
  3 |     color: var(--a,);
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/function/var/input.css:1:1]
+   ,-[$DIR/tests/fixture/function/var/input.css:2:1]
  1 | div {
  2 |     color: var(--a);
    :            ^^^^^^^^
  3 |     color: var(--a,);
    `----
-
   x Function
-   ,-[$DIR/tests/fixture/function/var/input.css:1:1]
+   ,-[$DIR/tests/fixture/function/var/input.css:2:1]
  1 | div {
  2 |     color: var(--a);
    :            ^^^^^^^^
  3 |     color: var(--a,);
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/function/var/input.css:1:1]
+   ,-[$DIR/tests/fixture/function/var/input.css:2:1]
  1 | div {
  2 |     color: var(--a);
    :            ^^^
  3 |     color: var(--a,);
    `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/function/var/input.css:1:1]
- 1 | div {
- 2 |     color: var(--a);
-   :                ^^^
- 3 |     color: var(--a,);
-   `----
-
-  x DashedIdent
-   ,-[$DIR/tests/fixture/function/var/input.css:1:1]
- 1 | div {
- 2 |     color: var(--a);
-   :                ^^^
- 3 |     color: var(--a,);
-   `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/function/var/input.css:2:1]
+ 1 | div {
+ 2 |     color: var(--a);
+   :                ^^^
+ 3 |     color: var(--a,);
+   `----
+  x DashedIdent
+   ,-[$DIR/tests/fixture/function/var/input.css:2:1]
+ 1 | div {
+ 2 |     color: var(--a);
+   :                ^^^
+ 3 |     color: var(--a,);
+   `----
+  x ComponentValue
+   ,-[$DIR/tests/fixture/function/var/input.css:3:1]
  2 |     color: var(--a);
  3 |     color: var(--a,);
    :     ^^^^^^^^^^^^^^^^
  4 |     color: var(--a, blue);
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/function/var/input.css:2:1]
+   ,-[$DIR/tests/fixture/function/var/input.css:3:1]
  2 |     color: var(--a);
  3 |     color: var(--a,);
    :     ^^^^^^^^^^^^^^^^
  4 |     color: var(--a, blue);
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/function/var/input.css:2:1]
+   ,-[$DIR/tests/fixture/function/var/input.css:3:1]
  2 |     color: var(--a);
  3 |     color: var(--a,);
    :     ^^^^^
  4 |     color: var(--a, blue);
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/function/var/input.css:2:1]
+   ,-[$DIR/tests/fixture/function/var/input.css:3:1]
  2 |     color: var(--a);
  3 |     color: var(--a,);
    :     ^^^^^
  4 |     color: var(--a, blue);
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/function/var/input.css:2:1]
+   ,-[$DIR/tests/fixture/function/var/input.css:3:1]
  2 |     color: var(--a);
  3 |     color: var(--a,);
    :            ^^^^^^^^^
  4 |     color: var(--a, blue);
    `----
-
   x Function
-   ,-[$DIR/tests/fixture/function/var/input.css:2:1]
+   ,-[$DIR/tests/fixture/function/var/input.css:3:1]
  2 |     color: var(--a);
  3 |     color: var(--a,);
    :            ^^^^^^^^^
  4 |     color: var(--a, blue);
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/function/var/input.css:2:1]
+   ,-[$DIR/tests/fixture/function/var/input.css:3:1]
  2 |     color: var(--a);
  3 |     color: var(--a,);
    :            ^^^
  4 |     color: var(--a, blue);
    `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/function/var/input.css:2:1]
- 2 |     color: var(--a);
- 3 |     color: var(--a,);
-   :                ^^^
- 4 |     color: var(--a, blue);
-   `----
-
-  x DashedIdent
-   ,-[$DIR/tests/fixture/function/var/input.css:2:1]
- 2 |     color: var(--a);
- 3 |     color: var(--a,);
-   :                ^^^
- 4 |     color: var(--a, blue);
-   `----
-
-  x ComponentValue
-   ,-[$DIR/tests/fixture/function/var/input.css:2:1]
- 2 |     color: var(--a);
- 3 |     color: var(--a,);
-   :                   ^
- 4 |     color: var(--a, blue);
-   `----
-
-  x Delimiter
-   ,-[$DIR/tests/fixture/function/var/input.css:2:1]
- 2 |     color: var(--a);
- 3 |     color: var(--a,);
-   :                   ^
- 4 |     color: var(--a, blue);
-   `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/function/var/input.css:3:1]
+ 2 |     color: var(--a);
+ 3 |     color: var(--a,);
+   :                ^^^
+ 4 |     color: var(--a, blue);
+   `----
+  x DashedIdent
+   ,-[$DIR/tests/fixture/function/var/input.css:3:1]
+ 2 |     color: var(--a);
+ 3 |     color: var(--a,);
+   :                ^^^
+ 4 |     color: var(--a, blue);
+   `----
+  x ComponentValue
+   ,-[$DIR/tests/fixture/function/var/input.css:3:1]
+ 2 |     color: var(--a);
+ 3 |     color: var(--a,);
+   :                   ^
+ 4 |     color: var(--a, blue);
+   `----
+  x Delimiter
+   ,-[$DIR/tests/fixture/function/var/input.css:3:1]
+ 2 |     color: var(--a);
+ 3 |     color: var(--a,);
+   :                   ^
+ 4 |     color: var(--a, blue);
+   `----
+  x ComponentValue
+   ,-[$DIR/tests/fixture/function/var/input.css:4:1]
  3 |     color: var(--a,);
  4 |     color: var(--a, blue);
    :     ^^^^^^^^^^^^^^^^^^^^^
  5 | }
    `----
-
   x Declaration
-   ,-[$DIR/tests/fixture/function/var/input.css:3:1]
+   ,-[$DIR/tests/fixture/function/var/input.css:4:1]
  3 |     color: var(--a,);
  4 |     color: var(--a, blue);
    :     ^^^^^^^^^^^^^^^^^^^^^
  5 | }
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/fixture/function/var/input.css:3:1]
+   ,-[$DIR/tests/fixture/function/var/input.css:4:1]
  3 |     color: var(--a,);
  4 |     color: var(--a, blue);
    :     ^^^^^
  5 | }
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/function/var/input.css:3:1]
+   ,-[$DIR/tests/fixture/function/var/input.css:4:1]
  3 |     color: var(--a,);
  4 |     color: var(--a, blue);
    :     ^^^^^
  5 | }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/function/var/input.css:3:1]
+   ,-[$DIR/tests/fixture/function/var/input.css:4:1]
  3 |     color: var(--a,);
  4 |     color: var(--a, blue);
    :            ^^^^^^^^^^^^^^
  5 | }
    `----
-
   x Function
-   ,-[$DIR/tests/fixture/function/var/input.css:3:1]
+   ,-[$DIR/tests/fixture/function/var/input.css:4:1]
  3 |     color: var(--a,);
  4 |     color: var(--a, blue);
    :            ^^^^^^^^^^^^^^
  5 | }
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/function/var/input.css:3:1]
+   ,-[$DIR/tests/fixture/function/var/input.css:4:1]
  3 |     color: var(--a,);
  4 |     color: var(--a, blue);
    :            ^^^
  5 | }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/function/var/input.css:3:1]
+   ,-[$DIR/tests/fixture/function/var/input.css:4:1]
  3 |     color: var(--a,);
  4 |     color: var(--a, blue);
    :                ^^^
  5 | }
    `----
-
   x DashedIdent
-   ,-[$DIR/tests/fixture/function/var/input.css:3:1]
+   ,-[$DIR/tests/fixture/function/var/input.css:4:1]
  3 |     color: var(--a,);
  4 |     color: var(--a, blue);
    :                ^^^
  5 | }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/function/var/input.css:3:1]
+   ,-[$DIR/tests/fixture/function/var/input.css:4:1]
  3 |     color: var(--a,);
  4 |     color: var(--a, blue);
    :                   ^
  5 | }
    `----
-
   x Delimiter
-   ,-[$DIR/tests/fixture/function/var/input.css:3:1]
+   ,-[$DIR/tests/fixture/function/var/input.css:4:1]
  3 |     color: var(--a,);
  4 |     color: var(--a, blue);
    :                   ^
  5 | }
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/fixture/function/var/input.css:3:1]
+   ,-[$DIR/tests/fixture/function/var/input.css:4:1]
  3 |     color: var(--a,);
  4 |     color: var(--a, blue);
    :                     ^^^^
  5 | }
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/function/var/input.css:3:1]
+   ,-[$DIR/tests/fixture/function/var/input.css:4:1]
  3 |     color: var(--a,);
  4 |     color: var(--a, blue);
    :                     ^^^^

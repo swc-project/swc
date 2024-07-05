@@ -1,48 +1,40 @@
-
   x Module
    ,-[$DIR/tests/span/js/decl/namespace-export-string-names.js:1:1]
  1 | export * as "忠恕。" from "Confucius"
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x ModuleItem
    ,-[$DIR/tests/span/js/decl/namespace-export-string-names.js:1:1]
  1 | export * as "忠恕。" from "Confucius"
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x ModuleDecl
    ,-[$DIR/tests/span/js/decl/namespace-export-string-names.js:1:1]
  1 | export * as "忠恕。" from "Confucius"
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x NamedExport
    ,-[$DIR/tests/span/js/decl/namespace-export-string-names.js:1:1]
  1 | export * as "忠恕。" from "Confucius"
-   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x ExportSpecifier
    ,-[$DIR/tests/span/js/decl/namespace-export-string-names.js:1:1]
  1 | export * as "忠恕。" from "Confucius"
-   :        ^^^^^^^^^^^^^^^^
+   :        ^^^^^^^^^^^^^
    `----
-
   x ExportNamespaceSpecifier
    ,-[$DIR/tests/span/js/decl/namespace-export-string-names.js:1:1]
  1 | export * as "忠恕。" from "Confucius"
-   :        ^^^^^^^^^^^^^^^^
+   :        ^^^^^^^^^^^^^
    `----
-
   x Str
    ,-[$DIR/tests/span/js/decl/namespace-export-string-names.js:1:1]
  1 | export * as "忠恕。" from "Confucius"
-   :             ^^^^^^^^^^^
+   :             ^^^^^^^^
    `----
-
   x Str
    ,-[$DIR/tests/span/js/decl/namespace-export-string-names.js:1:1]
  1 | export * as "忠恕。" from "Confucius"
-   :                              ^^^^^^^^^^^
+   :                           ^^^^^^^^^^^
    `----

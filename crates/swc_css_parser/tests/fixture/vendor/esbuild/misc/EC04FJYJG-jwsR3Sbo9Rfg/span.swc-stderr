@@ -1,88 +1,73 @@
-
   x Stylesheet
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/EC04FJYJG-jwsR3Sbo9Rfg/input.css:1:1]
  1 | div#\-0 {}
    : ^^^^^^^^^^
    `----
-
   x Rule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/EC04FJYJG-jwsR3Sbo9Rfg/input.css:1:1]
  1 | div#\-0 {}
    : ^^^^^^^^^^
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/EC04FJYJG-jwsR3Sbo9Rfg/input.css:1:1]
  1 | div#\-0 {}
    : ^^^^^^^^^^
    `----
-
   x SelectorList
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/EC04FJYJG-jwsR3Sbo9Rfg/input.css:1:1]
  1 | div#\-0 {}
    : ^^^^^^^
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/EC04FJYJG-jwsR3Sbo9Rfg/input.css:1:1]
  1 | div#\-0 {}
    : ^^^^^^^
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/EC04FJYJG-jwsR3Sbo9Rfg/input.css:1:1]
  1 | div#\-0 {}
    : ^^^^^^^
    `----
-
   x TypeSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/EC04FJYJG-jwsR3Sbo9Rfg/input.css:1:1]
  1 | div#\-0 {}
    : ^^^
    `----
-
   x TagNameSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/EC04FJYJG-jwsR3Sbo9Rfg/input.css:1:1]
  1 | div#\-0 {}
    : ^^^
    `----
-
   x WqName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/EC04FJYJG-jwsR3Sbo9Rfg/input.css:1:1]
  1 | div#\-0 {}
    : ^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/EC04FJYJG-jwsR3Sbo9Rfg/input.css:1:1]
  1 | div#\-0 {}
    : ^^^
    `----
-
   x SubclassSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/EC04FJYJG-jwsR3Sbo9Rfg/input.css:1:1]
  1 | div#\-0 {}
    :    ^^^^
    `----
-
   x IdSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/EC04FJYJG-jwsR3Sbo9Rfg/input.css:1:1]
  1 | div#\-0 {}
    :    ^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/EC04FJYJG-jwsR3Sbo9Rfg/input.css:1:1]
  1 | div#\-0 {}
    :    ^^^^
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/EC04FJYJG-jwsR3Sbo9Rfg/input.css:1:1]
  1 | div#\-0 {}
    :         ^^
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/EC04FJYJG-jwsR3Sbo9Rfg/input.css:1:1]
  1 | div#\-0 {}

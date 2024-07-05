@@ -1,52 +1,43 @@
-
   x Stylesheet
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/o97ukh94L8_Su32XfrkoKA/input.css:1:1]
  1 | @import url("foo.css");
    : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Rule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/o97ukh94L8_Su32XfrkoKA/input.css:1:1]
  1 | @import url("foo.css");
    : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x AtRule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/o97ukh94L8_Su32XfrkoKA/input.css:1:1]
  1 | @import url("foo.css");
    : ^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x AtRuleName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/o97ukh94L8_Su32XfrkoKA/input.css:1:1]
  1 | @import url("foo.css");
    :  ^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/o97ukh94L8_Su32XfrkoKA/input.css:1:1]
  1 | @import url("foo.css");
    :  ^^^^^^
    `----
-
   x Url
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/o97ukh94L8_Su32XfrkoKA/input.css:1:1]
  1 | @import url("foo.css");
    :         ^^^^^^^^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/o97ukh94L8_Su32XfrkoKA/input.css:1:1]
  1 | @import url("foo.css");
    :         ^^^
    `----
-
   x UrlValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/o97ukh94L8_Su32XfrkoKA/input.css:1:1]
  1 | @import url("foo.css");
    :             ^^^^^^^^^
    `----
-
   x Str
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/o97ukh94L8_Su32XfrkoKA/input.css:1:1]
  1 | @import url("foo.css");

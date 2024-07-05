@@ -1,94 +1,78 @@
-
   x Stylesheet
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/aVG5R30iWKuuw8iOGrgVmw/input.css:1:1]
  1 | a|b {}
    : ^^^^^^
    `----
-
   x Rule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/aVG5R30iWKuuw8iOGrgVmw/input.css:1:1]
  1 | a|b {}
    : ^^^^^^
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/aVG5R30iWKuuw8iOGrgVmw/input.css:1:1]
  1 | a|b {}
    : ^^^^^^
    `----
-
   x SelectorList
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/aVG5R30iWKuuw8iOGrgVmw/input.css:1:1]
  1 | a|b {}
    : ^^^
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/aVG5R30iWKuuw8iOGrgVmw/input.css:1:1]
  1 | a|b {}
    : ^^^
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/aVG5R30iWKuuw8iOGrgVmw/input.css:1:1]
  1 | a|b {}
    : ^^^
    `----
-
   x TypeSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/aVG5R30iWKuuw8iOGrgVmw/input.css:1:1]
  1 | a|b {}
    : ^^^
    `----
-
   x TagNameSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/aVG5R30iWKuuw8iOGrgVmw/input.css:1:1]
  1 | a|b {}
    : ^^^
    `----
-
   x WqName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/aVG5R30iWKuuw8iOGrgVmw/input.css:1:1]
  1 | a|b {}
    : ^^^
    `----
-
   x NamespacePrefix
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/aVG5R30iWKuuw8iOGrgVmw/input.css:1:1]
  1 | a|b {}
    : ^^
    `----
-
   x Namespace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/aVG5R30iWKuuw8iOGrgVmw/input.css:1:1]
  1 | a|b {}
    : ^
    `----
-
   x NamedNamespace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/aVG5R30iWKuuw8iOGrgVmw/input.css:1:1]
  1 | a|b {}
    : ^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/aVG5R30iWKuuw8iOGrgVmw/input.css:1:1]
  1 | a|b {}
    : ^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/aVG5R30iWKuuw8iOGrgVmw/input.css:1:1]
  1 | a|b {}
    :   ^
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/aVG5R30iWKuuw8iOGrgVmw/input.css:1:1]
  1 | a|b {}
    :     ^^
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/aVG5R30iWKuuw8iOGrgVmw/input.css:1:1]
  1 | a|b {}

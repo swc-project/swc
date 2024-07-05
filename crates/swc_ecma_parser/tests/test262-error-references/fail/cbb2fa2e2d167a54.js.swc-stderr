@@ -1,4 +1,3 @@
-
   x Unexpected token `anythingElse`. Expected target
    ,-[$DIR/tests/test262-parser/fail/cbb2fa2e2d167a54.js:1:1]
  1 | function f() { new.anythingElse; }

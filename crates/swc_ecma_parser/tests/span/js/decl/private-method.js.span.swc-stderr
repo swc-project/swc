@@ -1,4 +1,3 @@
-
   x Module
    ,-[$DIR/tests/span/js/decl/private-method.js:1:1]
  1 | ,-> class Foo {
@@ -7,7 +6,6 @@
  4 | |       }
  5 | `-> }
    `----
-
   x ModuleItem
    ,-[$DIR/tests/span/js/decl/private-method.js:1:1]
  1 | ,-> class Foo {
@@ -16,7 +14,6 @@
  4 | |       }
  5 | `-> }
    `----
-
   x Stmt
    ,-[$DIR/tests/span/js/decl/private-method.js:1:1]
  1 | ,-> class Foo {
@@ -25,7 +22,6 @@
  4 | |       }
  5 | `-> }
    `----
-
   x Decl
    ,-[$DIR/tests/span/js/decl/private-method.js:1:1]
  1 | ,-> class Foo {
@@ -34,7 +30,6 @@
  4 | |       }
  5 | `-> }
    `----
-
   x ClassDecl
    ,-[$DIR/tests/span/js/decl/private-method.js:1:1]
  1 | ,-> class Foo {
@@ -43,14 +38,12 @@
  4 | |       }
  5 | `-> }
    `----
-
   x Ident
    ,-[$DIR/tests/span/js/decl/private-method.js:1:1]
  1 | class Foo {
    :       ^^^
  2 |     #foo() {
    `----
-
   x Class
    ,-[$DIR/tests/span/js/decl/private-method.js:1:1]
  1 | ,-> class Foo {
@@ -59,50 +52,44 @@
  4 | |       }
  5 | `-> }
    `----
-
   x ClassMember
-   ,-[$DIR/tests/span/js/decl/private-method.js:1:1]
+   ,-[$DIR/tests/span/js/decl/private-method.js:2:1]
  1 |     class Foo {
  2 | ,->     #foo() {
  3 | |   
  4 | `->     }
  5 |     }
    `----
-
   x PrivateMethod
-   ,-[$DIR/tests/span/js/decl/private-method.js:1:1]
+   ,-[$DIR/tests/span/js/decl/private-method.js:2:1]
  1 |     class Foo {
  2 | ,->     #foo() {
  3 | |   
  4 | `->     }
  5 |     }
    `----
-
   x PrivateName
-   ,-[$DIR/tests/span/js/decl/private-method.js:1:1]
+   ,-[$DIR/tests/span/js/decl/private-method.js:2:1]
  1 | class Foo {
  2 |     #foo() {
    :     ^^^^
    `----
-
   x Ident
-   ,-[$DIR/tests/span/js/decl/private-method.js:1:1]
+   ,-[$DIR/tests/span/js/decl/private-method.js:2:1]
  1 | class Foo {
  2 |     #foo() {
    :      ^^^
    `----
-
   x Function
-   ,-[$DIR/tests/span/js/decl/private-method.js:1:1]
+   ,-[$DIR/tests/span/js/decl/private-method.js:2:1]
  1 |     class Foo {
  2 | ,->     #foo() {
  3 | |   
  4 | `->     }
  5 |     }
    `----
-
   x BlockStmt
-   ,-[$DIR/tests/span/js/decl/private-method.js:1:1]
+   ,-[$DIR/tests/span/js/decl/private-method.js:2:1]
  1 |     class Foo {
  2 | ,->     #foo() {
  3 | |   

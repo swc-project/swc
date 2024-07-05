@@ -1,4 +1,3 @@
-
   x Unexpected token `你`. Expected jsx identifier
    ,-[$DIR/tests/jsx/errors/unicode-escape-in-identifier/input.js:1:1]
  1 | <\u{2F804}></\u{2F804}>

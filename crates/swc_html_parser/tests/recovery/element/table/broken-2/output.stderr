@@ -1,62 +1,54 @@
-
   x Stray start tag "tbody"
-   ,-[$DIR/tests/recovery/element/table/broken-2/input.html:7:1]
+   ,-[$DIR/tests/recovery/element/table/broken-2/input.html:8:1]
  7 | 
  8 | <tbody align="right">
    : ^^^^^^^^^^^^^^^^^^^^^
  9 | <tr>
    `----
-
   x Stray start tag "tr"
-    ,-[$DIR/tests/recovery/element/table/broken-2/input.html:8:1]
+    ,-[$DIR/tests/recovery/element/table/broken-2/input.html:9:1]
   8 | <tbody align="right">
   9 | <tr>
     : ^^^^
  10 |     <td>Cell 1</td>
     `----
-
   x Stray start tag "td"
-    ,-[$DIR/tests/recovery/element/table/broken-2/input.html:9:1]
+    ,-[$DIR/tests/recovery/element/table/broken-2/input.html:10:1]
   9 | <tr>
  10 |     <td>Cell 1</td>
     :     ^^^^
  11 |     <td>Cell 2</td>
     `----
-
   x Stray end tag "td"
-    ,-[$DIR/tests/recovery/element/table/broken-2/input.html:9:1]
+    ,-[$DIR/tests/recovery/element/table/broken-2/input.html:10:1]
   9 | <tr>
  10 |     <td>Cell 1</td>
     :               ^^^^^
  11 |     <td>Cell 2</td>
     `----
-
   x Stray start tag "td"
-    ,-[$DIR/tests/recovery/element/table/broken-2/input.html:10:1]
- 10 |     <td>Cell 1</td>
- 11 |     <td>Cell 2</td>
-    :     ^^^^
- 12 | </tr>
-    `----
-
-  x Stray end tag "td"
-    ,-[$DIR/tests/recovery/element/table/broken-2/input.html:10:1]
- 10 |     <td>Cell 1</td>
- 11 |     <td>Cell 2</td>
-    :               ^^^^^
- 12 | </tr>
-    `----
-
-  x Stray end tag "tr"
     ,-[$DIR/tests/recovery/element/table/broken-2/input.html:11:1]
+ 10 |     <td>Cell 1</td>
+ 11 |     <td>Cell 2</td>
+    :     ^^^^
+ 12 | </tr>
+    `----
+  x Stray end tag "td"
+    ,-[$DIR/tests/recovery/element/table/broken-2/input.html:11:1]
+ 10 |     <td>Cell 1</td>
+ 11 |     <td>Cell 2</td>
+    :               ^^^^^
+ 12 | </tr>
+    `----
+  x Stray end tag "tr"
+    ,-[$DIR/tests/recovery/element/table/broken-2/input.html:12:1]
  11 |     <td>Cell 2</td>
  12 | </tr>
     : ^^^^^
  13 | </tbody>
     `----
-
   x Stray end tag "tbody"
-    ,-[$DIR/tests/recovery/element/table/broken-2/input.html:12:1]
+    ,-[$DIR/tests/recovery/element/table/broken-2/input.html:13:1]
  12 | </tr>
  13 | </tbody>
     : ^^^^^^^^

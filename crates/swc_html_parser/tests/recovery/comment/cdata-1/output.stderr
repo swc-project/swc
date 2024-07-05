@@ -1,21 +1,18 @@
-
   x Cdata in html content
    ,-[$DIR/tests/recovery/comment/cdata-1/input.html:1:1]
  1 | <![CDATA[
    :         ^
  2 | Within this Character Data block I can
    `----
-
   x Start tag seen without seeing a doctype first, expected "<!DOCTYPE html>"
-    ,-[$DIR/tests/recovery/comment/cdata-1/input.html:8:1]
+    ,-[$DIR/tests/recovery/comment/cdata-1/input.html:9:1]
   8 | ]]>
   9 | <div>test</div>
     : ^^^^^
  10 | <![cdata[
     `----
-
   x Incorrectly opened comment
-    ,-[$DIR/tests/recovery/comment/cdata-1/input.html:9:1]
+    ,-[$DIR/tests/recovery/comment/cdata-1/input.html:10:1]
   9 | <div>test</div>
  10 | <![cdata[
     :    ^

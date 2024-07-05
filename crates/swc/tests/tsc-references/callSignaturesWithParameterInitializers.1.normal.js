@@ -1,7 +1,6 @@
 //// [callSignaturesWithParameterInitializers.ts]
-//! 
 //!   x Unexpected token `)`. Expected an identifier, [ for an array pattern, { for an object patter or ... for a rest pattern
-//!     ,-[21:1]
+//!     ,-[24:1]
 //!  21 | 
 //!  22 | // these are errors
 //!  23 | interface I {

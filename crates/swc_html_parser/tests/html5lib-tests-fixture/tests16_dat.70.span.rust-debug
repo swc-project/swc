@@ -1,56 +1,45 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests16_dat.70.html:1:1]
  1 | <!doctype html><script><!--<scr'+'ipt></script>--></script>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests16_dat.70.html:1:1]
  1 | <!doctype html><script><!--<scr'+'ipt></script>--></script>
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/html5lib-tests-fixture/tests16_dat.70.html:1:1]
  1 | <!doctype html><script><!--<scr'+'ipt></script>--></script>
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests16_dat.70.html:1:1]
  1 | <!doctype html><script><!--<scr'+'ipt></script>--></script>
    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests16_dat.70.html:1:1]
  1 | <!doctype html><script><!--<scr'+'ipt></script>--></script>
    :                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests16_dat.70.html:1:1]
  1 | <!doctype html><script><!--<scr'+'ipt></script>--></script>
    :                        ^^^^^^^^^^^^^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests16_dat.70.html:1:1]
  1 | <!doctype html><script><!--<scr'+'ipt></script>--></script>
    :                        ^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests16_dat.70.html:1:1]
  1 | <!doctype html><script><!--<scr'+'ipt></script>--></script>
    :                                                ^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests16_dat.70.html:1:1]
  1 | <!doctype html><script><!--<scr'+'ipt></script>--></script>

@@ -1,7 +1,6 @@
 //// [classWithTwoConstructorDefinitions.ts]
-//! 
 //!   x A class can only have one constructor
-//!    ,-[1:1]
+//!    ,-[3:1]
 //!  1 | class C {
 //!  2 |     constructor() { } // error
 //!  3 |     constructor(x) { } // error
@@ -10,9 +9,8 @@
 //!  5 | 
 //!  6 | class D<T> {
 //!    `----
-//! 
 //!   x A class can only have one constructor
-//!    ,-[5:1]
+//!    ,-[8:1]
 //!  5 | 
 //!  6 | class D<T> {
 //!  7 |     constructor(x: T) { } // error

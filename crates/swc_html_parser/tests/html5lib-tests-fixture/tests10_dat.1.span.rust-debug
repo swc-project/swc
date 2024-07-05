@@ -1,44 +1,35 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.1.html:1:1]
  1 | <!DOCTYPE html><svg></svg><![CDATA[a]]>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.1.html:1:1]
  1 | <!DOCTYPE html><svg></svg><![CDATA[a]]>
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.1.html:1:1]
  1 | <!DOCTYPE html><svg></svg><![CDATA[a]]>
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.1.html:1:1]
  1 | <!DOCTYPE html><svg></svg><![CDATA[a]]>
    :                ^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.1.html:1:1]
  1 | <!DOCTYPE html><svg></svg><![CDATA[a]]>
    :                ^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.1.html:1:1]
  1 | <!DOCTYPE html><svg></svg><![CDATA[a]]>
    :                           ^^^^^^^^^^^^^
    `----
-
   x Comment
    ,-[$DIR/tests/html5lib-tests-fixture/tests10_dat.1.html:1:1]
  1 | <!DOCTYPE html><svg></svg><![CDATA[a]]>

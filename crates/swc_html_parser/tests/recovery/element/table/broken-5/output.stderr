@@ -1,10 +1,8 @@
-
   x Start tag seen without seeing a doctype first, expected "<!DOCTYPE html>"
    ,-[$DIR/tests/recovery/element/table/broken-5/input.html:1:1]
  1 | <table><thead><input type="text"></thead></table>
    : ^^^^^^^
    `----
-
   x Start tag "input" seen in "table"
    ,-[$DIR/tests/recovery/element/table/broken-5/input.html:1:1]
  1 | <table><thead><input type="text"></thead></table>

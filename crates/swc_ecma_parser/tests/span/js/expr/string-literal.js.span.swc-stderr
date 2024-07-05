@@ -1,28 +1,23 @@
-
   x Module
    ,-[$DIR/tests/span/js/expr/string-literal.js:1:1]
  1 | export * from "test";
    : ^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x ModuleItem
    ,-[$DIR/tests/span/js/expr/string-literal.js:1:1]
  1 | export * from "test";
    : ^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x ModuleDecl
    ,-[$DIR/tests/span/js/expr/string-literal.js:1:1]
  1 | export * from "test";
    : ^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x ExportAll
    ,-[$DIR/tests/span/js/expr/string-literal.js:1:1]
  1 | export * from "test";
    : ^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Str
    ,-[$DIR/tests/span/js/expr/string-literal.js:1:1]
  1 | export * from "test";

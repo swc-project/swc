@@ -1,14 +1,12 @@
-
   x Expected '{'
-   ,-[$DIR/tests/recovery/declaration/wrong-name/input.css:1:1]
+   ,-[$DIR/tests/recovery/declaration/wrong-name/input.css:2:1]
  1 | a {
  2 |     20: red;
    :            ^
  3 | }
    `----
-
   x Unexpected token
-   ,-[$DIR/tests/recovery/declaration/wrong-name/input.css:1:1]
+   ,-[$DIR/tests/recovery/declaration/wrong-name/input.css:2:1]
  1 | a {
  2 |     20: red;
    :     ^^

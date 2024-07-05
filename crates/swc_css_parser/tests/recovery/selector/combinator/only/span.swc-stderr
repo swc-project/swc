@@ -1,56 +1,47 @@
-
   x Stylesheet
    ,-[$DIR/tests/recovery/selector/combinator/only/input.css:1:1]
  1 | ,-> > {
  2 | |   
  3 | `-> }
    `----
-
   x Rule
    ,-[$DIR/tests/recovery/selector/combinator/only/input.css:1:1]
  1 | ,-> > {
  2 | |   
  3 | `-> }
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/recovery/selector/combinator/only/input.css:1:1]
  1 | ,-> > {
  2 | |   
  3 | `-> }
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/selector/combinator/only/input.css:1:1]
  1 | > {
    : ^
    `----
-
   x Delim { value: '>' }
    ,-[$DIR/tests/recovery/selector/combinator/only/input.css:1:1]
  1 | > {
    : ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/recovery/selector/combinator/only/input.css:1:1]
  1 | > {
    :  ^
    `----
-
   x WhiteSpace { value: " " }
    ,-[$DIR/tests/recovery/selector/combinator/only/input.css:1:1]
  1 | > {
    :  ^
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/recovery/selector/combinator/only/input.css:1:1]
  1 | ,-> > {
  2 | |   
  3 | `-> }
    `----
-
   x LBrace
    ,-[$DIR/tests/recovery/selector/combinator/only/input.css:1:1]
  1 | > {

@@ -1,88 +1,73 @@
-
   x Stylesheet
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/hfprsTDi2yEOOmPdjb8Cew/input.css:1:1]
  1 | div#\30 {}
    : ^^^^^^^^^^
    `----
-
   x Rule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/hfprsTDi2yEOOmPdjb8Cew/input.css:1:1]
  1 | div#\30 {}
    : ^^^^^^^^^^
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/hfprsTDi2yEOOmPdjb8Cew/input.css:1:1]
  1 | div#\30 {}
    : ^^^^^^^^^^
    `----
-
   x SelectorList
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/hfprsTDi2yEOOmPdjb8Cew/input.css:1:1]
  1 | div#\30 {}
    : ^^^^^^^^
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/hfprsTDi2yEOOmPdjb8Cew/input.css:1:1]
  1 | div#\30 {}
    : ^^^^^^^^
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/hfprsTDi2yEOOmPdjb8Cew/input.css:1:1]
  1 | div#\30 {}
    : ^^^^^^^^
    `----
-
   x TypeSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/hfprsTDi2yEOOmPdjb8Cew/input.css:1:1]
  1 | div#\30 {}
    : ^^^
    `----
-
   x TagNameSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/hfprsTDi2yEOOmPdjb8Cew/input.css:1:1]
  1 | div#\30 {}
    : ^^^
    `----
-
   x WqName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/hfprsTDi2yEOOmPdjb8Cew/input.css:1:1]
  1 | div#\30 {}
    : ^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/hfprsTDi2yEOOmPdjb8Cew/input.css:1:1]
  1 | div#\30 {}
    : ^^^
    `----
-
   x SubclassSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/hfprsTDi2yEOOmPdjb8Cew/input.css:1:1]
  1 | div#\30 {}
    :    ^^^^^
    `----
-
   x IdSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/hfprsTDi2yEOOmPdjb8Cew/input.css:1:1]
  1 | div#\30 {}
    :    ^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/hfprsTDi2yEOOmPdjb8Cew/input.css:1:1]
  1 | div#\30 {}
    :    ^^^^^
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/hfprsTDi2yEOOmPdjb8Cew/input.css:1:1]
  1 | div#\30 {}
    :         ^^
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/hfprsTDi2yEOOmPdjb8Cew/input.css:1:1]
  1 | div#\30 {}

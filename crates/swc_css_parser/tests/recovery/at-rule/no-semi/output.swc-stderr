@@ -1,4 +1,3 @@
-
   x Unexpected end of file, but expected ';' or '{'
    ,-[$DIR/tests/recovery/at-rule/no-semi/input.css:1:1]
  1 | @media screen {@content}

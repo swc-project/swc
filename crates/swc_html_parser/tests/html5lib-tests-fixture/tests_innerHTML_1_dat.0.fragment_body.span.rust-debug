@@ -1,32 +1,25 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests_innerHTML_1_dat.0.fragment_body.html:1:1]
  1 | <body><span>
    : ^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests_innerHTML_1_dat.0.fragment_body.html:1:1]
  1 | <body><span>
    : ^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests_innerHTML_1_dat.0.fragment_body.html:1:1]
  1 | <body><span>
    : ^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests_innerHTML_1_dat.0.fragment_body.html:1:1]
  1 | <body><span>
    :       ^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests_innerHTML_1_dat.0.fragment_body.html:1:1]
  1 | <body><span>

@@ -1,56 +1,45 @@
-
   x Document
    ,-[$DIR/tests/fixture/element/isindex/input.html:1:1]
  1 | <!doctype html><isindex>x</isindex>x
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/fixture/element/isindex/input.html:1:1]
  1 | <!doctype html><isindex>x</isindex>x
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/fixture/element/isindex/input.html:1:1]
  1 | <!doctype html><isindex>x</isindex>x
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/fixture/element/isindex/input.html:1:1]
  1 | <!doctype html><isindex>x</isindex>x
    :                ^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/fixture/element/isindex/input.html:1:1]
  1 | <!doctype html><isindex>x</isindex>x
    :                ^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/fixture/element/isindex/input.html:1:1]
  1 | <!doctype html><isindex>x</isindex>x
    :                         ^
    `----
-
   x Text
    ,-[$DIR/tests/fixture/element/isindex/input.html:1:1]
  1 | <!doctype html><isindex>x</isindex>x
    :                         ^
    `----
-
   x Child
    ,-[$DIR/tests/fixture/element/isindex/input.html:1:1]
  1 | <!doctype html><isindex>x</isindex>x
    :                                    ^
    `----
-
   x Text
    ,-[$DIR/tests/fixture/element/isindex/input.html:1:1]
  1 | <!doctype html><isindex>x</isindex>x

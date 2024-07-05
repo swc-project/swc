@@ -1,92 +1,75 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tables01_dat.9.html:1:1]
  1 | <table><select><option>A<tr><td>B</td></tr></table>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tables01_dat.9.html:1:1]
  1 | <table><select><option>A<tr><td>B</td></tr></table>
    :        ^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tables01_dat.9.html:1:1]
  1 | <table><select><option>A<tr><td>B</td></tr></table>
    :        ^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tables01_dat.9.html:1:1]
  1 | <table><select><option>A<tr><td>B</td></tr></table>
    :                ^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tables01_dat.9.html:1:1]
  1 | <table><select><option>A<tr><td>B</td></tr></table>
    :                ^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tables01_dat.9.html:1:1]
  1 | <table><select><option>A<tr><td>B</td></tr></table>
    :                        ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tables01_dat.9.html:1:1]
  1 | <table><select><option>A<tr><td>B</td></tr></table>
    :                        ^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tables01_dat.9.html:1:1]
  1 | <table><select><option>A<tr><td>B</td></tr></table>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tables01_dat.9.html:1:1]
  1 | <table><select><option>A<tr><td>B</td></tr></table>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tables01_dat.9.html:1:1]
  1 | <table><select><option>A<tr><td>B</td></tr></table>
    :                         ^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tables01_dat.9.html:1:1]
  1 | <table><select><option>A<tr><td>B</td></tr></table>
    :                         ^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tables01_dat.9.html:1:1]
  1 | <table><select><option>A<tr><td>B</td></tr></table>
    :                             ^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tables01_dat.9.html:1:1]
  1 | <table><select><option>A<tr><td>B</td></tr></table>
    :                             ^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tables01_dat.9.html:1:1]
  1 | <table><select><option>A<tr><td>B</td></tr></table>
    :                                 ^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tables01_dat.9.html:1:1]
  1 | <table><select><option>A<tr><td>B</td></tr></table>

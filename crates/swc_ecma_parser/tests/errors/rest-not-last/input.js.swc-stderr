@@ -1,109 +1,95 @@
-
   x Rest element must be final element
    ,-[$DIR/tests/errors/rest-not-last/input.js:1:1]
  1 | [...a, b] = [...spread];
    :  ^^^^
  2 | const [...a, b] = [...spread];
    `----
-
   x Rest element must be final element
-   ,-[$DIR/tests/errors/rest-not-last/input.js:1:1]
+   ,-[$DIR/tests/errors/rest-not-last/input.js:2:1]
  1 | [...a, b] = [...spread];
  2 | const [...a, b] = [...spread];
    :        ^^^^
  3 | ([...a, b]) => {};
    `----
-
   x Rest element must be final element
-   ,-[$DIR/tests/errors/rest-not-last/input.js:2:1]
+   ,-[$DIR/tests/errors/rest-not-last/input.js:3:1]
  2 | const [...a, b] = [...spread];
  3 | ([...a, b]) => {};
    :   ^^^^
  4 | ({ ...a, b }) => {};
    `----
-
   x Rest element must be final element
-   ,-[$DIR/tests/errors/rest-not-last/input.js:3:1]
+   ,-[$DIR/tests/errors/rest-not-last/input.js:4:1]
  3 | ([...a, b]) => {};
  4 | ({ ...a, b }) => {};
    :    ^^^^
  5 | (...a, b) => {};
    `----
-
   x A rest parameter must be last in a parameter list
-   ,-[$DIR/tests/errors/rest-not-last/input.js:4:1]
+   ,-[$DIR/tests/errors/rest-not-last/input.js:5:1]
  4 | ({ ...a, b }) => {};
  5 | (...a, b) => {};
    :  ^^^^
  6 | class c {
    `----
-
   x A rest parameter must be last in a parameter list
-   ,-[$DIR/tests/errors/rest-not-last/input.js:6:1]
+   ,-[$DIR/tests/errors/rest-not-last/input.js:7:1]
  6 | class c {
  7 |     constructor(...a, b) {}
    :                 ^^^^
  8 |     fn(...a, b) {}
    `----
-
   x A rest parameter must be last in a parameter list
-   ,-[$DIR/tests/errors/rest-not-last/input.js:7:1]
+   ,-[$DIR/tests/errors/rest-not-last/input.js:8:1]
  7 |     constructor(...a, b) {}
  8 |     fn(...a, b) {}
    :        ^^^^
  9 | }
    `----
-
   x Rest element must be final element
-    ,-[$DIR/tests/errors/rest-not-last/input.js:9:1]
+    ,-[$DIR/tests/errors/rest-not-last/input.js:10:1]
   9 | }
  10 | function fn([...a, b]) {}
     :              ^^^^
  11 | function fn({ ...a, b }) {}
     `----
-
   x Rest element must be final element
-    ,-[$DIR/tests/errors/rest-not-last/input.js:10:1]
+    ,-[$DIR/tests/errors/rest-not-last/input.js:11:1]
  10 | function fn([...a, b]) {}
  11 | function fn({ ...a, b }) {}
     :               ^^^^
  12 | function fn(...a, b) {}
     `----
-
   x A rest parameter must be last in a parameter list
-    ,-[$DIR/tests/errors/rest-not-last/input.js:11:1]
+    ,-[$DIR/tests/errors/rest-not-last/input.js:12:1]
  11 | function fn({ ...a, b }) {}
  12 | function fn(...a, b) {}
     :             ^^^^
  13 | ({ ...a, b } = { ...spread });
     `----
-
   x Rest element must be final element
-    ,-[$DIR/tests/errors/rest-not-last/input.js:12:1]
+    ,-[$DIR/tests/errors/rest-not-last/input.js:13:1]
  12 | function fn(...a, b) {}
  13 | ({ ...a, b } = { ...spread });
     :    ^^^^
  14 | const { ...a, b } = { ...spread };
     `----
-
   x Rest element must be final element
-    ,-[$DIR/tests/errors/rest-not-last/input.js:13:1]
+    ,-[$DIR/tests/errors/rest-not-last/input.js:14:1]
  13 | ({ ...a, b } = { ...spread });
  14 | const { ...a, b } = { ...spread };
     :         ^^^^
  15 | for ([...a,b,] of a) {}
     `----
-
   x Rest element must be final element
-    ,-[$DIR/tests/errors/rest-not-last/input.js:14:1]
+    ,-[$DIR/tests/errors/rest-not-last/input.js:15:1]
  14 | const { ...a, b } = { ...spread };
  15 | for ([...a,b,] of a) {}
     :       ^^^^
  16 | for ({...a,b,} of b) {}
     `----
-
   x Rest element must be final element
-    ,-[$DIR/tests/errors/rest-not-last/input.js:15:1]
+    ,-[$DIR/tests/errors/rest-not-last/input.js:16:1]
  15 | for ([...a,b,] of a) {}
  16 | for ({...a,b,} of b) {}
     :       ^^^^

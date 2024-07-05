@@ -1,10 +1,8 @@
-
   x End tag "html" did not match the name of the current open element ("math")
    ,-[$DIR/tests/recovery/element/math-2/input.html:1:1]
  1 | <!doctype html><math></html>
    :                      ^^^^^^^
    `----
-
   x Unexpected end tag for "html", but there were unclosed elements
    ,-[$DIR/tests/recovery/element/math-2/input.html:1:1]
  1 | <!doctype html><math></html>

@@ -1,44 +1,35 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests5_dat.5.html:1:1]
  1 | <iframe> <!--- </iframe>->x</iframe> --> </iframe>x
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests5_dat.5.html:1:1]
  1 | <iframe> <!--- </iframe>->x</iframe> --> </iframe>x
    : ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/tests5_dat.5.html:1:1]
  1 | <iframe> <!--- </iframe>->x</iframe> --> </iframe>x
    : ^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests5_dat.5.html:1:1]
  1 | <iframe> <!--- </iframe>->x</iframe> --> </iframe>x
    :         ^^^^^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests5_dat.5.html:1:1]
  1 | <iframe> <!--- </iframe>->x</iframe> --> </iframe>x
    :         ^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests5_dat.5.html:1:1]
  1 | <iframe> <!--- </iframe>->x</iframe> --> </iframe>x
    :                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests5_dat.5.html:1:1]
  1 | <iframe> <!--- </iframe>->x</iframe> --> </iframe>x

@@ -1,4 +1,3 @@
-
   x The left-hand side of an assignment expression must be a variable or a property access.
    ,-[$DIR/tests/typescript-errors/issue-3885/input.ts:1:1]
  1 | 1++;

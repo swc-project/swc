@@ -1,6 +1,5 @@
-
   x Unexpected token `[`. Expected `.` or `(`
-   ,-[$DIR/tests/errors/issue-4991/1/input.js:2:1]
+   ,-[$DIR/tests/errors/issue-4991/1/input.js:3:1]
  2 | 
  3 | console.log(import[str]);
    :                   ^

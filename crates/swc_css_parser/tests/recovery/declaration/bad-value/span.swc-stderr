@@ -1,4 +1,3 @@
-
   x Stylesheet
     ,-[$DIR/tests/recovery/declaration/bad-value/input.css:1:1]
   1 | ,-> a {
@@ -16,7 +15,6 @@
  13 | |       value: ! ! !;
  14 | `-> }
     `----
-
   x Rule
     ,-[$DIR/tests/recovery/declaration/bad-value/input.css:1:1]
   1 | ,-> a {
@@ -34,7 +32,6 @@
  13 | |       value: ! ! !;
  14 | `-> }
     `----
-
   x QualifiedRule
     ,-[$DIR/tests/recovery/declaration/bad-value/input.css:1:1]
   1 | ,-> a {
@@ -52,56 +49,48 @@
  13 | |       value: ! ! !;
  14 | `-> }
     `----
-
   x SelectorList
    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:1:1]
  1 | a {
    : ^
  2 |     value: );
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:1:1]
  1 | a {
    : ^
  2 |     value: );
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:1:1]
  1 | a {
    : ^
  2 |     value: );
    `----
-
   x TypeSelector
    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:1:1]
  1 | a {
    : ^
  2 |     value: );
    `----
-
   x TagNameSelector
    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:1:1]
  1 | a {
    : ^
  2 |     value: );
    `----
-
   x WqName
    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:1:1]
  1 | a {
    : ^
  2 |     value: );
    `----
-
   x Ident
    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:1:1]
  1 | a {
    : ^
  2 |     value: );
    `----
-
   x SimpleBlock
     ,-[$DIR/tests/recovery/declaration/bad-value/input.css:1:1]
   1 | ,-> a {
@@ -119,808 +108,707 @@
  13 | |       value: ! ! !;
  14 | `-> }
     `----
-
   x LBrace
    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:1:1]
  1 | a {
    :   ^
  2 |     value: );
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:1:1]
+   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:2:1]
  1 | a {
  2 |     value: );
    :     ^^^^^^^^
  3 |     value: ];
    `----
-
   x Declaration
-   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:1:1]
+   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:2:1]
  1 | a {
  2 |     value: );
    :     ^^^^^^^^
  3 |     value: ];
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:1:1]
+   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:2:1]
  1 | a {
  2 |     value: );
    :     ^^^^^
  3 |     value: ];
    `----
-
   x Ident
-   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:1:1]
+   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:2:1]
  1 | a {
  2 |     value: );
    :     ^^^^^
  3 |     value: ];
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:1:1]
+   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:2:1]
  1 | a {
  2 |     value: );
    :            ^
  3 |     value: ];
    `----
-
   x RParen
-   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:1:1]
+   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:2:1]
  1 | a {
  2 |     value: );
    :            ^
  3 |     value: ];
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:2:1]
+   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:3:1]
  2 |     value: );
  3 |     value: ];
    :     ^^^^^^^^
  4 |     value: url(test test);
    `----
-
   x Declaration
-   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:2:1]
+   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:3:1]
  2 |     value: );
  3 |     value: ];
    :     ^^^^^^^^
  4 |     value: url(test test);
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:2:1]
+   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:3:1]
  2 |     value: );
  3 |     value: ];
    :     ^^^^^
  4 |     value: url(test test);
    `----
-
   x Ident
-   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:2:1]
+   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:3:1]
  2 |     value: );
  3 |     value: ];
    :     ^^^^^
  4 |     value: url(test test);
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:2:1]
+   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:3:1]
  2 |     value: );
  3 |     value: ];
    :            ^
  4 |     value: url(test test);
    `----
-
   x RBracket
-   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:2:1]
+   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:3:1]
  2 |     value: );
  3 |     value: ];
    :            ^
  4 |     value: url(test test);
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:3:1]
+   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:4:1]
  3 |     value: ];
  4 |     value: url(test test);
    :     ^^^^^^^^^^^^^^^^^^^^^
  5 |     --foo: !;
    `----
-
   x Declaration
-   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:3:1]
+   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:4:1]
  3 |     value: ];
  4 |     value: url(test test);
    :     ^^^^^^^^^^^^^^^^^^^^^
  5 |     --foo: !;
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:3:1]
+   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:4:1]
  3 |     value: ];
  4 |     value: url(test test);
    :     ^^^^^
  5 |     --foo: !;
    `----
-
   x Ident
-   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:3:1]
+   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:4:1]
  3 |     value: ];
  4 |     value: url(test test);
    :     ^^^^^
  5 |     --foo: !;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:3:1]
+   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:4:1]
  3 |     value: ];
  4 |     value: url(test test);
    :            ^^^^^^^^^^^^^^
  5 |     --foo: !;
    `----
-
   x BadUrl { raw: "url(test test)" }
-   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:3:1]
+   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:4:1]
  3 |     value: ];
  4 |     value: url(test test);
    :            ^^^^^^^^^^^^^^
  5 |     --foo: !;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:4:1]
+   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:5:1]
  4 |     value: url(test test);
  5 |     --foo: !;
    :     ^^^^^^^^
  6 |     --foo: );
    `----
-
   x Declaration
-   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:4:1]
+   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:5:1]
  4 |     value: url(test test);
  5 |     --foo: !;
    :     ^^^^^^^^
  6 |     --foo: );
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:4:1]
+   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:5:1]
  4 |     value: url(test test);
  5 |     --foo: !;
    :     ^^^^^
  6 |     --foo: );
    `----
-
   x DashedIdent
-   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:4:1]
+   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:5:1]
  4 |     value: url(test test);
  5 |     --foo: !;
    :     ^^^^^
  6 |     --foo: );
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:4:1]
+   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:5:1]
  4 |     value: url(test test);
  5 |     --foo: !;
    :            ^
  6 |     --foo: );
    `----
-
   x Delim { value: '!' }
-   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:4:1]
+   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:5:1]
  4 |     value: url(test test);
  5 |     --foo: !;
    :            ^
  6 |     --foo: );
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:5:1]
+   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:6:1]
  5 |     --foo: !;
  6 |     --foo: );
    :     ^^^^^^^^
  7 |     --foo: ];
    `----
-
   x Declaration
-   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:5:1]
+   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:6:1]
  5 |     --foo: !;
  6 |     --foo: );
    :     ^^^^^^^^
  7 |     --foo: ];
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:5:1]
+   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:6:1]
  5 |     --foo: !;
  6 |     --foo: );
    :     ^^^^^
  7 |     --foo: ];
    `----
-
   x DashedIdent
-   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:5:1]
+   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:6:1]
  5 |     --foo: !;
  6 |     --foo: );
    :     ^^^^^
  7 |     --foo: ];
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:5:1]
+   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:6:1]
  5 |     --foo: !;
  6 |     --foo: );
    :            ^
  7 |     --foo: ];
    `----
-
   x RParen
-   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:5:1]
+   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:6:1]
  5 |     --foo: !;
  6 |     --foo: );
    :            ^
  7 |     --foo: ];
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:6:1]
+   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:7:1]
  6 |     --foo: );
  7 |     --foo: ];
    :     ^^^^^^^^
  8 |     --foo: !;
    `----
-
   x Declaration
-   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:6:1]
+   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:7:1]
  6 |     --foo: );
  7 |     --foo: ];
    :     ^^^^^^^^
  8 |     --foo: !;
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:6:1]
+   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:7:1]
  6 |     --foo: );
  7 |     --foo: ];
    :     ^^^^^
  8 |     --foo: !;
    `----
-
   x DashedIdent
-   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:6:1]
+   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:7:1]
  6 |     --foo: );
  7 |     --foo: ];
    :     ^^^^^
  8 |     --foo: !;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:6:1]
+   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:7:1]
  6 |     --foo: );
  7 |     --foo: ];
    :            ^
  8 |     --foo: !;
    `----
-
   x RBracket
-   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:6:1]
+   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:7:1]
  6 |     --foo: );
  7 |     --foo: ];
    :            ^
  8 |     --foo: !;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:7:1]
+   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:8:1]
  7 |     --foo: ];
  8 |     --foo: !;
    :     ^^^^^^^^
  9 |     value: !!;
    `----
-
   x Declaration
-   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:7:1]
+   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:8:1]
  7 |     --foo: ];
  8 |     --foo: !;
    :     ^^^^^^^^
  9 |     value: !!;
    `----
-
   x DeclarationName
-   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:7:1]
+   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:8:1]
  7 |     --foo: ];
  8 |     --foo: !;
    :     ^^^^^
  9 |     value: !!;
    `----
-
   x DashedIdent
-   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:7:1]
+   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:8:1]
  7 |     --foo: ];
  8 |     --foo: !;
    :     ^^^^^
  9 |     value: !!;
    `----
-
   x ComponentValue
-   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:7:1]
+   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:8:1]
  7 |     --foo: ];
  8 |     --foo: !;
    :            ^
  9 |     value: !!;
    `----
-
   x Delim { value: '!' }
-   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:7:1]
+   ,-[$DIR/tests/recovery/declaration/bad-value/input.css:8:1]
  7 |     --foo: ];
  8 |     --foo: !;
    :            ^
  9 |     value: !!;
    `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:8:1]
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:9:1]
   8 |     --foo: !;
   9 |     value: !!;
     :     ^^^^^^^^^
  10 |     value: ! !important;
     `----
-
   x Declaration
-    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:8:1]
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:9:1]
   8 |     --foo: !;
   9 |     value: !!;
     :     ^^^^^^^^^
  10 |     value: ! !important;
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:8:1]
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:9:1]
   8 |     --foo: !;
   9 |     value: !!;
     :     ^^^^^
  10 |     value: ! !important;
     `----
-
   x Ident
-    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:8:1]
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:9:1]
   8 |     --foo: !;
   9 |     value: !!;
     :     ^^^^^
  10 |     value: ! !important;
     `----
-
-  x ComponentValue
-    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:8:1]
-  8 |     --foo: !;
-  9 |     value: !!;
-    :            ^
- 10 |     value: ! !important;
-    `----
-
-  x Delim { value: '!' }
-    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:8:1]
-  8 |     --foo: !;
-  9 |     value: !!;
-    :            ^
- 10 |     value: ! !important;
-    `----
-
-  x ComponentValue
-    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:8:1]
-  8 |     --foo: !;
-  9 |     value: !!;
-    :             ^
- 10 |     value: ! !important;
-    `----
-
-  x Delim { value: '!' }
-    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:8:1]
-  8 |     --foo: !;
-  9 |     value: !!;
-    :             ^
- 10 |     value: ! !important;
-    `----
-
   x ComponentValue
     ,-[$DIR/tests/recovery/declaration/bad-value/input.css:9:1]
+  8 |     --foo: !;
+  9 |     value: !!;
+    :            ^
+ 10 |     value: ! !important;
+    `----
+  x Delim { value: '!' }
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:9:1]
+  8 |     --foo: !;
+  9 |     value: !!;
+    :            ^
+ 10 |     value: ! !important;
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:9:1]
+  8 |     --foo: !;
+  9 |     value: !!;
+    :             ^
+ 10 |     value: ! !important;
+    `----
+  x Delim { value: '!' }
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:9:1]
+  8 |     --foo: !;
+  9 |     value: !!;
+    :             ^
+ 10 |     value: ! !important;
+    `----
+  x ComponentValue
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:10:1]
   9 |     value: !!;
  10 |     value: ! !important;
     :     ^^^^^^^^^^^^^^^^^^^
  11 |     value: ! !important unknown;
     `----
-
   x Declaration
-    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:9:1]
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:10:1]
   9 |     value: !!;
  10 |     value: ! !important;
     :     ^^^^^^^^^^^^^^^^^^^
  11 |     value: ! !important unknown;
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:9:1]
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:10:1]
   9 |     value: !!;
  10 |     value: ! !important;
     :     ^^^^^
  11 |     value: ! !important unknown;
     `----
-
   x Ident
-    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:9:1]
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:10:1]
   9 |     value: !!;
  10 |     value: ! !important;
     :     ^^^^^
  11 |     value: ! !important unknown;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:9:1]
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:10:1]
   9 |     value: !!;
  10 |     value: ! !important;
     :            ^
  11 |     value: ! !important unknown;
     `----
-
   x Delim { value: '!' }
-    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:9:1]
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:10:1]
   9 |     value: !!;
  10 |     value: ! !important;
     :            ^
  11 |     value: ! !important unknown;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:9:1]
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:10:1]
   9 |     value: !!;
  10 |     value: ! !important;
     :             ^
  11 |     value: ! !important unknown;
     `----
-
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:9:1]
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:10:1]
   9 |     value: !!;
  10 |     value: ! !important;
     :             ^
  11 |     value: ! !important unknown;
     `----
-
   x ImportantFlag
-    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:9:1]
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:10:1]
   9 |     value: !!;
  10 |     value: ! !important;
     :              ^^^^^^^^^^
  11 |     value: ! !important unknown;
     `----
-
   x Ident
-    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:9:1]
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:10:1]
   9 |     value: !!;
  10 |     value: ! !important;
     :               ^^^^^^^^^
  11 |     value: ! !important unknown;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:10:1]
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:11:1]
  10 |     value: ! !important;
  11 |     value: ! !important unknown;
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
  12 |     value: ! unknown;
     `----
-
   x Declaration
-    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:10:1]
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:11:1]
  10 |     value: ! !important;
  11 |     value: ! !important unknown;
     :     ^^^^^^^^^^^^^^^^^^^^^^^^^^^
  12 |     value: ! unknown;
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:10:1]
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:11:1]
  10 |     value: ! !important;
  11 |     value: ! !important unknown;
     :     ^^^^^
  12 |     value: ! unknown;
     `----
-
   x Ident
-    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:10:1]
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:11:1]
  10 |     value: ! !important;
  11 |     value: ! !important unknown;
     :     ^^^^^
  12 |     value: ! unknown;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:10:1]
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:11:1]
  10 |     value: ! !important;
  11 |     value: ! !important unknown;
     :            ^
  12 |     value: ! unknown;
     `----
-
   x Delim { value: '!' }
-    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:10:1]
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:11:1]
  10 |     value: ! !important;
  11 |     value: ! !important unknown;
     :            ^
  12 |     value: ! unknown;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:10:1]
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:11:1]
  10 |     value: ! !important;
  11 |     value: ! !important unknown;
     :             ^
  12 |     value: ! unknown;
     `----
-
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:10:1]
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:11:1]
  10 |     value: ! !important;
  11 |     value: ! !important unknown;
     :             ^
  12 |     value: ! unknown;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:10:1]
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:11:1]
  10 |     value: ! !important;
  11 |     value: ! !important unknown;
     :              ^
  12 |     value: ! unknown;
     `----
-
   x Delim { value: '!' }
-    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:10:1]
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:11:1]
  10 |     value: ! !important;
  11 |     value: ! !important unknown;
     :              ^
  12 |     value: ! unknown;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:10:1]
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:11:1]
  10 |     value: ! !important;
  11 |     value: ! !important unknown;
     :               ^^^^^^^^^
  12 |     value: ! unknown;
     `----
-
   x Ident { value: "important", raw: "important" }
-    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:10:1]
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:11:1]
  10 |     value: ! !important;
  11 |     value: ! !important unknown;
     :               ^^^^^^^^^
  12 |     value: ! unknown;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:10:1]
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:11:1]
  10 |     value: ! !important;
  11 |     value: ! !important unknown;
     :                        ^
  12 |     value: ! unknown;
     `----
-
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:10:1]
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:11:1]
  10 |     value: ! !important;
  11 |     value: ! !important unknown;
     :                        ^
  12 |     value: ! unknown;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:10:1]
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:11:1]
  10 |     value: ! !important;
  11 |     value: ! !important unknown;
     :                         ^^^^^^^
  12 |     value: ! unknown;
     `----
-
   x Ident { value: "unknown", raw: "unknown" }
-    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:10:1]
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:11:1]
  10 |     value: ! !important;
  11 |     value: ! !important unknown;
     :                         ^^^^^^^
  12 |     value: ! unknown;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:11:1]
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:12:1]
  11 |     value: ! !important unknown;
  12 |     value: ! unknown;
     :     ^^^^^^^^^^^^^^^^
  13 |     value: ! ! !;
     `----
-
   x Declaration
-    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:11:1]
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:12:1]
  11 |     value: ! !important unknown;
  12 |     value: ! unknown;
     :     ^^^^^^^^^^^^^^^^
  13 |     value: ! ! !;
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:11:1]
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:12:1]
  11 |     value: ! !important unknown;
  12 |     value: ! unknown;
     :     ^^^^^
  13 |     value: ! ! !;
     `----
-
   x Ident
-    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:11:1]
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:12:1]
  11 |     value: ! !important unknown;
  12 |     value: ! unknown;
     :     ^^^^^
  13 |     value: ! ! !;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:11:1]
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:12:1]
  11 |     value: ! !important unknown;
  12 |     value: ! unknown;
     :            ^
  13 |     value: ! ! !;
     `----
-
   x Delim { value: '!' }
-    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:11:1]
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:12:1]
  11 |     value: ! !important unknown;
  12 |     value: ! unknown;
     :            ^
  13 |     value: ! ! !;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:11:1]
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:12:1]
  11 |     value: ! !important unknown;
  12 |     value: ! unknown;
     :             ^
  13 |     value: ! ! !;
     `----
-
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:11:1]
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:12:1]
  11 |     value: ! !important unknown;
  12 |     value: ! unknown;
     :             ^
  13 |     value: ! ! !;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:11:1]
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:12:1]
  11 |     value: ! !important unknown;
  12 |     value: ! unknown;
     :              ^^^^^^^
  13 |     value: ! ! !;
     `----
-
   x Ident { value: "unknown", raw: "unknown" }
-    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:11:1]
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:12:1]
  11 |     value: ! !important unknown;
  12 |     value: ! unknown;
     :              ^^^^^^^
  13 |     value: ! ! !;
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:12:1]
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:13:1]
  12 |     value: ! unknown;
  13 |     value: ! ! !;
     :     ^^^^^^^^^^^^
  14 | }
     `----
-
   x Declaration
-    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:12:1]
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:13:1]
  12 |     value: ! unknown;
  13 |     value: ! ! !;
     :     ^^^^^^^^^^^^
  14 | }
     `----
-
   x DeclarationName
-    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:12:1]
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:13:1]
  12 |     value: ! unknown;
  13 |     value: ! ! !;
     :     ^^^^^
  14 | }
     `----
-
   x Ident
-    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:12:1]
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:13:1]
  12 |     value: ! unknown;
  13 |     value: ! ! !;
     :     ^^^^^
  14 | }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:12:1]
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:13:1]
  12 |     value: ! unknown;
  13 |     value: ! ! !;
     :            ^
  14 | }
     `----
-
   x Delim { value: '!' }
-    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:12:1]
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:13:1]
  12 |     value: ! unknown;
  13 |     value: ! ! !;
     :            ^
  14 | }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:12:1]
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:13:1]
  12 |     value: ! unknown;
  13 |     value: ! ! !;
     :             ^
  14 | }
     `----
-
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:12:1]
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:13:1]
  12 |     value: ! unknown;
  13 |     value: ! ! !;
     :             ^
  14 | }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:12:1]
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:13:1]
  12 |     value: ! unknown;
  13 |     value: ! ! !;
     :              ^
  14 | }
     `----
-
   x Delim { value: '!' }
-    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:12:1]
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:13:1]
  12 |     value: ! unknown;
  13 |     value: ! ! !;
     :              ^
  14 | }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:12:1]
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:13:1]
  12 |     value: ! unknown;
  13 |     value: ! ! !;
     :               ^
  14 | }
     `----
-
   x WhiteSpace { value: " " }
-    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:12:1]
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:13:1]
  12 |     value: ! unknown;
  13 |     value: ! ! !;
     :               ^
  14 | }
     `----
-
   x ComponentValue
-    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:12:1]
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:13:1]
  12 |     value: ! unknown;
  13 |     value: ! ! !;
     :                ^
  14 | }
     `----
-
   x Delim { value: '!' }
-    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:12:1]
+    ,-[$DIR/tests/recovery/declaration/bad-value/input.css:13:1]
  12 |     value: ! unknown;
  13 |     value: ! ! !;
     :                ^

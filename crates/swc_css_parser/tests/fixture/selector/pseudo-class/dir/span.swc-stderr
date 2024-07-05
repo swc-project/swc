@@ -1,4 +1,3 @@
-
   x Stylesheet
    ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:1:1]
  1 | ,-> :dir(ltr) {}
@@ -7,458 +6,398 @@
  4 | |   :dir(   rtl   ) {}
  5 | `-> :dir(   RTL   ) {}
    `----
-
   x Rule
    ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:1:1]
  1 | :dir(ltr) {}
    : ^^^^^^^^^^^^
  2 | :dir(   ltr   ) {}
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:1:1]
  1 | :dir(ltr) {}
    : ^^^^^^^^^^^^
  2 | :dir(   ltr   ) {}
    `----
-
   x SelectorList
    ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:1:1]
  1 | :dir(ltr) {}
    : ^^^^^^^^^
  2 | :dir(   ltr   ) {}
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:1:1]
  1 | :dir(ltr) {}
    : ^^^^^^^^^
  2 | :dir(   ltr   ) {}
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:1:1]
  1 | :dir(ltr) {}
    : ^^^^^^^^^
  2 | :dir(   ltr   ) {}
    `----
-
   x SubclassSelector
    ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:1:1]
  1 | :dir(ltr) {}
    : ^^^^^^^^^
  2 | :dir(   ltr   ) {}
    `----
-
   x PseudoClassSelector
    ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:1:1]
  1 | :dir(ltr) {}
    : ^^^^^^^^^
  2 | :dir(   ltr   ) {}
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:1:1]
  1 | :dir(ltr) {}
    :  ^^^
  2 | :dir(   ltr   ) {}
    `----
-
   x PseudoClassSelectorChildren
    ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:1:1]
  1 | :dir(ltr) {}
    :      ^^^
  2 | :dir(   ltr   ) {}
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:1:1]
  1 | :dir(ltr) {}
    :      ^^^
  2 | :dir(   ltr   ) {}
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:1:1]
  1 | :dir(ltr) {}
    :           ^^
  2 | :dir(   ltr   ) {}
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:1:1]
  1 | :dir(ltr) {}
    :           ^
  2 | :dir(   ltr   ) {}
    `----
-
   x Rule
-   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:2:1]
  1 | :dir(ltr) {}
  2 | :dir(   ltr   ) {}
    : ^^^^^^^^^^^^^^^^^^
  3 | :dir(rtl) {}
    `----
-
   x QualifiedRule
-   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:2:1]
  1 | :dir(ltr) {}
  2 | :dir(   ltr   ) {}
    : ^^^^^^^^^^^^^^^^^^
  3 | :dir(rtl) {}
    `----
-
   x SelectorList
-   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:2:1]
  1 | :dir(ltr) {}
  2 | :dir(   ltr   ) {}
    : ^^^^^^^^^^^^^^^
  3 | :dir(rtl) {}
    `----
-
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:2:1]
  1 | :dir(ltr) {}
  2 | :dir(   ltr   ) {}
    : ^^^^^^^^^^^^^^^
  3 | :dir(rtl) {}
    `----
-
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:2:1]
  1 | :dir(ltr) {}
  2 | :dir(   ltr   ) {}
    : ^^^^^^^^^^^^^^^
  3 | :dir(rtl) {}
    `----
-
   x SubclassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:2:1]
  1 | :dir(ltr) {}
  2 | :dir(   ltr   ) {}
    : ^^^^^^^^^^^^^^^
  3 | :dir(rtl) {}
    `----
-
   x PseudoClassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:2:1]
  1 | :dir(ltr) {}
  2 | :dir(   ltr   ) {}
    : ^^^^^^^^^^^^^^^
  3 | :dir(rtl) {}
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:2:1]
  1 | :dir(ltr) {}
  2 | :dir(   ltr   ) {}
    :  ^^^
  3 | :dir(rtl) {}
    `----
-
   x PseudoClassSelectorChildren
-   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:2:1]
  1 | :dir(ltr) {}
  2 | :dir(   ltr   ) {}
    :         ^^^
  3 | :dir(rtl) {}
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:2:1]
  1 | :dir(ltr) {}
  2 | :dir(   ltr   ) {}
    :         ^^^
  3 | :dir(rtl) {}
    `----
-
   x SimpleBlock
-   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:2:1]
  1 | :dir(ltr) {}
  2 | :dir(   ltr   ) {}
    :                 ^^
  3 | :dir(rtl) {}
    `----
-
   x LBrace
-   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:1:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:2:1]
  1 | :dir(ltr) {}
  2 | :dir(   ltr   ) {}
    :                 ^
  3 | :dir(rtl) {}
    `----
-
   x Rule
-   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:3:1]
  2 | :dir(   ltr   ) {}
  3 | :dir(rtl) {}
    : ^^^^^^^^^^^^
  4 | :dir(   rtl   ) {}
    `----
-
   x QualifiedRule
-   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:3:1]
  2 | :dir(   ltr   ) {}
  3 | :dir(rtl) {}
    : ^^^^^^^^^^^^
  4 | :dir(   rtl   ) {}
    `----
-
   x SelectorList
-   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:3:1]
  2 | :dir(   ltr   ) {}
  3 | :dir(rtl) {}
    : ^^^^^^^^^
  4 | :dir(   rtl   ) {}
    `----
-
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:3:1]
  2 | :dir(   ltr   ) {}
  3 | :dir(rtl) {}
    : ^^^^^^^^^
  4 | :dir(   rtl   ) {}
    `----
-
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:3:1]
  2 | :dir(   ltr   ) {}
  3 | :dir(rtl) {}
    : ^^^^^^^^^
  4 | :dir(   rtl   ) {}
    `----
-
   x SubclassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:3:1]
  2 | :dir(   ltr   ) {}
  3 | :dir(rtl) {}
    : ^^^^^^^^^
  4 | :dir(   rtl   ) {}
    `----
-
   x PseudoClassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:3:1]
  2 | :dir(   ltr   ) {}
  3 | :dir(rtl) {}
    : ^^^^^^^^^
  4 | :dir(   rtl   ) {}
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:3:1]
  2 | :dir(   ltr   ) {}
  3 | :dir(rtl) {}
    :  ^^^
  4 | :dir(   rtl   ) {}
    `----
-
   x PseudoClassSelectorChildren
-   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:3:1]
  2 | :dir(   ltr   ) {}
  3 | :dir(rtl) {}
    :      ^^^
  4 | :dir(   rtl   ) {}
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:3:1]
  2 | :dir(   ltr   ) {}
  3 | :dir(rtl) {}
    :      ^^^
  4 | :dir(   rtl   ) {}
    `----
-
   x SimpleBlock
-   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:3:1]
  2 | :dir(   ltr   ) {}
  3 | :dir(rtl) {}
    :           ^^
  4 | :dir(   rtl   ) {}
    `----
-
   x LBrace
-   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:2:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:3:1]
  2 | :dir(   ltr   ) {}
  3 | :dir(rtl) {}
    :           ^
  4 | :dir(   rtl   ) {}
    `----
-
   x Rule
-   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:3:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:4:1]
  3 | :dir(rtl) {}
  4 | :dir(   rtl   ) {}
    : ^^^^^^^^^^^^^^^^^^
  5 | :dir(   RTL   ) {}
    `----
-
   x QualifiedRule
-   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:3:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:4:1]
  3 | :dir(rtl) {}
  4 | :dir(   rtl   ) {}
    : ^^^^^^^^^^^^^^^^^^
  5 | :dir(   RTL   ) {}
    `----
-
   x SelectorList
-   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:3:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:4:1]
  3 | :dir(rtl) {}
  4 | :dir(   rtl   ) {}
    : ^^^^^^^^^^^^^^^
  5 | :dir(   RTL   ) {}
    `----
-
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:3:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:4:1]
  3 | :dir(rtl) {}
  4 | :dir(   rtl   ) {}
    : ^^^^^^^^^^^^^^^
  5 | :dir(   RTL   ) {}
    `----
-
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:3:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:4:1]
  3 | :dir(rtl) {}
  4 | :dir(   rtl   ) {}
    : ^^^^^^^^^^^^^^^
  5 | :dir(   RTL   ) {}
    `----
-
   x SubclassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:3:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:4:1]
  3 | :dir(rtl) {}
  4 | :dir(   rtl   ) {}
    : ^^^^^^^^^^^^^^^
  5 | :dir(   RTL   ) {}
    `----
-
   x PseudoClassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:3:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:4:1]
  3 | :dir(rtl) {}
  4 | :dir(   rtl   ) {}
    : ^^^^^^^^^^^^^^^
  5 | :dir(   RTL   ) {}
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:3:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:4:1]
  3 | :dir(rtl) {}
  4 | :dir(   rtl   ) {}
    :  ^^^
  5 | :dir(   RTL   ) {}
    `----
-
   x PseudoClassSelectorChildren
-   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:3:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:4:1]
  3 | :dir(rtl) {}
  4 | :dir(   rtl   ) {}
    :         ^^^
  5 | :dir(   RTL   ) {}
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:3:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:4:1]
  3 | :dir(rtl) {}
  4 | :dir(   rtl   ) {}
    :         ^^^
  5 | :dir(   RTL   ) {}
    `----
-
   x SimpleBlock
-   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:3:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:4:1]
  3 | :dir(rtl) {}
  4 | :dir(   rtl   ) {}
    :                 ^^
  5 | :dir(   RTL   ) {}
    `----
-
   x LBrace
-   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:3:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:4:1]
  3 | :dir(rtl) {}
  4 | :dir(   rtl   ) {}
    :                 ^
  5 | :dir(   RTL   ) {}
    `----
-
   x Rule
-   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:4:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:5:1]
  4 | :dir(   rtl   ) {}
  5 | :dir(   RTL   ) {}
    : ^^^^^^^^^^^^^^^^^^
    `----
-
   x QualifiedRule
-   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:4:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:5:1]
  4 | :dir(   rtl   ) {}
  5 | :dir(   RTL   ) {}
    : ^^^^^^^^^^^^^^^^^^
    `----
-
   x SelectorList
-   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:4:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:5:1]
  4 | :dir(   rtl   ) {}
  5 | :dir(   RTL   ) {}
    : ^^^^^^^^^^^^^^^
    `----
-
   x ComplexSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:4:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:5:1]
  4 | :dir(   rtl   ) {}
  5 | :dir(   RTL   ) {}
    : ^^^^^^^^^^^^^^^
    `----
-
   x CompoundSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:4:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:5:1]
  4 | :dir(   rtl   ) {}
  5 | :dir(   RTL   ) {}
    : ^^^^^^^^^^^^^^^
    `----
-
   x SubclassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:4:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:5:1]
  4 | :dir(   rtl   ) {}
  5 | :dir(   RTL   ) {}
    : ^^^^^^^^^^^^^^^
    `----
-
   x PseudoClassSelector
-   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:4:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:5:1]
  4 | :dir(   rtl   ) {}
  5 | :dir(   RTL   ) {}
    : ^^^^^^^^^^^^^^^
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:4:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:5:1]
  4 | :dir(   rtl   ) {}
  5 | :dir(   RTL   ) {}
    :  ^^^
    `----
-
   x PseudoClassSelectorChildren
-   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:4:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:5:1]
  4 | :dir(   rtl   ) {}
  5 | :dir(   RTL   ) {}
    :         ^^^
    `----
-
   x Ident
-   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:4:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:5:1]
  4 | :dir(   rtl   ) {}
  5 | :dir(   RTL   ) {}
    :         ^^^
    `----
-
   x SimpleBlock
-   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:4:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:5:1]
  4 | :dir(   rtl   ) {}
  5 | :dir(   RTL   ) {}
    :                 ^^
    `----
-
   x LBrace
-   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:4:1]
+   ,-[$DIR/tests/fixture/selector/pseudo-class/dir/input.css:5:1]
  4 | :dir(   rtl   ) {}
  5 | :dir(   RTL   ) {}
    :                 ^

@@ -1,124 +1,103 @@
-
   x Stylesheet
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:1:1]
  1 | a { value: 10e\32x }
    : ^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Rule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:1:1]
  1 | a { value: 10e\32x }
    : ^^^^^^^^^^^^^^^^^^^^
    `----
-
   x QualifiedRule
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:1:1]
  1 | a { value: 10e\32x }
    : ^^^^^^^^^^^^^^^^^^^^
    `----
-
   x SelectorList
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:1:1]
  1 | a { value: 10e\32x }
    : ^
    `----
-
   x ComplexSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:1:1]
  1 | a { value: 10e\32x }
    : ^
    `----
-
   x CompoundSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:1:1]
  1 | a { value: 10e\32x }
    : ^
    `----
-
   x TypeSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:1:1]
  1 | a { value: 10e\32x }
    : ^
    `----
-
   x TagNameSelector
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:1:1]
  1 | a { value: 10e\32x }
    : ^
    `----
-
   x WqName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:1:1]
  1 | a { value: 10e\32x }
    : ^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:1:1]
  1 | a { value: 10e\32x }
    : ^
    `----
-
   x SimpleBlock
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:1:1]
  1 | a { value: 10e\32x }
    :   ^^^^^^^^^^^^^^^^^^
    `----
-
   x LBrace
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:1:1]
  1 | a { value: 10e\32x }
    :   ^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:1:1]
  1 | a { value: 10e\32x }
    :     ^^^^^^^^^^^^^^^
    `----
-
   x Declaration
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:1:1]
  1 | a { value: 10e\32x }
    :     ^^^^^^^^^^^^^^^
    `----
-
   x DeclarationName
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:1:1]
  1 | a { value: 10e\32x }
    :     ^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:1:1]
  1 | a { value: 10e\32x }
    :     ^^^^^
    `----
-
   x ComponentValue
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:1:1]
  1 | a { value: 10e\32x }
    :            ^^^^^^^
    `----
-
   x Dimension
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:1:1]
  1 | a { value: 10e\32x }
    :            ^^^^^^^
    `----
-
   x UnknownDimension
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:1:1]
  1 | a { value: 10e\32x }
    :            ^^^^^^^
    `----
-
   x Number
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:1:1]
  1 | a { value: 10e\32x }
    :            ^^
    `----
-
   x Ident
    ,-[$DIR/tests/fixture/vendor/esbuild/misc/zz_B6vK87VUHpkOMFR_R1g/input.css:1:1]
  1 | a { value: 10e\32x }

@@ -1,20 +1,15 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.52.fragment_svg_desc.html:1:1]
  1 | <frameset>X
    : ^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.52.fragment_svg_desc.html:1:1]
  1 | <frameset>X
    : ^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/foreign-fragment_dat.52.fragment_svg_desc.html:1:1]
  1 | <frameset>X

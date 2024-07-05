@@ -1,16 +1,13 @@
-
   x Start tag seen without seeing a doctype first, expected "<!DOCTYPE html>"
    ,-[$DIR/tests/recovery/element/font/input.html:1:1]
  1 | <p><font size=4><font color=red><font color=red><p>X
    : ^^^
    `----
-
   x End tag "p" implied, but there were open elements
    ,-[$DIR/tests/recovery/element/font/input.html:1:1]
  1 | <p><font size=4><font color=red><font color=red><p>X
    :                                                 ^^^
    `----
-
   x End of file seen and there were open elements
    ,-[$DIR/tests/recovery/element/font/input.html:1:1]
  1 | <p><font size=4><font color=red><font color=red><p>X

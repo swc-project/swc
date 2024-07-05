@@ -1,44 +1,35 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/math_dat.5.fragment_tbody.html:1:1]
  1 | <math><tbody><mo></table>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/math_dat.5.fragment_tbody.html:1:1]
  1 | <math><tbody><mo></table>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/math_dat.5.fragment_tbody.html:1:1]
  1 | <math><tbody><mo></table>
    : ^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/math_dat.5.fragment_tbody.html:1:1]
  1 | <math><tbody><mo></table>
    :       ^^^^^^^^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/math_dat.5.fragment_tbody.html:1:1]
  1 | <math><tbody><mo></table>
    :       ^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/math_dat.5.fragment_tbody.html:1:1]
  1 | <math><tbody><mo></table>
    :              ^^^^^^^^^^^^
    `----
-
   x Element
    ,-[$DIR/tests/html5lib-tests-fixture/math_dat.5.fragment_tbody.html:1:1]
  1 | <math><tbody><mo></table>

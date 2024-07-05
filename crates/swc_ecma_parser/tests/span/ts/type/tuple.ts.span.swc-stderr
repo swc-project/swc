@@ -1,100 +1,83 @@
-
   x Module
    ,-[$DIR/tests/span/ts/type/tuple.ts:1:1]
  1 | type A = [any, string, boolean]
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x ModuleItem
    ,-[$DIR/tests/span/ts/type/tuple.ts:1:1]
  1 | type A = [any, string, boolean]
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Stmt
    ,-[$DIR/tests/span/ts/type/tuple.ts:1:1]
  1 | type A = [any, string, boolean]
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Decl
    ,-[$DIR/tests/span/ts/type/tuple.ts:1:1]
  1 | type A = [any, string, boolean]
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x TsTypeAliasDecl
    ,-[$DIR/tests/span/ts/type/tuple.ts:1:1]
  1 | type A = [any, string, boolean]
    : ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Ident
    ,-[$DIR/tests/span/ts/type/tuple.ts:1:1]
  1 | type A = [any, string, boolean]
    :      ^
    `----
-
   x TsType
    ,-[$DIR/tests/span/ts/type/tuple.ts:1:1]
  1 | type A = [any, string, boolean]
    :          ^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x TsTupleType
    ,-[$DIR/tests/span/ts/type/tuple.ts:1:1]
  1 | type A = [any, string, boolean]
    :          ^^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x TsTupleElement
    ,-[$DIR/tests/span/ts/type/tuple.ts:1:1]
  1 | type A = [any, string, boolean]
    :           ^^^
    `----
-
   x TsType
    ,-[$DIR/tests/span/ts/type/tuple.ts:1:1]
  1 | type A = [any, string, boolean]
    :           ^^^
    `----
-
   x TsKeywordType
    ,-[$DIR/tests/span/ts/type/tuple.ts:1:1]
  1 | type A = [any, string, boolean]
    :           ^^^
    `----
-
   x TsTupleElement
    ,-[$DIR/tests/span/ts/type/tuple.ts:1:1]
  1 | type A = [any, string, boolean]
    :                ^^^^^^
    `----
-
   x TsType
    ,-[$DIR/tests/span/ts/type/tuple.ts:1:1]
  1 | type A = [any, string, boolean]
    :                ^^^^^^
    `----
-
   x TsKeywordType
    ,-[$DIR/tests/span/ts/type/tuple.ts:1:1]
  1 | type A = [any, string, boolean]
    :                ^^^^^^
    `----
-
   x TsTupleElement
    ,-[$DIR/tests/span/ts/type/tuple.ts:1:1]
  1 | type A = [any, string, boolean]
    :                        ^^^^^^^
    `----
-
   x TsType
    ,-[$DIR/tests/span/ts/type/tuple.ts:1:1]
  1 | type A = [any, string, boolean]
    :                        ^^^^^^^
    `----
-
   x TsKeywordType
    ,-[$DIR/tests/span/ts/type/tuple.ts:1:1]
  1 | type A = [any, string, boolean]

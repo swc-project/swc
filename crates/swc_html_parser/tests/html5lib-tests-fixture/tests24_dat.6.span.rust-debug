@@ -1,32 +1,25 @@
-
   x Document
    ,-[$DIR/tests/html5lib-tests-fixture/tests24_dat.6.html:1:1]
  1 | <!DOCTYPE html>&Gopf;
    : ^^^^^^^^^^^^^^^^^^^^^
    `----
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests24_dat.6.html:1:1]
  1 | <!DOCTYPE html>&Gopf;
    : ^^^^^^^^^^^^^^^
    `----
-
   x DocumentType
    ,-[$DIR/tests/html5lib-tests-fixture/tests24_dat.6.html:1:1]
  1 | <!DOCTYPE html>&Gopf;
    : ^^^^^^^^^^^^^^^
    `----
-
   x Child
-
   x Element
-
   x Child
    ,-[$DIR/tests/html5lib-tests-fixture/tests24_dat.6.html:1:1]
  1 | <!DOCTYPE html>&Gopf;
    :                ^^^^^^
    `----
-
   x Text
    ,-[$DIR/tests/html5lib-tests-fixture/tests24_dat.6.html:1:1]
  1 | <!DOCTYPE html>&Gopf;
