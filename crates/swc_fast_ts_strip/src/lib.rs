@@ -7,10 +7,10 @@ use swc_common::{
     BytePos, FileName, SourceMap, Span, Spanned,
 };
 use swc_ecma_ast::{
-    BindingIdent, ClassDecl, Decorator, EsVersion, Ident, ImportDecl, ImportSpecifier, Param, Pat,
-    Program, TsAsExpr, TsConstAssertion, TsEnumDecl, TsInstantiation, TsModuleDecl, TsModuleName,
-    TsNamespaceDecl, TsNonNullExpr, TsParamPropParam, TsSatisfiesExpr, TsTypeAliasDecl, TsTypeAnn,
-    TsTypeParamDecl,
+    BindingIdent, Class, ClassDecl, Decorator, EsVersion, Ident, ImportDecl, ImportSpecifier,
+    Param, Pat, Program, TsAsExpr, TsConstAssertion, TsEnumDecl, TsInstantiation, TsModuleDecl,
+    TsModuleName, TsNamespaceDecl, TsNonNullExpr, TsParamPropParam, TsSatisfiesExpr,
+    TsTypeAliasDecl, TsTypeAnn, TsTypeParamDecl,
 };
 use swc_ecma_parser::{
     parse_file_as_module, parse_file_as_program, parse_file_as_script, Syntax, TsSyntax,
@@ -129,6 +129,17 @@ impl Visit for TsStrip {
         if n.optional {
             self.add_replacement(span(n.id.span.hi, n.id.span.hi + BytePos(1)));
         }
+    }
+
+    fn visit_class(&mut self, n: &Class) {
+        n.visit_children_with(self);
+
+        let lo = match &n.super_class {
+            Some(v) => v.span().hi,
+            None => n.span.lo,
+        };
+        let hi = skip_until(self.src.as_bytes(), lo.0, b'{');
+        self.add_replacement(span(lo, BytePos(hi)));
     }
 
     fn visit_decorator(&mut self, n: &Decorator) {
