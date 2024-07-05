@@ -9,8 +9,9 @@ use swc_core::{
     },
     ecma::{
         ast::{
-            Decorator, EsVersion, Program, TsAsExpr, TsEnumDecl, TsModuleDecl, TsNamespaceDecl,
-            TsNonNullExpr, TsParamPropParam, TsSatisfiesExpr, TsTypeAliasDecl, TsTypeAnn,
+            Decorator, EsVersion, Program, TsAsExpr, TsConstAssertion, TsEnumDecl, TsInstantiation,
+            TsModuleDecl, TsNamespaceDecl, TsNonNullExpr, TsParamPropParam, TsSatisfiesExpr,
+            TsTypeAliasDecl, TsTypeAnn,
         },
         parser::{
             parse_file_as_module, parse_file_as_program, parse_file_as_script, Syntax, TsSyntax,
@@ -127,6 +128,18 @@ impl Visit for TsStrip<'_> {
         });
     }
 
+    fn visit_ts_as_expr(&mut self, n: &TsAsExpr) {
+        self.add_replacement(span(n.expr.span().hi, n.span.hi));
+
+        n.expr.visit_children_with(self);
+    }
+
+    fn visit_ts_const_assertion(&mut self, n: &TsConstAssertion) {
+        self.add_replacement(span(n.expr.span().hi, n.span.hi));
+
+        n.expr.visit_children_with(self);
+    }
+
     fn visit_ts_enum_decl(&mut self, e: &TsEnumDecl) {
         if e.declare {
             self.add_replacement(e.span);
@@ -139,6 +152,12 @@ impl Visit for TsStrip<'_> {
                 "TypeScript enum is not supported in strip-only mode",
             );
         });
+    }
+
+    fn visit_ts_instantiation(&mut self, n: &TsInstantiation) {
+        self.add_replacement(span(n.expr.span().hi, n.span.hi));
+
+        n.expr.visit_children_with(self);
     }
 
     fn visit_ts_module_decl(&mut self, n: &TsModuleDecl) {
@@ -169,6 +188,12 @@ impl Visit for TsStrip<'_> {
         });
     }
 
+    fn visit_ts_non_null_expr(&mut self, n: &TsNonNullExpr) {
+        self.add_replacement(span(n.span.hi - BytePos(1), n.span.hi));
+
+        n.expr.visit_children_with(self);
+    }
+
     fn visit_ts_param_prop_param(&mut self, n: &TsParamPropParam) {
         HANDLER.with(|handler| {
             handler.span_err(
@@ -178,30 +203,18 @@ impl Visit for TsStrip<'_> {
         });
     }
 
-    fn visit_ts_type_alias_decl(&mut self, n: &TsTypeAliasDecl) {
-        self.add_replacement(n.span);
-    }
-
-    fn visit_ts_type_ann(&mut self, n: &TsTypeAnn) {
-        self.add_replacement(n.span);
-    }
-
-    fn visit_ts_as_expr(&mut self, n: &TsAsExpr) {
-        self.add_replacement(span(n.expr.span().hi, n.span.hi));
-
-        n.expr.visit_children_with(self);
-    }
-
     fn visit_ts_satisfies_expr(&mut self, n: &TsSatisfiesExpr) {
         self.add_replacement(span(n.expr.span().hi, n.span.hi));
 
         n.expr.visit_children_with(self);
     }
 
-    fn visit_ts_non_null_expr(&mut self, n: &TsNonNullExpr) {
-        self.add_replacement(span(n.span.hi - BytePos(1), n.span.hi));
+    fn visit_ts_type_alias_decl(&mut self, n: &TsTypeAliasDecl) {
+        self.add_replacement(n.span);
+    }
 
-        n.expr.visit_children_with(self);
+    fn visit_ts_type_ann(&mut self, n: &TsTypeAnn) {
+        self.add_replacement(n.span);
     }
 }
 
