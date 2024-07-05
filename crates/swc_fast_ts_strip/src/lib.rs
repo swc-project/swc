@@ -7,12 +7,12 @@ use swc_common::{
     BytePos, FileName, SourceMap, Span, Spanned,
 };
 use swc_ecma_ast::{
-    BindingIdent, Class, ClassMethod, ClassProp, Decorator, EsVersion, ExportAll, ExportDecl,
-    ExportSpecifier, FnDecl, Ident, ImportDecl, ImportSpecifier, MethodKind, NamedExport, Param,
-    Pat, Program, TsAsExpr, TsConstAssertion, TsEnumDecl, TsInstantiation, TsInterfaceDecl,
-    TsModuleDecl, TsModuleName, TsNamespaceDecl, TsNonNullExpr, TsParamPropParam, TsSatisfiesExpr,
-    TsTypeAliasDecl, TsTypeAnn, TsTypeAssertion, TsTypeParamDecl, TsTypeParamInstantiation,
-    VarDecl,
+    ArrowExpr, BindingIdent, Class, ClassMethod, ClassProp, Decorator, EsVersion, ExportAll,
+    ExportDecl, ExportSpecifier, FnDecl, Ident, ImportDecl, ImportSpecifier, MethodKind,
+    NamedExport, Param, Pat, Program, TsAsExpr, TsConstAssertion, TsEnumDecl, TsInstantiation,
+    TsInterfaceDecl, TsModuleDecl, TsModuleName, TsNamespaceDecl, TsNonNullExpr, TsParamPropParam,
+    TsSatisfiesExpr, TsTypeAliasDecl, TsTypeAnn, TsTypeAssertion, TsTypeParamDecl,
+    TsTypeParamInstantiation, VarDecl,
 };
 use swc_ecma_parser::{
     parse_file_as_module, parse_file_as_program, parse_file_as_script, Syntax, TsSyntax,
@@ -101,6 +101,10 @@ pub fn operate(
         code[(r.0 .0 - 1) as usize..(r.1 .0 - 1) as usize].fill(b' ');
     }
 
+    for removal in ts_strip.removals.iter().copied().rev() {
+        code.drain((removal.0 .0 - 1) as usize..(removal.1 .0 - 1) as usize);
+    }
+
     String::from_utf8(code).map_err(|_| anyhow::anyhow!("failed to convert to utf-8"))
 }
 
@@ -130,9 +134,25 @@ impl TsStrip {
     fn add_replacement(&mut self, span: Span) {
         self.replacements.push((span.lo, span.hi));
     }
+
+    fn add_removal(&mut self, span: Span) {
+        self.removals.push((span.lo, span.hi));
+    }
 }
 
 impl Visit for TsStrip {
+    fn visit_arrow_expr(&mut self, n: &ArrowExpr) {
+        if let Some(ret) = &n.return_type {
+            let sp = self.cm.span_extend_to_prev_char(ret.span, ')');
+
+            self.add_removal(sp);
+        }
+
+        n.type_params.visit_with(self);
+        n.params.visit_with(self);
+        n.body.visit_with(self);
+    }
+
     fn visit_binding_ident(&mut self, n: &BindingIdent) {
         n.visit_children_with(self);
 
