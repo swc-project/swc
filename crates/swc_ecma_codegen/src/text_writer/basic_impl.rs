@@ -25,6 +25,9 @@ pub struct JsWriter<'a, W: Write> {
     wr: W,
 }
 
+/// TODO: This should be configurable.
+const NEED_LINE_INFO: bool = true;
+
 impl<'a, W: Write> JsWriter<'a, W> {
     pub fn new(
         _: Lrc<SourceMap>,
@@ -63,7 +66,7 @@ impl<'a, W: Write> JsWriter<'a, W> {
         for _ in 0..self.indent {
             self.raw_write(self.indent_str)?;
         }
-        if self.srcmap.is_some() {
+        if NEED_LINE_INFO {
             self.line_pos += self.indent_str.len() * self.indent;
         }
 
@@ -109,7 +112,7 @@ impl<'a, W: Write> JsWriter<'a, W> {
 
     #[inline]
     fn update_pos(&mut self, s: &str) {
-        if self.srcmap.is_some() {
+        if NEED_LINE_INFO {
             let line_start_of_s = compute_line_starts(s);
             self.line_count += line_start_of_s.line_count;
 
@@ -207,7 +210,7 @@ impl<'a, W: Write> WriteJs for JsWriter<'a, W> {
         let pending = self.pending_srcmap.take();
         if !self.line_start {
             self.raw_write(self.new_line)?;
-            if self.srcmap.is_some() {
+            if NEED_LINE_INFO {
                 self.line_count += 1;
                 self.line_pos = 0;
             }
