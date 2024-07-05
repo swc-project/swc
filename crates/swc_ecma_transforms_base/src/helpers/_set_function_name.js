@@ -1,4 +1,4 @@
-export function setFunctionName(fn, name, prefix) {
+function _set_function_name(fn, name, prefix) {
     if (typeof name === "symbol") {
         name = name.description;
         name = name ? "[" + name + "]" : "";
@@ -11,5 +11,3 @@ export function setFunctionName(fn, name, prefix) {
     } catch (_) { }
     return fn;
 }
-
-export { setFunctionName as _ }

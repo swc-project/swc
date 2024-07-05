@@ -1,6 +1,6 @@
 
 var PROP_KIND;
-export default function applyDecs2311(targetClass, classDecs, memberDecs, classDecsHaveThis, instanceBrand, parentClass) {
+function _apply_decs_2311(targetClass, classDecs, memberDecs, classDecsHaveThis, instanceBrand, parentClass) {
     var symbolMetadata = Symbol.metadata || Symbol.for("Symbol.metadata");
     var defineProperty = Object.defineProperty;
     var create = Object.create;
@@ -61,7 +61,7 @@ export default function applyDecs2311(targetClass, classDecs, memberDecs, classD
             if (isPrivate) {
                 if (isField || isAccessor) {
                     desc = {
-                        get: setFunctionName(function () {
+                        get: _set_function_name(function () {
                             return decVal(this);
                         }, name, "get"),
                         set: function (value) {
@@ -72,7 +72,7 @@ export default function applyDecs2311(targetClass, classDecs, memberDecs, classD
                     desc[key] = decVal;
                 }
                 if (!isField) {
-                    setFunctionName(desc[key], name, isMethod ? "" : key);
+                    _set_function_name(desc[key], name, isMethod ? "" : key);
                 }
             } else if (!isField) {
                 desc = Object.getOwnPropertyDescriptor(Class, name);
@@ -197,8 +197,8 @@ export default function applyDecs2311(targetClass, classDecs, memberDecs, classD
                     var name = decInfo[2];
                     var isPrivate = !!decInfo[3];
                     var decoratorsHaveThis = kind & 16;
-                    applyDec(isStatic ? targetClass : targetClass.prototype, decInfo, decoratorsHaveThis, isPrivate ? "#" + name : toPropertyKey(name), kindOnly, kindOnly < 2 ? [] : isStatic ? staticInitializers = staticInitializers || [] : protoInitializers = protoInitializers || [], ret, !!isStatic, isPrivate, isField, isStatic && isPrivate ? function (_) {
-                        return checkInRHS(_) === targetClass;
+                    applyDec(isStatic ? targetClass : targetClass.prototype, decInfo, decoratorsHaveThis, isPrivate ? "#" + name : _to_property_key(name), kindOnly, kindOnly < 2 ? [] : isStatic ? staticInitializers = staticInitializers || [] : protoInitializers = protoInitializers || [], ret, !!isStatic, isPrivate, isField, isStatic && isPrivate ? function (_) {
+                        return _check_in_rhs(_) === targetClass;
                     } : instanceBrand);
                 }
             }

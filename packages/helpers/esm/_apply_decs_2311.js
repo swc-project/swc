@@ -1,6 +1,6 @@
-import checkInRHS from "./_check_in_rhs.js";
-import setFunctionName from "./_set_function_name.js";
-import toPropertyKey from "./_to_property_key.js";
+import { _ as checkInRHS } from "./_check_in_rhs.js";
+import { _ as setFunctionName } from "./_set_function_name.js";
+import { _ as toPropertyKey } from "./_to_property_key.js";
 
 
 var PROP_KIND;
