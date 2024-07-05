@@ -307,11 +307,7 @@ impl<'a, W: Write> WriteJs for JsWriter<'a, W> {
     }
 
     fn cur_line(&self) -> usize {
-        if self.line_start {
-            self.line_count + 1
-        } else {
-            self.line_count
-        }
+        self.line_count
     }
 
     fn force_write_line(&mut self, n: usize) -> Result {
