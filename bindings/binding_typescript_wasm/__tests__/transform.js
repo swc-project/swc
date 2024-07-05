@@ -104,7 +104,7 @@ describe("transform", () => {
                     const bar = "bar";`,
                     {}
                 )
-            ).resolves.toMatchInlineSnapshot();
+            ).resolves.toMatchSnapshot();
         });
 
         it("should throw an error when it encounters an enum", async () => {
