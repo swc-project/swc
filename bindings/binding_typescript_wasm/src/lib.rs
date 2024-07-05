@@ -10,7 +10,7 @@ use swc_core::{
     ecma::{
         ast::{
             Decorator, EsVersion, Program, TsEnumDecl, TsModuleDecl, TsNamespaceDecl,
-            TsParamPropParam, TsTypeAliasDecl,
+            TsParamPropParam, TsTypeAliasDecl, TsTypeAnn,
         },
         parser::{
             parse_file_as_module, parse_file_as_program, parse_file_as_script, Syntax, TsSyntax,
@@ -223,6 +223,10 @@ impl Visit for TsStrip<'_> {
     }
 
     fn visit_ts_type_alias_decl(&mut self, n: &TsTypeAliasDecl) {
+        self.add_replacement(n.span);
+    }
+
+    fn visit_ts_type_ann(&mut self, n: &TsTypeAnn) {
         self.add_replacement(n.span);
     }
 }

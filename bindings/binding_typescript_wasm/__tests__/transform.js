@@ -55,7 +55,7 @@ describe("transform", () => {
                 "const foo = 1;
                                     
                                     
-                                    const bar: Bar = "bar";"
+                                    const bar = "bar";"
             `);
         });
 
