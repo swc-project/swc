@@ -146,6 +146,11 @@ impl Visit for TsStrip {
     }
 
     fn visit_class_method(&mut self, n: &ClassMethod) {
+        if n.function.body.is_none() {
+            self.add_replacement(n.span);
+            return;
+        }
+
         let hi = if n.is_static {
             self.cm
                 .span_extend_to_next_str(span(n.span.lo, n.span.lo), "static", false)
@@ -160,6 +165,11 @@ impl Visit for TsStrip {
     }
 
     fn visit_class_prop(&mut self, n: &ClassProp) {
+        if n.declare {
+            self.add_replacement(n.span);
+            return;
+        }
+
         let hi = if n.is_static {
             self.cm
                 .span_extend_to_next_str(span(n.span.lo, n.span.lo), "static", false)
