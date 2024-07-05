@@ -66,6 +66,13 @@ jobs:
 
       - uses: ./.github/actions/setup-node
 
+      - name: Install cargo-edit
+        uses: baptiste0928/cargo-install@v2.2.0
+        with:
+          crate: cargo-edit
+          version: "0.12.2"
+          locked: true
+
       - uses: webfactory/ssh-agent@v0.5.4
         if: needs.check-if-build-required.outputs.need-build == 'true' && !inputs.skipPublishing
         with:
