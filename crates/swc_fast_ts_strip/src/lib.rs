@@ -101,6 +101,23 @@ pub fn operate(
         code[(r.0 .0 - 1) as usize..(r.1 .0 - 1) as usize].fill(b' ');
     }
 
+    // Assert that removal does not overlap with each other
+
+    for removal in ts_strip.removals.iter() {
+        for r in &ts_strip.removals {
+            if removal == r {
+                continue;
+            }
+
+            assert!(
+                r.0 < removal.0 || r.1 < removal.0 || r.0 > removal.1 || r.1 > removal.1,
+                "removal {:?} overlaps with replacement {:?}",
+                removal,
+                r
+            );
+        }
+    }
+
     for removal in ts_strip.removals.iter().copied().rev() {
         code.drain((removal.0 .0 - 1) as usize..(removal.1 .0 - 1) as usize);
     }
@@ -143,7 +160,11 @@ impl TsStrip {
 impl Visit for TsStrip {
     fn visit_arrow_expr(&mut self, n: &ArrowExpr) {
         if let Some(ret) = &n.return_type {
-            let sp = self.cm.span_extend_to_prev_char(ret.span, ')');
+            let mut sp = self.cm.span_extend_to_prev_char(ret.span, ')');
+
+            let pos = self.src[(sp.hi.0 as usize - 1)..].find("=>").unwrap();
+
+            sp.hi.0 += pos as u32;
 
             self.add_removal(sp);
         }
