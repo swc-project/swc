@@ -44,8 +44,8 @@ exports[`transform in strip-only mode should strip type declarations 1`] = `
 exports[`transform in strip-only mode should throw an error when it encounters a module 1`] = `
 "  x TypeScript namespace declaration is not supported in strip-only mode
    ,----
- 1 | module 'foo' {}
-   : ^^^^^^^^^^^^^^^
+ 1 | module foo {}
+   : ^^^^^^^^^^^^^
    \`----
 "
 `;
