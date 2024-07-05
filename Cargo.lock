@@ -4412,7 +4412,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_parser"
-version = "0.146.9"
+version = "0.146.10"
 dependencies = [
  "criterion",
  "either",
@@ -4790,7 +4790,7 @@ dependencies = [
 
 [[package]]
 name = "swc_ecma_utils"
-version = "0.130.2"
+version = "0.130.3"
 dependencies = [
  "indexmap 2.2.6",
  "num_cpus",

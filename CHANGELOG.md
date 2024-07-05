@@ -28,6 +28,12 @@
 
 - **(bindings/ts)** Add transform/strip-only mode ([#9138](https://github.com/swc-project/swc/issues/9138)) ([a08bb46](https://github.com/swc-project/swc/commit/a08bb46ebd50734b150a1fff100b8312223372a2))
 
+### Performance
+
+
+
+- **(es)** Reduce allocations for dynamic stacks ([#9133](https://github.com/swc-project/swc/issues/9133)) ([648830a](https://github.com/swc-project/swc/commit/648830a9a9a65915226d2a250e3dfd61684a79b1))
+
 ### Refactor
 
 
