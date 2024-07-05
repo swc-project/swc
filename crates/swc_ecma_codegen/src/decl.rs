@@ -154,13 +154,13 @@ where
     fn emit_var_decl_inner(&mut self, node: &VarDecl, is_stmt: bool) -> Result {
         self.emit_leading_comments_of_span(node.span, false)?;
 
-        if is_stmt {
-            self.adjust_line_for_retain_lines(node.span().lo)?;
-        }
-
         self.wr.commit_pending_semi()?;
 
         srcmap!(self, node, true);
+
+        if is_stmt {
+            self.adjust_line_for_retain_lines(node.span().lo)?;
+        }
 
         if node.declare {
             keyword!(self, "declare");

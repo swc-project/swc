@@ -2984,6 +2984,10 @@ where
 {
     #[emitter]
     fn emit_stmt(&mut self, node: &Stmt) -> Result {
+        self.emit_leading_comments_of_span(node.span(), false)?;
+
+        self.adjust_line_for_retain_lines(node.span().lo)?;
+
         match node {
             Stmt::Expr(ref e) => emit!(e),
             Stmt::Block(ref e) => {
