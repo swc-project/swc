@@ -106,6 +106,7 @@ jobs:
       - publish-cargo
       - determine-nightly-version
     uses: ./.github/workflows/publish-npm-package.yml
+    secrets: inherit
     with:
       package: "core"
       version: ${{ needs.determine-nightly-version.outputs.version }}
@@ -131,6 +132,7 @@ jobs:
       - run-ecosystem-ci-with-nightly
 
     uses: ./.github/workflows/publish-npm-package.yml
+    secrets: inherit
     with:
       package: "core"
       version: ${{ inputs.version }}
