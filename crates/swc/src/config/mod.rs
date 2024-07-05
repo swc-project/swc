@@ -256,7 +256,6 @@ impl Options {
             experimental,
             lints,
             preserve_all_comments,
-            blank_space_codegen,
             ..
         } = cfg.jsc;
         let loose = loose.into_bool();
@@ -784,7 +783,7 @@ impl Options {
                 .emit_assert_for_import_attributes
                 .into_bool(),
             emit_isolated_dts: experimental.emit_isolated_dts.into_bool(),
-            blank_space_codegen: blank_space_codegen.into_bool(),
+            blank_space_codegen: experimental.blank_space_codegen.into_bool(),
         })
     }
 }
@@ -1174,9 +1173,6 @@ pub struct JscConfig {
 
     #[serde(default)]
     pub output: JscOutputConfig,
-
-    #[serde(default)]
-    pub blank_space_codegen: BoolConfig<false>,
 }
 
 #[derive(Debug, Default, Clone, Serialize, Deserialize, Merge)]
@@ -1228,6 +1224,10 @@ pub struct JscExperimental {
     /// This requires `isolatedDeclartion` feature of TypeScript 5.5.
     #[serde(default)]
     pub emit_isolated_dts: BoolConfig<false>,
+
+    /// See [`swc_ecma_codegen::Config::blank_space_mode`] for details.
+    #[serde(default)]
+    pub blank_space_codegen: BoolConfig<false>,
 }
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]
